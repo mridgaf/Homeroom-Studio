@@ -37,3 +37,8 @@ library or the live config):
 
 If not, say what's off — the loop keeps tuning with your verdict as a
 constraint, or the proposal just gets deleted.
+
+## APPROVED 2026-07-17
+Owner auditioned beats 86-88 (Audition Batch) and approved. The change
+is live in crew_config.json and journaled per DJ (rollback-able with
+`tools/evolution.py --rollback "<Name>"` like any evolution).
