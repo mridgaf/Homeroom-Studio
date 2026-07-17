@@ -424,7 +424,12 @@ DEFAULT_CREW = {
 # after — tweak a number there and the next beat uses it; delete the file
 # to regenerate the built-ins. A broken edit falls back loudly.
 
-CONFIG = Path(__file__).resolve().parent.parent / "crew_config.json"
+# REASON_VOICE_CONFIG (2026-07-17, autoresearch): point the engine at a
+# CANDIDATE roster file — the experiment loop scores tuned copies without
+# the live config ever moving. Unset = the real crew_config.json.
+CONFIG = Path(os.environ.get("REASON_VOICE_CONFIG")
+              or Path(__file__).resolve().parent.parent
+              / "crew_config.json")
 
 
 def normalize_preset(p):
