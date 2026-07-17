@@ -1,1 +1,2 @@
 {"type":"config","name":"beat-crew-variety","metricName":"variety","metricUnit":"pts","bestDirection":"higher","noiseFloor":0.15,"maxRuns":60,"maxSeconds":null,"targetMetric":null,"startedAt":1784326456}
+{"run":1,"commit":"e669b82","metric":13.530,"metrics":{"worst_dj":11.656,"seed_rate":0.398,"guest_rate":0.528},"status":"keep","description":"baseline: candidate = live roster (style v5)","timestamp":1784326457,"segment":0}
