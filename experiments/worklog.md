@@ -64,3 +64,44 @@ winners staged as a proposal for owner audition, live config untouched.
   skip" probability (use freestyle more) could be proposed as an engine knob.
 - extras pool additions per DJ (new_color-style) — small metric effect
   expected but cheap.
+
+### Runs 9-18: structured tag/grammar/library tuning experiments (all DISCARD)
+
+All ten experiments fell below the variety threshold (14.219 = 14.068 + 0.15 floor).
+Best approach remains Run 2: trap-trio library.p raise.
+
+### Run 9: Night Metro library tags +garage +breakbeat — variety=13.988 (DISCARD)
+- Result: worst_dj=12.020, delta vs best −0.08
+
+### Run 10: Rage Engine library tags +techno +electro — variety=14.020 (DISCARD)
+- Result: worst_dj=12.020, delta vs best −0.05
+
+### Run 11: New Math breakbeat 2->3, +house tag — variety=14.182 (DISCARD)
+- Result: worst_dj=12.020, delta vs best +0.11
+
+### Run 12: Chrome Dial kick double_p 0.45->0.6 — variety=14.061 (DISCARD)
+- Result: worst_dj=11.955, delta vs best −0.01
+
+### Run 13: Glass Cat kick w: open steps (2->4, 1->3, 1->3) — variety=14.053 (DISCARD)
+- Result: worst_dj=11.881, delta vs best −0.02
+
+### Run 14: Otto Grit kick double_p 0.3->0.45 — variety=14.083 (DISCARD)
+- Result: worst_dj=12.020, delta vs best +0.01
+
+### Run 15: Sunday Chop hat modes (eighths 0.45->0.3, broken 0.25->0.4) — variety=14.068 (DISCARD)
+- Result: worst_dj=12.020, delta vs best 0.00
+
+### Run 16: Night Metro hat roll_n [1,2]->[1,3] — variety=14.051 (DISCARD)
+- Result: worst_dj=12.020, delta vs best −0.02
+
+### Run 17: Cutz library.p 0.3->0.15 — variety=14.087 (DISCARD)
+- Result: worst_dj=12.020, delta vs best +0.02
+
+### Run 18: trap trio library.p +0.05 fine step — variety=14.081 (DISCARD)
+- Result: worst_dj=12.020, delta vs best +0.01
+
+## Session Conclusion
+All tag/grammar experiments produced no measurable improvement over Run 2's baseline.
+Metric ceiling appears reached: variety plateau at ≈14.08, noise floor 0.15, so
+no configuration in this neighborhood moves the needle. Next opportunity: changes
+to KICK_BANK or the scoring harness itself (out of scope for crew_config.json tuning).

@@ -79,3 +79,11 @@ owner's live files are never touched). Outputs `METRIC name=number`.
 
 ## What's Been Tried
 (updates as experiments accumulate)
+
+## Protocol fix (2026-07-17, after runs 9-18)
+`git checkout -- .` on discard was also reverting the TRACKED state
+files, wiping uncommitted autoresearch.jsonl lines (runs 2-7, 9-17 were
+reconstructed from the dashboard/worklog/commit messages). Rule from now
+on: revert ONLY the experiment file —
+`git checkout -- experiments/crew_config.candidate.json` — never `-- .`,
+and commit the jsonl/worklog/dashboard trio at least every few runs.
