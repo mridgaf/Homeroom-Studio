@@ -39,3 +39,28 @@ winners staged as a proposal for owner audition, live config untouched.
 - Backbeat `ghosts` ceilings +1 for the 90s heads.
 - `extras.nmax` 1→2 where taste allows (owner rule caps ONE guest lane
   in the sparse-bed era — check constraint before trying).
+
+### Run 2: library.p +0.15 trap trio — variety=14.068 (KEEP)
+- What changed: Night Metro / Rage Engine / New Math library.p 0.35/0.35/0.40 → 0.50/0.50/0.55
+- Result: +0.54 vs baseline (3.6× floor); worst_dj 11.66→12.02; checks 44/44
+- Insight: the flagged clustering DJs benefit most from external seeds.
+
+### Runs 3-8: drafts + refinements (all DISCARD)
+- hits ceiling +1 (−0.05), backbeat widening (−0.01), w^0.7 flatten (−0.12),
+  library.p for other six (−0.23!), trap trio +0.1 more (+0.05, noise), ghosts +1 (−0.03)
+- Insight (meta): the metric is kick-dominated; library seeding helps only
+  DJs with big genre pools + sparse grammars. Six-DJ raise HURT — small
+  pools repeat seeds. Backbeat/ghost knobs barely move the metric.
+
+## Key Insights
+- Groove-library seeding is the highest-leverage variety knob, but ONLY
+  for the trap trio. Don't generalize it.
+- Kick-centric metric: backbeat/ghost knobs need their own weight if we
+  ever want to tune them (would require harness change = re-baseline).
+
+## Next Ideas
+- Genre tag weights: give Night Metro garage/breakbeat tags (bigger pool).
+- KICK_BANK is code, not config — out of scope, but a config-side "bank
+  skip" probability (use freestyle more) could be proposed as an engine knob.
+- extras pool additions per DJ (new_color-style) — small metric effect
+  expected but cheap.
