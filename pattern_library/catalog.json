@@ -1,0 +1,2237 @@
+{
+  "library": "Beat Generator Drum Pattern Library",
+  "total_patterns": 131,
+  "gm_drum_map": {
+    "kick": 36,
+    "snare": 38,
+    "rim": 37,
+    "clap": 39,
+    "closed_hat": 42,
+    "open_hat": 46,
+    "tom_low": 41,
+    "tom_mid": 45,
+    "tom_hi": 50,
+    "crash": 49,
+    "ride": 51,
+    "shaker": 82,
+    "cowbell": 56
+  },
+  "ticks_per_quarter": 480,
+  "bars_per_file": 2,
+  "patterns": [
+    {
+      "name": "Classic Boom-Bap Backbeat",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 90,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/classic-boom-bap-backbeat.mid"
+    },
+    {
+      "name": "Dusty Vinyl Boom-Bap",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 88,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/dusty-vinyl-boom-bap.mid"
+    },
+    {
+      "name": "Head-Nod Boom-Bap",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 95,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "rim"
+      ],
+      "midi_file": "MIDI/hip-hop/head-nod-boom-bap.mid"
+    },
+    {
+      "name": "Jazzy Boom-Bap Ride",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 92,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "ride"
+      ],
+      "midi_file": "MIDI/hip-hop/jazzy-boom-bap-ride.mid"
+    },
+    {
+      "name": "Golden Era Chop",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 93,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/golden-era-chop.mid"
+    },
+    {
+      "name": "Hard Knock Boom-Bap",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 96,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/hip-hop/hard-knock-boom-bap.mid"
+    },
+    {
+      "name": "Boom-Bap Triplet Fill",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 90,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/boom-bap-triplet-fill.mid"
+    },
+    {
+      "name": "Lo-Fi Swung Sleepy",
+      "genre": "hip-hop",
+      "subgenre": "lofi",
+      "bpm": 72,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/lo-fi-swung-sleepy.mid"
+    },
+    {
+      "name": "Lo-Fi Rainy Study",
+      "genre": "hip-hop",
+      "subgenre": "lofi",
+      "bpm": 76,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/hip-hop/lo-fi-rainy-study.mid"
+    },
+    {
+      "name": "Lo-Fi Boom-Bap Hybrid",
+      "genre": "hip-hop",
+      "subgenre": "lofi",
+      "bpm": 84,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/lo-fi-boom-bap-hybrid.mid"
+    },
+    {
+      "name": "Lo-Fi Half-Time Nod",
+      "genre": "hip-hop",
+      "subgenre": "lofi",
+      "bpm": 80,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/lo-fi-half-time-nod.mid"
+    },
+    {
+      "name": "Lo-Fi Wonky Swing",
+      "genre": "hip-hop",
+      "subgenre": "lofi",
+      "bpm": 70,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "shuffle",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/lo-fi-wonky-swing.mid"
+    },
+    {
+      "name": "Trap Anthem Rolling Hats",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-anthem-rolling-hats.mid"
+    },
+    {
+      "name": "Trap Half-Time Menace",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 70,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-half-time-menace.mid"
+    },
+    {
+      "name": "Trap Triplet Hat Skips",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 144,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-triplet-hat-skips.mid"
+    },
+    {
+      "name": "Trap Sparse 808 Bounce",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 132,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-sparse-808-bounce.mid"
+    },
+    {
+      "name": "Trap Double-Time Hype",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 150,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-double-time-hype.mid"
+    },
+    {
+      "name": "Trap 32nd Hat Rolls",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 145,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-32nd-hat-rolls.mid"
+    },
+    {
+      "name": "Trap Stutter Roll Build",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 148,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-stutter-roll-build.mid"
+    },
+    {
+      "name": "Trap Dark 808 Slides",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 128,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/trap-dark-808-slides.mid"
+    },
+    {
+      "name": "UK Drill Sliding 808",
+      "genre": "hip-hop",
+      "subgenre": "drill",
+      "bpm": 142,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "rim",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/uk-drill-sliding-808.mid"
+    },
+    {
+      "name": "Brooklyn Drill Syncopation",
+      "genre": "hip-hop",
+      "subgenre": "drill",
+      "bpm": 145,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "clap"
+      ],
+      "midi_file": "MIDI/hip-hop/brooklyn-drill-syncopation.mid"
+    },
+    {
+      "name": "Drill Half-Time Snare",
+      "genre": "hip-hop",
+      "subgenre": "drill",
+      "bpm": 138,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/drill-half-time-snare.mid"
+    },
+    {
+      "name": "Drill Dark Triplet Kick",
+      "genre": "hip-hop",
+      "subgenre": "drill",
+      "bpm": 144,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/drill-dark-triplet-kick.mid"
+    },
+    {
+      "name": "Drill Sliding Ghost Snares",
+      "genre": "hip-hop",
+      "subgenre": "drill",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/drill-sliding-ghost-snares.mid"
+    },
+    {
+      "name": "Cloud Rap Airy Drift",
+      "genre": "hip-hop",
+      "subgenre": "cloud-rap",
+      "bpm": 130,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/cloud-rap-airy-drift.mid"
+    },
+    {
+      "name": "Cloud Rap Slow Float",
+      "genre": "hip-hop",
+      "subgenre": "cloud-rap",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/hip-hop/cloud-rap-slow-float.mid"
+    },
+    {
+      "name": "Cloud Rap Ethereal Roll",
+      "genre": "hip-hop",
+      "subgenre": "cloud-rap",
+      "bpm": 136,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/cloud-rap-ethereal-roll.mid"
+    },
+    {
+      "name": "Neo-Soul Pocket Groove",
+      "genre": "hip-hop",
+      "subgenre": "neo-soul",
+      "bpm": 84,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/neo-soul-pocket-groove.mid"
+    },
+    {
+      "name": "Neo-Soul Laid-Back Drag",
+      "genre": "hip-hop",
+      "subgenre": "neo-soul",
+      "bpm": 78,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/neo-soul-laid-back-drag.mid"
+    },
+    {
+      "name": "Neo-Soul Ghost-Note Funk",
+      "genre": "hip-hop",
+      "subgenre": "neo-soul",
+      "bpm": 90,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/neo-soul-ghost-note-funk.mid"
+    },
+    {
+      "name": "Neo-Soul Rim Ballad",
+      "genre": "hip-hop",
+      "subgenre": "neo-soul",
+      "bpm": 72,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/hip-hop/neo-soul-rim-ballad.mid"
+    },
+    {
+      "name": "Modern R&B Slow Jam",
+      "genre": "hip-hop",
+      "subgenre": "rnb",
+      "bpm": 68,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/modern-r-b-slow-jam.mid"
+    },
+    {
+      "name": "R&B Trap-Soul Bounce",
+      "genre": "hip-hop",
+      "subgenre": "rnb",
+      "bpm": 75,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/r-b-trap-soul-bounce.mid"
+    },
+    {
+      "name": "R&B Finger-Snap Groove",
+      "genre": "hip-hop",
+      "subgenre": "rnb",
+      "bpm": 92,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "clap",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/r-b-finger-snap-groove.mid"
+    },
+    {
+      "name": "R&B Uptempo Two-Step",
+      "genre": "hip-hop",
+      "subgenre": "rnb",
+      "bpm": 110,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/r-b-uptempo-two-step.mid"
+    },
+    {
+      "name": "R&B 90s New Jack Swing",
+      "genre": "hip-hop",
+      "subgenre": "rnb",
+      "bpm": 108,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "clap"
+      ],
+      "midi_file": "MIDI/hip-hop/r-b-90s-new-jack-swing.mid"
+    },
+    {
+      "name": "West Coast G-Funk Bounce",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 96,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/hip-hop/west-coast-g-funk-bounce.mid"
+    },
+    {
+      "name": "Memphis Lo-Fi Menace",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 132,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/hip-hop/memphis-lo-fi-menace.mid"
+    },
+    {
+      "name": "Phonk Cowbell Drive",
+      "genre": "hip-hop",
+      "subgenre": "trap",
+      "bpm": 130,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "cowbell",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/phonk-cowbell-drive.mid"
+    },
+    {
+      "name": "Detroit Fast Hats",
+      "genre": "hip-hop",
+      "subgenre": "boom-bap",
+      "bpm": 100,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/hip-hop/detroit-fast-hats.mid"
+    },
+    {
+      "name": "Old-School 80s Electro",
+      "genre": "hip-hop",
+      "subgenre": "rnb",
+      "bpm": 112,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/hip-hop/old-school-80s-electro.mid"
+    },
+    {
+      "name": "Classic House Four-on-the-Floor",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 124,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/classic-house-four-on-the-floor.mid"
+    },
+    {
+      "name": "Deep House Rolling Groove",
+      "genre": "electronic",
+      "subgenre": "deep-house",
+      "bpm": 122,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/deep-house-rolling-groove.mid"
+    },
+    {
+      "name": "Tech House Bumpy Shuffle",
+      "genre": "electronic",
+      "subgenre": "tech-house",
+      "bpm": 125,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "shuffle",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "rim",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/tech-house-bumpy-shuffle.mid"
+    },
+    {
+      "name": "Warehouse Techno Driver",
+      "genre": "electronic",
+      "subgenre": "techno",
+      "bpm": 132,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/warehouse-techno-driver.mid"
+    },
+    {
+      "name": "Detroit Techno Soul",
+      "genre": "electronic",
+      "subgenre": "techno",
+      "bpm": 128,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/electronic/detroit-techno-soul.mid"
+    },
+    {
+      "name": "Minimal Techno Tick",
+      "genre": "electronic",
+      "subgenre": "minimal",
+      "bpm": 128,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/minimal-techno-tick.mid"
+    },
+    {
+      "name": "Peak-Time Techno 16th Hats",
+      "genre": "electronic",
+      "subgenre": "techno",
+      "bpm": 138,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/peak-time-techno-16th-hats.mid"
+    },
+    {
+      "name": "Amen Break Classic",
+      "genre": "electronic",
+      "subgenre": "breakbeat",
+      "bpm": 168,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/electronic/amen-break-classic.mid"
+    },
+    {
+      "name": "Funky Breakbeat Chop",
+      "genre": "electronic",
+      "subgenre": "breakbeat",
+      "bpm": 130,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/funky-breakbeat-chop.mid"
+    },
+    {
+      "name": "Big Beat Stomper",
+      "genre": "electronic",
+      "subgenre": "breakbeat",
+      "bpm": 125,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/electronic/big-beat-stomper.mid"
+    },
+    {
+      "name": "DnB Two-Step Roller",
+      "genre": "electronic",
+      "subgenre": "dnb",
+      "bpm": 174,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "ride"
+      ],
+      "midi_file": "MIDI/electronic/dnb-two-step-roller.mid"
+    },
+    {
+      "name": "DnB Liquid Smooth",
+      "genre": "electronic",
+      "subgenre": "dnb",
+      "bpm": 172,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "shaker",
+        "ride"
+      ],
+      "midi_file": "MIDI/electronic/dnb-liquid-smooth.mid"
+    },
+    {
+      "name": "Neurofunk Techstep",
+      "genre": "electronic",
+      "subgenre": "dnb",
+      "bpm": 174,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/neurofunk-techstep.mid"
+    },
+    {
+      "name": "Jungle Ragga Chop",
+      "genre": "electronic",
+      "subgenre": "jungle",
+      "bpm": 165,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "tom_low"
+      ],
+      "midi_file": "MIDI/electronic/jungle-ragga-chop.mid"
+    },
+    {
+      "name": "Jungle Amen Rework",
+      "genre": "electronic",
+      "subgenre": "jungle",
+      "bpm": 168,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/electronic/jungle-amen-rework.mid"
+    },
+    {
+      "name": "UK Garage 2-Step",
+      "genre": "electronic",
+      "subgenre": "garage",
+      "bpm": 132,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/uk-garage-2-step.mid"
+    },
+    {
+      "name": "Speed Garage Bounce",
+      "genre": "electronic",
+      "subgenre": "garage",
+      "bpm": 135,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/speed-garage-bounce.mid"
+    },
+    {
+      "name": "Future Garage Swing",
+      "genre": "electronic",
+      "subgenre": "garage",
+      "bpm": 130,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "shaker",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/future-garage-swing.mid"
+    },
+    {
+      "name": "Dubstep Half-Time Crush",
+      "genre": "electronic",
+      "subgenre": "dubstep",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/dubstep-half-time-crush.mid"
+    },
+    {
+      "name": "Dubstep Skippy Groove",
+      "genre": "electronic",
+      "subgenre": "dubstep",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/dubstep-skippy-groove.mid"
+    },
+    {
+      "name": "Trance Uplifting Drive",
+      "genre": "electronic",
+      "subgenre": "trance",
+      "bpm": 138,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/trance-uplifting-drive.mid"
+    },
+    {
+      "name": "Trance Rolling Bass Kit",
+      "genre": "electronic",
+      "subgenre": "trance",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/electronic/trance-rolling-bass-kit.mid"
+    },
+    {
+      "name": "Disco Four-on-Floor",
+      "genre": "electronic",
+      "subgenre": "disco",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/disco-four-on-floor.mid"
+    },
+    {
+      "name": "Disco Hi-Hat Sizzle",
+      "genre": "electronic",
+      "subgenre": "disco",
+      "bpm": 118,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/electronic/disco-hi-hat-sizzle.mid"
+    },
+    {
+      "name": "Electro Beat 808",
+      "genre": "electronic",
+      "subgenre": "electro",
+      "bpm": 128,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/electro-beat-808.mid"
+    },
+    {
+      "name": "Electro Funk Clap Slap",
+      "genre": "electronic",
+      "subgenre": "electro",
+      "bpm": 126,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/electronic/electro-funk-clap-slap.mid"
+    },
+    {
+      "name": "Progressive House Groove",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 126,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/progressive-house-groove.mid"
+    },
+    {
+      "name": "French House Filter",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 123,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/french-house-filter.mid"
+    },
+    {
+      "name": "Afro House Percussion",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 122,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "closed_hat",
+        "open_hat",
+        "rim",
+        "tom_low",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/afro-house-percussion.mid"
+    },
+    {
+      "name": "Tribal House Toms",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 125,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "closed_hat",
+        "open_hat",
+        "tom_low",
+        "tom_mid",
+        "tom_hi"
+      ],
+      "midi_file": "MIDI/electronic/tribal-house-toms.mid"
+    },
+    {
+      "name": "Acid House 303 Kit",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/electronic/acid-house-303-kit.mid"
+    },
+    {
+      "name": "Chicago Jack Track",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 122,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "rim",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/chicago-jack-track.mid"
+    },
+    {
+      "name": "Melodic Techno Pulse",
+      "genre": "electronic",
+      "subgenre": "techno",
+      "bpm": 122,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "closed_hat",
+        "open_hat",
+        "shaker",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/melodic-techno-pulse.mid"
+    },
+    {
+      "name": "Hard Techno Rave",
+      "genre": "electronic",
+      "subgenre": "techno",
+      "bpm": 145,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/electronic/hard-techno-rave.mid"
+    },
+    {
+      "name": "Dub Techno Chamber",
+      "genre": "electronic",
+      "subgenre": "techno",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/dub-techno-chamber.mid"
+    },
+    {
+      "name": "Breakbeat Hardcore Rave",
+      "genre": "electronic",
+      "subgenre": "breakbeat",
+      "bpm": 155,
+      "time_signature": "4/4",
+      "steps": 32,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/breakbeat-hardcore-rave.mid"
+    },
+    {
+      "name": "2-Step Garage Skip",
+      "genre": "electronic",
+      "subgenre": "garage",
+      "bpm": 134,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/2-step-garage-skip.mid"
+    },
+    {
+      "name": "Bassline Niche Bounce",
+      "genre": "electronic",
+      "subgenre": "garage",
+      "bpm": 138,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/electronic/bassline-niche-bounce.mid"
+    },
+    {
+      "name": "Nu Disco Groove",
+      "genre": "electronic",
+      "subgenre": "disco",
+      "bpm": 115,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/electronic/nu-disco-groove.mid"
+    },
+    {
+      "name": "Electro House Big Room",
+      "genre": "electronic",
+      "subgenre": "house",
+      "bpm": 128,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/electronic/electro-house-big-room.mid"
+    },
+    {
+      "name": "Tech House Percussion Loop",
+      "genre": "electronic",
+      "subgenre": "tech-house",
+      "bpm": 126,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "open_hat",
+        "shaker",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/electronic/tech-house-percussion-loop.mid"
+    },
+    {
+      "name": "Deep House Shaker Groove",
+      "genre": "electronic",
+      "subgenre": "deep-house",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat",
+        "shaker",
+        "rim"
+      ],
+      "midi_file": "MIDI/electronic/deep-house-shaker-groove.mid"
+    },
+    {
+      "name": "Minimal Clicks and Cuts",
+      "genre": "electronic",
+      "subgenre": "minimal",
+      "bpm": 126,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat",
+        "shaker",
+        "clap"
+      ],
+      "midi_file": "MIDI/electronic/minimal-clicks-and-cuts.mid"
+    },
+    {
+      "name": "Trance Anthem Break Roll",
+      "genre": "electronic",
+      "subgenre": "trance",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/electronic/trance-anthem-break-roll.mid"
+    },
+    {
+      "name": "Straight Rock Backbeat",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/straight-rock-backbeat.mid"
+    },
+    {
+      "name": "Driving Eighths Rocker",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 132,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/driving-eighths-rocker.mid"
+    },
+    {
+      "name": "Four-on-the-Floor Pop",
+      "genre": "rock",
+      "subgenre": "pop",
+      "bpm": 124,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/four-on-the-floor-pop.mid"
+    },
+    {
+      "name": "Classic Rock Open-Hat Push",
+      "genre": "rock",
+      "subgenre": "classic-rock",
+      "bpm": 118,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/rock/classic-rock-open-hat-push.mid"
+    },
+    {
+      "name": "Stadium Anthem Stomp",
+      "genre": "rock",
+      "subgenre": "classic-rock",
+      "bpm": 140,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "clap",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/stadium-anthem-stomp.mid"
+    },
+    {
+      "name": "Punk Driving Backbeat",
+      "genre": "rock",
+      "subgenre": "punk",
+      "bpm": 182,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/punk-driving-backbeat.mid"
+    },
+    {
+      "name": "Punk D-Beat",
+      "genre": "rock",
+      "subgenre": "punk",
+      "bpm": 190,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/punk-d-beat.mid"
+    },
+    {
+      "name": "Metal Double-Bass Gallop",
+      "genre": "rock",
+      "subgenre": "metal",
+      "bpm": 160,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "ride",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/metal-double-bass-gallop.mid"
+    },
+    {
+      "name": "Metal Blast Beat",
+      "genre": "rock",
+      "subgenre": "metal",
+      "bpm": 200,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/metal-blast-beat.mid"
+    },
+    {
+      "name": "Metal Half-Time Chug",
+      "genre": "rock",
+      "subgenre": "metal",
+      "bpm": 150,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/metal-half-time-chug.mid"
+    },
+    {
+      "name": "Indie Floor-Tom Pulse",
+      "genre": "rock",
+      "subgenre": "indie",
+      "bpm": 108,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "tom_low",
+        "shaker"
+      ],
+      "midi_file": "MIDI/rock/indie-floor-tom-pulse.mid"
+    },
+    {
+      "name": "Indie Motorik Drive",
+      "genre": "rock",
+      "subgenre": "indie",
+      "bpm": 144,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/indie-motorik-drive.mid"
+    },
+    {
+      "name": "Grunge Half-Time Sludge",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 84,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/grunge-half-time-sludge.mid"
+    },
+    {
+      "name": "Power Pop Punch",
+      "genre": "rock",
+      "subgenre": "pop",
+      "bpm": 150,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/power-pop-punch.mid"
+    },
+    {
+      "name": "Pop Ballad Cross-Stick",
+      "genre": "rock",
+      "subgenre": "pop",
+      "bpm": 72,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/pop-ballad-cross-stick.mid"
+    },
+    {
+      "name": "Pop Clap Groove",
+      "genre": "rock",
+      "subgenre": "pop",
+      "bpm": 116,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "clap",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/rock/pop-clap-groove.mid"
+    },
+    {
+      "name": "Funk Sixteenth Ghost Groove",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 100,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/funk-sixteenth-ghost-groove.mid"
+    },
+    {
+      "name": "Funk One-Chord Vamp",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 108,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/funk-one-chord-vamp.mid"
+    },
+    {
+      "name": "Funk Half-Time Pocket",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 92,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/funk-half-time-pocket.mid"
+    },
+    {
+      "name": "Funk Linear Groove",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 104,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/funk-linear-groove.mid"
+    },
+    {
+      "name": "Funk Cowbell Strut",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 112,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "cowbell",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/funk-cowbell-strut.mid"
+    },
+    {
+      "name": "New Orleans Second Line",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 96,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/new-orleans-second-line.mid"
+    },
+    {
+      "name": "Funk Breakbeat Chop",
+      "genre": "rock",
+      "subgenre": "funk",
+      "bpm": 94,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/rock/funk-breakbeat-chop.mid"
+    },
+    {
+      "name": "Soul Backbeat Pocket",
+      "genre": "rock",
+      "subgenre": "soul",
+      "bpm": 96,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/soul-backbeat-pocket.mid"
+    },
+    {
+      "name": "Motown Backbeat",
+      "genre": "rock",
+      "subgenre": "motown",
+      "bpm": 128,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "shaker"
+      ],
+      "midi_file": "MIDI/rock/motown-backbeat.mid"
+    },
+    {
+      "name": "Motown Tambourine Drive",
+      "genre": "rock",
+      "subgenre": "motown",
+      "bpm": 132,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "clap",
+        "shaker"
+      ],
+      "midi_file": "MIDI/rock/motown-tambourine-drive.mid"
+    },
+    {
+      "name": "Motown Two-and-Four Skip",
+      "genre": "rock",
+      "subgenre": "motown",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/motown-two-and-four-skip.mid"
+    },
+    {
+      "name": "Disco-Rock Four-Floor",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/rock/disco-rock-four-floor.mid"
+    },
+    {
+      "name": "Disco Open-Hat Sizzle",
+      "genre": "rock",
+      "subgenre": "pop",
+      "bpm": 122,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat",
+        "clap"
+      ],
+      "midi_file": "MIDI/rock/disco-open-hat-sizzle.mid"
+    },
+    {
+      "name": "Reggae One Drop",
+      "genre": "rock",
+      "subgenre": "reggae",
+      "bpm": 74,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/reggae-one-drop.mid"
+    },
+    {
+      "name": "Reggae Steppers",
+      "genre": "rock",
+      "subgenre": "reggae",
+      "bpm": 78,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "rim",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/reggae-steppers.mid"
+    },
+    {
+      "name": "Reggae Rockers Beat",
+      "genre": "rock",
+      "subgenre": "reggae",
+      "bpm": 80,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/rock/reggae-rockers-beat.mid"
+    },
+    {
+      "name": "Ska Upbeat Skank",
+      "genre": "rock",
+      "subgenre": "ska",
+      "bpm": 162,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/ska-upbeat-skank.mid"
+    },
+    {
+      "name": "Blues Shuffle",
+      "genre": "rock",
+      "subgenre": "blues-shuffle",
+      "bpm": 100,
+      "time_signature": "12/8",
+      "steps": 12,
+      "feel": "shuffle",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/blues-shuffle.mid"
+    },
+    {
+      "name": "Texas Shuffle Ride",
+      "genre": "rock",
+      "subgenre": "blues-shuffle",
+      "bpm": 112,
+      "time_signature": "12/8",
+      "steps": 12,
+      "feel": "shuffle",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "ride"
+      ],
+      "midi_file": "MIDI/rock/texas-shuffle-ride.mid"
+    },
+    {
+      "name": "Half-Time Shuffle w/ Ghosts",
+      "genre": "rock",
+      "subgenre": "half-time-shuffle",
+      "bpm": 92,
+      "time_signature": "12/8",
+      "steps": 12,
+      "feel": "shuffle",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/half-time-shuffle-w-ghosts.mid"
+    },
+    {
+      "name": "12/8 Slow Blues Ballad",
+      "genre": "rock",
+      "subgenre": "blues-shuffle",
+      "bpm": 56,
+      "time_signature": "12/8",
+      "steps": 12,
+      "feel": "shuffle",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "ride"
+      ],
+      "midi_file": "MIDI/rock/12-8-slow-blues-ballad.mid"
+    },
+    {
+      "name": "6/8 Slow Rock Ballad",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 68,
+      "time_signature": "6/8",
+      "steps": 12,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/6-8-slow-rock-ballad.mid"
+    },
+    {
+      "name": "Rock Waltz 3/4",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 130,
+      "time_signature": "3/4",
+      "steps": 12,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat"
+      ],
+      "midi_file": "MIDI/rock/rock-waltz-3-4.mid"
+    },
+    {
+      "name": "Country Train Beat",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "rim"
+      ],
+      "midi_file": "MIDI/rock/country-train-beat.mid"
+    },
+    {
+      "name": "Surf Rock Tom Ride",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 165,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "tom_low",
+        "ride"
+      ],
+      "midi_file": "MIDI/rock/surf-rock-tom-ride.mid"
+    },
+    {
+      "name": "Tom-Based Tribal Groove",
+      "genre": "rock",
+      "subgenre": "rock",
+      "bpm": 100,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "tom_low",
+        "tom_mid",
+        "tom_hi"
+      ],
+      "midi_file": "MIDI/rock/tom-based-tribal-groove.mid"
+    },
+    {
+      "name": "Big Rock Tom Fill",
+      "genre": "rock",
+      "subgenre": "classic-rock",
+      "bpm": 120,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "straight",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "tom_hi",
+        "tom_mid",
+        "tom_low",
+        "crash"
+      ],
+      "midi_file": "MIDI/rock/big-rock-tom-fill.mid"
+    },
+    {
+      "name": "Gospel Half-Time Chops",
+      "genre": "rock",
+      "subgenre": "soul",
+      "bpm": 88,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "open_hat"
+      ],
+      "midi_file": "MIDI/rock/gospel-half-time-chops.mid"
+    },
+    {
+      "name": "Boogaloo Soul Strut",
+      "genre": "rock",
+      "subgenre": "soul",
+      "bpm": 102,
+      "time_signature": "4/4",
+      "steps": 16,
+      "feel": "swung",
+      "bars": 2,
+      "instruments": [
+        "kick",
+        "snare",
+        "closed_hat",
+        "cowbell"
+      ],
+      "midi_file": "MIDI/rock/boogaloo-soul-strut.mid"
+    }
+  ]
+}

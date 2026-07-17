@@ -1,0 +1,67 @@
+# Reason Voice configuration
+
+# Folders scanned for patches (style search). Add every folder that holds
+# .cmb/.zyp/.thor/.repatch etc. The Factory Sound Bank cannot be scanned
+# (sealed archive) — next/prev patch browsing still covers it.
+patch_folders:
+  - ~/Documents
+  - ~/Music
+  # - /path/to/your/sound-packs
+
+# Extra folders that hold loose samples/loops (.wav/.aiff/.rx2) — say
+# "find drum loops" or click a sample bin to browse them. Folders already in
+# patch_folders are scanned for samples automatically; only add others here.
+# Nothing is copied: the index just remembers names and paths, and files
+# play/load straight from the drive. If the drive is unplugged, its entries
+# stay in the index (they just can't preview/load until it's back).
+sample_folders:
+  - "/Volumes/TBOTC 3"
+
+# Port for the local web UI (http://localhost:<web_port>)
+web_port: 8765
+
+# Push-to-talk key for the OLD terminal app (v2 uses the on-screen button):
+# right_option, left_option, right_cmd, f13, f14, f15, caps_lock
+hotkey: right_option
+
+# Whisper model: tiny.en (fastest) / base.en / small.en (good default) / medium.en
+whisper_model: small.en
+
+# Substring of the virtual MIDI port name (IAC Driver bus)
+midi_port: IAC
+
+# Name of the Reason app for `open -a`
+reason_app_name: Reason
+
+# Speak confirmations aloud via macOS `say`
+speak_feedback: true
+
+# MIDI push-to-talk: hold this CC on any connected controller to talk
+# (64 = sustain pedal). Works while Reason has focus. Set a note number
+# instead with midi_ptt_note if you'd rather hold a pad.
+midi_ptt_cc: 64
+# midi_ptt_note: 36
+
+# Let phones/tablets on your wifi open the app (the Terminal window prints
+# the address). Set false to keep it on this Mac only.
+network_access: true
+
+# Copy song templates into Reason's own Template Songs folder so they also
+# appear in Reason's File > New From Template.
+mirror_templates: true
+
+results_per_search: 20
+max_utterance_seconds: 15
+index_cache: ~/.reason_voice/index.json
+
+# Recipe knowledge base (defaults to the recipes/ and device_refs/ folders
+# next to this file). Add your own .md files there — they're picked up on start.
+# recipes_dir: /path/to/recipes
+# device_refs_dir: /path/to/device_refs
+
+# Template library: .reason songs / .cmb Combinator patches you saved from
+# recipes (defaults to the templates/ folder next to this file). "New session"
+# copies the template into sessions_dir with a date, so originals never
+# get overwritten.
+# templates_dir: /path/to/templates
+# sessions_dir: ~/Music/Reason 12/Sessions
