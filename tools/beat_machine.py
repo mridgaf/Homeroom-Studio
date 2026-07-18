@@ -220,10 +220,11 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     mutable = [ln for ln in lanes if not ln.startswith("stamp")]
 
     # 1. density profile + small-hit mutation on every non-stamp lane
-    # (leans sparse since 2026-07-17 — these are beds to play over)
+    # (v6, 2026-07-18: density is fully FREE — sparse, home, and busy
+    # are equally likely; the notes box still forces one)
     profile = density or rng.choices(["sparse", "home", "busy"],
-                                     [5, 4, 1])[0]
-    p_drop = {"sparse": 0.5, "home": 0.3, "busy": 0.18}[profile]
+                                     [1, 1, 1])[0]
+    p_drop = {"sparse": 0.5, "home": 0.3, "busy": 0.1}[profile]
     for ln in mutable:
         bars = lanes[ln][3]
         if ln == "kick":
@@ -234,8 +235,8 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             rewrite(ln, _mutate_kick(list(bars), rng))
             continue
         busy_ok = sum(map(_hits, bars)) / len(bars) >= 4
-        adds = ({"sparse": 0, "home": 1, "busy": 1}[profile]
-                if busy_ok else 0)
+        adds = ({"sparse": 0, "home": 1, "busy": 2}[profile]
+                if busy_ok else {"busy": 1}.get(profile, 0))
         rewrite(ln, [_mutate_pat(b, rng, p_drop, adds) for b in bars])
     notes.append(f"{profile} density")
 
@@ -321,13 +322,44 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     return notes
 
 
-def solo_preset(name, variant, bpm):
+def roll_swing(preset, variant, force=None):
+    """v6 (owner ruling 2026-07-18): swing varies per beat around the
+    DJ's home feel — a wide window plus the occasional straight or
+    triplet outlier. The whole kit shifts together, so deliberate
+    straight-vs-swung lane clashes (New Math) keep their relationship.
+    Returns the rolled swing for the README, or None when unchanged."""
+    rng = random.Random(variant * 733 + 11)
+    lanes = preset["lanes"]
+    homes = [spec[2][2] for k, spec in lanes.items()
+             if not k.startswith("stamp")]
+    if not homes:
+        return None
+    home = max(set(homes), key=homes.count)
+    if force is not None:
+        target = force
+    elif rng.random() < 0.1:
+        target = rng.choice((50, 58, 62, 66))
+    else:
+        target = home + rng.choice((-6, -4, -2, 0, 0, 2, 4, 6))
+    target = max(50, min(66, target))
+    if target == home:
+        return None
+    delta = target - home
+    for k, (pan, gain, (o, j, sw, seed), bars) in list(lanes.items()):
+        if k.startswith("stamp"):
+            continue
+        lanes[k] = (pan, gain,
+                    (o, j, max(50, min(66, sw + delta)), seed), bars)
+    return target
+
+
+def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None):
     """One DJ's preset for this beat: a FRESH pattern composed from their
     grammar (owner verdict 2026-07-17 — no more one-skeleton mutations),
     tempo override, and the standing rules (New Math goes boom bap on odd
     variants; ~1 beat in 10 skips the sidechain — Crate Prophet already
     never ducks). Returns (preset, style notes)."""
-    bb = name == "New Math" and variant % 2 == 1
+    bb = name == "New Math" and variant % 2 == 1 and not tsig
     if bb:
         p = boom_bap_variant(bpm or 94)
     else:
@@ -335,7 +367,15 @@ def solo_preset(name, variant, bpm):
         if bpm:
             p["bpm"] = bpm
     p["vel_seed"] = variant
-    notes = compose(p, name, variant, boom_bap=bb)
+    if dirs and dirs.get("force_mode"):
+        for ln in ("snare", "clap"):
+            spec = p.get("grammar", {}).get(ln)
+            if isinstance(spec, dict) and "modes" in spec:
+                spec["modes"] = [[dirs["force_mode"], 1.0]]
+    notes = compose(p, name, variant, boom_bap=bb, tsig=tsig, trick=trick)
+    got = roll_swing(p, variant, force=(dirs or {}).get("swing"))
+    if got:
+        notes.append("swing %d%%" % got)
     roll = random.Random(CREW[name]["num"] * 31 + variant)
     if p["sidechain"] > 0 and roll.random() < 0.1:
         p["sidechain"] = 0.0
@@ -348,7 +388,7 @@ LANE_JOB = {"kick": "kick", "snare": "backbeat", "clap": "backbeat",
 JOBS = ("kick", "backbeat", "timekeeper", "color")
 
 
-def collab_preset(names, variant, bpm):
+def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None):
     """A collab is an even 50/50 blend (owner decision 2026-07-16 —
     supersedes both the old host-carries-it recipe and the spec doc's
     80/20). Each parent first COMPOSES fresh from their own grammar
@@ -368,7 +408,7 @@ def collab_preset(names, variant, bpm):
     fresh, notes = {}, []
     for n in names:
         q = copy.deepcopy(CREW[n])
-        qnotes = compose(q, n, variant)
+        qnotes = compose(q, n, variant, tsig=tsig, trick=trick)
         fresh[n] = q
         notes.append(f"{n}: " + "; ".join(qnotes))
 
@@ -399,12 +439,17 @@ def collab_preset(names, variant, bpm):
     p["space"] = (bb[0], [ln for ln in bb[1] if ln in p["lanes"]])
 
     p["vel_seed"] = variant
+    if tsig:
+        p["tsig"] = list(tsig)
     pan = CREW[host]["lanes"]["stamp"][0]
     p["lanes"]["stamp"] = copy.deepcopy(CREW[host]["lanes"]["stamp"])
     for i, g in enumerate(names[1:]):
         gpan, ggain, gfeel, gbars = CREW[g]["lanes"]["stamp"]
         side = -pan if abs(pan) > 0.05 else 0.3 * (1 if i % 2 == 0 else -1)
         p["lanes"][f"stamp{i + 2}"] = (side, ggain, gfeel, gbars)
+    got = roll_swing(p, variant, force=(dirs or {}).get("swing"))
+    if got:
+        notes.append("swing %d%%" % got)
     return p, notes
 
 
@@ -469,11 +514,35 @@ NEGATIONS = ("no ", "without ", "skip ", "skip the ", "drop the ",
 
 
 def parse_directions(notes):
-    """Read this click's directions out of the notes text."""
-    t = " " + (notes or "").lower().replace(",", " ").replace(".", " ") + " "
+    """Read this click's directions out of the notes text. v6 adds
+    space (gated/dry/room/washed), swing (more/straight), time
+    signature (3/4, waltz, 6/8), and halftime words."""
+    t = " " + (notes or "").lower().replace(",", " ") + " "
+    t = t.replace(" 3/4", " 3-4 ").replace(" 6/8", " 6-8 ")
+    t = t.replace(".", " ")
     t = " ".join(t.split())
     t = f" {t} "
-    out = {"mute": set(), "tags": [], "kick": None, "density": None}
+    out = {"mute": set(), "tags": [], "kick": None, "density": None,
+           "space": None, "swing": None, "tsig": None, "force_mode": None}
+    if any(x in t for x in ("no swing", "straight", "unswung")):
+        out["swing"] = 50
+    elif "triplet swing" in t:
+        out["swing"] = 66
+    elif any(x in t for x in ("more swing", "swung", "swingy", "swing")):
+        out["swing"] = 62
+    if any(x in t for x in ("3-4", "waltz", "three four")):
+        out["tsig"] = (3, 4)
+    elif any(x in t for x in ("6-8", "six eight", "shuffle feel")):
+        out["tsig"] = (6, 8)
+    if any(x in t for x in ("half time", "halftime", "half-time")):
+        out["force_mode"] = "halftime"
+    for word, sp in (("gated", "gated"), ("gate", "gated"),
+                     ("dry", "dry"), ("room", "room"), ("roomy", "room"),
+                     ("washed", "plate"), ("wet", "plate"),
+                     ("plate", "plate"), ("reverb", "plate")):
+        if f" {word} " in t:
+            out["space"] = sp
+            break
     for lane, words in LANE_WORDS:
         if any(neg + w in t for w in words for neg in NEGATIONS):
             out["mute"].add(lane)
@@ -590,10 +659,25 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     status(f"Composing for {' x '.join(names)}…")
     for _try in range(8):
         variant = random.randrange(2, 10000)
+        # v6 time-signature roll (owner ruling 2026-07-18): 80% 4/4,
+        # 10% real 3/4 or 6/8, 10% exotic grids inside 4/4. The notes
+        # box overrides the roll.
+        troll = random.Random(variant * 677 + 3)
+        tsig, trick = dirs["tsig"], False
+        if tsig is None:
+            r = troll.random()
+            if r < 0.10:
+                tsig = troll.choice(((3, 4), (6, 8)))
+            elif r < 0.20:
+                trick = True
         if len(names) == 1:
-            preset, style_notes = solo_preset(names[0], variant, bpm)
+            preset, style_notes = solo_preset(names[0], variant, bpm,
+                                              tsig=tsig, trick=trick,
+                                              dirs=dirs)
         else:
-            preset, style_notes = collab_preset(names, variant, bpm)
+            preset, style_notes = collab_preset(names, variant, bpm,
+                                                tsig=tsig, trick=trick,
+                                                dirs=dirs)
         dnotes = apply_directions(preset, dirs)
         vnotes = evo_notes + style_notes + dnotes + vary_preset(
             preset, variant, CREW[names[0]]["num"],
@@ -623,9 +707,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                                              variant, avoid)
         lane_parent = dict(preset["lane_parent"])
 
-    # standing rule: snare space alternates — odd file numbers gated,
-    # even ones dry
-    space = "gated" if no % 2 else "dry"
+    # v6 (2026-07-18, supersedes the odd/even alternation): the beat
+    # rolls its own space — gated / dry / room / washed plate — and the
+    # notes box can pick one outright
+    space = dirs["space"] or random.Random(variant * 941 + 7).choices(
+        ["gated", "dry", "room", "plate"], [0.35, 0.35, 0.2, 0.1])[0]
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
     L, R, lufs, parts = render_crew_beat(names[0], kit, space=space,
                                          preset=preset, want_parts=True)
@@ -666,14 +752,19 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     folder = root / names[0]
     folder.mkdir(parents=True, exist_ok=True)
-    fname = f"{no} {' x '.join(names)} {title} Drums {preset['bpm']}bpm.wav"
+    meter = ""
+    if preset.get("tsig") and tuple(preset["tsig"]) != (4, 4):
+        meter = " in %d-%d" % tuple(preset["tsig"])
+    fname = (f"{no} {' x '.join(names)} {title} Drums "
+             f"{preset['bpm']}bpm{meter}.wav")
     path = folder / fname
     if path.exists():                             # never overwrite
         raise RuntimeError(f"{fname} already exists — not overwriting.")
     write_wav24(path, L, R)
 
     # the Reason 12 handoff (spec 2026-07-16): MIDI + stems with every WAV
-    write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
+    write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"],
+               tsig=tuple(preset.get("tsig", (4, 4))))
     write_stems(folder / f"{no} {' x '.join(names)} {title} Stems",
                 parts["stems"])
 
@@ -701,7 +792,9 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     if warn:
         vnotes.append(warn)
 
-    dur, want = len(L) / SR, BARS * 240.0 / preset["bpm"]
+    tn, td = preset.get("tsig", (4, 4))
+    dur = len(L) / SR
+    want = BARS * tn * (4.0 / td) * 60.0 / preset["bpm"]
     rms = 20 * np.log10(np.sqrt(0.5 * (L ** 2 + R ** 2).mean()) + 1e-12)
     vnotes.append(f"bar swing {swing:.1f} dB")
     good = abs(dur - want) < 0.02 and -14 < rms < -5 and -10 < lufs < -6.5

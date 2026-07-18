@@ -17,8 +17,12 @@ Also per the same verdict:
 - PATTERN HISTORY: ~/.reason_voice/pattern_history.json remembers each
   DJ's recent rhythms; a too-similar roll regenerates (up to 12 tries).
 
-Timing DNA (LaneFeel offsets, swing) and the locked stamps are never
-touched — the character survives; the rhythm doesn't repeat.
+v6 (owner directive 2026-07-18): MINIMAL constraints — variety beats
+style fidelity. Identity = stamp + mix flavor + tempo zone. Density is
+fully free, every mode is on every DJ's menu (home-leaned), kick banks
+cross-pollinate, swing rolls per beat around the home feel (in
+beat_machine), and beats are 4/4 80% / real 3-4 or 6-8 10% / exotic
+grids in 4/4 10%.
 """
 import json
 import os
@@ -28,7 +32,7 @@ from pathlib import Path
 PAT_HIST = Path(os.path.expanduser("~/.reason_voice/pattern_history.json"))
 PAT_KEEP = 24
 BEATS = (0, 4, 8, 12)
-STYLE_VERSION = 5      # bump when DEFAULT_STYLE changes (config auto-syncs)
+STYLE_VERSION = 6      # bump when DEFAULT_STYLE changes (config auto-syncs)
 
 # ------------------------------------------------- the groove library
 # Owner drop 2026-07-17 (second library expansion): 131 genre-tagged
@@ -110,10 +114,10 @@ def _pick_library(spec, rng):
 
 
 def _thin_kick(bar, rng):
-    """The sparse-bed rule (2026-07-17): he plays over the top, so the
-    kick stays ~2-5 hits per 16 steps. Library grooves that run hotter
-    (d-beat, four-on-floor plus doubles) shed lowercase hits first."""
-    cap = max(2, round(5 * len(bar) / 16))
+    """Density cap for library seeds. v6 (2026-07-18): density is FREE —
+    the cap only sheds the truly wall-to-wall grooves (d-beat with
+    doubles everywhere), not the busy ones."""
+    cap = max(2, round(8 * len(bar) / 16))
     s = list(bar)
     small = [i for i, c in enumerate(s) if c == "x"]
     rng.shuffle(small)
@@ -130,23 +134,26 @@ def _thin_kick(bar, rng):
 # extras: (role, want-tags, lane name) palette + how often guests appear.
 
 DEFAULT_STYLE = {
+    # v6 (owner directive 2026-07-18): MINIMAL constraints, variety over
+    # style fidelity. Every DJ can reach every backbeat and timekeeper
+    # mode — the weights only LEAN toward their home feel. Identity now
+    # lives in the stamp, the mix flavor, and the tempo zone; patterns,
+    # density, swing, and kits roam free.
     "Otto Grit": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 1, 2, 1, 1, 3, 6, 3, 1, 5, 2, 1, 3, 5, 2],
-                      hits=[2, 4], double_p=0.3),
-            snare=dict(modes=[["backbeat", 0.7], ["displaced", 0.15],
-                              ["sparse", 0.15]],
-                       ghosts=[0, 3], gcells=[3, 7, 11, 14, 15]),
-            hat=dict(modes=[["eighths", 0.3], ["sixteenths", 0.1],
-                            ["sparse", 0.35], ["broken", 0.25]],
-                     open_p=0.08),
+            kick=dict(w=[10, 2, 2, 3, 2, 2, 4, 6, 3, 2, 5, 3, 2, 3, 5, 3],
+                      hits=[2, 7], double_p=0.35),
+            snare=dict(modes=[['backbeat', 0.45], ['halftime', 0.183], ['displaced', 0.183], ['sparse', 0.183]],
+                       ghosts=[0, 3],
+                       gcells=[1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14, 15]),
+            hat=dict(modes=[['eighths', 0.1], ['sixteenths', 0.1], ['sparse', 0.3], ['broken', 0.1], ['offbeats', 0.1], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]], open_p=0.1),
         ),
         kick_flavors=[[0.4, "808", ["dust", "boom", "dirty"], [0.35, 0.9]],
                       [0.6, None, ["boom", "punch", "acoustic", "break",
                                    "knock"], [0.18, 0.5]]],
         library=dict(p=0.35, tags=[["lofi", 3], ["boom-bap", 2],
-                                   ["neo-soul", 2]]),
-        extras=dict(p=0.55, nmax=1, pool=[
+                                   ["neo-soul", 2], ["soul", 1]]),
+        extras=dict(p=0.7, nmax=2, pool=[
             ["perc", ["tamb", "shaker"], "shaker"],
             ["rim", ["rim", "stick"], "rims"],
             ["perc", ["tom"], "toms"],
@@ -154,158 +161,157 @@ DEFAULT_STYLE = {
     ),
     "Cutz": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 5, 1, 0, 2, 1, 1, 0, 5, 1, 0, 5, 1, 1],
-                      hits=[2, 4], double_p=0.15),
-            snare=dict(modes=[["backbeat", 0.9], ["displaced", 0.1]],
-                       ghosts=[0, 2], gcells=[6, 7, 15]),
-            hat=dict(modes=[["eighths", 0.4], ["offbeats", 0.35],
-                            ["broken", 0.25]], open_p=0.04),
+            kick=dict(w=[10, 1, 1, 5, 2, 1, 3, 2, 2, 1, 5, 2, 1, 5, 2, 2],
+                      hits=[2, 6], double_p=0.25),
+            snare=dict(modes=[['backbeat', 0.45], ['halftime', 0.183], ['displaced', 0.183], ['sparse', 0.183]],
+                       ghosts=[0, 3],
+                       gcells=[2, 3, 5, 6, 7, 9, 10, 13, 14, 15]),
+            hat=dict(modes=[['eighths', 0.3], ['sixteenths', 0.1], ['sparse', 0.1], ['broken', 0.1], ['offbeats', 0.1], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]], open_p=0.06),
         ),
         kick_flavors=[[0.3, "808", ["punch", "hard"], [0.3, 0.7]],
                       [0.7, None, ["punch", "knock", "hard", "acoustic"],
                        [0.15, 0.45]]],
-        library=dict(p=0.3, tags=[["boom-bap", 4], ["funk", 1]]),
-        extras=dict(p=0.45, nmax=1, pool=[
+        library=dict(p=0.3, tags=[["boom-bap", 4], ["funk", 2],
+                                  ["breakbeat", 1]]),
+        extras=dict(p=0.6, nmax=2, pool=[
             ["fx", ["scratch"], "cutfx"],
             ["rim", ["rim", "stick"], "rims"],
             ["perc", ["shaker", "tamb"], "shaker"]]),
     ),
     "Crate Prophet": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 2, 1, 0, 1, 4, 4, 1, 1, 4, 1, 3, 1, 4, 1],
-                      hits=[2, 4], double_p=0.2),
-            snare=dict(modes=[["backbeat", 0.85], ["displaced", 0.15]],
-                       ghosts=[1, 3], gcells=[2, 3, 7, 10, 15]),
-            hat=dict(modes=[["eighths", 0.4], ["sparse", 0.35],
-                            ["broken", 0.25]], open_p=0.2),
-            bongo=dict(euclid=[3, 5]),
+            kick=dict(w=[10, 2, 3, 2, 1, 2, 4, 4, 2, 2, 4, 2, 3, 2, 4, 2],
+                      hits=[2, 6], double_p=0.3),
+            snare=dict(modes=[['backbeat', 0.45], ['halftime', 0.183], ['displaced', 0.183], ['sparse', 0.183]],
+                       ghosts=[0, 3],
+                       gcells=[1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14, 15]),
+            hat=dict(modes=[['eighths', 0.1], ['sixteenths', 0.1], ['sparse', 0.3], ['broken', 0.1], ['offbeats', 0.1], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]], open_p=0.2),
+            bongo=dict(euclid=[3, 5, 7]),
         ),
         kick_flavors=[[0.35, "808", ["warm", "deep"], [0.4, 0.9]],
                       [0.65, None, ["boom", "warm", "break", "acoustic"],
                        [0.2, 0.5]]],
-        library=dict(p=0.35, tags=[["boom-bap", 3], ["soul", 2],
-                                   ["lofi", 1], ["funk", 1]]),
-        extras=dict(p=0.6, nmax=1, pool=[
+        library=dict(p=0.35, tags=[["boom-bap", 3], ["soul", 3],
+                                   ["lofi", 1], ["funk", 2],
+                                   ["motown", 1]]),
+        extras=dict(p=0.7, nmax=2, pool=[
             ["perc", ["conga", "bongo"], "congas2"],
             ["perc", ["shaker", "tamb"], "shaker"],
             ["fx", ["vinyl", "reverse", "foley"], "foundfx"]]),
     ),
     "Chrome Dial": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 6, 0, 0, 4, 0, 3, 0, 2, 4, 0, 2, 3, 1],
-                      hits=[3, 5], double_p=0.45),
-            clap=dict(modes=[["backbeat", 0.7], ["displaced", 0.3]],
-                      ghosts=[0, 0], gcells=[]),
-            snap=dict(modes=[["answer", 0.6], ["offbeats", 0.4]]),
-            perc=dict(euclid=[5, 7]),
+            kick=dict(w=[10, 1, 1, 6, 1, 1, 4, 2, 3, 1, 3, 4, 1, 3, 3, 2],
+                      hits=[2, 7], double_p=0.5),
+            clap=dict(modes=[['backbeat', 0.45], ['halftime', 0.183], ['displaced', 0.183], ['sparse', 0.183]], ghosts=[0, 2],
+                      gcells=[2, 3, 6, 7, 10, 11, 14, 15]),
+            snap=dict(modes=[['eighths', 0.1], ['sixteenths', 0.1], ['sparse', 0.1], ['broken', 0.1], ['offbeats', 0.1], ['gallop', 0.1], ['answer', 0.3], ['rolls32', 0.1]]),
+            perc=dict(euclid=[3, 5, 7]),
         ),
         kick_flavors=[[0.2, "808", ["clean", "tight"], [0.3, 0.6]],
                       [0.8, None, ["clean", "punch", "tight", "pop"],
                        [0.12, 0.4]]],
         library=dict(p=0.35, tags=[["rnb", 3], ["garage", 2],
-                                   ["funk", 1], ["electro", 1]]),
-        extras=dict(p=0.6, nmax=1, pool=[
+                                   ["funk", 1], ["electro", 2]]),
+        extras=dict(p=0.7, nmax=2, pool=[
             ["perc", ["tabla", "block", "cowbell"], "exotic2"],
             ["fx", ["zap", "laser", "glitch"], "blips"],
             ["rim", ["rim", "click"], "clicks"]]),
     ),
     "Glass Cat": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 2, 0, 0, 1, 0, 6, 0, 4, 0, 0, 1, 1, 1],
-                      hits=[2, 3], double_p=0.05),
-            snare=dict(modes=[["backbeat", 0.7], ["displaced", 0.1],
-                              ["sparse", 0.2]],
-                       ghosts=[0, 0], gcells=[]),
+            kick=dict(w=[10, 1, 1, 2, 1, 1, 2, 1, 6, 1, 4, 1, 1, 2, 2, 2],
+                      hits=[2, 5], double_p=0.15),
+            snare=dict(modes=[['backbeat', 0.45], ['halftime', 0.183], ['displaced', 0.183], ['sparse', 0.183]],
+                       ghosts=[0, 2], gcells=[3, 7, 11, 15]),
             clap=dict(copy="snare"),          # the documented late flam
-            snap=dict(modes=[["eighths", 0.3], ["sparse", 0.4],
-                             ["gallop", 0.3]]),
+            snap=dict(modes=[['eighths', 0.1], ['sixteenths', 0.1], ['sparse', 0.3], ['broken', 0.1], ['offbeats', 0.1], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]]),
         ),
         kick_flavors=[[0.15, "808", ["clean"], [0.25, 0.5]],
                       [0.85, None, ["clean", "tight", "pop", "punch"],
                        [0.1, 0.35]]],
-        library=dict(p=0.3, tags=[["rnb", 2], ["minimal", 2],
+        library=dict(p=0.3, tags=[["rnb", 2], ["minimal", 3],
                                   ["funk", 2], ["cloud-rap", 1]]),
-        extras=dict(p=0.5, nmax=1, pool=[
+        extras=dict(p=0.6, nmax=2, pool=[
             ["fx", ["glitch", "zap", "laser"], "blips"],
             ["perc", ["block", "clave"], "woods"]]),
     ),
     "Sunday Chop": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 1, 4, 0, 1, 4, 8, 0, 1, 1, 4, 0, 2, 3],
-                      hits=[3, 5], double_p=0.25),
-            clap=dict(modes=[["backbeat", 0.9], ["displaced", 0.1]],
-                      ghosts=[0, 0], gcells=[]),
+            kick=dict(w=[10, 1, 1, 2, 4, 1, 2, 4, 8, 1, 2, 2, 4, 1, 3, 3],
+                      hits=[3, 7], double_p=0.35),
+            clap=dict(modes=[['backbeat', 0.45], ['halftime', 0.183], ['displaced', 0.183], ['sparse', 0.183]], ghosts=[0, 2],
+                      gcells=[2, 3, 6, 7, 10, 11, 14, 15]),
             snare=dict(copy="clap"),          # tucked under the big clap
-            hat=dict(modes=[["eighths", 0.45], ["sixteenths", 0.3],
-                            ["broken", 0.25]], open_p=0.06),
-            perc=dict(modes=[["offbeats", 1.0]]),
+            hat=dict(modes=[['eighths', 0.3], ['sixteenths', 0.1], ['sparse', 0.1], ['broken', 0.1], ['offbeats', 0.1], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]], open_p=0.08),
+            perc=dict(modes=[['eighths', 0.1], ['sixteenths', 0.1], ['sparse', 0.1], ['broken', 0.1], ['offbeats', 0.3], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]]),
         ),
         kick_flavors=[[0.3, "808", ["punch", "knock"], [0.3, 0.7]],
                       [0.7, None, ["punch", "knock", "clean"],
                        [0.15, 0.45]]],
-        library=dict(p=0.35, tags=[["soul", 3], ["motown", 2],
-                                   ["boom-bap", 2]]),
-        extras=dict(p=0.5, nmax=1, pool=[
+        library=dict(p=0.35, tags=[["soul", 3], ["motown", 3],
+                                   ["boom-bap", 2], ["funk", 1]]),
+        extras=dict(p=0.65, nmax=2, pool=[
             ["perc", ["tamb", "shaker"], "shaker"],
             ["crash", ["crash"], "crash2"],
             ["fx", ["reverse", "impact"], "swellfx"]]),
     ),
     "Night Metro": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 3, 0, 0, 5, 0, 1, 0, 4, 1, 3, 0, 1, 1],
-                      hits=[2, 3], double_p=0.15),
-            clap=dict(modes=[["halftime", 1.0]],
-                      ghosts=[0, 0], gcells=[]),
-            hat=dict(modes=[["rolls32", 0.5], ["sixteenths", 0.5]],
-                     roll_n=[1, 2]),
+            kick=dict(w=[10, 1, 1, 3, 1, 1, 5, 1, 2, 1, 4, 2, 3, 1, 2, 2],
+                      hits=[2, 6], double_p=0.25),
+            clap=dict(modes=[['backbeat', 0.183], ['halftime', 0.45], ['displaced', 0.183], ['sparse', 0.183]], ghosts=[0, 1],
+                      gcells=[6, 7, 14, 15]),
+            hat=dict(modes=[['eighths', 0.093], ['sixteenths', 0.093], ['sparse', 0.093], ['broken', 0.093], ['offbeats', 0.093], ['gallop', 0.093], ['answer', 0.093], ['rolls32', 0.35]], roll_n=[1, 3]),
         ),
         kick_flavors=[[0.2, "808", ["deep", "sub", "long"], [0.9, 2.0]],
                       [0.25, "808", ["deep", "sub"], [0.4, 0.8]],
                       [0.55, None, ["punch", "deep", "knock"],
                        [0.25, 0.6]]],
-        library=dict(p=0.35, tags=[["trap", 4], ["cloud-rap", 2],
-                                   ["drill", 1]]),
-        extras=dict(p=0.45, nmax=1, pool=[
+        library=dict(p=0.5, tags=[["trap", 4], ["cloud-rap", 2],
+                                  ["drill", 2], ["garage", 1],
+                                  ["breakbeat", 1]]),
+        extras=dict(p=0.6, nmax=2, pool=[
             ["fx", ["riser", "reverse", "sweep"], "risers"],
             ["perc", ["cowbell", "block"], "bells"]]),
     ),
     "Rage Engine": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 2, 0, 0, 6, 0, 1, 0, 1, 1, 6, 0, 1, 2],
-                      hits=[2, 4], double_p=0.35),
-            snare=dict(modes=[["halftime", 1.0]],
-                       ghosts=[0, 0], gcells=[], burst_p=0.5),
+            kick=dict(w=[10, 1, 1, 3, 1, 1, 6, 1, 2, 1, 2, 2, 6, 1, 2, 3],
+                      hits=[2, 7], double_p=0.4),
+            snare=dict(modes=[['backbeat', 0.183], ['halftime', 0.45], ['displaced', 0.183], ['sparse', 0.183]],
+                       ghosts=[0, 1], gcells=[6, 7, 14, 15], burst_p=0.5),
             clap=dict(copy="snare"),
-            hat=dict(modes=[["rolls32", 0.55], ["sixteenths", 0.45]],
-                     roll_n=[1, 2]),
+            hat=dict(modes=[['eighths', 0.093], ['sixteenths', 0.093], ['sparse', 0.093], ['broken', 0.093], ['offbeats', 0.093], ['gallop', 0.093], ['answer', 0.093], ['rolls32', 0.35]], roll_n=[1, 3]),
         ),
         kick_flavors=[[0.2, "808", ["hard", "distort"], [0.8, 1.8]],
                       [0.25, "808", ["hard", "punch"], [0.35, 0.7]],
                       [0.55, None, ["hard", "punch", "knock"],
                        [0.2, 0.5]]],
-        library=dict(p=0.35, tags=[["trap", 4], ["drill", 2]]),
-        extras=dict(p=0.5, nmax=1, pool=[
+        library=dict(p=0.5, tags=[["trap", 4], ["drill", 2],
+                                  ["techno", 1], ["electro", 1]]),
+        extras=dict(p=0.65, nmax=2, pool=[
             ["crash", ["crash", "impact"], "impacts"],
             ["fx", ["riser", "sweep"], "sirens"]]),
     ),
     "New Math": dict(
         grammar=dict(
-            kick=dict(w=[10, 0, 0, 7, 0, 0, 6, 0, 6, 0, 5, 0, 2, 0, 2, 1],
-                      hits=[3, 5], double_p=0.3),
-            snare=dict(modes=[["backbeat", 0.5], ["displaced", 0.5]],
-                       ghosts=[0, 1], gcells=[10, 15]),
-            snap=dict(modes=[["offbeats", 0.6], ["answer", 0.4]]),
-            hat=dict(modes=[["quint20", 0.4], ["sixteenths", 0.2],
-                            ["gallop", 0.4]]),
-            perc=dict(euclid=[5, 7]),
+            kick=dict(w=[10, 1, 1, 7, 1, 1, 6, 1, 6, 1, 5, 1, 2, 1, 3, 2],
+                      hits=[3, 7], double_p=0.35),
+            snare=dict(modes=[['backbeat', 0.2], ['halftime', 0.2], ['displaced', 0.4], ['sparse', 0.2]],
+                       ghosts=[0, 2], gcells=[2, 5, 7, 10, 13, 15]),
+            snap=dict(modes=[['eighths', 0.1], ['sixteenths', 0.1], ['sparse', 0.1], ['broken', 0.1], ['offbeats', 0.3], ['gallop', 0.1], ['answer', 0.1], ['rolls32', 0.1]]),
+            hat=dict(modes=[['eighths', 0.087], ['sixteenths', 0.087], ['sparse', 0.087], ['broken', 0.087], ['offbeats', 0.087], ['gallop', 0.087], ['answer', 0.087], ['rolls32', 0.087], ['quint20', 0.3]]),
+            perc=dict(euclid=[3, 5, 7]),
         ),
         kick_flavors=[[0.3, "808", ["punch", "club"], [0.4, 1.0]],
                       [0.7, None, ["punch", "knock", "club", "tight"],
                        [0.15, 0.45]]],
-        library=dict(p=0.4, tags=[["garage", 3], ["breakbeat", 2],
-                                  ["jungle", 1], ["dnb", 1],
-                                  ["electro", 1], ["drill", 1]]),
-        extras=dict(p=0.65, nmax=1, pool=[
+        library=dict(p=0.55, tags=[["garage", 3], ["breakbeat", 2],
+                                   ["jungle", 2], ["dnb", 2],
+                                   ["electro", 1], ["drill", 1],
+                                   ["house", 1]]),
+        extras=dict(p=0.75, nmax=2, pool=[
             ["fx", ["glitch", "laser", "zap", "reverse"], "glitches"],
             ["perc", ["block", "clave", "tabla"], "mathperc"],
             ["rim", ["rim", "click"], "clicks"]]),
@@ -325,51 +331,77 @@ BOOM_BAP_FLAVORS = [[0.5, "808", ["boom", "dust", "dirty"], [0.35, 0.8]],
 # still freestyles from the weight map. History keeps repeats away.
 
 KICK_BANK = {
-    "Otto Grit": [                            # drunk, off-the-grid leans
+    "Otto Grit": [                 # drunk, off-the-grid leans
         "X------x--X-----", "X--x------X--x--", "X------xX---x---",
         "X-----x---X----x", "X--x---x--X-x---", "X---x-----Xx----",
         "X------x-X---x--", "X-x-----x-X-----", "Xx-----x--X--x--",
-        "X-----xx--X----x"],
-    "Cutz": [                                 # surgical, sparse punches
+        "X-----xx--X----x", "X-----xxX-------", "Xx-x----X-X-----",
+        "X----x--XxXX--x-", "X-----xx--XX--xx", "X--x--x---XX--x-",
+        "X----xxxX------x", "Xx------X-X--x-x", "Xxx------xXX---x"],
+    "Cutz": [                      # surgical, sparse punches
         "X--x------X-----", "X---------X--x--", "X--x--x---X-----",
         "X-x-------X---x-", "X--x------Xx----", "X---x-----X--x--",
         "X--------xX-----", "X--x---x--X--x--", "X---------X-x---",
-        "X-xx------X-----"],
-    "Crate Prophet": [                        # warm golden-era rollers
+        "X-xx------X-----", "X--------XXX---x", "X--x-----XX--x--",
+        "X--------XXX-x--", "X---------XX-x-x", "X-----x---XX-xx-",
+        "X----xx--X-X--x-", "X--x-----XXX----", "X------x-XXX----"],
+    "Crate Prophet": [             # warm golden-era rollers
         "X-----x---X--x--", "X--x--x---X-----", "X-----x-x-X-----",
         "X---x-----X-x---", "X-----xx--X--x--", "X-x---x---X-----",
         "X-----x---X-xx--", "X--x------X---x-", "X-----x--xX-----",
-        "X---xx----X--x--"],
-    "Chrome Dial": [                          # stutters and syncopation
+        "X---xx----X--x--", "X--------xX-x-x-", "X-xx------X-----",
+        "Xxxx--x---X-----", "X-x--x---xX-----", "X-x-------X--xx-",
+        "Xxxx------X----x", "Xx----xx-xX-----", "X--------xX----x"],
+    "Chrome Dial": [               # stutters and syncopation
         "X--X--X---------", "X--X--X---X-----", "X-----X--X--X---",
         "X--X----X-X-----", "X---XX----X-----", "X--X--X--X--X---",
         "X-----X---XX----", "X--X---X--X---X-", "XX----X---X-----",
-        "X---X--X----X---"],
-    "Glass Cat": [                            # minimal, negative space
+        "X---X--X----X---", "X----------X----", "X-------------X-",
+        "X--XX---X-------", "X---X-----------", "X---------X-X-X-",
+        "X---X-X----X----", "X-------X---X-X-", "X-----X---X---X-"],
+    "Glass Cat": [                 # minimal, negative space
         "X-------X-X-----", "X---------X---X-", "X-------X-------",
         "X--X----X-------", "X-------XX------", "X---X---X-X-----",
-        "X-------X---X---", "X-X-----X-------"],
-    "Sunday Chop": [                          # gospel drive, pushed 8ths
+        "X-------X---X---", "X-X-----X-------", "X---X-X---X-----",
+        "X----------X----", "X-----------X-X-", "X------------X--",
+        "X-----X-----X--X", "X-----X-------X-", "X----X-X-----X--",
+        "X----X----------"],
+    "Sunday Chop": [               # gospel drive, pushed 8ths
         "X---x---X---x---", "X---x--xX---x---", "X--xX---X---x---",
         "X---x---X--xx---", "X---X---X---X---", "X---x-x-X---x---",
-        "X---x---X-x-x---", "Xx--x---X---x---"],
-    "Night Metro": [                          # halftime dark sparse
+        "X---x---X-x-x---", "Xx--x---X---x---", "X--x----X------x",
+        "X------xX--x----", "X--x---xX--xx---", "X---x--xX--x---x",
+        "X------xX--xx--x", "X--xx--xX--x----", "X--x----X--x----",
+        "X--x---xX---x--x"],
+    "Night Metro": [               # halftime dark sparse
         "X-----X---X-----", "X---------X-----", "X-----X-------X-",
         "X------X--X-----", "X-----X---X---X-", "X---------X--X--",
-        "X-----X-----X---", "X--------X-X----"],
-    "Rage Engine": [                          # relentless triplet-feel
+        "X-----X-----X---", "X--------X-X----", "X--X-----x--X--x",
+        "X--x-X-X-----x--", "X--x-----XX----x", "X--x-X---X---X--",
+        "X-----------X--x", "X--X-XX------x--", "X--X------X----x",
+        "X--X------------"],
+    "Rage Engine": [               # relentless triplet-feel
         "X-----X-----X---", "X-----X-----X--X", "X--X--X-----X---",
         "X-----X---X-X---", "X-----XX----X---", "X--X--X--X--X---",
-        "XX----X-----X---", "X-----X-----XX--"],
-    "New Math": [                             # Jersey claves + necklaces
+        "XX----X-----X---", "X-----X-----XX--", "X------X---XX--x",
+        "X--x-XX------X-x", "X--x-X----------", "X----XX----X----",
+        "X--x-XX----X---x", "X--x--X------X--", "X----X-X-------x",
+        "X------------X-x"],
+    "New Math": [                  # Jersey claves + necklaces
         "X--X--X-X-X-----", "X--X--X-X-------", "X--X---X--X-X---",
         "X-X--X--X-X-----", "X--X-X--X--X----", "X--X--X-X-X-X---",
-        "X---X-X--X--X---", "X--XX--X--X-----"],
+        "X---X-X--X--X---", "X--XX--X--X-----", "X-----------X---",
+        "X-----X-X---X---", "X--X------X-----", "X-------X----X--",
+        "X--X----X---X---", "X-----X---X-X---", "X-----X---------",
+        "X---------X-XX--"],
 }
 
 BOOM_BAP_KICKS = [                            # New Math's odd-variant lane
     "X------x--X-----", "X--x------X--x--", "X-----x---X--x--",
-    "X------xX---x---", "X--x--x---X-----", "X-----x-x-X-----"]
+    "X------xX---x---", "X--x--x---X-----", "X-----x-x-X-----",
+    "X-xx------X-----", "X----x----X--x-x", "X-----xx--X---x-",
+    "X-x-------X--x--"
+]
 
 
 def _bank_vary(bar, spec, rng):
@@ -599,14 +631,105 @@ def remember_pattern(name, fp):
 # ------------------------------------------------------------ the composer
 
 
-def compose(preset, name, variant, boom_bap=False):
+ODD_TSIGS = ((3, 4), (6, 8))
+
+
+def _compose_odd(preset, style, name, variant, tsig):
+    """Real 3/4 or 6/8 (owner ruling 2026-07-18: ~10% of beats). Both
+    run 12-step bars over three quarter-note beats; 3/4 is a 16th grid
+    with beats at 0/4/8, 6/8 is the compound feel with poles at 0/6.
+    The loop is 3/4 the length of a 4/4 bar — the filename says so."""
+    rng = random.Random("%s|%s|odd|%s" % (name, variant, tsig[0]))
+    compound = tsig == (6, 8)
+    poles = (0, 6) if compound else (0, 4, 8)
+    notes = ["in %d/%d" % tsig]
+    preset["tsig"] = list(tsig)
+
+    def kick_bar():
+        cells = {0}
+        for _ in range(rng.randint(1, 4)):
+            c = rng.randrange(12)
+            if c - 1 not in cells and c + 1 not in cells:
+                cells.add(c)
+        return "".join(("X" if i in poles else "x") if i in cells else "-"
+                       for i in range(12))
+
+    def backbeat_bar():
+        s = ["-"] * 12
+        if compound:
+            s[6] = "X"
+            if rng.random() < 0.3:
+                s[rng.choice((3, 9))] = "."
+        else:
+            for c in rng.sample((4, 8), rng.randint(1, 2)):
+                s[c] = "X"
+            if rng.random() < 0.3:
+                s[rng.choice((2, 6, 10, 11))] = "."
+        return "".join(s)
+
+    def keeper_bar():
+        pick = rng.choice(("eighths", "twelfths", "offbeats", "lilt"))
+        if pick == "eighths":
+            return "x-" * 6
+        if pick == "twelfths":
+            return "x" * 12
+        if pick == "offbeats":
+            return ("--x---" * 2 if compound else "--x-" * 3)
+        return "x--x-x" * 2 if compound else "x-xx-x" * 2
+
+    for lane in list(preset["lanes"]):
+        if lane.startswith("stamp"):
+            continue                     # stamps ride their own grids
+        pan, gain, feel, _ = preset["lanes"][lane]
+        if lane == "kick":
+            bars = assemble(lambda: kick_bar(), rng)
+        elif lane in ("snare", "clap"):
+            b = backbeat_bar()
+            bars = [b, b, b, _fill(b, rng)] * 2
+        else:
+            b = keeper_bar()
+            bars = [b] * 7 + [_fill(b, rng)]
+        preset["lanes"][lane] = (pan, gain, feel, bars)
+
+    flavors = style["kick_flavors"]
+    fi = rng.choices(range(len(flavors)),
+                     weights=[f[0] for f in flavors])[0]
+    _, must, wants, secs = flavors[fi]
+    role, _, _, _ = preset["kit"]["kick"]
+    preset["kit"]["kick"] = (role, must, list(wants), tuple(secs))
+    notes.append("kick: " + ("808 " if must else "clean/short ")
+                 + "+".join(wants[:2]))
+    remember_pattern(name, (preset["lanes"]["kick"][3][0], "odd", "", fi))
+    return notes
+
+
+def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
     """Rewrite the preset's lane patterns fresh from the DJ's grammar,
-    roll a kick flavor, and maybe seat 1-2 guest lanes. Deterministic per
+    roll a kick flavor, and maybe seat guest lanes. Deterministic per
     (name, variant, attempt); regenerates if the rhythm is too close to
     one this DJ made recently. Returns plain-words notes for the README.
-    Timing DNA (pan, gain, LaneFeel) is carried over untouched."""
+    Timing DNA (pan, gain, LaneFeel) is carried over untouched.
+    tsig=(3,4)/(6,8) takes the real odd-meter path; trick=True boosts
+    the exotic grids (quintuplets, 32nd walls, gallops) inside 4/4."""
     style = {k: preset.get(k) or DEFAULT_STYLE[name].get(k)
              for k in ("grammar", "kick_flavors", "extras", "library")}
+    if tsig and tuple(tsig) in ODD_TSIGS:
+        return _compose_odd(preset, style, name, variant, tuple(tsig))
+    if trick:
+        # exotic-grid beat: the timekeeper reaches for the odd stuff
+        g = {}
+        for lane, spec in style["grammar"].items():
+            if isinstance(spec, dict) and "modes" in spec \
+                    and "gcells" not in spec:
+                exotic = [[m, 3.0 if m in ("quint20", "rolls32", "gallop",
+                                           "answer") else w]
+                          for m, w in spec["modes"]]
+                if not any(m == "quint20" for m, _ in exotic):
+                    exotic.append(["quint20", 2.0])
+                g[lane] = dict(spec, modes=exotic)
+            else:
+                g[lane] = spec
+        style = dict(style, grammar=g)
     past = [tuple(f) for f in _load_pat_hist().get(name, [])]
 
     best, best_d = None, -1
@@ -651,6 +774,12 @@ def compose(preset, name, variant, boom_bap=False):
                 # map — then vary either way
                 bank = BOOM_BAP_KICKS if boom_bap \
                     else KICK_BANK.get(name, [])
+                # v6: banks cross-pollinate — 15% of bank picks borrow
+                # another DJ's vocabulary (variety over style fidelity)
+                if not boom_bap and rng.random() < 0.15:
+                    donor = rng.choice([d for d in KICK_BANK if d != name])
+                    bank = KICK_BANK[donor]
+                    notes.append("kick borrowed from %s's book" % donor)
                 if lib_seed and len(lib_seed.get("kick", "")) == 16:
                     barA = _bank_vary(_thin_kick(lib_seed["kick"], rng),
                                       spec, rng)

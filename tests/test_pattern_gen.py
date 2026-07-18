@@ -61,31 +61,40 @@ def test_repeat_guard_regenerates():
     assert a != b
 
 
-def test_style_constraints_hold():
+def test_style_is_a_lean_not_a_cage():
+    """v6 law (owner 2026-07-18): every mode is reachable for every DJ,
+    but the weights still LEAN home — over many variants the home mode
+    is the plurality, and the character quirk copy-lanes still mirror."""
+    from collections import Counter
+
+    def bb_mode(bar):
+        if bar[8] == "X" and bar[4] != "X":
+            return "halftime"
+        if bar[4] == "X" and any(bar[i] == "X" for i in (11, 12, 13)):
+            return "backbeat-ish"
+        return "other"
+
+    homes = {"Night Metro": ("clap", "halftime"),
+             "Cutz": ("snare", "backbeat-ish"),
+             "Rage Engine": ("snare", "halftime")}
+    for name, (lane, home) in homes.items():
+        seen = Counter()
+        for v in range(24):
+            p, _ = _composed(name, v)
+            seen[bb_mode(p["lanes"][lane][3][0])] += 1
+        assert seen[home] >= max(seen.values()) * 0.6, (name, seen)
+        assert len(seen) >= 2, (name, "modes never vary", seen)
+    # the Neptunes flam: Glass Cat's clap still mirrors his snare
     for v in range(8):
-        nm, _ = _composed("Night Metro", v)
-        for b, bar in enumerate(nm["lanes"]["clap"][3]):
-            # halftime identity: clap on 3; extra motion only in the
-            # phrase-tail fills of bars 4 and 8
-            ok = range(12, 16) if b in (3, 7) else ()
-            assert all(c == "-" for i, c in enumerate(bar)
-                       if i != 8 and i not in ok)
         gc, _ = _composed("Glass Cat", v)
         assert gc["lanes"]["clap"][3] \
             == [b.replace(".", "-") for b in gc["lanes"]["snare"][3]]
-        cutz, _ = _composed("Cutz", v)
-        for bar in cutz["lanes"]["snare"][3]:
-            # backbeat holds the 2; the 4 may displace one step (v3)
-            assert bar[4] == "X"
-            assert any(bar[i] == "X" for i in (11, 12, 13))
-        for bar in _composed("Rage Engine", v)[0]["lanes"]["snare"][3]:
-            assert bar[8] == "X"
-    # New Math's quintuplets and Rage's 32nd walls really occur
+    # New Math's quintuplets and Rage's 32nd walls still occur
     assert any(len(b) == 20
                for v in range(10)
                for b in _composed("New Math", v)[0]["lanes"]["hat"][3])
     assert any(len(b) == 32
-               for v in range(6)
+               for v in range(10)
                for b in _composed("Rage Engine", v)[0]["lanes"]["hat"][3])
 
 

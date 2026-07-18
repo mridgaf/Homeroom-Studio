@@ -49,7 +49,10 @@ SHOT_WORDS = [
 def build_shots():
     """Bucket every one-shot into drum roles by name tokens. A sample can
     land in several buckets (a 'rimshot' is both rim and perc) — that just
-    gives each beat more to choose from."""
+    gives each beat more to choose from. Since 2026-07-18 the sample-pack
+    library (folder-aware classification of the roots in
+    sample_packs.json) is merged on top — that's where most of the
+    sounds actually live; the old name-token scan missed them."""
     entries = scan(FOLDERS)
     shots = {k: [] for k, _ in SHOT_WORDS}
     for e in entries:
@@ -59,7 +62,8 @@ def build_shots():
         for role, words in SHOT_WORDS:
             if toks & words:
                 shots[role].append(e)
-    return shots
+    from sample_library import merge_into
+    return merge_into(shots)
 
 # ------------------------------------------------------------- kit picking
 

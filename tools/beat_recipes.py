@@ -48,15 +48,20 @@ def _vlq(n):
     return bytes(reversed(out))
 
 
-def write_midi(path, events, bpm, tpq=480):
+def write_midi(path, events, bpm, tpq=480, tsig=(4, 4)):
     """Format-1 SMF: a tempo track plus one track per lane, note events
     on channel 10. The humanized timing (swing, per-lane offsets, jitter)
     is baked into the tick positions so the groove survives the import;
     velocities are normalized per lane (accents survive, mix balance is
-    the Reason mixer's job)."""
+    the Reason mixer's job). tsig writes the time-signature meta so a
+    3/4 or 6/8 beat lands on the right grid in Reason."""
     spq = 60.0 / bpm
     tempo = int(round(60000000 / bpm))
-    t0 = b"\x00\xff\x51\x03" + tempo.to_bytes(3, "big") + b"\x00\xff\x2f\x00"
+    num, den = tsig
+    dd = {1: 0, 2: 1, 4: 2, 8: 3, 16: 4}.get(den, 2)
+    t0 = (b"\x00\xff\x51\x03" + tempo.to_bytes(3, "big")
+          + b"\x00\xff\x58\x04" + bytes([num, dd, 24, 8])
+          + b"\x00\xff\x2f\x00")
     chunks = [b"MTrk" + len(t0).to_bytes(4, "big") + t0]
     lanes = [(ln, evs) for ln, evs in events.items() if evs]
     for lane, evs in lanes:

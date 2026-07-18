@@ -652,6 +652,10 @@ def grid_accent(res, s):
         return 0.75 if s % 2 else 0.9
     if res == 20:
         return {0: 1.0, 2: 0.88}.get(s % 5, 0.75)
+    if res == 12:                # 3/4 or 6/8: strong-weak on the 12-grid
+        if s % 4 == 0:
+            return 1.0
+        return 0.85 if s % 2 == 0 else 0.72
     return 1.0
 
 
@@ -665,7 +669,10 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     stereo stems and the note events behind the MIDI file."""
     p = preset or CREW[name]
     bpm = p["bpm"]
-    bar_s = 240.0 / bpm
+    # v6 (2026-07-18): real time signatures. 3/4 and 6/8 bars both span
+    # three quarter-note beats; 4/4 stays the default four.
+    num, den = p.get("tsig", (4, 4))
+    bar_s = num * (4.0 / den) * 60.0 / bpm
     end = int(BARS * bar_s * SR)
     n = end + int(1.5 * SR)
     # vel_seed (2026-07-17): without it every beat shared one accent
@@ -728,7 +735,15 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                                       wet=OWNER_TASTE["gate_wet"],
                                       hold_ms=min(30000.0 / bpm, 350.0))
         elif space in ("room", "plate", "hall"):
-            decay, tone, wet = p["alt"][1]
+            # v6: every DJ can roll a wet space per beat — use the era
+            # Alt params when the preset carries them, house defaults
+            # otherwise
+            defaults = {"room": (0.45, 3500, 0.32),
+                        "plate": (0.9, 6500, 0.34),
+                        "hall": (1.8, 2800, 0.3)}
+            alt = p.get("alt")
+            decay, tone, wet = (alt[1] if alt and alt[0] == space
+                                and alt[1] else defaults[space])
             irL, _ = make_ir(decay, tone)
             bufs[lane] = bufs[lane] + fft_convolve(bufs[lane], irL) * wet
         # "dry": leave it alone
