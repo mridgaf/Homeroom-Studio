@@ -105,3 +105,17 @@ All tag/grammar experiments produced no measurable improvement over Run 2's base
 Metric ceiling appears reached: variety plateau at ≈14.08, noise floor 0.15, so
 no configuration in this neighborhood moves the needle. Next opportunity: changes
 to KICK_BANK or the scoring harness itself (out of scope for crew_config.json tuning).
+Run 20: discard mean=13.782 — New Math tags: breakbeat 2->3, +house
+Run 21: discard mean=13.736 — Night Metro tags +garage +breakbeat
+Run 22: discard mean=13.704 — Rage Engine tags +electro
+### Run 23: Otto Grit tags +soul — 13.726 (DISCARD)
+### Run 24: Crate Prophet tags +motown — 13.726 (DISCARD)
+### Run 25: Chrome Dial tags +electro — 13.713 (DISCARD)
+Run 23: discard mean=13.726 — Otto Grit tags +soul
+Run 24: discard mean=13.726 — Crate Prophet tags +motown
+Run 25: discard mean=13.713 — Chrome Dial tags +electro
+Run 26: discard mean=13.710 — Glass Cat minimal weight 2->3
+Run 27: discard mean=13.637 — Sunday Chop motown 2->3
+Run 28: discard mean=13.752 — Cutz funk 1->2
+Run 29: discard mean=13.694 — non-trio six DJs library.p +0.1
+Run 30: discard mean=13.734 — trap trio library.p +0.05
