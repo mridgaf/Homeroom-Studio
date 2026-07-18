@@ -27,3 +27,26 @@
 | 16 | 4bd1750 | 14.051 | −0.02 | discard | draft | Night Metro roll_n [1,2]→[1,3] |
 | 17 | 4bd1750 | 14.087 | +0.02 | discard | draft | Cutz library.p 0.3→0.15 |
 | 18 | 4bd1750 | 14.081 | +0.01 | discard | improve | trap trio library.p +0.05 |
+
+## Segment 1 (174-seed library, 3-seed means, noise floor 0.20)
+**Runs 19-35:** baseline 13.713 | 16 experiments, ALL discarded (band 13.60-13.79)
+
+| # | mean | status | description |
+|---|------|--------|-------------|
+| 19 | 13.713 | keep | segment-1 baseline (candidate in 174-seed library) |
+| 20 | 13.782 | discard | New Math breakbeat 2→3 +house (old near-miss, gone) |
+| 21 | 13.736 | discard | Night Metro +garage +breakbeat |
+| 22 | 13.704 | discard | Rage Engine +electro |
+| 23 | 13.726 | discard | Otto Grit +soul |
+| 24 | 13.726 | discard | Crate Prophet +motown |
+| 25 | 13.713 | discard | Chrome Dial +electro (tied baseline) |
+| 26 | 13.710 | discard | Glass Cat minimal 2→3 |
+| 27 | 13.637 | discard | Sunday Chop motown 2→3 |
+| 28 | 13.752 | discard | Cutz funk 1→2 |
+| 29 | 13.694 | discard | non-trio six library.p +0.1 |
+| 30 | 13.734 | discard | trap trio library.p +0.05 |
+| 31 | 13.789 | discard | New Math jungle/dnb 1→2 |
+| 32 | 13.758 | discard | Night Metro cloud-rap 2→3 |
+| 33 | 13.598 | discard | Rage Engine drill 2→3 |
+| 34 | 13.756 | discard | Otto Grit lofi 3→4 |
+| 35 | 13.734 | discard | Crate Prophet soul 2→3 |

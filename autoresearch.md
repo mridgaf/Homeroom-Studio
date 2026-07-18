@@ -96,3 +96,18 @@ for distinctness). The scoring environment changed: current candidate
 scores 14.183 in the new library. Before ANY further experiments,
 append a fresh config header (new segment) and re-measure the noise
 floor — old deltas don't compare across libraries.
+
+## What's Been Tried — meta-review after 35 runs (2026-07-17)
+CONCLUSION: config-number tuning is CONVERGED. Two segments, 33
+experiments, one durable win (trap-trio library.p, owner-approved and
+live). Classes of change and their fate:
+- library.p: wins ONLY for DJs with sparse grammars + big genre pools
+  (the trap trio). Hurts or does nothing elsewhere. Fine steps = noise.
+- genre tag weights: dead in both library environments (16 tries).
+- grammar knobs (double_p, hits, w-map, mode weights, ghosts, open_p,
+  roll_n): all flat — the composer's structure, banks, and guards
+  dominate; config nudges wash out.
+Next frontier is ENGINE CONTENT, not config numbers: more kick-bank
+skeletons per DJ (owner asked for "a larger library of patterns"
+2026-07-17), more reference grooves, new timekeeper modes. Those change
+what the composer can SAY, not how often it says each thing.
