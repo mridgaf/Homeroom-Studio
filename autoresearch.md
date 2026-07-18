@@ -87,3 +87,12 @@ reconstructed from the dashboard/worklog/commit messages). Rule from now
 on: revert ONLY the experiment file —
 `git checkout -- experiments/crew_config.candidate.json` — never `-- .`,
 and commit the jsonl/worklog/dashboard trio at least every few runs.
+
+## Environment change (2026-07-17, after run 18)
+Pattern library expanded 125 -> 174 usable seeds (49 new grooves across
+jungle/dnb/electro/minimal/cloud-rap/soul/motown/breakbeat/garage/
+drill/lofi/funk/rnb/boom-bap/trap; drafted by a sub-agent, quality-gated
+for distinctness). The scoring environment changed: current candidate
+scores 14.183 in the new library. Before ANY further experiments,
+append a fresh config header (new segment) and re-measure the noise
+floor — old deltas don't compare across libraries.
