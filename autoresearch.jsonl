@@ -33,3 +33,8 @@
 {"run":28,"commit":"dc98acb","metric":13.752,"metrics":{"worst_dj":13.752,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"Cutz funk 1->2","timestamp":1784345769,"segment":1}
 {"run":29,"commit":"dc98acb","metric":13.694,"metrics":{"worst_dj":13.694,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"non-trio six DJs library.p +0.1","timestamp":1784345777,"segment":1}
 {"run":30,"commit":"dc98acb","metric":13.734,"metrics":{"worst_dj":13.734,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"trap trio library.p +0.05","timestamp":1784345784,"segment":1}
+{"run":31,"commit":"d4c5901","metric":13.789,"metrics":{"worst_dj":13.789,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"New Math jungle 1->2, dnb 1->2","timestamp":1784345792,"segment":1}
+{"run":32,"commit":"d4c5901","metric":13.758,"metrics":{"worst_dj":13.758,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"Night Metro cloud-rap 2->3","timestamp":1784345799,"segment":1}
+{"run":33,"commit":"d4c5901","metric":13.598,"metrics":{"worst_dj":13.598,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"Rage Engine drill 2->3","timestamp":1784345806,"segment":1}
+{"run":34,"commit":"d4c5901","metric":13.756,"metrics":{"worst_dj":13.756,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"Otto Grit lofi 3->4","timestamp":1784345812,"segment":1}
+{"run":35,"commit":"d4c5901","metric":13.714,"metrics":{"worst_dj":13.714,"seed_rate":0.000,"n_seeds":3},"status":"discard","description":"Crate Prophet soul 2->3","timestamp":1784345820,"segment":1}
