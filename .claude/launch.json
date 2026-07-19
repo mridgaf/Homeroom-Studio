@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "reason-voice-web",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd \"/Users/johnsuhr/Desktop/Homeroom Studio\" && REASON_VOICE_NO_BROWSER=1 exec ./.venv/bin/python -m reason_voice.server"
+      ],
+      "port": 8765
+    }
+  ]
+}

@@ -26,7 +26,7 @@ and their own grammars are richer. The tuning is trap-trio-only.
 Render a scratch batch from the proposed roster (nothing touches your
 library or the live config):
 
-    cd "$HOME/Music/Reason 12/reason-voice 3"
+    cd "$HOME/Desktop/Homeroom Studio"
     REASON_VOICE_CONFIG="$PWD/crew_config.proposed.json" \
       ./.venv/bin/python tools/beat_machine.py \
       --render "Night Metro" --count 3 --out "$HOME/Desktop/Audition Batch"

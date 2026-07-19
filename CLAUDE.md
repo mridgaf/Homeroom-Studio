@@ -12,7 +12,9 @@ and get walked through recipes step-by-step. All speech is processed locally
   files. He runs commands in Terminal, sometimes pastes into the wrong window.
 - Machine: older MacBook Pro, **system Python 3.9** (Command Line Tools).
   NO `X | Y` union syntax without `from __future__ import annotations`. Target 3.9.
-- Project lives at: `~/Music/Reason 12/reason-voice 3` (space in path — always quote).
+- Project lives at: `~/Desktop/Homeroom Studio` (space in path — always quote).
+  Moved here 2026-07-19 from `~/Music/Reason 12/reason-voice 3` so everything
+  is in one folder on the Desktop. Beats + samples stay on `/Volumes/TBOTC 3`.
 - Shell is bash (not zsh). macOS `sed` needs `-i ''`.
 - His sound library is almost entirely **inside ReFills + Factory Sound Bank =
   sealed archives, cannot be indexed**. He owns ~2 loose patch files. The patch

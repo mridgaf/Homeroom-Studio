@@ -1,0 +1,6 @@
+#!/bin/bash
+# Homeroom Studio — Dock launcher.
+# Walks up out of the .app bundle to the project folder that contains it,
+# so moving the whole folder keeps this working.
+cd "$(dirname "$0")/../../.." || exit 1
+exec ./.venv/bin/python tools/beat_machine.py
