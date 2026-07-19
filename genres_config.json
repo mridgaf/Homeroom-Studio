@@ -1,0 +1,5876 @@
+{
+ "_readme": [
+  "The Styles roster \u2014 seventeen subgenres. Edit a number and the next render uses it; delete the file to regenerate the built-ins. Same schema as crew_config.json, plus two keys.",
+  "canon: lane -> [figure, ...] \u2014 the rhythm that DEFINES the style. These are placed verbatim and protected from the variety pass; everything else still rolls free.",
+  "density: sparse | home | busy \u2014 this style's own density, honoured instead of the house sparse-bed lean (owner decision 2026-07-19: genre fidelity wins in this box).",
+  "Their other rules (pinned swing, home-weighted grammar, no cross-pollination, no evolution, 4/4) live in the engine."
+ ],
+ "_genres_version": 1,
+ "Memphis": {
+  "num": 22,
+  "bpm": 140,
+  "era": "genre",
+  "built": "Three 6 Mafia / DJ Paul",
+  "genre": true,
+  "genre_swing": 52,
+  "density": "home",
+  "listen": "mid-90s Memphis: half-time feel at 140, dark and minor, lo-fi to the point of distortion, cowbell riding through, fast triplet hats, a deep 808 and a snare that lands on 3 like a door slamming",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "808",
+     "deep",
+     "sub"
+    ],
+    [
+     0.4,
+     0.9
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "lofi",
+     "dusty",
+     "tight"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.3
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "cowbell",
+     "block"
+    ],
+    0.5
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "scream",
+     "dark"
+    ],
+    0.9
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     52,
+     2201
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.86,
+    [
+     0,
+     1,
+     52,
+     2202
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.14,
+    0.34,
+    [
+     0,
+     1,
+     52,
+     2203
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    0.18,
+    0.32,
+    [
+     0,
+     2,
+     52,
+     2204
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.4,
+    [
+     0,
+     1,
+     52,
+     2205
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.5,
+  "vinyl": -46,
+  "wow": 0.0,
+  "sidechain": 0.2,
+  "space": [
+   "dry",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.6,
+  "kick_dist": 0.12,
+  "mix_sat": 0.15,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     4,
+     1,
+     1,
+     5,
+     2,
+     6,
+     1,
+     4,
+     3,
+     2,
+     2,
+     3,
+     1
+    ],
+    "hits": [
+     3,
+     5
+    ],
+    "double_p": 0.3
+   },
+   "snare": {
+    "modes": [
+     [
+      "halftime",
+      0.7
+     ],
+     [
+      "backbeat",
+      0.2
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "triplets",
+      0.4
+     ],
+     [
+      "trip_rolls",
+      0.25
+     ],
+     [
+      "sixteenths",
+      0.2
+     ],
+     [
+      "eighths",
+      0.15
+     ]
+    ],
+    "open_p": 0.05,
+    "roll_n": [
+     1,
+     2
+    ]
+   },
+   "perc": {
+    "modes": [
+     [
+      "offbeats",
+      0.45
+     ],
+     [
+      "sparse",
+      0.3
+     ],
+     [
+      "eighths",
+      0.25
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.55,
+    "808",
+    [
+     "deep",
+     "sub",
+     "long"
+    ],
+    [
+     0.6,
+     1.1
+    ]
+   ],
+   [
+    0.45,
+    null,
+    [
+     "knock",
+     "punch",
+     "deep"
+    ],
+    [
+     0.25,
+     0.5
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.2,
+   "tags": [
+    [
+     "trap",
+     3
+    ],
+    [
+     "lofi",
+     3
+    ],
+    [
+     "boom-bap",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.55,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "cowbell"
+     ],
+     "cowbell"
+    ],
+    [
+     "fx",
+     [
+      "dark",
+      "riser",
+      "reverse"
+     ],
+     "cutfx"
+    ],
+    [
+     "crash",
+     [
+      "crash",
+      "china"
+     ],
+     "crash2"
+    ]
+   ]
+  }
+ },
+ "Crunk": {
+  "num": 23,
+  "bpm": 140,
+  "era": "genre",
+  "built": "Lil Jon (through the hard, festival end \u2014 Turn Down for What)",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "sparse",
+  "listen": "half-time stomp at 140 with the room deliberately EMPTY for a chant: a huge distorted 808, claps that hit like a crowd, almost no hats, and a hard synth-stab energy \u2014 space is the instrument, and everything in it is loud",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "808",
+     "distort",
+     "hard"
+    ],
+    [
+     0.5,
+     1.0
+    ]
+   ],
+   "clap": [
+    "clap",
+    null,
+    [
+     "big",
+     "crowd",
+     "hard"
+    ],
+    1.0
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "crack",
+     "hard"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.25
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "yeah",
+     "airhorn",
+     "shout"
+    ],
+    1.0
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2211
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "clap": [
+    0.0,
+    0.92,
+    [
+     0,
+     1,
+     50,
+     2212
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.7,
+    [
+     0,
+     1,
+     50,
+     2213
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    0.12,
+    0.28,
+    [
+     0,
+     1,
+     50,
+     2214
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.28,
+    0.46,
+    [
+     0,
+     1,
+     50,
+     2215
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.0,
+  "sidechain": 0.3,
+  "space": [
+   "gated",
+   [
+    "clap"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.8,
+  "kick_dist": 0.3,
+  "mix_sat": 0.25,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     1,
+     3,
+     1,
+     1,
+     4,
+     1,
+     7,
+     1,
+     3,
+     2,
+     2,
+     1,
+     3,
+     1
+    ],
+    "hits": [
+     2,
+     4
+    ],
+    "double_p": 0.35
+   },
+   "clap": {
+    "modes": [
+     [
+      "stomp",
+      0.65
+     ],
+     [
+      "backbeat",
+      0.25
+     ],
+     [
+      "halftime",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     0
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "snare": {
+    "copy": "clap"
+   },
+   "hat": {
+    "modes": [
+     [
+      "sparse",
+      0.45
+     ],
+     [
+      "eighths",
+      0.3
+     ],
+     [
+      "offbeats",
+      0.15
+     ],
+     [
+      "trip_rolls",
+      0.1
+     ]
+    ],
+    "open_p": 0.04,
+    "roll_n": [
+     1,
+     1
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.7,
+    "808",
+    [
+     "distort",
+     "hard",
+     "long"
+    ],
+    [
+     0.6,
+     1.2
+    ]
+   ],
+   [
+    0.3,
+    null,
+    [
+     "punch",
+     "hard",
+     "knock"
+    ],
+    [
+     0.3,
+     0.6
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.15,
+   "tags": [
+    [
+     "trap",
+     3
+    ],
+    [
+     "electro",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.45,
+   "nmax": 1,
+   "pool": [
+    [
+     "fx",
+     [
+      "airhorn",
+      "shout",
+      "riser"
+     ],
+     "cutfx"
+    ],
+    [
+     "crash",
+     [
+      "crash"
+     ],
+     "crash2"
+    ]
+   ]
+  }
+ },
+ "Organized Noize": {
+  "num": 24,
+  "bpm": 95,
+  "era": "genre",
+  "built": "Organized Noize / Dungeon Family (Outkast, Goodie Mob)",
+  "genre": true,
+  "genre_swing": 56,
+  "density": "home",
+  "listen": "Atlanta soul-funk played like a band, not a machine: a warm rounded kick, a fat snare with real ghost notes, congas and tambourine moving underneath, loose 56% swing, live-room warmth instead of dust",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "warm",
+     "round",
+     "boom"
+    ],
+    [
+     0.25,
+     0.6
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "fat",
+     "warm",
+     "rimshot"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.45
+   ],
+   "bongo": [
+    "bongo",
+    null,
+    [
+     "conga",
+     "bongo"
+    ],
+    0.7
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "tamb",
+     "shaker"
+    ],
+    0.7
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "horn",
+     "guitar"
+    ],
+    0.8
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     56,
+     2221
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.88,
+    [
+     0,
+     2,
+     56,
+     2222
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.16,
+    0.36,
+    [
+     0,
+     2,
+     56,
+     2223
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "bongo": [
+    0.22,
+    0.3,
+    [
+     0,
+     3,
+     56,
+     2224
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    0.16,
+    0.28,
+    [
+     0,
+     3,
+     56,
+     2225
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.26,
+    0.36,
+    [
+     0,
+     2,
+     56,
+     2226
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.15,
+  "vinyl": -52,
+  "wow": 0.05,
+  "sidechain": 0.15,
+  "space": [
+   "room",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.35,
+  "kick_dist": 0.0,
+  "mix_sat": 0.1,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     3,
+     5,
+     2,
+     2,
+     5,
+     3,
+     4,
+     2,
+     5,
+     3,
+     2,
+     3,
+     4,
+     2
+    ],
+    "hits": [
+     4,
+     7
+    ],
+    "double_p": 0.35
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.75
+     ],
+     [
+      "displaced",
+      0.15
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     1,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.35
+     ],
+     [
+      "sixteenths",
+      0.25
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "broken",
+      0.2
+     ]
+    ],
+    "open_p": 0.1
+   },
+   "bongo": {
+    "modes": [
+     [
+      "offbeats",
+      0.4
+     ],
+     [
+      "broken",
+      0.3
+     ],
+     [
+      "sparse",
+      0.3
+     ]
+    ]
+   },
+   "perc": {
+    "modes": [
+     [
+      "offbeats",
+      0.45
+     ],
+     [
+      "eighths",
+      0.3
+     ],
+     [
+      "sparse",
+      0.25
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.15,
+    "808",
+    [
+     "deep",
+     "warm"
+    ],
+    [
+     0.4,
+     0.8
+    ]
+   ],
+   [
+    0.85,
+    null,
+    [
+     "warm",
+     "round",
+     "boom",
+     "punch"
+    ],
+    [
+     0.2,
+     0.55
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.4,
+   "tags": [
+    [
+     "funk",
+     3
+    ],
+    [
+     "soul",
+     3
+    ],
+    [
+     "motown",
+     2
+    ],
+    [
+     "rnb",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.7,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "tamb"
+     ],
+     "tamb"
+    ],
+    [
+     "bongo",
+     [
+      "conga"
+     ],
+     "congas2"
+    ],
+    [
+     "rim",
+     [
+      "rim",
+      "stick"
+     ],
+     "rims"
+    ],
+    [
+     "perc",
+     [
+      "shaker"
+     ],
+     "shaker"
+    ]
+   ]
+  }
+ },
+ "Houston Screw": {
+  "num": 25,
+  "bpm": 66,
+  "era": "genre",
+  "built": "DJ Screw / chopped and screwed",
+  "genre": true,
+  "genre_swing": 54,
+  "density": "sparse",
+  "listen": "everything dragged down to 66 and left to sag: a huge slow sustained 808, hats so sparse you count the gaps, a thick lazy snare well behind the beat, and air everywhere \u2014 the tempo IS the style",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "808",
+     "sub",
+     "deep",
+     "long"
+    ],
+    [
+     0.9,
+     1.6
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "fat",
+     "warm",
+     "dusty"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed"
+    ],
+    0.5
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "reverse",
+     "tape"
+    ],
+    1.2
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     54,
+     2231
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.84,
+    [
+     22,
+     3,
+     54,
+     2232
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.12,
+    0.3,
+    [
+     8,
+     3,
+     54,
+     2233
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.38,
+    [
+     0,
+     2,
+     54,
+     2234
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.3,
+  "vinyl": -48,
+  "wow": 0.35,
+  "sidechain": 0.2,
+  "space": [
+   "washed",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.3,
+  "kick_dist": 0.05,
+  "mix_sat": 0.12,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     1,
+     3,
+     1,
+     1,
+     4,
+     1,
+     6,
+     1,
+     3,
+     2,
+     1,
+     1,
+     3,
+     1
+    ],
+    "hits": [
+     2,
+     4
+    ],
+    "double_p": 0.2
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.5
+     ],
+     [
+      "halftime",
+      0.4
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "sparse",
+      0.4
+     ],
+     [
+      "eighths",
+      0.3
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "sixteenths",
+      0.1
+     ]
+    ],
+    "open_p": 0.08
+   }
+  },
+  "kick_flavors": [
+   [
+    0.75,
+    "808",
+    [
+     "sub",
+     "deep",
+     "long"
+    ],
+    [
+     1.0,
+     1.7
+    ]
+   ],
+   [
+    0.25,
+    null,
+    [
+     "boom",
+     "warm"
+    ],
+    [
+     0.4,
+     0.8
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.2,
+   "tags": [
+    [
+     "lofi",
+     3
+    ],
+    [
+     "cloud-rap",
+     2
+    ],
+    [
+     "boom-bap",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.4,
+   "nmax": 1,
+   "pool": [
+    [
+     "fx",
+     [
+      "reverse",
+      "tape",
+      "riser"
+     ],
+     "cutfx"
+    ],
+    [
+     "rim",
+     [
+      "rim"
+     ],
+     "rims"
+    ]
+   ]
+  }
+ },
+ "Emo Hip Hop": {
+  "num": 26,
+  "bpm": 150,
+  "era": "genre",
+  "built": "Lil Peep / XXXTentacion",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "home",
+  "listen": "half-time at 150 with everything soaked in reverb: a clipped distorted 808, a big washed-out snare that hits like a live drummer, simple straight hats, and enough room in the middle for a guitar to sit",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "808",
+     "distort",
+     "deep"
+    ],
+    [
+     0.45,
+     0.95
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "big",
+     "roomy",
+     "acoustic"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.3
+   ],
+   "crash": [
+    "crash",
+    null,
+    [
+     "crash",
+     "splash"
+    ],
+    2.2
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "tape",
+     "noise"
+    ],
+    1.0
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2241
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.9,
+    [
+     0,
+     2,
+     50,
+     2242
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.12,
+    0.32,
+    [
+     0,
+     1,
+     50,
+     2243
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "crash": [
+    0.2,
+    0.3,
+    [
+     0,
+     2,
+     50,
+     2244
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "X---------------",
+     "----------------",
+     "----------------",
+     "----------------",
+     "X---------------"
+    ]
+   ],
+   "stamp": [
+    -0.28,
+    0.36,
+    [
+     0,
+     1,
+     50,
+     2245
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.1,
+  "vinyl": -54,
+  "wow": 0.0,
+  "sidechain": 0.25,
+  "space": [
+   "washed",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.6,
+  "kick_dist": 0.28,
+  "mix_sat": 0.22,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     4,
+     1,
+     1,
+     5,
+     2,
+     6,
+     1,
+     4,
+     3,
+     2,
+     2,
+     3,
+     1
+    ],
+    "hits": [
+     3,
+     5
+    ],
+    "double_p": 0.3
+   },
+   "snare": {
+    "modes": [
+     [
+      "halftime",
+      0.6
+     ],
+     [
+      "backbeat",
+      0.3
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.4
+     ],
+     [
+      "sixteenths",
+      0.25
+     ],
+     [
+      "sparse",
+      0.2
+     ],
+     [
+      "trip_rolls",
+      0.15
+     ]
+    ],
+    "open_p": 0.06,
+    "roll_n": [
+     1,
+     2
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.65,
+    "808",
+    [
+     "distort",
+     "deep",
+     "long"
+    ],
+    [
+     0.6,
+     1.1
+    ]
+   ],
+   [
+    0.35,
+    null,
+    [
+     "punch",
+     "acoustic",
+     "knock"
+    ],
+    [
+     0.25,
+     0.55
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.25,
+   "tags": [
+    [
+     "trap",
+     2
+    ],
+    [
+     "rock",
+     2
+    ],
+    [
+     "punk",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.5,
+   "nmax": 1,
+   "pool": [
+    [
+     "crash",
+     [
+      "crash",
+      "splash"
+     ],
+     "crash2"
+    ],
+    [
+     "fx",
+     [
+      "noise",
+      "tape",
+      "reverse"
+     ],
+     "cutfx"
+    ]
+   ]
+  }
+ },
+ "Acid Rap Detroit": {
+  "num": 27,
+  "bpm": 92,
+  "era": "genre",
+  "built": "Esham \u2014 the 1989 Detroit acid rap that fathered horrorcore",
+  "genre": true,
+  "genre_swing": 54,
+  "density": "sparse",
+  "listen": "raw and wrong on purpose: rock samples chopped over a dusty mid-tempo kit, a snare that cracks too loud, tape hiss and vinyl noise left in, sparse eerie colors, nothing polished anywhere",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "boom",
+     "dusty",
+     "punch"
+    ],
+    [
+     0.3,
+     0.6
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "crack",
+     "dusty",
+     "lofi"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "dusty"
+    ],
+    0.35
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "scream",
+     "dark",
+     "noise"
+    ],
+    1.0
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     54,
+     2251
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.9,
+    [
+     0,
+     2,
+     54,
+     2252
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    0.14,
+    0.34,
+    [
+     0,
+     2,
+     54,
+     2253
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.42,
+    [
+     0,
+     2,
+     54,
+     2254
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.85,
+  "vinyl": -40,
+  "wow": 0.15,
+  "sidechain": 0.1,
+  "space": [
+   "room",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.5,
+  "kick_dist": 0.15,
+  "mix_sat": 0.2,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     3,
+     5,
+     2,
+     2,
+     5,
+     3,
+     5,
+     2,
+     4,
+     3,
+     2,
+     3,
+     3,
+     2
+    ],
+    "hits": [
+     3,
+     6
+    ],
+    "double_p": 0.3
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.7
+     ],
+     [
+      "displaced",
+      0.2
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.4
+     ],
+     [
+      "sparse",
+      0.3
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "broken",
+      0.1
+     ]
+    ],
+    "open_p": 0.1
+   }
+  },
+  "kick_flavors": [
+   [
+    0.15,
+    "808",
+    [
+     "deep",
+     "dark"
+    ],
+    [
+     0.4,
+     0.8
+    ]
+   ],
+   [
+    0.85,
+    null,
+    [
+     "boom",
+     "dusty",
+     "punch"
+    ],
+    [
+     0.25,
+     0.6
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.3,
+   "tags": [
+    [
+     "lofi",
+     3
+    ],
+    [
+     "rock",
+     2
+    ],
+    [
+     "boom-bap",
+     2
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.5,
+   "nmax": 1,
+   "pool": [
+    [
+     "fx",
+     [
+      "dark",
+      "noise",
+      "reverse"
+     ],
+     "cutfx"
+    ],
+    [
+     "perc",
+     [
+      "block",
+      "tamb"
+     ],
+     "woods"
+    ]
+   ]
+  }
+ },
+ "Acid Rap Bright": {
+  "num": 28,
+  "bpm": 88,
+  "era": "genre",
+  "built": "the 2013 Acid Rap lineage \u2014 bright, jazzy, gospel-leaning",
+  "genre": true,
+  "genre_swing": 58,
+  "density": "home",
+  "listen": "major-key and grinning: a light kick, a snappy clap-and-snare stack, hand percussion everywhere, 58% swing that skips rather than drags, live-room air and not one grain of dust",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "warm",
+     "round",
+     "tight"
+    ],
+    [
+     0.2,
+     0.45
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "snappy",
+     "tight",
+     "rimshot"
+    ],
+    1.0
+   ],
+   "clap": [
+    "clap",
+    null,
+    [
+     "clap",
+     "bright"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.4
+   ],
+   "bongo": [
+    "bongo",
+    null,
+    [
+     "conga",
+     "bongo"
+    ],
+    0.6
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "horn",
+     "organ"
+    ],
+    0.7
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     58,
+     2261
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.82,
+    [
+     0,
+     2,
+     58,
+     2262
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "clap": [
+    0.1,
+    0.6,
+    [
+     10,
+     2,
+     58,
+     2263
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.15,
+    0.36,
+    [
+     0,
+     2,
+     58,
+     2264
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "bongo": [
+    0.24,
+    0.32,
+    [
+     0,
+     3,
+     58,
+     2265
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.24,
+    0.34,
+    [
+     0,
+     2,
+     58,
+     2266
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.0,
+  "sidechain": 0.12,
+  "space": [
+   "room",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.3,
+  "kick_dist": 0.0,
+  "mix_sat": 0.05,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     3,
+     5,
+     2,
+     2,
+     5,
+     3,
+     4,
+     2,
+     5,
+     3,
+     2,
+     3,
+     4,
+     2
+    ],
+    "hits": [
+     3,
+     6
+    ],
+    "double_p": 0.35
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.8
+     ],
+     [
+      "displaced",
+      0.1
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     1,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "clap": {
+    "copy": "snare"
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.35
+     ],
+     [
+      "sixteenths",
+      0.25
+     ],
+     [
+      "offbeats",
+      0.25
+     ],
+     [
+      "broken",
+      0.15
+     ]
+    ],
+    "open_p": 0.12
+   },
+   "bongo": {
+    "modes": [
+     [
+      "offbeats",
+      0.4
+     ],
+     [
+      "broken",
+      0.35
+     ],
+     [
+      "eighths",
+      0.25
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.1,
+    "808",
+    [
+     "warm"
+    ],
+    [
+     0.35,
+     0.7
+    ]
+   ],
+   [
+    0.9,
+    null,
+    [
+     "warm",
+     "round",
+     "tight",
+     "punch"
+    ],
+    [
+     0.18,
+     0.45
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.4,
+   "tags": [
+    [
+     "soul",
+     3
+    ],
+    [
+     "funk",
+     2
+    ],
+    [
+     "neo-soul",
+     2
+    ],
+    [
+     "rnb",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.75,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "tamb"
+     ],
+     "tamb"
+    ],
+    [
+     "bongo",
+     [
+      "conga"
+     ],
+     "congas2"
+    ],
+    [
+     "perc",
+     [
+      "shaker"
+     ],
+     "shaker"
+    ],
+    [
+     "perc",
+     [
+      "block",
+      "clave"
+     ],
+     "woods"
+    ]
+   ]
+  }
+ },
+ "Horror Rap": {
+  "num": 29,
+  "bpm": 90,
+  "era": "genre",
+  "built": "Gravediggaz / Brotha Lynch / the horrorcore lane",
+  "genre": true,
+  "genre_swing": 53,
+  "density": "sparse",
+  "listen": "mid-90s boom bap turned to face the wall: a heavy dusty kick, a hard snare drowning in a long dark reverb, detuned bell and chime colors, tape hiss, and space left deliberately empty so it feels like something's in it",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "boom",
+     "deep",
+     "dusty"
+    ],
+    [
+     0.3,
+     0.65
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "crack",
+     "hard",
+     "dusty"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "dusty"
+    ],
+    0.35
+   ],
+   "bell": [
+    "perc",
+    null,
+    [
+     "bell",
+     "chime"
+    ],
+    1.2
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "dark",
+     "scream",
+     "reverse",
+     "vocal"
+    ],
+    1.2
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     53,
+     2271
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.88,
+    [
+     0,
+     2,
+     53,
+     2272
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.16,
+    0.32,
+    [
+     0,
+     2,
+     53,
+     2273
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "bell": [
+    0.28,
+    0.26,
+    [
+     0,
+     3,
+     53,
+     2274
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ],
+   "stamp": [
+    -0.32,
+    0.4,
+    [
+     0,
+     2,
+     53,
+     2275
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.7,
+  "vinyl": -42,
+  "wow": 0.12,
+  "sidechain": 0.12,
+  "space": [
+   "washed",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.45,
+  "kick_dist": 0.1,
+  "mix_sat": 0.18,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     5,
+     2,
+     1,
+     5,
+     2,
+     5,
+     1,
+     4,
+     3,
+     2,
+     2,
+     3,
+     1
+    ],
+    "hits": [
+     3,
+     5
+    ],
+    "double_p": 0.25
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.75
+     ],
+     [
+      "halftime",
+      0.15
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.35
+     ],
+     [
+      "sparse",
+      0.35
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "broken",
+      0.1
+     ]
+    ],
+    "open_p": 0.08
+   },
+   "bell": {
+    "modes": [
+     [
+      "answer",
+      0.5
+     ],
+     [
+      "sparse",
+      0.35
+     ],
+     [
+      "offbeats",
+      0.15
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.25,
+    "808",
+    [
+     "deep",
+     "dark",
+     "sub"
+    ],
+    [
+     0.5,
+     0.95
+    ]
+   ],
+   [
+    0.75,
+    null,
+    [
+     "boom",
+     "deep",
+     "dusty"
+    ],
+    [
+     0.3,
+     0.65
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.3,
+   "tags": [
+    [
+     "boom-bap",
+     3
+    ],
+    [
+     "lofi",
+     2
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.6,
+   "nmax": 2,
+   "pool": [
+    [
+     "fx",
+     [
+      "dark",
+      "reverse",
+      "riser"
+     ],
+     "cutfx"
+    ],
+    [
+     "perc",
+     [
+      "bell",
+      "chime"
+     ],
+     "bells"
+    ],
+    [
+     "crash",
+     [
+      "china",
+      "crash"
+     ],
+     "crash2"
+    ]
+   ]
+  }
+ },
+ "Wonky": {
+  "num": 30,
+  "bpm": 86,
+  "era": "genre",
+  "built": "the LA beat scene \u2014 Flying Lotus, Hudson Mohawke, Rustie (NOT the Dilla lane Otto Grit and J Dillo already hold)",
+  "genre": true,
+  "genre_swing": 62,
+  "density": "sparse",
+  "listen": "deliberately off the grid: every lane jittered by milliseconds so nothing lines up, 62% swing pulling it sideways, a sub-heavy kick, a snare that arrives late and smeared, and colors that sound slightly out of tune",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "sub",
+     "deep",
+     "808"
+    ],
+    [
+     0.35,
+     0.8
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "fat",
+     "dusty",
+     "smear"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "loose"
+    ],
+    0.4
+   ],
+   "blips": [
+    "fx",
+    null,
+    [
+     "glitch",
+     "zap",
+     "bend"
+    ],
+    0.7
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "bend",
+     "glitch"
+    ],
+    0.9
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     6,
+     7,
+     62,
+     2281
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.86,
+    [
+     14,
+     9,
+     62,
+     2282
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.15,
+    0.34,
+    [
+     -5,
+     8,
+     62,
+     2283
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "blips": [
+    0.3,
+    0.26,
+    [
+     0,
+     9,
+     62,
+     2284
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.36,
+    [
+     0,
+     7,
+     62,
+     2285
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.25,
+  "vinyl": -50,
+  "wow": 0.3,
+  "sidechain": 0.25,
+  "space": [
+   "room",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.5,
+  "kick_dist": 0.12,
+  "mix_sat": 0.25,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     2,
+     4,
+     5,
+     2,
+     3,
+     5,
+     4,
+     4,
+     3,
+     5,
+     4,
+     3,
+     3,
+     4,
+     3
+    ],
+    "hits": [
+     3,
+     6
+    ],
+    "double_p": 0.45
+   },
+   "snare": {
+    "modes": [
+     [
+      "displaced",
+      0.45
+     ],
+     [
+      "backbeat",
+      0.25
+     ],
+     [
+      "sparse",
+      0.2
+     ],
+     [
+      "halftime",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     1,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "broken",
+      0.35
+     ],
+     [
+      "sparse",
+      0.25
+     ],
+     [
+      "triplets",
+      0.2
+     ],
+     [
+      "offbeats",
+      0.2
+     ]
+    ],
+    "open_p": 0.14
+   },
+   "blips": {
+    "modes": [
+     [
+      "answer",
+      0.45
+     ],
+     [
+      "sparse",
+      0.35
+     ],
+     [
+      "broken",
+      0.2
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.45,
+    "808",
+    [
+     "sub",
+     "deep",
+     "bend"
+    ],
+    [
+     0.5,
+     1.0
+    ]
+   ],
+   [
+    0.55,
+    null,
+    [
+     "boom",
+     "round",
+     "deep"
+    ],
+    [
+     0.3,
+     0.7
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.35,
+   "tags": [
+    [
+     "lofi",
+     3
+    ],
+    [
+     "neo-soul",
+     2
+    ],
+    [
+     "garage",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.7,
+   "nmax": 2,
+   "pool": [
+    [
+     "fx",
+     [
+      "glitch",
+      "bend",
+      "zap"
+     ],
+     "blips"
+    ],
+    [
+     "perc",
+     [
+      "tabla",
+      "block"
+     ],
+     "woods"
+    ],
+    [
+     "bongo",
+     [
+      "conga"
+     ],
+     "congas2"
+    ]
+   ]
+  }
+ },
+ "Trip Hop": {
+  "num": 31,
+  "bpm": 88,
+  "era": "genre",
+  "built": "Massive Attack / Portishead / Tricky",
+  "genre": true,
+  "genre_swing": 56,
+  "density": "sparse",
+  "listen": "a slow heavy breakbeat left mostly alone: kick and snare far apart, the snare huge in a plate reverb, a thick vinyl bed under everything, hats barely there, and a patient half-time weight that never speeds up",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "boom",
+     "round",
+     "deep"
+    ],
+    [
+     0.3,
+     0.7
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "fat",
+     "roomy",
+     "dusty"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "loose"
+    ],
+    0.4
+   ],
+   "rim": [
+    "rim",
+    null,
+    [
+     "rim",
+     "stick"
+    ],
+    0.5
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "noise",
+     "tape"
+    ],
+    1.1
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     3,
+     56,
+     2291
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.9,
+    [
+     8,
+     3,
+     56,
+     2292
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.14,
+    0.28,
+    [
+     0,
+     3,
+     56,
+     2293
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "rim": [
+    0.2,
+    0.24,
+    [
+     0,
+     3,
+     56,
+     2294
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.34,
+    [
+     0,
+     3,
+     56,
+     2295
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.4,
+  "vinyl": -38,
+  "wow": 0.25,
+  "sidechain": 0.15,
+  "space": [
+   "plate",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.35,
+  "kick_dist": 0.0,
+  "mix_sat": 0.12,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     4,
+     1,
+     2,
+     5,
+     2,
+     5,
+     1,
+     4,
+     2,
+     2,
+     2,
+     3,
+     1
+    ],
+    "hits": [
+     2,
+     5
+    ],
+    "double_p": 0.25
+   },
+   "snare": {
+    "modes": [
+     [
+      "halftime",
+      0.45
+     ],
+     [
+      "backbeat",
+      0.35
+     ],
+     [
+      "sparse",
+      0.2
+     ]
+    ],
+    "ghosts": [
+     1,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "sparse",
+      0.4
+     ],
+     [
+      "eighths",
+      0.25
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "broken",
+      0.15
+     ]
+    ],
+    "open_p": 0.1
+   },
+   "rim": {
+    "modes": [
+     [
+      "sparse",
+      0.5
+     ],
+     [
+      "answer",
+      0.3
+     ],
+     [
+      "offbeats",
+      0.2
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.2,
+    "808",
+    [
+     "deep",
+     "sub"
+    ],
+    [
+     0.5,
+     0.9
+    ]
+   ],
+   [
+    0.8,
+    null,
+    [
+     "boom",
+     "round",
+     "deep"
+    ],
+    [
+     0.3,
+     0.7
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.45,
+   "tags": [
+    [
+     "breakbeat",
+     3
+    ],
+    [
+     "lofi",
+     2
+    ],
+    [
+     "dnb",
+     1
+    ],
+    [
+     "boom-bap",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.55,
+   "nmax": 1,
+   "pool": [
+    [
+     "fx",
+     [
+      "noise",
+      "tape",
+      "reverse"
+     ],
+     "cutfx"
+    ],
+    [
+     "perc",
+     [
+      "shaker",
+      "tamb"
+     ],
+     "shaker"
+    ]
+   ]
+  }
+ },
+ "Baltimore Club": {
+  "num": 32,
+  "bpm": 130,
+  "era": "genre",
+  "built": "Baltimore club \u2014 Rod Lee, KW Griff, the Bmore 8-count",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "busy",
+  "listen": "the 8-count: a five-and-six-hit kick figure looping hard at 130 while claps push on the 'a' of 2 and the '&' of 3, breakbeat chops and vocal stabs flying over the top. Relentless, and it never lets up",
+  "canon": {
+   "kick": [
+    "X--x--x-X--x--x-",
+    "X--x--x-X--x--X-",
+    "X--x--x-X-x---x-",
+    "X--x--x-X--x-x--",
+    "X--x--x-X--xx-x-"
+   ],
+   "clap": [
+    "----X--X--X-X---",
+    "----X--X--X-X--x",
+    "----X--X--X-X-x-",
+    "----X--X----X---"
+   ]
+  },
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "punch",
+     "tight",
+     "club"
+    ],
+    [
+     0.14,
+     0.35
+    ]
+   ],
+   "clap": [
+    "clap",
+    null,
+    [
+     "clap",
+     "big"
+    ],
+    1.0
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "tight",
+     "crack"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.28
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "stab",
+     "shout"
+    ],
+    0.8
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2301
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "clap": [
+    0.0,
+    0.88,
+    [
+     0,
+     1,
+     50,
+     2302
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.08,
+    0.62,
+    [
+     0,
+     1,
+     50,
+     2303
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.12,
+    0.36,
+    [
+     0,
+     1,
+     50,
+     2304
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.26,
+    0.44,
+    [
+     0,
+     1,
+     50,
+     2305
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.0,
+  "sidechain": 0.2,
+  "space": [
+   "dry",
+   [
+    "clap"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.55,
+  "kick_dist": 0.08,
+  "mix_sat": 0.15,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     1,
+     6,
+     1,
+     1,
+     6,
+     1,
+     8,
+     1,
+     1,
+     6,
+     1,
+     1,
+     6,
+     1
+    ],
+    "hits": [
+     5,
+     6
+    ],
+    "double_p": 0.2
+   },
+   "clap": {
+    "modes": [
+     [
+      "club",
+      1.0
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     3,
+     15
+    ]
+   },
+   "snare": {
+    "modes": [
+     [
+      "club",
+      0.6
+     ],
+     [
+      "backbeat",
+      0.4
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     3,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "sixteenths",
+      0.3
+     ],
+     [
+      "shuffle",
+      0.25
+     ],
+     [
+      "offbeats",
+      0.25
+     ],
+     [
+      "eighths",
+      0.2
+     ]
+    ],
+    "open_p": 0.12
+   }
+  },
+  "kick_flavors": [
+   [
+    0.1,
+    "808",
+    [
+     "punch"
+    ],
+    [
+     0.2,
+     0.4
+    ]
+   ],
+   [
+    0.9,
+    null,
+    [
+     "punch",
+     "tight",
+     "club",
+     "knock"
+    ],
+    [
+     0.12,
+     0.32
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.1,
+   "tags": [
+    [
+     "breakbeat",
+     3
+    ],
+    [
+     "house",
+     2
+    ],
+    [
+     "garage",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.8,
+   "nmax": 2,
+   "pool": [
+    [
+     "fx",
+     [
+      "stab",
+      "shout",
+      "vocal"
+     ],
+     "cutfx"
+    ],
+    [
+     "perc",
+     [
+      "tamb",
+      "cowbell"
+     ],
+     "tamb"
+    ],
+    [
+     "crash",
+     [
+      "crash"
+     ],
+     "crash2"
+    ]
+   ]
+  }
+ },
+ "Miami Bass": {
+  "num": 33,
+  "bpm": 138,
+  "era": "genre",
+  "built": "Miami bass \u2014 2 Live Crew, Magic Mike, the 808 electro lineage",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "busy",
+  "listen": "Planet Rock's grandchild: an electro kick figure with a long decaying 808 filling every gap, driving 16th hats with the offbeats cracked open, handclaps hard on 2 and 4, cowbell riding through. Bright, fast, and clean",
+  "canon": {
+   "kick": [
+    "X--x--x---x-X---",
+    "X--x--x-----X--x",
+    "X--x--x---x-X--x",
+    "X-----x---x-X---",
+    "X--x----X-x-X---"
+   ]
+  },
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "808",
+     "sub",
+     "long"
+    ],
+    [
+     0.7,
+     1.3
+    ]
+   ],
+   "clap": [
+    "clap",
+    null,
+    [
+     "clap",
+     "big"
+    ],
+    1.0
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "tight",
+     "crack"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.24
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "cowbell"
+    ],
+    0.5
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "zap",
+     "laser"
+    ],
+    0.7
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2311
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "clap": [
+    0.0,
+    0.86,
+    [
+     0,
+     1,
+     50,
+     2312
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.08,
+    0.6,
+    [
+     0,
+     1,
+     50,
+     2313
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.13,
+    0.38,
+    [
+     0,
+     1,
+     50,
+     2314
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    0.2,
+    0.3,
+    [
+     0,
+     2,
+     50,
+     2315
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.28,
+    0.4,
+    [
+     0,
+     1,
+     50,
+     2316
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.0,
+  "sidechain": 0.15,
+  "space": [
+   "dry",
+   [
+    "clap"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.5,
+  "kick_dist": 0.05,
+  "mix_sat": 0.12,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     1,
+     6,
+     1,
+     1,
+     6,
+     1,
+     4,
+     1,
+     5,
+     1,
+     6,
+     1,
+     3,
+     2
+    ],
+    "hits": [
+     4,
+     6
+    ],
+    "double_p": 0.25
+   },
+   "clap": {
+    "modes": [
+     [
+      "backbeat",
+      0.85
+     ],
+     [
+      "stomp",
+      0.15
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "snare": {
+    "copy": "clap"
+   },
+   "hat": {
+    "modes": [
+     [
+      "drive16",
+      0.4
+     ],
+     [
+      "sixteenths",
+      0.3
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "eighths",
+      0.1
+     ]
+    ],
+    "open_p": 0.16
+   },
+   "perc": {
+    "modes": [
+     [
+      "offbeats",
+      0.4
+     ],
+     [
+      "eighths",
+      0.35
+     ],
+     [
+      "sixteenths",
+      0.25
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.8,
+    "808",
+    [
+     "sub",
+     "long",
+     "deep"
+    ],
+    [
+     0.9,
+     1.5
+    ]
+   ],
+   [
+    0.2,
+    null,
+    [
+     "punch",
+     "tight"
+    ],
+    [
+     0.2,
+     0.45
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.15,
+   "tags": [
+    [
+     "electro",
+     3
+    ],
+    [
+     "disco",
+     1
+    ],
+    [
+     "house",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.8,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "cowbell"
+     ],
+     "cowbell"
+    ],
+    [
+     "fx",
+     [
+      "zap",
+      "laser"
+     ],
+     "blips"
+    ],
+    [
+     "crash",
+     [
+      "crash"
+     ],
+     "crash2"
+    ]
+   ]
+  }
+ },
+ "New Orleans Bounce": {
+  "num": 34,
+  "bpm": 100,
+  "era": "genre",
+  "built": "NO bounce \u2014 the Triggerman / Drag Rap lineage",
+  "genre": true,
+  "genre_swing": 54,
+  "density": "busy",
+  "listen": "call and response at 100: a tambourine running 16ths without stopping, the snare answering itself with that stuttered double at the top of 4, and a busy syncopated kick underneath. Everything is talking at once",
+  "canon": {
+   "snare": [
+    "----X--X----X-xx",
+    "----X--X----X-x-",
+    "----X--X--x-X-xx",
+    "----X-xX----X-xx"
+   ]
+  },
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "punch",
+     "boom",
+     "knock"
+    ],
+    [
+     0.2,
+     0.5
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "tight",
+     "crack",
+     "snappy"
+    ],
+    1.0
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "tamb"
+    ],
+    0.4
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.3
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "shout",
+     "whistle"
+    ],
+    0.8
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     54,
+     2321
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.88,
+    [
+     0,
+     1,
+     54,
+     2322
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "perc": [
+    0.16,
+    0.4,
+    [
+     0,
+     2,
+     54,
+     2323
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "hat": [
+    -0.14,
+    0.3,
+    [
+     0,
+     2,
+     54,
+     2324
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.28,
+    0.42,
+    [
+     0,
+     1,
+     54,
+     2325
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.1,
+  "vinyl": -54,
+  "wow": 0.0,
+  "sidechain": 0.2,
+  "space": [
+   "dry",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.5,
+  "kick_dist": 0.06,
+  "mix_sat": 0.12,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     3,
+     6,
+     1,
+     2,
+     6,
+     3,
+     6,
+     2,
+     5,
+     4,
+     2,
+     3,
+     4,
+     2
+    ],
+    "hits": [
+     4,
+     7
+    ],
+    "double_p": 0.4
+   },
+   "snare": {
+    "modes": [
+     [
+      "bounce",
+      1.0
+     ]
+    ],
+    "ghosts": [
+     0,
+     2
+    ],
+    "gcells": [
+     3,
+     10,
+     11
+    ]
+   },
+   "perc": {
+    "modes": [
+     [
+      "sixteenths",
+      0.45
+     ],
+     [
+      "shuffle",
+      0.3
+     ],
+     [
+      "drive16",
+      0.25
+     ]
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "offbeats",
+      0.35
+     ],
+     [
+      "shuffle",
+      0.3
+     ],
+     [
+      "eighths",
+      0.2
+     ],
+     [
+      "sparse",
+      0.15
+     ]
+    ],
+    "open_p": 0.1
+   }
+  },
+  "kick_flavors": [
+   [
+    0.2,
+    "808",
+    [
+     "deep",
+     "punch"
+    ],
+    [
+     0.4,
+     0.8
+    ]
+   ],
+   [
+    0.8,
+    null,
+    [
+     "punch",
+     "boom",
+     "knock"
+    ],
+    [
+     0.2,
+     0.5
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.15,
+   "tags": [
+    [
+     "breakbeat",
+     3
+    ],
+    [
+     "funk",
+     2
+    ],
+    [
+     "electro",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.85,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "tamb"
+     ],
+     "tamb"
+    ],
+    [
+     "fx",
+     [
+      "shout",
+      "whistle",
+      "vocal"
+     ],
+     "cutfx"
+    ],
+    [
+     "bongo",
+     [
+      "conga"
+     ],
+     "congas2"
+    ]
+   ]
+  }
+ },
+ "G-Funk": {
+  "num": 35,
+  "bpm": 94,
+  "era": "genre",
+  "built": "DJ Quik / Warren G / Above the Law (NOT Doc Day's surgical Dre pocket)",
+  "genre": true,
+  "genre_swing": 56,
+  "density": "home",
+  "listen": "the bouncier, looser West Coast: a deep round kick leaning back, a crisp snare planted on 2 and 4, tambourine and shaker keeping 16ths, 56% swing rolling it forward. Warm, clean, and unhurried",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "deep",
+     "round",
+     "punch"
+    ],
+    [
+     0.25,
+     0.6
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "crack",
+     "tight",
+     "snappy"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.4
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "tamb",
+     "shaker"
+    ],
+    0.6
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "talkbox",
+     "scratch"
+    ],
+    0.9
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     56,
+     2331
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.88,
+    [
+     0,
+     2,
+     56,
+     2332
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.15,
+    0.36,
+    [
+     0,
+     2,
+     56,
+     2333
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    0.18,
+    0.3,
+    [
+     0,
+     2,
+     56,
+     2334
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.28,
+    0.38,
+    [
+     0,
+     2,
+     56,
+     2335
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.05,
+  "vinyl": -56,
+  "wow": 0.0,
+  "sidechain": 0.18,
+  "space": [
+   "room",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.4,
+  "kick_dist": 0.0,
+  "mix_sat": 0.08,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     3,
+     5,
+     2,
+     2,
+     5,
+     3,
+     5,
+     2,
+     5,
+     3,
+     2,
+     3,
+     4,
+     2
+    ],
+    "hits": [
+     3,
+     6
+    ],
+    "double_p": 0.35
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.85
+     ],
+     [
+      "displaced",
+      0.1
+     ],
+     [
+      "sparse",
+      0.05
+     ]
+    ],
+    "ghosts": [
+     0,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.35
+     ],
+     [
+      "sixteenths",
+      0.3
+     ],
+     [
+      "offbeats",
+      0.2
+     ],
+     [
+      "broken",
+      0.15
+     ]
+    ],
+    "open_p": 0.1
+   },
+   "perc": {
+    "modes": [
+     [
+      "sixteenths",
+      0.35
+     ],
+     [
+      "offbeats",
+      0.35
+     ],
+     [
+      "eighths",
+      0.3
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.25,
+    "808",
+    [
+     "deep",
+     "sub"
+    ],
+    [
+     0.5,
+     1.0
+    ]
+   ],
+   [
+    0.75,
+    null,
+    [
+     "deep",
+     "round",
+     "punch"
+    ],
+    [
+     0.25,
+     0.6
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.4,
+   "tags": [
+    [
+     "funk",
+     3
+    ],
+    [
+     "motown",
+     2
+    ],
+    [
+     "soul",
+     2
+    ],
+    [
+     "rnb",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.7,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "tamb"
+     ],
+     "tamb"
+    ],
+    [
+     "perc",
+     [
+      "shaker"
+     ],
+     "shaker"
+    ],
+    [
+     "perc",
+     [
+      "cowbell"
+     ],
+     "cowbell"
+    ],
+    [
+     "rim",
+     [
+      "rim",
+      "stick"
+     ],
+     "rims"
+    ]
+   ]
+  }
+ },
+ "Reggaeton Alt": {
+  "num": 36,
+  "bpm": 92,
+  "era": "genre",
+  "built": "alternative reggaeton \u2014 the Tainy / experimental end of the dembow",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "home",
+  "listen": "the dembow, played dark: kick on 1 and 3, the snare answering with the tresillo cell \u2014 boom, ch-ch, boom, ch-ch \u2014 timbale and conga colors around it, and an airier, moodier treatment than the radio version",
+  "canon": {
+   "snare": [
+    "---X--X----X--X-",
+    "---X--X----X--XX",
+    "---X--X-.--X--X-",
+    "---X--X----X--X."
+   ],
+   "kick": [
+    "X-------X-------",
+    "X-------X-----x-",
+    "X-----x-X-------",
+    "X-------X---X---",
+    "X-----x-X-----x-"
+   ]
+  },
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "deep",
+     "round",
+     "sub"
+    ],
+    [
+     0.3,
+     0.7
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "tight",
+     "rim",
+     "snappy"
+    ],
+    1.0
+   ],
+   "bongo": [
+    "bongo",
+    null,
+    [
+     "conga",
+     "bongo"
+    ],
+    0.6
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "timbale",
+     "clave",
+     "shaker"
+    ],
+    0.6
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.3
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "reverse",
+     "noise"
+    ],
+    0.9
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2341
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.86,
+    [
+     0,
+     1,
+     50,
+     2342
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "bongo": [
+    0.22,
+    0.3,
+    [
+     0,
+     2,
+     50,
+     2343
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    -0.18,
+    0.28,
+    [
+     0,
+     2,
+     50,
+     2344
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "hat": [
+    0.12,
+    0.3,
+    [
+     0,
+     2,
+     50,
+     2345
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.36,
+    [
+     0,
+     1,
+     50,
+     2346
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.08,
+  "sidechain": 0.2,
+  "space": [
+   "plate",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.4,
+  "kick_dist": 0.05,
+  "mix_sat": 0.12,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     1,
+     2,
+     1,
+     1,
+     3,
+     1,
+     8,
+     1,
+     2,
+     2,
+     2,
+     1,
+     3,
+     1
+    ],
+    "hits": [
+     2,
+     4
+    ],
+    "double_p": 0.2
+   },
+   "snare": {
+    "modes": [
+     [
+      "dembow",
+      1.0
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     8,
+     15
+    ]
+   },
+   "bongo": {
+    "modes": [
+     [
+      "offbeats",
+      0.4
+     ],
+     [
+      "broken",
+      0.3
+     ],
+     [
+      "sparse",
+      0.3
+     ]
+    ]
+   },
+   "perc": {
+    "modes": [
+     [
+      "offbeats",
+      0.35
+     ],
+     [
+      "sparse",
+      0.35
+     ],
+     [
+      "sixteenths",
+      0.3
+     ]
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "sparse",
+      0.35
+     ],
+     [
+      "offbeats",
+      0.3
+     ],
+     [
+      "eighths",
+      0.2
+     ],
+     [
+      "sixteenths",
+      0.15
+     ]
+    ],
+    "open_p": 0.1
+   }
+  },
+  "kick_flavors": [
+   [
+    0.45,
+    "808",
+    [
+     "sub",
+     "deep"
+    ],
+    [
+     0.5,
+     1.0
+    ]
+   ],
+   [
+    0.55,
+    null,
+    [
+     "deep",
+     "round",
+     "punch"
+    ],
+    [
+     0.28,
+     0.6
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.1,
+   "tags": [
+    [
+     "reggae",
+     3
+    ],
+    [
+     "minimal",
+     1
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.75,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "timbale"
+     ],
+     "timbales"
+    ],
+    [
+     "bongo",
+     [
+      "conga"
+     ],
+     "congas2"
+    ],
+    [
+     "perc",
+     [
+      "clave",
+      "block"
+     ],
+     "woods"
+    ],
+    [
+     "fx",
+     [
+      "reverse",
+      "noise"
+     ],
+     "cutfx"
+    ]
+   ]
+  }
+ },
+ "Detroit": {
+  "num": 37,
+  "bpm": 93,
+  "era": "genre",
+  "built": "post-Dilla Detroit \u2014 Black Milk, Apollo Brown, Danny Brown's harder side (NOT the drunk swing Otto Grit and J Dillo already hold)",
+  "genre": true,
+  "genre_swing": 55,
+  "density": "home",
+  "listen": "Detroit with the swing straightened out and the grit left in: a hard dusty kick hitting square, a crunchy loud snare, driving 16th hats, and a forward push where the Dilla lane would drag",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "boom",
+     "hard",
+     "dusty"
+    ],
+    [
+     0.25,
+     0.55
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "crack",
+     "crunch",
+     "dusty"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.35
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "shaker",
+     "tamb"
+    ],
+    0.6
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "scratch",
+     "vocal",
+     "horn"
+    ],
+    0.9
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     2,
+     55,
+     2351
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.9,
+    [
+     0,
+     2,
+     55,
+     2352
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.16,
+    0.36,
+    [
+     0,
+     2,
+     55,
+     2353
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    0.18,
+    0.28,
+    [
+     0,
+     2,
+     55,
+     2354
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.3,
+    0.4,
+    [
+     0,
+     2,
+     55,
+     2355
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.45,
+  "vinyl": -46,
+  "wow": 0.08,
+  "sidechain": 0.15,
+  "space": [
+   "gated",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.5,
+  "kick_dist": 0.1,
+  "mix_sat": 0.18,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     5,
+     2,
+     1,
+     5,
+     3,
+     6,
+     1,
+     4,
+     3,
+     2,
+     2,
+     4,
+     1
+    ],
+    "hits": [
+     3,
+     6
+    ],
+    "double_p": 0.35
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.8
+     ],
+     [
+      "displaced",
+      0.1
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     1,
+     2
+    ],
+    "gcells": [
+     3,
+     7,
+     11,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "sixteenths",
+      0.35
+     ],
+     [
+      "eighths",
+      0.25
+     ],
+     [
+      "broken",
+      0.25
+     ],
+     [
+      "offbeats",
+      0.15
+     ]
+    ],
+    "open_p": 0.1
+   },
+   "perc": {
+    "modes": [
+     [
+      "offbeats",
+      0.4
+     ],
+     [
+      "sixteenths",
+      0.3
+     ],
+     [
+      "sparse",
+      0.3
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.2,
+    "808",
+    [
+     "deep",
+     "boom"
+    ],
+    [
+     0.45,
+     0.85
+    ]
+   ],
+   [
+    0.8,
+    null,
+    [
+     "boom",
+     "hard",
+     "dusty",
+     "knock"
+    ],
+    [
+     0.22,
+     0.55
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.4,
+   "tags": [
+    [
+     "boom-bap",
+     3
+    ],
+    [
+     "funk",
+     2
+    ],
+    [
+     "lofi",
+     2
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.65,
+   "nmax": 2,
+   "pool": [
+    [
+     "perc",
+     [
+      "shaker",
+      "tamb"
+     ],
+     "shaker"
+    ],
+    [
+     "rim",
+     [
+      "rim",
+      "stick"
+     ],
+     "rims"
+    ],
+    [
+     "fx",
+     [
+      "scratch",
+      "vocal"
+     ],
+     "cutfx"
+    ]
+   ]
+  }
+ },
+ "Plug": {
+  "num": 38,
+  "bpm": 140,
+  "era": "genre",
+  "built": "plugg / pluggnb \u2014 MexikoDro, Kankan, the soft end of trap",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "sparse",
+  "listen": "trap with all the aggression removed: a soft rounded 808 that never distorts, airy hats drifting in and out with the occasional triplet roll, a light clap on 3, and a lot of empty dreamy space around it",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "808",
+     "soft",
+     "round",
+     "sub"
+    ],
+    [
+     0.5,
+     1.0
+    ]
+   ],
+   "clap": [
+    "clap",
+    null,
+    [
+     "clap",
+     "soft",
+     "light"
+    ],
+    1.0
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "soft",
+     "tight"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "light",
+     "airy"
+    ],
+    0.25
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "vocal",
+     "bell",
+     "chime"
+    ],
+    1.0
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2361
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "clap": [
+    0.0,
+    0.78,
+    [
+     0,
+     1,
+     50,
+     2362
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.08,
+    0.55,
+    [
+     0,
+     1,
+     50,
+     2363
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.12,
+    0.3,
+    [
+     0,
+     2,
+     50,
+     2364
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.26,
+    0.32,
+    [
+     0,
+     1,
+     50,
+     2365
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.0,
+  "sidechain": 0.28,
+  "space": [
+   "washed",
+   [
+    "clap"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.25,
+  "kick_dist": 0.0,
+  "mix_sat": 0.05,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     4,
+     1,
+     1,
+     4,
+     2,
+     6,
+     1,
+     3,
+     3,
+     2,
+     2,
+     3,
+     1
+    ],
+    "hits": [
+     2,
+     5
+    ],
+    "double_p": 0.3
+   },
+   "clap": {
+    "modes": [
+     [
+      "halftime",
+      0.65
+     ],
+     [
+      "backbeat",
+      0.25
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "snare": {
+    "copy": "clap"
+   },
+   "hat": {
+    "modes": [
+     [
+      "sparse",
+      0.35
+     ],
+     [
+      "eighths",
+      0.25
+     ],
+     [
+      "trip_rolls",
+      0.2
+     ],
+     [
+      "sixteenths",
+      0.2
+     ]
+    ],
+    "open_p": 0.08,
+    "roll_n": [
+     1,
+     2
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.7,
+    "808",
+    [
+     "soft",
+     "round",
+     "sub"
+    ],
+    [
+     0.7,
+     1.3
+    ]
+   ],
+   [
+    0.3,
+    null,
+    [
+     "round",
+     "soft",
+     "warm"
+    ],
+    [
+     0.3,
+     0.6
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.2,
+   "tags": [
+    [
+     "cloud-rap",
+     3
+    ],
+    [
+     "trap",
+     2
+    ],
+    [
+     "minimal",
+     2
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.5,
+   "nmax": 1,
+   "pool": [
+    [
+     "perc",
+     [
+      "bell",
+      "chime"
+     ],
+     "bells"
+    ],
+    [
+     "fx",
+     [
+      "vocal",
+      "reverse"
+     ],
+     "cutfx"
+    ]
+   ]
+  }
+ }
+}

@@ -1,4 +1,5 @@
-"""Beat Machine — the crew's jukebox (owner request 2026-07-15).
+"""Homeroom Studio — the crew's jukebox (owner request 2026-07-15;
+named by the owner 2026-07-18, was "Beat Machine").
 
 A little window with a checkbox per DJ, a tempo box, and a notes box.
 Check ONE DJ -> one brand-new random beat from them. Check TWO OR MORE
@@ -11,8 +12,8 @@ next file number, and every render is logged in the root README.txt
 (sources, variant, tempo, and whatever was typed in the notes box).
 Numbering continues across all folders; nothing is ever overwritten.
 
-Double-click "Beat Machine.command" in the Claude Drum Beats folder: it
-opens the Beat Machine as a local web page in your browser (macOS Tk is
+Double-click "Homeroom Studio.command" in the project folder: it
+opens Homeroom Studio as a local web page in your browser (macOS Tk is
 too broken to draw a native window, so this is a tiny stdlib http.server
 instead — no installs). Leave the Terminal window open; close it to quit.
 Or run:  ./.venv/bin/python tools/beat_machine.py
@@ -21,27 +22,99 @@ CLI (for testing):  ... beat_machine.py --render "Otto Grit,Cutz"
 """
 import argparse
 import copy
+import json
+import os
 import random
 import re
+import shutil
 import sys
 import zlib
 from datetime import date
 from pathlib import Path
+from urllib.parse import quote
 
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
-from make_drum_loops import SR, write_wav24
+from make_drum_loops import SR, sub808, write_wav24
 from make_drum_beats import build_shots
-from crew import (BARS, CREW, boom_bap_variant, build_kit, lock_stamps,
-                  normalize_preset, render_crew_beat, _load_choked,
-                  _pick_path, _resolve_secs)
+from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, boom_bap_variant,
+                  build_kit, lock_stamps, normalize_preset,
+                  render_crew_beat,
+                  _load_choked, _pick_path, _resolve_secs)
 from beat_recipes import (history_avoid, load_recipe, record_history,
                           save_recipe, write_midi, write_stems)
 from pattern_gen import compose, kick_seen, remember_kick
 
-ROOT = Path("~/Documents/Samples/Claude Drum Beats").expanduser()
-ORDER = sorted(CREW, key=lambda n: CREW[n]["num"])
+def _resolve_beats_root():
+    """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
+    moves these folders between the internal drive, the iCloud container,
+    and external volumes). A hardcoded path is dangerous here — when it
+    goes missing the machine would quietly start a brand-new empty
+    library and restart numbering ON TOP of existing beats. So: an
+    explicit setting wins, otherwise take the candidate that actually
+    holds beats, and only fall back to the classic path when nothing
+    does.
+
+    Override with REASON_VOICE_BEATS_ROOT, or beats_root.json at the
+    project root: {"root": "/Volumes/TBOTC 3/Claude Drum Beats"}
+    """
+    env = os.environ.get("REASON_VOICE_BEATS_ROOT")
+    if env:
+        return Path(env).expanduser()
+    cfg = Path(__file__).resolve().parent.parent / "beats_root.json"
+    if cfg.exists():
+        try:
+            p = Path(json.loads(cfg.read_text())["root"]).expanduser()
+            if p.exists():
+                return p
+            print(f"WARNING: beats_root.json points at {p}, which isn't "
+                  "there — looking for the library elsewhere.")
+        except (json.JSONDecodeError, KeyError, TypeError):
+            print("WARNING: beats_root.json is broken — ignoring it.")
+    home = Path.home()
+    name = "Claude Drum Beats"
+    cands = [home / "Documents/Samples" / name,
+             home / "Library/Mobile Documents/com~apple~CloudDocs"
+             / "Documents/Samples" / name]
+    vols = Path("/Volumes")
+    if vols.exists():
+        for v in sorted(vols.iterdir()):
+            cands += [v / name, v / "Samples" / name]
+    empty = None
+    for p in cands:
+        try:
+            if not p.is_dir():
+                continue
+            if next(p.rglob("*.wav"), None) is not None:
+                return p                      # the one with the beats in it
+            empty = empty or p
+        except OSError:                       # unreadable/ejected volume
+            continue
+    return empty or cands[0]
+
+
+ROOT = _resolve_beats_root()
+# the nine loose crew and the twelve Legends get their own boxes on the
+# page; both render through the same engine (CREW holds them all)
+CREW_ORDER = sorted((n for n in CREW
+                     if n not in LEGEND_NAMES and n not in GENRE_NAMES),
+                    key=lambda n: CREW[n]["num"])
+LEGEND_ORDER = sorted(LEGEND_NAMES, key=lambda n: CREW[n]["num"])
+GENRE_ORDER = sorted(GENRE_NAMES, key=lambda n: CREW[n]["num"])
+ORDER = CREW_ORDER + LEGEND_ORDER + GENRE_ORDER
+
+# where triaged beats go — moved, never deleted (owner request
+# 2026-07-18). Everything else stays in its DJ folder.
+FAV_DIR = "Favorites"
+TRASH_DIR = "Trash"
+# the batch player remembers the last batch across app restarts
+STATE = Path(os.path.expanduser("~/.reason_voice/beat_machine_state.json"))
+
+# roots the tuned 808 sub reaches for on traditional beats — low, in the
+# octave a hip-hop sub lives (Hz), a handful of common, musical keys
+ROOT_HZ = {"C": 32.70, "D": 36.71, "E": 41.20, "F": 43.65, "G": 49.00,
+           "A": 55.00, "Bb": 58.27}
 
 # Random beat titles, two words, in each character's voice. The picker
 # retries until the title isn't already on a file anywhere in the folder.
@@ -87,6 +160,18 @@ COLLAB_TITLES = (["Split", "Shared", "Double", "Joint", "Twin", "Crossed",
                   "Common", "Meeting"],
                  ["Custody", "Language", "Booth", "Statement", "Shift",
                   "Wires", "Ground", "Point"])
+
+# the Legends and the Styles bring their own two-word title banks
+try:
+    from legends import LEGEND_TITLES
+    TITLES.update(LEGEND_TITLES)
+except Exception:
+    pass
+try:
+    from genres import GENRE_TITLES
+    TITLES.update(GENRE_TITLES)
+except Exception:
+    pass
 
 TEMPO_LO, TEMPO_HI = 60, 200
 
@@ -218,16 +303,25 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         lanes[ln] = (pan, gain, feel, new_bars)
 
     mutable = [ln for ln in lanes if not ln.startswith("stamp")]
+    # the subgenre roster's canon lanes carry the figure that DEFINES the
+    # style (owner rule 2026-07-19) — they get the kick's gentle anchor
+    # wander, never the drop/add mutation, which would quietly turn a
+    # dembow into generic syncopation over a few beats
+    canon = set(preset.get("_canon") or ())
 
     # 1. density profile + small-hit mutation on every non-stamp lane
     # (v6, 2026-07-18: density is fully FREE — sparse, home, and busy
-    # are equally likely; the notes box still forces one)
-    profile = density or rng.choices(["sparse", "home", "busy"],
-                                     [1, 1, 1])[0]
+    # are equally likely; the notes box still forces one). A genre
+    # preset DECLARES its density instead: Baltimore club and bounce are
+    # dense by definition and trip hop is not, and inside this box
+    # fidelity beats the house sparse-bed lean (owner call 2026-07-19).
+    # His typed direction still wins over both.
+    profile = density or preset.get("density") \
+        or rng.choices(["sparse", "home", "busy"], [1, 1, 1])[0]
     p_drop = {"sparse": 0.5, "home": 0.3, "busy": 0.1}[profile]
     for ln in mutable:
         bars = lanes[ln][3]
-        if ln == "kick":
+        if ln == "kick" or ln in canon:
             # the composed kick IS the beat's identity — the density
             # pass must not erode it into a bare skeleton (2026-07-17:
             # two beats collapsed to the same line that way). Only the
@@ -247,10 +341,14 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             rewrite(ln, _hat_density(lanes[ln][3], mode))
             notes.append(f"{ln}s {mode}")
 
+    # everything below treats the canon lanes as backbone too, so a
+    # style's defining figure is never the lane chosen to sit out
+    backbone = BACKBONE | canon
+
     # 3. occasionally rest a color lane for the whole beat (guests are
     # exempt — the composer just seated them for a reason)
     colors = [ln for ln in mutable
-              if ln not in {"kick", "snare", "clap"} | TIMEKEEPERS
+              if ln not in {"kick", "snare", "clap"} | TIMEKEEPERS | canon
               and ln not in preset.get("_guests", ())]
     if colors and rng.random() < 0.3:
         ln = rng.choice(colors)
@@ -265,7 +363,7 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         b = rng.choice((4, 5, 6))
         for ln in mutable:
             bars = list(lanes[ln][3])
-            if ln in BACKBONE:
+            if ln in backbone:
                 bars[b] = bars[b].replace("X", "x")   # backbone breathes
             else:
                 bars[b] = "-" * len(bars[b])
@@ -274,13 +372,13 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     elif t == "frisson":                     # build: bar 7 thins, 8 slams
         for ln in mutable:
             bars = list(lanes[ln][3])
-            if ln not in BACKBONE:
+            if ln not in backbone:
                 bars[6] = "-" * len(bars[6])
             bars[7] = bars[7].replace("x", "X")
             rewrite(ln, bars)
         notes.append("build: bar 7 thins out, bar 8 slams")
     elif t == "bshift":                      # a color lane sits out a half
-        cands = [ln for ln in mutable if ln not in BACKBONE and
+        cands = [ln for ln in mutable if ln not in backbone and
                  sum(map(_hits, lanes[ln][3]))]
         if cands:
             ln = rng.choice(cands)
@@ -303,7 +401,7 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     if t in ("bshift", "quietbar"):
         b = rng.choice((5, 6))
         for ln in mutable:
-            if ln in BACKBONE:
+            if ln in backbone:
                 continue
             bars = list(lanes[ln][3])
             n = len(bars[b])
@@ -311,9 +409,15 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             rewrite(ln, bars)
         notes.append(f"hats sit out the back half of bar {b + 1}")
 
-    # 5. tempo lean (only when he didn't set a tempo himself)
+    # 5. tempo lean (only when he didn't set a tempo himself). A
+    # subgenre's tempo is part of its identity (owner rule 2026-07-19):
+    # Baltimore club is 130 and leaning it to 124 makes it not-quite-
+    # club, a screw beat is 66, reggaeton sits in a narrow band. So the
+    # styles lean HALF as far, and only ever by a hair.
     if not tempo_locked:
-        lean = rng.choice((-0.05, -0.03, 0.0, 0.03, 0.05))
+        lean = rng.choice((-0.02, 0.0, 0.0, 0.02)) \
+            if preset.get("genre") \
+            else rng.choice((-0.05, -0.03, 0.0, 0.03, 0.05))
         if lean:
             preset["bpm"] = max(TEMPO_LO,
                                 min(TEMPO_HI,
@@ -335,8 +439,22 @@ def roll_swing(preset, variant, force=None):
     if not homes:
         return None
     home = max(set(homes), key=homes.count)
+    # legends stay in their producer's pocket (owner rule 2026-07-18):
+    # a fixed signature swing when set (Premier 53, Dre 50), otherwise a
+    # tight +/-2 wander — no straight/triplet outliers pulling them off
+    legend = preset.get("legend")
+    fixed = preset.get("legend_swing")
+    # a subgenre's swing IS the subgenre (owner rule 2026-07-19): a
+    # reggaeton that wanders to 62% stops being one, and Baltimore club
+    # is straight or it isn't club. Pinned outright, no outliers.
+    if preset.get("genre") and preset.get("genre_swing") is not None:
+        fixed = preset["genre_swing"]
     if force is not None:
         target = force
+    elif fixed is not None:
+        target = fixed
+    elif legend:
+        target = home + rng.choice((-2, 0, 0, 2))
     elif rng.random() < 0.1:
         target = rng.choice((50, 58, 62, 66))
     else:
@@ -353,12 +471,14 @@ def roll_swing(preset, variant, force=None):
     return target
 
 
-def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None):
+def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
+                traditional=False):
     """One DJ's preset for this beat: a FRESH pattern composed from their
     grammar (owner verdict 2026-07-17 — no more one-skeleton mutations),
     tempo override, and the standing rules (New Math goes boom bap on odd
     variants; ~1 beat in 10 skips the sidechain — Crate Prophet already
-    never ducks). Returns (preset, style notes)."""
+    never ducks). traditional=True keeps the backbone conventional (owner
+    rule 2026-07-18). Returns (preset, style notes)."""
     bb = name == "New Math" and variant % 2 == 1 and not tsig
     if bb:
         p = boom_bap_variant(bpm or 94)
@@ -372,7 +492,8 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None):
             spec = p.get("grammar", {}).get(ln)
             if isinstance(spec, dict) and "modes" in spec:
                 spec["modes"] = [[dirs["force_mode"], 1.0]]
-    notes = compose(p, name, variant, boom_bap=bb, tsig=tsig, trick=trick)
+    notes = compose(p, name, variant, boom_bap=bb, tsig=tsig, trick=trick,
+                    traditional=traditional)
     got = roll_swing(p, variant, force=(dirs or {}).get("swing"))
     if got:
         notes.append("swing %d%%" % got)
@@ -388,7 +509,8 @@ LANE_JOB = {"kick": "kick", "snare": "backbeat", "clap": "backbeat",
 JOBS = ("kick", "backbeat", "timekeeper", "color")
 
 
-def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None):
+def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
+                  traditional=False):
     """A collab is an even 50/50 blend (owner decision 2026-07-16 —
     supersedes both the old host-carries-it recipe and the spec doc's
     80/20). Each parent first COMPOSES fresh from their own grammar
@@ -408,7 +530,8 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None):
     fresh, notes = {}, []
     for n in names:
         q = copy.deepcopy(CREW[n])
-        qnotes = compose(q, n, variant, tsig=tsig, trick=trick)
+        qnotes = compose(q, n, variant, tsig=tsig, trick=trick,
+                         traditional=traditional)
         fresh[n] = q
         notes.append(f"{n}: " + "; ".join(qnotes))
 
@@ -614,10 +737,23 @@ def dj_cut(L, R, parts, bar):
     return L * env, R * env
 
 
+def _root_sub(variant, secs=0.6):
+    """Owner rule 2026-07-18 ("add the root"): a tuned 808 sub for the
+    traditional beats — a real synthesized sub on a chosen musical root,
+    so the kick has a low note under it. Deterministic per beat; returns
+    (note name, mono audio)."""
+    note = random.Random(variant * 13 + 7).choice(list(ROOT_HZ))
+    return note, sub808(ROOT_HZ[note], secs)
+
+
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
-             status=lambda msg: None):
+             traditional=False, status=lambda msg: None):
     """Render one random beat (solo or collab) into names[0]'s folder.
-    Returns (path, report_line). Raises on an empty selection."""
+    Returns (path, report_line). Raises on an empty selection.
+    traditional=True (half of every 4+ batch, owner rule 2026-07-18):
+    a common, popular hip-hop beat — conventional kick+snare backbone,
+    no exotic meter, and a tuned root 808 sub when the 808 flavor rolls
+    (so the sub is present on some but not every traditional beat)."""
     seen = set()                                  # dedupe, KEEP caller order
     names = [n for n in names
              if n in CREW and not (n in seen or seen.add(n))]
@@ -636,7 +772,15 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     evo_notes = []
     if root == ROOT:
         import evolution
-        evo_notes = evolution.maybe_evolve(names, status=status)
+        # Legends never evolve — their careers are already written
+        # (owner rule 2026-07-18); only the loose nine do.
+        # (owner rule 2026-07-18); nor do the subgenres — a genre is a
+        # tradition, not a career (owner rule 2026-07-19). Only the
+        # loose nine evolve.
+        crew_names = [n for n in names
+                      if n not in LEGEND_NAMES and n not in GENRE_NAMES]
+        if crew_names:
+            evo_notes = evolution.maybe_evolve(crew_names, status=status)
 
     if shots is None:
         status("Scanning your sample library…")
@@ -664,7 +808,15 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # box overrides the roll.
         troll = random.Random(variant * 677 + 3)
         tsig, trick = dirs["tsig"], False
-        if tsig is None:
+        # traditional beats and pure-legend solos stay in 4/4 — no random
+        # 3-4 / 6-8 / exotic-grid rolls (the notes box can still ask).
+        # A mixed collab is out of character, so it rolls normally.
+        # A pure subgenre solo is locked the same way and for a stronger
+        # reason: there is no such thing as a 6/8 Baltimore club record.
+        pure_legend = all(n in LEGEND_NAMES for n in names)
+        pure_genre = all(n in GENRE_NAMES for n in names)
+        if tsig is None and not traditional and not pure_legend \
+                and not pure_genre:
             r = troll.random()
             if r < 0.10:
                 tsig = troll.choice(((3, 4), (6, 8)))
@@ -673,17 +825,26 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         if len(names) == 1:
             preset, style_notes = solo_preset(names[0], variant, bpm,
                                               tsig=tsig, trick=trick,
-                                              dirs=dirs)
+                                              dirs=dirs,
+                                              traditional=traditional)
         else:
             preset, style_notes = collab_preset(names, variant, bpm,
                                                 tsig=tsig, trick=trick,
-                                                dirs=dirs)
+                                                dirs=dirs,
+                                                traditional=traditional)
         dnotes = apply_directions(preset, dirs)
         vnotes = evo_notes + style_notes + dnotes + vary_preset(
             preset, variant, CREW[names[0]]["num"],
             tempo_locked=bool(bpm), density=dirs["density"])
         final_kick = (preset["lanes"]["kick"][3][0]
                       if "kick" in preset["lanes"] else None)
+        # a style whose KICK is the canon (Baltimore club's 8-count, the
+        # dembow, the Miami electro figure) is supposed to repeat it —
+        # that's what makes it that style — so the sameness guard would
+        # spin all 8 tries and reject a correct beat. For those, the
+        # variety it asks for has to come from the rest of the kit.
+        if "kick" in (preset.get("_canon") or ()):
+            break
         if final_kick is None or not kick_seen(names[0], final_kick):
             break
     if final_kick:
@@ -709,9 +870,41 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     # v6 (2026-07-18, supersedes the odd/even alternation): the beat
     # rolls its own space — gated / dry / room / washed plate — and the
-    # notes box can pick one outright
-    space = dirs["space"] or random.Random(variant * 941 + 7).choices(
-        ["gated", "dry", "room", "plate"], [0.35, 0.35, 0.2, 0.1])[0]
+    # notes box can pick one outright.
+    # EXCEPT the subgenre roster (owner rule 2026-07-19: the styles stay
+    # true to the genre and don't have to follow the house rules): the
+    # treatment IS part of the style — trip hop lives in that plate,
+    # Baltimore club is dry, horrorcore is drowned — so a style keeps the
+    # space it declares. His typed direction still overrides.
+    if dirs["space"]:
+        space = dirs["space"]
+    elif preset.get("genre"):
+        space = preset["space"][0]
+    else:
+        space = random.Random(variant * 941 + 7).choices(
+            ["gated", "dry", "room", "plate"], [0.35, 0.35, 0.2, 0.1])[0]
+
+    # "add the root" (owner rule 2026-07-18): traditional beats get a
+    # tuned 808 sub on a musical root under the kick — about 3 in 5, so
+    # the root is a regular feature but "808 is not in everything". It's
+    # skipped when the kick already rolled a LONG 808 (that sample is
+    # carrying the sub itself; two would just fight). The sub mirrors the
+    # final kick line, plays straight, and rides the un-ducked bass path.
+    root_note = None
+    _ksecs = preset["kit"].get("kick", (None, None, None, 0))[3]
+    _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
+    _long808 = (preset["kit"].get("kick", (None, None))[1] == "808"
+                and _klen > 0.6)
+    if traditional and "kick" in preset["lanes"] and not _long808 \
+            and random.Random(variant * 577 + 13).random() < 0.75:
+        root_note, sub_audio = _root_sub(variant)
+        kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
+        preset["lanes"]["sub"] = (0.0, 0.7, (0, 0, ksw, ks + 7),
+                                  [b for b in kbars])
+        kit["sub"] = sub_audio
+        sources["sub"] = "synth 808 sub, root %s" % root_note
+        vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
+
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
     L, R, lufs, parts = render_crew_beat(names[0], kit, space=space,
                                          preset=preset, want_parts=True)
@@ -728,7 +921,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     swing = bar_swing(L, R)
     cut_bar = None
-    if swing < 2.5:
+    # the contrast floor is a CREW rule. A subgenre is allowed to be
+    # relentless (owner rule 2026-07-19) — Baltimore club, Miami bass
+    # and bounce do not rise and fall, that flatness is the style — so
+    # the deepening pass never touches them.
+    if swing < 2.5 and not preset.get("genre"):
         # the loop needs SOME rise and fall — but owner rule 2026-07-17:
         # never silence. Thin one bar instead: hats and colors rest, the
         # backbone softens and plays through. One re-render, no DJ-cut.
@@ -766,7 +963,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"],
                tsig=tuple(preset.get("tsig", (4, 4))))
     write_stems(folder / f"{no} {' x '.join(names)} {title} Stems",
-                parts["stems"])
+                parts["stems"], sources=sources)
 
     # and the recipe, so "same beat, different snare" can rebuild it
     stamp_paths = {"stamp": stamps[names[0]][0]}
@@ -780,6 +977,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         "preset": preset, "kit_spec": spec_used,
         "kit_paths": {ln: sources[ln] for ln in spec_used},
         "stamp_paths": stamp_paths, "stamp_secs": stamp_secs,
+        "root_note": root_note, "traditional": traditional,
         "dj_cut_bar": cut_bar, "parent": None, "date": str(date.today())})
 
     # remember the picks so these DJs don't repeat themselves (hard rule)
@@ -797,7 +995,16 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     want = BARS * tn * (4.0 / td) * 60.0 / preset["bpm"]
     rms = 20 * np.log10(np.sqrt(0.5 * (L ** 2 + R ** 2).mean()) + 1e-12)
     vnotes.append(f"bar swing {swing:.1f} dB")
-    good = abs(dur - want) < 0.02 and -14 < rms < -5 and -10 < lufs < -6.5
+    from groove import OWNER_TASTE
+    # The RMS band is a sanity net tuned on mid-density beats at 88-150.
+    # A sparse subgenre breaks that premise honestly: a screw beat is 2-4
+    # kicks a bar over a 29-second loop at 66 BPM, so its average sits
+    # near -19 while LUFS, peak and duration are all exactly right.
+    # Loudness is judged by LUFS; the floor just widens for those.
+    rms_floor = -21 if (preset.get("genre")
+                        and preset.get("density") == "sparse") else -18
+    good = abs(dur - want) < 0.02 and rms_floor < rms < -9 \
+        and abs(lufs - OWNER_TASTE["master_lufs"]) < 2.0
 
     lines = ["", f"BEAT MACHINE — {date.today()}",
              f"{fname}  ->  {names[0]}/  (+ .mid and a Stems folder)"]
@@ -829,43 +1036,222 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     return path, report
 
 
+# ------------------------------------- files, batch state, favorites/trash
+# Owner request 2026-07-18: the page plays the current batch and lets him
+# drag each track to Favorites or Trash (everything else stays in its DJ
+# folder). Triaged files are MOVED, never deleted. The last batch and the
+# placements survive closing/relaunching the app and asking for a new
+# batch — because the placement IS where the file lives, and the batch is
+# remembered in a small state file.
+
+
+def _load_state():
+    try:
+        return json.loads(STATE.read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+def _save_state(s):
+    STATE.parent.mkdir(parents=True, exist_ok=True)
+    STATE.write_text(json.dumps(s, indent=1))
+
+
+def set_last_batch(nos, root=None):
+    """Remember the numbers made in the batch just requested (real
+    library only — test/--out renders never touch his state)."""
+    if (root or ROOT) != ROOT:
+        return
+    s = _load_state()
+    s["last_batch"] = [int(n) for n in nos]
+    _save_state(s)
+
+
+def append_last_batch(no, root=None):
+    if (root or ROOT) != ROOT:
+        return
+    s = _load_state()
+    b = [int(x) for x in s.get("last_batch", [])]
+    if int(no) not in b:
+        b.append(int(no))
+    s["last_batch"] = b
+    _save_state(s)
+
+
+def beat_items(no, root=None):
+    """Every file/folder belonging to beat `no` (its wav, its .mid, its
+    Stems folder), wherever it currently sits under root."""
+    root = Path(root or ROOT)
+    pre = f"{no} "
+    out = []
+    if not root.exists():
+        return out
+    for p in root.rglob("*"):
+        if p.name.startswith(pre) and (
+                p.suffix in (".wav", ".mid")
+                or (p.is_dir() and p.name.endswith("Stems"))):
+            out.append(p)
+    return out
+
+
+def beat_wav(no, root=None):
+    for p in beat_items(no, root):
+        if p.suffix == ".wav":
+            return p
+    return None
+
+
+def beat_location(no, root=None):
+    """'favorites' / 'trash' / 'dj' by which top-level folder holds it."""
+    root = Path(root or ROOT)
+    w = beat_wav(no, root)
+    if not w:
+        return None
+    top = w.relative_to(root).parts[0]
+    if top == FAV_DIR:
+        return "favorites"
+    if top == TRASH_DIR:
+        return "trash"
+    return "dj"
+
+
+def beat_dj(no, root=None):
+    """Which DJ's folder this beat belongs to (from its recipe, or the
+    current path when the recipe predates recipes)."""
+    root = Path(root or ROOT)
+    try:
+        dj = load_recipe(root, no).get("folder")
+        if dj:
+            return dj
+    except Exception:
+        pass
+    w = beat_wav(no, root)
+    if w:
+        parts = w.relative_to(root).parts
+        if parts and parts[0] not in (FAV_DIR, TRASH_DIR):
+            return parts[0]
+    return None
+
+
+def triage(no, dest, root=None):
+    """Move beat `no` to Favorites / Trash / its DJ folder. MOVE, never
+    delete. Returns the new location string. Idempotent."""
+    root = Path(root or ROOT)
+    no = int(no)
+    items = beat_items(no, root)
+    if not items:
+        raise FileNotFoundError(f"No beat {no} to move.")
+    if dest in ("fav", "favorite", "favorites"):
+        target, loc = Path(root) / FAV_DIR, "favorites"
+    elif dest in ("trash", "bin", "reject"):
+        target, loc = Path(root) / TRASH_DIR, "trash"
+    else:                                     # 'dj' — back to their folder
+        dj = beat_dj(no, root)
+        if not dj:
+            raise ValueError(f"Don't know which DJ beat {no} belongs to.")
+        target, loc = Path(root) / dj, "dj"
+    target.mkdir(parents=True, exist_ok=True)
+    for p in items:
+        d = target / p.name
+        if p.resolve() == d.resolve() or d.exists():
+            continue                          # already there / never clobber
+        shutil.move(str(p), str(d))
+    return loc
+
+
+def _family_dir_for(no, root):
+    """The folder a song and its swap variations share, and the original
+    ancestor's number + recipe. Follows the parent chain to the root
+    beat (owner rule 2026-07-18: a swapped song and its variations live
+    together)."""
+    anc = int(no)
+    rec = load_recipe(root, anc)
+    seen = {anc}
+    while rec.get("parent") and int(rec["parent"]) not in seen:
+        anc = int(rec["parent"])
+        seen.add(anc)
+        try:
+            rec = load_recipe(root, anc)
+        except Exception:
+            break
+    dj = rec.get("folder", "Misc")
+    title = rec.get("title", "Song")
+    fam = Path(root) / dj / f"{anc} {title} Variations"
+    return fam, anc
+
+
 # ------------------------------------------------------------- swap flow
 
 
-def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None):
-    """Owner spec 2026-07-16, revision flow: same beat, one drum swapped.
-    Pattern, groove, tempo, treatment, and every other sound come straight
-    from the saved recipe; only `lane` gets a fresh sample — its old pick,
-    the rest of the kit, and the DJ's recent history are all avoided. The
-    re-render lands as a NEW numbered file; nothing is overwritten."""
+def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
+         pick=None):
+    """One drum swapped — the single-lane door into `swap_many`, kept for
+    the CLI (`--swap N --lane snare`) and the tests."""
+    return swap_many(number, {lane: pick}, root=root, shots=shots,
+                     status=status)
+
+
+def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
+    """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
+    stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
+    `picks` maps lane -> the sample path he chose in the dropdown, or
+    None to let the machine reach for a different one itself. Pattern,
+    groove, tempo, treatment, and every drum he didn't touch come
+    straight from the saved recipe. The re-render lands as a NEW numbered
+    file; nothing is overwritten.
+
+    Staging several swaps into one rebuild is deliberate (owner
+    2026-07-18): changing kick + snare + hat used to mean three renders
+    and three new beats to sort through, when he only wanted one."""
     number = int(number)
     rec = load_recipe(root, number)
-    lane = lane.strip().lower()
-    if lane not in rec["kit_spec"]:
-        raise ValueError(f"Beat {number} has no '{lane}' to swap — "
-                         f"it has: {', '.join(sorted(rec['kit_spec']))}.")
+    picks = {str(ln).strip().lower(): v for ln, v in (picks or {}).items()}
+    for lane in picks:
+        if lane not in rec["kit_spec"]:
+            raise ValueError(f"Beat {number} has no '{lane}' to swap — "
+                             f"it has: {', '.join(sorted(rec['kit_spec']))}.")
+    # picking the sample that's already in the lane isn't a swap
+    picks = {ln: v for ln, v in picks.items()
+             if not (v and v == rec["kit_paths"].get(ln))}
+    if not picks:
+        raise ValueError("Nothing to change — pick a different sound first.")
     preset = normalize_preset(rec["preset"])
     names = rec["names"]
     if shots is None:
         status("Scanning your sample library…")
         shots = build_shots()
 
-    role, must, wants, secs = rec["kit_spec"][lane]
-    old = rec["kit_paths"].get(lane)
     avoid = set(p for p in rec["kit_paths"].values() if p)
     avoid |= set(rec["stamp_paths"].values())
     avoid |= history_avoid(names)
-    status(f"Picking a different {lane}…")
-    new_path, x = _pick_path(shots, role, wants, secs,
-                             random.randrange(1, 1 << 30),
-                             must=must, avoid=avoid)
-    if not new_path or new_path == old:
-        raise RuntimeError(f"The library has no other {lane} to reach for.")
 
-    kit, kit_paths = {}, dict(rec["kit_paths"])
-    kit_paths[lane] = new_path
+    kit_paths, fresh, olds = dict(rec["kit_paths"]), {}, {}
+    for lane in sorted(picks):
+        role, must, wants, secs = rec["kit_spec"][lane]
+        olds[lane] = rec["kit_paths"].get(lane)
+        chosen = picks[lane]
+        if chosen:                              # he picked this one himself
+            x = _load_choked(chosen, secs)
+            if x is None:
+                raise RuntimeError(f"{Path(chosen).name} wouldn't load — "
+                                   "pick another one.")
+            new_path = chosen
+        else:                                   # surprise me
+            status(f"Picking a different {lane}…")
+            new_path, x = _pick_path(shots, role, wants, secs,
+                                     random.randrange(1, 1 << 30),
+                                     must=must, avoid=avoid)
+            if not new_path or new_path == olds[lane]:
+                raise RuntimeError(f"The library has no other {lane} to "
+                                   "reach for.")
+        kit_paths[lane] = new_path
+        fresh[lane] = x
+        avoid.add(new_path)          # two swapped lanes never land together
+
+    kit = {}
     for ln, pth in kit_paths.items():
-        snd = x if ln == lane else _load_choked(pth, rec["kit_spec"][ln][3])
+        snd = (fresh[ln] if ln in fresh
+               else _load_choked(pth, rec["kit_spec"][ln][3]))
         if snd is None:
             raise RuntimeError(f"{Path(pth).name} (the beat's {ln}) has "
                                "moved or vanished — can't rebuild.")
@@ -876,120 +1262,656 @@ def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None):
             raise RuntimeError(f"{Path(pth).name} (a locked stamp) has "
                                "moved or vanished — can't rebuild.")
         kit[ln] = snd
+    # the tuned root sub is synthesized, not a sample — rebuild it from
+    # the recipe's root note so the swapped beat keeps its low end
+    if rec.get("root_note") and "sub" in preset.get("lanes", {}):
+        kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
 
-    status(f"Re-rendering beat {number} with the new {lane}…")
+    lanes = sorted(picks)
+    if len(lanes) == 1:
+        what, changed = f"New {lanes[0].capitalize()}", lanes[0]
+    elif len(lanes) == 2:
+        what = f"New {lanes[0].capitalize()} & {lanes[1].capitalize()}"
+        changed = " and ".join(lanes)
+    else:
+        what, changed = "Rebuilt", ", ".join(lanes)
+    status(f"Re-rendering beat {number} with the new {changed}…")
     L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
                                          preset=preset, want_parts=True)
     if rec.get("dj_cut_bar") is not None:
         L, R = dj_cut(L, R, parts, rec["dj_cut_bar"])
 
     no = next_number(root)
-    folder = root / rec["folder"]
+    # a swapped song and its variations live together (owner rule
+    # 2026-07-18): the whole family gets its own folder under the DJ, and
+    # the original is pulled in the first time — unless he's already
+    # filed it in Favorites/Trash, which we leave alone.
+    folder, anc = _family_dir_for(number, root)
     folder.mkdir(parents=True, exist_ok=True)
-    stem_of = f"{' x '.join(names)} {rec['title']} New {lane.capitalize()}"
+    if beat_location(anc, root) == "dj":
+        for p in beat_items(anc, root):
+            dst = folder / p.name
+            if p.parent.resolve() != folder.resolve() and not dst.exists():
+                shutil.move(str(p), str(dst))
+    stem_of = f"{' x '.join(names)} {rec['title']} {what}"
     fname = f"{no} {stem_of} Drums {preset['bpm']}bpm.wav"
     path = folder / fname
     if path.exists():                             # never overwrite
         raise RuntimeError(f"{fname} already exists — not overwriting.")
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
-    write_stems(folder / f"{no} {stem_of} Stems", parts["stems"])
+    write_stems(folder / f"{no} {stem_of} Stems", parts["stems"],
+                sources={**kit_paths, **rec["stamp_paths"]})
 
     rec2 = dict(rec, file=fname, kit_paths=kit_paths, parent=number,
-                date=str(date.today()))
+                folder=rec["folder"], date=str(date.today()))
     save_recipe(root, no, rec2)
-    parent_dj = preset.get("lane_parent", {}).get(lane, names[0])
-    record_history({lane: parent_dj}, {lane: new_path})
+    append_last_batch(no, root)                   # show up in the player
+    lane_parent = preset.get("lane_parent", {})
+    record_history({ln: lane_parent.get(ln, names[0]) for ln in lanes},
+                   {ln: kit_paths[ln] for ln in lanes})
 
     with open(root / "README.txt", "a") as f:
         f.write(f"\nBEAT MACHINE — {date.today()}\n"
                 f"{fname}  ->  {rec['folder']}/  (+ .mid and a Stems "
                 f"folder)\n"
                 f"  swap of beat {number} ({rec['file']}): same beat, "
-                f"different {lane}\n"
-                f"  {lane} was: {Path(old).name if old else '(none)'}\n"
-                f"  {lane} now: {Path(new_path).name} | LUFS {lufs:.1f}\n")
+                f"different {changed}\n")
+        for ln in lanes:
+            f.write(f"  {ln} was: "
+                    f"{Path(olds[ln]).name if olds[ln] else '(none)'}\n"
+                    f"  {ln} now: {Path(kit_paths[ln]).name}\n")
+        f.write(f"  LUFS {lufs:.1f}\n")
+    swapped = " | ".join(f"{ln} → {Path(kit_paths[ln]).name}"
+                         for ln in lanes)
     report = (f"{fname}\n-> {rec['folder']} folder | same beat as "
-              f"{number}, {lane} swapped to {Path(new_path).name} | "
-              f"LUFS {lufs:.1f}")
+              f"{number} | {swapped} | LUFS {lufs:.1f}")
     return path, report
+
+
+# ------------------------------------------------ web helpers (player etc.)
+
+
+def _batch_beats(root=None):
+    """The last batch's tracks with their current location, for the
+    player. Missing files (moved by hand) are skipped."""
+    root = Path(root or ROOT)
+    beats = []
+    for no in _load_state().get("last_batch", []):
+        w = beat_wav(no, root)
+        if w:
+            beats.append({"no": int(no), "label": w.stem,
+                          "loc": beat_location(no, root)})
+    return beats
+
+
+def _swap_lanes(no, root=None):
+    """Every drum in this beat that can be swapped — read straight from
+    the recipe, so guest colors (congas2, exotic2, blips, fx…) and the
+    tuned sub all show up, not a fixed list. Stamps stay locked."""
+    rec = load_recipe(Path(root or ROOT), int(no))
+    return [ln for ln in sorted(rec["kit_spec"])
+            if ln != "stamp" and not ln.startswith("stamp")]
+
+
+# ---- the stem rack: see every drum in a beat, swap them per sound ----
+# Owner request 2026-07-18. The recipe already knows which sample file is
+# behind every lane, and write_stems already saved an isolated wav per
+# lane with the real sample name — so the rack is mostly wiring, and
+# soloing one drum comes free.
+
+LANE_ORDER = ("kick", "sub", "snare", "clap", "snap", "rim", "hat", "ohat",
+              "ride", "crash", "perc", "shaker", "tamb", "woods", "conga",
+              "congas", "congas2", "exotic", "exotic2", "blips", "fx")
+
+
+def _lane_sort(lane):
+    """Drums in the order a drummer would name them, strays alphabetical."""
+    try:
+        return (0, LANE_ORDER.index(lane), lane)
+    except ValueError:
+        return (1, 0, lane)
+
+
+# words that describe a DRUM, not a pack. A folder built only out of
+# these ("Snares", "Open Hat", "Drum n Percussion One Shot", "120BPM")
+# is a sorting shelf inside a pack, so _pack_of walks straight past it.
+_GENERIC_WORDS = {
+    "kick", "kicks", "snare", "snares", "clap", "claps", "snap", "snaps",
+    "hat", "hats", "hihat", "hihats", "hi", "open", "closed", "perc",
+    "percs", "percussion", "808", "808s", "sub", "subs", "fx", "sfx",
+    "one", "shot", "shots", "oneshot", "oneshots", "drum", "drums", "kit",
+    "kits", "cymbal", "cymbals", "crash", "crashes", "ride", "rides",
+    "tom", "toms", "rim", "rims", "shaker", "shakers", "tamb", "tambourine",
+    "sample", "samples", "sound", "sounds", "wav", "wavs", "misc", "other",
+    "extras", "processed", "dry", "wet", "top", "tops", "loop", "loops",
+    "and", "n", "the", "bpm", "vol", "pack",
+}
+
+
+def _is_shelf(name):
+    """True when a folder name says only which drum is inside it."""
+    toks = [t for t in re.split(r"[^a-z0-9]+", name.lower()) if t]
+    return not [t for t in toks
+                if t not in _GENERIC_WORDS
+                and not re.match(r"^\d+(bpm)?$", t)]
+
+
+def _pack_of(path):
+    """Which sample pack a one-shot came from, so the dropdown can group
+    by pack instead of showing one flat list of 400 kicks. Walks up past
+    the drum-name folders ("Snares", "808s") to the first folder that
+    actually names a pack — a collection folder like "reddit drum kits
+    2023" holds dozens of packs, so stopping at the root's first level
+    would lump nearly everything together."""
+    if not path:
+        return ""
+    try:
+        from sample_library import load_roots
+        roots = load_roots()
+    except Exception:
+        roots = []
+    p = Path(path)
+    for r in roots:
+        try:
+            rel = p.relative_to(r)
+        except ValueError:
+            continue
+        dirs = list(rel.parts[:-1])
+        while len(dirs) > 1:
+            if not _is_shelf(dirs[-1]):
+                return dirs[-1]
+            dirs.pop()
+        return dirs[0] if dirs else Path(r).name
+    return p.parent.name
+
+
+def _stems_dir(no, root=None):
+    """Where beat `no` keeps its per-drum wavs, if it has them."""
+    for p in beat_items(no, root):
+        if p.is_dir() and p.name.endswith("Stems"):
+            return p
+    return None
+
+
+def _stem_wav(no, lane, root=None, folder=None):
+    """The isolated wav for one lane — 'kick - Real Name.wav' on beats
+    made since the rename, plain 'kick.wav' on the older ones. Pass
+    `folder` to skip the library walk when the caller already found it."""
+    folder = folder if folder is not None else _stems_dir(no, root)
+    if not folder:
+        return None
+    for f in sorted(folder.glob("*.wav")):
+        if f.stem == lane or f.stem.startswith(lane + " - "):
+            return f
+    return None
+
+
+def _beat_stems(no, root=None):
+    """Every drum in a beat: the real sample behind it, whether it can be
+    swapped, and whether there's a solo stem to play. Stamps are the DJ's
+    producer tag — shown, but locked (crew rule)."""
+    root = Path(root or ROOT)
+    no = int(no)
+    rec = load_recipe(root, no)
+    out = []
+    # stamps live outside kit_spec but are still part of the beat — he
+    # should SEE his producer tag even though he can't swap it
+    lanes = list(rec["kit_spec"]) + [ln for ln in rec.get("stamp_paths", {})
+                                     if ln not in rec["kit_spec"]]
+    folder = _stems_dir(no, root)     # walk the library once, not per lane
+    for lane in sorted(lanes, key=_lane_sort):
+        locked = lane == "stamp" or lane.startswith("stamp")
+        path = (rec["stamp_paths"] if locked else rec["kit_paths"]).get(lane)
+        spec = rec["kit_spec"].get(lane)
+        out.append({
+            "lane": lane,
+            "role": spec[0] if spec else lane,
+            "sample": Path(path).stem if path else "built from scratch",
+            "pack": _pack_of(path),
+            "locked": locked or not path,
+            "why": ("the DJ's producer tag — same in every beat they make"
+                    if locked else
+                    "synthesised, not a sample" if not path else ""),
+            "stem": bool(_stem_wav(no, lane, root, folder=folder)),
+        })
+    return out
+
+
+def _lane_candidates(no, lane, shots=None, root=None):
+    """Every sample in the library that could fill this lane, grouped by
+    pack for the dropdown. Also the allow-list the rebuild validates
+    against: a path the client sends back is only ever accepted if it
+    came from here, so no client string reaches disk unchecked."""
+    root = Path(root or ROOT)
+    rec = load_recipe(root, int(no))
+    lane = str(lane).strip().lower()
+    if lane not in rec["kit_spec"]:
+        raise ValueError(f"Beat {no} has no '{lane}'.")
+    if lane == "stamp" or lane.startswith("stamp"):
+        raise ValueError("The producer tag stays locked.")
+    role = rec["kit_spec"][lane][0]
+    shots = shots if shots is not None else build_shots()
+    current = rec["kit_paths"].get(lane)
+    seen, out = set(), []
+    for e in shots.get(role, []):
+        p = e.get("path")
+        if not p or p in seen:
+            continue
+        seen.add(p)
+        out.append({"path": p, "name": Path(p).stem, "pack": _pack_of(p),
+                    "current": p == current})
+    out.sort(key=lambda d: (d["pack"].lower(), d["name"].lower()))
+    return out
+
+
+def _traditional_flags(how_many, names=None):
+    """Half of a 4+ batch is a common, traditional hip-hop beat (owner
+    rule 2026-07-18), interleaved so they're not all up front."""
+    if how_many < 4:
+        return [False] * how_many
+    k = how_many // 2
+    flags = [True] * k + [False] * (how_many - k)
+    random.shuffle(flags)
+    return flags
 
 
 # --------------------------------------------------------------- web GUI
 # macOS ships Apple's deprecated, half-broken Tk 8.5.9 — plain labels and
 # text fields never paint, and the themed ttk widgets don't paint at all
-# on this machine. So the Beat Machine is a tiny LOCAL web page instead
+# on this machine. So Homeroom Studio is a tiny LOCAL web page instead
 # (stdlib http.server, no installs): the browser renders it perfectly,
 # and it matches the Reason Voice localhost-UI workflow he already uses.
 
 _CACHE = {}
 
-_PAGE = """<!doctype html><html><head><meta charset="utf-8">
+_PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beat Machine</title>
+<title>Homeroom Studio</title>
 <style>
- :root { color-scheme: light dark; }
- body { font-family: -apple-system, Helvetica, Arial, sans-serif;
-        margin: 0; padding: 28px; background: Canvas; color: CanvasText; }
- h1 { margin: 0 0 4px; font-size: 30px; }
- p.sub { margin: 0 0 20px; opacity: .7; line-height: 1.45; }
- .djs { display: grid; grid-template-columns: repeat(3, 1fr);
-        gap: 10px 18px; margin-bottom: 22px; }
- .dj { display: flex; align-items: center; gap: 9px; padding: 10px 12px;
-       border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
-       border-radius: 10px; cursor: pointer; user-select: none; }
- .dj:has(input:checked) { border-color: #2f7;
-       background: color-mix(in srgb, #2f7 12%, transparent); }
- .dj input { width: 18px; height: 18px; }
- .dj .name { font-weight: 600; } .dj .bpm { opacity: .55; font-size: 13px; }
- .dj .ord { margin-left: auto; font-size: 12px; font-weight: 700;
-            color: #2a9; min-width: 1.2em; text-align: right; }
- .row { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
- .row label { min-width: 210px; }
- input[type=text], input[type=number] { font-size: 15px; padding: 7px 9px;
-       border-radius: 8px; border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
-       background: Field; color: FieldText; }
- #notes { flex: 1; }
- #go { margin-top: 18px; font-size: 17px; font-weight: 600; padding: 12px 22px;
-       border: 0; border-radius: 10px; background: #2a7; color: #fff;
-       cursor: pointer; } #go:disabled { opacity: .5; cursor: default; }
- #status { margin-top: 18px; white-space: pre-wrap; line-height: 1.5;
-           min-height: 1.5em; }
- .hosthint { opacity: .7; font-size: 13px; margin: 2px 0 0; min-height: 1.2em; }
+ /* ---------------------------------------------------------------
+    Homeroom Studio — owner brief 2026-07-18: hip hop, a little graffiti,
+    nothing goofy. Dark xerox paper, heavy condensed type doing the
+    shouting, the band's yellow and blue carrying every accent, and
+    the marker/stencil marks kept to four placements so the page reads
+    designed instead of stickered.
+    ---------------------------------------------------------------- */
+ :root {
+   --paper:   #0b0b0d;
+   --card:    #141417;
+   --card2:   #1b1b1f;
+   --line:    #ffffff16;
+   --line2:   #ffffff28;
+   --text:    #f2f0eb;
+   --dim:     #f2f0eb99;
+   --dimmer:  #f2f0eb5c;
+   /* straight off the Back of the Class mark: the yellow scrawl and the
+      blue square it sits on. The blue is deep enough to use as a BLOCK
+      but too dark to read as text on black, so --co is a lifted tint of
+      it for type, borders and small accents.                          */
+   --hi:      #e8d810;   /* band yellow — actions, keeps, selection    */
+   --hi-ink:  #16150a;
+   --blue:    #1020a8;   /* band blue — masthead, fills, blocks        */
+   --co:      #7d8cff;   /* the same blue, lifted so it reads on black */
+   --no:      #ff4d4d;   /* trash + real errors only                   */
+   --ch:      #e9e6dc;   /* chalk — the subgenre box's selection       */
+   --display: "Avenir Next Condensed", "HelveticaNeue-CondensedBold",
+              Impact, "Haettenschweiler", sans-serif;
+   --mono:    ui-monospace, "SF Mono", Menlo, monospace;
+ }
+ * { box-sizing: border-box; }
+ html { -webkit-text-size-adjust: 100%; }
+ body {
+   font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+   margin: 0; padding: 0 24px 90px; background: var(--paper);
+   color: var(--text); line-height: 1.5;
+   -webkit-font-smoothing: antialiased;
+ }
+ /* photocopy grain — one inline SVG, no downloads, sits over everything */
+ body::before {
+   /* no mix-blend-mode: a full-screen blended layer makes the whole page
+      recomposite on every scroll, and plain low opacity looks the same */
+   content: ""; position: fixed; inset: 0; z-index: 9; pointer-events: none;
+   opacity: .035;
+   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+ }
+ .wrap { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+
+ /* ------------------------------------------------------- masthead */
+ /* the masthead is the band's blue square, blown up: the mark sits on
+    the same field it was drawn on, so his logo lands in it seamlessly */
+ .board { background: var(--blue); border-radius: 18px; margin: 22px 0 0;
+          padding: 26px 30px; position: relative; overflow: hidden; }
+ .board::after {                       /* chalk-dust wash, keeps it flat-free */
+   /* thrown to the RIGHT on purpose: the logo's own blue is exactly
+      --blue, so any highlight behind it turns the artwork into a
+      visible square instead of letting it melt into the board */
+   content: ""; position: absolute; inset: 0; pointer-events: none;
+   background: radial-gradient(110% 90% at 92% 0%, #ffffff1c, transparent 58%); }
+ header { display: grid; grid-template-columns: auto minmax(0, 1fr);
+          gap: 0 20px; align-items: center; position: relative; z-index: 1; }
+ .mark { width: 108px; height: 108px; flex: none; display: grid;
+         place-items: center; overflow: hidden; background: var(--blue); }
+ .mark img { width: 100%; height: 100%; object-fit: contain; }
+ .mark span { font-family: var(--display); font-weight: 700; font-size: 25px;
+              letter-spacing: .04em; color: var(--hi); }
+ /* no band name in type up here — the mark already says it (owner
+    2026-07-18: "I agree about the redundant title, don't use it") */
+ h1 { font-family: var(--display); font-weight: 700;
+      font-size: clamp(38px, 6vw, 66px); line-height: .86;
+      letter-spacing: .012em; margin: 0; text-transform: uppercase;
+      color: #fff; }
+ .scrawl { display: block; width: min(330px, 80%); height: 13px;
+           margin: 8px 0 0; overflow: visible; }
+ .scrawl path { fill: none; stroke: var(--hi); stroke-width: 5;
+                stroke-linecap: round; }
+ .tag { grid-column: 2; margin: 12px 0 0; color: #ffffffc4;
+        max-width: 62ch; font-size: 14.5px; }
+
+ /* -------------------------------------------------- section heads */
+ h2.box { font-family: var(--display); font-weight: 700; font-size: 20px;
+          letter-spacing: .1em; text-transform: uppercase;
+          margin: 34px 0 12px; display: flex; align-items: center; gap: 11px; }
+ h2.box::before {                       /* stencil bars */
+   content: ""; width: 26px; height: 13px; flex: none; border-radius: 2px;
+   background: repeating-linear-gradient(90deg, var(--hi) 0 4px,
+               transparent 4px 8px);
+ }
+ h2.box small { font-family: -apple-system, sans-serif; font-weight: 400;
+                font-size: 12.5px; letter-spacing: .02em; color: var(--dimmer);
+                text-transform: none; }
+
+ /* ------------------------------------------------------ DJ crates */
+ .djs { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+        gap: 9px; }
+ .dj { position: relative; display: flex; align-items: center; gap: 10px;
+       padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+       background: var(--card); cursor: pointer; user-select: none;
+       transition: border-color .13s, background .13s, transform .13s; }
+ .dj:hover { border-color: var(--line2); transform: translateY(-1px); }
+ .dj input { position: absolute; opacity: 0; pointer-events: none; }
+ .dj .dot { width: 11px; height: 11px; border-radius: 50%; flex: none;
+            border: 2px solid var(--line2); transition: all .13s; }
+ .dj .who { flex: 1; min-width: 0; }
+ .dj .name { display: block; font-family: var(--display); font-weight: 600;
+             font-size: 18.5px; line-height: 1.12; letter-spacing: .028em;
+             text-transform: uppercase; white-space: nowrap; overflow: hidden;
+             text-overflow: ellipsis; }
+ .dj .built { display: block; font-size: 11.5px; color: var(--dimmer);
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .dj .bpm { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
+            border: 1px solid var(--line); border-radius: 5px;
+            padding: 2px 5px; flex: none; }
+ .dj .ord { position: absolute; top: -7px; right: -7px; width: 21px;
+            height: 21px; border-radius: 50%; display: none;
+            place-items: center; font-family: var(--mono); font-size: 11px;
+            font-weight: 700; background: var(--hi); color: var(--hi-ink); }
+ .dj:has(input:checked) { border-color: var(--hi); background: #e8d81014; }
+ .dj:has(input:checked) .dot { background: var(--hi); border-color: var(--hi); }
+ .dj:has(input:checked) .ord { display: grid; }
+ .dj.legend:has(input:checked) { border-color: var(--co); background: #7d8cff17; }
+ .dj.legend:has(input:checked) .dot { background: var(--co); border-color: var(--co); }
+ .dj.legend:has(input:checked) .ord { background: var(--co); color: #fff; }
+ /* the third box gets CHALK rather than a fourth hue — the mark only
+    owns yellow and blue, and chalk on a board is the one other colour
+    this band already has (crew = yellow scrawl, legends = blue, styles
+    = chalk). */
+ .dj.genre:has(input:checked) { border-color: var(--ch); background: #f2f0eb12; }
+ .dj.genre:has(input:checked) .dot { background: var(--ch); border-color: var(--ch); }
+ .dj.genre:has(input:checked) .ord { background: var(--ch); color: #16150a; }
+ .dj.genre .built { font-style: italic; }
+
+ /* ------------------------------------------------------- controls */
+ .panel { margin-top: 24px; padding: 20px 22px; border: 1px solid var(--line);
+          border-radius: 14px; background: var(--card); }
+ .fields { display: grid; grid-template-columns: 132px 132px 1fr; gap: 16px; }
+ .field label { display: block; font-family: var(--display); font-weight: 600;
+                font-size: 12.5px; letter-spacing: .11em; text-transform: uppercase;
+                color: var(--dim); margin-bottom: 6px; }
+ .field input { width: 100%; font-size: 15px; padding: 10px 12px;
+                border-radius: 9px; border: 1px solid var(--line2);
+                background: #0000004d; color: var(--text); font-family: inherit; }
+ .field input:focus { outline: none; border-color: var(--hi); }
+ .field .hint { font-size: 11.5px; color: var(--dimmer); margin-top: 5px; }
+ .fire { display: flex; align-items: center; gap: 16px; margin-top: 18px;
+         flex-wrap: wrap; }
+ #go { position: relative; font-family: var(--display); font-weight: 700;
+       font-size: 21px; letter-spacing: .07em; text-transform: uppercase;
+       padding: 13px 30px; border: 0; border-radius: 10px;
+       background: var(--hi); color: var(--hi-ink); cursor: pointer;
+       transition: transform .1s; }
+ #go::after {                            /* sticker shadow, marker-ish */
+   content: ""; position: absolute; inset: 0; border-radius: 10px;
+   border: 2px solid var(--text); opacity: .17;
+   transform: translate(4px, 4px) rotate(-.5deg); pointer-events: none; }
+ #go:hover:not(:disabled) { transform: translate(-1px, -1px); }
+ #go:disabled { opacity: .45; cursor: default; }
+ #hosthint { color: var(--dim); font-size: 13.5px; flex: 1; min-width: 180px; }
+
+ /* the working strip — replaces the old green wall of filenames */
+ #work { margin-top: 16px; display: none; }
+ #work.on { display: block; }
+ #workbar { height: 4px; border-radius: 3px; background: var(--line);
+            overflow: hidden; }
+ #workbar i { display: block; height: 100%; width: 34%; border-radius: 3px;
+              background: var(--hi); animation: slide 1.15s ease-in-out infinite; }
+ @keyframes slide { 0% { margin-left: -34%; } 100% { margin-left: 100%; } }
+ #worktext { margin-top: 9px; font-size: 13.5px; color: var(--dim); }
+ #work.bad #workbar { display: none; }
+ #work.bad #worktext { color: var(--no); white-space: pre-wrap; }
+
+ /* --------------------------------------------------- batch + bins */
+ .zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px;
+          margin: 14px 0 16px; }
+ .zone { border: 1.5px dashed var(--line2); border-radius: 12px;
+         padding: 15px 12px; text-align: center;
+         font-family: var(--display); font-weight: 600; font-size: 15.5px;
+         letter-spacing: .07em; text-transform: uppercase; color: var(--dim);
+         transition: background .12s, border-color .12s, color .12s; }
+ .zone small { display: block; font-family: -apple-system, sans-serif;
+               font-weight: 400; font-size: 11.5px; letter-spacing: 0;
+               text-transform: none; color: var(--dimmer); margin-top: 3px; }
+ .zone.fav.over   { border-color: var(--hi); background: #e8d8101f; color: var(--hi); }
+ .zone.djz.over   { border-color: var(--co); background: #7d8cff1f; color: var(--co); }
+ .zone.trash.over { border-color: var(--no); background: #ff4d4d1f; color: var(--no); }
+
+ #empty { padding: 34px 0 10px; text-align: center; position: relative; }
+ #empty .ghost { width: 132px; margin: 0 auto 4px; opacity: .13;
+                 transform: rotate(-3deg); }
+ #empty .ghost img { width: 100%; display: block; }
+ #empty .scribble { font-family: var(--display); font-weight: 700;
+                    font-size: 38px; letter-spacing: .04em; color: #ffffff12;
+                    text-transform: uppercase; transform: rotate(-2.5deg);
+                    display: inline-block; }
+ #empty p { color: var(--dimmer); font-size: 13.5px; margin: 6px 0 0; }
+
+ /* ------------------------------------------------------ the track */
+ .track { position: relative; border: 1px solid var(--line); border-radius: 13px;
+          background: var(--card); margin: 9px 0; overflow: hidden;
+          transition: border-color .13s; }
+ .track.dragging { opacity: .35; }
+ .track.loc-favorites { border-color: #e8d81066; }
+ .track.loc-trash { border-color: #ff4d4d55; opacity: .62; }
+ .thead { display: flex; align-items: center; gap: 13px; padding: 12px 14px;
+          cursor: grab; }
+ .thead .no { font-family: var(--display); font-weight: 700; font-size: 27px;
+              color: var(--dimmer); flex: none; min-width: 46px; }
+ .track.loc-favorites .thead .no { color: var(--hi); }
+ .tmeta { flex: 1; min-width: 0; }
+ .tname { display: block; font-family: var(--display); font-weight: 600; font-size: 19px;
+          letter-spacing: .026em; text-transform: uppercase;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .tsub { display: block; font-size: 11.5px; color: var(--dimmer); font-family: var(--mono);
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ /* the browser's own audio control is a white pill — it wrecked the
+    page, and it can't be restyled, so the track gets its own transport */
+ .thead audio { display: none; }
+ .player { display: flex; align-items: center; gap: 10px; flex: none;
+           width: 238px; }
+ .pp { width: 33px; height: 33px; flex: none; border-radius: 50%;
+       border: 1px solid var(--line2); background: #ffffff0a;
+       color: var(--text); cursor: pointer; font-size: 11px;
+       display: grid; place-items: center; transition: all .12s; }
+ .pp:hover { background: #ffffff1c; }
+ .pp.on { background: var(--hi); border-color: var(--hi); color: var(--hi-ink); }
+ .bar { flex: 1; height: 5px; border-radius: 3px; background: var(--line2);
+        cursor: pointer; position: relative; }
+ .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+          background: var(--hi); border-radius: 3px; }
+ .time { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
+         min-width: 36px; text-align: right; }
+ .acts { display: flex; gap: 4px; flex: none; }
+ .acts button, .stembtn { font-size: 14px; line-height: 1; padding: 7px 9px;
+       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+       background: #ffffff08; color: var(--text); transition: all .12s; }
+ .acts button:hover { background: #ffffff17; }
+ .acts button.on-fav   { border-color: var(--hi); color: var(--hi); }
+ .acts button.on-trash { border-color: var(--no); color: var(--no); }
+ .stembtn { font-family: var(--display); font-weight: 600; font-size: 12.5px;
+            letter-spacing: .09em; text-transform: uppercase; padding: 8px 12px;
+            white-space: nowrap; }
+ .stembtn.open { background: var(--hi); color: var(--hi-ink); border-color: var(--hi); }
+
+ /* -------------------------------------------------- the stem rack */
+ .rack { display: none; border-top: 1px solid var(--line);
+         background: #00000038; padding: 4px 14px 14px; }
+ .rack.open { display: block; }
+ .lane { display: grid; grid-template-columns: 74px 1fr auto;
+         gap: 12px; align-items: center; padding: 10px 0;
+         border-bottom: 1px solid #ffffff0c; }
+ .lane:last-of-type { border-bottom: 0; }
+ .lane .who2 { display: flex; align-items: center; gap: 7px; }
+ .lane .swatch { width: 3px; height: 17px; border-radius: 2px;
+                 background: var(--co); flex: none; }
+ .lane.locked .swatch { background: var(--dimmer); }
+ .lane.changed .swatch { background: var(--hi); }
+ .lane .lname { font-family: var(--display); font-weight: 600; font-size: 14px;
+                letter-spacing: .1em; text-transform: uppercase; }
+ .lane .what { min-width: 0; }
+ .lane .sample { display: block; font-size: 13px; white-space: nowrap;
+                 overflow: hidden; text-overflow: ellipsis; }
+ .lane .pack { display: block; font-size: 11px; color: var(--dimmer);
+               font-family: var(--mono); white-space: nowrap;
+               overflow: hidden; text-overflow: ellipsis; }
+ .lane.changed .sample { color: var(--hi); }
+ .lane .picks { display: flex; align-items: center; gap: 6px; flex: none; }
+ .lane select { appearance: none; -webkit-appearance: none;
+       font-family: inherit; font-size: 12.5px; max-width: 250px;
+       padding: 7px 26px 7px 10px; border-radius: 8px;
+       border: 1px solid var(--line2); background: var(--card2);
+       color: var(--text); cursor: pointer;
+       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2f0eb99' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+       background-repeat: no-repeat; background-position: right 9px center; }
+ .lane select:focus { outline: none; border-color: var(--hi); }
+ .lane.changed select { border-color: var(--hi); }
+ .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px;
+       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+       background: #ffffff08; color: var(--text); }
+ .lane .mini:hover { background: #ffffff17; }
+ .lane .mini.playing { border-color: var(--co); color: var(--co); }
+ .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
+
+ .rackfoot { display: flex; align-items: center; gap: 14px; padding: 13px 0 3px;
+             border-top: 1px solid var(--line); margin-top: 4px; flex-wrap: wrap; }
+ .rackfoot .staged { font-size: 12.5px; color: var(--dim); flex: 1;
+                     min-width: 150px; }
+ .rackfoot .staged b { color: var(--hi); }
+ .rebuild { font-family: var(--display); font-weight: 700; font-size: 14.5px;
+       letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
+       border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
+       cursor: pointer; }
+ .rebuild:disabled { background: #ffffff10; color: var(--dimmer); cursor: default; }
+ .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
+         cursor: pointer; text-decoration: underline; padding: 6px; }
+ .rackmsg { font-size: 12.5px; color: var(--no); padding: 4px 0 0;
+            white-space: pre-wrap; }
+
+ /* -------------------------------------------------------- pull-up */
+ .pullup { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+ .pullup .field { width: 130px; }
+ .pullup button { font-family: var(--display); font-weight: 600; font-size: 14px;
+       letter-spacing: .08em; text-transform: uppercase; padding: 11px 20px;
+       border: 1px solid var(--co); border-radius: 9px; background: #7d8cff1a;
+       color: var(--co); cursor: pointer; }
+ .pullup .note { flex: 1; min-width: 200px; font-size: 12.5px;
+                 color: var(--dimmer); }
+ #pullmsg { font-size: 13px; color: var(--no); margin-top: 9px; }
+
+ @media (max-width: 720px) {
+   .fields { grid-template-columns: 1fr 1fr; }
+   .fields .field:last-child { grid-column: 1 / -1; }
+   .thead audio { width: 100%; order: 9; }
+   .thead { flex-wrap: wrap; }
+   .lane { grid-template-columns: 1fr; gap: 7px; }
+   .zones { grid-template-columns: 1fr; }
+ }
 </style></head><body>
-<h1>Beat Machine</h1>
-<p class="sub">Check one DJ for a random beat from them. Check two or more for
-a collab &mdash; it lands in the folder of whichever DJ you check <b>first</b>,
-and the number shows your pick order.</p>
-<div class="djs">__DJS__</div>
-<p class="hosthint" id="hosthint"></p>
-<div class="row"><label>Tempo (BPM), blank = DJ&rsquo;s home tempo:</label>
-  <input type="text" id="tempo" size="6" placeholder="e.g. 95"></div>
-<div class="row"><label>How many beats:</label>
-  <input type="number" id="count" value="1" min="1" max="10" style="width:70px"></div>
-<div class="row"><label>Directions for THIS click (&amp; saved in the
-  README) &mdash; e.g. &ldquo;no hi hats&rdquo;, &ldquo;acoustic&rdquo;,
-  &ldquo;dusty&rdquo;, &ldquo;sparse&rdquo;, &ldquo;no 808&rdquo;:</label>
-  <input type="text" id="notes"></div>
-<button id="go">Make my beats</button>
-<div id="status"></div>
-<hr style="margin:26px 0; opacity:.25">
-<h2 style="font-size:20px; margin:0 0 4px">Same beat, different drum</h2>
-<p class="sub">Give a beat's file number and pick the drum to replace &mdash;
-the pattern, groove, and every other sound stay locked. Renders as a new
-numbered file. (Works for beats made from July 16 on.)</p>
-<div class="row"><label>Beat number:</label>
-  <input type="number" id="swapno" min="1" style="width:90px">
-  <label style="min-width:0">swap the</label>
-  <select id="swaplane" style="font-size:15px; padding:6px">
-    <option>snare</option><option>kick</option><option>clap</option>
-    <option>hat</option><option>snap</option><option>perc</option>
-    <option>bongo</option></select>
-  <button id="swapgo" style="font-size:15px; font-weight:600; padding:8px 16px;
-    border:0; border-radius:8px; background:#27b; color:#fff; cursor:pointer">
-    Swap it</button></div>
-<div id="swapstatus" style="white-space:pre-wrap; line-height:1.5"></div>
+<div class="wrap">
+
+<div class="board">
+<header>
+  <div class="mark" id="mark">__MARK__</div>
+  <div class="title">
+    <h1>Homeroom Studio</h1>
+    <svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"
+         aria-hidden="true"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2
+         14-.9 27-2.3 40-4.8"/></svg>
+  </div>
+  <p class="tag">Check one DJ for a beat of their own. Check more for a collab &mdash;
+  it lands in the folder of whoever you check <b>first</b>. Ask for four or more
+  and half come back as straight, traditional hip hop.</p>
+</header>
+</div>
+
+<h2 class="box">The Crew <small>nine personalities</small></h2>
+<div class="djs">__CREW__</div>
+<h2 class="box">The Legends <small>signature styles</small></h2>
+<div class="djs">__LEGENDS__</div>
+<h2 class="box">The Styles <small>seventeen subgenres, played by the rules</small></h2>
+<div class="djs">__GENRES__</div>
+
+<div class="panel">
+  <div class="fields">
+    <div class="field"><label>Tempo</label>
+      <input type="text" id="tempo" placeholder="95">
+      <div class="hint">blank = home tempo</div></div>
+    <div class="field"><label>How many</label>
+      <input type="number" id="count" value="1" min="1" max="10">
+      <div class="hint">up to 10</div></div>
+    <div class="field"><label>Directions</label>
+      <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
+      <div class="hint">used for this click and saved in the README</div></div>
+  </div>
+  <div class="fire">
+    <button id="go">Make my beats</button>
+    <span id="hosthint"></span>
+  </div>
+  <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
+</div>
+
+<h2 class="box">This batch <small>play, open the stems, sort</small></h2>
+<div class="zones">
+  <div class="zone fav"   data-dest="favorites">&starf; Favorites<small>drag here to keep</small></div>
+  <div class="zone djz"   data-dest="dj">&#9635; DJ folder<small>the default home</small></div>
+  <div class="zone trash" data-dest="trash">&#9587; Trash<small>moved, never deleted</small></div>
+</div>
+<div id="tracklist"></div>
+<div id="empty">__GHOST__<span class="scribble">nothing cooking yet</span>
+  <p>Make a beat and it lands here &mdash; with every drum in it.</p></div>
+
+<h2 class="box">Pull up a beat <small>anything you made before</small></h2>
+<div class="pullup">
+  <div class="field"><label>Beat number</label>
+    <input type="number" id="pullno" min="1" placeholder="316"></div>
+  <button id="pullgo">Open it</button>
+  <span class="note">Adds an older beat to the list above so you can play it,
+  open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
+</div>
+<div id="pullmsg"></div>
+
+</div>
 <script>
+ // ---------------------------------------------------------- crew picking
  const order = [];
  function refresh() {
    document.querySelectorAll('.dj').forEach(d => {
@@ -998,9 +1920,9 @@ numbered file. (Works for beats made from July 16 on.)</p>
      d.querySelector('.ord').textContent = pos >= 0 ? (pos + 1) : '';
    });
    const hint = document.getElementById('hosthint');
-   if (order.length === 0) hint.textContent = '';
+   if (!order.length) hint.textContent = '';
    else if (order.length === 1) hint.textContent = 'Solo beat from ' + order[0] + '.';
-   else hint.textContent = 'Collab → lands in ' + order[0] + "'s folder (checked first).";
+   else hint.textContent = 'Collab — lands in ' + order[0] + "'s folder.";
  }
  document.querySelectorAll('.dj input').forEach(cb => {
    cb.addEventListener('change', () => {
@@ -1009,64 +1931,475 @@ numbered file. (Works for beats made from July 16 on.)</p>
      refresh();
    });
  });
- const go = document.getElementById('go'), st = document.getElementById('status');
+
+ // ------------------------------------------------------------- one voice
+ // every preview shares one player, so clicking around never stacks sounds
+ const audition = new Audio();
+ let auditionBtn = null;
+ function play(url, btn) {
+   if (auditionBtn) auditionBtn.classList.remove('playing');
+   if (auditionBtn === btn && !audition.paused) {
+     audition.pause(); auditionBtn = null; return;
+   }
+   document.querySelectorAll('.track audio').forEach(a => a.pause());
+   audition.src = url; audition.play().catch(() => {});
+   auditionBtn = btn || null;
+   if (auditionBtn) auditionBtn.classList.add('playing');
+ }
+ audition.addEventListener('ended', () => {
+   if (auditionBtn) auditionBtn.classList.remove('playing');
+   auditionBtn = null;
+ });
+
+ // ------------------------------------------------------------ the batch
+ const LOC = { favorites: '&starf; kept', trash: 'trashed', dj: '' };
+ const staged = {};                    // beat no -> { lane: path | null }
+
+ function setLoc(el, loc) {
+   el.className = 'track loc-' + loc;
+   el.querySelector('.tloc').innerHTML = LOC[loc] || '';
+   el.querySelectorAll('.acts button').forEach(b => {
+     b.classList.toggle('on-fav', loc === 'favorites' && b.dataset.dest === 'favorites');
+     b.classList.toggle('on-trash', loc === 'trash' && b.dataset.dest === 'trash');
+   });
+ }
+ async function triage(no, dest, el) {
+   try {
+     const r = await fetch('/triage', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, dest }) });
+     const d = await r.json();
+     if (d.ok && el) setLoc(el, d.loc);
+   } catch (e) {}
+ }
+
+ function prettyTitle(label) {          // "316 Doc Day Boulevard Protocol Drums 93bpm"
+   const m = label.match(/^(\d+)\s+(.*?)\s+Drums\s+([\d.]+)bpm$/i);
+   return m ? { no: m[1], rest: m[2], bpm: m[3] } : { no: '', rest: label, bpm: '' };
+ }
+
+ function makeTrack(b) {
+   const t = prettyTitle(b.label);
+   const el = document.createElement('div');
+   el.className = 'track loc-' + b.loc;
+   el.draggable = true;
+   el.dataset.no = b.no;
+   el.innerHTML =
+     '<div class="thead">' +
+       '<span class="no">' + b.no + '</span>' +
+       '<span class="tmeta"><span class="tname"></span>' +
+         '<span class="tsub"></span></span>' +
+       '<span class="player"><button class="pp">&#9654;</button>' +
+         '<span class="bar"><i></i></span>' +
+         '<span class="time">0:00</span></span>' +
+       '<audio preload="none" src="/audio?no=' + b.no + '"></audio>' +
+       '<span class="acts">' +
+         '<button class="stembtn" data-role="stems">Stems</button>' +
+         '<button title="Keep it" data-dest="favorites">&starf;</button>' +
+         '<button title="DJ folder" data-dest="dj">&#9635;</button>' +
+         '<button title="Trash it" data-dest="trash">&#9587;</button>' +
+       '</span>' +
+     '</div>' +
+     '<div class="rack"></div>';
+   el.querySelector('.tname').textContent = t.rest;
+   el.querySelector('.tsub').innerHTML =
+     (t.bpm ? t.bpm + ' BPM' : '') + ' <span class="tloc"></span>';
+   setLoc(el, b.loc);
+   el.addEventListener('dragstart', e => {
+     e.dataTransfer.setData('text/plain', b.no); el.classList.add('dragging'); });
+   el.addEventListener('dragend', () => el.classList.remove('dragging'));
+   el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
+     btn.onclick = () => triage(b.no, btn.dataset.dest, el));
+   el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.target);
+   wireTransport(el);
+   return el;
+ }
+
+ function clock(s) {
+   if (!isFinite(s)) return '0:00';
+   const m = Math.floor(s / 60), r = Math.floor(s % 60);
+   return m + ':' + String(r).padStart(2, '0');
+ }
+
+ function wireTransport(el) {
+   const au = el.querySelector('audio'), pp = el.querySelector('.pp'),
+         bar = el.querySelector('.bar'), fill = bar.querySelector('i'),
+         time = el.querySelector('.time');
+   pp.onclick = () => {
+     if (!au.paused) { au.pause(); return; }
+     audition.pause();                     // never two things at once
+     document.querySelectorAll('.track audio').forEach(a => {
+       if (a !== au) a.pause();
+     });
+     au.play().catch(() => {});
+   };
+   au.addEventListener('play', () => { pp.classList.add('on');
+     pp.innerHTML = '&#10073;&#10073;'; });
+   const stop = () => { pp.classList.remove('on'); pp.innerHTML = '&#9654;'; };
+   au.addEventListener('pause', stop);
+   au.addEventListener('ended', () => { stop(); fill.style.width = '0';
+     time.textContent = clock(au.duration); });
+   au.addEventListener('timeupdate', () => {
+     if (au.duration) fill.style.width =
+       (au.currentTime / au.duration * 100) + '%';
+     time.textContent = clock(au.duration - au.currentTime);
+   });
+   au.addEventListener('loadedmetadata', () => {
+     time.textContent = clock(au.duration); });
+   bar.onclick = e => {
+     if (!au.duration) return;
+     const r = bar.getBoundingClientRect();
+     au.currentTime = ((e.clientX - r.left) / r.width) * au.duration;
+   };
+ }
+
+ async function loadBatch(focus) {
+   let d;
+   try { d = await (await fetch('/batch')).json(); } catch (e) { return; }
+   const list = document.getElementById('tracklist');
+   const open = [...list.querySelectorAll('.rack.open')]
+                  .map(r => r.closest('.track').dataset.no);
+   list.innerHTML = '';
+   document.getElementById('empty').style.display =
+     (d.beats && d.beats.length) ? 'none' : 'block';
+   (d.beats || []).forEach(b => {
+     const el = makeTrack(b);
+     list.appendChild(el);
+     if (open.includes(String(b.no)))
+       toggleRack(el, b.no, el.querySelector('[data-role=stems]'));
+   });
+   if (focus) {
+     const el = list.querySelector('.track[data-no="' + focus + '"]');
+     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+   }
+ }
+
+ // ---------------------------------------------------------- the stem rack
+ function stagedCount(no) { return Object.keys(staged[no] || {}).length; }
+
+ function paintFoot(el, no) {
+   const n = stagedCount(no);
+   const foot = el.querySelector('.rackfoot');
+   if (!foot) return;
+   foot.querySelector('.staged').innerHTML = n
+     ? '<b>' + n + ' ' + (n === 1 ? 'sound' : 'sounds') + ' staged</b> — ' +
+       'rebuild makes one new beat with every change in it'
+     : 'Pick a different sound for any drum, or roll the dice.';
+   foot.querySelector('.rebuild').disabled = !n;
+   foot.querySelector('.undo').style.display = n ? '' : 'none';
+ }
+
+ function laneRow(no, s) {
+   const row = document.createElement('div');
+   row.className = 'lane' + (s.locked ? ' locked' : '');
+   row.dataset.lane = s.lane;
+   row.innerHTML =
+     '<span class="who2"><span class="swatch"></span>' +
+       '<span class="lname"></span></span>' +
+     '<span class="what"><span class="sample"></span>' +
+       '<span class="pack"></span></span>' +
+     '<span class="picks"></span>';
+   row.querySelector('.lname').textContent = s.lane;
+   row.querySelector('.sample').textContent = s.sample;
+   row.querySelector('.pack').textContent = s.pack || '';
+   const picks = row.querySelector('.picks');
+
+   if (s.stem) {
+     const b = document.createElement('button');
+     b.className = 'mini'; b.title = 'Hear this drum on its own';
+     b.innerHTML = '&#9654;';
+     b.onclick = () => play('/stem?no=' + no + '&lane=' +
+                            encodeURIComponent(s.lane), b);
+     picks.appendChild(b);
+   }
+   if (s.locked) {
+     const t = document.createElement('span');
+     t.className = 'lock'; t.textContent = s.why || 'locked';
+     picks.appendChild(t);
+     return row;
+   }
+
+   const sel = document.createElement('select');
+   sel.innerHTML = '<option value="">reading your library&hellip;</option>';
+   sel.disabled = true;
+   picks.appendChild(sel);
+
+   const dice = document.createElement('button');
+   dice.className = 'mini'; dice.title = 'Let the machine pick a different one';
+   dice.textContent = '🎲';
+   dice.onclick = () => {
+     const cur = (staged[no] || {});
+     if (s.lane in cur && cur[s.lane] === null) delete staged[no][s.lane];
+     else { staged[no] = staged[no] || {}; staged[no][s.lane] = null; sel.value = ''; }
+     paintLane(row, no, s);
+   };
+   picks.appendChild(dice);
+
+   sel.onchange = () => {
+     staged[no] = staged[no] || {};
+     if (!sel.value) delete staged[no][s.lane];
+     else {
+       staged[no][s.lane] = sel.value;
+       play('/sample?no=' + no + '&lane=' + encodeURIComponent(s.lane) +
+            '&path=' + encodeURIComponent(sel.value));   // hear it right away
+     }
+     paintLane(row, no, s);
+   };
+
+   fetch('/candidates?no=' + no + '&lane=' + encodeURIComponent(s.lane))
+     .then(r => r.json()).then(d => {
+       if (!d.ok || !d.candidates.length) {
+         sel.innerHTML = '<option value="">' +
+           (d.error || 'nothing else in the library') + '</option>';
+         return;
+       }
+       const packs = new Map();
+       d.candidates.forEach(c => {
+         if (!packs.has(c.pack)) packs.set(c.pack, []);
+         packs.get(c.pack).push(c);
+       });
+       let html = '<option value="">keep this one</option>';
+       packs.forEach((list, pack) => {
+         html += '<optgroup label="' + esc(pack) + '">';
+         list.forEach(c => {
+           html += '<option value="' + esc(c.path) + '">' + esc(c.name) +
+                   (c.current ? ' (in this beat now)' : '') + '</option>';
+         });
+         html += '</optgroup>';
+       });
+       sel.innerHTML = html;
+       sel.disabled = false;
+       const st = (staged[no] || {})[s.lane];
+       if (st) sel.value = st;
+     })
+     .catch(() => { sel.innerHTML = '<option value="">could not read the library</option>'; });
+   return row;
+ }
+
+ function esc(s) {
+   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+ }
+
+ function paintLane(row, no, s) {
+   const cur = (staged[no] || {});
+   const on = s.lane in cur;
+   row.classList.toggle('changed', on);
+   const name = row.querySelector('.sample');
+   if (!on) { name.textContent = s.sample; row.querySelector('.pack').textContent = s.pack || ''; }
+   else if (cur[s.lane] === null) {
+     name.textContent = 'the machine picks a new one';
+     row.querySelector('.pack').textContent = 'was ' + s.sample;
+   } else {
+     const opt = row.querySelector('select').selectedOptions[0];
+     name.textContent = opt ? opt.textContent.replace(' (in this beat now)', '') : 'chosen';
+     row.querySelector('.pack').textContent = 'was ' + s.sample;
+   }
+   paintFoot(row.closest('.track'), no);
+ }
+
+ async function toggleRack(el, no, btn) {
+   const rack = el.querySelector('.rack');
+   if (rack.classList.contains('open')) {
+     rack.classList.remove('open'); btn.classList.remove('open'); return;
+   }
+   rack.classList.add('open'); btn.classList.add('open');
+   if (rack.dataset.loaded) return;
+   rack.innerHTML = '<div class="lane"><span class="lname">reading the beat&hellip;</span></div>';
+   let d;
+   try { d = await (await fetch('/stems?no=' + no)).json(); }
+   catch (e) { rack.innerHTML = '<div class="rackmsg">Could not read that beat.</div>'; return; }
+   if (!d.ok) { rack.innerHTML = '<div class="rackmsg">' + esc(d.error) + '</div>'; return; }
+   rack.innerHTML = '';
+   const specs = d.stems;
+   specs.forEach(s => rack.appendChild(laneRow(no, s)));
+   const foot = document.createElement('div');
+   foot.className = 'rackfoot';
+   foot.innerHTML = '<span class="staged"></span>' +
+     '<button class="undo">clear changes</button>' +
+     '<button class="rebuild">Rebuild beat</button>' +
+     '<div class="rackmsg" style="flex-basis:100%"></div>';
+   rack.appendChild(foot);
+   foot.querySelector('.undo').onclick = () => {
+     delete staged[no];
+     rack.querySelectorAll('.lane').forEach(r => {
+       const sel = r.querySelector('select'); if (sel) sel.value = '';
+       const s = specs.find(x => x.lane === r.dataset.lane);
+       if (s) paintLane(r, no, s);
+     });
+     paintFoot(el, no);
+   };
+   foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
+   rack.dataset.loaded = '1';
+   paintFoot(el, no);
+ }
+
+ async function rebuild(el, no, foot) {
+   const picks = staged[no] || {};
+   if (!Object.keys(picks).length) return;
+   const btn = foot.querySelector('.rebuild'), msg = foot.querySelector('.rackmsg');
+   btn.disabled = true; msg.textContent = '';
+   const was = btn.textContent;
+   btn.textContent = 'Rebuilding…';
+   try {
+     const r = await fetch('/rebuild', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks }) });
+     const d = await r.json();
+     if (d.ok) { delete staged[no]; btn.textContent = was; await loadBatch(d.no); }
+     else { msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
+   } catch (e) {
+     msg.textContent = String(e); btn.textContent = was; btn.disabled = false;
+   }
+ }
+
+ // -------------------------------------------------------------- the bins
+ document.querySelectorAll('.zone').forEach(z => {
+   z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+   z.addEventListener('dragleave', () => z.classList.remove('over'));
+   z.addEventListener('drop', e => {
+     e.preventDefault(); z.classList.remove('over');
+     const no = e.dataTransfer.getData('text/plain');
+     triage(no, z.dataset.dest,
+            document.querySelector('.track[data-no="' + no + '"]'));
+   });
+ });
+
+ // ------------------------------------------------------------- make them
+ const go = document.getElementById('go'),
+       work = document.getElementById('work'),
+       worktext = document.getElementById('worktext');
+ function working(msg) { work.className = 'on'; worktext.textContent = msg; }
+ function failed(msg) { work.className = 'on bad'; worktext.textContent = msg; }
+ function done() { work.className = ''; }
+
  go.onclick = async () => {
-   if (order.length === 0) { st.style.color = '#c33';
-     st.textContent = 'Check at least one DJ first.'; return; }
-   const tempo = document.getElementById('tempo').value.trim();
+   if (!order.length) { failed('Check at least one DJ first.'); return; }
    const count = document.getElementById('count').value;
-   const notes = document.getElementById('notes').value;
-   go.disabled = true; st.style.color = '';
-   st.textContent = 'Working… the first beat scans your sample library (~30s), then it’s quick.';
+   go.disabled = true;
+   working(count > 1
+     ? 'Making ' + count + ' beats… the first one scans your sample library.'
+     : 'Making it… the first beat scans your sample library (about 30 seconds).');
    try {
      const r = await fetch('/make', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ names: order, tempo, count, notes }) });
+       body: JSON.stringify({ names: order,
+         tempo: document.getElementById('tempo').value.trim(),
+         count, notes: document.getElementById('notes').value }) });
      const d = await r.json();
-     if (d.ok) { st.style.color = '#2a8';
-       st.textContent = 'Done!\\n' + d.results.join('\\n'); }
-     else { st.style.color = '#c33'; st.textContent = d.error; }
-   } catch (e) { st.style.color = '#c33'; st.textContent = String(e); }
+     if (d.ok) { done(); await loadBatch(); }
+     else failed(d.error);
+   } catch (e) { failed(String(e)); }
    go.disabled = false;
  };
- const sgo = document.getElementById('swapgo'),
-       sst = document.getElementById('swapstatus');
- sgo.onclick = async () => {
-   const no = document.getElementById('swapno').value.trim();
-   const lane = document.getElementById('swaplane').value;
-   if (!no) { sst.style.color = '#c33';
-     sst.textContent = 'Which beat number?'; return; }
-   sgo.disabled = true; sst.style.color = '';
-   sst.textContent = 'Rebuilding beat ' + no + ' with a different ' + lane + '…';
+
+ // --------------------------------------------------------------- pull up
+ document.getElementById('pullgo').onclick = async () => {
+   const no = document.getElementById('pullno').value.trim();
+   const msg = document.getElementById('pullmsg');
+   msg.textContent = '';
+   if (!no) { msg.textContent = 'Which beat number?'; return; }
    try {
-     const r = await fetch('/swap', { method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ number: no, lane }) });
-     const d = await r.json();
-     if (d.ok) { sst.style.color = '#2a8'; sst.textContent = 'Done!\\n' + d.result; }
-     else { sst.style.color = '#c33'; sst.textContent = d.error; }
-   } catch (e) { sst.style.color = '#c33'; sst.textContent = String(e); }
-   sgo.disabled = false;
+     const d = await (await fetch('/pull?no=' + no)).json();
+     if (d.ok) { await loadBatch(d.no); document.getElementById('pullno').value = ''; }
+     else msg.textContent = d.error;
+   } catch (e) { msg.textContent = String(e); }
  };
+
+ loadBatch();
 </script></body></html>"""
 
 
+def _dj_card(n):
+    p = CREW[n]
+    cls = "dj legend" if n in LEGEND_NAMES else \
+          "dj genre" if n in GENRE_NAMES else "dj"
+    if n in LEGEND_NAMES:
+        built = ('<span class="built">like %s</span>'
+                 % p["built"].split("/")[0].strip())
+    elif n in GENRE_NAMES:
+        # the styles say what they ARE, not who they're like — the first
+        # clause of "built" before any dash or bracket reads as a tagline
+        built = ('<span class="built">%s</span>'
+                 % p["built"].split("—")[0].split("(")[0].strip())
+    else:
+        built = ""
+    return (f'<label class="{cls}"><input type="checkbox" value="{n}">'
+            f'<span class="dot"></span>'
+            f'<span class="who"><span class="name">{n}</span>{built}</span>'
+            f'<span class="bpm">{p["bpm"]}</span>'
+            f'<span class="ord"></span></label>')
+
+
+# ---- band artwork -------------------------------------------------
+# Owner 2026-07-18: the page wears the band's own art. Drop image files
+# into <project>/brand/ and they're picked up on the next launch — the
+# one whose name says logo/mark becomes the masthead. Nothing here is
+# required; without a brand folder the page falls back to a type mark.
+
+BRAND = Path(__file__).resolve().parent.parent / "brand"
+_ART = (".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg")
+
+
+def _brand_files():
+    if not BRAND.is_dir():
+        return []
+    return sorted(p for p in BRAND.iterdir()
+                  if p.is_file() and p.suffix.lower() in _ART)
+
+
+def _brand_logo(prefer="blue"):
+    """The masthead mark. Prefers the colourway asked for (the blue
+    square in the masthead), then any file that calls itself a logo,
+    then the smallest image in the folder — a mark, not a photo."""
+    files = _brand_files()
+    if not files:
+        return None
+    for want in (prefer, "logo", "mark", "icon"):
+        hit = [p for p in files if want in p.stem.lower()]
+        if hit:
+            return hit[0]
+    return min(files, key=lambda p: p.stat().st_size)
+
+
 def _page():
-    djs = "".join(
-        f'<label class="dj"><input type="checkbox" value="{n}">'
-        f'<span class="name">{n}</span>'
-        f'<span class="bpm">{CREW[n]["bpm"]} BPM</span>'
-        f'<span class="ord"></span></label>'
-        for n in ORDER)
-    return _PAGE.replace("__DJS__", djs)
+    crew = "".join(_dj_card(n) for n in CREW_ORDER)
+    legends = "".join(_dj_card(n) for n in LEGEND_ORDER)
+    styles = "".join(_dj_card(n) for n in GENRE_ORDER)
+    logo = _brand_logo("blue")
+    if logo:
+        src = f"/brand?name={quote(logo.name)}"
+        mark = f'<img src="{src}" alt="The Back of the Class">'
+        ghost = f'<div class="ghost"><img src="{src}" alt=""></div>'
+    else:                       # no artwork dropped in yet — type mark
+        mark, ghost = "<span>BOTC</span>", ""
+    return (_PAGE.replace("__CREW__", crew).replace("__LEGENDS__", legends)
+            .replace("__GENRES__", styles)
+            .replace("__MARK__", mark).replace("__GHOST__", ghost))
 
 
-def run_web(port=8770):
-    """Serve the Beat Machine as a local web page and open the browser."""
+def _is_homeroom(port):
+    """Is the thing holding this port our own page, or somebody else's
+    server? Decides between 'already open' and 'try the next port'."""
+    import urllib.request
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/",
+                                    timeout=1.5) as r:
+            return b"Homeroom Studio" in r.read(4096)
+    except Exception:
+        return False
+
+
+def run_web(port=None):
+    """Serve Homeroom Studio as a local web page and open the browser.
+    PORT in the environment wins, so a second copy can be run alongside
+    the one he already has open."""
+    port = int(os.environ.get("PORT") or port or 8770)
     import json
     import threading
     import webbrowser
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    from urllib.parse import urlparse, parse_qs
 
     lock = threading.Lock()
 
@@ -1078,19 +2411,172 @@ def run_web(port=8770):
             self.end_headers()
             self.wfile.write(body)
 
+        def _json(self, obj, code=200):
+            self._send(code, "application/json", json.dumps(obj).encode())
+
         def do_GET(self):
-            if self.path in ("/", "/index.html"):
+            u = urlparse(self.path)
+            if u.path in ("/", "/index.html"):
                 self._send(200, "text/html; charset=utf-8",
                            _page().encode("utf-8"))
+            elif u.path == "/batch":
+                self._json({"beats": _batch_beats()})
+            elif u.path == "/lanes":
+                no = parse_qs(u.query).get("no", [""])[0]
+                try:
+                    self._json({"ok": True, "lanes": _swap_lanes(no)})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e), "lanes": []})
+            elif u.path == "/stems":
+                no = parse_qs(u.query).get("no", [""])[0]
+                try:
+                    self._json({"ok": True, "no": int(no),
+                                "stems": _beat_stems(no)})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e), "stems": []})
+            elif u.path == "/candidates":
+                q = parse_qs(u.query)
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        cands = _lane_candidates(q.get("no", [""])[0],
+                                                 q.get("lane", [""])[0],
+                                                 shots=_CACHE["shots"])
+                    self._json({"ok": True, "candidates": cands})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e),
+                                "candidates": []})
+            elif u.path == "/pull":
+                # bring an older beat into the list so it gets a card and
+                # a stem rack like anything in the current batch
+                no = parse_qs(u.query).get("no", [""])[0]
+                try:
+                    n = int(no)
+                    if not beat_wav(n):
+                        raise FileNotFoundError(f"No beat {n} in your library.")
+                    load_recipe(ROOT, n)      # no recipe, no stem rack
+                    append_last_batch(n)
+                    self._json({"ok": True, "no": n})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+            elif u.path == "/brand":
+                want = parse_qs(u.query).get("name", [""])[0]
+                hit = next((p for p in _brand_files() if p.name == want), None)
+                if not hit:
+                    self._send(404, "text/plain", b"not found")
+                    return
+                kind = {".svg": "image/svg+xml", ".jpg": "image/jpeg",
+                        ".jpeg": "image/jpeg", ".gif": "image/gif",
+                        ".webp": "image/webp"}.get(hit.suffix.lower(),
+                                                   "image/png")
+                self._send(200, kind, hit.read_bytes())
+            elif u.path == "/audio":
+                self._audio(parse_qs(u.query).get("no", [""])[0])
+            elif u.path == "/stem":
+                q = parse_qs(u.query)
+                no = q.get("no", [""])[0]
+                lane = q.get("lane", [""])[0]
+                w = (_stem_wav(int(no), lane.strip().lower())
+                     if str(no).isdigit() else None)
+                self._wav(w)
+            elif u.path == "/sample":
+                # a raw one-shot, so he can hear a sample before choosing
+                # it. The path is only played if it's in this lane's own
+                # candidate list — a made-up path never reaches disk.
+                q = parse_qs(u.query)
+                want = q.get("path", [""])[0]
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        ok = any(c["path"] == want for c in _lane_candidates(
+                            q.get("no", [""])[0], q.get("lane", [""])[0],
+                            shots=_CACHE["shots"]))
+                except Exception:
+                    ok = False
+                self._wav(Path(want) if ok else None)
             else:
                 self._send(404, "text/plain", b"not found")
 
+        def _wav(self, path):
+            if not path or not Path(path).exists():
+                self._send(404, "text/plain", b"not found")
+                return
+            self._send(200, "audio/wav", Path(path).read_bytes())
+
+        def _audio(self, no):
+            # only ever a beat NUMBER from the client, resolved to a file
+            # under the beats root here — no client path ever touches disk
+            w = beat_wav(int(no)) if str(no).isdigit() else None
+            if not w or not w.exists():
+                self._send(404, "text/plain", b"not found")
+                return
+            data = w.read_bytes()
+            rng = self.headers.get("Range")
+            if rng and rng.startswith("bytes="):          # let <audio> seek
+                try:
+                    s, e = rng[6:].split("-")
+                    start = int(s) if s else 0
+                    end = min(int(e) if e else len(data) - 1, len(data) - 1)
+                    chunk = data[start:end + 1]
+                    self.send_response(206)
+                    self.send_header("Content-Type", "audio/wav")
+                    self.send_header("Accept-Ranges", "bytes")
+                    self.send_header("Content-Range",
+                                     f"bytes {start}-{end}/{len(data)}")
+                    self.send_header("Content-Length", str(len(chunk)))
+                    self.end_headers()
+                    self.wfile.write(chunk)
+                    return
+                except Exception:
+                    pass
+            self.send_response(200)
+            self.send_header("Content-Type", "audio/wav")
+            self.send_header("Accept-Ranges", "bytes")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
         def do_POST(self):
-            if self.path not in ("/make", "/swap"):
+            if self.path not in ("/make", "/swap", "/triage", "/rebuild"):
                 self._send(404, "text/plain", b"not found")
                 return
             n = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(n) or b"{}")
+            if self.path == "/rebuild":
+                # the stem rack: several drums staged, one new beat out
+                no = data.get("number")
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        picks = {}
+                        for lane, want in (data.get("picks") or {}).items():
+                            if not want:                  # surprise me
+                                picks[lane] = None
+                                continue
+                            if not any(c["path"] == want for c in
+                                       _lane_candidates(
+                                           no, lane, shots=_CACHE["shots"])):
+                                raise ValueError(
+                                    f"That {lane} isn't in your library.")
+                            picks[lane] = want
+                        path, report = swap_many(no, picks,
+                                                 shots=_CACHE["shots"])
+                        print(" ", report.replace("\n", " "))
+                    self._json({"ok": True,
+                                "no": int(path.name.split(" ", 1)[0])})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
+            if self.path == "/triage":
+                try:
+                    loc = triage(data.get("number"), data.get("dest", "dj"))
+                    self._json({"ok": True, "loc": loc})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
             if self.path == "/swap":
                 try:
                     with lock:
@@ -1100,13 +2586,9 @@ def run_web(port=8770):
                                          data.get("lane", "snare"),
                                          shots=_CACHE["shots"])
                         print(" ", report.replace("\n", " "))
-                    self._send(200, "application/json",
-                               json.dumps({"ok": True,
-                                           "result": report}).encode())
+                    self._json({"ok": True, "result": report})
                 except Exception as e:               # shown in the page
-                    self._send(200, "application/json",
-                               json.dumps({"ok": False,
-                                           "error": str(e)}).encode())
+                    self._json({"ok": False, "error": str(e)})
                 return
             names = data.get("names", [])
             tempo = data.get("tempo") or None
@@ -1116,33 +2598,63 @@ def run_web(port=8770):
             except (TypeError, ValueError):
                 how_many = 1
             try:
+                flags = _traditional_flags(how_many, names)
                 with lock:
                     if "shots" not in _CACHE:
                         _CACHE["shots"] = build_shots()
-                    results = []
-                    for _ in range(how_many):
-                        _, report = generate(names, tempo, notes,
-                                             shots=_CACHE["shots"])
+                    results, made = [], []
+                    for i in range(how_many):
+                        path, report = generate(names, tempo, notes,
+                                                traditional=flags[i],
+                                                shots=_CACHE["shots"])
                         results.append(report)
+                        made.append(int(path.name.split(" ", 1)[0]))
                         print(" ", report.replace("\n", " "))
-                self._send(200, "application/json",
-                           json.dumps({"ok": True, "results": results}).encode())
+                    set_last_batch(made)              # the player's batch
+                self._json({"ok": True, "results": results})
             except Exception as e:                   # shown in the page
-                self._send(200, "application/json",
-                           json.dumps({"ok": False, "error": str(e)}).encode())
+                self._json({"ok": False, "error": str(e)})
 
         def log_message(self, *a):
             pass                                     # keep the terminal quiet
 
-    httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    def open_browser(u):
+        if not os.environ.get("REASON_VOICE_NO_BROWSER"):
+            webbrowser.open(u)        # same guard the voice server uses
+
+    # Double-clicking the launcher while a copy is already open used to
+    # dump a raw "OSError: [Errno 48] Address already in use" traceback
+    # into the Terminal window (owner hit this 2026-07-18). He is not a
+    # developer and a traceback reads as "it's broken", so: if the port
+    # is ours, just bring that window up; if it's something else, step
+    # to the next free one. Never a stack trace.
+    httpd = None
+    for p in range(port, port + 12):
+        try:
+            httpd = ThreadingHTTPServer(("127.0.0.1", p), Handler)
+            port = p
+            break
+        except OSError:
+            if _is_homeroom(p):
+                url = f"http://127.0.0.1:{p}/"
+                print(f"\n  Homeroom Studio is already open: {url}")
+                print("  (bringing that one up — no need to start a "
+                      "second copy)\n")
+                open_browser(url)
+                return
+    if httpd is None:
+        print(f"\n  Couldn't start: ports {port}-{port + 11} are all busy.")
+        print("  Close whatever is using them, or restart the Mac.\n")
+        return
+
     url = f"http://127.0.0.1:{port}/"
-    print(f"\n  Beat Machine is open in your browser: {url}")
+    print(f"\n  Homeroom Studio is open in your browser: {url}")
     print("  (leave this window open; close it or press Ctrl+C to quit)\n")
-    webbrowser.open(url)
+    open_browser(url)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\n  Beat Machine closed.")
+        print("\n  Homeroom Studio closed.")
 
 
 def main():
@@ -1167,11 +2679,16 @@ def main():
         out = Path(a.out).expanduser() if a.out else ROOT
         print("  Scanning your sample library…")
         shots = build_shots()
-        for _ in range(max(1, min(10, a.count))):
+        how_many = max(1, min(10, a.count))
+        flags = _traditional_flags(how_many, names)
+        made = []
+        for i in range(how_many):
             path, report = generate(names, a.tempo, a.notes, root=out,
-                                    shots=shots,
+                                    traditional=flags[i], shots=shots,
                                     status=lambda m: print(" ", m))
+            made.append(int(path.name.split(" ", 1)[0]))
             print(report)
+        set_last_batch(made, root=out)
     else:
         run_web()
 

@@ -30,7 +30,9 @@ def test_config_file_round_trips_the_roster(tmp_path):
     first = crew.load_crew(cfg)
     assert cfg.exists()                      # written on first run
     again = crew.load_crew(cfg)              # loaded ever after
-    assert set(first) == set(CREW)
+    # crew_config.json holds the nine; the Legends live in their own file
+    assert set(first) == {n for n in CREW if n not in crew.LEGEND_NAMES
+                          and n not in crew.GENRE_NAMES}
     assert first == again
     # shapes survive the JSON round-trip (tests elsewhere rely on tuples)
     assert isinstance(first["Otto Grit"]["kit"]["kick"][3], tuple)
@@ -170,8 +172,14 @@ def test_generate_ships_wav_midi_stems_and_recipe(machine_env):
     stem_dirs = list(path.parent.glob("* Stems"))
     assert len(stem_dirs) == 1
     stems = {f.stem for f in stem_dirs[0].glob("*.wav")}
-    assert {"kick", "snare", "hat"} <= stems
-    assert "vinyl" in stems                   # Otto's bed ships as a stem
+    # owner 2026-07-18: stems carry the real sample name after the lane
+    # prefix ("kick - <sample>"), never just the generic role
+    for lane in ("kick", "snare", "hat"):
+        match = [s for s in stems if s.startswith(lane)]
+        assert match, (lane, stems)
+        assert all(" - " in s for s in match), (lane, stems)
+    # owner 2026-07-18: clean renders — no vinyl bed baked in
+    assert not any(s.startswith("vinyl") for s in stems)
     no = int(path.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
     assert rec["names"] == ["Otto Grit"]
@@ -214,7 +222,15 @@ def test_swap_changes_one_drum_and_nothing_else(machine_env):
     no = int(path.name.split()[0])
     new_path, report = beat_machine.swap(no, "snare", root=root,
                                          shots=shots)
-    assert new_path.exists() and path.exists()          # nothing overwritten
+    # owner rule 2026-07-18: a swapped song and its variations move into
+    # one family folder together — the original is MOVED, never lost or
+    # overwritten, and both now sit side by side.
+    moved = beat_machine.beat_wav(no, root)
+    assert new_path.exists()
+    assert moved is not None and moved.exists()      # original still there
+    assert moved.name == path.name                   # same file, new home
+    assert moved.parent == new_path.parent           # living together
+    assert new_path.parent.name.endswith("Variations")
     assert "New Snare" in new_path.name
     assert new_path.with_suffix(".mid").exists()
     rec, rec2 = (beat_recipes.load_recipe(root, n)
@@ -225,6 +241,65 @@ def test_swap_changes_one_drum_and_nothing_else(machine_env):
     assert unchanged == {k: v for k, v in rec2["kit_paths"].items()
                          if k != "snare"}
     assert rec2["preset"] == rec["preset"]              # pattern locked
+
+
+def test_stem_rack_swaps_several_drums_into_one_rebuild(machine_env):
+    """Owner 2026-07-18: staging kick + snare + hat in the stem rack must
+    come back as ONE new beat with all three changes, not three beats."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    # one drum he picked by hand, two he left to the machine
+    chosen = next(e["path"] for e in shots["kick"]
+                  if e["path"] != rec["kit_paths"]["kick"])
+    picks = {"kick": chosen, "snare": None, "hat": None}
+    before = len(list(root.rglob("*.wav")))
+    new_path, _ = beat_machine.swap_many(no, picks, root=root, shots=shots)
+
+    made = [p for p in root.rglob("*.wav")
+            if p.name.startswith(f"{int(new_path.name.split()[0])} ")]
+    assert len(made) == 1, "one rebuild, one new beat"
+    rec2 = beat_recipes.load_recipe(root, int(new_path.name.split()[0]))
+    assert rec2["kit_paths"]["kick"] == chosen         # exactly his pick
+    for lane in ("snare", "hat"):
+        assert rec2["kit_paths"][lane] != rec["kit_paths"][lane], lane
+    untouched = {k: v for k, v in rec["kit_paths"].items()
+                 if k not in picks}
+    assert untouched == {k: v for k, v in rec2["kit_paths"].items()
+                         if k not in picks}
+    assert rec2["preset"] == rec["preset"]             # pattern still locked
+    assert rec2["parent"] == no
+    assert before < len(list(root.rglob("*.wav")))     # nothing overwritten
+
+
+def test_stem_rack_refuses_a_pointless_rebuild(machine_env):
+    """Choosing the sample that's already in the lane isn't a change."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    same = beat_recipes.load_recipe(root, no)["kit_paths"]["kick"]
+    with pytest.raises(ValueError, match="Nothing to change"):
+        beat_machine.swap_many(no, {"kick": same}, root=root, shots=shots)
+
+
+def test_stem_rack_lists_every_drum_with_its_real_sample(machine_env):
+    """What the rack shows: each lane, the sample actually behind it, and
+    the producer stamp visible but locked."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Glass Cat"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    stems = beat_machine._beat_stems(no, root=root)
+    by_lane = {s["lane"]: s for s in stems}
+    assert set(by_lane) >= set(rec["kit_spec"])
+    for lane, path_ in rec["kit_paths"].items():
+        assert by_lane[lane]["sample"] == Path(path_).stem
+        assert by_lane[lane]["stem"] is True        # a solo wav to play
+    for lane in rec["stamp_paths"]:
+        assert by_lane[lane]["locked"] is True      # tag never swappable
+    assert all(not s["locked"] for s in stems
+               if s["lane"] in rec["kit_spec"] and s["lane"] != "stamp")
 
 
 def test_swap_rejects_a_lane_the_beat_lacks(machine_env):

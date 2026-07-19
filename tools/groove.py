@@ -118,20 +118,47 @@ OWNER_TASTE = {
     "sp1200_amount": 0.5,        # AB2: half dirt, half clean
     "sidechain_prob": 0.9,       # AB3: duck the beat around the kick 90% of
                                  #      beats; 1 in 10 renders skips it
-    "master": "modern_loud",     # AB4: the -8 LUFS chain, always
+    "master": "modern_loud",     # AB4 picked the loud chain; owner revised
+                                 #      2026-07-18: beats redlined when dropped
+                                 #      into Reason, so the chain now lands on
+                                 #      master_lufs with real peak headroom
+    "master_lufs": -12.0,        # was -8: loud enough to audition, quiet
+                                 #      enough to sit on a Reason channel at
+                                 #      unity without pinning the meter
+    "peak_ceiling_db": -4.0,     # was -1: peaks stay ~4 dB under 0 dBFS so
+                                 #      EQ/comp in Reason has room to boost
     "snare_space": "vary",       # AB5 said gated; owner revised 2026-07-15:
                                  #      use VARIATIONS of gated and dry
                                  #      across a batch, roughly alternating
-    "snare_trim_db": -3.5,       # feedback 2026-07-14: snares sat too hot vs
-                                 #      the kit — pull the snare bus back this
-                                 #      much (reverb/gate add energy on top)
+    "snare_trim_db": -5.0,       # 2026-07-14 set -3.5; owner 2026-07-18:
+                                 #      snares STILL sat above the kick —
+                                 #      pull the snare bus back further
+    "perc_trim_db": -3.5,        # owner 2026-07-18: snaps, bells, and other
+                                 #      bright percussion also ride over the
+                                 #      kick — they get their own bus trim
     "gate_wet": 0.3,             # was 0.4; part of the same snare-taming fix
+    "clean_renders": True,       # owner 2026-07-18: "I want the beats
+                                 #      clean" — no baked-in dirt (808 dist,
+                                 #      roughness AM, mix saturation, SP-1200
+                                 #      dust, vinyl bed, wow/flutter, hot
+                                 #      master drive); he adds his own color
+                                 #      in Reason
+    "open_soundbank": True,      # owner 2026-07-18: no limits on a DJ's
+                                 #      sound bank — every sound in the kits
+                                 #      is fair game for every DJ (taste
+                                 #      tags stop gating picks; locked
+                                 #      stamps still ride)
 }
 
 
 def snare_scale():
     """Linear gain for the snare bus, per the owner's balance feedback."""
     return 10 ** (OWNER_TASTE["snare_trim_db"] / 20)
+
+
+def perc_scale():
+    """Linear gain for the bright-perc bus (snaps, bells, stamps, rims)."""
+    return 10 ** (OWNER_TASTE["perc_trim_db"] / 20)
 
 # ------------------------------------------------------------ dynamics
 
@@ -245,20 +272,34 @@ def fft_convolve(sig, ir):
     return np.fft.irfft(np.fft.rfft(sig, N) * np.fft.rfft(ir, N))[:len(sig)]
 
 
+def loop_convolve(sig, ir):
+    """Circular convolution: the reverb tail that runs past the loop end
+    wraps back onto the start — the tail a listener hears at bar 1 is the
+    one bar 8 just made, so the seam is continuous (owner 2026-07-18:
+    beats didn't loop clean; truncated tails were one of the reasons).
+    Requires len(ir) <= len(sig) — true for every house IR vs 8 bars."""
+    n = len(sig)
+    return np.fft.irfft(np.fft.rfft(sig) * np.fft.rfft(ir, n), n)
+
+
 def gated_reverb(dry, onsets, wet=0.5, decay=1.8, hold_ms=140.0,
-                 rel_ms=25.0, tone=5200.0):
+                 rel_ms=25.0, tone=5200.0, loop=False):
     """The 80s snare explosion: big bright flat-bodied tail, held then cut
-    brutally fast after each hit."""
+    brutally fast after each hit. loop=True renders the tail circularly
+    and wraps a gate window that runs past the end back onto the start,
+    so a hit in the last beat of bar 8 gates cleanly across the seam."""
     irL, irR = make_ir(min(decay, 0.35), tone, predelay_ms=6, flat=True)
-    tail = fft_convolve(dry, irL)
-    gate = np.zeros(len(tail))
+    tail = loop_convolve(dry, irL) if loop else fft_convolve(dry, irL)
+    n = len(tail)
     h, rl = int(hold_ms / 1000 * SR), int(rel_ms / 1000 * SR)
+    gate = np.zeros(n + h + rl)          # room for overhang past the end
     for p in onsets:
-        e = min(len(gate), p + h)
-        gate[p:e] = 1.0
-        e2 = min(len(gate), e + rl)
-        gate[e:e2] = np.maximum(gate[e:e2], np.linspace(1, 0, e2 - e))
-    return dry + tail * gate * wet
+        gate[p:p + h] = 1.0
+        gate[p + h:p + h + rl] = np.maximum(gate[p + h:p + h + rl],
+                                            np.linspace(1, 0, rl))
+    if loop:
+        gate[:h + rl] = np.maximum(gate[:h + rl], gate[n:])
+    return dry + tail * gate[:n] * wet
 
 
 def haas(mono, ms=12.0, side_db=-4.0):
@@ -287,17 +328,25 @@ def vinyl_bed(n, clicks_per_s=14.0, level_db=-42.0, seed=7):
     return bed / (np.abs(bed).max() + 1e-9) * 10 ** (level_db / 20)
 
 
-def wow_flutter(x, wow_hz=0.556, wow_pct=0.35, flut_pct=0.08, seed=11):
+def wow_flutter(x, wow_hz=0.556, wow_pct=0.35, flut_pct=0.08, seed=11,
+                loop=False):
     """Variable-speed read: wow at once-per-revolution (33⅓ RPM = 0.556 Hz)
-    plus noisy flutter. 1% speed ≈ 17 cents."""
+    plus noisy flutter. 1% speed ≈ 17 cents. loop=True snaps the wow rate
+    to whole cycles per pass and wraps the read position, so the warp
+    lands back at zero at the seam instead of jumping pitch (the flutter
+    noise is FFT-filtered, i.e. already loop-continuous)."""
     r = np.random.default_rng(seed)
     n = len(x)
     t = np.arange(n)
+    if loop:
+        wow_hz = max(1, round(wow_hz * n / SR)) * SR / n
     wow = (wow_pct / 100) / (2 * np.pi * wow_hz) * SR * \
         np.sin(2 * np.pi * wow_hz * t / SR)
     fl = _fft_weight(r.standard_normal(n),
                      lambda f: np.abs(1 / (1 + 1j * f / 10)))
     fl = fl / (np.abs(fl).max() + 1e-9) * (flut_pct / 100) * SR / 60
+    if loop:
+        return np.interp((t + wow + fl) % n, t, x, period=n)
     pos = np.clip(t + wow + fl, 0, n - 1)
     return np.interp(pos, t, x)
 
@@ -352,10 +401,15 @@ def lufs(L, R):
     return -0.691 + 10 * np.log10(p.mean())
 
 
-def master_to_lufs(L, R, target=-8.0, ceiling_db=-1.0):
-    """Modern beat loudness: measure, gain toward target, soft-clip into a
-    −1 dBTP-ish ceiling, re-measure and report. Iterate twice — the clip
-    changes the measurement."""
+def master_to_lufs(L, R, target=None, ceiling_db=None):
+    """Modern beat loudness: measure, gain toward target, soft-clip into
+    the house ceiling, re-measure and report. Iterate twice — the clip
+    changes the measurement. Defaults come from OWNER_TASTE so one edit
+    there re-levels every render path."""
+    if target is None:
+        target = OWNER_TASTE["master_lufs"]
+    if ceiling_db is None:
+        ceiling_db = OWNER_TASTE["peak_ceiling_db"]
     for _ in range(2):
         cur = lufs(L, R)
         g = 10 ** ((target - cur) / 20)

@@ -1,0 +1,12 @@
+{
+ "_readme": [
+  "Where the beat library lives. The Beat Machine reads this first, so",
+  "moving the folder again only means editing the path below.",
+  "Owner decision 2026-07-18: off iCloud, onto the TBOTC 3 drive next to",
+  "the sample packs (that drive already has to be connected to make a",
+  "beat at all, since the one-shots live on it).",
+  "If this path is unreachable the machine falls back to searching the",
+  "usual spots and warns instead of silently starting an empty library."
+ ],
+ "root": "/Volumes/TBOTC 3/Claude Drum Beats"
+}

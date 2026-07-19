@@ -13,6 +13,7 @@ Beat Machine (owner spec 2026-07-16, dj-drone-machine-spec.md).
 """
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -27,7 +28,7 @@ HIST_KEEP = 6                    # recent picks remembered per DJ per lane
 # General MIDI drum notes (channel 10) per lane; numbered stamp lanes
 # (collab guests) strip their digits before lookup. The second block maps
 # the composer's guest lanes (pattern_gen extras).
-GM_NOTE = {"kick": 36, "snap": 37, "snare": 38, "clap": 39, "hat": 42,
+GM_NOTE = {"kick": 36, "sub": 35, "snap": 37, "snare": 38, "clap": 39, "hat": 42,
            "perc": 63, "bongo": 61, "stamp": 49,
            "shaker": 70, "rims": 37, "toms": 47, "foundfx": 55,
            "cutfx": 55, "congas2": 64, "exotic2": 65, "blips": 80,
@@ -90,13 +91,23 @@ def write_midi(path, events, bpm, tpq=480, tsig=(4, 4)):
 # ------------------------------------------------------------------ stems
 
 
-def write_stems(folder, stems):
-    """One 24-bit stereo wav per lane. Filenames stay number-free so the
-    global beat numbering (next_number's rglob) never counts them."""
+def write_stems(folder, stems, sources=None):
+    """One 24-bit stereo wav per lane. When `sources` maps lane -> the
+    sample file it was built from, the stem carries the REAL sample name
+    ("kick - Cymatics Kong Kick 9.wav") — owner 2026-07-18: show WHICH
+    drum was used, not a generic role name. The lane prefix keeps
+    filenames starting with a letter, so the global beat numbering
+    (next_number's leading-digit rglob) never counts them."""
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     for lane, (sL, sR) in stems.items():
-        write_wav24(folder / f"{lane}.wav", sL, sR)
+        name = lane
+        src = (sources or {}).get(lane)
+        if src:
+            real = re.sub(r'[\\/:*?"<>|]', "_", Path(src).stem).strip()
+            if real:
+                name = f"{lane} - {real}"
+        write_wav24(folder / f"{name}.wav", sL, sR)
     return folder
 
 

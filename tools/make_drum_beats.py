@@ -35,7 +35,10 @@ SHOT_WORDS = [
     ("snap", {"snap", "snaps", "finger", "fingers"}),
     ("rim", {"rim", "rimshot", "sidestick", "stick", "click"}),
     ("hat", {"hat", "hats", "hihat", "hh", "cymbal"}),
-    ("kick", {"kick", "kicks", "bd", "boom", "808"}),   # an 808 IS a kick
+    # "boom" removed 2026-07-18: it matched a BOTC band take ("Bang boom
+    # Pow lyr...") and shipped it as a kick in dozens of beats. Real kick
+    # samples say kick/bd/808; song titles say boom.
+    ("kick", {"kick", "kicks", "bd", "808"}),           # an 808 IS a kick
     ("snare", {"snare", "snares", "sd"}),
     ("perc", {"perc", "percussion", "conga", "bongo", "shaker", "tom",
               "toms", "tamb", "tambourine", "rim", "cowbell", "block",
@@ -44,6 +47,47 @@ SHOT_WORDS = [
     ("fx", {"fx", "riser", "sweep", "impact", "whoosh", "foley", "glitch",
             "laser", "zap", "scratch", "texture", "reverse", "vinyl"}),
 ]
+
+
+# Owner blocklist (2026-07-18): file NAMES in banned_samples.json (repo
+# root) never enter the pool again, on any drive. Seeded with the "Bang
+# boom Pow lyr" band take that rode as a kick through many beats.
+BANNED_FILE = Path(__file__).resolve().parent.parent / "banned_samples.json"
+
+# never sample these, whatever the tokens say: our own rendered output
+# (beat 280's clap was a previously generated stem!) and BOTC band takes
+BAND_TOKENS = {"botc", "tbotc", "botb", "lyr", "lyric", "lyrics"}
+
+
+def banned_substrings():
+    """Owner blocklist as lowercase SUBSTRINGS. One entry "Bang boom Pow"
+    bans every date/master variant of that band song at once; an exact
+    filename still matches itself. Shared with quarantine_banned.py."""
+    import json
+    try:
+        return [str(s).lower() for s in json.loads(BANNED_FILE.read_text())]
+    except (OSError, ValueError):
+        return []
+
+
+def is_banned(sample_name, banned=None):
+    """True if any blocklist substring appears in this file name/path."""
+    banned = banned_substrings() if banned is None else banned
+    low = str(sample_name).lower()
+    return any(b in low for b in banned)
+
+
+def _clean_pool(shots):
+    banned = banned_substrings()
+    for role, entries in shots.items():
+        shots[role] = [
+            e for e in entries
+            if not is_banned(e["path"], banned)
+            and "/Claude Drum Beats/" not in e["path"]
+            and not (BAND_TOKENS
+                     & set(e.get("tokens")
+                           or Path(e["path"]).stem.lower().split()))]
+    return shots
 
 
 def build_shots():
@@ -63,7 +107,7 @@ def build_shots():
             if toks & words:
                 shots[role].append(e)
     from sample_library import merge_into
-    return merge_into(shots)
+    return _clean_pool(merge_into(shots))
 
 # ------------------------------------------------------------- kit picking
 
@@ -215,15 +259,20 @@ def mixdown(bufs, verb):
     return L, R
 
 
-def duck(L, R, kick_pos, depth, rel=0.09):
+def duck(L, R, kick_pos, depth, rel=0.09, loop=False):
     if depth <= 0:
         return L, R
-    g = np.ones(len(L))
+    n = len(L)
     Ln = int(rel * 3 * SR)
     dip = 1 - depth * np.exp(-np.arange(Ln) / (rel * SR))
+    g = np.ones(n + Ln)                  # room for overhang past the end
     for p in kick_pos:
-        e = min(len(g), p + Ln)
-        g[p:e] = np.minimum(g[p:e], dip[:e - p])
+        g[p:p + Ln] = np.minimum(g[p:p + Ln], dip[:min(Ln, n + Ln - p)])
+    if loop:
+        # a kick in the last ~270 ms keeps ducking across the seam instead
+        # of snapping back to unity at the loop point
+        g[:Ln] = np.minimum(g[:Ln], g[n:])
+    g = g[:n]
     return L * g, R * g
 
 # ------------------------------------------------------------- the 10 beats

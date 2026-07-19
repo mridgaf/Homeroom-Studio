@@ -23,10 +23,12 @@ def env(tmp_path, monkeypatch):
     crew.CREW.clear()
     crew.CREW.update(fresh)
     yield cfg
-    # restore the real roster for other test modules
+    # restore the real roster for other test modules — every roster, not
+    # just the nine. The Legends and the Styles live in their own config
+    # files, so reload_rosters() puts all three back; rebuilding by hand
+    # here is what dropped the Styles for later modules (2026-07-19).
     monkeypatch.undo()
-    crew.CREW.clear()
-    crew.CREW.update(crew.load_crew())
+    crew.reload_rosters()
 
 
 def _raw(cfg):

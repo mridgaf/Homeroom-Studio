@@ -37,15 +37,19 @@ from pattern_gen import DEFAULT_STYLE, STYLE_VERSION
 from make_drum_loops import SR, master, write_wav24
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
-from groove import (LaneFeel, OWNER_TASTE, dist808, fft_convolve,
-                    gated_reverb, make_ir, master_to_lufs, mono_below,
-                    mpc_swing_offset, roughness_am, sat_unity, snare_scale,
-                    sp1200, velocity, vinyl_bed, wow_flutter)
+from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
+                    loop_convolve, make_ir, master_to_lufs, mono_below,
+                    mpc_swing_offset, perc_scale, roughness_am, sat_unity,
+                    snare_scale, sp1200, velocity, vinyl_bed, wow_flutter)
 
 OUT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 LOCK = Path(os.path.expanduser("~/.reason_voice/crew_kits.json"))
 BARS = 8
 SNARE_LIKE = {"snare", "clap"}   # lanes that follow the owner's snare trim
+# bright percussion that reads louder than it meters — owner 2026-07-18:
+# snaps/bells/stamps sat over the kick, so they get their own bus trim
+# (startswith match covers stamp2/stamp3 collab lanes)
+PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 
 R16 = "-" * 16
 
@@ -501,6 +505,76 @@ def load_crew(path=CONFIG):
 
 CREW = load_crew()
 
+# The Legends (owner request 2026-07-18): a SECOND roster of twelve
+# signature-style producers, kept in their own legends_config.json but
+# merged into CREW so every engine function (build_kit, render_crew_beat,
+# compose, collabs) reaches them by name with no special-casing. Their
+# LIKENESS rules key off CREW[name]["legend"] downstream. They still lock
+# stamps and experiment with samples like the nine; only their patterns
+# and feel stay faithful. LEGEND_NAMES lets the UI put them in a separate
+# box and lets evolution skip them (a legend's career is already written).
+LEGEND_NAMES = set()
+
+
+def merge_legends(target):
+    """Load the Legends roster and fold it into `target` (the shared CREW
+    dict), returning their names. Kept a function so anything that rebuilds
+    CREW — the module import here, and tests that reset the roster — can
+    restore the Legends the same way instead of dropping them."""
+    global LEGEND_NAMES
+    try:
+        import legends
+        leg = legends.load_legends(normalize_preset)
+        target.update(leg)
+        LEGEND_NAMES = set(leg)
+    except Exception as e:                    # never let a legend break the nine
+        print(f"WARNING: Legends roster unavailable ({e}).")
+    return LEGEND_NAMES
+
+
+# The Styles (owner request 2026-07-19): a THIRD roster, keyed to
+# subgenres rather than people — Baltimore club, reggaeton, Memphis,
+# bounce and the rest. Same merge contract as the Legends, so the whole
+# engine reaches them by name; their strictness rules key off
+# CREW[name]["genre"] downstream (canon lanes placed verbatim, pinned
+# swing, no cross-pollination, no evolution, per-style density).
+GENRE_NAMES = set()
+
+
+def merge_genres(target):
+    """Load the Styles roster and fold it into `target` (the shared CREW
+    dict), returning their names. Same shape as merge_legends so anything
+    rebuilding CREW restores all three rosters the same way."""
+    global GENRE_NAMES
+    try:
+        import genres
+        gen = genres.load_genres(normalize_preset)
+        target.update(gen)
+        GENRE_NAMES = set(gen)
+    except Exception as e:                    # never let a style break the nine
+        print(f"WARNING: Styles roster unavailable ({e}).")
+    return GENRE_NAMES
+
+
+merge_legends(CREW)
+merge_genres(CREW)
+
+
+def reload_rosters(target=CREW):
+    """Rebuild `target` into the COMPLETE roster — the nine, the Legends,
+    and the Styles — from whatever config files are currently in force.
+
+    Anything that resets CREW should call this rather than reassembling
+    the rosters by hand: test_evolution's sandbox teardown used to
+    re-merge only the Legends, so adding a third roster silently dropped
+    it for every module that ran afterwards (2026-07-19). One call means
+    a fourth roster can never reintroduce that bug."""
+    target.clear()
+    target.update(load_crew())
+    merge_legends(target)
+    merge_genres(target)
+    return target
+
 # ------------------------------------------------------------- kit locking
 
 def _load_choked(path, secs):
@@ -524,6 +598,10 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=()):
     when the wants say deep/sub. `avoid` holds paths already locked by
     other personalities: signature kits are identities, so no two crew
     members share a sample (waived only if the pool runs dry)."""
+    if OWNER_TASTE.get("open_soundbank"):
+        # owner 2026-07-18: no limits on a DJ's sound bank — the whole
+        # role pool is fair game, taste tags and must-words stop gating
+        wants, must = [], None
     cands = shots.get(role, [])
     r = np.random.default_rng(seed)
     order = [cands[int(i)] for i in r.permutation(len(cands))]
@@ -656,6 +734,10 @@ def grid_accent(res, s):
         if s % 4 == 0:
             return 1.0
         return 0.85 if s % 2 == 0 else 0.72
+    if res == 24:                # triplet grid in 4/4 (genre roster
+        if s % 6 == 0:           # 2026-07-19): six per beat, so beats
+            return 1.0           # start every 6 and the triplet 8ths
+        return 0.86 if s % 2 == 0 else 0.7    # sit on the even steps
     return 1.0
 
 
@@ -673,7 +755,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # three quarter-note beats; 4/4 stays the default four.
     num, den = p.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / bpm
-    end = int(BARS * bar_s * SR)
+    end = int(round(BARS * bar_s * SR))
     n = end + int(1.5 * SR)
     # vel_seed (2026-07-17): without it every beat shared one accent
     # sequence — same loud/soft ripple over the same skeleton read as
@@ -686,7 +768,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         off, jit, swing, seed = feel_args
         feel = LaneFeel(off, jit, swing, seed=seed)
         snarish = any(lane.startswith(s) for s in SNARE_LIKE)
-        g = gain * (snare_scale() if snarish else 1.0)
+        percish = any(lane.startswith(s) for s in PERC_LIKE)
+        g = gain * (snare_scale() if snarish
+                    else perc_scale() if percish else 1.0)
         snd = kit[lane]
         buf = np.zeros(n)
         ons, evs = [], []
@@ -720,9 +804,14 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     events = {k: [(t, v) for t, v in evs if t * SR < end]
               for k, evs in events.items()}
 
-    if p["kick_dist"] > 0:
+    # owner 2026-07-18: clean renders — every dirt stage (808 dist,
+    # roughness, saturation, dust, vinyl, wow) stays off; he adds his own
+    # color in Reason. Presets keep their dirt numbers so flipping
+    # OWNER_TASTE["clean_renders"] back restores each character's grime.
+    clean = OWNER_TASTE.get("clean_renders", False)
+    if not clean and p["kick_dist"] > 0:
         bufs["kick"] = dist808(bufs["kick"], p["kick_dist"])
-    if p.get("rough_808"):
+    if not clean and p.get("rough_808"):
         rate, depth = p["rough_808"]
         bufs["kick"] = roughness_am(bufs["kick"], rate, depth)
 
@@ -733,7 +822,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             # forums put 80s drama at 300+ ms, which a 90 bpm 8th hits)
             bufs[lane] = gated_reverb(bufs[lane], onsets[lane],
                                       wet=OWNER_TASTE["gate_wet"],
-                                      hold_ms=min(30000.0 / bpm, 350.0))
+                                      hold_ms=min(30000.0 / bpm, 350.0),
+                                      loop=True)
         elif space in ("room", "plate", "hall"):
             # v6: every DJ can roll a wet space per beat — use the era
             # Alt params when the preset carries them, house defaults
@@ -745,8 +835,23 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             decay, tone, wet = (alt[1] if alt and alt[0] == space
                                 and alt[1] else defaults[space])
             irL, _ = make_ir(decay, tone)
-            bufs[lane] = bufs[lane] + fft_convolve(bufs[lane], irL) * wet
+            bufs[lane] = bufs[lane] + loop_convolve(bufs[lane], irL) * wet
         # "dry": leave it alone
+
+    # hard backstop (owner 2026-07-18): the snare bus never out-powers
+    # the kick, whatever the trims, samples, and reverb energy added up
+    # to. Measured AFTER space treatment so gate/reverb energy counts.
+    if "kick" in bufs:
+        kick_rms = np.sqrt((bufs["kick"] ** 2).mean())
+        sn = [ln for ln in bufs
+              if any(ln.startswith(s) for s in SNARE_LIKE)]
+        if kick_rms > 0 and sn:
+            bus = sum(bufs[ln] for ln in sn)
+            bus_rms = np.sqrt((bus ** 2).mean())
+            cap = kick_rms * 10 ** (-1.0 / 20)   # sit >=1 dB under the kick
+            if bus_rms > cap:
+                for ln in sn:
+                    bufs[ln] = bufs[ln] * (cap / bus_rms)
 
     # stems: each lane panned to stereo with its space treatment, kick
     # character, and the duck baked in (duck is a plain envelope multiply,
@@ -757,8 +862,11 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             gl = np.cos((pan + 1) * np.pi / 4)
             gr = np.sin((pan + 1) * np.pi / 4)
             sL, sR = bufs[lane] * gl, bufs[lane] * gr
-            if p["sidechain"] > 0 and lane != "kick":
-                sL, sR = duck(sL, sR, onsets["kick"], depth=p["sidechain"])
+            # the tuned root sub (traditional beats) knocks WITH the kick,
+            # so it rides the un-ducked bass path just like the kick does
+            if p["sidechain"] > 0 and lane not in ("kick", "sub"):
+                sL, sR = duck(sL, sR, onsets["kick"], depth=p["sidechain"],
+                              loop=True)
             stems[lane] = (sL, sR)
 
     # stereo mix, kick kept aside so the duck breathes around it
@@ -767,47 +875,53 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     for lane, (pan, *_rest) in p["lanes"].items():
         gl = np.cos((pan + 1) * np.pi / 4)
         gr = np.sin((pan + 1) * np.pi / 4)
-        if lane == "kick":
+        if lane in ("kick", "sub"):          # bass sits outside the duck
             kL += bufs[lane] * gl
             kR += bufs[lane] * gr
         else:
             oL += bufs[lane] * gl
             oR += bufs[lane] * gr
     if p["sidechain"] > 0:
-        oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"])
+        oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
+                      loop=True)
     L, R = kL + oL, kR + oR
 
-    if p["vinyl"]:
+    if not clean and p["vinyl"]:
         L = L + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1)
         R = R + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 2)
-    if p["wow"] > 0:
-        L = wow_flutter(L, wow_pct=p["wow"], seed=p["num"])
-        R = wow_flutter(R, wow_pct=p["wow"], seed=p["num"])
-    if p["mix_sat"] > 0:
+    if not clean and p["wow"] > 0:
+        L = wow_flutter(L, wow_pct=p["wow"], seed=p["num"], loop=True)
+        R = wow_flutter(R, wow_pct=p["wow"], seed=p["num"], loop=True)
+    if not clean and p["mix_sat"] > 0:
         L, R = sat_unity(L, p["mix_sat"]), sat_unity(R, p["mix_sat"])
-    if p["dust"] > 0:
+    if not clean and p["dust"] > 0:
         L, R = sp1200(L, amount=p["dust"]), sp1200(R, amount=p["dust"])
 
-    L, R = master(L, R, drive=p["drive"])
+    # clean master: drive 0.7 keeps the tanh glue essentially linear —
+    # tone EQ and mono-bass still apply, saturation effectively doesn't
+    L, R = master(L, R, drive=0.7 if clean else p["drive"])
     L, R = mono_below(L, R, 120)
-    L, R, got = master_to_lufs(L, R, target=-8.0)
+    L, R, got = master_to_lufs(L, R)
     if not want_parts:
         return L, R, got
 
     # finish the stems: the vinyl bed becomes its own stem, wow and dust
     # (the character-defining colors) print per lane, and one shared gain
-    # brings the set to 0.9 peak so the balance between stems survives.
+    # sets the loudest stem to -6 dBFS so the balance between stems
+    # survives and the summed set keeps headroom in Reason.
     # Mix-bus glue (mix_sat, master drive, LUFS) stays off the stems —
     # they're for editing in Reason 12; the WAV is the glued reference.
-    if p["vinyl"]:
+    if not clean and p["vinyl"]:
         stems["vinyl"] = (
             vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1),
             vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 2))
     for lane, (sL, sR) in list(stems.items()):
-        if lane != "vinyl":
+        if not clean and lane != "vinyl":
             if p["wow"] > 0:
-                sL = wow_flutter(sL, wow_pct=p["wow"], seed=p["num"])
-                sR = wow_flutter(sR, wow_pct=p["wow"], seed=p["num"])
+                sL = wow_flutter(sL, wow_pct=p["wow"], seed=p["num"],
+                                 loop=True)
+                sR = wow_flutter(sR, wow_pct=p["wow"], seed=p["num"],
+                                 loop=True)
             if p["dust"] > 0:
                 sL = sp1200(sL, amount=p["dust"])
                 sR = sp1200(sR, amount=p["dust"])
@@ -815,7 +929,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     peak = max(max(np.abs(sL).max(), np.abs(sR).max())
                for sL, sR in stems.values())
     if peak > 0:
-        stems = {ln: (sL * 0.9 / peak, sR * 0.9 / peak)
+        # 0.5 = -6 dBFS on the loudest stem; was 0.9, which summed to a
+        # redlining channel the moment the stems landed in Reason
+        stems = {ln: (sL * 0.5 / peak, sR * 0.5 / peak)
                  for ln, (sL, sR) in stems.items()}
     return L, R, got, {"events": events, "stems": stems}
 
@@ -863,8 +979,8 @@ def main():
             rms = 20 * np.log10(np.sqrt(0.5 * (L**2 + R**2).mean()) + 1e-12)
             # LUFS is the loudness truth; plain RMS runs low on spacious
             # halftime styles (drop-out bars average in), so its floor is soft
-            good = abs(dur - want) < 0.02 and -14 < rms < -5 \
-                and -10 < got < -6.5
+            good = abs(dur - want) < 0.02 and -18 < rms < -9 \
+                and abs(got - OWNER_TASTE["master_lufs"]) < 2.0
             ok &= good
             print(f"  {path.name:52s} {dur:6.2f}s  LUFS {got:5.1f}  "
                   f"RMS {rms:5.1f}  {'ok' if good else 'CHECK'}")

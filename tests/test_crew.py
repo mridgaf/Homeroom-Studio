@@ -15,11 +15,14 @@ SR = 44100
 
 def test_roster_is_the_agreed_nine():
     # Snap Church retired 2026-07-15 (too close to Night Metro/Rage
-    # Engine); New Math holds slot 9
-    assert set(CREW) == {"Otto Grit", "Cutz", "Crate Prophet", "Chrome Dial",
-                         "Glass Cat", "Sunday Chop", "Night Metro",
-                         "Rage Engine", "New Math"}
-    assert sorted(p["num"] for p in CREW.values()) == list(range(1, 10))
+    # Engine); New Math holds slot 9. The Legends (slots 10+) are a
+    # separate roster and are excluded here.
+    nine = {n for n in CREW if n not in crew.LEGEND_NAMES
+            and n not in crew.GENRE_NAMES}
+    assert nine == {"Otto Grit", "Cutz", "Crate Prophet", "Chrome Dial",
+                    "Glass Cat", "Sunday Chop", "Night Metro",
+                    "Rage Engine", "New Math"}
+    assert sorted(CREW[n]["num"] for n in nine) == list(range(1, 10))
 
 
 def test_every_lane_is_eight_valid_bars():
@@ -35,8 +38,11 @@ def test_every_lane_is_eight_valid_bars():
 
 
 def test_machine_truth_dust_only_for_the_90s_heads():
-    # research: SP-1200 dust belongs to the 90s; ASR-10/MPC3000 stay clean
+    # research: SP-1200 dust belongs to the 90s; ASR-10/MPC3000 stay clean.
+    # The Legends carry their own producer's grit level, so they're out.
     for name, p in CREW.items():
+        if name in crew.LEGEND_NAMES or name in crew.GENRE_NAMES:
+            continue
         if p["era"] == "90s":
             assert p["dust"] == OWNER_TASTE["sp1200_amount"], name
         else:
@@ -50,9 +56,13 @@ def test_exactly_one_prototype_skips_sidechain():
 
 
 def test_house_snare_space_is_gated_everywhere():
+    # the house treatment for the nine. Legends follow their producer —
+    # Farrow and Mustang are documented bone-dry — so they're excluded.
     for name, p in CREW.items():
         space, on = p["space"]
-        assert space == "gated", name
+        if name not in crew.LEGEND_NAMES \
+                and name not in crew.GENRE_NAMES:
+            assert space == "gated", name
         assert all(lane in p["lanes"] for lane in on), name
 
 
@@ -143,9 +153,10 @@ def _tone_kit(p):
 def test_render_is_loop_length_and_loudness_true():
     p = CREW["Otto Grit"]
     L, R, got = render_crew_beat("Otto Grit", _tone_kit(p))
-    assert len(L) == len(R) == int(BARS * 240.0 / p["bpm"] * SR)
-    # the house master aims at -8; a sparse synthetic kit lands a bit shy
-    assert -10.0 < got < -6.5
+    assert len(L) == len(R) == int(round(BARS * 240.0 / p["bpm"] * SR))
+    # the house master aims at OWNER_TASTE["master_lufs"]; a sparse
+    # synthetic kit lands a bit shy
+    assert abs(got - OWNER_TASTE["master_lufs"]) < 2.0
     assert np.abs(L).max() <= 1.0 and np.abs(R).max() <= 1.0
     assert np.sqrt((L ** 2).mean()) > 1e-3              # not silence
 

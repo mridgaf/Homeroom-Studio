@@ -188,10 +188,9 @@ def master(L, R, drive=1.4):
     L, R = np.tanh(L) / np.tanh(drive), np.tanh(R) / np.tanh(drive)
     peak = max(np.abs(L).max(), np.abs(R).max())
     L, R = L / peak * 0.94, R / peak * 0.94              # ~-0.5 dBFS
-    fade = int(0.002 * SR)
-    for x in (L, R):
-        x[:fade] *= np.linspace(0, 1, fade)
-        x[-fade:] *= np.linspace(1, 0, fade)
+    # no edge fades: these files are loops — the tail fold already makes
+    # the seam continuous, and a fade dipped the downbeat at every repeat
+    # (owner 2026-07-18: "they don't loop right")
     return L, R
 
 

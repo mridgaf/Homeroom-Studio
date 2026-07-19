@@ -10,6 +10,7 @@ from pathlib import Path
 import pytest
 
 sys.path.append(str(Path(__file__).parent.parent / "tools"))
+import crew
 import pattern_gen
 import variety
 from crew import CREW
@@ -133,7 +134,13 @@ def _compose_kicks(name, n):
     return kicks
 
 
-@pytest.mark.parametrize("name", sorted(CREW))
+# The subgenre roster is deliberately EXCLUDED (owner rule 2026-07-19:
+# "the genres do not have to follow any of the rules, so they stay true
+# to the genre"). A style's kick is supposed to be recognisable — every
+# dembow shares one, the Baltimore 8-count IS the genre — so scoring it
+# for pairwise distance would measure fidelity as if it were drift.
+# tests/test_genres.py holds them to style identity instead.
+@pytest.mark.parametrize("name", sorted(set(CREW) - crew.GENRE_NAMES))
 def test_every_dj_composes_apart(name):
     kicks = _compose_kicks(name, 10)
     dists = variety.pairwise(kicks, variety.moves)

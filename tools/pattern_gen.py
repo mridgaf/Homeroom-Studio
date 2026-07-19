@@ -468,7 +468,13 @@ def gen_kick(spec, rng):
 
 
 def gen_backbeat(spec, rng):
-    """One bar of snare/clap: the DJ's mode plus ghost notes."""
+    """One bar of snare/clap: the DJ's mode plus ghost notes.
+
+    The last four modes are the GENRE roster's defining figures (owner
+    request 2026-07-19). They are not free-form moods like the first
+    four — each one is the rhythm that makes its style that style, so
+    they place exact steps and the genre presets carry them as canon
+    (see compose(): a canon lane is never bank-varied or eroded)."""
     mode = _weighted(rng, spec["modes"])
     s = ["-"] * 16
     if mode == "backbeat":
@@ -480,6 +486,28 @@ def gen_backbeat(spec, rng):
         s[12 + rng.choice((-1, 1))] = "X"
     elif mode == "sparse":
         s[rng.choice((4, 12))] = "X"
+    elif mode == "dembow":
+        # reggaeton. The snare/rim half of the dembow: two mirrored
+        # tresillo cells (kick 0 +3 +6, kick 8 +3 +6) — "boom-ch-ch,
+        # boom-ch-ch". Move any of these and it stops being reggaeton.
+        for c in (3, 6, 11, 14):
+            s[c] = "X"
+    elif mode == "club":
+        # Baltimore club. Backbeat on 2 and 4 with the two pushes at the
+        # "a" of 2 and the "&" of 3 that give the style its forward lean.
+        for c in (4, 7, 10, 12):
+            s[c] = "X"
+    elif mode == "bounce":
+        # New Orleans bounce (Triggerman lineage): backbeat plus the
+        # signature stuttered answer at the top of 4.
+        for c in (4, 7, 12):
+            s[c] = "X"
+        s[14] = s[15] = "x"
+    elif mode == "stomp":
+        # crunk: 2 and 4 hit hard and land twice as often as they should
+        s[4] = s[12] = "X"
+        if rng.random() < 0.5:
+            s[rng.choice((13, 14))] = "x"
     lo, hi = spec.get("ghosts", (0, 0)) or (0, 0)
     cells = [c for c in spec.get("gcells", []) if s[c] == "-"]
     rng.shuffle(cells)
@@ -532,6 +560,32 @@ def gen_timekeeper(spec, rng):
             length = rng.choice((4, 6, 8))
             for i in range(endbeat - length, endbeat):
                 s[i] = "x"
+        return "".join(s), mode
+    # ---- genre roster timekeepers (2026-07-19). These return a 24-step
+    # bar: six per beat, so triplet 8ths land every 2 steps and triplet
+    # 16ths every 1. res comes from len(bar), so the renderer places them
+    # correctly with no other change (crew.grid_accent handles res 24).
+    if mode == "triplets":                   # Memphis / trap triplet feel
+        s = list("x-" * 12)                  # triplet 8ths
+        if rng.random() < 0.35:              # sometimes double up
+            s = list("x" * 24)
+        if rng.random() < spec.get("open_p", 0.0) * 4:
+            s[rng.choice((3, 9, 15, 21))] = "o"
+        return "".join(s), mode
+    if mode == "trip_rolls":                 # triplet base + roll bursts
+        s = list("x-" * 12)
+        for _ in range(rng.randint(*spec.get("roll_n", (1, 2)))):
+            end = rng.choice((12, 24))       # into beat 3 or the bar line
+            for i in range(max(0, end - rng.choice((3, 6))), end):
+                s[i] = "x"
+        return "".join(s), mode
+    if mode == "shuffle":                    # swung 16ths: hit 1 and 3 of
+        return "x-x" * 8, mode               # each triplet (bounce, club)
+    if mode == "drive16":                    # electro/Miami: 16ths, opens
+        s = list("x" * 16)                   # riding the offbeats
+        for c in (2, 6, 10, 14):
+            if rng.random() < 0.4:
+                s[c] = "o"
         return "".join(s), mode
     return "x-" * 8, mode
 
@@ -590,7 +644,9 @@ def _load_pat_hist():
 def _too_close(fp, past):
     """A rhythm counts as a repeat when its kick bar sits within 2 moves
     of a recent one (hard floor, no matter what the other lanes do), or
-    within 3 while the backbeat+timekeeper modes also match."""
+    within 3 while the backbeat+timekeeper modes also match.
+
+    Not applied to the subgenre roster at all — see compose()."""
     for old in past:
         if len(old[0]) != len(fp[0]):
             continue
@@ -703,18 +759,52 @@ def _compose_odd(preset, style, name, variant, tsig):
     return notes
 
 
-def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
+def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
+            traditional=False):
     """Rewrite the preset's lane patterns fresh from the DJ's grammar,
     roll a kick flavor, and maybe seat guest lanes. Deterministic per
     (name, variant, attempt); regenerates if the rhythm is too close to
     one this DJ made recently. Returns plain-words notes for the README.
     Timing DNA (pan, gain, LaneFeel) is carried over untouched.
     tsig=(3,4)/(6,8) takes the real odd-meter path; trick=True boosts
-    the exotic grids (quintuplets, 32nd walls, gallops) inside 4/4."""
-    style = {k: preset.get(k) or DEFAULT_STYLE[name].get(k)
+    the exotic grids (quintuplets, 32nd walls, gallops) inside 4/4.
+
+    traditional=True (owner rule 2026-07-18: half of every 4+ batch is a
+    common, popular hip-hop beat): the kick comes straight from the DJ's
+    curated bank and the snare/clap lock to a plain 2&4 backbeat — the
+    backbone stays conventional. Everything else (hats, perc, guests, fx)
+    still rolls free, so the beat is familiar without being generic.
+    legend presets follow their producer faithfully: no bank cross-
+    pollination borrows another book INTO them.
+
+    genre presets (the subgenre roster, 2026-07-19) go further: the
+    lanes named in preset["canon"] carry the figure that DEFINES the
+    style — the dembow, the Baltimore 8-count, the Triggerman answer —
+    and are placed verbatim from that genre's authentic variants rather
+    than composed or bank-varied. Everything not in canon (hats, perc,
+    guests, fills, flavors, samples) still rolls free, so the beats
+    differ from each other without the style eroding. compose() records
+    the canon lanes on the preset so vary_preset leaves them alone."""
+    legend = preset.get("legend")
+    genre = preset.get("genre")
+    canon = preset.get("canon") or {}
+    style = {k: preset.get(k) or DEFAULT_STYLE.get(name, {}).get(k)
              for k in ("grammar", "kick_flavors", "extras", "library")}
     if tsig and tuple(tsig) in ODD_TSIGS:
         return _compose_odd(preset, style, name, variant, tuple(tsig))
+    if traditional:
+        # keep the backbone common: snare/clap on 2&4, no library-seed
+        # detours (hats/perc/guests are untouched, so still experimental)
+        g = {}
+        for lane, spec in style["grammar"].items():
+            if isinstance(spec, dict) and "modes" in spec \
+                    and "gcells" in spec:
+                g[lane] = dict(spec, modes=[["backbeat", 1.0]])
+            else:
+                g[lane] = spec
+        lib = dict(style.get("library") or {})
+        lib["p"] = 0.0
+        style = dict(style, grammar=g, library=lib)
     if trick:
         # exotic-grid beat: the timekeeper reaches for the odd stuff
         g = {}
@@ -746,7 +836,7 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
         # a copy. Boom-bap mode keeps its own hat law, so no hat seed.
         lib_seed = None
         lib = style.get("library")
-        if lib and rng.random() < lib.get("p", 0):
+        if lib and not traditional and rng.random() < lib.get("p", 0):
             lib_seed = _pick_library(lib, rng)
 
         # core lanes, in grammar order so copies can follow their source
@@ -767,6 +857,21 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
                 lanes[lane] = assemble(lambda: bar, rng)
                 modes[lane] = f"E({k},16)"
                 continue
+            if lane in canon:
+                # the genre's defining figure: placed exactly as the
+                # style plays it, one of that genre's authentic variants.
+                # On a traditional beat it's variant 0 — for a genre,
+                # "traditional" means the textbook version of THAT style
+                # (owner rule 2026-07-19), not a generic 2&4 backbone,
+                # which would simply stop being reggaeton or club.
+                bar = canon[lane][0] if traditional else rng.choice(canon[lane])
+                if lane == "kick":
+                    lanes[lane] = assemble(lambda: bar, rng)
+                else:
+                    lanes[lane] = [bar] * 3 + [_fill(bar, rng)] \
+                        + [bar] * 3 + [_fill(bar, rng)]
+                    modes[lane] = "canon"
+                continue
             if lane == "kick":
                 # usually start from a curated skeleton in the DJ's bank
                 # (owner 2026-07-17: a larger pattern library), sometimes
@@ -775,8 +880,13 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
                 bank = BOOM_BAP_KICKS if boom_bap \
                     else KICK_BANK.get(name, [])
                 # v6: banks cross-pollinate — 15% of bank picks borrow
-                # another DJ's vocabulary (variety over style fidelity)
-                if not boom_bap and rng.random() < 0.15:
+                # another DJ's vocabulary (variety over style fidelity).
+                # NEVER into a legend (likeness), a genre (the figure IS
+                # the style) or a traditional beat (the borrowed line
+                # could be exotic); legends only borrow from other
+                # legends' books, never the loose nine.
+                if not boom_bap and not legend and not genre \
+                        and not traditional and rng.random() < 0.15:
                     donor = rng.choice([d for d in KICK_BANK if d != name])
                     bank = KICK_BANK[donor]
                     notes.append("kick borrowed from %s's book" % donor)
@@ -786,7 +896,7 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
                     notes.append("groove seed: %s (%s)"
                                  % (lib_seed["name"], lib_seed["subgenre"]
                                     or lib_seed["genre"]))
-                elif bank and rng.random() < 0.75:
+                elif bank and (traditional or rng.random() < 0.75):
                     barA = _bank_vary(rng.choice(bank), spec, rng)
                 else:
                     barA = gen_kick(spec, rng)
@@ -821,7 +931,12 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
         # happen no matter the luck (owner report later that day).
         flavors = BOOM_BAP_FLAVORS if boom_bap else style["kick_flavors"]
         weights = [f[0] for f in flavors]
-        if len(past) >= 2 and past[0][3] == past[1][3] \
+        # The streak-breaker keeps a crew DJ off a run of long 808s. A
+        # subgenre is exempt (owner rule 2026-07-19): the long decaying
+        # 808 IS Miami bass and IS a screw beat, so forcing variety here
+        # dragged an 80/20 lean down to 57/43 and took the style with
+        # it. Their declared weights are the point — let them hold.
+        if not genre and len(past) >= 2 and past[0][3] == past[1][3] \
                 and len(flavors) > 1 and past[0][3] < len(flavors):
             weights = [0 if i == past[0][3] else w
                        for i, w in enumerate(weights)]
@@ -830,7 +945,15 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
 
         fp = (lanes["kick"][0], modes.get("snare", modes.get("clap", "")),
               modes.get("hat", modes.get("snap", "")), fi)
-        if not _too_close(fp, past):
+        # The sameness guard is a CREW rule and the subgenre roster is
+        # exempt (owner rule 2026-07-19: they don't follow the rules, so
+        # they stay true to the genre). It compares the mode+flavor
+        # signature, so on a style whose modes are fixed by design it
+        # kept rerolling the flavor — dragging Baltimore club's 10/90
+        # split to 42/58 and putting a long 808 where a club kick goes.
+        # Their variety comes from samples, guests, hats and arrangement,
+        # which test_genres holds to a no-duplicate-beats floor.
+        if genre or not _too_close(fp, past):
             break
         # remember the roll that stays farthest from everything recent,
         # in case no attempt clears the guard outright (sparse styles
@@ -847,6 +970,12 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
     for lane, bars in lanes.items():
         pan, gain, feel, _ = preset["lanes"][lane]
         preset["lanes"][lane] = (pan, gain, feel, bars)
+    if canon:
+        # tell the variety pass which lanes carry the style (beat_machine
+        # .vary_preset gives these the gentle anchor wander it already
+        # gives the kick, instead of the drop/add mutation that would
+        # quietly turn a dembow into generic syncopation)
+        preset["_canon"] = sorted(canon)
     role, _, _, _ = preset["kit"]["kick"]
     preset["kit"]["kick"] = (role, must, list(wants), tuple(secs))
     notes.append("kick: " + ("808 " if must else "clean/short ")
@@ -869,9 +998,15 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False):
         bar, mode = gen_timekeeper(
             dict(modes=[["offbeats", 2], ["sparse", 2], ["answer", 1]]), rng)
         side = rng.choice((-1, 1)) * rng.uniform(0.15, 0.35)
+        # a guest normally coin-flips between the beat's swing and
+        # straight 50 — that deliberate clash is a v6 crew trick. A
+        # subgenre can't afford it (2026-07-19): one straight lane in a
+        # 62%-swung Wonky beat, or in a reggaeton, reads as a mistake,
+        # so genre guests ride the style's own feel.
+        gswing = swing if (genre or rng.random() < 0.5) else 50
         preset["lanes"][lname] = (
             round(side, 2), round(rng.uniform(0.22, 0.36), 2),
-            (0, rng.uniform(1.5, 4.0), swing if rng.random() < 0.5 else 50,
+            (0, rng.uniform(1.5, 4.0), gswing,
              rng.randrange(1, 99999)),
             ["-" * 16, bar] * 4 if mode == "answer"
             else [bar] * 7 + [_fill(bar, rng)])

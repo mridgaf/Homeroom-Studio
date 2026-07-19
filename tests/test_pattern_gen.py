@@ -77,9 +77,12 @@ def test_style_is_a_lean_not_a_cage():
     homes = {"Night Metro": ("clap", "halftime"),
              "Cutz": ("snare", "backbeat-ish"),
              "Rage Engine": ("snare", "halftime")}
+    # 120 variants, not a couple dozen: "backbeat-ish" catches both the
+    # backbeat and displaced modes, so it sums to a weight close to the
+    # home mode's and a small sample swings on noise alone.
     for name, (lane, home) in homes.items():
         seen = Counter()
-        for v in range(24):
+        for v in range(120):
             p, _ = _composed(name, v)
             seen[bb_mode(p["lanes"][lane][3][0])] += 1
         assert seen[home] >= max(seen.values()) * 0.6, (name, seen)

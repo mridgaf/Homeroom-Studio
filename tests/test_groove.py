@@ -207,12 +207,14 @@ def test_lufs_sine_sanity():
 
 
 def test_master_to_lufs_hits_target():
+    from groove import OWNER_TASTE
     rng = np.random.default_rng(2)
     env = (np.sin(2 * np.pi * 2 * np.arange(6 * SR) / SR) > 0.6)
     x = rng.normal(0, .15, 6 * SR) * env            # bursty drum-ish signal
-    L, R, achieved = master_to_lufs(x.copy(), x.copy(), target=-8)
-    assert achieved == pytest.approx(-8.0, abs=1.2)
-    assert np.abs(L).max() <= 10 ** (-1 / 20) + 1e-3   # ceiling respected
+    L, R, achieved = master_to_lufs(x.copy(), x.copy())
+    assert achieved == pytest.approx(OWNER_TASTE["master_lufs"], abs=1.2)
+    ceil = 10 ** (OWNER_TASTE["peak_ceiling_db"] / 20)
+    assert np.abs(L).max() <= ceil + 1e-3              # ceiling respected
 
 
 # -- transient shaper ----------------------------------------------------------------
