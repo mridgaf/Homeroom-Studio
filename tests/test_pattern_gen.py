@@ -31,6 +31,86 @@ def test_euclid_spreads_k_hits():
         assert pattern_gen.euclid(k, 16).count("x") == k
 
 
+# ---------------------------------------------- the frame (2026-07-22)
+# The audit of 702 rendered beats found the backbeat welded to steps 4
+# and 12 — 41% of the whole library shared ONE snare line, because three
+# of the four modes then available all anchored there. These guard the
+# widened vocabulary that fixed it.
+
+PLAIN_24 = "----X-------X---"
+
+
+def _backbeat(spec, seed):
+    import random
+    return pattern_gen.gen_backbeat(spec, random.Random(seed))
+
+
+def test_every_backbeat_mode_places_hits():
+    """No mode may silently produce an empty bar — a frame that renders
+    nothing would read as 'the snare dropped out', not as a new feel."""
+    for mode in pattern_gen.BACKBEAT_MODES:
+        spec = dict(modes=[[mode, 1.0]], ghosts=[0, 0], gcells=[])
+        bar, got = _backbeat(spec, 1)
+        assert got == mode
+        assert len(bar) == 16
+        assert bar.count("-") < 16, mode
+
+
+def test_the_new_modes_actually_move_the_frame():
+    """The point of the fix: these must NOT land on the plain 2&4."""
+    for mode in ("four", "push", "tresillo", "offbeat"):
+        spec = dict(modes=[[mode, 1.0]], ghosts=[0, 0], gcells=[])
+        bar, _ = _backbeat(spec, 3)
+        assert bar != PLAIN_24, mode
+        # ...and none of them may sit on BOTH 4 and 12, which is what
+        # made displaced/sparse fail to add variety before
+        assert not (bar[4] != "-" and bar[12] != "-"), mode
+
+
+def test_home_lean_leaves_room_for_the_rest():
+    """A DJ's home mode should be the likeliest roll, never the default.
+    Before the fix the home weight was 0.45 of a four-mode board (~72%
+    of beats landing on step 4 or 12)."""
+    modes = pattern_gen._bb("backbeat")
+    weights = dict(modes)
+    assert len(modes) == len(pattern_gen.BACKBEAT_MODES)
+    assert abs(sum(weights.values()) - 1.0) < 1e-6
+    assert abs(weights["backbeat"] - pattern_gen.HOME_LEAN) < 0.01
+    assert weights["backbeat"] < 0.35            # leaned, not dominant
+    assert weights["backbeat"] == max(weights.values())
+
+
+def test_plain_two_and_four_is_no_longer_the_default():
+    """The headline guard: rolling one DJ's board many times must not
+    keep landing on the same line."""
+    import random
+    spec = dict(modes=pattern_gen._bb("backbeat"), ghosts=[0, 0], gcells=[])
+    bars = [_backbeat(spec, s)[0] for s in range(600)]
+    plain = bars.count(PLAIN_24) / len(bars)
+    assert plain < 0.35, "plain 2&4 still dominates (%.0f%%)" % (100 * plain)
+    assert len(set(bars)) >= len(pattern_gen.BACKBEAT_MODES)
+
+
+def test_traditional_stays_conventional_but_not_identical():
+    """'Traditional' means familiar, not literally the same bar. It may
+    only reach conventional hip-hop backbones — never the exotic cells."""
+    exotic = {"tresillo", "offbeat", "push", "four"}
+    seen = set()
+    for name in ("Otto Grit", "Cutz"):
+        for v in range(2, 40):
+            p = copy.deepcopy(CREW[name])
+            pattern_gen.compose(p, name, v, traditional=True)
+            for lane in ("snare", "clap"):
+                if lane in p["lanes"]:
+                    seen.add(p["lanes"][lane][3][0])
+                    break
+    assert len(seen) > 1, "traditional collapsed to one line again"
+    # every traditional frame keeps a hit on 2, on 4, or the halftime 3
+    for bar in seen:
+        anchored = bar[4] != "-" or bar[12] != "-" or bar[8] != "-"
+        assert anchored, "traditional wandered off the backbone: %s" % bar
+
+
 def test_compose_is_deterministic(tmp_path, monkeypatch):
     monkeypatch.setattr(pattern_gen, "PAT_HIST", tmp_path / "a.json")
     p1, _ = _composed("Otto Grit", 42)
@@ -41,24 +121,57 @@ def test_compose_is_deterministic(tmp_path, monkeypatch):
 
 
 def test_every_variant_is_a_new_rhythm():
-    from itertools import combinations
+    # fresh pattern per generation (owner call 2026-07-21: different is
+    # the promise — the old >=3-moves distance floor is gone)
     kicks = [_kick_a(_composed("Otto Grit", v)[0]) for v in range(12)]
-    assert len(set(kicks)) == 12             # fresh pattern per generation
-    # the repeat guard's hard floor: every pair at least 3 moves apart
-    assert all(sum(x != y for x, y in zip(a, b)) >= 3
-               for a, b in combinations(kicks, 2))
-    # and B answers A instead of repeating it
-    p, _ = _composed("Otto Grit", 1)
-    bars = p["lanes"]["kick"][3]
-    assert bars[0] != bars[4]
+    assert len(set(kicks)) == 12
 
 
-def test_repeat_guard_regenerates():
-    # same seed twice: the second roll sees the first in history and
-    # must land somewhere else
-    a = _kick_a(_composed("Cutz", 7)[0])
-    b = _kick_a(_composed("Cutz", 7)[0])
-    assert a != b
+def test_form_rolls_both_shapes():
+    """Owner call 2026-07-21: some beats state the loop straight
+    through, some answer it A/B. 2026-07-22: the loop is also no longer
+    a fixed 8 bars, so the note now reads "<n>-bar loop" / "<n>-bar
+    A/B". Both shapes must still occur and keep their promise (the loop
+    repeats exactly, B answers A)."""
+    import crew
+    seen = set()
+    for v in range(40):
+        p, notes = _composed("Otto Grit", v)
+        bars = p["lanes"]["kick"][3]
+        n = crew.bars_of(p)
+        assert len(bars) == n, (v, len(bars), n)
+        if any(x.endswith("-bar A/B") for x in notes):
+            assert n == 8, v            # only 8 bars can hold an answer
+            assert bars[0] != bars[4], v
+            seen.add("ab")
+        else:
+            assert any(x.endswith("-bar loop") for x in notes), notes
+            if n == 8:                  # heard twice, exactly
+                assert bars[:4] == bars[4:], v
+            seen.add("loop")
+    assert seen == {"ab", "loop"}
+
+
+def test_loop_length_varies_and_centres_on_four():
+    """Owner call 2026-07-22: "make the loops half as long", and let the
+    length vary per beat. 4 bars is the new normal (half the old fixed
+    8); 2 and 8 both still occur."""
+    import collections
+    import crew
+    lens = collections.Counter()
+    for name in ("Otto Grit", "Cutz", "Glass Cat"):
+        for v in range(60):
+            p, _ = _composed(name, v)
+            n = crew.bars_of(p)
+            lens[n] += 1
+            # whatever the length, every lane must actually supply it
+            for ln, spec in p["lanes"].items():
+                if not ln.startswith("stamp"):
+                    assert len(spec[3]) == n, (name, v, ln)
+    assert set(lens) == {2, 4, 8}, lens
+    total = sum(lens.values())
+    assert lens[4] / total > 0.45, lens          # 4 is the norm
+    assert sum(n * c for n, c in lens.items()) / total < 6.0, lens
 
 
 def test_style_is_a_lean_not_a_cage():
@@ -83,7 +196,12 @@ def test_style_is_a_lean_not_a_cage():
     for name, (lane, home) in homes.items():
         seen = Counter()
         for v in range(120):
-            p, _ = _composed(name, v)
+            p, notes = _composed(name, v)
+            # a backbeat borrowed from a groove seed (2026-07-21) is the
+            # library's voice, not this DJ's grammar — count grammar
+            # rolls only, the lean law is about the weights
+            if any(n.startswith(lane + ": seed:") for n in notes):
+                continue
             seen[bb_mode(p["lanes"][lane][3][0])] += 1
         assert seen[home] >= max(seen.values()) * 0.6, (name, seen)
         assert len(seen) >= 2, (name, "modes never vary", seen)
@@ -92,12 +210,14 @@ def test_style_is_a_lean_not_a_cage():
         gc, _ = _composed("Glass Cat", v)
         assert gc["lanes"]["clap"][3] \
             == [b.replace(".", "-") for b in gc["lanes"]["snare"][3]]
-    # New Math's quintuplets and Rage's 32nd walls still occur
+    # New Math's quintuplets and Rage's 32nd walls still occur — the
+    # window is wide because library hat seeds (more frequent since
+    # 2026-07-21) take the timekeeper roll's place when they land
     assert any(len(b) == 20
-               for v in range(10)
+               for v in range(60)
                for b in _composed("New Math", v)[0]["lanes"]["hat"][3])
     assert any(len(b) == 32
-               for v in range(10)
+               for v in range(60)
                for b in _composed("Rage Engine", v)[0]["lanes"]["hat"][3])
 
 

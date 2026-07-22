@@ -44,7 +44,19 @@ from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
 
 OUT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 LOCK = Path(os.path.expanduser("~/.reason_voice/crew_kits.json"))
-BARS = 8
+BARS = 8                         # the old fixed loop; now only a fallback
+
+
+def bars_of(preset):
+    """How many bars THIS beat runs (owner call 2026-07-22: "make the
+    loops half as long" + let the length vary per beat). A preset that
+    doesn't say falls back to the historic 8, so every older recipe and
+    batch file re-renders at exactly the length it was written at."""
+    try:
+        n = int((preset or {}).get("bars") or BARS)
+    except (TypeError, ValueError):
+        return BARS
+    return n if 1 <= n <= 16 else BARS
 SNARE_LIKE = {"snare", "clap"}   # lanes that follow the owner's snare trim
 # bright percussion that reads louder than it meters — owner 2026-07-18:
 # snaps/bells/stamps sat over the kick, so they get their own bus trim
@@ -755,7 +767,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # three quarter-note beats; 4/4 stays the default four.
     num, den = p.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / bpm
-    end = int(round(BARS * bar_s * SR))
+    nbars = bars_of(p)
+    end = int(round(nbars * bar_s * SR))
     n = end + int(1.5 * SR)
     # vel_seed (2026-07-17): without it every beat shared one accent
     # sequence — same loud/soft ripple over the same skeleton read as
@@ -774,7 +787,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         snd = kit[lane]
         buf = np.zeros(n)
         ons, evs = [], []
-        for b in range(BARS):
+        for b in range(nbars):
             pat = bars[b % len(bars)]
             res = len(pat)
             for s, ch in enumerate(pat):
@@ -809,14 +822,16 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # color in Reason. Presets keep their dirt numbers so flipping
     # OWNER_TASTE["clean_renders"] back restores each character's grime.
     clean = OWNER_TASTE.get("clean_renders", False)
-    if not clean and p["kick_dist"] > 0:
+    if not clean and p["kick_dist"] > 0 and "kick" in bufs:
         bufs["kick"] = dist808(bufs["kick"], p["kick_dist"])
-    if not clean and p.get("rough_808"):
+    if not clean and p.get("rough_808") and "kick" in bufs:
         rate, depth = p["rough_808"]
         bufs["kick"] = roughness_am(bufs["kick"], rate, depth)
 
     space = space or p["space"][0]
-    for lane in p["space"][1]:
+    # a treated lane may have been removed outright (stem rack
+    # 2026-07-21) — treat what's actually here
+    for lane in [ln for ln in p["space"][1] if ln in bufs]:
         if space == "gated":
             # hold scales to tempo — one 8th note (school 2026-07-15;
             # forums put 80s drama at 300+ ms, which a 90 bpm 8th hits)
@@ -862,9 +877,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             gl = np.cos((pan + 1) * np.pi / 4)
             gr = np.sin((pan + 1) * np.pi / 4)
             sL, sR = bufs[lane] * gl, bufs[lane] * gr
-            # the tuned root sub (traditional beats) knocks WITH the kick,
-            # so it rides the un-ducked bass path just like the kick does
-            if p["sidechain"] > 0 and lane not in ("kick", "sub"):
+            # Owner call 2026-07-22: "have the kick gate the bass and
+            # other instruments". The tuned root sub used to ride the
+            # un-ducked path WITH the kick; now only the kick itself
+            # stays out of its own duck, so the sub, the harmony bass
+            # and the chord pads all breathe around it.
+            if p["sidechain"] > 0 and lane != "kick" \
+                    and onsets.get("kick"):
                 sL, sR = duck(sL, sR, onsets["kick"], depth=p["sidechain"],
                               loop=True)
             stems[lane] = (sL, sR)
@@ -875,13 +894,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     for lane, (pan, *_rest) in p["lanes"].items():
         gl = np.cos((pan + 1) * np.pi / 4)
         gr = np.sin((pan + 1) * np.pi / 4)
-        if lane in ("kick", "sub"):          # bass sits outside the duck
+        if lane == "kick":       # only the kick sits outside its own duck
             kL += bufs[lane] * gl
             kR += bufs[lane] * gr
         else:
             oL += bufs[lane] * gl
             oR += bufs[lane] * gr
-    if p["sidechain"] > 0:
+    if p["sidechain"] > 0 and onsets.get("kick"):
         oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
                       loop=True)
     L, R = kL + oL, kR + oR
@@ -975,7 +994,7 @@ def main():
                           f"Drums {p['bpm']}bpm.wav")
             write_wav24(path, L, R)
             dur = len(L) / SR
-            want = BARS * 240.0 / p["bpm"]
+            want = bars_of(p) * 240.0 / p["bpm"]
             rms = 20 * np.log10(np.sqrt(0.5 * (L**2 + R**2).mean()) + 1e-12)
             # LUFS is the loudness truth; plain RMS runs low on spacious
             # halftime styles (drop-out bars average in), so its floor is soft

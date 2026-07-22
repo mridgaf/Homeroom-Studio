@@ -49,13 +49,19 @@ def _vlq(n):
     return bytes(reversed(out))
 
 
-def write_midi(path, events, bpm, tpq=480, tsig=(4, 4)):
+def write_midi(path, events, bpm, tpq=480, tsig=(4, 4), chords=None):
     """Format-1 SMF: a tempo track plus one track per lane, note events
     on channel 10. The humanized timing (swing, per-lane offsets, jitter)
     is baked into the tick positions so the groove survives the import;
     velocities are normalized per lane (accents survive, mix balance is
     the Reason mixer's job). tsig writes the time-signature meta so a
-    3/4 or 6/8 beat lands on the right grid in Reason."""
+    3/4 or 6/8 beat lands on the right grid in Reason.
+
+    `chords` (punch list step 7, 2026-07-22) is an optional list of
+    {"start_sec", "dur_sec", "notes": [midi, ...]} dicts — harmony.py's
+    exact chord voicings, written as a real polyphonic track on channel
+    1 (not 10, so Reason doesn't read it as a drum hit). Every existing
+    call site omits it, so old behavior is untouched."""
     spq = 60.0 / bpm
     tempo = int(round(60000000 / bpm))
     num, den = tsig
@@ -83,12 +89,33 @@ def write_midi(path, events, bpm, tpq=480, tsig=(4, 4)):
             last = tick
         data += b"\x00\xff\x2f\x00"
         chunks.append(b"MTrk" + len(data).to_bytes(4, "big") + bytes(data))
+    if chords:
+        msgs = []
+        for c in chords:
+            on = int(round(c["start_sec"] / spq * tpq))
+            off = int(round((c["start_sec"] + c["dur_sec"]) / spq * tpq))
+            for note in c["notes"]:
+                msgs.append((on, 0, 0x90, note, 90))
+                msgs.append((off, 1, 0x80, note, 64))
+        msgs.sort()
+        nm = b"chords"
+        data = bytearray(b"\x00\xff\x03" + bytes([len(nm)]) + nm)
+        last = 0
+        for tick, _, status, nt, vel in msgs:
+            data += _vlq(max(tick - last, 0)) + bytes([status, nt, vel])
+            last = tick
+        data += b"\x00\xff\x2f\x00"
+        chunks.append(b"MTrk" + len(data).to_bytes(4, "big") + bytes(data))
+    ntracks = len(lanes) + (1 if chords else 0)
     head = (b"MThd" + (6).to_bytes(4, "big") + (1).to_bytes(2, "big")
-            + (1 + len(lanes)).to_bytes(2, "big") + tpq.to_bytes(2, "big"))
+            + (1 + ntracks).to_bytes(2, "big") + tpq.to_bytes(2, "big"))
     Path(path).write_bytes(head + b"".join(chunks))
 
 
 # ------------------------------------------------------------------ stems
+
+
+STEM_BOOST_DB = 6.0
 
 
 def write_stems(folder, stems, sources=None):
@@ -107,7 +134,14 @@ def write_stems(folder, stems, sources=None):
             real = re.sub(r'[\\/:*?"<>|]', "_", Path(src).stem).strip()
             if real:
                 name = f"{lane} - {real}"
-        write_wav24(folder / f"{name}.wav", sL, sR)
+        # stems print hotter than their share of the mix (owner call
+        # 2026-07-21: solo stems were too quiet to sample) — +6 dB,
+        # eased off just enough to keep the hottest peak under -0.5 dB
+        g = 10 ** (STEM_BOOST_DB / 20.0)
+        peak = float(max(np.abs(sL).max(), np.abs(sR).max()))
+        if peak * g > 0.94:
+            g = max(1.0, 0.94 / peak)
+        write_wav24(folder / f"{name}.wav", sL * g, sR * g)
     return folder
 
 

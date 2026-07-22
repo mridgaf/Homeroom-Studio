@@ -38,13 +38,14 @@ import numpy as np
 sys.path.append(str(Path(__file__).parent))
 from make_drum_loops import SR, sub808, write_wav24
 from make_drum_beats import build_shots
-from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, boom_bap_variant,
+from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
+                  boom_bap_variant,
                   build_kit, lock_stamps, normalize_preset,
                   render_crew_beat,
                   _load_choked, _pick_path, _resolve_secs)
 from beat_recipes import (history_avoid, load_recipe, record_history,
                           save_recipe, write_midi, write_stems)
-from pattern_gen import compose, kick_seen, remember_kick
+from pattern_gen import compose, load_library
 
 def _resolve_beats_root():
     """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
@@ -297,10 +298,26 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     rng = random.Random(num * 100003 + variant * 977)
     lanes = preset["lanes"]
     notes = []
+    # 2026-07-22: the loop is no longer always 8 bars, so the structural
+    # treatments below can't name bars 4-7 outright — on a 4-bar loop
+    # bar 7 doesn't exist, and reaching for it silently did nothing.
+    # These pick from the bars this beat actually has.
+    nbars = bars_of(preset)
+    late = [b for b in (nbars - 4, nbars - 3, nbars - 2) if b >= 1] \
+        or [max(nbars - 1, 0)]
+    last = max(nbars - 1, 0)
 
     def rewrite(ln, new_bars):
         pan, gain, feel, _ = lanes[ln]
         lanes[ln] = (pan, gain, feel, new_bars)
+
+    def barlist(ln):
+        """This lane's bars, padded to the beat's length so a treatment
+        can index any bar without an IndexError on a short pattern."""
+        bars = list(lanes[ln][3])
+        while len(bars) < nbars:
+            bars.append(bars[len(bars) % len(bars)] if bars else "-" * 16)
+        return bars
 
     mutable = [ln for ln in lanes if not ln.startswith("stamp")]
     # the subgenre roster's canon lanes carry the figure that DEFINES the
@@ -309,15 +326,15 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # dembow into generic syncopation over a few beats
     canon = set(preset.get("_canon") or ())
 
-    # 1. density profile + small-hit mutation on every non-stamp lane
-    # (v6, 2026-07-18: density is fully FREE — sparse, home, and busy
-    # are equally likely; the notes box still forces one). A genre
-    # preset DECLARES its density instead: Baltimore club and bounce are
-    # dense by definition and trip hop is not, and inside this box
-    # fidelity beats the house sparse-bed lean (owner call 2026-07-19).
-    # His typed direction still wins over both.
+    # 1. density profile + small-hit mutation on every non-stamp lane.
+    # Owner call 2026-07-22: SPARSE IS ONLY EVER ASKED FOR. The free
+    # roll picks home or busy and never sparse — a beat he didn't ask
+    # to be thin comes out full. Two things still make it sparse: the
+    # dialog box (density, below), and a genre preset that DECLARES it,
+    # because trip hop and screw are thin by definition and inside this
+    # box fidelity beats the house lean (owner call 2026-07-19).
     profile = density or preset.get("density") \
-        or rng.choices(["sparse", "home", "busy"], [1, 1, 1])[0]
+        or rng.choice(["home", "busy"])
     p_drop = {"sparse": 0.5, "home": 0.3, "busy": 0.1}[profile]
     for ln in mutable:
         bars = lanes[ln][3]
@@ -331,6 +348,14 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         busy_ok = sum(map(_hits, bars)) / len(bars) >= 4
         adds = ({"sparse": 0, "home": 1, "busy": 2}[profile]
                 if busy_ok else {"busy": 1}.get(profile, 0))
+        # the backbeat (snare/clap) never gets NEW hits from the density
+        # pass, whatever the profile rolls (owner call 2026-07-21: "the
+        # backbeat doesn't need to be so busy all the time" — this hit
+        # crew and legends alike, since this pass runs on every beat).
+        # It can still drop or shift the ghosts compose() gave it, so
+        # "sparse" still thins a backbeat out — it just never piles on.
+        if ln in BACKBONE:
+            adds = 0
         rewrite(ln, [_mutate_pat(b, rng, p_drop, adds) for b in bars])
     notes.append(f"{profile} density")
 
@@ -360,38 +385,40 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # velocities soften, and the kick+snare backbone plays through.
     t = rng.choice(["thinbar", "frisson", "bshift", "quietbar"])
     if t == "thinbar":                       # hats+colors rest a bar
-        b = rng.choice((4, 5, 6))
+        b = rng.choice(late)
         for ln in mutable:
-            bars = list(lanes[ln][3])
+            bars = barlist(ln)
             if ln in backbone:
                 bars[b] = bars[b].replace("X", "x")   # backbone breathes
             else:
                 bars[b] = "-" * len(bars[b])
             rewrite(ln, bars)
         notes.append(f"bar {b + 1} thins to kick and snare")
-    elif t == "frisson":                     # build: bar 7 thins, 8 slams
+    elif t == "frisson" and nbars >= 2:      # build: thins, then slams
         for ln in mutable:
-            bars = list(lanes[ln][3])
+            bars = barlist(ln)
             if ln not in backbone:
-                bars[6] = "-" * len(bars[6])
-            bars[7] = bars[7].replace("x", "X")
+                bars[last - 1] = "-" * len(bars[last - 1])
+            bars[last] = bars[last].replace("x", "X")
             rewrite(ln, bars)
-        notes.append("build: bar 7 thins out, bar 8 slams")
-    elif t == "bshift":                      # a color lane sits out a half
+        notes.append(f"build: bar {last} thins out, bar {last + 1} slams")
+    elif t == "bshift" and nbars >= 2:       # a color lane sits out a half
         cands = [ln for ln in mutable if ln not in backbone and
                  sum(map(_hits, lanes[ln][3]))]
         if cands:
             ln = rng.choice(cands)
             half = rng.choice(("A", "B"))
-            bars = list(lanes[ln][3])
-            for b in (range(4) if half == "B" else range(4, 8)):
+            mid = nbars // 2
+            bars = barlist(ln)
+            for b in (range(mid) if half == "B" else range(mid, nbars)):
                 bars[b] = "-" * len(bars[b])
             rewrite(ln, bars)
             notes.append(f"{ln} only in the {half} section")
     else:                                    # quiet bar: velocity dip
-        b = rng.choice((1, 2, 5))
+        b = rng.choice([x for x in (1, 2, nbars - 3) if 0 < x < nbars]
+                       or [last])
         for ln in mutable:
-            bars = list(lanes[ln][3])
+            bars = barlist(ln)
             bars[b] = bars[b].replace("X", "x")
             rewrite(ln, bars)
         notes.append(f"bar {b + 1} pulls back (velocity dip)")
@@ -399,11 +426,11 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # 4b. every beat gets a breath: hats and colors rest for the back
     # half of one bar while the backbone carries it (sparser, not silent)
     if t in ("bshift", "quietbar"):
-        b = rng.choice((5, 6))
+        b = rng.choice(late)
         for ln in mutable:
             if ln in backbone:
                 continue
-            bars = list(lanes[ln][3])
+            bars = barlist(ln)
             n = len(bars[b])
             bars[b] = bars[b][:n // 2] + "-" * (n - n // 2)
             rewrite(ln, bars)
@@ -426,12 +453,39 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     return notes
 
 
-def roll_swing(preset, variant, force=None):
+# Owner call 2026-07-22: "have the kick gate the bass and other
+# instruments, 90 percent of the creations regardless of DJ." This
+# outranks each DJ's own sidechain number — the old rule was the
+# reverse (a DJ's 0.0 meant never duck, and Crate Prophet never did),
+# which is exactly the kind of built-in rule the dialog box and the
+# house settings are now allowed to overrule.
+DUCK_P = 0.9
+DUCK_DEFAULT = 0.2               # depth for a DJ who carries none
+
+
+def apply_duck(preset, rng):
+    """Decide this beat's sidechain. Returns the depth applied."""
+    if rng.random() < DUCK_P:
+        preset["sidechain"] = preset.get("sidechain") or DUCK_DEFAULT
+    else:
+        preset["sidechain"] = 0.0
+    return preset["sidechain"]
+
+
+def roll_swing(preset, variant, force=None, crew_dj=False):
     """v6 (owner ruling 2026-07-18): swing varies per beat around the
     DJ's home feel — a wide window plus the occasional straight or
     triplet outlier. The whole kit shifts together, so deliberate
     straight-vs-swung lane clashes (New Math) keep their relationship.
-    Returns the rolled swing for the README, or None when unchanged."""
+    Returns the rolled swing for the README, or None when unchanged.
+
+    crew_dj=True applies the owner's 2026-07-22 rule for the loose nine:
+    HALF of their beats have no swing at all. Half of those go further
+    and are fully quantized — swing 50 AND every per-lane drag/rush and
+    hit-to-hit wobble zeroed, so the beat sits dead on the grid. The
+    other half keep that human micro-feel; they are simply unswung.
+    Legends and the genre roster are untouched: a producer's pocket and
+    a subgenre's feel are their identity, not a house setting."""
     rng = random.Random(variant * 733 + 11)
     lanes = preset["lanes"]
     homes = [spec[2][2] for k, spec in lanes.items()
@@ -439,6 +493,24 @@ def roll_swing(preset, variant, force=None):
     if not homes:
         return None
     home = max(set(homes), key=homes.count)
+
+    crew_target = None
+    if crew_dj and force is None and not preset.get("genre") \
+            and not preset.get("legend"):
+        roll = random.Random(variant * 6151 + 29).random()
+        if roll < 0.5:                       # half of the nine: no swing
+            robotic = roll < 0.25            # ...and half of those, dead
+            for k, (pan, gain, (o, j, sw, seed), bars) in list(lanes.items()):
+                if k.startswith("stamp"):
+                    continue
+                lanes[k] = (pan, gain,
+                            (0.0, 0.0, 50, seed) if robotic
+                            else (o, j, 50, seed), bars)
+            return "50 (fully quantized)" if robotic else 50
+        # The OTHER half has to actually swing. Without this the normal
+        # wander below kept landing back on 50 (a -4 from a home of 54),
+        # which made "half with no swing" quietly become 87% of them.
+        crew_target = max(52, min(66, home + rng.choice((-2, 0, 0, 2, 4))))
     # legends stay in their producer's pocket (owner rule 2026-07-18):
     # a fixed signature swing when set (Premier 53, Dre 50), otherwise a
     # tight +/-2 wander — no straight/triplet outliers pulling them off
@@ -451,14 +523,20 @@ def roll_swing(preset, variant, force=None):
         fixed = preset["genre_swing"]
     if force is not None:
         target = force
+    elif crew_target is not None:
+        target = crew_target
     elif fixed is not None:
         target = fixed
     elif legend:
         target = home + rng.choice((-2, 0, 0, 2))
-    elif rng.random() < 0.1:
-        target = rng.choice((50, 58, 62, 66))
+    # owner call 2026-07-21: less swing overall — the crew's wander used
+    # to lean hard toward swung (75% of rolls moved off home, up to +/-6,
+    # plus a 10% swung-outlier roll up to 66%). Halved on both counts:
+    # more rolls stay at home, and the ones that move go less far.
+    elif rng.random() < 0.04:
+        target = rng.choice((50, 54, 58))
     else:
-        target = home + rng.choice((-6, -4, -2, 0, 0, 2, 4, 6))
+        target = home + rng.choice((-4, -2, 0, 0, 0, 0, 2, 4))
     target = max(50, min(66, target))
     if target == home:
         return None
@@ -476,8 +554,8 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
     """One DJ's preset for this beat: a FRESH pattern composed from their
     grammar (owner verdict 2026-07-17 — no more one-skeleton mutations),
     tempo override, and the standing rules (New Math goes boom bap on odd
-    variants; ~1 beat in 10 skips the sidechain — Crate Prophet already
-    never ducks). traditional=True keeps the backbone conventional (owner
+    variants; ~1 beat in 10 skips the sidechain, and since 2026-07-22
+    the other 9 duck regardless of what the DJ's own preset says). traditional=True keeps the backbone conventional (owner
     rule 2026-07-18). Returns (preset, style notes)."""
     bb = name == "New Math" and variant % 2 == 1 and not tsig
     if bb:
@@ -494,12 +572,14 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
                 spec["modes"] = [[dirs["force_mode"], 1.0]]
     notes = compose(p, name, variant, boom_bap=bb, tsig=tsig, trick=trick,
                     traditional=traditional)
-    got = roll_swing(p, variant, force=(dirs or {}).get("swing"))
+    nine = name not in LEGEND_NAMES and name not in GENRE_NAMES
+    got = roll_swing(p, variant, force=(dirs or {}).get("swing"),
+                     crew_dj=nine)
     if got:
-        notes.append("swing %d%%" % got)
+        notes.append("swing %s" % (got if isinstance(got, str)
+                                   else "%d%%" % got))
     roll = random.Random(CREW[name]["num"] * 31 + variant)
-    if p["sidechain"] > 0 and roll.random() < 0.1:
-        p["sidechain"] = 0.0
+    apply_duck(p, roll)
     return p, notes
 
 
@@ -570,9 +650,14 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
         gpan, ggain, gfeel, gbars = CREW[g]["lanes"]["stamp"]
         side = -pan if abs(pan) > 0.05 else 0.3 * (1 if i % 2 == 0 else -1)
         p["lanes"][f"stamp{i + 2}"] = (side, ggain, gfeel, gbars)
-    got = roll_swing(p, variant, force=(dirs or {}).get("swing"))
+    apply_duck(p, random.Random(CREW[host]["num"] * 37 + variant))
+    nine = all(n not in LEGEND_NAMES and n not in GENRE_NAMES
+               for n in names)
+    got = roll_swing(p, variant, force=(dirs or {}).get("swing"),
+                     crew_dj=nine)
     if got:
-        notes.append("swing %d%%" % got)
+        notes.append("swing %s" % (got if isinstance(got, str)
+                                   else "%d%%" % got))
     return p, notes
 
 
@@ -635,6 +720,18 @@ NEGATIONS = ("no ", "without ", "skip ", "skip the ", "drop the ",
              "take out ", "leave out the ", "leave out ", "minus ",
              "none of the ", "no more ", "hold the ")
 
+# words in the box -> harmony.py progression (punch list step 7,
+# 2026-07-22). Naming a mood implies "chords" too, so "dreamy" alone is
+# enough — no need to also type "chords".
+CHORD_WORDS = ("chords", "chord", "harmony", "harmonize", "melody",
+               "in key", "with keys", "add keys")
+FEEL_WORDS = {
+    "dreamy": "dreamy", "sad": "sad_accepting", "sinking": "sad_sinking",
+    "uplifting": "uplifting", "happy": "uplifting",
+    "nostalgic": "nostalgic_jazz", "jazzy": "nostalgic_jazz",
+    "epic": "epic", "dark": "dark_menacing", "menacing": "dark_menacing",
+    "vamp": "vamp_i_VI"}
+
 
 def parse_directions(notes):
     """Read this click's directions out of the notes text. v6 adds
@@ -646,7 +743,8 @@ def parse_directions(notes):
     t = " ".join(t.split())
     t = f" {t} "
     out = {"mute": set(), "tags": [], "kick": None, "density": None,
-           "space": None, "swing": None, "tsig": None, "force_mode": None}
+           "space": None, "swing": None, "tsig": None, "force_mode": None,
+           "chords": False, "chord_feel": None}
     if any(x in t for x in ("no swing", "straight", "unswung")):
         out["swing"] = 50
     elif "triplet swing" in t:
@@ -682,6 +780,10 @@ def parse_directions(notes):
         out["density"] = "sparse"
     elif any(x in t for x in ("busier", "busy", "more drums")):
         out["density"] = "busy"
+    out["chord_feel"] = next((slug for word, slug in FEEL_WORDS.items()
+                              if f" {word} " in t), None)
+    out["chords"] = bool(out["chord_feel"]) \
+        or any(f" {w} " in t for w in CHORD_WORDS)
     return out
 
 
@@ -721,11 +823,11 @@ def apply_directions(preset, dirs):
     return notes
 
 
-def dj_cut(L, R, parts, bar):
+def dj_cut(L, R, parts, bar, nbars=BARS):
     """Hard-mute one bar in the finished audio (20 ms fades) — the
     last-resort deepening. Applied to the stems too so the Reason 12
     handoff matches what the WAV plays."""
-    barlen = len(L) // BARS
+    barlen = len(L) // nbars
     a, b = bar * barlen, (bar + 1) * barlen
     f = min(int(0.02 * SR), barlen // 4)
     env = np.ones(len(L))
@@ -750,7 +852,8 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
              traditional=False, status=lambda msg: None):
     """Render one random beat (solo or collab) into names[0]'s folder.
     Returns (path, report_line). Raises on an empty selection.
-    traditional=True (half of every 4+ batch, owner rule 2026-07-18):
+    traditional=True (a quarter of every 4+ batch, owner rule
+    2026-07-21, was half):
     a common, popular hip-hop beat — conventional kick+snare backbone,
     no exotic meter, and a tuned root 808 sub when the 808 flavor rolls
     (so the sub is present on some but not every traditional beat)."""
@@ -796,12 +899,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # "acoustic", ...) — applied to these beats only, never persisted
     dirs = parse_directions(notes)
 
-    # compose + vary until the FINAL kick line (the one that renders) is
-    # genuinely new for this DJ — the compose-time guard alone missed
-    # patterns that collapsed into each other during the variety pass
-    # (owner report 2026-07-17: "still very similar")
+    # one compose + vary per beat — the reroll-until-different kick
+    # guard is gone (owner call 2026-07-21: variety comes from the
+    # composition itself, not from rejection loops)
     status(f"Composing for {' x '.join(names)}…")
-    for _try in range(8):
+    for _try in range(1):
         variant = random.randrange(2, 10000)
         # v6 time-signature roll (owner ruling 2026-07-18): 80% 4/4,
         # 10% real 3/4 or 6/8, 10% exotic grids inside 4/4. The notes
@@ -815,12 +917,19 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # reason: there is no such thing as a 6/8 Baltimore club record.
         pure_legend = all(n in LEGEND_NAMES for n in names)
         pure_genre = all(n in GENRE_NAMES for n in names)
+        # Owner call 2026-07-22: "the library doesn't have to be straight
+        # sixteenths — measurements can now vary." The audit found 683 of
+        # 702 beats in 4/4 and 94% on one straight-16th grid, so the old
+        # 10%/10% roll was far too shy. Odd meter doubles to 20% and the
+        # exotic grids inside 4/4 (triplets, quintuplets, 32nd walls)
+        # double to 20% — a plain straight-16 4/4 is now 60%, still the
+        # single most common thing but no longer four beats in five.
         if tsig is None and not traditional and not pure_legend \
                 and not pure_genre:
             r = troll.random()
-            if r < 0.10:
+            if r < 0.20:
                 tsig = troll.choice(((3, 4), (6, 8)))
-            elif r < 0.20:
+            elif r < 0.40:
                 trick = True
         if len(names) == 1:
             preset, style_notes = solo_preset(names[0], variant, bpm,
@@ -836,19 +945,6 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         vnotes = evo_notes + style_notes + dnotes + vary_preset(
             preset, variant, CREW[names[0]]["num"],
             tempo_locked=bool(bpm), density=dirs["density"])
-        final_kick = (preset["lanes"]["kick"][3][0]
-                      if "kick" in preset["lanes"] else None)
-        # a style whose KICK is the canon (Baltimore club's 8-count, the
-        # dembow, the Miami electro figure) is supposed to repeat it —
-        # that's what makes it that style — so the sameness guard would
-        # spin all 8 tries and reject a correct beat. For those, the
-        # variety it asks for has to come from the rest of the kit.
-        if "kick" in (preset.get("_canon") or ()):
-            break
-        if final_kick is None or not kick_seen(names[0], final_kick):
-            break
-    if final_kick:
-        remember_kick(names[0], final_kick)
     rng = random.Random(variant)
     title = fresh_title(names, rng, root)
 
@@ -895,7 +991,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
     _long808 = (preset["kit"].get("kick", (None, None))[1] == "808"
                 and _klen > 0.6)
+    # the harmony bass (below) already gives a moving, in-key root under
+    # the kick — the static single-note 808 would just muddy the low
+    # end fighting it, so "chords" skips this and takes the bass job.
     if traditional and "kick" in preset["lanes"] and not _long808 \
+            and not dirs["chords"] \
             and random.Random(variant * 577 + 13).random() < 0.75:
         root_note, sub_audio = _root_sub(variant)
         kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
@@ -905,7 +1005,51 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         sources["sub"] = "synth 808 sub, root %s" % root_note
         vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
 
+    # "chords" / a mood word in the notes box (punch list steps 2+7,
+    # 2026-07-22): a real in-key progression, synthesized as a pad +
+    # bass and dropped in as extra lanes — same trick as the tuned-808
+    # sub above, just one long "one-shot" per chord instead of one hit.
+    midi_chords = None
+    if dirs["chords"]:
+        import chord_synth
+        import harmony
+        from key_context import KeyContext, SUB_ROOTS
+        key_root = random.Random(variant * 353 + 17).choice(SUB_ROOTS)
+        key = KeyContext(key_root, "minor")
+        prog_name, chords = harmony.compose(
+            key, dirs["chord_feel"], rng=random.Random(variant * 419 + 5))
+        num, den = preset.get("tsig", (4, 4))
+        bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
+        nb = bars_of(preset)
+        per_chord = max(1, nb // len(chords))
+        midi_chords = []
+        for i, chord in enumerate(chords):
+            start_bar = i * per_chord
+            if start_bar >= nb:
+                break
+            end_bar = nb if i == len(chords) - 1 else \
+                min(start_bar + per_chord, nb)
+            dur = (end_bar - start_bar) * bar_s
+            bass_note = chord["notes"][0] - 12
+            bars_list = ["-" * 16 for _ in range(nb)]
+            bars_list[start_bar] = "X" + "-" * 15
+            preset["lanes"][f"chord{i}"] = (0.0, 0.5, (0, 0, 50, variant + i),
+                                            bars_list)
+            preset["lanes"][f"bass{i}"] = (0.0, 0.85, (0, 0, 50, variant + i),
+                                           [b for b in bars_list])
+            kit[f"chord{i}"] = chord_synth.pad_voice(chord["notes"], dur)
+            kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
+            sources[f"chord{i}"] = "synth chord pad, %s (%s)" % (
+                chord["chord"], chord["roman"])
+            sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
+            midi_chords.append({"start_sec": start_bar * bar_s,
+                                "dur_sec": dur,
+                                "notes": chord["notes"] + [bass_note]})
+        vnotes.append("chords: %s in %s (%s)" % (
+            prog_name, key, ", ".join(c["chord"] for c in chords)))
+
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
+    nbars = bars_of(preset)
     L, R, lufs, parts = render_crew_beat(names[0], kit, space=space,
                                          preset=preset, want_parts=True)
 
@@ -913,10 +1057,10 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # floor at -30 dB: below that is silence to the ear, and counting
         # digital zero as "dynamics" would inflate the number meaninglessly
         mono = 0.5 * (L + R)
-        barlen = len(mono) // BARS
+        barlen = len(mono) // nbars
         prof = [max(-30.0, 20 * np.log10(np.sqrt(
             (mono[i * barlen:(i + 1) * barlen] ** 2).mean()) + 1e-12))
-            for i in range(BARS)]
+            for i in range(nbars)]
         return max(prof) - min(prof)
 
     swing = bar_swing(L, R)
@@ -929,12 +1073,18 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # the loop needs SOME rise and fall — but owner rule 2026-07-17:
         # never silence. Thin one bar instead: hats and colors rest, the
         # backbone softens and plays through. One re-render, no DJ-cut.
-        deep_bar = random.Random(variant * 31
-                                 + CREW[names[0]]["num"]).choice((4, 5, 6))
+        deep_bar = random.Random(variant * 31 + CREW[names[0]]["num"]).choice(
+            [b for b in (nbars - 4, nbars - 3, nbars - 2) if b >= 1]
+            or [max(nbars - 1, 0)])
         for ln, (pan, gain, feel, bars) in list(preset["lanes"].items()):
-            if ln.startswith("stamp"):
+            # stamp + harmony lanes fire once for a whole chord section,
+            # not once a bar like a kick — silencing their one trigger
+            # bar would drop the entire chord/bass, not just dip it.
+            if ln.startswith(("stamp", "chord", "bass")):
                 continue
             bars = list(bars)
+            if deep_bar >= len(bars):        # short pattern, nothing to thin
+                continue
             if ln in BACKBONE:
                 bars[deep_bar] = bars[deep_bar].replace("X", "x")
             else:
@@ -961,9 +1111,16 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     # the Reason 12 handoff (spec 2026-07-16): MIDI + stems with every WAV
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"],
-               tsig=tuple(preset.get("tsig", (4, 4))))
+               tsig=tuple(preset.get("tsig", (4, 4))), chords=midi_chords)
     write_stems(folder / f"{no} {' x '.join(names)} {title} Stems",
                 parts["stems"], sources=sources)
+
+    # the pattern sheet (owner request 2026-07-22): a readable picture of
+    # every lane against the backbeat, so a beat he doesn't like can be
+    # diagnosed by eye instead of by ear alone
+    from pattern_sheet import write_sheet
+    write_sheet(path.with_suffix(".txt"), preset,
+                title=path.stem, extra=vnotes)
 
     # and the recipe, so "same beat, different snare" can rebuild it
     stamp_paths = {"stamp": stamps[names[0]][0]}
@@ -992,7 +1149,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     tn, td = preset.get("tsig", (4, 4))
     dur = len(L) / SR
-    want = BARS * tn * (4.0 / td) * 60.0 / preset["bpm"]
+    want = bars_of(preset) * tn * (4.0 / td) * 60.0 / preset["bpm"]
     rms = 20 * np.log10(np.sqrt(0.5 * (L ** 2 + R ** 2).mean()) + 1e-12)
     vnotes.append(f"bar swing {swing:.1f} dB")
     from groove import OWNER_TASTE
@@ -1033,6 +1190,88 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
               f"{len(parts['stems'])} stems) | LUFS {lufs:.1f} | "
               f"{'checks passed' if good else 'CHECK THIS ONE'}"
               f"\n   this one: {'; '.join(vnotes)}")
+    return path, report
+
+
+# ------------------------------------------------- fixed-rhythm test bank
+# Owner request 2026-07-21: a control group. Five REAL, well-known hip-hop
+# grooves pulled straight from the 174-pattern library, UNTOUCHED — no
+# compose(), no vary_preset, no per-beat mutation, the same 16-step bar
+# played eight times flat. The only thing a re-roll can change is which
+# samples fill kick/snare/hat. If the crew and legends still sound like
+# one pattern next to each other, this is the fixed point to check them
+# against, since these five are guaranteed to never move.
+FIXED_PATTERNS = [
+    ("Classic Boom Bap", "Classic Boom-Bap Backbeat", 90),
+    ("UK Drill", "UK Drill Sliding 808", 142),
+    ("90s New Jack Swing", "R&B 90s New Jack Swing", 108),
+    ("West Coast G-Funk", "West Coast G-Funk Bounce", 96),
+    ("Memphis Trap", "Memphis Lo-Fi Menace", 132),
+]
+
+
+def _fixed_preset(idx):
+    """One of the five reference grooves as a preset: the same bar eight
+    times, no fills, no swing, no A/B. `idx` picks FIXED_PATTERNS[idx]."""
+    title, lib_name, bpm = FIXED_PATTERNS[idx]
+    pat = next(p for p in load_library() if p["name"] == lib_name)
+    lanes = {
+        ln: (pan, gain, (0, 0, 50, 9000 + idx * 10 + i), [pat[ln]] * BARS)
+        for i, (ln, pan, gain) in enumerate((
+            ("kick", 0.0, 1.0), ("snare", 0.0, 0.85), ("hat", -0.12, 0.35)))
+    }
+    kit = dict(
+        kick=("kick", None, ["punch", "knock"], (0.2, 0.5)),
+        snare=("snare", None, ["crack", "tight"], 1.0),
+        hat=("hat", None, ["closed"], 0.5))
+    return dict(num=900 + idx, bpm=bpm, lanes=lanes, kit=kit,
+               kick_dist=0.0, dust=0.0, vinyl=0, wow=0.0, mix_sat=0.0,
+               drive=1.0, sidechain=0.0, space=("dry", []), alt=None,
+               title=title)
+
+
+def generate_fixed(idx, root=ROOT, shots=None, status=lambda msg: None):
+    """Render one of the five fixed reference beats. Same rhythm every
+    single time — only the kit changes. A direct answer to "can this
+    thing actually produce different rhythms, or is it just samples?":
+    these five never move, so they're the control group."""
+    preset = _fixed_preset(idx)
+    if shots is None:
+        status("Scanning your sample library…")
+        shots = build_shots()
+    kit, sources = build_kit(shots, "Fixed Bank", None, variant=idx,
+                             avoid=history_avoid(["Fixed Bank"]),
+                             preset=preset)
+    del kit["stamp"]
+    L, R, lufs, parts = render_crew_beat("Fixed Bank", kit, preset=preset,
+                                         want_parts=True)
+    no = next_number(root)
+    folder = root / "Fixed Bank"
+    folder.mkdir(parents=True, exist_ok=True)
+    title = preset["title"]
+    fname = f"{no} {title} Drums {preset['bpm']}bpm.wav"
+    path = folder / fname
+    if path.exists():
+        raise RuntimeError(f"{fname} already exists — not overwriting.")
+    write_wav24(path, L, R)
+    write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
+    write_stems(folder / f"{no} {title} Stems", parts["stems"],
+               sources=sources)
+    spec_used = {ln: (r, m, w, _resolve_secs(s, preset["num"], idx))
+                for ln, (r, m, w, s) in preset["kit"].items()}
+    save_recipe(root, no, {
+        "file": fname, "folder": "Fixed Bank", "names": ["Fixed Bank"],
+        "title": title, "variant": idx, "bpm": preset["bpm"],
+        "space": "dry", "preset": preset, "kit_spec": spec_used,
+        "kit_paths": {ln: sources[ln] for ln in spec_used},
+        "stamp_paths": {}, "stamp_secs": {}, "root_note": None,
+        "traditional": False, "dj_cut_bar": None, "parent": None,
+        "date": str(date.today())})
+    record_history({ln: "Fixed Bank" for ln in spec_used}, sources)
+    report = (f"{fname}\n-> Fixed Bank folder (+ MIDI and "
+             f"{len(parts['stems'])} stems) | LUFS {lufs:.1f}"
+             f"\n   this one: fixed rhythm #{idx + 1} ({title}) — "
+             "only the sounds changed, roll again for a new kit")
     return path, report
 
 
@@ -1191,7 +1430,8 @@ def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
                      status=status)
 
 
-def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
+def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
+              trims=None, drops=None):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -1202,20 +1442,49 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
 
     Staging several swaps into one rebuild is deliberate (owner
     2026-07-18): changing kick + snare + hat used to mean three renders
-    and three new beats to sort through, when he only wanted one."""
+    and three new beats to sort through, when he only wanted one.
+
+    `trims` maps lane -> dB (owner request 2026-07-19: set each stem's
+    volume when re-rendering). It rides the preset's own per-lane gain —
+    the same knob evolutions and collabs already turn — so a trim lands
+    on the lane's stem AND its share of the mix, which is what "turn the
+    snare up" has to mean. Trims alone are a valid rebuild: no drum has
+    to change for a remix to be worth printing.
+
+    `drops` is a list of lanes to REMOVE outright (owner request
+    2026-07-21: "just remove a stem completely") — the lane leaves the
+    mix, the stems folder, and the child recipe. A drop wins over a
+    swap or trim staged on the same lane."""
     number = int(number)
     rec = load_recipe(root, number)
     picks = {str(ln).strip().lower(): v for ln, v in (picks or {}).items()}
-    for lane in picks:
+    drops = sorted({str(ln).strip().lower() for ln in (drops or [])})
+    for lane in list(picks) + drops:
         if lane not in rec["kit_spec"]:
-            raise ValueError(f"Beat {number} has no '{lane}' to swap — "
+            raise ValueError(f"Beat {number} has no '{lane}' to change — "
                              f"it has: {', '.join(sorted(rec['kit_spec']))}.")
     # picking the sample that's already in the lane isn't a swap
     picks = {ln: v for ln, v in picks.items()
              if not (v and v == rec["kit_paths"].get(ln))}
-    if not picks:
-        raise ValueError("Nothing to change — pick a different sound first.")
     preset = normalize_preset(rec["preset"])
+    trims = _clean_trims(trims, preset, number)
+    for lane in drops:                        # a drop wins over the rest
+        picks.pop(lane, None)
+        trims.pop(lane, None)
+    if set(rec["kit_spec"]) <= set(drops):
+        raise ValueError("That would remove every drum — keep at least "
+                         "one.")
+    if not picks and not trims and not drops:
+        raise ValueError("Nothing to change — pick a different sound, "
+                         "move a volume slider, or remove a stem first.")
+    for lane in drops:
+        preset["lanes"].pop(lane, None)
+    # bake the trims into this beat's own gains. The child recipe stores
+    # the RESULT, so its sliders start at 0 again ("nudge from how it
+    # sounds now") and re-rendering it without trims reproduces it.
+    for lane, db in trims.items():
+        pan, gain, feel, bars = preset["lanes"][lane]
+        preset["lanes"][lane] = (pan, gain * 10 ** (db / 20.0), feel, bars)
     names = rec["names"]
     if shots is None:
         status("Scanning your sample library…")
@@ -1226,6 +1495,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
     avoid |= history_avoid(names)
 
     kit_paths, fresh, olds = dict(rec["kit_paths"]), {}, {}
+    for lane in drops:
+        kit_paths.pop(lane, None)
     for lane in sorted(picks):
         role, must, wants, secs = rec["kit_spec"][lane]
         olds[lane] = rec["kit_paths"].get(lane)
@@ -1268,7 +1539,16 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
         kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
 
     lanes = sorted(picks)
-    if len(lanes) == 1:
+    if drops and not lanes and not trims:      # removal is the headline
+        what = "No " + " & ".join(d.capitalize() for d in drops)
+        changed = "removed " + " and ".join(drops)
+    elif drops:
+        what = "Rebuilt"
+        changed = ("removed " + " and ".join(drops)
+                   + (", new " + ", ".join(lanes) if lanes else ""))
+    elif not lanes:                   # volumes only — same drums, new mix
+        what, changed = "New Mix", _trim_words(trims)
+    elif len(lanes) == 1:
         what, changed = f"New {lanes[0].capitalize()}", lanes[0]
     elif len(lanes) == 2:
         what = f"New {lanes[0].capitalize()} & {lanes[1].capitalize()}"
@@ -1305,6 +1585,11 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
 
     rec2 = dict(rec, file=fname, kit_paths=kit_paths, parent=number,
                 folder=rec["folder"], date=str(date.today()))
+    if drops:                    # the lane is gone from the child recipe
+        rec2["kit_spec"] = {ln: s for ln, s in rec["kit_spec"].items()
+                            if ln not in drops}
+    if trims or drops:           # the new gains/lanes ARE this beat
+        rec2["preset"] = preset
     save_recipe(root, no, rec2)
     append_last_batch(no, root)                   # show up in the player
     lane_parent = preset.get("lane_parent", {})
@@ -1321,11 +1606,14 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None):
             f.write(f"  {ln} was: "
                     f"{Path(olds[ln]).name if olds[ln] else '(none)'}\n"
                     f"  {ln} now: {Path(kit_paths[ln]).name}\n")
+        if trims:
+            f.write(f"  volumes: {_trim_words(trims)}\n")
         f.write(f"  LUFS {lufs:.1f}\n")
-    swapped = " | ".join(f"{ln} → {Path(kit_paths[ln]).name}"
-                         for ln in lanes)
+    bits = [f"{ln} → {Path(kit_paths[ln]).name}" for ln in lanes]
+    if trims:
+        bits.append(_trim_words(trims))
     report = (f"{fname}\n-> {rec['folder']} folder | same beat as "
-              f"{number} | {swapped} | LUFS {lufs:.1f}")
+              f"{number} | {' | '.join(bits)} | LUFS {lufs:.1f}")
     return path, report
 
 
@@ -1371,6 +1659,41 @@ def _lane_sort(lane):
         return (0, LANE_ORDER.index(lane), lane)
     except ValueError:
         return (1, 0, lane)
+
+
+# How far a stem's volume slider swings either way (owner call
+# 2026-07-21: widened from +/-12 — more throw on the fader; at -24 dB a
+# stem is all but gone, and the remove button finishes the job).
+TRIM_DB = 24.0
+
+
+def _clean_trims(trims, preset, number):
+    """The volume sliders, checked: lane -> dB, clamped to +/-TRIM_DB.
+    A slider left in the middle is not a change, so 0 dB drops out and a
+    rack full of untouched sliders still counts as 'nothing staged'."""
+    out = {}
+    for lane, db in (trims or {}).items():
+        lane = str(lane).strip().lower()
+        try:
+            db = float(db)
+        except (TypeError, ValueError):
+            raise ValueError(f"'{db}' isn't a volume for the {lane}.")
+        if db != db or db in (float("inf"), float("-inf")):   # NaN/inf
+            raise ValueError(f"'{db}' isn't a volume for the {lane}.")
+        if lane not in preset.get("lanes", {}):
+            raise ValueError(f"Beat {number} has no '{lane}' to turn up "
+                             "or down.")
+        db = round(max(-TRIM_DB, min(TRIM_DB, db)), 2)
+        if db:
+            out[lane] = db
+    return out
+
+
+def _trim_words(trims):
+    """'kick +2 dB, snare -3.5 dB' — how a trim reads in the log."""
+    return ", ".join(f"{ln} {db:+g} dB"
+                     for ln, db in sorted(trims.items(), key=lambda kv:
+                                          _lane_sort(kv[0])))
 
 
 # words that describe a DRUM, not a pack. A folder built only out of
@@ -1506,11 +1829,13 @@ def _lane_candidates(no, lane, shots=None, root=None):
 
 
 def _traditional_flags(how_many, names=None):
-    """Half of a 4+ batch is a common, traditional hip-hop beat (owner
-    rule 2026-07-18), interleaved so they're not all up front."""
+    """A quarter of a 4+ batch is a common, traditional hip-hop beat
+    (owner rule 2026-07-21: was half since 2026-07-18, but at half the
+    whole library converged on the plain 2&4 backbone), interleaved so
+    they're not all up front."""
     if how_many < 4:
         return [False] * how_many
-    k = how_many // 2
+    k = how_many // 4
     flags = [True] * k + [False] * (how_many - k)
     random.shuffle(flags)
     return flags
@@ -1624,6 +1949,17 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  /* ------------------------------------------------------ DJ crates */
  .djs { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
         gap: 9px; }
+ .fixedbank { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+              gap: 9px; margin-bottom: 6px; }
+ .fixedbtn { padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+             background: var(--card); cursor: pointer; text-align: left;
+             font-family: var(--display); font-weight: 600; font-size: 15px;
+             color: var(--text); transition: border-color .13s, transform .13s; }
+ .fixedbtn:hover { border-color: var(--hi); transform: translateY(-1px); }
+ .fixedbtn:disabled { opacity: .5; cursor: default; transform: none; }
+ .fixedbtn small { display: block; font-weight: 400;
+                   font-size: 12px; color: var(--dim); text-transform: none;
+                   letter-spacing: 0; margin-top: 3px; }
  .dj { position: relative; display: flex; align-items: center; gap: 10px;
        padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
        background: var(--card); cursor: pointer; user-select: none;
@@ -1668,10 +2004,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .field label { display: block; font-family: var(--display); font-weight: 600;
                 font-size: 12.5px; letter-spacing: .11em; text-transform: uppercase;
                 color: var(--dim); margin-bottom: 6px; }
- .field input { width: 100%; font-size: 15px; padding: 10px 12px;
+ .field input, .field select { width: 100%; font-size: 15px; padding: 10px 12px;
                 border-radius: 9px; border: 1px solid var(--line2);
                 background: #0000004d; color: var(--text); font-family: inherit; }
- .field input:focus { outline: none; border-color: var(--hi); }
+ .field input:focus, .field select:focus { outline: none; border-color: var(--hi); }
+ .field.quick { margin-top: 16px; }
  .field .hint { font-size: 11.5px; color: var(--dimmer); margin-top: 5px; }
  .fire { display: flex; align-items: center; gap: 16px; margin-top: 18px;
          flex-wrap: wrap; }
@@ -1776,7 +2113,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .rack { display: none; border-top: 1px solid var(--line);
          background: #00000038; padding: 4px 14px 14px; }
  .rack.open { display: block; }
- .lane { display: grid; grid-template-columns: 74px 1fr auto;
+ .lane { display: grid; grid-template-columns: 74px 1fr auto auto;
          gap: 12px; align-items: center; padding: 10px 0;
          border-bottom: 1px solid #ffffff0c; }
  .lane:last-of-type { border-bottom: 0; }
@@ -1810,6 +2147,28 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .lane .mini:hover { background: #ffffff17; }
  .lane .mini.playing { border-color: var(--co); color: var(--co); }
  .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
+
+ /* the stem faders — one per lane, so the rack reads down like a mixer */
+ .lane .vol { display: flex; align-items: center; gap: 8px; flex: none; }
+ .lane .vol input { -webkit-appearance: none; appearance: none; width: 96px;
+       height: 3px; border-radius: 2px; background: var(--line2);
+       cursor: pointer; outline: none; }
+ .lane .vol input::-webkit-slider-thumb { -webkit-appearance: none;
+       appearance: none; width: 13px; height: 13px; border-radius: 50%;
+       background: var(--text); cursor: pointer; border: 0; }
+ .lane .vol input::-moz-range-thumb { width: 13px; height: 13px;
+       border-radius: 50%; background: var(--text); cursor: pointer;
+       border: 0; }
+ .lane.trimmed .vol input { background: var(--hi); }
+ .lane.trimmed .vol input::-webkit-slider-thumb { background: var(--hi); }
+ .lane.trimmed .vol input::-moz-range-thumb { background: var(--hi); }
+ .lane .vol .db { font-family: var(--mono); font-size: 11.5px;
+       color: var(--dimmer); width: 34px; text-align: right; }
+ .lane.trimmed .vol .db { color: var(--hi); }
+ .lane.trimmed .swatch { background: var(--hi); }
+ /* a stem staged for removal reads as struck-through and faded */
+ .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol {
+   opacity: .35; text-decoration: line-through; }
 
  .rackfoot { display: flex; align-items: center; gap: 14px; padding: 13px 0 3px;
              border-top: 1px solid var(--line); margin-top: 4px; flex-wrap: wrap; }
@@ -1859,7 +2218,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
   </div>
   <p class="tag">Check one DJ for a beat of their own. Check more for a collab &mdash;
   it lands in the folder of whoever you check <b>first</b>. Ask for four or more
-  and half come back as straight, traditional hip hop.</p>
+  and a quarter come back as straight, traditional hip hop.</p>
 </header>
 </div>
 
@@ -1869,6 +2228,9 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <div class="djs">__LEGENDS__</div>
 <h2 class="box">The Styles <small>seventeen subgenres, played by the rules</small></h2>
 <div class="djs">__GENRES__</div>
+
+<h2 class="box">Rhythm test bank <small>five real, well-known hip-hop beats — the rhythm never changes, only the sounds</small></h2>
+<div class="fixedbank" id="fixedbank">__FIXEDBANK__</div>
 
 <div class="panel">
   <div class="fields">
@@ -1882,6 +2244,24 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
       <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
       <div class="hint">used for this click and saved in the README</div></div>
   </div>
+  <div class="field quick"><label>Quick directions</label>
+    <select id="quick">
+      <option value="">&mdash; pick one &mdash;</option>
+      <option value="sparse">sparse &mdash; thin everything out</option>
+      <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+      <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+      <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+      <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+      <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+      <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+      <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+      <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+      <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+      <option value="no perc">no perc &mdash; percussion off</option>
+      <option value="crisp">crisp &mdash; crisp, clear samples</option>
+      <option value="dusty">dusty &mdash; dusty, aged samples</option>
+    </select>
+    <div class="hint">fills the Directions box above &mdash; edit it after if you like</div></div>
   <div class="fire">
     <button id="go">Make my beats</button>
     <span id="hosthint"></span>
@@ -1911,6 +2291,12 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
 </div>
 <script>
+ // the quick list just types into the Directions box for him, so the
+ // whole existing parser + README trail works unchanged
+ document.getElementById('quick').addEventListener('change', e => {
+   if (e.target.value) document.getElementById('notes').value = e.target.value;
+ });
+
  // ---------------------------------------------------------- crew picking
  const order = [];
  function refresh() {
@@ -1954,6 +2340,8 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  // ------------------------------------------------------------ the batch
  const LOC = { favorites: '&starf; kept', trash: 'trashed', dj: '' };
  const staged = {};                    // beat no -> { lane: path | null }
+ const trims = {};                     // beat no -> { lane: dB }
+ const drops = {};                     // beat no -> { lane: true }
 
  function setLoc(el, loc) {
    el.className = 'track loc-' + loc;
@@ -2076,17 +2464,22 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
  // ---------------------------------------------------------- the stem rack
  function stagedCount(no) { return Object.keys(staged[no] || {}).length; }
+ function trimCount(no) { return Object.keys(trims[no] || {}).length; }
+ function dropCount(no) { return Object.keys(drops[no] || {}).length; }
 
  function paintFoot(el, no) {
-   const n = stagedCount(no);
+   const n = stagedCount(no), v = trimCount(no), r = dropCount(no);
    const foot = el.querySelector('.rackfoot');
    if (!foot) return;
-   foot.querySelector('.staged').innerHTML = n
-     ? '<b>' + n + ' ' + (n === 1 ? 'sound' : 'sounds') + ' staged</b> — ' +
-       'rebuild makes one new beat with every change in it'
-     : 'Pick a different sound for any drum, or roll the dice.';
-   foot.querySelector('.rebuild').disabled = !n;
-   foot.querySelector('.undo').style.display = n ? '' : 'none';
+   const bits = [];
+   if (n) bits.push('<b>' + n + ' ' + (n === 1 ? 'sound' : 'sounds') + ' staged</b>');
+   if (v) bits.push('<b>' + v + ' ' + (v === 1 ? 'volume' : 'volumes') + ' changed</b>');
+   if (r) bits.push('<b>' + r + ' ' + (r === 1 ? 'stem' : 'stems') + ' removed</b>');
+   foot.querySelector('.staged').innerHTML = bits.length
+     ? bits.join(' + ') + ' — rebuild makes one new beat with every change in it'
+     : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
+   foot.querySelector('.rebuild').disabled = !(n + v + r);
+   foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
  }
 
  function laneRow(no, s) {
@@ -2098,10 +2491,32 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        '<span class="lname"></span></span>' +
      '<span class="what"><span class="sample"></span>' +
        '<span class="pack"></span></span>' +
+     '<span class="vol"><input type="range" min="-24" max="24" step="0.5" ' +
+       'value="0" title="Volume for this stem — double-click to reset">' +
+       '<span class="db">0</span></span>' +
      '<span class="picks"></span>';
    row.querySelector('.lname').textContent = s.lane;
    row.querySelector('.sample').textContent = s.sample;
    row.querySelector('.pack').textContent = s.pack || '';
+
+   // volume rides on every lane, locked ones included: a stamp's SAMPLE is
+   // the DJ's identity, its level is just mix
+   const vol = row.querySelector('.vol input'), db = row.querySelector('.db');
+   const showDb = () => {
+     const v = parseFloat(vol.value);
+     db.textContent = v ? (v > 0 ? '+' : '') + v : '0';
+     row.classList.toggle('trimmed', !!v);
+   };
+   vol.oninput = () => {
+     const v = parseFloat(vol.value);
+     trims[no] = trims[no] || {};
+     if (v) trims[no][s.lane] = v; else delete trims[no][s.lane];
+     if (!Object.keys(trims[no]).length) delete trims[no];
+     showDb();
+     paintFoot(row.closest('.track'), no);
+   };
+   vol.ondblclick = () => { vol.value = 0; vol.oninput(); };
+
    const picks = row.querySelector('.picks');
 
    if (s.stem) {
@@ -2134,6 +2549,22 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      paintLane(row, no, s);
    };
    picks.appendChild(dice);
+
+   // remove the stem completely (owner request 2026-07-21) — click
+   // again to change your mind; the rebuild prints a beat without it
+   const rm = document.createElement('button');
+   rm.className = 'mini'; rm.title = 'Remove this stem from the beat';
+   rm.innerHTML = '&#10005;';
+   rm.onclick = () => {
+     drops[no] = drops[no] || {};
+     if (drops[no][s.lane]) {
+       delete drops[no][s.lane];
+       if (!Object.keys(drops[no]).length) delete drops[no];
+     } else drops[no][s.lane] = true;
+     row.classList.toggle('dropped', !!(drops[no] && drops[no][s.lane]));
+     paintFoot(row.closest('.track'), no);
+   };
+   picks.appendChild(rm);
 
    sel.onchange = () => {
      staged[no] = staged[no] || {};
@@ -2221,9 +2652,13 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
    foot.querySelector('.undo').onclick = () => {
-     delete staged[no];
+     delete staged[no]; delete trims[no]; delete drops[no];
      rack.querySelectorAll('.lane').forEach(r => {
        const sel = r.querySelector('select'); if (sel) sel.value = '';
+       const vol = r.querySelector('.vol input');
+       if (vol) { vol.value = 0; r.querySelector('.db').textContent = '0'; }
+       r.classList.remove('trimmed');
+       r.classList.remove('dropped');
        const s = specs.find(x => x.lane === r.dataset.lane);
        if (s) paintLane(r, no, s);
      });
@@ -2235,8 +2670,10 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  }
 
  async function rebuild(el, no, foot) {
-   const picks = staged[no] || {};
-   if (!Object.keys(picks).length) return;
+   const picks = staged[no] || {}, vols = trims[no] || {};
+   const gone = Object.keys(drops[no] || {});
+   if (!Object.keys(picks).length && !Object.keys(vols).length
+       && !gone.length) return;
    const btn = foot.querySelector('.rebuild'), msg = foot.querySelector('.rackmsg');
    btn.disabled = true; msg.textContent = '';
    const was = btn.textContent;
@@ -2244,9 +2681,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    try {
      const r = await fetch('/rebuild', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ number: no, picks }) });
+       body: JSON.stringify({ number: no, picks, trims: vols,
+                              drops: gone }) });
      const d = await r.json();
-     if (d.ok) { delete staged[no]; btn.textContent = was; await loadBatch(d.no); }
+     if (d.ok) { delete staged[no]; delete trims[no]; delete drops[no];
+                 btn.textContent = was; await loadBatch(d.no); }
      else { msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
    } catch (e) {
      msg.textContent = String(e); btn.textContent = was; btn.disabled = false;
@@ -2293,6 +2732,23 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    go.disabled = false;
  };
 
+ // ------------------------------------------------------- rhythm test bank
+ document.querySelectorAll('.fixedbtn').forEach(btn => {
+   btn.onclick = async () => {
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = true);
+     working('Rolling a new kit for ' + btn.dataset.title + '…');
+     try {
+       const r = await fetch('/fixed', { method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ idx: parseInt(btn.dataset.idx, 10) }) });
+       const d = await r.json();
+       if (d.ok) { done(); await loadBatch(d.no); }
+       else failed(d.error);
+     } catch (e) { failed(String(e)); }
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = false);
+   };
+ });
+
  // --------------------------------------------------------------- pull up
  document.getElementById('pullgo').onclick = async () => {
    const no = document.getElementById('pullno').value.trim();
@@ -2315,6 +2771,13 @@ def _dj_card(n):
     cls = "dj legend" if n in LEGEND_NAMES else \
           "dj genre" if n in GENRE_NAMES else "dj"
     if n in LEGEND_NAMES:
+        # "like Pharrell" etc — real-producer attribution, INTERNAL ONLY
+        # (owner decision 2026-07-22, see legends_config.json's _readme):
+        # this local batch-player label is fine, but "built" must never
+        # leak into an exported file name, stem, or title — those all
+        # read from preset["title"] (the sound-alike codename), never
+        # from preset["built"]. Keep it that way if this card ever grows
+        # an export/share action.
         built = ('<span class="built">like %s</span>'
                  % p["built"].split("/")[0].strip())
     elif n in GENRE_NAMES:
@@ -2366,6 +2829,10 @@ def _page():
     crew = "".join(_dj_card(n) for n in CREW_ORDER)
     legends = "".join(_dj_card(n) for n in LEGEND_ORDER)
     styles = "".join(_dj_card(n) for n in GENRE_ORDER)
+    fixedbank = "".join(
+        f'<button class="fixedbtn" data-idx="{i}" data-title="{title}">'
+        f'{title}<small>{lib}</small></button>'
+        for i, (title, lib, _bpm) in enumerate(FIXED_PATTERNS))
     logo = _brand_logo("blue")
     if logo:
         src = f"/brand?name={quote(logo.name)}"
@@ -2375,6 +2842,7 @@ def _page():
         mark, ghost = "<span>BOTC</span>", ""
     return (_PAGE.replace("__CREW__", crew).replace("__LEGENDS__", legends)
             .replace("__GENRES__", styles)
+            .replace("__FIXEDBANK__", fixedbank)
             .replace("__MARK__", mark).replace("__GHOST__", ghost))
 
 
@@ -2539,11 +3007,30 @@ def run_web(port=None):
             self.wfile.write(data)
 
         def do_POST(self):
-            if self.path not in ("/make", "/swap", "/triage", "/rebuild"):
+            if self.path not in ("/make", "/swap", "/triage", "/rebuild",
+                                 "/fixed"):
                 self._send(404, "text/plain", b"not found")
                 return
             n = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(n) or b"{}")
+            if self.path == "/fixed":
+                # the rhythm test bank: same five patterns every time,
+                # only the kit rolls
+                try:
+                    idx = max(0, min(len(FIXED_PATTERNS) - 1,
+                                     int(data.get("idx", 0))))
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        path, report = generate_fixed(idx,
+                                                      shots=_CACHE["shots"])
+                        no = int(path.name.split(" ", 1)[0])
+                        append_last_batch(no)
+                        print(" ", report.replace("\n", " "))
+                    self._json({"ok": True, "no": no})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
             if self.path == "/rebuild":
                 # the stem rack: several drums staged, one new beat out
                 no = data.get("number")
@@ -2563,7 +3050,9 @@ def run_web(port=None):
                                     f"That {lane} isn't in your library.")
                             picks[lane] = want
                         path, report = swap_many(no, picks,
-                                                 shots=_CACHE["shots"])
+                                                 shots=_CACHE["shots"],
+                                                 trims=data.get("trims"),
+                                                 drops=data.get("drops"))
                         print(" ", report.replace("\n", " "))
                     self._json({"ok": True,
                                 "no": int(path.name.split(" ", 1)[0])})

@@ -1,6 +1,18 @@
 #!/bin/bash
-# Homeroom Studio — Dock launcher.
-# Walks up out of the .app bundle to the project folder that contains it,
-# so moving the whole folder keeps this working.
-cd "$(dirname "$0")/../../.." || exit 1
-exec ./.venv/bin/python tools/beat_machine.py
+# Homeroom Studio — Dock/Finder launcher.
+#
+# 2026-07-21 fix: this can't just exec python itself. Desktop is one of
+# macOS's privacy-protected folders (Files & Folders privacy: "Desktop
+# Folder"), and Terminal already has permission to read there — that's
+# the ONLY reason the .command file (which runs INSIDE Terminal) has
+# ever worked. This standalone .app has no permission of its own, so
+# double-clicking it silently died the instant Python tried to read
+# .venv/pyvenv.cfg (confirmed via Console: kTCCServiceSystemPolicy-
+# DesktopFolder, PermissionError, no dialog ever shown — an unsigned
+# app like this doesn't get a clean "Allow" prompt, it's just refused).
+#
+# Fix: hand off to Terminal and let IT do the reading, exactly like the
+# .command file already does — instead of trying to get this .app its
+# own separate Desktop-folder grant.
+cmd="$(dirname "$0")/../../../Homeroom Studio.command"
+open -a Terminal "$cmd"

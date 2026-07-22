@@ -203,11 +203,29 @@ def test_new_direction_words():
     assert not d["space"] and not d["swing"] and not d["tsig"]
 
 
-def test_density_profiles_are_equally_likely():
-    import random as _r
+def test_sparse_is_only_ever_asked_for():
+    """Owner call 2026-07-22: the free roll never picks sparse. Only the
+    dialog box or a genre that declares itself sparse can thin a beat."""
     from collections import Counter
     seen = Counter()
-    for v in range(300):
-        rng = _r.Random(1 * 100003 + v * 977)
-        seen[rng.choices(["sparse", "home", "busy"], [1, 1, 1])[0]] += 1
-    assert all(seen[k] > 60 for k in ("sparse", "home", "busy"))
+    for name in ("Otto Grit", "Glass Cat"):
+        for v in range(40):
+            p = copy.deepcopy(CREW[name])
+            p.pop("density", None)             # a crew DJ declares none
+            pattern_gen.compose(p, name, v)
+            notes = beat_machine.vary_preset(p, v, CREW[name]["num"],
+                                             tempo_locked=True)
+            seen[next(n for n in notes if n.endswith(" density"))] += 1
+    assert "sparse density" not in seen        # never on its own
+    assert seen["home density"] and seen["busy density"]
+
+    # the box still forces it, and so does a genre that declares it
+    p = copy.deepcopy(CREW["Otto Grit"])
+    pattern_gen.compose(p, "Otto Grit", 1)
+    assert "sparse density" in beat_machine.vary_preset(
+        p, 1, p["num"], tempo_locked=True, density="sparse")
+    p = copy.deepcopy(CREW["Otto Grit"])
+    p["density"] = "sparse"
+    pattern_gen.compose(p, "Otto Grit", 2)
+    assert "sparse density" in beat_machine.vary_preset(
+        p, 2, p["num"], tempo_locked=True)

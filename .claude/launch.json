@@ -9,6 +9,15 @@
         "cd \"/Users/johnsuhr/Desktop/Homeroom Studio\" && REASON_VOICE_NO_BROWSER=1 exec ./.venv/bin/python -m reason_voice.server"
       ],
       "port": 8765
+    },
+    {
+      "name": "homeroom-studio",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd \"/Users/johnsuhr/Desktop/Homeroom Studio\" && REASON_VOICE_NO_BROWSER=1 PORT=8790 exec ./.venv/bin/python tools/beat_machine.py"
+      ],
+      "port": 8790
     }
   ]
 }

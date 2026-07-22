@@ -52,16 +52,30 @@ class LaneFeel:
         return max(t, 0.0)
 
 
+# How much each kind of hit wanders in level, as a lognormal sigma in
+# octaves. Owner call 2026-07-22: "add velocity variants between the
+# sounds to give a more natural feel" — the old single 0.12 for every
+# character was ~±0.7 dB, a whisper, so repeated hits came out almost
+# identical and read as programmed. A real player is the opposite of
+# uniform: accents land consistently because they're the point, while
+# ghost notes are barely-controlled and vary wildly. So the spread now
+# grows as the hit gets quieter.
+VEL_SPREAD = {"X": 0.16, "x": 0.24, "o": 0.26, ".": 0.34}
+
+
 def velocity(char, step16, wobble_rng, ghost_floor=0.26):
-    """Structured humanization: metric accent map dominates, randomness is
-    a whisper (~±1 dB lognormal). On-beats keep strength; 'e'/'a' 16ths sit
-    lower — the two-finger alternation the forums describe."""
+    """Structured humanization: the metric accent map still dominates and
+    randomness still sits under it, but how far a hit may wander now
+    depends on what KIND of hit it is (see VEL_SPREAD). On-beats keep
+    strength; 'e'/'a' 16ths sit lower — the two-finger alternation the
+    forums describe."""
     base = {"X": 1.0, "x": 0.72, "o": 0.45, ".": ghost_floor}.get(char, 0.0)
     if base == 0.0:
         return 0.0
     if char == "x" and step16 % 4 in (1, 3):    # the e's and a's, softer
         base *= 0.78
-    return float(np.clip(base * 2 ** wobble_rng.normal(0, 0.12), 0.05, 1.0))
+    sigma = VEL_SPREAD.get(char, 0.16)
+    return float(np.clip(base * 2 ** wobble_rng.normal(0, sigma), 0.05, 1.0))
 
 # ------------------------------------------------------------ spectral tools
 

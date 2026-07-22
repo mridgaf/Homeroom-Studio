@@ -144,7 +144,10 @@ def _compose_kicks(name, n):
 def test_every_dj_composes_apart(name):
     kicks = _compose_kicks(name, 10)
     dists = variety.pairwise(kicks, variety.moves)
-    assert min(dists) >= 2, name       # nothing near-identical in a window
+    # owner call 2026-07-21: different is the promise, distance is not —
+    # no exact repeats in a window, and the window still spreads on
+    # average (a report-floor nudge, not an engine guard)
+    assert min(dists) >= 1, name
     assert sum(dists) / len(dists) >= variety.FLOORS["kick_mean"] - 1, name
 
 

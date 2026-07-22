@@ -80,6 +80,31 @@ def test_midi_velocities_keep_accents(tmp_path):
     assert b[i + 2] > b[j + 2]                # louder hit = higher velocity
 
 
+def test_midi_chords_add_a_polyphonic_track(tmp_path):
+    # punch list step 7: a chord track is opt-in (chords=None changes
+    # nothing) and, when given, writes every note on channel 1 (0x90),
+    # never channel 10 (0x99) — Reason must not read it as drum hits.
+    f = tmp_path / "beat.mid"
+    beat_recipes.write_midi(
+        f, {"kick": [(0.0, 1.0)]}, bpm=96,
+        chords=[{"start_sec": 0.0, "dur_sec": 2.0, "notes": [48, 51, 55]}])
+    b = f.read_bytes()
+    assert int.from_bytes(b[10:12], "big") == 3   # tempo + kick + chords
+    assert b.count(b"MTrk") == 3
+    assert b"chords" in b
+    for note in (48, 51, 55):
+        assert bytes([0x90, note]) in b
+        assert bytes([0x99, note]) not in b
+
+
+def test_midi_without_chords_is_unchanged(tmp_path):
+    f1, f2 = tmp_path / "a.mid", tmp_path / "b.mid"
+    events = {"kick": [(0.0, 1.0)]}
+    beat_recipes.write_midi(f1, events, bpm=96)
+    beat_recipes.write_midi(f2, events, bpm=96, chords=None)
+    assert f1.read_bytes() == f2.read_bytes()
+
+
 # ------------------------------------------------------------ 50/50 blend
 
 def test_collab_splits_the_jobs_evenly():
@@ -197,23 +222,11 @@ def test_no_repetition_across_generations(machine_env):
     r2 = beat_recipes.load_recipe(root, int(p2.name.split()[0]))
     for lane in ("kick", "snare", "hat"):
         assert r1["kit_paths"][lane] != r2["kit_paths"][lane], lane
-    # ...and the FINAL rendered kick lines differ too (2026-07-17: two
-    # beats once collapsed to the same line during the variety pass)
-    k1 = r1["preset"]["lanes"]["kick"][3][0]
-    k2 = r2["preset"]["lanes"]["kick"][3][0]
-    assert sum(a != b for a, b in zip(k1, k2)) >= 3
-
-
-def test_final_kick_guard_rerolls(tmp_path, monkeypatch):
-    """The generate-level guard: once a kick line is remembered, the
-    next roll must land somewhere else."""
-    monkeypatch.setattr(pattern_gen, "PAT_HIST", tmp_path / "p.json")
-    bar = "X---------X-----"
-    pattern_gen.remember_kick("Otto Grit", bar)
-    assert pattern_gen.kick_seen("Otto Grit", bar)
-    assert pattern_gen.kick_seen("Otto Grit", "X---------X----x")  # 1 off
-    assert not pattern_gen.kick_seen("Otto Grit", "X--x--x-X-------")
-    assert not pattern_gen.kick_seen("Cutz", bar)   # per-DJ memory
+    # ...and the rendered kick patterns differ (owner call 2026-07-21:
+    # the strict >=3-moves policy is gone — different, not far-apart)
+    k1 = r1["preset"]["lanes"]["kick"][3]
+    k2 = r2["preset"]["lanes"]["kick"][3]
+    assert k1 != k2
 
 
 def test_swap_changes_one_drum_and_nothing_else(machine_env):
@@ -283,6 +296,144 @@ def test_stem_rack_refuses_a_pointless_rebuild(machine_env):
         beat_machine.swap_many(no, {"kick": same}, root=root, shots=shots)
 
 
+def test_fixed_bank_never_varies_the_rhythm(machine_env):
+    """Owner request 2026-07-21: a control group — five real, well-known
+    hip-hop patterns that never change, so a re-roll can only be the
+    kit. Same pattern index twice must give the exact same 8-bar kick
+    line every time, and the sample-only reroll/remove actions already
+    built for the stem rack must work on these recipes too."""
+    root, shots = machine_env
+    path1, _ = beat_machine.generate_fixed(0, root=root, shots=shots)
+    path2, _ = beat_machine.generate_fixed(0, root=root, shots=shots)
+    rec1 = beat_recipes.load_recipe(root, int(path1.name.split()[0]))
+    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
+    assert rec1["preset"]["lanes"]["kick"][3] \
+        == rec2["preset"]["lanes"]["kick"][3]
+    assert rec1["kit_paths"]["kick"] != rec2["kit_paths"]["kick"], \
+        "same rhythm, but the kit should still roll fresh"
+
+    no = int(path1.name.split()[0])
+    new_path, _ = beat_machine.swap_many(no, {"kick": None}, root=root,
+                                         shots=shots)
+    rec3 = beat_recipes.load_recipe(root, int(new_path.name.split()[0]))
+    assert rec3["preset"]["lanes"]["kick"][3] == rec1["preset"]["lanes"]["kick"][3]
+    assert rec3["kit_paths"]["kick"] != rec1["kit_paths"]["kick"]
+
+    no2 = int(new_path.name.split()[0])
+    drop_path, _ = beat_machine.swap_many(no2, {}, root=root, shots=shots,
+                                          drops=["hat"])
+    rec4 = beat_recipes.load_recipe(root, int(drop_path.name.split()[0]))
+    assert "hat" not in rec4["kit_paths"]
+
+
+def test_stem_removal_drops_the_lane_completely(machine_env):
+    """Owner 2026-07-21: the rack's remove button — the new beat has no
+    trace of the lane (mix, stems folder, or child recipe)."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    assert "snare" in rec["kit_paths"]
+
+    new_path, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                         drops=["snare"])
+    no2 = int(new_path.name.split()[0])
+    rec2 = beat_recipes.load_recipe(root, no2)
+    assert "snare" not in rec2["kit_paths"]
+    assert "snare" not in rec2["kit_spec"]
+    assert "snare" not in rec2["preset"]["lanes"]
+    assert "No Snare" in new_path.name
+    stem_dir = next(new_path.parent.glob(f"{no2} * Stems"))
+    assert not [f for f in stem_dir.glob("snare*")]
+    # everything else survived
+    for lane in rec2["kit_paths"]:
+        assert rec2["kit_paths"][lane] == rec["kit_paths"][lane], lane
+
+
+# ------------------------------------------- per-stem volume (2026-07-19)
+
+
+def test_stem_volume_trim_lands_on_the_lane_gain(machine_env):
+    """Owner 2026-07-19: a fader in the rack must actually move that
+    stem. The trim rides the preset's own per-lane gain, so the new
+    beat's recipe carries the changed number and nothing else."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    was = rec["preset"]["lanes"]["snare"][1]
+
+    new_path, report = beat_machine.swap_many(
+        no, {}, root=root, shots=shots, trims={"snare": -6.0})
+    rec2 = beat_recipes.load_recipe(root, int(new_path.name.split()[0]))
+    now = rec2["preset"]["lanes"]["snare"][1]
+
+    assert now == pytest.approx(was * 10 ** (-6.0 / 20), rel=1e-6)
+    assert rec2["kit_paths"] == rec["kit_paths"]      # no drum changed
+    # every other lane's gain untouched
+    for lane, spec in rec["preset"]["lanes"].items():
+        if lane != "snare":
+            assert rec2["preset"]["lanes"][lane][1] == spec[1], lane
+    assert "snare -6 dB" in report
+    assert "New Mix" in new_path.name
+
+
+def test_volumes_alone_are_a_valid_rebuild(machine_env):
+    """No drum has to change for a remix to be worth printing."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    new_path, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                         trims={"kick": 2.5})
+    assert new_path.exists()
+    assert int(new_path.name.split()[0]) != no       # a NEW beat, not a rewrite
+    # same family rule as a drum swap: the original is MOVED in beside it
+    moved = beat_machine.beat_wav(no, root)
+    assert moved is not None and moved.exists() and moved.name == path.name
+    assert moved.parent == new_path.parent
+
+
+def test_trims_stack_from_how_the_beat_sounds_now(machine_env):
+    """The child stores the RESULT, so its own faders start at 0 again
+    and a second nudge adds to the first rather than replacing it."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Night Metro"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    was = beat_recipes.load_recipe(root, no)["preset"]["lanes"]["hat"][1]
+    p2, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                   trims={"hat": 3.0})
+    n2 = int(p2.name.split()[0])
+    p3, _ = beat_machine.swap_many(n2, {}, root=root, shots=shots,
+                                   trims={"hat": 3.0})
+    got = beat_recipes.load_recipe(
+        root, int(p3.name.split()[0]))["preset"]["lanes"]["hat"][1]
+    assert got == pytest.approx(was * 10 ** (6.0 / 20), rel=1e-6)
+
+
+def test_trim_slider_is_bounded_and_checked(machine_env):
+    """Clamped to +/-TRIM_DB, a centred fader is not a change, and a lane
+    the beat hasn't got is refused rather than silently ignored."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Glass Cat"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    preset = crew.normalize_preset(
+        beat_recipes.load_recipe(root, no)["preset"])
+    clean = beat_machine._clean_trims
+
+    assert clean({"kick": 99}, preset, no) == {"kick": beat_machine.TRIM_DB}
+    assert clean({"kick": -99}, preset, no) == {"kick": -beat_machine.TRIM_DB}
+    assert clean({"kick": 0}, preset, no) == {}          # centred = no change
+    assert clean({"KICK ": "3"}, preset, no) == {"kick": 3.0}   # from the form
+    assert clean(None, preset, no) == {}
+    for bad in ({"bongo": 3}, {"kick": "loud"}, {"kick": float("nan")}):
+        with pytest.raises(ValueError):
+            clean(bad, preset, no)
+    # sliders all centred is still "nothing staged"
+    with pytest.raises(ValueError, match="Nothing to change"):
+        beat_machine.swap_many(no, {}, root=root, shots=shots,
+                               trims={"kick": 0})
+
+
 def test_stem_rack_lists_every_drum_with_its_real_sample(machine_env):
     """What the rack shows: each lane, the sample actually behind it, and
     the producer stamp visible but locked."""
@@ -324,7 +475,9 @@ def test_no_silent_bars_ever():
                                      tempo_locked=False)
             backbone = [ln for ln in p["lanes"]
                         if ln in beat_machine.BACKBONE]
-            for b in range(8):
+            # the loop is no longer always 8 bars (2026-07-22) — check
+            # exactly the bars this beat actually renders
+            for b in range(crew.bars_of(p)):
                 hits = sum(sum(c != "-" for c in p["lanes"][ln][3][b])
                            for ln in backbone)
                 assert hits > 0, (name, v, b)
@@ -346,6 +499,34 @@ def test_direction_parser_reads_his_words():
     assert pd("")["mute"] == set() and pd("")["density"] is None
     # a plain note stays a note
     assert pd("for the demo tape")["mute"] == set()
+    # punch list step 7: chords opt-in, plain or via a mood word
+    assert pd("with chords please")["chords"] is True
+    assert pd("make it dreamy")["chords"] is True
+    assert pd("make it dreamy")["chord_feel"] == "dreamy"
+    assert pd("")["chords"] is False and pd("")["chord_feel"] is None
+
+
+def test_chords_direction_adds_a_harmony_layer(machine_env):
+    root, shots = machine_env
+    path, report = beat_machine.generate(["Otto Grit"], root=root,
+                                         shots=shots, notes="dreamy chords")
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    lanes = rec["preset"]["lanes"]
+    assert "chord0" in lanes and "bass0" in lanes
+    assert "chords: dreamy" in report
+    stem_dir = list(path.parent.glob("* Stems"))[0]
+    stems = {f.stem for f in stem_dir.glob("*.wav")}
+    assert any(s.startswith("chord0") for s in stems)
+    assert any(s.startswith("bass0") for s in stems)
+    # the chord/bass stems actually carry audio, not silence
+    with wave.open(str(next(stem_dir.glob("chord0*.wav"))), "rb") as f:
+        frames = f.readframes(f.getnframes())
+        assert any(b != 0 for b in frames[:10000])
+    # MIDI ships a real polyphonic chords track alongside the drum lanes
+    midi = path.with_suffix(".mid").read_bytes()
+    assert b"chords" in midi
+    assert b"\x99" in midi                # drum lanes still on channel 10
 
 
 def test_directions_apply_to_that_click_only(machine_env):

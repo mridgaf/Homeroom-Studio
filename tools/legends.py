@@ -29,11 +29,18 @@ crew_config.json; delete it to regenerate). Style keys re-sync on a
 LEGENDS_VERSION bump unless "_style_lock" is set.
 """
 import json
+import os
 from pathlib import Path
 
 from pattern_gen import KICK_BANK
 
-CONFIG = Path(__file__).resolve().parent.parent / "legends_config.json"
+# REASON_VOICE_LEGENDS_CONFIG (2026-07-22): the same candidate-file hook
+# crew.py has had since the autoresearch loop — point the engine at a
+# tuned COPY so a batch can be auditioned without the live roster ever
+# moving. Unset = the real legends_config.json.
+CONFIG = Path(os.environ.get("REASON_VOICE_LEGENDS_CONFIG")
+              or Path(__file__).resolve().parent.parent
+              / "legends_config.json")
 LEGENDS_VERSION = 1
 
 R16 = "-" * 16
@@ -85,7 +92,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.1, "808", ["clean"], [0.25, 0.5]],
                       [0.9, None, ["clean", "tight", "pop", "punch"],
                        [0.1, 0.35]]],
-        library=dict(p=0.25, tags=[["rnb", 3], ["funk", 3],
+        library=dict(p=0.4, tags=[["rnb", 3], ["funk", 3],
                                    ["minimal", 2]]),
         extras=dict(p=0.5, nmax=1, pool=[
             ["fx", ["zap", "laser", "glitch"], "blips"],
@@ -130,7 +137,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.25, "808", ["deep", "sub"], [0.5, 1.1]],
                       [0.75, None, ["punch", "knock", "deep"],
                        [0.2, 0.5]]],
-        library=dict(p=0.3, tags=[["funk", 3], ["boom-bap", 2],
+        library=dict(p=0.45, tags=[["funk", 3], ["boom-bap", 2],
                                   ["rnb", 2]]),
         extras=dict(p=0.6, nmax=1, pool=[
             ["perc", ["cowbell", "block"], "bells"],
@@ -177,7 +184,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.3, "808", ["boom", "deep"], [0.35, 0.8]],
                       [0.7, None, ["punch", "warm", "boom"],
                        [0.18, 0.5]]],
-        library=dict(p=0.35, tags=[["soul", 4], ["motown", 2],
+        library=dict(p=0.5, tags=[["soul", 4], ["motown", 2],
                                    ["boom-bap", 2], ["funk", 1]]),
         extras=dict(p=0.6, nmax=1, pool=[
             ["perc", ["tamb", "shaker"], "shaker"],
@@ -220,7 +227,7 @@ LEGENDS_DEFAULT = {
                        [0.35, 0.9]],
                       [0.55, None, ["boom", "break", "knock"],
                        [0.18, 0.5]]],
-        library=dict(p=0.35, tags=[["lofi", 3], ["neo-soul", 3],
+        library=dict(p=0.5, tags=[["lofi", 3], ["neo-soul", 3],
                                    ["boom-bap", 2], ["soul", 2]]),
         extras=dict(p=0.6, nmax=1, pool=[
             ["fx", ["vinyl", "reverse", "foley"], "foundfx"],
@@ -264,7 +271,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.6, "808", ["deep", "sub"], [0.4, 1.0]],
                       [0.4, None, ["clean", "tight", "punch"],
                        [0.15, 0.4]]],
-        library=dict(p=0.3, tags=[["rnb", 2], ["trap", 2], ["house", 2],
+        library=dict(p=0.45, tags=[["rnb", 2], ["trap", 2], ["house", 2],
                                   ["electro", 1]]),
         extras=dict(p=0.45, nmax=1, pool=[
             ["perc", ["block", "cowbell"], "bells"],
@@ -306,7 +313,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.35, "808", ["hard", "deep"], [0.3, 0.8]],
                       [0.65, None, ["hard", "punch", "knock"],
                        [0.15, 0.5]]],
-        library=dict(p=0.25, tags=[["electro", 2], ["trap", 2],
+        library=dict(p=0.4, tags=[["electro", 2], ["trap", 2],
                                    ["funk", 1], ["boom-bap", 1]]),
         extras=dict(p=0.5, nmax=1, pool=[
             ["crash", ["crash", "impact"], "impacts"],
@@ -347,7 +354,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.25, "808", ["punch", "hard"], [0.3, 0.7]],
                       [0.75, None, ["punch", "knock", "hard"],
                        [0.15, 0.45]]],
-        library=dict(p=0.3, tags=[["boom-bap", 4], ["funk", 2],
+        library=dict(p=0.45, tags=[["boom-bap", 4], ["funk", 2],
                                   ["soul", 1]]),
         extras=dict(p=0.55, nmax=1, pool=[
             ["fx", ["scratch"], "cutfx"],
@@ -390,7 +397,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.2, "808", ["clean", "tight"], [0.3, 0.7]],
                       [0.8, None, ["clean", "punch", "tight", "pop"],
                        [0.12, 0.4]]],
-        library=dict(p=0.3, tags=[["rnb", 3], ["garage", 2],
+        library=dict(p=0.45, tags=[["rnb", 3], ["garage", 2],
                                   ["electro", 2], ["funk", 1]]),
         extras=dict(p=0.6, nmax=1, pool=[
             ["perc", ["tabla", "block", "cowbell"], "exotic2"],
@@ -438,7 +445,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.3, "808", ["boom", "deep"], [0.3, 0.8]],
                       [0.7, None, ["punch", "hard", "boom"],
                        [0.18, 0.5]]],
-        library=dict(p=0.35, tags=[["soul", 4], ["funk", 2],
+        library=dict(p=0.5, tags=[["soul", 4], ["funk", 2],
                                    ["boom-bap", 2], ["motown", 1]]),
         extras=dict(p=0.6, nmax=1, pool=[
             ["crash", ["crash"], "crash2"],
@@ -482,7 +489,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.35, "808", ["boom", "dirty"], [0.3, 0.8]],
                       [0.65, None, ["boom", "dirty", "dust", "break"],
                        [0.18, 0.5]]],
-        library=dict(p=0.3, tags=[["boom-bap", 3], ["lofi", 2],
+        library=dict(p=0.45, tags=[["boom-bap", 3], ["lofi", 2],
                                   ["soul", 2]]),
         extras=dict(p=0.55, nmax=1, pool=[
             ["fx", ["vinyl", "reverse", "foley"], "foundfx"],
@@ -527,7 +534,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.45, "808", ["deep", "punch"], [0.35, 0.9]],
                       [0.55, None, ["punch", "hard", "knock"],
                        [0.18, 0.5]]],
-        library=dict(p=0.35, tags=[["trap", 3], ["boom-bap", 2],
+        library=dict(p=0.5, tags=[["trap", 3], ["boom-bap", 2],
                                    ["drill", 1], ["rnb", 1]]),
         extras=dict(p=0.55, nmax=1, pool=[
             ["fx", ["riser", "reverse", "sweep"], "risers"],
@@ -568,7 +575,7 @@ LEGENDS_DEFAULT = {
         kick_flavors=[[0.3, "808", ["warm", "deep"], [0.35, 0.8]],
                       [0.7, None, ["warm", "boom", "punch"],
                        [0.18, 0.5]]],
-        library=dict(p=0.3, tags=[["soul", 3], ["boom-bap", 3],
+        library=dict(p=0.45, tags=[["soul", 3], ["boom-bap", 3],
                                   ["motown", 2], ["neo-soul", 1]]),
         extras=dict(p=0.5, nmax=1, pool=[
             ["perc", ["shaker", "tamb"], "shaker"],
@@ -616,7 +623,15 @@ LEGEND_KICK_BANK = {
         "X--x------X-----", "X---------X--x--", "X--x--x---X-----",
         "X-x-------X---x-", "X--x------Xx----", "X---x-----X--x--",
         "X--------xX-----", "X--x---x--X--x--", "X---------X-x---",
-        "X-xx------X-----", "X--x-----XX--x--", "X-----x---X-----"],
+        "X-xx------X-----", "X--x-----XX--x--", "X-----x---X-----",
+        # 2026-07-22: every entry above anchors its second kick on step
+        # 10, so all twelve sat within a couple of moves of each other
+        # and this DJ measured below the kick-variety floor. These keep
+        # the surgical sparse character but put the answering kick
+        # somewhere else — still boom bap, just not the same two spots.
+        "X-------X-------", "X------x----X---", "X--x----X-----x-",
+        "X-----X---------", "X-------X----x--", "X----x--X-------",
+        "X--------X---x--", "X-x-----X---x---"],
     "Timberline": [                # stutters and syncopation
         "X--X--X---------", "X--X--X---X-----", "X-----X--X--X---",
         "X--X----X-X-----", "X---XX----X-----", "X--X--X--X--X---",

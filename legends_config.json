@@ -1,7 +1,8 @@
 {
  "_readme": [
   "The Legends roster \u2014 twelve signature-style producers. Edit a number and the next render uses it; delete the file to regenerate the built-ins. Same schema as crew_config.json.",
-  "These follow the crew's instrument sound-variation rules only; their likeness rules (tight swing, home-weighted grammar, no evolution, 4/4) live in the engine."
+  "These follow the crew's instrument sound-variation rules only; their likeness rules (tight swing, home-weighted grammar, no evolution, 4/4) live in the engine.",
+  "Owner decision 2026-07-22: the \"built\" real-producer names stay, INTERNAL ONLY \u2014 no rename, no drop. They may only ever appear in the local batch-player UI (owner's own reference). Exported file names, stems, and titles must keep using the sound-alike codename (the dict key / preset[\"title\"]), never preset[\"built\"]. Re-decide before anything here ships publicly."
  ],
  "_legends_version": 1,
  "Farrow": {
@@ -285,7 +286,7 @@
    ]
   ],
   "library": {
-   "p": 0.25,
+   "p": 0.4,
    "tags": [
     [
      "rnb",
@@ -615,7 +616,7 @@
    ]
   ],
   "library": {
-   "p": 0.3,
+   "p": 0.45,
    "tags": [
     [
      "funk",
@@ -985,7 +986,7 @@
    ]
   ],
   "library": {
-   "p": 0.35,
+   "p": 0.5,
    "tags": [
     [
      "soul",
@@ -1300,7 +1301,7 @@
    ]
   ],
   "library": {
-   "p": 0.35,
+   "p": 0.5,
    "tags": [
     [
      "lofi",
@@ -1631,7 +1632,7 @@
    ]
   ],
   "library": {
-   "p": 0.3,
+   "p": 0.45,
    "tags": [
     [
      "rnb",
@@ -1953,7 +1954,7 @@
    ]
   ],
   "library": {
-   "p": 0.25,
+   "p": 0.4,
    "tags": [
     [
      "electro",
@@ -2253,7 +2254,7 @@
    ]
   ],
   "library": {
-   "p": 0.3,
+   "p": 0.45,
    "tags": [
     [
      "boom-bap",
@@ -2579,7 +2580,7 @@
    ]
   ],
   "library": {
-   "p": 0.3,
+   "p": 0.45,
    "tags": [
     [
      "rnb",
@@ -2917,7 +2918,7 @@
    ]
   ],
   "library": {
-   "p": 0.35,
+   "p": 0.5,
    "tags": [
     [
      "soul",
@@ -3230,7 +3231,7 @@
    ]
   ],
   "library": {
-   "p": 0.3,
+   "p": 0.45,
    "tags": [
     [
      "boom-bap",
@@ -3565,7 +3566,7 @@
    ]
   ],
   "library": {
-   "p": 0.35,
+   "p": 0.5,
    "tags": [
     [
      "trap",
@@ -3860,7 +3861,7 @@
    ]
   ],
   "library": {
-   "p": 0.3,
+   "p": 0.45,
    "tags": [
     [
      "soul",

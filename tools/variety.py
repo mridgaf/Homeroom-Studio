@@ -37,7 +37,10 @@ ROOT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 # changed". Matched to the engine's own guards so a green report means the
 # guards are actually doing their job across sessions, not just per-roll.
 FLOORS = {
-    "kick_min": 3.0,        # engine guard: >=3 moves between recent kicks
+    # 2026-07-21: these are REPORT floors only — the engine no longer
+    # enforces a kick distance (variety comes from composition, not
+    # rejection), so a flag here is a nudge to tune grammars/configs.
+    "kick_min": 3.0,
     "kick_mean": 4.5,       # the window as a whole should sit well apart
     "kit_overlap_max": 0.5, # two beats sharing >half their kit = repeat
     "flavor_streak_max": 2, # the streak-breaker's promise
