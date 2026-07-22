@@ -34,6 +34,8 @@ CACHE = Path(os.path.expanduser("~/.reason_voice/pack_index.json"))
 DEFAULT_ROOTS = [
     "/Volumes/TBOTC 3/DAW Projects/Sample Packs - Downloads Backup",
     "/Volumes/TBOTC 3/Sample Packs/2022 sample packs",
+    "/Volumes/TBOTC 3/Sample Packs/Function Loops - Black Friday 2024 Sampler",
+    "/Volumes/TBOTC 3/Sample Packs/Live loop cds",
 ]
 
 AUDIO_EXTS = {".wav", ".aif", ".aiff"}      # what load_audio can read
