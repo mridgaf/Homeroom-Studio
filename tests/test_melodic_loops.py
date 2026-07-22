@@ -11,8 +11,8 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 from key_context import KeyContext                                    # noqa: E402
-from melodic_loops import (bpm_from_tokens, fit_loop, in_key,          # noqa: E402
-                            key_from_tokens)
+from melodic_loops import (bpm_from_tokens, chop_onsets, fit_loop,     # noqa: E402
+                            in_key, key_from_tokens)
 
 
 def test_key_from_tokens_reads_a_bare_minor_token():
@@ -105,3 +105,22 @@ def test_fit_loop_tiles_a_short_loop_to_fill_the_length():
     x = np.array([1.0, 2.0, 3.0])
     out = fit_loop(x, sr=3, dst_secs=2.0)  # needs 6 samples from 3
     assert list(out) == [1.0, 2.0, 3.0, 1.0, 2.0, 3.0]
+
+
+def test_chop_onsets_splits_two_separated_bursts():
+    x = np.concatenate([np.zeros(200), np.ones(300), np.zeros(100),
+                         np.ones(300), np.zeros(100)])
+    clips = chop_onsets(x, sr=1000, min_dur=0.15, max_dur=1.0)
+    assert len(clips) == 2
+
+
+def test_chop_onsets_empty_input_is_empty():
+    assert chop_onsets(np.array([]), sr=1000) == []
+
+
+def test_chop_onsets_fades_the_clip_tail():
+    x = np.concatenate([np.zeros(200), np.ones(500)])
+    clips = chop_onsets(x, sr=1000, min_dur=0.15, max_dur=1.0)
+    assert len(clips) == 1
+    mid = len(clips[0]) // 2
+    assert clips[0][-1] < clips[0][mid]         # faded toward zero at the tail

@@ -33,7 +33,7 @@ import numpy as np
 from key_context import KeyContext
 from make_drum_loops import SR, sub808
 from make_hiphop_tracks import load_audio, norm_rms
-from melodic_loops import fit_loop, in_key, scan as scan_loops
+from melodic_loops import chop_onsets, fit_loop, in_key, scan as scan_loops
 
 
 def _osc(freq, n, shape="sine"):
@@ -84,25 +84,22 @@ def bass_voice(root_note, dur, sr=SR):
 
 
 def sample_pool(key, bpm=None):
-    """In-key "chord"-role melodic files from the owner's library, once
+    """In-key chord- or melody-role files from the owner's library, once
     per beat (scanning is disk I/O — don't repeat it per chord slot).
-
-    ponytail: restricted to kind="oneshot". fit_loop pitch-corrects by
-    resample but can't stretch tempo independently, so a rhythmic loop
-    tiled to `dur` at the wrong BPM would drift audibly against the
-    beat grid; a one-shot pad/keys hit has no internal rhythm to clash.
-    Judgment call, flagged rather than guessed: if this reads as too
-    conservative (loops sound fine in practice, or "melody"-role picks
-    would work as a pad too), loosen the filter here.
-    """
-    return [e for e in in_key(scan_loops(), key, role="chord", bpm=bpm)
-            if e["kind"] == "oneshot"]
+    Both kind="oneshot" and kind="loop" entries are usable: loop_voice
+    chops a loop-kind pick into its individual note/chord hits first
+    (melodic_loops.chop_onsets), so fit_loop's pitch-only-resample
+    ceiling (it can't correct tempo) never has a whole rhythmic loop to
+    drift against the beat grid — see chop_onsets' docstring."""
+    return [e for e in in_key(scan_loops(), key, bpm=bpm)
+            if e["role"] in ("chord", "melody")]
 
 
 def loop_voice(pool, dur, key, sr=SR, rng=None):
     """Load+fit the best-available pick from `pool` into `dur` seconds
-    at `key`; (None, None) if the pool's empty or the file won't load,
-    so the caller can fall back to pad_voice."""
+    at `key`; (None, None) if the pool's empty, the file won't load, or
+    (for a loop-kind pick) chopping finds no usable onset, so the
+    caller can fall back to pad_voice."""
     if not pool:
         return None, None
     pick = (rng or random).choice(pool[:3])
@@ -110,6 +107,11 @@ def loop_voice(pool, dur, key, sr=SR, rng=None):
     if x is None:
         return None, None
     mono = x.mean(axis=1) if x.ndim == 2 else x
+    if pick["kind"] == "loop":
+        chops = chop_onsets(mono, sr)
+        if not chops:
+            return None, None
+        mono = (rng or random).choice(chops)
     src_key = KeyContext(pick["key"], pick["mode"] or key.mode)
     fitted = fit_loop(mono, sr, dur, src_key=src_key, dst_key=key)
     return norm_rms(fitted, -18.0), pick["name"]

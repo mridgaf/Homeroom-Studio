@@ -206,6 +206,64 @@ def fit_loop(x, sr, dst_secs, src_key=None, dst_key=None):
     return np.tile(x, reps)[:target]
 
 
+def chop_onsets(x, sr, min_dur=0.15, max_dur=2.0):
+    """Slice a loop into its individual note/chord hits — a fast (10ms)
+    envelope crossing well above its own trailing 200ms average, i.e.
+    "louder than it's been lately" rather than "loud in absolute
+    terms". A global level threshold breaks on a loop that's mostly
+    loud throughout (a held chord, a sustained pad); comparing against
+    a local trailing floor instead catches the attack regardless of
+    how the rest of the file sits. No new dependency — same rectify-
+    and-smooth idea as make_drum_loops.env. Each clip gets a 5ms
+    fade-out so the chop is click-free.
+
+    This is what makes a kind="loop" melodic file usable as a one-shot:
+    fit_loop corrects pitch by resample but can't stretch tempo
+    independently, so tiling a whole rhythmic loop to an arbitrary
+    chord duration risks drifting against the beat grid (see
+    chord_synth.sample_pool) — but a single chopped-out hit carries no
+    tempo of its own, so that ceiling never applies to one.
+    """
+    mono = x.mean(axis=1) if x.ndim == 2 else x
+    n = len(mono)
+    if n == 0:
+        return []
+    fast_win = max(int(0.01 * sr), 1)                   # 10ms attack track
+    slow_win = max(int(0.2 * sr), 1)                     # 200ms trailing floor
+    fast = np.convolve(np.abs(mono), np.ones(fast_win) / fast_win, mode="same")
+    cum = np.concatenate(([0.0], np.cumsum(fast)))
+    idx = np.arange(n)
+    lo = np.maximum(idx - slow_win, 0)
+    floor = (cum[idx] - cum[lo]) / np.maximum(idx - lo, 1)
+    # the relative-floor check alone fires on convolution leakage at a
+    # silence->sound boundary (a few samples of near-zero "rise" before
+    # the real attack); require the level to also clear a noise gate
+    # relative to the file's own loudest point.
+    gate = 0.05 * (fast.max() if n else 0.0)
+    rising = (fast > floor * 1.8) & (fast > gate)
+    onset_frames = np.where(rising & ~np.concatenate(([False], rising[:-1])))[0]
+    min_gap = int(min_dur * sr)
+    onsets = []
+    for f in onset_frames:
+        if not onsets or f - onsets[-1] >= min_gap:
+            onsets.append(int(f))
+    if not onsets:
+        onsets = [0]
+    clips = []
+    for i, start in enumerate(onsets):
+        end = onsets[i + 1] if i + 1 < len(onsets) else n
+        end = min(end, start + int(max_dur * sr))
+        clip = mono[start:end]
+        if len(clip) < min_gap:
+            continue
+        fade = min(int(0.005 * sr), len(clip) // 4)
+        if fade:
+            clip = clip.copy()
+            clip[-fade:] *= np.linspace(1, 0, fade)
+        clips.append(clip)
+    return clips
+
+
 def _report():
     index = scan()
     if not index:

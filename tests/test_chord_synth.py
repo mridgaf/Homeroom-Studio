@@ -55,19 +55,45 @@ def test_bass_voice_short_duration_is_exactly_that_long():
     assert np.max(np.abs(short)) < 1.0
 
 
-def test_sample_pool_excludes_loop_kind(monkeypatch):
-    # fit_loop can't independently correct tempo, so a rhythmic "loop"
-    # pick would drift against the beat grid — sample_pool keeps only
-    # kind="oneshot" (see its docstring's judgment call).
+def test_sample_pool_includes_melody_role_and_both_kinds(monkeypatch):
     index = [
         {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
-         "kind": "loop", "name": "loop-pick", "path": "/loop.wav"},
-        {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
-         "kind": "oneshot", "name": "oneshot-pick", "path": "/one.wav"},
+         "kind": "loop", "name": "chord-loop", "path": "/a.wav"},
+        {"key": "C", "mode": "minor", "bpm": 90, "role": "melody",
+         "kind": "oneshot", "name": "melody-oneshot", "path": "/b.wav"},
+        {"key": "C", "mode": "minor", "bpm": 90, "role": "bass",
+         "kind": "oneshot", "name": "bass-oneshot", "path": "/c.wav"},
     ]
     monkeypatch.setattr(chord_synth, "scan_loops", lambda: index)
     pool = chord_synth.sample_pool(KeyContext("C", "minor"), bpm=90)
-    assert [e["name"] for e in pool] == ["oneshot-pick"]
+    assert {e["name"] for e in pool} == {"chord-loop", "melody-oneshot"}
+
+
+def test_loop_voice_chops_a_loop_kind_pick(monkeypatch):
+    # A loop-kind pick must go through chop_onsets before fit_loop —
+    # feed it two fake "hits" and confirm the returned audio is one of
+    # the chopped clips (short), not the full uncut loop.
+    pick = {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
+            "kind": "loop", "name": "loop-pick", "path": "/x.wav"}
+    full_loop = np.ones(SR * 4)
+    hit_a, hit_b = np.ones(200), np.ones(300)
+    monkeypatch.setattr(chord_synth, "load_audio", lambda path: full_loop)
+    monkeypatch.setattr(chord_synth, "chop_onsets",
+                        lambda mono, sr: [hit_a, hit_b])
+    audio, name = chord_synth.loop_voice(
+        [pick], dur=0.5, key=KeyContext("C", "minor"))
+    assert name == "loop-pick"
+    assert audio.shape == (int(0.5 * SR),)         # fit_loop's crop/tile
+
+
+def test_loop_voice_loop_kind_no_onsets_falls_back_to_none(monkeypatch):
+    pick = {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
+            "kind": "loop", "name": "silent-loop", "path": "/x.wav"}
+    monkeypatch.setattr(chord_synth, "load_audio", lambda path: np.zeros(SR))
+    monkeypatch.setattr(chord_synth, "chop_onsets", lambda mono, sr: [])
+    audio, name = chord_synth.loop_voice(
+        [pick], dur=0.5, key=KeyContext("C", "minor"))
+    assert (audio, name) == (None, None)
 
 
 def test_loop_voice_empty_pool_falls_back_to_none():
