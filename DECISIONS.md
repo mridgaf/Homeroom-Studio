@@ -22,6 +22,27 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-22 Strings sampler scaffolded + chords audition batch rendered
+- Context: harmonizer "next steps" review. Steps 1-7 (key/progression/voicing/
+  MIDI+loop ingestion/fit/render) all shipped; the remaining real-instrument
+  seam is the 24.5k-file London Symphonic Strings library (gap-analysis Part 7).
+- Decision/change: (a) rendered a 5-beat chords audition batch into the live
+  library (#837-841, various DJs/mood words) + a `_strings audition/` folder with
+  Am/Cmaj example chords, for the owner's ear. (b) Built tools/string_sampler.py
+  as a note-by-note SAMPLER (scan/nearest/play_chord), distinct from the loop/
+  phrase fitters — plays harmony.compose()'s exact MIDI notes, one close-mic
+  sample per note. Note parsed as the single plausible-MIDI token in the
+  filename, which also drops legato-transition files. play_chord peak-guards
+  against pizz-transient clipping. Deliberately NOT wired into the render.
+- Reasoning: strings need zero pitch-detection (note# in filename), so it's the
+  lowest-risk instrument well. Wiring it into chord_synth is a taste call (when do
+  strings beat a sampled loop / synth pad?) that wants the owner's ear on the
+  audition first — build the proven seam, don't guess the priority order.
+- Verify by: owner listens to #837-841 and the `_strings audition/` wavs; decide
+  whether chopped melody-loops read as chords, and whether to wire strings in as
+  a 3rd chord source (strings -> loop -> synth fallback). 462 tests green.
+- Status: open
+
 ### 2026-07-22 chord_synth loop-pad substitution: allow melody role, chop loop-kind files
 - Context: chord_synth.sample_pool originally only drew role="chord",
   kind="oneshot" melodic files as pad_voice stand-ins — a deliberately
