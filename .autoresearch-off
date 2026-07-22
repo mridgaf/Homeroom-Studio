@@ -1,0 +1,16 @@
+Paused 2026-07-22 (owner request).
+
+The crew-variety autoresearch loop (autoresearch.md) concluded 2026-07-17
+after 35 runs: config-tuning space in crew_config.json is exhausted (see
+"What's Been Tried — meta-review after 35 runs" in autoresearch.md and the
+Session Conclusion in experiments/worklog.md). Variety plateaued at ~14.08
+against a 0.15 noise floor; no tag/grammar/library.p nudge in that
+neighborhood moved it. The worklog's own next step is engine content
+(more KICK_BANK skeletons, more reference grooves, new timekeeper modes),
+not more crew_config.json tuning — out of scope for this loop as specced.
+
+This sentinel is the loop's own designed safety valve (see
+~/.claude/hooks/autoresearch-stop.sh) — its presence makes the Stop hook
+allow the session to end instead of blocking into another experiment.
+Resume with `/autoresearch` (deletes this file) once there's a new
+objective, e.g. a KICK_BANK/groove-library autoresearch segment.
