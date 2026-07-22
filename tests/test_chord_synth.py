@@ -11,7 +11,9 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
+import chord_synth                                                # noqa: E402
 from chord_synth import bass_voice, midi_to_hz, pad_voice          # noqa: E402
+from key_context import KeyContext                                # noqa: E402
 from make_drum_loops import SR                                    # noqa: E402
 
 
@@ -51,3 +53,35 @@ def test_bass_voice_short_duration_is_exactly_that_long():
     short = bass_voice(48, dur=0.3)
     assert short.shape == (int(0.3 * SR),)
     assert np.max(np.abs(short)) < 1.0
+
+
+def test_sample_pool_excludes_loop_kind(monkeypatch):
+    # fit_loop can't independently correct tempo, so a rhythmic "loop"
+    # pick would drift against the beat grid — sample_pool keeps only
+    # kind="oneshot" (see its docstring's judgment call).
+    index = [
+        {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
+         "kind": "loop", "name": "loop-pick", "path": "/loop.wav"},
+        {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
+         "kind": "oneshot", "name": "oneshot-pick", "path": "/one.wav"},
+    ]
+    monkeypatch.setattr(chord_synth, "scan_loops", lambda: index)
+    pool = chord_synth.sample_pool(KeyContext("C", "minor"), bpm=90)
+    assert [e["name"] for e in pool] == ["oneshot-pick"]
+
+
+def test_loop_voice_empty_pool_falls_back_to_none():
+    audio, name = chord_synth.loop_voice([], dur=1.0, key=KeyContext("C", "minor"))
+    assert (audio, name) == (None, None)
+
+
+def test_loop_voice_fits_pick_to_duration(monkeypatch):
+    pick = {"key": "C", "mode": "minor", "bpm": 90, "role": "chord",
+            "kind": "oneshot", "name": "test-pick", "path": "/x.wav"}
+    fake_audio = np.sin(2 * np.pi * 110 * np.arange(SR) / SR)  # 1s mono
+    monkeypatch.setattr(chord_synth, "load_audio", lambda path: fake_audio)
+    audio, name = chord_synth.loop_voice(
+        [pick], dur=0.5, key=KeyContext("C", "minor"))
+    assert name == "test-pick"
+    assert audio.shape == (int(0.5 * SR),)
+    assert np.max(np.abs(audio)) < 1.0

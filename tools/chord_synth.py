@@ -16,19 +16,24 @@ dropped straight into beat_machine's kit dict as one long "one-shot"
 per chord — the same trick the tuned-808 sub already uses, just with a
 duration long enough to hold a whole chord section instead of one hit.
 
-ponytail: no sampled instrument here. The owner's own Symphonic
-Strings / melodic-loop library (punch list steps 5-6) is real audio
-that would sound better than a synth pad, but fitting it in key AND
-tempo is a separate, heavier job the gap analysis itself flagged as
-fast-follow, not MVP. The seam is already there: harmony.compose()
-gives exact MIDI notes, ready to hand to a sampler instead of this pad
-whenever that lands.
+sample_pool/loop_voice (punch list step 5-6 wiring, 2026-07-22): a real
+melodic-loop file from the owner's own library, in key, standing in for
+pad_voice when one's available — melodic_loops.py does the finding and
+the pitch-fit, this just picks and loads. bass_voice is untouched: the
+sub is a synth tone on purpose (song-keys.md wants one consistent low
+end), the pad is the one the docstring above always said sampled audio
+would beat.
 """
 from __future__ import annotations
 
+import random
+
 import numpy as np
 
+from key_context import KeyContext
 from make_drum_loops import SR, sub808
+from make_hiphop_tracks import load_audio, norm_rms
+from melodic_loops import fit_loop, in_key, scan as scan_loops
 
 
 def _osc(freq, n, shape="sine"):
@@ -76,3 +81,35 @@ def bass_voice(root_note, dur, sr=SR):
     out = np.zeros(n)
     out[:len(tone)] = tone
     return out
+
+
+def sample_pool(key, bpm=None):
+    """In-key "chord"-role melodic files from the owner's library, once
+    per beat (scanning is disk I/O — don't repeat it per chord slot).
+
+    ponytail: restricted to kind="oneshot". fit_loop pitch-corrects by
+    resample but can't stretch tempo independently, so a rhythmic loop
+    tiled to `dur` at the wrong BPM would drift audibly against the
+    beat grid; a one-shot pad/keys hit has no internal rhythm to clash.
+    Judgment call, flagged rather than guessed: if this reads as too
+    conservative (loops sound fine in practice, or "melody"-role picks
+    would work as a pad too), loosen the filter here.
+    """
+    return [e for e in in_key(scan_loops(), key, role="chord", bpm=bpm)
+            if e["kind"] == "oneshot"]
+
+
+def loop_voice(pool, dur, key, sr=SR, rng=None):
+    """Load+fit the best-available pick from `pool` into `dur` seconds
+    at `key`; (None, None) if the pool's empty or the file won't load,
+    so the caller can fall back to pad_voice."""
+    if not pool:
+        return None, None
+    pick = (rng or random).choice(pool[:3])
+    x = load_audio(pick["path"])
+    if x is None:
+        return None, None
+    mono = x.mean(axis=1) if x.ndim == 2 else x
+    src_key = KeyContext(pick["key"], pick["mode"] or key.mode)
+    fitted = fit_loop(mono, sr, dur, src_key=src_key, dst_key=key)
+    return norm_rms(fitted, -18.0), pick["name"]

@@ -1022,6 +1022,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
         nb = bars_of(preset)
         per_chord = max(1, nb // len(chords))
+        pool = chord_synth.sample_pool(key, preset["bpm"])
         midi_chords = []
         for i, chord in enumerate(chords):
             start_bar = i * per_chord
@@ -1037,10 +1038,17 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                                             bars_list)
             preset["lanes"][f"bass{i}"] = (0.0, 0.85, (0, 0, 50, variant + i),
                                            [b for b in bars_list])
-            kit[f"chord{i}"] = chord_synth.pad_voice(chord["notes"], dur)
+            sample, sample_name = chord_synth.loop_voice(
+                pool, dur, key, rng=random.Random(variant * 461 + i))
+            if sample is not None:
+                kit[f"chord{i}"] = sample
+                sources[f"chord{i}"] = "sample: %s, %s (%s)" % (
+                    sample_name, chord["chord"], chord["roman"])
+            else:
+                kit[f"chord{i}"] = chord_synth.pad_voice(chord["notes"], dur)
+                sources[f"chord{i}"] = "synth chord pad, %s (%s)" % (
+                    chord["chord"], chord["roman"])
             kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
-            sources[f"chord{i}"] = "synth chord pad, %s (%s)" % (
-                chord["chord"], chord["roman"])
             sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
             midi_chords.append({"start_sec": start_bar * bar_s,
                                 "dur_sec": dur,
