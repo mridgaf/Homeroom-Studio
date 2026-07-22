@@ -113,3 +113,46 @@ port the ad-hoc intent/recipe/search checks into `tests/test_intents.py` +
 - Whisper "find something like this" often transcribed as "and something like
   this" — v2 should fuzzy-match intents, not just regex.
 - `small.en` latency ~1s on his hardware; offer tiny.en toggle in UI settings.
+
+## Working rules for this project
+
+### 1. Verify before claiming done
+Don't report a fix, a build, a calculation, or a "this should work" as finished
+without actually checking it:
+- Code: run it. Run the tests. Run the linter/type checker if one exists. Don't
+  infer success from reading the diff.
+- Files/documents: open and re-read the output, don't just trust the generation
+  step.
+- Anything with no automatic check (a physical fix, a decision, advice): say so
+  explicitly — "no way to verify this from here, log a check-back."
+
+If verification isn't possible in this session, say that plainly instead of
+implying it's confirmed.
+
+### 2. Use DECISIONS.md as memory across sessions
+This file persists; I don't. At the **start** of a session, read `DECISIONS.md`
+in the project root before starting work — it has prior decisions, fixes, and
+open items.
+
+At the **end** of a session, append an entry to `DECISIONS.md` for anything
+that was:
+- a real decision or judgment call (not a trivial choice)
+- a fix or change whose outcome isn't yet known
+- something worth not re-litigating next time
+
+Don't log routine, low-stakes steps — the file is for things worth remembering,
+not a full transcript.
+
+### 3. Format
+Use the entry format defined at the top of `DECISIONS.md`. Keep entries short.
+Mark status honestly: `open` if unverified, `confirmed` if checked and held,
+`failed` if it didn't hold — update old entries when you learn the outcome,
+don't just add new ones.
+
+### 4. Skill
+The `session-ledger` skill (`.claude/skills/session-ledger/SKILL.md`) has the
+full read/append workflow and should trigger automatically. `SCRATCH.md`
+(project root) is the disposable live-reasoning trace for a multi-step
+problem in progress — the `claim-tags` skill
+(`.claude/skills/claim-tags/SKILL.md`) tags claims inline as
+`[verified]`/`[recalled]`/`[inferred]` so guesses don't read as fact.
