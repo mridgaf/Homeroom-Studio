@@ -1,0 +1,76 @@
+{
+ "_readme": [
+  "Punch list step 2 (2026-07-22): theory/progressions.md, transcribed as data.",
+  "Each entry is a feeling -> chord loop. `chords` is [[semitones from the",
+  "tonic, quality], ...], written the way the doc spells it (mostly A minor",
+  "or C major) but stored TONIC-RELATIVE so tools/harmony.py can drop the",
+  "loop onto any KeyContext by adding key.pc, same idea as key_context's",
+  "shift_from for MIDI phrases. quality is one of key_context.CHORDS.",
+  "roman is the doc's own spelling, for display only — not read by code."
+ ],
+ "sad_accepting": {
+  "label": "Sad, accepting",
+  "roman": "i-VI-III-VII (Am-F-C-G)",
+  "chords": [[0, "minor"], [8, "major"], [3, "major"], [10, "major"]]
+ },
+ "sad_sinking": {
+  "label": "Sad, sinking",
+  "roman": "i-iv-VI-V (Am-Dm-F-E)",
+  "chords": [[0, "minor"], [5, "minor"], [8, "major"], [7, "major"]]
+ },
+ "uplifting": {
+  "label": "Uplifting",
+  "roman": "I-V-vi-IV (C-G-Am-F)",
+  "chords": [[0, "major"], [7, "major"], [9, "minor"], [5, "major"]]
+ },
+ "nostalgic_borrowed_minor": {
+  "label": "Nostalgic (borrowed minor)",
+  "roman": "IV-iv-I (F-Fm-C)",
+  "chords": [[5, "major"], [5, "minor"], [0, "major"]]
+ },
+ "nostalgic_jazz": {
+  "label": "Nostalgic (jazz handshake)",
+  "roman": "ii-V-I (Dm7-G7-Cmaj7)",
+  "chords": [[2, "min7"], [7, "dom7"], [0, "maj7"]]
+ },
+ "epic": {
+  "label": "Epic",
+  "roman": "i-VII-VI-VII (Am-G-F-G)",
+  "chords": [[0, "minor"], [10, "major"], [8, "major"], [10, "major"]]
+ },
+ "dark_menacing": {
+  "label": "Dark/menacing",
+  "roman": "i-bII (Am-Bb)",
+  "chords": [[0, "minor"], [1, "major"]]
+ },
+ "dreamy": {
+  "label": "Dreamy",
+  "roman": "Imaj7-IVmaj7 (Cmaj7-Fmaj7)",
+  "chords": [[0, "maj7"], [5, "maj7"]]
+ },
+ "vamp_i_iv7": {
+  "label": "Hip hop / neo-soul vamp",
+  "roman": "i-iv7 (Am-Dm7)",
+  "chords": [[0, "minor"], [5, "min7"]]
+ },
+ "vamp_i_VI": {
+  "label": "Hip hop / neo-soul vamp",
+  "roman": "i-VI (Am-F)",
+  "chords": [[0, "minor"], [8, "major"]]
+ },
+ "vamp_ii_V": {
+  "label": "Hip hop / neo-soul vamp (never resolves)",
+  "roman": "ii7-V7 (Dm7-G7)",
+  "chords": [[2, "min7"], [7, "dom7"]]
+ },
+ "vamp_i_v7": {
+  "label": "Hip hop / neo-soul vamp",
+  "roman": "i-v7 (Am-Em7)",
+  "chords": [[0, "minor"], [7, "min7"]]
+ },
+ "trap_dark_metro": {
+  "label": "Trap dark-loop (Metro Boomin style)",
+  "roman": "i-VI-iv-V (Am-F-Dm-E)",
+  "chords": [[0, "minor"], [8, "major"], [5, "minor"], [7, "major"]]
+ }
+}
