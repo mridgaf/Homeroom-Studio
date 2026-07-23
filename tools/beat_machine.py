@@ -730,8 +730,8 @@ LANE_WORDS = [              # most specific first; spellings are generous
     ("perc", ("percussion", "percs", "perc")),
     ("bongo", ("bongos", "bongo", "congas", "conga")),
     ("stamp", ("stamps", "stamp")),
-    # phase 2 lanes (owner 2026-07-23): let the notes box switch them off
-    ("loop", ("loops", "loop")),
+    # phase 2 lanes (owner 2026-07-23): let the notes box switch them off.
+    # No "loop" entry — there is no loop lane (see _add_sample_lanes).
     ("vox", ("vocals", "vocal", "vox", "voices", "voice", "adlibs",
              "adlib", "chants", "chant")),
     ("bass", ("bass 808", "808 bass", "bassline", "bass")),
@@ -882,60 +882,30 @@ def _root_sub(variant, secs=0.6):
     return note, sub808(ROOT_HZ[note], secs)
 
 
-# Phase 2 (owner 2026-07-23): the newly-unlocked bass/808, vocal, and full
-# loop samples get real lanes. Each is optional and seeded per beat so the
-# batch varies and re-renders identically. Rates are deliberately below 1 so
-# none is "in every beat".
+# Phase 2 (owner 2026-07-23): the newly-unlocked bass/808 and vocal samples
+# get real lanes. Optional and seeded per beat, so a batch varies and any beat
+# re-renders identically. Rates are below 1 so neither is "in every beat".
+#
+# NO DRUM-LOOP LANE. It was built (owner asked for "Full loop") and then
+# removed the same day: "The drum loops cause problems. Exclude drum loops —
+# there are enough drum sounds." A loop laid over an already-programmed kit
+# fought it. Loops are still TAGGED into the scanner's "_loops" bucket, which
+# is what keeps them OUT of the one-shot drum roles (a loop must never be
+# choked into a drum hit); nothing plays them. Melodic/in-key loops are
+# unaffected — those reach a beat through the chords feature's own scanner.
 SAMPLED_BASS_P = 0.4        # sampled 808 under the kick (non-chord beats)
 VOX_LANE_P = 0.3           # a sparse vocal one-shot
-LOOP_LANE_P = 0.35         # a full loop laid over the kit
-LOOP_BPM_TOL = 6           # only loops this close in bpm (no time-stretch here)
 
 
 def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
-    """Put bass/808, vocal, and full-loop samples into real lanes (owner
-    phase 2, 2026-07-23; loop playback = "Full loop"). All optional, seeded,
-    and each stays out of a 'chords' beat's low end / key where it would
-    clash. Reuses the same preload-audio-into-a-lane trick the sub and chord
-    lanes use; the render ducks every non-kick lane, so all three breathe
-    under the kick automatically."""
-    from make_hiphop_tracks import load_audio, norm_rms
-    from melodic_loops import fit_loop
+    """Put bass/808 and vocal samples into real lanes (owner phase 2,
+    2026-07-23). Both optional and seeded, and each stays out of a 'chords'
+    beat's low end / key where it would clash. Reuses the same
+    preload-audio-into-a-lane trick the sub and chord lanes use; the render
+    ducks every non-kick lane, so both breathe under the kick automatically."""
     rng = random.Random(variant * 907 + 31)
     nbars = bars_of(preset)
-    num, den = preset.get("tsig", (4, 4))
-    bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
     muted = dirs.get("mute", set())
-
-    # FULL LOOP lane: a bpm-matched loop tiled loop-safe across the whole
-    # beat, laid OVER the programmed kit. Texture roles only (perc/hat/fx/
-    # bongo/bass/vox) so it colours the beat instead of a second kick+snare
-    # fighting the one that's already there. bpm must match — fit_loop
-    # doesn't time-stretch, so an off-tempo loop would drift off the grid.
-    loops = shots.get("_loops", [])
-    if loops and "loop" not in muted and rng.random() < LOOP_LANE_P:
-        # PERCUSSIVE roles only. A bass/vocal/melodic loop carries a pitch,
-        # so laying it untuned over a beat in another key clashes — those
-        # tonal loops belong to the in-key chord feature, not here.
-        texture = {"perc", "hat", "fx", "bongo"}
-        cands = [l for l in loops
-                 if l.get("role") in texture and not l.get("tonal")
-                 and l.get("bpm")
-                 and abs(l["bpm"] - preset["bpm"]) <= LOOP_BPM_TOL]
-        if cands:
-            pick = cands[rng.randrange(len(cands))]
-            x = load_audio(pick["path"])
-            if x is not None and len(x):
-                mono = 0.5 * (x[:, 0] + x[:, 1])
-                fitted = norm_rms(fit_loop(mono, SR, nbars * bar_s), -20.0)
-                preset["lanes"]["loop"] = (
-                    0.0, 0.4, (0, 0, 50, variant + 3),
-                    ["X" + "-" * 15] + ["-" * 16] * (nbars - 1))
-                kit["loop"] = fitted
-                sources["loop"] = "loop: %s (%d bpm, %s)" % (
-                    pick["name"], pick["bpm"], pick["role"])
-                vnotes.append("full loop: %s (%d bpm)" % (pick["name"],
-                                                          pick["bpm"]))
 
     # BASS 808 sample under the kick — non-'chords' beats only (no key there,
     # so an untuned 808 can't clash), and only when the synth root-sub didn't
@@ -1271,9 +1241,9 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         vnotes.append("chords: %s in %s (%s)" % (
             prog_name, key, ", ".join(c["chord"] for c in chords)))
 
-    # phase 2 (owner 2026-07-23): sampled bass/808, vocals, and full loops
-    # get their lanes here, after the chord lanes so bass can defer to the
-    # harmony bass on a 'chords' beat.
+    # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
+    # here, after the chord lanes so bass can defer to the harmony bass on a
+    # 'chords' beat.
     _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes)
 
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")

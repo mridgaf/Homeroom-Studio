@@ -53,6 +53,19 @@ Format:
   gate 8/8, 469 tests. Pool shrink (clap 345→77) is the whole-drive pass going
   away per "only my folders" — expected, not a regression.
 
+- owner after hearing the loop batch: "drum loops cause problems, exclude
+  them, there are enough drum sounds" → removed the loop lane outright (no
+  knob to tune; he named cause + reason). Bass/vox lanes stay.
+- deliberately KEPT the scanner's loop tagging even though nothing reads it:
+  the tagging is what keeps loops OUT of the choked drum roles. Deleting it
+  would have shoved drum loops back INTO the drum lanes — the exact opposite
+  of the ask. The _loops bucket is now the exclusion pile.
+- turned the phase-2 test into a regression guard: it still feeds a
+  bpm-matching loop pool and asserts NO loop lane/stem, so the feature can't
+  creep back. 469 green; 6 renders confirm bass present, zero loops.
+- found 17 already-rendered beats carrying a loop lane — did NOT touch them
+  (his files, may be keepers); listed them and offered a reversible move.
+
 ## Previous session (Mustang)
 
 - goal: next legend = Mustang → checked HARMONY-IDENTITY-PROPOSAL first: he

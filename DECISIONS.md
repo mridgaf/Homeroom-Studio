@@ -22,6 +22,32 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Drum-loop lane REMOVED after one audition batch
+- Context: owner heard the first loop-lane batch: "The drum loops cause
+  problems. Exclude drum loops — there are enough drum sounds." The lane was
+  only a day old (he'd asked for "Full loop" that morning).
+- Decision/change: deleted the loop block from `_add_sample_lanes`, plus
+  LOOP_LANE_P / LOOP_BPM_TOL and the now-dead "loop" notes-box mute word.
+  Bass/808 and vox lanes are untouched and stay. KEPT the scanner's loop
+  tagging (`_loops` bucket + bpm/tonal flags) on purpose: that tagging is what
+  keeps a loop OUT of the one-shot drum roles, so removing it would send drum
+  loops straight back into the drum lanes as choked hits — the opposite of
+  what he asked. Nothing reads `_loops` now; it is the exclusion pile.
+  Melodic/in-key loops are unaffected — they reach beats via the chords
+  feature's own scanner, not this bucket.
+- Reasoning: he named the cause (drum loops layered over a programmed kit) and
+  the reason (enough drum sounds already). No knob to tune — the feature goes.
+- Verify by: 469 tests green; renamed the phase-2 test to
+  test_phase2_bass_and_vox_lanes_but_never_a_drum_loop — it still loads a
+  bpm-matching loop pool and now asserts NO loop lane/stem appears, so this
+  can't silently come back. 6 fresh Mustang renders: bass lanes present, zero
+  loop lanes.
+- Status: confirmed
+- Outcome: 17 already-rendered beats still contain a loop lane (#950, 951,
+  952, 953, 955, 957, 959, 960, 964, 966, 967, 970, 973, 974, 978, 979, 981).
+  Left in place — they are his files and some may be keepers apart from the
+  loop. Offered to move them to Trash (a reversible folder move) on his word.
+
 ### 2026-07-23 Phase 2 placement: bass/808, vox, and full-loop lanes
 - Context: after the sourcing rework, owner said play loops as a "Full loop."
   Built the three phase-2 lanes (bass/808, vox, full loop) using the existing
@@ -54,14 +80,14 @@ entries.
   correctly excluded. Mustang #975-982 audition: clean loops (BIZKEL Perc/Hat
   Loop), real 808s (Cymatics Oracle 808), real adlibs (@hiheazy, OHH!),
   bass+vox+loop stems written, MIDI gate 8/8.
-- Status: open (mechanically confirmed; the SOUND is the owner's audition)
+- Status: PARTLY FAILED — bass + vox confirmed and kept; the LOOP lane was
+  rejected on audition the same day and removed (see the entry above this one)
 - Outcome: pool sizes dropped from the earlier whole-drive numbers (clap
   345→77, snap 38→23, etc.) — that's the whole-drive name-token pass being
   removed per "only my folders"; those were loose off-pack matches. Real
   claps still 77 + open-soundbank means any lane can also pull perc's 1065.
-  Loop lane is percussive-texture only for now; a full DRUM-loop that
-  REPLACES the programmed kit (vs layering over it) is a different mode, not
-  built — flag if he wants it.
+  The loop lane lasted one batch: layering a loop over an already-programmed
+  kit was the problem, exactly the clash risk flagged when it was designed.
 
 ### 2026-07-23 Sourcing rework: whitelist the folders + stop the one-shot rule
 - Context: two owner directives (mid-turn, terse): (1) "Stop using the one shot
