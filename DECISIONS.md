@@ -22,6 +22,86 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Volume control for every sound — one feature request, three bugs found chasing it
+- Context: owner: "I still want to be able to control the volume for All
+  sounds. So add them for that." — specifically the synthesized lanes (808
+  sub, chord/bass pads) that the previous fix left deliberately non-swappable
+  (no `shots[role]` to reach for, so a swap would silently produce silence).
+- Investigation: the volume-trim MECHANISM already existed end to end and
+  didn't need building — `_clean_trims`/`swap_many` validate against
+  `preset["lanes"]` (not `kit_spec`), and the front-end JS already renders a
+  slider for a `locked` row on purpose (comment: "volume rides on every lane,
+  locked ones included"). The ONLY gap was `_beat_stems()` — the function that
+  actually feeds the web page — building its lane list from `kit_spec` +
+  `stamp_paths` only, so a synthesized lane never appeared to have a row to
+  put a slider on, even though everything downstream already knew what to do
+  with one.
+- Decision/change (bug 1, the actual ask): `_beat_stems` now also lists any
+  lane present in `rec["preset"]["lanes"]` that isn't already covered —
+  correctly falls into the existing `locked` / "synthesised, not a sample"
+  path (that fallback text was ALREADY written, just unreachable).
+- Decision/change (bug 2, found verifying the fix round-trips): manually
+  drove a chord+bass+vox beat through `_beat_stems` and a real rebuild to
+  prove the slider actually works, not just that it's visible. `vox`'s stem
+  showed as "There will be food and drink and gh..." with no "vox:" prefix —
+  but a rebuild threw "...has moved or vanished." Traced to `_add_sample_
+  lanes` (this session's earlier bass/vox fix): `sources["bass"]`/`["vox"]`
+  held a DECORATED display string ("vox: <name>") instead of the raw path
+  every other lane's `sources[lane]` holds (`build_kit`: `sources[lane] =
+  path`). `kit_paths` copies `sources` verbatim, so a rebuild tried to
+  literally reload a file named "vox: There will be food and drink and
+  ghosts.wav" and failed. Fixed: `sources["bass"]`/`["vox"]` = the raw path;
+  `write_stems` already derives the display name via `Path(src).stem`, so
+  fixing this ALSO fixed the earlier session's "vox_" typo baked into stem
+  filenames as a side effect.
+- Decision/change (bug 3, found completing bug 1's verification): trimming
+  `chord0` on a chords beat crashed — `KeyError: 'chord0'` in
+  `render_crew_beat`. Chord/bass-chord lanes are synthesized, so unlike
+  `sub` (which already had a rebuild-time regenerate-from-formula special
+  case) they had NO reconstruction path at all — a pre-existing gap since
+  2026-07-22, invisible until today's bug 1 fix made the slider reachable
+  for the first time. Extracted the ~100-line inline chord-building block
+  out of `generate()` into `_build_chords(preset, kit, sources, variant,
+  dirs, vnotes)` — fully deterministic from `variant`, the same trick
+  `_root_sub` already uses — and call it from BOTH `generate()` (unchanged
+  behavior) and `swap_many`'s rebuild path (new). Considered and rejected
+  reusing the already-rendered stem file instead: a stem is written already
+  panned + sidechain-ducked, so feeding it back into `kit[lane]` would run
+  it through panning/ducking a SECOND time. Considered and rejected storing
+  the typed notes-box override to guarantee an exact rebuild match: the
+  house rule is that the notes box steers one click and is never persisted
+  — reusing it here would be working around a deliberate rule, not honoring
+  it. Documented both as narrow, disclosed limits in the docstring instead
+  of silently risking them. Also handled the subtler trap of a SECOND
+  sequential trim: `_build_chords` regenerates each `chordN`/`bassN` lane's
+  pan/feel/bars fresh every call (harmless — deterministic, so identical to
+  before) but now PRESERVES any gain already baked into that lane from a
+  prior rebuild's trim, instead of stomping it back to the 0.5/0.85 default.
+- Reasoning: fix the mechanism, not each symptom — one flag toggle (bug 1)
+  surfaced two more bugs it made reachable for the first time (bugs 2, 3);
+  chasing each down before calling it done rather than shipping a slider
+  that silently breaks the moment it's actually used.
+- Verify by: 470 tests green. Two new/extended tests:
+  `test_add_the_root_puts_a_tuned_sub_under_traditional_beats` now also
+  asserts the sub lane is listed unlocked-for-volume and survives a
+  volume-only rebuild; new `test_rebuild_regenerates_chord_audio_and_
+  stacks_sequential_trims` proves a chords beat's chord/bass lanes rebuild
+  without crashing AND that two sequential trims on the same lane multiply
+  together instead of the second one silently discarding the first
+  (asserted against the exact expected dB math, not just "didn't crash").
+  Manually verified against the real library too (not just synthetic test
+  pools): a live Doc Day chords+bass+vox render, `_beat_stems` showing every
+  lane correctly locked/unlocked, a real rebuild with three simultaneous
+  trims, and a second rebuild proving the stack — numbers matched exactly
+  (chord0 0.8891 → 1.1194 across two rebuilds, bass0 held its round-1 value
+  through an untouched round 2).
+- Status: confirmed
+- Outcome: every sound in a beat — sample or synthesized — now has a working
+  volume control in the app. The two narrow rebuild-fidelity limits on chord
+  lanes (a typed mood-word override, and a changed sample-pack library
+  between renders) are real but small and now explicitly documented rather
+  than silently assumed away.
+
 ### 2026-07-23 Bug fix: bass/vox lanes played but were invisible to the recipe (his "weird vocal" report)
 - Context: owner reported #1000 and #1002 (Timberline) had "a weird vocal
   sound... doesn't show up in the stems but is present within the song" and

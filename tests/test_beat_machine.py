@@ -235,6 +235,18 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
                     if d.name.startswith(str(no)))
     assert any(f.stem.startswith("sub - synth 808 sub, root")
                for f in stem_dir.glob("*.wav")), list(stem_dir.iterdir())
+    # owner 2026-07-23 ("control the volume for all sounds"): a synthesized
+    # lane like this one has no sample to swap, so it's not in kit_spec —
+    # but it must still show up in the app's stem list with a volume
+    # control (locked=True, no swap dropdown, per the existing UI
+    # convention for stamps). Before this fix it wasn't listed at all.
+    ui_lanes = {s["lane"]: s for s in beat_machine._beat_stems(no, root)}
+    assert "sub" in ui_lanes, sorted(ui_lanes)
+    assert ui_lanes["sub"]["locked"] is True
+    assert ui_lanes["sub"]["stem"] is True     # the solo-play button works too
+    path_v, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                       trims={"sub": -4.0})
+    assert path_v.exists()                     # a volume-only rebuild works
     # ...and a chords beat skips it on purpose: harmony's own bass owns
     # the low end there, and a static sub under it just fights.
     path2, _ = beat_machine.generate(["Mustang"], root=root, shots=shots,
@@ -242,6 +254,47 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
     rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
     assert rec2.get("root_note") is None
     assert "sub" not in rec2["preset"]["lanes"]
+
+
+def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env):
+    # owner 2026-07-23 ("control the volume for all sounds") surfaced this:
+    # a chord/bass-chord lane is synthesized, so unlike a real sample lane
+    # it has nothing in kit_paths to reload on rebuild. render_crew_beat
+    # KeyErrors on the missing kit entry the moment a volume slider is
+    # actually moved on one — which only became POSSIBLE once the sibling
+    # fix (test_add_the_root_...) made these lanes visible in the app.
+    # _build_chords (extracted out of generate()) regenerates the audio
+    # deterministically from the recipe's saved `variant`, same trick
+    # _root_sub already used for the tuned 808 sub.
+    root, shots = machine_env
+    random.seed(1)
+    # Timberline's chord_source is synth-only — avoids the real-library
+    # scan a "loop"/"strings" voice would otherwise need in this test env.
+    path, report = beat_machine.generate(["Timberline"], root=root,
+                                         shots=shots, notes="chords")
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    assert "chord0" in rec["preset"]["lanes"], report   # a real chords beat
+    # a volume-only rebuild must not crash — this is the bug that was found
+    path2, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                      trims={"chord0": 5.0, "bass0": -3.0})
+    assert path2.exists()
+    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
+    g_c0 = rec2["preset"]["lanes"]["chord0"][1]
+    g_b0 = rec2["preset"]["lanes"]["bass0"][1]
+    assert g_c0 == pytest.approx(0.5 * 10 ** (5 / 20))
+    assert g_b0 == pytest.approx(0.85 * 10 ** (-3 / 20))
+    # a SECOND rebuild trimming chord0 again must STACK on round 1, not
+    # reset it back to the deterministic default (0.5) — the trap a naive
+    # "just regenerate everything from scratch" fix would fall into.
+    path3, _ = beat_machine.swap_many(int(path2.name.split()[0]), {},
+                                      root=root, shots=shots,
+                                      trims={"chord0": 2.0})
+    rec3 = beat_recipes.load_recipe(root, int(path3.name.split()[0]))
+    assert rec3["preset"]["lanes"]["chord0"][1] == pytest.approx(
+        0.5 * 10 ** (5 / 20) * 10 ** (2 / 20))
+    # bass0 wasn't touched in round 2 — its round-1 trim must survive
+    assert rec3["preset"]["lanes"]["bass0"][1] == pytest.approx(g_b0)
 
 
 def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
@@ -298,6 +351,19 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     # vox sample could repeat across beats without tripping the avoid-set
     assert rec["kit_paths"]["bass"] in beat_recipes.history_avoid(["Cutz"])
     assert rec["kit_paths"]["vox"] in beat_recipes.history_avoid(["Cutz"])
+    # a SECOND bug found while checking the first: kit_paths must hold the
+    # raw file path (matching every other lane — build_kit: `sources[lane]
+    # = path`), not a decorated display string ("vox: <name>"). A decorated
+    # string still happens to land IN history_avoid (so the check above
+    # alone can't catch it — both sides would be wrong the same way), but
+    # it breaks a REBUILD, which reloads kit_paths from disk. Assert it's
+    # the exact path the picker chose, and that a volume-only rebuild
+    # (the actual feature requested) succeeds.
+    assert rec["kit_paths"]["bass"] == shots["bass"][0]["path"]
+    assert rec["kit_paths"]["vox"] == shots["vox"][0]["path"]
+    path3, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                      trims={"bass": 3.0, "vox": -2.0})
+    assert path3.exists()
     # ...and the notes box can switch the two real lanes off
     p2, _ = beat_machine.generate(["Cutz"], tempo=96, root=root, shots=shots,
                                   notes="no vox no bass 808")

@@ -88,6 +88,41 @@ Format:
   469 tests green. Did not restore #1000/#1002 — owner already trashed them,
   fix is forward-looking only.
 
+- owner: "control the volume for All sounds" → meant the synthesized lanes
+  (sub, chordN) I'd deliberately left non-swappable last fix. Checked first:
+  the trim MECHANISM already existed end-to-end (backend validates against
+  preset["lanes"] not kit_spec; JS already renders a slider for locked
+  rows, comment literally says so) — the ONLY gap was _beat_stems building
+  its list from kit_spec+stamps only. One-line widen.
+- did NOT stop at "looks right" — manually drove a real chords+bass+vox
+  render through _beat_stems AND an actual rebuild to prove the slider
+  really works end to end, not just that it appears.
+- that verification caught TWO more bugs the fix made reachable for the
+  first time: (2) sources["bass"]/["vox"] held a decorated display string
+  ("vox: name") instead of the raw path every other lane uses → rebuild
+  tried to reload a file literally named "vox: ....wav" and crashed. Fixed
+  by matching the existing convention (sources[lane] = path). Bonus: this
+  also fixed the "vox_" typo in stem filenames from earlier this session.
+  (3) trimming a CHORD lane crashed outright (KeyError) — chord/bass-chord
+  audio is synthesized, had ZERO rebuild-reconstruction path (pre-existing
+  gap since 2026-07-22, just never reachable via the UI before today).
+- for (3): considered reusing the already-rendered STEM file instead of
+  regenerating → rejected, stems are already panned+ducked, reusing would
+  double both. Considered persisting the typed notes-box override to
+  guarantee exact rebuild match → rejected, that breaks the explicit house
+  rule "notes box steers one click, never persisted." Went with: extract
+  the chord-building block into _build_chords(), fully deterministic from
+  variant (same trick _root_sub already uses), call from both generate()
+  and swap_many. Disclosed the two narrow limits (typed override, library
+  drift) in the docstring instead of silently risking them.
+- caught the SUBTLE trap before shipping: does a SECOND sequential trim on
+  the same chord lane stack, or does regenerating stomp it back to default?
+  Tested explicitly (round1 +5dB, round2 +2dB → must multiply, not reset).
+  First pass would have reset it; fixed by preserving existing gain when a
+  lane row already exists, only refreshing pan/feel/bars/audio.
+- 470 tests green, live numeric verification against the real library
+  (0.8891 → 1.1194 across two rebuilds, matched exactly).
+
 ## Previous session (Mustang)
 
 - goal: next legend = Mustang → checked HARMONY-IDENTITY-PROPOSAL first: he

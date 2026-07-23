@@ -920,11 +920,20 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
             preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9),
                                        [b for b in kbars])
             kit["bass"] = audio
-            sources["bass"] = "808 sample: %s" % Path(path).name
+            # sources[lane] must be the RAW path, matching every other
+            # lane (build_kit: `sources[lane] = path`) — write_stems reads
+            # it with Path(src).stem to name the stem file, kit_paths
+            # copies it verbatim for rebuild/swap/anti-repeat history to
+            # reload from. A earlier version put a decorated display
+            # string here instead ("808 sample: <name>"), which produced
+            # a mangled stem filename and, worse, meant a later rebuild
+            # tried to re-load that string AS a file path and failed
+            # ("...has moved or vanished") — found while checking today's
+            # kit_spec fix actually round-trips through a rebuild.
+            sources["bass"] = path
             # a real sample pick, same as any drum lane — must register in
             # preset["kit"] or it's invisible to the recipe (kit_spec), and
             # with it the app's stems/swap list and anti-repeat history.
-            # That gap is exactly what surfaced the bug this fixes.
             preset["kit"]["bass"] = ("bass", None, [], secs)
             vnotes.append("bass 808: %s" % Path(path).stem)
 
@@ -942,8 +951,8 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
             preset["lanes"]["vox"] = (side, 0.5, (0, 0, 50, variant * 17 + 2),
                                       bars)
             kit["vox"] = audio
-            sources["vox"] = "vox: %s" % Path(path).name
-            preset["kit"]["vox"] = ("vox", None, [], secs)  # see bass note above
+            sources["vox"] = path                  # raw path — see bass note above
+            preset["kit"]["vox"] = ("vox", None, [], secs)
             vnotes.append("vox: %s" % Path(path).stem)
 
 
@@ -974,6 +983,143 @@ def _source_order(pref, rng):
     if "synth" not in order:
         order.append("synth")
     return order
+
+
+def _build_chords(preset, kit, sources, variant, dirs, vnotes):
+    """Every chord lane's audio: key, progression, and voice (strings vs
+    sampled loop vs synth pad), per the DJ's `signature` (or the old
+    identity-blind default without one). Returns midi_chords for the .mid
+    file, or None if this beat has no chords.
+
+    Fully deterministic from `variant` — same trick _root_sub already uses
+    for the tuned 808 sub — which is what makes it safe to call a SECOND
+    time, at rebuild, to regenerate this beat's chord audio (extracted out
+    of generate() 2026-07-23 for exactly that: owner asked to "control the
+    volume for all sounds", and a chords beat's kit had nothing to reload
+    on rebuild since this audio was never a sample file to begin with).
+    Reusing the rendered STEM instead was considered and rejected: a stem
+    is already panned and sidechain-ducked, so reusing it as a kit source
+    would double both.
+
+    If a lane row already exists in `preset["lanes"]` (the rebuild case,
+    where a prior trim may already be baked into its gain), that gain is
+    PRESERVED — only the pattern (pan/feel/bars) and the audio are
+    refreshed, both of which are deterministic reproductions anyway.
+
+    Two honest, narrow limits on an exact rebuild match: (1) a typed
+    notes-box mood word ("dreamy") is never persisted past the click it
+    was typed for (house rule), so a rebuild without that word can pick a
+    different — still valid, still in-signature — progression than the
+    one actually audible in the original file. (2) a "loop"/"strings"
+    voice draws from a fresh library scan, so if packs changed since the
+    original render, the exact sample picked could differ. Both are
+    disclosed here rather than silently risked."""
+    if not dirs["chords"]:
+        return None
+    import chord_synth
+    import harmony
+    from key_context import KeyContext, SUB_ROOTS
+    sig = preset.get("signature") or {}
+    srng = random.Random(variant * 353 + 17)
+    sig_key = sig.get("key") or {}
+    key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
+    mode = sig_key.get("mode", "minor")
+    if isinstance(mode, list):                      # weighted mode list
+        mode = _wpick(mode, srng)
+    key = KeyContext(key_root, mode)
+    # a typed mood word still wins; else the signature picks (else random)
+    prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
+                                        random.Random(variant * 419 + 5))
+    prog_name, chords = harmony.compose(
+        key, prog, rng=random.Random(variant * 419 + 5))
+    num, den = preset.get("tsig", (4, 4))
+    bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
+    nb = bars_of(preset)
+    per_chord = max(1, nb // len(chords))
+    pref = sig.get("chord_source")
+    # "arp" = broken-chord riff, "sustain" = held block. A weighted list
+    # rolls per beat (Dre's keepers were a mix of both — owner 2026-07-22).
+    rhythm_spec = sig.get("chord_rhythm", "sustain")
+    rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
+              if isinstance(rhythm_spec, list) else rhythm_spec)
+    # only pay for the melodic-loop library scan if a loop voice is on
+    # the table (the default, or a signature that lists "loop")
+    want_loop = not pref or any(s[0] == "loop" for s in pref)
+    pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
+    strings_idx = None
+    if pref and any(s[0] == "strings" for s in pref):
+        import string_sampler
+        strings_idx = string_sampler.by_articulation(
+            string_sampler.scan(), sig.get("articulation"))
+    midi_chords = []
+    for i, chord in enumerate(chords):
+        start_bar = i * per_chord
+        if start_bar >= nb:
+            break
+        end_bar = nb if i == len(chords) - 1 else \
+            min(start_bar + per_chord, nb)
+        dur = (end_bar - start_bar) * bar_s
+        bass_note = chord["notes"][0] - 12
+        bars_list = ["-" * 16 for _ in range(nb)]
+        bars_list[start_bar] = "X" + "-" * 15
+        old_c = preset["lanes"].get(f"chord{i}")     # preserve a baked trim
+        preset["lanes"][f"chord{i}"] = (0.0, old_c[1] if old_c else 0.5,
+                                        (0, 0, 50, variant + i), bars_list)
+        old_b = preset["lanes"].get(f"bass{i}")
+        preset["lanes"][f"bass{i}"] = (0.0, old_b[1] if old_b else 0.85,
+                                       (0, 0, 50, variant + i),
+                                       [b for b in bars_list])
+        audio, label = None, None
+        for src in _source_order(pref, random.Random(variant * 461 + i)):
+            if src == "strings" and strings_idx:
+                if rhythm == "arp":
+                    cache = {}                       # one load per note, not step
+                    audio = chord_synth.arp_riff(
+                        chord["notes"], dur, preset["bpm"],
+                        lambda nt, sd: string_sampler.note_slice(
+                            strings_idx, nt, sd, cache=cache))
+                    voice = "strings arp"
+                else:
+                    audio = string_sampler.play_chord(
+                        strings_idx, chord["notes"], dur)
+                    voice = "strings"
+                if audio is not None:
+                    label = "%s: %s (%s)" % (voice, chord["chord"],
+                                             chord["roman"])
+                    break
+            elif src == "loop":
+                audio, nm = chord_synth.loop_voice(
+                    pool, dur, key, rng=random.Random(variant * 461 + i))
+                if audio is not None:
+                    label = "sample: %s, %s (%s)" % (
+                        nm, chord["chord"], chord["roman"])
+                    break
+            elif src == "synth":
+                audio = (chord_synth.arp_riff(chord["notes"], dur,
+                                              preset["bpm"])
+                         if rhythm == "arp"
+                         else chord_synth.pad_voice(chord["notes"], dur))
+                label = "%s, %s (%s)" % (
+                    "synth arp" if rhythm == "arp" else "synth chord pad",
+                    chord["chord"], chord["roman"])
+                break
+        if audio is None:                           # the never-fails floor
+            audio = (chord_synth.arp_riff(chord["notes"], dur, preset["bpm"])
+                     if rhythm == "arp"
+                     else chord_synth.pad_voice(chord["notes"], dur))
+            label = "%s, %s (%s)" % (
+                "synth arp" if rhythm == "arp" else "synth chord pad",
+                chord["chord"], chord["roman"])
+        kit[f"chord{i}"] = audio
+        sources[f"chord{i}"] = label
+        kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
+        sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
+        midi_chords.append({"start_sec": start_bar * bar_s,
+                            "dur_sec": dur,
+                            "notes": chord["notes"] + [bass_note]})
+    vnotes.append("chords: %s in %s (%s)" % (
+        prog_name, key, ", ".join(c["chord"] for c in chords)))
+    return midi_chords
 
 
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
@@ -1137,117 +1283,12 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
 
     # "chords" / a mood word in the notes box (punch list steps 2+7,
-    # 2026-07-22): a real in-key progression, synthesized as a pad +
-    # bass and dropped in as extra lanes — same trick as the tuned-808
-    # sub above, just one long "one-shot" per chord instead of one hit.
-    #
-    # signature (2026-07-22, HARMONY-IDENTITY-PROPOSAL): a legend/genre
-    # entry may carry a harmonic fingerprint — which roots/mode, which
-    # progressions, and which voice (strings vs sampled loop vs synth pad).
-    # Without one, the old identity-blind default holds: random SUB_ROOT,
-    # minor, a mood-or-random progression, a sampled loop else synth pad.
-    midi_chords = None
-    if dirs["chords"]:
-        import chord_synth
-        import harmony
-        from key_context import KeyContext, SUB_ROOTS
-        sig = preset.get("signature") or {}
-        srng = random.Random(variant * 353 + 17)
-        sig_key = sig.get("key") or {}
-        key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
-        mode = sig_key.get("mode", "minor")
-        if isinstance(mode, list):                      # weighted mode list
-            mode = _wpick(mode, srng)
-        key = KeyContext(key_root, mode)
-        # a typed mood word still wins; else the signature picks (else random)
-        prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
-                                            random.Random(variant * 419 + 5))
-        prog_name, chords = harmony.compose(
-            key, prog, rng=random.Random(variant * 419 + 5))
-        num, den = preset.get("tsig", (4, 4))
-        bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
-        nb = bars_of(preset)
-        per_chord = max(1, nb // len(chords))
-        pref = sig.get("chord_source")
-        # "arp" = broken-chord riff, "sustain" = held block. A weighted list
-        # rolls per beat (Dre's keepers were a mix of both — owner 2026-07-22).
-        rhythm_spec = sig.get("chord_rhythm", "sustain")
-        rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
-                  if isinstance(rhythm_spec, list) else rhythm_spec)
-        # only pay for the melodic-loop library scan if a loop voice is on
-        # the table (the default, or a signature that lists "loop")
-        want_loop = not pref or any(s[0] == "loop" for s in pref)
-        pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
-        strings_idx = None
-        if pref and any(s[0] == "strings" for s in pref):
-            import string_sampler
-            strings_idx = string_sampler.by_articulation(
-                string_sampler.scan(), sig.get("articulation"))
-        midi_chords = []
-        for i, chord in enumerate(chords):
-            start_bar = i * per_chord
-            if start_bar >= nb:
-                break
-            end_bar = nb if i == len(chords) - 1 else \
-                min(start_bar + per_chord, nb)
-            dur = (end_bar - start_bar) * bar_s
-            bass_note = chord["notes"][0] - 12
-            bars_list = ["-" * 16 for _ in range(nb)]
-            bars_list[start_bar] = "X" + "-" * 15
-            preset["lanes"][f"chord{i}"] = (0.0, 0.5, (0, 0, 50, variant + i),
-                                            bars_list)
-            preset["lanes"][f"bass{i}"] = (0.0, 0.85, (0, 0, 50, variant + i),
-                                           [b for b in bars_list])
-            audio, label = None, None
-            for src in _source_order(pref, random.Random(variant * 461 + i)):
-                if src == "strings" and strings_idx:
-                    if rhythm == "arp":
-                        cache = {}                       # one load per note, not step
-                        audio = chord_synth.arp_riff(
-                            chord["notes"], dur, preset["bpm"],
-                            lambda nt, sd: string_sampler.note_slice(
-                                strings_idx, nt, sd, cache=cache))
-                        voice = "strings arp"
-                    else:
-                        audio = string_sampler.play_chord(
-                            strings_idx, chord["notes"], dur)
-                        voice = "strings"
-                    if audio is not None:
-                        label = "%s: %s (%s)" % (voice, chord["chord"],
-                                                 chord["roman"])
-                        break
-                elif src == "loop":
-                    audio, nm = chord_synth.loop_voice(
-                        pool, dur, key, rng=random.Random(variant * 461 + i))
-                    if audio is not None:
-                        label = "sample: %s, %s (%s)" % (
-                            nm, chord["chord"], chord["roman"])
-                        break
-                elif src == "synth":
-                    audio = (chord_synth.arp_riff(chord["notes"], dur,
-                                                  preset["bpm"])
-                             if rhythm == "arp"
-                             else chord_synth.pad_voice(chord["notes"], dur))
-                    label = "%s, %s (%s)" % (
-                        "synth arp" if rhythm == "arp" else "synth chord pad",
-                        chord["chord"], chord["roman"])
-                    break
-            if audio is None:                           # the never-fails floor
-                audio = (chord_synth.arp_riff(chord["notes"], dur, preset["bpm"])
-                         if rhythm == "arp"
-                         else chord_synth.pad_voice(chord["notes"], dur))
-                label = "%s, %s (%s)" % (
-                    "synth arp" if rhythm == "arp" else "synth chord pad",
-                    chord["chord"], chord["roman"])
-            kit[f"chord{i}"] = audio
-            sources[f"chord{i}"] = label
-            kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
-            sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
-            midi_chords.append({"start_sec": start_bar * bar_s,
-                                "dur_sec": dur,
-                                "notes": chord["notes"] + [bass_note]})
-        vnotes.append("chords: %s in %s (%s)" % (
-            prog_name, key, ", ".join(c["chord"] for c in chords)))
+    # 2026-07-22): a real in-key progression, synthesized as a pad + bass
+    # and dropped in as extra lanes. Extracted into _build_chords (below)
+    # 2026-07-23 so a REBUILD can regenerate this beat's chord audio too
+    # (owner: "control the volume for all sounds") — see that function's
+    # docstring for why regenerating, not reusing the rendered stem.
+    midi_chords = _build_chords(preset, kit, sources, variant, dirs, vnotes)
 
     # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
     # here, after the chord lanes so bass can defer to the harmony bass on a
@@ -1758,6 +1799,19 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # the recipe's root note so the swapped beat keeps its low end
     if rec.get("root_note") and "sub" in preset.get("lanes", {}):
         kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
+    # chord/chord-bass lanes are ALSO synthesized (owner 2026-07-23,
+    # "control the volume for all sounds" — the ask that surfaced this gap:
+    # those lanes now show a volume slider, so a rebuild has to actually be
+    # able to regenerate their audio). Detected by lane name since a chords
+    # beat's kit_spec never lists them (see _build_chords' docstring for why
+    # this regenerates rather than reuses the rendered stem, and the two
+    # narrow, disclosed limits on an exact match).
+    if any(ln.startswith("chord") for ln in preset.get("lanes", {})):
+        # a throwaway sources dict: chord/bass lanes were never in
+        # kit_paths (nothing to swap them for), so nothing here needs to
+        # persist past this render.
+        _build_chords(preset, kit, {}, rec["variant"],
+                      {"chords": True, "chord_feel": None}, [])
 
     lanes = sorted(picks)
     if drops and not lanes and not trims:      # removal is the headline
@@ -1994,15 +2048,30 @@ def _stem_wav(no, lane, root=None, folder=None):
 def _beat_stems(no, root=None):
     """Every drum in a beat: the real sample behind it, whether it can be
     swapped, and whether there's a solo stem to play. Stamps are the DJ's
-    producer tag — shown, but locked (crew rule)."""
+    producer tag — shown, but locked (crew rule).
+
+    Owner 2026-07-23 ("control the volume for all sounds"): synthesized
+    lanes (the tuned 808 sub, chord/bass pads) have no sample to swap, so
+    they never joined kit_spec — but that also meant they never appeared
+    here, so the web page had nothing to attach a volume slider to, even
+    though the trim mechanism (_clean_trims, swap_many) already works on
+    any lane in preset["lanes"] and the JS already renders a slider for a
+    locked row. Listing every real lane here is the actual fix; nothing
+    downstream needed to change."""
     root = Path(root or ROOT)
     no = int(no)
     rec = load_recipe(root, no)
     out = []
     # stamps live outside kit_spec but are still part of the beat — he
-    # should SEE his producer tag even though he can't swap it
-    lanes = list(rec["kit_spec"]) + [ln for ln in rec.get("stamp_paths", {})
-                                     if ln not in rec["kit_spec"]]
+    # should SEE his producer tag even though he can't swap it. Same for
+    # any other lane that's rendered but has no kit_spec entry (sub,
+    # chordN, bassN) — it gets a volume control, just no swap dropdown.
+    named = set(rec["kit_spec"]) | set(rec.get("stamp_paths", {}))
+    lanes = (list(rec["kit_spec"])
+             + [ln for ln in rec.get("stamp_paths", {})
+                if ln not in rec["kit_spec"]]
+             + [ln for ln in rec["preset"].get("lanes", {})
+                if ln not in named])
     folder = _stems_dir(no, root)     # walk the library once, not per lane
     for lane in sorted(lanes, key=_lane_sort):
         locked = lane == "stamp" or lane.startswith("stamp")
