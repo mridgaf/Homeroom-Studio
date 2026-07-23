@@ -1051,7 +1051,25 @@
   "era": "legend",
   "built": "J Dilla",
   "legend": true,
+  "bar_lengths": [2, 4],
   "listen": "the drunk pull, faithful: snare rushes ~20 ms early, kick drags ~12 ms behind, hats dead straight, loose wobbly jitter, dusty drums, vinyl and a touch of wow",
+  "signature": {
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, added 2026-07-23 as the 3rd legend, after Dre and Premier both cleared audition). Research's own correction: Dilla is NOT minor-default — his harmony is sample-dictated and skews soul/major as often as minor, so mode is an even 1:1 weighted roll, never a hard lock. chord_source leans loop harder than Premier's (4:1 vs 3:1) — Dilla's identity IS the chopped soul/Rhodes sample, synth pad is just the floor. No chord_rhythm/articulation override — same audition-first start as the other two.",
+   "key": {
+    "roots": ["C", "D", "Bb"],
+    "mode": [["minor", 1], ["major", 1]]
+   },
+   "progressions": [
+    ["nostalgic_jazz", 2],
+    ["dreamy", 2],
+    ["vamp_ii_V", 1]
+   ],
+   "chord_source": [
+    ["loop", 4],
+    ["synth", 1]
+   ],
+   "tempo": [70, 95]
+  },
   "kit": {
    "kick": [
     "kick",
@@ -1368,6 +1386,17 @@
   "built": "DJ Mustard",
   "legend": true,
   "listen": "ratchet club bounce: a sparse 808 kick that lands on the and-of-two pocket, dry claps on 2 and 4, layered snaps, minimal offbeat hats, clean digital, room for the chant",
+  "signature": {
+   "_note": "harmonic fingerprint added 2026-07-23. HONEST SOURCING: Mustang is NOT one of the 4 legends HARMONY-IDENTITY-PROPOSAL actually researched (that set was Dillo/Premium/Doc Day/Timberline, now all built) — this block is from general knowledge of DJ Mustard's records, not from that doc's table, so the owner's ear is the only check. The giveaway is the bright plucked ostinato over almost no chord movement, so: chord_rhythm leans arp 3:1 over held (the arp path already exists from Dre), chord_source is synth-only (he builds in the box — no orchestral strings, no chopped soul loop), and the progressions are the two most minimal shapes available. vamp_static_riff is new here (single minor chord held the whole loop, so the riff + 808 carry it) — it is the proposal's own defined slug, skipped in earlier sessions because nothing consumed it; Mustang is its first real consumer. Tempo 95-105 is his club pocket around the roster's 100.",
+   "key": {
+    "roots": ["F", "G", "Bb"],
+    "mode": "minor"
+   },
+   "progressions": [["vamp_static_riff", 2], ["vamp_i_VI", 2]],
+   "chord_source": [["synth", 1]],
+   "chord_rhythm": [["arp", 3], ["sustain", 1]],
+   "tempo": [95, 105]
+  },
   "kit": {
    "kick": [
     "kick",
@@ -2014,6 +2043,23 @@
   "legend": true,
   "legend_swing": 53,
   "listen": "surgical boom bap at a locked 53% swing: tight punchy kick, cracking snare with real ghost notes, dead-steady eighth hats, scratch-stab color, moderate dust",
+  "signature": {
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, added 2026-07-23 as the next legend after Dre's audition-approved pass). Sparse minor/dorian stab, no new progression slugs needed. chord_source loop-forward (a chopped melodic loop reads as Premier's dark sample stab) with synth as the always-works floor. Not yet audition-rendered — same gate as Dre: render a small batch, owner listens, then tune.",
+   "key": {
+    "roots": ["D", "E", "A"],
+    "mode": [["minor", 2], ["dorian", 1]]
+   },
+   "progressions": [
+    ["vamp_i_iv7", 2],
+    ["dark_menacing", 2],
+    ["vamp_i_VI", 1]
+   ],
+   "chord_source": [
+    ["loop", 3],
+    ["synth", 1]
+   ],
+   "tempo": [82, 96]
+  },
   "kit": {
    "kick": [
     "kick",
@@ -2308,6 +2354,16 @@
   "built": "Timbaland",
   "legend": true,
   "listen": "beatbox stutter-funk: double-hit syncopated kicks, a clap that answers instead of insists, tabla and exotic perc off-center, silence used as an instrument, completely clean",
+  "signature": {
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, added 2026-07-23 as the 4th/last researched legend). Proposal calls Timbaland rhythm-defined more than harmony-defined ('almost no chord movement', a single droning Phrygian melody) so chord_source is synth-only (no strings/loop) — the plainest, least-melodic voice reads closest to a drone. Single progression (dark_menacing, table value; no new slug invented). Tempo is the flagged fork: the proposal gave two DISCONNECTED pockets (90-100 normal, 135-145 double-time) instead of one range — owner said allow both with variation, so `tempo` is a list of two ranges. Required a small beat_machine.py change (vary_preset's tempo lean): a %-lean from a single base bpm can never jump between two disconnected pockets, so a signature tempo that's a list-of-lists now rolls a pocket first, then a tempo inside it, instead of leaning+clamping.",
+   "key": {
+    "roots": ["D", "E", "G"],
+    "mode": "phrygian"
+   },
+   "progressions": ["dark_menacing"],
+   "chord_source": [["synth", 1]],
+   "tempo": [[90, 100], [135, 145]]
+  },
   "kit": {
    "kick": [
     "kick",

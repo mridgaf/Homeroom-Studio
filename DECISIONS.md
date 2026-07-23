@@ -22,6 +22,273 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 "Add the root" turned back ON — and finally given a test
+- Context: the tuned-808 root sub (owner rule 2026-07-18) was switched off
+  earlier the same day as collateral of the engine-wide 808 ban. That ban was
+  reversed for the kick; I left this flag alone since he'd named the kick only,
+  and asked. He said add it back.
+- Decision/change: `beat_machine.ADD_THE_ROOT_808 = True`. The mechanism was
+  flag-gated rather than deleted when it was retired, so it really was a
+  one-line flip — nothing else needed restoring. Also corrected the stale
+  comment above the call site: it claimed "about 3 in 5" (and DECISIONS once
+  said 40%), but the roll has been `< 0.75` since the feature landed and was
+  never edited — so it's 3 in 4 of traditional beats, and traditional is a
+  quarter of a batch, ≈ 1 beat in 5 overall.
+- Reasoning: he asked for it directly; the guards that make it behave (skip
+  when the kick is already a long 808, skip on chords beats where harmony's
+  own bass owns the low end) were untouched and still correct — more relevant
+  now that 808 kicks are reachable again.
+- Verify by: rendered 5 traditional beats to a scratch dir over fixed seeds.
+  3 got the sub, 2 skipped — and both skips were the beats whose kick had
+  rolled a long 808, which is exactly the documented "don't stack two subs"
+  guard. Confirmed the real artifacts on one: stem file "sub - synth 808 sub,
+  root Bb.wav" and `root_note: "Bb"` saved in the recipe.
+- Status: confirmed
+- Outcome: **the feature had NO test** — that's how it round-tripped off and
+  on in one day with nothing noticing. Added
+  `test_add_the_root_puts_a_tuned_sub_under_traditional_beats`: seeds `random`
+  so the 3-in-4 roll is deterministic instead of "render until it lands",
+  asserts the sub lane + the named stem + the recipe's root_note, and asserts
+  a chords beat still skips it. 468 tests green.
+
+### 2026-07-23 Kick flavor goes back to per-style — engine-wide clean-punch reversed
+- Context: after hearing that Mustang's own identity line is "a sparse 808
+  kick" and that the engine-wide clean-punch filter left every DJ exactly one
+  kick sound, the owner said "Allow DJs to stay true to style. with the Kick."
+  That reverses the engine-wide scope he chose earlier the same day (that call
+  was made with the collision already flagged; this one is made with the
+  consequence heard).
+- Decision/change: deleted `pattern_gen._clean_punch` and CLEAN_PUNCH_TAGS
+  and both call sites (compose() and the odd-meter `_compose_odd`, which rolls
+  its flavor independently — the same second call site that nearly got missed
+  when the rule went in). Each entry's declared `kick_flavors` weights govern
+  again. Did NOT special-case Doc Day: his ear's verdict on Dre already lives
+  in Doc Day's own weights (808 0.1 vs punch 0.75, ~12% 808), which is the
+  right place for a style statement. Left `ADD_THE_ROOT_808 = False` alone —
+  the root sub is a bass layer under the kick, not the kick flavor, and he
+  named the kick only; flagged as an open question instead of assumed.
+- Reasoning: deletion, not a new per-DJ exemption flag — the per-style data
+  that expresses "true to style" already exists in every entry.
+- Verify by: 467 tests green (one test net removed). Replaced the two tests
+  asserting the old spec: `test_kick_flavor_follows_the_style_not_an_engine_
+  wide_filter` now asserts 808 IS reachable and nothing outside the declared
+  set appears, across both the main and odd-meter paths.
+- Status: confirmed (mechanically; the sound is the owner's call)
+- Outcome: #903 and #904 rendered with real 808 kicks (Punchy 808, Cymatics
+  Oracle 808), #902 clean — 2:1, matching Mustang's declared 0.6/0.4.
+
+### 2026-07-23 Flavor-index history went stale across the rule change — first 3 beats were not a fair sample
+- Context: the first 3 beats after the reversal (#899-901) came out 2 clean /
+  1 808, not the ~2:1 toward 808 that Mustang's weights imply. Checked
+  pattern_history.json rather than assuming it was just an unlucky roll.
+- Decision/change: no code change. Diagnosis confirmed from the history file:
+  `remember_pattern` stores the flavor's POSITIONAL INDEX into whatever
+  kick_flavors list was live at the time. Under the clean-punch filter that
+  list had one entry, so 9 straight beats recorded fi=0. Removing the filter
+  changed what index 0 MEANS (now the 808 entry), so the streak-breaker read
+  nine "808s in a row" and zeroed the 808 out for #899 and #900, then zeroed
+  clean for #901. All three flavors were dictated by stale history, not by the
+  new rule. Re-rendered #902-904 once the history was back in the new index
+  space; those are the real sample.
+- Reasoning: it self-corrects after 2 beats, and the only thing that breaks it
+  is changing a flavor list's SHAPE (not its weights — evolution.py only tunes
+  weights, so the index stays meaningful). Storing an identity instead of an
+  index would be the durable fix; not worth the diff for a one-off migration.
+- Verify by: history now shows fi=0 (#901) then fi=1 (#900) — no streak, so
+  the breaker is idle and weights govern. #902-904 came out 1 clean / 2 808.
+- Status: confirmed
+- Outcome: latent trap — the next time any entry's kick_flavors list gains or
+  loses an entry, that DJ's next 2 beats get a dictated flavor. Note it there
+  rather than debugging it fresh.
+
+### 2026-07-23 MIDI validity gate was failing every chord beat — the gate was stale, not the beats
+- Context: ran the house midi-validity-gate on the 9 new Mustang beats before
+  delivering. All 9 FAILED ("8 note(s) not on channel 10"). Checked yesterday's
+  Timberline batch and J Dillo's before assuming I'd broken something — those
+  failed identically, so it predates Mustang.
+- Decision/change: fixed the GATE, not the generator. `beat_recipes.write_midi`
+  puts harmony's chord voicings on channel 1 **on purpose** (its own docstring:
+  "not 10, so Reason doesn't read it as a drum hit") — correct behavior the gate
+  was written before, back when every note in a beat file was a drum. New rule
+  in check_midi.py: require ≥1 note on channel 10 and every channel-10 note
+  inside GM 35-81; notes on other channels are counted as melodic and allowed.
+  SKILL.md updated to match.
+- Reasoning: root cause is in the checker. Making the generator satisfy the old
+  rule would mean putting chords on the drum channel, which is actually wrong.
+- Verify by: all 9 Mustang + all 20 earlier chord beats (Timberline, J Dillo)
+  now PASS. Negative cases still caught, verified with 3 synthetic files: a
+  melodic note ON channel 10 → fails GM-range; a file with only a chords track
+  → "no drum notes on channel 10"; a missing tempo → fails.
+- Status: confirmed
+- Outcome: every chord beat delivered since 2026-07-22 (Dre, Premier, Dillo,
+  Timberline batches) was handed over without a passing gate — no file was
+  actually bad, the check was.
+
+### 2026-07-23 Mustang (DJ Mustard) harmonic signature — 5th legend, first one NOT in the research doc
+- Context: owner said move on to Mustang after Timberline closed the 4-legend
+  research proof set (Dillo/Premium/Doc Day/Timberline).
+- Decision/change: added a `signature` block to Mustang in legends_config.json.
+  Flagged in its `_note` and here: **Mustang has no row in
+  HARMONY-IDENTITY-PROPOSAL** — that doc only researched 4 legends and they're
+  all built. This block is from general knowledge of DJ Mustard's records, so
+  the owner's ear is the only check on it; there's no cited source behind it
+  like the last four had. Contents: roots F/G/Bb, plain minor, chord_source
+  synth-only (he builds in the box — no orchestral strings, no chopped soul
+  loop), chord_rhythm arp-leaning 3:1 over held (the bright plucked ostinato is
+  the giveaway; the arp path already exists from Dre's work), tempo 95-105.
+  Progressions are the two most minimal shapes: `vamp_i_VI` (exists) and
+  `vamp_static_riff` — a NEW 1-chord slug in progressions_config.json, held the
+  whole loop so the riff and 808 carry it. That slug is the proposal's own
+  defined third slug, skipped in earlier sessions only because nothing consumed
+  it; Mustang is its first real consumer.
+- Reasoning: data-only, no engine change, same audition-gated pattern as the
+  previous four.
+- Verify by: 468 tests green. Rendered #890-898 (9 beats). Tempo 95/95/97/97/
+  100/103/103/105/105 — the full pocket, no clustering. Stems confirm the
+  signature: every chord slot synth (zero strings/loop leakage), 7 of 9 arp
+  and 2 held pads ≈ the 3:1 lean. LUFS -12.8 to -13.2, all render checks
+  passed, MIDI gate green.
+- Status: open
+- Outcome: (pending owner listen. Two honest gaps: (1) the flagship combination
+  — static riff WITH the plucked arp — never rolled: both static beats (#892,
+  #897) happened to draw the held pad. Simulated 10k variants to check for a
+  seed correlation and there is none, static+arp comes up 37.2%, it just missed
+  twice (~6% luck). Another click should land it. (2) #893's bar swing is
+  0.6 dB, under the 2.5 dB floor even after the contrast pass — it's a 2-bar
+  loop, weakest of the batch.)
+
+### 2026-07-23 Engine-wide clean-punch kick now visibly fights Mustang's own identity
+- Context: yesterday's owner-reaffirmed rule constrains kicks to clean-punch
+  engine-wide, ignoring 808. Every one of the 9 Mustang renders reported
+  "kick: clean/short clean+tight" and the variety checker warned "one kick
+  flavor ran 6 beats in a row."
+- Decision/change: none — left the rule alone, flagging only. Mustang's own
+  `listen` line is "a sparse **808 kick** that lands on the and-of-two pocket"
+  and his kick_flavors weight 808 at 0.6 vs 0.4 clean, so the engine-wide
+  filter removes his majority flavor and, since no DJ on the roster has two
+  non-808 flavors, leaves him exactly one kick sound for every beat.
+- Reasoning: the owner reaffirmed engine-wide deliberately last session with
+  this collision already named; reversing it unasked would be overriding a
+  decision he made with the tradeoff in view. But Mustang is the sharpest case
+  yet — this is the first legend whose one-line identity IS the 808.
+- Verify by: ask the owner after he hears #890-898 whether the kicks read as
+  Mustard to him.
+- Status: open
+- Outcome: (needs his ear — a per-legend 808 exemption is the obvious fix if
+  he agrees, but that's his call to make, not mine)
+
+### 2026-07-23 Timberline (Timbaland) harmonic signature — resolved the dual-tempo-pocket fork
+- Context: Timberline was flagged when Dillo was picked up ("its tempo is
+  unusual, two ranges 90-100 and 135-145, so that one needs a decision on
+  which pocket") rather than defaulted silently. Owner's answer: allow both,
+  with variation — don't pick one.
+- Decision/change: (a) beat_machine.py's vary_preset tempo-lean block only
+  ever supported one contiguous pocket (a %-lean off the base bpm, clamped
+  into a signature's [lo,hi]) — that can't reach a second, disconnected
+  pocket from a single base bpm. Extended `signature.tempo` to also accept a
+  list of [lo,hi] pairs: when it's a list-of-lists, roll a pocket first, then
+  a tempo inside it, instead of leaning from the base. A single [lo,hi] pair
+  (every other legend) is untouched — same code path as before. (b) Added
+  Timberline's signature: roots D/E/G, phrygian (fixed, not weighted — the
+  giveaway names Phrygian specifically, no "as often as" caveat like Dilla's
+  mode), progression dark_menacing only (the proposal's table value; did NOT
+  invent the vamp_static_riff drone slug since the table assigns that one to
+  Miami Bass, not Timberline), chord_source synth-only — no strings/loop —
+  since the proposal calls Timbaland rhythm- more than harmony-defined
+  ("almost no chord movement," a single droning melody), and a plain pad
+  reads closest to that. tempo = [[90,100],[135,145]], the proposal's own two
+  researched pockets — used as the suggested tempos since I have no better
+  source than that research.
+- Reasoning: smallest change that generalizes (a type-check on the tempo
+  field, not a Timberline-only branch), so any future dual-pocket identity
+  gets it for free.
+- Verify by: 468 tests green. Rendered #884-889 (6 beats): bpm landed
+  100/93 (low pocket) and 139/135/136/138 (high pocket) — real spread inside
+  both, not stuck at the edges. Every beat: phrygian key, dark_menacing
+  progression, chord0/1 stems confirmed synth-pad-only (no loop/strings
+  leaking in). LUFS -13.0/-12.8/-12.8/-12.7/-12.8/-12.9, all checks passed.
+- Status: open
+- Outcome: (pending owner listen; this closes out the 4-legend research
+  proof set — Dre, Premier, Dillo, Timberline all have signatures now)
+
+### 2026-07-23 J Dillo pinned to 2/4-bar only ("no long beats")
+- Context: owner loved the 5-beat filtered batch (#870, 873-876) but named
+  it as a rule, not a one-off: "include a variation between these two beat
+  lengths. for this DJ. No Long Beats." — vary 2-bar/4-bar, never 8.
+- Decision/change: pattern_gen.compose() had no per-DJ hook for loop length
+  — nbars was always the engine-wide roll (2/4/8 weighted, or a hard 8 for
+  genre entries). Added `bar_lengths` as an optional preset key: when set,
+  it replaces the weighted roll with `rng.choice(bar_lengths)`; unset, the
+  old behavior is untouched (every other DJ/genre). Set J Dillo's
+  `bar_lengths: [2, 4]` in legends_config.json. The A/B "answer" form only
+  ever triggers off `nbars == 8`, so excluding 8 from the pool also kills
+  the A/B complaint as a side effect, not a separate fix.
+- Reasoning: smallest change that generalizes — a new preset field instead
+  of a J-Dillo-specific branch in compose(), so any future DJ that wants a
+  pinned loop-length pool (or wants the old 2/4/8 spread) can just set or
+  omit the key.
+- Verify by: 468 tests green. Rendered #878-883 (6 beats): 3 landed 2-bar, 3
+  landed 4-bar, zero 8-bar, zero A/B. LUFS -13.0/-13.0/-13.1/-13.1/-12.9/
+  -13.0, all checks passed. last_batch pointed at all 6 for the player.
+- Status: confirmed
+- Outcome: (holds until the owner says otherwise; consider whether other
+  legends want their own bar_lengths pin later, but not decided yet)
+
+### 2026-07-23 J Dillo (Dilla) harmonic signature added — 3rd legend, owner approved moving on
+- Context: owner approved DJ Premium's #864-866 batch and said to move on to
+  Dilla next.
+- Decision/change: added a `signature` block to J Dillo in legends_config.json
+  — roots C/D/Bb, mode an even 1:1 minor/major weighted roll (the proposal's
+  own research correction: Dilla is sample-dictated, skews major as often as
+  minor, so a hard minor lock would be wrong for him specifically), existing
+  progression slugs (nostalgic_jazz 2, dreamy 2, vamp_ii_V 1 — no new theory
+  needed), chord_source loop-forward 4:1 over synth — heavier loop lean than
+  Premier's 3:1 since Dilla's whole identity is the chopped soul/Rhodes
+  sample, not just a color choice. No chord_rhythm/articulation override,
+  same audition-first start as Dre and Premier.
+- Reasoning: same low-risk/audition-gated pattern as the last two — data
+  only, no engine changes, let the owner's ear judge before tuning.
+- Verify by: 468 tests green. Rendered #867-869: 88/85/88 bpm (all in
+  70-95), mode hit both major (#867, C major) and minor (#868 D minor, #869
+  Bb minor) confirming the 1:1 roll works both ways, progressions dreamy/
+  nostalgic_jazz/dreamy. Stems: 6 of 7 chord slots landed real chopped-loop
+  samples (Oracle/Atlanta/Everything melody loops), 1 synth-pad floor
+  fallback — matches the intended 4:1 lean. LUFS -13.0/-12.9/-13.1, all
+  checks passed.
+- Status: open
+- Outcome: (pending owner listen to #867-869; last researched legend left is
+  Timberline (Timbaland) — note its tempo is unusual, two ranges 90-100 and
+  135-145, so that one needs a decision on which pocket before building it)
+
+### 2026-07-23 DJ Premium (Premier) harmonic signature added — next legend after Dre
+- Context: HARMONY-IDENTITY-PROPOSAL's plan was "roll the pattern to the other
+  7 only after the Dre sound is approved" — the owner's #843/#845/#849 picks
+  confirmed Dre. DJ Premium was the pick for next: it's one of the 4 legends
+  the proposal actually researched, and unlike Dilla/Timbaland it needed zero
+  new engine work (dorian mode and loop chord_source both already exist/work),
+  so it's the lowest-risk next step.
+- Decision/change: added a `signature` block to DJ Premium in
+  legends_config.json — roots D/E/A, mode minor-leaning-dorian (2:1), existing
+  progression slugs only (vamp_i_iv7, dark_menacing weighted 2, vamp_i_VI at
+  1 — no new progressions_config.json entries needed), chord_source loop-
+  forward 3:1 over synth (a chopped melodic loop reads as Premier's dark
+  sample stab; synth stays the always-works floor per _source_order). No
+  chord_rhythm or articulation override — started at the engine default
+  (held/sustain), same as Dre did before owner-audition feedback picked arp.
+- Reasoning: same audition-gated approach as Dre — add the data, render a
+  small batch, let the owner's ear decide before tuning further, rather than
+  guessing at a "stab" rhythm feel with no engine support for it yet.
+- Verify by: 468 tests green (no new engine code, so no new tests). Rendered
+  #864-866: 88/90/93 bpm (all in the 82-96 range), A dorian (vamp_i_iv7),
+  D dorian (dark_menacing), E minor (vamp_i_iv7) — mode weighting hit both
+  values across 3 beats. Stems confirm loop landed 5/6 chord slots (real
+  chopped samples, e.g. "Oracle Classic Melody Loop... A Min Organ") and synth
+  landed 1/6 as the floor fallback, matching the 3:1 intent. LUFS -13.0/-13.3/
+  -12.9, all checks passed.
+- Status: open
+- Outcome: (pending owner listen to #864-866; roll to the next legend —
+  J Dillo or Timberline — only after this one's approved, same as Dre)
+
 ### 2026-07-23 Dre tuning (best-of #843/845/849) + engine-wide clean-punch kicks
 - Context: owner picked #843 (held, strings, vamp_i_iv7/m7), #845 (held, mixed
   strings+synth, gfunk), #849 (arp, mixed, gfunk) as the best representations —

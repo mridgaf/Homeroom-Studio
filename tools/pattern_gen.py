@@ -367,23 +367,17 @@ BOOM_BAP_FLAVORS = [[0.5, "808", ["boom", "dust", "dirty"], [0.35, 0.8]],
                     [0.5, None, ["boom", "punch", "knock", "acoustic"],
                      [0.18, 0.5]]]
 
-# owner rule 2026-07-23: constrain kicks to clean/punch flavors, engine-
-# wide — supersedes the 2026-07-17 "not solely 808s" balance (that kept
-# some 808 in the mix; this drops it). One filter at the single spot
-# every DJ/legend/genre's kick roll already routes through, so no caller
-# needs its own guard.
-CLEAN_PUNCH_TAGS = {"punch", "knock", "clean", "tight", "hard"}
-
-
-def _clean_punch(flavors):
-    """`flavors` with every 808-must entry dropped, further narrowed to
-    ones actually tagged clean/punch-ish. Falls back a step at a time —
-    drop the tag requirement, then give up and return the original list
-    — so a style with no clean flavor yet still renders instead of
-    hitting rng.choices on an empty pool."""
-    no808 = [f for f in flavors if f[1] != "808"]
-    punchy = [f for f in no808 if set(f[2]) & CLEAN_PUNCH_TAGS]
-    return punchy or no808 or flavors
+# Kick flavor is the entry's OWN business again (owner rule 2026-07-23,
+# second call: "allow DJs to stay true to style, with the kick"). The
+# engine-wide clean/punch filter added earlier the same day is gone: it
+# dropped every 808 flavor at the one spot all kick rolls route through,
+# which also removed the 808 from identities that ARE the 808 — Mustang's
+# own one-line description is "a sparse 808 kick," and no entry on the
+# roster carries a second non-808 flavor, so the filter left each of them
+# exactly one kick sound for every beat. Each entry's declared
+# `kick_flavors` weights are the style statement; a DJ who should stay
+# clean says so there (Doc Day: 808 at 0.1 vs punch at 0.75) instead of
+# every DJ being forced clean from here.
 
 # ------------------------------------------------------- the kick banks
 # Owner request 2026-07-17: a LARGER library of patterns. Each DJ carries
@@ -835,7 +829,7 @@ def _compose_odd(preset, style, name, variant, tsig):
             bars = _phrase(keeper_bar(), None, nbars, rng)
         preset["lanes"][lane] = (pan, gain, feel, bars)
 
-    flavors = _clean_punch(style["kick_flavors"])          # owner rule 2026-07-23
+    flavors = style["kick_flavors"]            # the style's own, unfiltered
     fi = rng.choices(range(len(flavors)),
                      weights=[f[0] for f in flavors])[0]
     _, must, wants, secs = flavors[fi]
@@ -942,9 +936,13 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         # long" + let it vary per beat). 4 bars is the new normal — half
         # the old fixed 8 — with a tight 2-bar MPC loop and the old 8
         # both still on the table. A genre keeps the longer form: the
-        # subgenre roster's figures need room to state themselves.
-        nbars = 8 if genre else rng.choices((2, 4, 8),
-                                            weights=(0.15, 0.60, 0.25))[0]
+        # subgenre roster's figures need room to state themselves. A
+        # preset's own `bar_lengths` (owner call 2026-07-23, J Dillo: "no
+        # long beats") pins the roll to a fixed subset instead.
+        bar_lengths = preset.get("bar_lengths")
+        nbars = (rng.choice(bar_lengths) if bar_lengths else
+                 8 if genre else rng.choices((2, 4, 8),
+                                             weights=(0.15, 0.60, 0.25))[0])
         preset["bars"] = nbars
         # form roll (owner call 2026-07-21): half the beats are the loop
         # heard straight through, half the A/B answer form. Only an
@@ -1069,11 +1067,11 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 lanes[lane] = _phrase(bar, None, nbars, rng)
             modes[lane] = mode
 
-        # kick flavor: clean/punch only, no 808 (owner rule 2026-07-23,
-        # supersedes the 2026-07-17 "not solely 808s" balance below). The
-        # streak-breaker still guarantees no run of the same flavor twice.
-        flavors = _clean_punch(BOOM_BAP_FLAVORS if boom_bap
-                               else style["kick_flavors"])
+        # kick flavor: the style's declared weights, 808 included (owner
+        # rule 2026-07-23, second call — see the note above the kick
+        # banks). The streak-breaker below still stops any flavor running
+        # three beats in a row.
+        flavors = BOOM_BAP_FLAVORS if boom_bap else style["kick_flavors"]
         weights = [f[0] for f in flavors]
         # The streak-breaker keeps a crew DJ off a run of long 808s. A
         # subgenre is exempt (owner rule 2026-07-19): the long decaying

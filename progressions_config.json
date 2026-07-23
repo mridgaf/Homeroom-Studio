@@ -77,5 +77,10 @@
   "label": "G-funk minor (Still D.R.E.)",
   "roman": "i-iv-v (Fm-Bbm-Cm)",
   "chords": [[0, "minor"], [5, "minor"], [7, "minor"]]
+ },
+ "vamp_static_riff": {
+  "label": "Static riff (no chord movement)",
+  "roman": "i (Am, held) - the riff/808 carries the melody",
+  "chords": [[0, "minor"]]
  }
 }

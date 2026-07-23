@@ -1,6 +1,7 @@
 """The 2026-07-16 spec features: config file, recipes + swap, MIDI +
 stems, sample history, and the 50/50 collab blend."""
 import json
+import random
 import sys
 import wave
 from pathlib import Path
@@ -212,6 +213,35 @@ def test_generate_ships_wav_midi_stems_and_recipe(machine_env):
     # history recorded the picks
     assert rec["kit_paths"]["kick"] in beat_recipes.history_avoid(
         ["Otto Grit"])
+
+
+def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
+    # owner rule 2026-07-18 ("add the root"). It was switched off on
+    # 2026-07-23 as collateral of that morning's engine-wide 808 ban, and
+    # back on the same day when the ban was reversed — and NOTHING caught
+    # either move, because the feature had no test. This is that guard.
+    # random.seed fixes `variant`, which is the only input to the 3-in-4
+    # roll, so this is deterministic rather than "render until it lands".
+    root, shots = machine_env
+    assert beat_machine.ADD_THE_ROOT_808, "the rule is off"
+    random.seed(1)
+    path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
+                                         traditional=True)
+    no = int(path.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    assert rec.get("root_note"), report        # a real musical root
+    assert "sub" in rec["preset"]["lanes"]
+    stem_dir = next(d for d in path.parent.glob("* Stems")
+                    if d.name.startswith(str(no)))
+    assert any(f.stem.startswith("sub - synth 808 sub, root")
+               for f in stem_dir.glob("*.wav")), list(stem_dir.iterdir())
+    # ...and a chords beat skips it on purpose: harmony's own bass owns
+    # the low end there, and a static sub under it just fights.
+    path2, _ = beat_machine.generate(["Mustang"], root=root, shots=shots,
+                                     traditional=True, notes="chords")
+    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
+    assert rec2.get("root_note") is None
+    assert "sub" not in rec2["preset"]["lanes"]
 
 
 def test_no_repetition_across_generations(machine_env):

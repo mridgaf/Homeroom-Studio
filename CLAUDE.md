@@ -16,6 +16,15 @@ and get walked through recipes step-by-step. All speech is processed locally
   Moved here 2026-07-19 from `~/Music/Reason 12/reason-voice 3` so everything
   is in one folder on the Desktop. Beats + samples stay on `/Volumes/TBOTC 3`.
 - Shell is bash (not zsh). macOS `sed` needs `-i ''`.
+- **Everything lives on the cloud/external drive**, which isn't always mounted
+  and is big + slow — verify presence with Finder size + item count, never a
+  recursive search (see the `drive-verify` skill). Fail loud if a path is
+  missing rather than writing to the wrong place.
+- **Answer in plain, short language.** He is not a developer; explain the
+  "why" only when it matters, and give single paste-able commands or
+  double-clickable files, never multi-step developer instructions.
+- **Never delete his files** — cleanup scripts move into a dated folder with a
+  manifest and ask for a typed `yes` (see the `safe-file-ops` skill).
 - His sound library is almost entirely **inside ReFills + Factory Sound Bank =
   sealed archives, cannot be indexed**. He owns ~2 loose patch files. The patch
   style-search feature is therefore nearly useless to him today; it only gains

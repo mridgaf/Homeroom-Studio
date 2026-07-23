@@ -221,47 +221,39 @@ def test_style_is_a_lean_not_a_cage():
                for b in _composed("Rage Engine", v)[0]["lanes"]["hat"][3])
 
 
-def test_clean_punch_drops_808_prefers_punch_tags_never_empties():
-    # owner rule 2026-07-23: kicks are clean/punch only, engine-wide —
-    # supersedes the 2026-07-17 "not solely 808s" balance below, which
-    # kept some 808 in the mix; this drops it outright.
-    flavors = [[0.4, "808", ["dust", "boom"], [0.35, 0.9]],
-              [0.3, None, ["punch", "knock"], [0.2, 0.5]],
-              [0.3, None, ["warm", "round"], [0.4, 0.8]]]  # no clean/punch tag
-    out = pattern_gen._clean_punch(flavors)
-    assert all(f[1] != "808" for f in out)           # 808 always gone
-    assert out == [[0.3, None, ["punch", "knock"], [0.2, 0.5]]]  # punch-tagged wins
-    # a style with no punch-tagged survivor still renders (falls back to
-    # "just not 808") instead of leaving compose() an empty pool
-    only_dark = [[0.5, "808", ["deep"], [0.5, 1.0]],
-                [0.5, None, ["warm", "round"], [0.4, 0.8]]]
-    assert pattern_gen._clean_punch(only_dark) == [only_dark[1]]
-    # an all-808 style (none exist today, but the filter must not crash
-    # one into an empty pool if a future config ever is) falls all the
-    # way back to the original list
-    assert pattern_gen._clean_punch([flavors[0]]) == [flavors[0]]
-
-
-def test_composed_kicks_are_never_808():
-    # real DJs: every composed kick, across many variants and both the
-    # main and odd-meter (_compose_odd) paths, is clean/punch — never 808
-    for name in ("Otto Grit", "Night Metro", "Chrome Dial", "Rage Engine"):
-        for v in range(12):
+def test_kick_flavor_follows_the_style_not_an_engine_wide_filter():
+    # owner rule 2026-07-23 (second call): "allow DJs to stay true to
+    # style, with the kick" — reverses the engine-wide clean/punch filter
+    # from earlier the same day. Each entry's declared kick_flavors are
+    # the style statement, so an identity that declares an 808 must be
+    # able to reach it, on BOTH the main and odd-meter (_compose_odd)
+    # paths — the odd path rolls its flavor independently, which is where
+    # a half-applied rule hid last time.
+    got = {n: set() for n in ("Mustang", "Night Metro", "Otto Grit")}
+    for name in got:
+        for v in range(30):
             p, _ = _composed(name, v)
-            assert p["kit"]["kick"][1] != "808", (name, v)
-        p_odd = copy.deepcopy(CREW[name])
-        pattern_gen.compose(p_odd, name, 1, tsig=(3, 4))
-        assert p_odd["kit"]["kick"][1] != "808", name
+            got[name].add(p["kit"]["kick"][1])
+        for v in range(12):
+            p_odd = copy.deepcopy(CREW[name])
+            pattern_gen.compose(p_odd, name, v, tsig=(3, 4))
+            got[name].add(p_odd["kit"]["kick"][1])
+    for name, flavors in got.items():
+        declared = {f[1] for f in CREW[name]["kick_flavors"]}
+        assert flavors <= declared, (name, flavors)   # nothing invented
+        assert "808" in flavors, name   # and nothing silently filtered out
+    # Mustang is the case that forced this: his own listen line is "a
+    # sparse 808 kick", weighted 0.6 against 0.4 clean
+    assert CREW["Mustang"]["kick_flavors"][0][1] == "808"
 
 
 def test_no_flavor_runs_three_beats_in_a_row():
     # owner report 2026-07-17: the long 808 was landing generation after
     # generation — the streak-breaker forbids any flavor three in a row.
-    # Every real DJ's kick_flavors collapses to a single clean/punch
-    # entry once 808 is dropped (2026-07-23), so the streak-breaker has
-    # nothing left to break FOR REAL CONFIG — cover the mechanism itself
-    # with a synthetic style that still has two clean flavors to pick
-    # between, same as any DJ would if a second one were added later.
+    # Real DJs carry two flavors again now that the engine-wide clean/
+    # punch filter is gone (2026-07-23, second call), but the mechanism is
+    # covered with a synthetic two-clean-flavor style so the assertion
+    # stays deterministic and doesn't move when a roster weight is tuned.
     synthetic = [[0.5, None, ["punch", "knock"], [0.2, 0.5]],
                 [0.5, None, ["clean", "tight"], [0.15, 0.4]]]
     name = "Otto Grit"
@@ -276,11 +268,6 @@ def test_no_flavor_runs_three_beats_in_a_row():
             and tuple(f[3]) == tuple(p["kit"]["kick"][3])))
     assert all(not (a == b == c)
                for a, b, c in zip(fis, fis[1:], fis[2:]))
-    # today's real DJs: the single surviving flavor is what's chosen,
-    # every time — the collapse is deterministic, not silently missing
-    for name in ("Night Metro", "Rage Engine", "Otto Grit"):
-        musts = {_composed(name, v)[0]["kit"]["kick"][1] for v in range(12)}
-        assert musts == {None}, name
 
 
 def test_guest_lanes_appear_from_the_dj_palette():

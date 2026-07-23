@@ -4,3 +4,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .claude/settings.local.json
+
+# dated safe-file-ops holding folders (moved user files, never repo content)
+Cleared */

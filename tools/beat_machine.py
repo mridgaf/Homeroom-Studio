@@ -443,19 +443,28 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # styles lean HALF as far, and only ever by a hair.
     if not tempo_locked:
         orig_bpm = preset["bpm"]
-        lean = rng.choice((-0.02, 0.0, 0.0, 0.02)) \
-            if preset.get("genre") \
-            else rng.choice((-0.05, -0.03, 0.0, 0.03, 0.05))
-        if lean:
-            preset["bpm"] = max(TEMPO_LO,
-                                min(TEMPO_HI,
-                                    int(round(preset["bpm"] * (1 + lean)))))
         # a signature's tempo range is the identity's pocket — keep the lean
         # inside it (owner ear 2026-07-22: Dre's keepers all sat 90-93, the
         # 98bpm renders missed). Same protection genres get, earned by data.
         sig_tempo = (preset.get("signature") or {}).get("tempo")
-        if sig_tempo:
-            preset["bpm"] = max(sig_tempo[0], min(sig_tempo[1], preset["bpm"]))
+        if sig_tempo and isinstance(sig_tempo[0], (list, tuple)):
+            # multiple disconnected pockets (owner call 2026-07-23,
+            # Timberline: normal 90-100 AND double-time 135-145) — pick a
+            # pocket, then a tempo inside it. The %-lean below can't reach
+            # a second pocket from the base bpm, so it doesn't apply here.
+            lo, hi = rng.choice(sig_tempo)
+            preset["bpm"] = rng.randint(lo, hi)
+        else:
+            lean = rng.choice((-0.02, 0.0, 0.0, 0.02)) \
+                if preset.get("genre") \
+                else rng.choice((-0.05, -0.03, 0.0, 0.03, 0.05))
+            if lean:
+                preset["bpm"] = max(TEMPO_LO,
+                                    min(TEMPO_HI,
+                                        int(round(preset["bpm"] * (1 + lean)))))
+            if sig_tempo:
+                preset["bpm"] = max(sig_tempo[0],
+                                    min(sig_tempo[1], preset["bpm"]))
         if preset["bpm"] != orig_bpm:
             notes.append(f"tempo leans to {preset['bpm']}")
     return notes
@@ -847,11 +856,13 @@ def dj_cut(L, R, parts, bar, nbars=BARS):
     return L * env, R * env
 
 
-# owner rule 2026-07-23: retired "add the root" engine-wide, alongside the
-# clean-punch kick constraint (pattern_gen._clean_punch) — "ignore previous
-# push for 808". Left the mechanism below intact rather than deleted, so
-# restoring it later (per-identity or engine-wide) is a one-line flip.
-ADD_THE_ROOT_808 = False
+# "add the root" (owner rule 2026-07-18): ON. Retired 2026-07-23 as
+# collateral of that morning's engine-wide 808 ban ("ignore previous push
+# for 808"), then restored the same day once the ban itself was reversed
+# ("allow DJs to stay true to style, with the kick") and the owner asked
+# for the sub back explicitly. Round trip left no scar: the mechanism was
+# flag-gated rather than deleted.
+ADD_THE_ROOT_808 = True
 
 
 def _root_sub(variant, secs=0.6):
@@ -1028,8 +1039,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
             ["gated", "dry", "room", "plate"], [0.35, 0.35, 0.2, 0.1])[0]
 
     # "add the root" (owner rule 2026-07-18): traditional beats get a
-    # tuned 808 sub on a musical root under the kick — about 3 in 5, so
-    # the root is a regular feature but "808 is not in everything". It's
+    # tuned 808 sub on a musical root under the kick — 3 in 4 of them,
+    # and traditional is a quarter of a batch, so it lands on roughly one
+    # beat in five overall: a regular feature, still "not in everything"
+    # the way the rule asks. (The comment here used to say 3 in 5; the
+    # roll has been 0.75 since the feature landed.) It's
     # skipped when the kick already rolled a LONG 808 (that sample is
     # carrying the sub itself; two would just fight). The sub mirrors the
     # final kick line, plays straight, and rides the un-ducked bass path.
