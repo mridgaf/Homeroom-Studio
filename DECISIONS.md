@@ -22,6 +22,63 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Dre tuning (best-of #843/845/849) + engine-wide clean-punch kicks
+- Context: owner picked #843 (held, strings, vamp_i_iv7/m7), #845 (held, mixed
+  strings+synth, gfunk), #849 (arp, mixed, gfunk) as the best representations —
+  overturning the m7-removal and strings-only calls from the prior session. Also
+  asked for: chord_rhythm to roll per beat, Dre tempo pinned 90-96, kick
+  constrained to clean-punch, and explicitly "ignore previous push for 808" —
+  confirmed via AskUserQuestion to mean ENGINE-WIDE, not Dre-only, after I
+  flagged the bigger blast radius.
+- Found mid-task: a partial auto-edit had already landed (chord_rhythm roll +
+  a tempo clamp in vary_preset — both good, kept) but with wrong values versus
+  what the owner then told me directly in chat (tempo 90-93 not 90-96, strings-
+  only not strings-forward, m7 vamp still missing). Chat instructions win over
+  an unreviewed auto-edit; corrected all three to match.
+- Decision/change:
+  (a) Doc Day signature: progressions back to gfunk(3):vamp_i_iv7(2) — the m7
+      wasn't the real #847 problem, #843 proved the same vamp works held; chord_
+      source strings(2):synth(1); chord_rhythm [arp(1),sustain(1)] rolls once
+      per beat via _wpick; tempo [90,96].
+  (b) NEW pattern_gen._clean_punch(flavors): drops every must="808" flavor,
+      narrows to CLEAN_PUNCH_TAGS={punch,knock,clean,tight,hard}, graceful
+      fallback (never empties a pool). Applied at BOTH places a kick flavor is
+      rolled — the main compose() path AND _compose_odd (3/4 and 6/8) reached
+      the same style["kick_flavors"] independently; only patching one would
+      have left odd-meter beats still rolling 808 (found by grepping every
+      caller before declaring it done, not by a later bug report).
+  (c) beat_machine.ADD_THE_ROOT_808 = False: retires the 2026-07-18 "add the
+      root" auto-808-sub-under-traditional-kick rule engine-wide. Mechanism
+      (_root_sub, the sub-lane wiring) left in place, gated on the constant,
+      not deleted — a one-line flip restores it. The recipe-rebuild path (an
+      old beat's saved root_note reproducing its sub) is untouched — this only
+      stops NEW renders from rolling a fresh one.
+- Reasoning: root-cause fix at the one/two spots every kick roll routes
+  through, not per-config edits — smaller diff, and (per ponytail) patching
+  only the path a report names leaves siblings broken, which is exactly what
+  _compose_odd would have been if I'd stopped after the first call site.
+- Verify by: 468 tests green. Rewrote 2 tests that asserted the OLD "808
+  reachable" behavior (test_pattern_gen.py) — a deliberate spec change, not a
+  regression; added test_composed_kicks_are_never_808 (covers both compose()
+  paths) and a signature-tempo-clamp test. Rendered #859-863: tempo all in
+  90-96 (96/90/93/96/90), kick report "clean/short punch+knock" on all 5 (zero
+  808 reachable, confirmed against DEFAULT_STYLE/genres_config: this collapses
+  EVERY style in the roster to exactly one surviving kick flavor — none had a
+  2nd non-808 flavor of their own — so the clean-punch rule also removes kick-
+  flavor VARIETY roster-wide, not just 808 texture; flagged to owner, not
+  hidden). chord_rhythm: 2 arp / 3 held (both reachable). progressions: 4
+  gfunk / 1 vamp_i_iv7 (#862, Cm7 — the m7 IS back and reachable). chord
+  source: strings in all 5, synth-arp in 2 (strings-forward, both reachable).
+  All LUFS -13.0, peaks -5.7 to -6.1 dBFS. Note: 2 of 5 kick SAMPLES happen to
+  have "808" in the filename (sample-pack branding, e.g. "Oracle 808") but
+  crew._load_choked hard-truncates every kick to the flavor's 0.2-0.5s choke
+  regardless of source file — verified by reading the choke code, not just
+  trusting the tag.
+- Status: open (kick-flavor-variety-roster-wide side effect flagged, not yet
+  ruled on; everything else owner-confirmed via direct render inspection)
+- Outcome: (pending owner listen to #859-863; pending owner call on whether
+  DJs should get a 2nd clean/punch kick_flavors entry to restore variety)
+
 ### 2026-07-22 Dre chords: rhythmic arp + m7 removed (audition #845-847 feedback)
 - Context: owner auditioned the first signature batch. Verdict on #847: "weird
   out of key chords at the end, none sound like Dre." Investigated with an FFT/
@@ -47,8 +104,12 @@ entries.
   raw arp = 16 onsets vs 1 for the old drone. #845-847 retired to Trash. Strings-
   arp chords stay crisp through the mix; synth-arp (pluck) chords smear a bit
   under the beat reverb — flagged (a faster _pluck decay is the tweak if washy).
-- Status: open
-- Outcome: (pending owner listen to #848-850)
+- Status: failed (partially) — owner's actual favorites (#843, #845, #849) were
+  a mix of held AND arp, not arp-only, and #845 used the mixed strings+synth
+  voice this entry moved away from. Superseded by the 2026-07-23 entry above,
+  which restores both as a per-beat roll instead of a single fixed choice.
+- Outcome: the m7 removal specifically did NOT hold — #843 (m7, held, strings)
+  was one of the 3 favorites, so #847's problem wasn't the chord quality.
 
 ### 2026-07-22 Wired harmonic identity (signature) into chord synth; Dre audition
 - Context: HARMONY-IDENTITY-PROPOSAL's recommended first step. Every "chords"

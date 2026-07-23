@@ -221,38 +221,66 @@ def test_style_is_a_lean_not_a_cage():
                for b in _composed("Rage Engine", v)[0]["lanes"]["hat"][3])
 
 
-def test_kick_flavors_vary_not_solely_808():
-    musts = {_composed("Otto Grit", v)[0]["kit"]["kick"][1]
-             for v in range(16)}
-    assert None in musts and "808" in musts   # both flavors reachable
-    chokes = {_composed("Chrome Dial", v)[0]["kit"]["kick"][3]
-              for v in range(16)}
-    assert len(chokes) > 1                    # not one sustain forever
-    # trap still reaches for 808s but no longer lives on them
-    nm_musts = [_composed("Night Metro", v)[0]["kit"]["kick"][1]
-                for v in range(20)]
-    assert nm_musts.count("808") >= 3 and None in nm_musts
+def test_clean_punch_drops_808_prefers_punch_tags_never_empties():
+    # owner rule 2026-07-23: kicks are clean/punch only, engine-wide —
+    # supersedes the 2026-07-17 "not solely 808s" balance below, which
+    # kept some 808 in the mix; this drops it outright.
+    flavors = [[0.4, "808", ["dust", "boom"], [0.35, 0.9]],
+              [0.3, None, ["punch", "knock"], [0.2, 0.5]],
+              [0.3, None, ["warm", "round"], [0.4, 0.8]]]  # no clean/punch tag
+    out = pattern_gen._clean_punch(flavors)
+    assert all(f[1] != "808" for f in out)           # 808 always gone
+    assert out == [[0.3, None, ["punch", "knock"], [0.2, 0.5]]]  # punch-tagged wins
+    # a style with no punch-tagged survivor still renders (falls back to
+    # "just not 808") instead of leaving compose() an empty pool
+    only_dark = [[0.5, "808", ["deep"], [0.5, 1.0]],
+                [0.5, None, ["warm", "round"], [0.4, 0.8]]]
+    assert pattern_gen._clean_punch(only_dark) == [only_dark[1]]
+    # an all-808 style (none exist today, but the filter must not crash
+    # one into an empty pool if a future config ever is) falls all the
+    # way back to the original list
+    assert pattern_gen._clean_punch([flavors[0]]) == [flavors[0]]
+
+
+def test_composed_kicks_are_never_808():
+    # real DJs: every composed kick, across many variants and both the
+    # main and odd-meter (_compose_odd) paths, is clean/punch — never 808
+    for name in ("Otto Grit", "Night Metro", "Chrome Dial", "Rage Engine"):
+        for v in range(12):
+            p, _ = _composed(name, v)
+            assert p["kit"]["kick"][1] != "808", (name, v)
+        p_odd = copy.deepcopy(CREW[name])
+        pattern_gen.compose(p_odd, name, 1, tsig=(3, 4))
+        assert p_odd["kit"]["kick"][1] != "808", name
 
 
 def test_no_flavor_runs_three_beats_in_a_row():
     # owner report 2026-07-17: the long 808 was landing generation after
-    # generation — the streak-breaker forbids any flavor three in a row
+    # generation — the streak-breaker forbids any flavor three in a row.
+    # Every real DJ's kick_flavors collapses to a single clean/punch
+    # entry once 808 is dropped (2026-07-23), so the streak-breaker has
+    # nothing left to break FOR REAL CONFIG — cover the mechanism itself
+    # with a synthetic style that still has two clean flavors to pick
+    # between, same as any DJ would if a second one were added later.
+    synthetic = [[0.5, None, ["punch", "knock"], [0.2, 0.5]],
+                [0.5, None, ["clean", "tight"], [0.15, 0.4]]]
+    name = "Otto Grit"
+    fis = []
+    for v in range(30):
+        p = copy.deepcopy(CREW[name])
+        p["kick_flavors"] = synthetic
+        pattern_gen.compose(p, name, v)
+        fis.append(next(
+            i for i, f in enumerate(synthetic)
+            if f[1] == p["kit"]["kick"][1]
+            and tuple(f[3]) == tuple(p["kit"]["kick"][3])))
+    assert all(not (a == b == c)
+               for a, b, c in zip(fis, fis[1:], fis[2:]))
+    # today's real DJs: the single surviving flavor is what's chosen,
+    # every time — the collapse is deterministic, not silently missing
     for name in ("Night Metro", "Rage Engine", "Otto Grit"):
-        fis = []
-        for v in range(30):
-            p, _ = _composed(name, v)
-            flavors = pattern_gen.DEFAULT_STYLE[name]["kick_flavors"]
-            fis.append(next(
-                i for i, f in enumerate(flavors)
-                if f[1] == p["kit"]["kick"][1]
-                and tuple(f[3]) == tuple(p["kit"]["kick"][3])))
-        assert all(not (a == b == c)
-                   for a, b, c in zip(fis, fis[1:], fis[2:])), name
-    # the long-sustain flavor stays a visitor, not a resident
-    longs = sum(1 for v in range(30)
-                if _composed("Night Metro", v + 100)[0]
-                ["kit"]["kick"][3][1] >= 2.0)
-    assert longs <= 12
+        musts = {_composed(name, v)[0]["kit"]["kick"][1] for v in range(12)}
+        assert musts == {None}, name
 
 
 def test_guest_lanes_appear_from_the_dj_palette():

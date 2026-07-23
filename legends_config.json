@@ -336,12 +336,13 @@
   "legend_swing": 50,
   "listen": "surgical West Coast: heavy punchy kick, a crisp hard snare that NEVER leaves 2 and 4, straight-eighth hats, tambourine and cowbell color, sparse disciplined arrangement with an occasional deep sub",
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22). Slow minor i-iv-v (Still D.R.E.) as a RHYTHMIC ARPEGGIO (chord_rhythm=arp), not a held block — owner ear 2026-07-22: sustained string drones didn't read as Dre. TRIADS ONLY (the m7 vamp sounded out-of-key in #847). bpm 93 sits in 85-100 so no tempo block.",
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, tuned 2026-07-23 after owner picked #843/#845/#849 as best). Minor i-iv-v (Still D.R.E.) plus the ii7-V7 vamp back in (the m7 in #847 wasn't the real problem — #843 proved the same vamp works held, on strings). chord_rhythm rolls held-vs-arp per beat (#843/#845 held, #849 arp — the owner's keepers were a mix). chord_source strings-forward but synth allowed back in, ~2:1, matching #845/#849. tempo pinned 90-96.",
    "key": {"roots": ["F", "G", "C"], "mode": "minor"},
-   "progressions": ["gfunk_minor_i_iv_v"],
+   "progressions": [["gfunk_minor_i_iv_v", 3], ["vamp_i_iv7", 2]],
    "chord_source": [["strings", 2], ["synth", 1]],
    "articulation": "sustain",
-   "chord_rhythm": "arp"
+   "chord_rhythm": [["arp", 1], ["sustain", 1]],
+   "tempo": [90, 96]
   },
   "kit": {
    "kick": [
@@ -598,7 +599,7 @@
   },
   "kick_flavors": [
    [
-    0.25,
+    0.1,
     "808",
     [
      "deep",

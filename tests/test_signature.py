@@ -4,6 +4,7 @@ The weighted picker and the per-chord voice-order fallback are the only
 new branchy logic behind the identity-aware harmonizer; the render path
 that consumes them is exercised by test_beat_machine's chords test.
 """
+import copy
 import random
 import sys
 from pathlib import Path
@@ -15,6 +16,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent / "tools"))
 import beat_machine                                        # noqa: E402
 import chord_synth                                         # noqa: E402
 import string_sampler                                      # noqa: E402
+from crew import CREW                                       # noqa: E402
 
 
 def test_wpick_flat_weighted_and_empty():
@@ -69,3 +71,19 @@ def test_arp_riff_length_pattern_and_pluck_fallback():
         and calls[4:] == [48, 51, 55, 60]
     # empty chord -> silent buffer, no crash
     assert np.max(np.abs(chord_synth.arp_riff([], dur, bpm))) == 0.0
+
+
+def test_signature_tempo_range_clamps_the_lean():
+    # owner request 2026-07-23: Dre's keepers all sat 90-93; the 98bpm
+    # rolls missed. A signature's tempo range keeps vary_preset's normal
+    # +/-5% wander inside the identity's pocket instead of drifting out.
+    lo, hi = CREW["Doc Day"]["signature"]["tempo"]
+    for v in range(60):
+        p = copy.deepcopy(CREW["Doc Day"])
+        beat_machine.vary_preset(p, v, p["num"], tempo_locked=False)
+        assert lo <= p["bpm"] <= hi, (v, p["bpm"])
+    # an explicit typed tempo still wins — the lean/clamp never runs
+    p = copy.deepcopy(CREW["Doc Day"])
+    p["bpm"] = 120
+    beat_machine.vary_preset(p, 1, p["num"], tempo_locked=True)
+    assert p["bpm"] == 120

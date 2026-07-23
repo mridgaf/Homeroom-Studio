@@ -442,6 +442,7 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # club, a screw beat is 66, reggaeton sits in a narrow band. So the
     # styles lean HALF as far, and only ever by a hair.
     if not tempo_locked:
+        orig_bpm = preset["bpm"]
         lean = rng.choice((-0.02, 0.0, 0.0, 0.02)) \
             if preset.get("genre") \
             else rng.choice((-0.05, -0.03, 0.0, 0.03, 0.05))
@@ -449,6 +450,13 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             preset["bpm"] = max(TEMPO_LO,
                                 min(TEMPO_HI,
                                     int(round(preset["bpm"] * (1 + lean)))))
+        # a signature's tempo range is the identity's pocket — keep the lean
+        # inside it (owner ear 2026-07-22: Dre's keepers all sat 90-93, the
+        # 98bpm renders missed). Same protection genres get, earned by data.
+        sig_tempo = (preset.get("signature") or {}).get("tempo")
+        if sig_tempo:
+            preset["bpm"] = max(sig_tempo[0], min(sig_tempo[1], preset["bpm"]))
+        if preset["bpm"] != orig_bpm:
             notes.append(f"tempo leans to {preset['bpm']}")
     return notes
 
@@ -839,8 +847,18 @@ def dj_cut(L, R, parts, bar, nbars=BARS):
     return L * env, R * env
 
 
+# owner rule 2026-07-23: retired "add the root" engine-wide, alongside the
+# clean-punch kick constraint (pattern_gen._clean_punch) — "ignore previous
+# push for 808". Left the mechanism below intact rather than deleted, so
+# restoring it later (per-identity or engine-wide) is a one-line flip.
+ADD_THE_ROOT_808 = False
+
+
 def _root_sub(variant, secs=0.6):
-    """Owner rule 2026-07-18 ("add the root"): a tuned 808 sub for the
+    """Owner rule 2026-07-18 ("add the root"), retired 2026-07-23 — see
+    ADD_THE_ROOT_808 above. Kept for recipe-rebuild fidelity: an
+    already-rendered beat's saved root_note still needs this to
+    reproduce its sub on a re-render. A tuned 808 sub for the
     traditional beats — a real synthesized sub on a chosen musical root,
     so the kick has a low note under it. Deterministic per beat; returns
     (note name, mono audio)."""
@@ -1023,8 +1041,8 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # the harmony bass (below) already gives a moving, in-key root under
     # the kick — the static single-note 808 would just muddy the low
     # end fighting it, so "chords" skips this and takes the bass job.
-    if traditional and "kick" in preset["lanes"] and not _long808 \
-            and not dirs["chords"] \
+    if ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"] \
+            and not _long808 and not dirs["chords"] \
             and random.Random(variant * 577 + 13).random() < 0.75:
         root_note, sub_audio = _root_sub(variant)
         kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
@@ -1067,7 +1085,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         nb = bars_of(preset)
         per_chord = max(1, nb // len(chords))
         pref = sig.get("chord_source")
-        rhythm = sig.get("chord_rhythm", "sustain")     # "arp" = broken-chord riff
+        # "arp" = broken-chord riff, "sustain" = held block. A weighted list
+        # rolls per beat (Dre's keepers were a mix of both — owner 2026-07-22).
+        rhythm_spec = sig.get("chord_rhythm", "sustain")
+        rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
+                  if isinstance(rhythm_spec, list) else rhythm_spec)
         # only pay for the melodic-loop library scan if a loop voice is on
         # the table (the default, or a signature that lists "loop")
         want_loop = not pref or any(s[0] == "loop" for s in pref)
