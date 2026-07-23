@@ -22,6 +22,37 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Sound-library expansion, phase 1: Downloads packs consolidated onto TBOTC 3
+- Context: owner wants his whole sample library active (he listed 37 folders),
+  his own songs excluded as always. Decisions: option B (consolidate onto the
+  external drive), commercial/ripped kits included ON PURPOSE (his call,
+  confirmed twice), scope = drums + melodic loops now, bass/vox lanes later
+  behind an audition.
+- Decision/change: no new library folder and no config change — the existing
+  scanned root "DAW Projects/Sample Packs - Downloads Backup" IS the
+  consolidation point (it's literally the Downloads-packs backup). Verified 13
+  of his 37 folders were already active; of the 7 Downloads folders, rsync
+  dry-runs proved "reddit drum kits 2023" and "FREE giveaway collection 2022"
+  are byte-complete on TBOTC already, and "808 3" duplicates "reddit.../808".
+  Only true new material: Mike Zara's Stash (532 MB/1251 files) and Testing
+  Drum Kit (13 MB/18 files) — COPIED (originals untouched) into the root,
+  manifest appended at the destination.
+- Reasoning: copying into the root the scanner already reads means zero code,
+  zero config, no duplicate pool entries, and one obvious place to drop packs
+  forever. Skipping the dupes matters because sample history keys on path —
+  two paths to one sound would defeat anti-repetition.
+- Verify by: pool counts before/after the copy: kick 743→1053, snare 701→991,
+  clap 160→345, hat 609→789, perc 1125→1343, rim 88→174 (+1446 entries total,
+  and entries traced to the two new packs = 1432+14, exactly the gain — the
+  growth is all them, no accidental scope creep). Melodic loops 2013→2013:
+  Zara's stash is drums-only, honest zero.
+- Status: confirmed
+- Outcome: 4 of Testing Drum Kit's 18 files didn't index — one is an .mp3
+  (scanner reads wav/aif only; ffmpeg install is the known fix, deferred),
+  rest lack drum tokens. Phase 2 (bass/808 + vox lanes) NOT started — owner
+  wants audition first. His Downloads copies can now be deleted BY HIM if he
+  wants; never by us.
+
 ### 2026-07-23 "Add the root" turned back ON — and finally given a test
 - Context: the tuned-808 root sub (owner rule 2026-07-18) was switched off
   earlier the same day as collateral of the engine-wide 808 ban. That ban was
