@@ -274,7 +274,9 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     # loop lane could ever fire, it would fire here
     p, report = beat_machine.generate(["Cutz"], tempo=96, root=root,
                                       shots=shots)
-    lanes = beat_recipes.load_recipe(root, int(p.name.split()[0]))["preset"]["lanes"]
+    no = int(p.name.split()[0])
+    rec = beat_recipes.load_recipe(root, no)
+    lanes = rec["preset"]["lanes"]
     assert {"bass", "vox"} <= set(lanes), (report, sorted(lanes))
     assert "loop" not in lanes, ("drum loops are excluded", sorted(lanes))
     stem_dir = next(d for d in p.parent.glob("* Stems")
@@ -282,6 +284,20 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     stems = {f.stem for f in stem_dir.glob("*.wav")}
     assert any(s.startswith("bass - ") for s in stems), stems
     assert not any(s.startswith("loop - ") for s in stems), stems
+    # bug found 2026-07-23 ("a vocal sound... doesn't show up in the stems
+    # but is present in the song"): bass/vox rendered real audio but were
+    # never registered into the recipe (kit_spec was snapshot before these
+    # lanes existed), so the app's stems/swap list never learned about them.
+    # Both must be visible AND swappable — not just present in the audio.
+    assert {"bass", "vox"} <= set(rec["kit_spec"]), sorted(rec["kit_spec"])
+    assert {"bass", "vox"} <= set(rec["kit_paths"]), sorted(rec["kit_paths"])
+    ui_lanes = {s["lane"]: s for s in beat_machine._beat_stems(no, root)}
+    assert "bass" in ui_lanes and not ui_lanes["bass"]["locked"], ui_lanes
+    assert "vox" in ui_lanes and not ui_lanes["vox"]["locked"], ui_lanes
+    # the anti-repeat history also needs these lanes attributed, or a bass/
+    # vox sample could repeat across beats without tripping the avoid-set
+    assert rec["kit_paths"]["bass"] in beat_recipes.history_avoid(["Cutz"])
+    assert rec["kit_paths"]["vox"] in beat_recipes.history_avoid(["Cutz"])
     # ...and the notes box can switch the two real lanes off
     p2, _ = beat_machine.generate(["Cutz"], tempo=96, root=root, shots=shots,
                                   notes="no vox no bass 808")

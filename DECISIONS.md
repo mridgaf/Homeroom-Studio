@@ -22,6 +22,54 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Bug fix: bass/vox lanes played but were invisible to the recipe (his "weird vocal" report)
+- Context: owner reported #1000 and #1002 (Timberline) had "a weird vocal
+  sound... doesn't show up in the stems but is present within the song" and
+  worried it might be one of his own songs' samples. He'd already moved both
+  to Trash himself.
+- Investigation: read both beats' actual Stems folders on disk FIRST, before
+  touching code — both had a real `vox - ....wav` file ("Smoke vocal",
+  "Scary Gary Vocal"), both traceable to this session's new vox pool, neither
+  a band-token/his-song match. So the audio was correctly sourced; the report
+  was about the app's stems/swap list not showing it, not about a leaked
+  sample. Traced to `generate()`: `spec_used` (the recipe's `kit_spec`, which
+  everything downstream reads — the app's stems list `_beat_stems`,
+  `kit_paths`, and the anti-repeat history) is snapshot from `preset["kit"]`
+  right after `build_kit()`, BEFORE the root-sub, chords, and this session's
+  `_add_sample_lanes` code ever run. Bass and vox rendered real audio and
+  wrote a real stem file (those come from `preset["lanes"]`/`kit`, unaffected)
+  — but never touched `preset["kit"]`, so they were absent from the snapshot
+  and invisible to everything that reads the recipe.
+- Decision/change: (1) `_add_sample_lanes` now also writes
+  `preset["kit"]["bass"]` / `["vox"]` = (role, None, [], secs) — the same
+  registration every other real sample lane already does. (2) One refresh
+  line right after `_add_sample_lanes` runs: `spec_used.update(...)` pulls in
+  any lane added to `preset["kit"]` since the early snapshot, generically —
+  not a bass/vox-specific patch. `lane_parent` refreshed the same way so
+  history attribution is correct too. Deliberately did NOT register the
+  synthesized `sub`/`chordN` lanes the same way — they have no `shots[role]`
+  to swap from, so making them "swappable" would silently swap to silence;
+  that's a separate, pre-existing, lower-stakes gap (they've never been
+  visible in the stems list either, since 2026-07-18/22) and out of scope for
+  what was actually reported.
+- Reasoning: one shared refresh point fixes it for bass/vox now and for any
+  future post-hoc lane without a repeat of this bug — matches how spec_used
+  already works for guest lanes (registered during compose(), before the
+  snapshot, so they were never affected).
+- Verify by: 469 tests green. Extended
+  test_phase2_bass_and_vox_lanes_but_never_a_drum_loop: asserts bass/vox are
+  in kit_spec AND kit_paths, that `_beat_stems` (the exact function backing
+  the app's list) shows both unlocked, and that both picks land in the
+  anti-repeat history. Live render (Timberline, forced-on rolls): kit_spec
+  went from `[clap,kick,perc,snap]` to `[bass,clap,kick,perc,snap,vox]` —
+  confirmed via the same `_beat_stems` call the running app makes.
+- Status: confirmed
+- Outcome: #1000/#1002 stay in Trash (owner already moved them; not
+  restoring — the fix is forward-looking). Any OTHER beat rendered between
+  phase 2 landing and this fix carries the same invisible-lane gap in its
+  saved recipe (audio is fine, only the swap/stems list was blind) — not
+  retroactively patched, only flagged, since it wasn't asked for.
+
 ### 2026-07-23 Drum-loop lane REMOVED after one audition batch
 - Context: owner heard the first loop-lane batch: "The drum loops cause
   problems. Exclude drum loops — there are enough drum sounds." The lane was

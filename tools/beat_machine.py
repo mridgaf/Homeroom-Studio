@@ -913,19 +913,26 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
     if (shots.get("bass") and "bass" not in muted and not dirs["chords"]
             and "sub" not in preset["lanes"] and "kick" in preset["lanes"]
             and rng.random() < SAMPLED_BASS_P):
-        path, audio = _pick_path(shots, "bass", [], 0.8, variant * 71 + 5)
+        secs = 0.8
+        path, audio = _pick_path(shots, "bass", [], secs, variant * 71 + 5)
         if audio is not None and np.any(audio):
             _pan, _g, (_o, _j, ksw, ks), kbars = preset["lanes"]["kick"]
             preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9),
                                        [b for b in kbars])
             kit["bass"] = audio
             sources["bass"] = "808 sample: %s" % Path(path).name
+            # a real sample pick, same as any drum lane — must register in
+            # preset["kit"] or it's invisible to the recipe (kit_spec), and
+            # with it the app's stems/swap list and anti-repeat history.
+            # That gap is exactly what surfaced the bug this fixes.
+            preset["kit"]["bass"] = ("bass", None, [], secs)
             vnotes.append("bass 808: %s" % Path(path).stem)
 
     # VOX one-shot — a sparse chant/adlib on a phrase accent (untuned).
     if (shots.get("vox") and "vox" not in muted
             and rng.random() < VOX_LANE_P):
-        path, audio = _pick_path(shots, "vox", [], 0.9, variant * 53 + 9)
+        secs = 0.9
+        path, audio = _pick_path(shots, "vox", [], secs, variant * 53 + 9)
         if audio is not None and np.any(audio):
             bars = ["-" * 16 for _ in range(nbars)]
             bars[0] = "X" + "-" * 15                    # downbeat of bar 1
@@ -936,6 +943,7 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
                                       bars)
             kit["vox"] = audio
             sources["vox"] = "vox: %s" % Path(path).name
+            preset["kit"]["vox"] = ("vox", None, [], secs)  # see bass note above
             vnotes.append("vox: %s" % Path(path).stem)
 
 
@@ -1245,6 +1253,21 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # here, after the chord lanes so bass can defer to the harmony bass on a
     # 'chords' beat.
     _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes)
+
+    # bug found 2026-07-23 (owner: "a vocal sound... doesn't show up in the
+    # stems but is present in the song"): spec_used/lane_parent were snapshot
+    # right after build_kit, BEFORE the root sub, chords, and this phase-2
+    # code ever run — so a real sample lane added after that point (bass,
+    # vox) played correctly in the render but was invisible to the recipe
+    # (kit_spec), and everything downstream that reads it: the app's
+    # stems/swap list (_beat_stems), kit_paths, and the anti-repeat history.
+    # The audio was real; the bookkeeping just never caught up. Refresh both
+    # here, now that every lane that will ever touch preset["kit"] has run.
+    spec_used.update({ln: (r, m, w, _resolve_secs(s, preset["num"], variant))
+                      for ln, (r, m, w, s) in preset["kit"].items()
+                      if ln not in spec_used and ln != "stamp"})
+    lane_parent.update({ln: names[0] for ln in spec_used
+                        if ln not in lane_parent})
 
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
     nbars = bars_of(preset)

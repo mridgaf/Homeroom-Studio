@@ -66,6 +66,28 @@ Format:
 - found 17 already-rendered beats carrying a loop lane — did NOT touch them
   (his files, may be keepers); listed them and offered a reversible move.
 
+- owner: beats #1000/#1002 have "a weird vocal sound... doesn't show up in
+  the stems" and worried it's from his own songs → checked the ACTUAL Stems
+  folders on disk before touching any code. Real vox stem files existed
+  ("Smoke vocal", "Scary Gary Vocal") — not his songs, just invisible to the
+  app. Redirected from "leaked sample" panic to the real bug.
+- root cause: spec_used (the recipe kit_spec everything reads: stems list,
+  swap, kit_paths, history) snapshots preset["kit"] right after build_kit —
+  BEFORE sub/chords/bass/vox ever run. Bass/vox rendered real audio (that
+  path is preset["lanes"]/kit, untouched) but never wrote into preset["kit"],
+  so the snapshot missed them entirely. Audio correct, bookkeeping stale.
+- fix: bass/vox now register into preset["kit"] like any real sample lane;
+  ONE generic refresh line after _add_sample_lanes re-derives spec_used +
+  lane_parent from whatever's in preset["kit"] by then — not a bass/vox
+  special case, so any future post-hoc lane gets this for free.
+- deliberately did NOT extend the fix to sub/chordN (synthesized, no
+  shots[role] to swap from — registering them would let a click "swap" into
+  silence). Named that as a separate pre-existing gap, not silently patched.
+- verified against the exact function the running app calls (_beat_stems),
+  not just the data shape — confirmed bass/vox show up unlocked/swappable.
+  469 tests green. Did not restore #1000/#1002 — owner already trashed them,
+  fix is forward-looking only.
+
 ## Previous session (Mustang)
 
 - goal: next legend = Mustang → checked HARMONY-IDENTITY-PROPOSAL first: he
