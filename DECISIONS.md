@@ -22,6 +22,73 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-22 Dre chords: rhythmic arp + m7 removed (audition #845-847 feedback)
+- Context: owner auditioned the first signature batch. Verdict on #847: "weird
+  out of key chords at the end, none sound like Dre." Investigated with an FFT/
+  nearest check: the pitches were CORRECT (every nearest pick in-key; rendered
+  partials matched the chords) — NOT a tuning bug. Two real problems: (1) #847
+  used vamp_i_iv7, whose m7 reads as "out of key" for a triad producer; (2)
+  every beat played one HELD block chord per section — a drone — which never
+  reads as Dre's rhythmic Still-D.R.E. figure even in the right key.
+- Decision/change:
+  (1) Dre signature progressions -> ["gfunk_minor_i_iv_v"] only (triads, no m7).
+  (2) New chord_rhythm="arp" trait + engine: chord_synth.arp_riff sequences the
+      chord tones as an ascending eighth-note arpeggio filling the section
+      (loop-safe tail-wrap); chord_synth._pluck is the e-piano-ish step voice;
+      string_sampler.note_slice is the strings step voice (cached, enveloped).
+      beat_machine's strings/synth branches arp when the signature asks; the
+      held chord stays the default for every other identity. Owner picked
+      "rhythmic riff" over cleaner-pad / different-instrument when asked.
+- Reasoning: kept it one lane / one buffer per chord (rhythm baked into the
+  buffer) so the lane/bass/MIDI wiring and clean stems are untouched — the arp
+  only changes what fills the buffer. Opt-in via the signature.
+- Verify by: 466 tests green (+arp test). Re-rendered #848-850, all
+  gfunk_minor_i_iv_v (Still D.R.E.) in C/F/G minor, LUFS -13.0, peak -5.9 dBFS;
+  raw arp = 16 onsets vs 1 for the old drone. #845-847 retired to Trash. Strings-
+  arp chords stay crisp through the mix; synth-arp (pluck) chords smear a bit
+  under the beat reverb — flagged (a faster _pluck decay is the tweak if washy).
+- Status: open
+- Outcome: (pending owner listen to #848-850)
+
+### 2026-07-22 Wired harmonic identity (signature) into chord synth; Dre audition
+- Context: HARMONY-IDENTITY-PROPOSAL's recommended first step. Every "chords"
+  beat was identity-blind (random root, always minor, mood-or-random
+  progression, loop-else-pad voice, strings never used). Give Dr. Dre
+  (Doc Day) a harmonic fingerprint and audition it before rolling to the rest.
+- Decision/change:
+  (a) progressions_config.json: added gfunk_minor_i_iv_v (i-iv-v all-minor,
+      Still D.R.E. = Fm-Bbm-Cm). Only the slug Dre needs; the proposal's other
+      two (vamp_i_IV9, vamp_static_riff) ship with G-funk/Miami later — adding
+      them now would be config nothing reads.
+  (b) legends_config.json Doc Day: additive `signature` block (roots F/G/C,
+      mode minor; progressions gfunk 3 / vamp_i_iv7 2; chord_source strings 2 /
+      synth 1; articulation sustain). No tempo block — bpm 93 already sits in
+      the proposed 85-100 range, so a range would be dead config.
+  (c) beat_machine.py chord block reads preset["signature"]: it picks
+      root/mode/progression (a typed mood word still overrides), and a weighted
+      chord_source rolls the voice per chord (_wpick/_source_order helpers) with
+      the synth pad always the never-fails floor. No signature => byte-identical
+      old behavior. Skips the melodic-loop scan unless an identity lists "loop".
+  (d) string_sampler.by_articulation maps a signature's abstract articulation
+      word to the vendor's tokens (sustain = sus/sustain/sustainff|mf|mp/susrel).
+      Legato excluded on purpose: leg samples ~2s tile 4-5x (audible seams)
+      across Dre's ~10s chords; true sustains run 7-9s (<=1 tile).
+- Reasoning: the proposal's "almost no new engine" — one chooser over data that
+  already exists. Dre first because his signature exercises the whole chain
+  (new slug + strings + articulation). Wired strings-as-a-source (built but
+  never connected) rather than the synth-lead voices the proposal defers.
+- Verify by: 465 tests green (+ tests/test_signature.py for the pure helpers).
+  Rendered 3 into the live library: #845 gfunk Fm (Still D.R.E., strings on
+  iv/v), #846 gfunk Gm (all strings), #847 vamp Cm (all strings). All LUFS
+  -13.0, peak -5.8 dBFS, no clip, checks passed. A first buggy batch (#842-844,
+  pre-leg-fix, one came out all-pad) moved to Trash/Doc Day, not deleted.
+- Status: confirmed (machinery held; voice/progression refined by ear — see the
+  arp entry above)
+- Outcome: owner auditioned #845-847. The signature plumbing worked, but two
+  choices were wrong by ear: vamp_i_iv7's m7 ("out of key") and the held-drone
+  voice ("none sound like Dre"). Both fixed in the arp entry above. Roll the
+  pattern to the other 7 only after the Dre sound is approved.
+
 ### 2026-07-22 Strings sampler scaffolded + chords audition batch rendered
 - Context: harmonizer "next steps" review. Steps 1-7 (key/progression/voicing/
   MIDI+loop ingestion/fit/render) all shipped; the remaining real-instrument

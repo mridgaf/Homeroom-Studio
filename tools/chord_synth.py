@@ -115,3 +115,57 @@ def loop_voice(pool, dur, key, sr=SR, rng=None):
     src_key = KeyContext(pick["key"], pick["mode"] or key.mode)
     fitted = fit_loop(mono, sr, dur, src_key=src_key, dst_key=key)
     return norm_rms(fitted, -18.0), pick["name"]
+
+
+def _pluck(note, dur, sr=SR):
+    """A short plucked / e-piano-ish note for one arp step: quick attack,
+    exponential decay, a little 2nd+3rd harmonic for body. The rhythmic-
+    riff counterpart to pad_voice's held wash (used when no string sample
+    is available, or as the synth arp voice outright)."""
+    n = max(int(dur * sr), 1)
+    freq = midi_to_hz(note)
+    t = np.arange(n) / sr
+    tone = (0.7 * np.sin(2 * np.pi * freq * t)
+            + 0.25 * np.sin(2 * np.pi * 2 * freq * t)
+            + 0.1 * np.sin(2 * np.pi * 3 * freq * t))
+    env = np.exp(-t * 5.0)                    # ~200ms decay feel
+    a = min(int(0.004 * sr), n)               # 4ms attack, no click
+    if a:
+        env[:a] *= np.linspace(0, 1, a)
+    return tone * env * 0.5
+
+
+def arp_riff(notes, dur, bpm, render_note=None, sr=SR):
+    """Sequence chord `notes` as a repeating ascending arpeggio that fills
+    `dur` seconds — the broken-chord "riff" feel (think the Still-D.R.E.
+    figure) instead of one held block like pad_voice/play_chord. One note
+    per eighth-note step; `render_note(note, seg_dur)` supplies each step's
+    audio (None -> a synth pluck), so the same rhythm drives sliced strings
+    or synth. Bar-aligned, and the tail of the last steps wraps back to the
+    top, so the buffer loops seamlessly (loop-safe render rule)."""
+    n = max(int(dur * sr), 1)
+    out = np.zeros(n)
+    if not notes:
+        return out
+    render_note = render_note or (lambda nt, sd: None)
+    step_s = (60.0 / bpm) / 2.0               # an eighth note, meter-agnostic
+    nsteps = max(int(round(dur / step_s)), 1)
+    pat = list(notes) + [notes[0] + 12]       # up through the octave, repeating
+    seg_dur = step_s * 1.4                     # slight legato overlap into the next
+    for k in range(nsteps):
+        note = pat[k % len(pat)]
+        seg = render_note(note, seg_dur)
+        if seg is None:
+            seg = _pluck(note, seg_dur, sr)
+        start = int(round(k * step_s * sr))
+        end = start + len(seg)
+        if end <= n:
+            out[start:end] += seg
+        else:                                  # wrap the tail to the top (loop-safe)
+            head = n - start
+            out[start:] += seg[:head]
+            tail = seg[head:][:n]
+            out[:len(tail)] += tail
+    out = norm_rms(out, -18.0)
+    peak = np.max(np.abs(out))                # overlapping stabs can stack
+    return out * (0.99 / peak) if peak > 0.99 else out

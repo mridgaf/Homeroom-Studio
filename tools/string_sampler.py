@@ -119,6 +119,56 @@ def nearest(index, midi_note, instrument=None, artic=None):
     return min(pool, key=lambda e: abs(e["note"] - midi_note))
 
 
+# an identity's abstract articulation word -> the vendor's own tokens that
+# realize it. The London library names sustained samples half a dozen ways
+# (sus, sustain, sustainff/mf/mp, susrel); those run 7-9s, so a long held
+# chord tiles at most once. Legato ("leg") is deliberately NOT here: those
+# run ~2s and would tile 4-5x across a slow chord, one audible seam per
+# repeat — it's a transition articulation, not a bed. pizz is the plucked
+# stab. Keeps that library-specific spelling here, out of the render.
+ARTIC_FAMILY = {
+    "sustain": ("sus", "sustain", "sustainff", "sustainmf", "sustainmp",
+                "susrel"),
+    "pizz": ("pizz",),
+}
+
+
+def by_articulation(index, kind):
+    """Sub-index of `index` for an abstract articulation ('sustain' bed /
+    'pizz' stab). Unknown or missing `kind` -> the whole index unfiltered,
+    so this never empties a pool the caller expected to have."""
+    fam = ARTIC_FAMILY.get(kind)
+    return [e for e in index if e["artic"] in fam] if fam else index
+
+
+def note_slice(index, note, dur, sr=SR, cache=None):
+    """One arp step's worth of the nearest string sample to `note`: its
+    first `dur` seconds with a short attack + release so it reads as a
+    rhythmic note, not a swell. `cache` (a dict) holds each note's loaded
+    audio so an arp doesn't reload it per step. None if nothing's
+    voiceable, so chord_synth.arp_riff can pluck that step instead."""
+    if cache is not None and note in cache:
+        mono = cache[note]
+    else:
+        pk = nearest(index, note)
+        x = load_audio(pk["path"]) if pk else None
+        mono = None if x is None else (x.mean(axis=1) if x.ndim == 2 else x)
+        if cache is not None:
+            cache[note] = mono
+    if mono is None:
+        return None
+    m = max(int(dur * sr), 1)
+    seg = (mono[:m] if len(mono) >= m
+           else np.pad(mono, (0, m - len(mono)))).astype(float).copy()
+    a = min(int(0.008 * sr), m)               # 8ms attack
+    d = min(int(0.06 * sr), m)                # 60ms release so steps don't click
+    if a:
+        seg[:a] *= np.linspace(0, 1, a)
+    if d:
+        seg[-d:] *= np.linspace(1, 0, d)
+    return seg
+
+
 def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR):
     """Sum one sample per MIDI note in `notes` into a `dur`-second chord
     bed. Each note is cropped/looped to length the same loop-safe way

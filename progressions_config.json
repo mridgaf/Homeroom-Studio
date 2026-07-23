@@ -72,5 +72,10 @@
   "label": "Trap dark-loop (Metro Boomin style)",
   "roman": "i-VI-iv-V (Am-F-Dm-E)",
   "chords": [[0, "minor"], [8, "major"], [5, "minor"], [7, "major"]]
+ },
+ "gfunk_minor_i_iv_v": {
+  "label": "G-funk minor (Still D.R.E.)",
+  "roman": "i-iv-v (Fm-Bbm-Cm)",
+  "chords": [[0, "minor"], [5, "minor"], [7, "minor"]]
  }
 }

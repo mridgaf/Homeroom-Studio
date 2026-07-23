@@ -848,6 +848,35 @@ def _root_sub(variant, secs=0.6):
     return note, sub808(ROOT_HZ[note], secs)
 
 
+def _wpick(spec, rng):
+    """Pick one item from a flat list (['F','G','C']) or a weighted one
+    ([['gfunk_minor_i_iv_v', 3], ['vamp_i_iv7', 2]]). None for an empty or
+    missing spec, so callers can fall back to their own default."""
+    if not spec:
+        return None
+    if isinstance(spec[0], (list, tuple)):
+        items, weights = zip(*spec)
+        return rng.choices(list(items), list(weights))[0]
+    return rng.choice(spec)
+
+
+def _source_order(pref, rng):
+    """The order to try chord voices for one chord. No signature -> the
+    historical default (a sampled loop, else the synth pad). With a
+    signature `chord_source` (weighted, e.g. [['strings',2],['synth',1]])
+    roll a primary from the weights, then fall through the rest of that
+    identity's own sources; the synth pad is always the final floor since
+    pad_voice can never fail to produce audio."""
+    if not pref:
+        return ("loop", "synth")
+    names = [s[0] for s in pref]
+    primary = _wpick(pref, rng)
+    order = [primary] + [n for n in names if n != primary]
+    if "synth" not in order:
+        order.append("synth")
+    return order
+
+
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
              traditional=False, status=lambda msg: None):
     """Render one random beat (solo or collab) into names[0]'s folder.
@@ -1009,20 +1038,45 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # 2026-07-22): a real in-key progression, synthesized as a pad +
     # bass and dropped in as extra lanes — same trick as the tuned-808
     # sub above, just one long "one-shot" per chord instead of one hit.
+    #
+    # signature (2026-07-22, HARMONY-IDENTITY-PROPOSAL): a legend/genre
+    # entry may carry a harmonic fingerprint — which roots/mode, which
+    # progressions, and which voice (strings vs sampled loop vs synth pad).
+    # Without one, the old identity-blind default holds: random SUB_ROOT,
+    # minor, a mood-or-random progression, a sampled loop else synth pad.
     midi_chords = None
     if dirs["chords"]:
         import chord_synth
         import harmony
         from key_context import KeyContext, SUB_ROOTS
-        key_root = random.Random(variant * 353 + 17).choice(SUB_ROOTS)
-        key = KeyContext(key_root, "minor")
+        sig = preset.get("signature") or {}
+        srng = random.Random(variant * 353 + 17)
+        sig_key = sig.get("key") or {}
+        key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
+        mode = sig_key.get("mode", "minor")
+        if isinstance(mode, list):                      # weighted mode list
+            mode = _wpick(mode, srng)
+        key = KeyContext(key_root, mode)
+        # a typed mood word still wins; else the signature picks (else random)
+        prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
+                                            random.Random(variant * 419 + 5))
         prog_name, chords = harmony.compose(
-            key, dirs["chord_feel"], rng=random.Random(variant * 419 + 5))
+            key, prog, rng=random.Random(variant * 419 + 5))
         num, den = preset.get("tsig", (4, 4))
         bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
         nb = bars_of(preset)
         per_chord = max(1, nb // len(chords))
-        pool = chord_synth.sample_pool(key, preset["bpm"])
+        pref = sig.get("chord_source")
+        rhythm = sig.get("chord_rhythm", "sustain")     # "arp" = broken-chord riff
+        # only pay for the melodic-loop library scan if a loop voice is on
+        # the table (the default, or a signature that lists "loop")
+        want_loop = not pref or any(s[0] == "loop" for s in pref)
+        pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
+        strings_idx = None
+        if pref and any(s[0] == "strings" for s in pref):
+            import string_sampler
+            strings_idx = string_sampler.by_articulation(
+                string_sampler.scan(), sig.get("articulation"))
         midi_chords = []
         for i, chord in enumerate(chords):
             start_bar = i * per_chord
@@ -1038,16 +1092,49 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                                             bars_list)
             preset["lanes"][f"bass{i}"] = (0.0, 0.85, (0, 0, 50, variant + i),
                                            [b for b in bars_list])
-            sample, sample_name = chord_synth.loop_voice(
-                pool, dur, key, rng=random.Random(variant * 461 + i))
-            if sample is not None:
-                kit[f"chord{i}"] = sample
-                sources[f"chord{i}"] = "sample: %s, %s (%s)" % (
-                    sample_name, chord["chord"], chord["roman"])
-            else:
-                kit[f"chord{i}"] = chord_synth.pad_voice(chord["notes"], dur)
-                sources[f"chord{i}"] = "synth chord pad, %s (%s)" % (
+            audio, label = None, None
+            for src in _source_order(pref, random.Random(variant * 461 + i)):
+                if src == "strings" and strings_idx:
+                    if rhythm == "arp":
+                        cache = {}                       # one load per note, not step
+                        audio = chord_synth.arp_riff(
+                            chord["notes"], dur, preset["bpm"],
+                            lambda nt, sd: string_sampler.note_slice(
+                                strings_idx, nt, sd, cache=cache))
+                        voice = "strings arp"
+                    else:
+                        audio = string_sampler.play_chord(
+                            strings_idx, chord["notes"], dur)
+                        voice = "strings"
+                    if audio is not None:
+                        label = "%s: %s (%s)" % (voice, chord["chord"],
+                                                 chord["roman"])
+                        break
+                elif src == "loop":
+                    audio, nm = chord_synth.loop_voice(
+                        pool, dur, key, rng=random.Random(variant * 461 + i))
+                    if audio is not None:
+                        label = "sample: %s, %s (%s)" % (
+                            nm, chord["chord"], chord["roman"])
+                        break
+                elif src == "synth":
+                    audio = (chord_synth.arp_riff(chord["notes"], dur,
+                                                  preset["bpm"])
+                             if rhythm == "arp"
+                             else chord_synth.pad_voice(chord["notes"], dur))
+                    label = "%s, %s (%s)" % (
+                        "synth arp" if rhythm == "arp" else "synth chord pad",
+                        chord["chord"], chord["roman"])
+                    break
+            if audio is None:                           # the never-fails floor
+                audio = (chord_synth.arp_riff(chord["notes"], dur, preset["bpm"])
+                         if rhythm == "arp"
+                         else chord_synth.pad_voice(chord["notes"], dur))
+                label = "%s, %s (%s)" % (
+                    "synth arp" if rhythm == "arp" else "synth chord pad",
                     chord["chord"], chord["roman"])
+            kit[f"chord{i}"] = audio
+            sources[f"chord{i}"] = label
             kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
             sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
             midi_chords.append({"start_sec": start_bar * bar_s,
