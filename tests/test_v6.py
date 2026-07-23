@@ -50,9 +50,11 @@ def test_pack_scan_classifies_by_folder(tmp_path, monkeypatch):
     _wav(root / "VOX" / "yeah adlib.wav")               # phase 2: vox role
     _wav(root / "Melodic" / "keys_C.wav")               # instrument: still out
     _wav(root / "MIDI" / "fake.wav")                    # excluded dir: out
-    # owner 2026-07-23 "stop the one-shot rule": a bpm-named loop and a
-    # long tail are KEPT now (they used to be dropped).
+    # owner 2026-07-23 "stop the one-shot rule": a bpm-named loop goes to
+    # the _loops bucket (played as a full loop, not a choked hit); a long
+    # one-shot tail is KEPT in its drum role (the length cap is gone).
     _wav(root / "SNARES" / "snare_140bpm.wav")
+    _wav(root / "Perc Loops" / "shaker 92 bpm.wav")
     _wav(root / "SNARES" / "long_tail.wav", secs=9.0)
     got = sample_library.scan_packs([str(root)])
     paths = {r: {Path(e["path"]).name for e in es} for r, es in got.items()}
@@ -65,9 +67,14 @@ def test_pack_scan_classifies_by_folder(tmp_path, monkeypatch):
     assert "sweep up.wav" in paths["fx"]
     assert "Reese Growl.wav" in paths["bass"]           # BASS folder -> bass
     assert "yeah adlib.wav" in paths["vox"]             # VOX folder -> vox
-    assert "snare_140bpm.wav" in paths["snare"]         # loop kept now
-    assert "long_tail.wav" in paths["snare"]            # long kept now
-    allnames = {n for ns in paths.values() for n in ns}
+    assert "long_tail.wav" in paths["snare"]            # long one-shot kept
+    # loops (bpm in name / a LOOP folder) land in _loops, not choked roles
+    loop_names = {Path(e["path"]).name for e in got.get("_loops", [])}
+    loop_bpm = {Path(e["path"]).name: e["bpm"] for e in got.get("_loops", [])}
+    assert "snare_140bpm.wav" in loop_names and loop_bpm["snare_140bpm.wav"] == 140
+    assert "shaker 92 bpm.wav" in loop_names and loop_bpm["shaker 92 bpm.wav"] == 92
+    assert "snare_140bpm.wav" not in paths.get("snare", set())  # not choked
+    allnames = {n for ns in paths.values() for n in ns if ns is not None}
     assert not {"keys_C.wav", "fake.wav"} & allnames    # instruments still out
 
 

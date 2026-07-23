@@ -36,6 +36,23 @@ Format:
   Flagged (a) sampled-808 root-sub, (b) vox guest lane, (c) loop lane as the
   next audition-gated step — the loop-playback one is a real fork for him.
 
+- owner: "Full loop" → built phase-2 placement: _add_sample_lanes in
+  beat_machine adds bass/808, vox, and full-loop lanes (reuse the sub/chord
+  preload pattern; render already ducks all non-kick lanes so they breathe).
+- loops re-architected: scan_packs now TAGS loops into a "_loops" bucket with
+  bpm + a tonal flag, instead of my earlier flatten-into-drum-roles. Loop lane
+  = bpm-matched (±6, no time-stretch), PERCUSSIVE roles, ATONAL only.
+- two musicality bugs caught by AUDITIONING (not reading the diff):
+  (1) tonal loops (Synth_Lead...D#m) clashing → added the tonal filter (key or
+  melodic word in name); (2) an "808 Loop" leaking into the bass one-shot pool
+  → traced to the whole-drive INDEXER pass (no loop-tagging) → dropped it
+  entirely (redundant now that sourcing = pack roots only). scan_packs is the
+  sole source.
+- verified: 0 loop-named leaks into one-shot roles, 397 usable loops, Mustang
+  #975-982 clean (BIZKEL perc/hat loops, Cymatics 808s, @hiheazy/OHH! adlibs),
+  gate 8/8, 469 tests. Pool shrink (clap 345→77) is the whole-drive pass going
+  away per "only my folders" — expected, not a regression.
+
 ## Previous session (Mustang)
 
 - goal: next legend = Mustang → checked HARMONY-IDENTITY-PROPOSAL first: he

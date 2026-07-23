@@ -22,6 +22,47 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Phase 2 placement: bass/808, vox, and full-loop lanes
+- Context: after the sourcing rework, owner said play loops as a "Full loop."
+  Built the three phase-2 lanes (bass/808, vox, full loop) using the existing
+  preload-audio-into-a-lane pattern the sub/chord lanes use.
+- Decision/change:
+  * Loops now TAGGED, not flattened. scan_packs marks a loop (LOOP folder or
+    loop/bpm name) into a "_loops" bucket with its bpm + a `tonal` flag,
+    instead of choking it into a drum role. New helper `_add_sample_lanes` in
+    beat_machine (called after the chord block) adds up to three optional,
+    per-beat-seeded lanes: LOOP (a bpm-matched PERCUSSIVE, ATONAL loop tiled
+    loop-safe across the whole beat via fit_loop, gain 0.4), BASS (a sampled
+    808 under the kick on non-chords beats — no tuning, no key to clash),
+    VOX (a sparse chant/adlib on phrase accents). Rates SAMPLED_BASS_P .4 /
+    VOX_LANE_P .3 / LOOP_LANE_P .35 — none in every beat. Notes box can mute
+    each ("no loop/vox/bass").
+  * Dropped the whole-drive indexer pass from build_shots entirely — with
+    sourcing already restricted to the pack roots it was redundant AND, lacking
+    the folder-aware loop/tonal tagging, it leaked drum loops ("808 Loop") into
+    the one-shot bass pool. scan_packs is now the single source.
+- Reasoning / two musicality bugs caught in audition, both fixed:
+  (1) tonal loops (a "Synth_Lead...D#m") laid untuned over the beat clash —
+  the loop lane is now PERCUSSIVE roles {perc,hat,bongo,fx} AND `not tonal`
+  (a key or melodic word in the name = belongs to the in-key chord feature).
+  (2) off-tempo loops drift (fit_loop doesn't time-stretch) — loop must be
+  within ±6 bpm of the beat.
+- Verify by: 469 tests green (added test_phase2_bass_vox_and_full_loop_lanes:
+  forces the rolls on, asserts all three lanes + a loop stem land, and that
+  the notes box mutes them). Live: 0 loop-named files leak into one-shot
+  roles; 397 usable percussive/atonal/bpm-known loops, 21 keyed-percussion
+  correctly excluded. Mustang #975-982 audition: clean loops (BIZKEL Perc/Hat
+  Loop), real 808s (Cymatics Oracle 808), real adlibs (@hiheazy, OHH!),
+  bass+vox+loop stems written, MIDI gate 8/8.
+- Status: open (mechanically confirmed; the SOUND is the owner's audition)
+- Outcome: pool sizes dropped from the earlier whole-drive numbers (clap
+  345→77, snap 38→23, etc.) — that's the whole-drive name-token pass being
+  removed per "only my folders"; those were loose off-pack matches. Real
+  claps still 77 + open-soundbank means any lane can also pull perc's 1065.
+  Loop lane is percussive-texture only for now; a full DRUM-loop that
+  REPLACES the programmed kit (vs layering over it) is a different mode, not
+  built — flag if he wants it.
+
 ### 2026-07-23 Sourcing rework: whitelist the folders + stop the one-shot rule
 - Context: two owner directives (mid-turn, terse): (1) "Stop using the one shot
   rule." (2) "Only use samples from the folders I gave this session and ones

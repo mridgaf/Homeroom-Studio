@@ -730,6 +730,11 @@ LANE_WORDS = [              # most specific first; spellings are generous
     ("perc", ("percussion", "percs", "perc")),
     ("bongo", ("bongos", "bongo", "congas", "conga")),
     ("stamp", ("stamps", "stamp")),
+    # phase 2 lanes (owner 2026-07-23): let the notes box switch them off
+    ("loop", ("loops", "loop")),
+    ("vox", ("vocals", "vocal", "vox", "voices", "voice", "adlibs",
+             "adlib", "chants", "chant")),
+    ("bass", ("bass 808", "808 bass", "bassline", "bass")),
     ("_guests", ("guests", "guest", "extras"))]
 
 NEGATIONS = ("no ", "without ", "skip ", "skip the ", "drop the ",
@@ -875,6 +880,93 @@ def _root_sub(variant, secs=0.6):
     (note name, mono audio)."""
     note = random.Random(variant * 13 + 7).choice(list(ROOT_HZ))
     return note, sub808(ROOT_HZ[note], secs)
+
+
+# Phase 2 (owner 2026-07-23): the newly-unlocked bass/808, vocal, and full
+# loop samples get real lanes. Each is optional and seeded per beat so the
+# batch varies and re-renders identically. Rates are deliberately below 1 so
+# none is "in every beat".
+SAMPLED_BASS_P = 0.4        # sampled 808 under the kick (non-chord beats)
+VOX_LANE_P = 0.3           # a sparse vocal one-shot
+LOOP_LANE_P = 0.35         # a full loop laid over the kit
+LOOP_BPM_TOL = 6           # only loops this close in bpm (no time-stretch here)
+
+
+def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
+    """Put bass/808, vocal, and full-loop samples into real lanes (owner
+    phase 2, 2026-07-23; loop playback = "Full loop"). All optional, seeded,
+    and each stays out of a 'chords' beat's low end / key where it would
+    clash. Reuses the same preload-audio-into-a-lane trick the sub and chord
+    lanes use; the render ducks every non-kick lane, so all three breathe
+    under the kick automatically."""
+    from make_hiphop_tracks import load_audio, norm_rms
+    from melodic_loops import fit_loop
+    rng = random.Random(variant * 907 + 31)
+    nbars = bars_of(preset)
+    num, den = preset.get("tsig", (4, 4))
+    bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
+    muted = dirs.get("mute", set())
+
+    # FULL LOOP lane: a bpm-matched loop tiled loop-safe across the whole
+    # beat, laid OVER the programmed kit. Texture roles only (perc/hat/fx/
+    # bongo/bass/vox) so it colours the beat instead of a second kick+snare
+    # fighting the one that's already there. bpm must match — fit_loop
+    # doesn't time-stretch, so an off-tempo loop would drift off the grid.
+    loops = shots.get("_loops", [])
+    if loops and "loop" not in muted and rng.random() < LOOP_LANE_P:
+        # PERCUSSIVE roles only. A bass/vocal/melodic loop carries a pitch,
+        # so laying it untuned over a beat in another key clashes — those
+        # tonal loops belong to the in-key chord feature, not here.
+        texture = {"perc", "hat", "fx", "bongo"}
+        cands = [l for l in loops
+                 if l.get("role") in texture and not l.get("tonal")
+                 and l.get("bpm")
+                 and abs(l["bpm"] - preset["bpm"]) <= LOOP_BPM_TOL]
+        if cands:
+            pick = cands[rng.randrange(len(cands))]
+            x = load_audio(pick["path"])
+            if x is not None and len(x):
+                mono = 0.5 * (x[:, 0] + x[:, 1])
+                fitted = norm_rms(fit_loop(mono, SR, nbars * bar_s), -20.0)
+                preset["lanes"]["loop"] = (
+                    0.0, 0.4, (0, 0, 50, variant + 3),
+                    ["X" + "-" * 15] + ["-" * 16] * (nbars - 1))
+                kit["loop"] = fitted
+                sources["loop"] = "loop: %s (%d bpm, %s)" % (
+                    pick["name"], pick["bpm"], pick["role"])
+                vnotes.append("full loop: %s (%d bpm)" % (pick["name"],
+                                                          pick["bpm"]))
+
+    # BASS 808 sample under the kick — non-'chords' beats only (no key there,
+    # so an untuned 808 can't clash), and only when the synth root-sub didn't
+    # already claim the low end. Mirrors the kick line, choked to a bass hit.
+    if (shots.get("bass") and "bass" not in muted and not dirs["chords"]
+            and "sub" not in preset["lanes"] and "kick" in preset["lanes"]
+            and rng.random() < SAMPLED_BASS_P):
+        path, audio = _pick_path(shots, "bass", [], 0.8, variant * 71 + 5)
+        if audio is not None and np.any(audio):
+            _pan, _g, (_o, _j, ksw, ks), kbars = preset["lanes"]["kick"]
+            preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9),
+                                       [b for b in kbars])
+            kit["bass"] = audio
+            sources["bass"] = "808 sample: %s" % Path(path).name
+            vnotes.append("bass 808: %s" % Path(path).stem)
+
+    # VOX one-shot — a sparse chant/adlib on a phrase accent (untuned).
+    if (shots.get("vox") and "vox" not in muted
+            and rng.random() < VOX_LANE_P):
+        path, audio = _pick_path(shots, "vox", [], 0.9, variant * 53 + 9)
+        if audio is not None and np.any(audio):
+            bars = ["-" * 16 for _ in range(nbars)]
+            bars[0] = "X" + "-" * 15                    # downbeat of bar 1
+            if nbars > 1:
+                bars[-1] = "-" * 14 + "X-"              # '&' of the last bar
+            side = round(rng.choice((-1, 1)) * rng.uniform(0.1, 0.25), 2)
+            preset["lanes"]["vox"] = (side, 0.5, (0, 0, 50, variant * 17 + 2),
+                                      bars)
+            kit["vox"] = audio
+            sources["vox"] = "vox: %s" % Path(path).name
+            vnotes.append("vox: %s" % Path(path).stem)
 
 
 def _wpick(spec, rng):
@@ -1178,6 +1270,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                                 "notes": chord["notes"] + [bass_note]})
         vnotes.append("chords: %s in %s (%s)" % (
             prog_name, key, ", ".join(c["chord"] for c in chords)))
+
+    # phase 2 (owner 2026-07-23): sampled bass/808, vocals, and full loops
+    # get their lanes here, after the chord lanes so bass can defer to the
+    # harmony bass on a 'chords' beat.
+    _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes)
 
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
     nbars = bars_of(preset)

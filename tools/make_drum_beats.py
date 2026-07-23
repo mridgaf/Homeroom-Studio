@@ -110,23 +110,18 @@ def build_shots():
     (sample_library) is merged on top — that's where most of the sounds
     live.
 
-    Two owner rules, both 2026-07-23:
-    - source ONLY from the pack roots (load_roots()), never the whole
-      drive — see the FOLDERS note above ("only my folders").
-    - no one-shot rule: loops and long samples are kept, not dropped
-      (the `category != one-shot` skip is gone). Playback still chokes a
-      sample to its lane length, so a long file placed on a drum lane
-      behaves; loops played AS loops is a separate lane, not this."""
-    from sample_library import merge_into, load_roots
-    entries = scan(load_roots())
+    Owner rules 2026-07-23:
+    - source ONLY from the pack roots ("only my folders"). The old
+      whole-drive name-token pass (indexer.scan over "/Volumes/TBOTC 3")
+      is gone: it reached his own songs AND, lacking the folder-aware
+      loop/tonal tagging, flattened drum loops into the one-shot roles
+      (an "808 Loop" landing in the bass pool). scan_packs over the roots
+      is now the single source — same folders, but folder-aware.
+    - no one-shot rule: loops and long samples are kept. Loops go to the
+      "_loops" bucket (played AS full loops, a real lane); long one-shots
+      stay in their role, choked to lane length at playback."""
+    from sample_library import merge_into
     shots = {k: [] for k, _ in SHOT_WORDS}
-    for e in entries:
-        if e.get("kind") != "sample":
-            continue
-        toks = set(e["tokens"])
-        for role, words in SHOT_WORDS:
-            if toks & words:
-                shots[role].append(e)
     return _clean_pool(merge_into(shots))
 
 # ------------------------------------------------------------- kit picking

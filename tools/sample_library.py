@@ -84,6 +84,44 @@ EXCLUDE_DIR_WORDS = ("STEM", "MIDI", "PATCH", "PRESET",
 
 # file-level loop signals (a loop misfiled in a one-shot folder)
 LOOP_FILE_RE = re.compile(r"loop|(?:^|[^a-z0-9])\d{2,3}\s?bpm", re.I)
+# a file whose NAME marks it a loop (owner 2026-07-23: play these as full
+# loops, not choked hits). Same signal, named for the new use.
+_LOOP_NAME_RE = LOOP_FILE_RE
+_BPM_RE = re.compile(r"(?:^|[^0-9])(\d{2,3})(?=\s?bpm|[^0-9]|$)", re.I)
+
+
+# a loop is TONAL (melodic — belongs to the in-key chord feature, not the
+# untuned loop lane) if its name carries a musical key or a melodic word. The
+# key form requires an accidental or an explicit maj/min so a bare version
+# letter ("..._E Hat Loop") isn't mistaken for the key of E.
+_MELODIC_WORDS = {"synth", "lead", "melody", "melodic", "chord", "chords",
+                  "pad", "pads", "pluck", "harmony", "arp", "keys", "piano",
+                  "guitar", "sax", "bass", "reese", "string", "strings",
+                  "brass", "flute", "vocal", "vox"}
+_KEYISH_RE = re.compile(r"^[a-g]((#|b)(m|maj|min)?|(m|maj|min))$", re.I)
+_SEP_RE = re.compile(r"[\s_\-]+")
+
+
+def _tonal(name):
+    parts = _SEP_RE.split(name.lower())
+    return any(p in _MELODIC_WORDS or _KEYISH_RE.match(p) for p in parts)
+
+
+def _bpm_from_tokens(tokens):
+    """A plausible loop BPM from name tokens, or None. Catches both a bare
+    '92' token and a glued '140bpm'. Range-gated so a bass name like '808'
+    isn't read as a tempo."""
+    for t in tokens:
+        if t.isdigit() and len(t) in (2, 3):
+            n = int(t)
+        else:
+            m = re.match(r"^(\d{2,3})bpm$", t)
+            if not m:
+                continue
+            n = int(m.group(1))
+        if 60 <= n <= 200:
+            return n
+    return None
 
 # filename tokens -> extra roles (a "Rimshot" in PERCUSSION is rim too)
 from make_drum_beats import SHOT_WORDS                      # noqa: E402
@@ -185,14 +223,29 @@ def scan_packs(roots=None):
                 if secs is None:
                     continue
                 durs[key] = round(secs, 3)
+            # owner 2026-07-23: a LOOP is played as a full loop (its own
+            # lane), not choked into a drum hit — so it goes to the "_loops"
+            # bucket with its bpm (for tempo-matching), NOT the choked role
+            # pools. A loop is a file in a LOOP folder or with a loop/bpm
+            # name. Everything else stays a one-shot for the drum lanes.
+            is_loop = bool(_LOOP_NAME_RE.search(path.name)) \
+                or any("LOOP" in p.upper() for p in rel[:-1])
+            if is_loop:
+                shots.setdefault("_loops", []).append(
+                    {"name": path.stem, "path": str(path),
+                     "kind": "loop", "category": "loop",
+                     "role": (role or next(iter(roles))),
+                     "bpm": _bpm_from_tokens(toks), "secs": round(secs, 3),
+                     "tonal": _tonal(path.stem), "tokens": sorted(tokset)})
+                continue
             entry = {"name": path.stem, "path": str(path),
                      "kind": "sample", "category": "one-shot",
                      "tokens": sorted(tokset)}
             for r in roles:
                 # owner 2026-07-23 "stop the one-shot rule": no per-role
-                # length cap any more — loops and long tails are welcome.
-                # SANITY_SECS only keeps a full-length song from posing as
-                # a sample; playback still chokes each hit to its lane.
+                # length cap any more — long tails (long 808s, cymbals) are
+                # welcome. SANITY_SECS only keeps a full-length song from
+                # posing as a one-shot; playback still chokes each hit.
                 if secs <= SANITY_SECS:
                     shots.setdefault(r, []).append(entry)
     if seen_any:

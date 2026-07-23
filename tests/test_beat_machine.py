@@ -244,6 +244,46 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
     assert "sub" not in rec2["preset"]["lanes"]
 
 
+def test_phase2_bass_vox_and_full_loop_lanes(machine_env, tmp_path, monkeypatch):
+    # owner phase 2 (2026-07-23): the unlocked bass/808, vocal, and full-loop
+    # samples get real lanes. Force the three rolls on (they are <1 by design)
+    # and hand the engine a matching pool, so this is deterministic.
+    root, shots = machine_env
+    monkeypatch.setattr(beat_machine, "SAMPLED_BASS_P", 1.0)
+    monkeypatch.setattr(beat_machine, "VOX_LANE_P", 1.0)
+    monkeypatch.setattr(beat_machine, "LOOP_LANE_P", 1.0)
+    lp = tmp_path / "shaker 96 bpm.wav"                  # a loadable loop file
+    x = (np.sin(2 * np.pi * 220 * np.arange(SR) / SR) * 12000).astype("<i2")
+    with wave.open(str(lp), "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(SR)
+        w.writeframes(x.tobytes())
+    shots = dict(shots)
+    shots["bass"] = [{"name": "deep 808", "path": shots["kick"][0]["path"],
+                      "tokens": ["808"]}]
+    shots["vox"] = [{"name": "yeah", "path": shots["snap"][0]["path"],
+                     "tokens": ["vox"]}]
+    shots["_loops"] = [{"name": "shaker 96 bpm", "path": str(lp),
+                        "role": "perc", "bpm": 96, "secs": 1.0,
+                        "tokens": ["shaker"]}]
+    # non-chords beat pinned to 96 so the loop's bpm matches (no drift)
+    p, report = beat_machine.generate(["Cutz"], tempo=96, root=root,
+                                      shots=shots)
+    lanes = beat_recipes.load_recipe(root, int(p.name.split()[0]))["preset"]["lanes"]
+    assert {"bass", "vox", "loop"} <= set(lanes), (report, sorted(lanes))
+    # the loop plays FULL (spans the whole beat), not a choked hit
+    stem_dir = next(d for d in p.parent.glob("* Stems")
+                    if d.name.startswith(p.name.split()[0]))
+    assert any(f.stem.startswith("loop - ") for f in stem_dir.glob("*.wav"))
+    # ...and the notes box can switch them off
+    p2, _ = beat_machine.generate(["Cutz"], tempo=96, root=root, shots=shots,
+                                  notes="no loop no vox no bass 808")
+    lanes2 = beat_recipes.load_recipe(
+        root, int(p2.name.split()[0]))["preset"]["lanes"]
+    assert not ({"bass", "vox", "loop"} & set(lanes2)), sorted(lanes2)
+
+
 def test_no_repetition_across_generations(machine_env):
     root, shots = machine_env
     p1, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
