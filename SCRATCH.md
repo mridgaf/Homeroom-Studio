@@ -13,7 +13,30 @@ Format:
 
 ---
 
-## Current session (Mustang)
+## Current session (phase 2 sourcing)
+
+- owner moved to phase 2 (bass/vox lanes), then interrupted with two terse
+  sourcing directives: "stop the one shot rule" + "only my folders (given +
+  already used)". Treated those as the authoritative instruction; did NOT
+  build bass/vox placement blind.
+- directive 2 (whitelist): the whole-drive name-token scan (FOLDERS incl.
+  "/Volumes/TBOTC 3" root) was the leak path to his songs → build_shots now
+  scans load_roots() only. melodic_loops/string_sampler already scoped.
+- directive 1 (one-shot rule): scan_packs dropped LOOP_FILE_RE + MAX_SECS cap
+  (→ SANITY_SECS 45 only), un-excluded LOOP/FILL/BASS/VOX/VOCAL/ACAPELLA,
+  added bass+vox roles; build_shots dropped the category==one-shot filter.
+  Kept instrument folders excluded from the DRUM pool (melodic loops have
+  their own scanner) + all safety filters.
+- proved it: 6936 files, 0 outside the whitelist, 0 his-song, 0 banned.
+  bass 0→1056, vox 0→427, all drum roles up. 468 tests green (rewrote the
+  one v6 test that encoded the old one-shot spec). Cutz #946-948 audition
+  clean + gated.
+- deliberately STOPPED before placement: bass/vox are in the library but no
+  lane uses them, and loops in drum roles only play their choked attack.
+  Flagged (a) sampled-808 root-sub, (b) vox guest lane, (c) loop lane as the
+  next audition-gated step — the loop-playback one is a real fork for him.
+
+## Previous session (Mustang)
 
 - goal: next legend = Mustang → checked HARMONY-IDENTITY-PROPOSAL first: he
   is NOT in it (only 4 legends were researched, all now built) → wrote the

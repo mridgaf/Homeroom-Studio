@@ -39,8 +39,12 @@ DEFAULT_ROOTS = [
 ]
 
 AUDIO_EXTS = {".wav", ".aif", ".aiff"}      # what load_audio can read
-MAX_SECS = {"crash": 10.0, "fx": 10.0}      # generous for cymbals/fx
-MAX_SECS_DEFAULT = 6.0                       # anything longer = not a one-shot
+MAX_SECS = {"crash": 10.0, "fx": 10.0}      # (legacy) per-role one-shot caps
+MAX_SECS_DEFAULT = 6.0                       # (legacy) kept for reference
+# owner 2026-07-23 "stop the one-shot rule": the per-role caps above no
+# longer gate scanning. This single ceiling only rejects full-length
+# songs/mixes masquerading as samples — loops, phrases, and long 808s pass.
+SANITY_SECS = 45.0
 
 # Folder-name vocabulary -> engine role. Ordered: first match wins, so
 # "808S" beats the generic "DRUMS", "OPEN HATS" beats "HATS".
@@ -56,16 +60,25 @@ DIR_ROLES = [
     ("bongo", ("BONGO", "CONGA")),
     ("perc", ("PERC", "TOM", "SHAKER", "TAMB", "COWBELL", "BLOCK",
               "CLAVE", "TABLA", "TIMBALE")),
+    # phase 2 (owner 2026-07-23): bass + vocals are in now. 808 stays under
+    # kick (first match wins), so an "808s" FOLDER is still a kick folder;
+    # a file named "...808..." also gets the bass role via SHOT_WORDS.
+    ("bass", ("BASS", "SUB", "REESE", "BASSLINE")),
+    ("vox", ("VOCAL", "VOX", "ACAPELLA", "ACAPPELLA", "ADLIB", "CHANT",
+             "VOICE", "CHOIR")),
     ("fx", ("FX", "SFX", "IMPACT", "RISER", "SWEEP", "WHOOSH", "FOLEY",
             "TEXTURE", "WHITE NOISE", "NOISE", "REVERSE", "SCRATCH",
             "TRANSITION", "DOWNLIFTER", "UPLIFTER", "AMBIEN")),
 ]
 
-# folders whose contents are never wanted (instruments, loops, project
-# files) — checked on every ancestor directory name
-EXCLUDE_DIR_WORDS = ("LOOP", "STEM", "FILL", "MIDI", "PATCH", "PRESET",
-                     "BASS", "MELOD", "CHORD", "SYNTH", "KEY", "PIANO",
-                     "GUITAR", "VOCAL", "VOX", "ACAPELLA", "INSTRUMENT",
+# folders whose contents are never wanted — checked on every ancestor dir.
+# Owner 2026-07-23 "stop the one-shot rule": LOOP + FILL dropped (loops are
+# allowed) and BASS/VOCAL/VOX/ACAPELLA dropped (those are roles now, above).
+# Still excluded: melodic/instrument content (handled by the separate
+# melodic-loop scanner, not the drum pool), and non-audio project junk.
+EXCLUDE_DIR_WORDS = ("STEM", "MIDI", "PATCH", "PRESET",
+                     "MELOD", "CHORD", "SYNTH", "KEY", "PIANO",
+                     "GUITAR", "INSTRUMENT",
                      "SERUM", "MASSIVE", "PROJECT", "DEMO SONG",
                      "CONSTRUCTION")
 
@@ -149,7 +162,10 @@ def scan_packs(roots=None):
             if path.suffix.lower() not in AUDIO_EXTS or not path.is_file():
                 continue
             rel = path.relative_to(rootp).parts
-            if _excluded(rel) or LOOP_FILE_RE.search(path.name):
+            # owner 2026-07-23 "stop the one-shot rule": loops are kept now
+            # (the LOOP_FILE_RE skip is gone). _excluded still drops the
+            # instrument/project folders listed in EXCLUDE_DIR_WORDS.
+            if _excluded(rel):
                 continue
             role = _dir_role(rel)
             toks = TOKEN_RE.findall(" ".join(rel).lower())
@@ -173,7 +189,11 @@ def scan_packs(roots=None):
                      "kind": "sample", "category": "one-shot",
                      "tokens": sorted(tokset)}
             for r in roles:
-                if secs <= MAX_SECS.get(r, MAX_SECS_DEFAULT):
+                # owner 2026-07-23 "stop the one-shot rule": no per-role
+                # length cap any more — loops and long tails are welcome.
+                # SANITY_SECS only keeps a full-length song from posing as
+                # a sample; playback still chokes each hit to its lane.
+                if secs <= SANITY_SECS:
                     shots.setdefault(r, []).append(entry)
     if seen_any:
         try:

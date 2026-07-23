@@ -24,6 +24,13 @@ sys.path.append(str(Path(__file__).parent.parent))
 from reason_voice.indexer import scan
 
 OUT_DIR = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
+# Owner rule 2026-07-23: "only use samples from the folders I gave this
+# session and the ones already being used." The old whole-drive list
+# (["/Volumes/TBOTC 3", "~/Documents", "~/Music"]) let the name-token
+# scanner reach anywhere on the drive — including his own songs. build_shots
+# now sources ONLY from the pack roots in sample_packs.json (load_roots()),
+# which is exactly that whitelist: the already-used packs plus wherever this
+# session's folders were consolidated. Kept as a constant for back-compat.
 FOLDERS = ["/Volumes/TBOTC 3", "~/Documents", "~/Music"]
 rng = np.random.default_rng(2049)
 
@@ -46,6 +53,12 @@ SHOT_WORDS = [
     ("bongo", {"bongo", "bongos", "conga", "congas"}),
     ("fx", {"fx", "riser", "sweep", "impact", "whoosh", "foley", "glitch",
             "laser", "zap", "scratch", "texture", "reverse", "vinyl"}),
+    # phase 2 (owner 2026-07-23): bass/808 shots and vocals are their own
+    # roles now, no longer skipped. 808 is deliberately in BOTH kick and
+    # bass — it's a kick you can also play as the low note.
+    ("bass", {"bass", "sub", "808", "reese", "bassline", "basses"}),
+    ("vox", {"vox", "vocal", "vocals", "voice", "adlib", "adlibs", "chant",
+             "chants", "acapella", "acappella", "choir", "phrase"}),
 ]
 
 
@@ -91,22 +104,29 @@ def _clean_pool(shots):
 
 
 def build_shots():
-    """Bucket every one-shot into drum roles by name tokens. A sample can
-    land in several buckets (a 'rimshot' is both rim and perc) — that just
-    gives each beat more to choose from. Since 2026-07-18 the sample-pack
-    library (folder-aware classification of the roots in
-    sample_packs.json) is merged on top — that's where most of the
-    sounds actually live; the old name-token scan missed them."""
-    entries = scan(FOLDERS)
+    """Bucket every sample into roles by name tokens. A sample can land in
+    several buckets (a 'rimshot' is both rim and perc) — that just gives
+    each beat more to choose from. The folder-aware sample-pack scan
+    (sample_library) is merged on top — that's where most of the sounds
+    live.
+
+    Two owner rules, both 2026-07-23:
+    - source ONLY from the pack roots (load_roots()), never the whole
+      drive — see the FOLDERS note above ("only my folders").
+    - no one-shot rule: loops and long samples are kept, not dropped
+      (the `category != one-shot` skip is gone). Playback still chokes a
+      sample to its lane length, so a long file placed on a drum lane
+      behaves; loops played AS loops is a separate lane, not this."""
+    from sample_library import merge_into, load_roots
+    entries = scan(load_roots())
     shots = {k: [] for k, _ in SHOT_WORDS}
     for e in entries:
-        if e.get("kind") != "sample" or e["category"] != "one-shot":
+        if e.get("kind") != "sample":
             continue
         toks = set(e["tokens"])
         for role, words in SHOT_WORDS:
             if toks & words:
                 shots[role].append(e)
-    from sample_library import merge_into
     return _clean_pool(merge_into(shots))
 
 # ------------------------------------------------------------- kit picking

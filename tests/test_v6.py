@@ -46,22 +46,29 @@ def test_pack_scan_classifies_by_folder(tmp_path, monkeypatch):
     _wav(root / "HIHATS - CLOSED" / "tick.wav")
     _wav(root / "PERCUSSION" / "Rimshot_A.wav")         # perc AND rim
     _wav(root / "FX" / "sweep up.wav")
-    _wav(root / "Melodic" / "keys_C.wav")               # instrument: out
-    _wav(root / "MIDI" / "fake.wav")                    # excluded dir
-    _wav(root / "Drum Loops" / "groove.wav")            # loops: out
-    _wav(root / "SNARES" / "snare_140bpm.wav")          # bpm name: out
-    _wav(root / "SNARES" / "long_tail.wav", secs=9.0)   # too long: out
+    _wav(root / "BASS" / "Reese Growl.wav")             # phase 2: bass role
+    _wav(root / "VOX" / "yeah adlib.wav")               # phase 2: vox role
+    _wav(root / "Melodic" / "keys_C.wav")               # instrument: still out
+    _wav(root / "MIDI" / "fake.wav")                    # excluded dir: out
+    # owner 2026-07-23 "stop the one-shot rule": a bpm-named loop and a
+    # long tail are KEPT now (they used to be dropped).
+    _wav(root / "SNARES" / "snare_140bpm.wav")
+    _wav(root / "SNARES" / "long_tail.wav", secs=9.0)
     got = sample_library.scan_packs([str(root)])
     paths = {r: {Path(e["path"]).name for e in es} for r, es in got.items()}
     assert "VBM_Punchy_01.wav" in paths["kick"]
     assert "Sub Thing.wav" in paths["kick"]              # 808s ARE kicks
+    assert "Sub Thing.wav" in paths["bass"]             # ...and a bass too
     assert "tick.wav" in paths["hat"]
     assert "Rimshot_A.wav" in paths["perc"]
     assert "Rimshot_A.wav" in paths["rim"]               # name adds a role
     assert "sweep up.wav" in paths["fx"]
+    assert "Reese Growl.wav" in paths["bass"]           # BASS folder -> bass
+    assert "yeah adlib.wav" in paths["vox"]             # VOX folder -> vox
+    assert "snare_140bpm.wav" in paths["snare"]         # loop kept now
+    assert "long_tail.wav" in paths["snare"]            # long kept now
     allnames = {n for ns in paths.values() for n in ns}
-    assert not {"keys_C.wav", "fake.wav", "groove.wav",
-                "snare_140bpm.wav", "long_tail.wav"} & allnames
+    assert not {"keys_C.wav", "fake.wav"} & allnames    # instruments still out
 
 
 def test_pack_scan_unplugged_falls_back_to_cache(tmp_path, monkeypatch):

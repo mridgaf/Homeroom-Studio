@@ -22,6 +22,47 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-23 Sourcing rework: whitelist the folders + stop the one-shot rule
+- Context: two owner directives (mid-turn, terse): (1) "Stop using the one shot
+  rule." (2) "Only use samples from the folders I gave this session and ones
+  already being used." Both are about SOURCING, not placement.
+- Decision/change:
+  (2) Whitelist — build_shots() sourced its name-token pass from
+  `scan(FOLDERS=["/Volumes/TBOTC 3","~/Documents","~/Music"])`, i.e. the WHOLE
+  drive, which could pull his own songs. Changed to `scan(load_roots())` — the
+  pack roots in sample_packs.json, which ARE the given + already-used folders
+  (this session's new packs were consolidated into one of them last entry).
+  melodic_loops and string_sampler were already scoped to load_roots()/the
+  strings folder, so no change there.
+  (1) One-shot rule — in sample_library.scan_packs: dropped the LOOP_FILE_RE
+  skip and the per-role MAX_SECS cap (replaced with a single SANITY_SECS=45 that
+  only rejects full-length songs). Removed LOOP/FILL/BASS/VOCAL/VOX/ACAPELLA
+  from EXCLUDE_DIR_WORDS. Added `bass` and `vox` as real roles (DIR_ROLES +
+  SHOT_WORDS). In build_shots, dropped the `category != "one-shot"` filter.
+  Instrument folders (MELOD/CHORD/SYNTH/KEY/PIANO/GUITAR/INSTRUMENT) stay
+  excluded from the DRUM pool — melodic loops reach beats via their own scanner
+  ("drums and melodic loops... before going further").
+- Reasoning: both directives are pure sourcing; playback already chokes a
+  sample to its lane length, so admitting loops/long files can't make a drum
+  lane run long. Kept all safety filters (banned, BAND_TOKENS, /Claude Drum
+  Beats/, non-audio).
+- Verify by: 468 tests green (rewrote test_pack_scan_classifies_by_folder to
+  the new spec — loops/long-tails now KEPT, added bass/vox coverage). Live
+  scan: 6936 distinct files, **0 outside the whitelisted roots, 0 band-token
+  (his-song) files, 0 banned**. Pools grew: bass 0→1056, vox 0→427, perc
+  1343→1805, fx 654→860, crash 281→412, hat 789→971, kick 1053→1138, snare
+  991→1056. Audition #946-948 (Cutz) rendered clean, LUFS -12.8/-13.2/-13.1,
+  MIDI gate green.
+- Status: confirmed (sourcing); placement OPEN
+- Outcome: HONEST GAP — bass + vox are now in the LIBRARY but no lane USES them
+  yet, and loops sitting in drum roles only play their choked attack. Making
+  bass/808 and vox audible as their own lanes, and playing loops AS loops, is
+  placement work (next step, audition-gated): (a) sampled 808/bass as an
+  alternate to the synth root-sub on traditional beats (no tuning needed — plain
+  beats have no key), (b) a sparse vox guest lane via the existing guest
+  machinery, (c) a loop lane (reuse melodic_loops' tempo-fit) — the one real
+  fork to confirm with him before building.
+
 ### 2026-07-23 Sound-library expansion, phase 1: Downloads packs consolidated onto TBOTC 3
 - Context: owner wants his whole sample library active (he listed 37 folders),
   his own songs excluded as always. Decisions: option B (consolidate onto the
