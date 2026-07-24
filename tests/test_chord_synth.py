@@ -12,34 +12,13 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 import chord_synth                                                # noqa: E402
-from chord_synth import bass_voice, midi_to_hz, pad_voice          # noqa: E402
+from chord_synth import bass_voice, midi_to_hz                     # noqa: E402
 from key_context import KeyContext                                # noqa: E402
 from make_drum_loops import SR                                    # noqa: E402
 
 
 def test_midi_to_hz_matches_concert_pitch():
     assert midi_to_hz(69) == 440.0
-
-
-def test_pad_voice_length_matches_duration():
-    audio = pad_voice([60, 64, 67], dur=1.5)
-    assert audio.shape == (int(1.5 * SR),)
-
-
-def test_pad_voice_stays_under_clipping():
-    audio = pad_voice([48, 52, 55, 60], dur=1.0)
-    assert np.max(np.abs(audio)) < 1.0
-
-
-def test_pad_voice_empty_notes_is_silence():
-    audio = pad_voice([], dur=0.5)
-    assert np.all(audio == 0.0)
-
-
-def test_pad_voice_fades_in_and_out():
-    audio = pad_voice([60, 64, 67], dur=1.0)
-    assert abs(audio[0]) < abs(audio[SR // 2])
-    assert abs(audio[-1]) < 0.05
 
 
 def test_bass_voice_length_matches_duration():

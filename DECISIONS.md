@@ -22,6 +22,190 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 The click at the end of samples — TWO real defects, both fixed
+- Context: owner on the new sampled instruments: "You can hear a slight
+  clipping at the end of the samples." I first measured sample peaks, found
+  nothing at full scale, and said it was a click not a clip. He pushed back
+  ("It's a digital clip"), then allowed the click reading. He was right to
+  push: there were TWO defects, one of each kind, and my first measurement
+  only looked for one of them.
+- Defect 1 — STEP DISCONTINUITIES (the click):
+  - Sources shorter than the chord were np.tile'd, i.e. butt-spliced. A
+    2.2s brass bed from a 1.074s sample had hard steps at 1.074s and
+    2.148s — the second landing 52ms before the end, which is exactly
+    "at the end". Measured step at a seam: 0.209 vs a 0.0001 median.
+  - Every voiced note also began and ended mid-waveform (measured up to
+    0.35) and stepped straight into silence.
+  - Fix: `_fit_length` crossfades repeats instead of splicing; `_declick`
+    ramps 8ms/60ms at both edges. Applied in instrument_sampler AND in
+    string_sampler.play_chord and chord_synth.loop_voice, which had the
+    identical bug — the strings and loop beds were never de-clicked
+    either. arp_riff got the same treatment at both ends.
+- Defect 2 — REAL DIGITAL CLIPPING, and he was right about this one:
+  the peak guard was 0.99, which leaves no room for INTER-SAMPLE peaks. A
+  buffer can sit under 1.0 at every stored sample and still exceed 0 dBFS
+  between them; the converter clips that on playback. Measured on his own
+  demos: "synth - high" +0.49 dBTP, "horns - stabs" +0.01 dBTP. A
+  sample-peak check reports those as clean, which is why I missed it first
+  time. Fix: chord_synth.PEAK_CEILING = 0.89 (-1 dBFS), used by every
+  chord voice.
+- Method note worth keeping: sample peak is NOT sufficient to prove no
+  clipping. The check that matters is 4x-oversampled true peak, which is
+  ~8 lines of numpy (see tests/test_instrument_sampler._true_peak). Any
+  future "is it clipping?" question should measure that, not max(abs(x)).
+- The one place a non-zero edge is CORRECT and was deliberately left
+  alone: the beat's own top-level WAV. Those edges are the seamless loop
+  point (house loop-safe rule, no edge fades). Only per-note and per-chord
+  buffers got ramps — those are notes inside a bar handing off to the next
+  chord, not the loop seam.
+- Verify by: 504/504 tests pass, including 6 new regression tests (seam
+  crossfade vs butt-splice, both edges at silence for voice_note /
+  play_chord / arp_riff, and a true-peak assert that fails at the old 0.99
+  ceiling). Re-measured the regenerated demos: worst edge step 0.35123 ->
+  0.00198, worst true peak 1.0584 (+0.49 dBTP, clipping) -> 0.9515 (-0.43
+  dBTP), 0 of 48 files over 0 dBTP. Re-rendered #1060-#1063 across four
+  legends: 9 chord stems, worst edge 0.00015, worst true peak 0.7786.
+  midi-validity-gate 4/4 PASS.
+- Status: open — measurements are clean but the owner has not re-listened
+  yet. If he still hears something, the next suspects are (a) the source
+  chops themselves being clipped in his packs, which no amount of
+  downstream headroom fixes, and (b) XFADE_S 30ms being too short for very
+  low sustained material.
+- Superseded demo WAVs (the old "brass - *"/"string - *" naming from the
+  first pass) MOVED, not deleted, into the Retired folder.
+
+### 2026-07-23 ALL melodic instruments are sampled now; every synth deleted
+- Context: owner, after the brass swap: "get rid of them. and follow new
+  sampling. to apply to Major instrument groups. So I'm using samples.
+  created from my banks. for every instrument as much as possible."
+  "Them" = the synth voices I'd flagged and asked about (chord_synth's
+  pad_voice/_pluck floor, and lead_synth's unwired talkbox/whistle/organ).
+- Decision/change:
+  - tools/brass_sampler.py -> tools/instrument_sampler.py, generalized
+    from brass to 11 groups (piano, guitar, bell, organ, brass, wood,
+    string, choir, pluck, pad, synth). 548 usable samples indexed.
+  - DELETED: tools/lead_synth.py + its test file, chord_synth.pad_voice,
+    chord_synth._pluck, chord_synth._osc. arp_riff's `render_note` is now
+    REQUIRED — an unvoiceable step is left silent, never synthesized.
+  - beat_machine: the per-chord source loop now routes every named voice
+    through instrument_sampler; the old "never-fails synth floor" is
+    replaced by "any instrument he owns", and if even that fails the chord
+    lane is DROPPED (bass root + MIDI still written) rather than faked.
+- The load-bearing decision, do NOT undo it by accident: "synth" was kept
+  as a valid chord_source WORD but now maps to SAMPLED synth/pluck/pad
+  material (instrument_sampler.VOICES). 9 of the 12 legends are built on
+  chord_source "synth" — deleting the word would have gutted them, and
+  rewriting 9 configs would have lost their identity intent. This way zero
+  config churn and the word still means what it meant musically.
+- Two things measured, not guessed:
+  - Coverage per group (worst pitch shift any note in MIDI 48-77 needs):
+    piano 1, guitar 1, brass 2, string 2, synth 2, bell 2, wood 3, pad 4
+    semitones. Thin: pluck 6, organ 7, choir 15 (only 2 choir samples).
+  - So `nearest` gained MAX_SHIFT (4): a group that EXISTS but has a hole
+    hands off to the next group in its VOICES list instead of stretching.
+    Emptiness-only fall-through wasn't enough — pluck has 30 samples AND a
+    6-semitone hole, so a note in the hole would have been stretched while
+    good synth samples sat unused. Verified live: "pluck - mid" now comes
+    from a synth sample at +1 instead of a pluck at -5.
+- Also new, and worth knowing: his melodic material is mostly LOOPS
+  (median 9.6s), not one-shots, so a source longer than CHOP_SECS (3s) is
+  chopped to its FIRST hit before being used as a note (_one_hit, reusing
+  melodic_loops.chop_onsets). Without that a "note" drags the rest of the
+  phrase in behind it. Short one-shots are untouched, which is why the
+  brass built earlier in the day sounds identical.
+- Indexing cost: ~76ms/file, ~60s for the first full pass over 802
+  candidates, then cached per (path,size) in
+  ~/.reason_voice/instrument_sampler_index.json. scan() takes a `status`
+  callback so the app can show progress instead of appearing hung.
+- Verify by: 498/498 tests pass (507 minus the 12 deleted synth tests plus
+  3 new). All 12 legends exercised in-process, 12 variants each: every one
+  voices, ZERO silent or None chord lanes. Rendered #1052 Timberline
+  (synth stack), #1053 Just Flame (brass stack), #1054 Doc Day (strings
+  arp + synth stabs), #1055 J Dillo — stem names confirm the sampled
+  voices. midi-validity-gate: 4/4 PASS. All 56 demo WAVs checked
+  programmatically: no NaN, no clipping, none silent.
+- Status: open — owner has NOT heard any of it yet. "Sound Demos/" now has
+  one set per chord_source word (low/mid/high + stabs), deliberately
+  demoed THROUGH the VOICES mapping so he judges what beats actually make,
+  not raw per-group audio the machine would never produce.
+- Deliberately NOT removed, flagged rather than assumed: chord_synth
+  .bass_voice (sub808). That's the tuned 808 — a drum-machine voice he
+  asked for, and song-keys.md wants one consistent low end. He said "get
+  rid of them" about the instrument synths; the 808 was never in that
+  question. If he does want a sampled bass, that's a separate decision.
+- Old synth demo WAVs MOVED (never deleted) into "Sound Demos/Retired
+  2026-07-23 - synth horn (replaced by samples)/" with a plain-language
+  note, per the house rule.
+
+### 2026-07-23 Brass is SAMPLED now — synth horn deleted, multi-sample built
+- Context: owner directive "Sound Library — Sampling Instructions": wherever
+  the project synthesizes instrument voices, sample from his own loops
+  instead, pitch-mapped across the range with a REQUIRED multi-sample
+  approach. Explicitly cancels the older "don't use loops" guidance — loops
+  and samples are now the approved, required source. Directly follows his
+  rejection of the synthesized horn earlier the same day.
+- Decision/change: (1) new tools/brass_sampler.py — 38 brass chops from his
+  own packs, each one's SOUNDING PITCH detected (autocorrelation, numpy
+  only), indexed, and resampled to hit any target note exactly. `nearest`
+  picking the closest source note IS the zone map, so there's no separate
+  zone table to keep in sync. (2) beat_machine's `horns` chord_source now
+  calls it (arp -> note_slice through the existing arp_riff, sustain ->
+  play_chord), and unlike the old synth call it can fail and fall through.
+  (3) DELETED lead_synth.horn_chord + the horn_stab/horn_sustain presets.
+  (4) Restored Just Flame's chord_source to [["horns",3],["loop",2]] — the
+  park reason (rejected synth tone) no longer exists.
+- Reasoning / what NOT to re-derive:
+  - The chops name the SONG KEY, not the note sounding ("89 Bpm_Cm_BLEECH_
+    Muted Horns 1"), unlike the London Strings library where string_sampler
+    reads an exact MIDI note out of the filename. That difference is the
+    entire reason this module exists instead of reusing string_sampler.
+  - A key-agreement GATE was built, measured, and REJECTED: it threw away
+    samples detected at 0.98 clarity purely because the note was a 4th or
+    2nd above the song key. Checked by hand — those are ordinary diatonic
+    voicings (Ab/F/D/G over Cm), not detection errors. Clarity alone gates.
+  - MIN_CLARITY 0.70 was measured, not guessed: 0.60->0.70 drops the six
+    shakiest reads (the ones that disagree with their own key labels, e.g.
+    a "Brass Moan" bend with no single pitch) and costs NOTHING — worst-case
+    shift over the chord range stays 2 semitones either way.
+  - Coverage today: 38 samples, MIDI 43-84, worst shift over the chord/arp
+    range (MIDI 48-77) is 2 SEMITONES. That is the multi-sample requirement
+    met; `./.venv/bin/python tools/brass_sampler.py` reprints this table.
+  - Sax fell out of the pool at 0.70 (only 1 sample, 0.66). Left out on
+    purpose: one sample stretched across a range is exactly what the owner
+    forbade, so no sax instrument rather than a bad one.
+- Bug found by the new tests, worth remembering: the first detector
+  octave-errored — plain argmax read G4 and G5 as the same G3, because
+  autocorrelation peaks at every MULTIPLE of the period and a longer
+  multiple can land on a sample boundary and outscore the fundamental when
+  the true period isn't a whole number of samples. Fixed by taking the
+  SHORTEST lag within 90% of the best peak. DETECT_VERSION in the module
+  invalidates cached pitches whenever detection changes — bump it if you
+  touch detect_pitch, or stale notes are trusted forever.
+- Verify by: 507/507 tests pass (487 baseline + 20 new in
+  tests/test_brass_sampler.py, which test the pitch/shift math on
+  SYNTHESIZED tones so they don't skip when the drive is unplugged).
+  Confirmed the wiring actually fires: 24 renders of Just Flame's chord
+  path gave 44 brass slots vs 32 loop, matching the 3:2 weight, with zero
+  synth-pad fallbacks. Rendered #1049/#1050/#1051 — stems are named "brass
+  stack"/"brass stabs". midi-validity-gate run explicitly: 3/3 PASS. Demo
+  WAVs checked for silence/clipping: all ok.
+- Status: open — the sampled brass has NOT been heard by the owner yet.
+  "Sound Demos/Brass stack - low/mid/high.wav" + "Brass stabs - arp.wav"
+  are there for that (low/mid/high on purpose, to test whether the zoning
+  holds at the edges, not just the middle). If it still misses, the fix is
+  the sample POOL or the arp/sustain split — NOT a return to synthesis,
+  which is now against standing instruction.
+- Scope deliberately NOT taken (owner said to ask first): chord_synth's
+  pad_voice/_pluck are still synthesized, and are the last-resort floor
+  when no sample loads — deleting them means a chords beat renders SILENT
+  with the drive unplugged, so that's his call, not mine. bass_voice/sub808
+  also left alone: that's the tuned 808, a drum-engine tone he asked for,
+  not a faked instrument. lead_synth's talkbox/gfunk_whistle/horror_organ
+  remain synths, still unwired and still awaiting his ear.
+- Note: the old synth-horn demo WAVs were MOVED, not deleted, into
+  "Sound Demos/Retired 2026-07-23 - synth horn (replaced by samples)/"
+  with a plain-language note, per the never-delete house rule.
+
 ### 2026-07-23 Volume control for every sound — one feature request, three bugs found chasing it
 - Context: owner: "I still want to be able to control the volume for All
   sounds. So add them for that." — specifically the synthesized lanes (808
@@ -753,3 +937,264 @@ entries.
 - Outcome: loop stays paused until a new objective is defined (e.g. a
   KICK_BANK/groove-library autoresearch segment) and /autoresearch is run to
   resume, which deletes the sentinel.
+
+### 2026-07-23 Closed harmony-signature research for all 12 legends
+- Context: HARMONY-IDENTITY-PROPOSAL.md had only researched 4 of 12 legends
+  (Doc Day, J Dillo, DJ Premium, Timberline). Owner asked to research the
+  rest, starting with 4 (Farrow, Kane East, Razor, No Alias), then asked for
+  the remaining 3 (Swish Beatz, Just Flame, Hitt Kid), then asked to redo
+  the first 4 at greater depth since they were a shallow single-pass.
+- Decision/change: research-only, nothing wired into legends_config.json.
+  Wrote "Addendum v2" in HARMONY-IDENTITY-PROPOSAL.md replacing the shallow
+  first pass entirely — deeper agents cross-checked 3+ eras per producer,
+  verified BPM/key/sample data via web search where possible (caught 2 wrong
+  assumptions: "Roc Boys" isn't Just Blaze, "Show Me What You Got" doesn't
+  sample Jackson 5), and gave explicit contrast notes between similar
+  legends. All 12 roster legends now have a researched or (Mustang, flagged
+  honestly) general-knowledge signature.
+- Key findings worth not re-litigating: 4 legends are genuinely bimodal
+  (Kane East, Hitt Kid = chronological era-split; Just Flame, No Alias =
+  per-song mode weighting, not era-split — different `alt`-wiring shape).
+  Farrow and Swish Beatz both lean synth and would render identically today
+  — real gap is a synth-timbre/density field that doesn't exist yet. Just
+  Flame's "strings" chord_source means horn/brass stack, not string pads —
+  flagged as highest-priority schema note before wiring him, or he'll
+  collapse into Kane East's orchestral mode. Razor's detune is artifact-
+  origin (period sampler/tape limitations), aesthetically retained once
+  better gear was available, not composed from day one.
+- Verify by: no code changes made, nothing to test. The open item is the
+  owner's pick of which legend to wire + audition first (No Alias is
+  lowest-risk: single mode, zero new progression slugs, cleanest data).
+- Status: open
+
+### 2026-07-23 Wired No Alias's harmony signature + rendered audition batch
+- Context: following up on the 12-legend research pass, picked the
+  lowest-risk legend (No Alias/No I.D.) to actually wire, per the
+  established audition-gated pattern (Doc Day, J Dillo, DJ Premium,
+  Timberline before it).
+- Decision/change: added `signature` block to No Alias in
+  legends_config.json (mode major-lean 2:1 not locked, progressions
+  nostalgic_jazz/vamp_i_iv7/dark_menacing, chord_source loop 3:1 synth,
+  tempo 85-96). Inserted as a targeted text edit matching the file's
+  existing hand-compacted formatting (short arrays on one line) rather
+  than a full json.dump rewrite — a first attempt at using
+  `json.dump(..., indent=1)` reformatted the ENTIRE 4000-line file because
+  earlier sessions had hand-compacted these blocks past what the codebase's
+  own writer produces; reverted via git checkout and redid as a minimal
+  Edit. Worth remembering: never json.dump-rewrite this file (or
+  crew_config.json / genres_config.json, same pattern) for a single-key
+  addition — always a targeted text edit.
+- Verify by: 470/470 tests passed after the change. Rendered a 3-beat
+  audition batch (`--render "No Alias" --count 3 --notes "chords"`):
+  beats #1028/#1029/#1030 landed on /Volumes/TBOTC 3, all "checks passed"
+  (MIDI validity gate), progressions/keys matched the signature
+  (vamp_i_iv7 in D major/minor, nostalgic_jazz in C major) — confirms the
+  signature is actually being read, not silently ignored.
+- Status: confirmed
+- Outcome: owner listened to #1028/#1029/#1030, said "keep" — No Alias's
+  signature stays live as-is, no tuning needed. Moving to Swish Beatz next.
+
+### 2026-07-23 Wired Swish Beatz's harmony signature + rendered audition batch
+- Context: continuing the audition-gated legend rollout after No Alias
+  cleared ("keep", no tuning needed).
+- Decision/change: added `signature` to Swish Beatz in legends_config.json
+  as a targeted text edit (learned from the No Alias mistake — did not
+  touch the rest of the file). Minor mode, low variance, chord_source
+  synth-dominant (4:1), progressions vamp_static_riff/trap_dark_metro/
+  dark_menacing, tempo 90-105. Flagged in the _note (carried from research):
+  Swizz and Farrow will render near-identically once Farrow is also wired —
+  deferred, not solved, no field yet for stab timbre/density.
+- Verify by: 470/470 tests passed. Rendered 3-beat audition batch: #1031
+  "Podium Eruption" (98bpm, F minor, vamp_static_riff), #1032 "Sideline Lap"
+  (98bpm, G minor, vamp_static_riff), #1033 "Banner Stomp" (98bpm, E minor,
+  trap_dark_metro) — all checks passed, all landed on the drive.
+- Status: confirmed
+- Outcome: owner listened to #1031/#1032/#1033, said "keep" — Swish Beatz's
+  signature stays live as-is. Moving to Razor next.
+
+### 2026-07-23 Wired Razor's harmony signature + rendered audition batch
+- Context: continuing the audition-gated rollout after No Alias and Swish
+  Beatz both cleared ("keep").
+- Decision/change: added `signature` to Razor in legends_config.json as a
+  targeted text edit. Minor, vamp_static_riff-dominant (sample-inherited
+  vamp cells that don't develop), chord_source loop at 5:1 (the heaviest
+  loop lean on the roster), tempo 80-96. _note documents the detune
+  clarification from research: artifact-origin (period sampler/tape
+  limitations), aesthetically retained once better gear was available on
+  Wu-Tang Forever, not composed from day one — that processing trait has
+  no schema field, flagged rather than silently dropped.
+- Verify by: 470/470 tests passed. Rendered 3-beat audition batch: #1034
+  "Temple Creed" (84bpm, F minor, vamp_static_riff), #1035 "Rusty Fable"
+  (87bpm, D minor, vamp_static_riff), #1036 "Iron Scroll" (90bpm, G minor,
+  vamp_static_riff) — all checks passed, all landed on the drive.
+- Status: open — waiting on the owner's ear on #1034/#1035/#1036.
+
+### 2026-07-23 Corrected a false "alt field" assumption; wired 3 more legends
+- Context: owner said "keep going" after Razor, delegating judgment for the
+  remaining harder legends (Kane East, Hitt Kid, Farrow, Just Flame), which
+  earlier research/doc drafts had assumed needed the schema's `alt` field
+  for a second harmony mode.
+- Correction: checked the actual code before wiring anything — `preset["alt"]`
+  (crew.py) is the drum-era alt-snare/reverb mechanism, completely unrelated
+  to harmony. No mechanism exists for rolling between two full harmony modes.
+  This was a false assumption carried from the original addendum text into
+  every subsequent research prompt; corrected in HARMONY-IDENTITY-PROPOSAL.md.
+- Decision/change: rather than build new engine machinery for a
+  harmony-mode-alt speculatively (not asked for), wired each era-split
+  legend with ONE mode only, picking whichever the research itself flagged
+  as more distinctive/better-differentiated, and documented the dropped era
+  as a deliberate not-built follow-on:
+  - Kane East -> orchestral/epic (strings sustain, epic+uplifting), not
+    chipmunk-soul (already crowded: Dilla/No Alias/Razor all loop-dominant).
+  - Hitt Kid -> King's Disease/soulful-sample (loop, nostalgic_jazz), not
+    club-trap era, per the research's own explicit recommendation.
+  - Farrow -> classic-minimal (synth stab, vamp_static_riff), not later pop.
+  - Just Flame -> NOT wired. His "strings" chord_source is supposed to mean
+    horn/brass stack, but the engine's strings voice is a literal string
+    pad today — wiring him now would make him sound like a quieter Kane
+    East. Held back rather than shipped wrong; needs a lead-horn voice or
+    an explicit decision to accept the mismatch.
+- Verify by: 470/470 tests passed after all 3 additions (targeted text
+  edits, not full-file rewrites — learned from the earlier mistake).
+  Rendered 3-beat audition batches for each: Farrow #1037/#1038/#1039 (G
+  minor, vamp_static_riff), Kane East #1040/#1041/#1042 (epic/uplifting in
+  G minor and Bb minor), Hitt Kid #1043/#1044/#1045 (vamp_i_iv7 in D minor
+  and C minor) — all checks passed, all landed on the drive.
+- Status: open — waiting on the owner's ear on Razor/Farrow/Kane East/Hitt
+  Kid batches (#1034-#1045). Just Flame remains an open decision, not a
+  to-do: needs either the lead-horn-voice build or an explicit "wire it
+  anyway" call from the owner.
+
+### 2026-07-23 Built the two missing instrument engines (lead synth + scratch)
+- Context: owner asked, after the Just Flame hold, for a full inventory of
+  every missing "instrument group" the legend research had flagged, in
+  order of importance, and said to build them all before wiring more
+  legends.
+- Decision/change: built 2 new self-contained synthesis modules, same
+  numpy-only style as chord_synth.py/string_sampler.py, no new dependency:
+  - tools/lead_synth.py — a monophonic lead/brass engine (stacked detuned
+    sawtooth oscillators through make_drum_loops.lowpass, reused rather
+    than writing a new filter). 5 presets: talkbox (Dre), gfunk_whistle,
+    horror_organ (Memphis), horn_stab (Swizz/Just Blaze accent), horn_sustain
+    (Just Blaze's held stack). Covers the "Follow-on #2" gap from the
+    original HARMONY-IDENTITY-PROPOSAL.md in one build instead of one per
+    producer.
+  - tools/scratch.py — a turntable scratch performance engine (position-
+    over-time + fader-over-time curves, read via np.interp — a real hand
+    gesture, not a filter). 4 patterns: baby, chirp, transform, scribble.
+    Closes DJ Premier's "scratched vocal hooks" gap.
+  Both have a `_report()`/`__main__` demo and a real pytest file
+  (test_lead_synth.py, test_scratch.py) per the house rule that non-trivial
+  logic needs a runnable check, not just a claim.
+- NOT built, flagged instead of faked:
+  - Auto-Tuned vocal lead (Kanye's 808s & Heartbreak era) — needs an
+    actual sung melody to pitch-correct; there's no vocal-melody synthesis
+    in this codebase and building a passable one is a much bigger, lower-
+    confidence undertaking than the two above. Recommended against outright
+    building it; a cheap stand-in (hard-quantized pitch through the same
+    lead_synth engine) was offered as an option instead of silently
+    skipping or silently shipping something that might sound bad.
+  - Live-band instrumentation (N.E.R.D's real guitar/full-band material) —
+    this isn't a missing-instrument gap, it's a different kind of project
+    (full band arrangement vs. a drum-machine beat with chords). Declined
+    to build as out of scope for this engine, explained why rather than
+    silently dropping it.
+- Verify by: 487/487 tests passed (470 baseline + 8 lead_synth + 9
+  scratch). Both modules' own demo (`python3 tools/lead_synth.py` /
+  `scratch.py`) run clean, no NaNs/clipping across all 9 presets/patterns.
+- Status: open — NEITHER new engine is wired into beat_machine.py's actual
+  per-legend render yet (that's a separate integration decision: does a
+  lead line ride as an extra lane alongside the chord pad, or replace it?
+  same question for when a stab preset should retrigger vs when it should
+  be one held tone). Deferred to when a specific legend (Just Flame, or a
+  future Doc Day/G-funk/Memphis tune-up) actually gets wired to use it.
+
+### 2026-07-23 Wired Just Flame — all 12 legends now have a signature
+- Context: Just Flame was held back deliberately (see prior entry) until a
+  horn voice existed, since his research finding was that his chord_source
+  had always been described as "strings" but ACTUALLY means a layered
+  horn/brass stack — wiring him against the string-pad voice would have
+  collapsed him into Kane East's orchestral mode.
+- Decision/change: (1) added `horn_chord()` to tools/lead_synth.py — the
+  polyphonic counterpart to lead_line, same role string_sampler.play_chord
+  fills for strings; (2) added a `horns` branch to beat_machine._build_chords
+  + the `import lead_synth`, so `chord_source: horns` is now a first-class
+  voice distinct from `strings`, following the same arp=stab / sustain=held
+  split every other voice uses; (3) added Just Flame's `signature` with
+  chord_source [["horns",3],["loop",2]] and chord_rhythm rolling stab-vs-held
+  (his research's "sustain/stab hybrid").
+- Engine finding worth NOT re-deriving: a signature's `mode` has NO effect on
+  synthesized chord qualities. Verified directly — harmony.compose(C major,
+  epic) and (C minor, epic) return byte-identical chords (Cm, A#, G#, A#),
+  because progressions_config.json fixes each chord's quality absolutely and
+  the key only supplies the root pitch class + spelling. `mode` therefore
+  only affects (a) the printed key label in the render report and (b) which
+  melodic loop samples count as in-key (chord_synth.sample_pool -> in_key).
+  Consequence: the weighted-mode feature added for J Dillo does less than
+  its docstring implies. A "major" signature paired with a structurally
+  minor progression (epic = i-VII-VI-VII) prints a confusing
+  "epic in C major (Cm, A#...)" line — cosmetic, pre-existing, NOT caused by
+  this wiring, and it affects Kane East's epic beats identically (his label
+  just happens to read consistently because his mode is minor).
+- Verify by: 487/487 tests passed. Confirmed the horn path actually fires by
+  calling _build_chords in-process across 6 variants — got "horn stabs" and
+  "horn stack" labels plus the weighted loop secondary, matching the 3:2
+  config. Rendered audition batch #1046 "Cathedral Salute" (91bpm, epic),
+  #1047 "Brass Crescendo" (99bpm, uplifting), #1048 "Royal March" (99bpm,
+  epic). Ran the midi-validity-gate skill explicitly: 3/3 PASS. Recipe
+  pairing 3/3.
+- Status: open — waiting on the owner's ear on #1046/#1047/#1048. This is
+  the first beat batch in the project's history to use a synthesized horn
+  voice, so it's the least-proven audio path on the roster; if it sounds
+  wrong, the fix is lead_synth's PRESETS numbers (horn_stab/horn_sustain),
+  not the signature.
+
+### 2026-07-23 Skills-compliance check found a real gap (midi-validity-gate)
+- Context: owner asked mid-session to confirm all attached skills/plugins
+  were actually being used.
+- Finding: the `midi-validity-gate` skill requires explicitly running
+  .claude/skills/midi-validity-gate/scripts/check_midi.py on every rendered
+  .mid before reporting beats as ready. Across 18 beats this session
+  (#1028-#1045) that was NOT run — the render's own "checks passed" message
+  (duration/LUFS) had been trusted as if it were the gate. It isn't.
+- Outcome: ran the real gate retroactively on all 18 — all PASS, plus 3/3 on
+  the later Just Flame batch. Right outcome, but it had been asserted on
+  faith, which is precisely what that skill exists to prevent. Recipe
+  pairing also verified (18/18 then 3/3).
+- Also noted: SCRATCH.md still holds ~290 lines from a prior session; the
+  session-ledger skill says to clear or archive it at session start.
+- Status: confirmed (gap found and closed)
+
+### 2026-07-23 Horn tone REJECTED on audition; Just Flame parked; demos built
+- Context: owner listened to Just Flame #1046-#1048 (the first beats ever to
+  use the synthesized horn voice) and rejected the tone outright: "I do not
+  like the way that horn sounds at all." He also declined to wire the other
+  new voices sight-unheard: "I would want to hear what those other sounds
+  actually sound like before agreeing to wire them in."
+- Decision/change: (1) built tools/demo_sounds.py — renders every new voice
+  to "Sound Demos/" as listenable WAVs. Applies the beats' audition-before-
+  live discipline to INSTRUMENTS, which had never been done: previously a
+  new voice could only be heard by rendering a whole beat around it.
+  (2) Parked Just Flame's horns — chord_source temporarily loop-dominant so
+  nothing renders with the rejected tone, with a `_horns_status` key in his
+  config recording that this is interim and musically wrong for him (on loop
+  alone he overlaps Dilla/No Alias/Razor), plus how to restore it.
+- Honest note on the parked state: this leaves Just Flame the ONLY legend
+  whose live signature does not match his research. That's deliberate —
+  better a documented placeholder than a live sound the owner rejected.
+- Demo spread offered rather than guessing at a fix: 4 horn variants (A =
+  the rejected one, kept in for A/B reference, B darker/softer attack, C
+  mellow/few harmonics, D bright/hard). These are PARAMETER variants of the
+  existing engine, zero new code. If none land, the likely real fix is a
+  brass attack filter-sweep, which the engine does not have — a static
+  filtered saw stack may simply not be able to sound like brass. Flagged
+  rather than promised.
+- Scratch demos deliberately use a REAL vocal one-shot from the owner's
+  library (Perc_Vox_Fx 0010), not a synth tone — a scratch on a sine says
+  nothing about how it will sound on his material.
+- Verify by: 487/487 tests pass. All 13 demo WAVs inspected programmatically
+  for duration/peak/RMS — none silent, none clipping. Cannot verify they
+  SOUND good; that is explicitly the owner's ear, which is the point.
+- Status: open — waiting on the owner to listen to Sound Demos/ and say
+  which (if any) horn variant works, and which of talkbox / gfunk_whistle /
+  horror_organ / the 4 scratch patterns are worth wiring.

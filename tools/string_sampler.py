@@ -39,6 +39,10 @@ import numpy as np                                          # noqa: E402
 
 from make_drum_loops import SR                              # noqa: E402
 from make_hiphop_tracks import load_audio, norm_rms         # noqa: E402
+# the de-click/length-fit helpers live next door because the SAME defect
+# was found there first (owner 2026-07-23: a click at the end of every
+# sustained chord). Shared rather than copied so a fix lands once.
+from instrument_sampler import _declick, _fit_length         # noqa: E402
 from sample_library import AUDIO_EXTS                        # noqa: E402
 
 ROOT = "/Volumes/TBOTC 3/Sample Packs/London Symphonic Strings Volume I"
@@ -171,11 +175,16 @@ def note_slice(index, note, dur, sr=SR, cache=None):
 
 def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR):
     """Sum one sample per MIDI note in `notes` into a `dur`-second chord
-    bed. Each note is cropped/looped to length the same loop-safe way
-    every lane fits a bar (no edge fades), then the stack is RMS-
-    normalized so a 4-note chord doesn't clip. Returns None if not one
-    note could be voiced (empty index / drive gone), so the caller can
-    fall back to the synth pad."""
+    bed. Each note is fitted to length with CROSSFADED repeats and ramped
+    to zero at both edges, then the stack is RMS-normalized so a 4-note
+    chord doesn't clip. Returns None if not one note could be voiced
+    (empty index / drive gone), so the caller can fall through.
+
+    The crossfade + edge ramps replaced a plain np.tile 2026-07-23. The
+    hard splice put a step discontinuity at every repeat seam and left the
+    bed ending mid-waveform, which the owner heard as a click at the end
+    of sustained chords. Measured on the sibling module: 0.209 step at a
+    seam before, 0.007 after. Same defect, same fix, shared helpers."""
     n = max(int(dur * sr), 1)
     out = np.zeros(n)
     voiced = 0
@@ -187,11 +196,7 @@ def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR):
         if x is None:
             continue
         mono = x.mean(axis=1) if x.ndim == 2 else x
-        if len(mono) >= n:
-            seg = mono[:n]
-        else:
-            seg = np.tile(mono, n // len(mono) + 1)[:n]
-        out = out + seg
+        out = out + _declick(_fit_length(mono, n, sr), sr)
         voiced += 1
     if not voiced:
         return None

@@ -970,11 +970,17 @@ def _wpick(spec, rng):
 
 def _source_order(pref, rng):
     """The order to try chord voices for one chord. No signature -> the
-    historical default (a sampled loop, else the synth pad). With a
-    signature `chord_source` (weighted, e.g. [['strings',2],['synth',1]])
-    roll a primary from the weights, then fall through the rest of that
-    identity's own sources; the synth pad is always the final floor since
-    pad_voice can never fail to produce audio."""
+    historical default (a sampled loop, else the sampled-instrument
+    voice). With a signature `chord_source` (weighted, e.g.
+    [['strings',2],['synth',1]]) roll a primary from the weights, then
+    fall through the rest of that identity's own sources.
+
+    "synth" is appended as the last resort, but note what it MEANS now
+    (owner 2026-07-23): sampled synth/pluck/pad material out of his own
+    banks, via instrument_sampler.VOICES — not an oscillator. The
+    synthesized pad that used to be the never-fails floor is deleted, so
+    unlike before, every source in this order can fail; _build_chords
+    handles the case where they all do."""
     if not pref:
         return ("loop", "synth")
     names = [s[0] for s in pref]
@@ -1051,6 +1057,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
         import string_sampler
         strings_idx = string_sampler.by_articulation(
             string_sampler.scan(), sig.get("articulation"))
+    # every non-strings, non-loop voice is now a SAMPLED instrument out of
+    # his own banks (owner 2026-07-23) — "synth" included, so this index is
+    # needed for essentially every signature, not just the horn one.
+    import instrument_sampler
+    inst_idx = instrument_sampler.scan()
     midi_chords = []
     for i, chord in enumerate(chords):
         start_bar = i * per_chord
@@ -1094,24 +1105,54 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                     label = "sample: %s, %s (%s)" % (
                         nm, chord["chord"], chord["roman"])
                     break
-            elif src == "synth":
-                audio = (chord_synth.arp_riff(chord["notes"], dur,
-                                              preset["bpm"])
-                         if rhythm == "arp"
-                         else chord_synth.pad_voice(chord["notes"], dur))
-                label = "%s, %s (%s)" % (
-                    "synth arp" if rhythm == "arp" else "synth chord pad",
-                    chord["chord"], chord["roman"])
-                break
-        if audio is None:                           # the never-fails floor
-            audio = (chord_synth.arp_riff(chord["notes"], dur, preset["bpm"])
-                     if rhythm == "arp"
-                     else chord_synth.pad_voice(chord["notes"], dur))
-            label = "%s, %s (%s)" % (
-                "synth arp" if rhythm == "arp" else "synth chord pad",
-                chord["chord"], chord["roman"])
-        kit[f"chord{i}"] = audio
-        sources[f"chord{i}"] = label
+            elif src in instrument_sampler.VOICES and inst_idx:
+                # EVERY named instrument voice — "horns", "synth", "piano",
+                # "guitar", ... — is sampled from his own banks and
+                # pitch-mapped (owner 2026-07-23). "synth" is a sampled
+                # synth/pluck/pad here, NOT an oscillator; the synthesized
+                # pad and pluck are deleted. rhythm follows the same
+                # arp=stab / sustain=held split every voice here uses.
+                groups = instrument_sampler.VOICES[src]
+                # Name the group the audio ACTUALLY came from: a thin group
+                # hands off to the next one (instrument_sampler.nearest), and
+                # a stem shouldn't claim "choir" when the note came from a pad.
+                got = instrument_sampler.nearest(
+                    inst_idx, chord["notes"][0], groups)
+                gname = got["group"] if got else src
+                if rhythm == "arp":
+                    cache = {}                       # one load per file, not step
+                    audio = chord_synth.arp_riff(
+                        chord["notes"], dur, preset["bpm"],
+                        lambda nt, sd: instrument_sampler.note_slice(
+                            inst_idx, nt, sd, cache=cache, groups=groups))
+                    voice = "%s stabs" % gname
+                else:
+                    audio = instrument_sampler.play_chord(
+                        inst_idx, chord["notes"], dur, groups=groups)
+                    voice = "%s stack" % gname
+                # arp_riff hands back SILENCE (not None) when every step was
+                # unvoiceable, now that there's no synth step to fall back
+                # on — so an all-zero buffer counts as a failure too.
+                if audio is not None and np.max(np.abs(audio)) > 0:
+                    label = "%s, %s (%s)" % (voice, chord["chord"],
+                                             chord["roman"])
+                    break
+                audio = None
+        if audio is None:            # no source in the identity worked: any
+            audio = instrument_sampler.play_chord(   # instrument he owns
+                inst_idx, chord["notes"], dur)
+            label = "sampled instrument, %s (%s)" % (chord["chord"],
+                                                     chord["roman"])
+        if audio is None:
+            # Nothing in his banks could voice this chord (in practice: the
+            # sample drive is unplugged, in which case the drum lanes have
+            # already failed to load too). There is no synthesized floor any
+            # more, by instruction — so drop the chord lane rather than
+            # invent a tone. The bass root and the MIDI still get written.
+            preset["lanes"].pop(f"chord{i}", None)
+        else:
+            kit[f"chord{i}"] = audio
+            sources[f"chord{i}"] = label
         kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
         sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
         midi_chords.append({"start_sec": start_bar * bar_s,

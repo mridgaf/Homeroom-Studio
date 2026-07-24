@@ -56,13 +56,22 @@ def test_by_articulation_families():
     assert string_sampler.by_articulation(idx, "bogus") == idx
 
 
-def test_arp_riff_length_pattern_and_pluck_fallback():
+def test_arp_riff_length_pattern_and_unvoiceable_steps():
     SR = chord_synth.SR
     dur, bpm = 2.0, 120.0                       # eighths = 0.25s -> 8 steps
-    # render_note returning None -> every step plucks, so it's non-silent
+    # render_note returning None used to fall back to a synthesized pluck.
+    # That synth is deleted (owner 2026-07-23) — an unvoiceable step is now
+    # left SILENT, so an all-None render_note gives a silent buffer, which
+    # is what _build_chords reads as "this voice failed, try the next".
     buf = chord_synth.arp_riff([48, 51, 55], dur, bpm, lambda n, d: None)
     assert len(buf) == int(dur * SR)
-    assert 0.0 < np.max(np.abs(buf)) <= 1.0     # audible, peak-guarded
+    assert np.max(np.abs(buf)) == 0.0           # silent, and no NaN
+    assert not np.isnan(buf).any()
+    # a real sampled step is audible and peak-guarded
+    loud = chord_synth.arp_riff(
+        [48, 51, 55], dur, bpm,
+        lambda n, d: np.ones(int(d * SR)) * 0.8)
+    assert 0.0 < np.max(np.abs(loud)) <= 1.0
     # render_note is actually driven, ascending through the octave, cycling
     calls = []
     chord_synth.arp_riff([48, 51, 55], dur, bpm,
@@ -70,7 +79,8 @@ def test_arp_riff_length_pattern_and_pluck_fallback():
     assert len(calls) == 8 and calls[:4] == [48, 51, 55, 60] \
         and calls[4:] == [48, 51, 55, 60]
     # empty chord -> silent buffer, no crash
-    assert np.max(np.abs(chord_synth.arp_riff([], dur, bpm))) == 0.0
+    assert np.max(np.abs(chord_synth.arp_riff(
+        [], dur, bpm, lambda n, d: None))) == 0.0
 
 
 def test_signature_tempo_range_clamps_the_lean():

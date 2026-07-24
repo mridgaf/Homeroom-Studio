@@ -2,27 +2,28 @@
 
 harmony.py decides WHICH notes a beat's progression is; this decides
 what they sound like once a beat actually asks for them ("chords" in
-the notes box, beat_machine.parse_directions). Same DSP style as
-make_drum_loops.py — plain numpy oscillators, no new dependency:
+the notes box, beat_machine.parse_directions).
 
-- bass_voice: the chord root, reusing sub808 (the same tone the
-  drum-only tuned-808 feature already puts under the kick) — the bass
-  IS the note the rest of the harmony reads as the key (song-keys.md).
-- pad_voice: a soft multi-note chord voice, slow attack so it sits
-  BEHIND the drums instead of fighting them for the transient.
+WHAT'S GONE (owner directive 2026-07-23, "get rid of them"): pad_voice
+(the synthesized chord pad) and _pluck (the synthesized arp step) were
+DELETED. Every melodic instrument now comes from his own sample banks —
+see tools/instrument_sampler.py. Do not add a synthesized chord voice
+back as a fallback; a step or chord that can't be voiced from his
+samples is left silent and the caller falls through to another source.
+arp_riff's `render_note` is required for that reason.
 
-Both return a plain mono array sized to `dur` seconds, meant to be
-dropped straight into beat_machine's kit dict as one long "one-shot"
-per chord — the same trick the tuned-808 sub already uses, just with a
-duration long enough to hold a whole chord section instead of one hit.
+What's left here, and why:
 
-sample_pool/loop_voice (punch list step 5-6 wiring, 2026-07-22): a real
-melodic-loop file from the owner's own library, in key, standing in for
-pad_voice when one's available — melodic_loops.py does the finding and
-the pitch-fit, this just picks and loads. bass_voice is untouched: the
-sub is a synth tone on purpose (song-keys.md wants one consistent low
-end), the pad is the one the docstring above always said sampled audio
-would beat.
+- bass_voice: the chord root on sub808 — the same tone the drum-only
+  tuned-808 feature already puts under the kick. This one is a synth
+  tone ON PURPOSE and was deliberately NOT removed: it's the tuned 808,
+  a drum-machine voice the owner asked for, and song-keys.md wants one
+  consistent low end rather than a different sampled bass per beat.
+- sample_pool/loop_voice: a real melodic-loop file from his library, in
+  key — melodic_loops.py does the finding and the pitch-fit, this picks
+  and loads.
+- arp_riff: the broken-chord rhythm, driven by whatever sampled
+  instrument the caller hands it.
 """
 from __future__ import annotations
 
@@ -36,37 +37,19 @@ from make_hiphop_tracks import load_audio, norm_rms
 from melodic_loops import chop_onsets, fit_loop, in_key, scan as scan_loops
 
 
-def _osc(freq, n, shape="sine"):
-    t = np.arange(n) / SR
-    if shape == "sine":
-        return np.sin(2 * np.pi * freq * t)
-    return 2 / np.pi * np.arcsin(np.sin(2 * np.pi * freq * t))  # triangle
+# Sample-peak ceiling for a chord buffer. NOT 0.99: a signal sitting at
+# 0.99 at every sample can still exceed 0 dBFS BETWEEN samples, and the
+# converter clips that on playback even though every stored sample is
+# legal. Measured on the owner's own demos at the old 0.99 ceiling:
+# "synth - high" hit +0.49 dBTP and "horns - stabs" +0.01 dBTP — real
+# digital clipping he could hear while a sample-peak check said clean.
+# -1 dBFS leaves room for the overshoot that resampling and stacked
+# attacks create. (The beats' own master stays far below this anyway.)
+PEAK_CEILING = 0.89
 
 
 def midi_to_hz(note):
     return 440.0 * 2.0 ** ((note - 69) / 12.0)
-
-
-def pad_voice(notes, dur, sr=SR):
-    """A soft chord pad from a stack of MIDI notes: sine + a little
-    triangle per note for warmth, slow attack/release so the onset
-    never competes with the kick/snare transient."""
-    n = int(dur * sr)
-    if n <= 0 or not notes:
-        return np.zeros(max(n, 0))
-    out = np.zeros(n)
-    for note in notes:
-        freq = midi_to_hz(note)
-        out += 0.6 * _osc(freq, n, "sine") + 0.4 * _osc(freq, n, "triangle")
-    out /= len(notes)
-    a = min(int(0.08 * sr), n // 4)          # 80ms attack, or shorter if n is tiny
-    r = min(int(0.15 * sr), n // 4)          # release tail, wraps via the
-    env = np.ones(n)                         # loop-fold like every other lane
-    if a:
-        env[:a] = np.linspace(0, 1, a)
-    if r:
-        env[-r:] *= np.linspace(1, 0, r)
-    return out * env * 0.5
 
 
 def bass_voice(root_note, dur, sr=SR):
@@ -99,7 +82,7 @@ def loop_voice(pool, dur, key, sr=SR, rng=None):
     """Load+fit the best-available pick from `pool` into `dur` seconds
     at `key`; (None, None) if the pool's empty, the file won't load, or
     (for a loop-kind pick) chopping finds no usable onset, so the
-    caller can fall back to pad_voice."""
+    caller can fall through to a sampled instrument voice."""
     if not pool:
         return None, None
     pick = (rng or random).choice(pool[:3])
@@ -114,40 +97,36 @@ def loop_voice(pool, dur, key, sr=SR, rng=None):
         mono = (rng or random).choice(chops)
     src_key = KeyContext(pick["key"], pick["mode"] or key.mode)
     fitted = fit_loop(mono, sr, dur, src_key=src_key, dst_key=key)
-    return norm_rms(fitted, -18.0), pick["name"]
+    # de-clicked for the same reason every other chord voice is: fit_loop
+    # crops/tiles, so the bed can start or end mid-waveform and step into
+    # whatever follows. Measured smaller here than on the samplers (0.008
+    # vs 0.35) but it's the same defect, so it gets the same one-liner.
+    # imported HERE, not at module top, on purpose: instrument_sampler
+    # imports PEAK_CEILING from this module, so a top-level import would
+    # be a circular one. Don't "tidy" it upward.
+    from instrument_sampler import _declick
+    return _declick(norm_rms(fitted, -18.0), sr), pick["name"]
 
 
-def _pluck(note, dur, sr=SR):
-    """A short plucked / e-piano-ish note for one arp step: quick attack,
-    exponential decay, a little 2nd+3rd harmonic for body. The rhythmic-
-    riff counterpart to pad_voice's held wash (used when no string sample
-    is available, or as the synth arp voice outright)."""
-    n = max(int(dur * sr), 1)
-    freq = midi_to_hz(note)
-    t = np.arange(n) / sr
-    tone = (0.7 * np.sin(2 * np.pi * freq * t)
-            + 0.25 * np.sin(2 * np.pi * 2 * freq * t)
-            + 0.1 * np.sin(2 * np.pi * 3 * freq * t))
-    env = np.exp(-t * 5.0)                    # ~200ms decay feel
-    a = min(int(0.004 * sr), n)               # 4ms attack, no click
-    if a:
-        env[:a] *= np.linspace(0, 1, a)
-    return tone * env * 0.5
-
-
-def arp_riff(notes, dur, bpm, render_note=None, sr=SR):
+def arp_riff(notes, dur, bpm, render_note, sr=SR):
     """Sequence chord `notes` as a repeating ascending arpeggio that fills
     `dur` seconds — the broken-chord "riff" feel (think the Still-D.R.E.
-    figure) instead of one held block like pad_voice/play_chord. One note
-    per eighth-note step; `render_note(note, seg_dur)` supplies each step's
-    audio (None -> a synth pluck), so the same rhythm drives sliced strings
-    or synth. Bar-aligned, and the tail of the last steps wraps back to the
-    top, so the buffer loops seamlessly (loop-safe render rule)."""
+    figure) instead of one held block like play_chord. One note per
+    eighth-note step; `render_note(note, seg_dur)` supplies each step's
+    audio, so the same rhythm drives any sampled instrument. Bar-aligned,
+    and the tail of the last steps wraps back to the top, so the buffer
+    loops seamlessly (loop-safe render rule).
+
+    `render_note` is REQUIRED as of 2026-07-23. It used to default to a
+    synthesized pluck, which is exactly the generated-instrument sound the
+    owner had removed; a step that can't be voiced from his samples is now
+    left SILENT rather than filled with an oscillator. A caller whose
+    render_note returns None for every step gets a silent buffer back, and
+    _build_chords treats that as "this voice failed" and falls through."""
     n = max(int(dur * sr), 1)
     out = np.zeros(n)
     if not notes:
         return out
-    render_note = render_note or (lambda nt, sd: None)
     step_s = (60.0 / bpm) / 2.0               # an eighth note, meter-agnostic
     nsteps = max(int(round(dur / step_s)), 1)
     pat = list(notes) + [notes[0] + 12]       # up through the octave, repeating
@@ -155,8 +134,8 @@ def arp_riff(notes, dur, bpm, render_note=None, sr=SR):
     for k in range(nsteps):
         note = pat[k % len(pat)]
         seg = render_note(note, seg_dur)
-        if seg is None:
-            seg = _pluck(note, seg_dur, sr)
+        if seg is None:                       # unvoiceable step: leave it
+            continue                          # silent, never synthesize one
         start = int(round(k * step_s * sr))
         end = start + len(seg)
         if end <= n:
@@ -166,6 +145,23 @@ def arp_riff(notes, dur, bpm, render_note=None, sr=SR):
             out[start:] += seg[:head]
             tail = seg[head:][:n]
             out[:len(tail)] += tail
+    peak = np.max(np.abs(out))
+    if peak <= 0:            # every step came back unvoiceable: hand back
+        return out           # the silence rather than NaN out of norm_rms
+    # The wrap above puts the tail's CONTINUATION at the front, but the
+    # buffer itself still ended mid-note at full amplitude — a step into
+    # whatever follows, heard as a click at the end (owner 2026-07-23).
+    # Ramping the last 60ms to zero removes the step without undoing the
+    # wrap: on a loop the front already carries the continuation, so this
+    # is the release the note should have had, not a fade on the loop.
+    # ...and the same at the START, where the wrap deposits that tail at
+    # full amplitude — a sound appearing from nothing on sample 0.
+    a = min(int(0.008 * sr), len(out))
+    r = min(int(0.06 * sr), len(out))
+    if a:
+        out[:a] *= np.linspace(0, 1, a)
+    if r:
+        out[-r:] *= np.linspace(1, 0, r)
     out = norm_rms(out, -18.0)
     peak = np.max(np.abs(out))                # overlapping stabs can stack
-    return out * (0.99 / peak) if peak > 0.99 else out
+    return out * (PEAK_CEILING / peak) if peak > PEAK_CEILING else out

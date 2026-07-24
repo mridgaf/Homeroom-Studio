@@ -7,3 +7,8 @@ __pycache__/
 
 # dated safe-file-ops holding folders (moved user files, never repo content)
 Cleared */
+
+# audition WAVs — 49MB of generated audio, rebuilt by tools/demo_sounds.py.
+# Binary and regenerable, so it stays out of history (git can't diff it and
+# never forgets it). Delete the folder and re-run that script to restore.
+Sound Demos/
