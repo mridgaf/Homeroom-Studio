@@ -158,7 +158,8 @@ def chip_note(note, dur, duty=0.5, voice="pulse", sr=SR):
     return _quantize(out, VOL_STEPS) * 0.6
 
 
-def arp_chord(notes, dur, rate_hz=NTSC_FRAME_HZ / 3.0, duty=0.5, sr=SR):
+def arp_chord(notes, dur, rate_hz=NTSC_FRAME_HZ / 3.0, duty=0.5, sr=SR,
+              tuning="equal"):
     """THE chiptune gesture: a chord faked on one voice by flicking
     between its notes many times a second. Two pulse channels meant a
     real triad was impossible, so the chip cycled the notes fast enough
@@ -167,6 +168,11 @@ def arp_chord(notes, dur, rate_hz=NTSC_FRAME_HZ / 3.0, duty=0.5, sr=SR):
     Default ~20 flips/second (every 3rd video frame), which is the
     classic bubbling speed. Faster reads as a buzzing timbre rather than
     a chord; slower stops fusing and just sounds like a fast arpeggio.
+
+    `tuning="atari"` snaps every note to the TIA's integer-divider grid
+    instead of equal temperament, so the chord comes out genuinely sour
+    in the way the hardware was — see `atari_detune_cents`. That is a
+    character choice, not a bug (New Math uses it deliberately).
     """
     n = max(int(dur * sr), 1)
     if not notes:
@@ -179,6 +185,8 @@ def arp_chord(notes, dur, rate_hz=NTSC_FRAME_HZ / 3.0, duty=0.5, sr=SR):
         note = notes[k % len(notes)]
         seg = min(step, n - pos)
         hz = midi_to_hz(note)
+        if tuning == "atari":
+            hz, _ = _tia_freq(hz)
         t = np.arange(seg) / sr
         phase = ((t + pos / sr) * hz) % 1.0     # continuous phase, no clicks
         out[pos:pos + seg] = np.where(phase < duty, 1.0, -1.0)
@@ -263,10 +271,32 @@ def chip_hat(dur=0.05, sr=SR):
         n, atk=0.0005, rel=0.02, sr=sr) * 0.4
 
 
-def chip_chord(notes, dur, duty=0.5, sr=SR):
+def count_rate(bpm, per_beat=3.0):
+    """Arp flicker rate from tempo, so the ripple is LOCKED to the beat
+    instead of free-running. `per_beat` is how many notes the chord
+    cycles through per quarter note — 3 is a triplet ripple, 5 is a
+    quintuplet (New Math's five-against-four, moved off the hat lane and
+    into the harmony).
+
+    Worth knowing before tuning this: a beat-locked rate lands WELL under
+    the ~20Hz the NES free-ran at — 5 per beat at 144bpm is only 12Hz —
+    which is below the point where the ear fuses the notes into a single
+    chord. That is the intended trade here, not an oversight: fused, you
+    hear a chord and the counting disappears; at 12Hz you actually hear
+    the five running against the four, which is the whole point of the
+    character. Push `per_beat` up if you want fusion instead of counting.
+    Clamped to a sane band either way.
+    """
+    hz = (bpm / 60.0) * float(per_beat)
+    return max(8.0, min(hz, 80.0))
+
+
+def chip_chord(notes, dur, duty=0.5, sr=SR, tuning="equal",
+               rate_hz=NTSC_FRAME_HZ / 3.0):
     """A chord the chiptune way — arpeggio-fused, not stacked. Peak
     guarded to the house ceiling so it can't clip between samples."""
-    out = arp_chord(notes, dur, duty=duty, sr=sr)
+    out = arp_chord(notes, dur, rate_hz=rate_hz, duty=duty, sr=sr,
+                    tuning=tuning)
     peak = np.max(np.abs(out))
     if peak > PEAK_CEILING:
         out = out * (PEAK_CEILING / peak)

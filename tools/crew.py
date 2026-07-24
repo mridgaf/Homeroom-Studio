@@ -377,6 +377,42 @@ DEFAULT_CREW = {
     # on NO ancestor: Jersey-club kick grammar plus the genuinely-untried
     # findings from the July 2026 research (quintuplet hat grid, Euclidean
     # percussion, one lane deliberately swinging against a straight kit).
+    # ------------------------------------------------------------------
+    # New Math, deepened 2026-07-24 at the owner's request ("give it
+    # deeper personality/style of your own design, along with adding that
+    # [video game] sound"). The design brief I set myself, written down so
+    # the character stays coherent if anyone extends it later:
+    #
+    #   ONE IDEA, FOUR DOMAINS: arithmetic you can hear.
+    #
+    # His rhythm was already division — five against four, Euclidean
+    # necklaces (spreading k hits evenly over n steps), clash-as-groove.
+    # Chip sound is division too: a square wave is a counter flipping
+    # between two states, the noise channel is a shift register, the
+    # faked chord is counting fast enough to fool the ear, and the
+    # Atari's sourness is integer division failing to land on a note.
+    # So the chiptune voice is not a costume on this character — it is
+    # the same idea he already was, in a new domain. The three additions:
+    #
+    #   HARMONY   progressions that divide the octave into EQUAL parts
+    #             (minor thirds = 4, major thirds = 3, whole tones = 6)
+    #             instead of resolving. Every other identity on every
+    #             roster uses functional harmony, which has a home to
+    #             return to. These have no home; they just come back
+    #             around. That is the harmonic form of a polyrhythm.
+    #   TUNING    chip_tuning "atari" — chords snap to the TIA's
+    #             integer-divider grid, so they are genuinely out of
+    #             tune. Everyone else calls that broken; he calls it the
+    #             number the division actually gives. This is the
+    #             character trait, and it is the one thing here I would
+    #             expect the owner to either love or veto outright.
+    #   RIPPLE    chip_count 5 — the chord flickers five times a beat, so
+    #             his five-against-four hat idea now also runs in the
+    #             harmony, drifting against the bar and re-aligning.
+    #
+    # Mode is major on purpose: none of these progressions are minor in
+    # any functional sense, and the bright chip square against a hard
+    # club kick is the "front edge" the character is named for.
     "New Math": dict(
         num=9, bpm=144, era="now", built="no one — the front edge",
         listen=("the new one. A club kick pattern that never sits where "
@@ -386,7 +422,20 @@ DEFAULT_CREW = {
                 "E(5,16) necklaces); and one lane swinging 58% while the "
                 "rest of the kit stays dead straight — the clash IS the "
                 "groove. Clean and punchy, mid-forward kick. Stamp is a "
-                "found-sound fx hit on the tail of bars 4/8"),
+                "found-sound fx hit on the tail of bars 4/8. Harmony is "
+                "an 8-bit square-wave ripple counting five to the beat, "
+                "on chords that divide the octave into equal steps and "
+                "never resolve — and it is tuned to an Atari's own "
+                "arithmetic, so it lands slightly, deliberately sour"),
+        signature=dict(
+            key=dict(roots=[["C", 3], ["D", 2], ["G", 2], ["A", 2],
+                            ["F", 1]], mode="major"),
+            progressions=[["math_minor_thirds", 3], ["math_major_thirds", 3],
+                          ["math_whole_tone", 2], ["vamp_static_riff", 1]],
+            chord_source=[["chip", 1]],
+            chord_rhythm="arp",
+            chip_tuning="atari",
+            chip_count=5),
         kit=dict(
             kick=("kick", None,["punch", "knock", "club", "tight"],
                   (0.5, 1.6)),
@@ -502,6 +551,18 @@ def load_crew(path=CONFIG):
                         and k not in p:
                     p[k] = DEFAULT_STYLE[n][k]
                     changed = True
+        # A crew member's harmony `signature` (New Math got the first one,
+        # 2026-07-24) is added to an existing config if it's missing, but
+        # NEVER overwritten — unlike the style keys above, this is meant to
+        # be hand-tunable and survive. Same add-only contract genres.py
+        # uses for a brand-new style.
+        for n, p in raw.items():
+            if not n.startswith("_") and n in DEFAULT_CREW \
+                    and "signature" in DEFAULT_CREW[n] \
+                    and "signature" not in p:
+                p["signature"] = json.loads(
+                    json.dumps(DEFAULT_CREW[n]["signature"]))
+                changed = True
         if changed:
             path.write_text(json.dumps(raw, indent=1))
         crew = {n: normalize_preset(p) for n, p in raw.items()

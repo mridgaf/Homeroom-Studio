@@ -22,6 +22,59 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 New Math deepened — "arithmetic you can hear" (my design)
+- Context: owner asked to put the new chiptune sound into New Math AND to
+  give that DJ "deeper personality/style of your own design" — explicitly
+  inviting authorship rather than a spec. Recorded here because it is the
+  first identity on any roster whose character is mine rather than a
+  transcription of a real producer, and a future session should extend it
+  coherently rather than bolt features on.
+- THE DESIGN, one sentence: New Math hears music as arithmetic, so the
+  chip voice is not a costume on him — it is what he already was, in a
+  new domain. His rhythm was ALREADY division (five-against-four hats,
+  Euclidean E(7,16)/E(5,16) necklaces, clash-as-groove), and chip sound
+  is division too: a square wave is a counter flipping, the noise channel
+  is a shift register, the faked chord is counting fast, and the Atari's
+  sourness is integer division failing to land on a note. Same idea,
+  four domains:
+  - RHYTHM (already existed): 5 against 4.
+  - HARMONY (new): three progressions that divide the octave into EQUAL
+    parts instead of resolving — math_minor_thirds (÷4), math_major_thirds
+    (÷3, the Coltrane cycle), math_whole_tone (÷6). Verified the root gaps
+    come out exactly 3/3/3, 4/4 and 2/2/2. Every other identity on every
+    roster uses functional harmony, which has a home to return to; these
+    have no home, they just come back around. That is a polyrhythm in
+    pitch.
+  - TUNING (new): chip_tuning "atari" — his chords snap to the TIA's
+    integer-divider grid, so they are genuinely out of tune (in a C
+    triad: C +0.3 cents, E -13, G +46). Everyone else calls that broken;
+    he calls it the number the division actually gives. This is the
+    character trait and the one I most expect the owner to love or veto.
+  - RIPPLE (new): chip_count 5 — the chord flickers five times per beat,
+    putting his hat-lane idea into the harmony.
+- Deliberate trade worth NOT "fixing": 5-per-beat at 144bpm is 12Hz,
+  BELOW the ~20Hz where the ear fuses a flicker into a chord. Fused, you
+  hear a chord and the counting disappears; at 12Hz you actually hear the
+  five running against the four. Chose audible counting over fusion.
+  count_rate's docstring says so — its first draft wrongly claimed the
+  notes fuse, corrected after measuring.
+- Engine: New Math is the FIRST crew member with a `signature` (all nine
+  were harmonically identity-blind, exactly as the genres were before
+  2026-07-24). load_crew now adds a missing signature from DEFAULT_CREW —
+  add-only, never overwrites, so hand-tuning survives. Two optional
+  signature keys added: chip_tuning and chip_count, read in
+  beat_machine's chip branch.
+- Verify by: 533/533 tests pass (3 new: the atari tuning option actually
+  detunes, count_rate locks to tempo, chip_chord passes both through —
+  so the identity can't silently revert to equal temperament). Chord path
+  100% "chiptune arp (atari-tuned)" across 15 variants, no silent lanes.
+  Rendered #1097-#1099; midi-validity-gate 3/3; chord stems peak 0.26-0.28,
+  true peak well under 1.0. The name pool already leaned mathematical, so
+  the beats came out "Fifth Remainder" and "Infinite Ratio" unprompted.
+- Status: open — owner has not heard #1097-#1099. If the Atari tuning is
+  too sour, the one-word fix is chip_tuning "equal" in his crew_config;
+  the harmony and the five-count survive that change independently.
+
 ### 2026-07-24 Chiptune: the ONE sanctioned synth exception, + a recipe
 - Context: owner asked how Atari/NES sounds are made, then "do both for
   sound, hold on genres" — i.e. build the chip voice into the machine AND

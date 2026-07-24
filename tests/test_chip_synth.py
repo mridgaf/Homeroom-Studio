@@ -161,5 +161,36 @@ def test_kick_sweeps_downward():
     assert edges(x[:half]) > edges(x[half:])
 
 
+def test_atari_tuning_option_actually_detunes_the_chord():
+    # New Math's character trait: chords snap to the TIA divider grid, so
+    # they come out genuinely sour. If this silently reverted to equal
+    # temperament the identity would quietly vanish, so it's pinned.
+    notes = [60, 64, 67]
+    equal = chip_synth.arp_chord(notes, 0.6, rate_hz=12.0, tuning="equal")
+    atari = chip_synth.arp_chord(notes, 0.6, rate_hz=12.0, tuning="atari")
+    assert not np.allclose(equal, atari), "atari tuning changed nothing"
+    # G (MIDI 67) is the sour one in this triad — well over a comma out
+    assert abs(atari_detune_cents(67)) > 25
+
+
+def test_count_rate_locks_the_ripple_to_the_beat():
+    from chip_synth import count_rate
+    # 5 notes per beat at 144bpm = 12 flips/sec (his quintuplet grid)
+    assert count_rate(144, 5) == pytest.approx(12.0)
+    assert count_rate(120, 3) == pytest.approx(6.0, abs=2.1)   # clamped low
+    # faster tempo -> faster ripple, and always inside the clamp
+    assert count_rate(90, 5) < count_rate(180, 5)
+    assert 8.0 <= count_rate(300, 8) <= 80.0
+
+
+def test_chip_chord_passes_tuning_and_rate_through():
+    a = chip_chord([60, 64, 67], 0.5, tuning="atari", rate_hz=12.0)
+    b = chip_chord([60, 64, 67], 0.5, tuning="equal", rate_hz=12.0)
+    assert not np.allclose(a, b)
+    for x in (a, b):
+        assert np.max(np.abs(x)) <= PEAK_CEILING + 1e-9
+        assert abs(x[0]) < 1e-9 and abs(x[-1]) < 1e-9
+
+
 def test_midi_to_hz_matches_concert_pitch():
     assert abs(midi_to_hz(69) - 440.0) < 1e-9

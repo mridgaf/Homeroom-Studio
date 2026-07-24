@@ -102,5 +102,20 @@
   "label": "Horrorcore tritone",
   "roman": "i-#ivdim (Am-D#dim)",
   "chords": [[0, "minor"], [6, "dim"]]
+ },
+ "math_minor_thirds": {
+  "label": "Octave divided in four (minor-third cycle)",
+  "roman": "i-biii-#iv-vi (Am-Cm-D#m-F#m)",
+  "chords": [[0, "minor"], [3, "minor"], [6, "minor"], [9, "minor"]]
+ },
+ "math_major_thirds": {
+  "label": "Octave divided in three (major-third cycle)",
+  "roman": "I-III-#V (A-C#-F)",
+  "chords": [[0, "major"], [4, "major"], [8, "major"]]
+ },
+ "math_whole_tone": {
+  "label": "Whole-tone climb (no leading tone, never resolves)",
+  "roman": "Isus2-IIsus2-IIIsus2-#IVsus2",
+  "chords": [[0, "sus2"], [2, "sus2"], [4, "sus2"], [6, "sus2"]]
  }
 }

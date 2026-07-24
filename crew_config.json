@@ -3242,7 +3242,7 @@
   },
   "kick_flavors": [
    [
-    0.3,
+    0.42,
     "808",
     [
      "punch",
@@ -3254,7 +3254,7 @@
     ]
    ],
    [
-    0.7,
+    0.58,
     null,
     [
      "punch",
@@ -3333,6 +3333,60 @@
      1
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      3
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "F",
+      1
+     ]
+    ],
+    "mode": "major"
+   },
+   "progressions": [
+    [
+     "math_minor_thirds",
+     3
+    ],
+    [
+     "math_major_thirds",
+     3
+    ],
+    [
+     "math_whole_tone",
+     2
+    ],
+    [
+     "vamp_static_riff",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "chip",
+     1
+    ]
+   ],
+   "chord_rhythm": "arp",
+   "chip_tuning": "atari",
+   "chip_count": 5
   }
  },
  "_style_version": 6,

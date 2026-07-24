@@ -1115,9 +1115,20 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                 # Honouring rhythm="sustain" here would be less authentic,
                 # not more, so it is ignored on purpose.
                 import chip_synth
-                audio = chip_synth.chip_chord(chord["notes"], dur)
-                label = "chiptune arp, %s (%s)" % (chord["chord"],
-                                                   chord["roman"])
+                # Two optional identity knobs, both New Math's (2026-07-24):
+                #   chip_tuning "atari" -> snap to the TIA's integer-divider
+                #     grid, i.e. genuinely out of tune, on purpose.
+                #   chip_count -> notes per beat in the ripple; 5 puts his
+                #     five-against-four hat idea into the harmony.
+                tuning = sig.get("chip_tuning", "equal")
+                per_beat = sig.get("chip_count")
+                rate = (chip_synth.count_rate(preset["bpm"], per_beat)
+                        if per_beat else chip_synth.NTSC_FRAME_HZ / 3.0)
+                audio = chip_synth.chip_chord(chord["notes"], dur,
+                                              tuning=tuning, rate_hz=rate)
+                label = "chiptune arp%s, %s (%s)" % (
+                    " (atari-tuned)" if tuning == "atari" else "",
+                    chord["chord"], chord["roman"])
                 break
             elif src in instrument_sampler.VOICES and inst_idx:
                 # EVERY named instrument voice — "horns", "synth", "piano",
