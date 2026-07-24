@@ -733,7 +733,7 @@ def load_legends(normalize):
             "grammar, no evolution, 4/4) live in the engine."],
             "_legends_version": LEGENDS_VERSION}
         doc.update(LEGENDS_DEFAULT)
-        CONFIG.write_text(json.dumps(doc, indent=1))
+        CONFIG.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     try:
         raw = json.loads(CONFIG.read_text())
         changed = False
@@ -755,7 +755,7 @@ def load_legends(normalize):
                     p[k] = LEGENDS_DEFAULT[n][k]
                     changed = True
         if changed:
-            CONFIG.write_text(json.dumps(raw, indent=1))
+            CONFIG.write_text(json.dumps(raw, indent=1, ensure_ascii=False))
         legends = {n: normalize(p) for n, p in raw.items()
                    if not n.startswith("_")}
         if legends:

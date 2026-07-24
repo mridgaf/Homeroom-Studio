@@ -1,8 +1,8 @@
 {
  "_readme": [
-  "The Legends roster \u2014 twelve signature-style producers. Edit a number and the next render uses it; delete the file to regenerate the built-ins. Same schema as crew_config.json.",
+  "The Legends roster — twelve signature-style producers. Edit a number and the next render uses it; delete the file to regenerate the built-ins. Same schema as crew_config.json.",
   "These follow the crew's instrument sound-variation rules only; their likeness rules (tight swing, home-weighted grammar, no evolution, 4/4) live in the engine.",
-  "Owner decision 2026-07-22: the \"built\" real-producer names stay, INTERNAL ONLY \u2014 no rename, no drop. They may only ever appear in the local batch-player UI (owner's own reference). Exported file names, stems, and titles must keep using the sound-alike codename (the dict key / preset[\"title\"]), never preset[\"built\"]. Re-decide before anything here ships publicly."
+  "Owner decision 2026-07-22: the \"built\" real-producer names stay, INTERNAL ONLY — no rename, no drop. They may only ever appear in the local batch-player UI (owner's own reference). Exported file names, stems, and titles must keep using the sound-alike codename (the dict key / preset[\"title\"]), never preset[\"built\"]. Re-decide before anything here ships publicly."
  ],
  "_legends_version": 1,
  "Farrow": {
@@ -371,7 +371,7 @@
   "legend_swing": 50,
   "listen": "surgical West Coast: heavy punchy kick, a crisp hard snare that NEVER leaves 2 and 4, straight-eighth hats, tambourine and cowbell color, sparse disciplined arrangement with an occasional deep sub",
   "signature": {
-   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dre: dorian, not plain minor \u2014 the minor-tonic-to-MAJOR-IV move is the documented dorian tell and 'frequently used in funk'. gfunk_dorian_9 was added for the G-Funk GENRE on 2026-07-24 and proved there (owner: the reweight made it read sunnier); the same lesson applies to Dre, who is where that sound came from. piano added for the live-Rhodes half of his chain.",
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dre: dorian, not plain minor — the minor-tonic-to-MAJOR-IV move is the documented dorian tell and 'frequently used in funk'. gfunk_dorian_9 was added for the G-Funk GENRE on 2026-07-24 and proved there (owner: the reweight made it read sunnier); the same lesson applies to Dre, who is where that sound came from. piano added for the live-Rhodes half of his chain.",
    "key": {
     "roots": [
      "F",
@@ -1129,7 +1129,7 @@
    ]
   },
   "signature": {
-   "_note": "DEEPENED 2026-07-24 (owner: lean heavily on the Symphony bank). Chipmunk soul is DOCUMENTED as 'sped-up soul vocal samples PLUS Kanye's own string accompaniments and gospel choirs' \u2014 so this is the single best fit on the roster for the London Symphonic bank, now weighted 4 primary. choir added for the gospel choirs (documented); loop keeps the sped-up soul sample. Mode opened to weighted major/minor: chipmunk soul is warm and often borrows major (the joyful, nostalgic quality the research stresses), so it is not strictly minor. nostalgic_jazz + nostalgic_borrowed_minor added for the soul-sample 7ths.",
+   "_note": "DEEPENED 2026-07-24 (owner: lean heavily on the Symphony bank). Chipmunk soul is DOCUMENTED as 'sped-up soul vocal samples PLUS Kanye's own string accompaniments and gospel choirs' — so this is the single best fit on the roster for the London Symphonic bank, now weighted 4 primary. choir added for the gospel choirs (documented); loop keeps the sped-up soul sample. Mode opened to weighted major/minor: chipmunk soul is warm and often borrows major (the joyful, nostalgic quality the research stresses), so it is not strictly minor. nostalgic_jazz + nostalgic_borrowed_minor added for the soul-sample 7ths.",
    "key": {
     "roots": [
      "Bb",
@@ -1574,7 +1574,7 @@
   "legend": true,
   "listen": "ratchet club bounce: a sparse 808 kick that lands on the and-of-two pocket, dry claps on 2 and 4, layered snaps, minimal offbeat hats, clean digital, room for the chant",
   "signature": {
-   "_note": "DEEPENED + RESEARCHED 2026-07-24. Mustang was the one legend flagged as NEVER researched (built from general knowledge). Web research done now: DJ Mustard / ratchet \u2014 ~90bpm club, melodies of only THREE OR FOUR notes repeated with minimal variation, built on 'smooth lead synths, punchy horns, and airy pads', minor. So his voice is synth-led with horn stabs, NOT orchestral \u2014 this is the one identity in this batch that does NOT lean on the Symphony bank, because strings would be inauthentic to ratchet. strings kept only as a light 3rd option standing in for the 'airy pad' rather than using the weaker pack-scraped pad group (owner: prefer the Symphony bank over the created samples). Was the thinnest legend after the first four: one chord source, no chord_rhythm. Now three sparse vamps matching the 3-4-note minimalism.",
+   "_note": "DEEPENED + RESEARCHED 2026-07-24. Mustang was the one legend flagged as NEVER researched (built from general knowledge). Web research done now: DJ Mustard / ratchet — ~90bpm club, melodies of only THREE OR FOUR notes repeated with minimal variation, built on 'smooth lead synths, punchy horns, and airy pads', minor. So his voice is synth-led with horn stabs, NOT orchestral — this is the one identity in this batch that does NOT lean on the Symphony bank, because strings would be inauthentic to ratchet. strings kept only as a light 3rd option standing in for the 'airy pad' rather than using the weaker pack-scraped pad group (owner: prefer the Symphony bank over the created samples). Was the thinnest legend after the first four: one chord source, no chord_rhythm. Now three sparse vamps matching the 3-4-note minimalism.",
    "key": {
     "roots": [
      "F",
@@ -2312,7 +2312,7 @@
   "legend_swing": 53,
   "listen": "surgical boom bap at a locked 53% swing: tight punchy kick, cracking snare with real ghost notes, dead-steady eighth hats, scratch-stab color, moderate dust",
   "signature": {
-   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Premier: dorian RESTORED. It was flattened to minor earlier today when modal keys were found to return zero samples \u2014 but the real fault was in melodic_loops.in_key, now fixed to match by mode FAMILY, so he keeps his mode AND gets his loops. He is loop-DOMINANT, so that bug had been failing him over to synth on every single beat. horns added for his documented horn/vocal stabs.",
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Premier: dorian RESTORED. It was flattened to minor earlier today when modal keys were found to return zero samples — but the real fault was in melodic_loops.in_key, now fixed to match by mode FAMILY, so he keeps his mode AND gets his loops. He is loop-DOMINANT, so that bug had been failing him over to synth on every single beat. horns added for his documented horn/vocal stabs.",
    "key": {
     "roots": [
      "D",
@@ -2663,7 +2663,7 @@
   "legend": true,
   "listen": "beatbox stutter-funk: double-hit syncopated kicks, a clap that answers instead of insists, tabla and exotic perc off-center, silence used as an instrument, completely clean",
   "signature": {
-   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Timbaland: UPGRADED from phrygian to phrygian_dominant. Research 2026-07-24 ties his signature 'Get Ur Freak On' sound to the Hijaz/phrygian-dominant scale \u2014 the b2 against a MAJOR 3rd, whose augmented second is what reads as Middle Eastern. Plain phrygian (minor 3rd) does not make that sound. He also had the thinnest signature on the roster: ONE progression, ONE chord source. wood added for the tumbi/flute timbre that is his actual lead voice.",
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Timbaland: UPGRADED from phrygian to phrygian_dominant. Research 2026-07-24 ties his signature 'Get Ur Freak On' sound to the Hijaz/phrygian-dominant scale — the b2 against a MAJOR 3rd, whose augmented second is what reads as Middle Eastern. Plain phrygian (minor 3rd) does not make that sound. He also had the thinnest signature on the roster: ONE progression, ONE chord source. wood added for the tumbi/flute timbre that is his actual lead voice.",
    "key": {
     "roots": [
      "D",
@@ -4182,7 +4182,7 @@
   "built": "No I.D.",
   "legend": true,
   "legend_swing": 54,
-  "listen": "Chicago soulful boom bap: a deep rounded kick sitting far back in the pocket, a warm solid snare on 2 and 4, restrained hats, light dust \u2014 refinement over flash",
+  "listen": "Chicago soulful boom bap: a deep rounded kick sitting far back in the pocket, a warm solid snare on 2 and 4, restrained hats, light dust — refinement over flash",
   "kit": {
    "kick": [
     "kick",

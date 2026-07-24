@@ -1306,7 +1306,7 @@ def load_genres(normalize):
             "cross-pollination, no evolution, 4/4) live in the engine."],
             "_genres_version": GENRES_VERSION}
         doc.update(GENRES_DEFAULT)
-        CONFIG.write_text(json.dumps(doc, indent=1))
+        CONFIG.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     try:
         raw = json.loads(CONFIG.read_text())
         changed = False
@@ -1329,7 +1329,7 @@ def load_genres(normalize):
             raw["_genres_version"] = GENRES_VERSION
             changed = True
         if changed:
-            CONFIG.write_text(json.dumps(raw, indent=1))
+            CONFIG.write_text(json.dumps(raw, indent=1, ensure_ascii=False))
         out = {}
         for n, p in raw.items():
             if n.startswith("_"):

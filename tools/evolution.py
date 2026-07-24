@@ -359,7 +359,7 @@ def _load_config():
 
 def _save_config(doc):
     doc["_style_lock"] = True        # evolved DJs outrank factory syncs
-    _config_path().write_text(json.dumps(doc, indent=1))
+    _config_path().write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     # refresh the loaded roster in place so this session's next beat
     # composes with the change (crew.CREW is shared by reference)
     import crew

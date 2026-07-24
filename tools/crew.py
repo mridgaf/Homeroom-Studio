@@ -640,7 +640,7 @@ def load_crew(path=CONFIG):
             "lane entry: lane -> [pan, gain, [offset_ms, jitter_ms, "
             "swing, seed], bars]"]}
         doc.update(DEFAULT_CREW)
-        path.write_text(json.dumps(doc, indent=1))
+        path.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     try:
         raw = json.loads(path.read_text())
         # 2026-07-17 upgrade: pattern grammar, kick flavors, and guest-lane
@@ -677,7 +677,7 @@ def load_crew(path=CONFIG):
                     json.dumps(DEFAULT_CREW[n]["signature"]))
                 changed = True
         if changed:
-            path.write_text(json.dumps(raw, indent=1))
+            path.write_text(json.dumps(raw, indent=1, ensure_ascii=False))
         crew = {n: normalize_preset(p) for n, p in raw.items()
                 if not n.startswith("_")}
         if crew:
