@@ -5,7 +5,7 @@
   "density: sparse | home | busy \u2014 this style's own density, honoured instead of the house sparse-bed lean (owner decision 2026-07-19: genre fidelity wins in this box).",
   "Their other rules (pinned swing, home-weighted grammar, no cross-pollination, no evolution, 4/4) live in the engine."
  ],
- "_genres_version": 1,
+ "_genres_version": 5,
  "Memphis": {
   "num": 22,
   "bpm": 140,
@@ -348,6 +348,63 @@
       "china"
      ],
      "crash2"
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      3
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "G",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "dark_menacing",
+     4
+    ],
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "vamp_i_VI",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "organ",
+     3
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
+     1
     ]
    ]
   }
@@ -1681,6 +1738,63 @@
      "cutfx"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      1
+     ],
+     [
+      "E",
+      2
+     ],
+     [
+      "A",
+      2
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "emo_falling",
+     4
+    ],
+    [
+     "sad_accepting",
+     3
+    ],
+    [
+     "trap_dark_metro",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "guitar",
+     4
+    ],
+    [
+     "piano",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     3
+    ]
+   ]
   }
  },
  "Acid Rap Detroit": {
@@ -2357,6 +2471,67 @@
      "woods"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      3
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "D",
+      1
+     ]
+    ],
+    "mode": "major"
+   },
+   "progressions": [
+    [
+     "nostalgic_jazz",
+     3
+    ],
+    [
+     "uplifting",
+     3
+    ],
+    [
+     "dreamy",
+     2
+    ],
+    [
+     "nostalgic_borrowed_minor",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "piano",
+     3
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     2
+    ]
+   ]
   }
  },
  "Horror Rap": {
@@ -2698,6 +2873,58 @@
      "crash2"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "E",
+      1
+     ],
+     [
+      "A",
+      2
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "horror_tritone",
+     3
+    ],
+    [
+     "dark_menacing",
+     3
+    ],
+    [
+     "vamp_static_riff",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "organ",
+     3
+    ],
+    [
+     "string",
+     2
+    ],
+    [
+     "loop",
+     1
+    ]
+   ],
+   "chord_rhythm": "sustain"
   }
  },
  "Wonky": {
@@ -4804,6 +5031,67 @@
      "rims"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "A",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "gfunk_dorian_9",
+     6
+    ],
+    [
+     "dreamy",
+     2
+    ],
+    [
+     "nostalgic_jazz",
+     2
+    ],
+    [
+     "vamp_i_VI",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "synth",
+     3
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
+     1
+    ]
+   ]
   }
  },
  "Reggaeton Alt": {
@@ -5871,6 +6159,447 @@
      "cutfx"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "A",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "plugg_dream_9",
+     4
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ],
+    [
+     "dreamy",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "piano",
+     3
+    ],
+    [
+     "bell",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
+     2
+    ]
+   ]
+  }
+ },
+ "Chiptune": {
+  "num": 39,
+  "bpm": 126,
+  "era": "genre",
+  "built": "NES / Atari 2600 chip music \u2014 square leads, noise drums",
+  "genre": true,
+  "genre_swing": 50,
+  "density": "home",
+  "listen": "8-bit game music: a bubbling square-wave arpeggio standing in for chords the way the NES faked them, thin bright bleeps, tight dry drums with no reverb, and nothing smooth anywhere",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "punch",
+     "tight",
+     "electronic"
+    ],
+    [
+     0.4,
+     0.8
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "tight",
+     "electronic",
+     "clap"
+    ],
+    1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight",
+     "bright"
+    ],
+    0.22
+   ],
+   "perc": [
+    "perc",
+    null,
+    [
+     "blip",
+     "block",
+     "click"
+    ],
+    0.5
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "laser",
+     "blip",
+     "bleep",
+     "arcade"
+    ],
+    0.9
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     1,
+     50,
+     2371
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.82,
+    [
+     0,
+     1,
+     50,
+     2372
+    ],
+    [
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
+    ]
+   ],
+   "hat": [
+    -0.1,
+    0.3,
+    [
+     0,
+     2,
+     50,
+     2373
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "perc": [
+    0.16,
+    0.28,
+    [
+     0,
+     2,
+     50,
+     2374
+    ],
+    [
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
+    ]
+   ],
+   "stamp": [
+    -0.24,
+    0.34,
+    [
+     0,
+     1,
+     50,
+     2375
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": 0,
+  "wow": 0.0,
+  "sidechain": 0.12,
+  "space": [
+   "dry",
+   [
+    "snare"
+   ]
+  ],
+  "alt": null,
+  "drive": 1.1,
+  "kick_dist": 0.0,
+  "mix_sat": 0.0,
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     2,
+     4,
+     1,
+     1,
+     5,
+     2,
+     7,
+     1,
+     3,
+     3,
+     2,
+     2,
+     4,
+     1
+    ],
+    "hits": [
+     2,
+     4
+    ],
+    "double_p": 0.25
+   },
+   "snare": {
+    "modes": [
+     [
+      "backbeat",
+      0.7
+     ],
+     [
+      "halftime",
+      0.2
+     ],
+     [
+      "sparse",
+      0.1
+     ]
+    ],
+    "ghosts": [
+     0,
+     1
+    ],
+    "gcells": [
+     7,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "eighths",
+      0.4
+     ],
+     [
+      "sixteenths",
+      0.35
+     ],
+     [
+      "sparse",
+      0.25
+     ]
+    ],
+    "open_p": 0.05,
+    "roll_n": [
+     1,
+     2
+    ]
+   },
+   "perc": {
+    "modes": [
+     [
+      "sparse",
+      0.6
+     ],
+     [
+      "eighths",
+      0.4
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.6,
+    null,
+    [
+     "punch",
+     "tight",
+     "electronic"
+    ],
+    [
+     0.3,
+     0.6
+    ]
+   ],
+   [
+    0.4,
+    "808",
+    [
+     "punch",
+     "short"
+    ],
+    [
+     0.4,
+     0.8
+    ]
+   ]
+  ],
+  "library": {
+   "p": 0.15,
+   "tags": [
+    [
+     "electronic",
+     3
+    ],
+    [
+     "minimal",
+     2
+    ]
+   ]
+  },
+  "extras": {
+   "p": 0.45,
+   "nmax": 1,
+   "pool": [
+    [
+     "perc",
+     [
+      "blip",
+      "block"
+     ],
+     "blips"
+    ],
+    [
+     "fx",
+     [
+      "laser",
+      "arcade"
+     ],
+     "gamefx"
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      3
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "D",
+      1
+     ],
+     [
+      "F",
+      1
+     ]
+    ],
+    "mode": "major"
+   },
+   "progressions": [
+    [
+     "uplifting",
+     3
+    ],
+    [
+     "epic",
+     3
+    ],
+    [
+     "dreamy",
+     2
+    ],
+    [
+     "vamp_i_VI",
+     2
+    ],
+    [
+     "sad_accepting",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "chip",
+     1
+    ]
+   ],
+   "chord_rhythm": "arp"
   }
  }
 }

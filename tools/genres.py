@@ -57,7 +57,7 @@ from pathlib import Path
 from pattern_gen import KICK_BANK
 
 CONFIG = Path(__file__).resolve().parent.parent / "genres_config.json"
-GENRES_VERSION = 1
+GENRES_VERSION = 5
 
 R16 = "-" * 16
 _BK = ["----X-------X---"] * 8            # placeholder; compose rewrites
@@ -912,6 +912,65 @@ GENRES_DEFAULT = {
             ["perc", ["bell", "chime"], "bells"],
             ["fx", ["vocal", "reverse"], "cutfx"]]),
     ),
+    # Owner request 2026-07-24: "I like video game sounds, like, from
+    # Atari and early Nintendo." The 18th style, and the only one whose
+    # harmony voice is SYNTHESIZED — see tools/chip_synth.py for why that
+    # is a sanctioned exception rather than a backslide.
+    #
+    # Deliberate hybrid, stated so nobody 'fixes' it later: the CHORDS are
+    # chip (arpeggio-fused pulse, the real NES gesture) but the DRUMS come
+    # from his own sample packs, leaning tight/electronic/lo-fi. Reasons:
+    # the drum lanes are a sample-pool system and rebuilding them around
+    # synthesized noise would be a much larger change; and chiptune-
+    # influenced hip hop genuinely uses modern drums under chip melodies,
+    # so this is a musical choice, not only a cheap one. chip_synth does
+    # provide chip_kick/chip_snare/chip_hat if a pure-hardware drum lane
+    # is ever wanted — that is the upgrade path.
+    "Chiptune": dict(
+        num=39, bpm=126, era="genre",
+        built="NES / Atari 2600 chip music — square leads, noise drums",
+        genre=True, genre_swing=50, density="home",
+        listen=("8-bit game music: a bubbling square-wave arpeggio "
+                "standing in for chords the way the NES faked them, "
+                "thin bright bleeps, tight dry drums with no reverb, "
+                "and nothing smooth anywhere"),
+        kit=dict(
+            kick=("kick", None, ["punch", "tight", "electronic"], (0.4, 0.8)),
+            snare=("snare", None, ["tight", "electronic", "clap"], 1.0),
+            hat=("hat", None, ["closed", "tight", "bright"], 0.22),
+            perc=("perc", None, ["blip", "block", "click"], 0.5),
+            stamp=("fx", None, ["laser", "blip", "bleep", "arcade"], 0.9),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 1, 50, 2371), _BK),
+            snare=(0.0, 0.82, (0, 1, 50, 2372), _BK),
+            hat=(-0.1, 0.3, (0, 2, 50, 2373), _H8),
+            perc=(0.16, 0.28, (0, 2, 50, 2374), _H8),
+            stamp=(-0.24, 0.34, (0, 1, 50, 2375), _stamp_tail()),
+        ),
+        # bone dry on purpose: the hardware had no reverb, no filter, and
+        # the dryness is a big part of why chip music sounds like that.
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.12,
+        space=("dry", ["snare"]), alt=None,
+        drive=1.1, kick_dist=0.0, mix_sat=0.0,
+        grammar=dict(
+            kick=dict(w=[10, 1, 2, 4, 1, 1, 5, 2, 7, 1, 3, 3, 2, 2, 4, 1],
+                      hits=[2, 4], double_p=0.25),
+            snare=dict(modes=[["backbeat", 0.7], ["halftime", 0.2],
+                              ["sparse", 0.1]],
+                       ghosts=[0, 1], gcells=[7, 15]),
+            hat=dict(modes=[["eighths", 0.4], ["sixteenths", 0.35],
+                            ["sparse", 0.25]],
+                     open_p=0.05, roll_n=[1, 2]),
+            perc=dict(modes=[["sparse", 0.6], ["eighths", 0.4]]),
+        ),
+        kick_flavors=[[0.6, None, ["punch", "tight", "electronic"], [0.3, 0.6]],
+                      [0.4, "808", ["punch", "short"], [0.4, 0.8]]],
+        library=dict(p=0.15, tags=[["electronic", 3], ["minimal", 2]]),
+        extras=dict(p=0.45, nmax=1, pool=[
+            ["perc", ["blip", "block"], "blips"],
+            ["fx", ["laser", "arcade"], "gamefx"]]),
+    ),
 }
 
 
@@ -991,6 +1050,11 @@ GENRE_KICK_BANK = {
         "X-------X---x---", "X--x----X-------", "X-------X-x-----",
         "X-----x-X----x--", "X-------X-----x-", "X---------X-----",
         "X--x----X--x----", "X-------X----x--", "X-x-----X-------"],
+    "Chiptune": [
+        "X-------X-------", "X-------X--x----", "X--x----X-------",
+        "X-------X-x-----", "X-----x-X-------", "X-------X---x---",
+        "X--x----X--x----", "X-x-----X-x-----", "X-------X-----x-",
+        "X---x---X-------", "X-------Xx------", "X--x--x-X-------"],
 }
 
 # ------------------------------------------------- their beat titles
@@ -1066,7 +1130,129 @@ GENRE_TITLES = {
               "Lilac", "Soft", "Hazy"],
              ["Drift", "Pillow", "Lullaby", "Float", "Daydream",
               "Slumber", "Cushion", "Vapor"]),
+    "Chiptune": (["Pixel", "Arcade", "Cartridge", "Sprite", "Neon",
+                  "Copper", "Palette", "Console"],
+                 ["Continue", "Warpzone", "Highscore", "Bonus", "Extralife",
+                  "Gameover", "Levelup", "Checkpoint"]),
 }
+
+# ------------------------------------------------------- harmony identity
+# Owner directive 2026-07-24 ("tighten up the genres"), web-researched per
+# style at his explicit request.
+#
+# The gap this closes, measured before writing any of it: every one of the
+# 17 styles produced BYTE-IDENTICAL harmony — same random root from the
+# same list, same distribution, always minor, always the loop voice. A
+# Horror Rap beat and a Plug beat were harmonically twins. The drum layer
+# was already well differentiated (own bpm/density/pinned swing/kick
+# flavors); harmony was the whole gap.
+#
+# READ THIS BEFORE EDITING `mode` HERE: mode does NOT change chord
+# qualities (verified 2026-07-23, DECISIONS). progressions_config.json
+# fixes each chord's quality absolutely; the key only supplies the root.
+# So a style's harmonic character lives ENTIRELY in `progressions` — mode
+# only sets the printed label and which melodic loops count as in-key
+# (which is real, so it's still set honestly). If a style needs a colour
+# the library can't spell, add a progression; don't flip mode and hope.
+#
+# chord_source words map through instrument_sampler.VOICES to his own
+# sampled banks (piano/guitar/organ/bell/brass/...). Before 2026-07-23
+# only "loop"/"synth"/"strings" existed, so these voicings were not
+# expressible at all.
+GENRE_SIGNATURES = {
+    # Three 6 Mafia / DJ Paul. Sources describe "sinister church organs
+    # with 808s", choir stabs pitched into minor keys, horror-score
+    # samples. dark_menacing IS i-bII — the Phrygian b2 that gives the
+    # style its dread — and vamp_static_riff is the drone the pitched-808
+    # carries the melody over.
+    "Memphis": dict(
+        key=dict(roots=[["C", 3], ["D", 2], ["F", 2], ["G", 1]], mode="minor"),
+        progressions=[["dark_menacing", 4], ["vamp_static_riff", 3],
+                      ["vamp_i_VI", 2]],
+        chord_source=[["organ", 3], ["loop", 2]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # Gravediggaz/Esham lineage. Sources: minor keys, slow-to-mid tempo,
+    # sampled pipe organs, church choirs and DISSONANT strings. Nothing
+    # in the library was actually dissonant, hence horror_tritone.
+    "Horror Rap": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["E", 1], ["A", 2]], mode="minor"),
+        progressions=[["horror_tritone", 3], ["dark_menacing", 3],
+                      ["vamp_static_riff", 2]],
+        chord_source=[["organ", 3], ["string", 2], ["loop", 1]],
+        chord_rhythm="sustain"),
+
+    # MexikoDro / BeatPluggz. Sources: electric piano carries the main
+    # chords as BLOCK chords, bells and plucks are the counter-melody,
+    # min7/add9 extensions for the jazzy colour, subby 808. This one
+    # corrected a wrong assumption — plugg is NOT bright major.
+    "Plug": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["F", 2], ["A", 1]], mode="minor"),
+        progressions=[["plugg_dream_9", 4], ["vamp_i_iv7", 2],
+                      ["dreamy", 1]],
+        chord_source=[["piano", 3], ["bell", 2]],
+        chord_rhythm=[["sustain", 3], ["arp", 2]]),
+
+    # Lil Peep / Juice WRLD lineage. Sources: "the guitar is the heartbeat
+    # ... almost always a simple, minor-key melody that loops
+    # hypnotically". emo_falling is the researched Cm-Fm-Bb-Ab staple;
+    # sad_accepting (i-VI-III-VII) is the pop-punk cousin underneath it.
+    "Emo Hip Hop": dict(
+        key=dict(roots=[["C", 2], ["D", 1], ["E", 2], ["A", 2]], mode="minor"),
+        progressions=[["emo_falling", 4], ["sad_accepting", 3],
+                      ["trap_dark_metro", 1]],
+        chord_source=[["guitar", 4], ["piano", 1]],
+        chord_rhythm=[["sustain", 2], ["arp", 3]]),
+
+    # The bright 2013 Chicago lineage — "a euphoric blur of gospel, jazz,
+    # soul". The ONLY major-mode style in this batch, and the reason the
+    # blanket minor default was actively wrong: it could never have
+    # sounded like this. Its progressions are the genuinely major ones.
+    "Acid Rap Bright": dict(
+        key=dict(roots=[["C", 3], ["F", 2], ["G", 2], ["D", 1]], mode="major"),
+        progressions=[["nostalgic_jazz", 3], ["uplifting", 3],
+                      ["dreamy", 2], ["nostalgic_borrowed_minor", 1]],
+        chord_source=[["piano", 3], ["loop", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 2]]),
+
+    # Quik / Warren G / Dre. The repo's own legend research already had
+    # this: slow Dorian groove, warm and sunny, "the opposite of
+    # Memphis". gfunk_dorian_9 is the bright-4 vamp that proposal asked
+    # for and nobody ever added — without it G-funk collapses into plain
+    # minor and stops being G-funk.
+    # REWEIGHTED 2026-07-24 after the owner auditioned #1085-#1087: "G Funk
+    # does not read sunnier." He was right and the roll counts showed why —
+    # only 10 of 30 rolls got the Dorian bright-4; the rest were plain
+    # minor, 8 of them `gfunk_minor_i_iv_v`, which is i-iv-v ALL MINOR, the
+    # darkest thing in the library. That progression is also specifically
+    # DRE's flavour (Still D.R.E. = Fm-Bbm-Cm) and Doc Day already owns it,
+    # so it was making G-Funk both dark AND a duplicate. Dropped outright
+    # rather than down-weighted: the sunny Warren G / Quik lane is what
+    # this style is for. `dreamy` (Imaj7-IVmaj7) added as the warm major
+    # option. Now 9 of 11 rolls land bright.
+    "G-Funk": dict(
+        key=dict(roots=[["C", 2], ["F", 2], ["G", 2], ["A", 1]], mode="minor"),
+        progressions=[["gfunk_dorian_9", 6], ["dreamy", 2],
+                      ["nostalgic_jazz", 2], ["vamp_i_VI", 1]],
+        chord_source=[["synth", 3], ["loop", 2]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+    # Game music leaned on bright, strong, simple functional harmony —
+    # it had to read instantly on two voices through a TV speaker. The
+    # heroic major (uplifting), the maj7 float (dreamy) and the driving
+    # minor vamp (epic / vamp_i_VI) are the four colours that covers.
+    # chord_source is chip alone: falling through to a sampled piano
+    # would defeat the entire point of the style.
+    "Chiptune": dict(
+        key=dict(roots=[["C", 3], ["G", 2], ["A", 2], ["D", 1], ["F", 1]],
+                 mode="major"),
+        progressions=[["uplifting", 3], ["epic", 3], ["dreamy", 2],
+                      ["vamp_i_VI", 2], ["sad_accepting", 1]],
+        chord_source=[["chip", 1]],
+        chord_rhythm="arp"),
+}
+
+for _name, _sig in GENRE_SIGNATURES.items():
+    GENRES_DEFAULT[_name]["signature"] = _sig
 
 KICK_BANK.update(GENRE_KICK_BANK)
 
@@ -1101,9 +1287,17 @@ def load_genres(normalize):
             for n, p in raw.items():
                 if not n.startswith("_") and n in GENRES_DEFAULT:
                     for k in ("grammar", "kick_flavors", "extras",
-                              "library", "canon"):
+                              "library", "canon", "signature"):
                         if k in GENRES_DEFAULT[n]:
                             p[k] = GENRES_DEFAULT[n][k]
+            # A brand-new built-in style has no row to re-sync, so without
+            # this it would never reach anyone who already had a config —
+            # which is exactly what happened when Chiptune was added
+            # (2026-07-24). Only ADDS; an existing style he has edited is
+            # never replaced wholesale here.
+            for n, p in GENRES_DEFAULT.items():
+                if n not in raw:
+                    raw[n] = json.loads(json.dumps(p))
             raw["_genres_version"] = GENRES_VERSION
             changed = True
         if changed:

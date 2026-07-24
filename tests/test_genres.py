@@ -39,8 +39,11 @@ def _beat(name, v):
 
 # ------------------------------------------------------ the roster
 
-def test_seventeen_styles_and_no_collisions():
-    assert len(STYLES) == 17
+def test_eighteen_styles_and_no_collisions():
+    # 17 subgenres + Chiptune (added 2026-07-24). The count is pinned on
+    # purpose: adding a style needs a kick bank and a title pool too, and
+    # this catches a half-added one.
+    assert len(STYLES) == 18
     assert not (GENRE_NAMES & crew.LEGEND_NAMES)
     nums = [CREW[n]["num"] for n in STYLES]
     assert len(set(nums)) == len(nums)          # unique on the page

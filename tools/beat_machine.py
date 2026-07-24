@@ -1105,6 +1105,20 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                     label = "sample: %s, %s (%s)" % (
                         nm, chord["chord"], chord["roman"])
                     break
+            elif src == "chip":
+                # The one synthesized chord voice left in the engine, and
+                # a deliberate exception — see tools/chip_synth.py's header
+                # for why a square wave is not the same kind of "fake" the
+                # rejected synth horn was. Always arpeggio-fused: the NES
+                # had two pulse voices, so a held triad was IMPOSSIBLE and
+                # chords were always faked by flicking between the notes.
+                # Honouring rhythm="sustain" here would be less authentic,
+                # not more, so it is ignored on purpose.
+                import chip_synth
+                audio = chip_synth.chip_chord(chord["notes"], dur)
+                label = "chiptune arp, %s (%s)" % (chord["chord"],
+                                                   chord["roman"])
+                break
             elif src in instrument_sampler.VOICES and inst_idx:
                 # EVERY named instrument voice — "horns", "synth", "piano",
                 # "guitar", ... — is sampled from his own banks and

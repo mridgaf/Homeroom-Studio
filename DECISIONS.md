@@ -22,6 +22,184 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 Chiptune: the ONE sanctioned synth exception, + a recipe
+- Context: owner asked how Atari/NES sounds are made, then "do both for
+  sound, hold on genres" — i.e. build the chip voice into the machine AND
+  write the Reason recipe, but STOP tightening the remaining 11 genres.
+- The judgment call that matters: chiptune is synthesized BY DEFINITION,
+  which collides head-on with the 2026-07-23 "get rid of them / my sounds
+  not fake ones" rule. Built it anyway, as a NAMED exception, because the
+  distinction is real and worth not re-litigating: the synth horn was
+  rejected for IMITATING a real trumpet badly. A square wave imitates
+  nothing — on an NES there was no instrument being faked, the chip IS the
+  authentic article, and no sample would be "more real". Checked his banks
+  first: ~5 "blip" synths and 9 laser FX, no chip material, so sampling
+  was not possible even in principle. tools/chip_synth.py carries this
+  argument in a header block so a future session doesn't correctly delete
+  it for violating the no-synthesis rule.
+- Built: tools/chip_synth.py — NES pulse with the 4 real duty cycles,
+  16-step-quantized triangle (the hollow bass), a genuine LFSR noise
+  channel with long/short modes, pitch sweeps, chip drums, and arp_chord
+  (the ~20Hz note-flicker that fakes a chord, which is THE chiptune
+  gesture — the NES had 2 pulse voices so a held triad was impossible).
+  Wired `chip` as a chord_source in beat_machine; it deliberately ignores
+  rhythm="sustain" because honouring it would be less authentic, not more.
+- Two bugs its own report caught, worth remembering:
+  - First Atari model was ~3 OCTAVES sharp: the TIA divides in TWO stages
+    (AUDF 0-31 AND a tone divisor from AUDC), and I modelled only AUDF.
+    Fixed to f = 31400 / (TONE_DIV * (AUDF+1)) over the documented
+    pure-tone divisors 2 and 6. Now C4 lands +0.3 cents while G# is -54
+    (over a quarter-tone) — that uneven error IS the Atari sound, and it's
+    asserted in the tests so it can't silently drift back into tune.
+  - Pitched notes bottom out at 164 Hz; below that the real chip used its
+    buzz tones. Not a bug, documented as a limit.
+- Engine gap found and fixed while adding the style: load_genres only
+  RE-SYNCED existing keys, so a brand-new built-in style could never reach
+  anyone who already had a genres_config.json — Chiptune silently didn't
+  appear. Now adds missing styles (adds only; never overwrites one he has
+  edited). Hazard noted: a failed run still burns the version number, so
+  the config sat at v4 with no Chiptune and needed v5 to re-fire.
+- Deliberate hybrid, stated so nobody "fixes" it: Chiptune's CHORDS are
+  chip, its DRUMS are his own samples (tight/electronic). Rebuilding the
+  drum lanes around synthesized noise is a much bigger change, and
+  chiptune-influenced hip hop genuinely uses modern drums under chip
+  melodies. chip_synth.chip_kick/chip_snare/chip_hat exist as the upgrade
+  path if he ever wants pure hardware drums.
+- Recipe: recipes/hiphop/chiptune-8bit-nes-atari.md ("Cartridge Bleep"),
+  accuracy B, 8 steps, via the new-recipe skill. SubTractor square with
+  the Phase knob as the duty-cycle control, RPG-8 at 1/64 with Hold for
+  the fake chord, triangle bass with no volume control, Kong synth drum
+  modules. Step 7 states honestly that one Cent knob can only approximate
+  the Atari's PER-NOTE tuning error.
+- Verify by: 530/530 tests pass (21 new in test_chip_synth.py, pinning
+  duty cycle, triangle quantization, LFSR determinism, sweep direction,
+  arp actually cycling pitches, and the Atari detune curve). Chord path
+  100% "chiptune arp" across 15 variants, no fallthrough to sampled
+  piano, no silent lanes. Rendered #1094-#1096, midi-validity-gate 3/3.
+  Recipe parses (8 steps); all 27 recipes still parse.
+- Status: open — owner has not heard #1094-#1096 or tried the recipe.
+- HOLD IN FORCE: the remaining 11 genres are explicitly paused at his
+  instruction. Do not resume without him saying so.
+
+### 2026-07-24 G-Funk reweighted after "does not read sunnier" — plus the
+### structural reason it may still not fully land
+- Context: owner auditioned #1085-#1087 and said G-Funk does not read
+  sunnier. Measured rather than guessed: over 30 rolls only 10 got the
+  Dorian bright-4; 8 got `gfunk_minor_i_iv_v` (i-iv-v, ALL THREE MINOR —
+  the darkest progression in the library) and 8 got vamp_i_VI. Two thirds
+  of G-Funk beats were plain minor. He was right.
+- Change: dropped `gfunk_minor_i_iv_v` from G-Funk ENTIRELY rather than
+  down-weighting it. Two reasons: it is the darkest option, and it is
+  specifically DRE's voicing (Still D.R.E. = Fm-Bbm-Cm) which Doc Day
+  already owns — so it was making G-Funk both dark and a duplicate of an
+  existing identity. Added `dreamy` (Imaj7-IVmaj7) as the warm major
+  option. Now 27/30 rolls land bright (Dorian / maj7 / jazz turnaround).
+  GENRES_VERSION 2->3 so his live config re-syncs automatically.
+- THE HONEST LIMIT, do not let this get lost: the single most identifying
+  G-funk element is the high gliding portamento lead whistle — a
+  MONOPHONIC melodic line sitting on top. This engine has NO lead lane at
+  all; `chord_source` only voices chords, and arp_riff only arpeggiates
+  chord tones. HARMONY-IDENTITY-PROPOSAL.md said this itself ("a
+  lead-voice synth ... is what truly nails G-funk/Dre/Memphis" — its
+  Follow-on #2). tools/lead_synth.py DID have a `gfunk_whistle` preset and
+  was deleted 2026-07-23 on his "get rid of them" instruction; the sampled
+  replacement has no monophonic-line concept. So chord reweighting can
+  make G-Funk brighter but probably cannot make it fully READ as G-funk.
+  The real fix is a sampled lead lane (voice_note in sequence, high
+  register, from his own banks) — NOT re-adding a synth, which is against
+  standing instruction. Flagged for his decision, deliberately not built
+  unasked.
+- Cosmetic wart introduced and disclosed: G-Funk's `mode` is still "minor"
+  (correct — Dorian has a minor tonic, and mode drives in-key sample
+  selection), but `dreamy` has a MAJOR tonic, so a beat's txt can now read
+  "dreamy in G minor (Gmaj7, Cmaj7)". Contradictory-looking but harmless;
+  same known label quirk already documented for Kane East / Just Flame.
+- Verify by: 504/504 tests pass. Roll distribution re-measured (27/30
+  bright, all-minor gone). Rendered #1091-#1093, midi-validity-gate 3/3.
+- Status: CONFIRMED — owner approved the reweight ("Lock in G Funk"),
+  2026-07-24. The dropped `gfunk_minor_i_iv_v` stays dropped.
+  The lead-lane gap below remains real and unbuilt; it did not block
+  approval, so G-Funk is good as-is unless he raises it again.
+
+### 2026-07-24 Genre harmony: 6 of 17 styles given a researched signature
+- Context: owner, "let's start working on the genres. To tighten those up."
+  He chose: do ~6 first and audition before the rest, and — a change from
+  his usual synthesis-first rule — WEB RESEARCH each style explicitly. He
+  also asked to be told if the info wasn't good enough ("we'll send the
+  agents to school"). It was good enough; no separate research trip needed.
+- Measured first, before writing anything: all 17 genres produced
+  BYTE-IDENTICAL harmony — same random root from the same list, same
+  distribution, always minor, always the loop voice. A Horror Rap beat and
+  a Plug beat were harmonic twins. The DRUM layer was already well
+  differentiated (own bpm, density, pinned swing, kick flavors), so
+  harmony was the entire gap. Crunk/Trip Hop were kept as an untouched
+  control and still show the old identical behaviour — that's the proof
+  the signatures are what differentiated the six.
+- The constraint that shaped the whole design, do NOT forget it: `mode`
+  does not change chord qualities (verified 2026-07-23). A style's
+  character lives ENTIRELY in its `progressions`. Setting mode="phrygian"
+  or "dorian" would have been cosmetic theatre. mode IS still set
+  honestly, because it does affect the printed label and which melodic
+  loops count as in-key.
+- Consequence: the 15 existing progressions never used the richer chord
+  qualities the engine has always supported (min9/maj9/add9/dim/7#9/sus).
+  Four were added, each tied to a research finding:
+  - `emo_falling` i-iv-VII-VI (Cm-Fm-Bb-Ab) — the verified Juice WRLD /
+    Lil Uzi staple; nothing in the library had that falling VII->VI.
+  - `gfunk_dorian_9` i9-IV7 — the bright-4 Dorian vamp. This was proposed
+    in HARMONY-IDENTITY-PROPOSAL.md as `vamp_i_IV9` and NEVER ADDED;
+    without it G-funk collapses to plain minor and stops being G-funk.
+  - `plugg_dream_9` i9-VImaj9 — plugg's min7/add9 jazzy block chords.
+  - `horror_tritone` i-#ivdim — nothing in the library was dissonant at
+    all, and dissonance is the whole point of horrorcore.
+- Research corrected a wrong assumption worth recording: I would have
+  written Plug as "bright major". Sources (RateYourMusic, Splice,
+  music-producer wiki) say plugg is electric-piano BLOCK chords with
+  min7/add9 extensions, bells/plucks as counter-melody, subby 808s,
+  130-145bpm. Our config's 140 already matched. It is not bright major.
+- Second real wrongness fixed: the blanket minor default meant
+  "Acid Rap Bright" — the euphoric gospel/jazz/soul 2013 Chicago lineage
+  — could never be major. It is the only major-mode style in this batch.
+- Also newly possible only because of the 2026-07-23 sampler work: genre-
+  appropriate chord VOICES. Before that, chord_source could only be
+  loop/synth/strings. Memphis and Horror Rap now get organ (sources
+  describe "sinister church organs"/"pipe organs"), Emo gets guitar ("the
+  guitar is the heartbeat"), Plug gets piano+bell, Acid Rap Bright piano.
+- Plumbing: signatures live in GENRE_SIGNATURES in tools/genres.py and are
+  merged into GENRES_DEFAULT, so `delete the file to regenerate` still
+  works. GENRES_VERSION 1->2 with "signature" added to the re-sync key
+  tuple, so his existing genres_config.json picked them up automatically
+  (verified: the live file now shows version 2 and all 6 signatures).
+- Verify by: 504/504 tests pass. Harmony differentiation confirmed across
+  12 variants each. Spot-checked the actual chords: Acid Rap Bright yields
+  F-C-Dm-A# (genuinely major), Memphis Gm-G# (the Phrygian bII),
+  Plug Am9-Fmaj9, Emo Am-Dm-G-F. Rendered #1064-#1069, one per style;
+  stems confirm the voices (organ stack on Horror Rap's bII, guitar on
+  Emo, ii7-V7-Imaj7 piano on Acid Rap Bright). midi-validity-gate 6/6 PASS.
+- Status: PARTLY CONFIRMED 2026-07-24 on audition of the 3-each batch
+  (#1070-#1090). Owner: "G Funk does not read sunnier. The Memphis and
+  horror genres are good to go."
+  - Memphis + Horror Rap: CONFIRMED, approved as-is. The organ voice and
+    the Phrygian bII / tritone reads landed. Don't re-litigate these.
+  - G-Funk: FAILED on first pass, reweighted, then APPROVED on the
+    re-audition (#1091-#1093).
+  - Plug / Emo / Acid Rap Bright: CONFIRMED — owner approved 2026-07-24
+    ("Lock in G Funk. and the other three genres").
+  ALL SIX of the first batch are now locked. Treat their signatures as
+  settled; do not re-tune them without a fresh instruction.
+- Process note that earned its keep: rendering THREE per style (his call —
+  "hard to tell with one") is what exposed the G-Funk problem. The single
+  #1069 had rolled a Dorian and sounded fine; the three-beat spread showed
+  two thirds of its rolls were plain minor. One beat per style would have
+  passed a broken weighting.
+- Remaining 11 deliberately untouched: Crunk, Organized Noize, Houston
+  Screw, Acid Rap Detroit, Wonky, Trip Hop, Baltimore Club, Miami Bass,
+  New Orleans Bounce, Reggaeton Alt, Detroit. Note the 4 riddim-defined
+  ones (Baltimore Club, Miami Bass, NO Bounce, Reggaeton Alt) are defined
+  by RHYTHM not harmony — their canon figures already carry them, so they
+  may need only a light touch or none at all. Do not force harmony onto
+  them just for symmetry.
+
 ### 2026-07-24 The click at the end of samples — TWO real defects, both fixed
 - Context: owner on the new sampled instruments: "You can hear a slight
   clipping at the end of the samples." I first measured sample peaks, found

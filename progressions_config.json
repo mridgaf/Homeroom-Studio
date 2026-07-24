@@ -82,5 +82,25 @@
   "label": "Static riff (no chord movement)",
   "roman": "i (Am, held) - the riff/808 carries the melody",
   "chords": [[0, "minor"]]
+ },
+ "emo_falling": {
+  "label": "Emo rap falling loop",
+  "roman": "i-iv-VII-VI (Cm-Fm-Bb-Ab)",
+  "chords": [[0, "minor"], [5, "minor"], [10, "major"], [8, "major"]]
+ },
+ "gfunk_dorian_9": {
+  "label": "G-funk Dorian bright-4 vamp",
+  "roman": "i9-IV7 (Am9-D7)",
+  "chords": [[0, "min9"], [5, "dom7"]]
+ },
+ "plugg_dream_9": {
+  "label": "Plugg dreamy 9ths",
+  "roman": "i9-VImaj9 (Am9-Fmaj9)",
+  "chords": [[0, "min9"], [8, "maj9"]]
+ },
+ "horror_tritone": {
+  "label": "Horrorcore tritone",
+  "roman": "i-#ivdim (Am-D#dim)",
+  "chords": [[0, "minor"], [6, "dim"]]
  }
 }
