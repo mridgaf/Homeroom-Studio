@@ -117,5 +117,25 @@
   "label": "Whole-tone climb (no leading tone, never resolves)",
   "roman": "Isus2-IIsus2-IIIsus2-#IVsus2",
   "chords": [[0, "sus2"], [2, "sus2"], [4, "sus2"], [6, "sus2"]]
+ },
+ "dorian_i_IV": {
+  "label": "Dorian's tell: minor tonic, MAJOR four",
+  "roman": "i-IV (Am-D)",
+  "chords": [[0, "minor"], [5, "major"]]
+ },
+ "harmonic_minor_i_V": {
+  "label": "Harmonic minor (raised 7th gives a major V)",
+  "roman": "i-V (Am-E)",
+  "chords": [[0, "minor"], [7, "major"]]
+ },
+ "hijaz_cadence": {
+  "label": "Phrygian dominant / Hijaz — the Middle-Eastern cadence",
+  "roman": "bII-I (Bb-A, major tonic)",
+  "chords": [[1, "major"], [0, "major"]]
+ },
+ "noir_descend": {
+  "label": "Trip-hop noir — unresolved bVI-bVII cycle that never lands",
+  "roman": "i-bVI-bVII (Am-F-G)",
+  "chords": [[0, "minor"], [8, "major"], [10, "major"]]
  }
 }

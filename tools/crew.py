@@ -435,7 +435,10 @@ DEFAULT_CREW = {
             chord_source=[["chip", 1]],
             chord_rhythm="arp",
             chip_tuning="atari",
-            chip_count=5),
+            chip_count=5,
+            # his harmony IS the chip voice, so it should not need the
+            # notes box to ask for it — see beat_machine's chords_default
+            chords_default=True),
         kit=dict(
             kick=("kick", None,["punch", "knock", "club", "tight"],
                   (0.5, 1.6)),
@@ -514,6 +517,116 @@ def normalize_preset(p):
         kind, params = q["alt"]
         q["alt"] = (kind, tuple(params) if params else None)
     return q
+
+
+# ---------------------------------------------------------- harmony DNA
+# Owner directive 2026-07-24: give the previous DJs harmonic identities
+# too, "where it would fit for their identity/style".
+#
+# Two rules I held myself to, so these are derived and not invented:
+#  1. Every signature comes from that DJ's OWN `listen` text, not from
+#     the real producer they were built on. Otto Grit's is dusty because
+#     his line says SP-1200 dust and vinyl; Chrome Dial's is a drone
+#     because his says "silence as an instrument".
+#  2. Where a crew member shares a producer with a LEGEND, they are
+#     deliberately voiced differently. The legends are strict likenesses
+#     and never evolve; the crew are loose and do. Same source, own
+#     character — otherwise the two rosters collapse into each other.
+#
+# These lean on the sampled instrument groups added 2026-07-23
+# (instrument_sampler.VOICES), which is what makes them separable at all
+# — before that every identity could only ask for loop/synth/strings.
+# Worth noting: the legends research flagged "pluck/bell timbre vs huge
+# negative space" as a distinguishing trait with NO FIELD to express it.
+# There is one now, and Glass Cat is built on exactly that.
+CREW_SIGNATURES = {
+    # dusty soul keys, played late. Dilla-lineage but PIANO-forward where
+    # the J Dillo legend is loop-forward — same warmth, different hands.
+    "Otto Grit": dict(
+        key=dict(roots=[["F", 3], ["C", 2], ["Bb", 2], ["G", 1]],
+                 mode=[["minor", 2], ["major", 2]]),
+        progressions=[["nostalgic_jazz", 3], ["dreamy", 3],
+                      ["vamp_ii_V", 2], ["nostalgic_borrowed_minor", 2]],
+        chord_source=[["piano", 3], ["loop", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 1]]),
+
+    # surgical: one hard stab, no wash. Brass stabs rather than the
+    # legend's loop+synth, because his whole line is "scratch stab".
+    "Cutz": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["G", 2], ["A", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 3], ["vamp_i_iv7", 3],
+                      ["dark_menacing", 2]],
+        chord_source=[["horns", 3], ["loop", 3]],
+        chord_rhythm="arp"),
+
+    # the horn loop IS this character (Pete Rock lineage), and it keeps
+    # him from colliding with Otto Grit, who owns the keys.
+    "Crate Prophet": dict(
+        key=dict(roots=[["F", 3], ["Bb", 2], ["C", 2], ["G", 2]],
+                 mode=[["minor", 2], ["major", 1]]),
+        progressions=[["nostalgic_jazz", 3], ["vamp_ii_V", 2],
+                      ["vamp_i_iv7", 2], ["nostalgic_borrowed_minor", 2]],
+        chord_source=[["horns", 3], ["loop", 3], ["piano", 1]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # "silence as an instrument" -> almost no chord movement at all, and
+    # an exotic wood/flute voice to match "exotic perc off-center".
+    "Chrome Dial": dict(
+        key=dict(roots=[["D", 2], ["A", 2], ["E", 2], ["C", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 4], ["dark_menacing", 3],
+                      ["vamp_i_VI", 1]],
+        chord_source=[["wood", 3], ["synth", 2]],
+        chord_rhythm=[["sustain", 3], ["arp", 2]]),
+
+    # minimal, dry, icy. This is the bell/pluck + negative-space trait
+    # the legend research said had no field. Two-chord vamps only.
+    "Glass Cat": dict(
+        key=dict(roots=[["C", 2], ["G", 2], ["A", 2], ["E", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 3], ["vamp_i_v7", 3],
+                      ["vamp_i_iv7", 2]],
+        chord_source=[["bell", 3], ["pluck", 2]],
+        chord_rhythm="arp"),
+
+    # gospel bounce: major-leaning, piano-led, choir behind it.
+    "Sunday Chop": dict(
+        key=dict(roots=[["C", 3], ["F", 2], ["G", 2], ["Bb", 1]],
+                 mode=[["major", 3], ["minor", 1]]),
+        progressions=[["uplifting", 3], ["nostalgic_borrowed_minor", 2],
+                      ["sad_accepting", 2], ["nostalgic_jazz", 1]],
+        chord_source=[["piano", 3], ["choir", 2], ["loop", 1]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # dark halftime drama. trap_dark_metro is literally the progression
+    # named for this sound; bells over a pad is the trap-bell cliche and
+    # he is the one character who should own it.
+    "Night Metro": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["F", 2], ["A", 2]],
+                 mode="minor"),
+        progressions=[["trap_dark_metro", 3], ["dark_menacing", 3],
+                      ["vamp_static_riff", 2], ["vamp_i_VI", 1]],
+        chord_source=[["bell", 3], ["pad", 2], ["loop", 1]],
+        chord_rhythm=[["sustain", 2], ["arp", 3]]),
+
+    # relentless and cinematic: the big orchestral stab over a trap wall.
+    "Rage Engine": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["E", 1], ["A", 2]],
+                 mode="minor"),
+        progressions=[["epic", 3], ["dark_menacing", 3],
+                      ["trap_dark_metro", 2]],
+        # "strings" (plural) = the London Symphonic library via
+        # string_sampler, which names an exact MIDI note per file and so
+        # never pitch-shifts. NOT "string" — that is an instrument_sampler
+        # GROUP name, not a chord_source word, and it silently fell
+        # through to horns until this was caught 2026-07-24.
+        chord_source=[["strings", 3], ["horns", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 2]]),
+}
+
+for _n, _sig in CREW_SIGNATURES.items():
+    DEFAULT_CREW[_n]["signature"] = _sig
 
 
 def load_crew(path=CONFIG):

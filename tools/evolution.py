@@ -256,7 +256,69 @@ def _op_genre_taste(p, name, rng):
     return d, "digs %s %s records" % (word, tag)
 
 
+# ------------------------------------------------------- harmony ops
+# Owner directive 2026-07-24: "I want the DJ's changes to evolve" —
+# harmony joins the menu now that the crew have signatures.
+#
+# Same guard rails as every other op, plus one that matters more here:
+# a DJ's chord VOICE and PROGRESSION list are their identity, so these
+# only ever shift the WEIGHTS between choices that character already
+# has. Nothing is ever added or removed. Otto Grit can come to prefer
+# his piano over his loops; he can never wake up playing horns.
+
+def _op_chord_voice(p, name, rng):
+    """Lean between the chord voices this DJ already owns."""
+    sig = p.get("signature") or {}
+    src = sig.get("chord_source")
+    if not isinstance(src, list) or len(src) < 2:
+        return None
+    ws = _transfer([float(s[1]) for s in src], *rng.sample(range(len(src)), 2),
+                   amount=rng.choice((0.5, 1.0)))
+    d = [_delta(p, ["signature", "chord_source", k, 1], w)
+         for k, w in enumerate(ws) if w != src[k][1]]
+    if not d:
+        return None
+    top = max(range(len(ws)), key=lambda k: ws[k])
+    return d, "reaches for the %s more" % src[top][0]
+
+
+def _op_progression_lean(p, name, rng):
+    """Lean between the progressions this DJ already plays."""
+    sig = p.get("signature") or {}
+    pr = sig.get("progressions")
+    if not isinstance(pr, list) or len(pr) < 2:
+        return None
+    ws = _transfer([float(x[1]) for x in pr], *rng.sample(range(len(pr)), 2),
+                   amount=rng.choice((0.5, 1.0)))
+    d = [_delta(p, ["signature", "progressions", k, 1], w)
+         for k, w in enumerate(ws) if w != pr[k][1]]
+    if not d:
+        return None
+    top = max(range(len(ws)), key=lambda k: ws[k])
+    return d, "writes more %s changes" % pr[top][0].replace("_", " ")
+
+
+def _op_key_taste(p, name, rng):
+    """Lean between the root keys this DJ already writes in."""
+    sig = p.get("signature") or {}
+    roots = (sig.get("key") or {}).get("roots")
+    if not isinstance(roots, list) or len(roots) < 2:
+        return None
+    ws = _transfer([float(r[1]) for r in roots],
+                   *rng.sample(range(len(roots)), 2),
+                   amount=rng.choice((0.5, 1.0)))
+    d = [_delta(p, ["signature", "key", "roots", k, 1], w)
+         for k, w in enumerate(ws) if w != roots[k][1]]
+    if not d:
+        return None
+    top = max(range(len(ws)), key=lambda k: ws[k])
+    return d, "settles into the key of %s more often" % roots[top][0]
+
+
 MENU = [
+    ("chord_voice", _op_chord_voice),
+    ("progression_lean", _op_progression_lean),
+    ("key_taste", _op_key_taste),
     ("kick_zone", _op_kick_zone),
     ("flavor_lean", _op_flavor_lean),
     ("timekeeper_mode", _op_timekeeper_mode),

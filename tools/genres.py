@@ -57,7 +57,7 @@ from pathlib import Path
 from pattern_gen import KICK_BANK
 
 CONFIG = Path(__file__).resolve().parent.parent / "genres_config.json"
-GENRES_VERSION = 5
+GENRES_VERSION = 6
 
 R16 = "-" * 16
 _BK = ["----X-------X---"] * 8            # placeholder; compose rewrites
@@ -1179,7 +1179,7 @@ GENRE_SIGNATURES = {
         key=dict(roots=[["C", 2], ["D", 2], ["E", 1], ["A", 2]], mode="minor"),
         progressions=[["horror_tritone", 3], ["dark_menacing", 3],
                       ["vamp_static_riff", 2]],
-        chord_source=[["organ", 3], ["string", 2], ["loop", 1]],
+        chord_source=[["organ", 3], ["strings", 2], ["loop", 1]],
         chord_rhythm="sustain"),
 
     # MexikoDro / BeatPluggz. Sources: electric piano carries the main
@@ -1248,7 +1248,35 @@ GENRE_SIGNATURES = {
         progressions=[["uplifting", 3], ["epic", 3], ["dreamy", 2],
                       ["vamp_i_VI", 2], ["sad_accepting", 1]],
         chord_source=[["chip", 1]],
-        chord_rhythm="arp"),
+        chord_rhythm="arp",
+        # the whole style IS the chip voice; without this, picking
+        # Chiptune and pressing go rendered drums and no chip at all
+        chords_default=True),
+
+    # Deepened batch 1, 2026-07-24 (owner: lean heavily on the Symphony
+    # bank). Portishead / Massive Attack / Tricky. Research: minor, 2-4
+    # chords, "one major chord in a sea of minor" = film-noir tension, the
+    # unresolved bVI-bVII descending cycle, over STRINGS and Hammond organ.
+    # A textbook Symphony-bank style — strings weighted 4 primary.
+    "Trip Hop": dict(
+        key=dict(roots=[["A", 3], ["C", 2], ["D", 2], ["E", 1]],
+                 mode="minor"),
+        progressions=[["noir_descend", 3], ["dark_menacing", 2],
+                      ["nostalgic_borrowed_minor", 2], ["vamp_static_riff", 2]],
+        chord_source=[["strings", 4], ["organ", 2], ["loop", 1]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # Organized Noize / Dungeon Family (OutKast, Goodie Mob). Research:
+    # LIVE instrumentation — organs, guitars, saxophones, strings — Southern
+    # soul-funk, warm and organic. Leans on the Symphony strings for the
+    # cinematic OutKast arrangements, with live guitar/organ as the band.
+    "Organized Noize": dict(
+        key=dict(roots=[["C", 2], ["F", 2], ["G", 2], ["A", 2], ["D", 1]],
+                 mode=[["minor", 2], ["major", 2]]),
+        progressions=[["nostalgic_jazz", 3], ["uplifting", 2],
+                      ["dreamy", 2], ["vamp_i_iv7", 2]],
+        chord_source=[["strings", 3], ["guitar", 2], ["organ", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 2]]),
 }
 
 for _name, _sig in GENRE_SIGNATURES.items():

@@ -22,6 +22,253 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 Key parser missed the "<Key>Maj/<Key>Min" spelling — synth
+### .aif were being dropped
+- Context: owner: "there are a lot of synth aif sounds in sample folders,
+  are we using those" — then named HELLA BUMPS specifically.
+- Answer to the question: YES, .aif is fully supported (AUDIO_EXTS has
+  .aif/.aiff, load_audio reads AIFF) and always has been. HELLA BUMPS in
+  particular: its Synth Lead / Blip Synth / Synth Hit / Synth Sweep stems
+  are indexed (19 synth-named melodic entries), 24 HELLA files reach the
+  pitched instrument voices (12 land in the "synth" group, plus guitar/
+  string/organ/piano), and 81 HELLA files are reachable by the loop chord
+  voice in D minor @90bpm. The "Just Drums"/"Filtered Drums" stems (87 of
+  197) are correctly EXCLUDED — they're drums, not melodic.
+- But the question surfaced a real bug: melodic_loops.key_from_tokens only
+  matched a bare mode suffix ("Gm") or none ("C"), NOT the full-word form
+  ("DbMaj", "Fmin", "EMajor") that the Live loop cds / Cymatics packs use.
+  43 melodic files carried a <Key>Maj/<Key>Min token and were silently
+  dropped as "no key" — including the Cymatics Raptor arp/chord/drop synth
+  loops and the Live loop cds Rhodes/Piano/Pad stems.
+- Fix: extended _KEY_TOKEN to `^([A-G])(#|b)?(major|maj|minor|min|m)?$`
+  (longer alternatives first so "minor" wins over "min" before the $
+  anchor) and added _mode_from_suffix. A bare key with no suffix still
+  returns mode None ("fits either"), unchanged. Re-scanned: melodic index
+  2013 -> 2048 (+35 recovered), and 25 files now correctly carry mode
+  "major" where before a Maj suffix left them dropped or unlabeled — which
+  also improves in_key matching for the major-mode identities.
+- Verify by: unit-checked the parser on 10 spellings (Gm/C/Bb/DbMaj/Fmin/
+  EMajor/F#min/A#m/"Db Piano"/"150 BPM Fmin") all correct; 654/654 tests
+  pass; instrument_sampler 548 -> 553 (the rest of the +35 are full arp/
+  drop LOOPS that don't pitch-detect at clarity>=0.70, so they serve the
+  loop voice rather than the note-sampled voice — which is the right home
+  for a Rhodes/pad phrase anyway).
+- Status: confirmed (bug found, fixed, re-scanned, verified). Not yet
+  seen in a delivered beat by the owner, but the pools demonstrably
+  contain the files now.
+
+### 2026-07-24 Pre-07-23 upgrade — BATCH 1 of the backlog (4 identities)
+- Context: owner asked to upgrade every identity wired before 2026-07-23
+  the way the first four legends were, "4 at a time, 3 audition beats
+  each", leaning HEAVILY on the Symphony strings bank rather than the
+  pack-scraped instrument_sampler groups, and researching where thin.
+- Batch 1 (my pick): Kane East, Trip Hop, Organized Noize, Mustang.
+  Chosen for a mix of Symphony fit and need.
+  - Kane East (Kanye chipmunk soul): now strings(4)/choir(2)/loop(2),
+    weighted major/minor. Documented as "string accompaniments and gospel
+    choirs", so the single best Symphony fit on the roster. NOTE: choir
+    has only 2 samples so it hands off to pad (by design) — the gospel
+    choir mostly reads as a pad; a real choir voice would need more
+    samples in his banks.
+  - Trip Hop (Portishead/Massive Attack): strings(4)/organ(2)/loop(1),
+    minor. Added progression `noir_descend` (i-bVI-bVII, Am-F-G) — the
+    documented unresolved trip-hop cycle. Strings + Hammond organ is the
+    textbook sound; this is the flagship Symphony style.
+  - Organized Noize (Dungeon Family): strings(3)/guitar(2)/organ(2),
+    major/minor. Live-band Southern soul — Symphony strings for the
+    cinematic OutKast arrangements, guitar/organ for the live players.
+  - Mustang (DJ Mustard): the honest NON-strings one. Was the only legend
+    NEVER researched; researched now — ratchet is synth + punchy horns,
+    3-4-note minor vamps, ~90-100bpm club. synth(3)/horns(2)/strings(1):
+    strings kept only as the light "airy pad" stand-in (using Symphony
+    over the weak pack pad group, per owner), NOT forced as a lead, which
+    would be inauthentic to ratchet.
+- Blocker hit mid-batch, now cleared: the whole TBOTC 3 drive went
+  EPERM ("Operation not permitted") on every read — a macOS Full Disk
+  Access / TCC revocation, NOT a code or Unix-permission issue (volume
+  mounted, owned johnsuhr:staff rwx, yet root listdir = errno 1). Could
+  not render or even run the full suite (2 chord tests need the drive).
+  Refused to fake audition beats; told owner it was a security grant to
+  restore himself. He restored access; re-verified the bank loads (4263
+  Symphony samples) before rendering.
+- Verify by: rendered #1132-#1143 (3 each). Stems CONFIRM Symphony
+  strings actually firing: "strings_" (sustain) and "strings arp_" labels
+  present on Kane East, Trip Hop, Organized Noize AND Mustang. midi gate
+  12/12 PASS. No clipping (loudest peak 0.527). Full suite passes again
+  with the drive back.
+- Status: open — owner has not heard #1132-#1143. This is batch 1; the
+  remaining backlog is ~6 more legends (Farrow, Swish Beatz, Just Flame,
+  Hitt Kid, Razor, No Alias — all made pre-instrument_sampler, so worth
+  re-checking their voices against the fuller vocabulary) and ~9 more
+  genres (Crunk, Organized Noize done, Houston Screw, Acid Rap Detroit,
+  Wonky, Baltimore Club, Miami Bass, New Orleans Bounce, Reggaeton Alt,
+  Detroit). Next batch of 4 awaits his go.
+
+### 2026-07-24 Chiptune was inaudible — chords never rendered unless the
+### notes box asked. My own verification method hid it.
+- Owner: "I no longer hear the chiptune video game samples. Even when I
+  choose the genre or new math."
+- Root cause: chords only render when parse_directions finds a chord word
+  in the notes box (`dirs["chords"]`). Picking Chiptune or New Math and
+  pressing go with an EMPTY notes box produced no chord lane at all, so
+  no chip voice — the drums rendered and nothing else. The signature,
+  routing and chip engine were all fine; verified the chord path still
+  returned 100% "chiptune arp" before touching anything.
+- Why I missed it: every audition beat I rendered passed notes='chords'.
+  That is a textbook works-on-my-machine — my verification harness
+  supplied the very input whose absence was the bug. Worth remembering:
+  when the owner says a feature is missing but the unit path tests clean,
+  suspect the INVOCATION, not the feature.
+- Fix: a new opt-in signature key `chords_default`. beat_machine turns the
+  chord lane on for an identity that declares it, without the notes box
+  asking. Set for Chiptune and New Math only — the two whose chord voice
+  IS the identity. Deliberately NOT global: switching chords on for all
+  39 identities would change every beat he has already approved. A typed
+  instruction still wins, since dirs is only ever forced ON.
+- Verified the way HE uses it: rendered #1124 (Chiptune) and #1125 (New
+  Math) with notes='' and both now carry chiptune chord stems.
+  646/646 tests pass, midi gate 2/2.
+- Symphony bank check (he asked): IN USE and healthy — string_sampler
+  indexes 4,263 playable note samples from London Symphonic Strings
+  Volume I (violin 1688, basses 861, cello 859, viola 855, MIDI 21-108,
+  articulations pizz/spicc/mart/sus/pont). Five identities currently draw
+  on it: Doc Day, Kane East, Hitt Kid, Rage Engine, Horror Rap. NOTE the
+  two different string sources — chord_source "strings" is this bank
+  (exact MIDI note per file, NO pitch shifting), while the
+  instrument_sampler "string" group is only ~35 pack-scraped samples.
+  "strings" is the better one; prefer it. Nothing currently uses the
+  weaker "orchestral" route.
+- Status: confirmed (fix verified by rendering the way he actually does)
+  — but he has not re-listened yet.
+
+### 2026-07-24 First four legends WERE skimmed — audited, deepened; modes
+### researched and the modal-key bug root-caused
+- Context: owner asked whether the first four legends had been "just
+  skimmed and made good enough", and separately to "use the web to
+  collect any modes that you are missing".
+- AUDIT VERDICT: yes, measurably. The first four are Doc Day, J Dillo,
+  DJ Premium, Timberline ("from the original proposal", per
+  HARMONY-IDENTITY-PROPOSAL.md line 108). The proposal itself documents a
+  DEEPER REDO applied to Farrow/Kane East/Razor/No Alias and says Swish
+  Beatz/Just Flame/Hitt Kid were done deep from the start — the original
+  four were never revisited against that standard. Measured:
+    research note length   first four 583 chars   later eight 977
+    progressions           first four 2.25        later eight 2.62
+    chord sources          first four 1.75        later eight 1.88
+  Timberline was the thinnest identity on the whole roster: ONE
+  progression, ONE chord source. And two of the four (DJ Premium,
+  Timberline) carried a modal key that silently returned zero samples.
+- CORRECTION to my own entry earlier today: I wrote that dorian/phrygian
+  "are not modes KeyContext understands" and flattened both to minor.
+  That was wrong — key_context.MODES has had dorian and phrygian all
+  along. The real fault was melodic_loops.in_key comparing key.mode
+  against SAMPLE labels, and his packs only ever write "Gm"/"C", never
+  "G dorian" — so a modal key tier-matched nothing and returned an empty
+  list. Fixed at the root: in_key now matches by mode FAMILY
+  (key_context.mode_family). Both legends got their modal identity BACK
+  rather than staying flattened. This is why the symptom-vs-root-cause
+  distinction mattered: the first fix would have permanently erased two
+  researched identities to work around a 3-line bug.
+  Severity worth remembering: DJ Premium is loop-DOMINANT by his own
+  research, so that bug had been failing him over to synth on every beat
+  since he was wired.
+- MODES ADDED (web-researched, owner's request). Sources agree the
+  working set here is small — "most trap melodies are based on one of
+  these 3 scales: minor, harmonic minor, and phrygian", with dorian the
+  warmer minor of melodic/R&B-leaning hip hop:
+    harmonic_minor      raised 7th; a trap staple and we had none
+    phrygian_dominant   the Hijaz/Spanish/Freygish scale
+    mixolydian          major with b7, "funk uses it heavily"
+    lydian              major with #4, the floating one
+  Plus three progressions so the modes are audible and not just labels:
+  dorian_i_IV (the minor-tonic-to-MAJOR-IV tell), harmonic_minor_i_V
+  (the raised 7th making a major V), hijaz_cadence (bII-I over a MAJOR
+  tonic).
+- THE FOUR, deepened — each change tied to a finding:
+  - Doc Day: mode -> dorian; gained gfunk_dorian_9 + dorian_i_IV. The
+    minor-to-major-IV move is the documented dorian tell and is "used in
+    funk"; gfunk_dorian_9 was proven on the G-Funk GENRE earlier today
+    (owner approved the reweight), and Dre is where that sound came from.
+    piano added for the live-Rhodes half of his chain.
+  - J Dillo: mode -> weighted dorian/minor/major. Research confirms
+    "Everytime" is in F DORIAN and that his harmony leans on lush 7ths
+    lifted from soul records. piano added — the Rhodes IS his sound and
+    the sampled-piano group did not exist when he was wired.
+  - DJ Premium: dorian RESTORED (see correction above); horns added for
+    his documented horn/vocal stabs.
+  - Timberline: phrygian -> phrygian_dominant, the research-backed
+    UPGRADE. His "Get Ur Freak On" sound is Hijaz — the b2 against a
+    MAJOR 3rd, whose augmented second is what reads as Middle Eastern.
+    Plain phrygian has a minor 3rd and cannot make that sound. wood added
+    for the tumbi/flute timbre that is his actual lead voice.
+- The general lesson, which is the real answer to "what has been
+  learned": the first four predate instrument_sampler (2026-07-23), so
+  they could only ever ask for loop/synth/strings. Every identity wired
+  before that date is worth re-checking for the same reason — the
+  vocabulary they were written against was smaller than today's.
+- Verify by: 646/646 tests pass. in_key now returns picks for all 8
+  modes (was 0 for every modal one). Rendered #1117-#1120; stems confirm
+  the new voices are actually firing — piano on Doc Day and J Dillo,
+  brass on DJ Premium, wood on Timberline. midi-validity-gate 4/4.
+- Status: open — owner has not heard #1117-#1120.
+
+### 2026-07-24 All nine DJs get harmony; harmony joins evolution; 4 silent
+### bugs found by the test that should have existed months ago
+- Context: owner asked to (a) let the DJs' harmonic identities EVOLVE and
+  (b) give the previous eight DJs signatures "where it would fit for
+  their identity/style".
+- Eight signatures added, under two self-imposed rules so they are
+  derived and not invented:
+  1. each comes from that DJ's OWN `listen` text, not from the real
+     producer they were built on — Chrome Dial's is a near-static drone
+     because his line says "silence as an instrument"; Otto Grit's is
+     dusty keys because his says SP-1200 dust and vinyl;
+  2. where a crew member shares a producer with a LEGEND they are voiced
+     DIFFERENTLY on purpose (legends are strict likenesses and never
+     evolve; the crew are loose and do). Otto Grit is piano-forward where
+     the J Dillo legend is loop-forward; Cutz gets brass stabs where DJ
+     Premium gets loop+synth.
+  Payoff worth noting: the legends research had flagged "pluck/bell
+  timbre vs huge negative space" as a distinguishing trait with NO FIELD
+  to express it. instrument_sampler's groups gave it one, and Glass Cat
+  is built on exactly that.
+- Harmony evolution: three new ops (chord_voice, progression_lean,
+  key_taste) on the same menu, same guard rails, same journal/rollback.
+  The extra rule these needed: they only ever shift WEIGHTS between
+  choices the character ALREADY has. Nothing is added or removed — Otto
+  Grit can come to prefer his piano over his loops, he can never wake up
+  playing horns. Asserted in the dry-run check.
+- FOUR silent bugs, all pre-existing, all found by one new test file
+  (tests/test_signature_words.py) rather than by ear:
+  - chord_source "string" is NOT a word the engine branches on ("strings"
+    = the London library; "string" is an instrument_sampler GROUP name).
+    Rage Engine AND Horror Rap both had it. Nothing raised — the voice
+    just fell through to the next source. Rage Engine had been rendering
+    all-brass with no strings at all.
+  - mode "dorian" (DJ Premium) and "phrygian" (Timberline) are not modes
+    KeyContext understands. Measured: both return ZERO in-key melodic
+    loops. DJ Premium is loop-DOMINANT by his own research, so his
+    primary voice had been silently failing over to synth on every beat
+    since he was wired. Both changed to minor; their modal colour was
+    always carried by their progressions anyway (dark_menacing IS i-bII,
+    i.e. phrygian).
+  - a zero weight in a weighted list is a dead option; now asserted.
+  The lesson worth keeping: a typo in these configs is the easiest
+  mistake to make on this project and the hardest to hear, because every
+  wrong word degrades silently instead of raising. The test now covers
+  all three rosters (crew, legends, genres).
+- NEEDS HIS EAR — a change to something he already approved: Horror Rap
+  was approved on 2026-07-24 while its "string" entry was dead, so what
+  he blessed was organ+loop with no strings. Fixing the typo means
+  strings will now actually play in it. Flagged to him rather than
+  slipped in; one word reverts it.
+- Verify by: 646/646 tests pass (113 in the new signature-word file).
+  All 9 crew voice correctly and distinctly across 10 variants each,
+  zero silent chord lanes. Rendered #1100-#1107 (one per DJ);
+  midi-validity-gate 8/8. Stems confirm the intended voices, including
+  "strings arp" on Rage Engine, which is the proof the typo fix landed.
+- Status: open — owner has not heard #1100-#1107.
+
 ### 2026-07-24 New Math deepened — "arithmetic you can hear" (my design)
 - Context: owner asked to put the new chiptune sound into New Math AND to
   give that DJ "deeper personality/style of your own design" — explicitly

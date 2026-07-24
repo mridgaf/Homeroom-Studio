@@ -328,10 +328,38 @@
   },
   "signature": {
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 4th after No Alias/Swish Beatz/Razor all cleared audition). CORRECTION 2026-07-23: earlier notes in this file/proposal claimed the schema has an 'alt' field for a legend's second harmony mode -- checked the code, that's wrong. preset['alt'] is the drum-era alt-snare/reverb mechanism (see crew.py), unrelated to harmony. No engine mechanism exists for rolling between two full harmony modes per beat, and building one wasn't asked for, so this wires ONE mode only: research found Farrow genuinely bimodal (classic-minimal 2000-04 near-atonal vs later pop-era major/song-structured), and its own synthesis picked classic-minimal as the more identifiably 'Neptunes' sound -- that's what's here. The later major/pop mode is a documented, deliberately NOT-built follow-on, same honest-scope pattern as the Miami Bass/reggaeton rhythm-defined gap in the original proposal. Also flagged and left unsolved: Farrow and Swish Beatz (already wired) are both synth-dominant and will sound closer to each other than their real records do -- the distinguishing trait (pluck/bell timbre + huge negative space vs. horn-stab + density) has no field yet. Not yet audition-rendered.",
-   "key": {"roots": ["C", "G", "A"], "mode": "minor"},
-   "progressions": [["vamp_static_riff", 3], ["vamp_i_iv7", 1]],
-   "chord_source": [["synth", 4], ["loop", 1]],
-   "tempo": [95, 115]
+   "key": {
+    "roots": [
+     "C",
+     "G",
+     "A"
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "vamp_i_iv7",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "synth",
+     4
+    ],
+    [
+     "loop",
+     1
+    ]
+   ],
+   "tempo": [
+    95,
+    115
+   ]
   }
  },
  "Doc Day": {
@@ -343,13 +371,62 @@
   "legend_swing": 50,
   "listen": "surgical West Coast: heavy punchy kick, a crisp hard snare that NEVER leaves 2 and 4, straight-eighth hats, tambourine and cowbell color, sparse disciplined arrangement with an occasional deep sub",
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, tuned 2026-07-23 after owner picked #843/#845/#849 as best). Minor i-iv-v (Still D.R.E.) plus the ii7-V7 vamp back in (the m7 in #847 wasn't the real problem — #843 proved the same vamp works held, on strings). chord_rhythm rolls held-vs-arp per beat (#843/#845 held, #849 arp — the owner's keepers were a mix). chord_source strings-forward but synth allowed back in, ~2:1, matching #845/#849. tempo pinned 90-96.",
-   "key": {"roots": ["F", "G", "C"], "mode": "minor"},
-   "progressions": [["gfunk_minor_i_iv_v", 3], ["vamp_i_iv7", 2]],
-   "chord_source": [["strings", 2], ["synth", 1]],
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dre: dorian, not plain minor \u2014 the minor-tonic-to-MAJOR-IV move is the documented dorian tell and 'frequently used in funk'. gfunk_dorian_9 was added for the G-Funk GENRE on 2026-07-24 and proved there (owner: the reweight made it read sunnier); the same lesson applies to Dre, who is where that sound came from. piano added for the live-Rhodes half of his chain.",
+   "key": {
+    "roots": [
+     "F",
+     "G",
+     "C"
+    ],
+    "mode": "dorian"
+   },
+   "progressions": [
+    [
+     "gfunk_minor_i_iv_v",
+     3
+    ],
+    [
+     "gfunk_dorian_9",
+     3
+    ],
+    [
+     "dorian_i_IV",
+     2
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "strings",
+     3
+    ],
+    [
+     "piano",
+     2
+    ],
+    [
+     "synth",
+     1
+    ]
+   ],
    "articulation": "sustain",
-   "chord_rhythm": [["arp", 1], ["sustain", 1]],
-   "tempo": [90, 96]
+   "chord_rhythm": [
+    [
+     "arp",
+     1
+    ],
+    [
+     "sustain",
+     1
+    ]
+   ],
+   "tempo": [
+    90,
+    96
+   ]
   },
   "kit": {
    "kick": [
@@ -1052,12 +1129,61 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 5th). Same 'alt field doesn't exist for harmony' correction as Farrow's note -- see there. Deep research found Kanye closer to 4-5 eras collapsed to 2 for engine limits (chipmunk-soul, orchestral-epic, synth-arena, minimalist-Auto-Tune, industrial-rupture as a 5th rupture, MBDTF synthesizing several at once). Of the two most roster-relevant, this wires ORCHESTRAL/EPIC (minor, strings sustain, epic+uplifting progressions) rather than chipmunk-soul: the soul-chop loop territory is already crowded (Dilla, No Alias, and Razor all loop-dominant), while nobody else on the roster uses 'epic'+choir-style sustained strings -- better differentiated, and 'epic' was sitting unused in the vocabulary since the original proposal. Chipmunk-soul/loop mode is a documented, deliberately NOT-built follow-on. Not yet audition-rendered.",
-   "key": {"roots": ["Bb", "F", "G"], "mode": "minor"},
-   "progressions": [["epic", 3], ["uplifting", 1]],
-   "chord_source": [["strings", 4], ["loop", 1]],
+   "_note": "DEEPENED 2026-07-24 (owner: lean heavily on the Symphony bank). Chipmunk soul is DOCUMENTED as 'sped-up soul vocal samples PLUS Kanye's own string accompaniments and gospel choirs' \u2014 so this is the single best fit on the roster for the London Symphonic bank, now weighted 4 primary. choir added for the gospel choirs (documented); loop keeps the sped-up soul sample. Mode opened to weighted major/minor: chipmunk soul is warm and often borrows major (the joyful, nostalgic quality the research stresses), so it is not strictly minor. nostalgic_jazz + nostalgic_borrowed_minor added for the soul-sample 7ths.",
+   "key": {
+    "roots": [
+     "Bb",
+     "F",
+     "G"
+    ],
+    "mode": [
+     [
+      "minor",
+      2
+     ],
+     [
+      "major",
+      1
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "epic",
+     3
+    ],
+    [
+     "uplifting",
+     2
+    ],
+    [
+     "nostalgic_jazz",
+     2
+    ],
+    [
+     "nostalgic_borrowed_minor",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "strings",
+     4
+    ],
+    [
+     "choir",
+     2
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
    "articulation": "sustain",
-   "tempo": [85, 145]
+   "tempo": [
+    85,
+    145
+   ]
   }
  },
  "J Dillo": {
@@ -1066,24 +1192,70 @@
   "era": "legend",
   "built": "J Dilla",
   "legend": true,
-  "bar_lengths": [2, 4],
+  "bar_lengths": [
+   2,
+   4
+  ],
   "listen": "the drunk pull, faithful: snare rushes ~20 ms early, kick drags ~12 ms behind, hats dead straight, loose wobbly jitter, dusty drums, vinyl and a touch of wow",
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, added 2026-07-23 as the 3rd legend, after Dre and Premier both cleared audition). Research's own correction: Dilla is NOT minor-default — his harmony is sample-dictated and skews soul/major as often as minor, so mode is an even 1:1 weighted roll, never a hard lock. chord_source leans loop harder than Premier's (4:1 vs 3:1) — Dilla's identity IS the chopped soul/Rhodes sample, synth pad is just the floor. No chord_rhythm/articulation override — same audition-first start as the other two.",
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dilla: web research 2026-07-24 confirms 'Everytime' is in F DORIAN and that his harmony leans on lush major/minor 7ths lifted from soul records (Jackson 5 etc). Was minor/major only; dorian added as the weighted lead. piano added because the Rhodes IS his sound and the sampled-piano group did not exist when he was wired.",
    "key": {
-    "roots": ["C", "D", "Bb"],
-    "mode": [["minor", 1], ["major", 1]]
+    "roots": [
+     "C",
+     "D",
+     "Bb"
+    ],
+    "mode": [
+     [
+      "dorian",
+      2
+     ],
+     [
+      "minor",
+      1
+     ],
+     [
+      "major",
+      1
+     ]
+    ]
    },
    "progressions": [
-    ["nostalgic_jazz", 2],
-    ["dreamy", 2],
-    ["vamp_ii_V", 1]
+    [
+     "nostalgic_jazz",
+     3
+    ],
+    [
+     "dreamy",
+     2
+    ],
+    [
+     "vamp_ii_V",
+     2
+    ],
+    [
+     "dorian_i_IV",
+     2
+    ],
+    [
+     "vamp_i_iv7",
+     1
+    ]
    ],
    "chord_source": [
-    ["loop", 4],
-    ["synth", 1]
+    [
+     "loop",
+     4
+    ],
+    [
+     "piano",
+     2
+    ]
    ],
-   "tempo": [70, 95]
+   "tempo": [
+    70,
+    95
+   ]
   },
   "kit": {
    "kick": [
@@ -1402,15 +1574,57 @@
   "legend": true,
   "listen": "ratchet club bounce: a sparse 808 kick that lands on the and-of-two pocket, dry claps on 2 and 4, layered snaps, minimal offbeat hats, clean digital, room for the chant",
   "signature": {
-   "_note": "harmonic fingerprint added 2026-07-23. HONEST SOURCING: Mustang is NOT one of the 4 legends HARMONY-IDENTITY-PROPOSAL actually researched (that set was Dillo/Premium/Doc Day/Timberline, now all built) — this block is from general knowledge of DJ Mustard's records, not from that doc's table, so the owner's ear is the only check. The giveaway is the bright plucked ostinato over almost no chord movement, so: chord_rhythm leans arp 3:1 over held (the arp path already exists from Dre), chord_source is synth-only (he builds in the box — no orchestral strings, no chopped soul loop), and the progressions are the two most minimal shapes available. vamp_static_riff is new here (single minor chord held the whole loop, so the riff + 808 carry it) — it is the proposal's own defined slug, skipped in earlier sessions because nothing consumed it; Mustang is its first real consumer. Tempo 95-105 is his club pocket around the roster's 100.",
+   "_note": "DEEPENED + RESEARCHED 2026-07-24. Mustang was the one legend flagged as NEVER researched (built from general knowledge). Web research done now: DJ Mustard / ratchet \u2014 ~90bpm club, melodies of only THREE OR FOUR notes repeated with minimal variation, built on 'smooth lead synths, punchy horns, and airy pads', minor. So his voice is synth-led with horn stabs, NOT orchestral \u2014 this is the one identity in this batch that does NOT lean on the Symphony bank, because strings would be inauthentic to ratchet. strings kept only as a light 3rd option standing in for the 'airy pad' rather than using the weaker pack-scraped pad group (owner: prefer the Symphony bank over the created samples). Was the thinnest legend after the first four: one chord source, no chord_rhythm. Now three sparse vamps matching the 3-4-note minimalism.",
    "key": {
-    "roots": ["F", "G", "Bb"],
+    "roots": [
+     "F",
+     "G",
+     "Bb"
+    ],
     "mode": "minor"
    },
-   "progressions": [["vamp_static_riff", 2], ["vamp_i_VI", 2]],
-   "chord_source": [["synth", 1]],
-   "chord_rhythm": [["arp", 3], ["sustain", 1]],
-   "tempo": [95, 105]
+   "progressions": [
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "vamp_i_VI",
+     2
+    ],
+    [
+     "vamp_i_v7",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "synth",
+     3
+    ],
+    [
+     "horns",
+     2
+    ],
+    [
+     "strings",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "arp",
+     2
+    ],
+    [
+     "sustain",
+     1
+    ]
+   ],
+   "tempo": [
+    95,
+    105
+   ]
   },
   "kit": {
    "kick": [
@@ -2051,10 +2265,42 @@
   },
   "signature": {
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 2nd of the remaining 8 after No Alias cleared audition -- owner said 'keep'). Cross-checked across Ruff Ryders, mid-2000s crossover, and solo eras: minor-dominant with LOW modal variance -- unlike Kane East's real bimodality, Swizz's 'triumphant' feel comes from stab loudness/density, not a shift to major key, so no alt block needed. chord_source is synth, high confidence, heavily dominant (4:1) -- even higher than Farrow's lean, though Farrow isn't wired yet so no collision risk today. Flagged in research: Swizz and Farrow would eventually render near-identically on chord_source alone once both are live; the real distinguishing trait (horn/brass-stab timbre + dense arrangement vs. Farrow's pluck/bell + huge negative space) has no field yet -- deferred, not solved, same class of gap as Just Flame's horn-vs-strings note. Not yet audition-rendered.",
-   "key": {"roots": ["E", "F", "G"], "mode": "minor"},
-   "progressions": [["vamp_static_riff", 3], ["trap_dark_metro", 2], ["dark_menacing", 1]],
-   "chord_source": [["synth", 4], ["loop", 1]],
-   "tempo": [90, 105]
+   "key": {
+    "roots": [
+     "E",
+     "F",
+     "G"
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "trap_dark_metro",
+     2
+    ],
+    [
+     "dark_menacing",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "synth",
+     4
+    ],
+    [
+     "loop",
+     1
+    ]
+   ],
+   "tempo": [
+    90,
+    105
+   ]
   }
  },
  "DJ Premium": {
@@ -2066,21 +2312,61 @@
   "legend_swing": 53,
   "listen": "surgical boom bap at a locked 53% swing: tight punchy kick, cracking snare with real ghost notes, dead-steady eighth hats, scratch-stab color, moderate dust",
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, added 2026-07-23 as the next legend after Dre's audition-approved pass). Sparse minor/dorian stab, no new progression slugs needed. chord_source loop-forward (a chopped melodic loop reads as Premier's dark sample stab) with synth as the always-works floor. Not yet audition-rendered — same gate as Dre: render a small batch, owner listens, then tune.",
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Premier: dorian RESTORED. It was flattened to minor earlier today when modal keys were found to return zero samples \u2014 but the real fault was in melodic_loops.in_key, now fixed to match by mode FAMILY, so he keeps his mode AND gets his loops. He is loop-DOMINANT, so that bug had been failing him over to synth on every single beat. horns added for his documented horn/vocal stabs.",
    "key": {
-    "roots": ["D", "E", "A"],
-    "mode": [["minor", 2], ["dorian", 1]]
+    "roots": [
+     "D",
+     "E",
+     "A"
+    ],
+    "mode": [
+     [
+      "minor",
+      2
+     ],
+     [
+      "dorian",
+      1
+     ]
+    ]
    },
    "progressions": [
-    ["vamp_i_iv7", 2],
-    ["dark_menacing", 2],
-    ["vamp_i_VI", 1]
+    [
+     "vamp_i_iv7",
+     2
+    ],
+    [
+     "dark_menacing",
+     2
+    ],
+    [
+     "vamp_i_VI",
+     2
+    ],
+    [
+     "dorian_i_IV",
+     1
+    ]
    ],
    "chord_source": [
-    ["loop", 3],
-    ["synth", 1]
+    [
+     "loop",
+     4
+    ],
+    [
+     "horns",
+     2
+    ],
+    [
+     "synth",
+     1
+    ]
    ],
-   "tempo": [82, 96]
+   "tempo": [
+    82,
+    96
+   ],
+   "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7."
   },
   "kit": {
    "kick": [
@@ -2377,14 +2663,59 @@
   "legend": true,
   "listen": "beatbox stutter-funk: double-hit syncopated kicks, a clap that answers instead of insists, tabla and exotic perc off-center, silence used as an instrument, completely clean",
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL 2026-07-22, added 2026-07-23 as the 4th/last researched legend). Proposal calls Timbaland rhythm-defined more than harmony-defined ('almost no chord movement', a single droning Phrygian melody) so chord_source is synth-only (no strings/loop) — the plainest, least-melodic voice reads closest to a drone. Single progression (dark_menacing, table value; no new slug invented). Tempo is the flagged fork: the proposal gave two DISCONNECTED pockets (90-100 normal, 135-145 double-time) instead of one range — owner said allow both with variation, so `tempo` is a list of two ranges. Required a small beat_machine.py change (vary_preset's tempo lean): a %-lean from a single base bpm can never jump between two disconnected pockets, so a signature tempo that's a list-of-lists now rolls a pocket first, then a tempo inside it, instead of leaning+clamping.",
+   "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Timbaland: UPGRADED from phrygian to phrygian_dominant. Research 2026-07-24 ties his signature 'Get Ur Freak On' sound to the Hijaz/phrygian-dominant scale \u2014 the b2 against a MAJOR 3rd, whose augmented second is what reads as Middle Eastern. Plain phrygian (minor 3rd) does not make that sound. He also had the thinnest signature on the roster: ONE progression, ONE chord source. wood added for the tumbi/flute timbre that is his actual lead voice.",
    "key": {
-    "roots": ["D", "E", "G"],
-    "mode": "phrygian"
+    "roots": [
+     "D",
+     "E",
+     "G"
+    ],
+    "mode": [
+     [
+      "phrygian_dominant",
+      2
+     ],
+     [
+      "phrygian",
+      1
+     ]
+    ]
    },
-   "progressions": ["dark_menacing"],
-   "chord_source": [["synth", 1]],
-   "tempo": [[90, 100], [135, 145]]
+   "progressions": [
+    [
+     "dark_menacing",
+     3
+    ],
+    [
+     "hijaz_cadence",
+     2
+    ],
+    [
+     "vamp_static_riff",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "wood",
+     3
+    ],
+    [
+     "synth",
+     2
+    ]
+   ],
+   "tempo": [
+    [
+     90,
+     100
+    ],
+    [
+     135,
+     145
+    ]
+   ],
+   "_mode_fix_2026_07_24": "was 'phrygian', which is NOT a mode the engine understands: KeyContext('phrygian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his phrygian b2 is already carried by dark_menacing (i-bII)."
   },
   "kit": {
    "kick": [
@@ -3056,12 +3387,66 @@
   },
   "signature": {
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired LAST of the 12 -- deliberately held back until the horn engine existed. Research's central finding: his chord_source was always described as 'strings' but ACTUALLY means a layered horn/brass stack; wiring him against the string-pad voice would have collapsed him into Kane East's orchestral mode. So tools/lead_synth.py (horn_chord) + a new 'horns' chord_source were built first, 2026-07-23. Mode is weighted major 2:1 not locked -- his bimodality is PER-SONG, not per-era (PSA major and U Don't Know minor, same album cycle), so no era split applies; verified data: PSA C#/Db major, U Don't Know G# minor, Show Me What You Got 106bpm, Exhibit C 82bpm. Roots are the engine's nearest available (SUB_ROOTS has no C#/G#) -- transposed on purpose, not a data error. chord_rhythm rolls stab-vs-held per beat, matching the research's 'sustain/stab-hybrid' (long horn sustains under verses, hard sidechained stabs on hooks). tempo 82-110 is the half-time-FELT pocket; the raw 155-178 grid figures are the same records double-counted, so they are not a second pocket. Not yet audition-rendered.",
-   "key": {"roots": ["C", "G", "F"], "mode": [["major", 2], ["minor", 1]]},
-   "progressions": [["epic", 3], ["uplifting", 2], ["dark_menacing", 1], ["vamp_i_iv7", 1]],
+   "key": {
+    "roots": [
+     "C",
+     "G",
+     "F"
+    ],
+    "mode": [
+     [
+      "major",
+      2
+     ],
+     [
+      "minor",
+      1
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "epic",
+     3
+    ],
+    [
+     "uplifting",
+     2
+    ],
+    [
+     "dark_menacing",
+     1
+    ],
+    [
+     "vamp_i_iv7",
+     1
+    ]
+   ],
    "_horns_status": "RESTORED 2026-07-23 (was PARKED the same day). History: he auditioned #1046-#1048 on the SYNTHESIZED horn and rejected the tone outright ('I do not like the way that horn sounds at all'), so chord_source was made loop-dominant as an interim -- musically wrong for him, since his whole identity is the brass stack and on loop alone he overlaps Dilla/No Alias/Razor. The park reason is now gone: 'horns' no longer means a synth at all. Per his 2026-07-23 sampling directive ('I want my sounds, not fake ones') brass is SAMPLED from his own chops and multi-sampled across the range (tools/brass_sampler.py), and the synth horn_chord/horn_stab/horn_sustain were deleted. So this is back to the shape his research actually calls for. STILL UNHEARD: he has not auditioned the sampled brass yet -- if it also misses, the fix is the sample POOL (which chops are indexed, MIN_CLARITY) or the arp/sustain split, NOT a return to synthesis, which is now against standing instruction.",
-   "chord_source": [["horns", 3], ["loop", 2]],
-   "chord_rhythm": [["arp", 1], ["sustain", 1]],
-   "tempo": [82, 110]
+   "chord_source": [
+    [
+     "horns",
+     3
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "arp",
+     1
+    ],
+    [
+     "sustain",
+     1
+    ]
+   ],
+   "tempo": [
+    82,
+    110
+   ]
   }
  },
  "Razor": {
@@ -3375,10 +3760,38 @@
   },
   "signature": {
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 3rd after No Alias and Swish Beatz both cleared audition with 'keep'). Cross-checked 36 Chambers through Wu-Tang Forever: minor, sample-inherited short vamp cells that never develop -- vamp_static_riff dominant, dark_menacing secondary for the more dissonant/horror-tinged cuts. chord_source loop at ~90%+, the hardest lean and longest/least-edited cells on the roster (contrast vs Premier: Premier edits the loop into submission, Razor lets it run wild). Research clarified the 'out of tune' quality is very likely artifact-origin (turntable pitch drift, tape wow/flutter, coarse early-sampler pitch resolution) and only aesthetically RETAINED once better gear was available on Forever -- not composed from day one. That detune/lo-fi quality is a processing trait with no field here; the harmony block alone undersells him without it, same class of gap as Just Flame's horn-vs-strings note. Not yet audition-rendered.",
-   "key": {"roots": ["D", "F", "G"], "mode": "minor"},
-   "progressions": [["vamp_static_riff", 3], ["dark_menacing", 2]],
-   "chord_source": [["loop", 5], ["synth", 1]],
-   "tempo": [80, 96]
+   "key": {
+    "roots": [
+     "D",
+     "F",
+     "G"
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "dark_menacing",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "loop",
+     5
+    ],
+    [
+     "synth",
+     1
+    ]
+   ],
+   "tempo": [
+    80,
+    96
+   ]
   }
  },
  "Hitt Kid": {
@@ -3714,11 +4127,52 @@
   },
   "signature": {
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 6th). Same 'alt field doesn't exist for harmony' correction as Farrow's note. Hit-Boy has a hard ~2019-20 pivot, not a gradual drift (club-trap era vs King's Disease era) -- research's own explicit recommendation was to default to King's Disease/soulful-sample mode over the historically-earlier club era: more distinctive, critically-celebrated 'creative rebirth,' harmonically richer (better exercises the chord engine, same logic the original proposal used to prioritize Dre first), and adds more harmonic diversity to the roster than the club era would (which overlaps Farrow/Miami-Bass-style minimal-synth-stab territory). Club-trap/EDM-crossover mode is a documented, deliberately NOT-built follow-on. Not yet audition-rendered.",
-   "key": {"roots": ["C", "D", "G"], "mode": [["minor", 2], ["major", 1]]},
-   "progressions": [["nostalgic_jazz", 3], ["vamp_i_iv7", 2], ["sad_accepting", 1]],
-   "chord_source": [["loop", 3], ["strings", 1]],
+   "key": {
+    "roots": [
+     "C",
+     "D",
+     "G"
+    ],
+    "mode": [
+     [
+      "minor",
+      2
+     ],
+     [
+      "major",
+      1
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "nostalgic_jazz",
+     3
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ],
+    [
+     "sad_accepting",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "loop",
+     3
+    ],
+    [
+     "strings",
+     1
+    ]
+   ],
    "articulation": "sustain",
-   "tempo": [85, 105]
+   "tempo": [
+    85,
+    105
+   ]
   }
  },
  "No Alias": {
@@ -4025,10 +4479,51 @@
   },
   "signature": {
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired first of the remaining 8 -- lowest risk: single mode, zero new progression slugs, cleanest verified data). Research verified BPM/key via search on 2 eras 23 years apart (Common 'Resurrection'/'I Used to Love H.E.R.' 1994, both C# major; Jay-Z 'D.O.A.' 2009, Eb minor, half-time 86) -- his own finding is DISCIPLINE, not range: the same warm-loop move essentially unchanged for 3 decades. Mode is major-leaning but not locked (2:1), same non-hard-lock pattern as Dilla. chord_source loop-dominant (3:1, slightly softer than Dilla's 4:1 -- the distinguishing trait vs Dilla is a cleaner splice/less chop, not a bigger loop weight). No chord_rhythm/articulation override -- same audition-first start as Premier/Dilla. Not yet audition-rendered.",
-   "key": {"roots": ["C", "D", "F"], "mode": [["major", 2], ["minor", 1]]},
-   "progressions": [["nostalgic_jazz", 3], ["vamp_i_iv7", 2], ["dark_menacing", 1]],
-   "chord_source": [["loop", 3], ["synth", 1]],
-   "tempo": [85, 96]
+   "key": {
+    "roots": [
+     "C",
+     "D",
+     "F"
+    ],
+    "mode": [
+     [
+      "major",
+      2
+     ],
+     [
+      "minor",
+      1
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "nostalgic_jazz",
+     3
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ],
+    [
+     "dark_menacing",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "loop",
+     3
+    ],
+    [
+     "synth",
+     1
+    ]
+   ],
+   "tempo": [
+    85,
+    96
+   ]
   }
  }
 }

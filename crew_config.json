@@ -354,6 +354,76 @@
      1
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "F",
+      3
+     ],
+     [
+      "C",
+      2
+     ],
+     [
+      "Bb",
+      2
+     ],
+     [
+      "G",
+      1
+     ]
+    ],
+    "mode": [
+     [
+      "minor",
+      2
+     ],
+     [
+      "major",
+      2
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "nostalgic_jazz",
+     2.5
+    ],
+    [
+     "dreamy",
+     3
+    ],
+    [
+     "vamp_ii_V",
+     2.5
+    ],
+    [
+     "nostalgic_borrowed_minor",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "piano",
+     3
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     1
+    ]
+   ]
   }
  },
  "Cutz": {
@@ -636,7 +706,7 @@
    ]
   ],
   "extras": {
-   "p": 0.6,
+   "p": 0.72,
    "nmax": 2,
    "pool": [
     [
@@ -680,6 +750,54 @@
      1
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "A",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "vamp_i_iv7",
+     3
+    ],
+    [
+     "dark_menacing",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "horns",
+     3
+    ],
+    [
+     "loop",
+     3
+    ]
+   ],
+   "chord_rhythm": "arp"
   }
  },
  "Crate Prophet": {
@@ -973,7 +1091,7 @@
   },
   "kick_flavors": [
    [
-    0.35,
+    0.47,
     "808",
     [
      "warm",
@@ -985,7 +1103,7 @@
     ]
    ],
    [
-    0.65,
+    0.53,
     null,
     [
      "boom",
@@ -1051,6 +1169,80 @@
     ],
     [
      "motown",
+     1
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "F",
+      3
+     ],
+     [
+      "Bb",
+      2
+     ],
+     [
+      "C",
+      2
+     ],
+     [
+      "G",
+      2
+     ]
+    ],
+    "mode": [
+     [
+      "minor",
+      2
+     ],
+     [
+      "major",
+      1
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "nostalgic_jazz",
+     3
+    ],
+    [
+     "vamp_ii_V",
+     2
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ],
+    [
+     "nostalgic_borrowed_minor",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "horns",
+     3
+    ],
+    [
+     "loop",
+     3
+    ],
+    [
+     "piano",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
      1
     ]
    ]
@@ -1391,6 +1583,14 @@
       "click"
      ],
      "clicks"
+    ],
+    [
+     "fx",
+     [
+      "reverse",
+      "swell"
+     ],
+     "reversefx"
     ]
    ]
   },
@@ -1411,6 +1611,63 @@
     ],
     [
      "electro",
+     2
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "D",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "E",
+      2
+     ],
+     [
+      "C",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     4
+    ],
+    [
+     "dark_menacing",
+     3
+    ],
+    [
+     "vamp_i_VI",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "wood",
+     3
+    ],
+    [
+     "synth",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
      2
     ]
    ]
@@ -1749,7 +2006,7 @@
    ]
   },
   "library": {
-   "p": 0.45,
+   "p": 0.35,
    "tags": [
     [
      "rnb",
@@ -1768,6 +2025,54 @@
      1
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "E",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     3
+    ],
+    [
+     "vamp_i_v7",
+     3
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "bell",
+     3
+    ],
+    [
+     "pluck",
+     2
+    ]
+   ],
+   "chord_rhythm": "arp"
   }
  },
  "Sunday Chop": {
@@ -2108,7 +2413,7 @@
   },
   "kick_flavors": [
    [
-    0.3,
+    0.38,
     "808",
     [
      "punch",
@@ -2120,7 +2425,7 @@
     ]
    ],
    [
-    0.7,
+    0.62,
     null,
     [
      "punch",
@@ -2179,6 +2484,80 @@
     ],
     [
      "funk",
+     1
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      3
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "Bb",
+      1
+     ]
+    ],
+    "mode": [
+     [
+      "major",
+      3
+     ],
+     [
+      "minor",
+      1
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "uplifting",
+     3
+    ],
+    [
+     "nostalgic_borrowed_minor",
+     2
+    ],
+    [
+     "sad_accepting",
+     2
+    ],
+    [
+     "nostalgic_jazz",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "piano",
+     3
+    ],
+    [
+     "choir",
+     2
+    ],
+    [
+     "loop",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
      1
     ]
    ]
@@ -2486,6 +2865,14 @@
       "block"
      ],
      "bells"
+    ],
+    [
+     "fx",
+     [
+      "reverse",
+      "swell"
+     ],
+     "reversefx"
     ]
    ]
   },
@@ -2511,6 +2898,71 @@
     [
      "breakbeat",
      1
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "A",
+      2
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "trap_dark_metro",
+     3
+    ],
+    [
+     "dark_menacing",
+     3
+    ],
+    [
+     "vamp_static_riff",
+     2
+    ],
+    [
+     "vamp_i_VI",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "bell",
+     3
+    ],
+    [
+     "pad",
+     2
+    ],
+    [
+     "loop",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     3
     ]
    ]
   }
@@ -2734,7 +3186,7 @@
     ],
     "ghosts": [
      0,
-     1
+     2
     ],
     "gcells": [
      6,
@@ -2883,6 +3335,63 @@
     [
      "electro",
      1
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "E",
+      1
+     ],
+     [
+      "A",
+      2
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "epic",
+     3
+    ],
+    [
+     "dark_menacing",
+     3
+    ],
+    [
+     "trap_dark_metro",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "strings",
+     3
+    ],
+    [
+     "horns",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     2
     ]
    ]
   }
@@ -3386,7 +3895,8 @@
    ],
    "chord_rhythm": "arp",
    "chip_tuning": "atari",
-   "chip_count": 5
+   "chip_count": 5,
+   "chords_default": true
   }
  },
  "_style_version": 6,

@@ -37,7 +37,40 @@ MODES = {
     "minor":    (0, 2, 3, 5, 7, 8, 10),
     "dorian":   (0, 2, 3, 5, 7, 9, 10),
     "phrygian": (0, 1, 3, 5, 7, 8, 10),
+    # Added 2026-07-24 from web research at the owner's request ("collect
+    # any modes that you are missing"). Sources agree the working set for
+    # this music is small: "most trap melodies are based on one of these
+    # 3 scales - minor, harmonic minor, and phrygian", with dorian the
+    # warmer minor used in melodic/R&B-leaning hip hop.
+    "harmonic_minor": (0, 2, 3, 5, 7, 8, 11),   # raised 7th; trap staple
+    # 5th mode of harmonic minor = the "Hijaz"/Spanish/Freygish sound.
+    # Its b2-against-major-3rd gives the augmented second the ear reads
+    # instantly as Middle Eastern — documented as Timbaland's "Get Ur
+    # Freak On" mode, which is why Timberline uses it.
+    "phrygian_dominant": (0, 1, 4, 5, 7, 8, 10),
+    # major with a b7: bluesy, unresolved, "funk uses it heavily"
+    "mixolydian": (0, 2, 4, 5, 7, 9, 10),
+    # major with a #4: the floating/dreamy one
+    "lydian": (0, 2, 4, 6, 7, 9, 11),
 }
+
+# Which major/minor family a mode belongs to. The owner's sample library
+# only ever labels a file "major", "minor" or nothing (the vendors write
+# "Gm"/"C", never "G dorian"), so a modal KEY could never tier-match a
+# sample and melodic_loops.in_key returned ZERO picks for it — which
+# silently killed the loop voice for every modal identity. Matching on
+# the FAMILY fixes that without flattening the identity itself.
+MODE_FAMILY = {
+    "major": "major", "lydian": "major", "mixolydian": "major",
+    "minor": "minor", "dorian": "minor", "phrygian": "minor",
+    "harmonic_minor": "minor", "phrygian_dominant": "minor",
+}
+
+
+def mode_family(mode):
+    """'dorian' -> 'minor'. Unknown modes fall back to minor, which is
+    this music's default and the safer guess."""
+    return MODE_FAMILY.get(mode, "minor")
 
 # theory/chords.md, spelled as semitones up from the root.
 CHORDS = {

@@ -5,7 +5,7 @@
   "density: sparse | home | busy \u2014 this style's own density, honoured instead of the house sparse-bed lean (owner decision 2026-07-19: genre fidelity wins in this box).",
   "Their other rules (pinned swing, home-weighted grammar, no cross-pollination, no evolution, 4/4) live in the engine."
  ],
- "_genres_version": 5,
+ "_genres_version": 6,
  "Memphis": {
   "num": 22,
   "bpm": 140,
@@ -1125,6 +1125,84 @@
       "shaker"
      ],
      "shaker"
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "G",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "D",
+      1
+     ]
+    ],
+    "mode": [
+     [
+      "minor",
+      2
+     ],
+     [
+      "major",
+      2
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "nostalgic_jazz",
+     3
+    ],
+    [
+     "uplifting",
+     2
+    ],
+    [
+     "dreamy",
+     2
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "strings",
+     3
+    ],
+    [
+     "guitar",
+     2
+    ],
+    [
+     "organ",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     2
     ]
    ]
   }
@@ -2916,7 +2994,7 @@
      3
     ],
     [
-     "string",
+     "strings",
      2
     ],
     [
@@ -3612,6 +3690,71 @@
       "tamb"
      ],
      "shaker"
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "A",
+      3
+     ],
+     [
+      "C",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "E",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "noir_descend",
+     3
+    ],
+    [
+     "dark_menacing",
+     2
+    ],
+    [
+     "nostalgic_borrowed_minor",
+     2
+    ],
+    [
+     "vamp_static_riff",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "strings",
+     4
+    ],
+    [
+     "organ",
+     2
+    ],
+    [
+     "loop",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
+     1
     ]
    ]
   }
@@ -6599,7 +6742,8 @@
      1
     ]
    ],
-   "chord_rhythm": "arp"
+   "chord_rhythm": "arp",
+   "chords_default": true
   }
  }
 }

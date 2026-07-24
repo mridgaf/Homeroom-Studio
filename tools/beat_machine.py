@@ -1281,6 +1281,20 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                                                 tsig=tsig, trick=trick,
                                                 dirs=dirs,
                                                 traditional=traditional)
+        # An identity whose signature says `chords_default` turns the chord
+        # lane ON without the notes box asking. This exists because of a
+        # real bug the owner hit (2026-07-24): "I no longer hear the
+        # chiptune ... even when I choose the genre or new math". Chords
+        # only ever render when parse_directions sees a chord word, so
+        # picking Chiptune and pressing go produced NO chord lane and
+        # therefore no chip sound at all. For identities whose chord voice
+        # IS the identity that is plainly wrong. Deliberately opt-in per
+        # identity rather than global: switching chords on for all 39
+        # identities would change every beat he has already approved.
+        # A typed "no chords" still wins, since dirs is only forced on.
+        if not dirs["chords"] and (preset.get("signature") or {}).get(
+                "chords_default"):
+            dirs = dict(dirs, chords=True)
         dnotes = apply_directions(preset, dirs)
         vnotes = evo_notes + style_notes + dnotes + vary_preset(
             preset, variant, CREW[names[0]]["num"],

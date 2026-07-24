@@ -36,7 +36,7 @@ sys.path.append(str(Path(__file__).parent))
 
 import numpy as np                                          # noqa: E402
 
-from key_context import KeyContext, pitch_class              # noqa: E402
+from key_context import KeyContext, mode_family, pitch_class   # noqa: E402
 from sample_library import AUDIO_EXTS, load_roots            # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/melodic_loop_index.json"))
@@ -55,10 +55,25 @@ ROLE_WORDS = [
 ]
 
 # a bare key token on its own, e.g. "Gm", "C#", "Bb", "F#m" — the shape
-# Cymatics/Function Loops/Live loop cds all use, as opposed to
-# midi_packs' "... - C Min.mid" wording.
-_KEY_TOKEN = re.compile(r"^([A-G])(#|b)?(m)?$", re.I)
+# Cymatics/Function Loops/Live loop cds all use. The mode suffix has TWO
+# spellings across his packs: bare "m" ("Gm") AND a full word glued on
+# ("DbMaj", "Fmin", "EMajor"). The word form was being MISSED (owner
+# 2026-07-24: "there are a lot of synth aif ... are we using those") —
+# 43 melodic files, incl. the Cymatics Raptor arp/chord loops and the
+# Live loop cds Rhodes/Piano/Pad, carry a <Key>Maj/<Key>Min token and
+# were silently dropped for "no key". Longer alternatives first so
+# "minor" wins over "min" before the $ anchor.
+_KEY_TOKEN = re.compile(r"^([A-G])(#|b)?(major|maj|minor|min|m)?$", re.I)
 _SPLIT = re.compile(r"[\s_\-]+")
+
+
+def _mode_from_suffix(suffix):
+    """'Maj'/'min'/'m'/None -> the mode label melodic_loops uses. A bare
+    key with NO suffix stays None ('fits either', per in_key's tiering)."""
+    if not suffix:
+        return None
+    s = suffix.lower()
+    return "major" if s in ("maj", "major") else "minor"
 
 
 def _tokens(path, rootp):
@@ -84,7 +99,7 @@ def key_from_tokens(tokens):
             pitch_class(m.group(1) + (m.group(2) or ""))
         except ValueError:
             continue
-        found = (m.group(1) + (m.group(2) or ""), "minor" if m.group(3) else None)
+        found = (m.group(1) + (m.group(2) or ""), _mode_from_suffix(m.group(3)))
     return found
 
 
@@ -160,10 +175,19 @@ def in_key(index, key, role=None, bpm=None):
     want = [e for e in index if e.get("role") == role] if role is not None \
         else list(index)
 
+    # Match on the mode's FAMILY, not the mode name. His packs label files
+    # "Gm"/"C" and never "G dorian", so comparing a modal key straight
+    # against a sample's label matched NOTHING and this function returned
+    # an empty list — silently starving the loop voice of every modal
+    # identity (DJ Premium is loop-dominant and had been failing over to
+    # synth on every beat). Found 2026-07-24.
+    want_family = mode_family(key.mode)
+
     def tier(e):
-        if e["key"] == key.root and (e["mode"] is None or e["mode"] == key.mode):
+        fam = None if e["mode"] is None else mode_family(e["mode"])
+        if e["key"] == key.root and (fam is None or fam == want_family):
             return 0
-        if e["mode"] == key.mode:
+        if fam == want_family:
             return 1
         return 2
 
