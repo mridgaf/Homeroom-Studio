@@ -327,7 +327,7 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 4th after No Alias/Swish Beatz/Razor all cleared audition). CORRECTION 2026-07-23: earlier notes in this file/proposal claimed the schema has an 'alt' field for a legend's second harmony mode -- checked the code, that's wrong. preset['alt'] is the drum-era alt-snare/reverb mechanism (see crew.py), unrelated to harmony. No engine mechanism exists for rolling between two full harmony modes per beat, and building one wasn't asked for, so this wires ONE mode only: research found Farrow genuinely bimodal (classic-minimal 2000-04 near-atonal vs later pop-era major/song-structured), and its own synthesis picked classic-minimal as the more identifiably 'Neptunes' sound -- that's what's here. The later major/pop mode is a documented, deliberately NOT-built follow-on, same honest-scope pattern as the Miami Bass/reggaeton rhythm-defined gap in the original proposal. Also flagged and left unsolved: Farrow and Swish Beatz (already wired) are both synth-dominant and will sound closer to each other than their real records do -- the distinguishing trait (pluck/bell timbre + huge negative space vs. horn-stab + density) has no field yet. Not yet audition-rendered.",
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 4th after No Alias/Swish Beatz/Razor all cleared audition). CORRECTION 2026-07-23: earlier notes in this file/proposal claimed the schema has an 'alt' field for a legend's second harmony mode -- checked the code, that's wrong. preset['alt'] is the drum-era alt-snare/reverb mechanism (see crew.py), unrelated to harmony. No engine mechanism exists for rolling between two full harmony modes per beat, and building one wasn't asked for, so this wires ONE mode only: research found Farrow genuinely bimodal (classic-minimal 2000-04 near-atonal vs later pop-era major/song-structured), and its own synthesis picked classic-minimal as the more identifiably 'Neptunes' sound -- that's what's here. The later major/pop mode is a documented, deliberately NOT-built follow-on, same honest-scope pattern as the Miami Bass/reggaeton rhythm-defined gap in the original proposal. Also flagged and left unsolved: Farrow and Swish Beatz (already wired) are both synth-dominant and will sound closer to each other than their real records do -- the distinguishing trait (pluck/bell timbre + huge negative space vs. horn-stab + density) has no field yet. Not yet audition-rendered. | BATCH 4/FINAL, 2026-07-24 (owner: finish up with the DJs). This closes the pre-07-23 legend backlog -- 12/12 legends now upgraded past their original loop/synth-only ceiling. RESOLVES the gap this file's own research flagged: 'Swizz and Farrow would eventually render near-identically on chord_source alone ... the real distinguishing trait (horn/brass-stab timbre + dense arrangement vs. Farrow's pluck/bell + huge negative space) has no field yet.' instrument_sampler now HAS that field. Web research confirms: 'funny little chimes', 'wide open spaces left up to the listener's imagination', built from as few as 4 sounds total (Grindin'). bell+pluck primary, one synth stab kept (their actual single lead synth), no horns -- that word is Swizz's now. | CHIP ADDED 2026-07-24 (owner request, 'video game sounds used with Pharaoh'). Checked before adding: N.E.R.D.'s 'Lapdance' (a Neptunes track) is documented as using synth lines 'reminiscent of rayguns or video game sound effects from the 8-bit era' -- so this is a real, specific trait of the source, not an unrelated bolt-on. Replaced the generic 'synth' slot (was [['bell', 3], ['pluck', 2], ['synth', 1]]) with 'chip' at the SAME weight (1 of 6) rather than adding a 4th option or raising the total -- his beats were already mostly bell/pluck with one occasional synth colour, and this keeps that ratio; chip just replaces what that occasional colour IS. No chip_tuning override: Neptunes are 'laser precision', not deliberately out of tune like New Math, so the default equal temperament stays. This is the chip voice's second use on the roster (after New Math/Chiptune) -- still the sanctioned exception, never a return to generic synthesis.",
    "key": {
     "roots": [
      "C",
@@ -348,11 +348,15 @@
    ],
    "chord_source": [
     [
-     "synth",
-     4
+     "bell",
+     3
     ],
     [
-     "loop",
+     "pluck",
+     2
+    ],
+    [
+     "chip",
      1
     ]
    ],
@@ -2264,7 +2268,7 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 2nd of the remaining 8 after No Alias cleared audition -- owner said 'keep'). Cross-checked across Ruff Ryders, mid-2000s crossover, and solo eras: minor-dominant with LOW modal variance -- unlike Kane East's real bimodality, Swizz's 'triumphant' feel comes from stab loudness/density, not a shift to major key, so no alt block needed. chord_source is synth, high confidence, heavily dominant (4:1) -- even higher than Farrow's lean, though Farrow isn't wired yet so no collision risk today. Flagged in research: Swizz and Farrow would eventually render near-identically on chord_source alone once both are live; the real distinguishing trait (horn/brass-stab timbre + dense arrangement vs. Farrow's pluck/bell + huge negative space) has no field yet -- deferred, not solved, same class of gap as Just Flame's horn-vs-strings note. Not yet audition-rendered.",
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 2nd of the remaining 8 after No Alias cleared audition -- owner said 'keep'). Cross-checked across Ruff Ryders, mid-2000s crossover, and solo eras: minor-dominant with LOW modal variance -- unlike Kane East's real bimodality, Swizz's 'triumphant' feel comes from stab loudness/density, not a shift to major key, so no alt block needed. chord_source is synth, high confidence, heavily dominant (4:1) -- even higher than Farrow's lean, though Farrow isn't wired yet so no collision risk today. Flagged in research: Swizz and Farrow would eventually render near-identically on chord_source alone once both are live; the real distinguishing trait (horn/brass-stab timbre + dense arrangement vs. Farrow's pluck/bell + huge negative space) has no field yet -- deferred, not solved, same class of gap as Just Flame's horn-vs-strings note. Not yet audition-rendered. | BATCH 4/FINAL, 2026-07-24 (owner: finish up with the DJs). This closes the pre-07-23 legend backlog -- 12/12 legends now upgraded past their original loop/synth-only ceiling. RESOLVES the same flagged gap from the other side. Web research confirms documented horn sampling: 'Ruff Ryders' Anthem' used a horn sample from a Casio SK-1 for a 'militaristic backdrop', 'Down Bottom' sampled a Roland brass-section patch. horns now primary (3), synth kept secondary (2) since he is still fundamentally synth-driven -- the density/loudness that makes him HIM is a mix-stage trait (stab loudness, arrangement density) with no harmony field, same honest gap noted before, not solved here.",
    "key": {
     "roots": [
      "E",
@@ -2289,12 +2293,12 @@
    ],
    "chord_source": [
     [
-     "synth",
-     4
+     "horns",
+     3
     ],
     [
-     "loop",
-     1
+     "synth",
+     2
     ]
    ],
    "tempo": [
@@ -4138,7 +4142,7 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 6th). Same 'alt field doesn't exist for harmony' correction as Farrow's note. Hit-Boy has a hard ~2019-20 pivot, not a gradual drift (club-trap era vs King's Disease era) -- research's own explicit recommendation was to default to King's Disease/soulful-sample mode over the historically-earlier club era: more distinctive, critically-celebrated 'creative rebirth,' harmonically richer (better exercises the chord engine, same logic the original proposal used to prioritize Dre first), and adds more harmonic diversity to the roster than the club era would (which overlaps Farrow/Miami-Bass-style minimal-synth-stab territory). Club-trap/EDM-crossover mode is a documented, deliberately NOT-built follow-on. Not yet audition-rendered.",
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 6th). Same 'alt field doesn't exist for harmony' correction as Farrow's note. Hit-Boy has a hard ~2019-20 pivot, not a gradual drift (club-trap era vs King's Disease era) -- research's own explicit recommendation was to default to King's Disease/soulful-sample mode over the historically-earlier club era: more distinctive, critically-celebrated 'creative rebirth,' harmonically richer (better exercises the chord engine, same logic the original proposal used to prioritize Dre first), and adds more harmonic diversity to the roster than the club era would (which overlaps Farrow/Miami-Bass-style minimal-synth-stab territory). Club-trap/EDM-crossover mode is a documented, deliberately NOT-built follow-on. Not yet audition-rendered. | BATCH 4/FINAL, 2026-07-24 (owner: finish up with the DJs). This closes the pre-07-23 legend backlog -- 12/12 legends now upgraded past their original loop/synth-only ceiling. Web research on the King's Disease era specifically: 'hazy horns, filtered soul samples, muted drums, and LOTS OF PIANO ... from single-tracked piano loops to digitized snares.' Was loop(3)/strings(1) -- strings dropped (never documented for this era) in favor of piano as primary, matching the research word-for-word. loop kept for the filtered soul samples; horns added for the 'hazy horns'.",
    "key": {
     "roots": [
      "C",
@@ -4172,11 +4176,15 @@
    ],
    "chord_source": [
     [
-     "loop",
+     "piano",
      3
     ],
     [
-     "strings",
+     "loop",
+     2
+    ],
+    [
+     "horns",
      1
     ]
    ],

@@ -22,6 +22,86 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 Chip voice added to Farrow ("Pharaoh") — checked it's real
+### before wiring it, not just because he asked
+- Context: owner: "I would like the video game sounds used with Pharaoh."
+  No "Pharaoh" exists on any roster; only plausible match is Farrow
+  (built on Pharrell — the name is almost certainly a mishearing/nickname).
+- Checked before adding rather than assuming: searched whether 8-bit/
+  video-game sound is actually part of the Neptunes' documented palette,
+  not an unrelated request being bolted on. It is: N.E.R.D.'s "Lapdance"
+  (a Neptunes track) uses synth lines documented as "reminiscent of
+  rayguns or video game sound effects from the 8-bit era." chip_synth's
+  own sweep() is already built as exactly that gesture (up = jump/power-
+  up, down = laser). So this is grounded, not a stretch.
+- Change: Farrow's chord_source (bell(3)/pluck(2)/synth(1), set this same
+  day to resolve the Farrow/Swish-Beatz collision) had its generic
+  "synth" slot REPLACED with "chip" at the same weight — not added as a
+  4th option, not given extra weight. His beats were already mostly
+  bell/pluck with one occasional synth colour; this keeps that exact
+  ratio and just makes the occasional colour period-accurate instead of
+  generic. No chip_tuning override — Neptunes are "laser precision," not
+  deliberately sour like New Math, so equal temperament stays default.
+- This is the chip voice's SECOND use on the roster (after New Math /
+  Chiptune) — still the one sanctioned synthesis exception, not a
+  reopening of the no-synth rule for anyone else.
+- Verify by: signature-word tests pass. Measured the real weighting over
+  30 rolls: chip fires ~1-in-6 (5/30) as an occasional color, bell/pluck
+  still dominant (27/30 combined), zero silent lanes. Separately rendered
+  a 3-beat demo batch with chord_source temporarily forced to chip-only
+  (script-local monkeypatch, restored immediately after, never touched
+  the live config) so the sound is actually audible rather than left to
+  a 1-in-6 gamble — #1195-#1197. Stems confirm real chip audio
+  ("chiptune arp"). midi gate 3/3, no clipping (peak 0.47). Full suite:
+  690/690.
+- Status: open — owner has not heard #1195-#1197 (forced-chip demo) or
+  a normal Farrow batch with chip appearing at its natural ~1-in-6 rate.
+
+### 2026-07-24 Pre-07-23 upgrade — FINAL BATCH: last 3 legends, backlog CLOSED
+- Context: owner: "Then finish up with the DJs" — the last three legends
+  never upgraded past the loop/synth-only ceiling: Farrow, Swish Beatz,
+  Hitt Kid. This closes the ENTIRE pre-07-23 identity backlog: 12/12
+  legends and 18/18 genres now upgraded/signed.
+- Farrow and Swish Beatz resolve a gap the research itself had already
+  found and explicitly deferred (Addendum v2, 2026-07-23): "Swizz and
+  Farrow would eventually render near-identically on chord_source alone
+  ... the real distinguishing trait (horn/brass-stab timbre + dense
+  arrangement vs. Farrow's pluck/bell + huge negative space) has no field
+  yet." instrument_sampler didn't exist then; it does now.
+  - Farrow (Neptunes): chord_source -> bell(3)/pluck(2)/synth(1). Web
+    research confirms "funny little chimes", "wide open spaces left up
+    to the listener's imagination", built from as few as 4 sounds total
+    ("Grindin'"). bell+pluck now primary; one synth stab kept (their
+    actual single lead synth); horns removed from the table entirely —
+    that word is Swizz's now.
+  - Swish Beatz (Swizz): chord_source -> horns(3)/synth(2). Web research
+    confirms documented horn sampling: "Ruff Ryders' Anthem" used a horn
+    sample off a Casio SK-1 for a "militaristic backdrop"; "Down Bottom"
+    sampled a Roland brass-section patch. horns now primary.
+  Verified the fix actually landed, not just the config: rendered both,
+  Farrow's stems show pluck/synth, Swish Beatz's show brass — they no
+  longer collide.
+- Hitt Kid (Hit-Boy, King's Disease era): chord_source -> piano(3)/
+  loop(2)/horns(1), strings dropped. Web research on this specific era:
+  "hazy horns, filtered soul samples, muted drums, and LOTS OF PIANO ...
+  from single-tracked piano loops to digitized snares." Was loop(3)/
+  strings(1) — strings were never actually documented for this era, so
+  dropped in favor of piano, which the research names word-for-word.
+- Verify by: 690/690 tests pass (unchanged count — no new progressions or
+  identities added this batch, just voice reweights on existing ones).
+  All 3 voice correctly across 12 variants, zero silent lanes. Rendered
+  #1186-#1194 (3 each). Stems confirm: Farrow = pluck/synth stack, Swish
+  Beatz = brass stack, Hitt Kid = piano stack + brass sample — the
+  collision is resolved and the piano gap is filled. midi gate 9/9, no
+  clipping (peak 0.52).
+- Status: open — owner has not heard #1186-#1194.
+- THE ENTIRE PRE-07-23 IDENTITY BACKLOG IS NOW CLOSED. Every legend and
+  every genre has a researched harmonic signature using the full sampled-
+  instrument vocabulary. Nothing left identity-blind or stuck on the old
+  loop/synth-only ceiling. (The crew's evolution menu, chip voice, and
+  New Math's authored identity from earlier sessions are unaffected and
+  already current.)
+
 ### 2026-07-24 Pre-07-23 upgrade — BATCH 4: ALL 18 GENRES NOW SIGNED
 - Context: owner: "Finish the genres." Last four: Baltimore Club, New
   Orleans Bounce, Reggaeton Alt, Detroit. This closes the genre side of
