@@ -3386,7 +3386,7 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired LAST of the 12 -- deliberately held back until the horn engine existed. Research's central finding: his chord_source was always described as 'strings' but ACTUALLY means a layered horn/brass stack; wiring him against the string-pad voice would have collapsed him into Kane East's orchestral mode. So tools/lead_synth.py (horn_chord) + a new 'horns' chord_source were built first, 2026-07-23. Mode is weighted major 2:1 not locked -- his bimodality is PER-SONG, not per-era (PSA major and U Don't Know minor, same album cycle), so no era split applies; verified data: PSA C#/Db major, U Don't Know G# minor, Show Me What You Got 106bpm, Exhibit C 82bpm. Roots are the engine's nearest available (SUB_ROOTS has no C#/G#) -- transposed on purpose, not a data error. chord_rhythm rolls stab-vs-held per beat, matching the research's 'sustain/stab-hybrid' (long horn sustains under verses, hard sidechained stabs on hooks). tempo 82-110 is the half-time-FELT pocket; the raw 155-178 grid figures are the same records double-counted, so they are not a second pocket. Not yet audition-rendered.",
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired LAST of the 12 -- deliberately held back until the horn engine existed. Research's central finding: his chord_source was always described as 'strings' but ACTUALLY means a layered horn/brass stack; wiring him against the string-pad voice would have collapsed him into Kane East's orchestral mode. So tools/lead_synth.py (horn_chord) + a new 'horns' chord_source were built first, 2026-07-23. Mode is weighted major 2:1 not locked -- his bimodality is PER-SONG, not per-era (PSA major and U Don't Know minor, same album cycle), so no era split applies; verified data: PSA C#/Db major, U Don't Know G# minor, Show Me What You Got 106bpm, Exhibit C 82bpm. Roots are the engine's nearest available (SUB_ROOTS has no C#/G#) -- transposed on purpose, not a data error. chord_rhythm rolls stab-vs-held per beat, matching the research's 'sustain/stab-hybrid' (long horn sustains under verses, hard sidechained stabs on hooks). tempo 82-110 is the half-time-FELT pocket; the raw 155-178 grid figures are the same records double-counted, so they are not a second pocket. Not yet audition-rendered. | DEEPENED batch 3, 2026-07-24 (owner: lean on the Symphony bank). These were wired before instrument_sampler (2026-07-23) so could only reach loop/synth/horns; adding the sampled piano and the London Symphonic strings now. Just Blaze research 2026-07-24: he overlaid ORCHESTRAL STRINGS AND HORNS atop pitched soul samples ('Song Cry', 'U Don't Know') for arena-sized epic texture — so strings are now co-primary with his horns, not just horns. The bombast is the string+horn stack together.",
    "key": {
     "roots": [
      "C",
@@ -3425,12 +3425,16 @@
    "_horns_status": "RESTORED 2026-07-23 (was PARKED the same day). History: he auditioned #1046-#1048 on the SYNTHESIZED horn and rejected the tone outright ('I do not like the way that horn sounds at all'), so chord_source was made loop-dominant as an interim -- musically wrong for him, since his whole identity is the brass stack and on loop alone he overlaps Dilla/No Alias/Razor. The park reason is now gone: 'horns' no longer means a synth at all. Per his 2026-07-23 sampling directive ('I want my sounds, not fake ones') brass is SAMPLED from his own chops and multi-sampled across the range (tools/brass_sampler.py), and the synth horn_chord/horn_stab/horn_sustain were deleted. So this is back to the shape his research actually calls for. STILL UNHEARD: he has not auditioned the sampled brass yet -- if it also misses, the fix is the sample POOL (which chops are indexed, MIN_CLARITY) or the arp/sustain split, NOT a return to synthesis, which is now against standing instruction.",
    "chord_source": [
     [
+     "strings",
+     3
+    ],
+    [
      "horns",
      3
     ],
     [
      "loop",
-     2
+     1
     ]
    ],
    "chord_rhythm": [
@@ -3759,7 +3763,7 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 3rd after No Alias and Swish Beatz both cleared audition with 'keep'). Cross-checked 36 Chambers through Wu-Tang Forever: minor, sample-inherited short vamp cells that never develop -- vamp_static_riff dominant, dark_menacing secondary for the more dissonant/horror-tinged cuts. chord_source loop at ~90%+, the hardest lean and longest/least-edited cells on the roster (contrast vs Premier: Premier edits the loop into submission, Razor lets it run wild). Research clarified the 'out of tune' quality is very likely artifact-origin (turntable pitch drift, tape wow/flutter, coarse early-sampler pitch resolution) and only aesthetically RETAINED once better gear was available on Forever -- not composed from day one. That detune/lo-fi quality is a processing trait with no field here; the harmony block alone undersells him without it, same class of gap as Just Flame's horn-vs-strings note. Not yet audition-rendered.",
+   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 3rd after No Alias and Swish Beatz both cleared audition with 'keep'). Cross-checked 36 Chambers through Wu-Tang Forever: minor, sample-inherited short vamp cells that never develop -- vamp_static_riff dominant, dark_menacing secondary for the more dissonant/horror-tinged cuts. chord_source loop at ~90%+, the hardest lean and longest/least-edited cells on the roster (contrast vs Premier: Premier edits the loop into submission, Razor lets it run wild). Research clarified the 'out of tune' quality is very likely artifact-origin (turntable pitch drift, tape wow/flutter, coarse early-sampler pitch resolution) and only aesthetically RETAINED once better gear was available on Forever -- not composed from day one. That detune/lo-fi quality is a processing trait with no field here; the harmony block alone undersells him without it, same class of gap as Just Flame's horn-vs-strings note. Not yet audition-rendered. | DEEPENED batch 3, 2026-07-24 (owner: lean on the Symphony bank). These were wired before instrument_sampler (2026-07-23) so could only reach loop/synth/horns; adding the sampled piano and the London Symphonic strings now. RZA research 2026-07-24: Wu-Tang Forever layered 'orchestral string melodies over boom-bap' — staccato strings, an orchestrated violin, the concert-piano of 'Triumph' — his DIY 'classical amplitude'. So strings are now co-primary with his dusty loop (kept equal, not demoted: the loop is still his core), plus a little dark piano. epic added for the Triumph-style rise. His documented lo-fi/detune quality is still a processing trait with no field here.",
    "key": {
     "roots": [
      "D",
@@ -3776,15 +3780,23 @@
     [
      "dark_menacing",
      2
+    ],
+    [
+     "epic",
+     1
     ]
    ],
    "chord_source": [
     [
-     "loop",
-     5
+     "strings",
+     3
     ],
     [
-     "synth",
+     "loop",
+     3
+    ],
+    [
+     "piano",
      1
     ]
    ],
@@ -4478,7 +4490,7 @@
    ]
   },
   "signature": {
-   "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired first of the remaining 8 -- lowest risk: single mode, zero new progression slugs, cleanest verified data). Research verified BPM/key via search on 2 eras 23 years apart (Common 'Resurrection'/'I Used to Love H.E.R.' 1994, both C# major; Jay-Z 'D.O.A.' 2009, Eb minor, half-time 86) -- his own finding is DISCIPLINE, not range: the same warm-loop move essentially unchanged for 3 decades. Mode is major-leaning but not locked (2:1), same non-hard-lock pattern as Dilla. chord_source loop-dominant (3:1, slightly softer than Dilla's 4:1 -- the distinguishing trait vs Dilla is a cleaner splice/less chop, not a bigger loop weight). No chord_rhythm/articulation override -- same audition-first start as Premier/Dilla. Not yet audition-rendered.",
+   "_note": "DEEPENED batch 3, 2026-07-24 (owner: lean on the Symphony bank). These were wired before instrument_sampler (2026-07-23) so could only reach loop/synth/horns; adding the sampled piano and the London Symphonic strings now. No I.D. is Chicago SOUL boom-bap (Kanye's mentor), 'refinement over flash' — so warm Symphony strings + a soul Rhodes/piano over his sample loop. Was loop/synth only. dreamy added for the soul-7th warmth.",
    "key": {
     "roots": [
      "C",
@@ -4506,18 +4518,26 @@
      2
     ],
     [
+     "dreamy",
+     2
+    ],
+    [
      "dark_menacing",
      1
     ]
    ],
    "chord_source": [
     [
-     "loop",
+     "strings",
      3
     ],
     [
-     "synth",
-     1
+     "piano",
+     2
+    ],
+    [
+     "loop",
+     2
     ]
    ],
    "tempo": [

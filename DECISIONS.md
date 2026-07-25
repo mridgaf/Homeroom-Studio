@@ -22,6 +22,79 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 Pre-07-23 upgrade — BATCH 3 (3 soul/orchestral legends + 1 genre)
+- Context: continuing "4 at a time". Chose three legends whose real sound
+  is orchestral soul but who predate instrument_sampler (so were stuck on
+  loop/synth/horns), to lean the Symphony bank hard, plus one genre.
+- The four:
+  - No Alias (No I.D., Chicago soul): strings(3)/piano(2)/loop(2). "Kanye's
+    mentor", refinement over flash — warm Symphony strings + soul Rhodes
+    over the sample loop. Was loop/synth only.
+  - Just Flame (Just Blaze): strings(3)/horns(3)/loop(1). Research
+    confirmed he overlaid ORCHESTRAL STRINGS AND HORNS on pitched soul
+    samples ("Song Cry", "U Don't Know") — so strings are now co-primary
+    with his existing horns, which is the arena bombast.
+  - Razor (RZA): strings(3)/loop(3)/piano(1). Research: Wu-Tang Forever
+    layered "orchestral string melodies over boom-bap" — staccato strings,
+    the "Triumph" concert piano. Strings made co-equal with his dusty loop
+    (NOT demoting the loop — that's still his core), plus dark piano. epic
+    added for the Triumph rise.
+  - Miami Bass (2 Live Crew / electro): synth(3)/pluck(1), major-leaning.
+    The honest non-strings genre — 808 electro never was orchestral. Third
+    genre in a row that doesn't lean Symphony, and that's correct.
+- The point worth keeping: the three legends were already deeply
+  researched, so this was a VOICE-VOCABULARY upgrade, not a re-write — they
+  simply predate the sampled piano/strings and were stuck on loop/synth.
+  Every identity wired before 2026-07-23 has this same ceiling; adding the
+  Symphony strings + sampled piano is the whole upgrade for them.
+- Verify by: 674/674 tests pass. All 4 voice correctly across 12 variants,
+  zero silent lanes. Rendered #1156-#1167. Stems confirm Symphony
+  "strings_" leading No Alias and Just Flame; Razor rolls strings/loop/
+  piano; Miami Bass is synth/pluck stabs. midi gate 12/12, no clipping
+  (peak 0.54).
+- Status: open — owner has not heard #1156-#1167. Backlog after batch 3:
+  3 legends (Farrow, Swish Beatz, Hitt Kid) and 4 genres (Baltimore Club,
+  New Orleans Bounce, Reggaeton Alt, Detroit).
+
+### 2026-07-24 Pre-07-23 upgrade — BATCH 2 (4 genres that had NO signature)
+- Context: continuing the "4 at a time, 3 audition beats each" upgrade.
+  Chose genres over legends this batch because 9 genres had NO harmonic
+  signature at all (rendered identity-blind) — a bigger gap than the
+  legends, which all have signatures. Same rule: lean Symphony where it
+  fits, be honest where it doesn't, research each.
+- The four (all web-researched):
+  - Houston Screw (DJ Screw): strings(4)/loop(2), minor, all sustain.
+    Screw = pitched-DOWN soul, so Symphony strings dragged low ARE the
+    sound. Symphony-lean. 66bpm.
+  - Wonky (Flying Lotus): strings(3)/piano(2)/synth(1), minor. Research:
+    jazz-fusion rooted in Alice Coltrane (his aunt — spiritual jazz/harp/
+    strings), "dissonant descending chords", off-grid + "slightly out of
+    tune". Symphony strings for the Coltrane colour + Rhodes.
+    math_whole_tone gives the floating dissonance, noir_descend the
+    descent. Symphony-lean.
+  - Acid Rap Detroit (Esham, 1989 horrorcore blueprint): guitar(3)/
+    synth(2)/organ(1), minor. Research: ROCK/funk samples + "screeching
+    synths, eerie synth stabs", metal/distorted-guitar sound. The honest
+    NON-strings one — guitar-forward. Distinct from the Horror Rap genre
+    (organ+strings tritone): this is the raw rock-guitar ancestor.
+  - Crunk (Lil Jon): synth(3)/horns(2), PHRYGIAN. Research-confirmed:
+    "Turn Down for What" is in E Phrygian — minimal movement, repetitive
+    synth stabs over empty space. The other honest non-strings one;
+    dark_menacing (i-bII) IS the phrygian flat-2, so it's the right vamp.
+- No new progressions needed — all four use existing vocabulary. Crunk is
+  the first GENRE to use a modal key (phrygian); it works because in_key
+  matches by family now (the 2026-07-24 modal fix). Confirmed the stem
+  labels read "C phrygian".
+- Verify by: 670/670 tests pass. All 4 voice correctly across 12 variants,
+  zero silent lanes. Rendered #1144-#1155. Stems CONFIRM the intent:
+  "strings_" (Symphony) leads Houston Screw and Wonky; Acid Rap Detroit is
+  guitar/organ stabs; Crunk is brass/synth stabs. midi gate 12/12, no
+  clipping (peak 0.55).
+- Status: open — owner has not heard #1144-#1155. Backlog after batch 2:
+  ~6 legends (Farrow, Swish Beatz, Just Flame, Hitt Kid, Razor, No Alias)
+  and 5 genres (Baltimore Club, Miami Bass, New Orleans Bounce, Reggaeton
+  Alt, Detroit — all more rhythm/sample-driven, likely honest non-strings).
+
 ### 2026-07-24 Key parser missed the "<Key>Maj/<Key>Min" spelling — synth
 ### .aif were being dropped
 - Context: owner: "there are a lot of synth aif sounds in sample folders,

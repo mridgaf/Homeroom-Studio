@@ -57,7 +57,7 @@ from pathlib import Path
 from pattern_gen import KICK_BANK
 
 CONFIG = Path(__file__).resolve().parent.parent / "genres_config.json"
-GENRES_VERSION = 6
+GENRES_VERSION = 8
 
 R16 = "-" * 16
 _BK = ["----X-------X---"] * 8            # placeholder; compose rewrites
@@ -1277,6 +1277,80 @@ GENRE_SIGNATURES = {
                       ["dreamy", 2], ["vamp_i_iv7", 2]],
         chord_source=[["strings", 3], ["guitar", 2], ["organ", 2]],
         chord_rhythm=[["sustain", 2], ["arp", 2]]),
+
+    # ---- Batch 2, 2026-07-24. Four genres that had NO signature (rendered
+    # harmonically identity-blind). Two lean on the Symphony bank, two
+    # honestly do not — the owner's "lean heavily on Symphony" is "where it
+    # fits", and forcing strings onto crunk or Esham would be wrong.
+
+    # DJ Screw / chopped and screwed, 66bpm. Research: slowed SOUL samples,
+    # grim/gritty/ethereal, minor, "bass that sinks like quicksand". The
+    # screwed sound IS pitched-DOWN material, so Symphony strings dragged
+    # low are the perfect fit — strings primary, soul loop second. All
+    # sustain: nothing about screw is a fast arp.
+    "Houston Screw": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["F", 2], ["A", 2]],
+                 mode="minor"),
+        progressions=[["dark_menacing", 3], ["noir_descend", 2],
+                      ["nostalgic_borrowed_minor", 2], ["vamp_static_riff", 2]],
+        chord_source=[["strings", 4], ["loop", 2]],
+        chord_rhythm="sustain"),
+
+    # Esham — 1989 Detroit acid rap, the horrorcore blueprint. Research:
+    # ROCK/funk samples chopped with horror, "screeching synths, eerie
+    # synth stabs", metal-inflected/distorted-guitar sound. So NOT strings
+    # — guitar-forward with synth stabs and a little horror organ. Distinct
+    # from the Horror Rap genre (organ+strings tritone): this one is the
+    # raw rock-guitar ancestor. math_minor_thirds adds the symmetrical
+    # dissonance the horror wants.
+    "Acid Rap Detroit": dict(
+        key=dict(roots=[["A", 2], ["C", 2], ["D", 2], ["E", 2]],
+                 mode="minor"),
+        progressions=[["horror_tritone", 3], ["dark_menacing", 2],
+                      ["math_minor_thirds", 2], ["vamp_static_riff", 1]],
+        chord_source=[["guitar", 3], ["synth", 2], ["organ", 1]],
+        chord_rhythm=[["arp", 2], ["sustain", 1]]),
+
+    # Flying Lotus / the LA beat scene. Research: jazz-fusion rooted in
+    # Alice Coltrane (his aunt — spiritual jazz, harp, strings), "dissonant
+    # DESCENDING chords", extended jazz harmony, deliberately off-grid and
+    # "slightly out of tune". Leans Symphony for the Coltrane spiritual-
+    # string colour, over Rhodes/keys. math_whole_tone gives the floating
+    # dissonance that never resolves; noir_descend gives the descent.
+    "Wonky": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["F", 2], ["A", 2], ["E", 1]],
+                 mode="minor"),
+        progressions=[["nostalgic_jazz", 3], ["math_whole_tone", 2],
+                      ["noir_descend", 2], ["dreamy", 2]],
+        chord_source=[["strings", 3], ["piano", 2], ["synth", 1]],
+        chord_rhythm=[["sustain", 2], ["arp", 2]]),
+
+    # Lil Jon, hard festival crunk, 140 half-time. Research: "Turn Down for
+    # What" is in E PHRYGIAN — minimal harmonic movement, repetitive SYNTH
+    # STABS over huge distorted 808 and empty space. The honest NON-strings
+    # one: synth stabs primary with brass hits, phrygian mode (dark_menacing
+    # i-bII IS the phrygian flat-2). Space is the instrument, so the vamps
+    # stay static.
+    "Crunk": dict(
+        key=dict(roots=[["E", 2], ["A", 2], ["C", 2], ["G", 2]],
+                 mode="phrygian"),
+        progressions=[["dark_menacing", 3], ["vamp_static_riff", 3],
+                      ["vamp_i_VI", 1]],
+        chord_source=[["synth", 3], ["horns", 2]],
+        chord_rhythm="arp"),
+
+    # Miami bass — 2 Live Crew / Magic Mike, the 808 electro lineage
+    # ("Planet Rock's grandchild"). Bright party electro, NOT orchestral:
+    # honest non-strings, pure synth stabs and a pluck riff. Major-leaning
+    # and simple, riffing on the beat (arp) rather than held pads. The
+    # third genre in a row that does not lean Symphony — because 808 electro
+    # never did, and forcing strings on it would be wrong.
+    "Miami Bass": dict(
+        key=dict(roots=[["C", 2], ["G", 2], ["A", 2], ["F", 1]],
+                 mode=[["major", 2], ["minor", 1]]),
+        progressions=[["uplifting", 3], ["vamp_i_VI", 2], ["dreamy", 1]],
+        chord_source=[["synth", 3], ["pluck", 1]],
+        chord_rhythm="arp"),
 }
 
 for _name, _sig in GENRE_SIGNATURES.items():
