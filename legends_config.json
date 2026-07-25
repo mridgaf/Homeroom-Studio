@@ -363,7 +363,8 @@
    "tempo": [
     95,
     115
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Doc Day": {
@@ -430,7 +431,8 @@
    "tempo": [
     90,
     96
-   ]
+   ],
+   "chords_default": true
   },
   "kit": {
    "kick": [
@@ -1187,7 +1189,8 @@
    "tempo": [
     85,
     145
-   ]
+   ],
+   "chords_default": true
   }
  },
  "J Dillo": {
@@ -1259,7 +1262,8 @@
    "tempo": [
     70,
     95
-   ]
+   ],
+   "chords_default": true
   },
   "kit": {
    "kick": [
@@ -1628,7 +1632,8 @@
    "tempo": [
     95,
     105
-   ]
+   ],
+   "chords_default": true
   },
   "kit": {
    "kick": [
@@ -2304,7 +2309,8 @@
    "tempo": [
     90,
     105
-   ]
+   ],
+   "chords_default": true
   }
  },
  "DJ Premium": {
@@ -2370,7 +2376,8 @@
     82,
     96
    ],
-   "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7."
+   "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7.",
+   "chords_default": true
   },
   "kit": {
    "kick": [
@@ -2719,7 +2726,8 @@
      145
     ]
    ],
-   "_mode_fix_2026_07_24": "was 'phrygian', which is NOT a mode the engine understands: KeyContext('phrygian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his phrygian b2 is already carried by dark_menacing (i-bII)."
+   "_mode_fix_2026_07_24": "was 'phrygian', which is NOT a mode the engine understands: KeyContext('phrygian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his phrygian b2 is already carried by dark_menacing (i-bII).",
+   "chords_default": true
   },
   "kit": {
    "kick": [
@@ -3454,7 +3462,8 @@
    "tempo": [
     82,
     110
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Razor": {
@@ -3807,7 +3816,8 @@
    "tempo": [
     80,
     96
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Hitt Kid": {
@@ -4192,7 +4202,8 @@
    "tempo": [
     85,
     105
-   ]
+   ],
+   "chords_default": true
   }
  },
  "No Alias": {
@@ -4551,7 +4562,8 @@
    "tempo": [
     85,
     96
-   ]
+   ],
+   "chords_default": true
   }
  }
 }

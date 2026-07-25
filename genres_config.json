@@ -406,7 +406,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Crunk": {
@@ -776,7 +777,8 @@
      2
     ]
    ],
-   "chord_rhythm": "arp"
+   "chord_rhythm": "arp",
+   "chords_default": true
   }
  },
  "Organized Noize": {
@@ -1252,7 +1254,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Houston Screw": {
@@ -1592,7 +1595,8 @@
      2
     ]
    ],
-   "chord_rhythm": "sustain"
+   "chord_rhythm": "sustain",
+   "chords_default": true
   }
  },
  "Emo Hip Hop": {
@@ -1972,7 +1976,8 @@
      "arp",
      3
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Acid Rap Detroit": {
@@ -2329,7 +2334,8 @@
      "sustain",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Acid Rap Bright": {
@@ -2774,7 +2780,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Horror Rap": {
@@ -3167,7 +3174,8 @@
      1
     ]
    ],
-   "chord_rhythm": "sustain"
+   "chord_rhythm": "sustain",
+   "chords_default": true
   }
  },
  "Wonky": {
@@ -3585,7 +3593,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Trip Hop": {
@@ -3990,7 +3999,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Baltimore Club": {
@@ -4385,7 +4395,8 @@
      2
     ]
    ],
-   "chord_rhythm": "sustain"
+   "chord_rhythm": "sustain",
+   "chords_default": true
   }
  },
  "Miami Bass": {
@@ -4816,7 +4827,8 @@
      1
     ]
    ],
-   "chord_rhythm": "arp"
+   "chord_rhythm": "arp",
+   "chords_default": true
   }
  },
  "New Orleans Bounce": {
@@ -5204,7 +5216,8 @@
      1
     ]
    ],
-   "chord_rhythm": "arp"
+   "chord_rhythm": "arp",
+   "chords_default": true
   }
  },
  "G-Funk": {
@@ -5617,7 +5630,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Reggaeton Alt": {
@@ -6074,7 +6088,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Detroit": {
@@ -6483,7 +6498,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Plug": {
@@ -6867,7 +6883,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Chiptune": {

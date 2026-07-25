@@ -108,6 +108,12 @@ VOICES = {
     "pad": ("pad", "synth"),
     "pluck": ("pluck", "synth"),
     "orchestral": ("string", "brass"),
+    # his OWN 8-bit/video-game files. No second group behind it on
+    # purpose: the point of asking for chip is the chip timbre, and
+    # handing off to "synth" would quietly answer a different question.
+    # When this can't cover a beat the caller uses the synthesized chip
+    # voice instead — see _build_chords (owner rule 2026-07-25).
+    "chip": ("chip",),
 }
 
 # Autocorrelation peak height needed to trust a detected pitch. 0.70 was
@@ -139,15 +145,49 @@ def _tokens(name):
     return {t.lower().strip("().,") for t in _SPLIT.split(name) if t}
 
 
+# 8-bit / video-game material, by name. A regex rather than a token list
+# because the naming is irregular ("8 Bit", "8-bit", "8bit", "Game Boy").
+# Owner rule 2026-07-25: "if there are eight bit or sixteen bit or video
+# game sounds in my real library, use those" — so this group exists to let
+# his own files beat the synthesized chip voice whenever they can.
+# Deliberately NOT matched: "coin" (his "Cymatics - Bitcoin Perc" is not a
+# game sound), "retro" ("PLAYOFFS - SNR Retro" is a snare) and "pixel" —
+# each was checked against real filenames and produced false positives.
+CHIP_RE = re.compile(
+    r"(\b8\s*-?\s*bit\b|\b16\s*-?\s*bit\b|\b8bit\b|\b16bit\b|chiptune"
+    r"|\bchip\s*tune\b|\bnes\b|\bsnes\b|famicom|\bgame\s*boy\b|gameboy"
+    r"|\barcade\b|\batari\b|\bc64\b|\bblip\b|\bbleep\b|\bvideo\s*game\b)",
+    re.I)
+
+
 def group_of(name):
     """The instrument group a file name belongs to, or None. Whole-TOKEN
     matching, not substring — the real trap being "Cymatics - LEAD Hornet",
     a synth lead that a substring match reads as a horn."""
+    if CHIP_RE.search(name):
+        return "chip"
     toks = _tokens(name)
     for group, words in GROUPS:
         if toks & set(words):
             return group
     return None
+
+
+def covers(index, notes, groups, max_shift=MAX_SHIFT):
+    """True when `groups` hold a sample within `max_shift` of EVERY note.
+
+    nearest() deliberately returns a least-bad stretched pick rather than
+    None, because for the big groups silence would be worse. That is the
+    wrong answer for a group the caller is only willing to use when it
+    genuinely fits — the owner chose "the backup plays the whole beat"
+    over "stretch the instrument further" (2026-07-25). This is the
+    explicit yes/no that choice needs.
+    """
+    got = [e for e in index if e["group"] in _as_groups(groups)]
+    if not got:
+        return False
+    return all(min(abs(e["note"] - n) for e in got) <= max_shift
+               for n in notes)
 
 
 def detect_pitch(mono, sr=SR):
@@ -209,28 +249,18 @@ def _load_cache():
     return got
 
 
-def scan(index=None, status=None):
-    """The playable instrument index: one entry per usable file, carrying
-    the group it belongs to and the MIDI note it actually sounds. Reads
-    the melodic-loop index rather than re-walking the drive — that scan is
-    already cached and already has the unplugged-drive fallback, so this
-    adds no new disk crawl.
+def _pitched(todo, status, cache_key):
+    """Pitch-detect a list of (entry, group) pairs into index rows, with
+    the shared per-(path, size) pitch cache. Both indexes (chords and
+    bass) go through here so a file's pitch is only ever measured once.
 
     Pitch detection is cached per (path, size). The first run over a big
     library costs real time (~76ms a file), so `status` gets progress
     lines; every run after is a dict lookup, since a sample's pitch can't
     change without its bytes changing.
     """
-    entries = scan_melodic() if index is None else index
     cache = _load_cache()
     pitches = cache.get("_pitches", {})
-    todo = []
-    for e in entries:
-        if e.get("role") == "bass":       # a bass sample voiced as a chord
-            continue                      # is mud, whatever its name says
-        group = group_of(e["name"])
-        if group is not None:
-            todo.append((e, group))
     found = []
     fresh = 0
     for i, (e, group) in enumerate(todo):
@@ -264,13 +294,43 @@ def scan(index=None, status=None):
             CACHE.parent.mkdir(parents=True, exist_ok=True)   # fallback
             cache["version"] = DETECT_VERSION                 # index stale
             cache["_pitches"] = pitches
-            cache["index"] = found
+            cache[cache_key] = found
             CACHE.write_text(json.dumps(cache))
         except OSError:
             pass
     if not found:                                    # drive unplugged
-        return _load_cache().get("index", [])
+        return _load_cache().get(cache_key, [])
     return found
+
+
+def scan(index=None, status=None):
+    """The playable instrument index: one entry per usable file, carrying
+    the group it belongs to and the MIDI note it actually sounds. Reads
+    the melodic-loop index rather than re-walking the drive — that scan is
+    already cached and already has the unplugged-drive fallback, so this
+    adds no new disk crawl.
+    """
+    entries = scan_melodic() if index is None else index
+    todo = []
+    for e in entries:
+        if e.get("role") == "bass":       # a bass sample voiced as a chord
+            continue                      # is mud, whatever its name says
+        group = group_of(e["name"])
+        if group is not None:
+            todo.append((e, group))
+    return _pitched(todo, status, "index")
+
+
+def scan_bass(index=None, status=None):
+    """His BASS one-shots (role 'bass' in the melodic index), pitch-
+    detected, for the chord bass LINE. Kept apart from scan() on purpose:
+    a bass sample voiced as a whole CHORD is mud — which is why scan()
+    excludes them — but a bass line plays one root at a time, and that is
+    exactly what these files are. Owner 2026-07-25: the synth bass under
+    the chords becomes his own bass sounds wherever they can reach."""
+    entries = scan_melodic() if index is None else index
+    todo = [(e, "bass") for e in entries if e.get("role") == "bass"]
+    return _pitched(todo, status, "bass_index")
 
 
 def _as_groups(groups):
@@ -417,7 +477,7 @@ def _declick(seg, sr=SR):
     return seg
 
 
-def voice_note(index, note, dur, groups=None, sr=SR, cache=None):
+def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None):
     """One note at `note`, exactly in tune, `dur` seconds long: nearest
     source -> one hit -> pitch-shift to the target -> fit to length with
     crossfaded repeats -> de-clicked at both edges. None when nothing's
@@ -433,6 +493,13 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None):
     pick = nearest(index, note, groups)
     if pick is None:
         return None
+    # `used` collects the FILE this note actually came from, so the beat's
+    # recipe can name it and the stem rack can stop saying "built from
+    # scratch" over audio that is entirely his own library (owner
+    # 2026-07-25 — the label was the whole reason he believed the
+    # his-instruments rule was being ignored).
+    if used is not None:
+        used.append(pick["path"])
     key = pick["path"]
     if cache is not None and key in cache:
         mono = cache[key]
@@ -449,17 +516,18 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None):
     return _declick(_fit_length(seg, max(int(dur * sr), 1), sr), sr)
 
 
-def note_slice(index, note, dur, sr=SR, cache=None, groups=None):
+def note_slice(index, note, dur, sr=SR, cache=None, groups=None, used=None):
     """One arp/stab step. Drop-in for string_sampler.note_slice, so
     chord_synth.arp_riff drives any instrument with the same render_note
     callback it uses for strings. The attack/release that used to live
     here now applies to EVERY voiced note (voice_note), because the
     sustained chord bed needed exactly the same de-clicking — it was the
     one path that never got it."""
-    return voice_note(index, note, dur, groups=groups, sr=sr, cache=cache)
+    return voice_note(index, note, dur, groups=groups, sr=sr, cache=cache,
+                      used=used)
 
 
-def play_chord(index, notes, dur, groups=None, sr=SR):
+def play_chord(index, notes, dur, groups=None, sr=SR, used=None):
     """A chord: one sampled, in-tune voice per MIDI note, summed into a
     `dur`-second bed — the sampled replacement for chord_synth.pad_voice.
     Same contract string_sampler.play_chord offers (None if not one note
@@ -471,7 +539,8 @@ def play_chord(index, notes, dur, groups=None, sr=SR):
     cache = {}
     voiced = 0
     for note in notes:
-        seg = voice_note(index, note, dur, groups=groups, sr=sr, cache=cache)
+        seg = voice_note(index, note, dur, groups=groups, sr=sr, cache=cache,
+                         used=used)
         if seg is None:
             continue
         out = out + seg

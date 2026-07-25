@@ -145,7 +145,7 @@ def by_articulation(index, kind):
     return [e for e in index if e["artic"] in fam] if fam else index
 
 
-def note_slice(index, note, dur, sr=SR, cache=None):
+def note_slice(index, note, dur, sr=SR, cache=None, used=None):
     """One arp step's worth of the nearest string sample to `note`: its
     first `dur` seconds with a short attack + release so it reads as a
     rhythmic note, not a swell. `cache` (a dict) holds each note's loaded
@@ -155,6 +155,8 @@ def note_slice(index, note, dur, sr=SR, cache=None):
         mono = cache[note]
     else:
         pk = nearest(index, note)
+        if pk is not None and used is not None:
+            used.append(pk["path"])          # name the real file — see
         x = load_audio(pk["path"]) if pk else None
         mono = None if x is None else (x.mean(axis=1) if x.ndim == 2 else x)
         if cache is not None:
@@ -173,7 +175,8 @@ def note_slice(index, note, dur, sr=SR, cache=None):
     return seg
 
 
-def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR):
+def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR,
+               used=None):
     """Sum one sample per MIDI note in `notes` into a `dur`-second chord
     bed. Each note is fitted to length with CROSSFADED repeats and ramped
     to zero at both edges, then the stack is RMS-normalized so a 4-note
@@ -192,6 +195,8 @@ def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR):
         pick = nearest(index, note, instrument, artic)
         if pick is None:
             continue
+        if used is not None:                 # instrument_sampler.voice_note
+            used.append(pick["path"])
         x = load_audio(pick["path"])
         if x is None:
             continue

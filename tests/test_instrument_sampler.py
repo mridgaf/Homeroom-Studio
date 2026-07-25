@@ -282,3 +282,34 @@ def test_short_source_is_tiled_to_full_length(tmp_path):
     out = instrument_sampler.voice_note(idx, 60, dur=1.0)
     assert out.shape == (SR,)
     assert np.max(np.abs(out)) > 0.01          # tiled, not zero-padded
+
+
+# ------------------------------- his own 8-bit files beat the synth (7-25)
+
+def test_chip_group_recognises_his_naming_and_rejects_lookalikes():
+    """Owner rule 2026-07-25: real 8-bit/video-game sounds in his library
+    win over the synthesized chip voice. The names are irregular, and two
+    real files in his library are traps — "Cymatics - Bitcoin Perc" is not
+    a coin sound and "PLAYOFFS - SNR Retro" is a snare."""
+    g = instrument_sampler.group_of
+    for name in ("MZ FX [8 Bit Downer]", "SHORDIE 8 BIT CRASH",
+                 "Blip Synth Delay Dm", "chiptune lead", "NES arp",
+                 "Game Boy pluck", "16-bit stab", "Arcade zap",
+                 "Atari sweep", "8bit blip"):
+        assert g(name) == "chip", name
+    for name in ("Cymatics - Bitcoin Perc", "PLAYOFFS - SNR Retro",
+                 "Power Ups", "pixel pad"):
+        assert g(name) != "chip", name
+
+
+def test_covers_is_strict_where_nearest_is_forgiving(tmp_path):
+    """covers() must say NO when a group could only reach a note by a big
+    stretch — nearest() deliberately returns a least-bad pick there, which
+    is the 'stretch the instrument' behaviour the owner turned down."""
+    idx = _fake_index(tmp_path, [60])            # one sample, note 60
+    assert instrument_sampler.covers(idx, [58, 60, 62], ("brass",))
+    # 5 semitones away: past MAX_SHIFT, so NOT covered...
+    assert not instrument_sampler.covers(idx, [60, 65], ("brass",))
+    # ...while nearest still hands back the stretched sample, as designed
+    assert instrument_sampler.nearest(idx, 65, ("brass",))["note"] == 60
+    assert not instrument_sampler.covers(idx, [60], ("chip",))   # no group

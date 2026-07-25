@@ -22,6 +22,106 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-25 Reason demoted, not removed — portability boundary set
+- Context: owner asked whether stripping the Reason-specific element would
+  still let him use it with Reason AND other DAWs. Stated intent: Reason for
+  the foreseeable future, but wants the option of a broader audience if this
+  ever becomes a product.
+- Finding (grepped, not assumed): the generator is ALREADY Reason-free.
+  `tools/beat_machine.py` imports nothing Reason-related; the only traces are
+  the state path `~/.reason_voice/beat_machine_state.json` and one comment.
+  The three `tools/` files importing mido use it as a generic MIDI writer, not
+  as the Reason bridge. So portability costs nothing to preserve — it just has
+  to be prevented from rotting.
+- Decision/change: demote, not remove. Nothing Reason gets deleted. Added
+  Part 4a to PACKAGING-GAP-ANALYSIS.md with a one-way dependency rule —
+  **`tools/` must never import from `reason_voice/`**; `reason_voice/` may read
+  the generator's output, never the reverse; anything needing both lives in the
+  launcher/UI layer. New punch-list **step 0**: a five-line test that asserts
+  the boundary, run before all other work. Punch-list step 7 split into a
+  generic "Export stems + MIDI" button (build FIRST — smaller, can't fail on
+  unverified Remote behaviour) and the Reason "Set up in Reason" button.
+- Reasoning: the alternative framings both lose. Ripping out the Reason layer
+  destroys his single deepest feature for an audience that doesn't exist yet;
+  leaving them fused caps a DAW-agnostic generator at Reason-12-on-macOS's
+  audience. Demotion costs one test.
+- Cost flagged, NOT solved: going broad later is a CONTENT problem, not a code
+  problem. `recipes/**/*.md` and `device_refs/` are written in Reason
+  vocabulary ("Scream 4 → RV7000"). Technique transfers to any DAW, device
+  names don't. Unsized writing job — logged so it isn't discovered at ship
+  time.
+- Verify by: step 0's test, once written, is the standing check. Right now the
+  boundary holds by accident, not by enforcement.
+- Status: open — decision made, nothing built.
+
+### 2026-07-25 Packaging decided: one app two doors; brief written (PACKAGING-GAP-ANALYSIS.md)
+- Context: owner asked how the beat generator and Reason Voice could be
+  packaged together, then asked for the plan in the same shape as
+  BEAT-GENERATOR-GAP-ANALYSIS.md because that format is what worked for
+  Claude Code last time.
+- Decision/change: wrote `PACKAGING-GAP-ANALYSIS.md` (what exists, 3 gaps,
+  the seam, 8-step punch list, explicit don't-touch list, honest unknowns)
+  plus `HANDOFF-TO-CODE-PACKAGING.md` (paste-able kickoff). No code touched.
+- Reasoning / the finding worth NOT re-deriving: these were never two
+  projects. One folder, one venv, one test suite, shared theory/ recipes/
+  device_refs/ sample_library/ brand/. The only things missing are (1) the
+  harmony — key, mode, progression, romans — is computed in
+  `_build_chords` (line 994) and then THROWN AWAY; `save_recipe()`'s two
+  call sites (~1473, ~1604) persist `root_note` but no key/progression/
+  chords, (2) two launchers on two ports (beat machine 8770 stdlib
+  http.server; Reason Voice 8765 FastAPI/uvicorn), (3) nothing reads a
+  beat's manifest to set up a Reason session. `.recipes/NN.json` already
+  exists and is already written every render — the merge is extra keys on a
+  dict that's already on disk, not a new format or an IPC channel.
+- Explicitly rejected: unifying the two web servers onto one framework.
+  ~3,500 lines of working code refactored for zero user-visible gain. Two
+  processes stay two processes; one launcher starts both.
+- Recommended framing (owner has NOT decided yet, needed before punch-list
+  step 5): beat engine = the product, Reason Voice = an integration. The
+  generator is DAW-agnostic (WAV/MIDI out); Reason Voice is Reason-12-on-
+  macOS only. Equal-halves packaging caps the wide product at the narrow
+  one's audience, and it's expensive to reverse once the UI says otherwise.
+- Marketing tension logged, no fix: the strongest hook ("sounds like
+  Pharrell") is the one that legally can't ship (legends internal-only,
+  settled 2026-07-22). Punch-list step 1 adds a sidecar JSON that travels
+  with beats — a NEW leak surface for those names, hence an explicit
+  codenames-only rule in the brief.
+- Verify by: every code reference in the brief was grepped and confirmed
+  present (`run_web`/8770, `web_port` 8765, `_build_chords` 994,
+  `save_recipe` call sites, `_dj_card`, `_resolve_beats_root`,
+  `TemplateLibrary.new_session`). **pytest was NOT run** — this session ran
+  in a Linux sandbox where the macOS `.venv` binary won't execute, so the
+  487-green baseline is carried from the prior entry, not re-verified. Code
+  must establish the real baseline first.
+- Status: open — nothing built. Two things unverified and flagged in the
+  brief rather than assumed: whether Reason 12 exposes a tempo SET as a
+  Remote item (step 7 depends on it and no session has ever checked), and
+  whether "two tabs" actually fixes the owner's "jumbled" complaint, which
+  only he can settle after step 5.
+
+### 2026-07-25 Reason Voice v2 web UI verified working end-to-end (first real check)
+- Context: owner asked to resume Reason Voice and then said "check it." The
+  v2 rebuild (FastAPI/WebSocket local web UI, decided in CLAUDE.md) had code
+  on disk (server.py, static/) but no session had ever actually launched it
+  and clicked through it — CLAUDE.md's brief was the plan, not a verified
+  build.
+- Decision/change: none — this was pure verification, no code touched.
+  Ran `./.venv/bin/python -m reason_voice.server`, opened
+  http://localhost:8765 in the browser tool, and drove it for real: typed
+  "recipe for a trap 808" into the type box (Enter-via-automation didn't
+  reach the form — had to confirm via requestSubmit that the handler itself
+  was fine, a test-harness quirk not an app bug), got 8 recipe matches,
+  opened "Trap 808", and stepped through "Walk me through it" (step
+  highlighting, Back/Repeat/Next/Done all worked). MIDI showed connected
+  (green dot). Killed the server after.
+- Verify by: this WAS the verification. No console errors, /api/recipes and
+  /api/bins returned 200, WebSocket stayed OPEN throughout.
+- Status: confirmed — v2 UI (search, recipe card, step walkthrough) works.
+  NOT tested this pass: actual push-to-talk audio capture (Hold to talk
+  button), transport buttons actually reaching Reason (needs Reason open +
+  MIDI), settings panel, templates. Those still rest on the owner's earlier
+  hands-on verification, not today's check.
+
 ### 2026-07-24 Chip voice added to Farrow ("Pharaoh") — checked it's real
 ### before wiring it, not just because he asked
 - Context: owner: "I would like the video game sounds used with Pharaoh."
@@ -1875,3 +1975,422 @@ entries.
 - Status: open — waiting on the owner to listen to Sound Demos/ and say
   which (if any) horn variant works, and which of talkbox / gfunk_whistle /
   horror_organ / the 4 scratch patterns are worth wiring.
+
+### 2026-07-25 Packaging step 0 — the portability boundary was NOT already true
+- Context: PACKAGING-GAP-ANALYSIS.md step 0 says "add a test asserting no
+  module in tools/ imports from reason_voice/ — five lines, currently
+  passing." It was not currently passing. That analysis ran in a Linux
+  sandbox and never executed anything.
+- Decision/change: added tests/test_boundary.py. Parses each tools/*.py with
+  `ast` instead of grepping, because ~8 modules legitimately contain the
+  string "reason_voice" as a state path (~/.reason_voice/*.json) — a grep
+  would have false-positived on all of them and the guard would have been
+  disabled or fudged within a week. Proved the test can fail (planted a
+  violating import, watched it catch it) before trusting it.
+- What it found — two real violations, not zero:
+  - tools/make_drum_beats.py imported reason_voice.indexer.scan and never
+    called it. Dead leftover. Deleted the line.
+  - tools/make_hiphop_tracks.py actually used it, in build_pool(). This one
+    mattered: crew, chord_synth, string_sampler, instrument_sampler and
+    beat_machine all import from make_hiphop_tracks, so the whole generator
+    was transitively depending on Reason at module-import time. The exact
+    thing Part 4a exists to prevent, already broken.
+- Owner's call (offered 3 options): retire the standalone runner. build_pool()
+  fed only that script's own main(); nothing else has called it since
+  beat_machine/crew superseded it. Deleted build_pool() + the body of main()
+  (main now raises SystemExit pointing at beat_machine), left a note at the
+  deletion site saying what it did and that a rebuild would use
+  sample_library.scan_packs(). The file stays live as a LIBRARY — load_audio,
+  norm_rms, edge_fade are imported by six modules and were not touched.
+- Also corrected: the real pytest baseline is 690, not 487. The 487 figure in
+  the gap analysis was carried over from an older DECISIONS entry and never
+  re-run. Anyone quoting 487 is quoting a stale number.
+- Verify by: 691/691 pass (690 baseline + the new boundary test). All six
+  dependent modules import clean. `python tools/make_hiphop_tracks.py` prints
+  the retirement message instead of running.
+- Status: confirmed (boundary now holds and is enforced by a test that has
+  been shown to fail when violated)
+- Residue, deliberately not cleaned up: find_stem/load_stem/build_track/
+  chop_seq/TRACKS/KIT_PATTERNS/SECTIONS in make_hiphop_tracks.py are now only
+  reachable from the retired main(). Left in place — deleting them was beyond
+  what was approved, and they are the recipe if that script is ever revived.
+
+### 2026-07-25 Packaging step 1 — manifest carries the harmony; a second name leak found
+- Context: punch list step 1 — the beat forgot its own key and chords the
+  moment it hit disk, so nothing downstream could explain it or match a
+  session to it.
+- Decision/change: _build_chords now returns (midi_chords, harmony) instead
+  of just midi_chords. The harmony dict — key, root, mode, progression,
+  rhythm, and one row per chord (bar, roman, chord, MIDI notes, bass note,
+  and the voice that ACTUALLY sounded it) — goes into .recipes/NN.json along
+  with `lanes` and `legend`. Two call sites; the rebuild one discards the
+  new element, so its behaviour is untouched. Additive keys only — no
+  existing key changed shape.
+- Recording the voice PER CHORD (not once per beat) was deliberate: the
+  source order falls through when a voice can't play a chord, so a single
+  beat really can be strings on bars 1-2 and choir on bar 3. Beat 1174 does
+  exactly that. A single beat-level chord_source would have been a lie.
+- Second finding — the name leak was bigger than the punch list said. The
+  doc says "never write preset['built']". Stripping `built` was NOT enough:
+  signature["_note"] holds the research prose, which names producers in
+  sentences ("timbaland: upgraded from phrygian to..."). Caught only because
+  the test scanned the whole serialized recipe for the real name rather than
+  just asserting the `built` key was gone.
+  Fix: _shareable_preset() drops `built` plus every underscore-prefixed key,
+  recursively. Underscore = documentation is already the house convention
+  across the configs (_readme, _note, _horns_status) and no code branches on
+  one, so this is safe and covers doc keys added later. Applied at all THREE
+  save_recipe call sites (the doc says two — the swap/rebuild one at the end
+  of swap_many is the third, and it inherits its parent's preset, so an old
+  pre-2026-07-25 parent would otherwise carry `built` forward into new files).
+- Scope note: the leak test is scoped to LEGEND_NAMES, matching the
+  2026-07-22 rule. A blanket roster scan false-positives on the genre "Plug"
+  (built = "Plugg", a genre word, also inside progression ids). The genre
+  identities say what they ARE on purpose.
+- Verify by: 693/693 pass (691 + 2 new in tests/test_beat_machine.py). The
+  harmony test recomputes the romans independently via harmony.compose() —
+  deterministic once the progression is named — rather than trusting the
+  writer. Rendered a REAL beat, #1174 Kane East, 86bpm: recipe carries
+  "F minor" / nostalgic_borrowed_minor / IV-iv-I with notes and per-chord
+  voices, and no producer name anywhere in the file. midi-validity-gate run
+  explicitly on its .mid: PASS.
+- Status: confirmed
+- Watch out: the owner cleared the beat library on 2026-07-24, so .recipes/
+  is empty and next_number restarted at 1174 — README.txt still describes a
+  DIFFERENT beat 1174 from the earlier run. Numbering is now reused. Not
+  caused by this change; flagged because the log is ambiguous from here.
+  Nothing in tools/ deletes files (verified: no unlink/remove/rmtree), so
+  this was an outside-the-app cleanup, not a bug.
+
+### 2026-07-25 Packaging step 2 — old recipes: nothing to fix, so it got a test instead
+- Context: punch list step 2 said "make every consumer of load_recipe()
+  handle the new keys being absent."
+- Finding: no consumer needed changing. Traced all eight production readers
+  (beat_dj, _family_dir_for, swap_many, _swap_lanes, _beat_stems,
+  _lane_candidates, the stem-rack lane list, and the /add-beat handler) —
+  every one reads only pre-existing keys, and the step-1 keys are purely
+  additive. variety.load_recipes has its own reader and is likewise
+  untouched. reason_voice/server.py's _reload_recipe is a different thing
+  entirely (the .md recipe book, not beat manifests).
+- Decision/change: rather than edit nothing and call the step done, added an
+  OLD_RECIPE fixture — a recipe in the exact pre-2026-07-25 shape, `built`
+  and research prose included — and ran the real readers against it. That
+  converts "I read the code and it looked fine" into something that fails if
+  a future step starts assuming `harmony` is always present. Which step 3
+  would have been the first to do.
+- Second test on the same fixture: an old recipe on disk still HAS the
+  producer name (can't be unwritten retroactively), but re-writing one
+  through _shareable_preset strips both `built` and signature["_note"] while
+  leaving the settings a rebuild needs (chord_source, lane gains) intact. So
+  swapping an old beat doesn't carry the name forward into a new file.
+- Verify by: 695/695 pass (693 + 2). Both new tests use a hand-written
+  fixture, not a render, so they stay fast and don't need the sample drive.
+- Status: confirmed
+
+### 2026-07-25 Packaging step 3 — "why this works" on the beat card
+- Context: the teaching feature, and the cheapest visible win in the
+  packaging doc. Pure read-and-display of step 1's data.
+- Decision/change: (1) added a "why" line to all 27 entries in
+  progressions_config.json — the 13 that theory/progressions.md covers use
+  the doc's own words, the other 14 written in the same voice. (2) new
+  _beat_theory(no, root) in beat_machine reads the recipe and pairs it with
+  the config's label + why. (3) _batch_beats ships it as `theory`; makeTrack
+  prints a .theory block under the beat's header.
+- Owner feedback taken mid-step: lead with the FEELING, then the mechanics.
+  Every line was rewritten so the evocative phrase comes first ("Soft, hazy,
+  half-asleep. Both chords have extra notes stacked on top, which blurs
+  them.") rather than trailing the explanation. Worth not re-litigating —
+  this is his house voice for teaching copy.
+- Why the sentences live in progressions_config.json and not in Python: he
+  can reword any of them without touching code, and the file is already the
+  transcription of his own theory doc. Nothing rewrites that file
+  programmatically (harmony.py only reads it), so hand edits are safe. The
+  insert was done by text splice, not json.dump — the file hand-formats each
+  `chords` array onto one line and a round-trip would have blown all 27 open.
+- _beat_theory returns None rather than raising for every beat that can't
+  answer: made before step 1, recipe cleared, drums-only, or a progression
+  since renamed. The card block simply doesn't appear. That is step 2's
+  tolerance actually being used.
+- Leak note: progression LABELS contain real names ("Metro Boomin style",
+  "Still D.R.E.") and are shown on the card, which is fine — the card is
+  local and already shows "like Pharrell". But the `why` sentences are
+  deliberately name-free because step 7 exports that sentence next to the
+  beat. A test asserts no `why` contains a producer name.
+- Verify by: 698/698 pass. Rendered beat 1174 (Kane East, F minor,
+  nostalgic_borrowed_minor) and confirmed the live card in the browser —
+  DOM text and computed styles both checked. NOT verified by screenshot: the
+  browser pane returned black frames after the first capture (a pane bug,
+  not a page bug), so visual proof was taken by rebuilding the real markup +
+  real CSS into a standalone file instead.
+- Status: open — the code is confirmed working, but whether the sentences
+  actually TEACH him anything is his ear, not a test. Check back after he's
+  read a few on real beats.
+
+### 2026-07-25 Packaging step 4 — one launcher starts both halves
+- Context: punch list step 4, the "one door" half of the jumbled complaint.
+  Two launchers/two ports stay (per the doc: do NOT unify the servers), but
+  one double-click now runs everything.
+- Decision/change: rewrote "Homeroom Studio.command" — starts Reason Voice
+  (8765) and the Beat Machine (8770) with REASON_VOICE_NO_BROWSER=1 so
+  neither opens its own page, waits up to 40s for both to answer, opens ONE
+  page (the Beat Machine), and `wait`s so closing the window / Ctrl+C stops
+  both. Halves already running are reused, not restarted, and NOT killed on
+  exit (only $PIDS the launcher itself started are). If the voice half
+  fails, the Beat Machine still opens with a plain warning; if the Beat
+  Machine fails, it stops loudly and opens nothing. ReasonVoice.command
+  untouched for the studio-only case.
+- Two real bugs caught by testing, not reading:
+  (1) `trap ... EXIT` alone does NOT fire when bash dies from an untrapped
+      signal — and closing a Terminal window is a HUP. Fixed: trap
+      EXIT INT TERM HUP. Verified: TERM to the launcher kills both servers.
+  (2) First shutdown test killed the wrong pid (the Bash-tool wrapper
+      subshell, not the launcher) and "proved" the trap broken when it
+      wasn't reachable at all. Worth remembering: `cmd1 && cmd2 &`
+      backgrounds a subshell; $! is not cmd2's pid.
+- macOS detail: no `timeout` command in bash on this machine.
+- Verify by: full cycle run headlessly with an `open`-shim (no real browser
+  windows popped): both ports 200, shim log shows exactly one URL opened
+  (8770); TERM → both 000, no stray processes; reuse path prints "already
+  running — using it" and leaves the pre-existing server alive after the
+  launcher exits. pytest 698/698 (no Python touched this step).
+- Status: confirmed mechanically; whether one door actually fixes "jumbled"
+  is the step-5 check-back, on the owner's use.
+
+### 2026-07-25 Packaging step 5 — MAKE / STUDIO tabs; MVP (steps 0-5) complete
+- Context: last step of the MVP cut. Two pages needed to read as one app.
+- Decision/change: a MAKE | STUDIO tab pair on both pages, plain links per
+  the doc (no iframes until the simple version has been lived with).
+  Beat Machine: pinned top-right of the blue board, active tab in band
+  yellow (--hi), inactive ghosted. Reason Voice: chip pair next to the
+  brand name, active in its own amber (--accent). Each side keeps its own
+  palette on purpose — same shape, same words, native colors — rather than
+  forcing one palette across both. URLs hardcoded (8765/8770): those are
+  the launcher's ports; a config for them would be config for a value that
+  never changes.
+- The tooltips say "the same launcher starts it" so a dead link (half not
+  running) explains itself.
+- Verify by: both servers up, browser round trip clicked for real:
+  8770 MAKE page → STUDIO tab → landed on 8765 (Reason Voice, READY) →
+  MAKE tab → back on 8770. Screenshots taken (pane capture worked again
+  this session). 698/698 tests pass.
+- Status: open — mechanically confirmed, but "does one door + tabs actually
+  fix 'jumbled'" is a claim about the owner's head (Part 6 of the gap
+  analysis). Check back after he's used it for a few sessions; only then
+  mark the MVP confirmed.
+
+### 2026-07-25 Owner's first verdict on the MVP -> three changes shipped
+- Context: owner looked at the MVP and asked for (1) Claude Drum Loops
+  broken down by DJ and genre, (2) a stop button next to play on every
+  result row, (3) Reason Voice sharing the Beat Machine's color scheme.
+  The third overturns step 5's "each side keeps its own palette" call —
+  owner decision, logged as such; don't re-litigate.
+- Changes:
+  (1) claude_loops now shows FOLDERS first (the beat library's own
+      per-identity folders), each with a count and an Open button; opening
+      lists that folder's beats. "load two" works by voice (load_result
+      dispatches a folder row back through claude_loops via Intent).
+      Stems folders skipped (13 solo'd lanes per beat would bury the
+      beats); Trash skipped (his reject pile — resurfacing it would undo
+      the triage).
+  (2) One-line client change: addBtn("■", "Stop", "preview_stop") — the
+      server command already existed for the panel-level stop.
+  (3) reason_voice/static/style.css :root swapped to the Beat Machine's
+      exact palette (paper/card/line/text/dim verbatim; accent = band
+      yellow; --blue -> its --co lifted blue since RV uses --blue for
+      text; --accent-dim = #55500a dark yellow for button fills under
+      light text). Amber-tinted selection bgs #2c2413 -> #2a2708; the
+      translucent panel tint rgba matched to --panel. Status pills
+      (green/red/amber states) left alone — they're semantics, not scheme.
+      Comment marks beat_machine.py's :root as source of truth.
+- Verified live in the browser: palette on 8765 reads as the Beat Machine's
+  (yellow STUDIO tab, paper background); Claude Drum Loops -> "Folders 1–5
+  of 5" (_strings audition, Experiments, Favorites, Fixed Bank, Prototypes;
+  no Trash); Open on Favorites -> 5 beats; ▶ spawned afplay (pgrep
+  confirmed), row ■ killed it (pgrep empty). 698/698 tests pass.
+- Known limit, told to the owner: the folder list reflects the search
+  index, which rebuilds when >24h old or on "reindex". Beats made tonight
+  (post-00:03 index) won't show their DJ folders until a reindex — that's
+  pre-existing index freshness, not the grouping. If it annoys him, the
+  cheap fix is claude_loops always kicking a rebuild when the beats root's
+  mtime is newer than the index.
+- Status: open — mechanics confirmed, his eye on the palette pending.
+
+### 2026-07-25 "No instruments, only drums" -> chords_default roster-wide; logo shared
+- Context: owner reported no instruments when generating beats, and asked
+  for the Beat Machine's blue/yellow logo in Reason Voice.
+- Diagnosis (NOT a regression from today's packaging work — verified by
+  reading the gate + rendering): chords only ever rendered when the notes
+  box said a chord word, or the identity had chords_default — which only
+  New Math and Chiptune had. Every batch he'd heard instruments on had
+  "chords" typed into the box FOR him (render logs literally say
+  "notes: chords"). Once he started clicking the button himself with an
+  empty box, he got the configured default: drums. The 2026-07-24 comment
+  in beat_machine.py chose per-identity opt-in deliberately ("switching
+  chords on for all 39 identities would change every beat he has already
+  approved") — the owner has now effectively made the opposite call.
+- Changes:
+  (1) chords_default: true for every identity with a harmonic signature
+      (8 crew + 12 legends + 17 genres = 37 flipped; New Math and Chiptune
+      already had it). Config-only, house serializer (indent=1, unicode),
+      diff verified to be exactly the added keys.
+  (2) REAL BUG found while doing it: "no chords" turned chords ON —
+      parse_directions matched the word "chords" inside "no chords" and
+      had no negation check. Irrelevant when almost nothing defaulted on;
+      load-bearing now. Fixed with an out["no_chords"] check (all
+      NEGATIONS x CHORD_WORDS, plus "drums only"/"just drums"), which also
+      beats chords_default. New Quick-directions option "no chords —
+      drums only, old style".
+  (3) Two existing tests updated to pass notes="no chords": the tuned-sub
+      and phase2 bass/vox tests guard features that by design exist only
+      on chord-free beats (harmony's bassN owns the low end otherwise).
+      Their failures on the new default were the documented interaction,
+      not damage.
+  (4) Logo: reason_voice mounts <project>/brand/ at /brand and the header
+      img now uses /brand/logo-blue.png (fallback chain to the old
+      art.png if the folder is missing). One source of truth for the mark.
+- Verify by: 700/700 tests. Rendered Farrow #1203 with an EMPTY notes box
+  on the real library: lanes include chord0 (bell stack) + bass0, C minor
+  vamp_static_riff in the recipe, MIDI gate PASS. Parser: "no chords",
+  "without chords", "drop the chords", "drums only" all yield
+  no_chords=True/chords=False; "dreamy" still implies chords. Logo seen
+  in the header via browser screenshot.
+- Status: open — mechanics confirmed; whether default-on chords sound
+  right across all 39 identities is his ear, next few batches.
+
+### 2026-07-25 Chord voices: his samples only, one instrument per beat, layering
+- Context: owner, emphatic — "use my instruments as much as possible
+  regardless of any previous rule... The DJs and genres had specific real
+  sounds assigned... I don't want the instrument to change halfway through
+  a beat... I don't want them to pull in and out completely... Can they be
+  layered?"
+- First correction worth recording: most chord audio ALREADY was his
+  samples (bell/strings/piano via instrument_sampler, pitch-mapped). What
+  was actually synthesized: the chord BASS line (chord_synth.bass_voice),
+  the chip voice, and the tuned 808 sub. His "you're confusing instruments
+  from my sound bank with chords you create" was aimed at real synthesis,
+  but a smaller surface than it appeared. Said so before changing anything.
+- Owner's four answers (asked before proceeding, as instructed):
+  bass line -> his own bass samples; layering -> sometimes stacked,
+  sometimes solo, rolled per beat; coverage failure -> the backup plays
+  the WHOLE beat; chip -> keep for New Math/Chiptune.
+- Change, _build_chords restructured: geometry (slots) computed first,
+  then a VOICE PLAN is committed for the entire beat before any audio is
+  kept. Plans in order: maybe a 2-sound layer from the identity's own
+  chord_source (50% roll when it has >=2), then each of its sounds solo
+  (weighted primary first), then — only if none of HIS assigned sounds
+  cover every chord — every other instrument group he owns, shuffled.
+  A plan must voice EVERY chord slot or it is rejected wholesale. There
+  is no synthesized floor: if nothing covers the beat the chord lane is
+  omitted entirely (drive-unplugged case) rather than invented.
+- Two silent bugs fixed by the restructure: (1) per-chord fallback let one
+  beat change instrument mid-way (beat 1174: strings, strings, choir;
+  beat 1215, rendered 14 min before the fix: synth then organ — kept as
+  the documented "before"). (2) the loop voice used seed variant*461+i, a
+  DIFFERENT library sample per chord slot; now a constant seed, one pick
+  per beat.
+- Bass: new instrument_sampler.scan_bass() indexes his role="bass"
+  one-shots (384 found, notes 33-87) through the same cached pitch
+  detector; scan() still excludes them because a bass sample voiced as a
+  full CHORD is mud — a bass LINE plays one root at a time, which is what
+  they are. Whole-beat rule applies here too: his bass covers every root
+  or the synth sub plays the whole beat, never a mix.
+- Verify by: 704/704 tests (4 new: one-voice-per-beat, no-mid-beat-dropout,
+  bass-from-his-samples, layering-happens-both-ways — all using an on-disk
+  fake instrument index with controllable coverage). Real renders: 1216
+  Kane East "strings + pad stack" identical on both chords with stems
+  "bass0 - sampled bass (Bass)"; 1218 J Dillo "sample: ...Glock + piano
+  stack"; 1219 Otto Grit "piano stack + sample:..."; 1217/1220 chiptune.
+  Batch audit of 1216-1220: distinct voices per beat == 1, chord lanes ==
+  chord count, bass lanes == chord count, all OK. midi-validity-gate 8/8.
+- OPEN QUESTION flagged to owner, not decided here: Farrow's chord_source
+  carries ["chip", 1] of 6 — added on the owner's own request 2026-07-24
+  ("video game sounds used with Pharrell", backed by N.E.R.D. research).
+  It is now the only synthesized voice outside New Math/Chiptune, which
+  sits oddly against "use my instruments as much as possible". One-line
+  config change either way; left as he set it until he says.
+- Status: open — mechanics confirmed and tested; the sound is his ear.
+
+### 2026-07-25 Real 8-bit sounds preferred over the synth chip; float-WAV bug
+- Context: owner's rule — "if there are eight bit or sixteen bit or video
+  game sounds that are in my real library, use those. If there are no
+  sounds that exist fitting that stick with what you have."
+- Implemented as LOGIC, not as a one-time judgement, so the answer updates
+  itself if he ever buys a chiptune pack:
+  * instrument_sampler.CHIP_RE + a "chip" group in group_of/VOICES,
+    matching 8bit/16bit/chiptune/NES/SNES/Game Boy/arcade/Atari/C64/
+    blip/bleep/video game. Deliberately NOT "coin", "retro" or "pixel" —
+    each was checked against real filenames and false-positived
+    ("Cymatics - Bitcoin Perc", "PLAYOFFS - SNR Retro").
+  * new instrument_sampler.covers(index, notes, groups): an explicit
+    all-notes-within-MAX_SHIFT test. Needed because nearest() returns a
+    least-bad STRETCHED pick rather than None — correct for the big
+    groups, wrong for a group we only want when it genuinely fits (the
+    owner chose "backup plays the whole beat" over "stretch further").
+  * _build_chords' chip branch tries his sampled chip group first and
+    only falls back to chip_synth when covers() says no.
+- Measured answer TODAY: his library has 14 chip-ish files, but they are
+  drums (8 BIT CRASH, SNR Retro), percussion, or unpitched FX (Coin,
+  Arcade, 8 Bit Downer all read clarity 0.05-0.29, far under the 0.70
+  gate — they are sweeps and blips, not notes). Exactly ONE pitched chip
+  sample survives, at note 38. covers() is False for every real
+  progression, so the synthesized chip still plays. Rule satisfied,
+  outcome unchanged, and it flips automatically if the library changes.
+- SEPARATE REAL BUG found while answering this — the more valuable half:
+  load_audio could not read 32-bit IEEE-float WAVs at all. Python's
+  `wave` module raises "unknown format: 3" and the except-clause returned
+  None, so those files were SILENTLY skipped everywhere — chord voices,
+  drum picks, everything. Measured: 96 of 1418 melodic wavs (~7% of his
+  instrument material) plus an unknown share of drums. Fixed with a
+  minimal RIFF chunk walk in make_hiphop_tracks._read_float_wav (no new
+  dependency, tried before the `wave` path and falling through to it for
+  ordinary PCM). Melodic unreadables went 103 -> 7. This is a direct hit
+  on "use my instruments as much as possible" that nobody knew about.
+- Verify by: 706/706 tests (2 new in test_instrument_sampler: chip-name
+  recognition incl. both real-world traps, and covers() strict where
+  nearest() is forgiving). Renders 1221-1223 Farrow: "pluck stack + bell
+  stack", "bell stack", "chiptune arp" — one voice each, chord lanes ==
+  chord count, bass lanes == chord count. midi-validity-gate 3/3.
+- Status: open — the float-WAV fix changes which samples the machine can
+  pick from, so beats will sound slightly different from here. Worth his
+  ear on the next batch.
+
+### 2026-07-25 "Where are my instruments" — the LABEL was the bug; synth bass removed
+- Context: owner sent a screenshot of the stem rack showing BASS0-3 and
+  CHORD0-3 all reading "built from scratch", with "All I have is drums and
+  things you're creating. This is a hard rule that keeps getting broken."
+- Diagnosis: the audio was ALREADY 100% his library. Beats 1260-1263 (his
+  own render, minutes earlier) have stems literally named "brass stack +
+  strings" and "sampled bass (77 Bpm_C_UNO_Sub Riser Hi)". The rack lied:
+  _beat_stems fell back to "built from scratch" (and why: "synthesised,
+  not a sample") for ANY lane with no kit_paths entry — and chord/bass
+  lanes are voiced live from the library rather than from one kit_paths
+  file, so they always hit that branch. He was reading the only surface
+  that shows provenance, and it told him the opposite of the truth. Three
+  rounds of "the rule keeps getting broken" were caused by a string.
+- Fixes:
+  (1) PROVENANCE. Added an optional `used` list through
+      instrument_sampler.voice_note/note_slice/play_chord,
+      string_sampler.note_slice/play_chord and chord_synth.loop_voice;
+      _build_chords collects them per lane into harmony["voice_files"];
+      _beat_stems prints the real names ("82 Bpm_Fm_ROT_Brass Chop 2 +
+      5 more") with why="played from your library". Verified on beat
+      1264: every chord/bass row now names his own files.
+  (2) NO SYNTH BASS. chord_synth.bass_voice is no longer called from
+      _build_chords. If his bass samples can't voice every root the beat
+      gets NO bass lane rather than a generated one (owner: "the only
+      thing I want rendered from you is the chip tune pack").
+  (3) REAL BUG the new test caught: "chip" was in the all-other-groups
+      fallback list, so the generated chip voice — which never fails —
+      had become a universal substitute whenever samples fell short. Now
+      excluded; chip plays ONLY for an identity whose own chord_source
+      asks for it (New Math, Chiptune, Farrow 1-in-6).
+- Still synthesized, deliberately, and NOT covered by the rule as written:
+  the tuned 808 root sub under the kick (ADD_THE_ROOT_808, his own
+  2026-07-18 rule) and the chip voice. Everything else is his files.
+- Verify by: 708/708 tests. Three new: the rack never says "built from
+  scratch" over his samples; with NO instrument index at all a beat comes
+  back with no chord and no bass lane (never a synthesized stand-in); and
+  the bass stem carries the real filename. Rendered 1264 Just Flame —
+  rack rows read "107a120 F", "82 Bpm_Fm_ROT_Brass Chop 2 + 5 more", zero
+  "built from scratch", zero "synth bass". midi gate PASS.
+- Status: open — needs his eye on the rack to confirm it now reads true.

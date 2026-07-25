@@ -1,15 +1,18 @@
 :root {
-  --bg: #14161a;
-  --panel: #1d2026;
-  --panel2: #23262d;
-  --line: #31353d;
-  --text: #e8e6e0;
-  --dim: #9aa0a8;
-  --accent: #e8a33d;      /* Reason-rack amber */
-  --accent-dim: #8a6425;
+  /* The Beat Machine's palette, verbatim (owner ask 2026-07-25: one color
+     scheme across both rooms). Source of truth is the :root block in
+     tools/beat_machine.py — change there, mirror here. */
+  --bg: #0b0b0d;          /* its --paper */
+  --panel: #141417;       /* its --card */
+  --panel2: #1b1b1f;      /* its --card2 */
+  --line: #ffffff16;
+  --text: #f2f0eb;
+  --dim: #f2f0eb99;
+  --accent: #e8d810;      /* band yellow — was Reason-rack amber */
+  --accent-dim: #55500a;  /* the yellow knocked down for button fills */
   --green: #5dbb63;
-  --red: #e05555;
-  --blue: #5b9dd9;
+  --red: #ff4d4d;         /* its --no */
+  --blue: #7d8cff;        /* its --co: band blue lifted to read on black */
 }
 
 * { box-sizing: border-box; margin: 0; }
@@ -43,7 +46,7 @@ body::before {
 /* Let the artwork glow through the big panels while text stays readable:
    the structural containers go slightly see-through with a blur behind. */
 header, aside, footer, .card, .modal, #docPanel {
-  background-color: rgba(23, 26, 32, 0.80) !important;
+  background-color: rgba(20, 20, 23, 0.80) !important;   /* --panel @ 80% */
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
@@ -83,6 +86,16 @@ header {
   border-bottom: 1px solid var(--line);
 }
 .brand { font-weight: 700; letter-spacing: .5px; font-size: 17px; }
+/* MAKE / STUDIO — one app, two rooms (packaging step 5). Same pair sits
+   on the Beat Machine's masthead; plain links, no iframes. */
+.apptabs { display: flex; margin-left: 6px; border: 1px solid var(--line);
+           border-radius: 9px; overflow: hidden; }
+.apptabs a, .apptabs .here {
+  font-size: 11.5px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; padding: 5px 13px; text-decoration: none; }
+.apptabs .here { background: var(--accent); color: #1a1610; }
+.apptabs a { color: var(--dim); background: var(--panel2); }
+.apptabs a:hover { color: var(--text); }
 #art {
   width: 38px; height: 38px; object-fit: cover;
   border-radius: 8px; border: 1px solid var(--line);
@@ -90,7 +103,7 @@ header {
 .info-val { color: var(--dim); font-size: 13px; text-align: right; }
 #results li.auditioning {
   border-color: var(--accent);
-  background: #2c2413;
+  background: #2a2708;
 }
 .spacer { flex: 1; }
 
@@ -263,11 +276,11 @@ ol.steps li::before {
   font-size: 12px; font-weight: 700; color: var(--dim);
 }
 ol.steps li.active {
-  background: #2c2413;
+  background: #2a2708;
   border-color: var(--accent);
   font-weight: 600;
 }
-ol.steps li.active::before { background: var(--accent); color: #14161a; }
+ol.steps li.active::before { background: var(--accent); color: #16150a; }
 ol.steps li.done { opacity: .55; }
 ol.steps li.done::before { content: "\2713"; color: var(--green); }
 

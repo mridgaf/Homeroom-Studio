@@ -11,136 +11,163 @@
  "sad_accepting": {
   "label": "Sad, accepting",
   "roman": "i-VI-III-VII (Am-F-C-G)",
+  "why": "Melancholy that keeps moving forward. It never lands hard on home, so it loops forever without feeling finished — that's why it can hold a whole song up.",
   "chords": [[0, "minor"], [8, "major"], [3, "major"], [10, "major"]]
  },
  "sad_sinking": {
   "label": "Sad, sinking",
   "roman": "i-iv-VI-V (Am-Dm-F-E)",
+  "why": "The knife-twist. Sinks for three chords, then the last one brightens where you expect another sad one, right before the loop starts over.",
   "chords": [[0, "minor"], [5, "minor"], [8, "major"], [7, "major"]]
  },
  "uplifting": {
   "label": "Uplifting",
   "roman": "I-V-vi-IV (C-G-Am-F)",
+  "why": "The big triumph. Three bright chords with one sad chord in third place — the sad one is what stops it being sugar.",
   "chords": [[0, "major"], [7, "major"], [9, "minor"], [5, "major"]]
  },
  "nostalgic_borrowed_minor": {
   "label": "Nostalgic (borrowed minor)",
   "roman": "IV-iv-I (F-Fm-C)",
+  "why": "An instant sigh. Plays a chord bright, then plays the same chord sad, then goes home; that one darkened repeat is the whole trick.",
   "chords": [[5, "major"], [5, "minor"], [0, "major"]]
  },
  "nostalgic_jazz": {
   "label": "Nostalgic (jazz handshake)",
   "roman": "ii-V-I (Dm7-G7-Cmaj7)",
+  "why": "Coming home, smoothly. Two chords that lean and one that arrives — the backbone of jazz, soul and lofi.",
   "chords": [[2, "min7"], [7, "dom7"], [0, "maj7"]]
  },
  "epic": {
   "label": "Epic",
   "roman": "i-VII-VI-VII (Am-G-F-G)",
+  "why": "Stadium-minor, a slow march. Downhill and back up, wide, and it refuses to resolve.",
   "chords": [[0, "minor"], [10, "major"], [8, "major"], [10, "major"]]
  },
  "dark_menacing": {
   "label": "Dark/menacing",
   "roman": "i-bII (Am-Bb)",
+  "why": "Pure threat. Home chord, then the chord one single key above it — they don't belong together and your ear knows it.",
   "chords": [[0, "minor"], [1, "major"]]
  },
  "dreamy": {
   "label": "Dreamy",
   "roman": "Imaj7-IVmaj7 (Cmaj7-Fmaj7)",
+  "why": "Nothing tenses, nothing resolves. Two soft chords passing back and forth with nowhere to be.",
   "chords": [[0, "maj7"], [5, "maj7"]]
  },
  "vamp_i_iv7": {
   "label": "Hip hop / neo-soul vamp",
   "roman": "i-iv7 (Am-Dm7)",
+  "why": "Room left for a voice. Two chords, never resolving, deliberately staying out of the middle of the track.",
   "chords": [[0, "minor"], [5, "min7"]]
  },
  "vamp_i_VI": {
   "label": "Hip hop / neo-soul vamp",
   "roman": "i-VI (Am-F)",
+  "why": "A mood without demanding attention. Sad chord, warm chord, back again — the simplest loop that still says something.",
   "chords": [[0, "minor"], [8, "major"]]
  },
  "vamp_ii_V": {
   "label": "Hip hop / neo-soul vamp (never resolves)",
   "roman": "ii7-V7 (Dm7-G7)",
+  "why": "Suspense as the point. Two chords always about to go home and never doing it.",
   "chords": [[2, "min7"], [7, "dom7"]]
  },
  "vamp_i_v7": {
   "label": "Hip hop / neo-soul vamp",
   "roman": "i-v7 (Am-Em7)",
+  "why": "Low-lit and still. Both chords are sad, so nothing brightens — it sits under a vocal without arguing.",
   "chords": [[0, "minor"], [7, "min7"]]
  },
  "trap_dark_metro": {
   "label": "Trap dark-loop (Metro Boomin style)",
   "roman": "i-VI-iv-V (Am-F-Dm-E)",
+  "why": "Dark, but always building. Three dark chords, then one brightened to lift the last beat before it loops; that lift is the whole illusion.",
   "chords": [[0, "minor"], [8, "major"], [5, "minor"], [7, "major"]]
  },
  "gfunk_minor_i_iv_v": {
   "label": "G-funk minor (Still D.R.E.)",
   "roman": "i-iv-v (Fm-Bbm-Cm)",
+  "why": "A groove to ride, not a story. All three chords sad, moving in even steps.",
   "chords": [[0, "minor"], [5, "minor"], [7, "minor"]]
  },
  "vamp_static_riff": {
   "label": "Static riff (no chord movement)",
   "roman": "i (Am, held) - the riff/808 carries the melody",
+  "why": "Wide open on purpose. One chord, held — the riff and the 808 carry the tune instead.",
   "chords": [[0, "minor"]]
  },
  "emo_falling": {
   "label": "Emo rap falling loop",
   "roman": "i-iv-VII-VI (Cm-Fm-Bb-Ab)",
+  "why": "Giving up, on a loop. Falls the whole way down and never climbs back, every chord lower than the last.",
   "chords": [[0, "minor"], [5, "minor"], [10, "major"], [8, "major"]]
  },
  "gfunk_dorian_9": {
   "label": "G-funk Dorian bright-4 vamp",
   "roman": "i9-IV7 (Am9-D7)",
+  "why": "The west-coast bounce. Sad home chord, but the second one is bright where it 'should' be sad — one wrong-in-a-good-way chord.",
   "chords": [[0, "min9"], [5, "dom7"]]
  },
  "plugg_dream_9": {
   "label": "Plugg dreamy 9ths",
   "roman": "i9-VImaj9 (Am9-Fmaj9)",
+  "why": "Soft, hazy, half-asleep. Both chords have extra notes stacked on top, which blurs them.",
   "chords": [[0, "min9"], [8, "maj9"]]
  },
  "horror_tritone": {
   "label": "Horrorcore tritone",
   "roman": "i-#ivdim (Am-D#dim)",
+  "why": "Built to sound wrong. Home chord to the one distance the old church actually banned.",
   "chords": [[0, "minor"], [6, "dim"]]
  },
  "math_minor_thirds": {
   "label": "Octave divided in four (minor-third cycle)",
   "roman": "i-biii-#iv-vi (Am-Cm-D#m-F#m)",
+  "why": "Floats and unsettles at once. Four chords spaced perfectly evenly around the octave, so no chord is home and there's no gravity.",
   "chords": [[0, "minor"], [3, "minor"], [6, "minor"], [9, "minor"]]
  },
  "math_major_thirds": {
   "label": "Octave divided in three (major-third cycle)",
   "roman": "I-III-#V (A-C#-F)",
+  "why": "Dreamlike rather than happy. Three chords cutting the octave into exact thirds — bright, but it never picks a home.",
   "chords": [[0, "major"], [4, "major"], [8, "major"]]
  },
  "math_whole_tone": {
   "label": "Whole-tone climb (no leading tone, never resolves)",
   "roman": "Isus2-IIsus2-IIIsus2-#IVsus2",
+  "why": "Weightless. A climb in even steps with the 'pull home' note removed, so nothing leans anywhere.",
   "chords": [[0, "sus2"], [2, "sus2"], [4, "sus2"], [6, "sus2"]]
  },
  "dorian_i_IV": {
   "label": "Dorian's tell: minor tonic, MAJOR four",
   "roman": "i-IV (Am-D)",
+  "why": "Cool rather than sad. A sad home chord with a bright four — that combination is the whole tell.",
   "chords": [[0, "minor"], [5, "major"]]
  },
  "harmonic_minor_i_V": {
   "label": "Harmonic minor (raised 7th gives a major V)",
   "roman": "i-V (Am-E)",
+  "why": "Classical drama, and it lands every time. Minor, but the chord before home is sharpened so it pulls hard.",
   "chords": [[0, "minor"], [7, "major"]]
  },
  "hijaz_cadence": {
   "label": "Phrygian dominant / Hijaz — the Middle-Eastern cadence",
   "roman": "bII-I (Bb-A, major tonic)",
+  "why": "The Middle-Eastern sound, placed instantly. Falls onto home from the chord one key above — and home is bright, not sad.",
   "chords": [[1, "major"], [0, "major"]]
  },
  "noir_descend": {
   "label": "Trip-hop noir — unresolved bVI-bVII cycle that never lands",
   "roman": "i-bVI-bVII (Am-F-G)",
+  "why": "Rainy-window music. Drops to a borrowed chord, nudges up one, then loops before it can land.",
   "chords": [[0, "minor"], [8, "major"], [10, "major"]]
  },
  "reggaeton_dark": {
   "label": "Dark reggaeton — the documented dembow minor vamp",
   "roman": "i-VII-VI (Am-G-F)",
+  "why": "Hypnotic, made to be danced to rather than listened to. Three chords walking down and around.",
   "chords": [[0, "minor"], [10, "major"], [8, "major"]]
  }
 }

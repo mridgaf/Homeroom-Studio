@@ -6,13 +6,15 @@ plus: his drum one-shots layered as a kit, an 808 sub tuned to the family
 key, MPC-style equal-slice chops for verse 2, sidechain ducking under the
 kick, and the shared mastering chain from make_drum_loops.
 
-Run:  ./.venv/bin/python tools/make_hiphop_tracks.py
-Out:  ~/Music/Claude Hip Hop Tracks/   (+ README.txt crediting every sample)
+RETIRED as a script (2026-07-25) — see the note where build_pool() used to be.
+It still matters as a LIBRARY: load_audio, norm_rms and edge_fade are imported
+by crew, chord_synth, string_sampler, instrument_sampler and make_drum_beats.
+To make beats, run:  ./.venv/bin/python tools/beat_machine.py
 """
 import aifc
 import contextlib
 import os
-import re
+import struct
 import sys
 import wave
 from pathlib import Path
@@ -23,11 +25,7 @@ sys.path.append(str(Path(__file__).parent))
 from make_drum_loops import (SR, bandpass, env, highpass, hat, kick808,
                              lowpass, master, snare808, sub808, write_wav24)
 
-sys.path.append(str(Path(__file__).parent.parent))
-from reason_voice.indexer import scan
-
 OUT_DIR = Path(os.path.expanduser("~/Music/Claude Hip Hop Tracks"))
-FOLDERS = ["/Volumes/TBOTC 3", "~/Documents", "~/Music"]
 rng = np.random.default_rng(94100)
 
 NOTE_FREQ = {"C": 32.70, "C#": 34.65, "D": 36.71, "D#": 38.89, "E": 41.20,
@@ -36,9 +34,60 @@ NOTE_FREQ = {"C": 32.70, "C#": 34.65, "D": 36.71, "D#": 38.89, "E": 41.20,
 
 # ------------------------------------------------------------- audio io
 
+def _read_float_wav(p):
+    """A 32/64-bit IEEE-float WAV -> (raw bytes, dtype, ch, sr, sampwidth).
+
+    Python's `wave` module refuses format code 3 ("unknown format: 3"), so
+    every float WAV in the library was silently unreadable — load_audio
+    returned None and the caller quietly skipped the file. Measured
+    2026-07-25: 96 of 1418 melodic wavs, ~7% of his instrument material,
+    including every 8-bit/arcade FX he owns. Found while answering "do I
+    own real chiptune sounds", which is exactly the kind of question that
+    was getting a wrong answer. Minimal RIFF chunk walk — no dependency.
+    """
+    with open(str(p), "rb") as f:
+        head = f.read(12)
+        if head[:4] != b"RIFF" or head[8:12] != b"WAVE":
+            return None
+        ch = sr = bits = None
+        while True:
+            hdr = f.read(8)
+            if len(hdr) < 8:
+                return None
+            cid, sz = hdr[:4], struct.unpack("<I", hdr[4:8])[0]
+            body = f.read(sz + (sz & 1))[:sz]
+            if cid == b"fmt ":
+                code, ch, sr = struct.unpack("<HHI", body[:8])
+                bits = struct.unpack("<H", body[14:16])[0]
+                if code != 3:                     # not float: let wave try
+                    return None
+            elif cid == b"data":
+                if not bits:
+                    return None
+                dt = "<f4" if bits == 32 else "<f8" if bits == 64 else None
+                return None if dt is None else (body, dt, ch, sr)
+
+
 def load_audio(path):
     """WAV/AIFF -> float stereo (n, 2) at 44.1k, or None if unreadable."""
     p = Path(path)
+    if p.suffix.lower() == ".wav":
+        try:
+            got = _read_float_wav(p)
+        except (OSError, struct.error):
+            got = None
+        if got is not None:
+            raw, dt, ch, sr = got
+            x = np.frombuffer(raw, dtype=dt).astype(np.float64)
+            ch = max(int(ch or 1), 1)
+            x = x[:len(x) - (len(x) % ch)].reshape(-1, ch)
+            x = np.column_stack([x[:, 0], x[:, min(1, ch - 1)]])
+            if sr and sr != SR:
+                m = int(round(len(x) * SR / sr))
+                idx = np.linspace(0, len(x) - 1, m)
+                x = np.column_stack([np.interp(idx, np.arange(len(x)), x[:, c])
+                                     for c in range(2)])
+            return x
     try:
         mod = wave if p.suffix.lower() == ".wav" else aifc
         with contextlib.closing(mod.open(str(p), "rb")) as f:
@@ -84,26 +133,12 @@ def edge_fade(x, ms=5):
 
 # ------------------------------------------------------------- library
 
-def build_pool():
-    entries = scan(FOLDERS)
-    samples = [e for e in entries if e.get("kind") == "sample"]
-    tempo = {}
-    tre = re.compile(r"^(\d{2,3})[_ \-]")
-    for e in samples:
-        m = tre.match(e["name"])
-        if m:
-            tempo.setdefault(int(m.group(1)), []).append(e)
-    shots = {"kick": [], "snare": [], "hat": []}
-    for e in samples:
-        if e["category"] != "one-shot":
-            continue
-        toks = set(e["tokens"])
-        for kind, words in (("kick", {"kick", "kicks"}),
-                            ("snare", {"snare", "snares"}),
-                            ("hat", {"hat", "hats", "hihat"})):
-            if toks & words:
-                shots[kind].append(e)
-    return tempo, shots
+# build_pool() lived here. Retired 2026-07-25 (owner's call): it was the only
+# thing in tools/ that imported reason_voice, which broke the portability
+# boundary in PACKAGING-GAP-ANALYSIS.md Part 4a — the generator must not depend
+# on Reason. It fed main() only, and beat_machine/crew superseded this script
+# years of beats ago. Rebuilding it means a sample pool from
+# tools/sample_library.scan_packs(); nothing else here needs it.
 
 
 def find_stem(pool, bpm, sub):
@@ -378,24 +413,14 @@ def highpass_st(x, f):
 
 
 def main():
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    print("Scanning library…")
-    pool, shots = build_pool()
-    log = []
-    for ix, (name, bpm, key, stem_map, spice) in enumerate(TRACKS, 1):
-        L, R = build_track(ix, name, bpm, key, stem_map, spice,
-                           pool, shots, log)
-        path = OUT_DIR / f"{ix:02d} {name} {bpm}bpm.wav"
-        write_wav24(path, L, R)
-        rms = 20 * np.log10(np.sqrt(0.5 * (L ** 2 + R ** 2).mean()) + 1e-12)
-        print(f"  {path.name:42s} {len(L)/SR:6.1f}s  RMS {rms:5.1f} dBFS")
-    readme = ["Claude Hip Hop Tracks — built from YOUR sample library",
-              "=" * 56, ""]
-    for name, bpm, used in log:
-        readme.append(f"{name} ({bpm}bpm, key-locked) — sources:")
-        readme += [f"  - {u}" for u in used] + [""]
-    (OUT_DIR / "README.txt").write_text("\n".join(readme))
-    print(f"\n10 tracks -> {OUT_DIR}")
+    raise SystemExit(
+        "This standalone script is retired — its sample scanner was the last\n"
+        "thing tying the beat generator to Reason (see the note where\n"
+        "build_pool() used to be). Use the Beat Machine instead:\n"
+        "  ./.venv/bin/python tools/beat_machine.py\n"
+        "Everything else in this file is still live as a library — load_audio,\n"
+        "norm_rms and edge_fade are imported by crew, chord_synth,\n"
+        "string_sampler, instrument_sampler and make_drum_beats.")
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 stems, sample history, and the 50/50 collab blend."""
 import json
 import random
+import re
 import sys
 import wave
 from pathlib import Path
@@ -222,11 +223,15 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
     # either move, because the feature had no test. This is that guard.
     # random.seed fixes `variant`, which is the only input to the 3-in-4
     # roll, so this is deterministic rather than "render until it lands".
+    # "no chords" pins the drums-only context this rule lives in: since
+    # chords_default went roster-wide (2026-07-25) a default beat carries
+    # harmony's own bassN lanes instead of the static sub — the second
+    # half of this test asserts exactly that skip.
     root, shots = machine_env
     assert beat_machine.ADD_THE_ROOT_808, "the rule is off"
     random.seed(1)
     path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
-                                         traditional=True)
+                                         traditional=True, notes="no chords")
     no = int(path.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
     assert rec.get("root_note"), report        # a real musical root
@@ -324,9 +329,12 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
                         "role": "perc", "bpm": 96, "secs": 1.0,
                         "tokens": ["shaker"]}]
     # beat pinned to 96 — the bpm the loop pool would have matched, so if a
-    # loop lane could ever fire, it would fire here
+    # loop lane could ever fire, it would fire here. "no chords" because
+    # the sampled-bass lane is by design only for chord-free beats (a
+    # chords beat's harmony bassN owns the low end) — and since
+    # chords_default went roster-wide (2026-07-25), chord-free is opt-in.
     p, report = beat_machine.generate(["Cutz"], tempo=96, root=root,
-                                      shots=shots)
+                                      shots=shots, notes="no chords")
     no = int(p.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
     lanes = rec["preset"]["lanes"]
@@ -712,3 +720,435 @@ def test_collab_end_to_end(machine_env):
     assert set(rec["preset"]["lane_parent"].values()) \
         == {"Sunday Chop", "Cutz"}
     assert "50/50" in (root / "README.txt").read_text()
+
+
+# ------------------------------------------- the beat remembers its harmony
+
+def test_recipe_records_key_progression_and_chords(machine_env):
+    """Packaging step 1 (2026-07-25): a beat on disk used to know its tempo
+    and its 808 root but not its key or its chords, so nothing downstream
+    could explain it or set up a session to match. The manifest now carries
+    the harmony. Timberline is used because his chord_source is synth-only,
+    so this doesn't need the real sample drive."""
+    import harmony
+    from key_context import KeyContext
+
+    root, shots = machine_env
+    random.seed(1)
+    path, report = beat_machine.generate(["Timberline"], root=root,
+                                         shots=shots, notes="chords")
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+
+    h = rec["harmony"]
+    assert h, report
+    for k in ("key", "root", "mode", "progression", "chords", "chord_source"):
+        assert k in h, k
+    assert h["chords"], "a chords beat must record at least one chord"
+    assert rec["lanes"] and "chord0" in rec["lanes"]
+    assert "legend" in rec
+
+    # the romans/spellings/notes recorded are the ones harmony.compose gives
+    # for this key and progression — compose is deterministic once the
+    # progression is named, so this is a real independent recomputation.
+    _, expect = harmony.compose(KeyContext(h["root"], h["mode"]),
+                                h["progression"])
+    got = h["chords"]
+    assert [c["roman"] for c in got] == [c["roman"] for c in expect[:len(got)]]
+    assert [c["chord"] for c in got] == [c["chord"] for c in expect[:len(got)]]
+    assert [c["notes"] for c in got] == [c["notes"] for c in expect[:len(got)]]
+
+    # bars are 1-based and ascending; every chord names the voice that
+    # actually sounded it, which is what the "why this works" card reads
+    bars = [c["bar"] for c in got]
+    assert bars[0] == 1 and bars == sorted(bars)
+    assert all(c["voice"] for c in got)
+    assert set(h["chord_source"]) == {c["voice"] for c in got}
+
+
+def test_recipe_never_carries_the_real_producer_name(machine_env):
+    """The recipe is a sidecar that travels next to a beat, so it is the one
+    file the internal-only `built` attribution must never reach (owner
+    decision 2026-07-22). Solo Legend beats leaked it until 2026-07-25."""
+    root, shots = machine_env
+    random.seed(4)
+    # a Legend: CREW carries his real-producer attribution live...
+    assert CREW["Timberline"].get("built"), "fixture assumption changed"
+    path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    # ...and it must not be anywhere in the file that lands on disk.
+    assert "built" not in rec["preset"]
+    assert CREW["Timberline"]["built"].lower() not in json.dumps(rec).lower()
+
+    # every Legend, without paying for a render each. `built` was only half
+    # of it — the research prose in signature["_note"] names producers too,
+    # and a built-only strip walked straight past it. Scoped to the Legends
+    # because that is what the 2026-07-22 rule covers: the genre identities
+    # say what they ARE on purpose, and one of them ("Plug" / "Plugg") is a
+    # genre word that a blanket scan reads as a leak.
+    assert crew.LEGEND_NAMES, "roster didn't load — this test proves nothing"
+    for name in crew.LEGEND_NAMES:
+        clean = beat_machine._shareable_preset(CREW[name])
+        assert "built" not in clean, name
+        blob = json.dumps(clean).lower()
+        for real in re.split(r"[/,]| x ", CREW[name].get("built", "")):
+            real = real.split("(")[0].strip().lower()
+            if len(real) > 3 and real != "no one":
+                assert real not in blob, (name, real)
+
+
+# --------------------------------------- old recipes keep working (step 2)
+
+# A recipe exactly as it was written BEFORE 2026-07-25 — no "harmony", no
+# "lanes", no "legend", and `built` still sitting in the preset. Anything
+# that reads a recipe has to cope with a file this shape forever, because
+# every beat he made up to that date is one.
+OLD_RECIPE = {
+    "file": "42 Otto Grit Dusty Sunday Drums 88bpm.wav",
+    "folder": "Otto Grit", "names": ["Otto Grit"], "title": "Dusty Sunday",
+    "variant": 7, "bpm": 88, "space": "room",
+    "preset": {"num": 1, "bpm": 88, "built": "J Dilla",
+               "lanes": {"kick": [0.0, 1.0, [0, 0, 50, 1], ["X" * 16]],
+                         "snare": [0.1, 0.9, [0, 0, 50, 2], ["X" * 16]]},
+               "signature": {"_note": "dilla research prose here",
+                             "chord_source": [["loop", 3]]}},
+    "kit_spec": {"kick": ["kick", "punch", 1.0, 0.4],
+                 "snare": ["snare", "crack", 1.0, 0.5]},
+    "kit_paths": {"kick": "/lib/k.wav", "snare": "/lib/s.wav"},
+    "stamp_paths": {"stamp": "/lib/stamp.wav"}, "stamp_secs": {"stamp": 1.2},
+    "root_note": "F", "traditional": False, "dj_cut_bar": None,
+    "parent": None, "date": "2026-07-20",
+}
+
+
+@pytest.fixture
+def old_beat(tmp_path):
+    root = tmp_path / "beats"
+    (root / ".recipes").mkdir(parents=True)
+    (root / ".recipes" / "42.json").write_text(json.dumps(OLD_RECIPE))
+    return root
+
+
+def test_old_recipes_still_load_and_drive_every_reader(old_beat):
+    """Step 2: the step-1 keys are additive, so a beat written before them
+    must still work everywhere. Each call below is a real reader in the app
+    — a KeyError in any of them is a beat he can no longer swap or open."""
+    root = old_beat
+    rec = beat_recipes.load_recipe(root, 42)
+    assert "harmony" not in rec and "lanes" not in rec   # genuinely old
+
+    assert beat_machine.beat_dj(42, root) == "Otto Grit"
+    assert beat_machine._swap_lanes(42, root) == ["kick", "snare"]
+    fam, anc = beat_machine._family_dir_for(42, root)
+    assert anc == 42 and "Dusty Sunday" in str(fam)
+    # the stem rack's lane list: kit_spec lanes + the locked stamp
+    rows = beat_machine._beat_stems(42, root)
+    assert {r["lane"] for r in rows} >= {"kick", "snare", "stamp"}
+
+    # readers of the NEW keys must find nothing rather than explode — this
+    # is the shape step 3's "why this works" card has to survive
+    assert rec.get("harmony") is None
+    assert rec.get("lanes", []) == []
+    assert rec.get("legend") is None
+
+
+def test_old_recipe_stops_leaking_the_name_the_moment_it_is_rewritten(old_beat):
+    """An old recipe on disk still contains `built` and the research prose —
+    they can't be unwritten retroactively. What must hold is that anything
+    RE-writing one strips them, so a swap of an old beat doesn't carry the
+    name into a brand-new file."""
+    rec = beat_recipes.load_recipe(old_beat, 42)
+    assert rec["preset"]["built"] == "J Dilla"           # the old file, as-is
+    clean = beat_machine._shareable_preset(rec["preset"])
+    assert "built" not in clean
+    assert "_note" not in clean["signature"]
+    assert "dilla" not in json.dumps(clean).lower()
+    # and the settings that actually drive a rebuild survive the strip
+    assert clean["signature"]["chord_source"] == [["loop", 3]]
+    assert clean["lanes"]["kick"][1] == 1.0
+
+
+# ------------------------------------ "why this works" on the card (step 3)
+
+def test_card_theory_reads_the_recipe_and_the_owners_own_words(machine_env):
+    """Step 3: pure read-and-display of step 1's data. The plain-English
+    line comes from progressions_config.json — the owner's transcription of
+    theory/progressions.md — so he can reword any of it without touching
+    code, which is the whole reason it isn't a dict in this file."""
+    import harmony
+
+    root, shots = machine_env
+    random.seed(1)
+    path, report = beat_machine.generate(["Timberline"], root=root,
+                                         shots=shots, notes="chords")
+    no = int(path.name.split()[0])
+
+    th = beat_machine._beat_theory(no, root)
+    assert th, report
+    h = beat_recipes.load_recipe(root, no)["harmony"]
+    assert th["key"] == h["key"]
+    # the romans printed are this beat's, in order
+    assert th["roman"] == " – ".join(c["roman"] for c in h["chords"])
+    # ...and the sentence is the config's, verbatim — not paraphrased here
+    assert th["why"] == harmony.PROGRESSIONS[h["progression"]]["why"]
+    assert th["progression"] == harmony.PROGRESSIONS[h["progression"]]["label"]
+
+
+def test_every_progression_has_a_why_line():
+    """A progression added later with no `why` would print a card with an
+    empty explanation — the one visible feature of this whole step."""
+    import harmony
+    missing = [k for k, v in harmony.PROGRESSIONS.items() if not v.get("why")]
+    assert not missing, missing
+    # and none of them smuggles a real producer name onto the card, which
+    # a label already does ("Metro Boomin style") and a `why` must not,
+    # because step 7 exports this sentence next to the beat
+    banned = ("metro boomin", "dr. dre", "still d.r.e", "dilla", "premier",
+              "timbaland", "pharrell", "kanye", "lex luger", "three 6")
+    for k, v in harmony.PROGRESSIONS.items():
+        low = v["why"].lower()
+        assert not [b for b in banned if b in low], k
+
+
+def test_card_theory_is_silent_for_a_beat_that_has_none(old_beat):
+    """Old beats, drums-only beats, and beats whose recipe is gone must
+    render exactly as they always did — no block, no crash."""
+    assert beat_machine._beat_theory(42, old_beat) is None    # pre-step-1
+    assert beat_machine._beat_theory(999, old_beat) is None   # no recipe
+    # a recipe that HAS the key but with nothing in it (drums-only beat)
+    rec = dict(json.loads((old_beat / ".recipes" / "42.json").read_text()),
+               harmony=None)
+    (old_beat / ".recipes" / "43.json").write_text(json.dumps(rec))
+    assert beat_machine._beat_theory(43, old_beat) is None
+
+
+# ---------------------------- instruments by default, "no chords" to opt out
+
+def test_no_chords_actually_means_no(machine_env):
+    """Owner 2026-07-25: every identity now plays its chord voice by
+    default (chords_default roster-wide). That made the off-switch load-
+    bearing — and exposed that "no chords" used to turn chords ON, because
+    the parser saw the word "chords" and ignored the "no"."""
+    p = beat_machine.parse_directions
+    assert p("")["chords"] is False            # empty box: parser asks nothing
+    assert p("chords")["chords"] is True
+    for phrase in ("no chords", "without chords", "drop the chords",
+                   "drums only", "just drums", "no melody"):
+        d = p(phrase)
+        assert d["no_chords"] and not d["chords"], phrase
+    # a mood word still means chords, and isn't broken by the new check
+    assert p("dreamy")["chords"] is True
+
+    # end to end: default ON via signature, OFF when asked
+    root, shots = machine_env
+    random.seed(2)
+    path, report = beat_machine.generate(["Timberline"], root=root,
+                                         shots=shots)          # empty notes
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    assert "chord0" in rec["preset"]["lanes"], report
+    assert rec["harmony"], "default-on beat must still record its harmony"
+    path2, report2 = beat_machine.generate(["Timberline"], root=root,
+                                           shots=shots, notes="no chords")
+    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
+    assert not any(ln.startswith("chord") for ln in rec2["preset"]["lanes"]), \
+        report2
+
+
+def test_every_identity_defaults_to_its_chord_voice():
+    """The configs are the contract: all 39 identities with a harmonic
+    signature have chords_default on (owner 2026-07-25, 'I no longer hear
+    any instruments'). A new identity added without it would silently ship
+    drums-only beats again."""
+    missing = [n for n, p in CREW.items()
+               if isinstance(p.get("signature"), dict)
+               and not p["signature"].get("chords_default")]
+    assert not missing, missing
+
+
+# ------------------- one instrument, whole beat, from HIS banks (2026-07-25)
+
+def _tone(note, secs=0.8):
+    f = 440.0 * 2 ** ((note - 69) / 12.0)
+    t = np.arange(int(secs * SR)) / SR
+    return 0.4 * np.sin(2 * np.pi * f * t)
+
+
+def _inst_index(tmp_path, group, notes):
+    """A real on-disk index of tones, so the whole load->shift->tile path
+    runs. Coverage is controllable: instrument_sampler.MAX_SHIFT means a
+    group only 'covers' notes within 4 semitones of one of its samples."""
+    from make_drum_loops import write_wav24
+    idx = []
+    for n in notes:
+        p = tmp_path / ("%s_%d.wav" % (group, n))
+        x = _tone(n)
+        write_wav24(p, x, x)
+        idx.append({"path": str(p), "name": "%s %d" % (group, n), "note": n,
+                    "clarity": 0.95, "group": group})
+    return idx
+
+
+@pytest.fixture
+def only_his_instruments(tmp_path, monkeypatch):
+    """A narrow 'bell' group (one sample, so it covers a 9-semitone window)
+    and a wide 'piano' group that covers everything."""
+    import instrument_sampler
+    bell = _inst_index(tmp_path, "bell", [60])
+    piano = _inst_index(tmp_path, "piano", range(36, 85, 3))
+    bass = _inst_index(tmp_path, "bass", range(28, 61, 3))
+    monkeypatch.setattr(instrument_sampler, "scan", lambda *a, **k: bell + piano)
+    monkeypatch.setattr(instrument_sampler, "scan_bass", lambda *a, **k: bass)
+    return bell, piano, bass
+
+
+def _voices_of(rec):
+    return [c["voice"] for c in rec["harmony"]["chords"]]
+
+
+def test_one_instrument_plays_the_whole_beat(machine_env, only_his_instruments,
+                                             monkeypatch):
+    """Owner 2026-07-25: 'I don't want the instrument to change into a
+    different instrument halfway through a beat.' Beat 1174 went strings,
+    strings, choir because the old code picked a fallback PER CHORD. The
+    voice is now committed for the whole beat before any audio is kept."""
+    root, shots = machine_env
+    # a wide progression the one-sample 'bell' group cannot cover alone
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["bell", 1]],
+        "chords_default": True})
+    random.seed(3)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    voices = _voices_of(rec)
+    assert len(voices) > 1, "need a multi-chord beat to prove anything"
+    assert len(set(voices)) == 1, (report, voices)   # THE guarantee
+
+
+def test_a_chord_lane_never_drops_out_mid_beat(machine_env,
+                                               only_his_instruments,
+                                               monkeypatch):
+    """'I don't want them to just pull in and out completely halfway
+    through a track.' Every chord in the beat gets a lane, or the beat has
+    no chord lane at all — never some-but-not-others."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["bell", 1]],
+        "chords_default": True})
+    random.seed(5)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    n_chords = len(rec["harmony"]["chords"])
+    chord_lanes = [ln for ln in rec["lanes"] if ln.startswith("chord")]
+    assert len(chord_lanes) in (0, n_chords), (report, sorted(rec["lanes"]))
+    assert len(chord_lanes) == n_chords, report      # and here it voiced
+
+
+def test_chord_bass_line_comes_from_his_own_bass_samples(
+        machine_env, only_his_instruments, monkeypatch):
+    """Owner 2026-07-25: 'I prefer sounds from my sound bank.' The bass
+    under the chords was a synthesized sub; it is now pitch-mapped from
+    his own bass one-shots whenever they can voice every root."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    random.seed(7)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    # the chord/bass lanes are synthesized-at-render, so they have no
+    # kit_paths entry — their provenance shows up in the stem FILENAMES,
+    # which write_stems builds from `sources`
+    stem_dir = next(d for d in path.parent.glob("* Stems")
+                    if d.name.startswith(path.name.split()[0]))
+    bass_stems = [f.name for f in stem_dir.glob("bass*.wav")]
+    assert bass_stems, (report, [f.name for f in stem_dir.glob("*.wav")])
+    # the stem names the REAL file it came from (the fixture's bass samples
+    # are called "bass_<note>"), and nothing is synthesized any more
+    assert all("bass_" in n for n in bass_stems), (report, bass_stems)
+    assert not any("synth bass" in n for n in bass_stems), (report, bass_stems)
+    # and the recipe records those files, which is what stops the stem rack
+    # printing "built from scratch" over his own library
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    vf = rec["harmony"]["voice_files"]
+    assert any(k.startswith("bass") for k in vf), vf
+    assert any(k.startswith("chord") for k in vf), vf
+
+
+def test_layering_and_solo_both_happen_and_never_mix_mid_beat(
+        machine_env, only_his_instruments, monkeypatch):
+    """'Can they be layered?' — yes: an identity with two assigned sounds
+    sometimes stacks both and sometimes plays one, rolled per beat. Either
+    way the choice is locked for the whole beat."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1], ["bell", 1]],
+        "chords_default": True})
+    seen = set()
+    for seed in range(8):
+        random.seed(seed)
+        path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
+        rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+        voices = _voices_of(rec)
+        assert len(set(voices)) == 1, voices        # locked, every time
+        seen.add(" + " in voices[0])
+    assert seen == {True, False}, ("want both layered and solo beats", seen)
+
+
+def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
+        machine_env, only_his_instruments, monkeypatch):
+    """THE bug, owner 2026-07-25: 'where are the real instruments from my
+    sound bank? All I have is drums and things you're creating.' The audio
+    was already 100% his brass/strings — but chord/bass lanes have no
+    kit_paths entry, so the stem rack printed "built from scratch" over
+    them and there was no way for him to know otherwise. The label was the
+    defect, and it is the only thing he can actually see."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    random.seed(11)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    rows = {r["lane"]: r for r in beat_machine._beat_stems(no, root)}
+    voiced = [ln for ln in rows if ln.startswith(("chord", "bass"))]
+    assert voiced, (report, sorted(rows))
+    for ln in voiced:
+        r = rows[ln]
+        assert r["sample"] != "built from scratch", (ln, r)
+        assert "piano_" in r["sample"] or "bass_" in r["sample"], (ln, r)
+        assert "synthesised" not in r["why"], (ln, r)
+        assert "your library" in r["why"], (ln, r)
+
+
+def test_nothing_but_chip_is_ever_generated(machine_env, monkeypatch):
+    """Owner's hard rule 2026-07-25: 'the only thing I want rendered from
+    you is the chip tune pack. All other instruments mine every time.'
+    With NO instrument samples available at all, the beat must come back
+    with no chord and no bass lane — never a synthesized substitute."""
+    import instrument_sampler
+    monkeypatch.setattr(instrument_sampler, "scan", lambda *a, **k: [])
+    monkeypatch.setattr(instrument_sampler, "scan_bass", lambda *a, **k: [])
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    random.seed(13)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    lanes = rec["preset"]["lanes"]
+    assert not [ln for ln in lanes if ln.startswith("chord")], (report, lanes)
+    assert not [ln for ln in lanes if ln.startswith("bass")], (report, lanes)
+    stem_dir = next(d for d in path.parent.glob("* Stems")
+                    if d.name.startswith(path.name.split()[0]))
+    names = " ".join(f.name for f in stem_dir.glob("*.wav"))
+    assert "synth bass" not in names, names

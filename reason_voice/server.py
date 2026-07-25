@@ -488,6 +488,12 @@ class WebApp:
                 self.say("No such result.")
             elif s.results_kind == "recipe":
                 self._open_recipe(s.results[which])
+            elif s.results[which].get("kind") == "folder":
+                # a Claude-loops folder row: opening it lists its beats,
+                # same as clicking it — so "load two" works by voice too
+                await self.execute(Intent(
+                    "claude_loops", {"folder": s.results[which]["name"]}))
+                return
             else:
                 s.last_loaded = s.results[which]
                 self.control.load_patch(s.last_loaded["path"])
@@ -573,15 +579,37 @@ class WebApp:
                 self.say("That one isn't in a crate.")
 
         elif cmd == "claude_loops":
+            # Grouped by DJ / genre (owner ask 2026-07-25): the beat library
+            # is already organized as one folder per identity, so the first
+            # click shows those folders as a browsable list; clicking (or
+            # "load two") opens one. Stems folders are skipped — a beat's 13
+            # solo'd lanes would bury the beats — and so is Trash: that's
+            # his reject pile, resurfacing it here would undo the triage.
             self._stop_audition()
             markers = (os.sep + "Claude Drum Loops" + os.sep,
                        os.sep + "Claude Drum Beats" + os.sep)
 
+            def _place(e):
+                """(folder shown in the browser, its dir) or None."""
+                p = e["path"]
+                for mk in markers:
+                    j = p.find(mk)
+                    if j < 0:
+                        continue
+                    rest = p[j + len(mk):].split(os.sep)
+                    if any(part.endswith(" Stems") for part in rest[:-1]):
+                        return None
+                    if rest[0] == "Trash":
+                        return None
+                    top = rest[0] if len(rest) > 1 else \
+                        mk.strip(os.sep).replace("Claude ", "")
+                    return top, p[:j + len(mk)] + (rest[0] if len(rest) > 1
+                                                   else "")
+                return None
+
             def _hits():
-                return sorted(
-                    (e for e in self.index.entries
-                     if any(mk in e["path"] for mk in markers)),
-                    key=lambda e: e["name"].lower())
+                return [(e, pl) for e in self.index.entries
+                        for pl in (_place(e),) if pl]
             hits = _hits()
             if not hits:
                 self.say("Picking up the Claude loops — refreshing the "
@@ -589,10 +617,26 @@ class WebApp:
                 await self.push()
                 await asyncio.to_thread(self.index.rebuild, self.folders)
                 hits = _hits()
-            if hits:
-                s.results, s.results_kind, s.offset = hits, "patch", 0
-                self.say(f"{len(hits)} Claude drum loops and beats. Say "
-                         "audition, or preview a number.")
+            want = args.get("folder")
+            if want:
+                sel = sorted((e for e, (top, _d) in hits if top == want),
+                             key=lambda e: e["name"].lower())
+                s.results, s.results_kind, s.offset = sel, "patch", 0
+                self.say(f"{len(sel)} in {want}. Say audition, or preview "
+                         "a number.")
+            elif hits:
+                groups: dict = {}
+                for e, (top, d) in hits:
+                    n, _d = groups.get(top, (0, d))
+                    groups[top] = (n + 1, d)
+                rows = [{"name": top, "kind": "folder", "path": d,
+                         "device": f"{n} to hear",
+                         "folder": ""}
+                        for top, (n, d) in sorted(groups.items(),
+                                                  key=lambda kv: kv[0].lower())]
+                s.results, s.results_kind, s.offset = rows, "patch", 0
+                self.say(f"{len(rows)} folders of Claude beats and loops — "
+                         "by DJ and genre. Open one, or say load two.")
             else:
                 self.say("No Claude loops on disk yet — ask Claude in chat "
                          "to generate a pack.")
@@ -923,6 +967,12 @@ async def ws(websocket: WebSocket):
 
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+# the band's artwork, same files the Beat Machine masthead uses — so both
+# rooms wear the exact same mark (owner ask 2026-07-25). One source of
+# truth: drop new art in <project>/brand/ and both pages pick it up.
+_BRAND_DIR = Path(__file__).parent.parent / "brand"
+if _BRAND_DIR.is_dir():
+    app.mount("/brand", StaticFiles(directory=str(_BRAND_DIR)), name="brand")
 
 
 def _port_in_use(port: int) -> bool:

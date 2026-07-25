@@ -804,8 +804,19 @@ def parse_directions(notes):
         out["density"] = "busy"
     out["chord_feel"] = next((slug for word, slug in FEEL_WORDS.items()
                               if f" {word} " in t), None)
-    out["chords"] = bool(out["chord_feel"]) \
-        or any(f" {w} " in t for w in CHORD_WORDS)
+    # "no chords" / "drums only" turns the chord+bass lanes OFF and beats
+    # chords_default. Checked before the plain chord words, because "no
+    # chords" CONTAINS "chords" — without this, asking for less turned the
+    # lane on (real bug, found 2026-07-25 when chords_default went
+    # roster-wide and the off-switch suddenly mattered).
+    out["no_chords"] = (
+        any(f" {neg.strip()} {w} " in t for w in CHORD_WORDS
+            for neg in NEGATIONS)
+        or any(f" {x} " in t for x in ("drums only", "just drums",
+                                       "only drums", "drum only")))
+    out["chords"] = not out["no_chords"] and (
+        bool(out["chord_feel"])
+        or any(f" {w} " in t for w in CHORD_WORDS))
     return out
 
 
@@ -991,11 +1002,56 @@ def _source_order(pref, rng):
     return order
 
 
+def _shareable_preset(preset):
+    """The preset as it goes into .recipes/NN.json, with every real-producer
+    reference stripped.
+
+    The recipe is a sidecar file that travels next to a beat, so it is the
+    one place the internal-only attribution must never reach (owner decision
+    2026-07-22, legends_config.json's _readme). Two things carried it and
+    both leaked until 2026-07-25:
+
+      `built`      — "J Dilla", "Metro Boomin". Nothing reads it back out of
+                     a recipe: the batch-player card reads it live from CREW,
+                     and the collab line in the render report is written
+                     before this point.
+      `_*` keys    — house convention across the configs is that an
+                     underscore-prefixed key is documentation, not settings
+                     (`_readme`, `_note`, `_horns_status`). The research
+                     notes inside `signature._note` name producers in prose,
+                     which a `built`-only strip walked straight past.
+
+    Dropped recursively, so a doc key added later is covered without anyone
+    remembering this function exists. No code branches on a `_` key — every
+    setting _build_chords reads is a plain name.
+
+    Old recipes on disk, written before this, may still contain both.
+    """
+    def clean(v):
+        if isinstance(v, dict):
+            return {k: clean(x) for k, x in v.items()
+                    if not (isinstance(k, str) and k.startswith("_"))}
+        if isinstance(v, list):
+            return [clean(x) for x in v]
+        return v
+    out = clean(preset)
+    out.pop("built", None)
+    return out
+
+
 def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
-    identity-blind default without one). Returns midi_chords for the .mid
-    file, or None if this beat has no chords.
+    identity-blind default without one).
+
+    Returns `(midi_chords, harmony)` — or `(None, None)` if this beat has
+    no chords. `harmony` (added 2026-07-25, packaging step 1) is the plain
+    record of what was decided: key, mode, progression name, and one row
+    per chord with its bar, roman numeral, spelling, MIDI notes and the
+    voice that actually sounded it. It goes straight into the beat's
+    .recipes/NN.json so a beat on disk knows its own harmony instead of
+    forgetting it the moment it's written. Read-only bookkeeping — nothing
+    here feeds back into the audio.
 
     Fully deterministic from `variant` — same trick _root_sub already uses
     for the tuned 808 sub — which is what makes it safe to call a SECOND
@@ -1021,7 +1077,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     original render, the exact sample picked could differ. Both are
     disclosed here rather than silently risked."""
     if not dirs["chords"]:
-        return None
+        return None, None
     import chord_synth
     import harmony
     from key_context import KeyContext, SUB_ROOTS
@@ -1062,130 +1118,265 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     # needed for essentially every signature, not just the horn one.
     import instrument_sampler
     inst_idx = instrument_sampler.scan()
-    midi_chords = []
+    # ---- geometry first, voice second (owner 2026-07-25) ----
+    # The voice is committed ONCE for the whole beat, before any audio is
+    # kept: the owner heard beat 1174 go strings, strings, choir — the old
+    # per-chord fallback swapping instruments mid-beat — and a chord slot
+    # going silent when nothing could voice it. Both are gone: a plan
+    # either voices EVERY chord in the beat or the next plan takes the
+    # WHOLE beat. Layering is his call too: sometimes one of the
+    # identity's assigned sounds, sometimes two of them stacked — rolled
+    # per beat, locked for the beat either way.
+    slots = []
     for i, chord in enumerate(chords):
         start_bar = i * per_chord
         if start_bar >= nb:
             break
         end_bar = nb if i == len(chords) - 1 else \
             min(start_bar + per_chord, nb)
-        dur = (end_bar - start_bar) * bar_s
+        slots.append((i, chord, start_bar, (end_bar - start_bar) * bar_s))
+
+    def _render_one(src, chord, dur, used=None):
+        """One source, one chord slot -> (audio, voice name). `used` (a
+        list) collects the actual FILES the audio came from, so the beat
+        can name its own instruments instead of the rack claiming "built
+        from scratch" over his own library. The per-source recipes are the
+        old per-chord loop's, unchanged — only where they are called from
+        moved."""
+        if src == "strings" and strings_idx:
+            if rhythm == "arp":
+                cache = {}                       # one load per note, not step
+                a = chord_synth.arp_riff(
+                    chord["notes"], dur, preset["bpm"],
+                    lambda nt, sd: string_sampler.note_slice(
+                        strings_idx, nt, sd, cache=cache, used=used))
+                return a, "strings arp"
+            return (string_sampler.play_chord(strings_idx, chord["notes"],
+                                              dur, used=used), "strings")
+        if src == "loop":
+            # CONSTANT seed — no `+ i`: the same library pick voices every
+            # chord slot, so the loop bed can't change sample mid-beat
+            a, nm = chord_synth.loop_voice(
+                pool, dur, key, rng=random.Random(variant * 461), used=used)
+            return a, ("sample: %s" % nm if a is not None else None)
+        if src == "chip":
+            # HIS OWN 8-bit/video-game samples first (owner rule
+            # 2026-07-25: "if there are eight bit or sixteen bit or video
+            # game sounds in my real library, use those. If there are no
+            # sounds that exist fitting that stick with what you have").
+            # covers() is an explicit all-notes-in-range test, not
+            # nearest()'s least-bad pick, so a group that would only
+            # answer by stretching a sample across an octave counts as
+            # "doesn't exist" rather than being used badly. Measured
+            # today: he owns 2 pitched chip samples, at notes 38 and 70,
+            # so this is False for real progressions and the synthesized
+            # voice below plays — but the moment he adds a chiptune pack
+            # that covers a beat, his own files take over with no code
+            # change. That is the rule, implemented rather than decided.
+            if inst_idx and instrument_sampler.covers(
+                    inst_idx, chord["notes"], ("chip",)):
+                a = instrument_sampler.play_chord(
+                    inst_idx, chord["notes"], dur, groups=("chip",),
+                    used=used)
+                if a is not None and np.max(np.abs(a)) > 0:
+                    return a, "8-bit sample stack"
+            # ...otherwise the synthesized chip voice: the one synthesized
+            # chord voice left in the engine, and a deliberate exception
+            # the owner re-confirmed 2026-07-25 — see tools/chip_synth.py's
+            # header. Always arpeggio-fused: the NES had two pulse voices,
+            # so a held triad was IMPOSSIBLE and chords were always faked
+            # by flicking between the notes. Honouring rhythm="sustain"
+            # here would be less authentic, not more.
+            import chip_synth
+            # Two optional identity knobs, both New Math's (2026-07-24):
+            # chip_tuning "atari" -> the TIA's integer-divider grid, out
+            # of tune on purpose; chip_count -> notes per beat.
+            tuning = sig.get("chip_tuning", "equal")
+            per_beat = sig.get("chip_count")
+            rate = (chip_synth.count_rate(preset["bpm"], per_beat)
+                    if per_beat else chip_synth.NTSC_FRAME_HZ / 3.0)
+            a = chip_synth.chip_chord(chord["notes"], dur,
+                                      tuning=tuning, rate_hz=rate)
+            return a, ("chiptune arp%s"
+                       % (" (atari-tuned)" if tuning == "atari" else ""))
+        if src in instrument_sampler.VOICES and inst_idx:
+            # EVERY named instrument voice — "horns", "synth", "piano",
+            # "guitar", ... — is sampled from his own banks and
+            # pitch-mapped (owner 2026-07-23). "synth" means sampled
+            # synth/pluck/pad material, NOT an oscillator.
+            groups = instrument_sampler.VOICES[src]
+            # Name the group the audio ACTUALLY came from: a thin group
+            # hands off to the next one (instrument_sampler.nearest), and
+            # a stem shouldn't claim "choir" when the note came from a pad.
+            got = instrument_sampler.nearest(
+                inst_idx, chord["notes"][0], groups)
+            gname = got["group"] if got else src
+            if rhythm == "arp":
+                cache = {}                       # one load per file, not step
+                a = chord_synth.arp_riff(
+                    chord["notes"], dur, preset["bpm"],
+                    lambda nt, sd: instrument_sampler.note_slice(
+                        inst_idx, nt, sd, cache=cache, groups=groups,
+                        used=used))
+                return a, "%s stabs" % gname
+            return (instrument_sampler.play_chord(
+                inst_idx, chord["notes"], dur, groups=groups, used=used),
+                "%s stack" % gname)
+        return None, None
+
+    # Candidate plans, in the order they get the chance to take the beat:
+    # maybe a two-sound layer from the identity's own list, then each of
+    # the identity's sounds solo (rolled primary first, as before), then —
+    # only if none of HIS assigned sounds can cover the whole beat — every
+    # other instrument group he owns, shuffled per beat. One plan = one
+    # sound (or one fixed stack) for the entire beat.
+    order = _source_order(pref, random.Random(variant * 461))
+    plan_rng = random.Random(variant * 883 + 7)
+    own = [s[0] for s in pref] if pref else []
+    plans = []
+    if len(set(own)) >= 2 and plan_rng.random() < 0.5:
+        second = next((s for s in order[1:] if s in own), None)
+        if second:
+            plans.append((order[0], second))
+    plans += [(s,) for s in order]
+    # then every OTHER instrument group he owns. "chip" is excluded on
+    # purpose: it is the one generated voice, so it may only play for an
+    # identity whose own chord_source asks for it (New Math, Chiptune,
+    # Farrow's 1-in-6) — never as a substitute for his instruments.
+    # Without this it became a universal fallback that always succeeds,
+    # which is the opposite of the owner's hard rule (2026-07-25).
+    extra = [g for g in instrument_sampler.VOICES
+             if g not in order and g != "chip"]
+    plan_rng.shuffle(extra)
+    plans += [(g,) for g in extra]
+
+    committed, beds = None, None
+    for plan in plans:
+        beds, ok = [], True
+        for i, chord, start_bar, dur in slots:
+            layers = []
+            for src in plan:
+                used = []
+                a, nm = _render_one(src, chord, dur, used=used)
+                # arp_riff hands back SILENCE (not None) when every step
+                # was unvoiceable — an all-zero buffer is a failure too
+                if a is None or not np.max(np.abs(a)) > 0:
+                    ok = False
+                    break
+                layers.append((a, nm, used))
+            if not ok:
+                break
+            if len(layers) == 1:
+                mix, nm, files = layers[0]
+                names_ = [nm]
+            else:
+                n = min(len(l[0]) for l in layers)
+                mix = sum(l[0][:n] for l in layers)
+                from make_hiphop_tracks import norm_rms
+                mix = norm_rms(mix, -18.0)
+                peak = np.max(np.abs(mix))
+                if peak > chord_synth.PEAK_CEILING:
+                    mix = mix * (chord_synth.PEAK_CEILING / peak)
+                names_ = [l[1] for l in layers]
+                files = [f for l in layers for f in l[2]]
+            beds.append((mix, names_, files))
+        if ok and beds:
+            committed = plan
+            break
+
+    # ---- the bass line: HIS bass samples, committed per beat too ----
+    # (owner 2026-07-25: the synthesized "synth bass" becomes his own
+    # bass sounds). Same whole-beat rule: his samples take the bass line
+    # only if they can voice EVERY root; otherwise the old synth sub
+    # plays the whole beat — never a mix of the two.
+    bass_idx = instrument_sampler.scan_bass()
+    bass_beds, bass_files, bcache = {}, {}, {}
+    if bass_idx:
+        for i, chord, start_bar, dur in slots:
+            bused = []
+            a = instrument_sampler.voice_note(
+                bass_idx, chord["notes"][0] - 12, dur, cache=bcache,
+                used=bused)
+            if a is None:
+                bass_beds, bass_files = {}, {}
+                break
+            bass_beds[i] = a
+            bass_files[i] = bused[0] if bused else None
+
+    midi_chords = []
+    chord_rows = []
+    voice_desc = None
+    voice_files = {}          # lane -> the library files it actually used
+    for slot_no, (i, chord, start_bar, dur) in enumerate(slots):
         bass_note = chord["notes"][0] - 12
         bars_list = ["-" * 16 for _ in range(nb)]
         bars_list[start_bar] = "X" + "-" * 15
-        old_c = preset["lanes"].get(f"chord{i}")     # preserve a baked trim
-        preset["lanes"][f"chord{i}"] = (0.0, old_c[1] if old_c else 0.5,
-                                        (0, 0, 50, variant + i), bars_list)
         old_b = preset["lanes"].get(f"bass{i}")
         preset["lanes"][f"bass{i}"] = (0.0, old_b[1] if old_b else 0.85,
                                        (0, 0, 50, variant + i),
                                        [b for b in bars_list])
-        audio, label = None, None
-        for src in _source_order(pref, random.Random(variant * 461 + i)):
-            if src == "strings" and strings_idx:
-                if rhythm == "arp":
-                    cache = {}                       # one load per note, not step
-                    audio = chord_synth.arp_riff(
-                        chord["notes"], dur, preset["bpm"],
-                        lambda nt, sd: string_sampler.note_slice(
-                            strings_idx, nt, sd, cache=cache))
-                    voice = "strings arp"
-                else:
-                    audio = string_sampler.play_chord(
-                        strings_idx, chord["notes"], dur)
-                    voice = "strings"
-                if audio is not None:
-                    label = "%s: %s (%s)" % (voice, chord["chord"],
-                                             chord["roman"])
-                    break
-            elif src == "loop":
-                audio, nm = chord_synth.loop_voice(
-                    pool, dur, key, rng=random.Random(variant * 461 + i))
-                if audio is not None:
-                    label = "sample: %s, %s (%s)" % (
-                        nm, chord["chord"], chord["roman"])
-                    break
-            elif src == "chip":
-                # The one synthesized chord voice left in the engine, and
-                # a deliberate exception — see tools/chip_synth.py's header
-                # for why a square wave is not the same kind of "fake" the
-                # rejected synth horn was. Always arpeggio-fused: the NES
-                # had two pulse voices, so a held triad was IMPOSSIBLE and
-                # chords were always faked by flicking between the notes.
-                # Honouring rhythm="sustain" here would be less authentic,
-                # not more, so it is ignored on purpose.
-                import chip_synth
-                # Two optional identity knobs, both New Math's (2026-07-24):
-                #   chip_tuning "atari" -> snap to the TIA's integer-divider
-                #     grid, i.e. genuinely out of tune, on purpose.
-                #   chip_count -> notes per beat in the ripple; 5 puts his
-                #     five-against-four hat idea into the harmony.
-                tuning = sig.get("chip_tuning", "equal")
-                per_beat = sig.get("chip_count")
-                rate = (chip_synth.count_rate(preset["bpm"], per_beat)
-                        if per_beat else chip_synth.NTSC_FRAME_HZ / 3.0)
-                audio = chip_synth.chip_chord(chord["notes"], dur,
-                                              tuning=tuning, rate_hz=rate)
-                label = "chiptune arp%s, %s (%s)" % (
-                    " (atari-tuned)" if tuning == "atari" else "",
-                    chord["chord"], chord["roman"])
-                break
-            elif src in instrument_sampler.VOICES and inst_idx:
-                # EVERY named instrument voice — "horns", "synth", "piano",
-                # "guitar", ... — is sampled from his own banks and
-                # pitch-mapped (owner 2026-07-23). "synth" is a sampled
-                # synth/pluck/pad here, NOT an oscillator; the synthesized
-                # pad and pluck are deleted. rhythm follows the same
-                # arp=stab / sustain=held split every voice here uses.
-                groups = instrument_sampler.VOICES[src]
-                # Name the group the audio ACTUALLY came from: a thin group
-                # hands off to the next one (instrument_sampler.nearest), and
-                # a stem shouldn't claim "choir" when the note came from a pad.
-                got = instrument_sampler.nearest(
-                    inst_idx, chord["notes"][0], groups)
-                gname = got["group"] if got else src
-                if rhythm == "arp":
-                    cache = {}                       # one load per file, not step
-                    audio = chord_synth.arp_riff(
-                        chord["notes"], dur, preset["bpm"],
-                        lambda nt, sd: instrument_sampler.note_slice(
-                            inst_idx, nt, sd, cache=cache, groups=groups))
-                    voice = "%s stabs" % gname
-                else:
-                    audio = instrument_sampler.play_chord(
-                        inst_idx, chord["notes"], dur, groups=groups)
-                    voice = "%s stack" % gname
-                # arp_riff hands back SILENCE (not None) when every step was
-                # unvoiceable, now that there's no synth step to fall back
-                # on — so an all-zero buffer counts as a failure too.
-                if audio is not None and np.max(np.abs(audio)) > 0:
-                    label = "%s, %s (%s)" % (voice, chord["chord"],
-                                             chord["roman"])
-                    break
-                audio = None
-        if audio is None:            # no source in the identity worked: any
-            audio = instrument_sampler.play_chord(   # instrument he owns
-                inst_idx, chord["notes"], dur)
-            label = "sampled instrument, %s (%s)" % (chord["chord"],
-                                                     chord["roman"])
-        if audio is None:
-            # Nothing in his banks could voice this chord (in practice: the
-            # sample drive is unplugged, in which case the drum lanes have
-            # already failed to load too). There is no synthesized floor any
-            # more, by instruction — so drop the chord lane rather than
-            # invent a tone. The bass root and the MIDI still get written.
-            preset["lanes"].pop(f"chord{i}", None)
-        else:
+        if committed:
+            audio, names_, files = beds[slot_no]
+            voice_desc = " + ".join(names_)
+            old_c = preset["lanes"].get(f"chord{i}")   # preserve a baked trim
+            preset["lanes"][f"chord{i}"] = (0.0, old_c[1] if old_c else 0.5,
+                                            (0, 0, 50, variant + i),
+                                            bars_list)
             kit[f"chord{i}"] = audio
-            sources[f"chord{i}"] = label
-        kit[f"bass{i}"] = chord_synth.bass_voice(bass_note, dur)
-        sources[f"bass{i}"] = "synth bass, %s root" % chord["chord"]
+            sources[f"chord{i}"] = "%s, %s (%s)" % (voice_desc,
+                                                    chord["chord"],
+                                                    chord["roman"])
+            # the real files behind this lane, so the rack can name them
+            for f in files:
+                voice_files.setdefault(f"chord{i}", []).append(f)
+        if bass_beds:
+            kit[f"bass{i}"] = bass_beds[i]
+            src_name = Path(bass_files[i]).stem if bass_files.get(i) else None
+            sources[f"bass{i}"] = "%s, %s root" % (
+                src_name or "sampled bass", chord["chord"])
+            if bass_files.get(i):
+                voice_files.setdefault(f"bass{i}", []).append(bass_files[i])
+        else:
+            # No synthesized substitute (owner 2026-07-25, hard rule: "the
+            # only thing I want rendered from you is the chip tune pack,
+            # all other instruments mine every time"). If his own bass
+            # samples can't voice every root, the beat gets no bass lane
+            # rather than a generated one — the kick and its tuned root
+            # still carry the low end.
+            preset["lanes"].pop(f"bass{i}", None)
         midi_chords.append({"start_sec": start_bar * bar_s,
                             "dur_sec": dur,
                             "notes": chord["notes"] + [bass_note]})
-    vnotes.append("chords: %s in %s (%s)" % (
-        prog_name, key, ", ".join(c["chord"] for c in chords)))
-    return midi_chords
+        chord_rows.append({"bar": start_bar + 1,      # 1-based, as counted
+                           "roman": chord["roman"],
+                           "chord": chord["chord"],
+                           "notes": list(chord["notes"]),
+                           "bass": bass_note,
+                           "voice": voice_desc})
+    if committed:
+        vnotes.append("chords: %s in %s (%s) on %s" % (
+            prog_name, key, ", ".join(c["chord"] for c in chords),
+            voice_desc))
+    else:
+        # Nothing in his banks could voice the whole progression (in
+        # practice: the sample drive is unplugged, in which case the drum
+        # lanes have already failed too). No synthesized floor, by
+        # instruction — the beat ships without a chord lane at all rather
+        # than with a tone he didn't ask for or a voice that cuts in and
+        # out. Bass and MIDI still ride.
+        vnotes.append("chords: %s in %s — no instrument could voice it, "
+                      "chord lane left out" % (prog_name, key))
+    harmony_info = {"key": str(key), "root": key_root, "mode": mode,
+                    "progression": prog_name, "rhythm": rhythm,
+                    "chords": chord_rows,
+                    # what actually sounded, not what the identity asked for
+                    "chord_source": sorted({r["voice"] for r in chord_rows
+                                            if r["voice"]}),
+                    # every library file this beat's chord/bass lanes used,
+                    # deduped per lane and order-preserved
+                    "voice_files": {ln: list(dict.fromkeys(fs))
+                                    for ln, fs in voice_files.items()}}
+    return midi_chords, harmony_info
 
 
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
@@ -1292,8 +1483,8 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # identity rather than global: switching chords on for all 39
         # identities would change every beat he has already approved.
         # A typed "no chords" still wins, since dirs is only forced on.
-        if not dirs["chords"] and (preset.get("signature") or {}).get(
-                "chords_default"):
+        if not dirs["chords"] and not dirs.get("no_chords") \
+                and (preset.get("signature") or {}).get("chords_default"):
             dirs = dict(dirs, chords=True)
         dnotes = apply_directions(preset, dirs)
         vnotes = evo_notes + style_notes + dnotes + vary_preset(
@@ -1368,7 +1559,8 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # 2026-07-23 so a REBUILD can regenerate this beat's chord audio too
     # (owner: "control the volume for all sounds") — see that function's
     # docstring for why regenerating, not reusing the rendered stem.
-    midi_chords = _build_chords(preset, kit, sources, variant, dirs, vnotes)
+    midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
+                                              dirs, vnotes)
 
     # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
     # here, after the chord lanes so bass can defer to the harmony bass on a
@@ -1473,11 +1665,16 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     save_recipe(root, no, {
         "file": fname, "folder": names[0], "names": names, "title": title,
         "variant": variant, "bpm": preset["bpm"], "space": space,
-        "preset": preset, "kit_spec": spec_used,
+        "preset": _shareable_preset(preset), "kit_spec": spec_used,
         "kit_paths": {ln: sources[ln] for ln in spec_used},
         "stamp_paths": stamp_paths, "stamp_secs": stamp_secs,
         "root_note": root_note, "traditional": traditional,
-        "dj_cut_bar": cut_bar, "parent": None, "date": str(date.today())})
+        "dj_cut_bar": cut_bar, "parent": None, "date": str(date.today()),
+        # --- packaging step 1 (2026-07-25): the beat's own harmony, so it
+        # stops forgetting itself the moment it lands on disk ---
+        "harmony": harmony_info,
+        "lanes": sorted(preset["lanes"]),
+        "legend": names[0] if names[0] in LEGEND_NAMES else None})
 
     # remember the picks so these DJs don't repeat themselves (hard rule)
     record_history(lane_parent, sources)
@@ -1604,7 +1801,8 @@ def generate_fixed(idx, root=ROOT, shots=None, status=lambda msg: None):
     save_recipe(root, no, {
         "file": fname, "folder": "Fixed Bank", "names": ["Fixed Bank"],
         "title": title, "variant": idx, "bpm": preset["bpm"],
-        "space": "dry", "preset": preset, "kit_spec": spec_used,
+        "space": "dry", "preset": _shareable_preset(preset),
+        "kit_spec": spec_used,
         "kit_paths": {ln: sources[ln] for ln in spec_used},
         "stamp_paths": {}, "stamp_secs": {}, "root_note": None,
         "traditional": False, "dj_cut_bar": None, "parent": None,
@@ -1945,6 +2143,9 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                             if ln not in drops}
     if trims or drops:           # the new gains/lanes ARE this beat
         rec2["preset"] = preset
+    # a swap inherits its parent's recipe, so an OLD parent written before
+    # 2026-07-25 would carry `built` forward into the new file
+    rec2["preset"] = _shareable_preset(rec2.get("preset") or {})
     save_recipe(root, no, rec2)
     append_last_batch(no, root)                   # show up in the player
     lane_parent = preset.get("lane_parent", {})
@@ -1975,6 +2176,37 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
 # ------------------------------------------------ web helpers (player etc.)
 
 
+def _beat_theory(no, root):
+    """What this beat's harmony is, in a shape the card can print — or None.
+
+    Packaging step 3 (2026-07-25), the teaching feature: pure read-and-
+    display of what step 1 started writing into the recipe. `why` is the
+    owner's own plain-English line for that progression, transcribed from
+    theory/progressions.md into progressions_config.json, so an edit there
+    changes the card with no code change.
+
+    Returns None rather than raising for every beat that can't answer:
+    made before step 1, recipe cleared, drums-only, or a progression that
+    has since been renamed. The player must render an old beat exactly as
+    it always did.
+    """
+    try:
+        h = load_recipe(root, int(no)).get("harmony")
+    except Exception:
+        return None
+    if not h:
+        return None
+    import harmony
+    prog = harmony.PROGRESSIONS.get(h.get("progression"), {})
+    chords = h.get("chords") or []
+    return {"key": h.get("key"),
+            "progression": prog.get("label") or h.get("progression"),
+            "roman": " – ".join(c["roman"] for c in chords),
+            "chords": " ".join(c["chord"] for c in chords),
+            "voices": ", ".join(h.get("chord_source") or []),
+            "why": prog.get("why")}
+
+
 def _batch_beats(root=None):
     """The last batch's tracks with their current location, for the
     player. Missing files (moved by hand) are skipped."""
@@ -1984,7 +2216,8 @@ def _batch_beats(root=None):
         w = beat_wav(no, root)
         if w:
             beats.append({"no": int(no), "label": w.stem,
-                          "loc": beat_location(no, root)})
+                          "loc": beat_location(no, root),
+                          "theory": _beat_theory(no, root)})
     return beats
 
 
@@ -2153,19 +2386,37 @@ def _beat_stems(no, root=None):
              + [ln for ln in rec["preset"].get("lanes", {})
                 if ln not in named])
     folder = _stems_dir(no, root)     # walk the library once, not per lane
+    # chord/bass lanes are voiced live from his library rather than from a
+    # single kit_paths entry, so their real files live here (owner
+    # 2026-07-25: the rack said "built from scratch" over audio that was
+    # 100% his own brass and strings, which is why he believed the
+    # his-instruments rule was being ignored — the label was the bug).
+    voiced = (rec.get("harmony") or {}).get("voice_files") or {}
     for lane in sorted(lanes, key=_lane_sort):
         locked = lane == "stamp" or lane.startswith("stamp")
         path = (rec["stamp_paths"] if locked else rec["kit_paths"]).get(lane)
         spec = rec["kit_spec"].get(lane)
+        files = voiced.get(lane) or []
+        if not path and files:
+            names = [Path(f).stem for f in files]
+            sample = names[0] if len(names) == 1 else \
+                "%s + %d more" % (names[0], len(names) - 1)
+            pack = _pack_of(files[0])
+            why = "played from your library" + (
+                "" if len(names) == 1 else " (%s)" % ", ".join(names[1:5]))
+        else:
+            sample = Path(path).stem if path else "built from scratch"
+            pack = _pack_of(path)
+            why = ("the DJ's producer tag — same in every beat they make"
+                   if locked else
+                   "synthesised, not a sample" if not path else "")
         out.append({
             "lane": lane,
             "role": spec[0] if spec else lane,
-            "sample": Path(path).stem if path else "built from scratch",
-            "pack": _pack_of(path),
+            "sample": sample,
+            "pack": pack,
             "locked": locked or not path,
-            "why": ("the DJ's producer tag — same in every beat they make"
-                    if locked else
-                    "synthesised, not a sample" if not path else ""),
+            "why": why,
             "stem": bool(_stem_wav(no, lane, root, folder=folder)),
         })
     return out
@@ -2285,6 +2536,18 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    background: radial-gradient(110% 90% at 92% 0%, #ffffff1c, transparent 58%); }
  header { display: grid; grid-template-columns: auto minmax(0, 1fr);
           gap: 0 20px; align-items: center; position: relative; z-index: 1; }
+ /* MAKE / STUDIO — one app, two rooms (packaging step 5). Plain links on
+    purpose; no iframes until the simple version has been lived with. */
+ .apptabs { position: absolute; top: 0; right: 0; z-index: 2; display: flex; }
+ .apptabs a, .apptabs .here {
+   font-family: var(--display); font-weight: 700; font-size: 13.5px;
+   letter-spacing: .13em; text-transform: uppercase;
+   padding: 10px 20px 12px; text-decoration: none; }
+ .apptabs .here { background: var(--hi); color: var(--hi-ink);
+                  border-radius: 0 0 0 14px; }
+ .apptabs a { color: #ffffffb8; background: #00000026;
+              border-radius: 0 18px 0 0; }
+ .apptabs a:hover { color: #fff; background: #00000042; }
  .mark { width: 108px; height: 108px; flex: none; display: grid;
          place-items: center; overflow: hidden; background: var(--blue); }
  .mark img { width: 100%; height: 100%; object-fit: contain; }
@@ -2479,6 +2742,17 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
             white-space: nowrap; }
  .stembtn.open { background: var(--hi); color: var(--hi-ink); border-color: var(--hi); }
 
+ /* ------------------------------------- why this beat works (step 3) */
+ .theory { display: none; border-top: 1px solid var(--line);
+           padding: 9px 14px 11px; background: #ffffff05; }
+ .tline { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
+          display: flex; flex-wrap: wrap; gap: 7px; align-items: baseline; }
+ .tline b { color: var(--hi); font-weight: 700; }
+ .tline i { color: var(--line); font-style: normal; }
+ .tline .rom { color: var(--dim); }
+ .twhy { margin-top: 6px; font-size: 12.5px; line-height: 1.5;
+         color: var(--dim); max-width: 66ch; }
+
  /* -------------------------------------------------- the stem rack */
  .rack { display: none; border-top: 1px solid var(--line);
          background: #00000038; padding: 4px 14px 14px; }
@@ -2578,6 +2852,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <div class="wrap">
 
 <div class="board">
+<nav class="apptabs">
+  <span class="here" title="You're here — making beats">Make</span>
+  <a href="http://localhost:8765"
+     title="The studio half — recipes, patches, Reason. Same launcher starts it.">Studio</a>
+</nav>
 <header>
   <div class="mark" id="mark">__MARK__</div>
   <div class="title">
@@ -2617,6 +2896,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
   <div class="field quick"><label>Quick directions</label>
     <select id="quick">
       <option value="">&mdash; pick one &mdash;</option>
+      <option value="no chords">no chords &mdash; drums only, old style</option>
       <option value="sparse">sparse &mdash; thin everything out</option>
       <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
       <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
@@ -2758,10 +3038,25 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
          '<button title="Trash it" data-dest="trash">&#9587;</button>' +
        '</span>' +
      '</div>' +
+     '<div class="theory"></div>' +
      '<div class="rack"></div>';
    el.querySelector('.tname').textContent = t.rest;
    el.querySelector('.tsub').innerHTML =
      (t.bpm ? t.bpm + ' BPM' : '') + ' <span class="tloc"></span>';
+   // why this beat works — only for beats that recorded their harmony;
+   // anything older just doesn't get the block (see _beat_theory)
+   const th = b.theory;
+   if (th && th.key) {
+     const box = el.querySelector('.theory');
+     const bits = ['<b>' + esc(th.key) + '</b>'];
+     if (th.progression) bits.push(esc(th.progression));
+     if (th.roman) bits.push('<span class="rom">' + esc(th.roman) + '</span>');
+     if (th.chords) bits.push('<span class="rom">' + esc(th.chords) + '</span>');
+     if (th.voices) bits.push(esc(th.voices));
+     box.innerHTML = '<div class="tline">' + bits.join('<i>·</i>') + '</div>' +
+       (th.why ? '<div class="twhy">' + esc(th.why) + '</div>' : '');
+     box.style.display = 'block';
+   }
    setLoc(el, b.loc);
    el.addEventListener('dragstart', e => {
      e.dataTransfer.setData('text/plain', b.no); el.classList.add('dragging'); });

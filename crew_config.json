@@ -21,8 +21,8 @@
      "dirty"
     ],
     [
-     0.55,
-     0.95
+     0.47,
+     0.81
     ]
    ],
    "snare": [
@@ -423,7 +423,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Cutz": {
@@ -797,7 +798,8 @@
      3
     ]
    ],
-   "chord_rhythm": "arp"
+   "chord_rhythm": "arp",
+   "chords_default": true
   }
  },
  "Crate Prophet": {
@@ -1245,7 +1247,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Chrome Dial": {
@@ -1670,7 +1673,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Glass Cat": {
@@ -2051,7 +2055,7 @@
    "progressions": [
     [
      "vamp_static_riff",
-     3
+     3.5
     ],
     [
      "vamp_i_v7",
@@ -2059,7 +2063,7 @@
     ],
     [
      "vamp_i_iv7",
-     2
+     1.5
     ]
    ],
    "chord_source": [
@@ -2072,7 +2076,8 @@
      2
     ]
    ],
-   "chord_rhythm": "arp"
+   "chord_rhythm": "arp",
+   "chords_default": true
   }
  },
  "Sunday Chop": {
@@ -2560,7 +2565,8 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Night Metro": {
@@ -2964,7 +2970,8 @@
      "arp",
      3
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "Rage Engine": {
@@ -3393,7 +3400,8 @@
      "arp",
      2
     ]
-   ]
+   ],
+   "chords_default": true
   }
  },
  "New Math": {
@@ -3848,7 +3856,7 @@
     "roots": [
      [
       "C",
-      3
+      2.0
      ],
      [
       "D",
@@ -3856,7 +3864,7 @@
      ],
      [
       "G",
-      2
+      3.0
      ],
      [
       "A",

@@ -78,7 +78,7 @@ def sample_pool(key, bpm=None):
             if e["role"] in ("chord", "melody")]
 
 
-def loop_voice(pool, dur, key, sr=SR, rng=None):
+def loop_voice(pool, dur, key, sr=SR, rng=None, used=None):
     """Load+fit the best-available pick from `pool` into `dur` seconds
     at `key`; (None, None) if the pool's empty, the file won't load, or
     (for a loop-kind pick) chopping finds no usable onset, so the
@@ -86,6 +86,8 @@ def loop_voice(pool, dur, key, sr=SR, rng=None):
     if not pool:
         return None, None
     pick = (rng or random).choice(pool[:3])
+    if used is not None:                 # name the real file for the rack
+        used.append(pick["path"])
     x = load_audio(pick["path"])
     if x is None:
         return None, None

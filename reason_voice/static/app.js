@@ -116,6 +116,7 @@ function renderResults(st) {
   const first = st.results_offset + 1;
   const last = st.results_offset + st.results.length;
   const noun = st.results_kind === "recipe" ? "Recipes"
+    : st.results.every((r) => r.kind === "folder") ? "Folders"
     : st.results.every((r) => r.kind === "sample") ? "Samples"
     : st.results.every((r) => r.kind === "patch") ? "Patches" : "Results";
   $("resultsTitle").textContent = `${noun} ${first}–${last} of ${st.results_total}`;
@@ -147,9 +148,12 @@ function renderResults(st) {
     if (r.kind === "sample") {
       anySample = true;
       addBtn("▶", "Preview here", "preview_result");
+      addBtn("■", "Stop", "preview_stop");
       addBtn("☆", "Star into favorites (or say: add two to my drums crate)", "crate_add");
       addBtn("Load", "Send to Reason", "load_result");
       addBtn("📂", "Reveal in Finder (drag it into Reason)", "reveal_result");
+    } else if (r.kind === "folder") {
+      addBtn("Open", "See what's inside", "load_result");
     } else {
       addBtn(st.results_kind === "recipe" ? "Open" : "Load",
              "", "load_result");

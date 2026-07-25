@@ -20,9 +20,6 @@ sys.path.append(str(Path(__file__).parent))
 from make_drum_loops import SR, bandpass, env, highpass, lowpass, master, write_wav24
 from make_hiphop_tracks import edge_fade, load_audio, norm_rms
 
-sys.path.append(str(Path(__file__).parent.parent))
-from reason_voice.indexer import scan
-
 OUT_DIR = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 # Owner rule 2026-07-23: "only use samples from the folders I gave this
 # session and the ones already being used." The old whole-drive list

@@ -9,9 +9,14 @@
 <body>
 
 <header>
-  <img id="art" src="/static/art.png" alt="" title="The Back of the Class"
-       onerror="this.hidden=true">
+  <img id="art" src="/brand/logo-blue.png" alt="" title="The Back of the Class"
+       onerror="this.src='/static/art.png'; this.onerror=()=>this.hidden=true">
   <div class="brand">Reason&nbsp;Voice</div>
+  <nav class="apptabs">
+    <a href="http://localhost:8770"
+       title="The beat-making half — the same launcher starts it.">Make</a>
+    <span class="here" title="You're here — the studio half">Studio</span>
+  </nav>
   <div id="status" class="pill loading">LOADING&nbsp;MODEL</div>
   <div id="midi" class="midi" title="MIDI bridge">MIDI <span class="dot"></span></div>
   <div class="spacer"></div>
