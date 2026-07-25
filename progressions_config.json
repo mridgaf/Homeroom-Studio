@@ -137,5 +137,10 @@
   "label": "Trip-hop noir — unresolved bVI-bVII cycle that never lands",
   "roman": "i-bVI-bVII (Am-F-G)",
   "chords": [[0, "minor"], [8, "major"], [10, "major"]]
+ },
+ "reggaeton_dark": {
+  "label": "Dark reggaeton — the documented dembow minor vamp",
+  "roman": "i-VII-VI (Am-G-F)",
+  "chords": [[0, "minor"], [10, "major"], [8, "major"]]
  }
 }

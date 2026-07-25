@@ -57,7 +57,7 @@ from pathlib import Path
 from pattern_gen import KICK_BANK
 
 CONFIG = Path(__file__).resolve().parent.parent / "genres_config.json"
-GENRES_VERSION = 8
+GENRES_VERSION = 9
 
 R16 = "-" * 16
 _BK = ["----X-------X---"] * 8            # placeholder; compose rewrites
@@ -1351,6 +1351,69 @@ GENRE_SIGNATURES = {
         progressions=[["uplifting", 3], ["vamp_i_VI", 2], ["dreamy", 1]],
         chord_source=[["synth", 3], ["pluck", 1]],
         chord_rhythm="arp"),
+
+    # ---- Batch 4, 2026-07-24. The last four genres — finishes the roster
+    # at 18/18 signed. Two honestly minimal (the riff/chant IS the harmony,
+    # not a decoration on top of it), one Symphony-leaning, one dark-vamp.
+
+    # Baltimore club — Rod Lee / KW Griff, the 8-count. Research: "minimal,
+    # looped vocals that work as chants", a punched-in BASSLINE for low-end
+    # rumble is the harmonic content, not a chord progression. Honest
+    # minimal: vamp_static_riff dominant, loop-primary (the chant/break IS
+    # sampled), synth for the bassline. No strings — nothing in the
+    # documented sound is orchestral.
+    "Baltimore Club": dict(
+        key=dict(roots=[["C", 2], ["A", 2], ["D", 2], ["G", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 4], ["vamp_i_VI", 2]],
+        chord_source=[["loop", 3], ["synth", 2]],
+        chord_rhythm="sustain"),
+
+    # New Orleans bounce — the Triggerman/Drag Rap lineage. Research: the
+    # DEFINING element is a documented "high-pitched ostinato ARPEGGIO
+    # instrumental pattern" (the Triggerman riff itself) plus a synthetic
+    # cowbell loop. So the honest signature is that ostinato, not a chord
+    # progression: single riff, ARP rhythm always (never sustain — the
+    # Triggerman hook never holds still), pluck/bell for the high keyboard
+    # tone, synth second.
+    "New Orleans Bounce": dict(
+        key=dict(roots=[["D", 2], ["F", 2], ["A", 2], ["G", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 5], ["vamp_i_VI", 1]],
+        chord_source=[["pluck", 3], ["bell", 2], ["synth", 1]],
+        chord_rhythm="arp"),
+
+    # Alt reggaeton — Tainy / experimental dembow. Research: the DARK
+    # variant is documented as the i-VII-VI minor vamp (added as
+    # reggaeton_dark), with phrygian-leaning bII progressions for an "even
+    # more somber" reading in the flamenco-inflected end; texture is piano
+    # chords, synth pads, clean guitar. The genre's OWN listen text already
+    # says "played dark ... airier, moodier than the radio version", so
+    # this leans the dark end deliberately, not the bright radio sound.
+    "Reggaeton Alt": dict(
+        key=dict(roots=[["A", 2], ["D", 2], ["F", 2], ["C", 1]],
+                 mode="minor"),
+        progressions=[["reggaeton_dark", 3], ["dark_menacing", 2],
+                      ["vamp_i_VI", 2]],
+        chord_source=[["pad", 3], ["piano", 2], ["guitar", 1]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # Detroit (post-Dilla, harder side — Black Milk / Apollo Brown / Danny
+    # Brown). Research on Apollo Brown specifically: boom-bap with
+    # "hardcore, head-nodding drums ... accompanied by SUBTLE AND MELODIC
+    # STRINGS AND HORNS. Horns and organs sourced with monkish discipline."
+    # A strong Symphony fit — but weighted toward the DARKER/harder
+    # progressions than the Otto Grit / J Dillo dorian-jazz Dilla lane,
+    # since this genre exists specifically as "the swing straightened out,
+    # the grit left in" (the anti-drunk-swing Detroit sound).
+    "Detroit": dict(
+        key=dict(roots=[["D", 2], ["F", 2], ["A", 2], ["C", 1]],
+                 mode="minor"),
+        progressions=[["dark_menacing", 3], ["vamp_i_iv7", 2],
+                      ["nostalgic_jazz", 2]],
+        chord_source=[["strings", 2], ["horns", 2], ["organ", 1],
+                      ["loop", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 2]]),
 }
 
 for _name, _sig in GENRE_SIGNATURES.items():

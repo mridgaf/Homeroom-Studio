@@ -5,7 +5,7 @@
   "density: sparse | home | busy — this style's own density, honoured instead of the house sparse-bed lean (owner decision 2026-07-19: genre fidelity wins in this box).",
   "Their other rules (pinned swing, home-weighted grammar, no cross-pollination, no evolution, 4/4) live in the engine."
  ],
- "_genres_version": 8,
+ "_genres_version": 9,
  "Memphis": {
   "num": 22,
   "bpm": 140,
@@ -4342,6 +4342,50 @@
      "crash2"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "C",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "G",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     4
+    ],
+    [
+     "vamp_i_VI",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "loop",
+     3
+    ],
+    [
+     "synth",
+     2
+    ]
+   ],
+   "chord_rhythm": "sustain"
   }
  },
  "Miami Bass": {
@@ -5113,6 +5157,54 @@
      "congas2"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "D",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "G",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "vamp_static_riff",
+     5
+    ],
+    [
+     "vamp_i_VI",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "pluck",
+     3
+    ],
+    [
+     "bell",
+     2
+    ],
+    [
+     "synth",
+     1
+    ]
+   ],
+   "chord_rhythm": "arp"
   }
  },
  "G-Funk": {
@@ -5922,6 +6014,67 @@
      "cutfx"
     ]
    ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "A",
+      2
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "C",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "reggaeton_dark",
+     3
+    ],
+    [
+     "dark_menacing",
+     2
+    ],
+    [
+     "vamp_i_VI",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "pad",
+     3
+    ],
+    [
+     "piano",
+     2
+    ],
+    [
+     "guitar",
+     1
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     3
+    ],
+    [
+     "arp",
+     1
+    ]
+   ]
   }
  },
  "Detroit": {
@@ -6264,6 +6417,71 @@
       "vocal"
      ],
      "cutfx"
+    ]
+   ]
+  },
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "D",
+      2
+     ],
+     [
+      "F",
+      2
+     ],
+     [
+      "A",
+      2
+     ],
+     [
+      "C",
+      1
+     ]
+    ],
+    "mode": "minor"
+   },
+   "progressions": [
+    [
+     "dark_menacing",
+     3
+    ],
+    [
+     "vamp_i_iv7",
+     2
+    ],
+    [
+     "nostalgic_jazz",
+     2
+    ]
+   ],
+   "chord_source": [
+    [
+     "strings",
+     2
+    ],
+    [
+     "horns",
+     2
+    ],
+    [
+     "organ",
+     1
+    ],
+    [
+     "loop",
+     2
+    ]
+   ],
+   "chord_rhythm": [
+    [
+     "sustain",
+     2
+    ],
+    [
+     "arp",
+     2
     ]
    ]
   }

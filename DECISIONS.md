@@ -22,6 +22,52 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-24 Pre-07-23 upgrade — BATCH 4: ALL 18 GENRES NOW SIGNED
+- Context: owner: "Finish the genres." Last four: Baltimore Club, New
+  Orleans Bounce, Reggaeton Alt, Detroit. This closes the genre side of
+  the backlog — 18/18 genres now have a harmonic signature (was 9/18 at
+  the start of today's identity-upgrade work).
+- The four, researched:
+  - Baltimore Club (Rod Lee/KW Griff, the 8-count): vamp_static_riff(4)/
+    vamp_i_VI(2), loop(3)/synth(2). Research: "minimal, looped vocals
+    that work as chants", a punched-in BASSLINE for low-end rumble is the
+    harmonic content, not a progression. Honest minimal — no strings,
+    nothing documented about the sound is orchestral.
+  - New Orleans Bounce (Triggerman/Drag Rap): vamp_static_riff(5),
+    pluck(3)/bell(2)/synth(1), ALWAYS arp. Research nailed the specific
+    hook: Drag Rap's melodic element is a documented "high-pitched
+    ostinato ARPEGGIO instrumental pattern" (the Triggerman riff itself).
+    So the signature IS that one repeating high figure, not a chord
+    progression — arp locked on, never sustain.
+  - Reggaeton Alt (Tainy/experimental dembow): new progression
+    reggaeton_dark (i-VII-VI, Am-G-F) added — this is THE documented dark-
+    reggaeton vamp, distinct from the two-chord vamp_i_VI already in the
+    library. pad(3)/piano(2)/guitar(1). The genre's own listen text
+    already says "played dark ... airier, moodier than radio", so leaned
+    the dark end on purpose rather than bright/radio reggaeton.
+  - Detroit (post-Dilla harder side — Black Milk/Apollo Brown/Danny
+    Brown): strings(2)/horns(2)/organ(1)/loop(2). Research on Apollo
+    Brown: "hardcore, head-nodding drums ... accompanied by SUBTLE AND
+    MELODIC STRINGS AND HORNS. Horns and organs sourced with monkish
+    discipline." A real Symphony fit — but progressions weighted darker/
+    harder (dark_menacing, vamp_i_iv7) than the Otto Grit/J Dillo dorian-
+    jazz Dilla lane, since this genre exists specifically as "the swing
+    straightened out, the grit left in" — the anti-drunk-swing Detroit.
+- Worth keeping: Baltimore Club and NO Bounce are the two most honestly
+  harmony-light identities on either roster, and that's not a cop-out —
+  vamp_static_riff exists exactly to encode "the riff/bassline carries
+  it, there is no chord movement" as a real, distinct signature rather
+  than either forcing fake chord changes or leaving the genre silent.
+- Verify by: 690/690 tests pass. All 4 voice correctly across 12
+  variants, zero silent lanes; confirmed reggaeton_dark actually fires
+  (#1182). Rendered #1174-#1185. Stems confirm: Detroit shows Symphony
+  "strings_"; Bounce shows bell/pluck stabs (the ostinato); Baltimore
+  Club and Reggaeton Alt match their designed voices. midi gate 12/12,
+  no clipping (peak 0.545).
+- Status: open — owner has not heard #1174-#1185.
+- GENRE SIDE OF THE BACKLOG IS DONE. Remaining: 3 legends (Farrow, Swish
+  Beatz, Hitt Kid) — the only pre-07-23 identities left unupgraded.
+
 ### 2026-07-24 Pre-07-23 upgrade — BATCH 3 (3 soul/orchestral legends + 1 genre)
 - Context: continuing "4 at a time". Chose three legends whose real sound
   is orchestral soul but who predate instrument_sampler (so were stuck on
