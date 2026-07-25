@@ -208,9 +208,11 @@ def test_new_direction_words():
     assert pd("do one in 3/4")["tsig"] == (3, 4)
     assert pd("6/8 feel")["tsig"] == (6, 8)
     assert pd("half time")["force_mode"] == "halftime"
-    # the old words still work
+    # the old words still work. "no 808" now also drops the 808 BASS DRUM
+    # lane, not just the kick's long tail — under the owner's 2026-07-25
+    # vocabulary the 808 boom is its own instrument with its own stem.
     d = pd("no hi hats, acoustic, sparse, no 808")
-    assert d["mute"] == {"hat"} and "acoustic" in d["tags"]
+    assert d["mute"] == {"hat", "bass"} and "acoustic" in d["tags"]
     assert d["density"] == "sparse" and d["kick"] == "clean"
     # a plain note stays a note
     d = pd("for the demo tape")

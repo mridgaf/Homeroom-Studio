@@ -37,15 +37,16 @@ import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
 from groove import OWNER_TASTE
-from make_drum_loops import SR, sub808, write_wav24
+from make_drum_loops import SR, read_wav24, sub808, wav24_bytes, write_wav24
 from make_drum_beats import build_shots
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
                   build_kit, lock_stamps, normalize_preset,
                   render_crew_beat,
                   _load_choked, _pick_path, _resolve_secs)
-from beat_recipes import (history_avoid, load_recipe, record_history,
-                          save_recipe, write_midi, write_stems)
+from beat_recipes import (history_avoid, lane_label, load_recipe,
+                          record_history, save_recipe, write_midi,
+                          write_stems)
 from pattern_gen import compose, load_library
 
 def _resolve_beats_root():
@@ -725,8 +726,12 @@ LANE_WORDS = [              # most specific first; spellings are generous
              "highhat", "cymbals", "cymbal", "hats", "hat")),
     ("snare", ("snares", "snare")),
     ("clap", ("claps", "clap")),
-    ("kick", ("kick drums", "kick drum", "kicks", "kick", "bass drum",
-              "bass drums")),
+    # KICK DRUM, BASS DRUM and BASS are three different sounds and three
+    # different words (owner 2026-07-25). "bass drum" used to be a synonym
+    # for the kick here, so typing it changed the wrong sound; and "bass"
+    # muted the 808 boom rather than the melodic line. Both fixed below —
+    # longest phrase wins, see parse_directions.
+    ("kick", ("kick drums", "kick drum", "kicks", "kick")),
     ("snap", ("snaps", "snap", "finger snaps")),
     ("perc", ("percussion", "percs", "perc")),
     ("bongo", ("bongos", "bongo", "congas", "conga")),
@@ -735,7 +740,14 @@ LANE_WORDS = [              # most specific first; spellings are generous
     # No "loop" entry — there is no loop lane (see _add_sample_lanes).
     ("vox", ("vocals", "vocal", "vox", "voices", "voice", "adlibs",
              "adlib", "chants", "chant")),
-    ("bass", ("bass 808", "808 bass", "bassline", "bass")),
+    # the BASS DRUM — the long low boom under the kick, whether it's a
+    # sampled 808 (lane "bass") or the tuned synth root (lane "sub")
+    ("bass", ("bass drums", "bass drum", "bass 808", "808 bass", "808s",
+              "808", "sub bass", "subs", "sub")),
+    # the BASS — the melodic low line following the chords (bass0..N).
+    # Matches the chordbass family in _chord_family, which is what
+    # apply_directions deletes.
+    ("chordbass", ("basslines", "bassline", "bass line", "bass")),
     ("_guests", ("guests", "guest", "extras"))]
 
 NEGATIONS = ("no ", "without ", "skip ", "skip the ", "drop the ",
@@ -787,9 +799,17 @@ def parse_directions(notes):
         if f" {word} " in t:
             out["space"] = sp
             break
+    # Longest phrase wins, and a matched phrase is struck out of the text
+    # so it can't be counted twice (owner 2026-07-25): "no bass drum" is
+    # ONE instruction about the bass drum, but plain substring matching
+    # also saw "no bass" inside it and silently killed the bass line too.
+    scan = t
     for lane, words in LANE_WORDS:
-        if any(neg + w in t for w in words for neg in NEGATIONS):
-            out["mute"].add(lane)
+        for w in sorted(words, key=len, reverse=True):
+            for neg in NEGATIONS:
+                if neg + w in scan:
+                    out["mute"].add(lane)
+                    scan = scan.replace(neg + w, " ")
     if any(x in t for x in ("no 808s", "no 808", "no sub", "clean kick",
                             "acoustic kick", "short kick")):
         out["kick"] = "clean"
@@ -828,12 +848,21 @@ def apply_directions(preset, dirs):
     notes = []
     guests = set(preset.get("_guests", ()))
     for lane in list(preset["lanes"]):
-        base = lane.rstrip("0123456789")
+        # digit-suffixed lanes belong to a family, and the family is what
+        # he names: bass0..N are the BASS (the line), chord0..N the chords.
+        # Stripping digits instead would fold bass0 into "bass" — the 808
+        # BASS DRUM lane — so "no bass drum" would take the line out too.
+        fam = _chord_family(lane)
+        base = fam or lane.rstrip("0123456789")
         if base in dirs["mute"] or (lane in guests
                                     and "_guests" in dirs["mute"]):
             del preset["lanes"][lane]
             preset["kit"].pop(lane, None)
-            notes.append(f"no {lane} (as asked)")
+            msg = ("no %s (as asked)"
+                   % ("bass" if fam == CHORD_BASS_FAM else
+                      "chords" if fam else lane_label(lane)))
+            if msg not in notes:          # one note per family, not per bar
+                notes.append(msg)
     if "kick" not in preset["lanes"]:
         preset["sidechain"] = 0.0            # nothing left to duck around
     space, on = preset["space"]
@@ -1267,20 +1296,28 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                 layers.append((a, nm, used))
             if not ok:
                 break
-            if len(layers) == 1:
-                mix, nm, files = layers[0]
-                names_ = [nm]
-            else:
-                n = min(len(l[0]) for l in layers)
-                mix = sum(l[0][:n] for l in layers)
-                from make_hiphop_tracks import norm_rms
-                mix = norm_rms(mix, -18.0)
-                peak = np.max(np.abs(mix))
+            # Each layer stays SEPARATE (owner 2026-07-25: "no longer
+            # group instruments under one stem — always individual"). A
+            # two-sound plan is two real instruments, so it becomes two
+            # lanes and two stems instead of one summed "chords" blob.
+            # The balancing gain is computed on the SUM and then applied
+            # to each voice, so the voices still add up to exactly the
+            # bed the single-lane version produced — the split changes
+            # what he can solo and remove, never how the beat sounds.
+            n = min(len(a) for a, _, _ in layers)
+            layers = [(a[:n], nm, fl) for a, nm, fl in layers]
+            g = 1.0
+            if len(layers) > 1:
+                mix = sum(a for a, _, _ in layers)
+                # norm_rms is a pure scalar gain, so it can be computed
+                # here and shared out rather than applied to the sum
+                g = 10 ** (-18.0 / 20) / (
+                    float(np.sqrt((mix ** 2).mean())) + 1e-12)
+                peak = float(np.max(np.abs(mix))) * g
                 if peak > chord_synth.PEAK_CEILING:
-                    mix = mix * (chord_synth.PEAK_CEILING / peak)
-                names_ = [l[1] for l in layers]
-                files = [f for l in layers for f in l[2]]
-            beds.append((mix, names_, files))
+                    g *= chord_synth.PEAK_CEILING / peak
+            beds.append([(a * g if g != 1.0 else a, nm, fl)
+                         for a, nm, fl in layers])
         if ok and beds:
             committed = plan
             break
@@ -1290,7 +1327,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     # bass sounds). Same whole-beat rule: his samples take the bass line
     # only if they can voice EVERY root; otherwise the old synth sub
     # plays the whole beat — never a mix of the two.
-    bass_idx = instrument_sampler.scan_bass()
+    # "no bass" in the notes box takes the LINE out (the 808 bass drum has
+    # its own words — owner 2026-07-25)
+    bass_idx = (None if CHORD_BASS_FAM in dirs.get("mute", ())
+                else instrument_sampler.scan_bass())
     bass_beds, bass_files, bcache = {}, {}, {}
     if bass_idx:
         for i, chord, start_bar, dur in slots:
@@ -1308,6 +1348,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     chord_rows = []
     voice_desc = None
     voice_files = {}          # lane -> the library files it actually used
+    voice_names = {}          # lane -> which INSTRUMENT it is ("horns stack")
     for slot_no, (i, chord, start_bar, dur) in enumerate(slots):
         bass_note = chord["notes"][0] - 12
         bars_list = ["-" * 16 for _ in range(nb)]
@@ -1323,21 +1364,32 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                                        (0, 0, 50, variant + i),
                                        [b for b in bars_list])
         if committed:
-            audio, names_, files = beds[slot_no]
-            voice_desc = " + ".join(names_)
-            old_c = preset["lanes"].get(f"chord{i}")   # preserve a baked trim
-            preset["lanes"][f"chord{i}"] = (0.0,
-                                            old_c[1] if old_c
-                                            else _CHORD_GAIN * accent,
-                                            (0, 0, 50, variant + i),
-                                            bars_list)
-            kit[f"chord{i}"] = audio
-            sources[f"chord{i}"] = "%s, %s (%s)" % (voice_desc,
-                                                    chord["chord"],
-                                                    chord["roman"])
-            # the real files behind this lane, so the rack can name them
-            for f in files:
-                voice_files.setdefault(f"chord{i}", []).append(f)
+            voice_desc = " + ".join(nm for _, nm, _ in beds[slot_no])
+            # ONE LANE PER INSTRUMENT. Voice 0 keeps the plain chord{i}
+            # key so every beat made before today still loads; a second
+            # layered instrument gets chord{i}v1, and the rack shows it
+            # as its own row with its own stem, volume and remove button.
+            for v, (audio, nm, files) in enumerate(beds[slot_no]):
+                lane = f"chord{i}" if v == 0 else f"chord{i}v{v}"
+                old_c = preset["lanes"].get(lane)   # preserve a baked trim
+                # SAME feel seed for every voice of a slot. The last field
+                # seeds LaneFeel's timing jitter, which is 0 on chord
+                # lanes, so a per-voice seed is inert TODAY — but two
+                # layers of one chord must land together, and that has to
+                # stay true if these lanes ever get jitter. The split is
+                # bookkeeping, not a musical change.
+                preset["lanes"][lane] = (0.0,
+                                         old_c[1] if old_c
+                                         else _CHORD_GAIN * accent,
+                                         (0, 0, 50, variant + i),
+                                         [b for b in bars_list])
+                kit[lane] = audio
+                sources[lane] = "%s, %s (%s)" % (nm, chord["chord"],
+                                                 chord["roman"])
+                voice_names[lane] = nm
+                # the real files behind this lane, so the rack can name them
+                for f in files:
+                    voice_files.setdefault(lane, []).append(f)
         if bass_beds:
             kit[f"bass{i}"] = bass_beds[i]
             src_name = Path(bass_files[i]).stem if bass_files.get(i) else None
@@ -1384,7 +1436,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                     # every library file this beat's chord/bass lanes used,
                     # deduped per lane and order-preserved
                     "voice_files": {ln: list(dict.fromkeys(fs))
-                                    for ln, fs in voice_files.items()}}
+                                    for ln, fs in voice_files.items()},
+                    # which INSTRUMENT each chord lane is, so the rack can
+                    # say "HORNS" instead of "CHORDS" (owner 2026-07-25)
+                    "voice_names": dict(voice_names)}
     return midi_chords, harmony_info
 
 
@@ -2278,25 +2333,41 @@ LANE_ORDER = ("kick", "sub", "snare", "clap", "snap", "rim", "hat", "ohat",
               "congas", "congas2", "exotic", "exotic2", "blips", "fx")
 
 
-# The rack shows chord0..chordN as ONE "chords" row and bass0..bassN as one
-# "chord bass" row (owner 2026-07-25): they are a single instrument across
-# the bars, so they level and remove together. Matching is digit-suffixed on
-# purpose — "bass" with no digit is a REAL drum lane (the phase-2 sampled
-# 808), and swallowing it into the family would take the wrong sound out.
+# ONE ROW PER INSTRUMENT (owner 2026-07-25: "no longer group instruments
+# under one stem — always individual, so I know exactly what's going on").
+# A chord lane is chord{slot}[v{voice}]: the SLOT is which chord of the
+# progression it plays, the VOICE is which instrument is playing it. One
+# instrument playing four chords is still one instrument, so the slots
+# collapse into a single row — but two layered instruments are two rows,
+# two stems, two volumes, two remove buttons. bass0..N (the melodic bass
+# LINE) collapse the same way.
+#
+# Matching is digit-suffixed on purpose — "bass" with no digit is the 808
+# BASS DRUM lane, a different sound entirely, and swallowing it into the
+# family would take the wrong thing out.
 CHORD_FAM, CHORD_BASS_FAM = "chords", "chordbass"
 # opening levels + per-bar accents for the harmony, from the house mix
 # numbers in groove.OWNER_TASTE — see the comment there for why
 _CHORD_GAIN = OWNER_TASTE["chord_gain"]
 _BASS_GAIN = OWNER_TASTE["chord_bass_gain"]
 _ACCENTS = OWNER_TASTE["chord_accents"]
-_CHORD_LANE = re.compile(r"^chord(\d+)$")
+_CHORD_LANE = re.compile(r"^chord(\d+)(?:v(\d+))?$")
 _CHORD_BASS_LANE = re.compile(r"^bass(\d+)$")
 
 
+def _chord_voice(lane):
+    """(slot, voice) for a chord lane — 'chord3' -> (3, 0), 'chord3v1' ->
+    (3, 1). None for anything that isn't one."""
+    m = _CHORD_LANE.match(lane)
+    return (int(m.group(1)), int(m.group(2) or 0)) if m else None
+
+
 def _chord_family(lane):
-    """'chord3' -> 'chords', 'bass3' -> 'chordbass', anything else -> None."""
-    if _CHORD_LANE.match(lane):
-        return CHORD_FAM
+    """Which rack row a lane belongs to: 'chord3' -> 'chords', 'chord3v1'
+    -> 'chords2' (the second instrument), 'bass3' -> 'chordbass'."""
+    sv = _chord_voice(lane)
+    if sv:
+        return CHORD_FAM if sv[1] == 0 else "%s%d" % (CHORD_FAM, sv[1] + 1)
     if _CHORD_BASS_LANE.match(lane):
         return CHORD_BASS_FAM
     return None
@@ -2304,9 +2375,15 @@ def _chord_family(lane):
 
 def _family_members(fam, lanes):
     """Every real lane a family row stands for, in bar order."""
-    pat = _CHORD_LANE if fam == CHORD_FAM else _CHORD_BASS_LANE
-    return sorted((ln for ln in lanes if pat.match(ln)),
-                  key=lambda ln: int(pat.match(ln).group(1)))
+    return sorted((ln for ln in lanes if _chord_family(ln) == fam),
+                  key=lambda ln: int((_CHORD_LANE.match(ln)
+                                      or _CHORD_BASS_LANE.match(ln)).group(1)))
+
+
+def _fam_sort(fam):
+    """Instrument rows in playing order: the chord instruments (chords,
+    chords2, …) and then the bass line."""
+    return (fam == CHORD_BASS_FAM, len(fam), fam)
 
 
 def _lane_sort(lane):
@@ -2336,11 +2413,11 @@ def _clean_trims(trims, preset, number):
             raise ValueError(f"'{db}' isn't a volume for the {lane}.")
         if db != db or db in (float("inf"), float("-inf")):   # NaN/inf
             raise ValueError(f"'{db}' isn't a volume for the {lane}.")
-        # "chords"/"bass" are the rack's one-row-per-instrument families:
-        # levelling them moves every bar of that instrument together, the
-        # same way removing them takes all of it out (owner 2026-07-25)
-        members = (_family_members(lane, preset.get("lanes", {}))
-                   if lane in (CHORD_FAM, CHORD_BASS_FAM) else [])
+        # a family name ("chords", "chords2", "chordbass") is the rack's
+        # one-row-per-instrument handle: levelling it moves every chord
+        # that instrument plays together, the same way removing it takes
+        # all of that instrument out (owner 2026-07-25)
+        members = _family_members(lane, preset.get("lanes", {}))
         if not members and lane not in preset.get("lanes", {}):
             raise ValueError(f"Beat {number} has no '{lane}' to turn up "
                              "or down.")
@@ -2352,10 +2429,21 @@ def _clean_trims(trims, preset, number):
 
 
 def _trim_words(trims):
-    """'kick +2 dB, snare -3.5 dB' — how a trim reads in the log."""
-    return ", ".join(f"{ln} {db:+g} dB"
-                     for ln, db in sorted(trims.items(), key=lambda kv:
-                                          _lane_sort(kv[0])))
+    """'kick drum +2 dB, bass -3.5 dB' — how a trim reads in the log.
+
+    Named the way he names them, and one entry per INSTRUMENT: an
+    instrument playing four chords moved as one move, so writing it as
+    "chord0 -3, chord1 -3, chord2 -3, chord3 -3" described four decisions
+    he never made (owner 2026-07-25)."""
+    seen = {}
+    for ln, db in trims.items():
+        fam = _chord_family(ln)
+        name = ("bass" if fam == CHORD_BASS_FAM
+                else fam if fam else lane_label(ln))
+        seen.setdefault(name, (db, ln))
+    return ", ".join("%s %+g dB" % (name, db)
+                     for name, (db, ln) in sorted(
+                         seen.items(), key=lambda kv: _lane_sort(kv[1][1])))
 
 
 # words that describe a DRUM, not a pack. A folder built only out of
@@ -2420,14 +2508,17 @@ def _stems_dir(no, root=None):
 
 
 def _stem_wav(no, lane, root=None, folder=None):
-    """The isolated wav for one lane — 'kick - Real Name.wav' on beats
-    made since the rename, plain 'kick.wav' on the older ones. Pass
-    `folder` to skip the library walk when the caller already found it."""
+    """The isolated wav for one lane — 'kick drum - Real Name.wav' on
+    beats made since the rename, plain 'kick.wav' on the older ones. Both
+    the owner-facing label and the raw lane key are tried so beats made
+    before 2026-07-25 still find their stems. Pass `folder` to skip the
+    library walk when the caller already found it."""
     folder = folder if folder is not None else _stems_dir(no, root)
     if not folder:
         return None
+    names = [lane_label(lane), lane]
     for f in sorted(folder.glob("*.wav")):
-        if f.stem == lane or f.stem.startswith(lane + " - "):
+        if any(f.stem == n or f.stem.startswith(n + " - ") for n in names):
             return f
     return None
 
@@ -2466,11 +2557,14 @@ def _beat_stems(no, root=None):
     # 100% his own brass and strings, which is why he believed the
     # his-instruments rule was being ignored — the label was the bug).
     voiced = (rec.get("harmony") or {}).get("voice_files") or {}
-    # chord0..chordN are ONE instrument across the bars, not N instruments
-    # (same for bass0..bassN). They collapse into a single row so removing
-    # them takes the whole instrument out — removing one bar's worth would
-    # make it vanish mid-beat, which is the "pulling in and out" the owner
-    # ruled out. Owner's call 2026-07-25.
+    # which INSTRUMENT each chord lane is ("horns stack"), so a row can be
+    # named for the thing playing it instead of the generic word "chords"
+    vnames = (rec.get("harmony") or {}).get("voice_names") or {}
+    # One row per instrument. The chord SLOTS of a single instrument
+    # collapse (one instrument playing four chords is one instrument, and
+    # removing a single bar's worth would make it vanish mid-beat, which
+    # he ruled out) — but a second layered instrument is its own row, its
+    # own stem, its own volume. Owner 2026-07-25.
     fams = {}
     for lane in list(lanes):
         fam = _chord_family(lane)
@@ -2483,6 +2577,7 @@ def _beat_stems(no, root=None):
         spec = rec["kit_spec"].get(lane)
         out.append({
             "lane": lane,
+            "label": lane_label(lane),
             "role": spec[0] if spec else lane,
             "sample": Path(path).stem if path else "built from scratch",
             "pack": _pack_of(path),
@@ -2496,7 +2591,7 @@ def _beat_stems(no, root=None):
                     "synthesised, not a sample" if not path else ""),
             "stem": bool(_stem_wav(no, lane, root, folder=folder)),
         })
-    for fam in (CHORD_FAM, CHORD_BASS_FAM):
+    for fam in sorted(fams, key=_fam_sort):
         members = fams.get(fam)
         if not members:
             continue
@@ -2514,8 +2609,23 @@ def _beat_stems(no, root=None):
                 "" if len(names) == 1 else " (%s)" % ", ".join(names[1:5]))
         else:                        # a beat made before provenance landed
             sample, why = "from your library", "played from your library"
+        # name the row for the INSTRUMENT, not the word "chords" — the
+        # several files under it are one instrument's multisamples (a horn
+        # patch has a different sample per note), which is why they are one
+        # row and not several. The bass LINE is just "bass".
+        if fam == CHORD_BASS_FAM:
+            label = "bass"
+        else:
+            # beats made before voice_names existed still recorded what
+            # sounded, in chord_source — use it rather than showing them
+            # the generic word
+            was = (rec.get("harmony") or {}).get("chord_source") or []
+            label = next((vnames[ln] for ln in sorted(members, key=_lane_sort)
+                          if vnames.get(ln)),
+                         (was[0] if len(was) == 1 else fam))
         out.append({
             "lane": fam,
+            "label": label,
             "role": fam,
             "sample": sample,
             "pack": _pack_of(files[0]) if files else "",
@@ -2529,6 +2639,164 @@ def _beat_stems(no, root=None):
             "stem": bool(_stem_wav(no, members[0], root, folder=folder)),
         })
     return out
+
+
+def _qs_db(raw):
+    """A dB value off the query string, clamped — never trusted."""
+    try:
+        db = float(raw)
+    except (TypeError, ValueError):
+        return 0.0
+    if db != db or db in (float("inf"), float("-inf")):
+        return 0.0
+    return max(-TRIM_DB, min(TRIM_DB, db))
+
+
+_TRACK_GAIN = {}          # beat no -> stems-to-track gain, computed once
+
+
+def _rms(L, R):
+    """How loud a stereo buffer actually is, which is what an ear hears —
+    unlike the peak, which one transient can set."""
+    return float(np.sqrt((np.asarray(L) ** 2).mean()
+                         + (np.asarray(R) ** 2).mean()) / np.sqrt(2))
+
+
+def _track_gain(no, root=None, folder=None):
+    """How much louder a lane is IN THE TRACK than in its stem file.
+
+    The stems are printed with one shared gain that puts the loudest of
+    them at -6 dBFS (crew.render_crew_beat: it protects headroom when the
+    set lands in Reason, and being SHARED it keeps the balance between
+    stems exact). The side effect was that soloing a stem played it well
+    below its level in the beat, which is what he heard as "the stems are
+    a different volume than the track". One shared gain in means one
+    shared gain out: the sum of the stems is the whole mix scaled by that
+    same factor, so comparing that sum against the finished beat recovers
+    it.
+
+    Matched on RMS, not peak. The finished beat has been through the
+    master chain (LUFS normalisation and a limiter), which flattens peaks
+    without changing how loud the thing sounds — peak-matching a limited
+    mix against an unlimited sum lands roughly 5 dB out. RMS is what
+    "the same volume" means to an ear.
+    """
+    no = int(no)
+    if no in _TRACK_GAIN:
+        return _TRACK_GAIN[no]
+    g = 1.0
+    try:
+        w = beat_wav(no, root)
+        folder = folder if folder is not None else _stems_dir(no, root)
+        if w and folder:
+            L = R = None
+            for f in sorted(folder.glob("*.wav")):
+                sL, sR = read_wav24(f)
+                if L is None:
+                    L, R = sL, sR
+                else:
+                    n = min(len(L), len(sL))
+                    L, R = L[:n] + sL[:n], R[:n] + sR[:n]
+            tL, tR = read_wav24(w)
+            srms = _rms(L, R)
+            trms = _rms(tL, tR)
+            if srms > 1e-9 and trms > 1e-9:
+                g = trms / srms
+    except Exception:
+        g = 1.0               # never let a preview fail over a level
+    _TRACK_GAIN[no] = g
+    return g
+
+
+def _solo_audio(no, lane, root=None, folder=None):
+    """(L, R) for ONE rack row, played on its own.
+
+    A row is an instrument, not always a single lane: the harmony rows
+    stand for every chord that instrument plays (chord0, chord1, …), so
+    soloing one has to sum its lanes — otherwise the button reaches for a
+    file called "chords", nothing has that name, and the row silently
+    refuses to play. That was the "some of the stems do not let me click
+    and preview them" the owner reported on 2026-07-25."""
+    folder = folder if folder is not None else _stems_dir(no, root)
+    if not folder:
+        return None
+    try:
+        rec = load_recipe(Path(root or ROOT), int(no))
+        lanes = list(rec["preset"].get("lanes", {})) or list(rec["kit_spec"])
+    except Exception:
+        lanes = []
+    L = R = None
+    for ln in (_family_members(lane, lanes) or [lane]):
+        w = _stem_wav(no, ln, root, folder=folder)
+        if not w:
+            continue
+        sL, sR = read_wav24(w)
+        if L is None:
+            L, R = sL, sR
+        else:
+            n = min(len(L), len(sL))
+            L, R = L[:n] + sL[:n], R[:n] + sR[:n]
+    return None if L is None else (L, R)
+
+
+def _preview_mix(no, trims="", drop="", root=None):
+    """The beat as it would sound with the volume arrows applied, built
+    by summing the stems instead of re-rendering — so he can hear a mix
+    decision immediately rather than after a rebuild (owner 2026-07-25).
+
+    ponytail: this is the SUM of the stems, which is the beat before the
+    master bus. Close enough to judge a level move by; the rendered file
+    is still the real thing. If the two ever drift enough to mislead
+    him, the upgrade is to run the master chain over this sum.
+    """
+    no = int(no)
+    folder = _stems_dir(no, root)
+    if not folder:
+        raise FileNotFoundError(f"Beat {no} has no stems to mix.")
+    rec = load_recipe(Path(root or ROOT), no)
+    lanes = list(rec["preset"].get("lanes", {})) or list(rec["kit_spec"])
+    # a family name in the query moves/drops every lane that instrument
+    # plays, the same way a rebuild does
+    def _expand(spec):
+        out = {}
+        for bit in str(spec or "").split(","):
+            if ":" in bit:
+                name, _, val = bit.partition(":")
+            else:
+                name, val = bit, "1"
+            name = name.strip().lower()
+            if not name:
+                continue
+            for ln in (_family_members(name, lanes) or [name]):
+                if ln in lanes:
+                    out[ln] = val
+        return out
+
+    gains = {ln: 10 ** (_qs_db(v) / 20.0)
+             for ln, v in _expand(trims).items()}
+    dropped = set(_expand(drop))
+    L = R = None
+    for lane in lanes:
+        if lane in dropped:
+            continue
+        w = _stem_wav(no, lane, root, folder=folder)
+        if not w:
+            continue
+        sL, sR = read_wav24(w)
+        g = gains.get(lane, 1.0)
+        if L is None:
+            L, R = sL * g, sR * g
+        else:
+            n = min(len(L), len(sL))
+            L, R = L[:n] + sL[:n] * g, R[:n] + sR[:n] * g
+    if L is None:
+        raise FileNotFoundError(f"Beat {no} has no stems to mix.")
+    tg = _track_gain(no, root, folder)          # play it at TRACK level
+    L, R = L * tg, R * tg
+    peak = float(max(np.abs(L).max(), np.abs(R).max()))
+    if peak > 0.94:              # only ever pulls down, and only if a
+        L, R = L * (0.94 / peak), R * (0.94 / peak)   # boost clipped it
+    return wav24_bytes(L, R)
 
 
 def _lane_candidates(no, lane, shots=None, root=None):
@@ -3190,6 +3458,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      document.querySelectorAll('.track audio').forEach(a => {
        if (a !== au) a.pause();
      });
+     // Play what the rack is currently SET to, not the file on disk: with
+     // volumes nudged or stems removed, hitting play has to reflect that
+     // so a mix decision can be heard before rendering (owner 2026-07-25).
+     const want = mixUrl(b.no);
+     if (au.dataset.src !== want) { au.dataset.src = want; au.src = want; }
      au.play().catch(() => {});
    };
    au.addEventListener('play', () => { pp.classList.add('on');
@@ -3238,6 +3511,36 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  function trimCount(no) { return Object.keys(trims[no] || {}).length; }
  function dropCount(no) { return Object.keys(drops[no] || {}).length; }
 
+ // Where to play a beat FROM. Untouched, that's the rendered file (which
+ // seeks, since /audio serves byte ranges). With volumes nudged or stems
+ // removed it's /mix, the stems summed live with those changes applied.
+ function mixUrl(no) {
+   const t = trims[no] || {}, d = drops[no] || {};
+   const tk = Object.keys(t), dk = Object.keys(d).filter(k => d[k]);
+   if (!tk.length && !dk.length) return '/audio?no=' + no;
+   return '/mix?no=' + no
+     + '&trims=' + encodeURIComponent(tk.map(k => k + ':' + t[k]).join(','))
+     + '&drop=' + encodeURIComponent(dk.join(','));
+ }
+
+ // A beat that's already playing re-cues with the new levels; a paused one
+ // just gets its next play from the right place.
+ function refreshMix(el, no) {
+   const au = el.querySelector('audio');
+   if (!au) return;
+   const want = mixUrl(no);
+   if (au.dataset.src === want) return;
+   const at = au.currentTime, live = !au.paused;
+   au.dataset.src = want; au.src = want;
+   if (live) {
+     au.addEventListener('loadedmetadata', function once() {
+       au.removeEventListener('loadedmetadata', once);
+       if (at < au.duration) au.currentTime = at;
+       au.play().catch(() => {});
+     });
+   }
+ }
+
  function paintFoot(el, no) {
    const n = stagedCount(no), v = trimCount(no), r = dropCount(no);
    const foot = el.querySelector('.rackfoot');
@@ -3251,6 +3554,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
    foot.querySelector('.rebuild').disabled = !(n + v + r);
    foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
+   refreshMix(el, no);      // every volume/remove change lands here first
  }
 
  function laneRow(no, s) {
@@ -3268,9 +3572,9 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        '<button class="step up" title="1 dB louder">+</button>' +
      '</span>' +
      '<span class="picks"></span>';
-   row.querySelector('.lname').textContent =
-     s.lane === 'chords' ? 'CHORDS'
-     : s.lane === 'chordbass' ? 'CHORD BASS' : s.lane;
+   // the row says what the sound IS — "kick drum", "bass drum", "bass",
+   // "horns stack" — never a lane key (owner 2026-07-25)
+   row.querySelector('.lname').textContent = (s.label || s.lane).toUpperCase();
    row.querySelector('.sample').textContent = s.sample;
    row.querySelector('.pack').textContent = s.pack || '';
 
@@ -3302,10 +3606,14 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
    if (s.stem) {
      const b = document.createElement('button');
-     b.className = 'mini'; b.title = 'Hear this drum on its own';
+     b.className = 'mini';
+     b.title = 'Hear this on its own, at its level in the track';
      b.innerHTML = '&#9654;';
+     // the staged dB rides along, so a stem previews at the level the
+     // arrows are set to — same as it will sound in the beat
      b.onclick = () => play('/stem?no=' + no + '&lane=' +
-                            encodeURIComponent(s.lane), b);
+                            encodeURIComponent(s.lane) +
+                            '&db=' + (v || 0), b);
      picks.appendChild(b);
    }
    if (s.locked) {
@@ -3739,9 +4047,24 @@ def run_web(port=None):
                 q = parse_qs(u.query)
                 no = q.get("no", [""])[0]
                 lane = q.get("lane", [""])[0]
-                w = (_stem_wav(int(no), lane.strip().lower())
-                     if str(no).isdigit() else None)
-                self._wav(w)
+                if not str(no).isdigit():
+                    self._send(404, "text/plain", b"not found")
+                    return
+                self._solo(int(no), lane.strip().lower(),
+                           _qs_db(q.get("db", ["0"])[0]))
+            elif u.path == "/mix":
+                # the whole beat with the volume arrows applied, WITHOUT
+                # rendering (owner 2026-07-25: "I adjust a stem's volume,
+                # hit play, and the track reflects it — so I can hear
+                # what's going on before I render")
+                q = parse_qs(u.query)
+                try:
+                    self._send(200, "audio/wav",
+                               _preview_mix(q.get("no", [""])[0],
+                                            q.get("trims", [""])[0],
+                                            q.get("drop", [""])[0]))
+                except Exception:
+                    self._audio(q.get("no", [""])[0])   # fall back to the file
             elif u.path == "/sample":
                 # a raw one-shot, so he can hear a sample before choosing
                 # it. The path is only played if it's in this lane's own
@@ -3762,10 +4085,32 @@ def run_web(port=None):
                 self._send(404, "text/plain", b"not found")
 
         def _wav(self, path):
+            """A file straight through — a raw one-shot from the library,
+            which is not part of any mix and gets no level applied."""
             if not path or not Path(path).exists():
                 self._send(404, "text/plain", b"not found")
                 return
             self._send(200, "audio/wav", Path(path).read_bytes())
+
+        def _solo(self, no, lane, db=0.0):
+            # One row on its own, at its level IN THE TRACK plus whatever
+            # the volume arrows are set to — so previewing tells him what
+            # he will actually hear (owner 2026-07-25). Before this,
+            # stems played at their printed level and the arrows did
+            # nothing until a rebuild, so a mix move couldn't be heard.
+            try:
+                got = _solo_audio(no, lane)
+            except Exception:
+                got = None
+            if got is None:
+                self._send(404, "text/plain", b"not found")
+                return
+            L, R = got
+            g = (10 ** (float(db) / 20.0)) * _track_gain(no)
+            peak = float(max(np.abs(L).max(), np.abs(R).max())) * g
+            if peak > 0.94:               # a big boost can't be allowed
+                g *= 0.94 / peak          # to clip the preview
+            self._send(200, "audio/wav", wav24_bytes(L * g, R * g))
 
         def _audio(self, no):
             # only ever a beat NUMBER from the client, resolved to a file

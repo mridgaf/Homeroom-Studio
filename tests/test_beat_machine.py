@@ -238,7 +238,9 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
     assert "sub" in rec["preset"]["lanes"]
     stem_dir = next(d for d in path.parent.glob("* Stems")
                     if d.name.startswith(str(no)))
-    assert any(f.stem.startswith("sub - synth 808 sub, root")
+    # the stem is named for what the sound IS: the tuned 808 under the kick
+    # is a BASS DRUM, not a "sub" (owner's vocabulary, 2026-07-25)
+    assert any(f.stem.startswith("bass drum - synth 808 sub, root")
                for f in stem_dir.glob("*.wav")), list(stem_dir.iterdir())
     # owner 2026-07-23 ("control the volume for all sounds"): a synthesized
     # lane like this one has no sample to swap, so it's not in kit_spec —
@@ -349,7 +351,9 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     stem_dir = next(d for d in p.parent.glob("* Stems")
                     if d.name.startswith(p.name.split()[0]))
     stems = {f.stem for f in stem_dir.glob("*.wav")}
-    assert any(s.startswith("bass - ") for s in stems), stems
+    # the sampled 808 under the kick is a BASS DRUM in his vocabulary
+    # (2026-07-25) — "bass" on its own is the melodic line
+    assert any(s.startswith("bass drum - ") for s in stems), stems
     assert not any(s.startswith("loop - ") for s in stems), stems
     # bug found 2026-07-23 ("a vocal sound... doesn't show up in the stems
     # but is present in the song"): bass/vox rendered real audio but were
@@ -1264,3 +1268,176 @@ def test_harmony_opens_under_the_drums_with_per_bar_dynamics(
     # ...and it breathes: the bars are not all the same level
     assert len(set(round(g, 6) for g in chords)) > 1, chords
     assert chords[0] == pytest.approx(beat_machine._CHORD_GAIN)   # downbeat
+
+
+# ---- kick drum / bass drum / bass are three separate sounds (2026-07-25)
+
+
+def test_the_three_low_sounds_never_share_a_word():
+    """His exact distinction: a KICK DRUM, a BASS DRUM (the 808 boom under
+    it) and the BASS (the melodic line) are three things. "bass drum" used
+    to be a plain synonym for the kick here, so typing it changed the
+    wrong sound; "no bass" killed the 808 rather than the line."""
+    assert beat_machine.parse_directions("no bass drum")["mute"] == {"bass"}
+    assert beat_machine.parse_directions("no bass")["mute"] == {"chordbass"}
+    assert beat_machine.parse_directions("no kick")["mute"] == {"kick"}
+    # and the longest phrase wins: "no bass drum" contains "no bass", which
+    # used to take the bass line out at the same time
+    assert "chordbass" not in beat_machine.parse_directions(
+        "no bass drum")["mute"]
+    assert "kick" not in beat_machine.parse_directions("no bass drum")["mute"]
+
+
+def test_lane_labels_say_which_low_sound_it_is():
+    assert beat_recipes.lane_label("kick") == "kick drum"
+    assert beat_recipes.lane_label("bass") == "bass drum"   # the 808 boom
+    assert beat_recipes.lane_label("sub") == "bass drum"    # tuned root
+    assert beat_recipes.lane_label("hat") == "hat"          # unchanged
+
+
+def test_muting_the_bass_drum_leaves_the_bass_line_alone():
+    """apply_directions groups by FAMILY, not by stripping digits — bass0
+    is the bass line, `bass` is the 808 drum, and they must not move
+    together."""
+    preset = {"lanes": {"kick": 1, "bass": 1, "bass0": 1, "bass1": 1,
+                        "chord0": 1},
+              "kit": {}, "space": ("dry", []), "sidechain": 0.5,
+              "_guests": ()}
+    dirs = dict(beat_machine.parse_directions("no bass drum"),
+                kick=None, density=None, space=None, swing=None, tsig=None)
+    beat_machine.apply_directions(preset, dirs)
+    assert "bass" not in preset["lanes"]                    # the 808 went
+    assert {"bass0", "bass1", "kick"} <= set(preset["lanes"])   # these stayed
+
+
+# ---- one stem per instrument (2026-07-25)
+
+
+def test_two_layered_instruments_are_two_rows_not_one():
+    """A two-sound chord plan is two real instruments, so it gets two rack
+    rows, two stems and two volumes — never one 'chords' blob."""
+    lanes = ["kick", "chord0", "chord1", "chord0v1", "chord1v1",
+             "bass0", "bass1"]
+    rows = sorted({beat_machine._chord_family(ln) for ln in lanes} - {None},
+                  key=beat_machine._fam_sort)
+    assert rows == ["chords", "chords2", "chordbass"]
+    # and each row owns only its own instrument's lanes
+    assert beat_machine._family_members("chords", lanes) == ["chord0", "chord1"]
+    assert beat_machine._family_members("chords2", lanes) == ["chord0v1",
+                                                              "chord1v1"]
+    assert beat_machine._family_members("chordbass", lanes) == ["bass0",
+                                                                "bass1"]
+    # the 808 bass DRUM is not swallowed by the bass line's family
+    assert beat_machine._chord_family("bass") is None
+
+
+def test_levelling_one_instrument_moves_only_its_own_lanes():
+    preset = {"lanes": {ln: 1 for ln in
+                        ("kick", "chord0", "chord1", "chord0v1", "bass0")}}
+    out = beat_machine._clean_trims({"chords2": -3}, preset, 1)
+    assert out == {"chord0v1": -3.0}          # the second instrument only
+    out = beat_machine._clean_trims({"chords": 2}, preset, 1)
+    assert out == {"chord0": 2.0, "chord1": 2.0}
+
+
+# ---- stems preview at track volume (2026-07-25)
+
+
+def test_stems_print_at_track_volume():
+    """He asked for the +6 dB print to go: a stem must be the same volume
+    it is in the track, so previewing one tells him the truth."""
+    assert beat_recipes.STEM_BOOST_DB == 0.0
+
+
+def test_wav24_round_trips(tmp_path):
+    from make_drum_loops import read_wav24, write_wav24
+    t = np.linspace(0, 1, SR, endpoint=False)
+    L, R = 0.7 * np.sin(2 * np.pi * 220 * t), 0.3 * np.sin(2 * np.pi * 330 * t)
+    p = tmp_path / "x.wav"
+    write_wav24(p, L, R)
+    l2, r2 = read_wav24(p)
+    assert np.abs(l2 - L).max() < 1e-5        # 24-bit quantisation only
+    assert np.abs(r2 - R).max() < 1e-5
+
+
+def test_preview_mix_hears_a_volume_change_before_the_rebuild(machine_env):
+    """Nudge a stem, hit play, and the track reflects it — without
+    rendering a new beat (owner 2026-07-25)."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Glass Cat"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    flat = beat_machine._preview_mix(no, root=root)
+    quiet = beat_machine._preview_mix(no, trims="kick:-24", root=root)
+    assert flat != quiet                       # the arrows did something
+    # and dropping a stem removes it from what he hears
+    gone = beat_machine._preview_mix(no, drop="kick", root=root)
+    assert gone not in (flat, quiet)
+
+
+def test_solo_stem_plays_at_its_level_in_the_track(machine_env):
+    """The stems are printed with a shared -6 dBFS gain, so soloing one
+    used to play it well under its level in the beat. _track_gain undoes
+    exactly that shared gain."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Glass Cat"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    beat_machine._TRACK_GAIN.pop(no, None)
+    g = beat_machine._track_gain(no, root)
+    # applying it to the summed stems lands on the finished beat's LOUDNESS
+    from make_drum_loops import read_wav24
+    folder = beat_machine._stems_dir(no, root)
+    L = R = None
+    for f in sorted(folder.glob("*.wav")):
+        sL, sR = read_wav24(f)
+        if L is None:
+            L, R = sL, sR
+        else:
+            n = min(len(L), len(sL))
+            L, R = L[:n] + sL[:n], R[:n] + sR[:n]
+    tL, tR = read_wav24(beat_machine.beat_wav(no, root))
+    scaled = beat_machine._rms(L * g, R * g)
+    track = beat_machine._rms(tL, tR)
+    # within a quarter of a dB of the track — an ear can't hear that.
+    # How BIG the correction is depends on how hard the master chain
+    # worked on this particular beat (about -4.8 dB on a real one, near
+    # zero on these synthetic test samples), so only the match is
+    # asserted, never the size.
+    assert abs(20 * np.log10(scaled / track)) < 0.25
+
+
+def test_every_rack_row_can_be_previewed(machine_env, only_his_instruments,
+                                         monkeypatch):
+    """Owner 2026-07-25: "some of the stems do not let me click and preview
+    them." The harmony rows stand for several lanes (chord0, chord1, …), so
+    their play button asks for "chords" — a name no stem file has. Soloing
+    a row sums its lanes instead of reaching for one file."""
+    root, shots = machine_env
+    no, path, report = _chords_beat(root, shots, monkeypatch)
+    rows = beat_machine._beat_stems(no, root=root)
+    assert any(r["lane"] == beat_machine.CHORD_FAM for r in rows), report
+    for r in rows:
+        if not r["stem"]:
+            continue
+        got = beat_machine._solo_audio(no, r["lane"], root=root)
+        assert got is not None, ("row will not play", r["lane"])
+        L, R = got
+        assert len(L) and float(np.abs(L).max() + np.abs(R).max()) > 0, r["lane"]
+    # a made-up row still refuses, rather than serving something wrong
+    assert beat_machine._solo_audio(no, "nonsense", root=root) is None
+
+
+def test_soloing_an_instrument_plays_all_of_its_chords(machine_env,
+                                                       only_his_instruments,
+                                                       monkeypatch):
+    """A harmony row is one instrument across the whole beat, so its
+    preview is longer/fuller than any single chord lane of it."""
+    root, shots = machine_env
+    no, path, report = _chords_beat(root, shots, monkeypatch)
+    rec = beat_recipes.load_recipe(root, no)
+    members = beat_machine._family_members(beat_machine.CHORD_FAM,
+                                           rec["preset"]["lanes"])
+    if len(members) < 2:
+        pytest.skip("this beat only has one chord slot")
+    whole = beat_machine._solo_audio(no, beat_machine.CHORD_FAM, root=root)
+    one = beat_machine._solo_audio(no, members[0], root=root)
+    assert beat_machine._rms(*whole) > beat_machine._rms(*one)

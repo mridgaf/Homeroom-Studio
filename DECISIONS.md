@@ -22,6 +22,71 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-25 Kick drum, bass drum and bass are three different things
+- Context: owner's vocabulary correction. "KickDrum should be its own thing.
+  Base drum should be its own thing. and then there is base, which is a line
+  or a long wave." Plus: real sounds from his bank are INSTRUMENTS, never
+  "chords"; a generated bass line is its own stem; no grouping, ever; some
+  stems wouldn't preview; and preview must be at track volume.
+- Asked, not guessed: which audio "bass drum" means. His answer — the long
+  808/sub boom under the kick. So: kick = the punchy drum sample,
+  bass drum = sub/808 boom (lanes `sub` and `bass`), bass = the melodic
+  line (lanes bass0..N). Recorded because the whole change hangs on it.
+- Changes:
+  * beat_recipes.LANE_LABELS + lane_label(): kick->"kick drum",
+    sub/bass->"bass drum". Drives stem FILENAMES and rack rows. _stem_wav
+    tries the label and the raw key so pre-today beats still find stems.
+  * LANE_WORDS: "bass drum" is no longer a synonym for kick (it WAS — typing
+    it changed the wrong sound). New split: bass drum/808/sub -> the boom
+    lane; bass/bassline -> the line. parse_directions now strikes out a
+    matched phrase, longest first, because "no bass drum" contains "no bass"
+    and was silently killing the line too.
+  * apply_directions groups by _chord_family instead of rstrip("0123456789"),
+    so "no bass drum" can't take bass0..N with it.
+  * ONE LANE PER INSTRUMENT: a two-sound chord plan used to sum into one
+    "chords" blob. Each voice now gets its own lane (chord{i} / chord{i}v{n}),
+    its own stem, its own row, volume and remove button. ~54% of variants
+    take the two-sound plan, so this was the common case, not an edge.
+    Balancing gain is computed on the SUM and shared out, so the split
+    changes what he can solo — not how the beat sounds. Same feel seed per
+    slot across voices (jitter is 0 there today; the invariant is for later).
+  * Rows are named for the INSTRUMENT ("brass stabs", "strings arp"), falling
+    back to harmony.chord_source for older beats. voice_names saved in the
+    recipe. _trim_words logs one entry per instrument, in his words.
+- Preview (his: "the stems should be the same volume they appear on the
+  track", "adjust a stem, hit play, the track reflects it before I render"):
+  * STEM_BOOST_DB 6.0 -> 0.0. The +6 was also per-stem peak-clamped, so it
+    was silently breaking the balance BETWEEN stems, not just the level.
+  * _track_gain(no): stems print with one shared gain putting the loudest at
+    -6 dBFS, so solos played well under their level in the beat. Matched on
+    RMS, not peak — the finished beat is limited, and peak-matching a limited
+    mix against an unlimited sum lands ~5 dB out. Measured -4.81 dB on 1281.
+  * New /mix route sums the stems live with the staged dB and drops applied;
+    the play button uses it whenever anything is staged. 0.1-0.6s, so no
+    perceptible wait. It is the pre-master sum, ~0.4 dB under the rendered
+    file (the anti-clip guard) — inaudible, and noted in the code.
+- ROOT CAUSE of "some of the stems do not let me click and preview them":
+  a family row's play button sent lane=chords, and NO stem file is named
+  that (they're chord0, chord1...). Every harmony row 404'd. Confirmed by
+  curl before and after. _solo_audio() now sums a row's member lanes, which
+  is also the musically right preview — the instrument across the whole
+  beat, not just its first chord.
+- Verify by: 724/724 tests before the last two comment-level edits, 11 new
+  ones (the three-word split, muting the bass drum leaves the line alone,
+  two layered instruments are two rows, per-instrument levelling, stems at
+  track volume, wav24 round-trip, live mix hears a volume change, solo at
+  track level, every row previews, soloing plays all of an instrument's
+  chords). Live in the browser on beat 1281: rows read KICK DRUM / SNARE /
+  HAT / STAMP / BRASS STACK... / BASS, every row has a play button, nudging
+  kick -4 and chords +1 switched the player to
+  /mix?no=1281&trims=kick:-4,chords:1 and the browser decoded it (10.32s).
+  Real layered render (Rage Engine, seed 8) produced stems
+  "chord0 - brass stabs, Am (i)" and "chord0v1 - strings arp, Am (i)" —
+  two instruments, two files, where there would have been one.
+- Status: open — needs his ear. Two judgement calls to confirm: RMS rather
+  than peak as the definition of "same volume", and that summing stems
+  (pre-master) is a close enough preview of the rendered beat.
+
 ### 2026-07-25 Reason demoted, not removed — portability boundary set
 - Context: owner asked whether stripping the Reason-specific element would
   still let him use it with Reason AND other DAWs. Stated intent: Reason for

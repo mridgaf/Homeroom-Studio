@@ -115,28 +115,47 @@ def write_midi(path, events, bpm, tpq=480, tsig=(4, 4), chords=None):
 # ------------------------------------------------------------------ stems
 
 
-STEM_BOOST_DB = 6.0
+# Stems print at TRACK volume: what a stem sounds like on its own is
+# exactly its level in the beat (owner 2026-07-25). This replaced a +6 dB
+# print (his 2026-07-21 call, "solo stems are too quiet to sample") — he
+# asked for it to go so previewing a stem and hearing the mix agree.
+# Left as a knob, not deleted: set non-zero to bring the hot print back.
+STEM_BOOST_DB = 0.0
+
+# What each lane is CALLED, for the stem filename and the rack row. Three
+# separate low sounds, three separate words (owner 2026-07-25, his exact
+# distinction — these had been used interchangeably and it hid what was
+# actually playing):
+#   kick drum — the punchy drum sample
+#   bass drum — the long low 808 boom under it (sampled 808 or tuned sub)
+#   bass      — the melodic low LINE that follows the chords
+# `sub` and `bass` are mutually exclusive in a preset (see
+# _add_sample_lanes), so they never collide as filenames.
+LANE_LABELS = {"kick": "kick drum", "sub": "bass drum", "bass": "bass drum"}
+
+
+def lane_label(lane):
+    """The owner-facing name for a lane — 'bass' the 808 drum is a BASS
+    DRUM; the melodic line lives on bass0..N and is just 'bass'."""
+    return LANE_LABELS.get(lane, lane)
 
 
 def write_stems(folder, stems, sources=None):
     """One 24-bit stereo wav per lane. When `sources` maps lane -> the
     sample file it was built from, the stem carries the REAL sample name
-    ("kick - Cymatics Kong Kick 9.wav") — owner 2026-07-18: show WHICH
-    drum was used, not a generic role name. The lane prefix keeps
+    ("kick drum - Cymatics Kong Kick 9.wav") — owner 2026-07-18: show
+    WHICH drum was used, not a generic role name. The lane prefix keeps
     filenames starting with a letter, so the global beat numbering
     (next_number's leading-digit rglob) never counts them."""
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     for lane, (sL, sR) in stems.items():
-        name = lane
+        name = lane_label(lane)
         src = (sources or {}).get(lane)
         if src:
             real = re.sub(r'[\\/:*?"<>|]', "_", Path(src).stem).strip()
             if real:
-                name = f"{lane} - {real}"
-        # stems print hotter than their share of the mix (owner call
-        # 2026-07-21: solo stems were too quiet to sample) — +6 dB,
-        # eased off just enough to keep the hottest peak under -0.5 dB
+                name = f"{name} - {real}"
         g = 10 ** (STEM_BOOST_DB / 20.0)
         peak = float(max(np.abs(sL).max(), np.abs(sR).max()))
         if peak * g > 0.94:

@@ -9,6 +9,7 @@ and tempo-search pick it up.
 Run:  ./.venv/bin/python tools/make_drum_loops.py
 Output: ~/Documents/Samples/Claude Drum Loops/
 """
+import io
 import os
 import wave
 from pathlib import Path
@@ -194,15 +195,44 @@ def master(L, R, drive=1.4):
     return L, R
 
 
-def write_wav24(path, L, R):
+def wav24_bytes(L, R):
+    """A whole 24-bit stereo WAV as bytes, for handing straight to a
+    browser without touching disk."""
     x = np.stack([np.clip(L, -1, 1), np.clip(R, -1, 1)], axis=1)
     ints = (x * (2 ** 23 - 1)).astype("<i4").tobytes()
     data = np.frombuffer(ints, dtype=np.uint8).reshape(-1, 4)[:, :3].tobytes()
-    with wave.open(str(path), "wb") as w:
+    buf = io.BytesIO()
+    with wave.open(buf, "wb") as w:
         w.setnchannels(2)
         w.setsampwidth(3)
         w.setframerate(SR)
         w.writeframes(data)
+    return buf.getvalue()
+
+
+def write_wav24(path, L, R):
+    Path(path).write_bytes(wav24_bytes(L, R))
+
+
+def read_wav24(path):
+    """(L, R) floats back out of a stem written by write_wav24. Handles
+    16- and 32-bit PCM too so an older or hand-edited stem still plays."""
+    with wave.open(str(path), "rb") as w:
+        ch, sw, n = w.getnchannels(), w.getsampwidth(), w.getnframes()
+        raw = w.readframes(n)
+    if sw == 3:                       # 24-bit: pad each sample out to 32
+        b = np.frombuffer(raw, dtype=np.uint8).reshape(-1, 3)
+        x = np.zeros((len(b), 4), dtype=np.uint8)
+        x[:, 1:] = b                  # low byte 0 -> the value scales by 256
+        vals = x.view("<i4").reshape(-1) / (2 ** 31 - 1)
+    else:
+        dt = {1: np.uint8, 2: "<i2", 4: "<i4"}.get(sw)
+        if dt is None:
+            raise ValueError(f"{path}: {sw * 8}-bit wav not supported")
+        vals = np.frombuffer(raw, dtype=dt).astype(np.float64)
+        vals = (vals - 128) / 128 if sw == 1 else vals / float(2 ** (sw * 8 - 1))
+    vals = vals.reshape(-1, ch)
+    return (vals[:, 0], vals[:, 1]) if ch > 1 else (vals[:, 0], vals[:, 0])
 
 # ---------------------------------------------------------------- loops
 
