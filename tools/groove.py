@@ -162,6 +162,22 @@ OWNER_TASTE = {
                                  #      is fair game for every DJ (taste
                                  #      tags stop gating picks; locked
                                  #      stamps still ride)
+    # --- where the harmony sits under the drums (owner 2026-07-25:
+    # "everything starts off the same volume ... I want traditional
+    # velocity/volume dynamics at the start so it doesn't sound loud and
+    # crazy"). Read against the drum lanes they share a mix with:
+    # kick 1.0, snare 0.88, hat 0.36. The chord bass used to open at 0.85 —
+    # louder than the snare — and the chords at 0.5, above the hats, which
+    # is why a fresh beat arrived shouting. These put the pad under the kit
+    # the way a record does, and are the STARTING point: the rack's dB
+    # arrows move them per beat.
+    "chord_gain": 0.30,          # ~10 dB under the kick — sits behind the
+                                 #      drums, leaves room for a vocal
+    "chord_bass_gain": 0.55,     # ~5 dB under the kick — felt, not fighting
+    # A real player leans on the downbeat and eases off the repeats. These
+    # scale each chord slot in turn, cycling if the progression is longer,
+    # so the harmony breathes instead of landing identically every bar.
+    "chord_accents": (1.0, 0.86, 0.93, 0.82),
 }
 
 

@@ -36,6 +36,7 @@ from urllib.parse import quote
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
+from groove import OWNER_TASTE
 from make_drum_loops import SR, sub808, write_wav24
 from make_drum_beats import build_shots
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
@@ -1311,15 +1312,23 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
         bass_note = chord["notes"][0] - 12
         bars_list = ["-" * 16 for _ in range(nb)]
         bars_list[start_bar] = "X" + "-" * 15
+        # traditional dynamics: the downbeat leans, the repeats ease off,
+        # instead of every bar landing at an identical level (owner
+        # 2026-07-25). Deterministic from the slot, so a rebuild matches.
+        accent = _ACCENTS[slot_no % len(_ACCENTS)]
         old_b = preset["lanes"].get(f"bass{i}")
-        preset["lanes"][f"bass{i}"] = (0.0, old_b[1] if old_b else 0.85,
+        preset["lanes"][f"bass{i}"] = (0.0,
+                                       old_b[1] if old_b
+                                       else _BASS_GAIN * accent,
                                        (0, 0, 50, variant + i),
                                        [b for b in bars_list])
         if committed:
             audio, names_, files = beds[slot_no]
             voice_desc = " + ".join(names_)
             old_c = preset["lanes"].get(f"chord{i}")   # preserve a baked trim
-            preset["lanes"][f"chord{i}"] = (0.0, old_c[1] if old_c else 0.5,
+            preset["lanes"][f"chord{i}"] = (0.0,
+                                            old_c[1] if old_c
+                                            else _CHORD_GAIN * accent,
                                             (0, 0, 50, variant + i),
                                             bars_list)
             kit[f"chord{i}"] = audio
@@ -1999,10 +2008,21 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     rec = load_recipe(root, number)
     picks = {str(ln).strip().lower(): v for ln, v in (picks or {}).items()}
     drops = sorted({str(ln).strip().lower() for ln in (drops or [])})
+    # "chords"/"bass" are FAMILY names from the rack: one row standing for
+    # chord0..chordN. Expand them to the real lanes so a removal takes the
+    # whole instrument out at once (owner 2026-07-25) — a per-bar removal
+    # would make it drop out mid-beat.
+    all_lanes = list(normalize_preset(rec["preset"]).get("lanes", {}))
+    fam_drops = []
+    for fam in (CHORD_FAM, CHORD_BASS_FAM):
+        if fam in drops:
+            drops.remove(fam)
+            fam_drops += _family_members(fam, all_lanes)
     for lane in list(picks) + drops:
         if lane not in rec["kit_spec"]:
             raise ValueError(f"Beat {number} has no '{lane}' to change — "
                              f"it has: {', '.join(sorted(rec['kit_spec']))}.")
+    drops = sorted(set(drops) | set(fam_drops))
     # picking the sample that's already in the lane isn't a swap
     picks = {ln: v for ln, v in picks.items()
              if not (v and v == rec["kit_paths"].get(ln))}
@@ -2084,20 +2104,37 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # beat's kit_spec never lists them (see _build_chords' docstring for why
     # this regenerates rather than reuses the rendered stem, and the two
     # narrow, disclosed limits on an exact match).
-    if any(ln.startswith("chord") for ln in preset.get("lanes", {})):
+    # EITHER family is enough to need the regen: removing just the chords
+    # leaves the bass roots behind, and they still need their audio built
+    # (they are synthesized-at-render like the chords, not kit_paths files)
+    if any(_chord_family(ln) for ln in preset.get("lanes", {})):
         # a throwaway sources dict: chord/bass lanes were never in
         # kit_paths (nothing to swap them for), so nothing here needs to
         # persist past this render.
         _build_chords(preset, kit, {}, rec["variant"],
                       {"chords": True, "chord_feel": None}, [])
+        # ...but a chord/bass lane the owner just REMOVED must not come
+        # back: _build_chords rebuilds the whole family from the recipe's
+        # variant, which would silently undo the removal.
+        for lane in drops:
+            preset["lanes"].pop(lane, None)
+            kit.pop(lane, None)
 
     lanes = sorted(picks)
+    # a family removal is 4 lanes but ONE musical change — say "Chords",
+    # not "Chord0 & Chord1 & Chord2 & Chord3" (that string becomes the
+    # beat's filename)
+    said = [ln for ln in drops if not _chord_family(ln)]
+    if any(_CHORD_LANE.match(ln) for ln in drops):
+        said.append("chords")
+    if any(_CHORD_BASS_LANE.match(ln) for ln in drops):
+        said.append("chord bass")
     if drops and not lanes and not trims:      # removal is the headline
-        what = "No " + " & ".join(d.capitalize() for d in drops)
-        changed = "removed " + " and ".join(drops)
+        what = "No " + " & ".join(d.title() for d in said)
+        changed = "removed " + " and ".join(said)
     elif drops:
         what = "Rebuilt"
-        changed = ("removed " + " and ".join(drops)
+        changed = ("removed " + " and ".join(said)
                    + (", new " + ", ".join(lanes) if lanes else ""))
     elif not lanes:                   # volumes only — same drums, new mix
         what, changed = "New Mix", _trim_words(trims)
@@ -2241,6 +2278,37 @@ LANE_ORDER = ("kick", "sub", "snare", "clap", "snap", "rim", "hat", "ohat",
               "congas", "congas2", "exotic", "exotic2", "blips", "fx")
 
 
+# The rack shows chord0..chordN as ONE "chords" row and bass0..bassN as one
+# "chord bass" row (owner 2026-07-25): they are a single instrument across
+# the bars, so they level and remove together. Matching is digit-suffixed on
+# purpose — "bass" with no digit is a REAL drum lane (the phase-2 sampled
+# 808), and swallowing it into the family would take the wrong sound out.
+CHORD_FAM, CHORD_BASS_FAM = "chords", "chordbass"
+# opening levels + per-bar accents for the harmony, from the house mix
+# numbers in groove.OWNER_TASTE — see the comment there for why
+_CHORD_GAIN = OWNER_TASTE["chord_gain"]
+_BASS_GAIN = OWNER_TASTE["chord_bass_gain"]
+_ACCENTS = OWNER_TASTE["chord_accents"]
+_CHORD_LANE = re.compile(r"^chord(\d+)$")
+_CHORD_BASS_LANE = re.compile(r"^bass(\d+)$")
+
+
+def _chord_family(lane):
+    """'chord3' -> 'chords', 'bass3' -> 'chordbass', anything else -> None."""
+    if _CHORD_LANE.match(lane):
+        return CHORD_FAM
+    if _CHORD_BASS_LANE.match(lane):
+        return CHORD_BASS_FAM
+    return None
+
+
+def _family_members(fam, lanes):
+    """Every real lane a family row stands for, in bar order."""
+    pat = _CHORD_LANE if fam == CHORD_FAM else _CHORD_BASS_LANE
+    return sorted((ln for ln in lanes if pat.match(ln)),
+                  key=lambda ln: int(pat.match(ln).group(1)))
+
+
 def _lane_sort(lane):
     """Drums in the order a drummer would name them, strays alphabetical."""
     try:
@@ -2268,12 +2336,18 @@ def _clean_trims(trims, preset, number):
             raise ValueError(f"'{db}' isn't a volume for the {lane}.")
         if db != db or db in (float("inf"), float("-inf")):   # NaN/inf
             raise ValueError(f"'{db}' isn't a volume for the {lane}.")
-        if lane not in preset.get("lanes", {}):
+        # "chords"/"bass" are the rack's one-row-per-instrument families:
+        # levelling them moves every bar of that instrument together, the
+        # same way removing them takes all of it out (owner 2026-07-25)
+        members = (_family_members(lane, preset.get("lanes", {}))
+                   if lane in (CHORD_FAM, CHORD_BASS_FAM) else [])
+        if not members and lane not in preset.get("lanes", {}):
             raise ValueError(f"Beat {number} has no '{lane}' to turn up "
                              "or down.")
         db = round(max(-TRIM_DB, min(TRIM_DB, db)), 2)
         if db:
-            out[lane] = db
+            for ln in (members or [lane]):
+                out[ln] = db
     return out
 
 
@@ -2392,32 +2466,67 @@ def _beat_stems(no, root=None):
     # 100% his own brass and strings, which is why he believed the
     # his-instruments rule was being ignored — the label was the bug).
     voiced = (rec.get("harmony") or {}).get("voice_files") or {}
+    # chord0..chordN are ONE instrument across the bars, not N instruments
+    # (same for bass0..bassN). They collapse into a single row so removing
+    # them takes the whole instrument out — removing one bar's worth would
+    # make it vanish mid-beat, which is the "pulling in and out" the owner
+    # ruled out. Owner's call 2026-07-25.
+    fams = {}
+    for lane in list(lanes):
+        fam = _chord_family(lane)
+        if fam:
+            fams.setdefault(fam, []).append(lane)
+            lanes.remove(lane)
     for lane in sorted(lanes, key=_lane_sort):
         locked = lane == "stamp" or lane.startswith("stamp")
         path = (rec["stamp_paths"] if locked else rec["kit_paths"]).get(lane)
         spec = rec["kit_spec"].get(lane)
-        files = voiced.get(lane) or []
-        if not path and files:
-            names = [Path(f).stem for f in files]
-            sample = names[0] if len(names) == 1 else \
-                "%s + %d more" % (names[0], len(names) - 1)
-            pack = _pack_of(files[0])
-            why = "played from your library" + (
-                "" if len(names) == 1 else " (%s)" % ", ".join(names[1:5]))
-        else:
-            sample = Path(path).stem if path else "built from scratch"
-            pack = _pack_of(path)
-            why = ("the DJ's producer tag — same in every beat they make"
-                   if locked else
-                   "synthesised, not a sample" if not path else "")
         out.append({
             "lane": lane,
             "role": spec[0] if spec else lane,
-            "sample": sample,
-            "pack": pack,
+            "sample": Path(path).stem if path else "built from scratch",
+            "pack": _pack_of(path),
+            # a lane with no file behind it stays locked (the tuned 808
+            # "sub" is the case) — only the chord/bass families below are
+            # deliberately unlocked for removal
             "locked": locked or not path,
-            "why": why,
+            "can_swap": bool(path) and not locked,
+            "why": ("the DJ's producer tag — same in every beat they make"
+                    if locked else
+                    "synthesised, not a sample" if not path else ""),
             "stem": bool(_stem_wav(no, lane, root, folder=folder)),
+        })
+    for fam in (CHORD_FAM, CHORD_BASS_FAM):
+        members = fams.get(fam)
+        if not members:
+            continue
+        files, seen = [], set()
+        for ln in sorted(members, key=_lane_sort):
+            for f in voiced.get(ln) or []:
+                if f not in seen:
+                    seen.add(f)
+                    files.append(f)
+        names = [Path(f).stem for f in files]
+        if names:
+            sample = names[0] if len(names) == 1 else \
+                "%s + %d more" % (names[0], len(names) - 1)
+            why = "played from your library" + (
+                "" if len(names) == 1 else " (%s)" % ", ".join(names[1:5]))
+        else:                        # a beat made before provenance landed
+            sample, why = "from your library", "played from your library"
+        out.append({
+            "lane": fam,
+            "role": fam,
+            "sample": sample,
+            "pack": _pack_of(files[0]) if files else "",
+            "locked": False,
+            # no sample dropdown: the instrument comes from the DJ's own
+            # identity, so it is chosen by WHO is playing, not picked per
+            # lane. It can still be levelled and removed.
+            "can_swap": False,
+            "why": why,
+            "members": sorted(members, key=_lane_sort),
+            "stem": bool(_stem_wav(no, members[0], root, folder=folder)),
         })
     return out
 
@@ -2793,21 +2902,18 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
 
  /* the stem faders — one per lane, so the rack reads down like a mixer */
- .lane .vol { display: flex; align-items: center; gap: 8px; flex: none; }
- .lane .vol input { -webkit-appearance: none; appearance: none; width: 96px;
-       height: 3px; border-radius: 2px; background: var(--line2);
-       cursor: pointer; outline: none; }
- .lane .vol input::-webkit-slider-thumb { -webkit-appearance: none;
-       appearance: none; width: 13px; height: 13px; border-radius: 50%;
-       background: var(--text); cursor: pointer; border: 0; }
- .lane .vol input::-moz-range-thumb { width: 13px; height: 13px;
-       border-radius: 50%; background: var(--text); cursor: pointer;
-       border: 0; }
- .lane.trimmed .vol input { background: var(--hi); }
- .lane.trimmed .vol input::-webkit-slider-thumb { background: var(--hi); }
- .lane.trimmed .vol input::-moz-range-thumb { background: var(--hi); }
- .lane .vol .db { font-family: var(--mono); font-size: 11.5px;
-       color: var(--dimmer); width: 34px; text-align: right; }
+ /* volume: 1 dB arrows, not a slider (owner 2026-07-25 — the slider
+    jumped and left gaps). The dB readout doubles as the reset button. */
+ .lane .vol { display: flex; align-items: center; gap: 2px; flex: none; }
+ .lane .vol .step { width: 26px; height: 26px; padding: 0; line-height: 1;
+       font-size: 15px; font-weight: 700; border-radius: 7px;
+       border: 1px solid var(--line2); background: var(--card2);
+       color: var(--text); cursor: pointer; }
+ .lane .vol .step:hover { border-color: var(--hi); color: var(--hi); }
+ .lane .vol .step:active { transform: translateY(1px); }
+ .lane .vol .db { font-family: var(--mono); font-size: 12px;
+       color: var(--dimmer); width: 40px; text-align: center;
+       cursor: pointer; user-select: none; }
  .lane.trimmed .vol .db { color: var(--hi); }
  .lane.trimmed .swatch { background: var(--hi); }
  /* a stem staged for removal reads as struck-through and faded */
@@ -3156,31 +3262,41 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        '<span class="lname"></span></span>' +
      '<span class="what"><span class="sample"></span>' +
        '<span class="pack"></span></span>' +
-     '<span class="vol"><input type="range" min="-24" max="24" step="0.5" ' +
-       'value="0" title="Volume for this stem — double-click to reset">' +
-       '<span class="db">0</span></span>' +
+     '<span class="vol">' +
+       '<button class="step dn" title="1 dB quieter">&minus;</button>' +
+       '<span class="db" title="Click to reset to 0">0</span>' +
+       '<button class="step up" title="1 dB louder">+</button>' +
+     '</span>' +
      '<span class="picks"></span>';
-   row.querySelector('.lname').textContent = s.lane;
+   row.querySelector('.lname').textContent =
+     s.lane === 'chords' ? 'CHORDS'
+     : s.lane === 'chordbass' ? 'CHORD BASS' : s.lane;
    row.querySelector('.sample').textContent = s.sample;
    row.querySelector('.pack').textContent = s.pack || '';
 
-   // volume rides on every lane, locked ones included: a stamp's SAMPLE is
-   // the DJ's identity, its level is just mix
-   const vol = row.querySelector('.vol input'), db = row.querySelector('.db');
+   // Volume rides on every lane, locked ones included: a stamp's SAMPLE is
+   // the DJ's identity, its level is just mix. Arrows rather than a slider
+   // (owner 2026-07-25): a slider jumped and left gaps, this steps exactly
+   // 1 dB a click — the standard fine-adjust on a real desk — and the
+   // number always shows where you are.
+   const db = row.querySelector('.db');
+   const STEP = 1, LIMIT = 24;
+   let v = 0;
    const showDb = () => {
-     const v = parseFloat(vol.value);
-     db.textContent = v ? (v > 0 ? '+' : '') + v : '0';
+     db.textContent = v ? (v > 0 ? '+' : '') + v.toFixed(0) : '0';
      row.classList.toggle('trimmed', !!v);
-   };
-   vol.oninput = () => {
-     const v = parseFloat(vol.value);
      trims[no] = trims[no] || {};
      if (v) trims[no][s.lane] = v; else delete trims[no][s.lane];
      if (!Object.keys(trims[no]).length) delete trims[no];
-     showDb();
      paintFoot(row.closest('.track'), no);
    };
-   vol.ondblclick = () => { vol.value = 0; vol.oninput(); };
+   const nudge = (d) => {
+     v = Math.max(-LIMIT, Math.min(LIMIT, v + d));
+     showDb();
+   };
+   row.querySelector('.step.up').onclick = () => nudge(STEP);
+   row.querySelector('.step.dn').onclick = () => nudge(-STEP);
+   db.onclick = () => { v = 0; showDb(); };
 
    const picks = row.querySelector('.picks');
 
@@ -3199,21 +3315,32 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      return row;
    }
 
-   const sel = document.createElement('select');
-   sel.innerHTML = '<option value="">reading your library&hellip;</option>';
-   sel.disabled = true;
-   picks.appendChild(sel);
+   // A chord/bass family row has no sample dropdown — the instrument comes
+   // from the DJ's identity, not from picking a file per lane — but it CAN
+   // be levelled and removed (owner 2026-07-25: "I should be able to remove
+   // the chord stems just like I can other stems").
+   let sel = null;
+   if (s.can_swap) {
+     sel = document.createElement('select');
+     sel.innerHTML = '<option value="">reading your library&hellip;</option>';
+     sel.disabled = true;
+     picks.appendChild(sel);
 
-   const dice = document.createElement('button');
-   dice.className = 'mini'; dice.title = 'Let the machine pick a different one';
-   dice.textContent = '🎲';
-   dice.onclick = () => {
-     const cur = (staged[no] || {});
-     if (s.lane in cur && cur[s.lane] === null) delete staged[no][s.lane];
-     else { staged[no] = staged[no] || {}; staged[no][s.lane] = null; sel.value = ''; }
-     paintLane(row, no, s);
-   };
-   picks.appendChild(dice);
+     const dice = document.createElement('button');
+     dice.className = 'mini'; dice.title = 'Let the machine pick a different one';
+     dice.textContent = '🎲';
+     dice.onclick = () => {
+       const cur = (staged[no] || {});
+       if (s.lane in cur && cur[s.lane] === null) delete staged[no][s.lane];
+       else { staged[no] = staged[no] || {}; staged[no][s.lane] = null; sel.value = ''; }
+       paintLane(row, no, s);
+     };
+     picks.appendChild(dice);
+   } else {
+     const t = document.createElement('span');
+     t.className = 'lock'; t.textContent = s.why || '';
+     picks.appendChild(t);
+   }
 
    // remove the stem completely (owner request 2026-07-21) — click
    // again to change your mind; the rebuild prints a beat without it
@@ -3230,6 +3357,8 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      paintFoot(row.closest('.track'), no);
    };
    picks.appendChild(rm);
+
+   if (!sel) return row;          // family row: level + remove, no swapping
 
    sel.onchange = () => {
      staged[no] = staged[no] || {};
@@ -3320,8 +3449,8 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      delete staged[no]; delete trims[no]; delete drops[no];
      rack.querySelectorAll('.lane').forEach(r => {
        const sel = r.querySelector('select'); if (sel) sel.value = '';
-       const vol = r.querySelector('.vol input');
-       if (vol) { vol.value = 0; r.querySelector('.db').textContent = '0'; }
+       const d = r.querySelector('.db');
+       if (d) d.click();                       // arrows: click resets to 0
        r.classList.remove('trimmed');
        r.classList.remove('dropped');
        const s = specs.find(x => x.lane === r.dataset.lane);

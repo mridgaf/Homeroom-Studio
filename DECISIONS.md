@@ -2394,3 +2394,51 @@ entries.
   rack rows read "107a120 F", "82 Bpm_Fm_ROT_Brass Chop 2 + 5 more", zero
   "built from scratch", zero "synth bass". midi gate PASS.
 - Status: open — needs his eye on the rack to confirm it now reads true.
+
+### 2026-07-25 Chord stems removable, 1 dB arrows, and a mix that opens quiet
+- Context: four owner asks — remove chord stems like any other stem; up/down
+  arrows instead of the jumpy slider; a traditional starting mix instead of
+  everything at one volume; and "do I need to commit first" (answered yes,
+  committed 61875d4 before starting — 18 files, +1867/-272, all green).
+- Owner's four answers: one collapsed row per instrument; 1 dB per click;
+  arrows + number, no slider; and BOTH lane balance and per-bar dynamics.
+- (1) chord0..N collapse to ONE "chords" rack row, bass0..N to one
+  "chordbass" row. Removing takes the whole instrument out — a per-bar
+  removal would make it vanish mid-beat, which he already ruled out.
+  swap_many expands the family name; _clean_trims applies a dB nudge to
+  every member so a level move can't make the beat louder halfway through.
+  Family rows are removable and levellable but have NO sample dropdown:
+  the instrument comes from the DJ's identity, not a per-lane file pick.
+  MATCHING IS DIGIT-SUFFIXED (^chord\d+$ / ^bass\d+$) because "bass" with
+  no digit is a REAL drum lane (the phase-2 sampled 808) — a startswith()
+  match would have silently removed the wrong sound.
+- (2) Volume: the range slider is gone, replaced by -/+ buttons stepping
+  exactly 1 dB with the dB value always visible; clicking the number
+  resets to 0. Clamped +/-24 dB. Verified in the browser: +1/+2/+3, back
+  to +2, 30 clicks clamp at +24, click-to-reset returns 0.
+- (3) Opening mix, new keys in groove.OWNER_TASTE next to the existing
+  house numbers (NOT magic constants in beat_machine — he tunes these):
+  chord_gain 0.30 (was a flat 0.5, which sat the pad ABOVE the hats at
+  0.36) and chord_bass_gain 0.55 (was 0.85 — louder than the snare at
+  0.88, which is most of why a fresh beat arrived shouting).
+- (4) Per-bar dynamics: chord_accents (1.0, 0.86, 0.93, 0.82) scale each
+  chord slot in turn, cycling for longer progressions — the downbeat
+  leans, the repeats ease off. Deterministic from slot index so a rebuild
+  reproduces it. Beat 1275 opens chord0 0.300 / chord1 0.258,
+  bass0 0.550 / bass1 0.473, all under kick 1.000.
+- Two bugs caught by the new tests, both mine, both from this session:
+  * I had unlocked EVERY pathless lane, which quietly made the tuned 808
+    "sub" removable — a lane swap_many would then reject. Restored: only
+    the chord/bass families are deliberately unlocked.
+  * Dropping the chords left the bass roots with no audio (KeyError on
+    rebuild): the regen guard only looked for chord lanes, so removing
+    them skipped rebuilding the bass. Guard now checks either family.
+- Verify by: 713/713 tests (5 new: one-removable-row, removal takes every
+  chord lane, levelling moves every bar together, the "bass" drum lane is
+  not swallowed, and the harmony opens under the drums with varying
+  levels). Live in the browser: every row has arrows and no slider, chords
+  and chordbass both have Remove, stamp still locked. Real end-to-end
+  removal on beat 1275 produced "1276 Kane East Gilded Tuition No Chords"
+  — chord lanes gone, bass roots and drums intact. midi gate PASS.
+- Status: open — needs his ear on whether 0.30/0.55 and the accent shape
+  are the right starting balance. Both are one-line edits in groove.py.

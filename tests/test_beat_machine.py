@@ -287,8 +287,14 @@ def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env
     rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
     g_c0 = rec2["preset"]["lanes"]["chord0"][1]
     g_b0 = rec2["preset"]["lanes"]["bass0"][1]
-    assert g_c0 == pytest.approx(0.5 * 10 ** (5 / 20))
-    assert g_b0 == pytest.approx(0.85 * 10 ** (-3 / 20))
+    # the OPENING levels come from groove.OWNER_TASTE (owner 2026-07-25 —
+    # they used to be a flat 0.5/0.85, which sat the pad above the hats and
+    # the chord bass above the snare). Read from the constants so tuning
+    # the house mix doesn't look like a broken test.
+    base_c = beat_machine._CHORD_GAIN * beat_machine._ACCENTS[0]
+    base_b = beat_machine._BASS_GAIN * beat_machine._ACCENTS[0]
+    assert g_c0 == pytest.approx(base_c * 10 ** (5 / 20))
+    assert g_b0 == pytest.approx(base_b * 10 ** (-3 / 20))
     # a SECOND rebuild trimming chord0 again must STACK on round 1, not
     # reset it back to the deterministic default (0.5) — the trap a naive
     # "just regenerate everything from scratch" fix would fall into.
@@ -297,7 +303,7 @@ def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env
                                       trims={"chord0": 2.0})
     rec3 = beat_recipes.load_recipe(root, int(path3.name.split()[0]))
     assert rec3["preset"]["lanes"]["chord0"][1] == pytest.approx(
-        0.5 * 10 ** (5 / 20) * 10 ** (2 / 20))
+        base_c * 10 ** (5 / 20) * 10 ** (2 / 20))
     # bass0 wasn't touched in round 2 — its round-1 trim must survive
     assert rec3["preset"]["lanes"]["bass0"][1] == pytest.approx(g_b0)
 
@@ -1152,3 +1158,109 @@ def test_nothing_but_chip_is_ever_generated(machine_env, monkeypatch):
                     if d.name.startswith(path.name.split()[0]))
     names = " ".join(f.name for f in stem_dir.glob("*.wav"))
     assert "synth bass" not in names, names
+
+
+# ------------------------- chord stems: one row, removable (owner 7-25) ---
+
+def _rack(no, root):
+    return {r["lane"]: r for r in beat_machine._beat_stems(no, root)}
+
+
+def _chords_beat(root, shots, monkeypatch, seed=21):
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    random.seed(seed)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    return int(path.name.split()[0]), path, report
+
+
+def test_chords_are_one_removable_row_not_four(machine_env,
+                                               only_his_instruments,
+                                               monkeypatch):
+    """Owner 2026-07-25: 'I should be able to remove the chord stems just
+    like I can other stems.' They collapse to ONE row per instrument —
+    removing bar 2's chord alone would make it vanish mid-beat, which is
+    the drop-out he already ruled out."""
+    root, shots = machine_env
+    no, path, report = _chords_beat(root, shots, monkeypatch)
+    rows = _rack(no, root)
+    assert beat_machine.CHORD_FAM in rows, (report, sorted(rows))
+    assert not [ln for ln in rows if beat_machine._CHORD_LANE.match(ln)]
+    fam = rows[beat_machine.CHORD_FAM]
+    assert fam["locked"] is False           # removable...
+    assert fam["can_swap"] is False         # ...but not swap-a-file-able
+    assert len(fam["members"]) > 1, fam     # it really does stand for many
+    assert "your library" in fam["why"]
+
+
+def test_removing_the_chords_row_removes_every_chord_lane(
+        machine_env, only_his_instruments, monkeypatch):
+    root, shots = machine_env
+    no, _p, report = _chords_beat(root, shots, monkeypatch)
+    before = beat_machine.load_recipe(root, no)["preset"]["lanes"]
+    assert [ln for ln in before if beat_machine._CHORD_LANE.match(ln)], report
+    p2, rep2 = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                      drops=[beat_machine.CHORD_FAM])
+    rec2 = beat_recipes.load_recipe(root, int(p2.name.split()[0]))
+    lanes = rec2["preset"]["lanes"]
+    assert not [ln for ln in lanes if beat_machine._CHORD_LANE.match(ln)], \
+        (rep2, sorted(lanes))
+    # the drums survive, and the file is named for the musical change
+    assert "kick" in lanes
+    assert "chord0" not in p2.name and "Chords" in p2.name, p2.name
+
+
+def test_levelling_the_chords_row_moves_every_bar_together(
+        machine_env, only_his_instruments, monkeypatch):
+    """One row, one fader: a dB nudge has to reach every bar of that
+    instrument or the beat would get louder halfway through."""
+    root, shots = machine_env
+    no, _p, _r = _chords_beat(root, shots, monkeypatch)
+    rec = beat_recipes.load_recipe(root, no)
+    was = {ln: g for ln, (p, g, f, b) in rec["preset"]["lanes"].items()
+           if beat_machine._CHORD_LANE.match(ln)}
+    assert len(was) > 1
+    p2, _r2 = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                     trims={beat_machine.CHORD_FAM: 4.0})
+    rec2 = beat_recipes.load_recipe(root, int(p2.name.split()[0]))
+    for ln, before in was.items():
+        after = rec2["preset"]["lanes"][ln][1]
+        assert after == pytest.approx(before * 10 ** (4 / 20)), ln
+
+
+def test_the_bass_drum_lane_is_not_swallowed_by_the_chord_bass_family():
+    """'bass' with no digit is a REAL drum lane (the phase-2 sampled 808).
+    Only bass0/bass1/... belong to the chord family — a startswith() match
+    would take the wrong sound out of the beat."""
+    assert beat_machine._chord_family("bass") is None
+    assert beat_machine._chord_family("bass0") == beat_machine.CHORD_BASS_FAM
+    assert beat_machine._chord_family("bassline") is None
+    assert beat_machine._chord_family("chord") is None
+    assert beat_machine._chord_family("chord12") == beat_machine.CHORD_FAM
+
+
+def test_harmony_opens_under_the_drums_with_per_bar_dynamics(
+        machine_env, only_his_instruments, monkeypatch):
+    """Owner 2026-07-25: 'everything starts off the same volume ... it
+    sounds loud and crazy.' The chord bass used to open at 0.85 — louder
+    than the snare (0.88 is the snare, kick is 1.0) — and the pad at 0.5,
+    above the hats. And every bar landed identically."""
+    root, shots = machine_env
+    no, _p, report = _chords_beat(root, shots, monkeypatch)
+    lanes = beat_recipes.load_recipe(root, no)["preset"]["lanes"]
+    chords = [g for ln, (p, g, f, b) in lanes.items()
+              if beat_machine._CHORD_LANE.match(ln)]
+    basses = [g for ln, (p, g, f, b) in lanes.items()
+              if beat_machine._CHORD_BASS_LANE.match(ln)]
+    kick = lanes["kick"][1]
+    assert chords and basses, report
+    # the harmony sits UNDER the kit, not on top of it
+    assert max(chords) < kick, (max(chords), kick)
+    assert max(basses) < kick, (max(basses), kick)
+    assert max(chords) <= beat_machine._CHORD_GAIN + 1e-9
+    # ...and it breathes: the bars are not all the same level
+    assert len(set(round(g, 6) for g in chords)) > 1, chords
+    assert chords[0] == pytest.approx(beat_machine._CHORD_GAIN)   # downbeat
