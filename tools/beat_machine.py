@@ -3461,9 +3461,16 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      // Play what the rack is currently SET to, not the file on disk: with
      // volumes nudged or stems removed, hitting play has to reflect that
      // so a mix decision can be heard before rendering (owner 2026-07-25).
-     const want = mixUrl(b.no);
-     if (au.dataset.src !== want) { au.dataset.src = want; au.src = want; }
-     au.play().catch(() => {});
+     // The beat number comes off the element — wireTransport only gets
+     // `el`, and reaching for makeTrack's `b` here threw on every click.
+     if (cue(au, mixUrl(el.dataset.no))) {
+       au.addEventListener('canplay', function once() {
+         au.removeEventListener('canplay', once);
+         au.play().catch(() => {});
+       });
+     } else {
+       au.play().catch(() => {});
+     }
    };
    au.addEventListener('play', () => { pp.classList.add('on');
      pp.innerHTML = '&#10073;&#10073;'; });
@@ -3523,22 +3530,31 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      + '&drop=' + encodeURIComponent(dk.join(','));
  }
 
- // A beat that's already playing re-cues with the new levels; a paused one
- // just gets its next play from the right place.
+ // Point a player at a URL. load() is not optional: these elements are
+ // preload="none", and assigning .src alone leaves them sitting there —
+ // that is what made the tracks go silent while the stems still played.
+ function cue(au, url) {
+   if (au.dataset.src === url && au.readyState) return false;
+   au.dataset.src = url; au.src = url; au.load();
+   return true;
+ }
+
+ // A beat that's already playing re-cues with the new levels. A paused one
+ // is left alone on purpose: every arrow click would otherwise make the
+ // server mix the beat again and throw the last one away, and the URL is
+ // worked out at play time anyway.
  function refreshMix(el, no) {
    const au = el.querySelector('audio');
-   if (!au) return;
+   if (!au || au.paused) return;
    const want = mixUrl(no);
    if (au.dataset.src === want) return;
-   const at = au.currentTime, live = !au.paused;
-   au.dataset.src = want; au.src = want;
-   if (live) {
-     au.addEventListener('loadedmetadata', function once() {
-       au.removeEventListener('loadedmetadata', once);
-       if (at < au.duration) au.currentTime = at;
-       au.play().catch(() => {});
-     });
-   }
+   const at = au.currentTime;
+   cue(au, want);
+   au.addEventListener('loadedmetadata', function once() {
+     au.removeEventListener('loadedmetadata', once);
+     if (at < au.duration) au.currentTime = at;
+     au.play().catch(() => {});
+   });
  }
 
  function paintFoot(el, no) {
@@ -4059,10 +4075,9 @@ def run_web(port=None):
                 # what's going on before I render")
                 q = parse_qs(u.query)
                 try:
-                    self._send(200, "audio/wav",
-                               _preview_mix(q.get("no", [""])[0],
-                                            q.get("trims", [""])[0],
-                                            q.get("drop", [""])[0]))
+                    self._media(_preview_mix(q.get("no", [""])[0],
+                                             q.get("trims", [""])[0],
+                                             q.get("drop", [""])[0]))
                 except Exception:
                     self._audio(q.get("no", [""])[0])   # fall back to the file
             elif u.path == "/sample":
@@ -4090,7 +4105,7 @@ def run_web(port=None):
             if not path or not Path(path).exists():
                 self._send(404, "text/plain", b"not found")
                 return
-            self._send(200, "audio/wav", Path(path).read_bytes())
+            self._media(Path(path).read_bytes())
 
         def _solo(self, no, lane, db=0.0):
             # One row on its own, at its level IN THE TRACK plus whatever
@@ -4110,18 +4125,16 @@ def run_web(port=None):
             peak = float(max(np.abs(L).max(), np.abs(R).max())) * g
             if peak > 0.94:               # a big boost can't be allowed
                 g *= 0.94 / peak          # to clip the preview
-            self._send(200, "audio/wav", wav24_bytes(L * g, R * g))
+            self._media(wav24_bytes(L * g, R * g))
 
-        def _audio(self, no):
-            # only ever a beat NUMBER from the client, resolved to a file
-            # under the beats root here — no client path ever touches disk
-            w = beat_wav(int(no)) if str(no).isdigit() else None
-            if not w or not w.exists():
-                self._send(404, "text/plain", b"not found")
-                return
-            data = w.read_bytes()
+        def _media(self, data):
+            """Audio for an <audio> element. Range-aware: the player asks
+            for "bytes=0-" before it will commit to a file, and the scrub
+            bar needs real ranges to seek. Serving a plain 200 here is
+            what left the live /mix silent — the element reported itself
+            as playing while duration stayed null (owner 2026-07-25)."""
             rng = self.headers.get("Range")
-            if rng and rng.startswith("bytes="):          # let <audio> seek
+            if rng and rng.startswith("bytes="):
                 try:
                     s, e = rng[6:].split("-")
                     start = int(s) if s else 0
@@ -4144,6 +4157,15 @@ def run_web(port=None):
             self.send_header("Content-Length", str(len(data)))
             self.end_headers()
             self.wfile.write(data)
+
+        def _audio(self, no):
+            # only ever a beat NUMBER from the client, resolved to a file
+            # under the beats root here — no client path ever touches disk
+            w = beat_wav(int(no)) if str(no).isdigit() else None
+            if not w or not w.exists():
+                self._send(404, "text/plain", b"not found")
+                return
+            self._media(w.read_bytes())
 
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",

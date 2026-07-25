@@ -22,6 +22,43 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-25 Tracks stopped playing — three bugs behind one symptom
+- Context: right after the vocabulary/stem commit (b103177) he reported
+  "the tracks won't play together. I can hear the stems individually when
+  I click play, but the tracks do nothing."
+- Cause 1 (the actual breakage): the play handler lives in
+  `wireTransport(el)`, not `makeTrack(b)`. I wrote `mixUrl(b.no)` there,
+  so every play click threw a ReferenceError and died silently. Fixed to
+  `el.dataset.no`. Stems still worked because they use a different path.
+- Cause 2: the track players are `preload="none"`, and assigning `.src`
+  alone does not start a load. Nothing called `au.load()`. Added a `cue()`
+  helper that sets src AND loads, and play now waits for `canplay`.
+- Cause 3: `/mix` and `/stem` served a plain 200 with no range support,
+  while `/audio` had its own range-aware writer. Extracted that into
+  `_media()` and put all three audio routes through it — the scrub bar
+  needs real ranges to seek, which the preview mix never had.
+- Also fixed: `refreshMix` fired on every arrow click, so dialling a level
+  from 0 to -3 made the server mix the whole beat three times and throw
+  two away (visible as ERR_ABORTED in the network log). It now only
+  re-cues a track that is ALREADY playing; a paused one gets its URL
+  worked out at play time, which is his actual workflow.
+- Verify by: 724/724 tests. Live in the browser, measured not assumed:
+  plain play 1295/1296 starts in 0.5-0.7s on /audio; a brand-new mix URL
+  (1294, snare +5) reaches audio in 2.6s and runs (dur 10.67s, clock
+  advancing); event order on a staged beat is play -> waiting -> canplay
+  -> playing, readyState 4. Range requests on /mix and /stem return 206
+  with Content-Range.
+- What I got wrong in the earlier session: my browser check clicked play,
+  the call timed out, and I read that as an autoplay-policy quirk instead
+  of checking the console. The ReferenceError was sitting right there.
+  Clicking a control is not verifying it — the check has to assert the
+  thing actually happened.
+- Open: first play of a NEW mix URL takes ~2.6s in a hidden browser pane
+  (server side is 0.1-0.6s; the rest is the browser). Likely faster in a
+  real visible window. If it feels slow to him, cache the last mix per
+  beat server-side.
+- Status: open — needs him to click play and confirm.
+
 ### 2026-07-25 Kick drum, bass drum and bass are three different things
 - Context: owner's vocabulary correction. "KickDrum should be its own thing.
   Base drum should be its own thing. and then there is base, which is a line
