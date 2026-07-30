@@ -43,11 +43,36 @@ fi
 printf '%s' "$PROMPT" | pbcopy 2>/dev/null \
   && echo "(The kickoff message is also on your clipboard — Cmd+V if needed.)"
 
-if ! command -v claude >/dev/null 2>&1; then
+# Find Claude Code. A double-clicked .command starts a bare shell that does
+# NOT load ~/.zshrc or ~/.bash_profile, so `command -v claude` can come up
+# empty even when it's installed fine. Look in the usual places too.
+# (2026-07-25: this is exactly what bit the first version of this script.)
+CLAUDE=""
+if command -v claude >/dev/null 2>&1; then
+  CLAUDE="$(command -v claude)"
+else
+  for c in "$HOME/.local/bin/claude" \
+           "/opt/homebrew/bin/claude" \
+           "/usr/local/bin/claude" \
+           "$HOME/.claude/local/claude" \
+           "$HOME/bin/claude"; do
+    if [ -x "$c" ]; then CLAUDE="$c"; break; fi
+  done
+fi
+
+if [ -z "$CLAUDE" ]; then
   echo
-  echo "Claude Code isn't installed, or isn't on the PATH for this window."
-  echo "The kickoff message is on your clipboard, so you can open Claude"
-  echo "Code yourself and paste it. Nothing was started."
+  echo "Couldn't find Claude Code on this Mac. Two possibilities:"
+  echo
+  echo "  1. It isn't installed. To install it, paste this in Terminal:"
+  echo "       curl -fsSL https://claude.ai/install.sh | bash"
+  echo
+  echo "  2. It IS installed somewhere this script doesn't look. To find out,"
+  echo "     paste this in Terminal and tell me what it prints:"
+  echo "       which claude; ls ~/.local/bin/claude 2>/dev/null"
+  echo
+  echo "Either way, your kickoff message is on the clipboard — you can open"
+  echo "Claude Code yourself and paste it. Nothing was started."
   echo
   read -p "Press Return to close."
   exit 1
@@ -55,8 +80,9 @@ fi
 
 echo
 echo "Starting Claude Code in: $(pwd)"
+echo "Using: $CLAUDE"
 echo "Job: the packaging punch list, step 0 first."
 echo "Remember: one step at a time, and don't let it batch them."
 echo
 
-exec claude "$PROMPT"
+exec "$CLAUDE" "$PROMPT"

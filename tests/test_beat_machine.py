@@ -284,19 +284,18 @@ def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env
     assert "chord0" in rec["preset"]["lanes"], report   # a real chords beat
     # a volume-only rebuild must not crash — this is the bug that was found
     path2, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
-                                      trims={"chord0": 5.0, "bass0": -3.0})
+                                      trims={"chord0": 5.0})
     assert path2.exists()
     rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
     g_c0 = rec2["preset"]["lanes"]["chord0"][1]
-    g_b0 = rec2["preset"]["lanes"]["bass0"][1]
-    # the OPENING levels come from groove.OWNER_TASTE (owner 2026-07-25 —
-    # they used to be a flat 0.5/0.85, which sat the pad above the hats and
-    # the chord bass above the snare). Read from the constants so tuning
-    # the house mix doesn't look like a broken test.
+    # bass0 never exists (owner 2026-07-29 hard rule: no melodic bassline)
+    assert "bass0" not in rec2["preset"]["lanes"]
+    # the OPENING level comes from groove.OWNER_TASTE (owner 2026-07-25 —
+    # it used to be a flat 0.5, which sat the pad above the hats). Read
+    # from the constant so tuning the house mix doesn't look like a
+    # broken test.
     base_c = beat_machine._CHORD_GAIN * beat_machine._ACCENTS[0]
-    base_b = beat_machine._BASS_GAIN * beat_machine._ACCENTS[0]
     assert g_c0 == pytest.approx(base_c * 10 ** (5 / 20))
-    assert g_b0 == pytest.approx(base_b * 10 ** (-3 / 20))
     # a SECOND rebuild trimming chord0 again must STACK on round 1, not
     # reset it back to the deterministic default (0.5) — the trap a naive
     # "just regenerate everything from scratch" fix would fall into.
@@ -306,8 +305,6 @@ def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env
     rec3 = beat_recipes.load_recipe(root, int(path3.name.split()[0]))
     assert rec3["preset"]["lanes"]["chord0"][1] == pytest.approx(
         base_c * 10 ** (5 / 20) * 10 ** (2 / 20))
-    # bass0 wasn't touched in round 2 — its round-1 trim must survive
-    assert rec3["preset"]["lanes"]["bass0"][1] == pytest.approx(g_b0)
 
 
 def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
@@ -689,12 +686,13 @@ def test_chords_direction_adds_a_harmony_layer(machine_env):
     no = int(path.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
     lanes = rec["preset"]["lanes"]
-    assert "chord0" in lanes and "bass0" in lanes
+    # bass0 never exists (owner 2026-07-29 hard rule: no melodic bassline)
+    assert "chord0" in lanes and "bass0" not in lanes
     assert "chords: dreamy" in report
     stem_dir = list(path.parent.glob("* Stems"))[0]
     stems = {f.stem for f in stem_dir.glob("*.wav")}
     assert any(s.startswith("chord0") for s in stems)
-    assert any(s.startswith("bass0") for s in stems)
+    assert not any(s.startswith("bass0") for s in stems)
     # the chord/bass stems actually carry audio, not silence
     with wave.open(str(next(stem_dir.glob("chord0*.wav"))), "rb") as f:
         frames = f.readframes(f.getnframes())
@@ -1056,11 +1054,14 @@ def test_a_chord_lane_never_drops_out_mid_beat(machine_env,
     assert len(chord_lanes) == n_chords, report      # and here it voiced
 
 
-def test_chord_bass_line_comes_from_his_own_bass_samples(
+def test_chord_bass_line_is_never_rendered(
         machine_env, only_his_instruments, monkeypatch):
-    """Owner 2026-07-25: 'I prefer sounds from my sound bank.' The bass
-    under the chords was a synthesized sub; it is now pitch-mapped from
-    his own bass one-shots whenever they can voice every root."""
+    """Owner 2026-07-29 hard rule: the melodic bassline is his to play
+    himself, in Reason — never rendered by the generator, even when his
+    own bass samples (the only_his_instruments fixture) could voice every
+    root in the progression. Supersedes the 2026-07-25 rule this test used
+    to check (his samples over a synth sub) — now there's no bass line at
+    all, sampled or synthesized."""
     root, shots = machine_env
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
@@ -1069,22 +1070,14 @@ def test_chord_bass_line_comes_from_his_own_bass_samples(
         "chords_default": True})
     random.seed(7)
     path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
-    # the chord/bass lanes are synthesized-at-render, so they have no
-    # kit_paths entry — their provenance shows up in the stem FILENAMES,
-    # which write_stems builds from `sources`
     stem_dir = next(d for d in path.parent.glob("* Stems")
                     if d.name.startswith(path.name.split()[0]))
     bass_stems = [f.name for f in stem_dir.glob("bass*.wav")]
-    assert bass_stems, (report, [f.name for f in stem_dir.glob("*.wav")])
-    # the stem names the REAL file it came from (the fixture's bass samples
-    # are called "bass_<note>"), and nothing is synthesized any more
-    assert all("bass_" in n for n in bass_stems), (report, bass_stems)
-    assert not any("synth bass" in n for n in bass_stems), (report, bass_stems)
-    # and the recipe records those files, which is what stops the stem rack
-    # printing "built from scratch" over his own library
+    assert not bass_stems, (report, [f.name for f in stem_dir.glob("*.wav")])
+    # the chords still play — only the bass line under them is gone
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     vf = rec["harmony"]["voice_files"]
-    assert any(k.startswith("bass") for k in vf), vf
+    assert not any(k.startswith("bass") for k in vf), vf
     assert any(k.startswith("chord") for k in vf), vf
 
 
@@ -1260,10 +1253,10 @@ def test_harmony_opens_under_the_drums_with_per_bar_dynamics(
     basses = [g for ln, (p, g, f, b) in lanes.items()
               if beat_machine._CHORD_BASS_LANE.match(ln)]
     kick = lanes["kick"][1]
-    assert chords and basses, report
+    # bass0 never exists (owner 2026-07-29 hard rule: no melodic bassline)
+    assert chords and not basses, report
     # the harmony sits UNDER the kit, not on top of it
     assert max(chords) < kick, (max(chords), kick)
-    assert max(basses) < kick, (max(basses), kick)
     assert max(chords) <= beat_machine._CHORD_GAIN + 1e-9
     # ...and it breathes: the bars are not all the same level
     assert len(set(round(g, 6) for g in chords)) > 1, chords
@@ -1441,3 +1434,175 @@ def test_soloing_an_instrument_plays_all_of_its_chords(machine_env,
     whole = beat_machine._solo_audio(no, beat_machine.CHORD_FAM, root=root)
     one = beat_machine._solo_audio(no, members[0], root=root)
     assert beat_machine._rms(*whole) > beat_machine._rms(*one)
+
+
+# ---- separate melodic PARTS instead of one stack (2026-07-25) ----
+# Owner: "there should be individual instruments or loops, not everything
+# stacked on top of each other, playing the same thing. I wanted one or
+# two samples at a time, playing melody, up to three. but those parts
+# should be completely separate." theory/arrangement.md is the rulebook;
+# these tests hold the code to it.
+
+
+def test_split_chord_roles_never_repeats_a_note():
+    """The whole fix in one assertion: every original chord tone is
+    handed to exactly one role — support, lead, or passing, never two —
+    on a triad, a 7th chord, and a 9th chord."""
+    for notes in ([48, 51, 55], [48, 51, 55, 58], [48, 51, 55, 58, 62]):
+        support, lead, passing = beat_machine._split_chord_roles(notes)
+        # lead/passing are transposed up an octave/two (rule 1, register
+        # separation) — undo that to compare against the original chord
+        rebuilt = sorted(support + [n - 12 for n in lead] +
+                         [n - 24 for n in passing])
+        assert rebuilt == sorted(notes), (notes, support, lead, passing)
+
+
+def test_lead_and_passing_sit_above_support():
+    """Rule 1 from arrangement.md, "different heights", made literal: a
+    part that shares support's register isn't a separate part, just a
+    relabeled one. Support keeps the chord's own octave; lead moves up
+    one octave, passing up two — clear of support's span, not inside it."""
+    support, lead, passing = beat_machine._split_chord_roles(
+        [48, 51, 55, 58, 62])          # a 9th chord: root,3rd,5th,7th,9th
+    assert min(lead) > max(support)
+    assert min(passing) > max(lead)
+
+
+def test_split_chord_roles_leaves_lead_empty_on_a_power_chord():
+    """A bare root+5th (quality '5') has nothing left to split off — the
+    caller reads an empty lead as 'this chord can't be multi-part' and
+    falls back to one part, not a silent lead lane."""
+    support, lead, passing = beat_machine._split_chord_roles([48, 55])
+    assert support == [48, 55]
+    assert lead == [] and passing == []
+
+
+def test_role_sources_prefers_distinct_instruments_but_never_fails():
+    order = ["piano", "wood", "synth"]
+    # the identity owns two real voices -> support and lead get different
+    # ones
+    assert beat_machine._role_sources("piano", order, ["piano", "wood"], 2) \
+        == ["piano", "wood"]
+    # only one real voice -> the SAME instrument voices both roles (a
+    # pianist's two hands, not a degraded case — see the docstring)
+    assert beat_machine._role_sources("piano", order, ["piano"], 2) \
+        == ["piano", "piano"]
+    # "loop" and "chip" never fill a role even if the identity owns them
+    assert beat_machine._role_sources(
+        "piano", order + ["loop"], ["piano", "loop"], 2) == ["piano", "piano"]
+
+
+@pytest.fixture
+def two_real_instruments(tmp_path, monkeypatch):
+    """Two REAL, wide, distinct instrument groups (not the narrow 'bell'
+    only_his_instruments uses) — wide enough that an octave-shifted lead
+    or passing note is still comfortably coverable, so a multi-part plan
+    has a fair chance to succeed rather than fail on register alone."""
+    import instrument_sampler
+    piano = _inst_index(tmp_path, "piano", range(24, 97, 2))
+    wood = _inst_index(tmp_path, "wood", range(24, 97, 2))
+    monkeypatch.setattr(instrument_sampler, "scan",
+                        lambda *a, **k: piano + wood)
+    monkeypatch.setattr(instrument_sampler, "scan_bass", lambda *a, **k: [])
+    return piano, wood
+
+
+def _two_part_beat(root, shots, monkeypatch, seed=0, progression="epic"):
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [[progression, 1]],
+        "chord_source": [["piano", 1], ["wood", 1]],
+        "chords_default": True})
+    random.seed(seed)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    return int(path.name.split()[0]), path, report
+
+
+def test_two_part_beat_gives_each_instrument_its_own_lane_and_stem(
+        machine_env, two_real_instruments, monkeypatch):
+    """Found by seeding until the part-count roll landed on 2 (seed 0,
+    verified 2026-07-25). Two DIFFERENT instruments, two lanes, two
+    stems — not one instrument playing twice."""
+    root, shots = machine_env
+    no, path, report = _two_part_beat(root, shots, monkeypatch, seed=0)
+    rec = beat_recipes.load_recipe(root, no)
+    lanes = rec["preset"]["lanes"]
+    ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
+    fams = sorted({beat_machine._chord_family(l) for l in ch_lanes} - {None})
+    assert fams == ["chords", "chords2"], (report, ch_lanes)
+    voiced = rec["harmony"]["voice_names"]
+    v0 = {ln: nm for ln, nm in voiced.items()
+         if beat_machine._chord_family(ln) == "chords"}
+    v1 = {ln: nm for ln, nm in voiced.items()
+         if beat_machine._chord_family(ln) == "chords2"}
+    # two genuinely different instruments, not the same one twice
+    assert {nm.split(" (")[0] for nm in v0.values()} != \
+        {nm.split(" (")[0] for nm in v1.values()}
+    assert all("(support)" in nm for nm in v0.values())
+    assert all("(lead)" in nm for nm in v1.values())
+    # both stems exist and both carry real audio
+    stems = _rack(no, root)
+    assert stems["chords"]["stem"] and stems["chords2"]["stem"]
+
+
+def test_loops_always_play_alone(machine_env, monkeypatch):
+    """Owner 2026-07-25, answering directly: 'Loops play alone.' A loop
+    is already a finished melody; it must never combine with a second
+    instrument, no matter how the part-count roll lands."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["dreamy", 1]],
+        "chord_source": [["loop", 1]],
+        "chords_default": True})
+    for seed in range(6):
+        random.seed(seed)
+        path, report = beat_machine.generate(["Timberline"], root=root,
+                                             shots=shots)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        lanes = rec["preset"]["lanes"]
+        fams = {beat_machine._chord_family(l) for l in lanes
+               if l.startswith("chord")} - {None}
+        assert fams <= {"chords"}, (seed, report, sorted(lanes))
+
+
+def test_passing_part_is_optional_per_slot_not_automatic(
+        machine_env, two_real_instruments, monkeypatch):
+    """Found by seeding a 9th-chord progression until one chord in the
+    beat got a passing note and the other didn't (seed 29, verified
+    2026-07-25) — proving passing is a per-slot roll, not 'always on when
+    the chord is rich enough'. See arrangement.md: 'the first thing you
+    don't miss if it's silent.'"""
+    root, shots = machine_env
+    no, path, report = _two_part_beat(root, shots, monkeypatch, seed=29,
+                                      progression="plugg_dream_9")
+    rec = beat_recipes.load_recipe(root, no)
+    lanes = rec["preset"]["lanes"]
+    ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
+    fams = sorted({beat_machine._chord_family(l) for l in ch_lanes} - {None})
+    assert "chords3" in fams, (report, ch_lanes)   # the passing part exists
+    members = beat_machine._family_members("chords3", lanes)
+    assert 0 < len(members) < len(rec["harmony"]["chords"]), (
+        "passing should appear on some chords and not others", members)
+
+
+def test_three_parts_when_every_chord_can_spare_a_note(
+        machine_env, two_real_instruments, monkeypatch):
+    """Seed 34 on the same 9th-chord progression: every chord has a note
+    to spare, so passing rides the whole beat (still its own lane, own
+    stem, own volume — same as support and lead)."""
+    root, shots = machine_env
+    no, path, report = _two_part_beat(root, shots, monkeypatch, seed=34,
+                                      progression="plugg_dream_9")
+    rec = beat_recipes.load_recipe(root, no)
+    lanes = rec["preset"]["lanes"]
+    ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
+    fams = sorted({beat_machine._chord_family(l) for l in ch_lanes} - {None})
+    assert fams == ["chords", "chords2", "chords3"], (report, ch_lanes)
+    stems = _rack(no, root)
+    assert stems["chords"]["stem"] and stems["chords2"]["stem"] \
+        and stems["chords3"]["stem"]
+    # the rack shows a real instrument name for the passing row, not the
+    # bare word "chords3"
+    assert stems["chords3"]["label"] not in ("chords3", "")

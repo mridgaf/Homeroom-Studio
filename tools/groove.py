@@ -178,6 +178,17 @@ OWNER_TASTE = {
     # scale each chord slot in turn, cycling if the progression is longer,
     # so the harmony breathes instead of landing identically every bar.
     "chord_accents": (1.0, 0.86, 0.93, 0.82),
+    # --- how many separate melodic parts a chord gets (owner 2026-07-25:
+    # "one or two samples at a time, up to three" — never every instrument
+    # doubling the same chord). Weights for (1, 2, 3) parts; must sum to
+    # 1.0. A loop or the chip voice always overrides this to 1 — they are
+    # a finished part on their own and never combine with another.
+    "melody_part_weights": (0.55, 0.35, 0.10),
+    # The 3rd part ("passing" — the highest, sparsest note, see
+    # theory/arrangement.md) only ever exists on a chord that HAS a note
+    # to spare (a 7th or richer), and even then only plays this often —
+    # it's meant to be the first thing you don't miss if it's silent.
+    "passing_note_p": 0.5,
 }
 
 

@@ -22,6 +22,138 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-29 Hard rule: no melodic bassline, ever
+- Context: owner wants to play the bassline himself in Reason. The
+  generator already told apart three low sounds — kick drum, bass drum/
+  808 (the boom under the kick), and the melodic bassline that follows
+  the chords (lane family "chordbass", bass0..N) — but the bassline was
+  still opt-out per beat (typing "no bass" in the notes box), and would
+  render itself from his own bass samples by default when available.
+- Decision/change: one-line change in tools/beat_machine.py's
+  _build_chords — `bass_idx` is now hardcoded to None instead of
+  scanning his bass library, so bass0..N lanes never get built,
+  regardless of notes-box wording. This is the single choke point: both
+  callers of _build_chords (new beats, and rebuilding an old beat from
+  its saved recipe) go through it, so old saved beats also lose their
+  baked-in bassline on rebuild. Kick and the 808 bass drum are untouched.
+- Reasoning: traced every place a melodic bassline could get created —
+  only _build_chords does it (via instrument_sampler.scan_bass); crew.py,
+  genres.py, and the other make_*.py scripts don't have their own bass
+  logic (make_hiphop_tracks.py is retired as a generator, kept only as an
+  imported helper library). One line, one file, covers every path.
+- Verify by: updated the 4 tests that asserted a bassline gets built
+  (test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims,
+  test_chords_direction_adds_a_harmony_layer,
+  test_chord_bass_line_comes_from_his_own_bass_samples — renamed
+  test_chord_bass_line_is_never_rendered and inverted, since its whole
+  premise is now the opposite rule — and
+  test_harmony_opens_under_the_drums_with_per_bar_dynamics). Full suite:
+  732/732 passed.
+- Status: confirmed — verified by test suite; owner hasn't heard a
+  rendered beat under the new rule yet.
+
+### 2026-07-25 One stack becomes up to three separate PARTS
+- Context: owner's complaint, verbatim: "The piano stacks. Should not be
+  a thing... there should be individual Instruments or loops, not
+  everything stacked on top of each other, playing the same thing. I
+  wanted one or two samples at a time, playing melody, up to three. but
+  those parts should be completely separate. and play in something that
+  goes along with the other melodic parts or notes."
+- Research before building, at his direction ("dig into the music
+  theory... if there's not enough there, we'll go back out"): 5 parallel
+  agents re-read theory/, all 27 recipes, the genre/legend/crew configs,
+  DECISIONS.md in full, and the engine code. 3 of 5 hit the account's
+  monthly spend cap and had to be covered by hand. Findings, condensed:
+  * Root cause, exact: a "stacked" beat handed EVERY layered instrument
+    the identical chord["notes"], identical rhythm (rolled once for the
+    whole plan), identical timing. Two instruments doubling in unison,
+    not two parts.
+  * A real melody engine (tools/lead_synth.py) existed and was DELETED
+    2026-07-24 on his own direct order ("every instrument as much as
+    possible... get rid of" the synths) — any new part has to be built
+    from his own sample banks via instrument_sampler, never synthesis.
+  * The theory docs and recipes are deep on chords/progressions/mixing
+    restraint but had NOTHING on how two melodic parts relate to each
+    other — no voice leading, no register split, no note-omission rule.
+    That gap is ordinary arranging knowledge, not a research gap, so no
+    second research trip was needed — verdict given to him directly.
+- New file: theory/arrangement.md — 5 rules (different heights, split
+  the chord don't double it, take turns, one is the boss, silence
+  counts), a worked example in A minor, and the "loops play alone" rule
+  in his own words. House style matched (chords.md/tension-and-release.md
+  format): plain intro, bolded-term bullets, worked example, "use it
+  here" close.
+- Engine change, tools/beat_machine.py _build_chords:
+  * _split_chord_roles(notes): root+5th -> support (chord's own
+    register), the color tone(s) left over -> lead (+12 semitones — see
+    below), the richest extension if the chord has one to spare -> the
+    rare 3rd part, passing (+24). No note is ever handed to two roles.
+  * Register separation is LITERAL, not just relabeling: lead and
+    passing are transposed up an octave / two. Caught in testing —
+    without the transposition, lead's note sat INSIDE support's span
+    (support C3+G3 straddling a plain Eb3 lead), same register, not
+    actually separated. instrument_sampler.nearest() never fails on an
+    out-of-range ask (falls back to the least-bad sample, never None —
+    verified by reading it, not assumed), so this only ever costs a
+    larger pitch-shift, never a silent lane.
+  * _role_sources(): support and lead pull from DIFFERENT instruments
+    when the identity owns 2+ (its own chord_source list), else the same
+    instrument voices both — legitimate (two hands on one piano), not a
+    fallback. "loop" and "chip" are never eligible to fill a role.
+  * How many parts: OWNER_TASTE["melody_part_weights"] = (.55, .35, .10)
+    for (1, 2, 3) parts, rolled per beat. A loop or the chip voice always
+    forces 1 — "loops play alone" is enforced in code, not just prose.
+  * The 3rd part (passing) is never fatal to the plan and never
+    automatic: OWNER_TASTE["passing_note_p"] = 0.5, rolled PER CHORD
+    SLOT, and only on a chord that actually has a spare note (a 7th or
+    richer) — a plain triad has nothing to give it, correctly, not a
+    shortfall. Confirmed live: a 9th-chord beat (seed 29, plugg_dream_9)
+    got passing on bar 2 and not bar 1, same beat.
+  * The old "50% chance, stack two of the identity's sounds" branch is
+    DELETED outright, not left as a fallback — it was the bug.
+  * If the role attempt fails on any slot (a bare power chord with no
+    lead note to spare, or an instrument that can't voice its role),
+    the WHOLE multi-part attempt is abandoned and the beat falls back to
+    the existing single-instrument path — which still tries the full
+    chord on every owned instrument, then every extra one, exactly as
+    before. Multi-part is strictly additive; it cannot make a beat
+    silent that would have had a chord lane before.
+  * The existing per-instrument lane/stem plumbing from the last session
+    (chord{i}, chord{i}v{n}, family grouping, rack labels) needed ZERO
+    changes — support/lead/passing just became its v0/v1/v2, including
+    the "a family can have fewer members than there are chord slots"
+    case, which used to only happen on a failed render and now happens
+    on purpose (passing resting on a plain-triad bar).
+- Own mistake, caught by the suite: verifying against the real library
+  (beat #1323, no `root=`) fired Rage Engine's daily evolution
+  (`evolution.maybe_evolve`, unrelated to today's work — it changes ONE
+  drum-grammar thing the first time any of the loose nine renders each
+  day) and nudged crew_config.json's snare weights for real. That flipped
+  an unrelated, pre-existing test (`test_style_is_a_lean_not_a_cage`,
+  pattern_gen — nothing to do with chords) because the nudge crossed its
+  60%-lean threshold. Not touched by hand: `evolution.rollback("Rage
+  Engine")` undid exactly that one journaled entry (confirmed against the
+  journal, which showed today's "backbeat_mode" as the newest active
+  entry) and left everything else — including an unrelated `open_p` line
+  that was ALREADY uncommitted before this session started — alone.
+  Lesson: verification renders against the real roster from now on go
+  through a scratch `root=`, same as every other test in this project,
+  unless checking the real library is the actual point.
+- Verify by: 731/731 tests (7 new — never-repeats-a-note, register
+  separation, power-chord fallback, role-source reuse, a real 2-part
+  render with two distinct instruments/stems, loops always solo across 6
+  seeds, passing appearing on one bar of a beat and not the other, and a
+  seed where every bar gets all 3 parts). Live on the real library,
+  beat #1323 (Rage Engine): rack shows "strings (support)" and "brass
+  stack (lead)" as two separate rows, two real stems, two different
+  instruments, alongside the bass line as its own row — not touched or
+  trashed, his call.
+- Status: open — needs his ear on the actual arranging decisions: is
+  root+5th the right thing for support to hold, is +12/+24 the right
+  amount of separation, are the .55/.35/.10 weights and the 0.5 passing
+  chance the right amount of variety. All five are one-line edits
+  (_split_chord_roles, OWNER_TASTE) if his ear says otherwise.
+
 ### 2026-07-25 Tracks stopped playing — three bugs behind one symptom
 - Context: right after the vocabulary/stem commit (b103177) he reported
   "the tracks won't play together. I can hear the stems individually when

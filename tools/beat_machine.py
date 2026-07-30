@@ -1032,6 +1032,82 @@ def _source_order(pref, rng):
     return order
 
 
+def _split_chord_roles(notes):
+    """One chord's notes, split into up to three PARTS instead of one
+    stack (owner 2026-07-25, see theory/arrangement.md): support gets the
+    root and the 5th at the chord's own register, lead gets whatever
+    color tone is left (the 3rd, the note that actually decides
+    happy/sad) moved UP an octave, and passing — if the chord has one to
+    spare — gets the richest extension (a 7th or a 9th) up another octave
+    on top of that, for the rare 3rd part.
+
+    The octave moves are rule 1 from arrangement.md ("different
+    heights") made literal: without them, lead's note sits INSIDE
+    support's span rather than above it (e.g. support C3+G3 straddles
+    lead's plain Eb3) — same notes, same register, not actually
+    separated, just relabeled. instrument_sampler.nearest() never fails
+    on an out-of-range request (it falls back to the least-bad sample
+    instead of None — see its docstring), so moving a note up an octave
+    only ever costs a slightly larger pitch-shift, never a silent lane.
+
+    No note is ever handed to two roles: that's the whole fix. A plain
+    triad has nothing left over for passing, which is correct, not a
+    shortfall — passing is meant to be rare. A bare power chord (root+5th
+    only, quality "5") leaves lead empty; the caller reads that as "this
+    chord can't be split" and falls back to one part for the whole beat."""
+    if len(notes) <= 2:
+        return list(notes), [], []
+    fifth_i = min(2, len(notes) - 1)
+    support = [notes[0], notes[fifth_i]]
+    rest = [n for j, n in enumerate(notes) if j not in (0, fifth_i)]
+    if len(rest) <= 1:
+        return support, [n + 12 for n in rest], []
+    return support, [n + 12 for n in rest[:-1]], [n + 24 for n in rest[-1:]]
+
+
+def _role_sources(primary, order, own, count):
+    """`count` instruments for a multi-part chord — primary first, then
+    the identity's OTHER own sources in fallback order. "loop" and "chip"
+    never fill a role (a loop is a finished part on its own, chip is
+    already a fused imitation of a whole chord) — see _build_chords.
+
+    Repeats `primary` when the identity doesn't own `count` distinct
+    voices. That's not a shortfall either: one instrument voicing two
+    registers of the same chord (a pianist's left hand and right hand)
+    is a real, ordinary arrangement, not a fallback."""
+    pool = [s for s in order if s in own and s not in ("loop", "chip")]
+    if primary in pool:
+        pool.remove(primary)
+    srcs = [primary]
+    for s in pool:
+        if len(srcs) >= count:
+            break
+        if s not in srcs:
+            srcs.append(s)
+    while len(srcs) < count:
+        srcs.append(primary)
+    return srcs[:count]
+
+
+def _balance_layers(layers, peak_ceiling):
+    """Sum a chord slot's layers to check the balance, then hand back the
+    ONE shared gain that keeps them at that balance — applied per-layer so
+    each stays its own stem (owner 2026-07-25: never re-merge them),
+    while the sum still lands at the same loudness a single merged bed
+    would have. A single layer needs no correction. `peak_ceiling` is
+    chord_synth.PEAK_CEILING, passed in rather than imported here since
+    chord_synth is only ever imported locally, inside _build_chords."""
+    if len(layers) <= 1:
+        return 1.0
+    n = min(len(a) for a in layers)
+    mix = sum(a[:n] for a in layers)
+    g = 10 ** (-18.0 / 20) / (float(np.sqrt((mix ** 2).mean())) + 1e-12)
+    peak = float(np.max(np.abs(mix))) * g
+    if peak > peak_ceiling:
+        g *= peak_ceiling / peak
+    return g
+
+
 def _shareable_preset(preset):
     """The preset as it goes into .recipes/NN.json, with every real-producer
     reference stripped.
@@ -1132,7 +1208,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     # "arp" = broken-chord riff, "sustain" = held block. A weighted list
     # rolls per beat (Dre's keepers were a mix of both — owner 2026-07-22).
     rhythm_spec = sig.get("chord_rhythm", "sustain")
-    rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
+    # underscored: _render_one below shadows this with its own `rhythm`
+    # local (rhythm_override or _rhythm), so every voice can be overridden
+    # independently — see _render_one's docstring.
+    _rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
               if isinstance(rhythm_spec, list) else rhythm_spec)
     # only pay for the melodic-loop library scan if a loop voice is on
     # the table (the default, or a signature that lists "loop")
@@ -1154,9 +1233,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     # per-chord fallback swapping instruments mid-beat — and a chord slot
     # going silent when nothing could voice it. Both are gone: a plan
     # either voices EVERY chord in the beat or the next plan takes the
-    # WHOLE beat. Layering is his call too: sometimes one of the
-    # identity's assigned sounds, sometimes two of them stacked — rolled
-    # per beat, locked for the beat either way.
+    # WHOLE beat. How many separate melodic PARTS the beat gets (1-3, not
+    # a stack) is decided below, once, the same way — see
+    # theory/arrangement.md and OWNER_TASTE["melody_part_weights"].
     slots = []
     for i, chord in enumerate(chords):
         start_bar = i * per_chord
@@ -1166,22 +1245,35 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             min(start_bar + per_chord, nb)
         slots.append((i, chord, start_bar, (end_bar - start_bar) * bar_s))
 
-    def _render_one(src, chord, dur, used=None):
+    def _render_one(src, chord, dur, used=None, notes=None,
+                    rhythm_override=None):
         """One source, one chord slot -> (audio, voice name). `used` (a
         list) collects the actual FILES the audio came from, so the beat
         can name its own instruments instead of the rack claiming "built
         from scratch" over his own library. The per-source recipes are the
         old per-chord loop's, unchanged — only where they are called from
-        moved."""
+        moved.
+
+        `notes` overrides which MIDI notes actually sound — the whole
+        chord by default, or just one role's slice of it (root+5th for
+        the support part, the color tone(s) for lead, see
+        _split_chord_roles) when a multi-part beat calls this per role.
+        `rhythm_override` likewise overrides the beat's rolled arp/sustain
+        choice — the support and passing roles are always held, never
+        arpeggiated, regardless of what the lead is doing (owner
+        2026-07-25: two parts trading is the point; a "hold" part that
+        also arpeggiates isn't holding anything)."""
+        notes = notes if notes is not None else chord["notes"]
+        rhythm = rhythm_override or _rhythm
         if src == "strings" and strings_idx:
             if rhythm == "arp":
                 cache = {}                       # one load per note, not step
                 a = chord_synth.arp_riff(
-                    chord["notes"], dur, preset["bpm"],
+                    notes, dur, preset["bpm"],
                     lambda nt, sd: string_sampler.note_slice(
                         strings_idx, nt, sd, cache=cache, used=used))
                 return a, "strings arp"
-            return (string_sampler.play_chord(strings_idx, chord["notes"],
+            return (string_sampler.play_chord(strings_idx, notes,
                                               dur, used=used), "strings")
         if src == "loop":
             # CONSTANT seed — no `+ i`: the same library pick voices every
@@ -1204,9 +1296,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             # that covers a beat, his own files take over with no code
             # change. That is the rule, implemented rather than decided.
             if inst_idx and instrument_sampler.covers(
-                    inst_idx, chord["notes"], ("chip",)):
+                    inst_idx, notes, ("chip",)):
                 a = instrument_sampler.play_chord(
-                    inst_idx, chord["notes"], dur, groups=("chip",),
+                    inst_idx, notes, dur, groups=("chip",),
                     used=used)
                 if a is not None and np.max(np.abs(a)) > 0:
                     return a, "8-bit sample stack"
@@ -1225,7 +1317,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             per_beat = sig.get("chip_count")
             rate = (chip_synth.count_rate(preset["bpm"], per_beat)
                     if per_beat else chip_synth.NTSC_FRAME_HZ / 3.0)
-            a = chip_synth.chip_chord(chord["notes"], dur,
+            a = chip_synth.chip_chord(notes, dur,
                                       tuning=tuning, rate_hz=rate)
             return a, ("chiptune arp%s"
                        % (" (atari-tuned)" if tuning == "atari" else ""))
@@ -1239,36 +1331,31 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             # hands off to the next one (instrument_sampler.nearest), and
             # a stem shouldn't claim "choir" when the note came from a pad.
             got = instrument_sampler.nearest(
-                inst_idx, chord["notes"][0], groups)
+                inst_idx, notes[0], groups)
             gname = got["group"] if got else src
             if rhythm == "arp":
                 cache = {}                       # one load per file, not step
                 a = chord_synth.arp_riff(
-                    chord["notes"], dur, preset["bpm"],
+                    notes, dur, preset["bpm"],
                     lambda nt, sd: instrument_sampler.note_slice(
                         inst_idx, nt, sd, cache=cache, groups=groups,
                         used=used))
                 return a, "%s stabs" % gname
             return (instrument_sampler.play_chord(
-                inst_idx, chord["notes"], dur, groups=groups, used=used),
+                inst_idx, notes, dur, groups=groups, used=used),
                 "%s stack" % gname)
         return None, None
 
     # Candidate plans, in the order they get the chance to take the beat:
-    # maybe a two-sound layer from the identity's own list, then each of
-    # the identity's sounds solo (rolled primary first, as before), then —
+    # each of the identity's sounds solo (rolled primary first), then —
     # only if none of HIS assigned sounds can cover the whole beat — every
     # other instrument group he owns, shuffled per beat. One plan = one
-    # sound (or one fixed stack) for the entire beat.
+    # sound for the entire beat. Multi-PART beats (below) are tried first
+    # and separately — this list is the single-part fallback.
     order = _source_order(pref, random.Random(variant * 461))
     plan_rng = random.Random(variant * 883 + 7)
     own = [s[0] for s in pref] if pref else []
-    plans = []
-    if len(set(own)) >= 2 and plan_rng.random() < 0.5:
-        second = next((s for s in order[1:] if s in own), None)
-        if second:
-            plans.append((order[0], second))
-    plans += [(s,) for s in order]
+    plans = [(s,) for s in order]
     # then every OTHER instrument group he owns. "chip" is excluded on
     # purpose: it is the one generated voice, so it may only play for an
     # identity whose own chord_source asks for it (New Math, Chiptune,
@@ -1281,56 +1368,102 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     plans += [(g,) for g in extra]
 
     committed, beds = None, None
-    for plan in plans:
-        beds, ok = [], True
-        for i, chord, start_bar, dur in slots:
-            layers = []
-            for src in plan:
-                used = []
-                a, nm = _render_one(src, chord, dur, used=used)
-                # arp_riff hands back SILENCE (not None) when every step
-                # was unvoiceable — an all-zero buffer is a failure too
-                if a is None or not np.max(np.abs(a)) > 0:
-                    ok = False
-                    break
-                layers.append((a, nm, used))
-            if not ok:
-                break
-            # Each layer stays SEPARATE (owner 2026-07-25: "no longer
-            # group instruments under one stem — always individual"). A
-            # two-sound plan is two real instruments, so it becomes two
-            # lanes and two stems instead of one summed "chords" blob.
-            # The balancing gain is computed on the SUM and then applied
-            # to each voice, so the voices still add up to exactly the
-            # bed the single-lane version produced — the split changes
-            # what he can solo and remove, never how the beat sounds.
-            n = min(len(a) for a, _, _ in layers)
-            layers = [(a[:n], nm, fl) for a, nm, fl in layers]
-            g = 1.0
-            if len(layers) > 1:
-                mix = sum(a for a, _, _ in layers)
-                # norm_rms is a pure scalar gain, so it can be computed
-                # here and shared out rather than applied to the sum
-                g = 10 ** (-18.0 / 20) / (
-                    float(np.sqrt((mix ** 2).mean())) + 1e-12)
-                peak = float(np.max(np.abs(mix))) * g
-                if peak > chord_synth.PEAK_CEILING:
-                    g *= chord_synth.PEAK_CEILING / peak
-            beds.append([(a * g if g != 1.0 else a, nm, fl)
-                         for a, nm, fl in layers])
-        if ok and beds:
-            committed = plan
-            break
 
-    # ---- the bass line: HIS bass samples, committed per beat too ----
-    # (owner 2026-07-25: the synthesized "synth bass" becomes his own
-    # bass sounds). Same whole-beat rule: his samples take the bass line
-    # only if they can voice EVERY root; otherwise the old synth sub
-    # plays the whole beat — never a mix of the two.
-    # "no bass" in the notes box takes the LINE out (the 808 bass drum has
-    # its own words — owner 2026-07-25)
-    bass_idx = (None if CHORD_BASS_FAM in dirs.get("mute", ())
-                else instrument_sampler.scan_bass())
+    # ---- how many separate melodic PARTS, not one stack (owner
+    # 2026-07-25: "individual instruments... not everything stacked on
+    # top of each other, playing the same thing. one or two samples at a
+    # time... up to three"). See theory/arrangement.md for the actual
+    # arranging rules this follows. A loop is already a finished melody
+    # and the chip voice is already a fused chord — neither ever combines
+    # with another part, so they always stay at one.
+    primary = order[0]
+    part_count = 1
+    if primary not in ("loop", "chip"):
+        w1, w2, w3 = OWNER_TASTE["melody_part_weights"]
+        roll = random.Random(variant * 967 + 31).random()
+        if roll < w3:
+            part_count = 3
+        elif roll < w3 + w2:
+            part_count = 2
+
+    if part_count >= 2:
+        role_srcs = _role_sources(primary, order, own, part_count)
+        role_beds, role_ok = [], True
+        for i, chord, start_bar, dur in slots:
+            support_n, lead_n, passing_n = _split_chord_roles(chord["notes"])
+            if not lead_n:               # nothing left to split (e.g. a
+                role_ok = False          # bare power chord) — not a
+                break                    # multi-part beat after all
+            layers = []
+            used_s = []
+            a_s, nm_s = _render_one(role_srcs[0], chord, dur, used=used_s,
+                                    notes=support_n, rhythm_override="sustain")
+            if a_s is None or not np.max(np.abs(a_s)) > 0:
+                role_ok = False
+                break
+            layers.append((a_s, "%s (support)" % nm_s, used_s))
+            used_l = []
+            a_l, nm_l = _render_one(role_srcs[1], chord, dur, used=used_l,
+                                    notes=lead_n)
+            if a_l is None or not np.max(np.abs(a_l)) > 0:
+                role_ok = False
+                break
+            layers.append((a_l, "%s (lead)" % nm_l, used_l))
+            # passing is never fatal — a plain triad has no note to spare
+            # for it, and even when a chord has one, it only plays SOME
+            # of the time (owner: "the sparsest, easiest to cut"). Rolled
+            # per slot so it can appear on one chord and rest on the next.
+            if (part_count >= 3 and passing_n and random.Random(
+                    variant * 991 + 43 + i).random()
+                    < OWNER_TASTE["passing_note_p"]):
+                used_p = []
+                a_p, nm_p = _render_one(role_srcs[2], chord, dur,
+                                        used=used_p, notes=passing_n,
+                                        rhythm_override="sustain")
+                if a_p is not None and np.max(np.abs(a_p)) > 0:
+                    layers.append((a_p, "%s (passing)" % nm_p, used_p))
+            g = _balance_layers([a for a, _, _ in layers],
+                                chord_synth.PEAK_CEILING)
+            n = min(len(a) for a, _, _ in layers)
+            role_beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
+                              for a, nm, fl in layers])
+        if role_ok:
+            committed, beds = tuple(role_srcs), role_beds
+
+    if committed is None:
+        for plan in plans:
+            beds, ok = [], True
+            for i, chord, start_bar, dur in slots:
+                layers = []
+                for src in plan:
+                    used = []
+                    a, nm = _render_one(src, chord, dur, used=used)
+                    # arp_riff hands back SILENCE (not None) when every
+                    # step was unvoiceable — an all-zero buffer is a
+                    # failure too
+                    if a is None or not np.max(np.abs(a)) > 0:
+                        ok = False
+                        break
+                    layers.append((a, nm, used))
+                if not ok:
+                    break
+                g = _balance_layers([a for a, _, _ in layers],
+                                    chord_synth.PEAK_CEILING)
+                n = min(len(a) for a, _, _ in layers)
+                beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
+                            for a, nm, fl in layers])
+            if ok and beds:
+                committed = plan
+                break
+
+    # ---- the bass line: NEVER rendered (owner hard rule, 2026-07-29) ----
+    # The melodic bassline (chordbass family, bass0..N) is his to play
+    # himself in Reason — not the kick, not the 808 boom under it, just
+    # this one moving/harmonic line. Was previously opt-out via "no bass"
+    # in the notes box; now always off, no notes-box wording can bring it
+    # back. Same effect either way: bass_idx stays None, bass_beds stays
+    # empty, and every bass{i} lane below gets popped rather than filled.
+    bass_idx = None
     bass_beds, bass_files, bcache = {}, {}, {}
     if bass_idx:
         for i, chord, start_bar, dur in slots:
@@ -1428,7 +1561,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
         vnotes.append("chords: %s in %s — no instrument could voice it, "
                       "chord lane left out" % (prog_name, key))
     harmony_info = {"key": str(key), "root": key_root, "mode": mode,
-                    "progression": prog_name, "rhythm": rhythm,
+                    "progression": prog_name, "rhythm": _rhythm,
                     "chords": chord_rows,
                     # what actually sounded, not what the identity asked for
                     "chord_source": sorted({r["voice"] for r in chord_rows
