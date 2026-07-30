@@ -242,12 +242,14 @@ def _mutate_kick(bars, rng):
     small-hit mutation never touched them and every beat shared one kick
     line). Bar 1 states the character's grammar untouched; in later bars
     up to two anchors may drop or slide a 16th, and a soft extra kick can
-    land in a gap. The downbeat never moves."""
+    land in a gap. The downbeat is fair game too now (owner 2026-07-29,
+    overrides the old "downbeat never moves" rule) — any variation,
+    whatever fits the style or personality."""
     out = [bars[0]]
     for pat in bars[1:]:
         s = list(pat)
         n = len(s)
-        xs = [i for i, c in enumerate(s) if c == "X" and i != 0]
+        xs = [i for i, c in enumerate(s) if c == "X"]
         rng.shuffle(xs)
         for i in xs[:2]:
             r = rng.random()
@@ -368,10 +370,6 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             rewrite(ln, _hat_density(lanes[ln][3], mode))
             notes.append(f"{ln}s {mode}")
 
-    # everything below treats the canon lanes as backbone too, so a
-    # style's defining figure is never the lane chosen to sit out
-    backbone = BACKBONE | canon
-
     # 3. occasionally rest a color lane for the whole beat (guests are
     # exempt — the composer just seated them for a reason)
     colors = [ln for ln in mutable
@@ -382,30 +380,34 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         rewrite(ln, ["-" * len(b) for b in lanes[ln][3]])
         notes.append(f"no {ln} this time")
 
-    # 4. one structural treatment — owner rule 2026-07-17: NO silence
-    # gaps, ever. Quiet moments THIN the beat: hats and colors rest,
-    # velocities soften, and the kick+snare backbone plays through.
+    # 4. one structural treatment. Was: owner rule 2026-07-17, no silence
+    # gaps ever, kick/snare/clap always play through. Overridden 2026-07-29
+    # — kick, snare and clap can go fully silent for a whole bar now too,
+    # same as any other lane, whatever fits the style or personality. The
+    # CANON lane (the figure that DEFINES the style, owner rule 2026-07-19)
+    # is a separate, still-live rule — it softens here, never vanishes,
+    # same as it always has, so a reggaeton doesn't stop being a reggaeton.
     t = rng.choice(["thinbar", "frisson", "bshift", "quietbar"])
-    if t == "thinbar":                       # hats+colors rest a bar
+    if t == "thinbar":                       # a bar rests, canon breathes
         b = rng.choice(late)
         for ln in mutable:
             bars = barlist(ln)
-            if ln in backbone:
-                bars[b] = bars[b].replace("X", "x")   # backbone breathes
+            if ln in canon:
+                bars[b] = bars[b].replace("X", "x")
             else:
                 bars[b] = "-" * len(bars[b])
             rewrite(ln, bars)
-        notes.append(f"bar {b + 1} thins to kick and snare")
+        notes.append(f"bar {b + 1} drops out")
     elif t == "frisson" and nbars >= 2:      # build: thins, then slams
         for ln in mutable:
             bars = barlist(ln)
-            if ln not in backbone:
+            if ln not in canon:
                 bars[last - 1] = "-" * len(bars[last - 1])
             bars[last] = bars[last].replace("x", "X")
             rewrite(ln, bars)
         notes.append(f"build: bar {last} thins out, bar {last + 1} slams")
-    elif t == "bshift" and nbars >= 2:       # a color lane sits out a half
-        cands = [ln for ln in mutable if ln not in backbone and
+    elif t == "bshift" and nbars >= 2:       # a lane sits out a half
+        cands = [ln for ln in mutable if ln not in canon and
                  sum(map(_hits, lanes[ln][3]))]
         if cands:
             ln = rng.choice(cands)
@@ -425,18 +427,19 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             rewrite(ln, bars)
         notes.append(f"bar {b + 1} pulls back (velocity dip)")
 
-    # 4b. every beat gets a breath: hats and colors rest for the back
-    # half of one bar while the backbone carries it (sparser, not silent)
+    # 4b. every beat gets a breath: lanes rest for the back half of one
+    # bar (owner 2026-07-29: no more BACKBONE exemption here — canon still
+    # stays, same reasoning as the block above)
     if t in ("bshift", "quietbar"):
         b = rng.choice(late)
         for ln in mutable:
-            if ln in backbone:
+            if ln in canon:
                 continue
             bars = barlist(ln)
             n = len(bars[b])
             bars[b] = bars[b][:n // 2] + "-" * (n - n // 2)
             rewrite(ln, bars)
-        notes.append(f"hats sit out the back half of bar {b + 1}")
+        notes.append(f"lanes sit out the back half of bar {b + 1}")
 
     # 5. tempo lean (only when he didn't set a tempo himself). A
     # subgenre's tempo is part of its identity (owner rule 2026-07-19):
@@ -1246,7 +1249,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
         slots.append((i, chord, start_bar, (end_bar - start_bar) * bar_s))
 
     def _render_one(src, chord, dur, used=None, notes=None,
-                    rhythm_override=None):
+                    rhythm_override=None, pin=None):
         """One source, one chord slot -> (audio, voice name). `used` (a
         list) collects the actual FILES the audio came from, so the beat
         can name its own instruments instead of the rack claiming "built
@@ -1262,7 +1265,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
         choice — the support and passing roles are always held, never
         arpeggiated, regardless of what the lead is doing (owner
         2026-07-25: two parts trading is the point; a "hold" part that
-        also arpeggiates isn't holding anything)."""
+        also arpeggiates isn't holding anything).
+
+        `pin` (owner 2026-07-29): a list, shared across every chord slot
+        this beat's caller renders, so every note of the WHOLE beat
+        prefers one real source file over hunting a fresh nearest-pitch
+        match per note. See instrument_sampler.nearest()'s docstring for
+        why — a thin group like "synth" is scattered one-shots from many
+        different vendor packs, so per-note picking made one chord sound
+        like several different instruments stacked."""
         notes = notes if notes is not None else chord["notes"]
         rhythm = rhythm_override or _rhythm
         if src == "strings" and strings_idx:
@@ -1271,10 +1282,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                 a = chord_synth.arp_riff(
                     notes, dur, preset["bpm"],
                     lambda nt, sd: string_sampler.note_slice(
-                        strings_idx, nt, sd, cache=cache, used=used))
+                        strings_idx, nt, sd, cache=cache, used=used,
+                        pin=pin))
                 return a, "strings arp"
-            return (string_sampler.play_chord(strings_idx, notes,
-                                              dur, used=used), "strings")
+            return (string_sampler.play_chord(strings_idx, notes, dur,
+                                              used=used, pin=pin),
+                   "strings")
         if src == "loop":
             # CONSTANT seed — no `+ i`: the same library pick voices every
             # chord slot, so the loop bed can't change sample mid-beat
@@ -1330,8 +1343,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             # Name the group the audio ACTUALLY came from: a thin group
             # hands off to the next one (instrument_sampler.nearest), and
             # a stem shouldn't claim "choir" when the note came from a pad.
+            # Reads the pin first if one's already set, so the label
+            # matches the source every note actually prefers.
             got = instrument_sampler.nearest(
-                inst_idx, notes[0], groups)
+                inst_idx, notes[0], groups, prefer=pin[0] if pin else None)
             gname = got["group"] if got else src
             if rhythm == "arp":
                 cache = {}                       # one load per file, not step
@@ -1339,10 +1354,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                     notes, dur, preset["bpm"],
                     lambda nt, sd: instrument_sampler.note_slice(
                         inst_idx, nt, sd, cache=cache, groups=groups,
-                        used=used))
+                        used=used, pin=pin))
                 return a, "%s stabs" % gname
             return (instrument_sampler.play_chord(
-                inst_idx, notes, dur, groups=groups, used=used),
+                inst_idx, notes, dur, groups=groups, used=used, pin=pin),
                 "%s stack" % gname)
         return None, None
 
@@ -1377,14 +1392,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     # and the chip voice is already a fused chord — neither ever combines
     # with another part, so they always stay at one.
     primary = order[0]
+    # HARD RULE (owner 2026-07-29, overrides the 2026-07-25 rule below):
+    # exactly one melodic voice, always — no stacking whatsoever, not even
+    # the chip voice, no rare "extra" third part. The weighted 1/2/3-part
+    # roll that used to live here is gone; part_count stays 1, which makes
+    # the multi-part render path below (part_count >= 2) unreachable. Kept
+    # rather than torn out in case this ever comes back — see
+    # theory/arrangement.md and the now-dormant OWNER_TASTE weights.
     part_count = 1
-    if primary not in ("loop", "chip"):
-        w1, w2, w3 = OWNER_TASTE["melody_part_weights"]
-        roll = random.Random(variant * 967 + 31).random()
-        if roll < w3:
-            part_count = 3
-        elif roll < w3 + w2:
-            part_count = 2
 
     if part_count >= 2:
         role_srcs = _role_sources(primary, order, own, part_count)
@@ -1433,11 +1448,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     if committed is None:
         for plan in plans:
             beds, ok = [], True
+            # one preferred source per src in this plan, shared across
+            # EVERY chord slot below — owner 2026-07-29, see _render_one's
+            # `pin` doc. Fresh per plan attempt: a failed plan's picks
+            # must not leak into the next candidate's.
+            pins = {}
             for i, chord, start_bar, dur in slots:
                 layers = []
                 for src in plan:
                     used = []
-                    a, nm = _render_one(src, chord, dur, used=used)
+                    a, nm = _render_one(src, chord, dur, used=used,
+                                        pin=pins.setdefault(src, []))
                     # arp_riff hands back SILENCE (not None) when every
                     # step was unvoiceable — an all-zero buffer is a
                     # failure too
@@ -1801,9 +1822,13 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # and bounce do not rise and fall, that flatness is the style — so
     # the deepening pass never touches them.
     if swing < 2.5 and not preset.get("genre"):
-        # the loop needs SOME rise and fall — but owner rule 2026-07-17:
-        # never silence. Thin one bar instead: hats and colors rest, the
-        # backbone softens and plays through. One re-render, no DJ-cut.
+        # the loop needs SOME rise and fall. Thin one bar instead — was:
+        # owner rule 2026-07-17, backbone always softens and plays
+        # through rather than going silent; overridden 2026-07-29, the
+        # backbone can drop out here too now. One re-render, no DJ-cut.
+        # CANON (the style-defining figure, owner rule 2026-07-19) is
+        # unrelated and still protected — it softens, never vanishes.
+        deep_canon = set(preset.get("_canon") or ())
         deep_bar = random.Random(variant * 31 + CREW[names[0]]["num"]).choice(
             [b for b in (nbars - 4, nbars - 3, nbars - 2) if b >= 1]
             or [max(nbars - 1, 0)])
@@ -1816,7 +1841,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
             bars = list(bars)
             if deep_bar >= len(bars):        # short pattern, nothing to thin
                 continue
-            if ln in BACKBONE:
+            if ln in deep_canon:
                 bars[deep_bar] = bars[deep_bar].replace("X", "x")
             else:
                 bars[deep_bar] = "-" * len(bars[deep_bar])

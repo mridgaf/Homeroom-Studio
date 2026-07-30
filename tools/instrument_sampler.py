@@ -131,6 +131,18 @@ CHOP_SECS = 3.0                # longer than this = a phrase; take one hit
 # the big groups (piano/guitar/brass/string/synth) never come close to
 # this; it exists for the thin ones — see the report's WIDE markers.
 MAX_SHIFT = 4
+# How far an ALREADY-CHOSEN sample (nearest()'s `prefer`) is allowed to
+# stretch before a chord/arp gives up on it and picks a fresh nearest
+# match instead — deliberately wider than MAX_SHIFT above. Owner
+# 2026-07-29: a chord routinely spans more than a major third (MAX_SHIFT),
+# so capping reuse at MAX_SHIFT meant most chords still switched packs
+# mid-chord — the "strings and synths stacked with other instruments" bug.
+# Given the choice between (a) stretching one real recording up to an
+# octave, which can start sounding a little pitch-shifted/"chipmunked",
+# or (b) hunting a same-pack fallback file (more code, more testing), he
+# picked (a) — fast, and one consistent instrument color beats an exactly
+# in-tune note from a different one.
+PREFER_MAX_SHIFT = 12
 # De-click envelope. A sampled note has to START and END at zero, or the
 # step from silence into a mid-waveform sample (measured up to 0.35) fires
 # a broadband impulse — which is the harsh "digital" tick the owner heard
@@ -363,7 +375,7 @@ def _closest(entries, midi_note):
                key=lambda e: (abs(e["note"] - midi_note), -e["clarity"]))
 
 
-def nearest(index, midi_note, groups=None, max_shift=MAX_SHIFT):
+def nearest(index, midi_note, groups=None, max_shift=MAX_SHIFT, prefer=None):
     """The source sample needing the smallest pitch shift to play
     `midi_note` — the multi-sample zone lookup.
 
@@ -375,7 +387,20 @@ def nearest(index, midi_note, groups=None, max_shift=MAX_SHIFT):
     sounding wrong while a perfectly good synth sample sat unused. If no
     listed group can cover the note, the least-bad pick across all of them
     is returned rather than None; silence would be worse, and the report
-    flags those groups as WIDE so the ceiling is visible."""
+    flags those groups as WIDE so the ceiling is visible.
+
+    `prefer`, if given, is an entry already chosen for an earlier note in
+    the same chord/arp (owner 2026-07-29: "the strings and synths are
+    still stacked... with other instruments" — a thin group like "synth"
+    is scattered one-shots from many different vendor packs, so picking
+    the objectively closest file PER NOTE was pulling a different pack's
+    sound for every note of one chord — same label, several actually-
+    different instruments underneath it). `prefer` wins over a closer
+    match out to PREFER_MAX_SHIFT (wider than max_shift on purpose — see
+    its own comment); losing pitch precision on some notes is worth
+    keeping the whole chord one real instrument."""
+    if prefer is not None and abs(prefer["note"] - midi_note) <= PREFER_MAX_SHIFT:
+        return prefer
     groups = _as_groups(groups)
     if groups is None:
         return _closest(index, midi_note)
@@ -477,12 +502,19 @@ def _declick(seg, sr=SR):
     return seg
 
 
-def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None):
+def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None,
+               pin=None):
     """One note at `note`, exactly in tune, `dur` seconds long: nearest
     source -> one hit -> pitch-shift to the target -> fit to length with
     crossfaded repeats -> de-clicked at both edges. None when nothing's
     voiceable, so the caller can fall through. `cache` (a dict) holds
     loaded+trimmed audio so a chord or arp doesn't reload a file per note.
+
+    `pin` (a list, used as an in/out box — pass the SAME list across every
+    note of one chord/arp/beat to keep them all preferring one source; see
+    nearest()). Empty going in means "nothing chosen yet"; this call fills
+    it in with whichever entry actually got used, so the next call reuses
+    it. None (the default) keeps the old independent-per-note behavior.
 
     The edge ramps are a deliberate, narrow exception to the project's
     "no edge fades" loop-safe rule. That rule protects the BEAT's own loop
@@ -490,9 +522,11 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None):
     and 8ms/60ms on a note is an instrument's own attack and release, not
     a fade on the loop. A chord slot that happens to span the entire beat
     pays a 60ms dip at the loop point — far cheaper than a click."""
-    pick = nearest(index, note, groups)
+    pick = nearest(index, note, groups, prefer=pin[0] if pin else None)
     if pick is None:
         return None
+    if pin is not None and not pin:
+        pin.append(pick)
     # `used` collects the FILE this note actually came from, so the beat's
     # recipe can name it and the stem rack can stop saying "built from
     # scratch" over audio that is entirely his own library (owner
@@ -516,31 +550,35 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None):
     return _declick(_fit_length(seg, max(int(dur * sr), 1), sr), sr)
 
 
-def note_slice(index, note, dur, sr=SR, cache=None, groups=None, used=None):
+def note_slice(index, note, dur, sr=SR, cache=None, groups=None, used=None,
+               pin=None):
     """One arp/stab step. Drop-in for string_sampler.note_slice, so
     chord_synth.arp_riff drives any instrument with the same render_note
     callback it uses for strings. The attack/release that used to live
     here now applies to EVERY voiced note (voice_note), because the
     sustained chord bed needed exactly the same de-clicking — it was the
-    one path that never got it."""
+    one path that never got it. `pin`: see voice_note."""
     return voice_note(index, note, dur, groups=groups, sr=sr, cache=cache,
-                      used=used)
+                      used=used, pin=pin)
 
 
-def play_chord(index, notes, dur, groups=None, sr=SR, used=None):
+def play_chord(index, notes, dur, groups=None, sr=SR, used=None, pin=None):
     """A chord: one sampled, in-tune voice per MIDI note, summed into a
     `dur`-second bed — the sampled replacement for chord_synth.pad_voice.
     Same contract string_sampler.play_chord offers (None if not one note
     could be voiced, so the caller falls through). RMS-normalized then
     peak-guarded, because a stack of attacks crests hard even at a polite
-    RMS."""
+    RMS. `pin` (see voice_note) defaults to a list private to this call,
+    so a chord's own notes prefer one source even when the caller doesn't
+    pass one in to also share it across chord slots."""
     n = max(int(dur * sr), 1)
     out = np.zeros(n)
     cache = {}
+    pin = [] if pin is None else pin
     voiced = 0
     for note in notes:
         seg = voice_note(index, note, dur, groups=groups, sr=sr, cache=cache,
-                         used=used)
+                         used=used, pin=pin)
         if seg is None:
             continue
         out = out + seg

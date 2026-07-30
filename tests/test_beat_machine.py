@@ -636,10 +636,14 @@ def test_swap_rejects_a_lane_the_beat_lacks(machine_env):
 
 # --------------------------------------- space rules (owner 2026-07-17)
 
-def test_no_silent_bars_ever():
-    """Owner rule: room = sparseness, never a gap. Across many variants,
-    every bar keeps at least the kick+snare backbone playing."""
+def test_backbone_can_go_fully_silent_for_a_bar():
+    """Owner 2026-07-29 hard rule (overrides the old 2026-07-17 'room =
+    sparseness, never a gap' rule): kick/snare/clap can go fully silent
+    for a whole bar now, same as any other lane. Across many variants at
+    least one bar should actually land on zero backbone hits — proving
+    the old floor is really gone, not just unenforced by accident."""
     import copy as _copy
+    saw_silence = False
     for name in ("Otto Grit", "Night Metro", "Glass Cat"):
         for v in range(25):
             p = _copy.deepcopy(CREW[name])
@@ -653,7 +657,9 @@ def test_no_silent_bars_ever():
             for b in range(crew.bars_of(p)):
                 hits = sum(sum(c != "-" for c in p["lanes"][ln][3][b])
                            for ln in backbone)
-                assert hits > 0, (name, v, b)
+                if hits == 0:
+                    saw_silence = True
+    assert saw_silence
 
 
 def test_direction_parser_reads_his_words():
@@ -1081,26 +1087,25 @@ def test_chord_bass_line_is_never_rendered(
     assert any(k.startswith("chord") for k in vf), vf
 
 
-def test_layering_and_solo_both_happen_and_never_mix_mid_beat(
+def test_layering_never_happens_always_one_voice(
         machine_env, only_his_instruments, monkeypatch):
-    """'Can they be layered?' — yes: an identity with two assigned sounds
-    sometimes stacks both and sometimes plays one, rolled per beat. Either
-    way the choice is locked for the whole beat."""
+    """Owner 2026-07-29 hard rule (overrides the old 'sometimes stacks
+    both, sometimes plays one, rolled per beat' rule): never layered —
+    always exactly one instrument voice for the whole beat, even for an
+    identity assigned two sounds it could have combined."""
     root, shots = machine_env
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
         "chord_source": [["piano", 1], ["bell", 1]],
         "chords_default": True})
-    seen = set()
     for seed in range(8):
         random.seed(seed)
         path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
         rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
         voices = _voices_of(rec)
         assert len(set(voices)) == 1, voices        # locked, every time
-        seen.add(" + " in voices[0])
-    assert seen == {True, False}, ("want both layered and solo beats", seen)
+        assert " + " not in voices[0], voices       # never layered
 
 
 def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
@@ -1518,31 +1523,25 @@ def _two_part_beat(root, shots, monkeypatch, seed=0, progression="epic"):
     return int(path.name.split()[0]), path, report
 
 
-def test_two_part_beat_gives_each_instrument_its_own_lane_and_stem(
+def test_never_more_than_one_melodic_part(
         machine_env, two_real_instruments, monkeypatch):
-    """Found by seeding until the part-count roll landed on 2 (seed 0,
-    verified 2026-07-25). Two DIFFERENT instruments, two lanes, two
-    stems — not one instrument playing twice."""
+    """Owner 2026-07-29 hard rule (overrides the 2026-07-25 'up to three
+    parts' rule the three tests below this one used to check): exactly
+    one melodic voice, always — no stacking, no passing note, ever.
+    Sweeps the exact seeds/progressions that used to land on 2 parts
+    (seed 0, epic) and 3 parts (seeds 29 and 34, plugg_dream_9) to prove
+    the old weighted roll can no longer produce either."""
     root, shots = machine_env
-    no, path, report = _two_part_beat(root, shots, monkeypatch, seed=0)
-    rec = beat_recipes.load_recipe(root, no)
-    lanes = rec["preset"]["lanes"]
-    ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
-    fams = sorted({beat_machine._chord_family(l) for l in ch_lanes} - {None})
-    assert fams == ["chords", "chords2"], (report, ch_lanes)
-    voiced = rec["harmony"]["voice_names"]
-    v0 = {ln: nm for ln, nm in voiced.items()
-         if beat_machine._chord_family(ln) == "chords"}
-    v1 = {ln: nm for ln, nm in voiced.items()
-         if beat_machine._chord_family(ln) == "chords2"}
-    # two genuinely different instruments, not the same one twice
-    assert {nm.split(" (")[0] for nm in v0.values()} != \
-        {nm.split(" (")[0] for nm in v1.values()}
-    assert all("(support)" in nm for nm in v0.values())
-    assert all("(lead)" in nm for nm in v1.values())
-    # both stems exist and both carry real audio
-    stems = _rack(no, root)
-    assert stems["chords"]["stem"] and stems["chords2"]["stem"]
+    for seed, progression in ((0, "epic"), (29, "plugg_dream_9"),
+                              (34, "plugg_dream_9")):
+        no, path, report = _two_part_beat(root, shots, monkeypatch,
+                                          seed=seed, progression=progression)
+        rec = beat_recipes.load_recipe(root, no)
+        lanes = rec["preset"]["lanes"]
+        ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
+        fams = sorted({beat_machine._chord_family(l) for l in ch_lanes}
+                      - {None})
+        assert fams == ["chords"], (seed, report, ch_lanes)
 
 
 def test_loops_always_play_alone(machine_env, monkeypatch):
@@ -1567,42 +1566,6 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
         assert fams <= {"chords"}, (seed, report, sorted(lanes))
 
 
-def test_passing_part_is_optional_per_slot_not_automatic(
-        machine_env, two_real_instruments, monkeypatch):
-    """Found by seeding a 9th-chord progression until one chord in the
-    beat got a passing note and the other didn't (seed 29, verified
-    2026-07-25) — proving passing is a per-slot roll, not 'always on when
-    the chord is rich enough'. See arrangement.md: 'the first thing you
-    don't miss if it's silent.'"""
-    root, shots = machine_env
-    no, path, report = _two_part_beat(root, shots, monkeypatch, seed=29,
-                                      progression="plugg_dream_9")
-    rec = beat_recipes.load_recipe(root, no)
-    lanes = rec["preset"]["lanes"]
-    ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
-    fams = sorted({beat_machine._chord_family(l) for l in ch_lanes} - {None})
-    assert "chords3" in fams, (report, ch_lanes)   # the passing part exists
-    members = beat_machine._family_members("chords3", lanes)
-    assert 0 < len(members) < len(rec["harmony"]["chords"]), (
-        "passing should appear on some chords and not others", members)
-
-
-def test_three_parts_when_every_chord_can_spare_a_note(
-        machine_env, two_real_instruments, monkeypatch):
-    """Seed 34 on the same 9th-chord progression: every chord has a note
-    to spare, so passing rides the whole beat (still its own lane, own
-    stem, own volume — same as support and lead)."""
-    root, shots = machine_env
-    no, path, report = _two_part_beat(root, shots, monkeypatch, seed=34,
-                                      progression="plugg_dream_9")
-    rec = beat_recipes.load_recipe(root, no)
-    lanes = rec["preset"]["lanes"]
-    ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
-    fams = sorted({beat_machine._chord_family(l) for l in ch_lanes} - {None})
-    assert fams == ["chords", "chords2", "chords3"], (report, ch_lanes)
-    stems = _rack(no, root)
-    assert stems["chords"]["stem"] and stems["chords2"]["stem"] \
-        and stems["chords3"]["stem"]
-    # the rack shows a real instrument name for the passing row, not the
-    # bare word "chords3"
-    assert stems["chords3"]["label"] not in ("chords3", "")
+# passing-note tests (seeds 29 and 34, 9th-chord progression) folded into
+# test_never_more_than_one_melodic_part above — there's no passing part to
+# test any more, owner 2026-07-29 hard rule.

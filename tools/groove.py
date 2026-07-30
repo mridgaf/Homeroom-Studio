@@ -90,6 +90,10 @@ def lp4(x, fc):
     return _fft_weight(x, lambda f: np.abs(1 / (1 + 1j * f / fc)) ** 4)
 
 
+def lp1(x, fc):
+    return _fft_weight(x, lambda f: np.abs(1 / (1 + 1j * f / fc)))
+
+
 def hp1(x, fc):
     return _fft_weight(x, lambda f: np.abs((1j * f / fc) / (1 + 1j * f / fc)))
 
@@ -178,17 +182,23 @@ OWNER_TASTE = {
     # scale each chord slot in turn, cycling if the progression is longer,
     # so the harmony breathes instead of landing identically every bar.
     "chord_accents": (1.0, 0.86, 0.93, 0.82),
-    # --- how many separate melodic parts a chord gets (owner 2026-07-25:
-    # "one or two samples at a time, up to three" — never every instrument
-    # doubling the same chord). Weights for (1, 2, 3) parts; must sum to
-    # 1.0. A loop or the chip voice always overrides this to 1 — they are
-    # a finished part on their own and never combine with another.
+    # --- DORMANT (owner 2026-07-29 hard rule overrides this): exactly one
+    # melodic part now, always — see _build_chords in beat_machine.py,
+    # which hardcodes part_count = 1 and no longer reads these two values.
+    # Left here, unused, rather than deleted, in case the multi-part rule
+    # ever comes back — was: weights for (1, 2, 3) parts (owner 2026-07-25,
+    # "one or two samples at a time, up to three"), and the probability the
+    # rare 3rd "passing" part played when a chord had a spare note for it.
     "melody_part_weights": (0.55, 0.35, 0.10),
-    # The 3rd part ("passing" — the highest, sparsest note, see
-    # theory/arrangement.md) only ever exists on a chord that HAS a note
-    # to spare (a 7th or richer), and even then only plays this often —
-    # it's meant to be the first thing you don't miss if it's silent.
     "passing_note_p": 0.5,
+    # --- bus glue compression (owner 2026-07-29: "add the glue
+    # compression... for better sound quality"). Gentle house starting
+    # point, tune like everything else here once he's heard it — see
+    # glue_compress() in this file for what each one does.
+    "glue_threshold_db": -18.0,
+    "glue_ratio": 1.8,
+    "glue_env_ms": 25.0,
+    "glue_makeup_db": 2.0,
 }
 
 
@@ -440,6 +450,36 @@ def lufs(L, R):
     if not len(p):
         return -70.0
     return -0.691 + 10 * np.log10(p.mean())
+
+
+def glue_compress(L, R, threshold_db=None, ratio=None, env_ms=None,
+                  makeup_db=None):
+    """Bus 'glue' compression — the everyday effect the tanh saturation in
+    master() can't give, because saturation reacts per-sample and this
+    reacts over TIME. One shared envelope from the L+R sum (mono
+    loudness, so the stereo image isn't skewed by two independent
+    detectors), a soft downward ratio above threshold, the SAME gain
+    applied to both channels so nothing shifts pan. Runs BEFORE master()
+    in the chain — glue the mix first, then tone/saturate/limit it.
+
+    ponytail: one symmetric smoothing time constant for the envelope
+    (via lp1), not separate attack/release times — a real glue comp eases
+    in fast and lets go slow, which is where the "pump"/groove character
+    comes from. This version only breathes at one speed. Upgrade path if
+    that difference matters to the ear: two lp1 passes at different fc
+    (fast for rising level, slow for falling), combined per-sample with
+    np.maximum instead of one lp1 call below."""
+    threshold_db = OWNER_TASTE["glue_threshold_db"] if threshold_db is None else threshold_db
+    ratio = OWNER_TASTE["glue_ratio"] if ratio is None else ratio
+    env_ms = OWNER_TASTE["glue_env_ms"] if env_ms is None else env_ms
+    makeup_db = OWNER_TASTE["glue_makeup_db"] if makeup_db is None else makeup_db
+    det = 0.5 * (np.abs(L) + np.abs(R))
+    env = lp1(det, 1000 / (2 * np.pi * env_ms))
+    env_db = 20 * np.log10(np.maximum(env, 1e-9))
+    over_db = np.maximum(env_db - threshold_db, 0.0)
+    gain_db = makeup_db - over_db * (1 - 1 / ratio)
+    g = 10 ** (gain_db / 20)
+    return L * g, R * g
 
 
 def master_to_lufs(L, R, target=None, ceiling_db=None):

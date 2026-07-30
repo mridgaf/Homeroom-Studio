@@ -38,9 +38,10 @@ from make_drum_loops import SR, master, write_wav24
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
 from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
-                    loop_convolve, make_ir, master_to_lufs, mono_below,
-                    mpc_swing_offset, perc_scale, roughness_am, sat_unity,
-                    snare_scale, sp1200, velocity, vinyl_bed, wow_flutter)
+                    glue_compress, loop_convolve, make_ir, master_to_lufs,
+                    mono_below, mpc_swing_offset, perc_scale, roughness_am,
+                    sat_unity, snare_scale, sp1200, velocity, vinyl_bed,
+                    wow_flutter)
 
 OUT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 LOCK = Path(os.path.expanduser("~/.reason_voice/crew_kits.json"))
@@ -1090,6 +1091,11 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     if not clean and p["dust"] > 0:
         L, R = sp1200(L, amount=p["dust"]), sp1200(R, amount=p["dust"])
 
+    # bus glue compression (owner 2026-07-29) runs BEFORE master() — glue
+    # the mix's dynamics first, then tone/saturate/limit it. Always on,
+    # clean render or not: this is mix glue, not the SP-1200/wow/vinyl
+    # "dirt" clean_renders turns off.
+    L, R = glue_compress(L, R)
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't
     L, R = master(L, R, drive=0.7 if clean else p["drive"])

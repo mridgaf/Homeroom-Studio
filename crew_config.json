@@ -3170,7 +3170,7 @@
      2,
      7
     ],
-    "double_p": 0.27
+    "double_p": 0.19
    },
    "snare": {
     "modes": [
@@ -3888,11 +3888,11 @@
     ],
     [
      "math_whole_tone",
-     2
+     1.0
     ],
     [
      "vamp_static_riff",
-     1
+     2.0
     ]
    ],
    "chord_source": [

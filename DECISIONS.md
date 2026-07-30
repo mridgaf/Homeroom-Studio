@@ -22,6 +22,119 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-07-29 Real bug found via owner listening: one "instrument" still sourced from several packs
+- Context: after the stacking hard rule (below), owner reported "the
+  strings and the synths are still stacked in stems with other
+  instruments" on beat 1508. I checked with a real render first — the
+  structural fix (one voice per beat) WAS working, no second lane — but
+  the owner was right about something real underneath it.
+- Root cause: a chord's NOTES are picked one at a time,
+  independently, by nearest-pitch search across the WHOLE library
+  (tools/instrument_sampler.py:nearest, tools/string_sampler.py:nearest).
+  For a well-populated, coherent group like "strings" that's invisible —
+  the nearest sample for every note usually comes from the same real
+  patch anyway. For a thin, eclectic group like "synth" (built from
+  scattered single one-shots across many different vendor packs, not one
+  chromatic patch), each note of one chord independently grabbed a
+  different pack's sound. Same "synth stabs" label on the stem, four
+  actually different instruments underneath. Confirmed on beat 1508: its
+  4-file voice_files list for chord0 (a 3-note chord) spanned 4 different
+  vendor packs.
+- Decision/change: added a `prefer` argument to nearest() in both
+  instrument_sampler.py and string_sampler.py (plus a `pin` argument
+  threaded through voice_note/note_slice/play_chord and
+  beat_machine.py's _render_one and its caller in _build_chords) — every
+  note across the WHOLE beat's chord progression now prefers reusing the
+  one sample already chosen, stretching it further before giving up and
+  picking a fresh nearest match.
+- First attempt used the existing MAX_SHIFT (4 semitones, a major 3rd) as
+  the reuse ceiling — tested against real generated beats and it wasn't
+  enough; most chords span wider than that, so it kept switching packs
+  anyway. Gave the owner the honest tradeoff rather than silently
+  shipping a fix that measurably didn't work: stretch further (simple,
+  some notes sound more pitch-shifted) vs. hunt a same-pack fallback file
+  before crossing packs (better sound, more code/testing). He picked
+  simple. New PREFER_MAX_SHIFT = 12 semitones (one octave) — deliberately
+  wider than MAX_SHIFT, which exists specifically because a major 3rd is
+  "about where the tape-speed shift starts reading as wrong rather than
+  as the instrument" (instrument_sampler.py's own MAX_SHIFT comment). He
+  knowingly traded some of that headroom for consistency.
+- Verify by: measured before/after on 15 freshly generated real beats
+  (Doc Day, Mustang, Wonky) using the real sample library — before: the
+  large majority of chord slots used 2+ different files; after: 11/34
+  (32%). Full suite: 732/732 passed both times (no test explicitly
+  covered this — it's provenance/audio-character, not structure — so
+  this was verified by direct measurement on real output, not a new
+  automated check).
+- Known ceiling (ponytail-flagged in instrument_sampler.py's
+  PREFER_MAX_SHIFT comment): a chord spanning more than an octave still
+  switches packs, and reused notes near the edge of that octave will be
+  pitch-shifted further than the house's own "starts sounding wrong"
+  line. Upgrade path if this isn't good enough by ear: same-pack fallback
+  before cross-pack fallback (the "better, more work" option he didn't
+  pick this time).
+- Status: open — owner hasn't heard beats rendered under the wider
+  reuse range yet. The chipmunk-tradeoff risk is real, flagged, not
+  hidden.
+
+### 2026-07-29 Owner audit: silence, downbeat, and stacking rules flipped; glue compression added
+- Context: after getting a plain-language list of every hard-coded
+  instrument/drum rule in the core engine (not per-DJ), owner reviewed it
+  and changed four things, explicitly: new rules overrule any old rule
+  that conflicts.
+- Decision/change, one line each (all in tools/beat_machine.py unless
+  noted):
+  (1) Kick/snare/clap ("BACKBONE") can now go fully silent for a whole
+      bar — removed the 2026-07-17 "never a gap" floor from vary_preset's
+      four structural treatments (thinbar/frisson/bshift/breath) and the
+      contrast-deepening pass. IMPORTANT CAVEAT caught by tests: that
+      floor was sharing one code path with a DIFFERENT, still-valid rule
+      — CANON lanes (the figure that DEFINES a subgenre, e.g. reggaeton's
+      snare, owner rule 2026-07-19) were protected by the same
+      `backbone = BACKBONE | canon` variable. Removing it wholesale broke
+      2 genre tests (a reggaeton stopped being a reggaeton). Fixed by
+      re-adding CANON-only protection (softens, never vanishes) separate
+      from the now-removed BACKBONE protection.
+  (2) The kick's downbeat can move now (_mutate_kick no longer excludes
+      index 0 from the drop/slide roll) — was hard-pinned since
+      2026-07-16.
+  (3) No melodic stacking at all, ever, not even 2 parts, not even the
+      chip voice, no rare "passing" 3rd part — part_count is hardcoded to
+      1 in _build_chords, overriding the 2026-07-25 "up to 3 parts"
+      feature (theory/arrangement.md, melody_part_weights,
+      passing_note_p). That machinery is left in place but unreachable —
+      not torn out — same call as the 2026-07-29 bassline rule above.
+  (4) Added tools/groove.py:glue_compress — a bus "glue" compressor
+      (envelope from L+R sum via a new lp1 helper, soft downward ratio,
+      same gain both channels). Runs in tools/crew.py right before
+      master(), always on (not gated by clean_renders — this is mix glue,
+      not "dirt"). Tunables in OWNER_TASTE (glue_threshold_db -18,
+      glue_ratio 1.8, glue_env_ms 25, glue_makeup_db 2) — starting
+      numbers, not auditioned yet.
+- Reasoning: owner explicit — "if there are other rules that conflict
+  with these rules, the new rules overrule." Kept the old multi-part
+  layering code dormant rather than deleted (same pattern as the
+  bassline rule) in case it's wanted back — flipping it is a 1-line
+  change (part_count = 1 → the old roll logic), not a rebuild.
+- Known simplification (ponytail-flagged in the code): glue_compress uses
+  ONE symmetric smoothing time constant for its envelope, not separate
+  attack/release. A real glue comp eases in fast and lets go slow, which
+  is where the "pump"/groove character comes from — this version only
+  breathes at one speed. Upgrade path is in the function's docstring
+  (two lp1 passes at different speeds, combined with np.maximum).
+- Verify by: updated/added tests for all four changes
+  (test_backbone_can_go_fully_silent_for_a_bar,
+  test_layering_never_happens_always_one_voice,
+  test_never_more_than_one_melodic_part — folds in what were 3 separate
+  2-part/3-part/passing-note tests — plus 2 new glue_compress sanity
+  tests in test_groove.py). Full suite: 730/730 passed. Not yet verified:
+  owner hasn't heard a rendered beat under any of these four changes, and
+  the glue compressor's numbers (-18/1.8/25ms/+2dB) are un-auditioned
+  starting points, not tuned by ear yet.
+- Status: open — needs his ear on all four, especially the glue
+  compression numbers and whether the now-open kick/downbeat variation
+  still sounds like the intended DJ personalities.
+
 ### 2026-07-29 Hard rule: no melodic bassline, ever
 - Context: owner wants to play the bassline himself in Reason. The
   generator already told apart three low sounds — kick drum, bass drum/

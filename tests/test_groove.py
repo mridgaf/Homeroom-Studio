@@ -6,10 +6,11 @@ import numpy as np
 import pytest
 
 sys.path.append(str(Path(__file__).parent.parent / "tools"))
-from groove import (LaneFeel, dist808, euclid, gated_reverb, haas, k_weight,
-                    kick_layer, lufs, make_ir, master_to_lufs, mono_below,
-                    mpc_swing_offset, ratchet_times, sp1200, transient_shape,
-                    velocity, vinyl_bed, wow_flutter, zoh_resample)
+from groove import (LaneFeel, dist808, euclid, gated_reverb, glue_compress,
+                    haas, k_weight, kick_layer, lufs, make_ir,
+                    master_to_lufs, mono_below, mpc_swing_offset,
+                    ratchet_times, sp1200, transient_shape, velocity,
+                    vinyl_bed, wow_flutter, zoh_resample)
 
 SR = 44100
 
@@ -215,6 +216,32 @@ def test_master_to_lufs_hits_target():
     assert achieved == pytest.approx(OWNER_TASTE["master_lufs"], abs=1.2)
     ceil = 10 ** (OWNER_TASTE["peak_ceiling_db"] / 20)
     assert np.abs(L).max() <= ceil + 1e-3              # ceiling respected
+
+
+# -- glue compression (owner 2026-07-29) --------------------------------------------
+
+def test_glue_compress_reduces_loud_signal_more_than_quiet():
+    """The basic thing a downward compressor must do: a signal well
+    above threshold ends up squashed relatively more than one well
+    below it, which never gets touched."""
+    t = np.arange(2 * SR) / SR
+    loud = np.sin(2 * np.pi * 200 * t) * 0.9     # well above -18 dB threshold
+    quiet = np.sin(2 * np.pi * 200 * t) * 0.02   # well below threshold
+    gL, _ = glue_compress(loud.copy(), loud.copy())
+    qL, _ = glue_compress(quiet.copy(), quiet.copy())
+    loud_gain = np.abs(gL).max() / np.abs(loud).max()
+    quiet_gain = np.abs(qL).max() / np.abs(quiet).max()
+    assert loud_gain < quiet_gain
+
+
+def test_glue_compress_keeps_stereo_image():
+    """Same gain reduction on both channels — a hard-panned signal must
+    not shift toward center or the opposite side."""
+    t = np.arange(2 * SR) / SR
+    L = np.sin(2 * np.pi * 200 * t) * 0.9
+    R = np.zeros_like(L)
+    _, gR = glue_compress(L.copy(), R.copy())
+    assert np.abs(gR).max() < 1e-9
 
 
 # -- transient shaper ----------------------------------------------------------------

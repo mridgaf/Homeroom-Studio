@@ -110,11 +110,28 @@ def scan(root=None):
     return found
 
 
-def nearest(index, midi_note, instrument=None, artic=None):
+# how far a `prefer`red sample (see nearest()) is allowed to stretch
+# before falling back to a fresh nearest-pitch pick. Owner 2026-07-29,
+# same number and same tradeoff as instrument_sampler.PREFER_MAX_SHIFT:
+# wide enough (an octave) that most chords stay one real instrument
+# instead of switching mid-chord, at the cost of some notes stretching
+# further than instrument_sampler.MAX_SHIFT (4) would normally allow.
+PREFER_MAX_SHIFT = 12
+
+
+def nearest(index, midi_note, instrument=None, artic=None, prefer=None):
     """The sample closest in pitch to `midi_note` (optionally within one
     instrument/articulation), or None if the pool's empty. Closest-note
     rather than exact so a chord tone outside one instrument's range
-    still gets voiced by its nearest playable note."""
+    still gets voiced by its nearest playable note.
+
+    `prefer`, if given, is an entry already chosen for an earlier note in
+    the same chord/arp — wins over an objectively closer match as long as
+    it still reaches this note within PREFER_MAX_SHIFT, so a whole chord
+    keeps one real instrument sound instead of a different sample per
+    note (owner 2026-07-29, same fix as instrument_sampler.nearest)."""
+    if prefer is not None and abs(prefer["note"] - midi_note) <= PREFER_MAX_SHIFT:
+        return prefer
     pool = [e for e in index
             if (instrument is None or e["instrument"] == instrument)
             and (artic is None or e["artic"] == artic)]
@@ -145,16 +162,20 @@ def by_articulation(index, kind):
     return [e for e in index if e["artic"] in fam] if fam else index
 
 
-def note_slice(index, note, dur, sr=SR, cache=None, used=None):
+def note_slice(index, note, dur, sr=SR, cache=None, used=None, pin=None):
     """One arp step's worth of the nearest string sample to `note`: its
     first `dur` seconds with a short attack + release so it reads as a
     rhythmic note, not a swell. `cache` (a dict) holds each note's loaded
     audio so an arp doesn't reload it per step. None if nothing's
-    voiceable, so chord_synth.arp_riff can pluck that step instead."""
+    voiceable, so chord_synth.arp_riff can pluck that step instead.
+    `pin`: see nearest()'s `prefer` doc — pass the same list across every
+    note of one chord/arp to keep them all preferring one source file."""
     if cache is not None and note in cache:
         mono = cache[note]
     else:
-        pk = nearest(index, note)
+        pk = nearest(index, note, prefer=pin[0] if pin else None)
+        if pin is not None and not pin and pk is not None:
+            pin.append(pk)
         if pk is not None and used is not None:
             used.append(pk["path"])          # name the real file — see
         x = load_audio(pk["path"]) if pk else None
@@ -176,7 +197,7 @@ def note_slice(index, note, dur, sr=SR, cache=None, used=None):
 
 
 def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR,
-               used=None):
+               used=None, pin=None):
     """Sum one sample per MIDI note in `notes` into a `dur`-second chord
     bed. Each note is fitted to length with CROSSFADED repeats and ramped
     to zero at both edges, then the stack is RMS-normalized so a 4-note
@@ -187,14 +208,22 @@ def play_chord(index, notes, dur, instrument=None, artic=None, sr=SR,
     hard splice put a step discontinuity at every repeat seam and left the
     bed ending mid-waveform, which the owner heard as a click at the end
     of sustained chords. Measured on the sibling module: 0.209 step at a
-    seam before, 0.007 after. Same defect, same fix, shared helpers."""
+    seam before, 0.007 after. Same defect, same fix, shared helpers.
+
+    `pin` (see nearest()) defaults to a list private to this call, so a
+    chord's own notes prefer one source even when the caller doesn't pass
+    one in to also share it across chord slots."""
     n = max(int(dur * sr), 1)
     out = np.zeros(n)
+    pin = [] if pin is None else pin
     voiced = 0
     for note in notes:
-        pick = nearest(index, note, instrument, artic)
+        pick = nearest(index, note, instrument, artic,
+                       prefer=pin[0] if pin else None)
         if pick is None:
             continue
+        if not pin:
+            pin.append(pick)
         if used is not None:                 # instrument_sampler.voice_note
             used.append(pick["path"])
         x = load_audio(pick["path"])
