@@ -70,8 +70,14 @@ entries.
   allowed_to_be_narrow encoded the OLD rule that dry means near-mono. The
   standing rule supersedes it; it now asserts the RELATIONSHIP (dry is still
   narrower than wet) instead of an absolute.
-- Status: open
-- Outcome: (awaiting the owner's ear on the 5 scratch beats)
+- Status: confirmed
+- Outcome: owner heard the 5 scratch beats and said "apply" (2026-07-31).
+  Committed to main as c741927 and live for every render from the next
+  launch. NOT yet re-confirmed over a longer listening period — if the
+  ambience turns out to be too much on a particular instrument, the two
+  numbers to move are the wet values in render_crew_beat's ambience bed
+  (0.18 harmonic / 0.10 colour), and the chord level is
+  OWNER_TASTE["chord_bus_under_kick_db"].
 
 ### 2026-07-31 Applied: stereo reverb restored, chord level fixed, silent stems blocked, first audio tests added
 - Context: owner approved the fixes from the rebuild review (entry below).
@@ -119,8 +125,10 @@ entries.
   32% of the library and still renders narrow (-27 to -30 dB) because a dry
   beat has no reverb to widen. First audition batch rolled dry three times
   and showed no improvement at all, which is how this surfaced.
-- Status: open
-- Outcome: (awaiting the owner's ear on the three scratch beats)
+- Status: confirmed
+- Outcome: superseded and folded into the entry above; owner approved the
+  combined result 2026-07-31, committed as c741927. Note the chord_gain
+  0.55 change described here was REVERTED before shipping — see above.
 
 ### 2026-07-31 CLAUDE.md's machine facts are WRONG — it is an M2 Pro on macOS 26, not an old Intel Mac; Python 3.9 is a self-imposed choice
 - Context: a research pass checked the hardware instead of trusting the brief.
