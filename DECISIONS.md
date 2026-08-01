@@ -36,6 +36,42 @@ just not loaded by default.
 
 ---
 
+### 2026-08-01 Ledger split for token cost; and a flaky test I caused, found by committing on red
+- Context: owner asked how to make sessions use fewer tokens.
+- Measured first: DECISIONS.md was 195 KB / ~50,000 tokens, and CLAUDE.md
+  rule 2 tells every session to read it BEFORE doing anything. That cost was
+  being paid on every startup, for 66 entries that were already settled.
+- Change: entries from 2026-07-26 onward stay in DECISIONS.md; the 66 older
+  ones moved verbatim to DECISIONS-ARCHIVE.md, which nothing reads by
+  default. A one-line index (date, title, status) of every archived entry
+  stays in the live file so nothing is invisible. CLAUDE.md rule 2 updated to
+  say read the live file only, and that an old `open` usually means nobody
+  circled back rather than that the thread is live.
+- Verified lossless BEFORE committing, against git HEAD: 73 entries in, 73
+  out, zero text changed. One entry flagged as changed turned out to be my
+  verifier's parser running past the end into the new index; the entry itself
+  is byte-identical. Live file is now ~7,600 tokens — about 42,000 saved per
+  session.
+- MISTAKE WORTH RECORDING: I chained `pytest -q | tail -3 && git commit`. The
+  pipe means the exit status is tail's, not pytest's, so the `&&` fired and I
+  committed on a RED suite (9d30c25). Never put pytest behind a pipe in a
+  chained command — redirect to a file and check `$?`.
+- The failure that hid behind it was real and mine: test_generate_ships_wav_
+  midi_stems_and_recipe required a stem for kick AND snare AND hat.
+  generate() rolls from an UNSEEDED rng, so a lane can legitimately produce
+  no hits — and since write_stems stopped writing all-zero stems earlier the
+  same day, such a lane now has no file instead of a silent one. The old
+  assertion only ever passed because the silent file was there.
+- It is intermittent, not fixed: it survived several full-suite runs before
+  appearing, and the suite has been green on every run since. Do NOT read a
+  green run as proof it is gone — the fix is the changed logic, not the runs.
+  Test now requires a kick stem always, at least two of the three lanes, and
+  the "lane - real sample name" format on whatever did render.
+- Verify by: `pytest -q > out.txt 2>&1; echo $?` — 743 passed, 1 skipped,
+  exit 0, twice in a row.
+- Status: confirmed
+- Outcome: split committed 9d30c25 (on red) and the test fix after it.
+
 ### 2026-07-31 Owner standing rule on sound + master EQ fixed + house ambience bed + chord bus governor
 - NEW STANDING RULE from the owner, verbatim: "in order to have studio ready
   quality tracks. I want you to be able to use reverb and any other effect. as

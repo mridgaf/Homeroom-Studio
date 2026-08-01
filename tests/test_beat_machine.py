@@ -200,10 +200,25 @@ def test_generate_ships_wav_midi_stems_and_recipe(machine_env):
     assert len(stem_dirs) == 1
     stems = {f.stem for f in stem_dirs[0].glob("*.wav")}
     # owner 2026-07-18: stems carry the real sample name after the lane
-    # prefix ("kick - <sample>"), never just the generic role
-    for lane in ("kick", "snare", "hat"):
-        match = [s for s in stems if s.startswith(lane)]
-        assert match, (lane, stems)
+    # prefix ("kick - <sample>"), never just the generic role.
+    #
+    # 2026-08-01: this used to require a stem for kick AND snare AND hat.
+    # generate() rolls its pattern from an unseeded RNG, so a lane can
+    # legitimately come out with no hits in any bar — and since write_stems
+    # stopped writing all-zero stems that day, such a lane now has no file
+    # instead of a silent one. The old form passed only because the silent
+    # file was always there. It is an intermittent failure, not a fixed one:
+    # it survived several full-suite runs before showing up.
+    #
+    # So: the kick must always be there (a beat with no kick is broken), the
+    # naming rule is enforced on whatever DID render, and at least two of the
+    # three must be present so this cannot pass on an almost-empty beat.
+    present = {lane: [s for s in stems if s.startswith(lane)]
+               for lane in ("kick", "snare", "hat")}
+    assert present["kick"], ("no kick stem", stems)
+    assert sum(1 for v in present.values() if v) >= 2, \
+        ("beat came out nearly empty", stems)
+    for lane, match in present.items():
         assert all(" - " in s for s in match), (lane, stems)
     # owner 2026-07-18: clean renders — no vinyl bed baked in
     assert not any(s.startswith("vinyl") for s in stems)
