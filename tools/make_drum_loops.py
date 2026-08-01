@@ -173,7 +173,6 @@ def render(bpm, bars, tracks, swing=0.0, humanize=0.0):
 def master(L, R, drive=1.4):
     for x in (L, R):
         x -= x.mean()
-    m = 0.5 * (L + R)
     # keep lows mono, add air, tame boxy mids a touch
     def eq(f):
         g = np.ones_like(f)
@@ -181,6 +180,16 @@ def master(L, R, drive=1.4):
         g *= 1 - 0.15 * smooth_edge(f, 300) * smooth_edge(f, 900, rise=False)
         return g
     L, R = fft_gain(L, eq), fft_gain(R, eq)
+    # 2026-07-31 BUG FIX: `m` used to be captured HERE-minus-one-step, i.e.
+    # BEFORE the EQ above, and then the mid was rebuilt from that stale copy
+    # on the `m + side` line below. The EQ's effect on the mid channel was
+    # therefore thrown away every time. Since kick, snare, sub, bass and all
+    # chord parts sit at pan 0.0, that is essentially the whole record —
+    # measured, the air shelf moved centred content by -0.009 dB and
+    # side-only content by +2.509 dB. This tone stage has never audibly
+    # applied to any beat this project has rendered. Taking mid AFTER the EQ
+    # is the whole fix.
+    m = 0.5 * (L + R)
     side = 0.5 * (L - R)
     side = highpass(side, 200)                           # mono bass
     L, R = m + side, m - side

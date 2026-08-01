@@ -10,8 +10,25 @@ and get walked through recipes step-by-step. All speech is processed locally
 - User: self-taught musician, technical background, NOT a developer. All
   instructions to the user must be single paste-able commands or double-clickable
   files. He runs commands in Terminal, sometimes pastes into the wrong window.
-- Machine: older MacBook Pro, **system Python 3.9** (Command Line Tools).
-  NO `X | Y` union syntax without `from __future__ import annotations`. Target 3.9.
+- Machine (VERIFIED 2026-07-31 — the old entry here said "older MacBook Pro"
+  and was simply wrong; do not reinstate it): **MacBook Pro 14" 2023,
+  `Mac14,9`, Apple M2 Pro, 10 cores, 16 GB, arm64, macOS 26.5.2.** This is a
+  fast, current machine. Nothing should be ruled out "because the hardware is
+  old" — that reasoning was false and shaped months of decisions.
+- Python: the venv points at Apple's Command Line Tools `python3` = **3.9.6**.
+  That is a *choice*, not a machine limit (3.9 went end-of-life 2025-10-31);
+  `uv 0.11.29` is already installed at `~/.local/bin/uv` if you want to move.
+  Until it moves, keep targeting 3.9: no `X | Y` unions without
+  `from __future__ import annotations`.
+  **3.9 is NOT a blocker for the audio work** — verified by installing them:
+  `soxr 1.1.0` (current) and `pedalboard 0.9.17` both have cp39 arm64 wheels,
+  and that pedalboard build has PitchShift, Limiter, Compressor, Reverb,
+  Resample, Convolution, `time_stretch` (Rubber Band) and `io.AudioFile`.
+  Upgrading Python buys newer versions, not access.
+- The M2 Pro's GPU and Neural Engine are unused. `faster-whisper`'s CTranslate2
+  backend is CPU-only on macOS; `whisper.cpp` runs on the GPU via Metal. The
+  "small.en ~1s latency" figure below was taken under the wrong hardware
+  assumption and should be re-measured before anyone optimises around it.
 - Project lives at: `~/Desktop/Homeroom Studio` (space in path — always quote).
   Moved here 2026-07-19 from `~/Music/Reason 12/reason-voice 3` so everything
   is in one folder on the Desktop. Beats + samples stay on `/Volumes/TBOTC 3`.

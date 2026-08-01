@@ -13,7 +13,109 @@ Format:
 
 ---
 
-## Current session (phase 2 sourcing)
+## Current session (2026-07-31): "what would you rebuild differently?"
+
+Owner asked for a ground-up rebuild critique from four expert angles. I
+measured the rendered audio instead of only reading code. That changed the
+answer.
+
+- [considered] answering from code structure alone (4.5k-line monolith, 200KB
+  of JSON config, hand-rolled numpy DSP) → all true, but style complaints, not
+  evidence → reversed: measured the actual WAVs.
+- [verified] 493 beats, 60 stem folders, 506 stem files, read with stdlib
+  `wave` + numpy — `soundfile` is not even installed, confirming zero audio
+  libraries in the venv.
+- **[verified] 247/247 core stems (kick, snare, every chordN) are exactly
+  dual-mono**, max|L−R| < 1e-9. Master-bus side energy sits 22–31 dB under
+  mid. The mix is functionally mono. The owner's recurring "everything is
+  stacked on top of each other" complaint is literal: every part occupies the
+  identical point in the stereo field. Four sessions (2026-07-25, 2026-07-29)
+  chased this as a *sample-sourcing* problem. Those fixes were correct on
+  their own terms but could never resolve the symptom, because the cause is
+  spatial, not tonal.
+- [verified, and CORRECTED from my first reading] the mono result is not
+  "nothing is panned." Read the real lane tuples in `.recipes/1623.json`:
+  hat −0.15, blips +0.30, stamp −0.30, congas +0.29 — the garnish *is* panned.
+  What sits at a hardcoded `0.0` is kick, snare, sub, bass **and all three
+  chord parts** (`beat_machine.py:1535`, literal `0.0` for every `chord{i}`
+  and `chord{i}v{v}`). Centring kick and snare is correct engineering practice;
+  centring three simultaneous harmony parts on top of each other is the actual
+  defect. Narrower claim, and the right one.
+- **[verified] melodic content is buried**: loudest chord part vs kick across
+  39 beats — median −15.4 dB, worst −24.9 dB. Traced to a single constant:
+  `OWNER_TASTE["chord_gain"] = 0.3` (−10.5 dB) in `groove.py`, times an accent
+  of 0.82–1.0.
+- [verified] the silent-stem root cause is not a render fault: the `blips`
+  lane in 1623 has **zero hits in every bar** (`----------------`) while still
+  carrying a sample, a pan of 0.30 and a gain of 0.26. A lane can be dealt into
+  the kit with an empty pattern and the renderer writes the empty stem anyway.
+- [verified] simulated the two-line fix on 1623 without touching the repo:
+  panning the three chord parts to −0.45/0/+0.45 and lifting chord_gain to
+  0.55 moves whole-mix width from −24.0 to −17.8 dB S/M and the chord-to-kick
+  gap from −11.0 to −5.7 dB. Improves both; does not fully reach a −6…−12 dB
+  width target, because kick/snare/sub are correctly centred and dominate.
+- **[verified] 17 of 506 stems (3.4%, 15 of 60 folders) are digital silence**
+  (peak < 1e-6) while listed as live lanes. Checked 1623: `blips` carries a
+  kit spec and gain 0.7 in `.recipes/1623.json` and appears in `lanes`, but
+  `blips - Double Whip.wav` is all zeros. Not an intentional mute.
+- [verified] tonal balance unmanaged: sub-60 Hz energy ranges 0.6% (1621) to
+  70.4% (1622) beat to beat. No reference curve anywhere in the codebase.
+- [verified] 732 tests pass in 97s and catch none of the above — they assert
+  on dicts and code paths, never on audio properties. An earlier session did
+  measure LUFS and peak once by hand (see #859-863 below), so the capability
+  existed; it just never became a gate.
+- [verified] no song structure: 4–8 bar loops only, no intro/verse/hook.
+- [verified] autoresearch optimized *variety* for 35 runs, plateaued at 14.08
+  against a 0.15 noise floor, shut itself off (`.autoresearch-off`). Goodhart:
+  variety was measurable so it got optimized; musicality wasn't so it didn't.
+
+### Code-audit findings (subagent), each re-verified by me before use
+- **[verified myself] `master()` applies its EQ to nothing.**
+  `make_drum_loops.py:173-195` captures `m = 0.5*(L+R)` BEFORE the EQ, EQs L/R,
+  takes `side` from the EQ'd pair, then reconstructs `L,R = m+side, m-side`
+  using the STALE pre-EQ mid. Ran it: on centred content the air shelf changes
+  the tilt by **−0.009 dB**; on side-only content, **+2.509 dB**. Combined with
+  the dual-mono finding above, the air shelf and boxy-mid dip have never
+  audibly applied to any beat this project has rendered.
+- **[verified myself, severity CORRECTED] naive `np.interp` resampling.** The
+  subagent called the load path "the single worst defect." My measurement does
+  not support that: 0 of 265 sampled library files are 88.2/96k and 18.5% are
+  48k, whose aliases fold to 20–22 kHz — inaudible. Where it *does* bite is the
+  **upward pitch-shift** path (`instrument_sampler._shift`, PREFER_MAX_SHIFT=12
+  since 2026-07-29): a 15 kHz component shifted +12 st returns as a phantom
+  14.1 kHz tone, and broadband bright material refills its top octave with
+  fold-back instead of emptying it (−5.9 dB where a clean shift gives far more).
+  That is the grainy top end on shifted hats/plucks — a melodic-path defect,
+  not a load-path one. Reported at that severity, not the subagent's.
+- [verified by the subagent, not re-run by me] swing is applied only when
+  `res == 16` (`crew.py:972`), so the 32/24/20/12-step grids that
+  `pattern_gen` emits for rolls32/quint20/triplets/shuffle/odd-meter get none —
+  the config advertises swing as identity-defining and the renderer drops it
+  for four of five grids. `glue_compress` has attack == release; `master_to_lufs`
+  is a `tanh` waveshaper, not a limiter. `haas`, `kick_layer` and
+  `transient_shape` are written, tested, and never wired into a render.
+- [verified by the subagent] stems and mix are two independent sums of the same
+  lane buffers (`crew.py:1049-1064` vs `:1067-1103`), diverging at four points;
+  `_track_gain` is 44 lines of RMS reconciliation compensating for the fork.
+  This is the mechanism behind three separate "stems don't match the track"
+  reports (07-21, 07-23, 07-25), each patched downstream of the cause.
+- [verified by the subagent] `crew.py:653-681` silently rewrites his
+  `crew_config.json` on a STYLE_VERSION bump unless `_style_lock` is set —
+  against the file's own "_readme" promise that editing a number sticks.
+
+### The reframe this forced
+Across 76 ledger entries the recurring failure is not bad code — it is that
+**every real defect was found by the owner's ear, never by the machine.** The
+system cannot hear itself. That is the one architectural thing worth changing,
+and it does not require a rebuild.
+
+- [considered] recommending a full ground-up rewrite → reversed: 25k lines,
+  732 green tests, 1623 beats rendered, engine in use today. Every defect
+  measured above lives in the *output stage* (pan, gain, silence, balance),
+  not in the composition brain. Rewriting the brain to fix the mixer is the
+  expensive wrong move.
+
+## Previous session (phase 2 sourcing)
 
 - owner moved to phase 2 (bass/vox lanes), then interrupted with two terse
   sourcing directives: "stop the one shot rule" + "only my folders (given +

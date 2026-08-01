@@ -149,7 +149,19 @@ def write_stems(folder, stems, sources=None):
     (next_number's leading-digit rglob) never counts them."""
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
+    empty = []
     for lane, (sL, sR) in stems.items():
+        # 2026-07-31: never write a stem that is digital silence. Measured
+        # 17 of 506 stems (3.4%, across 15 of 60 beats) were all zeros while
+        # still being listed as live lanes — e.g. beat 1623's "blips" had a
+        # real sample, pan 0.30 and gain 0.26, but a pattern with ZERO hits
+        # in every bar, so the renderer faithfully produced nothing. Dragging
+        # that file into Reason gets you an empty track. Skipping it here is
+        # the containment fix; the upstream cause (a lane can be dealt into
+        # the kit with an empty pattern) is still open.
+        if float(max(np.abs(sL).max(), np.abs(sR).max())) <= 0.0:
+            empty.append(lane_label(lane))
+            continue
         name = lane_label(lane)
         src = (sources or {}).get(lane)
         if src:
@@ -161,6 +173,9 @@ def write_stems(folder, stems, sources=None):
         if peak * g > 0.94:
             g = max(1.0, 0.94 / peak)
         write_wav24(folder / f"{name}.wav", sL * g, sR * g)
+    if empty:
+        print(f"  note: {len(empty)} lane(s) made no sound, so no stem was "
+              f"written for them: {', '.join(empty)}")
     return folder
 
 

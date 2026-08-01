@@ -26,6 +26,7 @@ Out:  ~/Documents/Samples/Claude Drum Beats/Proto N <Name> Drums NNNbpm.wav
 """
 import json
 import os
+import re
 import sys
 import zlib
 from pathlib import Path
@@ -1004,16 +1005,28 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         bufs["kick"] = roughness_am(bufs["kick"], rate, depth)
 
     space = space or p["space"][0]
+    # 2026-07-31: make_ir() has ALWAYS returned a stereo pair of decorrelated
+    # IRs (groove.py:303, docstring "Stereo IR") and this block used to do
+    # `irL, _ = make_ir(...)` — throwing the right channel away and printing a
+    # mono reverb. Measured consequence: every rendered beat came out with
+    # side energy 22-31 dB under mid, i.e. effectively mono, and all 247 core
+    # stems checked were bit-identical L/R. The reverb is the one stage in the
+    # chain designed to create width, so restoring its right channel is the
+    # cheapest real fix. Chord lanes are deliberately NOT panned apart: chord0
+    # /1/2 are the progression's chords in SEQUENCE (verified — zero overlap),
+    # so panning them would swing the progression across the image.
+    wet_side = {}
     # a treated lane may have been removed outright (stem rack
     # 2026-07-21) — treat what's actually here
     for lane in [ln for ln in p["space"][1] if ln in bufs]:
         if space == "gated":
             # hold scales to tempo — one 8th note (school 2026-07-15;
             # forums put 80s drama at 300+ ms, which a 90 bpm 8th hits)
-            bufs[lane] = gated_reverb(bufs[lane], onsets[lane],
-                                      wet=OWNER_TASTE["gate_wet"],
-                                      hold_ms=min(30000.0 / bpm, 350.0),
-                                      loop=True)
+            bufs[lane], wet_side[lane] = gated_reverb(
+                bufs[lane], onsets[lane],
+                wet=OWNER_TASTE["gate_wet"],
+                hold_ms=min(30000.0 / bpm, 350.0),
+                loop=True, stereo=True)
         elif space in ("room", "plate", "hall"):
             # v6: every DJ can roll a wet space per beat — use the era
             # Alt params when the preset carries them, house defaults
@@ -1024,9 +1037,66 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             alt = p.get("alt")
             decay, tone, wet = (alt[1] if alt and alt[0] == space
                                 and alt[1] else defaults[space])
-            irL, _ = make_ir(decay, tone)
-            bufs[lane] = bufs[lane] + loop_convolve(bufs[lane], irL) * wet
+            irL, irR = make_ir(decay, tone)
+            dry = bufs[lane]
+            wetL = loop_convolve(dry, irL) * wet
+            wetR = loop_convolve(dry, irR) * wet
+            # bufs[] keeps the true MONO FOLD-DOWN, which is what every
+            # downstream reader wants — the snare-vs-kick backstop just
+            # below, _track_gain, _preview_mix, the stem peak-normalise.
+            # Measured, so it's not hand-waved: the per-channel wet level is
+            # UNCHANGED (+0.00 dB — L still gets exactly irL, as before),
+            # while the wet's mono fold-down drops 2.9 dB because two
+            # decorrelated channels partially cancel when summed. That is
+            # physically correct, not a loss. On a whole beat the dry signal
+            # dominates, so the figure those readers actually see moves
+            # 0.18 dB. Nothing downstream needed retuning.
+            bufs[lane] = dry + (wetL + wetR) * 0.5
+            # ...and the decorrelated half rides along as a side signal,
+            # folded in at pan time below. mono_below(120) still collapses
+            # the bass, so this cannot smear the low end.
+            wet_side[lane] = (wetL - wetR) * 0.5
         # "dry": leave it alone
+
+    # ---- house ambience bed (owner standing rule, 2026-07-31) ----
+    # "In order to have studio ready quality tracks I want you to be able to
+    #  use reverb and any other effect, as much as needed, for quality and
+    #  style and dj. It can even vary instrument to instrument. This
+    #  overrules any other command where sound is concerned."
+    #
+    # Every DJ's space list turned out to be ONE lane — `["snare"]` or
+    # `["clap"]`. Nothing else in the mix had ever seen a reverb: chords,
+    # melodic parts, bongos, stamps and guest colour all printed bone dry.
+    # That is most of why a finished beat sounded small next to a record,
+    # and it is why beats that rolled space="dry" came out near-mono.
+    #
+    # This runs REGARDLESS of the rolled space, including "dry" — per the
+    # rule above, a quality floor is not a per-beat style choice. The DJ's
+    # signature snare/clap treatment above is untouched, so identity still
+    # comes from that; this is the room those parts sit in.
+    #
+    # Deliberately NOT treated: kick, the sampled 808 ("bass"), the tuned
+    # sub, and any lane the DJ already treated. Low end must stay dry and
+    # centred or the punch goes with it.
+    HARMONIC_RE = re.compile(r"^(chord\d|bass\d)")
+    already = set(p["space"][1])
+    dry_lows = {"kick", "bass", "sub"}
+    for lane in bufs:
+        if lane in already or lane in dry_lows:
+            continue
+        if HARMONIC_RE.match(lane):
+            decay, tone, wet = 1.4, 3200, 0.18   # air around the harmony
+        elif any(lane.startswith(s) for s in SNARE_LIKE):
+            continue                             # snare bus is the DJ's call
+        else:
+            decay, tone, wet = 0.5, 4200, 0.10   # a touch of room on colour
+        irL, irR = make_ir(decay, tone, seed=4242 + p["num"])
+        dry = bufs[lane]
+        wetL = loop_convolve(dry, irL) * wet
+        wetR = loop_convolve(dry, irR) * wet
+        bufs[lane] = dry + (wetL + wetR) * 0.5
+        side = (wetL - wetR) * 0.5
+        wet_side[lane] = wet_side.get(lane, 0.0) + side
 
     # hard backstop (owner 2026-07-18): the snare bus never out-powers
     # the kick, whatever the trims, samples, and reverb energy added up
@@ -1043,6 +1113,33 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 for ln in sn:
                     bufs[ln] = bufs[ln] * (cap / bus_rms)
 
+        # the harmonic bus gets the same governor (2026-07-31). Unlike the
+        # snare's, this one corrects in BOTH directions: a chord bed that
+        # lands too quiet is the more common failure and an open-loop gain
+        # cannot fix it. Measured across 39 shipped beats the loudest chord
+        # part sat a median 15.4 dB under the kick (worst 24.9, best 5.9) —
+        # a 19 dB spread, entirely from how loud the chosen samples happened
+        # to be. Raising OWNER_TASTE["chord_gain"] moved the whole range up
+        # without narrowing it, which just swapped "inaudible" for
+        # "shouting". Targeting the bus is what actually holds it steady.
+        ch = [ln for ln in bufs if re.match(r"^(chord\d|bass\d)", ln)]
+        ch_rms = np.sqrt(sum((bufs[ln] ** 2).sum() for ln in ch)
+                         / max(sum(len(bufs[ln]) for ln in ch), 1)) if ch \
+            else 0.0
+        if kick_rms > 0 and ch_rms > 1e-9:
+            want = kick_rms * 10 ** (
+                -OWNER_TASTE.get("chord_bus_under_kick_db", 9.0) / 20)
+            # clamped so a pathological sample can't be hauled up 30 dB and
+            # drag its own noise floor into the mix with it
+            adj = min(max(want / ch_rms, 0.25), 4.0)
+            for ln in ch:
+                bufs[ln] = bufs[ln] * adj
+                # the ambience bed above already stashed this lane's stereo
+                # half; it has to move with the lane or the reverb ends up
+                # louder than the sound making it
+                if ln in wet_side:
+                    wet_side[ln] = wet_side[ln] * adj
+
     # stems: each lane panned to stereo with its space treatment, kick
     # character, and the duck baked in (duck is a plain envelope multiply,
     # so per-lane ducking sums to exactly the mix-bus duck)
@@ -1052,6 +1149,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             gl = np.cos((pan + 1) * np.pi / 4)
             gr = np.sin((pan + 1) * np.pi / 4)
             sL, sR = bufs[lane] * gl, bufs[lane] * gr
+            sd = wet_side.get(lane)
+            if sd is not None:
+                sL, sR = sL + sd, sR - sd
             # Owner call 2026-07-22: "have the kick gate the bass and
             # other instruments". The tuned root sub used to ride the
             # un-ducked path WITH the kick; now only the kick itself
@@ -1069,12 +1169,17 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     for lane, (pan, *_rest) in p["lanes"].items():
         gl = np.cos((pan + 1) * np.pi / 4)
         gr = np.sin((pan + 1) * np.pi / 4)
+        sd = wet_side.get(lane)
         if lane == "kick":       # only the kick sits outside its own duck
             kL += bufs[lane] * gl
             kR += bufs[lane] * gr
+            if sd is not None:
+                kL, kR = kL + sd, kR - sd
         else:
             oL += bufs[lane] * gl
             oR += bufs[lane] * gr
+            if sd is not None:
+                oL, oR = oL + sd, oR - sd
     if p["sidechain"] > 0 and onsets.get("kick"):
         oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
                       loop=True)

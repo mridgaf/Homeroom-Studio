@@ -175,8 +175,20 @@ OWNER_TASTE = {
     # is why a fresh beat arrived shouting. These put the pad under the kit
     # the way a record does, and are the STARTING point: the rack's dB
     # arrows move them per beat.
-    "chord_gain": 0.30,          # ~10 dB under the kick — sits behind the
-                                 #      drums, leaves room for a vocal
+    # 2026-07-31: left at the owner's 0.30. Raising it to 0.55 was tried
+    # first and rejected on measurement — it shifted the whole distribution
+    # up 5.3 dB but did nothing about the SPREAD, so beats came back ranging
+    # from 2.5 dB under the kick (shouting) to 15.5 dB under (inaudible).
+    # An open-loop gain can't hit a target when the source samples vary that
+    # much in loudness. The level is now set by chord_bus_under_kick_db in
+    # crew.render_crew_beat, the same way the snare bus has been governed
+    # since 2026-07-18. This number is just the starting point that
+    # normaliser works from, and the rack's dB arrows still move it.
+    "chord_gain": 0.30,          # starting point; the bus target below wins
+    # how far under the kick the whole harmonic bus lands. The old comment
+    # on chord_gain always claimed "~10 dB under the kick" as the intent —
+    # this is that intent, finally enforced instead of hoped for.
+    "chord_bus_under_kick_db": 9.0,
     "chord_bass_gain": 0.55,     # ~5 dB under the kick — felt, not fighting
     # A real player leans on the downbeat and eases off the repeats. These
     # scale each chord slot in turn, cycling if the progression is longer,
@@ -334,13 +346,22 @@ def loop_convolve(sig, ir):
 
 
 def gated_reverb(dry, onsets, wet=0.5, decay=1.8, hold_ms=140.0,
-                 rel_ms=25.0, tone=5200.0, loop=False):
+                 rel_ms=25.0, tone=5200.0, loop=False, stereo=False):
     """The 80s snare explosion: big bright flat-bodied tail, held then cut
     brutally fast after each hit. loop=True renders the tail circularly
     and wraps a gate window that runs past the end back onto the start,
-    so a hit in the last beat of bar 8 gates cleanly across the seam."""
+    so a hit in the last beat of bar 8 gates cleanly across the seam.
+
+    stereo=True additionally returns the decorrelated side component, so
+    callers can print a genuinely wide gate. make_ir has always produced a
+    stereo pair; until 2026-07-31 this function convolved irL and dropped
+    irR on the floor, which is a third of the library's beats rendered with
+    a mono gate. Default stays mono so existing callers/tests are unchanged.
+    """
     irL, irR = make_ir(min(decay, 0.35), tone, predelay_ms=6, flat=True)
-    tail = loop_convolve(dry, irL) if loop else fft_convolve(dry, irL)
+    conv = loop_convolve if loop else fft_convolve
+    tail = conv(dry, irL)
+    tailR = conv(dry, irR) if stereo else None
     n = len(tail)
     h, rl = int(hold_ms / 1000 * SR), int(rel_ms / 1000 * SR)
     gate = np.zeros(n + h + rl)          # room for overhang past the end
@@ -350,7 +371,11 @@ def gated_reverb(dry, onsets, wet=0.5, decay=1.8, hold_ms=140.0,
                                             np.linspace(1, 0, rl))
     if loop:
         gate[:h + rl] = np.maximum(gate[:h + rl], gate[n:])
-    return dry + tail * gate[:n] * wet
+    g = gate[:n] * wet
+    if not stereo:
+        return dry + tail * g
+    wetL, wetR = tail * g, tailR * g
+    return dry + (wetL + wetR) * 0.5, (wetL - wetR) * 0.5
 
 
 def haas(mono, ms=12.0, side_db=-4.0):
