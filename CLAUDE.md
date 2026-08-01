@@ -160,6 +160,19 @@ This file persists; I don't. At the **start** of a session, read `DECISIONS.md`
 in the project root before starting work — it has prior decisions, fixes, and
 open items.
 
+**Read `DECISIONS.md` only — NOT `DECISIONS-ARCHIVE.md`.** The ledger was
+split on 2026-08-01 because it had reached ~50,000 tokens and this rule was
+spending that on every single startup. `DECISIONS.md` now holds 2026-07-26
+onward plus a one-line index of everything older; the archive holds the 66
+earlier entries verbatim, nothing deleted or edited. Open the archive only
+when you need the reasoning behind something older, or when a live entry
+points back to one. Verified lossless at the time of the split: 73 entries
+in, 73 out, zero text changed.
+
+Statuses in the archive were true when written; several say `open` only
+because nobody circled back, not because the thread is live. Check the code
+before treating an old `open` as an outstanding task.
+
 At the **end** of a session, append an entry to `DECISIONS.md` for anything
 that was:
 - a real decision or judgment call (not a trivial choice)
