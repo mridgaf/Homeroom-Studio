@@ -334,7 +334,20 @@
      "G",
      "A"
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -344,6 +357,26 @@
     [
      "vamp_i_iv7",
      1
+    ],
+    [
+     "sparkle_add9",
+     1.0
+    ],
+    [
+     "suspended_open",
+     1.0
+    ],
+    [
+     "mixo_funk",
+     1.0
+    ],
+    [
+     "lydian_float",
+     1.0
+    ],
+    [
+     "soul_turnaround",
+     1.0
     ]
    ],
    "chord_source": [
@@ -383,7 +416,16 @@
      "G",
      "C"
     ],
-    "mode": "dorian"
+    "mode": [
+     [
+      "dorian",
+      3
+     ],
+     [
+      "mixolydian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -401,6 +443,22 @@
     [
      "vamp_i_iv7",
      2
+    ],
+    [
+     "mixo_funk",
+     1.0
+    ],
+    [
+     "mixo_vamp",
+     1.0
+    ],
+    [
+     "neo_soul_descent",
+     1.0
+    ],
+    [
+     "harmonic_climb",
+     1.0
     ]
    ],
    "chord_source": [
@@ -994,15 +1052,19 @@
     "modes": [
      [
       "backbeat",
-      0.85
+      0.35
      ],
      [
       "displaced",
-      0.1
+      0.267
      ],
      [
       "sparse",
-      0.05
+      0.217
+     ],
+     [
+      "halftime",
+      0.167
      ]
     ],
     "ghosts": [
@@ -1150,6 +1212,14 @@
      [
       "major",
       1
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -1169,6 +1239,22 @@
     [
      "nostalgic_borrowed_minor",
      2
+    ],
+    [
+     "gospel_walkup",
+     1.0
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
+    ],
+    [
+     "cinematic_rise",
+     1.0
     ]
    ],
    "chord_source": [
@@ -1224,6 +1310,10 @@
      [
       "major",
       1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -1247,6 +1337,22 @@
     [
      "vamp_i_iv7",
      1
+    ],
+    [
+     "neo_soul_descent",
+     1.0
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "lydian_wander",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
     ]
    ],
    "chord_source": [
@@ -1589,7 +1695,20 @@
      "G",
      "Bb"
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -1603,6 +1722,22 @@
     [
      "vamp_i_v7",
      2
+    ],
+    [
+     "mixo_vamp",
+     1.0
+    ],
+    [
+     "sparkle_add9",
+     1.0
+    ],
+    [
+     "gospel_walkup",
+     1.0
+    ],
+    [
+     "suspended_open",
+     1.0
     ]
    ],
    "chord_source": [
@@ -1833,11 +1968,19 @@
     "modes": [
      [
       "backbeat",
-      0.9
+      0.35
      ],
      [
       "sparse",
-      0.1
+      0.283
+     ],
+     [
+      "displaced",
+      0.183
+     ],
+     [
+      "halftime",
+      0.183
      ]
     ],
     "ghosts": [
@@ -2156,15 +2299,19 @@
     "modes": [
      [
       "backbeat",
-      0.85
+      0.35
      ],
      [
       "halftime",
-      0.1
+      0.267
      ],
      [
       "sparse",
-      0.05
+      0.217
+     ],
+     [
+      "displaced",
+      0.167
      ]
     ],
     "ghosts": [
@@ -2280,7 +2427,16 @@
      "F",
      "G"
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "harmonic_minor",
+      2
+     ]
+    ]
    },
    "progressions": [
     [
@@ -2294,6 +2450,22 @@
     [
      "dark_menacing",
      1
+    ],
+    [
+     "cinematic_rise",
+     1.0
+    ],
+    [
+     "power_stomp",
+     1.0
+    ],
+    [
+     "anthem_sus",
+     1.0
+    ],
+    [
+     "harmonic_climb",
+     1.0
     ]
    ],
    "chord_source": [
@@ -2337,6 +2509,10 @@
      [
       "dorian",
       1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -2356,6 +2532,22 @@
     [
      "dorian_i_IV",
      1
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "mixo_funk",
+     1.0
+    ],
+    [
+     "harmonic_climb",
+     1.0
+    ],
+    [
+     "neo_soul_descent",
+     1.0
     ]
    ],
    "chord_source": [
@@ -2689,6 +2881,10 @@
      [
       "phrygian",
       1
+     ],
+     [
+      "harmonic_minor",
+      2
      ]
     ]
    },
@@ -2704,6 +2900,22 @@
     [
      "vamp_static_riff",
      2
+    ],
+    [
+     "line_cliche",
+     1.0
+    ],
+    [
+     "eerie_augmented",
+     1.0
+    ],
+    [
+     "suspended_open",
+     1.0
+    ],
+    [
+     "harmonic_climb",
+     1.0
     ]
    ],
    "chord_source": [
@@ -2927,15 +3139,19 @@
     "modes": [
      [
       "backbeat",
-      0.7
+      0.35
      ],
      [
       "displaced",
-      0.2
+      0.317
      ],
      [
       "sparse",
-      0.1
+      0.217
+     ],
+     [
+      "halftime",
+      0.117
      ]
     ],
     "ghosts": [
@@ -3413,6 +3629,14 @@
      [
       "minor",
       1
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -3432,6 +3656,22 @@
     [
      "vamp_i_iv7",
      1
+    ],
+    [
+     "gospel_walkup",
+     1.0
+    ],
+    [
+     "cinematic_rise",
+     1.0
+    ],
+    [
+     "anthem_sus",
+     1.0
+    ],
+    [
+     "soul_turnaround",
+     1.0
     ]
    ],
    "_horns_status": "RESTORED 2026-07-23 (was PARKED the same day). History: he auditioned #1046-#1048 on the SYNTHESIZED horn and rejected the tone outright ('I do not like the way that horn sounds at all'), so chord_source was made loop-dominant as an interim -- musically wrong for him, since his whole identity is the brass stack and on loop alone he overlaps Dilla/No Alias/Razor. The park reason is now gone: 'horns' no longer means a synth at all. Per his 2026-07-23 sampling directive ('I want my sounds, not fake ones') brass is SAMPLED from his own chops and multi-sampled across the range (tools/brass_sampler.py), and the synth horn_chord/horn_stab/horn_sustain were deleted. So this is back to the shape his research actually calls for. STILL UNHEARD: he has not auditioned the sampled brass yet -- if it also misses, the fix is the sample POOL (which chops are indexed, MIN_CLARITY) or the arp/sustain split, NOT a return to synthesis, which is now against standing instruction.",
@@ -3783,7 +4023,16 @@
      "F",
      "G"
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "harmonic_minor",
+      2
+     ]
+    ]
    },
    "progressions": [
     [
@@ -3797,6 +4046,22 @@
     [
      "epic",
      1
+    ],
+    [
+     "villain_harmonic",
+     1.0
+    ],
+    [
+     "power_stomp",
+     1.0
+    ],
+    [
+     "cinematic_rise",
+     1.0
+    ],
+    [
+     "harmonic_climb",
+     1.0
     ]
    ],
    "chord_source": [
@@ -4167,6 +4432,14 @@
      [
       "major",
       1
+     ],
+     [
+      "mixolydian",
+      1
+     ],
+     [
+      "dorian",
+      1
      ]
     ]
    },
@@ -4182,6 +4455,22 @@
     [
      "sad_accepting",
      1
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "gospel_walkup",
+     1.0
+    ],
+    [
+     "neo_soul_descent",
+     1.0
+    ],
+    [
+     "cinematic_rise",
+     1.0
     ]
    ],
    "chord_source": [
@@ -4524,6 +4813,14 @@
      [
       "minor",
       1
+     ],
+     [
+      "mixolydian",
+      1
+     ],
+     [
+      "dorian",
+      1
      ]
     ]
    },
@@ -4543,6 +4840,22 @@
     [
      "dark_menacing",
      1
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "lydian_wander",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
+    ],
+    [
+     "gospel_walkup",
+     1.0
     ]
    ],
    "chord_source": [

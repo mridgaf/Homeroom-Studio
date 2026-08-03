@@ -22,6 +22,126 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-03 Owner's six-point punch list — built in 5 parts, all measured, NOT yet heard
+- Context: after the 07-31 mix fixes he listed six problems: clap/crash
+  overused, "intentional gaps" in the loops, vocal hits annoying and loud,
+  chord limitations too small, odd beat lengths, and no classic breaks.
+  He also asked, twice, that I not generalize — which was fair, and the
+  verify pass that followed changed several of my own claims.
+- METHOD (the reusable part): measured 506 library recipes AND ~130 freshly
+  rendered beats, not just pattern data. `tools/measure_batch.py` is that
+  measurement made repeatable — length in bars, per-bar level of the mix AND
+  of the drum stems alone, stereo width, every stem's level vs the kick.
+- NEW STANDING RULE from him, verbatim: "All sounds are open to all DJs. but
+  they try to maintain seventy five percent of their personality within."
+  Implemented as `OPEN_P = 0.25` (beat_machine.py) and used in two places so
+  far: the chord picker, and giving the four clap-only DJs a snare.
+- His answers, applied: gaps rare at 1 in 6 / keep the signature clap stacks
+  but move everyone else's clap off the snare / kill vocal hits completely /
+  chords option (c), both wider per DJ and new longer progressions / 4-8
+  bars regardless of DJ, no odd time signatures / breaks yes, played
+  VERBATIM (he confirmed "bright beats" was break beats) / remove the stamp
+  lane entirely / yes to level governors.
+- WHAT SHIPPED, five parts, each measured before/after — full numbers in
+  SCRATCH.md. Headlines: stamp lane 95% of beats -> 0% (it drew from 32
+  files, half of all picks from SIX, one riser on 17% of the library — the
+  real cause of "same sounds over and over"). Vocal hits 26% -> 0%. Crash
+  3.5 hits per BAR -> 0.25. Holes 90% -> ~16%. Beats starting with no kick
+  5% -> 0%. Clap on the snare's exact steps, non-stack DJs, 89% -> 11%.
+  Worst identity's total possible harmonies 6 (Farrow) -> 116; median ~12 ->
+  151; all 14 chord qualities and all 8 modes now reachable (lydian,
+  mixolydian and harmonic minor had NEVER been used by any identity).
+  Nothing peaks above the kick any more (clap was +10.3 dB, now -0.4).
+- FOUR OF MY OWN MISTAKES, all caught by measuring after the change, not by
+  re-reading the diff. Worth keeping because the pattern is the lesson:
+  (1) the crash fix matched lane names exactly and missed `crash2` — the one
+      lane he complained about was still firing 3.12 times a bar;
+  (2) I protected claps whose MODE NAMES looked canonical instead of
+      checking the identity's actual `canon` block, so Miami Bass was
+      wrongly skipped;
+  (3) measuring in aggregate hid that the snare/clap stack runs BOTH ways —
+      I exempted the 6 with clap:{copy:snare} and missed 6 more with
+      snare:{copy:clap}, all documented signatures;
+  (4) after fixing vary_preset to 1-in-6, a real render still came back at
+      40% holes: there is a SECOND, independent hole source — the contrast
+      pass that runs after it and blanks a bar when the loop measures flat.
+      A pattern-level harness cannot see it. It now dips velocity instead.
+- REAL BUG FOUND, sitting exactly on his breaks question: `pattern_gen`
+  gated library seeds on `len(bar) == 16`, so all 14 two-bar patterns —
+  including the only Amen Break in the project — were picked and then
+  silently discarded for kick and snare, while the hat had NO gate and
+  reached the renderer as a 32-char bar, played as 32 steps in ONE bar
+  (double speed, swing skipped). 48 real cases measured. `seed_bars()`
+  fixes it. Separately, `_lib_kick` ignored velocity entirely and marked
+  accents by POSITION, so every ghost note in a break arrived at full
+  strength; it now honours velocity when a pattern has any, and falls back
+  to positional accents so all 180 existing patterns are unchanged.
+- Legends could never receive a groove seed's backbeat — measured 0.0% over
+  720 beats, and the legends are precisely the producers built on sampled
+  breaks. Now 9.3%.
+- 1679 (his ask): ALL SIX Fixed Bank beats were mono, -26.7 to -29.5 dB S/M,
+  not just that one. Cause: they are kick+snare+hat at space="dry", and the
+  07-31 ambience bed skips the low end (correct) and the whole snare bus
+  ("the DJ's call"), leaving the hat as the only width source. Added a
+  narrow backstop — drums-only AND no space asked for -> the snare bus joins
+  the bed. 1679 rebuilt via swap_many as 1680: **-27.7 -> -18.5 dB**, same
+  length, same peak, original preserved in the Variations folder. Dry crew
+  beats improved as a side effect (Otto Grit dry ~-19 dB, was -27 to -30).
+  The other five are STILL MONO — he asked for 1679 only.
+- Tests: 748 passed / 1 skipped / 0 failed, up from the 743 baseline (5 new
+  tests). Two tests were REWRITTEN, not deleted, because his new rules
+  supersede the old ones they encoded: `test_loop_length_varies_and_centres_
+  on_four` (asserted 2-bar loops exist) and `test_backbone_can_go_fully_
+  silent_for_a_bar` (asserted gaps happen) — the latter now pins BOTH ends,
+  that silence is still reachable AND that it stays rare.
+- HONEST LIMITS, none of them hidden:
+  * "Claps in fewer beats" barely moved in aggregate (44% -> ~44%). Every
+    clap in the roster is a declared signature stack (12 identities, he said
+    keep), a canon figure, or that DJ's only backbeat. The wins are
+    placement and level, not frequency. If he wants fewer, the only lever
+    left is the 12 signature stacks, which he told me not to touch.
+  * The 1-skipped test is the mono check. It only scans the TOP level of
+    each folder and 1680 landed in a Variations subfolder, so it reports
+    "no beats rendered in the last day" and looks at nothing. The green
+    suite is NOT the evidence that 1679 is fixed; the direct measurement is.
+  * Chord names print sharps in flat keys ("Cm - A# - G#" instead of
+    "Cm - Bb - Ab"). Display only, on the beat card. PREDATES this session —
+    reproduced on the old `epic` progression. Not fixed, not mine to
+    silently change inside another part.
+  * The rebuild guard refuses a no-op, so 1680 carries a 0.01 dB kick trim
+    (a thousandth of a level step, inaudible) purely to satisfy it. It shows
+    in the file name as "New Mix".
+- PROCESS NOTE, he called this out and he was right: I twice asked him a
+  question and then kept going without the answer — the "bright beats"
+  reading, and "next up is Part C unless you want to hear these first". The
+  agreed fix is to label them: **BLOCKING** means I stop; **ASSUMING X**
+  means I proceed and he can correct me. And not to write an audition
+  checkpoint into a plan and then skip it.
+- Verify by: audition batches are at `~/Desktop/Homeroom Audition 2026-08-03`
+  (1 BEFORE / 2 AFTER / 3 BREAK BEATS, with a plain-language READ ME).
+  Re-run `.venv/bin/python tools/measure_batch.py <folder>` on any batch.
+- FIXED BANK, the rest (2026-08-03, he approved the audition — "it sounds
+  good" — then asked for the other bank beats): 1310, 1311, 1312 and 1653
+  rebuilt as 1681-1684. **1173 could NOT be rebuilt — it predates the recipe
+  system (recipes start at 1174), so there is nothing to re-render from.**
+  Full-band S/M after: 1680 -18.5, 1681 -17.7, 1683 -21.3, 1682 -24.9,
+  1684 -28.1. The last two still read "mono" on that metric and I nearly
+  reported them as a failed fix — measuring the STEMS showed otherwise:
+  every non-kick lane is genuinely wide (snare -12.8 to -14.7 dB, hat -15.6
+  to -19.9) and the full-band number is dragged down by the kick, which is
+  pure mono by design. 1682's snare sample is simply quiet (rms 0.0071 vs a
+  0.0598 kick, 8x) and 1684 is a long 808 (0.1666, 8x the snare). Above
+  200 Hz, 1684 measures -19.5 dB. LESSON: full-band S/M is the wrong
+  yardstick for a kick-dominated drums-only beat, and the -22 dB threshold
+  in test_audio_quality inherits that flaw. Do not chase the number by
+  widening the low end — that would break mono compatibility.
+- Status: confirmed — owner heard the audition batches and approved
+  ("it sounds good"), then asked for the remaining bank beats and a commit.
+- Outcome: committed to main. Each part is documented above and in
+  SCRATCH.md; reverting ONE part is a targeted edit, not a git revert,
+  because the five parts touch overlapping code in beat_machine.py and
+  pattern_gen.py. Still unheard: the 4 rebuilt bank beats (1681-1684).
+
 ## Archived history — 66 entries moved, nothing deleted
 
 Everything up to and including 2026-07-25 now lives in
@@ -107,6 +227,13 @@ just not loaded by default.
   2026-07-18, targeting OWNER_TASTE["chord_bus_under_kick_db"] = 9.0 and
   clamped to +/-12 dB so a pathological sample can't be hauled up 30 dB with
   its own noise floor. chord_gain is back at the owner's 0.30.
+- CORRECTED 2026-08-03: the chord-bus figures below were taken on FIVE
+  beats and the 2.2 dB spread did not hold at scale. Re-measured on 42
+  fresh renders: median -8.0 dB against the -9.0 target, **spread 6.1 dB**,
+  range -12.5 to -6.3. Still a large win over the 19 dB before the
+  governor, and the governor is doing its job — but 5 beats was too small
+  a sample to claim 2.2 dB from, and the entry read as more settled than
+  it was.
 - Measured on 5 real rendered beats (scratch dir, not his library):
     width      -9.6 to -14.9 dB S/M   (library before: -22 to -31)
     chord/kick -6.0 to -8.2 dB, SPREAD 2.2 dB  (library before: 19 dB spread)

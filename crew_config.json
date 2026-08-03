@@ -383,6 +383,14 @@
      [
       "major",
       2
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -402,6 +410,22 @@
     [
      "nostalgic_borrowed_minor",
      2
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "lydian_wander",
+     1.0
+    ],
+    [
+     "neo_soul_descent",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
     ]
    ],
    "chord_source": [
@@ -772,7 +796,20 @@
       1
      ]
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "mixolydian",
+      1
+     ],
+     [
+      "dorian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -786,6 +823,22 @@
     [
      "dark_menacing",
      2
+    ],
+    [
+     "mixo_funk",
+     1.0
+    ],
+    [
+     "hendrix_snarl",
+     1.0
+    ],
+    [
+     "snarl_vamp",
+     1.0
+    ],
+    [
+     "mixo_vamp",
+     1.0
     ]
    ],
    "chord_source": [
@@ -1203,6 +1256,14 @@
      [
       "major",
       1
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -1222,6 +1283,22 @@
     [
      "nostalgic_borrowed_minor",
      2
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "gospel_walkup",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
+    ],
+    [
+     "neo_soul_descent",
+     1.0
     ]
    ],
    "chord_source": [
@@ -1455,19 +1532,19 @@
     "modes": [
      [
       "backbeat",
-      0.45
+      0.35
      ],
      [
       "halftime",
-      0.183
+      0.216
      ],
      [
       "displaced",
-      0.183
+      0.216
      ],
      [
       "sparse",
-      0.183
+      0.216
      ]
     ],
     "ghosts": [
@@ -1638,7 +1715,20 @@
       1
      ]
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -1652,6 +1742,22 @@
     [
      "vamp_i_VI",
      1
+    ],
+    [
+     "suspended_open",
+     1.0
+    ],
+    [
+     "sparkle_add9",
+     1.0
+    ],
+    [
+     "line_cliche",
+     1.0
+    ],
+    [
+     "lydian_float",
+     1.0
     ]
    ],
    "chord_source": [
@@ -2006,6 +2112,14 @@
       "swell"
      ],
      "reversefx"
+    ],
+    [
+     "rim",
+     [
+      "clave",
+      "wood"
+     ],
+     "claves"
     ]
    ]
   },
@@ -2050,7 +2164,20 @@
       1
      ]
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -2064,6 +2191,22 @@
     [
      "vamp_i_iv7",
      1.5
+    ],
+    [
+     "lydian_float",
+     1.0
+    ],
+    [
+     "sparkle_add9",
+     1.0
+    ],
+    [
+     "suspended_open",
+     1.0
+    ],
+    [
+     "lydian_wander",
+     1.0
     ]
    ],
    "chord_source": [
@@ -2309,19 +2452,19 @@
     "modes": [
      [
       "backbeat",
-      0.45
+      0.35
      ],
      [
       "halftime",
-      0.183
+      0.216
      ],
      [
       "displaced",
-      0.183
+      0.216
      ],
      [
       "sparse",
-      0.183
+      0.216
      ]
     ],
     "ghosts": [
@@ -2521,6 +2664,14 @@
      [
       "minor",
       1
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
+      1
      ]
     ]
    },
@@ -2540,6 +2691,22 @@
     [
      "nostalgic_jazz",
      1
+    ],
+    [
+     "gospel_walkup",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
+    ],
+    [
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "anthem_sus",
+     1.0
     ]
    ],
    "chord_source": [
@@ -2927,7 +3094,16 @@
       2
      ]
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "harmonic_minor",
+      2
+     ]
+    ]
    },
    "progressions": [
     [
@@ -2945,6 +3121,22 @@
     [
      "vamp_i_VI",
      1
+    ],
+    [
+     "cinematic_rise",
+     1.0
+    ],
+    [
+     "neo_soul_descent",
+     1.0
+    ],
+    [
+     "harmonic_climb",
+     1.0
+    ],
+    [
+     "anthem_sus",
+     1.0
     ]
    ],
    "chord_source": [
@@ -3365,7 +3557,16 @@
       2
      ]
     ],
-    "mode": "minor"
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "harmonic_minor",
+      2
+     ]
+    ]
    },
    "progressions": [
     [
@@ -3379,6 +3580,22 @@
     [
      "trap_dark_metro",
      2
+    ],
+    [
+     "power_stomp",
+     1.0
+    ],
+    [
+     "villain_harmonic",
+     1.0
+    ],
+    [
+     "cinematic_rise",
+     1.0
+    ],
+    [
+     "snarl_vamp",
+     1.0
     ]
    ],
    "chord_source": [
@@ -3875,7 +4092,20 @@
       1
      ]
     ],
-    "mode": "major"
+    "mode": [
+     [
+      "major",
+      3
+     ],
+     [
+      "mixolydian",
+      1
+     ],
+     [
+      "dorian",
+      1
+     ]
+    ]
    },
    "progressions": [
     [
@@ -3893,6 +4123,22 @@
     [
      "vamp_static_riff",
      2.0
+    ],
+    [
+     "eerie_augmented",
+     1.0
+    ],
+    [
+     "line_cliche",
+     1.0
+    ],
+    [
+     "lydian_wander",
+     1.0
+    ],
+    [
+     "suspended_open",
+     1.0
     ]
    ],
    "chord_source": [

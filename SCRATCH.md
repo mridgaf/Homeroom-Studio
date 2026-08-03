@@ -13,6 +13,352 @@ Format:
 
 ---
 
+## Session 2026-08-01 — owner's six-point punch list (clap/crash, gaps,
+## vocal hits, chord limits, length, missing breaks)
+
+Status: MEASURED, nothing changed yet. Waiting on his answers.
+
+### Method
+Measured rather than read code (same method that worked 07-31). Two data sets:
+- 506 recipe JSONs in `/Volumes/TBOTC 3/Claude Drum Beats/.recipes` — what he
+  has actually been listening to.
+- 1,560 FRESH in-memory generations (39 identities x 40 variants) through
+  `pattern_gen.compose` + `beat_machine.vary_preset` — what the engine does
+  TODAY. The library is diluted by pre-07-29 beats, so the fresh number is the
+  honest one. Where they differ I quote both.
+
+### 1. Clap + crash
+- clap lane present: 44% fresh / 49% library.
+- **Of beats with BOTH snare and clap, 89% fresh / 93% library put the clap on
+  EXACTLY the same 16th steps as the snare.** Not variety — a doubled backbeat
+  nearly every time. Causes: (a) 6 identities declare `{"copy":"snare"}`
+  outright (Glass Cat, Rage Engine, Farrow, Just Flame, Hitt Kid, Acid Rap
+  Bright); (b) everyone else's clap grammar weights mode "backbeat" 0.45-0.9
+  and the snare rolls backbeat too, so they collide anyway.
+- crash lane present only 9% fresh / 6% library — **but when present it fires a
+  MEDIAN of 14 hits per loop, max 51.** One line causes it:
+  `pattern_gen.py:1123` hands EVERY guest lane the timekeeper grammar
+  (offbeats/sparse/answer), so a crash cymbal is programmed like a shaker. And
+  `EXTRA_SECS["crash"] = 2.2`, so each of those hits rings 2.2s.
+- RULED OUT: "crashes are on too many beats." They aren't. It's the density.
+- The `stamp` lane (on 100% of beats) is NOT the problem — median 2 hits/loop,
+  correctly punctuation. Only the guest path is broken.
+
+### 2. The gaps — there IS a rule, and it is his own
+`beat_machine.py:383-442`, step 4 of `vary_preset`. Every beat gets one of four
+structural treatments; `thinbar` and `frisson` blank EVERY non-canon lane for a
+whole bar, and step 4b blanks the back half of a bar on `bshift`/`quietbar`.
+The hole is not occasional, it is by design.
+- Fresh: **47% have a completely silent bar, 90% have a hole of some kind.**
+- Smoking gun, by beat number: 1100-1399 = **0%** silent bar. 1400-1499 = 6%.
+  1500-1599 = **57%**. 1600-1699 = **42%**. The cutover is exactly the
+  2026-07-29 owner call that removed the BACKBONE floor.
+- Blocking: that ledger entry, plus `tests/test_beat_machine.py:654
+  test_backbone_can_go_fully_silent_for_a_bar`, which ASSERTS the gap exists.
+
+### 3. Vocal hits — two sources; he probably only knows about one
+- `beat_machine.py:941 VOX_LANE_P = 0.3` — vox one-shot on 30% of beats, gain
+  0.5, downbeat of bar 1 + '&' of the last bar. Library 28.7%. Gets its own
+  stem AND sits in the main mix.
+- Separately **17 of 18 genres plus 5 crew/legends carry "vocal" in their
+  `stamp` tags**, so the fx stamp is often a vocal too. Zeroing VOX_LANE_P
+  alone would NOT stop the vocal hits. 22% of library beats have a vocal-ish
+  sample somewhere.
+
+### 4. Chord limits — the complaint is literally true
+- Pool is 27 progressions; **each identity is allowed only 2-5** (mean 3.4).
+  Roots 3-5, modes 2-8, voices 1-4 per identity.
+- **68% of rendered beats get a 1- or 2-chord progression.**
+  `vamp_static_riff` (ONE chord, held) alone is 18.8% of the library.
+- Pool composition: 1 chord x1, 2 chords x12, 3 chords x6, 4 chords x8.
+  Nothing longer than 4 exists.
+- `key_context.CHORDS` has 14 qualities; the progressions use 9. Never used:
+  `aug`, `add9`, `7#9`, `sus4`, `5`. 76% of chords in the pool are plain
+  major/minor triads.
+- Ceiling on any fix: 2026-07-29 rule, `part_count = 1` in `_build_chords` —
+  one melodic voice per beat, no stacking, ever.
+
+### 5. Length — reversed my first assumption
+First guess was that renders were being cut off mid-bar. WRONG — checked two
+wavs, durations are exact bar multiples (3.000 and 8.000 bars). So:
+- fresh: 2-bar 9%, 4-bar 33%, 8-bar 58%; library: 13% / 44% / 40%.
+- 25 of 506 (5%) are odd METERS — 19 in 3/4, 6 in 6/8. A 3-bar 3/4 loop
+  (7.91s) is the only genuinely odd-feeling length found.
+- Set at `pattern_gen.py:943` (crew rolls 2/4/8 at 0.15/0.60/0.25, genres
+  pinned to 8) — from the 2026-07-22 owner call "make the loops half as long".
+- 16 bars is not on the table today at all.
+**Do not guess which of these he means. Asked.**
+
+### 6. Breaks (Funky Drummer / Amen / Impeach)
+- `pattern_library/` has 180 entries. Contains `amen-break-classic` and
+  `jungle-amen-rework` (filed under **electronic**, not hip-hop) plus generic
+  `funk-breakbeat-chop` / `funk-sixteenth-ghost-groove`. **No Funky Drummer, no
+  Impeach the President, no Apache, no Assembly Line, no Synthetic
+  Substitution.**
+- `pattern_library/README.md:71-75` says so outright: "original,
+  characteristic patterns... not copies of specific copyrighted recordings."
+- Library IS wired in (`_pick_library`, weighted per DJ) but `lib_p` is only
+  0.10-0.65, so most beats never see a seed.
+- **The killer for his ask:** `pattern_gen.py:1039-1042` refuses a library
+  snare seed for `legend` and `traditional` beats. DJ Premium, Kane East,
+  J Dillo, No Alias — the exact producers built on these breaks — can NEVER
+  receive a break's snare figure. And a kick seed passes `_thin_kick` +
+  `_bank_vary` first, so it's an influence, not the groove.
+- Format is friendly: `load_library` accepts 16- or 32-step entries (2-bar
+  breaks fit) and globs `patterns_*.json`, so a new `patterns_breaks.json`
+  drops in with no code change.
+
+### Config plumbing — matters for any fix
+`crew_config.json` has `_style_lock: true`, so `load_crew` will NOT re-sync
+`grammar`/`kick_flavors`/`extras`/`library` from the .py defaults, and
+`signature` is never overwritten regardless. Any chord-limit change must go in
+BOTH the live JSON (so his machine sees it) and the .py defaults (so a fresh
+install matches). Editing only the .py does nothing on his machine.
+
+### Flagged, not touched
+`crew_config.json` has an uncommitted edit adding `["rim", ["clave","wood"],
+"claves"]` to one DJ's extras pool. Unknown provenance. Do not clobber it.
+
+---
+
+## VERIFY PASS (same day) — owner: "make sure you're not generalizing"
+He was right to push. Rendered **42 real beats** to a scratch dir and measured
+the audio and the stems. Several of my own claims changed.
+
+### Corrections to my own first report
+- **"The crash is broken" was too narrow.** EVERY guest lane gets the
+  timekeeper grammar: rim 3.8 hits/bar, bongo 3.8, crash 3.5, fx 3.4, perc 3.4.
+  `impacts` 4.0/bar, `risers` 3.8, `sirens` 3.6, `swellfx` 3.5, `bells` 2.2.
+  Crash was just the lane I happened to open. The bug is `pattern_gen.py:1123`
+  for all of them.
+- **"90% of beats have a hole" was measured on PATTERNS and reads as silence.
+  In the real audio it isn't.** Full mix, per-bar level vs the beat's loudest
+  bar: worst dips are -8.2, -8.0, -7.5, -6.9 dB. Audible, but not a stop —
+  the chords sustain through it. **BUT the DRUM STEMS ALONE go -17 to -61 dB
+  in 8 of 12 beats** (one at -61 = digital silence). Since he works from stems
+  in Reason, the stem number is the one that matches what he reported.
+- **Clap-vs-snare is worse than I said, and verified in audio.** Timing offset
+  between them: median 0.0 ms, identical swing, 1 ms jitter — literally
+  simultaneous, not a flam. And across 42 beats the clap peaks **+1.2 dB above
+  the kick**, the snare -1.4. The clap is the loudest drum in the beat.
+- **"2-5 progressions per DJ" understated it.** Counted actual reachable
+  (progression, root, mode) combinations: **Farrow = 6 outcomes, ever.**
+  Baltimore Club/NOLA = 8. Mustang/Swish/Razor = 9. Half the roster <= 12.
+- **"Exact bar multiples" was from 2 files.** Re-checked on 12 renders — all
+  exactly 4.0000 or 8.0000 bars. Claim holds.
+- **"The stamp lane is fine" — half right.** Density is fine (2 hits/loop).
+  LEVEL is not: peak-vs-kick ranges -21.5 to +9.7, a **31 dB spread**.
+- **NEARLY REPORTED A FEATURE AS A BUG.** 32/24/20-step bar strings look wrong
+  but are deliberate — `crew.grid_accent` handles each grid (32nds, triplets,
+  quintuplets). Checked before speaking. Do not "fix" these.
+
+### New findings he did NOT ask about
+1. **The stamp sample pool is tiny.** 509 picks, **32 unique files**, half of
+   all picks from **6 files**. `Sub Riser.wav` is on **17% of every beat**
+   made. Cause: the want-tags filter hard against his library —
+   Chiptune's stamp can only ever match **5 files**, Glass Cat and Farrow
+   **6**, Razor 8, Cutz and DJ Premium 11. The stamp is on 100% of beats.
+2. **Clap variety is capped by his LIBRARY, not the code.** He owns 77 clap
+   one-shots; the machine has already used 74 of them. Snaps: owns 23, used
+   23. No code change can widen this — that's a sample-buying problem.
+3. **REAL BUG, and it lands exactly on his breaks question:** `pattern_gen.py`
+   gates library seeds on `len(bar) == 16`, so **all 14 two-bar (32-step)
+   patterns are silently discarded for kick and snare — including the only
+   Amen Break in the project.** The hat has NO such gate, so a 2-bar hat seed
+   passes through and the renderer treats 32 chars as 32 steps in ONE bar
+   (`crew.py:968 res = len(pat)`) — it plays at **double speed with swing
+   skipped** (`if res == 16` gates the swing). Measured: 48 of 83 32-char
+   hat bars on the breakbeat-tagged identities came from this path.
+4. **1 in 20 fresh beats starts with no kick in bar 1; 1 in 50 starts with no
+   drums at all.** Worst: J Dillo 8/40, Hitt Kid 6/40.
+5. **Only the chords have a level governor.** Peak-vs-kick spread across 42
+   beats: stamp 31 dB, hat 28, chord 28, snare 24, snap 20, vox 17, perc 16,
+   crash 16, clap 16.
+6. **The 07-31 ledger entry over-claimed.** It says the chord governor gives a
+   2.2 dB spread — that was from **5 beats**. On 42: median -8.0 dB vs the
+   -9.0 target, **spread 6.1 dB**. Still a big win over the 19 dB before, but
+   the entry needs correcting.
+
+## IMPLEMENTATION (2026-08-01 evening) — owner answered, said go
+
+His answers: gaps rare at 1 in 6 / claps keep the signature stacks, otherwise
+off the snare and in fewer beats / kill vocal hits completely / chords option
+(c) both / mostly 4-8 bars / yes to breaks / REMOVE THE STAMP LANE / yes to
+Part E (level governors). Plus a new cross-cutting rule: **"All sounds are
+open to all DJs, but they try to maintain 75% of their personality within"**
+— implemented as `OPEN_P = 0.25` in beat_machine.py.
+
+**ASSUMPTION FLAGGED, not yet confirmed:** he wrote "For bright beats, stay
+verbatim" in answer to the question about how faithful a break should be.
+Read as "for BREAK beats, stay verbatim" — the only reading that fits the
+question. One line to change if wrong.
+
+### Part A — DONE, verified in audio (20 fresh renders)
+| | before | after |
+|---|---|---|
+| stamp lane present | 95% of beats | **0%** |
+| vox lane present | 26% | **0%** |
+| crash peak vs kick | median +3.7 dB, max +9.4 | **median -7.1 dB** |
+| crash hits per bar | 3.5 | **0.25** |
+| stereo width (median S/M) | -13.5 dB | -13.2 dB (unchanged) |
+
+- `STAMP_LANE = False` + `_drop_stamp()` at one choke point in generate().
+  Old recipes keep their `stamp_paths`, so all 506 existing beats still
+  rebuild. `stamp_paths`/`stamp_secs` are written empty for new beats so the
+  app's swap list doesn't offer a lane the beat lacks.
+- `VOX_LANE_P` 0.3 -> 0.0.
+- Vocal words stripped from the 5 `cutfx` guest pools (genres.py + the live
+  JSON, since `_style_lock` blocks the re-sync).
+- `PUNCTUATION_LANES` + `punctuation_bars()` in pattern_gen.py.
+- **BUG I CAUGHT BY MEASURING:** first version matched lane names exactly, so
+  it missed `crash2` — the guest lane is named crash2, "crash" is the kit
+  lane. The one lane he complained about was still at 3.12 hits/bar. Now a
+  prefix match via `is_punctuation()`.
+- **RISK I CHECKED:** removing the stamp removes a "colour" lane that was
+  getting the house ambience bed, so it could have narrowed the mix.
+  Measured: width median -13.5 -> -13.2, worst -21.4 -> -18.8. No harm.
+
+### Part B — DONE, verified in patterns (2,340 fresh beats)
+| | before | after | target |
+|---|---|---|---|
+| loop lengths | 2/4/8 bars | **4 and 8 only** | 4-8 |
+| any hole (full or half bar) | 90% | **15.9%** | ~17% |
+| fully silent bar | 47% | 11.2% | |
+| beats starting with no kick | 5% | **0%** | 0 |
+| clap on the snare's EXACT steps, non-stack DJs | 89% | **11%** | |
+| clap on exact steps, declared-stack DJs | ~100% | 99% | keep |
+
+- `HOLE_P = 1/6` splits the four treatments into rare (thinbar / frisson /
+  breath) and free (bshift / quietbar). The unconditional "breath" that used
+  to ride along on two of four branches is now one of the rare three.
+- New step 4c: bar 1 always gets its kick back if a treatment emptied it.
+- Odd meters removed from the roll in generate(); exotic grids (triplets,
+  quintuplets, 32nds) KEPT — they are note values inside 4/4, not time
+  signatures, and they are what gives trap and the swung genres their feel.
+- `ALLOWED_BARS = (4, 8)`; J Dillo's `bar_lengths` pin [2,4] is now filtered
+  rather than obeyed ("regardless of DJ" was explicit).
+- Clap backbeat weight capped at 0.35 in all three JSONs AND in legends.py /
+  genres.py (crew already leaned 0.24 via `_bb`). Baltimore Club protected —
+  its clap is in its `canon` block.
+- **MISTAKE I MADE AND FIXED:** first pass protected claps whose *mode names*
+  looked canonical ("stomp"). Wrong test — the real rule is whether the
+  identity's `canon` block names the clap lane. Miami Bass's canon is on the
+  KICK, so its clap was wrongly skipped. Redone against the actual data.
+- **SECOND MISTAKE, found by measuring per-identity instead of in aggregate:**
+  the stack runs BOTH ways. I exempted the 6 with `clap: {copy: snare}` but
+  missed 6 more with `snare: {copy: clap}` (Sunday Chop, Kane East, Crunk,
+  Miami Bass, Plug, Swish Beatz) — all documented in their `listen` text as
+  "a BIG clap with the snare tucked underneath" / "a harsh clap-snare stack".
+  Both directions are now exempt.
+- `_maybe_seat_snare()` gives the 4 clap-only identities (Chrome Dial, Night
+  Metro, Mustang, Timberline) a snare on OPEN_P of beats, so their clap is
+  free to move or rest.
+
+### Part C — DONE (chords), verified on 15,600 picks + 24 renders
+| | before | after |
+|---|---|---|
+| progressions in the pool | 27 | **47** |
+| chord qualities reachable | 9 of 14 | **14 of 14** |
+| modes reachable | 5 (lydian/mixolydian/harmonic minor DEAD) | **all 8** |
+| worst identity's distinct harmonic outcomes | **6** (Farrow) | **116** |
+| median identity | ~12 | **151** |
+| 1-2 chord progressions | 65% | 44% |
+| in a real 24-beat batch | 19 progs / 42 beats, 4 modes | **19 progs / 24 beats, all 8 modes** |
+
+- 20 new progressions written from HIS OWN research that had never been
+  wired in: Lydian (feels-dreamy), Mixolydian (modes.md), harmonic minor
+  and parallel augmented (feels-aggressive, feels-eerie), the 7#9 Hendrix
+  chord, sus4/add9/power chords (chords.md). All 47 x 8 modes x 4 roots =
+  1,316 combinations render with zero failures.
+- `OPEN_P = 0.25` in `_build_chords` implements his 75/25 rule directly:
+  a quarter of beats ignore the signature and roll the whole pool of
+  progressions, roots and modes. Measured in-character rate: **84%** (above
+  the 75% floor because the open roll sometimes lands in-list anyway).
+- Identity survives: mean top-5 progression overlap between any two
+  identities is **19%**. Rage Engine still reads dark/power, G-Funk still
+  reads funk/mixolydian, Horror Rap still reads tritone/eerie.
+- Each identity's own list widened 4-5 entries, existing ones keep their
+  weights so the lean is unchanged.
+- LATENT BUG GUARDED, not hit: `_build_chords` breaks out of its slot loop
+  when a progression has more chords than the loop has bars, silently
+  dropping the tail. Nothing in the pool is long enough today (max 4 chords,
+  min 4 bars). `test_no_progression_is_longer_than_the_shortest_loop` now
+  fails loudly if anyone adds a 5+ chord progression without teaching
+  `_build_chords` half-bar slots first.
+
+### Part E — DONE (level governors), verifying in audio
+- `PEAK_CEILING_DB` + the peak pass in `render_crew_beat`. The two existing
+  governors (snare bus, chord bus) both work on RMS, which is blind to a
+  single loud transient — measured, the clap PEAKED a median +1.2 dB over
+  the kick (worst +8.4) and crash +3.7 (worst +9.4) while their RMS sat
+  politely underneath. Per-family ceilings, longest-prefix match.
+- **Attenuate-only by design**, with a test pinning it: a two-way governor
+  like the chord bus would flatten every identity's balance into one house
+  mix. An identity that deliberately buries its clap keeps it buried.
+
+### Part D — DONE (breaks)
+- **The two-bar bug is fixed at the root.** `seed_bars()` splits a library
+  seed into real 16-step bars. Before: `len(...) == 16` silently discarded
+  the kick and snare of all 14 two-bar patterns (including the only Amen in
+  the project), while the hat had NO gate and reached the renderer as a
+  32-char bar — played as 32 steps in ONE bar, double speed, swing skipped.
+  Measured after: **0 malformed bars** across 2,340 compositions (was 48).
+- **Legends can receive a break now.** The `not legend` condition on the
+  backbeat seed is gone. Measured: legend backbeat-seed rate **0.0% -> 9.3%**,
+  crew 9.3% -> 10.6%, genre 4.4% -> 4.9%.
+- **10 break figures** in `pattern_library/patterns_breaks.json` — Funky
+  Drummer, Amen, Impeach, Apache, Assembly Line, Synthetic Substitution,
+  Cold Sweat, Ashley's Roachclip, Get Out My Life, Nautilus. Transcribed
+  RHYTHMS at 32 steps (2 bars) with real ghost-note velocities. No audio
+  from any recording — the figure plays on his own samples, which is how
+  every drum machine ships a break.
+- **Verbatim on request** (his answer: break beats stay verbatim). Typing
+  "break", "amen", "funky drummer" etc. in the notes box sets `break_beat`,
+  which restricts the seed pool to the transcriptions and plays them
+  straight — no `_thin_kick`, no `_bank_vary`, no fills. Every other beat
+  keeps treating the library as a thinned influence, unchanged.
+- **`_lib_kick` was throwing away ghost kicks.** It marked accents by
+  POSITION and ignored velocity entirely, so the Funky Drummer's ghost
+  kicks arrived as full-strength hits. Now honours velocity when a pattern
+  has any, and falls back to the old positional accents when every hit is
+  the same weight — so all 180 pre-existing patterns are unchanged.
+- Verified: 5 identities x 6 variants all received a verbatim two-bar break
+  with bar 2 answering bar 1 and ghosts intact.
+
+### Pre-existing, NOT introduced by this work — flagged, not fixed
+- `test_real_beats_are_not_mono_or_silent` fails on beat 1679 in his
+  library ("Classic Boom Bap", a Fixed Bank reference beat, rendered
+  2026-08-01 13:25 — before any of this). Cause: the fixed beats are
+  kick+snare+hat at `space="dry"`, and the 07-31 ambience bed deliberately
+  skips kick and the whole snare bus, so nothing in them gets width. Suite
+  is 743 passed / 1 failed, the same 743 as the pre-change baseline.
+- Chord spelling uses sharps in flat keys — `epic` in C minor prints
+  "Cm - A# - G# - A#" instead of "Cm - Bb - Ab - Bb". Display only, affects
+  the recipe card he reads, predates this session (reproduced on old
+  progressions). `key_context.spell`.
+
+**HONEST GAP in Part B:** "the clap in fewer beats" barely moved in aggregate
+(44% -> ~44% of all beats). Reason: every clap in the roster is either a
+declared signature stack (12 identities, he said keep), a canon figure
+(Baltimore Club), or the identity's only backbeat (the 4). There is no
+identity where the clap is a droppable extra. The real win here is PLACEMENT
+(89% -> 11% for non-stack) and the LEVEL fix in Part E — the clap currently
+peaks +1.2 dB above the kick, which is what makes it feel overused.
+
+### Verified GOOD — do not touch
+- **Rhythm variety.** Re-checked myself rather than trusting 07-31: 1,560
+  fresh beats, **1,524 distinct kick+snare+clap+hat fingerprints (98%)**, most
+  repeated 17 times (1.1%), 903 distinct kick lines. The rhythm brain works.
+- **Drum sample sourcing.** kick 315 unique files over 505 picks, snare 310,
+  hat 255, perc 163 — half the picks spread over 70-94 files each. The 07-29
+  sourcing work landed.
+- **Groove-seed reach, measured by running compose():** crew kick seeded
+  42.8% / backbeat 9.3%; legend 43.2% / **0.0%**; genre 23.0% / 4.4%. Confirms
+  by execution what I'd only read in the code: a legend can never receive a
+  library snare figure.
+
+---
+
 ## Current session (2026-07-31): "what would you rebuild differently?"
 
 Owner asked for a ground-up rebuild critique from four expert angles. I

@@ -17,6 +17,7 @@ if the owner had to use his ears to find it, it belongs here.
 """
 from __future__ import annotations
 
+import copy
 import sys
 from pathlib import Path
 
@@ -327,3 +328,50 @@ def test_real_beats_are_not_mono_or_silent():
                 return
     if not checked:
         pytest.skip("no beats rendered in the last day to check")
+
+
+# ------------------------------------------- peak ceilings (owner 2026-08-01)
+
+def test_a_loud_clap_sample_is_pulled_under_the_kick():
+    """Owner 2026-08-01, "clap and crash are being overused".
+
+    The existing bus governors work on RMS, which is blind to a single loud
+    transient: measured across 42 rendered beats the clap PEAKED a median
+    1.2 dB ABOVE the kick (worst +8.4) while its RMS sat politely underneath.
+    A hit that spikes over the kick reads as too much however quiet its
+    average is.
+
+    Feeds a deliberately hot clap into a render and asserts the peak ceiling
+    hauls it back under the kick."""
+    name = "Rage Engine"                       # has both a kick and a clap
+    p = CREW[name]
+    assert "clap" in p["lanes"], "test needs an identity with a clap lane"
+    kit = _tone_kit(p)
+    kit["clap"] = kit["clap"] * 8.0            # 18 dB hotter than the kick
+    _L, _R, _lufs, parts = render_crew_beat(name, kit, preset=copy.deepcopy(p),
+                                            want_parts=True)
+    stems = parts["stems"]
+    kpk = max(np.abs(stems["kick"][0]).max(), np.abs(stems["kick"][1]).max())
+    cpk = max(np.abs(stems["clap"][0]).max(), np.abs(stems["clap"][1]).max())
+    assert kpk > 0
+    assert _db(cpk) - _db(kpk) <= 0.5, (
+        "clap peaks %.1f dB over the kick" % (_db(cpk) - _db(kpk)))
+
+
+def test_the_peak_ceiling_only_ever_turns_things_down():
+    """The ceiling must not RAISE a quiet lane — an identity that deliberately
+    tucks its clap away stays tucked away. Guards against someone later
+    turning this into a two-way governor like the chord bus, which would
+    flatten every personality's balance into one house mix."""
+    name = "Rage Engine"
+    p = CREW[name]
+    kit = _tone_kit(p)
+    kit["clap"] = kit["clap"] * 0.02           # deliberately buried
+    _L, _R, _lufs, parts = render_crew_beat(name, kit, preset=copy.deepcopy(p),
+                                            want_parts=True)
+    stems = parts["stems"]
+    kpk = max(np.abs(stems["kick"][0]).max(), np.abs(stems["kick"][1]).max())
+    cpk = max(np.abs(stems["clap"][0]).max(), np.abs(stems["clap"][1]).max())
+    assert _db(cpk) - _db(kpk) < -20.0, (
+        "a buried clap was pulled UP to %.1f dB under the kick"
+        % (_db(kpk) - _db(cpk)))

@@ -380,6 +380,33 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         rewrite(ln, ["-" * len(b) for b in lanes[ln][3]])
         notes.append(f"no {ln} this time")
 
+    # 3b. OWNER RULE 2026-08-01: the clap should appear "in fewer beats".
+    # It was in 44% of beats and, where a snare was also present, landed on
+    # the snare's exact steps 89% of the time — a doubled backbeat, with the
+    # clap measuring LOUDER than the snare. Lowering the backbeat weight
+    # (done in the configs) moves it off 2&4; this drops it entirely on a
+    # third of the beats that have one.
+    # Two hard conditions, both about not removing the backbone: there must
+    # be a snare still playing, and a canon clap (Baltimore Club's 8-count)
+    # is never touched. The six snare+clap STACK identities are exempt —
+    # owner: "the claps should stay as intended for signature DJs" — and
+    # they are recognisable by their clap copying the snare outright.
+    # The stack is declared in the grammar, and it runs BOTH ways: six
+    # identities have clap={"copy": "snare"} and six more have the reverse,
+    # snare={"copy": "clap"} — "a BIG clap with the snare tucked underneath"
+    # (Kane East, Sunday Chop), "a harsh clap-snare stack" (Swish Beatz).
+    # Both are that identity's documented sound, so both are exempt. Missing
+    # the reverse direction on the first pass left 6 identities still
+    # doubling at 100%; caught by measuring per-identity, not in aggregate.
+    _g = preset.get("grammar") or {}
+    stacked = any(isinstance(_g.get(ln), dict) and "copy" in _g[ln]
+                  for ln in ("clap", "snare"))
+    snare_live = "snare" in lanes and any(_hits(b) for b in lanes["snare"][3])
+    if ("clap" in lanes and "clap" not in canon and not stacked
+            and snare_live and rng.random() < 0.33):
+        rewrite("clap", ["-" * len(b) for b in lanes["clap"][3]])
+        notes.append("no clap this time")
+
     # 4. one structural treatment. Was: owner rule 2026-07-17, no silence
     # gaps ever, kick/snare/clap always play through. Overridden 2026-07-29
     # — kick, snare and clap can go fully silent for a whole bar now too,
@@ -387,7 +414,24 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # CANON lane (the figure that DEFINES the style, owner rule 2026-07-19)
     # is a separate, still-live rule — it softens here, never vanishes,
     # same as it always has, so a reggaeton doesn't stop being a reggaeton.
-    t = rng.choice(["thinbar", "frisson", "bshift", "quietbar"])
+    # OWNER RULE 2026-08-01, replacing the 2026-07-29 free-for-all: "the gaps
+    # I want to be rare. One in six." Measured under 07-29: 47% of beats had a
+    # completely silent bar and 90% had a hole of some kind (full bar or back
+    # half). In the finished mix the chords covered it — a 5-8 dB dip — but in
+    # the DRUM STEMS ALONE, which is how he actually works in Reason, 8 of 12
+    # beats dropped 17-61 dB. That is what he was hearing.
+    #
+    # So the treatments are split: the two that punch a hole in every lane are
+    # now rolled at 1-in-6, and the rest of the time a beat gets an
+    # arrangement move that costs nothing structurally (one lane sits out a
+    # half, or a velocity dip). The "breath" — every lane resting the back
+    # half of a bar — was unconditional on two of the four branches; it is a
+    # hole too, so it joins the rare group instead of riding along free.
+    HOLE_P = 1 / 6.0
+    if rng.random() < HOLE_P:
+        t = rng.choice(["thinbar", "frisson", "breath"])
+    else:
+        t = rng.choice(["bshift", "quietbar"])
     if t == "thinbar":                       # a bar rests, canon breathes
         b = rng.choice(late)
         for ln in mutable:
@@ -427,10 +471,12 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             rewrite(ln, bars)
         notes.append(f"bar {b + 1} pulls back (velocity dip)")
 
-    # 4b. every beat gets a breath: lanes rest for the back half of one
-    # bar (owner 2026-07-29: no more BACKBONE exemption here — canon still
-    # stays, same reasoning as the block above)
-    if t in ("bshift", "quietbar"):
+    # 4b. the breath: every lane rests for the back half of one bar. Owner
+    # 2026-08-01 — this used to fire on the two most common branches, i.e.
+    # roughly half of ALL beats, on top of whatever step 4 had already done.
+    # It is a hole, so it is now one of the three rare treatments above and
+    # only ever runs on its own.
+    if t == "breath":
         b = rng.choice(late)
         for ln in mutable:
             if ln in canon:
@@ -440,6 +486,20 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             bars[b] = bars[b][:n // 2] + "-" * (n - n // 2)
             rewrite(ln, bars)
         notes.append(f"lanes sit out the back half of bar {b + 1}")
+
+    # 4c. OWNER RULE 2026-08-01: bar 1 always has a kick. Separate from the
+    # gap rule and not covered by it — measured under 07-29, 1 beat in 20
+    # started with no kick at all and 1 in 50 with no drums at all, because
+    # the treatments above and the density pass could both empty bar 1. A
+    # loop that starts on nothing is not usable as a loop. Restores only the
+    # downbeat, and only when the whole bar came out empty, so a deliberately
+    # syncopated opening bar is left alone.
+    if "kick" in lanes:
+        kbars = barlist("kick")
+        if kbars and not _hits(kbars[0]):
+            kbars[0] = "X" + kbars[0][1:]
+            rewrite("kick", kbars)
+            notes.append("kick restored on the downbeat")
 
     # 5. tempo lean (only when he didn't set a tempo himself). A
     # subgenre's tempo is part of its identity (owner rule 2026-07-19):
@@ -571,6 +631,37 @@ def roll_swing(preset, variant, force=None, crew_dj=False):
     return target
 
 
+# Owner rule 2026-08-01: "All sounds are open to all DJs, but they try to
+# maintain seventy five percent of their personality within." OPEN_P is the
+# other quarter — the share of beats on which an identity may reach outside
+# its own settled taste. Used here to give the four clap-only DJs a snare
+# sometimes; Part C uses the same number for harmony.
+OPEN_P = 0.25
+
+
+def _maybe_seat_snare(preset, variant):
+    """Four identities (Chrome Dial, Night Metro, Mustang, Timberline) have a
+    clap and NO snare, so the clap IS their backbeat and can never rest —
+    which is exactly why their clap sat on 2 and 4 in every beat. Owner
+    2026-08-01: "the four DJs can have a snare at times." On OPEN_P of beats
+    they get one, built from the clap's own row so it inherits the identity's
+    pan/feel, with its own seed so it composes a DIFFERENT figure. Once a
+    snare is carrying the backbeat, the clap becomes free to move or rest."""
+    kit, lanes = preset.get("kit", {}), preset.get("lanes", {})
+    if "snare" in kit or "clap" not in kit or "clap" not in lanes:
+        return False
+    if random.Random(variant * 613 + 41).random() >= OPEN_P:
+        return False
+    pan, gain, (off, jit, swing, seed), bars = lanes["clap"]
+    kit["snare"] = ("snare", None, ["snare"], 1.0)
+    lanes["snare"] = (0.0, round(gain * 0.85, 3),
+                      (off, jit, swing, seed + 7717), list(bars))
+    grammar = preset.setdefault("grammar", {})
+    if "clap" in grammar and isinstance(grammar["clap"], dict):
+        grammar["snare"] = copy.deepcopy(grammar["clap"])
+    return True
+
+
 def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
                 traditional=False):
     """One DJ's preset for this beat: a FRESH pattern composed from their
@@ -587,6 +678,10 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
         if bpm:
             p["bpm"] = bpm
     p["vel_seed"] = variant
+    # must be set BEFORE compose() — apply_directions runs after it, too
+    # late for the composer to choose a break transcription.
+    p["break_beat"] = bool(dirs and dirs.get("break_beat"))
+    _maybe_seat_snare(p, variant)
     if dirs and dirs.get("force_mode"):
         for ln in ("snare", "clap"):
             spec = p.get("grammar", {}).get(ln)
@@ -632,6 +727,8 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
     fresh, notes = {}, []
     for n in names:
         q = copy.deepcopy(CREW[n])
+        # same as solo_preset: the composer needs this before it runs
+        q["break_beat"] = bool(dirs and dirs.get("break_beat"))
         qnotes = compose(q, n, variant, tsig=tsig, trick=trick,
                          traditional=traditional)
         fresh[n] = q
@@ -782,7 +879,19 @@ def parse_directions(notes):
     t = f" {t} "
     out = {"mute": set(), "tags": [], "kick": None, "density": None,
            "space": None, "swing": None, "tsig": None, "force_mode": None,
-           "chords": False, "chord_feel": None}
+           "chords": False, "chord_feel": None, "break_beat": False}
+    # OWNER 2026-08-01: the classic sampled-break grooves. Typing any of
+    # these puts the beat on a real transcription played straight through
+    # (pattern_gen: verbatim), instead of the library's usual role as a
+    # thinned, varied influence. The PATTERN is transcribed; no audio from
+    # any recording is used — the figure plays on his own drum samples,
+    # which is how every drum machine ships a break.
+    if any(x in t for x in (
+            " break ", " breaks ", " breakbeat ", " break beat ",
+            " amen ", " funky drummer ", " impeach ", " apache ",
+            " assembly line ", " synthetic substitution ", " cold sweat ",
+            " roachclip ", " nautilus ", " get out my life ")):
+        out["break_beat"] = True
     if any(x in t for x in ("no swing", "straight", "unswung")):
         out["swing"] = 50
     elif "triplet swing" in t:
@@ -938,7 +1047,40 @@ def _root_sub(variant, secs=0.6):
 # choked into a drum hit); nothing plays them. Melodic/in-key loops are
 # unaffected — those reach a beat through the chords feature's own scanner.
 SAMPLED_BASS_P = 0.4        # sampled 808 under the kick (non-chord beats)
-VOX_LANE_P = 0.3           # a sparse vocal one-shot
+# Owner rule 2026-08-01: "Kill the vocal hits completely." Was 0.3 — a vocal
+# one-shot on 30% of beats, measured at up to +7.9 dB ABOVE the kick, i.e. the
+# loudest thing in the beat. 0.0 switches the lane off without deleting the
+# code path, so his 145 existing beats still rebuild from their recipes.
+# The OTHER vocal source was the stamp lane (17 of 18 genres carried "vocal"
+# in its tags) — killed separately by STAMP_LANE below.
+VOX_LANE_P = 0.0           # a sparse vocal one-shot — OFF (owner 2026-08-01)
+
+# Owner rule 2026-08-01: "Remove the stamp lane. The DJs don't have to have a
+# signature sound for every track if that's what that is." That is exactly
+# what it was — crew.lock_stamps pins ONE sample per personality and puts it
+# in every beat they make. Measured cost: the stamp was on 100% of beats and
+# drew from 32 unique files across 509 picks, half of them from 6 files;
+# "Sub Riser.wav" alone landed on 17% of the whole library. Chiptune's stamp
+# tags could only ever match 5 files in his library, Glass Cat's and Farrow's
+# 6. It was the single biggest cause of "the same sounds over and over".
+#
+# NOT torn out — switched off at the one choke point where a new beat's lanes
+# are settled. The 57 code sites that read `stamp_paths`/`stamp_secs` stay, so
+# all 506 existing beats still rebuild and swap exactly as before.
+STAMP_LANE = False
+
+
+def _drop_stamp(preset):
+    """Remove the stamp lane (and collab stamp2/stamp3) from a fresh preset.
+    Called once in generate() so compose(), vary_preset() and the kit builder
+    never see it. Returns the preset for chaining."""
+    if STAMP_LANE:
+        return preset
+    for k in [k for k in preset.get("kit", {}) if k.startswith("stamp")]:
+        preset["kit"].pop(k, None)
+    for k in [k for k in preset.get("lanes", {}) if k.startswith("stamp")]:
+        preset["lanes"].pop(k, None)
+    return preset
 
 
 def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
@@ -1189,23 +1331,44 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
         return None, None
     import chord_synth
     import harmony
-    from key_context import KeyContext, SUB_ROOTS
+    from key_context import MODES, KeyContext, SUB_ROOTS
     sig = preset.get("signature") or {}
     srng = random.Random(variant * 353 + 17)
     sig_key = sig.get("key") or {}
-    key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
-    mode = sig_key.get("mode", "minor")
-    if isinstance(mode, list):                      # weighted mode list
-        mode = _wpick(mode, srng)
+    # OWNER RULE 2026-08-01: "All sounds are open to all DJs, but they try to
+    # maintain seventy five percent of their personality within." Measured
+    # cause of "I just keep getting the same sounds over and over": each
+    # identity could only ever reach its own 2-5 progressions x 3-5 roots x
+    # 1-2 modes. Farrow had SIX distinct harmonic outcomes in total; half the
+    # roster had 12 or fewer, so ten beats exhausted them.
+    #
+    # OPEN_P of beats now ignore the signature entirely and roll the whole
+    # pool — every progression, root and mode. The other 75% stay in
+    # character, which is what keeps Otto Grit from sounding like Rage
+    # Engine. A typed mood word still beats both.
+    open_roll = random.Random(variant * 911 + 73).random() < OPEN_P
+    if open_roll:
+        key_root = srng.choice(SUB_ROOTS)
+        mode = srng.choice(sorted(MODES))
+        prog = dirs["chord_feel"] or srng.choice(harmony.names())
+    else:
+        key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
+        mode = sig_key.get("mode", "minor")
+        if isinstance(mode, list):                  # weighted mode list
+            mode = _wpick(mode, srng)
+        prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
+                                            random.Random(variant * 419 + 5))
     key = KeyContext(key_root, mode)
-    # a typed mood word still wins; else the signature picks (else random)
-    prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
-                                        random.Random(variant * 419 + 5))
     prog_name, chords = harmony.compose(
         key, prog, rng=random.Random(variant * 419 + 5))
     num, den = preset.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
     nb = bars_of(preset)
+    # A progression longer than the loop has bars would silently lose its
+    # tail below (`if start_bar >= nb: break`). Nothing in the pool is long
+    # enough to hit that today — the longest is 4 chords and the shortest
+    # loop is 4 bars — and tests/test_harmony.py pins it so a future 6-chord
+    # progression fails loudly instead of arriving half-played.
     per_chord = max(1, nb // len(chords))
     pref = sig.get("chord_source")
     # "arp" = broken-chord riff, "sustain" = held block. A weighted list
@@ -1673,12 +1836,17 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # exotic grids inside 4/4 (triplets, quintuplets, 32nd walls)
         # double to 20% — a plain straight-16 4/4 is now 60%, still the
         # single most common thing but no longer four beats in five.
+        # OWNER RULE 2026-08-01: "We're not using odd signatures." The 3/4
+        # and 6/8 roll is gone — measured at 25 of 506 library beats, and it
+        # was the source of the genuinely strange lengths (a 3-bar 3/4 loop
+        # runs 7.91s). Everything is 4/4 now unless the notes box asks.
+        # The EXOTIC GRIDS stay: triplets, quintuplets and 32nd walls are
+        # note values inside 4/4, not time signatures, and they are what
+        # gives trap rolls and the swung genres their feel. Their share
+        # absorbs the 20% the odd meters used to take.
         if tsig is None and not traditional and not pure_legend \
                 and not pure_genre:
-            r = troll.random()
-            if r < 0.20:
-                tsig = troll.choice(((3, 4), (6, 8)))
-            elif r < 0.40:
+            if troll.random() < 0.40:
                 trick = True
         if len(names) == 1:
             preset, style_notes = solo_preset(names[0], variant, bpm,
@@ -1690,6 +1858,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                                                 tsig=tsig, trick=trick,
                                                 dirs=dirs,
                                                 traditional=traditional)
+        # owner 2026-08-01: no producer-tag stamp on new beats. compose() has
+        # already run inside the two branches above, but it skips stamp lanes
+        # anyway ("stamps ride their own grids"), so removing them here is
+        # enough — and it lands before apply_directions and vary_preset.
+        _drop_stamp(preset)
         # An identity whose signature says `chords_default` turns the chord
         # lane ON without the notes box asking. This exists because of a
         # real bug the owner hit (2026-07-24): "I no longer hear the
@@ -1841,17 +2014,26 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
             bars = list(bars)
             if deep_bar >= len(bars):        # short pattern, nothing to thin
                 continue
-            if ln in deep_canon:
-                bars[deep_bar] = bars[deep_bar].replace("X", "x")
-            else:
-                bars[deep_bar] = "-" * len(bars[deep_bar])
+            # OWNER RULE 2026-08-01, gaps rare: this pass used to BLANK the
+            # bar on every lane, and it is a SECOND, independent hole source
+            # that runs after vary_preset's 1-in-6 roll — measured on a real
+            # batch, holes came back at 40% even though the pattern-level
+            # rate was 16%, and this was the difference. It only has to
+            # restore rise and fall, which a velocity dip does: accents fall
+            # to normal hits, normal hits to ghosts. Actual silence is left
+            # to the rare roll in vary_preset so there is one rule, in one
+            # place, that decides how often a beat has a hole in it.
+            dipped = bars[deep_bar].replace("X", "x")
+            if ln not in deep_canon:
+                dipped = dipped.replace("x", ".")
+            bars[deep_bar] = dipped
             preset["lanes"][ln] = (pan, gain, feel, bars)
         status(f"Adding contrast to beat {no} "
                f"(bar swing was {swing:.1f} dB)…")
         L, R, lufs, parts = render_crew_beat(names[0], kit, space=space,
                                              preset=preset, want_parts=True)
         swing = bar_swing(L, R)
-        vnotes.append(f"bar {deep_bar + 1} thins for contrast")
+        vnotes.append(f"bar {deep_bar + 1} pulls back for contrast")
 
     folder = root / names[0]
     folder.mkdir(parents=True, exist_ok=True)
@@ -1879,11 +2061,17 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                 title=path.stem, extra=vnotes)
 
     # and the recipe, so "same beat, different snare" can rebuild it
-    stamp_paths = {"stamp": stamps[names[0]][0]}
-    stamp_secs = {"stamp": CREW[names[0]]["kit"]["stamp"][3]}
-    for i, g in enumerate(names[1:]):
-        stamp_paths[f"stamp{i + 2}"] = stamps[g][0]
-        stamp_secs[f"stamp{i + 2}"] = CREW[g]["kit"]["stamp"][3]
+    # owner 2026-08-01: no stamp on new beats, so the recipe records none.
+    # Writing one anyway would make the app's stem/swap list offer a lane the
+    # beat does not actually have (it reads stamp_paths at swap time).
+    if STAMP_LANE:
+        stamp_paths = {"stamp": stamps[names[0]][0]}
+        stamp_secs = {"stamp": CREW[names[0]]["kit"]["stamp"][3]}
+        for i, g in enumerate(names[1:]):
+            stamp_paths[f"stamp{i + 2}"] = stamps[g][0]
+            stamp_secs[f"stamp{i + 2}"] = CREW[g]["kit"]["stamp"][3]
+    else:
+        stamp_paths, stamp_secs = {}, {}
     save_recipe(root, no, {
         "file": fname, "folder": names[0], "names": names, "title": title,
         "variant": variant, "bpm": preset["bpm"], "space": space,

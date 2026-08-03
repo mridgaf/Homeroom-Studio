@@ -152,10 +152,16 @@ def test_form_rolls_both_shapes():
     assert seen == {"ab", "loop"}
 
 
-def test_loop_length_varies_and_centres_on_four():
-    """Owner call 2026-07-22: "make the loops half as long", and let the
-    length vary per beat. 4 bars is the new normal (half the old fixed
-    8); 2 and 8 both still occur."""
+def test_loop_length_is_four_or_eight_bars():
+    """OWNER RULE 2026-08-01: "For all other beats regardless of DJ, four to
+    eight bars." Supersedes the 2026-07-22 call ("make the loops half as
+    long") that this test used to encode, which had 2-bar loops at 15% —
+    he called the results "an odd length". Rewritten rather than deleted so
+    the old rule can't quietly come back: 2 is now a FAILURE, not a variant.
+
+    Both lengths must still occur — pinning everything to one length would
+    pass a naive "no 2-bar loops" check while making every beat identical
+    in shape."""
     import collections
     import crew
     lens = collections.Counter()
@@ -168,10 +174,10 @@ def test_loop_length_varies_and_centres_on_four():
             for ln, spec in p["lanes"].items():
                 if not ln.startswith("stamp"):
                     assert len(spec[3]) == n, (name, v, ln)
-    assert set(lens) == {2, 4, 8}, lens
+    assert set(lens) == {4, 8}, lens
     total = sum(lens.values())
-    assert lens[4] / total > 0.45, lens          # 4 is the norm
-    assert sum(n * c for n, c in lens.items()) / total < 6.0, lens
+    assert lens[4] / total > 0.4, lens           # 4 still leads
+    assert lens[8] / total > 0.2, lens           # but 8 is a real option
 
 
 def test_style_is_a_lean_not_a_cage():

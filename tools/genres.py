@@ -203,7 +203,7 @@ GENRES_DEFAULT = {
                       [0.3, None, ["punch", "hard", "knock"], [0.3, 0.6]]],
         library=dict(p=0.15, tags=[["trap", 3], ["electro", 1]]),
         extras=dict(p=0.45, nmax=1, pool=[
-            ["fx", ["airhorn", "shout", "riser"], "cutfx"],
+            ["fx", ["riser"], "cutfx"],
             ["crash", ["crash"], "crash2"]]),
     ),
     "Organized Noize": dict(
@@ -619,7 +619,7 @@ GENRES_DEFAULT = {
         library=dict(p=0.1, tags=[["breakbeat", 3], ["house", 2],
                                   ["garage", 1]]),
         extras=dict(p=0.8, nmax=2, pool=[
-            ["fx", ["stab", "shout", "vocal"], "cutfx"],
+            ["fx", ["reverse", "noise"], "cutfx"],
             ["perc", ["tamb", "cowbell"], "tamb"],
             ["crash", ["crash"], "crash2"]]),
     ),
@@ -654,7 +654,11 @@ GENRES_DEFAULT = {
         grammar=dict(
             kick=dict(w=[10, 1, 1, 6, 1, 1, 6, 1, 4, 1, 5, 1, 6, 1, 3, 2],
                       hits=[4, 6], double_p=0.25),
-            clap=dict(modes=[["backbeat", 0.85], ["stomp", 0.15]],
+            # owner 2026-08-01: backbeat capped at 0.35. Miami Bass's canon
+            # is on the KICK, not the clap, so the clap is not protected.
+            clap=dict(modes=[["backbeat", 0.35], ["stomp", 0.15],
+                             ["displaced", 0.167], ["halftime", 0.167],
+                             ["sparse", 0.167]],
                       ghosts=[0, 1], gcells=[7, 15]),
             snare=dict(copy="clap"),
             hat=dict(modes=[["drive16", 0.4], ["sixteenths", 0.3],
@@ -715,7 +719,7 @@ GENRES_DEFAULT = {
                                    ["electro", 1]]),
         extras=dict(p=0.85, nmax=2, pool=[
             ["perc", ["tamb"], "tamb"],
-            ["fx", ["shout", "whistle", "vocal"], "cutfx"],
+            ["fx", ["reverse", "noise"], "cutfx"],
             ["bongo", ["conga"], "congas2"]]),
     ),
     # ================================================ the west + latin
@@ -865,7 +869,7 @@ GENRES_DEFAULT = {
         extras=dict(p=0.65, nmax=2, pool=[
             ["perc", ["shaker", "tamb"], "shaker"],
             ["rim", ["rim", "stick"], "rims"],
-            ["fx", ["scratch", "vocal"], "cutfx"]]),
+            ["fx", ["scratch"], "cutfx"]]),
     ),
     "Plug": dict(
         num=38, bpm=140, era="genre", built="plugg / pluggnb — MexikoDro, "
@@ -910,7 +914,7 @@ GENRES_DEFAULT = {
                                   ["minimal", 2]]),
         extras=dict(p=0.5, nmax=1, pool=[
             ["perc", ["bell", "chime"], "bells"],
-            ["fx", ["vocal", "reverse"], "cutfx"]]),
+            ["fx", ["reverse"], "cutfx"]]),
     ),
     # Owner request 2026-07-24: "I like video game sounds, like, from
     # Atari and early Nintendo." The 18th style, and the only one whose

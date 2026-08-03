@@ -65,6 +65,29 @@ SNARE_LIKE = {"snare", "clap"}   # lanes that follow the owner's snare trim
 # (startswith match covers stamp2/stamp3 collab lanes)
 PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 
+# Owner 2026-08-01, Part E. How far ABOVE the kick's peak each family of
+# bright transient lanes may go. Longest prefix wins, so "crash" is checked
+# before the generic families. Only ever attenuates — see render_crew_beat.
+# Numbers are the measured medians pulled back to something that sits under
+# the kick rather than over it: clap was +1.2 dB (worst +8.4), crash +3.7
+# (worst +9.4), hat spread 28 dB, snap 20 dB.
+PEAK_CEILING_DB = {
+    "crash": -6.0,        # punctuation — never louder than the kick
+    "impact": -6.0,
+    "swellfx": -6.0,
+    "riser": -6.0,
+    "siren": -6.0,
+    "clap": -1.0,         # a backbeat may be nearly as strong, not stronger
+    "snare": -1.0,
+    "snap": -3.0,         # bright and small; reads loud for its energy
+    "hat": -3.0,
+    "tamb": -4.0,
+    "bell": -4.0,
+    "cowbell": -4.0,
+}
+# longest first, so "cowbell" is matched before "bell" would swallow it
+_PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
+
 R16 = "-" * 16
 
 # --------------------------------------------------------------- the roster
@@ -1081,13 +1104,31 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     HARMONIC_RE = re.compile(r"^(chord\d|bass\d)")
     already = set(p["space"][1])
     dry_lows = {"kick", "bass", "sub"}
+    # MONO BACKSTOP (owner 2026-08-01: "fix beat 1679"). The bed above skips
+    # kick/sub/bass (low end stays centred, correctly) and the whole snare
+    # bus ("the DJ's call"). On a beat that is ONLY drums and whose space is
+    # dry, that leaves the hat as the single source of width — measured, all
+    # six Fixed Bank reference beats came out -26.7 to -29.5 dB S/M, i.e.
+    # effectively mono, and 1679 is one of them. It is the same known limit
+    # the 2026-07-31 entry flagged for the 32% of the library that renders
+    # dry.
+    #
+    # So when there is no harmony to carry the air and the DJ asked for no
+    # space at all, the snare bus joins the bed. Justified by his standing
+    # rule of 2026-07-31: effects in service of QUALITY overrule a per-beat
+    # style choice. The low end is still never touched.
+    has_harmony = any(HARMONIC_RE.match(ln) for ln in bufs)
+    bone_dry = not already or p["space"][0] == "dry"
+    widen_snare = bone_dry and not has_harmony
     for lane in bufs:
         if lane in already or lane in dry_lows:
             continue
         if HARMONIC_RE.match(lane):
             decay, tone, wet = 1.4, 3200, 0.18   # air around the harmony
         elif any(lane.startswith(s) for s in SNARE_LIKE):
-            continue                             # snare bus is the DJ's call
+            if not widen_snare:
+                continue                         # snare bus is the DJ's call
+            decay, tone, wet = 0.6, 4000, 0.14   # ...unless it is all we have
         else:
             decay, tone, wet = 0.5, 4200, 0.10   # a touch of room on colour
         irL, irR = make_ir(decay, tone, seed=4242 + p["num"])
@@ -1122,6 +1163,36 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         # to be. Raising OWNER_TASTE["chord_gain"] moved the whole range up
         # without narrowing it, which just swapped "inaudible" for
         # "shouting". Targeting the bus is what actually holds it steady.
+        # PEAK ceiling for the bright transient lanes (owner 2026-08-01,
+        # "clap and crash are being overused"). The bus governors above work
+        # on RMS, which is the right control for a sustained bed but blind to
+        # a single loud transient: measured across 42 rendered beats the clap
+        # PEAKED a median 1.2 dB ABOVE the kick (worst +8.4) and the crash
+        # +3.7 (worst +9.4), while their RMS sat politely underneath. A hit
+        # that spikes over the kick reads as "too much" however quiet its
+        # average is — that is why the clap felt overused even on beats where
+        # it was correctly placed.
+        #
+        # Peak-only, and it only ever turns things DOWN, so a lane that is
+        # already sitting under the kick is untouched and no identity gets
+        # quietly re-balanced. Ceilings are per-family, not one number: a
+        # backbeat is meant to be nearly as strong as the kick, a cymbal
+        # crash is punctuation and belongs below it.
+        kick_pk = float(np.abs(bufs["kick"]).max())
+        if kick_pk > 0:
+            for ln in bufs:
+                head = next((PEAK_CEILING_DB[pre]
+                             for pre in _PEAK_PREFIXES
+                             if ln.startswith(pre)), None)
+                if head is None:
+                    continue
+                pk = float(np.abs(bufs[ln]).max())
+                cap = kick_pk * 10 ** (head / 20.0)
+                if pk > cap > 0:
+                    bufs[ln] = bufs[ln] * (cap / pk)
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * (cap / pk)
+
         ch = [ln for ln in bufs if re.match(r"^(chord\d|bass\d)", ln)]
         ch_rms = np.sqrt(sum((bufs[ln] ** 2).sum() for ln in ch)
                          / max(sum(len(bufs[ln]) for ln in ch), 1)) if ch \

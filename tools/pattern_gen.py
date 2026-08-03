@@ -53,8 +53,22 @@ _LIB_CACHE = None
 
 
 def _lib_kick(vels):
+    """Kick lane string from a library velocity grid.
+
+    Historically this ignored velocity entirely and marked an accent by
+    POSITION (every beat-start), which is fine for the style grammars that
+    were written flat. It is wrong for a real break: the ghost kicks between
+    the accents are a lot of what makes the Funky Drummer sound like the
+    Funky Drummer, and they were arriving as full-strength hits.
+
+    So: honour velocity when the pattern actually has any (ghosts below 90
+    become "."), and fall back to the old positional accents when every hit
+    is the same weight, which keeps all 180 existing patterns unchanged."""
     n = len(vels)
-    caps = set(range(0, n, n // 4))
+    hits = [v for v in vels if v]
+    if hits and min(hits) < 90 <= max(hits):
+        return "".join(("X" if v >= 90 else ".") if v else "-" for v in vels)
+    caps = set(range(0, n, max(1, n // 4)))
     return "".join(("X" if i in caps else "x") if v else "-"
                    for i, v in enumerate(vels))
 
@@ -110,6 +124,18 @@ def load_library():
                 pats.append(entry)
     _LIB_CACHE = pats
     return pats
+
+
+def _pick_break(rng):
+    """One of the classic break figures (pattern_library/patterns_breaks.json,
+    subgenre "breaks"). Falls back to any two-bar groove if that file is
+    missing, so a break request degrades to something break-shaped rather
+    than to silence."""
+    pats = load_library()
+    breaks = [p for p in pats if p.get("subgenre") == "breaks"]
+    if not breaks:
+        breaks = [p for p in pats if p["steps"] == 32]
+    return rng.choice(breaks) if breaks else None
 
 
 def _pick_library(spec, rng):
@@ -487,6 +513,37 @@ def _bank_vary(bar, spec, rng):
 
 EXTRA_SECS = {"crash": 2.2, "fx": 1.4}       # choke default, else 0.8
 
+# Guest lanes that are PUNCTUATION, not timekeeping (owner 2026-08-01: "clap
+# and crash are being overused"). Measured before the fix: every guest lane
+# got gen_timekeeper's offbeats/sparse/answer grammar, so a crash cymbal was
+# programmed like a shaker — 3.5 hits per BAR (median), 51 in one loop, each
+# ringing 2.2s. Same for risers (3.8/bar), impacts (4.0), sirens (3.6),
+# swells (3.5). Matched on the lane NAME because the pools reuse roles: a
+# "rim" role carries both rims (timekeeping) and claves (timekeeping), while
+# an "fx" role carries both scratches (timekeeping) and risers (punctuation).
+# Matched by PREFIX, not equality: the crash guest lane is named "crash2"
+# (the pools reserve "crash" for a kit lane), so an exact-match tuple silently
+# missed the one lane he actually complained about. Caught by measuring after
+# the change, not by reading it.
+PUNCTUATION_LANES = ("crash", "impact", "swellfx", "riser", "siren",
+                     "reversefx", "gamefx")
+
+
+def is_punctuation(lname):
+    return lname.startswith(PUNCTUATION_LANES)
+
+
+def punctuation_bars(nbars, rng):
+    """1-2 hits across the WHOLE loop, on a downbeat — what a crash, a riser
+    or an impact actually does. Bar 1 always, and a second landing on the
+    half-way bar often enough to matter but not every time."""
+    bars = ["-" * 16 for _ in range(nbars)]
+    bars[0] = "X" + "-" * 15
+    mid = nbars // 2
+    if nbars >= 4 and rng.random() < 0.55:
+        bars[mid] = "X" + "-" * 15
+    return bars
+
 # ------------------------------------------------------- bar generators
 
 
@@ -730,6 +787,40 @@ def assemble(gen_bar, rng, form=8, nbars=None):
     return (half + tail + (tail * nbars))[:nbars]
 
 
+def seed_bars(s):
+    """A library seed string as a list of 16-step BARS.
+
+    REAL BUG, found 2026-08-01 while looking for the classic breaks:
+    load_library() accepts 16- and 32-step patterns (its docstring says so),
+    but compose() gated every seed on `len(...) == 16`, so all 14 two-bar
+    patterns — including the only Amen Break in the project — were picked,
+    then silently thrown away for kick and snare. Worse, the hat path had NO
+    length gate, so a 32-char string went straight through to the renderer,
+    which reads `res = len(pat)` and plays 32 characters as 32 steps inside
+    ONE bar: double speed, and swing skipped (`if res == 16`). Measured 48
+    real cases of that on the breakbeat-tagged identities.
+
+    A break is a TWO-BAR figure — bar 2 answering bar 1 is most of what
+    makes it sound like a break rather than a loop — so the fix is to keep
+    both bars, not to truncate to the first."""
+    if not s:
+        return []
+    return [s[i:i + 16] for i in range(0, len(s), 16) if len(s[i:i + 16]) == 16]
+
+
+def _seed_phrase(bars, nbars, rng, fills=True):
+    """Lay a 1- or 2-bar seed figure across the beat, keeping its internal
+    call-and-response, and let the closing bar of each 4-bar group breathe."""
+    if not bars:
+        return []
+    out = []
+    for b in range(nbars):
+        base = bars[b % len(bars)]
+        closing = fills and nbars > 1 and ((b % 4 == 3) or (b == nbars - 1))
+        out.append(_fill(base, rng) if closing else base)
+    return out
+
+
 def _phrase(A, B, nbars, rng):
     """nbars of a NON-composed lane (the backbeat, a canon figure, a
     seeded groove): A states, B answers across the back half when the
@@ -932,17 +1023,20 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
     for attempt in range(6):
         rng = random.Random(f"{name}|{variant}|pattern|{attempt}")
         lanes, modes, notes = {}, {}, []
-        # LOOP LENGTH (owner call 2026-07-22: "make the loops half as
-        # long" + let it vary per beat). 4 bars is the new normal — half
-        # the old fixed 8 — with a tight 2-bar MPC loop and the old 8
-        # both still on the table. A genre keeps the longer form: the
-        # subgenre roster's figures need room to state themselves. A
-        # preset's own `bar_lengths` (owner call 2026-07-23, J Dillo: "no
-        # long beats") pins the roll to a fixed subset instead.
-        bar_lengths = preset.get("bar_lengths")
-        nbars = (rng.choice(bar_lengths) if bar_lengths else
-                 8 if genre else rng.choices((2, 4, 8),
-                                             weights=(0.15, 0.60, 0.25))[0])
+        # LOOP LENGTH — OWNER RULE 2026-08-01: "For all other beats
+        # regardless of DJ, four to eight bars." Supersedes both the
+        # 2026-07-22 call ("make the loops half as long", which is what put
+        # 2-bar loops on the table at 15%) and the 2026-07-23 J Dillo pin
+        # ("no long beats", bar_lengths [2, 4]) — "regardless of DJ" is
+        # explicit, so a preset's own bar_lengths is now filtered to the
+        # allowed set rather than obeyed outright. A genre still leans long:
+        # the subgenre roster's figures need room to state themselves.
+        ALLOWED_BARS = (4, 8)
+        pinned = [n for n in (preset.get("bar_lengths") or ())
+                  if n in ALLOWED_BARS]
+        nbars = (rng.choice(pinned) if pinned else
+                 8 if genre else rng.choices(ALLOWED_BARS,
+                                             weights=(0.60, 0.40))[0])
         preset["bars"] = nbars
         # form roll (owner call 2026-07-21): half the beats are the loop
         # heard straight through, half the A/B answer form. Only an
@@ -959,7 +1053,18 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         # a copy. Boom-bap mode keeps its own hat law, so no hat seed.
         lib_seed = None
         lib = style.get("library")
-        if lib and rng.random() < lib.get("p", 0):
+        # OWNER 2026-08-01, on how faithful a classic break should be:
+        # "for break beats, stay verbatim". `break_beat` is set by the notes
+        # box ("break", "amen", "funky drummer", ...) — see
+        # beat_machine.parse_directions. On those beats the seed pool is
+        # restricted to the real transcriptions and the figure is played as
+        # written; every other beat keeps treating the library as an
+        # influence that gets thinned and varied, which is the 2026-07-17
+        # behaviour and is unchanged.
+        verbatim = bool(preset.get("break_beat"))
+        if verbatim:
+            lib_seed = _pick_break(rng)
+        elif lib and rng.random() < lib.get("p", 0):
             lib_seed = _pick_library(lib, rng)
 
         # core lanes, in grammar order so copies can follow their source
@@ -1012,8 +1117,21 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                     donor = rng.choice([d for d in KICK_BANK if d != name])
                     bank = KICK_BANK[donor]
                     notes.append("kick borrowed from %s's book" % donor)
-                if lib_seed and len(lib_seed.get("kick", "")) == 16:
-                    barA = _bank_vary(_thin_kick(lib_seed["kick"], rng),
+                kick_seed = seed_bars(lib_seed.get("kick", "")) \
+                    if lib_seed else []
+                if len(kick_seed) > 1 and verbatim:
+                    # a two-bar break played as written (owner 2026-08-01:
+                    # break beats stay verbatim). No thinning, no bank-vary —
+                    # those are what turn a break back into generic
+                    # syncopation, which is exactly why the library never
+                    # sounded like the records it was modelled on.
+                    lanes[lane] = _seed_phrase(kick_seed, nbars, rng,
+                                               fills=False)
+                    notes.append("BREAK, played straight: %s"
+                                 % lib_seed["name"])
+                    continue
+                if kick_seed:
+                    barA = _bank_vary(_thin_kick(kick_seed[0], rng),
                                       spec, rng)
                     notes.append("groove seed: %s (%s)"
                                  % (lib_seed["name"], lib_seed["subgenre"]
@@ -1036,12 +1154,24 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 # plain line ~28% of the time, reinforcing the very
                 # thing the seed was meant to break). Those fall through
                 # to the DJ's own roll; every other seed still lands.
-                if lib_seed and len(lib_seed.get("snare", "")) == 16 \
-                        and lib_seed["snare"] != "----X-------X---" \
-                        and not legend and not traditional \
-                        and rng.random() < 0.5:
-                    bar = lib_seed["snare"]
-                    lanes[lane] = _phrase(bar, None, nbars, rng)
+                sn_seed = seed_bars(lib_seed.get("snare", "")) \
+                    if lib_seed else []
+                # OWNER 2026-08-01: legends may now take a groove seed's
+                # backbeat. Measured on 720 legend beats under the old rule,
+                # a legend received one 0.0% of the time — and the legends
+                # are precisely the producers whose whole style was built on
+                # sampled breaks, so the one identity group that most needed
+                # the Funky Drummer could never have it. `traditional` still
+                # locks to 2&4 by definition, and a bare 2&4 seed still
+                # teaches nothing so it still falls through.
+                if sn_seed and sn_seed[0] != "----X-------X---" \
+                        and not traditional \
+                        and (verbatim or rng.random() < 0.5):
+                    if verbatim and len(sn_seed) > 1:
+                        lanes[lane] = _seed_phrase(sn_seed, nbars, rng,
+                                                   fills=False)
+                    else:
+                        lanes[lane] = _phrase(sn_seed[0], None, nbars, rng)
                     modes[lane] = "seed:" + (lib_seed["subgenre"]
                                              or lib_seed["genre"])
                     continue
@@ -1054,13 +1184,17 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 lanes[lane] = _phrase(barA, barB, nbars, rng)
                 modes[lane] = mode
                 continue
-            if lane == "hat" and not boom_bap and lib_seed \
-                    and lib_seed.get("hat"):
-                bar = lib_seed["hat"]
-                mode = "seed:" + (lib_seed["subgenre"]
-                                  or lib_seed["genre"])
-            else:
-                bar, mode = gen_timekeeper(spec, rng)
+            hat_seed = seed_bars(lib_seed.get("hat", "")) if lib_seed else []
+            if lane == "hat" and not boom_bap and hat_seed:
+                # was: `bar = lib_seed["hat"]` with no length check, so a
+                # two-bar seed handed the renderer a 32-char bar and played
+                # at double speed with swing off. seed_bars splits it.
+                mode = "seed:" + (lib_seed["subgenre"] or lib_seed["genre"])
+                lanes[lane] = _seed_phrase(hat_seed, nbars, rng,
+                                           fills=not verbatim)
+                modes[lane] = mode
+                continue
+            bar, mode = gen_timekeeper(spec, rng)
             if mode == "answer":             # call-and-response bar pairs
                 lanes[lane] = (["-" * len(bar), bar] * nbars)[:nbars]
             else:
@@ -1120,8 +1254,14 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
     for role, wants, lname in pool[:n_extra]:
         if lname in preset["lanes"]:
             continue
-        bar, mode = gen_timekeeper(
-            dict(modes=[["offbeats", 2], ["sparse", 2], ["answer", 1]]), rng)
+        punct = is_punctuation(lname)
+        if punct:
+            mode = "punctuation"
+            bar = None
+        else:
+            bar, mode = gen_timekeeper(
+                dict(modes=[["offbeats", 2], ["sparse", 2], ["answer", 1]]),
+                rng)
         side = rng.choice((-1, 1)) * rng.uniform(0.15, 0.35)
         # a guest normally coin-flips between the beat's swing and
         # straight 50 — that deliberate clash is a v6 crew trick. A
@@ -1133,7 +1273,8 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
             round(side, 2), round(rng.uniform(0.22, 0.36), 2),
             (0, rng.uniform(1.5, 4.0), gswing,
              rng.randrange(1, 99999)),
-            (["-" * len(bar), bar] * nbars)[:nbars] if mode == "answer"
+            punctuation_bars(nbars, rng) if punct
+            else (["-" * len(bar), bar] * nbars)[:nbars] if mode == "answer"
             else _phrase(bar, None, nbars, rng))
         preset["kit"][lname] = (role, None, list(wants),
                                 EXTRA_SECS.get(role, 0.8))

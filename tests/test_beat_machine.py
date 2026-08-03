@@ -651,30 +651,47 @@ def test_swap_rejects_a_lane_the_beat_lacks(machine_env):
 
 # --------------------------------------- space rules (owner 2026-07-17)
 
-def test_backbone_can_go_fully_silent_for_a_bar():
-    """Owner 2026-07-29 hard rule (overrides the old 2026-07-17 'room =
-    sparseness, never a gap' rule): kick/snare/clap can go fully silent
-    for a whole bar now, same as any other lane. Across many variants at
-    least one bar should actually land on zero backbone hits — proving
-    the old floor is really gone, not just unenforced by accident."""
+def test_gaps_are_possible_but_rare():
+    """OWNER RULE 2026-08-01: "the gaps I want to be rare. One in six."
+
+    This test used to assert only that a fully silent bar CAN happen (owner
+    2026-07-29, which removed the old 'never a gap' floor). Measured under
+    that rule, 47% of beats had a completely silent bar and 90% had a hole
+    of some kind — in the drum stems, which is how he works in Reason, 8 of
+    12 beats dropped 17-61 dB. So the test now pins BOTH ends: silence is
+    still reachable (the 07-29 rule is not being quietly reinstated as a
+    floor), and it is rare (the 08-01 rule actually holds).
+
+    Rate is measured over whole beats, not bars, and the band is wide
+    because vary_preset rolls per beat — HOLE_P is 1/6, the observed rate
+    sits near 11-16%, and the assertions only catch a real drift back to
+    'every beat has a hole' or 'gaps are gone entirely'."""
     import copy as _copy
     saw_silence = False
+    holed = total = 0
     for name in ("Otto Grit", "Night Metro", "Glass Cat"):
-        for v in range(25):
+        for v in range(80):
             p = _copy.deepcopy(CREW[name])
             pattern_gen.compose(p, name, v)
             beat_machine.vary_preset(p, v, CREW[name]["num"],
                                      tempo_locked=False)
             backbone = [ln for ln in p["lanes"]
                         if ln in beat_machine.BACKBONE]
-            # the loop is no longer always 8 bars (2026-07-22) — check
-            # exactly the bars this beat actually renders
+            drums = [ln for ln in p["lanes"]
+                     if not ln.startswith(("chord", "bass", "stamp"))]
+            total += 1
+            beat_has_hole = False
             for b in range(crew.bars_of(p)):
-                hits = sum(sum(c != "-" for c in p["lanes"][ln][3][b])
-                           for ln in backbone)
-                if hits == 0:
+                if sum(sum(c != "-" for c in p["lanes"][ln][3][b])
+                       for ln in backbone) == 0:
                     saw_silence = True
-    assert saw_silence
+                if sum(sum(c not in "-." for c in p["lanes"][ln][3][b])
+                       for ln in drums) == 0:
+                    beat_has_hole = True
+            holed += beat_has_hole
+    assert saw_silence, "the backbone can no longer go silent at all"
+    rate = holed / total
+    assert rate < 0.30, "gaps are back to being common: %.0f%%" % (100 * rate)
 
 
 def test_direction_parser_reads_his_words():

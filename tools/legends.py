@@ -172,8 +172,12 @@ LEGENDS_DEFAULT = {
         grammar=dict(
             kick=dict(w=[10, 1, 1, 2, 5, 1, 2, 5, 8, 1, 2, 2, 5, 1, 3, 3],
                       hits=[3, 7], double_p=0.35),
-            clap=dict(modes=[["backbeat", 0.85], ["displaced", 0.1],
-                             ["sparse", 0.05]],
+            # owner 2026-08-01: backbeat capped at 0.35 so the clap stops
+            # landing on the snare's own steps (measured: 89% of beats with
+            # both put them on identical 16ths, with the clap the LOUDER of
+            # the two). The stack DJs keep copy="snare" and are untouched.
+            clap=dict(modes=[["backbeat", 0.35], ["displaced", 0.267],
+                             ["sparse", 0.217], ["halftime", 0.167]],
                       ghosts=[0, 2], gcells=[2, 3, 6, 7, 10, 11, 14, 15]),
             snare=dict(copy="clap"),          # tucked under the big clap
             hat=dict(modes=[["eighths", 0.45], ["sparse", 0.2],
@@ -261,7 +265,8 @@ LEGENDS_DEFAULT = {
         grammar=dict(
             kick=dict(w=[10, 1, 1, 6, 1, 1, 4, 1, 2, 1, 6, 1, 1, 4, 2, 1],
                       hits=[2, 5], double_p=0.2),
-            clap=dict(modes=[["backbeat", 0.9], ["sparse", 0.1]],
+            clap=dict(modes=[["backbeat", 0.35], ["sparse", 0.283],
+                             ["displaced", 0.183], ["halftime", 0.183]],
                       ghosts=[0, 0], gcells=[]),
             snap=dict(modes=[["offbeats", 0.4], ["sparse", 0.3],
                              ["answer", 0.3]]),
@@ -303,8 +308,8 @@ LEGENDS_DEFAULT = {
         grammar=dict(
             kick=dict(w=[10, 1, 1, 2, 6, 1, 2, 2, 8, 1, 1, 2, 6, 1, 2, 2],
                       hits=[3, 6], double_p=0.2),
-            clap=dict(modes=[["backbeat", 0.85], ["halftime", 0.1],
-                             ["sparse", 0.05]],
+            clap=dict(modes=[["backbeat", 0.35], ["halftime", 0.267],
+                             ["sparse", 0.217], ["displaced", 0.167]],
                       ghosts=[0, 1], gcells=[6, 7, 14, 15]),
             snare=dict(copy="clap"),
             hat=dict(modes=[["sparse", 0.3], ["eighths", 0.3],
@@ -387,8 +392,8 @@ LEGENDS_DEFAULT = {
         grammar=dict(
             kick=dict(w=[10, 1, 2, 6, 1, 1, 5, 2, 3, 1, 3, 5, 1, 3, 3, 2],
                       hits=[3, 7], double_p=0.55),
-            clap=dict(modes=[["backbeat", 0.7], ["displaced", 0.2],
-                             ["sparse", 0.1]],
+            clap=dict(modes=[["backbeat", 0.35], ["displaced", 0.317],
+                             ["sparse", 0.217], ["halftime", 0.117]],
                       ghosts=[0, 2], gcells=[2, 3, 6, 7, 10, 11, 14, 15]),
             perc=dict(euclid=[3, 5, 7]),
             snap=dict(modes=[["answer", 0.3], ["offbeats", 0.3],
