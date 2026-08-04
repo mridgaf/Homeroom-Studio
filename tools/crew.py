@@ -772,6 +772,12 @@ CREW = load_crew()
 # stamps and experiment with samples like the nine; only their patterns
 # and feel stay faithful. LEGEND_NAMES lets the UI put them in a separate
 # box and lets evolution skip them (a legend's career is already written).
+# Updated IN PLACE, never rebound (2026-08-04). Other modules do
+# `from crew import LEGEND_NAMES` at import, which binds the OBJECT, not
+# the name — so assigning a fresh set here left every importer holding a
+# stale copy after a reload. It went unnoticed only because both copies
+# load from the same file and so happen to agree. Same trap that dropped
+# the Legends out of CREW; closed the same way, by mutating the one object.
 LEGEND_NAMES = set()
 
 
@@ -780,14 +786,15 @@ def merge_legends(target):
     dict), returning their names. Kept a function so anything that rebuilds
     CREW — the module import here, and tests that reset the roster — can
     restore the Legends the same way instead of dropping them."""
-    global LEGEND_NAMES
     try:
         import legends
         leg = legends.load_legends(normalize_preset)
-        target.update(leg)
-        LEGEND_NAMES = set(leg)
     except Exception as e:                    # never let a legend break the nine
         print(f"WARNING: Legends roster unavailable ({e}).")
+        return LEGEND_NAMES                   # a failed load changes nothing
+    target.update(leg)
+    LEGEND_NAMES.clear()
+    LEGEND_NAMES.update(leg)
     return LEGEND_NAMES
 
 
@@ -797,21 +804,22 @@ def merge_legends(target):
 # engine reaches them by name; their strictness rules key off
 # CREW[name]["genre"] downstream (canon lanes placed verbatim, pinned
 # swing, no cross-pollination, no evolution, per-style density).
-GENRE_NAMES = set()
+GENRE_NAMES = set()          # in place, never rebound — see LEGEND_NAMES
 
 
 def merge_genres(target):
     """Load the Styles roster and fold it into `target` (the shared CREW
     dict), returning their names. Same shape as merge_legends so anything
     rebuilding CREW restores all three rosters the same way."""
-    global GENRE_NAMES
     try:
         import genres
         gen = genres.load_genres(normalize_preset)
-        target.update(gen)
-        GENRE_NAMES = set(gen)
     except Exception as e:                    # never let a style break the nine
         print(f"WARNING: Styles roster unavailable ({e}).")
+        return GENRE_NAMES                    # a failed load changes nothing
+    target.update(gen)
+    GENRE_NAMES.clear()
+    GENRE_NAMES.update(gen)
     return GENRE_NAMES
 
 
@@ -819,7 +827,7 @@ merge_legends(CREW)
 merge_genres(CREW)
 
 
-def reload_rosters(target=CREW):
+def reload_rosters(target=CREW, path=None):
     """Rebuild `target` into the COMPLETE roster — the nine, the Legends,
     and the Styles — from whatever config files are currently in force.
 
@@ -827,9 +835,12 @@ def reload_rosters(target=CREW):
     the rosters by hand: test_evolution's sandbox teardown used to
     re-merge only the Legends, so adding a third roster silently dropped
     it for every module that ran afterwards (2026-07-19). One call means
-    a fourth roster can never reintroduce that bug."""
+    a fourth roster can never reintroduce that bug.
+
+    `path` is read at call time, not bound at import, so a sandboxed
+    crew.CONFIG (tests) reloads from the sandbox and not the real file."""
     target.clear()
-    target.update(load_crew())
+    target.update(load_crew(path or CONFIG))
     merge_legends(target)
     merge_genres(target)
     return target

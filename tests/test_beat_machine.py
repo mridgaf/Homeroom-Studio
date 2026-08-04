@@ -1225,9 +1225,49 @@ def test_chords_are_one_removable_row_not_four(machine_env,
     assert not [ln for ln in rows if beat_machine._CHORD_LANE.match(ln)]
     fam = rows[beat_machine.CHORD_FAM]
     assert fam["locked"] is False           # removable...
-    assert fam["can_swap"] is False         # ...but not swap-a-file-able
+    # ...and swappable since 2026-08-04, but for an INSTRUMENT, not a file
+    assert fam["can_swap"] is True
+    assert fam["voices"] is True
     assert len(fam["members"]) > 1, fam     # it really does stand for many
     assert "your library" in fam["why"]
+
+
+def test_every_offered_chord_instrument_actually_plays(
+        machine_env, only_his_instruments, monkeypatch):
+    """The chord dropdown may only list instruments that will really
+    sound (owner 2026-08-04).
+
+    Built naively this listed all fourteen voices and NONE of them
+    landed: nearest() shops per note across a whole group, so a 3-note
+    chord drew from two folders and the one-instrument-per-stem rule
+    (2026-08-03) threw the plan out — every pick fell through to the
+    DJ's own instrument. Measured on beat 1776 mid-build. That is the
+    same "I picked a sound and nothing changed" this whole session was
+    about, so the menu is filtered to what a single folder can voice and
+    the pick is pinned to that folder. This test fails if either half
+    regresses: an unplayable voice in the menu, or a listed voice that
+    quietly hands back something else."""
+    root, shots = machine_env
+    no, _p, report = _chords_beat(root, shots, monkeypatch)
+    rec = beat_machine.load_recipe(root, no)
+    offered = beat_machine._chord_voices(rec)
+    assert offered, report
+    default = beat_machine._build_chords(
+        crew.normalize_preset(rec["preset"]), {}, {}, rec["variant"],
+        {"chords": True, "chord_feel": None}, [])[1]
+    default_voice = sorted(set((default or {}).get("voice_names", {}).values()))
+    landed = []
+    for c in offered:
+        _m, h = beat_machine._build_chords(
+            crew.normalize_preset(rec["preset"]), {}, {}, rec["variant"],
+            {"chords": True, "chord_feel": None}, [], voice=c["path"])
+        got = sorted(set((h or {}).get("voice_names", {}).values()))
+        assert got, f"{c['path']} was offered but voiced nothing"
+        landed.append(tuple(got))
+    # at least one offered voice must differ from what the DJ picks on its
+    # own — otherwise the dropdown is decoration
+    assert any(list(g) != default_voice for g in landed), (
+        default_voice, landed)
 
 
 def test_removing_the_chords_row_removes_every_chord_lane(
@@ -1399,18 +1439,39 @@ def test_wav24_round_trips(tmp_path):
     assert np.abs(r2 - R).max() < 1e-5
 
 
-def test_preview_mix_hears_a_volume_change_before_the_rebuild(machine_env):
+def _preview(no, root, shots, **q):
+    """Drive /mix the way the page does: a query string in, bytes out."""
+    from urllib.parse import urlencode, parse_qs
+    qs = urlencode({"no": no, "trims": "", "drop": "", "picks": "", **q})
+    return beat_machine._preview_render(qs, parse_qs(qs), shots=shots,
+                                        root=root)
+
+
+def test_preview_hears_a_volume_change_before_the_rebuild(machine_env):
     """Nudge a stem, hit play, and the track reflects it — without
-    rendering a new beat (owner 2026-07-25)."""
+    printing a new beat (owner 2026-07-25)."""
     root, shots = machine_env
     path, _ = beat_machine.generate(["Glass Cat"], root=root, shots=shots)
     no = int(path.name.split()[0])
-    flat = beat_machine._preview_mix(no, root=root)
-    quiet = beat_machine._preview_mix(no, trims="kick:-24", root=root)
-    assert flat != quiet                       # the arrows did something
-    # and dropping a stem removes it from what he hears
-    gone = beat_machine._preview_mix(no, drop="kick", root=root)
-    assert gone not in (flat, quiet)
+    quiet = _preview(no, root, shots, trims="kick:-24")
+    gone = _preview(no, root, shots, drop="kick")
+    assert quiet != gone                       # both did something, differently
+
+
+def test_preview_matches_what_rebuild_would_print(machine_env):
+    """The preview has to BE the rebuild, not an approximation of it.
+
+    It used to sum the printed stems, which is the beat before the master
+    bus — measured 8 dB under the real output on beat 1774, so every
+    level move was judged against the wrong mix (owner 2026-08-04)."""
+    from make_drum_loops import wav24_bytes
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Glass Cat"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    heard = _preview(no, root, shots, trims="kick:-6")
+    L, R = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                  trims={"kick": -6.0}, render_only=True)
+    assert heard == wav24_bytes(L, R)          # byte-for-byte, not close
 
 
 def test_solo_stem_plays_at_its_level_in_the_track(machine_env):

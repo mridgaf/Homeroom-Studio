@@ -399,6 +399,105 @@ entries.
   because the five parts touch overlapping code in beat_machine.py and
   pattern_gen.py. Still unheard: the 4 rebuilt bank beats (1681-1684).
 
+### [2026-08-04] Three front-end bugs: silent samples, dead preview, legends locked out
+- Context: owner reported three things on the Beat Machine page. (1) Picking a
+  new sound from a lane's dropdown sometimes made no sound, and either way the
+  beat sounded the same when he played it back — so there was no way to judge a
+  swap before committing to a rebuild. He also asked to HEAR the dice roll.
+  (2) After making a beat with one of the nine, every Legend answered
+  "Check at least one DJ first." and stayed unusable until a restart.
+- Decision/change: four fixes, each at its root.
+  1. `/sample` now decodes through `load_audio` and re-wraps as 24-bit WAV
+     (`Handler._wav`). It was handing raw file bytes out labelled
+     `audio/wav` — but **975 of his 4202 indexed samples (23%) are .aif**,
+     which the browser silently refuses to play. That is the whole of
+     "sometimes it doesn't make a sound": it was never random, it was the
+     file format. Any odd bit depth is fixed by the same change.
+  2. The 🎲 now picks a real sample out of the same list the dropdown shows,
+     names it, and plays it (`laneRow`). It used to stage a "surprise me"
+     the machine only resolved during the rebuild, so there was nothing to
+     play and nothing to name. Owner picked this over "keep the surprise".
+  3. Play now reflects a staged swap: `mixUrl` sends `picks`, and `/mix`
+     routes those to the new `_preview_swap`, which calls `swap_many(...,
+     render_only=True)` — a new early return in the real render path, so the
+     preview is byte-for-byte what Rebuild will print, not an approximation.
+     Measured 0.6 s per render; last 3 results cached. Levels-and-removals
+     alone still take the instant stem-sum path (`_preview_mix`) untouched.
+  4. `evolution._save_config` now calls `crew.reload_rosters()` instead of
+     `CREW.clear()` + `load_crew()`.
+- Reasoning: (4) is the real find. `crew_config.json` holds only the nine, so
+  rebuilding CREW from it alone dropped the twelve Legends and eighteen Styles
+  out of the roster **for the rest of the session**. Evolution fires on the
+  first crew beat of the day, which is exactly the "once you use one of the
+  nine" the owner described. `reload_rosters()` already existed for precisely
+  this class of bug (written 2026-07-19 when the Styles got dropped the same
+  way) — it just was not being called here. Fixing the caller beats guarding
+  each roster. Gave it a `path=` argument read at call time so a sandboxed
+  `crew.CONFIG` in tests reloads from the sandbox.
+- Verify by: `tests/test_evolution.py::test_evolving_keeps_legends_and_styles_in_the_roster`
+  — confirmed it FAILS on the old code and passes on the new. Full suite 749
+  passed / 1 skipped. Live-driven the real page for the rest: dice rolled
+  "hat tite 4" (an .aif — the exact case that used to be silent), served as
+  RIFF/24-bit, and Play requested `/mix?...&picks=` and returned audio that
+  differs from the original by 0.86 peak, so the new hat is genuinely in it.
+- Status: open — verified working, but the owner has not heard it himself yet.
+- Outcome: (pending his listen)
+
+### [2026-08-04] Roll everything, one honest preview, and chords you can choose
+- Context: four follow-ups after the morning's front-end fixes — a "roll
+  everything" button, close the roster-aliasing trap, chase down a preview
+  timing that looked wrong, and give the chord/bass rows dropdowns and dice.
+- Decision/change:
+  1. **Roll everything** on the rack footer: rolls every swappable row at
+     once and auditions the BEAT rather than a dozen overlapping one-shots.
+     Skips locked rows and anything already removed.
+  2. **Aliasing trap closed.** `merge_legends`/`merge_genres` rebound
+     LEGEND_NAMES/GENRE_NAMES to fresh sets; importers do `from crew import
+     LEGEND_NAMES`, which binds the OBJECT, so after a reload beat_machine
+     held a stale copy. Contents happened to agree, so nothing had broken
+     yet. Now mutated in place, and a failed roster load leaves the old set
+     alone instead of clearing it.
+  3. **The preview was lying by 8 dB.** The "instant" path summed printed
+     stems — the beat BEFORE the master bus — so every volume move was
+     judged against the wrong mix (measured on 1774 at kick -3: preview
+     -22.2 dB rms vs rebuild -14.2). `_preview_mix` is deleted; all three
+     kinds of change (swap, volume, removal) now go through one render.
+     Costs 0.27s warm. My first timing (1.0s vs 0.6s, "the fast path isn't
+     faster") was a cold read off the external drive — wrong, and the
+     re-measure is what surfaced the real bug underneath.
+     `/mix` also no longer falls back to serving the untouched file on
+     error: that made a failed preview sound exactly like a change that
+     did nothing. It 500s and the page says so.
+  4. **Chord rows are swappable** — for an INSTRUMENT, not a file (a chord
+     voice is a whole multisample). `_build_chords` takes `voice=`, which
+     goes to the FRONT of the plan queue rather than replacing it.
+- Reasoning: (4) is where the real work was. Built the obvious way it was
+  decoration — all fourteen voices listed and NONE of them landed, measured
+  on 1776. Cause: `nearest()` shops per NOTE across a whole group, so a
+  3-note chord drew from two folders and the one-instrument-per-stem rule
+  (2026-08-03) threw the plan out, every time, falling through to the DJ's
+  own choice. That is precisely the "I picked a sound and nothing changed"
+  this session began with. Two fixes, both narrow: the menu lists only
+  voices a single FOLDER can reach every note of, and an explicit pick is
+  pinned to that folder and to its NAMED group (`VOICES[v][:1]`, so Pluck
+  can't quietly hand back a synth). Both apply ONLY when he picked — a beat
+  the machine voices for itself ranges over the whole group exactly as
+  before, so this cannot move the sound of anything he didn't ask to change.
+  The menu is shorter than the full instrument list on purpose: 5 voices on
+  1776, 4 on 1773. Every one of them plays.
+- Verify by: `test_every_offered_chord_instrument_actually_plays` (fails if
+  an unplayable voice reaches the menu OR a listed voice hands back
+  something else), `test_preview_matches_what_rebuild_would_print`
+  (byte-for-byte, not "close"), `test_evolving_keeps_legends_and_styles_in
+  _the_roster`. Full suite 751 passed / 1 skipped. Live-driven the page:
+  chords dropdown showed 5 real instruments, dice picked Guitar ("was pluck
+  stack"), Roll everything staged 6 sounds in one click and played a 12.5s
+  preview with all six in it.
+- Status: open — measured and driven, but he has not heard it yet.
+- Outcome: (pending his listen). Known cost: a chord-beat preview renders in
+  ~6s vs ~0.5s for drums-only, because the harmony is rebuilt each time.
+  Cached per exact set of changes, so it is paid once per combination.
+
 ## Archived history — 66 entries moved, nothing deleted
 
 Everything up to and including 2026-07-25 now lives in

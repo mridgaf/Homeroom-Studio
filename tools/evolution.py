@@ -361,10 +361,14 @@ def _save_config(doc):
     doc["_style_lock"] = True        # evolved DJs outrank factory syncs
     _config_path().write_text(json.dumps(doc, indent=1, ensure_ascii=False))
     # refresh the loaded roster in place so this session's next beat
-    # composes with the change (crew.CREW is shared by reference)
+    # composes with the change (crew.CREW is shared by reference).
+    # reload_rosters, NOT clear()+load_crew(): crew_config.json holds only
+    # the nine, so rebuilding from it alone dropped the Legends and the
+    # Styles out of CREW for the rest of the session. The first evolved
+    # crew beat of the day made every legend answer "Check at least one
+    # DJ first." until a restart (owner 2026-08-03).
     import crew
-    crew.CREW.clear()
-    crew.CREW.update(crew.load_crew(_config_path()))
+    crew.reload_rosters(crew.CREW, path=_config_path())
 
 
 def evolved_today(name, journal=None):

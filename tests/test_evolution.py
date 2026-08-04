@@ -123,6 +123,19 @@ def test_in_memory_roster_updates_immediately(env):
     assert crew.CREW["Chrome Dial"] != before   # same session, new taste
 
 
+def test_evolving_keeps_legends_and_styles_in_the_roster(env):
+    """An evolution rewrites crew_config.json and reloads the roster from
+    it — but that file holds only the nine. Rebuilding CREW from it alone
+    dropped the Legends and the Styles out of the roster for the rest of
+    the session, so the first evolved crew beat of the day made every
+    legend answer "Check at least one DJ first." until a restart (owner
+    2026-08-03). reload_rosters() is what puts all three rosters back."""
+    others = set(crew.LEGEND_NAMES) | set(crew.GENRE_NAMES)
+    assert others, "no Legends/Styles loaded — the test can't prove anything"
+    evolution.evolve_one("Chrome Dial")
+    assert not (others - set(crew.CREW))
+
+
 def test_maybe_evolve_never_raises(monkeypatch, tmp_path):
     # a broken config must come back quiet, not crash a render
     monkeypatch.setattr(crew, "CONFIG", tmp_path / "nope.json")

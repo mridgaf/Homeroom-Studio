@@ -39,6 +39,7 @@ sys.path.append(str(Path(__file__).parent))
 from groove import OWNER_TASTE
 from make_drum_loops import SR, read_wav24, sub808, wav24_bytes, write_wav24
 from make_drum_beats import build_shots
+from make_hiphop_tracks import load_audio
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
                   build_kit, lock_stamps, normalize_preset,
@@ -1415,7 +1416,7 @@ def _decay_chord_slots(beds, slots, variant):
     return beds
 
 
-def _build_chords(preset, kit, sources, variant, dirs, vnotes):
+def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
     identity-blind default without one).
@@ -1505,11 +1506,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     _rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
               if isinstance(rhythm_spec, list) else rhythm_spec)
     # only pay for the melodic-loop library scan if a loop voice is on
-    # the table (the default, or a signature that lists "loop")
-    want_loop = not pref or any(s[0] == "loop" for s in pref)
+    # the table (the default, a signature that lists "loop", or the owner
+    # asking for it outright from the rack)
+    want_loop = not pref or any(s[0] == "loop" for s in pref) or voice == "loop"
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
     strings_idx = None
-    if pref and any(s[0] == "strings" for s in pref):
+    if voice == "strings" or (pref and any(s[0] == "strings" for s in pref)):
         import string_sampler
         strings_idx = string_sampler.by_articulation(
             string_sampler.scan(), sig.get("articulation"))
@@ -1518,6 +1520,30 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     # needed for essentially every signature, not just the horn one.
     import instrument_sampler
     inst_idx = instrument_sampler.scan()
+    # ---- the owner's own pick, made to actually land (2026-08-04) ----
+    # Picking "guitar" on the rack used to change nothing: nearest() shops
+    # per NOTE across the whole group, so a 3-note chord pulled its notes
+    # from two different folders and the one-instrument-per-stem rule
+    # (2026-08-03) threw the plan out — every instrument fell through to
+    # the DJ's own choice, measured on beat 1776. Pinning his pick to the
+    # single folder that can reach every note satisfies both rules at
+    # once: it is his instrument, and it is one instrument.
+    #
+    # ONLY when he picked. A beat the machine makes for itself still
+    # ranges over the whole group exactly as before, so this cannot move
+    # the sound of anything he didn't ask to change.
+    forced_idx = None
+    if voice:
+        _all_notes = sorted({n for c in chords for n in c["notes"]})
+        if voice == "strings" and strings_idx:
+            forced_idx = _best_folder(
+                strings_idx, {e.get("group") for e in strings_idx},
+                _all_notes)
+            if forced_idx:
+                strings_idx = forced_idx
+        elif voice in instrument_sampler.VOICES:
+            forced_idx = _best_folder(       # [:1] — the named group only
+                inst_idx, instrument_sampler.VOICES[voice][:1], _all_notes)
     # ---- geometry first, voice second (owner 2026-07-25) ----
     # The voice is committed ONCE for the whole beat, before any audio is
     # kept: the owner heard beat 1174 go strings, strings, choir — the old
@@ -1628,24 +1654,33 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             # pitch-mapped (owner 2026-07-23). "synth" means sampled
             # synth/pluck/pad material, NOT an oscillator.
             groups = instrument_sampler.VOICES[src]
+            # An explicit pick means the thing he named, not its backups:
+            # "pluck" lists ("pluck", "synth"), so without this, choosing
+            # Pluck could hand back a synth and label it Pluck. The backup
+            # groups stay in play for beats the machine voices itself.
+            if voice and src == voice:
+                groups = groups[:1]
             # Name the group the audio ACTUALLY came from: a thin group
             # hands off to the next one (instrument_sampler.nearest), and
             # a stem shouldn't claim "choir" when the note came from a pad.
             # Reads the pin first if one's already set, so the label
             # matches the source every note actually prefers.
+            # his pick plays out of its one pinned folder; everything else
+            # ranges over the group as it always has
+            idx = forced_idx if (forced_idx and src == voice) else inst_idx
             got = instrument_sampler.nearest(
-                inst_idx, notes[0], groups, prefer=pin[0] if pin else None)
+                idx, notes[0], groups, prefer=pin[0] if pin else None)
             gname = got["group"] if got else src
             if rhythm == "arp":
                 cache = {}                       # one load per file, not step
                 a = chord_synth.arp_riff(
                     notes, dur, preset["bpm"],
                     lambda nt, sd: instrument_sampler.note_slice(
-                        inst_idx, nt, sd, cache=cache, groups=groups,
+                        idx, nt, sd, cache=cache, groups=groups,
                         used=used, pin=pin))
                 return a, "%s stabs" % gname
             return (instrument_sampler.play_chord(
-                inst_idx, notes, dur, groups=groups, used=used, pin=pin),
+                idx, notes, dur, groups=groups, used=used, pin=pin),
                 "%s stack" % gname)
         return None, None
 
@@ -1669,6 +1704,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
              if g not in order and g != "chip"]
     plan_rng.shuffle(extra)
     plans += [(g,) for g in extra]
+    # The owner picking an instrument on the rack (2026-08-04) puts it at
+    # the FRONT of the queue rather than replacing the queue: the plans
+    # below are tried in turn and the first that can voice every chord
+    # wins, so his choice plays whenever it can, and a voice his library
+    # can't actually cover falls through to the DJ's own order instead of
+    # printing a beat with a silent instrument. "chip" is allowed here
+    # even though it is excluded from `extra` — the exclusion stops it
+    # being a universal fallback, not an explicit request.
+    if voice:
+        plans = [(voice,)] + [p for p in plans if p != (voice,)]
 
     committed, beds = None, None
 
@@ -2518,7 +2563,7 @@ def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
 
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
-              trims=None, drops=None):
+              trims=None, drops=None, render_only=False):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -2541,7 +2586,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     `drops` is a list of lanes to REMOVE outright (owner request
     2026-07-21: "just remove a stem completely") — the lane leaves the
     mix, the stems folder, and the child recipe. A drop wins over a
-    swap or trim staged on the same lane."""
+    swap or trim staged on the same lane.
+
+    `render_only=True` stops after the render and returns (L, R) instead
+    of printing anything: the live preview behind /mix (owner
+    2026-08-03, "it does not change the sound in the beat when I go back
+    and preview it — before committing to the rerender"). A swap can't
+    be previewed by summing stems the way a level move can, so the
+    preview IS this render — which also means what he hears is exactly
+    what Rebuild will print, not an approximation of it."""
     number = int(number)
     rec = load_recipe(root, number)
     picks = {str(ln).strip().lower(): v for ln, v in (picks or {}).items()}
@@ -2556,6 +2609,17 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         if fam in drops:
             drops.remove(fam)
             fam_drops += _family_members(fam, all_lanes)
+    # A pick on a harmony row names an INSTRUMENT, not a file (owner
+    # 2026-08-04). It leaves `picks` here — there is no kit_paths entry
+    # to swap — and is handed to _build_chords below as the voice to try
+    # first. Only the chord family takes one: the bass line is his to
+    # play (2026-07-29), so its lanes are never rendered.
+    chord_voice = None
+    for fam in [f for f in list(picks) if _family_members(f, all_lanes)]:
+        want = picks.pop(fam)
+        if want and want not in {c["path"] for c in _chord_voices()}:
+            raise ValueError(f"'{want}' isn't an instrument in your library.")
+        chord_voice = want or chord_voice
     for lane in list(picks) + drops:
         if lane not in rec["kit_spec"]:
             raise ValueError(f"Beat {number} has no '{lane}' to change — "
@@ -2572,7 +2636,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     if set(rec["kit_spec"]) <= set(drops):
         raise ValueError("That would remove every drum — keep at least "
                          "one.")
-    if not picks and not trims and not drops:
+    if not picks and not trims and not drops and not chord_voice:
         raise ValueError("Nothing to change — pick a different sound, "
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
@@ -2650,7 +2714,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         # kit_paths (nothing to swap them for), so nothing here needs to
         # persist past this render.
         _build_chords(preset, kit, {}, rec["variant"],
-                      {"chords": True, "chord_feel": None}, [])
+                      {"chords": True, "chord_feel": None}, [],
+                      voice=chord_voice)
         # ...but a chord/bass lane the owner just REMOVED must not come
         # back: _build_chords rebuilds the whole family from the recipe's
         # variant, which would silently undo the removal.
@@ -2674,6 +2739,11 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         what = "Rebuilt"
         changed = ("removed " + " and ".join(said)
                    + (", new " + ", ".join(lanes) if lanes else ""))
+    elif chord_voice and not lanes:   # the instrument IS the change
+        nice = CHORD_VOICE_NAMES.get(chord_voice, chord_voice).split(" (")[0]
+        what = f"{nice} Chords"
+        changed = f"chords on {nice.lower()}" + (
+            ", " + _trim_words(trims) if trims else "")
     elif not lanes:                   # volumes only — same drums, new mix
         what, changed = "New Mix", _trim_words(trims)
     elif len(lanes) == 1:
@@ -2688,6 +2758,9 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                                          preset=preset, want_parts=True)
     if rec.get("dj_cut_bar") is not None:
         L, R = dj_cut(L, R, parts, rec["dj_cut_bar"])
+
+    if render_only:            # live preview — nothing is printed or filed
+        return L, R
 
     no = next_number(root)
     # a swapped song and its variations live together (owner rule
@@ -3113,10 +3186,13 @@ def _beat_stems(no, root=None):
             "sample": sample,
             "pack": _pack_of(files[0]) if files else "",
             "locked": False,
-            # no sample dropdown: the instrument comes from the DJ's own
-            # identity, so it is chosen by WHO is playing, not picked per
-            # lane. It can still be levelled and removed.
-            "can_swap": False,
+            # Swappable since 2026-08-04 (owner: "chords and bass can now
+            # have drop downs and dice"). What it offers is an INSTRUMENT,
+            # not a file — the DJ's identity still picks the default, this
+            # just lets him overrule it for one beat. Before this the row
+            # could only be levelled and removed.
+            "can_swap": True,
+            "voices": True,          # the dropdown lists instruments
             "why": why,
             "members": sorted(members, key=_lane_sort),
             "stem": bool(_stem_wav(no, members[0], root, folder=folder)),
@@ -3222,64 +3298,177 @@ def _solo_audio(no, lane, root=None, folder=None):
     return None if L is None else (L, R)
 
 
-def _preview_mix(no, trims="", drop="", root=None):
-    """The beat as it would sound with the volume arrows applied, built
-    by summing the stems instead of re-rendering — so he can hear a mix
-    decision immediately rather than after a rebuild (owner 2026-07-25).
+_PREVIEW_CACHE = {}          # query string -> rendered bytes, last 3 only
 
-    ponytail: this is the SUM of the stems, which is the beat before the
-    master bus. Close enough to judge a level move by; the rendered file
-    is still the real thing. If the two ever drift enough to mislead
-    him, the upgrade is to run the master chain over this sum.
+
+def _preview_render(query, q, shots=None, root=None):
+    """The beat as the rack is currently SET — swaps, volumes and
+    removals all in — for /mix. Runs the real render path with
+    render_only=True and prints nothing, so what he hears is
+    byte-for-byte what Rebuild will produce.
+
+    ONE path for every kind of change (2026-08-04). Volumes and removals
+    used to take a shortcut that summed the printed stems instead of
+    re-rendering: faster (0.13s vs 0.40s warm), but the stem sum is the
+    beat BEFORE the master bus, so it played **8 dB under** what Rebuild
+    actually prints — measured on beat 1774 at kick -3. Every level move
+    he judged was judged against the wrong mix. _preview_mix's own
+    docstring called this ("if the two ever drift enough to mislead him,
+    the upgrade is to run the master chain over this sum"); the cheapest
+    way to run the master chain is to run the master, so the shortcut is
+    deleted rather than patched. 0.27s is a fair price for the preview
+    telling the truth, and it leaves one preview path instead of two that
+    can disagree.
+
+    A render is a fraction of a second, and a browser asks for the same
+    URL more than once (it re-requests with a Range header before it will
+    seek), so the last few results are kept.
     """
-    no = int(no)
-    folder = _stems_dir(no, root)
-    if not folder:
-        raise FileNotFoundError(f"Beat {no} has no stems to mix.")
-    rec = load_recipe(Path(root or ROOT), no)
-    lanes = list(rec["preset"].get("lanes", {})) or list(rec["kit_spec"])
-    # a family name in the query moves/drops every lane that instrument
-    # plays, the same way a rebuild does
-    def _expand(spec):
-        out = {}
-        for bit in str(spec or "").split(","):
-            if ":" in bit:
-                name, _, val = bit.partition(":")
-            else:
-                name, val = bit, "1"
-            name = name.strip().lower()
-            if not name:
-                continue
-            for ln in (_family_members(name, lanes) or [name]):
-                if ln in lanes:
-                    out[ln] = val
-        return out
+    hit = _PREVIEW_CACHE.get(query)
+    if hit is not None:
+        return hit
+    no = int(q.get("no", [""])[0])
+    picks = json.loads(q.get("picks", ["{}"])[0] or "{}")
+    if not isinstance(picks, dict):
+        raise ValueError("bad picks")
+    shots = shots if shots is not None else build_shots()
+    # same allow-list the rebuild enforces: a path only reaches disk if
+    # it came out of this lane's own candidate list
+    clean = {}
+    for lane, want in picks.items():
+        lane = str(lane).strip().lower()
+        if not want:
+            continue
+        if not any(c["path"] == want
+                   for c in _lane_candidates(no, lane, shots=shots)):
+            raise ValueError(f"That {lane} isn't in your library.")
+        clean[lane] = want
+    trims = {}
+    for bit in str(q.get("trims", [""])[0] or "").split(","):
+        name, _, val = bit.partition(":")
+        if name.strip():
+            trims[name.strip().lower()] = _qs_db(val)
+    gone = [b.strip().lower()
+            for b in str(q.get("drop", [""])[0] or "").split(",") if b.strip()]
+    L, R = swap_many(no, clean, root=Path(root or ROOT), shots=shots,
+                     trims=trims, drops=gone, render_only=True)
+    data = wav24_bytes(L, R)
+    _PREVIEW_CACHE[query] = data
+    for old in list(_PREVIEW_CACHE)[:-3]:
+        del _PREVIEW_CACHE[old]
+    return data
 
-    gains = {ln: 10 ** (_qs_db(v) / 20.0)
-             for ln, v in _expand(trims).items()}
-    dropped = set(_expand(drop))
-    L = R = None
-    for lane in lanes:
-        if lane in dropped:
-            continue
-        w = _stem_wav(no, lane, root, folder=folder)
-        if not w:
-            continue
-        sL, sR = read_wav24(w)
-        g = gains.get(lane, 1.0)
-        if L is None:
-            L, R = sL * g, sR * g
-        else:
-            n = min(len(L), len(sL))
-            L, R = L[:n] + sL[:n] * g, R[:n] + sR[:n] * g
-    if L is None:
-        raise FileNotFoundError(f"Beat {no} has no stems to mix.")
-    tg = _track_gain(no, root, folder)          # play it at TRACK level
-    L, R = L * tg, R * tg
-    peak = float(max(np.abs(L).max(), np.abs(R).max()))
-    if peak > 0.94:              # only ever pulls down, and only if a
-        L, R = L * (0.94 / peak), R * (0.94 / peak)   # boost clipped it
-    return wav24_bytes(L, R)
+
+# The instruments a harmony row can be handed to, in plain English. Keys
+# are the voice names _build_chords already understands (instrument_
+# sampler.VOICES, plus the two that live in their own modules) — so the
+# dropdown value IS the thing the renderer takes, with nothing to
+# translate in between.
+CHORD_VOICE_NAMES = {
+    "piano": "Piano",
+    "guitar": "Guitar",
+    "horns": "Horns (brass)",
+    "strings": "Strings",
+    "bell": "Bells",
+    "organ": "Organ",
+    "wood": "Woodwind",
+    "choir": "Choir",
+    "pad": "Pad",
+    "pluck": "Pluck",
+    "synth": "Synth",
+    "orchestral": "Orchestral (strings + brass)",
+    "chip": "8-bit / chiptune",
+    "loop": "Melodic loop (a finished riff)",
+}
+
+
+def _best_folder(idx, groups, notes):
+    """The entries of ONE folder inside `groups` that can reach every one
+    of `notes` within MAX_SHIFT — or None if no single folder can.
+
+    The folder is the unit because _one_instrument's unit is the folder
+    (same directory + same instrument type), not the file — a real
+    sampled piano is one instrument spread over a recording every few
+    notes. Per file would reject that piano; per group would pass
+    instruments that then fail the render.
+
+    Both jobs this does are the same question. The rack asks it to decide
+    what to OFFER (_chord_voices), and _build_chords asks it to decide
+    what to PLAY when the owner has picked — handing the renderer this
+    one folder is what makes his pick actually land, because nearest()
+    otherwise shops per note across the whole group and pulls a second
+    folder in, which the one-instrument rule then rejects."""
+    import instrument_sampler
+    want = set(instrument_sampler._as_groups(groups))
+    shift = instrument_sampler.MAX_SHIFT
+    folders = {}
+    for e in idx:
+        if e.get("group") in want:
+            folders.setdefault(str(Path(e["path"]).parent), []).append(e)
+    fits = [got for got in folders.values()
+            if all(min(abs(e["note"] - n) for e in got) <= shift
+                   for n in notes)]
+    # widest wins: most notes reachable without stretching, so the arp
+    # and the stack both stay on it
+    return max(fits, key=len) if fits else None
+
+
+def _voice_covers(idx, groups, notes):
+    return _best_folder(idx, groups, notes) is not None
+
+
+def _chord_voices(rec=None):
+    """Which instruments can play THIS beat's harmony, for the rack's
+    chord/bass dropdown (owner 2026-08-04: "chords and bass can now have
+    drop downs and dice"). Unlike a drum, the value is an instrument
+    FAMILY, not one file: a chord voice is a whole multisample (a horn
+    patch has a different sample per note), so there is nothing single
+    to pick.
+
+    Filtered against the beat's own notes, not just "does the library
+    own a piano". Measured on beat 1776 while building this: EVERY
+    instrument fell through to the DJ's own choice, because a 3-note
+    chord kept drawing its notes from two different folders and the
+    2026-08-03 one-instrument-per-stem rule rejected the lot. Offering
+    all fourteen anyway would have recreated the exact bug this session
+    started with — pick a sound, hear no change. So the menu only lists
+    what will actually play, and a beat whose notes nothing can cover
+    gets an honest empty list instead of fourteen dead options.
+
+    Without a recipe (no notes to check) every stocked voice is listed —
+    that path is only the allow-list check, where breadth is safe."""
+    notes = sorted({n for ch in ((rec or {}).get("harmony") or {}).get(
+        "chords") or [] for n in (ch.get("notes") or [])})
+    out = []
+    try:
+        import instrument_sampler
+        idx = instrument_sampler.scan()
+        for g, groups in instrument_sampler.VOICES.items():
+            # [:1] — offer a voice only when the group it is NAMED for can
+            # play the beat. "pluck" falling back to its synth group would
+            # put Pluck in the menu and then hand back a synth.
+            if not instrument_sampler.pool(idx, groups[:1]):
+                continue
+            if not notes or _voice_covers(idx, groups[:1], notes):
+                out.append(g)
+    except Exception:
+        pass
+    try:
+        import string_sampler
+        sidx = string_sampler.scan()
+        if sidx and (not notes or _voice_covers(sidx, ("string",), notes)
+                     or _voice_covers(sidx, {e.get("group") for e in sidx},
+                                      notes)):
+            out.append("strings")
+    except Exception:
+        pass
+    # a melodic loop is a finished riff in ONE file, so it never has a
+    # second instrument to fail on and never needs per-note coverage
+    out.append("loop")
+    return [{"path": g, "name": CHORD_VOICE_NAMES.get(g, g.title()),
+             "pack": "your instruments", "current": False}
+            for g in sorted(set(out), key=lambda g: CHORD_VOICE_NAMES
+                            .get(g, g).lower())]
 
 
 def _lane_candidates(no, lane, shots=None, root=None):
@@ -3290,6 +3479,10 @@ def _lane_candidates(no, lane, shots=None, root=None):
     root = Path(root or ROOT)
     rec = load_recipe(root, int(no))
     lane = str(lane).strip().lower()
+    # a harmony row ("chords", "chords2", "chordbass") is an INSTRUMENT
+    # row, not a file row — it offers voices instead of samples
+    if _family_members(lane, rec["preset"].get("lanes", {})):
+        return _chord_voices(rec)
     if lane not in rec["kit_spec"]:
         raise ValueError(f"Beat {no} has no '{lane}'.")
     if lane == "stamp" or lane.startswith("stamp"):
@@ -3683,6 +3876,12 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .rebuild:disabled { background: #ffffff10; color: var(--dimmer); cursor: default; }
  .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
          cursor: pointer; text-decoration: underline; padding: 6px; }
+ /* secondary to Rebuild: rolling stages changes, it doesn't print a beat */
+ .rollall { font-family: var(--display); font-weight: 700; font-size: 12.5px;
+       letter-spacing: .06em; text-transform: uppercase; padding: 9px 15px;
+       border: 1px solid #ffffff26; border-radius: 9px; background: none;
+       color: var(--ink); cursor: pointer; white-space: nowrap; }
+ .rollall:hover { border-color: var(--hi); color: var(--hi); }
  .rackmsg { font-size: 12.5px; color: var(--no); padding: 4px 0 0;
             white-space: pre-wrap; }
 
@@ -3947,6 +4146,9 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      // The beat number comes off the element — wireTransport only gets
      // `el`, and reaching for makeTrack's `b` here threw on every click.
      if (cue(au, mixUrl(el.dataset.no))) {
+       // a staged sample swap makes the machine render the beat again,
+       // which is a couple of seconds — say so, or it reads as broken
+       pp.innerHTML = '&hellip;';
        au.addEventListener('canplay', function once() {
          au.removeEventListener('canplay', once);
          au.play().catch(() => {});
@@ -3958,6 +4160,15 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    au.addEventListener('play', () => { pp.classList.add('on');
      pp.innerHTML = '&#10073;&#10073;'; });
    const stop = () => { pp.classList.remove('on'); pp.innerHTML = '&#9654;'; };
+   // A preview that couldn't be built has to SAY so. It used to serve the
+   // untouched beat instead, so a failed swap sounded exactly like a swap
+   // that did nothing (owner 2026-08-04).
+   au.addEventListener('error', () => {
+     stop();
+     if (au.dataset.src && au.dataset.src.indexOf('/mix') === 0)
+       failed('Could not build that preview — the beat you are hearing is '
+              + 'unchanged. Check the drive is connected.');
+   });
    au.addEventListener('pause', stop);
    au.addEventListener('ended', () => { stop(); fill.style.width = '0';
      time.textContent = clock(au.duration); });
@@ -4002,15 +4213,25 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  function dropCount(no) { return Object.keys(drops[no] || {}).length; }
 
  // Where to play a beat FROM. Untouched, that's the rendered file (which
- // seeks, since /audio serves byte ranges). With volumes nudged or stems
- // removed it's /mix, the stems summed live with those changes applied.
+ // seeks, since /audio serves byte ranges). Touched at all — a new sound,
+ // a volume, a removal — it's /mix, which renders the beat as the rack is
+ // set (owner 2026-08-03: picking a new hi hat changed nothing when he
+ // played the beat back). One URL shape for all three kinds of change, so
+ // the preview can never disagree with itself.
  function mixUrl(no) {
-   const t = trims[no] || {}, d = drops[no] || {};
+   const t = trims[no] || {}, d = drops[no] || {}, p = staged[no] || {};
    const tk = Object.keys(t), dk = Object.keys(d).filter(k => d[k]);
-   if (!tk.length && !dk.length) return '/audio?no=' + no;
-   return '/mix?no=' + no
+   const pk = Object.keys(p).filter(k => p[k]);
+   if (!tk.length && !dk.length && !pk.length) return '/audio?no=' + no;
+   let u = '/mix?no=' + no
      + '&trims=' + encodeURIComponent(tk.map(k => k + ':' + t[k]).join(','))
      + '&drop=' + encodeURIComponent(dk.join(','));
+   if (pk.length) {
+     const picks = {};
+     pk.forEach(k => picks[k] = p[k]);
+     u += '&picks=' + encodeURIComponent(JSON.stringify(picks));
+   }
+   return u;
  }
 
  // Point a player at a URL. load() is not optional: these elements are
@@ -4122,10 +4343,10 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      return row;
    }
 
-   // A chord/bass family row has no sample dropdown — the instrument comes
-   // from the DJ's identity, not from picking a file per lane — but it CAN
-   // be levelled and removed (owner 2026-07-25: "I should be able to remove
-   // the chord stems just like I can other stems").
+   // Drum rows list SAMPLES; a chord/bass row lists INSTRUMENTS (s.voices)
+   // — a chord voice is a whole multisample, so there is no one file to
+   // pick. Same dropdown, same dice, different contents and a different
+   // way of auditioning: see sel.onchange below.
    let sel = null;
    if (s.can_swap) {
      sel = document.createElement('select');
@@ -4134,13 +4355,20 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
      picks.appendChild(sel);
 
      const dice = document.createElement('button');
-     dice.className = 'mini'; dice.title = 'Let the machine pick a different one';
+     dice.className = 'mini';
+     dice.title = 'Roll a random one — you hear it straight away';
      dice.textContent = '🎲';
+     // The dice picks a REAL sample out of the same list the dropdown
+     // shows, then plays it (owner 2026-08-03: "I would like the dice
+     // roll option to allow me to hear what the sound would be"). It
+     // used to stage a "surprise me" the machine only resolved during
+     // the rebuild, so there was nothing to play and nothing to name.
+     // Roll again for a different one.
      dice.onclick = () => {
-       const cur = (staged[no] || {});
-       if (s.lane in cur && cur[s.lane] === null) delete staged[no][s.lane];
-       else { staged[no] = staged[no] || {}; staged[no][s.lane] = null; sel.value = ''; }
-       paintLane(row, no, s);
+       const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
+       if (!opts.length) return;         // list still loading, or nothing else
+       sel.value = opts[Math.floor(Math.random() * opts.length)].value;
+       sel.onchange();                   // stages it, plays it, repaints
      };
      picks.appendChild(dice);
    } else {
@@ -4165,15 +4393,21 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    };
    picks.appendChild(rm);
 
-   if (!sel) return row;          // family row: level + remove, no swapping
+   if (!sel) return row;          // locked row: level + remove only
 
    sel.onchange = () => {
      staged[no] = staged[no] || {};
      if (!sel.value) delete staged[no][s.lane];
      else {
        staged[no][s.lane] = sel.value;
-       play('/sample?no=' + no + '&lane=' + encodeURIComponent(s.lane) +
-            '&path=' + encodeURIComponent(sel.value));   // hear it right away
+       // A drum has one file, so play that file. An instrument doesn't —
+       // "piano" is a whole multisample, and a single note out of it says
+       // nothing about how the chords will sit. So a harmony row auditions
+       // by rendering the BEAT with that instrument in it, which is the
+       // only honest way to hear the choice (owner 2026-08-04).
+       if (s.voices) play(mixUrl(no));
+       else play('/sample?no=' + no + '&lane=' + encodeURIComponent(s.lane) +
+                 '&path=' + encodeURIComponent(sel.value));
      }
      paintLane(row, no, s);
    };
@@ -4219,13 +4453,13 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    row.classList.toggle('changed', on);
    const name = row.querySelector('.sample');
    if (!on) { name.textContent = s.sample; row.querySelector('.pack').textContent = s.pack || ''; }
-   else if (cur[s.lane] === null) {
-     name.textContent = 'the machine picks a new one';
-     row.querySelector('.pack').textContent = 'was ' + s.sample;
-   } else {
+   else {
      const opt = row.querySelector('select').selectedOptions[0];
      name.textContent = opt ? opt.textContent.replace(' (in this beat now)', '') : 'chosen';
-     row.querySelector('.pack').textContent = 'was ' + s.sample;
+     // an instrument row says what INSTRUMENT it was ("was strings arp"),
+     // not which files it drew on — the file names mean nothing here
+     row.querySelector('.pack').textContent =
+       'was ' + (s.voices ? (s.label || s.sample) : s.sample);
    }
    paintFoot(row.closest('.track'), no);
  }
@@ -4248,10 +4482,35 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    const foot = document.createElement('div');
    foot.className = 'rackfoot';
    foot.innerHTML = '<span class="staged"></span>' +
+     '<button class="rollall" title="New sound for every row at once">' +
+       '🎲 Roll everything</button>' +
      '<button class="undo">clear changes</button>' +
      '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
+   // One click, a whole new kit (owner 2026-08-04). Rolls every row that
+   // CAN be rolled — the locked producer tag and the synthesised sub are
+   // skipped, and so is anything already removed, since rolling a sound
+   // he just took out would be nonsense. Nothing plays per row: with a
+   // dozen rows that would be a dozen overlapping one-shots, so it
+   // auditions once, as the beat, which is the point of rolling them all.
+   foot.querySelector('.rollall').onclick = () => {
+     let n = 0;
+     rack.querySelectorAll('.lane').forEach(r => {
+       const sel = r.querySelector('select');
+       if (!sel || sel.disabled) return;
+       if (drops[no] && drops[no][r.dataset.lane]) return;
+       const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
+       if (!opts.length) return;
+       sel.value = opts[Math.floor(Math.random() * opts.length)].value;
+       staged[no] = staged[no] || {};
+       staged[no][r.dataset.lane] = sel.value;
+       const s = specs.find(x => x.lane === r.dataset.lane);
+       if (s) paintLane(r, no, s);
+       n++;
+     });
+     if (n) play(mixUrl(no));
+   };
    foot.querySelector('.undo').onclick = () => {
      delete staged[no]; delete trims[no]; delete drops[no];
      rack.querySelectorAll('.lane').forEach(r => {
@@ -4552,17 +4811,29 @@ def run_web(port=None):
                 self._solo(int(no), lane.strip().lower(),
                            _qs_db(q.get("db", ["0"])[0]))
             elif u.path == "/mix":
-                # the whole beat with the volume arrows applied, WITHOUT
-                # rendering (owner 2026-07-25: "I adjust a stem's volume,
-                # hit play, and the track reflects it — so I can hear
-                # what's going on before I render")
+                # the whole beat as the rack is SET — new sounds, volumes
+                # and removals — rendered but not printed (owner
+                # 2026-07-25: "I adjust a stem's volume, hit play, and the
+                # track reflects it — so I can hear what's going on before
+                # I render")
                 q = parse_qs(u.query)
                 try:
-                    self._media(_preview_mix(q.get("no", [""])[0],
-                                             q.get("trims", [""])[0],
-                                             q.get("drop", [""])[0]))
-                except Exception:
-                    self._audio(q.get("no", [""])[0])   # fall back to the file
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        got = _preview_render(u.query, q,
+                                              shots=_CACHE["shots"])
+                    self._media(got)
+                except Exception as e:
+                    # NEVER fall back to the printed file (owner
+                    # 2026-08-04). It used to serve the untouched beat
+                    # here, which is the worst possible answer: the change
+                    # is staged, the page says so, and playback quietly
+                    # sounds like the old one — the exact confusion the
+                    # swap-preview fix was for, wearing a disguise. Say
+                    # what went wrong instead, and let the page show it.
+                    self._send(500, "text/plain",
+                               str(e).encode("utf-8") or b"preview failed")
             elif u.path == "/sample":
                 # a raw one-shot, so he can hear a sample before choosing
                 # it. The path is only played if it's in this lane's own
@@ -4583,12 +4854,25 @@ def run_web(port=None):
                 self._send(404, "text/plain", b"not found")
 
         def _wav(self, path):
-            """A file straight through — a raw one-shot from the library,
-            which is not part of any mix and gets no level applied."""
+            """A one-shot from the library, decoded and re-wrapped as the
+            same 24-bit WAV every other endpoint serves. No level is
+            applied — it is not part of any mix.
+
+            Decoded, NOT handed through raw (owner 2026-08-03: "sometimes
+            when I click on the new sample it doesn't make a sound"):
+            about a quarter of his library is .aif, and the raw bytes went
+            out labelled audio/wav, which the browser silently refused to
+            play. Same for any WAV whose bit depth the browser won't take.
+            load_audio already reads every format the engine accepts, so
+            routing through it makes the audition match the render."""
             if not path or not Path(path).exists():
                 self._send(404, "text/plain", b"not found")
                 return
-            self._media(Path(path).read_bytes())
+            x = load_audio(path)
+            if x is None or not len(x):
+                self._send(404, "text/plain", b"not found")
+                return
+            self._media(wav24_bytes(x[:, 0], x[:, 1]))
 
         def _solo(self, no, lane, db=0.0):
             # One row on its own, at its level IN THE TRACK plus whatever
