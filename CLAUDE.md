@@ -142,6 +142,47 @@ port the ad-hoc intent/recipe/search checks into `tests/test_intents.py` +
 
 ## Working rules for this project
 
+### 0. Talk to him like a person, not a developer
+
+He is a self-taught musician with ADHD. He is not a developer and does not
+want to become one. How you write is part of the work, not a wrapper around
+it.
+
+- **Fewest words that are still true.** Cut every sentence that isn't
+  carrying a fact he needs. Long replies don't get read, and a wall of text
+  is worse than no reply.
+- **Answer first, reasoning after** — and only if he needs it. Never build
+  up to the point.
+- **Plain words.** No jargon without a plain-English version right there.
+  Not "the governor's clamp was asymmetric" — "the volume control couldn't
+  turn things down far enough."
+- **One idea per line.** Short paragraphs, tables and bullets over prose.
+  A table he can scan beats a paragraph he has to hold in his head.
+- **Numbers, not adjectives.** "Was 6.7 dB apart, now 0.4" tells him
+  something. "Much better" doesn't.
+- **Say what he has to DO, and put it last** so it's easy to find. One
+  paste-able command or one double-clickable file — never a multi-step
+  developer procedure.
+- Explain the "why" only when it changes what he decides.
+
+### 0b. Ambiguity: stop and ask. Never guess
+
+His standing instruction (2026-08-03, after several breaches): "I don't want
+you making any guesses or any inferences. If anything is ambiguous to you,
+you stop and wait for me. You ask me."
+
+- Label every question **BLOCKING** (nothing proceeds until he answers) or
+  **ASSUMING X** (proceeding on a stated reading, correct me any time).
+- **Never ask a question and then answer it yourself.** If it was worth
+  asking, wait. This has happened repeatedly and it wastes his time twice —
+  once reading the question, once undoing the wrong work.
+- If a plan contains a "you listen here" checkpoint, STOP there. Do not
+  carry on because the next part is obvious.
+- When two readings of a word lead to different work, that is BLOCKING —
+  even if one reading seems much more likely. ("stacks" meant the melodic
+  instruments, not the drums; twelve identities were rewritten on the wrong
+  guess and had to be reverted.)
+
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished
 without actually checking it:

@@ -22,6 +22,40 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-03 Three skills + two CLAUDE.md rules, distilled from this session's mistakes
+- He asked what skills this session should produce. Proposed four things
+  ranked by what each would actually have saved, and he took all of them.
+- `audio-fix-verify` — measure the FINISHED FILE, not an intermediate.
+  Written from the volume cap that took FOUR passes (dry buffer → + reverb
+  → + pan → + sidechain duck), plus three sibling failures the same day: a
+  pattern-level harness that could not see a pass running after composition,
+  a "0 of 0" that verified nothing because the recipe key was read from the
+  wrong level, and reporting a median while one beat in twenty carried the
+  whole bug. Cost about six rounds of rework in one session.
+- `hard-rule-invariant` — an absolute rule becomes something that REFUSES at
+  one choke point with a test that fails when violated, never a weight or a
+  "prefer". Written from "one instrument per stem", which is in this ledger
+  on 07-25, 07-29 and 08-03 because every fix was a preference with its own
+  exception documented in the code comment. Also carries the lesson that the
+  rule must be what he MEANT: "one instrument" built as "one FILE" made the
+  engine silently swap his chosen piano for a bell.
+- `audition-batch` — render to scratch, copy to the Desktop, never into his
+  library (it takes real beat numbers from the global counter), plain-words
+  README quoting his own complaint, and always separate MEASURED from HEARD.
+- CLAUDE.md rule 0 — plain language. He has ADHD and is not a developer;
+  fewest true words, answer first, numbers not adjectives, one action at the
+  end. How it is written IS the work, not packaging.
+- CLAUDE.md rule 0b — ambiguity is BLOCKING. His standing instruction after
+  several breaches this session, including asking a question and then
+  answering it myself, and rewriting twelve identities on a wrong reading of
+  the word "stacks".
+- NOT DONE, flagged: the memory note says to run skill-creator's eval/
+  benchmark loop when creating skills. I did not — only a crude word-overlap
+  check, which is not how skills are selected and proved nothing. The
+  descriptions are unvalidated. Worth running before relying on them to fire
+  on their own.
+- Status: open — written, not yet exercised by a real session.
+
 ### 2026-08-03 Nature/field recordings cut from the sound pool — a THIRD of the fx bank
 - Owner: "There are a lot of nature sounds. I think they're from the cymatics
   folder. It's, like, water and things of that nature. Remove those from the
