@@ -22,6 +22,35 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-03 Nature/field recordings cut from the sound pool — a THIRD of the fx bank
+- Owner: "There are a lot of nature sounds. I think they're from the cymatics
+  folder. It's, like, water and things of that nature. Remove those from the
+  sound pool." He identified the pack correctly.
+- Measured before deciding: `Cymatics - LIFE Ambient Recordings` was **172
+  files, 33% of the entire fx pool** — Rain 54, Vinyl Crackles 32, Rivers and
+  Streams 28, Walking 28, Waterfall 7, and a "Various" folder of car AC, a
+  generator and a car driving over a metal bridge. Field recordings end to
+  end; not one of them is a drum or an fx stab.
+- Given the choice of (a) the whole pack, (b) all but Vinyl Crackles, or
+  (c) only the water ones, he picked **(a)**. Vinyl Crackles went with it
+  because clean_renders already keeps vinyl and dust out of a render so he
+  can add his own colour in Reason — that folder was redundant.
+- HOW, deliberately two mechanisms: "AMBIENT RECORDING" added to
+  EXCLUDE_DIR_WORDS catches the whole pack (and any future ambient pack) by
+  FOLDER; NATURE_FILE_WORDS catches stragglers in other packs by FILE NAME,
+  whole-word matched. Whole-word matters — a substring match would have
+  eaten "Rainbow Stab", "Streamline Perc", "Brooklyn Snare", "Windup Riser"
+  and "Waterhouse Kick". Tested those traps BEFORE running the rescan.
+- Result, verified against a backup of the old index: 178 files removed
+  (fx 528 -> 356, plus 3 loops and 3 single files elsewhere). 171 from the
+  LIFE pack, 7 stragglers. **Zero removed that neither matched a nature word
+  nor lived in that pack** — checked explicitly rather than assumed. Kick,
+  snare, clap, bass, crash and vox pools untouched.
+- Old index backed up at `~/.reason_voice/pack_index.json.before-nature-cut`.
+- Status: open — the fx pool is a third smaller, which will noticeably
+  change the colour lanes (cutfx, foundfx, reversefx, blips, glitches). That
+  is the intent, but he has NOT heard a batch under the new pool.
+
 ### 2026-08-03 Everything level, one blanket volume rule — and FOUR passes to get one cap right
 - Context: he listened to real beats and reported two things by number.
   1761 ("sample 95"): "I don't like how the samples get louder and quieter

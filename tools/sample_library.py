@@ -80,7 +80,30 @@ EXCLUDE_DIR_WORDS = ("STEM", "MIDI", "PATCH", "PRESET",
                      "MELOD", "CHORD", "SYNTH", "KEY", "PIANO",
                      "GUITAR", "INSTRUMENT",
                      "SERUM", "MASSIVE", "PROJECT", "DEMO SONG",
-                     "CONSTRUCTION")
+                     "CONSTRUCTION",
+                     # OWNER 2026-08-03: "There are a lot of nature sounds.
+                     # I think they're from the cymatics folder. It's, like,
+                     # water and things of that nature. Remove those from
+                     # the sound pool." He chose to drop the WHOLE pack.
+                     # It was 172 files — a THIRD of the entire fx pool —
+                     # and it is field recordings end to end: Rain (54),
+                     # Vinyl Crackles (32), Rivers and Streams (28),
+                     # Walking (28), Waterfall (7) and a "Various" folder
+                     # of car AC, a generator, and a car driving over a
+                     # metal bridge. None of it is a drum or an fx stab.
+                     # Vinyl Crackles went too because clean_renders
+                     # already keeps vinyl and dust out of a render so he
+                     # can add his own colour in Reason.
+                     "AMBIENT RECORDING")
+
+# Individual field-recording FILES scattered through other packs — the same
+# category as the pack above, but without a folder to catch them by. Matched
+# as whole words against the file name so "Rainbow" or "Windup" can't trip
+# them. Deliberately narrow: only sounds of weather, water and wildlife, not
+# anything that could be a usable texture or an impact.
+NATURE_FILE_WORDS = ("RAIN", "RIVER", "STREAM", "WATERFALL", "OCEAN",
+                     "FOREST", "BIRDS", "THUNDER", "CRICKETS", "SEAGULL",
+                     "WAVES", "CREEK", "BROOK")
 
 # file-level loop signals (a loop misfiled in a one-shot folder)
 LOOP_FILE_RE = re.compile(r"loop|(?:^|[^a-z0-9])\d{2,3}\s?bpm", re.I)
@@ -155,9 +178,19 @@ def _dir_role(rel_parts):
     return None
 
 
+def _is_nature(name):
+    """A field recording of weather/water/wildlife, by file name. Whole-word
+    match so 'Rainbow', 'Windup' and 'Streamline' are safe."""
+    words = set(re.split(r"[^A-Za-z]+", name.upper()))
+    return bool(words & set(NATURE_FILE_WORDS))
+
+
 def _excluded(rel_parts):
-    return any(w in part.upper()
-               for part in rel_parts[:-1] for w in EXCLUDE_DIR_WORDS)
+    if any(w in part.upper()
+           for part in rel_parts[:-1] for w in EXCLUDE_DIR_WORDS):
+        return True
+    # ...and the stragglers in packs that have no ambient folder of their own
+    return _is_nature(rel_parts[-1]) if rel_parts else False
 
 
 def _wav_secs(path):
