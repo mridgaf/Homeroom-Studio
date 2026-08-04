@@ -255,14 +255,40 @@ def test_the_chord_governor_refuses_to_rescue_a_hopeless_sample():
                              if ln.startswith("chord")))
         return _db(chords) - _db(rms("kick"))
 
-    hopeless = chord_vs_kick(0.02)
+    # The level here MUST be derived from the governor's own constants, not
+    # hardcoded. It used to be a flat 0.02, which was hopeless against the
+    # old 9 dB target and reachable against the 15 dB one (2026-08-03) — so
+    # the moment the owner moved a taste constant, this test silently stopped
+    # exercising the clamp while still passing. A fixture calibrated to a
+    # tunable number is a test that quietly retires itself.
+    #
+    # The governed range is as wide as the two clamps together: the governor
+    # can cut by CHORD_CUT_FLOOR and boost by 4x, so any source inside that
+    # span comes out on target and only something BELOW it is hopeless.
+    # (Measured on the real transfer curve: flat from source 1.0 all the way
+    # down to ~0.03, then it starts falling away.) A first attempt put this
+    # at "24 dB past the boost ceiling", which quietly assumed the knee sat
+    # at source 1.0 — it does not, and the test failed for that reason
+    # rather than for a real defect.
+    from crew import CHORD_CUT_FLOOR
+    from groove import OWNER_TASTE as _OT
+    target = _OT["chord_bus_under_kick_db"]
+    ceiling_db = 20 * np.log10(4.0)               # the governor's +12 dB
+    cut_db = -20 * np.log10(CHORD_CUT_FLOOR)      # how far it may turn down
+    governed_span_db = ceiling_db + cut_db
+    hopeless_level = 10 ** (-(governed_span_db + 12.0) / 20.0)
+
+    hopeless = chord_vs_kick(hopeless_level)
     normal = chord_vs_kick(1.0)
     # it helps...
-    assert hopeless > -30.0, "the governor did nothing at all"
+    assert hopeless > -60.0, "the governor did nothing at all"
     # ...but it does not pretend it can fix everything
     assert hopeless < normal - 5.0, (
-        "the +/-12 dB clamp is not holding — a 34 dB deficit was fully "
-        "corrected, which means noise floors are being amplified into mixes")
+        "the +%.0f dB boost ceiling is not holding — a source %.0f dB below "
+        "the governed span was corrected anyway, which means noise floors "
+        "are being amplified into mixes (target %.1f dB under the kick, "
+        "governed span %.0f dB)"
+        % (ceiling_db, 12.0, target, governed_span_db))
 
 
 # ----------------------------------------------- the real library (opt-in)

@@ -1573,7 +1573,13 @@ def test_never_more_than_one_melodic_part(
         ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
         fams = sorted({beat_machine._chord_family(l) for l in ch_lanes}
                       - {None})
-        assert fams == ["chords"], (seed, report, ch_lanes)
+        # NO chord lane at all is a valid outcome since 2026-08-03: the
+        # owner's one-instrument-per-stem rule drops the lane rather than
+        # voicing a chord from two instruments, and he confirmed "stick
+        # with the new rule where every beat does not have to have a chord
+        # lane". What must never happen is TWO melodic families in one
+        # beat — that is what this test is for, and it still checks it.
+        assert fams in ([], ["chords"]), (seed, report, ch_lanes)
 
 
 def test_loops_always_play_alone(machine_env, monkeypatch):

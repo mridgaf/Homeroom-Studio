@@ -188,7 +188,15 @@ OWNER_TASTE = {
     # how far under the kick the whole harmonic bus lands. The old comment
     # on chord_gain always claimed "~10 dB under the kick" as the intent —
     # this is that intent, finally enforced instead of hoped for.
-    "chord_bus_under_kick_db": 9.0,
+    #
+    # 9.0 -> 15.0 (owner 2026-08-03, chosen by ear from a 12/15/18 audition):
+    # "the chords should sit further back. not just under the kick. I will be
+    # adding my own thing to these tracks." This is a bed to play over, not a
+    # part. Note that until the same day this number was not actually being
+    # reached — a bug in the governor's arithmetic and a clamp that could not
+    # cut more than 12 dB meant real beats were landing at -4.6 dB. Both are
+    # fixed, so 15 now measures -15.1 dB with a 0.3 dB spread.
+    "chord_bus_under_kick_db": 15.0,
     "chord_bass_gain": 0.55,     # ~5 dB under the kick — felt, not fighting
     # A real player leans on the downbeat and eases off the repeats. These
     # scale each chord slot in turn, cycling if the progression is longer,

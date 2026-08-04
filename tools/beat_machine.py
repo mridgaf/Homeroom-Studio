@@ -1290,6 +1290,95 @@ def _shareable_preset(preset):
     return out
 
 
+def _one_instrument(used):
+    """True when every file in `used` is the SAME instrument.
+
+    OWNER HARD RULE 2026-08-03: "No matter what the situation, one
+    instrument per stem." He named the failure exactly — "it's being done
+    with piano and strings. It's just creating a noise mess."
+
+    One instrument is NOT the same as one file, and I built it as one file
+    first, which was wrong: a real sampled piano is one instrument spread
+    over many files (one recording every few notes), so a file count
+    rejects a perfectly good piano and forces the engine to fall back to
+    some other instrument entirely. Measured: it dropped 1 chord lane in 24
+    beats and, worse, silently swapped Timberline's chosen piano for a bell
+    because the bell happened to fit in one file.
+
+    Owner's call between the options was (b): same FOLDER and same
+    INSTRUMENT TYPE. The folder alone would let a pack that dumps unrelated
+    one-shots into one shared bin slip a piano and a bell into the same
+    stem; the group check catches that. The group alone is too loose the
+    other way — "synth" spans many vendor packs, which is the 2026-07-29
+    bug where four packs' sounds landed under one "synth stabs" label.
+    """
+    paths = [p for p in (used or []) if p]
+    if len(paths) < 2:
+        return True
+    import instrument_sampler
+    ident = set()
+    for p in paths:
+        pp = Path(p)
+        # group_of reads the FILE NAME, so a folder of mixed one-shots
+        # still resolves per file — which is the point of pairing it with
+        # the folder rather than trusting either on its own.
+        ident.add((str(pp.parent), instrument_sampler.group_of(pp.stem)))
+    return len(ident) == 1
+
+
+# Owner 2026-08-03: how much of its slot a chord may HOLD before it starts
+# decaying. Rolled per slot, so lengths vary inside one beat. The tail then
+# runs to silence by the end of the slot, which is what puts a gap between
+# one chord and the next instead of a seamless pad.
+CHORD_HOLD = (0.40, 0.80)
+# Owner 2026-08-03, confirmed: level variation between chords is wanted, not
+# just length variation. The existing OWNER_TASTE["chord_accents"] cycle
+# (1.0/0.86/0.93/0.82) is only a 1.7 dB spread across a whole beat, which is
+# why every chord landed at the same weight. This rides on top of it and is
+# left deliberately modest — the chords are a bed he plays over, so this is
+# meant to stop them being mechanical, not to make them lurch. One number to
+# move if it wants to be more or less.
+CHORD_LEVEL_VAR_DB = 2.5
+
+
+def _decay_chord_slots(beds, slots, variant):
+    """Give every chord slot a hold-then-decay shape and its own level, in
+    place.
+
+    `beds` is one list per slot of (audio, name, files); `slots` carries that
+    slot's length in seconds. Deterministic from `variant` so a rebuild
+    reproduces the same lengths and levels.
+
+    The per-slot gain here is RELATIVE — the chord-bus governor in
+    render_crew_beat still sets where the whole bed sits against the kick, so
+    varying slots against each other does not fight it."""
+    rng = random.Random(variant * 7717 + 23)
+    for slot_no, layers in enumerate(beds):
+        if slot_no >= len(slots) or not layers:
+            continue
+        dur = slots[slot_no][3]
+        hold = rng.uniform(*CHORD_HOLD)
+        lvl = 10 ** (rng.uniform(-CHORD_LEVEL_VAR_DB,
+                                 CHORD_LEVEL_VAR_DB) / 20.0)
+        for j, (a, nm, fl) in enumerate(layers):
+            n = len(a)
+            if n < 8:
+                continue
+            h = max(1, min(n - 2, int(n * hold)))
+            env = np.zeros(n)
+            env[:h] = 1.0
+            # The decay has to FINISH EARLY, not merely reach zero at the
+            # slot boundary — a tail that is still audible when the next
+            # chord lands is the seamless pad again, just quieter. It runs
+            # over 70% of what is left and the rest of the slot is true
+            # silence, which is the gap he asked for.
+            tail = int((n - h) * 0.7)
+            if tail > 1:
+                env[h:h + tail] = np.exp(-np.arange(tail) * (9.2 / tail))
+            layers[j] = (a * env * lvl, nm, fl)
+    return beds
+
+
 def _build_chords(preset, kit, sources, variant, dirs, vnotes):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
@@ -1628,6 +1717,22 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
                     if a is None or not np.max(np.abs(a)) > 0:
                         ok = False
                         break
+                    # OWNER HARD RULE 2026-08-03: "No matter what the
+                    # situation, one instrument per stem." Before this, a
+                    # chord's notes were picked one at a time by nearest
+                    # pitch, so a thin group could answer each note from a
+                    # different vendor pack and print four instruments under
+                    # one "synth stabs" label. 2026-07-29 softened that to a
+                    # PREFERENCE (reuse one sample within 12 semitones) with
+                    # the ceiling written into the comment — and a preference
+                    # with a documented escape hatch is what kept leaking.
+                    # This is the invariant instead: more than one source
+                    # file fails the plan outright, and if no plan can voice
+                    # the chord from a single instrument the chord lane is
+                    # dropped from the beat (his call, option c).
+                    if not _one_instrument(used):
+                        ok = False
+                        break
                     layers.append((a, nm, used))
                 if not ok:
                     break
@@ -1639,6 +1744,31 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes):
             if ok and beds:
                 committed = plan
                 break
+
+    # OWNER RULE 2026-08-03: "when they are on the track, I don't want them
+    # being played nonstop. Decays and variation in length should be
+    # present." Measured before this: the chord bus was sounding 95% of the
+    # loop against the kick's 34% — each chord filled its whole slot and the
+    # next one started the instant it ended, so there was a continuous pad
+    # under everything with no gaps anywhere.
+    #
+    # Every slot now HOLDS for part of its length and then DECAYS to silence
+    # before the next chord lands. The hold fraction is rolled per slot, so
+    # the chords are different lengths within one beat as well as between
+    # beats. One place, after both plan paths above have settled `beds`, so
+    # it covers all four voice sources (strings / instrument / loop / chip).
+    if beds:
+        _decay_chord_slots(beds, slots, variant)
+
+    # Owner's hard rule has a consequence he chose explicitly (option c):
+    # when no single instrument in his library can voice this chord, the
+    # beat ships with NO chord lane rather than with two instruments glued
+    # into one stem. Say so on the beat card — a chords beat that arrives
+    # without chords should be explained, not silently drummed.
+    if committed is None:
+        vnotes.append("no chords: no single instrument could voice this "
+                      "progression on its own")
+        return None, None
 
     # ---- the bass line: NEVER rendered (owner hard rule, 2026-07-29) ----
     # The melodic bassline (chordbass family, bass0..N) is his to play

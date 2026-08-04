@@ -22,6 +22,130 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-03 The chords: "one instrument per stem" made an INVARIANT, plus two real level bugs
+- Context: owner heard the punch-list batch and reported "there are still
+  stacks in there, and they just always sound bad", then "it's their
+  instruments... multiple samples on one stem again... one instrument per
+  stem, HARD RULE, it's being done with piano and strings. It's just
+  creating a noise mess." Also: chords are "always way too loud", and beat
+  1702's chord stem had DRUMS in it.
+- PROCESS FAILURE FIRST, because he asked for it and it is the reusable
+  part. I read "stacks" as the snare+clap stacks and rewrote 12 identities
+  before he stopped me. I had ALREADY identified that "stacks" was
+  ambiguous (drum stacks vs the chord voices literally named "piano stack")
+  and written "I'm not going to guess" — then took a single word ("Just
+  Flame", who has both) as proof of the reading that matched the drum work
+  I had just spent hours in. That is the pattern: **when I have momentum I
+  resolve ambiguity toward the work I already understand.** Same failure
+  earlier the same day with "bright beats" and with "next up is Part C
+  unless you want to hear these first". His standing instruction now:
+  anything ambiguous, STOP and ask. The drum changes were reverted whole.
+- SECOND PROCESS FAILURE, the one that made this bug recur for six weeks:
+  the same complaint is in the ledger on 07-25, 07-29 and now. Each time it
+  was fixed as a PREFERENCE with the escape hatch documented in the code
+  comment — "prefer reusing one sample, up to 12 semitones; a chord
+  spanning more than an octave still switches packs". A rule with a written
+  exception is not a rule. Nothing ever failed when it broke, either: there
+  was no check anywhere that a stem contains one instrument.
+- FIX 1, the hard rule as an invariant: in _build_chords, a plan whose
+  `used` files are not all the SAME INSTRUMENT fails and the engine tries
+  another instrument. If no plan can voice the progression from one
+  instrument, the chord lane is dropped from the beat entirely (owner's
+  explicit choice of option c; he later confirmed "stick with the new rule
+  where every beat does not have to have a chord lane") and the beat card
+  says why. Measured: chord lanes with >1 source file **19% -> 0%** (one
+  G-Funk lane had been built from THREE files).
+- FIX 1a, MY OWN BUG IN FIX 1, worth keeping because a test caught what I
+  did not: I first implemented "one FILE per stem". That is not the same
+  rule. A real sampled piano is ONE INSTRUMENT spread over MANY files, so
+  a file count rejects a perfectly good piano. Two tests failed and one of
+  them was a genuine defect, not brittleness:
+  test_the_rack_never_says_built_from_scratch_over_his_own_samples caught
+  the engine SILENTLY SWAPPING Timberline's chosen piano for a bell,
+  because the bell happened to fit in one file. Silently playing the wrong
+  instrument is worse than dropping the lane. Owner picked option (b):
+  same FOLDER **and** same INSTRUMENT TYPE (`_one_instrument`). Folder
+  alone would let a shared "Melodic One Shots" bin put a piano and a bell
+  in one stem; group alone is too loose the other way, since "synth" spans
+  many vendor packs — which is exactly the 2026-07-29 bug. Verified on six
+  cases including both traps. Drop rate measured on 24 real beats under
+  the too-strict version: 1 (Miami Bass).
+- BUILT-FROM-SCRATCH INSTRUMENTS (owner 2026-08-03: "I don't want any
+  built from scratch instruments, except for the chiptune"): already true,
+  and I checked rather than assuming or "fixing" it. `chip` is the only
+  synthesized chord voice in the engine and it is explicitly barred from
+  being a fallback — it plays only for an identity whose own chord_source
+  asks for it (2026-07-25 rule). test_nothing_but_chip_is_ever_generated
+  pins it. NO CHANGE MADE. If he still hears something synthetic it will
+  be a sample stretched too far, not an oscillator.
+- FIX 2, full-mix loops: melodic_loops.scan now drops any file whose name
+  contains ALL / FULL / MIX / MASTER / BEAT / TRACK as a whole word. That
+  is beat 1702, whose chord voice was "105_Aiyf_ALL Bb" — a whole
+  arrangement, drums included. This costs nothing: the packs ship both
+  versions, so "070_Ragamuffin_ALL Cm" goes and "070_Ragamuffin_Organ Cm"
+  stays. Whole-word matching so "Ballad" doesn't trip ALL and "Mixolydian"
+  doesn't trip MIX — 11 cases tested, 0 wrong.
+- FIX 3, REAL ARITHMETIC BUG in the chord-bus governor: it divided the
+  bus's total energy by the COMBINED length of all chord lanes instead of
+  by the beat length, under-reading the bus by 10*log10(n_lanes). Chord
+  slots are sequential, so N lanes each sounding 1/N of the time still sum
+  to a bus that plays throughout. With the median 3 lanes that is 4.8 dB.
+  Measured on 34 beats: target -9.0, actual **-4.6**. The snare governor
+  eleven lines above always did it correctly (`bus = sum(...)` then RMS),
+  which is exactly why nobody caught it — the correct version was sitting
+  there looking like precedent.
+- FIX 4, the clamp: adj was clamped symmetrically to [0.25, 4.0] (+/-12 dB)
+  with the stated reason "so a pathological sample can't be hauled up 30 dB
+  and drag its own noise floor into the mix". That is an argument about
+  BOOSTING only — turning a lane down cannot raise a noise floor — so the
+  cut half was protecting against nothing. Probed inside the function: a
+  loud sample needed a 16.6 dB cut and a very loud one 22.6 dB; both
+  clamped at 12 and shipped 4.6 and 10.6 dB over target. THIS was "always
+  way too loud", and it would have got worse as he moved chords further
+  back. Cut floor is now CHORD_CUT_FLOOR = 0.02 (-34 dB); the +12 dB boost
+  ceiling is unchanged and still pinned by the "does not rescue a hopeless
+  sample" test. Result: a 38 dB input swing now comes through as **0.00 dB**.
+- FIX 5, chords no longer play nonstop (owner: "I don't want them being
+  played nonstop. Decays and variation in length should be present" + level
+  variation confirmed separately). Measured before: the chord bus sounded
+  **95%** of the loop against the kick's 34% — every chord filled its whole
+  slot and the next began instantly. _decay_chord_slots now gives each slot
+  a rolled hold (CHORD_HOLD 0.40-0.80), an exponential tail that finishes
+  EARLY so there is real silence before the next chord, and a rolled level
+  (CHORD_LEVEL_VAR_DB 2.5). First attempt had the decay reach zero exactly
+  at the slot boundary, which is still a seamless pad — caught by measuring
+  the envelope, not by reading it. Duty now 51-63%.
+- LEVEL: owner picked **15 dB** under the kick by ear from a 12/15/18
+  audition. Verified: 12 -> -12.3, 15 -> -15.1, 18 -> -18.2, spread 0.2-0.5
+  dB across 6 beats. OWNER_TASTE["chord_bus_under_kick_db"] 9.0 -> 15.0.
+- MEASUREMENT MISTAKES I MADE AND CAUGHT: read `voice_files` from the top
+  level of the recipe when it lives inside `harmony`, got a meaningless
+  "0 of 0" and nearly reported the hard rule as verified. Only the
+  before/after comparison made the number mean anything. Also nearly
+  reported the Memphis/New Jack bank beats as still-mono when the STEMS
+  showed every lane was wide and the full-band figure was just a mono kick
+  dominating. Full-band S/M is the wrong yardstick for a kick-heavy
+  drums-only beat.
+- A THIRD TEST THAT HAD QUIETLY RETIRED ITSELF, same disease as the fixes
+  above: test_the_chord_governor_refuses_to_rescue_a_hopeless_sample used a
+  hardcoded source level of 0.02, calibrated to the OLD 9 dB target. At
+  15 dB that sample is reachable, so the test would have gone on passing
+  while testing nothing. Rewritten to derive its level from the governor's
+  own clamp constants. My FIRST rewrite was also wrong — it assumed the
+  correction range starts at full volume. Measured transfer curve: the
+  governor holds flat from source 1.0 down to ~0.03, a **46 dB** governed
+  span (34 dB of cut plus 12 dB of boost), so a "hopeless" fixture has to
+  sit below that, not below 1.0. Third time in one session a test turned
+  out to be measuring its own setup.
+- Final: **749 passed, 0 failed, 0 skipped** (was 748/1 skipped).
+- Verify by: `tools/measure_batch.py` on any batch. NOTE the audition
+  folders at `~/Desktop/Homeroom Chord Levels 2026-08-03` are STALE — they
+  predate option (b) — replace them before asking him to judge anything.
+- Status: open — he picked the level by ear from a level-only comparison
+  but has NOT heard a full batch under the finished behaviour, and the
+  one-instrument rule's drop rate is measured on 24 beats. If it starts
+  dropping chord lanes often on real batches, that is the number to watch.
+
 ### 2026-08-03 Owner's six-point punch list — built in 5 parts, all measured, NOT yet heard
 - Context: after the 07-31 mix fixes he listed six problems: clap/crash
   overused, "intentional gaps" in the loops, vocal hits annoying and loud,

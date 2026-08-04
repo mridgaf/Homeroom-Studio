@@ -122,6 +122,32 @@ def _role(tokens):
     return "melody"
 
 
+# OWNER HARD RULE 2026-08-03: "No matter what the situation, one instrument
+# per stem." A loop of a piano is one instrument. A loop labelled ALL / FULL
+# / MIX is the whole arrangement — drums included — and putting one on a
+# chord lane produces a stem with a full beat inside it. That is exactly what
+# he found on beat 1702, whose chord voice was "105_Aiyf_ALL Bb".
+#
+# Excluding these does NOT cost him the loop voice: these packs ship both
+# versions side by side. "070_Ragamuffin_ALL Cm" is dropped and
+# "070_Ragamuffin_Organ Cm" is kept, which is the one that was wanted.
+#
+# Matched on whole tokens, never on substrings — "ALL" must not swallow
+# "Ballad", and "MIX" must not swallow "Mixolydian".
+FULL_MIX_WORDS = {"ALL", "FULL", "MIX", "MIXDOWN", "MASTER", "BEAT",
+                  "FULLMIX", "FULLTRACK", "TRACK", "SONG", "COMPLETE"}
+
+
+def is_full_mix(tokens):
+    """True when the file name says this is a whole arrangement rather than
+    a single instrument."""
+    for tok in tokens:
+        for word in re.split(r"[^A-Za-z0-9]+", str(tok).upper()):
+            if word in FULL_MIX_WORDS:
+                return True
+    return False
+
+
 def scan(roots=None):
     """Walk the pack roots -> melodic loops/one-shots whose file name
     itself names a key. Falls back to the last good scan when the drive
@@ -144,6 +170,8 @@ def scan(roots=None):
                 continue
             role = _role(tokens)
             if role in ("drum", "vocal"):
+                continue
+            if is_full_mix(tokens):
                 continue
             parts_up = " ".join(tokens).upper()
             kind = "loop" if "LOOP" in parts_up else "oneshot"

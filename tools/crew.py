@@ -88,6 +88,13 @@ PEAK_CEILING_DB = {
 # longest first, so "cowbell" is matched before "bell" would swallow it
 _PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
 
+# How far the chord-bus governor may turn a lane DOWN (owner 2026-08-03).
+# 0.02 is -34 dB, enough for the loudest sample measured in his library with
+# room to spare, and far enough from zero that a lane can never be silenced
+# by the governor alone. See the note at the clamp itself for why the cut and
+# the boost limits are deliberately not the same number.
+CHORD_CUT_FLOOR = 0.02
+
 R16 = "-" * 16
 
 # --------------------------------------------------------------- the roster
@@ -1194,15 +1201,42 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                         wet_side[ln] = wet_side[ln] * (cap / pk)
 
         ch = [ln for ln in bufs if re.match(r"^(chord\d|bass\d)", ln)]
-        ch_rms = np.sqrt(sum((bufs[ln] ** 2).sum() for ln in ch)
-                         / max(sum(len(bufs[ln]) for ln in ch), 1)) if ch \
+        # BUG FIXED 2026-08-03 (owner: "it's always way too loud"). This
+        # divided the bus's total energy by the COMBINED length of all the
+        # chord lanes instead of by the length of the beat, so it under-read
+        # the bus by 10*log10(number of lanes) and left the chords that much
+        # louder than the target. Chord slots are sequential, so N lanes each
+        # sounding 1/N of the time still sum to a bus that plays the whole
+        # way through — dividing by N*len is measuring the average lane, not
+        # the bus. Measured before the fix on 34 real beats: target -9.0 dB
+        # under the kick, actual -4.6 dB, with a median of 3 chord lanes
+        # (3 lanes = 4.8 dB, which is the whole discrepancy).
+        # The snare governor immediately above always did this correctly —
+        # `bus = sum(...)` then RMS — which is why nobody caught it here.
+        ch_rms = np.sqrt((sum(bufs[ln] for ln in ch) ** 2).mean()) if ch \
             else 0.0
         if kick_rms > 0 and ch_rms > 1e-9:
             want = kick_rms * 10 ** (
                 -OWNER_TASTE.get("chord_bus_under_kick_db", 9.0) / 20)
-            # clamped so a pathological sample can't be hauled up 30 dB and
-            # drag its own noise floor into the mix with it
-            adj = min(max(want / ch_rms, 0.25), 4.0)
+            # ASYMMETRIC on purpose (owner 2026-08-03, "it's always way too
+            # loud"). The clamp used to be symmetric at +/-12 dB, and the
+            # stated reason — "a pathological sample can't be hauled up 30 dB
+            # and drag its own noise floor into the mix" — is an argument
+            # about BOOSTING only. Turning a lane DOWN cannot raise anyone's
+            # noise floor, so the floor half of that clamp was protecting
+            # against nothing while doing real harm.
+            #
+            # Measured with a probe in this function: a loud chord sample
+            # needed adj 0.148 (a 16.6 dB cut) and a very loud one 0.074
+            # (22.6 dB) — both were clamped at 0.25 and shipped 4.6 and
+            # 10.6 dB over target. That is the "always too loud", and it gets
+            # worse the further back he asks the chords to sit, because a
+            # bigger target means a bigger cut.
+            #
+            # Boost ceiling unchanged at 4.0 (+12 dB) — that one is real, and
+            # tests/test_audio_quality.py pins that a hopeless sample is NOT
+            # rescued, so nobody quietly loosens it.
+            adj = min(max(want / ch_rms, CHORD_CUT_FLOOR), 4.0)
             for ln in ch:
                 bufs[ln] = bufs[ln] * adj
                 # the ambience bed above already stashed this lane's stereo
