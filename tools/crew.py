@@ -65,25 +65,48 @@ SNARE_LIKE = {"snare", "clap"}   # lanes that follow the owner's snare trim
 # (startswith match covers stamp2/stamp3 collab lanes)
 PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 
-# Owner 2026-08-01, Part E. How far ABOVE the kick's peak each family of
-# bright transient lanes may go. Longest prefix wins, so "crash" is checked
-# before the generic families. Only ever attenuates — see render_crew_beat.
-# Numbers are the measured medians pulled back to something that sits under
-# the kick rather than over it: clap was +1.2 dB (worst +8.4), crash +3.7
-# (worst +9.4), hat spread 28 dB, snap 20 dB.
+# OWNER MIX HIERARCHY, 2026-08-03. His words: "the snap and claps and bells
+# are always quieter than the snare and the kick drum. The hi hats follow the
+# same rules as the claps." And on where to anchor it: "start with the
+# loudness of the kick and the snare where they're at right now and go from
+# there" — so kick and snare are the reference and are NEVER touched by this.
+#
+# The reference is the QUIETER of the kick and the snare, not the kick alone.
+# Before this the ceilings were kick-relative, which let a clap sit under the
+# kick while still being louder than the snare — his rule says under both.
+#
+# Everything here only ever ATTENUATES, so an identity that deliberately
+# tucks a lane away keeps it tucked away.
+PERC_UNDER_DB = -3.0      # snap / clap / bell / hat and friends
+PUNCTUATION_UNDER_DB = -6.0   # crashes, impacts, risers — punctuation
+MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
+
 PEAK_CEILING_DB = {
-    "crash": -6.0,        # punctuation — never louder than the kick
-    "impact": -6.0,
-    "swellfx": -6.0,
-    "riser": -6.0,
-    "siren": -6.0,
-    "clap": -1.0,         # a backbeat may be nearly as strong, not stronger
-    "snare": -1.0,
-    "snap": -3.0,         # bright and small; reads loud for its energy
-    "hat": -3.0,
-    "tamb": -4.0,
-    "bell": -4.0,
-    "cowbell": -4.0,
+    "crash": PUNCTUATION_UNDER_DB,
+    "impact": PUNCTUATION_UNDER_DB,
+    "swellfx": PUNCTUATION_UNDER_DB,
+    "riser": PUNCTUATION_UNDER_DB,
+    "siren": PUNCTUATION_UNDER_DB,
+    "clap": PERC_UNDER_DB,
+    "snap": PERC_UNDER_DB,
+    "hat": PERC_UNDER_DB,      # "the hi hats follow the same rules as the claps"
+    "bell": PERC_UNDER_DB,
+    "cowbell": PERC_UNDER_DB,
+    "tamb": PERC_UNDER_DB,
+    "shaker": PERC_UNDER_DB,
+    "rim": PERC_UNDER_DB,
+    # Melodic lanes: "the instruments are not louder than the kick drum or
+    # the snap. or the snare" — so they must clear the PERCUSSION tier too,
+    # not just the backbone. The chord governor already sets the bus's RMS
+    # (15 dB under the kick), but RMS says nothing about a transient: a
+    # piano stab with a hard attack measured a 1.8 dB peak under the
+    # reference while snaps were sitting at 2.0, i.e. the instrument was
+    # peaking over the snap exactly as he described. This trims the
+    # transient without touching the bus level the governor set.
+    "chord": MELODIC_UNDER_DB,
+    "bass": MELODIC_UNDER_DB,
+    # NOTE: no "snare" entry on purpose. The snare is half the reference now,
+    # so giving it a ceiling would mean measuring it against itself.
 }
 # longest first, so "cowbell" is matched before "bell" would swallow it
 _PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
@@ -1170,36 +1193,6 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         # to be. Raising OWNER_TASTE["chord_gain"] moved the whole range up
         # without narrowing it, which just swapped "inaudible" for
         # "shouting". Targeting the bus is what actually holds it steady.
-        # PEAK ceiling for the bright transient lanes (owner 2026-08-01,
-        # "clap and crash are being overused"). The bus governors above work
-        # on RMS, which is the right control for a sustained bed but blind to
-        # a single loud transient: measured across 42 rendered beats the clap
-        # PEAKED a median 1.2 dB ABOVE the kick (worst +8.4) and the crash
-        # +3.7 (worst +9.4), while their RMS sat politely underneath. A hit
-        # that spikes over the kick reads as "too much" however quiet its
-        # average is — that is why the clap felt overused even on beats where
-        # it was correctly placed.
-        #
-        # Peak-only, and it only ever turns things DOWN, so a lane that is
-        # already sitting under the kick is untouched and no identity gets
-        # quietly re-balanced. Ceilings are per-family, not one number: a
-        # backbeat is meant to be nearly as strong as the kick, a cymbal
-        # crash is punctuation and belongs below it.
-        kick_pk = float(np.abs(bufs["kick"]).max())
-        if kick_pk > 0:
-            for ln in bufs:
-                head = next((PEAK_CEILING_DB[pre]
-                             for pre in _PEAK_PREFIXES
-                             if ln.startswith(pre)), None)
-                if head is None:
-                    continue
-                pk = float(np.abs(bufs[ln]).max())
-                cap = kick_pk * 10 ** (head / 20.0)
-                if pk > cap > 0:
-                    bufs[ln] = bufs[ln] * (cap / pk)
-                    if ln in wet_side:
-                        wet_side[ln] = wet_side[ln] * (cap / pk)
-
         ch = [ln for ln in bufs if re.match(r"^(chord\d|bass\d)", ln)]
         # BUG FIXED 2026-08-03 (owner: "it's always way too loud"). This
         # divided the bus's total energy by the COMBINED length of all the
@@ -1244,6 +1237,51 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 # louder than the sound making it
                 if ln in wet_side:
                     wet_side[ln] = wet_side[ln] * adj
+
+        # MOVED here 2026-08-03, AFTER the chord governor. It used to run
+        # before it, which was fine while it only touched drums — but the
+        # melodic ceiling added today would have been undone immediately,
+        # since the governor rescales the whole chord bus straight after.
+        # Trimming a transient barely moves RMS, so the governor's bus
+        # level survives this; the reverse order does not work.
+        # PEAK ceiling for the bright transient lanes (owner 2026-08-01,
+        # "clap and crash are being overused"). The bus governors above work
+        # on RMS, which is the right control for a sustained bed but blind to
+        # a single loud transient: measured across 42 rendered beats the clap
+        # PEAKED a median 1.2 dB ABOVE the kick (worst +8.4) and the crash
+        # +3.7 (worst +9.4), while their RMS sat politely underneath. A hit
+        # that spikes over the kick reads as "too much" however quiet its
+        # average is — that is why the clap felt overused even on beats where
+        # it was correctly placed.
+        #
+        # Peak-only, and it only ever turns things DOWN, so a lane that is
+        # already sitting under the kick is untouched and no identity gets
+        # quietly re-balanced. Ceilings are per-family, not one number: a
+        # backbeat is meant to be nearly as strong as the kick, a cymbal
+        # crash is punctuation and belongs below it.
+        # The reference is the QUIETER of kick and snare (owner 2026-08-03:
+        # the small percussion must sit under BOTH). Falls back to the kick
+        # alone on a beat with no snare — several identities have only a
+        # clap, and on those the clap IS the backbeat, so it is measured
+        # against the kick and nothing else.
+        kick_pk = float(np.abs(bufs["kick"]).max())
+        snare_pk = max((float(np.abs(bufs[ln]).max()) for ln in bufs
+                        if ln.startswith("snare")), default=0.0)
+        ref_pk = min(kick_pk, snare_pk) if snare_pk > 0 else kick_pk
+        if ref_pk > 0:
+            for ln in bufs:
+                head = next((PEAK_CEILING_DB[pre]
+                             for pre in _PEAK_PREFIXES
+                             if ln.startswith(pre)), None)
+                if head is None:
+                    continue
+                pk = float(np.abs(bufs[ln]).max())
+                cap = ref_pk * 10 ** (head / 20.0)
+                if pk > cap > 0:
+                    bufs[ln] = bufs[ln] * (cap / pk)
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * (cap / pk)
+
 
     # stems: each lane panned to stereo with its space treatment, kick
     # character, and the duck baked in (duck is a plain envelope multiply,

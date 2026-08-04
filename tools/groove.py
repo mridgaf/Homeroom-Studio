@@ -64,18 +64,35 @@ VEL_SPREAD = {"X": 0.16, "x": 0.24, "o": 0.26, ".": 0.34}
 
 
 def velocity(char, step16, wobble_rng, ghost_floor=0.26):
-    """Structured humanization: the metric accent map still dominates and
-    randomness still sits under it, but how far a hit may wander now
-    depends on what KIND of hit it is (see VEL_SPREAD). On-beats keep
-    strength; 'e'/'a' 16ths sit lower — the two-finger alternation the
-    forums describe."""
+    """How loud one written hit plays.
+
+    OWNER RULE 2026-08-03: "The volume variations per drum hit is not
+    working out. Sometimes the drum parts get way too quiet and don't come
+    back. So let's just have everything level." He chose option (a) when
+    asked how far to take it: kill the RANDOMNESS, keep the WRITTEN
+    dynamics. So the accent/normal/ghost characters still mean what they
+    say — that is the groove, and ghost notes are most of what makes the
+    Funky Drummer and the Amen read as breaks — but nothing wanders any
+    more.
+
+    What was removed: a per-hit `2 ** normal(0, sigma)` wobble. Measured
+    before removing it, a single hit could land 8.0 dB from its neighbour
+    on a normal hit and 17.3 dB on a ghost, with a hard floor at 0.05
+    (26 dB down). That is the "way too quiet" — it was one hit, not a
+    stuck fader, but at 17 dB of swing a ghost simply vanished.
+
+    `wobble_rng` is still accepted and ignored: every caller threads one
+    through and a beat's determinism is seeded off it elsewhere. Removing
+    the parameter would touch every call site for no gain."""
     base = {"X": 1.0, "x": 0.72, "o": 0.45, ".": ghost_floor}.get(char, 0.0)
     if base == 0.0:
         return 0.0
-    if char == "x" and step16 % 4 in (1, 3):    # the e's and a's, softer
+    # Positional accent stays — this is a WRITTEN rule (the two-finger
+    # alternation: 'e' and 'a' sixteenths sit under the on-beats), not
+    # randomness, so option (a) keeps it.
+    if char == "x" and step16 % 4 in (1, 3):
         base *= 0.78
-    sigma = VEL_SPREAD.get(char, 0.16)
-    return float(np.clip(base * 2 ** wobble_rng.normal(0, sigma), 0.05, 1.0))
+    return float(base)
 
 # ------------------------------------------------------------ spectral tools
 

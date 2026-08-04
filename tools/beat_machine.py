@@ -427,11 +427,18 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # half, or a velocity dip). The "breath" — every lane resting the back
     # half of a bar — was unconditional on two of the four branches; it is a
     # hole too, so it joins the rare group instead of riding along free.
+    # OWNER RULE 2026-08-03: velocity dips are GONE. "quietbar" pulled a
+    # whole bar's accents down to normal hits (-2.9 dB) and could stack with
+    # the contrast pass in generate(), which pulled those down again to
+    # ghosts (-8.8 dB more) — 11.7 dB off a bar before the per-hit wobble
+    # added its own. That is the "drum parts get way too quiet". With
+    # everything level, a dip is the one thing that contradicts the rule, so
+    # the only non-hole treatment left is the arrangement move.
     HOLE_P = 1 / 6.0
     if rng.random() < HOLE_P:
         t = rng.choice(["thinbar", "frisson", "breath"])
     else:
-        t = rng.choice(["bshift", "quietbar"])
+        t = "bshift"
     if t == "thinbar":                       # a bar rests, canon breathes
         b = rng.choice(late)
         for ln in mutable:
@@ -462,14 +469,8 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
                 bars[b] = "-" * len(bars[b])
             rewrite(ln, bars)
             notes.append(f"{ln} only in the {half} section")
-    else:                                    # quiet bar: velocity dip
-        b = rng.choice([x for x in (1, 2, nbars - 3) if 0 < x < nbars]
-                       or [last])
-        for ln in mutable:
-            bars = barlist(ln)
-            bars[b] = bars[b].replace("X", "x")
-            rewrite(ln, bars)
-        notes.append(f"bar {b + 1} pulls back (velocity dip)")
+    # (the "quietbar" velocity dip that used to live here is gone —
+    #  owner 2026-08-03, see the treatment roll above)
 
     # 4b. the breath: every lane rests for the back half of one bar. Owner
     # 2026-08-01 — this used to fire on the two most common branches, i.e.
@@ -682,6 +683,7 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
     # late for the composer to choose a break transcription.
     p["break_beat"] = bool(dirs and dirs.get("break_beat"))
     _maybe_seat_snare(p, variant)
+    _pin_bars_for_loop_voice(p, variant, dirs)
     if dirs and dirs.get("force_mode"):
         for ln in ("snare", "clap"):
             spec = p.get("grammar", {}).get(ln)
@@ -1288,6 +1290,36 @@ def _shareable_preset(preset):
     out = clean(preset)
     out.pop("built", None)
     return out
+
+
+def _pin_bars_for_loop_voice(preset, variant, dirs):
+    """OWNER RULE 2026-08-03: "Four bar beats if a loop is being used. The
+    loops always seem to be too short for anything else."
+
+    A sampled loop is a fixed length of recorded music. Stretched over an
+    8-bar beat it has to repeat itself, which is what makes it sound short.
+    So when the chord voice for this beat is going to be a LOOP, the beat is
+    pinned to 4 bars. Beats voiced by an instrument keep the normal 4/8 roll.
+
+    Has to run before compose(), which is where the length is rolled — and
+    it can, because _source_order is deterministic from `variant` and the
+    identity's own chord_source, so the primary voice is knowable up front
+    without rendering anything.
+
+    NOTE this reads the same `chords_default` upgrade generate() applies
+    later; if that moves, this has to move with it."""
+    sig = preset.get("signature") or {}
+    dirs = dirs or {}
+    if dirs.get("no_chords"):
+        return False
+    if not (dirs.get("chords") or sig.get("chords_default")):
+        return False
+    pref = sig.get("chord_source")
+    order = _source_order(pref, random.Random(variant * 461))
+    if not order or order[0] != "loop":
+        return False
+    preset["bar_lengths"] = [4]
+    return True
 
 
 def _one_instrument(used):
@@ -2120,50 +2152,21 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     swing = bar_swing(L, R)
     cut_bar = None
-    # the contrast floor is a CREW rule. A subgenre is allowed to be
-    # relentless (owner rule 2026-07-19) — Baltimore club, Miami bass
-    # and bounce do not rise and fall, that flatness is the style — so
-    # the deepening pass never touches them.
-    if swing < 2.5 and not preset.get("genre"):
-        # the loop needs SOME rise and fall. Thin one bar instead — was:
-        # owner rule 2026-07-17, backbone always softens and plays
-        # through rather than going silent; overridden 2026-07-29, the
-        # backbone can drop out here too now. One re-render, no DJ-cut.
-        # CANON (the style-defining figure, owner rule 2026-07-19) is
-        # unrelated and still protected — it softens, never vanishes.
-        deep_canon = set(preset.get("_canon") or ())
-        deep_bar = random.Random(variant * 31 + CREW[names[0]]["num"]).choice(
-            [b for b in (nbars - 4, nbars - 3, nbars - 2) if b >= 1]
-            or [max(nbars - 1, 0)])
-        for ln, (pan, gain, feel, bars) in list(preset["lanes"].items()):
-            # stamp + harmony lanes fire once for a whole chord section,
-            # not once a bar like a kick — silencing their one trigger
-            # bar would drop the entire chord/bass, not just dip it.
-            if ln.startswith(("stamp", "chord", "bass")):
-                continue
-            bars = list(bars)
-            if deep_bar >= len(bars):        # short pattern, nothing to thin
-                continue
-            # OWNER RULE 2026-08-01, gaps rare: this pass used to BLANK the
-            # bar on every lane, and it is a SECOND, independent hole source
-            # that runs after vary_preset's 1-in-6 roll — measured on a real
-            # batch, holes came back at 40% even though the pattern-level
-            # rate was 16%, and this was the difference. It only has to
-            # restore rise and fall, which a velocity dip does: accents fall
-            # to normal hits, normal hits to ghosts. Actual silence is left
-            # to the rare roll in vary_preset so there is one rule, in one
-            # place, that decides how often a beat has a hole in it.
-            dipped = bars[deep_bar].replace("X", "x")
-            if ln not in deep_canon:
-                dipped = dipped.replace("x", ".")
-            bars[deep_bar] = dipped
-            preset["lanes"][ln] = (pan, gain, feel, bars)
-        status(f"Adding contrast to beat {no} "
-               f"(bar swing was {swing:.1f} dB)…")
-        L, R, lufs, parts = render_crew_beat(names[0], kit, space=space,
-                                             preset=preset, want_parts=True)
-        swing = bar_swing(L, R)
-        vnotes.append(f"bar {deep_bar + 1} pulls back for contrast")
+    # THE CONTRAST-DEEPENING PASS IS GONE (owner 2026-08-03).
+    #
+    # It measured the finished audio and, if the loop was flatter than
+    # 2.5 dB bar to bar, went back and pulled one bar down on every lane,
+    # then re-rendered. Two owner rules killed it on the same day:
+    #   - 08-01 "gaps rare": as a BLANKING pass it was a second, hidden
+    #     hole source that put holes back in 40% of beats after
+    #     vary_preset had been dialled to 1-in-6. Rewritten as a dip.
+    #   - 08-03 "let's just have everything level": as a DIP it stacked
+    #     with quietbar (-2.9 dB) for -11.7 dB off a whole bar before the
+    #     per-hit wobble, which is the "drum parts get way too quiet and
+    #     don't come back" he reported.
+    # There is no version of it left that does not contradict a live rule,
+    # so it is removed rather than tuned a third time. `bar_swing` stays —
+    # it is still measured and printed on the beat card.
 
     folder = root / names[0]
     folder.mkdir(parents=True, exist_ok=True)
