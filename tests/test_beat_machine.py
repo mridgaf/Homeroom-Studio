@@ -1295,9 +1295,18 @@ def test_harmony_opens_under_the_drums_with_per_bar_dynamics(
     # the harmony sits UNDER the kit, not on top of it
     assert max(chords) < kick, (max(chords), kick)
     assert max(chords) <= beat_machine._CHORD_GAIN + 1e-9
-    # ...and it breathes: the bars are not all the same level
-    assert len(set(round(g, 6) for g in chords)) > 1, chords
-    assert chords[0] == pytest.approx(beat_machine._CHORD_GAIN)   # downbeat
+    # ...and every chord opens at the SAME level. This used to assert the
+    # opposite — that the bars "breathe" — which was the 2026-07-25 fix for
+    # "everything starts off the same volume ... it sounds loud and crazy".
+    # That complaint was about the harmony being too LOUD, and the fix bundled
+    # a per-bar accent cycle in with the level drop. Owner 2026-08-03, after
+    # hearing beat 1761: "I don't like how the samples get louder and quieter
+    # like this one. Let's keep those at a steady volume." The level drop
+    # stays (asserted above); the accent cycle is gone.
+    # NOTE this is the STARTING level only — each chord still decays across
+    # its own length, which he asked for and confirmed separately.
+    assert len(set(round(g, 6) for g in chords)) == 1, chords
+    assert chords[0] == pytest.approx(beat_machine._CHORD_GAIN)
 
 
 # ---- kick drum / bass drum / bass are three separate sounds (2026-07-25)

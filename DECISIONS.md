@@ -22,6 +22,76 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-03 Everything level, one blanket volume rule — and FOUR passes to get one cap right
+- Context: he listened to real beats and reported two things by number.
+  1761 ("sample 95"): "I don't like how the samples get louder and quieter
+  like this one. Let's keep those at a steady volume." 1763: a shaker too
+  loud. Plus a new blanket rule and, earlier the same day, "the volume
+  variations per drum hit is not working out. Sometimes the drum parts get
+  way too quiet and don't come back. So let's just have everything level."
+- LEVEL, option (a) — he was asked how far and chose: kill the RANDOMNESS,
+  keep the WRITTEN dynamics. `velocity()` no longer applies its per-hit
+  `2 ** normal(0, sigma)` wobble. Measured before removing it: one hit could
+  land 8.0 dB from its neighbour on a normal hit and 17.3 dB on a ghost,
+  floored 26 dB down. Accent/normal/ghost still mean what they say, because
+  ghost notes are most of what makes the Funky Drummer and the Amen read as
+  breaks — flattening them would have undone the break work.
+- BOTH VELOCITY DIPS REMOVED: vary_preset's "quietbar", and the
+  contrast-deepening pass in generate() entirely. That pass had already been
+  rewritten once the same day (from blanking a bar — a hidden second hole
+  source — to dipping one) and as a dip it stacked with quietbar for -11.7 dB
+  off a whole bar. No version of it survives both live rules, so it is gone
+  rather than tuned a third time.
+- CHORDS STEADY: `CHORD_LEVEL_VAR_DB` 2.5 -> 0 and
+  OWNER_TASTE["chord_accents"] flattened to all-ones. Measured on his 1761:
+  three slots peaked -13.4 / -16.4 / -9.7 dB, a 6.7 dB spread on ONE sample,
+  which is those two numbers added. After: median slot spread 0.4 dB. The
+  DECAYS stay — he confirmed option (a), "every chord starts at the same
+  level; each still holds and fades".
+- THE BLANKET RULE, and why it is a DEFAULT not a list: "anything named
+  shaker or impacts or effects or percussion or any other 'drum' sound that
+  is not the kick and the snare should follow the same volume rule as for hi
+  hats." The old ceiling was a list of named prefixes and it kept missing
+  lanes — congas, toms, woods, claves, blips, cutfx, foundfx, glitches,
+  mathperc, exotic, gamefx and every guest lane a future pool might add were
+  all uncapped. `peak_ceiling_for()` now returns PERC_UNDER_DB for anything
+  not explicitly named, so new sounds are covered without anyone remembering.
+  Exempt: kick, snare (they ARE the reference) and the low end — "sub" and
+  the digit-less "bass" (the sampled 808), which he confirmed: "do not cap
+  the sub". Note bass0..N is a DIFFERENT lane, the melodic chord bass, and
+  that one does take the melodic ceiling.
+- **THE LESSON OF THE SESSION — it took FOUR passes to get one cap right,
+  because each time I measured at a point that was not where the sound comes
+  out.** The cap has to be computed on what the STEM will actually contain:
+    pass 1: dry buffer only              -> lanes 1.2 dB over
+    pass 2: + the reverb tail            -> his shaker still at -1.6 vs -3
+    pass 3: + the constant-power pan     -> 3 lanes over, all on one beat
+            (a CENTRED kick gets 0.707 per side, a PANNED hat up to 1.0)
+    pass 4: + the sidechain duck         -> 0 over, lanes land on -3.0
+  The duck was the subtle one: only the kick sits outside its own duck, and
+  the duck is TIME-VARYING, so how much a lane loses depends on whether its
+  loudest hit falls on a kick or between them. That is why only one beat
+  failed and why the aggregate hid it — it was found by looking at the beat
+  that failed, not at the median.
+- FOUR-BAR LOOPS: when the chord voice is a sampled loop the beat is pinned
+  to 4 bars ("the loops always seem to be too short for anything else").
+  Works because _source_order is deterministic from the variant, so the
+  voice is knowable before the length is rolled. Verified 216 loop-voiced
+  beats, all 4 bars; other beats keep the normal roll.
+- MIX HIERARCHY anchored where he said ("start with the loudness of the kick
+  and the snare where they're at right now"): kick and snare are the
+  reference and are never adjusted, and the reference is the QUIETER of the
+  two — the old ceilings were kick-relative, which let a clap sit under the
+  kick while still being louder than the snare.
+- One test rewritten, not loosened: test_harmony_opens_under_the_drums_with_
+  per_bar_dynamics asserted the chord bars must NOT all be the same level —
+  the exact per-bar breathing he just removed. It now asserts they are equal
+  while keeping the check that harmony sits under the kit.
+- Verified: 0 lanes over cap across the sample, lanes landing on -3.0 dB.
+  748 passed, 1 skipped, 0 failed.
+- Status: open — measured but NOT heard. He has not listened to a batch
+  under any of this. The two beats he named (1761, 1763) predate all of it.
+
 ### 2026-08-03 The chords: "one instrument per stem" made an INVARIANT, plus two real level bugs
 - Context: owner heard the punch-list batch and reported "there are still
   stacks in there, and they just always sound bad", then "it's their

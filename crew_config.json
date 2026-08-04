@@ -844,11 +844,11 @@
    "chord_source": [
     [
      "horns",
-     3
+     2.5
     ],
     [
      "loop",
-     3
+     3.5
     ]
    ],
    "chord_rhythm": "arp",
@@ -2452,7 +2452,7 @@
     "modes": [
      [
       "backbeat",
-      0.35
+      0.25
      ],
      [
       "halftime",
@@ -2464,7 +2464,7 @@
      ],
      [
       "sparse",
-      0.216
+      0.316
      ]
     ],
     "ghosts": [
@@ -3575,7 +3575,7 @@
     ],
     [
      "dark_menacing",
-     3
+     2.0
     ],
     [
      "trap_dark_metro",
@@ -3595,7 +3595,7 @@
     ],
     [
      "snarl_vamp",
-     1.0
+     2.0
     ]
    ],
    "chord_source": [
@@ -3856,7 +3856,7 @@
      3,
      7
     ],
-    "double_p": 0.35
+    "double_p": 0.43
    },
    "snare": {
     "modes": [

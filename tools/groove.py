@@ -218,7 +218,13 @@ OWNER_TASTE = {
     # A real player leans on the downbeat and eases off the repeats. These
     # scale each chord slot in turn, cycling if the progression is longer,
     # so the harmony breathes instead of landing identically every bar.
-    "chord_accents": (1.0, 0.86, 0.93, 0.82),
+    # FLATTENED 2026-08-03: owner heard beat 1761 and said "I don't like how
+    # the samples get louder and quieter like this one. Let's keep those at a
+    # steady volume." This cycle was 1.7 dB of it (the rest was the per-slot
+    # variation in beat_machine, now 0 too). Kept as a tuple of ones rather
+    # than deleted so the "a real player leans on the downbeat" idea is one
+    # edit away if he ever wants it back — but every chord now starts level.
+    "chord_accents": (1.0, 1.0, 1.0, 1.0),
     # --- DORMANT (owner 2026-07-29 hard rule overrides this): exactly one
     # melodic part now, always — see _build_chords in beat_machine.py,
     # which hardcodes part_count = 1 and no longer reads these two values.

@@ -77,39 +77,57 @@ PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 #
 # Everything here only ever ATTENUATES, so an identity that deliberately
 # tucks a lane away keeps it tucked away.
-PERC_UNDER_DB = -3.0      # snap / clap / bell / hat and friends
+PERC_UNDER_DB = -3.0      # EVERY drum that is not the kick or the snare
 PUNCTUATION_UNDER_DB = -6.0   # crashes, impacts, risers — punctuation
 MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
 
+# THE BLANKET RULE (owner 2026-08-03, after hearing beat 1763): "anything
+# named shaker or impacts or effects or percussion or any other 'drum' sound
+# that is not the kick and the snare should follow the same volume rule as
+# for hi hats. Unless otherwise stated this session."
+#
+# So this is a DEFAULT, not a list. The old version was a list of prefixes
+# and it kept missing lanes — congas, toms, woods, claves, blips, cutfx,
+# foundfx, glitches, mathperc, exotic, gamefx and every guest lane a future
+# pool adds were all uncovered, which is exactly how a shaker came out at
+# -1.6 dB. Now everything falls to PERC_UNDER_DB unless it is named here.
+BACKBONE_LANES = ("kick", "snare")        # the reference — never adjusted
+# The LOW END is exempt, same set the ambience bed already refuses to touch
+# (`dry_lows`). "sub" is the tuned sub and plain "bass" is the sampled 808 —
+# both are the kick's own low end rather than a percussion colour, and
+# capping them 3 dB under the kick would hollow the beat out. Note this is
+# the digit-less "bass": bass0..N are the MELODIC chord bass and do fall
+# under the melodic ceiling below, which is why the check is exact.
+_LOW_END = {"sub", "bass", "sub808", "808"}
 PEAK_CEILING_DB = {
+    # louder than the perc floor: nothing. quieter: these two families.
     "crash": PUNCTUATION_UNDER_DB,
     "impact": PUNCTUATION_UNDER_DB,
     "swellfx": PUNCTUATION_UNDER_DB,
     "riser": PUNCTUATION_UNDER_DB,
     "siren": PUNCTUATION_UNDER_DB,
-    "clap": PERC_UNDER_DB,
-    "snap": PERC_UNDER_DB,
-    "hat": PERC_UNDER_DB,      # "the hi hats follow the same rules as the claps"
-    "bell": PERC_UNDER_DB,
-    "cowbell": PERC_UNDER_DB,
-    "tamb": PERC_UNDER_DB,
-    "shaker": PERC_UNDER_DB,
-    "rim": PERC_UNDER_DB,
     # Melodic lanes: "the instruments are not louder than the kick drum or
     # the snap. or the snare" — so they must clear the PERCUSSION tier too,
-    # not just the backbone. The chord governor already sets the bus's RMS
-    # (15 dB under the kick), but RMS says nothing about a transient: a
-    # piano stab with a hard attack measured a 1.8 dB peak under the
-    # reference while snaps were sitting at 2.0, i.e. the instrument was
-    # peaking over the snap exactly as he described. This trims the
-    # transient without touching the bus level the governor set.
+    # not just the backbone. The chord governor sets the bus's RMS (15 dB
+    # under the kick), but RMS says nothing about a transient: a piano stab
+    # measured a 1.8 dB peak under the reference while snaps sat at 2.0.
     "chord": MELODIC_UNDER_DB,
     "bass": MELODIC_UNDER_DB,
-    # NOTE: no "snare" entry on purpose. The snare is half the reference now,
-    # so giving it a ceiling would mean measuring it against itself.
 }
 # longest first, so "cowbell" is matched before "bell" would swallow it
 _PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
+
+
+def peak_ceiling_for(lane):
+    """dB below the kick/snare reference this lane may peak, or None for the
+    backbone itself. Anything not named falls to the perc floor — that is the
+    blanket rule, and the reason it is a default rather than a lookup."""
+    if lane.startswith(BACKBONE_LANES) or lane in _LOW_END:
+        return None
+    for pre in _PEAK_PREFIXES:
+        if lane.startswith(pre):
+            return PEAK_CEILING_DB[pre]
+    return PERC_UNDER_DB
 
 # How far the chord-bus governor may turn a lane DOWN (owner 2026-08-03).
 # 0.02 is -34 dB, enough for the loudest sample measured in his library with
@@ -1264,23 +1282,69 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         # alone on a beat with no snare — several identities have only a
         # clap, and on those the clap IS the backbeat, so it is measured
         # against the kick and nothing else.
-        kick_pk = float(np.abs(bufs["kick"]).max())
-        snare_pk = max((float(np.abs(bufs[ln]).max()) for ln in bufs
+        # Everything below is measured AFTER the constant-power pan, because
+        # that is what the listener and the stem file get. Missed on the
+        # first pass and it is worth spelling out: a CENTRED lane gets 0.707
+        # per side, a lane panned hard gets up to 1.0 on its loud side. The
+        # kick is centred and percussion is not, so comparing raw buffers
+        # let a hat capped at -3 dB arrive ~1 dB louder than that against
+        # the kick — which is exactly the residue the owner still heard on
+        # the shaker after the first fix.
+        # ...and after the SIDECHAIN DUCK, which is the last thing between
+        # here and the stem. Only the kick sits outside its own duck, so
+        # every other lane is pulled down wherever a kick lands — and
+        # because it is time-varying, how much a lane loses depends on
+        # whether its loudest hit falls on a kick or between them. Left out
+        # of the first two attempts and it was the whole of the residue:
+        # three lanes on one beat sitting ~1 dB over their cap.
+        _duck_env = None
+        if p["sidechain"] > 0 and onsets.get("kick"):
+            _duck_env = np.ones(end)
+            _L = int(0.11 * 3 * SR)
+            _dip = 1 - p["sidechain"] * np.exp(-np.arange(_L) / (0.11 * SR))
+            for _pos in onsets["kick"]:
+                _e = min(end, _pos + _L)
+                if _pos < end:
+                    _duck_env[_pos:_e] = np.minimum(_duck_env[_pos:_e],
+                                                    _dip[:_e - _pos])
+
+        def _panned_pk(ln):
+            row = p["lanes"].get(ln)
+            pan = row[0] if row else 0.0
+            side = max(np.cos((pan + 1) * np.pi / 4),
+                       np.sin((pan + 1) * np.pi / 4))
+            eff = np.abs(bufs[ln]) * side
+            w = wet_side.get(ln)
+            if w is not None:
+                eff = eff + np.abs(w)
+            if _duck_env is not None and ln != "kick":
+                eff = eff[:end] * _duck_env[:len(eff)]
+            return float(eff.max())
+
+        kick_pk = _panned_pk("kick")
+        snare_pk = max((_panned_pk(ln) for ln in bufs
                         if ln.startswith("snare")), default=0.0)
         ref_pk = min(kick_pk, snare_pk) if snare_pk > 0 else kick_pk
         if ref_pk > 0:
             for ln in bufs:
-                head = next((PEAK_CEILING_DB[pre]
-                             for pre in _PEAK_PREFIXES
-                             if ln.startswith(pre)), None)
-                if head is None:
+                head = peak_ceiling_for(ln)
+                if head is None:          # kick, snare, and the low end
                     continue
-                pk = float(np.abs(bufs[ln]).max())
+                # Measure the DRY LANE PLUS ITS REVERB TAIL. The cap used to
+                # read bufs[ln] alone, but wet_side[ln] is folded in later at
+                # pan time, so the file he actually gets was louder than the
+                # number here promised: owner reported the shaker on beat
+                # 1763 as too loud and it measured -1.6 dB against a -3.0 cap.
+                # Elementwise |dry| + |wet| is the worst case the panned stem
+                # can reach, so capping on that is the figure that holds in
+                # the stem rather than only inside this function.
+                pk = _panned_pk(ln)
                 cap = ref_pk * 10 ** (head / 20.0)
                 if pk > cap > 0:
                     bufs[ln] = bufs[ln] * (cap / pk)
-                    if ln in wet_side:
-                        wet_side[ln] = wet_side[ln] * (cap / pk)
+                    w = wet_side.get(ln)
+                    if w is not None:
+                        wet_side[ln] = w * (cap / pk)
 
 
     # stems: each lane panned to stereo with its space treatment, kick

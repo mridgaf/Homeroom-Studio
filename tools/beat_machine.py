@@ -1363,14 +1363,18 @@ def _one_instrument(used):
 # runs to silence by the end of the slot, which is what puts a gap between
 # one chord and the next instead of a seamless pad.
 CHORD_HOLD = (0.40, 0.80)
-# Owner 2026-08-03, confirmed: level variation between chords is wanted, not
-# just length variation. The existing OWNER_TASTE["chord_accents"] cycle
-# (1.0/0.86/0.93/0.82) is only a 1.7 dB spread across a whole beat, which is
-# why every chord landed at the same weight. This rides on top of it and is
-# left deliberately modest — the chords are a bed he plays over, so this is
-# meant to stop them being mechanical, not to make them lurch. One number to
-# move if it wants to be more or less.
-CHORD_LEVEL_VAR_DB = 2.5
+# REVERSED 2026-08-03, same day it was added. He asked for level variation
+# between chords, heard it on beat 1761, and said: "I don't like how the
+# samples get louder and quieter like this one. Let's keep those at a steady
+# volume." Measured on 1761: its three chord slots peaked at -13.4, -16.4 and
+# -9.7 dB — a 6.7 dB spread on ONE sample, which is this 2.5 plus the 1.7 dB
+# chord_accents cycle.
+#
+# 0.0 keeps the machinery in place but flat. The DECAYS stay (he confirmed
+# option (a): "every chord starts at the same level; each still holds and
+# fades"), so a chord still gets quieter across its own length — what is gone
+# is one chord being louder than the next.
+CHORD_LEVEL_VAR_DB = 0.0
 
 
 def _decay_chord_slots(beds, slots, variant):
