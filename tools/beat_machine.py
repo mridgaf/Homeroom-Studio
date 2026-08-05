@@ -48,7 +48,7 @@ from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
 from beat_recipes import (history_avoid, lane_label, load_recipe,
                           record_history, save_recipe, write_midi,
                           write_stems)
-from pattern_gen import compose, load_library
+from pattern_gen import break_list, compose, load_library
 
 def _resolve_beats_root():
     """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
@@ -291,6 +291,10 @@ def _hat_density(bars, mode):
 
 
 BACKBONE = {"kick", "snare", "clap"}     # owner rule 2026-07-17: never stops
+# The lanes a famous figure is transcribed into — the ones compose() seeds
+# verbatim from patterns_breaks.json, and therefore the ones nothing
+# downstream may rewrite. See the break gate in vary_preset.
+BREAK_LANES = {"kick", "snare", "hat"}
 
 
 def vary_preset(preset, variant, num, tempo_locked, density=None):
@@ -325,6 +329,18 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         return bars
 
     mutable = [ln for ln in lanes if not ln.startswith("stamp")]
+    # OWNER RULE 2026-08-04: "whatever rules are keeping the break beats from
+    # being what they should be, exclude the break beats from those rules."
+    # compose() already spares a verbatim break its thinning and bank-vary,
+    # but THIS pass runs on every beat afterwards and undid the work: the
+    # density roll added and dropped hits, and thinbar/frisson/breath/bshift
+    # blanked whole bars or rewrote X into x. A transcription that survives
+    # compose() and then gets a bar emptied is not a transcription. The
+    # figure's own lanes are untouchable here; guests still get everything,
+    # so a break beat still has an arrangement.
+    if preset.get("break_beat"):
+        mutable = [ln for ln in mutable if ln not in BREAK_LANES]
+        notes.append("break: figure left exactly as transcribed")
     # the subgenre roster's canon lanes carry the figure that DEFINES the
     # style (owner rule 2026-07-19) — they get the kick's gentle anchor
     # wander, never the drop/add mutation, which would quietly turn a
@@ -436,7 +452,23 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # everything level, a dip is the one thing that contradicts the rule, so
     # the only non-hole treatment left is the arrangement move.
     HOLE_P = 1 / 6.0
-    if rng.random() < HOLE_P:
+    if preset.get("break_beat"):
+        # REAL REGRESSION, 2026-08-04, caught by
+        # test_real_beats_are_not_mono_or_silent on his beat 1803 and traced
+        # back here. Taking kick/snare/hat out of `mutable` above (so a
+        # transcription stays a transcription) left the GUESTS as the only
+        # thing a treatment could pick. So every break beat now aimed its
+        # structural move at a guest lane — and the guests are the only
+        # off-centre content a break beat has, since kick and snare sit dead
+        # centre and the hat is pinned near it by house rule. 1803's shaker
+        # was sent "only in the A section" and half the beat had nothing in
+        # the sides at all: -28 dB side-to-mid, i.e. mono.
+        #
+        # The right answer is not a cleverer treatment. It is that "for
+        # break beats, stay verbatim" means the arrangement stops moving
+        # too — the figure IS the arrangement.
+        t = ""
+    elif rng.random() < HOLE_P:
         t = rng.choice(["thinbar", "frisson", "breath"])
     else:
         t = "bshift"
@@ -683,6 +715,7 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
     # must be set BEFORE compose() — apply_directions runs after it, too
     # late for the composer to choose a break transcription.
     p["break_beat"] = bool(dirs and dirs.get("break_beat"))
+    p["break_name"] = (dirs or {}).get("break_name")
     _maybe_seat_snare(p, variant)
     _pin_bars_for_loop_voice(p, variant, dirs)
     if dirs and dirs.get("force_mode"):
@@ -732,6 +765,7 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
         q = copy.deepcopy(CREW[n])
         # same as solo_preset: the composer needs this before it runs
         q["break_beat"] = bool(dirs and dirs.get("break_beat"))
+        q["break_name"] = (dirs or {}).get("break_name")
         qnotes = compose(q, n, variant, tsig=tsig, trick=trick,
                          traditional=traditional)
         fresh[n] = q
@@ -871,13 +905,40 @@ FEEL_WORDS = {
     "vamp": "vamp_i_VI"}
 
 
+# Typed words -> which famous figure. The right-hand side must appear in
+# that pattern's "name" in pattern_library/patterns_breaks.json; the picker
+# on the page sends the full name and matches the same way, so there is one
+# lookup, not two. "think" is deliberately NOT a trigger on its own — "I
+# think this should be dark" is a sentence, not a request for Lyn Collins.
+BREAK_WORDS = (
+    ("amen", "Amen"), ("funky drummer", "Funky Drummer"),
+    ("impeach", "Impeach"), ("apache", "Apache"),
+    ("assembly line", "Assembly Line"),
+    ("synthetic substitution", "Synthetic Substitution"),
+    ("cold sweat", "Cold Sweat"), ("roachclip", "Roachclip"),
+    ("nautilus", "Nautilus"), ("get out my life", "Get Out My Life"),
+    ("think break", "Think"), ("think about it", "Think"),
+    ("lyn collins", "Think"),
+    ("levee", "Levee"), ("when the levee breaks", "Levee"),
+    ("big beat", "Big Beat"), ("billy squier", "Big Beat"),
+    # off his own step chart, 2026-08-04
+    ("billie jean", "Billie Jean"),
+    ("walk this way", "Walk This Way"),
+    ("new day", "New Day"), ("skull snaps", "New Day"),
+    ("papa was too", "Papa Was Too"),
+    ("mardi gras", "Mardi Gras"))
+
+
 def parse_directions(notes):
     """Read this click's directions out of the notes text. v6 adds
     space (gated/dry/room/washed), swing (more/straight), time
     signature (3/4, waltz, 6/8), and halftime words."""
-    t = " " + (notes or "").lower().replace(",", " ") + " "
+    t = " " + (notes or "").lower() + " "
     t = t.replace(" 3/4", " 3-4 ").replace(" 6/8", " 6-8 ")
-    t = t.replace(".", " ")
+    # Everything that isn't a letter, digit or the 3-4/6-8 hyphen becomes a
+    # space. Was: only "," and "." were stripped, so "funky drummer!" and
+    # "no 808s?" simply didn't match (found 2026-08-04).
+    t = re.sub(r"[^a-z0-9\- ]+", " ", t)
     t = " ".join(t.split())
     t = f" {t} "
     out = {"mute": set(), "tags": [], "kick": None, "density": None,
@@ -889,11 +950,15 @@ def parse_directions(notes):
     # thinned, varied influence. The PATTERN is transcribed; no audio from
     # any recording is used — the figure plays on his own drum samples,
     # which is how every drum machine ships a break.
-    if any(x in t for x in (
-            " break ", " breaks ", " breakbeat ", " break beat ",
-            " amen ", " funky drummer ", " impeach ", " apache ",
-            " assembly line ", " synthetic substitution ", " cold sweat ",
-            " roachclip ", " nautilus ", " get out my life ")):
+    # The typed word must SELECT the figure, not just switch the feature on.
+    # It used to set break_beat and then get thrown away, so all ten names
+    # picked at random out of ten (found 2026-08-04). The value here is a
+    # fragment of the pattern's name in patterns_breaks.json — see
+    # pattern_gen._pick_break. None = "surprise me".
+    out["break_name"] = next(
+        (name for word, name in BREAK_WORDS if f" {word} " in t), None)
+    if out["break_name"] or any(x in t for x in (
+            " break ", " breaks ", " breakbeat ", " break beat ")):
         out["break_beat"] = True
     if any(x in t for x in ("no swing", "straight", "unswung")):
         out["swing"] = 50
@@ -3968,6 +4033,14 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
       <option value="dusty">dusty &mdash; dusty, aged samples</option>
     </select>
     <div class="hint">fills the Directions box above &mdash; edit it after if you like</div></div>
+  <div class="field quick"><label>Famous beats</label>
+    <select id="famous">
+      <option value="">&mdash; none, make it up &mdash;</option>
+      <option value="break">surprise me &mdash; any of them</option>
+__BREAKS__
+    </select>
+    <div class="hint">the drum part is played exactly as it was drummed, on
+      your own samples &mdash; no audio from any record</div></div>
   <div class="fire">
     <button id="go">Make my beats</button>
     <span id="hosthint"></span>
@@ -4001,6 +4074,18 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  // whole existing parser + README trail works unchanged
  document.getElementById('quick').addEventListener('change', e => {
    if (e.target.value) document.getElementById('notes').value = e.target.value;
+ });
+
+ // Famous beats: same trick — it types the words into Directions, so there
+ // is ONE code path (parse_directions) whether he picks it or types it, and
+ // the README trail says what he asked for either way.
+ const BREAK_WORDS = __BREAKWORDS__;
+ document.getElementById('famous').addEventListener('change', e => {
+   const n = document.getElementById('notes');
+   const kept = n.value.split(',').map(s => s.trim())
+                 .filter(s => s && !BREAK_WORDS.includes(s.toLowerCase()));
+   if (e.target.value) kept.unshift(e.target.value);
+   n.value = kept.join(', ');
  });
 
  // ---------------------------------------------------------- crew picking
@@ -4685,6 +4770,28 @@ def _brand_logo(prefer="blue"):
     return min(files, key=lambda p: p.stat().st_size)
 
 
+def _break_word(name):
+    """The words the picker should type for this figure — the SAME trigger
+    the notes box matches, so picking and typing take one code path."""
+    return next((w for w, frag in BREAK_WORDS if frag in name), None)
+
+
+def _break_options():
+    """The Famous beats menu, built from the pattern pack itself so adding a
+    figure to the JSON is the only step needed to make it pickable."""
+    out = []
+    for p in break_list():
+        word = _break_word(p["name"])
+        if not word:                # in the pack but nothing selects it
+            continue
+        label = p["name"].replace(" Figure", "")
+        src = p.get("source", "")
+        out.append('      <option value="%s">%s%s</option>'
+                   % (word, label,
+                      " &mdash; " + src.replace("&", "&amp;") if src else ""))
+    return "\n".join(out)
+
+
 def _page():
     crew = "".join(_dj_card(n) for n in CREW_ORDER)
     legends = "".join(_dj_card(n) for n in LEGEND_ORDER)
@@ -4700,9 +4807,12 @@ def _page():
         ghost = f'<div class="ghost"><img src="{src}" alt=""></div>'
     else:                       # no artwork dropped in yet — type mark
         mark, ghost = "<span>BOTC</span>", ""
+    words = json.dumps([w for w, _ in BREAK_WORDS] + ["break"])
     return (_PAGE.replace("__CREW__", crew).replace("__LEGENDS__", legends)
             .replace("__GENRES__", styles)
             .replace("__FIXEDBANK__", fixedbank)
+            .replace("__BREAKS__", _break_options())
+            .replace("__BREAKWORDS__", words)
             .replace("__MARK__", mark).replace("__GHOST__", ghost))
 
 

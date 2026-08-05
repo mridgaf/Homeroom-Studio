@@ -52,42 +52,76 @@ LIB_DIR = Path(__file__).resolve().parent.parent / "pattern_library"
 _LIB_CACHE = None
 
 
-def _lib_kick(vels):
-    """Kick lane string from a library velocity grid.
+GHOST_V = 90       # under this, a written hit is a ghost note
+ACCENT_GAP = 15    # loud hits this far apart were accented ON PURPOSE
 
-    Historically this ignored velocity entirely and marked an accent by
-    POSITION (every beat-start), which is fine for the style grammars that
-    were written flat. It is wrong for a real break: the ghost kicks between
-    the accents are a lot of what makes the Funky Drummer sound like the
-    Funky Drummer, and they were arriving as full-strength hits.
 
-    So: honour velocity when the pattern actually has any (ghosts below 90
-    become "."), and fall back to the old positional accents when every hit
-    is the same weight, which keeps all 180 existing patterns unchanged."""
+def _lib_lane(vels, flat):
+    """One lane string from a library velocity grid, reading the written
+    dynamics the way the transcriber meant them.
+
+    Three things can be true of a grid, and each wants a different reading:
+
+    * REAL ACCENTS — the loud hits span >= ACCENT_GAP (the breaks pack is
+      written 55 / 100 / 118). Split them at the midpoint: X for the
+      accents, x for the plain hits, "." for anything under GHOST_V. This
+      is the case the old code got wrong. It only honoured velocity when
+      some hit fell below 90, so five of the ten breaks — Apache, Assembly
+      Line, Get Out My Life among them — had every written accent thrown
+      away and replaced with accents on 0/8/16/24. Assembly Line's accents
+      on 11 and 27 ARE that break; moving them to 8 and 24 makes it a
+      different pattern wearing its name.
+    * GHOSTS, NO ACCENT SPREAD — the loud hits are all one weight and the
+      quiet ones are ghosts. Nothing to rank: loud is the accent.
+    * FLAT — every hit the same. There is no written dynamic to read, so
+      `flat` decides the fallback, per lane, matching what that lane has
+      always done: the kick marks beat-starts by POSITION, everything else
+      plays its hits straight.
+
+    OWNER CALL 2026-08-04, asked directly whether to keep this library-wide
+    or scope it to the breaks: library-wide. Measured against the parsing
+    shipped before this change, that moves 2 kick lanes and 4 snare lanes;
+    against the parsing from before ghosts were honoured at all, 73 kick
+    lanes gain ghost hits at 0.26 gain (-11.7 dB, groove.velocity). Those
+    73 are the ones the last session shipped under a "changes nothing"
+    label — they are heard in the audition batch this time, not assumed."""
     n = len(vels)
-    hits = [v for v in vels if v]
-    if hits and min(hits) < 90 <= max(hits):
-        return "".join(("X" if v >= 90 else ".") if v else "-" for v in vels)
-    caps = set(range(0, n, max(1, n // 4)))
-    return "".join(("X" if i in caps else "x") if v else "-"
+    loud = [v for v in vels if v >= GHOST_V]
+    if loud and max(loud) - min(loud) >= ACCENT_GAP:
+        thr = (max(loud) + min(loud)) / 2.0
+        acc = lambda i, v: "X" if v >= thr else "x"          # noqa: E731
+    elif flat == "positional":
+        caps = set(range(0, n, max(1, n // 4)))
+        acc = lambda i, v: "X" if i in caps else "x"         # noqa: E731
+    else:
+        acc = lambda i, v: flat                              # noqa: E731
+    return "".join((acc(i, v) if v >= GHOST_V else ".") if v else "-"
                    for i, v in enumerate(vels))
 
 
+def _lib_kick(vels):
+    """Kick lane: flat grids keep the historical positional accents."""
+    return _lib_lane(vels, "positional")
+
+
 def _lib_snare(vels):
-    """Backbeat lane string from a library velocity grid: accents land
-    as X, soft hits as ghosts."""
-    return "".join(("X" if v >= 90 else ".") if v else "-" for v in vels)
+    """Backbeat lane: flat grids are all accent, as they always were."""
+    return _lib_lane(vels, "X")
 
 
 def _lib_hat(tracks, steps):
+    """Hat lane. Flat grids stay plain hits — a timekeeper is not a row of
+    accents — but a hat written with real dynamics now keeps them, which is
+    most of what separates the Funky Drummer's hat from a metronome."""
     base = next((tracks[t] for t in ("closed_hat", "ride", "shaker")
                  if t in tracks), None)
     opens = tracks.get("open_hat")
     if base is None and opens is None:
         return None
-    s = ["x" if base and base[i] else "-" for i in range(steps)]
+    s = list(_lib_lane(base, "x")) if base else []
+    s = (s + ["-"] * steps)[:steps]
     for i in range(steps):
-        if opens and opens[i]:
+        if opens and i < len(opens) and opens[i]:
             s[i] = "o"
     return "".join(s)
 
@@ -108,11 +142,16 @@ def load_library():
         genre = f.stem.split("_", 1)[1]
         for p in data:
             n = p.get("steps", 16)
-            if p.get("time_signature") != "4/4" or n not in (16, 32):
+            # 64 added 2026-08-04: his own step chart writes the Amen and
+            # Apache as FOUR bars, and the four-bar cycle — bar 4 answering
+            # the first three — is most of what makes the Amen the Amen. At
+            # two bars it cannot be that break however right the notes are.
+            if p.get("time_signature") != "4/4" or n not in (16, 32, 64):
                 continue
             tr = p.get("tracks", {})
             entry = dict(name=p["name"], genre=genre,
-                         subgenre=p.get("subgenre", ""), steps=n)
+                         subgenre=p.get("subgenre", ""), steps=n,
+                         source=p.get("source", ""))
             if tr.get("kick"):
                 entry["kick"] = _lib_kick(tr["kick"])
             if tr.get("snare"):
@@ -126,15 +165,33 @@ def load_library():
     return pats
 
 
-def _pick_break(rng):
-    """One of the classic break figures (pattern_library/patterns_breaks.json,
-    subgenre "breaks"). Falls back to any two-bar groove if that file is
-    missing, so a break request degrades to something break-shaped rather
-    than to silence."""
+def break_list():
+    """Every famous figure in the pack, in file order — what the picker on
+    the page offers, so the list has exactly one home (the JSON)."""
+    return [p for p in load_library() if p.get("subgenre") == "breaks"]
+
+
+def _pick_break(rng, want=None):
+    """One of the famous figures (pattern_library/patterns_breaks.json,
+    subgenre "breaks").
+
+    `want` is the words he actually typed or picked. THE BUG THIS FIXES
+    (2026-08-04): the ten song names in parse_directions all collapsed to a
+    single break_beat=True flag and the word was thrown away, so typing
+    "amen" landed on the Amen 1 roll in 10 — every name in the trigger list
+    selected nothing. Now the name filters the pool; only a bare "break" or
+    "breakbeat" still rolls the dice.
+
+    Falls back to any two-bar groove if the file is missing, so a break
+    request degrades to something break-shaped rather than to silence."""
     pats = load_library()
     breaks = [p for p in pats if p.get("subgenre") == "breaks"]
     if not breaks:
         breaks = [p for p in pats if p["steps"] == 32]
+    if want:
+        named = [p for p in breaks if want.lower() in p["name"].lower()]
+        if named:
+            return rng.choice(named)
     return rng.choice(breaks) if breaks else None
 
 
@@ -143,7 +200,12 @@ def _pick_library(spec, rng):
     subgenre at full weight, the whole genre file at half. A "genres"
     key restricts the pool to those library files (traditional beats
     seed from the hiphop file only)."""
-    pats = load_library()
+    # OWNER CALL 2026-08-04: the famous figures are ASK-ONLY. They never
+    # arrive by accident, and they never arrive as a thinned influence —
+    # this pool feeds _thin_kick and _bank_vary, which is exactly the
+    # treatment that turns a break back into generic syncopation. The only
+    # way in is the picker (or typing the name), through _pick_break.
+    pats = [p for p in load_library() if p.get("subgenre") != "breaks"]
     only = spec.get("genres")
     if only:
         pats = [p for p in pats if p["genre"] in only]
@@ -1063,7 +1125,7 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         # behaviour and is unchanged.
         verbatim = bool(preset.get("break_beat"))
         if verbatim:
-            lib_seed = _pick_break(rng)
+            lib_seed = _pick_break(rng, preset.get("break_name"))
         elif lib and rng.random() < lib.get("p", 0):
             lib_seed = _pick_library(lib, rng)
 
@@ -1119,7 +1181,14 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                     notes.append("kick borrowed from %s's book" % donor)
                 kick_seed = seed_bars(lib_seed.get("kick", "")) \
                     if lib_seed else []
-                if len(kick_seed) > 1 and verbatim:
+                # was `len(kick_seed) > 1 and verbatim` — which meant a
+                # ONE-BAR figure was never played verbatim at all: it fell
+                # through to _thin_kick and _bank_vary like any ordinary
+                # seed. Harmless while every figure was two bars; the moment
+                # his chart supplied one-bar figures (2026-08-04) it silently
+                # varied nine of the eighteen. Verbatim is verbatim at any
+                # length.
+                if kick_seed and verbatim:
                     # a two-bar break played as written (owner 2026-08-01:
                     # break beats stay verbatim). No thinning, no bank-vary —
                     # those are what turn a break back into generic
@@ -1164,10 +1233,19 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 # the Funky Drummer could never have it. `traditional` still
                 # locks to 2&4 by definition, and a bare 2&4 seed still
                 # teaches nothing so it still falls through.
-                if sn_seed and sn_seed[0] != "----X-------X---" \
-                        and not traditional \
-                        and (verbatim or rng.random() < 0.5):
-                    if verbatim and len(sn_seed) > 1:
+                #
+                # ...UNLESS it's a verbatim figure (owner rule 2026-08-04:
+                # exclude the breaks from the rules that stop them being what
+                # they are). Apache and The Big Beat are drummed on a plain
+                # 2 and 4 — that IS the transcription. The bare-2&4 guard was
+                # written to stop a seed teaching the engine nothing new, and
+                # applied to a break it handed the beat the DJ's own snare
+                # instead of the record's, silently, with the note still
+                # reading "played straight".
+                if sn_seed and not traditional \
+                        and (verbatim or (sn_seed[0] != "----X-------X---"
+                                          and rng.random() < 0.5)):
+                    if verbatim:                 # any length — see the kick
                         lanes[lane] = _seed_phrase(sn_seed, nbars, rng,
                                                    fills=False)
                     else:

@@ -22,6 +22,171 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-04 The famous figures: named, played as written, and left alone
+- Context: a deep review of the 2026-08-01 break work found seven things.
+  Six were real and one number in it was wrong. Confirmed by re-running the
+  diff myself: 73 of 180 library kick lanes did change under a docstring
+  that said "keeps all 180 existing patterns unchanged". The review said
+  those ghosts play 26 dB down; they play at 0.26 gain, about -11.7 dB —
+  the -26 dB was the floor on the per-hit wobble that had already been
+  removed. Verdict stands either way: a silent change is the problem.
+- His call, asked directly: keep the velocity reading LIBRARY-WIDE (not
+  scoped to breaks), and the figures stay ASK-ONLY — never rolled into a
+  batch by accident. Then he widened the ask: not just breaks, a "famous
+  beats" picker of widely-sampled drum parts. Named six; three were new.
+- Decision/change, seven fixes plus the umbrella one he asked for:
+  * THE UMBRELLA — "exclude the break beats from the rules keeping them
+    from being what they should be". compose() already spared a verbatim
+    figure its thinning; `vary_preset` ran afterwards on every beat and
+    undid it (density mutation, and treatments that blank whole bars). One
+    gate at the top of vary_preset: on a break beat, kick/snare/hat leave
+    `mutable`. Guests still get an arrangement.
+  * NAMING ONE GETS YOU IT — the ten song names all collapsed to
+    break_beat=True and the word was discarded, so "amen" gave the Amen 1
+    roll in 10. `break_name` now rides through to `_pick_break(rng, want)`.
+  * ACCENTS — `_lib_lane` replaces the old kick/snare parsers. Loud hits
+    more than 15 apart were accented on purpose (the pack is 55/100/118);
+    otherwise ghosts are ghosts and the flat fallback is per-lane, exactly
+    what each lane always did. Assembly Line keeps its accents on 11 and 27.
+  * THE 73 — that same rewrite is library-wide, his call. Measured against
+    what shipped: 2 kick lanes and 4 snare lanes move. Against the parsing
+    before ghosts were honoured: the 73. In the audition batch as A/B pairs.
+  * HATS — nine of ten were byte-identical straight 8ths at a flat 100.
+    All thirteen rewritten with real dynamics and open hats; `_lib_hat`
+    carries velocity now. TRANSCRIBED FROM NOTATION, NOT CONFIRMED BY EAR.
+  * REACHABLE — a "Famous beats" dropdown on the page. It types the words
+    into the Directions box, so picking and typing are ONE code path, and
+    the options are built from the JSON so the list has one home. Also:
+    punctuation no longer eats the word ("funky drummer!" fired nothing —
+    only "," and "." were stripped), and patterns_breaks.json is now walled
+    out of `_pick_library` so a figure can never arrive as a thinned
+    influence.
+  * TESTS — tests/test_breaks.py, 30 of them, parameterised over every
+    figure. Plus the two hard rules that had a choke point and no test:
+    STAMP_LANE off, VOX_LANE_P 0.
+  * README — the "not copies of specific copyrighted recordings" line was
+    false next to thirteen files named after specific recordings. Rewritten
+    to say what is actually true: the pattern is transcribed, no audio is
+    used, and a drum pattern is not the sound recording.
+- Three new figures, his list: Think (Lyn Collins), When the Levee Breaks
+  (Led Zeppelin), The Big Beat (Billy Squier). Duplicates of what was
+  already in the pack (Impeach, Synthetic Substitution, Apache) skipped.
+- Caught while checking, not by a test — the reason the test is now
+  parameterised over all thirteen: Apache and The Big Beat are drummed on a
+  plain 2 and 4, and the "a bare 2&4 seed teaches nothing" guard threw
+  their backbeat away and substituted the DJ's own, while the beat's notes
+  still read "played straight". Only the Amen was being checked.
+- Verify by: `tests/test_breaks.py` (30). Full suite 781 passed, 1 skipped.
+  Audition batch on the Desktop: "Homeroom Famous Beats 2026-08-04".
+- Status: partly confirmed — the ghost kicks are settled, the hats are not.
+- Outcome:
+  * GHOST KICKS — CONFIRMED by ear, 2026-08-04. He heard the three A/B
+    pairs and said "I like the after sound", i.e. the quiet kicks stay
+    quiet. The velocity reading is LIBRARY-WIDE and the 73 grooves keep
+    what they gained. No code change: AFTER is what already ships. Do not
+    reopen this by "simplifying" `_lib_lane` back to a binary threshold —
+    the three-level reading IS the approved sound.
+  * HATS — still open. Written from published notation, never checked
+    against the records. Nine of the ten used to be a flat metronome, so
+    anything is an improvement, which is exactly why "he didn't complain"
+    must not be read as "he approved them". Ask again explicitly.
+  * TEMPO — open. 90 Night Metro rendered The Big Beat at 136bpm because
+    the DJ's tempo range beat the figure's. Not raised with him yet.
+  * FIGURES REPORTED WRONG BY EAR, 2026-08-04. He listened and said the
+    breaks don't sound right, and asked straight out whether I actually
+    have the ability to build these. Answered honestly: I cannot hear, and
+    the patterns are RECALL, not a checked source. The README claim
+    "transcribed from published notation" overstated it and was corrected
+    to him. Confidence is uneven — Amen, Funky Drummer, Impeach, Apache
+    and Levee are widely transcribed and probably close; the other eight I
+    would not bet on. Nothing in this project can verify them: the Reason
+    Voice recipe book is 27 recipes about getting SOUNDS in Reason, and
+    holds no drum transcriptions.
+  * HIS CALL: bare auditions of all thirteen first (no DJ, no chords, no
+    reverb, no swing, one plain acoustic kit, each at its own tempo), then
+    research only the ones his ear says are wrong. Rendered to
+    ~/Desktop/Homeroom Bare Breaks 2026-08-04. Awaiting his verdict — do
+    NOT rewrite any figure before it comes back.
+  * HE SUPPLIED THE SOURCE, 2026-08-04 — "drum patterns.xlsx" in the
+    project root. THE HITS ARE CELL FILL COLOURS, which is why his CSV
+    export was empty; read the .xlsx with stdlib zipfile+ElementTree
+    (styles.xml fill id -> sheet cell style index). 31 grids: 13 classic
+    breakbeats, 4 genre templates, 6 clave/world patterns. His chart is now
+    the AUTHORITY — patterns_breaks.json was rebuilt from it, not merged.
+    Amen and Apache are FOUR bars (load_library only accepted 16/32 steps,
+    so four-bar figures were silently dropped — widened to 64); the Amen is
+    on a RIDE; the hats REST where the open hat sounds, which was his "the
+    hi hats just run straight over the beats". Five new figures added
+    (Billie Jean, Walk This Way, It's a New Day, Papa Was Too, Mardi Gras).
+    Five keep my recall and are marked "sourced": UNVERIFIED in the pack
+    itself — Assembly Line, Cold Sweat, Get Out My Life, Nautilus, Think.
+    His grid carries NO velocity, so accents are assigned by one stated
+    rule (snare on 2/4 = accent, other snares = ghost, rest = plain hit)
+    and nothing else is invented. His Amen notation image DOES carry accent
+    marks — that is the missing layer; ask for the same on Funky Drummer.
+  * BUG HIS DATA EXPOSED: compose() gated verbatim placement on
+    `len(seed) > 1`, so a ONE-BAR figure was never played verbatim — it
+    fell through to _thin_kick and _bank_vary like an ordinary seed.
+    Harmless while every figure was two bars; it would have silently varied
+    nine of the eighteen the moment his one-bar grids landed.
+  * MONO REGRESSION, mine, found by test_real_beats_are_not_mono_or_silent
+    on his beat 1803 and FIXED. Taking kick/snare/hat out of `mutable` left
+    the GUESTS as the only lane a structural treatment could pick, so every
+    break beat aimed its hole at a guest — and guests are the only
+    off-centre content a break has (kick and snare are dead centre, the hat
+    is pinned to |pan| <= 0.2 by house rule). 1803's shaker was sent "only
+    in the A section" and half the beat had nothing in the sides: -28 dB
+    side-to-mid. Fix: a break beat gets NO structural treatment at all —
+    the figure IS the arrangement. Test:
+    test_a_break_beat_never_blanks_a_guest_lane.
+    NOT FULLY SOLVED, and it is NOT a regression — break beats run NARROW
+    by nature. Measured after the fix on 6 fresh ones: -10.1, -18.4, -20.4,
+    -20.7, -21.6 and -24.5 dB against a -22 threshold. One still fails and
+    three are marginal. Cause is structural: few lanes, all centred. Two
+    honest options, HIS CALL, do not pick one silently — (a) guarantee a
+    break beat gets at least one panned guest colour, or (b) accept that a
+    break is authentically centre-heavy and make the invariant break-aware.
+    Beat 1803 itself stays mono: it is already printed, and the house rule
+    is move-never-delete.
+  * HI-HAT SAMPLE MISTAKE, caught by his ear within minutes of the bare
+    batch: "there should be closed hi hats... all the way open high hats
+    should not be happening so often." Correct, and it was MY sample pick,
+    not the patterns. The dry acoustic kit has four hats — tite (closed),
+    semi, loose (washy), open — and I loaded "hh loose dry" as the
+    everyday hat, so every hat hit in all thirteen was already half-open
+    before a real open hat landed on top. Re-rendered on "hh tite dry".
+    The written parts were never the problem: 7 open hats across all
+    thirteen figures, 8 figures have none. LESSON, and it is the same one
+    this whole session keeps teaching: a name that reads plausible is not
+    a verified choice. I cannot hear, so anything I pick by name he has to
+    check.
+  * THREE ENGINE FAULTS FOUND WHILE CHECKING, all inside the umbrella rule
+    ("exclude the breaks from the rules keeping them from being what they
+    should be"), all measured on the beats he actually heard. FIXES AGREED
+    IN PRINCIPLE, DEFERRED until after he listens, at his instruction:
+      1. SWING RIDES ON TOP OF A TRANSCRIPTION. Beat 88 (Think) got 60%,
+         92 (Impeach) 61%, 87 (Funky Drummer) 53%. A break's feel is
+         already written into the grid; MPC swing on top smears it.
+         `roll_swing` is called in both solo_preset and collab_preset with
+         no break check.
+      2. THE BACKBONE CAN LAND ON A CLAP. Beat 90 (Big Beat, Night Metro)
+         has no snare lane — that DJ's backbeat lane is `clap`, so the
+         transcribed snare played on a clap sample. It cannot read as the
+         break.
+      3. A MISSING LANE DROPS ITS PART SILENTLY. Beat 93 (Nautilus, Glass
+         Cat) has no hat lane at all (snare/clap/snap), so the whole hat
+         transcription vanished with no note anywhere saying so.
+    Fix shape: on a break beat, force swing 50, map the figure's snare to
+    whatever backbone lane exists but prefer a real snare, and refuse to
+    drop a figure's lane silently — seat it or say so in the notes.
+  * CORPUS FINDING, his own files: `.claude/skills/drum-loops/references/
+    techniques.md` says ghosts should be 30-50% of the accent velocity and
+    `connections-2026-07.md` already warns "ghosts at ~26% risks burying
+    the mutter". groove.velocity uses a 0.26 ghost floor — under his own
+    documented range. On a break the ghosts ARE the groove, so this is a
+    live candidate for "doesn't sound right" that is not the pattern.
+    Untested; do not change it without an A/B he hears.
+
 ### 2026-08-03 Three skills + two CLAUDE.md rules, distilled from this session's mistakes
 - He asked what skills this session should produce. Proposed four things
   ranked by what each would actually have saved, and he took all of them.
