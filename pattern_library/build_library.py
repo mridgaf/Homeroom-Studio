@@ -87,11 +87,13 @@ def build_track(pattern):
 
 def main():
     base = os.path.dirname(os.path.abspath(__file__))
-    out_root = os.path.join(base, "drum_library")
+    out_root = base
     genre_files = {
         "hip-hop": "patterns_hiphop.json",
         "electronic": "patterns_electronic.json",
         "rock": "patterns_rock.json",
+        "funk": "patterns_funk.json",
+        "funk-breaks": "patterns_funk_breaks.json",
     }
     catalog = []
     count = 0

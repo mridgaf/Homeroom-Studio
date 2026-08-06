@@ -48,7 +48,7 @@ from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
 from beat_recipes import (history_avoid, lane_label, load_recipe,
                           record_history, save_recipe, write_midi,
                           write_stems)
-from pattern_gen import break_list, compose, load_library
+from pattern_gen import LIB_DIR, break_list, compose, load_library, _lib_lane
 
 def _resolve_beats_root():
     """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
@@ -2472,6 +2472,150 @@ def generate_fixed(idx, root=ROOT, shots=None, status=lambda msg: None):
     return path, report
 
 
+# --------------------------------------------------- pattern library browser
+# Owner request 2026-08-06: a genre dropdown over the whole pattern_library,
+# not just the five FIXED_PATTERNS. Same drums-only rendering as the Fixed
+# Bank above (no chords, no bass, no DJ stamp), but every lane a pattern
+# actually has (toms, open hat, etc.), not just kick/snare/hat, and the two
+# breaks files (famous figures + funk breaks) are kept in their own separate
+# "Breaks" bucket instead of being mixed into a genre.
+
+LIBRARY_GENRES = {
+    "hiphop": ("Hip-Hop", "patterns_hiphop.json"),
+    "electronic": ("Electronic", "patterns_electronic.json"),
+    "rock": ("Rock", "patterns_rock.json"),
+    "funk": ("Funk", "patterns_funk.json"),
+}
+LIBRARY_BREAKS_FILES = ("patterns_breaks.json", "patterns_funk_breaks.json")
+
+# lane name -> (sample role, want-tags, pan, gain), covering every track
+# name seen anywhere in pattern_library/*.json. Role/tag vocabulary is
+# sample_library.py's DIR_ROLES — no new sample-scanning code needed.
+LANE_SPEC = {
+    "kick":       ("kick", ["punch", "knock"], 0.0, 1.0),
+    "snare":      ("snare", ["crack", "tight"], 0.0, 0.85),
+    "closed_hat": ("hat", ["closed"], -0.12, 0.35),
+    "open_hat":   ("hat", ["open"], -0.12, 0.4),
+    "hat":        ("hat", ["closed"], -0.12, 0.35),
+    "ride":       ("hat", ["ride"], 0.2, 0.4),
+    "crash":      ("crash", ["crash"], -0.2, 0.5),
+    "tom_hi":     ("perc", ["tom", "hi"], 0.35, 0.6),
+    "tom_mid":    ("perc", ["tom", "mid"], 0.0, 0.6),
+    "tom_low":    ("perc", ["tom", "low"], -0.35, 0.6),
+    "cowbell":    ("perc", ["cowbell"], 0.25, 0.45),
+    "shaker":     ("perc", ["shaker"], -0.25, 0.3),
+    "clap":       ("clap", ["clap"], 0.0, 0.6),
+    "rim":        ("rim", ["rim"], 0.15, 0.5),
+}
+
+
+def _library_json(fname):
+    try:
+        return json.loads((LIB_DIR / fname).read_text())
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
+def library_genres():
+    """{genre_key: (label, [pattern dicts])} for the four genre dropdowns —
+    raw pattern dicts (full multi-lane tracks), not load_library()'s
+    reduced kick/snare/hat engine form, so toms and open hats survive."""
+    return {key: (label, _library_json(fname))
+           for key, (label, fname) in LIBRARY_GENRES.items()}
+
+
+def library_breaks():
+    """The separate Breaks bucket: famous figures + funk breaks, combined."""
+    out = []
+    for fname in LIBRARY_BREAKS_FILES:
+        out += _library_json(fname)
+    return out
+
+
+def _library_pattern_lanes(pat):
+    """Every lane this pattern actually hits, converted to engine bar
+    strings with _lib_lane — the same written-dynamics reading the breaks
+    pack uses, just applied per-lane instead of only kick/snare/hat."""
+    lanes = {}
+    for lane, vels in pat.get("tracks", {}).items():
+        if lane not in LANE_SPEC or not any(vels):
+            continue
+        flat = {"kick": "positional", "snare": "X"}.get(lane, "x")
+        s = _lib_lane(vels, flat)
+        if s.count("-") < len(s):
+            lanes[lane] = s
+    return lanes
+
+
+def _library_preset(pat, variant=0):
+    lane_strs = _library_pattern_lanes(pat)
+    seed_num = zlib.crc32(pat["name"].encode()) % 90000 + 10000
+    lanes, kit = {}, {}
+    for i, (lane, bar) in enumerate(lane_strs.items()):
+        role, wants, pan, gain = LANE_SPEC[lane]
+        lanes[lane] = (pan, gain, (0, 0, 50, seed_num * 10 + i),
+                       [bar] * BARS)
+        kit[lane] = (role, None, wants, (0.2, 0.5) if lane == "kick" else 1.0)
+    return dict(num=seed_num, bpm=pat.get("bpm", 96), lanes=lanes, kit=kit,
+               kick_dist=0.0, dust=0.0, vinyl=0, wow=0.0, mix_sat=0.0,
+               drive=1.0, sidechain=0.0, space=("dry", []), alt=None,
+               title=pat["name"], variant=variant)
+
+
+def generate_library(genre_key, name, root=ROOT, shots=None,
+                     status=lambda msg: None):
+    """Render one pattern_library pattern standalone: drums only (whatever
+    lanes it actually has), no chords/bass/DJ stamp. genre_key is one of
+    LIBRARY_GENRES or "breaks"."""
+    if genre_key == "breaks":
+        label, pool = "Breaks", library_breaks()
+    else:
+        if genre_key not in LIBRARY_GENRES:
+            raise RuntimeError(f"unknown library genre {genre_key!r}")
+        label, pool = library_genres()[genre_key]
+    pat = next((p for p in pool if p["name"] == name), None)
+    if pat is None:
+        raise RuntimeError(f"{name!r} not found in the {label} library")
+    variant = zlib.crc32(pat["name"].encode()) % 1000
+    preset = _library_preset(pat, variant=variant)
+    if shots is None:
+        status("Scanning your sample library…")
+        shots = build_shots()
+    kit, sources = build_kit(shots, label, None, variant=variant,
+                             avoid=history_avoid([label]), preset=preset)
+    del kit["stamp"]
+    L, R, lufs, parts = render_crew_beat(label, kit, preset=preset,
+                                         want_parts=True)
+    no = next_number(root)
+    folder = root / label
+    folder.mkdir(parents=True, exist_ok=True)
+    title = preset["title"]
+    fname = f"{no} {title} Drums {preset['bpm']}bpm.wav"
+    path = folder / fname
+    if path.exists():
+        raise RuntimeError(f"{fname} already exists — not overwriting.")
+    write_wav24(path, L, R)
+    write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
+    write_stems(folder / f"{no} {title} Stems", parts["stems"],
+               sources=sources)
+    spec_used = {ln: (r, m, w, _resolve_secs(s, preset["num"], variant))
+                for ln, (r, m, w, s) in preset["kit"].items()}
+    save_recipe(root, no, {
+        "file": fname, "folder": label, "names": [label],
+        "title": title, "variant": variant, "bpm": preset["bpm"],
+        "space": "dry", "preset": _shareable_preset(preset),
+        "kit_spec": spec_used,
+        "kit_paths": {ln: sources[ln] for ln in spec_used},
+        "stamp_paths": {}, "stamp_secs": {}, "root_note": None,
+        "traditional": False, "dj_cut_bar": None, "parent": None,
+        "date": str(date.today())})
+    record_history({ln: label for ln in spec_used}, sources)
+    report = (f"{fname}\n-> {label} folder (+ MIDI and "
+             f"{len(parts['stems'])} stems) | LUFS {lufs:.1f}"
+             f"\n   pattern library: {title} — roll again for a new kit")
+    return path, report
+
+
 # ------------------------------------- files, batch state, favorites/trash
 # Owner request 2026-07-18: the page plays the current batch and lets him
 # drag each track to Favorites or Trash (everything else stays in its DJ
@@ -4002,6 +4146,24 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <h2 class="box">Rhythm test bank <small>five real, well-known hip-hop beats — the rhythm never changes, only the sounds</small></h2>
 <div class="fixedbank" id="fixedbank">__FIXEDBANK__</div>
 
+<h2 class="box">Pattern library <small>every transcribed groove, by genre — drums only, no chords or bass</small></h2>
+<div class="pullup">
+  <div class="field" style="width:170px"><label>Genre</label>
+    <select id="libgenre">__LIBGENRES__</select></div>
+  <div class="field" style="width:300px"><label>Pattern</label>
+    <select id="libpattern"></select></div>
+  <button id="libgo">Play it</button>
+  <div class="note">renders standalone, drops into the player below — roll again for a new kit on the same rhythm</div>
+</div>
+
+<h2 class="box">Breaks <small>famous figures + funk breaks — kept separate, played verbatim</small></h2>
+<div class="pullup">
+  <div class="field" style="width:340px"><label>Break</label>
+    <select id="libbreak">__LIBBREAKS__</select></div>
+  <button id="libbreakgo">Play it</button>
+  <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
+</div>
+
 <div class="panel">
   <div class="fields">
     <div class="field"><label>Tempo</label>
@@ -4694,6 +4856,39 @@ __BREAKS__
    };
  });
 
+ // -------------------------------------------------------- pattern library
+ const LIBRARY_PATTERNS = __LIBRARYJSON__;
+ function fillLibPatterns() {
+   const names = LIBRARY_PATTERNS[document.getElementById('libgenre').value] || [];
+   document.getElementById('libpattern').innerHTML =
+     names.map(n => `<option value="${n}">${n}</option>`).join('');
+ }
+ document.getElementById('libgenre').onchange = fillLibPatterns;
+ fillLibPatterns();
+
+ async function playLibrary(genre, name, btn) {
+   btn.disabled = true;
+   working('Rendering ' + name + '…');
+   try {
+     const r = await fetch('/library', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ genre, name }) });
+     const d = await r.json();
+     if (d.ok) { done(); await loadBatch(d.no); }
+     else failed(d.error);
+   } catch (e) { failed(String(e)); }
+   btn.disabled = false;
+ }
+ document.getElementById('libgo').onclick = () => {
+   const btn = document.getElementById('libgo');
+   playLibrary(document.getElementById('libgenre').value,
+              document.getElementById('libpattern').value, btn);
+ };
+ document.getElementById('libbreakgo').onclick = () => {
+   const btn = document.getElementById('libbreakgo');
+   playLibrary('breaks', document.getElementById('libbreak').value, btn);
+ };
+
  // --------------------------------------------------------------- pull up
  document.getElementById('pullgo').onclick = async () => {
    const no = document.getElementById('pullno').value.trim();
@@ -4792,6 +4987,23 @@ def _break_options():
     return "\n".join(out)
 
 
+def _library_genre_options():
+    return "\n".join(f'      <option value="{key}">{label}</option>'
+                     for key, (label, _fname) in LIBRARY_GENRES.items())
+
+
+def _library_break_options():
+    """Combined famous-figures + funk-breaks menu — its own dropdown, its
+    own render target, never merged into a genre."""
+    out = []
+    for p in library_breaks():
+        name = p["name"]
+        src = p.get("source", "").replace("&", "&amp;")
+        label = name + (" &mdash; " + src if src else "")
+        out.append(f'      <option value="{name}">{label}</option>')
+    return "\n".join(out)
+
+
 def _page():
     crew = "".join(_dj_card(n) for n in CREW_ORDER)
     legends = "".join(_dj_card(n) for n in LEGEND_ORDER)
@@ -4813,6 +5025,11 @@ def _page():
             .replace("__FIXEDBANK__", fixedbank)
             .replace("__BREAKS__", _break_options())
             .replace("__BREAKWORDS__", words)
+            .replace("__LIBGENRES__", _library_genre_options())
+            .replace("__LIBBREAKS__", _library_break_options())
+            .replace("__LIBRARYJSON__", json.dumps({
+                key: [p["name"] for p in patterns]
+                for key, (label, patterns) in library_genres().items()}))
             .replace("__MARK__", mark).replace("__GHOST__", ghost))
 
 
@@ -5046,11 +5263,29 @@ def run_web(port=None):
 
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
-                                 "/fixed"):
+                                 "/fixed", "/library"):
                 self._send(404, "text/plain", b"not found")
                 return
             n = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(n) or b"{}")
+            if self.path == "/library":
+                # the pattern-library browser: any groove from the four
+                # genre files, or the separate Breaks bucket
+                try:
+                    genre = str(data.get("genre", ""))
+                    name = str(data.get("name", ""))
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        path, report = generate_library(genre, name,
+                                                        shots=_CACHE["shots"])
+                        no = int(path.name.split(" ", 1)[0])
+                        append_last_batch(no)
+                        print(" ", report.replace("\n", " "))
+                    self._json({"ok": True, "no": no})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
             if self.path == "/fixed":
                 # the rhythm test bank: same five patterns every time,
                 # only the kit rolls
