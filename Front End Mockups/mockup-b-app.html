@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup B — Single-Focus App</title>
+<style>
+:root {
+  --bg: #17181c;
+  --panel: #212228;
+  --text: #f5f4f1;
+  --dim: #a9a8ae;
+  --accent: #ff9f45;
+  --green: #6fcf7e;
+  --line: #ffffff12;
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font: 16px/1.6 -apple-system, "Helvetica Neue", sans-serif;
+  height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+}
+.tag { position: fixed; top: 10px; right: 14px; font-size: 11px; color: var(--dim);
+  background: var(--panel); border: 1px solid var(--line); padding: 4px 10px; border-radius: 20px; z-index: 99; }
+
+header {
+  display: flex; align-items: center; gap: 12px; padding: 18px 20px 10px;
+}
+.menu-btn {
+  width: 40px; height: 40px; border-radius: 12px; background: var(--panel); border: none;
+  color: var(--text); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.brand { font-weight: 700; font-size: 16px; flex: 1; text-align: center; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+
+main {
+  flex: 1; overflow-y: auto; padding: 6px 20px 20px; display: flex; flex-direction: column; align-items: center;
+}
+
+.recipe-chip-row { display: flex; gap: 8px; overflow-x: auto; width: 100%; max-width: 480px; padding: 10px 2px 18px; }
+.recipe-chip { flex: none; background: var(--panel); border-radius: 20px; padding: 8px 16px; font-size: 13px; color: var(--dim); white-space: nowrap; }
+.recipe-chip.active { background: var(--accent); color: #241300; font-weight: 700; }
+
+.big-card {
+  width: 100%; max-width: 480px; background: var(--panel); border-radius: 22px;
+  padding: 26px 24px 22px; text-align: left;
+}
+.big-card h1 { font-size: 24px; margin-bottom: 6px; }
+.sub { color: var(--dim); font-size: 14px; margin-bottom: 18px; }
+.badge-row { display: flex; gap: 8px; margin-bottom: 18px; }
+.badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: #ffffff10; color: var(--dim); }
+.badge.accent { background: var(--accent); color: #241300; }
+
+.progress-track { height: 6px; background: #ffffff14; border-radius: 3px; margin-bottom: 6px; overflow: hidden; }
+.progress-fill { height: 100%; width: 42%; background: var(--accent); border-radius: 3px; }
+.progress-label { font-size: 12px; color: var(--dim); margin-bottom: 20px; }
+
+.step-card { background: #ffffff0a; border-radius: 16px; padding: 18px; }
+.step-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+  border-radius: 50%; background: var(--accent); color: #241300; font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+.step-text { font-size: 15.5px; line-height: 1.5; }
+
+.nav-arrows { display: flex; justify-content: space-between; margin-top: 16px; }
+.nav-arrows button { background: none; border: none; color: var(--dim); font-size: 14px; cursor: pointer; padding: 8px; }
+.nav-arrows button.next { color: var(--accent); font-weight: 700; }
+
+footer { padding: 18px 20px 26px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.transport-pill { display: flex; gap: 4px; background: var(--panel); border-radius: 26px; padding: 6px; }
+.transport-pill button { background: none; border: none; color: var(--text); width: 42px; height: 42px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+.transport-pill button.rec { color: #ff6b6b; }
+
+#ptt {
+  width: 84px; height: 84px; border-radius: 50%; background: var(--accent); border: none;
+  color: #241300; font-size: 30px; cursor: pointer; box-shadow: 0 6px 20px #ff9f4550;
+}
+.ptt-label { font-size: 12px; color: var(--dim); text-align: center; }
+</style>
+</head>
+<body>
+<div class="tag">MOCKUP B — Single-Focus App (phone-app feel, one thing at a time)</div>
+
+<header>
+  <button class="menu-btn">☰</button>
+  <div class="brand">Reason Voice</div>
+  <div class="status-dot" title="Listening"></div>
+</header>
+
+<main>
+  <div class="recipe-chip-row">
+    <div class="recipe-chip active">Driven Rock Bass</div>
+    <div class="recipe-chip">Shoegaze Wall</div>
+    <div class="recipe-chip">Rock Mix Glue</div>
+    <div class="recipe-chip">Trap 808</div>
+  </div>
+
+  <div class="big-card">
+    <h1>Driven Rock Bass</h1>
+    <div class="sub">sounds like Royal Blood / Muse</div>
+    <div class="badge-row">
+      <span class="badge accent">ROCK</span>
+      <span class="badge">Accuracy B</span>
+    </div>
+
+    <div class="progress-track"><div class="progress-fill"></div></div>
+    <div class="progress-label">Step 3 of 6</div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Bass Dirt channel: MClass EQ hi-pass — cut below 250 Hz (Lo Cut ON, Param 1 at 180 Hz, −12 dB).</div>
+    </div>
+
+    <div class="nav-arrows">
+      <button>← Back</button>
+      <button>Repeat</button>
+      <button class="next">Next step →</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="transport-pill">
+    <button>▶</button><button>■</button><button class="rec">●</button><button>↻</button>
+  </div>
+  <button id="ptt">🎤</button>
+  <div class="ptt-label">Hold to talk</div>
+</footer>
+</body>
+</html>

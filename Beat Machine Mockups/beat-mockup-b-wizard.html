@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup B — Step Wizard</title>
+<style>
+:root {
+  --bg:#151318; --card:#211f27; --text:#f6f4f1; --dim:#a9a6b0;
+  --hi:#ffcf3d; --hi-ink:#241a00; --co:#8f8bff; --line:#ffffff14;
+  --display:"Avenir Next Condensed","HelveticaNeue-CondensedBold",Impact,sans-serif;
+}
+* { box-sizing:border-box; margin:0; }
+body { background:var(--bg); color:var(--text); font:16px/1.55 -apple-system,sans-serif; height:100vh; overflow:hidden; display:flex; flex-direction:column; align-items:center;}
+.tag { position:fixed; top:10px; right:14px; font-size:11px; color:var(--dim); background:var(--card); border:1px solid var(--line); padding:4px 10px; border-radius:20px; z-index:99;}
+
+header { width:100%; max-width:560px; padding:22px 20px 0; display:flex; align-items:center; gap:10px;}
+.mark { width:34px; height:34px; background:var(--hi); border-radius:9px; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:800; color:var(--hi-ink); font-size:14px;}
+header h1 { font-family:var(--display); font-weight:700; font-size:17px; text-transform:uppercase; }
+
+.steps { display:flex; gap:6px; width:100%; max-width:560px; padding:18px 20px 0;}
+.step-dot { flex:1; height:4px; border-radius:3px; background:#ffffff16;}
+.step-dot.done, .step-dot.now { background:var(--hi); }
+
+main { flex:1; overflow-y:auto; width:100%; max-width:560px; padding:20px 20px 30px; display:flex; flex-direction:column; align-items:center;}
+
+.stepno { font-family:var(--display); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:6px; align-self:flex-start;}
+.stepq { font-family:var(--display); font-weight:700; font-size:24px; text-transform:uppercase; margin-bottom:18px; align-self:flex-start;}
+
+.choice-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; margin-bottom:26px;}
+.choice { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; cursor:pointer;}
+.choice.sel { border-color:var(--hi); background:#ffcf3d14;}
+.choice b { display:block; font-family:var(--display); font-weight:700; font-size:16px; text-transform:uppercase; margin-bottom:3px;}
+.choice span { font-size:12.5px; color:var(--dim);}
+
+.recap { width:100%; background:var(--card); border-radius:14px; padding:16px 18px; margin-bottom:20px;}
+.recap-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line); font-size:14px;}
+.recap-row:last-child { border-bottom:none; }
+.recap-row b { color:var(--hi); font-weight:600;}
+
+.field-row { width:100%; display:flex; gap:10px; margin-bottom:14px;}
+.field-row .field { flex:1; }
+.field label { display:block; font-size:12px; color:var(--dim); margin-bottom:5px; text-transform:uppercase; letter-spacing:.06em;}
+.field input { width:100%; background:var(--card); border:1px solid var(--line); border-radius:9px; padding:11px 13px; color:var(--text); font-size:14px;}
+
+.big-go { width:100%; font-family:var(--display); font-weight:700; font-size:18px; letter-spacing:.05em; text-transform:uppercase; padding:16px; border:0; border-radius:12px; background:var(--hi); color:var(--hi-ink); cursor:pointer; margin-top:6px;}
+
+.nav-row { width:100%; display:flex; justify-content:space-between; margin-top:14px;}
+.nav-row button { background:none; border:none; color:var(--dim); font-size:14px; cursor:pointer;}
+.nav-row button.next { color:var(--hi); font-weight:700;}
+
+.result-card { width:100%; background:var(--card); border-radius:14px; padding:14px 16px; margin-bottom:9px; display:flex; align-items:center; gap:12px;}
+.result-card .rno { font-family:var(--display); font-weight:800; font-size:18px; color:var(--dim); width:26px;}
+.result-card .rname { font-family:var(--display); font-weight:700; text-transform:uppercase; font-size:15px;}
+.result-card .rsub { font-size:11.5px; color:var(--dim);}
+.result-card .rp { margin-left:auto; width:30px; height:30px; border-radius:50%; background:#ffffff10; display:flex; align-items:center; justify-content:center; font-size:11px;}
+</style>
+</head>
+<body>
+<div class="tag">MOCKUP B — Step Wizard (one decision per screen, phone-app feel)</div>
+
+<header>
+  <div class="mark">HS</div>
+  <h1>Homeroom Studio</h1>
+</header>
+
+<div class="steps">
+  <div class="step-dot done"></div>
+  <div class="step-dot done"></div>
+  <div class="step-dot now"></div>
+  <div class="step-dot"></div>
+</div>
+
+<main>
+  <div class="stepno">Step 3 of 4</div>
+  <div class="stepq">Set the tempo &amp; feel</div>
+
+  <div class="recap">
+    <div class="recap-row"><span>DJ</span><b>Otto Grit</b></div>
+    <div class="recap-row"><span>Style</span><b>Crunk</b></div>
+  </div>
+
+  <div class="field-row">
+    <div class="field"><label>Tempo</label><input placeholder="95"></div>
+    <div class="field"><label>How many</label><input value="4"></div>
+  </div>
+  <div class="field-row">
+    <div class="field"><label>Directions</label><input placeholder="no hi hats, dusty, sparse, no 808…"></div>
+  </div>
+
+  <button class="big-go">Make my beats →</button>
+
+  <div class="nav-row">
+    <button>← Back to style</button>
+    <button class="next">Skip, use defaults</button>
+  </div>
+
+  <div class="stepno" style="margin-top:34px">This batch</div>
+  <div class="result-card">
+    <span class="rno">1</span>
+    <div><span class="rname">Otto Grit Boom Bap #316</span><span class="rsub">92 bpm · dusty, sparse</span></div>
+    <div class="rp">▶</div>
+  </div>
+</main>
+</body>
+</html>
