@@ -5066,6 +5066,18 @@ def run_web(port=None):
 
     lock = threading.Lock()
 
+    class Server(ThreadingHTTPServer):
+        def handle_error(self, request, client_address):
+            # The <audio> player cancels in-flight requests whenever he
+            # scrubs or switches tracks — the client just hung up mid-
+            # response. That's normal, not a bug, so don't dump a
+            # traceback for it (same "never a stack trace" rule as the
+            # port-in-use case below). Anything else still prints.
+            if isinstance(sys.exc_info()[1],
+                         (BrokenPipeError, ConnectionResetError)):
+                return
+            super().handle_error(request, client_address)
+
     class Handler(BaseHTTPRequestHandler):
         def _send(self, code, ctype, body):
             self.send_response(code)
@@ -5401,7 +5413,7 @@ def run_web(port=None):
     httpd = None
     for p in range(port, port + 12):
         try:
-            httpd = ThreadingHTTPServer(("127.0.0.1", p), Handler)
+            httpd = Server(("127.0.0.1", p), Handler)
             port = p
             break
         except OSError:
