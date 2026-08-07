@@ -22,6 +22,107 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-07 Tenth DJ added: Half Light (slot 10) — the slow one
+- Context: owner asked for a second surprise DJ, my choice, now that the
+  engine has grammar modes, harmony signatures and the genre timekeepers.
+  The roster's gap was obvious once listed: nine DJs, tempos 88-150, all
+  either on the grid or pushing ahead of it, all with a hat lane, all
+  stamping the tail of bars 4 and 8.
+- Decision/change: "Half Light", num 10, 68 BPM, era "now". Every lane is
+  LATE by design (kick +26 ms, snare +34 ms, rim +12, shaker +18) — the
+  first DJ that drags. No hat lane at all: a cross-stick RIM keeps time,
+  home mode 'shuffle' (swung triplets) — first crew member to reach the
+  genre-roster timekeepers, which is why his clock sounds unlike the other
+  nine. Snare home mode is 'four' (the 4 alone, the 2 left empty).
+  wow=0.6 (highest on the roster), vinyl -38, dust 0.0. House gated snare
+  kept; his Alt file is a HALL (2.2 s / 2600 Hz / 0.42 wet) — the biggest
+  room any DJ has. Stamp lands at the END of bars 2 and 6 so it sucks INTO
+  3 and 7. Harmony: piano/guitar/organ, sustain (never arp — at 68 BPM an
+  arp fills the hole the drums are leaving), minor/dorian, noir_descend
+  and sad_accepting weighted top; chords_default true.
+  Written in three places, not one: crew_config.json (live), crew.py
+  DEFAULT_CREW + CREW_SIGNATURES, pattern_gen.py DEFAULT_STYLE — so
+  deleting the config file regenerates him instead of losing him.
+- Reasoning: the previous surprise (New Math) was cerebral — polyrhythm
+  and arithmetic. Repeating that would be a variation, not a surprise.
+  The untaken axis was mood and tempo, not math. Constraints honoured:
+  dust must be 0 outside the 90s, only Crate Prophet skips sidechain, and
+  the house space stays "gated" — so the damage comes from wow and the
+  hall goes in `alt`, where the tests allow it.
+- Verify by: tests updated to a roster of ten (test_crew
+  test_roster_is_the_agreed_ten; test_beat_machine round-trip comment).
+  Full suite run in the Linux sandbox: 724 passed, 1 skipped, 6 failed —
+  those 6 are chord-audio tests that ALSO fail on the unmodified config
+  in that sandbox (verified by removing Half Light and re-running), so
+  they are environment, not this change. NOT verified: no beat has been
+  rendered — TBOTC 3 wasn't mounted, so no audio exists yet. Run the
+  suite on the Mac (`.venv/bin/python -m pytest tests/`) and render one
+  Half Light beat before trusting it.
+- Status: open
+- Outcome:
+
+### 2026-08-07 Half Light verification resumed on the Mac
+- Context: picking up the open item above — real Mac, TBOTC 3 mounted.
+- Full suite on the Mac (`.venv/bin/python -m pytest tests/ -q`): **794
+  passed, 1 skipped, 0 failed** in 4:00. Confirms the 6 sandbox failures
+  were environment-only, not caused by Half Light.
+- Bug found and fixed: `tools/beat_machine.py`'s `TITLES` dict (two-word
+  beat-name generator) had no entry for "Half Light" — the render path
+  crashed (`KeyError`) the first time anyone tried to render him through
+  the normal CLI/web path. The 2026-08-07 entry above said he was
+  "written in three places, not one" (crew_config.json, crew.py,
+  pattern_gen.py) — TITLES in beat_machine.py was a fourth place that
+  got missed. Added a title bank in his voice (Dim/Late/Behind/Hollow/
+  Dusk/Faded/Slack/Amber x Room/Hour/Curtain/Echo/Fade/Glow/Drift/Hall)
+  matching the existing per-character two-word pattern. No sound-design
+  change.
+- Rendered 3 files to `~/Desktop/Homeroom Half Light audition
+  2026-08-07/` (scratch, not the real library — his ears haven't judged
+  this yet): one full-pipeline beat via `beat_machine.py --render` (WAV +
+  MIDI + 9 stems, beat #86 would've been the real number if this had
+  gone to the library), plus a direct house-vs-Alt-hall pair via
+  `crew.py` to specifically exercise his one-of-a-kind hall alt space.
+  All 3: loop length exact, LUFS -13.1 to -13.6 (target -12, in
+  tolerance). MIDI file passed midi-validity-gate (channel 10, GM drum
+  notes, embedded tempo, non-empty). READ ME.txt written for his ears.
+- Verify by: numbers above are machine-checked and hold. NOT checked:
+  whether it actually sounds right — that's his call, not logged here
+  until he reports back.
+- Status: confirmed (code + pipeline verified; sound judgment also in)
+- Outcome: owner listened, verdict on the house-vs-hall question the
+  README asked: **gated (house) sounds good** — "Half Light House gated
+  snare Drums 68bpm.wav". Hall alt not rejected outright, just not what
+  he called out. Gated stays the default treatment; no change needed.
+
+### 2026-08-07 New reset tool: clear Legends + DJs, permanently empty Trash
+- Context: owner wanted a clean slate — every beat in the 12 Legend folders
+  and 9 DJ (crew) folders cleared, but Favorites kept, and this time the
+  Trash folder (previously "moved, never deleted" per beat_machine.py) also
+  actually emptied for good. Confirmed both via AskUserQuestion since this
+  contradicts the project's default never-delete rule and the existing
+  `clear_junk_beats.py` (which sweeps Favorites too, no exceptions, by a
+  2026-07-22 decision) — this is a different, narrower operation.
+- Decision/change: added `tools/clear_legends_djs.py` (new script, existing
+  `clear_junk_beats.py` left untouched for future full resets). Reads the 21
+  target folder names straight from `legends_config.json` +
+  `crew_config.json` keys (confirmed these match the actual folder names via
+  `beat_machine.py` — `folder = root / names[0]`, names[0] is the config
+  key). Step 1 moves those folders' beats into a dated `Cleared YYYY-MM-DD`
+  holding folder with a manifest, typed "yes" to confirm — same safe pattern
+  as the existing tool. Step 2 lists and then permanently deletes Trash
+  folder contents, gated behind typing "DELETE" (different word on purpose,
+  so the two prompts can't be blown through on autopilot). Added
+  "Clear Legends and DJs.command" as the double-click launcher.
+- Reasoning: matched the existing project pattern (dated folder + manifest +
+  typed confirmation) everywhere except the one step he explicitly asked to
+  be a real, permanent delete.
+- Verify by: the beats library lives on `/Volumes/TBOTC 3`, which this
+  sandbox cannot reach — script only checked by `py_compile` + AST parse, not
+  run against real data. Ask him to run it (or run `--dry-run` first) and
+  confirm the counts look right before trusting it fully.
+- Status: open
+- Outcome: (pending — not yet run against the real library)
+
 ### 2026-08-07 Both rooms reskinned live to mockup D ("paper + ink")
 - Context: owner reviewed 7 UI mockups (A-G) across two throwaway mockup
   folders, picked D, asked for two more in that family (F, G), then said
