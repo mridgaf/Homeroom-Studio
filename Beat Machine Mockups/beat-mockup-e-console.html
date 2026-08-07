@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup E — Rack Unit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+:root {
+  --face:#0b0d17; --panel:#12142200; --screen:#060a1f; --bez:#22263a;
+  --blue:#3a4dff; --blue-dim:#3a4dff55; --hi:#f6e21a; --hi-glow:#f6e21a99;
+  --text:#dfe3ff; --dim:#9aa0c4;
+  --display:"Space Mono",ui-monospace,monospace;
+}
+* { box-sizing:border-box; margin:0; }
+body {
+  background:
+    repeating-linear-gradient(180deg,#ffffff05 0 1px,transparent 1px 3px),
+    linear-gradient(160deg,#0e1024,#080914);
+  color:var(--text); font-family:var(--display); font-size:14px; line-height:1.5; height:100vh; overflow:hidden; display:flex; flex-direction:column;
+}
+.tag { position:fixed; top:10px; right:14px; font-size:10.5px; color:var(--dim); background:#0000006e; border:1px solid var(--bez); padding:4px 10px; border-radius:20px; z-index:99;}
+
+header { display:flex; align-items:center; gap:16px; padding:14px 22px; background:#0000004d; border-bottom:1px solid var(--bez);}
+.badge { width:44px; height:44px; border-radius:6px; overflow:hidden; flex:none; border:1px solid #ffffff22; box-shadow:0 0 0 3px #000, 0 0 14px #0006 inset;}
+.badge img { width:100%; height:100%; object-fit:cover; }
+header .brand { font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--text);}
+header .brand small { display:block; font-size:9.5px; color:var(--dim); letter-spacing:.15em; margin-top:2px;}
+.spacer { flex:1; }
+.led { display:flex; align-items:center; gap:6px; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--hi); text-shadow:0 0 8px var(--hi-glow);}
+.led::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--hi); box-shadow:0 0 8px var(--hi); animation:pulse 1.6s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+#go { font-family:var(--display); font-weight:700; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; padding:11px 20px; border:0; border-radius:5px; background:var(--hi); color:#241f00; cursor:pointer; box-shadow:0 3px 0 #b39c00, 0 5px 10px #0006;}
+#go:active { transform:translateY(2px); box-shadow:0 1px 0 #b39c00; }
+
+main { flex:1; overflow-y:auto; padding:22px 26px 36px; max-width:960px; margin:0 auto; width:100%; }
+h2.plate { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid var(--bez); display:flex; justify-content:space-between;}
+h2.plate .vu { display:flex; gap:2px; align-items:flex-end; height:12px;}
+h2.plate .vu i { width:3px; background:var(--blue); display:block; animation:vu 1.2s infinite ease-in-out; }
+h2.plate .vu i:nth-child(2){animation-delay:.15s} h2.plate .vu i:nth-child(3){animation-delay:.3s} h2.plate .vu i:nth-child(4){animation-delay:.45s}
+@keyframes vu { 0%,100%{height:3px} 50%{height:12px} }
+
+.djs { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin-bottom:28px;}
+.dj { display:flex; align-items:center; gap:10px; padding:11px 13px; border:1px solid var(--bez); border-radius:4px; background:var(--screen); cursor:pointer;}
+.dj.sel { border-color:var(--blue); box-shadow:0 0 0 1px var(--blue), 0 0 16px var(--blue-dim) inset;}
+.dj .dot { width:9px; height:9px; border-radius:2px; border:1px solid var(--bez); flex:none; background:#000;}
+.dj.sel .dot { background:var(--hi); box-shadow:0 0 6px var(--hi);}
+.dj .name { font-weight:700; font-size:13.5px; letter-spacing:.03em;}
+.dj .built { display:block; font-size:10px; color:var(--dim); margin-top:2px;}
+
+.panel { padding:18px 20px; border:1px solid var(--bez); border-radius:6px; background:var(--screen); margin-bottom:22px; box-shadow:0 0 24px #0007 inset;}
+.fields { display:grid; grid-template-columns:110px 100px 1fr; gap:14px;}
+.field label { display:block; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin-bottom:6px;}
+.field input { width:100%; font-family:var(--display); font-size:16px; font-weight:700; padding:9px 11px; border-radius:4px; border:1px solid var(--bez); background:#000; color:var(--hi); text-shadow:0 0 8px var(--hi-glow);}
+
+.tracklist .track { display:flex; align-items:center; gap:12px; padding:10px 13px; border:1px solid var(--bez); border-radius:4px; background:var(--screen); margin-bottom:6px;}
+.tracklist .no { font-weight:700; font-size:16px; color:var(--dim); width:26px;}
+.tracklist .tname { font-weight:700; font-size:13px;}
+.tracklist .tsub { display:block; font-size:10.5px; color:var(--dim);}
+.tracklist .pp { margin-left:auto; width:26px; height:26px; border-radius:3px; border:1px solid var(--blue); color:var(--blue); background:#000; display:flex; align-items:center; justify-content:center; font-size:10px;}
+</style>
+</head>
+<body>
+<div class="tag">MOCKUP E — Rack Unit (hardware fascia, LED readouts, blue/yellow lit)</div>
+
+<header>
+  <div class="badge"><img src="logo-blue.png" alt="logo"></div>
+  <div class="brand">Homeroom Studio<small>beat machine — unit 01</small></div>
+  <div class="spacer"></div>
+  <div class="led">listening</div>
+  <button id="go">Make my beats</button>
+</header>
+
+<main>
+  <h2 class="plate">The Crew — nine personalities <span class="vu"><i></i><i></i><i></i><i></i></span></h2>
+  <div class="djs">
+    <div class="dj sel"><div class="dot"></div><div><span class="name">OTTO GRIT</span><span class="built">grimy, low-fi drums</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">CUTZ</span><span class="built">scratch-forward, chopped</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">CRATE PROPHET</span><span class="built">dusty sample digger</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">CHROME DIAL</span><span class="built">bright, modern</span></div></div>
+  </div>
+
+  <h2 class="plate">The Legends — signature styles</h2>
+  <div class="djs">
+    <div class="dj"><div class="dot"></div><div><span class="name">FARROW</span><span class="built">boom bap architect</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">DOC DAY</span><span class="built">jazzy, chord-heavy</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">KANE EAST</span><span class="built">hard, minimal</span></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="fields">
+      <div class="field"><label>Tempo</label><input value="095"></div>
+      <div class="field"><label>How many</label><input value="04"></div>
+      <div class="field"><label>Directions</label><input placeholder="no hi hats, dusty, sparse, no 808…" style="font-weight:400; color:var(--text); text-shadow:none; font-size:13px;"></div>
+    </div>
+  </div>
+
+  <h2 class="plate">This batch — 4 tracks</h2>
+  <div class="tracklist">
+    <div class="track"><span class="no">01</span><div><span class="tname">OTTO GRIT BOOM BAP #316</span><span class="tsub">92 bpm · dusty, sparse</span></div><div class="pp">▶</div></div>
+    <div class="track"><span class="no">02</span><div><span class="tname">OTTO GRIT x CRUNK #317</span><span class="tsub">92 bpm · no hi hats</span></div><div class="pp">▶</div></div>
+  </div>
+</main>
+</body>
+</html>

@@ -3738,40 +3738,44 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <title>Homeroom Studio</title>
 <style>
  /* ---------------------------------------------------------------
-    Homeroom Studio — owner brief 2026-07-18: hip hop, a little graffiti,
-    nothing goofy. Dark xerox paper, heavy condensed type doing the
-    shouting, the band's yellow and blue carrying every accent, and
-    the marker/stencil marks kept to four placements so the page reads
-    designed instead of stickered.
+    Homeroom Studio — reskinned 2026-08-06 to mockup D ("Show Flyer"):
+    paper + halftone, blue ink, yellow highlight, poster-condensed type.
+    Owner picked D after reviewing A-G, then asked for it live on both
+    rooms (Beat Machine + Reason Voice). Same palette shape as before —
+    the mark's yellow scrawl and blue square carry every accent — just
+    flipped from dark xerox paper to light flyer stock.
     ---------------------------------------------------------------- */
  :root {
-   --paper:   #0b0b0d;
-   --card:    #141417;
-   --card2:   #1b1b1f;
-   --line:    #ffffff16;
-   --line2:   #ffffff28;
-   --text:    #f2f0eb;
-   --dim:     #f2f0eb99;
-   --dimmer:  #f2f0eb5c;
+   --paper:   #f4ecc4;
+   --card:    #fffef4;
+   --card2:   #ffffff;
+   --line:    #1020a826;
+   --line2:   #1020a845;
+   --text:    #12157f;
+   --dim:     #12157f99;
+   --dimmer:  #12157f66;
    /* straight off the Back of the Class mark: the yellow scrawl and the
-      blue square it sits on. The blue is deep enough to use as a BLOCK
-      but too dark to read as text on black, so --co is a lifted tint of
-      it for type, borders and small accents.                          */
+      blue square it sits on — verbatim, "keep the blue and yellow no
+      matter what" (owner, 2026-08-06). --co/--ch used to be lifted
+      tints for a dark background; on paper the ink blue reads fine on
+      its own, so both now just alias --blue.                         */
    --hi:      #e8d810;   /* band yellow — actions, keeps, selection    */
    --hi-ink:  #16150a;
-   --blue:    #1020a8;   /* band blue — masthead, fills, blocks        */
-   --co:      #7d8cff;   /* the same blue, lifted so it reads on black */
+   --blue:    #1020a8;   /* band blue — masthead, fills, blocks, ink   */
+   --co:      #1020a8;
    --no:      #ff4d4d;   /* trash + real errors only                   */
-   --ch:      #e9e6dc;   /* chalk — the subgenre box's selection       */
-   --display: "Avenir Next Condensed", "HelveticaNeue-CondensedBold",
-              Impact, "Haettenschweiler", sans-serif;
-   --mono:    ui-monospace, "SF Mono", Menlo, monospace;
+   --ch:      #1020a8;
+   --display: "Anton", Impact, "Haettenschweiler", sans-serif;
+   --mono:    "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
  }
  * { box-sizing: border-box; }
  html { -webkit-text-size-adjust: 100%; }
+ @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
  body {
    font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
-   margin: 0; padding: 0 24px 90px; background: var(--paper);
+   margin: 0; padding: 0 24px 90px;
+   background: radial-gradient(circle, #1020a814 1px, transparent 1.4px) 0 0/16px 16px,
+               var(--paper);
    color: var(--text); line-height: 1.5;
    -webkit-font-smoothing: antialiased;
  }
@@ -3880,14 +3884,14 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .dj:has(input:checked) { border-color: var(--hi); background: #e8d81014; }
  .dj:has(input:checked) .dot { background: var(--hi); border-color: var(--hi); }
  .dj:has(input:checked) .ord { display: grid; }
- .dj.legend:has(input:checked) { border-color: var(--co); background: #7d8cff17; }
+ .dj.legend:has(input:checked) { border-color: var(--co); background: #1020a814; }
  .dj.legend:has(input:checked) .dot { background: var(--co); border-color: var(--co); }
  .dj.legend:has(input:checked) .ord { background: var(--co); color: #fff; }
  /* the third box gets CHALK rather than a fourth hue — the mark only
     owns yellow and blue, and chalk on a board is the one other colour
     this band already has (crew = yellow scrawl, legends = blue, styles
     = chalk). */
- .dj.genre:has(input:checked) { border-color: var(--ch); background: #f2f0eb12; }
+ .dj.genre:has(input:checked) { border-color: var(--ch); border-style: dashed; background: #1020a80c; }
  .dj.genre:has(input:checked) .dot { background: var(--ch); border-color: var(--ch); }
  .dj.genre:has(input:checked) .ord { background: var(--ch); color: #16150a; }
  .dj.genre .built { font-style: italic; }
@@ -3901,7 +3905,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
                 color: var(--dim); margin-bottom: 6px; }
  .field input, .field select { width: 100%; font-size: 15px; padding: 10px 12px;
                 border-radius: 9px; border: 1px solid var(--line2);
-                background: #0000004d; color: var(--text); font-family: inherit; }
+                background: var(--card2); color: var(--text); font-family: inherit; }
  .field input:focus, .field select:focus { outline: none; border-color: var(--hi); }
  .field.quick { margin-top: 16px; }
  .field .hint { font-size: 11.5px; color: var(--dimmer); margin-top: 5px; }
@@ -3952,7 +3956,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
                  transform: rotate(-3deg); }
  #empty .ghost img { width: 100%; display: block; }
  #empty .scribble { font-family: var(--display); font-weight: 700;
-                    font-size: 38px; letter-spacing: .04em; color: #ffffff12;
+                    font-size: 38px; letter-spacing: .04em; color: #1020a812;
                     text-transform: uppercase; transform: rotate(-2.5deg);
                     display: inline-block; }
  #empty p { color: var(--dimmer); font-size: 13.5px; margin: 6px 0 0; }
@@ -3981,10 +3985,10 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .player { display: flex; align-items: center; gap: 10px; flex: none;
            width: 238px; }
  .pp { width: 33px; height: 33px; flex: none; border-radius: 50%;
-       border: 1px solid var(--line2); background: #ffffff0a;
+       border: 1px solid var(--line2); background: #1020a80a;
        color: var(--text); cursor: pointer; font-size: 11px;
        display: grid; place-items: center; transition: all .12s; }
- .pp:hover { background: #ffffff1c; }
+ .pp:hover { background: #1020a81c; }
  .pp.on { background: var(--hi); border-color: var(--hi); color: var(--hi-ink); }
  .bar { flex: 1; height: 5px; border-radius: 3px; background: var(--line2);
         cursor: pointer; position: relative; }
@@ -3995,8 +3999,8 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .acts { display: flex; gap: 4px; flex: none; }
  .acts button, .stembtn { font-size: 14px; line-height: 1; padding: 7px 9px;
        border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
-       background: #ffffff08; color: var(--text); transition: all .12s; }
- .acts button:hover { background: #ffffff17; }
+       background: #1020a808; color: var(--text); transition: all .12s; }
+ .acts button:hover { background: #1020a817; }
  .acts button.on-fav   { border-color: var(--hi); color: var(--hi); }
  .acts button.on-trash { border-color: var(--no); color: var(--no); }
  .stembtn { font-family: var(--display); font-weight: 600; font-size: 12.5px;
@@ -4006,7 +4010,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
  /* ------------------------------------- why this beat works (step 3) */
  .theory { display: none; border-top: 1px solid var(--line);
-           padding: 9px 14px 11px; background: #ffffff05; }
+           padding: 9px 14px 11px; background: #1020a805; }
  .tline { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
           display: flex; flex-wrap: wrap; gap: 7px; align-items: baseline; }
  .tline b { color: var(--hi); font-weight: 700; }
@@ -4017,11 +4021,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
  /* -------------------------------------------------- the stem rack */
  .rack { display: none; border-top: 1px solid var(--line);
-         background: #00000038; padding: 4px 14px 14px; }
+         background: #1020a80d; padding: 4px 14px 14px; }
  .rack.open { display: block; }
  .lane { display: grid; grid-template-columns: 74px 1fr auto auto;
          gap: 12px; align-items: center; padding: 10px 0;
-         border-bottom: 1px solid #ffffff0c; }
+         border-bottom: 1px solid #1020a80c; }
  .lane:last-of-type { border-bottom: 0; }
  .lane .who2 { display: flex; align-items: center; gap: 7px; }
  .lane .swatch { width: 3px; height: 17px; border-radius: 2px;
@@ -4043,14 +4047,14 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        padding: 7px 26px 7px 10px; border-radius: 8px;
        border: 1px solid var(--line2); background: var(--card2);
        color: var(--text); cursor: pointer;
-       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2f0eb99' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231020a8' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
        background-repeat: no-repeat; background-position: right 9px center; }
  .lane select:focus { outline: none; border-color: var(--hi); }
  .lane.changed select { border-color: var(--hi); }
  .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px;
        border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
-       background: #ffffff08; color: var(--text); }
- .lane .mini:hover { background: #ffffff17; }
+       background: #1020a808; color: var(--text); }
+ .lane .mini:hover { background: #1020a817; }
  .lane .mini.playing { border-color: var(--co); color: var(--co); }
  .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
 
@@ -4082,14 +4086,14 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
        border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
        cursor: pointer; }
- .rebuild:disabled { background: #ffffff10; color: var(--dimmer); cursor: default; }
+ .rebuild:disabled { background: #1020a810; color: var(--dimmer); cursor: default; }
  .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
          cursor: pointer; text-decoration: underline; padding: 6px; }
  /* secondary to Rebuild: rolling stages changes, it doesn't print a beat */
  .rollall { font-family: var(--display); font-weight: 700; font-size: 12.5px;
        letter-spacing: .06em; text-transform: uppercase; padding: 9px 15px;
-       border: 1px solid #ffffff26; border-radius: 9px; background: none;
-       color: var(--ink); cursor: pointer; white-space: nowrap; }
+       border: 1px solid #1020a826; border-radius: 9px; background: none;
+       color: var(--text); cursor: pointer; white-space: nowrap; }
  .rollall:hover { border-color: var(--hi); color: var(--hi); }
  .rackmsg { font-size: 12.5px; color: var(--no); padding: 4px 0 0;
             white-space: pre-wrap; }
@@ -4099,7 +4103,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .pullup .field { width: 130px; }
  .pullup button { font-family: var(--display); font-weight: 600; font-size: 14px;
        letter-spacing: .08em; text-transform: uppercase; padding: 11px 20px;
-       border: 1px solid var(--co); border-radius: 9px; background: #7d8cff1a;
+       border: 1px solid var(--co); border-radius: 9px; background: #1020a81a;
        color: var(--co); cursor: pointer; }
  .pullup .note { flex: 1; min-width: 200px; font-size: 12.5px;
                  color: var(--dimmer); }

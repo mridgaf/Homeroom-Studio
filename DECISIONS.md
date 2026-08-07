@@ -22,6 +22,35 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-07 Both rooms reskinned live to mockup D ("paper + ink")
+- Context: owner reviewed 7 UI mockups (A-G) across two throwaway mockup
+  folders, picked D, asked for two more in that family (F, G), then said
+  "stick with D, make the changes." Confirmed via AskUserQuestion that this
+  meant reskinning the REAL running apps, not just the mockup files.
+- Decision/change: rewrote the shared `:root` palette in `tools/beat_machine.py`
+  (the documented source of truth — comment says "one color scheme across
+  both rooms") from dark xerox-paper/cream-text to light flyer-paper/ink-text.
+  Mirrored the same token values into `reason_voice/static/style.css` per its
+  existing convention. Because both stylesheets already ran on CSS custom
+  properties (var(--hi), var(--paper), var(--display)...), most of the reskin
+  cascaded from the `:root` edit alone; hunted down ~20 hardcoded hex values
+  that had assumed a dark background (input fields, hover tints, the
+  dropdown-arrow SVG, status pills) and fixed those individually. Added Anton
+  + Space Mono (Beat Machine) and Kalam + Space Mono (Reason Voice) via
+  Google Fonts import. No HTML structure, IDs, classes, or JS touched —
+  visual-only diff, to protect the working drag-drop/stem-rack/WebSocket code.
+- Reasoning: matches mockup D's "paper + halftone, blue ink, yellow highlight"
+  language on both apps without risking the two apps drifting into different
+  palettes (the "one color scheme" rule is 2026-07-25 owner intent, not mine).
+  Editing tokens instead of rewriting markup kept the diff small and low-risk
+  per the project's own working code.
+- Verify by: `./.venv/bin/python -m py_compile tools/beat_machine.py` (clean).
+  Visually verified in-browser at localhost:8790 (Beat Machine, full page,
+  all three DJ-card selection states) and localhost:8765 (Reason Voice, a
+  full recipe card walkthrough). NOT yet seen by the owner on his own screen.
+- Status: open — needs his eyes before calling it done.
+- Outcome: (pending)
+
 ### 2026-08-04 The famous figures: named, played as written, and left alone
 - Context: a deep review of the 2026-08-01 break work found seven things.
   Six were real and one number in it was wrong. Confirmed by re-running the

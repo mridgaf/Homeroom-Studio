@@ -1,24 +1,28 @@
 :root {
   /* The Beat Machine's palette, verbatim (owner ask 2026-07-25: one color
      scheme across both rooms). Source of truth is the :root block in
-     tools/beat_machine.py — change there, mirror here. */
-  --bg: #0b0b0d;          /* its --paper */
-  --panel: #141417;       /* its --card */
-  --panel2: #1b1b1f;      /* its --card2 */
-  --line: #ffffff16;
-  --text: #f2f0eb;
-  --dim: #f2f0eb99;
+     tools/beat_machine.py — change there, mirror here.
+     2026-08-06: reskinned to mockup D ("Field Notebook") — paper +
+     ruled lines, blue ink, yellow highlighter. Flipped from dark to
+     light along with the Beat Machine's "Show Flyer" reskin. */
+  --bg: #f4ecc4;          /* its --paper */
+  --panel: #fffef4;       /* its --card */
+  --panel2: #ffffff;      /* its --card2 */
+  --line: #1020a826;
+  --text: #12157f;
+  --dim: #12157f99;
   --accent: #e8d810;      /* band yellow — was Reason-rack amber */
-  --accent-dim: #55500a;  /* the yellow knocked down for button fills */
-  --green: #5dbb63;
+  --accent-dim: #f7e9a0;  /* the yellow, paled — highlighter marks now */
+  --green: #2f9e52;
   --red: #ff4d4d;         /* its --no */
-  --blue: #7d8cff;        /* its --co: band blue lifted to read on black */
+  --blue: #1020a8;        /* its --co: now just the band blue, on paper */
 }
 
 * { box-sizing: border-box; margin: 0; }
 html, body { height: 100%; }
 body {
-  background: var(--bg);
+  background: repeating-linear-gradient(var(--bg) 0 30px, var(--line) 30px 31px),
+              var(--bg);
   color: var(--text);
   font: 15px/1.5 -apple-system, "Helvetica Neue", sans-serif;
   display: flex;
@@ -27,9 +31,9 @@ body {
 }
 /* Background = the BOTC logo (reason_voice/static/bg.png). Shown WHOLE and
    centered — never stretched or cropped (contain) — fixed so it doesn't
-   scroll. The logo ships as black ink on a light square, so it's inverted
-   to white-on-dark to sit inside this dark theme as a subtle watermark
-   instead of a glaring white block. Swap the file to change the art. */
+   scroll. The logo is already blue ink on transparent, so on paper it
+   shows in its own colour as a faint watermark instead of being inverted
+   to white. Swap the file to change the art. */
 body::before {
   content: "";
   position: fixed;
@@ -39,17 +43,27 @@ body::before {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  filter: invert(1);
-  opacity: 0.14;
+  opacity: 0.05;
+  pointer-events: none;
+}
+/* the ruled-paper margin line, like a notebook page */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0; left: 78px; width: 2px;
+  background: #1020a833;
+  z-index: -1;
   pointer-events: none;
 }
 /* Let the artwork glow through the big panels while text stays readable:
    the structural containers go slightly see-through with a blur behind. */
 header, aside, footer, .card, .modal, #docPanel {
-  background-color: rgba(20, 20, 23, 0.80) !important;   /* --panel @ 80% */
+  background-color: rgba(255, 254, 244, 0.85) !important;   /* --panel @ 85% */
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Space+Mono:wght@400;700&display=swap');
 
 button {
   font: inherit;
@@ -75,7 +89,7 @@ button.pinned {
   text-align: left;
 }
 button.danger { border-color: var(--red); color: var(--red); }
-button.rec { color: #ff7a7a; }
+button.rec { color: #c62828; }
 button:disabled { opacity: .45; cursor: default; }
 
 /* ---------- header ---------- */
@@ -85,7 +99,7 @@ header {
   background: var(--panel);
   border-bottom: 1px solid var(--line);
 }
-.brand { font-weight: 700; letter-spacing: .5px; font-size: 17px; }
+.brand { font-family: "Kalam", cursive; font-weight: 700; font-size: 24px; color: var(--blue); }
 /* MAKE / STUDIO — one app, two rooms (packaging step 5). Same pair sits
    on the Beat Machine's masthead; plain links, no iframes. */
 .apptabs { display: flex; margin-left: 6px; border: 1px solid var(--line);
@@ -97,13 +111,15 @@ header {
 .apptabs a { color: var(--dim); background: var(--panel2); }
 .apptabs a:hover { color: var(--text); }
 #art {
-  width: 38px; height: 38px; object-fit: cover;
-  border-radius: 8px; border: 1px solid var(--line);
+  width: 40px; height: 40px; object-fit: cover;
+  border-radius: 6px; border: 2px dashed var(--panel);
+  outline: 2px solid var(--blue);
+  transform: rotate(-6deg);
 }
 .info-val { color: var(--dim); font-size: 13px; text-align: right; }
 #results li.auditioning {
   border-color: var(--accent);
-  background: #2a2708;
+  background: var(--accent-dim);
 }
 .spacer { flex: 1; }
 
@@ -111,10 +127,10 @@ header {
   padding: 4px 14px; border-radius: 99px;
   font-size: 12px; font-weight: 700; letter-spacing: 1px;
 }
-.pill.idle      { background: #244d28; color: #8fe096; }
-.pill.recording { background: #5a1f1f; color: #ff9c9c; animation: pulse 1s infinite; }
-.pill.thinking  { background: #4d3d1c; color: #ffd98a; }
-.pill.loading   { background: #333a45; color: #aebbcc; }
+.pill.idle      { background: #e3f5e6; color: #237a3c; }
+.pill.recording { background: #fdeaea; color: #c62828; animation: pulse 1s infinite; }
+.pill.thinking  { background: #fdf3da; color: #8a6d1f; }
+.pill.loading   { background: #eef0f5; color: #5a6472; }
 @keyframes pulse { 50% { opacity: .55; } }
 
 .midi { font-size: 12px; color: var(--dim); display: flex; align-items: center; gap: 6px; }
@@ -276,7 +292,7 @@ ol.steps li::before {
   font-size: 12px; font-weight: 700; color: var(--dim);
 }
 ol.steps li.active {
-  background: #2a2708;
+  background: var(--accent-dim);
   border-color: var(--accent);
   font-weight: 600;
 }
@@ -308,7 +324,7 @@ footer {
   user-select: none; -webkit-user-select: none;
   touch-action: none;
 }
-#ptt.recording { background: #7a2222; border-color: var(--red); animation: pulse 1s infinite; }
+#ptt.recording { background: #7a2222; color: #ffe5e5; border-color: var(--red); animation: pulse 1s infinite; }
 #ptt .mic { font-size: 22px; }
 .group {
   display: flex; gap: 6px; align-items: center;

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup G — Screen Print Poster</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+:root {
+  --blue:#101f9e; --blue2:#0b1780; --hi:#f6e21a; --paper:#fffef2;
+  --display:"Anton",Impact,sans-serif; --mono:"Space Mono",ui-monospace,monospace;
+}
+* { box-sizing:border-box; margin:0; }
+body {
+  background:
+    radial-gradient(circle, #f6e21a12 1.5px, transparent 1.8px) 0 0/16px 16px,
+    linear-gradient(160deg,var(--blue),var(--blue2));
+  color:var(--paper); font:15px/1.5 -apple-system,sans-serif; height:100vh; overflow:hidden; display:flex; flex-direction:column;
+  border:10px solid var(--hi); border-image:repeating-linear-gradient(90deg,var(--hi) 0 18px,var(--blue) 18px 20px) 10;
+}
+.tag { position:fixed; top:14px; right:20px; font-size:10.5px; color:var(--blue); background:var(--hi); border:1px solid var(--blue); padding:4px 10px; border-radius:3px; z-index:99; font-family:var(--mono);}
+
+header { display:flex; align-items:center; gap:18px; padding:22px 28px 10px; }
+.mark { width:56px; height:56px; border-radius:8px; overflow:hidden; flex:none; box-shadow:0 0 0 3px var(--hi);}
+.mark img { width:100%; height:100%; object-fit:cover; }
+header h1 { position:relative; font-family:var(--display); font-weight:400; font-size:36px; text-transform:uppercase; letter-spacing:.01em; color:var(--hi); text-shadow:3px 3px 0 var(--paper)33, -1px -1px 0 var(--paper)22;}
+header .sub { font-family:var(--mono); font-size:10.5px; color:#fffef2aa; letter-spacing:.08em; text-transform:uppercase;}
+.spacer { flex:1; }
+#go { font-family:var(--display); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; padding:12px 24px; border:0; background:var(--hi); color:var(--blue); cursor:pointer; clip-path:polygon(6% 0,100% 0,94% 100%,0 100%); transition:transform .15s;}
+#go:hover { transform:scale(1.04); }
+
+main { flex:1; overflow-y:auto; padding:16px 28px 44px; max-width:980px; margin:0 auto; width:100%; }
+h2.head { font-family:var(--display); font-weight:400; font-size:18px; letter-spacing:.03em; text-transform:uppercase; color:var(--hi); margin:0 0 14px; padding-bottom:8px; border-bottom:3px solid var(--hi); display:flex; justify-content:space-between; align-items:baseline;}
+h2.head small { font-family:var(--mono); font-weight:400; font-size:10.5px; color:#fffef299; text-transform:none;}
+
+.djs { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px; margin-bottom:30px;}
+.dj { display:flex; align-items:center; gap:10px; padding:12px 13px; border:2px solid #fffef22e; border-radius:2px; background:#fffef20a; cursor:pointer;}
+.dj.sel { border-color:var(--hi); background:var(--hi); color:var(--blue);}
+.dj .dot { width:10px; height:10px; border-radius:50%; border:2px solid var(--hi); flex:none; background:transparent;}
+.dj.sel .dot { background:var(--blue); border-color:var(--blue);}
+.dj .name { font-family:var(--display); font-weight:400; font-size:16px; text-transform:uppercase; letter-spacing:.02em;}
+.dj .built { display:block; font-family:var(--mono); font-size:10px; opacity:.75;}
+
+.panel { padding:18px 20px; border:2px solid var(--hi); background:#fffef20a; margin-bottom:24px;}
+.fields { display:grid; grid-template-columns:120px 110px 1fr; gap:14px;}
+.field label { display:block; font-family:var(--display); font-weight:400; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--hi); margin-bottom:5px;}
+.field input { width:100%; font-family:var(--mono); font-size:13px; padding:9px 11px; border-radius:0; border:2px solid #fffef240; background:#00000030; color:var(--paper);}
+
+.tracklist .track { display:flex; align-items:center; gap:12px; padding:11px 14px; border-left:4px solid var(--hi); background:#fffef20a; margin-bottom:7px;}
+.tracklist .no { font-family:var(--display); font-weight:400; font-size:19px; color:var(--hi); width:26px;}
+.tracklist .tname { font-family:var(--display); font-weight:400; font-size:14.5px; text-transform:uppercase;}
+.tracklist .tsub { display:block; font-size:10.5px; opacity:.7; font-family:var(--mono);}
+.tracklist .pp { margin-left:auto; width:28px; height:28px; border-radius:50%; background:var(--hi); color:var(--blue); display:flex; align-items:center; justify-content:center; font-size:10px;}
+</style>
+</head>
+<body>
+<div class="tag">MOCKUP G — Screen Print Poster (bold blue field, offset-print yellow ink)</div>
+
+<header>
+  <div class="mark"><img src="logo-blue.png" alt="logo"></div>
+  <div>
+    <h1>Homeroom</h1>
+    <div class="sub">the beat machine · nine DJs, twelve legends, seventeen styles</div>
+  </div>
+  <div class="spacer"></div>
+  <button id="go">Make my beats</button>
+</header>
+
+<main>
+  <h2 class="head">The Crew <small>nine personalities</small></h2>
+  <div class="djs">
+    <div class="dj sel"><div class="dot"></div><div><span class="name">Otto Grit</span><span class="built">grimy, low-fi drums</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Cutz</span><span class="built">scratch-forward, chopped</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Crate Prophet</span><span class="built">dusty sample digger</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Chrome Dial</span><span class="built">bright, modern</span></div></div>
+  </div>
+
+  <h2 class="head">The Legends <small>signature styles</small></h2>
+  <div class="djs">
+    <div class="dj"><div class="dot"></div><div><span class="name">Farrow</span><span class="built">boom bap architect</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Doc Day</span><span class="built">jazzy, chord-heavy</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Kane East</span><span class="built">hard, minimal</span></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="fields">
+      <div class="field"><label>Tempo</label><input placeholder="95"></div>
+      <div class="field"><label>How many</label><input value="4"></div>
+      <div class="field"><label>Directions</label><input placeholder="no hi hats, dusty, sparse, no 808…"></div>
+    </div>
+  </div>
+
+  <h2 class="head">This batch <small>4 tracks</small></h2>
+  <div class="tracklist">
+    <div class="track"><span class="no">1</span><div><span class="tname">Otto Grit Boom Bap #316</span><span class="tsub">92 bpm · dusty, sparse</span></div><div class="pp">▶</div></div>
+    <div class="track"><span class="no">2</span><div><span class="tname">Otto Grit x Crunk #317</span><span class="tsub">92 bpm · no hi hats</span></div><div class="pp">▶</div></div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup G — Recipe Index Card</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&display=swap');
+:root {
+  --paper:#fbf6e6; --rule:#0e1a8f2e; --ink:#171a3d;
+  --blue:#0e1a8f; --hi:#f3dd1f;
+  --type:"Special Elite",monospace; --display:"Anton",Impact,sans-serif;
+}
+* { box-sizing:border-box; margin:0; }
+body {
+  background:var(--paper); color:var(--ink); font-family:var(--type); font-size:13.5px; line-height:1.6; height:100vh; overflow:hidden; display:flex; flex-direction:column;
+}
+.tag { position:fixed; top:10px; right:14px; font-size:10px; color:var(--blue); background:#fff; border:1px solid var(--rule); padding:4px 10px; border-radius:20px; z-index:99;}
+
+.holes { position:fixed; top:0; bottom:0; left:22px; width:14px; display:flex; flex-direction:column; justify-content:center; gap:60px; z-index:2;}
+.holes i { width:14px; height:14px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff,#d8d2b8 70%); box-shadow:inset 0 0 0 1px var(--rule);}
+
+header { display:flex; align-items:center; gap:14px; padding:18px 26px 14px 58px; border-bottom:2px solid var(--blue); background:#fff;}
+.stamp { width:46px; height:46px; border-radius:50%; overflow:hidden; flex:none; border:2px dashed var(--blue); transform:rotate(-10deg); padding:2px;}
+.stamp img { width:100%; height:100%; object-fit:cover; border-radius:50%;}
+.brand { font-family:var(--display); font-weight:400; font-size:20px; text-transform:uppercase; color:var(--blue);}
+.status-pill { font-size:10.5px; font-weight:700; color:var(--blue); border:1px solid var(--blue); border-radius:3px; padding:3px 9px;}
+.spacer { flex:1; }
+header input { font-family:var(--type); background:var(--paper); border:1px solid var(--blue); border-radius:2px; color:var(--ink); padding:8px 12px; width:280px; font-size:12.5px;}
+
+.tabs { display:flex; gap:2px; padding:0 26px 0 58px; background:#fff; }
+.tab { font-family:var(--display); font-weight:400; font-size:11.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--blue); background:var(--paper); padding:7px 16px 8px; border:1px solid var(--blue); border-bottom:none; border-radius:6px 6px 0 0;}
+.tab.active { background:var(--hi); }
+
+main { flex:1; display:flex; overflow:hidden; background:var(--rule) ; }
+aside { width:250px; padding:16px 18px 20px 58px; overflow-y:auto; background:#fff;}
+.section-label { font-family:var(--display); font-weight:400; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--blue); margin:16px 0 7px; border-bottom:1px solid var(--rule); padding-bottom:4px;}
+.section-label:first-child { margin-top:0; }
+.recipe-row { display:flex; justify-content:space-between; padding:6px 8px; cursor:pointer; font-size:12px;}
+.recipe-row.active { background:var(--hi); border-radius:2px; font-weight:700;}
+.recipe-row .acc { font-size:9.5px; color:var(--blue); border:1px solid var(--blue); border-radius:2px; padding:0 4px;}
+
+section#stage { flex:1; overflow-y:auto; padding:22px 30px 30px 30px; }
+.card { max-width:640px; background:#fff; border:2px solid var(--blue); border-radius:4px; padding:24px 26px; box-shadow:5px 5px 0 var(--rule);}
+.card h1 { font-family:var(--display); font-weight:400; font-size:24px; text-transform:uppercase; color:var(--blue);}
+.chips { display:flex; gap:6px; margin:10px 0 4px;}
+.chip { font-size:10px; font-weight:700; padding:2px 8px; border:1px solid var(--blue); border-radius:2px; color:var(--blue);}
+.chip.book { background:var(--hi); }
+.sounds-like { font-style:italic; color:#171a3d99; margin:8px 0 18px;}
+h2.sec { font-family:var(--display); font-weight:400; font-size:13px; letter-spacing:.03em; text-transform:uppercase; color:var(--blue); margin:18px 0 7px;}
+.chain { background:var(--paper); border:1px solid var(--rule); border-radius:2px; padding:11px 13px; font-size:12px;}
+ol.steps { padding-left:18px; }
+ol.steps li { margin-bottom:10px; }
+.step-current { list-style:none; margin-left:-18px; padding:7px 9px 7px 18px; background:var(--hi); border-radius:2px; }
+
+footer { border-top:2px solid var(--blue); background:#fff; padding:13px 22px 13px 58px; display:flex; align-items:center; gap:18px;}
+#ptt { font-family:var(--display); font-weight:400; text-transform:uppercase; letter-spacing:.02em; background:var(--blue); color:var(--hi); border:none; border-radius:3px; padding:10px 20px; font-size:13.5px; cursor:pointer;}
+.grp { display:flex; gap:6px;}
+.grp button { background:var(--paper); border:1px solid var(--blue); color:var(--ink); border-radius:2px; padding:7px 12px; font-size:11.5px; cursor:pointer; font-family:var(--type);}
+</style>
+</head>
+<body>
+<div class="tag">MOCKUP G — Recipe Index Card (card catalog, typewriter, ink-stamp logo)</div>
+
+<div class="holes"><i></i><i></i><i></i></div>
+
+<header>
+  <div class="stamp"><img src="../Beat Machine Mockups/logo-blue.png" alt="logo"></div>
+  <div class="brand">Reason Voice</div>
+  <div class="status-pill">● LISTENING</div>
+  <div class="spacer"></div>
+  <input placeholder="Type anything you could say…">
+</header>
+
+<div class="tabs">
+  <div class="tab active">Recipe Book</div>
+  <div class="tab">Templates</div>
+  <div class="tab">Sample Bins</div>
+</div>
+
+<main>
+  <aside>
+    <div class="section-label">Recipe book</div>
+    <div class="recipe-row active"><span>Driven Rock Bass</span><span class="acc">B</span></div>
+    <div class="recipe-row"><span>Shoegaze Guitar Wall</span><span class="acc">B</span></div>
+    <div class="recipe-row"><span>Rock Mix Glue</span><span class="acc">A</span></div>
+    <div class="recipe-row"><span>Trap 808 Slide</span><span class="acc">C</span></div>
+    <div class="recipe-row"><span>Lo-fi Boom Bap Kit</span><span class="acc">B</span></div>
+
+    <div class="section-label">Templates</div>
+    <div class="recipe-row"><span>My Bass Rig</span></div>
+
+    <div class="section-label">Sample bins</div>
+    <div class="recipe-row"><span>TBOTC 3 / Kicks</span></div>
+  </aside>
+
+  <section id="stage">
+    <div class="card">
+      <h1>Driven Rock Bass</h1>
+      <div class="chips"><span class="chip book">ROCK</span><span class="chip">ACCURACY B</span></div>
+      <p class="sounds-like">sounds like Royal Blood / Muse — distorted bass that still has low end</p>
+
+      <h2 class="sec">The Chain</h2>
+      <div class="chain">Spider Audio split → Path A: MClass EQ (lows) → Path B: Scream 4 + MClass EQ (mids/highs) → merge → channel comp</div>
+
+      <h2 class="sec">Steps — on step 3 of 6</h2>
+      <ol class="steps">
+        <li>Split the bass with a Spider Audio into "Bass Sub" and "Bass Dirt".</li>
+        <li>Bass Sub: MClass EQ, cut everything above ~250 Hz. Keep this path clean.</li>
+        <li class="step-current">Bass Dirt: MClass EQ hi-pass, cut below 250 Hz.</li>
+        <li>Bass Dirt: Scream 4 after the EQ, Damage type Distortion, 55–70.</li>
+        <li>Balance dirt path about equal with sub path.</li>
+        <li>Merge to a bass bus, compressor 4:1, ~3 dB reduction.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <button id="ptt">🎤 Hold to talk</button>
+  <div class="grp"><button>▶ Play</button><button>■ Stop</button><button>● Rec</button><button>↻ Loop</button></div>
+  <div class="grp"><button>← Back</button><button>Repeat</button><button>Next step →</button></div>
+</footer>
+</body>
+</html>

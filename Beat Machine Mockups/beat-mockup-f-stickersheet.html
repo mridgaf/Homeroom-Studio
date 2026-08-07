@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup F — Sticker Sheet</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+:root {
+  --paper:#eef1fb; --grid:#0e1a8f14; --ink:#0e1a8f; --hi:#f3dd1f; --card:#fffef8;
+  --display:"Anton",Impact,sans-serif; --mono:"Space Mono",ui-monospace,monospace;
+}
+* { box-sizing:border-box; margin:0; }
+body {
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/26px 26px,
+    var(--paper);
+  color:var(--ink); font:15px/1.5 -apple-system,sans-serif; height:100vh; overflow:hidden; display:flex; flex-direction:column;
+}
+.tag { position:fixed; top:10px; right:14px; font-size:11px; color:var(--ink); background:var(--card); border:1px solid var(--ink); padding:4px 10px; border-radius:20px; z-index:99; font-family:var(--mono);}
+
+header { display:flex; align-items:center; gap:18px; padding:20px 26px; }
+.hero-sticker { width:64px; height:64px; border-radius:14px; overflow:hidden; flex:none; border:3px dashed var(--card); outline:3px solid var(--ink); transform:rotate(-5deg); box-shadow:0 6px 14px #0e1a8f22;}
+.hero-sticker img { width:100%; height:100%; object-fit:cover; }
+header h1 { font-family:var(--display); font-weight:400; font-size:26px; text-transform:uppercase; color:var(--ink); letter-spacing:.01em;}
+header .sub { font-family:var(--mono); font-size:10.5px; color:#0e1a8f99; letter-spacing:.06em; text-transform:uppercase;}
+.spacer { flex:1; }
+#go { font-family:var(--display); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; padding:11px 22px; border:2.5px dashed var(--card); outline:2.5px solid var(--ink); border-radius:40px; background:var(--hi); color:var(--ink); cursor:pointer; transform:rotate(2deg); transition:transform .15s;}
+#go:hover { transform:rotate(0) scale(1.04); }
+
+main { flex:1; overflow-y:auto; padding:6px 26px 40px; max-width:980px; margin:0 auto; width:100%; }
+h2.label { display:inline-block; font-family:var(--display); font-weight:400; font-size:15px; letter-spacing:.03em; text-transform:uppercase; color:var(--card); background:var(--ink); padding:5px 14px 6px; border-radius:20px; margin:0 0 14px; transform:rotate(-1deg);}
+h2.label small { font-family:var(--mono); font-weight:400; font-size:10px; color:#ffffffb0; text-transform:none; margin-left:6px;}
+
+.djs { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:16px; margin-bottom:32px;}
+.dj { position:relative; display:flex; align-items:center; gap:9px; padding:13px 14px; border-radius:16px; background:var(--card); outline:2.5px solid var(--ink); border:2.5px dashed var(--card); cursor:pointer; box-shadow:0 3px 0 #0e1a8f18; transition:transform .12s;}
+.dj:nth-child(odd){ transform:rotate(-1.4deg);} .dj:nth-child(even){ transform:rotate(1.4deg);}
+.dj:hover { transform:scale(1.05) rotate(0deg); }
+.dj.sel { background:var(--hi); }
+.dj .dot { width:11px; height:11px; border-radius:50%; border:2.5px solid var(--ink); flex:none; background:var(--card);}
+.dj.sel .dot { background:var(--ink);}
+.dj .name { font-family:var(--display); font-weight:400; font-size:15.5px; text-transform:uppercase;}
+.dj .built { display:block; font-family:var(--mono); font-size:10px; color:#0e1a8f99;}
+
+.panel { padding:18px 20px; border-radius:16px; background:var(--card); outline:2.5px solid var(--ink); margin-bottom:24px;}
+.fields { display:grid; grid-template-columns:120px 110px 1fr; gap:14px;}
+.field label { display:block; font-family:var(--display); font-weight:400; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); margin-bottom:5px;}
+.field input { width:100%; font-family:var(--mono); font-size:13px; padding:9px 11px; border-radius:8px; border:2px solid var(--grid); background:#fff; color:var(--ink);}
+
+.tracklist .track { display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:14px; background:var(--card); outline:2px solid var(--ink); margin-bottom:8px; transform:rotate(-.6deg);}
+.tracklist .track:nth-child(even){ transform:rotate(.6deg);}
+.tracklist .no { font-family:var(--display); font-weight:400; font-size:19px; color:#0e1a8f99; width:26px;}
+.tracklist .tname { font-family:var(--display); font-weight:400; font-size:14.5px; text-transform:uppercase;}
+.tracklist .tsub { display:block; font-size:10.5px; color:#0e1a8f99; font-family:var(--mono);}
+.tracklist .pp { margin-left:auto; width:28px; height:28px; border-radius:50%; background:var(--hi); outline:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:10px;}
+</style>
+</head>
+<body>
+<div class="tag">MOCKUP F — Sticker Sheet (punch-out cards, graph paper, peel-off logo)</div>
+
+<header>
+  <div class="hero-sticker"><img src="logo-blue.png" alt="logo"></div>
+  <div>
+    <h1>Homeroom Studio</h1>
+    <div class="sub">the beat machine</div>
+  </div>
+  <div class="spacer"></div>
+  <button id="go">Make my beats</button>
+</header>
+
+<main>
+  <h2 class="label">The Crew <small>nine personalities</small></h2>
+  <div class="djs">
+    <div class="dj sel"><div class="dot"></div><div><span class="name">Otto Grit</span><span class="built">grimy, low-fi drums</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Cutz</span><span class="built">scratch-forward, chopped</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Crate Prophet</span><span class="built">dusty sample digger</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Chrome Dial</span><span class="built">bright, modern</span></div></div>
+  </div>
+
+  <h2 class="label">The Legends <small>signature styles</small></h2>
+  <div class="djs">
+    <div class="dj"><div class="dot"></div><div><span class="name">Farrow</span><span class="built">boom bap architect</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Doc Day</span><span class="built">jazzy, chord-heavy</span></div></div>
+    <div class="dj"><div class="dot"></div><div><span class="name">Kane East</span><span class="built">hard, minimal</span></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="fields">
+      <div class="field"><label>Tempo</label><input placeholder="95"></div>
+      <div class="field"><label>How many</label><input value="4"></div>
+      <div class="field"><label>Directions</label><input placeholder="no hi hats, dusty, sparse, no 808…"></div>
+    </div>
+  </div>
+
+  <h2 class="label">This batch <small>4 tracks</small></h2>
+  <div class="tracklist">
+    <div class="track"><span class="no">1</span><div><span class="tname">Otto Grit Boom Bap #316</span><span class="tsub">92 bpm · dusty, sparse</span></div><div class="pp">▶</div></div>
+    <div class="track"><span class="no">2</span><div><span class="tname">Otto Grit x Crunk #317</span><span class="tsub">92 bpm · no hi hats</span></div><div class="pp">▶</div></div>
+  </div>
+</main>
+</body>
+</html>
