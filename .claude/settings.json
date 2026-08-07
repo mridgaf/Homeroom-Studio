@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/never-guess-sessionstart.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/be-concise-sessionstart.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
