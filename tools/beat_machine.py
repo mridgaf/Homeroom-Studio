@@ -159,6 +159,10 @@ TITLES = {
                   "Golden", "Infinite"],
                  ["Postulate", "Remainder", "Function", "Sequence",
                   "Fraction", "Lemma", "Ratio", "Angle"]),
+    "Half Light": (["Dim", "Late", "Behind", "Hollow", "Dusk", "Faded",
+                    "Slack", "Amber"],
+                   ["Room", "Hour", "Curtain", "Echo", "Fade", "Glow",
+                    "Drift", "Hall"]),
 }
 COLLAB_TITLES = (["Split", "Shared", "Double", "Joint", "Twin", "Crossed",
                   "Common", "Meeting"],

@@ -448,6 +448,40 @@ DEFAULT_STYLE = {
             ["perc", ["block", "clave", "tabla"], "mathperc"],
             ["rim", ["rim", "click"], "clicks"]]),
     ),
+    # Half Light (2026-08-07): the slow one. Two-to-four kicks a bar, the
+    # snare's home is 'four' (the 4 alone — the 2 stays empty), and the
+    # timekeeper's home is 'shuffle' (swung triplets) on a rim, not a hat.
+    # 'shuffle' and 'triplets' were built for the GENRE roster; this is the
+    # first crew member to reach for them, which is what makes his clock
+    # sound unlike the other nine's.
+    "Half Light": dict(
+        grammar=dict(
+            kick=dict(w=[10, 1, 1, 2, 1, 1, 2, 1, 8, 1, 1, 2, 2, 1, 3, 1],
+                      hits=[2, 4], double_p=0.12),
+            snare=dict(modes=_bb('four'),
+                       ghosts=[0, 2], gcells=[3, 5, 7, 10, 11, 14, 15]),
+            rim=dict(modes=[['shuffle', 0.34], ['sparse', 0.16],
+                            ['offbeats', 0.12], ['eighths', 0.08],
+                            ['broken', 0.08], ['gallop', 0.08],
+                            ['answer', 0.08], ['triplets', 0.06]]),
+            shaker=dict(modes=[['offbeats', 0.3], ['sparse', 0.24],
+                               ['shuffle', 0.16], ['answer', 0.12],
+                               ['eighths', 0.08], ['broken', 0.06],
+                               ['gallop', 0.04]]),
+        ),
+        kick_flavors=[[0.35, None, ["sub", "deep", "round", "soft"],
+                       [0.9, 2.8]],
+                      [0.65, None, ["boom", "acoustic", "break", "room",
+                                    "warm"], [0.6, 1.6]]],
+        library=dict(p=0.5, tags=[["trip hop", 3], ["soul", 2],
+                                  ["blues", 2], ["jazz", 2],
+                                  ["downtempo", 2], ["ambient", 1],
+                                  ["gospel", 1]]),
+        extras=dict(p=0.55, nmax=1, pool=[
+            ["perc", ["brush", "shaker", "sand", "tamb"], "brushes"],
+            ["fx", ["texture", "foley", "noise", "ambien"], "airs"],
+            ["bongo", ["conga", "bongo"], "hands"]]),
+    ),
 }
 
 # New Math's boom-bap mode reaches for dusty, short drums instead

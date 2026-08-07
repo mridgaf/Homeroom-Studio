@@ -556,6 +556,59 @@ DEFAULT_CREW = {
         space=("gated", ["snare"]), alt=None,
         drive=1.5, kick_dist=3.0, mix_sat=0.0,
     ),
+
+    # Slot 10, added 2026-08-07. The roster had nothing under 88 BPM and
+    # nothing that plays BEHIND the beat on purpose — every other DJ is
+    # either on the grid or pushing. This one is the opposite end: half
+    # the tempo, every lane late, no hats, and the 2 left empty.
+    "Half Light": dict(
+        num=10, bpm=68, era="now", built="no one — the slow lane",
+        listen=("the slowest thing in the room. Half the roster's tempo, "
+                "and every lane drags BEHIND the click on purpose (kick "
+                "+26 ms, snare +34 ms) — nobody else is late by design. "
+                "No hats at all: a cross-stick rim keeps time in threes "
+                "over a four grid, so it never lines up twice the same "
+                "way. The backbeat mostly refuses to show — the snare "
+                "sits on the 4 alone and leaves the 2 empty. Tape wow is "
+                "the highest on the roster, so the whole thing sags and "
+                "recovers. Gated snare like the house, but his Alt file "
+                "is a HALL — 2.2 seconds, the biggest room any DJ has. "
+                "Stamp is a reversed hit at the END of bars 2 and 6, so "
+                "it sucks INTO bars 3 and 7 — everyone else stamps the "
+                "tail of 4 and 8; he arrives early instead."),
+        kit=dict(
+            kick=("kick", None, ["boom", "sub", "round", "soft", "deep"],
+                  (0.9, 2.8)),
+            snare=("snare", None,
+                   ["soft", "room", "brush", "dark", "rimshot"], 1.6),
+            rim=("rim", None, ["rim", "sidestick", "stick", "click"], 0.6),
+            shaker=("perc", None, ["shaker", "tamb", "brush", "sand"], 0.7),
+            stamp=("fx", None,
+                   ["reverse", "swell", "foley", "texture", "whoosh"], 2.2),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (+26, 5, 50, 201), [
+                "X-------X-------", "X-------X-------",
+                "X-------X-------", "X-------X----x--",
+                "X-------X-------", "X-----------X---",
+                "X-------X-------", "X-------X--x----"]),
+            snare=(0.0, 0.82, (+34, 6, 50, 202), [
+                "------------X---"] * 7 + ["----.-------X---"]),
+            rim=(-0.22, 0.34, (+12, 4, 50, 203), [
+                "x--x--x--x--x--x"] * 5 + ["x--x--x--x------"]
+                + ["x--x--x--x--x--x"] * 2),
+            shaker=(0.24, 0.26, (+18, 6, 50, 204), [
+                "--x---x---x---x-"] * 3 + ["--x---x---x--xx-"]
+                + ["--x---x---x---x-"] * 3 + ["--x---x---xx-xx-"]),
+            # the stamp lands at the END of bars 2 and 6, not 4 and 8
+            stamp=(-0.3, 0.42, (0, 3, 50, 205),
+                   [R16, "--------------x-"] + [R16] * 3
+                   + ["--------------x-"] + [R16] * 2),
+        ),
+        dust=0.0, vinyl=-38, wow=0.6, sidechain=0.22,
+        space=("gated", ["snare"]), alt=("hall", (2.2, 2600, 0.42)),
+        drive=1.15, kick_dist=0.0, mix_sat=0.0,
+    ),
 }
 
 # ------------------------------------------------------------ config file
@@ -696,6 +749,23 @@ CREW_SIGNATURES = {
         # through to horns until this was caught 2026-07-24.
         chord_source=[["strings", 3], ["horns", 2]],
         chord_rhythm=[["sustain", 2], ["arp", 2]]),
+
+    # Half Light: derived from his own `listen` line, per rule 1 above —
+    # slow, late, wet, the 2 left empty. Chords are HELD, never arped:
+    # at 68 BPM an arp would fill the hole the drums are deliberately
+    # leaving. Piano and guitar because they decay on their own; the hall
+    # does the rest.
+    "Half Light": dict(
+        key=dict(roots=[["F", 3], ["A", 2], ["D", 2], ["C", 2], ["B", 1]],
+                 mode=[["minor", 3], ["dorian", 2]]),
+        progressions=[["sad_accepting", 3], ["noir_descend", 3],
+                      ["neo_soul_descent", 2],
+                      ["nostalgic_borrowed_minor", 2],
+                      ["sad_sinking", 2], ["suspended_open", 1],
+                      ["dreamy", 1], ["line_cliche", 1]],
+        chord_source=[["piano", 3], ["guitar", 2], ["organ", 1]],
+        chord_rhythm="sustain",
+        chords_default=True),
 }
 
 for _n, _sig in CREW_SIGNATURES.items():

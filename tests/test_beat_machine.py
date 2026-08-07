@@ -32,7 +32,7 @@ def test_config_file_round_trips_the_roster(tmp_path):
     first = crew.load_crew(cfg)
     assert cfg.exists()                      # written on first run
     again = crew.load_crew(cfg)              # loaded ever after
-    # crew_config.json holds the nine; the Legends live in their own file
+    # crew_config.json holds the ten; the Legends live in their own file
     assert set(first) == {n for n in CREW if n not in crew.LEGEND_NAMES
                           and n not in crew.GENRE_NAMES}
     assert first == again
