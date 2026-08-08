@@ -183,6 +183,14 @@ OWNER_TASTE = {
                                  #      is fair game for every DJ (taste
                                  #      tags stop gating picks; locked
                                  #      stamps still ride)
+    "engine_master": True,       # owner 2026-08-08: heard the A/B batch
+                                 #      (tools/audio_engine.py, pedalboard-
+                                 #      based EQ/compressor/limiter vs the
+                                 #      tanh soft-clip chain), preferred the
+                                 #      engine chain, said "keep going in
+                                 #      that direction." New default for
+                                 #      every render; audio_engine.py stays
+                                 #      the file to read for how it works.
     # --- where the harmony sits under the drums (owner 2026-07-25:
     # "everything starts off the same volume ... I want traditional
     # velocity/volume dynamics at the start so it doesn't sound loud and

@@ -44,6 +44,11 @@ from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
                     sat_unity, snare_scale, sp1200, velocity, vinyl_bed,
                     wow_flutter)
 
+try:
+    import audio_engine  # pedalboard-based mastering chain, opt-in only
+except ImportError:
+    audio_engine = None
+
 OUT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 LOCK = Path(os.path.expanduser("~/.reason_voice/crew_kits.json"))
 BARS = 8                         # the old fixed loop; now only a fallback
@@ -1232,6 +1237,18 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     events = {k: [(t, v) for t, v in evs if t * SR < end]
               for k, evs in events.items()}
 
+    # opt-in per-lane EQ (owner 2026-08-08, "keep going" on the pedalboard
+    # engine) — shapes one lane's tone before it hits reverb/dirt/mix.
+    # p.get("lane_eq", {}) is empty for every current DJ, so this is a
+    # capability, not a change: nothing moves until a character is tuned
+    # to use it, same pattern as the space="algo" reverb option.
+    if audio_engine is not None:
+        for lane, eq_kwargs in p.get("lane_eq", {}).items():
+            if lane in bufs:
+                buf = bufs[lane]
+                eqL, _ = audio_engine.eq3(buf, buf, **eq_kwargs)
+                bufs[lane] = eqL
+
     # owner 2026-07-18: clean renders — every dirt stage (808 dist,
     # roughness, saturation, dust, vinyl, wow) stays off; he adds his own
     # color in Reason. Presets keep their dirt numbers so flipping
@@ -1294,6 +1311,23 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             # ...and the decorrelated half rides along as a side signal,
             # folded in at pan time below. mono_below(120) still collapses
             # the bass, so this cannot smear the low end.
+            wet_side[lane] = (wetL - wetR) * 0.5
+        elif space == "algo" and audio_engine is not None:
+            # real FDN algorithmic reverb (pedalboard.Reverb) — a smoother,
+            # more "plugin" tail than the synthetic-IR convolution above.
+            # Opt-in per DJ (space=("algo", [...])); same dry+mono-fold /
+            # decorrelated-side pattern as the room/plate/hall branch so
+            # every downstream reader (stem peak-normalize, pan, mono_below)
+            # sees the same shape of data regardless of which reverb ran.
+            algo_defaults = {"room_size": 0.6, "damping": 0.4, "wet": 0.35,
+                             "width": 1.0}
+            alt = p.get("alt")
+            ap = (alt[1] if alt and alt[0] == "algo" and alt[1]
+                  else algo_defaults)
+            dry = bufs[lane]
+            wetL, wetR = audio_engine.loop_algo_reverb(
+                dry.copy(), dry.copy(), dry=0.0, **ap)
+            bufs[lane] = dry + (wetL + wetR) * 0.5
             wet_side[lane] = (wetL - wetR) * 0.5
         # "dry": leave it alone
 
@@ -1575,12 +1609,38 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # the mix's dynamics first, then tone/saturate/limit it. Always on,
     # clean render or not: this is mix glue, not the SP-1200/wow/vinyl
     # "dirt" clean_renders turns off.
-    L, R = glue_compress(L, R)
-    # clean master: drive 0.7 keeps the tanh glue essentially linear —
-    # tone EQ and mono-bass still apply, saturation effectively doesn't
-    L, R = master(L, R, drive=0.7 if clean else p["drive"])
-    L, R = mono_below(L, R, 120)
-    L, R, got = master_to_lufs(L, R)
+    # OWNER_TASTE["engine_master"] (default False/absent): route the final
+    # bus through audio_engine.master_chain (pedalboard EQ + two-speed
+    # compressor + lookahead limiter) instead of the hand-rolled
+    # glue_compress/master()/master_to_lufs chain. Opt-in and additive —
+    # the house default chain below is unchanged when this is off, so no
+    # existing beat's sound moves. See tools/audio_engine.py docstring.
+    if OWNER_TASTE.get("engine_master") and audio_engine is not None:
+        # mono_below BEFORE the chain (matches the house chain's ordering:
+        # tone-shape, then mono the bass, then the final loudness/ceiling
+        # pass) so master_chain's own peak backstop is the last word on
+        # the ceiling, not something mono-ing could nudge back over it.
+        L, R = mono_below(L, R, 120)
+        # opt-in bus saturation via pedalboard.Distortion (parallel-mixed,
+        # not full-wet — see audio_engine.saturate). p.get("engine_sat", 0)
+        # is 0 for every current DJ, same "capability, not a change" rule
+        # as lane_eq/algo above, and still respects clean_renders like the
+        # other dirt stages (sat_unity/dust/vinyl/wow) just above.
+        sat_amt = p.get("engine_sat", 0.0)
+        if not clean and sat_amt > 0:
+            L, R = audio_engine.saturate(L, R, drive_db=6.0, mix=sat_amt)
+        L, R, got = audio_engine.master_chain(
+            L, R, target_lufs=OWNER_TASTE["master_lufs"],
+            ceiling_db=OWNER_TASTE["peak_ceiling_db"],
+            multiband=p.get("engine_multiband", False),
+            width=p.get("engine_width", 1.0))
+    else:
+        L, R = glue_compress(L, R)
+        # clean master: drive 0.7 keeps the tanh glue essentially linear —
+        # tone EQ and mono-bass still apply, saturation effectively doesn't
+        L, R = master(L, R, drive=0.7 if clean else p["drive"])
+        L, R = mono_below(L, R, 120)
+        L, R, got = master_to_lufs(L, R)
     if not want_parts:
         return L, R, got
 

@@ -22,7 +22,152 @@ entries.
 
 (new entries go below this line, most recent first)
 
-### 2026-08-08 Eleventh DJ added: Fast Water (slot 11) — the break lane
+### 2026-08-08 Pedalboard-based mastering engine added, opt-in, awaiting owner's ear
+- Context: owner asked for a production-grade effects/mastering engine
+  ("Ableton-level"), explicitly waived never-guess for this task and put me
+  in charge of scope. Existing chain (groove.py) is hand-rolled DSP: tanh
+  soft-clip "limiter", single-speed glue compressor.
+- Decision/change: installed pedalboard 0.9.17 + scipy + soxr in .venv
+  (added to requirements.txt). New `tools/audio_engine.py` wraps pedalboard
+  for EQ, a two-speed compressor, a real lookahead limiter, algorithmic
+  reverb, saturation, chorus/phaser/delay, and a `master_chain()` mastering
+  function. Wired into `crew.py render_crew_beat()` as **opt-in only** via
+  `OWNER_TASTE["engine_master"]` (default off/absent) — existing renders
+  are byte-for-byte unaffected unless that flag is set. Added
+  `tests/test_audio_engine.py` (5 tests, all pass) with objective
+  measurements (settled-state gain reduction, EQ frequency response,
+  reverb tail energy, LUFS target, peak ceiling).
+- Reasoning: pedalboard is JUCE-backed, genuinely commercial-grade DSP —
+  the honest path to "Ableton-quality" is wrapping it, not hand-coding more
+  DSP from scratch. Kept opt-in because the hand-rolled chain carries a lot
+  of owner-tuned taste (snare balance rules, mono backstop, etc.) that
+  shouldn't move without his verdict.
+- Gotcha found and fixed: pedalboard.Limiter is NOT a passive brickwall —
+  it applies automatic makeup gain toward its own threshold even on
+  material well under the ceiling (measured: -23 dB RMS tone came out
+  -18 dB after a -1 dB-threshold limiter). master_chain() now runs the
+  limiter as peak safety FIRST, then trims to exact target LUFS with a
+  plain multiply afterward, plus a final linear peak backstop.
+- Rendered an A/B audition batch (Cutz, Night Metro — old chain vs new
+  chain) to `~/Desktop/Homeroom Engine AB 2026-08-08/` with a READ ME.txt.
+  Full test suite (805 tests) passes with the new code present.
+- Verify by: owner's ear-verdict on the A/B batch — does the new chain
+  sound better, worse, or the same. That verdict decides whether
+  `engine_master` becomes the new default and whether to keep extending
+  the engine (per-lane EQ, better reverb, saturation tools).
+- Status: confirmed
+- Outcome: owner heard the A/B batch 2026-08-08, preferred B-engine, said
+  "keep going in that direction." `engine_master` flipped to the default
+  (see next entry below for what shipped as a result).
+
+### 2026-08-08 Engine made default; algo reverb added; sparse-kit LUFS bug found+fixed
+- Context: owner confirmed B-engine, said keep going. Flipped
+  `OWNER_TASTE["engine_master"] = True` in groove.py — this is now the
+  mastering chain for every render, not just an opt-in.
+- Decision/change: added `tools/audio_engine.loop_algo_reverb()` — a real
+  algorithmic (FDN) reverb via pedalboard.Reverb, wrapped loop-safe (runs
+  over [dry,dry] concatenated, keeps the second copy, same trick
+  groove.loop_convolve uses for convolution reverb — verified by measuring
+  tail energy actually lands at the buffer START, 3.23 vs 0.0 non-wrapped).
+  Wired as a new opt-in `space="algo"` option in crew.py's reverb dispatch,
+  alongside gated/room/plate/hall — no DJ preset uses it yet, zero risk to
+  existing beats.
+- Bug found running the full suite after flipping the default:
+  `test_crew.py::test_render_is_loop_length_and_loudness_true` failed — a
+  sparse synthetic test kit (short decaying tones, mostly silence) landed
+  at -19 LUFS against a -12 target (old chain landed within 2 dB). Root
+  cause: that kit has a very high crest factor (quiet average, one loud
+  peak near 0 dBFS after limiting) — gaining it to -12 LUFS would push the
+  peak past the -4 dB ceiling, and the original backstop (uniform linear
+  scale-down) undid the gain evenly, undershooting badly.
+- Fix: `master_chain()`'s over-ceiling backstop now runs the limiter a
+  SECOND time (squashes just the peaks) before falling back to a linear
+  clamp as a last resort. Verified on 3 synthetic cases: sparse/peaky now
+  -10.18 LUFS (within the 2 dB tolerance), realistic and quiet material
+  both hit -12.0 exactly, ceiling respected in all three.
+- Verify by: full test suite (805 passed, 1 skipped) after the fix. Real
+  verdict is still the owner's ear on actual DJ renders under the new
+  default — no audition batch sent yet for THIS change specifically.
+- Status: confirmed (measured)
+- Outcome: (owner hasn't heard beats rendered under the new default yet —
+  flag if the next batch he hears sounds different than expected)
+
+### 2026-08-08 Engine expanded: per-lane EQ, saturation, multiband comp, width
+- Context: owner said "keep going" (twice), then explicitly said to skip
+  demo batches for now and just keep building once tests are green.
+- Decision/change, all added to tools/audio_engine.py and wired as
+  opt-in-only hooks in tools/crew.py (each defaults to off/absent for
+  every current DJ — capability, not a change, same pattern as the
+  engine_master flip and the algo reverb space):
+  - `lane_eq` (per-DJ dict, lane -> eq3 kwargs) — shapes one lane's tone
+    before reverb/dirt/mix.
+  - `engine_sat` (0.0 default) — bus saturation via pedalboard.Distortion,
+    parallel-mixed, gated by clean_renders like the other dirt stages.
+  - `multiband_compress()` — 3-band compression (low/mid/high split via
+    lowpass+highpass, mid = algebraic remainder so low+mid+high ==
+    original EXACTLY whenever nothing compresses). Verified: transparent
+    settings reconstruct to <1e-5 error; hammering only the low band cut
+    60 Hz by 10.75 dB while an 8 kHz tone moved 0.0 dB — genuine band
+    independence. Wired as `engine_multiband` (False default) in
+    master_chain().
+  - `stereo_width()` — M/S width control (Ableton Utility's Width knob).
+    Verified exactly loudness-neutral on the mono sum at any width
+    (max diff ~1e-16, floating-point noise) and scales the side signal by
+    precisely the requested ratio. Wired as `engine_width` (1.0/unity
+    default) in master_chain(), applied before the limiter so a widened
+    peak still gets caught by the existing peak-safety stages.
+- All new tools have objective-measurement tests in
+  tests/test_audio_engine.py (10 tests total now). Full suite: 810 passed,
+  1 skipped.
+- Reasoning: these are the standard building blocks of a pro mastering
+  chain (per-track EQ, character saturation, multiband dynamics, stereo
+  imaging) — the pieces named in the original "keep going" direction.
+  Kept everything opt-in per DJ rather than touching any character's
+  existing sound, since identity here is owner-tuned and not mine to
+  guess at (see identity_survival.py).
+- Verify by: tests pass now (measured). No DJ has been switched to use
+  any of these new opt-in knobs yet — that's a separate decision for
+  whenever the owner wants to try one on a specific character.
+- Status: confirmed (measured only)
+- Outcome: (pending — nothing to hear differently yet since nothing is
+  wired into an actual DJ preset)
+
+### 2026-08-08 Sound Engine v1: standalone app, separate from the beat generator
+- Context: owner clarified the "Ableton-level engine" ask was for a
+  SEPARATE app with its own window — load/manipulate beats OR any audio
+  file he brings in, not just a backend module wired into crew.py. Asked
+  clarifying questions first (input source, export behavior, v1 scope) per
+  his own never-guess rule, since this was a real scope pivot. Answers:
+  any audio file via drag-in, always save as a new file (never overwrite),
+  ONE effect first to prove the app works before adding the rest.
+- Decision/change: new `sound_engine/` package — `server.py` (FastAPI,
+  port 8767, matches reason_voice/server.py's launcher pattern),
+  `dsp.py` (loads/saves ANY format via pedalboard.io.AudioFile — wav, mp3,
+  m4a, aiff, flac, etc — at the file's own sample rate, reuses
+  tools/audio_engine.py rather than duplicating DSP), `static/`
+  (drag-and-drop UI, before/after players, 3-band EQ panel, export
+  button). Launcher: `Sound Engine.command` (double-click, same pattern
+  as ReasonVoice.command). Exports always go to a NEW timestamped file in
+  `~/Desktop/Homeroom Sound Engine Exports/` — original upload is never
+  touched.
+- Small supporting change: `audio_engine.eq3()` gained an optional `sr`
+  param (defaults to the project's fixed 44100) so it works correctly on
+  uploaded files at other sample rates (tested at 48000) — the beat
+  pipeline's calls are unaffected since they don't pass it.
+- Verified end-to-end manually (curl against the live server, not just
+  unit tests): upload a WAV, apply EQ, confirmed dry != wet audio
+  (mid -6dB cut measurably reduced peak on a 440Hz test tone), export
+  produced a real new file, original /tmp file untouched. Browser-loaded
+  the UI and confirmed it renders correctly. Full test suite still
+  810 passed / 1 skipped after the eq3 change.
+- Reasoning: kept v1 to exactly one effect (EQ) per owner's explicit
+  answer, rather than building all 6+ engine tools' UI panels blind. New
+  package, new port, new launcher — genuinely separate from crew.py/
+  beat_machine.py and reason_voice, as asked, not bolted onto either.
+- Verify by: owner opens Sound Engine.command and tries it on a real
+  file — that's the actual test this hasn't had yet.
+- Status: open (built + self-verified, not yet used by the owner)
+- Outcome: (pending)
 - Context: owner asked for another surprise DJ, my choice. With Half Light
   at 68 the roster spans 68-150 and the two remaining holes were the TOP of
   the tempo range and the ROLE of the timekeeper: on all ten, the hat/rim is
