@@ -48,9 +48,36 @@ async def _open_browser():
         asyncio.create_task(_later())
 
 
-# session state: file_id -> {name, sr, dry: (L, R), wet: (L, R)}. In-memory,
-# single local user, gone on restart — fine for a working session.
+@app.middleware("http")
+async def no_stale_ui(request, call_next):
+    """Force revalidation of static/app.js etc — a server-side fix (like
+    the stop-on-backgrounding safety net) is worthless if the browser
+    just keeps serving its cached old copy of app.js instead of fetching
+    the new one. Matches reason_voice/server.py's same fix."""
+    response = await call_next(request)
+    if request.url.path == "/" or request.url.path.startswith("/static"):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
+
+
+# session state: file_id -> {name, sr, dry: (L, R), wet: (L, R), src_path}.
+# In-memory, single local user, gone on restart. Capped at MAX_SESSIONS —
+# each entry holds full-length float64 stereo arrays (a 4-min track is
+# ~170 MB for dry+wet together), so an uncapped dict would grow without
+# bound over a working session that loads many files (found in review).
 SESSIONS: dict[str, dict] = {}
+MAX_SESSIONS = 5
+
+
+def _evict_old_sessions():
+    while len(SESSIONS) > MAX_SESSIONS:
+        old_id, old = next(iter(SESSIONS.items()))
+        del SESSIONS[old_id]
+        paths = [old.get("src_path"), RENDERS / f"{old_id}_dry.wav",
+                 RENDERS / f"{old_id}_wet.wav"]
+        for p in paths:
+            if p:
+                Path(p).unlink(missing_ok=True)
 
 
 @app.get("/")
@@ -61,15 +88,24 @@ async def root():
 @app.post("/api/upload")
 async def upload(file: UploadFile = File(...)):
     file_id = uuid.uuid4().hex[:12]
-    src = UPLOADS / f"{file_id}_{file.filename}"
+    # .name strips any directory components from the client-supplied
+    # filename — a "../../x" filename can't escape UPLOADS (found in review)
+    safe_name = Path(file.filename or "upload").name
+    src = UPLOADS / f"{file_id}_{safe_name}"
     with open(src, "wb") as f:
         f.write(await file.read())
-    L, R, sr = dsp.load_audio(src)
-    SESSIONS[file_id] = {"name": file.filename, "sr": sr, "dry": (L, R),
-                          "wet": (L, R)}
+    try:
+        L, R, sr = dsp.load_audio(src)
+    except Exception as e:
+        src.unlink(missing_ok=True)  # don't leave an orphaned upload behind
+        return JSONResponse(
+            {"error": f"couldn't read that as audio ({e})"}, status_code=400)
+    SESSIONS[file_id] = {"name": safe_name, "sr": sr, "dry": (L, R),
+                          "wet": (L, R), "src_path": src}
+    _evict_old_sessions()
     return JSONResponse({
         "file_id": file_id,
-        "filename": file.filename,
+        "filename": safe_name,
         "sample_rate": sr,
         "duration_s": round(len(L) / sr, 2),
     })
@@ -80,16 +116,21 @@ async def process(file_id: str, eq: dict):
     session = SESSIONS.get(file_id)
     if session is None:
         return JSONResponse({"error": "unknown file_id"}, status_code=404)
+    try:
+        low_db = float(eq.get("low_db", 0.0))
+        low_hz = float(eq.get("low_hz", 120.0))
+        mid_db = float(eq.get("mid_db", 0.0))
+        mid_hz = float(eq.get("mid_hz", 800.0))
+        mid_q = float(eq.get("mid_q", 0.9))
+        high_db = float(eq.get("high_db", 0.0))
+        high_hz = float(eq.get("high_hz", 8000.0))
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "invalid EQ values"}, status_code=400)
     L, R = session["dry"]
     wL, wR = dsp.audio_engine.eq3(
-        L.copy(), R.copy(), sr=session["sr"],
-        low_db=float(eq.get("low_db", 0.0)),
-        low_hz=float(eq.get("low_hz", 120.0)),
-        mid_db=float(eq.get("mid_db", 0.0)),
-        mid_hz=float(eq.get("mid_hz", 800.0)),
-        mid_q=float(eq.get("mid_q", 0.9)),
-        high_db=float(eq.get("high_db", 0.0)),
-        high_hz=float(eq.get("high_hz", 8000.0)))
+        L.copy(), R.copy(), sr=session["sr"], low_db=low_db, low_hz=low_hz,
+        mid_db=mid_db, mid_hz=mid_hz, mid_q=mid_q, high_db=high_db,
+        high_hz=high_hz)
     session["wet"] = (wL, wR)
     return JSONResponse({"ok": True})
 
@@ -113,7 +154,10 @@ async def export(file_id: str):
         return JSONResponse({"error": "unknown file_id"}, status_code=404)
     L, R = session["wet"]
     stem = Path(session["name"]).stem
-    stamp = datetime.now().strftime("%Y-%m-%d %H%M%S")
+    # microsecond precision — a same-second double-click (no button lock
+    # yet resolved client-side) must not collide and silently overwrite
+    # the first export (found in review)
+    stamp = datetime.now().strftime("%Y-%m-%d %H%M%S.%f")
     out = EXPORT_DIR / f"{stem} (engine) {stamp}.wav"
     dsp.save_wav(out, L, R, session["sr"])
     return JSONResponse({"path": str(out)})
@@ -128,12 +172,28 @@ def _port_in_use(port: int) -> bool:
         return s.connect_ex(("127.0.0.1", port)) == 0
 
 
+def _clear_scratch():
+    # SESSIONS always starts empty on a fresh process and is never
+    # persisted, so anything already in UPLOADS/RENDERS is guaranteed
+    # orphaned from a previous run (crash, kill, quit) — per-session
+    # eviction only cleans up within one running process (found in
+    # review). Only safe to call once we're SURE we're the process about
+    # to own these directories — i.e. after the port-in-use check below,
+    # never at import time, or a second launch while one is already
+    # running would delete files the live process still has open.
+    for scratch_dir in (UPLOADS, RENDERS):
+        for f in scratch_dir.iterdir():
+            if f.is_file():
+                f.unlink()
+
+
 def main():
     if _port_in_use(PORT):
         print(f"Sound Engine is already running — opening "
               f"http://localhost:{PORT} in your browser.")
         webbrowser.open(f"http://localhost:{PORT}")
         return
+    _clear_scratch()
     print(f"Ready — http://localhost:{PORT}  "
           f"(leave this window open; Ctrl+C here to quit)")
     uvicorn.run(app, host="127.0.0.1", port=PORT, log_level="warning")

@@ -59,9 +59,18 @@ fileInput.addEventListener("change", () => {
 async function upload(file) {
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch("/api/upload", { method: "POST", body: form });
-  const data = await res.json();
-  if (data.error) { alert("Couldn't load that file: " + data.error); return; }
+  let res, data;
+  try {
+    res = await fetch("/api/upload", { method: "POST", body: form });
+    data = await res.json();
+  } catch (e) {
+    alert("Couldn't reach the Sound Engine server: " + e);
+    return;
+  }
+  if (!res.ok || data.error) {
+    alert("Couldn't load that file: " + (data.error || res.statusText));
+    return;
+  }
   fileId = data.file_id;
   fileName.textContent = data.filename;
   fileMeta.textContent = `${data.duration_s}s · ${data.sample_rate} Hz`;
@@ -143,20 +152,41 @@ function stopPlayback() {
 playBtn.addEventListener("click", () => { audioCtx.resume(); play(); });
 stopBtn.addEventListener("click", stopPlayback);
 
+// Safety net (added after a looping preview was accidentally left running
+// in a backgrounded tab and kept playing indefinitely — closing the tab
+// stops it, but nothing should be relying on remembering that). A LOOPING
+// playback that gets backgrounded stops automatically; a one-shot
+// (non-loop) play is left alone since it'll end on its own shortly.
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && isPlaying && sourceNode && sourceNode.loop) {
+    stopPlayback();
+  }
+});
+window.addEventListener("pagehide", stopPlayback);
+
 exportBtn.addEventListener("click", async () => {
-  if (!fileId) return;
+  // disabled for the whole round trip — a double-click used to fire two
+  // overlapping /api/process calls racing on the same server-side session,
+  // and could export the wrong EQ values or (with same-second timestamps)
+  // silently overwrite the first export (found in review)
+  if (!fileId || exportBtn.disabled) return;
+  exportBtn.disabled = true;
   exportStatus.textContent = "Rendering final file…";
   const eq = {
     low_db: parseFloat(document.getElementById("lowDb").value),
     mid_db: parseFloat(document.getElementById("midDb").value),
     high_db: parseFloat(document.getElementById("highDb").value),
   };
-  await fetch(`/api/process/${fileId}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(eq),
-  });
-  const res = await fetch(`/api/export/${fileId}`, { method: "POST" });
-  const data = await res.json();
-  exportStatus.textContent = data.path ? `Saved: ${data.path}` : "Export failed";
+  try {
+    await fetch(`/api/process/${fileId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(eq),
+    });
+    const res = await fetch(`/api/export/${fileId}`, { method: "POST" });
+    const data = await res.json();
+    exportStatus.textContent = data.path ? `Saved: ${data.path}` : "Export failed";
+  } finally {
+    exportBtn.disabled = false;
+  }
 });

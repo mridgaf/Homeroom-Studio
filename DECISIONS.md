@@ -167,7 +167,70 @@ entries.
 - Verify by: owner opens Sound Engine.command and tries it on a real
   file — that's the actual test this hasn't had yet.
 - Status: open (built + self-verified, not yet used by the owner)
-- Outcome: (pending)
+- Outcome: superseded same day — see next entry. Owner tried it conceptually
+  and correctly identified it wasn't real-time (Apply-and-reload, not
+  turn-a-knob-while-playing). Kept as a decision record of what v1 was.
+
+### 2026-08-08 Sound Engine rebuilt for real real-time control (Web Audio API)
+- Context: owner asked point-blank whether the project was too convoluted
+  and whether to start fresh, because v1 (Apply button -> reprocess whole
+  file -> reload) didn't feel like Ableton's "turn a knob while it plays."
+  Honest answer given: no restart needed — tools/audio_engine.py's DSP and
+  the beat generator are solid; only the Sound Engine app's INTERACTION
+  MODEL was wrong for the stated goal.
+- Researched before building (owner said "if there are gaps in your
+  knowledge, do the research needed"): pedalboard's own docs say it's
+  built for SOFT real-time (large buffers, chunk-by-chunk) — Python's
+  garbage collector can pause execution unpredictably, which in a tight
+  low-latency audio callback shows up as random clicks/dropouts. Verified
+  empirically too: chunked pedalboard processing (block-by-block,
+  reset=False) is bit-exact vs. one-shot batch processing (0.0 max diff);
+  pedalboard's own filters smooth abrupt parameter jumps internally (a
+  15 dB instant gain change produced NO discontinuity at the block
+  boundary — smaller than the signal's normal sample-to-sample wobble).
+  Asked the owner to choose between soft-real-time-in-Python
+  (~100-300ms knob response, reuses tested DSP) vs. hard-real-time-in-
+  browser (Web Audio API, instant, separate implementation from the
+  Python DSP). Owner chose the browser option for genuine Live-like feel.
+- Decision/change: rebuilt sound_engine/static/app.js around Web Audio
+  API native nodes (BiquadFilterNode: lowshelf/peaking/highshelf — same
+  shape as audio_engine.eq3) running entirely in the browser's own audio
+  engine. Knobs use `setTargetAtTime` (smooth ramping, no zipper-noise
+  clicks) and update LIVE while audio plays — verified in a real browser
+  session that gain value updates while `isPlaying === true`, not just
+  between plays. Added Play/Stop/Loop transport and a Bypass (A/B)
+  crossfade. Export is unchanged in spirit: still bounces through the
+  tested Python pedalboard engine (tools/audio_engine.py's eq3()) for the
+  final file — known, accepted tradeoff: live preview and exported file
+  are two different DSP implementations, very close but not bit-identical.
+- Harsh-critic subagent review (owner explicitly asked for this pass)
+  found 6 real bugs, all fixed and re-verified: (1) SESSIONS dict never
+  evicted — unbounded memory growth over a working session, now capped
+  at 5 with LRU eviction that also deletes the associated files; (2)
+  corrupt/undecodable upload crashed with an unhandled 500 and left an
+  orphaned file — now returns a clean 400 and cleans up; (3) invalid EQ
+  POST body (non-numeric) crashed the same way — now 400; (4) export
+  double-click could race two /api/process calls and silently overwrite
+  the same-second export file — fixed with microsecond-precision
+  filenames + a disabled-during-request export button; (5) uploads/
+  and renders/ scratch directories grew forever across restarts (a
+  killed process's files are never cleaned by eviction, since eviction
+  only runs within one process) — fixed with a startup sweep, carefully
+  placed AFTER the "already running?" port check so a second launch
+  while one instance is live can't delete files the live instance still
+  has open; (6) filename path-traversal risk from the client-supplied
+  original filename — fixed via Path(name).name stripping directory
+  components.
+- Verify by: added tests/test_sound_engine.py (7 tests, FastAPI
+  TestClient, no real server needed) covering all 6 fixes as regression
+  tests. Also manually re-verified the full real-time flow in an actual
+  browser session after the fixes (upload, live knob move while playing,
+  bypass, export) and confirmed a fresh process start actually clears
+  orphaned scratch files (14 leftover test files -> 0 after restart).
+  Full project test suite still green.
+- Status: confirmed (self-verified + harsh-review pass + fixes re-tested)
+- Outcome: owner hasn't tried the real-time version yet — that's the
+  actual remaining verification.
 - Context: owner asked for another surprise DJ, my choice. With Half Light
   at 68 the roster spans 68-150 and the two remaining holes were the TOP of
   the tempo range and the ROLE of the timekeeper: on all ten, the hat/rim is
