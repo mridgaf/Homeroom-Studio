@@ -22,6 +22,80 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-08 Sound Engine: 5 harsh-critic bugs fixed, re-reviewed, closed
+- Context: a prior session today (2026-08-08) built four new real-time
+  effect panels (Compressor, Saturation, Stereo Width, Reverb) on top of
+  the Sound Engine's EQ panel, then ran the harsh-critic review the
+  owner's original prompt asked for. That review found 5 ranked bugs. The
+  session hit its usage limit immediately after — no fix landed, and the
+  review was never logged here. This session resumed exactly at that
+  point ("resume production quality... use the loops [/loop the
+  harsh-critic pattern] indicated in the first prompt").
+- Decision/change, all in `sound_engine/static/app.js` unless noted:
+  1. **Mono channel loss** — `upload()` now upmixes a true mono
+     `AudioBuffer` to dual-mono right after `decodeAudioData()`, before
+     `buildGraph()` runs. Defensive: `dsp.py` already upmixes server-side
+     today so this path isn't exercised by normal use, but the M/S width
+     wiring shouldn't depend on that being true forever.
+  2. **Node leak on re-upload** — `buildGraph()` now disconnects the
+     previous chain's `wetGain`/`bypassGain` (its two exits to
+     `destination`) before rebuilding, orphaning the whole prior ~12-node
+     chain instead of leaking it for the tab's life.
+  3. **Reverb size dead above 4s on export** — `server.py`'s
+     `room_size = min(1.0, reverb_size_s / 4.0)` changed to `/ 6.0` to
+     match the live slider's real max. Verified empirically against the
+     installed pedalboard: `room_size` grows the IR tail monotonically to
+     1.0 (no early plateau), so the divisor fix alone uses the full range.
+  4. **Compressor knee mismatch** — live `DynamicsCompressorNode.knee`
+     changed from a hardcoded `6` to `0`, matching `pedalboard.Compressor`
+     (export path), which has no knee parameter at all.
+  5. **Saturation/reverb buffer rebuilt every drag tick** — throttled the
+     `satDrive`/`revSize` `"input"` listeners to ~20Hz, added `"change"`
+     listeners as a trailing-edge guarantee for the final dragged-to
+     value. A harsh-critic **re-review** (see below) caught that this
+     first pass could still double-fire two *different* random reverb
+     impulse responses back-to-back at release (`makeReverbIR()` is
+     randomized, not idempotent) — fixed by adding a last-applied-value
+     dedupe to both `input` and `change` listeners so the same value
+     never rebuilds twice.
+  - Also updated `server.py`'s stale module docstring (still described
+    v1's EQ-only scope) and added `tests/test_sound_engine.py::
+    test_reverb_size_top_of_slider_is_not_saturated` (server-side,
+    TestClient-reachable — the only one of the 5 bugs that is).
+- Reasoning: matches this project's established pattern for this whole
+  engine effort — build, harsh-review, fix, re-review, confirm, only then
+  move to the next piece. Fixes 1/2/4/5 are client-JS/Web-Audio-only, not
+  reachable by pytest, so verified directly in a live browser session
+  instead (see Verify by).
+- Verify by: `tests/test_sound_engine.py` — 10/10 pass (was 9, +1 new).
+  Full project suite — 820 passed, 1 unrelated failure (see below), not
+  a regression from this work. Live browser verification via Browser MCP
+  tools for each client-only bug: (1) mono-upmix logic produces two
+  identical non-silent channels; (2) a second upload calls `.disconnect()`
+  on both the prior `wetGain` and `bypassGain` instances (confirmed by
+  identity check, not just call count); (3) covered by the new pytest;
+  (4) `compressor.knee.value === 0` confirmed live; (5) a synthetic
+  31-event rapid drag collapsed to 1 rebuild + 1 on release (was would-be
+  31), and a same-value `input`+`change` pair now rebuilds exactly once
+  instead of twice. Full play → process → export round trip re-verified
+  working end-to-end after all edits.
+  A second harsh-critic subagent re-review (matching the original
+  review's adversarial posture) confirmed bugs 1-4 genuinely closed at
+  the root cause, and caught the bug-5 double-fire gap above before it
+  shipped — that finding was fixed and re-verified in this same session.
+- Status: confirmed (tests + live browser verification + harsh-critic
+  re-review, all bugs 1-5 closed)
+- Outcome: not yet heard by the owner on this specific round of fixes —
+  next step per the established pattern is his ear/hands-on confirmation
+  before continuing to the next piece of the engine ("keep going").
+- Aside: the full-suite run surfaced one unrelated, pre-existing failure —
+  `tests/test_audio_quality.py::test_real_beats_are_not_mono_or_silent`,
+  a real rendered beat ("1885 Otto Grit Pocket Nap Drums 88bpm.wav") measuring
+  -23.78 dB side-vs-mid against a -22.0 dB floor. Nothing in this session's
+  diff touches crew.py/beat rendering — confirmed via `git diff --stat`
+  (only sound_engine/, tests/test_sound_engine.py, .claude/launch.json
+  changed). Flagged as a separate task, not fixed here.
+
 ### 2026-08-08 Pedalboard-based mastering engine added, opt-in, awaiting owner's ear
 - Context: owner asked for a production-grade effects/mastering engine
   ("Ableton-level"), explicitly waived never-guess for this task and put me

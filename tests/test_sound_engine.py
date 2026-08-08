@@ -97,6 +97,21 @@ def test_full_chain_process_applies_all_stages():
     out_path.unlink()
 
 
+def test_reverb_size_top_of_slider_is_not_saturated():
+    """reverb_size_s >= 4.0 used to all clamp to room_size=1.0 and export
+    identical audio (found in review — room_size was reverb_size_s / 4.0,
+    but the live slider's real max is 6.0). Regression for the /6.0 fix."""
+    file_id = _upload().json()["file_id"]
+    client.post(f"/api/process/{file_id}",
+                json={"reverb_mix": 0.5, "reverb_size_s": 4.0})
+    wL4, wR4 = server.SESSIONS[file_id]["wet"]
+    wL4, wR4 = wL4.copy(), wR4.copy()
+    client.post(f"/api/process/{file_id}",
+                json={"reverb_mix": 0.5, "reverb_size_s": 6.0})
+    wL6, wR6 = server.SESSIONS[file_id]["wet"]
+    assert not np.array_equal(wL4, wL6)
+
+
 def test_process_stages_are_skipped_at_transparent_defaults():
     """At default (off) values, process() should be equivalent to EQ-only
     — the compressor/saturation/reverb stages must not silently engage."""

@@ -70,15 +70,51 @@ document.getElementById("revMix").addEventListener("input", e => {
 });
 
 // drive and reverb size aren't smoothly rampable params — they rebuild a
-// curve / impulse response, so just update on release-ish (input is fine,
-// regeneration is cheap for these buffer sizes)
+// curve / impulse response. Reassigning that buffer on every "input" tick
+// mid-drag risks an audible click each step (found in review), so throttle
+// the actual rebuild to ~20Hz; the value label still updates every tick for
+// live feel, and a trailing "change" listener guarantees the final dragged-
+// to value always lands even if its last tick got throttled out. Both
+// listeners also skip the rebuild if the value hasn't actually changed
+// since the last one applied — makeReverbIR() is randomized (fresh noise
+// each call), so without this dedupe, a throttled "input" tick and the
+// immediately-following "change" for the SAME final value would swap in
+// two different random buffers back to back, clicking at the exact moment
+// this fix was meant to make click-free (found in re-review).
+let lastSatDriveTick = 0, lastSatDriveApplied = null;
 document.getElementById("satDrive").addEventListener("input", e => {
   document.getElementById("satDriveVal").textContent = parseFloat(e.target.value).toFixed(1);
-  if (waveshaper) waveshaper.curve = makeSaturationCurve(parseFloat(e.target.value));
+  const now = performance.now();
+  if (now - lastSatDriveTick < 50) return;
+  lastSatDriveTick = now;
+  const val = parseFloat(e.target.value);
+  if (val === lastSatDriveApplied) return;
+  lastSatDriveApplied = val;
+  if (waveshaper) waveshaper.curve = makeSaturationCurve(val);
 });
+document.getElementById("satDrive").addEventListener("change", e => {
+  const val = parseFloat(e.target.value);
+  if (val === lastSatDriveApplied) return;
+  lastSatDriveApplied = val;
+  if (waveshaper) waveshaper.curve = makeSaturationCurve(val);
+});
+
+let lastRevSizeTick = 0, lastRevSizeApplied = null;
 document.getElementById("revSize").addEventListener("input", e => {
   document.getElementById("revSizeVal").textContent = parseFloat(e.target.value).toFixed(1);
-  if (convolver && audioCtx) convolver.buffer = makeReverbIR(audioCtx, parseFloat(e.target.value));
+  const now = performance.now();
+  if (now - lastRevSizeTick < 50) return;
+  lastRevSizeTick = now;
+  const val = parseFloat(e.target.value);
+  if (val === lastRevSizeApplied) return;
+  lastRevSizeApplied = val;
+  if (convolver && audioCtx) convolver.buffer = makeReverbIR(audioCtx, val);
+});
+document.getElementById("revSize").addEventListener("change", e => {
+  const val = parseFloat(e.target.value);
+  if (val === lastRevSizeApplied) return;
+  lastRevSizeApplied = val;
+  if (convolver && audioCtx) convolver.buffer = makeReverbIR(audioCtx, val);
 });
 
 ["dragenter", "dragover"].forEach(ev =>
@@ -117,6 +153,17 @@ async function upload(file) {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const arrayBuf = await (await fetch(`/api/audio/${fileId}/dry?t=${Date.now()}`)).arrayBuffer();
   audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+  // defensive: dsp.py upmixes mono to dual-mono server-side today, so this
+  // never actually fires via the normal upload path — but the M/S width
+  // graph below assumes 2 channels (ChannelSplitterNode silences a missing
+  // channel rather than duplicating it), so don't trust an unrelated file
+  // never to change (found in review).
+  if (audioBuffer.numberOfChannels === 1) {
+    const stereo = audioCtx.createBuffer(2, audioBuffer.length, audioBuffer.sampleRate);
+    stereo.copyToChannel(audioBuffer.getChannelData(0), 0);
+    stereo.copyToChannel(audioBuffer.getChannelData(0), 1);
+    audioBuffer = stereo;
+  }
   buildGraph();
   dropzone.classList.add("hidden");
   workspace.classList.remove("hidden");
@@ -150,6 +197,17 @@ function makeReverbIR(ctx, seconds) {
 function buildGraph() {
   // persistent effect chain — knobs mutate these nodes live; only the
   // source node gets recreated per Play (Web Audio sources are one-shot)
+
+  // tear down the previous file's chain before building a new one — every
+  // upload() run re-enters this function from scratch. Web Audio only
+  // processes nodes reachable from destination, so cutting these two exit
+  // points is enough to orphan the whole old chain (its internal nodes stay
+  // connected to each other but that no longer matters) instead of leaking
+  // 12+ nodes into destination for the rest of the tab session (found in
+  // review).
+  if (wetGain) wetGain.disconnect();
+  if (bypassGain) bypassGain.disconnect();
+
   const v = id => parseFloat(document.getElementById(id).value);
 
   lowShelf = audioCtx.createBiquadFilter();
@@ -171,7 +229,10 @@ function buildGraph() {
   compressor.ratio.value = v("compRatio");
   compressor.attack.value = v("compAttack") / 1000;
   compressor.release.value = v("compRelease") / 1000;
-  compressor.knee.value = 6;
+  // pedalboard.Compressor (export path) has no knee parameter at all — 0
+  // (hard knee) is the closest live/export reconciliation available; a soft
+  // knee here is shaping export can never replicate (found in review, was 6).
+  compressor.knee.value = 0;
 
   // --- saturation: parallel dry/wet through a WaveShaper, mix sums at
   // satOut (Web Audio auto-sums multiple connections into one input)

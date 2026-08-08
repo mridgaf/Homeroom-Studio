@@ -6,9 +6,10 @@ the result as a new file. Never touches the original.
 Run:  ./.venv/bin/python -m sound_engine.server   ("Sound Engine.command" does this)
 Serves http://localhost:8767 and auto-opens it in the browser.
 
-v1 scope (owner 2026-08-08): ONE effect (3-band EQ) end to end — load,
-tweak, hear, export — before the rest of tools/audio_engine.py's tools
-(saturation, multiband, reverb, width) get their own panels.
+Chain order (both live preview and this file's export path): EQ ->
+Compressor -> Saturation -> Width -> Reverb. Each stage is skipped when
+its knobs sit at the transparent/off default, matching the live graph's
+"no change until you touch it" behavior.
 """
 from __future__ import annotations
 
@@ -154,11 +155,20 @@ async def process(file_id: str, params: dict):
     if width != 1.0:
         L, R = ae.stereo_width(L, R, width=width)
     if reverb_mix > 0.0:
-        # reverb_size_s (seconds, matches the live IR-length slider) has
-        # no exact equivalent in pedalboard.Reverb's 0-1 room_size — this
-        # is an approximate mapping, same accepted live/export divergence
-        # as the rest of this app (see 2026-08-08 DECISIONS.md entry)
-        room_size = min(1.0, reverb_size_s / 4.0)
+        # reverb_size_s (seconds, matches the live IR-length slider, whose
+        # max is 6.0 — index.html) has no exact equivalent in
+        # pedalboard.Reverb's 0-1 room_size. Divisor matches the slider's
+        # real max so the full 0.2-6.0s range maps to a distinct room_size
+        # instead of clamping the top third to an identical 1.0 (was /4.0,
+        # so 4/5/6s all exported the same audio — found in review).
+        # ponytail: divisor is hardcoded to the slider's max (6) in
+        # index.html — if that slider's max ever changes, update this too.
+        # Empirically confirmed (pedalboard 0.9.17, IR tail length @ -60dB,
+        # damping=0.5): room_size keeps growing the tail monotonically all
+        # the way to 1.0 (0.64s@0.1 ... 8.02s@1.0), no early plateau — a
+        # single-divisor fix is sufficient, no damping/wet co-adjustment
+        # needed. Re-verify this if pedalboard's version changes.
+        room_size = min(1.0, reverb_size_s / 6.0)
         L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,
                                      wet=reverb_mix, dry=1 - reverb_mix)
     session["wet"] = (L, R)
