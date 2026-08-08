@@ -22,6 +22,56 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-08 Eleventh DJ added: Fast Water (slot 11) — the break lane
+- Context: owner asked for another surprise DJ, my choice. With Half Light
+  at 68 the roster spans 68-150 and the two remaining holes were the TOP of
+  the tempo range and the ROLE of the timekeeper: on all ten, the hat/rim is
+  a quiet lane under a loud backbone.
+- Decision/change: "Fast Water", num 11, 172 BPM, era "now",
+  built "no one — the break lane".
+  - Kick + snare play HALFTIME (2-3 moves a bar) so the pulse reads ~86
+    while the break lane runs 32nds at 172.
+  - The break lane (`hat`, 32-step grid) has gain 0.52 — the loudest
+    non-backbone lane on the roster (others 0.26-0.40). The chop IS the
+    beat. Home mode `rolls32`; pan +0.14 (inside the |0.2| timekeeper rule).
+  - Snare home mode `displaced`: the 2 and the '&' of 3 — the jungle
+    two-step, never 2 & 4. A second snare-role lane, `ghost`, whispers
+    16ths underneath at 0.24 — no other member has two snare-role lanes.
+  - Everything is EARLY, not late (break -7 ms, ghosts -11 ms) — the mirror
+    of Half Light. Swing 50 everywhere: at 172 swing turns to mud.
+  - dust 0.0 (era rule), vinyl -40, wow 0.1, sidechain 0.28, drive 1.3,
+    house `gated` snare kept, `alt` = short PLATE (0.9 s / 5200 Hz / 0.3)
+    so the break stays readable.
+  - Stamp (siren/reverse/scratch) lands ON the 1 of bars 5 and 8 — he
+    announces the bar; everyone else tails 4 and 8 (Half Light tails 2/6).
+  - Harmony: pad/strings/bell, sustain only, minor/dorian,
+    suspended_open + vamp_i_VI top-weighted, chords_default true.
+  - Also given a 16-line KICK_BANK (halftime skeletons) and a two-word
+    title bank in beat_machine.TITLES.
+  - Written in four places so deleting the config regenerates him:
+    crew_config.json (live), crew.py DEFAULT_CREW + CREW_SIGNATURES,
+    pattern_gen.py DEFAULT_STYLE + KICK_BANK.
+- Reasoning: New Math was cerebral, Half Light was mood/tempo-down. The
+  untaken axis was tempo-UP plus an inverted mix hierarchy — a fast beat
+  that doesn't feel fast, where the timekeeper is the loudest thing.
+  Existing constraints honoured (dust 0 outside the 90s, only Crate Prophet
+  skips sidechain, space stays "gated", hat |pan| ≤ 0.2, kick choke range
+  starts ≤ 1.0 s).
+- Verify by: `tests/test_crew.py` roster test renamed to
+  `test_roster_is_the_agreed_eleven` (11 slots). In the Linux sandbox:
+  test_crew + test_pattern_gen + test_evolution + test_variety = 84 passed;
+  test_beat_machine = 64 passed / 6 failed, and those same 6 chord-audio
+  tests fail at HEAD without this change (verified by re-running a clean
+  copy in /tmp) — environment, not this change. Six test modules can't even
+  import in the sandbox (no rapidfuzz/scipy).
+  NOT verified: nothing rendered — no audio exists for him yet.
+  On the Mac: `.venv/bin/python -m pytest tests/ -q`, then render one Fast
+  Water beat and listen. Two things to listen for specifically: (a) does the
+  0.52 break lane sit too loud against the −5 dB snare bus, and (b) does the
+  32nd break read as a chop or as a buzz at 172.
+- Status: open
+- Outcome:
+
 ### 2026-08-07 Tenth DJ added: Half Light (slot 10) — the slow one
 - Context: owner asked for a second surprise DJ, my choice, now that the
   engine has grammar modes, harmony signatures and the genre timekeepers.

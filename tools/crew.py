@@ -609,6 +609,78 @@ DEFAULT_CREW = {
         space=("gated", ["snare"]), alt=("hall", (2.2, 2600, 0.42)),
         drive=1.15, kick_dist=0.0, mix_sat=0.0,
     ),
+
+    # Slot 11, added 2026-08-08. Two holes on the roster: nothing above
+    # 150 BPM, and nobody whose TIMEKEEPER is the loud part. Everyone
+    # else keeps time with a quiet hat under a loud backbone; this one
+    # inverts it — a chopped break on the 32nd grid is the whole beat,
+    # and the kick/snare skeleton underneath is halftime, so it reads
+    # about 86 BPM while the break runs at 172. He is also the only one
+    # who is EARLY by design (Half Light is late, Otto splits it).
+    "Fast Water": dict(
+        num=11, bpm=172, era="now", built="no one — the break lane",
+        listen=("the fastest thing in the room and it doesn't sound "
+                "fast. The kick and snare play HALFTIME — two moves a "
+                "bar, so the pulse feels like 86 — while the break lane "
+                "runs 32nds on top at the full 172. That lane is the "
+                "loudest non-backbone lane on the roster (0.52 against "
+                "everyone else's 0.26-0.4): the chop is the beat, not "
+                "the garnish. Snare never sits on the 2 and 4 — it lands "
+                "on the 2 and the '&' of 3, the jungle two-step. Ghost "
+                "snares sit UNDER it at a whisper. Everything is nudged "
+                "EARLY, not late (break -7 ms, ghosts -11 ms) — he pulls "
+                "where Half Light drags. Straight 50% swing everywhere: "
+                "at this tempo swing turns to mud. Gated snare like the "
+                "house, Alt is a short PLATE (0.9 s) — bright and small, "
+                "so the break stays readable. Stamp is a siren/reverse "
+                "hit on the DOWNBEAT of bars 5 and 8 — he announces the "
+                "bar instead of tailing it."),
+        kit=dict(
+            kick=("kick", None, ["punch", "tight", "break", "knock",
+                                 "sub"], (0.25, 0.9)),
+            snare=("snare", None, ["break", "crack", "tight", "room",
+                                   "acoustic"], 0.7),
+            hat=("hat", None, ["ride", "closed", "bright", "open",
+                               "metal"], 0.35),
+            ghost=("snare", None, ["ghost", "soft", "brush", "rim",
+                                   "tight"], 0.3),
+            stamp=("fx", None, ["siren", "reverse", "scratch", "sweep",
+                                "riser"], 1.1),
+        ),
+        lanes=dict(
+            # halftime skeleton: 2-3 moves a bar, never four-on-the-floor
+            kick=(0.0, 1.0, (0, 3, 50, 211), [
+                "X------x---X----", "X------x---X----",
+                "X------x---X----", "X------x---X--x-",
+                "X------x---X----", "X----------X----",
+                "X------x---X----", "X--x---x---X-x--"]),
+            # the jungle two-step: the 2, then the '&' of 3. Never 2 & 4.
+            snare=(0.0, 0.86, (0, 3, 50, 212), [
+                "----X-----X-----"] * 3 + ["----X-----X---x-"]
+                + ["----X-----X-----"] * 3 + ["----X-----X-x-x."]),
+            # the break: 32nds, loud, EARLY, and it thins out in bar 7
+            hat=(0.14, 0.52, (-7, 2, 50, 213), [
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-xxxx-x-x-x-xx-x-xxxxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x---x---x---x---x---x---x---x---",
+                "x-x-xx-xxx-xx-x-x-x-xx-xxxxxxx-x"]),
+            # whispered ghosts under the two-step, pushed hardest of all
+            ghost=(-0.18, 0.24, (-11, 4, 50, 214), [
+                "--.-x---.-.-x---"] * 3 + ["--.-x---.-.-x-.-"]
+                + ["--.-x---.-.-x---"] * 3 + ["--.-x-.-.-.-x-.-"]),
+            # the stamp lands ON the 1 of bars 5 and 8, not on a tail
+            stamp=(-0.26, 0.44, (0, 2, 50, 215),
+                   [R16] * 4 + ["x---------------"] + [R16] * 2
+                   + ["x---------------"]),
+        ),
+        dust=0.0, vinyl=-40, wow=0.1, sidechain=0.28,
+        space=("gated", ["snare"]), alt=("plate", (0.9, 5200, 0.3)),
+        drive=1.3, kick_dist=0.0, mix_sat=0.0,
+    ),
 }
 
 # ------------------------------------------------------------ config file
@@ -764,6 +836,21 @@ CREW_SIGNATURES = {
                       ["sad_sinking", 2], ["suspended_open", 1],
                       ["dreamy", 1], ["line_cliche", 1]],
         chord_source=[["piano", 3], ["guitar", 2], ["organ", 1]],
+        chord_rhythm="sustain",
+        chords_default=True),
+
+    # Fast Water: derived from his own `listen` line. At 172 the harmony
+    # has to be a HELD pad or a two-note stab — anything busy fights the
+    # break for the same 32nd slots. Pads and strings because they don't
+    # transient; minor/dorian because the break lane is already bright.
+    "Fast Water": dict(
+        key=dict(roots=[["A", 3], ["D", 2], ["E", 2], ["C", 2], ["G", 1]],
+                 mode=[["minor", 3], ["dorian", 2]]),
+        progressions=[["suspended_open", 3], ["vamp_i_VI", 3],
+                      ["dark_menacing", 2], ["noir_descend", 2],
+                      ["dorian_i_IV", 2], ["vamp_static_riff", 2],
+                      ["sad_sinking", 1], ["dreamy", 1]],
+        chord_source=[["pad", 3], ["strings", 2], ["bell", 1]],
         chord_rhythm="sustain",
         chords_default=True),
 }

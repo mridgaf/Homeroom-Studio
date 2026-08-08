@@ -13,16 +13,18 @@ from groove import OWNER_TASTE
 SR = 44100
 
 
-def test_roster_is_the_agreed_ten():
+def test_roster_is_the_agreed_eleven():
     # Snap Church retired 2026-07-15 (too close to Night Metro/Rage
     # Engine); New Math holds slot 9; Half Light joined at slot 10 on
-    # 2026-08-07. The Legends are a separate roster and excluded here.
+    # 2026-08-07, Fast Water at slot 11 on 2026-08-08. The Legends are a
+    # separate roster and excluded here.
     roster = {n for n in CREW if n not in crew.LEGEND_NAMES
               and n not in crew.GENRE_NAMES}
     assert roster == {"Otto Grit", "Cutz", "Crate Prophet", "Chrome Dial",
                       "Glass Cat", "Sunday Chop", "Night Metro",
-                      "Rage Engine", "New Math", "Half Light"}
-    assert sorted(CREW[n]["num"] for n in roster) == list(range(1, 11))
+                      "Rage Engine", "New Math", "Half Light",
+                      "Fast Water"}
+    assert sorted(CREW[n]["num"] for n in roster) == list(range(1, 12))
 
 
 def test_every_lane_is_eight_valid_bars():

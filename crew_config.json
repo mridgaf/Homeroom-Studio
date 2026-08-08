@@ -180,7 +180,7 @@
      2,
      7
     ],
-    "double_p": 0.35
+    "double_p": 0.43
    },
    "snare": {
     "modes": [
@@ -649,7 +649,7 @@
     ],
     "ghosts": [
      0,
-     3
+     2
     ],
     "gcells": [
      2,
@@ -1134,7 +1134,7 @@
       0.1
      ]
     ],
-    "open_p": 0.2
+    "open_p": 0.25
    },
    "bongo": {
     "euclid": [
@@ -1526,7 +1526,7 @@
      2,
      7
     ],
-    "double_p": 0.5
+    "double_p": 0.42
    },
    "clap": {
     "modes": [
@@ -2059,7 +2059,7 @@
   },
   "kick_flavors": [
    [
-    0.23,
+    0.15,
     "808",
     [
      "clean"
@@ -2070,7 +2070,7 @@
     ]
    ],
    [
-    0.77,
+    0.85,
     null,
     [
      "clean",
@@ -2712,11 +2712,11 @@
    "chord_source": [
     [
      "piano",
-     3
+     3.5
     ],
     [
      "choir",
-     2
+     1.5
     ],
     [
      "loop",
@@ -2905,7 +2905,7 @@
      2,
      6
     ],
-    "double_p": 0.25
+    "double_p": 0.17
    },
    "clap": {
     "modes": [
@@ -3182,8 +3182,8 @@
      "distort"
     ],
     [
-     0.8,
-     2.2
+     0.64,
+     1.76
     ]
    ],
    "snare": [
@@ -4680,6 +4680,532 @@
    ],
    "chord_rhythm": "sustain",
    "chords_default": true
+  }
+ },
+ "Fast Water": {
+  "num": 11,
+  "bpm": 172,
+  "era": "now",
+  "built": "no one — the break lane",
+  "listen": "the fastest thing in the room and it doesn't sound fast. The kick and snare play HALFTIME — two moves a bar, so the pulse feels like 86 — while the break lane runs 32nds on top at the full 172. That lane is the loudest non-backbone lane on the roster (0.52 against everyone else's 0.26-0.4): the chop is the beat, not the garnish. Snare never sits on the 2 and 4 — it lands on the 2 and the '&' of 3, the jungle two-step. Ghost snares sit UNDER it at a whisper. Everything is nudged EARLY, not late (break -7 ms, ghosts -11 ms) — he pulls where Half Light drags. Straight 50% swing everywhere: at this tempo swing turns to mud. Gated snare like the house, Alt is a short PLATE (0.9 s) — bright and small, so the break stays readable. Stamp is a siren/reverse hit on the DOWNBEAT of bars 5 and 8 — he announces the bar instead of tailing it.",
+  "kit": {
+   "kick": [
+    "kick",
+    null,
+    [
+     "punch",
+     "tight",
+     "break",
+     "knock",
+     "sub"
+    ],
+    [
+     0.25,
+     0.9
+    ]
+   ],
+   "snare": [
+    "snare",
+    null,
+    [
+     "break",
+     "crack",
+     "tight",
+     "room",
+     "acoustic"
+    ],
+    0.7
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "ride",
+     "closed",
+     "bright",
+     "open",
+     "metal"
+    ],
+    0.35
+   ],
+   "ghost": [
+    "snare",
+    null,
+    [
+     "ghost",
+     "soft",
+     "brush",
+     "rim",
+     "tight"
+    ],
+    0.3
+   ],
+   "stamp": [
+    "fx",
+    null,
+    [
+     "siren",
+     "reverse",
+     "scratch",
+     "sweep",
+     "riser"
+    ],
+    1.1
+   ]
+  },
+  "lanes": {
+   "kick": [
+    0.0,
+    1.0,
+    [
+     0,
+     3,
+     50,
+     211
+    ],
+    [
+     "X------x---X----",
+     "X------x---X----",
+     "X------x---X----",
+     "X------x---X--x-",
+     "X------x---X----",
+     "X----------X----",
+     "X------x---X----",
+     "X--x---x---X-x--"
+    ]
+   ],
+   "snare": [
+    0.0,
+    0.86,
+    [
+     0,
+     3,
+     50,
+     212
+    ],
+    [
+     "----X-----X-----",
+     "----X-----X-----",
+     "----X-----X-----",
+     "----X-----X---x-",
+     "----X-----X-----",
+     "----X-----X-----",
+     "----X-----X-----",
+     "----X-----X-x-x."
+    ]
+   ],
+   "hat": [
+    0.14,
+    0.52,
+    [
+     -7,
+     2,
+     50,
+     213
+    ],
+    [
+     "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+     "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+     "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+     "x-x-xx-x-xxxx-x-x-x-xx-x-xxxxx-x",
+     "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+     "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+     "x---x---x---x---x---x---x---x---",
+     "x-x-xx-xxx-xx-x-x-x-xx-xxxxxxx-x"
+    ]
+   ],
+   "ghost": [
+    -0.18,
+    0.24,
+    [
+     -11,
+     4,
+     50,
+     214
+    ],
+    [
+     "--.-x---.-.-x---",
+     "--.-x---.-.-x---",
+     "--.-x---.-.-x---",
+     "--.-x---.-.-x-.-",
+     "--.-x---.-.-x---",
+     "--.-x---.-.-x---",
+     "--.-x---.-.-x---",
+     "--.-x-.-.-.-x-.-"
+    ]
+   ],
+   "stamp": [
+    -0.26,
+    0.44,
+    [
+     0,
+     2,
+     50,
+     215
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "----------------",
+     "x---------------",
+     "----------------",
+     "----------------",
+     "x---------------"
+    ]
+   ]
+  },
+  "dust": 0.0,
+  "vinyl": -40,
+  "wow": 0.1,
+  "sidechain": 0.28,
+  "space": [
+   "gated",
+   [
+    "snare"
+   ]
+  ],
+  "alt": [
+   "plate",
+   [
+    0.9,
+    5200,
+    0.3
+   ]
+  ],
+  "drive": 1.3,
+  "kick_dist": 0.0,
+  "mix_sat": 0.0,
+  "signature": {
+   "key": {
+    "roots": [
+     [
+      "A",
+      3
+     ],
+     [
+      "D",
+      2
+     ],
+     [
+      "E",
+      2
+     ],
+     [
+      "C",
+      2
+     ],
+     [
+      "G",
+      1
+     ]
+    ],
+    "mode": [
+     [
+      "minor",
+      3
+     ],
+     [
+      "dorian",
+      2
+     ]
+    ]
+   },
+   "progressions": [
+    [
+     "suspended_open",
+     3
+    ],
+    [
+     "vamp_i_VI",
+     3
+    ],
+    [
+     "dark_menacing",
+     2
+    ],
+    [
+     "noir_descend",
+     2
+    ],
+    [
+     "dorian_i_IV",
+     2
+    ],
+    [
+     "vamp_static_riff",
+     2
+    ],
+    [
+     "sad_sinking",
+     1
+    ],
+    [
+     "dreamy",
+     1
+    ]
+   ],
+   "chord_source": [
+    [
+     "pad",
+     3
+    ],
+    [
+     "strings",
+     2
+    ],
+    [
+     "bell",
+     1
+    ]
+   ],
+   "chord_rhythm": "sustain",
+   "chords_default": true
+  },
+  "grammar": {
+   "kick": {
+    "w": [
+     10,
+     1,
+     1,
+     1,
+     2,
+     1,
+     4,
+     1,
+     3,
+     1,
+     2,
+     7,
+     2,
+     1,
+     3,
+     1
+    ],
+    "hits": [
+     2,
+     4
+    ],
+    "double_p": 0.18
+   },
+   "snare": {
+    "modes": [
+     [
+      "displaced",
+      0.2404
+     ],
+     [
+      "backbeat",
+      0.0844
+     ],
+     [
+      "halftime",
+      0.0844
+     ],
+     [
+      "sparse",
+      0.0844
+     ],
+     [
+      "four",
+      0.0844
+     ],
+     [
+      "push",
+      0.0844
+     ],
+     [
+      "tresillo",
+      0.0844
+     ],
+     [
+      "offbeat",
+      0.0844
+     ],
+     [
+      "drag",
+      0.0844
+     ],
+     [
+      "pickup",
+      0.0844
+     ]
+    ],
+    "ghosts": [
+     0,
+     2
+    ],
+    "gcells": [
+     3,
+     6,
+     7,
+     11,
+     13,
+     14,
+     15
+    ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "rolls32",
+      0.3
+     ],
+     [
+      "sixteenths",
+      0.16
+     ],
+     [
+      "broken",
+      0.14
+     ],
+     [
+      "gallop",
+      0.12
+     ],
+     [
+      "answer",
+      0.1
+     ],
+     [
+      "offbeats",
+      0.08
+     ],
+     [
+      "eighths",
+      0.06
+     ],
+     [
+      "sparse",
+      0.04
+     ]
+    ]
+   },
+   "ghost": {
+    "modes": [
+     [
+      "sixteenths",
+      0.26
+     ],
+     [
+      "broken",
+      0.22
+     ],
+     [
+      "answer",
+      0.16
+     ],
+     [
+      "offbeats",
+      0.14
+     ],
+     [
+      "sparse",
+      0.12
+     ],
+     [
+      "gallop",
+      0.1
+     ]
+    ]
+   }
+  },
+  "kick_flavors": [
+   [
+    0.25,
+    "808",
+    [
+     "sub",
+     "deep",
+     "round"
+    ],
+    [
+     0.3,
+     0.7
+    ]
+   ],
+   [
+    0.75,
+    null,
+    [
+     "punch",
+     "tight",
+     "break",
+     "knock",
+     "acoustic"
+    ],
+    [
+     0.15,
+     0.4
+    ]
+   ]
+  ],
+  "extras": {
+   "p": 0.6,
+   "nmax": 1,
+   "pool": [
+    [
+     "crash",
+     [
+      "crash",
+      "splash",
+      "china"
+     ],
+     "cymbals"
+    ],
+    [
+     "fx",
+     [
+      "reverse",
+      "sweep",
+      "riser",
+      "scratch"
+     ],
+     "sirens"
+    ],
+    [
+     "perc",
+     [
+      "timbale",
+      "tom",
+      "block"
+     ],
+     "toms"
+    ]
+   ]
+  },
+  "library": {
+   "p": 0.6,
+   "tags": [
+    [
+     "jungle",
+     4
+    ],
+    [
+     "dnb",
+     3
+    ],
+    [
+     "breakbeat",
+     3
+    ],
+    [
+     "garage",
+     2
+    ],
+    [
+     "funk",
+     2
+    ],
+    [
+     "electro",
+     1
+    ],
+    [
+     "house",
+     1
+    ]
+   ]
   }
  },
  "_style_version": 6,

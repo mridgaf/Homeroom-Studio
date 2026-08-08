@@ -163,6 +163,10 @@ TITLES = {
                     "Slack", "Amber"],
                    ["Room", "Hour", "Curtain", "Echo", "Fade", "Glow",
                     "Drift", "Hall"]),
+    "Fast Water": (["Rapid", "Undertow", "Spillway", "Shallow", "Cold",
+                    "Steel", "Loose", "Running"],
+                   ["Current", "Chop", "Channel", "Rush", "Ladder",
+                    "Bank", "Break", "Weir"]),
 }
 COLLAB_TITLES = (["Split", "Shared", "Double", "Joint", "Twin", "Crossed",
                   "Common", "Meeting"],
