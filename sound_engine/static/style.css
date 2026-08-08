@@ -130,10 +130,11 @@ main {
 
 .knobs {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
   margin-bottom: 16px;
 }
-.knob { flex: 1; }
+.knob { flex: 1 1 140px; min-width: 140px; }
 .knob label {
   display: block;
   font-size: 13px;

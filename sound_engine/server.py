@@ -112,26 +112,56 @@ async def upload(file: UploadFile = File(...)):
 
 
 @app.post("/api/process/{file_id}")
-async def process(file_id: str, eq: dict):
+async def process(file_id: str, params: dict):
+    """Bounces the ORIGINAL upload through the same chain order as the
+    live Web Audio graph: EQ -> Compressor -> Saturation -> Width ->
+    Reverb. Each stage is skipped entirely when its knobs are at their
+    transparent/off value, matching the live graph's "no change until you
+    touch it" behavior."""
     session = SESSIONS.get(file_id)
     if session is None:
         return JSONResponse({"error": "unknown file_id"}, status_code=404)
     try:
-        low_db = float(eq.get("low_db", 0.0))
-        low_hz = float(eq.get("low_hz", 120.0))
-        mid_db = float(eq.get("mid_db", 0.0))
-        mid_hz = float(eq.get("mid_hz", 800.0))
-        mid_q = float(eq.get("mid_q", 0.9))
-        high_db = float(eq.get("high_db", 0.0))
-        high_hz = float(eq.get("high_hz", 8000.0))
+        low_db = float(params.get("low_db", 0.0))
+        mid_db = float(params.get("mid_db", 0.0))
+        high_db = float(params.get("high_db", 0.0))
+        comp_threshold_db = float(params.get("comp_threshold_db", -24.0))
+        comp_ratio = float(params.get("comp_ratio", 1.0))
+        comp_attack_ms = float(params.get("comp_attack_ms", 12.0))
+        comp_release_ms = float(params.get("comp_release_ms", 180.0))
+        sat_drive_db = float(params.get("sat_drive_db", 6.0))
+        sat_mix = float(params.get("sat_mix", 0.0))
+        width = float(params.get("width", 1.0))
+        reverb_size_s = float(params.get("reverb_size_s", 2.0))
+        reverb_mix = float(params.get("reverb_mix", 0.0))
     except (TypeError, ValueError):
-        return JSONResponse({"error": "invalid EQ values"}, status_code=400)
+        return JSONResponse({"error": "invalid parameter values"}, status_code=400)
+
+    sr = session["sr"]
     L, R = session["dry"]
-    wL, wR = dsp.audio_engine.eq3(
-        L.copy(), R.copy(), sr=session["sr"], low_db=low_db, low_hz=low_hz,
-        mid_db=mid_db, mid_hz=mid_hz, mid_q=mid_q, high_db=high_db,
-        high_hz=high_hz)
-    session["wet"] = (wL, wR)
+    L, R = L.copy(), R.copy()
+    ae = dsp.audio_engine
+
+    L, R = ae.eq3(L, R, sr=sr, low_db=low_db, mid_db=mid_db, high_db=high_db)
+    if comp_ratio > 1.0:
+        # makeup_db=0 to match the live Web Audio DynamicsCompressorNode,
+        # which applies gain reduction only, no automatic makeup gain
+        L, R = ae.glue_compressor(L, R, sr=sr, threshold_db=comp_threshold_db,
+                                    ratio=comp_ratio, attack_ms=comp_attack_ms,
+                                    release_ms=comp_release_ms, makeup_db=0.0)
+    if sat_mix > 0.0:
+        L, R = ae.saturate(L, R, sr=sr, drive_db=sat_drive_db, mix=sat_mix)
+    if width != 1.0:
+        L, R = ae.stereo_width(L, R, width=width)
+    if reverb_mix > 0.0:
+        # reverb_size_s (seconds, matches the live IR-length slider) has
+        # no exact equivalent in pedalboard.Reverb's 0-1 room_size — this
+        # is an approximate mapping, same accepted live/export divergence
+        # as the rest of this app (see 2026-08-08 DECISIONS.md entry)
+        room_size = min(1.0, reverb_size_s / 4.0)
+        L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,
+                                     wet=reverb_mix, dry=1 - reverb_mix)
+    session["wet"] = (L, R)
     return JSONResponse({"ok": True})
 
 

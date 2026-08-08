@@ -71,6 +71,47 @@ def test_invalid_eq_body_returns_400_not_500():
     assert r.status_code == 400
 
 
+def test_full_chain_process_applies_all_stages():
+    """Compressor, saturation, width, and reverb all reach the exported
+    file — matches the live Web Audio graph's chain order."""
+    r = _upload()
+    file_id = r.json()["file_id"]
+    r2 = client.post(f"/api/process/{file_id}", json={
+        "comp_threshold_db": -30.0, "comp_ratio": 4.0,
+        "comp_attack_ms": 5.0, "comp_release_ms": 100.0,
+        "sat_drive_db": 12.0, "sat_mix": 0.5,
+        "width": 1.6,
+        "reverb_size_s": 2.0, "reverb_mix": 0.3,
+    })
+    assert r2.status_code == 200
+    r3 = client.post(f"/api/export/{file_id}")
+    assert r3.status_code == 200
+    out_path = Path(r3.json()["path"])
+    assert out_path.exists()
+
+    with wave.open(str(out_path)) as w:
+        n = w.getnframes()
+        data = np.frombuffer(w.readframes(n), dtype="<i2").reshape(-1, w.getnchannels())
+    L, R = data[:, 0].astype(np.float64), data[:, 1].astype(np.float64)
+    assert not np.array_equal(L, R)  # width>1 must produce a real stereo difference
+    out_path.unlink()
+
+
+def test_process_stages_are_skipped_at_transparent_defaults():
+    """At default (off) values, process() should be equivalent to EQ-only
+    — the compressor/saturation/reverb stages must not silently engage."""
+    r = _upload()
+    file_id = r.json()["file_id"]
+    r2 = client.post(f"/api/process/{file_id}", json={})  # everything at default
+    assert r2.status_code == 200
+    session = server.SESSIONS[file_id]
+    wL, wR = session["wet"]
+    dL, dR = session["dry"]
+    # EQ at 0dB all bands should be a no-op too, so wet ~= dry
+    assert np.abs(wL - dL).max() < 1e-3
+    assert np.abs(wR - dR).max() < 1e-3
+
+
 def test_unknown_file_id_returns_404_not_500():
     assert client.post("/api/process/doesnotexist", json={}).status_code == 404
     assert client.post("/api/export/doesnotexist").status_code == 404

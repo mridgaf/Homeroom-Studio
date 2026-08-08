@@ -44,16 +44,16 @@ def eq3(L, R, low_db=0.0, low_hz=120.0, mid_db=0.0, mid_hz=800.0, mid_q=0.9,
 
 
 def glue_compressor(L, R, threshold_db=-14.0, ratio=2.5, attack_ms=12.0,
-                     release_ms=180.0, makeup_db=2.0):
+                     release_ms=180.0, makeup_db=2.0, sr=None):
     """Bus glue with real attack/release, unlike groove.glue_compress's
     single symmetric time constant (see that function's own upgrade-path
-    note)."""
+    note). sr — see eq3()'s docstring."""
     board = pb.Pedalboard([
         pb.Compressor(threshold_db=threshold_db, ratio=ratio,
                       attack_ms=attack_ms, release_ms=release_ms),
         pb.Gain(gain_db=makeup_db),
     ])
-    return _from_pb(board(_to_pb(L, R), SR))
+    return _from_pb(board(_to_pb(L, R), sr or SR))
 
 
 def brickwall_limit(L, R, ceiling_db=-0.3, release_ms=100.0):
@@ -74,14 +74,15 @@ def gate(L, R, threshold_db=-45.0, ratio=4.0, attack_ms=1.0, release_ms=100.0):
 
 
 def algo_reverb(L, R, room_size=0.5, damping=0.5, wet=0.25, dry=0.9,
-                 width=1.0, freeze=False):
+                 width=1.0, freeze=False, sr=None):
     """FDN-style algorithmic reverb — a different color than groove's
     convolution reverb (synthetic IR), useful where a smoother, more
-    'plugin' tail fits better than the gated/convolved house sound."""
+    'plugin' tail fits better than the gated/convolved house sound.
+    sr — see eq3()'s docstring."""
     board = pb.Pedalboard([pb.Reverb(room_size=room_size, damping=damping,
                                        wet_level=wet, dry_level=dry, width=width,
                                        freeze_mode=1.0 if freeze else 0.0)])
-    return _from_pb(board(_to_pb(L, R), SR))
+    return _from_pb(board(_to_pb(L, R), sr or SR))
 
 
 def multiband_compress(L, R, crossovers=(200.0, 4000.0), low_kwargs=None,
@@ -130,7 +131,7 @@ def stereo_width(L, R, width=1.0):
 
 
 def loop_algo_reverb(L, R, room_size=0.5, damping=0.5, wet=0.25, dry=1.0,
-                       width=1.0):
+                       width=1.0, sr=None):
     """Loop-safe algorithmic reverb. pedalboard.Reverb is a stateful
     streaming plugin — run it straight over one 8-bar buffer and the tail
     just decays at the buffer's end, leaving an audible seam where bar 8
@@ -142,15 +143,16 @@ def loop_algo_reverb(L, R, room_size=0.5, damping=0.5, wet=0.25, dry=1.0,
     n = len(L)
     dblL, dblR = algo_reverb(np.concatenate([L, L]), np.concatenate([R, R]),
                                room_size=room_size, damping=damping, wet=wet,
-                               dry=dry, width=width)
+                               dry=dry, width=width, sr=sr)
     return dblL[n:], dblR[n:]
 
 
-def saturate(L, R, drive_db=6.0, mix=0.35):
+def saturate(L, R, drive_db=6.0, mix=0.35, sr=None):
     """Parallel distortion — mix keeps it musical instead of full-wet
-    fuzz (pedalboard's Distortion is a hard waveshaper at full wet)."""
+    fuzz (pedalboard's Distortion is a hard waveshaper at full wet).
+    sr — see eq3()'s docstring."""
     board = pb.Pedalboard([pb.Distortion(drive_db=drive_db)])
-    wL, wR = _from_pb(board(_to_pb(L, R), SR))
+    wL, wR = _from_pb(board(_to_pb(L, R), sr or SR))
     return L * (1 - mix) + wL * mix, R * (1 - mix) + wR * mix
 
 

@@ -229,8 +229,39 @@ entries.
   orphaned scratch files (14 leftover test files -> 0 after restart).
   Full project test suite still green.
 - Status: confirmed (self-verified + harsh-review pass + fixes re-tested)
-- Outcome: owner hasn't tried the real-time version yet — that's the
-  actual remaining verification.
+- Outcome: owner confirmed the real-time knob feel is what he wanted
+  ("that's the window feel I was after"). Then hit a real incident — see
+  next entry.
+
+### 2026-08-08 Sound Engine incident: audio that wouldn't stop
+- Context: right after confirming the real-time feel was right, owner
+  reported a sound that had been looping continuously since his first
+  test, audible through both his computer speakers and USB interface,
+  unaffected by switching output devices, still going while he recorded
+  a voice message elsewhere.
+- Root cause: Web Audio playback (`sourceNode.loop = true`, the default)
+  runs entirely client-side in the browser tab, independent of the Python
+  server — closing/killing the server does nothing to it. Two live
+  sources were found: (1) my own test tab, left playing after a
+  verification pass where I called play() but never stopPlayback()
+  before moving on; (2) the owner's own separately-launched server
+  process/tab. Neither had any safeguard against being left running
+  in the background indefinitely.
+- Fix: stopped both live sources directly (owner confirmed silence).
+  Then fixed the actual gap in sound_engine/static/app.js: Loop now
+  defaults OFF (a one-shot play ends on its own); a `visibilitychange`
+  listener auto-stops playback if a LOOPING tab gets backgrounded;
+  a `pagehide` listener stops on navigate-away/close. Also added the
+  no-cache middleware sound_engine/server.py was missing (present in
+  reason_voice/server.py but not copied over) — without it, a fixed
+  app.js could sit in the browser's cache and the bug would appear to
+  still be happening even after the fix shipped.
+- Verify by: reproduced the exact failure in a test tab (looping
+  playback, backgrounded the tab via a simulated visibilitychange
+  event) and confirmed it now auto-stops. Owner separately confirmed
+  the real sound stopped. Full test suite: 817 passed, 1 skipped.
+- Status: confirmed
+- Outcome: owner confirmed silence. No further reports yet.
 - Context: owner asked for another surprise DJ, my choice. With Half Light
   at 68 the roster spans 68-150 and the two remaining holes were the TOP of
   the tempo range and the ROLE of the timekeeper: on all ten, the hat/rim is

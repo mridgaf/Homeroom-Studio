@@ -2,12 +2,17 @@
 // (Web Audio API native nodes) — instant, sample-accurate, no Python
 // garbage-collector risk. Export bounces through the tested Python
 // pedalboard engine (tools/audio_engine.py) for the final file, so the
-// heavy DSP is the same code the beat generator uses.
+// heavy DSP is the same code the beat generator uses. Chain order (both
+// live and export) is: EQ -> Compressor -> Saturation -> Width -> Reverb.
 let fileId = null;
 let audioCtx = null;
 let audioBuffer = null;   // decoded original, decoded once per upload
 let sourceNode = null;    // recreated each Play (can't restart a source)
 let lowShelf, midPeak, highShelf, bypassGain, wetGain;
+let compressor;
+let satDry, satWet, waveshaper, satOut;
+let splitter, merger, midBus, sideBus, sideWidth;
+let revDry, revWet, convolver, revOut;
 let isPlaying = false;
 
 const dropzone = document.getElementById("dropzone");
@@ -28,21 +33,53 @@ const RAMP_SECONDS = 0.02;  // setTargetAtTime time-constant — smooth knob
                              // pedalboard smooths param changes internally,
                              // verified separately in the Python engine)
 
-const sliders = {
-  lowDb: { node: () => lowShelf, param: "gain" },
-  midDb: { node: () => midPeak, param: "gain" },
-  highDb: { node: () => highShelf, param: "gain" },
-};
-for (const id of Object.keys(sliders)) {
+function bindRamped(id, getNode, param, transform) {
   const el = document.getElementById(id);
   const out = document.getElementById(id + "Val");
   el.addEventListener("input", () => {
-    out.textContent = parseFloat(el.value).toFixed(1);
-    const { node, param } = sliders[id];
-    const n = node();
-    if (n) n[param].setTargetAtTime(parseFloat(el.value), audioCtx.currentTime, RAMP_SECONDS);
+    const raw = parseFloat(el.value);
+    out.textContent = raw.toFixed(raw >= 10 || raw <= -10 ? 0 : 1);
+    const n = getNode();
+    if (!n || !audioCtx) return;
+    const v = transform ? transform(raw) : raw;
+    n[param].setTargetAtTime(v, audioCtx.currentTime, RAMP_SECONDS);
   });
 }
+
+bindRamped("lowDb", () => lowShelf, "gain");
+bindRamped("midDb", () => midPeak, "gain");
+bindRamped("highDb", () => highShelf, "gain");
+bindRamped("compThreshold", () => compressor, "threshold");
+bindRamped("compRatio", () => compressor, "ratio");
+bindRamped("compAttack", () => compressor, "attack", ms => ms / 1000);
+bindRamped("compRelease", () => compressor, "release", ms => ms / 1000);
+bindRamped("satMix", () => satWet, "gain", pct => pct / 100);
+bindRamped("widthKnob", () => sideWidth, "gain");
+bindRamped("revMix", () => revWet, "gain", pct => pct / 100);
+
+// dry-side gains that mirror a mix slider (1 - mix) need a second binding
+document.getElementById("satMix").addEventListener("input", e => {
+  if (!satDry || !audioCtx) return;
+  satDry.gain.setTargetAtTime(1 - parseFloat(e.target.value) / 100,
+                               audioCtx.currentTime, RAMP_SECONDS);
+});
+document.getElementById("revMix").addEventListener("input", e => {
+  if (!revDry || !audioCtx) return;
+  revDry.gain.setTargetAtTime(1 - parseFloat(e.target.value) / 100,
+                               audioCtx.currentTime, RAMP_SECONDS);
+});
+
+// drive and reverb size aren't smoothly rampable params — they rebuild a
+// curve / impulse response, so just update on release-ish (input is fine,
+// regeneration is cheap for these buffer sizes)
+document.getElementById("satDrive").addEventListener("input", e => {
+  document.getElementById("satDriveVal").textContent = parseFloat(e.target.value).toFixed(1);
+  if (waveshaper) waveshaper.curve = makeSaturationCurve(parseFloat(e.target.value));
+});
+document.getElementById("revSize").addEventListener("input", e => {
+  document.getElementById("revSizeVal").textContent = parseFloat(e.target.value).toFixed(1);
+  if (convolver && audioCtx) convolver.buffer = makeReverbIR(audioCtx, parseFloat(e.target.value));
+});
 
 ["dragenter", "dragover"].forEach(ev =>
   dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add("drag"); }));
@@ -85,24 +122,99 @@ async function upload(file) {
   workspace.classList.remove("hidden");
 }
 
+function makeSaturationCurve(driveDb) {
+  const k = Math.max(Math.pow(10, driveDb / 20), 1e-3);
+  const n = 2048;
+  const curve = new Float32Array(n);
+  const norm = Math.tanh(k) || 1;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n - 1)) * 2 - 1;
+    curve[i] = Math.tanh(k * x) / norm;
+  }
+  return curve;
+}
+
+function makeReverbIR(ctx, seconds) {
+  const rate = ctx.sampleRate;
+  const length = Math.max(1, Math.floor(rate * seconds));
+  const impulse = ctx.createBuffer(2, length, rate);
+  for (let ch = 0; ch < 2; ch++) {
+    const data = impulse.getChannelData(ch);
+    for (let i = 0; i < length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+    }
+  }
+  return impulse;
+}
+
 function buildGraph() {
   // persistent effect chain — knobs mutate these nodes live; only the
   // source node gets recreated per Play (Web Audio sources are one-shot)
+  const v = id => parseFloat(document.getElementById(id).value);
+
   lowShelf = audioCtx.createBiquadFilter();
-  lowShelf.type = "lowshelf";
-  lowShelf.frequency.value = 120;
-  lowShelf.gain.value = parseFloat(document.getElementById("lowDb").value);
+  lowShelf.type = "lowshelf"; lowShelf.frequency.value = 120;
+  lowShelf.gain.value = v("lowDb");
 
   midPeak = audioCtx.createBiquadFilter();
-  midPeak.type = "peaking";
-  midPeak.frequency.value = 800;
-  midPeak.Q.value = 0.9;
-  midPeak.gain.value = parseFloat(document.getElementById("midDb").value);
+  midPeak.type = "peaking"; midPeak.frequency.value = 800; midPeak.Q.value = 0.9;
+  midPeak.gain.value = v("midDb");
 
   highShelf = audioCtx.createBiquadFilter();
-  highShelf.type = "highshelf";
-  highShelf.frequency.value = 8000;
-  highShelf.gain.value = parseFloat(document.getElementById("highDb").value);
+  highShelf.type = "highshelf"; highShelf.frequency.value = 8000;
+  highShelf.gain.value = v("highDb");
+
+  // --- compressor: threshold/ratio/attack(s)/release(s), Web Audio units
+  // (seconds) differ from the export path's ms — converted at the slider
+  compressor = audioCtx.createDynamicsCompressor();
+  compressor.threshold.value = v("compThreshold");
+  compressor.ratio.value = v("compRatio");
+  compressor.attack.value = v("compAttack") / 1000;
+  compressor.release.value = v("compRelease") / 1000;
+  compressor.knee.value = 6;
+
+  // --- saturation: parallel dry/wet through a WaveShaper, mix sums at
+  // satOut (Web Audio auto-sums multiple connections into one input)
+  satDry = audioCtx.createGain(); satDry.gain.value = 1 - v("satMix") / 100;
+  satWet = audioCtx.createGain(); satWet.gain.value = v("satMix") / 100;
+  waveshaper = audioCtx.createWaveShaper();
+  waveshaper.curve = makeSaturationCurve(v("satDrive"));
+  waveshaper.oversample = "4x";
+  satOut = audioCtx.createGain(); satOut.gain.value = 1;
+
+  // --- stereo width: M/S via splitter/merger + gain math, matches
+  // tools/audio_engine.py's stereo_width() exactly (mid untouched, only
+  // the side signal is scaled — loudness-neutral on the mono sum)
+  splitter = audioCtx.createChannelSplitter(2);
+  merger = audioCtx.createChannelMerger(2);
+  const midGainL = audioCtx.createGain(); midGainL.gain.value = 0.5;
+  const midGainR = audioCtx.createGain(); midGainR.gain.value = 0.5;
+  midBus = audioCtx.createGain(); midBus.gain.value = 1;
+  const sideGainL = audioCtx.createGain(); sideGainL.gain.value = 0.5;
+  const sideGainR = audioCtx.createGain(); sideGainR.gain.value = -0.5;
+  sideBus = audioCtx.createGain(); sideBus.gain.value = 1;
+  sideWidth = audioCtx.createGain(); sideWidth.gain.value = v("widthKnob");
+  const sideNeg = audioCtx.createGain(); sideNeg.gain.value = -1;
+
+  splitter.connect(midGainL, 0); midGainL.connect(midBus);
+  splitter.connect(midGainR, 1); midGainR.connect(midBus);
+  splitter.connect(sideGainL, 0); sideGainL.connect(sideBus);
+  splitter.connect(sideGainR, 1); sideGainR.connect(sideBus);
+  sideBus.connect(sideWidth);
+  midBus.connect(merger, 0, 0);
+  sideWidth.connect(merger, 0, 0);
+  midBus.connect(merger, 0, 1);
+  sideWidth.connect(sideNeg);
+  sideNeg.connect(merger, 0, 1);
+
+  // --- reverb: parallel dry/wet through a Convolver fed a generated
+  // impulse response (no sample IR files needed for a real, usable tail)
+  revDry = audioCtx.createGain(); revDry.gain.value = 1 - v("revMix") / 100;
+  revWet = audioCtx.createGain(); revWet.gain.value = v("revMix") / 100;
+  convolver = audioCtx.createConvolver();
+  convolver.normalize = true;
+  convolver.buffer = makeReverbIR(audioCtx, v("revSize"));
+  revOut = audioCtx.createGain(); revOut.gain.value = 1;
 
   // bypass A/B: wetGain/bypassGain crossfade between processed and dry
   // paths so "Bypass" is instant and glitch-free, not a graph rewire
@@ -110,7 +222,13 @@ function buildGraph() {
   bypassGain = audioCtx.createGain();
   setBypass(bypassToggle.checked);
 
-  lowShelf.connect(midPeak).connect(highShelf).connect(wetGain).connect(audioCtx.destination);
+  lowShelf.connect(midPeak).connect(highShelf).connect(compressor);
+  compressor.connect(satDry).connect(satOut);
+  compressor.connect(satWet).connect(waveshaper).connect(satOut);
+  satOut.connect(splitter);
+  merger.connect(revDry).connect(revOut);
+  merger.connect(revWet).connect(convolver).connect(revOut);
+  revOut.connect(wetGain).connect(audioCtx.destination);
   // bypassGain taps the source directly (wired in when a source exists)
 }
 
@@ -167,21 +285,25 @@ window.addEventListener("pagehide", stopPlayback);
 exportBtn.addEventListener("click", async () => {
   // disabled for the whole round trip — a double-click used to fire two
   // overlapping /api/process calls racing on the same server-side session,
-  // and could export the wrong EQ values or (with same-second timestamps)
+  // and could export the wrong values or (with same-second timestamps)
   // silently overwrite the first export (found in review)
   if (!fileId || exportBtn.disabled) return;
   exportBtn.disabled = true;
   exportStatus.textContent = "Rendering final file…";
-  const eq = {
-    low_db: parseFloat(document.getElementById("lowDb").value),
-    mid_db: parseFloat(document.getElementById("midDb").value),
-    high_db: parseFloat(document.getElementById("highDb").value),
+  const v = id => parseFloat(document.getElementById(id).value);
+  const params = {
+    low_db: v("lowDb"), mid_db: v("midDb"), high_db: v("highDb"),
+    comp_threshold_db: v("compThreshold"), comp_ratio: v("compRatio"),
+    comp_attack_ms: v("compAttack"), comp_release_ms: v("compRelease"),
+    sat_drive_db: v("satDrive"), sat_mix: v("satMix") / 100,
+    width: v("widthKnob"),
+    reverb_size_s: v("revSize"), reverb_mix: v("revMix") / 100,
   };
   try {
     await fetch(`/api/process/${fileId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(eq),
+      body: JSON.stringify(params),
     });
     const res = await fetch(`/api/export/${fileId}`, { method: "POST" });
     const data = await res.json();
