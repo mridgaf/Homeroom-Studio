@@ -22,6 +22,114 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-09 Sound Engine mixer: Phase 2 (client UI) complete
+- Context: continuing `docs/superpowers/plans/2026-08-08-sound-engine-mixer.md`
+  (9 tasks, 3 phases) in the `sound-engine-mixer` worktree/branch. Phase 1
+  (server) was done and confirmed as of the previous entry below. This
+  session did Phase 2 only (Tasks 4-6: client UI), owner's explicit choice
+  for scope — stopping before Phase 3 (deepen EQ/Compressor/Reverb).
+- Decision/change:
+  1. Task 4: added the beat-picker modal, channel-strip list, and shared
+     effects rack shell to `sound_engine/static/index.html` +
+     `style.css`. Commit `ece4677`.
+  2. Task 5: full rewrite of `sound_engine/static/app.js`'s module-level
+     singleton into a `channels{}` object — one full Web Audio effect
+     chain per stem, synced playback, beat-library loading alongside
+     upload. Commit `6014ef6`.
+  3. Harsh-critic review pass 1 (fresh subagent) on the Task 4+5 diff
+     found 4 real bugs, all fixed in commit `e1414f7`:
+     - Mute/soloing ANY channel reset EVERY channel's fader to 0 dB,
+       because `renderChannelList()` rebuilt each strip's fader/pan
+       `<input>` from a hardcoded `value="0"` template and
+       `recomputeAudibility()` read that just-reset DOM value back out.
+       Fixed by moving fader/pan state onto the channel object
+       (`ch.faderDb`/`ch.pan`) instead of round-tripping through the DOM.
+     - Fader and pan never reached the server — export always used
+       gain_db=0/pan=0 regardless of what was heard live. While fixing
+       this, found the underlying cause went deeper than the plan's own
+       code: the server's `_apply_channel_chain()` has no memory of a
+       channel's prior processing — it recomputes the whole chain from
+       the dry buffer every call and defaults any missing field to
+       bypass values. The plan's own `syncChannelToServer()` only sent
+       the full EQ/comp/sat/reverb param set for the *selected* channel,
+       so a mute/solo/fader touch on a non-selected channel would have
+       silently reset that channel's processing server-side too. Fixed
+       by always sending the full param set for whichever channel is
+       touched, regardless of selection.
+     - A race: loading a second project (double-click a beat, or upload
+       while a beat is still loading) could interleave two projects'
+       async per-channel fetch loops into the same shared `channels`/
+       `channelOrder` state. Fixed with a load-token guard
+       (`projectLoadSeq`) — build into locals, commit atomically only if
+       no newer load started meanwhile (same shape as the Task 3
+       partial-commit fix from Phase 1).
+     - Saturation-drive slider's thumb didn't match its own label when
+       switching channels (`loadRackFromChannel()` hardcoded it to 6
+       instead of reading `ch.lastSatDriveApplied`).
+  4. Harsh-critic re-review pass 2 (fresh subagent, adversarial) on the
+     fix diff found the fix itself introduced a new problem: sending the
+     full param set on every touch means every fader/pan drag tick and
+     every mute/solo click now forces the server to synchronously
+     recompute a channel's entire DSP chain over its full buffer, on
+     FastAPI's single event loop, with no throttle — a single drag
+     gesture could queue dozens of full-chain recomputes back to back
+     and stall the whole server. Fixed in commit `eac1d82`: debounced
+     `syncChannelToServer()` (~120ms trailing, per channel), with an
+     `immediate` flush mode used only by the export button's own
+     pre-flight sync so export never races the debounce window. Second
+     pass also explicitly checked and cleared the load-token guard, the
+     faderDb/pan migration, and a full solo/mute state-transition
+     walkthrough — nothing else found.
+  5. Task 6 (live browser verification, no automated test — Web Audio
+     playback state isn't pytest-reachable): ran all 6 steps from the
+     plan against the real server and real beat library (TBOTC 3
+     mounted). Found and fixed ONE MORE bug that neither review pass
+     caught, because it's a pure rendering issue invisible to a text
+     diff: the beat-picker modal was visible on page load instead of
+     hidden. Cause: `.hidden { display: none }` and the new
+     `.modal { display: flex }` have equal (single-class) specificity,
+     so CSS's source-order tiebreak made `.modal` win regardless of the
+     `hidden` class being present. Fixed with a more specific
+     `.modal.hidden { display: none }` rule. Commit `93b614c`. All 6
+     steps then verified clean: real beat library browsable with
+     correct DJ/bpm/stem-count; loading "1187 Acid Rap Bright Lemon
+     Skip" (7 stems) started all 7 channels' sources at the same
+     `audioCtx.currentTime` offset; per-channel EQ change on one channel
+     (verified while actively playing — Web Audio doesn't tick
+     AudioParam automation on a node with no live upstream signal when
+     stopped, which is expected engine behavior, not a bug) left a
+     different channel untouched and persisted correctly on reselect;
+     solo correctly silenced every other channel regardless of its own
+     mute state; export produced a real file, full-mix RMS (3683.7)
+     measurably louder than any single soloed channel's RMS (1319.7).
+  - Aside, out of scope, flagged separately (not fixed here): one of
+    beat 1187's stems, "bongo - DY1090.wav", is genuinely silent
+    (peak=0, rms=0.0) — verified directly on disk, not a Sound Engine
+    bug. Spawned as a background task to check whether it's a one-off
+    or a real `write_stems()` bug.
+- Reasoning: matched this project's established build → harsh-critic
+  review → fix → SECOND adversarial re-review (fresh subagent) → confirm
+  loop in full, per the hard rule — including for Task 6, where "confirm"
+  meant actually rendering the page rather than trusting two rounds of
+  text-only review, which is exactly what caught the CSS bug neither
+  review pass could have seen.
+- Verify by: `.venv/bin/python -m pytest tests/test_sound_engine.py
+  tests/test_sound_engine_library.py -v` — 29 passed after every commit
+  in this session (server-side tests, confirming the client-only changes
+  never broke server behavior). Full `pytest tests/ -q` — 839 passed, 1
+  failed (`test_real_beats_are_not_mono_or_silent` on
+  `1904 Kane East Rose Window Drums 90bpm.wav`, -26.4 dB vs -22.0 dB
+  floor) — same file, same pre-existing unrelated failure as the Phase 1
+  baseline in the entry below, not a regression from this work.
+- Status: confirmed
+- Outcome: client now talks to the multi-channel API end-to-end
+  (beat picker, per-channel mixer, synced playback, export) — the app is
+  visibly different from Phase 1, unlike before when Phase 1 alone
+  shipped no visible change. Not yet heard/used by the owner. Next:
+  Phase 3 (deepen EQ/Compressor/Reverb, Tasks 7-9) in a future session,
+  or the owner's own hands-on pass first — per the established pattern,
+  don't start Phase 3 without checking in.
+
 ### 2026-08-09 Sound Engine mixer: Phase 1 (server side) complete
 - Context: the 2026-08-08 SDD session building the multi-stem mixer
   (`docs/superpowers/plans/2026-08-08-sound-engine-mixer.md`, worktree
