@@ -1,0 +1,17 @@
+#!/bin/bash
+# Sound Engine — Dock/Finder launcher.
+#
+# Same fix as Homeroom Studio.app (2026-07-21): this can't just exec python
+# itself. Desktop is one of macOS's privacy-protected folders (Files &
+# Folders privacy: "Desktop Folder"), and Terminal already has permission to
+# read there — that's the ONLY reason the .command file (which runs INSIDE
+# Terminal) has ever worked. A standalone .app has no permission of its own,
+# so double-clicking it would silently die the instant Python tried to read
+# .venv/pyvenv.cfg — an unsigned app like this doesn't get a clean "Allow"
+# prompt, it's just refused.
+#
+# Fix: hand off to Terminal and let IT do the reading, exactly like the
+# .command file already does — instead of trying to get this .app its own
+# separate Desktop-folder grant.
+cmd="$(dirname "$0")/../../../Sound Engine.command"
+open -a Terminal "$cmd"
