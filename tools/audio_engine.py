@@ -56,15 +56,18 @@ def glue_compressor(L, R, threshold_db=-14.0, ratio=2.5, attack_ms=12.0,
     return _from_pb(board(_to_pb(L, R), sr or SR))
 
 
-def brickwall_limit(L, R, ceiling_db=-0.3, release_ms=100.0):
+def brickwall_limit(L, R, ceiling_db=-0.3, release_ms=100.0, sr=None):
     """Lookahead limiter. Replaces the tanh soft-clip in
     groove.master_to_lufs, which adds harmonic distortion at the ceiling
     instead of just stopping peaks. Not passive: like most mastering
     limiters it applies automatic makeup gain toward its own threshold
     even on material well under the ceiling — see master_chain()'s
-    docstring for the measured effect and why LUFS trim runs after it."""
+    docstring for the measured effect and why LUFS trim runs after it.
+    sr — see eq3()'s docstring; was hardcoded to SR until harsh-critic
+    re-review caught it as the one stage in this module not honoring a
+    caller's real sample rate (release_ms was ~8.8% off at 48kHz)."""
     board = pb.Pedalboard([pb.Limiter(threshold_db=ceiling_db, release_ms=release_ms)])
-    return _from_pb(board(_to_pb(L, R), SR))
+    return _from_pb(board(_to_pb(L, R), sr or SR))
 
 
 def gate(L, R, threshold_db=-45.0, ratio=4.0, attack_ms=1.0, release_ms=100.0):

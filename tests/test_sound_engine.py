@@ -254,6 +254,61 @@ def test_channel_process_bad_field_leaves_earlier_fields_uncommitted():
     assert channel["gain_db"] == before_gain
 
 
+def test_channel_process_rejects_non_finite_values():
+    """float("nan")/float("inf") raise neither TypeError nor ValueError —
+    without an explicit finite check this used to sail through, poison
+    the channel's wet buffer, and export would "succeed" with a silent
+    all-zero WAV (found in harsh-critic re-review)."""
+    project_id = _upload().json()["project_id"]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                     json={"width": "nan"})
+    assert r.status_code == 400
+
+
+def test_channel_process_rejects_pan_out_of_range():
+    """pan is documented -1..1 (equal-power law); outside that range
+    _pan_gains() goes negative and phase-inverts the channel instead of
+    erroring (found in harsh-critic re-review)."""
+    project_id = _upload().json()["project_id"]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                     json={"pan": 3.0})
+    assert r.status_code == 400
+
+
+def test_export_passes_actual_sample_rate_to_limiter(monkeypatch):
+    """brickwall_limit() used to always run at the hardcoded module SR
+    regardless of the project's real sample rate — the one DSP stage in
+    audio_engine.py not honoring it, timing-wrong for any non-44.1kHz
+    upload (found in harsh-critic re-review)."""
+    calls = []
+    real_limit = server.dsp.audio_engine.brickwall_limit
+
+    def spy(L, R, **kwargs):
+        calls.append(kwargs.get("sr"))
+        return real_limit(L, R, **kwargs)
+
+    monkeypatch.setattr(server.dsp.audio_engine, "brickwall_limit", spy)
+    project_id = _upload(data=_wav_bytes(sr=48000)).json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    r = client.post(f"/api/project/{project_id}/export")
+    assert r.status_code == 200
+    assert calls == [48000]
+    Path(r.json()["path"]).unlink()
+
+
+def test_lru_eviction_spares_recently_touched_project():
+    """Eviction used to be pure FIFO-by-creation, so an actively-edited
+    project could be silently discarded mid-session by newer, untouched
+    ones — a real risk now that process/audio/export give a project a
+    reason to stay open across requests (found in harsh-critic
+    re-review)."""
+    ids = [_upload().json()["project_id"] for _ in range(server.MAX_PROJECTS)]
+    client.post(f"/api/project/{ids[0]}/channel/upload/process", json={})
+    _upload()  # 4th project forces eviction of the least-recently-used
+    assert ids[0] in server.PROJECTS
+    assert len(server.PROJECTS) <= server.MAX_PROJECTS
+
+
 def test_export_sums_multiple_channels_louder_than_one_muted(tmp_path, monkeypatch):
     from tools.make_drum_loops import write_wav24
     dj = tmp_path / "Test DJ"

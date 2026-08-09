@@ -15,6 +15,7 @@ its knobs sit at the transparent/off default, matching the live graph's
 from __future__ import annotations
 
 import asyncio
+import math
 import os
 import re
 import uuid
@@ -171,20 +172,35 @@ async def project_from_upload(file: UploadFile = File(...)):
     return JSONResponse(_project_response(project_id, PROJECTS[project_id]))
 
 
+def _finite_float(v, lo=None, hi=None):
+    # float("nan")/float("inf") raise neither TypeError nor ValueError, so
+    # a NaN/Inf param would otherwise sail past every caller's validation
+    # and silently poison a channel's buffer (found in harsh-critic
+    # re-review — export "succeeded" with an all-zero WAV, no error).
+    v = float(v)
+    if not math.isfinite(v):
+        raise ValueError(f"{v!r} is not finite")
+    if lo is not None and v < lo:
+        raise ValueError(f"{v!r} is below {lo}")
+    if hi is not None and v > hi:
+        raise ValueError(f"{v!r} is above {hi}")
+    return v
+
+
 def _apply_channel_chain(L, R, sr, p):
     ae = dsp.audio_engine
-    low_db = float(p.get("low_db", 0.0))
-    mid_db = float(p.get("mid_db", 0.0))
-    high_db = float(p.get("high_db", 0.0))
-    comp_threshold_db = float(p.get("comp_threshold_db", -24.0))
-    comp_ratio = float(p.get("comp_ratio", 1.0))
-    comp_attack_ms = float(p.get("comp_attack_ms", 12.0))
-    comp_release_ms = float(p.get("comp_release_ms", 180.0))
-    sat_drive_db = float(p.get("sat_drive_db", 6.0))
-    sat_mix = float(p.get("sat_mix", 0.0))
-    width = float(p.get("width", 1.0))
-    reverb_size_s = float(p.get("reverb_size_s", 2.0))
-    reverb_mix = float(p.get("reverb_mix", 0.0))
+    low_db = _finite_float(p.get("low_db", 0.0))
+    mid_db = _finite_float(p.get("mid_db", 0.0))
+    high_db = _finite_float(p.get("high_db", 0.0))
+    comp_threshold_db = _finite_float(p.get("comp_threshold_db", -24.0))
+    comp_ratio = _finite_float(p.get("comp_ratio", 1.0))
+    comp_attack_ms = _finite_float(p.get("comp_attack_ms", 12.0))
+    comp_release_ms = _finite_float(p.get("comp_release_ms", 180.0))
+    sat_drive_db = _finite_float(p.get("sat_drive_db", 6.0))
+    sat_mix = _finite_float(p.get("sat_mix", 0.0))
+    width = _finite_float(p.get("width", 1.0))
+    reverb_size_s = _finite_float(p.get("reverb_size_s", 2.0))
+    reverb_mix = _finite_float(p.get("reverb_mix", 0.0))
 
     L, R = ae.eq3(L, R, sr=sr, low_db=low_db, mid_db=mid_db, high_db=high_db)
     if comp_ratio > 1.0:
@@ -206,6 +222,12 @@ def _get_channel(project_id, lane_id):
     project = PROJECTS.get(project_id)
     if project is None:
         return None, None
+    # Bump to most-recently-used on every touch — eviction below was
+    # FIFO-by-creation, so an actively-edited project (this is the first
+    # task that gives one a reason to stay open across requests) could
+    # get silently evicted mid-session by newer, untouched projects
+    # (found in harsh-critic re-review).
+    PROJECTS[project_id] = PROJECTS.pop(project_id)
     channel = project["channels"].get(lane_id)
     return project, channel
 
@@ -216,8 +238,8 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
     if channel is None:
         return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
     try:
-        gain_db = float(params.get("gain_db", channel["gain_db"]))
-        pan = float(params.get("pan", channel["pan"]))
+        gain_db = _finite_float(params.get("gain_db", channel["gain_db"]))
+        pan = _finite_float(params.get("pan", channel["pan"]), lo=-1.0, hi=1.0)
         muted = bool(params.get("muted", channel["muted"]))
         solo = bool(params.get("solo", channel["solo"]))
         L, R = channel["dry"]
@@ -259,6 +281,7 @@ async def project_export(project_id: str):
     project = PROJECTS.get(project_id)
     if project is None:
         return JSONResponse({"error": "unknown project_id"}, status_code=404)
+    PROJECTS[project_id] = PROJECTS.pop(project_id)  # touch — see _get_channel
     channels = project["channels"]
     any_solo = any(c["solo"] for c in channels.values())
     audible = [c for c in channels.values()
@@ -277,7 +300,7 @@ async def project_export(project_id: str):
         mixL[:len(L)] += L * g * panL
         mixR[:len(R)] += R * g * panR
     ae = dsp.audio_engine
-    mixL, mixR = ae.brickwall_limit(mixL, mixR, ceiling_db=-0.3)
+    mixL, mixR = ae.brickwall_limit(mixL, mixR, ceiling_db=-0.3, sr=sr)
     stem = re.sub(r'[\\/:*?"<>|]', "_", project["name"]).strip() or "mix"
     stamp = datetime.now().strftime("%Y-%m-%d %H%M%S.%f")
     out = EXPORT_DIR / f"{stem} (engine) {stamp}.wav"
