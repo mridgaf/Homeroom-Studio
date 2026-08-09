@@ -29,8 +29,10 @@ def resolve_beats_root() -> Path:
             p = Path(json.loads(cfg.read_text())["root"]).expanduser()
             if p.exists():
                 return p
+            print(f"WARNING: beats_root.json points at {p}, which isn't "
+                  "there — looking for the library elsewhere.")
         except (json.JSONDecodeError, KeyError, TypeError):
-            pass
+            print("WARNING: beats_root.json is broken — ignoring it.")
     home = Path.home()
     name = "Claude Drum Beats"
     cands = [home / "Documents/Samples" / name,
@@ -90,12 +92,22 @@ def find_beat(root: Path, beat_id: str) -> dict | None:
     if "/" not in beat_id:
         return None
     dj, prefix = beat_id.split("/", 1)
-    stems_dir = Path(root) / dj / f"{prefix} Stems"
+    dj_dir = Path(root) / dj
+    stems_dir = dj_dir / f"{prefix} Stems"
     if not stems_dir.is_dir():
         return None
     stem_files = [f for f in stems_dir.iterdir()
                   if f.is_file() and f.suffix.lower() == ".wav"]
     if not stem_files:
         return None
+    # Find the corresponding Drums WAV to extract BPM
+    drums_wav = dj_dir / f"{prefix} Drums *.wav"
+    drums_files = sorted(dj_dir.glob(f"{prefix} Drums *.wav"))
+    bpm = None
+    for wav in drums_files:
+        m = _BPM_RE.search(wav.name)
+        if m:
+            bpm = float(m.group(1))
+            break
     return {"beat_id": beat_id, "dj": dj, "display_name": prefix,
-            "stem_count": len(stem_files), "stems_dir": stems_dir}
+            "bpm": bpm, "stem_count": len(stem_files), "stems_dir": stems_dir}
