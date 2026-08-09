@@ -35,7 +35,7 @@ header .sub {
 }
 
 main {
-  max-width: 640px;
+  max-width: 900px;
   margin: 24px auto 60px;
   padding: 0 20px;
 }
@@ -156,3 +156,66 @@ main {
   align-items: center;
   gap: 12px;
 }
+
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(10, 12, 16, 0.7);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+}
+.modal-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  width: min(520px, 90vw);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
+}
+.beatList { display: flex; flex-direction: column; gap: 6px; }
+.beatItem {
+  display: flex; justify-content: space-between; align-items: baseline;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.beatItem:hover { border-color: var(--accent); }
+.beatItem .meta { font-size: 12px; }
+
+.mixer { display: flex; gap: 20px; align-items: flex-start; }
+.channelList {
+  flex: 0 0 220px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.channelStrip {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+.channelStrip.selected { border-color: var(--accent); }
+.channelStrip .label {
+  font-size: 13px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+.channelStrip .row { display: flex; align-items: center; gap: 8px; }
+.channelStrip input[type=range] { flex: 1; accent-color: var(--accent); }
+.channelStrip .mutesolo { display: flex; gap: 4px; margin-top: 6px; }
+.channelStrip .mutesolo button {
+  flex: 1; font-size: 11px; padding: 4px;
+  background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 6px; cursor: pointer;
+}
+.channelStrip .mutesolo button.active.mute { background: #a33; color: #fff; border-color: #a33; }
+.channelStrip .mutesolo button.active.solo { background: var(--accent); color: #0a0e14; border-color: var(--accent); }
+
+.channelRack { flex: 1; min-width: 0; }
+.channelRack > h2 { margin: 0 0 12px; font-size: 18px; }
