@@ -241,6 +241,19 @@ def test_channel_process_unknown_channel_returns_404():
     assert r.status_code == 404
 
 
+def test_channel_process_bad_field_leaves_earlier_fields_uncommitted():
+    """A request with one valid field (gain_db) and one bad field (pan)
+    must reject and change nothing — not silently commit gain_db while
+    returning 400 (found in review)."""
+    project_id = _upload().json()["project_id"]
+    channel = server.PROJECTS[project_id]["channels"]["upload"]
+    before_gain = channel["gain_db"]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                     json={"gain_db": 5.0, "pan": "not a number"})
+    assert r.status_code == 400
+    assert channel["gain_db"] == before_gain
+
+
 def test_export_sums_multiple_channels_louder_than_one_muted(tmp_path, monkeypatch):
     from tools.make_drum_loops import write_wav24
     dj = tmp_path / "Test DJ"

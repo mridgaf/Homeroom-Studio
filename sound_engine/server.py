@@ -216,14 +216,22 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
     if channel is None:
         return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
     try:
+        gain_db = float(params.get("gain_db", channel["gain_db"]))
+        pan = float(params.get("pan", channel["pan"]))
+        muted = bool(params.get("muted", channel["muted"]))
+        solo = bool(params.get("solo", channel["solo"]))
         L, R = channel["dry"]
         L, R = _apply_channel_chain(L.copy(), R.copy(), channel["sr"], params)
-        channel["gain_db"] = float(params.get("gain_db", channel["gain_db"]))
-        channel["pan"] = float(params.get("pan", channel["pan"]))
-        channel["muted"] = bool(params.get("muted", channel["muted"]))
-        channel["solo"] = bool(params.get("solo", channel["solo"]))
     except (TypeError, ValueError):
         return JSONResponse({"error": "invalid parameter values"}, status_code=400)
+    # Only commit once every field parsed and the chain ran clean — a bad
+    # field partway through the old field-by-field mutation order left
+    # earlier fields (e.g. gain_db) silently written even on a 400 (found
+    # in review).
+    channel["gain_db"] = gain_db
+    channel["pan"] = pan
+    channel["muted"] = muted
+    channel["solo"] = solo
     channel["wet"] = (L, R)
     return JSONResponse({"ok": True})
 
