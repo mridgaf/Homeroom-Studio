@@ -341,3 +341,36 @@ def _wav_peak(path):
     with wave.open(str(path)) as w:
         data = np.frombuffer(w.readframes(w.getnframes()), dtype="<i2")
     return float(np.abs(data).max())
+
+
+def test_eq_frequency_params_reach_export():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"low_db": 6.0, "low_hz": 60.0})
+    wet_low_hz_60 = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"low_db": 6.0, "low_hz": 300.0})
+    wet_low_hz_300 = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
+    assert not np.array_equal(wet_low_hz_60[0], wet_low_hz_300[0])
+
+
+def test_compressor_makeup_gain_reaches_export():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"comp_ratio": 4.0, "comp_makeup_db": 0.0})
+    quiet = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"comp_ratio": 4.0, "comp_makeup_db": 12.0})
+    loud = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
+    assert np.abs(loud[0]).max() > np.abs(quiet[0]).max()
+
+
+def test_reverb_wet_and_dry_are_independent():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"reverb_mix": 0.4, "reverb_dry": 1.0})
+    both = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"reverb_mix": 0.4, "reverb_dry": 0.0})
+    wet_only = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
+    assert not np.array_equal(both[0], wet_only[0])

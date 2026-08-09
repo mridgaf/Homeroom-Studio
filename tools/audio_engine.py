@@ -134,7 +134,7 @@ def stereo_width(L, R, width=1.0):
 
 
 def loop_algo_reverb(L, R, room_size=0.5, damping=0.5, wet=0.25, dry=1.0,
-                       width=1.0, sr=None):
+                       width=1.0, freeze=False, sr=None):
     """Loop-safe algorithmic reverb. pedalboard.Reverb is a stateful
     streaming plugin — run it straight over one 8-bar buffer and the tail
     just decays at the buffer's end, leaving an audible seam where bar 8
@@ -142,12 +142,37 @@ def loop_algo_reverb(L, R, room_size=0.5, damping=0.5, wet=0.25, dry=1.0,
     see groove.loop_convolve for the same problem solved for convolution
     reverb). Fix: run the reverb over [dry, dry] concatenated and keep
     only the SECOND copy — its tail is already primed by the first pass,
-    the same trick loop_convolve does for FFT convolution."""
+    the same trick loop_convolve does for FFT convolution.
+
+    freeze=True takes a different path: pedalboard's freeze_mode holds
+    whatever is CURRENTLY in the reverb tank and stops new signal from
+    entering it, so engaging it from a cold/empty tank (i.e. passing
+    freeze straight to algo_reverb like the non-freeze branch does)
+    renders total silence, verified empirically — not a guess. Instead,
+    prime the tank normally first (reset=True), then flip freeze_mode on
+    and feed it silence via a second process() call with reset=False —
+    pedalboard's own streaming state carries the built-up tail into the
+    frozen hold, no custom DSP needed. Dry signal is summed back in by
+    hand here since freeze must never touch it, matching the live Web
+    Audio graph where Freeze only swaps the wet convolver's IR and never
+    touches the separate dry gain node."""
     n = len(L)
-    dblL, dblR = algo_reverb(np.concatenate([L, L]), np.concatenate([R, R]),
-                               room_size=room_size, damping=damping, wet=wet,
-                               dry=dry, width=width, sr=sr)
-    return dblL[n:], dblR[n:]
+    sr = sr or SR
+    if not freeze:
+        dblL, dblR = algo_reverb(np.concatenate([L, L]), np.concatenate([R, R]),
+                                   room_size=room_size, damping=damping, wet=wet,
+                                   dry=dry, width=width, sr=sr)
+        return dblL[n:], dblR[n:]
+
+    board = pb.Pedalboard([pb.Reverb(room_size=room_size, damping=damping,
+                                       wet_level=1.0, dry_level=0.0,
+                                       width=width, freeze_mode=0.0)])
+    dbl = _to_pb(np.concatenate([L, L]), np.concatenate([R, R]))
+    board(dbl, sr, reset=True)  # prime the tank; this output is discarded
+    board[0].freeze_mode = 1.0
+    wetL, wetR = _from_pb(board(np.zeros_like(dbl), sr, reset=False))
+    wetL, wetR = wetL[n:], wetR[n:]
+    return dry * L + wet * wetL, dry * R + wet * wetR
 
 
 def saturate(L, R, drive_db=6.0, mix=0.35, sr=None):

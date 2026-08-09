@@ -190,31 +190,44 @@ def _finite_float(v, lo=None, hi=None):
 def _apply_channel_chain(L, R, sr, p):
     ae = dsp.audio_engine
     low_db = _finite_float(p.get("low_db", 0.0))
+    low_hz = _finite_float(p.get("low_hz", 120.0))
     mid_db = _finite_float(p.get("mid_db", 0.0))
+    mid_hz = _finite_float(p.get("mid_hz", 800.0))
+    mid_q = _finite_float(p.get("mid_q", 0.9))
     high_db = _finite_float(p.get("high_db", 0.0))
+    high_hz = _finite_float(p.get("high_hz", 8000.0))
     comp_threshold_db = _finite_float(p.get("comp_threshold_db", -24.0))
     comp_ratio = _finite_float(p.get("comp_ratio", 1.0))
     comp_attack_ms = _finite_float(p.get("comp_attack_ms", 12.0))
     comp_release_ms = _finite_float(p.get("comp_release_ms", 180.0))
+    comp_makeup_db = _finite_float(p.get("comp_makeup_db", 0.0))
     sat_drive_db = _finite_float(p.get("sat_drive_db", 6.0))
     sat_mix = _finite_float(p.get("sat_mix", 0.0))
     width = _finite_float(p.get("width", 1.0))
     reverb_size_s = _finite_float(p.get("reverb_size_s", 2.0))
     reverb_mix = _finite_float(p.get("reverb_mix", 0.0))
+    reverb_dry = _finite_float(p.get("reverb_dry", 1.0 - reverb_mix))
+    reverb_damping = _finite_float(p.get("reverb_damping", 0.5))
+    reverb_width = _finite_float(p.get("reverb_width", 1.0))
+    reverb_freeze = bool(p.get("reverb_freeze", False))
 
-    L, R = ae.eq3(L, R, sr=sr, low_db=low_db, mid_db=mid_db, high_db=high_db)
+    L, R = ae.eq3(L, R, sr=sr, low_db=low_db, low_hz=low_hz,
+                   mid_db=mid_db, mid_hz=mid_hz, mid_q=mid_q,
+                   high_db=high_db, high_hz=high_hz)
     if comp_ratio > 1.0:
         L, R = ae.glue_compressor(L, R, sr=sr, threshold_db=comp_threshold_db,
                                     ratio=comp_ratio, attack_ms=comp_attack_ms,
-                                    release_ms=comp_release_ms, makeup_db=0.0)
+                                    release_ms=comp_release_ms, makeup_db=comp_makeup_db)
     if sat_mix > 0.0:
         L, R = ae.saturate(L, R, sr=sr, drive_db=sat_drive_db, mix=sat_mix)
     if width != 1.0:
         L, R = ae.stereo_width(L, R, width=width)
-    if reverb_mix > 0.0:
+    if reverb_mix > 0.0 or reverb_freeze:
         room_size = min(1.0, reverb_size_s / 6.0)
         L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,
-                                     wet=reverb_mix, dry=1 - reverb_mix)
+                                     damping=reverb_damping, wet=reverb_mix,
+                                     dry=reverb_dry, width=reverb_width,
+                                     freeze=reverb_freeze)
     return L, R
 
 

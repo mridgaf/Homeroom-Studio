@@ -193,14 +193,15 @@ function makeSaturationCurve(driveDb) {
   return curve;
 }
 
-function makeReverbIR(ctx, seconds) {
+function makeReverbIR(ctx, seconds, freeze) {
   const rate = ctx.sampleRate;
   const length = Math.max(1, Math.floor(rate * seconds));
   const impulse = ctx.createBuffer(2, length, rate);
   for (let ch = 0; ch < 2; ch++) {
     const data = impulse.getChannelData(ch);
     for (let i = 0; i < length; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+      const envelope = freeze ? 1.0 : Math.pow(1 - i / length, 2);
+      data[i] = (Math.random() * 2 - 1) * envelope;
     }
   }
   return impulse;
@@ -221,6 +222,10 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   const compressor = audioCtx.createDynamicsCompressor();
   compressor.threshold.value = -24; compressor.ratio.value = 1;
   compressor.attack.value = 0.012; compressor.release.value = 0.18; compressor.knee.value = 0;
+
+  // DynamicsCompressorNode has no makeup-gain concept — a real gain stage
+  // matches glue_compressor()'s pedalboard chain, which has one
+  const makeupGain = audioCtx.createGain(); makeupGain.gain.value = 1;
 
   // --- saturation: parallel dry/wet through a WaveShaper, mix sums at
   // satOut (Web Audio auto-sums multiple connections into one input)
@@ -255,13 +260,44 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   sideNeg.connect(merger, 0, 1);
 
   // --- reverb: parallel dry/wet through a Convolver fed a generated
-  // impulse response (no sample IR files needed for a real, usable tail)
+  // impulse response (no sample IR files needed for a real, usable tail).
+  // Damping = a lowpass on the wet-only path; Width = a second M/S
+  // gain-scaling stage scoped just to the reverb send (distinct from the
+  // channel's own splitter/sideWidth, which controls the whole channel).
   const revDry = audioCtx.createGain(); revDry.gain.value = 1;
   const revWet = audioCtx.createGain(); revWet.gain.value = 0;
+  const revDamp = audioCtx.createBiquadFilter();
+  // 9100 Hz = damping 0.5 under the d => 200 + d*17800 mapping used by
+  // bindRamped/syncChannelToServer below — must match reverb_damping's
+  // server-side default (0.5) and the revDamping slider's HTML default,
+  // or a fresh channel reports/exports a different damping than its own
+  // slider shows until the user touches it.
+  revDamp.type = "lowpass"; revDamp.frequency.value = 9100;
+  const revSplitter = audioCtx.createChannelSplitter(2);
+  const revMerger = audioCtx.createChannelMerger(2);
+  const revMidBus = audioCtx.createGain(); revMidBus.gain.value = 1;
+  const revSideBus = audioCtx.createGain(); revSideBus.gain.value = 1;
+  const revSideWidth = audioCtx.createGain(); revSideWidth.gain.value = 1;
+  const revSideNeg = audioCtx.createGain(); revSideNeg.gain.value = -1;
+  const revMidL = audioCtx.createGain(); revMidL.gain.value = 0.5;
+  const revMidR = audioCtx.createGain(); revMidR.gain.value = 0.5;
+  const revSideL = audioCtx.createGain(); revSideL.gain.value = 0.5;
+  const revSideR = audioCtx.createGain(); revSideR.gain.value = -0.5;
   const convolver = audioCtx.createConvolver();
   convolver.normalize = true;
-  convolver.buffer = makeReverbIR(audioCtx, 2.0);
+  convolver.buffer = makeReverbIR(audioCtx, 2.0, false);
   const revOut = audioCtx.createGain(); revOut.gain.value = 1;
+
+  revSplitter.connect(revMidL, 0); revMidL.connect(revMidBus);
+  revSplitter.connect(revMidR, 1); revMidR.connect(revMidBus);
+  revSplitter.connect(revSideL, 0); revSideL.connect(revSideBus);
+  revSplitter.connect(revSideR, 1); revSideR.connect(revSideBus);
+  revSideBus.connect(revSideWidth);
+  revMidBus.connect(revMerger, 0, 0);
+  revSideWidth.connect(revMerger, 0, 0);
+  revMidBus.connect(revMerger, 0, 1);
+  revSideWidth.connect(revSideNeg);
+  revSideNeg.connect(revMerger, 0, 1);
 
   // bypass A/B: wetGain/bypassGain crossfade between processed and dry
   // paths so "Bypass" is instant and glitch-free, not a graph rewire
@@ -269,11 +305,14 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   const bypassGain = audioCtx.createGain();
 
   lowShelf.connect(midPeak).connect(highShelf).connect(compressor);
-  compressor.connect(satDry).connect(satOut);
-  compressor.connect(satWet).connect(waveshaper).connect(satOut);
+  compressor.connect(makeupGain);
+  makeupGain.connect(satDry).connect(satOut);
+  makeupGain.connect(satWet).connect(waveshaper).connect(satOut);
   satOut.connect(splitter);
   merger.connect(revDry).connect(revOut);
-  merger.connect(revWet).connect(convolver).connect(revOut);
+  merger.connect(revWet).connect(convolver).connect(revDamp)
+        .connect(revSplitter);
+  revMerger.connect(revOut);
   revOut.connect(wetGain);
   wetGain.gain.value = 1; bypassGain.gain.value = 0;
 
@@ -286,12 +325,12 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
 
   return {
     laneId, label, audioBuffer, sourceNode: null,
-    lowShelf, midPeak, highShelf, compressor,
+    lowShelf, midPeak, highShelf, compressor, makeupGain,
     satDry, satWet, waveshaper, satOut,
     splitter, merger, sideWidth,
-    revDry, revWet, convolver, revOut,
+    revDry, revWet, revDamp, revSideWidth, convolver, revOut,
     wetGain, bypassGain, fader, panner,
-    muted: false, solo: false, faderDb: 0, pan: 0,
+    muted: false, solo: false, faderDb: 0, pan: 0, freeze: false,
     lastSatDriveTick: 0, lastSatDriveApplied: null,
     lastRevSizeTick: 0, lastRevSizeApplied: null,
   };
@@ -376,10 +415,18 @@ function selectChannel(laneId) {
 function loadRackFromChannel(ch) {
   document.getElementById("lowDb").value = ch.lowShelf.gain.value;
   document.getElementById("lowDbVal").textContent = ch.lowShelf.gain.value.toFixed(1);
+  document.getElementById("lowHz").value = ch.lowShelf.frequency.value;
+  document.getElementById("lowHzVal").textContent = ch.lowShelf.frequency.value.toFixed(0);
   document.getElementById("midDb").value = ch.midPeak.gain.value;
   document.getElementById("midDbVal").textContent = ch.midPeak.gain.value.toFixed(1);
+  document.getElementById("midHz").value = ch.midPeak.frequency.value;
+  document.getElementById("midHzVal").textContent = ch.midPeak.frequency.value.toFixed(0);
+  document.getElementById("midQ").value = ch.midPeak.Q.value;
+  document.getElementById("midQVal").textContent = ch.midPeak.Q.value.toFixed(1);
   document.getElementById("highDb").value = ch.highShelf.gain.value;
   document.getElementById("highDbVal").textContent = ch.highShelf.gain.value.toFixed(1);
+  document.getElementById("highHz").value = ch.highShelf.frequency.value;
+  document.getElementById("highHzVal").textContent = ch.highShelf.frequency.value.toFixed(0);
   document.getElementById("compThreshold").value = ch.compressor.threshold.value;
   document.getElementById("compThresholdVal").textContent = ch.compressor.threshold.value.toFixed(0);
   document.getElementById("compRatio").value = ch.compressor.ratio.value;
@@ -388,14 +435,24 @@ function loadRackFromChannel(ch) {
   document.getElementById("compAttackVal").textContent = (ch.compressor.attack.value * 1000).toFixed(0);
   document.getElementById("compRelease").value = (ch.compressor.release.value * 1000).toFixed(0);
   document.getElementById("compReleaseVal").textContent = (ch.compressor.release.value * 1000).toFixed(0);
+  const makeupDb = 20 * Math.log10(ch.makeupGain.gain.value);
+  document.getElementById("compMakeup").value = makeupDb;
+  document.getElementById("compMakeupVal").textContent = makeupDb.toFixed(1);
   document.getElementById("satDrive").value = ch.lastSatDriveApplied ?? 6;
   document.getElementById("satDriveVal").textContent = (ch.lastSatDriveApplied ?? 6).toFixed(1);
   document.getElementById("satMix").value = ch.satWet.gain.value * 100;
   document.getElementById("satMixVal").textContent = Math.round(ch.satWet.gain.value * 100);
   document.getElementById("revSize").value = ch.lastRevSizeApplied ?? 2.0;
   document.getElementById("revSizeVal").textContent = (ch.lastRevSizeApplied ?? 2.0).toFixed(1);
-  document.getElementById("revMix").value = ch.revWet.gain.value * 100;
-  document.getElementById("revMixVal").textContent = Math.round(ch.revWet.gain.value * 100);
+  document.getElementById("revDamping").value = (ch.revDamp.frequency.value - 200) / 17800;
+  document.getElementById("revDampingVal").textContent = ((ch.revDamp.frequency.value - 200) / 17800).toFixed(2);
+  document.getElementById("revWidth").value = ch.revSideWidth.gain.value;
+  document.getElementById("revWidthVal").textContent = ch.revSideWidth.gain.value.toFixed(2);
+  document.getElementById("revWet").value = Math.round(ch.revWet.gain.value * 100);
+  document.getElementById("revWetVal").textContent = Math.round(ch.revWet.gain.value * 100);
+  document.getElementById("revDry").value = Math.round(ch.revDry.gain.value * 100);
+  document.getElementById("revDryVal").textContent = Math.round(ch.revDry.gain.value * 100);
+  document.getElementById("revFreeze").checked = !!ch.freeze;
   document.getElementById("widthKnob").value = ch.sideWidth.gain.value;
   document.getElementById("widthKnobVal").textContent = ch.sideWidth.gain.value.toFixed(2);
 }
@@ -417,15 +474,21 @@ function bindRamped(id, getNode, param, transform) {
   });
 }
 bindRamped("lowDb", ch => ch.lowShelf, "gain");
+bindRamped("lowHz", ch => ch.lowShelf, "frequency");
 bindRamped("midDb", ch => ch.midPeak, "gain");
+bindRamped("midHz", ch => ch.midPeak, "frequency");
+bindRamped("midQ", ch => ch.midPeak, "Q");
 bindRamped("highDb", ch => ch.highShelf, "gain");
+bindRamped("highHz", ch => ch.highShelf, "frequency");
 bindRamped("compThreshold", ch => ch.compressor, "threshold");
 bindRamped("compRatio", ch => ch.compressor, "ratio");
 bindRamped("compAttack", ch => ch.compressor, "attack", ms => ms / 1000);
 bindRamped("compRelease", ch => ch.compressor, "release", ms => ms / 1000);
+bindRamped("compMakeup", ch => ch.makeupGain, "gain", db => 10 ** (db / 20));
 bindRamped("satMix", ch => ch.satWet, "gain", pct => pct / 100);
 bindRamped("widthKnob", ch => ch.sideWidth, "gain");
-bindRamped("revMix", ch => ch.revWet, "gain", pct => pct / 100);
+bindRamped("revDamping", ch => ch.revDamp, "frequency", d => 200 + d * 17800);
+bindRamped("revWidth", ch => ch.revSideWidth, "gain");
 
 // dry-side gains that mirror a mix slider (1 - mix) need a second binding
 document.getElementById("satMix").addEventListener("input", e => {
@@ -434,11 +497,25 @@ document.getElementById("satMix").addEventListener("input", e => {
   ch.satDry.gain.setTargetAtTime(1 - parseFloat(e.target.value) / 100,
                                   audioCtx.currentTime, RAMP_SECONDS);
 });
-document.getElementById("revMix").addEventListener("input", e => {
-  const ch = currentChannel();
-  if (!ch || !audioCtx) return;
-  ch.revDry.gain.setTargetAtTime(1 - parseFloat(e.target.value) / 100,
+document.getElementById("revWet").addEventListener("input", e => {
+  document.getElementById("revWetVal").textContent = e.target.value;
+  const ch = currentChannel(); if (!ch || !audioCtx) return;
+  ch.revWet.gain.setTargetAtTime(parseFloat(e.target.value) / 100,
                                   audioCtx.currentTime, RAMP_SECONDS);
+  syncChannelToServer(selectedLane);
+});
+document.getElementById("revDry").addEventListener("input", e => {
+  document.getElementById("revDryVal").textContent = e.target.value;
+  const ch = currentChannel(); if (!ch || !audioCtx) return;
+  ch.revDry.gain.setTargetAtTime(parseFloat(e.target.value) / 100,
+                                  audioCtx.currentTime, RAMP_SECONDS);
+  syncChannelToServer(selectedLane);
+});
+document.getElementById("revFreeze").addEventListener("change", e => {
+  const ch = currentChannel(); if (!ch) return;
+  ch.freeze = e.target.checked;
+  ch.convolver.buffer = makeReverbIR(audioCtx, parseFloat(document.getElementById("revSize").value), ch.freeze);
+  syncChannelToServer(selectedLane);
 });
 
 // drive and reverb size aren't smoothly rampable params — they rebuild a
@@ -484,7 +561,7 @@ document.getElementById("revSize").addEventListener("input", e => {
   const val = parseFloat(e.target.value);
   if (val === ch.lastRevSizeApplied) return;
   ch.lastRevSizeApplied = val;
-  ch.convolver.buffer = makeReverbIR(audioCtx, val);
+  ch.convolver.buffer = makeReverbIR(audioCtx, val, ch.freeze);
   syncChannelToServer(selectedLane);
 });
 document.getElementById("revSize").addEventListener("change", e => {
@@ -492,7 +569,7 @@ document.getElementById("revSize").addEventListener("change", e => {
   const val = parseFloat(e.target.value);
   if (val === ch.lastRevSizeApplied) return;
   ch.lastRevSizeApplied = val;
-  ch.convolver.buffer = makeReverbIR(audioCtx, val);
+  ch.convolver.buffer = makeReverbIR(audioCtx, val, ch.freeze);
   syncChannelToServer(selectedLane);
 });
 
@@ -513,12 +590,18 @@ function _sendChannelSync(laneId) {
   // channel's own AudioNodes hold accurate values regardless of selection,
   // so there's no reason to omit them.
   const params = {
-    low_db: ch.lowShelf.gain.value, mid_db: ch.midPeak.gain.value, high_db: ch.highShelf.gain.value,
+    low_db: ch.lowShelf.gain.value, low_hz: ch.lowShelf.frequency.value,
+    mid_db: ch.midPeak.gain.value, mid_hz: ch.midPeak.frequency.value, mid_q: ch.midPeak.Q.value,
+    high_db: ch.highShelf.gain.value, high_hz: ch.highShelf.frequency.value,
     comp_threshold_db: ch.compressor.threshold.value, comp_ratio: ch.compressor.ratio.value,
     comp_attack_ms: ch.compressor.attack.value * 1000, comp_release_ms: ch.compressor.release.value * 1000,
+    comp_makeup_db: 20 * Math.log10(ch.makeupGain.gain.value),
     sat_drive_db: ch.lastSatDriveApplied ?? 6, sat_mix: ch.satWet.gain.value,
     width: ch.sideWidth.gain.value,
     reverb_size_s: ch.lastRevSizeApplied ?? 2.0, reverb_mix: ch.revWet.gain.value,
+    reverb_dry: ch.revDry.gain.value,
+    reverb_damping: (ch.revDamp.frequency.value - 200) / 17800,
+    reverb_width: ch.revSideWidth.gain.value, reverb_freeze: !!ch.freeze,
     gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
   };
   fetch(`/api/project/${projectId}/channel/${laneId}/process`, {

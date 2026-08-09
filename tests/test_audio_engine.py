@@ -131,6 +131,39 @@ def test_loop_algo_reverb_wraps_tail_to_buffer_start():
     assert start_energy > naive_start * 10  # wrap actually happened
 
 
+def test_loop_algo_reverb_freeze_passthrough_sustains_longer():
+    # freeze holds the reverb tank's state instead of letting it decay —
+    # tested as "does the tail stay roughly steady across its own window"
+    # rather than "is it louder than a same-length non-frozen render",
+    # because those two aren't apples-to-apples: freeze primes the tank
+    # over a full pass first, then continues frozen from there, so a
+    # frozen and a non-frozen render of the same input length sample
+    # different absolute points in the tank's timeline. A pedalboard.Reverb
+    # engaged frozen from a cold/empty tank (no priming) renders total
+    # silence forever instead of sustaining anything — verified directly
+    # against pedalboard, not assumed — so this also guards against that
+    # regression: a broken "freeze" that's silently all-zero would fail
+    # the steady-state check below just as much as one that decays.
+    n = SR  # 1s
+    sig = np.zeros(n)
+    sig[0] = 1.0
+    frozen_L, _ = ae.loop_algo_reverb(sig.copy(), sig.copy(), room_size=0.5,
+                                        wet=1.0, dry=0.0, freeze=True)
+    normal_L, _ = ae.loop_algo_reverb(sig.copy(), sig.copy(), room_size=0.15,
+                                        wet=1.0, dry=0.0, freeze=False)
+
+    frozen_first, frozen_second = (np.abs(frozen_L[:n // 2]).mean(),
+                                     np.abs(frozen_L[n // 2:]).mean())
+    normal_first, normal_second = (np.abs(normal_L[:n // 2]).mean(),
+                                     np.abs(normal_L[n // 2:]).mean())
+
+    assert frozen_second > 1e-6  # holding real energy, not just silence
+    # frozen: second half stays close to first half (steady, not decaying)
+    assert frozen_second > frozen_first * 0.5
+    # normal: second half decays hard relative to first half (real contrast)
+    assert normal_second < normal_first * 0.1
+
+
 def test_master_chain_hits_target_lufs_and_respects_ceiling():
     rng = np.random.default_rng(0)
     t = np.arange(SR * 2) / SR
