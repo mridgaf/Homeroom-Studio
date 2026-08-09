@@ -163,6 +163,12 @@ main {
   display: flex; align-items: center; justify-content: center;
   z-index: 10;
 }
+/* .hidden and .modal both set `display` at equal (single-class) specificity
+   — without this, source order alone decides the winner, and .modal's
+   `display: flex` (declared after .hidden in this file) would always beat
+   .hidden's `display: none`, leaving the beat-picker modal visible on page
+   load instead of hidden until "Browse your beats" is clicked. */
+.modal.hidden { display: none; }
 .modal-card {
   background: var(--panel);
   border: 1px solid var(--border);
