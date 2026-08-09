@@ -1,6 +1,7 @@
 """Regression tests for sound_engine/server.py — locks in the bugs found
 and fixed by the 2026-08-08 harsh-review pass (session eviction, corrupt
-upload handling, invalid EQ body, export filename collisions)."""
+upload handling, invalid EQ body, export filename collisions), plus the
+multi-channel project model (single-file upload or a beat's stems)."""
 import io
 import os
 import sys
@@ -38,19 +39,79 @@ def _wav_bytes(seconds=0.5, sr=44100):
 
 
 def _upload(name="t.wav", data=None):
-    return client.post("/api/upload",
+    return client.post("/api/project/from-upload",
                         files={"file": (name, data or _wav_bytes(), "audio/wav")})
+
+
+def test_upload_creates_single_channel_project():
+    r = _upload()
+    assert r.status_code == 200
+    data = r.json()
+    assert "project_id" in data
+    assert len(data["channels"]) == 1
+    assert data["channels"][0]["lane_id"] == "upload"
+
+
+def test_from_beat_creates_multi_channel_project(tmp_path, monkeypatch):
+    from tools.make_drum_loops import write_wav24
+    dj = tmp_path / "Test DJ"
+    dj.mkdir()
+    sig = np.sin(2 * np.pi * 220 * np.arange(4410) / 44100) * 0.3
+    write_wav24(dj / "1 Test DJ Beat Drums 90bpm.wav", sig, sig)
+    stems = dj / "1 Test DJ Beat Stems"
+    stems.mkdir()
+    write_wav24(stems / "kick.wav", sig, sig)
+    write_wav24(stems / "snare.wav", sig, sig)
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+
+    r = client.post("/api/project/from-beat", json={"beat_id": "Test DJ/1 Test DJ Beat"})
+    assert r.status_code == 200
+    data = r.json()
+    assert len(data["channels"]) == 2
+    lane_ids = {c["lane_id"] for c in data["channels"]}
+    assert lane_ids == {"kick", "snare"}
+
+
+def test_from_beat_unknown_id_returns_404(tmp_path, monkeypatch):
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+    r = client.post("/api/project/from-beat", json={"beat_id": "nope/nope"})
+    assert r.status_code == 404
+
+
+def test_library_beats_endpoint_lists_fixture_beat(tmp_path, monkeypatch):
+    from tools.make_drum_loops import write_wav24
+    dj = tmp_path / "Test DJ"
+    dj.mkdir()
+    sig = np.sin(2 * np.pi * 220 * np.arange(4410) / 44100) * 0.3
+    write_wav24(dj / "1 Test DJ Beat Drums 90bpm.wav", sig, sig)
+    stems = dj / "1 Test DJ Beat Stems"
+    stems.mkdir()
+    write_wav24(stems / "kick.wav", sig, sig)
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+
+    r = client.get("/api/library/beats")
+    assert r.status_code == 200
+    beats = r.json()["beats"]
+    assert len(beats) == 1
+    assert beats[0]["dj"] == "Test DJ"
+
+
+def test_project_count_is_capped():
+    for _ in range(server.MAX_PROJECTS + 2):
+        _upload()
+    assert len(server.PROJECTS) <= server.MAX_PROJECTS
 
 
 def test_upload_process_export_round_trip():
     r = _upload()
     assert r.status_code == 200
-    file_id = r.json()["file_id"]
+    project_id = r.json()["project_id"]
 
-    r2 = client.post(f"/api/process/{file_id}", json={"low_db": 3.0, "high_db": -2.0})
+    r2 = client.post(f"/api/project/{project_id}/channel/upload/process",
+                      json={"low_db": 3.0, "high_db": -2.0})
     assert r2.status_code == 200
 
-    r3 = client.post(f"/api/export/{file_id}")
+    r3 = client.post(f"/api/project/{project_id}/export")
     assert r3.status_code == 200
     out_path = Path(r3.json()["path"])
     assert out_path.exists()
@@ -66,8 +127,9 @@ def test_corrupt_upload_returns_400_and_leaves_no_orphan():
 
 
 def test_invalid_eq_body_returns_400_not_500():
-    file_id = _upload().json()["file_id"]
-    r = client.post(f"/api/process/{file_id}", json={"low_db": "not a number"})
+    project_id = _upload().json()["project_id"]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                     json={"low_db": "not a number"})
     assert r.status_code == 400
 
 
@@ -75,8 +137,8 @@ def test_full_chain_process_applies_all_stages():
     """Compressor, saturation, width, and reverb all reach the exported
     file — matches the live Web Audio graph's chain order."""
     r = _upload()
-    file_id = r.json()["file_id"]
-    r2 = client.post(f"/api/process/{file_id}", json={
+    project_id = r.json()["project_id"]
+    r2 = client.post(f"/api/project/{project_id}/channel/upload/process", json={
         "comp_threshold_db": -30.0, "comp_ratio": 4.0,
         "comp_attack_ms": 5.0, "comp_release_ms": 100.0,
         "sat_drive_db": 12.0, "sat_mix": 0.5,
@@ -84,7 +146,7 @@ def test_full_chain_process_applies_all_stages():
         "reverb_size_s": 2.0, "reverb_mix": 0.3,
     })
     assert r2.status_code == 200
-    r3 = client.post(f"/api/export/{file_id}")
+    r3 = client.post(f"/api/project/{project_id}/export")
     assert r3.status_code == 200
     out_path = Path(r3.json()["path"])
     assert out_path.exists()
@@ -101,14 +163,14 @@ def test_reverb_size_top_of_slider_is_not_saturated():
     """reverb_size_s >= 4.0 used to all clamp to room_size=1.0 and export
     identical audio (found in review — room_size was reverb_size_s / 4.0,
     but the live slider's real max is 6.0). Regression for the /6.0 fix."""
-    file_id = _upload().json()["file_id"]
-    client.post(f"/api/process/{file_id}",
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
                 json={"reverb_mix": 0.5, "reverb_size_s": 4.0})
-    wL4, wR4 = server.SESSIONS[file_id]["wet"]
+    wL4, wR4 = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
     wL4, wR4 = wL4.copy(), wR4.copy()
-    client.post(f"/api/process/{file_id}",
+    client.post(f"/api/project/{project_id}/channel/upload/process",
                 json={"reverb_mix": 0.5, "reverb_size_s": 6.0})
-    wL6, wR6 = server.SESSIONS[file_id]["wet"]
+    wL6, wR6 = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
     assert not np.array_equal(wL4, wL6)
 
 
@@ -116,35 +178,37 @@ def test_process_stages_are_skipped_at_transparent_defaults():
     """At default (off) values, process() should be equivalent to EQ-only
     — the compressor/saturation/reverb stages must not silently engage."""
     r = _upload()
-    file_id = r.json()["file_id"]
-    r2 = client.post(f"/api/process/{file_id}", json={})  # everything at default
+    project_id = r.json()["project_id"]
+    r2 = client.post(f"/api/project/{project_id}/channel/upload/process",
+                      json={})  # everything at default
     assert r2.status_code == 200
-    session = server.SESSIONS[file_id]
-    wL, wR = session["wet"]
-    dL, dR = session["dry"]
+    channel = server.PROJECTS[project_id]["channels"]["upload"]
+    wL, wR = channel["wet"]
+    dL, dR = channel["dry"]
     # EQ at 0dB all bands should be a no-op too, so wet ~= dry
     assert np.abs(wL - dL).max() < 1e-3
     assert np.abs(wR - dR).max() < 1e-3
 
 
 def test_unknown_file_id_returns_404_not_500():
-    assert client.post("/api/process/doesnotexist", json={}).status_code == 404
-    assert client.post("/api/export/doesnotexist").status_code == 404
-    assert client.get("/api/audio/doesnotexist/dry").status_code == 404
+    assert client.post("/api/project/doesnotexist/channel/upload/process",
+                        json={}).status_code == 404
+    assert client.post("/api/project/doesnotexist/export").status_code == 404
+    assert client.get("/api/project/doesnotexist/channel/upload/audio/dry").status_code == 404
 
 
 def test_session_count_is_capped():
-    for _ in range(server.MAX_SESSIONS + 4):
+    for _ in range(server.MAX_PROJECTS + 4):
         _upload()
-    assert len(server.SESSIONS) <= server.MAX_SESSIONS
+    assert len(server.PROJECTS) <= server.MAX_PROJECTS
 
 
 def test_concurrent_exports_never_collide_on_filename():
-    file_id = _upload().json()["file_id"]
-    client.post(f"/api/process/{file_id}", json={})
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
     paths = set()
     for _ in range(3):
-        r = client.post(f"/api/export/{file_id}")
+        r = client.post(f"/api/project/{project_id}/export")
         p = Path(r.json()["path"])
         assert p not in paths  # each export is a distinct file
         paths.add(p)
@@ -153,7 +217,7 @@ def test_concurrent_exports_never_collide_on_filename():
 
 
 def test_upload_rejects_path_traversal_in_filename():
-    file_id = _upload(name="../../evil.wav").json()["file_id"]
-    session = server.SESSIONS[file_id]
-    assert ".." not in session["name"]
-    assert "/" not in session["name"]
+    project_id = _upload(name="../../evil.wav").json()["project_id"]
+    project = server.PROJECTS[project_id]
+    assert ".." not in project["name"]
+    assert "/" not in project["name"]
