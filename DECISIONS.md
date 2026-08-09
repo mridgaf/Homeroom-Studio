@@ -22,6 +22,48 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-09 Beat 1187's silent bongo stem — not a bug, closes the flagged aside
+- Context: follow-up on the aside flagged in the entry below ("Sound Engine
+  mixer: Phase 2") — `bongo - DY1090.wav` in beat 1187's stems folder is
+  peak=0/rms=0.0. Investigated whether it's a one-off (empty pattern, so an
+  empty stem is correct) or a real `write_stems()` export bug.
+- Decision/change: none — confirmed not a bug, no code change needed.
+  - Beat 1187's recipe (`.recipes/1187.json`) shows the bongo lane's pattern
+    is 8 bars of `----------------` — zero note events, every bar, while the
+    kit still "dealt in" a real bongo sample (gain 0.24, pan 0.32). Other
+    lanes in the same recipe (kick, clap, hat, snare, vox) show mixed
+    `X`/`x`/`.`/`-` characters — bongo is uniquely all-dash. So the main
+    mixed render can't contain bongo audio either — nothing was ever
+    scheduled to play. Stem and main render are consistent; not an export
+    bug.
+  - This is exactly the scenario `write_stems()` already guards against
+    (`tools/beat_recipes.py:154-164`, commit `c741927`, 2026-08-01): it now
+    skips writing a stem when its peak is 0 instead of shipping a silent
+    file. Beat 1187 rendered 2026-07-25 — 6 days before that guard existed
+    — so this file is a stale pre-fix artifact, not a live bug.
+  - Verified the guard is holding: sampled 22 stems folders (180 wav files)
+    split by mtime around the fix's commit time. Pre-fix sample: 4/95
+    silent stems (4.2%, matches the fix commit's own 3.4% measurement
+    across the full library). Post-fix sample: 0/85 silent stems.
+  - The underlying open item — a lane can be dealt into the kit with a
+    pattern that has zero hits — is unchanged and still noted in the code
+    comment. Not addressed here; it's a pattern-generation quality
+    question (wasted kit slot), not broken output, and wasn't in scope.
+- Reasoning: matched root-cause-before-fix — traced the actual note pattern
+  data instead of guessing from the symptom, and checked whether the
+  existing 2026-08-01 fix was still holding on fresh data rather than
+  assuming it was.
+- Verify by: `.recipes/1187.json` → `preset.lanes.bongo[3]` (all-dash bars);
+  `tools/beat_recipes.py:154-164` (the skip-if-silent guard); re-run the
+  same peak scan on any pre-2026-08-01 beat's stems folder to reproduce the
+  stale-artifact pattern.
+- Status: confirmed
+- Outcome: no fix needed. Stale silent stems only exist on beats rendered
+  before 2026-08-01; nothing currently ships them. Beat 1187's file is
+  cosmetic clutter (an empty track if dragged into Reason), not corrupted
+  data — cleanup, if wanted, is a separate ask (would go through
+  `safe-file-ops`, never a direct delete).
+
 ### 2026-08-09 Sound Engine mixer: Phase 2 (client UI) complete
 - Context: continuing `docs/superpowers/plans/2026-08-08-sound-engine-mixer.md`
   (9 tasks, 3 phases) in the `sound-engine-mixer` worktree/branch. Phase 1
