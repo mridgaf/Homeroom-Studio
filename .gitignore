@@ -13,3 +13,6 @@ Cleared */
 # never forgets it). Delete the folder and re-run that script to restore.
 Sound Demos/
 .gstack/
+
+# scratch worktrees for subagent-driven plan execution
+.worktrees/
