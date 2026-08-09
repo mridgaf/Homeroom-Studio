@@ -16,10 +16,13 @@ from __future__ import annotations
 
 import asyncio
 import os
+import re
 import uuid
 import webbrowser
+from datetime import datetime
 from pathlib import Path
 
+import numpy as np
 import uvicorn
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
@@ -168,10 +171,110 @@ async def project_from_upload(file: UploadFile = File(...)):
     return JSONResponse(_project_response(project_id, PROJECTS[project_id]))
 
 
-# Per-channel process/audio-fetch/export endpoints (replacing the old
-# SESSIONS-based /api/process/{file_id}, /api/audio/{file_id}/{variant},
-# /api/export/{file_id}) land in the next task, against the PROJECTS/
-# channels shape above.
+def _apply_channel_chain(L, R, sr, p):
+    ae = dsp.audio_engine
+    low_db = float(p.get("low_db", 0.0))
+    mid_db = float(p.get("mid_db", 0.0))
+    high_db = float(p.get("high_db", 0.0))
+    comp_threshold_db = float(p.get("comp_threshold_db", -24.0))
+    comp_ratio = float(p.get("comp_ratio", 1.0))
+    comp_attack_ms = float(p.get("comp_attack_ms", 12.0))
+    comp_release_ms = float(p.get("comp_release_ms", 180.0))
+    sat_drive_db = float(p.get("sat_drive_db", 6.0))
+    sat_mix = float(p.get("sat_mix", 0.0))
+    width = float(p.get("width", 1.0))
+    reverb_size_s = float(p.get("reverb_size_s", 2.0))
+    reverb_mix = float(p.get("reverb_mix", 0.0))
+
+    L, R = ae.eq3(L, R, sr=sr, low_db=low_db, mid_db=mid_db, high_db=high_db)
+    if comp_ratio > 1.0:
+        L, R = ae.glue_compressor(L, R, sr=sr, threshold_db=comp_threshold_db,
+                                    ratio=comp_ratio, attack_ms=comp_attack_ms,
+                                    release_ms=comp_release_ms, makeup_db=0.0)
+    if sat_mix > 0.0:
+        L, R = ae.saturate(L, R, sr=sr, drive_db=sat_drive_db, mix=sat_mix)
+    if width != 1.0:
+        L, R = ae.stereo_width(L, R, width=width)
+    if reverb_mix > 0.0:
+        room_size = min(1.0, reverb_size_s / 6.0)
+        L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,
+                                     wet=reverb_mix, dry=1 - reverb_mix)
+    return L, R
+
+
+def _get_channel(project_id, lane_id):
+    project = PROJECTS.get(project_id)
+    if project is None:
+        return None, None
+    channel = project["channels"].get(lane_id)
+    return project, channel
+
+
+@app.post("/api/project/{project_id}/channel/{lane_id}/process")
+async def channel_process(project_id: str, lane_id: str, params: dict):
+    project, channel = _get_channel(project_id, lane_id)
+    if channel is None:
+        return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
+    try:
+        L, R = channel["dry"]
+        L, R = _apply_channel_chain(L.copy(), R.copy(), channel["sr"], params)
+        channel["gain_db"] = float(params.get("gain_db", channel["gain_db"]))
+        channel["pan"] = float(params.get("pan", channel["pan"]))
+        channel["muted"] = bool(params.get("muted", channel["muted"]))
+        channel["solo"] = bool(params.get("solo", channel["solo"]))
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "invalid parameter values"}, status_code=400)
+    channel["wet"] = (L, R)
+    return JSONResponse({"ok": True})
+
+
+@app.get("/api/project/{project_id}/channel/{lane_id}/{variant}")
+async def channel_audio(project_id: str, lane_id: str, variant: str):
+    project, channel = _get_channel(project_id, lane_id)
+    if channel is None or variant not in ("dry", "wet"):
+        return JSONResponse({"error": "not found"}, status_code=404)
+    L, R = channel[variant]
+    out = RENDERS / f"{project_id}_{lane_id}_{variant}.wav"
+    dsp.save_wav(out, L, R, channel["sr"])
+    return FileResponse(out, media_type="audio/wav",
+                         headers={"Cache-Control": "no-store"})
+
+
+def _pan_gains(pan):
+    # equal-power pan law, -1..1 -> (left_gain, right_gain)
+    theta = (pan + 1) * (np.pi / 4)
+    return np.cos(theta), np.sin(theta)
+
+
+@app.post("/api/project/{project_id}/export")
+async def project_export(project_id: str):
+    project = PROJECTS.get(project_id)
+    if project is None:
+        return JSONResponse({"error": "unknown project_id"}, status_code=404)
+    channels = project["channels"]
+    any_solo = any(c["solo"] for c in channels.values())
+    audible = [c for c in channels.values()
+               if (c["solo"] if any_solo else not c["muted"])]
+    if not audible:
+        return JSONResponse({"error": "nothing to export — every channel is muted"},
+                             status_code=400)
+    sr = next(iter(channels.values()))["sr"]
+    n = max(len(c["wet"][0]) for c in audible)
+    mixL = np.zeros(n)
+    mixR = np.zeros(n)
+    for c in audible:
+        L, R = c["wet"]
+        g = 10 ** (c["gain_db"] / 20.0)
+        panL, panR = _pan_gains(c["pan"])
+        mixL[:len(L)] += L * g * panL
+        mixR[:len(R)] += R * g * panR
+    ae = dsp.audio_engine
+    mixL, mixR = ae.brickwall_limit(mixL, mixR, ceiling_db=-0.3)
+    stem = re.sub(r'[\\/:*?"<>|]', "_", project["name"]).strip() or "mix"
+    stamp = datetime.now().strftime("%Y-%m-%d %H%M%S.%f")
+    out = EXPORT_DIR / f"{stem} (engine) {stamp}.wav"
+    dsp.save_wav(out, mixL, mixR, sr)
+    return JSONResponse({"path": str(out)})
 
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

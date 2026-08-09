@@ -221,3 +221,55 @@ def test_upload_rejects_path_traversal_in_filename():
     project = server.PROJECTS[project_id]
     assert ".." not in project["name"]
     assert "/" not in project["name"]
+
+
+def test_channel_process_export_round_trip():
+    project_id = _upload().json()["project_id"]
+    r2 = client.post(f"/api/project/{project_id}/channel/upload/process",
+                      json={"low_db": 3.0, "high_db": -2.0})
+    assert r2.status_code == 200
+    r3 = client.post(f"/api/project/{project_id}/export")
+    assert r3.status_code == 200
+    out_path = Path(r3.json()["path"])
+    assert out_path.exists()
+    out_path.unlink()
+
+
+def test_channel_process_unknown_channel_returns_404():
+    project_id = _upload().json()["project_id"]
+    r = client.post(f"/api/project/{project_id}/channel/doesnotexist/process", json={})
+    assert r.status_code == 404
+
+
+def test_export_sums_multiple_channels_louder_than_one_muted(tmp_path, monkeypatch):
+    from tools.make_drum_loops import write_wav24
+    dj = tmp_path / "Test DJ"
+    dj.mkdir()
+    sig = np.sin(2 * np.pi * 220 * np.arange(4410) / 44100) * 0.3
+    write_wav24(dj / "1 Test DJ Beat Drums 90bpm.wav", sig, sig)
+    stems = dj / "1 Test DJ Beat Stems"
+    stems.mkdir()
+    write_wav24(stems / "kick.wav", sig, sig)
+    write_wav24(stems / "snare.wav", sig, sig)
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+    project_id = client.post("/api/project/from-beat",
+                              json={"beat_id": "Test DJ/1 Test DJ Beat"}).json()["project_id"]
+
+    client.post(f"/api/project/{project_id}/channel/kick/process", json={})
+    client.post(f"/api/project/{project_id}/channel/snare/process", json={})
+    both = client.post(f"/api/project/{project_id}/export")
+    both_peak = _wav_peak(Path(both.json()["path"]))
+
+    client.post(f"/api/project/{project_id}/channel/snare/process", json={"muted": True})
+    one = client.post(f"/api/project/{project_id}/export")
+    one_peak = _wav_peak(Path(one.json()["path"]))
+
+    assert both_peak > one_peak
+    Path(both.json()["path"]).unlink()
+    Path(one.json()["path"]).unlink()
+
+
+def _wav_peak(path):
+    with wave.open(str(path)) as w:
+        data = np.frombuffer(w.readframes(w.getnframes()), dtype="<i2")
+    return float(np.abs(data).max())
