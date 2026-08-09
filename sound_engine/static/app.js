@@ -14,6 +14,10 @@ let channels = {};       // lane_id -> channel object, see buildChannelGraph()
 let channelOrder = [];   // lane_ids, display order
 let selectedLane = null;
 let isPlaying = false;
+let projectLoadSeq = 0;  // guards against two concurrent openProject() calls
+                          // (e.g. double-click a beat, or upload while a beat
+                          // is still loading) interleaving their per-channel
+                          // fetch loops and corrupting the shared channels{}
 
 const dropzone = document.getElementById("dropzone");
 const workspace = document.getElementById("workspace");
@@ -112,28 +116,27 @@ async function loadUpload(file) {
 
 async function openProject(data) {
   stopPlayback();
-  // tear down the previous project's whole graph before building a new one —
-  // every openProject() run re-enters this function from scratch. Web Audio
-  // only processes nodes reachable from destination, so disconnecting the
-  // old masterGain (the single exit point every channel's fader feeds into)
-  // is enough to orphan the entire old chain instead of leaking it into
-  // destination for the rest of the tab session (same class of node leak
-  // fixed for the single-channel version — see DECISIONS.md 2026-08-08).
-  if (masterGain) masterGain.disconnect();
+  // A second openProject() can start (double-click a beat, or drop a file
+  // while a beat is still loading) before this one's per-channel fetch loop
+  // below finishes. Build everything into locals keyed to this call's own
+  // token and only commit to the shared globals if no newer load has started
+  // in the meantime — same "parse into locals, commit atomically" shape as
+  // the partial-commit bug fixed server-side in channel_process() (see
+  // DECISIONS.md 2026-08-09). Committing incrementally into the shared
+  // `channels`/`channelOrder` here would let two projects' stems interleave
+  // in the same mixer.
+  const myLoad = ++projectLoadSeq;
+  const newProjectId = data.project_id;
 
-  projectId = data.project_id;
-  fileName.textContent = data.name;
-  fileMeta.textContent = `${data.channels.length} channel(s)`;
-  exportStatus.textContent = "";
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = audioCtx.createGain();
-  masterGain.connect(audioCtx.destination);
+  const myMasterGain = audioCtx.createGain();
+  myMasterGain.connect(audioCtx.destination);
 
-  channels = {};
-  channelOrder = [];
+  const newChannels = {};
+  const newChannelOrder = [];
   for (const ch of data.channels) {
     const arrayBuf = await (await fetch(
-      `/api/project/${projectId}/channel/${ch.lane_id}/dry?t=${Date.now()}`)).arrayBuffer();
+      `/api/project/${newProjectId}/channel/${ch.lane_id}/dry?t=${Date.now()}`)).arrayBuffer();
     let audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
     // defensive: dsp.py upmixes mono to dual-mono server-side today, so this
     // never actually fires via the normal load path — but the M/S width
@@ -146,9 +149,32 @@ async function openProject(data) {
       stereo.copyToChannel(audioBuffer.getChannelData(0), 1);
       audioBuffer = stereo;
     }
-    channels[ch.lane_id] = buildChannelGraph(ch.lane_id, ch.label, audioBuffer);
-    channelOrder.push(ch.lane_id);
+    newChannels[ch.lane_id] = buildChannelGraph(ch.lane_id, ch.label, audioBuffer, myMasterGain);
+    newChannelOrder.push(ch.lane_id);
   }
+
+  if (myLoad !== projectLoadSeq) {
+    // a newer load won the race while this one was still fetching — abandon
+    // it and disconnect its half-built graph rather than touch shared state
+    myMasterGain.disconnect();
+    return;
+  }
+
+  // tear down the previous project's whole graph before switching to the new
+  // one — Web Audio only processes nodes reachable from destination, so
+  // disconnecting the old masterGain (the single exit point every channel's
+  // fader feeds into) is enough to orphan the entire old chain instead of
+  // leaking it into destination for the rest of the tab session (same class
+  // of node leak fixed for the single-channel version — see DECISIONS.md
+  // 2026-08-08).
+  if (masterGain) masterGain.disconnect();
+  projectId = newProjectId;
+  masterGain = myMasterGain;
+  channels = newChannels;
+  channelOrder = newChannelOrder;
+  fileName.textContent = data.name;
+  fileMeta.textContent = `${data.channels.length} channel(s)`;
+  exportStatus.textContent = "";
   renderChannelList();
   selectChannel(channelOrder[0]);
   dropzone.classList.add("hidden");
@@ -180,7 +206,7 @@ function makeReverbIR(ctx, seconds) {
   return impulse;
 }
 
-function buildChannelGraph(laneId, label, audioBuffer) {
+function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   const lowShelf = audioCtx.createBiquadFilter();
   lowShelf.type = "lowshelf"; lowShelf.frequency.value = 120; lowShelf.gain.value = 0;
 
@@ -256,7 +282,7 @@ function buildChannelGraph(laneId, label, audioBuffer) {
   wetGain.connect(panner || fader);
   if (panner) panner.connect(fader);
   bypassGain.connect(panner || fader);
-  fader.connect(masterGain);
+  fader.connect(targetMasterGain);
 
   return {
     laneId, label, audioBuffer, sourceNode: null,
@@ -265,7 +291,8 @@ function buildChannelGraph(laneId, label, audioBuffer) {
     splitter, merger, sideWidth,
     revDry, revWet, convolver, revOut,
     wetGain, bypassGain, fader, panner,
-    muted: false, solo: false, lastSatDriveTick: 0, lastSatDriveApplied: null,
+    muted: false, solo: false, faderDb: 0, pan: 0,
+    lastSatDriveTick: 0, lastSatDriveApplied: null,
     lastRevSizeTick: 0, lastRevSizeApplied: null,
   };
 }
@@ -278,8 +305,8 @@ function renderChannelList() {
     strip.className = "channelStrip" + (laneId === selectedLane ? " selected" : "");
     strip.innerHTML = `
       <div class="label">${ch.label}</div>
-      <div class="row"><input type="range" class="faderInput" min="-24" max="12" step="0.5" value="0"></div>
-      <div class="row"><input type="range" class="panInput" min="-1" max="1" step="0.05" value="0"></div>
+      <div class="row"><input type="range" class="faderInput" min="-24" max="12" step="0.5" value="${ch.faderDb}"></div>
+      <div class="row"><input type="range" class="panInput" min="-1" max="1" step="0.05" value="${ch.pan}"></div>
       <div class="mutesolo">
         <button class="mute">M</button>
         <button class="solo">S</button>
@@ -288,12 +315,14 @@ function renderChannelList() {
       if (e.target.tagName !== "INPUT" && e.target.tagName !== "BUTTON") selectChannel(laneId);
     });
     strip.querySelector(".faderInput").addEventListener("input", e => {
-      ch.fader.gain.setTargetAtTime(10 ** (parseFloat(e.target.value) / 20),
-                                     audioCtx.currentTime, RAMP_SECONDS);
+      ch.faderDb = parseFloat(e.target.value);
+      recomputeAudibility();
+      syncChannelToServer(laneId);
     });
     strip.querySelector(".panInput").addEventListener("input", e => {
-      if (ch.panner) ch.panner.pan.setTargetAtTime(parseFloat(e.target.value),
-                                                     audioCtx.currentTime, RAMP_SECONDS);
+      ch.pan = parseFloat(e.target.value);
+      if (ch.panner) ch.panner.pan.setTargetAtTime(ch.pan, audioCtx.currentTime, RAMP_SECONDS);
+      syncChannelToServer(laneId);
     });
     strip.querySelector(".mute").addEventListener("click", () => toggleMute(laneId));
     strip.querySelector(".solo").addEventListener("click", () => toggleSolo(laneId));
@@ -316,10 +345,10 @@ function recomputeAudibility() {
     const t = audioCtx.currentTime;
     ch.fader.gain.cancelScheduledValues(t);
     // audibility is a hard mute, independent of the fader's own dB value —
-    // reflect the current fader slider rather than always forcing unity
-    const strip = channelListEl.children[channelOrder.indexOf(laneId)];
-    const faderDb = strip ? parseFloat(strip.querySelector(".faderInput").value) : 0;
-    ch.fader.gain.setTargetAtTime(audible ? 10 ** (faderDb / 20) : 0, t, RAMP_SECONDS);
+    // reflect ch.faderDb (channel state, survives renderChannelList()
+    // rebuilding the DOM) rather than a DOM value that no longer exists by
+    // the time a later mute/solo toggle calls this again
+    ch.fader.gain.setTargetAtTime(audible ? 10 ** (ch.faderDb / 20) : 0, t, RAMP_SECONDS);
   }
 }
 
@@ -359,7 +388,7 @@ function loadRackFromChannel(ch) {
   document.getElementById("compAttackVal").textContent = (ch.compressor.attack.value * 1000).toFixed(0);
   document.getElementById("compRelease").value = (ch.compressor.release.value * 1000).toFixed(0);
   document.getElementById("compReleaseVal").textContent = (ch.compressor.release.value * 1000).toFixed(0);
-  document.getElementById("satDrive").value = 6;
+  document.getElementById("satDrive").value = ch.lastSatDriveApplied ?? 6;
   document.getElementById("satDriveVal").textContent = (ch.lastSatDriveApplied ?? 6).toFixed(1);
   document.getElementById("satMix").value = ch.satWet.gain.value * 100;
   document.getElementById("satMixVal").textContent = Math.round(ch.satWet.gain.value * 100);
@@ -472,15 +501,26 @@ function syncChannelToServer(laneId) {
   // current for export; live audio never waits on this
   if (!projectId) return;
   const ch = channels[laneId];
-  const params = selectedLane === laneId ? {
+  // Every field the server's _apply_channel_chain() reads is sent every
+  // time, for every channel — not just the one currently selected in the
+  // rack. The server has no memory of a channel's prior processing: it
+  // recomputes the whole chain from the dry buffer on each call and
+  // defaults any missing field to a bypass value (0 dB EQ, ratio 1, etc).
+  // Sending only {gain_db, pan, muted, solo} for a non-selected channel
+  // (e.g. a mute/solo/fader touch from the sidebar strip) would silently
+  // reset that channel's EQ/comp/sat/reverb back to defaults server-side
+  // even though the live Web Audio preview still shows it processed — each
+  // channel's own AudioNodes hold accurate values regardless of selection,
+  // so there's no reason to omit them.
+  const params = {
     low_db: ch.lowShelf.gain.value, mid_db: ch.midPeak.gain.value, high_db: ch.highShelf.gain.value,
     comp_threshold_db: ch.compressor.threshold.value, comp_ratio: ch.compressor.ratio.value,
     comp_attack_ms: ch.compressor.attack.value * 1000, comp_release_ms: ch.compressor.release.value * 1000,
     sat_drive_db: ch.lastSatDriveApplied ?? 6, sat_mix: ch.satWet.gain.value,
     width: ch.sideWidth.gain.value,
     reverb_size_s: ch.lastRevSizeApplied ?? 2.0, reverb_mix: ch.revWet.gain.value,
-    gain_db: 0, pan: 0, muted: ch.muted, solo: ch.solo,
-  } : { muted: ch.muted, solo: ch.solo };
+    gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
+  };
   fetch(`/api/project/${projectId}/channel/${laneId}/process`, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
