@@ -496,11 +496,11 @@ document.getElementById("revSize").addEventListener("change", e => {
   syncChannelToServer(selectedLane);
 });
 
-function syncChannelToServer(laneId) {
-  // fire-and-forget — keeps the server's copy of this channel's settings
-  // current for export; live audio never waits on this
-  if (!projectId) return;
+const _syncTimers = {};  // laneId -> pending debounce timeout, see syncChannelToServer()
+
+function _sendChannelSync(laneId) {
   const ch = channels[laneId];
+  if (!ch) return;
   // Every field the server's _apply_channel_chain() reads is sent every
   // time, for every channel — not just the one currently selected in the
   // rack. The server has no memory of a channel's prior processing: it
@@ -525,6 +525,30 @@ function syncChannelToServer(laneId) {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   });
+}
+
+function syncChannelToServer(laneId, immediate) {
+  // fire-and-forget — keeps the server's copy of this channel's settings
+  // current for export; live audio never waits on this. Debounced (trailing,
+  // ~120ms) because the server has no per-channel "just update this one
+  // field" endpoint — every sync reprocesses that channel's WHOLE effect
+  // chain over its full buffer, synchronously, on FastAPI's single event
+  // loop (found in harsh-critic re-review). A fader/pan drag or a rack knob
+  // fires this on every "input" tick with no throttle of its own, so without
+  // debouncing here a single drag gesture could queue dozens of full-chain
+  // recomputes back to back and stall every other request against the
+  // server for the duration. Only the settled end value matters for export
+  // ("live audio never waits on this"), so collapsing a burst to one call
+  // loses nothing. `immediate` bypasses the debounce for the export button's
+  // own pre-flight sync, which needs the truly-latest value to have already
+  // landed server-side before it POSTs /export a moment later.
+  if (!projectId) return;
+  if (_syncTimers[laneId]) { clearTimeout(_syncTimers[laneId]); delete _syncTimers[laneId]; }
+  if (immediate) { _sendChannelSync(laneId); return; }
+  _syncTimers[laneId] = setTimeout(() => {
+    delete _syncTimers[laneId];
+    _sendChannelSync(laneId);
+  }, 120);
 }
 
 function play() {
@@ -599,7 +623,7 @@ exportBtn.addEventListener("click", async () => {
   exportBtn.disabled = true;
   exportStatus.textContent = "Rendering final mix…";
   try {
-    for (const laneId of channelOrder) syncChannelToServer(laneId);
+    for (const laneId of channelOrder) syncChannelToServer(laneId, true);
     await new Promise(r => setTimeout(r, 150));  // let the syncs land server-side
     const res = await fetch(`/api/project/${projectId}/export`, { method: "POST" });
     const data = await res.json();
