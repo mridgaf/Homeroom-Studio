@@ -131,6 +131,49 @@ muscle memory point at it. Tests are set up: `.venv/bin/python -m pytest tests/`
   this" — v2 should fuzzy-match intents, not just regex.
 - `small.en` latency ~1s on his hardware; offer tiny.en toggle in UI settings.
 
+## Sound Engine — quality loop
+A second, separate effort in this same repo: a local web-based multi-stem
+mixer/effects app (`sound_engine/`, worktree `.worktrees/sound-engine-mixer`,
+branch `sound-engine-mixer`). Not part of Reason Voice above — don't conflate
+the two. Plan: `docs/superpowers/plans/2026-08-08-sound-engine-mixer.md` (9
+tasks, 3 phases: server, client UI, deepen effects). **For current
+task/phase status, check DECISIONS.md's latest Sound Engine entry and
+`.superpowers/sdd/2026-08-08-sound-engine-mixer/progress.md` — this file
+is not kept in sync with that, don't assume from here.**
+
+**Hard rule, established after it was skipped once (2026-08-08, again
+2026-08-09):** no audio-engine work is done until this loop has run in
+full —
+
+> build → harsh-critic review → fix → a SECOND adversarial re-review by a
+> **fresh subagent** → confirm.
+
+One review pass is HALF the loop. On 2026-08-09 a full task shipped with
+only the first pass — tests green, one bug found and fixed — and was
+reported done. The owner asked whether the loop had actually been used;
+it hadn't. Running the missing second pass then found 4 more real bugs
+(NaN/Inf silently corrupting a channel and exporting a dead-silent file
+as "success"; an unvalidated pan value phase-inverting a channel; a
+limiter running at the wrong sample rate; project eviction that could
+silently discard an actively-edited project) — none caught by the first
+pass or by the existing tests. **A single review pass finding and fixing
+one bug is not evidence the loop ran; it's evidence the loop needs to
+keep going.**
+
+Quality bar is production-grade, not "it ran once":
+- Every "done" claim needs a regression test for the specific bug fixed,
+  not just a green suite.
+- Run the FULL project test suite before reporting done, not just the
+  touched files — a change here can regress `tools/audio_engine.py`
+  callers elsewhere (e.g. `master_chain()`'s beat-mastering path).
+- State current scope at the start of any session touching this: which
+  task/phase, what's done vs. not.
+
+A SessionStart hook (`.claude/hooks/audio-engine-loop-sessionstart.sh`)
+injects a short pointer to this section every session — that's the
+enforcement layer; this section is the detail it points to. Don't remove
+one without the other.
+
 ## Working rules for this project
 
 ### 0. Talk to him like a person, not a developer
