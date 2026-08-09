@@ -19,8 +19,20 @@
         Choose a file
         <input type="file" id="fileInput" accept="audio/*" hidden>
       </label>
+      <button id="browseBeatsBtn" class="btn">Browse your beats</button>
       <p class="hint">WAV, MP3, M4A, AIFF, FLAC — most audio formats work.</p>
     </section>
+
+    <div id="beatPickerModal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>Pick a beat</h2>
+          <button id="beatPickerClose" class="btn">Close</button>
+        </div>
+        <p id="beatPickerWarning" class="meta hidden"></p>
+        <div id="beatPickerList" class="beatList"></div>
+      </div>
+    </div>
 
     <section id="workspace" class="workspace hidden">
       <div class="filebar">
@@ -40,93 +52,101 @@
         <span id="playStatus" class="meta"></span>
       </div>
 
-      <div class="panel">
-        <h2>EQ — live, moves while it plays</h2>
-        <div class="knobs">
-          <div class="knob">
-            <label for="lowDb">Low <span id="lowDbVal">0.0</span> dB</label>
-            <input type="range" id="lowDb" min="-18" max="18" step="0.5" value="0">
-            <span class="freq">@ 120 Hz shelf</span>
-          </div>
-          <div class="knob">
-            <label for="midDb">Mid <span id="midDbVal">0.0</span> dB</label>
-            <input type="range" id="midDb" min="-18" max="18" step="0.5" value="0">
-            <span class="freq">@ 800 Hz bell</span>
-          </div>
-          <div class="knob">
-            <label for="highDb">High <span id="highDbVal">0.0</span> dB</label>
-            <input type="range" id="highDb" min="-18" max="18" step="0.5" value="0">
-            <span class="freq">@ 8 kHz shelf</span>
-          </div>
-        </div>
-      </div>
+      <div class="mixer">
+        <div id="channelList" class="channelList"></div>
 
-      <div class="panel">
-        <h2>Compressor</h2>
-        <div class="knobs">
-          <div class="knob">
-            <label for="compThreshold">Threshold <span id="compThresholdVal">-24</span> dB</label>
-            <input type="range" id="compThreshold" min="-60" max="0" step="1" value="-24">
-          </div>
-          <div class="knob">
-            <label for="compRatio">Ratio <span id="compRatioVal">1.0</span>:1</label>
-            <input type="range" id="compRatio" min="1" max="20" step="0.5" value="1">
-            <span class="freq">1 = off</span>
-          </div>
-          <div class="knob">
-            <label for="compAttack">Attack <span id="compAttackVal">12</span> ms</label>
-            <input type="range" id="compAttack" min="1" max="200" step="1" value="12">
-          </div>
-          <div class="knob">
-            <label for="compRelease">Release <span id="compReleaseVal">180</span> ms</label>
-            <input type="range" id="compRelease" min="20" max="1000" step="10" value="180">
-          </div>
-        </div>
-      </div>
+        <div class="channelRack">
+          <h2 id="channelRackTitle">—</h2>
 
-      <div class="panel">
-        <h2>Saturation</h2>
-        <div class="knobs">
-          <div class="knob">
-            <label for="satDrive">Drive <span id="satDriveVal">6</span> dB</label>
-            <input type="range" id="satDrive" min="0" max="24" step="0.5" value="6">
+          <div class="panel">
+            <h2>EQ — live, moves while it plays</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="lowDb">Low <span id="lowDbVal">0.0</span> dB</label>
+                <input type="range" id="lowDb" min="-18" max="18" step="0.5" value="0">
+                <span class="freq">@ 120 Hz shelf</span>
+              </div>
+              <div class="knob">
+                <label for="midDb">Mid <span id="midDbVal">0.0</span> dB</label>
+                <input type="range" id="midDb" min="-18" max="18" step="0.5" value="0">
+                <span class="freq">@ 800 Hz bell</span>
+              </div>
+              <div class="knob">
+                <label for="highDb">High <span id="highDbVal">0.0</span> dB</label>
+                <input type="range" id="highDb" min="-18" max="18" step="0.5" value="0">
+                <span class="freq">@ 8 kHz shelf</span>
+              </div>
+            </div>
           </div>
-          <div class="knob">
-            <label for="satMix">Mix <span id="satMixVal">0</span>%</label>
-            <input type="range" id="satMix" min="0" max="100" step="1" value="0">
-            <span class="freq">0 = off</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="panel">
-        <h2>Reverb</h2>
-        <div class="knobs">
-          <div class="knob">
-            <label for="revSize">Size <span id="revSizeVal">2.0</span> s</label>
-            <input type="range" id="revSize" min="0.2" max="6" step="0.1" value="2.0">
+          <div class="panel">
+            <h2>Compressor</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="compThreshold">Threshold <span id="compThresholdVal">-24</span> dB</label>
+                <input type="range" id="compThreshold" min="-60" max="0" step="1" value="-24">
+              </div>
+              <div class="knob">
+                <label for="compRatio">Ratio <span id="compRatioVal">1.0</span>:1</label>
+                <input type="range" id="compRatio" min="1" max="20" step="0.5" value="1">
+                <span class="freq">1 = off</span>
+              </div>
+              <div class="knob">
+                <label for="compAttack">Attack <span id="compAttackVal">12</span> ms</label>
+                <input type="range" id="compAttack" min="1" max="200" step="1" value="12">
+              </div>
+              <div class="knob">
+                <label for="compRelease">Release <span id="compReleaseVal">180</span> ms</label>
+                <input type="range" id="compRelease" min="20" max="1000" step="10" value="180">
+              </div>
+            </div>
           </div>
-          <div class="knob">
-            <label for="revMix">Mix <span id="revMixVal">0</span>%</label>
-            <input type="range" id="revMix" min="0" max="100" step="1" value="0">
-            <span class="freq">0 = off</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="panel">
-        <h2>Stereo Width</h2>
-        <div class="knobs">
-          <div class="knob">
-            <label for="widthKnob">Width <span id="widthKnobVal">1.0</span>x</label>
-            <input type="range" id="widthKnob" min="0" max="2" step="0.05" value="1.0">
-            <span class="freq">0 = mono, 1 = unchanged, 2 = wide</span>
+          <div class="panel">
+            <h2>Saturation</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="satDrive">Drive <span id="satDriveVal">6</span> dB</label>
+                <input type="range" id="satDrive" min="0" max="24" step="0.5" value="6">
+              </div>
+              <div class="knob">
+                <label for="satMix">Mix <span id="satMixVal">0</span>%</label>
+                <input type="range" id="satMix" min="0" max="100" step="1" value="0">
+                <span class="freq">0 = off</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Reverb</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="revSize">Size <span id="revSizeVal">2.0</span> s</label>
+                <input type="range" id="revSize" min="0.2" max="6" step="0.1" value="2.0">
+              </div>
+              <div class="knob">
+                <label for="revMix">Mix <span id="revMixVal">0</span>%</label>
+                <input type="range" id="revMix" min="0" max="100" step="1" value="0">
+                <span class="freq">0 = off</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Stereo Width</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="widthKnob">Width <span id="widthKnobVal">1.0</span>x</label>
+                <input type="range" id="widthKnob" min="0" max="2" step="0.05" value="1.0">
+                <span class="freq">0 = mono, 1 = unchanged, 2 = wide</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="exportbar">
-        <button id="exportBtn" class="btn primary">Export as new file</button>
+        <button id="exportBtn" class="btn primary">Export mix as new file</button>
         <span id="exportStatus" class="meta"></span>
       </div>
     </section>
