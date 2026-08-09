@@ -22,6 +22,108 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-09 Sound Engine mixer: Phase 1 (server side) complete
+- Context: the 2026-08-08 SDD session building the multi-stem mixer
+  (`docs/superpowers/plans/2026-08-08-sound-engine-mixer.md`, worktree
+  `.worktrees/sound-engine-mixer`, branch `sound-engine-mixer`) stopped
+  mid-flight — Task 2 (SESSIONS→PROJECTS rewrite) was fully implemented
+  and tested but never committed, and the progress ledger was never
+  updated for it. Task 3 had no brief yet. This session resumed and
+  finished Phase 1 (server-side) only, per owner's choice, stopping before
+  the client UI rewrite (Tasks 4-6) and effect-deepening (Tasks 7-9).
+- Decision/change:
+  1. Committed Task 2 as-is (commit `4114541`) after confirming its test
+     failures matched the predicted partial-red state (6 failed on 404s
+     from not-yet-built endpoints, 15 passed).
+  2. Backfilled the SDD progress ledger for Task 2.
+  3. Wrote `task-3-brief.md` from the plan's already-drafted Task 3
+     section and implemented it: `_apply_channel_chain`, `_get_channel`,
+     `_pan_gains`, and the 3 new routes (`POST .../channel/{lane_id}/process`,
+     `GET .../channel/{lane_id}/{dry|wet}`, `POST .../export`) in
+     `sound_engine/server.py`. Commit `86b9f4c`.
+  4. Review pass found one real bug: `channel_process()` mutated
+     `gain_db`/`pan`/`muted`/`solo` on the channel dict field-by-field
+     before validating every field, so a bad later field (e.g. invalid
+     `pan`) still left an earlier valid field silently committed even
+     though the request returned 400. Fixed by parsing all fields into
+     locals first and only writing to the channel once parsing AND the
+     effect chain both succeed. Regression test added. Fix commit
+     `33eea71`.
+  5. Two minor issues deferred (logged in
+     `.superpowers/sdd/2026-08-08-sound-engine-mixer/progress.md`, not
+     fixed): `project_export()` assumes one sample rate across all
+     channels (fine today, would break if multi-file upload is ever
+     added without resampling); `channel_audio()`'s GET re-renders a
+     fixed-name WAV with no locking (low risk, single local user).
+- Reasoning: matched the SDD pattern the prior session established
+  (brief → implement → test → review → fix → commit) rather than
+  inventing a new process, since the scaffolding and Task 1's precedent
+  were already in place.
+- Verify by: `.venv/bin/python -m pytest tests/test_sound_engine.py
+  tests/test_sound_engine_library.py -v` — 19 + 6 passed. Full
+  `pytest tests/` run — 835 passed, 1 failed
+  (`test_real_beats_are_not_mono_or_silent` on a real rendered beat file,
+  "1904 Kane East Rose Window Drums 90bpm.wav" — unrelated to this work,
+  a beat-generator stereo-width issue on a specific render, flagged
+  separately, not investigated here).
+- Status: confirmed
+- Outcome: server can now create a multi-channel project from a beat or
+  upload, process each channel independently (EQ/comp/sat/width/reverb,
+  today's parameter set only — no deepened params yet), and export a
+  mixed, gain/pan/mute/solo-aware file. The client UI (`static/app.js`,
+  `index.html`) still talks to the old single-file API and hasn't been
+  rewired — running the app won't show any visible change until Tasks
+  4-6 land. Next: continue into Phase 2 (client UI) or Phase 3 (deepen
+  effects) in a future session.
+- **Update (same session, 2026-08-09):** owner asked whether the loop
+  from the original prompt had been used — it hadn't. This project's
+  established pattern for the audio engine effort (see 2026-08-08 entry
+  below) is build → harsh-critic review → fix → a SECOND adversarial
+  harsh-critic re-review (fresh subagent) → confirm, and only the first
+  pass had run on Task 3. Dispatched the missing second pass against the
+  full diff (commits `4114541..33eea71`). It found 4 important + 4 minor
+  issues, none caught by the first pass or the existing tests:
+  - **NaN/Inf params poisoned a channel silently** — `float("nan")`
+    raises neither `TypeError` nor `ValueError`, so it sailed past the
+    existing validation, corrupted the channel's wet buffer, and export
+    "succeeded" with an all-zero WAV — no error anywhere. Fixed with a
+    shared `_finite_float()` helper used for every float param.
+  - **`pan` had no range check** — outside [-1, 1] (the design spec's own
+    documented contract) `_pan_gains()` goes negative and phase-inverts
+    the channel instead of erroring. Fixed: `_finite_float(pan, lo=-1,
+    hi=1)`.
+  - **`brickwall_limit()` ignored the real sample rate** — the one DSP
+    stage in `tools/audio_engine.py` not taking an `sr` param; always ran
+    at the hardcoded 44100 regardless of the uploaded file's actual rate
+    (~8.8% release-time error at 48kHz). Added `sr=None` (backward
+    compatible — the two existing internal callers in `master_chain()`
+    are untouched), `project_export()` now passes it through.
+  - **Project eviction was FIFO-by-creation with no "in use" concept** —
+    Task 3 is the first thing that gives a project a reason to stay open
+    across requests, and an actively-edited one could get silently
+    evicted by newer, untouched projects, discarding its edits with a
+    bare 404 on next export. Fixed: `_get_channel()`/`project_export()`
+    now bump the project to most-recently-used on every touch (LRU
+    eviction instead of FIFO).
+  - 4 minor issues deferred (logged in progress.md): no
+    version/sequencing guard on concurrent same-channel processing (not
+    reachable — no client wired to these routes yet); the dry/wet audio
+    GET rewrites a fixed-name file with no locking (pre-existing pattern,
+    low exposure); `bool()` on a muted/solo string field would treat the
+    literal string `"false"` as true; export's single-sample-rate
+    assumption across channels (safe today, would break with a future
+    mixed-rate feature).
+  - Fix commit `23d8b19`, with a dedicated regression test per bug. Full
+    project suite re-run: 839 passed, same 1 pre-existing unrelated
+    failure as before (not a regression).
+- Reasoning (for the update): the second pass is what caught these in the
+  2026-08-08 session too (bug 5's double-fire gap) — skipping it here
+  would have shipped the same class of near-miss.
+- Verify by: `.venv/bin/python -m pytest tests/test_sound_engine.py
+  tests/test_sound_engine_library.py tests/test_audio_engine.py -v` — 39
+  passed. Full `pytest tests/` — 839 passed, 1 unrelated pre-existing
+  failure.
+
 ### 2026-08-08 Sound Engine: 5 harsh-critic bugs fixed, re-reviewed, closed
 - Context: a prior session today (2026-08-08) built four new real-time
   effect panels (Compressor, Saturation, Stereo Width, Reverb) on top of
