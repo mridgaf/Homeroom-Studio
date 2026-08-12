@@ -102,9 +102,14 @@ def _project_response(project_id, project):
     return {
         "project_id": project_id,
         "name": project["name"],
+        "bpm": project.get("bpm"),
         "channels": [
             {"lane_id": lane_id, "label": ch["label"],
              "sample_rate": ch["sr"],
+             # exact length in the STEM's own samples: the browser resamples
+             # to the AudioContext rate, so it needs these to lay Beat
+             # Repeat's grid on the same cells this file will
+             "length_samples": len(ch["dry"][0]),
              "duration_s": round(len(ch["dry"][0]) / ch["sr"], 2)}
             for lane_id, ch in project["channels"].items()
         ],
@@ -149,7 +154,7 @@ async def project_from_beat(body: dict):
     if not channels:
         return JSONResponse({"error": "no readable stems in that beat"}, status_code=400)
     PROJECTS[project_id] = {"name": beat["display_name"], "channels": channels,
-                              "src_paths": []}
+                              "src_paths": [], "bpm": beat["bpm"]}
     _evict_old_projects()
     return JSONResponse(_project_response(project_id, PROJECTS[project_id]))
 
@@ -173,6 +178,8 @@ async def project_from_upload(file: UploadFile = File(...)):
         "name": safe_name,
         "channels": {"upload": _new_channel(safe_name, L, R, sr)},
         "src_paths": [src],
+        "bpm": None,  # a dropped-in file has no tempo — Beat Repeat's note
+                       # values are hidden for it, milliseconds still work
     }
     _evict_old_projects()
     return JSONResponse(_project_response(project_id, PROJECTS[project_id]))
@@ -191,6 +198,53 @@ def _finite_float(v, lo=None, hi=None):
     if hi is not None and v > hi:
         raise ValueError(f"{v!r} is above {hi}")
     return v
+
+
+def _br_cell_is_picked(cell_index, chance):
+    """Which grid cells stutter. A hash of the cell index, NOT a random
+    draw: app.js runs this exact formula (Math.imul + >>> 0), so the live
+    preview and the exported file stutter on the same beats. Change one
+    side and they silently diverge."""
+    h = (cell_index * 2654435761) & 0xFFFFFFFF
+    h ^= h >> 13
+    h = (h * 1274126177) & 0xFFFFFFFF
+    h ^= h >> 16
+    return (h & 0xFFFFFFFF) / 4294967296.0 < chance
+
+
+def _beat_repeat(L, R, sr, cell_s, repeats, chance, mix):
+    """Grab the head of a grid cell and tile it across the rest of that
+    cell — the classic stutter. Applied to the source material, before
+    everything else, on both sides of the app.
+
+    Cell length arrives in SECONDS, already worked out by the UI from
+    either a note value (needs the beat's BPM, which only the browser
+    knows) or a raw millisecond slider. Keeping the note/ms switch in the
+    UI means this function — and the export — can't disagree with the
+    live preview about what a 1/16 is.
+    """
+    # floor(x + 0.5), NOT Python's round(): round() is banker's rounding, so
+    # 0.125 s at 44100 (= 5512.5, and every odd multiple of the ms slider's
+    # 5 ms step lands exactly on .5) rounded DOWN here and UP in the
+    # browser's Math.round. One sample per cell of drift is enough to put
+    # live and export on different cell boundaries by the end of a beat.
+    cell = int(math.floor(cell_s * sr + 0.5))
+    if cell < 2:
+        raise ValueError("beat repeat cell is shorter than 2 samples")
+    slice_len = max(1, cell // repeats)
+    outL, outR = L.copy(), R.copy()
+    # a partial final cell is left alone: tiling into a cut-off slice puts a
+    # hard step at the loop seam, and every beat here has to loop clean
+    for start in range(0, len(L) - cell + 1, cell):
+        if not _br_cell_is_picked(start // cell, chance):
+            continue
+        end = start + cell
+        headL = L[start:start + slice_len]
+        headR = R[start:start + slice_len]
+        reps = -(-cell // slice_len)  # ceil
+        outL[start:end] = np.tile(headL, reps)[:cell]
+        outR[start:end] = np.tile(headR, reps)[:cell]
+    return L * (1 - mix) + outL * mix, R * (1 - mix) + outR * mix
 
 
 def _convolve_through(L, R, ir, mix, scale):
@@ -286,6 +340,15 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
     reverb_width = _finite_float(p.get("reverb_width", 1.0))
     reverb_freeze = bool(p.get("reverb_freeze", False))
     conv_mix = _finite_float(p.get("conv_mix", 0.0), lo=0.0, hi=1.0)
+    br_mix = _finite_float(p.get("br_mix", 0.0), lo=0.0, hi=1.0)
+    br_cell_s = _finite_float(p.get("br_cell_s", 0.25), lo=0.0, hi=10.0)
+    br_repeats = int(_finite_float(p.get("br_repeats", 4), lo=1, hi=32))
+    br_chance = _finite_float(p.get("br_chance", 1.0), lo=0.0, hi=1.0)
+
+    # first in the chain: this rearranges the source material, everything
+    # else shapes what comes out of it (same order as the live graph)
+    if br_mix > 0.0 and br_chance > 0.0:
+        L, R = _beat_repeat(L, R, sr, br_cell_s, br_repeats, br_chance, br_mix)
 
     L, R = ae.eq3(L, R, sr=sr, low_db=low_db, low_hz=low_hz,
                    mid_db=mid_db, mid_hz=mid_hz, mid_q=mid_q,

@@ -8,12 +8,16 @@
 // "upload" channel for a dropped-in file) — every channel gets its own
 // full copy of this chain, summed into one masterGain.
 let projectId = null;
+let projectBpm = null;  // Beat Repeat's note values need the beat's tempo;
+                        // a dropped-in file has none, so it gets ms only
 let audioCtx = null;
 let masterGain = null;
 let channels = {};       // lane_id -> channel object, see buildChannelGraph()
 let channelOrder = [];   // lane_ids, display order
 let selectedLane = null;
 let isPlaying = false;
+const syncFailedLanes = new Set();  // channels the server rejected — their
+                                     // export would not match the preview
 let projectLoadSeq = 0;  // guards against two concurrent openProject() calls
                           // (e.g. double-click a beat, or upload while a beat
                           // is still loading) interleaving their per-channel
@@ -132,6 +136,7 @@ async function openProject(data) {
   const myMasterGain = audioCtx.createGain();
   myMasterGain.connect(audioCtx.destination);
 
+  syncFailedLanes.clear();
   const newChannels = {};
   const newChannelOrder = [];
   for (const ch of data.channels) {
@@ -150,6 +155,10 @@ async function openProject(data) {
       audioBuffer = stereo;
     }
     newChannels[ch.lane_id] = buildChannelGraph(ch.lane_id, ch.label, audioBuffer, myMasterGain);
+    // the server's view of this stem — Beat Repeat's grid is laid out in
+    // these units so both sides pick the same cells
+    newChannels[ch.lane_id].stemRate = ch.sample_rate;
+    newChannels[ch.lane_id].stemLength = ch.length_samples;
     newChannelOrder.push(ch.lane_id);
   }
 
@@ -169,6 +178,7 @@ async function openProject(data) {
   // 2026-08-08).
   if (masterGain) masterGain.disconnect();
   projectId = newProjectId;
+  projectBpm = data.bpm || null;
   masterGain = myMasterGain;
   channels = newChannels;
   channelOrder = newChannelOrder;
@@ -176,6 +186,12 @@ async function openProject(data) {
   fileMeta.textContent = `${data.channels.length} channel(s)`;
   exportStatus.textContent = "";
   renderChannelList();
+  // each channel keeps its own grid, so its cell length comes from its own
+  // state — never from whatever the shared dropdown happens to show
+  for (const laneId of channelOrder) {
+    const br = channels[laneId].br;
+    br.cellS = brCellSeconds(br);
+  }
   selectChannel(channelOrder[0]);
   dropzone.classList.add("hidden");
   workspace.classList.remove("hidden");
@@ -299,6 +315,14 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   revSideWidth.connect(revSideNeg);
   revSideNeg.connect(revMerger, 0, 1);
 
+  // --- beat repeat: FIRST in the chain, because it rearranges the source
+  // material rather than shaping it. Two sources play in sync — the plain
+  // stem and a pre-computed stuttered copy of it — and the Mix knob
+  // crossfades between them, so the knob is live even though the stutter
+  // itself has to be rendered ahead of time.
+  const brDry = audioCtx.createGain(); brDry.gain.value = 1;
+  const brWet = audioCtx.createGain(); brWet.gain.value = 0;
+
   // --- convolve: same shape as the reverb send, but the impulse response
   // is whatever sound the owner drops in. ConvolverNode with no buffer
   // outputs silence, so convMix stays disabled in the UI until a file is
@@ -340,8 +364,19 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   bypassGain.connect(panner || fader);
   fader.connect(targetMasterGain);
 
+  // Bypass (A/B) must be the untouched stem, so only the plain source feeds
+  // bypassGain — play() connects it directly. Beat Repeat sits on the
+  // processed path only.
+  brDry.connect(lowShelf);
+  brWet.connect(lowShelf);
+
   return {
     laneId, label, audioBuffer, sourceNode: null,
+    brDry, brWet, brSource: null, brBuffer: null,
+    // grid + ms live per channel too: they used to be read straight off the
+    // shared controls, so touching Repeats on one channel silently rewrote
+    // its slice length to whatever the last channel's grid had been
+    br: { grid: "0.5", ms: 125, cellS: 0.5, repeats: 4, chance: 1, mix: 0 },
     lowShelf, midPeak, highShelf, compressor, makeupGain,
     satDry, satWet, waveshaper, satOut,
     splitter, merger, sideWidth,
@@ -476,6 +511,7 @@ function loadRackFromChannel(ch) {
   document.getElementById("convMix").value = Math.round(ch.convWet.gain.value * 100);
   document.getElementById("convMixVal").textContent = Math.round(ch.convWet.gain.value * 100);
   updateConvPanel(ch);
+  updateBrPanel(ch);
 }
 
 function updateConvPanel(ch) {
@@ -540,6 +576,80 @@ document.getElementById("revDry").addEventListener("input", e => {
                                   audioCtx.currentTime, RAMP_SECONDS);
   syncChannelToServer(selectedLane);
 });
+// --- Beat Repeat panel. The Grid dropdown is the only place that knows
+// about note values; everything downstream (and the server) works in
+// seconds, so live and export can't disagree about what a 1/16 is.
+const brGridEl = document.getElementById("brGrid");
+const brMsEl = document.getElementById("brMs");
+
+function brCellSeconds(br) {
+  if (br.grid === "ms" || !projectBpm) return br.ms / 1000;
+  return parseFloat(br.grid) * (60 / projectBpm);
+}
+
+function updateBrPanel(ch) {
+  const msMode = (ch ? ch.br.grid : brGridEl.value) === "ms" || !projectBpm;
+  document.getElementById("brMsKnob").style.display = msMode ? "" : "none";
+  document.getElementById("brGridInfo").textContent = projectBpm
+    ? `at this beat's ${projectBpm} bpm`
+    : "this file has no tempo — milliseconds only";
+  for (const opt of brGridEl.options) {
+    if (opt.value !== "ms") opt.disabled = !projectBpm;
+  }
+  if (ch) {
+    brGridEl.value = (!projectBpm) ? "ms" : ch.br.grid;
+    brMsEl.value = ch.br.ms;
+    document.getElementById("brMsVal").textContent = ch.br.ms;
+    document.getElementById("brRepeats").value = ch.br.repeats;
+    document.getElementById("brRepeatsVal").textContent = ch.br.repeats;
+    document.getElementById("brChance").value = Math.round(ch.br.chance * 100);
+    document.getElementById("brChanceVal").textContent = Math.round(ch.br.chance * 100);
+    document.getElementById("brMix").value = Math.round(ch.br.mix * 100);
+    document.getElementById("brMixVal").textContent = Math.round(ch.br.mix * 100);
+  }
+}
+
+function brShapeChanged() {
+  const ch = currentChannel(); if (!ch) return;
+  ch.br.grid = brGridEl.value;
+  ch.br.ms = parseFloat(brMsEl.value);
+  ch.br.cellS = brCellSeconds(ch.br);
+  ch.br.repeats = parseInt(document.getElementById("brRepeats").value, 10);
+  ch.br.chance = parseFloat(document.getElementById("brChance").value) / 100;
+  rebuildRepeat(ch);
+  syncChannelToServer(selectedLane);
+}
+
+brGridEl.addEventListener("change", () => {
+  brShapeChanged();                 // store the new grid on the channel FIRST
+  updateBrPanel(currentChannel());  // then re-render the panel from it
+});
+brMsEl.addEventListener("input", e => {
+  document.getElementById("brMsVal").textContent = e.target.value;
+});
+brMsEl.addEventListener("change", brShapeChanged);  // rebuild on release,
+                                                     // not on every tick
+document.getElementById("brRepeats").addEventListener("input", e => {
+  document.getElementById("brRepeatsVal").textContent = e.target.value;
+});
+document.getElementById("brRepeats").addEventListener("change", brShapeChanged);
+document.getElementById("brChance").addEventListener("input", e => {
+  document.getElementById("brChanceVal").textContent = e.target.value;
+});
+document.getElementById("brChance").addEventListener("change", brShapeChanged);
+
+document.getElementById("brMix").addEventListener("input", e => {
+  document.getElementById("brMixVal").textContent = e.target.value;
+  const ch = currentChannel(); if (!ch || !audioCtx) return;
+  ch.br.mix = parseFloat(e.target.value) / 100;
+  ch.brWet.gain.setTargetAtTime(ch.br.mix, audioCtx.currentTime, RAMP_SECONDS);
+  ch.brDry.gain.setTargetAtTime(1 - ch.br.mix, audioCtx.currentTime, RAMP_SECONDS);
+  if (ch.br.mix > 0 && !ch.brSource && isPlaying) rebuildRepeat(ch);
+  if (ch.br.mix <= 0) rebuildRepeat(ch);  // stops the wet source and frees
+                                           // its full-length buffer
+  syncChannelToServer(selectedLane);
+});
+
 document.getElementById("convMix").addEventListener("input", e => {
   document.getElementById("convMixVal").textContent = e.target.value;
   const ch = currentChannel(); if (!ch || !audioCtx) return;
@@ -783,12 +893,19 @@ function _sendChannelSync(laneId) {
     reverb_damping: (ch.revDamp.frequency.value - 200) / 17800,
     reverb_width: ch.revSideWidth.gain.value, reverb_freeze: !!ch.freeze,
     conv_mix: ch.convWet.gain.value,
+    br_mix: ch.br.mix, br_cell_s: ch.br.cellS,
+    br_repeats: ch.br.repeats, br_chance: ch.br.chance,
     gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
   };
+  // A rejected sync means the server is still holding this channel's
+  // PREVIOUS settings — an export would then quietly not match what's
+  // playing. Remember it and say so at export time rather than reporting
+  // "Saved:" on a file that isn't what was heard.
   fetch(`/api/project/${projectId}/channel/${laneId}/process`, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
-  });
+  }).then(r => { if (!r.ok) syncFailedLanes.add(laneId); else syncFailedLanes.delete(laneId); })
+    .catch(() => syncFailedLanes.add(laneId));
 }
 
 function syncChannelToServer(laneId, immediate) {
@@ -815,26 +932,154 @@ function syncChannelToServer(laneId, immediate) {
   }, 120);
 }
 
+// Which grid cells stutter. Byte-for-byte the same formula as
+// server.py's _br_cell_is_picked — a hash of the cell index, never a
+// random draw, or the live preview and the export stutter on different
+// beats. Math.imul gives C-style 32-bit wraparound; >>> 0 keeps it unsigned.
+function brCellIsPicked(cellIndex, chance) {
+  let h = Math.imul(cellIndex, 2654435761) >>> 0;
+  h = (h ^ (h >>> 13)) >>> 0;
+  h = Math.imul(h, 1274126177) >>> 0;
+  h = (h ^ (h >>> 16)) >>> 0;
+  return h / 4294967296 < chance;
+}
+
+// The stuttered copy of a stem: within each picked cell, the head of the
+// cell is tiled across the rest of it.
+//
+// The grid is laid out in the STEM's own samples (stemRate/stemLength, as
+// the server sees them) and only then mapped to this AudioContext's rate.
+// decodeAudioData resamples to the context rate, which on this machine can
+// be 48k against a 44.1k stem — computing the grid in context samples put
+// live and export on a different NUMBER of cells, and the odd cell landed
+// right at the loop seam (found in re-review).
+function buildRepeatBuffer(ch) {
+  const src = ch.audioBuffer;
+  const ctxRate = src.sampleRate;
+  const stemRate = ch.stemRate || ctxRate;
+  const ratio = ctxRate / stemRate;
+  // Math.round is floor(x+0.5); server.py uses that same rule rather than
+  // Python's banker's round(), so both land on the same cell size
+  const cellServer = Math.round(ch.br.cellS * stemRate);
+  const out = audioCtx.createBuffer(src.numberOfChannels, src.length, ctxRate);
+  for (let c = 0; c < src.numberOfChannels; c++) {
+    out.getChannelData(c).set(src.getChannelData(c));
+  }
+  if (cellServer < 2) return out;
+  const sliceServer = Math.max(1, Math.floor(cellServer / ch.br.repeats));
+  // a partial final cell is left alone on both sides — tiling into a
+  // cut-off slice puts a hard step at the loop seam
+  const cells = Math.floor((ch.stemLength || src.length) / cellServer);
+  for (let k = 0; k < cells; k++) {
+    if (!brCellIsPicked(k, ch.br.chance)) continue;
+    const start = Math.round(k * cellServer * ratio);
+    const end = Math.min(Math.round((k + 1) * cellServer * ratio), src.length);
+    const sliceLen = Math.max(1, Math.round(sliceServer * ratio));
+    for (let c = 0; c < src.numberOfChannels; c++) {
+      const inD = src.getChannelData(c);
+      const outD = out.getChannelData(c);
+      for (let i = start; i < end; i++) {
+        outD[i] = inD[start + ((i - start) % sliceLen)];
+      }
+    }
+  }
+  return out;
+}
+
+let playStartedAt = 0;  // common clock for every source, so a rebuilt
+                        // repeat source can rejoin exactly in phase
+
+function startRepeatSource(ch, when, offset) {
+  if (ch.brSource) {
+    try { ch.brSource.stop(); } catch (e) {}
+    ch.brSource.disconnect();
+    ch.brSource = null;
+  }
+  if (!ch.brBuffer) ch.brBuffer = buildRepeatBuffer(ch);
+  const src = audioCtx.createBufferSource();
+  src.buffer = ch.brBuffer;
+  src.loop = loopToggle.checked;
+  src.connect(ch.brWet);
+  src.start(when, offset);
+  ch.brSource = src;
+}
+
+// Rebuild after a grid/repeats/chance change. The stutter can't be a live
+// knob — it has to be rendered — so the new copy is dropped in at the
+// current playhead instead of restarting the beat.
+function stopRepeatSource(ch) {
+  if (!ch.brSource) return;
+  try { ch.brSource.stop(); } catch (e) {}
+  ch.brSource.disconnect();
+  ch.brSource = null;
+}
+
+// Rebuild after a grid/repeats/chance change, or after Loop is toggled. The
+// stutter can't be a live knob — it has to be rendered — so the new copy is
+// dropped in at the current playhead instead of restarting the beat.
+function rebuildRepeat(ch) {
+  if (ch.br.mix <= 0) {
+    // nothing is listening to the wet path: drop the source AND the buffer
+    // (a full second copy of the stem) instead of leaving a stale one that
+    // a later Mix move would silently reuse
+    stopRepeatSource(ch);
+    ch.brBuffer = null;
+    return;
+  }
+  ch.brBuffer = buildRepeatBuffer(ch);
+  if (!isPlaying || !ch.sourceNode) { stopRepeatSource(ch); return; }
+  const dur = ch.audioBuffer.duration;
+  // schedule slightly ahead and compute the offset for THAT moment:
+  // currentTime is the start of the quantum already being rendered, so
+  // starting "now" actually starts late and leaves the wet copy flamming
+  // a few ms behind the dry one, permanently
+  const startAt = audioCtx.currentTime + 0.03;
+  const elapsed = startAt - playStartedAt;
+  if (!loopToggle.checked && (elapsed < 0 || elapsed >= dur)) {
+    stopRepeatSource(ch);  // one-shot playback is already past the end
+    return;
+  }
+  const offset = loopToggle.checked ? ((elapsed % dur) + dur) % dur : elapsed;
+  startRepeatSource(ch, startAt, offset);
+}
+
 function play() {
   const bufferLen = channelOrder.length ? channels[channelOrder[0]].audioBuffer.length : 0;
   if (!bufferLen) return;
   stopPlayback();
+  // Render every armed stutter buffer FIRST. buildRepeatBuffer is a
+  // synchronous per-sample loop; doing it inside the scheduling loop below
+  // burned through the 50 ms head start and left later stems starting late
+  // — a 10-stem beat drifted audibly out of phase (found in re-review).
+  for (const laneId of channelOrder) {
+    const ch = channels[laneId];
+    if (ch.br.mix > 0 && !ch.brBuffer) ch.brBuffer = buildRepeatBuffer(ch);
+  }
   const startAt = audioCtx.currentTime + 0.05;  // small common offset, same clock for every source
   for (const laneId of channelOrder) {
     const ch = channels[laneId];
     const src = audioCtx.createBufferSource();
     src.buffer = ch.audioBuffer;
     src.loop = loopToggle.checked;
-    src.connect(ch.lowShelf);
+    src.connect(ch.brDry);
     src.connect(ch.bypassGain);
     src.start(startAt);
     ch.sourceNode = src;
+    // building a stuttered copy of every stem on every Play would be wasted
+    // work at Mix 0 — the wet source starts the moment the knob leaves zero
+    if (ch.br.mix > 0) startRepeatSource(ch, startAt, 0);
   }
+  playStartedAt = startAt;
   setBypass(bypassToggle.checked);
   recomputeAudibility();
   isPlaying = true;
   playStatus.textContent = "Playing…";
-  channels[channelOrder[0]].sourceNode.onended = () => {
+  // watch the LONGEST stem: hanging this on lane 0 meant a short stem
+  // ending flipped isPlaying false while other lanes were still sounding,
+  // and the next knob move then killed their stutter (found in re-review)
+  const longest = channelOrder.reduce((a, b) =>
+    channels[a].audioBuffer.length >= channels[b].audioBuffer.length ? a : b);
+  channels[longest].sourceNode.onended = () => {
     if (isPlaying) { isPlaying = false; playStatus.textContent = ""; }
   };
 }
@@ -848,6 +1093,17 @@ function setBypass(on) {
   }
 }
 bypassToggle.addEventListener("change", () => { if (audioCtx) setBypass(bypassToggle.checked); });
+loopToggle.addEventListener("change", () => {
+  // an AudioBufferSourceNode reads .loop when it starts, so the already-
+  // running wet sources have to be re-laid or they drift out of the dry
+  // source's looping (or keep looping under one that has ended)
+  if (!audioCtx || !isPlaying) return;
+  for (const laneId of channelOrder) {
+    const ch = channels[laneId];
+    if (ch.sourceNode) ch.sourceNode.loop = loopToggle.checked;
+    if (ch.br.mix > 0) rebuildRepeat(ch);
+  }
+});
 
 function stopPlayback() {
   for (const laneId of channelOrder) {
@@ -857,6 +1113,7 @@ function stopPlayback() {
       ch.sourceNode.disconnect();
       ch.sourceNode = null;
     }
+    stopRepeatSource(ch);
   }
   isPlaying = false;
   playStatus.textContent = "";
@@ -891,7 +1148,13 @@ exportBtn.addEventListener("click", async () => {
     await new Promise(r => setTimeout(r, 150));  // let the syncs land server-side
     const res = await fetch(`/api/project/${projectId}/export`, { method: "POST" });
     const data = await res.json();
-    exportStatus.textContent = data.path ? `Saved: ${data.path}` : `Export failed: ${data.error || ""}`;
+    if (data.path && syncFailedLanes.size) {
+      exportStatus.textContent =
+        `Saved, but ${syncFailedLanes.size} channel(s) didn't reach the ` +
+        `server — this file may not match what you heard: ${data.path}`;
+    } else {
+      exportStatus.textContent = data.path ? `Saved: ${data.path}` : `Export failed: ${data.error || ""}`;
+    }
   } finally {
     exportBtn.disabled = false;
   }

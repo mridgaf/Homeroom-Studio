@@ -565,3 +565,143 @@ def test_clearing_the_ir_resets_its_scale():
     _load_ir(project_id, data=_wav_bytes(0.2))
     client.delete(f"/api/project/{project_id}/channel/upload/ir")
     assert server.PROJECTS[project_id]["channels"]["upload"]["ir_scale"] == 1.0
+
+
+# --- Beat Repeat (2026-08-12): grab a slice, stutter it
+
+def test_beat_repeat_off_by_default_is_bit_identical():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"br_mix": 0.0, "br_cell_s": 0.125, "br_repeats": 4, "br_chance": 1.0})
+    assert np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+def test_beat_repeat_tiles_the_head_of_each_cell():
+    # tested on the function, not the endpoint: the EQ stage always runs and
+    # smears sample-exactness even at 0 dB
+    sr = 44100
+    L = np.random.RandomState(0).randn(sr).astype(np.float64)
+    outL, _ = server._beat_repeat(L, L.copy(), sr, cell_s=0.1, repeats=4,
+                                   chance=1.0, mix=1.0)
+    cell = int(round(0.1 * sr))
+    slice_len = cell // 4
+    head = outL[:slice_len]
+    for k in range(1, 4):
+        assert np.array_equal(head, outL[k * slice_len:(k + 1) * slice_len])
+    assert np.array_equal(head, L[:slice_len])  # the head itself is untouched
+
+
+def test_beat_repeat_reaches_the_export_path():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"br_mix": 1.0, "br_cell_s": 0.1, "br_repeats": 4, "br_chance": 1.0})
+    assert not np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+def test_beat_repeat_chance_zero_changes_nothing():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"br_mix": 1.0, "br_cell_s": 0.1, "br_repeats": 4, "br_chance": 0.0})
+    assert np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+def test_beat_repeat_chance_is_deterministic_not_random():
+    # live and export must pick the SAME cells — a seeded hash of the cell
+    # index, not a random draw
+    ids = [_upload().json()["project_id"] for _ in range(2)]
+    outs = []
+    for pid in ids:
+        client.post(f"/api/project/{pid}/channel/upload/process",
+                    json={"br_mix": 1.0, "br_cell_s": 0.05, "br_repeats": 3, "br_chance": 0.5})
+        outs.append(server.PROJECTS[pid]["channels"]["upload"]["wet"][0])
+    assert np.array_equal(outs[0], outs[1])
+
+
+def test_beat_repeat_cell_selection_matches_the_browser_hash():
+    # these are the values app.js's brCellIsPicked() produces for the same
+    # inputs, captured from the running browser. If either side's formula
+    # drifts, live and export stutter on different beats.
+    from_browser = [0, 2, 3, 8, 9, 10, 11, 14, 18, 19, 20, 22, 25, 26, 28,
+                    29, 30, 32, 33, 37]
+    picked = [i for i in range(200) if server._br_cell_is_picked(i, 0.5)]
+    assert picked[:20] == from_browser
+    assert len(picked) == 96
+
+
+def test_beat_repeat_cell_length_rounds_like_the_browser():
+    # 0.125s * 44100 = 5512.5 exactly — Python's round() gives 5512
+    # (banker's), the browser's Math.round gives 5513. Every odd multiple of
+    # the ms slider's 5ms step lands on .5, so this is the default case.
+    # A ramp makes every sample unique, so the cell boundary is visible:
+    # sample 5512 is inside cell 0 (tiled, so != itself) only when the cell
+    # is 5513 long; at 5512 it would be the untouched head of cell 1.
+    sr = 44100
+    L = np.arange(sr, dtype=np.float64) / sr
+    outL, _ = server._beat_repeat(L, L.copy(), sr, cell_s=0.125, repeats=2,
+                                   chance=1.0, mix=1.0)
+    assert outL[5513] == L[5513], "5513 must be the head of cell 1"
+    assert outL[5512] != L[5512], "5512 must still be inside cell 0's tiling"
+
+
+def test_beat_repeat_leaves_a_partial_final_cell_alone():
+    # tiling into a cut-off cell puts a hard step at the loop seam
+    sr = 44100
+    n = int(sr * 0.25) + 1000  # 0.1s cells -> a 1000-sample remainder
+    L = np.random.RandomState(1).randn(n)
+    outL, _ = server._beat_repeat(L, L.copy(), sr, cell_s=0.1, repeats=4,
+                                   chance=1.0, mix=1.0)
+    tail = int(sr * 0.2)  # start of the last, partial cell
+    assert np.array_equal(outL[tail:], L[tail:])
+
+
+def test_beat_repeat_repeats_knob_changes_the_result():
+    sr = 44100
+    L = np.random.RandomState(2).randn(sr)
+    two, _ = server._beat_repeat(L, L.copy(), sr, 0.1, 2, 1.0, 1.0)
+    eight, _ = server._beat_repeat(L, L.copy(), sr, 0.1, 8, 1.0, 1.0)
+    assert not np.array_equal(two, eight)
+
+
+def test_beat_repeat_mix_is_a_real_crossfade():
+    sr = 44100
+    L = np.random.RandomState(3).randn(sr)
+    dry = L.copy()
+    wet, _ = server._beat_repeat(L, L.copy(), sr, 0.1, 4, 1.0, 1.0)
+    half, _ = server._beat_repeat(L, L.copy(), sr, 0.1, 4, 1.0, 0.5)
+    assert np.allclose(half, dry * 0.5 + wet * 0.5)
+
+
+def test_beat_repeat_survives_the_export_endpoint():
+    # the wet buffer changing is not proof the WAV writer sees it
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"br_mix": 1.0, "br_cell_s": 0.1, "br_repeats": 4,
+                      "br_chance": 1.0})
+    r = client.post(f"/api/project/{project_id}/export")
+    assert r.status_code == 200
+    out = Path(r.json()["path"])
+    try:
+        assert out.exists()
+        from sound_engine import dsp
+        L, R, sr = dsp.load_audio(out)
+        assert np.abs(L).max() > 0.0  # not a silent "success"
+        cell = int(np.floor(0.1 * sr + 0.5))
+        slice_len = cell // 4
+        start = next(i for i in range(6) if server._br_cell_is_picked(i, 1.0)) * cell
+        assert np.allclose(L[start:start + slice_len],
+                           L[start + slice_len:start + 2 * slice_len], atol=2e-3)
+    finally:
+        out.unlink(missing_ok=True)
+
+
+def test_beat_repeat_rejects_a_nonsense_cell_length():
+    project_id = _upload().json()["project_id"]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                    json={"br_mix": 1.0, "br_cell_s": 0.0, "br_repeats": 4, "br_chance": 1.0})
+    assert r.status_code == 400
