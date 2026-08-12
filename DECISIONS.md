@@ -22,6 +22,39 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-11 Sound Engine Phase 3 verified live; Reverb Width slider capped at 1.0
+- Context: Phase 3 (Tasks 7-9) was already coded and committed (`6744144`)
+  but never verified in the browser. Owner's scope for this session:
+  browser verification only — the two-pass review loop was explicitly
+  waived, so this is NOT a "loop ran in full" claim.
+- Decision/change:
+  1. Verified every Phase 3 control moves the live Web Audio nodes on a
+     real 8-stem beat (1189), reading node values before/after: EQ
+     low/mid/high frequency + mid Q, compressor makeup (12 dB → gain
+     3.98), reverb wet/dry independently, damping (9100 → 3760 Hz),
+     width, freeze (IR tail 0 → 0.486 → 0). Settings survive a channel
+     switch. Export: 21.33 s stereo, peak 1.0, rms 0.216 — not silent.
+  2. Found a real bug: the Reverb Width slider ranged 0–2, but
+     pedalboard's `Reverb` rejects width > 1.0
+     (`tools/audio_engine.py:85` → `ValueError`). Any width above 1.0
+     made every `/process` sync return 400 with no UI feedback — the
+     live sound changed but the server kept stale settings, so an
+     export would not match what was heard.
+  3. Fix (owner's choice — cap the slider, not clamp server-side):
+     `sound_engine/static/index.html` revWidth `max="2"` → `max="1"`.
+- Reasoning: the 0–2 range never did anything real — values above 1.0
+  only ever produced a rejected request. Capping removes the silent
+  divergence at the source; a server-side clamp would have let the UI
+  keep showing a value the export didn't use.
+- Verify by: reload the app, set Reverb Width to max — it stops at 1.00
+  and the `/process` POST returns 200. `.venv/bin/python -m pytest
+  tests/test_sound_engine.py tests/test_audio_engine.py` = 37 passed.
+- Status: confirmed (the cap is verified in the browser; no automated
+  test covers slider bounds — HTML only)
+- Outcome: Phase 3 is functionally verified. Still outstanding: the
+  full-suite run, the two-pass harsh-critic loop on Phase 3, and the
+  owner listening to an export by ear.
+
 ### 2026-08-09 Beat 1187's silent bongo stem — not a bug, closes the flagged aside
 - Context: follow-up on the aside flagged in the entry below ("Sound Engine
   mixer: Phase 2") — `bongo - DY1090.wav` in beat 1187's stems folder is

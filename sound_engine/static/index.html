@@ -140,7 +140,9 @@
               </div>
               <div class="knob">
                 <label for="revWidth">Width <span id="revWidthVal">1.0</span>x</label>
-                <input type="range" id="revWidth" min="0" max="2" step="0.05" value="1.0">
+                <!-- max 1.0, not 2.0: pedalboard's Reverb rejects width > 1.0,
+                     which made every export sync 400 silently -->
+                <input type="range" id="revWidth" min="0" max="1" step="0.05" value="1.0">
               </div>
               <div class="knob">
                 <label for="revWet">Wet <span id="revWetVal">0</span>%</label>
