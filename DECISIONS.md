@@ -22,6 +22,44 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-12 Two new Sound Engine effects: Convolve and Beat Repeat
+- Context: owner picked these two off a list of "weird DAW effects to build
+  next", in this order. Both were built end to end (live preview + export),
+  each through the full quality loop — build → harsh-critic review → fix →
+  a SECOND adversarial re-review by a fresh subagent → fix again. Four
+  subagent passes total, all four fresh. Plan:
+  `docs/superpowers/plans/2026-08-12-sound-engine-convolve-beatrepeat.md`.
+- Decision/change:
+  1. **Convolve** (commit `5a21717`) — drop any audio file on a channel and
+     it's convolved through it. Reuses `groove.loop_convolve` (circular, so
+     the beat still loops clean). Owner's choice: drop-in file, not a
+     library picker. 12 bugs found and fixed across the two passes.
+  2. **Beat Repeat** (commit `fc4bd2e`) — grid (note values from the beat's
+     BPM, or free ms — owner asked for both with a switch), Repeats,
+     Chance, Mix. 14 bugs found and fixed.
+- Reasoning / the two lessons worth keeping:
+  - **Live and export can't share a NUMBER, only a RULE.** Raw convolution
+    levels differ ~800x between Chrome's ConvolverNode and numpy, so the
+    "send the server's scale factor to the browser" idea was wrong. Both
+    sides now apply the same rule — the wet signal peaks where the dry
+    peaked — each measured in its own engine.
+  - **This machine's AudioContext runs at 48 kHz while the stems are
+    44.1 kHz.** Beat Repeat's grid was being computed in context samples on
+    one side and stem samples on the other, which put live and export on a
+    different NUMBER of cells, with the odd cell landing exactly on the
+    loop seam. The grid is now laid out in the server's units on both
+    sides. Any future grid/time-based effect has the same trap.
+  - Both were found by the SECOND review pass, not the first. The second
+    pass is not a formality.
+- Verify by: `.venv/bin/python -m pytest tests/` — 870 passed, plus the one
+  pre-existing `test_real_beats_are_not_mono_or_silent` failure flagged
+  2026-08-08. Live: load a beat, drop a stem on the Convolve panel, raise
+  Mix; set Beat Repeat to 1/16 and Mix up; export and compare.
+- Status: confirmed (measured), open (by ear)
+- Outcome: measurements match — convolve export peaked 0.6 dB from live,
+  Beat Repeat cell counts identical (128 both sides at 1/16T on a 90 bpm
+  beat). **Owner has not heard either one yet** — that's the open half.
+
 ### 2026-08-11 Sound Engine Phase 3 verified live; Reverb Width slider capped at 1.0
 - Context: Phase 3 (Tasks 7-9) was already coded and committed (`6744144`)
   but never verified in the browser. Owner's scope for this session:
