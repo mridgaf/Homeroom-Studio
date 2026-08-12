@@ -225,3 +225,17 @@ main {
 
 .channelRack { flex: 1; min-width: 0; }
 .channelRack > h2 { margin: 0 0 12px; font-size: 18px; }
+
+/* Convolve panel drop target — same visual language as the big .dropzone,
+   sized to sit inside a .knob instead of the whole page */
+.convDrop {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 18px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.convDrop.drag { border-color: var(--accent); background: rgba(94, 179, 255, 0.06); }

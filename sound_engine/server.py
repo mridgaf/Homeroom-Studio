@@ -31,6 +31,8 @@ from fastapi.staticfiles import StaticFiles
 
 from . import dsp, library
 
+import groove  # noqa: E402  (tools/ is on sys.path once dsp is imported)
+
 PORT = 8767
 STATIC_DIR = Path(__file__).parent / "static"
 # ephemeral working files — not the owner's library, safe to clear anytime
@@ -74,6 +76,9 @@ BEATS_ROOT = library.resolve_beats_root()
 # higher than the old single-file SESSIONS; cap lower to compensate.
 PROJECTS: dict[str, dict] = {}
 MAX_PROJECTS = 3
+# an IR is held in RAM as float64 (8 bytes/sample/channel) for as long as
+# the project lives — cap what can be dropped in before it is read
+MAX_IR_BYTES = 50 * 1024 * 1024
 
 
 def _evict_old_projects():
@@ -89,7 +94,8 @@ def _evict_old_projects():
 
 def _new_channel(label, L, R, sr):
     return {"label": label, "sr": sr, "dry": (L, R), "wet": (L, R),
-            "gain_db": 0.0, "pan": 0.0, "muted": False, "solo": False}
+            "gain_db": 0.0, "pan": 0.0, "muted": False, "solo": False,
+            "ir": None, "ir_name": None, "ir_scale": 1.0, "ir_seq": 0}
 
 
 def _project_response(project_id, project):
@@ -187,7 +193,76 @@ def _finite_float(v, lo=None, hi=None):
     return v
 
 
-def _apply_channel_chain(L, R, sr, p):
+def _convolve_through(L, R, ir, mix, scale):
+    """Run the channel through an arbitrary sound (a snare, a door slam,
+    a vocal) instead of a room. loop_convolve is circular, so the tail
+    that runs past the end wraps onto the start — the house loop-safety
+    rule, same as the reverb path.
+
+    `scale` is the level correction measured ONCE against this channel's
+    raw dry audio when the IR was loaded (see _measure_conv_scale), not
+    recomputed here. Recomputing it post-EQ/comp/saturation made the
+    export drift away from the live preview every time an earlier knob
+    moved — the browser measures against the raw buffer and can't see
+    those stages (found in harsh-critic review).
+    """
+    n = len(L)
+    wetL = groove.loop_convolve(L, ir[0][:n]) * scale
+    wetR = groove.loop_convolve(R, ir[1][:n]) * scale
+    return L * (1 - mix) + wetL * mix, R * (1 - mix) + wetR * mix
+
+
+def _measure_conv_scale(L, R, ir):
+    """Level rule, shared with the browser: the 100%-wet signal peaks
+    where the dry peaked. Raw convolution levels differ by ~800x between
+    numpy and Chrome's ConvolverNode, so the two sides can't share a
+    scale FACTOR — they apply the same RULE, each measured in its own
+    engine, both against the raw (pre-chain) buffer and both circular."""
+    n = len(L)
+    wetL = groove.loop_convolve(L, ir[0][:n])
+    wetR = groove.loop_convolve(R, ir[1][:n])
+    dry_peak = max(np.abs(L).max(), np.abs(R).max())
+    wet_peak = max(np.abs(wetL).max(), np.abs(wetR).max())
+    return dry_peak / wet_peak if (wet_peak > 0 and dry_peak > 0) else 1.0
+
+
+def _read_ir_head(path, channel):
+    """Read only as much of the dropped file as this channel can use.
+
+    MAX_IR_BYTES caps the UPLOAD, not the decode: 50 MB of 128 kbps MP3 is
+    ~52 minutes, which `dsp.load_audio` would expand to gigabytes of float64
+    before the trim ever ran (found in re-review). Reading just the head
+    bounds it at the stem's own size.
+    """
+    import pedalboard.io as pbio
+    with pbio.AudioFile(str(path)) as f:
+        ir_sr = f.samplerate
+        stem_seconds = len(channel["dry"][0]) / channel["sr"]
+        wanted = min(f.frames, int(stem_seconds * ir_sr) + 1)
+        audio = f.read(wanted)
+    if audio.shape[0] == 1:
+        audio = np.vstack([audio[0], audio[0]])
+    elif audio.shape[0] > 2:
+        audio = audio[:2]
+    return audio[0].astype(np.float64), audio[1].astype(np.float64), ir_sr
+
+
+def _prepare_ir(irL, irR, ir_sr, channel):
+    """An IR is only usable against THIS channel: same sample rate, and no
+    longer than the stem (loop_convolve requires len(ir) <= len(sig)).
+    Both are done once, at load time — resampling was previously skipped
+    entirely, so a 48 kHz IR exported ~8.8% fast while the browser (which
+    resamples in decodeAudioData) played it correctly."""
+    sr = channel["sr"]
+    if ir_sr != sr:
+        import soxr
+        irL = soxr.resample(irL, ir_sr, sr)
+        irR = soxr.resample(irR, ir_sr, sr)
+    n = len(channel["dry"][0])
+    return np.asarray(irL[:n], dtype=np.float64), np.asarray(irR[:n], dtype=np.float64)
+
+
+def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
     ae = dsp.audio_engine
     low_db = _finite_float(p.get("low_db", 0.0))
     low_hz = _finite_float(p.get("low_hz", 120.0))
@@ -210,6 +285,7 @@ def _apply_channel_chain(L, R, sr, p):
     reverb_damping = _finite_float(p.get("reverb_damping", 0.5))
     reverb_width = _finite_float(p.get("reverb_width", 1.0))
     reverb_freeze = bool(p.get("reverb_freeze", False))
+    conv_mix = _finite_float(p.get("conv_mix", 0.0), lo=0.0, hi=1.0)
 
     L, R = ae.eq3(L, R, sr=sr, low_db=low_db, low_hz=low_hz,
                    mid_db=mid_db, mid_hz=mid_hz, mid_q=mid_q,
@@ -222,6 +298,8 @@ def _apply_channel_chain(L, R, sr, p):
         L, R = ae.saturate(L, R, sr=sr, drive_db=sat_drive_db, mix=sat_mix)
     if width != 1.0:
         L, R = ae.stereo_width(L, R, width=width)
+    if conv_mix > 0.0 and ir is not None:
+        L, R = _convolve_through(L, R, ir, conv_mix, conv_scale)
     if reverb_mix > 0.0 or reverb_freeze:
         room_size = min(1.0, reverb_size_s / 6.0)
         L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,
@@ -256,7 +334,9 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
         muted = bool(params.get("muted", channel["muted"]))
         solo = bool(params.get("solo", channel["solo"]))
         L, R = channel["dry"]
-        L, R = _apply_channel_chain(L.copy(), R.copy(), channel["sr"], params)
+        L, R = _apply_channel_chain(L.copy(), R.copy(), channel["sr"], params,
+                                     ir=channel["ir"],
+                                     conv_scale=channel["ir_scale"])
     except (TypeError, ValueError):
         return JSONResponse({"error": "invalid parameter values"}, status_code=400)
     # Only commit once every field parsed and the chain ran clean — a bad
@@ -268,6 +348,65 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
     channel["muted"] = muted
     channel["solo"] = solo
     channel["wet"] = (L, R)
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/project/{project_id}/channel/{lane_id}/ir")
+async def channel_load_ir(project_id: str, lane_id: str, file: UploadFile = File(...)):
+    """The sound this channel gets run through. Read once, kept in memory
+    as (L, R) at its own rate — the file itself is deleted immediately,
+    so a dropped IR never accumulates on disk the way uploads do."""
+    project, channel = _get_channel(project_id, lane_id)
+    if channel is None:
+        return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
+    safe_name = Path(file.filename or "ir").name  # can't escape UPLOADS
+    raw = await file.read()
+    if len(raw) > MAX_IR_BYTES:
+        return JSONResponse(
+            {"error": f"that file is too big to convolve with "
+                      f"({len(raw) // 1_000_000} MB, limit "
+                      f"{MAX_IR_BYTES // 1_000_000} MB)"},
+            status_code=400)
+    seq = channel["ir_seq"]  # a Clear during the read below wins over this
+                              # load — without it the resumed POST wrote the
+                              # IR back onto a channel the owner just cleared
+    tmp = UPLOADS / f"{project_id}_ir_{uuid.uuid4().hex[:8]}_{safe_name}"
+    try:
+        with open(tmp, "wb") as f:
+            f.write(raw)
+        irL, irR, ir_sr = _read_ir_head(tmp, channel)
+    except Exception as e:
+        return JSONResponse({"error": f"couldn't read that as audio ({e})"},
+                             status_code=400)
+    finally:
+        tmp.unlink(missing_ok=True)
+    ir = _prepare_ir(irL, irR, ir_sr, channel)  # rate-matched and trimmed
+    # Silence is checked on the PREPARED IR, not the raw file: a sample with
+    # a long silent lead-in dropped on a short stem trims down to all zeros,
+    # and the old raw-file check passed it — the channel then convolved to
+    # digital silence and the export "succeeded" (found in re-review).
+    if not np.any(ir[0]) and not np.any(ir[1]):
+        return JSONResponse(
+            {"error": "the first part of that file is silent, and that's all "
+                      "that fits this stem — nothing to convolve with"},
+            status_code=400)
+    if channel["ir_seq"] != seq:
+        return JSONResponse({"ok": True, "ir_name": None, "superseded": True})
+    channel["ir"] = ir
+    channel["ir_name"] = safe_name
+    channel["ir_scale"] = _measure_conv_scale(*channel["dry"], ir)
+    return JSONResponse({"ok": True, "ir_name": safe_name})
+
+
+@app.delete("/api/project/{project_id}/channel/{lane_id}/ir")
+async def channel_clear_ir(project_id: str, lane_id: str):
+    project, channel = _get_channel(project_id, lane_id)
+    if channel is None:
+        return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
+    channel["ir"] = None
+    channel["ir_name"] = None
+    channel["ir_scale"] = 1.0
+    channel["ir_seq"] += 1  # cancels any IR load still being read
     return JSONResponse({"ok": True})
 
 

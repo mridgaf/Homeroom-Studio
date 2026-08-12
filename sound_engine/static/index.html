@@ -159,6 +159,25 @@
           </div>
 
           <div class="panel">
+            <h2>Convolve — run this channel through any sound</h2>
+            <div class="knobs">
+              <div class="knob">
+                <div id="convDrop" class="convDrop">Drop a sound here (a snare, a door slam, a voice)</div>
+                <span class="freq" id="convName">nothing loaded — this channel is untouched</span>
+              </div>
+              <div class="knob">
+                <label for="convMix">Mix <span id="convMixVal">0</span>%</label>
+                <!-- disabled until a sound is loaded: an empty ConvolverNode
+                     outputs silence, so a raised Mix would mute the channel -->
+                <input type="range" id="convMix" min="0" max="100" step="1" value="0" disabled>
+              </div>
+              <div class="knob">
+                <button id="convClear" class="btn" disabled>Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
             <h2>Stereo Width</h2>
             <div class="knobs">
               <div class="knob">

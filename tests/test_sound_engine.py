@@ -374,3 +374,194 @@ def test_reverb_wet_and_dry_are_independent():
                 json={"reverb_mix": 0.4, "reverb_dry": 0.0})
     wet_only = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
     assert not np.array_equal(both[0], wet_only[0])
+
+
+# --- Convolve (2026-08-12): run a channel through any sound the owner drops in
+
+def _load_ir(project_id, lane="upload", data=None, name="ir.wav"):
+    return client.post(f"/api/project/{project_id}/channel/{lane}/ir",
+                        files={"file": (name, data or _wav_bytes(0.1), "audio/wav")})
+
+
+def test_conv_mix_without_an_ir_is_a_no_op():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                    json={"conv_mix": 1.0})
+    assert r.status_code == 200
+    assert np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+def test_loaded_ir_changes_the_sound():
+    project_id = _upload().json()["project_id"]
+    assert _load_ir(project_id).status_code == 200
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={"conv_mix": 0.0})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={"conv_mix": 1.0})
+    wet = server.PROJECTS[project_id]["channels"]["upload"]["wet"]
+    assert not np.array_equal(dry[0], wet[0])
+
+
+def test_ir_longer_than_the_stem_does_not_crash():
+    # loop_convolve requires len(ir) <= len(sig); a 2s door slam dropped on
+    # a 0.5s stem must be trimmed, not raise
+    project_id = _upload().json()["project_id"]
+    assert _load_ir(project_id, data=_wav_bytes(2.0)).status_code == 200
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                    json={"conv_mix": 1.0})
+    assert r.status_code == 200
+
+
+def test_convolve_does_not_explode_the_level():
+    # unnormalized convolution multiplies energy — a full-wet channel must
+    # stay near the dry peak instead of clipping to mud
+    project_id = _upload().json()["project_id"]
+    _load_ir(project_id, data=_wav_bytes(0.2))
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={"conv_mix": 0.0})
+    dry_peak = np.abs(server.PROJECTS[project_id]["channels"]["upload"]["wet"][0]).max()
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={"conv_mix": 1.0})
+    wet_peak = np.abs(server.PROJECTS[project_id]["channels"]["upload"]["wet"][0]).max()
+    assert wet_peak <= dry_peak * 1.2
+
+
+def test_unreadable_ir_upload_is_rejected():
+    project_id = _upload().json()["project_id"]
+    r = _load_ir(project_id, data=b"not audio at all", name="junk.wav")
+    assert r.status_code == 400
+
+
+def test_clearing_the_ir_restores_the_dry_sound():
+    project_id = _upload().json()["project_id"]
+    _load_ir(project_id)
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={"conv_mix": 0.0})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    assert client.delete(f"/api/project/{project_id}/channel/upload/ir").status_code == 200
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={"conv_mix": 1.0})
+    assert np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+# --- fixes from the 2026-08-12 harsh-critic pass on Convolve
+
+def _silent_wav_bytes(seconds=0.2, sr=44100):
+    buf = io.BytesIO()
+    with wave.open(buf, "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(sr)
+        w.writeframes(np.zeros(int(sr * seconds), dtype="<i2").tobytes())
+    return buf.getvalue()
+
+
+def test_ir_at_a_different_sample_rate_is_resampled_to_the_stem():
+    # the browser resamples in decodeAudioData; the server used to keep the
+    # raw samples, so a 48k IR exported ~8.8% fast — live and export differed
+    project_id = _upload().json()["project_id"]  # stem is 44100
+    assert _load_ir(project_id, data=_wav_bytes(0.1, sr=22050)).status_code == 200
+    ir = server.PROJECTS[project_id]["channels"]["upload"]["ir"]
+    # 0.1s at 22050 must become ~0.1s at 44100, not 2205 raw samples
+    assert abs(len(ir[0]) - 4410) < 50
+
+
+def test_ir_is_trimmed_to_the_stem_at_load_time():
+    # both a memory guard and a live/export parity guard — the browser trims
+    # to the same length, so an over-long IR can't sound different in each
+    project_id = _upload().json()["project_id"]  # 0.5s stem
+    _load_ir(project_id, data=_wav_bytes(2.0))
+    ir = server.PROJECTS[project_id]["channels"]["upload"]["ir"]
+    stem_len = len(server.PROJECTS[project_id]["channels"]["upload"]["dry"][0])
+    assert len(ir[0]) == stem_len
+
+
+def test_oversized_ir_is_rejected():
+    project_id = _upload().json()["project_id"]
+    huge = b"RIFF" + b"\0" * (server.MAX_IR_BYTES + 1)
+    r = _load_ir(project_id, data=huge, name="huge.wav")
+    assert r.status_code == 400
+    assert "too big" in r.json()["error"]
+
+
+def test_silent_ir_is_rejected():
+    project_id = _upload().json()["project_id"]
+    r = _load_ir(project_id, data=_silent_wav_bytes(), name="silence.wav")
+    assert r.status_code == 400
+
+
+def test_conv_level_does_not_drift_when_an_earlier_knob_moves():
+    # the scale used to be recomputed post-EQ on every call, while the
+    # browser measured once against the raw buffer — so any EQ move pulled
+    # live and export apart. Compare the wet/dry peak RATIO with EQ flat vs
+    # EQ boosted: a recompute-post-EQ implementation forces both to 1.0,
+    # this one lets the boost show through exactly as it does live.
+    def ratio(**eq):
+        project_id = _upload().json()["project_id"]
+        _load_ir(project_id, data=_wav_bytes(0.2))
+        client.post(f"/api/project/{project_id}/channel/upload/process",
+                    json=dict(conv_mix=0.0, **eq))
+        dry = np.abs(server.PROJECTS[project_id]["channels"]["upload"]["wet"][0]).max()
+        client.post(f"/api/project/{project_id}/channel/upload/process",
+                    json=dict(conv_mix=1.0, **eq))
+        wet = np.abs(server.PROJECTS[project_id]["channels"]["upload"]["wet"][0]).max()
+        return wet / dry
+
+    flat = ratio()
+    boosted = ratio(low_db=12.0, high_db=12.0)
+    assert abs(flat - boosted) > 0.02, (
+        "wet/dry ratio identical under a 12 dB boost — the scale is being "
+        "recomputed after the EQ again, which is what drifts from live")
+
+
+def test_ir_that_trims_down_to_silence_is_rejected():
+    # a sample with a long silent lead-in, dropped on a short stem: the
+    # usable head is all zeros, so the channel would convolve to digital
+    # silence and the export would "succeed"
+    sr = 44100
+    quiet = np.zeros(int(sr * 0.6), dtype="<i2")
+    click = (np.ones(1000) * 12000).astype("<i2")
+    buf = io.BytesIO()
+    with wave.open(buf, "wb") as w:
+        w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
+        w.writeframes(np.concatenate([quiet, click]).tobytes())
+    project_id = _upload().json()["project_id"]  # 0.5s stem
+    r = _load_ir(project_id, data=buf.getvalue(), name="late.wav")
+    assert r.status_code == 400
+    assert server.PROJECTS[project_id]["channels"]["upload"]["ir"] is None
+
+
+def test_clear_during_an_ir_load_wins(monkeypatch):
+    # the Clear used to run to completion while the POST was still reading,
+    # and then the resumed POST wrote the IR back onto the channel the owner
+    # had just cleared
+    project_id = _upload().json()["project_id"]
+    channel = server.PROJECTS[project_id]["channels"]["upload"]
+    real_read = server._read_ir_head
+
+    def clear_midway(path, ch):
+        out = real_read(path, ch)
+        client.delete(f"/api/project/{project_id}/channel/upload/ir")
+        return out
+
+    monkeypatch.setattr(server, "_read_ir_head", clear_midway)
+    r = client.post(f"/api/project/{project_id}/channel/upload/ir",
+                    files={"file": ("ir.wav", _wav_bytes(0.1), "audio/wav")})
+    assert r.status_code == 200
+    assert r.json().get("superseded") is True
+    assert channel["ir"] is None
+    assert channel["ir_name"] is None
+
+
+def test_only_the_usable_head_of_a_long_ir_is_decoded():
+    # MAX_IR_BYTES caps the upload, not the decode — a long file used to be
+    # expanded to float64 in full before being trimmed
+    project_id = _upload().json()["project_id"]  # 0.5s stem
+    _load_ir(project_id, data=_wav_bytes(20.0))
+    ir = server.PROJECTS[project_id]["channels"]["upload"]["ir"]
+    stem_len = len(server.PROJECTS[project_id]["channels"]["upload"]["dry"][0])
+    assert len(ir[0]) == stem_len
+
+
+def test_clearing_the_ir_resets_its_scale():
+    project_id = _upload().json()["project_id"]
+    _load_ir(project_id, data=_wav_bytes(0.2))
+    client.delete(f"/api/project/{project_id}/channel/upload/ir")
+    assert server.PROJECTS[project_id]["channels"]["upload"]["ir_scale"] == 1.0

@@ -299,6 +299,21 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   revSideWidth.connect(revSideNeg);
   revSideNeg.connect(revMerger, 0, 1);
 
+  // --- convolve: same shape as the reverb send, but the impulse response
+  // is whatever sound the owner drops in. ConvolverNode with no buffer
+  // outputs silence, so convMix stays disabled in the UI until a file is
+  // loaded — otherwise the live channel would go quiet while the server
+  // (which no-ops without an IR) still returned the dry signal.
+  const convDry = audioCtx.createGain(); convDry.gain.value = 1;
+  const convWet = audioCtx.createGain(); convWet.gain.value = 0;
+  const convNode = audioCtx.createConvolver();
+  // normalize OFF: the browser's own loudness normalize landed ~11 dB above
+  // the server's peak-match, so live and export disagreed. convScale carries
+  // a factor measured by the same RULE the server uses (see peakMatchScale).
+  convNode.normalize = false;
+  const convScale = audioCtx.createGain(); convScale.gain.value = 1;
+  const convOut = audioCtx.createGain(); convOut.gain.value = 1;
+
   // bypass A/B: wetGain/bypassGain crossfade between processed and dry
   // paths so "Bypass" is instant and glitch-free, not a graph rewire
   const wetGain = audioCtx.createGain();
@@ -309,8 +324,10 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   makeupGain.connect(satDry).connect(satOut);
   makeupGain.connect(satWet).connect(waveshaper).connect(satOut);
   satOut.connect(splitter);
-  merger.connect(revDry).connect(revOut);
-  merger.connect(revWet).connect(convolver).connect(revDamp)
+  merger.connect(convDry).connect(convOut);
+  merger.connect(convWet).connect(convNode).connect(convScale).connect(convOut);
+  convOut.connect(revDry).connect(revOut);
+  convOut.connect(revWet).connect(convolver).connect(revDamp)
         .connect(revSplitter);
   revMerger.connect(revOut);
   revOut.connect(wetGain);
@@ -328,6 +345,7 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
     lowShelf, midPeak, highShelf, compressor, makeupGain,
     satDry, satWet, waveshaper, satOut,
     splitter, merger, sideWidth,
+    convDry, convWet, convNode, convScale, convOut, irName: null,
     revDry, revWet, revDamp, revSideWidth, convolver, revOut,
     wetGain, bypassGain, fader, panner,
     muted: false, solo: false, faderDb: 0, pan: 0, freeze: false,
@@ -455,6 +473,17 @@ function loadRackFromChannel(ch) {
   document.getElementById("revFreeze").checked = !!ch.freeze;
   document.getElementById("widthKnob").value = ch.sideWidth.gain.value;
   document.getElementById("widthKnobVal").textContent = ch.sideWidth.gain.value.toFixed(2);
+  document.getElementById("convMix").value = Math.round(ch.convWet.gain.value * 100);
+  document.getElementById("convMixVal").textContent = Math.round(ch.convWet.gain.value * 100);
+  updateConvPanel(ch);
+}
+
+function updateConvPanel(ch) {
+  const has = !!ch.irName;
+  document.getElementById("convMix").disabled = !has;
+  document.getElementById("convClear").disabled = !has;
+  document.getElementById("convName").textContent =
+    has ? `through: ${ch.irName}` : "nothing loaded — this channel is untouched";
 }
 
 function currentChannel() { return channels[selectedLane]; }
@@ -511,6 +540,157 @@ document.getElementById("revDry").addEventListener("input", e => {
                                   audioCtx.currentTime, RAMP_SECONDS);
   syncChannelToServer(selectedLane);
 });
+document.getElementById("convMix").addEventListener("input", e => {
+  document.getElementById("convMixVal").textContent = e.target.value;
+  const ch = currentChannel(); if (!ch || !audioCtx) return;
+  const mix = parseFloat(e.target.value) / 100;
+  ch.convWet.gain.setTargetAtTime(mix, audioCtx.currentTime, RAMP_SECONDS);
+  ch.convDry.gain.setTargetAtTime(1 - mix, audioCtx.currentTime, RAMP_SECONDS);
+  syncChannelToServer(selectedLane);
+});
+
+// Drop a sound on the panel: decode it locally for the live ConvolverNode
+// AND post the same file to the server, so the export is convolved with
+// the same sound the owner just heard.
+const convDropEl = document.getElementById("convDrop");
+convDropEl.addEventListener("dragover", e => { e.preventDefault(); convDropEl.classList.add("drag"); });
+convDropEl.addEventListener("dragleave", () => convDropEl.classList.remove("drag"));
+convDropEl.addEventListener("drop", e => {
+  e.preventDefault();
+  convDropEl.classList.remove("drag");
+  const file = e.dataTransfer.files[0];
+  if (file) loadConvolveFile(file);
+});
+convDropEl.addEventListener("click", () => {
+  const picker = document.createElement("input");
+  picker.type = "file"; picker.accept = "audio/*";
+  picker.addEventListener("change", () => { if (picker.files[0]) loadConvolveFile(picker.files[0]); });
+  picker.click();
+});
+
+// Level rule, shared with the server: the 100%-wet signal peaks where the
+// dry peaked. Raw convolution levels differ by ~800x between Chrome and
+// numpy, so the two sides can't share a scale FACTOR — they apply the same
+// RULE, each measured in its own engine, both against the RAW (pre-effects)
+// buffer. One offline render per loaded IR.
+async function peakMatchScale(dryBuffer, irBuffer) {
+  // Render the dry buffer TWICE and measure only the second half: the
+  // server's loop_convolve is circular, so its tail wraps onto the start
+  // and can raise the peak. A single linear pass undershoots that, which
+  // would leave the live preview louder than the exported file. Same
+  // double-buffer trick audio_engine.loop_algo_reverb uses.
+  const n = dryBuffer.length;
+  const rate = dryBuffer.sampleRate;
+  const off = new OfflineAudioContext(2, n * 2, rate);
+  const twice = off.createBuffer(2, n * 2, rate);
+  for (let c = 0; c < 2; c++) {
+    const src = dryBuffer.getChannelData(Math.min(c, dryBuffer.numberOfChannels - 1));
+    twice.copyToChannel(src, c, 0);
+    twice.copyToChannel(src, c, n);
+  }
+  const node = off.createBufferSource(); node.buffer = twice;
+  const conv = off.createConvolver(); conv.normalize = false; conv.buffer = irBuffer;
+  node.connect(conv).connect(off.destination);
+  node.start();
+  const rendered = await off.startRendering();
+  let wetPeak = 0;
+  for (let c = 0; c < rendered.numberOfChannels; c++) {
+    const d = rendered.getChannelData(c);
+    for (let i = n; i < d.length; i++) { const v = Math.abs(d[i]); if (v > wetPeak) wetPeak = v; }
+  }
+  let dryPeak = 0;
+  for (let c = 0; c < dryBuffer.numberOfChannels; c++) {
+    const d = dryBuffer.getChannelData(c);
+    for (let i = 0; i < d.length; i++) { const v = Math.abs(d[i]); if (v > dryPeak) dryPeak = v; }
+  }
+  return (wetPeak > 0 && dryPeak > 0) ? dryPeak / wetPeak : 1;
+}
+
+// The server trims every IR to the stem's length (loop_convolve requires
+// it). Chrome would use the whole thing, so a 4s IR on a 2s stem would
+// sound different live than exported — trim here too.
+function trimIRToStem(ctx, irBuffer, stemLength) {
+  if (irBuffer.length <= stemLength) return irBuffer;
+  const out = ctx.createBuffer(irBuffer.numberOfChannels, stemLength, irBuffer.sampleRate);
+  for (let c = 0; c < irBuffer.numberOfChannels; c++) {
+    out.copyToChannel(irBuffer.getChannelData(c).subarray(0, stemLength), c);
+  }
+  return out;
+}
+
+let convLoadSeq = 0;  // last drop wins — two IRs dropped in a row could
+                      // otherwise land out of order, leaving the server on
+                      // one IR and the live graph on the other
+
+async function loadConvolveFile(file) {
+  if (!currentChannel() || !projectId) return;
+  // capture BOTH — the owner can switch channels, or open a whole different
+  // project, while this decodes; the IR belongs where it was dropped
+  const laneId = selectedLane;
+  const myProjectId = projectId;
+  const mySeq = ++convLoadSeq;
+  const stale = () => myProjectId !== projectId || mySeq !== convLoadSeq
+                       || !channels[laneId];
+  const say = msg => {
+    if (!stale() && selectedLane === laneId)
+      document.getElementById("convName").textContent = msg;
+  };
+
+  say(`loading ${file.name}...`);
+  const bytes = await file.arrayBuffer();
+  let buffer;
+  try {
+    buffer = await audioCtx.decodeAudioData(bytes.slice(0));
+  } catch (err) {
+    say("couldn't read that as audio");
+    return;
+  }
+  if (stale()) return;
+  const form = new FormData();
+  form.append("file", file);
+  let r;
+  try {
+    r = await fetch(`/api/project/${myProjectId}/channel/${encodeURIComponent(laneId)}/ir`,
+                    { method: "POST", body: form });
+  } catch (e) {
+    // without this the panel sat on "loading …" forever with no way back
+    say("couldn't reach the Sound Engine server — is it still running?");
+    return;
+  }
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({}));
+    say(err.error || "the server couldn't read that file");
+    return;
+  }
+  if (stale()) return;
+  const target = channels[laneId];
+  const ir = trimIRToStem(audioCtx, buffer, target.audioBuffer.length);
+  const scale = await peakMatchScale(target.audioBuffer, ir);
+  if (stale()) return;
+  target.convNode.buffer = ir;
+  // ramp, don't step: swapping an IR mid-playback with the Mix up stepped
+  // the wet gain in one sample and clicked (found in re-review)
+  target.convScale.gain.setTargetAtTime(scale, audioCtx.currentTime, RAMP_SECONDS);
+  target.irName = file.name;
+  if (selectedLane === laneId) updateConvPanel(target);
+}
+
+document.getElementById("convClear").addEventListener("click", async () => {
+  const ch = currentChannel(); if (!ch || !projectId) return;
+  const laneId = selectedLane;
+  convLoadSeq++;  // cancel any drop still in flight for this panel
+  await fetch(`/api/project/${projectId}/channel/${encodeURIComponent(laneId)}/ir`,
+              { method: "DELETE" });
+  ch.irName = null;
+  ch.convNode.buffer = null;
+  ch.convWet.gain.setTargetAtTime(0, audioCtx.currentTime, RAMP_SECONDS);
+  ch.convDry.gain.setTargetAtTime(1, audioCtx.currentTime, RAMP_SECONDS);
+  document.getElementById("convMix").value = 0;
+  document.getElementById("convMixVal").textContent = "0";
+  updateConvPanel(ch);
+  syncChannelToServer(laneId);
+});
+
 document.getElementById("revFreeze").addEventListener("change", e => {
   const ch = currentChannel(); if (!ch) return;
   ch.freeze = e.target.checked;
@@ -602,6 +782,7 @@ function _sendChannelSync(laneId) {
     reverb_dry: ch.revDry.gain.value,
     reverb_damping: (ch.revDamp.frequency.value - 200) / 17800,
     reverb_width: ch.revSideWidth.gain.value, reverb_freeze: !!ch.freeze,
+    conv_mix: ch.convWet.gain.value,
     gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
   };
   fetch(`/api/project/${projectId}/channel/${laneId}/process`, {
