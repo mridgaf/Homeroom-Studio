@@ -22,6 +22,28 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-12 New skill: dj-identity-audit
+- Context: read john-suhr-profile.md against the 18 existing skills.
+  `tools/identity_survival.py` (built 2026-08-08, after Fast Water came out
+  weaker than Half Light) already does exactly what the profile describes
+  him doing by hand — falsifying whether a persona's written traits survive
+  `pattern_gen.compose()` — but nothing pointed Claude at it.
+- Decision/change: added `.claude/skills/dj-identity-audit/SKILL.md`,
+  wrapping the existing script. No new code. Triggers on
+  crew_config.json edits, engine changes to compose()/crew.py, or "does X
+  still sound like X". Two other candidate skills from the same review
+  (one-click, sample-source) turned out already covered by existing skills
+  — not built. Two more (king-damned, market-reality-check) are for
+  projects with no folder in this repo — owner said skip for now.
+- Reasoning: reuse over rebuild — the tool was already correct and
+  read-only, it just wasn't discoverable.
+- Verify by: sanity-ran `--dj "Fast Water" -n 6` after writing the skill;
+  output matched the skill's documented INVARIANT/FIGURE/HOME format
+  exactly. Real test is whether a future session runs it unprompted next
+  time a persona is added/edited.
+- Status: open
+- Outcome: (pending — check next persona edit)
+
 ### 2026-08-12 Two new Sound Engine effects: Convolve and Beat Repeat
 - Context: owner picked these two off a list of "weird DAW effects to build
   next", in this order. Both were built end to end (live preview + export),
