@@ -184,3 +184,78 @@ Pick 3. If it helps, the two axes pull in different directions:
 - **Only genuinely new thing here:** EFFORT — and the most likely to sound broken.
 
 I'm not picking for you. Tell me the three and I'll spec them properly.
+
+---
+
+# ADDENDUM 2026-08-14 — hip-hop scope, owner's picks, web research
+
+## Scope narrowed by the owner
+This will be used **mainly for hip-hop vocals.** The design docs benchmarked
+against Nectar 4, which is a pop/general target. That reweights the list:
+DICTION and ARBITER go up (dense beats, fast delivery), RESPIRE and EFFORT go
+down (intimate-ballad and genre-neutral respectively).
+
+## Owner's picks (2026-08-14): SEAM, DICTION, THROW, ARBITER, STACK
+
+## Three candidates pulled from the owner's own recipe corpus
+Not from the design process — from `recipes/hiphop/**`. They have NOT been
+through the adversarial review the original eight went through.
+
+- **THROW** — auto delay throw on the last word of a line. Named in
+  `upfront-rap-vocal.md` step 6, the JID DiCaprio 2 recipe, and the Never
+  Story recipe. Currently drawn by hand as an automation spike every time.
+- **STACK** — one hook take becomes lead-center + doubles-hard-L/R + harmony,
+  bus-compressed "so they move as a crowd" (`doechii-anxiety-loop-build.md`
+  step 5, done by hand with 4+ recorded takes).
+- **CHARACTER** — the boxy "voice in your head" contrast voice, HP 300 /
+  LP 5k (`doechii-denial-is-a-river.md` step 7). Not picked.
+
+## Web research findings (owner explicitly requested; house default is
+synthesis-first)
+
+**THROW — gap confirmed, narrowly.** The technique is universal and
+universally manual: set up a 100%-wet delay bus, automate the send up on the
+throw word, "you may have to redo this until the timing sounds right."
+Phrase detection exists as a shipping capability — **Magic.RIDE** auto-detects
+phrases for level riding, and markets itself against plugins that "analyze
+peaks instead of musical phrases" — but it drives a fader, not an FX send.
+Nothing found that auto-triggers a throw. **Verdict: keep. Real gap, and
+the phrase-detection half is proven feasible by a shipping product.**
+
+**STACK — this is the CONSONANT LOCK trap again. Recommend killing it.**
+The market is saturated (iZotope Vocal Doubler is *free*, Waves Doubler,
+Soundtoys MicroShift), and the practitioner consensus is that doublers are
+**not** a substitute for real takes — "some professionals don't think doubler
+plugins will sound good as a substitute for doing another take." The stated
+pro method for rap specifically is: **record real doubles, then tighten them
+with VocAlign.** That is exactly the reasoning that killed CONSONANT LOCK —
+building a worse VocAlign, against an entrenched vendor, for a convenience
+delta. The owner's own Doechii recipe already prescribes the correct method
+(record the hook 4+ times). **Verdict: kill, and keep the recipe's advice.**
+
+**SEAM — the adversary's blocking question is now answered.** Round 2 demanded,
+in writing, why iZotope discontinued Dialogue Match before SEAM got a line of
+code. Answer: **product consolidation, not market rejection.** iZotope's own
+support notice frames it as retiring older products to focus resources, the
+support period ends 2026-09-24, and the **ambience-matching capability was
+absorbed into RX 12 Advanced** (Ambience Match). The problem was not judged
+unwanted — the standalone SKU was. That removes the blocking objection.
+**Verdict: proceed.**
+
+**A finding that contradicts our current chain — do not act on it blindly.**
+The industry-standard rap chain order puts the **de-esser AFTER the
+compressor**, on the grounds that compression pushes sibilance up and the
+de-esser should catch what the compressor created. `chain_demo.py` puts it
+**before**, citing the producer's call that sibilance shouldn't be pumped by
+downstream gain reduction. Both arguments are real; this is a genuine
+practitioner split, not a bug. Resolve it by measurement during the chain
+rebuild, not by deferring to either source.
+
+**Confirms the chain rebuild's premise:** "two gentle compressors beat one
+heavy one" is both the industry standard and the owner's own
+`upfront-rap-vocal.md` (serial compression, ~3 dB each). `chain_demo.py`
+currently has **one** compressor. The engineer's two-stage spec is correct.
+
+**Already solved for him, worth stating:** `upfront-rap-vocal.md` calls the
+missing de-esser "the one real hole" in stock Reason and gives a crude EQ
+workaround. vox has a real de-esser, built and null-tested.
