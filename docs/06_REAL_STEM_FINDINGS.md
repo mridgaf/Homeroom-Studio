@@ -105,3 +105,55 @@ reimplementation (most plausibly directly against `juce::dsp`, which is
 plausibly what pedalboard itself wraps for these effects, though that
 internal detail isn't independently confirmed here — verify before
 assuming bit-for-bit equivalence).
+
+---
+
+## 2026-08-14 — de-reverb FIXED and re-verified on this same file
+
+The frame-persistence bug above is fixed. `suppress_late_reverb` now gates
+every bin's subtraction by whether that bin's energy is actually **decaying**:
+
+    w = clip(measured_decay_slope / expected_reverb_slope, 0, 1)
+
+Sustained content has slope ~0, so w ~0 and nothing is subtracted from it.
+A genuine tail decays at (or faster than) the modeled reverb rate, so w -> 1
+and the full Habets estimate is subtracted. The slope is measured on a
+**smoothed log envelope** — the first attempt used a linear frame-to-frame
+ratio, which measured 0.25..13.5 *inside a real decaying tail* (bin
+magnitudes are stochastic; their arithmetic mean is meaningless). Log-domain
+averaging is the part that makes this work at all.
+
+### Measured on the same 20 s segment (2:56–3:16) of `delo mirror 18 13 26.wav`
+
+| Band (Hz) | OLD (broken) | NEW (fixed) |
+|---|---|---|
+| 80–300 | −1.09 dB | **−0.33 dB** |
+| 300–1000 | **−3.65 dB** | **−0.84 dB** |
+| 1000–3000 | −2.61 dB | −0.49 dB |
+| 3000–8000 | −2.11 dB | −0.34 dB |
+| 8000–16000 | −2.01 dB | −0.38 dB |
+| Overall RMS | −2.85 dB | −0.58 dB |
+
+The OLD column reproduces the original "muffled" complaint exactly — it sits
+inside the 2–7 dB, 300 Hz–8 kHz destructive cut documented above. The NEW
+column is 3–6× smaller in every band. Mean decay weight on this file is
+**0.464**, i.e. the gate is genuinely engaging, not passing everything
+through untouched (there is a test asserting exactly that,
+`test_decay_gate_separates_sustained_from_reverberant`).
+
+### The honest trade — read this before re-enabling it by default
+The old version scored a uniform ~18 dB tail-RMS drop on the synthetic bench
+**because it floored every bin indiscriminately**, including the ones
+carrying the vocal. The fixed version is selective, so tail suppression is
+now condition-dependent: across a seed × RT60 sweep it ranged **3.9 to 18 dB**
+(weakest at RT60 1.2 s, where 0.15 s of "tail" is still mid-decay). The
+SNR-vs-dry-reference proxy, which is the metric that actually tracks quality,
+improved consistently: **+1.0 to +2.9 dB in every one of the nine conditions.**
+
+Less tail suppression, far less collateral damage. That is the right trade
+and it should not be tuned back.
+
+**Still not done:** this is a measurement, not a listening test. Nobody has
+yet A/B'd the fixed version by ear on real material, and `chain_demo.py`
+still defaults `dereverb=False`. Do not flip that default on these numbers
+alone — that is precisely the mistake documented at the top of this file.

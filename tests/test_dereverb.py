@@ -74,22 +74,15 @@ def test_strength_zero_is_near_transparent():
     assert err < -20.0
 
 
-@pytest.mark.xfail(
-    reason="KNOWN BUG, see docs/06_REAL_STEM_FINDINGS.md: the frame-persistence "
-           "model can't tell a held/sustained dry tone from a decaying reverb "
-           "tail -- both look like 'energy that outlasts direct_frames' to it. "
-           "Confirmed on real vocal material (muffled complaint, 2026-08-13). "
-           "This is why dereverb defaults to OFF in chain_demo.py. If this test "
-           "starts passing, the algorithm was actually fixed -- remove the "
-           "xfail, don't just re-enable the default blindly; re-verify on a "
-           "real stem too, the synthetic bench alone missed this bug originally.",
-    strict=True,
-)
 def test_dry_sustained_tone_is_not_treated_as_reverb():
     """A pure sustained tone with ZERO reverb, run through the estimator's
     OWN blind RT60 estimate (the real-world default -- no oracle RT60), must
-    come out close to untouched. It does not: measured ~20 dB of suppression
-    on this exact signal during real-stem testing."""
+    come out close to untouched.
+
+    THE project's worst bug (2026-08-13, real vocal, "muffled"): measured
+    ~20 dB of suppression on this exact signal. Was xfail; fixed 2026-08-14
+    by the decay gate in suppress_late_reverb -- now 0.0 dB. Do NOT loosen
+    this threshold; if it regresses, the gate broke."""
     fs = FS
     t = np.arange(int(3 * fs)) / fs
     tone = 0.3 * np.sin(2 * np.pi * 220 * t)
@@ -97,3 +90,33 @@ def test_dry_sustained_tone_is_not_treated_as_reverb():
     before = 20 * np.log10(np.sqrt(np.mean(tone[fs:] ** 2)) + 1e-12)
     after = 20 * np.log10(np.sqrt(np.mean(y[fs:] ** 2)) + 1e-12)
     assert before - after < 3.0, f"suppressed a dry tone by {before - after:.1f} dB"
+
+
+def test_slowly_fading_dry_note_is_not_treated_as_reverb():
+    """The harder half of the same bug, and the one the original test did not
+    cover: a DRY note that fades naturally (6 dB/s) is decaying, so a naive
+    decay detector would call it a reverb tail. It must not -- real reverb at
+    the RT60s we care about decays 50-200 dB/s, two orders of magnitude
+    faster. This is what stops the fix from being 'never suppress anything
+    that changes level'."""
+    fs = FS
+    t = np.arange(int(3 * fs)) / fs
+    note = 0.3 * np.sin(2 * np.pi * 220 * t) * 10 ** (-6.0 * t / 20.0)
+    y, _info = dereverb.suppress_late_reverb(note, fs)
+    before = 20 * np.log10(np.sqrt(np.mean(note[fs:] ** 2)) + 1e-12)
+    after = 20 * np.log10(np.sqrt(np.mean(y[fs:] ** 2)) + 1e-12)
+    assert before - after < 3.0, f"suppressed a fading dry note by {before - after:.1f} dB"
+
+
+def test_decay_gate_separates_sustained_from_reverberant():
+    """Directly assert the mechanism, not just its effect: the reported mean
+    decay weight must be near zero on dry sustained content and clearly
+    engaged on genuinely reverberant content. Guards against a future 'fix'
+    that passes the two tests above by simply never subtracting anything."""
+    t = np.arange(int(3 * FS)) / FS
+    tone = 0.3 * np.sin(2 * np.pi * 220 * t)
+    _, dry_info = dereverb.suppress_late_reverb(tone, FS)
+    dirty, _ = make_testbench(fs=FS, seed=1, rt60=0.6, noise_db=-90, hum_db=-90)
+    _, wet_info = dereverb.suppress_late_reverb(dirty, FS)
+    assert dry_info["mean_decay_weight"] < 0.15, dry_info["mean_decay_weight"]
+    assert wet_info["mean_decay_weight"] > dry_info["mean_decay_weight"] * 2

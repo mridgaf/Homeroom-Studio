@@ -88,9 +88,28 @@ def estimate_rt60_bands(x, fs, n_fft=1024, hop=256, band_edges=None):
 
 
 def suppress_late_reverb(x, fs, rt60_bands=None, n_fft=1024, hop=256,
-                          direct_frames=2, floor_db=-20.0, strength=1.0):
+                          direct_frames=2, floor_db=-20.0, strength=1.0,
+                          env_alpha=0.8, slope_alpha=0.85):
     """
-    Subtract the estimated late-reverberant energy from each STFT bin.
+    Subtract the estimated late-reverberant energy from each STFT bin,
+    gated by whether the bin's energy is actually DECAYING.
+
+    The decay gate is the fix for the project's worst bug (2026-08-13): the
+    bare Habets estimator converges sigma_late to the signal's own energy
+    whenever that energy is steady, so a held vowel was subtracted from
+    itself (~20 dB of loss on real material). Frame-persistence cannot tell
+    "decaying tail" from "note being held" -- both outlast direct_frames.
+
+    So each bin gets a weight w = decay_slope / expected_reverb_slope,
+    clipped to 0..1: a sustained bin has slope ~0 -> w ~0 -> nothing is
+    subtracted; a bin decaying at (or faster than) the modeled reverb rate
+    gets w -> 1 -> the full estimate is subtracted.
+
+    The slope is measured on a SMOOTHED LOG envelope, not a linear
+    frame-to-frame ratio. Bin magnitudes are stochastic -- inside a real
+    measured tail the linear ratio ranged 0.25..13.5 frame to frame, whose
+    arithmetic mean is meaningless. In the log domain that noise averages
+    out correctly.
 
     Parameters
     ----------
@@ -104,6 +123,13 @@ def suppress_late_reverb(x, fs, rt60_bands=None, n_fft=1024, hop=256,
                spectral-subtraction practice).
     strength : 0..1+, scales the subtracted late-energy estimate. 1.0 = the
                model's own estimate; <1 is conservative, >1 is aggressive.
+    env_alpha, slope_alpha : smoothing of the log envelope and of its slope.
+               These are the decay gate's calibration knobs. Higher = steadier
+               slope estimate and more tail suppression, but past ~0.9 the
+               gate gets sluggish enough to start eating wanted signal
+               (measured: snr gain falls from +1.9 dB to +0.1 dB). The
+               defaults were picked as the joint optimum over a
+               seed x rt60 sweep, not from one signal.
 
     Returns (y, info) where info carries the rt60 estimate used, for logging
     and for the "why did it do that" transparency the architecture spec
@@ -121,9 +147,20 @@ def suppress_late_reverb(x, fs, rt60_bands=None, n_fft=1024, hop=256,
 
     mag2 = np.abs(Z) ** 2
     sigma_late = np.zeros((n_bins, n_frames))
+    decay_w = np.zeros((n_bins, n_frames))
     D = max(int(direct_frames), 1)
 
+    ldb = np.full(n_bins, -240.0)          # smoothed log envelope, per bin
+    slope = np.zeros(n_bins)               # its slope, dB per hop
+    slope_expected = np.minimum(10.0 * np.log10(a), -1e-6)   # negative
+
     for n in range(n_frames):
+        cur_db = 10.0 * np.log10(np.maximum(mag2[:, n], EPS))
+        prev_ldb = ldb
+        ldb = env_alpha * prev_ldb + (1.0 - env_alpha) * cur_db
+        slope = slope_alpha * slope + (1.0 - slope_alpha) * (ldb - prev_ldb)
+        decay_w[:, n] = np.clip(slope / slope_expected, 0.0, 1.0)
+
         src = n - D
         if src < 0:
             continue
@@ -131,7 +168,8 @@ def suppress_late_reverb(x, fs, rt60_bands=None, n_fft=1024, hop=256,
         sigma_late[:, n] = a * prev + (1.0 - a) * mag2[:, src]
 
     floor = 10 ** (floor_db / 20.0)
-    gain = np.sqrt(np.maximum(mag2 - strength * sigma_late, (floor ** 2) * mag2) / np.maximum(mag2, EPS))
+    subtract = strength * decay_w * sigma_late
+    gain = np.sqrt(np.maximum(mag2 - subtract, (floor ** 2) * mag2) / np.maximum(mag2, EPS))
     gain = np.clip(gain, floor, 1.0)
 
     Y = Z * gain
@@ -141,5 +179,6 @@ def suppress_late_reverb(x, fs, rt60_bands=None, n_fft=1024, hop=256,
         "mean_rt60": float(np.mean(rt60_bands)),
         "latency_frames": D,
         "latency_ms": 1000.0 * (D * hop) / fs,
+        "mean_decay_weight": float(np.mean(decay_w)),
     }
     return y, info
