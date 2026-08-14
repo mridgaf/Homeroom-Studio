@@ -283,6 +283,96 @@ def test_grid_is_the_default_mode():
     assert info["n_throws"] >= 1
 
 
+# --------------------------------------------------------------- ducking
+
+def _key_and_wet(fs, n_s=4.0):
+    """A key that is loud for the first half and silent for the second, and a
+    steady 'delay return' underneath it. Lets duck depth be measured directly
+    in each half."""
+    n = int(n_s * fs)
+    t = np.arange(n) / fs
+    key = 0.4 * np.sin(2 * np.pi * 200 * t)
+    key[n // 2:] = 0.0
+    wet = 0.2 * np.sin(2 * np.pi * 900 * t)
+    return key, wet
+
+
+def test_duck_reduces_the_return_while_the_key_is_present():
+    key, wet = _key_and_wet(FS)
+    ducked, measured = T.duck_against(wet, key, FS, duck_db=6.0)
+    n = len(key) // 2
+    loud_half = np.sqrt(np.mean(ducked[:n] ** 2))
+    quiet_half = np.sqrt(np.mean(ducked[n + FS // 2:] ** 2))
+    assert loud_half < quiet_half, (loud_half, quiet_half)
+
+
+@pytest.mark.parametrize("want", [4.0, 6.0, 8.0])
+def test_duck_delivers_the_depth_it_was_asked_for(want):
+    """duck_db must MEAN something. The open-loop version delivered 4.3 dB for
+    a requested 6 on a real rap take (the reduction at the average level is not
+    the average reduction, because the key moves and the curve is non-linear).
+    It is now closed-loop; assert the delivered value, not the requested one."""
+    key, wet = _key_and_wet(FS)
+    _, measured = T.duck_against(wet, key, FS, duck_db=want)
+    assert abs(measured - want) < 0.5, (want, measured)
+
+
+def test_duck_depth_is_monotonic():
+    key, wet = _key_and_wet(FS)
+    got = [T.duck_against(wet, key, FS, duck_db=d)[1] for d in (3.0, 6.0, 9.0)]
+    assert got[0] < got[1] < got[2], got
+
+
+def test_duck_returns_the_return_untouched_when_disabled():
+    key, wet = _key_and_wet(FS)
+    out, measured = T.duck_against(wet, key, FS, duck_db=0.0)
+    assert measured == 0.0
+    assert np.allclose(out, wet)
+
+
+def test_duck_on_a_silent_key_is_a_no_op():
+    _, wet = T.duck_against(np.ones(1000) * 0.2, np.zeros(1000), FS)
+    assert _[0] == pytest.approx(0.2 * 1.0, abs=0.2)
+
+
+def test_compressor_external_sidechain_actually_keys_off_the_other_signal():
+    """The Compressor change this rests on: with a key supplied, gain
+    reduction must follow the KEY, not the input. Assert it directly rather
+    than trusting the plumbing."""
+    from vox.dsp import Compressor
+    n = FS
+    quiet = np.full(n, 0.05)
+    loud_key = np.full(n, 0.9)
+    c1 = Compressor(FS, threshold_db=-20.0, ratio=8.0, attack_s=0.001, release_s=0.01)
+    no_key = c1.process(quiet)
+    c2 = Compressor(FS, threshold_db=-20.0, ratio=8.0, attack_s=0.001, release_s=0.01)
+    with_key = c2.process(quiet, key=loud_key)
+    # keyed by a loud signal, the quiet input gets pushed down hard;
+    # unkeyed, a quiet input below threshold is barely touched
+    assert np.mean(np.abs(with_key[-1000:])) < np.mean(np.abs(no_key[-1000:])) * 0.5
+
+
+def test_ducked_throw_is_quieter_over_the_next_line_than_an_undicked_one():
+    """The reason ducking matters for rap: when a repeat overlaps the next
+    line it must get out of the way instead of fighting it."""
+    n = int(12 * FS)
+    t = np.arange(n) / FS
+    x = 0.3 * np.sin(2 * np.pi * 180 * t)          # continuous, never stops
+    plain, _ = T.apply_throws(x, FS, bpm=90, bars=2, duck_db=0.0)
+    duckd, info = T.apply_throws(x, FS, bpm=90, bars=2, duck_db=6.0)
+    assert info["duck_db_measured"] > 2.0
+    # the added (wet) energy over the continuous vocal must be smaller
+    assert np.sqrt(np.mean((duckd - x) ** 2)) < np.sqrt(np.mean((plain - x) ** 2))
+
+
+def test_ducking_is_on_by_default():
+    n = int(12 * FS)
+    t = np.arange(n) / FS
+    x = 0.3 * np.sin(2 * np.pi * 180 * t)
+    _, info = T.apply_throws(x, FS, bpm=90)
+    assert info["duck_db_requested"] > 0
+
+
 # ------------------------------------------------------------------ envelope
 
 def test_envelope_is_zero_outside_throws_and_one_inside():

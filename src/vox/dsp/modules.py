@@ -214,8 +214,14 @@ class Compressor(Module):
             gr = (1.0 / ratio - 1.0) * (t * t * half)
         return gr
 
-    def process(self, x: np.ndarray) -> np.ndarray:
-        mono = x.mean(axis=1) if x.ndim > 1 else x
+    def process(self, x: np.ndarray, key: np.ndarray = None) -> np.ndarray:
+        """`key` is an optional EXTERNAL SIDECHAIN: the detector listens to it
+        instead of to x (same length as x). This is what makes ducking
+        possible -- compress the delay return while the dry vocal is present --
+        without writing a second compressor. ARBITER will key off the vocal
+        the same way."""
+        src = key if key is not None else x
+        mono = src.mean(axis=1) if src.ndim > 1 else src
         env_db = self.det.process(mono)
         gr_db = np.array([self._gain_curve_db(v) for v in env_db])
         gain = db2lin(gr_db + self._p["makeup_db"])

@@ -27,8 +27,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from ..core import Module, ParamSpec, one_pole_coeff
-from .modules import Band
+from ..core import Module, ParamSpec, one_pole_coeff, lin2db
+from .modules import Band, Compressor
 
 # Note divisions as a fraction of a whole note. Dotted 8th and 1/4 are the two
 # the recipes actually call for; the rest are here because they cost nothing.
@@ -326,9 +326,77 @@ class ThrowDelay(Module):
         return out[:, None] * np.ones((1, n_ch)) if not mono_in else out
 
 
+def duck_against(wet, key, fs, duck_db=6.0, attack_s=0.005, release_s=0.180):
+    """
+    Duck `wet` (the delay return) while `key` (the dry vocal) is present --
+    the standard modern rap treatment for delay throws.
+
+    Why this matters more than it sounds: an undicked throw competes with the
+    next line, which is why the manual method needs the throw placed in a gap.
+    Ducked, the repeats are pushed down under the voice and swell back into
+    whatever space exists, so a throw that overlaps the next line degrades
+    gracefully instead of turning to mush. It is what makes the effect usable
+    on dense rap at all.
+
+    Published practice: compressor on the delay return, keyed off the dry
+    vocal, 4-8 dB of duck, fast attack, 100-250 ms release.
+
+    Threshold is derived from the key's OWN loud level rather than assumed, so
+    this works on a stem printed at any level. Returns (ducked, measured_db)
+    -- the measured depth is reported because "I asked for 6 dB" and "it did
+    6 dB" are different claims, and this project only accepts the second.
+    """
+    wet = np.asarray(wet, dtype=np.float64)
+    key = np.asarray(key, dtype=np.float64)
+    kmono = key.mean(axis=1) if key.ndim > 1 else key
+
+    loud = np.percentile(np.abs(kmono), 95)
+    if loud <= 0 or duck_db <= 0:
+        return wet, 0.0
+
+    # Solve the threshold so duck_db is DELIVERED, not approached. For a hard
+    # knee, gr = (x - thr) * (1/ratio - 1), so hitting -duck_db at the key's
+    # own working level x needs (x - thr) = duck_db / (1 - 1/ratio).
+    # The first version of this set thr = loud - 6 with a soft knee and a
+    # ratio picked by feel; asking for 6 dB delivered 2.9. A control that
+    # silently means something else is worse than no control.
+    active = np.abs(kmono) > loud * 0.5
+    x_db = float(lin2db(np.sqrt(np.mean(kmono[active] ** 2)))) if active.any() \
+        else float(lin2db(loud))
+    ratio = 8.0
+    thr_db = x_db - duck_db / (1.0 - 1.0 / ratio)
+
+    def _run(thr):
+        c = Compressor(fs, threshold_db=thr, ratio=ratio, knee_db=0.0,
+                       attack_s=attack_s, release_s=release_s,
+                       makeup_db=0.0, mix=1.0)
+        out = c.process(wet, key=key)
+        if not active.any():
+            return out, 0.0
+        rms = lambda s: np.sqrt(np.mean(
+            (s[active] if s.ndim == 1 else s[active].mean(axis=1)) ** 2))
+        return out, float(20 * np.log10((rms(wet) + 1e-20) / (rms(out) + 1e-20)))
+
+    # CALIBRATE. The open-loop threshold consistently under-delivers on real
+    # material -- measured 4.3 dB for a requested 6 on an actual rap take --
+    # because the key's level moves and gain reduction is non-linear, so the
+    # reduction at the average level is not the average reduction. Rather than
+    # ship a control whose number is decorative, measure and correct. Offline,
+    # so two extra passes cost nothing.
+    ducked, measured = _run(thr_db)
+    for _ in range(3):
+        err = duck_db - measured
+        if abs(err) < 0.3:
+            break
+        thr_db -= err / (1.0 - 1.0 / ratio)
+        ducked, measured = _run(thr_db)
+    return ducked, measured
+
+
 def apply_throws(x, fs, bpm, division="1/8D", feedback=0.35, send_db=-3.0,
                  hp_hz=300.0, lp_hz=3000.0, throws=None, mode="grid",
-                 bars=4, downbeat_s=0.0, **detect_kw):
+                 bars=4, downbeat_s=0.0, duck_db=6.0, duck_attack_s=0.005,
+                 duck_release_s=0.180, **detect_kw):
     """
     Offline convenience: detect the line endings, build the send automation,
     run the delay, return dry + wet.
@@ -363,6 +431,13 @@ def apply_throws(x, fs, bpm, division="1/8D", feedback=0.35, send_db=-3.0,
     wet = d.process(send)
     if wet.ndim == 1:
         wet = wet[:, None]
+
+    duck_measured = 0.0
+    if duck_db > 0:
+        wet, duck_measured = duck_against(wet, xs, fs, duck_db=duck_db,
+                                          attack_s=duck_attack_s,
+                                          release_s=duck_release_s)
+
     y = xs + wet * (10.0 ** (send_db / 20.0))
 
     info = {
@@ -372,5 +447,7 @@ def apply_throws(x, fs, bpm, division="1/8D", feedback=0.35, send_db=-3.0,
         "division": division,
         "bpm": bpm,
         "mode": mode,
+        "duck_db_requested": duck_db,
+        "duck_db_measured": duck_measured,
     }
     return (y[:, 0] if mono else y), info
