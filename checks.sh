@@ -9,6 +9,6 @@ set -euo pipefail
 cd "$(dirname "$0")"
 export REASON_VOICE_CONFIG="$PWD/experiments/crew_config.candidate.json"
 # portable 300 s cap (macOS ships no `timeout`)
-perl -e 'alarm 300; exec @ARGV' -- \
+perl -e 'alarm 300; exec @ARGV or exit 1' -- \
   ./.venv/bin/python -m pytest \
   tests/test_pattern_gen.py tests/test_crew.py tests/test_variety.py -q
