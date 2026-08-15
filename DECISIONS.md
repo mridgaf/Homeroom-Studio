@@ -22,6 +22,50 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-14 vox: work order set, first commit, de-reverb fixed
+- Context: picked up `vox/` (the AAA vocal processor) from its HANDOFF.md.
+  Three things were true and unrecorded: the repo had **zero commits** (all
+  work untracked), `docs/01_MASTER_SPEC.md` never existed so the owner had
+  never been given his 3 effects to pick from, and `torch` was missing from
+  the shared `.venv` so 1 of 45 tests couldn't run. Owner delegated the
+  ordering of HANDOFF.md's six outstanding items to me.
+- Decision/change: ordered them save-work-first, owner's-decision-second,
+  big-rebuild-after (plan file
+  `~/.claude/plans/desktop-homeroom-studio-vox-start-parsed-sky.md`). Then:
+  (1) first git commit; (2) installed torch/torchaudio/DeepFilterNet +
+  soundfile, baseline now matches HANDOFF's stated 43 passed / 2 xfailed;
+  (3) wrote `01_MASTER_SPEC.md`; (4) fixed de-reverb.
+- Reasoning on the spec: the adversarial reviewer was reviewing **a product
+  someone would sell** — prior art, $59 competitors, blind tests with ten
+  mixers. None of that applies to a personal tool. So the doc gives the
+  reviewer's verdicts AND a separate build-cost/portability read, and does
+  not pick for him.
+- Reasoning on de-reverb: root cause was that `sigma_late` converges to the
+  signal's own energy when energy is steady, so a held vowel was subtracted
+  from itself. Fixed by gating each bin on measured decay slope vs the
+  modeled reverb slope. Non-obvious detail worth not re-deriving: the slope
+  MUST be measured on a smoothed **log** envelope — a linear frame-to-frame
+  ratio measured 0.25..13.5 inside a genuine decaying tail. My first attempt
+  also reset the estimator at detected onsets; that fired spuriously on
+  stochastic bins and was the thing capping suppression. Removed it — the
+  decay gate alone is sufficient.
+- Known trade, do not "fix" it back: tail suppression on the synthetic bench
+  dropped from a uniform ~18 dB to a condition-dependent 3.9–18 dB, because
+  the old number came from flooring every bin indiscriminately. The SNR-vs-dry
+  proxy improved in all 9 sweep conditions (+1.0 to +2.9 dB).
+- Verify by: `cd vox && PYTHONPATH=src ../.venv/bin/python -m pytest tests/ -q`
+  → 46 passed, 1 xfailed. The previously-xfailed
+  `test_dry_sustained_tone_is_not_treated_as_reverb` passes at its original
+  threshold (0.0 dB suppression, was ~20). Real stem 300–1000 Hz: −3.65 dB
+  (old) → −0.84 dB (new).
+- Status: open — **measured, not heard.** Audition staged at
+  `~/Desktop/vox dereverb audition 2026-08-14`. `chain_demo.py` still has
+  `dereverb=False` and must stay off until the owner says the fixed version
+  sounds right. Flipping that default on measurements alone is the exact
+  mistake logged in `06_REAL_STEM_FINDINGS.md`. Also NOT done: a second
+  adversarial review pass by a fresh subagent.
+- Outcome: (awaiting owner's listen, and his pick of 3 effects)
+
 ### 2026-08-12 New skill: dj-identity-audit
 - Context: read john-suhr-profile.md against the 18 existing skills.
   `tools/identity_survival.py` (built 2026-08-08, after Fast Water came out
