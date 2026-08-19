@@ -239,3 +239,44 @@ def test_saturation_reports_its_true_latency():
     imp[100] = 0.5
     y = m.process(imp[:, None])[:, 0]
     assert abs(int(np.argmax(np.abs(y))) - 100 - m.latency_samples()) <= 1
+
+
+# ------------------------------------------------------------- gate hysteresis
+def _gate_gain_db(level_db, fs=FS, **kw):
+    """Steady-state gain the gate applies to noise at `level_db`."""
+    g = dsp.Gate(fs, **kw)
+    x = np.random.RandomState(0).randn(fs) * (10 ** (level_db / 20)) * np.sqrt(2)
+    y = g.process(x[:, None])[:, 0]
+    tail = slice(fs // 2, None)  # past the cold-start ramp
+    rms = lambda v: np.sqrt(np.mean(v ** 2)) + 1e-30
+    return 20 * np.log10(rms(y[tail]) / rms(x[tail]))
+
+
+@pytest.mark.parametrize("level_db", [-52, -49, -47, -45, -43])
+def test_gate_never_boosts_inside_the_hysteresis_window(level_db):
+    """REGRESSION: a gate must attenuate or do nothing. It must never add gain.
+
+    While closed, the expander shortfall was measured as `close_db - lvl`,
+    which is NEGATIVE for any level between close_db and open_db -- exactly
+    the hysteresis window the gate sits in on real material. That made `gr`
+    a positive gain: measured +2.95 dB at -45 dB in, on the settings all
+    three presets ship (open_db=-42, close_db=-48, ratio=6). Room tone,
+    breaths and bleed got AMPLIFIED up to +3 dB, then snapped back to unity
+    the moment the gate opened.
+
+    The pre-existing gate test uses open_db=-90/close_db=-95, which holds the
+    gate permanently open -- so the only non-trivial region of a gate's
+    design was the one region never exercised.
+    """
+    g = _gate_gain_db(level_db, open_db=-42, close_db=-48, ratio=6)
+    assert g <= 0.05, f"gate ADDED {g:+.2f} dB at {level_db} dB in"
+
+
+def test_gate_honours_its_own_attack_and_release_params():
+    """REGRESSION: prepare() hardcoded attack_s=0.001/release_s=0.15 and never
+    read self._p, so constructor kwargs were silently discarded (on_param_changed
+    only fires on set()). All three presets ask for release_s=0.12 and got 0.15.
+    Compressor.prepare does this correctly -- this was a copy-paste omission."""
+    g = dsp.Gate(FS, attack_s=0.05, release_s=1.0)
+    assert g.det.attack_s == pytest.approx(0.05)
+    assert g.det.release_s == pytest.approx(1.0)

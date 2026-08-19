@@ -248,7 +248,10 @@ class Gate(Module):
 
     def prepare(self, fs):
         self.fs = fs
-        self.det = Detector(fs, mode="rms", rms_window_s=0.003, attack_s=0.001, release_s=0.15)
+        p = getattr(self, "_p", {})
+        self.det = Detector(fs, mode="rms", rms_window_s=0.003,
+                            attack_s=p.get("attack_s", 0.001),
+                            release_s=p.get("release_s", 0.150))
         self.is_open = False
 
     def on_param_changed(self, name, value):
@@ -273,8 +276,16 @@ class Gate(Module):
             if state:
                 gr[i] = 0.0
             else:
-                under = close_db - lvl
-                gr[i] = -under * (1.0 - 1.0 / ratio)
+                # Shortfall is measured against the threshold actually in
+                # force. While CLOSED that is open_db -- using close_db made
+                # `under` negative anywhere inside the hysteresis window
+                # (close_db < lvl < open_db), turning gr into a positive GAIN:
+                # measured +2.95 dB at -45 dB in on the preset settings, i.e.
+                # the gate amplified the room tone it exists to remove. The
+                # min() is a belt-and-braces guard -- a gate must never boost.
+                # See test_gate_never_boosts_inside_the_hysteresis_window.
+                under = open_db - lvl
+                gr[i] = min(-under * (1.0 - 1.0 / ratio), 0.0)
         self.is_open = state
         gain = db2lin(gr)
         return x * gain[:, None] if x.ndim > 1 else x * gain
