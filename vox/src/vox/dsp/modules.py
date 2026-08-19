@@ -295,53 +295,83 @@ class DeEsser(Module):
 
     def prepare(self, fs):
         self.fs = fs
-        f = self._p.get("freq_hz", 6500.0) if hasattr(self, "_p") else 6500.0
-        self.band = Band(fs, "bell", f, 0.0, q=1.4)   # sidechain detection (mono)
-        self._notch_ch: list[Band] = []                # one filter per channel, own state
-        self._notch_freq = f
-        self.det = Detector(fs, mode="rms", rms_window_s=0.002, attack_s=0.0008, release_s=0.06)
+        self._f = self._p.get("freq_hz", 6500.0) if hasattr(self, "_p") else 6500.0
+        self._sc = self._make_hp()                     # sidechain (mono)
+        self._split: dict[int, tuple] = {}             # per channel, own state
+        self.det = Detector(fs, mode="rms", rms_window_s=0.002,
+                            attack_s=0.0008, release_s=0.06)
 
-    def _notch_for(self, ch: int) -> Band:
-        while len(self._notch_ch) < ch:
-            self._notch_ch.append(Band(self.fs, "bell", self._notch_freq, 0.0, q=1.4))
-        return self._notch_ch
+    # Linkwitz-Riley 4th order = two cascaded Butterworth (q=0.707) sections.
+    # LP + HP sums back to an allpass, i.e. FLAT magnitude, which is what makes
+    # gaining only the HP half safe: at gain=1 the body is untouched.
+    def _make_hp(self):
+        return [Band(self.fs, "highpass", self._f, q=0.707) for _ in range(2)]
+
+    def _make_lp(self):
+        return [Band(self.fs, "lowpass", self._f, q=0.707) for _ in range(2)]
+
+    def _split_for(self, c: int):
+        if c not in self._split:
+            self._split[c] = (self._make_lp(), self._make_hp())
+        return self._split[c]
+
+    @staticmethod
+    def _cascade(bands, sig_):
+        for b in bands:
+            sig_ = b.process(sig_)
+        return sig_
 
     def on_param_changed(self, name, value):
         if name == "freq_hz":
-            self.band.set(freq=value)
-            self._notch_freq = value
-            for b in self._notch_ch:
-                b.set(freq=value)
+            self._f = value
+            self._sc = self._make_hp()
+            self._split.clear()
 
     def reset(self):
-        self.band.reset(); self.det.reset()
-        for b in self._notch_ch:
+        self.det.reset()
+        for b in self._sc:
             b.reset()
+        for lp, hp in self._split.values():
+            for b in (*lp, *hp):
+                b.reset()
 
     def process(self, x: np.ndarray) -> np.ndarray:
         """
-        Split-band de-essing: extract the sibilance band with a bell filter,
-        compute a shared time-varying gain from its envelope (detected on the
-        mono sum for stereo-linked ess reduction), then subtract
-        band*(1-gain) from the FULL-BAND signal. This attenuates only the
-        target band and leaves everything else untouched -- unlike a
-        broadband ducking de-esser, which is what most cheap plugins do.
+        Split-band de-essing: a Linkwitz-Riley crossover at freq_hz splits the
+        signal, a detector on the high half drives a gain applied ONLY to that
+        half, and the two halves are summed. Below the crossover nothing is
+        touched -- unlike a broadband ducking de-esser, which is what most
+        cheap plugins do.
+
+        BUG FIX 2026-08-19: this used to detect on, and subtract, a bell at
+        0 dB gain. A bell at 0 dB is a mathematical identity (A=1 makes b==a),
+        so the "band" was the whole signal and this was a broadband ducker --
+        exactly what the paragraph above claims it isn't. Measured against
+        Techivation T-De-Esser on the reference acapella: 4.8 dB of body
+        (200 Hz-4 kHz) damage to get 2.2 dB of sibilance reduction. The
+        obvious repair (highpass instead of bell, still subtracted from the
+        full signal) does NOT work either: the highpass phase-rotates the band
+        so the subtraction is incoherent and the level barely moves. Hence a
+        real crossover. See tools/ab_reference.py for the measurement.
         """
         x2 = x if x.ndim > 1 else x[:, None]
         ch = x2.shape[1]
         mono = x2.mean(axis=1)
 
-        sc = self.band.process(mono)
-        env_db = self.det.process(sc)
+        env_db = self.det.process(self._cascade(self._sc, mono))
         thr, ratio, rng = self._p["threshold_db"], self._p["ratio"], self._p["range_db"]
         over = np.maximum(env_db - thr, 0.0)
         cut_db = -np.minimum(over * (1.0 - 1.0 / ratio), rng)
-        gain = db2lin(cut_db)[:, None]  # (n,1), broadcasts across channels
+        gain = db2lin(cut_db)[:, None]  # (n,1), stereo-linked
 
-        notches = self._notch_for(ch)
-        band_sig = np.stack([notches[c].process(x2[:, c]) for c in range(ch)], axis=1)
+        lo = np.empty_like(x2)
+        hi = np.empty_like(x2)
+        for c in range(ch):
+            lp, hp = self._split_for(c)
+            lo[:, c] = self._cascade(lp, x2[:, c])
+            hi[:, c] = self._cascade(hp, x2[:, c])
 
-        wet = x2 + band_sig * (gain - 1.0)
+        wet = lo + hi * gain
         mix = self._p["mix"]
         out = wet if mix >= 1.0 else (x2 * (1 - mix) + wet * mix)
         return out if x.ndim > 1 else out[:, 0]

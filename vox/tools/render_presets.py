@@ -24,10 +24,11 @@ def main():
     for wav in sorted(IN_DIR.glob("*.wav")):
         x, fs = sf.read(wav, always_2d=True)
         prog = presets.program_level_db(x, fs)
-        print(f"\n{wav.name}  fs={fs}  program={prog:.1f} dB")
+        sib = presets.sibilance_level_db(x, fs)
+        print(f"\n{wav.name}  fs={fs}  program={prog:.1f} dB  sibilance={sib:.1f} dB")
         print("  dry   ", meter.report(x.mean(axis=1), fs, "dry"))
         for name, build in presets.PRESETS.items():
-            y = build(fs, program_db=prog).process(x)
+            y = build(fs, program_db=prog, sibilance_db=sib).process(x)
             out = OUT_DIR / f"{wav.stem.split()[0]}__{name}.wav"
             sf.write(out, y, int(fs), subtype="PCM_24")
             print(f"  {name:6}", meter.report(y.mean(axis=1), fs, name), "->", out.name)

@@ -30,6 +30,21 @@ from .core import Chain
 # not copied from the hardware faceplate.
 NOMINAL_PROGRAM_DB = -14.0
 
+# Same trap, one stage earlier: the de-esser threshold was a flat -22 dB in all
+# three presets, copied from nothing in particular. Measured on the reference
+# acapellas, the 7 kHz+ band only reaches -22.6 dB (Eminem) / -27.3 dB (Tupac)
+# at its 99th percentile, so -22 caught essentially nothing (0.03 dB of
+# sibilance reduction -- tools/ab_reference.py). Threshold is therefore derived
+# from the stem's own sibilance level, like the compressor's is from program
+# level, and the threshold is then derived to land a target gain reduction on
+# the loudest esses -- a percentile used AS the threshold does not work, the
+# detector's 60 ms release smears each ess across enough frames to drag any
+# percentile up into the esses themselves. Default is the louder reference.
+NOMINAL_SIBILANCE_DB = -20.0
+DEESS_RATIO = 4.0
+DEESS_TARGET_GR_DB = 4.0
+DEESS_FREQ_HZ = 7000.0
+
 
 def program_level_db(x: np.ndarray, fs: float) -> float:
     """Level the compressor's RMS detector actually sees, as a robust
@@ -45,13 +60,27 @@ def program_level_db(x: np.ndarray, fs: float) -> float:
     return float(np.percentile(det.process(mono), 99))
 
 
+def sibilance_level_db(x: np.ndarray, fs: float,
+                       freq_hz: float = DEESS_FREQ_HZ) -> float:
+    """Level the de-esser's own sidechain sees on the LOUDEST esses (99.9th
+    percentile of its detector). Offline analysis feeding a per-block param,
+    same two-pass pattern as program_level_db."""
+    mono = x.mean(axis=1) if np.ndim(x) > 1 else x
+    for _ in range(2):  # LR4 highpass, matching DeEsser's crossover
+        mono = dsp.Band(fs, "highpass", freq_hz, q=0.707).process(mono)
+    det = dsp.Detector(fs, mode="rms", rms_window_s=0.002,
+                       attack_s=0.0008, release_s=0.06)
+    return float(np.percentile(det.process(mono), 99.9))
+
+
 def _threshold_for(program_db: float, ratio: float, target_gr_db: float) -> float:
     """Threshold that yields `target_gr_db` of gain reduction at `program_db`,
     inverting the compressor's own static curve above the knee."""
     return program_db - target_gr_db / (1.0 - 1.0 / ratio)
 
 
-def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Chain:
+def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
+                       sibilance_db: float = NOMINAL_SIBILANCE_DB) -> Chain:
     """Eminem / Dr. Dre chain (Sony C800G -> Neve 1073 -> dbx 160X/SSL 4000G).
     Source: ~/Desktop/vox references/EMINEM-DR-DRE-VOCAL-CHAIN.md (engineer
     Vito/Mauricio Iragorri interview data). Chosen as the first preset: it's
@@ -81,8 +110,10 @@ def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Cha
     modules = [
         dsp.Gate(fs, open_db=-42.0, close_db=-48.0, ratio=6.0,
                  attack_s=0.001, release_s=0.12),
-        dsp.DeEsser(fs, freq_hz=7000.0, threshold_db=-22.0, ratio=4.0,
-                    range_db=10.0, mix=1.0),
+        dsp.DeEsser(fs, freq_hz=DEESS_FREQ_HZ,
+                    threshold_db=_threshold_for(sibilance_db, DEESS_RATIO,
+                                                DEESS_TARGET_GR_DB),
+                    ratio=DEESS_RATIO, range_db=10.0, mix=1.0),
         dsp.ParametricEQ(fs, bands=[
             dict(kind="highpass", freq=80.0, q=0.707),
         ]),
@@ -97,7 +128,8 @@ def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Cha
     return Chain(fs, modules)
 
 
-def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Chain:
+def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
+                     sibilance_db: float = NOMINAL_SIBILANCE_DB) -> Chain:
     """Jay-Z / Young Guru chain (Neumann/AKG -> Neve 1073 -> Tube-Tech CL1B,
     Mercer Hotel era). Source: INTERVIEWS-ANALYSIS-2026-08-15.md (transcribed
     interview) + JAYZ-YOUNG-GURU-VOCAL-CHAIN.md (web research, 3-era timeline).
@@ -126,8 +158,10 @@ def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Chain
     modules = [
         dsp.Gate(fs, open_db=-42.0, close_db=-48.0, ratio=6.0,
                  attack_s=0.001, release_s=0.12),
-        dsp.DeEsser(fs, freq_hz=7000.0, threshold_db=-22.0, ratio=4.0,
-                    range_db=10.0, mix=1.0),
+        dsp.DeEsser(fs, freq_hz=DEESS_FREQ_HZ,
+                    threshold_db=_threshold_for(sibilance_db, DEESS_RATIO,
+                                                DEESS_TARGET_GR_DB),
+                    ratio=DEESS_RATIO, range_db=10.0, mix=1.0),
         dsp.ParametricEQ(fs, bands=[
             dict(kind="highpass", freq=80.0, q=0.707),
             dict(kind="bell", freq=350.0, gain_db=-2.0, q=1.2),   # mud, not mid body
@@ -141,7 +175,8 @@ def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Chain
     return Chain(fs, modules)
 
 
-def build_tupac_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Chain:
+def build_tupac_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
+                      sibilance_db: float = NOMINAL_SIBILANCE_DB) -> Chain:
     """Tupac / Death Row chain (Neumann U87 -> Neve or SSL 4000 preamp + its
     console compressor -> Studer A800 tape), plus the printed harmonizer
     stack. Sources: docs/07_REFERENCE_VOCALS.md section 3 (tracking chain,
@@ -169,8 +204,10 @@ def build_tupac_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB) -> Chai
     modules = [
         dsp.Gate(fs, open_db=-42.0, close_db=-48.0, ratio=6.0,
                  attack_s=0.001, release_s=0.12),
-        dsp.DeEsser(fs, freq_hz=7000.0, threshold_db=-22.0, ratio=4.0,
-                    range_db=10.0, mix=1.0),
+        dsp.DeEsser(fs, freq_hz=DEESS_FREQ_HZ,
+                    threshold_db=_threshold_for(sibilance_db, DEESS_RATIO,
+                                                DEESS_TARGET_GR_DB),
+                    ratio=DEESS_RATIO, range_db=10.0, mix=1.0),
         dsp.ParametricEQ(fs, bands=[
             dict(kind="highpass", freq=80.0, q=0.707),
             dict(kind="bell", freq=350.0, gain_db=-2.5, q=1.2),   # stack mud

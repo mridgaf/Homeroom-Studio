@@ -73,7 +73,7 @@ def run_dsp_chain(x: np.ndarray, fs: float) -> np.ndarray:
 
 
 def run_full_pipeline(x: np.ndarray, fs: float, dereverb: bool = False,
-                      denoise_blend: float = 0.0) -> dict:
+                      denoise_blend: float = 0.0, clear: bool = False) -> dict:
     """Cleanup stage (dereverb + ML denoise, offline/two-pass) followed by the
     real-time-legal shaping chain. Returns every intermediate stage so the
     contribution of each can be measured independently.
@@ -85,6 +85,16 @@ def run_full_pipeline(x: np.ndarray, fs: float, dereverb: bool = False,
 
     stages = {"input": x}
     y = x
+
+    if clear:
+        # Supertone Clear replaces BOTH broken cleanup stages below with real
+        # source separation -- but it is a commercial plugin that cannot ship
+        # (see engines/clear_plugin.py). Opt-in, and it wins if both are asked
+        # for, because the native ones are documented broken.
+        from .engines.clear_plugin import clean
+        y = clean(y, fs)
+        stages["after_clear"] = y
+        dereverb, denoise_blend = False, 0.0
 
     if dereverb:
         y, _info = suppress_late_reverb(y, fs)

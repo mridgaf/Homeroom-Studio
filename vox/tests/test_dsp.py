@@ -156,3 +156,28 @@ def test_stack_voices_are_pitch_shifted_the_documented_amount():
     up, down = f0(wet[FS:2 * FS, 0]), f0(wet[FS:2 * FS, 1])
     assert abs(up - 440 * 2 ** (12 / 1200)) < 2.0
     assert abs(down - 440 * 2 ** (-12 / 1200)) < 2.0
+
+
+# -- DeEsser --------------------------------------------------------------
+def test_deesser_cuts_sibilance_without_eating_the_body():
+    """REGRESSION: the sidechain and the subtracted band were both a bell at
+    0 dB gain, which is an identity filter -- so this module was a broadband
+    ducker that pulled 4.8 dB out of the body to get 2.2 dB of sibilance
+    (measured against T-De-Esser, tools/ab_reference.py). Body must survive."""
+    fs = FS
+    t = np.arange(2 * fs) / fs
+    body = 0.3 * np.sin(2 * np.pi * 300 * t)
+    ess = 0.3 * np.sin(2 * np.pi * 8000 * t)
+    x = body + ess
+
+    y = dsp.DeEsser(fs, freq_hz=7000.0, threshold_db=-30.0, ratio=4.0,
+                    range_db=12.0, mix=1.0).process(x[:, None])[:, 0]
+
+    def level(sig_, f0):
+        w = np.hanning(len(sig_))
+        sp = np.abs(np.fft.rfft(sig_ * w))
+        i = int(round(f0 * len(sig_) / fs))
+        return 20 * np.log10(np.max(sp[i - 8:i + 9]) + 1e-30)
+
+    assert level(y, 8000) - level(x, 8000) < -4.0   # sibilance genuinely cut
+    assert abs(level(y, 300) - level(x, 300)) < 0.5  # body essentially untouched

@@ -138,3 +138,34 @@ def test_tupac_stack_is_on_and_widens_the_image():
     y = chain.process(x)
     assert np.max(np.abs(y[:, 0] - y[:, 1])) > 1e-3
     assert isinstance(stack, dsp.Stack)
+
+
+def test_presets_deess_measurably_on_material_that_has_esses():
+    """REGRESSION: every preset carried a flat -22 dB de-esser threshold, which
+    measured 0.03 dB of sibilance reduction on the reference acapella -- the
+    band never gets that loud. Threshold now comes from the stem's own
+    sibilance level, so the stage has to actually do something. Measured on
+    the de-esser stage alone; downstream saturation adds its own HF."""
+    from vox import dsp
+    fs = FS
+    t = np.arange(2 * fs) / fs
+    body = 0.3 * np.sin(2 * np.pi * 300 * t)
+    ess = 0.3 * np.sin(2 * np.pi * 8000 * t) * (t % 0.5 < 0.02)  # 4% duty, like real esses
+    x = (body + ess)[:, None]
+    sib = presets.sibilance_level_db(x, fs)
+
+    def hf_peak_db(sig_):
+        """Loudest HF frames -- a de-esser is supposed to move those and leave
+        the average alone, so measuring the mean would hide the whole effect."""
+        s = sig_[:, 0]
+        for _ in range(2):
+            s = dsp.Band(fs, "highpass", 7000.0, q=0.707).process(s)
+        n = 512
+        f = s[:len(s) // n * n].reshape(-1, n)
+        return 20 * np.log10(np.percentile(np.sqrt((f ** 2).mean(1)), 99) + 1e-12)
+
+    for name, build in presets.PRESETS.items():
+        chain = build(fs, program_db=presets.program_level_db(x, fs), sibilance_db=sib)
+        de = next(m for m in chain.modules if m.name == "deesser")
+        drop = hf_peak_db(de.process(x)) - hf_peak_db(x)
+        assert drop < -1.5, f"{name} de-esser did nothing (peak HF {drop:+.2f} dB)"

@@ -22,6 +22,53 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-19 Installed plugins wired in — and the A/B immediately found a shipped bug
+- Context: owner asked which of /Library/Audio/Plug-Ins was worth using, and
+  chose BOTH options: Supertone Clear as a real cleanup pre-pass, and a
+  measurement harness against the commercial plugins.
+- Decision/change:
+  - `engines/clear_plugin.py` — Supertone Clear (VST3) as source separation:
+    voice / voice-reverb / ambience, so dereverb and denoise become "turn that
+    stem down". Opt-in via `chain_demo.run_full_pipeline(clear=True)`, and it
+    overrides the two native cleanup stages, which are both documented broken.
+    Measured on `eminem lose vocal.wav`: noise floor -52.8 → -78.3 dB with the
+    loud passages untouched (-16.3 → -16.4).
+  - `tools/ab_reference.py` — our Saturation vs Newfangled Obliterate, our
+    DeEsser vs Techivation T-De-Esser, same material, same meters.
+- CANNOT SHIP, stated in both files: closed-source plugins cannot link into
+  the Phase-2 JUCE build, and a render through Clear is unreproducible without
+  a Supertone licence. Nothing in dsp/ or presets.py imports either one.
+- What the A/B found (this is the payoff — 20 minutes of harness, one real bug):
+  1. **DeEsser was a broadband ducker**, not the split-band de-esser its own
+     docstring claimed. `Band(fs, "bell", f, 0.0, q=1.4)` — a bell at 0 dB
+     gain is an identity filter (A=1 makes b == a), so both the sidechain and
+     the "band" being subtracted were the full-range signal. Measured 4.8 dB
+     of body (200 Hz–4 kHz) damage to get 2.2 dB of sibilance reduction, on a
+     module used by all three presets, with zero test coverage. Rebuilt as a
+     Linkwitz-Riley crossover (LP+HP sum = allpass, so the body is untouched
+     by construction): body damage now 0.00 dB. Note the intermediate repair
+     that does NOT work — highpass instead of bell, still subtracted from the
+     full signal — the phase rotation makes the subtraction incoherent.
+  2. **De-esser threshold was inert**, same class of bug as the compressor's
+     hardware-threshold copy: a flat -22 dB in all three presets, when the
+     7 kHz+ band on the references peaks at -20.9 / -26.1 dB. It caught
+     0.03 dB. Now derived per stem via `sibilance_level_db()` (99.9th
+     percentile of the de-esser's own detector) + `_threshold_for`, targeting
+     4 dB GR on the loudest esses. A percentile used directly AS the threshold
+     does not work — the detector's 60 ms release smears each ess wide enough
+     to drag any percentile up into the esses themselves.
+  3. Saturation is vindicated: alias floor -117.4 dB vs Obliterate's -59.1.
+- Still open: at the same derived threshold, T-De-Esser pulls 3.59 dB off the
+  loudest esses where ours pulls 1.28. Their detector is faster and their band
+  wider. Not chased yet — a tuning pass, not a bug.
+- Verify by: `PYTHONPATH=src ../.venv/bin/python -m pytest tests -q` (106
+  passed, 1 xfailed — includes new regression tests for both bugs, and the
+  DeEsser had NONE before today). `tools/ab_reference.py` reproduces the
+  numbers above. All presets re-rendered; `*__tupac_clear.wav` are the
+  Clear-cleaned variants.
+- Status: open — owner's ear.
+- Outcome:
+
 ### 2026-08-19 Found the installed VST3 plugins + quality-first rule for engine decisions, scoped review requirement
 - Context: owner asked to find his installed VST3 plugins (13, all under the
   system-wide `/Library/Audio/Plug-Ins/VST3`, none at user level), then asked
