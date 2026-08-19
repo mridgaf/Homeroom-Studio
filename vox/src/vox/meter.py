@@ -166,11 +166,30 @@ def sample_peak_db(x: np.ndarray) -> float:
     return db(float(np.max(np.abs(_as2d(x)))))
 
 
-def true_peak_db(x: np.ndarray, fs: float, oversample: int = 4) -> float:
+def true_peak_db(x: np.ndarray, fs: float, oversample: int = 16) -> float:
     """
     BS.1770-4 Annex 2: attenuate 12.04 dB, oversample >= 4x with a 48-tap/phase
     polyphase FIR, take the peak, undo the attenuation.
     For fs > 96 kHz, 2x is sufficient per the spec.
+
+    DEFAULT IS 16x, NOT THE SPEC MINIMUM OF 4x. 4x is the floor BS.1770-4
+    permits, not an accuracy guarantee, and docs/00_BAR.md asks for +/-0.1 dBTP
+    -- a stricter bar than the spec's minimum delivers. Graded against
+    polyphase resampling (a genuinely different algorithm) over 11 frequencies
+    x 32 phases, worst-case error is:
+
+        4x  -> -0.464 dB   (fails the bar)
+        8x  -> -0.139 dB   (fails the bar)
+        16x -> -0.059 dB   (meets it)
+
+    The failures cluster at exact submultiples of fs (19200 = fs/2.5,
+    16000 = fs/3, 12000 = fs/4), where the interpolation grid lands on the
+    same phases every cycle and can straddle the true peak indefinitely. A
+    single-frequency spot check will miss this entirely.
+
+    Cost is ~230 ms per second of audio at 16x versus ~11 ms at 4x. This is an
+    offline measurement tool, so that buys accuracy with time nobody is
+    waiting on. See test_true_peak_matches_an_independent_resampler.
     """
     x = _as2d(x)
     if fs > 96000:

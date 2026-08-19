@@ -517,9 +517,15 @@ class Limiter(Module):
     True-peak lookahead limiter. The bar (docs/00_BAR.md) requires true-peak
     accuracy to +/-0.1 dBTP -- a sample-peak-only detector WILL overshoot on
     inter-sample peaks (measured: 0.4 dB over ceiling on a 997 Hz test tone
-    before this was fixed). Detection therefore runs on a 4x-oversampled,
+    before this was fixed). Detection therefore runs on an oversampled,
     BS.1770-4-style FIR-interpolated envelope, the same method meter.py uses
     to grade the output, so what the limiter targets is what the meter reports.
+
+    OS is 16 to match meter.true_peak_db's default, and for the same reason:
+    at 8x the interpolated envelope under-reads by up to 0.139 dB at exact
+    submultiples of fs, so a limiter detecting at 8x can overshoot its ceiling
+    by that much -- outside the bar. Detecting at a lower rate than the meter
+    grades at would mean targeting a number the meter then refuses to confirm.
     """
     name = "limiter"
     params = (
@@ -527,7 +533,7 @@ class Limiter(Module):
         ParamSpec("lookahead_ms", "float", 5.0, 1.0, 20.0, "ms"),
         ParamSpec("release_s", "float", 0.080, 0.010, 1.0, "s"),
     )
-    OS = 8
+    OS = 16
 
     def prepare(self, fs):
         self.fs = fs

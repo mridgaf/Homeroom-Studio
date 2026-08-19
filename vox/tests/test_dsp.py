@@ -117,14 +117,87 @@ def test_limiter_transparent_below_ceiling():
 
 def test_limiter_detector_matches_reference_meter():
     """The detector's own true-peak estimate must agree with meter.true_peak_db
-    (independently implemented) to within 0.05 dB -- this is the check that
-    caught the rectify-before-interpolate bug."""
+    to within 0.05 dB -- this is the check that caught the
+    rectify-before-interpolate bug.
+
+    NOTE what this does and does not prove. meter.true_peak_db is NOT an
+    independent implementation: both it and the detector are
+    firwin(48*OS+1, 1/OS, kaiser) zero-stuffed interpolation, same window,
+    same tap count. This test can only catch one drifting from the other, not
+    an error they share. test_true_peak_matches_an_independent_resampler is
+    the one that grades the method itself.
+    """
     lim = dsp.Limiter(FS, ceiling_dbtp=-1.0)
     x = 1.3 * sine(12000, dur=0.5, phase=0.7)
     env = lim._true_peak_envelope(x[:, None])
     got = 20 * np.log10(env.max())
     want = meter.true_peak_db(x, FS)
     assert abs(got - want) < 0.05, (got, want)
+
+
+def _faded(f, phase, amp=0.7, dur=1.0):
+    """A sine with faded ends.
+
+    The fade is load-bearing. Both true-peak methods interpolate, and both ring
+    at a signal boundary -- so a raw slice out of the middle of a tone (or the
+    edge of a resampled buffer) reads several TENTHS of a dB above the real
+    peak. An adversarial review of this project reported a 0.40 dB limiter
+    overshoot that was entirely this artifact, and the same mistake was
+    reproduced and caught while verifying the claim. Fade, do not slice.
+    """
+    x = sine(f, dur=dur, phase=phase) * amp
+    return x * sg.windows.tukey(len(x), 0.1)
+
+
+def _independent_true_peak_db(x, os=64):
+    """True peak via polyphase resampling -- a genuinely different algorithm
+    from the project's zero-stuff + firwin path."""
+    return 20 * np.log10(np.max(np.abs(sg.resample_poly(x, os, 1))) + 1e-30)
+
+
+@pytest.mark.parametrize("f", [997, 4000, 8000, 9600, 12000, 16000, 19200, 20500])
+def test_true_peak_matches_an_independent_resampler(f):
+    """Grade meter.true_peak_db against a different algorithm, across the band.
+
+    This is the test that actually validates the method.
+    test_limiter_detector_matches_reference_meter cannot: it compares two
+    instances of the SAME algorithm.
+
+    The frequency list is chosen adversarially -- 9600, 12000, 16000 and 19200
+    are fs/5, fs/4, fs/3 and fs/2.5. At exact submultiples the interpolation
+    grid lands on the same phases every cycle, so it can straddle the true peak
+    indefinitely rather than converging. Worst error over 32 phases at the
+    4x the spec permits is -0.464 dB; the 16x default gets it to -0.059.
+    """
+    err = [meter.true_peak_db(_faded(f, ph), FS) - _independent_true_peak_db(_faded(f, ph))
+           for ph in np.linspace(0, 2 * np.pi, 16, endpoint=False)]
+    worst = max(err, key=abs)
+    assert abs(worst) < 0.1, f"{f} Hz: worst {worst:+.3f} dB (bar is +/-0.1 dBTP)"
+
+
+def test_limiter_holds_its_ceiling_against_an_independent_resampler():
+    """End-to-end: the limiter's OUTPUT, graded by an algorithm that shares
+    nothing with its detector.
+
+    Test material is deliberately bandlimited-ish (summed harmonics, plus
+    noise through a lowpass). Hard-clipped noise is NOT a fair test signal
+    here: it has discontinuities, so it is not bandlimited, "true peak" is
+    ill-defined for it, and different reconstruction filters legitimately
+    disagree by ~0.4 dB. Measured on the real reference acapellas driven 12 dB
+    into the limiter, worst overshoot is +0.043 dB.
+    """
+    rng = np.random.default_rng(0)
+    t = np.arange(FS) / FS
+    dense = sum(np.sin(2 * np.pi * f * t + p) for f, p in
+                zip([220, 440, 661, 883, 1103, 2207, 4409, 8819], rng.random(8) * 6.28))
+    noise = sg.lfilter(*sg.butter(4, 16000 / (FS / 2)), rng.standard_normal(FS))
+    for name, x in [("harmonics", dense / np.max(np.abs(dense)) * 0.95),
+                    ("lp noise", noise / np.max(np.abs(noise)) * 0.95)]:
+        lim = dsp.Limiter(FS)
+        lim.set("ceiling_dbtp", -1.0)
+        y = lim.process(x[:, None])[:, 0]
+        got = _independent_true_peak_db(y)
+        assert got < -1.0 + 0.1, f"{name}: {got:+.3f} dBTP over a -1.0 ceiling"
 
 
 # -- Stack (harmonizer doubler) ------------------------------------------
