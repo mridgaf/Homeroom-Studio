@@ -85,19 +85,40 @@ class Chain(Module):
     name = "chain"
 
     def __init__(self, fs: float, modules: list[Module] | None = None):
-        self.fs = float(fs)
         self.modules: list[Module] = modules or []
         self.bypassed: set[int] = set()
         self.solo: int | None = None
         self.mix: dict[int, float] = {}
+        self._dry_bufs: dict[int, np.ndarray] = {}
+        # Module.__init__ was NOT being called here, so self._p never existed
+        # and the inherited get()/set() raised AttributeError. This class is
+        # part of an interface designed to transliterate to JUCE -- a subclass
+        # that silently isn't one is precisely the trap that port would hit.
+        super().__init__(fs)
 
     def latency_samples(self) -> int:
         return sum(m.latency_samples() for i, m in enumerate(self.modules)
                    if i not in self.bypassed)
 
     def reset(self):
+        self._dry_bufs = {}
         for m in self.modules:
             m.reset()
+
+    def _delayed_dry(self, i: int, y: np.ndarray, lat: int) -> np.ndarray:
+        """`y` delayed by `lat` samples, with the tail carried across blocks.
+
+        Without this, blending a module's wet output against the undelayed dry
+        signal is a comb filter (see test_chain_partial_mix_compensates_module_latency).
+        """
+        if lat <= 0:
+            return y
+        buf = self._dry_bufs.get(i)
+        if buf is None or buf.shape != (lat,) + y.shape[1:]:
+            buf = np.zeros((lat,) + y.shape[1:])
+        ext = np.concatenate([buf, y], axis=0)
+        self._dry_bufs[i] = ext[len(ext) - lat:].copy()
+        return ext[:len(y)]
 
     def process(self, x: np.ndarray) -> np.ndarray:
         if self.solo is not None:
@@ -109,7 +130,11 @@ class Chain(Module):
                 continue
             wet = m.process(y)
             mix = self.mix.get(i, 1.0)
-            y = wet if mix >= 1.0 else (y * (1 - mix) + wet * mix)
+            if mix < 1.0:
+                dry = self._delayed_dry(i, y, m.latency_samples())
+                y = dry * (1 - mix) + wet * mix
+            else:
+                y = wet
         return y
 
 
