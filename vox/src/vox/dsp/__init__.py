@@ -13,6 +13,7 @@ for the DSP-only modules above.
 """
 from .modules import (
     Band, ParametricEQ, Detector, Compressor, Gate, DeEsser, Saturation, Limiter,
+    Stack,
 )
 from .dereverb import estimate_rt60_bands, suppress_late_reverb
 from .throw import (
@@ -29,7 +30,7 @@ except ImportError:
 
 __all__ = [
     "Band", "ParametricEQ", "Detector", "Compressor", "Gate", "DeEsser",
-    "Saturation", "Limiter", "estimate_rt60_bands", "suppress_late_reverb",
+    "Saturation", "Limiter", "Stack", "estimate_rt60_bands", "suppress_late_reverb",
     "ThrowDelay", "find_phrase_ends", "find_bar_ends", "throw_envelope",
     "apply_throws", "duck_against",
     "note_delay_seconds", "NOTE_DIVISIONS",

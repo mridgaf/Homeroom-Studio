@@ -22,6 +22,231 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-19 Found the installed VST3 plugins + quality-first rule for engine decisions, scoped review requirement
+- Context: owner asked to find his installed VST3 plugins (13, all under the
+  system-wide `/Library/Audio/Plug-Ins/VST3`, none at user level), then asked
+  whether they correlate usefully with `tools/audio_engine.py` /
+  `sound_engine/`, then researched a broader list of trustworthy free VST3s
+  (Vital, Surge XT, u-he Tyrell N6/Podolski, Spitfire LABS, Valhalla, TDR
+  Nova, Kilohearts Essentials, MFreeFXBundle, Airwindows) and Native
+  Instruments' free Komplete Start bundle.
+- Decision/change:
+  1. Standing rule: any future choice about what to integrate into
+     `tools/audio_engine.py` or `sound_engine/` is picked on measured/
+     perceptual quality, not on what's fastest or easiest to wire in — even
+     if that means the harder MIDI-driven instrument-hosting path (via
+     `pedalboard.load_plugin()`) instead of the simpler effects-only
+     insertion.
+  2. Scoped exception to the existing hard rule (build -> harsh-critic
+     review -> fix -> second adversarial re-review): that full loop applies
+     to DSP written from scratch. It does NOT apply to wiring in a
+     third-party VST3 (effect or instrument) — owner's explicit call,
+     reasoning being the plugin's algorithm itself isn't something being
+     built, only integrated.
+- Reasoning: owner's words — "I don't need the double reviews for the VSTs
+  since we're not building them from scratch." Quality-first rule was his
+  answer when asked to scope "quality is key, not speed or ease."
+- Open question this does NOT answer: what level of check (if any) the
+  glue/integration code around a loaded VST3 still needs — the exemption
+  covers the double-review loop specifically, not verification in general.
+  Ask before assuming "no review" means "no test."
+- Verify by: next session that actually wires in a VST3, confirm this split
+  was followed — full loop skipped for the plugin itself, but the
+  integration code still got some form of check.
+- Status: open — policy decision only, nothing implemented yet.
+
+### 2026-08-19 Third artist preset: Tupac — plus a native Stack (harmonizer doubler)
+- Context: "continue audio engine, interviews do the tupac stages." Tupac was
+  the one researched artist deferred, because it needs pitch-shift DSP vox
+  did not have. Two sources describe different halves of the same record and
+  the owner chose to include both: the Death Row tracking chain (doc 07 §3 —
+  U87 → Neve/SSL console comp → Studer A800, "least processed of the three")
+  and the printed harmonizer stack (TUPAC-VOCAL-STACKING-TECHNIQUE.md —
+  +12c/25 ms left, −12c/10 ms right, 350 Hz cut).
+- Decision/change:
+  - New `dsp.Stack` in modules.py (NOT pedalboard): dry centre + two
+    pitch-shifted, micro-delayed, panned copies. On by default at mix=0.35.
+  - `presets.build_tupac_chain`: HPF 80 + 350 Hz −2.5, console comp 3:1 /
+    8 dB knee / 3 dB GR derived from program level, Stack, tape saturation
+    4 dB @ 20%, 10 kHz −1.5 dB shelf for tape HF loss, limiter. No reverb
+    send — the doc names a room but never says which one.
+  - `vox/tools/render_presets.py` committed this time (the last session's
+    version was never saved), loops over `presets.PRESETS` so preset #4
+    needs no edit.
+- Reasoning: pedalboard.PitchShift (Rubber Band) was the obvious reach and is
+  wrong here — measured: it buffers 51,868 samples (1.08 s at 48 k) before
+  returning anything and does not return the same block length it was given,
+  so it cannot satisfy core.Module's contract. The two-tap crossfading
+  delay-line shifter built instead is zero-latency, exact at block size 1,
+  and is what the hardware harmonizers this technique came off of did anyway.
+  It also transliterates to C++ in Phase 2, which the pedalboard modules
+  cannot.
+- Bug caught during build: the first Stack overwrote delay-line history at
+  block sizes larger than the line (block-size invariance failed at −10 dB).
+  Fixed by chunking to one window per pass, the same rule ThrowDelay uses;
+  now −214 dB at block size 1 vs 8192, with a regression test.
+- Verify by: `PYTHONPATH=src ../.venv/bin/python -m pytest tests -q` in vox/
+  (103 passed, 1 xfailed). Renders in `~/Desktop/vox references/renders/`:
+  `tupac__tupac.wav`, `eminem__tupac.wav`. Measured side/mid on the Eminem
+  stem: dry −17.5 dB → tupac preset −11.9 dB, so the stack is audibly
+  widening, not nominal.
+- Status: open — owner's ear has not judged it yet. Level-match upward for
+  A/B: tupac render is 2.8 LUFS below dry.
+- Outcome:
+
+### 2026-08-18 Rendered both presets — real material caught TWO bugs the tests missed
+- Context: owner said "render these 2 first." Rendering both presets against
+  the reference acapellas immediately falsified two things that had passed
+  a green test suite. This is the third time this project's own HANDOFF
+  ground rule ("the synthetic bench is necessary but NOT sufficient") has
+  been proven on real audio.
+- Bug 1 (pre-existing, in shipped DSP): `Saturation` kept ONE shared
+  resampling filter state (`up_zi`/`down_zi`) across all channels, so
+  channel N started from channel N-1's filter tail. Both acapellas are true
+  stereo (max|L-R| 0.39 and 1.17), so this fired. Measured: 0.76-amplitude
+  error over the first 64 samples of the right channel — LARGER than the
+  0.2-amplitude signal itself, i.e. an audible pop at the head of every
+  stereo render and at every block boundary in streaming use. Fixed with
+  per-channel state dicts; regression test
+  `test_saturation_channels_are_independent` fails hard on the old code.
+  Every other module was checked for the same class of bug — Band, DeEsser,
+  Limiter all handle per-channel state correctly; Saturation was the only one.
+- Bug 2 (mine, from the Eminem entry below): I copied the HARDWARE threshold
+  from the research doc ("~0 dB", meaning near 0 VU on a desk at +4 dBu
+  nominal) straight into a DIGITAL 0 dBFS threshold. On the real acapella
+  the compressor's RMS detector peaks at -12.4 dB, so the threshold sat ~12 dB
+  above the loudest thing in the file: **the compressor engaged on 0.0% of
+  the file.** The defining stage of the whole Eminem chain did nothing.
+  The entry below claiming GR was "tuned to sit in the documented 3-7 dB
+  range" was FALSE — corrected in place, see its Outcome.
+- Why no metric caught it: the limiter silently absorbed the difference.
+  With the comp inert, the +4 dB makeup drove the limiter harder and IT did
+  the gain reduction. Full-file integrated loudness: -17.504 LUFS (broken)
+  vs -17.505 LUFS (fixed) — a 0.001 dB difference. No output-stage
+  measurement could ever have found this; the compressor stage had to be
+  measured in isolation. Worth remembering before trusting any future
+  "the numbers look fine" on a chain that ends in a limiter.
+- Also my fault: the original test asserted `0.0 <= gr_db <= 10.0`, a bound
+  loose enough to pass with ZERO gain reduction. A test that cannot fail is
+  not a test. Replaced with `test_eminem_compressor_hits_documented_gain_
+  reduction` (asserts the documented 3-7 dB) — verified it FAILS on the old
+  threshold and passes on the new. Deleted the superseded toothless Jay-Z
+  variant rather than leaving both.
+- Decision/change: thresholds are now DERIVED from measured program level
+  via `program_level_db()` + `_threshold_for()` (offline analysis pass
+  setting a per-block Module's parameter — the pattern core.py's own
+  docstring sanctions), not copied off a hardware faceplate. Eminem targets
+  5 dB GR (middle of documented 3-7), Jay-Z targets 2 dB (its
+  "anti-compression" philosophy). Both builders take `program_db` so a
+  hotter or quieter stem tracks correctly.
+- Verify by: `PYTHONPATH=src python3 -m pytest tests/ -q` → 96 passed,
+  1 xfailed. Renders in `~/Desktop/vox references/renders/`, confirmed to be
+  the corrected versions (null vs new-threshold render -138.5 dB = 24-bit
+  floor; vs old-threshold -48.3 dB).
+- Status: open — code and numbers verified, but NOT yet judged by ear. That
+  is the only remaining gate and it is the owner's.
+- Outcome: (awaiting owner's listen)
+
+### 2026-08-18 Second artist preset built: Jay-Z/Young Guru — code only, not rendered
+- Context: owner said "do jay z" after the Eminem preset. Per protocol,
+  built this one and stopped — no render, no third artist yet.
+- Decision/change: added `build_jayz_chain` to `vox/src/vox/presets.py`.
+  Unlike Eminem, no source gives exact comp numbers for either the CL1B
+  (Mercer era) or the "99 Problems" 1176 — INTERVIEWS-ANALYSIS-2026-08-15.md
+  lists that itself under "Known Gaps." Translated the documented
+  PHILOSOPHY into numbers instead: "anti-compression" (rides the fader,
+  doesn't limit) -> low ratio (2.5:1) glue comp tuned to land well under
+  Eminem's GR on the same material; "subtractive EQ first... does NOT
+  scoop mid-range" -> two corrective cut-only bells (350Hz mud, 3kHz
+  harshness), no boost bands, no high-shelf air (present in Eminem/the
+  base scaffold, deliberately dropped here); "minimal gain-stage
+  coloration" -> no saturation stage at all. Left out the "non-linear
+  reverb" mentioned in Interview 2 — the type was never specified (audio
+  cuts off mid-sentence) and pedalboard's algorithmic FDN reverb is the
+  wrong topology to guess at it with.
+- Verify by: `PYTHONPATH=src python3 -m pytest vox/tests/test_presets.py -v`
+  — added `test_jayz_eq_bands_are_cuts_not_boosts` (mechanically checks the
+  "don't scoop, don't boost" rule) and
+  `test_jayz_compressor_gain_reduction_is_light`. Full suite: 94 passed,
+  1 xfailed.
+- Status: open — same as Eminem, not rendered or heard yet. Waiting on
+  owner before Tupac (needs a new pitch-shift harmonizer module — bigger
+  lift than these two) or either render.
+- Outcome: (awaiting owner's manual render + listen)
+
+### 2026-08-18 First artist preset built: Eminem/Dre — code only, not rendered
+- Context: two open questions from the merge session below — which artist
+  first, what "done" means. Owner answered: build one at a time, wait for
+  "continue" between each; lighter-touch bar (does it run, does it sound
+  right) not the full adversarial review loop.
+- Decision/change: picked Eminem/Dre as first artist — of the three
+  researched (Jay-Z, Tupac, Eminem), it's the only one with concrete numeric
+  settings (7:1 ratio, ~0dB threshold, medium attack/fast release, chamber
+  reverb) and no missing DSP. Tupac needs a pitch-shift harmonizer vox
+  doesn't have yet; Jay-Z's chain is "minimal comp + manual fader
+  automation," not a static preset. Built `vox/src/vox/presets.py`
+  (`build_eminem_chain`), reusing chain_demo's gate/de-esser/HPF cleanup
+  stages, swapping compressor/saturation/reverb for the researched numbers.
+  No new DSP modules. Added `vox/tests/test_presets.py` (does-it-run,
+  true-peak-under-ceiling, GR-in-documented-range) — 3 new tests, full
+  suite still green (90 passed, 1 xfailed).
+- Verify by: `PYTHONPATH=src python3 -m pytest vox/tests/test_presets.py -v`
+- Status: FAILED as originally written — corrected same day, see the render
+  entry above. The claim in "Decision/change" that GR was tuned into the
+  documented 3-7 dB range was wrong: the threshold was copied from the
+  hardware spec ("~0 dB") into digital dBFS, which made the compressor
+  engage on 0.0% of real material. The test that was supposed to prove it
+  used a bound so loose (`0 <= gr <= 10`) that it passed at zero GR.
+- Outcome: threshold is now derived from measured program level; the test
+  now asserts the real 3-7 dB range and fails on the old code. Lesson kept:
+  hardware settings quoted in interviews are in ANALOG reference levels and
+  do not transliterate to dBFS — every future preset must derive its
+  threshold from program level, never copy the faceplate number.
+
+### 2026-08-18 Vox vocal-chain research done; vox/ merged into Homeroom-Studio on GitHub
+- Context: building three hip-hop vocal DSP presets (Jay-Z, Tupac, Eminem) for
+  the `vox` AAA vocal processor. Needed both interview data and general web
+  research; owner also wanted `vox/` (previously untracked, its own separate
+  local git repo) onto his existing GitHub.
+- Decision/change:
+  1. Compiled 4 research docs in `~/Desktop/vox references/`: general hip-hop
+     vocal chain consensus (26 sources), Tupac harmonizer-doubling technique,
+     Eminem/Dr. Dre chain (7:1 comp, mono-check rule), Jay-Z 3-era chain
+     (Classic/Mercer/Modern). All marked "owner's own web research, NOT
+     transcribed interview" and cross-referenced against the earlier
+     `INTERVIEWS-ANALYSIS-2026-08-15.md` — conflicts flagged, not resolved
+     silently (Young Guru's "anti-compression/automation" philosophy vs. the
+     one-song "99 Problems" interview note, treated as different scopes not a
+     contradiction).
+  2. Owner confirmed: presets get built **one artist at a time**, wait for his
+     "continue" before the next one; **quality bar = "lighter touch"** — one
+     verification pass (does it run, does it sound like the reference), NOT
+     the full Sound Engine build→harsh-critic→fix→second-adversarial-review
+     loop. This waiver applies to vox preset work only, not Sound Engine.
+  3. `vox/` had its own separate 6-commit local git repo, no remote. Owner
+     chose "merge history in" over a flattened fresh commit. Fetched vox's
+     history into Homeroom-Studio, deleted the nested `.git`, used
+     `git merge -s ours --no-commit --allow-unrelated-histories` + `git add
+     vox/` (not `read-tree -u`, which choked on untracked files) to produce a
+     real 2-parent merge commit (`0e8589d`) preserving all 6 vox commits.
+     Owner pushed it himself (I lack git credentials in this shell) —
+     confirmed live on `github.com/mridgaf/Homeroom-Studio`, branch
+     `never-guess-hooks`.
+- Reasoning worth keeping: `read-tree -u` will refuse on ANY untracked file in
+  the target path — with a from-scratch-untracked nested repo, prefer
+  `merge -s ours --no-commit` + plain `git add` of the working tree instead of
+  fighting read-tree file by file.
+- Verify by: `git log --oneline <vox's-original-last-commit-hash>` still shows
+  all 6 original commits; `git cat-file -p 0e8589d` shows 2 parents.
+- Status: confirmed (owner verified push himself: "it pushed").
+- Outcome: vox/ is now tracked, on GitHub, with full history. Two questions
+  still open (asked, not yet answered — do NOT default, ask again before
+  building anything): (1) which artist's preset to build first, (2) what
+  "preset done" means — config only, or config + rendered A/B against the
+  matching acapella (`eminem lose vocal.wav` / `tupac hollar if you hear me
+  vocal.wav`; no Jay-Z acapella exists). vox has no pitch-shift/harmonizer DSP
+  module yet — needed new for the Tupac preset specifically.
+
 ### 2026-08-16 Ardour evaluated and dropped; reference-matching built instead
 - Context: owner asked to build Ardour 9.7.0 from source (`~/Downloads/
   Ardour-9.7.0`; `~/ard app` is empty). Grilling showed the real goal was not

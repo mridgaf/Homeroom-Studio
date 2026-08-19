@@ -375,12 +375,18 @@ class Saturation(Module):
         h = sig.firwin(n_taps, 0.95 / os, window=("kaiser", 9.0))
         self.up_h = h * os
         self.down_h = h
-        self.up_zi = None
-        self.down_zi = None
+        # Resampling filter state is PER CHANNEL. A single shared zi lets one
+        # channel's filter tail seed the next channel's history -- measured on
+        # true-stereo material as a 0.76-amplitude error over the first 64
+        # samples of the right channel (larger than the signal itself), i.e. an
+        # audible pop at every block boundary. See
+        # test_saturation_channels_are_independent.
+        self.up_zi: dict[int, np.ndarray] = {}
+        self.down_zi: dict[int, np.ndarray] = {}
 
     def reset(self):
-        self.up_zi = None
-        self.down_zi = None
+        self.up_zi = {}
+        self.down_zi = {}
 
     @staticmethod
     def _adaa_hardclip(x: np.ndarray) -> np.ndarray:
@@ -397,16 +403,18 @@ class Saturation(Module):
         y = np.where(safe, (f2 - f1) / np.where(safe, dx, 1.0), np.clip((x1 + x2) / 2, -1, 1))
         return np.concatenate([[np.clip(x[0], -1, 1)], y])
 
-    def _upsample(self, x):
+    def _upsample(self, x, c=0):
         up = np.zeros(len(x) * self.os)
         up[::self.os] = x
-        y, self.up_zi = sig.lfilter(self.up_h, [1.0], up,
-                                    zi=self.up_zi if self.up_zi is not None else np.zeros(len(self.up_h) - 1))
+        zi = self.up_zi.get(c)
+        y, self.up_zi[c] = sig.lfilter(self.up_h, [1.0], up,
+                                       zi=zi if zi is not None else np.zeros(len(self.up_h) - 1))
         return y
 
-    def _downsample(self, x):
-        y, self.down_zi = sig.lfilter(self.down_h, [1.0], x,
-                                      zi=self.down_zi if self.down_zi is not None else np.zeros(len(self.down_h) - 1))
+    def _downsample(self, x, c=0):
+        zi = self.down_zi.get(c)
+        y, self.down_zi[c] = sig.lfilter(self.down_h, [1.0], x,
+                                         zi=zi if zi is not None else np.zeros(len(self.down_h) - 1))
         return y[::self.os]
 
     def process(self, x: np.ndarray) -> np.ndarray:
@@ -416,12 +424,12 @@ class Saturation(Module):
         mode = self._p["mode"]
         out = np.empty_like(x2)
         for c in range(ch):
-            up = self._upsample(x2[:, c] * drive)
+            up = self._upsample(x2[:, c] * drive, c)
             if mode == "adaa_hardclip" or mode == 1:
                 sat = self._adaa_hardclip(up)
             else:
                 sat = np.tanh(up)
-            down = self._downsample(sat)[:len(x2)]
+            down = self._downsample(sat, c)[:len(x2)]
             out[:, c] = down
         mix = self._p["mix"]
         wet = out if x.ndim > 1 else out[:, 0]
@@ -542,3 +550,125 @@ class Limiter(Module):
         y = out_src * needed_gain[:, None]
         self.buf = ext[-need:]
         return y if x.ndim > 1 else y[:, 0]
+
+
+# =============================================================================
+# Stack -- harmonizer-style doubler (pitch-shift + micro-delay + pan)
+# =============================================================================
+class Stack(Module):
+    """Printed vocal thickening: dry centre + one copy pitched UP `cents` on a
+    long micro-delay panned left, one pitched DOWN on a shorter one panned
+    right. Source: ~/Desktop/vox references/TUPAC-VOCAL-STACKING-TECHNIQUE.md
+    (+12c/25ms/L, -12c/10ms/R).
+
+    WHY NOT pedalboard.PitchShift: it is Rubber Band, which buffers ~52k
+    samples (1.08 s at 48k) before it returns anything and does not return a
+    block of the same length it was given -- it cannot satisfy core.Module's
+    "same shape out, correct at any block size" contract. What is built here
+    instead is the classic two-tap crossfading delay-line (Doppler) shifter,
+    which is also what the hardware harmonizers this technique came off of
+    actually did. Zero latency, exact at block size 1.
+
+    Each voice reads the delay line at a slightly wrong rate, so the read
+    delay ramps; when the ramp has travelled one window it wraps, and a second
+    tap half a window out of phase is crossfaded in so the wrap is inaudible.
+    """
+
+    name = "stack"
+    params = (
+        ParamSpec("cents", "float", 12.0, 0.0, 50.0, "cents"),
+        ParamSpec("delay_l_s", "float", 0.025, 0.001, 0.100, "s"),
+        ParamSpec("delay_r_s", "float", 0.010, 0.001, 0.100, "s"),
+        ParamSpec("window_s", "float", 0.050, 0.010, 0.200, "s"),
+        ParamSpec("mix", "float", 0.35, 0.0, 1.0, ""),
+    )
+
+    def prepare(self, fs):
+        self.fs = float(fs)
+        self._alloc()
+
+    def _alloc(self):
+        p = self._p if hasattr(self, "_p") else {}
+        self._win = max(int(round(p.get("window_s", 0.050) * self.fs)), 16)
+        base = max(p.get("delay_l_s", 0.025), p.get("delay_r_s", 0.010))
+        # + one extra window of headroom: process() writes at most a window
+        # of new samples per pass, and must not overwrite history a tap is
+        # still reading (same chunking rule ThrowDelay uses)
+        self._len = int(round(base * self.fs)) + 2 * self._win + 4
+        # one delay line per (voice, channel) -- no shared state across
+        # channels, the bug Saturation shipped with once (DECISIONS 2026-08-18)
+        self._buf = {}
+        self._w = {}
+        self._phase = {}
+
+    def on_param_changed(self, name, value):
+        if name in ("cents", "delay_l_s", "delay_r_s", "window_s"):
+            self._alloc()
+
+    def reset(self):
+        self._alloc()
+
+    def latency_samples(self) -> int:
+        return 0  # the dry path is untouched; the voices are meant to be late
+
+    def _voice(self, src: np.ndarray, key, ratio: float, delay_s: float) -> np.ndarray:
+        # chunk so a long block can't overwrite history the taps still need;
+        # keeps the result identical at block size 1 and at 8192
+        out = np.empty(len(src))
+        pos = 0
+        while pos < len(src):
+            k = min(self._win, len(src) - pos)
+            out[pos:pos + k] = self._voice_chunk(src[pos:pos + k], key, ratio, delay_s)
+            pos += k
+        return out
+
+    def _voice_chunk(self, src: np.ndarray, key, ratio: float, delay_s: float) -> np.ndarray:
+        n = len(src)
+        L = self._len
+        if key not in self._buf:
+            self._buf[key] = np.zeros(L)
+            self._w[key] = 0
+            self._phase[key] = 0.0
+        buf, w, phase = self._buf[key], self._w[key], self._phase[key]
+
+        k = np.arange(n)
+        buf[(w + k) % L] = src
+
+        win = float(self._win)
+        base = delay_s * self.fs
+        # delay must move at (1 - ratio) samples per sample to shift pitch by
+        # `ratio`; expressed as a 0..1 sawtooth over one window
+        dph = (1.0 - ratio) / win
+        f = (phase + k * dph) % 1.0
+        out = np.zeros(n)
+        for frac in (f, (f + 0.5) % 1.0):
+            pos = (w + k) - (base + frac * win)
+            i0 = np.floor(pos).astype(np.int64)
+            a = pos - i0
+            tap = buf[i0 % L] * (1.0 - a) + buf[(i0 + 1) % L] * a
+            out += tap * (0.5 - 0.5 * np.cos(2.0 * np.pi * frac))
+
+        self._w[key] = (w + n) % L
+        self._phase[key] = float((phase + n * dph) % 1.0)
+        return out
+
+    def process(self, x: np.ndarray) -> np.ndarray:
+        x2 = x[:, None] if x.ndim == 1 else x
+        ch = x2.shape[1]
+        src = x2.mean(axis=1)
+        r = 2.0 ** (self.get("cents") / 1200.0)
+        up = self._voice(src, "up", r, self.get("delay_l_s"))
+        dn = self._voice(src, "dn", 1.0 / r, self.get("delay_r_s"))
+        mix = self.get("mix")
+
+        out = x2.copy()
+        if ch >= 2:
+            out[:, 0] += mix * up
+            out[:, 1] += mix * dn
+        else:
+            # mono in, mono out: both voices collapse to centre. The panning
+            # is the point of this technique, so a mono chain gets the
+            # thickness but not the width -- widening the channel count
+            # mid-chain would be worse.
+            out[:, 0] += mix * 0.5 * (up + dn)
+        return out if x.ndim > 1 else out[:, 0]

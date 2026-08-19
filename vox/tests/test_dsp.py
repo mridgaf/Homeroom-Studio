@@ -62,6 +62,25 @@ def test_saturation_adaa_hardclip_meets_bar():
     assert r["alias_db"] < -90, r
 
 
+def test_saturation_channels_are_independent():
+    """Regression: the oversampling filters kept ONE shared zi across all
+    channels, so channel N started from channel N-1's filter tail. On real
+    true-stereo material that put a 0.76-amplitude error (larger than the
+    signal) in the first 64 samples of the right channel -- an audible pop at
+    every block boundary. Right channel must process identically whether it's
+    alone or alongside a different left channel."""
+    rng = np.random.RandomState(0)
+    n = 4000
+    left, right = rng.randn(n) * 0.2, rng.randn(n) * 0.2  # deliberately different
+
+    def sat():
+        return dsp.Saturation(FS, drive_db=6.0, mix=1.0, mode="tanh", oversample=8)
+
+    in_pair = sat().process(np.stack([left, right], axis=1))[:, 1]
+    alone = sat().process(right[:, None])[:, 0]
+    assert np.max(np.abs(in_pair - alone)) < 1e-12
+
+
 # ---------------------------------------------------------------- limiter
 @pytest.mark.parametrize("f0,phase", [
     (997, 0.0), (12000, 0.7), (12000, 0.3), (19000, 0.0), (20500, 0.3), (8000, 1.1),
@@ -94,3 +113,46 @@ def test_limiter_detector_matches_reference_meter():
     got = 20 * np.log10(env.max())
     want = meter.true_peak_db(x, FS)
     assert abs(got - want) < 0.05, (got, want)
+
+
+# -- Stack (harmonizer doubler) ------------------------------------------
+def test_stack_nulls_at_zero_mix():
+    from vox.dsp import Stack
+    x = np.random.RandomState(0).randn(FS) * 0.1
+    y = Stack(FS, mix=0.0).process(x[:, None])[:, 0]
+    assert np.max(np.abs(x - y)) == 0.0
+
+
+def test_stack_is_block_size_invariant():
+    """core.Module's contract: identical at block size 1 and 8192. The first
+    version failed this at large blocks -- a long block overwrote delay-line
+    history the taps were still reading."""
+    from vox.dsp import Stack
+    t = np.arange(FS) / FS
+    x = (np.sin(2 * np.pi * 440 * t) * 0.3)[:, None] * np.ones((1, 2))
+
+    def run(bs):
+        s = Stack(FS, mix=1.0)
+        return np.concatenate([s.process(x[i:i + bs]) for i in range(0, len(x), bs)])
+
+    assert np.max(np.abs(run(1) - run(8192))) < 1e-9
+
+
+def test_stack_voices_are_pitch_shifted_the_documented_amount():
+    """+12 cents left, -12 cents right (TUPAC-VOCAL-STACKING-TECHNIQUE.md).
+    Measured off the wet-only difference against the dry input."""
+    from vox.dsp import Stack
+    t = np.arange(3 * FS) / FS
+    x = (np.sin(2 * np.pi * 440 * t) * 0.3)[:, None] * np.ones((1, 2))
+    wet = Stack(FS, mix=1.0).process(x) - x
+
+    def f0(seg):
+        w = seg * np.hanning(len(seg))
+        sp = np.abs(np.fft.rfft(w))
+        i = int(np.argmax(sp))
+        a, b, c = np.log(sp[i - 1:i + 2] + 1e-30)
+        return (i + 0.5 * (a - c) / (a - 2 * b + c)) * FS / len(seg)
+
+    up, down = f0(wet[FS:2 * FS, 0]), f0(wet[FS:2 * FS, 1])
+    assert abs(up - 440 * 2 ** (12 / 1200)) < 2.0
+    assert abs(down - 440 * 2 ** (-12 / 1200)) < 2.0
