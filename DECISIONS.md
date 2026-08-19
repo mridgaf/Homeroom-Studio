@@ -22,6 +22,56 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-16 Ardour evaluated and dropped; reference-matching built instead
+- Context: owner asked to build Ardour 9.7.0 from source (`~/Downloads/
+  Ardour-9.7.0`; `~/ard app` is empty). Grilling showed the real goal was not
+  modifying Ardour at all — it was a **mixing assistant**: give it a reference
+  track, get told how to get closer, and have it learn from what worked.
+- Decision/change:
+  1. **Ardour dropped.** Verified it has never been run on this machine — no
+     config, no sessions, `~/ardour` empty. Owner is a Reason user and chose
+     "stay in Reason for now."
+  2. Built `~/reason code/compare.py` — A/B diff of two audio files. Reuses
+     `analyze_audio()` whole; no new analysis code.
+  3. Wired it into `recipe.py`: `brief --audio REF --mine YOURS` now folds the
+     diff into the brief, alongside the device usage stats and real parameter
+     names that were already there.
+- Reasoning worth keeping:
+  - **Ardour's Lua API CAN set plugin knobs** (`ARDOUR.LuaAPI.set_processor_param`,
+    `get_processor_param`, `get_parameter_descriptor`) — verified in
+    `share/scripts/s_pluginutils.lua`. That is the one thing Reason genuinely
+    cannot do (see this file's "no API to set knobs" rule). So if switching
+    DAWs is ever reconsidered, that — and only that — is what it buys. Don't
+    re-derive it.
+  - Source code is not an app. The Downloads folder has the recipe, not the
+    meal; a runnable Ardour needs either a multi-hour compile (Homebrew, sudo)
+    or the prebuilt download. Owner was under the impression the folder was
+    already usable.
+  - **Band energies are shares of total and sum to 1**, so comparing them raw
+    is wrong — a bass boost shrinks every other band's share. `band_db()`
+    compares dB-of-share instead, which is level-independent: an unmastered
+    quiet bounce still compares correctly against a loud master. This is the
+    load-bearing idea in the file; don't "simplify" it back to raw fractions.
+  - Built the DAW-agnostic piece first on purpose. When Ardour was dropped an
+    hour later, none of it had to be thrown away.
+- Owner instruction (overrides the hard rule in CLAUDE.md): the
+  build → harsh-critic → second-fresh-subagent loop now runs **on request
+  between steps**, not automatically before every "done." Zero review passes
+  have been run on `compare.py`.
+- Also found: `~/reason code/.venv` is **Python 3.12.13**, not the 3.9.6 this
+  repo's CLAUDE.md states. That note is stale for this folder.
+- Verify by: `cd ~/"reason code" && .venv/bin/python test_compare.py` → 7
+  passed. Identity check (same file as both arguments) → "nothing above the
+  threshold", so no false alarms. Real pair (99 Problems instrumental vs
+  Black Sand Heat) → −7.5 LUFS, +6.1 dB crest, −4.4 dB at 60–200 Hz,
+  +3.8 dB at 200–500 Hz: the textbook unmastered-vs-master signature, which
+  the tool was not told to look for.
+- Status: open — **measured, not heard.** The measurements are checked. Whether
+  the *advice* is right is unverified; only the owner's ears settle that.
+  Stereo width read 0.1 (ref) vs 0.0 (mine) — both near zero, that one row is
+  not trusted yet.
+- Outcome: (awaiting owner's listen)
+
 ### 2026-08-14 vox: work order set, first commit, de-reverb fixed
 - Context: picked up `vox/` (the AAA vocal processor) from its HANDOFF.md.
   Three things were true and unrecorded: the repo had **zero commits** (all
