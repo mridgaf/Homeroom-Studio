@@ -280,3 +280,70 @@ def test_gate_honours_its_own_attack_and_release_params():
     g = dsp.Gate(FS, attack_s=0.05, release_s=1.0)
     assert g.det.attack_s == pytest.approx(0.05)
     assert g.det.release_s == pytest.approx(1.0)
+
+
+# ----------------------------------------------- live param changes / dry mix
+def test_limiter_lookahead_change_does_not_corrupt_the_stream():
+    """REGRESSION: on_param_changed updated la_n but left self.buf at its old
+    length, so the next block read a truncated lookahead window (a numpy slice
+    silently returns short rather than raising) and still applied the OLD
+    delay, then jumped to the new one on the block after -- splicing audio out
+    of the stream. Measured on a clean 220 Hz sine: a sample-to-sample jump 40x
+    larger than the signal's own maximum slew, i.e. an audible click, at
+    exactly the block where the knob moved (buf stayed 264 while la_n went
+    240 -> 720).
+
+    Note this is NOT caught by comparing the settled tail against a limiter
+    that was configured that way from the start -- both settle to the same
+    place. The corruption is transient, so the test has to look for the splice
+    itself.
+
+    Automating a lookahead knob is ordinary plugin use; nothing in the suite
+    called set() mid-stream on any module, so this was invisible.
+    """
+    fs = FS
+    f0, amp, blk = 220.0, 0.2, 480
+    x = (amp * np.sin(2 * np.pi * f0 * np.arange(fs) / fs))[:, None]
+
+    lim = dsp.Limiter(fs)
+    out = []
+    for i in range(0, len(x), blk):
+        if i == 10 * blk:
+            lim.set("lookahead_ms", 15.0)
+        out.append(lim.process(x[i:i + blk]))
+    y = np.concatenate(out)[:, 0]
+
+    # This signal is well under the ceiling, so the limiter is inactive and the
+    # output should be a clean sine. Its slew is bounded by amp*2*pi*f0/fs.
+    #
+    # EXACTLY ONE discontinuity is allowed, at the moment of the change: raising
+    # lookahead lengthens the delay line, so the signal genuinely shifts in
+    # time and the waveform cannot be continuous across it. That one step is
+    # physics. What this test guards is everything that ISN'T: before the fix
+    # there were TWO steps (the old delay applied, then a jump to the new one)
+    # and the larger was 40x the clean slew, because the lookahead window was
+    # being read short and padded with silence.
+    slew = np.abs(np.diff(y))
+    clean = amp * 2 * np.pi * f0 / fs
+    steps = np.flatnonzero(slew > 2 * clean)
+    assert len(steps) <= 1, f"{len(steps)} discontinuities at {steps[:5]}, expected at most 1"
+    assert np.all(np.isfinite(y))
+    # and the sine must survive intact afterwards
+    tail = y[12 * blk:]
+    assert np.abs(np.diff(tail)).max() < 2 * clean
+
+
+@pytest.mark.parametrize("mix", [0.25, 0.5, 0.75])
+def test_deesser_partial_mix_does_not_notch(mix):
+    """REGRESSION: the wet path is an LR4 lowpass+highpass sum, which is
+    magnitude-flat but NOT phase-flat (it is an allpass). Blending that
+    against the dry signal therefore combs: measured a -70.1 dB null at
+    mix=0.5, freq=5500.
+
+    Latent today because every preset uses mix=1.0, but it is an exposed knob
+    that destroys the signal. Fixed by applying mix to the GAIN instead of to
+    the signal, so the wet path stays a single allpass sum at every mix value.
+    """
+    m = dsp.DeEsser(FS, freq_hz=5500.0, threshold_db=0.0, mix=mix)
+    lo, hi = _response_ripple_db(m, lo=200.0, hi=15000.0)
+    assert lo > -1.0, f"notch at mix={mix}: {lo:+.2f} dB"

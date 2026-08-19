@@ -382,10 +382,16 @@ class DeEsser(Module):
             lo[:, c] = self._cascade(lp, x2[:, c])
             hi[:, c] = self._cascade(hp, x2[:, c])
 
-        wet = lo + hi * gain
+        # Mix scales the GAIN, not the signal. The wet path (lo + hi) is an
+        # LR4 sum: magnitude-flat but allpass, i.e. NOT phase-flat. Blending
+        # it against the dry signal therefore combs -- measured a -70.1 dB
+        # null at mix=0.5, freq=5500. Interpolating the gain toward unity
+        # keeps the output a single allpass sum at every mix value, which is
+        # also what "50% de-essing" should mean: half the gain reduction.
+        # See test_deesser_partial_mix_does_not_notch.
         mix = self._p["mix"]
-        out = wet if mix >= 1.0 else (x2 * (1 - mix) + wet * mix)
-        return out if x.ndim > 1 else out[:, 0]
+        wet = lo + hi * (1.0 + mix * (gain - 1.0))
+        return wet if x.ndim > 1 else wet[:, 0]
 
 
 # =============================================================================
@@ -540,10 +546,27 @@ class Limiter(Module):
         # measured 0.3-0.7 dB ceiling overshoot at high frequencies before
         # this was accounted for).
         self._fir_delay = (n_taps - 1) // 2 // self.OS
-        self.buf = None  # holds la_n (audio delay) + fir_delay (detector-only) samples
+        # History is always the MAXIMUM lookahead, not the current one, so that
+        # raising lookahead_ms mid-stream pulls real audio out of history
+        # instead of silence. Sizing it to the current la_n meant a change had
+        # to resize the buffer, and any padding introduced showed up in the
+        # output as a splice (measured: two discontinuities 40x the signal's
+        # own slew on a clean sine). With max-sized history a lookahead change
+        # is just a different index into audio we already have.
+        la_max = next(p.hi for p in self.params if p.name == "lookahead_ms")
+        self._hist = int(round(la_max * 1e-3 * fs)) + self._fir_delay
+        self.buf = None  # holds self._hist samples of input history
 
     def on_param_changed(self, name, value):
         if name == "lookahead_ms":
+            # No buffer surgery needed: self.buf is always self._hist long
+            # (max lookahead), so this only changes where the window is read
+            # from. The audio delay genuinely changes with lookahead, so a
+            # host must renegotiate PDC -- see latency_samples().
+            # ponytail: one unavoidable sample-step at the change (the delay
+            # line length really did change). A short crossfade between the old
+            # and new read positions would remove it -- add that if lookahead
+            # ever becomes an automatable knob rather than a setup parameter.
             self.la_n = int(round(value * 1e-3 * self.fs))
         if name == "release_s":
             self.a_rel = one_pole_coeff(value, self.fs)
@@ -589,18 +612,22 @@ class Limiter(Module):
         ch = x.shape[1] if x.ndim > 1 else 1
         x2 = x if x.ndim > 1 else x[:, None]
         n = len(x2)
-        need = self.la_n + self._fir_delay
-        if self.buf is None:
-            self.buf = np.zeros((need, ch))
-        ext = np.concatenate([self.buf, x2], axis=0)  # len = need + n
-        peak_env = self._true_peak_envelope(ext)      # len = need + n - fir_delay = la_n + n
+        hist = self._hist
+        if self.buf is None or self.buf.shape != (hist, ch):
+            self.buf = np.zeros((hist, ch))
+        ext = np.concatenate([self.buf, x2], axis=0)  # len = hist + n
+        peak_env = self._true_peak_envelope(ext)      # peak_env[j] <-> ext[j + fir_delay]
+        # Output is delayed by la_n, so output sample i is ext[off_a + i] and
+        # its lookahead window starts at peak_env[off + i].
+        off_a = hist - self.la_n
+        off = off_a - self._fir_delay
 
         needed_gain = np.ones(n)
         ceiling = db2lin(self._p["ceiling_dbtp"])
         g = self.gain_state
         win = self.la_n
         for i in range(n):
-            seg_max = np.max(peak_env[i:i + win + 1]) if win > 0 else peak_env[i]
+            seg_max = np.max(peak_env[off + i:off + i + win + 1]) if win > 0 else peak_env[off + i]
             target_g = min(1.0, ceiling / max(seg_max, 1e-9))
             if target_g < g:
                 g = target_g          # instant attack on lookahead peaks
@@ -608,9 +635,9 @@ class Limiter(Module):
                 g += self.a_rel * (target_g - g)
             needed_gain[i] = g
         self.gain_state = g
-        out_src = ext[self._fir_delay:self._fir_delay + n]  # audio delayed by la_n only
+        out_src = ext[off_a:off_a + n]  # audio delayed by la_n only
         y = out_src * needed_gain[:, None]
-        self.buf = ext[-need:]
+        self.buf = ext[-hist:].copy()
         return y if x.ndim > 1 else y[:, 0]
 
 
