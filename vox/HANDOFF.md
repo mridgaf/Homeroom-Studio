@@ -18,10 +18,15 @@ the product is good, before Phase 2 ports it to a JUCE VST3/AU plugin.
 cd vox
 PYTHONPATH=src python3 -m pytest tests/ -v
 ```
-Expect **43 passed, 2 xfailed**. The 2 xfails are load-bearing — they're
-regression guards on known, documented, unfixed bugs (see below). If either
-one starts passing unexpectedly (XPASS), something changed — investigate
-before removing the xfail marker, don't just delete it.
+Expect **174 passed, 1 xfailed** (as of 2026-08-19). The xfail is
+load-bearing — it's a regression guard on a known, documented, unfixed bug
+(see below). If it starts passing unexpectedly (XPASS), something changed —
+investigate before removing the marker, don't just delete it.
+
+Note the suite takes ~95 s, up from ~40 s. That is the true-peak meter and
+limiter running at 16x oversampling instead of 4x/8x, which is what it costs
+for the ±0.1 dBTP bar to be met rather than asserted. See
+`docs/05_FINDINGS.md`, "True-peak accuracy re-measured".
 
 ## Read these in order
 
@@ -51,8 +56,8 @@ before removing the xfail marker, don't just delete it.
 |---|---|---|
 | Loudness/true-peak/null/alias meter | `vox/meter.py` | Validated against EBU Tech 3341, BS.1770-4 Annex 2. Trust this — everything else is graded against it. |
 | Synthetic test vocal w/ ground truth | `vox/testsignal.py` | Source-filter voice model + known room IR + known noise. Useful for DSP correctness, **not sufficient alone** for judging cleanup-stage quality — see finding above. |
-| Gate, DeEsser, ParametricEQ, Compressor, Saturation | `vox/dsp/modules.py` | Hand-rolled, null-tested at bypass settings, Saturation passes the −90 dB alias bar at 8× oversampling (4× measurably fails — kept as a documented regression test). |
-| Limiter | `vox/dsp/modules.py` | Hand-rolled, true-peak (not sample-peak) detection. **Two real bugs found and fixed during this project** — sample-peak-only detection (up to 2.3 dB overshoot), then rectify-before-interpolate (up to 2.3 dB *more*, root cause). Now 0 dB worst-case overshoot on a 12-freq/4-phase sweep, matches an independent reference to 0.003 dB. See `test_limiter_detector_matches_reference_meter`. |
+| Gate, DeEsser, ParametricEQ, Compressor, Saturation | `vox/dsp/modules.py` | Hand-rolled, null-tested at bypass settings, Saturation passes the −90 dB alias bar at 8× oversampling (4× measurably fails — kept as a documented regression test). **Four real bugs fixed 2026-08-19** — see "The 2026-08-19 adversarial pass" below. |
+| Limiter | `vox/dsp/modules.py` | Hand-rolled, true-peak (not sample-peak) detection, **16× oversampled since 2026-08-19** (8× did not meet the ±0.1 dBTP bar). **Two real bugs found and fixed during this project** — sample-peak-only detection (up to 2.3 dB overshoot), then rectify-before-interpolate (up to 2.3 dB *more*, root cause). Now 0 dB worst-case overshoot on a 12-freq/4-phase sweep, matches an independent reference to 0.003 dB. See `test_limiter_detector_matches_reference_meter`. |
 | De-reverb | `vox/dsp/dereverb.py` | **Broken, OFF by default.** Habets/statistical late-reverb suppression. Cannot distinguish a sustained held note from a reverb tail — confirmed on real material and now regression-tested (`test_dry_sustained_tone_is_not_treated_as_reverb`, xfail). Needs a redesign (onset-gating or externally-supplied RT60), not a parameter tweak. See `06_REAL_STEM_FINDINGS.md` for the specific fix options considered. |
 | ML denoise | `vox/engines/denoise_dfn.py` | Real pretrained model (DeepFilterNet3, MIT/Apache-2.0, weights cached at `~/.cache/DeepFilterNet`). Good at noise floor (~25 dB reduction, verified). **OFF by default** — it's speech-trained, not singing-trained, and measurably suppresses sustained non-speech-like content (~59 dB at full wet on a pure tone). Regression-tested (xfail). |
 | ReverbSend, Dimension (chorus/phaser) | `vox/dsp/pedalboard_modules.py` | Phase-1-only, built on `pedalboard` (Spotify's JUCE-adjacent library). Wired into the default chain but **mix=0 (inert) by default**. `pedalboard.Limiter` and `pedalboard.Distortion` are explicitly NOT used anywhere — both measured worse than our own modules (see `06_REAL_STEM_FINDINGS.md`). Cannot ship in the eventual JUCE plugin (Python-only lib) — Phase 2 needs a native reimplementation. |
@@ -114,3 +119,52 @@ before removing the xfail marker, don't just delete it.
   marked Phase-1-only in their own docstrings because they depend on a
   Python library that can't ship in the final plugin. Don't let a
   convenient prototype quietly become an assumed permanent dependency.
+
+
+## The 2026-08-19 adversarial pass — read this before adding a module
+
+A hostile reviewer that did not write this code was pointed at all of
+`src/vox`. Six real bugs came out, four of them shipping in all three artist
+presets. Every one of them lived in one of **two blind spots**, and both are
+now guarded by `tests/test_latency_and_mix.py`, parametrized over the module
+list so the next module added is checked for free:
+
+1. **Partial mix.** Every test in the project used `mix=0` (a null test) or
+   `mix=1` (no dry path at all). The product ships partial mix everywhere, so
+   the one region that mattered was the one region nothing exercised.
+2. **Latency.** Nothing ever compared a module's reported `latency_samples()`
+   to its measured impulse delay.
+
+What that combination hid:
+
+- **`Saturation` was a comb filter at every mix value the presets use.** The
+  wet path is delayed 32 samples by the oversampling FIRs; the dry path
+  wasn't. Notches every fs/32 (≈1370 Hz at 44.1 k). Re-rendering after the
+  fix restored **up to +7 dB of high end** on the Tupac and Eminem presets.
+  If you are looking for the cause of the "muffled" complaint in
+  `06_REAL_STEM_FINDINGS.md`, start here.
+- **`Chain` had the identical bug**, in a class whose docstring advertised
+  "dry-path delay compensation" it did not implement.
+- **`Gate` amplified the room tone it exists to remove**, up to +2.95 dB
+  inside its hysteresis window, because the expander shortfall was measured
+  against the wrong threshold. The only gate test held the gate permanently
+  open.
+- **`Gate` silently discarded its own `attack_s`/`release_s`.**
+- **`Limiter` spliced audio out of the stream** when `lookahead_ms` changed
+  mid-stream.
+- **`DeEsser.mix` was a −70 dB notch generator** (allpass wet blended against
+  dry).
+
+And one non-bug worth more than some of the bugs: **the limiter's true-peak
+accuracy claim was never tested.** Its "independent reference" was the same
+algorithm as its detector. When actually graded against a different one, the
+4× meter missed the project's own ±0.1 dBTP bar by 0.464 dB.
+
+The lesson to carry forward is the same one `06_REAL_STEM_FINDINGS.md` already
+recorded, one level up: **a test that only exercises the settings the product
+doesn't ship is not evidence.** Before trusting a module, ask which of its
+parameter space is actually covered.
+
+Also note, still open: every test in this project runs at **48 kHz**, while
+both reference acapellas are **44.1 kHz**. The presets run and stay finite at
+44.1/96 k, but nothing is graded there.

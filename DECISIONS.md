@@ -22,6 +22,62 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-19 Adversarial review of the audio engine — six real bugs, four of them shipping
+- Context: owner asked to continue the audio engine and to run an adversarial
+  agent — "master in music engineering and computer software development, who
+  did not write this code and expects there to be flaws". Ran one over all of
+  `vox/src`, then re-verified its findings rather than taking them on trust.
+- What it found, all fixed this session, each with the regression test that
+  fails without it:
+  1. **Saturation was a comb filter at every mix the presets ship.** Wet path
+     delayed 32 samples by the oversampling FIRs, dry path not. Notches every
+     fs/32 (~1370 Hz at 44.1k), −3.81/+0.86 dB ripple at mix=0.15. Re-render
+     restored **up to +7 dB of high end** on the Tupac/Eminem presets. This is
+     a strong candidate for the "muffled" complaint in 06_REAL_STEM_FINDINGS.
+  2. **Chain had the same bug**, in a class whose docstring claimed to do the
+     compensation. Also never called Module.__init__, so get()/set() raised.
+  3. **Gate amplified room tone up to +2.95 dB** inside its hysteresis window
+     — expander shortfall measured against close_db instead of the threshold
+     in force. The only gate test held the gate permanently open, so the one
+     non-trivial region of a gate's design was never exercised.
+  4. **Gate ignored its own attack_s/release_s** (prepare() hardcoded them).
+     All three presets asked for release_s=0.12 and got 0.15.
+  5. **Limiter spliced audio out** when lookahead_ms changed mid-stream.
+  6. **DeEsser.mix was a −70 dB notch generator** (allpass wet blended
+     against dry). Latent — presets use mix=1.0.
+- The bigger finding is structural: **every one of these lived in the same two
+  blind spots.** Every test used mix=0 or mix=1, and nothing ever compared a
+  module's reported latency to its measured latency. Now guarded by
+  `tests/test_latency_and_mix.py`, parametrized over the module list.
+- **Correction to a previously recorded "known limitation".** The limiter's
+  true-peak claim rested on `test_limiter_detector_matches_reference_meter`,
+  whose "independently-implemented reference meter" is the SAME algorithm as
+  the detector (both firwin zero-stuff, same window, same taps). Graded
+  against polyphase resampling instead: 4x is off by −0.464 dB, 8x by −0.139,
+  both failing the ±0.1 dBTP bar in 00_BAR.md. Worst cases sit at exact
+  submultiples of fs (fs/2.5, fs/3, fs/4), invisible to a one-tone check.
+  meter default and Limiter.OS are both 16x now (−0.059 dB). 05_FINDINGS had
+  logged the 4x error as "a documented, known limitation" — it was a
+  documented failure of our own spec. Corrected in place.
+- **Two findings did NOT survive verification**, worth recording so they don't
+  get re-raised: the reviewer's 0.40 dB limiter overshoot was an edge-transient
+  artifact in its own resample_poly reference, and a 0.223 dB figure found
+  while checking it came from hard-clipped noise, which isn't bandlimited so
+  "true peak" is ill-defined for it. Real material overshoots +0.050 dB. Every
+  interpolating true-peak method rings at signal boundaries — fade test
+  signals, don't slice them. Recorded in 05_FINDINGS and in the test helper.
+- Reasoning: adversarial output is a lead list, not a verdict. Two of six
+  "confirmed" claims were measurement artifacts; the underlying critique of
+  the methodology was right anyway.
+- Verify by: `cd vox && PYTHONPATH=src ../.venv/bin/python -m pytest tests -q`
+  → 174 passed, 1 xfailed (~95 s; it was ~40 s — the extra is 16x oversampling,
+  the price of the bar being met rather than asserted). Renders regenerated;
+  the pre-fix set is kept at `~/Desktop/vox references/renders_before_dspfixes`
+  for A/B.
+- Status: open — owner's ear on the re-renders.
+- Outcome:
+
+
 ### 2026-08-19 Installed plugins wired in — and the A/B immediately found a shipped bug
 - Context: owner asked which of /Library/Audio/Plug-Ins was worth using, and
   chose BOTH options: Supertone Clear as a real cleanup pre-pass, and a

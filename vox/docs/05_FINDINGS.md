@@ -6,10 +6,13 @@
   44.1/48/96/192 kHz.
 - K-weighting: +4.04 dB HF shelf, −6.0 dB at the 38 Hz RLB corner — matches
   the published response shape.
-- True-peak (4x oversampled FIR per BS.1770-4 Annex 2) confirmed against a
-  12 kHz tone at −6.02 dBFS: reads −5.87 dBTP, a 0.15 dB positive bias that
-  is a documented, known limitation of 4x oversampling near Nyquist. This
-  is why the limiter (below) uses 8x, not the meter's 4x.
+- True-peak: **CORRECTED 2026-08-19, see "True-peak accuracy re-measured"
+  below.** The original entry here confirmed the 4x meter against a single
+  12 kHz tone and called the 0.15 dB error "a documented, known limitation".
+  It is a limitation, but the bar in `00_BAR.md` is ±0.1 dBTP, so recording it
+  as known was accepting a documented failure of our own spec. Worst case is
+  also far larger than one tone suggested: −0.464 dB. The meter default is now
+  16x, and the limiter matches at 16x.
 - Null test resolves a single 24-bit LSB of difference at −138.5 dB, as
   expected from `20*log10(2^-23)`.
 
@@ -44,8 +47,44 @@ require antiderivative anti-aliasing (ADAA).
 
 After both fixes: swept 12 frequencies (200 Hz–20.5 kHz) × 4 phases × a
 12 kHz worst case → **0 dB worst-case overshoot**, and the limiter's own
-detector matches the independently-implemented reference meter to within
-0.003 dB (`test_limiter_detector_matches_reference_meter`).
+detector matches the reference meter to within 0.003 dB
+(`test_limiter_detector_matches_reference_meter`).
+
+**That second clause was never evidence of anything** (corrected 2026-08-19).
+`meter.true_peak_db` is not an independent implementation of the detector:
+both are `firwin(48*OS+1, 1/OS, kaiser)` zero-stuffed interpolation, same
+window, same tap count. Agreement between them can only catch one drifting
+from the other, never an error they share — and they did share one. See below.
+
+## True-peak accuracy re-measured (2026-08-19)
+
+Graded against `scipy.signal.resample_poly`, a genuinely different algorithm,
+over 11 frequencies × 32 phases:
+
+| meter oversampling | worst error | vs the ±0.1 dBTP bar |
+|---|---|---|
+| 4x (the old default) | −0.464 dB | fails |
+| 8x | −0.139 dB | fails |
+| 16x (current) | −0.059 dB | meets it |
+
+The errors cluster at **exact submultiples of fs** — 19200 = fs/2.5,
+16000 = fs/3, 12000 = fs/4 — where the interpolation grid lands on the same
+phases every cycle and can straddle the true peak indefinitely rather than
+converging. A single-frequency spot check cannot see this, which is exactly
+why the original 12 kHz check did not.
+
+`meter.true_peak_db` now defaults to 16x and `Limiter.OS` is 16 to match: a
+limiter detecting at a lower rate than the meter grades at is targeting a
+number the meter will refuse to confirm. On real material — both reference
+acapellas driven 12 dB into the limiter — worst overshoot is +0.050 dB.
+
+**Measurement trap, recorded so it isn't re-stepped-in:** every interpolating
+true-peak method rings at a signal boundary. Slicing a tone out of the middle
+of a buffer, or reading the edges of a resampled one, reads several *tenths of
+a dB high*. An adversarial review of this project reported a 0.40 dB limiter
+overshoot that was entirely this artifact; the same mistake was then
+reproduced and caught while verifying that claim. Fade the test signal
+(`_faded()` in `tests/test_dsp.py`), do not slice it.
 
 ## De-reverb (vox/dsp/dereverb.py) — real, but with an honest limitation
 - Built from Habets (2007) / Lebart-Boucher-Denbigh (2001) causal statistical

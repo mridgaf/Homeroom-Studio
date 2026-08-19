@@ -55,4 +55,9 @@ Bypass, Solo, Remove, drag-reorder, Wet/Dry mix. **Module order is user-rearrang
 - No aliasing above −90 dBFS on a 1 kHz sine at 0 dBFS through any nonlinearity
   (i.e. saturation MUST oversample).
 - Look-ahead limiter true-peak accurate to ±0.1 dBTP against ITU-R BS.1770-4.
+  NOTE: BS.1770-4's 4x oversampling is the spec's MINIMUM, not an accuracy
+  guarantee, and it does not meet this bar — measured worst case −0.464 dB at
+  exact submultiples of fs. Meeting ±0.1 dBTP takes 16x. Both
+  `meter.true_peak_db` and `Limiter.OS` use 16x for this reason
+  (docs/05_FINDINGS.md, "True-peak accuracy re-measured").
 - Loudness measurement must be BS.1770-4 / EBU R128 compliant (I, S, M, LRA).
