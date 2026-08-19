@@ -169,3 +169,59 @@ def test_presets_deess_measurably_on_material_that_has_esses():
         de = next(m for m in chain.modules if m.name == "deesser")
         drop = hf_peak_db(de.process(x)) - hf_peak_db(x)
         assert drop < -1.5, f"{name} de-esser did nothing (peak HF {drop:+.2f} dB)"
+
+
+def test_presets_deess_covers_the_real_sibilance_band():
+    """REGRESSION (owner's ear, 2026-08-19: "the s's stand out way too much" on
+    every render, including both reference acapellas).
+
+    The de-esser applied its full target GR, but with the crossover at 7 kHz it
+    applied it to a band holding a MINORITY of the sibilance -- measured on
+    unvoiced frames, 63% of the ess energy on the Eminem reference sat below
+    7 kHz, untouched. Delivered reduction was 0.9-1.7 dB.
+
+    The older test above cannot catch this: its ess is a pure 8 kHz sine, which
+    lies entirely inside the de-essed band, so it passes at any crossover below
+    8 kHz. Real sibilance is BROADBAND (~4.5-12 kHz), so this one uses filtered
+    noise and asserts on total ess-band energy -- the thing the ear hears.
+    """
+    from vox import dsp
+    fs = FS
+    rng = np.random.default_rng(0)
+    t = np.arange(2 * fs) / fs
+    body = 0.3 * np.sin(2 * np.pi * 300 * t)
+    # broadband ess: noise shaped into 4.5-12 kHz, bursting 4% of the time
+    n = rng.standard_normal(len(t))
+    for _ in range(2):
+        n = dsp.Band(fs, "highpass", 4500.0, q=0.707).process(n)
+    for _ in range(2):
+        n = dsp.Band(fs, "lowpass", 12000.0, q=0.707).process(n)
+    burst = (t % 0.5 < 0.02).astype(float)
+    x = (body + 0.9 * n / (np.max(np.abs(n)) + 1e-12) * burst)[:, None]
+
+    def ess_energy_db(sig_):
+        s = sig_[:, 0]
+        w = np.hanning(len(s))
+        sp = np.abs(np.fft.rfft(s * w)) ** 2
+        f = np.fft.rfftfreq(len(s), 1 / fs)
+        return 10 * np.log10(sp[(f >= 4500) & (f < 12000)].sum() + 1e-30)
+
+    def body_energy_db(sig_):
+        s = sig_[:, 0]
+        w = np.hanning(len(s))
+        sp = np.abs(np.fft.rfft(s * w)) ** 2
+        f = np.fft.rfftfreq(len(s), 1 / fs)
+        return 10 * np.log10(sp[(f >= 200) & (f < 4000)].sum() + 1e-30)
+
+    sib = presets.sibilance_level_db(x, fs)
+    prog = presets.program_level_db(x, fs)
+    for name, build in presets.PRESETS.items():
+        de = next(m for m in build(fs, program_db=prog, sibilance_db=sib).modules
+                  if m.name == "deesser")
+        y = de.process(x)
+        drop = ess_energy_db(y) - ess_energy_db(x)
+        body = body_energy_db(y) - body_energy_db(x)
+        # fails at ~-1.4 dB with the old 7 kHz / 4 dB constants
+        assert drop < -2.5, f"{name} de-esser too weak on broadband ess ({drop:+.2f} dB)"
+        # the crossover must still protect the body while doing it
+        assert body > -0.5, f"{name} de-esser ate the body ({body:+.2f} dB)"

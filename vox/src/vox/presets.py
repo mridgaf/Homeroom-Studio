@@ -42,8 +42,18 @@ NOMINAL_PROGRAM_DB = -14.0
 # percentile up into the esses themselves. Default is the louder reference.
 NOMINAL_SIBILANCE_DB = -20.0
 DEESS_RATIO = 4.0
-DEESS_TARGET_GR_DB = 4.0
-DEESS_FREQ_HZ = 7000.0
+# TUNED 2026-08-19 (owner's ear: "the s's stand out way too much", on the debbie
+# vocal AND on both reference acapellas). The stage was honest -- it applied its
+# full 4 dB -- but to the band above 7 kHz only, and that band holds a MINORITY
+# of the sibilance: measured on unvoiced frames, 63% of the ess energy on
+# `eminem lose vocal.wav` and 47% on the Tupac reference sit BELOW 7 kHz, where
+# nothing touched them. Delivered reduction was therefore 0.9-1.7 dB, matching
+# the 1.28 dB the T-De-Esser A/B had already flagged as "open, a tuning pass".
+# Crossover moved down to cover the real ess band and the target raised to land
+# ~3 dB delivered, i.e. the commercial reference's 3.59 dB. The LR crossover
+# keeps the body safe while doing it: measured body damage 0.10 dB.
+DEESS_TARGET_GR_DB = 6.0
+DEESS_FREQ_HZ = 5500.0
 
 
 def program_level_db(x: np.ndarray, fs: float) -> float:
