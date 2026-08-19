@@ -29,9 +29,21 @@ def test_eq_zero_gain_nulls():
 
 
 def test_saturation_zero_mix_nulls():
+    """At mix=0 the output must be the input -- delayed by the module's
+    reported latency, NOT bit-aligned to it.
+
+    The dry path is delayed to match the wet path (see
+    test_saturation_partial_mix_does_not_comb). That delay deliberately stays
+    constant at every mix value: a module whose latency changes when you move
+    a mix knob breaks the host's delay compensation and jumps the signal
+    mid-automation. Constant latency is the correct behaviour, so this test
+    nulls against the delayed input.
+    """
+    m = dsp.Saturation(FS, mix=0.0)
+    lat = m.latency_samples()
     x = np.random.RandomState(0).randn(FS) * 0.1
-    y = dsp.Saturation(FS, mix=0.0).process(x[:, None])[:, 0]
-    assert meter.null_test_db(x, y) < -300
+    y = m.process(x[:, None])[:, 0]
+    assert meter.null_test_db(x[:-lat], y[lat:]) < -300
 
 
 def test_gate_settles_open_and_transparent():
@@ -181,3 +193,49 @@ def test_deesser_cuts_sibilance_without_eating_the_body():
 
     assert level(y, 8000) - level(x, 8000) < -4.0   # sibilance genuinely cut
     assert abs(level(y, 300) - level(x, 300)) < 0.5  # body essentially untouched
+
+
+# --------------------------------------------- partial-mix / latency alignment
+def _response_ripple_db(mod, fs=FS, lo=100.0, hi=15000.0):
+    """Magnitude response of `mod` on white noise, in dB, over [lo, hi).
+
+    Welch on a long noise burst: at low drive tanh is essentially linear, so
+    any ripple here is a filtering artifact, not distortion.
+    """
+    x = np.random.RandomState(0).randn(8 * fs) * 0.02
+    y = mod.process(x[:, None])[:, 0]
+    f, pxx = sg.welch(x, fs, nperseg=8192)
+    _, pyy = sg.welch(y, fs, nperseg=8192)
+    band = (f >= lo) & (f < hi)
+    h = 10 * np.log10(pyy[band] / pxx[band])
+    return h.min(), h.max()
+
+
+@pytest.mark.parametrize("mix", [0.1, 0.15, 0.2, 0.5, 0.75])
+def test_saturation_partial_mix_does_not_comb(mix):
+    """REGRESSION: the wet path is delayed by latency_samples() (32 samples of
+    oversampling FIR), so mixing it against an UNDELAYED dry signal is a comb
+    filter, not a blend.
+
+    Measured before the fix at the settings the presets actually ship
+    (Eminem mix=0.10, Tupac mix=0.20, chain_demo mix=0.15): -3.81/+0.86 dB of
+    ripple across 100 Hz-15 kHz, with notches every ~1.5 kHz. The "light Neve
+    warmth" stage was a comb filter sitting on the vocal.
+
+    Every other saturation test uses mix=0 (nulls) or mix=1 (no dry path at
+    all), so none of them can see this. Partial mix is the only place it lives,
+    and partial mix is all the product uses.
+    """
+    lo, hi = _response_ripple_db(
+        dsp.Saturation(FS, drive_db=0.0, mix=mix, oversample=8, mode="tanh"))
+    assert lo > -0.5 and hi < 0.5, f"comb ripple at mix={mix}: {lo:+.2f}/{hi:+.2f} dB"
+
+
+def test_saturation_reports_its_true_latency():
+    """latency_samples() must match the measured impulse delay -- a host that
+    trusts it for PDC misaligns every parallel path if it lies."""
+    m = dsp.Saturation(FS, drive_db=0.0, mix=1.0, oversample=8, mode="tanh")
+    imp = np.zeros(4096)
+    imp[100] = 0.5
+    y = m.process(imp[:, None])[:, 0]
+    assert abs(int(np.argmax(np.abs(y))) - 100 - m.latency_samples()) <= 1
