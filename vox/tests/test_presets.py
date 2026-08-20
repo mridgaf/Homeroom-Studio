@@ -213,10 +213,9 @@ def test_presets_deess_covers_the_real_sibilance_band():
         f = np.fft.rfftfreq(len(s), 1 / fs)
         return 10 * np.log10(sp[(f >= 200) & (f < 4000)].sum() + 1e-30)
 
-    sib = presets.sibilance_level_db(x, fs)
-    prog = presets.program_level_db(x, fs)
+    a = presets.analyse(x, fs)
     for name, build in presets.PRESETS.items():
-        de = next(m for m in build(fs, program_db=prog, sibilance_db=sib).modules
+        de = next(m for m in build(fs, **a).modules
                   if m.name == "deesser")
         y = de.process(x)
         drop = ess_energy_db(y) - ess_energy_db(x)
@@ -225,3 +224,60 @@ def test_presets_deess_covers_the_real_sibilance_band():
         assert drop < -2.5, f"{name} de-esser too weak on broadband ess ({drop:+.2f} dB)"
         # the crossover must still protect the body while doing it
         assert body > -0.5, f"{name} de-esser ate the body ({body:+.2f} dB)"
+
+
+def _sibilant(fs=FS, dur=2.0, ess_lo=7000.0):
+    """Voiced program with ess bursts whose energy sits ABOVE ess_lo only.
+
+    The point is that a correct crossover estimator must find ess_lo from the
+    signal. A source whose ess band has been scooped by prior processing will
+    report a lower edge than it really has -- that is exactly how a fixed
+    5500 Hz got calibrated on a mastered acapella (see presets.DEESS_FREQ_HZ).
+    """
+    from scipy.signal import butter, sosfilt
+    rng = np.random.RandomState(3)
+    n = int(dur * fs)
+    t = np.arange(n) / fs
+    voiced = (np.sin(2 * np.pi * 180 * t) + 0.5 * np.sin(2 * np.pi * 540 * t)) * 0.2
+    burst = np.zeros(n)
+    for start in range(int(0.2 * fs), n - int(0.1 * fs), int(0.4 * fs)):
+        burst[start:start + int(0.08 * fs)] = 1.0
+    ess = sosfilt(butter(8, ess_lo, "highpass", fs=fs, output="sos"),
+                  rng.randn(n)) * burst * 0.35
+    return (voiced + ess)[:, None]
+
+
+def test_sibilance_freq_tracks_the_signal_not_a_constant():
+    """REGRESSION (2026-08-20): the crossover was a constant tuned on an
+    already-de-essed commercial acapella, so it sat ~1.7 kHz below the real
+    ess band on dry material. It must follow the source."""
+    lo = presets.sibilance_freq_hz(_sibilant(ess_lo=5000.0), FS)
+    hi = presets.sibilance_freq_hz(_sibilant(ess_lo=8500.0), FS)
+    assert hi > lo + 1000.0, f"crossover did not track the ess band: {lo:.0f} -> {hi:.0f} Hz"
+
+
+def test_deesser_acts_on_the_ess_band_not_on_presence():
+    """A crossover set too low pulls presence and consonants instead of ess.
+    Grade both: the ess band must come down, the band below it must not."""
+    from scipy.signal import welch
+    x = _sibilant(ess_lo=8000.0)
+    a = presets.analyse(x, FS)
+    de = next(m for m in presets.build_eminem_chain(FS, **a).modules
+              if m.name == "deesser")
+    y = de.process(x)
+    f, P = welch(x[:, 0], FS, nperseg=4096)
+    _, Q = welch(y[:, 0], FS, nperseg=4096)
+    band = lambda A, c, d: A[(f >= c) & (f < d)].sum()
+    ref = 0.0  # de-esser stage alone; nothing else touches level here
+    ess = 10 * np.log10(band(Q, 8000, 16000) / band(P, 8000, 16000)) - ref
+    presence = 10 * np.log10(band(Q, 4000, 6500) / band(P, 4000, 6500)) - ref
+    assert ess < -1.0, f"de-esser did not engage on the ess band ({ess:+.2f} dB)"
+    assert presence > -1.0, f"de-esser reached into presence ({presence:+.2f} dB)"
+
+
+def test_nominal_defaults_come_from_dry_material():
+    """REGRESSION (2026-08-20): defaults were calibrated on commercial
+    acapellas -- already compressed and mastered, so several dB hot. That
+    biases every derived threshold toward doing less than the preset claims."""
+    assert presets.NOMINAL_PROGRAM_DB < -16.0
+    assert presets.DEESS_FREQ_HZ >= 7000.0

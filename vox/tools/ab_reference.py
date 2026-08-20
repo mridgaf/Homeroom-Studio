@@ -11,8 +11,15 @@ to stop guessing: doc 07 says "modelling each box by ear is how you land at
 Compared:
   Saturation vs Newfangled Obliterate  -- alias floor and THD off the same
       sine sweep our own -90 dB bar is measured with (meter.aliasing_floor_db)
-  DeEsser    vs Techivation T-De-Esser -- sibilance-band reduction on the real
-      acapella, AND how much body (<4 kHz) each one damages getting there
+  DeEsser    vs Techivation T-De-Esser -- sibilance-band reduction, AND how
+      much body (<4 kHz) each one damages getting there
+
+CAVEAT (2026-08-20): the de-esser A/B runs on a commercial acapella, which has
+ALREADY been de-essed. Both plugins are therefore graded on a signal missing
+the thing they exist to remove, and any tuning derived from it inherits that.
+The numbers are a sanity check on the two implementations against each other,
+NOT a calibration source -- calibrate on DRY_VOCAL. This is exactly how a fixed
+5500 Hz crossover got adopted; see presets.DEESS_FREQ_HZ.
 """
 import os
 import sys
@@ -28,6 +35,7 @@ VST3 = Path("/Library/Audio/Plug-Ins/VST3")
 OBLITERATE = VST3 / "Newfangled Audio/Obliterate.vst3"
 T_DEESSER = VST3 / "T-De-Esser.vst3"
 ACAPELLA = Path.home() / "Desktop/vox references/acapellas/eminem lose vocal.wav"
+DRY_VOCAL = Path.home() / "Desktop/debbie8 13 26 vc loop reason.wav"
 
 
 def _plugin(path, **params):
@@ -104,10 +112,10 @@ def deesser_vs_tdeesser():
     else:
         print("  T-De-Esser not installed")
 
-    peak_dry = band_db(x, fs, 7000, 16000, pct=99)
+    peak_dry = band_db(x, fs, 4500, 12000, pct=99)
     body_dry = band_db(x, fs, 200, 4000)
     for name, y in rows:
-        print(f"  {name:14} loudest esses {band_db(y, fs, 7000, 16000, pct=99) - peak_dry:+.2f} dB   "
+        print(f"  {name:14} loudest esses {band_db(y, fs, 4500, 12000, pct=99) - peak_dry:+.2f} dB   "
               f"body damage {band_db(y, fs, 200, 4000) - body_dry:+.2f} dB")
     print("  -> want: esses several dB down, body within a few tenths of 0")
 

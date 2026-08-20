@@ -371,7 +371,8 @@ class DeEsser(Module):
         0 dB gain. A bell at 0 dB is a mathematical identity (A=1 makes b==a),
         so the "band" was the whole signal and this was a broadband ducker --
         exactly what the paragraph above claims it isn't. Measured against
-        Techivation T-De-Esser on the reference acapella: 4.8 dB of body
+        Techivation T-De-Esser, measured on the reference acapella (an
+        already-de-essed master -- see tools/ab_reference.py's caveat): 4.8 dB of body
         (200 Hz-4 kHz) damage to get 2.2 dB of sibilance reduction. The
         obvious repair (highpass instead of bell, still subtracted from the
         full signal) does NOT work either: the highpass phase-rotates the band

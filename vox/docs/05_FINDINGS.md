@@ -119,3 +119,54 @@ because it has known ground truth. The synthetic voice is a source-filter
 model, not a real larynx — it is good for proving DSP correctness and
 catching bugs like the two above, but the denoise and de-reverb *quality*
 numbers should be treated as provisional until validated on real material.
+
+## Calibrated on the wrong source (2026-08-20)
+
+The reference acapellas are commercial releases. They were used as if they
+were clean vocal stems, so several constants were calibrated on material that
+already carried a full production chain. Measured against a dry vocal
+(`debbie8 13 26 vc loop reason.wav`):
+
+| what | dry vocal | eminem acap | tupac acap |
+|---|---|---|---|
+| program level (99th pct) | **-18.3 dB** | -14.1 | -16.4 |
+| sibilance level | **-17.0 dB** | -19.3 | -25.1 |
+| crest | **15.30 dB** | 13.53 | 14.09 |
+| energy above 10 kHz | **3.06%** | 0.92% | 0.79% |
+| ess band lower edge | **7192 Hz** | 5340 | 5814 |
+
+Consequences, and what changed:
+
+1. **`NOMINAL_PROGRAM_DB` was -14.0**, justified as "both reference acapellas
+   land within ~1 dB of this". A dry vocal is 4.3 dB quieter, because the
+   acapellas are compressed and mastered. Every threshold derived from the
+   default was ~4 dB high, biasing the chain toward doing less than it claims.
+   Now -18.3.
+
+2. **The de-esser crossover was moved 7000 -> 5500 Hz** on the finding that
+   "63% of ess energy on the Eminem reference sits below 7 kHz". That reference
+   has already been de-essed: its energy above 10 kHz is a third of a dry
+   vocal's. Prior processing had scooped the top of its own ess band, dragging
+   the apparent distribution down -- the number described its mastering, not
+   sibilance. On dry material the ess band starts at ~7.2 kHz, so 5500 sat
+   ~1.7 kHz low and reached into presence and consonants.
+   The crossover is now DERIVED per stem (`presets.sibilance_freq_hz`), the
+   same two-pass pattern the thresholds already used. The constant is a
+   fallback only.
+
+3. **The gate's -42/-48 dB thresholds have never been validated on material
+   with a real noise floor.** Neither source has one, in opposite ways: the dry
+   vocal's gaps are digital silence (p10 = -120 dB, already edited), while the
+   Tupac acapella's "floor" is -35 dB of printed reverb tail, which holds the
+   gate open 99.7% of the time. Open -- needs a stem with actual room tone.
+
+4. **`tools/ab_reference.py` graded our de-esser against T-De-Esser on the
+   acapella**, i.e. on a signal missing the thing both exist to remove. Marked
+   as a sanity check, not a calibration source. Its grading band was also still
+   7-16 kHz, the band finding 2 proved wrong; now 4.5-12 kHz.
+
+**Why the adversarial passes missed all of this.** Both passes graded the code
+against the tests, and the tests against the DSP. Neither asked what the input
+material was. A reviewer told "find flaws in this code" checks the code; the
+error lived one level up, in what the numbers were measured on. Provenance of
+calibration data is now part of the review checklist.

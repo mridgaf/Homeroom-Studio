@@ -18,8 +18,16 @@ from . import dsp
 from .core import Chain
 
 # The RMS-detector peak level of a well-recorded rap vocal stem, measured as
-# the 99th percentile of the compressor's own detector envelope. Both
-# reference acapellas land within ~1 dB of this.
+# the 99th percentile of the compressor's own detector envelope.
+#
+# CALIBRATION SOURCE (corrected 2026-08-20): this used to be -14.0, set
+# because "both reference acapellas land within ~1 dB of this". That was a
+# contaminated calibration -- the acapellas are commercial releases, already
+# compressed and mastered, so they sit hot and tight. A DRY vocal does not:
+# `debbie8 13 26 vc loop reason.wav` measures -18.3 dB. Calibrating a
+# threshold default on finished masters biases every derived threshold ~4 dB
+# high, i.e. toward doing less than the preset claims. Defaults now come from
+# dry material; anything real should still pass its own measured level in.
 #
 # WHY THIS EXISTS: the research docs quote HARDWARE thresholds ("~0 dB", i.e.
 # near 0 VU on a desk running +4 dBu nominal). Setting a digital compressor's
@@ -28,7 +36,7 @@ from .core import Chain
 # because the detector never gets above -12.4 dB. Thresholds below are
 # therefore derived from program level, the way the engineer set them by ear,
 # not copied from the hardware faceplate.
-NOMINAL_PROGRAM_DB = -14.0
+NOMINAL_PROGRAM_DB = -18.3
 
 # Same trap, one stage earlier: the de-esser threshold was a flat -22 dB in all
 # three presets, copied from nothing in particular. Measured on the reference
@@ -39,21 +47,27 @@ NOMINAL_PROGRAM_DB = -14.0
 # level, and the threshold is then derived to land a target gain reduction on
 # the loudest esses -- a percentile used AS the threshold does not work, the
 # detector's 60 ms release smears each ess across enough frames to drag any
-# percentile up into the esses themselves. Default is the louder reference.
-NOMINAL_SIBILANCE_DB = -20.0
+# percentile up into the esses themselves. Default is measured on the dry
+# vocal (-17.0), not on an acapella -- see NOMINAL_PROGRAM_DB.
+NOMINAL_SIBILANCE_DB = -17.0
 DEESS_RATIO = 4.0
-# TUNED 2026-08-19 (owner's ear: "the s's stand out way too much", on the debbie
-# vocal AND on both reference acapellas). The stage was honest -- it applied its
-# full 4 dB -- but to the band above 7 kHz only, and that band holds a MINORITY
-# of the sibilance: measured on unvoiced frames, 63% of the ess energy on
-# `eminem lose vocal.wav` and 47% on the Tupac reference sit BELOW 7 kHz, where
-# nothing touched them. Delivered reduction was therefore 0.9-1.7 dB, matching
-# the 1.28 dB the T-De-Esser A/B had already flagged as "open, a tuning pass".
-# Crossover moved down to cover the real ess band and the target raised to land
-# ~3 dB delivered, i.e. the commercial reference's 3.59 dB. The LR crossover
-# keeps the body safe while doing it: measured body damage 0.10 dB.
+# WITHDRAWN 2026-08-19 TUNING, CORRECTED 2026-08-20. The 2026-08-19 pass moved
+# the crossover 7000 -> 5500 Hz because "63% of the ess energy on `eminem lose
+# vocal.wav` sits below 7 kHz". That measurement was taken on a commercial
+# acapella that has ALREADY been de-essed and mastered: its energy above 10 kHz
+# is 0.92% of total, against 3.06% on a dry vocal. Prior processing had scooped
+# the top of its own ess band, which drags the apparent ess distribution down --
+# so the number described the reference's mastering, not sibilance.
+#
+# Measured as the 15th-percentile lower edge of ess-EXCESS energy (sibilant
+# frames over voiced frames, so program content cancels out):
+#     dry vocal   7192 Hz        eminem acapella 5340 Hz    tupac acapella 5814 Hz
+# A fixed 5500 Hz is ~1.7 kHz below the real ess band on dry material, which is
+# where the de-esser is meant to run -- it reaches into presence and consonants
+# instead. The crossover is therefore DERIVED from the stem now, the same
+# two-pass pattern the thresholds already use. The constant is only a fallback.
 DEESS_TARGET_GR_DB = 6.0
-DEESS_FREQ_HZ = 5500.0
+DEESS_FREQ_HZ = 7200.0
 
 
 def program_level_db(x: np.ndarray, fs: float) -> float:
@@ -83,14 +97,72 @@ def sibilance_level_db(x: np.ndarray, fs: float,
     return float(np.percentile(det.process(mono), 99.9))
 
 
+def sibilance_freq_hz(x: np.ndarray, fs: float,
+                      lo_hz: float = 4500.0, hi_hz: float = 9500.0) -> float:
+    """Where this stem's ess band actually starts, as the lower edge of its
+    ess-EXCESS energy. Offline analysis feeding a per-block param, same
+    two-pass pattern as program_level_db.
+
+    "Excess" means the sibilant-frame spectrum divided by the voiced-frame
+    spectrum, so steady program content cancels and only the ess-specific lift
+    is left. That distinction is the whole point: a plain ess-band spectrum is
+    dominated by whatever the source's HF balance happens to be, which is how
+    a fixed 5500 Hz got calibrated on an already-de-essed master (see
+    DEESS_FREQ_HZ). Clamped to [lo_hz, hi_hz] -- an estimator this cheap should
+    not be trusted to pick an arbitrary frequency.
+    """
+    from scipy.signal import stft
+    mono = x.mean(axis=1) if np.ndim(x) > 1 else x
+    f, _, Z = stft(mono, fs, nperseg=1024)
+    P = np.abs(Z) ** 2
+    body = P[(f >= 300) & (f < 3000)].sum(0)
+    top = P[(f >= 5000) & (f < 12000)].sum(0)
+    active = (body + top) > np.percentile(body + top, 60)
+    if active.sum() < 8:
+        return DEESS_FREQ_HZ
+    ratio = top / (body + 1e-20)
+    ess = active & (ratio > np.percentile(ratio[active], 90))
+    voiced = active & (ratio < np.percentile(ratio[active], 50))
+    if ess.sum() < 4 or voiced.sum() < 4:
+        return DEESS_FREQ_HZ
+    S, V = P[:, ess].mean(1), P[:, voiced].mean(1)
+    # Weight by the ess energy ITSELF, gated to bins the esses actually lift.
+    # Weighting by the lift ratio instead biases the edge ~1 kHz high: the
+    # ratio is smallest exactly at the bottom of the ess band, which is the
+    # edge being looked for.
+    w_all = np.where(S > V * 1.5, S, 0.0)
+    band = (f >= 3000) & (f <= 14000)
+    w = w_all[band]
+    if w.sum() <= 0:
+        return DEESS_FREQ_HZ
+    edge = f[band][np.searchsorted(np.cumsum(w) / w.sum(), 0.15)]
+    return float(np.clip(edge, lo_hz, hi_hz))
+
+
 def _threshold_for(program_db: float, ratio: float, target_gr_db: float) -> float:
     """Threshold that yields `target_gr_db` of gain reduction at `program_db`,
     inverting the compressor's own static curve above the knee."""
     return program_db - target_gr_db / (1.0 - 1.0 / ratio)
 
 
+def analyse(x, fs):
+    """Everything a preset needs measured off the stem itself, in one pass.
+
+    Use this instead of the builders' defaults for any real material: the
+    defaults are a dry-vocal fallback, and a wrong one biases every derived
+    threshold (see NOMINAL_PROGRAM_DB). The de-esser crossover and its
+    threshold MUST come from the same frequency, or the sidechain measures a
+    different band than the gain stage acts on.
+    """
+    freq = sibilance_freq_hz(x, fs)
+    return dict(program_db=program_level_db(x, fs),
+                sibilance_db=sibilance_level_db(x, fs, freq_hz=freq),
+                deess_freq_hz=freq)
+
+
 def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
-                       sibilance_db: float = NOMINAL_SIBILANCE_DB) -> Chain:
+                       sibilance_db: float = NOMINAL_SIBILANCE_DB,
+                       deess_freq_hz: float = DEESS_FREQ_HZ) -> Chain:
     """Eminem / Dr. Dre chain (Sony C800G -> Neve 1073 -> dbx 160X/SSL 4000G).
     Source: ~/Desktop/vox references/EMINEM-DR-DRE-VOCAL-CHAIN.md (engineer
     Vito/Mauricio Iragorri interview data). Chosen as the first preset: it's
@@ -120,7 +192,7 @@ def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
     modules = [
         dsp.Gate(fs, open_db=-42.0, close_db=-48.0, ratio=6.0,
                  attack_s=0.001, release_s=0.12),
-        dsp.DeEsser(fs, freq_hz=DEESS_FREQ_HZ,
+        dsp.DeEsser(fs, freq_hz=deess_freq_hz,
                     threshold_db=_threshold_for(sibilance_db, DEESS_RATIO,
                                                 DEESS_TARGET_GR_DB),
                     ratio=DEESS_RATIO, range_db=10.0, mix=1.0),
@@ -139,7 +211,8 @@ def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
 
 
 def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
-                     sibilance_db: float = NOMINAL_SIBILANCE_DB) -> Chain:
+                     sibilance_db: float = NOMINAL_SIBILANCE_DB,
+                     deess_freq_hz: float = DEESS_FREQ_HZ) -> Chain:
     """Jay-Z / Young Guru chain (Neumann/AKG -> Neve 1073 -> Tube-Tech CL1B,
     Mercer Hotel era). Source: INTERVIEWS-ANALYSIS-2026-08-15.md (transcribed
     interview) + JAYZ-YOUNG-GURU-VOCAL-CHAIN.md (web research, 3-era timeline).
@@ -168,7 +241,7 @@ def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
     modules = [
         dsp.Gate(fs, open_db=-42.0, close_db=-48.0, ratio=6.0,
                  attack_s=0.001, release_s=0.12),
-        dsp.DeEsser(fs, freq_hz=DEESS_FREQ_HZ,
+        dsp.DeEsser(fs, freq_hz=deess_freq_hz,
                     threshold_db=_threshold_for(sibilance_db, DEESS_RATIO,
                                                 DEESS_TARGET_GR_DB),
                     ratio=DEESS_RATIO, range_db=10.0, mix=1.0),
@@ -186,7 +259,8 @@ def build_jayz_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
 
 
 def build_tupac_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
-                      sibilance_db: float = NOMINAL_SIBILANCE_DB) -> Chain:
+                      sibilance_db: float = NOMINAL_SIBILANCE_DB,
+                     deess_freq_hz: float = DEESS_FREQ_HZ) -> Chain:
     """Tupac / Death Row chain (Neumann U87 -> Neve or SSL 4000 preamp + its
     console compressor -> Studer A800 tape), plus the printed harmonizer
     stack. Sources: docs/07_REFERENCE_VOCALS.md section 3 (tracking chain,
@@ -214,7 +288,7 @@ def build_tupac_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
     modules = [
         dsp.Gate(fs, open_db=-42.0, close_db=-48.0, ratio=6.0,
                  attack_s=0.001, release_s=0.12),
-        dsp.DeEsser(fs, freq_hz=DEESS_FREQ_HZ,
+        dsp.DeEsser(fs, freq_hz=deess_freq_hz,
                     threshold_db=_threshold_for(sibilance_db, DEESS_RATIO,
                                                 DEESS_TARGET_GR_DB),
                     ratio=DEESS_RATIO, range_db=10.0, mix=1.0),
