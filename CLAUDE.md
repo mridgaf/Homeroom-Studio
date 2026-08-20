@@ -174,6 +174,45 @@ injects a short pointer to this section every session — that's the
 enforcement layer; this section is the detail it points to. Don't remove
 one without the other.
 
+## vox — the vocal engine (`vox/`), a THIRD thing in this folder
+
+Not the voice interface, not the beat machine. An offline vocal-processing
+chain in Python/numpy/scipy, Phase 1, written to transliterate to a JUCE
+VST3/AU plugin in Phase 2. Artist presets: eminem, jayz, tupac.
+
+Run the tests and the renders from `vox/`:
+
+```
+cd "/Users/johnsuhr/Desktop/Homeroom Studio/vox"
+PYTHONPATH=src ../.venv/bin/python -m pytest tests -q          # ~96 s, full
+PYTHONPATH=src ../.venv/bin/python -m pytest tests/test_presets.py -q
+PYTHONPATH=src ../.venv/bin/python tools/render_presets.py     # renders for the owner
+```
+
+**Hard rules, learned the expensive way — read `DECISIONS.md` (2026-08-20)
+before touching any tuned constant:**
+
+- **Render the DRY vocal**, `~/Desktop/debbie8 13 26 vc loop reason.wav`. The
+  files in `~/Desktop/vox references/acapellas` are COMMERCIAL RELEASES with a
+  full production chain already printed. They are A/B targets, never render
+  inputs, and never a calibration source. Constants tuned on them were wrong in
+  ways that took two adversarial review passes to catch, because the flaw was
+  in the input material, not the code.
+- **The commercial plugins CANNOT SHIP** (Supertone Clear, Techivation
+  T-De-Esser, Newfangled Obliterate). Closed source, cannot link into the JUCE
+  build. Nothing in `dsp/` or `presets.py` may import them; `tools/` only.
+- **Tests are not the gate — the owner's ear is.** Render and send the audio.
+- **Never overwrite a render you are being asked about.** Write a fresh path
+  and compare. See the 2026-08-20 process entry.
+- Owner's standing rule: build -> harsh-critic review -> fix -> SECOND
+  adversarial re-review. Applies to DSP written from scratch. When reviewing,
+  ask what every tuned number was MEASURED ON, not just whether the code is
+  correct.
+
+Open, not urgent: gate thresholds (-42/-48 dB) have never been validated
+against material with a real noise floor; everything is tested at 48 kHz while
+the source material is 44.1; Jay-Z and Tupac renders unauditioned.
+
 ## Working rules for this project
 
 ### 0. Talk to him like a person, not a developer
