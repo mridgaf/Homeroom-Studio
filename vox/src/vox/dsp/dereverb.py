@@ -16,6 +16,17 @@ channel, so we hand-roll the classic single-channel approach instead:
                         + (1 - exp(-2*delta[k]*hop_s)) * |X[k, n-D]|^2
   delta[k] = 3*ln(10) / RT60[k]     (energy decay constant, natural log domain)
 
+MEASURED 2026-08-19 -- THE RT60 PATH IS INERT. Of 513 bands on the synthetic
+bench, 501 come back pegged at the estimator's own 3.0 s clamp ceiling
+(ground truth 0.45 s), and forcing RT60 across a 16x range moves tail energy
+by 1.05 dB total. Whatever suppression this module achieves comes from the
+decay gate added 2026-08-14, NOT from the statistical model described above.
+Root cause: Schroeder backward integration is defined on an impulse-response
+decay; applied to a whole vocal take, the EDC of roughly stationary material
+is a linear energy ramp, so the -5..-25 dB fit measures clip duration rather
+than room decay. See test_rt60_is_load_bearing (xfail, strict) -- it is the
+spec for a replacement. This module remains OFF by default.
+
 This is a RECURSIVE, causal, per-bin estimator -- no whole-file lookahead
 beyond one STFT frame delay `D`, so unlike WPE's batch solve it degrades
 gracefully to a streaming/real-time form (fixed D-frame latency), per the

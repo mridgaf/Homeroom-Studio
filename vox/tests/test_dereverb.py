@@ -120,3 +120,51 @@ def test_decay_gate_separates_sustained_from_reverberant():
     _, wet_info = dereverb.suppress_late_reverb(dirty, FS)
     assert dry_info["mean_decay_weight"] < 0.15, dry_info["mean_decay_weight"]
     assert wet_info["mean_decay_weight"] > dry_info["mean_decay_weight"] * 2
+
+
+@pytest.mark.xfail(
+    reason="KNOWN, MEASURED 2026-08-19: this module's central mechanism is "
+           "inert. It implements the Lebart/Habets statistical model, whose "
+           "key parameter is the per-band RT60 -- but (a) the blind estimator "
+           "returns 3.0 s in EVERY band on the synthetic bench, pegged at its "
+           "own clamp ceiling, against a ground truth of 0.45 s, and (b) "
+           "forcing RT60 across a 16x range (x0.25 to x4.0) moves tail energy "
+           "by 1.05 dB total. Whatever suppression this module achieves comes "
+           "from the decay gate added 2026-08-14, not from the statistical "
+           "model it is built around. "
+           "ROOT CAUSE: Schroeder backward integration is defined on an "
+           "impulse-response DECAY. Applied to a whole vocal take, the EDC of "
+           "roughly stationary material is a linear energy ramp, so the "
+           "-5..-25 dB fit measures clip duration, not room decay. "
+           "Not fixable by tuning: needs onset-gated estimation (fit only on "
+           "decaying regions after note offsets) or an externally supplied "
+           "RT60. Do NOT loosen this test to make it pass.",
+    strict=True,
+)
+def test_rt60_is_load_bearing():
+    """The RT60 estimate must actually drive the suppression.
+
+    A module whose defining parameter can be wrong by 16x without changing the
+    result is not doing what its docstring says. This test is the spec for a
+    replacement: make the estimate matter, or drop the statistical model and
+    keep only the decay gate that is demonstrably doing the work.
+    """
+    from vox.dsp import estimate_rt60_bands, suppress_late_reverb
+    from vox.testsignal import make_testbench
+
+    dirty, _truth = make_testbench(fs=FS, seed=0, voice="male")
+    est = estimate_rt60_bands(dirty, FS)
+
+    def scaled(k):
+        return {b: float(v) * k for b, v in est.items()} if hasattr(est, "items") \
+            else np.asarray(est) * k
+
+    def tail_db(y):
+        seg = y[int(3.0 * FS):int(3.3 * FS)]
+        return 20 * np.log10(np.sqrt(np.mean(seg ** 2)) + 1e-30)
+
+    short, _ = suppress_late_reverb(dirty, FS, rt60_bands=scaled(0.25))
+    long_, _ = suppress_late_reverb(dirty, FS, rt60_bands=scaled(4.0))
+    spread = abs(tail_db(short) - tail_db(long_))
+    assert spread > 3.0, (
+        f"RT60 changed 16x, tail energy moved {spread:.2f} dB -- the parameter is inert")
