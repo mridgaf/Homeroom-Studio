@@ -22,7 +22,15 @@ from vox import meter, presets  # noqa: E402
 
 REFS = Path.home() / "Desktop/vox references"
 OUT_DIR = REFS / "renders"
-DRY_SOURCES = [Path.home() / "Desktop/debbie8 13 26 vc loop reason.wav"]
+# 2026-08-20: superseded the 31.8 s loop with the owner's full dry take. The
+# loop measured -18.3 dB program; this one is -11.7 dB.
+#
+# NOT trimmed on input. A 1 dB input trim was tried and removed: only the
+# de-esser and compressor thresholds are derived, while the gate (-42/-48 dB),
+# the saturation drive and the limiter ceiling are ABSOLUTE, so an input trim
+# moves the material against those three rather than "moving with" them. The
+# limiter's -1 dBTP ceiling is what makes the output safe, not a trim.
+DRY_SOURCES = [Path.home() / "Desktop/debbie dry vocal full reason.wav"]
 
 
 def main(argv=()):

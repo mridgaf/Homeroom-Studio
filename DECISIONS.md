@@ -22,6 +22,74 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-20 Calibration set on the new dry take; three review findings fixed
+- Context: owner asked for a radio-ready Eminem render plus a Clear-only render,
+  and attached `~/Downloads/debbie8__eminem.wav` as "completely dry".
+- CAUGHT BEFORE RENDERING: that file was byte-identical (SHA 50f67efb) to our
+  own 10:15 Eminem render. Third instance of processed material being handed in
+  as source. The filename convention itself (`{stem}__{preset}.wav`) is the tell
+  -- a double underscore in an input filename means it came OUT of this tool.
+- New source: `~/Desktop/debbie dry vocal full reason.wav`, 93.8 s (the old
+  file was a 31.8 s loop), program -11.7 dB (was -18.3), peaks +0.15 dBTP.
+- Built: `tools/render_ladder.py` (cumulative one-module-at-a-time renders via
+  Chain.bypassed) and `tools/render_clear.py` (Clear alone / Clear + chain,
+  room kept vs removed). `tools/render_presets.py` repointed at the new source.
+- One review pass (owner waived the second for this work). Three real findings:
+  1. LEVEL BIAS, worst of the three: the ladder carried a monitoring trim and
+     the Clear renders did not, so the owner would have A/B'd a 4.5 dB level
+     difference and picked the louder one regardless of what he heard. Now one
+     shared MONITOR_TRIM_DB = -4.5 across both tools, one definition, and a
+     test asserts every written file carries it (confirmed to fail on per-file
+     normalisation).
+  2. FALSE PROVENANCE: a -1.0 dB input trim was justified with "everything
+     downstream is derived, so the trim moves with it". False -- the gate
+     (-42/-48), the saturation drive and the limiter ceiling are ABSOLUTE, so
+     an input trim moves material against them. Trim removed entirely; the
+     source does not clip in float (sample peak -0.33 dBFS) and the limiter is
+     what makes the output safe.
+  3. Dead sample-rate guard in check() (compared fs to itself). Deleted.
+- MY OWN FINDING RETRACTED: I reported "the take has almost no room, so room-kept
+  and room-removed are near-identical (0.05 dB LUFS apart)". Wrong, and wrong by
+  the same mechanism this ledger keeps recording -- the measurement could not see
+  what was asked of it. Integrated LUFS is dominated by direct voice and cannot
+  move when a component living in decays and gaps is removed. The C1-C2 NULL is
+  -13.6 dB whole-file and about -6 dB in three passages (25 s, 60 s, 85 s): the
+  room is loud, just localised. Rule: to test whether processing changed
+  something, null the two files. Never compare their loudness numbers.
+  (The reviewer also claimed my stem levels were wrong and inverted; re-measured,
+  its numbers came from an unrepresentative 20 s window -- the stem balance
+  swings 30 dB across this take. Its conclusion was right, its evidence was not.)
+- Still open, unchanged: the gate's -42/-48 dB thresholds remain unvalidated.
+  This take is strip-silenced in Reason (11.4% pure digital zero, only 0.1% of
+  frames in the -80..-60 dB band), so there is no noise floor to validate
+  against and the ladder's `01 gate` is audibly identical to `00 dry`. Said so
+  in the renders README rather than letting it read as a broken gate.
+- Verify by: `pytest tests -q` (193 passed, 1 xfailed). Then the only gate that
+  counts -- owner listens to `renders/ladder/` in order and `renders/clear/`.
+- Status: CONFIRMED (2026-08-20, owner on the full set: "Everything sounds
+  good"). That approves, in combination: the new dry source, the removal of the
+  input trim, the shared -4.5 dB monitoring trim, and the Eminem chain running
+  at this take's much hotter program level (-11.7 dB, vs the -18.3 dB the
+  thresholds were last approved at). The derived-threshold design is what
+  carried it across a 6.6 dB level change without retuning -- that is the
+  strongest evidence yet for deriving rather than hardcoding.
+  ALSO APPROVED, same day, explicitly: the Jay-Z and Tupac renders on this
+  take -- owner, after listening to both: "They sound good." All three artist
+  chains are now ear-approved on the same dry source, which is the first time
+  that has been true. Their LEVEL-DEPENDENT settings are derived
+  from this take like Eminem's -- measured net change at the compressor stage
+  on this material: eminem +2.4 dB, jayz +1.4, tupac +1.9, i.e. the three
+  chains are audibly distinct, not nominal variations. Their FIXED settings
+  (EQ bell cuts, saturation drive, Tupac's stack cents/delays, tape shelf,
+  every ratio and attack/release) are NOT calibrated to anything -- they came
+  from the interview research and have never been measured against audio.
+  WATCH: Tupac's saturation drive is an absolute +4.0 dB into a tanh, so a
+  6.6 dB hotter source saturates harder than when that number was chosen.
+  Approved by ear at this level; do not assume it travels to a quieter stem.
+  GATE: no longer ours. Owner (2026-08-20): "Don't worry about the gate. I'll
+  add that on my own." The -42/-48 dB thresholds stay unvalidated by design;
+  stop logging it as an open item for us.
+
 ### 2026-08-20 The reference acapellas were used as if they were clean vocals
 - Context: owner: "always render using this clean vocal. not The examples I gave
   you for reference already have all the effects on them, so it's useless to add
