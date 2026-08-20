@@ -5,7 +5,7 @@ stem down" instead of statistical suppression.
 
 WHY THIS EXISTS: vox's own two cleanup stages are both documented broken on
 real material -- dereverb.py destroys a sustained dry tone by ~20 dB and
-DeepFilterNet over-suppresses sustained non-speech-like content by 59 dB
+DeepFilterNet over-suppresses sustained non-speech-like content by 18-21 dB
 (docs/06_REAL_STEM_FINDINGS.md). Both are OFF by default and have been for
 months. Clear does the same job properly, and it is already installed on this
 machine.

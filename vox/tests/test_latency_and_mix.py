@@ -9,8 +9,14 @@ two gaps:
   * mix      -- every test used mix=0 (nulls) or mix=1 (no dry path at all),
                 and the product ships partial mix everywhere.
 
-Parametrized over the modules rather than written per-module on purpose: the
-next module added gets checked for free, which is the whole point.
+Parametrized over a module list rather than written per-module, so adding a
+module here checks it against all five invariants at once.
+
+The list is NOT automatic, and saying otherwise would be the same species of
+overclaim this file exists to catch. `Stack`, `ThrowDelay`, `ReverbSend` and
+`Dimension` are covered below in a separate list because they are stereo
+and/or optional-dependency modules that need different construction; anything
+new must be added by hand to one list or the other.
 """
 import numpy as np
 import pytest
@@ -103,3 +109,41 @@ def test_output_is_finite_and_dc_free(label, make):
     y = make().process(x[:, None])[:, 0]
     assert np.all(np.isfinite(y)), f"{label} produced non-finite output"
     assert abs(np.mean(y)) < 1e-3, f"{label} introduced DC: {np.mean(y):+.2e}"
+
+
+# Stereo / creative modules. Separate list: these need stereo input, and two of
+# them depend on `pedalboard`, which is a Phase-1-only dependency.
+EXTRA = [
+    ("stack", lambda: dsp.Stack(FS, mix=0.35)),
+    ("throw", lambda: __import__("vox.dsp.throw", fromlist=["ThrowDelay"]).ThrowDelay(FS)),
+]
+
+
+def test_stack_reports_honest_latency():
+    """Stack reports latency_samples() == 0; verify that rather than assume it.
+    A module that quietly delays while reporting 0 misaligns every parallel
+    path around it.
+
+    ThrowDelay is deliberately NOT covered by this: it is a 100% wet send, so
+    its 0.25 s delay IS the effect, not latency, and reporting 0 is correct.
+    Asserting "first arrival == reported latency" on a send would be asserting
+    that the echo is a bug. It is covered for block-size invariance below,
+    which is the invariant that does apply to it.
+    """
+    m = dsp.Stack(FS, mix=0.35)
+    imp = np.zeros((65536, 2))
+    imp[1000, :] = 0.5
+    y = m.process(imp)
+    assert np.max(np.abs(y)) > 1e-9, "stack passed no impulse"
+    measured = int(np.argmax(np.abs(y[:, 0]))) - 1000
+    assert abs(measured - m.latency_samples()) <= 1, (
+        f"stack reports {m.latency_samples()}, measures {measured}")
+
+
+@pytest.mark.parametrize("label,make", EXTRA, ids=[m[0] for m in EXTRA])
+def test_extra_modules_are_block_size_invariant(label, make):
+    x = np.random.RandomState(5).randn(FS, 2) * 0.05
+    whole = make().process(x.copy())
+    m = make()
+    chunked = np.concatenate([m.process(x[i:i + 512].copy()) for i in range(0, len(x), 512)])
+    assert np.max(np.abs(whole - chunked)) < 1e-9, label

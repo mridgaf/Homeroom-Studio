@@ -19,7 +19,7 @@ vowel) confirmed two real, serious bugs:
   **Consequence: OFF by default now** (`chain_demo.run_full_pipeline`,
   `dereverb=False`). This needs a redesign, not a parameter tweak — see
   "What would actually fix this" below.
-- **ML denoise** (DeepFilterNet3): the same dry tone dropped **~59 dB** at
+- **ML denoise** (DeepFilterNet3): the same dry tone dropped **18.5-21.5 dB** at
   full wet. It's a speech/VoIP model; a pure sustained tone doesn't match
   its learned speech manifold, so it's suppressed as non-speech. On real
   singing (sustained vowels, vibrato, held notes) this is the same failure

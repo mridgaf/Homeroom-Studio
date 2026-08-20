@@ -399,9 +399,25 @@ def test_limiter_lookahead_change_does_not_corrupt_the_stream():
     slew = np.abs(np.diff(y))
     clean = amp * 2 * np.pi * f0 / fs
     steps = np.flatnonzero(slew > 2 * clean)
-    assert len(steps) <= 1, f"{len(steps)} discontinuities at {steps[:5]}, expected at most 1"
+
+    # Counting steps does NOT distinguish fixed from broken -- verified by
+    # running this against the pre-fix source: it also produces exactly one
+    # step, so an `assert len(steps) <= 1` passes on the bug. What actually
+    # differs is the step's SIZE and WHERE it lands:
+    #
+    #            steps   max step / clean slew   at sample
+    #   pre-fix    1            40.0x              5279  (a block late)
+    #   post-fix   1            11.8x              4799  (= the boundary)
+    #
+    # The residual step is the delay line genuinely changing length; the bug
+    # was reading a short window and padding it with silence.
+    assert len(steps) == 1, f"{len(steps)} discontinuities at {steps[:5]}"
+    assert steps[0] == 10 * blk - 1, (
+        f"step at {steps[0]}, expected the block boundary {10 * blk - 1} -- "
+        "a late step means the old delay was still being applied")
+    assert slew.max() / clean < 15.0, (
+        f"step is {slew.max() / clean:.1f}x the clean slew; pre-fix was 40x")
     assert np.all(np.isfinite(y))
-    # and the sine must survive intact afterwards
     tail = y[12 * blk:]
     assert np.abs(np.diff(tail)).max() < 2 * clean
 
@@ -420,3 +436,63 @@ def test_deesser_partial_mix_does_not_notch(mix):
     m = dsp.DeEsser(FS, freq_hz=5500.0, threshold_db=0.0, mix=mix)
     lo, hi = _response_ripple_db(m, lo=200.0, hi=15000.0)
     assert lo > -1.0, f"notch at mix={mix}: {lo:+.2f} dB"
+
+
+def test_gate_has_no_step_discontinuity():
+    """REGRESSION: a gate must not click.
+
+    Measuring the expander shortfall against open_db removes the +2.95 dB
+    boost bug but makes the gain jump from 0 dB to
+    -(open_db-close_db)*(1-1/ratio) the instant the gate closes -- 5.03 dB on
+    the preset values, per-sample and unsmoothed, i.e. a click on every breath
+    and phrase tail. Trading a boost for a click is not a fix, and no test
+    caught it because the boost test only samples steady levels.
+
+    Held unity across the hysteresis window instead, so the curve leaves 0 dB
+    continuously at close_db. Max step: 5.03 dB -> 0.05 dB.
+    """
+    fs = FS
+    n = 3 * fs
+    ramp_db = np.linspace(-30, -60, n)          # slow fade down through both thresholds
+    x = np.random.RandomState(0).randn(n) * db2lin_(ramp_db) * np.sqrt(2)
+    g = dsp.Gate(fs, open_db=-42, close_db=-48, ratio=6)
+    y = g.process(x[:, None])[:, 0]
+
+    gain_db = 20 * np.log10(np.abs(y) / (np.abs(x) + 1e-12) + 1e-12)
+    # smooth to reject per-sample noise-ratio jitter, then look for a jump
+    k = 256
+    sm = np.convolve(gain_db, np.ones(k) / k, mode="valid")
+    assert np.max(np.abs(np.diff(sm))) < 0.5, (
+        f"gain steps {np.max(np.abs(np.diff(sm))):.2f} dB -- the gate clicks")
+
+
+def db2lin_(db):
+    return 10.0 ** (np.asarray(db) / 20.0)
+
+
+def test_deesser_zero_mix_nulls():
+    """REGRESSION: mix=0 must be a true bypass.
+
+    The wet path is an LR4 lowpass+highpass sum -- flat in magnitude but
+    ALLPASS -- so returning it unmodified at mix=0 leaves the phase rotated.
+    Measured null against the input: only -6.6 dB. Magnitude-flat, so it is
+    inaudible alone, but every other module in this file nulls at mix=0 and
+    any parallel dry path around this one would comb.
+    """
+    x = np.random.RandomState(0).randn(FS) * 0.1
+    y = dsp.DeEsser(FS, freq_hz=5500.0, threshold_db=-30.0, mix=0.0).process(x[:, None])[:, 0]
+    assert meter.null_test_db(x, y) < -300
+
+
+def test_params_are_clamped_to_their_spec():
+    """REGRESSION: ParamSpec carried lo/hi that nothing enforced, so an
+    out-of-range value propagated into buffer sizing and index arithmetic.
+    Limiter was the sharp edge -- lookahead_ms past its 20 ms maximum made an
+    internal offset negative and raised "zero-size array to reduction
+    operation maximum" from inside process()."""
+    lim = dsp.Limiter(FS)
+    lim.set("lookahead_ms", 30.0)
+    assert lim.get("lookahead_ms") == 20.0
+    lim.process(np.zeros((1024, 1)))                      # must not raise
+    assert dsp.Limiter(FS, lookahead_ms=25.0).get("lookahead_ms") == 20.0
+    assert dsp.Limiter(FS, lookahead_ms=0.1).get("lookahead_ms") == 1.0

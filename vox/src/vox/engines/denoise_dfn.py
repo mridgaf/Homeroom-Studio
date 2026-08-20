@@ -90,10 +90,19 @@ def voice_activity_mask(x: np.ndarray, fs: float, threshold_db: float | None = N
     """
     from ..dsp.modules import Detector
 
+    x = np.asarray(x)
+    if x.ndim > 1:
+        x = x.mean(axis=1)
     env_db = Detector(fs, mode="rms", rms_window_s=0.020,
-                      attack_s=attack_s, release_s=release_s).process(np.asarray(x))
+                      attack_s=attack_s, release_s=release_s).process(x)
     if threshold_db is None:
-        floor_db, program_db = np.percentile(env_db, [10, 90])
+        # p99 for the loud side, NOT p90. On a sparse take -- a lead vocal
+        # that is mostly silence, which is the archetypal denoise candidate --
+        # anything under ~10% voice duty puts p90 itself down in the noise
+        # floor. The range test then reads "no gaps", returns all-ones, and
+        # silently denoises nothing while reporting vad_duty=1.0. p99 tracks
+        # the phrases however sparse they are.
+        floor_db, program_db = np.percentile(env_db, [10, 99])
         if program_db - floor_db < min_range_db:
             return np.ones_like(env_db)
         threshold_db = float(floor_db) + margin_db
@@ -112,7 +121,7 @@ def denoise(x: np.ndarray, fs: float, blend: float = 0.35,
 
     Why gated by default. DeepFilterNet3 is a speech/VoIP model, not a singing
     model, and it measurably suppresses sustained non-speech-like content
-    (~59 dB at full wet on a pure tone -- docs/05_FINDINGS.md, and the reason
+    (18.5-21.5 dB at full wet on a pure tone -- docs/05_FINDINGS.md, and the reason
     this stage shipped OFF). But the thing it is genuinely good at, ~25 dB of
     noise-floor reduction, lives almost entirely in the gaps BETWEEN phrases,
     where by definition there is no vocal to damage.

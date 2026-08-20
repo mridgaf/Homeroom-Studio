@@ -39,13 +39,30 @@ class Module:
         for k, v in kwargs.items():
             if k not in self._p:
                 raise ValueError(f"{self.name}: unknown param '{k}'")
-            self._p[k] = v
+            self._p[k] = self._clamped(k, v)
         self.prepare(self.fs)
 
     # -- parameter access --------------------------------------------------
+    def _clamped(self, name: str, value):
+        """Hold `value` inside the ParamSpec's declared range.
+
+        Specs carried lo/hi that nothing enforced, so an out-of-range value
+        propagated into buffer sizing and index arithmetic. Limiter is the
+        sharp edge -- lookahead_ms above its 20 ms maximum made an internal
+        offset negative and raised `zero-size array to reduction operation
+        maximum` from inside process(). Clamping here fixes every module at
+        once rather than one guard per module.
+        """
+        spec = next((p for p in self.params if p.name == name), None)
+        if spec is None or spec.kind not in ("float", "int"):
+            return value
+        v = min(max(value, spec.lo), spec.hi)
+        return int(round(v)) if spec.kind == "int" else v
+
     def set(self, name: str, value: float):
         if name not in self._p:
             raise ValueError(f"{self.name}: unknown param '{name}'")
+        value = self._clamped(name, value)
         self._p[name] = value
         self.on_param_changed(name, value)
 
@@ -105,7 +122,7 @@ class Chain(Module):
         for m in self.modules:
             m.reset()
 
-    def _delayed_dry(self, i: int, y: np.ndarray, lat: int) -> np.ndarray:
+    def _delayed_dry(self, key: int, y: np.ndarray, lat: int) -> np.ndarray:
         """`y` delayed by `lat` samples, with the tail carried across blocks.
 
         Without this, blending a module's wet output against the undelayed dry
@@ -113,11 +130,11 @@ class Chain(Module):
         """
         if lat <= 0:
             return y
-        buf = self._dry_bufs.get(i)
+        buf = self._dry_bufs.get(key)
         if buf is None or buf.shape != (lat,) + y.shape[1:]:
             buf = np.zeros((lat,) + y.shape[1:])
         ext = np.concatenate([buf, y], axis=0)
-        self._dry_bufs[i] = ext[len(ext) - lat:].copy()
+        self._dry_bufs[key] = ext[len(ext) - lat:].copy()
         return ext[:len(y)]
 
     def process(self, x: np.ndarray) -> np.ndarray:
@@ -131,7 +148,10 @@ class Chain(Module):
             wet = m.process(y)
             mix = self.mix.get(i, 1.0)
             if mix < 1.0:
-                dry = self._delayed_dry(i, y, m.latency_samples())
+                # Keyed by id(m), not by list index: reordering or inserting a
+                # module would otherwise hand one module's delay tail to a
+                # different module, silently misaligning its dry path.
+                dry = self._delayed_dry(id(m), y, m.latency_samples())
                 y = dry * (1 - mix) + wet * mix
             else:
                 y = wet

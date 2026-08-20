@@ -276,15 +276,28 @@ class Gate(Module):
             if state:
                 gr[i] = 0.0
             else:
-                # Shortfall is measured against the threshold actually in
-                # force. While CLOSED that is open_db -- using close_db made
-                # `under` negative anywhere inside the hysteresis window
-                # (close_db < lvl < open_db), turning gr into a positive GAIN:
-                # measured +2.95 dB at -45 dB in on the preset settings, i.e.
-                # the gate amplified the room tone it exists to remove. The
-                # min() is a belt-and-braces guard -- a gate must never boost.
-                # See test_gate_never_boosts_inside_the_hysteresis_window.
-                under = open_db - lvl
+                # Two constraints, and it takes both clamps to satisfy them.
+                #
+                # NEVER BOOST. The original `close_db - lvl` goes negative
+                # anywhere inside the hysteresis window (close_db < lvl <
+                # open_db), turning gr into a positive GAIN -- measured
+                # +2.95 dB at -45 dB in on the preset settings, i.e. the gate
+                # amplified the room tone it exists to remove.
+                #
+                # STAY CONTINUOUS AT THE CLOSE THRESHOLD. Measuring the
+                # shortfall against open_db instead fixes the boost but makes
+                # the gain jump from 0 dB to -(open_db-close_db)*(1-1/ratio)
+                # the instant the gate closes -- 5.03 dB on the preset values,
+                # per-sample, unsmoothed: a click on every breath and phrase
+                # tail. Trading a boost for a click is not a fix.
+                #
+                # max(...,0) holds unity across the hysteresis window and
+                # starts attenuating only below close_db, where the expander
+                # curve leaves 0 dB continuously. Measured max gain step:
+                # 5.03 dB -> 0.05 dB. See
+                # test_gate_never_boosts_inside_the_hysteresis_window and
+                # test_gate_has_no_step_discontinuity.
+                under = max(close_db - lvl, 0.0)
                 gr[i] = min(-under * (1.0 - 1.0 / ratio), 0.0)
         self.is_open = state
         gain = db2lin(gr)
@@ -390,7 +403,18 @@ class DeEsser(Module):
         # also what "50% de-essing" should mean: half the gain reduction.
         # See test_deesser_partial_mix_does_not_notch.
         mix = self._p["mix"]
-        wet = lo + hi * (1.0 + mix * (gain - 1.0))
+        if mix <= 0.0:
+            # Must be a true bypass. The wet path is an LR4 sum: flat in
+            # magnitude but allpass, so returning lo+hi at mix=0 leaves the
+            # phase rotated and any parallel dry path around this module combs
+            # (measured null of only -6.6 dB against the input). Every other
+            # module here nulls at mix=0; this one has to as well.
+            return x
+        # Gain interpolated in the LOG domain: gain**mix, not
+        # 1 + mix*(gain-1). "50% de-essing" should mean half the gain
+        # reduction in dB -- linear interpolation of a -6 dB reduction gives
+        # -2.5 dB, not -3 dB.
+        wet = lo + hi * gain ** mix
         return wet if x.ndim > 1 else wet[:, 0]
 
 
@@ -560,7 +584,15 @@ class Limiter(Module):
         # own slew on a clean sine). With max-sized history a lookahead change
         # is just a different index into audio we already have.
         la_max = next(p.hi for p in self.params if p.name == "lookahead_ms")
-        self._hist = int(round(la_max * 1e-3 * fs)) + self._fir_delay
+        # 2x _fir_delay, not 1x: the interpolating FIR needs history on BOTH
+        # sides of the window it reads. At the maximum lookahead `off` reaches
+        # 0, and with only one margin peak_env[0] is produced by an FIR that
+        # has half the samples it needs -- it starts cold at every block
+        # boundary, breaking block-size invariance (measured 5.45e-03 between
+        # whole-file and 512-sample chunks at lookahead_ms=20, exactly 0.0 at
+        # every smaller value). The old code had this margin wrong at EVERY
+        # lookahead; sizing history to the maximum only moved where it showed.
+        self._hist = int(round(la_max * 1e-3 * fs)) + 2 * self._fir_delay
         self.buf = None  # holds self._hist samples of input history
 
     def on_param_changed(self, name, value):

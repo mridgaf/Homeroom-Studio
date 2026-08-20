@@ -39,7 +39,7 @@ def test_denoise_does_not_destroy_sustained_dry_tone():
 
     The underlying limitation is unchanged and still true: DeepFilterNet3 is
     trained on speech/VoIP, not singing, and at full wet it suppresses a
-    sustained tone by ~59 dB (assert this yourself with vad_gated=False). What
+    sustained tone by 18.5-21.5 dB (assert this yourself with vad_gated=False). What
     changed is that the model is no longer allowed to touch the parts of a take
     where that limitation bites. See test_vad_gate_protects_a_sustained_tone.
     """
@@ -57,7 +57,7 @@ def test_denoise_does_not_destroy_sustained_dry_tone():
 # ------------------------------------------------------------------ VAD gate
 def test_vad_gate_protects_a_sustained_tone():
     """The whole reason this stage was OFF: DeepFilterNet3 is a speech model
-    and flattens sustained non-speech-like content (~59 dB at full wet on a
+    and flattens sustained non-speech-like content (18.5-21.5 dB at full wet on a
     pure tone, docs/05_FINDINGS.md). Gated, a held note must come back
     untouched, because a take with no silence has no gaps to denoise.
 
@@ -86,9 +86,17 @@ def test_vad_gate_still_removes_the_noise_floor():
     behaviour and makes the bench a bad instrument for this particular
     question).
 
-    On real material this is worth ~8 dB: `eminem lose vocal.wav` noise floor
-    -47.2 -> -55.5 dB, with voiced-region damage going from -1.30 dB ungated to
-    +0.01 dB gated. Same noise reduction, no damage.
+    On real material (`eminem lose vocal.wav`, 20 s), measured over the frames
+    the mask calls silent: noise floor -44.1 -> -48.3 dB, and IDENTICALLY so
+    gated or ungated -- which is the actual point. Gating costs nothing where
+    the model is useful. What it changes is the voiced region: damage goes
+    from -1.30 dB ungated to +0.01 dB gated.
+
+    State the frame selection with any figure like this. An earlier version of
+    this docstring claimed "~8 dB", which came from a different choice of
+    "quiet region" and did not reproduce; measuring p10 of a 20 ms RMS
+    envelope instead gives 22.8 dB. The dB number is an artifact of the
+    window, the gated-vs-ungated comparison is not.
     """
     from vox.testsignal import make_testbench
     from vox.engines.denoise_dfn import denoise
@@ -102,11 +110,22 @@ def test_vad_gate_still_removes_the_noise_floor():
     def rms_db(v):
         return 20 * np.log10(np.sqrt(np.mean(v ** 2)) + 1e-30)
 
-    y = denoise(x, FS, blend=1.0, vad_gated=True).audio[:len(x)]
     tail = slice(int(2.5 * FS), len(x))          # well clear of the release
-    assert rms_db(y[tail]) < rms_db(x[tail]) - 6.0, "gated denoise did nothing in the gap"
     head = slice(int(0.2 * FS), int(1.8 * FS))
-    assert abs(rms_db(y[head]) - rms_db(x[head])) < 1.0, "gated denoise damaged the voice"
+    y = denoise(x, FS, blend=1.0, vad_gated=True).audio[:len(x)]
+    ungated = denoise(x, FS, blend=1.0, vad_gated=False).audio[:len(x)]
+
+    assert rms_db(y[tail]) < rms_db(x[tail]) - 6.0, "gated denoise did nothing in the gap"
+
+    # The head bar has to be tight enough that the GATE is what passes it.
+    # At 1.0 dB the ungated path also passed (0.54 dB), so the assertion held
+    # with the gate disabled and guarded nothing. Gated measures ~0.23 dB.
+    damage_gated = abs(rms_db(y[head]) - rms_db(x[head]))
+    damage_ungated = abs(rms_db(ungated[head]) - rms_db(x[head]))
+    assert damage_gated < 0.25, f"gated denoise damaged the voice by {damage_gated:.2f} dB"
+    assert damage_gated < damage_ungated, (
+        f"gating changed nothing: {damage_gated:.2f} dB gated vs "
+        f"{damage_ungated:.2f} dB ungated")
 
 
 def test_vad_mask_is_a_mask():

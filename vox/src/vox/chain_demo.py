@@ -10,7 +10,7 @@ spec from the adversarial design workflow lands):
                           OFF by default. Do not re-enable until it's rebuilt
                           to distinguish sustained-dry from actual reverb.
   3. Denoise (ML)     -- DeepFilterNet3. VERIFIED to over-suppress sustained
-                          non-speech-like content (dry tone -59 dB at full
+                          non-speech-like content (dry tone -18 to -21 dB at full
                           wet) -- OFF by default for the same reason.
   4. De-esser         -- ahead of the compressor, so sibilance isn't pumped by
                           gain reduction downstream (producer's ordering call)
