@@ -22,7 +22,92 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-20 The reference acapellas were used as if they were clean vocals
+- Context: owner: "always render using this clean vocal. not The examples I gave
+  you for reference already have all the effects on them, so it's useless to add
+  it to those." Correct, and the damage went past the renders: several CONSTANTS
+  had been calibrated on those commercial masters.
+- Measured, dry vocal (`~/Desktop/debbie8 13 26 vc loop reason.wav`) vs acapellas:
+  program level -18.3 vs -14.1/-16.4 dB; crest 15.30 vs 13.53/14.09 dB; energy
+  above 10 kHz 3.06% vs 0.92%/0.79%; ess band starts 7192 vs 5340/5814 Hz.
+- Decision/change:
+  1. `tools/render_presets.py` renders the dry vocal. Acapellas are A/B TARGETS
+     only, never render inputs.
+  2. `NOMINAL_PROGRAM_DB` -14.0 -> -18.3. The old value was justified as "both
+     acapellas land within ~1 dB" -- they are compressed and mastered, so every
+     threshold derived from the default ran ~4 dB high, i.e. the chain quietly
+     did less than it claimed.
+  3. De-esser crossover is now DERIVED per stem (`presets.sibilance_freq_hz`),
+     not a constant. The 2026-08-19 move of 7000 -> 5500 Hz rested on "63% of
+     ess energy below 7 kHz" measured on an ALREADY-DE-ESSED master; prior
+     processing had scooped the top of its own ess band, dragging the apparent
+     distribution down. On dry material the ess band starts ~7.2 kHz, so 5500
+     sat 1.7 kHz low and pulled presence and consonants instead of ess.
+  4. `tools/ab_reference.py` grading band 7-16k -> 4.5-12k, and labelled a
+     sanity check, not a calibration source.
+- Reasoning: swapping one constant for another would repeat the mistake with a
+  different number. Deriving the crossover from the stem's own ess-EXCESS
+  spectrum (sibilant frames over voiced frames) makes the source's HF balance
+  cancel out, so a scooped master cannot fool it again.
+- Verify by: `pytest tests/test_presets.py` -- three new tests
+  (`test_sibilance_freq_tracks_the_signal_not_a_constant`,
+  `test_deesser_acts_on_the_ess_band_not_on_presence`,
+  `test_nominal_defaults_come_from_dry_material`). All three confirmed to FAIL
+  when the constants are reverted.
+- Status: open -- owner's ear on the new renders.
+
+### 2026-08-20 The Eminem reverb was a wash; "damping" had been misread
+- Context: owner: "There's too much reverb on the eminem one. be maybe
+  mistaken, the layering for reverb." Checked layering first -- there is only
+  one reverb in the chain, and `Chain`'s rack-level mix is separate from the
+  module's own mix, so nothing was applied twice. Not layering.
+- Root cause: settings were room_size=0.35, damping=0.2, mix=0.12, chosen on the
+  reasoning that low damping = "bright". Measured, damping does not do that:
+      damping 0.2 -> 0.9 moves tail LENGTH  0.56 -> 0.53 s (0.03 s)
+      damping 0.2 -> 0.9 moves tail HF TILT +9.5 -> +3.1 dB (6.4 dB)
+  It is a brightness control, not a decay control. Setting it low produced a
+  tail tilted +9.5 dB toward HF -- splash sitting directly on the sibilance
+  band -- over a 0.84 s decay. The preset's own comment said "not audible wash"
+  while its numbers specified exactly that.
+- Compounding: with the de-esser also aimed 1.7 kHz below the real ess band
+  (entry above), esses passed under-treated and were then smeared into a
+  bright 0.84 s tail. Two independent errors landing on the same band.
+- Decision/change: room_size 0.15, damping 0.6, mix 0.07 -> 0.59 s, +5.9 dB.
+- Also recorded (`dsp/pedalboard_modules.py`): pedalboard.Reverb has a ~0.53 s
+  DECAY FLOOR -- room_size 0.10-0.25 only spans 0.56-0.68 s and damping barely
+  moves it. A short chamber or tight plate is NOT reachable with this module;
+  `mix` is the only real level control. Relevant to the Phase-2 FDN choice.
+- Verify by: `test_eminem_reverb_is_a_send_not_a_wash` bounds both tail length
+  (<0.70 s) and HF tilt (<7.5 dB). Confirmed to fail on the old settings.
+- Status: open -- owner's ear.
+
+### 2026-08-20 Why two adversarial passes missed all of the above
+- Context: owner: "The adversarial review should have caught this." True.
+- Reasoning: both passes graded the code against the tests, and the tests
+  against the DSP. Neither asked what the INPUT MATERIAL was. A reviewer told
+  "find flaws in this code" checks the code; these errors lived one level up,
+  in the provenance of the numbers the code was tuned to. Same shape as the
+  reverb bug: the damping value was never wrong as CODE, it was wrong as an
+  understanding of what the knob does.
+- Decision/change: provenance of calibration data is part of the review
+  checklist now -- for every tuned constant, ask what it was measured on and
+  whether that source is representative. Documented in `vox/docs/05_FINDINGS.md`.
+- Status: open -- unproven until the next review pass actually uses it.
+
+### 2026-08-20 Process: overwrote a render while "verifying" it, destroying the evidence
+- Context: owner asked whether a render was actually new; timestamps looked
+  wrong. I re-ran the render to check it matched current source. Bytes were
+  identical (SHA 510e36f4) but the re-run REWROTE the file's mtime, so the only
+  evidence supporting my answer was destroyed by the act of checking it.
+- Decision/change: render to a fresh timestamped path and compare, never
+  overwrite the artifact under discussion. Verify code-vs-file by hash without
+  touching the file.
+- Status: confirmed -- the practice is the fix; nothing to re-check.
+
 ### 2026-08-19 Adversarial review of the audio engine — six real bugs, four of them shipping
+- OUTCOME (2026-08-20): the six DSP fixes held. The DE-ESSER RETUNE in the same
+  session did NOT — it was calibrated on a processed acapella and has been
+  superseded; see the 2026-08-20 entry.
 - Context: owner asked to continue the audio engine and to run an adversarial
   agent — "master in music engineering and computer software development, who
   did not write this code and expects there to be flaws". Ran one over all of
