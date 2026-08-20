@@ -74,6 +74,32 @@ entries.
   the price of the bar being met rather than asserted). Renders regenerated;
   the pre-fix set is kept at `~/Desktop/vox references/renders_before_dspfixes`
   for A/B.
+- Second adversarial re-review (the standing build -> critic -> fix -> re-review
+  rule) found that **two of my new tests guarded nothing and three of my fixes
+  were wrong or incomplete**. It earned its keep by reverting each guard
+  against pre-fix source to see if it actually failed:
+  - Gate: measuring shortfall against open_db removed the boost but installed
+    a **5.03 dB step** at every gate close -- a click on every breath. Traded
+    one bug for another. Now max(close_db-lvl, 0): 5.03 -> 0.05 dB.
+  - Limiter: needed the FIR margin on BOTH sides; at lookahead_ms=20 the
+    envelope cold-started each block (5.45e-03 block-size error).
+  - Out-of-range params crashed where they used to work -- ParamSpec lo/hi
+    was never enforced. Fixed at the root in core.Module, all modules.
+  - DeEsser mix=0 stopped being a bypass (allpass sum, -6.6 dB null).
+  - VAD skipped exactly the takes it exists for: p90 as the loud side means a
+    take under ~10% voice duty reads "no gaps" and denoises nothing. Now p99.
+  - Two of my tests passed against the buggy code. Both rewritten to assert
+    the quantity that actually differs.
+  - **"~59 dB tone suppression" does not reproduce** -- it is 18.5-21.5 dB,
+    and that number was quoted in four files and two docs. Conclusion
+    unchanged, evidence corrected. My own "8 dB noise floor" figure was
+    window-dependent and is now stated with its method.
+- Lesson worth keeping: an adversarial pass is only as good as its
+  revert-test. "Does this test fail without the fix?" caught more here than
+  reading the diff did. Ask it of every new guard.
+- Verify by: `cd vox && PYTHONPATH=src ../.venv/bin/python -m pytest tests -q`
+  -> 184 passed, 1 xfailed, no skips (~96 s). Renders regenerated after the
+  gate fix; pre-session set kept at `renders_before_dspfixes/` for A/B.
 - Status: open — owner's ear on the re-renders.
 - Outcome:
 
