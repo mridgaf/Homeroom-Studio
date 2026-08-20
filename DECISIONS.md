@@ -54,7 +54,11 @@ entries.
   `test_deesser_acts_on_the_ess_band_not_on_presence`,
   `test_nominal_defaults_come_from_dry_material`). All three confirmed to FAIL
   when the constants are reverted.
-- Status: open -- owner's ear on the new renders.
+- Status: CONFIRMED for the Eminem chain (2026-08-20, owner: "The eminem Render
+  sounds good") -- that render carries the derived crossover (6804 Hz on this
+  stem) and the -18.3 dB program default, so both changes are approved in
+  combination with the reverb fix. Jay-Z and Tupac renders NOT yet auditioned;
+  they share the same de-esser and level changes but have their own chains.
 
 ### 2026-08-20 The Eminem reverb was a wash; "damping" had been misread
 - Context: owner: "There's too much reverb on the eminem one. be maybe
@@ -79,7 +83,10 @@ entries.
   `mix` is the only real level control. Relevant to the Phase-2 FDN choice.
 - Verify by: `test_eminem_reverb_is_a_send_not_a_wash` bounds both tail length
   (<0.70 s) and HF tilt (<7.5 dB). Confirmed to fail on the old settings.
-- Status: open -- owner's ear.
+- Status: CONFIRMED (2026-08-20) -- owner on the re-render: "The eminem Render
+  sounds good." room_size=0.15 / damping=0.6 / mix=0.07 is the approved setting.
+  Do not treat it as a starting point to re-tune; it passed the only gate that
+  matters. If it is ever changed, the tail-length and HF-tilt bounds go with it.
 
 ### 2026-08-20 Why two adversarial passes missed all of the above
 - Context: owner: "The adversarial review should have caught this." True.
