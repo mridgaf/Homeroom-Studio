@@ -19,6 +19,13 @@ worse than our own pre-fix bug; Distortion: -19.4 dB alias floor, far short
 of the -90 dB bar). Our own Limiter and Saturation modules replace them and
 are what's used everywhere in the chain.
 
+pedalboard.Reverb has a DECAY FLOOR of ~0.53 s: room_size 0.10 -> 0.25 only
+moves T20 from 0.56 to 0.68 s, and damping barely moves it at all (0.03 s
+across its whole range -- damping is a tail-BRIGHTNESS control, +9.5 to
++3.1 dB of HF tilt). A genuinely short chamber or a tight plate is therefore
+not reachable with this module; the only real level control is `mix`. Worth
+knowing before Phase 2 picks an FDN topology to replace it.
+
 pedalboard's Reverb does NOT null cleanly at wet=0/dry=1 (measured -6.6 dB
 difference against silence) -- its internal "dry" path is not a transparent
 bypass. So every module here computes its OWN dry/wet mix externally, using

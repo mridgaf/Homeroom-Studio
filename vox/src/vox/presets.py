@@ -181,8 +181,18 @@ def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
         see NOMINAL_PROGRAM_DB for the measurement showing why that is inert.
       - Neve 1073 "harmonic warmth" -> light saturation (2 dB drive, 10% mix),
         not modeled as EQ since 1073 coloration is subtly harmonic, not tonal.
-      - AMS RMX16 "Chamber" -> small, bright room (low room_size, low damping)
-        at a low send level -- "spatial depth", not audible wash.
+      - AMS RMX16 "Chamber" -> a short, dark-ish room at a low send level:
+        "spatial depth", not audible wash.
+        CORRECTED 2026-08-20 (owner's ear: "too much reverb on the eminem one").
+        The original settings were room_size=0.35, damping=0.2, mix=0.12, on
+        the reasoning that low damping = "bright". Measured, that is a
+        misreading of what the knob does:
+          damping 0.2 -> 0.9 moves the tail LENGTH by 0.03 s (0.56 -> 0.53 s),
+          but its HF TILT by 6.4 dB (+9.5 -> +3.1 dB, 4-16 kHz over 200-1k).
+        So damping is a brightness control, not a decay control, and 0.2 gave
+        a tail tilted +9.5 dB toward HF -- a splashy wash sitting directly on
+        the sibilance band, on top of a 0.84 s decay from room_size=0.35.
+        Now 0.59 s and +5.9 dB tilt, at a lower send.
     Not implemented: the "mono reference rule" -- that's a mix-bus QA habit
     (check the full mix in mono), not a per-vocal-stem chain effect.
 
@@ -205,7 +215,7 @@ def build_eminem_chain(fs: float, program_db: float = NOMINAL_PROGRAM_DB,
         dsp.Saturation(fs, drive_db=2.0, mix=0.10, mode="tanh", oversample=8),
     ]
     if getattr(dsp, "_HAS_PEDALBOARD", False):
-        modules.append(dsp.ReverbSend(fs, room_size=0.35, damping=0.2, mix=0.12))
+        modules.append(dsp.ReverbSend(fs, room_size=0.15, damping=0.6, mix=0.07))
     modules.append(dsp.Limiter(fs, ceiling_dbtp=-1.0, lookahead_ms=5.0, release_s=0.08))
     return Chain(fs, modules)
 

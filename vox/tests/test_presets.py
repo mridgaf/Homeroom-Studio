@@ -281,3 +281,39 @@ def test_nominal_defaults_come_from_dry_material():
     biases every derived threshold toward doing less than the preset claims."""
     assert presets.NOMINAL_PROGRAM_DB < -16.0
     assert presets.DEESS_FREQ_HZ >= 7000.0
+
+
+def test_eminem_reverb_is_a_send_not_a_wash():
+    """REGRESSION (owner's ear, 2026-08-20: "too much reverb on the eminem one").
+
+    The chain documents its reverb as "spatial depth, not audible wash", but
+    was configured room_size=0.35 / damping=0.2 -- a 0.84 s tail tilted
+    +9.5 dB toward HF, because damping was read as a brightness knob when it
+    is (in this algorithm) neither: it moves tilt, not decay. Bound both.
+    """
+    import pytest
+    from scipy.signal import welch
+    from vox import dsp
+    if not getattr(dsp, "_HAS_PEDALBOARD", False):
+        pytest.skip("pedalboard not installed")
+    rev = next((m for m in presets.build_eminem_chain(FS).modules
+                if m.name == "reverb"), None)
+    assert rev is not None
+    assert rev.get("mix") <= 0.08, "send level too hot for a depth send"
+
+    imp = np.zeros((FS * 3, 1))
+    imp[0] = 1.0
+    solo = dsp.ReverbSend(FS, room_size=rev.get("room_size"),
+                          damping=rev.get("damping"), mix=1.0)
+    solo.prepare(FS)
+    tail = solo.process(imp)[:, 0]
+    e = 10 * np.log10(np.cumsum(tail[::-1] ** 2)[::-1] + 1e-20)
+    e -= e[0]
+    at = lambda d: (int(np.argmax(e < d)) or 0) / FS
+    t20 = (at(-25) - at(-5)) * 3
+    assert t20 < 0.70, f"tail is {t20:.2f} s -- a room, not a depth send"
+
+    f, P = welch(tail[int(0.1 * FS):], FS, nperseg=4096)
+    band = lambda a, c: P[(f >= a) & (f < c)].sum()
+    tilt = 10 * np.log10(band(4000, 16000) / band(200, 1000))
+    assert tilt < 7.5, f"tail tilted {tilt:+.1f} dB toward HF -- splashy on the esses"
