@@ -16,3 +16,5 @@ Sound Demos/
 
 # scratch worktrees for subagent-driven plan execution
 .worktrees/
+vox_plugin/JUCE/
+vox_plugin/build/
