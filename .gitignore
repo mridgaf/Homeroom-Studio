@@ -21,3 +21,6 @@ vox_plugin/build/
 
 # holding pen for files removed via the desktop bridge (which cannot delete)
 _to_delete/
+
+# its own repo now — see sonic/README.md
+sonic/
