@@ -1436,8 +1436,8 @@ entries.
   sandbox cannot reach — script only checked by `py_compile` + AST parse, not
   run against real data. Ask him to run it (or run `--dry-run` first) and
   confirm the counts look right before trusting it fully.
-- Status: open
-- Outcome: (pending — not yet run against the real library)
+- Status: confirmed
+- Outcome: REMOVED 2026-08-22 at owner's request. Never run against the real library, so never verified — the risk was retired rather than tested. `tools/clear_legends_djs.py`, its `.command` launcher and cached bytecode moved to `_to_delete/reset-tool-removed-2026-08-22/`. Nothing referenced it; `clear_junk_beats.py` (which only moves, never deletes) is untouched. Still tracked in git — commit the deletion or a checkout restores it.
 
 ### 2026-08-07 Both rooms reskinned live to mockup D ("paper + ink")
 - Context: owner reviewed 7 UI mockups (A-G) across two throwaway mockup
