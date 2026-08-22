@@ -22,6 +22,38 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-22 The drive is not slow — it is cluttered. Measured on the real TBOTC 3.
+- Context: follow-up to the entry below, which guessed "bottleneck is disk"
+  without being able to reach the drive. Owner granted access; measured it.
+- Decision/change: the rule is not "buy a faster drive" and not "parallelise".
+  It is: NEVER let a tool search the drive — always hand it an exact folder.
+- Reasoning: measured, external vs internal across the same bridge so the
+  bridge overhead cancels:
+    * Reading files from TBOTC 3: 121.8 MB/s, 10.9 ms per file open. A
+      1000-file pass costs ~11 s of open plus ~15 s of transfer = ~26 s.
+    * The arithmetic on that corpus: ~12 s.
+    * So reading + computing 1000 beats is UNDER A MINUTE. The 07-31 pass
+      took 1200 s. Neither explanation accounts for it.
+    * What does: TRAVERSAL. `find` over the drive timed out repeatedly at
+      25-45 s without finishing. Timing each top-level folder found
+      `desk pic` = 55,286 entries, `itunes2` = 11,318, `iTunes new stuff`
+      = 3,470 — roughly 70,000 photo and iTunes-library files sitting beside
+      the beats. The actual beat folders are tiny by comparison
+      (`BOTC wav files` = 83 entries).
+  CLAUDE.md already carries the rule ("never a recursive search") and a
+  `drive-verify` skill. The rule was right; this is the measurement behind it.
+- Verify by: `timeout 25 find "/Volumes/TBOTC 3" -name "*.wav"` does not
+  finish. `find "/Volumes/TBOTC 3/BOTC wav files"` returns instantly. Any tool
+  that is slow on this drive is searching when it should be pointed.
+- Status: confirmed
+- Outcome: NOT proven that traversal is what the 07-31 pass actually hit —
+  that run cannot be replayed. What is proven is that the two innocent
+  explanations (CPU, file reading) are both far too small, and that the drive
+  contains a landmine big enough to produce the gap. Owner also asked whether
+  switching drives caused this: no evidence for it. 121.8 MB/s is normal for
+  an external, and clutter copies across when a drive is cloned.
+
+
 ### 2026-08-22 The batch tools are single-threaded — and parallelising them would not help
 - Context: owner asked whether the projects reflect the machine they actually
   run on (M2 Pro, 10 cores) or are still shaped by the old "slow Intel Mac"
