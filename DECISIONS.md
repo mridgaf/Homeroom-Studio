@@ -22,6 +22,44 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-22 The batch tools are single-threaded — and parallelising them would not help
+- Context: owner asked whether the projects reflect the machine they actually
+  run on (M2 Pro, 10 cores) or are still shaped by the old "slow Intel Mac"
+  assumption. Audit found three artefacts of the wrong assumption:
+  (a) ZERO parallelism anywhere — no multiprocessing, concurrent.futures,
+      ThreadPool, n_jobs, num_workers, not even an os.cpu_count() call;
+  (b) `reason_voice/transcribe.py` runs faster-whisper at
+      `compute_type="int8"` with `device="auto"` — int8 is the low-memory
+      quantisation for a weak CPU, and "auto" resolves to CPU on macOS
+      because CTranslate2 has no Metal backend;
+  (c) `vox/src/vox/engines/denoise_dfn.py` imports torch and never checks
+      `torch.backends.mps.is_available()` — DeepFilterNet runs on CPU.
+- Decision/change: benchmarked (a) BEFORE recommending a rewrite. Added
+  `sonic/bench_parallel.py`, which runs the real per-file measurement from
+  `tools/measure_batch.py` serially vs across a process pool, and reports
+  read-time against compute-time.
+- Reasoning: THE FIRST RECOMMENDATION WAS WRONG AND THE BENCHMARK CAUGHT IT.
+  The CPU work does parallelise — 2.77x on the 4 cores visible to the Linux
+  VM, 69% of linear. But serial throughput measured 147 MB/s, and real
+  project audio is ~1.8 MB/file, so the 07-31 corpus (493 beats + 506 stems,
+  ~1.8 GB) is about 12 SECONDS of computation. That pass took 1200 seconds.
+  ~99% of the twenty minutes was not arithmetic — it was reading TBOTC 3, the
+  external drive CLAUDE.md already calls "big + slow". Parallelising the CPU
+  turns 20 minutes into roughly 19m48s. The claimed "6-8x, measurement becomes
+  a habit" was extrapolated from a scaling factor without ever asking where
+  the time was going.
+- Verify by: run COLD against the real corpus, which is the measurement that
+  has NOT been done — TBOTC 3 is not reachable from the sandbox:
+  `python3 sonic/bench_parallel.py "/Volumes/TBOTC 3/<beats folder>"`.
+  It names the bottleneck. If bandwidth-bound, the fix is copying the corpus
+  to the internal SSD (M2 Pro NVMe is ~50x a USB external), not threading. If
+  latency-bound, a THREAD pool on the reads helps and processes do not. A warm
+  page cache makes the disk look free and will point at the wrong fix.
+- Status: open
+- Outcome: (b) and (c) remain unbenchmarked code-shape findings — real, but
+  not measured wins. Do not act on either without the same treatment (a) got.
+
+
 ### 2026-08-20 Calibration set on the new dry take; three review findings fixed
 - Context: owner asked for a radio-ready Eminem render plus a Clear-only render,
   and attached `~/Downloads/debbie8__eminem.wav` as "completely dry".
