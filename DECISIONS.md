@@ -2307,8 +2307,8 @@ just not loaded by default.
   section is explicitly labelled "do not rediscover these" and is therefore
   the most load-bearing wrong text in the repo.
 - Verify by: re-run the sysctl/sw_vers block above; it takes one command.
-- Status: open
-- Outcome: (awaiting owner go-ahead to edit CLAUDE.md)
+- Status: confirmed
+- Outcome: CLOSED 2026-08-22. The edit had in fact been made on 07-31 — this entry sat open for three weeks describing work that was already done. Owner re-confirmed the specs 2026-08-22 and they match: M2 Pro, 10 cores, 16 GB, macOS 26.5.2. Added since: the OS name (Tahoe) and build (25F84), and a new line recording that DISK is the real constraint — 86 GB free of 494 GB. Neither of those is machine-verifiable from the sandbox; both are the owner-reported and labelled as such in CLAUDE.md.
 
 ### 2026-07-31 Rebuild review: measured the audio instead of reading the code — the engine is fine, the OUTPUT STAGE is where value leaks
 - Context: owner asked what a master music/software/audio engineer + producer

@@ -31,9 +31,17 @@ and get walked through recipes step-by-step. All speech is processed locally
   files. He runs commands in Terminal, sometimes pastes into the wrong window.
 - Machine (VERIFIED 2026-07-31 — the old entry here said "older MacBook Pro"
   and was simply wrong; do not reinstate it): **MacBook Pro 14" 2023,
-  `Mac14,9`, Apple M2 Pro, 10 cores, 16 GB, arm64, macOS 26.5.2.** This is a
-  fast, current machine. Nothing should be ruled out "because the hardware is
-  old" — that reasoning was false and shaped months of decisions.
+  `Mac14,9`, Apple M2 Pro, 10 cores, 16 GB, arm64, macOS Tahoe 26.5.2
+  (build 25F84).** This is a fast, current machine. Nothing should be ruled
+  out "because the hardware is old" — that reasoning was false and shaped
+  months of decisions. Re-confirmed by the owner 2026-08-22; the build number
+  and the OS name are his report, the rest matches the 07-31 measurement.
+- **Disk is the real constraint, not the CPU: 86 GB free of 494 GB (17%),
+  owner-reported 2026-08-22.** Audio work fills a drive fast — renders, stem
+  separation output, and model downloads all land on the internal disk. Check
+  free space before starting a batch render or a Demucs run, clean up
+  intermediate audio when done, and keep bulk libraries on `/Volumes/TBOTC 3`
+  where they already live. Do not assume there is room.
 - Python: the venv points at Apple's Command Line Tools `python3` = **3.9.6**.
   That is a *choice*, not a machine limit (3.9 went end-of-life 2025-10-31);
   `uv 0.11.29` is already installed at `~/.local/bin/uv` if you want to move.
