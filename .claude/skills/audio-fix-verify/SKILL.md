@@ -1,6 +1,6 @@
 ---
 name: audio-fix-verify
-description: Prove an audio change actually worked by measuring the finished file, not the code or an intermediate buffer. Use whenever this project changes anything that affects how a beat SOUNDS — levels, panning, reverb, ducking, velocity, chord voicing, sample selection, mixing rules — and before telling the owner a sound problem is fixed. Catches the failure that keeps recurring here: measuring at a point that is not where the sound comes out, and reporting the median when one failing beat is the whole story.
+description: "Prove an audio change actually worked by measuring the finished file, not the code or an intermediate buffer. Use whenever this project changes anything that affects how a beat SOUNDS — levels, panning, reverb, ducking, velocity, chord voicing, sample selection, mixing rules — and before telling the owner a sound problem is fixed. Catches the failure that keeps recurring here: measuring at a point that is not where the sound comes out, and reporting the median when one failing beat is the whole story."
 ---
 
 # Verify an audio fix by measuring the output
