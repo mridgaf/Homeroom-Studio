@@ -22,6 +22,130 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 The tuned root 808 is back on traditional beats — in key, and under the kick
+- Context: raised at the end of the section-3 work. Every identity has
+  carried `chords_default` since 2026-07-25, and the "add the root" block
+  skipped itself whenever chords were on. So the 2026-07-18 rule had been
+  silently unreachable for over a month unless "no chords" was typed in the
+  notes box. Owner asked for it back, and chose the shape: "chords, but the
+  808 plays the bass."
+- Why the old skip was already wrong: its stated reason was "the harmony
+  bass already gives a moving in-key root under the kick". That bass was
+  RETIRED 2026-07-29 (`_build_chords` keeps `bass_idx = None` permanently,
+  his hard rule — the melodic bassline is his to play). The condition was
+  guarding against a lane that no longer exists.
+- Decision/change 1 — the block MOVED to after `_build_chords` and takes
+  its note from `harmony_info["root"]`. On a chords beat the sub is ONE
+  static note held under the whole progression, so a note from its own dice
+  is wrong more often than right. `_root_sub`'s dice are now only the
+  no-harmony fallback.
+- Decision/change 2 — a key root the sub CANNOT play means no sub, not a
+  random one. `ROOT_HZ` has seven notes; an identity's
+  `signature.key.roots` need not be a subset (Half Light asks for B, on
+  7.4% of its beats). The first build fell back to the dice there, which is
+  precisely the wrong-note-under-the-chords failure the move exists to
+  prevent. Found by the adversarial review, not by me.
+- Decision/change 3, and it is the one that matters most — THE LOW END IS
+  NO LONGER EXEMPT FROM THE PEAK CEILING. It was exempt outright, written
+  when the sub could only land on a no-chords beat, i.e. almost never. The
+  moment it came back on chords beats it took the top of the mix: measured
+  on 10 renders, sub at -6.0 dB and the KICK pushed down to -11 / -16 dB,
+  5 to 10 dB under its own sub. Owner asked and answered: "kick stays on
+  top." `crew.LOW_END_UNDER_DB = 0.0` — the low end may MATCH the backbone,
+  never beat it — while staying exempt from the HAT ceiling, which is the
+  half of the exemption that was always the point (a sub does not belong
+  under a hi-hat). After: kick back at -6.0 dB on every beat, sub at 0.00
+  to -4.83 dB under it.
+  THE LESSON, and it is the `hard-rule-invariant` one again: an exemption
+  is only as safe as how often it fires. This one was harmless for six
+  weeks because the feature it exempted was unreachable. Turning the
+  feature back on turned a dormant exemption into a mix bug, and no test
+  saw it because every test read recipe fields, not levels.
+- Not in every beat, by design: a kick that already rolled a long 808
+  carries the sub itself, and the roll is 3 in 4 on top of that. Measured
+  20-40% of traditional beats.
+- Verify by: `tests/test_beat_machine.py::test_a_traditional_beat_gets_the_
+  root_808_in_its_own_key`, `::test_a_note_the_sub_cannot_play_means_no_sub_
+  not_a_wrong_one` (shrinks ROOT_HZ to one note so the miss is certain
+  rather than a 7% roll), and `tests/test_audio_quality.py::test_the_tuned_
+  808_never_gets_louder_than_the_kick`. The old
+  `test_add_the_root_puts_a_tuned_sub_under_traditional_beats` had its tail
+  inverted — it asserted the skip this entry removes. All mutation-tested:
+  restoring the "not chords" skip, restoring the fallback dice, restoring
+  the blanket low-end exemption, raising the cap to +6 dB, and applying the
+  hat clamp to the low end each fail at least one. Full suite 896 passed,
+  1 failed — the pre-existing `test_guest_lanes_appear_from_the_dj_palette`
+  config drift.
+- Review: ONE adversarial pass by a fresh subagent (2026-08-31 waiver). It
+  found all three of the defects above; the move itself, the rebuild
+  fidelity and the choice of the KEY root over the first chord's root it
+  checked and passed. Its level measurement was re-run here independently
+  before acting on it.
+- Status: open — MEASURED, not HEARD. This changes how traditional beats
+  sound, in two ways he has to judge: the 808 is present far more often
+  now, and it no longer sits above the kick. Numbers above are from the
+  synthetic test kit; his own samples will land differently. Needs a
+  render batch to his ear before this is settled.
+- Outcome:
+
+
+### 2026-09-01 Section 3 (instrument swap) — it was already built; what was broken was the LABELS
+- Context: section 3 of the v-next plan. Most of it already shipped —
+  `swap_many()` does both modes (dice re-roll and pick-a-file), the stem
+  rack has the dropdown, the dice, the trims and the remove button. Two
+  plan bullets were open.
+- Bullet "re-render one lane, not the beat": DROPPED. He was asked and said
+  the swap is fast enough. Caching untouched lanes would have to be undone
+  the moment the mix rules bind, so nothing was built.
+- Bullet "swap twice, every other lane's rendered audio unchanged": cannot
+  be true as written, and should not be. The hat ceiling (2026-08-31), the
+  snare and chord governors, the sidechain duck and the shared stem
+  normalisation all read the WHOLE mix on purpose. Measured over 15 swaps on
+  5 identities: swap a COLOUR lane and every other stem moves <= 0.16 dB;
+  swap the kick, snare or hat and the lanes they govern move up to 4.31 dB.
+  In no swap did an untouched lane change which sample it used. So the test
+  pins sample IDENTITY on every swap, and pins the LEVEL only for the
+  colour-lane case, where movement means a bug.
+- THE REAL FIND, and it is why the section was worth opening: every rebuilt
+  beat's synthesized stems lost their names. `swap_many` handed
+  `_build_chords` a throwaway `{}`, so "chord0 - <instrument>, Dm7 (ii7)"
+  came back from any swap as a bare "chord0.wav". The drums kept their
+  names, which is why it went unnoticed. Fixed by keeping that dict and
+  merging it into `write_stems`.
+- Two more of the same bug, both found by the adversarial review, not by me:
+  (a) the tuned root 808 is rebuilt at swap time and had no source at all,
+  so it printed as "bass drum.wav" with no note; (b) `write_stems` ran
+  `Path().stem` on its source string, which is right for a file path and
+  wrong for the free-text names the renderer writes — "Cymatics Piano 2.5,
+  Dm7 (ii7)" printed as "Cymatics Piano 2", losing the chord. Now only an
+  actual audio suffix is stripped. Stamp labels changed from `.name` to
+  `.stem` to match.
+- Noticed while chasing the root-808 test: EVERY identity now carries
+  `chords_default`, and chords take the sub's job, so the tuned root 808
+  is unreachable unless "no chords" is typed in the notes box. That is a
+  live question about the 2026-07-18 "add the root" rule — not touched.
+- Verify by: 5 new tests in `tests/test_beat_machine.py` —
+  `test_swapping_one_drum_leaves_the_other_stems_where_they_were` (now
+  swaps twice: dice, then by hand),
+  `test_swapping_the_hat_may_move_levels_but_never_the_other_samples`,
+  `test_a_rebuilt_chord_stem_still_says_what_instrument_it_is`,
+  `test_a_rebuilt_root_808_stem_still_says_its_note`,
+  `test_a_stem_name_is_not_truncated_at_a_dot`. All five mutation-tested:
+  dropping the chord_sources merge fails 3, restoring the blanket
+  `Path().stem` fails 1, removing the sub label fails 1, and a mutation
+  that silently re-rolls a second lane fails 2. Ran 5x for flakiness, no
+  skips. Full suite 893 passed, 1 failed — the pre-existing
+  `test_guest_lanes_appear_from_the_dj_palette` config drift.
+- Review: ONE adversarial pass by a fresh subagent, per his 2026-08-31
+  waiver. It found 3 real defects (the two label bugs above, plus tests
+  that compared only the lane intersection so a vanishing lane was
+  invisible) and 3 weak assertions. All fixed.
+- NOT auditioned, and deliberately: this changes stem FILENAMES only. No
+  sample, level, or render path moved, so there is nothing new to hear.
+- Status: open — code verified, not yet shown to him.
+- Outcome:
+
+
 ### 2026-09-01 Ban button — banned by CONTENT, not by file name
 - Context: section 2 of the v-next plan. The ban mechanism already existed
   (`banned_samples.json`, substring match on file names, two hand-typed

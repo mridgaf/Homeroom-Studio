@@ -385,6 +385,48 @@ def test_a_loud_clap_sample_is_pulled_under_the_kick():
         "clap peaks %.1f dB over the kick" % (_db(cpk) - _db(kpk)))
 
 
+def test_the_tuned_808_never_gets_louder_than_the_kick():
+    """Owner 2026-09-01: "kick stays on top."
+
+    The low end (`crew._LOW_END`) was exempt from the peak ceiling
+    ENTIRELY, written when the tuned root 808 could only land on a beat
+    with no chords — which, once every identity gained chords_default,
+    meant almost never. The moment the 808 came back on chords beats it
+    was measured taking the top of the mix at -6.0 dB with the kick pushed
+    down to -11 / -16 dB, i.e. 5 to 10 dB over it.
+
+    Now the low end is capped LEVEL with the backbone: it may match the
+    kick, never beat it. It stays exempt from the HAT ceiling, which is
+    the half of the exemption that was always the point — a sub does not
+    belong under a hi-hat.
+    """
+    name = "Mustang"
+    p = copy.deepcopy(CREW[name])
+    assert "kick" in p["lanes"]
+    # give the identity a sub lane on the kick's own pattern, the way
+    # beat_machine's "add the root" does
+    kpan, kgain, kfeel, kbars = p["lanes"]["kick"]
+    p["lanes"]["sub"] = (0.0, 0.7, kfeel, list(kbars))
+    kit = _tone_kit(p)
+    kit["sub"] = kit["sub"] * 8.0              # 18 dB hotter than the kick
+    _L, _R, _lufs, parts = render_crew_beat(name, kit, preset=p,
+                                            want_parts=True)
+    stems = parts["stems"]
+    kpk = max(np.abs(stems["kick"][0]).max(), np.abs(stems["kick"][1]).max())
+    spk = max(np.abs(stems["sub"][0]).max(), np.abs(stems["sub"][1]).max())
+    assert kpk > 0 and spk > 0
+    assert _db(spk) - _db(kpk) <= 0.5, (
+        "the 808 peaks %.1f dB over the kick" % (_db(spk) - _db(kpk)))
+    # ...and it is NOT dragged under the hat tier with everything else
+    tier = [ln for ln in stems if ln.startswith(crew.HAT_TIER)]
+    if tier:
+        hpk = max(max(np.abs(stems[ln][0]).max(), np.abs(stems[ln][1]).max())
+                  for ln in tier)
+        assert _db(spk) > _db(hpk), (
+            "the 808 was pulled under the hat — it is exempt from that "
+            "ceiling on purpose")
+
+
 def test_the_peak_ceiling_only_ever_turns_things_down():
     """The ceiling must not RAISE a quiet lane — an identity that deliberately
     tucks its clap away stays tucked away. Guards against someone later
@@ -457,10 +499,18 @@ def test_the_mix_hierarchy_holds_as_absolute_numbers():
     # the cut is a real cut. -0.0001 dB is not "always quieter".
     assert crew.EXTRA_CUT_DB <= -3.0
 
-    # backbone and low end are never capped
-    for lane in ("kick", "kick2", "snare", "snare2", "sub", "bass",
-                 "sub808", "808"):
+    # the backbone is never capped — it IS the reference
+    for lane in ("kick", "kick2", "snare", "snare2"):
         assert ceil(lane) is None, lane
+
+    # the low end is capped LEVEL with it: may match the kick, never beat
+    # it (owner 2026-09-01, "kick stays on top", after the tuned root 808
+    # measured 5-10 dB over the kick on chords beats). Stated as an
+    # absolute number, not as "whatever the constant says" — a positive
+    # value here would be a licence to rise above the backbone.
+    for lane in ("sub", "bass", "sub808", "808"):
+        assert ceil(lane) == crew.LOW_END_UNDER_DB, lane
+    assert crew.LOW_END_UNDER_DB <= 0.0
 
     # NOTHING outside the hat tier may be allowed as loud as the hat tier,
     # whatever family it belongs to. This is the assertion that fails if a

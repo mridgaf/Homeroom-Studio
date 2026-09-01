@@ -140,6 +140,10 @@ def lane_label(lane):
     return LANE_LABELS.get(lane, lane)
 
 
+_AUDIO_SUFFIXES = (".wav", ".aif", ".aiff", ".mp3", ".flac",
+                   ".ogg", ".m4a")
+
+
 def write_stems(folder, stems, sources=None):
     """One 24-bit stereo wav per lane. When `sources` maps lane -> the
     sample file it was built from, the stem carries the REAL sample name
@@ -165,7 +169,18 @@ def write_stems(folder, stems, sources=None):
         name = lane_label(lane)
         src = (sources or {}).get(lane)
         if src:
-            real = re.sub(r'[\\/:*?"<>|]', "_", Path(src).stem).strip()
+            # a source is EITHER a real sample path or a free-text
+            # description the renderer wrote ("horns stack, Dm7 (ii7)",
+            # "synth 808 sub, root F", "Kick 9.wav  [Cutz's stamp]").
+            # Path().stem on a description truncates it at the first dot
+            # and throws away everything before a slash — measured
+            # 2026-09-01: "Cymatics Piano 2.5, Dm7 (ii7)" printed as
+            # "Cymatics Piano 2", losing the chord. So only strip a
+            # suffix when the source really is an audio file.
+            raw = str(src)
+            if Path(raw).suffix.lower() in _AUDIO_SUFFIXES:
+                raw = Path(raw).stem
+            real = re.sub(r'[\\/:*?"<>|]', "_", raw).strip()
             if real:
                 name = f"{name} - {real}"
         g = 10 ** (STEM_BOOST_DB / 20.0)

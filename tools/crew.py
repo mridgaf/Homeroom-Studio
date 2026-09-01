@@ -105,6 +105,14 @@ BACKBONE_LANES = ("kick", "snare")        # the reference — never adjusted
 # the digit-less "bass": bass0..N are the MELODIC chord bass and do fall
 # under the melodic ceiling below, which is why the check is exact.
 _LOW_END = {"sub", "bass", "sub808", "808"}
+# ...but exempt from the HAT ceiling is not the same as exempt from
+# everything. Owner 2026-09-01, after the tuned root 808 came back on
+# chords beats and was measured 5-10 dB OVER the kick with the kick pushed
+# down to -16 dB: "kick stays on top". So the low end is capped level with
+# the backbone — it may match the kick, never beat it — while still being
+# allowed to sit far above the hat, which is the part of the exemption
+# that was always the point.
+LOW_END_UNDER_DB = 0.0
 PEAK_CEILING_DB = {
     # louder than the perc floor: nothing. quieter: these two families.
     "crash": PUNCTUATION_UNDER_DB,
@@ -172,8 +180,10 @@ def peak_ceiling_for(lane):
     time: nothing outside HAT_TIER may exceed the beat's actual hat, which
     a fixed offset under the kick cannot express. See the clamp in
     `render_crew_beat`."""
-    if lane.startswith(BACKBONE_LANES) or lane in _LOW_END:
+    if lane.startswith(BACKBONE_LANES):
         return None
+    if lane in _LOW_END:
+        return LOW_END_UNDER_DB
     if lane.startswith(HAT_TIER):
         return PERC_UNDER_DB
     for pre in _PEAK_PREFIXES:
@@ -1610,7 +1620,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         if ref_pk > 0:
             for ln in bufs:
                 head = peak_ceiling_for(ln)
-                if head is None:          # kick, snare, and the low end
+                if head is None:          # kick and snare: the reference
                     continue
                 # Measure the DRY LANE PLUS ITS REVERB TAIL. The cap used to
                 # read bufs[ln] alone, but wet_side[ln] is folded in later at
@@ -1626,7 +1636,11 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 # hierarchy under the backbone (a crash is punctuation and
                 # belongs below a shaker) AND his flat "under the hat" rule.
                 # The hat tier is exempt from the hat clamp — it IS the hat.
-                if hat_cap > 0 and not ln.startswith(HAT_TIER):
+                # ...except the low end, which is exempt from the hat
+                # rule by his own words ("the sub / 808 is left alone").
+                # Its only ceiling is the backbone, above.
+                if hat_cap > 0 and not ln.startswith(HAT_TIER) \
+                        and ln not in _LOW_END:
                     cap = min(cap, hat_cap)
                 if pk > cap > 0:
                     bufs[ln] = bufs[ln] * (cap / pk)

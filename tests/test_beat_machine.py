@@ -269,13 +269,16 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
     path_v, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
                                        trims={"sub": -4.0})
     assert path_v.exists()                     # a volume-only rebuild works
-    # ...and a chords beat skips it on purpose: harmony's own bass owns
-    # the low end there, and a static sub under it just fights.
+    # ...and since 2026-09-01 a CHORDS beat keeps it too — owner: "chords,
+    # but the 808 plays the bass". This used to assert the opposite (the
+    # sub skipped itself whenever chords were on, back when harmony still
+    # had its own bass lane). Tuned to the beat's key, not its own dice —
+    # see test_a_traditional_beat_gets_the_root_808_in_its_own_key.
     path2, _ = beat_machine.generate(["Mustang"], root=root, shots=shots,
                                      traditional=True, notes="chords")
     rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
-    assert rec2.get("root_note") is None
-    assert "sub" not in rec2["preset"]["lanes"]
+    assert rec2.get("root_note") == rec2["harmony"]["root"]
+    assert "sub" in rec2["preset"]["lanes"]
 
 
 def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env):
@@ -442,6 +445,308 @@ def test_swap_changes_one_drum_and_nothing_else(machine_env):
     assert unchanged == {k: v for k, v in rec2["kit_paths"].items()
                          if k != "snare"}
     assert rec2["preset"] == rec["preset"]              # pattern locked
+
+
+def _stem_rms_db(path):
+    """(left dB, right dB) of a printed 24-bit stem. Reads the FILE on disk,
+    not the render buffer — a swap is judged by what lands in the Stems
+    folder. Kept per-channel on purpose: one summed number can't see a pan
+    flip or a channel swap."""
+    with wave.open(str(path)) as w:
+        sw, ch = w.getsampwidth(), w.getnchannels()
+        raw = w.readframes(w.getnframes())
+    a = np.frombuffer(raw, dtype=np.uint8).reshape(-1, sw)
+    v = (a[:, 0].astype(np.int32) | a[:, 1].astype(np.int32) << 8
+         | a[:, 2].astype(np.int8).astype(np.int32) << 16)
+    x = (v.astype(np.float64) / 8388608.0).reshape(-1, ch)
+    out = []
+    for c in range(ch):
+        r = float(np.sqrt(np.mean(x[:, c] ** 2)))
+        out.append(20 * np.log10(r) if r > 0 else -999.0)
+    return out
+
+
+def _stem_files(wav, root):
+    """lane -> stem file, for the beat that `wav` is the mix of."""
+    d = next(wav.parent.glob(f"{wav.name.split()[0]} * Stems"))
+    return {f.stem.split(" - ")[0]: f for f in d.glob("*.wav")}
+
+
+def test_a_traditional_beat_gets_the_root_808_in_its_own_key(machine_env):
+    """Owner 2026-09-01: "chords, but the 808 plays the bass."
+
+    Two things, and the second is the reason this test exists.
+
+    (1) The tuned root 808 must come back on traditional beats. It had been
+    unreachable since every identity gained chords_default: the call site
+    skipped itself whenever chords were on, on the reasoning that the
+    harmony bass gave a moving in-key root instead. That bass was retired
+    2026-07-29 (_build_chords keeps bass_idx permanently None), so the
+    condition was guarding against a lane that no longer exists.
+
+    (2) On a chords beat the sub has to be IN THAT BEAT'S KEY. It is one
+    static note held under the whole progression, so a sub picked from its
+    own dice — which is what _root_sub does — is a wrong note under the
+    chords far more often than a right one. That is why the block now runs
+    AFTER _build_chords and reads the harmony's root.
+
+    The sub is still not in every traditional beat, by design: a kick that
+    already rolled a long 808 carries the sub itself, and the roll is 3 in 4
+    on top of that. Measured 2026-09-01: it lands on 20-40%.
+
+    Half Light is in the roster here on purpose. Its own key roots include
+    B, which the sub cannot play — ROOT_HZ has seven notes and an
+    identity's signature roots need not be among them. The first version
+    of this code fell back to a random note there, which is the exact
+    wrong-note-under-the-chords failure the change exists to prevent; it
+    now ships that beat with no sub instead. Otto Grit alone could never
+    catch it — all its roots are in ROOT_HZ.
+    """
+    root, shots = machine_env
+    withsub = []
+    for i in range(20):
+        path, _ = beat_machine.generate(
+            [("Otto Grit", "Half Light")[i % 2]], root=root,
+            shots=shots, traditional=True)
+        rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+        if rec.get("root_note"):
+            withsub.append(rec)
+    assert withsub, ("20 traditional beats and not one tuned root 808 — "
+                     "the rule is unreachable again")
+    for rec in withsub:
+        assert "sub" in rec["preset"]["lanes"]
+        key_root = (rec.get("harmony") or {}).get("root")
+        if key_root:                     # a chords beat: same note, always
+            assert rec["root_note"] == key_root, (
+                "sub on %s under a progression in %s"
+                % (rec["root_note"], rec["harmony"]["key"]))
+        assert rec["root_note"] in beat_machine.ROOT_HZ, rec["root_note"]
+    # and it really is riding WITH the chords, not instead of them
+    assert any(any(ln.startswith("chord") for ln in r["preset"]["lanes"])
+               for r in withsub), "no chords beat ever kept the sub"
+
+
+def test_a_note_the_sub_cannot_play_means_no_sub_not_a_wrong_one(machine_env,
+                                                                 monkeypatch):
+    """The dangerous half of "tune the sub to the key".
+
+    ROOT_HZ holds seven notes; an identity's `signature.key.roots` does not
+    have to be a subset of them (Half Light asks for B). The first version
+    of this code fell back to `_root_sub`'s own dice when the key root had
+    no entry — a random note held under the whole progression, i.e. exactly
+    the failure the change was made to prevent. It ships no sub instead.
+
+    ROOT_HZ is shrunk to one note here so the miss is certain rather than
+    a 7% roll on one identity — the real case is too rare to catch by
+    generating and hoping.
+    """
+    root, shots = machine_env
+    monkeypatch.setattr(beat_machine, "ROOT_HZ", {"Bb": 58.27})
+    seen = 0
+    for i in range(8):
+        path, _ = beat_machine.generate(
+            [("Otto Grit", "Mustang")[i % 2]], root=root, shots=shots,
+            traditional=True)
+        rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+        key_root = (rec.get("harmony") or {}).get("root")
+        if rec.get("root_note") is None:
+            assert "sub" not in rec["preset"]["lanes"]
+            continue
+        seen += 1
+        assert rec["root_note"] == "Bb"
+        assert key_root in (None, "Bb"), (
+            "sub on Bb under a progression in %s — the fallback dice are "
+            "back" % key_root)
+    assert seen < 8, ("every beat still got a sub: ROOT_HZ was not really "
+                      "shrunk, so this test proves nothing")
+
+
+def test_a_rebuilt_root_808_stem_still_says_its_note(machine_env):
+    """The tuned root sub is synthesized at render time, so it never lives
+    in kit_paths — which meant swap_many had nothing to name it with and
+    every rebuild of a traditional beat printed a bare "bass drum.wav",
+    losing the note. Found by the adversarial review, 2026-09-01."""
+    root, shots = machine_env
+    for _ in range(12):
+        path, _ = beat_machine.generate(["Otto Grit"], root=root,
+                                        shots=shots, traditional=True)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        if rec.get("root_note") and "hat" in rec["kit_paths"]:
+            break
+    else:
+        pytest.fail("no traditional beat rolled a tuned root 808 in 12 "
+                    "tries — the fixture, not the fix, needs looking at")
+    assert any(f.name.startswith("bass drum - synth 808 sub, root")
+               for f in _stem_files(path, root).values())
+    new_path, _ = beat_machine.swap_many(no, {"hat": None}, root=root,
+                                         shots=shots)
+    after = _stem_files(new_path, root)
+    assert "bass drum" in after, sorted(after)
+    assert after["bass drum"].name == (
+        "bass drum - synth 808 sub, root %s.wav" % rec["root_note"]), \
+        after["bass drum"].name
+
+
+def test_a_stem_name_is_not_truncated_at_a_dot(tmp_path):
+    """write_stems used to run Path().stem on its source string. That is
+    right for a file path and wrong for the free-text names the renderer
+    writes for the synthesized lanes: measured 2026-09-01, a chord voice
+    called "Cymatics Piano 2.5, Dm7 (ii7)" printed as "Cymatics Piano 2" —
+    the chord, the roman numeral and the version digit all gone."""
+    x = np.ones(64) * 0.1
+    beat_recipes.write_stems(tmp_path, {
+        "chord0": (x, x), "sub": (x, x), "kick": (x, x)}, sources={
+        "chord0": "Cymatics Piano 2.5, Dm7 (ii7)",
+        "sub": "synth 808 sub, root F",
+        "kick": "/some/pack/Kong Kick 9.wav"})
+    got = sorted(f.name for f in tmp_path.glob("*.wav"))
+    assert got == ["bass drum - synth 808 sub, root F.wav",
+                   "chord0 - Cymatics Piano 2.5, Dm7 (ii7).wav",
+                   "kick drum - Kong Kick 9.wav"], got
+
+
+def test_swapping_one_drum_leaves_the_other_stems_where_they_were(machine_env):
+    """Section 3 of the v-next plan, in the form it can actually hold.
+
+    The plan asked for "swap a lane twice and every other lane's rendered
+    audio is unchanged". BIT-identity is not achievable and must not be: the
+    hat ceiling (2026-08-31), the snare and chord governors, the sidechain
+    duck and the shared stem normalisation all read the WHOLE mix on
+    purpose. Making the lanes independent would undo the mix rule.
+
+    Measured 2026-09-01 over 15 swaps on 5 identities, comparing the printed
+    stem FILES:
+      * swap a colour lane (shaker, cutfx, perc, bongo, claves, bells,
+        clap, snap...) and every other stem moves at most 0.16 dB;
+      * swap the kick, snare or hat and the lanes they govern move up to
+        4.31 dB — legitimately;
+      * in NO swap did an untouched lane change which sample it used.
+
+    So: sample identity is asserted for every swap (this is the assertion
+    that fails if a swap quietly re-rolls a second lane), and the level is
+    only pinned for the colour-lane case, where a move means a bug.
+    """
+    root, shots = machine_env
+    colour = ("shaker", "cutfx", "perc", "bongo", "claves", "bells",
+              "clap", "snap", "woods", "congas2", "blips", "reversefx")
+    for _ in range(12):
+        path, _ = beat_machine.generate(["Otto Grit", "Cutz", "Glass Cat"][
+            _ % 3:][:1], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        kit = beat_recipes.load_recipe(root, no)["kit_paths"]
+        picks = [ln for ln in colour if ln in kit]
+        if picks and len(kit) >= 3:
+            lane = picks[0]
+            break
+    else:
+        pytest.skip("no colour lane rolled")
+
+    def _held_still(old_wav, new_wav, swapped, how):
+        before = _stem_files(old_wav, root)
+        after = _stem_files(new_wav, root)
+        assert set(before) == set(after), (
+            f"the lane list changed on a {how}: "
+            f"{sorted(set(before) ^ set(after))}")
+        assert before[swapped].stem != after[swapped].stem, "nothing changed"
+        rest = sorted(set(before) - {swapped})
+        assert len(rest) >= 2, ("nothing left to hold still", sorted(before))
+        for ln in rest:
+            assert before[ln].stem == after[ln].stem, (
+                f"{ln} changed sample on a {how}: "
+                f"{before[ln].stem} -> {after[ln].stem}")
+            for ch, (was, now) in enumerate(zip(_stem_rms_db(before[ln]),
+                                                _stem_rms_db(after[ln]))):
+                assert abs(now - was) <= 0.5, (
+                    f"{ln} channel {ch} moved {now - was:+.2f} dB "
+                    f"on a {how}")
+
+    label = beat_recipes.lane_label(lane)
+    # 1. roll the dice on that lane
+    p2, _ = beat_machine.swap_many(no, {lane: None}, root=root, shots=shots)
+    _held_still(beat_machine.beat_wav(no, root), p2, label, f"{lane} re-roll")
+
+    # 2. swap the SAME lane again, this time picking the file by hand —
+    #    the plan asks for both modes, and for a swap OF a swap (the
+    #    variations-folder path), not just one generation deep.
+    no2 = int(p2.name.split()[0])
+    now = beat_recipes.load_recipe(root, no2)["kit_paths"][lane]
+    role = beat_recipes.load_recipe(root, no2)["kit_spec"][lane][0]
+    chosen = next(e["path"] for e in shots[role] if e["path"] != now)
+    p3, _ = beat_machine.swap_many(no2, {lane: chosen}, root=root,
+                                   shots=shots)
+    assert beat_recipes.load_recipe(
+        root, int(p3.name.split()[0]))["kit_paths"][lane] == chosen
+    _held_still(p2, p3, label, f"{lane} picked by hand")
+
+
+def test_swapping_the_hat_may_move_levels_but_never_the_other_samples(
+        machine_env):
+    """The other half of the rule above, on the swap that IS allowed to
+    move levels. The hat is the ceiling, so re-rolling it rescales every
+    lane under it — but it must still be the SAME lanes playing the SAME
+    samples. Only the hat's own file changes."""
+    root, shots = machine_env
+    for _ in range(6):
+        path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        kit = beat_recipes.load_recipe(root, no)["kit_paths"]
+        if "hat" in kit and len(kit) >= 3:
+            break
+    else:
+        pytest.skip("no hat rolled")
+    new_path, _ = beat_machine.swap_many(no, {"hat": None}, root=root,
+                                         shots=shots)
+    rec2 = beat_recipes.load_recipe(root, int(new_path.name.split()[0]))
+    for ln, pth in kit.items():
+        if ln != "hat":
+            assert rec2["kit_paths"][ln] == pth, ln
+    before = _stem_files(beat_machine.beat_wav(no, root), root)
+    after = _stem_files(new_path, root)
+    assert set(before) == set(after), sorted(set(before) ^ set(after))
+    for ln in sorted(set(before) - {"hat"}):
+        assert before[ln].stem == after[ln].stem, (
+            f"{ln} changed sample on a hat swap: "
+            f"{before[ln].stem} -> {after[ln].stem}")
+        # levels MAY move — the hat is the ceiling — but re-rolling one
+        # hat is not licence to remix the beat. Measured worst case over
+        # 15 swaps on 5 identities was 4.31 dB (2026-09-01).
+        for ch, (was, now2) in enumerate(zip(_stem_rms_db(before[ln]),
+                                             _stem_rms_db(after[ln]))):
+            assert abs(now2 - was) <= 6.0, (
+                f"{ln} channel {ch} moved {now2 - was:+.2f} dB on a hat swap")
+
+
+def test_a_rebuilt_chord_stem_still_says_what_instrument_it_is(machine_env):
+    """Owner rule 2026-07-18: a stem file says WHICH sound it is.
+
+    Found 2026-09-01 while measuring swaps. swap_many handed _build_chords
+    a throwaway sources dict, so the chord labels it writes were dropped
+    before write_stems ran: "chord0 - <instrument>, Dm7 (ii7)" came back
+    from any rebuild as a bare "chord0". The drums kept their names, which
+    is why it went unnoticed.
+    """
+    root, shots = machine_env
+    for _ in range(8):
+        path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        chords = [ln for ln in rec["preset"]["lanes"] if ln.startswith("chord")]
+        if chords and "hat" in rec["kit_paths"]:
+            break
+    else:
+        pytest.skip("no chord beat rolled")
+    parent_stems = _stem_files(path, root)
+    new_path, _ = beat_machine.swap_many(no, {"hat": None}, root=root,
+                                         shots=shots)
+    after = _stem_files(new_path, root)
+    named = [ln for ln in after if ln.startswith("chord")]
+    assert named, ("the rebuild printed no chord stem", sorted(after))
+    for ln in named:
+        assert " - " in after[ln].name, (
+            f"{after[ln].name} lost its instrument name in the rebuild")
+        if ln in parent_stems:
+            assert after[ln].stem == parent_stems[ln].stem
 
 
 def test_stem_rack_swaps_several_drums_into_one_rebuild(machine_env):

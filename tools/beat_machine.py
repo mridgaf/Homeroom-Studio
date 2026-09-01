@@ -845,10 +845,10 @@ def collab_kit(shots, names, preset, stamps, variant, avoid):
         sources[lane] = path
         spec_used[lane] = (role, must, wants, secs)
     kit["stamp"] = stamps[host][1]
-    sources["stamp"] = f"{Path(stamps[host][0]).name}  [{host}'s stamp]"
+    sources["stamp"] = f"{Path(stamps[host][0]).stem}  [{host}'s stamp]"
     for i, g in enumerate(names[1:]):
         kit[f"stamp{i + 2}"] = stamps[g][1]
-        sources[f"stamp{i + 2}"] = f"{Path(stamps[g][0]).name}  [{g}'s stamp]"
+        sources[f"stamp{i + 2}"] = f"{Path(stamps[g][0]).stem}  [{g}'s stamp]"
     return kit, sources, spec_used
 
 
@@ -1095,15 +1095,18 @@ def dj_cut(L, R, parts, bar, nbars=BARS):
 # for 808"), then restored the same day once the ban itself was reversed
 # ("allow DJs to stay true to style, with the kick") and the owner asked
 # for the sub back explicitly. Round trip left no scar: the mechanism was
-# flag-gated rather than deleted.
+# flag-gated rather than deleted. Unreachable again 2026-07-25 to
+# 2026-09-01 — not by this flag but by a "not chords" condition at the
+# call site, once every identity gained chords_default. Fixed 2026-09-01:
+# the sub now rides WITH the chords, tuned to the beat's own key.
 ADD_THE_ROOT_808 = True
 
 
 def _root_sub(variant, secs=0.6):
-    """Owner rule 2026-07-18 ("add the root"), retired 2026-07-23 — see
-    ADD_THE_ROOT_808 above. Kept for recipe-rebuild fidelity: an
-    already-rendered beat's saved root_note still needs this to
-    reproduce its sub on a re-render. A tuned 808 sub for the
+    """Owner rule 2026-07-18 ("add the root") — see ADD_THE_ROOT_808
+    above. The FALLBACK root picker, for a traditional beat that came out
+    with no chords to take its key from; a chords beat tunes the sub to
+    the harmony instead. A tuned 808 sub for the
     traditional beats — a real synthesized sub on a chosen musical root,
     so the kick has a low note under it. Deterministic per beat; returns
     (note name, mono audio)."""
@@ -2214,19 +2217,9 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
     _long808 = (preset["kit"].get("kick", (None, None))[1] == "808"
                 and _klen > 0.6)
-    # the harmony bass (below) already gives a moving, in-key root under
-    # the kick — the static single-note 808 would just muddy the low
-    # end fighting it, so "chords" skips this and takes the bass job.
-    if ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"] \
-            and not _long808 and not dirs["chords"] \
-            and random.Random(variant * 577 + 13).random() < 0.75:
-        root_note, sub_audio = _root_sub(variant)
-        kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
-        preset["lanes"]["sub"] = (0.0, 0.7, (0, 0, ksw, ks + 7),
-                                  [b for b in kbars])
-        kit["sub"] = sub_audio
-        sources["sub"] = "synth 808 sub, root %s" % root_note
-        vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
+    _wants_root = (ADD_THE_ROOT_808 and traditional
+                   and "kick" in preset["lanes"] and not _long808
+                   and random.Random(variant * 577 + 13).random() < 0.75)
 
     # "chords" / a mood word in the notes box (punch list steps 2+7,
     # 2026-07-22): a real in-key progression, synthesized as a pad + bass
@@ -2236,6 +2229,40 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # docstring for why regenerating, not reusing the rendered stem.
     midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
                                               dirs, vnotes)
+
+    # ...and NOW the tuned root 808, because on a chords beat it has to be
+    # in that beat's key (owner 2026-09-01: "chords, but the 808 plays the
+    # bass"). This block used to sit above _build_chords and skip itself
+    # whenever chords were on, on the reasoning that "the harmony bass
+    # already gives a moving in-key root". That bass was retired
+    # 2026-07-29 (_build_chords: bass_idx is permanently None), and every
+    # identity has since gained chords_default — so the condition had
+    # quietly made the root 808 unreachable unless "no chords" was typed.
+    # The sub mirrors the final kick line, plays straight, and rides the
+    # un-ducked bass path. Skipped when the kick already rolled a LONG 808
+    # — that sample is carrying the sub itself and two would fight.
+    if _wants_root:
+        # key first, and NO dice once there is a key: an out-of-key static
+        # sub held under a progression is worse than no sub at all.
+        # SUB_ROOTS and ROOT_HZ carry the same seven notes, but an
+        # identity's own `signature.key.roots` does not have to — Half
+        # Light asks for B, which has no entry here, on 7.4% of its beats
+        # (adversarial review, 2026-09-01). That beat gets NO sub rather
+        # than a random one, which is what the old fallback would have
+        # given it.
+        key_root = (harmony_info or {}).get("root")
+        if key_root:
+            root_note = key_root if key_root in ROOT_HZ else None
+            sub_audio = sub808(ROOT_HZ[root_note], 0.6) if root_note else None
+        else:                       # no harmony at all: the sub picks
+            root_note, sub_audio = _root_sub(variant)
+    if _wants_root and root_note:
+        kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
+        preset["lanes"]["sub"] = (0.0, 0.7, (0, 0, ksw, ks + 7),
+                                  [b for b in kbars])
+        kit["sub"] = sub_audio
+        sources["sub"] = "synth 808 sub, root %s" % root_note
+        vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
 
     # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
     # here, after the chord lanes so bass can defer to the harmony bass on a
@@ -2960,10 +2987,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             raise RuntimeError(f"{Path(pth).name} (a locked stamp) has "
                                "moved or vanished — can't rebuild.")
         kit[ln] = snd
+    chord_sources = {}          # lane -> what to CALL it in the stems folder
     # the tuned root sub is synthesized, not a sample — rebuild it from
     # the recipe's root note so the swapped beat keeps its low end
     if rec.get("root_note") and "sub" in preset.get("lanes", {}):
         kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
+        # ...and it must still SAY what it is. generate() names this stem
+        # "bass drum - synth 808 sub, root F" (see the sources line in
+        # generate); without this a swap printed a bare "bass drum.wav".
+        chord_sources["sub"] = "synth 808 sub, root %s" % rec["root_note"]
     # chord/chord-bass lanes are ALSO synthesized (owner 2026-07-23,
     # "control the volume for all sounds" — the ask that surfaced this gap:
     # those lanes now show a volume slider, so a rebuild has to actually be
@@ -2975,10 +3007,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # leaves the bass roots behind, and they still need their audio built
     # (they are synthesized-at-render like the chords, not kit_paths files)
     if any(_chord_family(ln) for ln in preset.get("lanes", {})):
-        # a throwaway sources dict: chord/bass lanes were never in
-        # kit_paths (nothing to swap them for), so nothing here needs to
-        # persist past this render.
-        _build_chords(preset, kit, {}, rec["variant"],
+        # chord/bass lanes are never in kit_paths (nothing to swap them
+        # for), so none of this is persisted into the recipe — but it IS
+        # what names their stem files. Passing a throwaway {} here printed
+        # every rebuilt chord stem as a bare "chord0.wav", losing the
+        # instrument and the chord it plays (owner rule 2026-07-18: a stem
+        # says WHICH sound it is). Measured 2026-09-01: swap one hat and
+        # "chord0 - sample_ Cymatics ... , Dm7 (ii7)" came back as
+        # "chord0". Keep the dict; write_stems reads it below.
+        _build_chords(preset, kit, chord_sources, rec["variant"],
                       {"chords": True, "chord_feel": None}, [],
                       voice=chord_voice)
         # ...but a chord/bass lane the owner just REMOVED must not come
@@ -3047,7 +3084,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
     write_stems(folder / f"{no} {stem_of} Stems", parts["stems"],
-                sources={**kit_paths, **rec["stamp_paths"]})
+                sources={**chord_sources, **kit_paths, **rec["stamp_paths"]})
 
     rec2 = dict(rec, file=fname, kit_paths=kit_paths, parent=number,
                 folder=rec["folder"], date=str(date.today()))

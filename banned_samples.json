@@ -1,4 +1,15 @@
-[
- "Bang boom Pow",
- "Johnny Stomp"
-]
+{
+ "names": [
+  "Bang boom Pow",
+  "Johnny Stomp"
+ ],
+ "stems": [],
+ "sounds": [
+  {
+   "name": "Gun Stomp",
+   "path": "/Volumes/TBOTC 3/DAW Projects/Sample Packs - Downloads Backup/reddit drum kits 2023/Kicks/Stomps/Gun Stomp.wav",
+   "fp": "9e32246860a534e9126e98f1f2d568a6fe7ec64f",
+   "when": "2026-09-01"
+  }
+ ]
+}
