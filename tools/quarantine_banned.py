@@ -29,7 +29,8 @@ from pathlib import Path
 from datetime import datetime
 
 sys.path.append(str(Path(__file__).parent))
-from make_drum_beats import banned_substrings, is_banned
+from make_drum_beats import (_ban_doc, banned_sounds, banned_stems,
+                            is_banned)
 
 ROOT = Path("~/Documents/Samples/Claude Drum Beats").expanduser()
 DEST_NAME = "_Flagged - Banned Samples"
@@ -64,7 +65,7 @@ def index_on_disk(dest):
     return idx
 
 
-def flag_from_recipes(banned):
+def flag_from_recipes(ban):
     """number -> offending sample name, from recipe kit/stamp paths."""
     flagged = {}
     rdir = ROOT / ".recipes"
@@ -79,18 +80,18 @@ def flag_from_recipes(banned):
         paths.update(data.get("kit_paths", {}))
         paths.update(data.get("stamp_paths", {}))
         for src in paths.values():
-            if src and is_banned(src, banned):
+            if src and is_banned(src, *ban):
                 flagged[int(jf.stem)] = src           # full path
                 break
     return flagged
 
 
-def why_str(offending, banned):
+def why_str(offending, ban):
     """Readable 'what it used': the file name, plus its parent folder when
     the name alone doesn't show the banned word (the Ableton session
     slices are named 0004 2-Audio.wav but live in a bang-boom-pow folder)."""
     p = Path(offending)
-    if any(b in p.name.lower() for b in banned):
+    if any(b in p.name.lower() for b in ban[0]):
         return p.name
     return f"{p.name}  (from {p.parent.name}/)"
 
@@ -100,7 +101,7 @@ NEW_HEAD_RE = re.compile(r"^(\d+) .+\.wav\s+->")
 OLD_HEAD_RE = re.compile(r"^(.+?) \((\d+)bpm\)\s*[—-]\s*$")
 
 
-def flag_from_readme(banned, disk):
+def flag_from_readme(ban, disk):
     """number -> offending sample name, parsed from README.txt blocks."""
     flagged = {}
     readme = ROOT / "README.txt"
@@ -144,7 +145,7 @@ def flag_from_readme(banned, disk):
         ms = SRC_RE.match(line)
         if ms and hit is None:
             val = ms.group(2).split(" | ")[0]
-            if is_banned(val, banned):
+            if is_banned(val, *ban):
                 hit = val
     close(cur_no, cur_title, cur_bpm, hit)
     return flagged
@@ -152,20 +153,29 @@ def flag_from_readme(banned, disk):
 
 def main():
     dry = "--dry-run" in sys.argv
-    banned = banned_substrings()
-    if not banned:
+    # Every kind of ban, not just the hand-typed names. Before 2026-09-01
+    # this read `banned_substrings()` alone, so a sound banned with the
+    # app's button was invisible here and the tool reported the blocklist
+    # as empty — "ban it, then collect the beats that used it" silently
+    # stopped working the moment the button was used.
+    doc = _ban_doc()
+    ban = ([s.lower() for s in doc["names"]],
+           banned_sounds(doc), banned_stems(doc))
+    if not any(ban):
         print("banned_samples.json is empty — nothing to collect.")
         return
     dest = ROOT / DEST_NAME
     disk = index_on_disk(dest)
 
     flagged = {}
-    for no, name in flag_from_recipes(banned).items():
+    for no, name in flag_from_recipes(ban).items():
         flagged.setdefault(no, name)
-    for no, name in flag_from_readme(banned, disk).items():
+    for no, name in flag_from_readme(ban, disk).items():
         flagged.setdefault(no, name)
 
-    print(f"Blocklist: {', '.join(banned)}")
+    print("Blocklist: " + ", ".join(
+    list(ban[0]) + sorted(ban[2])
+    + [e["name"] for es in ban[1].values() for e in es]))
     print(f"{len(flagged)} beat(s) used a banned sample.\n")
     if not flagged:
         return
@@ -178,7 +188,7 @@ def main():
             continue
         items = slot["wavs"] + slot["mids"] + slot["stems"]
         label = (slot["wavs"] or slot["stems"] or slot["mids"])[0].name
-        why = why_str(flagged[no], banned)
+        why = why_str(flagged[no], ban)
         print(f"  {no:>3}  {label}")
         print(f"       used: {why}")
         for f in items:

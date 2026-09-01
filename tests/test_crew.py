@@ -210,3 +210,18 @@ def test_stamp_locks_but_drums_experiment(tmp_path, monkeypatch):
         assert all(src.values())
         picks.add(src["kick"])
     assert len(picks) > 1
+
+
+def test_hat_tier_is_exactly_the_three_lanes_he_named():
+    """Owner 2026-08-31, asked directly which stems stay at the hat's level:
+    "hat, clap, snap only". Bell, rim and cowbell drop with the shaker and
+    tamb he named as too loud — which SUPERSEDES the 2026-08-03 grouping
+    that kept bells up with the claps.
+
+    The numeric hierarchy and the rendered "nothing over the hat" check live
+    in tests/test_audio_quality.py; this one only pins the membership.
+    """
+    assert crew.HAT_TIER == ("hat", "clap", "snap")
+    for lane in ("bell", "cowbell", "rim", "tamb", "shaker", "bongo"):
+        assert not lane.startswith(crew.HAT_TIER), lane
+        assert crew.peak_ceiling_for(lane) < crew.PERC_UNDER_DB, lane

@@ -69,30 +69,210 @@ BANNED_FILE = Path(__file__).resolve().parent.parent / "banned_samples.json"
 BAND_TOKENS = {"botc", "tbotc", "botb", "lyr", "lyric", "lyrics"}
 
 
+class BanListDamaged(RuntimeError):
+    """The blocklist is on disk but unreadable. Raised, never swallowed —
+    see _ban_doc."""
+
+
+def _ban_doc():
+    """The blocklist file, in any of its shapes. THREE kinds of ban:
+
+      names   hand-typed SUBSTRINGS. "Bang boom Pow" takes every date and
+              master variant of that band take at once. Deliberately broad;
+              he types these himself.
+      stems   exact file names, from the button's "ban all of them". Exact
+              because the button TELLS HIM A NUMBER first, and the action
+              has to ban that many and no more.
+      sounds  one specific sound, by content fingerprint.
+
+    A missing file is an empty blocklist — that is the normal first-run
+    state. A file that EXISTS but will not parse raises instead, because
+    returning "nothing is banned" would silently un-ban his whole curated
+    list, and the next ban would then write that emptiness back over it."""
+    import json
+    if not BANNED_FILE.exists():
+        return {"names": [], "stems": [], "sounds": []}
+    try:
+        raw = json.loads(BANNED_FILE.read_text())
+    except (OSError, ValueError) as e:
+        raise BanListDamaged(
+            f"{BANNED_FILE} could not be read ({e}). Nothing has been "
+            "changed. Fix or delete the file — carrying on would have "
+            "un-banned every sound on it.")
+    if isinstance(raw, list):                      # the original shape
+        return {"names": [str(s) for s in raw], "stems": [], "sounds": []}
+    return {"names": [str(s) for s in raw.get("names", [])],
+            "stems": [str(s) for s in raw.get("stems", [])],
+            "sounds": [s for s in raw.get("sounds", [])
+                       if isinstance(s, dict)]}
+
+
 def banned_substrings():
     """Owner blocklist as lowercase SUBSTRINGS. One entry "Bang boom Pow"
     bans every date/master variant of that band song at once; an exact
     filename still matches itself. Shared with quarantine_banned.py."""
-    import json
+    return [s.lower() for s in _ban_doc()["names"]]
+
+
+def sample_fingerprint(path):
+    """Identify a sound by its CONTENT, so a ban survives the file being
+    moved or the pack being re-copied to a new path.
+
+    Why this is not name-matching: measured on his own 4,202-file library,
+    17.5% of samples share a file name with another file, and name+duration
+    still collides on 14.5% (many entries have no duration recorded). A
+    one-click ban that matched by name would have taken innocent samples
+    roughly one time in five — banning "bass" alone would kill nine files.
+
+    Size plus the first 64 KB, not the whole file: enough to separate any
+    two real samples, and it reads one block instead of a whole drum loop.
+    Returns None when the file cannot be read, and a None fingerprint never
+    matches anything."""
+    import hashlib
     try:
-        return [str(s).lower() for s in json.loads(BANNED_FILE.read_text())]
-    except (OSError, ValueError):
-        return []
+        size = os.path.getsize(path)
+        with open(path, "rb") as fh:
+            head = fh.read(65536)
+    except OSError:
+        return None
+    h = hashlib.sha1()
+    h.update(str(size).encode())
+    h.update(head)
+    return h.hexdigest()
 
 
-def is_banned(sample_name, banned=None):
-    """True if any blocklist substring appears in this file name/path."""
-    banned = banned_substrings() if banned is None else banned
+def banned_sounds(doc=None):
+    """The exact-sound bans, indexed for a CHEAP filter: basename -> the
+    entries banned under that name.
+
+    Keyed on basename so `is_banned` does no I/O at all for the ~99.9% of
+    the library that shares no name with a banned sound. Only a name
+    collision costs a fingerprint read, which is exactly the case that
+    needs one."""
+    doc = _ban_doc() if doc is None else doc
+    idx = {}
+    for e in doc["sounds"]:
+        key = str(e.get("name", "")).lower()
+        if key:
+            idx.setdefault(key, []).append(e)
+    return idx
+
+
+def banned_stems(doc=None):
+    """Exact file names banned by the button's "all of them" choice."""
+    doc = _ban_doc() if doc is None else doc
+    return {s.lower() for s in doc["stems"]}
+
+
+def is_banned(sample_name, banned=None, sounds=None, stems=None):
+    """True if this sample is blocked — by a hand-typed name substring, by
+    an exact file name, or because it IS one of the sounds he banned."""
     low = str(sample_name).lower()
-    return any(b in low for b in banned)
+    stem = Path(sample_name).stem.lower()
+    banned = banned_substrings() if banned is None else banned
+    if any(b in low for b in banned):
+        return True
+    # Exact, NOT a substring. The button quotes him a count before he
+    # answers, so the ban has to take exactly the files that count covered:
+    # appending "Hat" to the substring list would have taken every path on
+    # the drive containing the letters "hat", including a folder called
+    # "Kick 3" and a file called "Phat Kick".
+    stems = banned_stems() if stems is None else stems
+    if stem in stems:
+        return True
+    sounds = banned_sounds() if sounds is None else sounds
+    if not sounds:
+        return False
+    hits = sounds.get(Path(sample_name).stem.lower())
+    if not hits:
+        return False
+    # Same name as something he banned. Same PATH settles it for free;
+    # otherwise the content decides, so a different sample that happens to
+    # share the name survives.
+    same = str(sample_name)
+    if any(str(e.get("path", "")) == same for e in hits):
+        return True
+    fp = sample_fingerprint(sample_name)
+    return bool(fp) and any(e.get("fp") == fp for e in hits)
+
+
+def name_twins(path, shots):
+    """Every sample in the pool sharing this one's file name, itself
+    included. Drives the button's prompt (owner 2026-08-31, "ask me each
+    time"): one twin means ban it outright, more than one means show him
+    the count and let him choose."""
+    stem = Path(path).stem.lower()
+    seen, out = set(), []
+    for entries in (shots or {}).values():
+        for e in entries:
+            p = e.get("path")
+            if p and p not in seen and Path(p).stem.lower() == stem:
+                seen.add(p)
+                out.append(p)
+    return sorted(out)
+
+
+def ban_sound(path, whole_name=False, shots=None):
+    """Ban one sound from every future beat, forever (owner 2026-08-31).
+
+    Default bans THIS sound only, by content, so the samples that merely
+    share its name are untouched. `whole_name=True` is the broad kill — it
+    appends to the same hand-typed substring list his two existing entries
+    live on, which is how "Bang boom Pow" takes every variant at once.
+
+    Never touches beats already made: a ban stops the sound being picked
+    again and nothing else (his call — existing beats stay put)."""
+    import datetime
+    import json
+    import os
+    import tempfile
+    doc = _ban_doc()
+    path = str(path)
+    name = Path(path).stem
+    if whole_name:
+        # the EXACT-name list, not the substring list — see is_banned
+        if name.lower() not in [s.lower() for s in doc["stems"]]:
+            doc["stems"].append(name)
+        did = "name"
+    else:
+        fp = sample_fingerprint(path)
+        already = any(e.get("fp") == fp and fp for e in doc["sounds"])
+        if not already:
+            doc["sounds"].append({
+                "name": name, "path": path, "fp": fp,
+                "when": datetime.date.today().isoformat()})
+        did = "sound"
+    # Write a whole new file and swap it in. A plain write truncates first,
+    # so a crash or a full disk mid-write left an unparseable blocklist —
+    # which used to read back as "nothing is banned" and take his two
+    # hand-typed entries with it.
+    fd, tmp = tempfile.mkstemp(dir=str(BANNED_FILE.parent),
+                               prefix=".banned-", suffix=".json")
+    try:
+        with os.fdopen(fd, "w") as fh:
+            json.dump(doc, fh, indent=1)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, str(BANNED_FILE))
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+    return {"banned": did, "name": name,
+            "twins": len(name_twins(path, shots)) if shots else None}
 
 
 def _clean_pool(shots):
-    banned = banned_substrings()
+    doc = _ban_doc()                  # read ONCE, not per sample
+    banned = [s.lower() for s in doc["names"]]
+    sounds = banned_sounds(doc)
+    stems = banned_stems(doc)
     for role, entries in shots.items():
         shots[role] = [
             e for e in entries
-            if not is_banned(e["path"], banned)
+            if not is_banned(e["path"], banned, sounds, stems)
             and "/Claude Drum Beats/" not in e["path"]
             and not (BAND_TOKENS
                      & set(e.get("tokens")

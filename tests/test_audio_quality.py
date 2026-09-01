@@ -26,6 +26,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "tools"))
 
+import crew                                       # noqa: E402
 from crew import CREW, render_crew_beat            # noqa: E402
 from groove import gated_reverb                    # noqa: E402
 from make_drum_loops import SR                     # noqa: E402
@@ -401,3 +402,88 @@ def test_the_peak_ceiling_only_ever_turns_things_down():
     assert _db(cpk) - _db(kpk) < -20.0, (
         "a buried clap was pulled UP to %.1f dB under the kick"
         % (_db(kpk) - _db(cpk)))
+
+
+def test_nothing_is_louder_than_the_hat_that_is_actually_in_the_beat():
+    """Owner 2026-08-31: "everything besides the kick and the snare follows
+    the rule of the high hat as far as volume. always quieter."
+
+    THE REGRESSION THIS EXISTS FOR. The rule shipped first as a fixed offset
+    under the kick, which equals "under the hat" only while the hat happens
+    to sit exactly at its own cap. Rendered over 19 beats with a hat, 5 broke
+    the rule the moment the hat sat lower — cutfx +2.8 dB over the hat, perc
+    +1.9, and one Otto Grit render with toms 11 dB over.
+
+    So the hat is BURIED here on purpose. A ceiling computed from the kick
+    passes this test; only a ceiling measured against the real hat fails it.
+    """
+    name = "Otto Grit"                    # kick, snare, hat and a stamp
+    p = CREW[name]
+    assert "hat" in p["lanes"] and "stamp" in p["lanes"]
+    kit = _tone_kit(p)
+    kit["hat"] = kit["hat"] * 0.05        # ~26 dB down: far below its cap
+    kit["stamp"] = kit["stamp"] * 8.0     # and a colour lane running hot
+    _L, _R, _lufs, parts = render_crew_beat(name, kit, preset=copy.deepcopy(p),
+                                            want_parts=True)
+    stems = parts["stems"]
+    pk = {ln: max(np.abs(sL).max(), np.abs(sR).max())
+          for ln, (sL, sR) in stems.items()}
+    hat = pk["hat"]
+    assert hat > 0
+    for ln, v in pk.items():
+        if ln.startswith(crew.BACKBONE_LANES) or ln in crew._LOW_END:
+            continue                      # kick, snare and the 808 sit on top
+        if ln.startswith(crew.HAT_TIER):
+            continue                      # the hat tier IS the ceiling
+        assert _db(v) - _db(hat) <= 0.5, (
+            "%s peaks %.1f dB OVER the hat" % (ln, _db(v) - _db(hat)))
+
+
+def test_the_mix_hierarchy_holds_as_absolute_numbers():
+    """Guards the CONSTANTS, not just their relationship to each other.
+
+    The first version of this test compared the function against the same
+    constants it uses, so it passed with the cut set to -0.0001 dB and passed
+    with the hat tier moved 6 dB ABOVE the kick. Every number below is stated
+    absolutely for that reason.
+    """
+    ceil = crew.peak_ceiling_for
+
+    # the hat tier is a real distance under the backbone, not a token one
+    assert crew.PERC_UNDER_DB <= -3.0
+    for lane in ("hat", "hat2", "clap", "clap2", "snap"):
+        assert ceil(lane) == crew.PERC_UNDER_DB, lane
+
+    # the cut is a real cut. -0.0001 dB is not "always quieter".
+    assert crew.EXTRA_CUT_DB <= -3.0
+
+    # backbone and low end are never capped
+    for lane in ("kick", "kick2", "snare", "snare2", "sub", "bass",
+                 "sub808", "808"):
+        assert ceil(lane) is None, lane
+
+    # NOTHING outside the hat tier may be allowed as loud as the hat tier,
+    # whatever family it belongs to. This is the assertion that fails if a
+    # new family is ever added above the floor.
+    hat = crew.PERC_UNDER_DB
+    for lane in ("shaker", "tamb", "bongo", "congas2", "perc", "cutfx",
+                 "foundfx", "gamefx", "exotic2", "stamp", "stamp2", "bell",
+                 "cowbell", "rim", "blips", "mathperc", "woods", "toms",
+                 "chord0", "bass0", "crash", "impacts", "riser", "siren",
+                 "swellfx", "cymbals", "airs", "a_lane_nobody_wrote_yet"):
+        assert ceil(lane) <= hat - 3.0, lane
+    for fam in crew.PEAK_CEILING_DB.values():
+        assert fam <= crew.PERC_UNDER_DB
+
+    # same instrument, same tier, whatever the pool happened to name the lane
+    assert ceil("cymbals") == ceil("crash")
+    assert ceil("airs") == ceil("swellfx")
+
+    # a positive EXTRA_CUT_DB must not be able to RAISE a ceiling
+    old = crew.EXTRA_CUT_DB
+    try:
+        crew.EXTRA_CUT_DB = +9.0
+        assert ceil("shaker") <= crew.PERC_UNDER_DB
+        assert ceil("chord0") <= crew.MELODIC_UNDER_DB
+    finally:
+        crew.EXTRA_CUT_DB = old

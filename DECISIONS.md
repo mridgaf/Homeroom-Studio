@@ -22,6 +22,164 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 Ban button — banned by CONTENT, not by file name
+- Context: section 2 of the v-next plan. The ban mechanism already existed
+  (`banned_samples.json`, substring match on file names, two hand-typed
+  entries) but there was no way to use it from the app.
+- The measurement that decided the design: on his own 4,202-sample library,
+  737 files (17.5%) share a file name with another file, and a name used as
+  a SUBSTRING takes more than one file 19% of the time — banning "bass"
+  alone would kill 9 samples, "bizkel hat 4" matches 11. A one-click
+  name-ban would have silently taken innocent samples about one time in
+  five. Tried the cheaper key first: name + duration still collided on
+  14.5%, because many index entries carry no duration. So the content
+  fingerprint is EARNED, not reached for.
+- Decision/change: `banned_samples.json` gains an optional dict shape
+  `{"names": [...], "sounds": [...]}`; the original bare list still loads
+  and his live file is still that shape. `sample_fingerprint()` = sha1 of
+  size + first 64 KB. `is_banned()` checks name substrings first, then the
+  exact-sound index keyed on BASENAME — so it does no I/O at all unless a
+  pool file shares a name with a banned sound, which is the only case that
+  needs a fingerprint. `ban_lane()` + a `/ban` endpoint + a red 🚫 button in
+  the stem rack, next to the existing remove button.
+- His two answers, both load-bearing: (a) "ask me each time" — one twin
+  bans outright, more than one returns a count and waits; (b) existing
+  beats are NOT touched, a ban only stops future picks. The old broad
+  behaviour is still reachable as the explicit whole-name choice.
+- The client never sends a file path. `/ban` takes a beat number and a lane
+  and resolves the path from the saved recipe here — same rule the swap
+  dropdown already follows.
+- Verify by: `tests/test_ban.py` (9 tests). Mutation-tested: replacing the
+  fingerprint comparison with name-only matching fails 2 of them. Live
+  server check on port 8791: 6 lanes, 5 ban buttons, none on the
+  synthesised "built from scratch" lane; error path returns a plain-English
+  message. Full suite 881 passed, 1 failed (the pre-existing
+  `test_guest_lanes_appear_from_the_dj_palette` config drift).
+- CAUTION recorded: exercising `/ban` against the live server wrote a real
+  entry into `banned_samples.json`. Reverted with `git checkout`. Anything
+  testing this must monkeypatch `BANNED_FILE` to a temp path first.
+- Status: open — reviewed and fixed (see below); not yet shown to owner.
+- Outcome: the adversarial review broke it in six places, all fixed
+  2026-09-01. Worst two were the same root cause: "ban all N of them"
+  COUNTED with exact file names but ACTED by appending to the SUBSTRING
+  list. Reproduced — told him 2, banned 5, including a file in a folder
+  merely named "Kick 3"; and banning a lane called "Hat" took every path
+  containing the letters "hat" ("Phat Kick", "That Snare"). Fixed with a
+  third list, `stems`, matched EXACTLY; the hand-typed `names` list keeps
+  its deliberate substring behaviour. Also fixed: (a) `confirm()` made
+  Cancel AND Escape perform the broad ban — replaced with three real
+  buttons, cancel changes nothing; (b) `ban_sound` truncate-wrote the
+  file, so a crash left it unparseable, which read back as "nothing is
+  banned" and then overwrote his curated entries — now a temp file plus
+  `os.replace`, and a damaged file RAISES (`BanListDamaged`) instead of
+  failing open; (c) `quarantine_banned.py` read only the hand-typed names,
+  so button bans were invisible and it reported the list empty — his "ban
+  it, then collect the beats that used it" flow was dead; (d) it banned
+  without asking whenever the twin count came from an empty or filtered
+  pool, so it now asks unless it can PROVE the name is unique; (e) stale
+  rendered previews kept playing a banned sound back.
+  Six of six mutations that survived the first suite now fail. 15 tests.
+  Performance was reviewed and is fine: zero extra file opens on his live
+  blocklist, because the exact-ban index short-circuits.
+  CAUTION, twice now: clicking the button against the live server writes a
+  real entry to `banned_samples.json`, and the write can land AFTER the
+  HTTP response looks done. Both times reverted with `git checkout`.
+  Verify UI branches by stubbing `window.fetch` in the page instead.
+
+### 2026-09-01 The Legends UI names real artists on screen
+- Context: noticed while verifying the ban button in the live UI, not
+  looked for. The Legends roster renders "like Pharrell", "like Dr. Dre",
+  "like Kanye West", "like Swizz Beatz" etc. as visible subtitles.
+- Why it matters now: on 2026-08-31 the owner set a product rule for the
+  shareable version — "there would be no direct references to anybody
+  famous for any copyright purposes. We would just go by styles." The
+  shipped UI contradicts that rule today.
+- Not changed. Internal `built:`/`like` fields are also used in configs and
+  prompts, so this is a scope question (display only, or the data too?) and
+  it is his call whether it matters for a build only he runs.
+- Status: open — raised with him, awaiting a decision.
+- Outcome:
+
+
+### 2026-08-31 The hat is the ceiling — and the first build of it was wrong
+- Context: owner named the mix as the thing he fixes by hand on every beat.
+  His rule: "everything besides the kick and the snare follow the rule of
+  the high hat as far as volume. always quieter." Pinned down in chat: the
+  hat is a CEILING (things already below stay below, nothing is raised),
+  the hat's own level does not move, melodies included, the sub/808 stays
+  exempt. Asked which stems stay at the hat's level he said "hat, clap,
+  snap only" — which SUPERSEDES the 2026-08-03 grouping that kept bells
+  with the claps. Separately he asked for a flat extra cut on loops and fx
+  and explicitly chose that over measuring loudness first.
+- Decision/change: `tools/crew.py` — three tiers now. `HAT_TIER =
+  ("hat","clap","snap")` at `PERC_UNDER_DB`; everything else gets its
+  family ceiling plus `EXTRA_CUT_DB = -3.0`, clamped by `_extra_cut()` so
+  a positive value cannot raise a ceiling. Also `cymbals` and `airs` added
+  to `PEAK_CEILING_DB` (same instruments as `crash`/`swellfx`, mis-tiered
+  purely by lane name), and the peak measurement's duck release changed
+  from a hardcoded 0.11 to `duck()`'s own default via `inspect` — they had
+  drifted, which is why beat 1749's clap sat at -2.88 against a -3.0 cap.
+- THE BUG, and it is the point of this entry: the first build expressed
+  "under the hat" as a fixed offset under the KICK. That only coincides
+  with the hat while the hat sits at its own cap. An adversarial review
+  broke it in minutes. Reproduced on his real beats: 1607 vox +8.18 dB
+  OVER the hat, 2046 shaker +7.82, 2048 rims +2.95 — 3 of 14 beats. The
+  fix measures the beat's actual hat tier (`tier_pk`) and clamps against
+  it, both ceilings binding and the tighter one winning. After: 0 of 14.
+  This is the `hard-rule-invariant` failure again — an absolute rule
+  shipped as a number that usually agrees with it.
+- Second lesson, worth more than the first: the ORIGINAL test passed the
+  broken code AND passed mutations setting the cut to -0.0001 dB and the
+  hat tier 6 dB above the kick, because it compared the function against
+  the same constants the function uses. Replaced with two tests in
+  `tests/test_audio_quality.py` — one rendering with a deliberately BURIED
+  hat (a kick-derived ceiling passes; only a measured one fails), one
+  asserting the hierarchy as absolute numbers. Both mutation-tested here:
+  removing the clamp fails, -0.0001 fails, PERC_UNDER_DB=0 fails.
+- Also learned: a synthetic tone kit CANNOT reproduce this — every lane
+  starts at equal amplitude so the hat stays near its cap. My first
+  verification swept 40 identities, reported 0 failures, and reported 0
+  with the fix removed as well. Real samples are required to see it.
+- Verify by: `tests/test_audio_quality.py::test_nothing_is_louder_than_
+  the_hat_that_is_actually_in_the_beat` and `::test_the_mix_hierarchy_
+  holds_as_absolute_numbers`. Full suite 873 passed, 1 failed —
+  `test_guest_lanes_appear_from_the_dj_palette`, pre-existing config drift.
+- Status: open — MEASURED, not HEARD. A/B of 4 beats is on his Desktop in
+  "Homeroom mix cut 2026-08-31". He has to say whether 3 dB is the right
+  amount.
+- Outcome:
+
+### 2026-08-31 Beat generator v-next scope — sections and order
+- Context: brainstorm on what would make the generator appeal to a
+  producer, followed by two research agents (GitHub repos; what home
+  producers are building/asking for).
+- Decision/change: seven sections, ordered — (1) mix ceiling, (2) ban
+  button, (3) instrument swap, (4) songify chunk folder, (5) reference
+  track key+tempo, (6) BYO sample bank, (7) drum FX last. Product shape:
+  ships with NO sounds, sits over the user's own bank; styles and invented
+  DJs only, no real artist names; keeps handing out stems + MIDI rather
+  than a finished master. Custom-DJ builder explicitly out of scope.
+- Research findings that changed the plan: no open-source project has a
+  per-sample ban list or a single-instrument swap at all, so a ban must
+  key on a CONTENT HASH to survive a rename or re-copy. The folder-name
+  labelling in `sample_library.py` is validated, not a compromise —
+  commercial auto-taggers (XO, Atlas, Cosmos, Loopcloud) are reported ~1/3
+  wrong and the top user request on all of them is to honour folder
+  structure. Loop-vs-one-shot is where every classifier silently fails.
+  Arrangement chunks are the real gap: Hydrogen's "export by mute groups"
+  request has been open since 2015 and nothing does it with the user's own
+  material.
+- Already built, do not rebuild: `beat_machine.swap_many()` already does
+  multi-lane swap (dropdown or re-roll) from the saved recipe, plus
+  per-stem trims and full stem drops — most of sections 3 and 4.
+- Owner waived the standing double review for this work: ONE adversarial
+  review by a fresh subagent, not build -> critic -> fix -> second pass.
+- Verify by: plan at ~/.claude/plans/continuing-be-generator-brainstorm-
+  happy-sky.md. Sections 2-7 not started.
+- Status: open
+- Outcome:
+
+
 ### 2026-08-31 Beats loop until you press stop
 - Context: owner: play a beat and it should keep repeating, not play once
   and end. (His sentence arrived truncated — asked before doing anything.)

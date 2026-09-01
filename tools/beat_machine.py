@@ -38,7 +38,7 @@ import numpy as np
 sys.path.append(str(Path(__file__).parent))
 from groove import OWNER_TASTE
 from make_drum_loops import SR, read_wav24, sub808, wav24_bytes, write_wav24
-from make_drum_beats import build_shots
+from make_drum_beats import ban_sound, build_shots, name_twins
 from make_hiphop_tracks import load_audio
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
@@ -2771,6 +2771,54 @@ def _family_dir_for(no, root):
 # ------------------------------------------------------------- swap flow
 
 
+def ban_lane(number, lane, choice=None, root=ROOT, shots=None):
+    """Ban the sound sitting on one lane of one beat (owner 2026-08-31:
+    "When I ban a sound, it is banned everywhere. forever.").
+
+    The lane is named, never the file: the client sends a beat number and a
+    lane, and the path is looked up in the saved recipe here. Same rule the
+    swap dropdown follows — no client string reaches disk unchecked.
+
+    Two-step by his choice ("ask me each time"). Called with no `choice`
+    it REPORTS: how many samples in his library share this file name. One
+    means there is nothing to ask about and it bans outright. More than one
+    means a name-ban would take innocent samples, so it returns and waits.
+    Measured on his library, that is 17.5% of samples.
+
+    Existing beats are left alone — a ban stops the sound being picked
+    again, and nothing else (his call)."""
+    number = int(number)
+    lane = str(lane).strip().lower()
+    rec = load_recipe(Path(root), number)
+    path = (rec.get("kit_paths") or {}).get(lane)
+    if not path:
+        raise ValueError(
+            f"The {lane_label(lane)} on beat {number} isn't a sample — "
+            "there's no file to ban.")
+    twins = name_twins(path, shots)
+    name = Path(path).stem
+    # Ask unless we can PROVE this name is unique. `shots` is the already
+    # filtered pool, so a path missing from it (or a missing pool) means
+    # the count is an undercount, not a one — and banning silently on an
+    # undercount is the thing he asked to be protected from. Only a count
+    # that actually found this file, and found it alone, skips the prompt.
+    sure = len(twins) == 1 and str(path) in twins
+    if choice is None and not sure:
+        return {"asked": True, "name": name, "twins": len(twins),
+                "sure": bool(twins),
+                "others": [Path(p).stem for p in twins[:8]]}
+    res = ban_sound(path, whole_name=(choice == "name"), shots=shots)
+    # the cached pool is already filtered, so it would keep serving the
+    # banned sound until the next restart. The rendered previews are keyed
+    # by query string and would keep playing the banned sound back at him
+    # after he banned it, so they go too.
+    _CACHE.pop("shots", None)
+    _PREVIEW_CACHE.clear()
+    res["asked"] = False
+    res["twins"] = len(twins)
+    return res
+
+
 def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
          pick=None):
     """One drum swapped — the single-lane door into `swap_many`, kept for
@@ -4082,6 +4130,13 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .lane.trimmed .vol .db { color: var(--hi); }
  .lane.trimmed .swatch { background: var(--hi); }
  /* a stem staged for removal reads as struck-through and faded */
+ /* the ban prompt: three real buttons, because a ban cannot be
+    undone from this page and confirm() has no safe third answer */
+ .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap;
+   align-items: center; gap: 7px; margin-top: 6px; padding: 7px 9px;
+   border-radius: 7px; background: #3a2020; color: #f4e6e6;
+   font-size: 13px; }
+ .banask span { flex: 1 1 220px; }
  .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol {
    opacity: .35; text-decoration: line-through; }
 
@@ -4655,6 +4710,68 @@ __BREAKS__
      paintFoot(row.closest('.track'), no);
    };
    picks.appendChild(rm);
+
+   // Ban this sound for good (owner 2026-08-31: "When I ban a sound, it is
+   // banned everywhere. forever."). Only offered on rows that ARE a sample
+   // — there is nothing to ban on a synthesised lane. Existing beats are
+   // never touched; this only stops it being picked again.
+   if (s.can_swap) {
+     const ban = document.createElement('button');
+     ban.className = 'mini';
+     ban.title = 'Never use this sound again';
+     ban.textContent = '🚫';
+     ban.onclick = () => {
+       if (ban.disabled) return;              // no double-fire
+       const done = d => {
+         ban.textContent = '✓';
+         ban.disabled = true;
+         ban.title = (d.banned === 'name'
+           ? 'Every sound called "' + d.name + '" is banned'
+           : '"' + d.name + '" is banned — it will not come back');
+       };
+       const send = choice => {
+         ban.disabled = true;
+         return fetch('/ban', {
+           method: 'POST',
+           headers: {'Content-Type': 'application/json'},
+           body: JSON.stringify({number: no, lane: s.lane, choice: choice})
+         }).then(r => r.json()).then(d => {
+           if (!d.ok) { ban.disabled = false; alert(d.error); return; }
+           if (d.asked) { ask(d); return; }
+           done(d);
+         }).catch(() => { ban.disabled = false;
+                          alert('could not reach the beat machine'); });
+       };
+       // A ban cannot be undone from this page, so the choice is three
+       // real buttons and NOT confirm(). confirm() has only two answers,
+       // which forced Cancel — and Escape, and clicking away — to mean
+       // "ban every sound with this name". The dangerous option was on
+       // the key people press to get out of a dialog.
+       const ask = d => {
+         ban.disabled = false;
+         const box = document.createElement('div');
+         box.className = 'banask';
+         const n = d.twins;
+         box.innerHTML = '<span>' + (d.sure
+           ? n + ' sounds in your library are called "' + esc(d.name) + '".'
+           : 'Other sounds may be called "' + esc(d.name) + '" too.')
+           + '</span>';
+         const pick = (label, choice, title) => {
+           const b = document.createElement('button');
+           b.className = 'mini'; b.textContent = label; b.title = title;
+           b.onclick = () => { box.remove(); if (choice) send(choice); };
+           box.appendChild(b);
+         };
+         pick('just this one', 'sound', 'Ban only the exact sound in this beat');
+         if (d.sure) pick('all ' + n, 'name',
+                          'Ban every sound with this file name');
+         pick('cancel', null, 'Change nothing');
+         row.appendChild(box);
+       };
+       send(null);
+     };
+     picks.appendChild(ban);
+   }
 
    if (!sel) return row;          // locked row: level + remove only
 
@@ -5291,7 +5408,7 @@ def run_web(port=None):
 
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
-                                 "/fixed", "/library"):
+                                 "/fixed", "/library", "/ban"):
                 self._send(404, "text/plain", b"not found")
                 return
             n = int(self.headers.get("Content-Length", 0))
@@ -5364,6 +5481,23 @@ def run_web(port=None):
                 try:
                     loc = triage(data.get("number"), data.get("dest", "dj"))
                     self._json({"ok": True, "loc": loc})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
+            if self.path == "/ban":
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        res = ban_lane(data.get("number"),
+                                       data.get("lane", ""),
+                                       choice=data.get("choice"),
+                                       shots=_CACHE["shots"])
+                    if not res.get("asked"):
+                        how = ("every file with that name"
+                               if res["banned"] == "name" else "this sound")
+                        print(f"  banned {res['name']} ({how})")
+                    self._json({"ok": True, **res})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return

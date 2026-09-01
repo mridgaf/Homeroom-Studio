@@ -24,6 +24,7 @@ before Checkpoint 4 ships the twenty.
 Run:  ./.venv/bin/python tools/crew.py          (prototype per personality)
 Out:  ~/Documents/Samples/Claude Drum Beats/Proto N <Name> Drums NNNbpm.wav
 """
+import inspect
 import json
 import os
 import re
@@ -82,7 +83,7 @@ PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 #
 # Everything here only ever ATTENUATES, so an identity that deliberately
 # tucks a lane away keeps it tucked away.
-PERC_UNDER_DB = -3.0      # EVERY drum that is not the kick or the snare
+PERC_UNDER_DB = -3.0      # the HAT TIER only: hat, clap, snap (2026-08-31)
 PUNCTUATION_UNDER_DB = -6.0   # crashes, impacts, risers — punctuation
 MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
 
@@ -118,21 +119,67 @@ PEAK_CEILING_DB = {
     # measured a 1.8 dB peak under the reference while snaps sat at 2.0.
     "chord": MELODIC_UNDER_DB,
     "bass": MELODIC_UNDER_DB,
+    # Same instrument, different lane name. The extras pools name a crash
+    # lane "cymbals" (pattern_gen, role `crash`) and an fx lane "airs"
+    # (role `fx`), and without these two they fell to the perc floor while
+    # "crash"/"swellfx" sat 3 dB lower — the blanket rule not being blanket.
+    "cymbals": PUNCTUATION_UNDER_DB,
+    "airs": PUNCTUATION_UNDER_DB,
 }
 # longest first, so "cowbell" is matched before "bell" would swallow it
 _PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
 
+# OWNER 2026-08-31, after reading his own stems back: "the hat is the
+# ceiling — everything besides the kick and the snare follows the hi hat,
+# always quieter." Asked which stems he turns down every time, he named
+# shaker, tamb, bongo, cut fx, fx stabs, and BOTH kinds of chord stem (the
+# sampled loop and the built-from-scratch stack), then "all of them" for
+# every effects family offered.
+#
+# So the tiers are now three, not two:
+#   backbone   kick, snare, and the low end   — never touched
+#   hat tier   hat, clap, snap                — the ceiling, at PERC_UNDER_DB
+#   everything else                           — one flat cut BELOW the hat
+#
+# HAT_TIER is exactly three lanes, his explicit call. This SUPERSEDES the
+# 2026-08-03 grouping that put bells with the claps and hats: asked directly
+# whether bell/rim/cowbell stay up with the claps or drop with the shaker and
+# tamb he named, he chose "hat, clap, snap only". Percussion colour drops.
+#
+# EXTRA_CUT_DB is RELATIVE, deliberately. Flattening everything onto one
+# number would have RAISED the chords and crashes, which already sit at -6 —
+# and he says those are too loud, not too quiet. Applying it on top of the
+# existing family ceiling keeps the shape and moves the whole group down:
+# perc colour -3 -> -6, chords and punctuation -6 -> -9.
+HAT_TIER = ("hat", "clap", "snap")
+EXTRA_CUT_DB = -3.0
+
+
+def _extra_cut():
+    """Clamped at the use site, not asserted in a test. "It only ever turns
+    things down" is his rule, so a positive EXTRA_CUT_DB must be structurally
+    unable to raise a ceiling rather than merely unlikely to be typed."""
+    return min(EXTRA_CUT_DB, 0.0)
+
 
 def peak_ceiling_for(lane):
     """dB below the kick/snare reference this lane may peak, or None for the
-    backbone itself. Anything not named falls to the perc floor — that is the
-    blanket rule, and the reason it is a default rather than a lookup."""
+    backbone itself. Anything not named falls to the perc floor MINUS the
+    extra cut — that is the blanket rule, and the reason it is a default
+    rather than a lookup.
+
+    This is only half the ceiling. The other half is measured at render
+    time: nothing outside HAT_TIER may exceed the beat's actual hat, which
+    a fixed offset under the kick cannot express. See the clamp in
+    `render_crew_beat`."""
     if lane.startswith(BACKBONE_LANES) or lane in _LOW_END:
         return None
+    if lane.startswith(HAT_TIER):
+        return PERC_UNDER_DB
     for pre in _PEAK_PREFIXES:
         if lane.startswith(pre):
-            return PEAK_CEILING_DB[pre]
-    return PERC_UNDER_DB
+            return PEAK_CEILING_DB[pre] + _extra_cut()
+    return PERC_UNDER_DB + _extra_cut()
 
 # How far the chord-bus governor may turn a lane DOWN (owner 2026-08-03).
 # 0.02 is -34 dB, enough for the loudest sample measured in his library with
@@ -1499,11 +1546,21 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         # whether its loudest hit falls on a kick or between them. Left out
         # of the first two attempts and it was the whole of the residue:
         # three lanes on one beat sitting ~1 dB over their cap.
+        # The release MUST be the one the real duck uses. It was hardcoded
+        # 0.11 here while `duck()` runs on its own default of 0.09
+        # (make_drum_beats.py) — a slower release measures a LOWER envelope,
+        # so every ducked lane read quieter here than it arrives in the
+        # stem and was let through above its cap. Measured leak: +0.14 dB at
+        # sidechain 0.2, +0.26 at the house 0.35, +0.65 at 0.7, and it is
+        # why beat 1749's clap sat at -2.88 against a -3.0 cap. Same class
+        # as the shaker: measuring at a point that is not where the sound
+        # comes out. Read from the function itself so they cannot drift again.
+        _REL = inspect.signature(duck).parameters["rel"].default
         _duck_env = None
         if p["sidechain"] > 0 and onsets.get("kick"):
             _duck_env = np.ones(end)
-            _L = int(0.11 * 3 * SR)
-            _dip = 1 - p["sidechain"] * np.exp(-np.arange(_L) / (0.11 * SR))
+            _L = int(_REL * 3 * SR)
+            _dip = 1 - p["sidechain"] * np.exp(-np.arange(_L) / (_REL * SR))
             for _pos in onsets["kick"]:
                 _e = min(end, _pos + _L)
                 if _pos < end:
@@ -1527,6 +1584,29 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         snare_pk = max((_panned_pk(ln) for ln in bufs
                         if ln.startswith("snare")), default=0.0)
         ref_pk = min(kick_pk, snare_pk) if snare_pk > 0 else kick_pk
+
+        # THE HAT IS THE CEILING — the hat that is actually in this beat,
+        # not the number it is allowed to reach (owner 2026-08-31).
+        #
+        # This is the hard-rule failure the project has hit before: the rule
+        # was shipped as a fixed offset under the kick, which only coincides
+        # with "under the hat" when the hat happens to be sitting exactly at
+        # its own cap. Whenever a hat sits lower — a quiet identity gain, or
+        # the duck pulling it down — everything else was still free to run up
+        # to the fixed number and come out ABOVE it. Measured over 19 beats
+        # with a hat lane, 5 broke his rule: cutfx +2.8 dB over the hat on
+        # Acid Rap Detroit, perc +1.9 on Detroit, and an Otto Grit render
+        # with toms 11 dB over. So the ceiling has to be MEASURED.
+        #
+        # The backbeat colour tier IS the ceiling, so it is measured as the
+        # loudest of whichever of hat/clap/snap this beat actually has —
+        # several identities have no hat at all and a clap carries the
+        # backbeat instead. With none of the three present there is no hat to
+        # be under, and only the backbone-relative ceilings apply.
+        tier_pk = max((_panned_pk(ln) for ln in bufs
+                       if ln.startswith(HAT_TIER)), default=0.0)
+        hat_cap = tier_pk * 10 ** (_extra_cut() / 20.0) if tier_pk > 0 else 0.0
+
         if ref_pk > 0:
             for ln in bufs:
                 head = peak_ceiling_for(ln)
@@ -1542,6 +1622,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 # the stem rather than only inside this function.
                 pk = _panned_pk(ln)
                 cap = ref_pk * 10 ** (head / 20.0)
+                # Both ceilings bind, so the tighter one wins: the family
+                # hierarchy under the backbone (a crash is punctuation and
+                # belongs below a shaker) AND his flat "under the hat" rule.
+                # The hat tier is exempt from the hat clamp — it IS the hat.
+                if hat_cap > 0 and not ln.startswith(HAT_TIER):
+                    cap = min(cap, hat_cap)
                 if pk > cap > 0:
                     bufs[ln] = bufs[ln] * (cap / pk)
                     w = wet_side.get(ln)
