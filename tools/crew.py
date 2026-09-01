@@ -105,6 +105,20 @@ BACKBONE_LANES = ("kick", "snare")        # the reference — never adjusted
 # the digit-less "bass": bass0..N are the MELODIC chord bass and do fall
 # under the melodic ceiling below, which is why the check is exact.
 _LOW_END = {"sub", "bass", "sub808", "808"}
+
+
+def sub_sidechain(preset):
+    """How deep the LOW END ducks under the kick.
+
+    Its own number since 2026-09-01: the mix-wide `sidechain` is ~2 dB,
+    which is right for hats and chords and inaudible on a sub sharing the
+    kick's octave. Falls back to the mix-wide depth when a preset predates
+    the split, so old saved recipes replay exactly as they were rendered.
+    A beat with the sidechain rolled OFF still keeps a silent sub duck off
+    too — off means off."""
+    if preset.get("sidechain", 0) <= 0:
+        return 0.0
+    return preset.get("sub_sidechain", preset["sidechain"])
 # ...but exempt from the HAT ceiling is not the same as exempt from
 # everything. Owner 2026-09-01, after the tuned root 808 came back on
 # chords beats and was measured 5-10 dB OVER the kick with the kick pushed
@@ -1446,6 +1460,16 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         side = (wetL - wetR) * 0.5
         wet_side[lane] = wet_side.get(lane, 0.0) + side
 
+    # The low end ducks DEEPER than the rest of the mix (owner 2026-09-01).
+    # Defined out here, not inside the peak-governor block below: that block
+    # only runs on a beat that HAS a kick, and the duck call sites further
+    # down run on every beat.
+    _sub_sc = sub_sidechain(p)
+
+    def _lane_sc(ln):
+        """This lane's duck depth: the sub's, or the mix's."""
+        return _sub_sc if ln in _LOW_END else p["sidechain"]
+
     # hard backstop (owner 2026-07-18): the snare bus never out-powers
     # the kick, whatever the trims, samples, and reverb energy added up
     # to. Measured AFTER space treatment so gate/reverb energy counts.
@@ -1566,16 +1590,33 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         # as the shaker: measuring at a point that is not where the sound
         # comes out. Read from the function itself so they cannot drift again.
         _REL = inspect.signature(duck).parameters["rel"].default
-        _duck_env = None
-        if p["sidechain"] > 0 and onsets.get("kick"):
-            _duck_env = np.ones(end)
+
+        def _mk_duck_env(depth):
+            """The envelope `duck()` will actually apply, at this depth.
+
+            Mirrors duck() exactly, INCLUDING the loop=True wrap — the
+            earlier version stopped at `end`, so a kick in the last ~270 ms
+            read unity at the start here while the real duck carried the dip
+            across the seam. Same class of bug as the hardcoded release
+            above: measuring at a point that is not where the sound comes
+            out."""
             _L = int(_REL * 3 * SR)
-            _dip = 1 - p["sidechain"] * np.exp(-np.arange(_L) / (_REL * SR))
+            g = np.ones(end + _L)
+            _dip = 1 - depth * np.exp(-np.arange(_L) / (_REL * SR))
             for _pos in onsets["kick"]:
-                _e = min(end, _pos + _L)
                 if _pos < end:
-                    _duck_env[_pos:_e] = np.minimum(_duck_env[_pos:_e],
-                                                    _dip[:_e - _pos])
+                    g[_pos:_pos + _L] = np.minimum(g[_pos:_pos + _L],
+                                                   _dip[:len(g) - _pos])
+            g[:_L] = np.minimum(g[:_L], g[end:])
+            return g[:end]
+
+        # The peak governor needs BOTH envelopes, or it misjudges the sub's
+        # level by the difference between the two depths.
+        _duck_envs = {}
+        if onsets.get("kick"):
+            for _d in {p["sidechain"], _sub_sc}:
+                if _d > 0:
+                    _duck_envs[_d] = _mk_duck_env(_d)
 
         def _panned_pk(ln):
             row = p["lanes"].get(ln)
@@ -1586,8 +1627,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             w = wet_side.get(ln)
             if w is not None:
                 eff = eff + np.abs(w)
-            if _duck_env is not None and ln != "kick":
-                eff = eff[:end] * _duck_env[:len(eff)]
+            _env = _duck_envs.get(_lane_sc(ln)) if ln != "kick" else None
+            if _env is not None:
+                eff = eff[:end] * _env[:len(eff)]
             return float(eff.max())
 
         kick_pk = _panned_pk("kick")
@@ -1666,14 +1708,21 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             # un-ducked path WITH the kick; now only the kick itself
             # stays out of its own duck, so the sub, the harmony bass
             # and the chord pads all breathe around it.
-            if p["sidechain"] > 0 and lane != "kick" \
-                    and onsets.get("kick"):
-                sL, sR = duck(sL, sR, onsets["kick"], depth=p["sidechain"],
-                              loop=True)
+            # ...and since 2026-09-01 the low end ducks deeper than the
+            # rest, because the mix-wide depth is inaudible on a sub.
+            _d = _lane_sc(lane)
+            if _d > 0 and lane != "kick" and onsets.get("kick"):
+                sL, sR = duck(sL, sR, onsets["kick"], depth=_d, loop=True)
             stems[lane] = (sL, sR)
 
-    # stereo mix, kick kept aside so the duck breathes around it
+    # stereo mix, kick kept aside so the duck breathes around it. Three
+    # buses, not two: the kick (never ducked), the LOW END (its own deep
+    # duck), and everything else (the mix-wide duck). The duck is a plain
+    # envelope multiply, so a bus ducked as a group is identical to its
+    # lanes ducked one by one — which is what keeps the stems summing back
+    # to this mix exactly.
     oL, oR = np.zeros(end), np.zeros(end)
+    bL, bR = np.zeros(end), np.zeros(end)
     kL, kR = np.zeros(end), np.zeros(end)
     for lane, (pan, *_rest) in p["lanes"].items():
         gl = np.cos((pan + 1) * np.pi / 4)
@@ -1684,15 +1733,23 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             kR += bufs[lane] * gr
             if sd is not None:
                 kL, kR = kL + sd, kR - sd
+        elif lane in _LOW_END:
+            bL += bufs[lane] * gl
+            bR += bufs[lane] * gr
+            if sd is not None:
+                bL, bR = bL + sd, bR - sd
         else:
             oL += bufs[lane] * gl
             oR += bufs[lane] * gr
             if sd is not None:
                 oL, oR = oL + sd, oR - sd
-    if p["sidechain"] > 0 and onsets.get("kick"):
-        oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
-                      loop=True)
-    L, R = kL + oL, kR + oR
+    if onsets.get("kick"):
+        if p["sidechain"] > 0:
+            oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
+                          loop=True)
+        if _sub_sc > 0:
+            bL, bR = duck(bL, bR, onsets["kick"], depth=_sub_sc, loop=True)
+    L, R = kL + oL + bL, kR + oR + bR
 
     if not clean and p["vinyl"]:
         L = L + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1)

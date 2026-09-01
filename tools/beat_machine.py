@@ -43,7 +43,7 @@ from make_hiphop_tracks import load_audio
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
                   build_kit, lock_stamps, normalize_preset,
-                  render_crew_beat,
+                  render_crew_beat, sub_sidechain,
                   _load_choked, _pick_path, _resolve_secs)
 from beat_recipes import (history_avoid, lane_label, load_recipe,
                           record_history, save_recipe, write_midi,
@@ -586,6 +586,23 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
 DUCK_P = 0.9
 DUCK_DEFAULT = 0.2               # depth for a DJ who carries none
 
+# The LOW END gets its own, much deeper duck (owner 2026-09-01: "I want
+# sidechain compression on the sub — I haven't heard it working at all").
+# It was working; it was inaudible. The mix-wide 0.2 is a 1.9 dB dip, which
+# is the right size for hats and chords getting out of the kick's way and
+# far too small to read as pumping on a sub sitting in the same octave as
+# the kick.
+#
+# 5 dB is the owner's own call, by ear, off an A/B render at 7 dB
+# (2026-09-01): 7 was audible and too much, 5 is the setting he kept. The
+# constant is written as the depth that MEASURES 5 dB, not as a round
+# number that happens to be near it: 1 - 10**(-5/20).
+#
+# The 1-in-10 skip still skips it: off means off, and that no-duck beat is
+# the owner's own texture call from 2026-07-22. A deep sub duck on 9 beats
+# in 10 is not a thing he can miss.
+SUB_DUCK_DEFAULT = 0.4377        # 5.0 dB dip on sub / 808 / bass
+
 
 def apply_duck(preset, rng):
     """Decide this beat's sidechain. Returns the depth applied."""
@@ -593,6 +610,7 @@ def apply_duck(preset, rng):
         preset["sidechain"] = preset.get("sidechain") or DUCK_DEFAULT
     else:
         preset["sidechain"] = 0.0
+    preset["sub_sidechain"] = SUB_DUCK_DEFAULT
     return preset["sidechain"]
 
 
@@ -1053,6 +1071,7 @@ def apply_directions(preset, dirs):
                 notes.append(msg)
     if "kick" not in preset["lanes"]:
         preset["sidechain"] = 0.0            # nothing left to duck around
+        preset["sub_sidechain"] = 0.0
     space, on = preset["space"]
     preset["space"] = (space, [ln for ln in on if ln in preset["lanes"]])
 
@@ -2402,8 +2421,12 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
             if bpm and len(names) == 1 else "")
     lines.append(f"  {kind}, {preset['bpm']} BPM"
                  f"{' (requested)' if bpm else ''}{home}, variant {variant}")
-    lines.append(f"  snare space: {space} | sidechain: "
-                 f"{'on' if preset['sidechain'] > 0 else 'off'}"
+    def _db(depth):              # how far the duck pulls a lane down
+        return -20 * np.log10(max(1 - depth, 1e-6))
+    _sc = ("off" if preset["sidechain"] <= 0 else
+           f"-{_db(preset['sidechain']):.1f} dB, "
+           f"sub -{_db(sub_sidechain(preset)):.1f} dB")
+    lines.append(f"  snare space: {space} | sidechain: {_sc}"
                  f" | LUFS {lufs:.1f} | {'ok' if good else 'CHECK'}")
     if len(names) == 1 and names[0] == "New Math":
         lines.append(f"  mode: {'boom bap' if variant % 2 else 'front edge'}")

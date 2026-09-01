@@ -537,3 +537,131 @@ def test_the_mix_hierarchy_holds_as_absolute_numbers():
         assert ceil("chord0") <= crew.MELODIC_UNDER_DB
     finally:
         crew.EXTRA_CUT_DB = old
+
+
+# ------------------------------------------------- the sub's own sidechain
+
+def _drone_beat(name="Otto Grit", secs=2.0, sub_sc=None):
+    """A beat whose `sub` lane is one continuous 55 Hz drone.
+
+    A drone is the only honest way to read a duck out of a stem: with a
+    normal sub PATTERN the level between kicks depends on where its own
+    hits land, so a quiet moment could be the duck or could be a rest. A
+    steady tone has nothing in it but the envelope.
+    """
+    p = copy.deepcopy(CREW[name])
+    kit = _tone_kit(p)
+    t = np.arange(int(secs * SR)) / SR
+    kit["sub"] = np.sin(2 * np.pi * 55.0 * t) * 0.5
+    p["lanes"]["sub"] = (0.0, 0.7, (0, 0, 50, 3), ["X" + "-" * 15])
+    p["sidechain"] = 0.2
+    if sub_sc is not None:
+        p["sub_sidechain"] = sub_sc
+    else:
+        p.pop("sub_sidechain", None)
+    _, _, _, parts = render_crew_beat(name, kit, preset=p, want_parts=True)
+    sL, sR = parts["stems"]["sub"]
+    return np.abs(sL) + np.abs(sR)
+
+
+def _pump_db(sig):
+    """How far the loudest moment of a drone sits above its deepest dip.
+
+    Measured on a windowed RMS, NOT on the raw samples: a 55 Hz sine passes
+    through zero 110 times a second, so a straight min/max reads the
+    waveform and says ~29 dB of "pump" on a beat with the duck switched
+    off. The window is one full cycle, which is the shortest span that
+    contains the envelope and nothing else."""
+    win = int(SR / 55.0)                    # one cycle of the drone
+    n = (int(1.5 * SR) // win) * win        # the drone's first 1.5 s only
+    frames = np.sqrt((sig[:n].reshape(-1, win) ** 2).mean(axis=1))
+    return _db(frames.max()) - _db(frames.min())
+
+
+def test_the_sub_ducks_deeper_than_the_rest_of_the_mix():
+    """Owner 2026-09-01: "I want sidechain compression on the sub. I haven't
+    heard it working at all."
+
+    It WAS working — at the mix-wide depth of 0.2, which is a 1.9 dB dip.
+    Below about 3 dB a sub duck is a volume-knob nudge, not pumping, so
+    this asserts on decibels measured at the STEM, not on the constant.
+
+    The depth is read from beat_machine, so lowering it is not something
+    that can happen quietly: 3.5 dB at the stem is the floor. He settled on
+    5 dB by ear (measured 4.35 at the stem — the stem reads a little under
+    the envelope because the drone is also carrying the render's own
+    level moves).
+    """
+    from beat_machine import SUB_DUCK_DEFAULT
+
+    deep = _pump_db(_drone_beat(sub_sc=SUB_DUCK_DEFAULT))
+    assert deep > 3.5, (
+        f"the sub only moves {deep:.1f} dB under the kick — that is back "
+        f"toward the inaudible duck the owner reported, not a sidechain")
+
+    # ...and it must be deeper than what the rest of the mix gets, or the
+    # split has quietly collapsed back to one number.
+    shallow = _pump_db(_drone_beat(sub_sc=0.2))
+    assert deep > shallow + 2.0, (
+        f"sub duck {deep:.1f} dB vs mix duck {shallow:.1f} dB — the low end "
+        f"is not on its own depth any more")
+
+
+def test_an_old_recipe_replays_at_the_depth_it_was_rendered_with():
+    """A saved recipe from before the split carries no `sub_sidechain`. It
+    must fall back to the mix-wide depth, or every beat in the library
+    re-renders louder-pumping than the file the owner already approved."""
+    assert crew.sub_sidechain({"sidechain": 0.2}) == 0.2
+    old = _pump_db(_drone_beat(sub_sc=None))
+    assert old < 3.0, (
+        f"an old recipe replayed with a {old:.1f} dB sub duck; it was "
+        f"rendered with ~1.9 dB")
+
+
+def test_sidechain_off_means_the_sub_is_off_too():
+    """The 1-in-10 no-duck beat is the owner's own texture call
+    (2026-07-22). A deep sub duck must not sneak into it."""
+    from beat_machine import SUB_DUCK_DEFAULT
+
+    assert crew.sub_sidechain({"sidechain": 0.0,
+                               "sub_sidechain": SUB_DUCK_DEFAULT}) == 0
+    p = copy.deepcopy(CREW["Otto Grit"])
+    p["sidechain"] = 0.0
+    p["sub_sidechain"] = SUB_DUCK_DEFAULT
+    t = np.arange(int(2.0 * SR)) / SR
+    kit = _tone_kit(p)
+    kit["sub"] = np.sin(2 * np.pi * 55.0 * t) * 0.5
+    p["lanes"]["sub"] = (0.0, 0.7, (0, 0, 50, 3), ["X" + "-" * 15])
+    _, _, _, parts = render_crew_beat("Otto Grit", kit, preset=p,
+                                      want_parts=True)
+    sL, sR = parts["stems"]["sub"]
+    assert _pump_db(np.abs(sL) + np.abs(sR)) < 1.0
+
+
+def test_the_peak_governor_measures_the_duck_it_will_actually_apply():
+    """`peak_ceiling_for`'s predicted envelope has to match `duck()`, both
+    in depth AND across the loop seam.
+
+    The release already drifted here once (hardcoded 0.11 against duck()'s
+    0.09) and let every ducked lane through above its cap. The loop wrap was
+    the same bug still standing: the prediction snapped back to unity at the
+    start while the real duck carried the dip across. A kick ON the seam is
+    the case that separates them."""
+    from make_drum_beats import duck
+    import inspect
+
+    rel = inspect.signature(duck).parameters["rel"].default
+    n = int(1.0 * SR)
+    kick_at_seam = [n - int(0.05 * SR)]           # 50 ms before the loop point
+    real, _ = duck(np.ones(n), np.ones(n), kick_at_seam, depth=0.55,
+                   loop=True)
+    # the first sample of the loop must already be ducked, not unity
+    assert real[0] < 0.75, real[0]
+    # and the prediction the governor builds must agree with it
+    L = int(rel * 3 * SR)
+    g = np.ones(n + L)
+    dip = 1 - 0.55 * np.exp(-np.arange(L) / (rel * SR))
+    for pos in kick_at_seam:
+        g[pos:pos + L] = np.minimum(g[pos:pos + L], dip[:len(g) - pos])
+    g[:L] = np.minimum(g[:L], g[n:])
+    assert np.allclose(g[:n], real, atol=1e-9)

@@ -22,6 +22,78 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 The sub gets its own sidechain depth — 5 dB, not the mix's 1.9
+- Context: owner, "I want sidechain compression on the sub. I haven't heard
+  it working at all." It WAS working. Every non-kick lane ducked at one
+  shared number, `sidechain`, default 0.2 — which is a 1.9 dB dip. Right
+  size for a hat getting out of the kick's way, inaudible on a sub sitting
+  in the kick's own octave. The feature was not missing; it was too small
+  to hear. Measured before touching anything: 1.94 dB at the envelope,
+  1.73 dB at the sub stem.
+- Decision/change: the low end (`_LOW_END` — sub/bass/sub808/808) now ducks
+  at its own depth, `sub_sidechain`. `crew.sub_sidechain(preset)` returns
+  it, falling back to the mix-wide depth when the key is absent so every
+  saved recipe replays bit-for-bit as rendered (verified: byte-identical
+  output on an old-style preset). The mix bus is now THREE buses — kick
+  (never ducked), low end (deep duck), everything else (mix duck) — which
+  is identical to the old two-bus code when both depths match (verified,
+  zero difference). `apply_duck` sets `SUB_DUCK_DEFAULT`; the 1-in-10
+  no-duck beat still turns the sub duck off too, because off means off.
+- Depth: 0.4377, written as `1 - 10**(-5/20)` so the constant IS 5 dB
+  rather than a round number near it. **Set by the owner's ear**, off an
+  A/B render at 7 dB (`~/Desktop/sub sidechain audition/`): 7 was audible
+  and too much, 5 is what he kept. Measures 4.35 dB at the sub stem — the
+  stem reads under the envelope because it also carries the render's own
+  level moves.
+- NOT a compressor, deliberately. The generator knows where every kick is,
+  so there is nothing to detect; a threshold/ratio device would add three
+  tunable knobs, a per-DJ calibration problem, and would have to relearn
+  the loop-seam wrap and the peak governor's prediction, for the same
+  sound. Revisit only if a fixed envelope stops being enough.
+- Bug found and fixed on review: `_lane_sc`/`_sub_sc` were first defined
+  inside the peak-governor block, which only runs on a beat that HAS a
+  kick — every kick-less beat crashed with UnboundLocalError. Caught by
+  `test_preview_hears_a_volume_change_before_the_rebuild`.
+- Also fixed while in there: the peak governor's predicted duck envelope
+  was built WITHOUT the `loop=True` wrap the real duck applies, so a kick
+  near the loop point read unity at the start and the lane was let through
+  above its cap. Same class as the hardcoded-release bug documented above
+  it in the code, and now pinned by a test.
+- Verify by: `tests/test_audio_quality.py` — four new tests measure the
+  duck at the STEM (not the constant), pin the old-recipe fallback, pin
+  off-means-off, and assert the governor's envelope equals `duck()`'s for
+  a kick sitting on the seam. Full suite 900 pass; the one failure
+  (`test_guest_lanes_appear_from_the_dj_palette`, claves) predates this
+  and fails on untouched HEAD too.
+- Status: confirmed
+- Outcome: owner set the number by ear at 5 dB after hearing 7.
+
+### 2026-09-01 The web page's loop DOES gap — owner confirmed by ear
+- Context: the 2026-08-31 entry left the loop change at "code verified,
+  SOUND is not" because live playback could not be observed from here. It
+  can now be closed: asked directly, the owner says he hears a gap when a
+  beat repeats on the batch player.
+- What this rules out: the renders. They are loop-safe by construction
+  (`make_drum_loops.py` folds the ring-out tail back onto the start, and
+  deliberately applies no edge fades). The gap is `HTMLMediaElement.loop`
+  in the browser, which tears down and re-primes the decoder at the seam.
+- Decision/change: NOTHING YET — not started. Recorded so the next session
+  does not re-derive it or re-ask him.
+- The fix, already scoped: replace `<audio loop>` playback with a Web Audio
+  `AudioBufferSourceNode` (`loop = true`), which is sample-accurate. The
+  earlier note rejected this as "costs the whole transport"; it does not —
+  duration is `buffer.duration`, currentTime is
+  `(ctx.currentTime - startedAt + offset) % duration`, pause/seek are
+  stop-and-restart-at-offset. All of it lives in the `_PAGE` string in
+  `tools/beat_machine.py` (`makeTrack` ~4444, `wireTransport` ~4487).
+  Keep: the "never two things at once" rule, the `/mix` failure message,
+  and `preload="none"` (a batch is dozens of beats — do not decode them
+  all on load).
+- Verify by: play a beat on the page, let it repeat 3-4 times, listen. This
+  one cannot be closed by a test.
+- Status: open
+
+
 ### 2026-09-01 The tuned root 808 is back on traditional beats — in key, and under the kick
 - Context: raised at the end of the section-3 work. Every identity has
   carried `chords_default` since 2026-07-25, and the "add the root" block
