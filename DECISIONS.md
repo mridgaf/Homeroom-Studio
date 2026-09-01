@@ -22,6 +22,33 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-08-31 Beats loop until you press stop
+- Context: owner: play a beat and it should keep repeating, not play once
+  and end. (His sentence arrived truncated — asked before doing anything.)
+- Decision/change: one word. `loop` on the track's `<audio>` element in
+  `_PAGE` (`tools/beat_machine.py`, `makeTrack`). No JS, no transport
+  rewrite. The attribute sits on the ELEMENT, so it survives `cue()`'s
+  `src =` + `load()` — verified live in the browser: after `cue()` swapped
+  the source to `/mix`, `au.loop` was still true. Lane/stem previews (the
+  shared `audition` element) deliberately left one-shot.
+- Reasoning: renders are already loop-safe (no edge fades, tails wrap), so
+  the file needs nothing. Web Audio (`AudioBufferSourceNode`) would be
+  sample-accurate but costs the whole transport — seek bar, pause, mix
+  re-cue. Only worth it if he hears a gap at the seam.
+- Verify by: `tests/test_beat_machine.py::test_a_beat_loops_until_you_stop_it`
+  (first page-markup test in that file). Full suite: 870 passed, 2 failed —
+  both pre-existing, confirmed by re-running them with the change stashed:
+  `test_guest_lanes_appear_from_the_dj_palette` (Crate Prophet composes a
+  `claves` lane that isn't in its extras pool — config drift) and
+  `test_real_beats_are_not_mono_or_silent` (drive-mounted check on shipped
+  beats). Neither is reachable from an HTML string.
+- Status: open — the code is verified, the SOUND is not. Live playback could
+  not be observed here: the headless browser pane runs hidden, so the media
+  element suspends. Owner has to press play and say whether the loop point
+  is clean.
+- Outcome:
+
+
 ### 2026-08-22 The drive is not slow — it is cluttered. Measured on the real TBOTC 3.
 - Context: follow-up to the entry below, which guessed "bottleneck is disk"
   without being able to reach the drive. Owner granted access; measured it.

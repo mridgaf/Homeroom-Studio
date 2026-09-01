@@ -4345,7 +4345,11 @@ __BREAKS__
        '<span class="player"><button class="pp">&#9654;</button>' +
          '<span class="bar"><i></i></span>' +
          '<span class="time">0:00</span></span>' +
-       '<audio preload="none" src="/audio?no=' + b.no + '"></audio>' +
+       // `loop`: a beat repeats until you press stop (owner 2026-08-31).
+       // The attribute lives on the ELEMENT, so it survives cue()'s
+       // src+load() and the /mix preview loops too. Renders are already
+       // loop-safe (no edge fades, tails wrap), so the seam is clean.
+       '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
        '<span class="acts">' +
          '<button class="stembtn" data-role="stems">Stems</button>' +
          '<button title="Keep it" data-dest="favorites">&starf;</button>' +

@@ -1677,3 +1677,14 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
 # passing-note tests (seeds 29 and 34, 9th-chord progression) folded into
 # test_never_more_than_one_melodic_part above — there's no passing part to
 # test any more, owner 2026-07-29 hard rule.
+
+
+# ------------------------------------------------------------- the player
+
+def test_a_beat_loops_until_you_stop_it():
+    """Owner 2026-08-31: play repeats the beat until stop. The `loop`
+    attribute has to be on the track's own <audio> element — not set in
+    JS after the fact, since cue() reassigns .src and calls load()."""
+    tag = re.search(r"<audio[^>]*src=./audio\?no=", beat_machine._PAGE)
+    assert tag, "the track audio element moved — find it before trusting this"
+    assert " loop" in tag.group(0), tag.group(0)
