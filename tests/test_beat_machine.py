@@ -2,6 +2,7 @@
 stems, sample history, and the 50/50 collab blend."""
 import json
 import random
+import inspect
 import re
 import sys
 import wave
@@ -1993,3 +1994,87 @@ def test_a_beat_loops_until_you_stop_it():
     tag = re.search(r"<audio[^>]*src=./audio\?no=", beat_machine._PAGE)
     assert tag, "the track audio element moved — find it before trusting this"
     assert " loop" in tag.group(0), tag.group(0)
+
+
+def test_a_chunk_with_the_kick_muted_has_no_kick_and_still_loops(machine_env):
+    """Section 4 of the v-next plan — songify.
+
+    Two things have to hold for a chunk to be usable in Reason: the thing
+    he muted is actually gone, and the file still loops (this project
+    never fades an edge; tails wrap instead, so a chunk that faded would
+    click at the seam).
+
+    "No kick energy" is measured as the sub band, not the whole file: a
+    beat without its kick still has plenty of level up top.
+    """
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+
+    res = beat_machine.save_chunk(no, root=root, shots=shots, drops=["kick"])
+    folder = Path(res["folder"])
+    assert folder.name.endswith(" Chunks")
+    assert folder.parent == path.parent          # next to the beat itself
+    assert (folder / "01 Full.wav").exists()     # the original comes along
+    assert res["file"] == "02 No Kick.wav"
+
+    from make_drum_loops import SR, read_wav24
+
+    def _mono(f):
+        L, R = read_wav24(f)
+        return (np.asarray(L) + np.asarray(R)) / 2.0
+
+    full, cut = folder / "01 Full.wav", folder / res["file"]
+
+    # the chunk IS the muted render, not an approximation of it: the same
+    # call the live preview makes, byte for byte. (Measuring "kick energy"
+    # off the finished file cannot carry this on its own — the master
+    # normalises the mix back up, and the sub/808 lives in the kick's
+    # band, so pulling the kick moved 30-110 Hz by under 4 dB.)
+    L, R = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                  drops=["kick"], render_only=True)
+    assert cut.read_bytes() == beat_machine.wav24_bytes(L, R)
+    assert _mono(cut).tolist() != _mono(full).tolist(), "the mute did nothing"
+
+    # ...and it still loops: this project never fades an edge (tails wrap
+    # instead), so a faded start would click at the seam.
+    x = _mono(cut)
+    edge = int(0.005 * SR)                       # 5 ms at each end
+    assert float(np.abs(x[:edge]).max()) > float(np.abs(x).max()) * 0.001, \
+        "the start was faded — that clicks on loop"
+
+    # and a second chunk keeps counting up rather than overwriting
+    res2 = beat_machine.save_chunk(no, root=root, shots=shots, drops=["hat"])
+    assert res2["count"] == 3 and (folder / res2["file"]).exists()
+
+
+def test_the_add_chunk_button_is_wired_to_the_chunk_route():
+    """The rack's Add-chunk button only exists in the page string, so the
+    wiring is what gets checked: a button that posts to /chunk, enabled by
+    the same staging that enables Rebuild, and deliberately NOT clearing
+    that staging afterwards (the next chunk is usually one more mute on
+    top of this one)."""
+    page = beat_machine._PAGE
+    assert 'class="chunk"' in page
+    assert "fetch('/chunk'" in page
+    assert "foot.querySelector('.chunk').disabled = !(n + v + r);" in page
+    body = page[page.index("async function addChunk"):
+                page.index("async function rebuild")]
+    for gone in ("delete staged[", "delete trims[", "delete drops["):
+        assert gone not in body, "a chunk must not clear the rack"
+
+
+def test_every_post_route_is_in_the_allow_list():
+    """do_POST 404s anything not in a hardcoded tuple, and a 404 is plain
+    text — so a route added without its entry answers the page with
+    "not found", which the browser then fails to parse as JSON. That is
+    exactly how /chunk shipped broken (owner, 2026-09-01: "syntax error,
+    not valid JSON"). One list, checked against the handler."""
+    src = inspect.getsource(beat_machine.run_web)
+    body = src[src.index("def do_POST"):]
+    allowed = set(re.findall(r'"(/[a-z]+)"',
+                             body[:body.index("return")]))
+    handled = set(re.findall(r'if self\.path == "(/[a-z]+)"', body))
+    assert handled - allowed == set(), \
+        f"POST route(s) with no allow-list entry: {handled - allowed}"
+    assert "/chunk" in allowed and "/chunk" in handled

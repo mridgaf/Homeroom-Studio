@@ -277,8 +277,9 @@ def test_no_flavor_runs_three_beats_in_a_row():
 
 
 def test_guest_lanes_appear_from_the_dj_palette():
-    pool = {e[2] for e in pattern_gen.DEFAULT_STYLE["Crate Prophet"]
-            ["extras"]["pool"]}
+    # the LIVE config, not pattern_gen's hardcoded fallback: the pool is
+    # edited by hand and by evolution, so the fallback drifts behind it.
+    pool = {e[2] for e in CREW["Crate Prophet"]["extras"]["pool"]}
     seen = set()
     for v in range(20):
         p, _ = _composed("Crate Prophet", v)

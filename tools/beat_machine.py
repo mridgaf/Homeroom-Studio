@@ -2877,6 +2877,41 @@ def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
                      status=status)
 
 
+def _change_words(lanes, trims, drops, chord_voice=None):
+    """How a staged set of rack changes reads: `what` is the short title
+    that becomes part of a filename, `changed` is the sentence for the
+    log. Split out of swap_many so the chunk folder names its files with
+    the same words the rebuild uses — one place to change the wording.
+
+    A family removal is 4 lanes but ONE musical change — say "Chords",
+    not "Chord0 & Chord1 & Chord2 & Chord3"."""
+    said = [ln for ln in drops if not _chord_family(ln)]
+    if any(_CHORD_LANE.match(ln) for ln in drops):
+        said.append("chords")
+    if any(_CHORD_BASS_LANE.match(ln) for ln in drops):
+        said.append("chord bass")
+    if drops and not lanes and not trims:      # removal is the headline
+        return ("No " + " & ".join(d.title() for d in said),
+                "removed " + " and ".join(said))
+    if drops:
+        return ("Rebuilt",
+                "removed " + " and ".join(said)
+                + (", new " + ", ".join(lanes) if lanes else ""))
+    if chord_voice and not lanes:     # the instrument IS the change
+        nice = CHORD_VOICE_NAMES.get(chord_voice, chord_voice).split(" (")[0]
+        return (f"{nice} Chords",
+                f"chords on {nice.lower()}"
+                + (", " + _trim_words(trims) if trims else ""))
+    if not lanes:                     # volumes only — same drums, new mix
+        return "New Mix", _trim_words(trims)
+    if len(lanes) == 1:
+        return f"New {lanes[0].capitalize()}", lanes[0]
+    if len(lanes) == 2:
+        return (f"New {lanes[0].capitalize()} & {lanes[1].capitalize()}",
+                " and ".join(lanes))
+    return "Rebuilt", ", ".join(lanes)
+
+
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
               trims=None, drops=None, render_only=False):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
@@ -3049,35 +3084,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             kit.pop(lane, None)
 
     lanes = sorted(picks)
-    # a family removal is 4 lanes but ONE musical change — say "Chords",
-    # not "Chord0 & Chord1 & Chord2 & Chord3" (that string becomes the
-    # beat's filename)
-    said = [ln for ln in drops if not _chord_family(ln)]
-    if any(_CHORD_LANE.match(ln) for ln in drops):
-        said.append("chords")
-    if any(_CHORD_BASS_LANE.match(ln) for ln in drops):
-        said.append("chord bass")
-    if drops and not lanes and not trims:      # removal is the headline
-        what = "No " + " & ".join(d.title() for d in said)
-        changed = "removed " + " and ".join(said)
-    elif drops:
-        what = "Rebuilt"
-        changed = ("removed " + " and ".join(said)
-                   + (", new " + ", ".join(lanes) if lanes else ""))
-    elif chord_voice and not lanes:   # the instrument IS the change
-        nice = CHORD_VOICE_NAMES.get(chord_voice, chord_voice).split(" (")[0]
-        what = f"{nice} Chords"
-        changed = f"chords on {nice.lower()}" + (
-            ", " + _trim_words(trims) if trims else "")
-    elif not lanes:                   # volumes only — same drums, new mix
-        what, changed = "New Mix", _trim_words(trims)
-    elif len(lanes) == 1:
-        what, changed = f"New {lanes[0].capitalize()}", lanes[0]
-    elif len(lanes) == 2:
-        what = f"New {lanes[0].capitalize()} & {lanes[1].capitalize()}"
-        changed = " and ".join(lanes)
-    else:
-        what, changed = "Rebuilt", ", ".join(lanes)
+    what, changed = _change_words(lanes, trims, drops, chord_voice)
     status(f"Re-rendering beat {number} with the new {changed}…")
     L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
                                          preset=preset, want_parts=True)
@@ -3144,6 +3151,73 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     report = (f"{fname}\n-> {rec['folder']} folder | same beat as "
               f"{number} | {' | '.join(bits)} | LUFS {lufs:.1f}")
     return path, report
+
+
+
+def _clean_picks(no, picks, shots):
+    """The allow-list every rebuild path enforces: a sample only reaches
+    the renderer if it came out of that lane's own candidate list. An
+    empty value means "surprise me"."""
+    out = {}
+    for lane, want in (picks or {}).items():
+        if not want:
+            out[lane] = None
+            continue
+        if not any(c["path"] == want
+                   for c in _lane_candidates(no, lane, shots=shots)):
+            raise ValueError(f"That {lane} isn't in your library.")
+        out[lane] = want
+    return out
+
+
+def chunk_dir(no, root=None):
+    """Where beat `no` keeps its arrangement chunks. Sits next to the
+    beat's own wav and its Stems folder (owner 2026-09-01), so nothing
+    new appears in the library root and the numbering is untouched."""
+    w = beat_wav(no, root)
+    if w is None:
+        raise ValueError(f"No beat {no} to chunk.")
+    return w.parent / f"{w.stem} Chunks"
+
+
+def save_chunk(number, picks=None, root=ROOT, shots=None,
+               status=lambda msg: None, trims=None, drops=None):
+    """Section 4 of the v-next plan — songify. Renders the beat as the
+    stem rack is currently set and files it as one more chunk in the
+    beat's own Chunks folder, INSTEAD of printing a new numbered beat.
+
+    Owner 2026-09-01: no speculative variants. The chunks are the
+    original plus whatever versions he builds by hand in the rack, one
+    click each ("Add chunk"), so a song is a folder he drags into Reason
+    and arranges.
+
+    Loop-safety comes for free: this is the same render path every beat
+    takes, and that path already wraps tails instead of fading edges.
+    """
+    number = int(number)
+    folder = chunk_dir(number, root)
+    folder.mkdir(parents=True, exist_ok=True)
+    # the untouched beat is chunk 01, pulled in the first time — a song
+    # needs the full loop as much as it needs the pieces
+    full = folder / "01 Full.wav"
+    if not full.exists():
+        shutil.copy2(str(beat_wav(number, root)), str(full))
+    L, R = swap_many(number, picks or {}, root=Path(root), shots=shots,
+                     status=status, trims=trims, drops=drops,
+                     render_only=True)
+    # a slider left at 0 is not a change, so it doesn't get named
+    named = {ln: db for ln, db in (trims or {}).items() if db}
+    what, changed = _change_words(sorted(picks or {}), named,
+                                  sorted({str(ln).strip().lower()
+                                          for ln in (drops or [])}))
+    n = len([f for f in folder.glob("*.wav")]) + 1
+    path = folder / f"{n:02d} {what}.wav"
+    while path.exists():                          # never overwrite
+        n += 1
+        path = folder / f"{n:02d} {what}.wav"
+    write_wav24(path, L, R)
+    return {"folder": str(folder), "file": path.name, "count": n,
+            "changed": changed}
 
 
 # ------------------------------------------------ web helpers (player etc.)
@@ -4209,6 +4283,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
        border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
        cursor: pointer; }
+ .chunk { font-family: var(--display); font-weight: 700; font-size: 13px;
+   background: none; border: 1px solid var(--dim); border-radius: 6px;
+   color: var(--ink); padding: 5px 10px; cursor: pointer; }
+ .chunk:disabled { color: var(--dimmer); border-color: var(--dimmer);
+   cursor: default; }
  .rebuild:disabled { background: #1020a810; color: var(--dimmer); cursor: default; }
  .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
          cursor: pointer; text-decoration: underline; padding: 6px; }
@@ -4651,6 +4730,7 @@ __BREAKS__
      ? bits.join(' + ') + ' — rebuild makes one new beat with every change in it'
      : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
    foot.querySelector('.rebuild').disabled = !(n + v + r);
+   foot.querySelector('.chunk').disabled = !(n + v + r);
    foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
    refreshMix(el, no);      // every volume/remove change lands here first
  }
@@ -4925,6 +5005,8 @@ __BREAKS__
      '<button class="rollall" title="New sound for every row at once">' +
        '🎲 Roll everything</button>' +
      '<button class="undo">clear changes</button>' +
+     '<button class="chunk" title="Save this version into the Chunks ' +
+       'folder and keep going">+ Add chunk</button>' +
      '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
@@ -4965,8 +5047,30 @@ __BREAKS__
      paintFoot(el, no);
    };
    foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
+   foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
    rack.dataset.loaded = '1';
    paintFoot(el, no);
+ }
+
+ // Songify: file the rack as it stands into the beat's Chunks folder,
+ // then LEAVE the rack staged — the next chunk is usually one more mute
+ // on top of this one, not a fresh start.
+ async function addChunk(no, foot) {
+   const btn = foot.querySelector('.chunk'), msg = foot.querySelector('.rackmsg');
+   const was = btn.textContent;
+   btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
+   try {
+     const r = await fetch('/chunk', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks: staged[no] || {},
+                              trims: trims[no] || {},
+                              drops: Object.keys(drops[no] || {}) }) });
+     const d = await r.json();
+     msg.textContent = d.ok
+       ? 'chunk ' + d.count + ' saved — ' + d.file
+       : d.error;
+   } catch (e) { msg.textContent = String(e); }
+   btn.textContent = was; btn.disabled = false;
  }
 
  async function rebuild(el, no, foot) {
@@ -5468,7 +5572,7 @@ def run_web(port=None):
 
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
-                                 "/fixed", "/library", "/ban"):
+                                 "/fixed", "/library", "/ban", "/chunk"):
                 self._send(404, "text/plain", b"not found")
                 return
             n = int(self.headers.get("Content-Length", 0))
@@ -5516,17 +5620,8 @@ def run_web(port=None):
                     with lock:
                         if "shots" not in _CACHE:
                             _CACHE["shots"] = build_shots()
-                        picks = {}
-                        for lane, want in (data.get("picks") or {}).items():
-                            if not want:                  # surprise me
-                                picks[lane] = None
-                                continue
-                            if not any(c["path"] == want for c in
-                                       _lane_candidates(
-                                           no, lane, shots=_CACHE["shots"])):
-                                raise ValueError(
-                                    f"That {lane} isn't in your library.")
-                            picks[lane] = want
+                        picks = _clean_picks(no, data.get("picks"),
+                                             _CACHE["shots"])
                         path, report = swap_many(no, picks,
                                                  shots=_CACHE["shots"],
                                                  trims=data.get("trims"),
@@ -5534,6 +5629,25 @@ def run_web(port=None):
                         print(" ", report.replace("\n", " "))
                     self._json({"ok": True,
                                 "no": int(path.name.split(" ", 1)[0])})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
+            if self.path == "/chunk":
+                # songify: same staged rack as /rebuild, but the render
+                # lands in the beat's Chunks folder and the rack stays
+                # set so he can keep adding versions
+                no = data.get("number")
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        picks = _clean_picks(no, data.get("picks"),
+                                             _CACHE["shots"])
+                        res = save_chunk(no, picks, shots=_CACHE["shots"],
+                                         trims=data.get("trims"),
+                                         drops=data.get("drops"))
+                        print(f"  chunk {res['count']}: {res['file']}")
+                    self._json({"ok": True, **res})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return

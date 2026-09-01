@@ -22,6 +22,59 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 Section 4 (songify chunk folder) — built, and it loops in Reason
+- Context: section 4 of the v-next plan, the differentiating feature. He
+  chose the shape: NO speculative auto-variants ("only what I mute by
+  hand"), folder inside the beat's own folder.
+- Decision/change: `+ Add chunk` button in the stem rack. It renders the
+  rack as it stands and files the wav in `<beat> Chunks/`, copying the
+  untouched beat in as `01 Full.wav` the first time. The rack deliberately
+  stays staged afterwards — the next chunk is one more mute on top of this
+  one, not a fresh start. Rebuild is untouched and still prints a new
+  numbered beat, so library numbering never moves.
+- No new render code, on purpose: a chunk is `swap_many(render_only=True)`,
+  the same call the live preview makes, so it is loop-safe by construction
+  and cannot drift from what he hears before saving.
+- Also factored out, both shared with /rebuild rather than copied:
+  `_change_words()` (the wording that names the file) and `_clean_picks()`
+  (the sample allow-list).
+- SHIPPED BROKEN FIRST, and the fix is the interesting part: `do_POST`
+  404s any path not in a hardcoded tuple, and a 404 is plain text, so the
+  new route answered the page "not found" and the browser died parsing it
+  as JSON. His report: "syntax error, not valid JSON". Now pinned by
+  `test_every_post_route_is_in_the_allow_list`, which reads the handler's
+  own source and fails if any POST route lacks its entry — mutation-tested
+  by removing the entry. That class of bug cannot ship again.
+- Review: SKIPPED. He waived it in chat this session, on top of the
+  2026-08-31 waiver of the second pass. So this is verified by tests and
+  by his own use, not by an adversarial read.
+- Verify by: `test_a_chunk_with_the_kick_muted_has_no_kick_and_still_loops`
+  (the chunk is byte-identical to the muted render, differs from Full, and
+  is not edge-faded), `test_the_add_chunk_button_is_wired_to_the_chunk_
+  route`, `test_every_post_route_is_in_the_allow_list`. Full suite 903
+  passed, 1 failed — `test_real_beats_are_not_mono_or_silent`, which needs
+  the drive mounted.
+- Status: confirmed
+- Outcome: he used it. His words: the chunks work, and they loop in Reason.
+  NOTE this closes loop-safety for the CHUNK FILES only — the separate
+  open item is the web page's `<audio loop>` gapping in the BROWSER, which
+  is untouched and still open.
+
+### 2026-09-01 The claves test was reading the wrong list
+- Context: `test_guest_lanes_appear_from_the_dj_palette` had been failing
+  for weeks and was written off as "config drift" in three prior entries.
+- What it actually was: Crate Prophet's LIVE pool in `crew_config.json`
+  has claves; the test compared against `pattern_gen.DEFAULT_STYLE`, the
+  hardcoded fallback, which does not. The generator was right the whole
+  time. Asked him first — he chose to fix the test, not to take claves
+  away from the DJ, so no beat changes.
+- Decision/change: the test reads `CREW["Crate Prophet"]["extras"]["pool"]`.
+  The pool is edited by hand and by evolution, so the fallback will drift
+  again; the live config is the only honest source.
+- Status: confirmed
+- Outcome: suite is down to the one drive-dependent failure.
+
+
 ### 2026-09-01 The sub gets its own sidechain depth — 5 dB, not the mix's 1.9
 - Context: owner, "I want sidechain compression on the sub. I haven't heard
   it working at all." It WAS working. Every non-kick lane ducked at one
