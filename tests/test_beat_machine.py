@@ -2078,3 +2078,39 @@ def test_every_post_route_is_in_the_allow_list():
     assert handled - allowed == set(), \
         f"POST route(s) with no allow-list entry: {handled - allowed}"
     assert "/chunk" in allowed and "/chunk" in handled
+
+
+def test_chunks_travel_with_the_beat_when_it_is_filed(machine_env):
+    """Drag a beat to Favorites and its chunks have to go with it. They
+    did not: `beat_items` — which is what triage moves — knew about the
+    wav, the .mid and the Stems folder, but not the Chunks folder, so a
+    song's pieces were left behind in the DJ folder."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    beat_machine.save_chunk(no, root=root, shots=shots, drops=["kick"])
+
+    beat_machine.triage(no, "fav", root)
+    chunks = [d for d in root.rglob("* Chunks") if d.is_dir()]
+    assert len(chunks) == 1, chunks
+    assert chunks[0].parent == beat_machine.beat_wav(no, root).parent
+    assert (chunks[0] / "01 Full.wav").exists()
+
+
+def test_a_deleted_chunk_does_not_get_its_number_reused(machine_env):
+    """He throws out the chunks he doesn't want. Numbering off the file
+    COUNT then handed the next chunk a number that was still on disk under
+    a different label — two "03"s in one folder, which sorts wrong in
+    Reason's browser. Number from the highest prefix present instead."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Otto Grit"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    folder = Path(beat_machine.save_chunk(
+        no, root=root, shots=shots, drops=["kick"])["folder"])      # 02
+    beat_machine.save_chunk(no, root=root, shots=shots, drops=["hat"])  # 03
+    (folder / "02 No Kick.wav").unlink()          # threw the middle one out
+
+    r = beat_machine.save_chunk(no, root=root, shots=shots, drops=["snare"])
+    assert r["count"] == 4, "a number already on disk came back"
+    nums = [f.name[:2] for f in folder.glob("*.wav") if f.name[:2].isdigit()]
+    assert len(nums) == len(set(nums)), sorted(nums)

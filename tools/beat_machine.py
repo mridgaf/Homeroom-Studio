@@ -2727,7 +2727,8 @@ def beat_items(no, root=None):
     for p in root.rglob("*"):
         if p.name.startswith(pre) and (
                 p.suffix in (".wav", ".mid")
-                or (p.is_dir() and p.name.endswith("Stems"))):
+                or (p.is_dir() and (p.name.endswith("Stems")
+                                    or p.name.endswith("Chunks")))):
             out.append(p)
     return out
 
@@ -3210,7 +3211,14 @@ def save_chunk(number, picks=None, root=ROOT, shots=None,
     what, changed = _change_words(sorted(picks or {}), named,
                                   sorted({str(ln).strip().lower()
                                           for ln in (drops or [])}))
-    n = len([f for f in folder.glob("*.wav")]) + 1
+    # number from the HIGHEST prefix already in the folder, not the file
+    # count: he renames chunks ("Verse.wav") and deletes ones he doesn't
+    # want, and counting files made the next chunk reuse a number that was
+    # already taken — two different "04"s in the same folder, out of order
+    # in Reason's browser.
+    used = [int(m.group(1)) for m in
+            (re.match(r"(\d+) ", f.name) for f in folder.glob("*.wav")) if m]
+    n = max(used or [0]) + 1
     path = folder / f"{n:02d} {what}.wav"
     while path.exists():                          # never overwrite
         n += 1

@@ -22,6 +22,31 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 Two chunk bugs found after the commit — chunks were orphaned, and numbers came back
+- Context: `tests/test_zz_probe.py` — a scratch print-based probe left on
+  disk by the review agent that was stopped mid-run — got swept into the
+  commit. Running it before deleting it showed two real defects.
+- Bug 1, the worse one: a beat's Chunks folder did NOT follow the beat.
+  `triage()` moves whatever `beat_items()` returns, and that knew about the
+  wav, the .mid and the Stems folder only — so dragging a beat to Favorites
+  left the song's pieces behind in the DJ folder. Fixed in `beat_items`, so
+  every caller (triage AND the family-folder pull-in) carries them.
+- Bug 2: the next chunk was numbered off the file COUNT, so deleting a
+  chunk handed its number back out while a later one still held it — two
+  "03"s in one folder, which sorts wrong in Reason's browser. Nothing was
+  ever overwritten (the existing guard covers the exact name), but the
+  ordering was wrong. Now numbered from the highest prefix present.
+- Both mutation-tested: reverting either fix turns its test red.
+  `test_chunks_travel_with_the_beat_when_it_is_filed`,
+  `test_a_deleted_chunk_does_not_get_its_number_reused`. Probe deleted.
+- The lesson worth keeping: the throwaway probe found what the two written
+  tests did not, because it exercised the feature against the REST of the
+  app (triage, renames, deletions) instead of only against itself.
+- Full suite 906 passed, 1 failed (the drive-mounted one).
+- Status: confirmed
+- Outcome:
+
+
 ### 2026-09-01 Section 4 (songify chunk folder) — built, and it loops in Reason
 - Context: section 4 of the v-next plan, the differentiating feature. He
   chose the shape: NO speculative auto-variants ("only what I mute by
