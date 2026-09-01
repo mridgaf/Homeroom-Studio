@@ -117,8 +117,18 @@ STATE = Path(os.path.expanduser("~/.reason_voice/beat_machine_state.json"))
 
 # roots the tuned 808 sub reaches for on traditional beats — low, in the
 # octave a hip-hop sub lives (Hz), a handful of common, musical keys
-ROOT_HZ = {"C": 32.70, "D": 36.71, "E": 41.20, "F": 43.65, "G": 49.00,
-           "A": 55.00, "Bb": 58.27}
+# All twelve, so a key taken off a reference track can actually be
+# played (owner 2026-09-01). The five black notes were missing, and an
+# identity asking for one of them — Half Light asks for B on 7.4% of its
+# beats — silently got NO sub at all.
+ROOT_HZ = {"C": 32.70, "C#": 34.65, "D": 36.71, "D#": 38.89, "E": 41.20,
+           "F": 43.65, "F#": 46.25, "G": 49.00, "G#": 51.91, "A": 55.00,
+           "Bb": 58.27, "B": 61.74}
+
+# ...but the random fallback picker must keep drawing from the ORIGINAL
+# seven, in the original order. It picks with random.choice, so widening
+# the pool would re-tune the sub under every beat already on disk.
+_FALLBACK_ROOTS = ("C", "D", "E", "F", "G", "A", "Bb")
 
 # Random beat titles, two words, in each character's voice. The picker
 # retries until the title isn't already on a file anywhere in the folder.
@@ -955,6 +965,37 @@ BREAK_WORDS = (
     ("mardi gras", "Mardi Gras"))
 
 
+def clean_key(key):
+    """The Key control's value -> (root, mode), or None for "no key set".
+
+    Accepts ("F", "minor"), "F minor", or "F". A bad note or a mode this
+    engine doesn't know is an error he can read, not a silent fallback to
+    something else's key."""
+    if not key:
+        return None
+    from key_context import MODES
+    if isinstance(key, str):
+        bits = key.replace("-", " ").split()
+        root = bits[0] if bits else ""
+        mode = " ".join(bits[1:]).lower().replace(" ", "_") or "minor"
+    else:
+        root, mode = (list(key) + ["minor"])[:2]
+        mode = str(mode).lower().replace(" ", "_")
+    root = str(root).strip()
+    root = root[:1].upper() + root[1:].replace("B", "b")
+    # ROOT_HZ spells one note per pitch class ("Bb", never "A#"); accept
+    # whichever spelling he typed or a pack labelled a file with.
+    root = {"A#": "Bb", "Db": "C#", "Eb": "D#", "Gb": "F#", "Ab": "G#",
+            "Cb": "B", "Fb": "E", "E#": "F", "B#": "C"}.get(root, root)
+    if root not in ROOT_HZ:
+        raise ValueError("Key %r isn't a note this engine plays (%s)."
+                         % (root, ", ".join(ROOT_HZ)))
+    if mode not in MODES:
+        raise ValueError("Mode %r isn't one this engine knows (%s)."
+                         % (mode, ", ".join(sorted(MODES))))
+    return root, mode
+
+
 def parse_directions(notes):
     """Read this click's directions out of the notes text. v6 adds
     space (gated/dry/room/washed), swing (more/straight), time
@@ -1129,7 +1170,7 @@ def _root_sub(variant, secs=0.6):
     traditional beats — a real synthesized sub on a chosen musical root,
     so the kick has a low note under it. Deterministic per beat; returns
     (note name, mono audio)."""
-    note = random.Random(variant * 13 + 7).choice(list(ROOT_HZ))
+    note = random.Random(variant * 13 + 7).choice(list(_FALLBACK_ROOTS))
     return note, sub808(ROOT_HZ[note], secs)
 
 
@@ -1568,7 +1609,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     # character, which is what keeps Otto Grit from sounding like Rage
     # Engine. A typed mood word still beats both.
     open_roll = random.Random(variant * 911 + 73).random() < OPEN_P
-    if open_roll:
+    # A key taken off a reference track BEATS BOTH (owner 2026-09-01,
+    # asked directly: "reference wins, hard"). The progression still
+    # rolls in character — only the root and the mode are pinned, so a
+    # batch in F minor still sounds like the DJ who made it.
+    forced = dirs.get("force_key")
+    if forced:
+        key_root, mode = forced
+        prog = dirs["chord_feel"] or (
+            _wpick(sig.get("progressions"), random.Random(variant * 419 + 5))
+            or srng.choice(harmony.names()))
+    elif open_roll:
         key_root = srng.choice(SUB_ROOTS)
         mode = srng.choice(sorted(MODES))
         prog = dirs["chord_feel"] or srng.choice(harmony.names())
@@ -2067,7 +2118,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
 
 
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
-             traditional=False, status=lambda msg: None):
+             traditional=False, status=lambda msg: None, key=None):
     """Render one random beat (solo or collab) into names[0]'s folder.
     Returns (path, report_line). Raises on an empty selection.
     traditional=True (a quarter of every 4+ batch, owner rule
@@ -2116,6 +2167,13 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # this click's directions from the notes box ("no hi hats",
     # "acoustic", ...) — applied to these beats only, never persisted
     dirs = parse_directions(notes)
+    # A key off a reference track turns chords ON, because that is the
+    # only way the key is audible (owner 2026-09-01: "turn chords on
+    # too"). Typing "no chords" still wins — he typed that on purpose.
+    want_key = clean_key(key)
+    if want_key and not dirs.get("no_chords"):
+        dirs["chords"] = True
+        dirs["force_key"] = want_key
 
     # one compose + vary per beat — the reroll-until-different kick
     # guard is gone (owner call 2026-07-21: variety comes from the
@@ -3074,9 +3132,23 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         # says WHICH sound it is). Measured 2026-09-01: swap one hat and
         # "chord0 - sample_ Cymatics ... , Dm7 (ii7)" came back as
         # "chord0". Keep the dict; write_stems reads it below.
+        #
+        # Hand back the KEY and the PROGRESSION this beat was actually
+        # printed in (2026-09-01). The rebuild used to re-roll both from
+        # the variant + the DJ's signature and land on the same answer by
+        # luck — a luck that ran out the moment a REFERENCE TRACK could
+        # override the signature. Pinning only the key was worse than
+        # pinning neither: it sent the rebuild down the forced branch,
+        # which re-picks the progression from the signature, so an
+        # open-roll beat came back with different chords under the same
+        # instrument (measured: F7#9 out, Gm7 back). The recipe knows
+        # all three, so hand back all three.
+        _h = rec.get("harmony") or {}
+        _dirs = {"chords": True, "chord_feel": _h.get("progression")}
+        if _h.get("root") and _h.get("mode"):
+            _dirs["force_key"] = (_h["root"], _h["mode"])
         _build_chords(preset, kit, chord_sources, rec["variant"],
-                      {"chords": True, "chord_feel": None}, [],
-                      voice=chord_voice)
+                      _dirs, [], voice=chord_voice)
         # ...but a chord/bass lane the owner just REMOVED must not come
         # back: _build_chords rebuilds the whole family from the recipe's
         # variant, which would silently undo the removal.
@@ -4149,6 +4221,22 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .zone.djz.over   { border-color: var(--co); background: #7d8cff1f; color: var(--co); }
  .zone.trash.over { border-color: var(--no); background: #ff4d4d1f; color: var(--no); }
 
+ /* ------------------------------------------- reference track (sec. 5) */
+ #refdrop { border: 1.5px dashed var(--line2); border-radius: 10px;
+            padding: 11px 12px; text-align: center; font-size: 12.5px;
+            color: var(--dim); cursor: default;
+            transition: background .12s, border-color .12s, color .12s; }
+ #refdrop.over, #refdrop.busy { border-color: var(--co); color: var(--co);
+                                background: #7d8cff14; }
+ /* the row is its own grid: the two key dropdowns need more than the
+    132px column the tempo box sits in, and the drop target needs the
+    rest of the width or its one sentence wraps into three lines. */
+ .refrow { grid-template-columns: 264px 1fr; }
+ #refline { min-height: 15px; }
+ #refline b { color: var(--ink); }
+ #refline button { font-size: 11px; padding: 1px 7px; margin-left: 5px;
+                   vertical-align: baseline; }
+
  #empty { padding: 34px 0 10px; text-align: center; position: relative; }
  #empty .ghost { width: 132px; margin: 0 auto 4px; opacity: .13;
                  transform: rotate(-3deg); }
@@ -4321,6 +4409,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
  @media (max-width: 720px) {
    .fields { grid-template-columns: 1fr 1fr; }
+   .refrow { grid-template-columns: 1fr; }
    .fields .field:last-child { grid-column: 1 / -1; }
    .thead audio { width: 100%; order: 9; }
    .thead { flex-wrap: wrap; }
@@ -4389,6 +4478,17 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
     <div class="field"><label>Directions</label>
       <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
       <div class="hint">used for this click and saved in the README</div></div>
+  </div>
+  <div class="fields refrow">
+    <div class="field"><label>Key</label>
+      <span style="display:flex; gap:6px">
+        <select id="keyroot"><option value="">&mdash; any &mdash;</option>__KEYROOTS__</select>
+        <select id="keymode">__KEYMODES__</select>
+      </span>
+      <div class="hint">set a key and the beat gets chords in it</div></div>
+    <div class="field"><label>Reference track</label>
+      <div id="refdrop">Drag a song here to match its tempo and key</div>
+      <div class="hint" id="refline">nothing dropped yet</div></div>
   </div>
   <div class="field quick"><label>Quick directions</label>
     <select id="quick">
@@ -5116,6 +5216,81 @@ __BREAKS__
    });
  });
 
+ // --------------------------------------------- reference track (sec. 5)
+ // Drop a song; read its tempo and key; SHOW both so he can correct them.
+ // The detector is wrong in two predictable ways — half or double the
+ // tempo, and the relative major/minor — so the correction buttons are
+ // the feature, not a fallback.
+ const refdrop = document.getElementById('refdrop'),
+       refline = document.getElementById('refline'),
+       keyroot = document.getElementById('keyroot'),
+       keymode = document.getElementById('keymode'),
+       tempoBox = document.getElementById('tempo');
+ let refName = '', refAlt = null;
+ const TLO = __TEMPOLO__, THI = __TEMPOHI__;   // the window /make enforces
+
+ function refSay() {
+   if (!refName) { refline.textContent = 'nothing dropped yet'; return; }
+   const bpm = parseFloat(tempoBox.value);
+   refline.innerHTML = '<b>' + esc(refName) + '</b> &mdash; ' +
+     (tempoBox.value || '?') + ' BPM, ' + (keyroot.value || 'any') + ' ' +
+     keymode.value +
+     // only offer an octave the tempo box would actually accept
+     (bpm / 2 >= TLO ? '<button data-ref="half">&divide;2</button>' : '') +
+     (bpm * 2 <= THI ? '<button data-ref="double">&times;2</button>' : '') +
+     (refAlt ? '<button data-ref="rel">' + esc(refAlt.root + ' ' +
+               refAlt.mode) + '?</button>' : '') +
+     '<button data-ref="clear">clear</button>';
+ }
+
+ refline.onclick = e => {
+   const what = e.target.dataset && e.target.dataset.ref;
+   if (!what) return;
+   const bpm = parseFloat(tempoBox.value);
+   if (what === 'half' && bpm / 2 >= TLO) tempoBox.value = Math.round(bpm / 2);
+   if (what === 'double' && bpm * 2 <= THI) tempoBox.value = Math.round(bpm * 2);
+   if (what === 'rel' && refAlt) {          // swaps, so it flips back
+     const was = { root: keyroot.value, mode: keymode.value };
+     keyroot.value = refAlt.root; keymode.value = refAlt.mode;
+     refAlt = was;
+   }
+   if (what === 'clear') {
+     refName = ''; refAlt = null; tempoBox.value = ''; keyroot.value = '';
+   }
+   refSay();
+ };
+
+ ['dragover', 'dragenter'].forEach(ev =>
+   refdrop.addEventListener(ev, e => {
+     e.preventDefault(); refdrop.classList.add('over'); }));
+ refdrop.addEventListener('dragleave', () => refdrop.classList.remove('over'));
+ refdrop.addEventListener('drop', async e => {
+   e.preventDefault(); refdrop.classList.remove('over');
+   const f = e.dataTransfer.files && e.dataTransfer.files[0];
+   if (!f) return;
+   const was = refdrop.textContent;
+   refdrop.classList.add('busy');
+   refdrop.textContent = 'Listening to ' + f.name + '\u2026';
+   try {
+     const dot = f.name.lastIndexOf('.');
+     const ext = (dot > 0 ? f.name.slice(dot) : '.wav')
+                   .replace(/[^A-Za-z0-9.]/g, '');
+     const r = await fetch('/reference', { method: 'POST',
+       headers: { 'X-Ext': ext || '.wav' }, body: await f.arrayBuffer() });
+     const d = await r.json();
+     if (d.ok) {
+       refName = f.name;
+       tempoBox.value = d.bpm;
+       keyroot.value = d.root;
+       keymode.value = d.mode;
+       refAlt = { root: d.alt_root, mode: d.alt_mode };
+       refSay();
+     } else { refline.textContent = d.error; }
+   } catch (err) { refline.textContent = String(err); }
+   refdrop.classList.remove('busy');
+   refdrop.textContent = was;
+ });
+
  // ------------------------------------------------------------- make them
  const go = document.getElementById('go'),
        work = document.getElementById('work'),
@@ -5135,7 +5310,8 @@ __BREAKS__
      const r = await fetch('/make', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ names: order,
-         tempo: document.getElementById('tempo').value.trim(),
+         tempo: tempoBox.value.trim(),
+         key: keyroot.value ? keyroot.value + ' ' + keymode.value : '',
          count, notes: document.getElementById('notes').value }) });
      const d = await r.json();
      if (d.ok) { done(); await loadBatch(); }
@@ -5325,6 +5501,14 @@ def _page():
     else:                       # no artwork dropped in yet — type mark
         mark, ghost = "<span>BOTC</span>", ""
     words = json.dumps([w for w, _ in BREAK_WORDS] + ["break"])
+    # straight off ROOT_HZ and MODES, so the dropdowns can never offer a
+    # key the engine would then refuse
+    from key_context import MODES
+    keyroots = "".join(f"<option>{r}</option>" for r in ROOT_HZ)
+    keymodes = "".join(
+        '<option value="%s"%s>%s</option>'
+        % (m, " selected" if m == "minor" else "", m.replace("_", " "))
+        for m in sorted(MODES))
     return (_PAGE.replace("__CREW__", crew).replace("__LEGENDS__", legends)
             .replace("__GENRES__", styles)
             .replace("__FIXEDBANK__", fixedbank)
@@ -5335,6 +5519,10 @@ def _page():
             .replace("__LIBRARYJSON__", json.dumps({
                 key: [p["name"] for p in patterns]
                 for key, (label, patterns) in library_genres().items()}))
+            .replace("__TEMPOLO__", str(TEMPO_LO))
+            .replace("__TEMPOHI__", str(TEMPO_HI))
+            .replace("__KEYROOTS__", keyroots)
+            .replace("__KEYMODES__", keymodes)
             .replace("__MARK__", mark).replace("__GHOST__", ghost))
 
 
@@ -5580,8 +5768,30 @@ def run_web(port=None):
 
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
-                                 "/fixed", "/library", "/ban", "/chunk"):
+                                 "/fixed", "/library", "/ban", "/chunk",
+                                 "/reference"):
                 self._send(404, "text/plain", b"not found")
+                return
+            if self.path == "/reference":
+                # He dragged a song onto the page. The body is the raw
+                # file, not JSON, so this branch sits above the parse.
+                # The audio is read, measured and thrown away — nothing
+                # from his reference track is kept or sampled.
+                size = int(self.headers.get("Content-Length", 0))
+                if size > 300 * 1024 * 1024:
+                    self._json({"ok": False,
+                                "error": "That file is too big to read."})
+                    return
+                try:
+                    raw = self.rfile.read(size)
+                    ext = self.headers.get("X-Ext", ".wav")
+                    import reference_track
+                    res = reference_track.analyze_bytes(raw, "ref" + ext)
+                    print("  reference: %s BPM, %s %s"
+                          % (res["bpm"], res["root"], res["mode"]))
+                    self._json({"ok": True, **res})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
                 return
             n = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(n) or b"{}")
@@ -5698,6 +5908,7 @@ def run_web(port=None):
                 return
             names = data.get("names", [])
             tempo = data.get("tempo") or None
+            key = data.get("key") or None
             notes = data.get("notes", "")
             try:
                 how_many = max(1, min(10, int(data.get("count") or 1)))
@@ -5712,7 +5923,8 @@ def run_web(port=None):
                     for i in range(how_many):
                         path, report = generate(names, tempo, notes,
                                                 traditional=flags[i],
-                                                shots=_CACHE["shots"])
+                                                shots=_CACHE["shots"],
+                                                key=key)
                         results.append(report)
                         made.append(int(path.name.split(" ", 1)[0]))
                         print(" ", report.replace("\n", " "))

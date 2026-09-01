@@ -2114,3 +2114,123 @@ def test_a_deleted_chunk_does_not_get_its_number_reused(machine_env):
     assert r["count"] == 4, "a number already on disk came back"
     nums = [f.name[:2] for f in folder.glob("*.wav") if f.name[:2].isdigit()]
     assert len(nums) == len(set(nums)), sorted(nums)
+
+
+# ------------------------------------------- section 5: a forced key
+# He drops a reference track, the page reads its key, and every beat in
+# the batch is made in that key. Owner 2026-09-01, asked directly:
+# setting a key "turns chords on too", and the reference "wins, hard"
+# over the DJ's own signature roots and modes.
+#
+# Timberline throughout, for the same reason the harmony test above uses
+# him: his chord voices reach the synth, so a chords beat doesn't need
+# the real sample drive to actually get chords.
+
+def _rec(root, path):
+    return beat_recipes.load_recipe(root, int(path.name.split()[0]))
+
+
+def test_a_forced_key_puts_the_beat_in_that_key(machine_env):
+    root, shots = machine_env
+    path, report = beat_machine.generate(["Timberline"], root=root,
+                                         shots=shots, key="F# minor")
+    rec = _rec(root, path)
+    h = rec.get("harmony") or {}
+    assert (h.get("root"), h.get("mode")) == ("F#", "minor"), report
+    # "turns chords on too" — the key has to be audible, so the chord
+    # lanes exist without him having typed "chords" anywhere.
+    assert any(ln.startswith("chord") for ln in rec["lanes"]), rec["lanes"]
+
+
+def test_a_forced_key_beats_the_djs_signature(machine_env):
+    """The whole point of "reference wins, hard". Timberline's signature
+    roots are D/E/G and his modes are the three exotic minors — he can
+    never roll F# minor on his own. Ten beats, because the engine rolls
+    an open 25% and a signature 75% and BOTH have to be overruled."""
+    root, shots = machine_env
+    for _ in range(10):
+        path, report = beat_machine.generate(["Timberline"], root=root,
+                                             shots=shots,
+                                             key=("F#", "minor"))
+        h = _rec(root, path).get("harmony") or {}
+        assert (h.get("root"), h.get("mode")) == ("F#", "minor"), report
+
+
+def test_typed_no_chords_beats_a_forced_key(machine_env):
+    """He typed it on purpose, and it is one of the Quick directions."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots,
+                                    key="F minor", notes="no chords")
+    rec = _rec(root, path)
+    assert not rec.get("harmony")
+    assert not [ln for ln in rec["lanes"] if ln.startswith("chord")]
+
+
+def test_a_rebuilt_keyed_beat_stays_in_its_key(machine_env):
+    """A rebuild re-rolls the chord audio from the variant. That used to
+    land on the same key by luck, because the roll and the original both
+    read the DJ's signature — a forced key breaks the coincidence, so the
+    rebuild has to read the key the beat was actually printed in."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots,
+                                    key="D# dorian")
+    no = int(path.name.split()[0])
+    want = [c["chord"] for c in _rec(root, path)["harmony"]["chords"]]
+    assert want
+
+    again, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                      trims={"kick": -1.0})
+    # the recipe's harmony is COPIED from the parent, so it agrees no
+    # matter what came out of the speakers. The chord stems are named
+    # after the chord that was actually synthesized, so they are the ones
+    # that can catch a rebuild drifting out of key.
+    stems = list(again.parent.glob(again.name.split()[0] + " * Stems"))
+    assert len(stems) == 1, stems
+    played = [f.stem for f in stems[0].glob("chord*.wav")]
+    assert played, "a keyed beat rebuilt with no chord stems at all"
+    for name in played:
+        assert any(c in name for c in want), (name, want)
+
+
+def test_a_bad_key_says_so_instead_of_picking_another_one(machine_env):
+    root, shots = machine_env
+    for bad in ("H minor", "F klingon"):
+        with pytest.raises(ValueError):
+            beat_machine.generate(["Timberline"], root=root, shots=shots,
+                                  key=bad)
+
+
+def test_all_twelve_roots_can_tune_the_808_sub():
+    """The five black notes were missing from ROOT_HZ, so a key taken off
+    a reference track could not be played at all, half the time."""
+    from key_context import SHARPS, pitch_class
+    assert len(beat_machine.ROOT_HZ) == 12
+    assert {pitch_class(r) for r in beat_machine.ROOT_HZ} == set(range(12))
+    for name, hz in beat_machine.ROOT_HZ.items():
+        assert 32.0 <= hz <= 62.0, (name, hz)     # all in the same octave
+    assert len(SHARPS) == 12
+
+
+def test_the_random_sub_root_still_draws_from_the_original_seven():
+    """Widening ROOT_HZ would have re-tuned the sub under every beat
+    already on disk — _root_sub picks with random.choice, so the size of
+    the pool is part of the answer."""
+    assert beat_machine._FALLBACK_ROOTS == ("C", "D", "E", "F", "G", "A",
+                                            "Bb")
+    src = inspect.getsource(beat_machine._root_sub)
+    assert "_FALLBACK_ROOTS" in src and "list(ROOT_HZ)" not in src
+    seen = {beat_machine._root_sub(v)[0] for v in range(400)}
+    assert seen == set(beat_machine._FALLBACK_ROOTS), seen
+
+
+def test_the_key_dropdowns_only_offer_keys_the_engine_accepts():
+    """The page builds both selects off ROOT_HZ and MODES, so it can
+    never offer a key clean_key would then refuse."""
+    from key_context import MODES
+    page = beat_machine._page()
+    for root in beat_machine.ROOT_HZ:
+        assert f"<option>{root}</option>" in page, root
+        assert beat_machine.clean_key(root) == (root, "minor")
+    for mode in MODES:
+        assert f'<option value="{mode}"' in page, mode
+    assert 'value="minor" selected' in page

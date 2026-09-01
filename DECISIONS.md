@@ -22,6 +22,65 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 Section 5 (reference track -> key + tempo) — built
+- Context: section 5 of the v-next plan. Four things were BLOCKING and he
+  answered all four before anything was written: setting a key **turns
+  chords on too** (otherwise the key is inaudible — it only ever touched
+  the 808 sub and chords, and chords are off by default); the reference
+  **wins hard** over a DJ's signature roots and modes; the track arrives
+  by **dragging it onto the page**; and the engine gets **all twelve**
+  root notes, not the seven it had.
+- Built: `tools/reference_track.py` (new, numpy+scipy only — librosa is
+  not installed and the plan said take the approach, not the package),
+  a `/reference` POST route that takes the raw file bytes, a drop zone
+  and a Key dropdown pair in the make panel, and `generate(key=...)`.
+- Detection, MEASURED on 25 of his own Favorites (tempo in the filename,
+  key in the recipe): **tempo 17/25 exact, 19/25 within one click; key
+  root 11/21.** That set is harsher than a real song — drum-led, chords
+  one lane in ten. Pinned by a drive-gated test with floors well under
+  those numbers; it is a smoke alarm, not a claim.
+- Two constants were chosen by sweeping against that set, not by taste,
+  and the module says so in a comment: the half-beat term `HALF_W=0.5`
+  (0.0/0.3/0.5/0.7/1.0 -> 11/13/14/14/13 exact) and the 65-5000 Hz
+  chroma band (dropping to 2 kHz costs 3 of 21). Two ideas were built
+  and then DELETED because the measurement said they earned nothing: a
+  parabolic peak refine (17/25 either way — the real fix was halving the
+  hop to 128) and a bass-only key window, which his own "the 808 note IS
+  the key" rule suggested and which collapsed to 3/21 because the kick
+  drowns the note.
+- ROOT_HZ went 7 -> 12. `_root_sub` now draws from a frozen
+  `_FALLBACK_ROOTS` tuple instead of `list(ROOT_HZ)` — it picks with
+  random.choice, so widening the pool would have re-tuned the sub under
+  every beat already on disk. Side benefit: an identity asking for a
+  black note (Half Light asks for B on 7.4% of beats) stops silently
+  getting no sub.
+- One real bug found by an EXISTING test, worth remembering: pinning the
+  key on rebuild but not the progression was worse than pinning neither.
+  It sent the rebuild down the new forced branch, which re-picks the
+  progression from the DJ's signature, so an open-roll beat came back
+  with different chords under the same instrument (F7#9 out, Gm7 back).
+  `test_a_rebuilt_chord_stem_still_says_what_instrument_it_is` caught it.
+  The rebuild now hands back key AND progression from the recipe, which
+  also retires drift limit (1) in `_build_chords`' docstring.
+- Verify by: 8 new tests in `tests/test_beat_machine.py` and 10 in
+  `tests/test_reference_track.py`. Every fix mutation-tested (forced-key
+  branch, the "no chords" guard, the rebuild's saved key, the frozen
+  fallback roots, ROOT_HZ's width, the 128-sample hop) — revert it and
+  its test goes red. Full suite: **924 passed, 1 failed**, the failure
+  being `test_real_beats_are_not_mono_or_silent`, pre-existing.
+- Review: not run. He waived the second pass 2026-08-31 and the whole
+  review for section 4; this is verified by tests and by his ear, not by
+  an adversarial read.
+- Status: confirmed
+- Outcome: HEARD and approved same day. Audition set was on his Desktop in
+  "Homeroom reference key 2026-09-01": four DJs matched to "debbie 1-5-26
+  loop vc mix btreason.wav" (read as 84 BPM, B minor — B being one of the
+  five notes that did not exist before today) against the same four left
+  free. His verdict, verbatim: "They sit with it." So the detector's
+  accuracy on a real song is good enough in practice, and the forced key
+  reaches the ear — not just the recipe.
+
+
 ### 2026-09-01 Two chunk bugs found after the commit — chunks were orphaned, and numbers came back
 - Context: `tests/test_zz_probe.py` — a scratch print-based probe left on
   disk by the review agent that was stopped mid-run — got swept into the
