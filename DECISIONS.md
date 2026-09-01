@@ -22,6 +22,85 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 Section 7 (drum FX) — built ON the Sound Engine, not beside it
+- Context: owner dropped section 6 (BYO sample bank) and asked for 7 only,
+  then stopped me mid-plan to point at `sound_engine/` — which ALREADY has
+  a per-channel rack (EQ, comp, saturation, reverb, beat-repeat/stutter,
+  convolve, width), per stem, wet/dry, live, tempo-locked, reading his real
+  library. My first plan was a new per-lane FX pass inside `crew.py`; that
+  would have duplicated `_apply_channel_chain`. Scrapped before any code.
+  The lesson: I scoped a whole section against the plan document without
+  opening the app the plan's own repo already contained.
+- Owner answers, all before the build (do not re-litigate): effects live in
+  the Sound Engine, opened with each DJ's knobs PRE-SET; nothing printed at
+  make time; clean stems/mix unchanged; saturation + echo + stutter + EQ/
+  comp/width; **the sub/808 stays dry**; Beat Machine gets an "Open in
+  Sound Engine" button; four DJs tuned first (Otto Grit, Rage Engine, Glass
+  Cat, Night Metro). Review policy, his split: FULL double loop on the new
+  echo DSP, ONE pass on the preset wiring.
+- Built: `audio_engine.loop_delay()` (replaces an unused, non-loop-safe
+  `delay()`), `dly_*` in the channel chain + live Web Audio graph + Echo
+  panel, `fx_presets.json` + `sound_engine/fx_presets.py`, presets applied
+  in `/api/project/from-beat`, `?beat=` deep link, and the FX button.
+- The echo is loop-safe BY CONSTRUCTION, not by approximation: a feedback
+  delay is LTI, so the closed form is a circular `np.roll` tap series —
+  no doubled-buffer priming like `loop_algo_reverb` needs. Review measured
+  it at 3.1e-5 relative against a sample-accurate reference.
+- FOUR REAL BUGS FOUND BY RUNNING IT, three pre-existing:
+  1. **No beat with a `#` in a stem name could be opened at all.** Sharps
+     are everywhere (D#, F#, A#); the lane id went into a URL unencoded, so
+     the request arrived truncated at the fragment marker and 404'd. The
+     same bug silently broke the export sync. Pre-existing since the Beat
+     Repeat commit.
+  2. **The leave-the-sub-dry guard never fired.** Stems are named with the
+     owner-facing labels (`beat_recipes.py:134`) — the 808 is `bass drum`
+     on disk, not `sub`/`bass`. I was guarding names that only exist inside
+     the generator. 37 such files on the drive.
+  3. Same cause: every DJ's kick preset missed, because the stem is
+     `kick drum`.
+  4. `chord0v1` (a second voicing) didn't match its own `chord` family.
+- THE REVIEWS EARNED THEIR KEEP — and mostly by attacking the TESTS:
+  * Pass 1 proved with mutants that a version which **ducked the dry by
+    6 dB** passed all eight echo tests. `mix=0` bit-identical did not cover
+    it: both sides took the `dly_mix > 0` false branch, so `loop_delay` was
+    never entered. Also: no test used different L and R, so a mono-collapse
+    of the wet tail passed everything.
+  * Pass 1 also found a live/export split: `d %= n` folded a delay longer
+    than the buffer (a 2 s echo on a 1.5 s buffer really IS 0.5 s once it
+    loops) while the DelayNode does not fold — browser played one rhythm,
+    export wrote another. Now dropped on both sides.
+  * Pass 2 found `_load()` validated only that the file PARSED, not its
+    shape, and `for_lane` runs outside from-beat's try — so a malformed
+    `fx_presets.json` 500'd EVERY beat open, and app.js called `.json()`
+    before checking `res.ok`, so the FX link opened a tab and did nothing
+    at all. The module docstring promised the opposite.
+  * Pass 2 found my strengthened sub test was STILL hollow: it built a
+    synthetic loud preset for bass/sub/808/sub808 but not `bass drum`, the
+    name that actually matters — delete that one element from `_LOW_END`
+    and all 77 tests passed. This is the second time in one session that a
+    test of this rule looked rigorous and proved nothing.
+  * Also fixed: `?beat=` path traversal (`../..` loaded any `* Stems` on
+    disk), 60 Favorites beats losing their DJ (folder name is `Favorites`,
+    so the DJ is now recovered from the filename — 13 beats affected),
+    an absurd bpm discarding a whole lane's preset, 66 of 119 beats having
+    a lane left bone dry beside processed ones (`_other` catch-all), and a
+    suspended AudioContext letting the first client sync flatten a preset
+    out of the export.
+- Verify by: 89 tests in `tests/test_sound_engine.py` (was 61). Every fix
+  mutation-tested — including re-running pass 1's own four mutants, which
+  all now fail. Full suite: **960 passed, 1 failed**, the failure being
+  `test_real_beats_are_not_mono_or_silent`, pre-existing and drive-gated.
+- Status: open — MEASURED and reviewed, NOT yet HEARD. Audition set is on
+  his Desktop in "Homeroom FX 2026-09-01 v2": four DJs, A flat vs B with
+  FX, same beat both times, **level-matched** (saturation made B +4.1 dB
+  hotter on two of the four, which would have collected a verdict on
+  volume instead of on the effects).
+- ASSUMING, correctable in one line: the melodic bass line (`bass0/1/2`) is
+  also left dry. It is not the 808 (`bass drum` is), but leaving it alone
+  preserves today's behaviour and is the conservative reading of his rule.
+- Outcome:
+
+
 ### 2026-09-01 Section 5 (reference track -> key + tempo) — built
 - Context: section 5 of the v-next plan. Four things were BLOCKING and he
   answered all four before anything was written: setting a key **turns

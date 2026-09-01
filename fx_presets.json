@@ -1,0 +1,217 @@
+{
+  "_readme": [
+    "Per-DJ effect settings for the Sound Engine (step 7, 2026-09-01).",
+    "",
+    "When a beat is opened in the Sound Engine, the DJ's entry here decides",
+    "where every channel's knobs START. Nothing is printed at make time and",
+    "no beat file changes — this only pre-sets the rack so a beat arrives",
+    "sounding like its DJ instead of arriving flat. Every knob is still",
+    "yours to move, and Export writes a new file as it always has.",
+    "",
+    "HOW A LANE IS MATCHED: a stem is named '<lane> - <sample name>.wav', so",
+    "'chord0 - piano stack ...' matches the 'chord' entry. Trailing digits",
+    "are stripped (bass0/bass1/bass2 -> bass, chord0/1/2 -> chord).",
+    "",
+    "THE SUB IS NEVER TOUCHED. sub / bass / 808 lanes get no effects at all,",
+    "because the owner's mix rule treats the sub as the kick's low end and",
+    "leaves it alone. That list is _LOW_END in tools/crew.py:107 — this is a",
+    "deliberate copy, same as sound_engine/library.py copies the beats-root",
+    "lookup rather than importing the whole beat stack. Keep them in sync.",
+    "",
+    "NOTE VALUES, NOT SECONDS: dly_note and br_note are fractions of a beat",
+    "(1 = 1/4 note, 0.5 = 1/8, 0.25 = 1/16, 0.75 = dotted 1/8). They are",
+    "turned into seconds against each beat's own tempo, so one setting works",
+    "at 88 bpm and at 150 bpm.",
+    "",
+    "WHERE THESE NUMBERS CAME FROM: derived from each DJ's existing",
+    "character data in crew_config.json (drive, dust, vinyl, kick_dist,",
+    "mix_sat, space, era, and the 'listen' line), NOT invented. They are a",
+    "STARTING POINT tuned by ear afterwards — see DECISIONS.md.",
+    "",
+    "Only four DJs are tuned so far: Otto Grit, Rage Engine, Glass Cat,",
+    "Night Metro. Everyone else falls through to _default, which is",
+    "deliberately gentle. Add entries as they get auditioned.",
+    "",
+    "_default._other is the last resort for any lane nobody listed — reversefx, woods, vox, blips, claves, timbales, sirens and the rest. A whisper, so nothing sits bone dry beside a processed channel. The sub is still never reached: the low-end guard runs before any of this."
+  ],
+  "_default": {
+    "_notes": "Barely-there glue. A DJ with no entry should sound like it does today, not like someone else.",
+    "kick": {
+      "sat_drive_db": 3.0,
+      "sat_mix": 0.08
+    },
+    "snare": {
+      "sat_drive_db": 3.0,
+      "sat_mix": 0.08
+    },
+    "clap": {
+      "sat_drive_db": 3.0,
+      "sat_mix": 0.08
+    },
+    "hat": {
+      "sat_drive_db": 2.0,
+      "sat_mix": 0.05
+    },
+    "stamp": {
+      "sat_drive_db": 3.0,
+      "sat_mix": 0.08
+    },
+    "chord": {
+      "sat_drive_db": 2.5,
+      "sat_mix": 0.06
+    },
+    "_other": {
+      "sat_drive_db": 2.0,
+      "sat_mix": 0.05
+    }
+  },
+  "Otto Grit": {
+    "_notes": "90s boom-bap, dust 0.5 + vinyl -42 + drive 1.35. Warm and dirty, top rolled off like an SP-1200. Hats are dead straight per the listen line, so NO stutter — that would fight his whole identity.",
+    "kick": {
+      "sat_drive_db": 7.0,
+      "sat_mix": 0.3,
+      "low_db": 1.5,
+      "high_db": -2.0
+    },
+    "snare": {
+      "sat_drive_db": 6.5,
+      "sat_mix": 0.28,
+      "high_db": -1.5,
+      "dly_note": 0.75,
+      "dly_feedback": 0.22,
+      "dly_mix": 0.1
+    },
+    "hat": {
+      "sat_drive_db": 4.0,
+      "sat_mix": 0.18,
+      "high_db": -2.5
+    },
+    "stamp": {
+      "sat_drive_db": 6.0,
+      "sat_mix": 0.25,
+      "dly_note": 0.5,
+      "dly_feedback": 0.3,
+      "dly_mix": 0.18
+    },
+    "chord": {
+      "sat_drive_db": 4.0,
+      "sat_mix": 0.15,
+      "high_db": -2.0
+    }
+  },
+  "Rage Engine": {
+    "_notes": "150 bpm, kick_dist 6.0 and mix_sat 4.0 already in his config — the most aggressive DJ on the roster. Wall-to-wall 32nd hat rolls is his signature, so the stutter reinforces what he already does instead of inventing a trait.",
+    "kick": {
+      "sat_drive_db": 11.0,
+      "sat_mix": 0.45,
+      "low_db": 2.0,
+      "comp_ratio": 3.0,
+      "comp_threshold_db": -18.0
+    },
+    "snare": {
+      "sat_drive_db": 10.0,
+      "sat_mix": 0.42,
+      "high_db": 2.0,
+      "dly_note": 0.25,
+      "dly_feedback": 0.25,
+      "dly_mix": 0.12,
+      "comp_ratio": 2.5,
+      "comp_threshold_db": -20.0
+    },
+    "clap": {
+      "sat_drive_db": 9.0,
+      "sat_mix": 0.38,
+      "high_db": 1.5,
+      "width": 1.25
+    },
+    "hat": {
+      "sat_drive_db": 7.0,
+      "sat_mix": 0.3,
+      "high_db": 2.5,
+      "br_note": 0.25,
+      "br_repeats": 4,
+      "br_chance": 0.35,
+      "br_mix": 0.5
+    },
+    "stamp": {
+      "sat_drive_db": 8.0,
+      "sat_mix": 0.32,
+      "dly_note": 0.25,
+      "dly_feedback": 0.35,
+      "dly_mix": 0.15
+    },
+    "chord": {
+      "sat_drive_db": 6.0,
+      "sat_mix": 0.22,
+      "high_db": 1.0
+    }
+  },
+  "Glass Cat": {
+    "_notes": "Documented 'minimal and dry', zero dust, zero distortion, alt is literally dry. This entry is deliberately the quietest one here — if the system can't express restraint it is wrong. No stutter, no reverb push, one clean slap on the snap.",
+    "kick": {
+      "sat_drive_db": 2.0,
+      "sat_mix": 0.06
+    },
+    "snare": {
+      "sat_drive_db": 2.5,
+      "sat_mix": 0.08,
+      "high_db": 1.0
+    },
+    "clap": {
+      "sat_drive_db": 2.0,
+      "sat_mix": 0.06,
+      "width": 1.15
+    },
+    "snap": {
+      "sat_drive_db": 2.0,
+      "sat_mix": 0.06,
+      "dly_note": 0.5,
+      "dly_feedback": 0.12,
+      "dly_mix": 0.08
+    },
+    "stamp": {
+      "sat_drive_db": 2.0,
+      "sat_mix": 0.06
+    }
+  },
+  "Night Metro": {
+    "_notes": "Dark halftime at 140, kick_dist 5.0, drive 1.5, gated clap. Top end pulled down everywhere for the dark part; the stamp is a reversed cymbal so it gets the longest echo on the roster. Hat rolls ramp into the snare, so a light stutter fits.",
+    "kick": {
+      "sat_drive_db": 9.0,
+      "sat_mix": 0.38,
+      "low_db": 2.0,
+      "high_db": -1.5
+    },
+    "clap": {
+      "sat_drive_db": 6.0,
+      "sat_mix": 0.24,
+      "high_db": -1.0,
+      "width": 1.2,
+      "dly_note": 0.5,
+      "dly_feedback": 0.28,
+      "dly_mix": 0.14
+    },
+    "hat": {
+      "sat_drive_db": 5.0,
+      "sat_mix": 0.2,
+      "high_db": -2.0,
+      "br_note": 0.25,
+      "br_repeats": 3,
+      "br_chance": 0.2,
+      "br_mix": 0.35
+    },
+    "stamp": {
+      "sat_drive_db": 6.0,
+      "sat_mix": 0.25,
+      "high_db": -1.5,
+      "dly_note": 0.75,
+      "dly_feedback": 0.42,
+      "dly_mix": 0.22
+    },
+    "chord": {
+      "sat_drive_db": 4.0,
+      "sat_mix": 0.15,
+      "high_db": -2.5
+    }
+  }
+}

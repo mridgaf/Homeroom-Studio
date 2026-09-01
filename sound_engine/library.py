@@ -92,8 +92,20 @@ def find_beat(root: Path, beat_id: str) -> dict | None:
     if "/" not in beat_id:
         return None
     dj, prefix = beat_id.split("/", 1)
-    dj_dir = Path(root) / dj
+    root = Path(root)
+    dj_dir = root / dj
     stems_dir = dj_dir / f"{prefix} Stems"
+    # beat_id arrives from a URL (the Beat Machine's FX button links to
+    # /?beat=...), and "../.." in it used to resolve to any "* Stems"
+    # folder on the disk — a link handed to him could load audio from
+    # outside the library and he could then export it. Read-only and
+    # localhost-only, but there is no reason to allow it.
+    # (Adversarial review, 2026-09-01.)
+    try:
+        if not stems_dir.resolve().is_relative_to(root.resolve()):
+            return None
+    except (OSError, ValueError):
+        return None
     if not stems_dir.is_dir():
         return None
     stem_files = [f for f in stems_dir.iterdir()
@@ -101,7 +113,6 @@ def find_beat(root: Path, beat_id: str) -> dict | None:
     if not stem_files:
         return None
     # Find the corresponding Drums WAV to extract BPM
-    drums_wav = dj_dir / f"{prefix} Drums *.wav"
     drums_files = sorted(dj_dir.glob(f"{prefix} Drums *.wav"))
     bpm = None
     for wav in drums_files:

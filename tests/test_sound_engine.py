@@ -3,6 +3,7 @@ and fixed by the 2026-08-08 harsh-review pass (session eviction, corrupt
 upload handling, invalid EQ body, export filename collisions), plus the
 multi-channel project model (single-file upload or a beat's stems)."""
 import io
+import json
 import os
 import sys
 import wave
@@ -705,3 +706,422 @@ def test_beat_repeat_rejects_a_nonsense_cell_length():
     r = client.post(f"/api/project/{project_id}/channel/upload/process",
                     json={"br_mix": 1.0, "br_cell_s": 0.0, "br_repeats": 4, "br_chance": 1.0})
     assert r.status_code == 400
+
+
+# --- Echo / delay (step 7, 2026-09-01) ---------------------------------
+# The house rule is that every beat loops clean, so the ONE thing these
+# tests exist to protect is that the echo wraps the seam instead of dying
+# at the end of the buffer — which is exactly what the pedalboard.Delay
+# wrapper this replaced would have done.
+
+def test_echo_off_by_default_is_bit_identical():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"dly_mix": 0.0, "dly_time_s": 0.25, "dly_feedback": 0.5})
+    assert np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+def test_echo_changes_the_buffer_when_mixed_in():
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process", json={})
+    dry = [a.copy() for a in server.PROJECTS[project_id]["channels"]["upload"]["wet"]]
+    r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                    json={"dly_mix": 0.5, "dly_time_s": 0.05, "dly_feedback": 0.4})
+    assert r.status_code == 200
+    assert not np.array_equal(dry[0], server.PROJECTS[project_id]["channels"]["upload"]["wet"][0])
+
+
+def test_echo_wraps_the_loop_seam():
+    # the whole point of loop_delay: a hit near the END of the loop has to
+    # echo onto the START, or bar 8 -> bar 1 has an audible hole
+    ae = server.dsp.audio_engine
+    n = 44100
+    x = np.zeros(n)
+    x[n - 100] = 1.0
+    outL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=0.25, feedback=0.0,
+                             mix=1.0, sr=44100)
+    landed = (n - 100 + int(round(0.25 * 44100))) % n
+    assert landed < n - 100          # it really did wrap around
+    assert outL[landed] == pytest.approx(1.0)
+
+
+def test_echo_taps_decay_by_the_feedback_amount():
+    # 0.05 s at 44.1k = 2205 samples, and feedback 0.5 dies out (-80 dB)
+    # after 14 taps — 14 * 2205 < 44100, so no tap wraps back onto another
+    # one and each position holds exactly one echo. A delay that divides
+    # the buffer evenly would stack tap 11 onto tap 1 and the levels below
+    # would be off by feedback^10, which is real behaviour, not a bug.
+    ae = server.dsp.audio_engine
+    sr, n = 44100, 44100
+    x = np.zeros(n)
+    x[0] = 1.0
+    d = int(round(0.05 * sr))
+    outL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=0.05, feedback=0.5,
+                             mix=1.0, sr=sr)
+    assert outL[d] == pytest.approx(1.0)
+    assert outL[2 * d] == pytest.approx(0.5)
+    assert outL[3 * d] == pytest.approx(0.25)
+
+
+def test_echo_a_whole_loop_long_is_a_no_op_not_a_gain_boost():
+    # d % n == 0 would stack every echo straight back onto the dry
+    ae = server.dsp.audio_engine
+    x = np.random.RandomState(3).randn(44100)
+    outL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=1.0, feedback=0.5,
+                             mix=1.0, sr=44100)
+    assert np.array_equal(outL, x)
+
+
+def test_echo_feedback_is_clamped_so_it_cannot_run_away():
+    ae = server.dsp.audio_engine
+    x = np.random.RandomState(4).randn(44100)
+    outL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=0.05, feedback=50.0,
+                             mix=1.0, sr=44100)
+    assert np.isfinite(outL).all()
+    # documented bound is 1 + mix/(1 - 0.9) = 11x the dry peak
+    assert np.abs(outL).max() <= 11.0 * np.abs(x).max()
+
+
+def test_echo_rejects_a_nonsense_time():
+    project_id = _upload().json()["project_id"]
+    # strings, because a bare float("nan") is not JSON-encodable — same
+    # shape as test_width_rejects_a_non_finite_value above
+    for bad in ({"dly_time_s": "nan"}, {"dly_time_s": 99.0},
+                {"dly_feedback": "inf"}, {"dly_mix": 2.0}):
+        body = {"dly_mix": 0.5}
+        body.update(bad)
+        r = client.post(f"/api/project/{project_id}/channel/upload/process",
+                        json=body)
+        assert r.status_code == 400, bad
+
+
+def test_echo_survives_the_export_endpoint(tmp_path, monkeypatch):
+    monkeypatch.setattr(server, "EXPORT_DIR", tmp_path)
+    project_id = _upload().json()["project_id"]
+    client.post(f"/api/project/{project_id}/channel/upload/process",
+                json={"dly_mix": 0.6, "dly_time_s": 0.05, "dly_feedback": 0.4})
+    r = client.post(f"/api/project/{project_id}/export")
+    assert r.status_code == 200
+    assert Path(r.json()["path"]).exists()
+
+
+# --- Per-DJ FX presets (step 7, 2026-09-01) ----------------------------
+
+def test_the_sub_is_never_given_effects(monkeypatch, tmp_path):
+    """The owner's mix rule treats the sub as the kick's low end and leaves
+    it alone. Written against a preset file that DOES define effects for
+    every low-end lane: no shipped preset has a bass/sub entry today, so
+    testing against the real file would pass with the guard deleted and
+    prove nothing (it did — caught by mutation testing)."""
+    from sound_engine import fx_presets
+    # "bass drum" MUST be in this list. It is the name the 808 actually
+    # has on disk (37 files), and without it here the test passed with
+    # that entry deleted from _LOW_END — the one element that makes the
+    # guard fire on a real beat. Caught by the second adversarial review;
+    # the earlier version of this test proved nothing about it.
+    loud = {"Otto Grit": {lane: {"sat_mix": 0.9, "sat_drive_db": 12.0}
+                          for lane in ("bass", "bass drum", "sub", "808",
+                                        "sub808", "kick")}}
+    f = tmp_path / "fx_presets.json"
+    f.write_text(json.dumps(loud))
+    monkeypatch.setattr(fx_presets, "_PRESETS_PATH", f)
+    for lane in ("bass0 - sampled bass (X), D# root", "sub - tuned sub",
+                 "808 - long 808", "sub808 - x",
+                 "bass drum - MZ Crash [808]", "bass drum - Oracle 808 5 - C"):
+        assert fx_presets.for_lane("Otto Grit", lane, 91) == {}, lane
+    # ...while the SAME file reaches the kick, which is not low end. That
+    # is what makes this a test of the guard and not of an unloadable file.
+    assert fx_presets.for_lane("Otto Grit", "kick - k", 91)["sat_mix"] == 0.9
+
+
+def test_lane_role_strips_the_sample_name_and_the_family_number():
+    from sound_engine import fx_presets
+    assert fx_presets.lane_role("chord0 - piano stack + sample_ Bbm") == "chord"
+    assert fx_presets.lane_role("bass2 - sampled bass (X), A# root") == "bass"
+    assert fx_presets.lane_role("kick - swink_kick") == "kick"
+    assert fx_presets.lane_role("upload") == "upload"   # no ' - ' at all
+
+
+def test_note_values_resolve_against_the_beats_own_tempo():
+    from sound_engine import fx_presets
+    slow = fx_presets.for_lane("Otto Grit", "snare - x", 88)
+    fast = fx_presets.for_lane("Otto Grit", "snare - x", 176)
+    # a dotted 1/8 is a dotted 1/8 at either tempo, so the SECONDS must halve
+    assert slow["dly_time_s"] == pytest.approx(2 * fast["dly_time_s"])
+    assert slow["dly_note"] == fast["dly_note"] == 0.75
+
+
+def test_a_beat_with_no_tempo_gets_no_timed_effects():
+    # nothing to resolve a note value against — better off than sitting on
+    # a guessed default bpm
+    from sound_engine import fx_presets
+    p = fx_presets.for_lane("Otto Grit", "snare - x", None)
+    assert "dly_time_s" not in p and "dly_mix" not in p
+    assert p["sat_mix"] > 0          # the untimed effects still apply
+
+
+def test_an_untuned_dj_falls_through_to_the_gentle_default():
+    from sound_engine import fx_presets
+    p = fx_presets.for_lane("Some DJ Nobody Tuned Yet", "snare - x", 90)
+    assert p == {"sat_drive_db": 3.0, "sat_mix": 0.08}
+
+
+def test_a_broken_preset_file_does_not_stop_a_beat_opening(monkeypatch, tmp_path):
+    from sound_engine import fx_presets
+    bad = tmp_path / "fx_presets.json"
+    bad.write_text("{ this is not json")
+    monkeypatch.setattr(fx_presets, "_PRESETS_PATH", bad)
+    assert fx_presets.for_lane("Otto Grit", "snare - x", 90) == {}
+
+
+def test_from_beat_opens_the_rack_on_the_djs_settings(tmp_path, monkeypatch):
+    from tools.make_drum_loops import write_wav24
+    dj = tmp_path / "Otto Grit"
+    dj.mkdir()
+    sig = np.sin(2 * np.pi * 220 * np.arange(8820) / 44100) * 0.3
+    write_wav24(dj / "9 Otto Grit Probe Drums 88bpm.wav", sig, sig)
+    stems = dj / "9 Otto Grit Probe Stems"
+    stems.mkdir()
+    write_wav24(stems / "kick - k.wav", sig, sig)
+    write_wav24(stems / "bass0 - b, D# root.wav", sig, sig)
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+
+    r = client.post("/api/project/from-beat",
+                     json={"beat_id": "Otto Grit/9 Otto Grit Probe"})
+    assert r.status_code == 200
+    by_lane = {c["lane_id"]: c["fx"] for c in r.json()["channels"]}
+    assert by_lane["kick - k"]["sat_mix"] == 0.30     # Otto's kick
+    assert by_lane["bass0 - b, D# root"] == {}        # the sub, untouched
+
+    # and the preset is PRINTED, not just advertised: wet must differ from dry
+    pid = r.json()["project_id"]
+    chans = server.PROJECTS[pid]["channels"]
+    assert not np.array_equal(chans["kick - k"]["dry"][0],
+                              chans["kick - k"]["wet"][0])
+    assert np.array_equal(chans["bass0 - b, D# root"]["dry"][0],
+                          chans["bass0 - b, D# root"]["wet"][0])
+
+
+def test_a_lane_name_containing_a_sharp_is_url_encoded_by_the_client():
+    """Stem names carry note names, so '#' is everywhere in this library
+    (D#, F#, A#). Unencoded in a URL it starts a fragment, and the request
+    reached the server truncated at the sharp — every beat with a sharp in
+    a stem name 404'd on load and could not be opened at all. There is no
+    JS test runner in this project, so this scans the source for the one
+    mistake that caused it."""
+    app_js = (Path(__file__).resolve().parents[1]
+              / "sound_engine/static/app.js").read_text()
+    for bad in ("/channel/${ch.lane_id}", "/channel/${laneId}"):
+        assert bad not in app_js, (
+            f"{bad} builds a channel URL from an unencoded lane id — "
+            "wrap it in encodeURIComponent()")
+
+
+def test_the_owner_facing_stem_names_map_back_to_lanes():
+    """Stems are written with the owner's names, not the internal lane
+    keys (tools/beat_recipes.py:134): kick -> 'kick drum', and sub/bass ->
+    'bass drum'. Found live: every preset silently missed the kick, and
+    the leave-the-sub-dry guard never fired on a real beat, because both
+    were matching names that only exist inside the generator."""
+    from sound_engine import fx_presets
+    assert fx_presets.lane_role("kick drum - HELLA KICK 016.wav") == "kick"
+    assert fx_presets.for_lane("Night Metro", "kick drum - k", 147)["sat_mix"] == 0.38
+    # the 808 under the kick, by its real filename — must stay untouched
+    assert fx_presets.for_lane("Night Metro", "bass drum - MZ Crash [808]", 147) == {}
+    assert fx_presets.for_lane("Rage Engine", "bass drum - x", 150) == {}
+
+
+def test_a_lane_the_dj_was_never_tuned_for_still_gets_the_default():
+    """Night Metro has no snare line, and plenty of its beats have a
+    snare. Found live: that channel sat bone dry beside processed ones,
+    which reads as a broken preset rather than a choice."""
+    from sound_engine import fx_presets
+    p = fx_presets.for_lane("Night Metro", "snare - PLAYOFFS", 147)
+    assert p == {"sat_drive_db": 3.0, "sat_mix": 0.08}
+
+
+def test_a_second_voicing_lane_matches_its_family():
+    """chord0v1 is the second voicing of chord0 ('brass stack (lead)'
+    beside 'strings (support)') and must get the DJ's chord settings.
+    Found live on Rage Engine 1323, where those two lanes came back dry
+    beside their own chord0/chord1."""
+    from sound_engine import fx_presets
+    assert fx_presets.lane_role("chord0v1 - brass stack (lead), Cm (i)") == "chord"
+    assert (fx_presets.for_lane("Otto Grit", "chord0v1 - brass", 88)
+            == fx_presets.for_lane("Otto Grit", "chord0 - strings", 88))
+
+
+def test_an_all_digit_lane_name_still_hits_the_low_end_guard():
+    """'808' is entirely digits, so stripping the family number emptied it
+    and it slipped past the leave-the-sub-dry check."""
+    from sound_engine import fx_presets
+    assert fx_presets.lane_role("808 - long 808") == "808"
+    assert fx_presets.for_lane("Rage Engine", "808 - long 808", 150) == {}
+
+
+def test_echo_is_a_send_the_dry_never_ducks():
+    """mix must ADD echoes on top of an untouched dry, not crossfade
+    against it. Both the docstring and the live Web Audio graph promise
+    this, and the browser's dry gain is hard-wired to unity — a server
+    that crossfaded instead would quietly drop the dry by up to 6 dB on
+    every channel with echo up, and live and export would disagree.
+
+    Adversarial review found the original echo tests could not tell the
+    two apart: `L*(1-mix) + mix*wet` and `0.5*L + mix*wet` both passed all
+    eight of them."""
+    ae = server.dsp.audio_engine
+    sr, n = 44100, 44100
+    x = np.zeros(n)
+    x[0] = 1.0
+    d = int(round(0.05 * sr))
+    outL, outR = ae.loop_delay(x.copy(), x.copy(), seconds=0.05,
+                               feedback=0.0, mix=0.5, sr=sr)
+    # sample 0 carries dry only (the single echo lands at d, not here)
+    assert outL[0] == 1.0 and outR[0] == 1.0
+    assert outL[d] == pytest.approx(0.5)      # ...and the echo is scaled
+    # raising mix must not move the dry at all
+    hotL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=0.05,
+                            feedback=0.0, mix=1.0, sr=sr)
+    assert hotL[0] == 1.0
+
+
+def test_echo_keeps_the_two_channels_independent():
+    """Every original echo test passed the same array as L and R, so a wet
+    path that fed both channels from L — collapsing the tail to mono —
+    passed all of them. This echo sits BEFORE the reverb, so a mono tail
+    then gets stereo width applied to it. (Adversarial review.)"""
+    ae = server.dsp.audio_engine
+    sr, n = 44100, 44100
+    L = np.zeros(n); L[0] = 1.0        # impulse on the left only
+    R = np.zeros(n)                    # right is silent
+    d = int(round(0.05 * sr))
+    outL, outR = ae.loop_delay(L, R, seconds=0.05, feedback=0.5, mix=1.0, sr=sr)
+    assert outL[d] == pytest.approx(1.0)
+    assert outR[d] == 0.0              # nothing may leak across
+    assert not np.array_equal(outL, outR)
+
+
+def test_an_echo_longer_than_the_material_is_dropped_not_folded():
+    """A circular delay of 2 s on a 1.5 s buffer IS a 0.5 s delay once the
+    buffer repeats — but the live DelayNode does not fold, so the browser
+    played one rhythm and the export wrote another. Refusing the echo
+    keeps both paths saying the same thing. (Adversarial review.)"""
+    ae = server.dsp.audio_engine
+    sr = 44100
+    x = np.random.RandomState(7).randn(int(1.5 * sr))
+    for seconds in (1.5, 2.0, 4.0):
+        outL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=seconds,
+                                feedback=0.5, mix=1.0, sr=sr)
+        assert np.array_equal(outL, x), seconds
+    # just under the buffer still works
+    outL, _ = ae.loop_delay(x.copy(), x.copy(), seconds=1.4,
+                            feedback=0.0, mix=1.0, sr=sr)
+    assert not np.array_equal(outL, x)
+
+
+def test_echo_rejects_mismatched_channel_lengths():
+    ae = server.dsp.audio_engine
+    with pytest.raises(ValueError):
+        ae.loop_delay(np.zeros(1000), np.zeros(500), seconds=0.01,
+                      feedback=0.0, mix=1.0, sr=44100)
+
+
+# --- second adversarial review, 2026-09-01 ----------------------------
+
+@pytest.mark.parametrize("bad", [
+    '{"Otto Grit": "grit"}',                       # DJ entry is a string
+    '[1, 2, 3]',                                   # top level is an array
+    '{"Otto Grit": {"kick": "loud"}}',             # lane entry is a string
+    '{"Otto Grit": {"kick": {"dly_note": "half"}}}',   # value is a string
+    '{"_default": "gentle"}',
+    '"just a string"',
+    'null',
+])
+def test_a_structurally_wrong_preset_file_is_ignored_not_fatal(
+        bad, monkeypatch, tmp_path):
+    """_load() used to catch only OSError/JSONDecodeError, so valid JSON
+    with the wrong SHAPE reached for_lane and raised — outside the try in
+    from-beat, so EVERY beat open 500'd. The module docstring promised a
+    broken file must not stop a beat opening; it did."""
+    from sound_engine import fx_presets
+    f = tmp_path / "fx_presets.json"
+    f.write_text(bad)
+    monkeypatch.setattr(fx_presets, "_PRESETS_PATH", f)
+    monkeypatch.setattr(fx_presets, "_CACHE", {"mtime": None, "data": {}})
+    assert fx_presets.for_lane("Otto Grit", "kick drum - k", 91) == {}
+
+
+def test_a_broken_preset_file_still_lets_a_beat_open(tmp_path, monkeypatch):
+    from tools.make_drum_loops import write_wav24
+    from sound_engine import fx_presets
+    dj = tmp_path / "Otto Grit"
+    dj.mkdir()
+    sig = np.sin(2 * np.pi * 220 * np.arange(4410) / 44100) * 0.3
+    write_wav24(dj / "9 Otto Grit Probe Drums 88bpm.wav", sig, sig)
+    stems = dj / "9 Otto Grit Probe Stems"
+    stems.mkdir()
+    write_wav24(stems / "kick drum - k.wav", sig, sig)
+    bad = tmp_path / "fx_presets.json"
+    bad.write_text('{"Otto Grit": "grit"}')
+    monkeypatch.setattr(fx_presets, "_PRESETS_PATH", bad)
+    monkeypatch.setattr(fx_presets, "_CACHE", {"mtime": None, "data": {}})
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+    r = client.post("/api/project/from-beat",
+                     json={"beat_id": "Otto Grit/9 Otto Grit Probe"})
+    assert r.status_code == 200
+
+
+def test_a_favourited_beat_keeps_its_djs_settings():
+    """The Sound Engine names a beat by its FOLDER, so everything in
+    Favorites/ reported dj='Favorites' and silently got the generic
+    default — 60 beats, the folder he opens most. The DJ is in the
+    filename."""
+    from sound_engine import fx_presets
+    assert fx_presets.resolve_dj("Favorites",
+                                  "1219 Otto Grit Basement Stairs") == "Otto Grit"
+    assert fx_presets.resolve_dj("Memphis",
+                                  "1500 Night Metro Blue") == "Night Metro"
+    # a real DJ folder is never overridden by whatever the filename says
+    assert fx_presets.resolve_dj("Glass Cat",
+                                  "1176 Otto Grit White Space") == "Glass Cat"
+    # and an unknown personality stays unknown rather than guessing
+    assert fx_presets.resolve_dj("Memphis", "1500 Memphis Thing") == "Memphis"
+    assert (fx_presets.for_lane("Favorites", "kick drum - k", 88,
+                                 beat_name="1219 Otto Grit Basement Stairs")
+            == fx_presets.for_lane("Otto Grit", "kick drum - k", 88))
+
+
+def test_a_beat_id_cannot_escape_the_library(tmp_path):
+    """beat_id arrives from a URL (the FX button links to /?beat=...), and
+    '../..' resolved to any '* Stems' folder on the disk."""
+    from sound_engine import library
+    outside = tmp_path / "outside"
+    (outside / "secret Stems").mkdir(parents=True)
+    (outside / "secret Stems" / "a.wav").write_bytes(b"x")
+    root = tmp_path / "library"
+    root.mkdir()
+    assert library.find_beat(root, "../outside/secret") is None
+
+
+def test_an_absurd_tempo_does_not_discard_the_whole_lane():
+    """_BPM_RE will read '9999bpm' out of a filename. One out-of-range
+    derived value used to take the lane's saturation and EQ down with it."""
+    from sound_engine import fx_presets
+    p = fx_presets.for_lane("Otto Grit", "snare - x", 9999)
+    assert p["sat_mix"] == 0.28          # the untimed effects survive
+    assert "dly_time_s" not in p         # the nonsense one is dropped
+    assert fx_presets.for_lane("Otto Grit", "snare - x", "not a number")["sat_mix"]
+
+
+def test_no_lane_is_left_bone_dry_beside_a_processed_one():
+    """66 of 119 beats by the tuned four carried a lane nobody listed
+    (reversefx, woods, vox, blips, claves, timbales, sirens...). _other is
+    the catch-all — but it must never reach the sub."""
+    from sound_engine import fx_presets
+    for lane in ("reversefx - x", "woods - x", "vox - x", "timbales - x",
+                 "claves - x", "sirens - x", "blips - x"):
+        assert fx_presets.for_lane("Night Metro", lane, 147), lane
+    for lane in ("bass drum - x", "bass0 - x", "sub - x", "808 - x"):
+        assert fx_presets.for_lane("Night Metro", lane, 147) == {}, lane

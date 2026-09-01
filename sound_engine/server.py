@@ -29,7 +29,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import dsp, library
+from . import dsp, fx_presets, library
 
 import groove  # noqa: E402  (tools/ is on sys.path once dsp is imported)
 
@@ -92,10 +92,16 @@ def _evict_old_projects():
                 (RENDERS / f"{old_id}_{lane_id}_{variant}.wav").unlink(missing_ok=True)
 
 
-def _new_channel(label, L, R, sr):
+def _new_channel(label, L, R, sr, fx=None):
+    # `fx` is where this channel's knobs START — the DJ's own settings for
+    # this lane (see fx_presets.py). Empty for an uploaded file, which has
+    # no DJ to ask. It is handed to the browser so the sliders match the
+    # audio, and kept here so an export before the user touches anything
+    # is still what the DJ intended.
     return {"label": label, "sr": sr, "dry": (L, R), "wet": (L, R),
             "gain_db": 0.0, "pan": 0.0, "muted": False, "solo": False,
-            "ir": None, "ir_name": None, "ir_scale": 1.0, "ir_seq": 0}
+            "ir": None, "ir_name": None, "ir_scale": 1.0, "ir_seq": 0,
+            "fx": dict(fx or {})}
 
 
 def _project_response(project_id, project):
@@ -110,7 +116,8 @@ def _project_response(project_id, project):
              # to the AudioContext rate, so it needs these to lay Beat
              # Repeat's grid on the same cells this file will
              "length_samples": len(ch["dry"][0]),
-             "duration_s": round(len(ch["dry"][0]) / ch["sr"], 2)}
+             "duration_s": round(len(ch["dry"][0]) / ch["sr"], 2),
+             "fx": ch.get("fx", {})}
             for lane_id, ch in project["channels"].items()
         ],
     }
@@ -150,7 +157,20 @@ async def project_from_beat(body: dict):
             L, R, sr = dsp.load_audio(wav)
         except Exception:
             continue  # one bad stem shouldn't sink the whole load
-        channels[lane_id] = _new_channel(lane_id, L, R, sr)
+        fx = fx_presets.for_lane(beat["dj"], lane_id, beat.get("bpm"),
+                                  beat_name=beat.get("display_name"))
+        ch = _new_channel(lane_id, L, R, sr, fx=fx)
+        if fx:
+            # print the DJ's settings into `wet` now, so the beat SOUNDS
+            # like itself the moment it loads and an immediate export
+            # matches — without waiting for the browser to sync its knobs
+            # back. Bad numbers in the file must not stop a beat opening,
+            # so a rejected preset just leaves this channel flat.
+            try:
+                ch["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, fx)
+            except (TypeError, ValueError):
+                ch["fx"] = {}
+        channels[lane_id] = ch
     if not channels:
         return JSONResponse({"error": "no readable stems in that beat"}, status_code=400)
     PROJECTS[project_id] = {"name": beat["display_name"], "channels": channels,
@@ -344,6 +364,14 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
     br_cell_s = _finite_float(p.get("br_cell_s", 0.25), lo=0.0, hi=10.0)
     br_repeats = int(_finite_float(p.get("br_repeats", 4), lo=1, hi=32))
     br_chance = _finite_float(p.get("br_chance", 1.0), lo=0.0, hi=1.0)
+    dly_mix = _finite_float(p.get("dly_mix", 0.0), lo=0.0, hi=1.0)
+    # lo is a small POSITIVE floor, not 0.0: loop_delay treats seconds<=0
+    # as a no-op, but a live DelayNode inside a feedback cycle clamps to one
+    # render quantum (~2.9 ms), so 0 with feedback up rings as a metallic
+    # ~344 Hz comb instead of doing nothing. Unreachable from the sliders,
+    # reachable from the API and from fx_presets.json. (Review 2026-09-01.)
+    dly_time_s = _finite_float(p.get("dly_time_s", 0.25), lo=0.005, hi=4.0)
+    dly_feedback = _finite_float(p.get("dly_feedback", 0.35), lo=0.0, hi=0.9)
 
     # first in the chain: this rearranges the source material, everything
     # else shapes what comes out of it (same order as the live graph)
@@ -363,6 +391,9 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
         L, R = ae.stereo_width(L, R, width=width)
     if conv_mix > 0.0 and ir is not None:
         L, R = _convolve_through(L, R, ir, conv_mix, conv_scale)
+    if dly_mix > 0.0:
+        L, R = ae.loop_delay(L, R, sr=sr, seconds=dly_time_s,
+                              feedback=dly_feedback, mix=dly_mix)
     if reverb_mix > 0.0 or reverb_freeze:
         room_size = min(1.0, reverb_size_s / 6.0)
         L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,

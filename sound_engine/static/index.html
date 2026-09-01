@@ -159,6 +159,38 @@
           </div>
 
           <div class="panel">
+            <h2>Echo — repeats that wrap the loop</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="dlyGrid">Time</label>
+                <select id="dlyGrid">
+                  <option value="1">1/4 note</option>
+                  <option value="0.75">dotted 1/8</option>
+                  <option value="0.5" selected>1/8 note</option>
+                  <option value="0.25">1/16 note</option>
+                  <option value="0.3333333333">1/8 triplet</option>
+                  <option value="ms">free milliseconds</option>
+                </select>
+                <span class="freq" id="dlyGridInfo">at the beat's own tempo</span>
+              </div>
+              <div class="knob" id="dlyMsKnob" style="display:none">
+                <label for="dlyMs">Time <span id="dlyMsVal">250</span> ms</label>
+                <input type="range" id="dlyMs" min="10" max="4000" step="5" value="250">
+              </div>
+              <div class="knob">
+                <label for="dlyFeedback">Feedback <span id="dlyFeedbackVal">35</span>%</label>
+                <input type="range" id="dlyFeedback" min="0" max="90" step="1" value="35">
+                <span class="freq">how many times it repeats</span>
+              </div>
+              <div class="knob">
+                <label for="dlyMix">Mix <span id="dlyMixVal">0</span>%</label>
+                <input type="range" id="dlyMix" min="0" max="100" step="1" value="0">
+                <span class="freq">0 = off</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
             <h2>Beat Repeat — grab a slice and stutter it</h2>
             <div class="knobs">
               <div class="knob">

@@ -43,6 +43,13 @@ const beatPickerList = document.getElementById("beatPickerList");
 const beatPickerWarning = document.getElementById("beatPickerWarning");
 const beatPickerClose = document.getElementById("beatPickerClose");
 
+let applyingPresets = false;   // see applyDjPresets
+// Folder and lane names come off the filesystem and land in innerHTML;
+// he names his own folders so this is hygiene, not an open hole.
+function esc(t) {
+  return String(t).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
 const RAMP_SECONDS = 0.02;  // setTargetAtTime time-constant — smooth knob
                              // moves, no zipper-noise clicks (same reason
                              // pedalboard smooths param changes internally,
@@ -82,7 +89,7 @@ async function openBeatPicker() {
   for (const b of data.beats) {
     const item = document.createElement("div");
     item.className = "beatItem";
-    item.innerHTML = `<span>${b.dj} — ${b.display_name}</span>` +
+    item.innerHTML = `<span>${esc(b.dj)} — ${esc(b.display_name)}</span>` +
       `<span class="meta">${b.bpm} bpm · ${b.stem_count} stems</span>`;
     item.addEventListener("click", () => loadBeat(b.beat_id));
     beatPickerList.appendChild(item);
@@ -95,7 +102,17 @@ async function loadBeat(beatId) {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ beat_id: beatId }),
   });
-  const data = await res.json();
+  let data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    // FastAPI returns PLAIN TEXT on a 500, so parsing threw here before
+    // res.ok was ever checked — arriving via the FX deep link that meant
+    // a tab opened and silently showed the dropzone, with no clue why.
+    alert("Couldn't load that beat: the server returned " + res.status +
+          " " + res.statusText);
+    return;
+  }
   if (!res.ok) { alert("Couldn't load that beat: " + (data.error || res.statusText)); return; }
   await openProject(data);
 }
@@ -141,7 +158,11 @@ async function openProject(data) {
   const newChannelOrder = [];
   for (const ch of data.channels) {
     const arrayBuf = await (await fetch(
-      `/api/project/${newProjectId}/channel/${ch.lane_id}/dry?t=${Date.now()}`)).arrayBuffer();
+      // encodeURIComponent, NOT the raw lane id: stem names carry note
+      // names, and a '#' (D#, F#, A#...) starts a URL fragment — the
+      // request arrived at the server truncated at the sharp and 404'd,
+      // so no beat with a sharp in a stem name could be opened at all.
+      `/api/project/${newProjectId}/channel/${encodeURIComponent(ch.lane_id)}/dry?t=${Date.now()}`)).arrayBuffer();
     let audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
     // defensive: dsp.py upmixes mono to dual-mono server-side today, so this
     // never actually fires via the normal load path — but the M/S width
@@ -189,12 +210,113 @@ async function openProject(data) {
   // each channel keeps its own grid, so its cell length comes from its own
   // state — never from whatever the shared dropdown happens to show
   for (const laneId of channelOrder) {
-    const br = channels[laneId].br;
-    br.cellS = brCellSeconds(br);
+    const ch = channels[laneId];
+    ch.br.cellS = brCellSeconds(ch.br);
+    // the DelayNode was created before this project's tempo was known, so
+    // its note value has to be re-derived now or a 1/8 echo would sit at
+    // the 120 bpm fallback on every beat that is not 120
+    ch.dly.timeS = dlyTimeSeconds(ch.dly);
+    ch.dlyNode.delayTime.value = ch.dly.timeS;
   }
+  applyDjPresets(data);
   selectChannel(channelOrder[0]);
   dropzone.classList.add("hidden");
   workspace.classList.remove("hidden");
+}
+
+
+// --- the DJ's own starting knob positions -----------------------------
+// The server decides them (sound_engine/fx_presets.py); this only moves
+// the controls to match. It deliberately drives the SLIDERS and fires
+// their real events rather than setting AudioNodes directly: every knob
+// already has a handler that knows its own units (percent vs 0-1, ms vs
+// seconds, the saturation curve, the note grids) and that also syncs the
+// change to the server. Re-implementing that here would be a second copy
+// of those units to keep in step, which is exactly how live playback and
+// the exported file drift apart.
+
+// slider id -> how to get from the stored value to what the slider wants
+const FX_CONTROLS = {
+  low_db: ["lowDb", 1], low_hz: ["lowHz", 1],
+  mid_db: ["midDb", 1], mid_hz: ["midHz", 1], mid_q: ["midQ", 1],
+  high_db: ["highDb", 1], high_hz: ["highHz", 1],
+  comp_threshold_db: ["compThreshold", 1], comp_ratio: ["compRatio", 1],
+  comp_attack_ms: ["compAttack", 1], comp_release_ms: ["compRelease", 1],
+  comp_makeup_db: ["compMakeup", 1],
+  sat_drive_db: ["satDrive", 1], sat_mix: ["satMix", 100],
+  width: ["widthKnob", 1],
+  dly_feedback: ["dlyFeedback", 100], dly_mix: ["dlyMix", 100],
+  br_repeats: ["brRepeats", 1], br_chance: ["brChance", 100],
+  br_mix: ["brMix", 100],
+};
+
+function setGridTo(selectEl, note) {
+  // Show a real note value when the preset's is one the dropdown offers,
+  // so the panel reads "dotted 1/8" rather than a raw millisecond count.
+  // Anything else falls back to free-ms, which is always exact.
+  for (const opt of selectEl.options) {
+    if (opt.value !== "ms" && Math.abs(parseFloat(opt.value) - note) < 1e-6) {
+      selectEl.value = opt.value;
+      return true;
+    }
+  }
+  return false;
+}
+
+function fireControl(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = value;
+  // input drives the live audio, change is what the shape-changed handlers
+  // (grids, repeats) listen on — send both so every kind of control lands
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+  el.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function applyDjPresets(data) {
+  const withFx = (data.channels || []).filter(c => c.fx && Object.keys(c.fx).length);
+  if (!withFx.length) return;
+  const restore = selectedLane;
+  // The server ALREADY rendered these settings into each channel's wet
+  // buffer at load, so it needs nothing from us here. Syncing anyway was
+  // actively harmful: _sendChannelSync reads AudioParam.value, and those
+  // do not advance until the context renders — on a tab that autoplay
+  // policy left suspended (a deep-linked FX tab that never gets a Play
+  // press) it would POST all-flat params, the server would recompute wet
+  // with no effects, and Export would write a flat file while the panel
+  // still advertised the preset. (Adversarial review, 2026-09-01.)
+  applyingPresets = true;
+  for (const info of withFx) {
+    const ch = channels[info.lane_id];
+    if (!ch) continue;
+    // the handlers all act on the SELECTED channel, so walk the rack
+    selectChannel(info.lane_id);
+    const fx = info.fx;
+    if (fx.dly_note !== undefined) {
+      const el = document.getElementById("dlyGrid");
+      if (!setGridTo(el, fx.dly_note) && fx.dly_time_s !== undefined) {
+        el.value = "ms";
+        document.getElementById("dlyMs").value = Math.round(fx.dly_time_s * 1000);
+      }
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    if (fx.br_note !== undefined) {
+      const el = document.getElementById("brGrid");
+      if (!setGridTo(el, fx.br_note) && fx.br_cell_s !== undefined) {
+        el.value = "ms";
+        document.getElementById("brMs").value = Math.round(fx.br_cell_s * 1000);
+      }
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    for (const [key, val] of Object.entries(fx)) {
+      const ctrl = FX_CONTROLS[key];
+      if (ctrl) fireControl(ctrl[0], val * ctrl[1]);
+    }
+  }
+  applyingPresets = false;
+  if (restore && channels[restore]) selectChannel(restore);
+  // nudge the context awake so later knob moves read real values
+  if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
 }
 
 function makeSaturationCurve(driveDb) {
@@ -275,6 +397,20 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   sideWidth.connect(sideNeg);
   sideNeg.connect(merger, 0, 1);
 
+  // --- echo: a feedback delay line sitting between convolve and reverb,
+  // the same place it sits in the server chain (_apply_channel_chain) so
+  // the export matches what is heard. Order matters and is deliberate:
+  // the echoes are created BEFORE the reverb, so the repeats land in the
+  // same room as the dry rather than arriving dry after it.
+  // dlyNode -> dlyFb -> dlyNode is the feedback loop; Web Audio tolerates
+  // a cycle as long as a DelayNode is in it, which is exactly this shape.
+  const dlyIn = audioCtx.createGain(); dlyIn.gain.value = 1;
+  const dlyOut = audioCtx.createGain(); dlyOut.gain.value = 1;
+  const dlyNode = audioCtx.createDelay(4.0);  // 4 s = the server's hi clamp
+  dlyNode.delayTime.value = 0.5 * (60 / (projectBpm || 120));
+  const dlyFb = audioCtx.createGain(); dlyFb.gain.value = 0.35;
+  const dlyWet = audioCtx.createGain(); dlyWet.gain.value = 0;
+
   // --- reverb: parallel dry/wet through a Convolver fed a generated
   // impulse response (no sample IR files needed for a real, usable tail).
   // Damping = a lowpass on the wet-only path; Width = a second M/S
@@ -350,8 +486,16 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   satOut.connect(splitter);
   merger.connect(convDry).connect(convOut);
   merger.connect(convWet).connect(convNode).connect(convScale).connect(convOut);
-  convOut.connect(revDry).connect(revOut);
-  convOut.connect(revWet).connect(convolver).connect(revDamp)
+  // dry stays at unity and the wet is ADDED (not crossfaded) — matches
+  // audio_engine.loop_delay's send behaviour, so Mix=0 is a true no-op on
+  // both sides instead of the live path quietly ducking the dry.
+  convOut.connect(dlyIn);
+  dlyIn.connect(dlyOut);
+  dlyIn.connect(dlyNode);
+  dlyNode.connect(dlyFb).connect(dlyNode);
+  dlyNode.connect(dlyWet).connect(dlyOut);
+  dlyOut.connect(revDry).connect(revOut);
+  dlyOut.connect(revWet).connect(convolver).connect(revDamp)
         .connect(revSplitter);
   revMerger.connect(revOut);
   revOut.connect(wetGain);
@@ -377,6 +521,11 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
     // shared controls, so touching Repeats on one channel silently rewrote
     // its slice length to whatever the last channel's grid had been
     br: { grid: "0.5", ms: 125, cellS: 0.5, repeats: 4, chance: 1, mix: 0 },
+    // per channel for the same reason br is: shared controls would let one
+    // channel's grid silently rewrite another's time
+    dly: { grid: "0.5", ms: 250, timeS: 0.5 * (60 / (projectBpm || 120)),
+           feedback: 0.35, mix: 0 },
+    dlyIn, dlyOut, dlyNode, dlyFb, dlyWet,
     lowShelf, midPeak, highShelf, compressor, makeupGain,
     satDry, satWet, waveshaper, satOut,
     splitter, merger, sideWidth,
@@ -396,7 +545,7 @@ function renderChannelList() {
     const strip = document.createElement("div");
     strip.className = "channelStrip" + (laneId === selectedLane ? " selected" : "");
     strip.innerHTML = `
-      <div class="label">${ch.label}</div>
+      <div class="label">${esc(ch.label)}</div>
       <div class="row"><input type="range" class="faderInput" min="-24" max="12" step="0.5" value="${ch.faderDb}"></div>
       <div class="row"><input type="range" class="panInput" min="-1" max="1" step="0.05" value="${ch.pan}"></div>
       <div class="mutesolo">
@@ -512,6 +661,7 @@ function loadRackFromChannel(ch) {
   document.getElementById("convMixVal").textContent = Math.round(ch.convWet.gain.value * 100);
   updateConvPanel(ch);
   updateBrPanel(ch);
+  updateDlyPanel(ch);
 }
 
 function updateConvPanel(ch) {
@@ -608,6 +758,85 @@ function updateBrPanel(ch) {
     document.getElementById("brMixVal").textContent = Math.round(ch.br.mix * 100);
   }
 }
+
+const dlyGridEl = document.getElementById("dlyGrid");
+const dlyMsEl = document.getElementById("dlyMs");
+
+function dlyTimeSeconds(dly) {
+  if (dly.grid === "ms" || !projectBpm) return dly.ms / 1000;
+  return parseFloat(dly.grid) * (60 / projectBpm);
+}
+
+function updateDlyPanel(ch) {
+  const msMode = (ch ? ch.dly.grid : dlyGridEl.value) === "ms" || !projectBpm;
+  document.getElementById("dlyMsKnob").style.display = msMode ? "" : "none";
+  document.getElementById("dlyGridInfo").textContent = projectBpm
+    ? `at this beat's ${projectBpm} bpm`
+    : "this file has no tempo — milliseconds only";
+  for (const opt of dlyGridEl.options) {
+    if (opt.value !== "ms") opt.disabled = !projectBpm;
+  }
+  if (ch) {
+    dlyGridEl.value = (!projectBpm) ? "ms" : ch.dly.grid;
+    dlyMsEl.value = ch.dly.ms;
+    document.getElementById("dlyMsVal").textContent = ch.dly.ms;
+    document.getElementById("dlyFeedback").value = Math.round(ch.dly.feedback * 100);
+    document.getElementById("dlyFeedbackVal").textContent = Math.round(ch.dly.feedback * 100);
+    document.getElementById("dlyMix").value = Math.round(ch.dly.mix * 100);
+    document.getElementById("dlyMixVal").textContent = Math.round(ch.dly.mix * 100);
+  }
+}
+
+function dlyEffectiveWet(ch) {
+  // audio_engine.loop_delay drops an echo at least as long as the buffer
+  // rather than folding it (a circular delay of 2 s on a 1.5 s loop really
+  // is a 0.5 s delay). A DelayNode does NOT fold, so without this the
+  // browser would play an echo the exported file does not contain.
+  const dur = ch.audioBuffer ? ch.audioBuffer.duration : Infinity;
+  return (ch.dly.timeS > 0 && ch.dly.timeS < dur) ? ch.dly.mix : 0;
+}
+
+function dlyShapeChanged() {
+  const ch = currentChannel(); if (!ch) return;
+  ch.dly.grid = dlyGridEl.value;
+  ch.dly.ms = parseFloat(dlyMsEl.value);
+  ch.dly.timeS = dlyTimeSeconds(ch.dly);
+  ch.dly.feedback = parseFloat(document.getElementById("dlyFeedback").value) / 100;
+  if (audioCtx) {
+    // a delay time jump while playing would click; ramp it like every other
+    // live knob. Feedback is a plain gain, so it can move immediately.
+    ch.dlyNode.delayTime.setTargetAtTime(ch.dly.timeS, audioCtx.currentTime,
+                                          RAMP_SECONDS);
+    ch.dlyFb.gain.setTargetAtTime(ch.dly.feedback, audioCtx.currentTime,
+                                   RAMP_SECONDS);
+    ch.dlyWet.gain.setTargetAtTime(dlyEffectiveWet(ch), audioCtx.currentTime,
+                                    RAMP_SECONDS);
+  }
+  syncChannelToServer(selectedLane);
+}
+
+dlyGridEl.addEventListener("change", () => {
+  dlyShapeChanged();
+  updateDlyPanel(currentChannel());
+});
+dlyMsEl.addEventListener("input", e => {
+  document.getElementById("dlyMsVal").textContent = e.target.value;
+});
+dlyMsEl.addEventListener("change", dlyShapeChanged);
+document.getElementById("dlyFeedback").addEventListener("input", e => {
+  document.getElementById("dlyFeedbackVal").textContent = e.target.value;
+});
+document.getElementById("dlyFeedback").addEventListener("change", dlyShapeChanged);
+
+document.getElementById("dlyMix").addEventListener("input", e => {
+  document.getElementById("dlyMixVal").textContent = e.target.value;
+  const ch = currentChannel(); if (!ch) return;
+  ch.dly.mix = parseFloat(e.target.value) / 100;
+  // dry is left alone on purpose — see the graph comment: this is a send.
+  if (audioCtx) ch.dlyWet.gain.setTargetAtTime(
+    dlyEffectiveWet(ch), audioCtx.currentTime, RAMP_SECONDS);
+  syncChannelToServer(selectedLane);
+});
 
 function brShapeChanged() {
   const ch = currentChannel(); if (!ch) return;
@@ -893,6 +1122,8 @@ function _sendChannelSync(laneId) {
     reverb_damping: (ch.revDamp.frequency.value - 200) / 17800,
     reverb_width: ch.revSideWidth.gain.value, reverb_freeze: !!ch.freeze,
     conv_mix: ch.convWet.gain.value,
+    dly_mix: ch.dly.mix, dly_time_s: ch.dly.timeS,
+    dly_feedback: ch.dly.feedback,
     br_mix: ch.br.mix, br_cell_s: ch.br.cellS,
     br_repeats: ch.br.repeats, br_chance: ch.br.chance,
     gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
@@ -901,7 +1132,11 @@ function _sendChannelSync(laneId) {
   // PREVIOUS settings — an export would then quietly not match what's
   // playing. Remember it and say so at export time rather than reporting
   // "Saved:" on a file that isn't what was heard.
-  fetch(`/api/project/${projectId}/channel/${laneId}/process`, {
+  // same '#' truncation as the audio fetch above — unencoded, this one
+  // fails quietly: the channel's settings never reach the server, so the
+  // export silently does not match what is playing (syncFailedLanes then
+  // reports it at export time, which is late).
+  fetch(`/api/project/${projectId}/channel/${encodeURIComponent(laneId)}/process`, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   }).then(r => { if (!r.ok) syncFailedLanes.add(laneId); else syncFailedLanes.delete(laneId); })
@@ -924,6 +1159,9 @@ function syncChannelToServer(laneId, immediate) {
   // own pre-flight sync, which needs the truly-latest value to have already
   // landed server-side before it POSTs /export a moment later.
   if (!projectId) return;
+  // see applyDjPresets: while the DJ's settings are being dialled in, the
+  // server's copy is already correct and ours may not be readable yet
+  if (applyingPresets) return;
   if (_syncTimers[laneId]) { clearTimeout(_syncTimers[laneId]); delete _syncTimers[laneId]; }
   if (immediate) { _sendChannelSync(laneId); return; }
   _syncTimers[laneId] = setTimeout(() => {
@@ -1159,3 +1397,12 @@ exportBtn.addEventListener("click", async () => {
     exportBtn.disabled = false;
   }
 });
+
+// --- deep link from the Beat Machine ----------------------------------
+// Its "FX" button opens /?beat=<dj>/<name>, so a beat goes straight from
+// the generator into this rack with its DJ's effects already dialled in
+// instead of being hunted for in the picker.
+(function openBeatFromUrl() {
+  const beatId = new URLSearchParams(location.search).get("beat");
+  if (beatId) loadBeat(beatId);
+})();

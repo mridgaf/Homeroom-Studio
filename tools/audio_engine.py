@@ -194,9 +194,72 @@ def phaser(L, R, rate_hz=0.5, depth=0.5, mix=0.3):
     return _from_pb(board(_to_pb(L, R), SR))
 
 
-def delay(L, R, seconds=0.25, feedback=0.3, mix=0.25):
-    board = pb.Pedalboard([pb.Delay(delay_seconds=seconds, feedback=feedback, mix=mix)])
-    return _from_pb(board(_to_pb(L, R), SR))
+def loop_delay(L, R, seconds=0.25, feedback=0.35, mix=0.0, sr=None):
+    """Loop-safe echo. Replaces a pedalboard.Delay wrapper that lived here
+    unused: pedalboard's Delay is a stateful streaming plugin, so run over
+    one 8-bar buffer its repeats simply stop at the end and the tail never
+    reaches bar 1 — the same seam problem loop_algo_reverb and
+    groove.loop_convolve each solve for their own effect. This project's
+    house rule is that every beat loops clean, so a delay that dies at the
+    buffer edge is not usable here.
+
+    A feedback delay is linear and time-invariant, which means it does NOT
+    need the doubled-buffer priming trick the reverb uses — the exact
+    answer is available in closed form. Echo k is the dry signal shifted
+    by k*d samples and scaled by feedback^(k-1), and on a loop "shifted"
+    means shifted CIRCULARLY: np.roll wraps sample i to (i - k*d) mod n.
+    So the tail of bar 8 lands on bar 1 by construction rather than by
+    approximation, and the result is exact rather than one-repeat close
+    (exact up to feedback 0.866, where the tap cap below starts to
+    truncate — see the comment there).
+
+    mix is a send, not a crossfade: the dry stays at unity and the echoes
+    are added on top, which is how a delay actually behaves and which makes
+    mix=0.0 return the input bit-identically (the caller's no-op guard).
+    Level is therefore bounded by 1 + mix/(1 - feedback) — at the 0.9
+    feedback clamp that is 11x, so a hot setting leans on the export's
+    brickwall limiter exactly the way a hot reverb already does. NOTE the
+    live browser path has no limiter, so an extreme setting clips there
+    while the export is caught; that asymmetry is true of every effect in
+    this rack, not just this one.
+
+    seconds <= 0, mix <= 0, and any delay at least as long as the buffer
+    are all no-ops. sr — see eq3()'s docstring."""
+    n = len(L)
+    if n == 0 or mix <= 0.0 or seconds <= 0.0:
+        return L, R
+    if len(R) != n:
+        raise ValueError("loop_delay needs L and R the same length, "
+                          f"got {n} and {len(R)}")
+    d = int(round(seconds * (sr or SR)))
+    # d >= n is a NO-OP, not a fold. This used to be `d %= n`, which is
+    # mathematically what a circular delay does — a 2 s echo on a 1.5 s
+    # buffer genuinely IS a 0.5 s echo once the buffer repeats. But the
+    # live Web Audio DelayNode does not fold, so the browser played a 2 s
+    # echo while the export wrote a 0.5 s one: a different RHYTHM in the
+    # file than the one he approved by ear. Refusing an echo longer than
+    # the material keeps the two paths honest; app.js mutes its wet send
+    # under the same condition. (Adversarial review, 2026-09-01.)
+    if d <= 0 or d >= n:
+        return L, R
+    fb = float(np.clip(feedback, 0.0, 0.9))
+    wetL = np.zeros(n, dtype=float)
+    wetR = np.zeros(n, dtype=float)
+    g = 1.0
+    # Stop at -80 dB, or 64 taps. Below feedback 0.866 the threshold ends
+    # the series and the result is exact. Above it the CAP ends it instead,
+    # and what goes missing is the SUM of the discarded taps —
+    # fb**64/(1-fb) — not the level of the last one: -59.7 dB at fb 0.87,
+    # -38.6 dB at the 0.9 clamp. Still inaudible under a mix, but an
+    # earlier comment here quoted the last tap (-57 dB) and understated the
+    # loss by 19 dB. (Adversarial review, 2026-09-01.)
+    for k in range(1, 65):
+        wetL += g * np.roll(L, k * d)
+        wetR += g * np.roll(R, k * d)
+        g *= fb
+        if g <= 1e-4:
+            break
+    return L + mix * wetL, R + mix * wetR
 
 
 def master_chain(L, R, target_lufs=-12.0, ceiling_db=-1.0,

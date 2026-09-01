@@ -13,7 +13,6 @@ Format:
 
 ---
 
-(empty — cleared 2026-08-03 after the six-point punch list shipped as
-commit 54ef7e8. Everything worth keeping from that session, including the
-mistakes and the honest limits, was folded into the DECISIONS.md entry
-dated 2026-08-03.)
+(empty — cleared 2026-09-01 after step 7 shipped. Everything worth keeping,
+including the scrapped crew.py plan and both review passes, is in the
+DECISIONS.md entry dated 2026-09-01, "Section 7 (drum FX)".)

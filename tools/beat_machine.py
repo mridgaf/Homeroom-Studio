@@ -3334,6 +3334,23 @@ def _beat_theory(no, root):
             "why": prog.get("why")}
 
 
+def _sound_engine_id(wav, root):
+    """How the Sound Engine names this beat, or None if it can't take it.
+
+    Its picker is one folder deep (sound_engine/library.py's find_beat
+    splits the id on a single "/"), so a beat sitting in a nested folder
+    has no id it could be asked for — better to drop the button than to
+    hand over a link that 404s.
+    """
+    try:
+        rel = wav.parent.relative_to(Path(root))
+    except ValueError:
+        return None
+    if len(rel.parts) != 1 or " Drums " not in wav.stem:
+        return None
+    return f"{rel.parts[0]}/{wav.stem.split(' Drums ')[0]}"
+
+
 def _batch_beats(root=None):
     """The last batch's tracks with their current location, for the
     player. Missing files (moved by hand) are skipped."""
@@ -3344,6 +3361,7 @@ def _batch_beats(root=None):
         if w:
             beats.append({"no": int(no), "label": w.stem,
                           "loc": beat_location(no, root),
+                          "se_id": _sound_engine_id(w, root),
                           "theory": _beat_theory(no, root)})
     return beats
 
@@ -4654,6 +4672,10 @@ __BREAKS__
        '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
        '<span class="acts">' +
          '<button class="stembtn" data-role="stems">Stems</button>' +
+         (b.se_id ? '<button class="stembtn" data-role="engine" ' +
+           'title="Open in the Sound Engine with this DJ&apos;s effects ' +
+           'already dialled in (start it from Sound Engine.command first)">' +
+           'FX</button>' : '') +
          '<button title="Keep it" data-dest="favorites">&starf;</button>' +
          '<button title="DJ folder" data-dest="dj">&#9635;</button>' +
          '<button title="Trash it" data-dest="trash">&#9587;</button>' +
@@ -4685,6 +4707,14 @@ __BREAKS__
    el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
      btn.onclick = () => triage(b.no, btn.dataset.dest, el));
    el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.target);
+   // Open this beat in the Sound Engine with the DJ's effects already set
+   // (sound_engine/fx_presets.py). It is a separate app on its own port, so
+   // this is a plain link out — nothing is printed here and this beat's
+   // files are not touched. If the Sound Engine isn't running the new tab
+   // just fails to connect, which is why the button says to start it.
+   const eng = el.querySelector('[data-role=engine]');
+   if (eng) eng.onclick = () => window.open(
+     'http://localhost:8767/?beat=' + encodeURIComponent(b.se_id), '_blank');
    wireTransport(el);
    return el;
  }
