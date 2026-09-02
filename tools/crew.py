@@ -1619,10 +1619,16 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             # un-ducked path WITH the kick; now only the kick itself
             # stays out of its own duck, so the sub, the harmony bass
             # and the chord pads all breathe around it.
-            if p["sidechain"] > 0 and lane != "kick" \
-                    and onsets.get("kick"):
-                sL, sR = duck(sL, sR, onsets["kick"], depth=p["sidechain"],
-                              loop=True)
+            # ...and since 2026-09-01 the low end ducks deeper than the
+            # rest, because the mix-wide depth is inaudible on a sub. This
+            # MUST use the same per-lane depth as the mix bus and the peak
+            # governor: when the stem ducked shallower than the governor
+            # assumed, the sub arrived in the stem up to 1.5 dB OVER the
+            # kick while the governor read it as level. Three paths, one
+            # depth function.
+            _d = _lane_sc(lane)
+            if _d > 0 and lane != "kick" and onsets.get("kick"):
+                sL, sR = duck(sL, sR, onsets["kick"], depth=_d, loop=True)
             stems[lane] = (sL, sR)
 
     # stereo mix, kick kept aside so the duck breathes around it

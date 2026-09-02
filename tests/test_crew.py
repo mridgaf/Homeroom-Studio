@@ -208,3 +208,49 @@ def test_stamp_locks_but_drums_experiment(tmp_path, monkeypatch):
         assert all(src.values())
         picks.add(src["kick"])
     assert len(picks) > 1
+
+
+def test_the_low_end_ducks_the_same_depth_on_every_path():
+    """The sub's duck depth is decided in THREE places — the peak governor's
+    measuring envelope, the mix bus, and the stem written to disk. They must
+    all read it from `_lane_sc`.
+
+    Caught for real on 2026-09-02: the stem path was still ducking the low
+    end at the mix-wide depth while the governor measured it at the deeper
+    sub depth, so the governor read the sub as level with the kick and the
+    stem he actually opens arrived up to 1.5 dB OVER it. Measuring at a
+    point that is not where the sound comes out — the same class as the
+    shaker and the hardcoded release. A depth that differs by path is the
+    bug, so this asserts the rule at the OUTPUT, not the constant."""
+    import copy
+    import beat_machine as bm
+
+    # Cutz specifically: with the stem path ducking shallow it measured
+    # +1.5 dB over the kick, the worst of the twelve. Otto Grit does NOT
+    # work here — its sub sat at -0.0 either way, so a test built on it
+    # passed against the broken code and proved nothing.
+    p = copy.deepcopy(CREW["Cutz"])
+    p["sidechain"] = 0.2                       # the shallow mix-wide depth
+    p["sub_sidechain"] = bm.SUB_DUCK_DEFAULT   # the deep one, 5 dB
+    assert p["sub_sidechain"] > p["sidechain"], "fixture proves nothing"
+
+    kpan, kgain, (ko, kj, ksw, ks), kbars = p["lanes"]["kick"]
+    note, sub_audio = bm._root_sub(p["num"])
+    p["lanes"]["sub"] = (0.0, 0.7, (0, 0, ksw, ks + 7), list(kbars))
+
+    shots = crew.build_shots()
+    stamps = crew.lock_stamps(shots)
+    kit, _ = crew.build_kit(shots, "Cutz", stamps["Cutz"][1], 0)
+    kit = dict(kit)
+    kit["sub"] = sub_audio
+
+    _L, _R, _got, parts = render_crew_beat("Cutz", kit, preset=p,
+                                           want_parts=True)
+    pk = {}
+    for lane in ("kick", "sub"):
+        sL, sR = parts["stems"][lane]
+        pk[lane] = float(max(np.abs(sL).max(), np.abs(sR).max()))
+    assert pk["kick"] > 0 and pk["sub"] > 0, "no lane to measure"
+    over_db = 20 * np.log10(pk["sub"] / pk["kick"])
+    assert over_db <= 0.05, (
+        "kick stays on top: sub is %+.2f dB over it in the STEM" % over_db)
