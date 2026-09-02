@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sound Engine</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>Sound Engine</h1>
+    <p class="sub">Drag in a sound. Turn a knob while it plays. Export a new file — the original never changes.</p>
+  </header>
+
+  <main>
+    <section id="dropzone" class="dropzone">
+      <p>Drop an audio file here, or</p>
+      <label class="btn">
+        Choose a file
+        <input type="file" id="fileInput" accept="audio/*" hidden>
+      </label>
+      <button id="browseBeatsBtn" class="btn">Browse your beats</button>
+      <p class="hint">WAV, MP3, M4A, AIFF, FLAC — most audio formats work.</p>
+    </section>
+
+    <div id="beatPickerModal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>Pick a beat</h2>
+          <button id="beatPickerClose" class="btn">Close</button>
+        </div>
+        <p id="beatPickerWarning" class="meta hidden"></p>
+        <div id="beatPickerList" class="beatList"></div>
+      </div>
+    </div>
+
+    <section id="workspace" class="workspace hidden">
+      <div class="filebar">
+        <span id="fileName">—</span>
+        <span id="fileMeta" class="meta"></span>
+      </div>
+
+      <div class="transport">
+        <button id="playBtn" class="btn primary">▶ Play</button>
+        <button id="stopBtn" class="btn">■ Stop</button>
+        <label class="loopToggle">
+          <input type="checkbox" id="loopToggle"> Loop
+        </label>
+        <label class="loopToggle">
+          <input type="checkbox" id="bypassToggle"> Bypass (A/B)
+        </label>
+        <span id="playStatus" class="meta"></span>
+      </div>
+
+      <div class="mixer">
+        <div id="channelList" class="channelList"></div>
+
+        <div class="channelRack">
+          <h2 id="channelRackTitle">—</h2>
+
+          <div class="panel">
+            <h2>EQ — live, moves while it plays</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="lowDb">Low <span id="lowDbVal">0.0</span> dB</label>
+                <input type="range" id="lowDb" min="-18" max="18" step="0.5" value="0">
+                <label for="lowHz" class="freq">@ <span id="lowHzVal">120</span> Hz shelf</label>
+                <input type="range" id="lowHz" min="40" max="400" step="5" value="120">
+              </div>
+              <div class="knob">
+                <label for="midDb">Mid <span id="midDbVal">0.0</span> dB</label>
+                <input type="range" id="midDb" min="-18" max="18" step="0.5" value="0">
+                <label for="midHz" class="freq">@ <span id="midHzVal">800</span> Hz bell</label>
+                <input type="range" id="midHz" min="200" max="4000" step="20" value="800">
+                <label for="midQ" class="freq">Q <span id="midQVal">0.9</span></label>
+                <input type="range" id="midQ" min="0.2" max="4" step="0.1" value="0.9">
+              </div>
+              <div class="knob">
+                <label for="highDb">High <span id="highDbVal">0.0</span> dB</label>
+                <input type="range" id="highDb" min="-18" max="18" step="0.5" value="0">
+                <label for="highHz" class="freq">@ <span id="highHzVal">8000</span> Hz shelf</label>
+                <input type="range" id="highHz" min="2000" max="16000" step="100" value="8000">
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Compressor</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="compThreshold">Threshold <span id="compThresholdVal">-24</span> dB</label>
+                <input type="range" id="compThreshold" min="-60" max="0" step="1" value="-24">
+              </div>
+              <div class="knob">
+                <label for="compRatio">Ratio <span id="compRatioVal">1.0</span>:1</label>
+                <input type="range" id="compRatio" min="1" max="20" step="0.5" value="1">
+                <span class="freq">1 = off</span>
+              </div>
+              <div class="knob">
+                <label for="compAttack">Attack <span id="compAttackVal">12</span> ms</label>
+                <input type="range" id="compAttack" min="1" max="200" step="1" value="12">
+              </div>
+              <div class="knob">
+                <label for="compRelease">Release <span id="compReleaseVal">180</span> ms</label>
+                <input type="range" id="compRelease" min="20" max="1000" step="10" value="180">
+              </div>
+              <div class="knob">
+                <label for="compMakeup">Makeup <span id="compMakeupVal">0</span> dB</label>
+                <input type="range" id="compMakeup" min="0" max="24" step="0.5" value="0">
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Saturation</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="satDrive">Drive <span id="satDriveVal">6</span> dB</label>
+                <input type="range" id="satDrive" min="0" max="24" step="0.5" value="6">
+              </div>
+              <div class="knob">
+                <label for="satMix">Mix <span id="satMixVal">0</span>%</label>
+                <input type="range" id="satMix" min="0" max="100" step="1" value="0">
+                <span class="freq">0 = off</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Reverb</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="revSize">Size <span id="revSizeVal">2.0</span> s</label>
+                <input type="range" id="revSize" min="0.2" max="6" step="0.1" value="2.0">
+              </div>
+              <div class="knob">
+                <label for="revDamping">Damping <span id="revDampingVal">0.5</span></label>
+                <input type="range" id="revDamping" min="0" max="1" step="0.05" value="0.5">
+                <span class="freq">0 = dark, 1 = bright</span>
+              </div>
+              <div class="knob">
+                <label for="revWidth">Width <span id="revWidthVal">1.0</span>x</label>
+                <!-- max 1.0, not 2.0: pedalboard's Reverb rejects width > 1.0,
+                     which made every export sync 400 silently -->
+                <input type="range" id="revWidth" min="0" max="1" step="0.05" value="1.0">
+              </div>
+              <div class="knob">
+                <label for="revWet">Wet <span id="revWetVal">0</span>%</label>
+                <input type="range" id="revWet" min="0" max="100" step="1" value="0">
+              </div>
+              <div class="knob">
+                <label for="revDry">Dry <span id="revDryVal">100</span>%</label>
+                <input type="range" id="revDry" min="0" max="100" step="1" value="100">
+              </div>
+              <div class="knob">
+                <label class="loopToggle"><input type="checkbox" id="revFreeze"> Freeze (infinite sustain)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Echo — repeats that wrap the loop</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="dlyGrid">Time</label>
+                <select id="dlyGrid">
+                  <option value="1">1/4 note</option>
+                  <option value="0.75">dotted 1/8</option>
+                  <option value="0.5" selected>1/8 note</option>
+                  <option value="0.25">1/16 note</option>
+                  <option value="0.3333333333">1/8 triplet</option>
+                  <option value="ms">free milliseconds</option>
+                </select>
+                <span class="freq" id="dlyGridInfo">at the beat's own tempo</span>
+              </div>
+              <div class="knob" id="dlyMsKnob" style="display:none">
+                <label for="dlyMs">Time <span id="dlyMsVal">250</span> ms</label>
+                <input type="range" id="dlyMs" min="10" max="4000" step="5" value="250">
+              </div>
+              <div class="knob">
+                <label for="dlyFeedback">Feedback <span id="dlyFeedbackVal">35</span>%</label>
+                <input type="range" id="dlyFeedback" min="0" max="90" step="1" value="35">
+                <span class="freq">how many times it repeats</span>
+              </div>
+              <div class="knob">
+                <label for="dlyMix">Mix <span id="dlyMixVal">0</span>%</label>
+                <input type="range" id="dlyMix" min="0" max="100" step="1" value="0">
+                <span class="freq">0 = off</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Beat Repeat — grab a slice and stutter it</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="brGrid">Grid</label>
+                <select id="brGrid">
+                  <option value="1">1/4 note</option>
+                  <option value="0.5" selected>1/8 note</option>
+                  <option value="0.25">1/16 note</option>
+                  <option value="0.3333333333">1/8 triplet</option>
+                  <option value="0.1666666667">1/16 triplet</option>
+                  <option value="ms">free milliseconds</option>
+                </select>
+                <span class="freq" id="brGridInfo">at the beat's own tempo</span>
+              </div>
+              <div class="knob" id="brMsKnob" style="display:none">
+                <label for="brMs">Slice <span id="brMsVal">125</span> ms</label>
+                <input type="range" id="brMs" min="10" max="1000" step="5" value="125">
+              </div>
+              <div class="knob">
+                <label for="brRepeats">Repeats <span id="brRepeatsVal">4</span>x</label>
+                <input type="range" id="brRepeats" min="1" max="16" step="1" value="4">
+              </div>
+              <div class="knob">
+                <label for="brChance">Chance <span id="brChanceVal">100</span>%</label>
+                <input type="range" id="brChance" min="0" max="100" step="1" value="100">
+                <span class="freq">how many slices get stuttered</span>
+              </div>
+              <div class="knob">
+                <label for="brMix">Mix <span id="brMixVal">0</span>%</label>
+                <input type="range" id="brMix" min="0" max="100" step="1" value="0">
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Convolve — run this channel through any sound</h2>
+            <div class="knobs">
+              <div class="knob">
+                <div id="convDrop" class="convDrop">Drop a sound here (a snare, a door slam, a voice)</div>
+                <span class="freq" id="convName">nothing loaded — this channel is untouched</span>
+              </div>
+              <div class="knob">
+                <label for="convMix">Mix <span id="convMixVal">0</span>%</label>
+                <!-- disabled until a sound is loaded: an empty ConvolverNode
+                     outputs silence, so a raised Mix would mute the channel -->
+                <input type="range" id="convMix" min="0" max="100" step="1" value="0" disabled>
+              </div>
+              <div class="knob">
+                <button id="convClear" class="btn" disabled>Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Stereo Width</h2>
+            <div class="knobs">
+              <div class="knob">
+                <label for="widthKnob">Width <span id="widthKnobVal">1.0</span>x</label>
+                <input type="range" id="widthKnob" min="0" max="2" step="0.05" value="1.0">
+                <span class="freq">0 = mono, 1 = unchanged, 2 = wide</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exportbar">
+        <button id="exportBtn" class="btn primary">Export mix as new file</button>
+        <span id="exportStatus" class="meta"></span>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

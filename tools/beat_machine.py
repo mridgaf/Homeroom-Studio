@@ -117,8 +117,14 @@ STATE = Path(os.path.expanduser("~/.reason_voice/beat_machine_state.json"))
 
 # roots the tuned 808 sub reaches for on traditional beats — low, in the
 # octave a hip-hop sub lives (Hz), a handful of common, musical keys
-ROOT_HZ = {"C": 32.70, "D": 36.71, "E": 41.20, "F": 43.65, "G": 49.00,
-           "A": 55.00, "Bb": 58.27}
+# All twelve, so a key detected by tools/reference_track.py ("F#") can be
+# looked up. Widened 2026-09-02; NOT a wider pool. The random fallback
+# picker below draws from key_context.SUB_ROOTS (the original seven, in the
+# original order) — picking from this dict instead would re-tune the sub
+# under every traditional beat already on disk.
+ROOT_HZ = {"C": 32.70, "C#": 34.65, "D": 36.71, "D#": 38.89, "E": 41.20,
+           "F": 43.65, "F#": 46.25, "G": 49.00, "G#": 51.91, "A": 55.00,
+           "Bb": 58.27, "B": 61.74}
 
 # Random beat titles, two words, in each character's voice. The picker
 # retries until the title isn't already on a file anywhere in the folder.
@@ -1099,7 +1105,8 @@ def _root_sub(variant, secs=0.6):
     traditional beats — a real synthesized sub on a chosen musical root,
     so the kick has a low note under it. Deterministic per beat; returns
     (note name, mono audio)."""
-    note = random.Random(variant * 13 + 7).choice(list(ROOT_HZ))
+    from key_context import SUB_ROOTS
+    note = random.Random(variant * 13 + 7).choice(list(SUB_ROOTS))
     return note, sub808(ROOT_HZ[note], secs)
 
 

@@ -9,3 +9,7 @@ fastapi>=0.110
 uvicorn>=0.30
 websockets>=12
 pytest>=8.0
+pedalboard>=0.9
+scipy>=1.13
+soxr>=1.1
+python-multipart>=0.0.20

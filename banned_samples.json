@@ -1,3 +1,21 @@
-[
- "Bang boom Pow"
-]
+{
+ "names": [
+  "Bang boom Pow",
+  "Johnny Stomp"
+ ],
+ "stems": [],
+ "sounds": [
+  {
+   "name": "Gun Stomp",
+   "path": "/Volumes/TBOTC 3/DAW Projects/Sample Packs - Downloads Backup/reddit drum kits 2023/Kicks/Stomps/Gun Stomp.wav",
+   "fp": "9e32246860a534e9126e98f1f2d568a6fe7ec64f",
+   "when": "2026-09-01"
+  },
+  {
+   "name": "Cymatics - Adrenaline Clap",
+   "path": "/Volumes/TBOTC 3/Sample Packs/2022 sample packs/Cymatics - Trap Starter Pack/Claps/Cymatics - Adrenaline Clap.wav",
+   "fp": "72e5ca9fd49864d638bebdec1a955bf2fdcdfa5f",
+   "when": "2026-09-01"
+  }
+ ]
+}

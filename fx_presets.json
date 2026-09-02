@@ -1,0 +1,256 @@
+{
+  "_readme": [
+    "Per-DJ effect settings for the Sound Engine (step 7, 2026-09-01).",
+    "",
+    "When a beat is opened in the Sound Engine, the DJ's entry here decides",
+    "where every channel's knobs START. Nothing is printed at make time and",
+    "no beat file changes — this only pre-sets the rack so a beat arrives",
+    "sounding like its DJ instead of arriving flat. Every knob is still",
+    "yours to move, and Export writes a new file as it always has.",
+    "",
+    "ROUND 2, 2026-09-01: the owner heard round 1 and said 'not enough",
+    "effects'. Measured, he was right — level-matched, the FX version",
+    "differed from the flat one by only -33 dB (Glass Cat) to -10 dB (Rage",
+    "Engine). Two things changed. Saturation, echo and stutter all came up",
+    "by roughly half again. And REVERB and the MID EQ BAND, which the rack",
+    "has always had and which no preset had ever switched on, are now in",
+    "play — that absence, not the numbers, is most of why it read as thin.",
+    "Convolution (conv_mix) is still deliberately unused: it needs an",
+    "impulse-response file dropped in by hand, so there is nothing to",
+    "pre-set it to.",
+    "",
+    "HOW A LANE IS MATCHED: a stem is named '<lane> - <sample name>', so",
+    "'chord0 - piano stack ...' matches the 'chord' entry. Trailing digits",
+    "are stripped (bass0/bass1/bass2 -> bass, chord0/1/2 -> chord).",
+    "",
+    "THE SUB IS NEVER TOUCHED. sub / bass / 808 / 'bass drum' lanes get no",
+    "effects at all, because the owner's mix rule treats the sub as the",
+    "kick's low end and leaves it alone. That list is _LOW_END in",
+    "tools/crew.py:107 — this is a deliberate copy, same as",
+    "sound_engine/library.py copies the beats-root lookup rather than",
+    "importing the whole beat stack. Keep them in sync.",
+    "",
+    "NOTE VALUES, NOT SECONDS: dly_note and br_note are fractions of a beat",
+    "(1 = 1/4 note, 0.5 = 1/8, 0.25 = 1/16, 0.75 = dotted 1/8). They are",
+    "turned into seconds against each beat's own tempo, so one setting works",
+    "at 88 bpm and at 150 bpm.",
+    "",
+    "REVERB IS A PARALLEL SEND, so reverb_dry is ALWAYS 1.0 here and is",
+    "never omitted. The browser's Dry slider defaults to 100% while the",
+    "server defaults reverb_dry to 1 - reverb_mix; leave it out and the two",
+    "disagree about the dry level, so what plays is not what exports.",
+    "Setting it explicitly makes both sides say the same thing.",
+    "",
+    "EVERY VALUE SITS ON ITS SLIDER'S STEP GRID. A range input snaps to its",
+    "step, the server does not, so an off-grid value (sat_drive_db 6.3 on a",
+    "0.5 step) plays as one number and exports as another. The rules:",
+    "  *_db and sat_drive_db  multiples of 0.5      mid_hz  multiples of 20",
+    "  reverb_size_s          multiples of 0.1      high_hz multiples of 100",
+    "  reverb_damping/width   multiples of 0.05     low_hz  multiples of 5",
+    "  every 0-1 mix/chance   2 decimals            comp_ratio multiples of 0.5",
+    "  reverb_width <= 1.0 (the slider's max)   dly_feedback <= 0.90",
+    "test_every_preset_value_sits_on_its_slider_step enforces this.",
+    "",
+    "WHERE THESE NUMBERS CAME FROM: derived from each DJ's existing",
+    "character data in crew_config.json (drive, dust, vinyl, kick_dist,",
+    "mix_sat, space, era, and the 'listen' line), NOT invented, then raised",
+    "in round 2 against the owner's verdict. Tuned by ear — see DECISIONS.md.",
+    "",
+    "Only four DJs are tuned so far: Otto Grit, Rage Engine, Glass Cat,",
+    "Night Metro. Everyone else falls through to _default. _default is no",
+    "longer a whisper — 36 personalities use it, and round 1 proved that a",
+    "deliberately gentle default just reads as broken.",
+    "",
+    "_default._other is the last resort for any lane nobody listed — reversefx, woods, vox, blips, claves, timbales, sirens and the rest, so nothing sits bone dry beside a processed channel. The sub is still never reached: the low-end guard runs before any of this."
+  ],
+  "_default": {
+    "_notes": "Modest but real. A DJ with no entry should sound finished, not flat — round 1's barely-there default is what made most of the roster sound like the effects were broken.",
+    "kick": {
+      "sat_drive_db": 6.0, "sat_mix": 0.18,
+      "low_db": 1.0
+    },
+    "snare": {
+      "sat_drive_db": 6.0, "sat_mix": 0.20,
+      "reverb_size_s": 1.5, "reverb_damping": 0.60, "reverb_width": 1.00,
+      "reverb_mix": 0.08, "reverb_dry": 1.00
+    },
+    "clap": {
+      "sat_drive_db": 6.0, "sat_mix": 0.20,
+      "reverb_size_s": 1.5, "reverb_damping": 0.60, "reverb_width": 1.00,
+      "reverb_mix": 0.08, "reverb_dry": 1.00
+    },
+    "hat": {
+      "sat_drive_db": 4.5, "sat_mix": 0.14,
+      "high_db": 0.5
+    },
+    "stamp": {
+      "sat_drive_db": 6.0, "sat_mix": 0.18,
+      "dly_note": 0.5, "dly_feedback": 0.25, "dly_mix": 0.14,
+      "reverb_size_s": 1.5, "reverb_damping": 0.60, "reverb_width": 1.00,
+      "reverb_mix": 0.10, "reverb_dry": 1.00
+    },
+    "chord": {
+      "sat_drive_db": 4.5, "sat_mix": 0.15,
+      "reverb_size_s": 1.5, "reverb_damping": 0.60, "reverb_width": 1.00,
+      "reverb_mix": 0.08, "reverb_dry": 1.00
+    },
+    "_other": {
+      "sat_drive_db": 4.0, "sat_mix": 0.12,
+      "reverb_size_s": 1.5, "reverb_damping": 0.60, "reverb_width": 1.00,
+      "reverb_mix": 0.06, "reverb_dry": 1.00
+    }
+  },
+  "Otto Grit": {
+    "_notes": "90s boom-bap, dust 0.5 + vinyl -42 + drive 1.35. Warm and dirty, top rolled off like an SP-1200, in a small dark room — short reverb with the damping right up, so it is a room and not a wash. Hats are dead straight per the listen line, so NO stutter; they get a short echo instead. The chord scoop is the SP mid dip.",
+    "kick": {
+      "sat_drive_db": 9.0, "sat_mix": 0.45,
+      "low_db": 1.5, "high_db": -2.0
+    },
+    "snare": {
+      "sat_drive_db": 8.5, "sat_mix": 0.42,
+      "high_db": -1.5,
+      "dly_note": 0.75, "dly_feedback": 0.28, "dly_mix": 0.18,
+      "reverb_size_s": 1.2, "reverb_damping": 0.75, "reverb_width": 1.00,
+      "reverb_mix": 0.16, "reverb_dry": 1.00
+    },
+    "clap": {
+      "sat_drive_db": 8.5, "sat_mix": 0.42,
+      "high_db": -1.5,
+      "reverb_size_s": 1.2, "reverb_damping": 0.75, "reverb_width": 1.00,
+      "reverb_mix": 0.16, "reverb_dry": 1.00
+    },
+    "hat": {
+      "sat_drive_db": 6.0, "sat_mix": 0.32,
+      "high_db": -2.5,
+      "dly_note": 0.5, "dly_feedback": 0.20, "dly_mix": 0.12
+    },
+    "stamp": {
+      "sat_drive_db": 8.0, "sat_mix": 0.40,
+      "dly_note": 0.5, "dly_feedback": 0.35, "dly_mix": 0.28,
+      "reverb_size_s": 1.4, "reverb_damping": 0.70, "reverb_width": 1.00,
+      "reverb_mix": 0.20, "reverb_dry": 1.00
+    },
+    "chord": {
+      "sat_drive_db": 6.0, "sat_mix": 0.28,
+      "high_db": -2.0, "mid_db": -2.5, "mid_hz": 900, "mid_q": 0.9,
+      "reverb_size_s": 1.2, "reverb_damping": 0.75, "reverb_width": 1.00,
+      "reverb_mix": 0.14, "reverb_dry": 1.00
+    }
+  },
+  "Rage Engine": {
+    "_notes": "150 bpm, kick_dist 6.0 and mix_sat 4.0 already in his config — the most aggressive DJ on the roster, and the loudest entry here. Wall-to-wall 32nd hat rolls is his signature, so the stutter reinforces what he already does. Reverb is a SHORT BRIGHT PLATE, low damping, so it adds crack and not size — a long tail at 150 bpm would just smear.",
+    "kick": {
+      "sat_drive_db": 13.0, "sat_mix": 0.62,
+      "low_db": 2.0,
+      "comp_ratio": 3.0, "comp_threshold_db": -18.0
+    },
+    "snare": {
+      "sat_drive_db": 12.0, "sat_mix": 0.60,
+      "high_db": 2.0, "mid_db": 2.0, "mid_hz": 1200, "mid_q": 0.9,
+      "dly_note": 0.25, "dly_feedback": 0.30, "dly_mix": 0.20,
+      "comp_ratio": 2.5, "comp_threshold_db": -20.0,
+      "reverb_size_s": 0.8, "reverb_damping": 0.25, "reverb_width": 1.00,
+      "reverb_mix": 0.18, "reverb_dry": 1.00
+    },
+    "clap": {
+      "sat_drive_db": 11.0, "sat_mix": 0.55,
+      "high_db": 1.5, "width": 1.25,
+      "dly_note": 0.25, "dly_feedback": 0.25, "dly_mix": 0.16,
+      "reverb_size_s": 0.8, "reverb_damping": 0.25, "reverb_width": 1.00,
+      "reverb_mix": 0.18, "reverb_dry": 1.00
+    },
+    "hat": {
+      "sat_drive_db": 9.0, "sat_mix": 0.45,
+      "high_db": 2.5,
+      "br_note": 0.25, "br_repeats": 4, "br_chance": 0.55, "br_mix": 0.65
+    },
+    "stamp": {
+      "sat_drive_db": 10.0, "sat_mix": 0.50,
+      "dly_note": 0.25, "dly_feedback": 0.40, "dly_mix": 0.26,
+      "reverb_size_s": 0.8, "reverb_damping": 0.25, "reverb_width": 1.00,
+      "reverb_mix": 0.20, "reverb_dry": 1.00
+    },
+    "chord": {
+      "sat_drive_db": 8.0, "sat_mix": 0.35,
+      "high_db": 1.0, "mid_db": 1.5, "mid_hz": 1000, "mid_q": 0.9,
+      "reverb_size_s": 0.8, "reverb_damping": 0.25, "reverb_width": 1.00,
+      "reverb_mix": 0.14, "reverb_dry": 1.00
+    }
+  },
+  "Glass Cat": {
+    "_notes": "Documented 'minimal and dry', zero dust, zero distortion, alt is literally dry. Still the quietest entry here by design — round 2 raised him from inaudible to clearly doing something, NOT to loud. If he still reads as the restrained one beside the other three, that is correct. Small clean room, no stutter.",
+    "kick": {
+      "sat_drive_db": 4.0, "sat_mix": 0.14
+    },
+    "snare": {
+      "sat_drive_db": 4.5, "sat_mix": 0.16,
+      "high_db": 1.0,
+      "reverb_size_s": 1.0, "reverb_damping": 0.55, "reverb_width": 1.00,
+      "reverb_mix": 0.10, "reverb_dry": 1.00
+    },
+    "clap": {
+      "sat_drive_db": 4.0, "sat_mix": 0.14,
+      "width": 1.15,
+      "dly_note": 0.5, "dly_feedback": 0.18, "dly_mix": 0.12,
+      "reverb_size_s": 1.0, "reverb_damping": 0.55, "reverb_width": 1.00,
+      "reverb_mix": 0.10, "reverb_dry": 1.00
+    },
+    "snap": {
+      "sat_drive_db": 4.0, "sat_mix": 0.14,
+      "dly_note": 0.5, "dly_feedback": 0.20, "dly_mix": 0.16,
+      "reverb_size_s": 1.0, "reverb_damping": 0.55, "reverb_width": 1.00,
+      "reverb_mix": 0.12, "reverb_dry": 1.00
+    },
+    "hat": {
+      "sat_drive_db": 3.0, "sat_mix": 0.10
+    },
+    "stamp": {
+      "sat_drive_db": 4.0, "sat_mix": 0.14,
+      "reverb_size_s": 1.0, "reverb_damping": 0.55, "reverb_width": 1.00,
+      "reverb_mix": 0.10, "reverb_dry": 1.00
+    },
+    "chord": {
+      "sat_drive_db": 3.5, "sat_mix": 0.12,
+      "reverb_size_s": 1.0, "reverb_damping": 0.55, "reverb_width": 1.00,
+      "reverb_mix": 0.10, "reverb_dry": 1.00
+    }
+  },
+  "Night Metro": {
+    "_notes": "Dark halftime at 140, kick_dist 5.0, drive 1.5, gated clap. Top end pulled down everywhere for the dark part. This is the LONG reverb on the roster — 4.5 s with the damping low so the tail stays dark rather than bright; halftime leaves room for it that Rage Engine does not have. The stamp is a reversed cymbal so it gets the longest echo AND the wettest send. Hat rolls ramp into the snare, so a light stutter fits.",
+    "kick": {
+      "sat_drive_db": 11.0, "sat_mix": 0.50,
+      "low_db": 2.0, "high_db": -1.5
+    },
+    "snare": {
+      "sat_drive_db": 8.0, "sat_mix": 0.38,
+      "high_db": -1.5,
+      "reverb_size_s": 4.5, "reverb_damping": 0.40, "reverb_width": 1.00,
+      "reverb_mix": 0.26, "reverb_dry": 1.00
+    },
+    "clap": {
+      "sat_drive_db": 8.0, "sat_mix": 0.38,
+      "high_db": -1.0, "width": 1.20,
+      "dly_note": 0.5, "dly_feedback": 0.32, "dly_mix": 0.22,
+      "reverb_size_s": 4.5, "reverb_damping": 0.40, "reverb_width": 1.00,
+      "reverb_mix": 0.28, "reverb_dry": 1.00
+    },
+    "hat": {
+      "sat_drive_db": 7.0, "sat_mix": 0.32,
+      "high_db": -2.0,
+      "br_note": 0.25, "br_repeats": 3, "br_chance": 0.35, "br_mix": 0.50
+    },
+    "stamp": {
+      "sat_drive_db": 8.0, "sat_mix": 0.38,
+      "high_db": -1.5,
+      "dly_note": 0.75, "dly_feedback": 0.45, "dly_mix": 0.30,
+      "reverb_size_s": 4.5, "reverb_damping": 0.40, "reverb_width": 1.00,
+      "reverb_mix": 0.32, "reverb_dry": 1.00
+    },
+    "chord": {
+      "sat_drive_db": 6.0, "sat_mix": 0.28,
+      "high_db": -2.5, "mid_db": -2.0, "mid_hz": 700, "mid_q": 0.9,
+      "reverb_size_s": 4.5, "reverb_damping": 0.45, "reverb_width": 1.00,
+      "reverb_mix": 0.24, "reverb_dry": 1.00
+    }
+  }
+}
