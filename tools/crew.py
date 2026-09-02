@@ -31,6 +31,8 @@ import sys
 import zlib
 from pathlib import Path
 
+import inspect
+
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
@@ -77,7 +79,7 @@ PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 #
 # Everything here only ever ATTENUATES, so an identity that deliberately
 # tucks a lane away keeps it tucked away.
-PERC_UNDER_DB = -3.0      # EVERY drum that is not the kick or the snare
+PERC_UNDER_DB = -3.0      # the HAT TIER only: hat, clap, snap (2026-08-31)
 PUNCTUATION_UNDER_DB = -6.0   # crashes, impacts, risers — punctuation
 MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
 
@@ -113,7 +115,46 @@ PEAK_CEILING_DB = {
     # measured a 1.8 dB peak under the reference while snaps sat at 2.0.
     "chord": MELODIC_UNDER_DB,
     "bass": MELODIC_UNDER_DB,
+    # pattern_gen's crash role renders as lane "cymbals" and the fx lane
+    # "airs"; both were falling to the perc floor instead of punctuation.
+    "cymbals": PUNCTUATION_UNDER_DB,
+    "airs": PUNCTUATION_UNDER_DB,
 }
+
+# The backbeat COLOUR tier: the lanes his rule names as the thing everything
+# else sits under (owner 2026-08-31, "the hat is the ceiling"). These three
+# keep the old -3 floor; everything outside them takes a further cut.
+HAT_TIER = ("hat", "clap", "snap")
+EXTRA_CUT_DB = -3.0
+
+
+def _extra_cut():
+    """Clamped at the use site, not asserted in a test. "It only ever turns
+    things down" is his rule, so a positive EXTRA_CUT_DB must be structurally
+    unable to raise a ceiling rather than merely unlikely to be typed."""
+    return min(EXTRA_CUT_DB, 0.0)
+
+
+# The low end is exempt from the HAT ceiling, but not from everything. Owner
+# 2026-09-01, after the tuned root 808 came back on chords beats and measured
+# 5-10 dB OVER the kick: "kick stays on top". So it is capped level with the
+# reference -- it may match the kick, never beat it -- while still sitting
+# far above the hat, which is the part of the exemption that was the point.
+LOW_END_UNDER_DB = 0.0
+
+
+def sub_sidechain(preset):
+    """How deep the LOW END ducks under the kick.
+
+    Its own number since 2026-09-01: the mix-wide `sidechain` is ~2 dB,
+    which is right for hats and chords and inaudible on a sub sharing the
+    kick's octave. Falls back to the mix-wide depth when a preset predates
+    the split, so old saved recipes replay exactly as they were rendered.
+    A beat with the sidechain rolled OFF keeps the sub duck off too --
+    off means off."""
+    if preset.get("sidechain", 0) <= 0:
+        return 0.0
+    return preset.get("sub_sidechain", preset["sidechain"])
 # longest first, so "cowbell" is matched before "bell" would swallow it
 _PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
 
@@ -136,15 +177,25 @@ BACKBEAT_OVER_KICK_DB = 2.0
 
 
 def peak_ceiling_for(lane):
-    """dB below the kick/snare reference this lane may peak, or None for the
-    backbone itself. Anything not named falls to the perc floor — that is the
-    blanket rule, and the reason it is a default rather than a lookup."""
-    if lane.startswith(BACKBONE_LANES) or lane in _LOW_END:
+    """dB below the kick reference this lane may peak, or None for the
+    backbone itself. Anything not named falls to the perc floor MINUS the
+    extra cut — that is the blanket rule, and the reason it is a default
+    rather than a lookup.
+
+    This is only half the ceiling. The other half is MEASURED at render
+    time: nothing outside HAT_TIER may exceed the beat's actual hat, which
+    a fixed offset under the kick cannot express. See the clamp in
+    `render_crew_beat`."""
+    if lane.startswith(BACKBONE_LANES):
         return None
+    if lane in _LOW_END:
+        return LOW_END_UNDER_DB
+    if lane.startswith(HAT_TIER):
+        return PERC_UNDER_DB
     for pre in _PEAK_PREFIXES:
         if lane.startswith(pre):
-            return PEAK_CEILING_DB[pre]
-    return PERC_UNDER_DB
+            return PEAK_CEILING_DB[pre] + _extra_cut()
+    return PERC_UNDER_DB + _extra_cut()
 
 # How far the chord-bus governor may turn a lane DOWN (owner 2026-08-03).
 # 0.02 is -34 dB, enough for the loudest sample measured in his library with
@@ -1250,6 +1301,16 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         side = (wetL - wetR) * 0.5
         wet_side[lane] = wet_side.get(lane, 0.0) + side
 
+    # The low end ducks DEEPER than the rest of the mix (owner 2026-09-01).
+    # Defined out here, not inside the peak-governor block below: that block
+    # only runs on a beat that HAS a kick, and the duck call sites further
+    # down run on every beat.
+    _sub_sc = sub_sidechain(p)
+
+    def _lane_sc(ln):
+        """The duck depth this lane actually gets."""
+        return _sub_sc if ln in _LOW_END else p["sidechain"]
+
     # BACKBEAT BUS GOVERNOR (owner 2026-09-02). Was a one-way cap: "the
     # snare bus never out-powers the kick" (owner 2026-07-18), which is
     # still true below and still the hard rule — but it only ever turned
@@ -1393,16 +1454,40 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         # whether its loudest hit falls on a kick or between them. Left out
         # of the first two attempts and it was the whole of the residue:
         # three lanes on one beat sitting ~1 dB over their cap.
-        _duck_env = None
-        if p["sidechain"] > 0 and onsets.get("kick"):
-            _duck_env = np.ones(end)
-            _L = int(0.11 * 3 * SR)
-            _dip = 1 - p["sidechain"] * np.exp(-np.arange(_L) / (0.11 * SR))
+        # The release MUST be the one the real duck uses. It was hardcoded
+        # 0.11 here while `duck()` runs on its own default of 0.09
+        # (make_drum_beats.py) — a slower release measures a LOWER envelope,
+        # so every ducked lane read quieter here than it arrives in the
+        # stem and was let through above its cap. Measured leak: +0.14 dB at
+        # sidechain 0.2, +0.26 at the house 0.35, +0.65 at 0.7. Same class
+        # as the shaker: measuring at a point that is not where the sound
+        # comes out. Read from the function itself so they cannot drift.
+        _REL = inspect.signature(duck).parameters["rel"].default
+
+        def _mk_duck_env(depth):
+            """The envelope `duck()` will actually apply, at this depth.
+
+            Mirrors duck() exactly, INCLUDING the loop=True wrap — the
+            earlier version stopped at `end`, so a kick in the last ~270 ms
+            read unity at the start here while the real duck carried the dip
+            across the seam. Same class of bug as the hardcoded release."""
+            _L = int(_REL * 3 * SR)
+            g = np.ones(end + _L)
+            _dip = 1 - depth * np.exp(-np.arange(_L) / (_REL * SR))
             for _pos in onsets["kick"]:
-                _e = min(end, _pos + _L)
                 if _pos < end:
-                    _duck_env[_pos:_e] = np.minimum(_duck_env[_pos:_e],
-                                                    _dip[:_e - _pos])
+                    g[_pos:_pos + _L] = np.minimum(g[_pos:_pos + _L],
+                                                   _dip[:len(g) - _pos])
+            g[:_L] = np.minimum(g[:_L], g[end:])
+            return g[:end]
+
+        # The peak governor needs BOTH envelopes, or it misjudges the sub's
+        # level by the difference between the two depths.
+        _duck_envs = {}
+        if onsets.get("kick"):
+            for _d in {p["sidechain"], _sub_sc}:
+                if _d > 0:
+                    _duck_envs[_d] = _mk_duck_env(_d)
 
         def _panned_pk(ln):
             row = p["lanes"].get(ln)
@@ -1413,8 +1498,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             w = wet_side.get(ln)
             if w is not None:
                 eff = eff + np.abs(w)
-            if _duck_env is not None and ln != "kick":
-                eff = eff[:end] * _duck_env[:len(eff)]
+            _env = _duck_envs.get(_lane_sc(ln)) if ln != "kick" else None
+            if _env is not None:
+                eff = eff[:end] * _env[:len(eff)]
             return float(eff.max())
 
         kick_pk = _panned_pk("kick")
@@ -1464,10 +1550,34 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                     bufs[ln] = bufs[ln] * (b_cap / b_pk)
                     if ln in wet_side:
                         wet_side[ln] = wet_side[ln] * (b_cap / b_pk)
+        # THE HAT IS THE CEILING — the hat that is actually in this beat,
+        # not the number it is allowed to reach (owner 2026-08-31).
+        #
+        # This is the hard-rule failure the project has hit before: the rule
+        # shipped as a fixed offset under the kick, which only coincides with
+        # "under the hat" when the hat happens to sit exactly at its own cap.
+        # Whenever a hat sits lower — a quiet identity gain, or the duck
+        # pulling it down — everything else was still free to run up to the
+        # fixed number and come out ABOVE it. Measured over 19 beats with a
+        # hat lane, 5 broke his rule: cutfx +2.8 dB over the hat on Acid Rap
+        # Detroit, perc +1.9 on Detroit, an Otto Grit render with toms 11 dB
+        # over. So the ceiling has to be MEASURED.
+        #
+        # Measured as the loudest of whichever of hat/clap/snap this beat
+        # actually has — several identities have no hat at all and a clap
+        # carries the backbeat instead. With none of the three present there
+        # is no hat to be under, and only the kick-relative ceilings apply.
+        #
+        # This rides ON TOP of the kick anchor above, it does not replace it:
+        # a lane must clear BOTH its kick-relative ceiling and the hat.
+        tier_pk = max((_panned_pk(ln) for ln in bufs
+                       if ln.startswith(HAT_TIER)), default=0.0)
+        hat_cap = tier_pk * 10 ** (_extra_cut() / 20.0) if tier_pk > 0 else 0.0
+
         if ref_pk > 0:
             for ln in bufs:
                 head = peak_ceiling_for(ln)
-                if head is None:          # kick, snare, and the low end
+                if head is None:          # kick and snare: the reference
                     continue
                 # Measure the DRY LANE PLUS ITS REVERB TAIL. The cap used to
                 # read bufs[ln] alone, but wet_side[ln] is folded in later at
@@ -1479,6 +1589,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 # the stem rather than only inside this function.
                 pk = _panned_pk(ln)
                 cap = ref_pk * 10 ** (head / 20.0)
+                # The hat tier is exempt from the hat clamp — it IS the hat.
+                # ...and so is the low end, by his own words ("the sub / 808
+                # is left alone"). Its only ceiling is the kick, above.
+                if hat_cap > 0 and not ln.startswith(HAT_TIER) \
+                        and ln not in _LOW_END:
+                    cap = min(cap, hat_cap)
                 if pk > cap > 0:
                     bufs[ln] = bufs[ln] * (cap / pk)
                     w = wet_side.get(ln)
@@ -1511,6 +1627,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
 
     # stereo mix, kick kept aside so the duck breathes around it
     oL, oR = np.zeros(end), np.zeros(end)
+    # Three buses, not two: the low end takes its own, deeper duck.
+    bL, bR = np.zeros(end), np.zeros(end)
     kL, kR = np.zeros(end), np.zeros(end)
     for lane, (pan, *_rest) in p["lanes"].items():
         gl = np.cos((pan + 1) * np.pi / 4)
@@ -1521,15 +1639,23 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             kR += bufs[lane] * gr
             if sd is not None:
                 kL, kR = kL + sd, kR - sd
+        elif lane in _LOW_END:
+            bL += bufs[lane] * gl
+            bR += bufs[lane] * gr
+            if sd is not None:
+                bL, bR = bL + sd, bR - sd
         else:
             oL += bufs[lane] * gl
             oR += bufs[lane] * gr
             if sd is not None:
                 oL, oR = oL + sd, oR - sd
-    if p["sidechain"] > 0 and onsets.get("kick"):
-        oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
-                      loop=True)
-    L, R = kL + oL, kR + oR
+    if onsets.get("kick"):
+        if p["sidechain"] > 0:
+            oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
+                          loop=True)
+        if _sub_sc > 0:
+            bL, bR = duck(bL, bR, onsets["kick"], depth=_sub_sc, loop=True)
+    L, R = kL + oL + bL, kR + oR + bR
 
     if not clean and p["vinyl"]:
         L = L + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1)
