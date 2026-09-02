@@ -22,6 +22,28 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-02 Git tidy-up: three dead branches gone, sonic confirmed separate
+- Context: owner asked what was going on with GitHub and whether the other
+  branches should be committed, without disturbing that day's mono work.
+- Decision/change: deleted three branch labels whose commits were already
+  inside main (claude/washed-space, claude/funny-rubin-d90f6c,
+  autoresearch/crew-variety-2026-07-17). Added vox_plugin/JUCE/ (100 MB
+  third-party clone), .worktrees/ and sonic/ to .gitignore. sonic/ turned out
+  to ALREADY be its own git repo with its own .gitignore — committed its three
+  loose research .md files; it has no remote yet.
+- Blocked: could not push. `git push` fails with "could not read Username" —
+  the macOS keychain has no GitHub entry reachable from this shell, and `gh`
+  is not installed. main is 7 commits ahead of origin/main and
+  sound-engine-mixer (24 commits) exists ONLY on this laptop. Owner must push
+  from his own Terminal so the GUI login prompt can appear.
+- Reasoning: backing branches up is not the same as merging them. Pushing
+  sound-engine-mixer and never-guess-hooks into GitHub costs nothing and
+  removes the single-drive risk; merging them into main is a separate call
+  that was deliberately NOT made here.
+- Verify by: `git branch -vv` should show an origin/... next to every branch.
+- Status: open
+- Outcome: (pending owner running the push)
+
 ### 2026-09-02 The level cascade: the kick is the anchor, and the backbeat has a ceiling
 - Context: beats where the kick was 17-32 dB louder than everything else.
   Measured across all 52 library beats numbered 2100+, from the stems on
