@@ -22,6 +22,81 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-02 "washed" implemented as plate; snare ceiling confirmed at +2
+- Context: two leftovers from the level work. (a) Four genre presets declare
+  space=("washed", ...) — Houston Screw, Emo Hip Hop, Horror Rap, Plug — and
+  no reverb branch implemented that word, so it fell through to the dry path;
+  beat_machine LOCKS a genre to its declared space, so those four had never
+  had any space treatment on any beat across 24 shipped recipes, while their
+  own style notes say the opposite ("horrorcore is drowned"). (b) The
+  BACKBEAT_OVER_KICK_DB = 2.0 ceiling was a number I picked, not one he had
+  heard, and 5 of 9 audition beats were landing exactly on it.
+- Decision/change: washed now takes the plate branch with plate's own numbers
+  (0.9 / 6500 / 0.34), matching beat_machine.py:977, which has always mapped
+  the TYPED word washed -> plate. Same word, one meaning. The ceiling stays
+  at 2.0 — he compared 0 / +2 / +4 on two beats and picked +2, so no code
+  change; it is now a heard number rather than a chosen one.
+- Reasoning on the reverb numbers: reused plate's rather than inventing a
+  bigger bespoke "washed" reverb, because the typed word already meant plate
+  and a second set of numbers would make the same word mean two things.
+- Test: `test_a_washed_preset_gets_a_real_wet_space`, 4 params. It asserts
+  IDENTITY (washed render == plate render, and != dry render), not a width
+  threshold. A threshold is the wrong tool here and I tried it first: the
+  house ambience bed already puts air on these lanes, so on Houston Screw the
+  plate only buys 1.3 dB of side-vs-mid over the bed, and any threshold big
+  enough to be meaningful failed on it. All four fail on the pre-fix code.
+- Also swapped ("Plug", "washed", "clap", "room") out of
+  `test_a_lane_no_space_treated_still_gets_the_ambience_bed` for
+  ("Swish Beatz", "dry", "clap", "gated") — now that washed is a real space,
+  that case no longer exercised the bed at all.
+- Verify by: audition at `~/Desktop/Homeroom Washed + Snare Level 2026-09-02`.
+  Treated lane side-vs-mid on four re-rendered beats: 1593 -10.9 -> -5.7,
+  1605 -13.3 -> -7.8, 1618 -13.6 -> -7.7, 2180 (clap) -10.9 -> -5.5. The
+  snare-level folder rendered 2134 and 2130 at ceilings 0 / +2 / +4; all six
+  landed exactly on their ceiling, which confirms the ceiling and not the
+  3 dB target is what sets the backbeat on those beats.
+- Full suite 806 passed / 1 skipped.
+- Status: confirmed — heard and approved 2026-09-02: "Plus two for the snare.
+  Works. The reverb sounds good."
+- Commits: bd468cc (levels), c092476 (washed), on branch
+  claude/washed-space, which is claude/priceless-goodall-553e00 plus the
+  washed commit. NOTE: the main checkout at ~/Desktop/Homeroom Studio holds
+  claude/priceless-goodall-553e00, so this worktree could not check it out
+  and branched instead. Fast-forward that branch to pick washed up.
+
+### 2026-09-02 Audit: five effects exist in code but never reach a beat
+- Context: he asked, after the washed fix, whether anything else he has is
+  going unused. washed was exactly that shape — a named thing with no
+  implementation — so this checks the inverse: implementations with nothing
+  selecting them.
+- Findings, all verified by grepping every caller across tools/,
+  reason_voice/ and tests/:
+  * `hall` — a full reverb (1.8s / 2800 / 0.3) implemented in crew.py's
+    space branch, but NO preset declares it and beat_machine.py:2193 rolls
+    only ["gated","dry","room","plate"]. Unreachable. Same bug shape as
+    washed, and the cheapest to fix: one line in that roll.
+  * `haas` (groove.py) — widens hats/perc with a delayed opposite side.
+    Defined and unit-tested; zero callers.
+  * `transient_shape` — sharpens or softens attacks using known onsets.
+    Defined and unit-tested; zero callers.
+  * `kick_layer` — frequency-split kick layering with numeric phase
+    verification. Defined and unit-tested; zero callers.
+  * `ratchet_times` — m sub-hits across one step with a rising velocity
+    ramp (rolls/stutters). Defined and unit-tested; zero callers.
+  These four are unfinished features, not bugs: the tool was written and
+  never wired to a drummer.
+- Also dead but NOT missing sound: OWNER_TASTE keys `dilla_snare`,
+  `sidechain_prob` and `snare_space` are read by nothing except a test that
+  asserts each constant equals itself. Each duplicates a decision that is now
+  made per-DJ (sidechain depth is a per-preset field; the early-snare feel is
+  in the per-lane offsets; space is rolled per beat, which IS "vary").
+  Clutter to delete, not features to build.
+- Status: open — reported, nothing built. He was asked which to pick up and
+  the session ended before he answered.
+- Verify by: re-run the same greps; the counts should stay at zero callers
+  until someone wires one up.
+
+
 ### 2026-09-02 The level cascade: the kick is the anchor, and the backbeat has a ceiling
 - Context: beats where the kick was 17-32 dB louder than everything else.
   Measured across all 52 library beats numbered 2100+, from the stems on
