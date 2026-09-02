@@ -140,9 +140,12 @@ def test_no_live_lane_ships_in_mono(name, space):
 @pytest.mark.parametrize("name, space, lane, treated", [
     # the space THIS render rolled is dry, over a preset that declares gated
     ("Glass Cat", "dry", "snare", "gated"),
-    # a space string the reverb block does not implement at all — the four
-    # "washed" genre presets pass it straight through
-    ("Plug", "washed", "clap", "room"),
+    # the sibling backbeat lane: every preset's space list names exactly
+    # ONE of snare/clap, so the other one is never the DJ's call and the bed
+    # is all it will ever get. (This slot used to be ("Plug", "washed", ...)
+    # — a space string no branch implemented. washed is a real plate as of
+    # 2026-09-02, so that case no longer exercises the bed at all.)
+    ("Swish Beatz", "dry", "clap", "gated"),
 ])
 def test_a_lane_no_space_treated_still_gets_the_ambience_bed(
         name, space, lane, treated):
@@ -153,8 +156,7 @@ def test_a_lane_no_space_treated_still_gets_the_ambience_bed(
     beat_machine rolls gated/dry/room/plate per beat, 35% of them dry, and
     the dry branch treats nothing. So on a dry roll the DJ's snare or clap —
     the loudest lane in the beat after the kick — printed bit-identical L/R
-    and was excluded from the bed as well. Same hole for "washed", which no
-    branch implements.
+    and was excluded from the bed as well.
 
     Measured on the 48 beats rendered since the previous crew.py change: 9
     at or under the -22 dB S/M line, 8 of them dry rolls, worst -36.2 dB.
@@ -669,3 +671,44 @@ def test_no_backbeat_lane_peaks_over_the_kick():
         assert rel[lane] <= BACKBEAT_OVER_KICK_DB + 0.2, (
             "the %s peaks %.1f dB over the kick (ceiling is %.1f)"
             % (lane, rel[lane], BACKBEAT_OVER_KICK_DB))
+
+
+# ------------------------------------------- "washed" (owner 2026-09-02)
+
+@pytest.mark.parametrize("name", ["Houston Screw", "Emo Hip Hop",
+                                  "Horror Rap", "Plug"])
+def test_a_washed_preset_gets_a_real_wet_space(name):
+    """Four genre presets declare space=("washed", ...) and no reverb branch
+    implemented that word, so the string fell through to the "dry" path.
+    beat_machine LOCKS a genre to its declared space, so these four never had
+    any space treatment on any beat — 24 shipped recipes rolled it — while
+    their own style notes say the opposite ("horrorcore is drowned").
+
+    washed is now the plate branch, matching beat_machine.py:977, which has
+    always mapped the TYPED word washed -> plate. The same word had been
+    meaning two different things depending on who said it.
+
+    The assertion is that identity, not a width threshold. A threshold is the
+    wrong tool here: the house ambience bed already puts air on these lanes,
+    so on Houston Screw the plate only buys 1.3 dB of side-vs-mid over the
+    bed and any number big enough to be meaningful would fail on it. Equality
+    with plate is exactly what the change claims, and inequality with dry is
+    exactly what was broken."""
+    p = CREW[name]
+    lane = p["space"][1][0]
+    kit = _tone_kit(p)
+
+    def stem(space):
+        _, _, _, parts = render_crew_beat(name, kit, space=space,
+                                          want_parts=True)
+        return parts["stems"][lane]
+
+    washed, plate, dry = stem("washed"), stem("plate"), stem("dry")
+    for ch in (0, 1):
+        assert np.allclose(washed[ch], plate[ch], atol=1e-12), (
+            "%s's %s renders differently under 'washed' than under 'plate' "
+            "— the two words are meant to be the same space" % (name, lane))
+    moved = max(np.abs(washed[ch] - dry[ch]).max() for ch in (0, 1))
+    assert moved > 1e-6, (
+        "%s's %s is bit-for-bit identical under 'washed' and 'dry' — the "
+        "washed branch is doing nothing at all" % (name, lane))

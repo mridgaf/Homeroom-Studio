@@ -1128,13 +1128,20 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 hold_ms=min(30000.0 / bpm, 350.0),
                 loop=True, stereo=True)
             treated.add(lane)
-        elif space in ("room", "plate", "hall"):
+        elif space in ("room", "plate", "hall", "washed"):
             # v6: every DJ can roll a wet space per beat — use the era
             # Alt params when the preset carries them, house defaults
             # otherwise
             defaults = {"room": (0.45, 3500, 0.32),
                         "plate": (0.9, 6500, 0.34),
-                        "hall": (1.8, 2800, 0.3)}
+                        "hall": (1.8, 2800, 0.3),
+                        # "washed" IS plate, deliberately the same numbers
+                        # rather than a new sound: beat_machine.py:977
+                        # already maps the typed word washed -> plate, so a
+                        # bigger bespoke reverb here would make the same word
+                        # mean two different things depending on whether he
+                        # typed it or a genre preset declared it.
+                        "washed": (0.9, 6500, 0.34)}
             alt = p.get("alt")
             decay, tone, wet = (alt[1] if alt and alt[0] == space
                                 and alt[1] else defaults[space])
@@ -1160,16 +1167,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             treated.add(lane)
         # "dry" leaves the lane alone, so it does NOT go in `treated`.
         #
-        # KNOWN GAP, not a decision: "washed" also lands here. Four genre
-        # presets declare space=("washed", ...) and beat_machine locks a
-        # genre to its declared space, so Houston Screw, Emo Hip Hop, Horror
-        # Rap and Plug have never had ANY space treatment — 24 shipped
-        # recipes rolled it. Their styles say the opposite ("horrorcore is
-        # drowned"). beat_machine already maps the TYPED word washed ->
-        # plate, so the fix is to add "washed" to the branch above with the
-        # plate params; it is left out here only because it changes how those
-        # four styles sound and that is the owner's call, not mine. Until
-        # then the bed below at least stops them printing mono.
+        # "washed" used to land here too, which was the bug (fixed
+        # 2026-09-02, owner's call). Four genre presets declare
+        # space=("washed", ...) and beat_machine locks a genre to its
+        # declared space, so Houston Screw, Emo Hip Hop, Horror Rap and Plug
+        # had never had ANY space treatment across 24 shipped recipes, while
+        # their own style notes say the opposite ("horrorcore is drowned").
+        # They now take the plate branch above.
 
     # ---- house ambience bed (owner standing rule, 2026-07-31) ----
     # "In order to have studio ready quality tracks I want you to be able to
@@ -1202,7 +1206,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # last crew.py change: 9 sat at or under the -22 dB S/M mono line, 8 of
     # them dry rolls, worst -36.2 dB, with the snare and clap stems
     # bit-identical L/R. The same hole swallowed the four "washed" genre
-    # presets, whose space string no branch above implements.
+    # presets, whose space string no branch above implemented until
+    # 2026-09-02; they take the plate branch now, but the bed still has to
+    # catch their sibling backbeat lane like everyone else's.
     already = treated
     dry_lows = {"kick", "bass", "sub"}
     # MONO BACKSTOP (owner 2026-08-01: "fix beat 1679"). The bed used to skip
@@ -1211,7 +1217,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # of them the same shape: a lane that NOTHING treated, excluded from the
     # bed anyway, printing bit-identical L/R.
     #   * a dry roll (35% of beats) over a preset that declares gated;
-    #   * a "washed" preset, a space string no branch above implements;
+    #   * a "washed" preset, a space string no branch above implemented
+    #     (fixed 2026-09-02 — washed is now plate);
     #   * the sibling backbeat lane on ANY beat — every DJ's space list names
     #     exactly one of snare/clap, so the other one was never treated and
     #     never bedded. Measured on 2105 (Mustang, gated): the snare sat
