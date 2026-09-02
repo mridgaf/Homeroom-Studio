@@ -22,6 +22,40 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-02 Pass 2: the hat ceiling and the sub duck, layered on the kick anchor
+- Context: never-guess-hooks (87 commits) and sound-engine-mixer (24) both
+  held beat-generator work and both conflicted with main in tools/crew.py.
+  Owner asked to land it without disturbing the 09-02 sound.
+- Decision/change: split into two passes. Pass 1 (c24d018) took only what
+  cannot change the mix — the Sound Engine app, reference_track, ban-by-
+  content, fx presets. Pass 2 (b47d60e) layered NGH's 08-31/09-01 level
+  work ON TOP of main's kick anchor rather than replacing it: main's
+  removal of ref_pk = min(kick_pk, snare_pk) STANDS, and a lane must now
+  clear both its kick-relative ceiling and the measured hat.
+  sound-engine-mixer was skipped entirely — NGH is a content superset.
+- Reasoning: the two branches encoded different answers to "what is the
+  reference." Rather than pick one, the kick anchor decides the base and
+  the hat clamp rides on top via min() — the order main already had.
+- A REAL BUG was found by measuring, not by a test (1208b07): pass 2 gave
+  the low end a deeper duck in the governor and the mix bus but left the
+  STEM path on the mix-wide depth, so the governor read the sub as level
+  with the kick while the stem carried it up to 1.5 dB over. Third
+  instance of this project's recurring failure — measuring at a point that
+  is not where the sound comes out. All three paths now read _lane_sc.
+- Verified (MEASURED, not heard): lanes above the hat 9 -> 0 across 39
+  identities, worst +17.4 dB -> 0. 808s above the kick 8/12 -> 0/12, worst
+  +5.4 -> 0. Overall loudness unchanged within 0.2 dB. 958 tests pass.
+  The regression test was rebuilt on Cutz after the first draft (Otto Grit)
+  passed against the broken code and proved nothing.
+- Still open: NOT AUDITIONED. Batch at ~/Desktop/Homeroom Hat Ceiling +
+  Sub Duck 2026-09-02. The crash on Emo Hip Hop dropped 17 dB and may now
+  be too polite. Also unmerged: land-pass-1 branch is not in main, and
+  groove.py engine_master=True (a different master chain) was deliberately
+  NOT taken from either branch.
+- Verify by: owner's ear on the audition batch.
+- Status: open
+- Outcome: (pending audition)
+
 ### 2026-09-02 Git housekeeping; NEXT UP: delay and EQ for the beat generator
 - Context: he said his GitHub did not look like it was saving properly and
   something seemed hung up. Both were true, and they were separate problems.
