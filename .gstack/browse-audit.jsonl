@@ -1,0 +1,10 @@
+{"ts":"2026-08-08T01:47:29.004Z","cmd":"goto","args":"http://127.0.0.1:8770/","origin":"http://127.0.0.1:8770/","durationMs":66,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:30.111Z","cmd":"console","args":"--clear","origin":"http://127.0.0.1:8770/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:30.182Z","cmd":"text","args":"","origin":"http://127.0.0.1:8770/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:36.479Z","cmd":"snapshot","args":"-i -s #tracklist","origin":"http://127.0.0.1:8770/","durationMs":42,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:46.775Z","cmd":"console","args":"--clear","origin":"http://127.0.0.1:8770/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:46.877Z","cmd":"click","args":"@e1","origin":"http://127.0.0.1:8770/","durationMs":35,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:48.982Z","cmd":"console","args":"","origin":"http://127.0.0.1:8770/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:49.050Z","cmd":"network","args":"","origin":"http://127.0.0.1:8770/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:47:55.602Z","cmd":"js","args":"(() => { const au = document.querySelector('.track audio'); return JSON.stringify({paused: au.paused, currentTime: au.currentTime, duration: au.duration, readyState: au.readyState, networkState: au.ne…","origin":"http://127.0.0.1:8770/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-08T01:48:11.937Z","cmd":"js","args":"(() => { const au = document.querySelector('.track audio'); return JSON.stringify({volume: au.volume, muted: au.muted, defaultMuted: au.defaultMuted}); })()","origin":"http://127.0.0.1:8770/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}

@@ -94,14 +94,126 @@ def test_dry_beats_are_still_narrower_than_wet_ones():
         "meaning anything"
 
 
-def test_the_low_end_stays_mono():
+@pytest.mark.parametrize("name, space", [
+    ("Glass Cat", "dry"),         # a dry roll over a preset that declares gated
+    ("Plug", "washed"),           # a space string no reverb branch implements
+    ("Swish Beatz", "gated"),     # wet roll: the space list names clap, not snare
+    ("Hitt Kid", "dry"),          # ...and the sibling is panned off centre
+    ("Acid Rap Bright", "room"),  # a genre locked to its own space
+    ("Baltimore Club", "dry"),    # a genre whose style locks it to dry
+])
+def test_no_live_lane_ships_in_mono(name, space):
+    """The invariant behind three separate bugs, all the same shape: a lane
+    that nothing treated, excluded from the house ambience bed anyway, and
+    printed with the two channels carrying the same signal.
+
+    This is the check the full-band side-vs-mid figure keeps missing. A
+    kick-dominated drums-only beat can read -25 dB and be fine (every audible
+    lane genuinely wide, the kick just 20 dB louder than all of them), while
+    a beat reading -21 dB can have its backbeat playing in mono.
+
+    THE METRIC IS CORRELATION, and two cheaper ones are wrong. array_equal
+    passes on the broken code: the constant-power pan's cos and sin differ in
+    the last bit, so L and R are never EXACTLY equal. A side-vs-mid floor is
+    worse than it looks — an untreated mono lane's side-vs-mid is a pure
+    function of its pan (dead centre -320 dB, pan 0.1 -22 dB, pan 0.35
+    -11 dB), so any fixed floor only catches lanes panned near centre and
+    waves through every mono lane panned wide. Correlation does not care
+    about the pan: a mono lane panned anywhere is 1.0 to the last bit, and
+    measured across the roster a real treated lane runs 0.67 to 0.96.
+
+    The kick and the low end are exempt and must STAY exempt — they are
+    deliberately centred (mono_below(120), and the bed skips them by name)."""
+    p = CREW[name]
+    _, _, _, parts = render_crew_beat(name, _tone_kit(p), space=space,
+                                      want_parts=True)
+    exempt = {"kick", "bass", "sub", "vinyl"}
+    dead = {ln: round(float(np.corrcoef(sL, sR)[0, 1]), 6)
+            for ln, (sL, sR) in parts["stems"].items()
+            if ln not in exempt and np.abs(sL).max() > 0
+            and float(np.corrcoef(sL, sR)[0, 1]) > 0.999}
+    assert not dead, (
+        f"{name} on a '{space}' render printed {dead} (L/R correlation) — "
+        "nothing treated those lanes and the ambience bed skipped them too.")
+
+
+@pytest.mark.parametrize("name, space, lane, treated", [
+    # the space THIS render rolled is dry, over a preset that declares gated
+    ("Glass Cat", "dry", "snare", "gated"),
+    # the sibling backbeat lane: every preset's space list names exactly
+    # ONE of snare/clap, so the other one is never the DJ's call and the bed
+    # is all it will ever get. (This slot used to be ("Plug", "washed", ...)
+    # — a space string no branch implemented. washed is a real plate as of
+    # 2026-09-02, so that case no longer exercises the bed at all.)
+    ("Swish Beatz", "dry", "clap", "gated"),
+])
+def test_a_lane_no_space_treated_still_gets_the_ambience_bed(
+        name, space, lane, treated):
+    """Owner 2026-09-01, "a fresh batch didn't have enough effects".
+
+    The house ambience bed skipped every lane in the preset's space list as
+    "already treated — the DJ's call". But the render's space is an ARGUMENT:
+    beat_machine rolls gated/dry/room/plate per beat, 35% of them dry, and
+    the dry branch treats nothing. So on a dry roll the DJ's snare or clap —
+    the loudest lane in the beat after the kick — printed bit-identical L/R
+    and was excluded from the bed as well.
+
+    Measured on the 48 beats rendered since the previous crew.py change: 9
+    at or under the -22 dB S/M line, 8 of them dry rolls, worst -36.2 dB.
+    On this synthetic kit the lane's own stem read -320 dB (that is exact
+    digital silence in the side channel) and now reads -11 to -12 dB.
+
+    The second half of the check matters as much as the first: a lane the
+    space DID treat must be untouched by this, or the fix has quietly
+    replaced the DJ's signature treatment with house air."""
+    p = CREW[name]
+    kit = _tone_kit(p)
+    _, _, _, parts = render_crew_beat(name, kit, space=space, want_parts=True)
+    sL, sR = parts["stems"][lane]
+    width = _side_vs_mid_db(sL, sR)
+    assert width > -22.0, (
+        f"{name}'s {lane} came out mono ({width:.1f} dB side-vs-mid) on a "
+        f"'{space}' render. Nothing treated it and the ambience bed skipped "
+        "it anyway.")
+
+    _, _, _, wet = render_crew_beat(name, kit, space=treated, want_parts=True)
+    wL, wR = wet["stems"][lane]
+    assert _side_vs_mid_db(wL, wR) > width, (
+        f"{name}'s {lane} is no wider under its real {treated} treatment "
+        "than under the house bed — the DJ's signature has been diluted.")
+
+
+@pytest.mark.parametrize("name, space", [("Otto Grit", "room"),
+                                        ("Farrow", "dry"),
+                                        ("Wonky", "room")])
+def test_the_low_end_stays_mono(name, space):
     """The real safety property when adding width anywhere: bass must stay
     centred. A widened low end loses punch and partially cancels on club
     systems and phone speakers. mono_below(120) enforces it; this proves it
     survived the 2026-07-31 ambience work, which deliberately skips kick,
-    the sampled 808 and the tuned sub for exactly this reason."""
-    name = "Otto Grit"
-    L, R, _ = render_crew_beat(name, _tone_kit(CREW[name]), space="room")
+    the sampled 808 and the tuned sub for exactly this reason.
+
+    The three cases are the roster's worst, not a comfortable sample.
+    Wonky/room is the single worst combination there is; Farrow/dry is the
+    one the widening work moved the most; Otto Grit/room is the original.
+
+    THE RULE IS NOW TRUE BY CONSTRUCTION, and that is the thing to protect.
+    Until 2026-09-02 mono_below(120) ran BEFORE master_to_lufs, which
+    soft-clips L and R separately — a non-linear stage on two channels that
+    differ regenerates side energy under the crossover, so the low end was
+    only mono until the very next thing that touched it. Every dB of width
+    a beat gained came back as a little more low-frequency side. Measured
+    over the roster on this synthetic kit: Wonky/room 0.067, Acid Rap
+    Detroit/room 0.054 and three others were breaching the 0.05 limit
+    BEFORE any of the 2026-09 work, and the backbeat governor pushed
+    Farrow/dry, Wonky/dry and No Alias/dry over as well.
+
+    Centring the bass last fixed all of it: the same cases now measure
+    0.00009 to 0.00029, roughly 170x inside the limit, and it cost 0.05 dB
+    of peak and 0.00 dB of loudness on real beats. So a failure here does
+    not mean "a bit too much width" — it means somebody moved mono_below
+    back up the chain, or put a new non-linear stage after it."""
+    L, R, _ = render_crew_beat(name, _tone_kit(CREW[name]), space=space)
     side = (L - R) / 2.0
     spec = np.abs(np.fft.rfft(side))
     freqs = np.fft.rfftfreq(len(side), 1.0 / SR)
@@ -401,3 +513,202 @@ def test_the_peak_ceiling_only_ever_turns_things_down():
     assert _db(cpk) - _db(kpk) < -20.0, (
         "a buried clap was pulled UP to %.1f dB under the kick"
         % (_db(kpk) - _db(cpk)))
+
+
+# ------------------------------------------ the level cascade (owner 2026-09-02)
+#
+# Four fixes went in together after the owner reported beats where the kick
+# was 17-32 dB louder than everything else. Measured across 16 beats before
+# and after, the backbeat's peak relative to the kick went from a 29.8 dB
+# spread (-22.8 to +7.0) to a 5.8 dB one (-3.8 to +2.0). One test each, and
+# each one fails on the code as it stood on 2026-09-01.
+#
+# All four use Swish Beatz because it is one of the seven identities that
+# TUCK A THIN SNARE UNDER A LOUD CLAP (snare gain 0.50, clap 0.90) — the
+# shape that broke the old anchor. An identity with a loud snare hides the
+# bug.
+
+_LEVEL_ID = "Swish Beatz"
+
+
+def _stem_peak(stems, lane):
+    return max(np.abs(stems[lane][0]).max(), np.abs(stems[lane][1]).max())
+
+
+def _stem_rms(stems, lane):
+    sL, sR = stems[lane]
+    return np.sqrt(np.mean(sL ** 2) + np.mean(sR ** 2))
+
+
+def _render_levels(kit_edit=None, name=_LEVEL_ID):
+    """Render the identity with a synthetic kit and hand back {lane: dB
+    relative to the kick's peak} plus the raw stems."""
+    p = CREW[name]
+    kit = _tone_kit(p)
+    if kit_edit is not None:
+        kit_edit(kit)
+    _L, _R, _lufs, parts = render_crew_beat(name, kit, preset=copy.deepcopy(p),
+                                            want_parts=True)
+    stems = parts["stems"]
+    kpk = _stem_peak(stems, "kick")
+    assert kpk > 0
+    rel = {ln: _db(_stem_peak(stems, ln)) - _db(kpk) for ln in stems}
+    return rel, stems
+
+
+def test_a_broken_snare_does_not_drag_the_whole_mix_down():
+    """The kick is the anchor. Nothing else gets to be.
+
+    Until 2026-09-02 every peak ceiling was measured against
+    `min(kick_pk, snare_pk)` — the QUIETER of the kick and the lane spelled
+    "snare". On the seven identities that tuck a thin snare under the clap
+    that reference was the support layer, not the backbeat: measured inside
+    render_crew_beat on beat 2164, kick -2.1, clap -0.9, snare -20.6, and
+    every colour lane was cut to sit under the -20.6. The clap lost 26.6 dB,
+    the hat 24.1, the bells 20.9. A kick with faint tapping behind it.
+
+    So: turn the snare down 26 dB and the REST of the mix must not move."""
+    normal, _ = _render_levels()
+    broken, _ = _render_levels(lambda kit: kit.__setitem__(
+        "snare", kit["snare"] * 0.05))
+    for lane in ("hat", "stamp", "clap"):
+        assert abs(normal[lane] - broken[lane]) < 1.5, (
+            "a 26 dB snare accident moved the %s by %.1f dB (%.1f -> %.1f "
+            "under the kick) — something other than the kick is anchoring "
+            "the mix" % (lane, normal[lane] - broken[lane],
+                         normal[lane], broken[lane]))
+    # and the mix is still a mix, not a kick solo
+    assert broken["hat"] > -14.0, (
+        "the hat is %.1f dB under the kick with a broken snare in the beat"
+        % broken["hat"])
+
+
+def test_the_backbeat_is_whichever_lane_carries_it():
+    """On a clap-led identity the CLAP is the backbeat and has to survive.
+
+    Same root cause as the test above, seen from the other side: the old
+    code treated the lane literally named "snare" as the backbeat, so on
+    Swish Beatz (snare 0.50, clap 0.90) the loud clap was measured against
+    the quiet snare and cut ~27 dB out of the beat. The backbeat family is
+    now snare AND clap together (SNARE_LIKE), governed as one bus."""
+    from groove import OWNER_TASTE
+    target = OWNER_TASTE["backbeat_bus_under_kick_db"]
+
+    rel, _ = _render_levels(lambda kit: kit.__setitem__(
+        "snare", kit["snare"] * 0.05))
+    assert rel["clap"] > -(target + 6.0), (
+        "the clap — this identity's backbeat — landed %.1f dB under the "
+        "kick while the beat's quiet snare lane was intact at whatever "
+        "level it happened to be" % rel["clap"])
+
+
+def test_the_backbeat_bus_is_governed_in_both_directions():
+    """Same governor the chord bus got on 2026-07-31, same reason.
+
+    Measured across 64 shipped beats the backbeat sat a median 3.8 dB under
+    the kick — right — with a 19.5 dB spread around it (15.7 under to 3.8
+    over), entirely from how loud the chosen samples happened to be. The old
+    code had a one-way cap ("the snare bus never out-powers the kick"), which
+    does nothing at all for the quiet half of that spread.
+
+    Includes the clamp: a hopeless sample must NOT be hauled all the way up,
+    for the same reason as the chord bus — it brings its noise floor."""
+    from groove import OWNER_TASTE
+    target = OWNER_TASTE["backbeat_bus_under_kick_db"]
+
+    def bus_under_kick(level):
+        def edit(kit):
+            for ln in ("snare", "clap"):
+                kit[ln] = kit[ln] / 0.5 * level
+        _rel, stems = _render_levels(edit)
+        bus = np.sqrt(sum(_stem_rms(stems, ln) ** 2
+                          for ln in stems
+                          if any(ln.startswith(s) for s in ("snare", "clap"))))
+        return _db(_stem_rms(stems, "kick")) - _db(bus)
+
+    quiet = bus_under_kick(0.15)
+    loud = bus_under_kick(1.0)
+    swing_in = 20 * np.log10(1.0 / 0.15)          # ~16.5 dB of input swing
+    assert abs(quiet - loud) < 3.0, (
+        "the backbeat bus is not governed: %.0f dB of input swing came "
+        "through as %.1f dB at the mix (%.1f vs %.1f under the kick)"
+        % (swing_in, abs(quiet - loud), quiet, loud))
+    for got in (quiet, loud):
+        assert abs(got - target) < 4.0, (
+            "backbeat bus landed %.1f dB under the kick, nowhere near the "
+            "%.0f dB target" % (got, target))
+
+    # the +12 dB boost clamp still holds
+    hopeless = bus_under_kick(0.02)
+    assert hopeless > target + 8.0, (
+        "a backbeat %.0f dB past the governor's reach was corrected anyway "
+        "(landed %.1f dB under the kick) — the boost clamp is not holding "
+        "and noise floors are being amplified into mixes"
+        % (20 * np.log10(0.5 / 0.02), hopeless))
+
+
+def test_no_backbeat_lane_peaks_over_the_kick():
+    """The backbeat never had a peak ceiling at all.
+
+    peak_ceiling_for() returns None for both BACKBONE_LANES, so the snare's
+    peak was measured against nothing: beat 2159's backbeat came out 9.9 dB
+    over the kick. The RMS governor above cannot catch this — a short spiky
+    hit has a big peak and almost no RMS, so it sails through.
+
+    Per-lane, not just the loudest one: capping only the loudest leaked on
+    2162, where the clap got pulled to +2 and then again to -3 as a clap,
+    leaving the untouched snare underneath as the loudest thing in the beat
+    at +5.4 over the kick."""
+    from crew import BACKBEAT_OVER_KICK_DB
+
+    def spike(kit):
+        t = np.arange(int(0.25 * SR)) / SR
+        # big peak, negligible RMS — invisible to the bus governor
+        kit["snare"] = np.sin(2 * np.pi * 900 * t) * np.exp(-t / 0.0008) * 4.0
+
+    rel, _ = _render_levels(spike)
+    for lane in ("snare", "clap"):
+        assert rel[lane] <= BACKBEAT_OVER_KICK_DB + 0.2, (
+            "the %s peaks %.1f dB over the kick (ceiling is %.1f)"
+            % (lane, rel[lane], BACKBEAT_OVER_KICK_DB))
+
+
+# ------------------------------------------- "washed" (owner 2026-09-02)
+
+@pytest.mark.parametrize("name", ["Houston Screw", "Emo Hip Hop",
+                                  "Horror Rap", "Plug"])
+def test_a_washed_preset_gets_a_real_wet_space(name):
+    """Four genre presets declare space=("washed", ...) and no reverb branch
+    implemented that word, so the string fell through to the "dry" path.
+    beat_machine LOCKS a genre to its declared space, so these four never had
+    any space treatment on any beat — 24 shipped recipes rolled it — while
+    their own style notes say the opposite ("horrorcore is drowned").
+
+    washed is now the plate branch, matching beat_machine.py:977, which has
+    always mapped the TYPED word washed -> plate. The same word had been
+    meaning two different things depending on who said it.
+
+    The assertion is that identity, not a width threshold. A threshold is the
+    wrong tool here: the house ambience bed already puts air on these lanes,
+    so on Houston Screw the plate only buys 1.3 dB of side-vs-mid over the
+    bed and any number big enough to be meaningful would fail on it. Equality
+    with plate is exactly what the change claims, and inequality with dry is
+    exactly what was broken."""
+    p = CREW[name]
+    lane = p["space"][1][0]
+    kit = _tone_kit(p)
+
+    def stem(space):
+        _, _, _, parts = render_crew_beat(name, kit, space=space,
+                                          want_parts=True)
+        return parts["stems"][lane]
+
+    washed, plate, dry = stem("washed"), stem("plate"), stem("dry")
+    for ch in (0, 1):
+        assert np.allclose(washed[ch], plate[ch], atol=1e-12), (
+            "%s's %s renders differently under 'washed' than under 'plate' "
+            "— the two words are meant to be the same space" % (name, lane))
+    moved = max(np.abs(washed[ch] - dry[ch]).max() for ch in (0, 1))
+    assert moved > 1e-6, (
+        "%s's %s is bit-for-bit identical under 'washed' and 'dry' — the "
+        "washed branch is doing nothing at all" % (name, lane))

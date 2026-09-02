@@ -22,6 +22,264 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-02 "washed" implemented as plate; snare ceiling confirmed at +2
+- Context: two leftovers from the level work. (a) Four genre presets declare
+  space=("washed", ...) — Houston Screw, Emo Hip Hop, Horror Rap, Plug — and
+  no reverb branch implemented that word, so it fell through to the dry path;
+  beat_machine LOCKS a genre to its declared space, so those four had never
+  had any space treatment on any beat across 24 shipped recipes, while their
+  own style notes say the opposite ("horrorcore is drowned"). (b) The
+  BACKBEAT_OVER_KICK_DB = 2.0 ceiling was a number I picked, not one he had
+  heard, and 5 of 9 audition beats were landing exactly on it.
+- Decision/change: washed now takes the plate branch with plate's own numbers
+  (0.9 / 6500 / 0.34), matching beat_machine.py:977, which has always mapped
+  the TYPED word washed -> plate. Same word, one meaning. The ceiling stays
+  at 2.0 — he compared 0 / +2 / +4 on two beats and picked +2, so no code
+  change; it is now a heard number rather than a chosen one.
+- Reasoning on the reverb numbers: reused plate's rather than inventing a
+  bigger bespoke "washed" reverb, because the typed word already meant plate
+  and a second set of numbers would make the same word mean two things.
+- Test: `test_a_washed_preset_gets_a_real_wet_space`, 4 params. It asserts
+  IDENTITY (washed render == plate render, and != dry render), not a width
+  threshold. A threshold is the wrong tool here and I tried it first: the
+  house ambience bed already puts air on these lanes, so on Houston Screw the
+  plate only buys 1.3 dB of side-vs-mid over the bed, and any threshold big
+  enough to be meaningful failed on it. All four fail on the pre-fix code.
+- Also swapped ("Plug", "washed", "clap", "room") out of
+  `test_a_lane_no_space_treated_still_gets_the_ambience_bed` for
+  ("Swish Beatz", "dry", "clap", "gated") — now that washed is a real space,
+  that case no longer exercised the bed at all.
+- Verify by: audition at `~/Desktop/Homeroom Washed + Snare Level 2026-09-02`.
+  Treated lane side-vs-mid on four re-rendered beats: 1593 -10.9 -> -5.7,
+  1605 -13.3 -> -7.8, 1618 -13.6 -> -7.7, 2180 (clap) -10.9 -> -5.5. The
+  snare-level folder rendered 2134 and 2130 at ceilings 0 / +2 / +4; all six
+  landed exactly on their ceiling, which confirms the ceiling and not the
+  3 dB target is what sets the backbeat on those beats.
+- Full suite 806 passed / 1 skipped.
+- Status: confirmed — heard and approved 2026-09-02: "Plus two for the snare.
+  Works. The reverb sounds good."
+- Commits: bd468cc (levels), c092476 (washed), on branch
+  claude/washed-space, which is claude/priceless-goodall-553e00 plus the
+  washed commit. NOTE: the main checkout at ~/Desktop/Homeroom Studio holds
+  claude/priceless-goodall-553e00, so this worktree could not check it out
+  and branched instead. Fast-forward that branch to pick washed up.
+
+### 2026-09-02 Audit: five effects exist in code but never reach a beat
+- Context: he asked, after the washed fix, whether anything else he has is
+  going unused. washed was exactly that shape — a named thing with no
+  implementation — so this checks the inverse: implementations with nothing
+  selecting them.
+- Findings, all verified by grepping every caller across tools/,
+  reason_voice/ and tests/:
+  * `hall` — a full reverb (1.8s / 2800 / 0.3) implemented in crew.py's
+    space branch, but NO preset declares it and beat_machine.py:2193 rolls
+    only ["gated","dry","room","plate"]. Unreachable. Same bug shape as
+    washed, and the cheapest to fix: one line in that roll.
+  * `haas` (groove.py) — widens hats/perc with a delayed opposite side.
+    Defined and unit-tested; zero callers.
+  * `transient_shape` — sharpens or softens attacks using known onsets.
+    Defined and unit-tested; zero callers.
+  * `kick_layer` — frequency-split kick layering with numeric phase
+    verification. Defined and unit-tested; zero callers.
+  * `ratchet_times` — m sub-hits across one step with a rising velocity
+    ramp (rolls/stutters). Defined and unit-tested; zero callers.
+  These four are unfinished features, not bugs: the tool was written and
+  never wired to a drummer.
+- Also dead but NOT missing sound: OWNER_TASTE keys `dilla_snare`,
+  `sidechain_prob` and `snare_space` are read by nothing except a test that
+  asserts each constant equals itself. Each duplicates a decision that is now
+  made per-DJ (sidechain depth is a per-preset field; the early-snare feel is
+  in the per-lane offsets; space is rolled per beat, which IS "vary").
+  Clutter to delete, not features to build.
+- Status: open — reported, nothing built. He was asked which to pick up and
+  the session ended before he answered.
+- Verify by: re-run the same greps; the counts should stay at zero callers
+  until someone wires one up.
+
+
+### 2026-09-02 The level cascade: the kick is the anchor, and the backbeat has a ceiling
+- Context: beats where the kick was 17-32 dB louder than everything else.
+  Measured across all 52 library beats numbered 2100+, from the stems on
+  the drive: the backbeat's peak against the kick's ran from 23.4 dB UNDER
+  to 13.9 dB OVER — a 37.2 dB spread. Flagged at the end of the 2026-09-01
+  entry as the likeliest remaining cause of "not enough effects".
+- Researched first, at his instruction, before touching anything. A measured
+  hip-hop/trap master: kick -19 LUFS / -5.1 dBTP, snare -19 LUFS / -3.6
+  dBTP (backbeat peaks 1.5 dB OVER the kick and is equal in loudness), hats
+  -25 LUFS / -8.0 dBTP. Consensus is kick and snare within ~2 dB, and
+  everything anchored to the kick.
+- Decision/change: four fixes, all in tools/crew.py unless noted.
+  1. `ref_pk = kick_pk`. Was `min(kick_pk, snare_pk)` — the QUIETER of the
+     kick and the lane literally named "snare". Seven of the thirteen
+     identities that carry both lanes tuck a thin snare UNDER a loud clap
+     (Kane East, Sunday Chop, Swish Beatz, Baltimore Club, Miami Bass,
+     Plug, Crunk: snare gain 0.50-0.70 against clap 0.78-0.92), so the
+     yardstick came out as the support layer. Measured inside the function
+     on 2164 before the ceiling ran: kick -2.1, clap -0.9, snare -20.6, and
+     the clap was then cut 26.6 dB, the hat 24.1, the bells 20.9.
+  2. The backbeat is the snare/clap family together (SNARE_LIKE), governed
+     as one bus in BOTH directions to OWNER_TASTE["backbeat_bus_under_kick_db"]
+     = 3.0 (new, tools/groove.py). Was a one-way cap ("never out-powers the
+     kick"), which does nothing for the quiet half of the spread. Boost
+     clamped at 4.0 (+12 dB) so a hopeless sample is not hauled up with its
+     noise floor; the cut is uncapped, so the 2026-07-18 rule now holds by
+     construction and the old separate backstop has nothing left to do.
+  3. BACKBEAT_OVER_KICK_DB = 2.0: no snare/clap lane may peak more than
+     2 dB over the kick. It had NO ceiling at all — peak_ceiling_for returns
+     None for both backbone lanes. Applied per-lane, not to the loudest
+     only: capping just the loudest leaked on 2162, where the clap got
+     pulled to +2 and then again to -3 as a clap, leaving the untouched
+     sibling snare as the loudest thing in the beat at +5.4.
+  4. `mono_below(120)` now runs AFTER `master_to_lufs`, not before. This is
+     the fix the 2026-09-01 entry left open for him. `master_to_lufs` runs
+     np.tanh per channel, which regenerates side energy below 85 Hz from
+     anything not yet centred, so the bass has to be centred last. Verified
+     across the roster: Wonky/room 0.067 -> 0.00029, Acid Rap Detroit/room
+     0.054 -> 0.00024, No Alias/dry 0.051 -> 0.00019, Farrow/dry 0.056 ->
+     0.00016, Otto Grit/room 0.023 -> 0.00009, against a 0.05 limit. Cost
+     0.05 dB of peak and 0.00 dB of loudness on real beats.
+- On his rules vs normal practice, since he asked directly: do NOT scrap
+  them. His -3 dB for percussion nearly matches the reference (-2.9). The
+  hierarchy is standard. Three things were genuinely wrong, and all three
+  are the fixes above: the "quieter of kick and snare" anchor (structural),
+  "snare never louder than the kick" (stricter than practice, and it
+  constrained loudness hard while leaving peaks unconstrained), and "claps
+  always quieter than the snare" (impossible on 7 of the 13 identities).
+- Tests: four new in tests/test_audio_quality.py, one per fix, each
+  measured to FAIL on the pre-fix code — a 26 dB snare accident moved the
+  hat 26.0 dB; a clap-led backbeat landed 39.5 dB under the kick; 16 dB of
+  input swing came through as 14.4 dB; the snare peaked +4.8 over the kick.
+  Full suite 802 passed / 1 skipped.
+- Verify by: audition set at `~/Desktop/Homeroom Levels 2026-09-02`
+  (1 BEFORE / 2 AFTER, 9 pairs, plain-language READ ME). BEFORE is the
+  working tree with exactly these four hunks reverted, so the already-
+  approved 2026-09-01 width fix is present on both sides and the comparison
+  isolates the levels. Across the nine: spread 36.8 dB -> 9.2 dB; worst
+  case 2166 Swish Beatz -22.9 -> -3.8 and 2130 Glass Cat +13.9 -> +2.0;
+  largest peak change on any beat 0.7 dB.
+- Status: confirmed — heard and approved 2026-09-02: "Auditions sound good."
+- OPEN, and told to him in the README rather than buried: five of the nine
+  land at EXACTLY +2.0, which is the ceiling, not the 3 dB target. The RMS
+  governor wants more level than the cap allows, so on those beats the cap
+  is what sets the backbeat. Consistent, which is the thing that was wrong
+  before, but not the same as right. Two beats that were already fine moved
+  UP (2153 +0.4, 2134 +3.7). Un-auditioned and un-decided: whether 3 dB
+  under is the right target, whether 2 dB over is the right ceiling, and
+  whether one number should serve all thirteen identities or each should
+  carry its own. I chose one number for everybody because it is the
+  simplest thing that closes the spread, not because I know it is right.
+- Also still untouched, flagged and deliberately left alone: tools/
+  make_experiments.py:159 and tools/make_ab_tests.py:73 carry the same
+  bass-before-loudness ordering fixed in (4), plus an older unfixed mono-IR
+  bug. Both are off the library render path.
+
+
+### 2026-09-01 The house ambience bed was skipping lanes nothing had treated
+- Context: `test_real_beats_are_not_mono_or_silent` failed on beat 2122.
+  Measuring the whole batch: 9 of the 48 beats rendered since the previous
+  crew.py change sat at or under the -22 dB S/M line, worst -36.2; widening
+  the scan to 2100-2199 makes it 12 of 68, and 2111/2112 measure -386 and
+  -388 dB, i.e. dead mono end to end. Owner had separately said a fresh
+  batch "didn't have enough effects" — a mono beat sounds small, so this is
+  probably part of what he heard.
+- ROOT CAUSE, one line, three symptoms. The house ambience bed skipped every
+  lane in `p["space"][1]` as "already treated — the DJ's call". But the space
+  a render uses is the ARGUMENT: beat_machine rolls gated/dry/room/plate per
+  beat at [0.35, 0.35, 0.2, 0.1] and passes it in. So the bed was answering a
+  different question from the one it meant to ask, and a lane nothing had
+  touched was excluded from the only thing that would have touched it:
+  * a **dry roll** over a preset that declares a wet space — the dry branch
+    is a no-op, 35% of beats;
+  * the four **"washed"** genre presets, a space string the reverb block does
+    not implement at all — and beat_machine LOCKS a genre to its declared
+    space, so Houston Screw, Emo Hip Hop, Horror Rap and Plug have never had
+    any space treatment on any beat (24 shipped recipes rolled it);
+  * the **sibling backbeat lane** on every beat, wet or dry — each DJ's space
+    list names exactly one of snare/clap, so the other was never treated and
+    never bedded. 2105 (Mustang, gated): the snare sat 3.6 dB under the kick
+    and printed in mono.
+- Decision/change: crew.py builds an explicit `treated` set inside the space
+  block and the bed uses that. The `widen_snare` gate that skipped the whole
+  snare/clap family was DELETED — the rule is now simply "treated by the DJ,
+  or bedded here, never neither". Second fix found by review: the snare-vs-
+  kick backstop scaled `bufs[ln]` but not `wet_side[ln]`, so a trimmed snare
+  kept a full-strength tail (2.38 dB adrift on 2122). The chord governor and
+  the peak ceiling both already did this; the snare one did not, and it was
+  harmless only while the snare bus had no wet_side to leave behind.
+- REJECTED, and why it matters: an intermediate version kept `widen_snare =
+  not already`. Review caught that it REGRESSED beats whose preset declares
+  space "dry" but that rolled wet — the old `bone_dry` had an `or
+  p["space"][0] == "dry"` clause doing real work there. Mustang beat 2103
+  went -17.9 -> -21.8 dB and its snare stem to -320 dB. Deleting the gate
+  outright is what fixed both directions.
+- Verified by RENDERING, not by reading the diff. Re-rendered from their
+  recipes: 2122 -26.4 -> -13.1, 2127 -32.2 -> -17.4, 2162 -25.9 -> -20.2,
+  2159 -25.3 -> -20.2, 2143 -33.1 -> -28.0, 2140 -23.4 -> -21.9, 2111
+  -386 -> -26.6, 2105 -> -12.9. Sweep of 71 preset/space combinations, old
+  vs new: ZERO cases narrower, ZERO live lanes still in mono, largest peak
+  change 0.05 dB. 2137 (Crate Prophet, gated, no clap lane) re-renders
+  BYTE-IDENTICAL before and after. Full suite 797 passed / 1 skipped.
+- HONEST LIMITS, none of them hidden:
+  * One REAL beat did get narrower, and it is the wet_side fix doing it:
+    2103 Mustang/room -17.9 -> -18.7 dB, because its snare's reverb now comes
+    down with the snare. That is the backstop keeping its stated promise;
+    it is a loss of width that was never legitimate.
+  * The 1-skipped test is again `test_real_beats_are_not_mono_or_silent` —
+    it scopes itself to beats newer than crew.py's mtime, so editing crew.py
+    makes it vacuous until the next batch renders. The green suite is NOT
+    the evidence here; the direct measurements are.
+  * LOW-END MONO, a real breach of the 2026-07-31 hard rule that PREDATES
+    this change and is made worse by it. Using the project's own metric,
+    over 71 preset/space combos on the synthetic test kit: Wonky/room 0.067
+    and Acid Rap Detroit/room 0.054 were ALREADY over the 0.05 limit and
+    nobody had caught them; Wonky/dry (0.030 -> 0.056) and No Alias/dry
+    (0.031 -> 0.051) crossed it because of this change. Mechanism, measured:
+    `master_to_lufs` runs `np.tanh` per channel AFTER `mono_below(120)`, and
+    intermodulating two channels that differ regenerates side energy below
+    85 Hz — so widening a mix always puts a little back. No REAL beat
+    breaches: worst of 26 re-rendered beats 0.038, worst of the 8 delivered
+    AFTER files 0.016 (the BEFORE files are worse, 0.028). The one-line fix
+    is to move `mono_below` after `master_to_lufs`, which changes every beat
+    and needs its own audition — NOT done, his call.
+  * "washed" is still not implemented, deliberately. beat_machine already
+    maps the typed word washed -> plate, so the fix is one line, but it turns
+    four genre styles from bone dry into a big plate. Left for him.
+  * NINE genre presets change sound, not four: Baltimore Club, Chiptune,
+    Memphis, Miami Bass, New Orleans Bounce and Crunk gain a house room on
+    the backbeat; the four washed ones get one for the first time. This cuts
+    against the 2026-07-19 rule that the subgenre roster stays true to its
+    genre ("Baltimore club is dry"). Went with the later 2026-07-31 standing
+    rule that effects for quality overrule a per-beat style choice, and said
+    so in the audition README so he can veto it.
+- Tests: `test_no_live_lane_ships_in_mono` (6 cases, all 6 fail on the old
+  code) and the second half of `test_a_lane_no_space_treated_still_gets_the_
+  ambience_bed`. THE METRIC IS L/R CORRELATION, and review killed two
+  cheaper ones: `array_equal` passes on the broken code (the constant-power
+  pan's cos and sin differ in the last bit), and a side-vs-mid floor only
+  catches lanes panned near centre — an untreated mono lane's side-vs-mid is
+  a pure function of its pan (-320 dB at centre, -22 dB at pan 0.1, -11 dB
+  at 0.35), so a -60 dB floor waved through 24 genuinely-mono lanes.
+  `test_the_low_end_stays_mono` is now parametrised and its docstring
+  carries the real numbers instead of a claim that Farrow/dry is the worst
+  case, which it is not.
+- Verify by: audition set at `~/Desktop/Homeroom Stereo Width 2026-09-01`
+  (1 BEFORE / 2 AFTER, 8 pairs, plain-language READ ME). Re-run any beat
+  with the scratch harness or `tools/measure_batch.py`.
+- Status: confirmed — heard and approved 2026-09-01: "2137 sounds identical.
+  The auditions sound good. Keep changes." Both checks passed, including the
+  control: he could not hear a difference on the one beat that must not have
+  changed, which is what makes the rest of the verdict worth something.
+- Outcome: kept. STILL OPEN and NOT covered by that approval — the four
+  items under HONEST LIMITS above. Two need his decision and neither is
+  urgent: (1) move `mono_below` after `master_to_lufs` to close the low-end
+  breach, (2) map "washed" -> plate so the four drowned genres get their
+  declared space. The third, the level cascade (a quiet snare sample pinning
+  every colour lane 3 dB under it), is the likelier remaining cause of
+  "not enough effects" and is the one to pick up next.
+  UPDATE 2026-09-02: two of those three are now done and approved — the
+  level cascade and the `mono_below` move, both in the 2026-09-02 entry
+  above. Only "washed" -> plate is still open.
+
 ### 2026-08-07 Both rooms reskinned live to mockup D ("paper + ink")
 - Context: owner reviewed 7 UI mockups (A-G) across two throwaway mockup
   folders, picked D, asked for two more in that family (F, G), then said

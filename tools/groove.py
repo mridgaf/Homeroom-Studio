@@ -172,6 +172,19 @@ OWNER_TASTE = {
                                  #      bright percussion also ride over the
                                  #      kick — they get their own bus trim
     "gate_wet": 0.3,             # was 0.4; part of the same snare-taming fix
+    # --- where the BACKBEAT sits under the kick (owner 2026-09-02, after
+    # "how loud is everything normally"). The old rule was one-way: the
+    # snare bus was capped at 1 dB under the kick and never lifted, so how
+    # loud the backbeat landed was set by nothing but which sample got
+    # picked. Measured across 64 shipped beats: median 3.8 dB under the
+    # kick — fine — but a SPREAD of 19.5 dB, from 15.7 under to 3.8 over.
+    # A measured hip-hop/trap reference has kick and snare level with each
+    # other in loudness; engineer consensus is within about 2 dB, and 8 dB
+    # apart is where people hear the snare as too quiet. 3.0 keeps his
+    # kick-forward sound (it is his own median, rounded) while staying
+    # inside the 2026-07-18 hard rule that the backbeat never out-powers
+    # the kick. Same medicine as chord_bus_under_kick_db, same reason.
+    "backbeat_bus_under_kick_db": 3.0,
     "clean_renders": True,       # owner 2026-07-18: "I want the beats
                                  #      clean" — no baked-in dirt (808 dist,
                                  #      roughness AM, mix saturation, SP-1200

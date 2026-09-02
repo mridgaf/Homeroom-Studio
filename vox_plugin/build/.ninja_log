@@ -1,0 +1,38 @@
+# ninja log v7
+1	59	1787265443194122847	/Users/johnsuhr/Desktop/Homeroom Studio/vox_plugin/build/CMakeFiles/cmake.verify_globs	10412b6e8e80d45a
+61	118	1787265443253935303	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_processors/juce_audio_processors_lv2_libs.cpp.o	85e99f145c943e2f
+65	122	1787265443258053767	CMakeFiles/Vox.dir/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o	634c5cee2c9dbd4c
+61	128	1787265443253607594	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_processors/juce_audio_processors_ara.cpp.o	be2268a8ac9ee5e6
+63	434	1787265443255970764	CMakeFiles/Vox.dir/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o	fcae42286601d3b9
+123	1965	1787265443315765304	CMakeFiles/Vox.dir/JUCE/modules/juce_data_structures/juce_data_structures.mm.o	4a20c3d7413308d5
+60	2177	1787265443253265219	CMakeFiles/Vox.dir/Source/PluginEditor.cpp.o	f88d72b01bdb154a
+60	2183	1787265443252789802	CMakeFiles/Vox.dir/Source/PluginProcessor.cpp.o	eac4ce70e3686a2b
+65	3354	1787265443257483058	CMakeFiles/Vox.dir/JUCE/modules/juce_events/juce_events.mm.o	171711529c20d925
+62	5528	1787265443254525012	CMakeFiles/Vox.dir/JUCE/modules/juce_gui_extra/juce_gui_extra.mm.o	9ba2f6c69906ffd1
+435	6138	1787265443628157562	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_utils/juce_audio_utils.mm.o	96f918c91100030d
+128	6353	1787265443320525602	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_basics/juce_audio_basics.mm.o	584aa498ce8d0e89
+61	7614	1787265443254239054	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_processors/juce_audio_processors.mm.o	8de2fab941dcdeae
+2179	7768	1787265445372287393	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_devices/juce_audio_devices.mm.o	b1c7ad0c6a47ecec
+2183	7907	1787265445375851481	CMakeFiles/Vox.dir/JUCE/modules/juce_dsp/juce_dsp.mm.o	cee48efcb5f43ea7
+3361	8325	1787265446554191417	CMakeFiles/juce_vst3_helper.dir/JUCE/modules/juce_audio_plugin_client/VST3/juce_VST3ManifestHelper.mm.o	764e41413771a8de
+8326	8463	1787265451518738711	juce_vst3_helper	6082d05f800fd1b0
+118	9308	1787265443311617257	CMakeFiles/Vox.dir/JUCE/modules/juce_core/juce_core.mm.o	f7722bd3be848b4a
+1973	9833	1787265445166510405	CMakeFiles/Vox.dir/JUCE/modules/juce_audio_formats/juce_audio_formats.mm.o	5b8323a7b30205cf
+64	11927	1787265443256728640	CMakeFiles/Vox.dir/JUCE/modules/juce_graphics/juce_graphics.mm.o	dc2fff55c0d0b8d1
+62	13270	1787265443255299180	CMakeFiles/Vox.dir/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o	ead8cb5b50a23abd
+62	16134	1787265443254914346	CMakeFiles/Vox.dir/JUCE/modules/juce_gui_basics/juce_gui_basics.mm.o	5bfb250db745468
+16135	16798	1787265459327864125	Vox_artefacts/Release/libVox_SharedCode.a	7bc33e7311806389
+16798	16923	1787265460113005984	Vox_artefacts/JuceLibraryCode/Vox_VST3/PkgInfo	5b6a9fb28e4f85e0
+16798	16923	1787265460113005984	/Users/johnsuhr/Desktop/Homeroom Studio/vox_plugin/build/Vox_artefacts/JuceLibraryCode/Vox_VST3/PkgInfo	5b6a9fb28e4f85e0
+16926	16975	1787265460118484284	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_LV2.mm.o	4b411a3749489913
+16923	16976	1787265460116205614	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp.o	35c2203c6f9e1504
+16925	16977	1787265460117556699	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm.o	c8991d8fbe986390
+16924	16977	1787265460116506614	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Unity.cpp.o	94771d670520fd73
+16923	16978	1787265460115892280	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_ARA.cpp.o	852ad982ee9453bc
+16924	16978	1787265460117144782	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm.o	1ba6be2bc04a5dff
+16923	16979	1787265460115481238	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX_utils.cpp.o	81c0e3d94b31f640
+16925	16980	1787265460118100491	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AUv3.mm.o	349fcee332c91262
+16926	16980	1787265460118999493	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST2.mm.o	d49c95170413e13e
+16924	16980	1787265460116773614	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AAX.mm.o	c8b10287895486a8
+16927	22150	1787265460119585160	CMakeFiles/Vox_VST3.dir/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.mm.o	ca9ab5473ea6d605
+22150	36955	1787265465343253057	Vox_artefacts/Release/VST3/Vox.vst3/Contents/MacOS/Vox	90dd20875a963db4
