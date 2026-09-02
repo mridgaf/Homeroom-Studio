@@ -117,6 +117,23 @@ PEAK_CEILING_DB = {
 # longest first, so "cowbell" is matched before "bell" would swallow it
 _PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
 
+# How far over the kick the BACKBEAT may peak (owner 2026-09-02). There was
+# no rule here at all: kick and snare are the reference pair and both return
+# None from peak_ceiling_for, so nothing ever measured the snare's peak
+# against anything. The RMS governor above then made that reachable — a snare
+# with a sharp crack has a low average and a high peak, so lifting it by
+# average sent the peak a long way over the kick (measured on beat 2159:
+# +9.9 dB, from +5.3 before the governor).
+#
+# 2.0 comes from the reference mix the owner asked me to check against: a
+# measured hip-hop/trap master with the kick at -5.1 dBTP and the snare at
+# -3.6, i.e. the backbeat peaking 1.5 dB OVER the kick while the two sit
+# level in loudness. Slightly over is normal and is the sound of a record;
+# ten dB over is not. This is a CEILING, not a target — where the backbeat
+# actually lands is set by backbeat_bus_under_kick_db and the sample's own
+# crest factor.
+BACKBEAT_OVER_KICK_DB = 2.0
+
 
 def peak_ceiling_for(lane):
     """dB below the kick/snare reference this lane may peak, or None for the
@@ -1098,6 +1115,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # /1/2 are the progression's chords in SEQUENCE (verified — zero overlap),
     # so panning them would swing the progression across the image.
     wet_side = {}
+    treated = set()          # the lanes this block ACTUALLY treated
     # a treated lane may have been removed outright (stem rack
     # 2026-07-21) — treat what's actually here
     for lane in [ln for ln in p["space"][1] if ln in bufs]:
@@ -1109,6 +1127,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
                 wet=OWNER_TASTE["gate_wet"],
                 hold_ms=min(30000.0 / bpm, 350.0),
                 loop=True, stereo=True)
+            treated.add(lane)
         elif space in ("room", "plate", "hall"):
             # v6: every DJ can roll a wet space per beat — use the era
             # Alt params when the preset carries them, house defaults
@@ -1138,7 +1157,19 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             # folded in at pan time below. mono_below(120) still collapses
             # the bass, so this cannot smear the low end.
             wet_side[lane] = (wetL - wetR) * 0.5
-        # "dry": leave it alone
+            treated.add(lane)
+        # "dry" leaves the lane alone, so it does NOT go in `treated`.
+        #
+        # KNOWN GAP, not a decision: "washed" also lands here. Four genre
+        # presets declare space=("washed", ...) and beat_machine locks a
+        # genre to its declared space, so Houston Screw, Emo Hip Hop, Horror
+        # Rap and Plug have never had ANY space treatment — 24 shipped
+        # recipes rolled it. Their styles say the opposite ("horrorcore is
+        # drowned"). beat_machine already maps the TYPED word washed ->
+        # plate, so the fix is to add "washed" to the branch above with the
+        # plate params; it is left out here only because it changes how those
+        # four styles sound and that is the owner's call, not mine. Until
+        # then the bed below at least stops them printing mono.
 
     # ---- house ambience bed (owner standing rule, 2026-07-31) ----
     # "In order to have studio ready quality tracks I want you to be able to
@@ -1161,33 +1192,47 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # sub, and any lane the DJ already treated. Low end must stay dry and
     # centred or the punch goes with it.
     HARMONIC_RE = re.compile(r"^(chord\d|bass\d)")
-    already = set(p["space"][1])
+    # WHAT THE BLOCK ABOVE ACTUALLY TREATED, not what the preset asks for.
+    # This used to be `set(p["space"][1])`, which is a different question:
+    # `space` is what THIS render rolled and beat_machine rolls it per beat
+    # (35% of them dry), so on a dry roll the DJ's snare/clap lane was
+    # excluded from the bed as "already treated" while the dry branch had
+    # left it alone — and that lane is the loudest thing in the beat after
+    # the kick. Measured 2026-09-01 across the 48 beats rendered since the
+    # last crew.py change: 9 sat at or under the -22 dB S/M mono line, 8 of
+    # them dry rolls, worst -36.2 dB, with the snare and clap stems
+    # bit-identical L/R. The same hole swallowed the four "washed" genre
+    # presets, whose space string no branch above implements.
+    already = treated
     dry_lows = {"kick", "bass", "sub"}
-    # MONO BACKSTOP (owner 2026-08-01: "fix beat 1679"). The bed above skips
-    # kick/sub/bass (low end stays centred, correctly) and the whole snare
-    # bus ("the DJ's call"). On a beat that is ONLY drums and whose space is
-    # dry, that leaves the hat as the single source of width — measured, all
-    # six Fixed Bank reference beats came out -26.7 to -29.5 dB S/M, i.e.
-    # effectively mono, and 1679 is one of them. It is the same known limit
-    # the 2026-07-31 entry flagged for the 32% of the library that renders
-    # dry.
+    # MONO BACKSTOP (owner 2026-08-01: "fix beat 1679"). The bed used to skip
+    # the whole snare bus — "the DJ's call" — unless the beat was drums-only
+    # AND bone dry. Three separate holes came out of that one condition, all
+    # of them the same shape: a lane that NOTHING treated, excluded from the
+    # bed anyway, printing bit-identical L/R.
+    #   * a dry roll (35% of beats) over a preset that declares gated;
+    #   * a "washed" preset, a space string no branch above implements;
+    #   * the sibling backbeat lane on ANY beat — every DJ's space list names
+    #     exactly one of snare/clap, so the other one was never treated and
+    #     never bedded. Measured on 2105 (Mustang, gated): the snare sat
+    #     3.6 dB under the kick and printed dual-mono.
+    # So the rule is now simply: treated by the DJ's space, or bedded here.
     #
-    # So when there is no harmony to carry the air and the DJ asked for no
-    # space at all, the snare bus joins the bed. Justified by his standing
-    # rule of 2026-07-31: effects in service of QUALITY overrule a per-beat
-    # style choice. The low end is still never touched.
-    has_harmony = any(HARMONIC_RE.match(ln) for ln in bufs)
-    bone_dry = not already or p["space"][0] == "dry"
-    widen_snare = bone_dry and not has_harmony
+    # The chord bed cannot stand in for this. On 2143, a dry Kane East with
+    # three chord lanes, the kick stem measures -17.8 dB RMS, the snare -35.3
+    # and the clap -43.4 — 25-30 dB of air cannot move the image.
+    #
+    # Justified by his standing rule of 2026-07-31: effects in service of
+    # QUALITY overrule a per-beat style choice. The DJ's signature treatment
+    # is untouched wherever it actually ran, and the low end is never
+    # touched either way.
     for lane in bufs:
         if lane in already or lane in dry_lows:
             continue
         if HARMONIC_RE.match(lane):
             decay, tone, wet = 1.4, 3200, 0.18   # air around the harmony
         elif any(lane.startswith(s) for s in SNARE_LIKE):
-            if not widen_snare:
-                continue                         # snare bus is the DJ's call
-            decay, tone, wet = 0.6, 4000, 0.14   # ...unless it is all we have
+            decay, tone, wet = 0.6, 4000, 0.14   # the backbeat's own room
         else:
             decay, tone, wet = 0.5, 4200, 0.10   # a touch of room on colour
         irL, irR = make_ir(decay, tone, seed=4242 + p["num"])
@@ -1198,9 +1243,28 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         side = (wetL - wetR) * 0.5
         wet_side[lane] = wet_side.get(lane, 0.0) + side
 
-    # hard backstop (owner 2026-07-18): the snare bus never out-powers
-    # the kick, whatever the trims, samples, and reverb energy added up
-    # to. Measured AFTER space treatment so gate/reverb energy counts.
+    # BACKBEAT BUS GOVERNOR (owner 2026-09-02). Was a one-way cap: "the
+    # snare bus never out-powers the kick" (owner 2026-07-18), which is
+    # still true below and still the hard rule — but it only ever turned
+    # the backbeat DOWN, so how loud it landed was set by nothing except
+    # which sample happened to get picked. Measured across 64 shipped
+    # beats: a median 3.8 dB under the kick, which is right, and a SPREAD
+    # of 19.5 dB around it (15.7 under to 3.8 over). At the bottom of that
+    # range the beat is a kick with whispers behind it, which is what he
+    # heard as "not enough effects".
+    #
+    # This is the same failure the chord bus had, and the same fix he
+    # approved on 2026-07-31: an open-loop gain cannot hit a target when
+    # the source samples vary that much, so govern the BUS in BOTH
+    # directions. Target OWNER_TASTE["backbeat_bus_under_kick_db"].
+    #
+    # The clamp is asymmetric the opposite way to the chord governor's, and
+    # deliberately: the BOOST is capped at 4.0 (+12 dB) so a hopeless sample
+    # cannot be hauled up with its own noise floor, and the CUT is left
+    # uncapped so the 2026-07-18 hard rule holds by construction — the
+    # target is 3 dB under the kick, which is already past the 1 dB line, so
+    # a bus that lands on target can never out-power the kick and the old
+    # separate backstop has nothing left to do.
     if "kick" in bufs:
         kick_rms = np.sqrt((bufs["kick"] ** 2).mean())
         sn = [ln for ln in bufs
@@ -1208,10 +1272,24 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         if kick_rms > 0 and sn:
             bus = sum(bufs[ln] for ln in sn)
             bus_rms = np.sqrt((bus ** 2).mean())
-            cap = kick_rms * 10 ** (-1.0 / 20)   # sit >=1 dB under the kick
-            if bus_rms > cap:
+            want = kick_rms * 10 ** (
+                -OWNER_TASTE.get("backbeat_bus_under_kick_db", 3.0) / 20)
+            if bus_rms > 1e-9:
+                adj = min(want / bus_rms, 4.0)
                 for ln in sn:
-                    bufs[ln] = bufs[ln] * (cap / bus_rms)
+                    bufs[ln] = bufs[ln] * adj
+                    # ...and its reverb with it. The chord governor below and
+                    # the peak ceiling below that both do this; this one did
+                    # not, and it was harmless only because the snare bus had
+                    # no wet_side to leave behind — the ambience bed used to
+                    # skip the whole family. Now that it doesn't, a trimmed
+                    # snare would have kept its full-strength tail: measured
+                    # on 2122, a 2.38 dB trim left the reverb 2.38 dB louder
+                    # relative to the drum making it, and the rule's own
+                    # promise ("whatever the reverb energy added up to") was
+                    # being kept on the mono fold only.
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * adj
 
         # the harmonic bus gets the same governor (2026-07-31). Unlike the
         # snare's, this one corrects in BOTH directions: a chord bed that
@@ -1333,9 +1411,52 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
             return float(eff.max())
 
         kick_pk = _panned_pk("kick")
-        snare_pk = max((_panned_pk(ln) for ln in bufs
-                        if ln.startswith("snare")), default=0.0)
-        ref_pk = min(kick_pk, snare_pk) if snare_pk > 0 else kick_pk
+        # THE KICK IS THE ANCHOR (owner 2026-09-02, after checking his rules
+        # against how hip-hop is normally mixed). This used to be
+        # `min(kick_pk, snare_pk)` — measure everything against the QUIETER
+        # of the kick and the lane spelled "snare" — and it is the single
+        # line that made a level accident anywhere in the beat able to drag
+        # the whole mix down with it. Every producer reference anchors to
+        # the kick and mixes relative to that; nothing anchors to whichever
+        # of two elements happens to be quietest.
+        #
+        # What it cost, measured inside this function on 2164 before the
+        # ceiling ran: kick -2.1, clap -0.9, snare -20.6. On 7 of the 13
+        # identities that carry both lanes the snare is a THIN LAYER TUCKED
+        # UNDER THE CLAP (Kane East, Sunday Chop, Swish Beatz, Baltimore
+        # Club, Miami Bass, Plug and Crunk all set snare 0.5-0.7 against clap
+        # 0.78-0.92) — so the reference came out as that -20.6 support layer,
+        # and the beat's actual backbeat was cut by 26.6 dB, the hat by 24.1
+        # and the bells by 20.9. A kick with faint tapping behind it.
+        #
+        # His rule that colour sits under the backbeat as well as the kick is
+        # not lost with the `min` — it is now carried by the governor above,
+        # which pins the backbeat bus near the kick instead of letting it
+        # land anywhere. The one case that rule can still miss is a backbeat
+        # so quiet the governor's boost clamp cannot reach it; that is a
+        # broken sample, not a mix balance, and it is logged rather than
+        # papered over.
+        ref_pk = kick_pk
+        # ...and the backbeat gets a peak ceiling, which it never had. Both
+        # backbone lanes return None from peak_ceiling_for, so the snare's
+        # peak was measured against nothing at all. See BACKBEAT_OVER_KICK_DB.
+        # Applied to EVERY lane of the snare/clap family, not just whichever
+        # is loudest here. Capping only the loudest leaked: on 2162 the clap
+        # was the loudest at this point and got pulled to +2, then the loop
+        # below pulled it again to -3 as a clap, which left the untouched
+        # snare underneath as the beat's loudest backbeat lane at +5.4 over
+        # the kick. Per-lane is also simply what the rule says — no part of
+        # the backbeat peaks more than this over the kick — and the clap
+        # still takes its own -3 ceiling in the loop below on top.
+        if kick_pk > 0:
+            b_cap = kick_pk * 10 ** (BACKBEAT_OVER_KICK_DB / 20)
+            for ln in [l for l in bufs
+                       if any(l.startswith(sl) for sl in SNARE_LIKE)]:
+                b_pk = _panned_pk(ln)
+                if b_pk > b_cap:
+                    bufs[ln] = bufs[ln] * (b_cap / b_pk)
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * (b_cap / b_pk)
         if ref_pk > 0:
             for ln in bufs:
                 head = peak_ceiling_for(ln)
@@ -1422,8 +1543,25 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't
     L, R = master(L, R, drive=0.7 if clean else p["drive"])
-    L, R = mono_below(L, R, 120)
+    # CENTRE THE BASS LAST (owner 2026-09-02, "take it"). This used to run
+    # BEFORE master_to_lufs, and master_to_lufs soft-clips L and R
+    # separately — running a non-linear stage on two channels that differ
+    # regenerates side energy underneath the crossover, so the low end was
+    # only mono until the very next thing that happened to it. Widening the
+    # mix always leaked a little back; the backbeat governor added enough
+    # level to push it over the project's own limit (Farrow/dry measured
+    # 0.056 against the 0.05 line, and Wonky/room and Acid Rap Detroit/room
+    # were already breaching it before any of this work).
+    #
+    # Measured cost on four real beats, which is why this is free rather
+    # than a trade: low-end side energy 0.006-0.013 -> 0.0000-0.0001, peak
+    # moves at most 0.05 dB, loudness 0.00 dB. `got` is still the honest
+    # figure for the file — the re-measured LUFS after this line matches it
+    # to two decimal places. (On the synthetic test kit the peak moves up to
+    # 0.85 dB, because a pure sine has no crest factor to hide the filter's
+    # ringing. Real drums do.)
     L, R, got = master_to_lufs(L, R)
+    L, R = mono_below(L, R, 120)
     if not want_parts:
         return L, R, got
 
