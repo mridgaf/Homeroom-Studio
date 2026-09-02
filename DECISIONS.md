@@ -22,6 +22,49 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-02 Git housekeeping; NEXT UP: delay and EQ for the beat generator
+- Context: he said his GitHub did not look like it was saving properly and
+  something seemed hung up. Both were true, and they were separate problems.
+- Found and fixed: a 0-byte `.git/objects/maintenance.lock` dated Aug 22 with
+  no process holding it, left by a crashed git housekeeping run. It blocks
+  git's own gc/repack. Moved to `_to_delete/stale-git-locks-2026-09-02/` with
+  a manifest rather than deleted (never-delete rule). He has hit this before
+  — his "stack" commit carries a folder of earlier stale locks.
+- The real problem was NOT branch sprawl: `main` had not moved since the UI
+  reskin, so every piece of work sat on a side branch and GitHub's default
+  view looked empty. Merged claude/washed-space into main (27eddc6, suite
+  806 passed / 1 skipped on the merge result). He pushed.
+- STILL UNMERGED, and this is what "hung up" looks like from his side:
+  * `never-guess-hooks` — 87 commits not on main.
+  * `sound-engine-mixer` — 24 commits not on main. THIS ONE CONFLICTS:
+    2 conflicts in tools/crew.py (around lines 1341 and 1744 — the governor
+    and master-chain regions this session rewrote) plus 1 in DECISIONS.md.
+    Merge aborted, not resolved. LESSON: `git merge-tree` said all three
+    merged clean, and that was true against the OLD main — the second merge
+    conflicts only because the first one moved main. Re-check after each
+    merge; a clean dry run is not transitive.
+  * Resolving those two conflicts is an AUDIO decision (whose version of the
+    governors wins), not a mechanical one. Left for him.
+- Also: `vox_plugin/build/` was 148 MB of compiled artefacts tracked in git
+  (115 files, a 27 MB juceaide binary, a 24 MB static library, object files
+  up to 25 MB). Arrived with the "stack" commit. Untracked and gitignored
+  (4467c5a); files stay on disk, rebuilt by cmake/ninja. NOTE the bytes are
+  still in history, so .git does not shrink — this only stops the growth.
+  He said the Vox plugin "was meant to be a separate project", so moving
+  vox_plugin/ out to its own repo is the real fix, NOT done, his call.
+- NEXT UP, his words: "I am going to want the delay and EQ." From the
+  effects comparison in the entry above — the Sound Engine has nine effects
+  the beat generator does not, and delay (echo) and eq3 (3-band) are the two
+  he picked. Both live in `tools/audio_engine.py`, which exists ONLY on the
+  sound-engine-mixer branch and is a pedalboard wrapper, while groove.py's
+  effects are hand-written numpy. So bringing them over means either merging
+  that branch (see the conflicts above) or porting the two functions. That
+  choice has not been made.
+- Status: open — the two merges and the delay/EQ work are all outstanding.
+- CAVEAT on this entry: this session had no GitHub credentials, so every
+  remote claim here is from the local repo, not verified against GitHub.
+
+
 ### 2026-09-02 "washed" implemented as plate; snare ceiling confirmed at +2
 - Context: two leftovers from the level work. (a) Four genre presets declare
   space=("washed", ...) — Houston Screw, Emo Hip Hop, Horror Rap, Plug — and
