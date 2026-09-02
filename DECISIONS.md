@@ -22,6 +22,125 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-01 Step 7 round 2 — "not enough effects", and the reason was not the numbers
+- Context: he heard round 1 in all three places (the A/B Desktop folder, a
+  fresh Beat Machine batch, and beats opened in the Sound Engine) and said
+  "there's not enough effects." The measurement agreed: level-matched, B
+  differed from A by only -33.5 dB (Glass Cat), -21.2 (Otto Grit), -11.6
+  (Night Metro), -9.6 (Rage Engine). Glass Cat was inaudible.
+- He was asked and answered before any code: turn up what's there AND add
+  the effects nobody is using. He was OFFERED and DECLINED both "print the
+  effects into the beat at make time" and "tune the other 36 personalities"
+  — do not re-litigate either.
+- THE REAL FINDING: it was not that the numbers were low. **Three effects
+  the rack has always had were used by no preset at all** — reverb, the mid
+  EQ band, and convolution. Every preset was saturation, shelf EQ, a little
+  echo and two stutters. Switching reverb + mid EQ on did more than raising
+  anything. Convolution stays unused on purpose: it needs an IR file dropped
+  in by hand, so there is nothing to pre-set it to.
+- Result on the four real beats, level-matched, round 1 -> round 2:
+  Glass Cat -33.6 -> -20.6, Otto Grit -21.2 -> -16.2, Night Metro
+  -11.7 -> -9.3, Rage Engine -9.6 -> -6.0.
+- TWO REAL BUGS, both found by switching reverb on:
+  1. **`algo_reverb` returned dry at +6 dB.** pedalboard/JUCE Reverb passes
+     the dry path at 2x `dry_level` (measured on a unit impulse: 1.0 ->
+     2.0000, 0.5 -> 1.0000). So `dry=1.0` doubled the signal. It had sat
+     there unexercised because no preset used reverb, and because
+     `loop_algo_reverb`'s FREEZE branch sums dry by hand and was always
+     correct — the two branches of one function disagreed about what `dry`
+     meant. Fixed at the root (`dry * 0.5`). No existing caller affected:
+     crew.py's algo-space branch passes dry=0.0, so beats on disk are
+     unchanged.
+  2. **`FX_CONTROLS` had no reverb keys.** The sliders, the server chain and
+     `syncChannelToServer` all knew about reverb; the preset-application map
+     did not. A preset's reverb would render at load and then vanish from the
+     export on the first knob touch, because the sync posts the untouched
+     slider value. Third time this exact class has hit this feature.
+- A THIRD divergence was designed out rather than fixed: **every value in
+  fx_presets.json now sits on its slider's step grid**, and a test enforces
+  it. A range input snaps to its step and the server does not, so an
+  off-grid value (sat_drive_db 6.3 on a 0.5 step) plays as one number and
+  exports as another. Same for `reverb_dry`, now stated explicitly in every
+  preset because the slider defaults to 1.0 while the server defaults to
+  1 - mix.
+- THE TEST LESSON, AGAIN, and it is the same one as round 1: the first
+  strength test was hollow. `_difference_from_dry_db` is nearly BLIND to
+  saturation — halving every `sat_mix` in the file moved it 0.04-0.21 dB and
+  all five floors stayed green. Saturation is a waveshaper and only bites
+  where the signal is hot, so a reverb tail dominates that metric. Caught by
+  mutation-testing, not by reading. `_saturation_contribution_db` now
+  measures the stage directly on a hot signal; halving sat_mix turns 5 tests
+  red. Also deleted a claim I could not defend: Rage Engine does NOT move
+  the difference-from-dry metric more than Night Metro, and that is correct
+  — Night Metro is drenched while Rage is dry and distorted. Ranking those
+  two on that number would have meant pulling Night Metro's reverb down to
+  suit a test.
+- Five existing tests hard-coded round-1 preset numbers and broke. Rewritten
+  to assert BEHAVIOUR (falls through to `_default`, maps the owner-facing
+  label, survives an absurd tempo) instead of literals, so tuning by ear no
+  longer breaks the suite. One of them —
+  `test_a_lane_the_dj_was_never_tuned_for_still_gets_the_default` — had
+  quietly lost its premise: round 2 gave Night Metro the snare line it
+  relied on being absent, and every tuned DJ now covers every `_default`
+  lane, so against the real file it would have gone green testing nothing.
+  It is built on a synthetic preset file now.
+- Verify by: 122 tests across `tests/test_sound_engine.py` and
+  `tests/test_audio_engine.py`. Eight mutations run, all caught: delete the
+  FX_CONTROLS reverb lines, drop the `* 0.5`, nudge a preset off the step
+  grid, remove a `reverb_dry`, remove "bass drum" from `_LOW_END`, halve
+  every `sat_mix`, zero every `reverb_mix`, and the freeze/non-freeze
+  disagreement. Full suite: **982 passed, 1 failed**, the failure being
+  `test_real_beats_are_not_mono_or_silent` — pre-existing, and it reads
+  files off the drive rather than rendering, so this change cannot have
+  caused it.
+- **THE MONO PROBLEM, which is what he went off to work on.** Chasing that
+  one failure showed it is not one beat: of the 50 rendered since crew.py
+  last changed (2026-09-01 09:59), NINE are at or under the -22 dB side/mid
+  mono line — 2124 Glass Cat (-36.2), 2143 Kane East (-33.7), 2127 Glass Cat
+  (-31.1), 2164 Swish Beatz (-28.6), 2162 Swish Beatz (-25.4), 2122 Glass
+  Cat (-24.9), 2159 Rage Engine (-23.9), 2128 Glass Cat (-23.7), 2140 Kane
+  East (-22.7) — with five more just above it. Glass Cat and Kane East are
+  worst hit. This is tools/crew.py, NOT the Sound Engine. Worth connecting:
+  he reported the fresh batch as lacking effects, and a mono beat sounds
+  small and flat, so some of what he heard may be this rather than the
+  presets. That would also explain why Glass Cat read as the worst DJ in
+  both rounds — he is the one most affected by both problems at once.
+- Review: **NOT RUN.** One harsh-critic pass was launched (the split he set
+  on 2026-09-01: full double loop for new DSP, one pass for preset wiring;
+  this adds no new DSP) and he stopped it seconds later — "Stop all reviews.
+  Hold everything until next session." It got no further than reading the
+  diff, so there are NO review findings, clean or otherwise. Round 2 is
+  verified by tests and by eight mutations, NOT by an adversarial read. That
+  pass still owes to be run before this is called done.
+- OPEN, BLOCKING HIM, NOT YET DECIDED: the live preview and the exported
+  file disagree about reverb. The browser fetches the DRY stem and does
+  everything in Web Audio — a generated-noise-IR ConvolverNode — while
+  Export re-renders through pedalboard Freeverb. Measured in his own running
+  Sound Engine with an OfflineAudioContext, 100% wet, unit impulse: the
+  export is **12-17 dB louder** with roughly **half the tail** (size 4.5 s:
+  browser 4.36 s, export 1.92 s). This never mattered while no preset used
+  reverb. It matters on every beat now. The audition files are EXPORTS, so
+  they are honest about what he gets; only the live knob-turning preview
+  lies. Proposed fix, put to him: have the browser fetch pedalboard's actual
+  impulse response from the server and convolve with THAT — Freeverb is
+  linear and time-invariant, so convolving with its true IR reproduces it
+  exactly, and `makeReverbIR` gets deleted rather than calibrated.
+- Status: open, and **HELD BY THE OWNER 2026-09-01**. Asked which way he
+  wanted the reverb preview/export mismatch resolved, he answered: "Hold on
+  everything until I figure out mono bug in a different session." So the
+  reverb-IR fix is NOT started, no further tuning was done, and nothing was
+  committed. Round 2 sits complete and green in the working tree. Do not
+  resume any of it without him.
+- Audition set is on his Desktop in "Homeroom FX louder 2026-09-01": four
+  DJs, three files each (A flat / B round 1 / B round 2), all level-matched,
+  Glass Cat first. Not yet heard.
+- Otto Grit landed at -16.2 dB against a -12 target and was deliberately NOT
+  pushed further: his identity is a small dry room and a rolled-off top, and
+  inflating his reverb to hit a number I set myself would have made him
+  someone else. Flagged in his README for his ear to settle.
+- Outcome:
+
+
 ### 2026-09-01 Section 7 (drum FX) — built ON the Sound Engine, not beside it
 - Context: owner dropped section 6 (BYO sample bank) and asked for 7 only,
   then stopped me mid-plan to point at `sound_engine/` — which ALREADY has
@@ -90,11 +209,12 @@ entries.
   mutation-tested — including re-running pass 1's own four mutants, which
   all now fail. Full suite: **960 passed, 1 failed**, the failure being
   `test_real_beats_are_not_mono_or_silent`, pre-existing and drive-gated.
-- Status: open — MEASURED and reviewed, NOT yet HEARD. Audition set is on
-  his Desktop in "Homeroom FX 2026-09-01 v2": four DJs, A flat vs B with
-  FX, same beat both times, **level-matched** (saturation made B +4.1 dB
-  hotter on two of the four, which would have collected a verdict on
-  volume instead of on the effects).
+- Status: confirmed — heard, and the verdict was NOT ENOUGH. See the
+  round-2 entry above. Audition set was on his Desktop in "Homeroom FX
+  2026-09-01 v2": four DJs, A flat vs B with FX, same beat both times,
+  **level-matched** (saturation made B +4.1 dB hotter on two of the four,
+  which would have collected a verdict on volume instead of on the
+  effects).
 - ASSUMING, correctable in one line: the melodic bass line (`bass0/1/2`) is
   also left dry. It is not the 808 (`bass drum` is), but leaving it alone
   preserves today's behaviour and is the conservative reading of his rule.

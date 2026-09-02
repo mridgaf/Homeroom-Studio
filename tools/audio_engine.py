@@ -81,9 +81,22 @@ def algo_reverb(L, R, room_size=0.5, damping=0.5, wet=0.25, dry=0.9,
     """FDN-style algorithmic reverb — a different color than groove's
     convolution reverb (synthetic IR), useful where a smoother, more
     'plugin' tail fits better than the gated/convolved house sound.
-    sr — see eq3()'s docstring."""
+    sr — see eq3()'s docstring.
+
+    dry=1.0 means UNITY dry, which costs a halving on the way in:
+    pedalboard/JUCE's Reverb passes the dry path at 2x dry_level, verified
+    against pedalboard 0.9.17 with a unit impulse (dry_level 1.0 -> 2.0000,
+    0.5 -> 1.0000, 0.9 -> 1.8000). Left alone, every caller asking for a
+    normal dry level got it +6 dB, and loop_algo_reverb's own freeze branch
+    — which sums dry by hand as `dry * L` — disagreed with its non-freeze
+    branch about what `dry` meant. Found when the Sound Engine's per-DJ
+    presets turned reverb on for the first time and every reverb channel
+    exported 6 dB above what the browser played (the live Web Audio graph
+    has a plain unity dry gain). No existing caller is affected: crew.py's
+    algo-space branch passes dry=0.0 and sums the dry itself. (2026-09-01.)"""
     board = pb.Pedalboard([pb.Reverb(room_size=room_size, damping=damping,
-                                       wet_level=wet, dry_level=dry, width=width,
+                                       wet_level=wet, dry_level=dry * 0.5,
+                                       width=width,
                                        freeze_mode=1.0 if freeze else 0.0)])
     return _from_pb(board(_to_pb(L, R), sr or SR))
 

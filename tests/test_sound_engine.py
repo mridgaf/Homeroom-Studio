@@ -865,7 +865,12 @@ def test_a_beat_with_no_tempo_gets_no_timed_effects():
 def test_an_untuned_dj_falls_through_to_the_gentle_default():
     from sound_engine import fx_presets
     p = fx_presets.for_lane("Some DJ Nobody Tuned Yet", "snare - x", 90)
-    assert p == {"sat_drive_db": 3.0, "sat_mix": 0.08}
+    # compared against _default itself, not against literal numbers: the
+    # values get re-tuned by ear (round 2 raised all of them) and a test
+    # that hard-codes them fails on every tune while proving nothing about
+    # the fall-through, which is the actual behaviour under test.
+    assert p == fx_presets._load()["_default"]["snare"]
+    assert p["sat_mix"] > 0
 
 
 def test_a_broken_preset_file_does_not_stop_a_beat_opening(monkeypatch, tmp_path):
@@ -878,6 +883,7 @@ def test_a_broken_preset_file_does_not_stop_a_beat_opening(monkeypatch, tmp_path
 
 def test_from_beat_opens_the_rack_on_the_djs_settings(tmp_path, monkeypatch):
     from tools.make_drum_loops import write_wav24
+    from sound_engine import fx_presets
     dj = tmp_path / "Otto Grit"
     dj.mkdir()
     sig = np.sin(2 * np.pi * 220 * np.arange(8820) / 44100) * 0.3
@@ -892,7 +898,8 @@ def test_from_beat_opens_the_rack_on_the_djs_settings(tmp_path, monkeypatch):
                      json={"beat_id": "Otto Grit/9 Otto Grit Probe"})
     assert r.status_code == 200
     by_lane = {c["lane_id"]: c["fx"] for c in r.json()["channels"]}
-    assert by_lane["kick - k"]["sat_mix"] == 0.30     # Otto's kick
+    assert by_lane["kick - k"] == fx_presets.for_lane("Otto Grit", "kick - k", 88)
+    assert by_lane["kick - k"]["sat_mix"] > 0        # Otto's kick, whatever it is
     assert by_lane["bass0 - b, D# root"] == {}        # the sub, untouched
 
     # and the preset is PRINTED, not just advertised: wet must differ from dry
@@ -927,19 +934,38 @@ def test_the_owner_facing_stem_names_map_back_to_lanes():
     were matching names that only exist inside the generator."""
     from sound_engine import fx_presets
     assert fx_presets.lane_role("kick drum - HELLA KICK 016.wav") == "kick"
-    assert fx_presets.for_lane("Night Metro", "kick drum - k", 147)["sat_mix"] == 0.38
+    assert (fx_presets.for_lane("Night Metro", "kick drum - k", 147)
+            == fx_presets.for_lane("Night Metro", "kick - k", 147) != {})
     # the 808 under the kick, by its real filename — must stay untouched
     assert fx_presets.for_lane("Night Metro", "bass drum - MZ Crash [808]", 147) == {}
     assert fx_presets.for_lane("Rage Engine", "bass drum - x", 150) == {}
 
 
-def test_a_lane_the_dj_was_never_tuned_for_still_gets_the_default():
-    """Night Metro has no snare line, and plenty of its beats have a
-    snare. Found live: that channel sat bone dry beside processed ones,
-    which reads as a broken preset rather than a choice."""
+def test_a_lane_the_dj_was_never_tuned_for_still_gets_the_default(tmp_path, monkeypatch):
+    """Found live: a lane its DJ was never tuned for sat bone dry beside
+    processed ones, which reads as a broken preset rather than a choice.
+
+    Built on a synthetic preset file rather than on the real one. This
+    test used to rely on Night Metro having no snare line; round 2 gave it
+    one, and every tuned DJ now covers every _default lane — so against the
+    real file the fall-through is unreachable and the test would have gone
+    green while testing nothing. The mechanism has to outlive the tuning."""
     from sound_engine import fx_presets
-    p = fx_presets.for_lane("Night Metro", "snare - PLAYOFFS", 147)
-    assert p == {"sat_drive_db": 3.0, "sat_mix": 0.08}
+    f = tmp_path / "fx_presets.json"
+    f.write_text(json.dumps({
+        "_default": {"kick": {"sat_mix": 0.2, "sat_drive_db": 6.0},
+                     "snare": {"sat_mix": 0.3, "sat_drive_db": 6.0},
+                     "_other": {"sat_mix": 0.1, "sat_drive_db": 4.0}},
+        "Half Tuned DJ": {"kick": {"sat_mix": 0.9, "sat_drive_db": 12.0}},
+    }))
+    monkeypatch.setattr(fx_presets, "_PRESETS_PATH", f)
+    # its own lane wins
+    assert fx_presets.for_lane("Half Tuned DJ", "kick - k", 90)["sat_mix"] == 0.9
+    # the lane it was never tuned for falls through to _default's line for
+    # THAT lane — not to _other, and not to nothing
+    assert fx_presets.for_lane("Half Tuned DJ", "snare - x", 90)["sat_mix"] == 0.3
+    # and a lane nobody lists at all still lands on the catch-all
+    assert fx_presets.for_lane("Half Tuned DJ", "reversefx - x", 90)["sat_mix"] == 0.1
 
 
 def test_a_second_voicing_lane_matches_its_family():
@@ -1110,7 +1136,8 @@ def test_an_absurd_tempo_does_not_discard_the_whole_lane():
     derived value used to take the lane's saturation and EQ down with it."""
     from sound_engine import fx_presets
     p = fx_presets.for_lane("Otto Grit", "snare - x", 9999)
-    assert p["sat_mix"] == 0.28          # the untimed effects survive
+    sane = fx_presets.for_lane("Otto Grit", "snare - x", 91)
+    assert p["sat_mix"] == sane["sat_mix"]   # the untimed effects survive
     assert "dly_time_s" not in p         # the nonsense one is dropped
     assert fx_presets.for_lane("Otto Grit", "snare - x", "not a number")["sat_mix"]
 
@@ -1125,3 +1152,272 @@ def test_no_lane_is_left_bone_dry_beside_a_processed_one():
         assert fx_presets.for_lane("Night Metro", lane, 147), lane
     for lane in ("bass drum - x", "bass0 - x", "sub - x", "808 - x"):
         assert fx_presets.for_lane("Night Metro", lane, 147) == {}, lane
+
+
+# ---------------------------------------------------------------------------
+# Round 2 (2026-09-01): the owner heard round 1 and said "not enough effects".
+# Presets came up and reverb + mid EQ were switched on for the first time.
+# These tests exist because turning reverb on exposed THREE ways a preset can
+# render at load and then silently not survive to the exported file.
+# ---------------------------------------------------------------------------
+
+_STATIC = Path(__file__).resolve().parents[1] / "sound_engine" / "static"
+
+# Params that never reach a slider by name: the note values drive the Grid
+# dropdowns and the seconds they resolve to fill the free-ms box, both handled
+# by their own branch in applyDjPresets().
+_NOT_SLIDER_BACKED = {"dly_note", "br_note", "dly_time_s", "br_cell_s"}
+
+
+def _fx_controls():
+    """key -> (slider id, scale), parsed out of app.js's FX_CONTROLS."""
+    import re
+    src = (_STATIC / "app.js").read_text()
+    block = re.search(r"const FX_CONTROLS = \{(.*?)\n\};", src, re.S).group(1)
+    block = re.sub(r"//[^\n]*", "", block)          # drop comments
+    return {m[0]: (m[1], float(m[2]))
+            for m in re.findall(r"(\w+):\s*\[\"(\w+)\",\s*([\d.]+)\]", block)}
+
+
+def _sliders():
+    """slider id -> (min, max, step), parsed out of index.html."""
+    import re
+    src = (_STATIC / "index.html").read_text()
+    out = {}
+    for tag in re.findall(r"<input type=\"range\"[^>]*>", src):
+        i = re.search(r'id="(\w+)"', tag)
+        lo = re.search(r'min="(-?[\d.]+)"', tag)
+        hi = re.search(r'max="(-?[\d.]+)"', tag)
+        st = re.search(r'step="([\d.]+)"', tag)
+        if i and lo and hi and st:
+            out[i.group(1)] = (float(lo.group(1)), float(hi.group(1)),
+                               float(st.group(1)))
+    return out
+
+
+def _all_preset_params():
+    """Every (dj, lane, params) the real fx_presets.json can hand out."""
+    from sound_engine import fx_presets
+    raw = fx_presets._load()
+    for dj, lanes in raw.items():
+        for lane, params in lanes.items():
+            yield dj, lane, params
+
+
+def test_every_fx_preset_key_is_wired_into_the_browser():
+    """A preset key with no FX_CONTROLS entry is a SILENT data-loss bug, not
+    a cosmetic one: the server renders it into the wet buffer at load, the
+    slider never moves, and the first knob touch on that channel POSTs the
+    slider's untouched value back — so the effect vanishes from the export
+    while the panel still claims the preset.
+
+    This is exactly what reverb did before round 2, and it is the third time
+    this class of bug has hit this feature. Mutation test: delete the
+    reverb_* lines from FX_CONTROLS in app.js and this must go red.
+    """
+    wired = set(_fx_controls())
+    missing = {k
+               for _, _, params in _all_preset_params()
+               for k in params
+               if k not in wired and k not in _NOT_SLIDER_BACKED}
+    assert not missing, f"preset keys the browser cannot apply: {sorted(missing)}"
+
+
+def test_every_preset_value_sits_on_its_slider_step():
+    """A range input snaps its value to the step grid; the server does not.
+    An off-grid preset therefore PLAYS as one number and EXPORTS as another
+    — sat_drive_db 6.3 on a 0.5-step slider plays as 6.5. Same for anything
+    outside min/max, which the browser clamps and the server honours.
+    """
+    controls, sliders = _fx_controls(), _sliders()
+    bad = []
+    for dj, lane, params in _all_preset_params():
+        for key, val in params.items():
+            if key not in controls:
+                continue
+            slider_id, scale = controls[key]
+            lo, hi, step = sliders[slider_id]
+            v = val * scale
+            if not (lo - 1e-9 <= v <= hi + 1e-9):
+                bad.append(f"{dj}/{lane}/{key}={val} -> {v} outside [{lo},{hi}]")
+            elif abs(round(v / step) * step - v) > 1e-6:
+                bad.append(f"{dj}/{lane}/{key}={val} -> {v} off {step} step")
+    assert not bad, "\n".join(bad)
+
+
+def test_reverb_dry_is_always_stated_when_reverb_is_on():
+    """The browser's Dry slider defaults to 100%, the server defaults
+    reverb_dry to 1 - reverb_mix. Omit it and the two sides disagree about
+    the dry level, so what plays is not what exports. Every preset that
+    turns reverb on must say what the dry level is."""
+    for dj, lane, params in _all_preset_params():
+        if params.get("reverb_mix"):
+            assert "reverb_dry" in params, f"{dj}/{lane} sets reverb_mix but not reverb_dry"
+
+
+def _chain(sig_l, sig_r, params, sr=44100):
+    L, R = server._apply_channel_chain(sig_l.copy(), sig_r.copy(), sr, params)
+    return L, R
+
+
+def _drumish(sr=44100, seconds=2.0):
+    """Broadband transients on a grid — enough spectrum and enough silence
+    between hits for reverb tails and echoes to actually show up. Synthetic
+    on purpose: this must not need the beats drive mounted."""
+    rng = np.random.default_rng(7)
+    n = int(sr * seconds)
+    sig = np.zeros(n)
+    env = np.exp(-np.arange(int(sr * 0.12)) / (sr * 0.02))
+    for hit in range(8):
+        i = int(hit * sr * 0.25)
+        noise = rng.standard_normal(len(env)) * env
+        tone = np.sin(2 * np.pi * 180 * np.arange(len(env)) / sr) * env
+        sig[i:i + len(env)] += 0.5 * noise + 0.5 * tone
+    return sig * 0.3, sig * 0.3
+
+
+def _difference_from_dry_db(dj, bpm):
+    """The audition metric, in code: sum every lane this DJ processes, match
+    the level, and measure how far the result sits from the untouched sum.
+    -33 dB is inaudible; -10 dB is obvious."""
+    from sound_engine import fx_presets
+    lanes = [l for l in fx_presets._load()[dj] if not l.startswith("_")]
+    dry_sum = np.zeros(0)
+    wet_sum = np.zeros(0)
+    for lane in lanes:
+        params = fx_presets.for_lane(dj, f"{lane} - sample", bpm)
+        dl, dr = _drumish()
+        wl, wr = _chain(dl, dr, params)
+        n = min(len(dl), len(wl))
+        if not len(dry_sum):
+            dry_sum, wet_sum = np.zeros(n), np.zeros(n)
+        dry_sum += ((dl[:n] + dr[:n]) / 2)
+        wet_sum += ((wl[:n] + wr[:n]) / 2)
+    rms = lambda x: float(np.sqrt(np.mean(x ** 2)))
+    wet_sum *= rms(dry_sum) / max(rms(wet_sum), 1e-12)   # level-match, as the
+                                                          # audition files are
+    return 20 * np.log10(max(rms(wet_sum - dry_sum), 1e-12) / max(rms(dry_sum), 1e-12))
+
+
+@pytest.mark.parametrize("dj,bpm,floor_db", [
+    ("_default", 90, -26.0),
+    ("Glass Cat", 96, -24.0),
+    ("Otto Grit", 91, -17.0),
+    ("Night Metro", 140, -12.0),
+    ("Rage Engine", 150, -15.0),
+])
+def test_each_dj_is_audibly_different_from_dry(dj, bpm, floor_db):
+    """Round 1 shipped Glass Cat at -33 dB from dry — arithmetically present,
+    inaudible in the room, and the owner said so. These floors are well under
+    the round-2 targets so the test is a smoke alarm, not a tuning claim;
+    what it catches is a preset silently going quiet again."""
+    assert _difference_from_dry_db(dj, bpm) > floor_db
+
+
+def _saturation_contribution_db(dj, bpm):
+    """How much of a DJ's sound is the DRIVE specifically — the same lane sum
+    run with and without its saturation stage, level-matched.
+
+    This exists because _difference_from_dry_db is nearly blind to it:
+    halving every sat_mix in the file moved that number by 0.04-0.21 dB and
+    all five of its floors stayed green. Saturation is a waveshaper, so it
+    only bites where the signal is hot, and most samples of a drum buffer sit
+    near zero where tanh is still linear — so a reverb tail dominates that
+    metric and drive barely registers. Hence the x1.5 signal here (peak 0.95,
+    like a real normalised drum stem) and hence measuring the stage directly
+    instead of trusting the aggregate.
+    """
+    from sound_engine import fx_presets
+    tot_with = tot_without = None
+    for lane in fx_presets._load()[dj]:
+        if lane.startswith("_"):
+            continue
+        params = fx_presets.for_lane(dj, f"{lane} - sample", bpm)
+        if not params.get("sat_mix"):
+            continue
+        flat = dict(params, sat_mix=0.0)
+        dl, dr = _drumish()
+        dl, dr = dl * 1.5, dr * 1.5
+        wl, _ = _chain(dl, dr, params)
+        nl, _ = _chain(dl, dr, flat)
+        n = min(len(wl), len(nl))
+        if tot_with is None:
+            tot_with, tot_without = np.zeros(n), np.zeros(n)
+        tot_with += wl[:n]
+        tot_without += nl[:n]
+    rms = lambda x: float(np.sqrt(np.mean(x ** 2)))
+    tot_with *= rms(tot_without) / max(rms(tot_with), 1e-12)
+    return 20 * np.log10(max(rms(tot_with - tot_without), 1e-12)
+                         / max(rms(tot_without), 1e-12))
+
+
+@pytest.mark.parametrize("dj,bpm,floor_db", [
+    ("_default", 90, -34.0),
+    ("Glass Cat", 96, -40.0),
+    ("Otto Grit", 91, -25.0),
+    ("Night Metro", 140, -24.5),
+    ("Rage Engine", 150, -18.5),
+])
+def test_each_djs_drive_is_actually_doing_something(dj, bpm, floor_db):
+    """Mutation test that matters: halve every sat_mix in fx_presets.json and
+    all five of these go red. The aggregate difference-from-dry floors do
+    NOT — they stayed green through exactly that mutation, which is why this
+    test exists. Round 1 shipped on a loudness test that proved nothing; this
+    is the same mistake caught one layer down."""
+    assert _saturation_contribution_db(dj, bpm) > floor_db
+
+
+def test_rage_engine_drives_hardest_and_glass_cat_least():
+    """The aggression ordering, asserted on the metric that can actually see
+    it. Rage Engine has kick_dist 6.0 and mix_sat 4.0 in his own config and
+    must stay the hardest-driven on the roster; Glass Cat is documented
+    'minimal and dry' and must stay the softest."""
+    drive = {dj: _saturation_contribution_db(dj, bpm) for dj, bpm in
+             [("Glass Cat", 96), ("Otto Grit", 91),
+              ("Night Metro", 140), ("Rage Engine", 150)]}
+    assert max(drive, key=drive.get) == "Rage Engine", drive
+    assert min(drive, key=drive.get) == "Glass Cat", drive
+
+
+def test_glass_cat_stays_the_most_restrained_and_default_the_gentlest():
+    """Glass Cat is documented 'minimal and dry'. Round 2 raised him from
+    inaudible to clearly doing something, and the thing that must not happen
+    is him arriving as wet as the other three — that would erase the
+    personality the presets exist to express. _default sits under all four
+    tuned DJs for the same reason: it is what 36 untuned personalities get.
+
+    NOTE what this deliberately does NOT assert: that Rage Engine moves this
+    metric more than Night Metro. It does not, and that is correct — Night
+    Metro is drenched (4.5 s reverb at 0.32 wet) while Rage Engine is dry and
+    distorted, and a long wet tail shifts an RMS difference far more than
+    hard saturation does. Ranking those two on this number would be ranking
+    reverb depth and calling it aggression, and the only way to make it pass
+    would be to pull Night Metro's reverb down to suit the test. The metric
+    measures how far from dry a DJ sits, not how aggressive it sounds."""
+    tuned = {dj: _difference_from_dry_db(dj, bpm) for dj, bpm in
+             [("Glass Cat", 96), ("Otto Grit", 91),
+              ("Night Metro", 140), ("Rage Engine", 150)]}
+    quiet = tuned.pop("Glass Cat")
+    assert all(quiet < v for v in tuned.values()), tuned
+    assert _difference_from_dry_db("_default", 90) < quiet
+
+
+@pytest.mark.parametrize("dj,bpm", [
+    ("_default", 90), ("Glass Cat", 96), ("Otto Grit", 91),
+    ("Night Metro", 140), ("Rage Engine", 150),
+])
+def test_no_lane_preset_runs_away_in_level(dj, bpm):
+    """Round 2 pushed saturation up by half again and added a parallel reverb
+    send on top of an untouched dry path. Both add level. The mix bus has a
+    -0.3 dB brickwall (server.py), but a lane that arrives 12 dB hot just
+    eats the whole limiter and squashes everything else in the beat."""
+    from sound_engine import fx_presets
+    for lane in fx_presets._load()[dj]:
+        if lane.startswith("_"):
+            continue
+        params = fx_presets.for_lane(dj, f"{lane} - sample", bpm)
+        dl, dr = _drumish()
+        wl, wr = _chain(dl, dr, params)
+        gain_db = 20 * np.log10(max(np.abs(wl).max(), np.abs(wr).max())
+                                / max(np.abs(dl).max(), 1e-12))
+        assert gain_db < 6.0, f"{dj}/{lane} gains {gain_db:.1f} dB of peak"

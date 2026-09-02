@@ -245,6 +245,18 @@ const FX_CONTROLS = {
   comp_makeup_db: ["compMakeup", 1],
   sat_drive_db: ["satDrive", 1], sat_mix: ["satMix", 100],
   width: ["widthKnob", 1],
+  // Reverb was missing here while the sliders, the server chain and
+  // syncChannelToServer all knew about it — so a preset's reverb rendered
+  // into the wet buffer at load and then VANISHED from the export the
+  // first time any knob on that channel was touched, because the sync
+  // posts revWet.gain.value (still 0). Same silent-flatten class as the
+  // suspended-context bug. reverb_dry is listed too and is NOT optional:
+  // the slider defaults to 1.0 while _apply_channel_chain defaults it to
+  // 1 - mix, so without it the browser and the exported file disagree
+  // about the dry level. Every preset sets it explicitly. (Round 2.)
+  reverb_mix: ["revWet", 100], reverb_dry: ["revDry", 100],
+  reverb_size_s: ["revSize", 1], reverb_damping: ["revDamping", 1],
+  reverb_width: ["revWidth", 1],
   dly_feedback: ["dlyFeedback", 100], dly_mix: ["dlyMix", 100],
   br_repeats: ["brRepeats", 1], br_chance: ["brChance", 100],
   br_mix: ["brMix", 100],

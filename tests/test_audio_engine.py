@@ -181,3 +181,29 @@ def test_master_chain_does_not_inflate_quiet_input_past_target():
     L, R, got = ae.master_chain(quiet.copy(), quiet.copy(), target_lufs=-12.0,
                                   ceiling_db=-1.0)
     assert abs(got - (-12.0)) < 0.2
+
+
+def test_algo_reverb_dry_of_one_is_unity_not_double():
+    """pedalboard/JUCE Reverb passes dry at 2x dry_level, so dry=1.0 used to
+    return the signal +6 dB. That went unnoticed until the Sound Engine's
+    per-DJ presets switched reverb on and every reverb channel exported 6 dB
+    hotter than the browser played it. loop_algo_reverb's freeze branch sums
+    dry by hand and was always correct, so the two branches of one function
+    disagreed about what `dry` meant.
+
+    Mutation test: drop the * 0.5 in algo_reverb and this goes red."""
+    impulse = np.zeros(SR)
+    impulse[0] = 1.0
+    wL, _ = ae.algo_reverb(impulse.copy(), impulse.copy(), wet=0.0, dry=1.0)
+    assert abs(wL[0] - 1.0) < 1e-4, f"dry=1.0 returned {wL[0]:.4f}, want unity"
+
+
+def test_algo_reverb_freeze_and_non_freeze_agree_on_what_dry_means():
+    """The two branches of loop_algo_reverb must scale the dry path the same
+    way — the bug above existed precisely because they did not."""
+    rng = np.random.default_rng(3)
+    sig = rng.standard_normal(SR) * 0.2
+    normal, _ = ae.loop_algo_reverb(sig.copy(), sig.copy(), wet=0.0, dry=1.0)
+    frozen, _ = ae.loop_algo_reverb(sig.copy(), sig.copy(), wet=0.0, dry=1.0,
+                                     freeze=True)
+    assert abs(np.abs(normal).max() / np.abs(frozen).max() - 1.0) < 0.02
