@@ -22,6 +22,45 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 HANDOFF — the per-DJ pass is the next session's job
+- Where things stand: four effects are built, tested, approved by his ear,
+  and switched ON FOR NOTHING. Their amounts live in
+  `groove.OWNER_TASTE` and are read by no code path:
+      mix_eq          low +1.5 @120 · mid -1.0 @800 · air +2.0 @8k
+      backbeat_echo   1/8 note, feedback 0.35, mix 0.20  (snare/clap)
+      chorus          0.8 Hz, depth 0.35, mix 0.50  (snare/clap/stamp)
+      phaser          0.5 Hz, depth 0.60, mix 0.35  (hat)
+  `render_crew_beat()` takes all four as keywords, all defaulting to None,
+  and a test holds the default path byte-identical to the old code.
+- HIS ROLLOUT DECISION, asked directly and answered 2026-09-03: PER DJ,
+  ONE AT A TIME. Not roster-wide. Same call he made on the echo. Do not
+  switch any of these on globally — he has been asked and he said no.
+- What the pass actually is, per DJ: pick which of the four he gets, at
+  what strength, on which lanes; render him against his current sound;
+  let his ear decide. Roughly one audition batch each. Nine DJs, then
+  twelve Legends. He said he would start it in a fresh session.
+- Start with Otto Grit unless he says otherwise — my suggestion, not his
+  instruction. Reason: he knows that sound best, so a wrong setting is
+  easiest for him to hear.
+- The two audition scripts are the template — copy their shape rather
+  than inventing a new one: `tools/make_chorus_phaser_ab.py` and
+  `tools/make_low_shelf_ab.py`. Same six DJs, one kit reused across all
+  versions, Desktop output, library untouched, no beat numbers, and a
+  READ ME that states what was measured and what was NOT heard. Both
+  scripts fail loud if a version renders identical to its control.
+- TRAP THIS PASS WILL HIT: the crew A/B path renders DRUMS ONLY — the
+  lanes are kick/snare/clap/hat/stamp and chord lanes are assembled
+  further up in beat_machine. `chorus`'s default `lanes` is ("chord",),
+  so on that bench it silently does nothing. A chorus on his CHORDS is
+  still unheard and is its own audition.
+- UNPUSHED AT HANDOFF: main is one commit ahead of origin/main (91ded40
+  plus this entry). Git has no credentials from inside Claude Code — he
+  pushes from his own terminal. If a fresh session finds main ahead of
+  the remote, that is why, not a mistake.
+- Status: open.
+- Outcome:
+
+
 ### 2026-09-03 The mix EQ was two-thirds redundant, and the third that isn't barely survives
 - Context: he asked which effects are used almost universally in hip hop.
   Answering it honestly meant reading what the engine already does rather
