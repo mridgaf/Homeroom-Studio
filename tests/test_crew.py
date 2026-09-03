@@ -45,7 +45,15 @@ def test_machine_truth_dust_only_for_the_90s_heads():
         if name in crew.LEGEND_NAMES or name in crew.GENRE_NAMES:
             continue
         if p["era"] == "90s":
-            assert p["dust"] == OWNER_TASTE["sp1200_amount"], name
+            # Otto Grit is the one head who has actually HEARD his dust:
+            # the 2026-09-03 audition, where his verdict was "c Plus, dust
+            # too much". So his sits under the house amount by ear rather
+            # than at it. Everyone else is still on the house number
+            # because nobody has judged theirs yet.
+            if name == "Otto Grit":
+                assert 0.0 < p["dust"] < OWNER_TASTE["sp1200_amount"], name
+            else:
+                assert p["dust"] == OWNER_TASTE["sp1200_amount"], name
         else:
             assert p["dust"] == 0.0, name
 
@@ -286,12 +294,17 @@ def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
     assert seen["amount"] == 0.35 and seen["len"] == 1000
 
 
-def test_allow_dirt_is_one_dj_not_the_roster():
-    """Owner 2026-09-03 opened the clean-render rule for Otto's dust ONLY
-    by ear-audition. Until he says yes, no preset ships with it — and the
-    2026-07-18 clean rule stands for everyone."""
+def test_allow_dirt_is_three_djs_not_the_roster():
+    """The 2026-07-18 clean-render rule still stands for the roster. Three
+    DJs are out of it, each because he heard that DJ and said so on
+    2026-09-03 — Otto Grit "c Plus", Night Metro "c Research" (the 808
+    only, mix stays clean), Rage Engine "c Wall half". Nobody else gets an
+    exception without an audition, and the house rule itself is untouched.
+    """
     assert OWNER_TASTE["clean_renders"] is True
-    assert not [n for n, p in CREW.items() if p.get("allow_dirt")]
+    heard = {n: p["allow_dirt"] for n, p in CREW.items() if p.get("allow_dirt")}
+    assert heard == {"Otto Grit": True, "Night Metro": "low",
+                     "Rage Engine": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -401,43 +414,85 @@ def test_allow_dirt_low_grits_the_808_and_leaves_the_mix_clean():
     assert s2.called and m2.call_args.kwargs["drive"] == p["drive"]
 
 
-def test_no_preset_ships_with_a_breakdown_or_dirt_until_he_hears_it():
-    """Both mechanisms are built and auditioned, neither is switched on.
-    Same contract as every other effect in this pass — approving the
-    SOUND is what turns it on, not building it."""
-    assert not [n for n, q in CREW.items() if q.get("breakdown")]
-    assert not [n for n, q in CREW.items() if q.get("allow_dirt")]
+def test_only_night_metro_ships_with_a_breakdown():
+    """The drop is ONE DJ's signature moment, approved by ear 2026-09-03.
+    It is not a house behaviour and no other preset may grow one without
+    its own audition."""
+    assert [n for n, q in CREW.items() if q.get("breakdown")] \
+        == ["Night Metro"], "the breakdown is his signature, not a house rule"
 
 
-def test_every_dj_carries_exactly_one_personal_twist():
+def test_every_dj_carries_the_personal_twist_he_asked_for():
     """Owner 2026-09-03: "one of the three thrown on either the snare, the
     hat, or the backbeat ... as an addition to every DJ for my own personal
     twist", and he asked me to place them.
 
-    One of echo/chorus/phaser per DJ, never two, and the amounts must be
-    HIS approved numbers rather than something retuned quietly. Rage Engine
-    is the one documented exception — he chose "research can veto it", and
-    Rage Engine's sources say the mix is glued by saturation, not
-    modulation. If someone drops the veto, this test says so out loud
-    rather than letting a wall of sound grow a chorus.
+    The ruler is the exact placement, not a count — he also said the twist
+    is ALWAYS EXTRA on top of whatever a DJ's research asks for, so Otto
+    Grit legitimately carries two (the echo his `c Plus` verdict switched
+    on, and the chorus that is his twist, whose lane list carries both).
+    Rage Engine is the one documented veto: he chose "research can veto
+    it", and Rage Engine's sources say the mix is glued by saturation, not
+    modulation. If someone drops the veto or moves a twist, this says so
+    out loud rather than letting a wall of sound grow a chorus.
     """
     from crew import DEFAULT_CREW
-    nine = list(DEFAULT_CREW)
+    TWIST = {"Otto Grit": ("chorus", "chord"),
+             "Cutz": ("backbeat_echo", "snare"),
+             "Crate Prophet": ("backbeat_echo", "snare"),
+             "Chrome Dial": ("backbeat_echo", "snare"),
+             "Glass Cat": ("chorus", "chord"),
+             "Sunday Chop": ("phaser", "hat"),
+             "Night Metro": ("chorus", "chord"),
+             "New Math": ("phaser", "hat")}
     approved = {"backbeat_echo": OWNER_TASTE["backbeat_echo"],
                 "chorus": OWNER_TASTE["chorus"],
                 "phaser": OWNER_TASTE["phaser"]}
-    for name in nine:
-        p = CREW[name]
-        on = [k for k in approved if p.get(k)]
-        if name == "Rage Engine":
-            assert on == [], f"Rage Engine's veto was dropped: {on}"
-            assert p.get("_no_twist"), "the veto lost its written reason"
-            continue
-        assert len(on) == 1, f"{name} carries {len(on)} twists, want 1: {on}"
-        cfg, want = p[on[0]], approved[on[0]]
+    assert set(DEFAULT_CREW) - set(TWIST) == {"Rage Engine"}
+    p = CREW["Rage Engine"]
+    assert not [k for k in approved if p.get(k)], "Rage Engine's veto was dropped"
+    assert p.get("_no_twist"), "the veto lost its written reason"
+
+    for name, (key, lane) in TWIST.items():
+        cfg = CREW[name].get(key)
+        assert cfg, f"{name} lost its {key}"
+        # the echo has no lanes key -- it is built onto the snare/clap
+        assert lane in tuple(cfg.get("lanes", ("snare",))), \
+            f"{name}'s twist moved off the {lane}"
         for k in ("rate_hz", "depth", "mix", "note", "feedback"):
-            if k in want:
-                assert cfg[k] == want[k], f"{name} retuned {on[0]}.{k}"
-        # snare/clap (the echo's built-in lanes), the hats, or the chords
-        assert tuple(cfg.get("lanes", ("snare",))) in (
-            ("snare",), ("hat",), ("chord",)), f"{name} -> {cfg.get('lanes')}"
+            if k in approved[key]:
+                assert cfg[k] == approved[key][k], f"{name} retuned {key}.{k}"
+
+
+def test_the_breakdown_moves_shortens_and_skips_beats():
+    """Owner 2026-09-03, correcting the drop he had just approved: "I don't
+    want the drop to always be in the same spot", "make it shorter", "a
+    dropout does not have to be in every beat."
+
+    Checked on the CHOICE rather than on rendered audio: these three
+    behaviours are the whole change, and an audio version would be slow
+    and would have to re-derive where the drop landed. The audio side was
+    measured on 25 composed beats (DECISIONS.md 2026-09-03): 56% got one,
+    they used bars 3/5/7, and each lasted 0.50 of a bar.
+    """
+    bd = CREW["Night Metro"]["breakdown"]
+    assert bd.get("bars") and len(bd["bars"]) > 1, "the drop cannot move"
+    assert 0.0 < bd.get("len", 1.0) < 1.0, "the drop is still a whole bar"
+    assert 0.0 < bd.get("p", 1.0) < 1.0, "every beat still gets one"
+
+    def choose(num, nbars):
+        """The same decision render_crew_beat makes, same seeding."""
+        cands = [int(x) - 1 for x in bd["bars"] if 0 <= int(x) - 1 < nbars]
+        r = np.random.default_rng(num * 104729)
+        if cands and r.random() < bd["p"]:
+            return cands[int(r.integers(len(cands)))]
+        return None
+
+    got = [choose(n, 8) for n in range(200)]
+    hit = [g for g in got if g is not None]
+    assert 0.4 < len(hit) / len(got) < 0.8, len(hit) / len(got)
+    assert len(set(hit)) > 1, "the drop never moves"
+    # a 4-bar loop has no bar 5 or 7: it must fall back to the one that
+    # fits rather than crash or empty a bar that is not there
+    short = [g for g in (choose(n, 4) for n in range(200)) if g is not None]
+    assert short and set(short) == {2}, sorted(set(short))

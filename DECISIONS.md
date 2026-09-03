@@ -22,6 +22,67 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 The three audition verdicts applied — and the drop rebuilt to his corrections
+- Context: he heard Otto Grit, Night Metro and Rage Engine, gave three
+  verdicts and then said go. The 2026-09-03 HANDOFF entry above owed
+  exactly these three; it is now paid.
+- HIS VERDICTS, applied to crew_config.json:
+    Otto Grit    "c Plus" + "dust: too much"
+                 allow_dirt True, mix_eq matte (air -1.5), backbeat echo,
+                 chorus. Dust 0.5 -> 0.25 and vinyl -42 -> -48.
+    Night Metro  "c Research" — allow_dirt "low" (808 grit only, mix stays
+                 clean). NO clap echo, NO riser widener: he stopped at c.
+                 His EQ is the house default, so he carries no mix_eq key.
+    Rage Engine  "c Wall half" — allow_dirt True, kick_dist 6 -> 3,
+                 mix_sat 4 -> 2, master_drive 1.25, and the rolling hat
+                 grammar (rolls32 at 0.75, `sparse` removed for him alone).
+- THE DUST NUMBERS ARE MINE, NOT HIS. He said "too much", not how much.
+  Halved, with the vinyl bed 6 dB down alongside it. Measured: the air
+  came back from -6.33 dB to -3.47 dB against today, so he is still
+  clearly darker than the current sound but no longer as buried as the
+  version he called too much. One line to move again either way.
+- THE DROP WAS REBUILT, not just switched on. He approved bar 5 and then
+  corrected all three things about it: "I don't want the drop to always be
+  in the same spot", "make it shorter", "a dropout does not have to be in
+  every beat". So render_crew_beat's breakdown now takes `bars` (a list,
+  one picked per beat), `len` (a fraction of the bar) and `p` (the odds).
+  `bar` singular still means every beat, whole bar, which is what kept the
+  old behaviour and its test intact. Night Metro's is bars [3,5,7],
+  len 0.5, p 0.6 — THOSE THREE NUMBERS ARE MINE. He gave the shape, not
+  the values. Candidate bars past the end of a short loop are dropped,
+  which is also the answer to "a 4-bar beat has no bar 5": it falls back
+  to bar 3 rather than skipping or crashing.
+- Verify by: measured the FINISHED files.
+    Otto    air -3.47 dB vs today (was -6.33 at the audition's dust)
+    Metro   25 composed beats: 14 got a drop (56%, asked ~60%), they used
+            bars 3, 5 AND 7, each 0.50 of a bar. Loop lengths 4 and 8.
+    Rage    crest factor -3.96 dB — a wall of sound measures smaller, and
+            this is the one ruler the loudness stage cannot hide.
+  Full suite 974 passed, 3 skipped.
+- THE TRAP THIS HIT, and it is the same family as yesterday's: the first
+  Night Metro measurement said 28% and "always the same spot". Wrong
+  bench — I rendered the RAW preset, whose bar 5 is already empty in the
+  file (that is his prototype, and it is exactly why the breakdown had to
+  be pinned in the renderer at all). Real beats go through compose() and
+  vary_preset(), which rebuild the lanes from grammar. Measuring the
+  prototype measured the thing the fix exists to replace.
+- FOUR TESTS UPDATED, all of which asserted "nothing is switched on yet"
+  and were true until he said go: test_allow_dirt_is_one_dj_not_the_roster
+  (renamed ..._three_djs..., now names who and why),
+  test_only_night_metro_ships_with_a_breakdown,
+  test_machine_truth_dust_only_for_the_90s_heads (Otto is now the one head
+  whose dust was set by ear, so his is under the house amount not at it),
+  and the vinyl assertion in test_generate_ships_wav_midi_stems_and_recipe
+  — tied to the preset flag rather than his name, so it follows if he ever
+  takes the exception back. One test added:
+  test_the_breakdown_moves_shortens_and_skips_beats.
+- Backup of the pre-verdict roster: crew_config.pre-verdicts-2026-09-03.json.
+- Status: open — measured, not heard. He chose to judge these in the wild
+  rather than take another batch. SIX DJs REMAIN of the nine (Cutz, Crate
+  Prophet, Chrome Dial, Glass Cat, Sunday Chop, New Math) plus the twelve
+  Legends; their research profiles are still on the unmerged
+  `dj-profile-research` branch — do NOT merge it wholesale.
+
 ### 2026-09-03 The house EQ became the default, and all nine DJs got a personal twist
 - Context: four effects were built, approved by ear, and switched on for
   NOTHING — read only when a preset asked by name, and no preset did.

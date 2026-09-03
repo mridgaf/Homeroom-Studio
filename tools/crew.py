@@ -1164,9 +1164,36 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # recipes, the A/B scripts, collabs) AND the only place the chord
     # lanes exist alongside the drums — _build_chords adds them after
     # vary_preset has already run. bar is 1-based, the way he says it.
+    #
+    # OWNER 2026-09-03, after hearing the batch: he approved the drop and
+    # then corrected all three things about HOW it lands -- "I don't want
+    # the drop to always be in the same spot", "make it shorter", and "a
+    # dropout does not have to be in every beat." So the fixed bar-5,
+    # whole-bar, every-beat version he heard is NOT what ships:
+    #   bars  candidate bars, 1-based, the way he says them. ONE is picked
+    #         per beat. Bars past the end of a short loop are dropped,
+    #         which is also the answer to "a 4-bar beat has no bar 5" --
+    #         it falls back to whichever candidates fit.
+    #   len   how much of that bar falls away, as a fraction of the bar.
+    #         0.5 = the front half; the kit walks back in halfway through.
+    #   p     the odds this beat gets a drop at all.
+    # `bar` (singular) still works and still means every beat, whole bar --
+    # that is what keeps the existing behaviour and its test intact.
+    # Deterministic from the beat's own number on its OWN generator, so a
+    # rebuild reproduces the same drop and the velocity stream above is
+    # left undisturbed.
     _bd = p.get("breakdown") or {}
-    _bd_bar = int(_bd.get("bar", 0)) - 1
+    _bd_bar, _bd_len = -1, 1.0
     _bd_keep = tuple(_bd.get("keep") or ("kick",))
+    if _bd:
+        _cands = [int(x) - 1
+                  for x in (_bd.get("bars") or [_bd.get("bar", 0)])]
+        _cands = [b for b in _cands if 0 <= b < nbars]
+        _brng = np.random.default_rng(p["num"] * 104729
+                                      + p.get("vel_seed", 0) * 31)
+        if _cands and _brng.random() < float(_bd.get("p", 1.0)):
+            _bd_bar = _cands[int(_brng.integers(len(_cands)))]
+            _bd_len = float(_bd.get("len", 1.0))
 
     for lane, (pan, gain, feel_args, bars) in p["lanes"].items():
         off, jit, swing, seed = feel_args
@@ -1178,15 +1205,18 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         snd = kit[lane]
         buf = np.zeros(n)
         ons, evs = [], []
-        drops_out = bool(_bd) and 0 <= _bd_bar < nbars \
+        drops_out = _bd_bar >= 0 \
             and not any(lane.startswith(k) for k in _bd_keep)
         for b in range(nbars):
-            if drops_out and b == _bd_bar:
-                continue
             pat = bars[b % len(bars)]
             res = len(pat)
             for s, ch in enumerate(pat):
                 if ch == "-":
+                    continue
+                # a partial drop silences the FRONT of the bar and lets
+                # the kit walk back in; len 1.0 empties the whole bar,
+                # which is the behaviour this replaced
+                if drops_out and b == _bd_bar and s < res * _bd_len:
                     continue
                 t = b * bar_s + s * bar_s / res
                 if res == 16:

@@ -135,8 +135,8 @@
     ]
    ]
   },
-  "dust": 0.25,
-  "vinyl": -48,
+  "dust": 0.5,
+  "vinyl": -42,
   "wow": 0.0,
   "sidechain": 0.15,
   "space": [
@@ -460,26 +460,8 @@
    "depth": 0.35,
    "mix": 0.5,
    "lanes": [
-    "snare",
-    "clap",
-    "stamp",
     "chord"
    ]
-  },
-  "allow_dirt": true,
-  "mix_eq": {
-   "low_db": 1.5,
-   "low_hz": 120.0,
-   "mid_db": -1.0,
-   "mid_hz": 800.0,
-   "mid_q": 0.9,
-   "high_db": -1.5,
-   "high_hz": 8000.0
-  },
-  "backbeat_echo": {
-   "note": 0.5,
-   "feedback": 0.35,
-   "mix": 0.2
   }
  },
  "Cutz": {
@@ -3234,19 +3216,6 @@
    "lanes": [
     "chord"
    ]
-  },
-  "allow_dirt": "low",
-  "breakdown": {
-   "bars": [
-    3,
-    5,
-    7
-   ],
-   "len": 0.5,
-   "p": 0.6,
-   "keep": [
-    "kick"
-   ]
   }
  },
  "Rage Engine": {
@@ -3419,8 +3388,8 @@
   ],
   "alt": null,
   "drive": 1.55,
-  "kick_dist": 3.0,
-  "mix_sat": 2.0,
+  "kick_dist": 6.0,
+  "mix_sat": 4.0,
   "grammar": {
    "kick": {
     "w": [
@@ -3485,31 +3454,35 @@
     "modes": [
      [
       "eighths",
-      0.0417
+      0.093
      ],
      [
       "sixteenths",
-      0.0417
+      0.093
+     ],
+     [
+      "sparse",
+      0.093
      ],
      [
       "broken",
-      0.0417
+      0.093
      ],
      [
       "offbeats",
-      0.0417
+      0.093
      ],
      [
       "gallop",
-      0.0417
+      0.093
      ],
      [
       "answer",
-      0.0417
+      0.093
      ],
      [
       "rolls32",
-      0.75
+      0.35
      ]
     ],
     "roll_n": [
@@ -3699,9 +3672,7 @@
    ],
    "chords_default": true
   },
-  "_no_twist": "Owner's personal-twist rule (2026-09-03) is vetoed here BY HIS OWN CALL: his research says the mix is glued by saturation, not modulation, and a wall of sound has no gap for a delay. He still gets the house mix EQ. Do not add echo/chorus/phaser without asking him.",
-  "allow_dirt": true,
-  "master_drive": 1.25
+  "_no_twist": "Owner's personal-twist rule (2026-09-03) is vetoed here BY HIS OWN CALL: his research says the mix is glued by saturation, not modulation, and a wall of sound has no gap for a delay. He still gets the house mix EQ. Do not add echo/chorus/phaser without asking him."
  },
  "New Math": {
   "num": 9,
