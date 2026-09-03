@@ -1080,7 +1080,7 @@ def grid_accent(res, s):
 
 
 def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
-                     eq=None, echo=None):
+                     eq=None, echo=None, chorus=None, phaser=None):
     """Render one personality's 8-bar A/B beat. kit maps lane -> mono
     audio. space overrides the house snare treatment ('room'/'dry'/...)
     for era-deviation Alt renders. preset overrides CREW[name] — that's
@@ -1100,7 +1100,16 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     eq={low_db, low_hz, mid_db, mid_hz, mid_q, high_db, high_hz} ->
     audio_engine.eq3 on the mix bus; echo={note, feedback, mix} ->
     audio_engine.loop_delay on the backbeat lanes, note being a fraction
-    of a beat (0.5 = 1/8) as in fx_presets.json."""
+    of a beat (0.5 = 1/8) as in fx_presets.json.
+
+    chorus and phaser are the same deal one step earlier: built and wired,
+    OFF unless a caller passes a dict, and NOT yet approved by ear — no
+    amounts are parked in OWNER_TASTE for them because he has not heard
+    them yet. chorus={rate_hz, depth, mix, lanes} and
+    phaser={rate_hz, depth, mix, lanes} -> audio_engine.chorus/phaser,
+    lanes being a tuple of lane-name prefixes. Both default to the lanes
+    the effect is actually musical on rather than the whole mix, for the
+    same reason the echo does: modulation across the kick smears it."""
     p = preset or CREW[name]
     bpm = p["bpm"]
     # v6 (2026-07-18): real time signatures. 3/4 and 6/8 bars both span
@@ -1336,6 +1345,40 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             if lane in wet_side:      # the room tail repeats with its drum
                 wet_side[lane] = loop_delay(wet_side[lane],
                                             wet_side[lane], **_e)[0]
+
+    # CHORUS / PHASER, per-DJ colour. Same placement argument as the echo
+    # above — before the bus governor, so whatever they do to a lane's
+    # level is measured rather than smuggled past the ceilings. Both are
+    # loop-safe (audio_engine._loop_modulated) so bar 8 meets bar 1
+    # without a step.
+    #
+    # Lane-scoped by default, not mix-wide: chorus on the chords is the
+    # thickener he'd actually reach for, phaser on the hats is the sweep.
+    # Run on the dry lane only — the ambience tail in wet_side is left
+    # alone, because modulating a room tail separately from the hit that
+    # made it decorrelates the two and the room stops sounding like one
+    # room. The echo does process both, and that is not an inconsistency:
+    # a repeat should carry its room, a sweep should not rewrite it.
+    if chorus or phaser:
+        import audio_engine          # local: keeps pedalboard off the
+                                     # default render path, as eq/echo do
+        for _fx, _cfg, _default_lanes in (
+                (audio_engine.chorus, chorus, ("chord",)),
+                (audio_engine.phaser, phaser, ("hat",))):
+            if not _cfg:
+                continue
+            _lanes = tuple(_cfg.get("lanes") or _default_lanes)
+            # mix defaults to 0.0 in audio_engine (the rack needs an
+            # off position), so a dict without one would be a SILENT
+            # no-op — this project's most expensive recurring bug. Here,
+            # passing the dict at all means "on", so it gets a real
+            # amount. Unheard by the owner: audition before believing it.
+            _kw = {k: _cfg[k] for k in ("rate_hz", "depth")
+                   if k in _cfg}
+            _kw["mix"] = float(_cfg.get("mix", 0.3))
+            for lane in bufs:
+                if lane.startswith(_lanes):
+                    bufs[lane] = _fx(bufs[lane], bufs[lane], **_kw)[0]
 
     # The low end ducks DEEPER than the rest of the mix (owner 2026-09-01).
     # Defined out here, not inside the peak-governor block below: that block

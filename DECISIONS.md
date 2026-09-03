@@ -22,6 +22,162 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 The mix EQ was two-thirds redundant, and the third that isn't barely survives
+- Context: he asked which effects are used almost universally in hip hop.
+  Answering it honestly meant reading what the engine already does rather
+  than reciting what records do.
+- What the reading found: `make_drum_loops.master()` ALREADY applies a
+  tone EQ to every beat ever rendered — an air shelf above 9 kHz and a dip
+  through the 300-900 Hz boxiness. Those are two of the three moves in the
+  `mix_eq` he approved 2026-09-02. Only the LOW SHELF is new. So my
+  earlier note that the approved EQ was "parked and doing nothing" was too
+  strong and is corrected here: most of it is already happening.
+- Decision/change: `tools/make_low_shelf_ab.py` — the low shelf on its
+  own, mid and air pinned flat so one thing moves. 24 files ->
+  `~/Desktop/Homeroom Low Shelf 2026-09-03/`.
+- THE REAL FINDING, and it matters more than the audition: the low shelf
+  MOSTLY DOES NOT SURVIVE the master stage. Measured in the finished
+  files, energy under 120 Hz against each beat's own control:
+      +1.5 dB dialled in  ->  +0.42 dB delivered
+      +3.0 dB dialled in  ->  +0.77 dB delivered
+      +6.0 dB dialled in  ->  +1.32 dB delivered
+  About a third, proportionally — a give-back, not a ceiling. `master()`
+  peak-normalises, soft-clips with tanh, then `master_to_lufs` normalises
+  loudness, and all three run AFTER the mix EQ; a low boost raises the
+  kick's peaks, which is precisely what those stages exist to pull down.
+  Roughly 1 dB is where a change this broad becomes obvious, so the amount
+  he approved lands UNDER audibility. A mix-bus low shelf is a weak lever
+  in this engine. If he wants weight, the lever is the kick/sub levels,
+  which sit before the normalising.
+- Two process notes worth keeping:
+  * The batch was rendered TWICE. The first ladder stopped at +3 and would
+    have asked him to choose between files that sound the same. Added a +6
+    rung so the ladder has an audible top.
+  * The first ruler was wrong: it measured low energy as a SHARE of the
+    whole file, which moves whenever anything else moves, and reported
+    +0.22 dB where the absolute change was +0.42. Fixed to absolute band
+    energy. A ruler that undersells the thing being auditioned by half is
+    worse than no ruler — and this one nearly shipped.
+- Verify by: his ear on the four rungs; the numbers above are already
+  measured on the finished files.
+- Status: confirmed — he picked "b", the +1.5 dB shelf, which is the
+  amount already parked. He picked it knowing the READ ME said it lands
+  under audibility; that is his call and it stands.
+- Outcome: settled at +1.5 dB under 120 Hz.
+
+  AND A CORRECTION I HAD TO MAKE TO HIM. "Only the low shelf is new" was
+  wrong, and I only caught it because his answer made me re-check. The
+  master stage tilts the same WAY as the mid and air bands but not by the
+  same AMOUNT. Measured over the same six beats, full 3-band EQ vs
+  low-shelf-only:
+      low  <120 Hz   +0.33 vs +0.42 dB   identical either way
+      mid  300-900   -1.15 vs -0.54 dB   -0.61 dB more scoop
+      air  >8 kHz    +0.83 vs -0.58 dB   +1.42 dB MORE AIR
+  +1.4 dB of air is above the ~1 dB audibility line, so the air band is a
+  real addition, not a duplicate. The bands STACK on the master stage.
+  Told him, with the numbers, and asked whether the EQ keeps all three
+  bands or just the low shelf — the two answers he had given on two days
+  pointed different ways and I was not going to pick for him.
+- His answer 2026-09-03: FULL EQ, keep the air too. So `mix_eq` is
+  unchanged — his 09-02 approval stands and today confirmed the low shelf
+  inside it. Still parked; rollout is still per DJ.
+
+
+### 2026-09-03 Chorus and phaser wired — both halves, and both were NOT loop-safe
+- Context: he asked for the list of effects available to give the DJs more
+  individuality, then said "wire the chorus and the phaser?" and, asked
+  where, chose BOTH: the Sound Engine rack (sliders) and per-DJ at make
+  time.
+- Decision/change: four files.
+  * `tools/audio_engine.py` — `chorus()` and `phaser()` REWRITTEN. They
+    were bare pedalboard wrappers, and pedalboard's Chorus/Phaser are
+    stateful streaming plugins: over one 8-bar buffer the modulation
+    delay line starts empty and the LFO ends mid-sweep, so bar 8 meeting
+    bar 1 steps. That is the same class of bug that got `loop_delay`
+    rewritten. Two fixes, both needed: the doubled-buffer priming trick
+    `loop_algo_reverb` uses, AND `_loop_lfo_rate`, which snaps the rate
+    to a whole number of cycles per buffer so the LFO closes where it
+    opened. Priming alone does not fix the LFO. Both now take `sr=` (they
+    hardcoded 44.1k, wrong for a rack channel at another rate) and both
+    default `mix=0.0` so the rack has a true off position.
+  * `sound_engine/server.py` — `cho_*` and `phs_*` in
+    `_apply_channel_chain`, after the drive/width block and before the
+    time effects. Pedal order.
+  * `sound_engine/static/{app.js,index.html}` — two new rack panels, six
+    sliders. Web Audio has neither effect, so both are hand-built to the
+    same shape as pedalboard's: a modulated delay for the chorus, six
+    swept allpass stages for the phaser. They will NOT null against the
+    export — the same live/export approximation the reverb IR and the
+    compressor knee already carry. Both are wet/dry CROSSFADES (dry =
+    1 - mix), unlike the delay and reverb, which are sends.
+  * `tools/crew.py` — `render_crew_beat(chorus=, phaser=)`, off unless a
+    caller passes a dict, placed before the bus governor for the same
+    reason the echo is. Lane-scoped by default (chorus -> chord lanes,
+    phaser -> hat lanes), not mix-wide. A dict without a `mix` gets 0.3
+    rather than audio_engine's 0.0, so passing one can never be a silent
+    no-op.
+- Reasoning: he picked both halves, so both got built. The loop-safety
+  rewrite was not optional — wiring them as they stood would have shipped
+  a click at every loop point on any beat that used them.
+- Verify by: `tests/test_audio_engine.py` measures the seam step against a
+  normal sample step (was 49x and 69x interior, now 1.9x and 1.6x);
+  `tests/test_audio_quality.py` holds the bytes-identical default path and
+  catches the silent-no-op case. Browser side verified live at
+  localhost:8767: nodes present, six phaser stages, audio through the new
+  section, sliders driving the right gains, and the `cho_*`/`phs_*` keys
+  reaching the server payload with the values the sliders show.
+- Status: open — NOTHING TURNS THEM ON YET. No preset in fx_presets.json
+  sets them and no DJ passes them, because he has not heard them. The
+  amounts are library defaults, not his taste. Audition rendered (below);
+  the per-DJ pass waits on his verdict.
+- Outcome: audition rendered 2026-09-03, awaiting his ear.
+
+### 2026-09-03 Chorus/phaser audition — and the level bug measuring caught first
+- Context: he asked for the batch as soon as the wiring landed.
+- Decision/change: `tools/make_chorus_phaser_ab.py`, same shape as the
+  delay/EQ batch — same six DJs, one kit per DJ reused across four
+  versions (a Now / b Chorus / c Phaser / d Both). 24 files ->
+  `~/Desktop/Homeroom Chorus and Phaser 2026-09-03/`. Library untouched,
+  no beat numbers used.
+- Two judgement calls worth not re-litigating:
+  * THE CHORUS IS NOT ON THE CHORDS in this batch, even though chords are
+    where a chorus belongs and where the default `lanes` points it. This
+    A/B path renders drums only — the lanes are kick/snare/clap/hat/stamp
+    and chord lanes are assembled further up in beat_machine — so the
+    default would have rendered four IDENTICAL files. Aimed at
+    snare/clap/stamp instead. The chord question is a separate batch and
+    the READ ME says so plainly.
+  * In "d Both" the two effects sit on DIFFERENT lanes. Stacked they
+    smear each other and he could not tell which he was hearing.
+- The bug measuring caught: the FIRST render at chorus mix 0.35 measured
+  -27.0 dB (Night Metro), -21.9 (Mustang) and -20.2 (Kane East) against
+  each beat's own untouched render. Round 1 of the rack presets sat at
+  -33 to -10 dB and his verdict on it was "not enough effects" — so
+  shipping those three would have burned an audition to be told the same
+  thing twice. Raised to mix 0.50 / depth 0.35 and re-rendered: the batch
+  now measures -23.6 to -8.0 dB. Night Metro is still the weakest by 15 dB
+  and that is structural (buried clap in a sub-heavy 140 mix), not a
+  fault; the READ ME names it as a per-DJ amount rather than a bug.
+- Reasoning: the house rule is to measure the finished FILE and not the
+  median. Per-beat against its own control is the only fair reference —
+  a folder median would have hidden all three weak renders.
+- Verify by: his ear. The script also fails loud if any b/c/d render
+  comes out byte-identical to its own "a Now".
+- Status: confirmed — he approved both.
+- Outcome: 2026-09-03, verbatim: "Keep both. and to keep them ahead. that
+  amount." Read as keep the settings where they are (the same shape as his
+  delay/EQ verdict, "Keep the amounts where they are also"); told him that
+  reading and to correct it if he meant push them further. Amounts parked
+  in OWNER_TASTE["chorus"] and ["phaser"], `lanes` included — what he
+  approved was the chorus on snare/clap/stamp and the phaser on hats, NOT
+  a chorus on the chords, which he has still never heard.
+
+  Asked whether they go on roster-wide or per DJ. He chose PER DJ, ONE AT
+  A TIME — the same call he made on the echo. So nothing is switched on
+  and nothing renders differently. Four effects are now parked waiting on
+  that one pass: mix_eq, backbeat_echo, chorus, phaser.
+
+
 ### 2026-09-02 Delay and EQ wired in as opt-in switches; 24-file A/B on the Desktop
 - Context: his words, "I am going to want the delay and EQ" — the two
   effects he picked out of the nine the Sound Engine has and the beat

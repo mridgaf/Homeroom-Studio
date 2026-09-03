@@ -197,14 +197,69 @@ def saturate(L, R, drive_db=6.0, mix=0.35, sr=None):
     return L * (1 - mix) + wL * mix, R * (1 - mix) + wR * mix
 
 
-def chorus(L, R, rate_hz=0.8, depth=0.25, mix=0.3):
-    board = pb.Pedalboard([pb.Chorus(rate_hz=rate_hz, depth=depth, mix=mix)])
-    return _from_pb(board(_to_pb(L, R), SR))
+def _loop_lfo_rate(rate_hz, n, sr):
+    """Snap a modulation rate to a WHOLE number of cycles per buffer.
+
+    A chorus/phaser LFO that is mid-sweep when the buffer ends lands at a
+    different point in its sweep when bar 1 comes back around, and that
+    step is audible at the loop seam. Rounding the rate so the LFO closes
+    exactly where it opened removes the step by construction. The shift is
+    small — at 2 s and 0.8 Hz the nearest whole rate is 1.0 Hz — and a rate
+    slower than one cycle per buffer is raised to one rather than silenced,
+    because a "0 cycle" LFO is not a slower chorus, it is no chorus."""
+    dur = n / float(sr)
+    if dur <= 0.0:
+        return rate_hz
+    return max(1, int(round(rate_hz * dur))) / dur
 
 
-def phaser(L, R, rate_hz=0.5, depth=0.5, mix=0.3):
-    board = pb.Pedalboard([pb.Phaser(rate_hz=rate_hz, depth=depth, mix=mix)])
-    return _from_pb(board(_to_pb(L, R), SR))
+def _loop_modulated(plugin_cls, L, R, mix, sr, **kwargs):
+    """Loop-safe wrapper for pedalboard's modulated effects. Two seams to
+    close, and the plain wrappers that used to live here closed neither:
+
+      * the modulation delay line starts EMPTY, so the first few ms of
+        bar 1 come out dry. Fixed the way loop_algo_reverb fixes its cold
+        tank — run the board over [dry, dry] in ONE call and keep only the
+        second copy, which is primed by the first.
+      * the LFO phase does not line up across the seam. Fixed by
+        _loop_lfo_rate above; priming alone does not fix this one, which
+        is why this is not just a copy of loop_algo_reverb.
+
+    mix <= 0 returns the input untouched (the caller's no-op guard, same
+    contract as loop_delay). sr — see eq3()'s docstring."""
+    n = len(L)
+    if n == 0 or mix <= 0.0:
+        return L, R
+    if len(R) != n:
+        raise ValueError(f"{plugin_cls.__name__} needs L and R the same "
+                          f"length, got {n} and {len(R)}")
+    sr = sr or SR
+    board = pb.Pedalboard([plugin_cls(
+        rate_hz=_loop_lfo_rate(kwargs.pop("rate_hz"), n, sr),
+        mix=float(np.clip(mix, 0.0, 1.0)), **kwargs)])
+    dbl = _to_pb(np.concatenate([L, L]), np.concatenate([R, R]))
+    wL, wR = _from_pb(board(dbl, sr, reset=True))
+    return wL[n:], wR[n:]
+
+
+def chorus(L, R, rate_hz=0.8, depth=0.25, centre_delay_ms=7.0,
+             feedback=0.0, mix=0.0, sr=None):
+    """Loop-safe chorus. Thickens a lane by mixing in a copy whose pitch
+    wobbles — pads, chords and one-note bass lines widen; a kick does not
+    benefit. See _loop_modulated for what "loop-safe" costs here."""
+    return _loop_modulated(pb.Chorus, L, R, mix, sr, rate_hz=rate_hz,
+                             depth=depth, centre_delay_ms=centre_delay_ms,
+                             feedback=feedback)
+
+
+def phaser(L, R, rate_hz=0.5, depth=0.5, centre_frequency_hz=1300.0,
+             feedback=0.0, mix=0.0, sr=None):
+    """Loop-safe phaser. A notch sweeping up and down the spectrum — the
+    whoosh on a hat lane or a chord stab. See _loop_modulated."""
+    return _loop_modulated(pb.Phaser, L, R, mix, sr, rate_hz=rate_hz,
+                             depth=depth,
+                             centre_frequency_hz=centre_frequency_hz,
+                             feedback=feedback)
 
 
 def loop_delay(L, R, seconds=0.25, feedback=0.35, mix=0.0, sr=None):
