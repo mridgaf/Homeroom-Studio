@@ -22,6 +22,67 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 Night Metro, second of the per-DJ pass — and two wrong rulers caught by the fail-loud check
+- Context: "continue with Night Metro following the rules of new
+  research." Read his profile in `dj_production_profiles.json` (on the
+  unmerged dj-profile-research branch) against his live config.
+- TWO THINGS I ASKED RATHER THAN GUESSED, and his answers:
+  1. His research says "distort the 808/kick specifically — don't apply
+     that grit to the whole mix", but the `allow_dirt` switch built for
+     Otto that morning is all-or-nothing and would also push the master
+     drive 0.7 -> 1.5. He chose "808 only — follow the research".
+  2. His signature move ("bar 5 drops to the 808 alone") survives 0 of 12
+     generated beats. Fixing it is composition, not an effect. He chose
+     "fix it now, in this batch".
+- Decision/change, both in tools/crew.py:
+  * `allow_dirt` becomes a VALUE, not a flag: `True` = everything (Otto),
+    `"low"` = the 808/kick distortion only, mix stays clean (Night
+    Metro). One extra boolean, `clean_mix`, splits the early kick block
+    from the late mix-wide block and the master drive.
+  * `breakdown={"bar": 5, "keep": ["kick"]}` — pinned inside
+    render_crew_beat's bar loop, NOT in compose() or vary_preset(). Two
+    reasons: that loop is the single place every render path passes
+    through (new beats, rebuilt recipes, A/B scripts, collabs), and it is
+    the only place the chord lanes exist beside the drums — _build_chords
+    adds them AFTER vary_preset has already run.
+- TWO WRONG RULERS, both caught by the scripts' own fail-loud checks, and
+  this is the part worth remembering:
+  1. The first render used the static prototype `CREW["Night Metro"]` and
+     every "b Drop" came out BYTE-IDENTICAL to its "a Now". Cause: his
+     prototype file ALREADY has bar 5 empty on every lane but the kick.
+     I was auditioning the one file that never had the bug. Fixed by
+     composing the beats through compose()+vary_preset(), the path real
+     beats take. (Also found: compose() is deterministic per (name,
+     variant, attempt) but its repeat guard carries history ACROSS calls,
+     so composing the same variant four times can land on a different
+     loop length. The batch now composes ONCE per beat and treats that
+     one composition four ways.)
+  2. The second ruler measured bar 5's full-band RMS and reported the
+     drop as ~0.6 dB — "it does nothing". False: his sustained 808
+     carries most of the energy and the 808 is precisely what the
+     breakdown KEEPS. Measured above 2 kHz where the hats and clap
+     actually live, the same drop is -19 dB. Third ruler shipped.
+- Verify by: ~/Desktop/Homeroom Night Metro 2026-09-03 — 3 composed beats
+  x a Now / b Drop / c Research / d Plus. Four rungs, not three, so the
+  arrangement change and the effects are separable by ear. Measured: bar
+  5 up top goes -1.67 -> -19.28 dB; the 808 grit adds +2.07 dB under
+  100 Hz. Full suite 972 passed / 3 skipped.
+- HONEST NOTE PUT IN THE READ ME, not buried: the approved EQ adds air,
+  and the finished files measure 0.6 dB DARKER. That is the loudness
+  stage giving back on top what the heavier low end took — the beat gets
+  heavier, not brighter. Said so rather than letting a "+2 dB air"
+  claim stand next to a negative measurement.
+- KNOWN CEILING (ponytail-flagged): compose() rolls 4- or 8-bar loops
+  60/40, and a 4-bar beat has no bar 5. The breakdown silently does
+  nothing on those. The research says one breakdown per 8-BAR phrase, so
+  this may be correct rather than a gap — his ear and his call, and it is
+  in the READ ME.
+- Status: open — nothing heard. Nothing switched on: his preset carries
+  neither `breakdown` nor `allow_dirt` until he approves the sound, same
+  contract as every other effect in this pass.
+- Outcome:
+
+
 ### 2026-09-03 Otto Grit, first of the per-DJ pass — rebuilt in main, three questions asked first
 - Context: he said continue tuning the DJs, start with Otto, use all the
   research/effects/tools/saturation available, and "there was already a

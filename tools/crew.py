@@ -1146,6 +1146,18 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     wob = np.random.default_rng(p["num"] * 7919
                                 + p.get("vel_seed", 0) * 13)
     bufs, onsets, events = {}, {}, {}
+    # BREAKDOWN (owner 2026-09-03, "fix it now"). Night Metro's signature
+    # moment — "bar 5 drops to the 808 alone" — was true of his one
+    # prototype and 0 of 12 generated beats, because compose() and
+    # vary_preset() rebuild his lanes from grammar every time. Pinning it
+    # HERE rather than in either of those is deliberate: this loop is the
+    # one place every render path passes through (new beats, rebuilt
+    # recipes, the A/B scripts, collabs) AND the only place the chord
+    # lanes exist alongside the drums — _build_chords adds them after
+    # vary_preset has already run. bar is 1-based, the way he says it.
+    _bd = p.get("breakdown") or {}
+    _bd_bar = int(_bd.get("bar", 0)) - 1
+    _bd_keep = tuple(_bd.get("keep") or ("kick",))
 
     for lane, (pan, gain, feel_args, bars) in p["lanes"].items():
         off, jit, swing, seed = feel_args
@@ -1157,7 +1169,11 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         snd = kit[lane]
         buf = np.zeros(n)
         ons, evs = [], []
+        drops_out = bool(_bd) and 0 <= _bd_bar < nbars \
+            and not any(lane.startswith(k) for k in _bd_keep)
         for b in range(nbars):
+            if drops_out and b == _bd_bar:
+                continue
             pat = bars[b % len(bars)]
             res = len(pat)
             for s, ch in enumerate(pat):
@@ -1191,13 +1207,19 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # roughness, saturation, dust, vinyl, wow) stays off; he adds his own
     # color in Reason. Presets keep their dirt numbers so flipping
     # OWNER_TASTE["clean_renders"] back restores each character's grime.
-    # allow_dirt (owner 2026-09-03, asked directly and answered "Let Otto
-    # hear his dust"): ONE preset may opt out of the clean-render rule and
-    # play its own dust/vinyl/wow/saturation numbers. Per DJ, never
-    # roster-wide — the 2026-07-18 rule still holds for everyone without
-    # the field.
-    clean = OWNER_TASTE.get("clean_renders", False) \
-        and not p.get("allow_dirt")
+    # allow_dirt (owner 2026-09-03, asked directly): a preset may opt out
+    # of the clean-render rule and play its own grime numbers. Per DJ,
+    # never roster-wide — the 2026-07-18 rule holds for everyone without
+    # the field. TWO settings, because the research pulls two ways:
+    #   True    everything — dust, vinyl, wow, mix saturation, hot master.
+    #           Otto Grit ("Let Otto hear his dust").
+    #   "low"   the 808/kick distortion ONLY; the mix stays clean.
+    #           Night Metro, whose own research says "distort the 808/kick
+    #           specifically — don't apply that grit to the whole mix".
+    _dirt = p.get("allow_dirt")
+    _house_clean = OWNER_TASTE.get("clean_renders", False)
+    clean = _house_clean and not _dirt              # gates the 808/kick
+    clean_mix = _house_clean and _dirt is not True  # gates everything else
     if not clean and p["kick_dist"] > 0 and "kick" in bufs:
         bufs["kick"] = dist808(bufs["kick"], p["kick_dist"])
     if not clean and p.get("rough_808") and "kick" in bufs:
@@ -1769,15 +1791,15 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             bL, bR = duck(bL, bR, onsets["kick"], depth=_sub_sc, loop=True)
     L, R = kL + oL + bL, kR + oR + bR
 
-    if not clean and p["vinyl"]:
+    if not clean_mix and p["vinyl"]:
         L = L + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1)
         R = R + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 2)
-    if not clean and p["wow"] > 0:
+    if not clean_mix and p["wow"] > 0:
         L = wow_flutter(L, wow_pct=p["wow"], seed=p["num"], loop=True)
         R = wow_flutter(R, wow_pct=p["wow"], seed=p["num"], loop=True)
-    if not clean and p["mix_sat"] > 0:
+    if not clean_mix and p["mix_sat"] > 0:
         L, R = sat_unity(L, p["mix_sat"]), sat_unity(R, p["mix_sat"])
-    if not clean and p["dust"] > 0:
+    if not clean_mix and p["dust"] > 0:
         L, R = sp1200(L, amount=p["dust"]), sp1200(R, amount=p["dust"])
 
     # bus glue compression (owner 2026-07-29) runs BEFORE master() — glue
@@ -1793,7 +1815,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     L, R = glue_compress(L, R)
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't
-    L, R = master(L, R, drive=0.7 if clean else p["drive"])
+    L, R = master(L, R, drive=0.7 if clean_mix else p["drive"])
     # CENTRE THE BASS LAST (owner 2026-09-02, "take it"). This used to run
     # BEFORE master_to_lufs, and master_to_lufs soft-clips L and R
     # separately — running a non-linear stage on two channels that differ
@@ -1822,12 +1844,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # survives and the summed set keeps headroom in Reason.
     # Mix-bus glue (mix_sat, master drive, LUFS) stays off the stems —
     # they're for editing in Reason 12; the WAV is the glued reference.
-    if not clean and p["vinyl"]:
+    if not clean_mix and p["vinyl"]:
         stems["vinyl"] = (
             vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1),
             vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 2))
     for lane, (sL, sR) in list(stems.items()):
-        if not clean and lane != "vinyl":
+        if not clean_mix and lane != "vinyl":
             if p["wow"] > 0:
                 sL = wow_flutter(sL, wow_pct=p["wow"], seed=p["num"],
                                  loop=True)

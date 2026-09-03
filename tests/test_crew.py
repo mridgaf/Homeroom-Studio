@@ -1,4 +1,5 @@
 """Checkpoint 3: numeric verification of the nine personality presets."""
+import json
 import sys
 from pathlib import Path
 
@@ -320,3 +321,83 @@ def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
     with patch("audio_engine.eq3", side_effect=spy):
         render_crew_beat("Cutz", kit, preset=CREW["Cutz"])
     assert calls == []
+
+
+def test_breakdown_empties_the_bar_for_every_lane_but_the_kept_one():
+    """Night Metro's signature moment (owner 2026-09-03, "fix it now").
+    Pinned in render_crew_beat because that loop is the one place EVERY
+    render path passes through and the only place the chord lanes exist
+    beside the drums."""
+    kit = _tone_kit(CREW["Night Metro"])
+    bar_s = 4 * 60.0 / CREW["Night Metro"]["bpm"]
+
+    def bar5_energy(preset):
+        L, R, _ = render_crew_beat("Night Metro", kit, preset=preset)
+        m = 0.5 * (np.asarray(L) + np.asarray(R))
+        # bar 5, above 2 kHz — the 808 is KEPT, so a full-band measure
+        # would mostly measure the thing that did not leave
+        X = np.fft.rfft(m)
+        X[np.fft.rfftfreq(len(m), 1 / SR) < 2000] = 0
+        m = np.fft.irfft(X, len(m))
+        n = int(round(bar_s * SR))
+        return float(np.sqrt((m[4 * n:5 * n] ** 2).mean()))
+
+    # his prototype ALREADY has bar 5 empty, which is exactly why the bug
+    # was invisible — compose a busy bar 5 in so the test has something
+    # to remove
+    busy = json.loads(json.dumps(
+        {ln: list(v[3]) for ln, v in CREW["Night Metro"]["lanes"].items()}))
+    full = dict(CREW["Night Metro"])
+    full["lanes"] = {ln: (v[0], v[1], v[2],
+                          [busy[ln][0] if i == 4 else b
+                           for i, b in enumerate(busy[ln])])
+                     for ln, v in CREW["Night Metro"]["lanes"].items()}
+    dropped = dict(full, breakdown={"bar": 5, "keep": ["kick"]})
+    # 0.3, not 0: the gated reverb and the samples' own decay ring on
+    # from bar 4 into a bar that plays nothing. Measured at ~0.24 — the
+    # bar goes quiet, it does not go digitally silent, and that is the
+    # sound the research describes.
+    assert bar5_energy(dropped) < bar5_energy(full) * 0.3
+    # and the kick is still playing in that bar
+    kick_only = dict(full, lanes={"kick": full["lanes"]["kick"]},
+                     kit={"kick": full["kit"]["kick"],
+                          "stamp": full["kit"]["stamp"]},
+                     breakdown={"bar": 5, "keep": ["kick"]})
+    L, _, _ = render_crew_beat("Night Metro", {"kick": kit["kick"],
+                                               "stamp": kit["stamp"]},
+                               preset=kick_only)
+    n = int(round(bar_s * SR))
+    assert np.abs(np.asarray(L)[4 * n:5 * n]).max() > 1e-4
+
+
+def test_allow_dirt_low_grits_the_808_and_leaves_the_mix_clean():
+    """Owner 2026-09-03 opened the clean rule for Night Metro's LOW END
+    only — his own research: "distort the 808/kick specifically, don't
+    apply that grit to the whole mix." Otto's plain True stays all-in."""
+    from unittest.mock import patch
+    p = dict(CREW["Night Metro"], dust=0.5, mix_sat=3.0, vinyl=-40,
+             allow_dirt="low")
+    kit = _tone_kit(p)
+    with patch("crew.dist808", side_effect=crew.dist808) as d, \
+            patch("crew.sp1200", side_effect=crew.sp1200) as s, \
+            patch("crew.sat_unity", side_effect=crew.sat_unity) as sat, \
+            patch("crew.master", side_effect=crew.master) as m:
+        render_crew_beat("Night Metro", kit, preset=p)
+    assert d.called                       # the 808 got its grit
+    assert not s.called and not sat.called  # the mix did not
+    assert m.call_args.kwargs["drive"] == 0.7   # master stays clean
+
+    # and plain True is still everything, which is what Otto has
+    with patch("crew.sp1200", side_effect=crew.sp1200) as s2, \
+            patch("crew.master", side_effect=crew.master) as m2:
+        render_crew_beat("Night Metro", kit,
+                         preset=dict(p, allow_dirt=True))
+    assert s2.called and m2.call_args.kwargs["drive"] == p["drive"]
+
+
+def test_no_preset_ships_with_a_breakdown_or_dirt_until_he_hears_it():
+    """Both mechanisms are built and auditioned, neither is switched on.
+    Same contract as every other effect in this pass — approving the
+    SOUND is what turns it on, not building it."""
+    assert not [n for n, q in CREW.items() if q.get("breakdown")]
+    assert not [n for n, q in CREW.items() if q.get("allow_dirt")]
