@@ -61,10 +61,11 @@ entries.
   three batches — more than review and the test suite combined. The two
   lessons are now written into the `audio-fix-verify` (traps 5, 6) and
   `audition-batch` skills.
-- Git: 5 commits this session. `git rev-list origin/main..HEAD` reports 0,
-  but GitHub was unreachable from here ("could not read Username"), so
-  that local ref is NOT proof the remote has them. He should push from
-  his own terminal and see what happens.
+- Git: 6 commits this session, ALL ON THE REMOTE — he pushed from his own
+  terminal and confirmed it 2026-09-03. (The local `origin/main` ref had
+  already read as up to date, but GitHub was unreachable from inside
+  Claude Code, so that was not proof until he checked. This ledger entry
+  itself is one commit later than that push.)
 - Full suite at handoff: 972 passed / 3 skipped.
 - Status: open.
 - Outcome:
