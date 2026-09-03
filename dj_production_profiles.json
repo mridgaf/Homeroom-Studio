@@ -1,0 +1,926 @@
+{
+  "_readme": [
+    "Production profiles for the Homeroom Studio Beat Machine's 9 DJ personas.",
+    "Each persona maps to a reference artist/genre (see crew_config.json 'built' field).",
+    "Categories per persona: tempo_swing, drum_layering, harmonic_tendencies, arrangement_structure, mix_character.",
+    "Each category has a short set of concrete rules plus a 'grounded_in' note pointing at the matching crew_config.json field(s), so this file and the live engine parameters never drift apart silently.",
+    "New Math has no real-artist reference by design ('no one - the front edge') — its profile is built from the engine's own design notes, not outside research."
+  ],
+  "_version": "1.0",
+  "_source_repo": "~/Desktop/Homeroom Studio (crew_config.json, legends_config.json, theory/)",
+  "personas": {
+    "Otto Grit": {
+      "num": 1,
+      "reference": {
+        "artist": "J Dilla (James Yancey)",
+        "genre_era": "1990s-2000s boom bap / neo-soul (Slum Village, Donuts, Fantastic Vol. 2 era)",
+        "why": "Dilla is the standard reference for 'human' swing that isn't a single swing percentage — each drum voice drifts independently around the grid, which is exactly what this persona's per-lane offset model is built to imitate."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          86,
+          96
+        ],
+        "engine_default_bpm": 88,
+        "swing_model": "not one swing value — independent micro-timing offsets per drum voice. Documented pattern: kick sits LATE, snare/clap sits slightly EARLY, hats stay dead straight. The loudest, clearest element (usually the snare/clap) is what the ear locks onto, so the other voices read as 'dragging' relative to it even though nothing is quantized to a shared swing percentage.",
+        "rules": [
+          "Do not apply one global swing % across the kit — offset kick and snare independently, in opposite directions, and leave hats close to the grid.",
+          "Kick: +8 to +14 ms late against the grid.",
+          "Snare/clap: -15 to -20 ms early against the grid (this is the anchor voice — keep it the loudest so the 'drag' reads as intentional, not sloppy).",
+          "Hats: near 0 ms offset, small jitter only — they are the stable reference the other two drift around.",
+          "Keep tempo in the high-80s to mid-90s BPM; halftime feel is common even when the underlying grid is faster."
+        ],
+        "grounded_in": "crew_config.json → 'Otto Grit'.bpm=88; lanes.kick[2]=[10,4,...] (late), lanes.snare[2]=[-18,4,...] (early), lanes.hat[2]=[0,2,...] (straight)"
+      },
+      "drum_layering": {
+        "kick": "Sampled, dusty/boomy low end — not a clean synthesized 808. Often pulled from the same break as the rest of the kit so it shares the source's saturation.",
+        "snare": "Vinyl-dusty, lofi, mid-forward crack rather than a hard modern snap — softened transient.",
+        "hats": "Closed, vintage-toned, straight pattern that anchors the loose kick/snare.",
+        "signature_extra_layer": "A dusty tom or found-percussion 'stamp' hit placed at the tail of bars 4 and 8 — a recurring fill, not a random ad-lib.",
+        "sound_selection_tags": [
+          "dust",
+          "vinyl",
+          "boom",
+          "dirty",
+          "lofi"
+        ],
+        "sub_layer_technique": "Per engineer Todd Fairall (Fantastic Vol. 2 sessions): the sampled kick was reinforced with a separate sine/triangle oscillator (~40Hz) gated tightly to the kick trigger — short, no sustain, just extra sub weight under the sampled hit, not a second audible drum.",
+        "rules": [
+          "Source kick/snare/hat from the same sample lineage (a break or dusty drum record) so the layers share one noise floor instead of sounding assembled from mismatched clean one-shots.",
+          "Favor SP-1200/MPC-style 12-bit-ish grit over hi-fi modern drum samples.",
+          "Layer a short, gated low-oscillator (~40Hz) under the sampled kick for extra sub weight — audible as depth, not as a second kick.",
+          "Reserve a distinct one-shot (tom, found percussion) as a recurring 'signature' hit at the end of every 4-bar phrase."
+        ],
+        "grounded_in": "crew_config.json → 'Otto Grit'.kit (want_tags per lane), .extras.pool (toms/shaker/found-fx/claves as fill layers)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "F",
+          "C",
+          "Bb",
+          "G"
+        ],
+        "modes": [
+          "minor (most common)",
+          "major",
+          "lydian",
+          "mixolydian"
+        ],
+        "chord_source": [
+          "chopped piano sample",
+          "chopped loop"
+        ],
+        "chord_rhythm": "sustained pads more than active arpeggiation",
+        "character": "Neo-soul/jazz-sample harmony — extended chords (7ths/9ths) pulled from soul and jazz-fusion records rather than written from scratch; melancholic-nostalgic mood bias (minor and borrowed-minor progressions).",
+        "rules": [
+          "Prefer chopped-sample chord sources (piano, full loop) over synthesized chords.",
+          "Bias toward minor/nostalgic-jazz progressions; use major/lydian sparingly for brighter moments.",
+          "Let harmony sustain under the loose drums rather than compete rhythmically with them."
+        ],
+        "grounded_in": "crew_config.json → 'Otto Grit'.signature (roots F/C/Bb/G, modes minor/major/lydian/mixolydian, progressions nostalgic_jazz/dreamy/vamp_ii_V, chord_source piano+loop, chord_rhythm sustain>arp)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Loop-based, repetitive-but-alive: the same core pattern repeats with small variations rather than a verse/chorus rebuild. Variation comes from swapping the drum pattern every 1-2 bars and dropping in the signature fill, not from changing the harmony.",
+        "signature_moment": "Recurring fill/stamp on the tail of bars 4 and 8 — a light 'breath' before the loop restarts.",
+        "rules": [
+          "Rotate through several close variants of the same kick/snare pattern every couple of bars instead of holding one pattern rigidly for the whole beat.",
+          "Place the signature one-shot fill on the last beat of every 4th bar as a structural marker, not randomly.",
+          "Avoid abrupt section changes — Dilla's beats evolve by subtle pattern drift, not by dropping out and rebuilding."
+        ],
+        "grounded_in": "crew_config.json → 'Otto Grit'.listen ('his stamp is a dusty tom on the tail of bars 4 and 8'); lanes.kick has 8 pattern variants rotated per bar"
+      },
+      "mix_character": {
+        "bass_weight": "Heavy and driven, not just 'warm' — engineer David Kennedy (mixed Dilla-produced 'Find a Way' for A Tribe Called Quest) described deliberately saturating/driving the EQ on the low end, crediting Neve consoles specifically for that saturated warmth over the punchier, cleaner SSL sound. Drums were hit hard going in ('you always smashed the hell out of drums') — hot levels, not heavy compression.",
+        "highs": "Deliberately NOT bright — mastering engineer Dave Cooley (Donuts) used a GML EQ to add top end with what he called a 'matte' finish specifically because he 'wasn't into slick top end' at the time. Rolled-off/dusty is a confirmed engineering choice, not just a side effect of vinyl sampling.",
+        "saturation_dust": "Moderate dust/noise layer (constant surface hiss) plus a fairly deep vinyl-crackle bed; mild tape/tube-style drive. On the Donuts master specifically, Cooley timed a Crane Song STC-8 compressor's release to the track tempo to deliberately preserve/enhance a disorienting compression 'pump' — the wobble is mix-stage intentional, not only a sampling artifact.",
+        "space": "Gated short room on the snare (keeps the dusty snare from smearing), a fairly wide/lush room return elsewhere. Engineer Bob Power also described aggressive high-pass/low-pass filtering on every element to keep the low end (kick vs. bass especially) from colliding.",
+        "sidechain": "Light — just enough duck to keep the kick from being swallowed by the bass, not a pumping effect.",
+        "rules": [
+          "Keep highs deliberately matte/soft — this is a mastering choice (documented), not an accident: no bright, crisp hi-hats or cymbals.",
+          "Drive the low end hot — bass should be saturated/driven (Neve-style warmth), and felt more than it cuts.",
+          "High-pass/low-pass each element so the kick and bass occupy separate low-frequency space rather than competing.",
+          "Apply a constant low-level vinyl noise/dust bed across the whole mix, not just the drums.",
+          "Sidechain duck should be subtle (10-20% gain reduction feel), never pumping — though a tempo-synced compression 'pump' on the master bus is a legitimate, documented alternative for a Donuts-style finish."
+        ],
+        "grounded_in": "crew_config.json → 'Otto Grit'.dust=0.5, vinyl=-42dB, drive=1.35, sidechain=0.15, space=gated(snare), alt=room(0.45,3500Hz,0.32)"
+      },
+      "sources": [
+        "https://www.musicradar.com/artists/djs-producers/every-producer-bows-down-to-dilla-whether-they-like-it-or-not-how-j-dilla-and-his-mpc-changed-beatmaking-forever",
+        "https://www.ethanhein.com/wp/2022/dilla-time/",
+        "https://reverb.com/news/engineering-dilla-how-j-dillas-classic-albums-were-mixed-and-mastered (fetched via TinyFish — primary-source interview with 4 of Dilla's mixing/mastering engineers: Todd Fairall, Bob Power, David Kennedy, Dave Cooley)"
+      ]
+    },
+    "Cutz": {
+      "num": 2,
+      "reference": {
+        "artist": "DJ Premier",
+        "genre_era": "1990s-2000s New York boom bap (Gang Starr, Nas, Jeru the Damaja)",
+        "why": "Premier is the reference for 'surgical' boom bap — tight, consistent timing, hard-driven drums, and a turntablist's use of the scratch as a structural hook rather than an ad-lib."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          90,
+          96
+        ],
+        "engine_default_bpm": 93,
+        "swing_model": "one consistent swing value applied uniformly across the kit (unlike Dilla's independent-per-voice drift) — tight and repeatable rather than loose.",
+        "swing_percent_estimate": "~51-54%",
+        "rules": [
+          "Apply the SAME swing percentage to every drum voice — Premier's feel comes from consistency, not from voices pulling apart.",
+          "Keep swing modest (low-to-mid 50s%), not the heavy 60%+ swing of a looser golden-era style — this is 'tight', not 'loose'.",
+          "Minimize per-hit jitter/humanization — tightness is the point."
+        ],
+        "grounded_in": "crew_config.json → 'Cutz'.bpm=93; lanes.*[2]=[0,1.5,53,...] — same 53% swing and near-zero jitter on every lane"
+      },
+      "drum_layering": {
+        "kick": "Hard, punchy, sourced from vinyl breaks but processed for impact rather than left dusty — 'knock' over 'boom'.",
+        "snare": "Tight, cracking, high transient — cuts through even a busy loop.",
+        "hats": "Closed, tight, consistent — timekeeping, not a feature element.",
+        "signature_extra_layer": "A scratched vocal/sample stab used as a recurring fill/hook, not a random flourish.",
+        "sound_selection_tags": [
+          "punch",
+          "hard",
+          "knock",
+          "crack",
+          "tight"
+        ],
+        "gear_lineage": "Per Premier's own account: Yamaha RX-11 drum machine, then E-mu SP-12, then Alesis HR-11, then Akai S900 (learned sample-looping on it from producer King of Chill) — before settling on the Akai MPC-60 (the original, not the MPC-60 II, bought secondhand from his engineer Eddie Sancho) as his main machine, which he still used decades later.",
+        "kit_consistency": "In his own words: 'I'll go back to the same snares, kicks, hi-hats. Sometimes I'll use drum loops and sometimes individual hits. It's all in how you bounce them over the samples, combining them.' — the signature comes from how a small, reused set of sounds gets layered/combined differently each time, not from constantly hunting new drum samples.",
+        "rules": [
+          "Reuse a small, consistent pool of kick/snare/hat sounds across beats rather than sourcing fresh drums every time — the identity is in the combination/layering, not novelty.",
+          "Source kicks and snares for impact/transient first, dust/warmth second — this is a harder-hitting persona than the vintage-dusty end of boom bap.",
+          "Use a scratch (vocal stab, chorus phrase cut on a dubplate-style sample) as the kit's signature element, placed as a recurring structural fill.",
+          "Keep hats functional and consistent rather than varying them for texture."
+        ],
+        "grounded_in": "crew_config.json → 'Cutz'.kit (want_tags punch/hard/knock, crack/tight; stamp=scratch)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "C",
+          "D",
+          "G",
+          "A"
+        ],
+        "modes": [
+          "minor (dominant)",
+          "mixolydian",
+          "dorian"
+        ],
+        "chord_source": [
+          "horn stabs",
+          "chopped loop"
+        ],
+        "chord_rhythm": "arpeggiated/rhythmic rather than sustained pads",
+        "character": "Loop-based vamps (a short riff repeated, not a chord progression that develops) — dark, minor, funk-and-jazz-sample rooted, built to sit under vocals rather than compete melodically.",
+        "rules": [
+          "Use a short repeating riff/vamp (1-2 chord loop) rather than a moving progression — Premier's beats are famous for looping a single hook, not resolving harmonically.",
+          "Favor horn or loop sample sources for harmonic content over synthesized pads.",
+          "Keep harmony darker/minor and rhythmically active (arp), giving it presence without stealing focus from drums/vocal."
+        ],
+        "grounded_in": "crew_config.json → 'Cutz'.signature (progressions vamp_static_riff/vamp_i_iv7/dark_menacing, chord_source horns+loop, chord_rhythm=arp)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Loop-driven with a scratched hook functioning as the chorus — the scratch phrase is the structural landmark that divides the beat into sections, standing in for a sung hook.",
+        "signature_moment": "A scratch stab fill closing bars 4 and 8 — functions like a chorus/turnaround.",
+        "rules": [
+          "Treat the scratch/stab element as the chorus marker: place it at consistent 4-bar boundaries so it reads as a structural hook, not a random scratch.",
+          "Keep the underlying loop and drum pattern otherwise static across the beat — variation comes from the scratch hook and occasional drum fills, not from changing the harmony or main sample."
+        ],
+        "grounded_in": "crew_config.json → 'Cutz'.listen ('his stamp — a scratch stab fill closing bars 4 and 8')"
+      },
+      "mix_character": {
+        "bass_weight": "Present and controlled — supports the kick without overwhelming it; drums (not bass) are the loudest, most forward element.",
+        "highs": "Tight and controlled rather than bright — a dusty vinyl-sourced high end (moderate vinyl noise floor), not the airy brightness of modern pop-rap.",
+        "saturation_dust": "Driven/hot signal path — Premier's own documented technique is 'tapping the red': deliberately hitting an analog desk's input hot enough to just kiss distortion, then, in his words, 'kinda round out the top' — i.e., drive it hot for grit, then smooth/tame the top end afterward rather than leaving it harsh. This is intentional saturation followed by cleanup, not raw distortion left in.",
+        "space": "Gated short room on the snare for tightness; a slightly tighter/dryer room return than the looser boom-bap persona.",
+        "sidechain": "Light — modest duck to keep the kick defined against the bass/loop.",
+        "rules": [
+          "Drive levels hot into the input ('tap the red') for grit, then round off/tame the top end afterward — grit-then-smooth, not grit left raw.",
+          "Keep the mix drum-forward: kick and snare should read louder and more present than the bass or the sampled loop.",
+          "Moderate, not heavy, vinyl coloration — tight rather than dusty."
+        ],
+        "grounded_in": "crew_config.json → 'Cutz'.dust=0.5, vinyl=-46dB, drive=1.4, sidechain=0.15, space=gated(snare), alt=room(0.4,3800Hz,0.25)"
+      },
+      "sources": [
+        "https://www.gearnews.com/the-king-of-new-york-how-to-sound-like-dj-premier/",
+        "https://modeaudio.com/magazine/masters-of-sampling-dj-premier",
+        "https://magazine.waxpoetics.com/article/dj-premier-takes-it-personal/ (fetched via TinyFish — primary-source 2020 interview with DJ Premier)",
+        "https://gearspace.com/threads/what-does-dj-premier-mean-by-tapping-the-red-in-this-interview.180340/ and https://www.futureproducers.com/forums/threads/dj-premier-drums.209746/ (TinyFish search snippets — 'tapping the red' definition and Premier's own quote)"
+      ]
+    },
+    "Crate Prophet": {
+      "num": 3,
+      "reference": {
+        "artist": "Pete Rock / Madlib (blended reference)",
+        "genre_era": "1990s-2000s soul/jazz-sample boom bap",
+        "why": "Pete Rock contributes the warm horn-and-drum boom-bap side (hard-hitting but organic drums, jazz/soul horns); Madlib contributes the looser, rawer, deliberately imperfect crate-digger side (drums buried deep and dusty, pitch-wobbly, unpolished by design)."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          88,
+          96
+        ],
+        "engine_default_bpm": 92,
+        "swing_model": "the loosest/heaviest swing of the boom-bap personas — golden-era swing feel, with the snare deliberately sitting LATE.",
+        "swing_percent_estimate": "~60%",
+        "documented_technique": "A widely-cited producer-community formula for this exact sound (SP-1200, associated with Pete Rock/Diamond D/Lord Finesse) is programming at double the target BPM, quantized to 1/8 notes, at 67% swing — the machine's swing engine plus the double-time quantization grid is what produces the groove, not swing percentage alone.",
+        "rules": [
+          "Use a heavier swing percentage than the tighter (Premier-style) or micro-offset (Dilla-style) personas — this one should feel the most 'behind the beat' and unhurried.",
+          "Let the snare lag noticeably behind the grid rather than sitting on or ahead of it.",
+          "Add real pitch/tempo instability (wow/flutter) — not just timing swing but pitch drift, evoking a worn record or a cheap portable sampler rather than a clean digital grid."
+        ],
+        "grounded_in": "crew_config.json → 'Crate Prophet'.bpm=92; lanes.*[2]=60% swing (heaviest of the boom-bap set); snare offset +8ms (late); wow=0.3 (highest wow value of any persona)"
+      },
+      "drum_layering": {
+        "kick": "Warm, deep, boomy — organic/live-sounding rather than hard-clipped. Pete Rock, in his own words: 'The SP has a heavier sound for drums than the MPC.'",
+        "snare": "Dusty, vintage, warm — soft transient, buried rather than cracking.",
+        "percussion": "Loose congas/bongos as a recurring textural layer, not just an occasional fill — this is a more percussion-rich kit than the other boom-bap personas.",
+        "signature_extra_layer": "A conga slap stamp on bars 4/8.",
+        "sound_selection_tags": [
+          "warm",
+          "deep",
+          "boom",
+          "dusty",
+          "vintage",
+          "conga",
+          "bongo"
+        ],
+        "cross_record_sourcing": "Pete Rock, on building a kit: 'I take a kick from this record, a snare from over here, get some hi-hats from another... I like the way I do it, putting things together.' He favored drum-break intros (Ohio Players, Detroit Emeralds-style records that open with a raw kick/snare fill) and hard rock breaks (Led Zeppelin) for source material — mixing sources deliberately rather than pulling a whole kit from one drum break.",
+        "layering_trick": "Pete Rock, on hitting harder: 'Sometimes I'll use two snares, or a tambourine on top of a snare, just to make it hit harder' — a second layered hit UNDER the main snare, not just a separate percussion part.",
+        "rules": [
+          "Keep drums 'deep in the mix' — present in groove but not fighting the sample for attention; this persona's drums support rather than dominate.",
+          "Mix and match kick/snare/hat from DIFFERENT source records rather than pulling a whole kit from one break — that's the documented Pete Rock approach (contrast with Otto Grit's single-source-lineage rule).",
+          "Stack a second snare or a tambourine directly under the main snare hit for extra impact, rather than relying on one drum sample alone.",
+          "Add congas/loose hand percussion as a standing layer, echoing Pete Rock's live-feel percussion and Madlib's crate-dug loop percussion.",
+          "Avoid hard drum processing — the organic, slightly soft-edged hit is the point."
+        ],
+        "grounded_in": "crew_config.json → 'Crate Prophet'.kit (kick warm/deep/boom, snare dusty/vintage/warm, bongo lane present, stamp=conga+slap)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "F",
+          "Bb",
+          "C",
+          "G"
+        ],
+        "modes": [
+          "minor",
+          "major",
+          "lydian",
+          "mixolydian"
+        ],
+        "chord_source": [
+          "horns",
+          "chopped loop",
+          "piano"
+        ],
+        "chord_rhythm": "sustained more than arpeggiated",
+        "character": "Jazz/soul-sample harmony leaning on horn stabs and piano loops — Pete Rock's signature horn-forward chord voicings blended with the wider crate-dug sample-source palette Madlib is known for pulling from (soul, jazz-fusion, obscure world/funk records). Pete Rock, on discovering his horn sound: 'I was inspired to use horns by hearing \"Truly Yours\" by Kool G Rap' — horns were, in his words, 'something new that nobody had ever used a lot' at the time. Madlib's harmony is independently described as sophisticated in its own right — root movement and chord changes from the original sample are preserved and allowed to emerge in the final beat rather than being flattened into a static loop.",
+        "rules": [
+          "Prioritize horn samples as a chord/lead source — this is the one persona among the boom-bap trio where horns should show up most often.",
+          "Draw progressions from nostalgic-jazz and soul-turnaround vamps; keep harmony warm and unresolved rather than tense.",
+          "Preserve the source sample's own chord movement/root motion rather than simplifying it to a static one-chord vamp — let the harmony be as complex as what was actually recorded.",
+          "Let sampled chords ring/sustain rather than chopping them into a rhythmic arp."
+        ],
+        "grounded_in": "crew_config.json → 'Crate Prophet'.signature (chord_source horns+loop+piano, progressions nostalgic_jazz/vamp_ii_V/vamp_i_iv7/soul_turnaround/gospel_walkup, chord_rhythm sustain>arp)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Loop-centric and unhurried — closer to Madlib's fast, instinctive, minimally-edited loop constructions (a track built and left alone rather than heavily rearranged) than to a rebuilt verse/chorus structure. Madlib's specific technique (documented by beatmakers studying his catalog): rather than building one detailed 4/8-bar loop and arranging it by muting/unmuting parts (the 'techno' approach), let elements organically evolve — a hi-hat that plays twice as often after a while, previously-filtered highs gradually let back in, a bass part switching octaves — so the track 'turns and crawls' instead of repeating on fixed section boundaries.",
+        "signature_moment": "A conga slap stamp closing bars 4 and 8. Madlib also frequently uses a 'pickup' — a fill, stab, or vocal snippet entering a few beats before a downbeat to lead the ear through a break (borrowed from reggae drum rolls and jazz horn-break phrasing).",
+        "rules": [
+          "Favor a small number of loop variations held for longer stretches rather than frequent pattern-switching — this persona should feel less 'edited' than Cutz or Otto Grit.",
+          "Let elements gradually change over many bars (a hat's density increasing, a filter opening, an octave switch) rather than only switching between fixed alternate patterns — the evolution should feel organic, not toggled.",
+          "Use a pickup/lead-in figure (fill, stab, or vocal snippet) just before a section's downbeat rather than starting sections cold.",
+          "Keep the percussion stamp as the main structural marker at 4-bar boundaries; avoid dramatic arrangement moves (drops, stops) — the mood is continuous groove, not tension/release."
+        ],
+        "grounded_in": "crew_config.json → 'Crate Prophet'.listen ('warm and loose... stamp is a conga slap on bars 4/8')"
+      },
+      "mix_character": {
+        "bass_weight": "NOT uniformly warm — Madlib's bass character is documented as varying 'wildly' beat to beat: 'from very subby, electro kicks/bass to earthy, turfy, crackling ones or quite distorted and processed, depending on what each beat needs.' Pete Rock's signature bassline trick: filtering a full sample down (EQ + muffling everything but the low end) to expose an 'instant bassline' from a source that wasn't originally a bass part at all — including vocal samples.",
+        "highs": "Not simply rolled off — the top layer (strings, vocals, chordal samples) is documented as 'gleaming hazily' over a gritty, present beat, likely via reverb plus targeted compression on that top layer specifically, rather than a uniform dust blanket over the whole mix.",
+        "saturation_dust": "Heaviest dust/vinyl bed in the roster, moderate drive, plus real wow/flutter (tape/turntable pitch drift) — closer to a worn record playing than a processed digital mix.",
+        "space": "Wider, looser room return than Cutz or Otto Grit (largest room decay/size settings). Reverb specifically favored on the TOP layer (melodic/vocal samples) to create separation from a drier, grittier low end.",
+        "sidechain": "NONE — this is the one persona built to skip sidechain compression entirely, keeping the low end raw and unpumped (about a 1-in-10 chance any given beat still gets a light duck, per engine design).",
+        "rules": [
+          "Do not apply sidechain ducking by default for this persona — it's the one exception in the roster.",
+          "Vary bass character per-beat rather than applying one fixed 'warm bass' treatment — sometimes subby and electronic, sometimes earthy/crackling, sometimes deliberately distorted.",
+          "Try isolating a bassline via aggressive low-pass filtering on a full (even vocal) sample rather than always sourcing a dedicated bass sample — this is a documented Pete Rock technique, not just a fallback.",
+          "Put reverb/haze on the top melodic layer specifically while keeping the low end/drums drier and grittier, rather than applying one blanket amount of space to everything.",
+          "Push dust/vinyl noise floor and wow/flutter higher than any other persona — this should sound the most 'found on a record' of the whole crew."
+        ],
+        "grounded_in": "crew_config.json → 'Crate Prophet'.dust=0.5, vinyl=-40dB (before wow), wow=0.3, sidechain=0.0, drive=1.3, alt=room(0.6,3000Hz,0.35) — largest room size of the boom-bap trio"
+      },
+      "sources": [
+        "https://www.yellowbrick.co/blog/music/the-legendary-pete-rock-a-master-of-hip-hop-production",
+        "https://loopkitchen.co.uk/blogs/loop-kitchen-blog/madlib-madvillainy-sampling-techniques",
+        "https://www.illmuzik.com/threads/pete-rock-interview.4301/ (fetched via TinyFish — 2004 primary-source Pete Rock interview by Andrew Mason)",
+        "https://gearspace.com/board/rap-hip-hop-engineering-and-production/1070813-pete-rock-diamond-d-lord-finesse-sound-2.html (TinyFish — documented SP-1200 swing/quantize technique)",
+        "https://drumchant.wordpress.com/2020/10/31/madlib-beatmaking-wisdom/ (fetched via TinyFish — detailed producer analysis of Madlib's technique)"
+      ]
+    },
+    "Chrome Dial": {
+      "num": 4,
+      "reference": {
+        "artist": "Timbaland",
+        "genre_era": "2000s syncopated R&B/hip-hop (Aaliyah, Missy Elliott, Justin Timberlake)",
+        "why": "Timbaland is the reference for syncopation as melody and silence as an instrument — percussion functions as a hook, and dropouts are deliberate composition rather than a mix mistake."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          96,
+          104
+        ],
+        "engine_default_bpm": 100,
+        "swing_model": "layered non-uniform timing — each element (kick, clap, perc, snap) can sit at a slightly different relationship to the grid so the elements 'push and pull' against each other, but with far less spread than Otto Grit's offsets: this is syncopation, not looseness. Documented origin: Timbaland reportedly builds patterns by beatboxing rhythms with his mouth first (his own 'Masterclass' explains this), then translates that human, off-grid performance into the machine rather than programming on a quantized grid from the start — which is why producers analyzing his beats consistently describe them as having a small amount of 16th-note swing and NOT being hard-quantized, even though the feel reads as tight rather than loose.",
+        "rules": [
+          "Keep swing light — not hard-quantized to a perfect grid, but not heavily swung either; a small, consistent 16th-note swing amount is the documented sweet spot.",
+          "Vary which 16th-note subdivisions carry hits between bars rather than varying the timing of a fixed pattern.",
+          "Use near-zero jitter — precision supports the syncopation instead of blurring it.",
+          "If generating from scratch, consider deriving the initial pattern from a 'performed' (humanized/tapped) rhythm rather than hand-placing hits on a grid — that's the documented origin of the feel."
+        ],
+        "grounded_in": "crew_config.json → 'Chrome Dial'.bpm=100; lanes.*[2] all ~50% swing with 1-2ms jitter (tight, syncopation carried by pattern not timing offset)"
+      },
+      "drum_layering": {
+        "kick": "Clean, punchy, tight — no lo-fi coloration.",
+        "percussion": "Exotic/off-center — tabla, shaker, conga, cowbell, woodblock treated as foreground melodic material, not filler. Producers who've analyzed his catalog note the hats/shakers/percussion typically build in density leading INTO a snare hit and taper away from it afterward, and that toms/percussion often carry layered, slightly offset hits underneath the main pattern for extra looseness.",
+        "extra": "Finger snaps and clicks used as a secondary rhythmic layer alongside claps. Frequent use of hand-drum and other pitched percussion (not just noise-based hits).",
+        "signature_extra_layer": "An exotic percussion hit placed late in bars 4/8, plus glitch/zap/laser one-shots as a texture pool.",
+        "sound_selection_tags": [
+          "clean",
+          "punch",
+          "tight",
+          "tabla",
+          "shaker",
+          "conga",
+          "snap",
+          "block",
+          "cowbell"
+        ],
+        "gear_note": "Built primarily on the Ensoniq ASR-10 sampling workstation — the same machine The Neptunes used (Glass Cat persona); several classic 'Neptunes' drum sounds were literally ASR-10 factory presets, which is part of why these two personas share a clean, non-dusty sound-design lineage despite very different arrangement styles.",
+        "rules": [
+          "Treat exotic percussion as a repeated, memorable rhythmic figure — like a hummed hook — not a one-off texture.",
+          "Build hat/shaker/percussion density UP into a snare hit and taper it away afterward, rather than keeping density constant.",
+          "Layer a second, slightly time-offset percussion hit under toms/percussion for extra looseness without adding audible swing.",
+          "Bass/low percussive elements should be dry and percussive rather than big and sustained.",
+          "Keep every drum sample clean-sourced — no vinyl/dust layer on this kit."
+        ],
+        "grounded_in": "crew_config.json → 'Chrome Dial'.kit (kick clean/punch/tight, perc tabla/shaker/conga, snap finger, stamp block/tabla/cowbell)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "D",
+          "A",
+          "E",
+          "C"
+        ],
+        "modes": [
+          "minor (dominant)",
+          "lydian",
+          "mixolydian"
+        ],
+        "chord_source": [
+          "wood-toned instruments",
+          "synth"
+        ],
+        "chord_rhythm": "sustained pads more than arpeggiation, with some arp texture layered in",
+        "character": "Sparse, static harmony (a held riff/vamp) that stays out of the way of the syncopated percussion — harmony is texture and mood-setting, not a melodic focal point.",
+        "rules": [
+          "Keep chord movement minimal — a static vamp under the percussion, not a progression that competes rhythmically.",
+          "Favor darker, minor/suspended tonal colors that leave headroom for percussion to be the 'melody'."
+        ],
+        "grounded_in": "crew_config.json → 'Chrome Dial'.signature (progressions vamp_static_riff/dark_menacing, chord_source wood+synth, chord_rhythm sustain>arp)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Silence is compositional — a bar can drop to almost nothing and 'answer' the bar before it, and dropouts are placed deliberately so the groove breathes rather than fills every subdivision.",
+        "signature_moment": "Bar 6 drops to near-silence and answers bar 5; an exotic percussion hit lands late in bars 4/8 as a punctuation mark.",
+        "rules": [
+          "Build in at least one deliberate near-empty bar per 8-bar phrase that 'answers' the bar before it — do not fill every bar equally.",
+          "Use removal, not addition, to build tension — take hits OUT until the groove is more compelling, rather than layering more in.",
+          "Place the signature exotic-perc hit late in the bar (not on a strong beat) for a call-and-response, off-kilter punctuation."
+        ],
+        "grounded_in": "crew_config.json → 'Chrome Dial'.listen ('bar 6 drops to almost nothing and answers bar 5... stamp is an exotic perc hit late in bars 4/8')"
+      },
+      "mix_character": {
+        "bass_weight": "Dry, nasal, percussive rather than big and sustained — bass is treated as a rhythmic element, not a wall of sub.",
+        "highs": "Clean and clear — no vinyl dust or lo-fi rolloff; this is the cleanest-sounding persona in the boom-bap-to-R&B range.",
+        "saturation_dust": "Deliberately NONE — the Ensoniq ASR-10 Timbaland built his signature sound on was a 16-bit sampler, cleaner than the 12-bit SP-1200/MPC60 machines other 90s producers used, so grit here should come from arrangement and syncopation, not from crushing/distorting the audio.",
+        "space": "Gated on the clap for tight punctuation; disciplined low end with midrange clarity prioritized so the snare/clap 'lands with authority' rather than competing with dense instrumentation.",
+        "sidechain": "Moderate — enough to keep the mix disciplined and avoid low-end clutter.",
+        "space_technique": "A documented example ('The Potion,' produced for Ludacris): the kick carries a delay, panned so it fills stereo space around the beat — space is treated as a mix tool on individual elements, not only as an arrangement-level silence device.",
+        "rules": [
+          "Do not add dust, vinyl noise, or bit-crush to this persona — clean is a deliberate, researched choice, not a gap.",
+          "Keep the low end uncluttered — few competing low-frequency elements at once, so the snare/clap can hit with authority.",
+          "Consider a delay + pan treatment on the kick specifically to fill stereo space without adding more elements.",
+          "Get 'grit' from syncopation and arrangement (silence, off-grid percussion accents), never from audio distortion."
+        ],
+        "grounded_in": "crew_config.json → 'Chrome Dial'.dust=0.0, vinyl=0, drive=1.45, sidechain=0.2, space=gated(clap), alt=None (deliberately no secondary room texture)"
+      },
+      "sources": [
+        "https://massivefm.com/how-timbaland-produced-hits-the-rhythm-swing-and-sound-design-behind-his-signature-drum-language/",
+        "https://musictech.com/guides/essential-guide/how-to-sound-like-timbaland-beats-tutorial/",
+        "https://musicthing.blogspot.com/2004/09/friday-is-timbaland-day-pt-2-how-tim.html (fetched via TinyFish — gear breakdown incl. ASR-10, shared with The Neptunes)",
+        "https://www.reddit.com/r/musicproduction/comments/1eppub9/how_does_timbaland_have_that_kind_of_bounce_in/ (fetched via TinyFish — producer discussion/analysis of his groove technique)"
+      ]
+    },
+    "Glass Cat": {
+      "num": 5,
+      "reference": {
+        "artist": "The Neptunes / Pharrell Williams",
+        "genre_era": "2000s minimal R&B/hip-hop (Clipse, N.E.R.D, Justin Timberlake 'Rock Your Body')",
+        "why": "The Neptunes are the reference for extreme minimalism — a beat built from almost nothing (no hats, a snap for time, a flammed clap) where every remaining element is deliberately audible."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          94,
+          102
+        ],
+        "engine_default_bpm": 98,
+        "swing_model": "close to straight/50%, but only PARTIALLY quantized by element — documented approach is kick and snare/snap quantized while other elements (hats, when present) are left loose/live, giving a slightly fragmented, deliberately 'not robotic' feel rather than a swung one.",
+        "rules": [
+          "Keep the timekeeping element (snap, since hats are absent) close to the grid — it needs to read as reliable, not swung.",
+          "The clap should sit measurably LATE against the snare — a small, audible flam, not a swing offset (documented ~18ms).",
+          "Don't add heavy swing anywhere — the character here comes from minimalism and the flam, not from groove/shuffle."
+        ],
+        "primary_source_confirmation": "Chad Hugo, in a 2003 Sound & Recording interview, confirmed the exact quantize split directly: 'Usually we quantize the kicks and snares, but not the hi hats. We like the live feel that makes you think someone is actually playing the drums.' — this is documented Neptunes practice, not just internet folklore.",
+        "grounded_in": "crew_config.json → 'Glass Cat'.bpm=98; lanes.clap[2] offset=18ms vs snare/kick/snap at 0ms — 'the documented Neptunes flam'"
+      },
+      "drum_layering": {
+        "kick": "Clean, tight, poppy — small and punchy rather than deep/boomy.",
+        "no_hats": "Deliberately NO hi-hat lane — a finger snap carries timekeeping duty instead, which is the single most identifying trait of this persona's kit.",
+        "snare_clap": "Clean rimmy snare plus a clap flammed ~18ms late against it — the two together read as one thick hit with texture, not a doubled mistake.",
+        "signature_extra_layer": "A weird click/zap/glitch/laser one-shot stamp on bars 4/8 — the 'toy' or 'alien' sound that makes a Neptunes beat instantly recognizable. Chad Hugo, on the 'Grindin'' hook percussion specifically: 'That sound is a preset on the Korg 01/W and we added a gate reverb to that sound. I like to experiment with presets by changing them with effects.'",
+        "sound_selection_tags": [
+          "clean",
+          "tight",
+          "pop",
+          "rim",
+          "snap",
+          "clap",
+          "click",
+          "zap",
+          "glitch",
+          "laser"
+        ],
+        "workflow_split": "Documented division of labor: Pharrell (a drummer by training) builds the drum pattern and most melodies; Chad Hugo then either replays the pattern with different sound sources or adds live drums on top, then sound-designs and arranges. Pusha T's summary: 'Pharrell provides the bones and the structure and Chad adds color.'",
+        "gear_note": "Drums primarily sourced from an Ensoniq ASR-10 (shared gear lineage with Chrome Dial/Timbaland) plus Korg 01/W and later Korg Triton presets — several signature Neptunes textures (including the 'Grindin'' hook sound) are stock synth-workstation presets processed with effects, not custom-built sounds.",
+        "rules": [
+          "Never fill in a hi-hat lane — the absence of hats is structural to this persona's identity, not a missing part.",
+          "Keep the kit small: 3-4 elements maximum sounding at once, each with room to be heard individually.",
+          "Reserve one weird/synthetic one-shot (click, zap, glitch) as the persona's recurring signature texture — a stock preset run through an unusual effect (e.g., gated reverb) is authentic to the source technique, not a shortcut."
+        ],
+        "grounded_in": "crew_config.json → 'Glass Cat'.kit (no hat lane; snap+clap+snare; stamp=click/zap/glitch/laser)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "C",
+          "G",
+          "A",
+          "E"
+        ],
+        "modes": [
+          "minor (dominant)",
+          "lydian",
+          "mixolydian"
+        ],
+        "chord_source": [
+          "bell",
+          "pluck"
+        ],
+        "chord_rhythm": "arpeggiated",
+        "character": "Sparse, bright/glassy melodic content (bell and pluck tones) played as a moving arp rather than sustained pads — matches the 'glass' identity: small, precise, slightly synthetic melodic figures over a nearly empty drum bed.",
+        "rules": [
+          "Use bell/pluck/plucked-synth tones for melody rather than warm sampled pianos or horns — this persona should sound bright and synthetic, not organic.",
+          "Keep melodic content moving (arpeggiated) since the drum bed is so sparse — it fills the space the missing hats/percussion would otherwise occupy.",
+          "Favor static, repetitive vamps (i-v7, i-iv7) over harmonic movement — minimalism applies to harmony too."
+        ],
+        "grounded_in": "crew_config.json → 'Glass Cat'.signature (chord_source bell+pluck, chord_rhythm=arp, progressions vamp_static_riff/vamp_i_v7)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Extreme minimalism with hard stop-starts — the arrangement is built from removal (no hats at all) and uses full-stop silence as a structural device rather than a fill. Chad Hugo describes his own arrangement role in explicitly DJ terms: 'I'd kind of be like the DJ in a sense, doing breakdowns, and copying and pasting intros and doing like bonus beats. There is a science to that, and a feel to how things are broken down, and how the beat is sculpted.' He also described post-vocal arrangement: 'After we record the vocals, we mute out parts of track to make the vocals stand out more,' and, in the studio, switching into what he called 'DJ mode' to 'mute parts of the tracks when an important lyric is being said.'",
+        "signature_moment": "Bar 8 stop-starts (the beat cuts out and re-enters abruptly); the weird click/zap stamp lands on bars 4/8.",
+        "rules": [
+          "Use a hard stop (full silence, not a fill) at a structural boundary (e.g., end of an 8-bar phrase) rather than a drum fill to signal a section change.",
+          "Mute elements around key vocal moments (not just at section boundaries) to make the vocal 'stand out more' — this is a lyric-driven mute, distinct from the structural stop-start.",
+          "Keep the arrangement's element count low throughout — resist the urge to add layers to build energy; energy comes from the flam/snap/clap interplay staying exposed."
+        ],
+        "grounded_in": "crew_config.json → 'Glass Cat'.listen ('bar 8 stop-starts... Stamp is a weird click/zap on bars 4/8')"
+      },
+      "mix_character": {
+        "bass_weight": "Minimal and understated — bass follows a simple groove/feel role rather than being a dominant low-end presence; nothing here should feel bass-forward.",
+        "highs": "Clean and crisp, not bright/airy — dry sample sources rather than heavy top-end EQ boost.",
+        "saturation_dust": "None — this is a bone-dry, unprocessed-sounding persona (no vinyl, no dust).",
+        "space": "RESOLVED, not just a tension: Chad Hugo confirmed in his own words that a signature Neptunes hook sound ('Grindin'') was a dry preset with a gate reverb deliberately added — 'we added a gate reverb to that sound.' The engine's gated-snare house style is therefore historically accurate, not a compromise against 'bone dry' — treat selective gated reverb on a signature element as authentic Neptunes technique, while keeping the rest of the kit dry.",
+        "sidechain": "Moderate — noticeable but not aggressive duck, keeping the sparse low end from ever getting cluttered.",
+        "rules": [
+          "Default toward dry on most elements — minimal reverb/room; when in doubt, use less space, not more.",
+          "Reserve gated reverb specifically for ONE signature/hook element (percussion or FX stamp) rather than applying ambience broadly — that's the documented pattern, not blanket dryness.",
+          "Keep the overall mix uncrowded — this persona should have the most 'air' (unused frequency/time space) of any DJ in the roster.",
+          "No saturation or dust processing anywhere in this chain."
+        ],
+        "grounded_in": "crew_config.json → 'Glass Cat'.dust=0.0, vinyl=0, drive=1.4, sidechain=0.2, space=gated(snare), alt=['dry', None] — the era-vs-house-style tension previously flagged in-repo is now resolved by a primary source (see above)"
+      },
+      "sources": [
+        "https://gearspace.com/board/rap-hip-hop-engineering-and-production/39752-neptunes-drum-timing.html",
+        "https://samplefocus.com/blog/sound-like-neptunes-pharrell-williams/",
+        "https://community.livejournal.com/-pharrell/16085.html (fetched via TinyFish — full 2003 Sound & Recording technical interview with Chad Hugo)",
+        "https://www.reddit.com/r/hiphopheads/comments/uo9mlc/gq_interviews_chad_hugo_of_the_neptunes_in_search/ (fetched via TinyFish — 2022 GQ interview excerpts)"
+      ]
+    },
+    "Sunday Chop": {
+      "num": 6,
+      "reference": {
+        "artist": "Kanye West (early/'chipmunk soul' era)",
+        "genre_era": "2000s gospel-soul hip-hop (The College Dropout, Late Registration)",
+        "why": "Early Kanye is the reference for pitched-up soul/gospel sampling ('chipmunk soul') — sped-up vocal samples, driving kicks, and a churchy, uplifting bounce built for a choir-like crash entrance."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          90,
+          100
+        ],
+        "engine_default_bpm": 96,
+        "swing_model": "gospel bounce — a noticeably swung, driving feel (heavier swing than the syncopation-based personas, lighter/tighter than the loosest boom-bap persona), applied fairly uniformly across the kit.",
+        "swing_percent_estimate": "~57%",
+        "rules": [
+          "Apply a consistent, moderately heavy swing (upper-50s%) across kick/clap/snare/hats — the whole kit should bounce together, not pull apart.",
+          "Push the kick slightly ahead/driving rather than laid back — this is an energetic, forward-leaning feel, not a laid-back one (this is the College Dropout/Late Registration 'chipmunk soul' feel specifically — a documented breakdown of the later 'Good Morning' from Graduation instead describes 'slightly late' kicks and a 'lazy' feel, so treat pushed/driving as this era's signature, not a universal Kanye trait across his whole catalog).",
+          "A concrete, documented example of the pitch/tempo trick: the 'Good Morning' Elton John sample was repitched from its original 66 BPM up to 85 BPM (roughly the same magnitude as the 5-7 semitone chipmunk-soul range) to get from a slow soul record to a livelier rap tempo."
+        ],
+        "grounded_in": "crew_config.json → 'Sunday Chop'.bpm=96; lanes.*[2]=57% swing applied uniformly across kick/clap/snare/hat/perc/stamp"
+      },
+      "drum_layering": {
+        "kick": "Punchy, driving, clean-ish knock — pushes the beat forward.",
+        "clap_snare": "A BIG, prominent clap with the snare tucked underneath it (clap leads, snare reinforces) rather than the more typical snare-forward balance.",
+        "percussion": "Tambourine playing the offbeats — a direct gospel/church signifier.",
+        "signature_extra_layer": "A crash cymbal swell opening bars 1 and 5 — a choir-entrance gesture.",
+        "sound_selection_tags": [
+          "punch",
+          "knock",
+          "clean",
+          "big",
+          "clap",
+          "tamb",
+          "shaker",
+          "crash"
+        ],
+        "rules": [
+          "Balance the clap louder/more forward than the snare — the clap is the lead percussive voice here, snare is support.",
+          "Always include a tambourine layer on the offbeats — this is the persona's gospel signature and shouldn't be optional.",
+          "Use a crash swell as an intro/re-entry gesture at phrase starts (bar 1, bar 5) rather than as a fill at phrase ends.",
+          "When doubling a chopped vocal sample for a bigger hook (matches the 'big clap' philosophy), consider a second real vocal take layered on top rather than only pitch/time-stretching — documented technique: Kanye 'beefed up the [Good Morning Elton John] sample by getting Tony Williams and Connie Mitchell to double the vocal line.'"
+        ],
+        "grounded_in": "crew_config.json → 'Sunday Chop'.kit (clap=['big','clap'], snare plain, perc=tamb/shaker, stamp=crash, choke=2.5s long crash tail)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "C",
+          "F",
+          "G",
+          "Bb"
+        ],
+        "modes": [
+          "major (dominant)",
+          "minor",
+          "lydian",
+          "mixolydian"
+        ],
+        "chord_source": [
+          "piano",
+          "choir",
+          "chopped loop"
+        ],
+        "chord_rhythm": "sustained",
+        "character": "The one persona in the roster leaning MAJOR-key/uplifting rather than minor/moody — piano and choir sample sources reinforce the gospel identity; harmony carries warmth and hope rather than tension.",
+        "rules": [
+          "Bias progressions toward uplifting/major and gospel-walkup patterns; use minor/nostalgic sparingly for contrast, not as the default mood.",
+          "Favor piano and choir/vocal-sample chord sources over synths or horns — gospel instrumentation is the identity.",
+          "Let chords sustain warmly under the driving drums rather than chopping rhythmically."
+        ],
+        "grounded_in": "crew_config.json → 'Sunday Chop'.signature (modes major-dominant, progressions uplifting/nostalgic_borrowed_minor/gospel_walkup, chord_source piano+choir+loop, chord_rhythm=sustain)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Built around a big entrance gesture rather than a drop — energy is added at the start of phrases (crash swell) rather than removed mid-phrase (contrast with Chrome Dial's silence-as-instrument approach).",
+        "signature_moment": "Crash swell opening bars 1 and 5 — functions like a choir/band count-in.",
+        "rules": [
+          "Mark every 4-bar phrase boundary with a rising/entrance gesture (crash swell) rather than a stop or drop.",
+          "Keep energy consistently high and driving through the phrase rather than building via dropouts — the gospel-bounce feel wants forward motion, not tension/release silence."
+        ],
+        "grounded_in": "crew_config.json → 'Sunday Chop'.listen ('His stamp is the crash swell opening bars 1 and 5')"
+      },
+      "mix_character": {
+        "bass_weight": "Present but supportive — the low end reinforces the driving kick rather than dominating; this is a mid-to-high energy mix, not a bass-forward one.",
+        "highs": "Clean — MPC3000-style clarity (16-bit, no crush), a bright/uplifting top end (crash, tambourine, choir samples all sit in the upper-mid/high range and are meant to be heard clearly).",
+        "saturation_dust": "None — deliberately clean, same reasoning as Chrome Dial (chosen for historical accuracy to the MPC3000-era, not a dusty SP-1200 sound).",
+        "space": "Gated on the clap to keep the big clap tight and punchy despite its size.",
+        "sidechain": "Moderate — enough to keep the driving kick defined under the bigger clap/tambourine/crash elements.",
+        "rules": [
+          "Keep the mix clean and bright — no vinyl dust or lo-fi coloration on this persona.",
+          "Let the clap/tambourine/crash sit forward and clear — they carry the 'gospel' identity and should never be buried.",
+          "Gate the clap tightly so its size doesn't smear into the next hit."
+        ],
+        "grounded_in": "crew_config.json → 'Sunday Chop'.dust=0.0, vinyl=0, drive=1.4, sidechain=0.2, space=gated(clap)"
+      },
+      "sources": [
+        "https://loopkitchen.co.uk/blogs/loop-kitchen-blog/kanye-west-and-chipmunk-soul",
+        "https://reverbmachine.com/blog/deconstructing-kanye-west-good-morning/ (fetched via TinyFish — detailed technical breakdown of a Kanye beat's sample-chopping and drum timing, incl. specific BPM figures)"
+      ]
+    },
+    "Night Metro": {
+      "num": 7,
+      "reference": {
+        "artist": "Metro Boomin",
+        "genre_era": "2010s dark trap / cinematic hip-hop (Future, 21 Savage, 'Mask Off')",
+        "why": "Metro Boomin is the reference for cinematic, minor-key trap — sparse, impactful drums, hi-hat rolls that build tension, and dramatic dropouts that isolate the 808 for effect."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          136,
+          145
+        ],
+        "engine_default_bpm": 140,
+        "swing_model": "halftime feel at a fast underlying grid — the beat is FELT at roughly half the programmed tempo (a slow, weighty pulse) even though hats/rolls move fast; timing itself stays straight/quantized (no offset drift), with tension built by hat-roll density instead of swing.",
+        "rules": [
+          "Program at a fast BPM (136-145) but build the beat to feel halftime — kick/clap land on a slow pulse while hats subdivide much faster.",
+          "Keep hit timing straight/on-grid — this persona gets its tension from arrangement and hat-roll density, not from swing offsets (contrast with the boom-bap personas).",
+          "Use hi-hat rolls that accelerate INTO the snare/clap hit as a tension-building device."
+        ],
+        "grounded_in": "crew_config.json → 'Night Metro'.bpm=140; lanes.*[2] all 50% swing, zero jitter — perfectly straight timing"
+      },
+      "drum_layering": {
+        "kick_808": "Deep, sustained, distorted 808 that functions as both bass and kick — long sustain/glide rather than a short punchy hit.",
+        "clap": "Lands on beat 3 (trap convention) with a reverb tail for scale.",
+        "hats": "Trap-style closed hats, played in rolling/accelerating patterns rather than a steady pulse.",
+        "signature_extra_layer": "A reversed cymbal that resolves onto the next downbeat — a cinematic transition device, not a percussive hit.",
+        "sound_selection_tags": [
+          "deep",
+          "sub",
+          "long",
+          "clap",
+          "reverb",
+          "trap",
+          "reverse",
+          "sweep",
+          "riser"
+        ],
+        "rules": [
+          "Use one sustained, distorted 808 as the harmonic AND rhythmic bass anchor — don't treat 808 and kick as separate elements.",
+          "Place the clap on beat 3, not the backbeat pattern used by the boom-bap personas.",
+          "Build hi-hat rolls that ramp in density toward the next big hit (snare/clap) rather than staying constant.",
+          "Use a reversed-cymbal riser as a transition into new sections/downbeats — a cinematic sound-design element, not a drum hit."
+        ],
+        "grounded_in": "crew_config.json → 'Night Metro'.kit (kick deep/sub/long, clap reverb, hat trap, stamp reverse/sweep/riser); kick_dist=5.0 (only the trap-family personas carry kick distortion)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "C",
+          "D",
+          "F",
+          "A"
+        ],
+        "modes": [
+          "minor",
+          "harmonic minor"
+        ],
+        "chord_source": [
+          "bell",
+          "pad",
+          "loop"
+        ],
+        "chord_rhythm": "arpeggiated more than sustained",
+        "character": "Cinematic, minor-key, film-score-influenced — haunting bell/piano-like tones and pads, drawing on the same emotional palette as horror/thriller scoring (Hans Zimmer-adjacent) rather than soul or funk sampling.",
+        "rules": [
+          "Use minor and harmonic-minor modes almost exclusively — this persona should sound tense/ominous, never bright.",
+          "Favor bell and pad chord sources with arpeggiated movement over sustained warm pads — the melody should feel cold and cinematic.",
+          "Bias progressions toward the darkest/most dramatic options (trap_dark_metro, dark_menacing, cinematic_rise) over anything nostalgic or uplifting."
+        ],
+        "grounded_in": "crew_config.json → 'Night Metro'.signature (modes minor+harmonic_minor, progressions trap_dark_metro/dark_menacing/cinematic_rise, chord_source bell+pad+loop, chord_rhythm arp>sustain)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Built on dramatic contrast — clever spacing creates anticipation between bars, and a full breakdown to just the 808 is used as the beat's emotional peak, not a mistake or gap.",
+        "signature_moment": "Bar 5 drops to the 808 alone (all drums/harmony cut) before the full arrangement re-enters; the reversed cymbal resolves each such transition onto the next downbeat.",
+        "rules": [
+          "Include at least one full breakdown per 8-bar phrase where everything except the 808 drops out — this is the persona's signature dramatic device.",
+          "Use the reversed-cymbal riser to resolve every major transition (breakdown → full re-entry) onto the downbeat.",
+          "Keep the drum count low/sparse most of the time so the breakdown reads as a real contrast, not a small change."
+        ],
+        "grounded_in": "crew_config.json → 'Night Metro'.listen ('bar 5 drops to the 808 alone... Stamp is a reversed cymbal resolving onto the next downbeat')"
+      },
+      "mix_character": {
+        "bass_weight": "Heaviest, most dominant low end in the roster — the 808 is sustained, distorted, and central to the mix, not just support.",
+        "highs": "Clean and controlled (no vinyl/dust) but with an aggressive edge from the 808 distortion; hats are crisp and rolled fast, not soft.",
+        "saturation_dust": "808-specific distortion (kick_dist) rather than a broad vinyl/dust layer — the grit is isolated to the low end where it does the most emotional work.",
+        "space": "Gated on the clap, plus a reverb tail specifically on the clap for scale/drama (clap sample itself carries 'reverb' as a want-tag).",
+        "sidechain": "Heaviest sidechain duck in the boom-bap-to-trap spectrum so far — keeps the sustained 808 from swallowing the rest of the mix.",
+        "rules": [
+          "Distort the 808/kick specifically — don't apply that grit to the whole mix.",
+          "Use a stronger sidechain duck than any of the boom-bap personas — the sustained 808 needs more room-clearing to stay controlled.",
+          "Keep hats and clap clean/bright against the heavy, distorted low end for contrast."
+        ],
+        "grounded_in": "crew_config.json → 'Night Metro'.dust=0.0, vinyl=0, drive=1.5, kick_dist=5.0, sidechain=0.35 (higher than every boom-bap persona), space=gated(clap)"
+      },
+      "workflow_note": "Metro, in his own words: 'A lot of them will just be like skeletons of stuff... just to get an idea going. Then an artist might do some ideas on it and I'll go back in and mess with it some more' — beats are often built as a rough skeleton first and refined iteratively with the artist rather than delivered polished/final upfront.",
+      "sources": [
+        "https://www.michaelmusco.com/2026/03/bass-breakdown-how-metro-boomin-gets-clean-808s.html",
+        "https://melodics.com/blog/metro-boomin-producer-deep-dive",
+        "https://medium.com/@HowToRap/metro-boomin-teaches-how-to-make-beats-in-5-steps-bd7b054aca62 (fetched via TinyFish — quotes from Metro Boomin's Full Send podcast appearance and other interviews)"
+      ]
+    },
+    "Rage Engine": {
+      "num": 8,
+      "reference": {
+        "artist": "Lex Luger",
+        "genre_era": "2010s maximalist trap ('Hard in the Paint', Waka Flocka Flame, early 'rage' trap)",
+        "why": "Lex Luger is the reference for maximalist, 'wall of sound' trap — Wagner/Elfman-style bombastic orchestral synths stacked over relentless, distorted 808s and hi-hat rolls, with zero letup and zero silence."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          145,
+          155
+        ],
+        "engine_default_bpm": 150,
+        "swing_model": "perfectly straight, zero jitter — the fastest and most rigid persona in the roster; intensity comes from density (constant hat rolls, stacked hits) rather than any timing feel.",
+        "rules": [
+          "Keep every voice locked to the grid — no swing, no offset, no jitter. This persona should feel mechanical/relentless by design.",
+          "Run tempo at the top of the roster's range (145-155 BPM) for maximum energy."
+        ],
+        "grounded_in": "crew_config.json → 'Rage Engine'.bpm=150; lanes.*[2] all 50% swing, ZERO jitter on every lane — the only persona with jitter=0 across the board"
+      },
+      "drum_layering": {
+        "kick_808": "Hard, punchy, distorted 808/kick — the heaviest kick distortion in the roster.",
+        "snare_clap": "Snare and clap stacked together (not one or the other) for maximum impact.",
+        "hats": "Wall-to-wall 32nd-note hi-hat rolls — constant motion, no gaps, functioning as a texture bed rather than a sparse accent.",
+        "signature_extra_layer": "Crash/impact hits opening bars 1 and 5; extra snare fills inserted every 4th bar on top of the already-dense pattern.",
+        "sound_selection_tags": [
+          "hard",
+          "punch",
+          "distort",
+          "trap",
+          "snare",
+          "clap",
+          "crash",
+          "impact",
+          "timbale",
+          "tom"
+        ],
+        "rules": [
+          "Run hi-hats as constant 32nd-note rolls through most of the beat — sparse hats are wrong for this persona.",
+          "Stack snare AND clap on the backbeat rather than choosing one.",
+          "Add an extra snare fill every 4 bars on top of the standing pattern — density should keep increasing, never settle.",
+          "Never leave a bar empty — this is the opposite of Chrome Dial/Night Metro's silence-as-instrument approach; Rage Engine has zero drop-outs."
+        ],
+        "grounded_in": "crew_config.json → 'Rage Engine'.kit (kick hard/punch/distort, snare+clap both present, hat=trap/closed, stamp=crash/impact); kick_dist=6.0 (highest in roster), mix_sat=4.0 (only persona with mix bus saturation)"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "C",
+          "D",
+          "E",
+          "A"
+        ],
+        "modes": [
+          "minor",
+          "harmonic minor"
+        ],
+        "chord_source": [
+          "strings",
+          "horns"
+        ],
+        "chord_rhythm": "mixed sustain/arp",
+        "character": "Bombastic, ominous orchestral harmony — Wagner/Danny Elfman-style synthesized brass and strings, epic and villainous in tone rather than moody or nostalgic.",
+        "rules": [
+          "Use orchestral string/horn sources almost exclusively — this is the most 'cinematic score' persona in the roster, more overtly orchestral than Night Metro's colder bell/pad palette.",
+          "Bias progressions toward epic, power_stomp, and villain_harmonic — the harmony should feel like an action-movie climax, not background texture.",
+          "Keep harmonic movement bold and dramatic rather than subtle."
+        ],
+        "grounded_in": "crew_config.json → 'Rage Engine'.signature (modes minor+harmonic_minor, progressions epic/power_stomp/villain_harmonic/cinematic_rise/snarl_vamp, chord_source strings+horns)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "Maximalist and unrelenting — energy only goes up, never drops out; the persona is built around a continuous 'wall of sound' rather than dynamic contrast.",
+        "signature_moment": "Crash/impact hit opening bars 1 and 5 (an entrance gesture, like Sunday Chop's crash but harder/darker); extra snare fill inserted every 4th bar to keep escalating density.",
+        "rules": [
+          "Never write a breakdown or drop-out for this persona — density and intensity should be sustained or increasing throughout.",
+          "Mark phrase boundaries (bars 1, 5) with a crash/impact hit rather than silence.",
+          "Add escalating fills (extra snare hits) every 4 bars rather than repeating the same pattern unchanged."
+        ],
+        "grounded_in": "crew_config.json → 'Rage Engine'.listen ('relentless... zero drop-outs, extra snare fills every 4th bar. Stamp is the crash/impact opening bars 1 and 5')"
+      },
+      "mix_character": {
+        "bass_weight": "Extremely heavy and distorted — the hardest, most aggressive low end in the roster, deliberately pushed into distortion rather than kept clean.",
+        "highs": "Bright and aggressive from the constant hat rolls, but glued together by mix-bus saturation rather than left sharp/separated.",
+        "saturation_dust": "Distortion on the 808 AND glue saturation across the entire mix bus — the only persona in the roster with both element-level AND mix-bus saturation stacked together ('wall of sound').",
+        "space": "Gated on the snare to keep the dense pattern from smearing.",
+        "sidechain": "Heaviest sidechain in the roster (tied with Night Metro's high end) — necessary to keep the extremely dense, distorted mix from collapsing into mud.",
+        "rules": [
+          "Apply BOTH element-level 808 distortion and a mix-bus glue/saturation pass — this stacked saturation is the core of the 'wall of sound' identity.",
+          "Push levels hot and dense — this persona should feel like the loudest, most maximal one in the roster.",
+          "Use strong sidechain compression to keep the dense stacked elements from turning to mud despite the heavy saturation."
+        ],
+        "grounded_in": "crew_config.json → 'Rage Engine'.dust=0.0, vinyl=0, drive=1.55 (highest in roster), kick_dist=6.0 (highest), mix_sat=4.0 (only nonzero value in roster), sidechain=0.35, space=gated(snare)"
+      },
+      "background_note": "Lex Luger, in his own words (Red Bull Music Academy, 2016): started as a church drummer, learned tempo/structure through DJing, then built his first beats on a PlayStation 2 beat-making game before moving to dedicated software. His earliest beats were minimalist and Neptunes-influenced ('Just straight drums, nothing else, like the [Clipse] \"Grindin\" beat') before he 'started to learn about melodies and chords' and moved toward the maximalist orchestral-trap sound this persona is built on — the wall-of-sound identity was a later development, not his starting point.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lex_Luger_(musician)",
+        "https://blog.native-instruments.com/watch-lex-luger-build-a-cinematic-trap-beat-with-maschine/",
+        "https://daily.redbullmusicacademy.com/2016/01/interview-lex-luger/ (fetched via TinyFish — primary-source 2016 interview)"
+      ]
+    },
+    "New Math": {
+      "num": 9,
+      "reference": {
+        "artist": null,
+        "genre_era": "now / original — 'no one, the front edge'",
+        "why": "New Math is the roster's one deliberately artist-less persona — an original archetype built from music-theory concepts (Euclidean rhythm, polymeter, symmetric/whole-tone harmony) rather than a real producer's catalog. This profile is built entirely from the engine's own design notes, not outside research, since there is no reference artist to research."
+      },
+      "tempo_swing": {
+        "bpm_range": [
+          140,
+          148
+        ],
+        "engine_default_bpm": 144,
+        "swing_model": "mixed-feel by design: most lanes are dead straight, but ONE lane (percussion) swings noticeably harder than the rest — the mismatch between straight and swung lanes is the persona's entire groove concept, not a mistake to be fixed.",
+        "swing_percent_estimate": "kit mostly ~50% straight; perc lane ~58%",
+        "rules": [
+          "Keep the majority of the kit (kick, snare, hats) locked to a straight grid.",
+          "Deliberately swing exactly one lane (percussion) harder than the rest — the CLASH between straight and swung lanes should be audible and is the intended groove, never smoothed out.",
+          "Do not unify swing across the kit the way every other persona does — inconsistency is the rule here, uniquely."
+        ],
+        "grounded_in": "crew_config.json → 'New Math'.bpm=144; lanes.perc[2]=58% swing while kick/snare/snap/hat/stamp stay at 50%"
+      },
+      "drum_layering": {
+        "kick": "Clean, punchy, club-forward, mid-forward tone — placed on a pattern that deliberately avoids the expected trap kick placements.",
+        "hats": "Run a polymetric 'quintuplet' feel — a hat lane counting in fives against a kit that otherwise counts in fours, so the hats phase against the rest of the pattern instead of locking to it.",
+        "percussion": "Built from Euclidean rhythm 'necklaces' (mathematically even distributions of N hits across 16 steps, e.g. E(7,16) and E(5,16)) rather than a genre-idiomatic pattern — this is 'world-rhythm math' applied to trap-adjacent percussion.",
+        "signature_extra_layer": "A found-sound FX hit (vocal snippet, glitch, or reversed sample) on the tail of bars 4/8.",
+        "sound_selection_tags": [
+          "punch",
+          "knock",
+          "club",
+          "tight",
+          "crack",
+          "clean",
+          "trap",
+          "glitch",
+          "click",
+          "wood",
+          "block"
+        ],
+        "rules": [
+          "Never default to a standard trap kick placement — this persona's identity is a kick pattern that avoids the expected pocket.",
+          "Program the hat lane in a 5-against-4 relationship (quintuplet grid over a 4-count kit) rather than a straight subdivision.",
+          "Generate percussion patterns from Euclidean distributions (e.g., 5 or 7 hits evenly spread across 16 steps) instead of hand-picked genre patterns.",
+          "Keep the kick/snare clean and punchy — the complexity here is rhythmic/structural, not textural (no dust, no distortion)."
+        ],
+        "grounded_in": "crew_config.json → 'New Math'.listen ('a club kick pattern that never sits where trap taught you to expect'; hat 'counting FIVE against everyone else's four'; perc 'E(7,16) and E(5,16) necklaces'); kit tags punch/knock/club/tight, glitch/click/wood/block"
+      },
+      "harmonic_tendencies": {
+        "typical_keys": [
+          "G",
+          "C",
+          "D",
+          "A",
+          "F"
+        ],
+        "modes": [
+          "major (dominant)",
+          "mixolydian",
+          "dorian"
+        ],
+        "chord_source": [
+          "chiptune (5-voice, Atari-style square/triangle wave synthesis)"
+        ],
+        "chord_rhythm": "arpeggiated",
+        "character": "Symmetric/mathematical harmony — minor-thirds and major-thirds movement (chords stepping by equal intervals rather than functional cadences) and whole-tone color, played on a 5-voice chiptune engine rather than any sampled or 'real' instrument source.",
+        "rules": [
+          "Use the chiptune synthesis engine as the sole harmonic source for this persona — it is the only DJ in the roster built on synthesized rather than sampled/acoustic chords.",
+          "Move chords by equal intervals (parallel minor 3rds, major 3rds, or whole-tone steps) rather than standard functional progressions — this is the harmonic equivalent of the Euclidean rhythm concept.",
+          "Keep the chord voice count small (5-voice limit) — this is a deliberate synthesis constraint (Atari-style chip), not a mix decision."
+        ],
+        "grounded_in": "crew_config.json → 'New Math'.signature (progressions math_minor_thirds/math_major_thirds/math_whole_tone, chord_source=chip, chip_tuning=atari, chip_count=5, chord_rhythm=arp)"
+      },
+      "arrangement_structure": {
+        "structure_notes": "The arrangement's 'structure' is the ongoing polyrhythmic/polymetric clash itself (hats in 5, percussion in Euclidean 7s and 5s, one lane swung against straight lanes) rather than a conventional intro/build/drop shape — tension comes from the mismatch running continuously, not from adding/removing elements over time.",
+        "signature_moment": "A found-sound FX hit (vocal snippet, glitch, or reverse) on the tail of bars 4/8 — functionally similar to the other personas' 4/8-bar stamps, but sourced from 'found' material rather than a musical instrument.",
+        "rules": [
+          "Let the polyrhythmic clash (5-against-4 hats, Euclidean percussion) run continuously through the beat rather than resolving it — the tension IS the arrangement.",
+          "Place the found-sound signature hit at the same 4/8-bar structural boundary the rest of the roster uses, for consistency with the crew's shared 'stamp' convention."
+        ],
+        "grounded_in": "crew_config.json → 'New Math'.listen ('one lane swinging 58% while the rest of the kit stays dead straight — the clash IS the groove... Stamp is a found-sound fx hit on the tail of bars 4/8')"
+      },
+      "mix_character": {
+        "bass_weight": "Mid-forward — the kick is described as 'mid-forward' rather than deep-sub or dusty; low end is present but not the dominant feature (the rhythmic complexity is the feature).",
+        "highs": "Clean and punchy, crisp hats — no dust or lo-fi coloration, similar cleanliness to the other 'now'-era personas (Chrome Dial, Sunday Chop, Night Metro, Rage Engine).",
+        "saturation_dust": "None.",
+        "space": "Gated on the snare, moderate drive — closer to the clean trap-adjacent personas than the dusty boom-bap ones.",
+        "sidechain": "Moderate-high — enough to keep the layered polyrhythmic elements from cluttering.",
+        "rules": [
+          "Keep the mix clean and punchy — no dust/vinyl coloration; this persona's identity is rhythmic/harmonic complexity, not texture.",
+          "Keep the kick mid-forward rather than sub-heavy, so the rhythmic pattern (not raw low-end weight) is what the ear tracks."
+        ],
+        "grounded_in": "crew_config.json → 'New Math'.dust=0.0, vinyl=0, drive=1.5, kick_dist=3.0, sidechain=0.3, space=gated(snare)"
+      },
+      "sources": [
+        "Homeroom Studio project design notes (DECISIONS.md: 'New Math deepened — arithmetic you can hear'); no external artist research applicable — this persona has no real-world reference by design."
+      ]
+    }
+  }
+}

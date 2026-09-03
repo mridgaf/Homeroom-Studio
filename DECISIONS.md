@@ -22,6 +22,143 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 Owner ruling: newest DJ research overrides older rules/config — improvement run started, Glass Cat first
+- Context: owner instruction, verbatim intent: "For tuning djs use newest
+  research to override older rules and research for their sound and
+  character. This is an improvement run... Including effects placement
+  and amounts. Start with glass cat." Confirmed back to him in plain
+  words before starting. This supersedes the earlier "render both,
+  flag [contested], his ear decides" framing for anything the new
+  dj_production_profiles.json research answers directly — the research
+  IS now the answer, not one side of an open question. The "his ear
+  confirms a change actually landed" discipline (audition-batch) does
+  NOT go away; only the "leave it open until he picks" part does.
+- Decision/change, two live config edits to Glass Cat (crew_config.json
+  AND tools/pattern_gen.py/crew.py kept in sync):
+  1. `space` moved from `("gated", ["snare"])` to `("gated", ["stamp"])`,
+     `alt` cleared (was `("dry", None)`). Chad Hugo's own account of the
+     "Grindin'" hook sound — "we added a gate reverb to that sound" — is
+     about the click/zap hook (Glass Cat's stamp lane), not the snare.
+     The era-vs-house tension the old alt file existed to flag is
+     resolved by that primary source, not still open.
+  2. `extras.p` 0.62→0.35, `extras.nmax` 2→1. Second finding, caught only
+     because the owner asked "is that really all you found" — the
+     research says Glass Cat should have "the most air of any DJ in the
+     roster" and to "resist the urge to add layers," but his old 0.62
+     wasn't even the roster's lowest (Sunday Chop's 0.53 was). Now
+     decisively the sparsest.
+- Reasoning on scope discipline: reviewed EVERY rule in Glass Cat's five
+  research categories against the live config before calling it done,
+  not just the one item already on the punch list — the first pass
+  (DJ-PROFILES-GAP-ANALYSIS.md) was written as a short list of clear
+  deltas, which is a different bar than "reviewed everything for this
+  DJ." Also checked and did NOT act on: kick hit-density range (already
+  the roster's sparsest, confirmed matching); harmonic progression
+  weights (already lean toward the static/simple vamps, confirmed
+  matching); vocal-mute arrangement rule (no vocal awareness in this
+  instrumental engine, correctly out of scope); the ASR-10/Korg gear
+  note (informational, no actionable numeric lever).
+- Verify by: tests/test_audio_quality.py's parametrized snare/space test
+  updated (Glass Cat's row now names "stamp", not "snare" — the lane
+  that's actually declared changed). Full suite 978 passed / 3 skipped
+  after the space move (confirmed); extras change subset-tested green
+  (test_pattern_gen/test_crew/test_variety/test_v6, 76 passed), full
+  suite re-running.
+- AUDITIONED 2026-09-03, both live: tools/make_glass_cat_space_ab.py
+  (~/Desktop/Homeroom Glass Cat Space 2026-09-03/) — measured per-lane
+  stereo width moved exactly as expected (snare -8.0→-12.5 dB, stamp
+  -10.2→-5.3 dB). tools/make_glass_cat_extras_ab.py (~/Desktop/Homeroom
+  Glass Cat Extras 2026-09-03/) — a PROBABILITY change, so measured as a
+  rate over 200 composed beats (guest lane present: 68%→43% of beats,
+  avg 0.96→0.43 extra sounds) plus 3 real variant pairs where the guest
+  visibly disappears, not just one before/after pair.
+- Status: open — both live, neither heard yet.
+- Outcome: (pending)
+
+### 2026-09-03 kick_sub_reinforce built — Otto Grit's dormant kick_layer() finally has a caller
+- Context: DJ-PROFILES-GAP-ANALYSIS.md item 3 (new file, per-persona
+  production research cross-referenced against the running engine).
+  Fairall's Fantastic Vol. 2 account (sampled kick reinforced with a
+  short gated ~40Hz sine, "not a second audible drum") mapped onto
+  groove.kick_layer(), built and tested since the 2026-09-02 audit but
+  never called by anything.
+- Decision/change: kick_layer itself turned out to be the wrong shape —
+  it high-passes its "top" argument, correct for a click-only transient
+  layer but wrong for a full sampled kick that already has its own bass.
+  Used as-is it would have STRIPPED Otto Grit's sample below 100 Hz and
+  substituted the oscillator instead of adding to it. Built
+  groove.kick_sub_reinforce() instead: additive, borrows kick_layer's
+  phase-check idea (try polarity + a few ms offset, keep whichever sum
+  maximizes low-band RMS) so a misaligned sub can't cancel the sample's
+  own low end. Reuses make_drum_loops.sub808 for the tone rather than a
+  new oscillator. Wired into tools/crew.py's build_kit(), gated by a new
+  preset field `sub_layer` (freq_hz/dur_s/amount/drive) — off unless a
+  preset carries it; no DJ's crew_config.json entry has it yet, default
+  render path unchanged.
+- Reasoning: has to apply to the raw one-shot BEFORE it's tiled across a
+  beat's hits — kick_layer/kick_sub_reinforce align one top to one sub,
+  so running it on an already-assembled multi-hit buffer would only
+  reinforce whichever hit lands at sample 0. That's what put the wiring
+  in build_kit rather than following the eq/echo/chorus/phaser pattern
+  (render_crew_beat keyword args, which operate on the assembled buffer).
+- Verify by: tests/test_groove.py, 2 new (adds low-band weight while
+  staying correlated with the original sample >0.8, so it reinforces
+  rather than replaces; amount=0.0 is a byte-identical no-op). Full
+  suite 978 passed / 3 skipped (baseline was 976/3 before this session).
+- AUDITIONED 2026-09-03: tools/make_kick_sub_layer_ab.py, Otto Grit only
+  (his own research, not roster-wide), one beat, three versions (a Now /
+  b Light amount=0.35 / c Full amount=0.60, freq 40 Hz, dur 0.12s pinned
+  across b/c). ~/Desktop/Homeroom Kick Sub Layer 2026-09-03/.
+- MEASURED, TWO NUMBERS — read both, they disagree and that's expected.
+  On the raw kick SAMPLE, right at the hit: low-band gain is real and
+  sizeable (+3.54 dB at 0.35, +6.47 dB at 0.60), both well past the
+  ~1 dB line where a change this broad is usually audible. Averaged
+  over the WHOLE finished file (8 bars, mostly gaps between kick hits)
+  it looks tiny (+0.17 / +0.54 dB) — that ruler spreads one ~120ms
+  addition across a loop's worth of silence, the same shape of undersell
+  the low-shelf's share-of-total ruler had on 2026-09-02/03. The
+  per-hit number is the honest one for what he'll actually hear; the
+  whole-file average just isn't the right ruler for a transient effect.
+- Status: open — his ear hasn't heard it yet.
+- Outcome: (pending)
+
+### 2026-09-03 Half Light and Fast Water were stranded off main; ported back
+- Context: he asked "did one of the DJs disappear? The newest one." Two had.
+  Half Light (slot 10, `db32a01`, 08-07) and Fast Water (slot 11, `f51d5b1`,
+  08-08) existed only on `never-guess-hooks` / `sound-engine-mixer`. Pass 1
+  (`c24d018`, 09-02) deliberately kept `crew.py`, `pattern_gen.py` and
+  `crew_config.json` byte-identical to main so no sound rule would move —
+  and those two DJs live entirely in those three files. Nothing in the
+  ledger recorded it, so they were invisible from main for a month.
+- Decision/change: ported the blocks by hand rather than cherry-picking
+  (the branch rewrote crew.py wholesale; a cherry-pick conflicts). Added:
+  `DEFAULT_CREW` + `CREW_SIGNATURES` entries in tools/crew.py, `DEFAULT_STYLE`
+  + `KICK_BANK` (Fast Water only) in tools/pattern_gen.py, `TITLES` entries in
+  tools/beat_machine.py, the "nine personalities" UI label -> eleven, both
+  roster-count tests, and the two `crew_config.json` blocks.
+- THE TRAP, for next time: `load_crew()` only READS the config file. It never
+  adds a new `DEFAULT_CREW` member to an existing `crew_config.json`. Adding a
+  DJ in code alone does nothing — the file must gain the entry too. The config
+  blocks here were serialized from the edited DEFAULT_CREW, NOT pasted from the
+  branch, so no pre-mix-work tuning came across. Second trap, same as 08-07:
+  a missing `TITLES` entry crashes the render path.
+- Verify by: full suite; `identity_survival.py --dj "Half Light" --dj "Fast Water"`;
+  his ear on the audition folder.
+- Status: open — measured only. Suite ran, both render, all INVARIANT rows
+  12/12 (tempo, lane roster, feel, pan/gain, space all survive compose()).
+  NOT heard: they were written before the 09-02 mix work (kick anchor,
+  backbeat ceiling) and have never been rendered through it until now.
+  Audition at `~/Desktop/Homeroom two DJs back 2026-09-03`.
+- Known, and pre-existing on the branch (measured identical there, so the port
+  did not cause it): their signature figures rarely survive `compose()`.
+  Half Light rim home mode 0/12, shaker 0/12; Fast Water hat (the break) 1/12,
+  ghost 0/12. Their `listen` lines promise traits he mostly won't hear. Fix is
+  the one dj-identity-audit names: raise the home weight or pin the lane in
+  `canon`. Left alone pending his verdict on whether they sound right.
+- Not taken from those commits: tools/clear_legends_djs.py and its .command
+  launcher (unrelated to the DJs; identity_survival.py was already landed by
+  pass 1).
+
 ### 2026-09-03 HANDOFF — the per-DJ pass is the next session's job
 - Where things stand: four effects are built, tested, approved by his ear,
   and switched ON FOR NOTHING. Their amounts live in

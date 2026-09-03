@@ -165,6 +165,14 @@ TITLES = {
                   "Golden", "Infinite"],
                  ["Postulate", "Remainder", "Function", "Sequence",
                   "Fraction", "Lemma", "Ratio", "Angle"]),
+    "Half Light": (["Dim", "Late", "Behind", "Hollow", "Dusk", "Faded",
+                    "Slack", "Amber"],
+                   ["Room", "Hour", "Curtain", "Echo", "Fade", "Glow",
+                    "Drift", "Hall"]),
+    "Fast Water": (["Rapid", "Undertow", "Spillway", "Shallow", "Cold",
+                    "Steel", "Loose", "Running"],
+                   ["Current", "Chop", "Channel", "Rush", "Ladder",
+                    "Bank", "Break", "Weir"]),
 }
 COLLAB_TITLES = (["Split", "Shared", "Double", "Joint", "Twin", "Crossed",
                   "Common", "Meeting"],
@@ -4165,7 +4173,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 </header>
 </div>
 
-<h2 class="box">The Crew <small>nine personalities</small></h2>
+<h2 class="box">The Crew <small>eleven personalities</small></h2>
 <div class="djs">__CREW__</div>
 <h2 class="box">The Legends <small>signature styles</small></h2>
 <div class="djs">__LEGENDS__</div>

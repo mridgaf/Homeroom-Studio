@@ -7,8 +7,8 @@ import pytest
 
 sys.path.append(str(Path(__file__).parent.parent / "tools"))
 from groove import (LaneFeel, dist808, euclid, gated_reverb, glue_compress,
-                    haas, k_weight, kick_layer, lufs, make_ir,
-                    master_to_lufs, mono_below, mpc_swing_offset,
+                    haas, k_weight, kick_layer, kick_sub_reinforce, lufs,
+                    make_ir, master_to_lufs, mono_below, mpc_swing_offset,
                     ratchet_times, sp1200, transient_shape, velocity,
                     vinyl_bed, wow_flutter, zoh_resample)
 
@@ -116,6 +116,33 @@ def test_kick_layer_rescues_inverted_sub():
         return np.sqrt((lp4(a, 100) ** 2).mean())
     # polarity search should land both stacks at (near) equal low energy
     assert abs(low_rms(good) - low_rms(flipped)) / low_rms(good) < 0.1
+
+
+# -- kick sub reinforcement (Otto Grit / Fairall technique) ----------------------
+
+def test_kick_sub_reinforce_adds_weight_and_keeps_the_sample_intact():
+    t = np.arange(int(0.4 * SR)) / SR
+    kick = (np.sin(2 * np.pi * 90 * t) * np.exp(-t / 0.08)
+            + np.random.default_rng(3).normal(0, 0.1, len(t))
+            * np.exp(-t / 0.01))
+    out = kick_sub_reinforce(kick, freq_hz=40.0, dur_s=0.12, amount=0.5)
+    from groove import lp4
+
+    def low_rms(a):
+        return np.sqrt((lp4(a, 100) ** 2).mean())
+    # extra low-end weight over the untouched sample...
+    assert low_rms(out) > low_rms(kick) * 1.05
+    # ...added ON TOP of it, not swapped in for it — unlike kick_layer's
+    # crossover, which would high-pass "top" and strip everything below
+    # check_hz. A real replacement would not correlate this closely.
+    assert np.corrcoef(out[:len(kick)], kick)[0, 1] > 0.8
+
+
+def test_kick_sub_reinforce_amount_zero_changes_nothing():
+    t = np.arange(int(0.2 * SR)) / SR
+    kick = np.sin(2 * np.pi * 90 * t) * np.exp(-t / 0.05)
+    out = kick_sub_reinforce(kick, amount=0.0)
+    assert np.array_equal(out[:len(kick)], kick)
 
 
 # -- 808 distortion adds mids ----------------------------------------------------

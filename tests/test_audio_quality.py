@@ -139,7 +139,8 @@ def test_no_live_lane_ships_in_mono(name, space):
 
 @pytest.mark.parametrize("name, space, lane, treated", [
     # the space THIS render rolled is dry, over a preset that declares gated
-    ("Glass Cat", "dry", "snare", "gated"),
+    # (moved to the stamp lane 2026-09-03 -- see the DJ-profile research)
+    ("Glass Cat", "dry", "stamp", "gated"),
     # the sibling backbeat lane: every preset's space list names exactly
     # ONE of snare/clap, so the other one is never the DJ's call and the bed
     # is all it will ever get. (This slot used to be ("Plug", "washed", ...)

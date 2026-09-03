@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
-from make_drum_loops import SR
+from make_drum_loops import SR, sub808
 
 # ------------------------------------------------------------ timing / feel
 
@@ -379,6 +379,47 @@ def kick_layer(top, sub, split_hz=100.0):
             if r > best_rms:
                 best, best_rms = cand, r
     return best / (np.abs(best).max() + 1e-9)
+
+
+def kick_sub_reinforce(kick, freq_hz=40.0, dur_s=0.12, amount=0.5,
+                       drive=1.0, check_hz=100.0):
+    """Reinforce a sampled kick with a short, gated sub-oscillator UNDER
+    it — Todd Fairall's account of the Fantastic Vol. 2 sessions: extra
+    sub WEIGHT added under the sampled hit, not a second audible drum.
+    dur_s stays well under a real kick's own decay on purpose
+    (make_drum_loops.sub808's tuned-root-note usage elsewhere in this
+    project runs 0.6s; this is a fifth of that).
+
+    ADDITIVE, not a kick_layer crossover: the sample keeps its OWN low
+    end. kick_layer high-passes its "top" argument, which is correct for
+    a click-only transient layer but would strip a full sampled kick's
+    natural bass here — that is a different technique (top+sub split of
+    ONE source) from this one (add a second source under an already
+    full-spectrum sample). Still borrows kick_layer's phase-check idea —
+    try polarity and a few ms of offset, keep whichever sum makes the low
+    band LOUDEST — so a misaligned sub can't cancel the sample's low end
+    instead of reinforcing it (the Gearspace test, same as kick_layer).
+
+    Call on the raw ONE-SHOT before it's tiled across a beat's hits: this
+    aligns one sub pulse to one kick hit, so applying it to an
+    already-assembled multi-hit buffer would only reinforce whichever
+    hit happens to sit at sample 0."""
+    sub = sub808(freq_hz, dur_s, drive=drive) * amount
+    n = max(len(kick), len(sub))
+    top = np.pad(kick, (0, n - len(kick)))
+    sub = np.pad(sub, (0, n - len(sub)))
+
+    def low_rms(a):
+        return np.sqrt((lp4(a, check_hz) ** 2).mean())
+
+    best, best_rms = top, low_rms(top)
+    for pol in (1.0, -1.0):
+        for off in (0, int(0.001 * SR), int(0.002 * SR), int(0.004 * SR)):
+            cand = top + pol * np.pad(sub, (off, 0))[:n]
+            r = low_rms(cand)
+            if r > best_rms:
+                best, best_rms = cand, r
+    return best
 
 
 def dist808(x, drive_db=5.0):

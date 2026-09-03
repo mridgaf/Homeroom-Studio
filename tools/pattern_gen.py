@@ -364,7 +364,11 @@ DEFAULT_STYLE = {
                        [0.1, 0.35]]],
         library=dict(p=0.45, tags=[["rnb", 2], ["minimal", 3],
                                   ["funk", 2], ["cloud-rap", 1]]),
-        extras=dict(p=0.6, nmax=2, pool=[
+        # 2026-09-03: p 0.6->0.35, nmax 2->1. Research: "keep the kit small:
+        # 3-4 elements maximum... resist the urge to add layers... the most
+        # air of any DJ in the roster." 0.6 wasn't even the roster's lowest
+        # (Sunday Chop's 0.53 was) despite that superlative claim.
+        extras=dict(p=0.35, nmax=1, pool=[
             ["fx", ["glitch", "zap", "laser"], "blips"],
             ["perc", ["block", "clave"], "woods"]]),
     ),
@@ -447,6 +451,73 @@ DEFAULT_STYLE = {
             ["fx", ["glitch", "laser", "zap", "reverse"], "glitches"],
             ["perc", ["block", "clave", "tabla"], "mathperc"],
             ["rim", ["rim", "click"], "clicks"]]),
+    ),
+    # Half Light (2026-08-07): the slow one. Two-to-four kicks a bar, the
+    # snare's home is 'four' (the 4 alone — the 2 stays empty), and the
+    # timekeeper's home is 'shuffle' (swung triplets) on a rim, not a hat.
+    # 'shuffle' and 'triplets' were built for the GENRE roster; this is the
+    # first crew member to reach for them, which is what makes his clock
+    # sound unlike the other nine's.
+    "Half Light": dict(
+        grammar=dict(
+            kick=dict(w=[10, 1, 1, 2, 1, 1, 2, 1, 8, 1, 1, 2, 2, 1, 3, 1],
+                      hits=[2, 4], double_p=0.12),
+            snare=dict(modes=_bb('four'),
+                       ghosts=[0, 2], gcells=[3, 5, 7, 10, 11, 14, 15]),
+            rim=dict(modes=[['shuffle', 0.34], ['sparse', 0.16],
+                            ['offbeats', 0.12], ['eighths', 0.08],
+                            ['broken', 0.08], ['gallop', 0.08],
+                            ['answer', 0.08], ['triplets', 0.06]]),
+            shaker=dict(modes=[['offbeats', 0.3], ['sparse', 0.24],
+                               ['shuffle', 0.16], ['answer', 0.12],
+                               ['eighths', 0.08], ['broken', 0.06],
+                               ['gallop', 0.04]]),
+        ),
+        kick_flavors=[[0.35, None, ["sub", "deep", "round", "soft"],
+                       [0.9, 2.8]],
+                      [0.65, None, ["boom", "acoustic", "break", "room",
+                                    "warm"], [0.6, 1.6]]],
+        library=dict(p=0.5, tags=[["trip hop", 3], ["soul", 2],
+                                  ["blues", 2], ["jazz", 2],
+                                  ["downtempo", 2], ["ambient", 1],
+                                  ["gospel", 1]]),
+        extras=dict(p=0.55, nmax=1, pool=[
+            ["perc", ["brush", "shaker", "sand", "tamb"], "brushes"],
+            ["fx", ["texture", "foley", "noise", "ambien"], "airs"],
+            ["bongo", ["conga", "bongo"], "hands"]]),
+    ),
+    # Fast Water (2026-08-08): the fast one. Halftime skeleton — 2-3 kicks
+    # a bar with the weight on 1 and the 3 — under a 32nd break. His
+    # backbeat home is 'displaced' (the 2 and the '&' of 3, never 2 & 4)
+    # and his timekeeper home is 'rolls32', which until now only Rage
+    # Engine reached for and only as a wall; here it IS the clock. The
+    # ghost lane is a second snare-role timekeeper, which no other
+    # member has.
+    "Fast Water": dict(
+        grammar=dict(
+            kick=dict(w=[10, 1, 1, 1, 2, 1, 4, 1, 3, 1, 2, 7, 2, 1, 3, 1],
+                      hits=[2, 4], double_p=0.18),
+            snare=dict(modes=_bb('displaced'),
+                       ghosts=[0, 2], gcells=[3, 6, 7, 11, 13, 14, 15]),
+            hat=dict(modes=[['rolls32', 0.3], ['sixteenths', 0.16],
+                            ['broken', 0.14], ['gallop', 0.12],
+                            ['answer', 0.1], ['offbeats', 0.08],
+                            ['eighths', 0.06], ['sparse', 0.04]]),
+            ghost=dict(modes=[['sixteenths', 0.26], ['broken', 0.22],
+                              ['answer', 0.16], ['offbeats', 0.14],
+                              ['sparse', 0.12], ['gallop', 0.1]]),
+        ),
+        kick_flavors=[[0.25, "808", ["sub", "deep", "round"], [0.3, 0.7]],
+                      [0.75, None, ["punch", "tight", "break", "knock",
+                                    "acoustic"], [0.15, 0.4]]],
+        library=dict(p=0.6, tags=[["jungle", 4], ["dnb", 3],
+                                  ["breakbeat", 3], ["garage", 2],
+                                  ["funk", 2], ["electro", 1],
+                                  ["house", 1]]),
+        extras=dict(p=0.6, nmax=1, pool=[
+            ["crash", ["crash", "splash", "china"], "cymbals"],
+            ["fx", ["reverse", "sweep", "riser", "scratch"], "sirens"],
+            ["perc", ["timbale", "tom", "block"], "toms"]]),
     ),
 }
 
@@ -538,6 +609,14 @@ KICK_BANK = {
         "X-----X-X---X---", "X--X------X-----", "X-------X----X--",
         "X--X----X---X---", "X-----X---X-X---", "X-----X---------",
         "X---------X-XX--"],
+    "Fast Water": [                # halftime under a 32nd break: the
+        # weight is the 1 and the 3, everything else is a pickup into it
+        "X------x---X----", "X----------X----", "X------x---X--x-",
+        "X--x-------X----", "X------x---X-x--", "X-x----x---X----",
+        "X----------X--x-", "X------x-x-X----", "X--x---x---X----",
+        "X------x---Xx---", "X-----xx---X----", "X----------Xx-x-",
+        "X--x--x----X----", "X------x--xX----", "X---x------X--x-",
+        "X-x--------X-x--"],
 }
 
 BOOM_BAP_KICKS = [                            # New Math's odd-variant lane
