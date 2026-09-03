@@ -22,6 +22,85 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 HANDOFF — everything below is waiting on him, nothing to build until he answers
+- Session did: DJ-PROFILES-GAP-ANALYSIS.md (research pass on all 9 crew
+  personas vs. the running engine); groove.kick_sub_reinforce() built for
+  Otto Grit; Glass Cat's gated reverb moved snare->stamp and extras.p/
+  nmax cut; drum-pattern grammar unlocked for all 9 crew DJs
+  (kick_flavors/extras/library deliberately left alone, see below); a
+  stale test (test_style_is_a_lean_not_a_cage) fixed, a bug the unlock
+  exposed rather than caused. All committed on branch `dj-profile-
+  research` (6d5d937), not pushed — no push credential on this machine,
+  use the GitHub Desktop app. Full suite 978 passed / 3 skipped,
+  confirmed green after every step, most recently after the test fix.
+- WAITING ON HIS EAR — audition files already on the Desktop:
+  1. Kick sub-layer, Otto Grit — a/b/c.
+     ~/Desktop/Homeroom Kick Sub Layer 2026-09-03/
+  2. Glass Cat gated reverb, snare->stamp — keep or revert.
+     ~/Desktop/Homeroom Glass Cat Space 2026-09-03/
+  3. Glass Cat fewer extras — keep, or a different number.
+     ~/Desktop/Homeroom Glass Cat Extras 2026-09-03/
+- WAITING ON A DECISION, not a listen — no sound rendered yet either way:
+  4. kick_flavors/extras/library drift on 8 of 9 DJs, found while
+     investigating the grammar lock. Goes BOTH directions — the live
+     file has hand-added guest sounds the code doesn't know about, and
+     the code has number tweaks the live file never got. Needs a
+     DJ-by-DJ look, not a blind resync in either direction. Full detail
+     in DORMANT-FEATURES.md's "Locked" section.
+- DORMANT-FEATURES.md is a new running list (locked / not-implemented /
+  unused), owner's standing request — keep adding to it as more turn up,
+  don't let it go stale or get treated as a one-time snapshot.
+- Status: open.
+- Outcome: (pending — next session picks up wherever he answers)
+
+### 2026-09-03 Drum-pattern lock partially removed — grammar only, and it exposed a stale test
+- Context: owner asked to "unlock drum patterns" after I flagged
+  `_style_lock: true` (crew_config.json) freezing all 9 crew DJs on an
+  old 4-mode backbeat menu (backbeat/halftime/displaced/sparse) while
+  pattern_gen.py's actual DEFAULT_STYLE has carried the full 10-mode
+  menu (adding four/push/tresillo/offbeat/drag/pickup, 2026-07-22 fix
+  for "41% of the library shares one snare line") since before this lock
+  was ever set.
+- Decision/change: did NOT flip `_style_lock` itself. Instead compared
+  crew_config.json against DEFAULT_STYLE field-by-field for all 9 DJs
+  first (grammar/kick_flavors/extras/library) and found the other three
+  fields have drifted in BOTH directions, not one — several DJs have
+  extra `extras.pool` entries hand-added directly to the live JSON that
+  DEFAULT_STYLE doesn't know about, while `kick_flavors`/`library`/
+  `extras.p` show number differences in both directions too. Flipping
+  the lock would have overwritten real hand-tuning as often as it fixed
+  staleness. Wrote every DJ's current `grammar` dict straight from
+  DEFAULT_STYLE into crew_config.json (the one field that was cleanly
+  one-directional: code moved forward, live never caught up) and left
+  kick_flavors/extras/library and the lock flag itself untouched.
+  Recorded in DORMANT-FEATURES.md as its own open item — needs a DJ-by-DJ
+  look before those three get touched.
+- A REAL BUG the sync surfaced, not caused: full suite failed one test
+  after the sync — `test_style_is_a_lean_not_a_cage` (Rage Engine). Not a
+  sound regression: the test classified rolled bars into 3 shape-buckets
+  (halftime / backbeat-ish / other) and checked the home bucket against
+  the biggest one. That worked when there were 4 total modes; the moment
+  a live config actually reaches the 10-mode menu, lumping the 5
+  non-home modes at ~8.4% each into "other" produces a ~42% bucket BY
+  CONSTRUCTION, regardless of how correctly the weights lean home — the
+  test would have failed this way for any DJ on any honest 10-mode
+  config. It never ran against one before because the lock was stopping
+  crew_config.json from ever reaching 10 modes in the first place. Fixed
+  the test to read the mode gen_backbeat already returns (via `notes`)
+  instead of guessing it back from bar shape, and check the real
+  invariant: home beats every OTHER MODE INDIVIDUALLY (`seen[home] ==
+  max(seen.values())`), which is what HOME_LEAN was actually designed to
+  guarantee. Confirms and sharpens the project's recurring lesson
+  (measuring at the wrong point hides real bugs) — this time the lesson
+  is about a TEST hiding behind a config lock, not a render-time bug.
+- Verify by: proof the sync worked — composed 100 beats each for Otto
+  Grit and Night Metro; both now land on all 10 backbeat modes (before,
+  only 4 were reachable at all). test_style_is_a_lean_not_a_cage passes
+  standalone; full suite re-running after the test fix.
+- Status: open — grammar sync is live and verified; kick_flavors/extras/
+  library reconciliation is still undecided and untouched.
+- Outcome: (pending)
+
 ### 2026-09-03 Owner ruling: newest DJ research overrides older rules/config — improvement run started, Glass Cat first
 - Context: owner instruction, verbatim intent: "For tuning djs use newest
   research to override older rules and research for their sound and

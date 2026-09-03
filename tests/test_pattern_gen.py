@@ -183,33 +183,41 @@ def test_loop_length_is_four_or_eight_bars():
 def test_style_is_a_lean_not_a_cage():
     """v6 law (owner 2026-07-18): every mode is reachable for every DJ,
     but the weights still LEAN home — over many variants the home mode
-    is the plurality, and the character quirk copy-lanes still mirror."""
+    is the plurality, and the character quirk copy-lanes still mirror.
+
+    FIXED 2026-09-03: the original version classified each rolled bar
+    into one of 3 buckets by SHAPE (halftime / backbeat-ish / other) and
+    checked the home bucket against the largest bucket. That was sound
+    when there were 4 total modes — "other" was just sparse. It silently
+    stopped meaning anything the moment the drum-pattern lock came off
+    and the live roster actually started reaching the 10-mode menu
+    (four/push/tresillo/offbeat/drag/pickup added 2026-07-22): lumping 5
+    non-home modes at ~8.4% each into one "other" bucket produces a
+    bucket north of 40% by construction, no matter how strongly the
+    weights lean home — the test would have failed this way for ANY DJ,
+    on ANY honest 10-mode config; it just never saw one before today.
+    Reads the mode gen_backbeat already returns (via notes) instead of
+    guessing it back from the bar shape, and checks the real invariant
+    HOME_LEAN promises: home beats every OTHER MODE INDIVIDUALLY, not
+    every other mode's bucket combined."""
     from collections import Counter
 
-    def bb_mode(bar):
-        if bar[8] == "X" and bar[4] != "X":
-            return "halftime"
-        if bar[4] == "X" and any(bar[i] == "X" for i in (11, 12, 13)):
-            return "backbeat-ish"
-        return "other"
-
     homes = {"Night Metro": ("clap", "halftime"),
-             "Cutz": ("snare", "backbeat-ish"),
+             "Cutz": ("snare", "backbeat"),
              "Rage Engine": ("snare", "halftime")}
-    # 120 variants, not a couple dozen: "backbeat-ish" catches both the
-    # backbeat and displaced modes, so it sums to a weight close to the
-    # home mode's and a small sample swings on noise alone.
     for name, (lane, home) in homes.items():
         seen = Counter()
         for v in range(120):
             p, notes = _composed(name, v)
+            mode = next((n.split(": ", 1)[1] for n in notes
+                        if n.startswith(lane + ": ")), None)
             # a backbeat borrowed from a groove seed (2026-07-21) is the
             # library's voice, not this DJ's grammar — count grammar
             # rolls only, the lean law is about the weights
-            if any(n.startswith(lane + ": seed:") for n in notes):
+            if mode is None or mode.startswith("seed:"):
                 continue
-            seen[bb_mode(p["lanes"][lane][3][0])] += 1
-        assert seen[home] >= max(seen.values()) * 0.6, (name, seen)
+            seen[mode] += 1
+        assert seen[home] == max(seen.values()), (name, seen)
         assert len(seen) >= 2, (name, "modes never vary", seen)
     # the Neptunes flam: Glass Cat's clap still mirrors his snare
     for v in range(8):
