@@ -1079,14 +1079,28 @@ def grid_accent(res, s):
     return 1.0
 
 
-def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
+def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
+                     eq=None, echo=None):
     """Render one personality's 8-bar A/B beat. kit maps lane -> mono
     audio. space overrides the house snare treatment ('room'/'dry'/...)
     for era-deviation Alt renders. preset overrides CREW[name] — that's
     how batch files apply per-beat evolutions and collab hybrids without
     mutating the roster. want_parts additionally returns the beat's
     parts for the Reason 12 handoff (owner spec 2026-07-16): per-lane
-    stereo stems and the note events behind the MIDI file."""
+    stereo stems and the note events behind the MIDI file.
+
+    eq and echo are the two Sound Engine effects the owner asked for and
+    approved on the 2026-09-02 audition ("Keep both. Keep the amounts
+    where they are also."). Both are still OFF unless a caller passes a
+    dict — approving the SOUND is not the same as switching it on for
+    every beat, and he said so directly: the echo gets tuned into the
+    individual DJs later, not applied roster-wide. His approved amounts
+    are parked in OWNER_TASTE["mix_eq"] and ["backbeat_echo"] so nobody
+    has to re-derive them; nothing reads them automatically.
+    eq={low_db, low_hz, mid_db, mid_hz, mid_q, high_db, high_hz} ->
+    audio_engine.eq3 on the mix bus; echo={note, feedback, mix} ->
+    audio_engine.loop_delay on the backbeat lanes, note being a fraction
+    of a beat (0.5 = 1/8) as in fx_presets.json."""
     p = preset or CREW[name]
     bpm = p["bpm"]
     # v6 (2026-07-18): real time signatures. 3/4 and 6/8 bars both span
@@ -1300,6 +1314,28 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
         bufs[lane] = dry + (wetL + wetR) * 0.5
         side = (wetL - wetR) * 0.5
         wet_side[lane] = wet_side.get(lane, 0.0) + side
+
+    # ECHO on the backbeat (owner 2026-09-02, "I am going to want the delay
+    # and EQ"). Off unless a caller passes echo=. On the snare/clap lanes,
+    # not the whole mix: a mix-wide delay smears the kick, and the musical
+    # use of delay in this music is a throw on the backbeat. It runs HERE,
+    # before the bus governor below, so the governor measures the bus with
+    # its repeats included and the echo cannot sneak the backbeat past the
+    # kick-anchor rule. loop_delay is circular, so bar 8's tail lands on
+    # bar 1 — the lanes were folded to exactly `end` samples above, which
+    # is what makes that the loop length and not the buffer length.
+    if echo:
+        from audio_engine import loop_delay      # local: keeps pedalboard
+        _e = {"seconds": float(echo.get("note", 0.5)) * 60.0 / bpm,
+              "feedback": float(echo.get("feedback", 0.35)),
+              "mix": float(echo.get("mix", 0.2))}   # off the default path
+        for lane in bufs:
+            if not any(lane.startswith(s) for s in SNARE_LIKE):
+                continue
+            bufs[lane] = loop_delay(bufs[lane], bufs[lane], **_e)[0]
+            if lane in wet_side:      # the room tail repeats with its drum
+                wet_side[lane] = loop_delay(wet_side[lane],
+                                            wet_side[lane], **_e)[0]
 
     # The low end ducks DEEPER than the rest of the mix (owner 2026-09-01).
     # Defined out here, not inside the peak-governor block below: that block
@@ -1678,6 +1714,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False):
     # the mix's dynamics first, then tone/saturate/limit it. Always on,
     # clean render or not: this is mix glue, not the SP-1200/wow/vinyl
     # "dirt" clean_renders turns off.
+    if eq:
+        # MIX EQ (owner 2026-09-02). Tone -> glue -> master, the same order
+        # audio_engine.master_chain uses: shape the balance first, then let
+        # the glue and the limiter react to the mix he'll actually hear.
+        from audio_engine import eq3
+        L, R = eq3(L, R, **eq)
     L, R = glue_compress(L, R)
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't

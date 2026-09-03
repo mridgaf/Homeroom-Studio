@@ -22,6 +22,58 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-02 Delay and EQ wired in as opt-in switches; 24-file A/B on the Desktop
+- Context: his words, "I am going to want the delay and EQ" — the two
+  effects he picked out of the nine the Sound Engine has and the beat
+  generator does not. The ledger said they were stuck behind the
+  sound-engine-mixer merge; they weren't (see the correction above).
+- Decision/change: `render_crew_beat()` takes two new keyword arguments,
+  `eq=` and `echo=`, both None by default.
+  * `eq=` -> `audio_engine.eq3` on the mix bus, immediately BEFORE
+    `glue_compress`. Tone, then glue, then master — the order
+    `audio_engine.master_chain` already uses.
+  * `echo=` -> `audio_engine.loop_delay` on the snare/clap lanes only,
+    placed after the ambience bed and BEFORE the backbeat bus governor,
+    so the governor measures the bus with its repeats included. A
+    mix-wide delay smears the kick; the musical use here is a snare
+    throw. Time is a fraction of a beat (0.5 = 1/8), read against the
+    beat's own tempo, same convention as fx_presets.json.
+  * `pedalboard` is imported inside the branches, so the default path
+    never pays for it.
+  * No DJ turns either on. Nothing in the library changed.
+  * New `tools/make_delay_eq_ab.py`: 6 DJs x 4 versions (a Now / b EQ /
+    c Echo / d Both) -> `~/Desktop/Homeroom Delay and EQ 2026-09-02/`.
+    Starting settings, guesses only: EQ low +1.5 @ 120, mid -1.0 @ 800,
+    high +2.0 @ 8k; echo 1/8, feedback 0.35, mix 0.20.
+- Reasoning: the case for adding anything to a mix he already approved is
+  that the default is untouched, so that is asserted on bytes, not on a
+  tolerance. Putting the echo before the governor rather than after is
+  the whole reason the 2026-07-18 "snare never out-powers the kick" rule
+  survives the feature — after the governor the repeats would be free
+  level the rule never saw.
+- Verify by: two tests in `tests/test_audio_quality.py` —
+  `test_eq_and_echo_off_by_default_change_nothing` (array-equal) and
+  `test_echo_does_not_let_the_backbeat_out_power_the_kick`. Both pass.
+  Measured on the batch: all 24 files within 0.71 dB LUFS, and the echo
+  lands -15.0 to -20.8 dB under each beat's own backbeat, so it is even
+  across the roster.
+- Status: partly — the SOUND is confirmed, the ROLLOUT is not.
+- Outcome: he listened same day. "Keep both. Keep the amounts where they
+  are also." Both effects and both settings are approved by ear.
+  I then wrongly read that as "make them house defaults" and switched
+  them on roster-wide; he stopped it: "I don't want that echo
+  automatically on every beat. that will be fine tuned into the DJs
+  later." Reverted the same session — both are opt-in again and no beat
+  renders any differently than before this work. His approved amounts
+  are parked in OWNER_TASTE["mix_eq"] and ["backbeat_echo"], read by
+  nothing, so the per-DJ pass has the numbers without them being live.
+  LESSON, the same one as the "stacks" incident: approving a SOUND is not
+  approving a ROLLOUT. Ask which beats get it; never infer scope from a
+  verdict on quality.
+  STILL OPEN: whether the mix EQ goes roster-wide or also waits for the
+  per-DJ pass. I asked; he has not answered. Do not decide it.
+
+
 ### 2026-09-02 Pass 2: the hat ceiling and the sub duck, layered on the kick anchor
 - Context: never-guess-hooks (87 commits) and sound-engine-mixer (24) both
   held beat-generator work and both conflicted with main in tools/crew.py.
@@ -105,11 +157,15 @@ entries.
 - NEXT UP, his words: "I am going to want the delay and EQ." From the
   effects comparison in the entry above — the Sound Engine has nine effects
   the beat generator does not, and delay (echo) and eq3 (3-band) are the two
-  he picked. Both live in `tools/audio_engine.py`, which exists ONLY on the
-  sound-engine-mixer branch and is a pedalboard wrapper, while groove.py's
-  effects are hand-written numpy. So bringing them over means either merging
-  that branch (see the conflicts above) or porting the two functions. That
-  choice has not been made.
+  he picked. Both live in `tools/audio_engine.py`, which this entry said
+  exists ONLY on the sound-engine-mixer branch, so bringing them over meant
+  merging that branch or porting the two functions.
+  **CORRECTED 2026-09-02:** that was wrong when written. Pass 1 (c24d018)
+  had already brought `tools/audio_engine.py` onto main, tests and all, so
+  the delay/EQ work never depended on the merge. (The function is also
+  named `loop_delay`, not `delay` — the plain pedalboard.Delay wrapper was
+  replaced because it dies at the loop seam.) The sound-engine-mixer merge
+  and its 2 audio conflicts are still open; they are just not blocking this.
 - Status: open — the two merges and the delay/EQ work are all outstanding.
 - CAVEAT on this entry: this session had no GitHub credentials, so every
   remote claim here is from the local repo, not verified against GitHub.

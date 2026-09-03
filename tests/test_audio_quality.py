@@ -712,3 +712,53 @@ def test_a_washed_preset_gets_a_real_wet_space(name):
     assert moved > 1e-6, (
         "%s's %s is bit-for-bit identical under 'washed' and 'dry' — the "
         "washed branch is doing nothing at all" % (name, lane))
+
+
+# ------------------------------------------------- eq / echo switches
+# Both added 2026-09-02 for the owner's delay+EQ audition. They are opt-in
+# per render; nothing on the roster turns them on. These two tests hold the
+# two promises that were made when they went in.
+
+
+def test_eq_and_echo_off_by_default_change_nothing():
+    """Passing eq=None, echo=None must render EXACTLY today's beat.
+
+    The whole case for adding two effects to a mix he already approved was
+    that the default path is untouched. That is a claim about bytes, so it
+    is asserted on bytes, not on a tolerance."""
+    name = "Otto Grit"
+    kit = _tone_kit(CREW[name])
+    base_L, base_R, base_lufs = render_crew_beat(name, kit, space="gated")
+    off_L, off_R, off_lufs = render_crew_beat(name, kit, space="gated",
+                                              eq=None, echo=None)
+    assert np.array_equal(base_L, off_L)
+    assert np.array_equal(base_R, off_R)
+    assert base_lufs == off_lufs
+
+
+def test_echo_does_not_let_the_backbeat_out_power_the_kick():
+    """The echo runs BEFORE the backbeat bus governor on purpose.
+
+    Put it after and the repeats are free level: the bus is measured clean,
+    trimmed to target, and then handed an echo the governor never saw. The
+    owner's hard rule since 2026-07-18 is that the snare bus never
+    out-powers the kick, so the echoed bus has to land where the dry one
+    does, not above it."""
+    name = "Otto Grit"
+    kit = _tone_kit(CREW[name])
+    echo = {"note": 0.5, "feedback": 0.5, "mix": 0.6}   # deliberately hot
+    dry = render_crew_beat(name, kit, space="gated", want_parts=True)[3]
+    wet = render_crew_beat(name, kit, space="gated", echo=echo,
+                           want_parts=True)[3]
+
+    def bus_over_kick(parts):
+        stems = parts["stems"] if isinstance(parts, dict) else parts
+        def rms(lane):
+            sL, sR = stems[lane]
+            return float(np.sqrt(np.mean(sL ** 2 + sR ** 2)))
+        back = sum(rms(ln) for ln in stems if ln.startswith(("snare", "clap")))
+        return _db(back) - _db(rms("kick"))
+
+    assert bus_over_kick(wet) <= bus_over_kick(dry) + 1.0, (
+        "the echo moved the backbeat bus up relative to the kick — it is "
+        "being applied after the governor instead of before it")

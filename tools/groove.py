@@ -185,6 +185,20 @@ OWNER_TASTE = {
     # inside the 2026-07-18 hard rule that the backbeat never out-powers
     # the kick. Same medicine as chord_bus_under_kick_db, same reason.
     "backbeat_bus_under_kick_db": 3.0,
+    # --- the two Sound Engine effects, APPROVED 2026-09-02 after the
+    # 24-file A/B (6 DJs x Now/EQ/Echo/Both). His verdict, verbatim:
+    # "Keep both. Keep the amounts where they are also." These are HIS
+    # numbers — do not retune them without a fresh audition.
+    # They are PARKED here, not applied: nothing reads them automatically.
+    # He said the echo "will be fine tuned into the DJs later", not switched
+    # on roster-wide, and then that the EQ gets treated the same way. So
+    # BOTH wait for the per-DJ pass and a caller has to ask by name.
+    "mix_eq": {"low_db": 1.5, "low_hz": 120.0,
+               "mid_db": -1.0, "mid_hz": 800.0, "mid_q": 0.9,
+               "high_db": 2.0, "high_hz": 8000.0},
+    # note is a fraction of a beat (0.5 = 1/8), read against each beat's own
+    # tempo. Backbeat lanes only — a mix-wide delay smears the kick.
+    "backbeat_echo": {"note": 0.5, "feedback": 0.35, "mix": 0.20},
     "clean_renders": True,       # owner 2026-07-18: "I want the beats
                                  #      clean" — no baked-in dirt (808 dist,
                                  #      roughness AM, mix saturation, SP-1200
