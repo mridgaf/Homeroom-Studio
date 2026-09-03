@@ -1,6 +1,6 @@
 ---
 name: audio-fix-verify
-description: Prove an audio change actually worked by measuring the finished file, not the code or an intermediate buffer. Use whenever this project changes anything that affects how a beat SOUNDS — levels, panning, reverb, ducking, velocity, chord voicing, sample selection, mixing rules — and before telling the owner a sound problem is fixed. Catches the failure that keeps recurring here: measuring at a point that is not where the sound comes out, and reporting the median when one failing beat is the whole story.
+description: "Prove an audio change actually worked by measuring the finished file, not the code or an intermediate buffer. Use whenever this project changes anything that affects how a beat SOUNDS — levels, panning, reverb, ducking, velocity, chord voicing, sample selection, mixing rules — and before telling the owner a sound problem is fixed. Catches the failure that keeps recurring here: measuring at a point that is not where the sound comes out, and reporting the median when one failing beat is the whole story."
 ---
 
 # Verify an audio fix by measuring the output
@@ -49,12 +49,43 @@ the recipe gave a meaningless "0 of 0", and a test fixture hardcoded to an
 old taste constant had quietly stopped exercising the thing it guarded.
 A number that cannot fail is not evidence.
 
+**5. The control specimen never had the bug.** 2026-09-03, Night Metro: an
+A/B batch for the missing "bar 5 drops to the 808 alone" rendered every
+"after" file BYTE-IDENTICAL to its "before". The bench was the static
+prototype in `crew_config.json` — and that file already has bar 5 empty.
+The bug only exists in beats that go through `compose()` + `vary_preset()`,
+which rewrite the lanes from grammar. The fix looked like a no-op because
+it was being tested on the one specimen that never had the fault.
+
+Related to trap 2 but not the same: trap 2 is a later pass undoing your
+work, this is a control that was never broken. Ask: *does my BEFORE file
+actually reproduce the problem?* If it does not, there is nothing to fix
+and nothing to prove. **Build the bench the way the owner's real output is
+built** — for beats that means composed, not the prototype.
+
+**6. Right file, right stage, wrong BAND.** Same session, same batch: bar
+5's full-band RMS moved 0.6 dB and read as "the drop does nothing." False.
+Night Metro's sustained 808 carries most of the beat's energy, and the 808
+is exactly what the breakdown KEEPS. The hats and clap are what leave, and
+they live up top; measured above 2 kHz the same drop is **-19 dB**.
+
+A whole-mix number is dominated by whatever is loudest, which is often the
+thing you did not touch. Ask: *where in the sound does this change live?*
+Then measure there. Two cousins of this already cost a session each — a
+low shelf measured as a SHARE of the total instead of absolute band energy
+(reported +0.22 where the truth was +0.42), and a per-hit sub layer
+averaged across a loop of mostly silence (+0.17 whole-file vs +3.54 at the
+hit). Per-hit effects need a per-hit ruler; one-bar effects need a one-bar
+ruler; band effects need a band ruler.
+
 ## Before saying "fixed"
 
 - [ ] Rendered a real batch — not a unit test, not a simulation
 - [ ] Measured the **same number** before and after; a bare "after" proves nothing
 - [ ] The denominator is non-zero and the metric CAN fail
 - [ ] Checked the worst case, not just the median
+- [ ] The BEFORE file actually reproduces the problem
+- [ ] The ruler looks where the change lives — band, bar, and hit
 - [ ] If any beat still fails, opened that beat specifically
 - [ ] Said plainly what is measured versus what is still **unheard**
 

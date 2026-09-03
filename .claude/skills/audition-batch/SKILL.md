@@ -53,6 +53,28 @@ Report them as two different things, always:
 Never let a table of green numbers imply he has approved something. He
 hasn't until he says so.
 
+## The batch script must fail loud
+
+Twice on 2026-09-03 a batch would have gone to him meaningless, and both
+times the script's own check caught it — not review, not a test. Every A/B
+script here (`tools/make_*_ab.py`) ends by asserting its own premise, and
+prints a WARNING rather than shipping quietly:
+
+- **Every version differs from its control.** A version that renders
+  byte-identical to "a Now" is a bug in the bench, not a subtle effect.
+- **The change went the direction it claims.** A "matte" version that
+  measures brighter, or a drop that does not drop, is a wrong wire.
+- **The file count is what was asked for.**
+
+Copy the shape from `tools/make_night_metro_ab.py` rather than inventing
+one. This is cheap, it runs every render, and it is the only thing standing
+between a wrong bench and an hour of his listening time.
+
+If a check fires, **do not ship the batch and explain the warning to him**
+— fix the bench and re-render. A batch he can't learn anything from costs
+more than the render did. See `audio-fix-verify` traps 5 and 6 for the two
+that fired.
+
 ## Before you hand it over
 
 - [ ] Rendered to scratch, copied to the Desktop — library untouched
@@ -63,6 +85,7 @@ hasn't until he says so.
 - [ ] Deliberate oddities named beat-by-beat
 - [ ] Said what is measured vs what is unheard
 - [ ] Told him the one thing you actually need back from him
+- [ ] The script's own fail-loud checks ran and stayed silent
 
 ## After he listens
 
