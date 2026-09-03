@@ -22,6 +22,35 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 Two skill edits from the Night Metro session, and one latent YAML fault
+- Context: asked whether this session produced anything worth building
+  into a skill or hook.
+- Decision/change: edited two EXISTING skills rather than writing a new
+  one — both failures had a right home already.
+  * `audio-fix-verify` traps 5 and 6: "the control specimen never had the
+    bug" (the static prototype already had bar 5 empty, so the fix
+    rendered byte-identical to its control) and "right file, right stage,
+    wrong BAND" (full-band RMS read a -19 dB drop as 0.6 dB because the
+    808 the drop KEEPS carries the energy). Two checklist lines added.
+  * `audition-batch` gains a "the batch script must fail loud" section.
+    Both failures above were caught by the A/B script's own assertions,
+    not by review or by tests — that pattern was undocumented.
+- DECIDED AGAINST a hook. A hook can check text and exit codes; neither
+  failure was visible that way — both needed a rendered specimen and a
+  ruler pointed at the right band. A hook here would have been theatre.
+- Also found and fixed: `audio-fix-verify`'s description contained an
+  unquoted ": " and was the only one of the 17 project skills that failed
+  a strict PyYAML parse. NOT broken in practice — the harness's own
+  parser is more lenient and the skill has been loading. Quoted it so a
+  stricter loader cannot trip on it. This is the same fault the
+  2026-08-25 health check reported fixing; that fix never landed in this
+  repo (git log shows one commit on the file), so it was fixed elsewhere
+  or lost.
+- Verify by: all 17 project skills now parse with PyYAML; descriptions
+  unchanged, so triggering behaviour is unchanged and no benchmark loop
+  was run.
+- Status: confirmed — parse checked, text re-read.
+
 ### 2026-09-03 Night Metro, second of the per-DJ pass — and two wrong rulers caught by the fail-loud check
 - Context: "continue with Night Metro following the rules of new
   research." Read his profile in `dj_production_profiles.json` (on the
