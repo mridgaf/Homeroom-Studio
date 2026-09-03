@@ -22,6 +22,53 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 HANDOFF — three DJs auditioned, three verdicts owed, nothing switched on
+- Where the per-DJ pass stands. Three batches are on his Desktop and
+  NONE has been heard. Do not promote any of them without his words.
+      ~/Desktop/Homeroom Otto 2026-09-03          9 files, a/b/c
+      ~/Desktop/Homeroom Night Metro 2026-09-03  12 files, a/b/c/d
+      ~/Desktop/Homeroom Rage Engine 2026-09-03  12 files, a/b/c/d
+  Each READ ME ends with the one or two things needed back from him.
+- THE ONLY THING COMMITTED TO A PRESET this whole pass: Otto Grit's
+  `sub_layer` (40 Hz / 0.12 s / 0.35), and only because he had already
+  approved it by ear on the 2026-09-03 kick batch. Everything else lives
+  in the audition scripts. Nothing is roster-wide.
+- Mechanisms now built and available to the remaining DJs — these are the
+  reason each next persona should be a config edit, not code:
+      preset["sub_layer"]      short gated sub under the kick one-shot
+      preset["allow_dirt"]     True = all grime, "low" = 808/kick only
+      preset["breakdown"]      {"bar": N, "keep": [lanes]}
+      preset["mix_eq"] / ["backbeat_echo"] / ["chorus"] / ["phaser"]
+        — read by render_crew_beat; an explicit keyword still wins
+- HIS STANDING RULE for this pass, stated 2026-09-03 and applied three
+  times: "the new research always wins versus the old code." It has cut
+  both ways already — Otto's air went DOWN (-1.5) because his sources say
+  matte; Night Metro's stayed UP (+2) because his say crisp. Do not
+  flatten that into one roster setting.
+- SIX REMAINING of the nine: Cutz, Crate Prophet, Chrome Dial, Glass Cat,
+  Sunday Chop, New Math. Then twelve Legends. The research profiles are
+  in `dj_production_profiles.json` on the UNMERGED `dj-profile-research`
+  branch — read them with `git show dj-profile-research:...`, and do NOT
+  merge that branch wholesale (it also carries two new DJs, a Glass Cat
+  change and a 1,388-line crew_config rewrite nobody asked for).
+- OPEN QUESTIONS ALREADY SURFACED TO HIM, not yet answered: whether Rage
+  Engine's hats should reach more than a third of his beats (the lever is
+  `library.p` = 0.65, not the grammar); whether Night Metro's 4-bar beats
+  should get a breakdown at all (bar 5 does not exist on them).
+- COPY THE AUDITION SCRIPTS' SHAPE, do not invent one:
+  tools/make_otto_ab.py, make_night_metro_ab.py, make_rage_engine_ab.py.
+  Their fail-loud checks caught FIVE wrong benches/rulers across these
+  three batches — more than review and the test suite combined. The two
+  lessons are now written into the `audio-fix-verify` (traps 5, 6) and
+  `audition-batch` skills.
+- Git: 5 commits this session. `git rev-list origin/main..HEAD` reports 0,
+  but GitHub was unreachable from here ("could not read Username"), so
+  that local ref is NOT proof the remote has them. He should push from
+  his own terminal and see what happens.
+- Full suite at handoff: 972 passed / 3 skipped.
+- Status: open.
+- Outcome:
+
 ### 2026-09-03 Rage Engine, third of the per-DJ pass — the saturation persona has been rendering clean
 - Context: "continue with dj rage engine following the same new research
   wins vs code rule."
