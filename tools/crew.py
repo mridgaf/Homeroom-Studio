@@ -41,10 +41,10 @@ from make_drum_loops import SR, master, write_wav24
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
 from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
-                    glue_compress, loop_convolve, make_ir, master_to_lufs,
-                    mono_below, mpc_swing_offset, perc_scale, roughness_am,
-                    sat_unity, snare_scale, sp1200, velocity, vinyl_bed,
-                    wow_flutter)
+                    glue_compress, kick_sub_reinforce, loop_convolve,
+                    make_ir, master_to_lufs, mono_below, mpc_swing_offset,
+                    perc_scale, roughness_am, sat_unity, snare_scale,
+                    sp1200, velocity, vinyl_bed, wow_flutter)
 
 OUT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
 LOCK = Path(os.path.expanduser("~/.reason_voice/crew_kits.json"))
@@ -246,6 +246,12 @@ DEFAULT_CREW = {
         dust=0.5, vinyl=-42, wow=0.0, sidechain=0.15,
         space=("gated", ["snare"]), alt=("room", (0.45, 3500, 0.32)),
         drive=1.35, kick_dist=0.0, mix_sat=0.0,
+        # APPROVED BY EAR 2026-09-03 (audition "b Light", ~/Desktop/
+        # Homeroom Kick Sub Layer): a short gated ~40 Hz tone under the
+        # sampled kick. Sourced — Todd Fairall on the Fantastic Vol. 2
+        # sessions. His trait, nobody else's: no other preset has this
+        # field and it is not a house default.
+        sub_layer=dict(freq_hz=40.0, dur_s=0.12, amount=0.35),
     ),
 
     "Cutz": dict(
@@ -1028,6 +1034,12 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
                              must=must, avoid=avoid)
         if path:
             avoid.add(path)
+        # sub_layer (2026-09-03): a preset can reinforce its KICK with a
+        # short gated sub tone. Has to happen here, on the raw one-shot,
+        # not later on the assembled beat — see kick_sub_reinforce's
+        # docstring. Off unless the preset carries the field.
+        if lane == "kick" and p.get("sub_layer"):
+            x = kick_sub_reinforce(x, **p["sub_layer"])
         kit[lane] = x
         sources[lane] = path
     return kit, sources
@@ -1111,6 +1123,15 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     the effect is actually musical on rather than the whole mix, for the
     same reason the echo does: modulation across the kick smears it."""
     p = preset or CREW[name]
+    # PER-DJ EFFECTS (owner 2026-09-03: "per DJ, one at a time", not
+    # roster-wide). A preset may carry mix_eq/backbeat_echo/chorus/phaser
+    # and get them on every render; an explicit keyword still wins, which
+    # is what the A/B scripts use. No preset carries any of these until
+    # his ear approves it for that DJ.
+    eq = eq if eq is not None else p.get("mix_eq")
+    echo = echo if echo is not None else p.get("backbeat_echo")
+    chorus = chorus if chorus is not None else p.get("chorus")
+    phaser = phaser if phaser is not None else p.get("phaser")
     bpm = p["bpm"]
     # v6 (2026-07-18): real time signatures. 3/4 and 6/8 bars both span
     # three quarter-note beats; 4/4 stays the default four.
@@ -1170,7 +1191,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # roughness, saturation, dust, vinyl, wow) stays off; he adds his own
     # color in Reason. Presets keep their dirt numbers so flipping
     # OWNER_TASTE["clean_renders"] back restores each character's grime.
-    clean = OWNER_TASTE.get("clean_renders", False)
+    # allow_dirt (owner 2026-09-03, asked directly and answered "Let Otto
+    # hear his dust"): ONE preset may opt out of the clean-render rule and
+    # play its own dust/vinyl/wow/saturation numbers. Per DJ, never
+    # roster-wide — the 2026-07-18 rule still holds for everyone without
+    # the field.
+    clean = OWNER_TASTE.get("clean_renders", False) \
+        and not p.get("allow_dirt")
     if not clean and p["kick_dist"] > 0 and "kick" in bufs:
         bufs["kick"] = dist808(bufs["kick"], p["kick_dist"])
     if not clean and p.get("rough_808") and "kick" in bufs:

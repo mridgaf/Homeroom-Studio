@@ -449,6 +449,11 @@
     ]
    ],
    "chords_default": true
+  },
+  "sub_layer": {
+   "freq_hz": 40.0,
+   "dur_s": 0.12,
+   "amount": 0.35
   }
  },
  "Cutz": {

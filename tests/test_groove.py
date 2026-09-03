@@ -258,3 +258,26 @@ def test_make_ir_is_highpassed():
     S = np.abs(np.fft.rfft(irL))
     f = np.fft.rfftfreq(len(irL), 1 / SR)
     assert S[f < 100].mean() < S[(f > 800) & (f < 4000)].mean() * 0.25
+
+
+def test_kick_sub_reinforce_adds_low_end_without_stealing_headroom():
+    """Otto Grit's kick sub layer (owner-approved 2026-09-03, "b Light").
+    Two things have to hold: the low band gets LOUDER, and the peak does
+    not — a reinforced kick that peaks higher would win the level cascade
+    on loudness it did not earn."""
+    from groove import kick_sub_reinforce, lp4
+    t = np.arange(int(0.3 * SR)) / SR
+    kick = (np.sin(2 * np.pi * 60 * t) * np.exp(-t / 0.06)
+            + np.random.default_rng(3).normal(0, 0.15, len(t))
+            * np.exp(-t / 0.004))
+
+    def low_rms(a):
+        return np.sqrt((lp4(a, 100) ** 2).mean())
+
+    out = kick_sub_reinforce(kick, amount=0.35)
+    assert low_rms(out) > low_rms(kick) * 1.05
+    assert np.abs(out).max() <= np.abs(kick).max() + 1e-9
+    # and it must beat the phase check: an inverted-polarity sub can never
+    # come out QUIETER in the low band than the bare kick
+    assert low_rms(kick_sub_reinforce(-kick, amount=0.35)) \
+        > low_rms(kick) * 1.05

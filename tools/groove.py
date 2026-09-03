@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
-from make_drum_loops import SR
+from make_drum_loops import SR, sub808
 
 # ------------------------------------------------------------ timing / feel
 
@@ -379,6 +379,50 @@ def kick_layer(top, sub, split_hz=100.0):
             if r > best_rms:
                 best, best_rms = cand, r
     return best / (np.abs(best).max() + 1e-9)
+
+
+def kick_sub_reinforce(kick, freq_hz=40.0, dur_s=0.12, amount=0.35,
+                       drive=1.0, check_hz=100.0):
+    """Add a short, gated sub tone UNDER a sampled kick — extra WEIGHT in
+    the hit, not a second audible drum. Sourced: engineer Todd Fairall on
+    the Fantastic Vol. 2 sessions, where Dilla's sampled kick was
+    reinforced with a tight ~40 Hz tone under it. Otto Grit is built on
+    that sound, and he is the only preset carrying the field.
+
+    ADDITIVE, deliberately not a kick_layer() crossover. kick_layer
+    high-passes its top argument, which is right when the top layer is a
+    click-only transient but would strip a full sampled kick's own bass
+    here. Same phase check though — try both polarities and a few ms of
+    offset, keep whichever sum makes the low band LOUDEST — so a
+    misaligned sub cannot cancel the low end it is meant to reinforce.
+
+    Call on the raw ONE-SHOT, before it is tiled across the beat's hits:
+    this aligns one sub pulse to one kick, so running it on an assembled
+    multi-hit buffer would only reinforce whatever sits at sample 0.
+
+    dur_s is a fifth of sub808's tuned-root usage elsewhere (0.6 s) on
+    purpose — past the kick's own decay it stops being weight and starts
+    being a note."""
+    sub = sub808(freq_hz, dur_s, drive=drive) * amount
+    n = max(len(kick), len(sub))
+    top = np.pad(np.asarray(kick, dtype=float), (0, n - len(kick)))
+    sub = np.pad(sub, (0, n - len(sub)))
+
+    def low_rms(a):
+        return np.sqrt((lp4(a, check_hz) ** 2).mean())
+
+    best, best_rms = top, low_rms(top)
+    for pol in (1.0, -1.0):
+        for off in (0, int(0.001 * SR), int(0.002 * SR), int(0.004 * SR)):
+            cand = top + pol * np.pad(sub, (off, 0))[:n]
+            r = low_rms(cand)
+            if r > best_rms:
+                best, best_rms = cand, r
+    # keep the sample's own headroom: a reinforced kick that peaks higher
+    # would win the level cascade on loudness it did not earn
+    pk = np.abs(best).max()
+    ref = np.abs(top).max()
+    return best * (ref / pk) if pk > ref > 0 else best
 
 
 def dist808(x, drive_db=5.0):

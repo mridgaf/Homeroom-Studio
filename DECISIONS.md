@@ -22,6 +22,64 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 Otto Grit, first of the per-DJ pass — rebuilt in main, three questions asked first
+- Context: he said continue tuning the DJs, start with Otto, use all the
+  research/effects/tools/saturation available, and "there was already a
+  change to the layering of the kick drum — implement option b from the
+  auditions — disregard that and rebuild it into this session."
+- What that change actually was: the kick sub layer lives on the UNMERGED
+  `dj-profile-research` branch (`groove.kick_sub_reinforce` + a `sub_layer`
+  preset field + `tools/make_kick_sub_layer_ab.py`, which produced
+  ~/Desktop/Homeroom Kick Sub Layer 2026-09-03). Option b = 40 Hz, 0.12 s,
+  amount 0.35. Rebuilt in main rather than merging the branch: that branch
+  also carries two new DJs, a Glass Cat change, and a 1,388-line
+  crew_config rewrite, none of which he asked for today.
+- THREE THINGS I ASKED RATHER THAN GUESSED, and his answers:
+  1. His 2026-07-18 clean-render rule switches off ALL dirt engine-wide, so
+     Otto's own dust=0.5 and vinyl=-42 have never played once. Asked which
+     way. He said "Let Otto hear his dust" — a one-DJ exception, not a rule
+     change.
+  2. The research (Kennedy, Cooley — two primary-source engineers) says the
+     reference top end was deliberately matte; the approved roster EQ adds
+     +2 dB of air. He said "the new research always wins versus the old
+     code." So Otto's air is -1.5 dB, not +2.
+  3. Batch shape: he picked "two or three whole Ottos" over one-effect-at-
+     a-time.
+- Decision/change, four choke points, all one-liners:
+  * `groove.kick_sub_reinforce` — additive, NOT a `kick_layer` crossover
+    (kick_layer high-passes its top, which would strip a full sampled
+    kick's own bass). Keeps kick_layer's phase check. Adds a peak clamp the
+    branch version did not have: a reinforced kick may not peak higher than
+    the sample, or it wins the level cascade on loudness it did not earn.
+  * `crew.build_kit` — applies `preset["sub_layer"]` to the raw kick
+    ONE-SHOT before it is tiled. On the assembled beat it would only
+    reinforce whatever hit sits at sample 0.
+  * `crew.render_crew_beat` — `clean` now honours a preset's `allow_dirt`,
+    and eq/echo/chorus/phaser fall back to `preset["mix_eq"]` /
+    `["backbeat_echo"]` / `["chorus"]` / `["phaser"]`. THIS is the per-DJ
+    rollout mechanism the 09-03 handoff was missing; an explicit keyword
+    still wins, which is what the A/B scripts use.
+  * Otto's preset (DEFAULT_CREW + crew_config.json) carries `sub_layer`
+    only. Nothing else is switched on for him until his ear says so.
+- Verify by: ~/Desktop/Homeroom Otto 2026-09-03 — 3 beats x a Now /
+  b Research / c Plus, plain-language READ ME. Measured in the finished
+  files against each beat's own control: b weight under 100 Hz +0.79 dB,
+  air above 8 kHz -5.43 dB; c +0.94 / -5.35. The echo+chorus sit 10 dB
+  under the beat. Full suite 969 passed / 3 skipped.
+- HONEST CORRECTION IN THE READ ME, not buried: -5.4 dB of air is FAR more
+  than the -1.5 dB EQ move. Most of it is the SP-1200 dust rolling the top
+  off by itself. Told him the dust is the first thing to pull back if b is
+  too dull, not the EQ. A README that credited the EQ with 5 dB it did not
+  do would have been the low-shelf ruler mistake again.
+- DELIBERATELY LEFT OUT: the phaser. It is a top-end sweep on the hats, and
+  both his own `listen` line ("hats dead straight") and the matte research
+  this batch is built on argue against it. Said so in the READ ME and
+  offered it as a one-line re-render rather than deciding silently.
+- Status: open — nothing heard yet. Nine DJs and twelve legends still to
+  go; the mechanism now exists so each one is a config edit, not code.
+- Outcome:
+
+
 ### 2026-09-03 HANDOFF — the per-DJ pass is the next session's job
 - Where things stand: four effects are built, tested, approved by his ear,
   and switched ON FOR NOTHING. Their amounts live in

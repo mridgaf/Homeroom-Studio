@@ -254,3 +254,69 @@ def test_the_low_end_ducks_the_same_depth_on_every_path():
     over_db = 20 * np.log10(pk["sub"] / pk["kick"])
     assert over_db <= 0.05, (
         "kick stays on top: sub is %+.2f dB over it in the STEM" % over_db)
+
+
+def test_only_otto_carries_the_kick_sub_layer():
+    """2026-09-03: the sub layer is Otto Grit's researched trait, approved
+    on its own audition. It is not a house default — if it ever shows up
+    on a second preset that was a decision, and this test should be the
+    thing that says so out loud."""
+    have = {n for n, p in CREW.items() if p.get("sub_layer")}
+    assert have == {"Otto Grit"}
+    assert CREW["Otto Grit"]["sub_layer"]["amount"] == 0.35
+
+
+def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
+    """build_kit is the choke point: the sub has to be baked into the raw
+    one-shot BEFORE it is tiled across the beat's hits, or only whichever
+    hit sits at sample 0 gets reinforced."""
+    from unittest.mock import patch
+    p = dict(CREW["Otto Grit"])
+    seen = {}
+
+    def fake_reinforce(x, **kw):
+        seen.update(kw)
+        seen["len"] = len(x)
+        return x
+
+    with patch("crew._pick_path", return_value=("k.wav", np.ones(1000))), \
+            patch("crew.kick_sub_reinforce", side_effect=fake_reinforce):
+        crew.build_kit({}, "Otto Grit", np.zeros(10), preset=p)
+    assert seen["amount"] == 0.35 and seen["len"] == 1000
+
+
+def test_allow_dirt_is_one_dj_not_the_roster():
+    """Owner 2026-09-03 opened the clean-render rule for Otto's dust ONLY
+    by ear-audition. Until he says yes, no preset ships with it — and the
+    2026-07-18 clean rule stands for everyone."""
+    assert OWNER_TASTE["clean_renders"] is True
+    assert not [n for n, p in CREW.items() if p.get("allow_dirt")]
+
+
+def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
+    """render_crew_beat reads mix_eq/backbeat_echo/chorus/phaser off the
+    preset (that IS the per-DJ rollout), and an explicit keyword still
+    overrides it — which is what the A/B scripts rely on."""
+    from unittest.mock import patch
+    p = dict(CREW["Otto Grit"], mix_eq={"low_db": 3.0, "low_hz": 120.0,
+                                        "mid_db": 0.0, "mid_hz": 800.0,
+                                        "mid_q": 0.9, "high_db": 0.0,
+                                        "high_hz": 8000.0})
+    kit = _tone_kit(p)
+    calls = []
+    real_eq = __import__("audio_engine").eq3
+
+    def spy(L, R, **kw):
+        calls.append(kw["low_db"])
+        return real_eq(L, R, **kw)
+
+    with patch("audio_engine.eq3", side_effect=spy):
+        render_crew_beat("Otto Grit", kit, preset=p)
+        render_crew_beat("Otto Grit", kit, preset=p,
+                         eq=dict(p["mix_eq"], low_db=6.0))
+    assert calls == [3.0, 6.0]
+    # and no preset-carried effect means no EQ call at all
+    calls.clear()
+    with patch("audio_engine.eq3", side_effect=spy):
+        render_crew_beat("Cutz", kit, preset=CREW["Cutz"])
+    assert calls == []
