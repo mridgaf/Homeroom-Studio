@@ -55,8 +55,22 @@ entries.
   NOT taken from either branch.
 - Verify by: owner's ear on the audition batch.
 - Status: confirmed
-- Outcome: held. Approved by ear 2026-09-02. Still unmerged into main at
-  the time of writing, and engine_master remains deliberately off.
+- Outcome: held. Approved by ear 2026-09-02, merged to main and pushed
+  (origin/main = 0252a02). engine_master remains deliberately OFF.
+
+  STILL OPEN for the next session:
+  1. sonic/ is its own git repo, committed, but has NO remote — it exists
+     only on this laptop. Owner chose "its own repo" on 2026-09-02; the
+     GitHub side was never created.
+  2. The engine_master A/B has never been run. groove.py on
+     never-guess-hooks sets it True (owner approved that chain by ear
+     2026-08-08), but it was NOT taken in either pass because it replaces
+     the final master chain that the 09-02 levels were tuned against.
+     It needs its own before/after audition before landing.
+  3. Terminal git push does NOT work on this machine — no credential for
+     github.com; the only working path is the GitHub Desktop app (its
+     keychain entry is for api.github.com, which plain git ignores).
+     Do not send him `git push` commands; tell him to use the app.
 
 ### 2026-09-02 Git housekeeping; NEXT UP: delay and EQ for the beat generator
 - Context: he said his GitHub did not look like it was saving properly and
