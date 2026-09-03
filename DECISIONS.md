@@ -47,14 +47,16 @@ entries.
   +5.4 -> 0. Overall loudness unchanged within 0.2 dB. 958 tests pass.
   The regression test was rebuilt on Cutz after the first draft (Otto Grit)
   passed against the broken code and proved nothing.
-- Still open: NOT AUDITIONED. Batch at ~/Desktop/Homeroom Hat Ceiling +
-  Sub Duck 2026-09-02. The crash on Emo Hip Hop dropped 17 dB and may now
-  be too polite. Also unmerged: land-pass-1 branch is not in main, and
+- AUDITIONED 2026-09-02, owner's verdict: the 808 change is GOOD, and the
+  after versions in folder 1 are better. The 17 dB crash drop on Emo Hip
+  Hop did NOT come back as too polite. Both halves of pass 2 confirmed by
+  ear, not just measured. Also unmerged: land-pass-1 branch is not in main, and
   groove.py engine_master=True (a different master chain) was deliberately
   NOT taken from either branch.
 - Verify by: owner's ear on the audition batch.
-- Status: open
-- Outcome: (pending audition)
+- Status: confirmed
+- Outcome: held. Approved by ear 2026-09-02. Still unmerged into main at
+  the time of writing, and engine_master remains deliberately off.
 
 ### 2026-09-02 Git housekeeping; NEXT UP: delay and EQ for the beat generator
 - Context: he said his GitHub did not look like it was saving properly and
