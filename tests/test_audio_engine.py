@@ -207,3 +207,42 @@ def test_algo_reverb_freeze_and_non_freeze_agree_on_what_dry_means():
     frozen, _ = ae.loop_algo_reverb(sig.copy(), sig.copy(), wet=0.0, dry=1.0,
                                      freeze=True)
     assert abs(np.abs(normal).max() / np.abs(frozen).max() - 1.0) < 0.02
+
+
+def test_chorus_and_phaser_close_the_loop_seam():
+    """Both used to be bare pedalboard wrappers, and pedalboard's Chorus
+    and Phaser are stateful streaming plugins: the modulation delay line
+    starts empty and the LFO ends mid-sweep, so bar 8 meeting bar 1 steps
+    audibly. Every beat here has to loop clean, so that had to be fixed
+    before either could be wired to anything.
+
+    Measured as the size of the step ACROSS the seam relative to a normal
+    sample-to-sample step inside the buffer. Continuous means "about the
+    same"; a seam means "many times bigger"."""
+    n = SR * 2
+    t = np.arange(n) / SR
+    # integer cycles over the buffer, so the INPUT loops perfectly and any
+    # seam in the output is the effect's doing and not the test signal's
+    x = sum(np.sin(2 * np.pi * f * t) / k
+            for k, f in enumerate([110, 220, 330], 1)) / 3
+
+    def seam_ratio(y):
+        return abs(y[0] - y[-1]) / max(np.median(np.abs(np.diff(y))), 1e-12)
+
+    for fn in (ae.chorus, ae.phaser):
+        wet, _ = fn(x.copy(), x.copy(), mix=0.5)
+        assert seam_ratio(wet) < 10, f"{fn.__name__} leaves a loop seam"
+        # and it is actually doing something at that mix
+        assert not np.allclose(wet, x, atol=1e-4)
+        # mix=0 is the no-op guard the rack's `if mix > 0` relies on
+        off, _ = fn(x.copy(), x.copy(), mix=0.0)
+        assert np.array_equal(off, x)
+
+
+def test_loop_lfo_rate_snaps_to_whole_cycles():
+    """The seam fix above only works if the LFO closes where it opened.
+    A rate slower than one cycle per buffer is raised to one, not to
+    zero — a stopped LFO is not a slow chorus, it is a fixed delay."""
+    assert ae._loop_lfo_rate(0.8, SR * 2, SR) == 1.0    # 1.6 cycles -> 2
+    assert ae._loop_lfo_rate(0.01, SR * 2, SR) == 0.5            # floor: 1 cycle
+    assert ae._loop_lfo_rate(4.0, SR * 2, SR) == 4.0             # already whole

@@ -359,6 +359,12 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
     reverb_damping = _finite_float(p.get("reverb_damping", 0.5))
     reverb_width = _finite_float(p.get("reverb_width", 1.0))
     reverb_freeze = bool(p.get("reverb_freeze", False))
+    cho_rate_hz = _finite_float(p.get("cho_rate_hz", 0.8), lo=0.1, hi=8.0)
+    cho_depth = _finite_float(p.get("cho_depth", 0.25), lo=0.0, hi=1.0)
+    cho_mix = _finite_float(p.get("cho_mix", 0.0), lo=0.0, hi=1.0)
+    phs_rate_hz = _finite_float(p.get("phs_rate_hz", 0.5), lo=0.1, hi=8.0)
+    phs_depth = _finite_float(p.get("phs_depth", 0.5), lo=0.0, hi=1.0)
+    phs_mix = _finite_float(p.get("phs_mix", 0.0), lo=0.0, hi=1.0)
     conv_mix = _finite_float(p.get("conv_mix", 0.0), lo=0.0, hi=1.0)
     br_mix = _finite_float(p.get("br_mix", 0.0), lo=0.0, hi=1.0)
     br_cell_s = _finite_float(p.get("br_cell_s", 0.25), lo=0.0, hi=10.0)
@@ -389,6 +395,17 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
         L, R = ae.saturate(L, R, sr=sr, drive_db=sat_drive_db, mix=sat_mix)
     if width != 1.0:
         L, R = ae.stereo_width(L, R, width=width)
+    # modulation sits after the drive/width block and before the time
+    # effects — pedal order, and the order the live graph uses. Both are
+    # loop-safe (audio_engine._loop_modulated); the browser's versions are
+    # hand-built Web Audio approximations of the same shape, the same
+    # live/export gap the reverb and the compressor knee already have.
+    if cho_mix > 0.0:
+        L, R = ae.chorus(L, R, sr=sr, rate_hz=cho_rate_hz,
+                          depth=cho_depth, mix=cho_mix)
+    if phs_mix > 0.0:
+        L, R = ae.phaser(L, R, sr=sr, rate_hz=phs_rate_hz,
+                          depth=phs_depth, mix=phs_mix)
     if conv_mix > 0.0 and ir is not None:
         L, R = _convolve_through(L, R, ir, conv_mix, conv_scale)
     if dly_mix > 0.0:

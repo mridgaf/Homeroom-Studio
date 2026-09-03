@@ -193,12 +193,49 @@ OWNER_TASTE = {
     # He said the echo "will be fine tuned into the DJs later", not switched
     # on roster-wide, and then that the EQ gets treated the same way. So
     # BOTH wait for the per-DJ pass and a caller has to ask by name.
+    # CONFIRMED AGAIN 2026-09-03, all three bands, after a scare.
+    # make_drum_loops.master() already tilts the same way on every beat —
+    # an air shelf above 9 kHz and a dip through 300-900 Hz — and I first
+    # read that as "two of these three bands are redundant". Measured over
+    # the same six beats, full 3-band EQ vs low-shelf-only, it is NOT:
+    #     low  <120 Hz   +0.33 vs +0.42 dB   (identical either way)
+    #     mid  300-900   -1.15 vs -0.54 dB   (-0.61 dB more scoop)
+    #     air  >8 kHz    +0.83 vs -0.58 dB   (+1.42 dB more air)
+    # +1.4 dB of air is above the ~1 dB line where a change this broad is
+    # audible. The bands stack on the master stage, they do not duplicate
+    # it, and what he approved on 09-02 was the stacked sound.
+    #
+    # The LOW SHELF was then auditioned alone (tools/make_low_shelf_ab.py,
+    # 4 rungs: 0 / +1.5 / +3 / +6) because it was the one band the master
+    # stage does not touch at all. He picked +1.5 — the amount already in
+    # here — and then chose to keep the other two bands as well.
+    # NOTE the low shelf is a WEAK lever: peak-normalise, tanh, then
+    # master_to_lufs all run after this, so only about a third of a low
+    # boost reaches the file (+6 dialled in arrives as +1.32). If he ever
+    # asks for real weight, the lever is the kick/sub levels, not this.
     "mix_eq": {"low_db": 1.5, "low_hz": 120.0,
                "mid_db": -1.0, "mid_hz": 800.0, "mid_q": 0.9,
                "high_db": 2.0, "high_hz": 8000.0},
     # note is a fraction of a beat (0.5 = 1/8), read against each beat's own
     # tempo. Backbeat lanes only — a mix-wide delay smears the kick.
     "backbeat_echo": {"note": 0.5, "feedback": 0.35, "mix": 0.20},
+    # --- CHORUS AND PHASER, APPROVED 2026-09-03 after the 24-file A/B
+    # (6 DJs x Now/Chorus/Phaser/Both). His verdict, verbatim: "Keep both.
+    # and to keep them ahead. that amount." These are HIS numbers — the
+    # chorus mix is 0.50 and NOT the 0.35 the batch was first rendered at,
+    # which measured -27 dB on Night Metro and would have read as "not
+    # enough effects" for the second time. Do not retune either without a
+    # fresh audition.
+    #
+    # PARKED, not applied: nothing reads them automatically, same as the
+    # two above. `lanes` is part of the approved setting, not decoration —
+    # what he heard was the chorus on the backbeat and the stamp and the
+    # phaser on the hats, each on its own lane. A chorus on the CHORDS is
+    # a different sound and he has not heard it.
+    "chorus": {"rate_hz": 0.8, "depth": 0.35, "mix": 0.50,
+               "lanes": ("snare", "clap", "stamp")},
+    "phaser": {"rate_hz": 0.5, "depth": 0.60, "mix": 0.35,
+               "lanes": ("hat",)},
     "clean_renders": True,       # owner 2026-07-18: "I want the beats
                                  #      clean" — no baked-in dirt (808 dist,
                                  #      roughness AM, mix saturation, SP-1200

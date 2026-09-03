@@ -762,3 +762,45 @@ def test_echo_does_not_let_the_backbeat_out_power_the_kick():
     assert bus_over_kick(wet) <= bus_over_kick(dry) + 1.0, (
         "the echo moved the backbeat bus up relative to the kick — it is "
         "being applied after the governor instead of before it")
+
+
+# ------------------------------------------------- chorus / phaser switches
+# Added 2026-09-03 on the same terms as eq/echo above: wired, opt-in per
+# render, nothing on the roster turns them on, and NOT yet approved by ear.
+
+
+def test_chorus_and_phaser_off_by_default_change_nothing():
+    """Same bytes promise the eq/echo switches made. Four opt-in effects
+    now hang off this function; the default render still has to be the
+    beat he already approved."""
+    name = "Otto Grit"
+    kit = _tone_kit(CREW[name])
+    base_L, base_R, base_lufs = render_crew_beat(name, kit, space="gated")
+    off_L, off_R, off_lufs = render_crew_beat(name, kit, space="gated",
+                                              chorus=None, phaser=None)
+    assert np.array_equal(base_L, off_L)
+    assert np.array_equal(base_R, off_R)
+    assert base_lufs == off_lufs
+
+
+def test_chorus_dict_without_a_mix_is_not_a_silent_no_op():
+    """audio_engine defaults mix to 0 so the Sound Engine rack has an OFF
+    position. That default must not leak into the crew path, where passing
+    the dict at all means "switch it on" — an effect that silently does
+    nothing is this project's most expensive recurring bug."""
+    name = "Otto Grit"
+    p = dict(CREW[name])
+    kit = _tone_kit(p)
+    base = render_crew_beat(name, kit, space="gated", want_parts=True)[3]
+    # the default lane for chorus is the chords, so put the effect where
+    # this kit actually has a lane instead
+    wet = render_crew_beat(name, kit, space="gated", want_parts=True,
+                           chorus={"lanes": ("hat",)})[3]
+
+    def hat(parts):
+        stems = parts["stems"] if isinstance(parts, dict) else parts
+        return np.concatenate(stems["hat"])
+
+    assert not np.allclose(hat(base), hat(wet), atol=1e-5), (
+        "chorus={} rendered an identical hat — the mix default leaked "
+        "through and the effect is off")

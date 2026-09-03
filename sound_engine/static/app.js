@@ -50,6 +50,17 @@ function esc(t) {
   return String(t).replace(/[&<>"']/g, c => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
+// Chorus/phaser fixed geometry, matching audio_engine's defaults so the
+// live graph and the export are describing the same pedal: the chorus
+// modulates around a 7 ms delay (pedalboard.Chorus centre_delay_ms=7),
+// the phaser sweeps around 1300 Hz (pedalboard.Phaser
+// centre_frequency_hz=1300). Depth scales the swing around each; neither
+// centre is exposed as a knob, because three sliders per effect is
+// already the most he will turn.
+const CHORUS_CENTRE_S = 0.007;
+const PHASER_CENTRE_HZ = 1300;
+const PHASER_SWEEP_HZ = 1100;  // full-depth sweep, stays above 200 Hz
+
 const RAMP_SECONDS = 0.02;  // setTargetAtTime time-constant — smooth knob
                              // moves, no zipper-noise clicks (same reason
                              // pedalboard smooths param changes internally,
@@ -260,6 +271,10 @@ const FX_CONTROLS = {
   dly_feedback: ["dlyFeedback", 100], dly_mix: ["dlyMix", 100],
   br_repeats: ["brRepeats", 1], br_chance: ["brChance", 100],
   br_mix: ["brMix", 100],
+  cho_rate_hz: ["choRate", 1], cho_depth: ["choDepth", 1],
+  cho_mix: ["choMix", 100],
+  phs_rate_hz: ["phsRate", 1], phs_depth: ["phsDepth", 1],
+  phs_mix: ["phsMix", 100],
 };
 
 function setGridTo(selectEl, note) {
@@ -471,6 +486,48 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   const brDry = audioCtx.createGain(); brDry.gain.value = 1;
   const brWet = audioCtx.createGain(); brWet.gain.value = 0;
 
+  // --- chorus and phaser: Web Audio has neither, so both are hand-built
+  // to the same SHAPE as pedalboard's (audio_engine.chorus/phaser), which
+  // is what the export actually runs. A modulated short delay for the
+  // chorus, six swept allpass stages for the phaser — JUCE's own counts.
+  // They will not null against the export sample-for-sample, the same
+  // live/export approximation the reverb IR and the compressor knee
+  // already carry; the exported file is the authority.
+  //
+  // Both LFOs are ONE oscillator each, started once and left running, and
+  // both are wet/dry CROSSFADES (dry = 1 - mix) because pedalboard's
+  // Chorus/Phaser mix is a blend, not a send — unlike the delay and
+  // reverb above, which are sends and keep their dry at unity.
+  const modIn = audioCtx.createGain();
+  const choDry = audioCtx.createGain(); choDry.gain.value = 1;
+  const choWet = audioCtx.createGain(); choWet.gain.value = 0;
+  const choOut = audioCtx.createGain();
+  const choDelay = audioCtx.createDelay(0.1);
+  choDelay.delayTime.value = CHORUS_CENTRE_S;
+  const choLfo = audioCtx.createOscillator(); choLfo.frequency.value = 0.8;
+  const choLfoGain = audioCtx.createGain();
+  choLfoGain.gain.value = 0.25 * CHORUS_CENTRE_S;
+  choLfo.connect(choLfoGain).connect(choDelay.delayTime);
+  choLfo.start();
+
+  const phsDry = audioCtx.createGain(); phsDry.gain.value = 1;
+  const phsWet = audioCtx.createGain(); phsWet.gain.value = 0;
+  const phsOut = audioCtx.createGain();
+  const phsLfo = audioCtx.createOscillator(); phsLfo.frequency.value = 0.5;
+  const phsLfoGain = audioCtx.createGain();
+  phsLfoGain.gain.value = 0.5 * PHASER_SWEEP_HZ;
+  const phsStages = [];
+  for (let i = 0; i < 6; i++) {
+    const ap = audioCtx.createBiquadFilter();
+    ap.type = "allpass";
+    ap.frequency.value = PHASER_CENTRE_HZ;
+    ap.Q.value = 0.7;
+    phsLfoGain.connect(ap.frequency);
+    phsStages.push(ap);
+  }
+  phsLfo.connect(phsLfoGain);
+  phsLfo.start();
+
   // --- convolve: same shape as the reverb send, but the impulse response
   // is whatever sound the owner drops in. ConvolverNode with no buffer
   // outputs silence, so convMix stays disabled in the UI until a file is
@@ -496,8 +553,17 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   makeupGain.connect(satDry).connect(satOut);
   makeupGain.connect(satWet).connect(waveshaper).connect(satOut);
   satOut.connect(splitter);
-  merger.connect(convDry).connect(convOut);
-  merger.connect(convWet).connect(convNode).connect(convScale).connect(convOut);
+  merger.connect(modIn);
+  modIn.connect(choDry).connect(choOut);
+  modIn.connect(choWet).connect(choDelay).connect(choOut);
+  choOut.connect(phsDry).connect(phsOut);
+  choOut.connect(phsStages[0]);
+  for (let i = 0; i < phsStages.length - 1; i++) {
+    phsStages[i].connect(phsStages[i + 1]);
+  }
+  phsStages[phsStages.length - 1].connect(phsWet).connect(phsOut);
+  phsOut.connect(convDry).connect(convOut);
+  phsOut.connect(convWet).connect(convNode).connect(convScale).connect(convOut);
   // dry stays at unity and the wet is ADDED (not crossfaded) — matches
   // audio_engine.loop_delay's send behaviour, so Mix=0 is a true no-op on
   // both sides instead of the live path quietly ducking the dry.
@@ -541,6 +607,8 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
     lowShelf, midPeak, highShelf, compressor, makeupGain,
     satDry, satWet, waveshaper, satOut,
     splitter, merger, sideWidth,
+    modIn, choDry, choWet, choOut, choDelay, choLfo, choLfoGain,
+    phsDry, phsWet, phsOut, phsLfo, phsLfoGain, phsStages,
     convDry, convWet, convNode, convScale, convOut, irName: null,
     revDry, revWet, revDamp, revSideWidth, convolver, revOut,
     wetGain, bypassGain, fader, panner,
@@ -671,6 +739,20 @@ function loadRackFromChannel(ch) {
   document.getElementById("widthKnobVal").textContent = ch.sideWidth.gain.value.toFixed(2);
   document.getElementById("convMix").value = Math.round(ch.convWet.gain.value * 100);
   document.getElementById("convMixVal").textContent = Math.round(ch.convWet.gain.value * 100);
+  document.getElementById("choRate").value = ch.choLfo.frequency.value;
+  document.getElementById("choRateVal").textContent = ch.choLfo.frequency.value.toFixed(1);
+  const choDepth = ch.choLfoGain.gain.value / CHORUS_CENTRE_S;
+  document.getElementById("choDepth").value = choDepth;
+  document.getElementById("choDepthVal").textContent = choDepth.toFixed(2);
+  document.getElementById("choMix").value = Math.round(ch.choWet.gain.value * 100);
+  document.getElementById("choMixVal").textContent = Math.round(ch.choWet.gain.value * 100);
+  document.getElementById("phsRate").value = ch.phsLfo.frequency.value;
+  document.getElementById("phsRateVal").textContent = ch.phsLfo.frequency.value.toFixed(1);
+  const phsDepth = ch.phsLfoGain.gain.value / PHASER_SWEEP_HZ;
+  document.getElementById("phsDepth").value = phsDepth;
+  document.getElementById("phsDepthVal").textContent = phsDepth.toFixed(2);
+  document.getElementById("phsMix").value = Math.round(ch.phsWet.gain.value * 100);
+  document.getElementById("phsMixVal").textContent = Math.round(ch.phsWet.gain.value * 100);
   updateConvPanel(ch);
   updateBrPanel(ch);
   updateDlyPanel(ch);
@@ -716,6 +798,25 @@ bindRamped("satMix", ch => ch.satWet, "gain", pct => pct / 100);
 bindRamped("widthKnob", ch => ch.sideWidth, "gain");
 bindRamped("revDamping", ch => ch.revDamp, "frequency", d => 200 + d * 17800);
 bindRamped("revWidth", ch => ch.revSideWidth, "gain");
+bindRamped("choRate", ch => ch.choLfo, "frequency");
+bindRamped("choDepth", ch => ch.choLfoGain, "gain", d => d * CHORUS_CENTRE_S);
+bindRamped("choMix", ch => ch.choWet, "gain", pct => pct / 100);
+bindRamped("phsRate", ch => ch.phsLfo, "frequency");
+bindRamped("phsDepth", ch => ch.phsLfoGain, "gain", d => d * PHASER_SWEEP_HZ);
+bindRamped("phsMix", ch => ch.phsWet, "gain", pct => pct / 100);
+
+// chorus and phaser are BLENDS, not sends: their dry has to come down as
+// the wet goes up or the effect just adds level. Same second-binding
+// pattern the saturation mix uses, opposite contract to delay/reverb.
+for (const [mixId, dryOf] of [["choMix", ch => ch.choDry],
+                               ["phsMix", ch => ch.phsDry]]) {
+  document.getElementById(mixId).addEventListener("input", e => {
+    const ch = currentChannel();
+    if (!ch || !audioCtx) return;
+    dryOf(ch).gain.setTargetAtTime(1 - parseFloat(e.target.value) / 100,
+                                    audioCtx.currentTime, RAMP_SECONDS);
+  });
+}
 
 // dry-side gains that mirror a mix slider (1 - mix) need a second binding
 document.getElementById("satMix").addEventListener("input", e => {
@@ -1134,6 +1235,12 @@ function _sendChannelSync(laneId) {
     reverb_damping: (ch.revDamp.frequency.value - 200) / 17800,
     reverb_width: ch.revSideWidth.gain.value, reverb_freeze: !!ch.freeze,
     conv_mix: ch.convWet.gain.value,
+    cho_rate_hz: ch.choLfo.frequency.value,
+    cho_depth: ch.choLfoGain.gain.value / CHORUS_CENTRE_S,
+    cho_mix: ch.choWet.gain.value,
+    phs_rate_hz: ch.phsLfo.frequency.value,
+    phs_depth: ch.phsLfoGain.gain.value / PHASER_SWEEP_HZ,
+    phs_mix: ch.phsWet.gain.value,
     dly_mix: ch.dly.mix, dly_time_s: ch.dly.timeS,
     dly_feedback: ch.dly.feedback,
     br_mix: ch.br.mix, br_cell_s: ch.br.cellS,
