@@ -22,6 +22,61 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 The house EQ became the default, and all nine DJs got a personal twist
+- Context: four effects were built, approved by ear, and switched on for
+  NOTHING — read only when a preset asked by name, and no preset did.
+  Owner changed that in one instruction: the mix EQ becomes the default
+  for anything without its own, and every DJ additionally gets one of
+  echo/chorus/phaser as "my own personal twist", placed by me.
+- Decision/change, two edits:
+  (1) tools/crew.py — `eq` now falls back to OWNER_TASTE["mix_eq"]
+      instead of None. Scope confirmed BLOCKING before writing it:
+      everything without its own EQ — the nine, the twelve Legends, the
+      seventeen genres. A preset that names its own still wins, which is
+      what keeps Otto Grit's matte -1.5 dB air alive under a roster-wide
+      brightening.
+  (2) crew_config.json — one twist per DJ, HIS approved amounts, not
+      retuned:
+        Otto Grit      chorus on the chords   (hats must stay straight)
+        Cutz           echo on the snare      (a scratch-stab character)
+        Crate Prophet  echo on the snare      (golden-era throw)
+        Chrome Dial    echo on the snare      (a throw into his bar-6 hole)
+        Glass Cat      chorus on the chords   (he has NO hats)
+        Sunday Chop    phaser on the hats     (tambourine/gospel movement)
+        Night Metro    chorus on the chords   (research wants hats clean)
+        Rage Engine    NONE — vetoed          (see below)
+        New Math       phaser on the hats     (the quintuplet lane)
+- Four answers he gave that shaped this, so nobody re-asks: the twist
+  covers the nine only (not Legends, not genres); it is ALWAYS EXTRA on
+  top of a research-driven effect; research CAN veto it; and the third
+  lane he meant was the chords, not the clap.
+- Rage Engine is the only veto and it is his call, not mine: his sources
+  say the mix is glued by saturation and there is no gap for a delay.
+  Written into his preset as `_no_twist` with the reason, so it reads as
+  a decision rather than an oversight. He still gets the house EQ.
+- HE CHOSE "switch it on now" over a batch first. So this is live in
+  every render from now, and NOT ear-approved — he judges it in the wild.
+- Verify by: measured the FINISHED files, all nine, same kit/variant/seed
+  with the effects forced off vs the presets running themselves.
+  EQ air +0.65 to +1.07 dB (the ~1 dB audibility line, matching the
+  +0.83 measured on 09-02). Twists land 13.8 to 23.8 dB under the beat —
+  audible colour, not the beat. Full suite 973 passed, 3 skipped.
+  Two new checks: test_every_dj_carries_exactly_one_personal_twist, and
+  test_per_dj_effects_come_off_the_preset... updated (its old last line
+  asserted no preset EQ means no EQ call, which is now the opposite rule).
+- THE TRAP THIS HIT, worth remembering: the first verification run called
+  all three chorus-on-chords settings "silent no-ops". They were not —
+  my rig built the kit with build_kit and never called _build_chords, so
+  there was no chord lane to measure. Measuring at the wrong point, the
+  exact failure the audio-fix-verify skill exists for. The fail-loud
+  check caught it; a quieter check would have shipped a wrong "it works".
+- Backup of the pre-change roster: crew_config.pre-twist-2026-09-03.json.
+- Status: open — nothing here has been heard. The three audition verdicts
+  from earlier the same day (Otto c Plus, Night Metro c Research, Rage
+  Engine c Wall half) are STILL NOT APPLIED; he put them on hold and has
+  not released it. Otto's chorus-on-chords here is standalone, not his
+  `c Plus` package.
+
 ### 2026-09-03 HANDOFF — three DJs auditioned, three verdicts owed, nothing switched on
 - Where the per-DJ pass stands. Three batches are on his Desktop and
   NONE has been heard. Do not promote any of them without his words.

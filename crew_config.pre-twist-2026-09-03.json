@@ -454,14 +454,6 @@
    "freq_hz": 40.0,
    "dur_s": 0.12,
    "amount": 0.35
-  },
-  "chorus": {
-   "rate_hz": 0.8,
-   "depth": 0.35,
-   "mix": 0.5,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Cutz": {
@@ -866,11 +858,6 @@
    ],
    "chord_rhythm": "arp",
    "chords_default": true
-  },
-  "backbeat_echo": {
-   "note": 0.5,
-   "feedback": 0.35,
-   "mix": 0.2
   }
  },
  "Crate Prophet": {
@@ -1344,11 +1331,6 @@
     ]
    ],
    "chords_default": true
-  },
-  "backbeat_echo": {
-   "note": 0.5,
-   "feedback": 0.35,
-   "mix": 0.2
   }
  },
  "Chrome Dial": {
@@ -1804,11 +1786,6 @@
     ]
    ],
    "chords_default": true
-  },
-  "backbeat_echo": {
-   "note": 0.5,
-   "feedback": 0.35,
-   "mix": 0.2
   }
  },
  "Glass Cat": {
@@ -2249,14 +2226,6 @@
    ],
    "chord_rhythm": "arp",
    "chords_default": true
-  },
-  "chorus": {
-   "rate_hz": 0.8,
-   "depth": 0.35,
-   "mix": 0.5,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Sunday Chop": {
@@ -2770,14 +2739,6 @@
     ]
    ],
    "chords_default": true
-  },
-  "phaser": {
-   "rate_hz": 0.5,
-   "depth": 0.6,
-   "mix": 0.35,
-   "lanes": [
-    "hat"
-   ]
   }
  },
  "Night Metro": {
@@ -3208,14 +3169,6 @@
     ]
    ],
    "chords_default": true
-  },
-  "chorus": {
-   "rate_hz": 0.8,
-   "depth": 0.35,
-   "mix": 0.5,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Rage Engine": {
@@ -3671,8 +3624,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "_no_twist": "Owner's personal-twist rule (2026-09-03) is vetoed here BY HIS OWN CALL: his research says the mix is glued by saturation, not modulation, and a wall of sound has no gap for a delay. He still gets the house mix EQ. Do not add echo/chorus/phaser without asking him."
+  }
  },
  "New Math": {
   "num": 9,
@@ -4204,14 +4156,6 @@
    "chip_tuning": "atari",
    "chip_count": 5,
    "chords_default": true
-  },
-  "phaser": {
-   "rate_hz": 0.5,
-   "depth": 0.6,
-   "mix": 0.35,
-   "lanes": [
-    "hat"
-   ]
   }
  },
  "_style_version": 6,

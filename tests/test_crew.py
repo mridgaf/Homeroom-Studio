@@ -316,11 +316,17 @@ def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
         render_crew_beat("Otto Grit", kit, preset=p,
                          eq=dict(p["mix_eq"], low_db=6.0))
     assert calls == [3.0, 6.0]
-    # and no preset-carried effect means no EQ call at all
+    # A preset with NO mix_eq of its own falls back to the house EQ
+    # (owner 2026-09-03: "I want to use the mix EQ ... on any DJs that
+    # don't have specified EQs", scope confirmed as everything without
+    # its own). This used to assert no EQ call at all; the EQ is the one
+    # of the four that is now the default rather than opt-in.
     calls.clear()
+    bare = dict(CREW["Cutz"])
+    bare.pop("mix_eq", None)
     with patch("audio_engine.eq3", side_effect=spy):
-        render_crew_beat("Cutz", kit, preset=CREW["Cutz"])
-    assert calls == []
+        render_crew_beat("Cutz", kit, preset=bare)
+    assert calls == [OWNER_TASTE["mix_eq"]["low_db"]]
 
 
 def test_breakdown_empties_the_bar_for_every_lane_but_the_kept_one():
@@ -401,3 +407,37 @@ def test_no_preset_ships_with_a_breakdown_or_dirt_until_he_hears_it():
     SOUND is what turns it on, not building it."""
     assert not [n for n, q in CREW.items() if q.get("breakdown")]
     assert not [n for n, q in CREW.items() if q.get("allow_dirt")]
+
+
+def test_every_dj_carries_exactly_one_personal_twist():
+    """Owner 2026-09-03: "one of the three thrown on either the snare, the
+    hat, or the backbeat ... as an addition to every DJ for my own personal
+    twist", and he asked me to place them.
+
+    One of echo/chorus/phaser per DJ, never two, and the amounts must be
+    HIS approved numbers rather than something retuned quietly. Rage Engine
+    is the one documented exception — he chose "research can veto it", and
+    Rage Engine's sources say the mix is glued by saturation, not
+    modulation. If someone drops the veto, this test says so out loud
+    rather than letting a wall of sound grow a chorus.
+    """
+    from crew import DEFAULT_CREW
+    nine = list(DEFAULT_CREW)
+    approved = {"backbeat_echo": OWNER_TASTE["backbeat_echo"],
+                "chorus": OWNER_TASTE["chorus"],
+                "phaser": OWNER_TASTE["phaser"]}
+    for name in nine:
+        p = CREW[name]
+        on = [k for k in approved if p.get(k)]
+        if name == "Rage Engine":
+            assert on == [], f"Rage Engine's veto was dropped: {on}"
+            assert p.get("_no_twist"), "the veto lost its written reason"
+            continue
+        assert len(on) == 1, f"{name} carries {len(on)} twists, want 1: {on}"
+        cfg, want = p[on[0]], approved[on[0]]
+        for k in ("rate_hz", "depth", "mix", "note", "feedback"):
+            if k in want:
+                assert cfg[k] == want[k], f"{name} retuned {on[0]}.{k}"
+        # snare/clap (the echo's built-in lanes), the hats, or the chords
+        assert tuple(cfg.get("lanes", ("snare",))) in (
+            ("snare",), ("hat",), ("chord",)), f"{name} -> {cfg.get('lanes')}"

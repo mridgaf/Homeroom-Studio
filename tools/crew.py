@@ -1123,12 +1123,21 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     the effect is actually musical on rather than the whole mix, for the
     same reason the echo does: modulation across the kick smears it."""
     p = preset or CREW[name]
-    # PER-DJ EFFECTS (owner 2026-09-03: "per DJ, one at a time", not
-    # roster-wide). A preset may carry mix_eq/backbeat_echo/chorus/phaser
+    # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
     # and get them on every render; an explicit keyword still wins, which
-    # is what the A/B scripts use. No preset carries any of these until
-    # his ear approves it for that DJ.
-    eq = eq if eq is not None else p.get("mix_eq")
+    # is what the A/B scripts use.
+    #
+    # THE EQ IS THE EXCEPTION AND IS NOW THE HOUSE DEFAULT (owner
+    # 2026-09-03: "I want to use the mix EQ ... on any DJs that don't have
+    # specified EQs", scope confirmed as everything without its own). He
+    # approved these bands by ear on 09-02 and again on 09-03, so the
+    # fallback is his amounts, not silence — every DJ, Legend and genre
+    # that does not name its own `mix_eq` now renders through it. A preset
+    # that DOES name one still wins, which is how Otto Grit's research
+    # (darker, -1.5 dB of air) survives a roster-wide brightening.
+    # The other three stay opt-in per identity; see the `chorus`/`phaser`/
+    # `backbeat_echo` keys in crew_config.json.
+    eq = eq if eq is not None else p.get("mix_eq", OWNER_TASTE["mix_eq"])
     echo = echo if echo is not None else p.get("backbeat_echo")
     chorus = chorus if chorus is not None else p.get("chorus")
     phaser = phaser if phaser is not None else p.get("phaser")
