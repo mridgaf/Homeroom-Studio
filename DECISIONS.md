@@ -297,9 +297,11 @@ entries.
 - AUDITIONED 2026-09-02, owner's verdict: the 808 change is GOOD, and the
   after versions in folder 1 are better. The 17 dB crash drop on Emo Hip
   Hop did NOT come back as too polite. Both halves of pass 2 confirmed by
-  ear, not just measured. Also unmerged: land-pass-1 branch is not in main, and
-  groove.py engine_master=True (a different master chain) was deliberately
-  NOT taken from either branch.
+  ear, not just measured. groove.py engine_master=True (a different master
+  chain) was deliberately NOT taken from either branch.
+  [CORRECTED 2026-09-03: an earlier draft of this line also called
+  land-pass-1 "unmerged". It is in main — 0252a02 is its tip and sits on
+  origin/main; `git log origin/main..land-pass-1` is empty.]
 - Verify by: owner's ear on the audition batch.
 - Status: confirmed
 - Outcome: held. Approved by ear 2026-09-02, merged to main and pushed
