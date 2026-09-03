@@ -22,6 +22,69 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 Rage Engine, third of the per-DJ pass — the saturation persona has been rendering clean
+- Context: "continue with dj rage engine following the same new research
+  wins vs code rule."
+- THE FINDING, measured before anything was touched: he is the only DJ on
+  the roster with BOTH element-level and mix-bus saturation
+  (kick_dist=6.0 highest, mix_sat=4.0 the only nonzero, drive=1.55
+  highest), his research calls that stack "the core of the wall-of-sound
+  identity", and every bit of it is switched off by the 2026-07-18
+  clean-render rule. The loudest, dirtiest personality has never made a
+  dirty sound. Needs allow_dirt=True (not Night Metro's "low") — his
+  research asks for the two stacked, explicitly.
+- TWO THINGS I ASKED, with numbers measured first rather than guessed:
+  1. "Sparse hats are WRONG for this persona" vs 12 of 24 composed beats
+     coming out under 50% hat density. He chose "rolls usually, some
+     variety left" — rolls32 to 0.75 of the weight, `sparse` removed for
+     him alone, the rest spread over six shapes.
+  2. "Extra snare fill every 4 bars" vs burst_p=0.5, a coin flip. He
+     chose to LEAVE IT at the coin flip.
+- NOT ASKED, and deliberately: "never leave a bar empty" collides with his
+  own 2026-07-29 decision that the backbone may go silent. Measured 1
+  fully-empty bar in 124 — the collision is nearly theoretical, so it was
+  reported, not made into a question about overriding him.
+- THREE WRONG RULERS THIS TIME, all caught by the script's own checks:
+  1. Hat density measured as SHARE OF STEPS reported the rolling grammar
+     as LESS dense. Cause: `rolls32` returns a 32-STEP bar while
+     `sixteenths` returns 16 steps, so a share compares two different
+     grid sizes — 16 hits reads as 50% on one and 100% on the other for
+     the same music. Fixed to hits per bar.
+  2. The pair-selection guard ran BEFORE vary_preset, which thins lanes;
+     a pair that was busier at composition came out quieter in the file.
+     Moved after.
+  3. An average-hits-per-bar "rate" over 60 beats reported 10.0 -> 10.3
+     for a change plainly bigger than that — it moves with loop length
+     and thinning as well as with the grammar. Replaced with the MODE
+     PICK rate, which is what the weight actually controls: 8% -> 27%.
+- AND THE CEILING THAT NUMBER EXPOSED, which is the most useful thing
+  here: 27%, not ~75%, because 40 of 60 of his beats (67%) take a pattern
+  from the drum-pattern library, and a library seed carrying its own hats
+  bypasses the grammar entirely (pattern_gen.py:1266). So a hat-grammar
+  change can only ever reach the third of his beats that compose their
+  hats. If he wants wall-to-wall every time, the lever is `library.p`
+  (0.65), not the grammar. Told him in the READ ME; not acted on.
+- Also worth writing down: `rolls32` is NOT wall-to-wall 32nds despite the
+  name — it is steady 16ths on a 32nd grid with 1-3 accelerating bursts.
+  That happens to match the research's "rolls that ramp INTO the snare",
+  but the name misled me for a full render cycle.
+- Verify by: ~/Desktop/Homeroom Rage Engine 2026-09-03 — 3 beats x a Now /
+  b Rolls / c Wall half / d Wall full. b changes the hat lane ONLY (swapped
+  in from a second composition of the same beat, every other lane
+  note-for-note identical). Crest factor is the saturation ruler — grit
+  fills the gaps between peaks, and unlike a band boost the loudness stage
+  cannot hide it. Measured: crest -1.6 dB at half, -2.4 dB at full.
+- NO PRODUCT CODE CHANGED this round — allow_dirt already existed from the
+  Otto/Night Metro passes and the grammar change lives in the audition
+  script until he approves it. Full suite 972 passed / 3 skipped,
+  unchanged.
+- THE BATCH SELECTS ITS BEATS, and says so in the READ ME: only beats
+  where the new setting actually rolled are in the folder, because the
+  1-in-4 that keep another shape cannot demonstrate the thing being
+  judged. Stated with the real rate rather than stacking the deck quietly.
+- Status: open — nothing heard, nothing switched on.
+- Outcome:
+
 ### 2026-09-03 Two skill edits from the Night Metro session, and one latent YAML fault
 - Context: asked whether this session produced anything worth building
   into a skill or hook.
