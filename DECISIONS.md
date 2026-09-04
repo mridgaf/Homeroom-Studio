@@ -22,6 +22,73 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 The two DJs, the FX button and the chunk folders come back from never-guess-hooks
+- Context: he asked what happened to "my two new DJs, my effects button to
+  open the engine, and my chunk folders in the beat generator." Nothing was
+  lost. All three sat on `never-guess-hooks` (87 commits, never merged). The
+  09-02 landing passes took only what could not disturb the mix he had just
+  approved, and these were never in either pass.
+- Decision/change: a 3-way merge of `tools/beat_machine.py` alone (base
+  2fd8e0e), plus the two DJs added to crew_config.json as new keys.
+  Brought back: chunk folders (chunk_dir/save_chunk//chunk, "+ Add chunk"),
+  the FX button (_sound_engine_id, data-role="engine"), ban_lane//ban, the
+  reference-track drop and Key dropdowns, the audio `loop` attribute, and
+  the BrokenPipeError handler.
+- TWO SOUND CHANGES WERE DELIBERATELY LEFT BEHIND. The branch also moves the
+  root-808 block BELOW _build_chords and drops its `not dirs["chords"]` gate
+  (so a chords beat gains a root 808 tuned to its key), and forces a beat's
+  SAVED key/progression back on rebuild. Both were reverted to main's
+  version, each with a comment at the site saying why. HIS CALL, asked and
+  answered: "buttons now, audition the sound after". The root-808 change
+  still owes him a before/after batch.
+- The three merge conflicts were NOT a real disagreement: both branches had
+  widened ROOT_HZ to twelve notes and both kept the random fallback picker
+  to the original seven — main via key_context.SUB_ROOTS, the branch via a
+  local _FALLBACK_ROOTS. Verified byte-identical; main's kept, one source
+  of truth.
+- Half Light and Fast Water are dressed to the current house rules. Neither
+  carries a mix_eq key, which is correct and deliberate: render_crew_beat
+  falls back to OWNER_TASTE["mix_eq"] for any identity without its own, so
+  they already render through the house EQ. One twist each, using amounts
+  already in use on the nine, not invented: Half Light gets chorus on the
+  chord lanes (it is the atmospheric one and has NO hat lane, so the phaser
+  twist was impossible); Fast Water gets phaser on the hat (a break record
+  with a real hat lane), the Sunday Chop / New Math treatment.
+- The page said "nine personalities" hard-coded. Now derived from
+  CREW_ORDER via _count_word(), so it cannot go stale on the next DJ.
+- A TRAP WORTH RECORDING: my first conflict check ran `git merge-file` with
+  process substitution `<(git show ...)`. merge-file cannot seek a pipe, so
+  it produced nothing, and grep counted zero conflict markers. I reported
+  "zero conflicts" on that. There were three. Never trust merge-file through
+  a pipe — write the three versions to real files.
+- A SECOND TRAP: the before/after render probe showed a different beat each
+  time and looked like a regression. It was not. A control run — same code,
+  same seed — also produced a different beat (88 vs 90 BPM). generate() is
+  non-deterministic by design, so a single render can never A/B this code.
+  The proof used instead is structural: with key=None (every existing path)
+  clean_key returns None, force_key is never set, and the open_roll RNG draw
+  still happens in the same order, so no render path changes.
+- Verified: crew_config round-trips byte-identical, so the nine DJs are
+  untouched (JSON key diff: 0 changed, 2 added). All 26 of main's own
+  beat_machine additions survived the merge. save_chunk exercised end to end
+  in a TEMP library — "01 Full.wav" + "02 New Mix.wav", correctly numbered,
+  his real library untouched. Page serves every restored control; Key
+  defaults to "- any -", so the sound is unchanged unless he sets one.
+- SEPARATE, PRE-EXISTING, NOT FROM THIS WORK: the baseline suite (run before
+  any edit) was already 1 failed / 974 passed.
+  test_real_beats_are_not_mono_or_silent fails on
+  "2186 Night Metro Midnight Transfer Drums 133bpm.wav", side-vs-mid
+  -22.24 dB against a -22.0 threshold. 0.24 dB over the line, one beat, from
+  the 09-03 Night Metro work. Not investigated.
+- STILL ON never-guess-hooks, deliberately: tools/crew.py and tools/groove.py
+  (the OLD answer to the governor/master-chain questions that passes 1 and 2
+  settled in main's favour; engine_master still needs its own A/B), and the
+  three SessionStart hooks, which are not on this machine at all.
+- Verify by: his ear on a Half Light and a Fast Water beat. Their sound has
+  been measured, never heard.
+- Status: open
+- Outcome: (pending — the two DJs are unheard, and the root-808 audition is owed)
+
 ### 2026-09-03 The three audition verdicts applied — and the drop rebuilt to his corrections
 - Context: he heard Otto Grit, Night Metro and Rage Engine, gave three
   verdicts and then said go. The 2026-09-03 HANDOFF entry above owed

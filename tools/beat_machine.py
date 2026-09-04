@@ -38,12 +38,12 @@ import numpy as np
 sys.path.append(str(Path(__file__).parent))
 from groove import OWNER_TASTE
 from make_drum_loops import SR, read_wav24, sub808, wav24_bytes, write_wav24
-from make_drum_beats import build_shots
+from make_drum_beats import ban_sound, build_shots, name_twins
 from make_hiphop_tracks import load_audio
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
                   build_kit, lock_stamps, normalize_preset,
-                  render_crew_beat,
+                  render_crew_beat, sub_sidechain,
                   _load_choked, _pick_path, _resolve_secs)
 from beat_recipes import (history_avoid, lane_label, load_recipe,
                           record_history, save_recipe, write_midi,
@@ -165,6 +165,14 @@ TITLES = {
                   "Golden", "Infinite"],
                  ["Postulate", "Remainder", "Function", "Sequence",
                   "Fraction", "Lemma", "Ratio", "Angle"]),
+    "Half Light": (["Dim", "Late", "Behind", "Hollow", "Dusk", "Faded",
+                    "Slack", "Amber"],
+                   ["Room", "Hour", "Curtain", "Echo", "Fade", "Glow",
+                    "Drift", "Hall"]),
+    "Fast Water": (["Rapid", "Undertow", "Spillway", "Shallow", "Cold",
+                    "Steel", "Loose", "Running"],
+                   ["Current", "Chop", "Channel", "Rush", "Ladder",
+                    "Bank", "Break", "Weir"]),
 }
 COLLAB_TITLES = (["Split", "Shared", "Double", "Joint", "Twin", "Crossed",
                   "Common", "Meeting"],
@@ -597,7 +605,8 @@ DUCK_DEFAULT = 0.2               # depth for a DJ who carries none
 # number that happens to be near it: 1 - 10**(-5/20).
 #
 # The 1-in-10 skip still skips it: off means off, and that no-duck beat is
-# the owner's own texture call from 2026-07-22.
+# the owner's own texture call from 2026-07-22. A deep sub duck on 9 beats
+# in 10 is not a thing he can miss.
 SUB_DUCK_DEFAULT = 0.4377        # 5.0 dB dip on sub / 808 / bass
 
 
@@ -860,10 +869,10 @@ def collab_kit(shots, names, preset, stamps, variant, avoid):
         sources[lane] = path
         spec_used[lane] = (role, must, wants, secs)
     kit["stamp"] = stamps[host][1]
-    sources["stamp"] = f"{Path(stamps[host][0]).name}  [{host}'s stamp]"
+    sources["stamp"] = f"{Path(stamps[host][0]).stem}  [{host}'s stamp]"
     for i, g in enumerate(names[1:]):
         kit[f"stamp{i + 2}"] = stamps[g][1]
-        sources[f"stamp{i + 2}"] = f"{Path(stamps[g][0]).name}  [{g}'s stamp]"
+        sources[f"stamp{i + 2}"] = f"{Path(stamps[g][0]).stem}  [{g}'s stamp]"
     return kit, sources, spec_used
 
 
@@ -950,6 +959,37 @@ BREAK_WORDS = (
     ("new day", "New Day"), ("skull snaps", "New Day"),
     ("papa was too", "Papa Was Too"),
     ("mardi gras", "Mardi Gras"))
+
+
+def clean_key(key):
+    """The Key control's value -> (root, mode), or None for "no key set".
+
+    Accepts ("F", "minor"), "F minor", or "F". A bad note or a mode this
+    engine doesn't know is an error he can read, not a silent fallback to
+    something else's key."""
+    if not key:
+        return None
+    from key_context import MODES
+    if isinstance(key, str):
+        bits = key.replace("-", " ").split()
+        root = bits[0] if bits else ""
+        mode = " ".join(bits[1:]).lower().replace(" ", "_") or "minor"
+    else:
+        root, mode = (list(key) + ["minor"])[:2]
+        mode = str(mode).lower().replace(" ", "_")
+    root = str(root).strip()
+    root = root[:1].upper() + root[1:].replace("B", "b")
+    # ROOT_HZ spells one note per pitch class ("Bb", never "A#"); accept
+    # whichever spelling he typed or a pack labelled a file with.
+    root = {"A#": "Bb", "Db": "C#", "Eb": "D#", "Gb": "F#", "Ab": "G#",
+            "Cb": "B", "Fb": "E", "E#": "F", "B#": "C"}.get(root, root)
+    if root not in ROOT_HZ:
+        raise ValueError("Key %r isn't a note this engine plays (%s)."
+                         % (root, ", ".join(ROOT_HZ)))
+    if mode not in MODES:
+        raise ValueError("Mode %r isn't one this engine knows (%s)."
+                         % (mode, ", ".join(sorted(MODES))))
+    return root, mode
 
 
 def parse_directions(notes):
@@ -1111,7 +1151,10 @@ def dj_cut(L, R, parts, bar, nbars=BARS):
 # for 808"), then restored the same day once the ban itself was reversed
 # ("allow DJs to stay true to style, with the kick") and the owner asked
 # for the sub back explicitly. Round trip left no scar: the mechanism was
-# flag-gated rather than deleted.
+# flag-gated rather than deleted. Unreachable again 2026-07-25 to
+# 2026-09-01 — not by this flag but by a "not chords" condition at the
+# call site, once every identity gained chords_default. Fixed 2026-09-01:
+# the sub now rides WITH the chords, tuned to the beat's own key.
 ADD_THE_ROOT_808 = True
 
 
@@ -1563,7 +1606,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     # character, which is what keeps Otto Grit from sounding like Rage
     # Engine. A typed mood word still beats both.
     open_roll = random.Random(variant * 911 + 73).random() < OPEN_P
-    if open_roll:
+    # A key taken off a reference track BEATS BOTH (owner 2026-09-01,
+    # asked directly: "reference wins, hard"). The progression still
+    # rolls in character — only the root and the mode are pinned, so a
+    # batch in F minor still sounds like the DJ who made it.
+    forced = dirs.get("force_key")
+    if forced:
+        key_root, mode = forced
+        prog = dirs["chord_feel"] or (
+            _wpick(sig.get("progressions"), random.Random(variant * 419 + 5))
+            or srng.choice(harmony.names()))
+    elif open_roll:
         key_root = srng.choice(SUB_ROOTS)
         mode = srng.choice(sorted(MODES))
         prog = dirs["chord_feel"] or srng.choice(harmony.names())
@@ -2062,7 +2115,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
 
 
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
-             traditional=False, status=lambda msg: None):
+             traditional=False, status=lambda msg: None, key=None):
     """Render one random beat (solo or collab) into names[0]'s folder.
     Returns (path, report_line). Raises on an empty selection.
     traditional=True (a quarter of every 4+ batch, owner rule
@@ -2111,6 +2164,13 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # this click's directions from the notes box ("no hi hats",
     # "acoustic", ...) — applied to these beats only, never persisted
     dirs = parse_directions(notes)
+    # A key off a reference track turns chords ON, because that is the
+    # only way the key is audible (owner 2026-09-01: "turn chords on
+    # too"). Typing "no chords" still wins — he typed that on purpose.
+    want_key = clean_key(key)
+    if want_key and not dirs.get("no_chords"):
+        dirs["chords"] = True
+        dirs["force_key"] = want_key
 
     # one compose + vary per beat — the reroll-until-different kick
     # guard is gone (owner call 2026-07-21: variety comes from the
@@ -2231,9 +2291,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
     _long808 = (preset["kit"].get("kick", (None, None))[1] == "808"
                 and _klen > 0.6)
-    # the harmony bass (below) already gives a moving, in-key root under
-    # the kick — the static single-note 808 would just muddy the low
-    # end fighting it, so "chords" skips this and takes the bass job.
+    # NOTE 2026-09-03: never-guess-hooks moves this block BELOW
+    # _build_chords and drops the `not dirs["chords"]` gate, so a chords
+    # beat gets a root 808 tuned to its own key. That is a SOUND change
+    # the owner has not heard, so it was deliberately NOT taken with the
+    # chunk/FX restore. It needs its own before/after audition.
     if ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"] \
             and not _long808 and not dirs["chords"] \
             and random.Random(variant * 577 + 13).random() < 0.75:
@@ -2392,8 +2454,12 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
             if bpm and len(names) == 1 else "")
     lines.append(f"  {kind}, {preset['bpm']} BPM"
                  f"{' (requested)' if bpm else ''}{home}, variant {variant}")
-    lines.append(f"  snare space: {space} | sidechain: "
-                 f"{'on' if preset['sidechain'] > 0 else 'off'}"
+    def _db(depth):              # how far the duck pulls a lane down
+        return -20 * np.log10(max(1 - depth, 1e-6))
+    _sc = ("off" if preset["sidechain"] <= 0 else
+           f"-{_db(preset['sidechain']):.1f} dB, "
+           f"sub -{_db(sub_sidechain(preset)):.1f} dB")
+    lines.append(f"  snare space: {space} | sidechain: {_sc}"
                  f" | LUFS {lufs:.1f} | {'ok' if good else 'CHECK'}")
     if len(names) == 1 and names[0] == "New Math":
         lines.append(f"  mode: {'boom bap' if variant % 2 else 'front edge'}")
@@ -2694,7 +2760,8 @@ def beat_items(no, root=None):
     for p in root.rglob("*"):
         if p.name.startswith(pre) and (
                 p.suffix in (".wav", ".mid")
-                or (p.is_dir() and p.name.endswith("Stems"))):
+                or (p.is_dir() and (p.name.endswith("Stems")
+                                    or p.name.endswith("Chunks")))):
             out.append(p)
     return out
 
@@ -2788,12 +2855,95 @@ def _family_dir_for(no, root):
 # ------------------------------------------------------------- swap flow
 
 
+def ban_lane(number, lane, choice=None, root=ROOT, shots=None):
+    """Ban the sound sitting on one lane of one beat (owner 2026-08-31:
+    "When I ban a sound, it is banned everywhere. forever.").
+
+    The lane is named, never the file: the client sends a beat number and a
+    lane, and the path is looked up in the saved recipe here. Same rule the
+    swap dropdown follows — no client string reaches disk unchecked.
+
+    Two-step by his choice ("ask me each time"). Called with no `choice`
+    it REPORTS: how many samples in his library share this file name. One
+    means there is nothing to ask about and it bans outright. More than one
+    means a name-ban would take innocent samples, so it returns and waits.
+    Measured on his library, that is 17.5% of samples.
+
+    Existing beats are left alone — a ban stops the sound being picked
+    again, and nothing else (his call)."""
+    number = int(number)
+    lane = str(lane).strip().lower()
+    rec = load_recipe(Path(root), number)
+    path = (rec.get("kit_paths") or {}).get(lane)
+    if not path:
+        raise ValueError(
+            f"The {lane_label(lane)} on beat {number} isn't a sample — "
+            "there's no file to ban.")
+    twins = name_twins(path, shots)
+    name = Path(path).stem
+    # Ask unless we can PROVE this name is unique. `shots` is the already
+    # filtered pool, so a path missing from it (or a missing pool) means
+    # the count is an undercount, not a one — and banning silently on an
+    # undercount is the thing he asked to be protected from. Only a count
+    # that actually found this file, and found it alone, skips the prompt.
+    sure = len(twins) == 1 and str(path) in twins
+    if choice is None and not sure:
+        return {"asked": True, "name": name, "twins": len(twins),
+                "sure": bool(twins),
+                "others": [Path(p).stem for p in twins[:8]]}
+    res = ban_sound(path, whole_name=(choice == "name"), shots=shots)
+    # the cached pool is already filtered, so it would keep serving the
+    # banned sound until the next restart. The rendered previews are keyed
+    # by query string and would keep playing the banned sound back at him
+    # after he banned it, so they go too.
+    _CACHE.pop("shots", None)
+    _PREVIEW_CACHE.clear()
+    res["asked"] = False
+    res["twins"] = len(twins)
+    return res
+
+
 def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
          pick=None):
     """One drum swapped — the single-lane door into `swap_many`, kept for
     the CLI (`--swap N --lane snare`) and the tests."""
     return swap_many(number, {lane: pick}, root=root, shots=shots,
                      status=status)
+
+
+def _change_words(lanes, trims, drops, chord_voice=None):
+    """How a staged set of rack changes reads: `what` is the short title
+    that becomes part of a filename, `changed` is the sentence for the
+    log. Split out of swap_many so the chunk folder names its files with
+    the same words the rebuild uses — one place to change the wording.
+
+    A family removal is 4 lanes but ONE musical change — say "Chords",
+    not "Chord0 & Chord1 & Chord2 & Chord3"."""
+    said = [ln for ln in drops if not _chord_family(ln)]
+    if any(_CHORD_LANE.match(ln) for ln in drops):
+        said.append("chords")
+    if any(_CHORD_BASS_LANE.match(ln) for ln in drops):
+        said.append("chord bass")
+    if drops and not lanes and not trims:      # removal is the headline
+        return ("No " + " & ".join(d.title() for d in said),
+                "removed " + " and ".join(said))
+    if drops:
+        return ("Rebuilt",
+                "removed " + " and ".join(said)
+                + (", new " + ", ".join(lanes) if lanes else ""))
+    if chord_voice and not lanes:     # the instrument IS the change
+        nice = CHORD_VOICE_NAMES.get(chord_voice, chord_voice).split(" (")[0]
+        return (f"{nice} Chords",
+                f"chords on {nice.lower()}"
+                + (", " + _trim_words(trims) if trims else ""))
+    if not lanes:                     # volumes only — same drums, new mix
+        return "New Mix", _trim_words(trims)
+    if len(lanes) == 1:
+        return f"New {lanes[0].capitalize()}", lanes[0]
+    if len(lanes) == 2:
+        return (f"New {lanes[0].capitalize()} & {lanes[1].capitalize()}",
+                " and ".join(lanes))
+    return "Rebuilt", ", ".join(lanes)
 
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
@@ -2929,10 +3079,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             raise RuntimeError(f"{Path(pth).name} (a locked stamp) has "
                                "moved or vanished — can't rebuild.")
         kit[ln] = snd
+    chord_sources = {}          # lane -> what to CALL it in the stems folder
     # the tuned root sub is synthesized, not a sample — rebuild it from
     # the recipe's root note so the swapped beat keeps its low end
     if rec.get("root_note") and "sub" in preset.get("lanes", {}):
         kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
+        # ...and it must still SAY what it is. generate() names this stem
+        # "bass drum - synth 808 sub, root F" (see the sources line in
+        # generate); without this a swap printed a bare "bass drum.wav".
+        chord_sources["sub"] = "synth 808 sub, root %s" % rec["root_note"]
     # chord/chord-bass lanes are ALSO synthesized (owner 2026-07-23,
     # "control the volume for all sounds" — the ask that surfaced this gap:
     # those lanes now show a volume slider, so a rebuild has to actually be
@@ -2944,10 +3099,30 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # leaves the bass roots behind, and they still need their audio built
     # (they are synthesized-at-render like the chords, not kit_paths files)
     if any(_chord_family(ln) for ln in preset.get("lanes", {})):
-        # a throwaway sources dict: chord/bass lanes were never in
-        # kit_paths (nothing to swap them for), so nothing here needs to
-        # persist past this render.
-        _build_chords(preset, kit, {}, rec["variant"],
+        # chord/bass lanes are never in kit_paths (nothing to swap them
+        # for), so none of this is persisted into the recipe — but it IS
+        # what names their stem files. Passing a throwaway {} here printed
+        # every rebuilt chord stem as a bare "chord0.wav", losing the
+        # instrument and the chord it plays (owner rule 2026-07-18: a stem
+        # says WHICH sound it is). Measured 2026-09-01: swap one hat and
+        # "chord0 - sample_ Cymatics ... , Dm7 (ii7)" came back as
+        # "chord0". Keep the dict; write_stems reads it below.
+        #
+        # Hand back the KEY and the PROGRESSION this beat was actually
+        # printed in (2026-09-01). The rebuild used to re-roll both from
+        # the variant + the DJ's signature and land on the same answer by
+        # luck — a luck that ran out the moment a REFERENCE TRACK could
+        # override the signature. Pinning only the key was worse than
+        # pinning neither: it sent the rebuild down the forced branch,
+        # which re-picks the progression from the signature, so an
+        # open-roll beat came back with different chords under the same
+        # instrument (measured: F7#9 out, Gm7 back). The recipe knows
+        # all three, so hand back all three.
+        # NOTE 2026-09-03: never-guess-hooks forces the beat's SAVED key
+        # and progression back on a rebuild (force_key from rec["harmony"]).
+        # That changes how rebuilt beats sound and has not been auditioned,
+        # so main's free re-pick stands until it is.
+        _build_chords(preset, kit, chord_sources, rec["variant"],
                       {"chords": True, "chord_feel": None}, [],
                       voice=chord_voice)
         # ...but a chord/bass lane the owner just REMOVED must not come
@@ -2958,35 +3133,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             kit.pop(lane, None)
 
     lanes = sorted(picks)
-    # a family removal is 4 lanes but ONE musical change — say "Chords",
-    # not "Chord0 & Chord1 & Chord2 & Chord3" (that string becomes the
-    # beat's filename)
-    said = [ln for ln in drops if not _chord_family(ln)]
-    if any(_CHORD_LANE.match(ln) for ln in drops):
-        said.append("chords")
-    if any(_CHORD_BASS_LANE.match(ln) for ln in drops):
-        said.append("chord bass")
-    if drops and not lanes and not trims:      # removal is the headline
-        what = "No " + " & ".join(d.title() for d in said)
-        changed = "removed " + " and ".join(said)
-    elif drops:
-        what = "Rebuilt"
-        changed = ("removed " + " and ".join(said)
-                   + (", new " + ", ".join(lanes) if lanes else ""))
-    elif chord_voice and not lanes:   # the instrument IS the change
-        nice = CHORD_VOICE_NAMES.get(chord_voice, chord_voice).split(" (")[0]
-        what = f"{nice} Chords"
-        changed = f"chords on {nice.lower()}" + (
-            ", " + _trim_words(trims) if trims else "")
-    elif not lanes:                   # volumes only — same drums, new mix
-        what, changed = "New Mix", _trim_words(trims)
-    elif len(lanes) == 1:
-        what, changed = f"New {lanes[0].capitalize()}", lanes[0]
-    elif len(lanes) == 2:
-        what = f"New {lanes[0].capitalize()} & {lanes[1].capitalize()}"
-        changed = " and ".join(lanes)
-    else:
-        what, changed = "Rebuilt", ", ".join(lanes)
+    what, changed = _change_words(lanes, trims, drops, chord_voice)
     status(f"Re-rendering beat {number} with the new {changed}…")
     L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
                                          preset=preset, want_parts=True)
@@ -3016,7 +3163,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
     write_stems(folder / f"{no} {stem_of} Stems", parts["stems"],
-                sources={**kit_paths, **rec["stamp_paths"]})
+                sources={**chord_sources, **kit_paths, **rec["stamp_paths"]})
 
     rec2 = dict(rec, file=fname, kit_paths=kit_paths, parent=number,
                 folder=rec["folder"], date=str(date.today()))
@@ -3055,6 +3202,80 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     return path, report
 
 
+
+def _clean_picks(no, picks, shots):
+    """The allow-list every rebuild path enforces: a sample only reaches
+    the renderer if it came out of that lane's own candidate list. An
+    empty value means "surprise me"."""
+    out = {}
+    for lane, want in (picks or {}).items():
+        if not want:
+            out[lane] = None
+            continue
+        if not any(c["path"] == want
+                   for c in _lane_candidates(no, lane, shots=shots)):
+            raise ValueError(f"That {lane} isn't in your library.")
+        out[lane] = want
+    return out
+
+
+def chunk_dir(no, root=None):
+    """Where beat `no` keeps its arrangement chunks. Sits next to the
+    beat's own wav and its Stems folder (owner 2026-09-01), so nothing
+    new appears in the library root and the numbering is untouched."""
+    w = beat_wav(no, root)
+    if w is None:
+        raise ValueError(f"No beat {no} to chunk.")
+    return w.parent / f"{w.stem} Chunks"
+
+
+def save_chunk(number, picks=None, root=ROOT, shots=None,
+               status=lambda msg: None, trims=None, drops=None):
+    """Section 4 of the v-next plan — songify. Renders the beat as the
+    stem rack is currently set and files it as one more chunk in the
+    beat's own Chunks folder, INSTEAD of printing a new numbered beat.
+
+    Owner 2026-09-01: no speculative variants. The chunks are the
+    original plus whatever versions he builds by hand in the rack, one
+    click each ("Add chunk"), so a song is a folder he drags into Reason
+    and arranges.
+
+    Loop-safety comes for free: this is the same render path every beat
+    takes, and that path already wraps tails instead of fading edges.
+    """
+    number = int(number)
+    folder = chunk_dir(number, root)
+    folder.mkdir(parents=True, exist_ok=True)
+    # the untouched beat is chunk 01, pulled in the first time — a song
+    # needs the full loop as much as it needs the pieces
+    full = folder / "01 Full.wav"
+    if not full.exists():
+        shutil.copy2(str(beat_wav(number, root)), str(full))
+    L, R = swap_many(number, picks or {}, root=Path(root), shots=shots,
+                     status=status, trims=trims, drops=drops,
+                     render_only=True)
+    # a slider left at 0 is not a change, so it doesn't get named
+    named = {ln: db for ln, db in (trims or {}).items() if db}
+    what, changed = _change_words(sorted(picks or {}), named,
+                                  sorted({str(ln).strip().lower()
+                                          for ln in (drops or [])}))
+    # number from the HIGHEST prefix already in the folder, not the file
+    # count: he renames chunks ("Verse.wav") and deletes ones he doesn't
+    # want, and counting files made the next chunk reuse a number that was
+    # already taken — two different "04"s in the same folder, out of order
+    # in Reason's browser.
+    used = [int(m.group(1)) for m in
+            (re.match(r"(\d+) ", f.name) for f in folder.glob("*.wav")) if m]
+    n = max(used or [0]) + 1
+    path = folder / f"{n:02d} {what}.wav"
+    while path.exists():                          # never overwrite
+        n += 1
+        path = folder / f"{n:02d} {what}.wav"
+    write_wav24(path, L, R)
+    return {"folder": str(folder), "file": path.name, "count": n,
+            "changed": changed}
+
+
 # ------------------------------------------------ web helpers (player etc.)
 
 
@@ -3089,6 +3310,23 @@ def _beat_theory(no, root):
             "why": prog.get("why")}
 
 
+def _sound_engine_id(wav, root):
+    """How the Sound Engine names this beat, or None if it can't take it.
+
+    Its picker is one folder deep (sound_engine/library.py's find_beat
+    splits the id on a single "/"), so a beat sitting in a nested folder
+    has no id it could be asked for — better to drop the button than to
+    hand over a link that 404s.
+    """
+    try:
+        rel = wav.parent.relative_to(Path(root))
+    except ValueError:
+        return None
+    if len(rel.parts) != 1 or " Drums " not in wav.stem:
+        return None
+    return f"{rel.parts[0]}/{wav.stem.split(' Drums ')[0]}"
+
+
 def _batch_beats(root=None):
     """The last batch's tracks with their current location, for the
     player. Missing files (moved by hand) are skipped."""
@@ -3099,6 +3337,7 @@ def _batch_beats(root=None):
         if w:
             beats.append({"no": int(no), "label": w.stem,
                           "loc": beat_location(no, root),
+                          "se_id": _sound_engine_id(w, root),
                           "theory": _beat_theory(no, root)})
     return beats
 
@@ -3976,6 +4215,22 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .zone.djz.over   { border-color: var(--co); background: #7d8cff1f; color: var(--co); }
  .zone.trash.over { border-color: var(--no); background: #ff4d4d1f; color: var(--no); }
 
+ /* ------------------------------------------- reference track (sec. 5) */
+ #refdrop { border: 1.5px dashed var(--line2); border-radius: 10px;
+            padding: 11px 12px; text-align: center; font-size: 12.5px;
+            color: var(--dim); cursor: default;
+            transition: background .12s, border-color .12s, color .12s; }
+ #refdrop.over, #refdrop.busy { border-color: var(--co); color: var(--co);
+                                background: #7d8cff14; }
+ /* the row is its own grid: the two key dropdowns need more than the
+    132px column the tempo box sits in, and the drop target needs the
+    rest of the width or its one sentence wraps into three lines. */
+ .refrow { grid-template-columns: 264px 1fr; }
+ #refline { min-height: 15px; }
+ #refline b { color: var(--ink); }
+ #refline button { font-size: 11px; padding: 1px 7px; margin-left: 5px;
+                   vertical-align: baseline; }
+
  #empty { padding: 34px 0 10px; text-align: center; position: relative; }
  #empty .ghost { width: 132px; margin: 0 auto 4px; opacity: .13;
                  transform: rotate(-3deg); }
@@ -4099,6 +4354,13 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .lane.trimmed .vol .db { color: var(--hi); }
  .lane.trimmed .swatch { background: var(--hi); }
  /* a stem staged for removal reads as struck-through and faded */
+ /* the ban prompt: three real buttons, because a ban cannot be
+    undone from this page and confirm() has no safe third answer */
+ .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap;
+   align-items: center; gap: 7px; margin-top: 6px; padding: 7px 9px;
+   border-radius: 7px; background: #3a2020; color: #f4e6e6;
+   font-size: 13px; }
+ .banask span { flex: 1 1 220px; }
  .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol {
    opacity: .35; text-decoration: line-through; }
 
@@ -4111,6 +4373,11 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
        border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
        cursor: pointer; }
+ .chunk { font-family: var(--display); font-weight: 700; font-size: 13px;
+   background: none; border: 1px solid var(--dim); border-radius: 6px;
+   color: var(--ink); padding: 5px 10px; cursor: pointer; }
+ .chunk:disabled { color: var(--dimmer); border-color: var(--dimmer);
+   cursor: default; }
  .rebuild:disabled { background: #1020a810; color: var(--dimmer); cursor: default; }
  .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
          cursor: pointer; text-decoration: underline; padding: 6px; }
@@ -4136,6 +4403,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 
  @media (max-width: 720px) {
    .fields { grid-template-columns: 1fr 1fr; }
+   .refrow { grid-template-columns: 1fr; }
    .fields .field:last-child { grid-column: 1 / -1; }
    .thead audio { width: 100%; order: 9; }
    .thead { flex-wrap: wrap; }
@@ -4165,7 +4433,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 </header>
 </div>
 
-<h2 class="box">The Crew <small>nine personalities</small></h2>
+<h2 class="box">The Crew <small>__CREWCOUNT__ personalities</small></h2>
 <div class="djs">__CREW__</div>
 <h2 class="box">The Legends <small>signature styles</small></h2>
 <div class="djs">__LEGENDS__</div>
@@ -4204,6 +4472,17 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
     <div class="field"><label>Directions</label>
       <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
       <div class="hint">used for this click and saved in the README</div></div>
+  </div>
+  <div class="fields refrow">
+    <div class="field"><label>Key</label>
+      <span style="display:flex; gap:6px">
+        <select id="keyroot"><option value="">&mdash; any &mdash;</option>__KEYROOTS__</select>
+        <select id="keymode">__KEYMODES__</select>
+      </span>
+      <div class="hint">set a key and the beat gets chords in it</div></div>
+    <div class="field"><label>Reference track</label>
+      <div id="refdrop">Drag a song here to match its tempo and key</div>
+      <div class="hint" id="refline">nothing dropped yet</div></div>
   </div>
   <div class="field quick"><label>Quick directions</label>
     <select id="quick">
@@ -4362,9 +4641,17 @@ __BREAKS__
        '<span class="player"><button class="pp">&#9654;</button>' +
          '<span class="bar"><i></i></span>' +
          '<span class="time">0:00</span></span>' +
-       '<audio preload="none" src="/audio?no=' + b.no + '"></audio>' +
+       // `loop`: a beat repeats until you press stop (owner 2026-08-31).
+       // The attribute lives on the ELEMENT, so it survives cue()'s
+       // src+load() and the /mix preview loops too. Renders are already
+       // loop-safe (no edge fades, tails wrap), so the seam is clean.
+       '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
        '<span class="acts">' +
          '<button class="stembtn" data-role="stems">Stems</button>' +
+         (b.se_id ? '<button class="stembtn" data-role="engine" ' +
+           'title="Open in the Sound Engine with this DJ&apos;s effects ' +
+           'already dialled in (start it from Sound Engine.command first)">' +
+           'FX</button>' : '') +
          '<button title="Keep it" data-dest="favorites">&starf;</button>' +
          '<button title="DJ folder" data-dest="dj">&#9635;</button>' +
          '<button title="Trash it" data-dest="trash">&#9587;</button>' +
@@ -4396,6 +4683,14 @@ __BREAKS__
    el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
      btn.onclick = () => triage(b.no, btn.dataset.dest, el));
    el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.target);
+   // Open this beat in the Sound Engine with the DJ's effects already set
+   // (sound_engine/fx_presets.py). It is a separate app on its own port, so
+   // this is a plain link out — nothing is printed here and this beat's
+   // files are not touched. If the Sound Engine isn't running the new tab
+   // just fails to connect, which is why the button says to start it.
+   const eng = el.querySelector('[data-role=engine]');
+   if (eng) eng.onclick = () => window.open(
+     'http://localhost:8767/?beat=' + encodeURIComponent(b.se_id), '_blank');
    wireTransport(el);
    return el;
  }
@@ -4549,6 +4844,7 @@ __BREAKS__
      ? bits.join(' + ') + ' — rebuild makes one new beat with every change in it'
      : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
    foot.querySelector('.rebuild').disabled = !(n + v + r);
+   foot.querySelector('.chunk').disabled = !(n + v + r);
    foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
    refreshMix(el, no);      // every volume/remove change lands here first
  }
@@ -4669,6 +4965,68 @@ __BREAKS__
    };
    picks.appendChild(rm);
 
+   // Ban this sound for good (owner 2026-08-31: "When I ban a sound, it is
+   // banned everywhere. forever."). Only offered on rows that ARE a sample
+   // — there is nothing to ban on a synthesised lane. Existing beats are
+   // never touched; this only stops it being picked again.
+   if (s.can_swap) {
+     const ban = document.createElement('button');
+     ban.className = 'mini';
+     ban.title = 'Never use this sound again';
+     ban.textContent = '🚫';
+     ban.onclick = () => {
+       if (ban.disabled) return;              // no double-fire
+       const done = d => {
+         ban.textContent = '✓';
+         ban.disabled = true;
+         ban.title = (d.banned === 'name'
+           ? 'Every sound called "' + d.name + '" is banned'
+           : '"' + d.name + '" is banned — it will not come back');
+       };
+       const send = choice => {
+         ban.disabled = true;
+         return fetch('/ban', {
+           method: 'POST',
+           headers: {'Content-Type': 'application/json'},
+           body: JSON.stringify({number: no, lane: s.lane, choice: choice})
+         }).then(r => r.json()).then(d => {
+           if (!d.ok) { ban.disabled = false; alert(d.error); return; }
+           if (d.asked) { ask(d); return; }
+           done(d);
+         }).catch(() => { ban.disabled = false;
+                          alert('could not reach the beat machine'); });
+       };
+       // A ban cannot be undone from this page, so the choice is three
+       // real buttons and NOT confirm(). confirm() has only two answers,
+       // which forced Cancel — and Escape, and clicking away — to mean
+       // "ban every sound with this name". The dangerous option was on
+       // the key people press to get out of a dialog.
+       const ask = d => {
+         ban.disabled = false;
+         const box = document.createElement('div');
+         box.className = 'banask';
+         const n = d.twins;
+         box.innerHTML = '<span>' + (d.sure
+           ? n + ' sounds in your library are called "' + esc(d.name) + '".'
+           : 'Other sounds may be called "' + esc(d.name) + '" too.')
+           + '</span>';
+         const pick = (label, choice, title) => {
+           const b = document.createElement('button');
+           b.className = 'mini'; b.textContent = label; b.title = title;
+           b.onclick = () => { box.remove(); if (choice) send(choice); };
+           box.appendChild(b);
+         };
+         pick('just this one', 'sound', 'Ban only the exact sound in this beat');
+         if (d.sure) pick('all ' + n, 'name',
+                          'Ban every sound with this file name');
+         pick('cancel', null, 'Change nothing');
+         row.appendChild(box);
+       };
+       send(null);
+     };
+     picks.appendChild(ban);
+   }
+
    if (!sel) return row;          // locked row: level + remove only
 
    sel.onchange = () => {
@@ -4761,6 +5119,8 @@ __BREAKS__
      '<button class="rollall" title="New sound for every row at once">' +
        '🎲 Roll everything</button>' +
      '<button class="undo">clear changes</button>' +
+     '<button class="chunk" title="Save this version into the Chunks ' +
+       'folder and keep going">+ Add chunk</button>' +
      '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
@@ -4801,8 +5161,30 @@ __BREAKS__
      paintFoot(el, no);
    };
    foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
+   foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
    rack.dataset.loaded = '1';
    paintFoot(el, no);
+ }
+
+ // Songify: file the rack as it stands into the beat's Chunks folder,
+ // then LEAVE the rack staged — the next chunk is usually one more mute
+ // on top of this one, not a fresh start.
+ async function addChunk(no, foot) {
+   const btn = foot.querySelector('.chunk'), msg = foot.querySelector('.rackmsg');
+   const was = btn.textContent;
+   btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
+   try {
+     const r = await fetch('/chunk', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks: staged[no] || {},
+                              trims: trims[no] || {},
+                              drops: Object.keys(drops[no] || {}) }) });
+     const d = await r.json();
+     msg.textContent = d.ok
+       ? 'chunk ' + d.count + ' saved — ' + d.file
+       : d.error;
+   } catch (e) { msg.textContent = String(e); }
+   btn.textContent = was; btn.disabled = false;
  }
 
  async function rebuild(el, no, foot) {
@@ -4840,6 +5222,81 @@ __BREAKS__
    });
  });
 
+ // --------------------------------------------- reference track (sec. 5)
+ // Drop a song; read its tempo and key; SHOW both so he can correct them.
+ // The detector is wrong in two predictable ways — half or double the
+ // tempo, and the relative major/minor — so the correction buttons are
+ // the feature, not a fallback.
+ const refdrop = document.getElementById('refdrop'),
+       refline = document.getElementById('refline'),
+       keyroot = document.getElementById('keyroot'),
+       keymode = document.getElementById('keymode'),
+       tempoBox = document.getElementById('tempo');
+ let refName = '', refAlt = null;
+ const TLO = __TEMPOLO__, THI = __TEMPOHI__;   // the window /make enforces
+
+ function refSay() {
+   if (!refName) { refline.textContent = 'nothing dropped yet'; return; }
+   const bpm = parseFloat(tempoBox.value);
+   refline.innerHTML = '<b>' + esc(refName) + '</b> &mdash; ' +
+     (tempoBox.value || '?') + ' BPM, ' + (keyroot.value || 'any') + ' ' +
+     keymode.value +
+     // only offer an octave the tempo box would actually accept
+     (bpm / 2 >= TLO ? '<button data-ref="half">&divide;2</button>' : '') +
+     (bpm * 2 <= THI ? '<button data-ref="double">&times;2</button>' : '') +
+     (refAlt ? '<button data-ref="rel">' + esc(refAlt.root + ' ' +
+               refAlt.mode) + '?</button>' : '') +
+     '<button data-ref="clear">clear</button>';
+ }
+
+ refline.onclick = e => {
+   const what = e.target.dataset && e.target.dataset.ref;
+   if (!what) return;
+   const bpm = parseFloat(tempoBox.value);
+   if (what === 'half' && bpm / 2 >= TLO) tempoBox.value = Math.round(bpm / 2);
+   if (what === 'double' && bpm * 2 <= THI) tempoBox.value = Math.round(bpm * 2);
+   if (what === 'rel' && refAlt) {          // swaps, so it flips back
+     const was = { root: keyroot.value, mode: keymode.value };
+     keyroot.value = refAlt.root; keymode.value = refAlt.mode;
+     refAlt = was;
+   }
+   if (what === 'clear') {
+     refName = ''; refAlt = null; tempoBox.value = ''; keyroot.value = '';
+   }
+   refSay();
+ };
+
+ ['dragover', 'dragenter'].forEach(ev =>
+   refdrop.addEventListener(ev, e => {
+     e.preventDefault(); refdrop.classList.add('over'); }));
+ refdrop.addEventListener('dragleave', () => refdrop.classList.remove('over'));
+ refdrop.addEventListener('drop', async e => {
+   e.preventDefault(); refdrop.classList.remove('over');
+   const f = e.dataTransfer.files && e.dataTransfer.files[0];
+   if (!f) return;
+   const was = refdrop.textContent;
+   refdrop.classList.add('busy');
+   refdrop.textContent = 'Listening to ' + f.name + '\u2026';
+   try {
+     const dot = f.name.lastIndexOf('.');
+     const ext = (dot > 0 ? f.name.slice(dot) : '.wav')
+                   .replace(/[^A-Za-z0-9.]/g, '');
+     const r = await fetch('/reference', { method: 'POST',
+       headers: { 'X-Ext': ext || '.wav' }, body: await f.arrayBuffer() });
+     const d = await r.json();
+     if (d.ok) {
+       refName = f.name;
+       tempoBox.value = d.bpm;
+       keyroot.value = d.root;
+       keymode.value = d.mode;
+       refAlt = { root: d.alt_root, mode: d.alt_mode };
+       refSay();
+     } else { refline.textContent = d.error; }
+   } catch (err) { refline.textContent = String(err); }
+   refdrop.classList.remove('busy');
+   refdrop.textContent = was;
+ });
+
  // ------------------------------------------------------------- make them
  const go = document.getElementById('go'),
        work = document.getElementById('work'),
@@ -4859,7 +5316,8 @@ __BREAKS__
      const r = await fetch('/make', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ names: order,
-         tempo: document.getElementById('tempo').value.trim(),
+         tempo: tempoBox.value.trim(),
+         key: keyroot.value ? keyroot.value + ' ' + keymode.value : '',
          count, notes: document.getElementById('notes').value }) });
      const d = await r.json();
      if (d.ok) { done(); await loadBatch(); }
@@ -5049,6 +5507,14 @@ def _page():
     else:                       # no artwork dropped in yet — type mark
         mark, ghost = "<span>BOTC</span>", ""
     words = json.dumps([w for w, _ in BREAK_WORDS] + ["break"])
+    # straight off ROOT_HZ and MODES, so the dropdowns can never offer a
+    # key the engine would then refuse
+    from key_context import MODES
+    keyroots = "".join(f"<option>{r}</option>" for r in ROOT_HZ)
+    keymodes = "".join(
+        '<option value="%s"%s>%s</option>'
+        % (m, " selected" if m == "minor" else "", m.replace("_", " "))
+        for m in sorted(MODES))
     return (_PAGE.replace("__CREW__", crew).replace("__LEGENDS__", legends)
             .replace("__GENRES__", styles)
             .replace("__FIXEDBANK__", fixedbank)
@@ -5059,7 +5525,20 @@ def _page():
             .replace("__LIBRARYJSON__", json.dumps({
                 key: [p["name"] for p in patterns]
                 for key, (label, patterns) in library_genres().items()}))
+            .replace("__CREWCOUNT__", _count_word(len(CREW_ORDER)))
+            .replace("__TEMPOLO__", str(TEMPO_LO))
+            .replace("__TEMPOHI__", str(TEMPO_HI))
+            .replace("__KEYROOTS__", keyroots)
+            .replace("__KEYMODES__", keymodes)
             .replace("__MARK__", mark).replace("__GHOST__", ghost))
+
+
+def _count_word(n):
+    """Spell the crew count on the page. It was hard-coded "nine" and went
+    stale the moment a tenth DJ arrived (2026-09-03), so it is derived from
+    CREW_ORDER now and cannot lie again."""
+    return {9: "nine", 10: "ten", 11: "eleven", 12: "twelve",
+            13: "thirteen", 14: "fourteen"}.get(n, str(n))
 
 
 def _is_homeroom(port):
@@ -5086,6 +5565,18 @@ def run_web(port=None):
     from urllib.parse import urlparse, parse_qs
 
     lock = threading.Lock()
+
+    class Server(ThreadingHTTPServer):
+        def handle_error(self, request, client_address):
+            # The <audio> player cancels in-flight requests whenever he
+            # scrubs or switches tracks — the client just hung up mid-
+            # response. That's normal, not a bug, so don't dump a
+            # traceback for it (same "never a stack trace" rule as the
+            # port-in-use case below). Anything else still prints.
+            if isinstance(sys.exc_info()[1],
+                         (BrokenPipeError, ConnectionResetError)):
+                return
+            super().handle_error(request, client_address)
 
     class Handler(BaseHTTPRequestHandler):
         def _send(self, code, ctype, body):
@@ -5292,8 +5783,30 @@ def run_web(port=None):
 
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
-                                 "/fixed", "/library"):
+                                 "/fixed", "/library", "/ban", "/chunk",
+                                 "/reference"):
                 self._send(404, "text/plain", b"not found")
+                return
+            if self.path == "/reference":
+                # He dragged a song onto the page. The body is the raw
+                # file, not JSON, so this branch sits above the parse.
+                # The audio is read, measured and thrown away — nothing
+                # from his reference track is kept or sampled.
+                size = int(self.headers.get("Content-Length", 0))
+                if size > 300 * 1024 * 1024:
+                    self._json({"ok": False,
+                                "error": "That file is too big to read."})
+                    return
+                try:
+                    raw = self.rfile.read(size)
+                    ext = self.headers.get("X-Ext", ".wav")
+                    import reference_track
+                    res = reference_track.analyze_bytes(raw, "ref" + ext)
+                    print("  reference: %s BPM, %s %s"
+                          % (res["bpm"], res["root"], res["mode"]))
+                    self._json({"ok": True, **res})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
                 return
             n = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(n) or b"{}")
@@ -5340,17 +5853,8 @@ def run_web(port=None):
                     with lock:
                         if "shots" not in _CACHE:
                             _CACHE["shots"] = build_shots()
-                        picks = {}
-                        for lane, want in (data.get("picks") or {}).items():
-                            if not want:                  # surprise me
-                                picks[lane] = None
-                                continue
-                            if not any(c["path"] == want for c in
-                                       _lane_candidates(
-                                           no, lane, shots=_CACHE["shots"])):
-                                raise ValueError(
-                                    f"That {lane} isn't in your library.")
-                            picks[lane] = want
+                        picks = _clean_picks(no, data.get("picks"),
+                                             _CACHE["shots"])
                         path, report = swap_many(no, picks,
                                                  shots=_CACHE["shots"],
                                                  trims=data.get("trims"),
@@ -5361,10 +5865,46 @@ def run_web(port=None):
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return
+            if self.path == "/chunk":
+                # songify: same staged rack as /rebuild, but the render
+                # lands in the beat's Chunks folder and the rack stays
+                # set so he can keep adding versions
+                no = data.get("number")
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        picks = _clean_picks(no, data.get("picks"),
+                                             _CACHE["shots"])
+                        res = save_chunk(no, picks, shots=_CACHE["shots"],
+                                         trims=data.get("trims"),
+                                         drops=data.get("drops"))
+                        print(f"  chunk {res['count']}: {res['file']}")
+                    self._json({"ok": True, **res})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
             if self.path == "/triage":
                 try:
                     loc = triage(data.get("number"), data.get("dest", "dj"))
                     self._json({"ok": True, "loc": loc})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
+            if self.path == "/ban":
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        res = ban_lane(data.get("number"),
+                                       data.get("lane", ""),
+                                       choice=data.get("choice"),
+                                       shots=_CACHE["shots"])
+                    if not res.get("asked"):
+                        how = ("every file with that name"
+                               if res["banned"] == "name" else "this sound")
+                        print(f"  banned {res['name']} ({how})")
+                    self._json({"ok": True, **res})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return
@@ -5383,6 +5923,7 @@ def run_web(port=None):
                 return
             names = data.get("names", [])
             tempo = data.get("tempo") or None
+            key = data.get("key") or None
             notes = data.get("notes", "")
             try:
                 how_many = max(1, min(10, int(data.get("count") or 1)))
@@ -5397,7 +5938,8 @@ def run_web(port=None):
                     for i in range(how_many):
                         path, report = generate(names, tempo, notes,
                                                 traditional=flags[i],
-                                                shots=_CACHE["shots"])
+                                                shots=_CACHE["shots"],
+                                                key=key)
                         results.append(report)
                         made.append(int(path.name.split(" ", 1)[0]))
                         print(" ", report.replace("\n", " "))
@@ -5422,7 +5964,7 @@ def run_web(port=None):
     httpd = None
     for p in range(port, port + 12):
         try:
-            httpd = ThreadingHTTPServer(("127.0.0.1", p), Handler)
+            httpd = Server(("127.0.0.1", p), Handler)
             port = p
             break
         except OSError:
