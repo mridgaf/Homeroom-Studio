@@ -84,10 +84,46 @@ entries.
   (the OLD answer to the governor/master-chain questions that passes 1 and 2
   settled in main's favour; engine_master still needs its own A/B), and the
   three SessionStart hooks, which are not on this machine at all.
-- Verify by: his ear on a Half Light and a Fast Water beat. Their sound has
-  been measured, never heard.
+- THE DJs ALSO HAD TO GO INTO crew.py, not just crew_config.json. The test
+  suite caught it: DEFAULT_CREW is the built-in roster, and deleting the
+  config regenerates from it, so config-only DJs would have vanished on the
+  next regeneration. Their DEFAULT_CREW and CREW_SIGNATURES entries were
+  lifted from the branch by AST (exact source segments, comments included);
+  NOTHING else in crew.py was taken — the governor and master chain are
+  untouched. Verified: a fresh config now regenerates all eleven, slots 1-11.
+  NOTE the twists live only in crew_config.json, for the two new DJs AND for
+  the existing nine — deleting the config loses everyone's twist. That is
+  pre-existing, not introduced here, and was left alone.
+- Three guard tests had to move, none of them a sound rule:
+  test_roster_is_the_agreed_nine -> ..._eleven,
+  test_every_dj_carries_the_personal_twist_he_asked_for gains the two
+  placements, and test_config_file_round_trips_the_roster passed once
+  DEFAULT_CREW had them. Final suite: 986 passed, 3 skipped, 0 failed.
+- HIS CHUNK FOLDER WAS ALREADY ON THE DRIVE: "2162 Swish Beatz Playoff Lap
+  Drums 98bpm Chunks", dated 2026-09-01, five chunks in it. He had been
+  USING the feature before it was stranded, which is why he noticed.
+- A THIRD TRAP, and the fail-loud check is the only reason it did not ship:
+  the audition bench first reported "Half Light's chorus changed NOTHING".
+  It was the BENCH. A chorus aimed at the chord lanes has nothing to act on
+  in a build_kit-only render, because beat_machine._build_chords adds those
+  lanes later. Glass Cat and Night Metro — both already approved — measure
+  the same -inf on that bench. With one chord lane injected, Half Light
+  moves 13.5 dB against Glass Cat's 19.3 and Night Metro's 15.5. The lesson
+  is the skill's own: a check that fires is not automatically a finding, and
+  the control (does this bench also condemn something he already approved?)
+  costs one render.
+- CAUTION, THE GREEN SUITE IS PARTLY MASKED: the pre-existing mono failure
+  is now SKIPPED, not fixed. test_real_beats_are_not_mono_or_silent scopes
+  itself to beats newer than crew.py's mtime, and this session touched
+  crew.py, so nothing is in scope and it skips. Beat 2186 is still -22.24 dB.
+  Spun out as its own task; do not read 986/0 as that beat being fine.
+- Verify by: his ear on the audition batch at
+  ~/Desktop/Homeroom Two New DJs 2026-09-03 (3 Half Light, 3 Fast Water,
+  READ ME.txt). Rendered to scratch and copied; the library was verified
+  untouched (no new wavs on the drive).
 - Status: open
-- Outcome: (pending — the two DJs are unheard, and the root-808 audition is owed)
+- Outcome: (pending — the two DJs are measured but UNHEARD, and the
+  root-808-on-chord-beats audition is still owed)
 
 ### 2026-09-03 The three audition verdicts applied — and the drop rebuilt to his corrections
 - Context: he heard Otto Grit, Night Metro and Rage Engine, gave three

@@ -87,6 +87,24 @@ def main():
         p_off.pop(key)
         kit, _ = build_kit(shots, dj, stamps[dj][1], variant=i,
                            avoid=avoid, preset=p_on)
+        # A CHORD-targeted twist needs a chord lane to act on, and
+        # build_kit makes drums only -- beat_machine._build_chords adds the
+        # chord lanes later. Without this the check reads -inf and blames
+        # the DJ: Glass Cat and Night Metro, both already approved, measure
+        # -inf on a bare kit too. Verified 2026-09-03. So give it one
+        # sustained in-key tone on a lane whose NAME starts with "chord",
+        # which is how audio_engine matches the lane list (a prefix).
+        if "chord" in tuple((p_on.get(key) or {}).get("lanes", ())):
+            sr = 44100
+            t = np.arange(int(sr * 2.0)) / sr
+            tone = (0.25 * np.sin(2 * np.pi * 220.0 * t)
+                    + 0.20 * np.sin(2 * np.pi * 277.2 * t)).astype(np.float32)
+            for pp in (p_on, p_off):
+                pp["lanes"] = dict(pp["lanes"])
+                pp["lanes"]["chord0"] = (0.0, 0.5, (0, 0, 50, 900),
+                                         ["X---------------"] * 8)
+            kit = dict(kit)
+            kit["chord0"] = tone
         on = render_crew_beat(dj, kit, preset=p_on)[0]
         off = render_crew_beat(dj, kit, preset=p_off)[0]
         moved = _rms_db(np.asarray(on), np.asarray(off))

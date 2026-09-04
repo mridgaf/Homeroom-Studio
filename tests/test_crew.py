@@ -446,7 +446,14 @@ def test_every_dj_carries_the_personal_twist_he_asked_for():
              "Glass Cat": ("chorus", "chord"),
              "Sunday Chop": ("phaser", "hat"),
              "Night Metro": ("chorus", "chord"),
-             "New Math": ("phaser", "hat")}
+             "New Math": ("phaser", "hat"),
+             # slots 10 and 11, placed 2026-09-03 when they came back off
+             # never-guess-hooks. Half Light has NO hat lane at all, so the
+             # phaser twist was impossible on him; he takes the chord
+             # chorus the other atmospheric DJs carry. Fast Water is a
+             # break record with a real hat, so he takes the hat phaser.
+             "Half Light": ("chorus", "chord"),
+             "Fast Water": ("phaser", "hat")}
     approved = {"backbeat_echo": OWNER_TASTE["backbeat_echo"],
                 "chorus": OWNER_TASTE["chorus"],
                 "phaser": OWNER_TASTE["phaser"]}
