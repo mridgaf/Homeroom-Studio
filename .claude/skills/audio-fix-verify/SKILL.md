@@ -19,7 +19,7 @@ Run `./.venv/bin/python tools/measure_batch.py <folder>` on a rendered
 batch. It reports length in bars, per-bar level of the mix AND of the drum
 stems alone, stereo width, and every stem's level against the kick.
 
-## The four traps, all of which have bitten
+## The seven traps, all of which have bitten
 
 **1. Measuring an intermediate.** A volume cap took FOUR passes on
 2026-08-03 because each version measured one stage too early:
@@ -78,6 +78,28 @@ averaged across a loop of mostly silence (+0.17 whole-file vs +3.54 at the
 hit). Per-hit effects need a per-hit ruler; one-bar effects need a one-bar
 ruler; band effects need a band ruler.
 
+**7. The loudness stage moved everything you did not touch.** 2026-09-04,
+the root 808: adding a sub measured as being OUT OF PHASE with the kick on
+all three test beats (correlation -0.31 to -0.65) — a scary, wrong finding
+that nearly went in a READ ME.
+
+The renders are loudness-normalised. A sub makes the file louder, the
+loudness stage pulls the WHOLE beat back to hit the same target, and the
+difference between before and after therefore contains a scaled-down copy
+of everything you did not change. That scaling reads as anti-correlation
+on any unpicked measurement.
+
+Fix the ruler, not the code: fit the gain on a band the change does NOT
+touch (here, everything above 100 Hz), divide it out, and only then ask
+what happened underneath. Phase came back -0.01 to -0.22 — no fight at
+all. And the gain you divided out is not noise, it is **the finding**: the
+drums step back 2.5-5.2 dB to make room for the sub, which is the real
+trade-off his ear has to judge.
+
+Any A/B where the change adds or removes energy has this. Ask: *is my
+"after" the same loudness as my "before"?* If yes, something scaled
+everything else to make that true.
+
 ## Before saying "fixed"
 
 - [ ] Rendered a real batch — not a unit test, not a simulation
@@ -86,6 +108,7 @@ ruler; band effects need a band ruler.
 - [ ] Checked the worst case, not just the median
 - [ ] The BEFORE file actually reproduces the problem
 - [ ] The ruler looks where the change lives — band, bar, and hit
+- [ ] Divided out the loudness gain before comparing anything
 - [ ] If any beat still fails, opened that beat specifically
 - [ ] Said plainly what is measured versus what is still **unheard**
 

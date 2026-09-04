@@ -22,6 +22,80 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-04 The root 808 and the rebuild locks — measured, wired behind flags, auditioned
+- Context: the two sound changes the 2026-09-03 handoff still owed him.
+  Both came off never-guess-hooks, both were left out of the chunk/FX
+  restore because he had not heard them.
+- MEASURED FIRST, off his own library rather than off the branch's claims:
+    * ROOT 808. The branch said the `not dirs["chords"]` gate had made the
+      2026-07-18 "add the root" rule unreachable. TRUE, and the number is
+      stark: 150 traditional beats on the drive carry chords and NOT ONE
+      got a sub. The only 9 beats that ever had both are dated 2026-09-01
+      — the day the branch was live — and all 9 took the beat's own key.
+      Main cannot produce that pair at all, which is what dates them.
+    * THE LOCKS. Much smaller than the handoff implied, and this is the
+      finding worth keeping. Replaying the rebuild's own key/progression
+      pick against every recipe with harmony: 740 of 866 reproduce. The
+      126 that do not are almost all JULY (28% drift), because the
+      2026-08-01 open_roll change moved under them — not because of the
+      missing lock. On CURRENT beats the rebuild is faithful: August 1.9%,
+      September 0 of 118.
+    * It only bites where HE sets the key: a reference track forcing it
+      (6 of 6 test beats came back in a different key) or a typed mood
+      word, which is never persisted (6 of 6 came back on a different
+      progression). An ordinary beat: 0 of 6.
+- Decision/change: both wired into tools/beat_machine.py behind
+  off-by-default constants — ROOT_808_WITH_CHORDS and REBUILD_LOCKS_KEY.
+  Flags off is byte-identical to today's sound, so landing either one is
+  flipping a single constant and reverting is the same. The root-808 block
+  was extracted to `_add_root_sub()` and moved below _build_chords so the
+  audition bench renders THE REAL CODE rather than a copy of it.
+- Reasoning: the alternative was landing them and asking after, which is
+  the thing the 09-03 entry explicitly refused twice.
+- THE BENCH CAUGHT THREE OF ITS OWN BUGS, and the second is the one that
+  matters. In order: (1) both lock pairs are Otto Grit, who is
+  tempo-locked, so DJ+bpm+tag names collided and two files silently
+  overwrote — the file-count check caught it. (2) I called compose() once
+  PER VERSION, which is the documented cross-call trap from
+  make_night_metro_ab.py, and shipped an 8-bar "a Now" against a 4-bar
+  "b Root 808" — two different beats wearing an A/B label. The low-end
+  check fired (-3.06 dB on Otto Grit) and led there. A frame-count check
+  now exists so it fails on the label, not on a number that happens to
+  look odd. (3) A README string I hand-patched broke the module; the
+  parse check that would have caught it was chained after a `&` and got
+  backgrounded, so I never saw it fail.
+- AND A MEASUREMENT THAT WAS WRONG BEFORE IT WAS RIGHT: the sub first
+  measured as fighting the kick (phase -0.3 to -0.65 across all three).
+  It does not. Adding the sub makes the file louder, the loudness stage
+  pulls the whole beat back to the same target, and that scaling reads as
+  anti-correlation on every unpicked measurement. Fit the gain the rest
+  of the beat was scaled by, remove it, and phase is -0.01 to -0.22 —
+  they sit together. What IS real, and is now the headline of the READ
+  ME: the drums step back 2.5-5.2 dB to make room, so he is trading drum
+  level for weight, not simply gaining a sub.
+- Tests: 988 passed, 2 skipped, 1 failed. The failure is PRE-EXISTING and
+  not from this work — test_real_beats_are_not_mono_or_silent on "2210
+  Rage Engine Throttle Fever", a finished file that predates the session.
+  It is the third instance of the Rage-Engine narrow-image issue already
+  logged open on 09-03 (2186 was the second), and it reappeared here only
+  because this session touched beat_machine.py rather than crew.py, which
+  put the test back in scope.
+- Two tests added. The root-808 one drives generate() with the flag
+  monkeypatched on and asserts the sub appears AND matches the beat's key
+  — the bench calls _add_root_sub directly, so it could pass while the
+  real path stayed broken. THE LOCK ONE IS ONLY THE FLAG-IS-OFF GUARD, on
+  purpose: driving it end to end needs a forced-key chords beat rebuilt in
+  the fixture's fake sample pool, and that dies in crew.render on a
+  missing chord0 — an artefact of the test env. Three attempts, then
+  stopped. The behaviour rests on folder 2 of the batch and the library
+  measurement above, both real files.
+- Verify by: his ear on ~/Desktop/Homeroom Root 808 and Locks 2026-09-04
+  (12 files, two folders, READ ME.txt). Two answers wanted: keep the sub
+  on chord beats yes/no, lock the key on rebuild yes/no. Library verified
+  untouched — newest recipe on the drive is still 2213, 2026-09-03 22:25.
+- Status: open — rendered and delivered, not yet heard.
+- Outcome:
+
 ### 2026-09-03 Cutz, fifth of the per-DJ pass — "tapping the red", switched on live
 - Context: "Continue tuning DJs. I like the way the first four sound locked
   those in." Answered BLOCKING which four he meant rather than guessing:

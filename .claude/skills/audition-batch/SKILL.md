@@ -67,7 +67,23 @@ prints a WARNING rather than shipping quietly:
 - **The file count is what was asked for.**
 
 Copy the shape from `tools/make_night_metro_ab.py` rather than inventing
-one. This is cheap, it runs every render, and it is the only thing standing
+one. **This is not advice, it is the cheapest of the lessons here.** On
+2026-09-04 a fresh bench was written instead of copied and reproduced,
+exactly, the trap that file spends a paragraph warning about:
+
+- **COMPOSE ONCE PER BEAT, then copy it per version.** `compose()` is
+  deterministic per (name, variant, attempt), but its repeat guard carries
+  history ACROSS calls — so calling it once per version can land on a
+  different attempt and a different loop length. That batch had an 8-bar
+  "a Now" against a 4-bar "b Root 808": two different beats wearing an A/B
+  label. He would have been comparing nothing.
+- **Assert the versions are the same LENGTH.** One line, and it fails on
+  the actual defect. What caught it instead was a low-end number that
+  happened to look odd, which is luck, not a check.
+- **Name files so two versions cannot collide.** Every beat by one DJ
+  carries that DJ's bpm (tempo_locked), so "DJ + bpm + tag" is not unique
+  across two beats — two files silently overwrote and the count check was
+  the only thing that noticed. Number the pairs. This is cheap, it runs every render, and it is the only thing standing
 between a wrong bench and an hour of his listening time.
 
 If a check fires, **do not ship the batch and explain the warning to him**
@@ -85,7 +101,12 @@ that fired.
 - [ ] Deliberate oddities named beat-by-beat
 - [ ] Said what is measured vs what is unheard
 - [ ] Told him the one thing you actually need back from him
-- [ ] The script's own fail-loud checks ran and stayed silent
+- [ ] Every version of a beat is the same length as its control
+- [ ] The script's own fail-loud checks ran and stayed silent — and you
+      SAW them run. A check chained ahead of a backgrounded command
+      (`check && render &`) is backgrounded too: on 2026-09-04 a syntax
+      check written exactly that way never printed, and the batch failed
+      five minutes later on a broken string.
 
 ## After he listens
 
