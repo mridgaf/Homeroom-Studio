@@ -1683,3 +1683,45 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
 # passing-note tests (seeds 29 and 34, 9th-chord progression) folded into
 # test_never_more_than_one_melodic_part above — there's no passing part to
 # test any more, owner 2026-07-29 hard rule.
+
+
+# ------------------------------------- the two flags the owner has not heard
+
+def test_root_808_flag_is_off_and_switching_it_on_tunes_the_sub_to_the_key(
+        machine_env, monkeypatch):
+    # Both halves matter. OFF is today's sound and must stay byte-for-byte
+    # what he has approved — the sibling test above already pins that a
+    # chords beat gets no sub. ON is the landing, and the only thing that
+    # makes it safe to land by flipping one constant: this asserts the sub
+    # actually appears AND takes the beat's own key, through generate()
+    # rather than through the audition bench, which calls _add_root_sub
+    # directly and so could pass while the real path stayed broken.
+    root, shots = machine_env
+    assert beat_machine.ROOT_808_WITH_CHORDS is False, \
+        "off until he has heard it — see DECISIONS 2026-09-04"
+    monkeypatch.setattr(beat_machine, "ROOT_808_WITH_CHORDS", True)
+    random.seed(1)
+    path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
+                                         traditional=True, notes="chords")
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    assert rec.get("harmony"), report              # it really is a chords beat
+    assert rec.get("root_note"), report            # ...and it got a sub anyway
+    assert "sub" in rec["preset"]["lanes"]
+    # the whole point: the sub is in the beat's key, not a free roll
+    assert rec["root_note"] == rec["harmony"]["root"], (
+        rec["root_note"], rec["harmony"]["root"])
+
+
+def test_rebuild_lock_flag_is_off_until_he_has_heard_it():
+    # The guard that matters: this flag changes how a rebuilt beat sounds,
+    # and it must not go live without his ear on it.
+    #
+    # There is NO behavioural test here, deliberately. Driving it needs a
+    # forced-key chords beat rebuilt end to end, and in this fixture's
+    # fake sample pool that path dies in crew.render on a missing chord0 —
+    # an artefact of the test env, not of the change. What the behaviour
+    # rests on instead: the audition batch's folder 2 (three renders,
+    # F minor -> C minor -> F minor), and the library measurement in
+    # DECISIONS 2026-09-04 (0 of 118 September beats drift; 6 of 6 do once
+    # a reference track sets the key). Both are real files, not fixtures.
+    assert beat_machine.REBUILD_LOCKS_KEY is False
