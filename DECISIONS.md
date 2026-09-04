@@ -121,9 +121,22 @@ entries.
   ~/Desktop/Homeroom Two New DJs 2026-09-03 (3 Half Light, 3 Fast Water,
   READ ME.txt). Rendered to scratch and copied; the library was verified
   untouched (no new wavs on the drive).
-- Status: open
-- Outcome: (pending — the two DJs are measured but UNHEARD, and the
-  root-808-on-chord-beats audition is still owed)
+- Status: confirmed (the two DJs) / open (the root-808 audition)
+- Outcome: AUDITIONED 2026-09-03, owner's verdict on the batch: "They sound
+  like themselves. I will continue. in a new session." The two DJs are
+  approved BY EAR, not just measured — Half Light's chord chorus and Fast
+  Water's hat phaser both stand at the amounts copied from Glass Cat and
+  Sunday Chop. He did not ask for either to move.
+  Approving THIS is not approving the rest — the same lesson as 09-02.
+  STILL OWED, and not covered by that verdict:
+  1. The root-808-on-chord-beats change. Reverted here with a comment at
+     the site; it needs its own before/after batch before it lands.
+  2. The rebuild-locks-to-saved-key change, same deal, same reason.
+  3. Beat 2186's mono measurement (-22.24 dB vs -22.0). Still failing; the
+     suite only reads green because touching crew.py put it out of scope.
+  4. tools/crew.py and tools/groove.py are still stranded on
+     never-guess-hooks, engine_master still un-A/B'd, and the three
+     SessionStart hooks are still not on this machine.
 
 ### 2026-09-03 The three audition verdicts applied — and the drop rebuilt to his corrections
 - Context: he heard Otto Grit, Night Metro and Rage Engine, gave three
