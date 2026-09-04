@@ -1157,6 +1157,75 @@ def dj_cut(L, R, parts, bar, nbars=BARS):
 # the sub now rides WITH the chords, tuned to the beat's own key.
 ADD_THE_ROOT_808 = True
 
+# Does the root 808 also ride on a CHORDS beat, tuned to that beat's key?
+#
+# It does not today, and the cost is measured: across his library, 150
+# traditional beats carry chords and NOT ONE of them got a sub. The gate
+# was `not dirs["chords"]`, written when a chords beat had harmony's own
+# moving bass under it — but that bass was retired 2026-07-29
+# (_build_chords: bass_idx is permanently None) and every identity has
+# since gained chords_default, so the gate quietly took the 2026-07-18
+# "add the root" rule off the table unless he types "no chords".
+#
+# OFF until he has heard it. Flipping this to True is the whole landing;
+# the audition bench (tools/make_root_808_ab.py) flips it per render.
+ROOT_808_WITH_CHORDS = False
+
+# Does a REBUILD (swap a hat, trim a level) hand the beat back its own key
+# and progression, or re-roll them?
+#
+# Re-rolling is deterministic from the saved variant + the saved signature,
+# so on an ordinary beat it lands on the same answer and there is nothing
+# to hear — measured: 0 of the 118 September beats on his drive come back
+# different. It goes wrong in exactly two places, and both are ones he
+# creates on purpose: a REFERENCE TRACK that set the key (6 of 6 beats came
+# back in a different key), and a typed mood word, which is never persisted
+# past the click it was typed for (6 of 6 came back on a different
+# progression). The recipe knows all three, so it can hand all three back.
+#
+# OFF until he has heard it. See tools/make_root_808_ab.py, folder 2.
+REBUILD_LOCKS_KEY = False
+
+
+def _add_root_sub(preset, kit, sources, variant, vnotes,
+                  harmony_info=None, traditional=False):
+    """The tuned 808 sub under the kick — owner rule 2026-07-18, "add the
+    root". Returns the note name it used, or None if this beat gets no sub.
+
+    Extracted out of generate() 2026-09-03 so the audition bench renders
+    THIS code rather than a copy of it: a bench that reimplements the thing
+    it is testing can pass while the real path is broken.
+
+    `harmony_info` is the beat's chords, when it has any. Given one, the
+    sub takes the beat's own key instead of rolling its own note — a static
+    sub on the wrong root under a progression is worse than no sub at all.
+    An identity's `signature.key.roots` may ask for a note ROOT_HZ does not
+    spell (Half Light asks for B on 7.4% of its beats); that beat gets no
+    sub rather than a random one."""
+    if not (ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"]):
+        return None
+    _ksecs = preset["kit"].get("kick", (None, None, None, 0))[3]
+    _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
+    # a LONG 808 kick is carrying the sub itself; two would just fight
+    if preset["kit"].get("kick", (None, None))[1] == "808" and _klen > 0.6:
+        return None
+    if random.Random(variant * 577 + 13).random() >= 0.75:
+        return None
+    key_root = (harmony_info or {}).get("root")
+    if key_root:
+        if key_root not in ROOT_HZ:
+            return None
+        root_note, sub_audio = key_root, sub808(ROOT_HZ[key_root], 0.6)
+    else:
+        root_note, sub_audio = _root_sub(variant)
+    kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
+    preset["lanes"]["sub"] = (0.0, 0.7, (0, 0, ksw, ks + 7),
+                              [b for b in kbars])
+    kit["sub"] = sub_audio
+    sources["sub"] = "synth 808 sub, root %s" % root_note
+    vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
+    return root_note
+
 
 def _root_sub(variant, secs=0.6):
     """Owner rule 2026-07-18 ("add the root"), retired 2026-07-23 — see
@@ -2287,25 +2356,6 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # carrying the sub itself; two would just fight). The sub mirrors the
     # final kick line, plays straight, and rides the un-ducked bass path.
     root_note = None
-    _ksecs = preset["kit"].get("kick", (None, None, None, 0))[3]
-    _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
-    _long808 = (preset["kit"].get("kick", (None, None))[1] == "808"
-                and _klen > 0.6)
-    # NOTE 2026-09-03: never-guess-hooks moves this block BELOW
-    # _build_chords and drops the `not dirs["chords"]` gate, so a chords
-    # beat gets a root 808 tuned to its own key. That is a SOUND change
-    # the owner has not heard, so it was deliberately NOT taken with the
-    # chunk/FX restore. It needs its own before/after audition.
-    if ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"] \
-            and not _long808 and not dirs["chords"] \
-            and random.Random(variant * 577 + 13).random() < 0.75:
-        root_note, sub_audio = _root_sub(variant)
-        kpan, kgain, (ko, kj, ksw, ks), kbars = preset["lanes"]["kick"]
-        preset["lanes"]["sub"] = (0.0, 0.7, (0, 0, ksw, ks + 7),
-                                  [b for b in kbars])
-        kit["sub"] = sub_audio
-        sources["sub"] = "synth 808 sub, root %s" % root_note
-        vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
 
     # "chords" / a mood word in the notes box (punch list steps 2+7,
     # 2026-07-22): a real in-key progression, synthesized as a pad + bass
@@ -2315,6 +2365,18 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # docstring for why regenerating, not reusing the rendered stem.
     midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
                                               dirs, vnotes)
+
+    # ...and NOW the tuned root 808, moved below _build_chords so that on a
+    # chords beat it can be tuned to THAT BEAT'S KEY rather than skipped.
+    # Which of those two happens is ROOT_808_WITH_CHORDS, and with the flag
+    # off this is byte-identical to the old position: _build_chords returns
+    # immediately when there are no chords, and the sub's dice are their own
+    # seeded generators, so nothing upstream shifts by moving the call.
+    if ROOT_808_WITH_CHORDS or not dirs["chords"]:
+        root_note = _add_root_sub(
+            preset, kit, sources, variant, vnotes,
+            harmony_info=harmony_info if ROOT_808_WITH_CHORDS else None,
+            traditional=traditional)
 
     # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
     # here, after the chord lanes so bass can defer to the harmony bass on a
@@ -3118,13 +3180,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         # open-roll beat came back with different chords under the same
         # instrument (measured: F7#9 out, Gm7 back). The recipe knows
         # all three, so hand back all three.
-        # NOTE 2026-09-03: never-guess-hooks forces the beat's SAVED key
-        # and progression back on a rebuild (force_key from rec["harmony"]).
-        # That changes how rebuilt beats sound and has not been auditioned,
-        # so main's free re-pick stands until it is.
+        # Whether that hand-back actually happens is REBUILD_LOCKS_KEY.
+        _dirs = {"chords": True, "chord_feel": None}
+        if REBUILD_LOCKS_KEY:
+            _h = rec.get("harmony") or {}
+            _dirs["chord_feel"] = _h.get("progression")
+            if _h.get("root") and _h.get("mode"):
+                _dirs["force_key"] = (_h["root"], _h["mode"])
         _build_chords(preset, kit, chord_sources, rec["variant"],
-                      {"chords": True, "chord_feel": None}, [],
-                      voice=chord_voice)
+                      _dirs, [], voice=chord_voice)
         # ...but a chord/bass lane the owner just REMOVED must not come
         # back: _build_chords rebuilds the whole family from the recipe's
         # variant, which would silently undo the removal.
