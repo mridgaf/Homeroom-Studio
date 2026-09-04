@@ -1685,7 +1685,7 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
 # test any more, owner 2026-07-29 hard rule.
 
 
-# ------------------------------------- the two flags the owner has not heard
+# ------------------------------------- the two flags he has now ruled on
 
 def test_root_808_flag_is_off_and_switching_it_on_tunes_the_sub_to_the_key(
         machine_env, monkeypatch):
@@ -1698,7 +1698,7 @@ def test_root_808_flag_is_off_and_switching_it_on_tunes_the_sub_to_the_key(
     # directly and so could pass while the real path stayed broken.
     root, shots = machine_env
     assert beat_machine.ROOT_808_WITH_CHORDS is False, \
-        "off until he has heard it — see DECISIONS 2026-09-04"
+        "he heard it 2026-09-04 and said no — leave it off, do not re-propose"
     monkeypatch.setattr(beat_machine, "ROOT_808_WITH_CHORDS", True)
     random.seed(1)
     path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
@@ -1712,9 +1712,10 @@ def test_root_808_flag_is_off_and_switching_it_on_tunes_the_sub_to_the_key(
         rec["root_note"], rec["harmony"]["root"])
 
 
-def test_rebuild_lock_flag_is_off_until_he_has_heard_it():
-    # The guard that matters: this flag changes how a rebuilt beat sounds,
-    # and it must not go live without his ear on it.
+def test_rebuild_lock_flag_is_on_he_kept_it():
+    # HE KEPT IT — 2026-09-04, folder 2 of the audition batch: "I will keep
+    # the locks." This asserts it stays on; a rebuild must keep handing the
+    # beat back its own key, mode and progression.
     #
     # There is NO behavioural test here, deliberately. Driving it needs a
     # forced-key chords beat rebuilt end to end, and in this fixture's
@@ -1724,4 +1725,4 @@ def test_rebuild_lock_flag_is_off_until_he_has_heard_it():
     # F minor -> C minor -> F minor), and the library measurement in
     # DECISIONS 2026-09-04 (0 of 118 September beats drift; 6 of 6 do once
     # a reference track sets the key). Both are real files, not fixtures.
-    assert beat_machine.REBUILD_LOCKS_KEY is False
+    assert beat_machine.REBUILD_LOCKS_KEY is True

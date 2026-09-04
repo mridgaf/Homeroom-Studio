@@ -1167,8 +1167,16 @@ ADD_THE_ROOT_808 = True
 # since gained chords_default, so the gate quietly took the 2026-07-18
 # "add the root" rule off the table unless he types "no chords".
 #
-# OFF until he has heard it. Flipping this to True is the whole landing;
-# the audition bench (tools/make_root_808_ab.py) flips it per render.
+# HE HEARD IT AND SAID NO — 2026-09-04, on the Desktop batch, his words:
+# "leave the eight zero eight tuning off, I don't like it in the mix."
+# That is a verdict, not a pending question: do not re-propose it, do not
+# quietly flip it as part of some other change. The measurement that made
+# the case for it (150 chords beats, not one sub) still stands and is still
+# wrong-by-the-numbers — his ear outranks it. What he is hearing is most
+# likely the cost the batch READ ME named: the drums step back 2.5-5.2 dB
+# to make room for the sub, so the trade is drum level for weight.
+# The flag stays so the bench (tools/make_root_808_ab.py) can still render
+# it if he ever asks again; False is the shipped sound.
 ROOT_808_WITH_CHORDS = False
 
 # Does a REBUILD (swap a hat, trim a level) hand the beat back its own key
@@ -1183,8 +1191,12 @@ ROOT_808_WITH_CHORDS = False
 # past the click it was typed for (6 of 6 came back on a different
 # progression). The recipe knows all three, so it can hand all three back.
 #
-# OFF until he has heard it. See tools/make_root_808_ab.py, folder 2.
-REBUILD_LOCKS_KEY = False
+# ON — he heard folder 2 of the 2026-09-04 batch and kept it: "I will keep
+# the locks." So a rebuild now hands the beat back its own key, mode and
+# progression instead of re-rolling them. On an ordinary beat this changes
+# nothing audible (0 of 118 September beats drift); it is there for the two
+# cases he creates on purpose, the reference track and the typed mood word.
+REBUILD_LOCKS_KEY = True
 
 
 def _add_root_sub(preset, kit, sources, variant, vnotes,
