@@ -455,10 +455,22 @@ def test_every_dj_carries_the_personal_twist_he_asked_for():
     is ALWAYS EXTRA on top of whatever a DJ's research asks for, so Otto
     Grit legitimately carries two (the echo his `c Plus` verdict switched
     on, and the chorus that is his twist, whose lane list carries both).
-    Rage Engine is the one documented veto: he chose "research can veto
+    Rage Engine WAS the one documented veto: he chose "research can veto
     it", and Rage Engine's sources say the mix is glued by saturation, not
-    modulation. If someone drops the veto or moves a twist, this says so
-    out loud rather than letting a wall of sound grow a chorus.
+    modulation. THE VETO WAS LIFTED 2026-09-04 and this test now guards
+    the replacement, not the absence. He asked for "one bonus effect to
+    each DJ", was asked back whether that meant the three in flight or all
+    nine, and picked all nine off an option that named Rage Engine as the
+    only DJ carrying no printed effect at all. So it is his call, made on
+    the specific fact — not a veto that got lost in a refactor. What he
+    gets is an ECHO, not a chorus or a phaser: the research objection was
+    to MODULATION smearing a wall of saturation, and a 1/16 delay throw at
+    150 bpm is not modulation. `_no_twist` stays, with its original
+    reason, because that reason is still true of chorus and phaser.
+
+    The twists themselves are untouched. Every bonus effect added on
+    09-04 deliberately uses a DIFFERENT key from that DJ's twist, so the
+    approved twist amounts below still hold for all eleven.
     """
     from crew import DEFAULT_CREW
     TWIST = {"Otto Grit": ("chorus", "chord"),
@@ -481,8 +493,12 @@ def test_every_dj_carries_the_personal_twist_he_asked_for():
                 "phaser": OWNER_TASTE["phaser"]}
     assert set(DEFAULT_CREW) - set(TWIST) == {"Rage Engine"}
     p = CREW["Rage Engine"]
-    assert not [k for k in approved if p.get(k)], "Rage Engine's veto was dropped"
     assert p.get("_no_twist"), "the veto lost its written reason"
+    # the veto still holds for the two MODULATION effects — that was the
+    # documented objection, and nothing has overturned it
+    assert not p.get("chorus") and not p.get("phaser"), \
+        "Rage Engine's research veto covers modulation; only the echo was lifted"
+    assert p.get("backbeat_echo"), "his 2026-09-04 bonus echo went missing"
 
     for name, (key, lane) in TWIST.items():
         cfg = CREW[name].get(key)

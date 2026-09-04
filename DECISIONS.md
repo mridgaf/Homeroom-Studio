@@ -22,6 +22,148 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-04 The last three DJs — and a bonus effect each, on his instruction
+- Context: "Finish the remaining DJs. Remember to add one bonus effect to
+  each DJ. you choose, Effect and amount. And to add to either snare,
+  kick, and chords. I don't need an audition." So: Chrome Dial, Sunday
+  Chop, New Math, switched on live, no batch.
+- MEASURED FIRST. One finding per DJ, and one of them is a NOTHING-TO-DO:
+    * NEW MATH'S HEADLINE TRAIT WAS REACHING 16% OF HIS BEATS. His
+      `listen` line makes it the whole character — "a hat lane counting
+      FIVE against everyone else's four (quintuplet grid)" — and
+      quint20 was declared at 0.30 with `library.p` 0.55, the highest
+      bypass rate on the roster. Measured over 300 composed beats: 52%
+      took a library seed that skips the hat grammar entirely, so the
+      real reach was 16%.
+    * SUNDAY CHOP'S CLAP CONTRADICTED HIS OWN DESCRIPTION. "A BIG clap
+      with a snare tucked underneath" (and `snare: {copy: clap}` — the
+      clap IS his backbone), but his grammar's top weight was SPARSE at
+      0.316 against backbeat 0.25. A gospel bounce is a hard 2 and 4.
+    * CHROME DIAL: his one documented mixing trait is UNREACHABLE from
+      config, and I did not build an engine change to reach it. Research
+      says "dry, upfront drums, minimal reverb"; his config says
+      `space: ["gated", ["clap"]]`. But beat_machine.py:2355 only honours
+      a declared space for the SUBGENRE roster (`elif preset.get(
+      "genre")`) — the nine roll their own per beat, gated .35 / dry .35
+      / room .2 / plate .1. Editing his space would have changed nothing.
+      That roll is owner directive v6, 2026-07-18, which explicitly
+      superseded the old per-DJ alternation, so adding a per-DJ space
+      weight would partly undo a rule he gave. Left alone; logged here so
+      the next session does not rediscover it.
+      His `space[1]` (which lanes get treated) IS still read — that half
+      is live and correct.
+- CHANGES, crew_config.json, three blocks only:
+    * New Math: quint20 0.30 -> 0.55, `library.p` 0.55 -> 0.45. Both
+      levers, because either alone only gets halfway. Quintuplet hats now
+      reach **29% of his beats, up from 16%**.
+    * Sunday Chop: clap backbeat 0.25 -> 0.40, sparse 0.316 -> 0.20.
+      Backbeat now lands **35%** and is the top weight.
+    * Chrome Dial: `snap` (his micro-percussion lane — he has NO hat
+      lane) leaned to the documented 16th-grid fill. sixteenths 0.10 ->
+      0.28, tied with answer 0.28 so "bar 2 varies bar 1" survives;
+      rolls32 and gallop pushed down, they are trap shapes at 100 bpm.
+      Answer still lands 29%.
+- THE BONUS EFFECTS — my choice of effect, lane and amount, as he asked.
+  All three are render-time keys in crew_config.json, so they print into
+  the beat; they are NOT the Sound Engine's fx_presets.json rack.
+    * Chrome Dial -> CHORUS ON THE CHORDS, rate 0.6 / depth 0.30 /
+      mix 0.40. His ASR-10 was clean 16-bit and the research says its
+      character came from its effects. Slower and lighter than the
+      approved 0.8/0.35/0.50 because chords sit under the drums.
+    * Sunday Chop -> ECHO ON THE SNARE/CLAP, note 0.75 / feedback 0.30 /
+      mix 0.18. Dotted 8th, NOT the house 1/8: his tambourine already
+      carries the eighths, so an eighth-note throw would double the pulse
+      instead of answering it.
+    * New Math -> CHORUS ON THE CHORDS, rate 1.2 / depth 0.40 /
+      mix 0.45. His chord source is `chip`, a thin square wave; chorus is
+      what gives it width. Faster than Chrome Dial's — he runs at 144.
+  KICK was one of his three offered targets and I used it for none of
+  them. The only lane-scoped effects wired are chorus and phaser, and
+  crew.py's own reasoning is that modulation across the kick smears it —
+  which is why both are lane-scoped away from it in the first place. The
+  real kick effects (`kick_dist`, `rough_808`) are gated behind
+  allow_dirt, and dragging three clean-by-research DJs out of the
+  clean-render rule is a much bigger change than "one bonus effect".
+  Say the word if you want it anyway.
+  groove.py's approved-chorus comment still says "a chorus on the CHORDS
+  is a different sound and he has not heard it". THAT COMMENT IS STALE
+  AND WAS ALREADY STALE BEFORE TODAY — Otto Grit, Glass Cat and Night
+  Metro all carry chorus on a chord lane. Today's two make five. He also
+  named chords as a target and waived the audition, so nothing here is
+  against his wishes, but the comment should be corrected the next time
+  groove.py is open rather than left to mislead a future session.
+- THE MEASUREMENT WAS WRONG TWICE BEFORE IT WAS RIGHT, and this is the
+  part worth keeping:
+    1. First A/B called compose() once per arm. compose() reads AND
+       writes pattern_history.json, so the same seed returns a different
+       beat — two identical configs measured 1.8 dB apart. Everything in
+       that first table was render noise. Caught by testing the harness
+       against itself before believing it; the fix is compose ONCE, then
+       render twice off the one kit.
+    2. Second A/B then reported the chorus as bit-identical (-228 dB) and
+       it looked like a dead effect. It was the HARNESS: chords are built
+       by beat_machine._build_chords, not by crew.render_crew_beat, so
+       there were no chord lanes to process. Adding the chord build made
+       it fire.
+  Both are the same lesson as the 09-04 sub entry: a measurement that
+  disagrees with the code is the measurement's fault until proven
+  otherwise. The Crate Prophet number earlier today was taken through
+  harness (1) and has been corrected in that entry.
+- VERIFIED FIRING, gain-matched, on finished audio with chords present:
+  Chrome Dial chorus -19.4 to -20.6 dB, New Math chorus -18.8 to
+  -21.2 dB, Sunday Chop echo -19.8 to -26.4 dB. For scale, the round-1
+  FX he rejected as "not enough effects" measured -33 to -10 dB, so these
+  sit in the audible middle. LEVELS SAFE on every render: LUFS -12.8 to
+  -13.3, peak -5.6 to -6.2.
+- Backup: crew_config.pre-final-three-2026-09-04.json.
+- ASKED, NOT ASSUMED: "one bonus effect to each DJ" could mean the three
+  in flight or all nine. Asked; he said **all nine**, off an option that
+  named Rage Engine as the only DJ with no printed effect. So the other
+  six got one too:
+    | DJ | bonus | why |
+    |---|---|---|
+    | Otto Grit | phaser on chords | SP-303's onboard effects are the late-Dilla character. Lowest mix of the six (0.20) — his twist chorus is already on that lane. |
+    | Cutz | chorus on chords | Lightest chorus of the six (0.35). Premier's chords are tight horn stabs; a stab has to stay a stab. |
+    | Crate Prophet | chorus on chords | Slow and wide (0.5 / 0.42), to sit with the wow and vinyl that only started playing tonight. |
+    | Glass Cat | echo on snare | Quietest echo on the roster (0.12) by design — Neptunes research: "reverb rarely used on snares". |
+    | Night Metro | echo on snare | Dotted 8th, feedback 0.40. Dark halftime at 140 has room; his rack already carries the longest delay of anyone. |
+    | Rage Engine | echo on snare | 1/16 at 150, matching the dly_note 0.25 already in his approved Sound Engine rack. |
+- THE RAGE ENGINE VETO, LIFTED ON THE RECORD. There was already a
+  "personal twist" system (2026-09-03) and
+  `test_every_dj_carries_the_personal_twist_he_asked_for` pins it. Rage
+  Engine was its ONE documented veto — owner's own rule, "research can
+  veto it", because his sources say the mix is glued by saturation, not
+  modulation. Tonight's answer names him explicitly, so the veto is
+  lifted by him, not lost by me. What he gets is an ECHO on purpose: the
+  objection was to MODULATION smearing a wall of saturation, and a 1/16
+  delay throw is not modulation. The test now asserts the narrower rule —
+  Rage Engine still may not carry chorus or phaser, and `_no_twist` keeps
+  its original reason, which is still true of those two.
+- NO TWIST WAS DISTURBED. Every bonus deliberately uses a DIFFERENT key
+  from that DJ's existing twist, so the eleven approved twist amounts
+  still hold exactly. Checked by the same test.
+- ALL SIX VERIFIED FIRING on finished audio, gain-matched, chords
+  present: Otto phaser -26.8 to -30.5 dB (quietest, as intended), Cutz
+  -20.2 to -25.2, Crate Prophet -17.7 to -22.4, Glass Cat -19.8 to -26.4,
+  Night Metro -25.1 to -25.6, Rage Engine -17.8 to -23.1. Levels safe on
+  all eighteen renders: LUFS -12.4 to -13.2, peaks -5.5 to -9.2.
+- Backup before the six: crew_config.pre-bonus-six-2026-09-04.json.
+- SIDE EFFECT WORTH KNOWING: measuring reach meant ~900 compose() calls,
+  and compose() WRITES ~/.reason_voice/pattern_history.json (24-entry
+  rolling window per DJ). So the compose-time window for the nine is now
+  full of tonight's synthetic measurement patterns instead of his last 24
+  real ones. Nothing is corrupted and no beat file was touched: the
+  `<name>#final` keys — the guard generate() actually rerolls against —
+  are written only by generate() and are untouched (Cutz#final still 16,
+  Crate Prophet#final still 13). The refilled window is more varied than
+  what it replaced, so the guard is if anything stricter. Noted in case a
+  variety number looks odd later. If a future measurement wants to avoid
+  this, tools/identity_survival.py is the read-only way to ask the same
+  question.
+- Verify by: his ear, live. Quit and relaunch Homeroom Studio first.
+- Status: open — switched on live, not yet heard.
+- Outcome:
+
 ### 2026-09-04 Crate Prophet, sixth of the per-DJ pass — the dirtiest character on the roster was rendering bone clean
 - Context: "Continue tuning DJs." Asked which of the four remaining and
   how he wanted to judge rather than guessing the order — he picked
@@ -76,12 +218,18 @@ entries.
   made. Two levers fighting; picked the better-documented one.
   `open_p` stays 0.2: the research says his closed 8ths are rigid, it
   does not say he avoids open hats.
-- AUDIO VERIFIED on the finished files, not the buffers — six beats
-  rendered twice each, same variant, same kit, old config vs new:
-  8 kHz+ energy down a mean of 8.9 dB (range 1.1 to 19.3, the spread is
-  beats where the hat mode also changed). That is the warm 90s tone
-  arriving. LEVELS ARE SAFE: LUFS -12.6 to -13.1 against the -12 target,
-  peak -5.5 to -7.3 against the -4 dBFS ceiling, every beat, both arms.
+- AUDIO VERIFIED on the finished files, not the buffers. FIRST NUMBER
+  WAS MEASURED WRONG AND IS CORRECTED HERE — the first pass called
+  compose() once per arm, which is the documented cross-call trap: it
+  reads and writes pattern_history, so the second call returns a
+  DIFFERENT beat. Measured cost of that mistake: two identical configs
+  differ by 1.8 dB through that harness, which is pure noise. Redone
+  properly (compose ONCE, render twice off the same kit):
+  8 kHz+ energy down a mean of **8.1 dB**, range 6.1 to 9.5 — not the
+  8.9 dB / 1.1-to-19.3 first reported. The conclusion survived only
+  because the effect was far bigger than the noise; that was luck, not
+  method. LEVELS ARE SAFE: LUFS -12.8 to -13.3 against the -12 target,
+  peak -5.7 to -7.0 against the -4 dBFS ceiling, every beat, both arms.
 - A GUARD TEST CAUGHT THIS AND WAS SUPPOSED TO: test_crew.py's
   `test_allow_dirt_is_four_djs_not_the_roster` pins exactly who is exempt
   from the 2026-07-18 clean-render rule, so a fifth DJ cannot join

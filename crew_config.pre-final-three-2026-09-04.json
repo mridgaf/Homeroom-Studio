@@ -480,14 +480,6 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "phaser": {
-   "rate_hz": 0.35,
-   "depth": 0.45,
-   "mix": 0.2,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Cutz": {
@@ -907,14 +899,6 @@
    "mid_q": 0.9,
    "high_db": 0.0,
    "high_hz": 8000.0
-  },
-  "chorus": {
-   "rate_hz": 0.7,
-   "depth": 0.28,
-   "mix": 0.35,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Crate Prophet": {
@@ -1403,14 +1387,6 @@
    "mid_q": 0.9,
    "high_db": -1.5,
    "high_hz": 8000.0
-  },
-  "chorus": {
-   "rate_hz": 0.5,
-   "depth": 0.35,
-   "mix": 0.42,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Chrome Dial": {
@@ -1650,36 +1626,36 @@
    "snap": {
     "modes": [
      [
-      "answer",
-      0.28
+      "eighths",
+      0.1
      ],
      [
       "sixteenths",
-      0.28
+      0.1
      ],
      [
-      "offbeats",
-      0.14
+      "sparse",
+      0.1
      ],
      [
       "broken",
       0.1
      ],
      [
-      "eighths",
-      0.08
+      "offbeats",
+      0.1
      ],
      [
       "gallop",
-      0.06
+      0.1
      ],
      [
-      "sparse",
-      0.03
+      "answer",
+      0.3
      ],
      [
       "rolls32",
-      0.03
+      0.1
      ]
     ]
    },
@@ -1871,14 +1847,6 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "chorus": {
-   "rate_hz": 0.6,
-   "depth": 0.3,
-   "mix": 0.4,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Glass Cat": {
@@ -2327,11 +2295,6 @@
    "lanes": [
     "chord"
    ]
-  },
-  "backbeat_echo": {
-   "note": 0.5,
-   "feedback": 0.22,
-   "mix": 0.12
   }
  },
  "Sunday Chop": {
@@ -2563,19 +2526,19 @@
     "modes": [
      [
       "backbeat",
-      0.4
-     ],
-     [
-      "sparse",
-      0.2
+      0.25
      ],
      [
       "halftime",
-      0.2
+      0.216
      ],
      [
       "displaced",
-      0.2
+      0.216
+     ],
+     [
+      "sparse",
+      0.316
      ]
     ],
     "ghosts": [
@@ -2853,11 +2816,6 @@
    "lanes": [
     "hat"
    ]
-  },
-  "backbeat_echo": {
-   "note": 0.75,
-   "feedback": 0.3,
-   "mix": 0.18
   }
  },
  "Night Metro": {
@@ -3309,11 +3267,6 @@
    "keep": [
     "kick"
    ]
-  },
-  "backbeat_echo": {
-   "note": 0.75,
-   "feedback": 0.4,
-   "mix": 0.24
   }
  },
  "Rage Engine": {
@@ -3768,12 +3721,7 @@
   },
   "_no_twist": "Owner's personal-twist rule (2026-09-03) is vetoed here BY HIS OWN CALL: his research says the mix is glued by saturation, not modulation, and a wall of sound has no gap for a delay. He still gets the house mix EQ. Do not add echo/chorus/phaser without asking him.",
   "allow_dirt": true,
-  "master_drive": 1.25,
-  "backbeat_echo": {
-   "note": 0.25,
-   "feedback": 0.28,
-   "mix": 0.16
-  }
+  "master_drive": 1.25
  },
  "New Math": {
   "num": 9,
@@ -4083,40 +4031,40 @@
    "hat": {
     "modes": [
      [
-      "quint20",
-      0.55
+      "eighths",
+      0.087
      ],
      [
       "sixteenths",
-      0.09
-     ],
-     [
-      "rolls32",
-      0.09
-     ],
-     [
-      "broken",
-      0.07
-     ],
-     [
-      "offbeats",
-      0.07
-     ],
-     [
-      "gallop",
-      0.05
-     ],
-     [
-      "eighths",
-      0.04
-     ],
-     [
-      "answer",
-      0.02
+      0.087
      ],
      [
       "sparse",
-      0.02
+      0.087
+     ],
+     [
+      "broken",
+      0.087
+     ],
+     [
+      "offbeats",
+      0.087
+     ],
+     [
+      "gallop",
+      0.087
+     ],
+     [
+      "answer",
+      0.087
+     ],
+     [
+      "rolls32",
+      0.087
+     ],
+     [
+      "quint20",
+      0.3
      ]
     ]
    },
@@ -4190,7 +4138,7 @@
    ]
   },
   "library": {
-   "p": 0.45,
+   "p": 0.55,
    "tags": [
     [
      "garage",
@@ -4312,14 +4260,6 @@
    "mix": 0.35,
    "lanes": [
     "hat"
-   ]
-  },
-  "chorus": {
-   "rate_hz": 1.2,
-   "depth": 0.4,
-   "mix": 0.45,
-   "lanes": [
-    "chord"
    ]
   }
  },

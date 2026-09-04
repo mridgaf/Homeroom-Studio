@@ -480,14 +480,6 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "phaser": {
-   "rate_hz": 0.35,
-   "depth": 0.45,
-   "mix": 0.2,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Cutz": {
@@ -907,14 +899,6 @@
    "mid_q": 0.9,
    "high_db": 0.0,
    "high_hz": 8000.0
-  },
-  "chorus": {
-   "rate_hz": 0.7,
-   "depth": 0.28,
-   "mix": 0.35,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Crate Prophet": {
@@ -1403,14 +1387,6 @@
    "mid_q": 0.9,
    "high_db": -1.5,
    "high_hz": 8000.0
-  },
-  "chorus": {
-   "rate_hz": 0.5,
-   "depth": 0.35,
-   "mix": 0.42,
-   "lanes": [
-    "chord"
-   ]
   }
  },
  "Chrome Dial": {
@@ -2327,11 +2303,6 @@
    "lanes": [
     "chord"
    ]
-  },
-  "backbeat_echo": {
-   "note": 0.5,
-   "feedback": 0.22,
-   "mix": 0.12
   }
  },
  "Sunday Chop": {
@@ -3309,11 +3280,6 @@
    "keep": [
     "kick"
    ]
-  },
-  "backbeat_echo": {
-   "note": 0.75,
-   "feedback": 0.4,
-   "mix": 0.24
   }
  },
  "Rage Engine": {
@@ -3768,12 +3734,7 @@
   },
   "_no_twist": "Owner's personal-twist rule (2026-09-03) is vetoed here BY HIS OWN CALL: his research says the mix is glued by saturation, not modulation, and a wall of sound has no gap for a delay. He still gets the house mix EQ. Do not add echo/chorus/phaser without asking him.",
   "allow_dirt": true,
-  "master_drive": 1.25,
-  "backbeat_echo": {
-   "note": 0.25,
-   "feedback": 0.28,
-   "mix": 0.16
-  }
+  "master_drive": 1.25
  },
  "New Math": {
   "num": 9,
