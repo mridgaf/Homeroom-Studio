@@ -174,6 +174,27 @@ you stop and wait for me. You ask me."
   instruments, not the drums; twelve identities were rewritten on the wrong
   guess and had to be reverted.)
 
+### 0c. He commits. The engine rewrites itself. Neither is news
+
+Two things happen constantly in this project and BOTH have been reported
+to him as if they were problems. They are not.
+
+- **He writes and pushes every commit himself**, without being asked.
+  Never run `git commit`/`git push` unless he says so in that message,
+  and never end a report by telling him to commit. Uncommitted work is
+  this repo's normal resting state, not a loose end.
+- **Generating beats rewrites tracked files by design.**
+  `tools/evolution.py` makes ONE bounded change per DJ per day in
+  `crew_config.json` and journals it. A dirty `git status` here is the
+  default, not a finding.
+
+Full detail — every file that self-writes, the one command that proves a
+diff came from the engine rather than a person, and the
+`ensure_ascii=False` convention that stops you creating phantom diffs —
+is in the `expected-churn` skill
+(`.claude/skills/expected-churn/SKILL.md`). Read it before reporting
+that anything looks changed.
+
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished
 without actually checking it:

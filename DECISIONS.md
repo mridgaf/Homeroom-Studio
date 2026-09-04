@@ -22,6 +22,53 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-04 "This happens often" — the self-writing files and the commit habit, made permanent
+- Context: his words. Twice in one session I reported the beat engine's
+  own bookkeeping as if something had gone wrong, and twice I told him to
+  commit work he always commits himself. "Those things need to be
+  remembered." He asked for a skill.
+- THE TWO FACTS, now written where they cannot be missed:
+    1. HE COMMITS AND PUSHES, always, unasked. Never run git commit/push
+       unasked, never end a report telling him to. Uncommitted work is
+       this repo's normal resting state.
+    2. GENERATING BEATS REWRITES TRACKED FILES BY DESIGN. evolution.py
+       makes one bounded change per DJ per day in crew_config.json (also
+       legends_config.json, genres_config.json) and journals it. A dirty
+       git status here is the default, not a finding.
+- WHERE IT LIVES, deliberately in two places:
+    * `CLAUDE.md` rule 0c — short, always loaded, no trigger needed.
+      This is what actually stops the behaviour; a skill that has to fire
+      first is exactly the thing that failed him.
+    * `.claude/skills/expected-churn/SKILL.md` — the detail: the table of
+      every file that self-writes and whether it is tracked, what to do,
+      and what IS still worth raising.
+- AND A TOOL, because the skill's first draft told a future session to
+  run a one-liner that CRASHED (KeyError on older journal entries with no
+  `delta`). Caught by running it. Replaced with
+  `tools/whats_evolved.py`: prints every DJ the engine changed today with
+  exact old -> new values. If a crew_config diff's values appear there it
+  is the engine; if it says "no evolution today", a person edited it.
+  Verified against tonight's real diff — it accounted for all three
+  changes exactly.
+- A PHANTOM DIFF I CREATED AND FIXED. Every engine writer saves the
+  config with `ensure_ascii=False`; I used plain `json.dump`, whose
+  default escapes non-ASCII, so 11 em-dashes went in as backslash-u
+  escapes. Harmless to the sound, but every future engine write would
+  have flipped them back — permanent diff noise from a default flag.
+  Config normalised, and the convention is now written into the skill.
+- WHAT TONIGHT'S REMAINING DIFF ACTUALLY WAS, for the record: 3 real
+  evolution changes (Cutz library.p 0.55->0.45, Chrome Dial double_p
+  0.5->0.42, Sunday Chop two progression weights) + the 11 escaping
+  lines. Nothing unexplained. NOTE: Cutz's evolution moved `library.p`,
+  the same dial the New Math tuning moved by hand hours earlier — no
+  collision, but a reminder that hand-tuning and evolution share a
+  surface.
+- Verify by: next session, after he makes beats. It should say "that's
+  the evolution engine, here's what it changed" in one line and not
+  mention committing at all.
+- Status: open — written, not yet exercised by a fresh session.
+- Outcome:
+
 ### 2026-09-04 The last three DJs — and a bonus effect each, on his instruction
 - Context: "Finish the remaining DJs. Remember to add one bonus effect to
   each DJ. you choose, Effect and amount. And to add to either snare,
