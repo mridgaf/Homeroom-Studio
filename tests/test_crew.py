@@ -296,17 +296,26 @@ def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
     assert seen["amount"] == 0.35 and seen["len"] == 1000
 
 
-def test_allow_dirt_is_three_djs_not_the_roster():
-    """The 2026-07-18 clean-render rule still stands for the roster. Three
-    DJs are out of it, each because he heard that DJ and said so on
+def test_allow_dirt_is_four_djs_not_the_roster():
+    """The 2026-07-18 clean-render rule still stands for the roster. Four
+    DJs are out of it. Three because he heard them and said so on
     2026-09-03 — Otto Grit "c Plus", Night Metro "c Research" (the 808
-    only, mix stays clean), Rage Engine "c Wall half". Nobody else gets an
-    exception without an audition, and the house rule itself is untouched.
-    """
+    only, mix stays clean), Rage Engine "c Wall half".
+
+    Cutz is the fourth and he got there a different way: 2026-09-03, his
+    instruction for the rest of the per-DJ pass was "switch it on live"
+    rather than take another audition batch, so his research went
+    straight into the config and he judges it while making beats. The
+    research is DJ Premier's own documented technique — driving the desk
+    hot enough to kiss distortion ("tapping the red"). True, not Night
+    Metro's "low": the grit is on the whole signal path, not the 808.
+
+    The house rule itself is untouched, and nobody joins this list
+    without either an audition or him saying to switch it on."""
     assert OWNER_TASTE["clean_renders"] is True
     heard = {n: p["allow_dirt"] for n, p in CREW.items() if p.get("allow_dirt")}
     assert heard == {"Otto Grit": True, "Night Metro": "low",
-                     "Rage Engine": True}, heard
+                     "Rage Engine": True, "Cutz": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():

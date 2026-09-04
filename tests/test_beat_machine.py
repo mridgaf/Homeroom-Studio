@@ -223,7 +223,7 @@ def test_generate_ships_wav_midi_stems_and_recipe(machine_env):
     # owner 2026-07-18: clean renders — no vinyl bed baked in. Otto Grit
     # is the exception he made by ear on 2026-09-03 ("c Plus"), so on HIM
     # the bed is expected; the roster-wide rule is checked in
-    # test_allow_dirt_is_three_djs_not_the_roster. Tied to the preset flag
+    # test_allow_dirt_is_four_djs_not_the_roster. Tied to the preset flag
     # rather than hardcoded to the name, so this follows if he ever takes
     # the exception back.
     vinyl = any(s.startswith("vinyl") for s in stems)

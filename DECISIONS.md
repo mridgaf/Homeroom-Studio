@@ -22,6 +22,120 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-03 Cutz, fifth of the per-DJ pass — "tapping the red", switched on live
+- Context: "Continue tuning DJs. I like the way the first four sound locked
+  those in." Answered BLOCKING which four he meant rather than guessing:
+  Otto Grit, Night Metro, Rage Engine and GLASS CAT. Next up Cutz, and —
+  a change from the last three — **switch it on live, no audition batch**.
+  He judges it while making beats.
+- GLASS CAT'S TWO CHANGES ARE NOW EAR-APPROVED and needed no code: the
+  gated reverb moved off the snare onto his click/zap stamp, and guest
+  lanes cut 0.62/2 -> 0.35/1 (the sparsest on the roster). Both went live
+  earlier the same day; the two Desktop batches asked exactly "keep it or
+  put it back" and "keep it or say a number". His answer to both is keep.
+- MEASURED FIRST, before touching anything — and one of the two questions
+  came back "nothing to do", which is worth as much as a change:
+    * The bar-4/8 scratch stamp SURVIVES compose() intact — 200/200
+      composed beats fire it at the end of bar 4, and 77/77 of the 8-bar
+      beats fire it at bar 8 too. compose() iterates `style["grammar"]`
+      and his grammar has no `stamp` key, and vary_preset's `mutable` list
+      excludes any lane starting with "stamp". On a 4-bar loop the bar-4
+      stamp is index 3, so it still lands. His signature moment was never
+      at risk; the Night Metro trap did not repeat here.
+    * The hat grammar can only reach 45-46% of his beats. `library.p` is
+      0.55, and a library seed carrying its own hats bypasses the grammar
+      (pattern_gen.py:1266) — the same ceiling Rage Engine's pass found.
+      Stated here so nobody reads the hat numbers below as roster-wide.
+- FOUR CHANGES, crew_config.json, the Cutz block only:
+    1. `allow_dirt: true`. Premier's own documented technique is driving
+       the desk hot enough to kiss distortion. The 2026-07-18 clean-render
+       rule had all of it switched off, so his dust 0.5, vinyl -46 dB and
+       drive 1.4 have never played. True, not Night Metro's "low": his
+       research puts the grit on the whole path. He has kick_dist 0 and
+       mix_sat 0, so this is desk-drive-and-dust — a far quieter change
+       than Otto's or Rage's.
+    2. `mix_eq` with `high_db 0.0`. The same quote continues past the
+       grit: drive it hot, then "kinda round out the top". With no EQ of
+       his own he was rendering through the house default's +2.0 dB of
+       air, brightening the exact thing the research says to tame.
+       THE NUMBER IS MINE — flat, between the house +2.0 and Otto's matte
+       -1.5. One line to move.
+    3. Hats back to timekeeping. His research calls them "closed, tight,
+       consistent — timekeeping, not a feature". His grammar spread evenly
+       over eight shapes including gallop, answer and 32nd rolls. Now 0.90
+       of the weight on eighths/sixteenths/offbeats, 0.10 left across the
+       other five. THE SPLIT IS MINE; the direction is his research's.
+    4. One swing for every voice. His research is explicit that the
+       tightness IS the identity — same swing everywhere, minimal jitter.
+       The stamp lane was the only one off it (50% / 2.0 ms against
+       53% / 1.5 on kick, snare and hat). Now 53 / 1.5 like the rest.
+- NOT CHANGED, deliberately: dust stays at the house 0.5 (his research says
+  moderate, and it has never been audible at all until now — Otto's only
+  moved because he HEARD it and said too much); `open_p` 0.06 left alone;
+  extras, library rate, chords and progressions already match the profile.
+  NO PRODUCT CODE CHANGED — every mechanism already existed.
+- Verify by: measured the FINISHED WAVs, read back off disk.
+    dirt     crest factor -0.60 dB mean over 3 beats (grit fills the gaps
+             between peaks; the loudness stage cannot hide it)
+    top end  -1.38 dB above 8 kHz, his EQ vs the house EQ
+    hats     straight shapes 52% -> 95% of the grammar's own picks, and
+             the grammar reaches 45-46% of his beats either way
+  Full suite: 986 passed, 2 skipped, 1 failed — the failure is NOT from
+  this work; see the entry below.
+- THE TRAP THIS HIT, and the fail-loud check is the only reason it did not
+  ship as a result: the first rig composed the same variant twice, once
+  per side of the A/B. compose() carries repeat history BETWEEN CALLS, so
+  the two sides were different music — the control DJ, who has no
+  allow_dirt at all, "moved" +1.11 dB, and the same EQ rendered twice
+  disagreed by 2.8 dB. Fixed by building each beat ONCE and rendering that
+  one preset twice with a shared kit; every control then reads exactly
+  +0.00. If a control is not exactly zero on a deterministic rig, the rig
+  is the variable, not the setting.
+- A SECOND WRONG RULER, same family as the 09-03 band trap: the top-end
+  check first measured above 6 kHz and reported -0.99 dB for a 2 dB shelf
+  cut, and the check fired. The high shelf sits AT 8 kHz, so a 6 kHz band
+  averages in a lot of untouched material. Measured in the shelf's own
+  band it is -1.43 dB above 8 kHz and -1.66 dB above 10 kHz; the rest of
+  the nominal 2 dB is given back by the loudness stage's makeup gain.
+- Backup of the pre-change roster: crew_config.pre-cutz-2026-09-03.json.
+  Verified: the JSON key diff shows ONE identity changed, Cutz.
+- Status: open — measured, not heard. Live in every Cutz render from now.
+- Outcome:
+
+### 2026-09-03 Rage Engine's saturation is narrowing the stereo image — two of tonight's four beats fail the mono line
+- Context: the suite's `test_real_beats_are_not_mono_or_silent` failed
+  during the Cutz pass. It scopes itself to beats rendered since crew.py
+  last changed, and tonight that is twelve real beats he made himself
+  between 22:22 and 22:25 — four Glass Cat, four Night Metro, four Rage
+  Engine.
+- NOT FROM THE CUTZ WORK. No Cutz beat is in the scope, and Cutz's own
+  dirt measures +0.32 dB of width (slightly WIDER), so his change is
+  cleared.
+- THE NUMBERS, side-vs-mid on the finished files (the -22.0 dB line is the
+  suite's mono threshold):
+      Glass Cat    -21.24  -8.78  -9.44  -18.95
+      Night Metro  -21.97  -20.11  -15.44  -19.98
+      Rage Engine  -22.96  -15.26  -23.97  -20.23   <- two fail
+  The suite stops at the first failure, so it only names 2210; 2212 fails
+  as well. This is the SECOND time this has come up — beat 2186 (Night
+  Metro, -22.24) is the same measurement from the 09-03 session, still
+  logged as open. It is a pattern now, not one beat.
+- CAUSE, measured rather than guessed: rendering six Rage Engine beats
+  with `allow_dirt` off and then on, the dirt narrows the image by 1.14 dB
+  on average and by up to 4.41 dB on a single beat. His stacked saturation
+  (kick_dist 3, mix_sat 2, master drive 1.25 — the "c Wall half" package he
+  approved by ear on 09-03) is a per-channel nonlinearity, and it pushes
+  the beats that were already narrow over the line. His beats start narrow
+  before any dirt at all (-13 to -18 dB in the same sample), so the
+  saturation is the last straw rather than the whole story.
+- NOT FIXED, and deliberately: every lever here — less saturation, or a
+  widener after it — changes a sound he approved by ear hours ago. His
+  call, not mine.
+- Verify by: the numbers above are from finished files; re-measure after
+  any change to Rage Engine's saturation or to the master chain.
+- Status: open — reported, not acted on.
+- Outcome:
+
 ### 2026-09-03 The two DJs, the FX button and the chunk folders come back from never-guess-hooks
 - Context: he asked what happened to "my two new DJs, my effects button to
   open the engine, and my chunk folders in the beat generator." Nothing was
@@ -193,10 +307,12 @@ entries.
   takes the exception back. One test added:
   test_the_breakdown_moves_shortens_and_skips_beats.
 - Backup of the pre-verdict roster: crew_config.pre-verdicts-2026-09-03.json.
-- Status: open — measured, not heard. He chose to judge these in the wild
-  rather than take another batch. SIX DJs REMAIN of the nine (Cutz, Crate
-  Prophet, Chrome Dial, Glass Cat, Sunday Chop, New Math) plus the twelve
-  Legends; their research profiles are still on the unmerged
+- Status: CONFIRMED 2026-09-03 (was open — measured, not heard). He judged
+  all three in the wild as he said he would, and locked them in: "I like
+  the way the first four sound." The fourth is Glass Cat — see the entry
+  below. Cutz went through the pass later the same day, so FOUR DJs REMAIN
+  of the nine: Crate Prophet, Chrome Dial, Sunday Chop, New Math — plus the
+  twelve Legends. Their research profiles are still on the unmerged
   `dj-profile-research` branch — do NOT merge it wholesale.
 
 ### 2026-09-03 The house EQ became the default, and all nine DJs got a personal twist

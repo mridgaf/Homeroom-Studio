@@ -596,8 +596,8 @@
     0.42,
     [
      0,
-     1.5,
-     53,
+     2,
+     50,
      114
     ],
     [
@@ -699,35 +699,35 @@
     "modes": [
      [
       "eighths",
-      0.45
+      0.18
      ],
      [
       "sixteenths",
-      0.25
-     ],
-     [
-      "offbeats",
-      0.2
-     ],
-     [
-      "broken",
-      0.04
+      0.1
      ],
      [
       "sparse",
-      0.02
+      0.1
+     ],
+     [
+      "broken",
+      0.1
+     ],
+     [
+      "offbeats",
+      0.22
      ],
      [
       "gallop",
-      0.02
+      0.1
      ],
      [
       "answer",
-      0.01
+      0.1
      ],
      [
       "rolls32",
-      0.01
+      0.1
      ]
     ],
     "open_p": 0.06
@@ -889,16 +889,6 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "allow_dirt": true,
-  "mix_eq": {
-   "low_db": 1.5,
-   "low_hz": 120.0,
-   "mid_db": -1.0,
-   "mid_hz": 800.0,
-   "mid_q": 0.9,
-   "high_db": 0.0,
-   "high_hz": 8000.0
   }
  },
  "Crate Prophet": {
