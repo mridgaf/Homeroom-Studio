@@ -22,6 +22,86 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-04 Crate Prophet, sixth of the per-DJ pass — the dirtiest character on the roster was rendering bone clean
+- Context: "Continue tuning DJs." Asked which of the four remaining and
+  how he wanted to judge rather than guessing the order — he picked
+  Crate Prophet, and switch it on live, same as Cutz.
+- MEASURED FIRST, and the headline is the same shape as Cutz's but worse:
+    * HIS GRIME HAS NEVER PLAYED. He is the only dirt-carrying character
+      on the nine without `allow_dirt`, and he carries the most of it:
+      vinyl -40 (loudest of the nine — Otto -48, Cutz -46), dust 0.5, and
+      the ONLY `wow` on the roster (0.3), plus a 1.3 master drive that
+      clean_renders was replacing with 0.7. His own `listen` line calls
+      him "the heaviest vinyl bed plus record wow". None of it reached a
+      beat. Both producers behind him are documented lo-fi — Pete Rock's
+      SP-1200 12-bit/26.04 kHz "dirty Mecca-era tone", Madlib's tape
+      hiss, clipping and pitch-warble.
+    * NO `mix_eq` OF HIS OWN, so he rendered through the house default's
+      +2.0 dB of air at 8 kHz — brightening a warm, dusty, 12-bit
+      character. (The SP-1200's 26.04 kHz rate puts its Nyquist near
+      13 kHz; the era could not make that air at all.)
+    * PETE ROCK'S DOCUMENTED SIGNATURE WAS AT 10% WEIGHT. The research
+      file is explicit and has it in the numbers table: hats "rigidly
+      quantized to straight 8ths", cutting through the mix. His grammar
+      was the untouched house default — sparse top-weighted at 0.30,
+      eighths at 0.10, and the other six at 0.10 each including rolls32
+      and gallop, which have no business on a 92 bpm golden-era beat.
+    * INVARIANTS ARE CLEAN: identity_survival 20/20 on all five rows.
+      Nothing to fix in the engine for him.
+- THREE CHANGES, crew_config.json, the Crate Prophet block only:
+    1. `allow_dirt: true`. True not "low" — SP-1200 dirt and tape
+       saturation are mix-wide, not a kick effect, and he has kick_dist 0
+       and mix_sat 0 so this is dust + vinyl + wow + his own drive.
+    2. `mix_eq` with `high_db -1.5`, matching Otto Grit — the other dust
+       head, and his -1.5 is already ear-approved. THE NUMBER IS MINE.
+       One line to move if it is too dull.
+    3. Hats leaned to straight 8ths: eighths 0.38 (was 0.10), sixteenths
+       0.16, sparse 0.16 (was 0.30, top), the rest 0.10 down to 0.03.
+       Sparse deliberately kept meaningful rather than crushed like
+       Cutz's 0.02 — the house "lean sparse, he plays over the top" rule
+       still applies, and Madlib's half of this character is loose and
+       loop-based, not rigid.
+- THE CEILING, stated so nobody reads the hat number as roster-wide:
+  measured over 300 composed beats, 39% take a library seed which
+  bypasses the hat grammar entirely (pattern_gen.py:1265, library.p 0.4
+  — same ceiling Cutz's and Rage Engine's passes found). Of the 182 that
+  DO reach the grammar, eighths lands 38%, exactly as declared. So the
+  real-world number is **eighths on 23% of his beats, up from ~6%**, and
+  61% is the most this lever can ever reach.
+  A first n=20 run read 3/20 and looked broken; it was noise. Measured
+  at n=300 before concluding anything.
+- LEFT ALONE ON PURPOSE: `library.p` stays 0.4 even though Madlib is the
+  most loop-based producer on the roster and the research supports
+  raising it — raising it would shrink the reach of the hat change I just
+  made. Two levers fighting; picked the better-documented one.
+  `open_p` stays 0.2: the research says his closed 8ths are rigid, it
+  does not say he avoids open hats.
+- AUDIO VERIFIED on the finished files, not the buffers — six beats
+  rendered twice each, same variant, same kit, old config vs new:
+  8 kHz+ energy down a mean of 8.9 dB (range 1.1 to 19.3, the spread is
+  beats where the hat mode also changed). That is the warm 90s tone
+  arriving. LEVELS ARE SAFE: LUFS -12.6 to -13.1 against the -12 target,
+  peak -5.5 to -7.3 against the -4 dBFS ceiling, every beat, both arms.
+- A GUARD TEST CAUGHT THIS AND WAS SUPPOSED TO: test_crew.py's
+  `test_allow_dirt_is_four_djs_not_the_roster` pins exactly who is exempt
+  from the 2026-07-18 clean-render rule, so a fifth DJ cannot join
+  silently. Updated to five with the reasoning, and renamed. The house
+  rule is untouched — four of the nine still render clean.
+- Backup of the previous roster: crew_config.pre-crate-2026-09-04.json.
+  Tests: 146 passed (crew, pattern_gen, variety, beat_machine).
+  Library verified untouched — the --out renders numbered themselves
+  86-88 inside the scratch folder and wrote nothing to the drive; the
+  drive's newest files (2214-2217, 00:48 tonight) are HIS OWN Cutz beats,
+  him judging the Cutz pass live as he said he would.
+- Verify by: his ear, live, next time he makes a Crate Prophet beat. He
+  must QUIT AND RELAUNCH Homeroom Studio first — the running server
+  (pid was live on 8770 during this session) holds the old config in
+  memory. Two things to listen for: is the vinyl/dust too much (his -40
+  is 8 dB hotter than Otto's approved -48, and has never been heard), and
+  are the hats now too straight.
+- Status: open — switched on live, not yet heard.
+- Outcome:
+
 ### 2026-09-04 The root 808 and the rebuild locks — measured, wired behind flags, auditioned
 - Context: the two sound changes the 2026-09-03 handoff still owed him.
   Both came off never-guess-hooks, both were left out of the chunk/FX
@@ -93,8 +173,24 @@ entries.
   (12 files, two folders, READ ME.txt). Two answers wanted: keep the sub
   on chord beats yes/no, lock the key on rebuild yes/no. Library verified
   untouched — newest recipe on the drive is still 2213, 2026-09-03 22:25.
-- Status: open — rendered and delivered, not yet heard.
-- Outcome:
+- Status: confirmed — he heard it and answered both questions 2026-09-04.
+- Outcome: SPLIT VERDICT, and the measurement lost one of them.
+  * ROOT 808 ON CHORD BEATS: **NO.** His words: "leave the eight zero
+    eight tuning off, I don't like it in the mix." The 150-beats-no-sub
+    number was the strongest case in the batch and his ear still said no,
+    which is the whole reason the flag existed instead of a landing. Most
+    likely what he is hearing is the cost the READ ME named: the drums
+    step back 2.5-5.2 dB to make room. ROOT_808_WITH_CHORDS stays False,
+    and the comment there now says so — this is a verdict, not a pending
+    question. Do not re-propose it; do not flip it inside another change.
+  * THE REBUILD LOCKS: **KEEP.** "I will keep the locks."
+    REBUILD_LOCKS_KEY is now True, so a rebuild hands the beat back its
+    own key, mode and progression. Its test inverted with it — it now
+    asserts the flag is ON, and still carries the note about why there is
+    no end-to-end behavioural test (the fixture dies in crew.render on a
+    missing chord0). Full suite after the flip: 988 passed, 1 failed, and
+    the failure is the same pre-existing Rage Engine mono-image test
+    (2210 Throttle Fever) already logged open — not caused by this.
 
 ### 2026-09-03 Cutz, fifth of the per-DJ pass — "tapping the red", switched on live
 - Context: "Continue tuning DJs. I like the way the first four sound locked

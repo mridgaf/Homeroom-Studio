@@ -487,7 +487,7 @@
   "bpm": 93,
   "era": "90s",
   "built": "DJ Premier",
-  "listen": "surgical: everything tight at 53% swing (his effective 51-54 zone), ghost snares, and his stamp \u2014 a scratch stab fill closing bars 4 and 8",
+  "listen": "surgical: everything tight at 53% swing (his effective 51-54 zone), ghost snares, and his stamp — a scratch stab fill closing bars 4 and 8",
   "kit": {
    "kick": [
     "kick",
@@ -906,7 +906,7 @@
   "bpm": 92,
   "era": "90s",
   "built": "Pete Rock / Madlib",
-  "listen": "warm and loose: 60% golden-era swing, snare sits LATE (era-driven, flagged \u2014 house verdict is early, but laid-back is this character), loose congas, the heaviest vinyl bed plus record wow; stamp is a conga slap on bars 4/8. This is also the prototype that SKIPS sidechain (the 1-in-10 no-duck rule)",
+  "listen": "warm and loose: 60% golden-era swing, snare sits LATE (era-driven, flagged — house verdict is early, but laid-back is this character), loose congas, the heaviest vinyl bed plus record wow; stamp is a conga slap on bars 4/8. This is also the prototype that SKIPS sidechain (the 1-in-10 no-duck rule)",
   "kit": {
    "kick": [
     "kick",
@@ -1149,35 +1149,35 @@
     "modes": [
      [
       "eighths",
-      0.38
+      0.1
      ],
      [
       "sixteenths",
-      0.16
+      0.1
      ],
      [
       "sparse",
-      0.16
+      0.3
+     ],
+     [
+      "broken",
+      0.1
      ],
      [
       "offbeats",
       0.1
      ],
      [
-      "broken",
-      0.08
+      "gallop",
+      0.1
      ],
      [
       "answer",
-      0.05
-     ],
-     [
-      "gallop",
-      0.04
+      0.1
      ],
      [
       "rolls32",
-      0.03
+      0.1
      ]
     ],
     "open_p": 0.2
@@ -1377,16 +1377,6 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "allow_dirt": true,
-  "mix_eq": {
-   "low_db": 1.5,
-   "low_hz": 120.0,
-   "mid_db": -1.0,
-   "mid_hz": 800.0,
-   "mid_q": 0.9,
-   "high_db": -1.5,
-   "high_hz": 8000.0
   }
  },
  "Chrome Dial": {
@@ -1394,7 +1384,7 @@
   "bpm": 100,
   "era": "2000s",
   "built": "Timbaland",
-  "listen": "syncopated bounce with silence as an instrument \u2014 bar 6 drops to almost nothing and answers bar 5; exotic perc off-center; completely CLEAN (his ASR-10 was 16-bit \u2014 the grit is arrangement, so no crush here by research, not taste); stamp is an exotic perc hit late in bars 4/8",
+  "listen": "syncopated bounce with silence as an instrument — bar 6 drops to almost nothing and answers bar 5; exotic perc off-center; completely CLEAN (his ASR-10 was 16-bit — the grit is arrangement, so no crush here by research, not taste); stamp is an exotic perc hit late in bars 4/8",
   "kit": {
    "kick": [
     "kick",
@@ -1854,7 +1844,7 @@
   "bpm": 98,
   "era": "2000s",
   "built": "The Neptunes / Pharrell",
-  "listen": "minimal and dry: NO hats \u2014 a snap keeps time; the clap lands ~18 ms LATE against the snare (the documented Neptunes flam); bar 8 stop-starts. The Alt file is the one to compare hard: era says bone dry, house says gated. Stamp is a weird click/zap on bars 4/8",
+  "listen": "minimal and dry: NO hats — a snap keeps time; the clap lands ~18 ms LATE against the snare (the documented Neptunes flam); bar 8 stop-starts. The Alt file is the one to compare hard: era says bone dry, house says gated. Stamp is a weird click/zap on bars 4/8",
   "kit": {
    "kick": [
     "kick",
@@ -2823,7 +2813,7 @@
   "bpm": 140,
   "era": "2010s",
   "built": "Metro Boomin",
-  "listen": "dark halftime: sustained distorted 808, clap on 3, hat rolls that ramp INTO the snare, and the drama \u2014 bar 5 drops to the 808 alone. Stamp is a reversed cymbal resolving onto the next downbeat (bars 4 and 8)",
+  "listen": "dark halftime: sustained distorted 808, clap on 3, hat rolls that ramp INTO the snare, and the drama — bar 5 drops to the 808 alone. Stamp is a reversed cymbal resolving onto the next downbeat (bars 4 and 8)",
   "kit": {
    "kick": [
     "kick",
@@ -3727,8 +3717,8 @@
   "num": 9,
   "bpm": 144,
   "era": "now",
-  "built": "no one \u2014 the front edge",
-  "listen": "the new one. A club kick pattern that never sits where trap taught you to expect it; a hat lane counting FIVE against everyone else's four (quintuplet grid); percussion running world-rhythm math (E(7,16) and E(5,16) necklaces); and one lane swinging 58% while the rest of the kit stays dead straight \u2014 the clash IS the groove. Clean and punchy, mid-forward kick. Stamp is a found-sound fx hit on the tail of bars 4/8",
+  "built": "no one — the front edge",
+  "listen": "the new one. A club kick pattern that never sits where trap taught you to expect it; a hat lane counting FIVE against everyone else's four (quintuplet grid); percussion running world-rhythm math (E(7,16) and E(5,16) necklaces); and one lane swinging 58% while the rest of the kit stays dead straight — the clash IS the groove. Clean and punchy, mid-forward kick. Stamp is a found-sound fx hit on the tail of bars 4/8",
   "kit": {
    "kick": [
     "kick",
@@ -4267,8 +4257,8 @@
   "num": 10,
   "bpm": 68,
   "era": "now",
-  "built": "no one \u2014 the slow lane",
-  "listen": "the slowest thing in the room. Half the roster's tempo, and every lane drags BEHIND the click on purpose (kick +26 ms, snare +34 ms) \u2014 nobody else is late by design. No hats at all: a cross-stick rim keeps time in threes over a four grid, so it never lines up twice the same way. The backbeat mostly refuses to show \u2014 the snare sits on the 4 alone and leaves the 2 empty. Tape wow is the highest on the roster, so the whole thing sags and recovers. Gated snare like the house, but his Alt file is a HALL \u2014 2.2 seconds, the biggest room any DJ has. Stamp is a reversed hit at the END of bars 2 and 6, so it sucks INTO bars 3 and 7 \u2014 everyone else stamps the tail of 4 and 8; he arrives early instead.",
+  "built": "no one — the slow lane",
+  "listen": "the slowest thing in the room. Half the roster's tempo, and every lane drags BEHIND the click on purpose (kick +26 ms, snare +34 ms) — nobody else is late by design. No hats at all: a cross-stick rim keeps time in threes over a four grid, so it never lines up twice the same way. The backbeat mostly refuses to show — the snare sits on the 4 alone and leaves the 2 empty. Tape wow is the highest on the roster, so the whole thing sags and recovers. Gated snare like the house, but his Alt file is a HALL — 2.2 seconds, the biggest room any DJ has. Stamp is a reversed hit at the END of bars 2 and 6, so it sucks INTO bars 3 and 7 — everyone else stamps the tail of 4 and 8; he arrives early instead.",
   "kit": {
    "kick": [
     "kick",
@@ -4814,8 +4804,8 @@
   "num": 11,
   "bpm": 172,
   "era": "now",
-  "built": "no one \u2014 the break lane",
-  "listen": "the fastest thing in the room and it doesn't sound fast. The kick and snare play HALFTIME \u2014 two moves a bar, so the pulse feels like 86 \u2014 while the break lane runs 32nds on top at the full 172. That lane is the loudest non-backbone lane on the roster (0.52 against everyone else's 0.26-0.4): the chop is the beat, not the garnish. Snare never sits on the 2 and 4 \u2014 it lands on the 2 and the '&' of 3, the jungle two-step. Ghost snares sit UNDER it at a whisper. Everything is nudged EARLY, not late (break -7 ms, ghosts -11 ms) \u2014 he pulls where Half Light drags. Straight 50% swing everywhere: at this tempo swing turns to mud. Gated snare like the house, Alt is a short PLATE (0.9 s) \u2014 bright and small, so the break stays readable. Stamp is a siren/reverse hit on the DOWNBEAT of bars 5 and 8 \u2014 he announces the bar instead of tailing it.",
+  "built": "no one — the break lane",
+  "listen": "the fastest thing in the room and it doesn't sound fast. The kick and snare play HALFTIME — two moves a bar, so the pulse feels like 86 — while the break lane runs 32nds on top at the full 172. That lane is the loudest non-backbone lane on the roster (0.52 against everyone else's 0.26-0.4): the chop is the beat, not the garnish. Snare never sits on the 2 and 4 — it lands on the 2 and the '&' of 3, the jungle two-step. Ghost snares sit UNDER it at a whisper. Everything is nudged EARLY, not late (break -7 ms, ghosts -11 ms) — he pulls where Half Light drags. Straight 50% swing everywhere: at this tempo swing turns to mud. Gated snare like the house, Alt is a short PLATE (0.9 s) — bright and small, so the break stays readable. Stamp is a siren/reverse hit on the DOWNBEAT of bars 5 and 8 — he announces the bar instead of tailing it.",
   "kit": {
    "kick": [
     "kick",

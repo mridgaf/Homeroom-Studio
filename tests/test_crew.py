@@ -296,7 +296,7 @@ def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
     assert seen["amount"] == 0.35 and seen["len"] == 1000
 
 
-def test_allow_dirt_is_four_djs_not_the_roster():
+def test_allow_dirt_is_five_djs_not_the_roster():
     """The 2026-07-18 clean-render rule still stands for the roster. Four
     DJs are out of it. Three because he heard them and said so on
     2026-09-03 — Otto Grit "c Plus", Night Metro "c Research" (the 808
@@ -310,12 +310,25 @@ def test_allow_dirt_is_four_djs_not_the_roster():
     hot enough to kiss distortion ("tapping the red"). True, not Night
     Metro's "low": the grit is on the whole signal path, not the 808.
 
+    Crate Prophet is the fifth, 2026-09-04, in by the same door as Cutz
+    ("continue tuning DJs", switch it on live). His is the starkest case
+    on the roster: his `listen` line calls him "the heaviest vinyl bed
+    plus record wow", he carries the loudest vinyl of the nine (-40, vs
+    Otto's -48), dust 0.5, and the only `wow` among them — and the
+    clean-render rule meant NOT ONE of those numbers had ever played.
+    Both producers behind him are documented lo-fi: Pete Rock's SP-1200
+    12-bit/26 kHz "dirty Mecca-era tone", Madlib's tape hiss, clipping
+    and pitch-warble. True, not "low" — the grit is the whole path, and
+    he has kick_dist 0 and mix_sat 0, so what switches on is dust, the
+    vinyl bed, wow, and his own 1.3 master drive.
+
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
     assert OWNER_TASTE["clean_renders"] is True
     heard = {n: p["allow_dirt"] for n, p in CREW.items() if p.get("allow_dirt")}
     assert heard == {"Otto Grit": True, "Night Metro": "low",
-                     "Rage Engine": True, "Cutz": True}, heard
+                     "Rage Engine": True, "Cutz": True,
+                     "Crate Prophet": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
