@@ -91,17 +91,28 @@ def find_before(name):
     return hits[0]
 
 
-def choose(raw, name):
+def choose(raw, name, kick="plain"):
     """Compose a run of variants; split into the ones worth judging and
     the rest. See the module docstring for why this is not a list of
-    variant numbers."""
+    variant numbers.
+
+    `kick` says which beats may be JUDGED. The default "plain" excludes
+    808 kicks, because an 808 with no headroom measures ~0 on a low-end
+    change and half a two-beat audition being a dud wasted his ears twice.
+    But that rule is a proxy, and on an 808-LED legend it inverts: Mustang
+    is 60% 808 by his own declared weights, and the change under test on
+    his 2026-09-05 build was 808 distortion — which is audible on exactly
+    the beats "plain" throws away. Pass "808" or "any" when the change
+    lives in the 808, and say so in the READ ME."""
     judged, extra = [], []
     for v in range(NSCAN):
         q = json.loads(json.dumps(raw))
         notes = compose(q, name, v)
         k = q["lanes"]["kick"][3]
         hits = sum(b.count("X") + b.count("x") for b in k)
-        ok = q["kit"]["kick"][1] != "808" and hits >= MIN_KICK_HITS
+        is808 = q["kit"]["kick"][1] == "808"
+        want = {"plain": not is808, "808": is808, "any": True}[kick]
+        ok = want and hits >= MIN_KICK_HITS
         # "completely different beats": no two judged beats share a kick
         # line, or it is one beat rendered twice.
         if ok and len(judged) < NJUDGE and all(k != j[1]["lanes"]["kick"][3]
@@ -113,9 +124,9 @@ def choose(raw, name):
             break
     if len(judged) < NJUDGE:
         raise SystemExit(
-            "only %d of %d variants had a plain kick with %d+ hits — raise "
-            "NSCAN or look at the grammar" % (len(judged), NSCAN,
-                                              MIN_KICK_HITS))
+            "only %d of %d variants had a %r kick with %d+ hits — raise "
+            "NSCAN, try --kick any, or look at the grammar"
+            % (len(judged), NSCAN, kick, MIN_KICK_HITS))
     return judged, extra
 
 
@@ -192,6 +203,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--legend", required=True)
     ap.add_argument("--before", help="override the auto-found backup file")
+    ap.add_argument("--kick", choices=("plain", "808", "any"),
+                    default="plain",
+                    help="which kicks may be JUDGED. Default plain (no "
+                         "808s). Use 808/any when the change under test "
+                         "lives in the 808 itself — see choose().")
     ap.add_argument("--force", action="store_true",
                     help="overwrite an existing Desktop folder (it may be a "
                          "batch he already has — check before using this)")
@@ -240,7 +256,7 @@ def main():
     (scratch / "extra").mkdir()
     rows, deltas, picks = [], [], []
 
-    judged, extras = choose(json.loads(json.dumps(NEW)), name)
+    judged, extras = choose(json.loads(json.dumps(NEW)), name, a.kick)
     print("chose beats " + ", ".join(str(v) for v, _q, _n in judged))
 
     for i, seed_p, notes in judged:

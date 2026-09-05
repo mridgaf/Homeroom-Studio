@@ -1162,8 +1162,16 @@ def lock_stamps(shots):
             else None
         if x is None:
             seed = p["num"] * 1000 + zlib.crc32(b"stamp") % 997
+            # own_soundbank was honoured in build_kit and NOT here, so a
+            # preset that had earned its own sound bank still had its
+            # STAMP — the one sample that rides every beat it ever makes —
+            # picked at random from the whole role bucket. Found 2026-09-05
+            # on Mustang: his chant lane was repointed at `vox` with tags
+            # hey/ohh/wuh, which the library really has ("Cymatics - Hey
+            # Vox"), and lock_stamps handed him a choir loop anyway.
             path, x = _pick_path(shots, role, wants, secs, seed,
-                                 must=must, avoid=used)
+                                 must=must, avoid=used,
+                                 own_bank=bool(p.get("own_soundbank")))
             changed = True
         used.add(path)
         stamps[name] = (path, x)

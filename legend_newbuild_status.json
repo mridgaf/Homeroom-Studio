@@ -21,5 +21,10 @@
   "stage": "auditioned",
   "date": "2026-09-05",
   "notes": "Rendered and measured, NOT heard. Nine changes, all in his block only: allow_dirt (his SP-1200 dust 0.6, vinyl -38, wow and 1.35 drive had NEVER played once - clean_renders stripped all of it), wow 0.2->0.5, mix_sat 0->1.5 and kick_dist 0->3.0 ('console into the red'), his own mix_eq with the air CUT to -1.5 dB at 8 kHz (SP-1200 Nyquist ~13 kHz - the era could not make air), space gated->room, jitter 6->8 on kick and snare, kit tags + kick_flavors rewritten to words that match real filenames, own_soundbank on, stamp LANE dropped (owner call - clang/gong/sword matched 1 fx file in 356). glue deliberately LEFT at 1.8, the opposite of Doc Day, because his sources say 'forget about compression, its huge eq work'. Measured new vs old: air -10.3 dB, sub +0.7 dB, attack -1.2 dB. The `roomy` kick tag was in the first render and pulled - it matched Cloud_Roomy_Kick n Hat, a compound one-shot with a hat baked in. Caught by reading the printed sample list."
+ },
+ "Mustang": {
+  "stage": "auditioned",
+  "date": "2026-09-05",
+  "notes": "Rendered and measured, NOT heard. He was already CLEAN and his line says 'clean digital', so unlike Razor there was no grime to switch on - the July rule agrees with him. Changes: allow_dirt 'low' + kick_dist 9.0 (808 distorted, mix untouched - owner's call, amount measured over a 4/6/9/12/16 sweep because 4.0 was inaudible); kick jitter 1->3 ms on the KICK LANE ONLY (owner's call, the one place his sources and his own description disagree); the and-of-two kick weight 4->8, which his listen line names and his grammar did not deliver; kit tags fixed and own_soundbank on. HEADLINE: his 'Hey!' chant - the thing Billboard names as his single identifying feature - was pointed at the FX bucket, zero matches in 356 files, while the vox bucket literally contains 'Cymatics - Hey Vox'. Role fx->vox; he is now locked to WUH.wav. Two engine faults fixed on the way: lock_stamps ignored own_soundbank, and the render script crashed on any legend with a clap instead of a snare."
  }
 }

@@ -22,6 +22,60 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 Mustang (DJ Mustard), third legend — his chant was pointed at the wrong drawer, and two engine faults fell out
+- Context: "Continue with mustard." Razor is still auditioned-not-heard; this
+  ran alongside it, not instead of it.
+- WHAT WAS ALREADY RIGHT, and left alone on purpose: he has no dust, vinyl or
+  wow and his line says "clean digital". The 2026-07-18 clean-render rule
+  AGREES with him — the exact opposite of Razor. Nothing to overrule. His dry
+  claps and dry space were already what the sources ask for too.
+- RESEARCH: Billboard 2014 (Reggie Ugwu) — "taut and spare, snappy and
+  insistent", and the **"gruff chants... Hey! Hey! Hey!" named as THE
+  identifying feature**; his own Lil Jon lineage quote. Bay Eight 2025, off
+  his interviews — build on an 808 with "an intense kick", "use swings and
+  stutters to make your kick sound more human", a SIMPLE hat pattern, "a
+  distorted bass", leave room for the artist. He learned on **Reason**, which
+  is worth recording in this repo of all places.
+- ASKED HIM TWO THINGS, both real forks: distorted 808 (he chose "808 only,
+  mix stays clean" — Night Metro's existing setting) and kick timing, where
+  his sources ("swings and stutters... more human") and his own description
+  ("clean digital") pull opposite ways (he chose a touch of human on the kick
+  only). Neither was decided for him.
+- **THE HEADLINE: his chant lane asked the FX bucket for hey/vocal/chant/yeah
+  and matched ZERO of 356 files.** The `vox` bucket, which the lane was never
+  pointed at, contains "Cymatics - Hey Vox" and "Cymatics - Stacked Hey Vox"
+  by name. Role changed fx -> vox; he is now locked to WUH.wav.
+- TWO ENGINE FAULTS FOUND ON THE WAY, both older than this pass, both fixed:
+  1. **crew.lock_stamps never passed own_soundbank to _pick_path.** build_kit
+     did; lock_stamps did not. So a preset with its own sound bank still had
+     its STAMP — the one sample riding every beat it makes — drawn at random
+     from the whole bucket. It handed Mustang a choir loop after his lane was
+     correctly repointed. Doc Day was silently in the same state; his lock is
+     cached, so his approved sound does not move.
+  2. **make_legend_newbuild._shape read p["lanes"]["snare"] blind and crashed**
+     on every legend built on a clap — Mustang, Farrow, Timberline. Falls back
+     to clap then snap now.
+  Also worth knowing, not a bug: a stamp's role or tags changing does NOTHING
+  until that preset is cleared from ~/.reason_voice/crew_kits.json.
+- **THE AUDITION SCRIPT WAS EXCLUDING HIS OWN SOUND.** choose() judged only
+  non-808 beats — correct for a low-end change, inverted here: he is 60% 808
+  and the change under test was 808 distortion, audible on exactly the beats
+  the filter threw away. Added `--kick plain|808|any`. Hitt Kid and Swish
+  Beatz will want the same.
+- kick_dist MEASURED, not guessed: dist808 normalises back to unity so the
+  knob saturates. Difference from clean measured 20.2 dB down at drive 4.0,
+  18.3 at 6.0, 15.8 at 9.0, 13.7 at 12.0, 11.5 at 16.0. 4.0 was inaudible;
+  settled at 9.0.
+- Tag audit found the same traps again: snap `finger` matched seven "finger
+  cym tree" files (finger CYMBALS), hat `tight` matched 1 file where this
+  library says `tite`, and the non-808 kick words clean/tight/punch matched
+  five files two of which are 808s. The 808 flavor's `wants` were EMPTIED on
+  purpose — the 808 pool's vocabulary is pack names only (cymatics, oracle,
+  playoffs), so deep/sub funnelled 60% of his beats onto three files.
+- Verify by: audition on his Desktop, one plain-kick beat and one 808 beat.
+  Measured new vs old: air -3.5 dB, sub +1.0 dB.
+- Status: open — **auditioned, not heard.**
+
 ### 2026-09-05 Razor (RZA), second legend new-built — his grime had never played once
 - Context: "Continue DJ tone. Move on to razor." Doc Day is confirmed; Razor
   was flagged NEXT UP at the end of that session. Small new outside research
