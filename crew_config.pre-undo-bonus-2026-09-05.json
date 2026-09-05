@@ -480,6 +480,14 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
+  },
+  "phaser": {
+   "rate_hz": 0.35,
+   "depth": 0.45,
+   "mix": 0.2,
+   "lanes": [
+    "chord"
+   ]
   }
  },
  "Cutz": {
@@ -899,6 +907,14 @@
    "mid_q": 0.9,
    "high_db": 0.0,
    "high_hz": 8000.0
+  },
+  "chorus": {
+   "rate_hz": 0.7,
+   "depth": 0.28,
+   "mix": 0.35,
+   "lanes": [
+    "chord"
+   ]
   }
  },
  "Crate Prophet": {
@@ -1387,6 +1403,14 @@
    "mid_q": 0.9,
    "high_db": -1.5,
    "high_hz": 8000.0
+  },
+  "chorus": {
+   "rate_hz": 0.5,
+   "depth": 0.35,
+   "mix": 0.42,
+   "lanes": [
+    "chord"
+   ]
   }
  },
  "Chrome Dial": {
@@ -1847,6 +1871,14 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
+  },
+  "chorus": {
+   "rate_hz": 0.6,
+   "depth": 0.3,
+   "mix": 0.4,
+   "lanes": [
+    "chord"
+   ]
   }
  },
  "Glass Cat": {
@@ -2295,6 +2327,11 @@
    "lanes": [
     "chord"
    ]
+  },
+  "backbeat_echo": {
+   "note": 0.5,
+   "feedback": 0.22,
+   "mix": 0.12
   }
  },
  "Sunday Chop": {
@@ -2816,6 +2853,11 @@
    "lanes": [
     "hat"
    ]
+  },
+  "backbeat_echo": {
+   "note": 0.75,
+   "feedback": 0.3,
+   "mix": 0.18
   }
  },
  "Night Metro": {
@@ -3267,6 +3309,11 @@
    "keep": [
     "kick"
    ]
+  },
+  "backbeat_echo": {
+   "note": 0.75,
+   "feedback": 0.4,
+   "mix": 0.24
   }
  },
  "Rage Engine": {
@@ -4265,6 +4312,14 @@
    "mix": 0.35,
    "lanes": [
     "hat"
+   ]
+  },
+  "chorus": {
+   "rate_hz": 1.2,
+   "depth": 0.4,
+   "mix": 0.45,
+   "lanes": [
+    "chord"
    ]
   }
  },

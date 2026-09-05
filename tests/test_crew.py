@@ -468,9 +468,17 @@ def test_every_dj_carries_the_personal_twist_he_asked_for():
     150 bpm is not modulation. `_no_twist` stays, with its original
     reason, because that reason is still true of chorus and phaser.
 
-    The twists themselves are untouched. Every bonus effect added on
-    09-04 deliberately uses a DIFFERENT key from that DJ's twist, so the
-    approved twist amounts below still hold for all eleven.
+    THE 09-04 BONUS EFFECTS WERE REMOVED 2026-09-05. His words: "undo all
+    of those newest additions of 2nd bonus effect. I'm sure i no longer
+    approve of them." He was asked back about Rage Engine, whose bonus was
+    his ONLY effect rather than a second one, and chose to KEEP it — so
+    the eight second effects came out (Otto phaser, Cutz/Crate/Chrome
+    chorus, Glass Cat/Sunday Chop/Night Metro echo, New Math chorus) and
+    his echo stayed. Do not re-add them; this is a verdict, not a gap.
+    The twists themselves were never touched — every bonus used a
+    DIFFERENT key from that DJ's twist, which is what made the removal a
+    clean revert. The approved twist amounts below still hold for all
+    eleven.
     """
     from crew import DEFAULT_CREW
     TWIST = {"Otto Grit": ("chorus", "chord"),

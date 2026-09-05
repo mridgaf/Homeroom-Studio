@@ -22,6 +22,90 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 The bonus effects are OFF — eight removed, Rage Engine's echo kept
+- Context: he asked whether the 09-04 "one bonus effect to each of the
+  nine" pass had given a SECOND effect to DJs who already had one. It
+  had. Measured off the live config and the four dated backups, not
+  recalled: eight of the nine carried two, Otto Grit carried three,
+  Rage Engine carried one. His answer: "undo all of those newest
+  additions of 2nd bonus effect. I'm sure i no longer approve of them."
+- ASKED, NOT ASSUMED — and this is the whole reason there is a question
+  in this entry. Rage Engine's bonus echo was in the same pass but was
+  never a SECOND effect; it was his only one, added the night the
+  research veto was lifted. Two readings, different work, so it was
+  BLOCKING. He chose **keep his echo**. So eight came out, not nine.
+- REMOVED from crew_config.json, one key per DJ:
+    | DJ | removed | had been |
+    |---|---|---|
+    | Otto Grit | phaser (chord, mix 0.20) | his THIRD effect |
+    | Cutz | chorus (chord, 0.35) | second |
+    | Crate Prophet | chorus (chord, 0.42) | second |
+    | Chrome Dial | chorus (chord, 0.40) | second |
+    | Glass Cat | backbeat_echo (0.12) | second |
+    | Sunday Chop | backbeat_echo (0.18) | second |
+    | Night Metro | backbeat_echo (0.24) | second |
+    | New Math | chorus (chord, 0.45) | second |
+  KEPT: Rage Engine backbeat_echo (1/16, feedback 0.28, mix 0.16).
+- EVERY DJ IS BACK TO EXACTLY ONE PRINTED EFFECT except Otto Grit, who
+  is back to two — his chorus twist plus the echo his `c Plus` audition
+  verdict switched on 09-03. That echo is EAR-APPROVED and predates the
+  bonus pass, so it is not in scope here. Say the word if he wants Otto
+  down to one as well.
+- WHY IT WAS A CLEAN REVERT: the 09-04 pass deliberately gave every DJ a
+  bonus on a DIFFERENT key from his twist. That design choice is what
+  made removal a single `pop()` per DJ with no residual diff — verified
+  key-by-key against crew_config.pre-bonus-six / pre-final-three before
+  touching anything. The three residual differences the check did report
+  (Chrome Dial + Sunday Chop + New Math `grammar`, New Math `library`)
+  are the hat/clap tunings from the same night, which are a separate
+  change he has not asked to undo, and were left alone.
+- OTTO GRIT'S PHASER WAS THE ONE ACTUALLY STACKED, worth recording
+  because it is the only place the doubling was audible as layering
+  rather than as two separate lanes: his chord lane ran chorus 0.50 AND
+  phaser 0.20 together, and his snare/clap ran chorus 0.50 AND echo
+  0.20. Every other DJ's two effects sat on different lanes. The
+  phaser's placement was documented and deliberate at the time; it is
+  simply no longer wanted.
+- Diff is removals only: 56 deletions, 1 insertion (a trailing comma).
+  No formatting churn — written back with `ensure_ascii=False` per the
+  expected-churn convention, checked with `git diff`.
+- THE TEST NOW CARRIES THE VERDICT.
+  `test_every_dj_carries_the_personal_twist_he_asked_for` already pinned
+  the eleven twists and Rage Engine's echo; none of those moved, so it
+  needed no assertion change. Its docstring was rewritten to say the
+  bonus effects were removed on his instruction and must not be re-added
+  — the previous text read as if all nine bonuses were live and current,
+  which would have walked a future session straight back into them.
+- Backup of the roster as it stood with all nine bonuses:
+  crew_config.pre-undo-bonus-2026-09-05.json.
+- TESTS: 59 passed, 1 failed (test_crew.py + test_audio_quality.py,
+  3m50s). THE FAILURE IS NOT FROM THIS WORK and the proof is a
+  timestamp: `test_real_beats_are_not_mono_or_silent` reads FINISHED
+  .wav files off the drive, and the one it names — "2228 Chrome Dial x
+  Farrow Meeting Shift Drums 104bpm.wav" — was written 2026-09-04 13:21,
+  eleven hours before the config edit at 2026-09-05 00:23. A config
+  cannot reach back into a rendered file.
+- BUT IT IS A NEW INSTANCE OF THE OPEN 09-03 NARROW-IMAGE ISSUE, and
+  worth recording because it widens the scope of that bug: the three
+  known cases were Rage Engine (2210, 2212) and Night Metro (2186), and
+  the 09-03 entry pinned the cause on Rage Engine's SATURATION. This one
+  is CHROME DIAL, at -30.4 dB side-vs-mid against a -22.0 threshold —
+  8.4 dB under, far worse than 2186's -22.24. So the narrowing is not a
+  Rage-Engine-saturation story alone. Still open, still not this
+  session's to fix, but the next person on it should not start from
+  "it's the dirt".
+- ONE THING CHECKED SO IT IS NOT ASSUMED EITHER WAY: removing the chorus
+  CANNOT have narrowed anything, now or later. crew.py:1626 calls it as
+  `_fx(bufs[lane], bufs[lane])[0]` — same buffer in as both channels,
+  left channel taken out. It is mono-in/mono-out on this path, a
+  thickener, not a widener. 2228 also rendered WITH Chrome Dial's chorus
+  live (added ~01:12 on 09-04, beat made at 13:21) and was 8.4 dB under
+  the line anyway, so the effect was not holding that beat up.
+- Verify by: his ear, live. HE MUST QUIT AND RELAUNCH Homeroom Studio —
+  the running server holds the old config in memory.
+- Status: open — switched off live, not yet heard.
+- Outcome:
+
 ### 2026-09-04 "This happens often" — the self-writing files and the commit habit, made permanent
 - Context: his words. Twice in one session I reported the beat engine's
   own bookkeeping as if something had gone wrong, and twice I told him to
@@ -208,8 +292,14 @@ entries.
   this, tools/identity_survival.py is the read-only way to ask the same
   question.
 - Verify by: his ear, live. Quit and relaunch Homeroom Studio first.
-- Status: open — switched on live, not yet heard.
-- Outcome:
+- Status: FAILED on the bonus half, open on the tuning half.
+- Outcome: THE BONUS EFFECTS ARE REVERSED. 2026-09-05 he said "undo
+  all of those newest additions of 2nd bonus effect. I'm sure i no
+  longer approve of them." Eight came out; Rage Engine's echo stayed on
+  his call, because it was his only effect and not a second one. See the
+  2026-09-05 entry at the top. The grammar/reach tunings in this entry
+  (New Math quintuplets, Sunday Chop backbeat, Chrome Dial 16ths) were
+  NOT part of that and are untouched — still open, still unheard.
 
 ### 2026-09-04 Crate Prophet, sixth of the per-DJ pass — the dirtiest character on the roster was rendering bone clean
 - Context: "Continue tuning DJs." Asked which of the four remaining and
