@@ -16,5 +16,9 @@
   "date": "2026-09-05",
   "verdict": "I like b from the new audition. The kick sounds good.",
   "notes": "First one. Four research changes (dry snare, working sub under the kick via allow_peak_db, transient shaping, ratio 4.0 bus compression) + own_soundbank + kit tags rewritten to words that match real filenames + snare_locked_24. Took three audition batches to get one he could judge; the first two rendered the config skeleton instead of calling compose()."
+ },
+ "Razor": {
+  "stage": "not started",
+  "notes": "NEXT UP — he named Razor on 2026-09-05 at the end of the Doc Day session. Nothing has been done yet; start at step 1 of the legend-new-build skill (back up legends_config.json BEFORE editing anything, or there is no honest 'before' to A/B). His line is the widest jitter on the roster plus the heaviest vinyl bed — check what the engine can actually deliver on both before promising either."
  }
 }
