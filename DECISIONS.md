@@ -22,6 +22,72 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 Doc Day rebuilt with NO inherited rules — his call, scoped to him alone
+- Context: shown the measured result that the sub layer was inert on 4 of 6
+  kicks because the kick may not get louder, he rejected the framing rather
+  than picking a side: "I don't want any of the old rules to apply. As I
+  said before, I want this to be a completely new build. so I can compare to
+  what I have already versus what new research can create" — then, "for dr
+  dre". So: SCOPED TO THIS PERSONA, not the engine. He has now said this
+  twice; it was not asked a third time.
+- RULE FOR THE PASS: research replaces every field research speaks to.
+  Where the sources are silent the field is NAMED as silent, not invented —
+  "no old rules" is not a licence to guess, which is the thing he has
+  forbidden outright (2026-08-03).
+- FOUR CHANGES, every one sourced:
+  1. space gated -> dry. Finally resolved. The first pass left it because
+     no source says "dry" either. Under a new-build rule that inverts:
+     gated was the INHERITED default (7 of 12 legends share it) and
+     inheriting is what he ruled out. Nothing sourced supports reverb;
+     everything sourced says clean/surgical/"elements kept out of each
+     other's way".
+  2. sub_layer allow_peak_db 3.0 — THE OLD RULE HE MEANT. crew's cascade
+     makes the kick the level reference for every other lane
+     (peak_ceiling_for returns None for backbone), so kick_sub_reinforce
+     was forbidden from letting the kick's peak grow, which made the sub
+     inert on any kick already at its peak. That ceiling is a HOUSE rule,
+     not a Dre trait. Lifted for him alone: the new `allow_peak_db`
+     parameter defaults to 0.0, so all 20 other presets keep the old rule
+     byte-for-byte. The cost is real and is stated in the READ ME, not
+     buried: everything else in his beats now sits further under the kick.
+  3. transient {gain 0.8, tau 3ms, kick+snare}. groove.transient_shape had
+     existed and been tested since the engine was written and was wired to
+     NOTHING — the same situation the glue knob was in. Sourced directly:
+     Gearspace, "the smack on his drums; it sounds like a transient
+     designer with hard SSL compression"; Focus... on "hard-hitting drums".
+     New per-preset block in crew.py, applied to the raw lane before
+     dirt/space/glue, where a transient designer actually sits.
+  4. glue ratio 4.0 (carried from earlier today).
+- NOT INVENTED, named as silent: drive 1.45 and sidechain 0.2 stay roster
+  defaults. The sources CONTRADICT on saturation (Gearspace argues clipping
+  for perceived level; every Aftermath source argues clean/surgical) and
+  name sidechain not at all. Flagged in his _research_note as the next
+  rungs if he wants them.
+- MEASURED, finished files, new vs old across 4 beats: sub weight 30-55 Hz
+  +1.39 dB, air above 8 kHz +1.53 dB, attack +0.84 dB. This is the first
+  version of Doc Day that measures audibly different from what he has.
+  Beat 1's kick has no headroom even at +3 dB and went -1.39 dB — the
+  ceiling is a real limit, not fully solved.
+- The "before" in the batch is read off legends_config.pre-doc-day-2026-09-05
+  .json rather than reconstructed by popping keys off the live preset — a
+  before built from a remembered key list is only as honest as the memory.
+- FOUND IN PASSING, not fixed, flagged: make_drum_loops.sub808 adds an
+  UNSEEDED 3 ms noise click (module-level `rng`), so two identical calls
+  differ by ~0.05 and nothing downstream is bit-reproducible. snare808 and
+  clap do the same. This quietly breaks the "seeded, so any beat can be
+  re-rendered identically" contract for any preset carrying a sub_layer
+  (Otto Grit, Doc Day). Pre-existing and module-wide, so it was left alone
+  rather than widened into this pass — but it is a real gap.
+- Backups: legends_config.pre-doc-day-glue-2026-09-05.json and
+  legends_config.pre-newbuild-2026-09-05.json.
+- Verify by: `.venv/bin/python -m pytest tests/ -q` — RUN, 990 passed, 3
+  skipped. Batch: ~/Desktop/Homeroom Doc Day NEW BUILD 2026-09-05/ (8 files,
+  4 beats x old/new). tools/make_doc_day_newbuild.py.
+- Status: open. MEASURED: everything above. HEARD: nothing. Waiting on old
+  vs new, and specifically whether the bigger kick costs too much.
+- Outcome:
+
+
 ### 2026-09-05 Doc Day pass finished — and the kick sub layer was working BACKWARDS
 - Context: continuing the 09-05 Doc Day (Dre) handoff. He chose "keep
   changing his numbers" over "just render what's there", and picked
@@ -95,8 +161,10 @@ entries.
 - Verify by: full suite `.venv/bin/python -m pytest tests/ -q` — RUN THIS
   SESSION, 990 passed, 3 skipped. Batch rendered to
   ~/Desktop/Homeroom Doc Day 2026-09-05/.
-- Status: open. MEASURED: everything above. HEARD: nothing. Waiting on one
-  answer — let the kick grow, yes or no. The other six Legends (Mustang,
+- SUPERSEDED SAME DAY by the entry above it — he answered "let the kick
+  grow" by rejecting the premise: no old rules at all, for Dr Dre.
+- Status: confirmed (the bug fix and the glue knob held; the audition
+  framing was replaced). The other six Legends (Mustang,
   Swish Beatz, Just Flame, Razor, Hitt Kid, No Alias) are still untouched.
 - Outcome:
 

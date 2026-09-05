@@ -278,6 +278,28 @@ def test_sub_reinforce_never_costs_low_end_or_headroom():
         assert np.abs(out).max() <= np.abs(kick).max() + 1e-9, \
             "sub layer inflated the kick peak at amount %s" % amount
 
+    # allow_peak_db lifts the headroom ceiling for ONE preset (Doc Day's
+    # new build, owner 2026-09-05). It must lift it by exactly what it
+    # says and no more — the kick is the level reference for every other
+    # lane, so an unbounded kick would silently crush the rest of the beat
+    # — and the low band must still never go backwards.
+    for allow in (1.0, 3.0):
+        out = kick_sub_reinforce(kick.copy(), amount=0.45,
+                                 allow_peak_db=allow)
+        ceiling = np.abs(kick).max() * 10 ** (allow / 20.0)
+        assert np.abs(out).max() <= ceiling + 1e-9, \
+            "kick grew past its allowance at allow_peak_db=%s" % allow
+        assert low_band_db(out) >= low_band_db(kick) - 1e-9, \
+            "sub layer REMOVED low end at allow_peak_db=%s" % allow
+
+    # NOT asserted by comparing bytes: sub808() adds an unseeded 3 ms noise
+    # click (make_drum_loops.py, module-level `rng`), so two identical calls
+    # differ by ~0.05 and nothing downstream of it is bit-reproducible. That
+    # is pre-existing and module-wide — snare808 and clap do it too — and is
+    # noted here so the next person does not mistake it for a bug in this
+    # function. The default's contract is the peak bound above at
+    # allow_peak_db=0.0, which is the thing that actually matters.
+
 
 def test_glue_ratio_is_a_per_preset_knob():
     """crew.py passes a preset's `glue` block straight into these

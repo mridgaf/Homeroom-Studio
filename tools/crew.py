@@ -42,6 +42,7 @@ from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
 from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
                     glue_compress, kick_sub_reinforce, loop_convolve,
+                    transient_shape,
                     make_ir, master_to_lufs, mono_below, mpc_swing_offset,
                     perc_scale, roughness_am, sat_unity, snare_scale,
                     sp1200, velocity, vinyl_bed, wow_flutter)
@@ -1398,6 +1399,24 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     onsets = {k: [x for x in v if x < end] for k, v in onsets.items()}
     events = {k: [(t, v) for t, v in evs if t * SR < end]
               for k, evs in events.items()}
+
+    # TRANSIENT SHAPING (owner 2026-09-05, Doc Day's new build). A preset
+    # may sharpen the attack of named lanes: {"gain": 0.8, "lanes":
+    # ["kick", "snare"]}, gain>0 sharper, <0 softer. groove.transient_shape
+    # has existed and been tested since the engine was written and was
+    # wired to nothing; the Dre research names it directly ("the smack on
+    # his drums; it sounds like a transient designer with hard SSL
+    # compression"). Runs on the raw lane buffer, before dirt/space/glue —
+    # where a transient designer actually sits, on the drum channel rather
+    # than the bus. Off unless a preset carries the field.
+    _tr = p.get("transient")
+    if _tr:
+        for lane in _tr.get("lanes", ()):
+            if lane in bufs and onsets.get(lane):
+                bufs[lane] = transient_shape(
+                    bufs[lane], onsets[lane], gain=_tr.get("gain", 0.8),
+                    tau_ms=_tr.get("tau_ms", 3.0),
+                    span_ms=_tr.get("span_ms", 40.0))
 
     # owner 2026-07-18: clean renders — every dirt stage (808 dist,
     # roughness, saturation, dust, vinyl, wow) stays off; he adds his own

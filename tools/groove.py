@@ -382,7 +382,7 @@ def kick_layer(top, sub, split_hz=100.0):
 
 
 def kick_sub_reinforce(kick, freq_hz=40.0, dur_s=0.12, amount=0.35,
-                       drive=1.0, check_hz=100.0):
+                       drive=1.0, check_hz=100.0, allow_peak_db=0.0):
     """Add a short, gated sub tone UNDER a sampled kick — extra WEIGHT in
     the hit, not a second audible drum. Sourced: engineer Todd Fairall on
     the Fantastic Vol. 2 sessions, where Dilla's sampled kick was
@@ -417,7 +417,17 @@ def kick_sub_reinforce(kick, freq_hz=40.0, dur_s=0.12, amount=0.35,
     # kick, so the kick's peak is the reference EVERY other lane is scaled
     # against. Let it inflate and the sub quietly turns the whole rest of
     # the beat down.
-    ref = np.abs(top).max()
+    #
+    # allow_peak_db LIFTS that ceiling for one preset (owner 2026-09-05,
+    # "I don't want any of the old rules to apply... for dr dre"). The
+    # guard is a HOUSE rule, not a researched trait, and with it fully on
+    # the sub is inert on any kick already at its peak — measured, 4 of 6.
+    # Above 0 the kick is allowed to grow by that many dB, which is what
+    # makes the sub audible at all; the cost is real and is the cascade
+    # above: everything else in the beat gets scaled down to sit under the
+    # bigger kick. Default 0.0, so every preset that does not ask for it
+    # keeps the old rule exactly.
+    ref = np.abs(top).max() * 10 ** (allow_peak_db / 20.0)
 
     def headroom(cand):
         pk = np.abs(cand).max()
