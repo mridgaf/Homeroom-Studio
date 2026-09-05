@@ -22,6 +22,84 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 HANDOFF — Doc Day (Dre) rebuilt from research, first of the seven Legends with no crew counterpart
+- Context: the nine's per-DJ pass (dust/EQ/effects, research-driven) finished
+  09-04. He asked to move on to "the legends we haven't tuned within the
+  nine" -- resolved as BLOCKING before touching anything, over two rounds:
+  which legends (the 5 that share a real producer with a crew DJ, or the 7
+  that don't), and what an old-reddit reference should point at. He chose
+  the 7 with no crew counterpart (Doc Day, Mustang, Swish Beatz, Just Flame,
+  Razor, Hitt Kid, No Alias), and old.reddit.com/r/musicproduction as the
+  reddit source -- but that link and a site-restricted reddit search both
+  came back login-required from every fetch tool available here (tinyfish
+  fetch, the built-in browser -- policy-blocked). He chose to proceed on
+  public production forums (Gearspace, KVR) and interview/press material
+  instead of reddit for this pass.
+- IMPORTANT DISTINCTION FOUND BEFORE WRITING ANYTHING: the roster's "personal
+  twist" (echo/chorus/phaser, wired 09-03) is scoped nine-only by that day's
+  own decision -- "the twist covers the nine only (not Legends, not
+  genres)". So Legends do NOT get a twist added this pass. What they get is
+  the deeper layer the nine also got: allow_dirt / mix_eq / sub_layer /
+  kick_dist / mix_sat / drive, rebuilt from research. Flagging this so
+  nobody re-adds a twist to a Legend expecting parity with the nine.
+- Decision/change: Doc Day's `mix_eq`, `sub_layer`, and a new
+  `_research_note` field were added to his object in legends_config.json.
+  His harmonic `signature` (already DEEPENED 2026-07-24) was NOT touched --
+  this pass is kit/mix only, same scope as Otto/Rage/Night Metro's pass.
+  Old kit/mix numbers (kick_dist 0.0, mix_sat 0.0, drive 1.45, allow_dirt
+  None) were roster defaults, not researched, and were left as-is rather
+  than tweaked, because research supports leaving them exactly where they
+  are (see reasoning) -- "new build" means the values are justified fresh,
+  not that every number had to move.
+    mix_eq     low +1.0dB@100Hz, mid -1.0dB@800Hz (q0.9), high +2.0dB@8kHz
+    sub_layer  40Hz / 0.15s / amount 0.45
+    allow_dirt left OFF (None), ON PURPOSE
+    kick_dist / mix_sat left at 0.0, ON PURPOSE
+- Reasoning, sourced: his own quote in Studio Sound, Sept 2001 -- "I like
+  the compressors on the SSL. I usually have the ratio up to about eight or
+  10 on a lot of things" (via Mastering The Mix's "Still Dre" breakdown,
+  which also documents his mono-centric mixing -- checks translation on a
+  single Auratone). Focus... (Aftermath's in-house producer) on SSL
+  clarity/presence and "hard-hitting drums" (Solid State Logic interview).
+  Mike Elizondo was brought into Dre's camp specifically to add low-end/sub
+  weight (Guitar World, Tape Op) -- backs the existing `listen` field's
+  "occasional deep sub" and grounds sub_layer's amount (0.45, stronger than
+  Otto's 0.35, because sub is named as core to THIS persona, not
+  incidental). high_db goes UP (+2 crisp), the opposite direction from Otto
+  Grit's -1.5 dulled air -- his research says dull, Dre's says crisp, same
+  as Otto/Night Metro already split the same way. allow_dirt and kick_dist/
+  mix_sat were left off/zero deliberately: every source says clean, crisp,
+  surgical -- none mentions grit, dust, or vinyl noise, the opposite
+  direction from most of the roster. That is this pass's headline finding,
+  not an oversight, same pattern as Rage Engine's twist veto.
+- NOT MAPPED, flagged rather than guessed at: the 8-10:1 SSL compression
+  ratio he named has no equivalent per-persona field in this schema (no
+  compression-ratio knob exists for a DJ/Legend). Left alone; say the word
+  if a compression-style knob should be built.
+- Backup before edit: legends_config.pre-doc-day-2026-09-05.json.
+- Diff: 17 insertions, 2 deletions (closing-brace lines from the two new
+  keys) -- `git diff legends_config.json` checked, no formatting churn (the
+  first attempt at this edit used indent=2 and reformatted the whole
+  9700-line file; redone at indent=1 to match the file's existing style
+  before this entry was written).
+- Verify by: `.venv/bin/python -m pytest tests/test_signature_words.py`
+  (the only test file that reads legends_config.json) -- **NOT RUN THIS
+  SESSION**. This bridge's device_bash runs in a Linux VM on his machine,
+  not natively on macOS, so the project's .venv (macOS-built, faster-
+  whisper etc.) cannot execute from here at all -- confirmed by trying:
+  `.venv/bin/python` returns "No such file or directory" despite the file
+  existing, because it isn't runnable from this shell's OS. He needs to run
+  the one line above himself in his own Terminal.
+- Status: open. MEASURED: nothing (no audio rendered). HEARD: nothing.
+  /Volumes/TBOTC 3 was not mounted from this session, so no A/B/C audition
+  batch could be built this round even if he wants one before the test
+  suite runs. Next step, once the drive is back: copy the shape of
+  tools/make_otto_ab.py for Doc Day, per the audition-batch skill. The
+  other six Legends (Mustang, Swish Beatz, Just Flame, Razor, Hitt Kid, No
+  Alias) are still untouched, one at a time, same as the nine were.
+- Outcome:
+
+
 ### 2026-09-05 The bonus effects are OFF — eight removed, Rage Engine's echo kept
 - Context: he asked whether the 09-04 "one bonus effect to each of the
   nine" pass had given a SECOND effect to DJs who already had one. It

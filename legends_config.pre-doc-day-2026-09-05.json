@@ -818,22 +818,7 @@
      "rims"
     ]
    ]
-  },
-  "mix_eq": {
-   "low_db": 1.0,
-   "low_hz": 100.0,
-   "mid_db": -1.0,
-   "mid_hz": 800.0,
-   "mid_q": 0.9,
-   "high_db": 2.0,
-   "high_hz": 8000.0
-  },
-  "sub_layer": {
-   "freq_hz": 40.0,
-   "dur_s": 0.15,
-   "amount": 0.45
-  },
-  "_research_note": "AUDIO/MIX PASS 2026-09-05, strictly research-based, new build (old kit/mix numbers were roster defaults, not researched -- discarded, not tweaked). Sources: his own quote in Studio Sound, Sept 2001, 'I like the compressors on the SSL. I usually have the ratio up to about eight or 10 on a lot of things' (Mastering The Mix, Decoding The Mix #4); mono-centric mix philosophy, checks translation on a single Auratone (same source); Focus... (Aftermath in-house producer) on SSL clarity/presence and 'hard-hitting drums' (Solid State Logic interview, 2026); Mike Elizondo brought in specifically for low-end/sub weight (Guitar World, Tape Op). high_db +2 @ 8kHz: 'crisp hard snare' (already in `listen`) -- direction is UP, opposite of Otto Grit's -1.5 (his research calls for dulled top end; Dre's calls for crisp). mid_db -1 @ 800Hz: separation -- sources agree elements are kept out of each other's way, not stacked/muddy. sub_layer 40Hz/0.15s/0.45: 'occasional deep sub' (already in `listen`) + Elizondo's low-end role + 'thick transients you feel in the chest' -- stronger than Otto's 0.35 because sub is a named part of THIS persona's identity, not incidental. allow_dirt left OFF (None) ON PURPOSE, not an oversight: no source anywhere calls for grit, dust, or vinyl noise -- every source says clean, crisp, surgical. This is the opposite direction from most of the roster and is the headline finding of this pass. kick_dist and mix_sat left at 0.0 ON PURPOSE: the SSL 'Asymmetric Drive' Focus describes is subtle preamp-stage harmonic coloring, not audible distortion/grit -- it is not the same thing kick_dist/mix_sat model for a persona like Rage Engine's wall-of-sound, so it was not force-fit onto those knobs. The 8-10:1 SSL compression ratio itself has no equivalent field on this schema (no per-persona compression-ratio knob exists) -- flagged, not guessed at. No personal twist (echo/chorus/phaser): that layer is nine-only per the 2026-09-03 house-EQ-and-twist decision ('the twist covers the nine only (not Legends, not genres)') -- not applicable here, and his own mono-compatibility obsession argues against a stereo-widening effect regardless. STATUS: measured against nothing yet -- NOT rendered, NOT heard. /Volumes/TBOTC 3 is not mounted from this session, so no audition batch could be built this round. Next step is an A/B/C batch (copy the shape of tools/make_otto_ab.py) once the drive is back."
+  }
  },
  "Kane East": {
   "num": 12,
