@@ -122,8 +122,23 @@ def test_kick_sustain_is_a_range_not_a_constant():
     assert len(rolls) > 3                    # variants really vary
 
 
+# Razor, 2026-09-05: the ONLY preset without a stamp lane, by the owner's
+# own call. His kung-fu stamp asked the fx bucket for clang/metal/gong/sword
+# and exactly ONE file in 356 matches any of them — with own_soundbank on
+# that lane falls through to a random fx pick, which is how a talking drum
+# reached a Dr. Dre beat. His listen line says "sparse dusty arrangement"
+# and never names a stamp. kit["stamp"] deliberately STAYS (crew.lock_stamps
+# reads it unconditionally); only the pattern is gone. A SECOND name here is
+# that decision being made again — say why, in the config's _research_note.
+NO_STAMP_LANE = {"Razor"}
+
+
 def test_every_personality_has_a_stamp():
     for name, p in CREW.items():
+        if name in NO_STAMP_LANE:
+            assert "stamp" not in p["lanes"], name
+            assert "stamp" in p["kit"], name      # lock_stamps needs it
+            continue
         assert "stamp" in p["lanes"], name
         bars = p["lanes"]["stamp"][3]
         assert any(set(b) - {"-"} for b in bars), name
@@ -304,7 +319,7 @@ def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
     assert seen["amount"] == 0.35 and seen["len"] == 1000
 
 
-def test_allow_dirt_is_five_djs_not_the_roster():
+def test_allow_dirt_is_six_presets_not_the_roster():
     """The 2026-07-18 clean-render rule still stands for the roster. Four
     DJs are out of it. Three because he heard them and said so on
     2026-09-03 — Otto Grit "c Plus", Night Metro "c Research" (the 808
@@ -330,13 +345,25 @@ def test_allow_dirt_is_five_djs_not_the_roster():
     he has kick_dist 0 and mix_sat 0, so what switches on is dust, the
     vinyl bed, wow, and his own 1.3 master drive.
 
+    Razor is the sixth and the first LEGEND on the list, 2026-09-05, asked
+    in plain language and answered "yes - and turn the wow up too". His is
+    the same shape as Crate Prophet's, worse: he carries the loudest vinyl
+    bed on the whole roster (-38), dust 0.6 - which IS the SP-1200 stage,
+    crew.py feeds `dust` into groove.sp1200 as its wet amount - wow, and a
+    1.35 drive, and not one of them had ever reached a beat. Sourced: the
+    Gearspace RZA thread ("he wanted the console into the red for gritty and
+    raw sound", "still big saturated rza kick") and Sweetwater's 36 Chambers
+    gear piece (SP-1200 at 12-bit/26.04 kHz). True, not "low" - his grit is
+    the whole path, and unlike Crate Prophet he also carries mix_sat 1.5 and
+    kick_dist 3.0 from the same sources.
+
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
     assert OWNER_TASTE["clean_renders"] is True
     heard = {n: p["allow_dirt"] for n, p in CREW.items() if p.get("allow_dirt")}
     assert heard == {"Otto Grit": True, "Night Metro": "low",
                      "Rage Engine": True, "Cutz": True,
-                     "Crate Prophet": True}, heard
+                     "Crate Prophet": True, "Razor": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -561,19 +588,26 @@ def test_the_breakdown_moves_shortens_and_skips_beats():
     assert short and set(short) == {2}, sorted(set(short))
 
 
-def test_own_soundbank_is_doc_day_alone():
+def test_own_soundbank_is_the_new_build_legends_only():
     """2026-07-18 the owner opened every DJ's sound bank: taste tags stop
     gating picks, the whole role pool is fair game. On 2026-09-05 he heard
     what that actually costs — a Dre audition with two sidesticks where
     snares belong, open hats where tight hats belong, and a talking drum —
     and chose the narrow fix: his own tags gate his own picks, HIM ALONE.
 
-    The open bank still stands for the other twenty. That is his decision,
-    not an oversight, and it is deliberately not being widened by anyone
-    who happens to notice the same thing later. A SECOND preset carrying
-    this flag is that decision being made again — say so here."""
+    The open bank still stands for the rest. That is his decision, not an
+    oversight, and it is deliberately not being widened by anyone who
+    happens to notice the same thing later. A NEW name here is that
+    decision being made again — say so, here and in the _research_note.
+
+    Razor joined 2026-09-05, the second legend through the new-build pass.
+    ORDER MATTERS and is the reason this is not a free flag: his tags were
+    audited and rewritten FIRST. Turning it on over the tags he had would
+    have gated him to four kicks, two of which are 808s — strictly worse
+    than the open bank. Only a preset whose tags have been proved against
+    real filenames (tools/legend_newbuild.py --tags) belongs in this set."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
-    assert have == {"Doc Day"}
+    assert have == {"Doc Day", "Razor"}
 
 
 def test_own_soundbank_honours_taste_tags():

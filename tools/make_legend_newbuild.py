@@ -135,11 +135,17 @@ def diff_preset(old, new):
 
 
 def _shape(p):
+    """Five of the twelve legends have no `snare` lane at all — Mustang,
+    Farrow, Mustang-shaped club presets and the rest carry a `clap` (and
+    sometimes a `snap`) instead, which is their identity, not an omission.
+    Reading p["lanes"]["snare"] blind crashed the whole render on Mustang."""
     k = p["lanes"]["kick"][3]
-    sn = p["lanes"]["snare"][3]
+    back = next((ln for ln in ("snare", "clap", "snap")
+                 if ln in p["lanes"]), None)
     hits = sum(b.count("X") + b.count("x") for b in k)
-    return ("%d bars, %d different kick bars, %d kick hits | kick %s | "
-            "snare %s" % (len(k), len(set(k)), hits, k[0], sn[0]))
+    tail = "" if back is None else " | %s %s" % (back, p["lanes"][back][3][0])
+    return ("%d bars, %d different kick bars, %d kick hits | kick %s%s"
+            % (len(k), len(set(k)), hits, k[0], tail))
 
 
 def band_db(L, R, lo=0.0, hi=SR / 2):

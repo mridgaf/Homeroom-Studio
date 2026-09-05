@@ -18,7 +18,8 @@
   "notes": "First one. Four research changes (dry snare, working sub under the kick via allow_peak_db, transient shaping, ratio 4.0 bus compression) + own_soundbank + kit tags rewritten to words that match real filenames + snare_locked_24. Took three audition batches to get one he could judge; the first two rendered the config skeleton instead of calling compose()."
  },
  "Razor": {
-  "stage": "not started",
-  "notes": "NEXT UP — he named Razor on 2026-09-05 at the end of the Doc Day session. Nothing has been done yet; start at step 1 of the legend-new-build skill (back up legends_config.json BEFORE editing anything, or there is no honest 'before' to A/B). His line is the widest jitter on the roster plus the heaviest vinyl bed — check what the engine can actually deliver on both before promising either."
+  "stage": "auditioned",
+  "date": "2026-09-05",
+  "notes": "Rendered and measured, NOT heard. Nine changes, all in his block only: allow_dirt (his SP-1200 dust 0.6, vinyl -38, wow and 1.35 drive had NEVER played once - clean_renders stripped all of it), wow 0.2->0.5, mix_sat 0->1.5 and kick_dist 0->3.0 ('console into the red'), his own mix_eq with the air CUT to -1.5 dB at 8 kHz (SP-1200 Nyquist ~13 kHz - the era could not make air), space gated->room, jitter 6->8 on kick and snare, kit tags + kick_flavors rewritten to words that match real filenames, own_soundbank on, stamp LANE dropped (owner call - clang/gong/sword matched 1 fx file in 356). glue deliberately LEFT at 1.8, the opposite of Doc Day, because his sources say 'forget about compression, its huge eq work'. Measured new vs old: air -10.3 dB, sub +0.7 dB, attack -1.2 dB. The `roomy` kick tag was in the first render and pulled - it matched Cloud_Roomy_Kick n Hat, a compound one-shot with a hat baked in. Caught by reading the printed sample list."
  }
 }

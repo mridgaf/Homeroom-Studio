@@ -22,6 +22,65 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 Razor (RZA), second legend new-built — his grime had never played once
+- Context: "Continue DJ tone. Move on to razor." Doc Day is confirmed; Razor
+  was flagged NEXT UP at the end of that session. Small new outside research
+  first, as asked.
+- THE HEADLINE, measured not guessed: **not one of Razor's dirt numbers has
+  ever reached a beat.** He carries the loudest vinyl bed on the roster
+  (-38), dust 0.6 — which IS the SP-1200 stage, crew.py:2035 feeds `dust`
+  into groove.sp1200 as its wet amount — wow, and a hot 1.35 drive, and the
+  2026-07-18 clean_renders rule stripped every one at render. Same fault
+  Crate Prophet had. Asked him in plain language; he chose "yes — and turn
+  the wow up too". `allow_dirt: true`, Razor alone.
+- RESEARCH (new this session, sources in his `_research_note` verbatim):
+  Gearspace 'RZA's drums' — "he wanted the console into the red for gritty
+  and raw sound", "still big saturated rza kick", and the load-bearing one,
+  **"forget about compression, most of the time... its huge eq work"**.
+  Sweetwater's 36 Chambers gear piece — SP-1200 at 12-bit/26.04 kHz, the
+  45-to-33 replay trick that warps pitch, RZA's own "that really gritty bass"
+  and "make it louder". Carlos "C12" Bess, Wu's engineer — the Firehouse's
+  reverbs were plates and rooms, no gated anything.
+- NINE CHANGES, the Razor block only: allow_dirt; wow 0.2->0.5; mix_sat
+  0->1.5 and kick_dist 0->3.0 (direction sourced, amounts mine and labelled
+  mine); his own mix_eq with the air CUT to -1.5 dB at 8 kHz instead of the
+  house +2.0 (the SP-1200's Nyquist is ~13 kHz and groove.sp1200 lowpasses at
+  9 kHz — the era physically could not make that air); space gated->room;
+  jitter 6->8 on kick and snare so "the widest on the roster" is true instead
+  of a three-way tie; kit tags and kick_flavors rewritten; own_soundbank on;
+  stamp lane dropped.
+- **glue LEFT at the roster 1.8 ON PURPOSE — the opposite call from Doc Day**,
+  who got 4.0. His sources demand hard SSL compression; Razor's says the
+  reverse in as many words. This is exactly the blanket-apply the skill
+  forbids and it was the temptation of the session.
+- kick_flavors was the trap. pattern_gen.py:1326 OVERWRITES kit["kick"] with
+  the chosen flavor's words on every composed beat, so fixing the kit alone
+  would have changed nothing. His non-808 flavor asked for boom/dirty/dust/
+  break = 1 real file. 808 weight also dropped 0.35->0.15 (description-driven,
+  flagged).
+- Tag audit found the Doc Day trap twice more: `boom` matches VOL5-BOOM808
+  (808s), `funk` matches twelve Brazillian Funk Kicks, `stomp` a foley pack,
+  and on the snare `lofi` matches DECEPT_Lofi_Sidestick — the exact wrong
+  sample that shipped in Doc Day's first batch. **This library has no
+  vocabulary for a dirty boom-bap kick.** Settled on lofi/med/drkick = 27 real
+  kicks, hard/memphis = 21 snares, closed/tite = 43 hats.
+- READING THE PRINTED SAMPLE LIST PAID FOR ITSELF, first render: `roomy` had
+  pulled Cloud_Roomy_Kick n Hat — a compound one-shot with a hat baked into
+  the kick, which doubles the hat lane. Tag pulled, re-rendered.
+- Zero engine changes. The stamp is silenced by removing it from `lanes` only;
+  kit["stamp"] stays because crew.lock_stamps reads it unconditionally
+  (crew.py:1159) and compose() skips stamp lanes anyway.
+- Verify by: allow_dirt A/B on one shared beat — the difference signal sits
+  0.5 dB under the whole clean render, so it is not subtle. Audition measured
+  air -10.3 dB, sub +0.7 dB, attack -1.2 dB. Folder on his Desktop.
+- Three roster-guard tests fired, all by design, all updated to name him and
+  say why: every_personality_has_a_stamp (he is the only preset without the
+  lane), allow_dirt (sixth, first legend), own_soundbank (second — and the
+  docstring now records that the flag is only safe AFTER the tags are proved,
+  since turning it on over his old tags would have gated him to four kicks).
+  Full suite back to the 994 passed / 3 skipped baseline.
+- Status: open — **auditioned, not heard.** Only his ear closes it.
+
 ### 2026-09-05 All twelve legends get the new-build treatment — the machinery
 - Context: "I'll want this same for all remaining legends. Not in the 9.
   Create something to make that easy and clear for each session" — then,

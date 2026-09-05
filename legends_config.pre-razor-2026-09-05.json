@@ -1800,8 +1800,9 @@
     "kick",
     null,
     [
-     "hard",
-     "drkick"
+     "deep",
+     "sub",
+     "clean"
     ],
     [
      0.3,
@@ -1820,7 +1821,8 @@
     "snap",
     null,
     [
-     "snap"
+     "snap",
+     "finger"
     ],
     0.5
    ],
@@ -1829,17 +1831,18 @@
     null,
     [
      "closed",
-     "tite"
+     "tight"
     ],
     0.5
    ],
    "stamp": [
-    "vox",
+    "fx",
     null,
     [
      "hey",
-     "ohh",
-     "wuh"
+     "vocal",
+     "chant",
+     "yeah"
     ],
     0.9
    ]
@@ -1850,7 +1853,7 @@
     1.0,
     [
      0,
-     3,
+     1,
      50,
      1041
     ],
@@ -1958,7 +1961,7 @@
   ],
   "alt": null,
   "drive": 1.45,
-  "kick_dist": 4.0,
+  "kick_dist": 0.0,
   "mix_sat": 0.0,
   "grammar": {
    "kick": {
@@ -1969,7 +1972,7 @@
      6,
      1,
      1,
-     8,
+     4,
      1,
      2,
      1,
@@ -2049,7 +2052,10 @@
    [
     0.6,
     "808",
-    [],
+    [
+     "deep",
+     "sub"
+    ],
     [
      0.4,
      1.0
@@ -2059,8 +2065,9 @@
     0.4,
     null,
     [
-     "hard",
-     "drkick"
+     "clean",
+     "tight",
+     "punch"
     ],
     [
      0.15,
@@ -2110,10 +2117,7 @@
      "blips"
     ]
    ]
-  },
-  "allow_dirt": "low",
-  "own_soundbank": true,
-  "_research_note": "NEW BUILD 2026-09-05, third legend after Doc Day and Razor. Same rule: research replaces what research speaks to, silences are NAMED rather than invented. SOURCES THIS PASS: (a) Billboard, 'DJ Mustard: How the Producer's Ratchet Revolution Became the Sound of 2014', Reggie Ugwu, 2014-02-14 — the sound is 'taut and spare, snappy and insistent', with 'gruff chants in the background... Hey! Hey! Hey! Hey!' named as THE identifying feature, and Mustard's own line placing himself in Lil Jon's lineage ('I'm not doing anything that Lil Jon wouldn't have done'). DJ first, club first — he got his first DJ gig at 11. (b) Bay Eight Recording Studios, 'How to Make a DJ Mustard Type Beat', 2025-06-03, built on his own interviews: build on an 808 with 'an intense kick'; 'use swings and stutters to make your kick sound more human'; a SIMPLE hi-hat pattern; 'experiment with elements like a distorted bass'; a 3-to-5-note piano melody; leave room for the artist; and his own quote on repetition, 'the first verse is always gonna be the same as the second verse'. Same source has his prompt for Not Like Us: 'What would Dr Dre do if Lil John was in the studio and they was collaborating?' (c) He learned to produce on REASON — worth recording in THIS repo of all places, though it maps to no field here. || WHAT WAS ALREADY RIGHT, and is being left alone on purpose: he has no dust, no vinyl, no wow, and his listen line says 'clean digital'. The 2026-07-18 clean-render rule AGREES with him — the opposite of Razor, whose whole grime set had been silently stripped. Nothing to overrule here. space ['dry', ['clap']] is likewise already what 'dry claps on 2 and 4' and 'taut and spare' ask for. || allow_dirt 'low' + kick_dist 0.0 -> 4.0. Owner asked in plain language 2026-09-05 and chose '808 only, mix stays clean' — the exact setting Night Metro carries and the reason that setting exists. Sourced: 'experiment with elements like a distorted bass' (source b), his later catalogue's shift to distorted 808s, and Not Like Us. THE AMOUNT IS MINE — 4.0 sits between New Math/Rage Engine's 3.0 and Night Metro's 5.0. The mix stays clean, so 'clean digital' survives intact. || KICK JITTER 1 -> 3 ms, KICK LANE ONLY. Owner asked and chose 'a touch of human on the kick only'. This is the one place his sources and his own description pull opposite ways — 'use swings and stutters to make your kick sound more human' against 'clean digital' — so it was put to him rather than decided. Clap, snap and hat stay at 1 ms: machine-locked, which is what 'clean digital' is protecting. 3 ms is still the second-tightest kick on the roster. || THE CHANT LANE WAS POINTED AT THE WRONG DRAWER, and this is the headline. Billboard names the gruff 'Hey! Hey!' as the single most identifying thing about him, his listen line says 'room for the chant', and his stamp lane asked the FX bucket for hey/vocal/chant/yeah — ZERO matches in 356 files. The `vox` bucket, which the lane was never pointed at, contains 'Cymatics - Hey Vox' and 'Cymatics - Stacked Hey Vox' literally by name, plus OHH!, WUH and GO!. Role changed fx -> vox, tags hey/ohh/wuh. crew._pick_path takes the role straight off the kit entry so no engine change was needed; lock_stamps still locks him one chant for life, which is exactly what a producer tag is. || OTHER TAGS: hat asked for `tight` = 1 file; the word in this library is `tite`, so closed/tite = 43 real closed hats (same fix Doc Day and Razor got). snap `finger` PULLED — it matched seven 'finger cym tree' files, which are finger CYMBALS, not finger snaps; `snap` alone = 16 real snaps. clap left at ['clap'] = 75 of 76, effectively the whole bucket, which is correct for a man whose clap is the backbeat. || THE 808 FLAVOR'S `wants` WERE EMPTIED ON PURPOSE, which looks like a deletion and is not. He is 60% 808 by weight, and the must='808' tier has 136 files — but his wants deep/sub matched only THREE of them, so the must-AND-want tier was funnelling nearly every beat onto the same handful. Measured the 808 pool's own vocabulary: it is pack names (cymatics, oracle, playoffs, cobra) and nothing descriptive. There is no honest word to steer 808s with in this library, so the lane now picks freely from all 136. Non-808 flavor: clean/tight/punch matched five files, TWO OF WHICH ARE 808s ('VOL5 - Punchy 808', 'Squeeky Clean 808') — the same trap Doc Day's and Razor's audits found. Now hard/drkick = 23 real kicks, no 808s. And note why the flavors matter at all: pattern_gen.py:1326 OVERWRITES kit['kick'] with the chosen flavor's words on every composed beat, so fixing the kit alone would have changed nothing. || THE AND-OF-TWO POCKET: his listen line names it and his grammar did not deliver it — step 6 of 16 sat at weight 4, below steps 3 and 10 at 6. Now 8, second only to the downbeat's 10. DESCRIPTION-DRIVEN, not sourced, and flagged as such. || own_soundbank true, and ONLY AFTER the tags above were proved against real filenames. The reverse order would have been worse than doing nothing: his stamp would have been gated to a bucket with zero matches and his snap to finger cymbals. || STILL NOT INVENTED, named as silent: no mix_eq of his own (no source names a frequency; the house default already leans bright at +2 dB/8 kHz, which suits 'clean digital' and 'snappy' — churning it would cost a re-render and buy nothing). No `glue` block: sources say nothing about his compression, so he keeps the roster 1.8 rather than inheriting Doc Day's 4.0. No `transient`: 'snappy and insistent' is a description of the whole record, not a named processing choice. No `sub_layer`: he is 60% long 808 already, and a synth sub under a sustained 808 is two subs fighting. sidechain 0.25 and drive 1.45 are roster defaults and no source names either. || KNOWN EXPOSURE, same as the other two: legends.load_legends re-syncs grammar/kick_flavors/extras/library from LEGENDS_DEFAULT on a LEGENDS_VERSION bump unless _style_lock is set. Both are 1 today, but a bump would silently wipe the kick_flavors and grammar fixes above. || STATUS: measured and rendered, NOT heard. Only his ear closes this."
+  }
  },
  "Swish Beatz": {
   "num": 15,
@@ -3740,9 +3744,9 @@
     "kick",
     null,
     [
-     "lofi",
-     "med",
-     "drkick"
+     "boom",
+     "dirty",
+     "dust"
     ],
     [
      0.3,
@@ -3753,8 +3757,9 @@
     "snare",
     null,
     [
-     "hard",
-     "memphis"
+     "crack",
+     "dusty",
+     "hard"
     ],
     1.0
    ],
@@ -3763,7 +3768,7 @@
     null,
     [
      "closed",
-     "tite"
+     "vintage"
     ],
     0.5
    ],
@@ -3785,7 +3790,7 @@
     1.0,
     [
      6,
-     8,
+     6,
      52,
      1091
     ],
@@ -3805,7 +3810,7 @@
     0.88,
     [
      -6,
-     8,
+     6,
      52,
      1092
     ],
@@ -3839,14 +3844,34 @@
      "x-x-x-x-x-x-x-x-",
      "x-x-x-x-x-x-x-x-"
     ]
+   ],
+   "stamp": [
+    -0.3,
+    0.42,
+    [
+     0,
+     4,
+     50,
+     1094
+    ],
+    [
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-",
+     "----------------",
+     "----------------",
+     "----------------",
+     "--------------x-"
+    ]
    ]
   },
   "dust": 0.6,
   "vinyl": -38,
-  "wow": 0.5,
+  "wow": 0.2,
   "sidechain": 0.1,
   "space": [
-   "room",
+   "gated",
    [
     "snare"
    ]
@@ -3860,8 +3885,8 @@
    ]
   ],
   "drive": 1.35,
-  "kick_dist": 3.0,
-  "mix_sat": 1.5,
+  "kick_dist": 0.0,
+  "mix_sat": 0.0,
   "grammar": {
    "kick": {
     "w": [
@@ -3942,7 +3967,7 @@
   },
   "kick_flavors": [
    [
-    0.15,
+    0.35,
     "808",
     [
      "boom",
@@ -3954,12 +3979,13 @@
     ]
    ],
    [
-    0.85,
+    0.65,
     null,
     [
-     "lofi",
-     "med",
-     "drkick"
+     "boom",
+     "dirty",
+     "dust",
+     "break"
     ],
     [
      0.18,
@@ -4082,19 +4108,7 @@
     96
    ],
    "chords_default": true
-  },
-  "allow_dirt": true,
-  "own_soundbank": true,
-  "mix_eq": {
-   "low_db": 1.5,
-   "low_hz": 120.0,
-   "mid_db": -1.0,
-   "mid_hz": 800.0,
-   "mid_q": 0.9,
-   "high_db": -1.5,
-   "high_hz": 8000.0
-  },
-  "_research_note": "NEW BUILD 2026-09-05, second legend after Doc Day. Same rule as his pass: research replaces every field research actually speaks to, and where the sources are SILENT the field is named as silent rather than invented. SOURCES THIS PASS: (a) Gearspace thread 'RZA's drums' — a producer who reproduced his catalogue: 'he wanted the console into the red for gritty and raw sound', 'still big saturated rza kick', and — the load-bearing one — 'its mostly EQ work. Forget about compression, most of the time... Its huge eq work. Not one eq... Its often several eq stage'. (b) Sweetwater, 'The Gear Behind Wu-Tang Clan's Enter the Wu-Tang (36 Chambers)', 2023-08-24: SP-1200 = 12-bit AD/DA, 26.04 kHz sample rate, SSM2044 filters; the era trick of sampling 33-1/3 rpm records at 45 with the pitch maxed and replaying slow, which lowers resolution FURTHER and warps pitch; RZA's own directive from The Wu-Tang Manual, 'that really gritty bass' and 'make it louder'. (c) Carlos 'C12' Bess, Wu's engineer, gear list and per-track sampler credits (posted to Gearspace, reposted r/wutang 2024): SP-1200, EPS-16+, ASR-10 locked to tape via a Roland SBX-80; the Firehouse's reverbs were plates and rooms (Lexicon PCM 40/41/42, Echoplate III, Stocktronics RX 4000A, Yamaha REV-1) — no gated anything; on Wu-Tang Forever his live kit was a Ludwig Supraphonic with a black-dot head and a 22\" Gretsch kick, both marked 'Tune Very High', open back. || THE HEADLINE: HIS DIRT HAD NEVER PLAYED, NOT ONCE. He carried the loudest vinyl bed on the roster (-38), dust 0.6 (which is the SP-1200 stage — crew.py:2035 feeds `dust` straight into groove.sp1200 as its wet amount, 12-bit at 26.04 kHz, exactly the machine), wow, and a hot 1.35 drive, and OWNER_TASTE['clean_renders'] (2026-07-18) stripped every one of them at render. `allow_dirt: true` is the same narrow opt-out Otto Grit, Cutz, Crate Prophet and Rage Engine already carry; the other twenty presets stay clean. Owner asked in plain language 2026-09-05 and chose 'yes — and turn the wow up too'. || wow 0.2 -> 0.5. Direction sourced (turntable pitch drift, the 45->33 replay trick, tape); THE NUMBER IS MINE. groove.wow_flutter reads wow_pct and 1% speed is ~17 cents, so 0.2 was ~3 cents — inaudible, and below both Crate Prophet (0.3) and Half Light (0.6) despite his line claiming a warp. 0.5 is ~8 cents, an audible warble. One line to move after he hears it. || mix_sat 0.0 -> 1.5 and kick_dist 0.0 -> 3.0. Direction sourced twice over ('console into the red', 'big saturated rza kick' — the kick named specifically, which is why kick_dist moves too); THE AMOUNTS ARE MINE. Pitched under Rage Engine's wall-of-sound 2.0/3.0 rather than at it. || mix_eq: his own, with the air band CUT to -1.5 dB at 8 kHz instead of the house +2.0. Sourced: the SP-1200 samples at 26.04 kHz, so its Nyquist is ~13 kHz and groove.sp1200 lowpasses at 9 kHz on top of that — the era physically could not make air up there, and the house default was adding it to him on every beat. -1.5 is Otto Grit's and Crate Prophet's, both already ear-approved for dust characters. Low/mid left at the house numbers: the sources say 'several EQ stages' but name no frequency, and groove.py's own note says only ~1/3 of a low boost survives peak-normalise -> tanh -> master_to_lufs, so that band is a weak lever either way. || glue LEFT AT THE ROSTER 1.8, DELIBERATELY, and this is the opposite call from Doc Day's on purpose. Doc Day got ratio 4.0 because his sources demand hard SSL compression. Razor's says the reverse in as many words: 'Forget about compression, most of the time... Its huge eq work.' Copying Doc Day's number across is exactly the blanket-apply the legend-new-build skill forbids. || NO `transient` BLOCK. The one 'pop' source is RZA's own MTV Cribs tip about PSA guitar-amp compressors, which is his late-90s W era — a different sound from the grimy 36 Chambers persona this preset is. Named as out-of-era, not overlooked. || NO `sub_layer`. 'That really gritty bass' in the sources is the sampled bass and the record's low end, not a synth sub under the kick, and his own listen line says muddy BOOM kicks, not deep sub. Doc Day's allow_peak_db lift was scoped to him for a reason and is not inherited here. || space gated -> room. Gated reverb was an inherited roster default that 7 of 12 legends share, never researched, and an 80s drum effect no RZA source mentions. The Firehouse's documented reverbs are plates and rooms (source c). Doc Day's went to dry on the same reasoning — the difference is that his sources say clean/surgical and Razor's say murky. This is the weakest of the changes in this pass; if the audition sounds washed, dry is the next rung. || KIT TAGS REWRITTEN, then own_soundbank turned on — in that order, because the reverse would have been worse than doing nothing. Audited against real filenames (legend_newbuild.py --tags): his kick asked for boom/dirty/dust = 4 files of 525, his snare for crack/dusty = ZERO, his stamp for clang/gong/sword = ZERO. Rejected on inspection, not on count: `boom` matches VOL5-BOOM808 (808s — the identical trap Doc Day's audit found), `funk` matches twelve Brazillian Funk Kicks, `stomp` matches a foley stomp pack (Clap Stomp, Click Stomp), and on the snare `lofi` matches DECEPT_Lofi_Sidestick — the exact wrong pick that shipped in Doc Day's first batch. STATED PLAINLY: this library has no vocabulary for a dirty boom-bap kick. kick lofi/med/drkick = 27 real kicks, no 808s (`roomy` was in the set for the first render and PULLED, because one of its two matches is Cloud_Roomy_Kick n Hat — a compound one-shot with a hat baked into the kick, which doubles the hat lane; caught by reading the printed sample list, which is the whole reason that step exists); snare hard/memphis = 21; hat closed/tite = 43, all genuinely closed. The grime comes from the SP-1200 stage, not from the sample's name. || kick_flavors REWRITTEN TOO, and this is the part that would have made the kit edit pointless on its own: pattern_gen.py:1326 OVERWRITES kit['kick'] with the chosen flavor's words on every composed beat, so his real kick tags were the flavors', not the kit's. Non-808 flavor now carries the audited words. The 808 weight drops 0.35 -> 0.15: description-driven, not source-driven — his line says muddy boom KICKS and his documented machines are a break sampler and the Red Box, not an 808 — and it also stops a third of composed variants being unjudgeable, since make_legend_newbuild excludes 808 kicks from the A/B. || jitter kick and snare 6 -> 8 ms. DESCRIPTION-DRIVEN, not sourced, and flagged as such: his line claims 'the widest jitter on the roster' and 6 was a three-way tie with Crate Prophet and Half Light. Per the skill the listen line is the top rule. groove's TimeFeel draws sigma = jitter/3, so 8 is about 5% of a 16th note at 87 bpm — loose, not sloppy. Hat left at 5. || STAMP LANE DROPPED (owner call 2026-09-05). His kung-fu sword stamp asked for clang/metal/gong/sword and the fx bucket has ONE match in 356 files; with own_soundbank on that lane would have fallen through to a random fx pick, which is how a talking drum reached a Dr. Dre beat. His line says 'sparse dusty arrangement' and never names a stamp. Removed from `lanes` ONLY — the kit['stamp'] entry stays because crew.lock_stamps reads it unconditionally (crew.py:1159) and would KeyError without it, and compose() skips stamp lanes anyway (pattern_gen.py:974), so dropping the pattern is all it takes to silence it. Zero engine changes. || STILL NOT INVENTED, named as silent: drive 1.35 and sidechain 0.1 are roster defaults and no source names either. drive now actually reaches the master (clean_renders was forcing 0.7), which is itself a change in what he hears even though the number did not move. || KNOWN EXPOSURE, same as Doc Day's: legends.load_legends re-syncs grammar/kick_flavors/extras/library from LEGENDS_DEFAULT on a LEGENDS_VERSION bump unless _style_lock is set. Both are 1 today so nothing resyncs, but a future bump would silently wipe the kick_flavors fix above. || STATUS: measured and rendered, NOT heard. Only his ear closes this."
+  }
  },
  "Hitt Kid": {
   "num": 20,
