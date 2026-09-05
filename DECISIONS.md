@@ -22,6 +22,85 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 Doc Day pass finished — and the kick sub layer was working BACKWARDS
+- Context: continuing the 09-05 Doc Day (Dre) handoff. He chose "keep
+  changing his numbers" over "just render what's there", and picked
+  Now/Research/Light as the sub rungs. Drive was mounted this time and the
+  venv runs natively from this shell, so both of the previous session's
+  blockers were gone.
+- BUILT THE FLAGGED KNOB: the previous entry flagged his 8-10:1 SSL
+  compression as having no field in the schema and refused to guess.
+  It needed no new feature — groove.glue_compress already took
+  threshold_db/ratio/env_ms/makeup_db and crew.py:2011 was calling it
+  with none of them. One line: `glue_compress(L, R, **p.get("glue", {}))`.
+  Doc Day gets `{"ratio": 4.0}`. DELIBERATELY NOT 8-10: his quote is about
+  SSL CHANNEL comps on individual elements, this engine has one BUS
+  compressor, so the number does not transfer — 4.0 encodes "harder than
+  the roster's 1.8", which is the part sources support. Corroborated
+  independently by the Gearspace "Dr dre mixing techniques" thread
+  ("clarity using heavy compression", "hard SSL compression", "sounds
+  that never fight with each other" — the same separation argument
+  already behind mid_db -1 @ 800 Hz).
+- THE REAL FINDING — groove.kick_sub_reinforce was making kicks WEAKER.
+  The batch's own fail-loud gate caught it; it was not looked for. The
+  function searches polarity/offset for the sum with the LOUDEST low band,
+  then peak-normalised the winner back to the raw kick's peak. That guard
+  is load-bearing (peak_ceiling_for returns None for the kick, so the
+  kick's peak is the reference every other lane is scaled against — let it
+  inflate and the sub silently turns the whole rest of the beat down). But
+  it ran ONCE, AFTER the winner was chosen, and a 40 Hz sine summed with a
+  transient raises the PEAK far more than it raises loudness, so the
+  pullback scaled the whole kick down and took the kick's own low end with
+  it. Measured on six real kicks, 30-55 Hz: it flipped the sign of the
+  whole function on FOUR of them (Otto -4.57, -1.00; Doc Day -2.53, -1.05).
+- Fix: the guard now runs INSIDE the search and candidates are scored
+  AFTER it applies. Because the untreated kick is itself a candidate at
+  ratio 1.0, the low band can never come out quieter than it went in, and
+  the peak can never grow. Both invariants now hold on all six kicks.
+  Regression test: test_sub_reinforce_never_costs_low_end_or_headroom.
+- THIS CHANGES OTTO GRIT. Same code path; his sub is the only other one.
+  His "b Light" verdict (2026-09-03) was given on renders where the effect
+  was sometimes inverted. Nothing of his was retuned, but his beats will
+  render differently from now on. He has been told.
+- HONEST OUTCOME OF THE AUDITION: with the guard correct, the sub is inert
+  on any kick already at its peak — 4 of 6. In the rendered batch, beats 1
+  and 3 came out with b and c IDENTICAL, so 7 of 9 files are the same
+  sound. His EQ measures ~0.2 dB (only the low shelf differs from the
+  roster, on a lever where a third survives) and the glue ratio ~0.1 dB
+  (25 ms symmetric envelope acts as level automation; master_to_lufs
+  normalises it back out). Batch was NOT presented as an a/b/c verdict —
+  the READ ME says plainly that only beat 2 has anything to hear, and asks
+  the one question that matters instead.
+- THE OPEN DECISION, his to make: the sub can't add weight because the
+  kick may not get louder, and it may not because every other lane is
+  levelled against it. Letting the kick's peak grow makes the sub work on
+  every kick and costs every other sound a little level. Measured the
+  trade: even +3 dB of allowance leaves two of six kicks gaining under
+  1 dB, and one goes NEGATIVE at +2 dB — so it may not be worth it, and
+  the sub layer may simply not deserve to be a named part of an identity.
+- Test tripwire fired as designed: test_only_otto_carries_the_kick_sub_layer
+  failed because Doc Day now carries one. That was a real decision (09-05),
+  so the test was updated to record it, renamed
+  test_only_otto_and_doc_day_carry_the_kick_sub_layer. NOTE the previous
+  session added sub_layer without running the suite, so this had been
+  sitting red.
+- LEFT ALONE ON PURPOSE, flagged not resolved: space ["gated", ["snare"]]
+  is a roster default 7 of 12 legends share and gated reverb sits oddly
+  next to "clean, crisp, surgical". Searched for a source saying his snare
+  was dry AND one saying it wasn't; found neither. Inconclusive, so it
+  stays — same handling as allow_dirt. sidechain 0.2 and drive 1.45 are
+  roster defaults too and are untouched for the same reason.
+- Backup: legends_config.pre-doc-day-glue-2026-09-05.json. Diff was 5
+  insertions / 2 deletions, no whole-file reformat (indent=1 preserved).
+- Verify by: full suite `.venv/bin/python -m pytest tests/ -q` — RUN THIS
+  SESSION, 990 passed, 3 skipped. Batch rendered to
+  ~/Desktop/Homeroom Doc Day 2026-09-05/.
+- Status: open. MEASURED: everything above. HEARD: nothing. Waiting on one
+  answer — let the kick grow, yes or no. The other six Legends (Mustang,
+  Swish Beatz, Just Flame, Razor, Hitt Kid, No Alias) are still untouched.
+- Outcome:
+
+
 ### 2026-09-05 HANDOFF — Doc Day (Dre) rebuilt from research, first of the seven Legends with no crew counterpart
 - Context: the nine's per-DJ pass (dust/EQ/effects, research-driven) finished
   09-04. He asked to move on to "the legends we haven't tuned within the

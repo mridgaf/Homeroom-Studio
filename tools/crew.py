@@ -2008,7 +2008,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         # the glue and the limiter react to the mix he'll actually hear.
         from audio_engine import eq3
         L, R = eq3(L, R, **eq)
-    L, R = glue_compress(L, R)
+    # A preset may name its own compression (owner 2026-09-05, Doc Day:
+    # "I usually have the ratio up to about eight or 10 on a lot of
+    # things"). Keys are glue_compress's own — threshold_db, ratio,
+    # env_ms, makeup_db — and anything left out inherits OWNER_TASTE, so
+    # a preset with no `glue` key renders exactly as it did before.
+    L, R = glue_compress(L, R, **p.get("glue", {}))
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't
     L, R = master(L, R, drive=0.7 if clean_mix else p["drive"])

@@ -267,14 +267,22 @@ def test_the_low_end_ducks_the_same_depth_on_every_path():
         "kick stays on top: sub is %+.2f dB over it in the STEM" % over_db)
 
 
-def test_only_otto_carries_the_kick_sub_layer():
+def test_only_otto_and_doc_day_carry_the_kick_sub_layer():
     """2026-09-03: the sub layer is Otto Grit's researched trait, approved
     on its own audition. It is not a house default — if it ever shows up
-    on a second preset that was a decision, and this test should be the
-    thing that says so out loud."""
+    on a preset that was a decision, and this test should be the thing
+    that says so out loud.
+
+    It said so. Doc Day (Dre) was given one on 2026-09-05 — "an occasional
+    deep sub" is in his own `listen` line, and Mike Elizondo was brought
+    into that camp specifically for low-end weight. His is 0.45/0.15s,
+    deliberately stronger than Otto's, because sub is named as core to
+    that persona rather than incidental. NOT YET APPROVED BY EAR. Anyone
+    adding a THIRD is making the same decision again — say so here."""
     have = {n for n, p in CREW.items() if p.get("sub_layer")}
-    assert have == {"Otto Grit"}
+    assert have == {"Otto Grit", "Doc Day"}
     assert CREW["Otto Grit"]["sub_layer"]["amount"] == 0.35
+    assert CREW["Doc Day"]["sub_layer"]["amount"] == 0.45
 
 
 def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():

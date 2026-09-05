@@ -7,6 +7,7 @@ import pytest
 
 sys.path.append(str(Path(__file__).parent.parent / "tools"))
 from groove import (LaneFeel, dist808, euclid, gated_reverb, glue_compress,
+                    kick_sub_reinforce,
                     haas, k_weight, kick_layer, lufs, make_ir,
                     master_to_lufs, mono_below, mpc_swing_offset,
                     ratchet_times, sp1200, transient_shape, velocity,
@@ -242,6 +243,55 @@ def test_glue_compress_keeps_stereo_image():
     R = np.zeros_like(L)
     _, gR = glue_compress(L.copy(), R.copy())
     assert np.abs(gR).max() < 1e-9
+
+
+def test_sub_reinforce_never_costs_low_end_or_headroom():
+    """The bug this catches (found 2026-09-05, measured on six real
+    kicks): the peak guard used to run ONCE at the end, on a winner the
+    search had already picked, so the candidate with the loudest low band
+    got chosen and then scaled down bodily — taking the kick's own low end
+    with it. On four of six kicks that flipped the sign of the whole
+    function, -4.57 dB on one of Otto Grit's.
+
+    Two invariants, and they are in tension, which is the whole point:
+    the low band may never come out QUIETER than it went in (the
+    function's stated job), and the peak may never come out HIGHER (the
+    kick is the reference every other lane is scaled against in
+    crew.peak_ceiling_for, so an inflated kick silently turns the rest of
+    the beat down). A transient-heavy kick is the case that broke it."""
+    t = np.arange(int(0.4 * SR)) / SR
+    # a click plus a short body — peak lives in the first few samples,
+    # which is exactly when adding a 40 Hz tone inflates it most
+    kick = np.exp(-t * 60) * np.sin(2 * np.pi * 55 * t)
+    kick[:20] += np.linspace(1.0, 0.0, 20)
+
+    def low_band_db(x):
+        spec = np.abs(np.fft.rfft(x)) ** 2
+        f = np.fft.rfftfreq(len(x), 1 / SR)
+        sel = (f >= 30) & (f <= 55)
+        return 10 * np.log10(spec[sel].sum() / len(x) + 1e-30)
+
+    for amount in (0.35, 0.45, 0.8):
+        out = kick_sub_reinforce(kick.copy(), amount=amount)
+        assert low_band_db(out) >= low_band_db(kick) - 1e-9, \
+            "sub layer REMOVED low end at amount %s" % amount
+        assert np.abs(out).max() <= np.abs(kick).max() + 1e-9, \
+            "sub layer inflated the kick peak at amount %s" % amount
+
+
+def test_glue_ratio_is_a_per_preset_knob():
+    """crew.py passes a preset's `glue` block straight into these
+    kwargs (owner 2026-09-05, Doc Day's SSL ratio). Two things have to
+    hold or that knob is decoration: a harder ratio must squash a loud
+    signal MORE than the house default, and passing nothing must give
+    back exactly the house default."""
+    t = np.arange(2 * SR) / SR
+    loud = np.sin(2 * np.pi * 200 * t) * 0.9
+    house, _ = glue_compress(loud.copy(), loud.copy())
+    hard, _ = glue_compress(loud.copy(), loud.copy(), ratio=8.0)
+    assert np.abs(hard).max() < np.abs(house).max()
+    same, _ = glue_compress(loud.copy(), loud.copy(), **{})
+    assert np.array_equal(same, house)
 
 
 # -- transient shaper ----------------------------------------------------------------

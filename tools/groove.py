@@ -411,18 +411,40 @@ def kick_sub_reinforce(kick, freq_hz=40.0, dur_s=0.12, amount=0.35,
     def low_rms(a):
         return np.sqrt((lp4(a, check_hz) ** 2).mean())
 
+    # Keep the sample's own headroom: a reinforced kick that peaks higher
+    # would win the level cascade on loudness it did not earn. This is
+    # load-bearing, not cosmetic — peak_ceiling_for() returns None for the
+    # kick, so the kick's peak is the reference EVERY other lane is scaled
+    # against. Let it inflate and the sub quietly turns the whole rest of
+    # the beat down.
+    ref = np.abs(top).max()
+
+    def headroom(cand):
+        pk = np.abs(cand).max()
+        return cand * (ref / pk) if pk > ref > 0 else cand
+
+    # The guard runs INSIDE the search (fixed 2026-09-05). It used to run
+    # once at the end, on a winner chosen before it applied — so the
+    # candidate with the loudest low band could be picked and then scaled
+    # down bodily, taking the kick's own low end with it. A 40 Hz sine
+    # summed with a transient raises the PEAK far more than it raises
+    # loudness, so the pullback was large: measured across six kicks it
+    # flipped the sign of this whole function on four of them, -4.57 dB on
+    # one of Otto Grit's — the opposite of reinforcement, and a direct
+    # contradiction of this search's own "keep whichever sum makes the low
+    # band LOUDEST" rule. Scoring the guarded candidate makes that rule
+    # true of what actually comes back, and because the untreated kick is
+    # itself a candidate at ratio 1.0, the low band can now never come out
+    # QUIETER than it went in. Both invariants hold: weight never drops,
+    # peak never grows.
     best, best_rms = top, low_rms(top)
     for pol in (1.0, -1.0):
         for off in (0, int(0.001 * SR), int(0.002 * SR), int(0.004 * SR)):
-            cand = top + pol * np.pad(sub, (off, 0))[:n]
+            cand = headroom(top + pol * np.pad(sub, (off, 0))[:n])
             r = low_rms(cand)
             if r > best_rms:
                 best, best_rms = cand, r
-    # keep the sample's own headroom: a reinforced kick that peaks higher
-    # would win the level cascade on loudness it did not earn
-    pk = np.abs(best).max()
-    ref = np.abs(top).max()
-    return best * (ref / pk) if pk > ref > 0 else best
+    return best
 
 
 def dist808(x, drive_db=5.0):
