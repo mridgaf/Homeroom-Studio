@@ -22,6 +22,257 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 All twelve legends get the new-build treatment — the machinery
+- Context: "I'll want this same for all remaining legends. Not in the 9.
+  Create something to make that easy and clear for each session" — then,
+  on what it is for: **"So you remember."** He clarified "this same" =
+  **"The same new build treatment"**, i.e. the whole Doc Day pass
+  (research-sourced changes + own_soundbank + tags that match real
+  filenames + absolutes turned into invariants + an old-vs-new audition),
+  NOT just the snare lock.
+- Built three things, because the thing he is actually asking for is that a
+  session with no memory can pick this up cold:
+  - `tools/legend_newbuild.py` — where all twelve stand, plus the live
+    faults in each one not done. Stage from `legend_newbuild_status.json`
+    (hand-kept: the last stage is his ear and nothing can derive that);
+    every CHECK read live off the config so it cannot go stale. `--tags`
+    audits taste tags against the real library.
+  - `tools/make_legend_newbuild.py` — the Doc Day render script with the
+    name as an argument and the prose replaced by a generated old-vs-new
+    diff. **make_doc_day_newbuild.py is deliberately left alone** — it is
+    the exact thing that produced the batch he approved, and generalising
+    it in place would risk his one good result to save a copy.
+  - `.claude/skills/legend-new-build/SKILL.md` — the per-session order of
+    work, and the do-nots.
+- DO NOT BLANKET-APPLY DOC DAY'S ANSWERS, stated here because it is the
+  obvious wrong move: only Doc Day's line says the snare NEVER leaves 2
+  and 4. Timberline's clap "answers instead of insists", J Dillo's snare
+  rushes ~20 ms early, Farrow's clap lands ~18 ms late. Locking those to
+  2 and 4 destroys the identity. Every exemption stays scoped to one
+  preset with a test asserting who carries it.
+- I DELETED HIS APPROVED BATCH AND HE WAS TOLD. Testing the new generic
+  script on Doc Day rendered to the same folder name and `shutil.rmtree`d
+  the batch he had approved an hour earlier; rmtree does not go to the
+  Trash. Re-rendered from make_doc_day_newbuild.py, so the folder is back
+  with the same comparison — but compose() re-rolls per process, so the
+  exact WAVs he listened to are gone. His verdict was on the build, not
+  those files, so nothing was lost but the files themselves.
+  Guard added: the script now REFUSES an existing Desktop folder unless
+  `--force`, checked BEFORE any rendering so it fails in a second.
+- SECOND FAULT IN THE SAME RUN, also fixed: `find_before` took the
+  alphabetically-last matching backup and silently chose a half-built
+  intermediate (`pre-doc-day-glue-...`) over the true original, reporting
+  +0.92 dB where the real old-vs-new is +6.27. A wrong baseline does not
+  fail — it understates the change and he judges the wrong thing. It now
+  refuses to guess between two backups and makes you name one.
+- Verify by: `./.venv/bin/python tools/legend_newbuild.py` prints 1 of 12
+  confirmed. Both guards were fired on purpose and both refused. Generic
+  script rendered Doc Day end to end against the correct baseline.
+- Status: confirmed for the machinery. 11 legends not started.
+
+### 2026-09-05 HEARD: he picked "b New". And a standing rule about old rules
+- HIS VERDICT, at last, on the four-change Doc Day new build: **"I like b
+  from the new audition. The kick sounds good."** `b New` is `CREW["Doc Day"]`
+  — the LIVE config — so his yes means the shipped settings stay as they are.
+  Nothing was changed to adopt it. The 2026-09-05 new-build entry moves from
+  open to confirmed.
+- NEW STANDING RULE, his words: "Overrule old decisions when they cause
+  problems with my new request. But always ask in plain language first."
+  This is not a licence to quietly narrow old features. It is: when two of
+  his rules collide, SAY SO IN PLAIN WORDS AND ASK — then act on his answer
+  instead of parking it. The previous behaviour (flag it, scope the test to
+  the settled half, wait to be asked again) is now too slow for him.
+- ASKED AND ANSWERED #1 — the snare. His `listen` line says the snare NEVER
+  leaves 2 and 4. The 2026-08-01 rule let any legend take a groove seed's
+  snare line outright, 50% when the seed is not already a bare 2&4, which
+  skips the modes entirely (variant 7 composed "--X---x-x---X---" — displaced,
+  nothing on beat 2). He chose **Doc Day only — lock it.**
+  - `pattern_gen.compose`: the seeded-backbeat branch now also skips on
+    `preset.get("snare_locked_24")`. One clause, default off.
+  - `legends_config.json`: `"snare_locked_24": true` on Doc Day alone, plus a
+    `_research_note` line. Backup `legends_config.pre-snare-lock-2026-09-05.json`.
+  - The 08-01 decision STANDS for the other 11 legends. It was measured (a
+    legend received a seed 0.0% of the time under the old rule) and its
+    reasoning — legends are the producers built on sampled breaks — is still
+    true for everyone except the one man whose own description forbids it.
+  - `test_doc_day_snare_never_leaves_2_and_4` upgraded from "survives 80% of
+    the time" to a hard assert over 24 variants, plus
+    `{n for n, p in CREW.items() if p.get("snare_locked_24")} == {"Doc Day"}`
+    so a second lock has to be a decision. Run 5 times over (compose re-rolls
+    per process, so one green run proves nothing here).
+- ASKED AND ANSWERED #2 — the missing patterns. He was right that "there were
+  additional patterns that were not being used when this was originally
+  built": `drum patterns.xlsx` has a third sheet, **Afro-Cuban** (Son Clave,
+  Rumba, Bossa Nova, Soukous), with no counterpart genre in `pattern_library/`
+  at all, and `Drum Machine - 260 Patterns.pdf` names 260 against 228
+  imported. He chose **leave it for now**. Logged so it is not rediscovered
+  as a bug. Nothing was imported.
+- Status: confirmed for the verdict and the snare lock (tests green, full
+  suite re-run). The Afro-Cuban / 260-vs-228 import gap is open BY HIS
+  CHOICE, not by oversight — do not "fix" it unprompted.
+
+
+### 2026-09-05 The auditions were never real beats — the script skipped compose()
+- Context: "It sounds like the kick drum is right on the snare with all of
+  these auditions, and it is used sparsely. It's hard to judge using
+  these. Create new auditions with two completely different beats."
+- HE WAS DESCRIBING IT EXACTLY. Doc Day's `lanes` block has the kick line
+  as a BYTE-FOR-BYTE COPY of the snare line — "----X-------X---", two
+  hits a bar, one bar repeated eight times. ALL TWELVE LEGENDS have the
+  same placeholder (the nine crew DJs do not: 3-5 unique kick bars, kick
+  never equal to snare).
+- NOT A BUG IN HIS BEATS, and this matters. beat_machine.py — the real
+  generator, what the Beat Machine app runs — calls pattern_gen.compose()
+  first, which rewrites every lane from the DJ's grammar. The config
+  `lanes` block is a SKELETON that never reaches a rendered beat.
+  make_doc_day_newbuild.py never called compose(), so it rendered the
+  skeleton. make_night_metro_ab.py and make_rage_engine_ab.py DO call it;
+  make_doc_day_ab.py, make_otto_ab.py and make_the_twenty.py do not.
+  Every audition built on the second group has been judging a skeleton.
+- Fixed by doing what make_rage_engine_ab.build_pair does: compose ONCE
+  per beat, then hand the same lanes+kit to both a and b. Composing per
+  version would let the form drift and a/b would stop being a comparison.
+- COMPOSE() IS NOT REPRODUCIBLE ACROSS RUNS, and the docstring's
+  "Deterministic per (name, variant)" is wrong. It loads a persisted
+  history file (_load_pat_hist) and re-rolls to avoid repeating a recent
+  kick bar, so the same variant number composes differently next run.
+  Measured: three fresh processes, three different results for the same
+  call sequence. Consequence for anyone writing a batch script: NEVER
+  select beats by variant number from a separate scan — compose the run
+  once and select from the composed results. choose() does that.
+- SELECTION, stated because it is deliberate: his 0.1-weight 808 kick
+  flavor rolls about one beat in five, and an already-long 808 has no
+  headroom for the sub layer — measured -0.07 dB against +5.88 on a plain
+  kick. Two batches in a row have had half their files with nothing in
+  them to hear. choose() now rejects 808-flavor beats and beats under 15
+  kick hits from the COMPARISON, ships them in a sibling folder instead,
+  and the READ ME says so.
+- TWO MORE OF MY OWN ERRORS, both found by rendering rather than reading:
+  1. kick_flavors is a SECOND copy of the kick taste tags and it WINS —
+     pattern_gen line 990 overwrites kit["kick"] with the rolled flavor.
+     This morning's tag fix touched only kit["kick"], so the dead
+     punch/knock/deep stayed live here, and own_soundbank had just made
+     it bite.
+  2. My widened tags defeated my own 808 gate. Of 525 kicks "punch"
+     matches exactly one file, "VOL5 - Punchy 808"; "boom" matches three,
+     two of them "VOL5 - BOOM808/8082". Both words read like his
+     description and both quietly delivered 808s through the PLAIN
+     flavor. thump+hard = 18 kicks, none of them 808s. THE TAGS MATCH
+     FILE NAMES, NOT INTENT — do not read a tag list as a description.
+- HIS DESCRIPTION IS NOW THE TIE-BREAKER for this persona (his words:
+  "Keep following the description as the top rule"). Applied: his snare
+  grammar was modes [[backbeat 0.9], [sparse 0.1]] while his line says
+  the snare "NEVER leaves 2 and 4". A rule written as NEVER is an
+  invariant, not a weight, and the one-in-ten fired in a real render
+  ("----X--.--------", snare on 2, nothing on 4). Pinned to
+  [[backbeat, 1.0]].
+- STILL OPEN, HIS CALL, NOT NARROWED BY ME: pinning the mode does NOT
+  close it. Since 2026-08-01 a legend may take a GROOVE SEED's snare line
+  outright (pattern_gen ~1246, 50% when the seed is not a bare 2&4),
+  skipping the modes. Variant 7 composes "--X---x-x---X---" — displaced,
+  nothing on beat 2. Closing it means switching off seeded backbeats for
+  him, and the 08-01 decision to allow them was itself measured and
+  deliberate. Two of his rules disagree; he was ASKED rather than one
+  being quietly narrowed. test_doc_day_snare_never_leaves_2_and_4 holds
+  the settled half (mode pinned, backbeat survives >=80%) and says in its
+  own body how to extend it if he rules for the description.
+- ALSO FOUND, NOT ACTED ON: "drum patterns.xlsx" in the project root has
+  THREE sheets — Breakbeats, Genre Templates, Afro-Cuban (Son Clave,
+  Rumba, Bossa Nova, Soukous). pattern_library/ holds 220 usable seeds
+  across electronic/hiphop/rock/breaks/funk/funk_breaks and NO Afro-Cuban
+  genre at all, and "Drum Machine - 260 Patterns.pdf" names 260 against
+  228 imported. This is very likely the "additional patterns that were
+  not being used" he remembers. Flagged for him to decide; importing was
+  not in scope.
+- Verify by: `.venv/bin/python -m pytest tests/ -q` — RUN, 994 passed, 3
+  skipped (990 baseline + 4 new). Batch:
+  ~/Desktop/Homeroom Doc Day NEW BUILD 2026-09-05/ (4 files, 2 beats x
+  old/new) and "... — Two more"/ (2 files, new only). Both judged beats
+  now measure the change: sub +5.03 dB average, no dud file.
+- Status: confirmed. HEARD, same day: he picked **b New** — "the kick
+  sounds good". Third attempt was the one he could judge.
+- Outcome: the new build ships as-is (b New IS the live config, so nothing
+  was changed to adopt it). The Afro-Cuban / 260-vs-228 gap he was asked
+  about directly: he chose to leave it for now.
+
+
+### 2026-09-05 The audition was unjudgeable because EVERY DJ's taste tags are dead code
+- Context: the new-build batch came back with a verdict he couldn't give.
+  "The kick drums selection in the audition beats are weird and make it
+  hard to judge everything" — then, asked to narrow it: "It's not so much
+  the kick. It's everything else."
+- ROOT CAUSE, and it is not Doc Day's numbers. `OWNER_TASTE
+  ["open_soundbank"]` (his rule, 2026-07-18, "no limits on a DJ's sound
+  bank") is read in exactly ONE place, crew._pick_path, where it does
+  `wants, must = [], None` BEFORE the preference tiers are built. So every
+  researched `wants` list on all 21 presets is dead code and every kit
+  pick is uniform-random from the whole role bucket. Nobody had noticed
+  because the tags are still sitting there in the configs looking live.
+- What it actually handed him, measured off the delivered batch:
+  DECEPT_Sidestick as beat 1's SNARE, DECEPT_Lofi_Sidestick as beat 2's
+  perc, HELLA HH MISC PERC 008 as beat 2's HAT, Hats_OHs_162 (OPEN hats)
+  as beat 4's hat, talking drum8 in a Dre beat.
+- BLOCKING QUESTION ASKED, NOT GUESSED. Two readings led to different
+  work (audition-only vs the preset vs the whole roster). He chose
+  DOC DAY ONLY: `own_soundbank` true on him alone, one more inherited
+  house rule dropped under the same 09-05 "no old rules for Dr Dre" call.
+  THE OPEN BANK STILL STANDS FOR THE OTHER TWENTY BY HIS DECISION, not
+  by oversight — do not widen it because you noticed the same thing.
+  Second answer, and it is a standing tie-breaker for this persona:
+  "Keep following the description as the top rule." His `listen` line is
+  the authority. That is why NO snap lane was added despite him saying
+  "tight hats and snaps" — his line names a crisp hard snare, not snaps,
+  and he confirmed "no snaps if that's what is indicated".
+- Implementation: `_pick_path(..., own_bank=False)`, build_kit passes
+  `bool(p.get("own_soundbank"))`. Default False, so the other twenty pick
+  byte-for-byte as before. lock_stamps deliberately NOT touched — his
+  producer tag is locked on disk and must not move under him.
+- Tag lists fixed against MEASURED library counts, every word from his
+  own `listen` line: kick punch/knock/deep matched 1 sample of 525 (would
+  have made the kick WORSE once tags went live) -> punch/thump/boom/hard,
+  ~22. hat `tight`'s only match was "Cymatics - Tight OPEN Hihat", the
+  exact fault he flagged -> closed/tite/clsd, ~58 ("tite" is how 20 of
+  his files spell it). perc gained `cowbell`, which his line names and
+  the tags had never had, ~83. snare left alone: `hard` already matched
+  16, enough for 4 beats.
+- RESULT, this batch: kick hard3 dry / sn 4 hard / hat tite 2 /
+  Tambourine, and three more like it. No sidesticks, no open hats, no
+  talking drums.
+- TWO OF THE THREE DELTAS MOVED AND ONE FLIPPED SIGN. Chased rather than
+  shipped. sub +1.39 -> +5.27 dB, air +1.53 -> +0.05, attack +0.84 ->
+  -0.82. Rendered with each change isolated to tell them apart:
+  * The sub is not bigger because anything changed — the OLD batch's
+    random kicks were already at their peak, so allow_peak_db 3.0 had no
+    room and the sub was near-inert. These kicks have headroom. +5.27 is
+    the sub layer finally doing its job.
+  * The negative attack is the RULER, not the drums. attack_db compares
+    the first 5 ms of a hit to the next 40; a 150 ms sub tone fills the
+    second half of that window. With sub_layer removed, the transient
+    shaper still adds attack on all four beats.
+  * CORRECTION TO THE ENTRY BELOW: that entry credited +0.84 dB attack to
+    the transient shaper. Isolated, the shaper contributes only +0.07 to
+    +0.19 dB. The +0.84 was mostly which samples got picked. The shaper
+    works; it is much weaker than it was logged as.
+  * air +1.53 -> +0.05 the same way: last time it rode a bright open hat
+    picked by chance. +0.05 is the honest number and matches this
+    persona's own note that his mix_eq is very nearly a no-op.
+- STILL OPEN AND NOT FIXED, roster-wide: the other twenty presets' taste
+  tags remain dead code. That is now KNOWN and his call, not a bug
+  waiting to be found again.
+- Backup: legends_config.pre-kit-tags-2026-09-05.json. Diff 10 insertions
+  / 6 deletions, Doc Day's object only, no whole-file reformat.
+- Verify by: `.venv/bin/python -m pytest tests/ -q` — RUN, 992 passed, 3
+  skipped (990 baseline + the 2 new tripwires,
+  test_own_soundbank_is_doc_day_alone and
+  test_own_soundbank_honours_taste_tags). Batch re-rendered to
+  ~/Desktop/Homeroom Doc Day NEW BUILD 2026-09-05/, sample names now
+  printed by the script AND listed in the READ ME so a weird pick is
+  visible on the page instead of costing another round trip.
+- Status: open. MEASURED and explained. HEARD: nothing. Still waiting on
+  old vs new, and on whether the bigger kick costs too much.
+- Outcome:
+
+
 ### 2026-09-05 Doc Day rebuilt with NO inherited rules — his call, scoped to him alone
 - Context: shown the measured result that the sub layer was inert on 4 of 6
   kicks because the kick may not get louder, he rejected the framing rather
@@ -83,7 +334,11 @@ entries.
 - Verify by: `.venv/bin/python -m pytest tests/ -q` — RUN, 990 passed, 3
   skipped. Batch: ~/Desktop/Homeroom Doc Day NEW BUILD 2026-09-05/ (8 files,
   4 beats x old/new). tools/make_doc_day_newbuild.py.
-- Status: open. MEASURED: everything above. HEARD: nothing. Waiting on old
+- Status: open, and PARTLY CORRECTED by the 09-05 entry above it: the
+  batch was unjudgeable (random kit picks — sidesticks where snares go),
+  so it was re-rendered, and the +0.84 dB attack credited to the transient
+  shaper here was mostly sample luck. Isolated, the shaper gives +0.07 to
+  +0.19 dB. MEASURED: everything above. HEARD: nothing. Waiting on old
   vs new, and specifically whether the bigger kick costs too much.
 - Outcome:
 

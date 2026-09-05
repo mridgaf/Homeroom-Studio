@@ -559,3 +559,107 @@ def test_the_breakdown_moves_shortens_and_skips_beats():
     # fits rather than crash or empty a bar that is not there
     short = [g for g in (choose(n, 4) for n in range(200)) if g is not None]
     assert short and set(short) == {2}, sorted(set(short))
+
+
+def test_own_soundbank_is_doc_day_alone():
+    """2026-07-18 the owner opened every DJ's sound bank: taste tags stop
+    gating picks, the whole role pool is fair game. On 2026-09-05 he heard
+    what that actually costs — a Dre audition with two sidesticks where
+    snares belong, open hats where tight hats belong, and a talking drum —
+    and chose the narrow fix: his own tags gate his own picks, HIM ALONE.
+
+    The open bank still stands for the other twenty. That is his decision,
+    not an oversight, and it is deliberately not being widened by anyone
+    who happens to notice the same thing later. A SECOND preset carrying
+    this flag is that decision being made again — say so here."""
+    have = {n for n, p in CREW.items() if p.get("own_soundbank")}
+    assert have == {"Doc Day"}
+
+
+def test_own_soundbank_honours_taste_tags():
+    """The guard is one boolean and inverting it would silently un-fix the
+    thing above, so it gets a test that fails loudly. With the house open
+    bank ON: a preset without the flag can be handed the off-tag sample;
+    one with it can never be."""
+    from unittest.mock import patch
+
+    pool = {"hat": [{"path": "/x/Hats_OHs_162.aif", "name": "Hats_OHs_162"},
+                    {"path": "/x/Hat_Closed_1.wav", "name": "Hat_Closed_1"}]}
+    audio = np.ones(1000)
+
+    def only(*names):
+        got = set()
+        for seed in range(40):
+            with patch("crew._load_choked", return_value=audio):
+                path, _ = crew._pick_path(pool, "hat", ["closed"], 0.5, seed,
+                                          **kw)
+            got.add(Path(path).name)
+        return got
+
+    assert crew.OWNER_TASTE.get("open_soundbank"), "premise of this test"
+
+    kw = {}
+    assert "Hats_OHs_162.aif" in only(), \
+        "open bank: the off-tag open hat is reachable"
+
+    kw = {"own_bank": True}
+    assert only() == {"Hat_Closed_1.wav"}, \
+        "own_soundbank: the tags gate, so the open hat is never picked"
+
+
+def test_doc_day_snare_never_leaves_2_and_4():
+    """His `listen` line says the snare "NEVER leaves 2 and 4", and on
+    2026-09-05 he made that line the tie-breaker for this persona: "Keep
+    following the description as the top rule."
+
+    A rule written as NEVER is an invariant, not a weight. It was a
+    weight — modes [[backbeat, 0.9], [sparse, 0.1]] — and the one-in-ten
+    fired in a real audition render: "----X--.--------", snare on 2 and
+    nothing on 4. Pinned to backbeat 1.0. If a future pass reintroduces a
+    second mode here, this is the test that should stop it."""
+    import copy
+    from pattern_gen import compose
+
+    assert CREW["Doc Day"]["grammar"]["snare"]["modes"] == [["backbeat", 1.0]]
+
+    # NOW AN INVARIANT END TO END. Pinning the mode alone did not close
+    # it: since 2026-08-01 a legend could take a GROOVE SEED's snare line
+    # outright (pattern_gen, 50% when the seed is not already a bare 2&4),
+    # which skips the modes entirely — variant 7 composed
+    # "--X---x-x---X---", displaced, nothing on beat 2.
+    #
+    # He was asked rather than one rule being quietly narrowed, and on
+    # 2026-09-05 he ruled: "Overrule old decisions when they cause
+    # problems." Doc Day now carries snare_locked_24. The 08-01 rule still
+    # stands for the other 11 legends, which is who it was measured for.
+    assert CREW["Doc Day"].get("snare_locked_24") is True
+    assert {n for n, p in CREW.items() if p.get("snare_locked_24")} \
+        == {"Doc Day"}, "a second locked preset is a decision, not a default"
+
+    raw = json.loads(json.dumps(CREW["Doc Day"]))
+    for v in range(24):
+        q = copy.deepcopy(raw)
+        compose(q, "Doc Day", v)
+        for bar in q["lanes"]["snare"][3]:
+            two, four = len(bar) // 4, 3 * len(bar) // 4
+            assert bar[two] != "-" and bar[four] != "-", (
+                "variant %d left 2 and 4: %s" % (v, bar))
+
+
+def test_doc_day_plain_kick_flavor_never_reaches_an_808():
+    """His kick_flavors carry TWO entries: a 0.1-weight long 808 ("an
+    occasional deep sub") and the 0.75-weight plain kick. The plain one
+    has to actually be plain — an already-long 808 has no headroom for
+    the sub layer, so a beat that rolls one measures nothing and wastes
+    an audition slot.
+
+    The tags are FILE-NAME matchers, not intent. "punch" matched exactly
+    one file of 525, "VOL5 - Punchy 808"; "boom" matched three, two of
+    them "VOL5 - BOOM808/8082". Both words read like his description and
+    both quietly delivered 808s. thump/hard are the words that match the
+    files his line actually describes."""
+    flavors = CREW["Doc Day"]["kick_flavors"]
+    plain = [f for f in flavors if f[1] != "808"]
+    assert len(plain) == 1, "expected exactly one plain kick flavor"
+    assert set(plain[0][2]) == {"thump", "hard"}
+    assert set(CREW["Doc Day"]["kit"]["kick"][2]) == {"thump", "hard"}

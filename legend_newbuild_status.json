@@ -1,0 +1,20 @@
+{
+ "_readme": [
+  "Where each Legend stands in the new-build pass (owner 2026-09-05: 'I'll",
+  "want this same for all remaining legends. Not in the 9.'). Hand-kept,",
+  "because the last stage is his ear and nothing can derive that.",
+  "",
+  "Read it with:  ./.venv/bin/python tools/legend_newbuild.py",
+  "",
+  "stage:  not started | researched | built | auditioned | confirmed",
+  "        confirmed means HE HAS HEARD IT AND SAID YES. Nothing else",
+  "        counts as done — measured-and-shipped is 'auditioned'.",
+  "verdict: his actual words, so the next session doesn't re-litigate it."
+ ],
+ "Doc Day": {
+  "stage": "confirmed",
+  "date": "2026-09-05",
+  "verdict": "I like b from the new audition. The kick sounds good.",
+  "notes": "First one. Four research changes (dry snare, working sub under the kick via allow_peak_db, transient shaping, ratio 4.0 bus compression) + own_soundbank + kit tags rewritten to words that match real filenames + snare_locked_24. Took three audition batches to get one he could judge; the first two rendered the config skeleton instead of calling compose()."
+ }
+}

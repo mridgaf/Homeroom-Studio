@@ -1242,7 +1242,17 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 # applied to a break it handed the beat the DJ's own snare
                 # instead of the record's, silently, with the note still
                 # reading "played straight".
+                #
+                # ...and UNLESS the preset locks the backbeat. OWNER
+                # 2026-09-05: "Overrule old decisions when they cause
+                # problems." Doc Day's `listen` line says the snare NEVER
+                # leaves 2 and 4; the 08-01 rule above handed him
+                # "--X---x-x---X---" (displaced, nothing on 2). A rule
+                # written as NEVER outranks a 50% roll. Scoped to the one
+                # preset that asks for it — the other 11 legends still get
+                # the break's snare, which is what 08-01 was for.
                 if sn_seed and not traditional \
+                        and not preset.get("snare_locked_24") \
                         and (verbatim or (sn_seed[0] != "----X-------X---"
                                           and rng.random() < 0.5)):
                     if verbatim:                 # any length — see the kick

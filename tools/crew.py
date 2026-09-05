@@ -1093,16 +1093,30 @@ def _load_choked(path, secs):
     return x.mean(axis=1) if x.ndim == 2 else x
 
 
-def _pick_path(shots, role, wants, secs, seed, must=None, avoid=()):
+def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
+               own_bank=False):
     """Like make_drum_beats.pick but returns the PATH so it can be locked.
     Tiers: must-word AND want-tag > must-word > want-tag > anything —
     the combined tier keeps a must="808" from grabbing an 808 *cowbell*
     when the wants say deep/sub. `avoid` holds paths already locked by
     other personalities: signature kits are identities, so no two crew
-    members share a sample (waived only if the pool runs dry)."""
-    if OWNER_TASTE.get("open_soundbank"):
+    members share a sample (waived only if the pool runs dry).
+
+    own_bank=True exempts ONE preset from the open sound bank below, so
+    its own taste tags gate its picks again. Default False, so every
+    preset that does not ask for it picks exactly as it did before."""
+    if OWNER_TASTE.get("open_soundbank") and not own_bank:
         # owner 2026-07-18: no limits on a DJ's sound bank — the whole
         # role pool is fair game, taste tags and must-words stop gating
+        #
+        # THE COST, found 2026-09-05: this is the only place the rule is
+        # read, and it wipes the tags BEFORE the tiers are built — so
+        # every researched `wants` list on every preset is dead code and
+        # every pick is uniform-random from the whole role bucket. That
+        # is how a Dre audition got two sidesticks where snares belong,
+        # open hats where tight hats belong, and a talking drum. The rule
+        # STANDS for the roster (it is his, and he was asked); Doc Day is
+        # exempted by name under the 09-05 "no old rules for Dr Dre" call.
         wants, must = [], None
     cands = shots.get(role, [])
     r = np.random.default_rng(seed)
@@ -1188,8 +1202,12 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
         secs = _resolve_secs(secs, p["num"], variant)
         seed = (p["num"] * 1000 + zlib.crc32(lane.encode()) % 997
                 + variant * 7919)
+        # own_soundbank (2026-09-05, Doc Day only): this preset's taste
+        # tags gate its picks again instead of being wiped by the open
+        # sound bank. Absent -> False -> the other twenty pick unchanged.
         path, x = _pick_path(shots, role, wants, secs, seed,
-                             must=must, avoid=avoid)
+                             must=must, avoid=avoid,
+                             own_bank=bool(p.get("own_soundbank")))
         if path:
             avoid.add(path)
         # sub_layer (2026-09-03): a preset can reinforce its KICK with a
