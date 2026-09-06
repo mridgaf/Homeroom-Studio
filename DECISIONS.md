@@ -24,7 +24,11 @@ entries.
 
 ### 2026-09-05 The chord rhythm grammar — BUILT, opt-in, Swish Beatz first
 
-**status:** auditioned (rendered and measured; NOT heard)
+**status:** CONFIRMED BY EAR. Owner heard the Swish Beatz A/B pairs and
+said "on sounds good keep it." The grammar stays on for him. He is still
+the ONLY identity with a `chord_grammar` key — the other twenty-two are
+unchanged and each opts in the same way, one at a time, after its own
+audition.
 
 The build the entry below asked for. Four figures, per the owner's pick of
 all four: **stab** (short chord hits on chosen cells), **comp** (chords
@@ -86,8 +90,11 @@ copy that refusal, not just the render loop.
 - Rendered: `~/Desktop/Homeroom Swish Beatz CHORD GRAMMAR 2026-09-05`,
   two beats x off/on. Pairs differ by 0.21 and 0.39 peak, so the layer
   is demonstrably reaching the output — that is ALL the measurement says.
-- Verify by: owner's ear. Nothing here is confirmed by measurement.
-- Status: open
+- Verify by: owner's ear — DONE, he approved the ON renders.
+- Status: confirmed
+- Outcome: kept. Next identity is an open choice; the loop-chopping path
+  is still the least-proven part and wants an identity with a loop in its
+  `chord_source` (J Dillo or DJ Premium) to actually exercise it.
 
 ### 2026-09-05 The chord layer has no performance — next build is a chord RHYTHM GRAMMAR
 
