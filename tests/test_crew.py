@@ -209,9 +209,14 @@ def _wav_pool(tmp_path, n=3):
             w.setframerate(SR)
             w.writeframes(x.tobytes())
         files.append(f)
+    # `vox` is in this list because of a real 2026-09-05 failure, not for
+    # completeness: Mustang's stamp moved from the fx bucket to the vox
+    # bucket that day, and with own_soundbank now honoured in lock_stamps
+    # a role the pool never offered came back with an empty path. The pool
+    # must offer every role any preset's stamp can name.
     return {role: [{"name": f.stem, "path": str(f)} for f in files]
             for role in ("kick", "snare", "hat", "clap", "snap", "perc",
-                         "bongo", "fx", "crash", "rim")}
+                         "bongo", "fx", "crash", "rim", "vox")}
 
 
 def test_stamp_locks_but_drums_experiment(tmp_path, monkeypatch):
@@ -319,7 +324,7 @@ def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
     assert seen["amount"] == 0.35 and seen["len"] == 1000
 
 
-def test_allow_dirt_is_six_presets_not_the_roster():
+def test_allow_dirt_is_eight_presets_not_the_roster():
     """The 2026-07-18 clean-render rule still stands for the roster. Four
     DJs are out of it. Three because he heard them and said so on
     2026-09-03 — Otto Grit "c Plus", Night Metro "c Research" (the 808
@@ -357,13 +362,40 @@ def test_allow_dirt_is_six_presets_not_the_roster():
     the whole path, and unlike Crate Prophet he also carries mix_sat 1.5 and
     kick_dist 3.0 from the same sources.
 
+    Mustang is the seventh, 2026-09-05, and he is the only one on this
+    list who went the OTHER way. Asked in plain language, he answered
+    "yes - 808 only, mix stays clean", so Mustang is "low", not True.
+    His own `listen` line says "clean digital" and the clean-render rule
+    agrees with him — there was no buried grime to switch on, unlike
+    Razor and Crate Prophet. What the sources call for is the bass
+    specifically: Mustard's records are built on a distorted 808, so the
+    dirt is scoped to the 808 and the rest of the path stays clean. Same
+    shape as Night Metro, and the amount was MEASURED, not guessed —
+    kick_dist swept 4/6/9/12/16 because 4.0 was inaudible (20.2 dB under
+    the clean render), landing at 9.0.
+
+    Kane East is the eighth, 2026-09-05, and he arrived by a route
+    none of the others took: his was a DELETION, not a switch-on. His old
+    line promised "warm light dust and a vinyl bed" and, with no
+    allow_dirt, not one of those numbers had ever played — the same
+    buried-grime fault as Razor and Crate Prophet. But the era moved the
+    same day (he was a duplicate of Sunday Chop in the nine, so he was
+    rebuilt as Yeezus), and a soul-era vinyl bed under an industrial
+    record is the wrong fix. So dust went to 0.0 and vinyl to -80, and
+    allow_dirt True is here for the OTHER stages it gates: kick_dist 6.0
+    and mix_sat 3.0, which Wikipedia's Yeezus article calls for in as
+    many words — "distorted drum machines and synthesizers". Turning a
+    dead setting on is not always the fix; sometimes the setting was the
+    wrong one and the honest move is to stop promising it.
+
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
     assert OWNER_TASTE["clean_renders"] is True
     heard = {n: p["allow_dirt"] for n, p in CREW.items() if p.get("allow_dirt")}
     assert heard == {"Otto Grit": True, "Night Metro": "low",
                      "Rage Engine": True, "Cutz": True,
-                     "Crate Prophet": True, "Razor": True}, heard
+                     "Crate Prophet": True, "Razor": True,
+                     "Mustang": "low", "Kane East": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -605,9 +637,33 @@ def test_own_soundbank_is_the_new_build_legends_only():
     audited and rewritten FIRST. Turning it on over the tags he had would
     have gated him to four kicks, two of which are 808s — strictly worse
     than the open bank. Only a preset whose tags have been proved against
-    real filenames (tools/legend_newbuild.py --tags) belongs in this set."""
+    real filenames (tools/legend_newbuild.py --tags) belongs in this set.
+
+    Mustang joined 2026-09-05, the third, same order: tags first, flag
+    after. His was the loudest proof yet that the tags are the work and
+    the flag is only the switch — his stamp, the "Hey!" chant Billboard
+    names as his single identifying feature, was asking the `fx` bucket
+    for hey/vocal/chant/yeah and matching ZERO of 356 files, while the
+    `vox` bucket holds "Cymatics - Hey Vox". Turning the flag on over
+    those tags would have gated his producer tag to nothing at all.
+
+    Farrow joined 2026-09-05, the fourth, tags proved first as always. His
+    producer tag had been "Cymatics - LIFE - Rain and Windchimes 4.wav" —
+    a field recording of rain on every beat he had ever made — because the
+    open bank wiped his click/zap/glitch/laser and lock_stamps picked at
+    random. Three presets in a row now where the ONE sample that rides
+    every beat was the wrong sound entirely.
+
+    Kane East joined 2026-09-05, the fifth, tags proved first as always,
+    and he made it FOUR wrong producer tags in four legends: his lock was
+    "Cymatics - LIFE - River - Light 4.wav", a field recording of a
+    river, on every beat he had ever made. That run is why
+    tools/make_legend_newbuild.py now prints the locked stamp at the head
+    of its sample list — build_kit puts it in kit["stamp"] but never in
+    `sources`, so the one sample heard on every single beat was the one
+    sample the "read the list before you ship it" step could not show."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
-    assert have == {"Doc Day", "Razor"}
+    assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East"}
 
 
 def test_own_soundbank_honours_taste_tags():

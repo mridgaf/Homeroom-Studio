@@ -20,6 +20,15 @@ re-derive them:
   * compose() is called ONCE per beat and the result handed to BOTH
     versions. Composing per version lets the form drift and then a-vs-b
     stops being a test of the changes.
+    THE ONE EXCEPTION is --structure, added 2026-09-05 on Farrow. That
+    default also overwrites both versions' `kit`, so a build whose whole
+    change IS the kit and the grammar renders two byte-identical files —
+    which is what happened, and the "nothing moved by even 0.5 dB" guard
+    below is what caught it. Under --structure each version composes and
+    picks its own drums. The two beats then genuinely differ in form, and
+    that is the point: you are judging the new arrangement, not the same
+    arrangement through new processing. Say which mode was used in the
+    READ ME so he knows what he is comparing.
   * compose() is NOT reproducible across processes — it loads a persisted
     repeat history and re-rolls. So beats are never selected by variant
     number from a separate scan; choose() composes a run and selects from
@@ -137,7 +146,9 @@ def diff_preset(old, new):
     keys = sorted(set(old) | set(new))
     out = []
     for k in keys:
-        if k.startswith("_") or k in ("lanes", "kit", "listen"):
+        # `lanes` is composed fresh per beat, so diffing it is noise. `kit`
+        # and `listen` are not: on a structure build they carry the change.
+        if k.startswith("_") or k == "lanes":
             continue
         a, b = old.get(k, "(unset)"), new.get(k, "(unset)")
         if json.dumps(a, sort_keys=True) != json.dumps(b, sort_keys=True):
@@ -208,6 +219,12 @@ def main():
                     help="which kicks may be JUDGED. Default plain (no "
                          "808s). Use 808/any when the change under test "
                          "lives in the 808 itself — see choose().")
+    ap.add_argument("--structure", action="store_true",
+                    help="the change is in kit/lanes/grammar, not in the "
+                         "processing. Each version composes its own beat "
+                         "with its own drums at the same variant, instead "
+                         "of both borrowing the new build's. Without this "
+                         "a structure-only change renders IDENTICAL files.")
     ap.add_argument("--force", action="store_true",
                     help="overwrite an existing Desktop folder (it may be a "
                          "batch he already has — check before using this)")
@@ -222,8 +239,16 @@ def main():
     old["legend"] = True
     live = json.loads((ROOT / "legends_config.json").read_text())[name]
     # Kit held constant across a and b — sample choice is not on trial.
-    old["kit"] = live["kit"]
-    old["own_soundbank"] = live.get("own_soundbank", False)
+    # Unless it IS: under --structure the old build keeps its own kit and
+    # its own sound-bank setting, because that is the change being judged.
+    # Leaving this in place under --structure also CRASHES rather than
+    # quietly mis-comparing, once the two builds have different lanes:
+    # Farrow's old build has a clap lane and his new one does not, so the
+    # old preset ended up with new-kit keys and old-lane keys and
+    # render_crew_beat died on KeyError: 'clap'.
+    if not a.structure:
+        old["kit"] = live["kit"]
+        old["own_soundbank"] = live.get("own_soundbank", False)
     OLD, NEW = normalize_preset(old), CREW[name]
     changed = diff_preset(json.loads(before.read_text())[name], live)
     if not changed:
@@ -262,21 +287,55 @@ def main():
     for i, seed_p, notes in judged:
         ref, beat_used = None, set()
         for tag, p in versions:
-            p = normalize_preset(dict(p, lanes=seed_p["lanes"],
-                                      kit=seed_p["kit"]))
+            if a.structure:
+                # The default below hands BOTH versions the new build's kit
+                # and bars so only the processing differs. That is right for
+                # a dirt/EQ/saturation build and WRONG for a build whose
+                # whole point is the kit and the grammar: on Farrow
+                # 2026-09-05 every change lived in kit/lanes/grammar, the
+                # overwrite made the two presets identical, and the renders
+                # came out byte-for-byte the same. Here each version
+                # composes its own beat at the same variant. Note that
+                # this is NOT a controlled roll — compose() re-rolls from a
+                # persisted history and the two presets have different
+                # grammar, so the FORM differs too. That is intended here
+                # and it is the honest comparison for a structure change,
+                # but it means a-vs-b is no longer a one-variable test.
+                p = normalize_preset(json.loads(json.dumps(p)))
+                shape_p = p
+                compose(p, name, i)
+            else:
+                p = normalize_preset(dict(p, lanes=seed_p["lanes"],
+                                          kit=seed_p["kit"]))
+                shape_p = seed_p
             kit, src = build_kit(shots, name, stamps[name][1], variant=i,
                                  avoid=set(avoid), preset=p)
-            if ref is None:
-                picks.append((i, {ln: Path(v).name if v else "(none)"
-                                  for ln, v in src.items()},
-                              _shape(seed_p)))
+            if ref is None or a.structure:
+                # build_kit puts the locked stamp in kit["stamp"] but never
+                # in `sources`, so until 2026-09-05 the ONE sample that
+                # rides every single beat was the one sample this list did
+                # not show. Four legends in a row shipped a wrong producer
+                # tag under that blind spot — Doc Day, Razor, Mustang and
+                # Farrow — and Kane East's was a field recording of a
+                # river. It goes first now, because it is heard most.
+                shown = {"stamp": Path(stamps[name][0]).name
+                         if stamps[name][0] else "(none)"}
+                shown.update({ln: Path(v).name if v else "(none)"
+                              for ln, v in src.items()})
+                picks.append((i, tag, shown, _shape(shape_p)))
             L, R, got = render_crew_beat(name, kit, preset=p)
             sub, air, atk = (band_db(L, R, 30.0, 55.0),
                              band_db(L, R, 8000.0), attack_db(L, R))
             if ref is None:
                 ref = (sub, air, atk, np.asarray(L).copy())
             else:
-                d = float(np.abs(np.asarray(L) - ref[3][:len(L)]).max())
+                # Same-length subtraction only means anything when both
+                # versions played the same bars. Under --structure they
+                # compose separately and a 4-bar old vs an 8-bar new is
+                # normal, so a length mismatch IS the proof they differ.
+                La = np.asarray(L)
+                d = (float("inf") if len(La) != len(ref[3])
+                     else float(np.abs(La - ref[3]).max()))
                 deltas.append(("beat %d" % i, sub - ref[0], air - ref[1],
                                atk - ref[2], d))
             fn = "%s %dbpm beat %d %s.wav" % (name, p["bpm"], i, tag)
@@ -323,12 +382,13 @@ def main():
         "  The comparison is in the folder next to this one.", "",
     ] + ["  beat %d: %s" % (i, s) for i, s in extra]) + "\n")
     (desk / "READ ME.txt").write_text(
-        readme(name, before, changed, rows, deltas, picks))
+        readme(name, before, changed, rows, deltas, picks,
+               a.structure))
     shutil.rmtree(scratch)
 
     print("\nwhat each beat actually is:")
-    for i, src, shape in picks:
-        print("  beat %d: %s" % (i, shape))
+    for i, tag, src, shape in picks:
+        print("  beat %d %s: %s" % (i, tag, shape))
         print("           " + "  ".join("%s=%s" % kv for kv in src.items()))
 
     n = len(list(desk.glob("*.wav")))
@@ -350,15 +410,22 @@ def main():
               "there is nothing in it to hear.")
 
 
-def readme(name, before, changed, rows, deltas, picks):
+def readme(name, before, changed, rows, deltas, picks,
+           structure=False):
     lufs = [r[1] for r in rows]
     out = [
         "%s — OLD vs A NEW BUILD   %s" % (name.upper(), date.today()),
         "=" * 62, "",
         "WHAT THIS IS",
-        "  Two completely different beats. Two versions of each. Same beat",
-        "  and the same drum sounds inside a pair, so the only thing you're",
-        "  hearing between a and b is the settings.", "",
+        "  Two completely different beats. Two versions of each.", ""] + ([
+        "  STRUCTURE BUILD. The change is the DRUMS and the PATTERNS, so a",
+        "  and b do NOT share a beat or a sound — each side plays its own.",
+        "  You are judging the whole new character, not one setting.",
+        "  The dB numbers below compare two different beats, so treat them",
+        "  as rough, not as a measurement of the change.", ""]
+        if structure else [
+        "  Same beat and the same drum sounds inside a pair, so the only",
+        "  thing you're hearing between a and b is the settings.", ""]) + [
         "  a Old   him exactly as he was, read straight off %s" % before.name,
         "  b New   the research build.", "",
         "  Only this one legend changed. Nobody else on the roster moved.",
@@ -394,8 +461,8 @@ def readme(name, before, changed, rows, deltas, picks):
         "-" * 62,
         "What each beat actually is, and what it is played with:",
     ]
-    for i, src, shape in picks:
-        out += ["  beat %d: %s" % (i, shape),
+    for i, tag, src, shape in picks:
+        out += ["  beat %d %s: %s" % (i, tag, shape),
                 "           " + "  ".join("%s=%s" % kv
                                           for kv in src.items()), ""]
     out += ["", "-" * 62, "Per-file numbers (loudness / peak):"]

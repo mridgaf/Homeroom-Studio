@@ -37,6 +37,22 @@ One backup per legend, and only one — the render script now REFUSES to
 guess between two, because it once silently picked a half-built
 intermediate and reported +0.92 dB where the truth was +5.03.
 
+**1b. Check the nine for the same producer BEFORE you research.**
+```
+./.venv/bin/python -c "import sys;sys.path.insert(0,'tools');import json;\
+d=json.load(open('crew_config.json'));print([(n,p.get('built')) for n,p in \
+(d.get('CREW') or d).items() if isinstance(p,dict)])"
+```
+Two of the twelve turned out to be straight duplicates of a crew DJ, both
+found on 2026-09-05 and neither noticed for months, because the legends and
+the nine are audited separately: **Farrow was Glass Cat** (Pharrell, same
+bpm, same lanes, same kit tags, same 18 ms flam) and **Kane East was Sunday
+Chop** (Kanye, same 57% swing, same "BIG clap with the snare tucked
+underneath", same tambourine offbeats). If the producer is already in the
+nine, stop and ask the owner which era each one keeps — he has answered
+this twice and both times the crew DJ kept what it had and the LEGEND moved
+to a different era. Do not pick the era for him.
+
 **2. Research him, then write down who said so.** Every change goes in his
 `_research_note` with its source. A change nobody can source is not a
 research build — flag it as unsourced and leave it at the roster default,
@@ -70,7 +86,14 @@ Every lesson from the three Doc Day batches is already in that script —
 read its docstring rather than re-deriving them. It refuses to overwrite a
 folder he already has.
 
-**7. Read the printed sample list before you ship it.** State the pass
+**7. Read the printed sample list before you ship it — the STAMP first.**
+The locked stamp is the one sample heard on every single beat, and until
+2026-09-05 the list did not print it: `build_kit` puts it in `kit["stamp"]`
+but never in `sources`. Four legends in a row shipped a wrong producer tag
+under that blind spot — a rain field recording (Farrow), a river (Kane
+East). It is printed first now. If it is wrong, fix the `kit["stamp"]` tags
+AND delete that legend's entry from `~/.reason_voice/crew_kits.json`, or the
+stale lock survives the fix. State the pass
 condition first, then check it. This is the step whose absence cost a whole
 round trip: a batch went out with two sidesticks where snares belong, open
 hats where tight hats belong, and a talking drum.

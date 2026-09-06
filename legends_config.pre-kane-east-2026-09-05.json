@@ -861,32 +861,31 @@
  },
  "Kane East": {
   "num": 12,
-  "bpm": 130,
+  "bpm": 90,
   "era": "legend",
-  "built": "Kanye West / Yeezus (the industrial era)",
+  "built": "Kanye West",
   "legend": true,
-  "listen": "the industrial era, not the chipmunk-soul one — that one is Sunday Chop's: distorted drum machines instead of sampled soul, a hard straight machine pulse at 130 with no swing, kick and clap sitting on the grid, tribal toms carrying the hook where the tambourine used to be, a siren over the top, bars that drop to almost nothing, and stripped to the bone — the reduced version, not the maximal one",
+  "listen": "chipmunk-soul era: driving pushed kicks, a BIG clap with the snare tucked underneath, 57% gospel bounce, tambourine offbeats, warm light dust and a vinyl bed",
   "kit": {
    "kick": [
     "kick",
     null,
     [
-     "kick hard",
-     "drkick"
+     "punch",
+     "warm",
+     "boom"
     ],
     [
-     0.12,
-     0.35
+     0.2,
+     0.55
     ]
    ],
    "clap": [
     "clap",
     null,
     [
-     "unison_clap",
-     "main clap",
-     "sam clap",
-     "cobra clap"
+     "big",
+     "clap"
     ],
     1.0
    ],
@@ -894,8 +893,7 @@
     "snare",
     null,
     [
-     "hard",
-     "rimshot"
+     "snare"
     ],
     1.0
    ],
@@ -903,8 +901,7 @@
     "hat",
     null,
     [
-     "closed",
-     "tite"
+     "closed"
     ],
     0.5
    ],
@@ -912,19 +909,18 @@
     "perc",
     null,
     [
-     "drtom",
-     "drhtom",
-     "drbtom",
-     "rack"
+     "tamb",
+     "shaker"
     ],
-    1.2
+    1.0
    ],
    "stamp": [
     "fx",
     null,
     [
-     "siren",
-     "alarm"
+     "reverse",
+     "vocal",
+     "soul"
     ],
     1.4
    ]
@@ -935,8 +931,8 @@
     1.0,
     [
      0,
-     0,
-     50,
+     2,
+     57,
      1021
     ],
     [
@@ -952,11 +948,11 @@
    ],
    "clap": [
     0.0,
-    0.8,
+    0.9,
     [
      0,
-     0,
-     50,
+     2,
+     57,
      1022
     ],
     [
@@ -972,11 +968,11 @@
    ],
    "snare": [
     0.0,
-    0.8,
+    0.5,
     [
      0,
-     0,
-     50,
+     2,
+     57,
      1023
     ],
     [
@@ -991,12 +987,12 @@
     ]
    ],
    "hat": [
-    0.15,
-    0.28,
+    0.12,
+    0.4,
     [
      0,
-     1,
-     50,
+     2,
+     57,
      1024
     ],
     [
@@ -1011,12 +1007,12 @@
     ]
    ],
    "perc": [
-    -0.15,
-    0.55,
+    -0.2,
+    0.3,
     [
      0,
-     1,
-     50,
+     3,
+     57,
      1025
     ],
     [
@@ -1031,12 +1027,12 @@
     ]
    ],
    "stamp": [
-    0.0,
-    0.45,
+    -0.3,
+    0.4,
     [
      0,
-     1,
-     50,
+     2,
+     57,
      1026
     ],
     [
@@ -1051,64 +1047,68 @@
     ]
    ]
   },
-  "dust": 0.0,
-  "vinyl": -80.0,
+  "dust": 0.35,
+  "vinyl": -44,
   "wow": 0.0,
   "sidechain": 0.2,
   "space": [
-   "dry",
+   "gated",
    [
-    "snare"
+    "clap"
    ]
   ],
   "alt": null,
   "drive": 1.4,
-  "kick_dist": 6.0,
-  "mix_sat": 3.0,
+  "kick_dist": 0.0,
+  "mix_sat": 0.0,
   "grammar": {
    "kick": {
     "w": [
      10,
      1,
-     2,
      1,
+     2,
+     5,
+     1,
+     2,
+     5,
      8,
      1,
      2,
      2,
-     9,
-     1,
-     2,
-     1,
-     8,
+     5,
      1,
      3,
-     2
+     3
     ],
     "hits": [
-     4,
-     6
+     3,
+     7
     ],
-    "double_p": 0.12
+    "double_p": 0.35
    },
    "clap": {
     "modes": [
      [
       "backbeat",
-      0.5
+      0.35
      ],
      [
       "displaced",
-      0.25
+      0.267
      ],
      [
       "sparse",
-      0.25
+      0.217
+     ],
+     [
+      "halftime",
+      0.167
      ]
     ],
     "ghosts": [
      0,
-     1
+     2
     ],
     "gcells": [
      2,
@@ -1127,101 +1127,96 @@
    "hat": {
     "modes": [
      [
+      "eighths",
+      0.45
+     ],
+     [
       "sparse",
-      0.5
+      0.2
      ],
      [
       "offbeats",
-      0.28
+      0.2
      ],
      [
-      "eighths",
-      0.22
+      "sixteenths",
+      0.15
      ]
     ],
-    "open_p": 0.04
+    "open_p": 0.08
    },
    "perc": {
     "modes": [
      [
-      "eighths",
-      0.35
+      "offbeats",
+      0.6
      ],
      [
       "sparse",
-      0.35
-     ],
-     [
-      "offbeats",
-      0.3
+      0.4
      ]
     ]
    }
   },
   "kick_flavors": [
    [
-    1.0,
-    null,
+    0.3,
+    "808",
     [
-     "kick hard",
-     "drkick"
+     "boom",
+     "deep"
     ],
     [
-     0.12,
-     0.35
+     0.35,
+     0.8
+    ]
+   ],
+   [
+    0.7,
+    null,
+    [
+     "punch",
+     "warm",
+     "boom"
+    ],
+    [
+     0.18,
+     0.5
     ]
    ]
   ],
   "library": {
-   "p": 0.35,
+   "p": 0.5,
    "tags": [
     [
-     "electro",
-     3
+     "soul",
+     4
     ],
     [
-     "house",
+     "motown",
      2
     ],
     [
-     "punk",
+     "boom-bap",
      2
     ],
     [
-     "drill",
-     2
-    ],
-    [
-     "minimal",
-     2
-    ],
-    [
-     "techno",
+     "funk",
      1
     ]
    ]
   },
   "extras": {
-   "p": 0.5,
+   "p": 0.6,
    "nmax": 1,
    "pool": [
     [
-     "fx",
-     [
-      "siren",
-      "alarm"
-     ],
-     "siren"
-    ],
-    [
      "perc",
      [
-      "drtom",
-      "drhtom",
-      "drbtom",
-      "rack"
+      "tamb",
+      "shaker"
      ],
-     "tom"
+     "shaker"
     ],
     [
      "crash",
@@ -1229,11 +1224,19 @@
       "crash"
      ],
      "crash2"
+    ],
+    [
+     "fx",
+     [
+      "reverse",
+      "impact"
+     ],
+     "swellfx"
     ]
    ]
   },
   "signature": {
-   "_note": "REBUILT 2026-09-05 for the Yeezus era; the previous note (chipmunk soul, London Symphonic strings + gospel choirs, 2026-07-24) was correct for that era and that era now belongs to Sunday Chop in the nine. Wikipedia's Yeezus article: 'an abrasive, electronic soundscape with distorted drum machines and synthesizers ... industrial, acid house, electro, punk, Chicago drill'. So: synth primary (the acid-house squelch), pluck and chip behind it, and strings/choir/loop gone. Mode hard minor with phrygian behind it, progressions moved to static one-chord vamps and menace. articulation stays 'sustain' — Slant's 'slowly morphing drones' is the one thing about the harmony that IS sourced. Roots left at Bb/F/G: no source names a key.",
+   "_note": "DEEPENED 2026-07-24 (owner: lean heavily on the Symphony bank). Chipmunk soul is DOCUMENTED as 'sped-up soul vocal samples PLUS Kanye's own string accompaniments and gospel choirs' — so this is the single best fit on the roster for the London Symphonic bank, now weighted 4 primary. choir added for the gospel choirs (documented); loop keeps the sped-up soul sample. Mode opened to weighted major/minor: chipmunk soul is warm and often borrows major (the joyful, nostalgic quality the research stresses), so it is not strictly minor. nostalgic_jazz + nostalgic_borrowed_minor added for the soul-sample 7ths.",
    "key": {
     "roots": [
      "Bb",
@@ -1243,68 +1246,77 @@
     "mode": [
      [
       "minor",
-      4
-     ],
-     [
-      "phrygian",
       2
      ],
      [
-      "harmonic_minor",
+      "major",
+      1
+     ],
+     [
+      "lydian",
+      1
+     ],
+     [
+      "mixolydian",
       1
      ]
     ]
    },
    "progressions": [
     [
-     "vamp_static_riff",
+     "epic",
      3
     ],
     [
-     "dark_menacing",
+     "uplifting",
      2
     ],
     [
-     "snarl_vamp",
+     "nostalgic_jazz",
      2
     ],
     [
-     "horror_tritone",
-     1
+     "nostalgic_borrowed_minor",
+     2
     ],
     [
-     "villain_harmonic",
-     1
+     "gospel_walkup",
+     1.0
     ],
     [
-     "harmonic_minor_i_V",
-     1
+     "soul_turnaround",
+     1.0
+    ],
+    [
+     "mixo_soul_climb",
+     1.0
+    ],
+    [
+     "cinematic_rise",
+     1.0
     ]
    ],
    "chord_source": [
     [
-     "synth",
+     "strings",
      4
     ],
     [
-     "pluck",
+     "choir",
      2
     ],
     [
-     "chip",
-     1
+     "loop",
+     2
     ]
    ],
    "articulation": "sustain",
    "tempo": [
-    110,
-    150
+    85,
+    145
    ],
    "chords_default": true
-  },
-  "allow_dirt": true,
-  "own_soundbank": true,
-  "_research_note": "NEW BUILD 2026-09-05. Fourth legend rebuilt from research. Read this\nbefore changing anything below; it says which numbers are sourced, which\nare mine, and what nobody could answer.\n\nThe `listen` line below says \"the industrial era\" and not the album\ntitle on purpose. That line SHIPS — it goes into .recipes/NN.json, the\nsidecar that travels next to a beat — so the 2026-07-22 no-real-\nattribution rule covers it exactly the way it covers `built`. The first\ndraft named the album and the executive producer and\ntest_recipe_never_carries_the_real_producer_name caught it. Everything\nunder a `_` key, this note included, is stripped recursively and may\nname whoever it needs to.\n\nWHY THE ERA MOVED (the reason this build exists)\nKane East was a duplicate. Sunday Chop, one of the nine crew DJs, is\nalso built = \"Kanye West\", and the two listen lines were nearly the same\nsentence:\n  Sunday Chop  \"gospel bounce at 57% swing, driving pushed kicks, a BIG\n               clap with a snare tucked underneath, tambourine offbeats;\n               clean (MPC3000 = 16-bit)\"\n  Kane East    \"chipmunk-soul era: driving pushed kicks, a BIG clap with\n               the snare tucked underneath, 57% gospel bounce, tambourine\n               offbeats, warm light dust and a vinyl bed\"\nSame bpm family, same swing, same clap/snare relationship, same perc.\nNobody had noticed because the twelve legends and the nine are audited\nseparately — the same fault that had made Farrow a copy of Glass Cat the\nsame day. Owner, asked directly: \"kanye also has different eras and I\nmight have a version of him in the nine. If I do, give me an era that is\nnot the same.\" He then chose Yeezus over 808s & Heartbreak and Dark\nFantasy. Sunday Chop keeps chipmunk soul and was NOT touched — the nine\nare out of scope for legend work and he has said so twice.\n\nWHAT THE SOURCES ACTUALLY SAY\n- \"an abrasive, electronic soundscape with distorted drum machines and\n  synthesizers ... industrial, acid house, electro, punk, Chicago drill,\n  and horrorcore\" — Wikipedia, Yeezus. This is the single sentence the\n  whole build hangs on: DISTORTED DRUM MACHINES, not sampled soul.\n- \"West's orders to Rubin were to take the music in a 'stripped-down\n  minimal direction', often removing elements already recorded\"; West on\n  Rubin, to Zane Lowe, Sept 2013: \"he's not a producer, he's a reducer\".\n  Rubin cut it from 16 songs to 10 — Wikipedia, Yeezus.\n- \"built on alien, angular beats, slowly morphing drones and sirens,\n  abrupt periods of silence\" — Ted Scheinman, Slant Magazine, quoted in\n  the same article. The siren and the silences are sourced, not invented.\n- \"an extravagantly abrasive album full of grinding electro, pummeling\n  minimalist hip-hop ... industrial gear-grind\" — Rolling Stone, same.\n- Greg Kot, Chicago Tribune: \"hostile, abrasive and intentionally\n  off-putting\", combining 1980s Chicago acid house, 2013 Chicago drill,\n  1990s industrial and the avant-rap of Death Grips.\n- The first sessions were in the living room of a Paris loft, and \"West\n  kept compositions simple in order to hear the tracks more clearly; too\n  much bass or complexity would simply overpower the room's poor\n  acoustics.\" He also \"set parameters regarding sound and style,\n  insisting that there be no 'bass wobbles'\". Both Wikipedia, Yeezus.\n  That is a documented reason for a short, tight kick and no sub.\n- Thomas Bangalter (Daft Punk, produced four tracks) called the process\n  \"very raw\" — same article.\n\nWHAT CHANGED, AND WHY\n1. bpm 90 -> 130. Sourced as a direction only (acid house / industrial /\n   the Black Skinhead pulse); the exact number is MINE. It also lands in\n   a gap on the roster — Glass Cat 98, Chrome Dial 100, Night Metro 140.\n2. Swing 57 -> 50 and jitter 2 -> 0 on kick/clap/snare. 57% gospel\n   bounce is Sunday Chop's, by his own line. Machine time is what\n   \"distorted drum machines\" and 1980s acid house mean. Hats, toms and\n   the siren keep 1 ms so the top of the kit is not literally identical\n   every bar.\n3. Clap 0.9 / snare 0.5 -> both 0.8. \"A BIG clap with the snare tucked\n   underneath\" is Sunday Chop's signature phrase. Here they stack into\n   one hard machine hit. The amounts are MINE.\n4. Perc lane: tambourine and shaker -> toms (drtom/drhtom/drbtom/rack,\n   84 real tom samples), gain 0.3 -> 0.55. Tribal toms are the hook on\n   this record; tambourine offbeats are the other era's. Sourced as\n   direction; the gain is MINE.\n5. allow_dirt: true, kick_dist 0 -> 6.0, mix_sat 0 -> 3.0. Direction is\n   sourced hard (\"distorted drum machines\", \"industrial gear-grind\",\n   \"very raw\"). THE AMOUNTS ARE MINE. Without allow_dirt the\n   2026-07-18 clean-render rule strips every one of them, which is the\n   same fault that had kept Razor's grime silent for months. Narrow\n   opt-out, one preset, same shape as Otto Grit / Crate Prophet / Razor.\n6. dust 0.35 -> 0.0 and vinyl -44 -> -80 (off). His old line promised\n   \"warm light dust and a vinyl bed\" and — because he had no allow_dirt\n   — it had never once played. Rather than finally switch on a soul-era\n   vinyl bed under an industrial record, both are off and the line no\n   longer claims them. This is the one place where turning a dead\n   setting ON would have been the wrong fix.\n7. space: gated -> dry. Gated reverb is an inherited roster default that\n   7 of 12 legends share and an 80s effect no Yeezus source mentions;\n   reverb also fills exactly the \"abrupt periods of silence\" the record\n   is built on. Same reasoning that resolved Doc Day's and Farrow's.\n8. Taste tags rewritten to words that exist in the filenames, then\n   own_soundbank: true — in that order, because with the bank on and bad\n   tags he would have been gated to whatever the dead words hit. What\n   was dead before: kick \"warm\" 0 files, clap \"big\" 0, stamp \"vocal\" 0\n   and \"soul\" 0. And \"boom\" on the kick matched 3 files of which 2 were\n   808s, the exact trap that cost Doc Day a round trip.\n9. kick_flavors rewritten and the 30% \"808\" branch dropped. It overrides\n   kit[\"kick\"] on every composed beat (pattern_gen.py:1326), so fixing\n   the kit alone would have changed nothing. 808s are Hitt Kid's line,\n   and West's own documented parameter for this record was against heavy\n   bass in that room.\n10. library: soul/motown/boom-bap/funk -> electro/house/punk/drill/\n    minimal/techno, p 0.5 -> 0.35. The five genre words are Wikipedia's;\n    the weights and p are MINE.\n11. His producer tag was a FIELD RECORDING OF A RIVER — the lock in\n    ~/.reason_voice/crew_kits.json was \"Cymatics - LIFE - River - Light\n    4.wav\", riding every beat he had ever made, because the open bank\n    wiped his tags and lock_stamps picked at random from 356 fx files.\n    Fourth wrong producer tag in four legends. Lock cleared so it\n    re-picks from siren/alarm — 7 files. It was first written as\n    siren/alarm/riser/white-noise (20 files) and the lock landed on a\n    white-noise sweep; narrowed because 'sirens' is the word the source\n    actually uses and a riser is not a producer tag.\n\nLEFT ALONE ON PURPOSE\n- drive 1.4 and sidechain 0.2: no source names either. They stay at\n  what they were rather than being invented upward.\n- mix_eq: REMOVED, so he renders through the ear-approved house EQ. The\n  one genuinely sourced EQ number I found belongs to the OTHER era and\n  therefore to Sunday Chop, not here: Craig Bauer, who mixed Late\n  Registration, in Sound On Sound Feb 2006, on West asking for the drums\n  to \"knock\" more — \"I assumed it meant more low frequencies, but he\n  said no ... I heard that and said OK, that's low-mids, around 800Hz to\n  1kHz.\" The house EQ CUTS 1 dB at exactly 800 Hz. That is worth knowing\n  for Sunday Chop one day; it is not this record.\n- glue: left at the roster default. Doc Day got 4.0 because his sources\n  demanded hard compression. No Yeezus source says anything about bus\n  compression, so copying that number across would be the blanket-apply\n  the new-build process forbids.\n- key roots Bb/F/G: no source names a key. Unchanged.\n- No invariants. There are no absolute words in the new listen line, so\n  there is nothing to build a choke point for.\n\nWHAT NOBODY COULD ANSWER\n- No engineer interview for Yeezus itself surfaced with per-drum\n  settings, the way Bauer's does for Late Registration. Everything about\n  the amount of distortion here is a direction from critics and a number\n  from me.\n- The record's real tempos are all over the place (On Sight ~119, Black\n  Skinhead ~130, I Am a God ~86/172). 130 is one choice, not the\n  average.\n- Craig Bauer's \"not an ounce of reverb\" quote is Late Registration, not\n  this album, so it is NOT the reason space went dry here. The reason is\n  the documented silences. Named so nobody later cites it wrong."
+  }
  },
  "J Dillo": {
   "num": 13,

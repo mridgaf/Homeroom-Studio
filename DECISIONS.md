@@ -22,6 +22,115 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 Kane East (Kanye), fifth legend — he was a copy of Sunday Chop, so he became Yeezus
+
+**status:** auditioned (rendered and measured; NOT heard)
+
+Second legend/crew duplicate found in one day. Sunday Chop, one of the nine,
+is also `built = "Kanye West"`, and the two `listen` lines were nearly the
+same sentence — same 57% swing, same driving pushed kicks, same "BIG clap
+with the snare tucked underneath", same tambourine offbeats. The legends and
+the nine are audited separately, which is how this and the Farrow/Glass Cat
+duplicate both survived. **Anyone starting a legend should now check the nine
+for the same producer FIRST.**
+
+Owner asked in plain language, then chose the era himself: Yeezus, over 808s
+& Heartbreak and Dark Fantasy. Sunday Chop keeps chipmunk soul and was not
+touched — the nine stay out of scope.
+
+Rebuilt from sources (Wikipedia *Yeezus*: "abrasive, electronic soundscape
+with distorted drum machines and synthesizers ... industrial, acid house,
+electro, punk, Chicago drill"; Slant via the same article: "alien, angular
+beats, slowly morphing drones and sirens, abrupt periods of silence"; West on
+Rick Rubin, Zane Lowe 2013: "he's not a producer, he's a reducer"). bpm
+90→130, swing 57→50, jitter 2→0, clap/snare stacked instead of tucked,
+tambourine→84 real toms, gated reverb→dry, `allow_dirt` on with kick_dist 6.0
+/ mix_sat 3.0, the 30% 808 kick branch dropped, melodic side moved from
+gospel strings to acid-house synth vamps.
+
+**Judgment call worth not re-litigating:** `dust` 0.35 → 0.0 and `vinyl` −44
+→ −80. His old line promised "warm light dust and a vinyl bed" and, with no
+`allow_dirt`, none of it had ever played — the same buried-grime fault as
+Razor and Crate Prophet. The reflex fix is to switch it on. That would have
+put a soul-era vinyl bed under an industrial record. Turning a dead setting
+ON is not always the fix; sometimes the setting was wrong and the honest move
+is to stop promising it.
+
+**Also found, and it is not this legend's to fix:** the house `mix_eq` cuts
+1 dB at exactly 800 Hz. Craig Bauer, who mixed *Late Registration* (Sound On
+Sound, Feb 2006), reports West asking for the drums to "knock" more and
+translates "knock" as "low-mids, around 800Hz to 1kHz". That is a real
+sourced EQ number pointing the opposite way — but it belongs to the chipmunk-
+soul era, which is **Sunday Chop's**, and the nine are out of scope. Logged
+here so it isn't lost.
+
+**Script fix (reusable, applies to every remaining legend):**
+`tools/make_legend_newbuild.py` now prints the locked stamp at the head of
+its sample list. `build_kit` puts it in `kit["stamp"]` but never in
+`sources`, so the one sample heard on *every* beat was the one sample the
+"read the list before you ship it" step could not show. That blind spot is
+how four wrong producer tags in four legends got past it — Doc Day, Razor,
+Mustang, Farrow, and Kane East's was a field recording of a river.
+
+
+### 2026-09-05 Farrow (Pharrell), fourth legend — he was a copy of Glass Cat, so he became N.E.R.D.
+
+**Status:** auditioned (rendered and measured, NOT heard). Not confirmed.
+
+Farrow was not out of tune, he was a DUPLICATE. Same 98 bpm as Glass Cat,
+one of the nine; the same five lanes; the same kit tags word for word
+(kick clean/tight/pop, snare clean/rim/snap, snap snap/finger, stamp
+click/zap/glitch/laser); the same ~18 ms late clap; both `built` on "The
+Neptunes / Pharrell". Nobody had noticed because the legends and the nine
+are audited separately.
+
+Owner, asked in plain language: *"I have a version of him in the 9 I want
+to keep. I want this build to be a different era than that"*, and, one
+message earlier, *"Nerd"*. So Glass Cat keeps the Neptunes minimal era and
+Farrow is now N.E.R.D.
+
+That split is documented rather than invented, and in Pharrell's own
+reasoning: they withdrew *In Search Of...* in March 2002 and reissued the
+whole record re-recorded with live drums and guitars by Spymob, because
+"as N.E.R.D. was to be an entirely different venture to his and Hugo's
+work with the Neptunes, the band's music should also sound different."
+
+What changed: clap lane dropped (his call — the flam is the Neptunes trait
+and the loudest reason they sounded alike); a real hi-hat/ride lane added;
+snap demoted from timekeeper to colour; kick/snare/hat jitter 1 to 3 ms;
+the 10% 808 kick branch dropped as the other era's drum machine; taste
+tags rewritten to words that exist and `own_soundbank` on; `chord_source`
+to GUITAR (112 playable samples, unused by any legend). Dirt asked and
+answered: stay completely clean.
+
+**His producer tag was a field recording of rain.** "Cymatics - LIFE -
+Rain and Windchimes 4.wav", on every beat he had ever made, because the
+open sound bank wiped his tags and `lock_stamps` picked at random. Now
+`Drip 2.wav`. Third preset in a row where the one sample that rides every
+beat was the wrong sound entirely.
+
+**Two faults in the audition script, both older than today.**
+`make_legend_newbuild.py` forced BOTH versions to use the new build's kit
+and bars, so it could only ever audition PROCESSING changes. A build whose
+whole change is the kit and the grammar rendered two byte-identical files
+— caught by the script's own "nothing moved by even 0.5 dB" guard — and
+then crashed with `KeyError: 'clap'` once the two builds had different
+lanes. Fixed with a `--structure` mode: each version composes and picks
+its own drums at the same variant. Doc Day, Razor and Mustang were all
+processing-led, which is why nobody hit this before.
+
+**Left inconsistent on purpose, both written into the research note:**
+the rest of Farrow's `signature` harmony block (roots, modes,
+progressions) is still written for the classic-minimal era — only
+`chord_source` moved, because guitar is directly quoted in a source, and
+re-picking his modes is the harmony proposal's job, not this pass. And
+Glass Cat still carries the identical dead tags and the open sound bank;
+he is one of the NINE, explicitly out of scope, and the owner said keep
+him.
+
+Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
+
+
 ### 2026-09-05 Mustang (DJ Mustard), third legend — his chant was pointed at the wrong drawer, and two engine faults fell out
 - Context: "Continue with mustard." Razor is still auditioned-not-heard; this
   ran alongside it, not instead of it.
