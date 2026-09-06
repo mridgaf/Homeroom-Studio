@@ -22,6 +22,218 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-06 STATE OF PLAY — read this first next session
+
+Everything below this entry is what happened today. This one is what is
+still OPEN, so nothing gets re-derived or re-asked.
+
+WAITING ON HIS EAR — do not call any of these done, do not re-render them
+unasked. Folders are on his Desktop:
+- J Dillo        auditioned 2026-09-06
+- Just Flame     auditioned 2026-09-06 (re-rendered after the 808 fix)
+- Swish Beatz    auditioned 2026-09-06
+Confirmed by ear so far: Doc Day, Razor, Mustang, Farrow, Kane East (5/12).
+
+THE BLOCKING QUESTION HE HAS NOT ANSWERED, and the reason the next legend
+was NOT started: DJ Premium and Timberline are DUPLICATES of crew DJs.
+    DJ Premium  = DJ Premier    and so is Cutz (one of the nine)
+    Timberline  = Timbaland     and so is Chrome Dial (one of the nine)
+This is the same situation as Farrow/Glass Cat, Kane East/Sunday Chop and
+J Dillo/Otto Grit. Both previous times the CREW DJ kept what it had and the
+LEGEND moved to a different era, and both times HE picked the era. Ask him;
+do not pick. Step 1b of the legend-new-build skill is where this comes from.
+Clean to start without asking: Hitt Kid (Hit-Boy), No Alias (No I.D.).
+
+ROSTER ARITHMETIC, because I got it wrong out loud today: crew.CREW holds
+41 ENTRIES = 12 legends + 11 crew DJs + 18 genre styles. That is 23 DJs.
+The 18 genre styles are styles, not characters. Saying "41 DJs" is wrong.
+
+OPEN, REPORTED, DELIBERATELY NOT FIXED (all three would touch the nine,
+which is out of scope for legend work — he has said so twice):
+- kick_flavor weights lie: a declared 15% delivers 38% (streak-breaker).
+- 19 presets have a vocal/chant stamp pointed at `fx` when chants live in
+  `vox`. Nothing is broken today; it bites only if own_soundbank is on.
+- The sorted-samples folder is only visible to presets with own_soundbank,
+  which is the 8 rebuilt legends. He chose to leave it there for now.
+
+THE SORTED FOLDER IS EMPTY. /Volumes/TBOTC 3/Sample Packs/BOTC Sorted
+Samples exists with a READ ME and an empty type/taste tree. An empty folder
+changes nothing. When he starts filling it, offer an old-vs-new batch of one
+legend so he can hear what it does before it is trusted.
+
+TWO TRAPS THAT COST TIME TODAY — both are now guarded, do not re-learn them:
+- Searching ONE pool and generalising. "The library has no horns" was false;
+  the drum buckets have none, the melodic index has 38. Check which pool.
+  `legend_newbuild.py --tags` now prints where a dead word really lives.
+- `dry` on a snare pulls in sidesticks. `hard` is the clean word.
+
+- Status: open
+- Outcome:
+
+### 2026-09-06 A sorted sample folder: the folder says what a sample is
+
+- Context: after two filename-tag failures in one session (a sidestick picked
+  for a snare because "big"/"crack" matched nothing; "vocal" called dead on an
+  fx search when it lives in vox), the owner proposed the root fix — "make
+  folders where I could just load the samples that I know are all drum type
+  samples into and you would know how to look there... so you would know what
+  you're looking at regardless of the name."
+- Decision/change: built. `/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples`,
+  registered as `sorted_root` in sample_packs.json, with a plain-English
+  READ ME inside it. Inside that root ONLY, a taste word may come from the
+  folder path (crew._pick_path.has_want). Folder tree is type-then-taste:
+  Kicks/Hard, Snares/Brushes, Hats/Closed. He can invent new describing
+  folders with no code change.
+- Reasoning: WHAT a sample is already came from its folder (sample_library.
+  DIR_ROLES) — verified with junk filenames: xz9_final_v2.wav in a Kicks
+  folder scans as a kick. What it is LIKE was filename-only, which is the
+  entire bug class. `must` had always read the whole path; taste had not.
+- Scoped to one root after MEASURING the naive version first. Reading folder
+  words for every pack was tried and rejected: pack folders carry words like
+  "Hard" and "Trap" and it moved the nine (Otto Grit's snare pool 15 -> 38)
+  without him hearing it. With the scope: 203 lanes across all 41 presets,
+  ZERO candidate sets changed, ZERO lanes lost a sample.
+- THE LIMIT, found while testing and put to him in plain language: only 8 of
+  41 presets can see this at all. OWNER_TASTE["open_soundbank"] (his rule,
+  2026-07-18) wipes `wants` before the tiers are built, so any preset without
+  own_soundbank ignores taste tags entirely. He was offered three options
+  including trusting the sorted folder for all 41, and chose: LEAVE IT AT THE
+  8 REBUILT LEGENDS, widen later once he has heard what the folder does. The
+  nine are untouched. This is recorded so nobody "fixes" it silently.
+- Verify by: test_sorted_folder_reads_taste_from_the_folder_not_the_name and
+  test_sorted_folder_cannot_move_anything_he_already_approved — the second is
+  the promise the feature was allowed on and fails loudly if a pack folder
+  word ever leaks into taste matching. Full suite 1025 passed / 3 skipped.
+- Status: confirmed (mechanism); open (nothing sorted into it yet)
+- Outcome: folder is empty and waiting. An empty folder changes nothing.
+
+### 2026-09-06 The tag audit only ever looked in one bucket — fixed
+
+- Context: after the horns correction the owner asked the obvious follow-up —
+  "did you do this with other DJ sounds, only look in drums?" Swept every tag
+  declared dead this session across every bucket. One more hit: I called
+  `vocal` dead for Swish Beatz's stamp on an `fx` search, and `vocal` lives in
+  the `vox` bucket. Same shape as the horns error, and same shape as the
+  Mustang bug from 2026-09-05 (his "Hey!" chant asked fx and matched 0 of 356
+  while vox holds "Cymatics - Hey Vox").
+- Decision/change: fixed the TOOL rather than the 19 configs.
+  tools/legend_newbuild.py --tags now prints, for every dead word, which
+  other bucket it actually lives in ("'vocal' is dead in fx but ALIVE in
+  vox=4"). Loops and single stray files are excluded as noise.
+- Reasoning: the blind spot was structural — the audit only ever searched the
+  lane's own bucket, so "dead" and "dead in this bucket" were indistinguishable
+  in its output, and both Mustang's bug and mine were invisible to the check
+  that was supposed to catch them. Fixing the tool catches it for the four
+  legends still to come; fixing 19 configs by hand would not.
+- Scope, measured before deciding anything: 19 presets carry a vocal/chant
+  stamp pointed at `fx`. Exactly ONE (Doc Day) has own_soundbank on, and his
+  lane is carried by a live `scratch` tag (11 files), so nothing is broken
+  today. The other 18 are dormant — the open sound bank wipes their tags
+  anyway — and would only bite if own_soundbank were switched on. Most are
+  genre styles and the nine, both out of scope for this pass. NOT touched.
+- The rest of that sweep is NOISE and must not be treated as a to-do list:
+  `crack` "lives" in fx (2 files) but an fx file is not a snare; `deep` in fx
+  is not a kick. The new output flags candidates, it does not make the call,
+  and its docstring says so.
+- Verify by: ./.venv/bin/python tools/legend_newbuild.py --tags now prints an
+  ALIVE-elsewhere line under Doc Day's stamp and under his snare. Full suite
+  1023 passed / 3 skipped.
+- Status: confirmed
+- Outcome: the four remaining legends (DJ Premium, Timberline, Hitt Kid,
+  No Alias) get this warning automatically. None of them carries a vocal
+  stamp, so none is affected today.
+
+### 2026-09-06 CORRECTION: the library does have horns — 38 of them
+
+- Context: the Swish Beatz build note claimed "this library has NO horn
+  samples at all". The owner asked "should you look for brass instead?" and
+  the answer is yes — the claim was wrong.
+- Decision/change: corrected in his `_research_note` and in the docstring of
+  test_own_soundbank_is_the_new_build_legends_only. No config or audio change
+  — the conclusion the wrong claim was supporting still holds.
+- Reasoning: I searched the DRUM ONE-SHOT buckets and generalised to "the
+  library". Two different pools:
+  * one-shot buckets: horn=0, brass=0 across all 356 fx and every other
+    bucket. Only a single melodic loop and one "orch hit". So the STAMP lane
+    genuinely cannot deliver horns — that part was right.
+  * the melodic instrument index: 38 real brass samples (Brass Fanfare, Horn
+    Scream, Muted Horns, Brass Chop, Cresc Brass), notes 43-84, 22 distinct
+    pitches. instrument_sampler.covers() returns True for triads in every
+    register tried; nearest() on middle C gives "60_Drown_Horns Cm.aif".
+  His chord_source already asks for "horns" and it already plays.
+- Verify by: METHOD RULE worth keeping — a chord_source voice name must be
+  checked against instrument_sampler.VOICES, NOT GROUP_NAMES. VOICES maps
+  horns->("brass",), and the same mistake makes "strings", "loop" and "chip"
+  all look dead when each is a real, separately handled voice
+  (beat_machine.py:1852, 1871, 1897). Checking the wrong list nearly produced
+  a second, much larger false report.
+- Status: confirmed
+- Outcome: no sound changed; a false claim was removed before it could be
+  inherited by the next session.
+
+### 2026-09-06 A declared kick-flavor weight of 15% actually delivers 38%
+
+- Context: found while reading the printed sample list on the Just Flame and
+  Swish Beatz auditions — the 808 kick kept appearing on beats whose preset
+  declared it at 15%. Measured over 300 composed beats per preset: 38% and 39%.
+- Decision/change: NOT fixed. The cause is the streak-breaker in
+  pattern_gen.compose() — after the same flavor runs two beats in a row its
+  weight is set to 0, and when a preset has only TWO flavors that hands the
+  other one a probability of 1 regardless of what its weight says. So the
+  weight is very nearly inert and no number would have fixed it; the only real
+  lever is keep the branch or drop it. Both men had it dropped, on their own
+  descriptions, joining Farrow / Kane East / J Dillo at one flavor.
+- Reasoning: the fix belongs in the streak-breaker, and that code is shared by
+  all nine crew DJs. The nine are explicitly out of scope for legend work and
+  he has said so twice. Genre styles are already exempt from the breaker by
+  the 2026-07-19 rule, so this only bites crew DJs and legends.
+- Verify by: the reproduction is three lines — compose() 300 times, count how
+  many kick notes say 808, compare to kick_flavors[0][0]. Affected today:
+  Chrome Dial and Glass Cat in the nine; DJ Premium, Timberline, Razor and
+  Doc Day among the legends. Their weights all read lower than they play.
+- Status: open — reported, not fixed
+- Outcome:
+
+### 2026-09-06 Swish Beatz (Swizz Beatz) new build
+
+- Context: eighth legend through the pass. Step 1b clean — Swizz Beatz is not
+  one of the nine. His listen line carries an ABSOLUTE ("zero subtlety and
+  proud of it") and three of his four stamp tags matched no file at all.
+- Decision/change: `zero_subtlety` — an invariant, not a weight. It REFUSES
+  the sparse and displaced backbeat modes on his clap and snare (35% of his
+  roll). Tags rewritten to live filenames then own_soundbank on. 808 kick
+  branch dropped. Backup: legends_config.pre-swish-beatz-2026-09-06.json.
+- Reasoning: per hard-rule-invariant an absolute is a choke point that
+  refuses, because Doc Day's 1-in-10 "sparse" fired in a real audition in
+  front of him. HIS HATS ARE DELIBERATELY EXCLUDED — the same line asks for
+  "sparse shouting hats", so sparse is his identity up there and restraint
+  down here. That distinction is the whole reason this is scoped to the
+  backbeat lanes and not to a lane name, and it is written into the test.
+- Verify by: test_swish_beatz_refuses_the_subtle_backbeat_modes sweeps 90
+  variants, and a control legend without the flag must still roll them.
+  Proved red by removing the flag. Full suite 1023 passed / 3 skipped.
+- Status: open — auditioned, not heard
+- Outcome:
+
+### 2026-09-06 `dry` is not safe as a snare tag in this repo
+
+- Context: Swish Beatz's first render came back with "sn4 ss dry.wav" and
+  "sn2 rim dry.wav" — a sidestick and a rim — on BOTH new beats, under a line
+  that says "a harsh clap-snare stack".
+- Decision/change: his snare is `hard` alone (16 files, zero sidesticks).
+  `dry` on the KICK was checked the same way, is clean, and stays.
+- Reasoning: 8 of the 41 snares matching `dry` are sidesticks
+  (HWIP_Dry_SideStick, sn2/sn4/sn8 ss dry, sn2 rim dry) and most of the rest
+  are soft, flam or buzz. Farrow's _research_note had ALREADY documented this
+  exact trap on 2026-09-05 and it was walked into anyway a day later — which
+  is the real lesson here: the printed sample list caught it, reading the
+  existing notes first would have prevented it.
+- Verify by: it is written into the docstring of
+  test_own_soundbank_is_the_new_build_legends_only, which every future legend
+  has to edit anyway, so the next person reads it before choosing tags.
+- Status: confirmed
+- Outcome: second render picked "sn 8 hard" and "sn4 hard dry" — real snares.
+
 ### 2026-09-06 The Legends' stamps are no longer locked
 
 - Context: the "stamp" is the one lane build_kit never re-picked —

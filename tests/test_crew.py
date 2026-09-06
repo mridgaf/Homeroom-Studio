@@ -3,6 +3,8 @@ import json
 import sys
 from pathlib import Path
 
+from unittest import mock
+
 import numpy as np
 import pytest
 
@@ -693,10 +695,34 @@ def test_own_soundbank_is_the_new_build_legends_only():
 
     "big" and "huge" match zero snares and zero claps in this library.
     That is written into his _research_note too: the huge stack comes
-    from the lane gains, and re-adding "big" later is not a fix."""
+    from the lane gains, and re-adding "big" later is not a fix.
+
+    Swish Beatz joined 2026-09-06, the eighth, tags proved first. Three
+    of his four STAMP tags were dead — horn=0, shout=0, vocal=0 — under a
+    line promising "siren and horn color", so the sample heard on every
+    beat was picking at random and landing on a pitch-drop FX and a
+    scratch retrigger.
+
+    Say this precisely, because the first attempt said it wrong: the DRUM
+    ONE-SHOT buckets hold no horns (horn=0, brass=0 across all 356 fx
+    files and every other bucket), so the STAMP lane cannot deliver them
+    and re-adding "horn" there is not a fix. The MELODIC INSTRUMENT INDEX
+    is a different pool and holds 38 real brass samples; his chord_source
+    asks for "horns", instrument_sampler.VOICES maps that to ("brass",),
+    and it plays. Check a chord_source voice name against VOICES, never
+    against GROUP_NAMES — the latter makes horns/strings/loop/chip all
+    look dead when every one of them is real.
+
+    HIS SNARE IS `hard` ALONE, and that was a correction made after
+    reading a render, not a first guess. hard+dry came back with
+    "sn4 ss dry" and "sn2 rim dry" — a sidestick and a rim — on both new
+    beats. Farrow's note in legends_config.json had already warned that
+    plain `dry` drags those in; 8 of the 41 dry snares are sidesticks.
+    The warning existed and was still walked into once. Do not put `dry`
+    on a snare in this repo."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
-                    "J Dillo", "Just Flame"}
+                    "J Dillo", "Just Flame", "Swish Beatz"}
 
 
 def test_legend_stamps_are_not_locked():
@@ -744,6 +770,130 @@ def test_legend_stamps_are_not_locked():
 
     fixed = seen("Cutz")
     assert len(set(fixed)) == 1, f"crew stamp came unlocked: {fixed}"
+
+
+def test_swish_beatz_refuses_the_subtle_backbeat_modes():
+    """His listen line ends "zero subtlety and proud of it". Per the
+    hard-rule-invariant skill an absolute is a REFUSAL, not a weight —
+    Doc Day's snare was [[backbeat, 0.9], [sparse, 0.1]] under a line
+    saying the snare NEVER leaves 2 and 4, and the one-in-ten fired in a
+    real audition in front of the owner.
+
+    `sparse` plays ONE hit where two belong; `displaced` nudges the 4 off
+    the grid. Both read as restraint, and together they were 38% of his
+    clap roll — his snare copies his clap, so it was 38% of both.
+
+    HIS HATS ARE NOT COVERED AND MUST NOT BE. The same line asks for
+    "sparse shouting hats", so sparse is his identity up there. If this
+    test is ever widened to the hat lane it is destroying the character
+    it was written to protect.
+
+    compose() re-rolls per process, so this sweeps many variants; a
+    single green run would prove nothing about a 1-in-10."""
+    import pattern_gen
+
+    def clap_snare_modes(name, n=90):
+        out = []
+        for v in range(n):
+            for note in pattern_gen.compose(CREW[name], name, v):
+                lane, _, mode = note.partition(": ")
+                if lane in ("clap", "snare"):
+                    out.append(mode)
+        return out
+
+    got = clap_snare_modes("Swish Beatz")
+    assert got, "composed nothing — the sweep proves nothing"
+    banned = [m for m in got if m in pattern_gen.SUBTLE_MODES]
+    assert not banned, f"zero subtlety broke: {sorted(set(banned))}"
+
+    # the refusal is HIS, not a roster-wide change: a legend without the
+    # flag still rolls them, which is also what proves the sweep is big
+    # enough to have caught him.
+    other = clap_snare_modes("Hitt Kid")
+    assert [m for m in other if m in pattern_gen.SUBTLE_MODES], \
+        "control preset never rolled a subtle mode — sweep too small"
+
+
+def test_sorted_folder_reads_taste_from_the_folder_not_the_name():
+    """Owner 2026-09-06: "make folders where I could just load the samples
+    that I know are all drum type samples into... so you would know what
+    you're looking at regardless of the name."
+
+    WHAT a sample is has always come from its folder (sample_library.
+    DIR_ROLES). What it is LIKE was filename-only, and that is the fault
+    that has cost this project repeatedly: "big" and "crack" matched zero
+    files, so his snare was picked at random and came back a sidestick.
+
+    Inside the ONE root he sorts himself, a taste word may come from the
+    folder path instead. Everywhere else nothing changes — see the
+    sibling test below, which is the promise this feature was allowed on.
+
+    own_bank=True throughout, and that is not test scaffolding — it is the
+    scope of the whole feature. OWNER_TASTE["open_soundbank"] (his rule,
+    2026-07-18) wipes `wants` before the tiers are built, so a preset
+    without own_soundbank ignores taste tags ENTIRELY and a sorted folder
+    cannot reach it. Today that means the 8 rebuilt legends see this and
+    the nine do not."""
+    e_sorted = {"name": "xz9_final_v2",
+                "path": "/Volumes/TBOTC 3/Sample Packs/"
+                        "BOTC Sorted Samples/Kicks/Hard/xz9_final_v2.wav"}
+    e_pack = {"name": "xz9_final_v2",
+              "path": "/Volumes/TBOTC 3/Sample Packs/"
+                      "SomePack/Hard Drums/xz9_final_v2.wav"}
+
+    root = "/volumes/tbotc 3/sample packs/botc sorted samples"
+    with mock.patch.object(crew, "_SORTED_ROOT", root):
+        pool = {"kick": [e_sorted, e_pack]}
+        got = set()
+        for seed in range(40):
+            with mock.patch("crew._load_choked", return_value=np.ones(500)):
+                path, _ = crew._pick_path(pool, "kick", ["hard"], 0.5,
+                                          seed, own_bank=True)
+            got.add(path)
+        # the sorted file is reachable BY ITS FOLDER; the pack file with the
+        # same junk name and a "Hard Drums" folder is NOT, because outside
+        # the sorted root only the file name counts.
+        assert e_sorted["path"] in got, "sorted folder word was not read"
+        assert got == {e_sorted["path"]}, (
+            "a PACK folder word leaked into taste matching: %s" % got)
+
+
+def test_sorted_folder_cannot_move_anything_he_already_approved():
+    """THE PROMISE THIS FEATURE WAS BUILT ON, and the reason it is scoped
+    to one root instead of every pack.
+
+    Measured 2026-09-06 before building it: over 203 lanes across all 41
+    presets, with the feature off, ZERO candidate sets changed and ZERO
+    lanes lost a sample. The naive version — reading folder words for
+    EVERY pack — was tried first and rejected: pack folders carry words
+    like "Hard" and "Trap", and it moved the nine (Otto Grit's snare pool
+    15 -> 38) without him hearing it first.
+
+    If this test fails, a sample outside his sorted folder started
+    matching on its folder, and every beat he has approved by ear is in
+    question."""
+    e = {"name": "quiet_thing",
+         "path": "/Volumes/TBOTC 3/Sample Packs/Hard Trap Drums/"
+                 "quiet_thing.wav"}
+    root = "/volumes/tbotc 3/sample packs/botc sorted samples"
+    for setting in (root, ""):          # feature on, and feature off
+        with mock.patch.object(crew, "_SORTED_ROOT", setting):
+            with mock.patch("crew._load_choked", return_value=np.ones(500)):
+                path, _ = crew._pick_path({"kick": [e]}, "kick",
+                                          ["hard"], 0.5, 1, own_bank=True)
+            # it is still returned — the last tier takes anything — but it
+            # must NEVER have qualified on the want tier. Prove that by
+            # asking for a word that IS in its folder and IS NOT in its
+            # name, alongside a file that genuinely matches by name.
+            named = {"name": "trap_one", "path": "/x/trap_one.wav"}
+            with mock.patch("crew._load_choked", return_value=np.ones(500)):
+                got = {crew._pick_path({"kick": [e, named]}, "kick",
+                                       ["trap"], 0.5, s, own_bank=True)[0]
+                       for s in range(30)}
+            assert named["path"] in got, "sanity: name match must still win"
+            assert got == {named["path"]}, (
+                "pack folder word 'trap' leaked in with setting %r: %s"
+                % (setting, got))
 
 
 def test_own_soundbank_honours_taste_tags():

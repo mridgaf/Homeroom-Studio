@@ -642,6 +642,11 @@ def gen_kick(spec, rng):
                    for i in range(16))
 
 
+# The backbeat modes that read as RESTRAINT, refused by a preset
+# carrying `zero_subtlety`. See the choke point in compose().
+SUBTLE_MODES = ("sparse", "displaced")
+
+
 def gen_backbeat(spec, rng):
     """One bar of snare/clap: the DJ's mode plus ghost notes.
 
@@ -1136,6 +1141,28 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
             if boom_bap and lane == "hat":   # bb hats stay hats, swung
                 spec = dict(spec, modes=[["eighths", 0.5],
                                          ["sixteenths", 0.5]])
+            # ZERO SUBTLETY (Swish Beatz only, 2026-09-06). His listen line
+            # ends "zero subtlety and proud of it". Per hard-rule-invariant
+            # an absolute is a REFUSAL, not a weight — Doc Day's snare was
+            # [[backbeat, 0.9], [sparse, 0.1]] under a line saying NEVER,
+            # and the one-in-ten fired in a real audition. So the two
+            # backbeat modes that read as restraint are removed from the
+            # roll outright: `sparse` plays ONE hit where two belong, and
+            # `displaced` nudges the 4 off the grid. Together they were 38%
+            # of his clap, and his snare copies his clap.
+            #
+            # HIS HATS ARE DELIBERATELY NOT TOUCHED. The same line asks for
+            # "sparse shouting hats", so sparse is his identity up there and
+            # a restraint down here. That is why this keys on "gcells" (the
+            # backbeat lanes) and not on the lane name.
+            #
+            # Absent -> nothing happens, same shape as own_soundbank and
+            # snare_locked_24. No fallback if the list empties: a config
+            # that leaves him nothing to play is a fault to hear about, not
+            # to paper over with the modes this is here to refuse.
+            if preset.get("zero_subtlety") and "gcells" in spec:
+                spec = dict(spec, modes=[[m, w] for m, w in spec["modes"]
+                                         if m not in SUBTLE_MODES])
             if "copy" in spec:
                 src = spec["copy"]
                 if src in lanes:

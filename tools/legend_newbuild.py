@@ -68,6 +68,12 @@ def absolutes(p):
     return [w.strip() for w in ABSOLUTES if w in line]
 
 
+def role_of(p, lane):
+    """The bucket a lane actually draws from — the thing a tag is judged
+    against, and the thing that is wrong when a word has a home elsewhere."""
+    return (p.get("kit") or {}).get(lane, ("?",))[0]
+
+
 def tag_audit(name, p):
     """How many real samples each lane's taste tags actually match.
 
@@ -75,7 +81,28 @@ def tag_audit(name, p):
     punch/knock/deep matched ONE file in the whole library, and `boom`
     matched three of which two were 808s. Tags match FILENAMES, not intent
     — a word that reads right in a description can match nothing, or match
-    exactly the thing you were trying to avoid."""
+    exactly the thing you were trying to avoid.
+
+    It also says WHERE ELSE a dead word lives, because "dead" and "dead in
+    this bucket" are different claims and this tool only ever looked in the
+    lane's own bucket. That blind spot has now cost twice: Mustang's "Hey!"
+    chant asked `fx` for hey/vocal/chant and matched 0 of 356, while the
+    `vox` bucket literally holds "Cymatics - Hey Vox" (2026-09-05); and on
+    2026-09-06 a build note claimed the library had no horns at all on the
+    strength of a drum-bucket search, when the melodic instrument index
+    holds 38 brass samples. A word with a real home somewhere else is a
+    lane pointed at the wrong bucket — which is a fix — while a word that
+    lives nowhere is just a dead word.
+
+    Read the ELSEWHERE column with judgement, not obedience: `crack` in the
+    fx bucket is not a snare and moving a snare there would be worse than
+    leaving it. It flags candidates; it does not make the call.
+
+    NOT COVERED HERE, and do not read silence as a pass: this walks the
+    drum one-shot buckets only. Melodic voices (`chord_source`) live in a
+    separate index and are checked against instrument_sampler.VOICES —
+    never against GROUP_NAMES, which makes horns/strings/loop/chip all look
+    dead when every one of them is real."""
     sys.path.insert(0, str(Path(__file__).parent))
     from make_drum_beats import build_shots
     shots = build_shots()
@@ -89,7 +116,21 @@ def tag_audit(name, p):
         pool = shots.get(role, [])
         per = {w: sum(1 for e in pool if w in e["name"].lower())
                for w in wants}
-        rows.append((lane, per, len(pool)))
+        # for each DEAD word, where does it actually live? Loops are
+        # excluded (not one-shot material) and a single stray file is
+        # noise, not a home.
+        home = {}
+        for w, c in per.items():
+            if c:
+                continue
+            found = {b: n for b, n in
+                     ((b, sum(1 for e in items if w in e["name"].lower()))
+                      for b, items in shots.items()
+                      if b != role and not b.startswith("_"))
+                     if n >= 2}
+            if found:
+                home[w] = found
+        rows.append((lane, per, len(pool), home))
     return rows
 
 
@@ -126,11 +167,17 @@ def main():
             if s.get("notes"):
                 print("    note:    %s" % s["notes"])
         if a.tags:
-            for lane, per, n in tag_audit(name, p):
+            for lane, per, n, home in tag_audit(name, p):
                 bad = [w for w, c in per.items() if c == 0]
                 print("    tags %-6s %-34s pool %d%s"
                       % (lane, ", ".join("%s=%d" % kv for kv in per.items()),
                          n, "   DEAD: " + ",".join(bad) if bad else ""))
+                for w, found in home.items():
+                    where = ", ".join("%s=%d" % kv for kv in
+                                      sorted(found.items(),
+                                             key=lambda kv: -kv[1]))
+                    print("             '%s' is dead in %s but ALIVE in %s"
+                          % (w, role_of(p, lane), where))
         print()
 
     # counted over the WHOLE roster, never the filtered view — this said

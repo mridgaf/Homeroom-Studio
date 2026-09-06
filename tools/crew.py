@@ -1093,6 +1093,19 @@ def _load_choked(path, secs):
     return x.mean(axis=1) if x.ndim == 2 else x
 
 
+_SORTED_ROOT = None
+
+
+def _sorted_root():
+    """Cached — _pick_path runs per lane per beat and this must not stat
+    the config file every time. Cleared by tests via _SORTED_ROOT."""
+    global _SORTED_ROOT
+    if _SORTED_ROOT is None:
+        from sample_library import sorted_root
+        _SORTED_ROOT = sorted_root()
+    return _SORTED_ROOT
+
+
 def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
                own_bank=False):
     """Like make_drum_beats.pick but returns the PATH so it can be locked.
@@ -1126,7 +1139,18 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
         return must in e["path"].lower()
 
     def has_want(e):
-        return any(w in e["name"].lower() for w in wants)
+        if any(w in e["name"].lower() for w in wants):
+            return True
+        # THE SORTED FOLDER (owner 2026-09-06). Under the one root he
+        # sorts himself, a taste word may come from the FOLDER instead of
+        # the filename — "Kicks/Hard" makes every file in it a hard kick
+        # whatever it is called. Everywhere else this is filename-only,
+        # exactly as before, so nothing he has already approved by ear can
+        # move. `must` has always read the whole path (has_must above);
+        # this brings taste into line for his own folders only.
+        root = _sorted_root()
+        return bool(root) and e["path"].lower().startswith(root) \
+            and any(w in e["path"].lower() for w in wants)
 
     tiers = []
     if must and wants:

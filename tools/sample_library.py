@@ -151,6 +151,40 @@ from make_drum_beats import SHOT_WORDS                      # noqa: E402
 TOKEN_RE = re.compile(r"[a-z0-9]+")
 
 
+def sorted_root():
+    """The one folder the OWNER sorts himself, where the FOLDER NAME says
+    what a sample is and what it is like — "Kicks/Hard", "Snares/Brushes".
+
+    Owner 2026-09-06, after the horns correction and the vocal/vox miss:
+    "make folders where I could just load the samples that I know are all
+    drum type samples into and you would know how to look there... so you
+    would know what you're looking at regardless of the name."
+
+    Two layers, and only the second one is new:
+    * WHAT IT IS (kick vs snare vs vox) already came from the folder —
+      see DIR_ROLES. A file called xz9_final_v2.wav in a Kicks folder has
+      always been a kick.
+    * WHAT IT IS LIKE (hard, dry, brushes) was filename-only, which is the
+      whole reason "big" and "crack" matched nothing and a sidestick got
+      picked for a snare. Under THIS root, taste words are read from the
+      folder path too (crew._pick_path).
+
+    Scoped to this root ON PURPOSE. His existing packs keep filename-only
+    taste matching, so no pick he has already approved by ear can move —
+    measured 2026-09-06 over 203 lanes across all 41 presets: zero moved,
+    zero lost. Widening it to every pack was tried first and rejected:
+    pack folders carry words like "Hard" and "Trap", which would have
+    changed the nine (Otto Grit's snare pool 15 -> 38) without him
+    hearing it first.
+
+    Empty string when unset — the feature is simply off."""
+    try:
+        v = json.loads(PACKS_CONFIG.read_text()).get("sorted_root") or ""
+    except (OSError, json.JSONDecodeError):
+        return ""
+    return str(v).rstrip("/").lower()
+
+
 def load_roots():
     if not PACKS_CONFIG.exists():
         PACKS_CONFIG.write_text(json.dumps({
@@ -163,9 +197,18 @@ def load_roots():
                 "automatically."],
             "roots": DEFAULT_ROOTS}, indent=1))
     try:
-        return json.loads(PACKS_CONFIG.read_text()).get("roots", [])
+        cfg = json.loads(PACKS_CONFIG.read_text())
     except (OSError, json.JSONDecodeError):
         return DEFAULT_ROOTS
+    roots = list(cfg.get("roots", []))
+    # the sorted root is scanned like any other pack — being listed here is
+    # what puts its samples in the pool at all; sorted_root() above is only
+    # about how their TASTE words are read.
+    sr = cfg.get("sorted_root")
+    if sr and not any(str(sr).rstrip("/").lower() == str(r).rstrip("/").lower()
+                      for r in roots):
+        roots.append(sr)
+    return roots
 
 
 def _dir_role(rel_parts):
