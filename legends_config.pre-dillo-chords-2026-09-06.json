@@ -1308,40 +1308,6 @@
  },
  "J Dillo": {
   "num": 13,
-  "chord_grammar": {
-   "figures": [
-    [
-     "arp",
-     4
-    ],
-    [
-     "comp",
-     3
-    ],
-    [
-     "stab",
-     2
-    ],
-    [
-     "pad",
-     1
-    ]
-   ],
-   "arp_step": 2,
-   "hits": [
-    4,
-    6
-   ],
-   "rest_p": 0.1,
-   "ghost_p": 0.25,
-   "seg": 1.1,
-   "feel": [
-    16,
-    1,
-    50
-   ],
-   "pan": 0.0
-  },
   "bpm": 88,
   "era": "legend",
   "built": "J Dilla",

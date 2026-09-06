@@ -22,6 +22,66 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-06 J Dillo is the second chord-grammar identity — and the first LOOP one
+
+**status:** open. Rendered and measured, NOT heard.
+
+The 2026-09-05 entry above left the loop-chopping path unproven: Swish Beatz
+has no loop in his `chord_source`, so the branch at beat_machine.py:1885 —
+where the grammar CHOPS a finished melody with `chop_onsets` and retriggers
+the pieces instead of "playing" it — never ran during his audition. J Dillo is
+`chord_source: loop 4 / piano 2`, so he exercises it on most beats. That path
+has now fired: both audition beats printed `(chopped arp)`.
+
+**Research, done fresh, and it changed the numbers before anything was
+written.** His `signature._note` (2026-07-24) is entirely about which NOTES —
+F dorian, soul 7ths, Rhodes. Nothing anywhere said how the chords are PLAYED,
+which is the whole new dimension. Three findings:
+
+1. **The deviations repeat exactly; he was not sloppy.** Charnas' *Dilla Time*
+   (via Ethan Hein's analysis, which Charnas cites): a Dilla beat repeats "the
+   same microtiming deviations... throughout the song, and the mere fact of
+   that exact duplication changes the meaning of the deviations." So JITTER IS
+   WRONG here — random per-hit wobble is literal sloppiness. The first draft of
+   the plan had `jitter 6` and was corrected to 1, with the displacement moved
+   into a fixed offset instead.
+2. **"Dilla time" is multiple feels at once — the melodic layer runs on its own
+   clock.** On "E=mc2" the programmed drums are off-grid entirely while the
+   sampled loop is "closer to being on the grid... but mostly late". So the
+   chord layer gets its OWN offset (+16 ms), deliberately not matching his drum
+   lanes (kick +12, snare -20). The misalignment is the identity.
+3. **Chops land in eighths and the figure repeats bar to bar.** Hence `arp`
+   weighted highest (on a loop source, `arp` IS the chopped flip), `arp_step`
+   2, and `rest_p` dropped to 0.10 so a four-bar slot repeats rather than
+   re-rolling itself into a new bar each time.
+
+**Change:** one top-level `chord_grammar` block in `legends_config.json`,
+"J Dillo" only — figures arp 4 / comp 3 / stab 2 / pad 1, `arp_step` 2, `hits`
+[4,6], `rest_p` 0.10, `ghost_p` 0.25, `seg` 1.1, `feel` [16, 1, 50], `pan` 0.
+`w` deliberately LEFT at the house default: the research says nothing about
+which cells, and inventing weights would be a guess wearing a citation.
+34 insertions, 0 deletions; the other twenty-two identities are untouched.
+Backup: `legends_config.pre-dillo-chords-2026-09-06.json`.
+
+**The stated risk did not bite, this time.** `chop_onsets` slices on
+transients, so a sustained Rhodes bed could have come back with one or two
+clips and stuttered instead of chopping. Instrumented: the voiced loops
+returned 9-26 clips. Two candidate loops in the selection pass returned 1 clip
+each and were not the ones voiced. If a future audition sounds like a stutter,
+the fix is a minimum-clip guard in that branch, not more grammar tuning.
+
+- Rendered: `~/Desktop/Homeroom J Dillo CHORD GRAMMAR 2026-09-06`, two beats
+  x off/on. Pairs differ by 0.22 and 0.27 peak — that says only that the layer
+  reaches the output, nothing about whether it sounds right.
+- Verify by: his ear — DONE. Owner heard it 2026-09-06: "'on' sounds great.
+  keep." The grammar stays on for him.
+- Status: confirmed
+- Outcome: kept. He is the second identity with a `chord_grammar` key (Swish
+  Beatz was first) and the first with a loop in his `chord_source`, so the
+  chop-and-retrigger path is now confirmed BY EAR, not just measured. The
+  other twenty-one identities are still unchanged and each opts in the same
+  way, one at a time, after its own audition.
+
 ### 2026-09-05 The chord rhythm grammar — BUILT, opt-in, Swish Beatz first
 
 **status:** CONFIRMED BY EAR. Owner heard the Swish Beatz A/B pairs and
@@ -156,7 +216,7 @@ wow). Owner has NOT yet decided whether to go back for them.
 
 ### 2026-09-05 Kane East (Kanye), fifth legend — he was a copy of Sunday Chop, so he became Yeezus
 
-**status:** auditioned (rendered and measured; NOT heard)
+**status:** confirmed — he ticked 'keep' 2026-09-06 from a checklist of the four outstanding legend new builds. A click, not his own words.
 
 Second legend/crew duplicate found in one day. Sunday Chop, one of the nine,
 is also `built = "Kanye West"`, and the two `listen` lines were nearly the
@@ -260,7 +320,7 @@ Glass Cat still carries the identical dead tags and the open sound bank;
 he is one of the NINE, explicitly out of scope, and the owner said keep
 him.
 
-Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
+Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of the four outstanding legend new builds. A click, not his own words.
 
 
 ### 2026-09-05 Mustang (DJ Mustard), third legend — his chant was pointed at the wrong drawer, and two engine faults fell out
@@ -315,7 +375,8 @@ Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
   playoffs), so deep/sub funnelled 60% of his beats onto three files.
 - Verify by: audition on his Desktop, one plain-kick beat and one 808 beat.
   Measured new vs old: air -3.5 dB, sub +1.0 dB.
-- Status: open — **auditioned, not heard.**
+- Status: confirmed — he ticked 'keep' 2026-09-06 from a checklist of the
+  four outstanding legend new builds. A click, not his own words.
 
 ### 2026-09-05 Razor (RZA), second legend new-built — his grime had never played once
 - Context: "Continue DJ tone. Move on to razor." Doc Day is confirmed; Razor
@@ -374,7 +435,8 @@ Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
   docstring now records that the flag is only safe AFTER the tags are proved,
   since turning it on over his old tags would have gated him to four kicks).
   Full suite back to the 994 passed / 3 skipped baseline.
-- Status: open — **auditioned, not heard.** Only his ear closes it.
+- Status: confirmed — he ticked 'keep' 2026-09-06 from a checklist of the
+  four outstanding legend new builds. A click, not his own words.
 
 ### 2026-09-05 All twelve legends get the new-build treatment — the machinery
 - Context: "I'll want this same for all remaining legends. Not in the 9.
@@ -1767,7 +1829,11 @@ Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
   where the new setting actually rolled are in the folder, because the
   1-in-4 that keep another shape cannot demonstrate the thing being
   judged. Stated with the real rate rather than stacking the deck quietly.
-- Status: open — nothing heard, nothing switched on.
+- Status: confirmed — nothing heard, nothing switched on.
+  SUPERSEDED — see '2026-09-03 The three audition verdicts applied'
+  above: he judged all three in the wild the same day and locked them
+  in. This status line was simply never updated. Re-checked against
+  the live crew_config.json on 2026-09-06: already on.
 - Outcome:
 
 ### 2026-09-03 Two skill edits from the Night Metro session, and one latent YAML fault
@@ -1854,9 +1920,13 @@ Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
   nothing on those. The research says one breakdown per 8-BAR phrase, so
   this may be correct rather than a gap — his ear and his call, and it is
   in the READ ME.
-- Status: open — nothing heard. Nothing switched on: his preset carries
+- Status: confirmed — nothing heard. Nothing switched on: his preset carries
   neither `breakdown` nor `allow_dirt` until he approves the sound, same
   contract as every other effect in this pass.
+  SUPERSEDED — see '2026-09-03 The three audition verdicts applied'
+  above: he judged all three in the wild the same day and locked them
+  in. This status line was simply never updated. Re-checked against
+  the live crew_config.json on 2026-09-06: already on.
 - Outcome:
 
 
@@ -1913,8 +1983,12 @@ Open until he listens: `~/Desktop/Homeroom Farrow NEW BUILD 2026-09-05`.
   both his own `listen` line ("hats dead straight") and the matte research
   this batch is built on argue against it. Said so in the READ ME and
   offered it as a one-line re-render rather than deciding silently.
-- Status: open — nothing heard yet. Nine DJs and twelve legends still to
+- Status: confirmed — nothing heard yet. Nine DJs and twelve legends still to
   go; the mechanism now exists so each one is a config edit, not code.
+  SUPERSEDED — see '2026-09-03 The three audition verdicts applied'
+  above: he judged all three in the wild the same day and locked them
+  in. This status line was simply never updated. Re-checked against
+  the live crew_config.json on 2026-09-06: already on.
 - Outcome:
 
 
