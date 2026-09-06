@@ -82,6 +82,10 @@ entries.
   `tests/test_crew.py::test_j_dillo_hats_are_dead_straight`, which asserts both
   the flag is his alone and that the choke point in `render_crew_beat` still
   exists.
+- **UNFINISHED AT SESSION END:** the full 1021-test suite was still running
+  when the session closed. `test_j_dillo_hats_are_dead_straight` and the
+  chord/signature guards passed on their own. **Next session: run
+  `./.venv/bin/python -m pytest tests/ -q` ALONE before trusting this build.**
 - Status: open
 - Outcome: (his ear)
 
