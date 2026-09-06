@@ -286,7 +286,8 @@ def main():
             continue
         kit, sources = build_kit(shots, name, stamps[name][1],
                                  variant=variant, avoid=avoid)
-        sources["stamp"] = stamps[name][0]
+        if stamps[name][0]:   # a Legend picks his own per beat
+            sources["stamp"] = stamps[name][0]
         render_one(path, name, kit, preset)
         made += 1
         lines.append(f"{no} {name} — {title} ({bpm}bpm)")

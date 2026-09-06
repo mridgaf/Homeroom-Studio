@@ -158,7 +158,8 @@ def main():
             continue
         kit, sources = build_kit(shots, name, stamps[name][1],
                                  variant=variant, avoid=avoid, preset=p)
-        sources["stamp"] = stamps[name][0]
+        if stamps[name][0]:   # a Legend picks his own per beat
+            sources["stamp"] = stamps[name][0]
         L, R, got = render_crew_beat(name, kit, space=space, preset=p)
         write_wav24(path, L, R)
         dur, want = len(L) / SR, BARS * 240.0 / p["bpm"]

@@ -1155,6 +1155,18 @@ def lock_stamps(shots):
     stamps, changed = {}, False
     used = {e.get("stamp") for e in locked.values() if e.get("stamp")}
     for name, p in CREW.items():
+        # LEGENDS ARE NOT LOCKED (owner, 2026-09-06: "lets stop using the
+        # dj stamps moving forward" -> keep the color, stop welding one
+        # sample onto every beat he ever makes). Their stamp is re-picked
+        # per beat in build_kit like every other lane. Returning (None,
+        # None) is what tells build_kit to pick; it also drops them from
+        # the rewritten lock file, so an old weld cannot survive this.
+        # Scoped to the twelve on purpose — the crew DJs keep their tags.
+        if p.get("legend"):
+            stamps[name] = (None, None)
+            if name in locked:
+                changed = True
+            continue
         entry = locked.get(name, {})
         role, must, wants, secs = p["kit"]["stamp"]
         path = entry.get("stamp")
@@ -1175,7 +1187,7 @@ def lock_stamps(shots):
             changed = True
         used.add(path)
         stamps[name] = (path, x)
-    trimmed = {n: {"stamp": s[0]} for n, s in stamps.items()}
+    trimmed = {n: {"stamp": s[0]} for n, s in stamps.items() if s[0]}
     if changed or trimmed != locked:
         LOCK.parent.mkdir(parents=True, exist_ok=True)
         LOCK.write_text(json.dumps(trimmed, indent=1))
@@ -1198,14 +1210,16 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
     the character's taste tags, different per `variant` (seeded, so any
     beat can be re-rendered identically). Kick sustain is also re-rolled
     per beat from the character's era range. Share one `avoid` set across
-    a batch so the beats don't converge on the same samples. The locked
-    stamp rides along unchanged. preset overrides CREW[name] (mutated
-    copies, e.g. New Math's boom-bap mode, change kit tastes too)."""
+    a batch so the beats don't converge on the same samples. A locked
+    stamp (`stamp_audio` not None) rides along unchanged; a Legend passes
+    None and his stamp is picked here per beat like every other lane.
+    preset overrides CREW[name] (mutated copies, e.g. New Math's boom-bap
+    mode, change kit tastes too)."""
     p = preset or CREW[name]
     avoid = avoid if avoid is not None else set()
     kit, sources = {"stamp": stamp_audio}, {}
     for lane, (role, must, wants, secs) in p["kit"].items():
-        if lane == "stamp":
+        if lane == "stamp" and stamp_audio is not None:
             continue
         secs = _resolve_secs(secs, p["num"], variant)
         seed = (p["num"] * 1000 + zlib.crc32(lane.encode()) % 997
@@ -2153,7 +2167,8 @@ def main():
     for name, p in sorted(CREW.items(), key=lambda kv: kv[1]["num"]):
         kit, sources = build_kit(shots, name, stamps[name][1],
                                  variant=0, avoid=avoid)
-        sources["stamp"] = stamps[name][0]
+        if stamps[name][0]:   # a Legend picks his own per beat
+            sources["stamp"] = stamps[name][0]
         renders = [("", None)]
         if p["alt"]:
             renders.append((f" Alt {p['alt'][0]} snare", p["alt"][0]))

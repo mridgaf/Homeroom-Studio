@@ -223,12 +223,20 @@ def test_stamp_locks_but_drums_experiment(tmp_path, monkeypatch):
     monkeypatch.setattr(crew, "LOCK", tmp_path / "crew_kits.json")
     shots = _wav_pool(tmp_path)
     stamps1 = crew.lock_stamps(shots)
-    assert all(path for path, _ in stamps1.values())
+    # THE TWELVE LEGENDS ARE EXCLUDED HERE from 2026-09-06 — their stamp
+    # is no longer locked at all, by the owner's call, and comes back as
+    # (None, None) so build_kit re-picks it per beat. This test is now
+    # about the CREW's lock, which he chose to keep. See
+    # test_legend_stamps_are_not_locked for the other half.
+    crew_only = {n: s for n, s in stamps1.items()
+                 if not CREW[n].get("legend")}
+    assert crew_only, "no crew DJ left to test the lock on"
+    assert all(path for path, _ in crew_only.values())
     # the stamp is the identity: a second call with an EMPTY pool must
     # reuse the saved paths, never re-pick
     stamps2 = crew.lock_stamps({r: [] for r in shots})
-    assert {n: s[0] for n, s in stamps2.items()} \
-        == {n: s[0] for n, s in stamps1.items()}
+    assert {n: s[0] for n, s in stamps2.items() if n in crew_only} \
+        == {n: s[0] for n, s in crew_only.items()}
     # ...while kick/snare EXPERIMENT: across variants the same character
     # reaches for different drums (owner rule 2026-07-14)
     picks = set()
@@ -388,6 +396,17 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     dead setting on is not always the fix; sometimes the setting was the
     wrong one and the honest move is to stop promising it.
 
+    J Dillo is the ninth, 2026-09-06, and he is Razor's fault repeated
+    exactly: dust 0.5, vinyl -42, wow 0.15 and drive 1.35 all written into
+    his preset and not one of them had ever played a single time. Unlike
+    Kane East the numbers were not the wrong ones — 45s and vinyl are the
+    whole texture of Donuts, the era the owner picked for him — so this is
+    a straight switch-on, plus kick_dist 2.0 and mix_sat 1.0 for the
+    distortion the record actually has ("Mash" distorts the first piano
+    note of its own loop). Third preset in this list whose grime was
+    written down and silently discarded; that pattern is the argument for
+    checking allow_dirt on every legend BEFORE tuning anything.
+
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
     assert OWNER_TASTE["clean_renders"] is True
@@ -395,7 +414,8 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     assert heard == {"Otto Grit": True, "Night Metro": "low",
                      "Rage Engine": True, "Cutz": True,
                      "Crate Prophet": True, "Razor": True,
-                     "Mustang": "low", "Kane East": True}, heard
+                     "Mustang": "low", "Kane East": True,
+                     "J Dillo": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -661,9 +681,69 @@ def test_own_soundbank_is_the_new_build_legends_only():
     tools/make_legend_newbuild.py now prints the locked stamp at the head
     of its sample list — build_kit puts it in kit["stamp"] but never in
     `sources`, so the one sample heard on every single beat was the one
-    sample the "read the list before you ship it" step could not show."""
+    sample the "read the list before you ship it" step could not show.
+
+    Just Flame joined 2026-09-06, the seventh, tags proved first as
+    always. His snare was asking for big/crack — ZERO files each — and his
+    clap for big, also zero, so "a huge snare-clap stack" was picking at
+    random and landing on "sn2 rim dry.aif", a SIDESTICK, and on a ride
+    cymbal in the hat lane. The find that paid for the whole audit was
+    `stomp`: his line says "pounding driving kicks" and the library holds
+    29 files with stomp in the name that none of his old tags could reach.
+
+    "big" and "huge" match zero snares and zero claps in this library.
+    That is written into his _research_note too: the huge stack comes
+    from the lane gains, and re-adding "big" later is not a fix."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
-    assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East"}
+    assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
+                    "J Dillo", "Just Flame"}
+
+
+def test_legend_stamps_are_not_locked():
+    """Owner 2026-09-06: "lets stop using the dj stamps moving forward" —
+    asked back which of two things he meant, he chose "keep the color,
+    stop LOCKING it", scoped to the twelve Legends only.
+
+    The stamp was the one lane build_kit did not re-pick: lock_stamps
+    welded a single fx sample to a personality forever and wrote it to
+    ~/.reason_voice/crew_kits.json. Five legends in a row shipped the
+    wrong producer tag under that weld — rain on every Farrow beat, a
+    river on every Kane East beat.
+
+    Two halves, and REMOVING EITHER ONE puts the weld back:
+      * lock_stamps returns (None, None) for a legend and writes him no
+        entry, so a lock made before today cannot survive;
+      * build_kit picks the stamp per beat when it is handed None.
+
+    The crew DJs are deliberately still locked. He was asked and said the
+    nine keep theirs."""
+    shots = crew.build_shots()
+    stamps = crew.lock_stamps(shots)
+
+    legends = [n for n, p in CREW.items() if p.get("legend")]
+    assert len(legends) == 12, legends
+    for n in legends:
+        assert stamps[n] == (None, None), f"{n} is still locked"
+
+    locked_file = json.loads(crew.LOCK.read_text()) if crew.LOCK.exists() \
+        else {}
+    assert not (set(legends) & set(locked_file)), "stale weld survived"
+
+    # a legend's stamp moves per beat; a crew DJ's does not
+    def seen(name):
+        out = []
+        for v in range(4):
+            _kit, src = crew.build_kit(shots, name, stamps[name][1],
+                                       variant=v, avoid=set())
+            out.append(src.get("stamp") or stamps[name][0])
+        return out
+
+    moved = seen("Swish Beatz")
+    assert all(moved), "a legend rendered with no stamp at all"
+    assert len(set(moved)) > 1, f"legend stamp still frozen: {moved}"
+
+    fixed = seen("Cutz")
+    assert len(set(fixed)) == 1, f"crew stamp came unlocked: {fixed}"
 
 
 def test_own_soundbank_honours_taste_tags():

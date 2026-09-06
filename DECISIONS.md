@@ -22,6 +22,61 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-06 The Legends' stamps are no longer locked
+
+- Context: the "stamp" is the one lane build_kit never re-picked —
+  lock_stamps welded a single fx sample to a personality forever, saved in
+  ~/.reason_voice/crew_kits.json. Five legends in a row shipped the wrong
+  producer tag under that weld: rain on every Farrow beat, a river on every
+  Kane East beat. Owner, 2026-09-06: "lets stop using the dj stamps moving
+  forward."
+- Decision/change: asked him which of two things he meant and at what scope,
+  because they lead to different work. He chose KEEP THE COLOR, STOP LOCKING
+  IT, and THE 12 LEGENDS ONLY — the crew DJs keep their locked stamps. Two
+  halves in tools/crew.py: lock_stamps returns (None, None) for any preset
+  with `legend: true` and writes it no entry (so an old weld cannot survive),
+  and build_kit picks the stamp per beat when handed None, through the same
+  _pick_path every other lane uses. Three callers that overwrote the printed
+  name with the locked path now only do so when there is one.
+- Reasoning: the weld was the mechanism behind four wrong producer tags, and
+  the stamp is the sample heard on EVERY beat, so it was the loudest thing in
+  the roster and the least examined. Removing either half puts the weld back,
+  so both are covered by one test.
+- Verify by: tests/test_crew.py::test_legend_stamps_are_not_locked — a legend
+  renders four variants and gets more than one stamp, a crew DJ gets exactly
+  one, and no legend is left in the lock file. Proved red by stripping the
+  `legend` flag. Full suite 1022 passed / 3 skipped.
+- Status: confirmed (mechanism); open (his ear)
+- Outcome: heard for the first time in the Just Flame batch below.
+
+### 2026-09-06 Just Flame (Just Blaze) new build
+
+- Context: seventh legend through the new-build pass. Step 1b clean — Just
+  Blaze is not one of the nine, so no era question for him. The --tags audit
+  found most of his taste tags matched no real filename: snare big=0 crack=0,
+  clap big=0, stamp swell=0.
+- Decision/change: space "gated" -> "room"; kit tags rewritten to live words
+  then own_soundbank on, in that order; kick_flavors 808 branch cut 0.3 ->
+  0.15 with live tags. Nothing else moved. Full reasoning and sources are in
+  his _research_note. Backup: legends_config.pre-just-flame-2026-09-06.json.
+- Reasoning: the space change is the only one his own words name directly —
+  UAD 2024, he crafts the snare with a transient designer "letting me use the
+  NATURAL REVERB, rather than having to use a reverb plug-in", which rules out
+  a gated plug-in AND rules out dry. The tag fixes are where the sound
+  actually changes: the old config picked a SIDESTICK for his snare and a ride
+  cymbal for his hat, both visible in the printed sample list. `stomp` (29
+  files) is the word his "pounding driving kicks" line was always asking for
+  and no tag could reach. Deliberately NO invariant — his listen line contains
+  no absolute word, and inventing one would be blanket-applying Doc Day.
+  Deliberately no glue/saturation change: his sources argue AGAINST it
+  ("over compression... can suck the life, soul, and dynamics right out"),
+  which is the opposite of Doc Day.
+- Verify by: rendered with --structure (a kit-only build renders two identical
+  files otherwise, and the script's own guard caught that). Two folders on his
+  Desktop. Ask him which he prefers.
+- Status: open — auditioned, not heard
+- Outcome:
+
 ### 2026-09-06 J Dillo rebuilt as DONUTS — and he was Otto Grit all along
 
 - Context: owner: "do the dilla drum rebuild if not already done". Step 1b of
@@ -82,10 +137,12 @@ entries.
   `tests/test_crew.py::test_j_dillo_hats_are_dead_straight`, which asserts both
   the flag is his alone and that the choke point in `render_crew_beat` still
   exists.
-- **UNFINISHED AT SESSION END:** the full 1021-test suite was still running
-  when the session closed. `test_j_dillo_hats_are_dead_straight` and the
-  chord/signature guards passed on their own. **Next session: run
-  `./.venv/bin/python -m pytest tests/ -q` ALONE before trusting this build.**
+- Full suite: **1021 passed, 3 skipped** (7m37s, run alone). The first run
+  failed 2 — `test_allow_dirt_is_eight_presets_not_the_roster` and
+  `test_own_soundbank_is_the_new_build_legends_only`, both exact-roster
+  guards that are SUPPOSED to break when a name joins. J Dillo added to
+  both, with his paragraph in the allow_dirt docstring beside the other
+  eight. He is the ninth allow_dirt preset and the sixth own_soundbank one.
 - Status: open
 - Outcome: (his ear)
 

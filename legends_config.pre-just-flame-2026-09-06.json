@@ -3400,8 +3400,8 @@
     "kick",
     null,
     [
+     "punch",
      "hard",
-     "stomp",
      "boom"
     ],
     [
@@ -3413,8 +3413,9 @@
     "snare",
     null,
     [
-     "hard",
-     "heavy"
+     "big",
+     "crack",
+     "hard"
     ],
     1.0
    ],
@@ -3422,6 +3423,7 @@
     "clap",
     null,
     [
+     "big",
      "clap"
     ],
     1.0
@@ -3438,7 +3440,8 @@
     "crash",
     null,
     [
-     "crash"
+     "crash",
+     "swell"
     ],
     2.5
    ]
@@ -3550,7 +3553,7 @@
   "wow": 0.0,
   "sidechain": 0.2,
   "space": [
-   "room",
+   "gated",
    [
     "snare"
    ]
@@ -3643,23 +3646,23 @@
   },
   "kick_flavors": [
    [
-    0.15,
+    0.3,
     "808",
     [
-     "808",
-     "low"
+     "boom",
+     "deep"
     ],
     [
      0.3,
-     0.7
+     0.8
     ]
    ],
    [
-    0.85,
+    0.7,
     null,
     [
+     "punch",
      "hard",
-     "stomp",
      "boom"
     ],
     [
@@ -3809,9 +3812,7 @@
     110
    ],
    "chords_default": true
-  },
-  "own_soundbank": true,
-  "_research_note": "NEW BUILD 2026-09-06, eighth legend through the pass.\nBackup: legends_config.pre-just-flame-2026-09-06.json.\n\nSTEP 1b, CHECKED FIRST: Just Blaze is NOT in the nine. The crew is built\non Dilla, Premier, Pete Rock/Madlib, Timbaland, Pharrell, Kanye, Metro,\nLex Luger, plus three no-ones. No duplicate, no era question to put to\nthe owner. (Farrow/Glass Cat and Kane East/Sunday Chop were both caught\nthis way, so the check runs before the research, not after.)\n\nSOURCES\n- Tape Op #101, Just Blaze interview (his own words). The identity\n  sentence: \"It's not about the tempo, and it's not about the genre;\n  it's about the energy... Listen to a record like 'Higher' by me and\n  Baauer, Jay-Z's 'U Don't Know', Jay-Z's 'Public Service Announcement',\n  or Big Pun's 'Wrong Ones' — what do they all have in common? Energy.\"\n  Also: sped-up soul samples (\"The record sounds good on 45!\"), chopping\n  one record into 20-40 parts, and sidechain used SUBTLY — the \"U Don't\n  Know\" horns keyed off Jay's vocal, \"not for the flash or pumping of\n  it.\"\n- Universal Audio, \"Creating Hip Hop: 10 Questions With Just Blaze\"\n  (Darrin Fox, 2024-04-16). Two load-bearing answers. On the common\n  mistake: \"Over compression... it can also sneak up on you and suck the\n  life, soul, and dynamics right out.\" On the snare: he runs bass, kick\n  and sometimes snare through an SPL Transient Designer — \"it's the\n  perfect tool for crafting snare samples, letting me use the NATURAL\n  REVERB, rather than having to use a reverb plug-in.\"\n\nCHANGES\n1. space \"gated\" -> \"room\". THE ONE HEADLINE, and it is quoted above in\n   his own words: he crafts the snare so he can use its natural reverb\n   INSTEAD of a reverb plug-in. Gated reverb is a plug-in effect and an\n   80s one. \"gated\" was never researched here — it is the inherited\n   roster default that 7 of 12 legends shared, and every legend rebuilt\n   so far has moved off it (Doc Day, Farrow, Kane East and Mustang to\n   dry, Razor to room). Room is the sourced choice, not merely the\n   not-gated one: the source asks for natural room on the snare, which\n   \"dry\" would remove as surely as gated would bury it.\n2. TASTE TAGS rewritten to words that exist in real filenames, THEN\n   own_soundbank on — that order, the same as Razor, Mustang, Farrow and\n   Kane East, because the flag over dead tags is strictly worse than the\n   open bank. What was dead (tools/legend_newbuild.py --tags):\n     snare  big=0, crack=0    -> hard=16 + heavy=3\n     clap   big=0             -> clap=75 (the whole 76-file pool)\n     stamp  swell=0           -> crash=96 of 285\n     kick   punch=1           -> hard=17 + stomp=29 + boom=3\n   `stomp` is the single best find: his listen line says \"pounding\n   driving kicks\" and the library has 29 files with stomp in the name,\n   none of which the old tags could reach.\n   Named, not hidden: \"big\" and \"huge\" match ZERO snares and ZERO claps\n   in this library, so \"a huge snare-clap stack\" cannot be delivered by\n   a taste tag at all. It is delivered by the lane gains (snare 0.85,\n   clap 0.5 stacked on top) which were already there. Do not re-add\n   \"big\" later thinking it was an oversight.\n   Also named: the source asks for natural room on the snare, and the\n   snare pool has room=2 files. Two is too thin to gate on, so the room\n   comes from `space`, above, and NOT from the tags. That is why the\n   snare tags read hard/heavy and not room/live — deliberate, sourced,\n   and the reason is written down here.\n3. kick_flavors: the 808 branch cut 0.3 -> 0.15 and its dead tags\n   (\"deep\" = 0 files) replaced with 808/low. It OVERRIDES kit[\"kick\"] on\n   every composed beat (pattern_gen.py:1326), so fixing the kit alone\n   would have changed nothing — the same trap that bit Kane East. The\n   weight cut is DESCRIPTION-LED, not sourced: his line says \"pounding\n   driving kicks\", a 2001 chopped-soul sound, and a long sliding 808 is\n   Hitt Kid's lane. Not dropped entirely, because unlike Farrow's rock\n   kit there is no source saying Just Blaze never used one.\n4. The stamp is now re-picked PER BEAT, not welded. That is the roster-\n   wide 2026-09-06 change (owner: \"lets stop using the dj stamps moving\n   forward\" -> keep the color, stop locking it, twelve legends only),\n   and it lands especially well here: his stamp lane is the crash, his\n   line says \"crash swells\", and he now gets a different crash on every\n   beat instead of one crash forever.\n\nDELIBERATELY NOT CHANGED — each one named, not overlooked\n- sidechain 0.2. The source SPEAKS to this and CONFIRMS the existing\n  number rather than moving it: he uses sidechain in hip-hop, but\n  \"slight\", \"not for the flash or pumping of it\". 0.2 is already the\n  shallow value. Confirmed, not tuned.\n- mix_sat 0.0, kick_dist 0.0, drive 1.5, no `glue` block. Same: the\n  source speaks and confirms. \"Over compression... can suck the life,\n  soul, and dynamics right out\" is an argument for leaving the\n  compression and saturation knobs alone, which is what happened. Note\n  this is the OPPOSITE of Doc Day, whose sources demanded hard SSL\n  compression and who got glue 4.0. Do not blanket-apply his number here.\n- bpm 94 and legend_swing 54. The source says swing matters to him — he\n  imported the actual MPC3000 and SP-1200 sequencer grooves into Logic\n  because \"the differences in swings can be very slight\" — but names no\n  number, and on tempo he says outright that it is \"not about the\n  tempo\". Direction sourced, amount unsourced, so nothing moved.\n- dust 0.25 / vinyl -46. Sped-up soul chops off records argue for keeping\n  a light bed, but no source names an amount. Left.\n- No mix_eq of his own; he renders through the house EQ. Unsourced.\n- NO INVARIANT, and this is a finding rather than a gap: his listen line\n  contains no absolute word — no never, always, dead straight or locked.\n  tools/legend_newbuild.py prints no ABSOLUTES line for him. There is\n  nothing here to build a choke point for, and inventing one would be\n  the blanket-apply of Doc Day's snare lock that the skill forbids.\n\nSTATUS: measured and rendered, NOT heard. auditioned, not confirmed."
+  }
  },
  "Razor": {
   "num": 19,
