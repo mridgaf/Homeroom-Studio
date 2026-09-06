@@ -22,6 +22,70 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-06 J Dillo rebuilt as DONUTS — and he was Otto Grit all along
+
+- Context: owner: "do the dilla drum rebuild if not already done". Step 1b of
+  the legend-new-build skill caught the THIRD legend/crew duplicate. Otto Grit
+  in the nine is also `built: J Dilla`, and it was not a family resemblance:
+  same 88 bpm, same "drunk pull / snare rushes early / kick leans back late /
+  hats dead straight" line, same snare tags `vinyl,dusty,lofi`, same hat tags
+  `closed,vintage`, same gated snare, same drive 1.35, same stamp on bars 4
+  and 8. Farrow was Glass Cat, Kane East was Sunday Chop, and now this. The
+  legends and the nine are still audited separately; that is the root cause and
+  it has now produced three duplicates.
+- Decision/change: asked him rather than picking, with the three Dilla eras
+  laid out. He answered **c — Donuts (2005-06)**. Otto Grit keeps the general
+  dusty Dilla and was not touched. J Dillo only:
+  `mix_eq` (+2 dB at 110, -4 dB at 7 kHz), `allow_dirt: true`, bpm 88->84,
+  `bar_lengths` [2,4]->[2], loop tempo window 70-95 -> 62-88, the 45%-of-the-
+  time 808 kick branch dropped, `kick_dist` 0->2.0, `mix_sat` 0->1.0,
+  `own_soundbank: true`, kit tags rewritten to words that match real filenames,
+  hat lane jitter 2->0, and `hats_dead_straight` as a new single-preset
+  invariant.
+- Reasoning: every direction is sourced and written into his `_research_note`
+  with who said it. The air cut is the strongest one — Vox/Earworm (Estelle
+  Caswell) says his "signature low-end texture" came from "cutting all
+  high-end frequencies of the sample". Dropping the 808 comes from the same
+  source on "Don't Cry": on Donuts he "chopped up a handful of kicks and snares
+  from the entire song" — the drums come off the records, not out of a box.
+  Short forms from Red Bull's "more microchops than 4 bar loops". The tempo
+  move from Charnas' Dilla Time, which also debunks the SP-303/MPC myth: Donuts
+  was made in Pro Tools on a laptop, and he "halved the tempo and stretched the
+  loop out ... keeping the pitch constant". **The magnitudes are mine and
+  nobody said them** — -4 dB, +2 dB, 84 bpm, 2.0, 1.0.
+- Three faults that were not tuning:
+  1. `allow_dirt` was absent, so his dust 0.5, vinyl -42, wow 0.15 and drive
+     1.35 had never played a single time. Razor's fault, again.
+  2. `own_soundbank` off made every taste tag dead code — and the tags were
+     wrong anyway: kick `dust` matched 0 files of 525, snare `vinyl` 0 and
+     `dusty` 0 of 571, kick `boom` 3 of which 2 were 808s.
+  3. His hat lane carried 2 ms of jitter while his own line says "dead
+     straight". Found by the new invariant test on its first run, not by
+     reading the config.
+- HOUSE-WIDE, found here, fixed for everyone: **22 full drum LOOPS were sitting
+  in the one-shot buckets** — Focusrite_Drum_Pack's `*/NNNBPM/` folders leaked
+  `Full_Closed_Hats_120`, `Full_Beat_Crash_168`, `Tambourine_134` and 19 more
+  into `hat`, `crash` and `perc`. Every one measured at exactly 1-2 bars at its
+  stated tempo. The first render of this audition picked `Full_Closed_Hats_120`
+  as a hat at 84 bpm — a whole bar of someone else's beat at the wrong tempo —
+  which is the only reason it surfaced. All 22 added to `banned_samples.json`.
+  This affected all 23 identities, not just him. Caught by step 7 of the skill,
+  "read the printed sample list before you ship it", which has now paid for
+  itself twice (Razor's `Cloud_Roomy_Kick n Hat` was the first).
+- The stamp was CLEAN — `Cymatics - LIFE - Vinyl Crackle 29`, right for the
+  era, left alone. First legend in five whose producer tag was not a disaster
+  (rain, river, two others).
+- Verify by: `~/Desktop/Homeroom J Dillo NEW BUILD 2026-09-06/` — 2 beats x
+  old/new. Measured new vs old: **air -10.40 dB, sub +3.21 dB, attack +0.58
+  dB**. The air cut is the headline and the one thing his ear has to judge:
+  warm record, or blanket over the speakers. `hats_dead_straight` is guarded by
+  `tests/test_crew.py::test_j_dillo_hats_are_dead_straight`, which asserts both
+  the flag is his alone and that the choke point in `render_crew_beat` still
+  exists.
+- Status: open
+- Outcome: (his ear)
+
+
 ### 2026-09-06 J Dillo is the second chord-grammar identity — and the first LOOP one
 
 **status:** open. Rendered and measured, NOT heard.

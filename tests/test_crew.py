@@ -753,3 +753,32 @@ def test_doc_day_plain_kick_flavor_never_reaches_an_808():
     assert len(plain) == 1, "expected exactly one plain kick flavor"
     assert set(plain[0][2]) == {"thump", "hard"}
     assert set(CREW["Doc Day"]["kit"]["kick"][2]) == {"thump", "hard"}
+
+
+def test_j_dillo_hats_are_dead_straight():
+    """His ABSOLUTE, in his own words: "hats dead straight".
+
+    NEW BUILD 2026-09-06. The config numbers being zero is not the
+    invariant — anyone can edit a number. The invariant is the choke point
+    in crew.render_crew_beat that zeroes hat offset/jitter/swing when the
+    preset asks, so this goes red if that block is deleted. Single-preset
+    opt-in, like snare_locked_24: a second one is a decision, not a
+    default.
+    """
+    import inspect
+    from crew import CREW
+    import crew as _crew
+
+    assert CREW["J Dillo"].get("hats_dead_straight") is True
+    assert {n for n, p in CREW.items() if p.get("hats_dead_straight")} \
+        == {"J Dillo"}, "a second dead-straight preset is a decision"
+
+    src = inspect.getsource(_crew.render_crew_beat)
+    assert 'hats_dead_straight' in src and 'off, jit, swing = 0.0, 0.0, 50' \
+        in src, "the choke point that REFUSES is gone; the flag does nothing"
+
+    # and the config it guards has not drifted away from straight either
+    for lane, feel in CREW["J Dillo"]["lanes"].items():
+        if lane.startswith("hat"):
+            off, jit, swing, _seed = feel[2]
+            assert (off, jit, swing) == (0, 0, 50), (lane, feel[2])

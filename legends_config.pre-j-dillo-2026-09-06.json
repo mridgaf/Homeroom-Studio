@@ -1342,12 +1342,13 @@
    ],
    "pan": 0.0
   },
-  "bpm": 84,
+  "bpm": 88,
   "era": "legend",
   "built": "J Dilla",
   "legend": true,
   "bar_lengths": [
-   2
+   2,
+   4
   ],
   "listen": "the drunk pull, faithful: snare rushes ~20 ms early, kick drags ~12 ms behind, hats dead straight, loose wobbly jitter, dusty drums, vinyl and a touch of wow",
   "signature": {
@@ -1426,8 +1427,8 @@
     ]
    ],
    "tempo": [
-    62,
-    88
+    70,
+    95
    ],
    "chords_default": true
   },
@@ -1436,8 +1437,8 @@
     "kick",
     null,
     [
-     "lofi",
-     "soft",
+     "dust",
+     "boom",
      "dirty"
     ],
     [
@@ -1449,8 +1450,9 @@
     "snare",
     null,
     [
-     "lofi",
-     "soft"
+     "vinyl",
+     "dusty",
+     "lofi"
     ],
     1.0
    ],
@@ -1459,8 +1461,7 @@
     null,
     [
      "closed",
-     "tite",
-     "lofi"
+     "vintage"
     ],
     0.5
    ],
@@ -1521,7 +1522,7 @@
     0.36,
     [
      0,
-     0,
+     2,
      50,
      1033
     ],
@@ -1576,8 +1577,8 @@
    ]
   ],
   "drive": 1.35,
-  "kick_dist": 2.0,
-  "mix_sat": 1.0,
+  "kick_dist": 0.0,
+  "mix_sat": 0.0,
   "grammar": {
    "kick": {
     "w": [
@@ -1662,12 +1663,25 @@
   },
   "kick_flavors": [
    [
-    1.0,
+    0.45,
+    "808",
+    [
+     "dust",
+     "boom",
+     "dirty"
+    ],
+    [
+     0.35,
+     0.9
+    ]
+   ],
+   [
+    0.55,
     null,
     [
-     "lofi",
-     "soft",
-     "dirty"
+     "boom",
+     "break",
+     "knock"
     ],
     [
      0.18,
@@ -1725,19 +1739,6 @@
      "toms"
     ]
    ]
-  },
-  "_research_note": "NEW BUILD 2026-09-06, era chosen by the owner. He was a straight DUPLICATE of Otto Grit in the nine (both built='J Dilla', both 88 bpm, same 'drunk pull / snare rushes early / kick leans back late / hats dead straight' line, same snare tags vinyl+dusty+lofi, same hat tags closed+vintage, same gated snare, same drive 1.35, same stamp on bars 4 and 8). Third legend/crew duplicate after Farrow=Glass Cat and Kane East=Sunday Chop. Owner asked which era each keeps and answered 'c': Otto Grit keeps the general dusty Dilla, J Dillo becomes DONUTS (2005-06). SOURCES. (1) Vox/Earworm, Estelle Caswell, via Ambrosia For Heads 2017-12-06: his 'signature low-end texture' 'came from cutting all high-end frequencies of the sample' -> mix_eq with the air cut, the single most sourced sonic fact about him. (2) Same source on 'Don't Cry' from Donuts: 'Instead of chopping to the melody, he chopped up a handful of kicks and snares from the entire song regardless of the melody on top of it ... he re-sequenced these kicks and snares to an entirely new, dream-like song' -> the DRUMS on Donuts are chopped off the record, not a drum machine, so the 45%-of-the-time 808 kick branch is dropped as the wrong era's box (same call as Kane East). (3) Red Bull Music Academy 2016-02-10 on the third phase: 'a return to sampling, but with more microchops than 4 bar loops' -> bar_lengths [2,4] -> [2]. (4) Dan Charnas, Dilla Time, quoted at length on r/makinghiphop: Donuts was made in PRO TOOLS on a laptop, not the MPC or an SP-303 (that is the myth) - 'he suddenly halved the tempo and stretched the loop out to cover the doubled space, while keeping the pitch constant' -> tempo drops and the loop tempo window opens downward. (5) WPTS review: 'Mash distorts the first piano note of its loop' and 'some tracks even end abruptly' -> modest kick_dist / mix_sat, not a wall. MAGNITUDES ARE MINE, DIRECTIONS ARE SOURCED: -4 dB of air, +2 dB low, 84 bpm, kick_dist 2.0 and mix_sat 1.0 are my numbers and nobody said them. LIVE FAULTS FIXED, not tuning: allow_dirt was absent, so his dust 0.5, vinyl -42, wow 0.15 and drive 1.35 had NEVER PLAYED ONCE under the July clean-render rule - the same fault Razor had. own_soundbank was off, so every taste tag below was dead code. And the tags themselves were broken: kick 'dust' matched 0 files of 525, snare 'vinyl' 0 and 'dusty' 0 of 571, and kick 'boom' matched 3 of which 2 were 808s - exactly the Doc Day fault. Rewritten to words that match real filenames. STAMP CHECKED AND LEFT ALONE: his locked stamp is Cymatics - LIFE - Vinyl Crackle 29, which is right for the era. First legend in five whose producer tag was not a disaster. ABSOLUTE: 'hats dead straight' is now the hats_dead_straight invariant in crew.py, a choke point that zeroes hat offset/jitter/swing and refuses, not a weight. LEFT ALONE ON PURPOSE: his listen line (every word of it still true), his chord grammar (confirmed by ear 2026-09-06 and already the Donuts micro-chop shape), his wow 0.15 ('a touch of wow' is his own description, the top rule), and Otto Grit. HAT JITTER FAULT, found by the new invariant test and not by reading: his hat lane carried 2 ms of jitter while his own line says 'dead straight'. Now 0 in the config as well as forced at render.",
-  "own_soundbank": true,
-  "allow_dirt": true,
-  "hats_dead_straight": true,
-  "mix_eq": {
-   "low_db": 2.0,
-   "low_hz": 110.0,
-   "mid_db": 0.0,
-   "mid_hz": 800.0,
-   "mid_q": 0.9,
-   "high_db": -4.0,
-   "high_hz": 7000.0
   }
  },
  "Mustang": {

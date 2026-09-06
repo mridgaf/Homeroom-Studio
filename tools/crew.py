@@ -1381,6 +1381,15 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
 
     for lane, (pan, gain, feel_args, bars) in p["lanes"].items():
         off, jit, swing, seed = feel_args
+        # hats_dead_straight (J Dillo, 2026-09-06). HIS ABSOLUTE, in his own
+        # words: "hats dead straight". A rule written as an absolute is not a
+        # weight, and this line is the ONLY place a hat can be pushed off the
+        # grid — so this is where it refuses, rather than relying on the
+        # config numbers happening to stay at zero. Single-preset opt-in, same
+        # shape as own_soundbank / snare_locked_24: absent -> nothing happens,
+        # so the other twenty-two identities are untouched.
+        if p.get("hats_dead_straight") and lane.startswith("hat"):
+            off, jit, swing = 0.0, 0.0, 50
         feel = LaneFeel(off, jit, swing, seed=seed)
         snarish = any(lane.startswith(s) for s in SNARE_LIKE)
         percish = any(lane.startswith(s) for s in PERC_LIKE)
