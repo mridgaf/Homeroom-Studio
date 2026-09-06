@@ -123,7 +123,10 @@ in settings), the bare-terminal REPL.
 **Constraints that still hold:** venv uses system python3 (3.9), `pip install`
 inside `.venv`. Do not move the project folder — the Remote files and his
 muscle memory point at it. Tests are set up: `.venv/bin/python -m pytest tests/`
-(~750 tests, ~4 min).
+— **1021 tests, ~8 min** (measured 2026-09-05; the old "~750 tests, ~4 min"
+here was stale). Run it ALONE: it renders beats off the external drive, so a
+render or a library scan in another terminal starves it and the same suite
+crawls to hours. That looks exactly like a hang and isn't one.
 
 ## Known open items
 - All recipes are status: theoretical — as he tests them, flip to tested.
