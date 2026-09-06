@@ -22,6 +22,131 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-05 The chord rhythm grammar — BUILT, opt-in, Swish Beatz first
+
+**status:** auditioned (rendered and measured; NOT heard)
+
+The build the entry below asked for. Four figures, per the owner's pick of
+all four: **stab** (short chord hits on chosen cells), **comp** (chords
+answering the drums, weighted into the cells the kit left empty), **arp**
+(up / down / updown / broken / walk, with rests — the old `arp` was one
+fixed ascending eighth-note figure), and **pad** (the held block, plus
+rolled re-attacks so it breathes). New module `tools/chord_rhythm.py`.
+
+**Scope, settled with him before building (he was asked in plain
+language):** OPT-IN per identity, the `own_soundbank` / `snare_locked_24`
+shape — top-level `chord_grammar` key, one `spec_for()` at one decision
+point, absent = the old behaviour. The other twenty-two identities render
+byte-identically. This mattered because the melodic side is shared by all
+23, and the nine crew DJs have been out of scope for every legend session.
+
+**The thing that nearly sank it, and the correction worth not
+re-litigating:** the plan said to put the figure in the chord lane's BAR
+STRING, reusing the drum render loop's LaneFeel/velocity wholesale. That
+is wrong. A drum lane's bar string IS the rhythm (one char = one one-shot
+trigger); a chord lane's is not — `kit[lane]` holds the WHOLE multi-bar
+slot as one buffer and the lane's single `X` fires it once. More X's would
+retrigger the entire chord blob on top of itself. The figure has to be
+rendered INTO the slot buffer, where `arp_riff` always did it. The lane
+feel tuple therefore stays `(0, 0, 50)` on purpose and the stale comment
+at beat_machine.py:2126 that promised otherwise has been corrected rather
+than left to mislead the next session.
+
+**Not everything the plan claimed was missing was missing.**
+`tests/test_signature_words.py` already had a `chord_rhythm` word guard
+(VALID_RHYTHMS, line 98). Only the new `chord_grammar` needed one.
+
+**Judgment call — Swish Beatz, not DJ Premium, as the first identity.**
+Premier is the obvious chopped-harmony name and was the initial pick, but
+his `chord_source` is loop 4 / horns 2 / synth 1: a loop is a finished
+melody, so more than half his beats would have rendered identically and
+the audition would have been half duds. Swish Beatz is horns 3 / synth 2,
+no loop at all, currently a dead held pad, and "marching-band anthem
+stomp... horn color, zero subtlety" is his own listen line. Owner picked
+him when shown the numbers.
+
+**Owner also chose:** loops get CHOPPED to the grammar (chop_onsets'
+clips retriggered on the figure's cells) rather than left alone. Built and
+unit-tested — but Swish Beatz has no loop in his chord_source, so that
+path is NOT exercised by this audition. It is the least-proven part of
+this build.
+
+**Levels:** the written character only (X/x/o/.) through `groove.velocity`.
+No random level wobble was added — OWNER RULE 2026-08-03 still holds and
+there is a test pinning it. `chord_accents` stays flattened `(1,1,1,1)`.
+
+**The bench caught its own bug.** `make_chord_ab.py`'s first run printed
+"*** IDENTICAL — the grammar did not fire": `render_crew_beat` does NOT
+build chords (the audio is put into `kit` beforehand), so the bench had
+been rendering two identical files. Rebuilt on `make_root_808_ab.py`'s
+shape, which calls `bm._build_chords` explicitly. It now REFUSES to write
+a folder when every pair matches. Anyone writing another A/B here should
+copy that refusal, not just the render loop.
+
+- Rendered: `~/Desktop/Homeroom Swish Beatz CHORD GRAMMAR 2026-09-05`,
+  two beats x off/on. Pairs differ by 0.21 and 0.39 peak, so the layer
+  is demonstrably reaching the output — that is ALL the measurement says.
+- Verify by: owner's ear. Nothing here is confirmed by measurement.
+- Status: open
+
+### 2026-09-05 The chord layer has no performance — next build is a chord RHYTHM GRAMMAR
+
+**status:** open (nothing built; this is the brief for the session that does it)
+
+Owner asked, after four legend drum rebuilds: "did we trade out the chords and
+other instruments? It seems like these are all drums." Answer was no —
+`chords_default` is on for all twelve and chords play on every beat — but the
+question exposed a real asymmetry nobody had written down.
+
+**What the two halves actually have (read from the code, 2026-09-05):**
+
+| | Drums | Chords |
+|---|---|---|
+| rhythm | `grammar` per lane: 16 cell weights, hit counts, modes (backbeat/displaced/sparse/offbeats/eighths), ghosts, ghost cells | `chord_rhythm`: the string `"arp"` or `"sustain"` |
+| micro-timing | per-lane (offset, jitter, swing, seed) | hardcoded `(0, 0, 50, seed)` |
+| pan | per-lane, plus the hats-never-park rule | hardcoded `0.0` |
+| gain | per-lane per-legend | one `_CHORD_GAIN`, roster-wide |
+| dynamics | velocity per hit, ghosts | none; `chord_accents` is `(1,1,1,1)` |
+
+- `arp` is ONE fixed figure — ascending, one note per eighth, through the
+  octave, repeat (`chord_synth.arp_riff`, tools/chord_synth.py:113). No
+  variation, no seed, no rests.
+- `sustain` is a held block, `per_chord = nb // len(chords)` bars each.
+- **9 of 12 legends never set `chord_rhythm`**, so they are held pads.
+- The hardcoded lane rows are at tools/beat_machine.py:2125-2137, and the
+  comment there already flags the gap: "timing jitter, which is 0 on chord
+  lanes ... has to stay true if these lanes ever get jitter."
+
+**Decision:** the `signature` block (key roots, modes, progressions,
+chord_source) is a good chord CHOOSER and is not the thing to extend. Adding
+more modes or progressions adds more correct notes to a part that still lands
+square on the grid, dead centre, at one volume. The missing layer is
+PERFORMANCE. Owner chose to build the chord rhythm grammar as its own session
+with its own research and its own audition, the way the drums got — over the
+cheap version (just wiring micro-timing and pan into the three hardcoded
+values) and over finishing the seven remaining legend drum builds first.
+
+**The one thing that makes this different from a legend build:** the melodic
+side is SHARED by all 21 identities — the twelve legends and the nine crew
+DJs. A chord rhythm grammar changes everyone. The nine have been explicitly
+out of scope for every legend session; this build cannot honour that the same
+way. Settle the scope with the owner in plain language BEFORE building —
+opt-in per preset (the `own_soundbank` / `snare_locked_24` shape) is the
+precedent that has twice been his choice.
+
+**Also logged, unused:** three melodic findings from today's research were
+written into `_research_note`s and deliberately not applied, because the
+harmony blocks had their own July pass and their own audition — Mustang's
+sources name "a 3-to-5-note PIANO melody" (his `chord_source` is
+synth/horns/strings), Farrow's funk-rock era leans major/mixolydian (his key
+block is set for the near-atonal era, and his own note says "FLAGGED, not
+fixed"), and Razor's 45-to-33 replay trick warps PITCH (used only as drum
+wow). Owner has NOT yet decided whether to go back for them.
+
+- Verify by: owner's ear on the audition, same as a legend build. Nothing
+  here is confirmed by measurement.
+- Status: open
+
 ### 2026-09-05 Kane East (Kanye), fifth legend — he was a copy of Sunday Chop, so he became Yeezus
 
 **status:** auditioned (rendered and measured; NOT heard)

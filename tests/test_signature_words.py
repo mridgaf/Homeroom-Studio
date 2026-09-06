@@ -119,3 +119,46 @@ def test_weights_are_positive_numbers(cfg, name, sig):
                 assert isinstance(entry[1], (int, float)) and entry[1] > 0, (
                     "%s/%s: %s weight for %r must be > 0 (a zero weight is a "
                     "dead option, delete it instead)" % (cfg, name, field, entry[0]))
+
+
+# ------------------------------------------------- the chord grammar
+# `chord_grammar` is a TOP-LEVEL preset key, not a signature one (same
+# shape as own_soundbank / snare_locked_24), so it needs its own sweep.
+# Added 2026-09-05 with the grammar itself: a misspelt figure would roll
+# a KeyError deep in a render, and a mis-sized weight list would silently
+# skew every figure toward the cells that happened to line up.
+
+def _grammars():
+    out = []
+    for cfg in CONFIGS:
+        path = ROOT / cfg
+        if not path.exists():
+            continue
+        for name, preset in json.loads(path.read_text()).items():
+            if name.startswith("_") or not isinstance(preset, dict):
+                continue
+            g = preset.get("chord_grammar")
+            if isinstance(g, dict):
+                out.append((cfg, name, g))
+    return out
+
+
+@pytest.mark.parametrize("cfg,name,g", _grammars())
+def test_chord_grammar_words_are_understood(cfg, name, g):
+    import chord_rhythm
+    for word in _weighted(g.get("figures")):
+        assert word in chord_rhythm.FIGURES, (
+            "%s/%s: chord_grammar figure %r is not one the engine plays. "
+            "Valid: %s" % (cfg, name, word, sorted(chord_rhythm.FIGURES)))
+    for word in _weighted(g.get("shape")):
+        assert word in chord_rhythm.SHAPES, (
+            "%s/%s: chord_grammar arp shape %r is unknown. Valid: %s"
+            % (cfg, name, word, sorted(chord_rhythm.SHAPES)))
+
+
+@pytest.mark.parametrize("cfg,name,g", _grammars())
+def test_chord_grammar_step_weights_are_one_bar(cfg, name, g):
+    if "w" in g:
+        assert len(g["w"]) == 16, (
+            "%s/%s: chord_grammar w has %d weights, needs 16 (one per "
+            "16th of a bar)" % (cfg, name, len(g["w"])))

@@ -1669,6 +1669,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     disclosed here rather than silently risked."""
     if not dirs["chords"]:
         return None, None
+    import chord_rhythm
     import chord_synth
     import harmony
     from key_context import MODES, KeyContext, SUB_ROOTS
@@ -1729,6 +1730,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     # independently — see _render_one's docstring.
     _rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
               if isinstance(rhythm_spec, list) else rhythm_spec)
+    # ---- the chord PERFORMANCE grammar (owner build 2026-09-05) ----
+    # OPT-IN. `chord_grammar` is a top-level preset key, same shape as
+    # own_soundbank / snare_locked_24: absent -> None -> this whole layer
+    # is dead code and the identity plays the two-word arp/sustain it
+    # always did. See tools/chord_rhythm.py for why the figure is baked
+    # into the slot buffer instead of written into the lane's bar string.
+    _grammar = chord_rhythm.spec_for(preset)
+    # what the drums are already playing, so the "comp" figure can answer
+    # them instead of doubling them. Read BEFORE any chord lane is added.
+    _busy = {k: v[3] for k, v in preset["lanes"].items()
+             if not k.startswith(("chord", "bass")) and len(v) > 3}
     # only pay for the melodic-loop library scan if a loop voice is on
     # the table (the default, a signature that lists "loop", or the owner
     # asking for it outright from the rack)
@@ -1787,7 +1799,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
         slots.append((i, chord, start_bar, (end_bar - start_bar) * bar_s))
 
     def _render_one(src, chord, dur, used=None, notes=None,
-                    rhythm_override=None, pin=None):
+                    rhythm_override=None, pin=None, slot=0):
         """One source, one chord slot -> (audio, voice name). `used` (a
         list) collects the actual FILES the audio came from, so the beat
         can name its own instruments instead of the rack claiming "built
@@ -1814,9 +1826,39 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
         like several different instruments stacked."""
         notes = notes if notes is not None else chord["notes"]
         rhythm = rhythm_override or _rhythm
+
+        def _fig(render_note, render_chord):
+            """The grammar's take on this slot as (audio, figure), or None
+            when the identity hasn't opted in — then the caller's old
+            arp/sustain runs untouched. One roll per slot, seeded off the
+            beat so a rebuild matches."""
+            if not _grammar or rhythm_override:
+                return None                  # support/passing roles hold
+            rng = random.Random(variant * 733 + 97 + slot)
+            nbars = max(int(round(dur / bar_s)), 1)
+            figure, bars, shape = chord_rhythm.gen_figure(
+                _grammar, rng, nbars, busy=_busy)
+            a = chord_rhythm.render_figure(
+                bars, dur, preset["bpm"], notes, render_note, render_chord,
+                figure=figure, shape=shape, spec=_grammar,
+                seed=variant * 101 + slot)
+            # Silence means his library couldn't voice a single step of
+            # the figure. Hand back None so the OLD arp/sustain path gets
+            # its own try, rather than failing the whole plan — the
+            # grammar is a way of playing these notes, not a gate on them.
+            if a is None or not np.max(np.abs(a)) > 0:
+                return None
+            return a, figure
         if src == "strings" and strings_idx:
+            cache = {}                           # one load per note, not step
+            got = _fig(
+                lambda nt, sd: string_sampler.note_slice(
+                    strings_idx, nt, sd, cache=cache, used=used, pin=pin),
+                lambda ns, sd: string_sampler.play_chord(
+                    strings_idx, ns, sd, used=used, pin=pin))
+            if got:
+                return got[0], "strings %s" % got[1]
             if rhythm == "arp":
-                cache = {}                       # one load per note, not step
                 a = chord_synth.arp_riff(
                     notes, dur, preset["bpm"],
                     lambda nt, sd: string_sampler.note_slice(
@@ -1831,7 +1873,27 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
             # chord slot, so the loop bed can't change sample mid-beat
             a, nm = chord_synth.loop_voice(
                 pool, dur, key, rng=random.Random(variant * 461), used=used)
-            return a, ("sample: %s" % nm if a is not None else None)
+            if a is None:
+                return None, None
+            # A loop is already a finished melody, so the grammar can't
+            # "play" it — it CHOPS it (owner call 2026-09-05, asked in
+            # plain language). chop_onsets is the same slicer loop_voice
+            # already uses to make a rhythmic file usable as a one-shot;
+            # here its pieces get retriggered on the figure's own cells,
+            # which is the actual Premier move. No grammar -> the whole
+            # loop plays exactly as it always has.
+            if _grammar and not rhythm_override:
+                import melodic_loops
+                clips = melodic_loops.chop_onsets(a, chord_synth.SR)
+                if clips:
+                    def _clip(_i, sd, _c=clips):
+                        c = _c[abs(int(_i)) % len(_c)]
+                        return c[:max(int(sd * chord_synth.SR), 1)]
+                    got = _fig(_clip, lambda ns, sd: _clip(ns[0], sd))
+                    if got:
+                        return got[0], ("sample: %s (chopped %s)"
+                                        % (nm, got[1]))
+            return a, "sample: %s" % nm
         if src == "chip":
             # HIS OWN 8-bit/video-game samples first (owner rule
             # 2026-07-25: "if there are eight bit or sixteen bit or video
@@ -1895,8 +1957,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
             got = instrument_sampler.nearest(
                 idx, notes[0], groups, prefer=pin[0] if pin else None)
             gname = got["group"] if got else src
+            cache = {}                       # one load per file, not step
+            got = _fig(
+                lambda nt, sd: instrument_sampler.note_slice(
+                    idx, nt, sd, cache=cache, groups=groups, used=used,
+                    pin=pin),
+                lambda ns, sd: instrument_sampler.play_chord(
+                    idx, ns, sd, groups=groups, used=used, pin=pin))
+            if got:
+                return got[0], "%s %s" % (gname, got[1])
             if rhythm == "arp":
-                cache = {}                       # one load per file, not step
                 a = chord_synth.arp_riff(
                     notes, dur, preset["bpm"],
                     lambda nt, sd: instrument_sampler.note_slice(
@@ -1969,14 +2039,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
             layers = []
             used_s = []
             a_s, nm_s = _render_one(role_srcs[0], chord, dur, used=used_s,
-                                    notes=support_n, rhythm_override="sustain")
+                                    notes=support_n, slot=i,
+                                    rhythm_override="sustain")
             if a_s is None or not np.max(np.abs(a_s)) > 0:
                 role_ok = False
                 break
             layers.append((a_s, "%s (support)" % nm_s, used_s))
             used_l = []
             a_l, nm_l = _render_one(role_srcs[1], chord, dur, used=used_l,
-                                    notes=lead_n)
+                                    notes=lead_n, slot=i)
             if a_l is None or not np.max(np.abs(a_l)) > 0:
                 role_ok = False
                 break
@@ -1991,7 +2062,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
                 used_p = []
                 a_p, nm_p = _render_one(role_srcs[2], chord, dur,
                                         used=used_p, notes=passing_n,
-                                        rhythm_override="sustain")
+                                        slot=i, rhythm_override="sustain")
                 if a_p is not None and np.max(np.abs(a_p)) > 0:
                     layers.append((a_p, "%s (passing)" % nm_p, used_p))
             g = _balance_layers([a for a, _, _ in layers],
@@ -2015,6 +2086,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
                 for src in plan:
                     used = []
                     a, nm = _render_one(src, chord, dur, used=used,
+                                        slot=i,
                                         pin=pins.setdefault(src, []))
                     # arp_riff hands back SILENCE (not None) when every
                     # step was unvoiceable — an all-zero buffer is a
@@ -2096,6 +2168,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
             bass_beds[i] = a
             bass_files[i] = bused[0] if bused else None
 
+    # Pan was hardcoded 0.0 on every chord lane. It is a real lane field
+    # that the render loop already honours (constant-power, same as the
+    # drums) — it just had no config path. Opted-in identities can now
+    # place their chords; everyone else still gets dead centre.
+    _chord_pan = float(_grammar.get("pan", 0.0)) if _grammar else 0.0
     midi_chords = []
     chord_rows = []
     voice_desc = None
@@ -2124,13 +2201,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
             for v, (audio, nm, files) in enumerate(beds[slot_no]):
                 lane = f"chord{i}" if v == 0 else f"chord{i}v{v}"
                 old_c = preset["lanes"].get(lane)   # preserve a baked trim
-                # SAME feel seed for every voice of a slot. The last field
-                # seeds LaneFeel's timing jitter, which is 0 on chord
-                # lanes, so a per-voice seed is inert TODAY — but two
-                # layers of one chord must land together, and that has to
-                # stay true if these lanes ever get jitter. The split is
-                # bookkeeping, not a musical change.
-                preset["lanes"][lane] = (0.0,
+                # SAME feel seed for every voice of a slot, so two
+                # layers of one chord land together. The lane feel tuple
+                # stays (0, 0, 50): a chord lane's single X triggers the
+                # WHOLE slot buffer, so lane-level offset/jitter/swing
+                # would shift the entire block, not its hits. Since
+                # 2026-09-05 the performance — hits, swing, jitter,
+                # written dynamics — is baked INSIDE that buffer by
+                # chord_rhythm for identities that opted in; see its
+                # header for why it can't live out here.
+                preset["lanes"][lane] = (_chord_pan,
                                          old_c[1] if old_c
                                          else _CHORD_GAIN * accent,
                                          (0, 0, 50, variant + i),

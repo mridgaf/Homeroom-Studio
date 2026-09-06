@@ -138,15 +138,32 @@ def arp_riff(notes, dur, bpm, render_note, sr=SR):
         seg = render_note(note, seg_dur)
         if seg is None:                       # unvoiceable step: leave it
             continue                          # silent, never synthesize one
-        start = int(round(k * step_s * sr))
-        end = start + len(seg)
-        if end <= n:
-            out[start:end] += seg
-        else:                                  # wrap the tail to the top (loop-safe)
-            head = n - start
-            out[start:] += seg[:head]
-            tail = seg[head:][:n]
-            out[:len(tail)] += tail
+        add_wrapped(out, seg, int(round(k * step_s * sr)))
+    return finish_riff(out, sr)
+
+
+def add_wrapped(out, seg, start):
+    """Mix `seg` into `out` at sample `start`, wrapping anything past the
+    end back to the front. That wrap is the loop-safe rule (a chord buffer
+    is tiled, so a tail that runs off the end must arrive at the top, not
+    be cut). Extracted 2026-09-05 so chord_rhythm's figures place their
+    hits by exactly the same rule arp_riff always has."""
+    n = len(out)
+    if start >= n:
+        start %= n
+    end = start + len(seg)
+    if end <= n:
+        out[start:end] += seg
+        return
+    head = n - start
+    out[start:] += seg[:head]
+    tail = seg[head:][:n]
+    out[:len(tail)] += tail
+
+
+def finish_riff(out, sr=SR):
+    """Edge ramps, RMS normalize, peak guard — the tail of arp_riff, now
+    shared with chord_rhythm.render_figure."""
     peak = np.max(np.abs(out))
     if peak <= 0:            # every step came back unvoiceable: hand back
         return out           # the silence rather than NaN out of norm_rms
