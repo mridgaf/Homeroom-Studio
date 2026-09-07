@@ -241,9 +241,11 @@ def _excluded(rel_parts):
 
 
 # Where the soundfile fallback in _wav_secs is allowed to run. Owner
-# 2026-09-07: "808s only for now". See _wav_secs for what it fixes and
-# what widening this would do.
-_FLOAT_WAV_DIRS = ("/808s/",)
+# 2026-09-07: 808s first, then "bring the snares and the hats back" once
+# the 808 pool held up. See _wav_secs for what it fixes. Still OUT:
+# Kicks, Percussion, FX, Claps, Vocals, rim shot, Crashes, Stomps, toms,
+# rides, snaps -- about 1,000 more files, waiting on his ear per lane.
+_FLOAT_WAV_DIRS = ("/808s/", "/Snares/", "/Hats/")
 
 
 def _wav_secs(path):

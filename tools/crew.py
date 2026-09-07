@@ -141,7 +141,14 @@ def _extra_cut():
 # 5-10 dB OVER the kick: "kick stays on top". So it is capped level with the
 # reference -- it may match the kick, never beat it -- while still sitting
 # far above the hat, which is the part of the exemption that was the point.
-LOW_END_UNDER_DB = 0.0
+# 2026-09-07, his ear on the new low end: "a little too much low end,
+# reduce 10%". 10% quieter in level is 20*log10(0.9) = -0.9 dB, and this
+# cap is the one knob that governs BOTH low-end lanes (_LOW_END: the
+# sampled 808 and the tuned sub) against the kick. It only ever cuts --
+# the clamp is `if pk > cap` -- so this cannot make anything louder.
+# Was 0.0 from 2026-09-01 ("kick stays on top": level with the kick,
+# never over it). Now a touch under it.
+LOW_END_UNDER_DB = -0.9
 
 
 def sub_sidechain(preset):

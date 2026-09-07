@@ -22,6 +22,23 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-07 Snares and hats recovered from the float-WAV hole
+
+- Context: the float32-WAV fix was scoped to /808s/ only. He asked for the
+  snares and hats next.
+- Decision/change: `sample_library._FLOAT_WAV_DIRS` now ("/808s/",
+  "/Snares/", "/Hats/"). Snare pool 374 -> 664, hat 337 -> 647. Clap also
+  rose 114 (his claps live in Snares — "they belong because they are on top
+  of a snare").
+- Reasoning: one lane group at a time, on his ear, because a doubled pool
+  changes which sample a DJ picks on a re-render.
+- Verify by: his ear. Still OUT and waiting: Kicks, Percussion, FX, Claps,
+  Vocals, rim shot, Crashes, Stomps, toms, rides, snaps — about 1,000 files.
+  Full suite 1027 passed / 2 skipped.
+- Status: open — not heard yet.
+- Outcome:
+
+
 ### 2026-09-07 Kick / 808 / sub separated, and the float-WAV hole
 
 - Context: he asked to reorganize the 808s folder. Looking at it turned up
@@ -66,6 +83,22 @@ entries.
   Mustang getting no sub on the seed that gives Doc Day one. Full suite
   1026 passed / 3 skipped, 2026-09-07.
 - Status: open — measured and tested, NOT heard. No audition batch rendered.
+- Outcome:
+
+### 2026-09-07 Low end down 10%
+
+- Context: his ear on the new low end — "a little too much low end, reduce
+  10%".
+- Decision/change: `crew.LOW_END_UNDER_DB` 0.0 -> -0.9 dB. 10% quieter in
+  level is 20*log10(0.9) = -0.9 dB. This is the one cap governing both
+  low-end lanes (`_LOW_END`: the sampled 808 and the tuned sub) against the
+  kick, and the clamp is `if pk > cap`, so it can only cut.
+- Reasoning: the alternative was cutting the per-lane gains (bass 0.6, sub
+  0.7), which would have done nothing — this cap clamps them at render
+  regardless. Applied to BOTH lanes on the reading that "the low end" means
+  the low end, not just the 808; one number to put back if he meant only one.
+- Verify by: his ear on the next batch. Full suite 1026 passed / 3 skipped.
+- Status: open — not heard yet.
 - Outcome:
 
 
