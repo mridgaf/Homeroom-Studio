@@ -240,14 +240,6 @@ def _excluded(rel_parts):
     return _is_nature(rel_parts[-1]) if rel_parts else False
 
 
-# Where the soundfile fallback in _wav_secs is allowed to run. Owner
-# 2026-09-07: 808s first, then "bring the snares and the hats back" once
-# the 808 pool held up. See _wav_secs for what it fixes. Still OUT:
-# Kicks, Percussion, FX, Claps, Vocals, rim shot, Crashes, Stomps, toms,
-# rides, snaps -- about 1,000 more files, waiting on his ear per lane.
-_FLOAT_WAV_DIRS = ("/808s/", "/Snares/", "/Hats/")
-
-
 def _wav_secs(path):
     """Cheap duration from the header; None when unreadable.
 
@@ -262,11 +254,9 @@ def _wav_secs(path):
     audio load in this project goes through it), so the fallback costs
     nothing but a slower open on files the fast path rejects.
 
-    SCOPED to _FLOAT_WAV_DIRS on the owner's call, because recovering a
-    lane's files roughly doubles its pool and so changes which sample a
-    DJ picks on a re-render — he wants to hear each lane before it moves.
-    To widen it: add the folder to _FLOAT_WAV_DIRS, or drop the check for
-    all lanes at once."""
+    Rolled out a lane at a time on his ear — 808s, then snares and hats,
+    then "bring everything else back" (2026-09-07). No scope left: every
+    readable file counts now."""
     try:
         if path.suffix.lower() == ".wav":
             with wave.open(str(path), "rb") as f:
@@ -277,9 +267,6 @@ def _wav_secs(path):
             return f.getnframes() / max(f.getframerate(), 1)
     except Exception:
         pass
-    sp = str(path).replace(os.sep, "/")
-    if not any(d.lower() in sp.lower() for d in _FLOAT_WAV_DIRS):
-        return None
     try:
         import soundfile as sf
         info = sf.info(str(path))

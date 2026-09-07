@@ -22,6 +22,24 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-07 Every lane recovered — the float-WAV scope is gone
+
+- Context: after the snares and hats came back he said "bring everything
+  else back."
+- Decision/change: `_FLOAT_WAV_DIRS` and its path check deleted from
+  `sample_library._wav_secs`. The soundfile fallback now runs for every
+  file, so a readable sample counts wherever it lives. Final pools:
+  snare 676, hat 662, perc 640, kick 488, bass 437, fx 353, clap 283,
+  vox 172, crash 167, rim 131, snap 31, bongo 16.
+- Reasoning: with no lane held back the scope was dead weight — deleting
+  it is a smaller thing to maintain than a list that has to stay correct.
+- Verify by: bongo went 1 -> 16, which was the one thin lane
+  `tools/sample_source.py` flagged as not ready when he switched to the
+  sorted folder. Re-run it and it should now report every lane ready.
+  Full suite 1027 passed / 2 skipped.
+- Status: open — not heard yet.
+- Outcome:
+
 ### 2026-09-07 Snares and hats recovered from the float-WAV hole
 
 - Context: the float32-WAV fix was scoped to /808s/ only. He asked for the
