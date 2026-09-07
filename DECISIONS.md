@@ -22,6 +22,53 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-07 Kick / 808 / sub separated, and the float-WAV hole
+
+- Context: he asked to reorganize the 808s folder. Looking at it turned up
+  three things underneath: (1) `_wav_secs` reads headers with `wave`/`aifc`,
+  which only understand PCM — a float32 WAV raises, the exception is
+  swallowed, and the file is dropped from the pool with no message.
+  Measured over the sorted root: 1,950 of 3,717 files invisible, including
+  289 of 411 808s and all 40 Stomps. (2) The old "an 808 IS a kick" rule put
+  the whole 808s folder in the kick pool — 411 sustained bass tones against
+  283 real kicks. (3) The sampled 808 was barred from every chords beat
+  because nothing knew what note it was, and the tuned sine sub ran on 75%
+  of EVERY DJ's traditional beats, holding the one low-end slot.
+- Decision/change:
+  * `_wav_secs` falls back to `soundfile`. SCOPED to `_FLOAT_WAV_DIRS` =
+    ("/808s/",) on his call — "808s only for now", because recovering a lane
+    roughly doubles its pool and changes picks on a re-render. Widening it
+    is one line.
+  * "808" off the kick role in BOTH `sample_library.DIR_ROLES` and
+    `make_drum_beats.SHOT_WORDS`; it is the bass/808 lane only. Kick pool
+    694 -> 283, 808 pool 131 -> 427.
+  * `tools/sort_808s.py`: measures note (autocorrelation 25-200 Hz), sustain
+    and dirt for all 411, writes `sample_808_index.json`, and files them into
+    808s/{Long,Short}/{Clean,Dirty} — 149/70/130/62. NOT by note: 324 of 411
+    are C, so note-folders would be one bin. His Grime folder left alone.
+  * `beat_machine._808_to_key()`: on a keyed beat the 808 is pitch-shifted
+    onto the beat's root (pedalboard PitchShift, shortest way round the
+    circle so never more than 6 semitones). The `not dirs["chords"]` gate is
+    gone. Length-preserving on purpose: a resample shift shortens the long
+    808s and the tail IS the sound.
+  * `beat_machine.SUB_DJS` = Doc Day, Wonky, Trip Hop, Half Light. He
+    approved the list off their own descriptions; the first two say "sub"
+    outright, the last two were his call on feel. Everyone else gets the
+    sampled 808 at SAMPLED_BASS_P (0.4) and nothing the rest of the time —
+    asked and confirmed, he wants kick-only low end on the remainder.
+- Reasoning: sorting by note was the obvious read of his request and is the
+  wrong answer — the measurement killed it. Note as data + shift at render
+  beats note as folders. The float-WAV hole was scoped rather than fixed
+  everywhere because it silently changes sounds he has already approved.
+- Verify by: `./.venv/bin/python tools/test_808_key.py` (a C 808 shifted to
+  D/G/A# must MEASURE as D/G/A#, length unchanged); `tests/test_v6.py`
+  pins that an 808 is not a kick; `test_tuned_sub_is_opt_in_per_dj` pins
+  Mustang getting no sub on the seed that gives Doc Day one. Full suite
+  1026 passed / 3 skipped, 2026-09-07.
+- Status: open — measured and tested, NOT heard. No audition batch rendered.
+- Outcome:
+
+
 ### 2026-09-06 STATE OF PLAY — read this first next session
 
 Everything below this entry is what happened today. This one is what is

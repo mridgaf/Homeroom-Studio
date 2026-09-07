@@ -250,8 +250,13 @@ def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
     # half of this test asserts exactly that skip.
     root, shots = machine_env
     assert beat_machine.ADD_THE_ROOT_808, "the rule is off"
+    # "Doc Day" and not the old "Mustang" since 2026-09-07: the tuned
+    # sub is opt-in per DJ now (beat_machine.SUB_DJS) and Mustang is one
+    # of the 808 names, so he gets the SAMPLE instead. The rule under
+    # test is unchanged -- only who it can happen to.
+    assert "Doc Day" in beat_machine.SUB_DJS
     random.seed(1)
-    path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
+    path, report = beat_machine.generate(["Doc Day"], root=root, shots=shots,
                                          traditional=True, notes="no chords")
     no = int(path.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
@@ -1700,8 +1705,13 @@ def test_root_808_flag_is_off_and_switching_it_on_tunes_the_sub_to_the_key(
     assert beat_machine.ROOT_808_WITH_CHORDS is False, \
         "he heard it 2026-09-04 and said no — leave it off, do not re-propose"
     monkeypatch.setattr(beat_machine, "ROOT_808_WITH_CHORDS", True)
+    # "Doc Day" and not the old "Mustang" since 2026-09-07: the tuned
+    # sub is opt-in per DJ now (beat_machine.SUB_DJS) and Mustang is one
+    # of the 808 names, so he gets the SAMPLE instead. The rule under
+    # test is unchanged -- only who it can happen to.
+    assert "Doc Day" in beat_machine.SUB_DJS
     random.seed(1)
-    path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
+    path, report = beat_machine.generate(["Doc Day"], root=root, shots=shots,
                                          traditional=True, notes="chords")
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     assert rec.get("harmony"), report              # it really is a chords beat
@@ -1726,3 +1736,22 @@ def test_rebuild_lock_flag_is_on_he_kept_it():
     # DECISIONS 2026-09-04 (0 of 118 September beats drift; 6 of 6 do once
     # a reference track sets the key). Both are real files, not fixtures.
     assert beat_machine.REBUILD_LOCKS_KEY is True
+
+
+def test_tuned_sub_is_opt_in_per_dj(machine_env):
+    # Owner 2026-09-07: "tuned sub should only be used when specific DJs
+    # require it." Before this it ran on 75% of EVERY DJ's traditional
+    # beats and, because the sub and the sampled 808 share one slot, that
+    # is what kept the 411-file 808 pool off those beats.
+    #
+    # Mustang is the case that matters: his own description asks for an
+    # 808 ("a sparse 808 kick"), and the same seed that gives Doc Day a
+    # sub in the test above must give Mustang none.
+    root, shots = machine_env
+    assert "Mustang" not in beat_machine.SUB_DJS
+    random.seed(1)
+    path, report = beat_machine.generate(["Mustang"], root=root, shots=shots,
+                                         traditional=True, notes="no chords")
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    assert "sub" not in rec["preset"]["lanes"], report
+    assert not rec.get("root_note"), report

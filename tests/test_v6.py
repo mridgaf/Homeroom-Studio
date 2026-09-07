@@ -59,8 +59,13 @@ def test_pack_scan_classifies_by_folder(tmp_path, monkeypatch):
     got = sample_library.scan_packs([str(root)])
     paths = {r: {Path(e["path"]).name for e in es} for r, es in got.items()}
     assert "VBM_Punchy_01.wav" in paths["kick"]
-    assert "Sub Thing.wav" in paths["kick"]              # 808s ARE kicks
-    assert "Sub Thing.wav" in paths["bass"]             # ...and a bass too
+    # An 808 is NOT a kick any more (owner 2026-09-07: "the 808, the kick
+    # drum and chords should all have their own separate lanes"). Under the
+    # old rule his 411-file 808s folder landed in the kick pool next to 283
+    # real kicks, so over half of every DJ's kick picks were sustained bass
+    # tones. Both halves are asserted so a revert cannot pass quietly.
+    assert "Sub Thing.wav" not in paths.get("kick", set())
+    assert "Sub Thing.wav" in paths["bass"]             # the 808 lane
     assert "tick.wav" in paths["hat"]
     assert "Rimshot_A.wav" in paths["perc"]
     assert "Rimshot_A.wav" in paths["rim"]               # name adds a role

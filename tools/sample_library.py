@@ -49,7 +49,13 @@ SANITY_SECS = 45.0
 # Folder-name vocabulary -> engine role. Ordered: first match wins, so
 # "808S" beats the generic "DRUMS", "OPEN HATS" beats "HATS".
 DIR_ROLES = [
-    ("kick", ("808", "KICK", "BD", "BOOM")),
+    # "808" left the kick tuple 2026-09-07 (owner: "the 808, the kick drum
+    # and chords should all have their own separate lanes"). It is on the
+    # BASS entry below now. The old rule was "an 808 IS a kick", which put
+    # all 411 files of his 808s folder into the kick pool alongside 283
+    # real kicks -- over half of every DJ's kick picks were sustained bass
+    # tones. Same change in make_drum_beats.SHOT_WORDS for the filename path.
+    ("kick", ("KICK", "BD", "BOOM")),
     ("snare", ("SNARE", "SD")),
     ("clap", ("CLAP",)),
     ("snap", ("SNAP", "FINGER")),
@@ -60,10 +66,8 @@ DIR_ROLES = [
     ("bongo", ("BONGO", "CONGA")),
     ("perc", ("PERC", "TOM", "SHAKER", "TAMB", "COWBELL", "BLOCK",
               "CLAVE", "TABLA", "TIMBALE")),
-    # phase 2 (owner 2026-07-23): bass + vocals are in now. 808 stays under
-    # kick (first match wins), so an "808s" FOLDER is still a kick folder;
-    # a file named "...808..." also gets the bass role via SHOT_WORDS.
-    ("bass", ("BASS", "SUB", "REESE", "BASSLINE")),
+    # phase 2 (owner 2026-07-23): bass + vocals are in now.
+    ("bass", ("808", "BASS", "SUB", "REESE", "BASSLINE")),
     ("vox", ("VOCAL", "VOX", "ACAPELLA", "ACAPPELLA", "ADLIB", "CHANT",
              "VOICE", "CHOIR")),
     ("fx", ("FX", "SFX", "IMPACT", "RISER", "SWEEP", "WHOOSH", "FOLEY",
@@ -236,8 +240,31 @@ def _excluded(rel_parts):
     return _is_nature(rel_parts[-1]) if rel_parts else False
 
 
+# Where the soundfile fallback in _wav_secs is allowed to run. Owner
+# 2026-09-07: "808s only for now". See _wav_secs for what it fixes and
+# what widening this would do.
+_FLOAT_WAV_DIRS = ("/808s/",)
+
+
 def _wav_secs(path):
-    """Cheap duration from the header; None when unreadable."""
+    """Cheap duration from the header; None when unreadable.
+
+    THE FLOAT-WAV HOLE (found 2026-09-07): `wave` and `aifc` only read
+    PCM. A float32 WAV — same .wav suffix, indistinguishable in Finder,
+    plays fine in Reason — raises here, gets swallowed, and the file is
+    dropped from the sample pool entirely with no message. Measured over
+    the sorted root: 1,950 of 3,717 files invisible, including 289 of the
+    411 808s and all 40 Stomps.
+
+    `soundfile` reads them and is already a dependency (every actual
+    audio load in this project goes through it), so the fallback costs
+    nothing but a slower open on files the fast path rejects.
+
+    SCOPED to _FLOAT_WAV_DIRS on the owner's call, because recovering a
+    lane's files roughly doubles its pool and so changes which sample a
+    DJ picks on a re-render — he wants to hear each lane before it moves.
+    To widen it: add the folder to _FLOAT_WAV_DIRS, or drop the check for
+    all lanes at once."""
     try:
         if path.suffix.lower() == ".wav":
             with wave.open(str(path), "rb") as f:
@@ -246,6 +273,15 @@ def _wav_secs(path):
         import contextlib
         with contextlib.closing(aifc.open(str(path), "rb")) as f:
             return f.getnframes() / max(f.getframerate(), 1)
+    except Exception:
+        pass
+    sp = str(path).replace(os.sep, "/")
+    if not any(d.lower() in sp.lower() for d in _FLOAT_WAV_DIRS):
+        return None
+    try:
+        import soundfile as sf
+        info = sf.info(str(path))
+        return info.frames / max(info.samplerate, 1)
     except Exception:
         return None
 

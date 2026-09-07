@@ -1199,8 +1199,26 @@ ROOT_808_WITH_CHORDS = False
 REBUILD_LOCKS_KEY = True
 
 
+# WHO GETS THE TUNED SUB (owner 2026-09-07: "tuned sub should only be used
+# when specific DJs require it"). It is a synthesized SINE on the beat's
+# root -- a different instrument from the sampled 808, and the wrong sound
+# under a dusty SP-1200 kit. Before this it ran on 75% of every DJ's
+# traditional beats, which is how it came to hold the low end everywhere
+# and lock the 411-file 808 pool out (the two share one slot).
+#
+# The list is his, approved 2026-09-07 off their own descriptions:
+#   Doc Day    "an occasional deep sub" -- says it outright
+#   Wonky      "a sub-heavy kick"
+#   Trip Hop   "patient half-time weight" -- his call, not written as sub
+#   Half Light slowest on the roster, everything drags -- his call
+# Everyone naming an 808 (Night Metro, Rage Engine, Mustang, Hitt Kid,
+# Memphis, Crunk, Houston Screw, Emo Hip Hop, Miami Bass) gets the SAMPLE
+# instead; the boom-bap and live-band names get neither.
+SUB_DJS = ("Doc Day", "Wonky", "Trip Hop", "Half Light")
+
+
 def _add_root_sub(preset, kit, sources, variant, vnotes,
-                  harmony_info=None, traditional=False):
+                  harmony_info=None, traditional=False, dj=None):
     """The tuned 808 sub under the kick — owner rule 2026-07-18, "add the
     root". Returns the note name it used, or None if this beat gets no sub.
 
@@ -1215,6 +1233,8 @@ def _add_root_sub(preset, kit, sources, variant, vnotes,
     spell (Half Light asks for B on 7.4% of its beats); that beat gets no
     sub rather than a random one."""
     if not (ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"]):
+        return None
+    if dj not in SUB_DJS:                       # see SUB_DJS above
         return None
     _ksecs = preset["kit"].get("kick", (None, None, None, 0))[3]
     _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
@@ -1300,7 +1320,57 @@ def _drop_stamp(preset):
     return preset
 
 
-def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
+_808_INDEX_FILE = Path(__file__).resolve().parent.parent / \
+    "sample_808_index.json"
+_808_INDEX = None
+_SHARPS = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+
+
+def _808_notes():
+    """{path: note} for the sorted 808s, from sample_808_index.json.
+    Empty when the file or the drive is missing -- the caller then simply
+    leaves the 808 off a keyed beat, which is the old behaviour."""
+    global _808_INDEX
+    if _808_INDEX is None:
+        try:
+            got = json.loads(_808_INDEX_FILE.read_text())["files"]
+            _808_INDEX = {k: v.get("note") for k, v in got.items()}
+        except (OSError, ValueError, KeyError, TypeError):
+            _808_INDEX = {}
+    return _808_INDEX
+
+
+def _808_to_key(path, audio, key_root):
+    """(audio shifted onto `key_root`, semitones moved), or (None, 0).
+
+    Shortest way round the circle, so the move is never more than 6
+    semitones and the 808 keeps the register it was sampled in. Length is
+    preserved -- pedalboard's PitchShift, not a resample: a tape-speed
+    shift would make the long 808s shorter as they go up, and the length
+    of an 808's tail is the whole feel of it.
+    """
+    have = _808_notes().get(str(path))
+    if not have:
+        return None, 0
+    try:
+        semis = (_SHARPS.index(key_root.upper()) - _SHARPS.index(have)) % 12
+    except (ValueError, AttributeError):
+        return None, 0
+    if semis > 6:
+        semis -= 12
+    if semis == 0:
+        return audio, 0
+    try:
+        from pedalboard import PitchShift
+        x = np.asarray(audio, dtype=np.float32)
+        y = PitchShift(semitones=float(semis))(x.reshape(1, -1), SR)[0]
+        return y.astype(np.float64)[:len(x)], semis
+    except Exception:
+        return audio, 0                   # shift unavailable: play it as-is
+
+
+def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
+                      key_root=None):
     """Put bass/808 and vocal samples into real lanes (owner phase 2,
     2026-07-23). Both optional and seeded, and each stays out of a 'chords'
     beat's low end / key where it would clash. Reuses the same
@@ -1310,15 +1380,32 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes):
     nbars = bars_of(preset)
     muted = dirs.get("mute", set())
 
-    # BASS 808 sample under the kick — non-'chords' beats only (no key there,
-    # so an untuned 808 can't clash), and only when the synth root-sub didn't
-    # already claim the low end. Mirrors the kick line, choked to a bass hit.
-    if (shots.get("bass") and "bass" not in muted and not dirs["chords"]
+    # BASS 808 sample under the kick. Fires whenever the synth root-sub did
+    # not already claim the low end -- the two are one slot, not two.
+    #
+    # It used to be barred from 'chords' beats outright ("no key there, so
+    # an untuned 808 can't clash"). That was true only because nothing knew
+    # what note an 808 was, and it cost him the whole 411-file 808 pool on
+    # every beat with chords. tools/sort_808s.py now measures each file's
+    # root into sample_808_index.json, so on a keyed beat the sample is
+    # SHIFTED into the beat's key instead of being skipped (owner
+    # 2026-09-07, asked and answered: "pitch-shift to the key").
+    #
+    # An 808 whose note could not be read (1 of 411) is still barred from a
+    # keyed beat -- shifting by an unknown interval is worse than no 808.
+    if (shots.get("bass") and "bass" not in muted
             and "sub" not in preset["lanes"] and "kick" in preset["lanes"]
             and rng.random() < SAMPLED_BASS_P):
         secs = 0.8
         path, audio = _pick_path(shots, "bass", [], secs, variant * 71 + 5)
-        if audio is not None and np.any(audio):
+        if audio is not None and np.any(audio) and key_root:
+            audio, semis = _808_to_key(path, audio, key_root)
+            if audio is None:
+                path = None                      # note unknown: no 808 here
+            elif semis:
+                vnotes.append("808 shifted %+d semitones to %s"
+                              % (semis, key_root))
+        if path is not None and audio is not None and np.any(audio):
             _pan, _g, (_o, _j, ksw, ks), kbars = preset["lanes"]["kick"]
             preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9),
                                        [b for b in kbars])
@@ -2468,12 +2555,13 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         root_note = _add_root_sub(
             preset, kit, sources, variant, vnotes,
             harmony_info=harmony_info if ROOT_808_WITH_CHORDS else None,
-            traditional=traditional)
+            traditional=traditional, dj=names[0])
 
     # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
     # here, after the chord lanes so bass can defer to the harmony bass on a
     # 'chords' beat.
-    _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes)
+    _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
+                      key_root=(harmony_info or {}).get("root"))
 
     # bug found 2026-07-23 (owner: "a vocal sound... doesn't show up in the
     # stems but is present in the song"): spec_used/lane_parent were snapshot

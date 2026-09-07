@@ -1,0 +1,3293 @@
+{
+ "_readme": "Measured 808 index. note = detected root, sustain = seconds above -20 dB, dirt = share of energy above 300 Hz. Rebuild: tools/sort_808s.py",
+ "files": {
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Father Figures (808).wav": {
+   "sustain": 1.15,
+   "dirt": 0.294,
+   "midi": 23.96,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Fun in it (808).wav": {
+   "sustain": 1.83,
+   "dirt": 0.53,
+   "midi": 48.01,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/GENO (808).wav": {
+   "sustain": 0.82,
+   "dirt": 0.892,
+   "midi": 36.01,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Grim Reaper (808).wav": {
+   "sustain": 0.36,
+   "dirt": 0.043,
+   "midi": 23.88,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Loser (808).wav": {
+   "sustain": 0.63,
+   "dirt": 0.394,
+   "midi": 30.01,
+   "clarity": 0.99,
+   "note": "F#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Martin (808).wav": {
+   "sustain": 0.96,
+   "dirt": 0.433,
+   "midi": 24.33,
+   "clarity": 0.93,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Melon (808).wav": {
+   "sustain": 1.7,
+   "dirt": 0.443,
+   "midi": 27.94,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Why (808).wav": {
+   "sustain": 0.98,
+   "dirt": 0.473,
+   "midi": 32.05,
+   "clarity": 0.99,
+   "note": "G#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Grime/Wondering (808).wav": {
+   "sustain": 0.93,
+   "dirt": 0.628,
+   "midi": 36.01,
+   "clarity": 1.0,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/16teen bass.wav": {
+   "sustain": 2.36,
+   "dirt": 0.003,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/808 (1).wav": {
+   "sustain": 2.07,
+   "dirt": 0.011,
+   "midi": 24.36,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/808 (2).wav": {
+   "sustain": 1.65,
+   "dirt": 0.081,
+   "midi": 24.28,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/808 (3).wav": {
+   "sustain": 1.75,
+   "dirt": 0.04,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/808 (4).wav": {
+   "sustain": 1.54,
+   "dirt": 0.028,
+   "midi": 32.19,
+   "clarity": 0.99,
+   "note": "G#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/808 (6).wav": {
+   "sustain": 1.73,
+   "dirt": 0.03,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/@obi.renn (808).wav": {
+   "sustain": 2.32,
+   "dirt": 0.059,
+   "midi": 24.37,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/AIM 30 (808).wav": {
+   "sustain": 1.9,
+   "dirt": 0.014,
+   "midi": 24.12,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Atlantins (808).wav": {
+   "sustain": 2.65,
+   "dirt": 0.028,
+   "midi": 25.29,
+   "clarity": 0.98,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Clayco Spinz 2 808.wav": {
+   "sustain": 1.74,
+   "dirt": 0.038,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Connor _ 808.wav": {
+   "sustain": 1.77,
+   "dirt": 0.062,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Cruel (808).wav": {
+   "sustain": 1.81,
+   "dirt": 0.079,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Cymatics - Oracle 808 16 - E.wav": {
+   "sustain": 1.56,
+   "dirt": 0.043,
+   "midi": 28.02,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Cymatics - Oracle 808 20 - F.wav": {
+   "sustain": 2.04,
+   "dirt": 0.056,
+   "midi": 29.11,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Cymatics - Oracle 808 31 - A#.wav": {
+   "sustain": 2.0,
+   "dirt": 0.024,
+   "midi": 41.0,
+   "clarity": 0.93,
+   "note": "A#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Cymatics - Oracle 808 6 - C#.wav": {
+   "sustain": 1.68,
+   "dirt": 0.041,
+   "midi": 25.08,
+   "clarity": 0.98,
+   "note": "C#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/EYO _ 808.wav": {
+   "sustain": 1.75,
+   "dirt": 0.04,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Festival _ 808.wav": {
+   "sustain": 1.54,
+   "dirt": 0.095,
+   "midi": 22.18,
+   "clarity": 0.99,
+   "note": "A#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/GO (808).wav": {
+   "sustain": 1.86,
+   "dirt": 0.022,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Grammy _ 808.wav": {
+   "sustain": 1.73,
+   "dirt": 0.04,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Layla _ 808.wav": {
+   "sustain": 1.74,
+   "dirt": 0.034,
+   "midi": 24.27,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Long 808.wav": {
+   "sustain": 3.15,
+   "dirt": 0.073,
+   "midi": 27.12,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [20 Min].wav": {
+   "sustain": 2.03,
+   "dirt": 0.037,
+   "midi": 24.37,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [7 Figures].wav": {
+   "sustain": 1.87,
+   "dirt": 0.035,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Apollo].wav": {
+   "sustain": 1.68,
+   "dirt": 0.091,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Ardist].wav": {
+   "sustain": 1.68,
+   "dirt": 0.018,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Barely There].wav": {
+   "sustain": 2.75,
+   "dirt": 0.009,
+   "midi": 24.25,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Blxckout].wav": {
+   "sustain": 2.34,
+   "dirt": 0.036,
+   "midi": 24.03,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Bodega].wav": {
+   "sustain": 2.99,
+   "dirt": 0.029,
+   "midi": 24.77,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Cadillac].wav": {
+   "sustain": 1.51,
+   "dirt": 0.004,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Canada].wav": {
+   "sustain": 2.42,
+   "dirt": 0.042,
+   "midi": 24.33,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Chrome Sparks].wav": {
+   "sustain": 1.84,
+   "dirt": 0.061,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Click].wav": {
+   "sustain": 2.46,
+   "dirt": 0.008,
+   "midi": 24.17,
+   "clarity": 0.9,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Disgust].wav": {
+   "sustain": 1.64,
+   "dirt": 0.083,
+   "midi": 24.14,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Dreamin].wav": {
+   "sustain": 1.64,
+   "dirt": 0.014,
+   "midi": 24.31,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Dumpster].wav": {
+   "sustain": 3.74,
+   "dirt": 0.015,
+   "midi": 24.48,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Effected].wav": {
+   "sustain": 2.71,
+   "dirt": 0.039,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Excellent].wav": {
+   "sustain": 2.91,
+   "dirt": 0.013,
+   "midi": 24.0,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Ferg].wav": {
+   "sustain": 3.05,
+   "dirt": 0.008,
+   "midi": 24.15,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Filtered].wav": {
+   "sustain": 2.17,
+   "dirt": 0.053,
+   "midi": 24.34,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Focus].wav": {
+   "sustain": 2.81,
+   "dirt": 0.006,
+   "midi": 23.97,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Funeral].wav": {
+   "sustain": 1.96,
+   "dirt": 0.075,
+   "midi": 24.2,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Ginseng].wav": {
+   "sustain": 1.92,
+   "dirt": 0.031,
+   "midi": 24.17,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [God Mode].wav": {
+   "sustain": 2.15,
+   "dirt": 0.014,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Goose].wav": {
+   "sustain": 1.66,
+   "dirt": 0.03,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Gyalchester].wav": {
+   "sustain": 2.71,
+   "dirt": 0.054,
+   "midi": 24.38,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Heavy].wav": {
+   "sustain": 2.66,
+   "dirt": 0.003,
+   "midi": 24.5,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Houston].wav": {
+   "sustain": 2.89,
+   "dirt": 0.013,
+   "midi": 24.03,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Illmind].wav": {
+   "sustain": 2.7,
+   "dirt": 0.039,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Important].wav": {
+   "sustain": 2.72,
+   "dirt": 0.003,
+   "midi": 24.07,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Jealousy].wav": {
+   "sustain": 1.59,
+   "dirt": 0.045,
+   "midi": 24.32,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Jumpman].wav": {
+   "sustain": 1.76,
+   "dirt": 0.052,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [K3].wav": {
+   "sustain": 1.6,
+   "dirt": 0.022,
+   "midi": 24.04,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Kandy].wav": {
+   "sustain": 1.81,
+   "dirt": 0.049,
+   "midi": 24.33,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Killing Floor].wav": {
+   "sustain": 2.41,
+   "dirt": 0.034,
+   "midi": 24.19,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Kingpin].wav": {
+   "sustain": 2.49,
+   "dirt": 0.083,
+   "midi": 24.25,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Krispy Kreme].wav": {
+   "sustain": 1.67,
+   "dirt": 0.034,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Lemonade].wav": {
+   "sustain": 3.18,
+   "dirt": 0.065,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Like Mike].wav": {
+   "sustain": 2.27,
+   "dirt": 0.023,
+   "midi": 24.25,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Lil Peep].wav": {
+   "sustain": 3.13,
+   "dirt": 0.038,
+   "midi": 36.0,
+   "clarity": 1.0,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Loudpvck].wav": {
+   "sustain": 2.45,
+   "dirt": 0.009,
+   "midi": 24.22,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Metro Bass].wav": {
+   "sustain": 2.69,
+   "dirt": 0.009,
+   "midi": 24.22,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Metro Spinz].wav": {
+   "sustain": 1.75,
+   "dirt": 0.045,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Nav].wav": {
+   "sustain": 2.95,
+   "dirt": 0.01,
+   "midi": 24.2,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Neenyo].wav": {
+   "sustain": 1.59,
+   "dirt": 0.044,
+   "midi": 24.1,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Nessly].wav": {
+   "sustain": 1.85,
+   "dirt": 0.025,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [New York].wav": {
+   "sustain": 2.16,
+   "dirt": 0.026,
+   "midi": 24.1,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Nico].wav": {
+   "sustain": 1.85,
+   "dirt": 0.094,
+   "midi": 23.88,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Noisey].wav": {
+   "sustain": 5.49,
+   "dirt": 0.022,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Officer].wav": {
+   "sustain": 2.91,
+   "dirt": 0.078,
+   "midi": 24.07,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Oshi OG].wav": {
+   "sustain": 2.66,
+   "dirt": 0.002,
+   "midi": 24.31,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Overused].wav": {
+   "sustain": 2.73,
+   "dirt": 0.008,
+   "midi": 24.2,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Oz].wav": {
+   "sustain": 2.07,
+   "dirt": 0.014,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Palace].wav": {
+   "sustain": 3.14,
+   "dirt": 0.005,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Plug Walk].wav": {
+   "sustain": 2.35,
+   "dirt": 0.035,
+   "midi": 23.95,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Plugg].wav": {
+   "sustain": 1.94,
+   "dirt": 0.05,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Professor].wav": {
+   "sustain": 1.82,
+   "dirt": 0.031,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Proven].wav": {
+   "sustain": 3.15,
+   "dirt": 0.052,
+   "midi": 24.31,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Quay].wav": {
+   "sustain": 1.75,
+   "dirt": 0.008,
+   "midi": 24.16,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Rager].wav": {
+   "sustain": 1.74,
+   "dirt": 0.026,
+   "midi": 24.25,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Robot].wav": {
+   "sustain": 4.69,
+   "dirt": 0.068,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Runtz].wav": {
+   "sustain": 2.42,
+   "dirt": 0.012,
+   "midi": 24.22,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Russian Cream].wav": {
+   "sustain": 1.59,
+   "dirt": 0.001,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Sanctuary].wav": {
+   "sustain": 3.28,
+   "dirt": 0.098,
+   "midi": 24.16,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Servida].wav": {
+   "sustain": 2.75,
+   "dirt": 0.062,
+   "midi": 24.34,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Sicko].wav": {
+   "sustain": 3.27,
+   "dirt": 0.014,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Silent Killa].wav": {
+   "sustain": 3.56,
+   "dirt": 0.004,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Slate].wav": {
+   "sustain": 3.19,
+   "dirt": 0.046,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Southside].wav": {
+   "sustain": 3.09,
+   "dirt": 0.067,
+   "midi": 24.49,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Special].wav": {
+   "sustain": 1.77,
+   "dirt": 0.034,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Spinz 100].wav": {
+   "sustain": 1.77,
+   "dirt": 0.078,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Spinz Long].wav": {
+   "sustain": 2.65,
+   "dirt": 0.042,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Spinz OD].wav": {
+   "sustain": 1.74,
+   "dirt": 0.048,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Spinz X].wav": {
+   "sustain": 1.73,
+   "dirt": 0.041,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Spinz].wav": {
+   "sustain": 1.75,
+   "dirt": 0.04,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Straight Up].wav": {
+   "sustain": 1.76,
+   "dirt": 0.016,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Strap].wav": {
+   "sustain": 1.88,
+   "dirt": 0.043,
+   "midi": 24.04,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Subby].wav": {
+   "sustain": 4.51,
+   "dirt": 0.018,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Super Long].wav": {
+   "sustain": 12.57,
+   "dirt": 0.007,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Swag].wav": {
+   "sustain": 1.77,
+   "dirt": 0.073,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Template].wav": {
+   "sustain": 2.5,
+   "dirt": 0.015,
+   "midi": 24.22,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [The Motto].wav": {
+   "sustain": 3.25,
+   "dirt": 0.023,
+   "midi": 24.06,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Thooter Bop].wav": {
+   "sustain": 2.33,
+   "dirt": 0.002,
+   "midi": 24.28,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Tokyo].wav": {
+   "sustain": 3.49,
+   "dirt": 0.036,
+   "midi": 24.2,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Toronto].wav": {
+   "sustain": 2.48,
+   "dirt": 0.001,
+   "midi": 24.2,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Tucson].wav": {
+   "sustain": 1.92,
+   "dirt": 0.012,
+   "midi": 24.25,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Twerk].wav": {
+   "sustain": 2.22,
+   "dirt": 0.005,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Unique].wav": {
+   "sustain": 2.72,
+   "dirt": 0.028,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Vybe].wav": {
+   "sustain": 2.29,
+   "dirt": 0.004,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Want U].wav": {
+   "sustain": 5.38,
+   "dirt": 0.022,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Weird].wav": {
+   "sustain": 2.18,
+   "dirt": 0.01,
+   "midi": 24.39,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Woo Back].wav": {
+   "sustain": 1.73,
+   "dirt": 0.091,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Worst].wav": {
+   "sustain": 2.1,
+   "dirt": 0.055,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [XXX Bass].wav": {
+   "sustain": 2.18,
+   "dirt": 0.097,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [Xool].wav": {
+   "sustain": 2.13,
+   "dirt": 0.017,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/MZ 808 [YNW Melly].wav": {
+   "sustain": 1.94,
+   "dirt": 0.015,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/PLAYOFFS\u00ae - 808 Abduct.wav": {
+   "sustain": 6.77,
+   "dirt": 0.018,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/PLAYOFFS\u00ae - 808 Autmn.wav": {
+   "sustain": 6.86,
+   "dirt": 0.069,
+   "midi": 23.69,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/PLAYOFFS\u00ae - 808 Facelift.wav": {
+   "sustain": 1.58,
+   "dirt": 0.081,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/PLAYOFFS\u00ae - 808 Goon.wav": {
+   "sustain": 2.75,
+   "dirt": 0.046,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/PLAYOFFS\u00ae - 808 Supercar.wav": {
+   "sustain": 5.68,
+   "dirt": 0.035,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/PLAYOFFS\u00ae - 808 TRex.wav": {
+   "sustain": 2.59,
+   "dirt": 0.075,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/RGV (808).wav": {
+   "sustain": 1.82,
+   "dirt": 0.019,
+   "midi": 31.19,
+   "clarity": 0.99,
+   "note": "G",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Rattle (808).wav": {
+   "sustain": 1.79,
+   "dirt": 0.038,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Rented (808) .wav": {
+   "sustain": 1.68,
+   "dirt": 0.018,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Sam 808 1.wav": {
+   "sustain": 1.56,
+   "dirt": 0.015,
+   "midi": 32.19,
+   "clarity": 0.99,
+   "note": "G#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Sam 808 2.wav": {
+   "sustain": 1.54,
+   "dirt": 0.028,
+   "midi": 32.19,
+   "clarity": 0.99,
+   "note": "G#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Sam 808 4.wav": {
+   "sustain": 2.67,
+   "dirt": 0.009,
+   "midi": 29.0,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Sellin (808).wav": {
+   "sustain": 1.78,
+   "dirt": 0.078,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Shook Mob (808).wav": {
+   "sustain": 2.51,
+   "dirt": 0.051,
+   "midi": 26.79,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Spinz 808 2021 @thecxdy.wav": {
+   "sustain": 1.73,
+   "dirt": 0.04,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Tempo _ 808.wav": {
+   "sustain": 1.74,
+   "dirt": 0.031,
+   "midi": 24.28,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/There something (808).wav": {
+   "sustain": 3.42,
+   "dirt": 0.09,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/Usual _ 808.wav": {
+   "sustain": 1.76,
+   "dirt": 0.01,
+   "midi": 24.98,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/VOL5 - BOOM8082.wav": {
+   "sustain": 1.56,
+   "dirt": 0.024,
+   "midi": 25.15,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/VOL5 - NASTY SERUM BASS 2 C.wav": {
+   "sustain": 3.43,
+   "dirt": 0.006,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/VOL5 - NASTY SERUM BASS C.wav": {
+   "sustain": 3.43,
+   "dirt": 0.049,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/VOL5 - Punchy 808.wav": {
+   "sustain": 2.59,
+   "dirt": 0.032,
+   "midi": 28.0,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/VOL5 - Squeeky Clean 808.wav": {
+   "sustain": 2.76,
+   "dirt": 0.054,
+   "midi": 29.0,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/VOL5 - rawr.wav": {
+   "sustain": 3.72,
+   "dirt": 0.064,
+   "midi": 25.0,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/XanGang Sub.wav": {
+   "sustain": 1.94,
+   "dirt": 0.0,
+   "midi": 26.68,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/cloud sub.wav": {
+   "sustain": 4.08,
+   "dirt": 0.019,
+   "midi": 24.28,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/clvr + facts 2.wav": {
+   "sustain": 2.31,
+   "dirt": 0.096,
+   "midi": 24.34,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/clvr + fat.wav": {
+   "sustain": 1.93,
+   "dirt": 0.04,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/clvr + slay.wav": {
+   "sustain": 7.37,
+   "dirt": 0.001,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/dstroy.wav": {
+   "sustain": 1.87,
+   "dirt": 0.077,
+   "midi": 24.28,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/fukoff 808_2.wav": {
+   "sustain": 2.36,
+   "dirt": 0.003,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/mimofr 808.wav": {
+   "sustain": 2.31,
+   "dirt": 0.098,
+   "midi": 24.34,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Clean/penthouse shordy 808 [C].wav": {
+   "sustain": 2.35,
+   "dirt": 0.086,
+   "midi": 23.78,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/4Ever (808).wav": {
+   "sustain": 2.08,
+   "dirt": 0.336,
+   "midi": 24.03,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/808 [CTM 3].wav": {
+   "sustain": 2.67,
+   "dirt": 0.447,
+   "midi": 24.12,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Cymatics - Core 808 - C.wav": {
+   "sustain": 1.91,
+   "dirt": 0.178,
+   "midi": 24.03,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Cymatics - Drill 808 - C.wav": {
+   "sustain": 2.12,
+   "dirt": 0.167,
+   "midi": 23.97,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Dream in color (808).wav": {
+   "sustain": 1.64,
+   "dirt": 0.183,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Effections (808).wav": {
+   "sustain": 6.79,
+   "dirt": 0.292,
+   "midi": 29.02,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Elvis Prestley (808).wav": {
+   "sustain": 1.95,
+   "dirt": 0.164,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/F4llen (808).wav": {
+   "sustain": 6.9,
+   "dirt": 0.107,
+   "midi": 24.25,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Follow my instagram plz (808).wav": {
+   "sustain": 5.9,
+   "dirt": 0.169,
+   "midi": 35.98,
+   "clarity": 0.95,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/HYDE (808).wav": {
+   "sustain": 4.89,
+   "dirt": 0.211,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Hi mom (808).wav": {
+   "sustain": 3.92,
+   "dirt": 0.101,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/I wish you (808).wav": {
+   "sustain": 1.64,
+   "dirt": 0.175,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Jimmy (808).wav": {
+   "sustain": 2.43,
+   "dirt": 0.196,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Layla (808).wav": {
+   "sustain": 2.72,
+   "dirt": 0.133,
+   "midi": 24.25,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Layla 2.0 _ 808.wav": {
+   "sustain": 1.79,
+   "dirt": 0.312,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Lover (808).wav": {
+   "sustain": 2.46,
+   "dirt": 0.169,
+   "midi": 23.98,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Bloom].wav": {
+   "sustain": 5.57,
+   "dirt": 0.149,
+   "midi": 24.32,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Carousel].wav": {
+   "sustain": 2.18,
+   "dirt": 0.158,
+   "midi": 24.37,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Custom].wav": {
+   "sustain": 2.01,
+   "dirt": 0.105,
+   "midi": 24.06,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Dario Leone].wav": {
+   "sustain": 1.93,
+   "dirt": 0.114,
+   "midi": 23.88,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Draco].wav": {
+   "sustain": 1.73,
+   "dirt": 0.103,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Drill].wav": {
+   "sustain": 1.78,
+   "dirt": 0.112,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Glock 18].wav": {
+   "sustain": 1.57,
+   "dirt": 0.153,
+   "midi": 24.03,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Gucci].wav": {
+   "sustain": 1.52,
+   "dirt": 0.162,
+   "midi": 24.13,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Hacked My IG].wav": {
+   "sustain": 1.76,
+   "dirt": 0.136,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Henny].wav": {
+   "sustain": 2.09,
+   "dirt": 0.113,
+   "midi": 24.08,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Indecent].wav": {
+   "sustain": 3.15,
+   "dirt": 0.104,
+   "midi": 24.31,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Indigo].wav": {
+   "sustain": 2.74,
+   "dirt": 0.271,
+   "midi": 24.34,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Kick Back].wav": {
+   "sustain": 2.58,
+   "dirt": 0.132,
+   "midi": 43.21,
+   "clarity": 0.9,
+   "note": "G",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Lean Wit Me].wav": {
+   "sustain": 2.24,
+   "dirt": 0.243,
+   "midi": 24.17,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Love You].wav": {
+   "sustain": 1.59,
+   "dirt": 0.153,
+   "midi": 24.43,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Mandela].wav": {
+   "sustain": 1.64,
+   "dirt": 0.166,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Mike Zara].wav": {
+   "sustain": 1.9,
+   "dirt": 0.205,
+   "midi": 23.93,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Mosh Pit].wav": {
+   "sustain": 4.79,
+   "dirt": 0.241,
+   "midi": 24.02,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Nasty].wav": {
+   "sustain": 1.78,
+   "dirt": 0.203,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Nothing].wav": {
+   "sustain": 5.4,
+   "dirt": 0.113,
+   "midi": 23.84,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Paradise].wav": {
+   "sustain": 1.78,
+   "dirt": 0.114,
+   "midi": 24.35,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Ready].wav": {
+   "sustain": 3.09,
+   "dirt": 0.106,
+   "midi": 24.15,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Rehab].wav": {
+   "sustain": 2.81,
+   "dirt": 0.112,
+   "midi": 24.27,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Retail Bass].wav": {
+   "sustain": 8.9,
+   "dirt": 0.179,
+   "midi": 23.97,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Terminator].wav": {
+   "sustain": 1.99,
+   "dirt": 0.276,
+   "midi": 24.01,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Uproar].wav": {
+   "sustain": 2.74,
+   "dirt": 0.141,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/MZ 808 [Wasabi].wav": {
+   "sustain": 1.73,
+   "dirt": 0.226,
+   "midi": 24.38,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Moment (808).wav": {
+   "sustain": 1.67,
+   "dirt": 0.134,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Moving to Paris (808).wav": {
+   "sustain": 2.11,
+   "dirt": 0.581,
+   "midi": 24.24,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/Normal _ 808.wav": {
+   "sustain": 1.74,
+   "dirt": 0.12,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 BET.wav": {
+   "sustain": 3.85,
+   "dirt": 0.102,
+   "midi": 22.28,
+   "clarity": 0.97,
+   "note": "A#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Clutch.wav": {
+   "sustain": 5.08,
+   "dirt": 0.793,
+   "midi": 24.0,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Cornball.wav": {
+   "sustain": 3.22,
+   "dirt": 0.1,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Digital Layer A.wav": {
+   "sustain": 1.83,
+   "dirt": 0.971,
+   "midi": 24.88,
+   "clarity": 0.8,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Digital Layer B.wav": {
+   "sustain": 1.77,
+   "dirt": 0.884,
+   "midi": 36.19,
+   "clarity": 0.47,
+   "note": null,
+   "note_src": "unclear"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Ducktales.wav": {
+   "sustain": 3.11,
+   "dirt": 0.157,
+   "midi": 46.16,
+   "clarity": 0.73,
+   "note": "A#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Flange OP.wav": {
+   "sustain": 2.73,
+   "dirt": 0.21,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Flange.wav": {
+   "sustain": 2.62,
+   "dirt": 0.338,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Kool Aid.wav": {
+   "sustain": 2.03,
+   "dirt": 0.334,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Meta.wav": {
+   "sustain": 1.71,
+   "dirt": 0.1,
+   "midi": 24.06,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Rust.wav": {
+   "sustain": 1.88,
+   "dirt": 0.418,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Subnautica.wav": {
+   "sustain": 1.92,
+   "dirt": 0.253,
+   "midi": 24.27,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 Thin.wav": {
+   "sustain": 2.93,
+   "dirt": 0.599,
+   "midi": 23.0,
+   "clarity": 0.62,
+   "note": "B",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/PLAYOFFS\u00ae - 808 UV Scan.wav": {
+   "sustain": 4.61,
+   "dirt": 0.146,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/UNISON_808_Wolf (C).wav": {
+   "sustain": 2.47,
+   "dirt": 0.116,
+   "midi": 24.57,
+   "clarity": 0.98,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/VOL5 - DAYUM 808 C.wav": {
+   "sustain": 3.43,
+   "dirt": 0.246,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/VOL5 - NOISEY WHITE NOISE BASS E.wav": {
+   "sustain": 3.43,
+   "dirt": 0.255,
+   "midi": 28.0,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/VOL5 - TRACTOR 808 C.wav": {
+   "sustain": 3.43,
+   "dirt": 0.169,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/You no good for me girl (808).wav": {
+   "sustain": 3.0,
+   "dirt": 0.126,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/boss 808.wav": {
+   "sustain": 3.08,
+   "dirt": 0.118,
+   "midi": 24.04,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/ctm808 2_2.wav": {
+   "sustain": 1.8,
+   "dirt": 0.635,
+   "midi": 24.42,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Long/Dirty/ctmv2.wav": {
+   "sustain": 2.82,
+   "dirt": 0.412,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/10 (MEXIKODRO v2).wav": {
+   "sustain": 0.85,
+   "dirt": 0.082,
+   "midi": 25.96,
+   "clarity": 0.99,
+   "note": "D",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/3 (POLOBOYSHAWTY).wav": {
+   "sustain": 0.95,
+   "dirt": 0.079,
+   "midi": 26.18,
+   "clarity": 0.99,
+   "note": "D",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/808 (7).wav": {
+   "sustain": 0.92,
+   "dirt": 0.086,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/808 (8).wav": {
+   "sustain": 1.03,
+   "dirt": 0.077,
+   "midi": 25.0,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/808 2.wav": {
+   "sustain": 0.92,
+   "dirt": 0.086,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/808 5 [ pyrex 1 ].wav": {
+   "sustain": 0.97,
+   "dirt": 0.04,
+   "midi": 24.16,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/808.wav": {
+   "sustain": 0.92,
+   "dirt": 0.086,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/ADAM VS EVE (808).wav": {
+   "sustain": 1.46,
+   "dirt": 0.015,
+   "midi": 25.13,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/CLEAN SPINZ (BEST SPINZ YOU WILL USE) (808).wav": {
+   "sustain": 1.07,
+   "dirt": 0.04,
+   "midi": 24.16,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - 808 Mini - C.wav": {
+   "sustain": 0.61,
+   "dirt": 0.093,
+   "midi": 24.07,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Apex 808 - C.wav": {
+   "sustain": 0.81,
+   "dirt": 0.088,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Blown 808 - C.wav": {
+   "sustain": 0.81,
+   "dirt": 0.014,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Crucial 808 - C.wav": {
+   "sustain": 0.92,
+   "dirt": 0.087,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 1 - C.wav": {
+   "sustain": 1.43,
+   "dirt": 0.004,
+   "midi": 24.06,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 10 - D.wav": {
+   "sustain": 1.04,
+   "dirt": 0.076,
+   "midi": 26.16,
+   "clarity": 0.99,
+   "note": "D",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 12 - D#.wav": {
+   "sustain": 0.82,
+   "dirt": 0.019,
+   "midi": 27.01,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 13 - D#.wav": {
+   "sustain": 0.84,
+   "dirt": 0.03,
+   "midi": 27.01,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 14 - D#.wav": {
+   "sustain": 0.84,
+   "dirt": 0.084,
+   "midi": 27.14,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 15 - D#.wav": {
+   "sustain": 1.13,
+   "dirt": 0.096,
+   "midi": 27.0,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 17 - E.wav": {
+   "sustain": 1.43,
+   "dirt": 0.007,
+   "midi": 28.04,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 18 - E.wav": {
+   "sustain": 1.11,
+   "dirt": 0.03,
+   "midi": 28.02,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 19 - E.wav": {
+   "sustain": 1.3,
+   "dirt": 0.042,
+   "midi": 28.1,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 2 - C.wav": {
+   "sustain": 0.81,
+   "dirt": 0.09,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 21 - F.wav": {
+   "sustain": 1.06,
+   "dirt": 0.037,
+   "midi": 29.21,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 22 - F.wav": {
+   "sustain": 0.61,
+   "dirt": 0.039,
+   "midi": 29.04,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 24 - F.wav": {
+   "sustain": 0.57,
+   "dirt": 0.068,
+   "midi": 29.0,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 25 - F.wav": {
+   "sustain": 1.16,
+   "dirt": 0.068,
+   "midi": 28.97,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 26 - F#.wav": {
+   "sustain": 0.84,
+   "dirt": 0.018,
+   "midi": 30.03,
+   "clarity": 0.99,
+   "note": "F#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 27 - F#.wav": {
+   "sustain": 0.66,
+   "dirt": 0.087,
+   "midi": 30.14,
+   "clarity": 0.99,
+   "note": "F#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 28 - F#.wav": {
+   "sustain": 1.2,
+   "dirt": 0.012,
+   "midi": 30.01,
+   "clarity": 0.99,
+   "note": "F#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 29 - G.wav": {
+   "sustain": 0.71,
+   "dirt": 0.043,
+   "midi": 30.96,
+   "clarity": 0.99,
+   "note": "G",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 3 - C.wav": {
+   "sustain": 0.93,
+   "dirt": 0.089,
+   "midi": 24.27,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 30 - G#.wav": {
+   "sustain": 1.37,
+   "dirt": 0.068,
+   "midi": 31.02,
+   "clarity": 1.0,
+   "note": "G#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 32 - B.wav": {
+   "sustain": 0.68,
+   "dirt": 0.032,
+   "midi": 23.17,
+   "clarity": 0.98,
+   "note": "B",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 33 - B.wav": {
+   "sustain": 1.1,
+   "dirt": 0.012,
+   "midi": 23.01,
+   "clarity": 0.99,
+   "note": "B",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 34 - B.wav": {
+   "sustain": 0.92,
+   "dirt": 0.04,
+   "midi": 22.76,
+   "clarity": 0.97,
+   "note": "B",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 4 - C.wav": {
+   "sustain": 0.98,
+   "dirt": 0.055,
+   "midi": 24.03,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 5 - C.wav": {
+   "sustain": 1.19,
+   "dirt": 0.009,
+   "midi": 24.03,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 7 - C#.wav": {
+   "sustain": 0.62,
+   "dirt": 0.05,
+   "midi": 25.09,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 8 - C#.wav": {
+   "sustain": 1.17,
+   "dirt": 0.053,
+   "midi": 25.01,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Cymatics - Oracle 808 9 - D.wav": {
+   "sustain": 1.34,
+   "dirt": 0.05,
+   "midi": 26.14,
+   "clarity": 0.99,
+   "note": "D",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/DOGS (808).wav": {
+   "sustain": 1.07,
+   "dirt": 0.04,
+   "midi": 24.28,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/DT (808) .wav": {
+   "sustain": 1.07,
+   "dirt": 0.041,
+   "midi": 24.21,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Goyxrd 8081.wav": {
+   "sustain": 0.95,
+   "dirt": 0.079,
+   "midi": 26.18,
+   "clarity": 0.99,
+   "note": "D",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Goyxrd 8083.wav": {
+   "sustain": 1.03,
+   "dirt": 0.074,
+   "midi": 25.01,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Juug 8082.wav": {
+   "sustain": 0.75,
+   "dirt": 0.081,
+   "midi": 27.99,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Juug Sub.wav": {
+   "sustain": 0.7,
+   "dirt": 0.002,
+   "midi": 27.92,
+   "clarity": 0.99,
+   "note": "E",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Loaded (808) .wav": {
+   "sustain": 1.12,
+   "dirt": 0.089,
+   "midi": 24.27,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Amari].wav": {
+   "sustain": 0.97,
+   "dirt": 0.073,
+   "midi": 24.06,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Analog].wav": {
+   "sustain": 1.18,
+   "dirt": 0.035,
+   "midi": 24.34,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [BMW].wav": {
+   "sustain": 1.07,
+   "dirt": 0.087,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Based].wav": {
+   "sustain": 0.94,
+   "dirt": 0.06,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Beef Cake].wav": {
+   "sustain": 0.98,
+   "dirt": 0.046,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Chompy].wav": {
+   "sustain": 1.48,
+   "dirt": 0.006,
+   "midi": 24.37,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Classic Zay].wav": {
+   "sustain": 0.92,
+   "dirt": 0.086,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Crack].wav": {
+   "sustain": 0.99,
+   "dirt": 0.077,
+   "midi": 24.16,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Cxdy Beats].wav": {
+   "sustain": 1.15,
+   "dirt": 0.057,
+   "midi": 23.96,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Cyclops].wav": {
+   "sustain": 0.93,
+   "dirt": 0.081,
+   "midi": 24.38,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Dance Floor].wav": {
+   "sustain": 0.62,
+   "dirt": 0.066,
+   "midi": 23.97,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Daygo].wav": {
+   "sustain": 0.94,
+   "dirt": 0.03,
+   "midi": 24.08,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Delta].wav": {
+   "sustain": 1.31,
+   "dirt": 0.099,
+   "midi": 24.48,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Drake].wav": {
+   "sustain": 1.37,
+   "dirt": 0.047,
+   "midi": 24.28,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Drip].wav": {
+   "sustain": 1.27,
+   "dirt": 0.092,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Drop].wav": {
+   "sustain": 1.02,
+   "dirt": 0.062,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Exotic].wav": {
+   "sustain": 0.64,
+   "dirt": 0.015,
+   "midi": 24.4,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [For Real].wav": {
+   "sustain": 1.02,
+   "dirt": 0.08,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Ghosted].wav": {
+   "sustain": 1.31,
+   "dirt": 0.092,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Go Stoopid].wav": {
+   "sustain": 1.04,
+   "dirt": 0.033,
+   "midi": 23.97,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Hectic].wav": {
+   "sustain": 1.48,
+   "dirt": 0.072,
+   "midi": 24.29,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Hello Dere].wav": {
+   "sustain": 0.89,
+   "dirt": 0.085,
+   "midi": 24.12,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Junior].wav": {
+   "sustain": 1.11,
+   "dirt": 0.014,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Katy Texas].wav": {
+   "sustain": 1.04,
+   "dirt": 0.047,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Keezy].wav": {
+   "sustain": 0.98,
+   "dirt": 0.05,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Lucid Dreams].wav": {
+   "sustain": 1.4,
+   "dirt": 0.067,
+   "midi": 24.28,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Lucky].wav": {
+   "sustain": 0.8,
+   "dirt": 0.029,
+   "midi": 24.37,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [MMMRI].wav": {
+   "sustain": 0.86,
+   "dirt": 0.099,
+   "midi": 24.45,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Maxo].wav": {
+   "sustain": 1.01,
+   "dirt": 0.044,
+   "midi": 23.82,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Miami].wav": {
+   "sustain": 1.12,
+   "dirt": 0.0,
+   "midi": 24.25,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Milan].wav": {
+   "sustain": 1.23,
+   "dirt": 0.013,
+   "midi": 24.0,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Motion].wav": {
+   "sustain": 1.23,
+   "dirt": 0.073,
+   "midi": 24.14,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Mustard].wav": {
+   "sustain": 0.62,
+   "dirt": 0.066,
+   "midi": 23.95,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [New Pierre].wav": {
+   "sustain": 0.98,
+   "dirt": 0.094,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Octavian].wav": {
+   "sustain": 0.5,
+   "dirt": 0.072,
+   "midi": 24.22,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Pop Out].wav": {
+   "sustain": 0.98,
+   "dirt": 0.081,
+   "midi": 24.08,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Richie].wav": {
+   "sustain": 0.82,
+   "dirt": 0.018,
+   "midi": 24.28,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Rolex].wav": {
+   "sustain": 1.32,
+   "dirt": 0.042,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Rumham].wav": {
+   "sustain": 1.19,
+   "dirt": 0.018,
+   "midi": 24.01,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Rushmore].wav": {
+   "sustain": 1.44,
+   "dirt": 0.035,
+   "midi": 24.02,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Screw].wav": {
+   "sustain": 0.93,
+   "dirt": 0.015,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Spinz Modern].wav": {
+   "sustain": 0.44,
+   "dirt": 0.053,
+   "midi": 24.23,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Spinz Short].wav": {
+   "sustain": 0.83,
+   "dirt": 0.094,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Teck].wav": {
+   "sustain": 1.31,
+   "dirt": 0.033,
+   "midi": 24.38,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [TeeJay].wav": {
+   "sustain": 1.19,
+   "dirt": 0.071,
+   "midi": 24.2,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [The Box].wav": {
+   "sustain": 0.61,
+   "dirt": 0.047,
+   "midi": 24.2,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Thwump].wav": {
+   "sustain": 0.82,
+   "dirt": 0.099,
+   "midi": 24.13,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Touch].wav": {
+   "sustain": 0.97,
+   "dirt": 0.089,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Traitor].wav": {
+   "sustain": 1.48,
+   "dirt": 0.001,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Trashed].wav": {
+   "sustain": 1.45,
+   "dirt": 0.036,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Wheezy].wav": {
+   "sustain": 1.01,
+   "dirt": 0.075,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [X5].wav": {
+   "sustain": 1.04,
+   "dirt": 0.039,
+   "midi": 24.2,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Yhandi].wav": {
+   "sustain": 0.92,
+   "dirt": 0.068,
+   "midi": 24.31,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/MZ 808 [Zay Spinz].wav": {
+   "sustain": 0.91,
+   "dirt": 0.042,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/No rest _ 808.wav": {
+   "sustain": 0.98,
+   "dirt": 0.094,
+   "midi": 24.06,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/PLAYOFFS\u00ae - 808 Menace A.wav": {
+   "sustain": 1.34,
+   "dirt": 0.085,
+   "midi": 24.08,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/PLAYOFFS\u00ae - 808 Neighbourhood.wav": {
+   "sustain": 1.01,
+   "dirt": 0.084,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/PLAYOFFS\u00ae - 808 Zooted.wav": {
+   "sustain": 1.17,
+   "dirt": 0.093,
+   "midi": 23.87,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Pierre 808 2018.wav": {
+   "sustain": 0.98,
+   "dirt": 0.094,
+   "midi": 24.04,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Rare 808.wav": {
+   "sustain": 0.6,
+   "dirt": 0.0,
+   "midi": 31.04,
+   "clarity": 0.94,
+   "note": "G",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Relapse _ 808.wav": {
+   "sustain": 1.08,
+   "dirt": 0.055,
+   "midi": 22.1,
+   "clarity": 0.98,
+   "note": "A#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Sam 808 3.wav": {
+   "sustain": 0.66,
+   "dirt": 0.062,
+   "midi": 27.37,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Sam 808 5.wav": {
+   "sustain": 1.33,
+   "dirt": 0.01,
+   "midi": 29.0,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/TOO (808).wav": {
+   "sustain": 1.12,
+   "dirt": 0.072,
+   "midi": 25.19,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/This is a Banger _ 808.wav": {
+   "sustain": 0.92,
+   "dirt": 0.086,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/UNISON_808_Cuba (C).wav": {
+   "sustain": 0.95,
+   "dirt": 0.06,
+   "midi": 24.16,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/VOL5 - BOOM808.wav": {
+   "sustain": 1.37,
+   "dirt": 0.041,
+   "midi": 27.14,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/VOL5 - not good.wav": {
+   "sustain": 0.98,
+   "dirt": 0.068,
+   "midi": 27.14,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Will Smith _ 808.wav": {
+   "sustain": 1.4,
+   "dirt": 0.072,
+   "midi": 24.41,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Worthy _ 808.wav": {
+   "sustain": 1.03,
+   "dirt": 0.077,
+   "midi": 25.01,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/XanGang 808  (2).wav": {
+   "sustain": 1.03,
+   "dirt": 0.072,
+   "midi": 25.01,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/XanGang 808  (4).wav": {
+   "sustain": 1.03,
+   "dirt": 0.048,
+   "midi": 25.0,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/XanGang 808  (5).wav": {
+   "sustain": 1.03,
+   "dirt": 0.044,
+   "midi": 25.01,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/XanGang Sub  (1).wav": {
+   "sustain": 0.96,
+   "dirt": 0.003,
+   "midi": 27.03,
+   "clarity": 0.99,
+   "note": "D#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/XanGang Sub  (2).wav": {
+   "sustain": 0.89,
+   "dirt": 0.0,
+   "midi": 23.98,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/XanGang Sub  (3).wav": {
+   "sustain": 0.9,
+   "dirt": 0.0,
+   "midi": 24.49,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Zaytoven 808.wav": {
+   "sustain": 0.92,
+   "dirt": 0.086,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/Zeeded (808) .wav": {
+   "sustain": 0.7,
+   "dirt": 0.071,
+   "midi": 25.15,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/bass pluck.wav": {
+   "sustain": 0.65,
+   "dirt": 0.069,
+   "midi": 23.85,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/dirty asf 808 [C].wav": {
+   "sustain": 0.96,
+   "dirt": 0.06,
+   "midi": 24.33,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Clean/lone 808.wav": {
+   "sustain": 0.92,
+   "dirt": 0.026,
+   "midi": 24.33,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/808 (5).wav": {
+   "sustain": 0.92,
+   "dirt": 0.116,
+   "midi": 24.29,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/808 (9).wav": {
+   "sustain": 0.9,
+   "dirt": 0.103,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Blinking _ 808.wav": {
+   "sustain": 0.83,
+   "dirt": 0.133,
+   "midi": 24.16,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/CLEAN (808).wav": {
+   "sustain": 0.69,
+   "dirt": 0.177,
+   "midi": 28.99,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Cymatics - Blasted 808 - C.wav": {
+   "sustain": 0.84,
+   "dirt": 0.136,
+   "midi": 24.12,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Cymatics - Exhaust 808 - C.wav": {
+   "sustain": 1.33,
+   "dirt": 0.141,
+   "midi": 24.2,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Cymatics - Gnarly 808 - C.wav": {
+   "sustain": 0.89,
+   "dirt": 0.152,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Cymatics - Oracle 808 11 - D.wav": {
+   "sustain": 0.73,
+   "dirt": 0.131,
+   "midi": 26.05,
+   "clarity": 0.99,
+   "note": "D",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Cymatics - Oracle 808 23 - F.wav": {
+   "sustain": 0.69,
+   "dirt": 0.101,
+   "midi": 29.02,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Cymatics - Sicko 808 - C.wav": {
+   "sustain": 0.51,
+   "dirt": 0.201,
+   "midi": 24.19,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "name"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Goyxrd 8082.wav": {
+   "sustain": 1.03,
+   "dirt": 0.104,
+   "midi": 25.0,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Juug 808.wav": {
+   "sustain": 1.16,
+   "dirt": 0.143,
+   "midi": 24.12,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/LWM _ 808.wav": {
+   "sustain": 1.16,
+   "dirt": 0.471,
+   "midi": 36.06,
+   "clarity": 1.0,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [All Girls].wav": {
+   "sustain": 0.98,
+   "dirt": 0.162,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Big].wav": {
+   "sustain": 1.14,
+   "dirt": 0.142,
+   "midi": 23.96,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Bring It].wav": {
+   "sustain": 0.9,
+   "dirt": 0.186,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [D.O.T.S.].wav": {
+   "sustain": 1.44,
+   "dirt": 0.18,
+   "midi": 24.12,
+   "clarity": 0.97,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Dark Queen].wav": {
+   "sustain": 1.01,
+   "dirt": 0.107,
+   "midi": 24.1,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Deadstar].wav": {
+   "sustain": 0.46,
+   "dirt": 0.286,
+   "midi": 24.2,
+   "clarity": 0.94,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Digital].wav": {
+   "sustain": 0.88,
+   "dirt": 0.39,
+   "midi": 24.06,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Fever].wav": {
+   "sustain": 0.73,
+   "dirt": 0.256,
+   "midi": 23.9,
+   "clarity": 0.96,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Gang Gang].wav": {
+   "sustain": 0.92,
+   "dirt": 0.109,
+   "midi": 24.13,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Glue].wav": {
+   "sustain": 1.24,
+   "dirt": 0.12,
+   "midi": 24.01,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Heat].wav": {
+   "sustain": 0.92,
+   "dirt": 0.321,
+   "midi": 24.02,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Hump].wav": {
+   "sustain": 0.9,
+   "dirt": 0.266,
+   "midi": 24.02,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [IM].wav": {
+   "sustain": 0.95,
+   "dirt": 0.112,
+   "midi": 24.07,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [KBH Bighead].wav": {
+   "sustain": 0.95,
+   "dirt": 0.101,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Kenny Beats].wav": {
+   "sustain": 0.96,
+   "dirt": 0.102,
+   "midi": 24.19,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Mexiko Dro].wav": {
+   "sustain": 0.93,
+   "dirt": 0.125,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Model D].wav": {
+   "sustain": 0.5,
+   "dirt": 0.196,
+   "midi": 23.86,
+   "clarity": 0.93,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Playboi].wav": {
+   "sustain": 0.81,
+   "dirt": 0.133,
+   "midi": 24.12,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Presidential].wav": {
+   "sustain": 1.44,
+   "dirt": 0.176,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Riley].wav": {
+   "sustain": 0.99,
+   "dirt": 0.108,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Robo Bass].wav": {
+   "sustain": 0.52,
+   "dirt": 0.345,
+   "midi": 36.02,
+   "clarity": 0.9,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Sauce].wav": {
+   "sustain": 0.66,
+   "dirt": 0.103,
+   "midi": 24.35,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Smooth].wav": {
+   "sustain": 1.21,
+   "dirt": 0.148,
+   "midi": 24.15,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Suge].wav": {
+   "sustain": 0.68,
+   "dirt": 0.31,
+   "midi": 24.01,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/MZ 808 [Zara New].wav": {
+   "sustain": 1.12,
+   "dirt": 0.1,
+   "midi": 24.03,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Mom _ 808.wav": {
+   "sustain": 0.95,
+   "dirt": 0.101,
+   "midi": 24.08,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/No Love _ 808.wav": {
+   "sustain": 0.95,
+   "dirt": 0.101,
+   "midi": 24.08,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Animal.wav": {
+   "sustain": 1.13,
+   "dirt": 0.238,
+   "midi": 23.86,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Antagonist.wav": {
+   "sustain": 1.18,
+   "dirt": 0.104,
+   "midi": 23.73,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Malfoy.wav": {
+   "sustain": 0.6,
+   "dirt": 0.291,
+   "midi": 22.9,
+   "clarity": 0.98,
+   "note": "B",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Menace B.wav": {
+   "sustain": 1.34,
+   "dirt": 0.222,
+   "midi": 24.09,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Shorty.wav": {
+   "sustain": 0.95,
+   "dirt": 0.136,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Wraith.wav": {
+   "sustain": 1.34,
+   "dirt": 0.106,
+   "midi": 23.99,
+   "clarity": 0.99,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/PLAYOFFS\u00ae - 808 Yankie.wav": {
+   "sustain": 0.81,
+   "dirt": 0.293,
+   "midi": 23.83,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/Rowdy _ 808.wav": {
+   "sustain": 0.65,
+   "dirt": 0.125,
+   "midi": 24.15,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/VOL5 - OUTERSPACE 808.wav": {
+   "sustain": 0.83,
+   "dirt": 0.125,
+   "midi": 25.02,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/VOL5 - Ring 808.wav": {
+   "sustain": 1.14,
+   "dirt": 0.185,
+   "midi": 29.21,
+   "clarity": 0.99,
+   "note": "F",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/X 808 X.wav": {
+   "sustain": 1.04,
+   "dirt": 0.108,
+   "midi": 25.0,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/XanGang 808  (1).wav": {
+   "sustain": 1.03,
+   "dirt": 0.13,
+   "midi": 24.98,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/XanGang 808  (3).wav": {
+   "sustain": 1.03,
+   "dirt": 0.104,
+   "midi": 25.0,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/XanGang 808.wav": {
+   "sustain": 1.03,
+   "dirt": 0.142,
+   "midi": 25.01,
+   "clarity": 0.99,
+   "note": "C#",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/ctmv1.wav": {
+   "sustain": 1.34,
+   "dirt": 0.557,
+   "midi": 36.06,
+   "clarity": 1.0,
+   "note": "C",
+   "note_src": "measured"
+  },
+  "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples/808s/Short/Dirty/mm-isolation(808)_2.wav": {
+   "sustain": 0.8,
+   "dirt": 0.183,
+   "midi": 24.11,
+   "clarity": 0.98,
+   "note": "C",
+   "note_src": "measured"
+  }
+ }
+}

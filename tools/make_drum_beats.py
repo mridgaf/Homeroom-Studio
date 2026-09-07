@@ -42,7 +42,9 @@ SHOT_WORDS = [
     # "boom" removed 2026-07-18: it matched a BOTC band take ("Bang boom
     # Pow lyr...") and shipped it as a kick in dozens of beats. Real kick
     # samples say kick/bd/808; song titles say boom.
-    ("kick", {"kick", "kicks", "bd", "808"}),           # an 808 IS a kick
+    # "808" removed 2026-09-07 (owner: separate lanes for kick / 808 /
+    # chords). It stays on the "bass" role below, which is the 808 lane.
+    ("kick", {"kick", "kicks", "bd"}),
     ("snare", {"snare", "snares", "sd"}),
     ("perc", {"perc", "percussion", "conga", "bongo", "shaker", "tom",
               "toms", "tamb", "tambourine", "rim", "cowbell", "block",
@@ -51,8 +53,8 @@ SHOT_WORDS = [
     ("fx", {"fx", "riser", "sweep", "impact", "whoosh", "foley", "glitch",
             "laser", "zap", "scratch", "texture", "reverse", "vinyl"}),
     # phase 2 (owner 2026-07-23): bass/808 shots and vocals are their own
-    # roles now, no longer skipped. 808 is deliberately in BOTH kick and
-    # bass — it's a kick you can also play as the low note.
+    # roles now, no longer skipped. 808 is bass ONLY since 2026-09-07 --
+    # see the kick entry above.
     ("bass", {"bass", "sub", "808", "reese", "bassline", "basses"}),
     ("vox", {"vox", "vocal", "vocals", "voice", "adlib", "adlibs", "chant",
              "chants", "acapella", "acappella", "choir", "phrase"}),
