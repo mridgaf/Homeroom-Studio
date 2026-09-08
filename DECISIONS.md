@@ -22,6 +22,42 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-07 Test suite: parallel run measured, PARKED for a fresh session
+
+- Context: the suite costs ~7 minutes a run and he asked how to shrink it
+  without sacrificing anything. He then parked it: "something I want to
+  start in a new session before digging too deep." DO NOT carry on with
+  this without him.
+- What is already MEASURED (do not redo):
+  * The Mac has 10 cores; pytest was single-process. That is the whole
+    finding.
+  * `pytest-xdist` 3.8.0 + execnet 2.1.2 are INSTALLED in .venv already.
+  * `-n 8 --dist loadfile` -> 3m18 vs 6m46 plain. 1026 passed both ways,
+    same single failure both ways. Nothing broke.
+  * Only 2x, not 8x, because test_audio_quality.py holds most of the slow
+    tests and loadfile pins a file to one worker. The top 25 tests are
+    ~250s of the 407s and are nearly all real renders.
+- Next step if he picks it up: try `--dist load` (per-test, better balance)
+  and check for shared-state collisions -- the sample-scan cache file and
+  anything writing to the real beats library are the suspects. Untested.
+- Verify by: `time ./.venv/bin/python -m pytest tests/ -q -n 8 --dist loadfile`
+- Status: open — parked at his request, not adopted. Plain `pytest tests/`
+  still works unchanged.
+- Outcome:
+
+### 2026-09-07 A mono Breaks beat trips a test — DO NOT CHASE IT
+
+- One line, because he asked for one line. `test_real_beats_are_not_mono_or_silent`
+  fails on "2374 Funk Break 15 Drums 98bpm": three centred lanes, so it
+  really is mono. Nothing in this session touched the breakbeats.
+- HIS RULE, 2026-09-07: "I don't want it to chase that beat at all... Stop
+  trying to fix things I'm not complaining about within the session, during
+  tests. Just mention it after." A test failure outside the work he asked
+  for gets ONE sentence at the end and nothing more — no diagnosis, no root
+  cause, no fix — unless he says so.
+- Status: open — his call, nobody else's.
+- Outcome:
+
 ### 2026-09-07 Every lane recovered — the float-WAV scope is gone
 
 - Context: after the snares and hats came back he said "bring everything
