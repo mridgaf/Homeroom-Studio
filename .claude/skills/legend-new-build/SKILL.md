@@ -78,6 +78,21 @@ filenames** (`--tags`): they match FILENAMES, not intent. Doc Day's
 three of which two were 808s — the words read perfectly and delivered the
 opposite.
 
+**New for legends built from 2026-09-09 on: also set `"flavor_match":
+true`.** This turns on `flavor_tags.py`'s synonym layer, so a want-tag
+also reaches its documented synonyms/spelling variants (e.g. "tight" now
+also matches this library's "tite" files) instead of only the exact
+literal word — the class of dead-tag finding `--tags` keeps turning up on
+every legend so far. Owner directive, 2026-09-09: wire this forward-only.
+**Do not add this flag to any of the twelve existing legends or the nine
+crew DJs** — they stay on the old literal-only matching until he asks for
+that retag pass separately. `--tags` audits a `flavor_match` legend with
+the same synonym-aware logic it will actually run with, so a lower "dead
+word" count on a new legend is real, not a blind spot. See
+`tools/flavor_tags.py`'s module docstring for which words are
+deliberately NOT grouped (`dry`, `boom`, `punch`/`knock`/`deep` — each has
+its own documented over-matching history) and why.
+
 **6. Render the audition.**
 ```
 ./.venv/bin/python tools/make_legend_newbuild.py --legend "Name"

@@ -32,7 +32,7 @@ import json
 import os
 from pathlib import Path
 
-from pattern_gen import KICK_BANK
+from pattern_gen import KICK_BANK, _bb
 
 # REASON_VOICE_LEGENDS_CONFIG (2026-07-22): the same candidate-file hook
 # crew.py has had since the autoresearch loop — point the engine at a
@@ -587,6 +587,83 @@ LEGENDS_DEFAULT = {
             ["perc", ["conga", "bongo"], "congas2"],
             ["fx", ["vinyl", "reverse", "foley"], "foundfx"]]),
     ),
+    # ------------------------------------------------- EDM-trap lane
+    # The thirteenth, added 2026-09-09. Owner picked the name and the era.
+    # His whole identity is one sentence he said himself (Vibe, 2014):
+    # "marching band trap music with feel good elements to it along with
+    # some trance in the chord sections with some big percussion elements
+    # in there to off-set it." Full sourcing is in _research_note in
+    # legends_config.json.
+    "DJ Light Green": dict(
+        num=40, bpm=140, era="legend",
+        built="DJ Green Lantern (the 2013+ EDM/trap era)", legend=True,
+        legend_swing=50,
+        listen=("marching-band trap at 140 halftime: long driven 808, "
+                "snare on 3 about half the time and free to move the "
+                "rest, rolling marching ghosts running into it, triplet "
+                "and 32nd hat rolls, BIG offsetting percussion (toms, "
+                "stomps and cowbell), bright major trance arps in the "
+                "chords, with chopped vocals dropped in"),
+        # Tags audited against real filenames 2026-09-09 (--tags). The
+        # first pass matched almost nothing: 808/sub/boom hit 3 kicks of
+        # 488 and the stamp hit 1 fx file of 353. The stamp lives in the
+        # VOX bucket, not fx — same fix Mustang's "Hey!" chant needed.
+        kit=dict(
+            kick=("kick", None, ["hard", "dry", "bass"], (0.5, 1.2)),
+            # buzz rolls and flams ARE the marching-band snare he named,
+            # and they keep sidesticks out — "dry" was pulling those in.
+            snare=("snare", None, ["hard", "buz", "flam", "roll"], 1.0),
+            hat=("hat", None, ["closed", "tite"], 0.45),
+            perc=("perc", None, ["tom", "stomp", "cowbell"], 1.0),
+            # Razor's shape: a kit stamp (lock_stamps needs the entry)
+            # but NO stamp LANE. STAMP_LANE has been False for everyone
+            # since 2026-08-01 — "The DJs don't have to have a signature
+            # sound for every track" — so his sourced vocal-chopping
+            # habit lives in extras, landing on some beats and not all.
+            stamp=("vox", None, ["vox", "chant", "hey"], 1.0),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 1, 50, 1121), _BK),
+            snare=(0.0, 0.95, (0, 1, 50, 1122), _BK),
+            hat=(-0.14, 0.4, (0, 1, 50, 1123), _H8),
+            perc=(0.18, 0.55, (0, 2, 50, 1124), _H8),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.3,
+        space=("room", ["snare"]), alt=None,
+        drive=1.5, kick_dist=4.0, mix_sat=0.0,
+        own_soundbank=True,
+        grammar=dict(
+            kick=dict(w=[10, 1, 2, 3, 2, 1, 4, 2, 6, 1, 2, 4, 3, 1, 3, 2],
+                      hits=[2, 5], double_p=0.35),
+            # THE 50% RULE — owner 2026-09-09: "The snare on the 3. Or
+            # similar rules that limit variety should only be followed
+            # 50% of the time." Scoped to THIS LEGEND ONLY; he confirmed
+            # that twice and Doc Day's snare_locked_24 stays locked.
+            # _bb() gives halftime ~0.50 and spreads the rest evenly over
+            # every other backbeat mode — anything the grammar allows.
+            # Do NOT "fix" this back into a lock.
+            snare=dict(modes=_bb("halftime", 0.5),
+                       ghosts=[1, 3], gcells=[5, 6, 7, 13, 14, 15]),
+            hat=dict(modes=[["rolls32", 0.3], ["triplets", 0.2],
+                            ["sixteenths", 0.2], ["trip_rolls", 0.1],
+                            ["eighths", 0.08], ["offbeats", 0.06],
+                            ["broken", 0.06]],
+                     roll_n=[1, 3]),
+            perc=dict(modes=[["offbeats", 0.4], ["sparse", 0.3],
+                             ["eighths", 0.3]]),
+        ),
+        # the "808" here is the notes-box LABEL, not a bucket — the role
+        # stays "kick", so what makes it an 808 is the sustain range.
+        kick_flavors=[[0.8, "808", ["hard", "dry", "bass"], [0.6, 1.4]],
+                      [0.2, None, ["hard", "dry"], [0.15, 0.4]]],
+        library=dict(p=0.45, tags=[["trap", 4], ["electro", 3],
+                                   ["house", 2], ["techno", 1]]),
+        extras=dict(p=0.6, nmax=2, pool=[
+            ["vox", ["vox", "chant", "hey"], "vocal chops"],
+            ["perc", ["tom", "stomp"], "big toms"],
+            ["fx", ["riser", "impact", "reverse"], "edm fx"],
+            ["crash", ["crash"], "crash2"]]),
+    ),
 }
 
 # ------------------------------------------------------ their kick books
@@ -657,6 +734,14 @@ LEGEND_KICK_BANK = {
         "X--x----X-X---x-", "X--x--x-X-------", "X------xX-X-----",
         "X--x------X-x---", "X--x--xxX-X-----", "X-----x-X-X--x--",
         "X--x--x---X---x-", "X-x---x-X-X-----", "X--x----X-X-x---"],
+    "DJ Light Green": [            # 140 halftime, 808 room to breathe
+        # the answering kick is deliberately spread across steps 3-14: a
+        # first pass anchored 9 of 12 on step 8 and the engine's own
+        # variety check flagged the cluster on 3 of 4 renders.
+        "X-------X-------", "X-----------X---", "X---X-------X---",
+        "X--X------X-----", "X-------X----X--", "X-X-------X-----",
+        "X-----X-----X---", "X---------X--X--", "X----X------X---",
+        "X------X--X-----", "X--X--------X---", "X---------X---X-"],
     "No Alias": [                  # deep pocket rollers
         "X-----x---X--x--", "X--x------X-----", "X-----x-x-X-----",
         "X---x-----X-x---", "X-----xx--X--x--", "X-x---x---X-----",
@@ -713,6 +798,10 @@ LEGEND_TITLES = {
                   "Prime", "Laced", "Stacked"],
                  ["Ceiling", "Momentum", "Charts", "Verdict", "Summit",
                   "Bezel", "Encore", "Milestone"]),
+    "DJ Light Green": (["Altitude", "Invasion", "Emerald", "Festival",
+                        "Halogen", "Turnup", "Neon", "Skyward"],
+                       ["Drumline", "Ascent", "Signal", "Fanfare",
+                        "Bloom", "Voltage", "Liftoff", "Chorus"]),
     "No Alias": (["Southside", "Humble", "Vintage", "Mentor", "Refined",
                   "Classic", "Modest", "Studied"],
                  ["Notebook", "Portrait", "Manuscript", "Redraft",

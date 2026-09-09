@@ -11,6 +11,25 @@ default genre, tempo, artist, or "house style" here — every beat's style is
 whatever he asks for that time (owner decision 2026-07-23). If he doesn't
 specify, ask; don't assume.
 
+## BEFORE you render anything (hard rule, owner 2026-09-09)
+
+**The full suite runs once per session, before the first render.**
+```
+./.venv/bin/python -m pytest tests/ -q
+```
+~1036 tests, ~6-8 min. Later renders that session don't repeat it unless
+code changed.
+
+**Never render while it is running.** Both read beats off the external
+drive and starve each other — the suite crawls, the render slows, and the
+suite looks hung when it isn't. Tests finish, THEN you render.
+
+Why it exists: on 2026-09-09 a new legend was rendered three times before
+the suite was ever run, and three roster assertions in `tests/test_crew.py`
+had been failing the whole time — one of them since 2026-09-07, unnoticed.
+The renders also ran on top of a background suite, which is what made it
+take 6m28 and produce nothing readable. Full rule in CLAUDE.md §0d.
+
 ## Naming
 
 - Pattern: `NN Name Drums NNNbpm.wav` — the number `NN` orders it, the word

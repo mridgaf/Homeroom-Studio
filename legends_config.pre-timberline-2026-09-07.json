@@ -2955,54 +2955,53 @@
  },
  "Timberline": {
   "num": 17,
-  "bpm": 118,
+  "bpm": 100,
   "era": "legend",
   "built": "Timbaland",
   "legend": true,
-  "listen": "the 2006-08 club-pop era, NOT the ASR-10 one Chrome Dial keeps: hard four-on-the-floor-leaning kick, straight 16th hats with no swing, a gated clap cracking on 2 and 4, skeletal digital synth stabs and arpeggios instead of tabla, tambourine colour, clean and loud",
+  "listen": "beatbox stutter-funk: double-hit syncopated kicks, a clap that answers instead of insists, tabla and exotic perc off-center, silence used as an instrument, completely clean",
   "signature": {
    "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Timbaland: UPGRADED from phrygian to phrygian_dominant. Research 2026-07-24 ties his signature 'Get Ur Freak On' sound to the Hijaz/phrygian-dominant scale — the b2 against a MAJOR 3rd, whose augmented second is what reads as Middle Eastern. Plain phrygian (minor 3rd) does not make that sound. He also had the thinnest signature on the roster: ONE progression, ONE chord source. wood added for the tumbi/flute timbre that is his actual lead voice.",
    "key": {
     "roots": [
      "D",
      "E",
-     "G",
-     "A"
+     "G"
     ],
     "mode": [
      [
-      "minor",
-      3
+      "phrygian_dominant",
+      2
+     ],
+     [
+      "phrygian",
+      1
      ],
      [
       "harmonic_minor",
       2
-     ],
-     [
-      "phrygian_dominant",
-      1
      ]
     ]
    },
    "progressions": [
     [
-     "vamp_static_riff",
-     3
-    ],
-    [
      "dark_menacing",
      3
     ],
     [
-     "vamp_i_VI",
+     "hijaz_cadence",
      2
     ],
     [
-     "eerie_augmented",
+     "vamp_static_riff",
+     2
+    ],
+    [
+     "line_cliche",
      1.0
     ],
     [
-     "harmonic_climb",
+     "eerie_augmented",
      1.0
     ],
     [
@@ -3010,50 +3009,41 @@
      1.0
     ],
     [
-     "hijaz_cadence",
+     "harmonic_climb",
      1.0
     ]
    ],
    "chord_source": [
     [
+     "wood",
+     3
+    ],
+    [
      "synth",
-     4
-    ],
-    [
-     "chip",
      2
-    ],
-    [
-     "pluck",
-     1
     ]
    ],
    "tempo": [
     [
-     112,
-     124
-    ]
-   ],
-   "chords_default": true,
-   "chord_rhythm": [
-    [
-     "arp",
-     3
+     90,
+     100
     ],
     [
-     "sustain",
-     1
+     135,
+     145
     ]
-   ]
+   ],
+   "_mode_fix_2026_07_24": "was 'phrygian', which is NOT a mode the engine understands: KeyContext('phrygian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his phrygian b2 is already carried by dark_menacing (i-bII).",
+   "chords_default": true
   },
   "kit": {
    "kick": [
     "kick",
     null,
     [
-     "hard",
-     "dry",
-     "gate"
+     "clean",
+     "punch",
+     "tight"
     ],
     [
      0.15,
@@ -3068,22 +3058,13 @@
     ],
     1.0
    ],
-   "hat": [
-    "hat",
-    null,
-    [
-     "closed",
-     "tite"
-    ],
-    0.4
-   ],
    "perc": [
     "perc",
     null,
     [
-     "tamb",
+     "tabla",
      "shaker",
-     "bongo"
+     "conga"
     ],
     0.9
    ],
@@ -3091,15 +3072,18 @@
     "snap",
     null,
     [
-     "snap"
+     "snap",
+     "finger"
     ],
-    0.4
+    0.5
    ],
    "stamp": [
     "perc",
     null,
     [
-     "tamb"
+     "block",
+     "tabla",
+     "cowbell"
     ],
     0.6
    ]
@@ -3115,14 +3099,14 @@
      1071
     ],
     [
-     "X---X---X---X---",
-     "X---X---X---X-X-",
-     "X---X---X---X---",
-     "X---X--XX---X---",
-     "X---X---X---X---",
-     "X---X---X-------",
-     "X---X---X---X---",
-     "X---X--XX---X-X-"
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---",
+     "----X-------X---"
     ]
    ],
    "clap": [
@@ -3146,8 +3130,8 @@
     ]
    ],
    "perc": [
-    -0.25,
-    0.3,
+    -0.3,
+    0.32,
     [
      0,
      2,
@@ -3155,19 +3139,19 @@
      1073
     ],
     [
-     "--x---x----x--x-",
-     "--x---x----x----",
-     "--x---x----x--x-",
-     "--x---x--x-x--x-",
-     "--x---x----x--x-",
-     "--------x--x----",
-     "--x---x----x--x-",
-     "--x-x-x----x--x-"
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
     ]
    ],
    "snap": [
-    0.1,
-    0.3,
+    0.18,
+    0.4,
     [
      0,
      1,
@@ -3175,14 +3159,14 @@
      1074
     ],
     [
-     "----------------",
-     "--------------x-",
-     "----------------",
-     "--------------x-",
-     "----------------",
-     "--------------x-",
-     "----------------",
-     "--------------x-"
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-"
     ]
    ],
    "stamp": [
@@ -3203,26 +3187,6 @@
      "----------------",
      "----------------",
      "--------------x-"
-    ]
-   ],
-   "hat": [
-    0.0,
-    0.42,
-    [
-     0,
-     1,
-     50,
-     1076
-    ],
-    [
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-"
     ]
    ]
   },
@@ -3246,48 +3210,48 @@
      10,
      1,
      2,
-     4,
-     8,
+     6,
+     1,
+     1,
+     5,
+     2,
+     3,
      1,
      3,
-     2,
-     9,
+     5,
      1,
-     2,
-     4,
-     7,
-     1,
+     3,
      3,
      2
     ],
     "hits": [
      3,
-     6
+     7
     ],
-    "double_p": 0.3
+    "double_p": 0.55
    },
    "clap": {
     "modes": [
      [
       "backbeat",
-      0.7
+      0.35
      ],
      [
       "displaced",
-      0.15
-     ],
-     [
-      "halftime",
-      0.1
+      0.317
      ],
      [
       "sparse",
-      0.05
+      0.217
+     ],
+     [
+      "halftime",
+      0.117
      ]
     ],
     "ghosts": [
      0,
-     1
+     2
     ],
     "gcells": [
      2,
@@ -3310,48 +3274,45 @@
    "snap": {
     "modes": [
      [
-      "sparse",
-      0.4
-     ],
-     [
       "answer",
-      0.35
+      0.3
      ],
      [
       "offbeats",
-      0.25
-     ]
-    ]
-   },
-   "hat": {
-    "modes": [
+      0.3
+     ],
      [
-      "sixteenths",
-      0.55
+      "sparse",
+      0.2
      ],
      [
       "eighths",
-      0.25
-     ],
-     [
-      "offbeats",
-      0.12
-     ],
-     [
-      "broken",
-      0.08
+      0.2
      ]
     ]
    }
   },
   "kick_flavors": [
    [
-    1.0,
+    0.2,
+    "808",
+    [
+     "clean",
+     "tight"
+    ],
+    [
+     0.3,
+     0.7
+    ]
+   ],
+   [
+    0.8,
     null,
     [
-     "hard",
-     "dry",
-     "gate"
+     "clean",
+     "punch",
+     "tight",
+     "pop"
     ],
     [
      0.12,
@@ -3363,97 +3324,55 @@
    "p": 0.45,
    "tags": [
     [
-     "electro",
-     4
-    ],
-    [
-     "house",
-     2
-    ],
-    [
      "rnb",
+     3
+    ],
+    [
+     "garage",
      2
     ],
     [
-     "techno",
+     "electro",
+     2
+    ],
+    [
+     "funk",
      1
     ]
    ]
   },
   "extras": {
    "p": 0.6,
-   "nmax": 2,
+   "nmax": 1,
    "pool": [
     [
      "perc",
      [
-      "tamb",
-      "shaker",
-      "bongo"
+      "tabla",
+      "block",
+      "cowbell"
      ],
-     "club perc"
+     "exotic2"
     ],
     [
      "fx",
      [
-      "riser",
-      "impact",
-      "reverse"
+      "zap",
+      "laser",
+      "glitch"
      ],
-     "synth fx"
+     "blips"
     ],
     [
      "rim",
      [
       "rim",
-      "stick"
+      "click"
      ],
      "clicks"
     ]
    ]
-  },
-  "chord_grammar": {
-   "figures": [
-    [
-     "stab",
-     4
-    ],
-    [
-     "arp",
-     3
-    ],
-    [
-     "comp",
-     1
-    ],
-    [
-     "pad",
-     1
-    ]
-   ],
-   "hits": [
-    3,
-    6
-   ],
-   "seg": 1.1,
-   "arp_step": 2,
-   "shape": [
-    [
-     "up",
-     3
-    ],
-    [
-     "updown",
-     2
-    ],
-    [
-     "broken",
-     1
-    ]
-   ]
-  },
-  "own_soundbank": true,
-  "_research_note": "NEW BUILD 2026-09-07. HEADLINE, same fault as Farrow/Glass Cat and Kane East/Sunday Chop: Timberline was a DUPLICATE of Chrome Dial, one of the nine. Both built='Timbaland', both bpm 100, identical kit tags word for word (kick clean/punch/tight, clap clap, perc tabla/shaker/conga, snap snap/finger, stamp block/tabla/cowbell), identical library tags, identical space ['gated',['clap']], identical chord_source wood 3 / synth 2, identical perc euclid [3,5,7]. Only the kick grammar differed. OWNER 2026-09-07: 'Do whichever era we don't already have built as one of the nine.' Chrome Dial's own listen line names his ASR-10 (16-bit, 1996-2002 Virginia era: Missy, Aaliyah, Get Ur Freak On), so that era is taken and out of scope. Timberline becomes the 2006-08 club-pop era: FutureSex/LoveSounds (2006), Nelly Furtado Loose (2006), Shock Value (2007).\n\nSOURCES\n- Wikipedia, FutureSex/LoveSounds: written with Timbaland and DANJA at Thomas Crown Studios; the album   'infuses R&B and pop with TECHNO, funk, and elements of rock'; Danja performed keyboards and drums.\n- Wikipedia, 'Give It to Me' (Shock Value lead single): 'an ELECTRO and hip-hop song with CLUB MUSIC   sensibilities', 'a space-age sound that is built of SKELETAL SYNTHS, percussion, bass, low range horns,   breathless drums, and DIGITIZED KEYBOARDS'; critics quoted: 'a leisurely club track', 'polyrhythmic   drumming, a Twilight Zone countermelody and digitized keyboard belches'.\n- Sound On Sound, 'Secrets Of The Mix Engineers: Marcella Araica' (she mixed 'The Way I Are' and other   Shock Value tracks): 'I wanted them to hit, and to hit HARD. The kick was a stereo track, and I EQ'ed   that and ran it through two black-face 1176 compressors.' Snare got a Focusrite D6 'adding some high   mids, because I wanted to make it sound fat but still make sure it cut through.' Drums printed 'to   half-inch analogue and back into Pro Tools to make them sound punchier.'\n- Sound On Sound, engineer Chris Godbey on Timbaland's rig: 'Tim has some keyboards with him with loads   of sounds in them, mainly the [Open Labs] Miko, which is in essence a PC with a keyboard attached to   it, and for 20 percent of the time he'll use some other keyboards, mostly the Microkorg samplers.'   A synth workstation, not the ASR-10 sampler Chrome Dial is built on. This is the cleanest line between   the two eras and it is the reason chord_source moved off wood.\n- Danja gear (Gearspace/Future Producers): MPC4000, Triton, Motif, Andromeda, VSTs in Cubase. On 'My   Love' he built the foundation on the MPC4000 after being inspired by TRANCE at a club, 'aiming to   infuse some of that character using ARPEGGIATED SYNTHS'. That single line is the whole reason   chord_rhythm is now arp-led.\n\nCHANGES\n1. listen line rewritten to the 2006-08 era and it NAMES Chrome Dial, so the next session cannot    re-merge them. Same guard Farrow got.\n2. bpm 100 -> 118. Era singles sit 112-124 (SexyBack ~118, My Love ~120, The Way I Are ~115, Give It To    Me ~112); 118 is the middle. signature.tempo was [[90,100],[135,145]] - the 90s beatbox band and a    drum-and-bass band neither era uses - now the single band [[112,124]]. This also finally separates    him from Chrome Dial's 100.\n3. HAT LANE ADDED (kit + lanes + grammar, sixteenths 0.55). Chrome Dial has NO hats, which is correct    for the sparse ASR-10 era. A club/electro record has straight 16th hats. swing stays 50 (straight)    everywhere - programmed on a Miko/MPC, not played.\n4. KICK moved toward the floor. Old grammar was the beatbox stutter: hits [3,7], double_p 0.55, weights    scattered. Now hits [3,6], double_p 0.30, and w weights 0/4/8/12 at 10/8/9/7 so the four-on-the-floor    lean is a weight, not a lock - the syncopation survives ('polyrhythmic drumming' is sourced). Lane    fallback patterns rewritten to match.\n5. CLAP mode backbeat 0.35 -> 0.70. His OLD line said 'a clap that answers instead of insists' and the    skill file explicitly warns not to lock that. Saying it out loud: that line described the beatbox    era, which is now Chrome Dial's, and the owner moved this preset to a different era. Pop-club claps    crack on 2 and 4. It is a WEIGHT, not an invariant - displaced stays alive at 0.15 - so nothing is    locked and it can be moved back in one line.\n6. TASTE TAGS rewritten against real filenames, THEN own_soundbank ON (that order, always). What was    there: kick clean=3, punch=1, TIGHT=0 - his main lane was matching four files out of 488, and    kick_flavors carried the same dead words while OVERRIDING kit['kick'] on every composed beat    (pattern_gen.py:1326), so fixing the kit alone would have changed nothing. Now hard/dry/gate = 43    real dry hard kicks, checked by eye, no 808s and no lofi. `hard` is literally Araica's word.    snap `finger` PULLED - the same 'finger cym tree' trap found on Mustang and Farrow (7 of 7 are finger    CYMBALS); `snap` alone = 24. hat closed/tite = 48 (`tite` is how this library spells it; `tight` = 0).    perc tabla/shaker/conga -> tamb/shaker/bongo = 81: the tabla is the Get Ur Freak On instrument and it    stays with Chrome Dial.\n7. STAMP moved off block/tabla/cowbell (Chrome Dial's exotic-perc tag, word for word) to `tamb` = 21    real tambourines. Checked every stamp on both rosters first: no other preset uses tamb, and the    obvious fx choices were all taken (laser = Farrow AND Glass Cat, impact/riser = Hitt Kid, siren =    Kane East and Swish Beatz). DESCRIPTION-DRIVEN, not sourced - no interview names his producer tag -    and flagged as such. His crew_kits.json entry must be cleared or the stale lock survives this.\n8. chord_source wood 3 / synth 2 -> SYNTH 4 / chip 2 / pluck 1. The most sourced change available:    Godbey's Miko + Microkorg, 'skeletal synths', 'digitized keyboards', 'digitized keyboard belches'.    `wood` was the tumbi/tabla timbre of the 2001 era and Chrome Dial keeps it at weight 3.\n9. chord_rhythm added, [['arp',3],['sustain',1]], and chord_grammar opted in with figures stab 4 /    arp 3. Sourced to Danja's own account of 'My Love' (trance in a club -> arpeggiated synths) and to    'skeletal synths' / 'keyboard belches', which is a stab, not a pad.\n10. extras rebuilt off the dead exotic set: club perc (tamb/shaker/bongo = 81), synth fx     (riser/impact/reverse = 45), clicks (rim/stick = 121). nmax 1 -> 2.\n11. library tags rnb/garage/funk/electro -> ELECTRO 4 / house 2 / rnb 2 / techno 1. 'techno' is     Wikipedia's own word for this album's blend; house/club is 'club music sensibilities'.\n12. kick_flavors: the 20% 808 branch DROPPED, one flavour now. The era's low end is a synth bass     ('The Way I Are' is a booming futuristic SYNTH line, per Wikipedia's own comparison to 'My Love'),     not an 808 kick. His sub now comes from the bass/chord voice, which is where the sources put it.\n\nDELIBERATELY NOT CHANGED, and do not read silence as a pass\n- NO JITTER, NO OFFSET on any lane. Nothing in any source says a human played these drums - the   opposite: a Miko, an MPC4000 and Pro Tools. Inventing a push or drag is how identity gets faked.\n- dust/vinyl/wow stay 0, kick_dist 0, mix_sat 0, allow_dirt off. No source describes grime in this era   and it is a glossy digital pop record. Araica's half-inch tape print is sourced and IS a real   argument for a little bus saturation, but the AMOUNT would be entirely mine and the house clean-render   rule strips master drive anyway. Named here rather than guessed at. One line to add if he wants it.\n- space ['gated',['clap']] left as it was, and it is identical to Chrome Dial's. No source names a   reverb choice either way; a gated clap suits both eras. Known sameness, not an oversight.\n- sidechain 0.2 and drive 1.45 are roster defaults, unsourced, untouched.\n- no mix_eq of his own. Araica's snare high-mid boost is a per-track EQ move on one snare, not a house   curve, and the default already leans bright at +2 dB / 8 kHz which suits a glossy pop mix.\n- phrygian_dominant KEPT at weight 1 (was 2) and hijaz_cadence at 1 (was 2). The Hijaz sound is the   documented 'Get Ur Freak On' tell, so by the era split it belongs to Chrome Dial - but Chrome Dial is   one of the NINE and out of scope, so stripping it here would delete that colour from the whole roster.   Demoted rather than removed, and FLAGGED: if the nine are ever in scope, it should move to him.\n\nKNOWN EXPOSURE: legends.load_legends re-syncs grammar/kick_flavors/extras/library from LEGENDS_DEFAULT on a LEGENDS_VERSION bump unless _style_lock is set. A bump would silently wipe items 4, 10, 11 and 12.\nSTATUS: measured and rendered, NOT heard. Only his ear closes this."
+  }
  },
  "Just Flame": {
   "num": 18,
@@ -5031,519 +4950,5 @@
    ],
    "chords_default": true
   }
- },
- "DJ Light Green": {
-  "num": 40,
-  "bpm": 140,
-  "era": "legend",
-  "built": "DJ Green Lantern (the 2013+ EDM/trap era)",
-  "legend": true,
-  "listen": "marching-band trap at 140 halftime: long driven 808, snare on 3 about half the time and free to move the rest, rolling marching ghosts running into it, triplet and 32nd hat rolls, BIG offsetting percussion (toms, stomps and cowbell), bright major trance arps in the chords, with chopped vocals dropped in",
-  "kit": {
-   "kick": [
-    "kick",
-    null,
-    [
-     "hard",
-     "dry",
-     "bass"
-    ],
-    [
-     0.5,
-     1.2
-    ]
-   ],
-   "snare": [
-    "snare",
-    null,
-    [
-     "hard",
-     "buz",
-     "flam",
-     "roll"
-    ],
-    1.0
-   ],
-   "hat": [
-    "hat",
-    null,
-    [
-     "closed",
-     "tite"
-    ],
-    0.45
-   ],
-   "perc": [
-    "perc",
-    null,
-    [
-     "tom",
-     "stomp",
-     "cowbell"
-    ],
-    1.0
-   ],
-   "stamp": [
-    "vox",
-    null,
-    [
-     "vox",
-     "chant",
-     "hey"
-    ],
-    1.0
-   ]
-  },
-  "lanes": {
-   "kick": [
-    0.0,
-    1.0,
-    [
-     0,
-     1,
-     50,
-     1121
-    ],
-    [
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---"
-    ]
-   ],
-   "snare": [
-    0.0,
-    0.95,
-    [
-     0,
-     1,
-     50,
-     1122
-    ],
-    [
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---",
-     "----X-------X---"
-    ]
-   ],
-   "hat": [
-    -0.14,
-    0.4,
-    [
-     0,
-     1,
-     50,
-     1123
-    ],
-    [
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-"
-    ]
-   ],
-   "perc": [
-    0.18,
-    0.55,
-    [
-     0,
-     2,
-     50,
-     1124
-    ],
-    [
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-"
-    ]
-   ]
-  },
-  "dust": 0.0,
-  "vinyl": 0,
-  "wow": 0.0,
-  "sidechain": 0.3,
-  "space": [
-   "room",
-   [
-    "snare"
-   ]
-  ],
-  "alt": null,
-  "drive": 1.5,
-  "kick_dist": 4.0,
-  "mix_sat": 0.0,
-  "own_soundbank": true,
-  "grammar": {
-   "kick": {
-    "w": [
-     10,
-     1,
-     2,
-     3,
-     2,
-     1,
-     4,
-     2,
-     6,
-     1,
-     2,
-     4,
-     3,
-     1,
-     3,
-     2
-    ],
-    "hits": [
-     2,
-     5
-    ],
-    "double_p": 0.35
-   },
-   "snare": {
-    "modes": [
-     [
-      "halftime",
-      0.4996
-     ],
-     [
-      "backbeat",
-      0.0556
-     ],
-     [
-      "displaced",
-      0.0556
-     ],
-     [
-      "sparse",
-      0.0556
-     ],
-     [
-      "four",
-      0.0556
-     ],
-     [
-      "push",
-      0.0556
-     ],
-     [
-      "tresillo",
-      0.0556
-     ],
-     [
-      "offbeat",
-      0.0556
-     ],
-     [
-      "drag",
-      0.0556
-     ],
-     [
-      "pickup",
-      0.0556
-     ]
-    ],
-    "ghosts": [
-     1,
-     3
-    ],
-    "gcells": [
-     5,
-     6,
-     7,
-     13,
-     14,
-     15
-    ]
-   },
-   "hat": {
-    "modes": [
-     [
-      "rolls32",
-      0.3
-     ],
-     [
-      "triplets",
-      0.2
-     ],
-     [
-      "sixteenths",
-      0.2
-     ],
-     [
-      "trip_rolls",
-      0.1
-     ],
-     [
-      "eighths",
-      0.08
-     ],
-     [
-      "offbeats",
-      0.06
-     ],
-     [
-      "broken",
-      0.06
-     ]
-    ],
-    "roll_n": [
-     1,
-     3
-    ]
-   },
-   "perc": {
-    "modes": [
-     [
-      "offbeats",
-      0.4
-     ],
-     [
-      "sparse",
-      0.3
-     ],
-     [
-      "eighths",
-      0.3
-     ]
-    ]
-   }
-  },
-  "kick_flavors": [
-   [
-    0.8,
-    "808",
-    [
-     "hard",
-     "dry",
-     "bass"
-    ],
-    [
-     0.6,
-     1.4
-    ]
-   ],
-   [
-    0.2,
-    null,
-    [
-     "hard",
-     "dry"
-    ],
-    [
-     0.15,
-     0.4
-    ]
-   ]
-  ],
-  "library": {
-   "p": 0.45,
-   "tags": [
-    [
-     "trap",
-     4
-    ],
-    [
-     "electro",
-     3
-    ],
-    [
-     "house",
-     2
-    ],
-    [
-     "techno",
-     1
-    ]
-   ]
-  },
-  "extras": {
-   "p": 0.6,
-   "nmax": 2,
-   "pool": [
-    [
-     "vox",
-     [
-      "vox",
-      "chant",
-      "hey"
-     ],
-     "vocal chops"
-    ],
-    [
-     "perc",
-     [
-      "tom",
-      "stomp"
-     ],
-     "big toms"
-    ],
-    [
-     "fx",
-     [
-      "riser",
-      "impact",
-      "reverse"
-     ],
-     "edm fx"
-    ],
-    [
-     "crash",
-     [
-      "crash"
-     ],
-     "crash2"
-    ]
-   ]
-  },
-  "chord_grammar": {
-   "figures": [
-    [
-     "arp",
-     4
-    ],
-    [
-     "stab",
-     2
-    ],
-    [
-     "pad",
-     2
-    ],
-    [
-     "comp",
-     1
-    ]
-   ],
-   "hits": [
-    4,
-    8
-   ],
-   "seg": 1.0,
-   "arp_step": 1,
-   "shape": [
-    [
-     "up",
-     3
-    ],
-    [
-     "updown",
-     3
-    ],
-    [
-     "broken",
-     1
-    ]
-   ]
-  },
-  "signature": {
-   "_note": "Built 2026-09-09 from his own 'trance in the chord sections... feel good elements' line (Vibe 2014). Major and lydian only — the roster's other 140-bpm material is minor, and 'feel good' is the word he used.",
-   "key": {
-    "roots": [
-     "C",
-     "D",
-     "F",
-     "G",
-     "A"
-    ],
-    "mode": [
-     [
-      "major",
-      4
-     ],
-     [
-      "lydian",
-      2
-     ],
-     [
-      "mixolydian",
-      1
-     ]
-    ]
-   },
-   "progressions": [
-    [
-     "uplifting",
-     4
-    ],
-    [
-     "anthem_sus",
-     3
-    ],
-    [
-     "sparkle_add9",
-     3
-    ],
-    [
-     "cinematic_rise",
-     2
-    ],
-    [
-     "epic",
-     2
-    ],
-    [
-     "suspended_open",
-     1
-    ],
-    [
-     "lydian_float",
-     1
-    ]
-   ],
-   "chord_source": [
-    [
-     "synth",
-     5
-    ],
-    [
-     "pluck",
-     2
-    ],
-    [
-     "chip",
-     1
-    ],
-    [
-     "bell",
-     1
-    ]
-   ],
-   "tempo": [
-    [
-     136,
-     146
-    ]
-   ],
-   "chords_default": true,
-   "chord_rhythm": [
-    [
-     "arp",
-     4
-    ],
-    [
-     "sustain",
-     1
-    ]
-   ]
-  },
-  "_research_note": "NEW BUILD — NEW LEGEND 2026-09-09, the thirteenth. Owner asked for DJ Green Lantern under a roster name he chose himself: DJ Light Green. Era chosen by him: the 2013+ EDM/trap crossover, not the 2002-06 Invasion mixtape years.\n\nSOURCES\n- Vibe, 2026-02-18 (Jessica Wunsch), asked what his mindset was going into 'Know About Me' (w/ Iggy Azalea + Valentino Khan, Ultra Music): \"I was going for literally some marching band trap music with feel good elements to it along with some trance in the chord sections with some big percussion elements in there to off-set it.\" That one sentence is this whole build: marching-band snare rolls, major/bright trance arps in the chords, and a loud offsetting percussion lane (toms/timbale).\n- Complex, 2014-02-11 (nappy): \"A lot of your production has had twerk and trap inspiration\" - he confirms, and adds house and future funk. Hence library tags trap/electro/house/techno.\n- Complex 2014: Ultra released the record because they had \"more bass-oriented music coming out (Flosstradamus, etc.)\" - the reason the 808 is long and driven here rather than short and dry.\n- Life+Times, 2013-01-11: his Altitude mix is built around RL Grime, UZ, Baauer, Heroes x Villains, Mayhem - the 140 EDM-trap lane. He describes it as \"heavy on the 'turn up' side of things; high energy, you might feel high or elevated\".\n- Life+Times, 2013-01-11, on what carries over from the mixtape years: \"I've always been creative with vocal samples and beats throughout my career and would much rather chop up some existing vocals and make some music around it.\" Hence the stamp is a chopped vocal, not an fx hit.\n\nTHE 50% RULE (owner, 2026-09-09): \"The snare on the 3. Or similar rules that limit variety should only be followed 50% of the time.\" Scoped to THIS LEGEND ONLY - he confirmed that twice in the same session, and Doc Day's snare_locked_24 stays locked. So his snare menu is _bb('halftime', 0.5): halftime (snare on 3) at ~0.50, and the other 0.50 spread evenly across all nine remaining backbeat modes - anything the grammar allows, not a named second option. DO NOT 'fix' this back into a lock; it is the owner's directive, not a missed invariant.\n\nUNSOURCED, left at era convention and flagged: sidechain 0.3 (EDM pump is genre-standard but he never says it) and kick_dist 4.0 (inferred from the 'bass-oriented' line above, NOT from a quote about distortion). Both are the first things to change if the audition is wrong.\n\nTAG AUDIT 2026-09-09 (--tags, TBOTC 3 mounted). First pass was the classic fault: kick 808/sub/boom matched 3 files of 488, snare 'crack' 0 of 676, perc 'timbale' 0 of 640, and the STAMP — the one sample on every single beat — asked fx for vocal/chop/shout and matched 1 of 353. Rewritten against real filenames: kick hard/dry/bass=47, snare hard/dry=39, hat closed/tite=44, perc tom/stomp/cowbell=90. The stamp was moved out of fx into the VOX bucket (vox/chant/hey), which is the same fix Mustang's 'Hey!' chant needed — the library keeps vocal material in vox, not fx. NOTE: the '808' in kick_flavors is a LABEL for the notes-box request, not a bucket; the role stays 'kick', so what makes his kick an 808 here is the 0.6-1.4s sustain range, not a tag.\n\nSTAMP: he does NOT get one. Owner rule 2026-08-01 switched the stamp lane off for everyone (STAMP_LANE=False in beat_machine) — 'The DJs don't have to have a signature sound for every track.' A first render here proved it: the stamp was picked correctly (Cymatics - Diamonds Vox, from the vox bucket) and then _drop_stamp() removed the lane before compose() ever saw it. Re-enabling it for one legend would reverse his own rule roster-wide, so instead his sourced vocal-chopping habit went into extras (vox/chant/hey). He carries a kit stamp entry with no stamp LANE — Razor's exact shape, which is what test_every_personality_has_a_stamp expects; lock_stamps needs the kit entry and returns (None, None) for legends anyway — chopped vocals turn up on some beats, not all, which is what the 2026-08-01 rule actually asked for.\n\nSNARE TAGS, second pass: 'dry' (28 files) was pulling SIDESTICKS into the snare lane — 'HWIP_Dry_SideStick', 'sn4 ss dry' both landed in a render. Replaced with hard/buz/flam/roll = 36 files and not one sidestick among them. That is also the better answer musically: buzz rolls and flams ARE the marching-band snare he named, so the tag fix and the identity pull the same way."
  }
 }

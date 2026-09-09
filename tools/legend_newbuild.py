@@ -105,7 +105,17 @@ def tag_audit(name, p):
     dead when every one of them is real."""
     sys.path.insert(0, str(Path(__file__).parent))
     from make_drum_beats import build_shots
+    from flavor_tags import matches as flavor_matches
     shots = build_shots()
+    # flavor_match (2026-09-09): if this preset opted in, audit counts
+    # reflect what _pick_path will actually do at runtime (synonym-aware
+    # matching); every existing legend has no such flag and is audited
+    # exactly as before -- see flavor_tags.py for the scope decision.
+    use_flavor = bool(p.get("flavor_match"))
+
+    def _hit(w, nm):
+        return flavor_matches(w, nm) if use_flavor else w in nm
+
     rows = []
     for lane, spec in (p.get("kit") or {}).items():
         if not isinstance(spec, (list, tuple)) or len(spec) < 3:
@@ -114,7 +124,7 @@ def tag_audit(name, p):
         if not isinstance(wants, list) or not wants:
             continue
         pool = shots.get(role, [])
-        per = {w: sum(1 for e in pool if w in e["name"].lower())
+        per = {w: sum(1 for e in pool if _hit(w, e["name"].lower()))
                for w in wants}
         # for each DEAD word, where does it actually live? Loops are
         # excluded (not one-shot material) and a single stray file is
@@ -124,7 +134,7 @@ def tag_audit(name, p):
             if c:
                 continue
             found = {b: n for b, n in
-                     ((b, sum(1 for e in items if w in e["name"].lower()))
+                     ((b, sum(1 for e in items if _hit(w, e["name"].lower())))
                       for b, items in shots.items()
                       if b != role and not b.startswith("_"))
                      if n >= 2}

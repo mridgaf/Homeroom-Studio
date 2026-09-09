@@ -22,6 +22,141 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-09 Flavor-tag synonym layer for want-tags (forward-only)
+
+- Context: owner noticed the recurring dead-tag problem himself (drum
+  names don't match a legend's researched taste tags, and the tags are
+  never anything richer than hard/soft) and asked for a system so a want
+  word can match adjectives/synonyms instead of only the literal string.
+  This is the same fault every legend rebuild's `_research_note` already
+  documents by hand: Doc Day's punch/knock/deep matched one file; this
+  library spells "tight" as "tite"; warm/big/huge match zero files
+  anywhere.
+- Decision/change: new module `tools/flavor_tags.py` (pure stdlib, no new
+  deps) with a small starting `SYNONYM_GROUPS` table (grit, tight, clean,
+  warm, big, soft, vintage, room, crack) and one function, `matches(word,
+  name)`, that's a strict superset of the old `word in name` check.
+  Wired into `_pick_path`'s `has_want` (tools/crew.py) and `tag_audit`
+  (tools/legend_newbuild.py) behind a new per-preset opt-in flag,
+  `"flavor_match": true`, defaulting to False/absent — same shape as
+  `own_soundbank` and the sorted-folder feature. `legend-new-build`
+  SKILL.md step 5 updated to set the flag on legends built from today on.
+- Reasoning: owner explicit — wire it moving forward only, he'll retag
+  the existing twelve legends and nine crew DJs later. A shared function
+  like `_pick_path` can't be scoped by "don't touch the nine" alone (it
+  runs for everyone); the boolean flag is what actually keeps existing
+  behavior untouched, matching the sorted-folder precedent (measured
+  zero changed lanes with the feature off before shipping it). Left
+  `dry`, `boom`, `punch`/`knock`/`deep` deliberately ungrouped — each has
+  its own documented over-matching history (sidesticks, 808s) and
+  widening them wasn't asked for or sourced.
+- Verify by: `tests/test_crew.py::test_flavor_match_off_matches_old_behavior`,
+  `::test_flavor_match_on_reaches_the_documented_spelling_variant`,
+  `::test_flavor_match_does_not_widen_a_word_with_no_synonym_group`. Ran
+  `pytest tests/test_crew.py` from this session (Linux sandbox, no
+  pedalboard/no TBOTC 3 drive): 29 passed; the 7 failures are all
+  pre-existing/environmental (6 need `pedalboard`, a macOS-only wheel not
+  installable here; 1, `test_legend_stamps_are_not_locked`, needs the
+  external drive mounted) — none touch `_pick_path` or `tag_audit`. Full
+  suite with the real macOS venv and TBOTC 3 mounted is NOT yet run —
+  do that before trusting this beyond the targeted tests above.
+- Status: open
+- Outcome: (no legend has used the flag yet — nothing to judge by ear)
+
+### 2026-09-09 DJ Light Green — a thirteenth Legend, and the new 50% rule
+
+- Context: he did not want to continue with DJ Premium (still an unbuilt
+  duplicate of Cutz — left alone on purpose). He asked for a brand new
+  legend built on DJ Green Lantern. He chose the roster name himself
+  (DJ Light Green), chose the 2013+ EDM/trap era over the 2002-06 Invasion
+  mixtape era, and chose "add as #13, replace nobody".
+- Decision/change: new legend at num 40, 140 bpm. Built from his own words
+  (Vibe 2014): "marching band trap music with feel good elements... along
+  with some trance in the chord sections with some big percussion elements
+  in there to off-set it." Long driven 808, buzz/flam/roll snare, 32nd and
+  triplet hat rolls, toms+stomps+cowbell, bright major/lydian arps, vocal
+  chops through extras. Every change is sourced in his `_research_note`.
+  Backup: legends_config.pre-dj-light-green-2026-09-09.json.
+- THE 50% RULE (new, his directive this session): "The snare on the 3. Or
+  similar rules that limit variety should only be followed 50% of the
+  time." Implemented as `_bb("halftime", 0.5)` — the crew's own helper —
+  so halftime sits at 0.4996 and the other nine backbeat modes share the
+  rest. Measured 20/20 over 40 composes. SCOPED TO THIS LEGEND ONLY; he
+  confirmed that twice in the same session and Doc Day's snare_locked_24
+  is untouched. Do NOT "fix" this back into an invariant — it is his
+  directive, not a missed lock.
+- Three faults caught before delivery, all the known recurring ones:
+  (1) tags matched almost nothing — kick 808/sub/boom hit 3 files of 488,
+  the stamp hit 1 fx file of 353; (2) the stamp lane has been globally OFF
+  since 2026-08-01, so a "stamp on every beat" was unbuildable and his
+  sourced vocal-chopping went into extras instead; (3) "dry" was pulling
+  SIDESTICKS into the snare lane — replaced with hard/buz/flam/roll, which
+  is also the better musical answer since buzz rolls and flams ARE the
+  marching-band snare he named.
+- Two gaps named rather than fought: his "trance" chords render as
+  chiptune arps because the melodic instrument index holds SEVEN pitched
+  samples, all bell — no synth/pluck/chip material exists to sample, so
+  the engine falls back to its one synthesized voice. And the kick-variety
+  check still flags his bank as clustered (mean 3.7-4.3 vs floor 4.5)
+  after two widening passes; sparse halftime trap lines are inherently few
+  moves apart.
+- Tests: three assertions hardcoded the roster and had to move — a 13th
+  legend is a fact they did not know. `NO_STAMP_LANE` gained him (Razor's
+  shape: kit stamp entry, no stamp lane), the own_soundbank set gained him
+  AND Timberline, and `len(legends) == 12` became 13. NOTE: Timberline was
+  already missing from that set before today — that test was failing since
+  2026-09-07 and nobody caught it.
+- Three suite failures are NOT from this work and were left alone:
+  test_one_instrument_plays_the_whole_beat and
+  test_layering_never_happens_always_one_voice both trip on TIMBERLINE
+  counting "bell stab"/"bell pad"/"bell comp" as three voices, and
+  test_real_beats_are_not_mono_or_silent trips on an old beat,
+  "2374 Funk Break 15 Drums 98bpm.wav".
+- Verify by: he has to hear it. Four beats in
+  ~/Desktop/Homeroom DJ Light Green NEW LEGEND 2026-09-09 with a plain
+  READ ME. MIDI gate 4/4 pass.
+- Status: open
+- Outcome: (awaiting his ear)
+
+
+### 2026-09-07 Timberline was Chrome Dial — rebuilt as the 2006-08 club-pop era
+
+- Context: third duplicate found between the twelve Legends and the nine crew
+  DJs, after Farrow/Glass Cat and Kane East/Sunday Chop. Timberline and Chrome
+  Dial were both `built: Timbaland`, both 100 bpm, with identical kit taste
+  tags, identical library tags, identical `space`, identical chord_source and
+  identical perc euclid. Only the kick grammar differed. Owner 2026-09-07:
+  "Continue tuning, DJ, with timberline. Do whichever era we don't already
+  have built as one of the nine."
+- Decision/change: Chrome Dial's own listen line names his ASR-10, so he keeps
+  1996-2002 (Missy/Aaliyah/Get Ur Freak On) and is out of scope. Timberline
+  became the 2006-08 club-pop era — FutureSex/LoveSounds, Nelly Furtado Loose,
+  Shock Value. 100 -> 118 bpm; hat lane added (straight 16ths, no swing);
+  kick grammar moved toward the floor (double_p 0.55 -> 0.30); clap backbeat
+  0.35 -> 0.70; chord_source wood 3 -> synth 4/chip 2/pluck 1; chord_rhythm
+  arp-led plus chord_grammar opted in with stab-heavy figures; kit tags
+  rewritten against real filenames then own_soundbank on; stamp
+  block/tabla/cowbell (Chrome Dial's word for word) -> tamb; 808 kick branch
+  dropped; library tags electro/house/rnb/techno. Every change and its source
+  is in his `_research_note`. Backup: legends_config.pre-timberline-2026-09-07.json.
+- Reasoning: the era split is the owner's own instruction and the sources make
+  the line clean — Chris Godbey (Sound On Sound) has Tim on an Open Labs Miko
+  and Microkorg by this era, not the ASR-10; Wikipedia calls "Give It to Me"
+  electro/club built of "skeletal synths" and "digitized keyboards"; Danja
+  describes building "My Love" around trance-inspired arpeggiated synths;
+  Marcella Araica (SOS) wanted the kick "to hit, and to hit hard". His kick
+  tags were matching FOUR files out of 488 (clean=3, punch=1, tight=0) and
+  kick_flavors carried the same dead words, so his main lane was effectively
+  random.
+- Verify by: he has to hear it. Audition rendered to
+  ~/Desktop/Homeroom Timberline NEW BUILD 2026-09-07 (a = old, b = new, same
+  composed form per beat, --structure mode). Measured new vs old over 2 beats:
+  sub 30-55 Hz -5.48 dB (expected — the 808 branch is gone), air above 8 kHz
+  +5.19 dB, attack +0.07 dB.
+- Status: open
+- Outcome: (awaiting his ear)
+
+
 ### 2026-09-07 Test suite: parallel run measured, PARKED for a fresh session
 
 - Context: the suite costs ~7 minutes a run and he asked how to shrink it

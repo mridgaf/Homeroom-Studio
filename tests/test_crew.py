@@ -132,7 +132,7 @@ def test_kick_sustain_is_a_range_not_a_constant():
 # and never names a stamp. kit["stamp"] deliberately STAYS (crew.lock_stamps
 # reads it unconditionally); only the pattern is gone. A SECOND name here is
 # that decision being made again — say why, in the config's _research_note.
-NO_STAMP_LANE = {"Razor"}
+NO_STAMP_LANE = {"Razor", "DJ Light Green"}
 
 
 def test_every_personality_has_a_stamp():
@@ -722,7 +722,8 @@ def test_own_soundbank_is_the_new_build_legends_only():
     on a snare in this repo."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
-                    "J Dillo", "Just Flame", "Swish Beatz"}
+                    "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
+                    "DJ Light Green"}
 
 
 def test_legend_stamps_are_not_locked():
@@ -747,7 +748,7 @@ def test_legend_stamps_are_not_locked():
     stamps = crew.lock_stamps(shots)
 
     legends = [n for n, p in CREW.items() if p.get("legend")]
-    assert len(legends) == 12, legends
+    assert len(legends) == 13, legends   # DJ Light Green added 2026-09-09
     for n in legends:
         assert stamps[n] == (None, None), f"{n} is still locked"
 
@@ -925,6 +926,79 @@ def test_own_soundbank_honours_taste_tags():
     kw = {"own_bank": True}
     assert only() == {"Hat_Closed_1.wav"}, \
         "own_soundbank: the tags gate, so the open hat is never picked"
+
+
+def test_flavor_match_off_matches_old_behavior():
+    """flavor_match (2026-09-09, flavor_tags.py) is the opt-in synonym
+    layer for want-tags -- wired for legends built going forward only
+    (owner, 2026-09-09), so the twelve existing legends and the nine crew
+    DJs, none of which carry the flag, must match EXACTLY as they did
+    before this module existed. Same guarantee the sorted-folder feature
+    got: prove the default path is unchanged before trusting the opt-in.
+
+    This library spells "tight" as "tite" (documented repeatedly in
+    legends_config.json _research_note fields). Without flavor_match, a
+    "tight" want-tag must still fail to reach a file named only "tite"."""
+    tite_only = {"path": "/x/kick_tite_3.wav", "name": "kick_tite_3.wav"}
+    literal = {"path": "/x/kick_tight.wav", "name": "kick_tight.wav"}
+    pool = {"kick": [tite_only, literal]}
+    audio = np.ones(1000)
+
+    def picked(**kw):
+        got = set()
+        for seed in range(30):
+            with mock.patch("crew._load_choked", return_value=audio):
+                path, _ = crew._pick_path(pool, "kick", ["tight"], 0.5,
+                                          seed, own_bank=True, **kw)
+            got.add(Path(path).name)
+        return got
+
+    assert picked() == {"kick_tight.wav"}, \
+        "default (no flavor_match) must stay literal-substring only"
+    assert picked(flavor_match=False) == {"kick_tight.wav"}, \
+        "explicit flavor_match=False must match the default exactly"
+
+
+def test_flavor_match_on_reaches_the_documented_spelling_variant():
+    """The reason this module exists: with flavor_match=True, "tight"
+    should also reach this library's "tite" files -- the single most
+    repeated dead-tag finding across the legend rebuilds."""
+    tite_only = {"path": "/x/kick_tite_3.wav", "name": "kick_tite_3.wav"}
+    unrelated = {"path": "/x/kick_soft.wav", "name": "kick_soft.wav"}
+    pool = {"kick": [tite_only, unrelated]}
+    audio = np.ones(1000)
+
+    got = set()
+    for seed in range(30):
+        with mock.patch("crew._load_choked", return_value=audio):
+            path, _ = crew._pick_path(pool, "kick", ["tight"], 0.5, seed,
+                                      own_bank=True, flavor_match=True)
+        got.add(Path(path).name)
+
+    assert got == {"kick_tite_3.wav"}, \
+        "flavor_match=True did not reach the tite/tight synonym"
+
+
+def test_flavor_match_does_not_widen_a_word_with_no_synonym_group():
+    """flavor_tags.SYNONYM_GROUPS deliberately leaves `dry`, `boom` and
+    `punch`/`knock`/`deep` ungrouped -- each has a documented history of
+    over-matching (sidesticks, 808s). A plain word like "hard" with no
+    group must still only match literally, even with flavor_match on, so
+    turning the feature on can't quietly widen an unrelated word."""
+    hard_file = {"path": "/x/kick_hard.wav", "name": "kick_hard.wav"}
+    soft_file = {"path": "/x/kick_soft.wav", "name": "kick_soft.wav"}
+    pool = {"kick": [hard_file, soft_file]}
+    audio = np.ones(1000)
+
+    got = set()
+    for seed in range(30):
+        with mock.patch("crew._load_choked", return_value=audio):
+            path, _ = crew._pick_path(pool, "kick", ["hard"], 0.5, seed,
+                                      own_bank=True, flavor_match=True)
+        got.add(Path(path).name)
+
+    assert got == {"kick_hard.wav"}, \
+        "an ungrouped word matched something it has no business matching"
 
 
 def test_doc_day_snare_never_leaves_2_and_4():

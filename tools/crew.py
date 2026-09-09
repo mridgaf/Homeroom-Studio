@@ -38,6 +38,7 @@ import numpy as np
 sys.path.append(str(Path(__file__).parent))
 from pattern_gen import DEFAULT_STYLE, STYLE_VERSION
 from make_drum_loops import SR, master, write_wav24
+from flavor_tags import matches as flavor_matches
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
 from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
@@ -1114,7 +1115,7 @@ def _sorted_root():
 
 
 def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
-               own_bank=False):
+               own_bank=False, flavor_match=False):
     """Like make_drum_beats.pick but returns the PATH so it can be locked.
     Tiers: must-word AND want-tag > must-word > want-tag > anything —
     the combined tier keeps a must="808" from grabbing an 808 *cowbell*
@@ -1124,7 +1125,15 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
 
     own_bank=True exempts ONE preset from the open sound bank below, so
     its own taste tags gate its picks again. Default False, so every
-    preset that does not ask for it picks exactly as it did before."""
+    preset that does not ask for it picks exactly as it did before.
+
+    flavor_match=True (2026-09-09) lets a want-tag also match its
+    documented synonyms/spelling variants (flavor_tags.py) instead of
+    only the literal word -- e.g. "tight" now also matches this
+    library's "tite" files. Default False, so every preset that does
+    not ask for it matches exactly as it did before. Opt-in per
+    preset, on purpose: wired for legends built going forward, not
+    retrofitted onto the existing roster (owner, 2026-09-09)."""
     if OWNER_TASTE.get("open_soundbank") and not own_bank:
         # owner 2026-07-18: no limits on a DJ's sound bank — the whole
         # role pool is fair game, taste tags and must-words stop gating
@@ -1146,7 +1155,11 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
         return must in e["path"].lower()
 
     def has_want(e):
-        if any(w in e["name"].lower() for w in wants):
+        nm = e["name"].lower()
+        if flavor_match:
+            if any(flavor_matches(w, nm) for w in wants):
+                return True
+        elif any(w in nm for w in wants):
             return True
         # THE SORTED FOLDER (owner 2026-09-06). Under the one root he
         # sorts himself, a taste word may come from the FOLDER instead of
@@ -1214,7 +1227,8 @@ def lock_stamps(shots):
             # Vox"), and lock_stamps handed him a choir loop anyway.
             path, x = _pick_path(shots, role, wants, secs, seed,
                                  must=must, avoid=used,
-                                 own_bank=bool(p.get("own_soundbank")))
+                                 own_bank=bool(p.get("own_soundbank")),
+                                 flavor_match=bool(p.get("flavor_match")))
             changed = True
         used.add(path)
         stamps[name] = (path, x)
@@ -1260,7 +1274,8 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
         # sound bank. Absent -> False -> the other twenty pick unchanged.
         path, x = _pick_path(shots, role, wants, secs, seed,
                              must=must, avoid=avoid,
-                             own_bank=bool(p.get("own_soundbank")))
+                             own_bank=bool(p.get("own_soundbank")),
+                             flavor_match=bool(p.get("flavor_match")))
         if path:
             avoid.add(path)
         # sub_layer (2026-09-03): a preset can reinforce its KICK with a

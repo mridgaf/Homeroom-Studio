@@ -198,6 +198,29 @@ is in the `expected-churn` skill
 (`.claude/skills/expected-churn/SKILL.md`). Read it before reporting
 that anything looks changed.
 
+### 0d. HARD RULE: tests before beats, and never at the same time
+
+Owner, 2026-09-09, after a session that rendered three batches before ever
+running the suite — and found three roster tests had been broken the whole
+time:
+
+**Run the full test suite ONCE per session, BEFORE the first render.**
+```
+./.venv/bin/python -m pytest tests/ -q
+```
+~1036 tests, ~6-8 minutes. Later renders in the same session don't repeat
+it unless code changed since.
+
+**Never render while a test run is going.** They both read beats off the
+external drive and starve each other — the suite crawls, the render slows,
+and the suite looks hung when it isn't. Tests finish, THEN rendering starts.
+Nothing overlaps. (2026-09-09: a suite was started in the background and
+three batches rendered on top of it. That is the mistake this rule exists
+to stop.)
+
+This is a hard rule, not a preference. No "just this once because the
+change is small" — that is exactly how it came back.
+
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished
 without actually checking it:
