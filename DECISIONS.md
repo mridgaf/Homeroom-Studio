@@ -22,6 +22,57 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-09 HARD RULE: full suite once per session before the first render
+
+- Context: DJ Light Green was rendered three times before the suite was ever
+  run, and three roster assertions in tests/test_crew.py had been failing the
+  whole time — one of them (Timberline missing from the own_soundbank set)
+  since 2026-09-07, unnoticed. The renders also ran on top of a background
+  suite, which starved both off the external drive.
+- Rule (his words, 2026-09-09): "New hard rule for every dj session to run
+  test before rendering any beats" + "Never render WHILE tests are running."
+  Asked which tests, he chose: FULL SUITE ONCE PER SESSION, BEFORE THE FIRST
+  RENDER. Later renders that session don't repeat it unless code changed.
+  Nothing overlaps — tests finish, then rendering starts.
+- Written into: CLAUDE.md §0d and the beat-output-conventions skill (the one
+  that triggers whenever anything renders to disk).
+- Status: confirmed (written; holds from the next session on)
+
+### 2026-09-09 Five skill gaps found this session — NOT YET APPLIED
+
+He was shown these and said "None for now. I'll start in a new session."
+So they are logged, not done. Pick them up next time.
+
+1. `legend-new-build` is stale in four places:
+   * step 7 says read the STAMP first — but STAMP_LANE has been False for
+     EVERYONE since 2026-08-01, so it points at a lane that never renders.
+     This cost a full render cycle today.
+   * step 6 sends you to make_legend_newbuild.py (old-vs-new A/B), which
+     does not apply to a BRAND NEW legend — there is no "old".
+   * it never says a legend lives in TWO files. load_legends() reads
+     legends_config.json ONLY; a block added to tools/legends.py alone
+     silently does not exist.
+   * it never mentions the three hardcoded roster assertions in
+     tests/test_crew.py that break when the roster count changes.
+2. The tag audit is backwards: `--tags` tells you a word is dead AFTER you
+   picked it. What actually worked was dumping the ~28 most common words per
+   shots bucket and choosing from those. That scan belongs in the skill as a
+   script — the most reusable thing built today.
+3. "Do not put `dry` on a snare in this repo" lives ONLY in a test docstring,
+   read after the mistake. It bit again today (sidesticks in the snare lane).
+   Belongs where tags are chosen.
+4. LIBRARY FACT, worth remembering: the melodic instrument index holds SEVEN
+   pitched samples and all seven are BELL. No synth, pluck or chip material
+   exists. Any personality whose chord_source asks for those silently falls
+   back to the built-in 8-bit voice. Measured 2026-09-09; will mislead every
+   future build until re-measured.
+5. `beat-output-conventions` should carry the render command —
+   `tools/beat_machine.py --render "Name" --count N --out <dir>`. crew.py has
+   no CLI and importing it takes over two minutes.
+
+- Status: open
+
+
 ### 2026-09-09 Flavor-tag synonym layer for want-tags (forward-only)
 
 - Context: owner noticed the recurring dead-tag problem himself (drum
