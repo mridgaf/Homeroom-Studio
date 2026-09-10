@@ -1,0 +1,18 @@
+Propellerhead Remote Mapping File
+File Format Version	1.3
+Control Surface Manufacturer	ReasonVoice
+Control Surface Model	ReasonVoice
+Map Version	1.0.0
+
+Scope	Propellerheads	Reason Document
+//	Control Surface Item	Key	Remote Item	Scale	Mode
+Map	Patch Next		Select Next Patch for Target Device
+Map	Patch Prev		Select Prev Patch for Target Device
+Map	Play		Play
+Map	Stop		Stop
+Map	Record		Record
+Map	Loop		Loop On/Off
+Map	Track Prev		Target Previous Track
+Map	Track Next		Target Next Track
+Map	Undo		Undo
+Map	Redo		Redo

@@ -1,0 +1,38 @@
+-- ReasonVoice Remote codec
+-- Receives CC messages from the reason-voice Python app over the IAC bus
+-- and exposes them as control-surface items Reason can map.
+--
+-- Install to:
+--   ~/Library/Application Support/Propellerhead Software/Remote/Codecs/Lua Codecs/ReasonVoice/ReasonVoice.luacodec
+-- (install.sh does this for you)
+
+function remote_init(manufacturer, model)
+    local items = {
+        {name="Patch Next",  input="button"},
+        {name="Patch Prev",  input="button"},
+        {name="Play",        input="button"},
+        {name="Stop",        input="button"},
+        {name="Record",      input="button"},
+        {name="Loop",        input="button"},
+        {name="Track Prev",  input="button"},
+        {name="Track Next",  input="button"},
+        {name="Undo",        input="button"},
+        {name="Redo",        input="button"},
+    }
+    remote.define_items(items)
+
+    -- CC numbers must match CC{} in reason_voice/reason_control.py
+    local inputs = {
+        {pattern="b? 14 xx", name="Patch Next", value="x"},
+        {pattern="b? 15 xx", name="Patch Prev", value="x"},
+        {pattern="b? 16 xx", name="Play",       value="x"},
+        {pattern="b? 17 xx", name="Stop",       value="x"},
+        {pattern="b? 18 xx", name="Record",     value="x"},
+        {pattern="b? 19 xx", name="Loop",       value="x"},
+        {pattern="b? 1a xx", name="Track Prev", value="x"},
+        {pattern="b? 1b xx", name="Track Next", value="x"},
+        {pattern="b? 1c xx", name="Undo",       value="x"},
+        {pattern="b? 1d xx", name="Redo",       value="x"},
+    }
+    remote.define_auto_inputs(inputs)
+end

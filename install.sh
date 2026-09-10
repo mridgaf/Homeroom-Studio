@@ -20,6 +20,7 @@ REMOTE_BASE="$HOME/Library/Application Support/Propellerhead Software/Remote"
 mkdir -p "$REMOTE_BASE/Codecs/Lua Codecs/ReasonVoice"
 mkdir -p "$REMOTE_BASE/Maps/ReasonVoice"
 cp remote/ReasonVoice.luacodec "$REMOTE_BASE/Codecs/Lua Codecs/ReasonVoice/"
+cp remote/ReasonVoice.lua      "$REMOTE_BASE/Codecs/Lua Codecs/ReasonVoice/"   # the logic — codec is inert without it
 cp remote/ReasonVoice.remotemap "$REMOTE_BASE/Maps/ReasonVoice/"
 echo "[ok] Remote codec + map installed"
 

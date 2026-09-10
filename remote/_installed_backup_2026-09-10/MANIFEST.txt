@@ -1,0 +1,12 @@
+Backup of the WORKING Reason Remote files as installed on this Mac.
+Taken 2026-09-10 before copying them into remote/ (repo held an older, broken draft).
+Source paths:
+  /Users/johnsuhr/Library/Application Support/Propellerhead Software/Remote/Codecs/Lua Codecs/ReasonVoice/ReasonVoice.lua
+  /Users/johnsuhr/Library/Application Support/Propellerhead Software/Remote/Codecs/Lua Codecs/ReasonVoice/ReasonVoice.luacodec
+  /Users/johnsuhr/Library/Application Support/Propellerhead Software/Remote/Maps/ReasonVoice/ReasonVoice.remotemap
+Nothing installed was modified or deleted by this backup.
+
+MD5 (/Users/johnsuhr/Desktop/Homeroom Studio/remote/_installed_backup_2026-09-10/MANIFEST.txt) = e92ac4e361982b8b5fce456753102b92
+MD5 (/Users/johnsuhr/Desktop/Homeroom Studio/remote/_installed_backup_2026-09-10/ReasonVoice.lua) = a637890aac4d148f490548fb1dbf8461
+MD5 (/Users/johnsuhr/Desktop/Homeroom Studio/remote/_installed_backup_2026-09-10/ReasonVoice.luacodec) = ff672212f8bfa20b95f0114d4b9999dc
+MD5 (/Users/johnsuhr/Desktop/Homeroom Studio/remote/_installed_backup_2026-09-10/ReasonVoice.remotemap) = 7966812c7449577d634972f849e42d05
