@@ -73,7 +73,7 @@ entries.
   hand; whether an agent reaches for it unprompted is not.
 
 
-### 2026-09-10 Knobs added to the Remote bridge (built, NOT yet proven in Reason)
+### 2026-09-10 Knobs added to the Remote bridge (PROVEN in Reason)
 
 - Context: step 4 of the plan — "prove one knob". The bridge could press buttons
   (patch/transport) but could not move a continuous parameter, which is the whole
@@ -102,7 +102,15 @@ entries.
   load at launch only), select an MClass Compressor, run `tools/prove_knob.py`,
   watch Attack move. Until he reports that, this is untested code that merely
   passes its own tests.
-- Status: open
+- Status: confirmed -- owner watched Attack sweep 0 -> 127 -> middle, 2026-09-10.
+- Outcome: THE MISSING STEP WAS NOT IN THE CODE. The Lua and the map were correct
+  (verified identical in form to Reason 12's own factory codecs). The surface must
+  be LOCKED to the device: Ctrl-click the device panel -> "Lock to ReasonVoice".
+  Clicking/selecting a device does nothing. Manual ch.23 (pp.587-606): surfaces
+  follow the sequencer's Master Keyboard Input -- and an MClass Compressor is an
+  EFFECT, so it has no sequencer track and can NEVER hold Master Keyboard Input.
+  Locking is the only route to any effect device. The lock saves with the song.
+  This cost one failed test cycle; it is now written into tools/prove_knob.py.
 
 ### 2026-09-10 Adversarial audit: two claimed verifications never happened; five dead skills removed
 

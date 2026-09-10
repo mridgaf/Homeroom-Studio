@@ -35,16 +35,31 @@ CC = {
 }
 
 
+# Reason -> us. Must match remote_deliver_midi() in remote/ReasonVoice.lua.
+# Knob k reports its position on CC 59+k and its DISPLAYED value as SysEx.
+FEEDBACK_CC = {59 + k: "knob_%d" % k for k in range(1, 9)}
+SYSEX_ID = 0x7d  # MIDI non-commercial manufacturer ID
+
+
 class ReasonControl:
     def __init__(self, midi_port_substring: str = "IAC", app_name: str = "Reason",
                  speak_feedback: bool = True):
         self.app_name = app_name
         self.speak_feedback = speak_feedback
         self.port = None
+        self.inport = None
+        # knob -> last position Reason reported (0-127)
+        self.positions = {}
+        # knob -> ("Attack", "30 ms") as Reason displays it
+        self.displays = {}
         names = mido.get_output_names()
         for name in names:
             if midi_port_substring.lower() in name.lower():
                 self.port = mido.open_output(name)
+                break
+        for name in mido.get_input_names():
+            if midi_port_substring.lower() in name.lower():
+                self.inport = mido.open_input(name)
                 break
         if self.port is None:
             print(f"[warn] No MIDI port matching '{midi_port_substring}'. "
@@ -68,6 +83,36 @@ class ReasonControl:
         self.port.send(mido.Message("control_change", control=CC[knob],
                                     value=max(0, min(127, int(value)))))
         return True
+
+    def poll(self) -> int:
+        """Drain whatever Reason has sent back. Returns messages consumed.
+
+        Call this before reading `positions`/`displays`. Nothing runs in a
+        thread -- messages sit in the port buffer until collected, so a poll
+        immediately before use is enough and there is no lock to get wrong.
+        """
+        if self.inport is None:
+            return 0
+        n = 0
+        for msg in self.inport.iter_pending():
+            n += 1
+            if msg.type == "control_change" and msg.control in FEEDBACK_CC:
+                self.positions[FEEDBACK_CC[msg.control]] = msg.value
+            elif msg.type == "sysex" and len(msg.data) > 2 and msg.data[0] == SYSEX_ID:
+                knob = "knob_%d" % msg.data[1]
+                text = "".join(chr(b) for b in msg.data[2:])
+                name, _, shown = text.partition("=")
+                self.displays[knob] = (name, shown)
+            # Anything else is our own CC 30-37 echoing back off the IAC bus.
+        return n
+
+    def current(self, knob: str):
+        """(position 0-127, "Attack", "30 ms") or None if Reason hasn't said."""
+        self.poll()
+        if knob not in self.positions:
+            return None
+        name, shown = self.displays.get(knob, ("", ""))
+        return self.positions[knob], name, shown
 
     def load_patch(self, path: str) -> bool:
         """Open a patch file in Reason (creates the device in the rack)."""

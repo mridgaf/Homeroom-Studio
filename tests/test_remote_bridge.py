@@ -93,3 +93,50 @@ def test_map_only_references_items_the_codec_declares():
     used = {l.split("\t")[1] for l in MAP.read_text(encoding="utf-8").splitlines()
             if l.startswith("Map\t")}
     assert used <= _declared_items(), f"mapped but not declared: {used - _declared_items()}"
+
+
+# --- feedback path: Reason -> us (added 2026-09-10) ------------------------
+
+def test_knobs_declare_output_or_reason_never_reports_them():
+    """input= alone makes a knob drivable but MUTE.
+
+    Without output="value" Reason never calls remote_set_state for it, so the
+    app can't know where the knob sits and every relative move ("down 5%")
+    counts from a guess. Silent, like everything else here.
+    """
+    text = LUA.read_text(encoding="utf-8")
+    knobs = re.findall(r'\{name="(Knob \d)",([^}]*)\}', text)
+    assert len(knobs) == 8, f"expected 8 knobs, found {len(knobs)}"
+    mute = [n for n, attrs in knobs if 'output="value"' not in attrs]
+    assert not mute, f"knobs declared without output=: {mute}"
+
+
+def test_feedback_cc_base_matches_the_python_side():
+    """Same drift trap as the input CCs, in the other direction.
+
+    The .lua emits knob k on `0x3b + k`; Python decodes `59 + k`. They are two
+    spellings of one number, so a change to either alone must fail here.
+    """
+    from reason_voice.reason_control import FEEDBACK_CC
+    text = LUA.read_text(encoding="utf-8")
+    m = re.search(r'string\.format\("b0 %02x %02x",\s*(0x[0-9a-fA-F]+)\s*\+\s*k', text)
+    assert m, "no knob-feedback CC expression found in the .lua"
+    lua_base = int(m.group(1), 16)
+    assert {lua_base + k: "knob_%d" % k for k in range(1, 9)} == FEEDBACK_CC
+
+
+def test_sysex_manufacturer_id_matches():
+    from reason_voice.reason_control import SYSEX_ID
+    assert ("f0 7d " in LUA.read_text(encoding="utf-8")) and SYSEX_ID == 0x7d
+
+
+def test_lua_files_actually_parse():
+    """A Lua syntax error makes Reason ignore the codec with no message."""
+    import shutil
+    import subprocess
+    luac = shutil.which("luac") or shutil.which("luac", path="/opt/homebrew/bin")
+    if not luac:
+        pytest.skip("luac not installed (brew install lua)")
+    for path in (LUA, CODEC):
+        r = subprocess.run([luac, "-p", str(path)], capture_output=True, text=True)
+        assert r.returncode == 0, f"{path.name} does not parse: {r.stderr}"
