@@ -1,0 +1,27 @@
+Five skills MOVED here (not deleted) on 2026-09-10, on the owner's instruction.
+
+Reason: an independent audit found all five had zero real usage across 616
+session transcripts (2026-07-03 -> 2026-09-10). An earlier count in the same
+session wrongly reported only ONE unused skill -- it was counting its own
+audit commands, and the Write calls that authored the skills, as usage.
+
+  claim-tags      0 uses   was referenced by CLAUDE.md section 4
+  drive-verify    0 uses   was referenced by CLAUDE.md machine facts
+  gear-guide      0 uses   output predates it (device_refs written 2026-07-12)
+  project-brief   0 uses   its output keeps appearing, written by hand
+  beat-styles     0 uses   the 17 styles live in genres_config.json and still work
+
+NOTHING FUNCTIONAL WAS REMOVED. beat-styles documented behaviour that lives in
+genres_config.json + tools/genres.py, both untouched and still working.
+
+To restore any of them:  mv '.claude/skills/_removed_2026-09-10/<name>' .claude/skills/
+
+CLAUDE.md as it stood before the rule edits is beside this file.
+
+CLAUDE.md.before-rule-removal
+MANIFEST.txt
+beat-styles
+claim-tags
+drive-verify
+gear-guide
+project-brief

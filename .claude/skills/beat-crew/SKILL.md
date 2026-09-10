@@ -32,8 +32,11 @@ These are the crew — NOT the numbered beats in `make_drum_beats.py`
 Club, Reggaeton Alt, Memphis, Houston Screw, Trip Hop, Plug and the rest
 — in their own box, keyed to scenes rather than people. They deliberately
 do NOT follow the rules on this page (that is the point: fidelity over
-variety). See [beat-styles](../beat-styles/SKILL.md) before touching
-`pattern_gen`, `vary_preset`, or anything that rebuilds `CREW`.
+variety). The seventeen subgenre styles live in `genres_config.json` and
+`tools/genres.py` — read those before touching `pattern_gen`, `vary_preset`,
+or anything that rebuilds `CREW`. (The `beat-styles` skill that used to be
+linked here was removed 2026-09-10 for zero use; it is in
+`.claude/skills/_removed_2026-09-10/` if its notes are ever wanted.)
 
 ## How to render one
 

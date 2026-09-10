@@ -93,5 +93,6 @@ you write any of the three config files.**
 - A tracked file changed that is NOT in the table above.
 - A `crew_config.json` change with no matching journal entry for today.
 - The library gained or lost beats when nothing rendered — check with
-  the `drive-verify` skill, never a recursive search.
+  Finder size + item count, never a recursive search (it times out silently
+  on these drives and reports a false "empty").
 - A test that was green is now red.

@@ -54,9 +54,8 @@ and get walked through recipes step-by-step. All speech is processed locally
 - Shell is bash (not zsh). macOS `sed` needs `-i ''`.
 - **Everything lives on the cloud/external drive**, which isn't always mounted
   and is big + slow — verify presence with Finder size + item count, never a
-  recursive search: recursive searches time out silently on these drives and
-  report false "empty" results. Fail loud if a path is missing rather than
-  writing to the wrong place.
+  recursive search (see the `drive-verify` skill). Fail loud if a path is
+  missing rather than writing to the wrong place.
 - **Answer in plain, short language.** He is not a developer; explain the
   "why" only when it matters, and give single paste-able commands or
   double-clickable files, never multi-step developer instructions.
@@ -272,4 +271,6 @@ don't just add new ones.
 The `session-ledger` skill (`.claude/skills/session-ledger/SKILL.md`) has the
 full read/append workflow and should trigger automatically. `SCRATCH.md`
 (project root) is the disposable live-reasoning trace for a multi-step
-problem in progress.
+problem in progress — the `claim-tags` skill
+(`.claude/skills/claim-tags/SKILL.md`) tags claims inline as
+`[verified]`/`[recalled]`/`[inferred]` so guesses don't read as fact.

@@ -23,15 +23,22 @@ MAP = REMOTE / "ReasonVoice.remotemap"
 def _cc_map_from_lua():
     """{'patch_next': 20, ...} as the .lua codec actually declares it.
 
-    Lines look like: {pattern="b? 14 7f", name="Patch Next", value="1"}
+    Each command has TWO auto-input lines -- press and release:
+        {pattern="b? 14 7f", name="Patch Next", value="1"}
+        {pattern="b? 14 00", name="Patch Next", value="0"}
+    Both must carry the same CC. Collecting a set rather than overwriting is the
+    whole point: an earlier version of this test kept only the last line, so
+    editing just the press line slipped through it.
     """
     text = LUA.read_text(encoding="utf-8")
-    found = {}
+    seen = {}
     for hexcc, name in re.findall(
         r'pattern\s*=\s*"b\?\s*([0-9a-fA-F]{2})\s*\w+"\s*,\s*name\s*=\s*"([^"]+)"', text
     ):
-        found[name.lower().replace(" ", "_")] = int(hexcc, 16)
-    return found
+        seen.setdefault(name.lower().replace(" ", "_"), set()).add(int(hexcc, 16))
+    split = {k: v for k, v in seen.items() if len(v) != 1}
+    assert not split, f"press/release lines disagree on the CC: {split}"
+    return {k: v.pop() for k, v in seen.items()}
 
 
 def test_lua_cc_numbers_match_the_python_side():

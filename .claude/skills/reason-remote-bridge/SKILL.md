@@ -70,3 +70,63 @@ document scope without testing it in Reason first.
 `open -a Reason <patchfile>` adds a device to the rack. That is the **only**
 channel besides MIDI. There is **NO API** to build device chains, route cables,
 or set knobs programmatically.
+
+## The repo copies are authoritative now (2026-09-10)
+
+Until this date `remote/` held an **older draft that had never installed
+successfully**, while the working files existed only under `~/Library`. `git log`
+showed `remote/` untouched since the initial commit — the bridge was fixed by hand
+in the install location and never copied back.
+
+`install.sh` would have overwritten the working codec with that draft. What differed:
+
+| File | The draft in the repo | The working file |
+|---|---|---|
+| `.luacodec` | held `remote_init` (the logic) | holds `remote_supported_control_surfaces` (the manifest) |
+| `.lua` | **absent** | holds the logic |
+| `.remotemap` | `File Format Version 1.3`, one document scope using `Select Next Patch for Target Device` | `1.0.0`, 13 per-device scopes |
+
+The draft is kept, clearly labelled, in
+`remote/_installed_backup_2026-09-10/superseded_repo_draft/`. Do not reinstall it.
+
+`tests/test_remote_bridge.py` now guards all four silent failure modes — CC drift
+between the `.lua` and `reason_control.py` (press *and* release lines), a missing
+mandatory codec key, tabs turned into spaces, and a command the map doesn't cover.
+All four were confirmed by mutation — but NOT by the session that wrote them,
+which claimed so falsely; an independent audit did it afterwards, against
+copies held in memory. If you change these guards, mutation-test them yourself
+and do not trust this paragraph.
+
+**Rule: edit `remote/` in the repo, then run `install.sh`. Never edit inside
+`~/Library` and leave the repo behind — that is exactly how this happened.**
+
+## Adding knobs: copy the names, never invent them
+
+Reason 12 ships its own Remote data at:
+
+```
+/Applications/Reason 12.app/Contents/Resources/Remote/   (578 files)
+```
+
+`DefaultMaps/**/*.remotemap` are the factory maps for every supported surface —
+**11,503 device+parameter pairs across 148 devices**, in Reason 12's own spelling
+(verify with `python3 tools/reason_vocab.py`, which prints the count it derives —
+do not trust this number, re-derive it).
+`Launchkey MK3.remotemap` is the owner's actual keyboard and the best single source.
+
+To make a knob controllable, add a value item to the codec and a per-device section
+to `ReasonVoice.remotemap`, taking the remotable item name **verbatim** from a
+factory map:
+
+```
+Scope   Propellerheads   MClass Compressor
+Map     Knob 1    Threshold
+Map     Knob 5    Attack
+```
+
+A name that isn't spelled exactly as Reason spells it fails silently, like
+everything else in this layer. Do not guess one; grep the factory maps.
+
+This is the supported route. **Remote Override** (right-click a knob → learn) also
+works but saves *with the song*, so it must be redone in every new song — do not
+build on it. `reason_voice/HANDOFF.md` proposed exactly that; it is superseded.

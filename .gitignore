@@ -20,3 +20,7 @@ Sound Demos/
 # lost by keeping it out of git. The files STAY on disk — this only stops
 # git tracking them.
 vox_plugin/build/
+
+# Extracted Reason documentation — the owner's licensed manual, kept local.
+# Regenerate with: python3 tools/reason_docs.py
+reason_docs/
