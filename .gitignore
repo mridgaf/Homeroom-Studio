@@ -24,3 +24,7 @@ vox_plugin/build/
 # Extracted Reason documentation — the owner's licensed manual, kept local.
 # Regenerate with: python3 tools/reason_docs.py
 reason_docs/
+
+# Retired Reason 7 (2013) Help Files — superseded by the Reason 12.7 Operation
+# Manual on 2026-09-10. Still the owner's licensed manual: stays local, never committed.
+_retired_reason7_2026-09-10/

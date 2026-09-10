@@ -24,9 +24,16 @@ Reason REQUIRES `remote_supported_control_surfaces()` to return a table with:
 
 ### `remote/ReasonVoice.lua` — the logic
 - `remote_init()`
-- `remote.define_items` — 10 buttons
-- `remote.define_auto_inputs` — CC 20–29 on any channel, as 7f=press / 00=release
-  pairs
+- `remote.define_items` — 10 buttons + 8 knobs
+- `remote.define_auto_inputs` —
+  - buttons: CC 20–29 on any channel, as 7f=press / 00=release **pairs**
+  - knobs: CC 30–37, `input="value", min=0, max=127`, ONE line each
+    (`{pattern="b? 1e xx", name="Knob 1"}`) — no press/release pair
+- Knobs are per-device: which parameter "Knob 5" moves is decided by the
+  `Scope` block in the .remotemap, not by the codec. Parameter names are
+  **copied verbatim** from Reason 12's own factory maps in
+  `/Applications/Reason 12.app/Contents/Resources/Remote/DefaultMaps/` —
+  never invented, never guessed.
 
 ### `remote/ReasonVoice.remotemap` — the mapping
 - **TAB-separated.** Tabs are load-bearing.

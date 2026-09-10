@@ -1,5 +1,19 @@
 #!/usr/bin/env python3
-"""Extract Reason's Help Files into plain text for local reference / Hermes.
+"""RETIRED 2026-09-10 — DO NOT RUN. This project is Reason 12 only.
+
+This script extracts the **Reason 7 (2013)** Help Files. Its output was retired to
+`_retired_reason7_2026-09-10/reason_docs/` because Reason 7 material is out of scope:
+the behaviour source is now the Reason 12.7 Operation Manual, extracted to
+`~/.reason_voice/reason12_manual/`. See `docs/reason/FINDINGS.md` and the
+`reason-reference` skill.
+
+Running this would silently recreate a stale `reason_docs/` alongside the current
+manual, which is the exact confusion the retirement removed. The guard below stops
+that; override only if you deliberately need the 2013 text for historical comparison.
+
+Original notes follow.
+
+Extract Reason's Help Files into plain text for local reference / Hermes.
 
     python3 tools/reason_docs.py
 
@@ -82,5 +96,20 @@ def main():
     print(f"{len(index)} topics -> {args.out}")
 
 
+
+def _retired_guard() -> None:
+    """Stop an accidental regeneration of the retired Reason 7 docs."""
+    import os
+    if os.environ.get("REASON7_HISTORICAL") == "1":
+        return
+    raise SystemExit(
+        "reason_docs.py is RETIRED. This project is Reason 12 only.\n"
+        "The Reason 7 (2013) output was moved to _retired_reason7_2026-09-10/.\n"
+        "Current behaviour source: ~/.reason_voice/reason12_manual/ (Reason 12.7 manual).\n"
+        "If you genuinely need the 2013 text for historical comparison:\n"
+        "    REASON7_HISTORICAL=1 python3 tools/reason_docs.py"
+    )
+
 if __name__ == "__main__":
+    _retired_guard()
     main()

@@ -46,10 +46,15 @@ def test_lua_cc_numbers_match_the_python_side():
     assert _cc_map_from_lua() == CC
 
 
+def _declared_items():
+    """Every control-surface item the codec exposes -- buttons and knobs."""
+    text = LUA.read_text(encoding="utf-8")
+    return set(re.findall(r'\{name="([^"]+)",\s*input="(?:button|value)"', text))
+
+
 def test_every_declared_item_has_an_input_pattern():
     """An item with no auto-input is a control Reason shows but nothing can drive."""
-    text = LUA.read_text(encoding="utf-8")
-    items = set(re.findall(r'\{name="([^"]+)",\s*input="button"\}', text))
+    items = _declared_items()
     assert items, "no items declared — codec would expose nothing"
     assert items == {n.replace("_", " ").title() for n in _cc_map_from_lua()}
 
@@ -76,3 +81,15 @@ def test_map_covers_every_command_the_app_can_send():
     text = MAP.read_text(encoding="utf-8")
     mapped = {l.split("\t")[1] for l in text.splitlines() if l.startswith("Map\t")}
     assert {n.replace("_", " ").title() for n in CC} <= mapped
+
+
+def test_map_only_references_items_the_codec_declares():
+    """A Map line naming an item the codec doesn't expose is ignored silently.
+
+    This is the failure mode the device Scope blocks introduce: the parameter
+    name can be right and the whole block still do nothing because the
+    left-hand side ("Knob 5") was never declared in the .lua.
+    """
+    used = {l.split("\t")[1] for l in MAP.read_text(encoding="utf-8").splitlines()
+            if l.startswith("Map\t")}
+    assert used <= _declared_items(), f"mapped but not declared: {used - _declared_items()}"

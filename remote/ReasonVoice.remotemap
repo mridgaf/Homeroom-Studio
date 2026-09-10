@@ -65,3 +65,13 @@ Map	Patch Prev		Select Previous Patch
 Scope	Propellerheads	The Echo
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+
+Scope	Propellerheads	MClass Compressor
+Map	Knob 1		Threshold
+Map	Knob 2		Soft Knee
+Map	Knob 3		Ratio
+Map	Knob 4		Input Gain
+Map	Knob 5		Attack
+Map	Knob 6		Release
+Map	Knob 7		Output Gain
+Map	Knob 8		Enabled

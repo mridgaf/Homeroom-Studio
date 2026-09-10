@@ -9,20 +9,23 @@ exists so nobody re-derives it, and so nobody falls back into the plan in
 | Source | On disk | Vintage |
 |---|---|---|
 | **Reason 12's own Remote data** — 182 factory `.remotemap` files | `/Applications/Reason 12.app/Contents/Resources/Remote/` | **current (12.7.4d3)** |
-| Reason 7 Operation Manual + Help Files | `/Applications/Reason/Documentation/` | May 2013 |
-| MIDI Implementation Chart (CC→parameter) | same folder | May 2013 |
+| **Reason 12.7 Operation Manual** — 1,466 pages, extracted to 70 chapters | `~/.reason_voice/reason12_manual/` | **current (12.7, Oct 2023)** |
 
-`tools/reason_docs.py` extracts only the Help Files. The three smaller PDFs —
-**MIDI Implementation Chart**, Key Commands, Installation Manual — have no
-Help-File equivalent and are NOT in `reason_docs/`. Read them straight from
-`/Applications/Reason/Documentation/English/` when needed.
+**CORRECTED 2026-09-10 (later the same day).** This file originally said Reason 12
+ships no manual. That was true of the *application* — its Help menu goes to the web —
+but not of the world: the **Reason 12.7 Operation Manual** is published as a PDF, and
+the owner has it. It is now extracted to `~/.reason_voice/reason12_manual/` (70
+chapters, page-accurate) and it is the behaviour source for this project.
 
-`/Applications/Reason` is the **old Reason 7 install**, kept for its
-documentation. Reason 12 ships no manual — its Help menu goes to the website.
+**This project is Reason 12 only.** The Reason 7 (2013) Help Files that used to sit in
+`reason_docs/` were retired to `_retired_reason7_2026-09-10/` on the same day. Do not
+cite them, quote them, or regenerate them. If a claim can only be sourced to Reason 7,
+the honest answer is "not confirmed for Reason 12."
 
-**Use the 2013 manual to understand what a knob *does*. Use the Reason 12 factory
-maps for what a parameter is *called*.** Never the other way round: the 2013 docs
-predate Mimic, Europa, Quartet, Objekt and every Player device.
+**Use the 12.7 manual to understand what a knob *does*. Use the Reason 12 factory maps
+for what a parameter is *called*.** Both are current; they still do different jobs. The
+manual's prose is not a spelling authority — only the factory maps are what Reason will
+actually accept.
 
 ## The vocabulary
 
@@ -104,9 +107,12 @@ Reason only loads codecs at launch (full Cmd+Q restart).** See the
 ## Two more channels, noted and not used
 
 - **External Control Bus** (Preferences → Advanced): 4 buses × 16 channels = 64
-  devices addressed directly by raw MIDI CC, bypassing keyboard routing. Needs its
-  own port (Bus 1 is taken by our surface), and the CC numbers come from the *2013*
-  chart. Real, but it's the Reason 7 route. Keep as a fallback.
+  devices addressed directly by raw MIDI CC, bypassing keyboard routing. Needs its own
+  port (Bus 1 is taken by our surface). **NOT a fallback any more** — the only CC-number
+  table for it was the Reason 7 (2013) MIDI Implementation Chart, and Reason 7 material
+  is out of scope as of 2026-09-10. The mechanism is real; we have no Reason 12 source
+  for the numbers, so building on it would mean guessing. Our own control surface stays
+  the route.
 - **Keyboard Control** (Options → Enable Keyboard Control): computer keys →
   parameters, no MIDI at all. Limited to min/max toggling, so it suits switches, not
   knobs.
@@ -122,6 +128,9 @@ same as built-in device scopes in a hand-written map. The factory maps use both
 identically, which is good evidence, not proof.
 
 ## Superseded
+
+The Reason 7 (2013) Help Files as a behaviour source, and this file's own original
+claim that no Reason 12 manual exists. Replaced by the 12.7 Operation Manual.
 
 `reason_voice/HANDOFF.md` build steps 4–7 — the Remote Override dial plan — and the
 "8 generic dials on CC 30–37" idea from 2026-09-10. Both replaced by the route above.

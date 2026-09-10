@@ -22,6 +22,88 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-10 Reason 7 retired — the 12.7 Operation Manual is now the behaviour source
+
+- Context: this morning's entry concluded "Reason 12 ships no manual", so behaviour
+  questions fell back to the Reason 7 (2013) Help Files. That premise was half right:
+  the *application* ships no local manual, but Reason Studios publishes the **Reason
+  12.7 Operation Manual** as a PDF and the owner has it. It was extracted in a Cowork
+  session later the same day. His instruction: "Today's research should supersede older
+  research about reason... We're working with reason twelve. at all times. Reason seven
+  references are not needed."
+- Decision/change:
+  - Behaviour source is now `~/.reason_voice/reason12_manual/` — 1,466 pages, 385,496
+    words, `pdftotext -layout`, split into 70 per-chapter files, with
+    `chapter_pages.tsv` carrying the manual's own page numbers, an illustrated 54-device
+    front/back panel reference, and a joined `manifest.json`.
+  - `reason_docs/` (326 Reason 7 topics) MOVED to `_retired_reason7_2026-09-10/` with a
+    `manifest.txt`, per `safe-file-ops`. Not deleted. `.gitignore` was updated BEFORE
+    the move so licensed manual content could never land in the repo.
+  - `tools/reason_docs.py` — retirement banner plus a `_retired_guard()` that exits
+    unless `REASON7_HISTORICAL=1`. Left runnable for historical comparison; it would
+    otherwise silently recreate a stale `reason_docs/` beside the current manual.
+  - `reason-reference` skill rewritten: Reason 12 only, both sources now current, a
+    cite-the-page rule, the grep workflow, and a rule for future docs — Reason 12.x
+    supersedes, anything older does not enter the project at all.
+  - `docs/reason/FINDINGS.md` — vintage table corrected, the "ships no manual"
+    conclusion corrected in place rather than left to mislead, Reason 7 added to its
+    Superseded section.
+  - `docs/reason/remote-vocab.json` UNCHANGED, and still the naming authority.
+- Reasoning: the two sources answer different questions — what a control is *called*
+  versus what it *does* — and only the second was stale. The vocab was already Reason
+  12.7.4d3 and the manual's prose is not a spelling authority, so replacing only the
+  behaviour half is the whole change. Moving rather than deleting keeps it reversible;
+  the guard closes the path by which a future session quietly regenerates it.
+- Verify by: `ls ~/.reason_voice/reason12_manual/full_chapters | wc -l` = 70;
+  `python3 -m py_compile tools/reason_docs.py`; `grep -n retired .gitignore`;
+  `ls _retired_reason7_2026-09-10/reason_docs | wc -l` = 326. Live check run today:
+  `grep -iE "kbd[. ]+track" full_chapters/34-subtractor-synthesizer.txt` returns the
+  Subtractor answer and `chapter_pages.tsv` gives pp.857-882.
+- Caught while verifying: the skill's own first-draft search example used
+  `grep -i "kbd track"`, which returns **zero** hits on that chapter — the manual writes
+  `Kbd. Track`, with a period. A skill shipping a search example that finds nothing is
+  the same silent-failure class as a wrong parameter name. Example corrected to
+  `-iE "kbd[. ]+track"` and the punctuation rule written into the skill.
+- Known gap, recorded not fixed: the manual covers **stock Reason 12 only**. Rack
+  Extensions and VSTs still have no behaviour source in this project — the factory maps
+  give their names and nothing gives their explanations.
+- Status: confirmed for everything checkable from here.
+- Outcome: **open on one point — no fresh session has used the skill to answer a Reason
+  question yet.** The corpus, the paths and the search commands are all verified by
+  hand; whether an agent reaches for it unprompted is not.
+
+
+### 2026-09-10 Knobs added to the Remote bridge (built, NOT yet proven in Reason)
+
+- Context: step 4 of the plan — "prove one knob". The bridge could press buttons
+  (patch/transport) but could not move a continuous parameter, which is the whole
+  point of "give it more punch".
+- Decision/change: appended to the three files, nothing existing altered —
+  - `ReasonVoice.lua`: 8 items `input="value", min=0, max=127` on CC 30–37, one
+    auto-input line each (knobs take no press/release pair, unlike buttons).
+  - `ReasonVoice.remotemap`: one new `Scope Propellerheads MClass Compressor`
+    block, parameter names copied VERBATIM from Reason 12's factory
+    `DefaultMaps/Novation/Launchkey MK3.remotemap` (Knob 5 = Attack).
+  - `reason_control.py`: `knob_1`–`knob_8` in CC, plus `set_value()`.
+  - `tools/prove_knob.py`: sweeps one knob so the movement is visible.
+- Reasoning: a knob is the same mechanism as a button with a value instead of a
+  press, so nothing new had to be invented — only copied from files Reason ships.
+  Appending means the 10 working commands keep their exact CCs and item names.
+- Tests: `tests/test_remote_bridge.py` now 8, up from 7. The new one catches a
+  `Map` line naming an item the codec never declared — the silent failure the
+  device Scope blocks introduce.
+  MUTATION-TESTED, ACTUALLY RUN this time, against copies in the scratchpad, with
+  the output read: knob CC changed in the lua only → 1 fail; map naming an
+  undeclared item → 2 fails; knob item declaration deleted → 2 fails;
+  press/release CCs disagreeing → 2 fails; tabs in a Scope line turned to spaces
+  → 1 fail; all files restored, baseline back to 8 passed. Nothing installed was
+  touched — the two installed md5s are still a637890a… and 7966812c….
+- Verify by: THE ONLY REAL PROOF IS IN REASON. Install, Cmd+Q restart (codecs
+  load at launch only), select an MClass Compressor, run `tools/prove_knob.py`,
+  watch Attack move. Until he reports that, this is untested code that merely
+  passes its own tests.
+- Status: open
+
 ### 2026-09-10 Adversarial audit: two claimed verifications never happened; five dead skills removed
 
 - Context: the owner stopped trusting this session's output after repeated false
@@ -171,6 +253,10 @@ entries.
 - Outcome: **NOTHING HAS MOVED A KNOB YET.** This is a well-sourced plan, not a
   working feature. Next step is one device section in the map, a full Cmd+Q
   restart (codecs load only at launch), one CC, and watching Attack move.
+- AMENDED same day: the title's "Reason 12 ships no manual" is true of the app but not
+  of the world — the 12.7 Operation Manual exists as a PDF and is now the behaviour
+  source. The Remote-vocabulary half of this entry stands unchanged. See the
+  2026-09-10 "Reason 7 retired" entry.
 
 ### 2026-09-10 llama-server moved to a LaunchAgent, with the port pinned
 

@@ -10,6 +10,15 @@ function remote_init()
         {name="Track Next", input="button"},
         {name="Undo", input="button"},
         {name="Redo", input="button"},
+        -- knobs: continuous values, one auto-input line each (no press/release)
+        {name="Knob 1", input="value", min=0, max=127},
+        {name="Knob 2", input="value", min=0, max=127},
+        {name="Knob 3", input="value", min=0, max=127},
+        {name="Knob 4", input="value", min=0, max=127},
+        {name="Knob 5", input="value", min=0, max=127},
+        {name="Knob 6", input="value", min=0, max=127},
+        {name="Knob 7", input="value", min=0, max=127},
+        {name="Knob 8", input="value", min=0, max=127},
     }
     remote.define_items(items)
 
@@ -34,6 +43,14 @@ function remote_init()
         {pattern="b? 1c 00", name="Undo", value="0"},
         {pattern="b? 1d 7f", name="Redo", value="1"},
         {pattern="b? 1d 00", name="Redo", value="0"},
+        {pattern="b? 1e xx", name="Knob 1"},
+        {pattern="b? 1f xx", name="Knob 2"},
+        {pattern="b? 20 xx", name="Knob 3"},
+        {pattern="b? 21 xx", name="Knob 4"},
+        {pattern="b? 22 xx", name="Knob 5"},
+        {pattern="b? 23 xx", name="Knob 6"},
+        {pattern="b? 24 xx", name="Knob 7"},
+        {pattern="b? 25 xx", name="Knob 8"},
     }
     remote.define_auto_inputs(inputs)
 end
