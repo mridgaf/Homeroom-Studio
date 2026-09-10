@@ -22,6 +22,46 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-09 Sorted-samples library: hats/kicks/snares/crashes/rim reorganized by folder
+
+- Context: owner asked to separate loose (unsorted) files in the one
+  sorted-samples root (`sample_packs.json`'s `sorted_root`) into
+  meaningful subfolders: hats by open/closed (audible from length),
+  kicks similarly, and the acoustic-kit-prefixed files (DRHH/DRSnare/
+  DRBCym/DRRim) routed to their real category.
+- Decision/change: moved 681 files, nothing deleted (`shutil.move` only,
+  per `safe-file-ops`). Hats/Closed (<650ms) and Hats/Open (>=650ms) --
+  650ms picked from a real gap in the library (his own "tite"/"foot"
+  files run 190-540ms, "loose"/"open" run 735ms+). Kicks/Short (<600ms)
+  and Kicks/Deep (>=600ms, the existing empty folder) -- NOTE: kicks have
+  no natural length gap the way hats do (a smooth spread from 61ms to
+  8.4s), so 600ms is a judgment call, not a measured boundary; flagged
+  to him as such. Snares/acoustic gained the 55 DRSnare_*.AIF files;
+  Crashes/acoustic (new folder) gained the 9 DRBCym_*.AIF files; the 7
+  DRRim_*.AIF files moved from Percussion into `rim shot /` (owner's
+  call -- they'd been filed under Percussion, not with the rest of the
+  rim-shot category). Full before/after manifest:
+  `BOTC Sorted Samples/_move_manifest_2026-09-09_182811.csv`.
+- Reasoning: this root is the ONE folder `tools/crew.py`'s sorted-folder
+  feature reads FOLDER NAMES from as taste tags (see
+  `test_sorted_folder_reads_taste_from_the_folder_not_the_name`). So
+  this isn't just filing -- "Closed"/"Open"/"Short"/"Deep"/"acoustic"
+  are now real, reachable taste words for any `own_soundbank` preset
+  built against this root, where before this pass most of them matched
+  almost nothing (the exact `--tags` dead-word problem documented on
+  nearly every legend). Also found while auditing this: of ~3,000 drum
+  one-shots checked, only kicks (17/488), snares (30/658) and 808s
+  (53/411) carry an actual musical key in the filename -- hats, crashes,
+  percussion, toms, claps, cowbells, snaps, stomps and rides carry none.
+- Verify by: post-move counts checked against the dry-run plan (Hats
+  Closed/Open, Kicks Short/Deep, Snares/Crashes acoustic, rim shot all
+  landed at the expected totals, 0 collisions, 0 errors). Nothing in
+  `tools/` was changed by this entry -- no test suite run needed.
+- Status: confirmed (moves verified by count; not yet confirmed by his
+  ear whether the new taste words actually improve any beat)
+- Outcome: (open -- worth revisiting once a legend is built or retagged
+  against this root)
+
 ### 2026-09-09 HARD RULE: full suite once per session before the first render
 
 - Context: DJ Light Green was rendered three times before the suite was ever
