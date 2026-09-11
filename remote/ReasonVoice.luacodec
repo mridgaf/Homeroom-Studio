@@ -8,7 +8,7 @@ source="ReasonVoice.lua",
 in_ports={{description="Input"}},
 out_ports={{description="Output"}},
 has_keyboard=false,
-setup_info_text="Choose IAC Driver Bus 1 as the MIDI input. Output can be left unassigned. This surface receives commands from the Reason Voice speech app." },
+setup_info_text="Choose IAC Driver Bus 1 as BOTH the MIDI input and the MIDI output. The output carries knob positions and displayed values back to the Reason Voice app; leave it unassigned and relative commands like 'turn it down 5 percent' have nothing to count from." },
 }
 return surfaces
 end

@@ -22,6 +22,146 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-10 Dial control works end to end: speech -> knob, in real units
+
+- Context: session goal was "say something open-ended, watch the right knob
+  move". It now does, on the MClass Compressor.
+- What is PROVEN today, each by him at the machine, not by reasoning:
+  1. Knob control. `reason_voice/prove_knob.py` sweeps Attack; he watched it.
+     The missing piece was never code -- the surface must be LOCKED to the
+     device (Ctrl-click panel -> "Lock to ReasonVoice"). Selecting it does
+     nothing, and an effect can never hold Master Keyboard Input.
+  2. The return path. Reason reports position AND its own displayed value
+     ("Attack = 91 ms"), and notices knobs moved by mouse (46 updates in a 10s
+     hand-sweep).
+  3. Calibration. `reason_voice/calibrate.py` swept 7 of 8 knobs, 128 points
+     each, into `docs/reason/calibration.json`. The captured ranges match the
+     Operation Manual independently: Threshold -36..0 dB, Attack 1..100 ms,
+     Release 50..600 ms, both gains +/-12 dB.
+  4. End to end: "set the attack to 30 milliseconds" -> position 38, and
+     position 38 IS 30 ms in the measured table. "squash it harder" ->
+     Ratio 4:1 -> position 64 (measured 4.06:1). ~1.4s per phrase.
+- Architecture that made it work: the model never emits a raw 0-127 value. It
+  returns `{"target": "30 ms"}` or `{"delta": "-5%"}`, and Python resolves that
+  against the measured table. So the model does language, the table does
+  physics, and neither has to model a taper.
+- KNOWN GAPS, none of them fixed:
+  * Soft Knee (knob 2) produced no calibration row. HYPOTHESIS CONFIRMED and
+    FIXED same day. The owner supplied the missing fact: Soft Knee is a BUTTON,
+    not a continuous knob -- it sits beside Threshold on the panel. It was off
+    (0), so writing position 0 first changed nothing, Reason reported nothing,
+    and `sweep()` treated the knob as dead and bailed. `Enabled` is also a
+    button but calibrated fine, because the compressor was ON so writing 0 DID
+    change it -- its table confirms a reading at position 0. Fix, in
+    `reason_voice/calibrate.py`: seed each sweep by driving to 127 first so the
+    first real write is always a change, and treat mid-sweep silence as
+    "unchanged" (carry the last reading forward) rather than as failure. That
+    second half matters for any 2-state control: it reports twice across 128
+    positions and is silent in between. RE-RUN AND CONFIRMED same day: Soft
+    Knee now calibrates as a clean 2-state control, values 0/1, flipping at
+    position 64. All 8 knobs are now measured.
+  * Ratio's top of travel displays `-inf:1`, which the numeric parser rejects
+    (returns None). Harmless -- that position is simply unreachable by name --
+    but "infinite ratio" will not resolve.
+  * `Enabled` calibrated as 0..2. EXPLAINED, not a bug: the Operation Manual
+    (ch.61, and ch.48/51 for other effects) says every effect device carries a
+    three-position "Bypass/On/Off" switch, so three values is correct. Which
+    integer means which of the three is not yet established.
+  * Relative moves only accept PERCENT ("down 5%"). "Down 3 dB" is not handled;
+    it would need the same table lookup applied to the current reading.
+  * Only the MClass Compressor exists. Every other device needs its own Scope
+    block in the remotemap plus its own calibration run.
+  * Nothing is wired into the app window yet -- this is all command line.
+    `intents.py` still ends by treating an unmatched phrase as a patch search;
+    that last line is the hook for dial_llm.
+- Status: confirmed for 1-4; the gaps above are open.
+
+### 2026-09-10 Reason proof scripts moved out of tools/ -- they broke the DAW-neutral boundary
+
+- Context: full suite run after the feedback work: 1062 passed, 3 failed.
+  `tests/test_boundary.py::test_tools_never_import_reason_voice` named three
+  files. Two were mine (`calibrate.py`, `prove_feedback.py`); the third,
+  `prove_knob.py`, was added earlier the same day and had been failing since.
+- The rule it broke (PACKAGING-GAP-ANALYSIS Part 4a): the beat generator is
+  DAW-neutral. Reason Voice may read the generator's output; `tools/` must not
+  know Reason exists. A `from reason_voice.reason_control import ...` in
+  `tools/` inverts that.
+- Decision/change: moved all three to `reason_voice/` rather than exempting
+  them from the test. They are Reason-bridge utilities, not generator tools --
+  the rule was right and the placement was wrong. `git mv` for the tracked one,
+  plain `mv` for the two untracked. Their `sys.path` line
+  (`__file__.parent.parent`) still resolves to the project root from the new
+  location, so nothing inside them changed; the doc paths were updated by sed
+  and re-grepped for stragglers.
+- Also fixed the pre-existing `prove_knob.py` violation, rather than only my own
+  two -- one guard in the shared place beats leaving a sibling broken.
+- Verify by: `tests/test_boundary.py` 1 passed, `tests/test_remote_bridge.py`
+  12 passed, all three scripts byte-compile, `calibrate.py`'s OUT still resolves
+  to `docs/reason/calibration.json`.
+- Unrelated and NOT investigated (he did not ask): the other two failures are
+  both in `tests/test_beat_machine.py` and match the two recorded as
+  pre-existing on 2026-09-10. Nothing in this session touched that code.
+- Status: confirmed
+
+### 2026-09-10 Reason feedback path built (Reason -> app). NOT yet proven in Reason
+
+- Context: owner chose real units ("threshold to -20 dB") AND percent, plus
+  relative moves ("turn it down five percent"). Both need something the app did
+  not have: knowledge of where a knob currently sits. He chose "ask Reason"
+  over "remember what we set", explicitly accepting the extra work for
+  correctness after hand-moving a knob.
+- Key discovery: Reason's `remote.get_item_state(idx)` returns `text_value` --
+  the parameter's value AS REASON DISPLAYS IT ("30 ms", "-20.0 dB"). This
+  removes the whole dB/ms curve-modelling problem. The manual gives ranges
+  (Threshold -36..0 dB, Attack 1..100 ms, Release 50..600 ms, gains +/-12 dB)
+  but NOT the taper, which is certainly non-linear for Attack and Ratio.
+  Reason reporting its own display means the taper never has to be guessed.
+- Decision/change, all copied in form from Reason 12's factory
+  `Novation/Launchkey MK3.lua`, never invented:
+  - `ReasonVoice.lua`: 8 knobs gain `output="value"`; added `remote_set_state`
+    and `remote_deliver_midi`. Returns CC 60-67 (position) + SysEx
+    `f0 7d <knob> <ascii "Param=display"> f7` (7d = non-commercial MIDI ID).
+  - `reason_control.py`: `FEEDBACK_CC`, `SYSEX_ID`, an input port, `poll()`
+    and `current()`. No thread -- messages queue in the port buffer, so polling
+    before use is enough and there is no lock to get wrong.
+  - `.luacodec` setup text corrected: it said "Output can be left unassigned",
+    which is now false. The return path REQUIRES the surface's MIDI output set
+    to IAC Driver Bus 1.
+  - One IAC bus, not two: we send CC 30-37 and receive CC 60-67 + SysEx, so our
+    own echo off the bus is distinguishable and ignored by CC number.
+  - `reason_voice/prove_feedback.py`.
+- Tests: 8 -> 12. MUTATION-TESTED, ACTUALLY RUN, output read, each restore
+  re-verified back to 12 passed. TWO of the six guards were FAKE on first
+  writing and were caught this way:
+  * the SysEx guard matched the explanatory COMMENT containing "f0 7d", so
+    changing the real make_midi call still passed. Rewritten to anchor on the
+    `..` concatenation. Now fails correctly.
+  * the "lua syntax error" mutation (deleting one `end`) does NOT break Lua --
+    it just re-nests the functions and still parses. That was a bad mutation,
+    not a bad guard; re-run with a stray paren, the guard fires.
+  Also installed `lua` via Homebrew so `luac -p` can catch a codec syntax error,
+  which Reason reports as nothing at all.
+- Process note worth keeping: the first mutation run reused /tmp backup paths
+  across two runs and captured an already-mutated file, so its results were
+  garbage AND its "restored" baseline silently failed. Detected only because
+  the baseline was re-checked after each restore. Keep pristine copies inside
+  the scratch tree and re-assert the baseline every time.
+- Verify by: THE ONLY REAL PROOF IS IN REASON. Cmd+Q restart, set the surface's
+  MIDI OUTPUT to IAC Driver Bus 1, lock the compressor, run
+  `reason_voice/prove_feedback.py`. It must print Reason's own displayed values AND
+  notice a knob moved by mouse.
+- Status: CONFIRMED 2026-09-10. Both halves work. Reason returns the parameter
+  name and its displayed value ("Attack = 91 ms") together with the raw
+  position, and mouse moves are seen -- 46 updates captured during a 10s
+  hand-sweep.
+- Outcome / correction: I wrote above that the taper "is certainly non-linear
+  for Attack". WRONG, and now measured. Fitting the 33 distinct (position, ms)
+  pairs the hand-sweep produced: `ms = floor(1 + pos * 99/127)` matches all 33
+  with zero mismatches. Attack is linear across its full 1-100 ms range.
+  This says nothing about Ratio or Release -- do not generalise it, MEASURE
+  each one. That is what the calibration sweep is for; the whole point of
+  reading Reason's display is that no taper ever has to be assumed.
+
 ### 2026-09-10 Reason 7 retired — the 12.7 Operation Manual is now the behaviour source
 
 - Context: this morning's entry concluded "Reason 12 ships no manual", so behaviour
@@ -85,7 +225,7 @@ entries.
     block, parameter names copied VERBATIM from Reason 12's factory
     `DefaultMaps/Novation/Launchkey MK3.remotemap` (Knob 5 = Attack).
   - `reason_control.py`: `knob_1`–`knob_8` in CC, plus `set_value()`.
-  - `tools/prove_knob.py`: sweeps one knob so the movement is visible.
+  - `reason_voice/prove_knob.py`: sweeps one knob so the movement is visible.
 - Reasoning: a knob is the same mechanism as a button with a value instead of a
   press, so nothing new had to be invented — only copied from files Reason ships.
   Appending means the 10 working commands keep their exact CCs and item names.
@@ -99,7 +239,7 @@ entries.
   → 1 fail; all files restored, baseline back to 8 passed. Nothing installed was
   touched — the two installed md5s are still a637890a… and 7966812c….
 - Verify by: THE ONLY REAL PROOF IS IN REASON. Install, Cmd+Q restart (codecs
-  load at launch only), select an MClass Compressor, run `tools/prove_knob.py`,
+  load at launch only), select an MClass Compressor, run `reason_voice/prove_knob.py`,
   watch Attack move. Until he reports that, this is untested code that merely
   passes its own tests.
 - Status: confirmed -- owner watched Attack sweep 0 -> 127 -> middle, 2026-09-10.
@@ -110,7 +250,7 @@ entries.
   follow the sequencer's Master Keyboard Input -- and an MClass Compressor is an
   EFFECT, so it has no sequencer track and can NEVER hold Master Keyboard Input.
   Locking is the only route to any effect device. The lock saves with the song.
-  This cost one failed test cycle; it is now written into tools/prove_knob.py.
+  This cost one failed test cycle; it is now written into reason_voice/prove_knob.py.
 
 ### 2026-09-10 Adversarial audit: two claimed verifications never happened; five dead skills removed
 

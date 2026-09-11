@@ -126,8 +126,17 @@ def test_feedback_cc_base_matches_the_python_side():
 
 
 def test_sysex_manufacturer_id_matches():
+    """Must read the EMITTING CODE, not the comment above it.
+
+    The first version of this guard did `"f0 7d " in text`, which the file's
+    own explanatory comment satisfied -- so changing the real make_midi call
+    still passed. Mutation testing caught it; anchoring on the `..`
+    concatenation is what makes it a comment-proof match.
+    """
     from reason_voice.reason_control import SYSEX_ID
-    assert ("f0 7d " in LUA.read_text(encoding="utf-8")) and SYSEX_ID == 0x7d
+    ids = re.findall(r'"f0 ([0-9a-fA-F]{2}) "\s*\.\.', LUA.read_text(encoding="utf-8"))
+    assert ids, "no SysEx header found in a make_midi call"
+    assert {int(h, 16) for h in ids} == {SYSEX_ID}
 
 
 def test_lua_files_actually_parse():

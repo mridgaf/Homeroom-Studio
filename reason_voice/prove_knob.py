@@ -1,7 +1,7 @@
 """Sweep one Reason knob so you can watch it move. Proof, not a feature.
 
-    ./.venv/bin/python tools/prove_knob.py            # Knob 5 = Attack
-    ./.venv/bin/python tools/prove_knob.py knob_1     # = Threshold
+    ./.venv/bin/python reason_voice/prove_knob.py            # Knob 5 = Attack
+    ./.venv/bin/python reason_voice/prove_knob.py knob_1     # = Threshold
 
 FIRST, in Reason: Ctrl-click (right-click) the MClass Compressor's front panel
 and choose "Lock to ReasonVoice".
