@@ -29,7 +29,8 @@ DEVICE_REF_FILES = {"MClass Compressor": "mclass-compressor.md",
                     "RV7000 Advanced Reverb": "rv7000-mkii.md",
                     "Kong Drum Designer": "kong.md",
                     "Redrum Drum Computer": "redrum.md",
-                    "Dr.REX Loop Player": "dr-octo-rex.md"}
+                    "Dr.REX Loop Player": "dr-octo-rex.md",
+                    "Alligator": "alligator.md"}
 
 # The remotemap spells a control the way REASON does; a device guide spells it
 # the way a person does. One entry so far: the RV7000's algorithm picker is
@@ -167,12 +168,14 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
     cal = (calibration if calibration is not None else load_calibration())
     by_knob = {e.get("knob"): e for e in (cal.get(device) or {}).values()}
     lines = []
+    any_named = False
     for knob in sorted(knobs, key=lambda k: int(k.split("_")[1])):
         param = knobs[knob]
         note = note_for(notes, param, NOTE_ALIASES.get(device, {}).get(param))
         cal_entry = by_knob.get(knob)
         choices = named_choices(cal_entry)
         if choices:
+            any_named = True
             # A volatile knob CAN still be named -- the RV7000's algorithm
             # picker is only the algorithm picker while Edit Mode says Reverb,
             # and the app puts it there before moving anything. What a volatile
@@ -218,21 +221,36 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
         body = "What each control does:\n%s\n\n%s" % (
             "\n".join(sorted(set(legend))), body)
     lines = body
+    # Show the named-setting form ONLY when a knob on THIS device actually
+    # lists settings. Measured 2026-09-11 on Alligator, which has none: with
+    # the example present the model copies its SHAPE and invents a word --
+    # "shuffle it" came back as target "Shuffle", "open gate 2" as "Open",
+    # even the literal "Tape" from the example. A word that is not in the
+    # measured table resolves to nothing, so the knob never moves and the
+    # phrase looks broken. Not an Alligator bug: every device with no picker
+    # was being handed an example it could not honour.
+    forms = ['  {"knob":"knob_N","target":"30 ms"}    <- they named a real value']
+    if any_named:
+        forms.append('  {"knob":"knob_N","target":"Tape"}     '
+                     "<- one of that knob's settings")
+    forms += ['  {"knob":"knob_N","target":"75%"}      <- a position, no unit given',
+              '  {"knob":"knob_N","delta":"-5%"}       <- a nudge from where it is now']
+    rule = ("Use `delta` whenever they said more/less/up/down/turn it X percent. "
+            "Use `target` when they named a destination. ")
+    if any_named:
+        rule += ("For a knob that lists settings, `target` must be one of them, "
+                 "spelled exactly as listed. ")
+    else:
+        rule += ("No knob here has named settings, so `target` must be a number "
+                 "with a unit or a percentage -- never a word. ")
     return (
         "You control a %s in the DAW Reason. Available knobs:\n\n%s\n\n"
         "The producer said: \"%s\"\n\n"
         "Pick the ONE knob that best serves what they asked for, then say where "
-        "to put it, using EXACTLY ONE of these four forms:\n"
-        '  {"knob":"knob_N","target":"30 ms"}    <- they named a real value\n'
-        '  {"knob":"knob_N","target":"Tape"}     <- one of that knob\'s settings\n'
-        '  {"knob":"knob_N","target":"75%%"}      <- a position, no unit given\n'
-        '  {"knob":"knob_N","delta":"-5%%"}       <- a nudge from where it is now\n'
-        "Use `delta` whenever they said more/less/up/down/turn it X percent. "
-        "Use `target` when they named a destination. "
-        "For a knob that lists settings, `target` must be one of them, spelled "
-        "exactly as listed. "
+        "to put it, using EXACTLY ONE of these %s forms:\n%s\n%s"
         'Answer with JSON only, plus "why": six words max.'
-    ) % (device, lines, phrase)
+    ) % (device, lines, phrase, "four" if any_named else "three",
+         "\n".join(forms), rule)
 
 
 def _extract(text, valid_knobs):
@@ -511,7 +529,7 @@ if __name__ == "__main__":
     # ---- two devices: the app must never guess which one is locked ----
     devs = devices()
     assert devs == ["Kong Drum Designer", "Redrum Drum Computer",
-                    "Dr.REX Loop Player", "MClass Compressor",
+                    "Dr.REX Loop Player", "Alligator", "MClass Compressor",
                     "Scream 4 Distortion", "RV7000 Advanced Reverb"], devs
     kong = knob_map("Kong Drum Designer")
     assert len(kong) == 48 and kong["knob_1"] == "Drum 1 Level", kong
@@ -559,6 +577,33 @@ if __name__ == "__main__":
     assert copy_number("Select Loop 3", "Dr.REX Loop Player") == 3
     assert copy_number("Soft Knob 1", "RV7000 Advanced Reverb") is None
     assert copy_number("Selected Loop Slot", "Dr.REX Loop Player") is None
+
+    # ---- Alligator: three NAMED bands, three NUMBERED gates ----
+    gator = knob_map("Alligator")
+    assert len(gator) == 48 and gator["knob_1"] == "Low Pass Filter On", gator
+    assert gator["knob_48"] == "Enabled", gator
+    assert device_for_param("Band Pass Drive Amount") == "Alligator"
+    assert device_for_param("Ducking") == "Alligator"
+    # The cut: the built-in delay and phaser did not fit in 48 slots.
+    assert not [p for p in gator.values()
+                if "Delay" in p or "Phaser" in p], gator
+    # Alligator spells its envelopes exactly as Dr. Octo Rex does, so those
+    # six names now identify NOTHING. Stated here on purpose -- the device is
+    # still pinned by any of its ~40 unique names.
+    for shared in ("Amp Env Attack", "Amp Env Decay", "Amp Env Release",
+                   "Filter Env Attack", "Filter Env Decay",
+                   "Filter Env Release"):
+        assert device_for_param(shared) is None, shared
+    # The bands are named, so they need no number; the gates are numbered, so
+    # they do -- "open the gate" must not pick one of three.
+    assert copy_number("Gate 2 Trig", "Alligator") == 2
+    assert copy_number("Low Pass Frequency", "Alligator") is None
+    assert copy_number("Ducking", "Alligator") is None
+    # Every one of the 48 has a line in the guide -- a knob the model is shown
+    # with no description is one it picks blind.
+    gnotes = control_notes("Alligator")
+    missing = [p for p in gator.values() if not note_for(gnotes, p)]
+    assert not missing, missing
 
     # ---- named settings: a picker shows letters/words, not numbers ----
     # Body Type as a 5-way A-E picker, shaped like a real sweep would read.

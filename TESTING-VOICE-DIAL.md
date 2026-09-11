@@ -14,10 +14,11 @@ session, without me remembering anything.
 | Kong Drum Designer | 48 — 16 pads x 3 | ~6 min | 4 |
 | Redrum Drum Computer | 40 — 10 channels x 4 | ~5 min | 5 |
 | Dr. Octo Rex Loop Player | 41 | ~5 min | 6 |
-| Scream 4 / MClass Compressor | already working | — | 7 |
+| Alligator | 48 — 3 bands x 8, plus gates and pattern | ~6 min | 7 |
+| Scream 4 / MClass Compressor | already working | — | 8 |
 
-All four sweeps put every knob back where they found it. Total sitting-there
-time is about 25 minutes, and you can stop after any one of them — each device
+All five sweeps put every knob back where they found it. Total sitting-there
+time is about 30 minutes, and you can stop after any one of them — each device
 is independent.
 
 **Nothing is committed.** All of this is sitting in your working tree; you
@@ -47,7 +48,7 @@ I ran this on 2026-09-11 and got exactly that.
 
 ---
 
-## Step 2 — Install the bridge (one time, covers all four new devices)
+## Step 2 — Install the bridge (one time, covers all five new devices)
 
 ```bash
 cd "/Users/johnsuhr/Desktop/Homeroom Studio" && ./install.sh
@@ -158,7 +159,43 @@ one before sweeping so it never writes 128 values to a switch.
 
 ---
 
-## Step 7 — Start the app and talk to it
+## Step 7 — Alligator: lock and measure
+
+Alligator covers **48 controls** — all three filter bands eight deep (on/off,
+frequency, resonance, envelope amount, LFO amount, drive, pan, volume), the
+three gates, both envelopes, the LFO and the whole pattern section. That is
+every slot the surface has.
+
+Its built-in delay and phaser are **not** mapped. 61 controls do not fit in
+48, and you chose to drop those 13 rather than the pattern controls. They
+still work — mouse only.
+
+1. Put an **Alligator** in the rack, **with something going into it** — a pad,
+   a held chord, a loop. Alligator gates whatever it is fed; with silence in,
+   the sweep measures nothing you can hear.
+2. Ctrl-click its panel → **Lock to ReasonVoice**.
+3. Run:
+
+```bash
+cd "/Users/johnsuhr/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/calibrate.py --device "Alligator"
+```
+
+**About 6 minutes.** Ten of these are switches, and the script probes each one
+before sweeping so it never writes 128 values to a button.
+
+**Write down** what it prints. Three things I need to see:
+
+- Does **Pattern** print pattern names, or bare numbers?
+- Does **Resolution** print note values (1/8, 1/16, 1/32) or bare numbers?
+- Does **LFO Waveform** print the wave names, or bare numbers?
+
+If any of them come back as bare numbers I add the labels from the manual, the
+same as I did for Scream 4's Damage Type. Until then those three take
+percentages only — which still works, it just isn't as nice to say.
+
+---
+
+## Step 8 — Start the app and talk to it
 
 Double-click **`ReasonVoice.command`**. It opens in your browser.
 
@@ -246,6 +283,34 @@ that's why.
 sending just the snare slices to a reverb, drawing modulation in Slice Edit
 Mode. Reason does not expose anything slice-level to a control surface at all,
 so the app can't reach them and won't pretend it can.
+
+### Alligator (lock the filtered gate)
+
+**The three bands are named, so say the name.** "The low pass", "the band
+pass", "the high pass". The three GATES are numbered, so those need a number —
+there is no way for the app to know which one you mean otherwise.
+
+| Say this | Should happen |
+|---|---|
+| "open up the low pass" | Low Pass Frequency up |
+| "more resonance on the band pass" | Band Pass Resonance up |
+| "drive the high pass harder" | High Pass Drive Amount up |
+| "spread the bands out" | One of the three Pans moves |
+| "open gate 2" | Gate 2 Open |
+| "open the gate" | **Refuses and moves nothing.** Right answer, not a bug — there are three |
+| "shuffle it" | Shuffle up |
+| "duck the dry signal" | Ducking up |
+| "make each hit swell in" | Amp Env Attack up |
+| "shorter hits" | Amp Env Decay down |
+
+**Watch for the wrong band.** The three bands read almost identically to the
+model — 24 knobs with near-matching descriptions. If "open up the low pass"
+moves the HIGH pass, tell me: that is a known failure shape and I have a fix
+for it, but I am not building the fix until it actually happens.
+
+**Pattern Enable off makes four knobs do nothing.** Pattern, Resolution, Shift
+and Shuffle only matter while the internal rhythm is running. The app will
+still move them and you will hear no difference — check that switch first.
 
 ### Old devices — quick check nothing broke
 

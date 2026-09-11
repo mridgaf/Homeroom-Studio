@@ -189,6 +189,55 @@ Map	Patch Prev		Select Previous Preset
 Scope	Propellerheads	Alligator
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Low Pass Filter On
+Map	Knob 2		Low Pass Frequency
+Map	Knob 3		Low Pass Resonance
+Map	Knob 4		Low Pass Env Amount
+Map	Knob 5		Low Pass LFO Amount
+Map	Knob 6		Low Pass Drive Amount
+Map	Knob 7		Low Pass Pan
+Map	Knob 8		Low Pass Volume
+Map	Knob 9		Band Pass Filter On
+Map	Knob 10		Band Pass Frequency
+Map	Knob 11		Band Pass Resonance
+Map	Knob 12		Band Pass Env Amount
+Map	Knob 13		Band Pass LFO Amount
+Map	Knob 14		Band Pass Drive Amount
+Map	Knob 15		Band Pass Pan
+Map	Knob 16		Band Pass Volume
+Map	Knob 17		High Pass Filter On
+Map	Knob 18		High Pass Frequency
+Map	Knob 19		High Pass Resonance
+Map	Knob 20		High Pass Env Amount
+Map	Knob 21		High Pass LFO Amount
+Map	Knob 22		High Pass Drive Amount
+Map	Knob 23		High Pass Pan
+Map	Knob 24		High Pass Volume
+Map	Knob 25		Gate 1 Open
+Map	Knob 26		Gate 1 Trig
+Map	Knob 27		Gate 2 Open
+Map	Knob 28		Gate 2 Trig
+Map	Knob 29		Gate 3 Open
+Map	Knob 30		Gate 3 Trig
+Map	Knob 31		Amp Env Attack
+Map	Knob 32		Amp Env Decay
+Map	Knob 33		Amp Env Release
+Map	Knob 34		Filter Env Attack
+Map	Knob 35		Filter Env Decay
+Map	Knob 36		Filter Env Release
+Map	Knob 37		LFO Freq
+Map	Knob 38		LFO Waveform
+Map	Knob 39		LFOSync
+Map	Knob 40		Pattern
+Map	Knob 41		Pattern Enable
+Map	Knob 42		Resolution
+Map	Knob 43		Shift
+Map	Knob 44		Shuffle
+Map	Knob 45		Dry Volume
+Map	Knob 46		Master Volume
+Map	Knob 47		Ducking
+Map	Knob 48		Enabled
 
 Scope	Propellerheads	Pulveriser
 Map	Patch Next		Select Next Patch

@@ -245,6 +245,30 @@ not automatically a copy: the RV7000's `Soft Knob 1` is the Algorithm picker.
 `NOTE_ALIASES` is the exemption — an alias exists precisely to say Reason's
 spelling is not the real identity.
 
+**Never show the model an example form this device cannot honour.** Found
+2026-09-11 wiring Alligator, and it had been live on all six earlier devices.
+`build_prompt()` listed `{"knob":"knob_N","target":"Tape"}` — the named-setting
+form — on every device, including ones where no knob has settings at all. The
+model copies the SHAPE of an example: "shuffle it" came back as target
+`"Shuffle"`, "open gate 2" as `"Open"`, and twice as the literal `"Tape"`. A
+word that is not in the measured table resolves to nothing, so the knob never
+moves and the phrase looks broken to him — a silent dead end, not an error.
+The fix is the guard, not better wording: emit that example and its rule
+sentence only when some knob on this device actually lists settings, and
+otherwise say outright that a word is never valid.
+`tests/test_dial.py::test_the_named_setting_example_only_appears_where_a_picker
+_exists` asserts BOTH directions — withhold it on a device with no picker,
+keep it on one that has a picker, or "give me a plate" stops working.
+
+**The surface is FULL as of Alligator: 48 of 48.** Every device wider than
+that now needs an explicit cut decision from him before anything is written —
+Alligator had 61 remotable controls and 13 had to go. Ask in clickable options
+with the tradeoff named, the way the delay-and-phaser cut was put. And note
+the asymmetry with Dr. Octo Rex: Rex lost its best moves because Reason does
+not expose them at all, Alligator lost 13 purely to the CC budget. Say which
+kind of loss it is — "mouse only" is true for Alligator's delay and false for
+Rex's slices.
+
 **A knob whose TARGET moves is not volatile; only a knob whose MEANING moves
 is.** Rex's `Loop Transpose` and `Loop Level` act on whichever slot is
 selected in the editor, but semitones are semitones in every slot, so the

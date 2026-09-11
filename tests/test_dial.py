@@ -862,3 +862,150 @@ def test_rex_lfo_amount_is_percentage_only_because_dest_changes_its_units():
     vol = calibrate.VOLATILE[REX]
     assert vol == {"LFO1 Amount": "LFO1 Dest"}, vol
     assert REX not in calibrate.REQUIRES
+
+
+ALLIGATOR = "Alligator"
+
+
+def test_alligator_reaches_all_three_bands_eight_deep():
+    """3 bands x 8 controls, then the gates, envelopes, LFO, pattern, output.
+
+    Stride 8, so knob_9 is the BAND pass's Filter On. Written from a script
+    and checked here, because a hand-edited block goes quietly wrong in the
+    tabs or the order and the app then drives the high pass believing it is
+    the low pass.
+    """
+    got = dial_llm.knob_map(ALLIGATOR)
+    want = {}
+    k = 0
+    for band in ("Low Pass", "Band Pass", "High Pass"):
+        for control in ("Filter On", "Frequency", "Resonance", "Env Amount",
+                        "LFO Amount", "Drive Amount", "Pan", "Volume"):
+            k += 1
+            want["knob_%d" % k] = "%s %s" % (band, control)
+    for g in (1, 2, 3):
+        for control in ("Open", "Trig"):
+            k += 1
+            want["knob_%d" % k] = "Gate %d %s" % (g, control)
+    for rest in ("Amp Env Attack", "Amp Env Decay", "Amp Env Release",
+                 "Filter Env Attack", "Filter Env Decay", "Filter Env Release",
+                 "LFO Freq", "LFO Waveform", "LFOSync",
+                 "Pattern", "Pattern Enable", "Resolution", "Shift", "Shuffle",
+                 "Dry Volume", "Master Volume", "Ducking", "Enabled"):
+        k += 1
+        want["knob_%d" % k] = rest
+    assert got == want, sorted(set(got.items()) ^ set(want.items()))
+    assert len(got) == 48, "the surface holds 48 and Alligator now fills it"
+
+
+def test_alligators_delay_and_phaser_are_the_cut():
+    """61 remotable controls do not fit in 48 slots. The 13 dropped are the
+    built-in delay and phaser (and Dry Pan) -- his call, 2026-09-11. Stated
+    here so a later session re-adding one notices it must drop something else.
+    """
+    got = set(dial_llm.knob_map(ALLIGATOR).values())
+    for cut in ("Low Pass Delay Amount", "Band Pass Delay Amount",
+                "High Pass Delay Amount", "Low Pass Phaser Amount",
+                "Band Pass Phaser Amount", "High Pass Phaser Amount",
+                "Delay Time", "Delay Feedback", "Delay Pan", "DelaySync",
+                "Phaser Rate", "Phaser Feedback", "Dry Pan"):
+        assert cut not in got, cut
+
+
+def test_alligator_and_rex_both_say_amp_env_attack():
+    """The collision wiring Alligator introduced, stated rather than found.
+
+    Alligator spells its two envelopes exactly as Dr. Octo Rex does, so those
+    six names now identify nothing and the app refuses rather than guessing.
+    Survivable: every band control is Alligator's alone, and Rex's Osc and
+    Loop names are Rex's alone, so one move of any of them pins the device.
+    """
+    for shared in ("Amp Env Attack", "Amp Env Decay", "Amp Env Release",
+                   "Filter Env Attack", "Filter Env Decay",
+                   "Filter Env Release"):
+        assert dial_llm.device_for_param(shared) is None, shared
+    for param, dev in (("Band Pass Drive Amount", ALLIGATOR),
+                       ("Ducking", ALLIGATOR),
+                       ("High Pass Frequency", ALLIGATOR),
+                       ("Osc Env Amount", REX),
+                       ("Selected Loop Slot", REX)):
+        assert dial_llm.device_for_param(param) == dev, param
+
+
+def test_alligator_gates_are_numbered_but_its_bands_are_not(monkeypatch):
+    """Three gates need the number spoken; three NAMED bands do not.
+
+    "Open the gate" has no answer -- the model picks one of three and opens a
+    band he did not mean. "Open up the low pass" is unambiguous, and holding
+    it to the same rule would refuse a move that is perfectly clear.
+    """
+    import contextlib
+    import io
+
+    assert dial_llm.copy_number("Gate 2 Trig", ALLIGATOR) == 2
+    assert dial_llm.copy_number("Low Pass Frequency", ALLIGATOR) is None
+    assert dial_llm.copy_number("Ducking", ALLIGATOR) is None
+
+    def answers(knob):
+        reply = json.dumps({"choices": [{"message": {
+            "content": '{"knob":"%s","target":"75%%"}' % knob}}]})
+        monkeypatch.setattr(dial_llm.urllib.request, "urlopen",
+                            lambda *a, **k: contextlib.closing(io.BytesIO(
+                                reply.encode())))
+
+    answers("knob_27")                                  # Gate 2 Open
+    assert dial_llm.choose("open the gate", ALLIGATOR, calibration={}) is None
+    assert dial_llm.choose("open gate 2", ALLIGATOR,
+                           calibration={})["knob"] == "knob_27"
+    answers("knob_2")                                   # Low Pass Frequency
+    assert dial_llm.choose("open up the low pass", ALLIGATOR,
+                           calibration={})["knob"] == "knob_2"
+
+
+def test_the_alligator_guide_describes_every_wired_control():
+    """A knob the model is shown with no description gets picked by spelling
+    alone -- all 48 need a bullet the guide's lookup actually reaches."""
+    notes = dial_llm.control_notes(ALLIGATOR)
+    missing = [p for p in dial_llm.knob_map(ALLIGATOR).values()
+               if not dial_llm.note_for(notes, p)]
+    assert not missing, missing
+    assert "squelchy" in dial_llm.note_for(notes, "High Pass Resonance")
+
+
+def test_nothing_on_alligator_is_volatile():
+    """Pattern Enable off makes four knobs do nothing, but it does not change
+    what any of them MEAN. A targeting caveat belongs in the guide; only a
+    units caveat belongs in VOLATILE. So Alligator carries neither.
+    """
+    from reason_voice import calibrate
+    assert ALLIGATOR not in calibrate.VOLATILE
+    assert ALLIGATOR not in calibrate.REQUIRES
+    assert "Pattern Enable" in dial_llm.control_notes(ALLIGATOR)
+
+
+def test_the_named_setting_example_only_appears_where_a_picker_exists():
+    """The prompt used to show `target":"Tape"` on every device.
+
+    Measured 2026-09-11 against the live model on Alligator, which has no
+    picker at all: shown that example the model copies its SHAPE and invents a
+    word -- "shuffle it" came back as target "Shuffle", "open gate 2" as
+    "Open", and twice as the literal "Tape" from the example itself. A word
+    that is not in the measured table resolves to nothing, so the knob never
+    moves and the phrase looks broken to him. Withholding the example moved
+    all eleven test phrases to percentages.
+
+    Both directions asserted: a device WITH a picker must keep the example, or
+    "give me a plate" stops working.
+    """
+    plain = dial_llm.build_prompt("shuffle it", ALLIGATOR, calibration={})
+    assert '"Tape"' not in plain
+    assert "never a word" in plain
+    assert "three forms" in plain
+
+    picker = {SCREAM: {"Body Type": {
+        "knob": "knob_10", "unit": "",
+        "table": [[p, "ABCDE"[min(4, p * 5 // 128)]] for p in range(128)]}}}
+    withnames = dial_llm.build_prompt("body type c", SCREAM, calibration=picker)
+    assert '"Tape"' in withnames
+    assert "spelled exactly as listed" in withnames
+    assert "four forms" in withnames
