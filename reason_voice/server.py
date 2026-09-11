@@ -44,10 +44,10 @@ SETTINGS_PATH = Path(os.path.expanduser("~/.reason_voice/ui_settings.json"))
 REASON_TEMPLATE_SONGS = ("~/Library/Application Support/"
                          "Propellerhead Software/Reason/Template Songs")
 
-# The only device with a Scope block in the remotemap and a calibration
-# table. Adding a second one is a remotemap block + a calibrate.py run,
-# not a code change here.
-DIAL_DEVICE = "MClass Compressor"
+# Which device the dial talks to is NOT fixed -- it is whichever one you
+# locked to ReasonVoice, worked out from the parameter names Reason reports
+# back. Adding a third device is a remotemap block + a calibrate.py run, not
+# a code change here.
 
 NO_MIDI = ("MIDI bridge not connected — enable the IAC Driver "
            "and restart Reason.")
@@ -195,7 +195,8 @@ class WebApp:
         )
         # Dial: knob names come from the remotemap Reason itself reads, and
         # what each position MEANS comes from the sweep measured off Reason.
-        self.dial_knobs = dial_llm.knob_map(DIAL_DEVICE)
+        self.dial_device = None    # set by _sync_device() once Reason speaks
+        self.dial_knobs = {}
         self.dial_cal = dial_llm.load_calibration()
         self.dial_undo = None      # one slot: {knob, pos, param, shown}
         self.recorder = WebRecorder(self.cfg.get("max_utterance_seconds", 15))
@@ -207,22 +208,52 @@ class WebApp:
 
     # -- state broadcast -------------------------------------------------
 
+    def _sync_device(self) -> None:
+        """Work out which device is locked, from what Reason has said.
+
+        Two sources, in this order, and neither is a guess:
+        1. The parameter names Reason reports with every change. "Damage
+           Control" exists on exactly one mapped device, so it identifies the
+           TYPE -- which is what the calibration table is keyed by. Scanned
+           NEWEST first: `displays` is never cleared, so a 48-knob Kong sweep
+           leaves stale names in slots a later 40-knob Redrum never writes,
+           and oldest-first would pin Kong while Redrum is locked -- then move
+           knob 9 out of Kong's calibration table into Redrum's Length.
+        2. Reason's own Device Name, but only when it exactly matches a mapped
+           device. That is the rack LABEL and he can rename it, so it is a
+           cold-start hint (nothing moved yet) and never overrides (1).
+
+        Neither available -> stays None, and every dial command says so rather
+        than moving a Scream knob believing it is a compressor.
+        """
+        c = self.control
+        found = None
+        for name, _shown in reversed(list(c.displays.values())):
+            found = dial_llm.device_for_param(name)
+            if found:
+                break
+        if found is None and c.device in dial_llm.devices():
+            found = c.device
+        if found and found != self.dial_device:
+            self.dial_device = found
+            self.dial_knobs = dial_llm.knob_map(found)
+
     def dial_state(self) -> dict:
-        """The 8 knobs as Reason last reported them.
+        """The locked device's knobs as Reason last reported them.
 
         `locked` is simply "Reason has spoken to us" — an effect device only
         reaches this surface once it is Ctrl-clicked -> Lock to ReasonVoice,
         so silence and not-locked are the same thing from here.
         """
         c = self.control
+        self._sync_device()
         ends = {}
-        for _param, e in (self.dial_cal.get(DIAL_DEVICE) or {}).items():
+        for _param, e in (self.dial_cal.get(self.dial_device) or {}).items():
             table = e.get("table") or []
             if table:
                 ends[e.get("knob")] = (table[0][1], table[-1][1])
         knobs = []
-        for n in range(1, 9):
-            knob = "knob_%d" % n
+        for knob in sorted(self.dial_knobs, key=lambda k: int(k.split("_")[1])):
             reported, shown = c.displays.get(knob, ("", ""))
             lo, hi = ends.get(knob, ("", ""))
             knobs.append({
@@ -233,7 +264,8 @@ class WebApp:
                 "shown": shown,
                 "lo": lo, "hi": hi,
             })
-        return {"device": DIAL_DEVICE, "locked": bool(c.positions),
+        return {"device": self.dial_device or c.device or "",
+                "locked": bool(c.positions) and self.dial_device is not None,
                 "knobs": knobs, "undo": self.dial_undo}
 
     def snapshot(self) -> dict:
@@ -458,6 +490,63 @@ class WebApp:
                     "(Ask: what is the drum pads.)")
         return ""
 
+    def _cal_entry(self, knob):
+        """The measured entry for this knob on the locked device, or None."""
+        for _param, e in (self.dial_cal.get(self.dial_device) or {}).items():
+            if e.get("knob") == knob:
+                return e
+        return None
+
+    def _showing(self, knob, entry):
+        """What that knob READS as right now.
+
+        Reason's own words win when it gives words. Only when it reports a bare
+        number (Scream 4 does; this device is unmeasured) do we fall back to the
+        measured table's label -- and that label came from the manual, so
+        trusting it over a live reading would turn a wrong guess into a
+        confident move.
+        """
+        got = self.control.current(knob)
+        if got is None:
+            return ""
+        shown = (got[2] or "").strip()
+        if shown and not shown.lstrip("-").replace(".", "", 1).isdigit():
+            return shown
+        table = entry.get("table") or []
+        if 0 <= got[0] < len(table) and table[got[0]][1]:
+            return str(table[got[0]][1])
+        return shown
+
+    async def _reach(self, param, wanted):
+        """Put another control into a named setting, CHECKING after every try.
+
+        The RV7000's algorithm dial is only the algorithm dial while the
+        programmer shows Reverb, and Edit Mode is a button. A button may take a
+        direct value (Scream 4's on/off buttons do — proven at the machine) or
+        it may only step. So: try the direct write, then press it round one full
+        cycle, reading back each time. Returns False rather than hoping.
+        """
+        entry = (self.dial_cal.get(self.dial_device) or {}).get(param)
+        if not entry or not entry.get("knob"):
+            return False
+        knob = entry["knob"]
+        want = wanted.strip().lower()
+        self.control.poll()
+        if want in self._showing(knob, entry).lower():
+            return True          # already there — don't touch his screen
+        placed = dial_llm.resolve({"knob": knob, "target": wanted},
+                                  self.dial_device, calibration=self.dial_cal)
+        tries = [placed[0]] if placed else []
+        tries += [127, 127, 127]   # a stepping button: one full cycle
+        for value in tries:
+            if not self.control.set_value(knob, value):
+                return False
+            await asyncio.sleep(0.08)
+            self.control.poll()
+            if want in self._showing(knob, entry).lower():
+                return True
+        return False
+
     def _dial_note(self, knob, got):
         """Remember where a knob was, so one Undo can put it back.
         `got` is control.current(knob) — already polled by the caller."""
@@ -502,7 +591,8 @@ class WebApp:
         elif cmd == "dial":
             phrase = (args.get("phrase") or "").strip()
             self.control.poll()   # a lock that just happened may be waiting
-            if not self.control.positions:
+            self._sync_device()
+            if not self.control.positions or self.dial_device is None:
                 self.say("Nothing is locked to ReasonVoice. In Reason, "
                          "Ctrl-click the device panel and choose “Lock to "
                          "ReasonVoice” — then nudge any knob once so it says "
@@ -515,7 +605,8 @@ class WebApp:
                 # re-read so a fresh calibrate.py run needs no restart
                 self.dial_cal = dial_llm.load_calibration()
                 answer = await asyncio.to_thread(
-                    dial_llm.choose, phrase, DIAL_DEVICE)
+                    dial_llm.choose, phrase, self.dial_device,
+                    calibration=self.dial_cal)
                 self.status = "idle"
                 if answer is None:
                     self.say(f"Couldn’t turn “{phrase}” into a knob move. Try "
@@ -528,7 +619,7 @@ class WebApp:
                             or self.dial_knobs.get(knob, knob))
                     asked = answer.get("target") or answer.get("delta")
                     placed = dial_llm.resolve(
-                        answer, DIAL_DEVICE,
+                        answer, self.dial_device,
                         current_pos=(got[0] if got else None),
                         calibration=self.dial_cal)
                     if placed is None:
@@ -537,14 +628,33 @@ class WebApp:
                                  "has been calibrated.")
                     else:
                         pos, note = placed
-                        self._dial_note(knob, got)
-                        if self.control.set_value(knob, pos):
-                            why = answer.get("why") or ""
-                            self.say(f"{name} → {asked} ({note})."
-                                     + (f" {why}" if why else ""))
+                        # Some knobs only mean what they mean in a particular
+                        # mode. Get there and CHECK, or move nothing at all —
+                        # turning the algorithm dial on the EQ page is exactly
+                        # the confidently-wrong move this layer must never make.
+                        needs = (self._cal_entry(knob) or {}).get("requires") or {}
+                        blocked = None
+                        for other, wanted in needs.items():
+                            if not await self._reach(other, wanted):
+                                blocked = (other, wanted)
+                                break
+                        if blocked:
+                            self.say(f"Didn’t move anything: {name} only means "
+                                     f"that while {blocked[0]} is on "
+                                     f"{blocked[1]}, and I couldn’t get it "
+                                     "there. Set it on the device and say it "
+                                     "again.")
                         else:
-                            self.dial_undo = None
-                            self.say(NO_MIDI)
+                            self._dial_note(knob, got)
+                            if self.control.set_value(knob, pos):
+                                why = answer.get("why") or ""
+                                extra = "".join(" (%s → %s first)" % kv
+                                                for kv in needs.items())
+                                self.say(f"{name} → {asked} ({note}){extra}."
+                                         + (f" {why}" if why else ""))
+                            else:
+                                self.dial_undo = None
+                                self.say(NO_MIDI)
 
         elif cmd == "dial_set":
             knob = str(args.get("knob", ""))
@@ -552,8 +662,12 @@ class WebApp:
                 value = int(args.get("value"))
             except (TypeError, ValueError):
                 value = None
+            self.control.poll()
+            self._sync_device()
             if value is None:
                 self.say("No value for that knob.")
+            elif self.dial_device is None:
+                self.say("Nothing is locked to ReasonVoice yet.")
             else:
                 self._dial_note(knob, self.control.current(knob))
                 if self.control.set_value(knob, value):

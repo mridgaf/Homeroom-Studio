@@ -1,8 +1,9 @@
 """Measure what every knob position MEANS, by asking Reason.
 
-    ./.venv/bin/python reason_voice/calibrate.py                     # all 8 knobs
+    ./.venv/bin/python reason_voice/calibrate.py                     # every knob
     ./.venv/bin/python reason_voice/calibrate.py knob_5              # just one
-    ./.venv/bin/python reason_voice/calibrate.py --device "MClass Compressor"
+    ./.venv/bin/python reason_voice/calibrate.py --device "Scream 4 Distortion"
+    ./.venv/bin/python reason_voice/calibrate.py --device "RV7000 Advanced Reverb"
 
 Sweeps each knob 0..127 and records the value Reason DISPLAYS at each position,
 then writes docs/reason/calibration.json. That file is what lets "set attack to
@@ -25,10 +26,50 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from reason_voice import dial_llm
 from reason_voice.reason_control import ReasonControl
 
 OUT = Path(__file__).resolve().parent.parent / "docs" / "reason" / "calibration.json"
 SETTLE = 0.06  # seconds between setting a position and reading it back
+
+# Knobs whose MEANING is set by another knob, so a measured table is only true
+# for whatever that other knob was showing at the time. Scream 4's P1/P2 are
+# compression+speed under Tape and something else entirely under Digital.
+# These stay percentage-only -- see resolve() in dial_llm.py.
+# Contexts Reason does not expose as a parameter at all. Named here so the
+# prompt can say WHY a knob is percentage-only instead of just refusing.
+
+VOLATILE = {"Scream 4 Distortion": {"Parameter 1": "Damage Type",
+                                    "Parameter 2": "Damage Type"},
+            # The RV7000's eight programmer dials are whatever the current edit
+            # page says they are; dials 2-8 also change with the algorithm that
+            # dial 1 selects. Dial 1 in Reverb mode IS the algorithm picker.
+            # Kong has no entry on purpose. Its DM and FX knobs ARE volatile --
+            # they scale whatever drum module or effect is in the pad, which
+            # Reason never reports -- but the remotemap trades that depth for
+            # reach: 16 pads x Level/Pitch/Decay, and those three mean the same
+            # thing under every module. Re-add this block if a pad ever goes
+            # deep again.
+            "RV7000 Advanced Reverb": dict(
+                {"Soft Knob 1": "Edit Mode"},
+                **{"Soft Knob %d" % n: ["Edit Mode", "Soft Knob 1"]
+                   for n in range(2, 9)}),
+            # Dr. Octo Rex's LFO Amount is however much of whatever LFO1 Dest
+            # is pointed at -- pitch wobble and pan wobble are not the same
+            # units. Dest IS a mapped knob, so this is reachable, but there is
+            # no one correct setting to drive it to the way the RV7000 has
+            # "Reverb" -- so no REQUIRES entry, and it stays percentage-only.
+            # Loop Transpose and Loop Level are deliberately NOT here: they
+            # act on whichever slot is selected, but semitones are semitones
+            # in every slot. The TARGET moves, the MEANING doesn't. That
+            # caveat lives in the device guide, not in a refusal.
+            "Dr.REX Loop Player": {"LFO1 Amount": "LFO1 Dest"}}
+
+# The context a knob has to be measured in for its table to mean anything, and
+# that the app puts the device into before moving it. Without this the sweep
+# records whatever page happened to be showing and every later lookup is wrong.
+REQUIRES = {"RV7000 Advanced Reverb": {"Soft Knob %d" % n: {"Edit Mode": "Reverb"}
+                                       for n in range(1, 9)}}
 
 
 def parse(shown):
@@ -37,6 +78,55 @@ def parse(shown):
     if not m:
         return None, ""
     return float(m.group(1)), m.group(2).strip()
+
+
+def probe(r, knob):
+    """"absolute" or "toggle" -- does writing a value SET this control or FLIP it?
+
+    Three writes, not a 128-step sweep, and it runs BEFORE the sweep for every
+    knob. A button that flips on every message would otherwise be flipped 128
+    times and "put it back where it started" would mean nothing. Scream 4's
+    on/off buttons take absolute values (proven at the machine 2026-09-11), but
+    that is a measurement, not a rule, so it gets re-checked per control.
+    """
+    seen = []
+    for value in (0, 127, 127):
+        r.set_value(knob, value)
+        time.sleep(SETTLE)
+        r.poll()
+        got = r.current(knob)
+        seen.append(got[2] if got else None)
+    # third write repeats the second: same reading = it SET, different = it FLIPPED
+    return "toggle" if seen[1] != seen[2] else "absolute"
+
+
+def put(r, data, device, param, wanted):
+    """Move `param` to the setting called `wanted`, and CHECK it got there.
+
+    Returns True only if Reason reports that setting back. Used to reach Reverb
+    mode before measuring the programmer dials -- a table measured on the wrong
+    page is worse than no table.
+    """
+    entry = (data.get(device) or {}).get(param)
+    if not entry:
+        return False
+    named = dial_llm.apply_value_names({device: {param: json.loads(json.dumps(entry))}})
+    placed = dial_llm.resolve({"knob": entry["knob"], "target": wanted},
+                              device, calibration=named)
+    if placed is None:
+        return False
+    r.set_value(entry["knob"], placed[0])
+    time.sleep(SETTLE)
+    r.poll()
+    got = r.current(entry["knob"])
+    # Reason's own words win when it gives words; the table's labels came from
+    # the manual, so they are the fallback, not the authority.
+    shown = ((got[2] if got else "") or "").strip()
+    if not shown or shown.lstrip("-").replace(".", "", 1).isdigit():
+        table = (named.get(device) or {}).get(param, {}).get("table") or []
+        if got and 0 <= got[0] < len(table):
+            shown = str(table[got[0]][1])
+    return wanted.strip().lower() in shown.strip().lower()
 
 
 def sweep(r, knob):
@@ -81,7 +171,12 @@ def main():
         i = args.index("--device")
         device = args[i + 1]
         del args[i:i + 2]
-    knobs = args or ["knob_%d" % k for k in range(1, 9)]
+    # Which knobs this device has comes from the remotemap Reason itself
+    # reads -- 8 on the compressor, 16 on a Scream 4.
+    mapped = dial_llm.knob_map(device)
+    if not mapped:
+        sys.exit('No Scope block for "%s" in remote/ReasonVoice.remotemap.' % device)
+    knobs = args or sorted(mapped, key=lambda k: int(k.split("_")[1]))
 
     r = ReasonControl(speak_feedback=False)
     if r.port is None or r.inport is None:
@@ -99,26 +194,81 @@ def main():
     data = json.loads(OUT.read_text()) if OUT.exists() else {}
     data.setdefault(device, {})
 
+    skipped_context = []
     for knob in knobs:
         print("   %s ..." % knob)
+        param_name = mapped.get(knob, "")
+        needs = REQUIRES.get(device, {}).get(param_name) or {}
+        ready = True
+        for other, wanted in needs.items():
+            if not put(r, data, device, other, wanted):
+                ready = False
+                print("      needs %s = %s and could not get there -- SKIPPED."
+                      % (other, wanted))
+                skipped_context.append("%s (%s)" % (knob, param_name))
+        if not ready:
+            continue
+        kind = probe(r, knob)
+        if kind == "toggle":
+            # Every write flips it, so 128 of them would be vandalism and the
+            # positions would mean nothing. Record what it is and leave it.
+            data[device][param_name or knob] = {"knob": knob, "unit": "",
+                                                "toggle": True}
+            print("      FLIPS on every write (a toggle) -- not swept. "
+                  "Check this control on the panel; it may have moved.")
+            continue
         name, table = sweep(r, knob)
         if table is None:
             print("      nothing came back -- skipped (is the device locked?)")
             continue
         lo, lo_unit = parse(table[0][1])
         hi, hi_unit = parse(table[-1][1])
-        data[device][name or knob] = {
+        entry = {
             "knob": knob,
             "unit": hi_unit or lo_unit,
             "min_display": table[0][1],
             "max_display": table[-1][1],
             "table": table,
         }
+        depends = VOLATILE.get(device, {}).get(name or mapped.get(knob, ""))
+        if depends:
+            entry["volatile"] = depends
+        needed = REQUIRES.get(device, {}).get(name or mapped.get(knob, ""))
+        if needed:
+            # What the app must put the device into before it moves this knob.
+            entry["requires"] = needed
+        data[device][name or knob] = entry
         span = ("%s .. %s" % (table[0][1], table[-1][1])) if lo is not None else "not numeric"
         print("      %s: %s" % (name or knob, span))
 
+    # A volatile knob's table is only true for the setting that was live.
+    # Record it, read out of the table we just measured for that other knob.
+    for param, entry in data[device].items():
+        depends = entry.get("volatile")
+        if not depends:
+            continue
+        entry["measured_with"] = {}
+        for dep in ([depends] if isinstance(depends, str) else depends):
+            other = data[device].get(dep) or {}
+            pos = start.get(other.get("knob"))
+            table = other.get("table") or []
+            entry["measured_with"][dep] = (
+                table[pos][1] if (pos is not None and pos < len(table))
+                # a dependency that is not a mapped parameter (Kong's loaded
+                # module) can never be read -- say so rather than "unknown"
+                else "unknown" if other else "not reported by Reason")
+            print("   note: %s was measured with %s = %s"
+                  % (param, dep, entry["measured_with"][dep]))
+
     for knob, pos in start.items():
         r.set_value(knob, pos)
+
+    if skipped_context:
+        print("\n   Not measured, because the device could not be put in the "
+              "right mode first:\n      %s" % ", ".join(skipped_context))
+        print("   Look at what Edit Mode reported above. If it came back as "
+              "bare numbers,\n   add them to docs/reason/value_names.json and "
+              "run this again.")
 
     OUT.write_text(json.dumps(data, indent=1))
     print("\nWrote %s" % OUT)

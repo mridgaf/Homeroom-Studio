@@ -1,0 +1,67 @@
+{
+  "_comment": "What a raw parameter number MEANS, for devices where Reason's Remote layer reports a bare number instead of its on-screen label. The MClass Compressor reports '30 ms' and needs nothing here; Scream 4 reports '4' where the panel says 'Tape'. Names and their ORDER are from the Reason 12.7 Operation Manual ch.51, 'Scream 4 Sound Destruction Unit' (Damage types pp. listed in order Overdrive..Scream; 'Body Type knob ... one of the five available Body types (A-E)'). Applied to the measured calibration table at load time by dial_llm.load_calibration().",
+  "source": "Reason 12.7 Operation Manual, chapter 51",
+  "devices": {
+    "Scream 4 Distortion": {
+      "Damage Type": [
+        "Overdrive",
+        "Distortion",
+        "Fuzz",
+        "Tube",
+        "Tape",
+        "Feedback",
+        "Modulate",
+        "Warp",
+        "Digital",
+        "Scream"
+      ],
+      "Body Type": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "Damage On/Off": [
+        "Off",
+        "On"
+      ],
+      "Cut On/Off": [
+        "Off",
+        "On"
+      ],
+      "Body On/Off": [
+        "Off",
+        "On"
+      ]
+    },
+    "RV7000 Advanced Reverb": {
+      "_comment": "PROVISIONAL -- an inference from the Operation Manual ch.53, NOT yet seen on a sweep. The ten algorithms are listed in the manual's own order and the Edit Mode button steps Reverb -> EQ -> Gate. If the device turns out to report real words, these are ignored (only bare numbers are ever rewritten). Check the names calibrate.py prints against the panel before trusting them.",
+      "Edit Mode": [
+        "Reverb",
+        "EQ",
+        "Gate"
+      ],
+      "Soft Knob 1": [
+        "Small Space",
+        "Room",
+        "Hall",
+        "Arena",
+        "Plate",
+        "Spring",
+        "Echo",
+        "Multi Tap",
+        "Reverse",
+        "Convolution"
+      ],
+      "EQ On/Off": [
+        "Off",
+        "On"
+      ],
+      "Gate On/Off": [
+        "Off",
+        "On"
+      ]
+    }
+  }
+}

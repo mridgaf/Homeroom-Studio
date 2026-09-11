@@ -34,7 +34,10 @@ cat <<'EOF'
 2. Register the control surface in Reason:
    Reason > Settings/Preferences > Control Surfaces > Add manually >
    Manufacturer "ReasonVoice", Model "ReasonVoice",
-   MIDI input: "IAC Driver Bus 1". (Restart Reason if it's not listed.)
+   MIDI input AND MIDI output: BOTH "IAC Driver Bus 1".
+   (Restart Reason if it's not listed.)
+   The output is not optional: it is how Reason tells the app where a knob
+   sits and what it reads. Leave it unassigned and the knob panel stays empty.
 
 3. macOS permissions (System Settings > Privacy & Security):
    - Microphone: allow for Terminal (or whatever runs the app)

@@ -22,6 +22,427 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-11 Dr. Octo Rex wired: 41 controls, and every famous trick is out of reach
+
+- Context: "Move to dr octo Rex. First research ways it can be used not covered
+  in the manual before suggesting how to wire it." So the research came first
+  and it changed the plan — which is the point of doing it in that order.
+- Research finding: the manual is a parameter list. The off-book techniques
+  (Sound On Sound Jan 2011, ModeAudio Jan 2015, Reason101 #37) are: turn
+  Enable Loop Playback OFF and it becomes a slice sampler played from the
+  keyboard; Osc Env Amount sends the FILTER envelope to slice PITCH for
+  vinyl-scratch sounds; amp decay 0 / sustain 0 gates the loop; filter env at
+  full with high res gives a 303 swoop per slice; alt groups randomise slices;
+  the eight rear slice outputs let one slice go to a reverb; Kong pads cabled
+  to Rex volume make an Ableton-style clip launcher.
+- **The filter that mattered: nothing slice-level is remotable.** Slice pitch,
+  pan, level, decay, reverse, alt group and slice output are not parameters
+  Reason exposes to a control surface at all. So alt groups, per-slice reverb
+  and Slice Edit Mode can never be voice-controlled. Same class as Kong's
+  drum-module knobs. Checking this BEFORE designing is what stopped a map that
+  promised moves Reason never performs.
+- Decision/change: mapped 41 knobs — 8 loop slots + Selected Loop Slot +
+  Selected Loop in Editor + Notes to Slot + Trigger Next + Run + Enable Loop
+  Playback + Follow (15), pitch (5, incl. Osc Env Amount), amp (6), filter
+  (10), LFO (5). Ceiling is 48, so nothing was dropped for space — the four
+  best reachable techniques above are all covered. New `device_refs/
+  dr-octo-rex.md`. Reason's scope name is `Dr.REX Loop Player`, confirmed
+  against Arturia's factory map, which labels that exact scope "Dr. Octo REX"
+  on its LCD.
+- **Master Level deliberately NOT mapped** — spelled identically on Scream 4.
+  Unlike the Kong/Redrum "Drum N Level" collision, this one was avoidable at
+  zero cost: Loop Level is per-slot and is what "louder" should reach anyway.
+  The overlap was computed before writing the block, per the rule the Redrum
+  session added to the skill. It worked.
+- New code: `copy_number()` in dial_llm.py. Kong and Redrum number copies in
+  the MIDDLE ("Drum 7 Level"); Rex numbers them at the END ("Select Loop 3").
+  Same hazard, so the same refusal — "change the loop" moves nothing, "go to
+  loop 3" works. `numbered_copy()` was deliberately NOT widened: build_prompt()
+  relies on its prefix shape. RV7000's "Soft Knob 1" also ends in a digit and
+  is exempt via NOTE_ALIASES — it is the Algorithm picker, not copy 1 of
+  anything, and holding it to the rule would have broken "give me a plate".
+- `LFO1 Amount` marked VOLATILE on `LFO1 Dest` (pitch wobble and pan wobble
+  are not the same units), with no REQUIRES — unlike the RV7000's "Reverb"
+  there is no one correct Dest to drive it to, so it stays percentage-only.
+  Loop Transpose and Loop Level were deliberately NOT marked volatile: they
+  act on whichever slot is selected, but semitones are semitones in every
+  slot. The TARGET moves, the MEANING doesn't. That caveat is in the guide.
+- Verify by: 6 new tests in tests/test_dial.py, all four mutations fired
+  (swapped remotemap line, added Master Level, reverted the copy_number guard,
+  deleted a guide bullet). Real proof is Step 6 of TESTING-VOICE-DIAL.md.
+- Status: open
+- Open questions only he can answer, all fail safe: does Trigger Next Setting
+  print words or numbers; do Transpose/Loop Transpose show semitones; does
+  Filter Mode print the filter names; did the 8 Select Loop buttons probe as
+  switches or as values.
+
+
+### 2026-09-11 Redrum wired: 10 channels x 4, and it collides with Kong on "Level"
+
+- Context: "Move to wire redrum", straight after Kong. Redrum has 10 channels,
+  not 16 pads, so the 48-knob ceiling was not the constraint this time — four
+  controls deep fits with 8 slots to spare.
+- Decision/change: asked in clickable options; he chose **Level, Pitch, Length,
+  Pan on all 10 channels** (40 knobs, stride 4). Wrote the Scope block from a
+  script, every name checked against `remote-vocab.json` first. Added
+  `device_refs/redrum.md` (the guide the model reads) and four tests. No `.lua`,
+  `reason_control.py` or `calibrate.py` change — the 48 slots already existed
+  and none of these four knobs is volatile.
+- Reasoning: Length is Redrum's decay knob, so the four mirror Kong's three
+  plus placement. Pan was free — Kong does not map Pan, so it stays unique to
+  Redrum and actually HELPS identification (below).
+- **The collision, stated rather than buried:** Kong and Redrum both spell
+  loudness `Drum N Level` on channels 1-10. `device_for_param()` refuses a name
+  two mapped devices share, so those 10 names now identify nothing. It is
+  survivable, not fixed: `_sync_device()` scans every parameter Reason has
+  reported since the app started, and Kong's `Pitch Offset`/`Decay Offset` and
+  Redrum's `Pitch`/`Length`/`Pan` are unique — one move of any of those pins
+  the device. The failure case is narrow: locked device, only ever moved a
+  Level, app says it doesn't know instead of moving something. I did NOT build
+  the knob-slot tiebreaker for it; it is ~10 lines and worth it only if this
+  bites him in real use.
+- **Second bug, found while checking the identification path and fixed:**
+  `control.displays` is never cleared and is keyed by knob SLOT, so a 48-knob
+  Kong sweep leaves Kong names in slots 41-48 that a 40-knob Redrum never
+  overwrites. `_sync_device()` scanned that dict oldest-first, so after Step 4
+  of the checklist, locking Redrum would have pinned **Kong** — and "turn up
+  drum 3" would have moved knob 9 using Kong's calibration table. Fixed by
+  re-inserting on every report (dict stays in report order) and scanning
+  NEWEST first: whatever moved last is the best evidence of what is locked.
+  Pre-existing, not caused by Redrum — Kong(48) then Scream(16) had the same
+  hole — but Redrum is what would have made him hit it.
+  `test_the_device_is_read_from_the_newest_report_not_the_oldest`.
+- Open, unanswerable from here: whether **Length reads differently in Gate mode
+  vs Decay mode.** It certainly sounds different. If the displayed value also
+  changes, Length is a volatile knob with an unreachable context (the
+  Decay/Gate switch is remotable but not mapped) and becomes percentage-only.
+  The checklist asks him to look.
+- Verify by: `tests/test_dial.py -k redrum` (4 tests, all mutation-checked),
+  then his Step 5 sweep and phrase table in `TESTING-VOICE-DIAL.md`.
+- Status: open
+
+### 2026-09-11 Kong: 16 pads wide beats 1 pad deep — and the surface grew to 48 knobs
+
+- Context: he asked to "repeat the drum pad process for all remaining pads in
+  Kong". Literally impossible: Pad 1 alone used all 16 knob slots, and 16 pads
+  x 16 parameters is 256. Counted the real ceiling first — 10 buttons + N out +
+  N back inside 128 CCs caps the surface at **59 knobs, ever**. So 16 pads x 6
+  macro knobs (96) is off the table too; 16 pads x 3 (48) fits.
+- Decision/change: asked him in clickable options; he chose **all 16 pads,
+  three controls each: Level, Pitch Offset, Decay Offset**. Widened NUM_KNOBS
+  16 -> 48 in the `.lua` and `reason_control.py`, rewrote Kong's Scope block as
+  48 lines with stride 3 (knob (pad-1)*3+1..+3). Knobs 1-16 kept their outgoing
+  CCs (30-45) so nothing already measured needed re-sweeping; the FEEDBACK range
+  MOVED, 60-75 -> 78-125, because outgoing now runs to 77 and the two directions
+  share one IAC bus. Dropped Kong's whole `VOLATILE` block — its DM and FX knobs
+  are no longer mapped.
+- Reasoning: the depth we gave up was the cheap half. DM and FX knobs scale
+  whatever module/effect is loaded, which Reason never reports, so they could
+  only ever take percentages. Level/Pitch/Decay mean the same thing under every
+  module, so they take real values on all 16 pads.
+- Two problems this created, both found by measuring and both fixed:
+  1. **It guessed which pad.** "Make the snare louder" landed on Drum 5 — the
+     model picks a pad because it has to. Reason never says what is ON a pad.
+     Added `numbered_copy()` / `said_the_number()` in `dial_llm.choose()`: a
+     parameter that names a copy needs its number spoken ("pad 5", "pad five")
+     or the move is refused. Fires on Kong only; the other three devices name
+     no copies.
+  2. **48 knobs x 3 identical descriptions was a wall.** The prompt hit 6,475
+     chars and "make pad 12 ring longer" answered Level. Hoisted repeated notes
+     into a one-line-per-control legend — prompt down to 2,443 chars, live
+     accuracy 6/10 -> 9/10 on the same phrases. Hoisting is restricted to
+     numbered copies so the compressor's prompt is untouched.
+- Verify by: `tests/test_dial.py` (36) + `tests/test_remote_bridge.py` pass;
+  6 of 6 mutations fire (guard removed, numbered_copy blind, legend dropped,
+  feedback CCs collide, wrong pad on a knob, number check always passes). The
+  real proof is his: install, restart Reason, lock Kong, sweep, say the phrases
+  in `TESTING-VOICE-DIAL.md`.
+- Status: open — not yet run against Reason.
+- Outcome: (pending)
+- Honest gap: I described this option to him as letting him say "make the snare
+  louder", which it does NOT — he must say the pad number. Corrected in
+  `device_refs/kong.md` and flagged to him. Naming pads (pad 2 = snare) would
+  need a one-time kit map from him and has not been built.
+
+### 2026-09-11 Kong Drum Designer is the fourth device — Pad 1 deep, and a rule tightened on the way in
+
+- Context: he asked for "Korg drum machine next". **There is no Korg drum
+  device in his Reason** — the only Korg things installed are the MonoPoly and
+  Polysix Rack Extension SYNTHS. Asked rather than assuming "Korg" meant
+  "Kong"; he confirmed Kong Drum Designer.
+- His three answers, all from looking at the device (his eyes, per the rule he
+  restated this session): **Pad 1**, module = **Physical Bass Drum**, **both FX
+  slots loaded**. Then: drop Aux 1 Send, Aux 2 Send and DM On to fit 19
+  controls into 16 slots.
+- The map, all Pad 1: Level, Pitch Offset, Tone, Decay Offset, Pan, Bus FX Send,
+  DM Pitch, DM Decay, DM Level, DM Variable, FX1 On/P1/P2, FX2 On/P1/P2. The
+  knobs went into Kong's EXISTING Scope block (it already had Patch Next/Prev) —
+  a second block for the same device would be a format error.
+- RULE TIGHTENED, and this is the part worth remembering. Yesterday's RV7000
+  work let a context-dependent knob accept a NAMED setting. That was only safe
+  because the app can reach Reverb mode and read it back. **Kong has no
+  reachable context**: which drum module is loaded is not a remotable parameter
+  at all, so there is nothing to set and nothing to read. `resolve()` now allows
+  a name only when the entry carries `requires`; without it, percentage only.
+  Otherwise a measured "Click" could be a leftover from a module he swapped out
+  a week ago — the confidently-wrong move this layer exists to prevent.
+- Stated honestly rather than papered over: `DM Variable` appears NOWHERE in the
+  Operation Manual — it is a Remote-layer name. What it lands on for a Physical
+  Bass Drum is unknown until the sweep shows what Reason calls it. It is mapped,
+  unlabelled, and the guide says so.
+- Also built: `device_refs/kong.md` (there was none), and note-matching that
+  copes with Reason's spelling — the guide says "FX1", Reason says
+  "Drum 1 FX1 P1". `note_for()` drops the pad prefix then shortens until a
+  bullet matches, and one bullet may name several controls ("DM Pitch / DM
+  Decay / DM Level").
+- MUTATION-TESTED, run, output read: three more — unverifiable knobs accept
+  names again; one knob pointed at Drum 2 instead of Drum 1; a misspelled
+  parameter ("Decay Ofset"). All three fired, the last one caught by the
+  existing vocab guard.
+- Tests: **1101 passed, 2 failed, 3 skipped** (406 s). Same two known
+  pre-existing `test_beat_machine.py` failures; nothing here touches the beat
+  engine.
+- Model check against the live llama-server, Kong prompt, simulated table, eight
+  phrases: right knob every time — louder/tune down/brighter/longer tail land on
+  the four macro knobs, "turn the first effect off" on FX1 On, and "set the drum
+  module decay to 30 milliseconds" is REFUSED, which is the correct answer.
+  Known roughness: for a vague direction ("make the kick louder") the model
+  picks the END of the range rather than a nudge. Undo covers it; retune the
+  prompt if it annoys him.
+- Verify by: same as the RV7000 — `./install.sh`, Cmd+Q Reason, lock the Kong,
+  `./.venv/bin/python reason_voice/calibrate.py --device "Kong Drum Designer"`,
+  read what came back (especially what Reason calls DM Variable), restart the
+  app, then talk to it. Both devices install from the same three files, so one
+  reinstall and one Reason restart covers the reverb AND the Kong.
+- Status: open
+
+### 2026-09-11 RV7000 Advanced Reverb is the third device — built and tested, NOT yet proven in Reason
+
+- Context: the open BLOCKING question from the entry below ("master class
+  reverb") was put to him. Answers: **RV7000 Advanced Reverb**, and **yes, name
+  the reverb types** ("give me a plate" must work, not just percentages).
+- Two things the previous entry feared were wrong, checked before building:
+  * "RV7000 has more parameters than 16 slots, so choosing which 16 is a real
+    decision" — it has **exactly 16** remotable controls (Decay, HF Damp,
+    Hi EQ, Dry/Wet, Edit Mode, EQ On/Off, Gate On/Off, Enabled, Soft Knob 1-8).
+    Nothing dropped, nothing to choose.
+  * The mode read-back needed no `.lua` change. Knob 5 already reports
+    `Edit Mode=<display>` over the same SysEx line the device name uses, so the
+    confirmed-working bridge file was not touched.
+- HE SAID, at the machine: Edit Mode, EQ On/Off and Gate On/Off are BUTTONS.
+  Correction offered rather than swallowed: Scream 4's Body/Damage/Cut On/Off
+  are buttons too and they take an absolute value through this bridge (proven
+  2026-09-11), so a button is not automatically press-only. Built for both.
+- The real new problem: the eight programmer dials are not one control each.
+  Soft Knob 1 is the ALGORITHM picker only while Edit Mode reads Reverb; dials
+  2-8 change with the algorithm on top of that. Turning the algorithm dial
+  while the programmer shows the EQ page is exactly the confidently-wrong move
+  this layer must never make.
+- Built:
+  * `REQUIRES` in `calibrate.py` — the context a table is only true in, stamped
+    onto the entry as `requires: {"Edit Mode": "Reverb"}`, and the sweep drives
+    the device there first and CHECKS, skipping the knob loudly if it cannot.
+  * `_reach()` in `server.py` — before moving such a knob: already there? done.
+    Otherwise direct write, read back; still wrong, press round one full cycle,
+    reading back each time. Never gets there -> **moves nothing** and says so.
+  * `resolve()` now lets a volatile knob take a NAMED setting while still
+    refusing real units. A name is something the app can put the device into
+    first; a measured "30 ms" is true for one algorithm only and never will be.
+  * `calibrate.probe()` — three writes (0, 127, 127) before ANY sweep. If the
+    repeated write changes the reading it is a toggle, and it is not swept:
+    128 writes to a toggle leave his patch somewhere random and "put it back"
+    would mean nothing. No toggle handling was built, because none has been
+    seen — the probe will say if one exists.
+  * `value_names.json` gained a **PROVISIONAL** RV7000 block (Edit Mode
+    Reverb/EQ/Gate, the ten algorithms in manual order, ch.53). Marked
+    provisional in the file itself: it is an inference from the manual, the
+    same kind that turned out right for Scream 4 but has NOT been seen on a
+    sweep. Guarded by making Reason's own live text beat our label everywhere
+    (`_showing()`, `calibrate.put()`) — the table is only consulted when Reason
+    reports a bare number.
+- MUTATION-TESTED, actually run, output read: seven mutations — server ignores
+  `requires`; `_reach` never verifies; volatile knobs lose their table again;
+  volatile stops refusing units; the mode written after the knob; probe always
+  says "absolute"; put() returns True without checking. All seven fired.
+  ONE of my own tests was caught being weak by this: "the algorithm dial
+  refuses a real unit" passed either way, because that table has no ms values
+  at all. Rewritten against a programmer dial with a real ms table plus a
+  negative control, and then it fired.
+- Tests: **1098 passed, 2 failed, 3 skipped** (401 s). Both failures are the
+  known pre-existing `tests/test_beat_machine.py` pair; nothing here touches
+  the beat engine.
+- Model check against the live llama-server, RV7000 prompt, simulated table,
+  seven phrases: right knob every time — plate/spring/hall -> Soft Knob 1 by
+  name, "four seconds" -> Decay 4.0 s, damp/wet -> the right dial, "turn the
+  gate on" -> Gate On/Off = On.
+- Skill updated: `reason-remote-bridge` gained a "knob whose meaning changes
+  under you" section (the volatile table, the three enforced rules, the button
+  probe, and "when your labels and Reason disagree, Reason wins"), and its
+  stale "13 per-device scopes" is now 17. Frontmatter re-parsed with PyYAML.
+- Verify by: THE ONLY REAL PROOF IS IN REASON, and it has not happened.
+  `./install.sh`, Cmd+Q Reason and reopen, RV7000 in the rack, Ctrl-click ->
+  Lock to ReasonVoice, then
+  `./.venv/bin/python reason_voice/calibrate.py --device "RV7000 Advanced Reverb"`.
+  **Read what the sweep prints before believing it** — especially whether the
+  Edit Mode names match the panel, and whether anything reports as a toggle.
+  Then restart the Reason Voice app (a stale server is what "not working" meant
+  on 2026-09-10) and say: "make the tail longer", "damp the highs", "more wet",
+  "turn the gate on", "give me a plate", "make it a spring reverb".
+- OPEN, cannot be settled from here: whether Edit Mode takes a direct value or
+  only steps; whether this device reports words or bare numbers; whether the
+  provisional mode/algorithm order is right. All three are answered by one
+  sweep, and all three fail SAFE (nothing moves) rather than wrong.
+- Status: open
+
+### 2026-09-11 NEXT: the reverb — BLOCKING question left for the next session
+
+- He said: "let's do the master class reverb", then ended the session.
+- **Do not guess which device that is.** Two readings, different work:
+  * **RV7000 MkII Advanced Reverb** — Reason's main reverb, has a
+    `device_refs/rv7000-mkii.md` already, and is almost certainly what he
+    means. It is not part of the MClass family.
+  * The **MClass** suite has NO reverb in it — Compressor, Equalizer, Stereo
+    Imager, Maximizer only. So "master class reverb" cannot be taken literally.
+- ASK HIM before adding a Scope block. A wrong device is a wasted calibration
+  run and a wasted Reason restart.
+- The recipe is now established and took one session end to end:
+  1. Grep the factory maps for the device's Scope block and cross-check every
+     name against `docs/reason/remote-vocab.json`.
+  2. Add the block to `remote/ReasonVoice.remotemap`, `Map Device .. Device
+     Name` first. 16 knob slots exist; RV7000 has more parameters than that, so
+     CHOOSING which 16 is a real decision to put to him, not a default.
+  3. Reinstall the three files, Cmd+Q Reason, lock the device, run
+     `calibrate.py --device "<name>"`.
+  4. **Look at what the sweep returned before believing anything.** If it is
+     bare numbers, it needs a `docs/reason/value_names.json` entry from the
+     Operation Manual.
+  5. Restart the Reason Voice app, or the window shows the old code.
+- Status: ANSWERED 2026-09-11 — he chose the RV7000 and chose to have the
+  reverb types named. Built the same day; see the entry above. The "which 16
+  knobs" decision never arose: the device has exactly 16 remotable controls.
+
+### 2026-09-10 Scream 4 is the second device — built and tested, NOT yet proven in Reason
+
+- Context: owner picked "a second device", then "Scream 4". The dial only ever
+  spoke to the MClass Compressor. Two walls stood in the way and both are down.
+- WALL 1, the bridge had 8 knob slots. Scream 4 has exactly 16 remotable
+  controls (22 items minus Device Name, Patch Name, the meter, and the three
+  patch-select entries). Eight would have dropped Cut Lo/Mid/Hi and Master
+  Level — the most speakable ones. Extended to 16: `Knob 9`-`Knob 16` on
+  CC 38-45, reporting back on CC 68-75. Knobs 1-8 keep their exact CCs, so
+  nothing already working moved. Done now rather than later because the codec
+  reinstall and the Reason restart are required either way.
+  * A real trap found while doing it: the lua derived knob indices with
+    `string.match(name, "^Knob (%d)$")`. A bare `%d` is ONE digit — Knob 10-16
+    would have been silently dropped from feedback. Now `(%d+)`.
+  * Second trap: the 16 knob items and their 16 input lines LOOK like an
+    obvious `for` loop, and the loop version worked. But
+    `tests/test_remote_bridge.py` reads the .lua as TEXT, so generating them
+    blanked three guards while everything still passed. Reverted to literal
+    lines with a comment saying why. Written into the skill too.
+- WALL 2, `DIAL_DEVICE` was a hardcoded constant. With two devices, moving a
+  Scream knob while believing it is a compressor knob would look up the value
+  in the wrong calibration table — a confidently wrong move, the worst failure
+  this thing has. Now worked out, never guessed:
+  1. `dial_llm.device_for_param()` — Reason names the parameter with every
+     change it reports. "Damage Control" belongs to exactly one mapped device,
+     so it identifies the TYPE, which is what calibration is keyed by. A name
+     on BOTH devices ("Enabled") returns None rather than a coin flip.
+  2. A new `Device` text item mapped to `Device Name` in every knob scope,
+     copied from the factory `Launchkey MK3` pattern (`Map LCD <tab><tab>
+     Device Name`). Cold-start hint ONLY — it is the rack LABEL and he can
+     rename it, so a parameter name always wins.
+  3. Neither available -> the app says nothing is locked and moves nothing.
+- Also built, because Scream needs them and the compressor never did:
+  * **Named settings.** Damage Type shows words and Body Type shows A-E.
+    `resolve()` now matches a non-numeric target against the displayed strings
+    in the measured table, landing in the MIDDLE of that setting's run of
+    positions — an edge position is one rounding step from its neighbour.
+  * **The prompt tells the model the measured ends** (`range: 1 ms .. 100 ms`)
+    and the measured settings list. Without it, asked to "cut the lows" it
+    answered `30 ms` on an EQ band. MEASURED TRADEOFF, not a pure win: A/B'd
+    against the live model on 7 compressor phrases, it fixed "make it grab
+    faster" (1 ms, correct) and turned an unresolvable hallucination
+    (Release="Adapt") into a resolvable answer, but moved "back off the
+    compression" from Ratio 2:1 to Attack 30 ms. Kept, because inventing a
+    unit is a hard failure and a mediocre knob choice is a soft one.
+  * **Volatile knobs.** Scream's Parameter 1/2 mean something different under
+    every Damage Type, so their table is only true for the type that was
+    swept. `calibrate.py` marks them and records `measured_with`; `resolve()`
+    refuses real units on them and allows percentages only.
+  * `calibrate.py` takes its knob list from the device's remotemap block
+    instead of a hardcoded `range(1, 9)`.
+- New guard worth more than the feature: `test_every_mapped_parameter_is_a_real
+  _reason_parameter` checks every Map line's right-hand side against
+  `remote-vocab.json`. An almost-right parameter name is the silent killer in
+  this layer and nothing checked for it before.
+- MUTATION-TESTED, ACTUALLY RUN, output read: ten mutations — misspelled
+  parameter, a Scope mapping Knob 17, Device Name dropped, knob 16 CC drift,
+  knob 12 losing `output=`, device inference removed, volatile guard removed,
+  named setting landing on the first hit instead of the middle, an ambiguous
+  name picking a device anyway, undo not recorded. NINE fired first time. The
+  tenth (middle-of-run) did NOT — the test only asserted the letter, and the
+  first hit is also that letter. Tightened to assert position 64 exactly, then
+  re-run: all ten fire. Pristine copies kept in the scratch tree and the md5 of
+  all five files re-checked against them after the last restore.
+- Also caught the same class in my own new tests: two of them patched
+  `a.dial_cal`, which the `dial` handler overwrites by re-reading the
+  calibration file on every phrase. One was passing on an empty table, not on
+  the thing it claimed to test. Both now patch `dial_llm.load_calibration`, and
+  the volatile test carries a negative control — the same table WITHOUT the
+  flag must resolve.
+- Tests: 1086 passed, 2 failed, 3 skipped. Both failures are the known
+  pre-existing `tests/test_beat_machine.py` pair; nothing here touches that.
+- Model check against the live llama-server, Scream prompt, six phrases: right
+  knob every time — dirtier->Damage Control, tape->Damage Type "Tape",
+  cut the lows->Cut Lo, body off->Body On/Off "Off", crank the output->Master
+  Level, body type C->Body Type "C".
+- Stale instruction fixed: `install.sh` step 2 still said to set the surface's
+  MIDI **input** only. The return path needs the output on IAC Bus 1 too.
+- Skill updated: `reason-remote-bridge` said 8 knobs / CC 30-37 / CC 60-67,
+  all now false. Rewritten with 16 knobs, the Device Name rule, the
+  literal-lines-not-a-loop warning, and a pointer to the new vocab guard.
+  Frontmatter re-parsed with PyYAML.
+- Verify by: THE ONLY REAL PROOF IS IN REASON, and it has not happened.
+  Copy the three files to ~/Library, Cmd+Q restart, put a Scream 4 in the rack,
+  Ctrl-click -> Lock to ReasonVoice, run
+  `reason_voice/calibrate.py --device "Scream 4 Distortion"`, then say
+  "make it dirtier" / "switch it to tape" / "body type C" / "turn the body
+  off", and lock the compressor again to see the panel flip back.
+- OPEN, cannot be settled from here: whether Reason volunteers `Device Name`
+  on lock. If it does not, the cold-start hint is dead weight and he has to
+  nudge a knob once — which is what the panel already tells him to do.
+- Unchanged and still open: "down 3 dB" does not resolve, Ratio's `-inf:1` is
+  unreachable by name, and the skill-trigger benchmark is still parked.
+- Status: CONFIRMED 2026-09-11 by the owner at the machine. All six phrases
+  land, including "switch it to tape".
+- Outcome, and the two things the live run taught that no amount of offline
+  work would have:
+  1. **Scream 4 reports bare NUMBERS, not its panel labels.** The MClass
+     Compressor hands back `text_value` as "30 ms" / "-20.0 dB". Scream 4 hands
+     back "4" where the panel reads "Tape" and "2" where it reads "C"; Cut
+     Lo/Mid/Hi come back -64..63, not dB. So the whole named-settings feature
+     was inert on the device it was built for, and the calibration sweep is
+     what exposed it. Fix: `docs/reason/value_names.json` + `apply_value_names()`
+     in `dial_llm.py`, applied inside `load_calibration()` so every consumer
+     (panel, prompt, resolve) gets it from one place. Positions are never
+     touched -- only the label is filled in.
+     DO NOT assume `text_value` is human-readable on a new device. Sweep it and
+     look at what actually came back before building on it.
+     The names and their ORDER come from the Reason 12.7 Operation Manual ch.51
+     and were an INFERENCE from the manual's listing order -- now VERIFIED, he
+     watched "switch it to tape" land on Tape.
+  2. **The running app had to be restarted.** He reported "not working / I
+     don't see it on page" and the cause was neither Reason nor the bridge: the
+     Reason Voice server process had been up since 22:43 and the code was
+     written at 23:46. Everything installed was correct. Worth remembering as
+     the FIRST thing to check when a code change "does nothing" in the window --
+     `ps -o lstart` on the server process against the file mtime settles it in
+     one command, before reading any code.
+- The one open question from this entry is ANSWERED: Reason's `Device Name` is
+  not needed for identification in practice -- parameter-name inference fired
+  immediately. The hint stays, it costs nothing.
+
 ### 2026-09-10 Return path written into the reason-remote-bridge skill; trigger benchmark PARKED
 
 - Context: asked whether this session taught anything a skill should carry.

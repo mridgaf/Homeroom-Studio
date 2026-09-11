@@ -21,10 +21,100 @@ Map	Patch Prev		Select Previous Patch
 Scope	Propellerheads	Kong Drum Designer
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Drum 1 Level
+Map	Knob 2		Drum 1 Pitch Offset
+Map	Knob 3		Drum 1 Decay Offset
+Map	Knob 4		Drum 2 Level
+Map	Knob 5		Drum 2 Pitch Offset
+Map	Knob 6		Drum 2 Decay Offset
+Map	Knob 7		Drum 3 Level
+Map	Knob 8		Drum 3 Pitch Offset
+Map	Knob 9		Drum 3 Decay Offset
+Map	Knob 10		Drum 4 Level
+Map	Knob 11		Drum 4 Pitch Offset
+Map	Knob 12		Drum 4 Decay Offset
+Map	Knob 13		Drum 5 Level
+Map	Knob 14		Drum 5 Pitch Offset
+Map	Knob 15		Drum 5 Decay Offset
+Map	Knob 16		Drum 6 Level
+Map	Knob 17		Drum 6 Pitch Offset
+Map	Knob 18		Drum 6 Decay Offset
+Map	Knob 19		Drum 7 Level
+Map	Knob 20		Drum 7 Pitch Offset
+Map	Knob 21		Drum 7 Decay Offset
+Map	Knob 22		Drum 8 Level
+Map	Knob 23		Drum 8 Pitch Offset
+Map	Knob 24		Drum 8 Decay Offset
+Map	Knob 25		Drum 9 Level
+Map	Knob 26		Drum 9 Pitch Offset
+Map	Knob 27		Drum 9 Decay Offset
+Map	Knob 28		Drum 10 Level
+Map	Knob 29		Drum 10 Pitch Offset
+Map	Knob 30		Drum 10 Decay Offset
+Map	Knob 31		Drum 11 Level
+Map	Knob 32		Drum 11 Pitch Offset
+Map	Knob 33		Drum 11 Decay Offset
+Map	Knob 34		Drum 12 Level
+Map	Knob 35		Drum 12 Pitch Offset
+Map	Knob 36		Drum 12 Decay Offset
+Map	Knob 37		Drum 13 Level
+Map	Knob 38		Drum 13 Pitch Offset
+Map	Knob 39		Drum 13 Decay Offset
+Map	Knob 40		Drum 14 Level
+Map	Knob 41		Drum 14 Pitch Offset
+Map	Knob 42		Drum 14 Decay Offset
+Map	Knob 43		Drum 15 Level
+Map	Knob 44		Drum 15 Pitch Offset
+Map	Knob 45		Drum 15 Decay Offset
+Map	Knob 46		Drum 16 Level
+Map	Knob 47		Drum 16 Pitch Offset
+Map	Knob 48		Drum 16 Decay Offset
 
 Scope	Propellerheads	Redrum Drum Computer
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Drum 1 Level
+Map	Knob 2		Drum 1 Pitch
+Map	Knob 3		Drum 1 Length
+Map	Knob 4		Drum 1 Pan
+Map	Knob 5		Drum 2 Level
+Map	Knob 6		Drum 2 Pitch
+Map	Knob 7		Drum 2 Length
+Map	Knob 8		Drum 2 Pan
+Map	Knob 9		Drum 3 Level
+Map	Knob 10		Drum 3 Pitch
+Map	Knob 11		Drum 3 Length
+Map	Knob 12		Drum 3 Pan
+Map	Knob 13		Drum 4 Level
+Map	Knob 14		Drum 4 Pitch
+Map	Knob 15		Drum 4 Length
+Map	Knob 16		Drum 4 Pan
+Map	Knob 17		Drum 5 Level
+Map	Knob 18		Drum 5 Pitch
+Map	Knob 19		Drum 5 Length
+Map	Knob 20		Drum 5 Pan
+Map	Knob 21		Drum 6 Level
+Map	Knob 22		Drum 6 Pitch
+Map	Knob 23		Drum 6 Length
+Map	Knob 24		Drum 6 Pan
+Map	Knob 25		Drum 7 Level
+Map	Knob 26		Drum 7 Pitch
+Map	Knob 27		Drum 7 Length
+Map	Knob 28		Drum 7 Pan
+Map	Knob 29		Drum 8 Level
+Map	Knob 30		Drum 8 Pitch
+Map	Knob 31		Drum 8 Length
+Map	Knob 32		Drum 8 Pan
+Map	Knob 33		Drum 9 Level
+Map	Knob 34		Drum 9 Pitch
+Map	Knob 35		Drum 9 Length
+Map	Knob 36		Drum 9 Pan
+Map	Knob 37		Drum 10 Level
+Map	Knob 38		Drum 10 Pitch
+Map	Knob 39		Drum 10 Length
+Map	Knob 40		Drum 10 Pan
 
 Scope	Propellerheads	SubTractor Analog Synthesizer
 Map	Patch Next		Select Next Patch
@@ -49,6 +139,48 @@ Map	Patch Prev		Select Previous Patch
 Scope	Propellerheads	Dr.REX Loop Player
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Select Loop 1
+Map	Knob 2		Select Loop 2
+Map	Knob 3		Select Loop 3
+Map	Knob 4		Select Loop 4
+Map	Knob 5		Select Loop 5
+Map	Knob 6		Select Loop 6
+Map	Knob 7		Select Loop 7
+Map	Knob 8		Select Loop 8
+Map	Knob 9		Selected Loop Slot
+Map	Knob 10		Selected Loop in Editor
+Map	Knob 11		Notes to Slot
+Map	Knob 12		Trigger Next Setting
+Map	Knob 13		Run
+Map	Knob 14		Enable Loop Playback
+Map	Knob 15		Follow Loop Playback
+Map	Knob 16		Transpose
+Map	Knob 17		Loop Transpose
+Map	Knob 18		Osc Octave
+Map	Knob 19		Osc Fine Tune
+Map	Knob 20		Osc Env Amount
+Map	Knob 21		Amp Env Attack
+Map	Knob 22		Amp Env Decay
+Map	Knob 23		Amp Env Sustain
+Map	Knob 24		Amp Env Release
+Map	Knob 25		Amp Vel Amount
+Map	Knob 26		Loop Level
+Map	Knob 27		Filter On/Off
+Map	Knob 28		Filter Freq
+Map	Knob 29		Filter Res
+Map	Knob 30		Filter Mode
+Map	Knob 31		Filter Env Amount
+Map	Knob 32		Filter Env Attack
+Map	Knob 33		Filter Env Decay
+Map	Knob 34		Filter Env Sustain
+Map	Knob 35		Filter Env Release
+Map	Knob 36		Filter Env Vel Amount
+Map	Knob 37		LFO1 Rate
+Map	Knob 38		LFO1 Amount
+Map	Knob 39		LFO1 Wave
+Map	Knob 40		LFO1 Dest
+Map	Knob 41		LFO Sync Enable
 
 Scope	Propellerheads	ID8 Instrument Device
 Map	Patch Next		Select Next Preset
@@ -67,6 +199,7 @@ Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
 
 Scope	Propellerheads	MClass Compressor
+Map	Device		Device Name
 Map	Knob 1		Threshold
 Map	Knob 2		Soft Knee
 Map	Knob 3		Ratio
@@ -75,3 +208,41 @@ Map	Knob 5		Attack
 Map	Knob 6		Release
 Map	Knob 7		Output Gain
 Map	Knob 8		Enabled
+
+Scope	Propellerheads	Scream 4 Distortion
+Map	Device		Device Name
+Map	Knob 1		Damage Control
+Map	Knob 2		Damage Type
+Map	Knob 3		Parameter 1
+Map	Knob 4		Parameter 2
+Map	Knob 5		Cut Lo
+Map	Knob 6		Cut Mid
+Map	Knob 7		Cut Hi
+Map	Knob 8		Master Level
+Map	Knob 9		Body On/Off
+Map	Knob 10		Body Type
+Map	Knob 11		Body Scale
+Map	Knob 12		Body Resonance
+Map	Knob 13		Body Auto
+Map	Knob 14		Damage On/Off
+Map	Knob 15		Cut On/Off
+Map	Knob 16		Enabled
+
+Scope	Propellerheads	RV7000 Advanced Reverb
+Map	Device		Device Name
+Map	Knob 1		Decay
+Map	Knob 2		HF Damp
+Map	Knob 3		Hi EQ
+Map	Knob 4		Dry/Wet
+Map	Knob 5		Edit Mode
+Map	Knob 6		EQ On/Off
+Map	Knob 7		Gate On/Off
+Map	Knob 8		Enabled
+Map	Knob 9		Soft Knob 1
+Map	Knob 10		Soft Knob 2
+Map	Knob 11		Soft Knob 3
+Map	Knob 12		Soft Knob 4
+Map	Knob 13		Soft Knob 5
+Map	Knob 14		Soft Knob 6
+Map	Knob 15		Soft Knob 7
+Map	Knob 16		Soft Knob 8

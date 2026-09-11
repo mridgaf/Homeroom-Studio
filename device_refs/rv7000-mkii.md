@@ -7,6 +7,7 @@ Reason's flagship reverb: nine algorithms, a built-in EQ, and a gate section, pr
 
 ## Key controls
 - **Algorithm** (in Remote Programmer): Hall, Room, Plate, Spring, Echo, Multi-tap, Reverse, Arena, Convolution. Plate for vocals, Room for drums are the workhorses.
+- **Edit Mode**: which page the programmer shows — Reverb, EQ or Gate. It is a button: it steps through the three. The dials mean different things on each page, which is why the app sets this itself before it names a reverb type.
 - **Decay**: tail length. Under 1 s = space; over 2.5 s = effect.
 - **HF Damp**: rolls treble off the tail — almost always ON for natural results.
 - **Predelay**: gap before the reverb starts. 20–40 ms keeps vocals intelligible inside big reverbs.

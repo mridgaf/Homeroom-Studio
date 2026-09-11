@@ -241,16 +241,18 @@ function renderRecipe(st) {
   }
 }
 
-/* ---------- the dial: 8 knobs on the locked device ---------- */
+/* ---------- the dial: the knobs on whichever device is locked ---------- */
 /* Rows are built once and then updated in place, so a push arriving from
    Reason never yanks a slider out from under the finger dragging it. */
 
 let dialRows = null;
+let dialDeviceShown = null;
 
 function buildDial(d) {
   const box = $("dialKnobs");
   box.innerHTML = "";
   dialRows = {};
+  dialDeviceShown = d.device;
   for (const k of d.knobs) {
     const row = document.createElement("div");
     row.className = "dial-row";
@@ -283,7 +285,7 @@ function buildDial(d) {
 function renderDial(d) {
   if (!d) return;
   $("dialPanel").hidden = false;
-  $("dialDevice").textContent = d.device;
+  $("dialDevice").textContent = d.device || "Knobs";
   $("dialLock").textContent = d.locked ? "locked" : "not locked";
   $("dialLock").className = "chip " + (d.locked ? "tested" : "");
   $("dialPanel").classList.toggle("dim", !d.locked);
@@ -297,7 +299,10 @@ function renderDial(d) {
       `Put ${d.undo.param} back to ${d.undo.shown || "position " + d.undo.pos}`;
   }
 
-  if (!dialRows || Object.keys(dialRows).length !== d.knobs.length) buildDial(d);
+  /* Rebuild on a device change too: a different device means different
+     parameters behind the same knob numbers. */
+  if (!dialRows || dialDeviceShown !== d.device
+      || Object.keys(dialRows).length !== d.knobs.length) buildDial(d);
   for (const k of d.knobs) {
     const r = dialRows[k.knob];
     if (!r) continue;

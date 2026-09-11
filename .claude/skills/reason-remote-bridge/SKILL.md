@@ -24,11 +24,15 @@ Reason REQUIRES `remote_supported_control_surfaces()` to return a table with:
 
 ### `remote/ReasonVoice.lua` — the logic
 - `remote_init()`
-- `remote.define_items` — 10 buttons + 8 knobs
+- `remote.define_items` — 10 buttons + 48 knobs + one `Device` text item
 - `remote.define_auto_inputs` —
   - buttons: CC 20–29 on any channel, as 7f=press / 00=release **pairs**
-  - knobs: CC 30–37, `input="value", min=0, max=127`, ONE line each
+  - knobs: CC 30–77, `input="value", min=0, max=127`, ONE line each
     (`{pattern="b? 1e xx", name="Knob 1"}`) — no press/release pair
+  - `Device` has `output="text"` and NO input: it is report-only
+- **Write the knob items and their input lines out literally.** They look like
+  an obvious `for` loop, and `tests/test_remote_bridge.py` reads this file as
+  TEXT — a loop blanks its guards without failing anything.
 - Knobs are per-device: which parameter "Knob 5" moves is decided by the
   `Scope` block in the .remotemap, not by the codec. Parameter names are
   **copied verbatim** from Reason 12's own factory maps in
@@ -91,7 +95,7 @@ in the install location and never copied back.
 |---|---|---|
 | `.luacodec` | held `remote_init` (the logic) | holds `remote_supported_control_surfaces` (the manifest) |
 | `.lua` | **absent** | holds the logic |
-| `.remotemap` | `File Format Version 1.3`, one document scope using `Select Next Patch for Target Device` | `1.0.0`, 13 per-device scopes |
+| `.remotemap` | `File Format Version 1.3`, one document scope using `Select Next Patch for Target Device` | `1.0.0`, 17 per-device scopes |
 
 The draft is kept, clearly labelled, in
 `remote/_installed_backup_2026-09-10/superseded_repo_draft/`. Do not reinstall it.
@@ -127,12 +131,24 @@ factory map:
 
 ```
 Scope   Propellerheads   MClass Compressor
+Map     Device    Device Name
 Map     Knob 1    Threshold
 Map     Knob 5    Attack
 ```
 
 A name that isn't spelled exactly as Reason spells it fails silently, like
 everything else in this layer. Do not guess one; grep the factory maps.
+`tests/test_remote_bridge.py::test_every_mapped_parameter_is_a_real_reason_parameter`
+now checks every one against `docs/reason/remote-vocab.json` — run it before
+believing a new block works.
+
+**Every knob scope needs `Map Device ... Device Name`.** More than one device
+has knob blocks now, and they share knob NUMBERS, not parameters. The app
+identifies which one is locked from the parameter names Reason reports back
+(`device_for_param()` in `dial_llm.py`); `Device Name` is a cold-start hint
+only, because it is the rack LABEL and the owner can rename it. With neither
+available the app refuses to move anything rather than read a Scream's knob
+out of the compressor's calibration table.
 
 This is the supported route. **Remote Override** (right-click a knob → learn) also
 works but saves *with the song*, so it must be redone in every new song — do not
@@ -166,8 +182,84 @@ The `.luacodec` setup text used to say output could be left unassigned. That
 was true before feedback existed and is **false now**. With it unassigned,
 nothing comes back and it looks exactly like broken code.
 
-One bus, not two: we send CC 30–37 and receive CC 60–67 + SysEx, so our own
+One bus, not two: we send CC 30–77 and receive CC 78–125 + SysEx, so our own
 echo off the IAC loopback is distinguishable and is ignored by CC number.
+
+**The two ranges must never overlap**, and the budget is tighter than it
+looks: 10 buttons + N knobs out + N knobs back inside 128 CCs caps the surface
+at **59 knobs, ever**. That ceiling is why Kong reaches all 16 pads three
+controls deep (48) and not six deep (96 — impossible). Widening the knob count
+on 2026-09-11 moved the FEEDBACK range (60–75 → 78–125) to make room; knobs
+1–16 kept their outgoing CCs so nothing already measured had to be re-swept.
+`tests/test_remote_bridge.py::test_the_two_directions_never_share_a_cc` is the
+guard — an overlap makes the app read its own echo as Reason's answer, which
+is silent and corrupts the one table the dial trusts for real units.
+
+**`displays` is keyed by knob SLOT and is never cleared — scan it NEWEST
+first.** The devices are different widths (Kong 48, Redrum 40, Scream 16,
+MClass 8), so after a wide sweep the high slots keep the previous device's
+parameter names forever. Oldest-first identification then pins the device he
+unlocked an hour ago and moves the right CC out of the WRONG calibration
+table. `reason_control.py` re-inserts on every report so the dict stays in
+report order; `_sync_device()` walks it reversed. Guard:
+`tests/test_dial.py::test_the_device_is_read_from_the_newest_report_not_the_oldest`.
+
+**Two devices can number the same copies.** Kong and Redrum BOTH spell
+loudness `Drum N Level`, on channels 1-10. `device_for_param()` is a
+uniqueness test over MAPPED parameters only, so the collision appeared the
+moment Redrum's block was written and it makes those 10 names identify
+nothing. It is survivable because `_sync_device()` scans every parameter
+Reason has reported, not just the last one, and Kong's `Pitch Offset` /
+`Decay Offset` and Redrum's `Pitch` / `Length` / `Pan` are unique — one move
+of any of those pins the device for the session. **Check the overlap before
+adding a device**: `set(vocab[a]) & set(vocab[b])` against the parameters you
+intend to MAP, not the whole vocabulary. Wiring Redrum's Tone or Pan onto Kong
+would widen this from 10 names to 26.
+`tests/test_dial.py::test_kong_and_redrum_both_say_drum_n_level` states it so
+it is found on purpose rather than in his song.
+
+**Reason's Remote name is not the name on the panel.** Dr. Octo Rex is
+`Dr.REX Loop Player` in every scope, vocab entry and `--device` argument — the
+Reason 5 name never changed. Arturia's own factory map confirms it: that exact
+scope is labelled "Dr. Octo REX" on the keyboard's LCD. Grep the factory maps
+for the scope name; never type the panel name and assume.
+
+**Before wiring a device, check what is REMOTABLE, not what is possible.**
+The best techniques for a device are usually the ones a control surface cannot
+touch. Dr. Octo Rex's famous moves are all slice-level — alt-group randomising,
+sending one slice to a reverb through the rear slice outputs, drawing
+modulation in Slice Edit Mode — and slice pitch, pan, level, decay, reverse,
+alt group and slice output are **not remotable parameters at all**. Kong's
+drum-module and per-pad-effect knobs are the same. Research the device first,
+then intersect with `docs/reason/remote-vocab.json`, and design from what
+survives. Designing from the technique list and discovering the gap afterwards
+produces a map that promises moves Reason never performs.
+
+**Copies are numbered in two places, and only one shape is safe to widen.**
+Kong and Redrum put the number in the middle (`Drum 7 Level`); Dr. Octo Rex
+puts it at the end (`Select Loop 3`). Both are N interchangeable things and
+both need the number spoken. `copy_number()` covers both;
+`numbered_copy()` stays prefix-only because `build_prompt()` splits on that
+shape to hoist a shared note over the copies. And a name ending in a digit is
+not automatically a copy: the RV7000's `Soft Knob 1` is the Algorithm picker.
+`NOTE_ALIASES` is the exemption — an alias exists precisely to say Reason's
+spelling is not the real identity.
+
+**A knob whose TARGET moves is not volatile; only a knob whose MEANING moves
+is.** Rex's `Loop Transpose` and `Loop Level` act on whichever slot is
+selected in the editor, but semitones are semitones in every slot, so the
+measured table stays true and marking them volatile would refuse real units
+for nothing. `LFO1 Amount` IS volatile — how much of *what* depends on
+`LFO1 Dest`, and pitch wobble and pan wobble are not the same units. A
+targeting caveat belongs in the device guide; a units caveat belongs in
+`VOLATILE`.
+
+**A device that numbers its copies needs the number spoken.** Kong's
+parameters are `Drum 7 Level`, and Reason never reports what is loaded on a
+pad — so "make the snare louder" has no answer and the model will invent one.
+`dial_llm.numbered_copy()` / `said_the_number()` refuse the move instead.
+Anything else built the same way (Redrum channels, an NN-XT zone) inherits the
+rule for free.
 
 ### 3. Reason reports a parameter ONLY when it CHANGES
 
@@ -189,9 +281,24 @@ the reports sit in the port and the app looks deaf.
 
 ### 4. `text_value` is Reason's own display — never model a taper
 
-`remote.get_item_state(idx)` returns `text_value`: the parameter exactly as
-Reason shows it ("30 ms", "-20.0 dB", "4.06:1"). That kills the whole
-curve-modelling problem. The manual gives *ranges* but not tapers.
+`remote.get_item_state(idx)` returns `text_value`: on most devices, the
+parameter exactly as Reason shows it ("30 ms", "-20.0 dB", "4.06:1"). That
+kills the whole curve-modelling problem. The manual gives *ranges* but not
+tapers.
+
+**But `text_value` is NOT human-readable on every device. Check, per device.**
+Measured 2026-09-11: the MClass Compressor returns "30 ms"; Scream 4 returns
+a bare `"4"` where its own panel reads **Tape**, `"2"` where it reads **C**,
+and `-64..63` on the Cut bands instead of dB. A feature built on labels is
+silently inert on a device like that.
+
+So after every new `calibrate.py` sweep, **look at what came back** before
+building on it. If it is bare numbers, add the labels to
+`docs/reason/value_names.json` — device → parameter → list in value order,
+sourced from the Operation Manual and CITED there.
+`dial_llm.apply_value_names()` folds them in inside `load_calibration()`, so
+the panel, the model prompt and `resolve()` all get them from one place. It
+rewrites only the LABEL; measured positions are never touched.
 
 `reason_voice/calibrate.py` sweeps each knob 0–127 and records what Reason
 displays at every position into `docs/reason/calibration.json`. Look values up
@@ -200,6 +307,51 @@ in that table; never compute them.
 Do not generalise one knob to another. Attack happens to be linear
 (`ms = floor(1 + pos*99/127)`, exact on all 33 observed points) — that says
 **nothing** about Ratio or Release. Measure each one.
+
+### 4b. A knob whose meaning changes under you
+
+Two devices now have controls that are not one control at all:
+
+| Device | Control | Meaning set by | Reachable? |
+|---|---|---|---|
+| Scream 4 | Parameter 1, Parameter 2 | Damage Type | yes (a mapped knob) |
+| RV7000 | Soft Knob 1 (the algorithm picker) | Edit Mode | yes (a mapped knob) |
+| RV7000 | Soft Knob 2–8 | Edit Mode **and** the algorithm | yes, both |
+| Kong | Drum N DM Pitch/Decay/Level/Variable | the drum module in the pad | **NO** |
+| Kong | Drum N FX1/FX2 P1, P2 | the effect in that slot | **NO** |
+
+**"Reachable" is the whole distinction.** Kong never tells a control surface
+which module is loaded — it is not a remotable parameter, so there is nothing
+to read and nothing to set.
+
+A table measured on the wrong page is worse than no table — every lookup after
+it is confidently wrong. Three rules, all enforced in code:
+
+1. `VOLATILE` in `calibrate.py` marks them; the entry records `measured_with`.
+2. `resolve()` refuses **real units** on them forever (a measured "30 ms" is
+   true for one algorithm only). It allows a **named setting only when the
+   entry also carries `requires`** — i.e. the app can put the device into that
+   context and read back that it arrived. With no reachable context (Kong) a
+   measured name could be a leftover from a module he has since swapped, so
+   those knobs are percentage-only for good.
+3. `REQUIRES` (`calibrate.py`) records the context the table is only true in
+   (`requires: {"Edit Mode": "Reverb"}`). Before moving such a knob the app
+   reaches that context and **reads it back**; if it cannot get there it moves
+   NOTHING and says so. `_reach()` in `server.py`.
+
+**Buttons may take a value or may only step — probe, never assume.** Scream 4's
+Body/Damage/Cut On/Off take an absolute value (proven at the machine
+2026-09-11). The RV7000's Edit Mode is also a button and may only advance. So
+`calibrate.probe()` writes three values (0, 127, 127) before any sweep: if the
+repeated write changes the reading, it is a toggle, and it is NOT swept — 128
+writes to a toggle leave his patch somewhere random and "put it back where it
+started" means nothing. `_reach()` covers both: direct write first, then press
+round one full cycle, checking every time.
+
+**When your own labels and Reason disagree, Reason wins.** Labels in
+`value_names.json` are read out of the manual; a live `text_value` is what the
+device is actually showing. Both `_showing()` and `calibrate.put()` fall back
+to the table only when Reason reports a bare number.
 
 ### 5. Before running anything that sends CC: check whether Reason is open
 
