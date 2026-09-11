@@ -22,6 +22,32 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-10 Return path written into the reason-remote-bridge skill; trigger benchmark PARKED
+
+- Context: asked whether this session taught anything a skill should carry.
+  Checked all 16 skills: none mentioned "Lock to ReasonVoice", the CC 60-67 /
+  SysEx return path, `text_value`, or the calibration table. All of it existed
+  only in this ledger, which is not what loads when someone touches `remote/`.
+- Change: appended a "The return path: Reason -> us" section to
+  `.claude/skills/reason-remote-bridge/SKILL.md` (139 -> 228 lines) — the lock
+  requirement and why an effect can never hold Master Keyboard Input, the
+  mandatory MIDI output assignment, report-on-change and its three
+  consequences, `text_value` as the reason no taper is ever modelled, a
+  check-if-Reason-is-open rule before sending CC, and the three proof scripts
+  in order. Description widened so it also fires on "a knob will not move" and
+  "Reason is not reporting back".
+- Verified, not assumed: frontmatter parses with PyYAML (the silent-failure
+  mode that killed `audio-fix-verify` in August); all five file paths named in
+  the new section exist; the Attack formula the section states re-checked
+  against all 128 measured rows — zero mismatches.
+- PARKED, his call, resume anytime: the skill-creator description-triggering
+  benchmark. The 20-query eval set is already written and saved at
+  `.claude/skills/reason-remote-bridge-workspace/trigger-eval.json`
+  (10 should-trigger, 10 deliberately hard near-misses: sustain-pedal PTT,
+  IAC-for-audio, Kbd Track, Launchkey pads, the MIDI gate). Nothing was run —
+  re-open it for review, then `scripts/run_loop.py` from skill-creator.
+- Status: confirmed for the skill edit; benchmark open and not started.
+
 ### 2026-09-10 Dial wired into the app window — PROVEN against live Reason
 
 - Context: the previous entry's last open gap — "Nothing is wired into the app

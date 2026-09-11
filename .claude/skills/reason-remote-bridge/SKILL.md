@@ -1,6 +1,6 @@
 ---
 name: reason-remote-bridge
-description: The working Reason 12 Remote control-surface bridge — the exact file formats, mandatory keys, install paths, and device scopes that took several painful attempts to get right. Use whenever touching remote/ReasonVoice.luacodec, remote/ReasonVoice.lua, remote/ReasonVoice.remotemap, the mido CC map in reason_voice/reason_control.py, or anything about sending MIDI CC to Reason, patch next/prev, transport control, or the IAC Driver. Also use when Reason is not seeing the control surface, when a codec change appears to do nothing, or when asked to add a new remotable control.
+description: The working Reason 12 Remote control-surface bridge — the exact file formats, mandatory keys, install paths, and device scopes that took several painful attempts to get right. Use whenever touching remote/ReasonVoice.luacodec, remote/ReasonVoice.lua, remote/ReasonVoice.remotemap, the mido CC map in reason_voice/reason_control.py, or anything about sending MIDI CC to Reason, patch next/prev, transport control, or the IAC Driver. Also use when Reason is not seeing the control surface, when a codec change appears to do nothing, when asked to add a new remotable control, when a knob will not move or Reason is not reporting values back, and before running any script that sends CC while Reason may be open.
 ---
 
 # Reason Remote bridge
@@ -137,3 +137,92 @@ everything else in this layer. Do not guess one; grep the factory maps.
 This is the supported route. **Remote Override** (right-click a knob → learn) also
 works but saves *with the song*, so it must be redone in every new song — do not
 build on it. `reason_voice/HANDOFF.md` proposed exactly that; it is superseded.
+
+## The return path: Reason → us (added 2026-09-10)
+
+Sending CC is only half the bridge. Reason talks back, and every rule below was
+found by something failing silently — same as the rest of this layer.
+
+### 1. The device must be LOCKED. Selecting it does nothing.
+
+Ctrl-click the device panel in Reason → **"Lock to ReasonVoice"**.
+
+Control surfaces follow the sequencer's **Master Keyboard Input** (Operation
+Manual ch.23, pp.587–606). An **effect device has no sequencer track**, so an
+MClass Compressor can *never* hold Master Keyboard Input. Locking is the only
+route to any effect. The lock saves with the song.
+
+This cost a full failed test cycle: the Lua and the map were already correct
+and verified identical in form to Reason's own factory codecs. The missing step
+was not in the code. **If a knob will not move, check the lock before you read
+a single line of Lua.**
+
+### 2. The surface's MIDI **output** must be assigned
+
+Reason → Preferences → Control Surfaces → ReasonVoice → **MIDI Output =
+IAC Driver Bus 1**.
+
+The `.luacodec` setup text used to say output could be left unassigned. That
+was true before feedback existed and is **false now**. With it unassigned,
+nothing comes back and it looks exactly like broken code.
+
+One bus, not two: we send CC 30–37 and receive CC 60–67 + SysEx, so our own
+echo off the IAC loopback is distinguishable and is ignored by CC number.
+
+### 3. Reason reports a parameter ONLY when it CHANGES
+
+This one has bitten twice. Three consequences, all counter-intuitive:
+
+- **Writing a value the control already holds produces no report.** Soft Knee
+  is a *button* sitting off, so writing position 0 first was silent and
+  `calibrate.py` skipped the whole knob as dead. Fix: seed every sweep by
+  driving to 127 first, so the first real write is guaranteed to be a change.
+- **Nothing is volunteered on lock.** Confirmed 2026-09-10 against live Reason:
+  after locking, the app knows *nothing* about any knob until that knob moves.
+  A UI must show "unknown" and fill in, not invent positions.
+- **Mid-sweep silence means "unchanged", not "no answer".** A 2-state control
+  reports twice across 128 positions and says nothing in between. Carry the
+  last reading forward rather than bailing.
+
+Also: mido buffers input until it is collected. **Something has to poll**, or
+the reports sit in the port and the app looks deaf.
+
+### 4. `text_value` is Reason's own display — never model a taper
+
+`remote.get_item_state(idx)` returns `text_value`: the parameter exactly as
+Reason shows it ("30 ms", "-20.0 dB", "4.06:1"). That kills the whole
+curve-modelling problem. The manual gives *ranges* but not tapers.
+
+`reason_voice/calibrate.py` sweeps each knob 0–127 and records what Reason
+displays at every position into `docs/reason/calibration.json`. Look values up
+in that table; never compute them.
+
+Do not generalise one knob to another. Attack happens to be linear
+(`ms = floor(1 + pos*99/127)`, exact on all 33 observed points) — that says
+**nothing** about Ratio or Release. Measure each one.
+
+### 5. Before running anything that sends CC: check whether Reason is open
+
+```bash
+ps aux | grep -i "[R]eason 12"
+```
+
+If Reason is running with a device locked, **your test moves a knob in his
+open song.** This happened on 2026-09-10 during a UI check — a real Attack knob
+moved twice before anyone noticed Reason was up.
+
+If it is running: say so before you send anything, capture the current position
+first (`control.current(knob)`), and put it back when you are done. Never leave
+his song changed by a test. Same house rule as `trial-edits-need-warning`,
+applied to his session state instead of his files.
+
+### The proof scripts, in the order you need them
+
+| Script | Proves |
+|---|---|
+| `reason_voice/prove_knob.py` | a knob moves at all (run this first — it fails loudly if unlocked) |
+| `reason_voice/prove_feedback.py` | Reason reports back, AND notices a knob moved by mouse |
+| `reason_voice/calibrate.py` | what every position MEANS, written to `docs/reason/calibration.json` |
+
+All three live in `reason_voice/`, **not** `tools/` — `tools/` is DAW-neutral
+and `tests/test_boundary.py` fails if anything there imports `reason_voice`.

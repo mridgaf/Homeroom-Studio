@@ -1,0 +1,23 @@
+[
+  {"query": "the compressor knob isnt moving when i run prove_knob. i restarted reason twice already and the lua looks fine to me. whats going on", "should_trigger": true},
+  {"query": "i want to add the RV7000 to the knob setup so i can say 'more reverb' and have it actually move something. what do i change in remote/", "should_trigger": true},
+  {"query": "prove_feedback just prints 'nothing came back' three times in a row. reason is definitely open", "should_trigger": true},
+  {"query": "add a scope block for the scream 4 to ReasonVoice.remotemap — knob 1 should be the damage control knob", "should_trigger": true},
+  {"query": "before you run calibrate.py — reason is open right now with my song loaded. is that going to be a problem?", "should_trigger": true},
+  {"query": "are the CC numbers in reason_control.py and the lua codec still in sync? i think i changed one of them last week and forgot", "should_trigger": true},
+  {"query": "ReasonVoice doesn't show up in the control surfaces list in reason preferences anymore. it was there yesterday", "should_trigger": true},
+  {"query": "i edited the luacodec file and nothing changed at all. did it even load?", "should_trigger": true},
+  {"query": "write me a little script that sends CC 30 on the IAC bus and sweeps it from 0 to 127 so i can watch the knob", "should_trigger": true},
+  {"query": "why did soft knee come out as a 2-state button in the calibration instead of a proper knob like the others", "should_trigger": true},
+
+  {"query": "what does kbd track actually do on the subtractor? explain it like im not an engineer", "should_trigger": false},
+  {"query": "make me a recipe for that dusty phil collins snare sound and add it to the book", "should_trigger": false},
+  {"query": "the sustain pedal push-to-talk isnt working. i hold it down and nothing records, the pill stays on READY", "should_trigger": false},
+  {"query": "check that the .mid files in the last batch actually open as drums in reason before i drag them in", "should_trigger": false},
+  {"query": "my launchkey pads arent triggering kong. i think im in the wrong pad mode but i cant remember the shift thing", "should_trigger": false},
+  {"query": "write a device_refs page for the pulveriser in plain english, same style as the scream 4 one", "should_trigger": false},
+  {"query": "patch search found nothing for 'warm analog pad'. is the index stale or is that just the refill thing again", "should_trigger": false},
+  {"query": "help me set up the IAC driver so i can route audio out of logic and into reason", "should_trigger": false},
+  {"query": "my audiobox keeps defaulting to the built in mic as the input in reason. how do i make it stick", "should_trigger": false},
+  {"query": "add a voice command for 'open my drums crate' to intents.py — it only works if i say favorites right now", "should_trigger": false}
+]
