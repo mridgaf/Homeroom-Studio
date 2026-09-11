@@ -22,6 +22,66 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-10 Dial wired into the app window — PROVEN against live Reason
+
+- Context: the previous entry's last open gap — "Nothing is wired into the app
+  window yet... `intents.py` still ends by treating an unmatched phrase as a
+  patch search; that last line is the hook for dial_llm." That is now done.
+- Owner decisions taken up front, so nobody re-opens them: an unrecognised
+  phrase MOVES the knob immediately (with one-click Undo, not a confirm step);
+  the knob panel sits in the main stage above the recipe card; and with nothing
+  locked it SAYS SO and stops rather than falling back to a patch search.
+  That last one is a deliberate behaviour change: bare unmatched text no longer
+  searches. Explicit "find ..." still does, including the sidebar bin buttons,
+  which send "find <group> loops".
+- What changed:
+  - `intents.py` — final fallback is now `Intent("dial", {"phrase": text})`.
+    Fuzzy rescue still runs ahead of it, so mangled command phrases are
+    unaffected.
+  - `server.py` — `dial` / `dial_set` / `dial_undo` commands, a `dial_state()`
+    for the panel, `dial` added to the snapshot, `push()` split so a
+    `broadcast(msg)` helper can send just the dial panel, and a `dial_watch()`
+    task polling the MIDI input every 0.2 s. That poll is what makes a knob
+    turned with the MOUSE in Reason move on screen — nothing else drains the
+    port.
+  - `static/` — knob rows (name · Reason's displayed value · measured low/high
+    · slider), a LOCKED chip, an Undo button, the lock instructions when it is
+    not locked. Rows are built once and updated in place so an incoming push
+    cannot yank a slider out from under the finger dragging it.
+  - Nothing in `dial_llm.py` or `reason_control.py` changed — `knob_map()`,
+    `choose()`, `resolve()`, `set_value()`, `current()` were all already right.
+- PROVEN LIVE, not simulated. Reason 12 happened to be open with the compressor
+  locked while the UI was being checked, so the whole loop ran for real:
+  typed "give it more punch" -> model picked Attack -> measured table said
+  position 38 -> Reason moved the knob and reported back "Attack = 30 ms" ->
+  panel updated. Undo sent 120 and Reason reported "94 ms" back. A slider drag
+  to position 100 came back as "78 ms", which is exactly what the measured
+  table holds for 100. Both moves were put back; Attack ended where it started.
+  NOTE FOR THE OWNER: that means a knob in his open song was moved and restored
+  during this session. Nothing else in Reason was touched.
+- The one question the plan flagged is now ANSWERED, and the answer is the
+  cautious one: Reason does NOT volunteer all 8 knobs on lock. It reports a
+  parameter only when it CHANGES, so the panel starts with "—" for knobs that
+  have not moved this session and fills in as they do. The panel says this
+  plainly rather than inventing positions.
+- Tests: 1076 passed, 3 skipped, 2 failed — both failures are the two
+  pre-existing `tests/test_beat_machine.py` ones, unrelated and untouched.
+  `tests/test_dial.py` is new (12 tests, fake control surface, no MIDI/model/
+  Reason). MUTATION-TESTED, ACTUALLY RUN, output read: six mutations —
+  fallback reverted to `find`, remotemap name preferred over Reason's own,
+  locked-check removed, undo not recorded before a move, current position
+  dropped from a relative move, and a move claimed with no MIDI bridge — each
+  produced a failure, and the baseline was restored byte-identical (md5
+  re-checked against pristine copies) and re-run to 117 passed.
+- Verify by: open the window with the compressor locked; drag a slider (Reason
+  moves and reports back), turn a knob with the mouse (the slider follows),
+  type "give it more punch" (a knob moves, Undo puts it back), unlock and type
+  it again (it says nothing is locked and moves nothing).
+- Still open, unchanged by this: relative moves accept percent only ("down 3 dB"
+  does not resolve); only the MClass Compressor has a Scope block and a
+  calibration table; Ratio's top-of-travel "-inf:1" stays unreachable by name.
+- Status: confirmed
+
 ### 2026-09-10 Dial control works end to end: speech -> knob, in real units
 
 - Context: session goal was "say something open-ended, watch the right knob
@@ -74,6 +134,8 @@ entries.
   * Nothing is wired into the app window yet -- this is all command line.
     `intents.py` still ends by treating an unmatched phrase as a patch search;
     that last line is the hook for dial_llm.
+    RESOLVED same day -- see the entry above. The fallback is now `dial`, the
+    window has a knob panel, and the whole loop was proven against live Reason.
 - Status: confirmed for 1-4; the gaps above are open.
 
 ### 2026-09-10 Reason proof scripts moved out of tools/ -- they broke the DAW-neutral boundary

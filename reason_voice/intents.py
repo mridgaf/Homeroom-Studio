@@ -3,9 +3,10 @@
 Rule-based on purpose: in a studio you want deterministic, instant parsing,
 not an LLM round-trip. Extend PATTERNS as your vocabulary grows.
 
-Regex first; if the text would fall through to a generic patch search, a
-fuzzy pass rescues near-miss command phrases that whisper mangles
-("find something like this" heard as "and something like this").
+Regex first; if the text would fall through, a fuzzy pass rescues near-miss
+command phrases that whisper mangles ("find something like this" heard as
+"and something like this"). Whatever survives that is a knob move: the final
+fallback is the `dial` command, handled by dial_llm.
 """
 import re
 from dataclasses import dataclass, field
@@ -160,6 +161,9 @@ def parse(text: str) -> Intent:
             if rescue:
                 return rescue
         return Intent(command, args)
-    # Nothing matched: fuzzy-rescue a mangled command phrase, else assume
-    # it's a sound description ("warm analog pad")
-    return _fuzzy_rescue(text) or Intent("find", {"query": text})
+    # Nothing matched: fuzzy-rescue a mangled command phrase, else hand the
+    # phrase to the dial -- "give it more punch" is a knob move, not a patch
+    # search. (Owner decision 2026-09-10: his patches are sealed inside
+    # ReFills, so a fallback search found nothing useful anyway. Explicit
+    # searches still match the `find` patterns above.)
+    return _fuzzy_rescue(text) or Intent("dial", {"phrase": text})

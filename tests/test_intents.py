@@ -324,10 +324,20 @@ def test_empty_is_noop():
     assert cmd("   ") == "noop"
 
 
-def test_unmatched_text_defaults_to_find():
-    intent = parse("warm analog pad")
-    assert intent.command == "find"
-    assert intent.args["query"] == "warm analog pad"
+def test_unmatched_text_goes_to_the_dial():
+    """Owner decision 2026-09-10: an unrecognised phrase is a knob move, not a
+    patch search. His patches are sealed inside ReFills, so the old fallback
+    search found nothing useful; "give it more punch" is the real use."""
+    intent = parse("give it more punch")
+    assert intent.command == "dial"
+    assert intent.args["phrase"] == "give it more punch"
+
+
+def test_explicit_search_still_searches():
+    """The fallback moved; the `find` patterns did not. This includes the
+    sidebar bin buttons, which send "find <group> loops"."""
+    for text in ("find a warm analog pad", "find drum loops", "search for 808"):
+        assert parse(text).command == "find", text
 
 
 # -- v2: fuzzy intent matching (whisper mis-transcriptions) -------------------
@@ -348,7 +358,9 @@ def test_fuzzy_rescues_mangled_commands(text, expected):
 @pytest.mark.parametrize("text", [
     "warm analog pad", "dusty lofi keys", "big room techno kick",
 ])
-def test_fuzzy_leaves_sound_descriptions_alone(text):
+def test_fuzzy_leaves_plain_descriptions_alone(text):
+    """The point of this test is unchanged: fuzzy rescue must not swallow
+    phrases that merely resemble a command. Only the destination moved."""
     intent = parse(text)
-    assert intent.command == "find"
-    assert intent.args["query"] == text
+    assert intent.command == "dial"
+    assert intent.args["phrase"] == text

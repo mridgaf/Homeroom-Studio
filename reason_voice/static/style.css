@@ -357,3 +357,34 @@ footer {
 .hint { color: var(--dim); font-size: 13px; margin-top: 12px; }
 
 [hidden] { display: none !important; }
+
+/* ---------- the dial (knobs on the device locked to ReasonVoice) ------- */
+.dial-row {
+  display: grid;
+  grid-template-columns: 130px 84px 56px 1fr 56px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+}
+.dial-row:last-child { border-bottom: none; }
+.dial-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis;
+             white-space: nowrap; }
+.dial-val {
+  font-variant-numeric: tabular-nums; font-weight: 700; color: var(--blue);
+  background: var(--accent-dim); border-radius: 4px; padding: 2px 6px;
+  text-align: center;
+}
+.dial-end { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.dial-end.hi { text-align: right; }
+.dial-row input[type=range] { width: 100%; accent-color: var(--blue); }
+.dial-row input[type=range]:disabled { opacity: .4; }
+.dial-tip { color: var(--dim); font-size: 13px; margin-top: 10px; }
+.dial.dim .dial-row { opacity: .55; }
+#dialUndo { padding: 2px 8px; }
+
+@media (max-width: 860px) {
+  .dial-row { grid-template-columns: 1fr 84px; }
+  .dial-row .dial-end { display: none; }
+  .dial-row input[type=range] { grid-column: 1 / -1; }
+}

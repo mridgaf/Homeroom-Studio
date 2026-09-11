@@ -26,6 +26,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from . import dial_llm
 from .crates import Crates
 from .indexer import PatchIndex, REX_EXTENSIONS, bins, tokenize
 from .intents import Intent, parse
@@ -42,6 +43,14 @@ CONFIG_PATHS = [Path("config.yaml"), PROJECT_ROOT / "config.yaml"]
 SETTINGS_PATH = Path(os.path.expanduser("~/.reason_voice/ui_settings.json"))
 REASON_TEMPLATE_SONGS = ("~/Library/Application Support/"
                          "Propellerhead Software/Reason/Template Songs")
+
+# The only device with a Scope block in the remotemap and a calibration
+# table. Adding a second one is a remotemap block + a calibrate.py run,
+# not a code change here.
+DIAL_DEVICE = "MClass Compressor"
+
+NO_MIDI = ("MIDI bridge not connected — enable the IAC Driver "
+           "and restart Reason.")
 
 # v2 drops spoken `say` feedback by default — visual instead, toggle in settings.
 DEFAULT_SETTINGS = {
@@ -75,6 +84,9 @@ HELP_ITEMS = [
     ("it worked · note: used damage 35", "mark the open recipe tested / add a session note"),
     ("load two", "load/open result #2"),
     ("find something like this", "patches similar to the last one loaded"),
+    ("give it more punch", "move a knob on the locked device — say what you\n"
+     "     want it to sound like, not a number"),
+    ("set the attack to 30 milliseconds", "or name the exact value"),
     ("more results / rebuild index / help / quit", "housekeeping"),
 ]
 
@@ -181,6 +193,11 @@ class WebApp:
             app_name=self.cfg.get("reason_app_name", "Reason"),
             speak_feedback=False,   # server speaks via self.say, never via control
         )
+        # Dial: knob names come from the remotemap Reason itself reads, and
+        # what each position MEANS comes from the sweep measured off Reason.
+        self.dial_knobs = dial_llm.knob_map(DIAL_DEVICE)
+        self.dial_cal = dial_llm.load_calibration()
+        self.dial_undo = None      # one slot: {knob, pos, param, shown}
         self.recorder = WebRecorder(self.cfg.get("max_utterance_seconds", 15))
         self.templates = TemplateLibrary(
             self.cfg.get("templates_dir", str(PROJECT_ROOT / "templates")))
@@ -189,6 +206,35 @@ class WebApp:
             "sessions_dir", "~/Music/Reason 12/Sessions")
 
     # -- state broadcast -------------------------------------------------
+
+    def dial_state(self) -> dict:
+        """The 8 knobs as Reason last reported them.
+
+        `locked` is simply "Reason has spoken to us" — an effect device only
+        reaches this surface once it is Ctrl-clicked -> Lock to ReasonVoice,
+        so silence and not-locked are the same thing from here.
+        """
+        c = self.control
+        ends = {}
+        for _param, e in (self.dial_cal.get(DIAL_DEVICE) or {}).items():
+            table = e.get("table") or []
+            if table:
+                ends[e.get("knob")] = (table[0][1], table[-1][1])
+        knobs = []
+        for n in range(1, 9):
+            knob = "knob_%d" % n
+            reported, shown = c.displays.get(knob, ("", ""))
+            lo, hi = ends.get(knob, ("", ""))
+            knobs.append({
+                "knob": knob,
+                # Reason's own name for the parameter beats the remotemap's
+                "param": reported or self.dial_knobs.get(knob, knob),
+                "pos": c.positions.get(knob),
+                "shown": shown,
+                "lo": lo, "hi": hi,
+            })
+        return {"device": DIAL_DEVICE, "locked": bool(c.positions),
+                "knobs": knobs, "undo": self.dial_undo}
 
     def snapshot(self) -> dict:
         per_page = self.per_page
@@ -215,6 +261,7 @@ class WebApp:
                 (self.templates.for_recipe(self.s.recipe.name) or {}).get("name")
                 if self.s.recipe else None),
             "crates": self.crates.summary(),
+            "dial": self.dial_state(),
             "audition": self.audition_i if self.audition_active else -1,
             "info": {"lan_url": self.lan_url,
                      "midi_ptt_ports": self.midi_ports,
@@ -222,19 +269,24 @@ class WebApp:
             "settings": self.settings,
         }
 
-    async def push(self, extra: Optional[dict] = None):
-        msgs = [json.dumps(self.snapshot())]
-        if extra:
-            msgs.append(json.dumps(extra))
+    async def broadcast(self, msg: dict):
+        """Send ONE message to every client. Split out from push() so the dial
+        tick can send its small panel update instead of the whole snapshot
+        five times a second."""
+        text = json.dumps(msg)
         dead = []
         for ws in self.clients:
             try:
-                for m in msgs:
-                    await ws.send_text(m)
+                await ws.send_text(text)
             except Exception:
                 dead.append(ws)
         for ws in dead:
             self.clients.discard(ws)
+
+    async def push(self, extra: Optional[dict] = None):
+        await self.broadcast(self.snapshot())
+        if extra:
+            await self.broadcast(extra)
 
     @property
     def per_page(self) -> int:
@@ -406,6 +458,16 @@ class WebApp:
                     "(Ask: what is the drum pads.)")
         return ""
 
+    def _dial_note(self, knob, got):
+        """Remember where a knob was, so one Undo can put it back.
+        `got` is control.current(knob) — already polled by the caller."""
+        if got is None:
+            self.dial_undo = None
+            return
+        pos, name, shown = got
+        self.dial_undo = {"knob": knob, "pos": pos, "shown": shown,
+                          "param": name or self.dial_knobs.get(knob, knob)}
+
     def _step_feedback(self):
         r = self.s.recipe
         if r is None or not r.steps:
@@ -435,8 +497,82 @@ class WebApp:
             if self.control.tap(cmd):
                 self.say(cmd.replace("_", " ").capitalize() + ".")
             else:
-                self.say("MIDI bridge not connected — enable the IAC Driver "
-                         "and restart Reason.")
+                self.say(NO_MIDI)
+
+        elif cmd == "dial":
+            phrase = (args.get("phrase") or "").strip()
+            self.control.poll()   # a lock that just happened may be waiting
+            if not self.control.positions:
+                self.say("Nothing is locked to ReasonVoice. In Reason, "
+                         "Ctrl-click the device panel and choose “Lock to "
+                         "ReasonVoice” — then nudge any knob once so it says "
+                         "hello.")
+            elif not phrase:
+                self.say("Say what you want it to do — like: give it more punch.")
+            else:
+                self.status = "thinking"
+                await self.push()
+                # re-read so a fresh calibrate.py run needs no restart
+                self.dial_cal = dial_llm.load_calibration()
+                answer = await asyncio.to_thread(
+                    dial_llm.choose, phrase, DIAL_DEVICE)
+                self.status = "idle"
+                if answer is None:
+                    self.say(f"Couldn’t turn “{phrase}” into a knob move. Try "
+                             "naming the feel (more punch, squash it harder) "
+                             "or the value (attack to 30 milliseconds).")
+                else:
+                    knob = answer["knob"]
+                    got = self.control.current(knob)
+                    name = ((got[1] if got else "")
+                            or self.dial_knobs.get(knob, knob))
+                    asked = answer.get("target") or answer.get("delta")
+                    placed = dial_llm.resolve(
+                        answer, DIAL_DEVICE,
+                        current_pos=(got[0] if got else None),
+                        calibration=self.dial_cal)
+                    if placed is None:
+                        self.say(f"{name}: can’t place “{asked}”. Percentages "
+                                 "always work; real units only where that knob "
+                                 "has been calibrated.")
+                    else:
+                        pos, note = placed
+                        self._dial_note(knob, got)
+                        if self.control.set_value(knob, pos):
+                            why = answer.get("why") or ""
+                            self.say(f"{name} → {asked} ({note})."
+                                     + (f" {why}" if why else ""))
+                        else:
+                            self.dial_undo = None
+                            self.say(NO_MIDI)
+
+        elif cmd == "dial_set":
+            knob = str(args.get("knob", ""))
+            try:
+                value = int(args.get("value"))
+            except (TypeError, ValueError):
+                value = None
+            if value is None:
+                self.say("No value for that knob.")
+            else:
+                self._dial_note(knob, self.control.current(knob))
+                if self.control.set_value(knob, value):
+                    self.say("%s → position %d."
+                             % (self.dial_knobs.get(knob, knob), value))
+                else:
+                    self.dial_undo = None
+                    self.say(NO_MIDI)
+
+        elif cmd == "dial_undo":
+            u = self.dial_undo
+            if u is None:
+                self.say("Nothing to put back.")
+            elif self.control.set_value(u["knob"], u["pos"]):
+                self.dial_undo = None
+                self.say("Put %s back to %s."
+                         % (u["param"], u["shown"] or "position %d" % u["pos"]))
+            else:
+                self.say(NO_MIDI)
 
         elif cmd == "reindex":
             await asyncio.to_thread(self.index.rebuild, self.folders)
@@ -877,6 +1013,7 @@ async def startup():
     state.loop = asyncio.get_running_loop()
     asyncio.create_task(state.load_model(state.settings["whisper_model"]))
     asyncio.create_task(finish_startup())
+    asyncio.create_task(dial_watch())
     port = state.cfg.get("web_port", 8765)
 
     async def open_browser():
@@ -885,6 +1022,31 @@ async def startup():
 
     if not os.environ.get("REASON_VOICE_NO_BROWSER"):
         asyncio.create_task(open_browser())
+
+
+async def dial_watch():
+    """Keep the knob panel honest.
+
+    Reason reports a parameter only when it CHANGES, and those reports sit in
+    the MIDI input buffer until collected — so something has to collect them.
+    Polling here is what makes a knob turned with the MOUSE in Reason move on
+    screen too, not just the ones we moved ourselves.
+
+    Sends only the dial panel, never the whole snapshot.
+    """
+    seen = None
+    while True:
+        await asyncio.sleep(0.2)
+        try:
+            state.control.poll()
+            now = (dict(state.control.positions), dict(state.control.displays))
+            if now != seen:
+                seen = now
+                await state.broadcast({"type": "dial",
+                                       "dial": state.dial_state()})
+        except Exception as e:   # a dead MIDI port must not kill the watcher
+            print(f"[dial] poll failed: {e}")
+            await asyncio.sleep(2)
 
 
 async def finish_startup():

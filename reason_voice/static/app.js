@@ -18,6 +18,7 @@ function connect() {
     else if (msg.type === "doc") showDoc(msg);
     else if (msg.type === "help") showHelp(msg.items);
     else if (msg.type === "bins") renderBins(msg.bins);
+    else if (msg.type === "dial") renderDial(msg.dial);
   };
   ws.onclose = () => {
     $("status").textContent = "DISCONNECTED";
@@ -93,6 +94,7 @@ function render(st) {
   $("transcript").textContent = st.transcript;
   $("feedback").textContent = st.feedback;
 
+  renderDial(st.dial);
   renderResults(st);
   renderRecipe(st);
   renderTemplates(st.templates || []);
@@ -236,6 +238,77 @@ function renderRecipe(st) {
     tplBtn.textContent = "Save as template…";
     tplBtn.onclick = () => send({ type: "command", command: "template_howto",
                                   args: {} });
+  }
+}
+
+/* ---------- the dial: 8 knobs on the locked device ---------- */
+/* Rows are built once and then updated in place, so a push arriving from
+   Reason never yanks a slider out from under the finger dragging it. */
+
+let dialRows = null;
+
+function buildDial(d) {
+  const box = $("dialKnobs");
+  box.innerHTML = "";
+  dialRows = {};
+  for (const k of d.knobs) {
+    const row = document.createElement("div");
+    row.className = "dial-row";
+    row.innerHTML =
+      `<span class="dial-name"></span>
+       <span class="dial-val"></span>
+       <span class="dial-end lo"></span>
+       <input type="range" min="0" max="127" value="0">
+       <span class="dial-end hi"></span>`;
+    const slider = row.querySelector("input");
+    const val = row.querySelector(".dial-val");
+    const push = () => send({ type: "command", command: "dial_set",
+                              args: { knob: k.knob, value: Number(slider.value) } });
+    let last = 0;
+    slider.oninput = () => {
+      val.textContent = "…";              // Reason's own value replaces this
+      const now = Date.now();
+      if (now - last < 80) return;        // onchange lands the final value
+      last = now;
+      push();
+    };
+    slider.onchange = push;
+    box.appendChild(row);
+    dialRows[k.knob] = { row, slider, val,
+      name: row.querySelector(".dial-name"),
+      lo: row.querySelector(".lo"), hi: row.querySelector(".hi") };
+  }
+}
+
+function renderDial(d) {
+  if (!d) return;
+  $("dialPanel").hidden = false;
+  $("dialDevice").textContent = d.device;
+  $("dialLock").textContent = d.locked ? "locked" : "not locked";
+  $("dialLock").className = "chip " + (d.locked ? "tested" : "");
+  $("dialPanel").classList.toggle("dim", !d.locked);
+  $("dialHint").hidden = d.locked;
+  $("dialHint").textContent =
+    "Ctrl-click the device panel in Reason → “Lock to ReasonVoice”, " +
+    "then nudge any knob once so it says hello.";
+  $("dialUndo").hidden = !d.undo;
+  if (d.undo) {
+    $("dialUndo").title =
+      `Put ${d.undo.param} back to ${d.undo.shown || "position " + d.undo.pos}`;
+  }
+
+  if (!dialRows || Object.keys(dialRows).length !== d.knobs.length) buildDial(d);
+  for (const k of d.knobs) {
+    const r = dialRows[k.knob];
+    if (!r) continue;
+    r.name.textContent = k.param;
+    r.val.textContent = k.shown || (k.pos === null ? "—" : String(k.pos));
+    r.lo.textContent = k.lo || "0";
+    r.hi.textContent = k.hi || "127";
+    r.slider.disabled = !d.locked;
+    if (document.activeElement !== r.slider && k.pos !== null) {
+      r.slider.value = String(k.pos);
+    }
   }
 }
 
@@ -439,6 +512,7 @@ $("auditionBtn").onclick = () => send({ type: "command", command: "audition", ar
 $("testedBtn").onclick = () => send({ type: "command", command: "recipe_tested", args: {} });
 $("clearResults").onclick = () => { $("resultsPanel").hidden = true; };
 $("docClose").onclick = () => { $("docPanel").hidden = true; };
+$("dialUndo").onclick = () => send({ type: "command", command: "dial_undo", args: {} });
 $("helpBtn").onclick = () => send({ type: "command", command: "help", args: {} });
 $("tplHow").onclick = () => send({ type: "command", command: "template_howto", args: {} });
 $("tplFolder").onclick = () => send({ type: "command", command: "templates_folder", args: {} });
