@@ -214,7 +214,7 @@ Now lock one device at a time and say these.
 | "turn the gate on" | GATE button lights |
 | "give me a plate" | Flips to Reverb page first, then picks Plate |
 | "make it a spring reverb" | Same, lands on Spring |
-| "set the decay to 4 seconds" | A real time value lands |
+| "make the tail a bit longer" | Decay nudges up. **Not** "set the decay to 4 seconds" — I had that wrong: the RV7000's front-panel Decay is a raw 0-127 control in Reason itself, so there are no seconds to land on. Percentages only |
 
 ### Kong (lock the drum machine)
 

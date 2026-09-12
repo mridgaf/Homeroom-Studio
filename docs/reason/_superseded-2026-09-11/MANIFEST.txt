@@ -1,0 +1,10 @@
+2026-09-11
+calibration.json  -- full copy taken before the edit below.
+redrum-block-was-kong.json -- the 40 entries removed from it.
+
+Why: the sweep run as Redrum was performed with Kong still Ctrl-click
+Locked to ReasonVoice. All 40 parameter names Reason reported match
+Kong's remotemap exactly, at the same knob slots. So these are Kong
+measurements filed under Redrum, not Redrum measurements.
+
+Nothing was deleted. Redrum needs re-sweeping with Redrum locked.

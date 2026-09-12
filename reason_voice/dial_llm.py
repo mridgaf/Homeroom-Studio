@@ -186,9 +186,11 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
             note = ((note + " " if note else "")
                     + "meaning depends on %s -- ask for a percentage"
                     % _depends_text(cal_entry["volatile"]))
-        elif cal_entry:
+        elif cal_entry and cal_entry.get("table"):
             # The measured ends, so the model can't invent a unit. Without
             # this it answered "cut the lows" with "30 ms" on an EQ band.
+            # Guarded on the table: an unswept toggle has no ends, and printing
+            # "range: None .. None" taught the model the knob was broken.
             note = ((note + " " if note else "") + "range: %s .. %s"
                     % (cal_entry.get("min_display"),
                        cal_entry.get("max_display")))
@@ -379,7 +381,7 @@ def resolve(answer, device, current_pos=None, calibration=None):
         # MIDDLE of the run of positions holding it -- an edge position is one
         # rounding step away from the neighbouring setting.
         wanted = (answer.get("target") or "").strip().lower()
-        if not wanted or entry is None or unverifiable:
+        if not wanted or entry is None or unverifiable or not entry.get("table"):
             return None
         for match in (lambda s: s == wanted, lambda s: wanted in s):
             hits = [pos for pos, shown in entry["table"]
@@ -389,8 +391,13 @@ def resolve(answer, device, current_pos=None, calibration=None):
         return None
     if unit in ("%", "percent"):
         return max(0, min(127, int(round(value * 127.0 / 100.0)))), "percent of travel"
-    if entry is None or volatile:
-        return None  # a real unit on an unmeasured -- or context-dependent -- knob
+    # No table means the sweep never ran on this knob: probe() found it FLIPS on
+    # every write (a button), so 128 writes would have been vandalism and the
+    # positions would mean nothing. A percentage still works -- that is arithmetic
+    # on position and returned above. A lookup does not, and reaching into a
+    # missing table is a crash: measured on Kong's Drum 2 Level, 2026-09-11.
+    if entry is None or volatile or not entry.get("table"):
+        return None  # a real unit on an unmeasured, context-dependent or unswept knob
     best, best_gap = None, None
     for pos, shown in entry["table"]:
         got, got_unit = _num_unit(shown)

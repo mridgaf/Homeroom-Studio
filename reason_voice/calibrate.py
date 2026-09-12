@@ -80,24 +80,44 @@ def parse(shown):
     return float(m.group(1)), m.group(2).strip()
 
 
-def probe(r, knob):
+def probe(r, knob, samples=4):
     """"absolute" or "toggle" -- does writing a value SET this control or FLIP it?
 
-    Three writes, not a 128-step sweep, and it runs BEFORE the sweep for every
-    knob. A button that flips on every message would otherwise be flipped 128
-    times and "put it back where it started" would mean nothing. Scream 4's
-    on/off buttons take absolute values (proven at the machine 2026-09-11), but
-    that is a measurement, not a rule, so it gets re-checked per control.
+    Runs BEFORE the sweep for every knob. A button that flips on every message
+    would otherwise be flipped 128 times and "put it back where it started"
+    would mean nothing.
+
+    Writes the SAME value repeatedly and counts how often the reading changes.
+    An absolute control never changes; a flip-flop alternates every time. The
+    first version compared a single pair, and a single dropped report was enough
+    to invert the verdict -- which happened twice on 2026-09-11, in both
+    directions: Kong's Drum 2 Level, a normal 0-127 knob, was called a toggle,
+    and Alligator's Gate 1 Open, a real button, was called absolute and then
+    flipped 128 times while its two identical siblings were correctly spared.
+
+    Ties break toward "toggle" on purpose. The two mistakes are not equal: a
+    knob wrongly called a toggle loses its table and falls back to percentages,
+    which still work. A toggle wrongly called a knob gets hammered 128 times and
+    records noise -- it damages his patch AND the calibration.
     """
     seen = []
-    for value in (0, 127, 127):
-        r.set_value(knob, value)
+    r.set_value(knob, 0)          # seed: guarantee the next write is a change
+    time.sleep(SETTLE)
+    r.poll()
+    for _ in range(samples):
+        r.set_value(knob, 127)
         time.sleep(SETTLE)
         r.poll()
         got = r.current(knob)
         seen.append(got[2] if got else None)
-    # third write repeats the second: same reading = it SET, different = it FLIPPED
-    return "toggle" if seen[1] != seen[2] else "absolute"
+    changes = sum(1 for a, b in zip(seen, seen[1:]) if a != b)
+    if changes == 0:
+        return "absolute"
+    if changes >= 2:
+        return "toggle"
+    # Exactly one change across four identical writes is the signature of a
+    # dropped report, not of either kind of control. Ask once more.
+    return probe(r, knob, samples + 1) if samples == 4 else "toggle"
 
 
 def put(r, data, device, param, wanted):
@@ -164,6 +184,36 @@ def sweep(r, knob):
     return name, table
 
 
+def lost_readings(table):
+    """Positions where Reason's report went missing, or [] if the sweep was clean.
+
+    sweep() carries the last reading forward when Reason says nothing, because
+    mid-sweep silence normally means "unchanged" -- a 2-state button reports
+    twice across 128 positions and is silent in between. A report DROPPED by a
+    MIDI buffer overflow looks exactly the same from here, and lands in the
+    table as a stale value wearing the clothes of a measurement. Measured on
+    Kong 2026-09-11: Reason warned about the overflow, and positions 21-25 of
+    Drum 2 Level all recorded "20" while the knob was really moving. The same
+    overflow made probe() call that knob a toggle.
+
+    Told apart by SHAPE, not by guessing what kind of control it is: a picker's
+    runs are all about equal (ten reverb algorithms, ~13 positions each), and a
+    switch's are huge but even. A drop is ONE long run against short ones.
+    """
+    vals = [v for _, v in table]
+    runs, start = [], 0
+    for i in range(1, len(vals) + 1):
+        if i == len(vals) or vals[i] != vals[start]:
+            runs.append((i - start, start))
+            start = i
+    # Upper median on purpose: on an even count it takes the LONGER of the two
+    # middle runs, which makes the test harder to trip, not easier. A detector
+    # that cries wolf gets ignored, and then it may as well not exist.
+    lengths = sorted(n for n, _ in runs)
+    median = lengths[len(lengths) // 2]
+    return [(n, at) for n, at in runs if n >= 3 and n >= 3 * median]
+
+
 def main():
     args = [a for a in sys.argv[1:]]
     device = "MClass Compressor"
@@ -194,7 +244,7 @@ def main():
     data = json.loads(OUT.read_text()) if OUT.exists() else {}
     data.setdefault(device, {})
 
-    skipped_context = []
+    skipped_context, lossy = [], []
     for knob in knobs:
         print("   %s ..." % knob)
         param_name = mapped.get(knob, "")
@@ -221,6 +271,25 @@ def main():
         if table is None:
             print("      nothing came back -- skipped (is the device locked?)")
             continue
+
+        # Reason names the parameter in every report, and that name is the only
+        # proof that the device we are WRITING to is the device that is LOCKED.
+        # Without this check the run looks perfect and measures the wrong rack
+        # unit: on 2026-09-11 a Redrum sweep ran with Kong still locked, and all
+        # 40 knobs came back as Kong parameters -- correct-looking numbers filed
+        # under the wrong device. Caught on the first knob, so one knob is
+        # disturbed instead of forty.
+        expected = mapped.get(knob, "")
+        if name and expected and name != expected:
+            for other, pos in start.items():
+                r.set_value(other, pos)
+            sys.exit(
+                '\n   WRONG DEVICE -- nothing was saved.\n'
+                '   Sweeping %r, whose map calls %s %r,\n'
+                '   but Reason reported %r.\n\n'
+                '   Something else is Ctrl-click -> "Lock to ReasonVoice".\n'
+                '   Lock the right device and run this again.'
+                % (device, knob, expected, name))
         lo, lo_unit = parse(table[0][1])
         hi, hi_unit = parse(table[-1][1])
         entry = {
@@ -237,9 +306,16 @@ def main():
         if needed:
             # What the app must put the device into before it moves this knob.
             entry["requires"] = needed
+        lost = lost_readings(table)
+        if lost:
+            entry["lossy"] = [[at, n] for n, at in lost]
+            lossy.append("%s (%s)" % (knob, name or param_name))
         data[device][name or knob] = entry
         span = ("%s .. %s" % (table[0][1], table[-1][1])) if lo is not None else "not numeric"
         print("      %s: %s" % (name or knob, span))
+        for n, at in lost:
+            print("      %d READINGS LOST at positions %d-%d -- Reason's reports "
+                  "did not keep up." % (n - 1, at + 1, at + n - 1))
 
     # A volatile knob's table is only true for the setting that was live.
     # Record it, read out of the table we just measured for that other knob.
@@ -262,6 +338,14 @@ def main():
 
     for knob, pos in start.items():
         r.set_value(knob, pos)
+
+    if lossy:
+        print("\n   THIS SWEEP LOST DATA. Re-run just these knobs, one command:")
+        print("      ./.venv/bin/python reason_voice/calibrate.py --device %r %s"
+              % (device, " ".join(k.split(" ")[0] for k in lossy)))
+        print("   Cause is a MIDI buffer overflow -- Reason says so in its own")
+        print("   window. Quitting other audio apps helps; re-running a handful")
+        print("   of knobs on a quiet bus usually comes back clean.")
 
     if skipped_context:
         print("\n   Not measured, because the device could not be put in the "

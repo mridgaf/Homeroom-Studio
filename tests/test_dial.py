@@ -540,7 +540,10 @@ def test_a_toggle_button_is_spotted_before_it_gets_swept():
     from reason_voice import calibrate
     straight = FakeKnob(["Off"] * 64 + ["On"] * 64)
     assert calibrate.probe(straight, "knob_6") == "absolute"
-    assert len(straight.sent) == 3          # three writes, not 128
+    # The count is an implementation detail -- it went 3 -> 5 when probe() was
+    # hardened against dropped reports. What must stay true is the reason the
+    # assertion exists: a handful of writes, nowhere near a 128-step sweep.
+    assert len(straight.sent) <= 10
 
     toggling = FakeKnob(["Off"] * 64 + ["On"] * 64, flip=True)
     assert calibrate.probe(toggling, "knob_6") == "toggle"
@@ -1009,3 +1012,212 @@ def test_the_named_setting_example_only_appears_where_a_picker_exists():
     assert '"Tape"' in withnames
     assert "spelled exactly as listed" in withnames
     assert "four forms" in withnames
+
+
+def test_a_knob_that_probed_as_a_toggle_never_crashes_a_lookup():
+    """A button has no measured table, and resolve() used to reach into it anyway.
+
+    Found at the machine, not in review: Kong's sweep on 2026-09-11 recorded
+    `Drum 2 Level` as `{"knob": "knob_4", "unit": "", "toggle": true}` with no
+    `table` key, because probe() saw it flip on every write. Any target with a
+    real unit -- or a bare number, which is what a 0..127 Level invites -- then
+    died on KeyError: 'table' in the live path.
+
+    A percentage must still work: that is arithmetic on position and never
+    touches the table. Everything else refuses, quietly.
+    """
+    cal = {KONG: {"Drum 2 Level": {"knob": "knob_4", "unit": "", "toggle": True}}}
+
+    assert dial_llm.resolve({"knob": "knob_4", "target": "100"}, KONG,
+                            calibration=cal) is None      # bare number
+    assert dial_llm.resolve({"knob": "knob_4", "target": "30 ms"}, KONG,
+                            calibration=cal) is None      # real unit
+    assert dial_llm.resolve({"knob": "knob_4", "target": "On"}, KONG,
+                            calibration=cal) is None      # a word
+
+    pos, _ = dial_llm.resolve({"knob": "knob_4", "target": "75%"}, KONG,
+                              calibration=cal)
+    assert pos == 95
+    pos, _ = dial_llm.resolve({"knob": "knob_4", "delta": "-5%"}, KONG,
+                              current_pos=100, calibration=cal)
+    assert pos == 94
+
+
+def test_an_unswept_toggle_is_not_described_to_the_model_as_a_broken_range():
+    """It printed "range: None .. None" -- teaching the model the knob is dead."""
+    cal = {KONG: {"Drum 2 Level": {"knob": "knob_4", "unit": "", "toggle": True},
+                  "Drum 1 Level": {"knob": "knob_1", "unit": "",
+                                   "min_display": "0", "max_display": "127",
+                                   "table": [[p, str(p)] for p in range(128)]}}}
+    prompt = dial_llm.build_prompt("turn up pad 2", KONG, calibration=cal)
+    assert "range: None" not in prompt
+    assert "range: 0 .. 127" in prompt        # the swept one still says its ends
+
+
+def test_a_sweep_that_lost_reports_says_so_instead_of_lying():
+    """A dropped MIDI report becomes a stale value pretending to be measured.
+
+    Reason warned about a MIDI input buffer overflow during Kong's sweep on
+    2026-09-11, and it cost real data: positions 21-25 of Drum 2 Level all
+    recorded "20" while the knob was moving. sweep() cannot tell that from a
+    switch sitting still, so the table looked clean. The same overflow made
+    probe() call that knob a toggle.
+
+    The detector must fire on that shape and stay quiet on every control that
+    legitimately repeats itself -- or it is noise and gets ignored.
+    """
+    from reason_voice import calibrate
+
+    # a clean continuous knob: every position its own reading
+    assert calibrate.lost_readings([[p, str(p)] for p in range(128)]) == []
+
+    # the real failure: one flat run against a background of ones
+    vals = list(range(128))
+    for p in range(21, 26):
+        vals[p] = 20                       # five reports never arrived
+    lost = calibrate.lost_readings([[p, str(v)] for p, v in enumerate(vals)])
+    assert len(lost) == 1
+    run, at = lost[0]
+    assert (at, run) == (20, 6)            # "20" held from position 20 to 25
+
+    # a 2-state switch reports twice in 128 positions and is silent between
+    assert calibrate.lost_readings(
+        [[p, "Off" if p < 64 else "On"] for p in range(128)]) == []
+
+    # a 3-state picker, and a 10-way one: even runs, nothing anomalous
+    assert calibrate.lost_readings(
+        [[p, str(min(2, p * 3 // 128))] for p in range(128)]) == []
+    algos = ["Small Space", "Room", "Hall", "Arena", "Plate",
+             "Spring", "Echo", "Multi Tap", "Reverse", "Convolution"]
+    assert calibrate.lost_readings(
+        [[p, algos[min(9, p * 10 // 128)]] for p in range(128)]) == []
+
+
+def test_the_sweep_refuses_to_measure_a_device_that_is_not_the_locked_one():
+    """The guard that would have caught the wrong-device sweep on its first knob.
+
+    2026-09-11, at the machine: a Redrum sweep ran with Kong still Locked to
+    ReasonVoice. Reason routed all 40 writes to Kong and reported Kong's names
+    back, so the run printed clean, plausible numbers -- and filed Kong's
+    Pitch Offset and Decay Offset under Redrum, where its map says Pitch,
+    Length and Pan. Nothing in the output said anything was wrong.
+
+    Reason names the parameter in every report, so the remotemap already holds
+    the answer. Asserted here as data, so the rule survives an edit to main().
+    """
+    redrum = dial_llm.knob_map(REDRUM)
+    kong = dial_llm.knob_map(KONG)
+
+    # The exact readings that came back that day, on Redrum's knob slots.
+    reported = {"knob_1": "Drum 1 Level", "knob_2": "Drum 1 Pitch Offset",
+                "knob_3": "Drum 1 Decay Offset", "knob_4": "Drum 2 Level"}
+    for knob, name in reported.items():
+        assert kong[knob] == name, knob          # it was Kong all along
+
+    mismatched = [k for k, name in reported.items() if redrum[k] != name]
+    assert mismatched == ["knob_2", "knob_3", "knob_4"]
+
+    # knob_1 is the trap: Kong and Redrum spell it identically, so the FIRST
+    # knob alone cannot clear a run. The guard has to keep checking every knob.
+    assert redrum["knob_1"] == kong["knob_1"] == "Drum 1 Level"
+
+    src = (dial_llm.PROJECT_ROOT / "reason_voice" / "calibrate.py").read_text()
+    assert "WRONG DEVICE" in src
+    assert "if name and expected and name != expected:" in src
+
+
+class _FakeSurface:
+    """Just enough of ReasonControl to drive probe(): a control and a flaky bus.
+
+    `kind` is what the control really is. `drop` is the index of the read whose
+    report never arrives, so the previous reading is what gets seen -- exactly
+    what a MIDI input buffer overflow does.
+    """
+
+    def __init__(self, kind, drop=None):
+        self.kind = kind
+        self.drop = drop
+        self.state = 0
+        self.reads = 0
+        self.sent = []
+        self.last = "0"
+
+    def set_value(self, knob, value):
+        self.sent.append(value)
+        self.state = (1 - self.state) if self.kind == "toggle" else value
+
+    def poll(self):
+        pass
+
+    def current(self, knob):
+        fresh = str(self.state) if self.kind == "toggle" else str(self.state)
+        if self.reads != self.drop:          # a dropped report shows the stale value
+            self.last = fresh
+        self.reads += 1
+        return (0, "Whatever", self.last)
+
+
+def test_probe_survives_the_dropped_report_that_fooled_it_twice():
+    """Both real misfires from 2026-09-11, in both directions.
+
+    Kong's Drum 2 Level (a normal 0-127 knob) was called a toggle, and
+    Alligator's Gate 1 Open (a real button) was called absolute and then swept
+    128 times -- flipping it 128 times -- while Gate 2 and Gate 3 Open, the same
+    control, were correctly spared. One comparison of one pair of readings
+    decided both, and one lost report was enough to invert it.
+    """
+    from reason_voice import calibrate
+
+    calibrate.SETTLE = 0                       # no need to wait on a fake bus
+
+    assert calibrate.probe(_FakeSurface("absolute"), "knob_4") == "absolute"
+    assert calibrate.probe(_FakeSurface("toggle"), "knob_25") == "toggle"
+
+    # a report lost anywhere in the run must not change either verdict
+    for at in range(4):
+        assert calibrate.probe(_FakeSurface("absolute", drop=at), "knob_4") \
+            == "absolute", at
+        assert calibrate.probe(_FakeSurface("toggle", drop=at), "knob_25") \
+            == "toggle", at
+
+
+def test_probe_breaks_a_tie_toward_the_safer_answer():
+    """The two mistakes are not equal, so an undecidable control is a toggle.
+
+    Wrongly calling a knob a toggle costs it its table and falls back to
+    percentages, which still work. Wrongly calling a toggle a knob hammers it
+    128 times -- damaging his patch AND recording noise as measurement.
+    """
+    from reason_voice import calibrate
+    calibrate.SETTLE = 0
+
+    class _AlwaysOneChange(_FakeSurface):
+        """Exactly one change per round, however many samples are taken."""
+
+        def set_value(self, knob, value):
+            if value == 0:
+                self.reads = 0          # the seed write starts a new round
+
+        def current(self, knob):
+            self.reads += 1
+            return (0, "Whatever", "1" if self.reads == 1 else "0")
+
+    assert calibrate.probe(_AlwaysOneChange("absolute"), "knob_1") == "toggle"
+
+
+def test_an_obvious_toggle_is_decided_without_a_second_round_of_writes():
+    """Why probe() keeps a "2 or more changes = toggle" branch at all.
+
+    Drop it and the tie-break still reaches the right answer, so no verdict
+    changes -- which is exactly why this needs its own test. What it costs is
+    MIDI: every button takes two rounds instead of one, and there are 22 of
+    them across Dr. Octo Rex and Alligator. Reason was already overflowing its
+    input buffer on this bus on 2026-09-11; doubling the traffic to reach an
+    answer we already have is how that gets worse.
+    """
+    from reason_voice import calibrate
+    calibrate.SETTLE = 0
+
+    clear = _FakeSurface("toggle")
+    assert calibrate.probe(clear, "knob_25") == "toggle"
+    assert len(clear.sent) == 5          # one seed + four samples, one round
