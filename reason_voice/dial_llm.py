@@ -283,12 +283,21 @@ def apply_value_names(cal, names_path=VALUE_NAMES):
     devices the measured POSITIONS stay exactly as measured and only the label
     is filled in, from the Operation Manual -- see docs/reason/value_names.json.
 
+    The same file also carries UNITS, for the other half of the problem: Dr.
+    Octo Rex reports Transpose as "-12".."12" with no unit at all, so "down two
+    semitones" dies on the unit comparison in resolve(). A name list cannot fix
+    that one -- the loop below rejects negative indexes on purpose -- so the
+    unit pass stamps the label on instead. Only knobs whose zero point is not
+    in doubt are listed; see the comment in value_names.json.
+
     Nothing here invents a position. A parameter with no entry is untouched.
     """
     try:
-        names = json.loads(names_path.read_text())["devices"]
-    except (OSError, ValueError, KeyError):
+        doc = json.loads(names_path.read_text())
+    except (OSError, ValueError):
         return cal
+    names = doc.get("devices") or {}
+    units = doc.get("units") or {}
     for device, params in names.items():
         for param, labels in (params or {}).items():
             entry = (cal.get(device) or {}).get(param)
@@ -302,6 +311,25 @@ def apply_value_names(cal, names_path=VALUE_NAMES):
                 table.append([pos, shown])
             entry["table"] = table
             entry["named"] = True
+            entry["min_display"] = table[0][1] if table else ""
+            entry["max_display"] = table[-1][1] if table else ""
+    for device, params in units.items():
+        if not isinstance(params, dict):
+            continue          # the block's own "_comment", not a device
+        for param, unit in params.items():
+            entry = (cal.get(device) or {}).get(param)
+            # An entry that already carries a unit measured one off Reason.
+            # That reading wins, and it also makes a second pass a no-op.
+            if not entry or not unit or entry.get("unit"):
+                continue
+            table = []
+            for pos, shown in entry.get("table") or []:
+                value, had = _num_unit(shown)
+                if value is not None and not had:
+                    shown = "%s %s" % (shown.strip(), unit)
+                table.append([pos, shown])
+            entry["table"] = table
+            entry["unit"] = unit
             entry["min_display"] = table[0][1] if table else ""
             entry["max_display"] = table[-1][1] if table else ""
     return cal

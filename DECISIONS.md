@@ -22,6 +22,74 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-12 Dr. Octo Rex could not be told anything in words, and the ledger's list of suspect devices was short
+
+- Context: "continue recent voice", then "check the recent commits first". Steps
+  1-7 are done, Step 8 unrun. This did the one open item needing neither Reason
+  nor him at the machine.
+- **The defect, which nobody had noticed was a defect.** Rex reports every one
+  of its 19 pickers as a bare number -- "0" where the panel says Off, "3" where
+  it says LP 12. `resolve()` answers a WORD by looking it up in the measured
+  table, so "stop the loop" was heard, transcribed, parsed, sent to the model,
+  answered correctly as `{"target":"Off"}` -- and then resolved to nothing and
+  moved nothing. Silent the whole way. Same for the filter switch, loop
+  playback and LFO sync. It was logged as "needs one pass through the manual",
+  not as four broken phrases in Step 8's own table.
+- Decision/change: names for 9 pickers and units for 3 knobs, in
+  `value_names.json`, from Operation Manual **ch.29** (pp.695-718). Marked
+  PROVISIONAL like the RV7000 block: the manual gives the words and the order,
+  the panel confirms them in Step 8.
+  **The check that the ORDER is right is the length.** Five filter modes in the
+  manual and five distinct readings off Reason; six waveforms and six; three
+  destinations and three; three Trig Next settings and three. Four independent
+  agreements, none arranged.
+- **Units, not names, for the semitone problem** -- and that made it small. The
+  ledger said exact semitones "need a small new mechanism" because
+  `apply_value_names()` rejects negative indexes. True, but the fix is not a
+  name list at all: Transpose already DISPLAYS -12..12, it just carries no
+  unit, so "down two semitones" died on the unit comparison in `resolve()`.
+  Stamping the label on is 24 lines and sidesteps negative indexes entirely.
+- **Three things deliberately NOT guessed, all written into Step 8 instead:**
+  1. **Osc Octave** reads 0..8 and nothing outside Reason knows which is
+     neutral. Labelling it "octaves" would make "4 octaves" mean no change.
+     Left bare on purpose; a wrong unit is worse than none.
+  2. **The three slot controls count differently from each other** -- Selected
+     Loop Slot -1..7, Selected Loop in Editor 0..7, Notes to Slot 1..8. One
+     calls his first loop "0" and another calls it "1". Naming them on a guess
+     moves the wrong loop.
+  3. Whether the provisional names match the panel.
+- **The eight `Select Loop` buttons were storing a non-measurement.** All read
+  "1" at every one of 128 positions -- the same absence-of-movement the
+  Alligator gates showed. Now flat/unreadable, tables moved to
+  `_superseded-2026-09-11/` with a MANIFEST line. Nothing deleted.
+- **Checking the commits turned up something the ledger has wrong.** The
+  2026-09-12 entry below names "Kong, Redrum and Dr. Octo Rex" as swept before
+  the restore fix. Comparing each device block byte-for-byte across commits:
+  `await_lock`, the flat guard and `context_first` ALL landed in `cd67e67`, and
+  **only Alligator's numbers were re-measured after them**. Kong, Redrum, Rex
+  and **RV7000** are untouched since `cc16554`; Scream 4 (`6e3ddce`) and MClass
+  (`941de97`) are older still. So **RV7000 belongs on the "knobs may still be
+  at 127" list** -- and that entry's own evidence agrees, since its fifteen
+  soft knobs recorded `Edit Mode = unknown`, which is the empty-start-table
+  symptom. Verified with `git log -S`, not inferred.
+- Also fixed in passing: `device_refs/dr-octo-rex.md` cited the manual's
+  **chapter 17**. Rex is chapter 29. The wrong citation had been there since
+  the file was written.
+- Verify by: full suite **1139 passed, 2 failed** (the two known
+  `test_beat_machine.py` failures, untouched by this). `test_dial.py` +
+  `test_remote_bridge.py` **82 -> 88**. MUTATION-TESTED, actually run, output
+  read: seven mutations -- two picker lists broken, a unit entry dropped, the
+  flat table restored, the unit stamp deleted, the relabel disabled, the
+  measured-unit guard removed. Six fired immediately; **the seventh was silent
+  and was acted on rather than ignored** -- the guard that stops a hand-edit in
+  `value_names.json` overwriting a unit measured off Reason had no test. Added
+  one; it fires. Every file md5-matched its pristine copy after restore.
+  Proved on the SHIPPED data, not fixtures: "stop the loop" -> position 34 =
+  Off, "pitch down two semitones" -> position 51 = -2 semitones, "2 ms" on
+  Transpose refused, "3" on a Select Loop refused, 100% accepted.
+- Status: open -- the names are provisional until Step 8 says otherwise.
+- Nothing committed; he writes the commits.
+
 ### 2026-09-12 All seven devices swept against real Reason — and the restore had never worked
 
 - Context: worked through `TESTING-VOICE-DIAL.md` with him at the machine.
@@ -112,6 +180,10 @@ entries.
      `apply_value_names()` cannot label them because it rejects negative
      indexes, so exact semitones need a small new mechanism.
   4. **Check Kong, Redrum and Rex** for knobs left at maximum.
+     CORRECTED 2026-09-12: **RV7000 too.** Byte-comparing each device block
+     across commits, only Alligator was re-measured after the three guards
+     landed in `cd67e67`. Kong, Redrum, Rex and RV7000 are all untouched since
+     `cc16554`. Item 3 below is now done at the desk; see the entry at the top.
 - Nothing committed. Two holding folders under `docs/reason/_superseded-2026-09-11/`
   with a MANIFEST — the Kong-data-filed-as-Redrum block, and the three
   sequencer-contaminated gates. Nothing deleted.

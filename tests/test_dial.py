@@ -1384,3 +1384,138 @@ def test_a_knob_that_reads_the_same_everywhere_is_not_recorded_as_measured():
 
     src = (dial_llm.PROJECT_ROOT / "reason_voice" / "calibrate.py").read_text()
     assert "if len({v for _, v in table}) <= 1:" in src
+
+
+# -- Rex speaks only in bare numbers (2026-09-12) -----------------------------
+#
+# Every one of Dr. Octo Rex's 19 pickers reports a number where its panel shows
+# a word: "0" for Off, "3" for LP 12. resolve() answers a word by looking it up
+# in the measured table, so until the panel's own words are in that table the
+# app cannot act on one -- "stop the loop" returns None and moves nothing.
+#
+# The names come from the Reason 12.7 Operation Manual ch.29, and the check
+# that the ORDER is right is that each list's length equals the number of
+# distinct readings the sweep measured. Confirmed against the panel in Step 8.
+
+def rex_picker(knob, count):
+    """A picker as the sweep leaves it: `count` settings, reported as 0..n-1."""
+    return {"knob": knob, "unit": "",
+            "table": [[p, str(min(count - 1, p * count // 128))]
+                      for p in range(128)]}
+
+
+def test_rex_on_off_buttons_cannot_answer_a_word_without_naming():
+    """The defect, stated as a test. Step 8 says "stop the loop" turns Run off.
+
+    Rex reports Run as "1" and "0", so the word "Off" matches nothing in the
+    measured table and resolve() returns None -- the phrase is heard, parsed,
+    sent to the model, and then silently does nothing at all. Naming the two
+    positions is the whole fix; the positions themselves stay as measured.
+    """
+    cal = {REX: {"Run": rex_picker("knob_13", 2)}}
+    before = [row[0] for row in cal[REX]["Run"]["table"]]
+
+    named = dial_llm.apply_value_names(cal)
+    assert [row[0] for row in named[REX]["Run"]["table"]] == before
+
+    pos, _ = dial_llm.resolve({"knob": "knob_13", "target": "Off"},
+                              REX, calibration=named)
+    assert named[REX]["Run"]["table"][pos][1] == "Off"
+
+
+def test_rex_pickers_land_in_the_middle_of_the_setting_asked_for():
+    """One per picker. The count is the check: five filter modes in the manual
+    and five distinct readings off Reason is agreement, not a coincidence."""
+    cases = [("Filter Mode", "knob_30", 5, "Notch", "LP 24"),
+             ("LFO1 Wave", "knob_39", 6, "Triangle", "Soft Random"),
+             ("LFO1 Dest", "knob_40", 3, "Osc", "Pan"),
+             ("Trigger Next Setting", "knob_12", 3, "Bar", "1/16")]
+    for param, knob, count, first, last in cases:
+        cal = dial_llm.apply_value_names({REX: {param: rex_picker(knob, count)}})
+        entry = cal[REX][param]
+        choices = dial_llm.named_choices(entry)
+        assert choices == [first] + choices[1:-1] + [last], (param, choices)
+        assert len(choices) == count, (param, choices)
+        for want in (first, last):
+            pos, _ = dial_llm.resolve({"knob": knob, "target": want},
+                                      REX, calibration=cal)
+            assert entry["table"][pos][1] == want, (param, want)
+
+
+def test_rex_transpose_speaks_semitones_and_refuses_milliseconds():
+    """-12..12 with no unit is unusable: "down 2 semitones" dies on the unit
+    comparison in resolve(). A unit LABEL fixes it, where a name list cannot --
+    apply_value_names() rejects negative indexes by design.
+
+    The refusal half matters as much as the lookup: a knob that accepts "2 ms"
+    because it happens to hold a 2 is a confidently wrong move.
+    """
+    cal = {REX: {"Transpose": {
+        "knob": "knob_16", "unit": "",
+        "table": [[p, str(min(24, p * 25 // 128) - 12)] for p in range(128)]}}}
+    named = dial_llm.apply_value_names(cal)
+    entry = named[REX]["Transpose"]
+    assert entry["unit"] == "semitones"
+
+    pos, _ = dial_llm.resolve({"knob": "knob_16", "target": "2 semitones"},
+                              REX, calibration=named)
+    assert entry["table"][pos][1] == "2 semitones"
+
+    assert dial_llm.resolve({"knob": "knob_16", "target": "2 ms"},
+                            REX, calibration=named) is None
+
+
+def test_a_unit_measured_off_reason_beats_the_one_in_the_file():
+    """value_names.json is hand-edited; calibration.json is measured. If the
+    two ever disagree about a knob's unit, the measurement wins -- listing a
+    knob under `units` must never relabel one that already reported its own."""
+    cal = {REX: {"Transpose": {
+        "knob": "knob_16", "unit": "ms",
+        "table": [[0, "1 ms"], [127, "100 ms"]]}}}
+    entry = dial_llm.apply_value_names(cal)[REX]["Transpose"]
+    assert entry["unit"] == "ms"
+    assert entry["table"] == [[0, "1 ms"], [127, "100 ms"]]
+
+
+def test_rex_select_loop_buttons_take_percentages_only():
+    """The eight Select Loop buttons read "1" at all 128 positions -- the same
+    absence-of-movement the Alligator gates showed, stored as a measurement
+    because Rex was swept one commit before calibrate.py learned to refuse it.
+    """
+    cal = dial_llm.load_calibration()
+    rex = cal.get(REX)
+    if not rex:
+        pytest.skip("Dr. Octo Rex not calibrated on this machine")
+    for n in range(1, 9):
+        entry = rex["Select Loop %d" % n]
+        assert entry.get("flat"), "Select Loop %d still stores a table" % n
+        assert not entry.get("table")
+    pos, _ = dial_llm.resolve({"knob": "knob_3", "target": "100%"},
+                              REX, calibration=cal)
+    assert pos == 127
+    assert dial_llm.resolve({"knob": "knob_3", "target": "3"},
+                            REX, calibration=cal) is None
+
+
+def test_the_real_rex_table_names_every_picker():
+    """Guards the shipped files together, as the Scream 4 test does: a bare
+    number left showing here means calibration.json and value_names.json have
+    drifted apart."""
+    cal = dial_llm.load_calibration()
+    rex = cal.get(REX)
+    if not rex:
+        pytest.skip("Dr. Octo Rex not calibrated on this machine")
+    for param in ("Filter Mode", "LFO1 Wave", "LFO1 Dest",
+                  "Trigger Next Setting", "Run", "Enable Loop Playback",
+                  "Follow Loop Playback", "Filter On/Off", "LFO Sync Enable"):
+        choices = dial_llm.named_choices(rex[param])
+        assert choices, "%s still shows bare numbers" % param
+        assert not any(c.strip().lstrip("-").isdigit() for c in choices), choices
+    for param, unit in (("Transpose", "semitones"),
+                        ("Loop Transpose", "semitones"),
+                        ("Osc Fine Tune", "cents")):
+        assert rex[param]["unit"] == unit, param
+    # Osc Octave reads 0..8 and nothing here knows where its neutral position
+    # is, so it is deliberately left unlabelled -- "4 octaves" meaning no
+    # change is worse than a bare number. Settled at the panel, in Step 8.
+    assert not rex["Osc Octave"]["unit"]

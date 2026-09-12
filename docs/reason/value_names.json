@@ -62,6 +62,62 @@
         "Off",
         "On"
       ]
+    },
+    "Dr.REX Loop Player": {
+      "_comment": "PROVISIONAL -- names and their ORDER are from the Reason 12.7 Operation Manual ch.29 'Dr. Octo Rex Loop Player', NOT read off the panel. Every list's LENGTH was checked against the sweep: five filter modes in the manual and five distinct readings off Reason, six waveforms and six readings, three destinations and three, three Trig Next settings and three. That agreement is why the order is trusted; Step 8 of TESTING-VOICE-DIAL.md confirms it against the panel. Rex reports every picker as a bare number, so without this 'stop the loop' resolves to nothing and moves nothing. Only bare numbers are ever rewritten -- if a future sweep finds real words, this is ignored.",
+      "Filter Mode": [
+        "Notch",
+        "HP 12",
+        "BP 12",
+        "LP 12",
+        "LP 24"
+      ],
+      "LFO1 Wave": [
+        "Triangle",
+        "Inverted Sawtooth",
+        "Sawtooth",
+        "Square",
+        "Random",
+        "Soft Random"
+      ],
+      "LFO1 Dest": [
+        "Osc",
+        "Filter",
+        "Pan"
+      ],
+      "Trigger Next Setting": [
+        "Bar",
+        "Beat",
+        "1/16"
+      ],
+      "Run": [
+        "Off",
+        "On"
+      ],
+      "Enable Loop Playback": [
+        "Off",
+        "On"
+      ],
+      "Follow Loop Playback": [
+        "Off",
+        "On"
+      ],
+      "Filter On/Off": [
+        "Off",
+        "On"
+      ],
+      "LFO Sync Enable": [
+        "Off",
+        "On"
+      ]
+    }
+  },
+  "units": {
+    "_comment": "What a bare number on a knob MEANS, where Reason reports the figure but not its unit. Only knobs whose ZERO POINT is unambiguous belong here: Transpose reads -12..12 and 0 is plainly no transposition. Dr. Octo Rex's Osc Octave reads 0..8 with the neutral position somewhere in the middle, so labelling it 'octaves' would make '4 octaves' mean no change -- it is deliberately absent until the panel settles where its zero is. A knob that already measured a real unit is never overwritten.",
+    "Dr.REX Loop Player": {
+      "Transpose": "semitones",
+      "Loop Transpose": "semitones",
+      "Osc Fine Tune": "cents"
     }
   }
 }

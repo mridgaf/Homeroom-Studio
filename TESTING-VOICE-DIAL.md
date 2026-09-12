@@ -17,8 +17,16 @@ back where they started" had never actually worked. Kong, Redrum and Dr. Octo
 Rex were swept before that fix, so **their knobs may still be sitting at
 maximum** — worth a look before you trust how they sound.
 
-Two things Step 8 has to settle, both written up at the bottom of this file:
-Alligator's Gate Open controls, and Dr. Octo Rex having no named settings.
+**Dr. Octo Rex was fixed at the desk on 2026-09-12**, no Reason needed. Its
+pickers reported bare numbers, so "stop the loop" was heard, understood, and
+then moved nothing. The panel's words are now filled in from the manual and
+Transpose takes real semitones. Those names are **provisional** — the manual
+gives them, the panel confirms them, and Step 8 is where that happens. The Rex
+table below says which phrases to check.
+
+Three things Step 8 has to settle, all written up at the bottom of this file:
+Alligator's Gate Open controls, Dr. Octo Rex's provisional names, and which of
+Rex's slot numbers start at 0 and which at 1.
 
 Full detail is in the 2026-09-12 entry at the top of `DECISIONS.md`.
 
@@ -287,7 +295,24 @@ slot, so "the drum loop" is a guess and it refuses to guess.
 | "give it that scratch sound" | Osc Env Amount up — the vinyl-pitch knob |
 | "make it swoop on every hit" | Filter Env Amount up |
 | "pitch the loop down" | Transpose down |
-| "stop the loop" | Run off |
+| "pitch the loop down two semitones" | Transpose lands on **−2**, not near it |
+| "stop the loop" | Run off. **This did nothing at all before 2026-09-12** |
+| "turn the filter on" | Filter switches On |
+| "make it a notch filter" | Filter Mode -> Notch |
+| "give me a 24 dB low pass" | Filter Mode -> LP 24 |
+| "set the LFO to a square wave" | LFO1 Wave -> Square |
+| "point the LFO at the filter" | LFO1 Dest -> Filter |
+| "switch loops on the next beat" | Trig Next -> Beat |
+
+**These are the provisional names — this is the check.** The words come from
+the manual, not from the panel. Four pickers to look at while you say them:
+**Filter Mode** (Notch, HP 12, BP 12, LP 12, LP 24), **LFO1 Wave** (Triangle,
+Inverted Sawtooth, Sawtooth, Square, Random, Soft Random), **LFO1 Dest** (Osc,
+Filter, Pan), **Trig Next** (Bar, Beat, 1/16), and the Off/On buttons.
+
+If a phrase lands on the setting **next to** the one you asked for, the list is
+in the wrong order and I fix it in one line. If it lands somewhere random, the
+order is wrong in a bigger way — tell me which word gave which setting.
 
 **Two things to watch.**
 
@@ -299,6 +324,18 @@ that's why.
 sending just the snare slices to a reverb, drawing modulation in Slice Edit
 Mode. Reason does not expose anything slice-level to a control surface at all,
 so the app can't reach them and won't pretend it can.
+
+**Two things I deliberately did NOT guess, and need one look from you.**
+
+*Osc Octave* reads 0 to 8. Which of those is normal pitch — 0 or 4? Turn it and
+read the panel. Until you say, it takes percentages only, because calling 4
+"4 octaves" when it means no change is worse than leaving it a number.
+
+*The three slot controls count differently from each other.* Selected Loop Slot
+reads −1 to 7, Selected Loop in Editor reads 0 to 7, and Notes to Slot reads 1
+to 8. So one of them calls your first loop "0" and another calls it "1". Switch
+to **slot 1** and tell me what each of the three reads — get this wrong and the
+app moves the wrong loop.
 
 ### Alligator (lock the filtered gate)
 

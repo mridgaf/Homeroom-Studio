@@ -22,3 +22,20 @@ not toggles. Gate 1/2/3 Trig changed exactly once each and are kept.
 
 Owner spotted the cause. calibrate.py now drives Pattern Enable to Off
 before measuring these three. Nothing deleted; re-sweep to replace.
+
+2026-09-12 (third removal)
+rex-select-loop-read-flat.json -- Dr. Octo Rex's Select Loop 1-8, the
+128-row tables removed from calibration.json. The entries stay, as
+flat/unreadable.
+
+Why: all eight read "1" at every one of 128 positions, whatever was
+written. That is the same absence-of-movement the Alligator gates
+showed, and calibrate.py refuses to record it -- but the guard
+(`if len({v for _, v in table}) <= 1:`) landed in cd67e67, one commit
+AFTER the Rex sweep was committed in cc16554, so these were stored as
+measurements before the check existed. Confirmed with `git log -S`,
+not inferred.
+
+No table means percentages only, which is the honest answer for a
+control Reason will not read back. Nothing deleted; re-sweeping Rex
+with today's script produces this same shape automatically.
