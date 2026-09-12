@@ -22,6 +22,100 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-12 All seven devices swept against real Reason — and the restore had never worked
+
+- Context: worked through `TESTING-VOICE-DIAL.md` with him at the machine.
+  Steps 1-7 are now DONE: **217 of 217 mapped knobs measured on all seven
+  devices** (Kong 48, Redrum 40, Rex 41, Alligator 48, Scream 16, RV7000 16,
+  MClass 8). Only Step 8 (saying the phrases) is left.
+- **The serious one — "Knobs put back where they started" was a no-op, always.**
+  Reason reports a parameter only when it CHANGES, with one exception: on LOCK
+  it announces the whole device at once. calibrate.py polled once at startup,
+  before Reason had said anything, so its start table was EMPTY and the restore
+  loop ran zero times. Every completed sweep left its device with every knob at
+  127 — which is how Alligator came back bypassed (`Enabled` at 127 is bypass).
+  It was visible in the RV7000 data all along: all fifteen soft knobs recorded
+  `measured with Edit Mode = unknown`, which only happens when that table is
+  empty. Fixed with `await_lock()`: the script now listens FIRST, tells him when
+  to lock, catches the announcement (measured: 48 positions arrive ~1s after the
+  Ctrl-click), and **refuses to sweep at all** if it did not hear it. No codec
+  change, no reinstall, no Reason restart — confirmed by a read-only listen.
+  **Kong, Redrum and Dr. Octo Rex were swept before this fix and their knobs are
+  probably still at maximum. He was told; not yet confirmed either way.**
+- Six more defects, all found at the machine, none in review:
+  1. `resolve()` **crashed** (`KeyError: 'table'`) on any non-percentage target
+     for a knob with no measured table. Live path, every device.
+  2. `probe()` decided toggle-vs-knob on ONE comparison, so a single dropped
+     MIDI report inverted it — and it did, twice, in both directions. Now
+     samples four times, counts changes, retries an ambiguous read, and breaks
+     ties toward "toggle" because the two mistakes are not equal: a knob wrongly
+     called a toggle falls back to percentages, a toggle wrongly called a knob
+     gets hammered 128 times.
+  3. probe() read **silence as "a steady knob"** — the same reading for "nothing
+     came back". Now returns "silent" and the knob is skipped, unswept.
+  4. **The sweep never checked it was measuring the locked device.** He ran
+     Redrum with Kong still locked; all 40 names came back as Kong parameters
+     at the same knob slots, and the run printed clean, plausible numbers.
+     Now compares Reason's reported name to the map and stops on the first
+     knob. Note the trap it has to survive: Kong and Redrum spell knob_1
+     identically, so checking only the first knob would clear that run.
+  5. A sweep that lost reports **said nothing**. `lost_readings()` tells a drop
+     from a switch by shape — a picker's runs are even, a drop is one long run
+     among short ones — and prints a ready-made re-run command. Validated once
+     over all 88 parameters then on disk: one flag, the knob Reason had warned
+     about, no false positives.
+  6. A knob reading the same value at all 128 positions was stored as a
+     measurement. Worse than useless: "open gate 2" would find the nearest
+     match — 0 — and drive the gate CLOSED. Now recorded as unreadable.
+- **He caught the Alligator gate bug himself, and I had it wrong.** I called
+  Gate 1 Open "a toggle the probe missed". He said the pattern button was on.
+  He was right: with the sequencer running it drives the gates, and Gate 1 Open
+  changed 78 times across a 128-step MONOTONIC sweep — writes in one direction
+  can cause at most one change — while Gate 1/2/3 Trig changed exactly once
+  each. Gates now carry a `REQUIRES {"Pattern Enable": "Off"}`, and context
+  knobs are swept FIRST (`context_first()`): the gates are knobs 25-29 and
+  Pattern Enable is 40, so in map order all three would have been skipped.
+- Answers that were open questions, now measured:
+  - **RV7000**: all ten algorithm names come back as real words, in the manual's
+    exact order. Edit Mode 0 = Reverb confirmed by consequence. No toggles.
+  - **Alligator**: Resolution and LFO Waveform report real WORDS (five and nine
+    settings) — better than expected, nothing to add from the manual. Pattern is
+    bare 0..63 but patterns are numbered, so nothing to label. 37 of 48 report
+    words. This closes all three of the Alligator session's open questions.
+  - **Redrum**: Length reads a raw 0..127 passthrough, so it CANNOT read
+    differently in Gate mode and needs no VOLATILE entry. Closes that question.
+  - **Kong/Redrum**: Pitch, Decay/Length, Pan are all bare numbers. Nudges work,
+    exact values never will.
+  - **I had "set the decay to 4 seconds" wrong** in the checklist — the RV7000's
+    front-panel Decay is raw 0..127 in Reason itself, so no seconds exist to
+    land on. Corrected in the file.
+- Verify by: `tests/test_dial.py` + `tests/test_remote_bridge.py` = **82 pass**.
+  Every change mutation-tested and the output actually read; two mutations that
+  did NOT fire were acted on rather than ignored — one exposed a dead guard
+  (deleted), one a test that re-implemented the logic instead of calling it
+  (`context_first()` was extracted so the test could reach it). A third
+  non-firing mutation turned out to be a speed path, and got the test that
+  justifies it.
+- Status: open — Step 8 is entirely unrun. Nothing has been said to the app yet.
+- Open, for the next session:
+  1. **Step 8**, the whole phrase table. Four things to watch are listed at the
+     end of `TESTING-VOICE-DIAL.md`.
+  2. **Are Alligator's Gate Open controls driveable at all?** The guide says
+     they "hold that gate open by hand"; the machine says they read 0 at every
+     position with the pattern stopped. Either Reason exposes them as indicators
+     only, or they open too briefly to read back. `device_refs/alligator.md` was
+     deliberately NOT edited on that inference.
+  3. **Dr. Octo Rex reports NO named settings** — all 19 of its pickers are bare
+     numbers (Filter Mode, LFO1 Wave, LFO1 Dest, Trigger Next, the on/offs).
+     Needs one pass through the Operation Manual into `value_names.json`.
+     Transpose/Loop Transpose are -12..12 in 25 steps — really semitones, but
+     `apply_value_names()` cannot label them because it rejects negative
+     indexes, so exact semitones need a small new mechanism.
+  4. **Check Kong, Redrum and Rex** for knobs left at maximum.
+- Nothing committed. Two holding folders under `docs/reason/_superseded-2026-09-11/`
+  with a MANIFEST — the Kong-data-filed-as-Redrum block, and the three
+  sequencer-contaminated gates. Nothing deleted.
+
 ### 2026-09-11 Alligator wired: the surface is now FULL, and the prompt was teaching the model to answer in words
 
 - Context: "Move on to next component wiring. Let's just do them
@@ -77,6 +171,7 @@ entries.
   disabled) — all six fired, and the md5 of every touched file matched its
   pristine copy after restore. Real proof is Step 7 of TESTING-VOICE-DIAL.md.
 - Status: open
+- Outcome (2026-09-12): swept against real Reason. See the 2026-09-12 entry at the top for what the sweep found.
 - Open questions only he can answer, all fail safe: do **Pattern**,
   **Resolution** and **LFO Waveform** print names or bare numbers? If numbers,
   their labels go in `value_names.json`; until then those three take
@@ -133,6 +228,7 @@ entries.
   (swapped remotemap line, added Master Level, reverted the copy_number guard,
   deleted a guide bullet). Real proof is Step 6 of TESTING-VOICE-DIAL.md.
 - Status: open
+- Outcome (2026-09-12): swept against real Reason. See the 2026-09-12 entry at the top for what the sweep found.
 - Open questions only he can answer, all fail safe: does Trigger Next Setting
   print words or numbers; do Transpose/Loop Transpose show semitones; does
   Filter Mode print the filter names; did the 8 Select Loop buttons probe as
@@ -182,6 +278,7 @@ entries.
 - Verify by: `tests/test_dial.py -k redrum` (4 tests, all mutation-checked),
   then his Step 5 sweep and phrase table in `TESTING-VOICE-DIAL.md`.
 - Status: open
+- Outcome (2026-09-12): swept against real Reason. See the 2026-09-12 entry at the top for what the sweep found.
 
 ### 2026-09-11 Kong: 16 pads wide beats 1 pad deep — and the surface grew to 48 knobs
 
@@ -220,6 +317,7 @@ entries.
   real proof is his: install, restart Reason, lock Kong, sweep, say the phrases
   in `TESTING-VOICE-DIAL.md`.
 - Status: open — not yet run against Reason.
+- Outcome (2026-09-12): swept against real Reason. See the 2026-09-12 entry at the top for what the sweep found.
 - Outcome: (pending)
 - Honest gap: I described this option to him as letting him say "make the snare
   louder", which it does NOT — he must say the pad number. Corrected in

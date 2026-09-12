@@ -6,7 +6,23 @@ Anywhere it says **write down**, paste it back to me before we trust it.
 This file is the whole job in one place — you can pick it up cold, in any
 session, without me remembering anything.
 
-## What's waiting to be tested
+## Where this got to — read this first
+
+**Steps 1-7 are DONE (2026-09-12).** All seven devices are swept: 217 of 217
+mapped knobs measured against real Reason. `docs/reason/calibration.json` holds
+all of them. **Only Step 8 below is left** — saying the phrases.
+
+Seven defects were found and fixed doing it, the worst being that "knobs put
+back where they started" had never actually worked. Kong, Redrum and Dr. Octo
+Rex were swept before that fix, so **their knobs may still be sitting at
+maximum** — worth a look before you trust how they sound.
+
+Two things Step 8 has to settle, both written up at the bottom of this file:
+Alligator's Gate Open controls, and Dr. Octo Rex having no named settings.
+
+Full detail is in the 2026-09-12 entry at the top of `DECISIONS.md`.
+
+## What was waiting to be tested
 
 | Device | Controls | Sweep | Step |
 |---|---|---|---|
