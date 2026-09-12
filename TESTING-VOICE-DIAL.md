@@ -8,6 +8,47 @@ session, without me remembering anything.
 
 ## Where this got to — read this first
 
+### Step 8 is PART-RUN as of 2026-09-12 evening
+
+| Block | What | State |
+|---|---|---|
+| 0 | Scream 4 — "turn the body off" | **PASSED**, confirmed on Reason's panel (BODY went dark). Whole chain alive |
+| 1a | Dr. Octo Rex — 7 picker phrases | phrases all **resolve correctly**; the NAMES are **still unconfirmed** |
+| 1b–6 | Rex slots, Alligator, RV7000, Kong, Redrum, MClass | not started |
+
+**Six of the phrases below could never have worked, and are now fixed.**
+`intents.py` is ordered with `dial` last and greedy patterns were swallowing
+them: "stop the loop" hit the TRANSPORT (a false pass — the loop stops, so it
+reads as working), "give me a plate" and "give me a 24 dB low pass" became
+searches, and "open up the low pass" / "open gate 2" / "open the gate" became
+patch loads. While a device is locked, phrases like these now go to the knobs.
+Say "find X" or "load X" and you still get the library. All 51 phrases below
+now reach the dial, and a test reads this file to keep it that way.
+
+**START HERE NEXT TIME — no phrases to re-say.** The 7 block-1a phrases left
+Rex sitting on five known settings, so ONE look at **Dr. Octo Rex in the rack**
+(not the browser) reads all five:
+
+| Where on Rex's panel | Should read |
+|---|---|
+| Filter mode selector | **LP 24** |
+| Filter on/off | **on** |
+| LFO 1 waveform | **Square** |
+| LFO 1 destination | **Filter** |
+| Trig Next Loop | **Beat** |
+
+Then say **"make it a notch filter"** and read the mode selector again —
+should be **Notch**. Notch and LP 24 are the two ENDS of the same five-item
+list, so both landing right rules out a reversed or shifted list; a right
+order means every word in it is right.
+
+**Why the browser cannot answer this.** Reason reports every Rex picker as a
+bare number (`0,1,2,3,4`). The words live only in `value_names.json`, copied
+from the manual — so the app can only ever show you our own guess. Only the
+rack confirms it. When this file says "the panel" for a Rex picker, it means
+**Reason's panel**.
+
+
 **Steps 1-7 are DONE (2026-09-12).** All seven devices are swept: 217 of 217
 mapped knobs measured against real Reason. `docs/reason/calibration.json` holds
 all of them. **Only Step 8 below is left** — saying the phrases.

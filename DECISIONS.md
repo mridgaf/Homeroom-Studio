@@ -22,6 +22,79 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-12 Step 8 started: six of its own phrases could never have worked, and the app cannot confirm Rex's names by itself
+
+- Context: "start me on Step 8, hand me one thing at a time." Steps 1-7 done,
+  Step 8 unrun. Blocks 0 and 1a ran with him at the machine.
+- **Found before he touched anything: 6 of the 51 Step 8 phrases never reached
+  the dial.** `intents.PATTERNS` is ordered with `dial` LAST, and greedy
+  earlier patterns swallowed them. Measured by running `parse()` over the
+  checklist's own table, not by reading regexes:
+  `stop the loop` -> transport `stop`; `give me a plate` and
+  `give me a 24 dB low pass` -> `find`; `open up the low pass`,
+  `open gate 2`, `open the gate` -> `find_and_load`.
+  **"stop the loop" was the dangerous one: a false PASS, not a failure.** The
+  loop does stop, so it reads as working — and would have "confirmed" Rex's
+  provisional names on nothing at all. That phrase is the single thing the
+  2026-09-12 Rex session existed to fix, and it had never been reachable.
+  `play the loop` had the same defect in the other direction; fixed in the
+  same line though it is not in the checklist.
+- Decision/change (his call, asked in options): **fix first, he waits**, and
+  **"locked means knobs"**. New `dial_yields()` + two tables in `server.py`,
+  read by one branch in `_contextualize()` — which already did exactly this
+  shape of rerouting for the audition. While a device is locked, a phrase the
+  grammar turned into a library search goes to the dial. Say the verb and the
+  library still answers: `find X`, `search X`, `load X`, `pull up X`, and a
+  bare `stop` / `stop the song` / `play` / `start` are all untouched.
+- Reasoning: rerouting only while LOCKED beats narrowing the patterns for
+  everyone — with nothing locked every phrase keeps its old meaning. The fix
+  belongs here and not in `intents.py` because the grammar has no idea
+  anything is locked. Accepted cost: while locked, "open massive bass" dials
+  instead of loading; he says "load massive bass". Patch search is already
+  near-useless to him (library sealed in ReFills), so it is the cheap side.
+- **The reroute must POLL, not trust `dial_device`.** First attempt checked
+  `self.dial_device is not None` — which `_sync_device()` fills in, so a
+  phrase said straight after locking found it still None. Leaving it to the
+  background `dial_watch()` poll would make the whole thing a race, and losing
+  that race is silent: the phrase just hits the transport again. Caught by my
+  own test run, not by review.
+- **Block 0 PASSED, confirmed at the hardware.** Scream 4 locked, "turn the
+  body off" -> `Body On/Off → Off (measured: Off)`, and he confirmed the BODY
+  button went dark on Reason's panel. Whole chain alive: mic -> whisper ->
+  intents -> model -> resolve -> IAC -> Reason. Whisper dropped "the" ("Turn
+  body off") and it did not matter.
+- **Block 1a: all 7 Rex picker phrases resolved correctly — and proved nothing
+  about the names.** He read the words back off the APP, not off Reason's Rex
+  panel. Reason reports every Rex picker as a bare number (`0,1,2,3,4`,
+  re-confirmed against raw `calibration.json`), so the words exist ONLY in
+  `value_names.json` and the app can only ever echo our own manual guess back.
+  **A browser reading can never confirm these; only the rack can.** My own
+  instruction said "the panel" without saying whose — that ambiguity cost the
+  check and is the thing to word explicitly next time.
+- Verify by: `tests/test_dial.py` + `test_intents.py` + 5 more = **235
+  passed**. 6 new tests, one of which reads the phrase table out of
+  `TESTING-VOICE-DIAL.md` itself so the doc and the code cannot drift.
+  MUTATION-TESTED, actually run, output read: 7 mutations, **6 fired**; the
+  7th (loosening the prefix match) was **SILENT and was chased rather than
+  ignored** — it is unreachable, because every grammar rule producing
+  `find`/`find_and_load` requires whitespace after the verb, proven by probing
+  11 no-space phrases and getting zero search classifications. Noted in the
+  docstring as deliberately untested rather than left looking covered.
+  End-to-end check left behind: all 51 checklist phrases reach the dial.
+- Status: open — Step 8 is part-run. Blocks 0 and 1a-phrases done; **Rex's
+  nine name lists are still UNCONFIRMED**, and `Trig Next` specifically was
+  the one he could not read.
+- **Next action, and it needs no phrases re-said.** His 7 phrases left Rex on
+  five known settings, so ONE look at the real panel reads all five at once:
+  filter mode = LP 24, filter on, LFO1 Wave = Square, LFO1 Dest = Filter,
+  Trig Next = Beat. Then one phrase, "make it a notch filter", and read the
+  mode again — Notch and LP 24 are the two ENDS of the same five-item list, so
+  both landing right rules out a reversed or shifted list, and a right order
+  means every word in it is right.
+- Then blocks 1b (Rex semitones + slots), 2 Alligator, 3 RV7000, 4 Kong,
+  5 Redrum, 6 MClass. The four older open items stay parked until Step 8 ends.
+- Nothing committed; he writes the commits.
+
 ### 2026-09-12 Dr. Octo Rex could not be told anything in words, and the ledger's list of suspect devices was short
 
 - Context: "continue recent voice", then "check the recent commits first". Steps
@@ -88,6 +161,11 @@ entries.
   Off, "pitch down two semitones" -> position 51 = -2 semitones, "2 ms" on
   Transpose refused, "3" on a Select Loop refused, 100% accepted.
 - Status: open -- the names are provisional until Step 8 says otherwise.
+- Outcome (2026-09-12, same day): Step 8 block 1a ran. All seven picker
+  phrases RESOLVE correctly, so the mechanism works -- but he read the
+  words off the app, which can only echo this file back, so the names are
+  STILL unconfirmed. See the entry at the top for the one-look check that
+  settles it.
 - Nothing committed; he writes the commits.
 
 ### 2026-09-12 All seven devices swept against real Reason — and the restore had never worked

@@ -87,6 +87,9 @@ def app(connected=True):
     a.dial_knobs = {}
     a.dial_cal = dial_llm.load_calibration()
     a.dial_undo = None
+    # _contextualize() reads these two; the real __init__ sets them at 222-223
+    a.audition_active = False
+    a.audition_i = -1
 
     async def _push(extra=None):
         pass
@@ -1519,3 +1522,100 @@ def test_the_real_rex_table_names_every_picker():
     # is, so it is deliberately left unlabelled -- "4 octaves" meaning no
     # change is worse than a bare number. Settled at the panel, in Step 8.
     assert not rex["Osc Octave"]["unit"]
+
+
+# -- locked means dialling ---------------------------------------------------
+#
+# intents.PATTERNS is ordered with `dial` LAST, so a greedy earlier pattern can
+# swallow a knob phrase before it gets there. Measured 2026-09-12 by running
+# parse() over every phrase in TESTING-VOICE-DIAL.md's Step 8 table: six never
+# reached the dial. The worst was "stop the loop" -> transport stop, which is
+# not a failure but a false PASS -- the loop does stop, so it reads as working
+# and would have confirmed Dr. Octo Rex's provisional names on nothing.
+
+def test_a_knob_phrase_the_grammar_swallowed_reaches_the_dial_while_locked():
+    a = locked()
+    for phrase in ("stop the loop", "play the loop", "give me a plate",
+                   "give me a 24 db low pass", "open up the low pass",
+                   "open gate 2", "open the gate"):
+        intent = a._contextualize(parse(phrase), phrase)
+        assert intent.command == "dial", (phrase, intent.command)
+        assert intent.args["phrase"] == phrase
+
+
+def test_the_whole_step_8_phrase_table_reaches_the_dial():
+    """The checklist is the spec. Every phrase he is told to say must land on a
+    knob, read out of the file itself so the two cannot drift apart."""
+    import re
+    from pathlib import Path
+    doc = Path(__file__).resolve().parent.parent / "TESTING-VOICE-DIAL.md"
+    if not doc.exists():
+        pytest.skip("checklist not present")
+    # Anchor on whole HEADING LINES, not substrings: "### Step 8 is PART-RUN"
+    # in the status section contains "## Step 8" and a naive split lands there.
+    lines = doc.read_text().splitlines()
+    start = next(i for i, l in enumerate(lines) if l.startswith("## Step 8"))
+    end = next((i for i, l in enumerate(lines[start + 1:], start + 1)
+                if l.startswith("## ")), len(lines))
+    phrases = []
+    for line in lines[start:end]:
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 2 or cells[0].startswith("---"):
+            continue
+        phrases += re.findall(r'"([^"]+)"', cells[0])
+    assert len(phrases) >= 49, "the phrase table got smaller -- check the file"
+    a = locked()
+    missed = [p for p in phrases
+              if a._contextualize(parse(p.lower()), p.lower()).command != "dial"]
+    assert not missed, missed
+
+
+def test_saying_the_search_verb_still_searches_while_locked():
+    """The cost of the reroute is bounded by these: name the verb and the
+    library still answers, locked or not."""
+    a = locked()
+    for phrase, want in (("find drum loops", "find"),
+                         ("search for 808s", "find"),
+                         ("load massive bass", "find_and_load"),
+                         ("pull up massive bass", "find_and_load"),
+                         ("stop", "stop"),
+                         ("stop the song", "stop"),
+                         ("play", "play"),
+                         ("start", "play")):
+        assert a._contextualize(parse(phrase), phrase).command == want, phrase
+
+
+def test_nothing_locked_leaves_the_library_exactly_as_it_was():
+    """The reroute is conditional on the lock. With no device locked every one
+    of these keeps its old meaning -- that is why the fix is here and not in
+    intents.PATTERNS, which has no idea anything is locked."""
+    a = app()
+    assert a.dial_device is None
+    for phrase, want in (("give me a plate", "find"),
+                         ("open gate 2", "find_and_load"),
+                         ("open massive bass", "find_and_load"),
+                         ("stop the loop", "stop"),
+                         ("play the loop", "play")):
+        assert a._contextualize(parse(phrase), phrase).command == want, phrase
+
+
+def test_the_reroute_polls_rather_than_racing_the_background_watcher():
+    """`dial_device` is filled in by _sync_device(), so a phrase said straight
+    after locking would find it still None. Left to the dial_watch() poll this
+    reroute would be a race, and losing it is silent -- the phrase just hits the
+    transport again. So a candidate phrase polls first."""
+    a = app()
+    a.control.report("knob_5", 38, "Attack", "30 ms")   # Reason spoke, no sync
+    assert a.dial_device is None
+    assert a._contextualize(parse("stop the loop"), "stop the loop").command == "dial"
+
+
+def test_a_walkthrough_does_not_switch_the_dial_off():
+    """He walks through a recipe WITH a device locked -- that is the main way
+    this app is used. The reroute must not be an elif on the walkthrough."""
+    a = locked()
+    a.s.recipe = object()      # _contextualize only checks it is not None
+    a.s.step = 0
+    assert a._contextualize(parse("stop the loop"), "stop the loop").command == "dial"

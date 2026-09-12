@@ -52,6 +52,54 @@ REASON_TEMPLATE_SONGS = ("~/Library/Application Support/"
 NO_MIDI = ("MIDI bridge not connected — enable the IAC Driver "
            "and restart Reason.")
 
+# While a device is LOCKED to ReasonVoice he is dialling it in, so a phrase the
+# grammar turned into a library search is a knob move. intents.PATTERNS is
+# ordered with `dial` last, and six of TESTING-VOICE-DIAL.md's own Step 8
+# phrases were being swallowed before they got there (measured 2026-09-12 by
+# running parse() over all 51, not by reading the regexes): "open gate 2" and
+# "open up the low pass" became patch loads, "give me a plate" a search, and
+# "stop the loop" hit the TRANSPORT -- which is worse than a failure, because
+# the loop does stop, so it reads as a pass and would have confirmed Dr. Octo
+# Rex's provisional names on nothing at all.
+#
+# Rerouting only while locked, rather than narrowing the patterns for everyone,
+# keeps every phrase working when nothing is locked. The explicit forms survive
+# either way, which is what these two tables are for -- say the search verb and
+# you still get the search.
+DIAL_YIELDS_UNLESS_PREFIX = {
+    "find": ("find", "search"),
+    "find_and_load": ("load", "pull up"),
+}
+# Transport words that stay the transport, spelled out in full. Anything longer
+# is about the locked device: "stop" stops the song, "stop the loop" stops Rex.
+DIAL_YIELDS_UNLESS_EXACT = {
+    "stop": ("stop", "stop the song", "stop playback", "stop the transport",
+             "stop the sequencer"),
+    "play": ("play", "start", "play the song"),
+}
+
+
+def dial_yields(cmd: str, text: str) -> bool:
+    """Does `cmd` hand this phrase to the dial, given a device is locked?
+
+    Kept at module scope so it is testable without a WebApp, and so the two
+    tables above sit next to the one function that reads them.
+
+    The trailing space in the prefix test is defensive and deliberately has no
+    test: every intents.PATTERNS rule that produces `find` or `find_and_load`
+    requires `\s+` after the verb, so no phrase can reach here as a search
+    without one. Dropping it is the one mutation of this function that stays
+    silent -- because it is unreachable, not because it is uncovered.
+    """
+    said = text.strip()
+    prefixes = DIAL_YIELDS_UNLESS_PREFIX.get(cmd)
+    if prefixes is not None:
+        return not any(said == w or said.startswith(w + " ") for w in prefixes)
+    exact = DIAL_YIELDS_UNLESS_EXACT.get(cmd)
+    if exact is not None:
+        return said not in exact
+    return False
+
 # v2 drops spoken `say` feedback by default — visual instead, toggle in settings.
 DEFAULT_SETTINGS = {
     "speak_feedback": False,
@@ -460,6 +508,21 @@ class WebApp:
                 cmd = "step_next"
             elif cmd == "patch_prev" and "patch" not in text:
                 cmd = "step_prev"
+        # Not an elif: he walks through a recipe WITH a device locked, and that
+        # is the main way this app gets used.
+        #
+        # dial_yields() is pure and free, so it is asked FIRST -- every other
+        # command reaches the return below having touched nothing. Only a
+        # candidate pays for the poll, and it has to poll: `dial_device` is
+        # filled in by _sync_device(), so on a cold start he can lock a device
+        # and say "stop the loop" before anything has synced. Leaving that to
+        # the background dial_watch() poll would make the reroute a race, and a
+        # race here loses silently -- the phrase just hits the transport again.
+        if dial_yields(cmd, text):
+            self.control.poll()
+            self._sync_device()
+            if self.dial_device is not None:
+                return Intent("dial", {"phrase": text})
         return Intent(cmd, intent.args)
 
     async def run_text(self, text: str):
