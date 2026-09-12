@@ -14,9 +14,13 @@ and Release are not assumed to be -- every position is read back from Reason.
 
 Setup, same as reason_voice/prove_feedback.py:
   - surface MIDI input AND output both on IAC Driver Bus 1
-  - the device Ctrl-clicked -> "Lock to ReasonVoice"
+  - the device Ctrl-clicked -> "Lock to ReasonVoice" -- and START THIS FIRST,
+    then lock. Reason lists where every knob sits at the moment you lock it and
+    at no other time, so a script that is not already listening cannot learn
+    where anything was. It will wait and tell you when to do it.
 
-Your knobs are put back where they started when it finishes.
+Your knobs are put back where they started when it finishes. If it could not
+hear the lock it refuses to sweep at all, rather than leaving them at 127.
 """
 import json
 import re
@@ -69,7 +73,17 @@ VOLATILE = {"Scream 4 Distortion": {"Parameter 1": "Damage Type",
 # that the app puts the device into before moving it. Without this the sweep
 # records whatever page happened to be showing and every later lookup is wrong.
 REQUIRES = {"RV7000 Advanced Reverb": {"Soft Knob %d" % n: {"Edit Mode": "Reverb"}
-                                       for n in range(1, 9)}}
+                                       for n in range(1, 9)},
+            # Alligator's three gates are OUTPUTS while its internal pattern is
+            # running -- the sequencer opens and closes them on its own, several
+            # times a second, and the sweep records that instead of what it
+            # wrote. Measured 2026-09-11: Gate 1 Open changed 78 times across a
+            # 128-step monotonic sweep, which one direction of writes cannot do,
+            # while Gate 1/2/3 Trig changed exactly once each. The old probe read
+            # the same movement on Gate 2 and Gate 3 Open and called them
+            # toggles. Stop the pattern and they hold still.
+            "Alligator": {"Gate %d Open" % n: {"Pattern Enable": "Off"}
+                          for n in (1, 2, 3)}}
 
 
 def parse(shown):
@@ -110,6 +124,13 @@ def probe(r, knob, samples=4):
         r.poll()
         got = r.current(knob)
         seen.append(got[2] if got else None)
+    # Silence is not evidence of a steady control -- it is evidence of nothing.
+    # Both look like "changes == 0" from here, and calling silence "absolute"
+    # is how Alligator's Gate 1 Open got written 128 times: a button whose
+    # reports go missing during the probe reads exactly like a knob sitting
+    # still. Say so and let the caller skip it.
+    if all(v is None for v in seen):
+        return "silent"
     changes = sum(1 for a, b in zip(seen, seen[1:]) if a != b)
     if changes == 0:
         return "absolute"
@@ -214,6 +235,61 @@ def lost_readings(table):
     return [(n, at) for n, at in runs if n >= 3 and n >= 3 * median]
 
 
+def await_lock(r, knobs, seconds=30, out=print):
+    """Where every knob sits right now, caught from Reason's own announcement.
+
+    Reason reports a parameter only when it CHANGES -- with one exception: on
+    LOCK it sends the whole device at once. Measured 2026-09-11 by listening
+    with a read-only script: nothing for five seconds, then all 48 positions
+    arrived together about a second after the Ctrl-click.
+
+    That exception is the only chance to learn where anything was, so the
+    script has to be listening BEFORE the lock. The first version was not. It
+    polled once at startup, when Reason had said nothing at all, and built an
+    empty table -- so "Knobs put back where they started" restored nothing, and
+    every completed sweep left its device with every knob at 127. That is how
+    Alligator ended up bypassed, and it is visible in the RV7000 data: all
+    fifteen soft knobs recorded "measured with Edit Mode = unknown", which can
+    only happen when that table is empty.
+    """
+    def heard():
+        r.poll()
+        got = {k: r.current(k) for k in knobs}
+        return {k: v[0] for k, v in got.items() if v is not None}
+
+    start = heard()
+    if len(start) == len(knobs):
+        return start
+
+    out("\n   Ctrl-click the device panel -> Lock to ReasonVoice NOW.")
+    out("   Already locked? Unlock it and lock it again.")
+    out("   Reason lists every knob when you do, and that is the only moment")
+    out("   it says where they are -- without it nothing can be put back.")
+    deadline = time.time() + seconds
+    while time.time() < deadline:
+        time.sleep(0.5)
+        start = heard()
+        if len(start) == len(knobs):
+            out("   Heard all %d. Sweeping.\n" % len(knobs))
+            return start
+    return start
+
+
+def context_first(knobs, mapped, device):
+    """Sweep order with every context knob ahead of the knobs that need it.
+
+    put() looks a wanted setting up in the context knob's OWN measured table, so
+    a dependency swept later is a dependency that cannot be used and every
+    dependent gets skipped. Alligator forced this: its three gates are knobs
+    25-29 and Pattern Enable, which has to be Off before a gate holds still, is
+    knob 40. In plain map order all three gates would be skipped.
+
+    Stable, so everything else keeps map order.
+    """
+    context = {name for need in REQUIRES.get(device, {}).values() for name in need}
+    return sorted(knobs, key=lambda k: mapped.get(k, "") not in context)
+
+
 def main():
     args = [a for a in sys.argv[1:]]
     device = "MClass Compressor"
@@ -226,7 +302,8 @@ def main():
     mapped = dial_llm.knob_map(device)
     if not mapped:
         sys.exit('No Scope block for "%s" in remote/ReasonVoice.remotemap.' % device)
-    knobs = args or sorted(mapped, key=lambda k: int(k.split("_")[1]))
+    knobs = context_first(args or sorted(mapped, key=lambda k: int(k.split("_")[1])),
+                          mapped, device)
 
     r = ReasonControl(speak_feedback=False)
     if r.port is None or r.inport is None:
@@ -234,23 +311,37 @@ def main():
     r.poll()
 
     # remember where things were, so a calibration run doesn't rearrange his patch
-    start = {}
-    for knob in knobs:
-        got = r.current(knob)
-        if got:
-            start[knob] = got[0]
+    start = await_lock(r, knobs)
+    if len(start) < len(knobs):
+        sys.exit(
+            "\n   Heard %d of %d knobs, so %d of them could not be put back\n"
+            "   afterwards. NOTHING WAS SWEPT -- a sweep drives every knob to\n"
+            "   127 and without a starting position that is where it stays.\n"
+            "   Lock the device (or unlock and re-lock it) and run this again."
+            % (len(start), len(knobs), len(knobs) - len(start)))
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     data = json.loads(OUT.read_text()) if OUT.exists() else {}
     data.setdefault(device, {})
 
-    skipped_context, lossy = [], []
+    skipped_context, lossy, unrestorable = [], [], {}
     for knob in knobs:
         print("   %s ..." % knob)
         param_name = mapped.get(knob, "")
         needs = REQUIRES.get(device, {}).get(param_name) or {}
         ready = True
         for other, wanted in needs.items():
+            # put() is about to MOVE this knob, and it is not one of the knobs
+            # being swept, so the restore loop at the end has never heard of it.
+            # Remember where it sits if Reason has told us; say so plainly if it
+            # has not, rather than leaving his pattern switched off in silence.
+            oknob = ((data.get(device) or {}).get(other) or {}).get("knob")
+            if oknob and oknob not in start:
+                got = r.current(oknob)
+                if got:
+                    start[oknob] = got[0]
+                else:
+                    unrestorable["%s -> %s" % (other, wanted)] = True
             if not put(r, data, device, other, wanted):
                 ready = False
                 print("      needs %s = %s and could not get there -- SKIPPED."
@@ -259,6 +350,11 @@ def main():
         if not ready:
             continue
         kind = probe(r, knob)
+        if kind == "silent":
+            print("      Reason reported nothing at all -- skipped, and NOT "
+                  "swept.\n      Is this device still Ctrl-click -> Locked to "
+                  "ReasonVoice?")
+            continue
         if kind == "toggle":
             # Every write flips it, so 128 of them would be vandalism and the
             # positions would mean nothing. Record what it is and leave it.
@@ -306,6 +402,22 @@ def main():
         if needed:
             # What the app must put the device into before it moves this knob.
             entry["requires"] = needed
+        # Every position reading the same thing is not a measurement of the
+        # knob, it is a measurement of something that does not move: Alligator's
+        # Gate 1/2/3 Open read 0 at all 128 positions once the pattern sequencer
+        # was stopped, whatever was written to them. Keeping that table is worse
+        # than keeping none -- "open gate 2" would look up the nearest match,
+        # find 0, and drive the gate fully CLOSED. No table means percentages
+        # only, which is the honest answer for a control we cannot read.
+        if len({v for _, v in table}) <= 1:
+            data[device][name or param_name or knob] = {
+                "knob": knob, "unit": "", "flat": True,
+                "flat_value": table[0][1]}
+            print("      reads %r at ALL 128 positions -- writing to it does "
+                  "nothing\n      that Reason reports back. Recorded as "
+                  "unreadable, not measured." % table[0][1])
+            continue
+
         lost = lost_readings(table)
         if lost:
             entry["lossy"] = [[at, n] for n, at in lost]
@@ -338,6 +450,12 @@ def main():
 
     for knob, pos in start.items():
         r.set_value(knob, pos)
+
+    if unrestorable:
+        print("\n   NOT put back, because Reason never reported where it was:")
+        for change in unrestorable:
+            print("      %s" % change)
+        print("   It had to be moved to read the knobs above. Set it back by hand.")
 
     if lossy:
         print("\n   THIS SWEEP LOST DATA. Re-run just these knobs, one command:")

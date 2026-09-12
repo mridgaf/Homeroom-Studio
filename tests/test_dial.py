@@ -978,11 +978,24 @@ def test_the_alligator_guide_describes_every_wired_control():
 def test_nothing_on_alligator_is_volatile():
     """Pattern Enable off makes four knobs do nothing, but it does not change
     what any of them MEAN. A targeting caveat belongs in the guide; only a
-    units caveat belongs in VOLATILE. So Alligator carries neither.
+    units caveat belongs in VOLATILE. So Alligator carries no VOLATILE entry.
+
+    It DOES carry a REQUIRES entry, and that is not a contradiction -- the two
+    tables answer different questions. VOLATILE asks "does this knob's meaning
+    depend on something else?" (no Alligator knob's does). REQUIRES asks "can
+    this knob even be read while the device is in its normal state?" -- and the
+    three gates cannot, because the pattern sequencer is writing to them while
+    the sweep tries to measure them. Narrowed 2026-09-11, from the measurement
+    in test_alligators_gates_are_measured_with_the_pattern_stopped; before that
+    this test asserted Alligator carried neither.
     """
     from reason_voice import calibrate
     assert ALLIGATOR not in calibrate.VOLATILE
-    assert ALLIGATOR not in calibrate.REQUIRES
+    assert set(calibrate.REQUIRES[ALLIGATOR]) == {
+        "Gate 1 Open", "Gate 2 Open", "Gate 3 Open"}
+    # the four pattern knobs stay out of it: inert is not the same as unreadable
+    for knob in ("Pattern", "Resolution", "Shift", "Shuffle"):
+        assert knob not in calibrate.REQUIRES[ALLIGATOR]
     assert "Pattern Enable" in dial_llm.control_notes(ALLIGATOR)
 
 
@@ -1221,3 +1234,153 @@ def test_an_obvious_toggle_is_decided_without_a_second_round_of_writes():
     clear = _FakeSurface("toggle")
     assert calibrate.probe(clear, "knob_25") == "toggle"
     assert len(clear.sent) == 5          # one seed + four samples, one round
+
+
+def test_a_silent_control_is_never_mistaken_for_a_steady_one():
+    """Nothing coming back is not evidence that a knob is sitting still.
+
+    Both read as "no changes" from inside probe(), and treating silence as
+    `absolute` is precisely how Alligator's Gate 1 Open got swept 128 times
+    and flipped 128 times, while Gate 2 and Gate 3 Open -- the identical
+    control -- were correctly spared. A single-knob re-run on 2026-09-11 then
+    produced `? = ?` at every position, which is what silence really looks
+    like.
+    """
+    from reason_voice import calibrate
+    calibrate.SETTLE = 0
+
+    class _Mute(_FakeSurface):
+        def current(self, knob):
+            return None
+
+    assert calibrate.probe(_Mute("toggle"), "knob_25") == "silent"
+    # and a control that really is steady still reads as steady
+    assert calibrate.probe(_FakeSurface("absolute"), "knob_4") == "absolute"
+
+
+def test_a_context_knob_is_always_measured_before_the_knobs_that_need_it():
+    """put() looks the wanted setting up in the context knob's own table.
+
+    So a context knob swept LATER is a context knob that cannot be used, and
+    every dependent is skipped for want of a table that arrives afterwards.
+    Alligator is the case that forced this: its three gates sit at knobs 25-29
+    and Pattern Enable, which has to be Off before a gate holds still, is at
+    knob 40. In plain map order all three gates would be skipped.
+    """
+    from reason_voice import calibrate
+
+    for device, needs in calibrate.REQUIRES.items():
+        mapped = dial_llm.knob_map(device)
+        order = calibrate.context_first(
+            sorted(mapped, key=lambda k: int(k.split("_")[1])), mapped, device)
+
+        at = {mapped[k]: i for i, k in enumerate(order)}
+        for dependent, need in needs.items():
+            if dependent not in at:
+                continue
+            for name in need:
+                assert name in at, "%s: %r is not a mapped knob" % (device, name)
+                assert at[name] < at[dependent], (
+                    "%s: %r is measured after %r, which needs it"
+                    % (device, name, dependent))
+
+
+def test_alligators_gates_are_measured_with_the_pattern_stopped():
+    """The pattern sequencer drives the gates, so it has to be off to read them.
+
+    Measured 2026-09-11: with Pattern Enable on, Gate 1 Open changed 78 times
+    across a 128-step monotonic sweep -- writes in one direction can cause at
+    most one change -- while Gate 1/2/3 Trig changed exactly once each. The
+    gates were recording the sequencer, not the surface.
+    """
+    from reason_voice import calibrate
+
+    gates = calibrate.REQUIRES["Alligator"]
+    assert set(gates) == {"Gate 1 Open", "Gate 2 Open", "Gate 3 Open"}
+    for need in gates.values():
+        assert need == {"Pattern Enable": "Off"}
+
+    # Trig is deliberately NOT in there: its readings were already clean.
+    mapped = set(dial_llm.knob_map("Alligator").values())
+    assert "Gate 1 Trig" in mapped and "Gate 1 Trig" not in gates
+    assert "Pattern Enable" in mapped        # reachable, or the rule is a wish
+
+
+def test_the_sweep_waits_for_the_lock_before_it_moves_anything():
+    """Reason says where a knob is exactly once: when you lock the device.
+
+    Measured 2026-09-11 with a listen-only script: silence for five seconds,
+    then all 48 positions at once, about a second after the Ctrl-click. The
+    first version of calibrate.py polled once at startup -- before Reason had
+    said anything -- so its "where did everything start" table was empty, the
+    restore loop ran zero times, and every completed sweep left its device with
+    every knob at 127. Alligator came back bypassed because `Enabled` at 127 is
+    bypass.
+    """
+    from reason_voice import calibrate
+
+    class _AnnouncesOnLock:
+        """Silent until the Nth poll, then reports every knob at once."""
+
+        def __init__(self, knobs, at_poll):
+            self.knobs, self.at_poll, self.polls = knobs, at_poll, 0
+
+        def poll(self):
+            self.polls += 1
+
+        def current(self, knob):
+            if self.polls < self.at_poll:
+                return None
+            return (7, "Whatever", "7")
+
+    knobs = ["knob_1", "knob_2", "knob_3"]
+
+    # already locked and already announced: no waiting, no prompting
+    said = []
+    start = calibrate.await_lock(_AnnouncesOnLock(knobs, 0), knobs, out=said.append)
+    assert start == {k: 7 for k in knobs}
+    assert said == []                       # nothing printed: it never had to ask
+
+    # silent at first, announced part way through: it must wait and catch it
+    start = calibrate.await_lock(_AnnouncesOnLock(knobs, 6), knobs,
+                                 seconds=5, out=lambda _: None)
+    assert start == {k: 7 for k in knobs}
+
+    # never announced: it comes back short, and main() refuses to sweep on that
+    start = calibrate.await_lock(_AnnouncesOnLock(knobs, 10 ** 6), knobs,
+                                 seconds=1, out=lambda _: None)
+    assert start == {}
+
+    src = (dial_llm.PROJECT_ROOT / "reason_voice" / "calibrate.py").read_text()
+    assert "NOTHING WAS SWEPT" in src
+    assert "if len(start) < len(knobs):" in src
+
+
+def test_a_knob_that_reads_the_same_everywhere_is_not_recorded_as_measured():
+    """128 identical readings measure the absence of movement, not the knob.
+
+    Alligator's Gate 1/2/3 Open read 0 at every one of 128 positions once the
+    pattern sequencer was stopped, whatever was written to them -- the guide
+    says they "hold that gate open by hand", and at the machine on 2026-09-11
+    they did not respond at all.
+
+    Keeping that table is actively worse than keeping none: resolve() looks for
+    the closest numeric match, every entry is 0, so "open gate 2" would land on
+    position 0 -- driving the gate fully CLOSED. Without a table the same
+    request falls back to a percentage, which at least moves the right way.
+    """
+    flat = {ALLIGATOR: {"Gate 2 Open": {"knob": "knob_27", "unit": "",
+                                        "flat": True, "flat_value": "0"}}}
+    for target in ("1", "On", "100 ms"):
+        assert dial_llm.resolve({"knob": "knob_27", "target": target},
+                                ALLIGATOR, calibration=flat) is None, target
+    pos, _ = dial_llm.resolve({"knob": "knob_27", "target": "100%"},
+                              ALLIGATOR, calibration=flat)
+    assert pos == 127
+
+    # and the prompt must not advertise a range it does not have
+    assert "range: None" not in dial_llm.build_prompt("open gate 2", ALLIGATOR,
+                                                      calibration=flat)
+
+    src = (dial_llm.PROJECT_ROOT / "reason_voice" / "calibrate.py").read_text()
+    assert "if len({v for _, v in table}) <= 1:" in src

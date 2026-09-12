@@ -8,3 +8,17 @@ Kong's remotemap exactly, at the same knob slots. So these are Kong
 measurements filed under Redrum, not Redrum measurements.
 
 Nothing was deleted. Redrum needs re-sweeping with Redrum locked.
+
+2026-09-11 (second removal)
+alligator-gates-read-the-sequencer.json -- Gate 1/2/3 Open, removed
+from calibration.json.
+
+Why: measured with Alligator's internal pattern RUNNING, so the
+sequencer was opening and closing the gates while the sweep tried to
+read them. Gate 1 Open changed 78 times across a 128-step monotonic
+sweep -- writes in one direction can cause at most one change. Gate 2
+and Gate 3 Open were recorded as toggles for the same reason; they are
+not toggles. Gate 1/2/3 Trig changed exactly once each and are kept.
+
+Owner spotted the cause. calibrate.py now drives Pattern Enable to Off
+before measuring these three. Nothing deleted; re-sweep to replace.
