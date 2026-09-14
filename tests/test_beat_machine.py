@@ -1058,7 +1058,10 @@ def only_his_instruments(tmp_path, monkeypatch):
 
 
 def _voices_of(rec):
-    return [c["voice"] for c in rec["harmony"]["chords"]]
+    """The INSTRUMENT of each chord slot. Every DJ plays the chord rhythm
+    grammar since 2026-09-14, and it names its figure per slot ("bell stab",
+    "bell arp") — how the instrument plays, not a different instrument."""
+    return [c["voice"].split()[0] for c in rec["harmony"]["chords"]]
 
 
 def test_one_instrument_plays_the_whole_beat(machine_env, only_his_instruments,
@@ -1148,7 +1151,8 @@ def test_layering_never_happens_always_one_voice(
         rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
         voices = _voices_of(rec)
         assert len(set(voices)) == 1, voices        # locked, every time
-        assert " + " not in voices[0], voices       # never layered
+        labels = [c["voice"] for c in rec["harmony"]["chords"]]
+        assert not any(" + " in v for v in labels), labels   # never layered
 
 
 def test_the_rack_never_says_built_from_scratch_over_his_own_samples(

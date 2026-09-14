@@ -36,7 +36,7 @@ import inspect
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
-from pattern_gen import DEFAULT_STYLE, STYLE_VERSION
+from pattern_gen import DEFAULT_STYLE, STYLE_VERSION, free_beat
 from make_drum_loops import SR, master, write_wav24
 from flavor_tags import matches as flavor_matches
 from make_drum_beats import build_shots, duck
@@ -1067,6 +1067,12 @@ merge_legends(CREW)
 merge_genres(CREW)
 
 
+def is_dj(name):
+    """The 24 DJs (the crew and the Legends) the 70/30 rule covers — owner
+    2026-09-14. Genre presets keep their own rules."""
+    return name in CREW and name not in GENRE_NAMES
+
+
 def reload_rosters(target=CREW, path=None):
     """Rebuild `target` into the COMPLETE roster — the nine, the Legends,
     and the Styles — from whatever config files are currently in force.
@@ -1115,7 +1121,7 @@ def _sorted_root():
 
 
 def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
-               own_bank=False, flavor_match=False):
+               own_bank=False, flavor_match=False, open_bank=None):
     """Like make_drum_beats.pick but returns the PATH so it can be locked.
     Tiers: must-word AND want-tag > must-word > want-tag > anything —
     the combined tier keeps a must="808" from grabbing an 808 *cowbell*
@@ -1133,8 +1139,16 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
     library's "tite" files. Default False, so every preset that does
     not ask for it matches exactly as it did before. Opt-in per
     preset, on purpose: wired for legends built going forward, not
-    retrofitted onto the existing roster (owner, 2026-09-09)."""
-    if OWNER_TASTE.get("open_soundbank") and not own_bank:
+    retrofitted onto the existing roster (owner, 2026-09-09).
+
+    open_bank (owner 2026-09-14, "all drum kit sounds opening up"): a DJ's
+    beat passes pattern_gen.free_beat(variant) here, so every one of the
+    24 DJs picks by its own taste on 70% of beats and from the whole role
+    pool on the other 30%. None keeps the old switch below for everything
+    that is not a DJ beat (genre presets, the fixed bank, a manual swap)."""
+    if open_bank is None:
+        open_bank = OWNER_TASTE.get("open_soundbank") and not own_bank
+    if open_bank:
         # owner 2026-07-18: no limits on a DJ's sound bank — the whole
         # role pool is fair game, taste tags and must-words stop gating
         #
@@ -1275,7 +1289,9 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
         path, x = _pick_path(shots, role, wants, secs, seed,
                              must=must, avoid=avoid,
                              own_bank=bool(p.get("own_soundbank")),
-                             flavor_match=bool(p.get("flavor_match")))
+                             flavor_match=bool(p.get("flavor_match")),
+                             open_bank=(free_beat(variant) if is_dj(name)
+                                        else None))
         if path:
             avoid.add(path)
         # sub_layer (2026-09-03): a preset can reinforce its KICK with a

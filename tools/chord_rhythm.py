@@ -30,8 +30,11 @@ character (X accent, x normal, o softer re-attack, . ghost) and never
 from a random wobble. `groove.velocity` already enforces that; this module
 must not multiply anything on top of it.
 
-Opt-in only. A preset without a top-level `chord_grammar` key behaves
-exactly as it did before this file existed.
+Every DJ since 2026-09-14 (owner: the old arp is "repetitious and
+boring"; he chose these rhythms for everyone, with arps half as often as
+before). A DJ with no `chord_grammar` key gets the house DEFAULT figures,
+its arp share set to half of what its old two-word `chord_rhythm` gave it.
+Genre presets keep the opt-in: absent key -> None -> the old path.
 """
 from __future__ import annotations
 
@@ -66,20 +69,51 @@ DEFAULT = {
 }
 
 
-def spec_for(preset):
-    """The identity's chord grammar, or None if it hasn't opted in.
+# Owner 2026-09-14: "1 but 50% less than now" — every DJ on this grammar,
+# arps HALF as often as each one had them.
+ARP_CUT = 0.5
 
-    Absent -> None -> the other twenty-two render unchanged. `true` means
-    "the house default"; a dict overrides only the keys it names, so an
-    identity can ask for stabs alone without restating the step weights.
-    Same shape as `own_soundbank` / `snare_locked_24`: a top-level key,
-    read at one decision point, falsy by absence."""
+
+def _share(weighted, name):
+    total = sum(w for _, w in weighted)
+    return sum(w for n, w in weighted if n == name) / total if total else 0.0
+
+
+def _with_arp_share(figures, share):
+    """`figures` with the arp weight set so arps are `share` of the rolls.
+    The other figures keep their own weights."""
+    rest = [[f, w] for f, w in figures if f != "arp" and w > 0]
+    if not rest:                         # an all-arp list: borrow the rest
+        rest = [[f, w] for f, w in DEFAULT["figures"] if f != "arp"]
+    if share <= 0:
+        return rest
+    other = sum(w for _, w in rest)
+    return rest + [["arp", round(other * share / (1.0 - share), 3)]]
+
+
+def spec_for(preset, free=False):
+    """The chord grammar this beat plays, or None for the old two-word path.
+
+    `true` means "the house default"; a dict overrides only the keys it
+    names. A DJ with no key gets DEFAULT, with its arp share taken from its
+    own old `signature.chord_rhythm` ("arp" = all, "sustain" = none, a
+    weighted list = its arp share). Either way the arp share is then cut to
+    ARP_CUT of itself. `free` (pattern_gen.free_beat): the house DEFAULT,
+    whatever the DJ's own settings. Genre presets without the key -> None,
+    their opt-in unchanged."""
     raw = preset.get("chord_grammar")
-    if not raw:
+    if not raw and preset.get("genre"):
         return None
     spec = dict(DEFAULT)
-    if isinstance(raw, dict):
+    if isinstance(raw, dict) and not free:
         spec.update(raw)
+    if free or raw:
+        share = _share(spec["figures"], "arp")
+    else:
+        rhythm = (preset.get("signature") or {}).get("chord_rhythm")
+        share = (_share(rhythm, "arp") if isinstance(rhythm, list)
+                 else float(rhythm == "arp"))
+    spec["figures"] = _with_arp_share(spec["figures"], share * ARP_CUT)
     return spec
 
 

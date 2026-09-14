@@ -19,15 +19,46 @@ from chord_rhythm import DEFAULT, FIGURES, gen_figure, spec_for  # noqa: E402
 
 # ---------------------------------------------------------------- opt-in
 
-def test_absent_key_means_no_grammar():
-    """The whole point of the opt-in: twenty-two identities must be able
-    to see this module and get nothing from it."""
-    assert spec_for({}) is None
-    assert spec_for({"chord_grammar": False}) is None
+def test_genre_presets_keep_the_opt_in():
+    """The DJs moved onto the grammar 2026-09-14; genre presets still opt in."""
+    assert spec_for({"genre": True}) is None
+    assert spec_for({"genre": True, "chord_grammar": False}) is None
 
 
-def test_true_means_the_house_default():
-    assert spec_for({"chord_grammar": True}) == DEFAULT
+def test_every_dj_gets_the_grammar_with_arps_halved():
+    # owner 2026-09-14: the old arp is "repetitious and boring" -> these
+    # rhythms for every DJ, "50% less than now"
+    share = chord_rhythm._share
+    arp_only = spec_for({"signature": {"chord_rhythm": "arp"}})
+    assert share(arp_only["figures"], "arp") == pytest.approx(0.5, abs=1e-3)
+    mixed = spec_for({"signature": {"chord_rhythm": [["sustain", 3],
+                                                     ["arp", 1]]}})
+    assert share(mixed["figures"], "arp") == pytest.approx(0.125, abs=1e-3)
+    held = spec_for({})
+    assert share(held["figures"], "arp") == 0
+    assert {f for f, _ in held["figures"]} == {"stab", "comp", "pad"}
+
+
+def test_true_means_the_house_default_with_arps_halved():
+    spec = spec_for({"chord_grammar": True})
+    assert {k: v for k, v in spec.items() if k != "figures"} == \
+        {k: v for k, v in DEFAULT.items() if k != "figures"}
+    assert chord_rhythm._share(spec["figures"], "arp") == pytest.approx(
+        chord_rhythm._share(DEFAULT["figures"], "arp") / 2, abs=1e-3)
+
+
+def test_own_figures_keep_their_mix_with_arps_halved():
+    # J Dillo's own list: arp 4 of 10 -> 2 of 10
+    spec = spec_for({"chord_grammar": {"figures": [["arp", 4], ["comp", 3],
+                                                   ["stab", 2], ["pad", 1]]}})
+    assert chord_rhythm._share(spec["figures"], "arp") == pytest.approx(
+        0.2, abs=1e-3)
+    assert dict(spec["figures"])["comp"] == 3
+
+
+def test_a_free_beat_plays_the_house_default():
+    spec = spec_for({"chord_grammar": {"hits": [1, 1]}}, free=True)
+    assert spec["hits"] == DEFAULT["hits"]
 
 
 def test_a_dict_overrides_only_what_it_names():

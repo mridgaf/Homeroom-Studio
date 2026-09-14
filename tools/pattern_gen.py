@@ -36,6 +36,21 @@ PAT_KEEP = 24
 BEATS = (0, 4, 8, 12)
 STYLE_VERSION = 7      # bump when DEFAULT_STYLE changes (config auto-syncs)
 
+# OWNER RULE 2026-09-14, replacing the 2026-08-01 quarter: "all djs have all
+# instruments, chords and keys available to them. keep djs 70% true to
+# character weights, 70% of the time. the rest is free for all" — drum kit
+# sounds, patterns and backbeats included. ONE roll per beat decides it, so a
+# beat is either the DJ or a free-for-all, never a little of each. It lives
+# here because this module imports nothing from the project, and crew,
+# beat_machine and chord_rhythm all import it. The seed is the one the
+# harmony roll always used, so the beats that were already open stay open.
+OPEN_P = 0.30
+
+
+def free_beat(variant):
+    """True on the OPEN_P share of beats that leave the DJ's character."""
+    return random.Random(variant * 911 + 73).random() < OPEN_P
+
 # ------------------------------------------------- the groove library
 # Owner drop 2026-07-17 (second library expansion): 131 genre-tagged
 # reference grooves with per-lane velocity grids, built in a separate

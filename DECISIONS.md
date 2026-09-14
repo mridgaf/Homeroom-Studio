@@ -22,6 +22,107 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-14 The 70/30 freedom pass, the London strings fix, one low sound per beat
+
+- Context: he asked how to use "some" of the London Symphonic Strings without
+  bogging the system down, then widened it in the same session: "all djs have
+  all instruments, chords and keys available to them. keep djs 70% true to
+  character weights, 70% of the time. the rest is free for all", drum kit
+  sounds, patterns and backbeats included; "don't pile lows on lows"; the arp
+  is "repetitious and boring"; progressions repeat. Also: "I choose quality
+  over speed every time... It's for variety and creativity" (saved to memory).
+- **Found, measured, not assumed:**
+  - Strings chords played ONE note since commit 686757f (07-29): the pin was
+    copied from instrument_sampler without its pitch shift, so C-E-G = C-C-C
+    on Doc Day, Just Flame, Razor, No Alias, Mustang, Rage Engine, Fast Water.
+    Shown by running string_sampler.nearest() on the real saved list.
+  - The London library is recorded every other note (on disk: sus_48, 49, 51,
+    53...), so unshifted gaps were a half-step off; D3/E3/F#3 had no held or
+    plucked recording in any section.
+  - 52,667 files = ~36,400 two-note bow slides + ~12,000 other-mic copies +
+    4,263 close-mic single notes. File names lie: Violin I's Glissando files
+    are named sustain_*, its SFX files parse as MIDI notes (100_c.wav).
+  - Last 331 chord beats: 45/47 progressions but vamp_static_riff = 43; only
+    7/12 keys (key_context.SUB_ROOTS); old arp on 32%; 20/24 DJs still on the
+    fixed chord_synth.arp_riff.
+  - open_soundbank (07-18) made 14 DJs' drum picks 100% random; the 10
+    own_soundbank Legends were 100% taste.
+  - Beat 1191 (Doc Day) had an 808 KICK and an 808 bass lane on the same hits.
+  - _808_to_key did "Bb".upper() = "BB", not in its sharps list, so every Bb
+    beat silently lost its 808 (12% of chord beats). Fixed via
+    key_context.pitch_class.
+- Decision/change (his answers, all asked as BLOCKING questions):
+  - Strings: all four sections; the 4 main styles only (held/plucked/short/
+    tremolo) read from the VENDOR FOLDER, not the file name; all 4 mics
+    indexed, close mic in character, one rolled mic on free beats; bow slides
+    parked. Pick list in sample_packs.json (strings_sections/strings_styles).
+    Pin = section+style+mic, each note its own recording shifted <=1 step;
+    plucked/short styles ring once instead of being tiled. 4,263 -> 11,870
+    notes on the list. No speed caching (his standing instruction).
+  - pattern_gen.OPEN_P 0.25 -> 0.30 and ONE roll per beat, free_beat(variant)
+    (the old harmony seed, so already-open beats stay open), used by harmony,
+    keys (all 12 on free beats), instruments (_source_order free=True, "chip"
+    still excluded per 07-25), drum kit sounds (crew._pick_path open_bank; all
+    24 DJs follow taste in character), drum patterns (_borrow_drum_parts: each
+    lane + kick_flavors + extras from a separately rolled DJ; copy-specs and
+    Doc Day's snare_locked_24 left alone), the clap-only snare seat, the low end.
+  - One low sound: _low_voice decides once, before chords ("sub"/"808"/"bass"/
+    "brass"/"kit"/None); in character = the old rates verbatim, free = any
+    sound his library can play at the same rate; a long 808 kick IS the low
+    sound; strings get allow_basses; _refuse_second_low drops any second low
+    lane. Bass samples/low brass play the ROOT only (07-29 no-bassline rule).
+  - Arps: chord_rhythm.spec_for gives every DJ the grammar; arp share cut to
+    half of each DJ's own (ARP_CUT, done in code, no config edits); free beats
+    = DEFAULT with arps halved. Genre presets keep the opt-in.
+- OVERRULED here, by his instruction: 07-18 open sound bank (for DJs), 08-01
+  25% open, 09-05 grammar opt-in-per-identity, 09-07 SUB_DJS-only sub (now any
+  DJ on free beats), Legends' "no cross-pollination" (30% of their beats), the
+  07-29 strings pin. Genre presets untouched. tools/make_chord_ab.py assumes
+  the old opt-in and would now render identical pairs — its refusal will fire.
+- ASSUMING (told him, not corrected): one roll per beat; Legends are DJs;
+  hard rules hold on free beats; DJs without an articulation play held
+  strings; low brass unavailable until he adds tuba/trombone (lowest brass
+  F3); collabs keep their 50/50 blend of drum PATTERNS (no free borrowing),
+  but their drum SOUNDS follow the same 70/30 roll (collab_kit open_bank).
+- Verify by: tests/test_freedom.py (12, mutation-checked: removing the
+  refusal, forcing two lows, ARP_CUT=1 and the old pin each turn a test red),
+  updated test_string_sampler/test_signature/test_chord_rhythm/
+  test_beat_machine (_voices_of reads the instrument, not the figure).
+  `./.venv/bin/python tools/freedom_report.py` (no audio, 960 beats): free 30%,
+  12/12 keys, 47/47 progressions, vamp_static_riff 9%, arp 15%.
+  Full suite 1171 passed / 3 skipped (run alone, before any render).
+  Audition on the Desktop, "Homeroom Strings + Freedom 2026-09-14":
+  1 Strings before-after (tools/make_strings_ab.py): chord notes sounding at
+  their own pitch, before vs after: Doc Day 1.0 vs 3.5 of 3.5, Razor 2.2 vs
+  3.0 of 3.0, Rage Engine 1.0 vs 2.0 of 2.0. The bench's first premise check
+  (one FILE per chord) was wrong — the old pin re-picked notes more than an
+  octave away — and refused the batch; replaced by the audio ruler.
+  2 Free-for-all beats (tools/make_freedom_batch.py): 6 free + 6 in
+  character, 0 beats with two low sounds, 7 keys incl. G#/C#.
+- FOUND WHILE CHECKING, older than this pass, NOT changed (told him):
+  (a) Night Metro's breakdown (7d3da24, 09-03) drops the front half of its
+  bar to the kick; a chord lane whose only trigger sits there never sounds
+  (beat 87, chord2). (b) the synthesized chip voice sits ~15 dB under every
+  other chord voice (Timberline beat 96: chords -26 dB vs kick, others -9 to
+  -14.5). (c) the "build: bar N thins out" move can empty a whole bar of
+  drums (beat 96 bar 3, -38 dB).
+- Status: open — measured, NOT heard.
+- Outcome:
+
+### 2026-09-14 Stuck commit = stale .git/index.lock left by the Claude app's VM
+
+- Context: "I have a commit stuck that I can't push through."
+- Decision/change: `.git/index.lock` (0 bytes, 2026-09-13 18:23) blocked every
+  commit. No git process on the host; `lsof` showed it held read-only by the
+  Claude app's Linux VM (claudevm.bundle), which also had .git/index and
+  vox_plugin/build open — a session there ran git in this folder and got cut
+  off. Moved the lock to the session scratchpad (not deleted). Also, on his
+  answer, added sonic/, vox_plugin/JUCE/ and .worktrees/ to .gitignore: all
+  three are their own git repos, and committing them stores an empty pointer.
+- Verify by: he committed and pushed ("Done. It pushed.").
+- Status: confirmed
+- Outcome: pushed. If it recurs: `lsof .git/index.lock`, no live git -> move it.
+
 ### 2026-09-13 Melodic instruments were silently starved of samples since the 2026-09-06 drum switch -- fixed by giving them their own root config
 
 - Context: owner separated piano/guitar/brass/bell/organ/wood/string/synth/

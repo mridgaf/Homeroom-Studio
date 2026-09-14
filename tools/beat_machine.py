@@ -42,13 +42,14 @@ from make_drum_beats import ban_sound, build_shots, name_twins
 from make_hiphop_tracks import load_audio
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
-                  build_kit, lock_stamps, normalize_preset,
+                  build_kit, is_dj, lock_stamps, normalize_preset,
                   render_crew_beat, sub_sidechain,
-                  _load_choked, _pick_path, _resolve_secs)
+                  _LOW_END, _load_choked, _pick_path, _resolve_secs)
 from beat_recipes import (history_avoid, lane_label, load_recipe,
                           record_history, save_recipe, write_midi,
                           write_stems)
-from pattern_gen import LIB_DIR, break_list, compose, load_library, _lib_lane
+from pattern_gen import (LIB_DIR, break_list, compose, free_beat,
+                         load_library, _lib_lane)
 
 def _resolve_beats_root():
     """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
@@ -698,11 +699,10 @@ def roll_swing(preset, variant, force=None, crew_dj=False):
 
 
 # Owner rule 2026-08-01: "All sounds are open to all DJs, but they try to
-# maintain seventy five percent of their personality within." OPEN_P is the
-# other quarter — the share of beats on which an identity may reach outside
-# its own settled taste. Used here to give the four clap-only DJs a snare
-# sometimes; Part C uses the same number for harmony.
-OPEN_P = 0.25
+# maintain seventy five percent of their personality within." Raised to 30%
+# and widened to everything on 2026-09-14 — OPEN_P and free_beat() now live
+# in pattern_gen (see there). Used here to give the four clap-only DJs a
+# snare sometimes; _build_chords, build_kit and the low end use the same roll.
 
 
 def _maybe_seat_snare(preset, variant):
@@ -716,7 +716,7 @@ def _maybe_seat_snare(preset, variant):
     kit, lanes = preset.get("kit", {}), preset.get("lanes", {})
     if "snare" in kit or "clap" not in kit or "clap" not in lanes:
         return False
-    if random.Random(variant * 613 + 41).random() >= OPEN_P:
+    if not free_beat(variant):
         return False
     pan, gain, (off, jit, swing, seed), bars = lanes["clap"]
     kit["snare"] = ("snare", None, ["snare"], 1.0)
@@ -726,6 +726,50 @@ def _maybe_seat_snare(preset, variant):
     if "clap" in grammar and isinstance(grammar["clap"], dict):
         grammar["snare"] = copy.deepcopy(grammar["clap"])
     return True
+
+
+def _borrow_drum_parts(p, name, variant):
+    """A free beat's drums (owner 2026-09-14): "make sure all patterns and
+    back beats are given the same freedom for djs as the instruments", and
+    asked how, "each part from a different DJ". So each drum part's grammar
+    — the kick (with its kick flavors), every backbeat and timekeeper lane,
+    and the guest-percussion palette — comes from its own randomly rolled
+    DJ. compose() then writes a fresh pattern from that borrowed grammar
+    exactly as it would from the DJ's own.
+
+    Left alone on purpose: a lane that only COPIES another lane (it follows
+    whatever that lane borrowed, and two borrowed copies could point at
+    each other), and Doc Day's snare_locked_24 (a hard lock he set). The
+    traditional backbone still applies afterwards inside compose(), and a
+    typed backbeat in the notes box still wins after this. Returns notes."""
+    rng = random.Random(variant * 709 + 23)
+    djs = sorted(n for n in CREW if is_dj(n) and n != name)
+    grammar = p.get("grammar") or {}
+    notes = []
+
+    def real(spec):
+        return isinstance(spec, dict) and "copy" not in spec
+
+    for lane in sorted(grammar):
+        if not real(grammar[lane]):
+            continue
+        if lane == "snare" and p.get("snare_locked_24"):
+            continue
+        donors = [n for n in djs
+                  if real((CREW[n].get("grammar") or {}).get(lane))]
+        if not donors:
+            continue
+        d = rng.choice(donors)
+        grammar[lane] = copy.deepcopy(CREW[d]["grammar"][lane])
+        if lane == "kick" and CREW[d].get("kick_flavors"):
+            p["kick_flavors"] = copy.deepcopy(CREW[d]["kick_flavors"])
+        notes.append("%s from %s" % (lane, d))
+    donors = [n for n in djs if CREW[n].get("extras")]
+    if p.get("extras") and donors:
+        d = rng.choice(donors)
+        p["extras"] = copy.deepcopy(CREW[d]["extras"])
+        notes.append("percussion from %s" % d)
+    return notes
 
 
 def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
@@ -750,6 +794,9 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
     p["break_name"] = (dirs or {}).get("break_name")
     _maybe_seat_snare(p, variant)
     _pin_bars_for_loop_voice(p, variant, dirs)
+    borrowed = []
+    if not bb and is_dj(name) and free_beat(variant):
+        borrowed = _borrow_drum_parts(p, name, variant)
     if dirs and dirs.get("force_mode"):
         for ln in ("snare", "clap"):
             spec = p.get("grammar", {}).get(ln)
@@ -757,6 +804,8 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
                 spec["modes"] = [[dirs["force_mode"], 1.0]]
     notes = compose(p, name, variant, boom_bap=bb, tsig=tsig, trick=trick,
                     traditional=traditional)
+    if borrowed:
+        notes.insert(0, "free beat, drums: " + ", ".join(borrowed))
     nine = name not in LEGEND_NAMES and name not in GENRE_NAMES
     got = roll_swing(p, variant, force=(dirs or {}).get("swing"),
                      crew_dj=nine)
@@ -861,8 +910,11 @@ def collab_kit(shots, names, preset, stamps, variant, avoid):
         secs = _resolve_secs(secs, CREW[parent]["num"], variant)
         seed = (CREW[host]["num"] * 1000 + variant * 7919
                 + zlib.crc32(lane.encode()) % 997)
+        # 70/30 like a solo beat (owner 2026-09-14): the lane's parent's
+        # taste in character, the whole library on a free beat
         path, x = _pick_path(shots, role, wants, secs, seed,
-                             must=must, avoid=avoid)
+                             must=must, avoid=avoid,
+                             open_bank=free_beat(variant))
         if path:
             avoid.add(path)
         kit[lane] = x
@@ -1218,7 +1270,8 @@ SUB_DJS = ("Doc Day", "Wonky", "Trip Hop", "Half Light")
 
 
 def _add_root_sub(preset, kit, sources, variant, vnotes,
-                  harmony_info=None, traditional=False, dj=None):
+                  harmony_info=None, traditional=False, dj=None,
+                  decided=False):
     """The tuned 808 sub under the kick — owner rule 2026-07-18, "add the
     root". Returns the note name it used, or None if this beat gets no sub.
 
@@ -1231,18 +1284,24 @@ def _add_root_sub(preset, kit, sources, variant, vnotes,
     sub on the wrong root under a progression is worse than no sub at all.
     An identity's `signature.key.roots` may ask for a note ROOT_HZ does not
     spell (Half Light asks for B on 7.4% of its beats); that beat gets no
-    sub rather than a random one."""
-    if not (ADD_THE_ROOT_808 and traditional and "kick" in preset["lanes"]):
+    sub rather than a random one.
+
+    `decided=True` is generate(): _low_voice already made this beat's one
+    low-sound call (owner 2026-09-14), so only the kick check is left
+    here. Without it — the root-808 bench — the old gates run as they
+    always did."""
+    if "kick" not in preset["lanes"]:
         return None
-    if dj not in SUB_DJS:                       # see SUB_DJS above
-        return None
-    _ksecs = preset["kit"].get("kick", (None, None, None, 0))[3]
-    _klen = max(_ksecs) if isinstance(_ksecs, (tuple, list)) else _ksecs
-    # a LONG 808 kick is carrying the sub itself; two would just fight
-    if preset["kit"].get("kick", (None, None))[1] == "808" and _klen > 0.6:
-        return None
-    if random.Random(variant * 577 + 13).random() >= 0.75:
-        return None
+    if not decided:
+        if not (ADD_THE_ROOT_808 and traditional):
+            return None
+        if dj not in SUB_DJS:                   # see SUB_DJS above
+            return None
+        # a LONG 808 kick is carrying the sub itself; two would just fight
+        if _holds_low_end(preset):
+            return None
+        if random.Random(variant * 577 + 13).random() >= 0.75:
+            return None
     key_root = (harmony_info or {}).get("root")
     if key_root:
         if key_root not in ROOT_HZ:
@@ -1257,6 +1316,106 @@ def _add_root_sub(preset, kit, sources, variant, vnotes,
     sources["sub"] = "synth 808 sub, root %s" % root_note
     vnotes.append("root: %s (tuned 808 sub under the kick)" % root_note)
     return root_note
+
+
+LOW_TOP = 47      # top of MIDI octave 2, the register an 808/bass root sits in
+
+
+def _low_pool(kind):
+    """His samples that can play a LOW root: "bass" = the Bass folder's
+    synth-bass and bass one-shots, "brass" = brass recorded within
+    MAX_SHIFT of octave 2. His lowest brass today is F3 (MIDI 53), so the
+    brass pool stays empty until tuba/trombone samples land in the Brass
+    folder (owner 2026-09-14) — reported, never faked with a big stretch."""
+    import instrument_sampler as ins
+    idx = ins.scan_bass() if kind == "bass" else ins.scan()
+    return [e for e in idx if e["group"] == kind
+            and e["note"] <= LOW_TOP + ins.MAX_SHIFT]
+
+
+def _low_sample(kind, key_root, variant, secs):
+    """(path, audio) of a bass-sample or low-brass hit on the beat's ROOT —
+    one note, never a line (the 2026-07-29 no-melodic-bassline rule) — or
+    (None, None) when nothing reaches it."""
+    import instrument_sampler as ins
+    got = _low_pool(kind)
+    if not got:
+        return None, None
+    if key_root:
+        from key_context import pitch_class
+        note = 36 + pitch_class(key_root)
+        if not ins.covers(got, [note], (kind,)):
+            return None, None
+    else:                                    # no key: play it where it sits
+        note = random.Random(variant * 71 + 5).choice(got)["note"]
+    used = []
+    audio = ins.voice_note(got, note, secs, groups=(kind,), used=used)
+    return (used[0] if used else None), audio
+
+
+def _low_voice(preset, variant, dirs, traditional, dj, shots):
+    """This beat's ONE low sound: "sub", "808", "bass", "brass", "kit" (the
+    kit already carries it — a long 808 kick) or None.
+
+    OWNER HARD RULE 2026-09-14, "don't pile lows on lows": the kick plus
+    only ONE of sub / 808 / bass sample / low brass / the strings' basses.
+    This is the single place it is decided, before anything that could add
+    one: the strings read the answer (allow_basses) and the lanes add
+    exactly what it says. generate() then refuses a second low lane outright.
+
+    How OFTEN a beat has one is unchanged. In character this is the old
+    rule verbatim: the tuned sub for SUB_DJS on a traditional beat without
+    chords at 3 in 4, else the sampled 808 at SAMPLED_BASS_P. On a free beat
+    (pattern_gen.free_beat) any DJ gets any low sound his library can play,
+    at that same rate — "interchangeable with every DJ"."""
+    if "kick" not in preset["lanes"]:
+        return None
+    if _holds_low_end(preset):
+        return "kit"
+    muted = "bass" in dirs.get("mute", set())
+    sub_ok = ADD_THE_ROOT_808 and (ROOT_808_WITH_CHORDS or not dirs["chords"])
+    if (sub_ok and traditional and dj in SUB_DJS
+            and random.Random(variant * 577 + 13).random() < 0.75):
+        voice = "sub"
+    elif (shots.get("bass") and not muted
+          and random.Random(variant * 907 + 31).random() < SAMPLED_BASS_P):
+        voice = "808"
+    else:
+        return None
+    if not (free_beat(variant) and is_dj(dj)):
+        return voice
+    options = [v for v, ok in (("sub", sub_ok),
+                               ("808", bool(shots.get("bass")) and not muted),
+                               ("bass", not muted and bool(_low_pool("bass"))),
+                               ("brass", not muted and bool(_low_pool("brass"))))
+               if ok]
+    return random.Random(variant * 383 + 19).choice(options)
+
+
+def _refuse_second_low(preset, kit, sources, vnotes):
+    """The refusal half of the one-low-sound rule (owner 2026-09-14). Every
+    path is meant to go through _low_voice, but if anything ever leaves a
+    beat with two low lanes, the first one stays and the rest are dropped
+    and named in the beat's notes — never mixed together."""
+    lows = [ln for ln in preset["lanes"] if ln in _LOW_END]
+    for ln in lows[1:]:
+        for d in (preset["lanes"], kit, sources, preset["kit"]):
+            d.pop(ln, None)
+        vnotes.append("%s dropped: one low sound per beat" % ln)
+
+
+def _holds_low_end(preset):
+    """True when this beat already has its ONE low sound (owner hard rule
+    2026-09-14: "don't pile lows on lows"): a low-end lane (crew._LOW_END)
+    or a long 808 kick, which carries the sub by itself — the reason
+    _add_root_sub always refused to put a sub under one."""
+    if any(ln in preset.get("lanes", {}) for ln in _LOW_END):
+        return True
+    kick = preset.get("kit", {}).get("kick")
+    if not kick or kick[1] != "808":
+        return False
+    secs = kick[3]
+    return (max(secs) if isinstance(secs, (tuple, list)) else secs) > 0.6
 
 
 def _root_sub(variant, secs=0.6):
@@ -1323,7 +1482,6 @@ def _drop_stamp(preset):
 _808_INDEX_FILE = Path(__file__).resolve().parent.parent / \
     "sample_808_index.json"
 _808_INDEX = None
-_SHARPS = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 
 
 def _808_notes():
@@ -1352,8 +1510,12 @@ def _808_to_key(path, audio, key_root):
     have = _808_notes().get(str(path))
     if not have:
         return None, 0
+    from key_context import pitch_class
     try:
-        semis = (_SHARPS.index(key_root.upper()) - _SHARPS.index(have)) % 12
+        # pitch_class, not an index into a sharps-only list: "Bb".upper()
+        # is "BB", which was not in it, so every Bb beat silently lost its
+        # 808 (12% of chord beats, found 2026-09-14)
+        semis = (pitch_class(key_root) - pitch_class(have)) % 12
     except (ValueError, AttributeError):
         return None, 0
     if semis > 6:
@@ -1370,7 +1532,7 @@ def _808_to_key(path, audio, key_root):
 
 
 def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
-                      key_root=None):
+                      key_root=None, low="auto"):
     """Put bass/808 and vocal samples into real lanes (owner phase 2,
     2026-07-23). Both optional and seeded, and each stays out of a 'chords'
     beat's low end / key where it would clash. Reuses the same
@@ -1393,10 +1555,23 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
     #
     # An 808 whose note could not be read (1 of 411) is still barred from a
     # keyed beat -- shifting by an unknown interval is worse than no 808.
-    if (shots.get("bass") and "bass" not in muted
-            and "sub" not in preset["lanes"] and "kick" in preset["lanes"]
-            and rng.random() < SAMPLED_BASS_P):
-        secs = 0.8
+    #
+    # `low` is generate()'s one low-sound call (_low_voice, owner 2026-09-14):
+    # this adds exactly that and nothing else. "auto" is a caller that never
+    # decided (the benches) and gets the old roll.
+    if low == "auto":
+        low = ("808" if (shots.get("bass") and "bass" not in muted
+                         and "sub" not in preset["lanes"]
+                         and "kick" in preset["lanes"]
+                         and rng.random() < SAMPLED_BASS_P) else None)
+    secs, path, audio, label = 0.8, None, None, "808"
+    if low in ("bass", "brass"):
+        path, audio = _low_sample(low, key_root, variant, secs)
+        label = "synth bass sample" if low == "bass" else "low brass"
+        if audio is None and shots.get("bass"):
+            low = "808"                      # nothing reached the root
+    if low == "808" and audio is None:
+        label = "808"
         path, audio = _pick_path(shots, "bass", [], secs, variant * 71 + 5)
         if audio is not None and np.any(audio) and key_root:
             audio, semis = _808_to_key(path, audio, key_root)
@@ -1405,6 +1580,7 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
             elif semis:
                 vnotes.append("808 shifted %+d semitones to %s"
                               % (semis, key_root))
+    if low in ("808", "bass", "brass"):
         if path is not None and audio is not None and np.any(audio):
             _pan, _g, (_o, _j, ksw, ks), kbars = preset["lanes"]["kick"]
             preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9),
@@ -1425,7 +1601,8 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
             # preset["kit"] or it's invisible to the recipe (kit_spec), and
             # with it the app's stems/swap list and anti-repeat history.
             preset["kit"]["bass"] = ("bass", None, [], secs)
-            vnotes.append("bass 808: %s" % Path(path).stem)
+            vnotes.append(("bass %s: %s" if label == "808" else
+                           "bass (%s): %s") % (label, Path(path).stem))
 
     # VOX one-shot — a sparse chant/adlib on a phrase accent (untuned).
     if (shots.get("vox") and "vox" not in muted
@@ -1458,12 +1635,19 @@ def _wpick(spec, rng):
     return rng.choice(spec)
 
 
-def _source_order(pref, rng):
+def _source_order(pref, rng, free=False):
     """The order to try chord voices for one chord. No signature -> the
     historical default (a sampled loop, else the sampled-instrument
     voice). With a signature `chord_source` (weighted, e.g.
     [['strings',2],['synth',1]]) roll a primary from the weights, then
     fall through the rest of that identity's own sources.
+
+    `free` (pattern_gen.free_beat, owner 2026-09-14: "all djs have all
+    instruments"): the primary is rolled from EVERY voice instead — his
+    sampled groups, the London strings and the loops — and the identity's
+    own sources follow it as the fallback. "chip" stays out: it is the one
+    generated voice, and his 2026-07-25 rule keeps it to the identities
+    that ask for it.
 
     "synth" is appended as the last resort, but note what it MEANS now
     (owner 2026-07-23): sampled synth/pluck/pad material out of his own
@@ -1471,10 +1655,17 @@ def _source_order(pref, rng):
     synthesized pad that used to be the never-fails floor is deleted, so
     unlike before, every source in this order can fail; _build_chords
     handles the case where they all do."""
-    if not pref:
+    if free:
+        import instrument_sampler
+        every = sorted(set(instrument_sampler.VOICES) - {"chip"}
+                       | {"strings", "loop"})
+        primary = rng.choice(every)
+        names = [s[0] for s in pref] if pref else ["loop", "synth"]
+    elif not pref:
         return ("loop", "synth")
-    names = [s[0] for s in pref]
-    primary = _wpick(pref, rng)
+    else:
+        names = [s[0] for s in pref]
+        primary = _wpick(pref, rng)
     order = [primary] + [n for n in names if n != primary]
     if "synth" not in order:
         order.append("synth")
@@ -1617,7 +1808,8 @@ def _pin_bars_for_loop_voice(preset, variant, dirs):
     if not (dirs.get("chords") or sig.get("chords_default")):
         return False
     pref = sig.get("chord_source")
-    order = _source_order(pref, random.Random(variant * 461))
+    order = _source_order(pref, random.Random(variant * 461),
+                          free=free_beat(variant) and not preset.get("genre"))
     if not order or order[0] != "loop":
         return False
     preset["bar_lengths"] = [4]
@@ -1717,7 +1909,38 @@ def _decay_chord_slots(beds, slots, variant):
     return beds
 
 
-def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
+def _roll_key(sig, variant, dirs, open_roll, srng):
+    """(key root, mode, progression name or None) for one beat — the three
+    harmonic dice _build_chords rolls, in the same order on the same `srng`.
+    A reference track's key wins hard; a free beat rolls the whole pool
+    (every progression, all twelve roots — owner 2026-09-14, "all keys
+    available" — and every mode); otherwise the identity's own signature."""
+    import harmony
+    from key_context import MODES, SUB_ROOTS
+    sig_key = sig.get("key") or {}
+    forced = dirs.get("force_key")
+    if forced:
+        key_root, mode = forced
+        prog = dirs["chord_feel"] or (
+            _wpick(sig.get("progressions"), random.Random(variant * 419 + 5))
+            or srng.choice(harmony.names()))
+    elif open_roll:
+        # SUB_ROOTS is only seven and stays that way for the in-character pick
+        key_root = srng.choice(sorted(ROOT_HZ))
+        mode = srng.choice(sorted(MODES))
+        prog = dirs["chord_feel"] or srng.choice(harmony.names())
+    else:
+        key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
+        mode = sig_key.get("mode", "minor")
+        if isinstance(mode, list):                  # weighted mode list
+            mode = _wpick(mode, srng)
+        prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
+                                            random.Random(variant * 419 + 5))
+    return key_root, mode, prog
+
+
+def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
+                  allow_basses=None):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
     identity-blind default without one).
@@ -1759,10 +1982,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     import chord_rhythm
     import chord_synth
     import harmony
-    from key_context import MODES, KeyContext, SUB_ROOTS
+    from key_context import KeyContext
     sig = preset.get("signature") or {}
     srng = random.Random(variant * 353 + 17)
-    sig_key = sig.get("key") or {}
     # OWNER RULE 2026-08-01: "All sounds are open to all DJs, but they try to
     # maintain seventy five percent of their personality within." Measured
     # cause of "I just keep getting the same sounds over and over": each
@@ -1770,32 +1992,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     # 1-2 modes. Farrow had SIX distinct harmonic outcomes in total; half the
     # roster had 12 or fewer, so ten beats exhausted them.
     #
-    # OPEN_P of beats now ignore the signature entirely and roll the whole
-    # pool — every progression, root and mode. The other 75% stay in
-    # character, which is what keeps Otto Grit from sounding like Rage
-    # Engine. A typed mood word still beats both.
-    open_roll = random.Random(variant * 911 + 73).random() < OPEN_P
+    # OPEN_P of beats (30% since 2026-09-14, pattern_gen.free_beat) ignore
+    # the signature entirely and roll the whole pool — every progression,
+    # all twelve roots and every mode. The other 70% stay in character,
+    # which is what keeps Otto Grit from sounding like Rage Engine. A typed
+    # mood word still beats both.
+    open_roll = free_beat(variant)
     # A key taken off a reference track BEATS BOTH (owner 2026-09-01,
     # asked directly: "reference wins, hard"). The progression still
     # rolls in character — only the root and the mode are pinned, so a
     # batch in F minor still sounds like the DJ who made it.
-    forced = dirs.get("force_key")
-    if forced:
-        key_root, mode = forced
-        prog = dirs["chord_feel"] or (
-            _wpick(sig.get("progressions"), random.Random(variant * 419 + 5))
-            or srng.choice(harmony.names()))
-    elif open_roll:
-        key_root = srng.choice(SUB_ROOTS)
-        mode = srng.choice(sorted(MODES))
-        prog = dirs["chord_feel"] or srng.choice(harmony.names())
-    else:
-        key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
-        mode = sig_key.get("mode", "minor")
-        if isinstance(mode, list):                  # weighted mode list
-            mode = _wpick(mode, srng)
-        prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
-                                            random.Random(variant * 419 + 5))
+    key_root, mode, prog = _roll_key(sig, variant, dirs, open_roll, srng)
     key = KeyContext(key_root, mode)
     prog_name, chords = harmony.compose(
         key, prog, rng=random.Random(variant * 419 + 5))
@@ -1818,12 +2025,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     _rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
               if isinstance(rhythm_spec, list) else rhythm_spec)
     # ---- the chord PERFORMANCE grammar (owner build 2026-09-05) ----
-    # OPT-IN. `chord_grammar` is a top-level preset key, same shape as
-    # own_soundbank / snare_locked_24: absent -> None -> this whole layer
-    # is dead code and the identity plays the two-word arp/sustain it
-    # always did. See tools/chord_rhythm.py for why the figure is baked
-    # into the slot buffer instead of written into the lane's bar string.
-    _grammar = chord_rhythm.spec_for(preset)
+    # Every DJ since 2026-09-14, arps half as often (chord_rhythm.spec_for);
+    # genre presets still opt in with a top-level `chord_grammar` key. See
+    # tools/chord_rhythm.py for why the figure is baked into the slot
+    # buffer instead of written into the lane's bar string.
+    _grammar = chord_rhythm.spec_for(
+        preset, free=free_beat(variant) and not preset.get("genre"))
     # what the drums are already playing, so the "comp" figure can answer
     # them instead of doubling them. Read BEFORE any chord lane is added.
     _busy = {k: v[3] for k, v in preset["lanes"].items()
@@ -1831,13 +2038,33 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     # only pay for the melodic-loop library scan if a loop voice is on
     # the table (the default, a signature that lists "loop", or the owner
     # asking for it outright from the rack)
-    want_loop = not pref or any(s[0] == "loop" for s in pref) or voice == "loop"
+    # a free beat's lead voice can be ANY instrument (_source_order), so
+    # both libraries have to be on the table for it
+    free = open_roll and not preset.get("genre")
+    want_loop = (not pref or any(s[0] == "loop" for s in pref)
+                 or voice == "loop" or free)
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
     strings_idx = None
-    if voice == "strings" or (pref and any(s[0] == "strings" for s in pref)):
+    if voice == "strings" or free or (
+            pref and any(s[0] == "strings" for s in pref)):
         import string_sampler
-        strings_idx = string_sampler.by_articulation(
-            string_sampler.scan(), sig.get("articulation"))
+        s_all = string_sampler.scan()
+        # One style and one mic for the whole beat (owner 2026-09-14). In
+        # character: the identity's own articulation on the dry close mic.
+        # Free beat: any of his four styles from any of the four mics.
+        if free and s_all:
+            s_rng = random.Random(variant * 587 + 29)
+            s_style = s_rng.choice(sorted({e["style"] for e in s_all}))
+            s_mic = s_rng.choice(sorted({e["mic"] for e in s_all}))
+        else:
+            s_style, s_mic = sig.get("articulation"), string_sampler.CLOSE
+        # one low sound per beat: the basses only play when nothing else
+        # holds the low end. generate() decides that before the chords and
+        # passes it in; a rebuild reads it off the saved lanes.
+        if allow_basses is None:
+            allow_basses = not _holds_low_end(preset)
+        strings_idx = string_sampler.beat_pool(s_all, s_style, s_mic,
+                                               basses=allow_basses)
     # every non-strings, non-loop voice is now a SAMPLED instrument out of
     # his own banks (owner 2026-07-23) — "synth" included, so this index is
     # needed for essentially every signature, not just the horn one.
@@ -2071,7 +2298,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None):
     # other instrument group he owns, shuffled per beat. One plan = one
     # sound for the entire beat. Multi-PART beats (below) are tried first
     # and separately — this list is the single-part fallback.
-    order = _source_order(pref, random.Random(variant * 461))
+    order = _source_order(pref, random.Random(variant * 461),
+                          free=free_beat(variant) and not preset.get("genre"))
     plan_rng = random.Random(variant * 883 + 7)
     own = [s[0] for s in pref] if pref else []
     plans = [(s,) for s in order]
@@ -2542,8 +2770,12 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # 2026-07-23 so a REBUILD can regenerate this beat's chord audio too
     # (owner: "control the volume for all sounds") — see that function's
     # docstring for why regenerating, not reusing the rendered stem.
+    # the beat's ONE low sound, decided before the chords so the strings
+    # know whether their basses may play (owner hard rule 2026-09-14)
+    low = _low_voice(preset, variant, dirs, traditional, names[0], shots)
     midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
-                                              dirs, vnotes)
+                                              dirs, vnotes,
+                                              allow_basses=low is None)
 
     # ...and NOW the tuned root 808, moved below _build_chords so that on a
     # chords beat it can be tuned to THAT BEAT'S KEY rather than skipped.
@@ -2551,17 +2783,18 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # off this is byte-identical to the old position: _build_chords returns
     # immediately when there are no chords, and the sub's dice are their own
     # seeded generators, so nothing upstream shifts by moving the call.
-    if ROOT_808_WITH_CHORDS or not dirs["chords"]:
+    if low == "sub":
         root_note = _add_root_sub(
             preset, kit, sources, variant, vnotes,
             harmony_info=harmony_info if ROOT_808_WITH_CHORDS else None,
-            traditional=traditional, dj=names[0])
+            traditional=traditional, dj=names[0], decided=True)
 
     # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
     # here, after the chord lanes so bass can defer to the harmony bass on a
     # 'chords' beat.
     _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
-                      key_root=(harmony_info or {}).get("root"))
+                      key_root=(harmony_info or {}).get("root"), low=low)
+    _refuse_second_low(preset, kit, sources, vnotes)
 
     # bug found 2026-07-23 (owner: "a vocal sound... doesn't show up in the
     # stems but is present in the song"): spec_used/lane_parent were snapshot

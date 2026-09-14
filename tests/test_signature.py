@@ -43,16 +43,12 @@ def test_source_order_default_and_signature():
     assert order[0] == "strings" and order[-1] == "synth"
 
 
-def test_by_articulation_families():
-    idx = [{"artic": "sus"}, {"artic": "sustain"}, {"artic": "leg"},
-           {"artic": "pizz"}, {"artic": "spicc"}]
-    sustained = string_sampler.by_articulation(idx, "sustain")
-    # legato is excluded on purpose — it's a short transition, not a bed
-    assert {e["artic"] for e in sustained} == {"sus", "sustain"}
-    assert [e["artic"] for e in string_sampler.by_articulation(idx, "pizz")] \
-        == ["pizz"]
-    # unknown/None kind -> whole index, never an empty pool
-    assert string_sampler.by_articulation(idx, None) == idx
+def test_by_articulation_styles():
+    idx = [{"style": "sustain"}, {"style": "pizz"}, {"style": "short"}]
+    assert string_sampler.by_articulation(idx, "pizz") == [{"style": "pizz"}]
+    # no style named -> the held bed, not whichever file sorts first
+    assert string_sampler.by_articulation(idx, None) == [{"style": "sustain"}]
+    # a style with nothing indexed -> the whole index, never an empty pool
     assert string_sampler.by_articulation(idx, "bogus") == idx
 
 
