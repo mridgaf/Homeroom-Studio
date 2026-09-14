@@ -106,8 +106,13 @@ entries.
   other chord voice (Timberline beat 96: chords -26 dB vs kick, others -9 to
   -14.5). (c) the "build: bar N thins out" move can empty a whole bar of
   drums (beat 96 bar 3, -38 dB).
-- Status: open — measured, NOT heard.
-- Outcome:
+- Status: confirmed — by ear, 2026-09-14: "The auditions sound good. Keep."
+  (both folders: strings before/after, and the 12 free-for-all beats)
+- Outcome: kept as built. The three older issues above are still unchanged
+  and unasked. NEXT SESSION (his words): he is "separating the loops" into
+  different folders for the engine — same idea as BOTC Sorted Instruments.
+  Start there; it touches the parked 09-13 items (loop_voice's four general
+  packs, the unkeyed Instrument Chops folder).
 
 ### 2026-09-14 Stuck commit = stale .git/index.lock left by the Claude app's VM
 
