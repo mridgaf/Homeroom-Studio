@@ -2,7 +2,8 @@
  "_readme": [
   "Sample-pack roots for the Beat Machine. Add a folder path to \"roots\" (or drop new packs inside an existing root) and the next launch picks it up.",
   "One-shots only: loops, MIDI, presets, and instrument folders (bass/melodic/keys/vocals) are skipped automatically.",
-  "sorted_root: the ONE folder you sort yourself. In there the FOLDER NAME says what a sample is and what it is like (Kicks/Hard), so file names stop mattering. Everywhere else taste words are read from the file name exactly as before, so nothing you have already approved can change. See its READ ME."
+  "sorted_root: the ONE folder you sort yourself. In there the FOLDER NAME says what a sample is and what it is like (Kicks/Hard), so file names stop mattering. Everywhere else taste words are read from the file name exactly as before, so nothing you have already approved can change. See its READ ME.",
+  "instrument_sorted_root / instrument_roots: the melodic-instrument twin of sorted_root/roots above, kept in separate keys on purpose so switching the drum sample source never touches the instrument pool (and vice versa). See BOTC Sorted Instruments/READ ME.txt."
  ],
  "roots": [],
  "sorted_root": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples",
@@ -11,5 +12,7 @@
   "/Volumes/TBOTC 3/Sample Packs/2022 sample packs",
   "/Volumes/TBOTC 3/Sample Packs/Function Loops - Black Friday 2024 Sampler",
   "/Volumes/TBOTC 3/Sample Packs/Live loop cds"
- ]
+ ],
+ "instrument_roots": [],
+ "instrument_sorted_root": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Instruments"
 }

@@ -22,6 +22,82 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-13 Melodic instruments were silently starved of samples since the 2026-09-06 drum switch -- fixed by giving them their own root config
+
+- Context: owner separated piano/guitar/brass/bell/organ/wood/string/synth/
+  pluck/pad/bass samples into a new "BOTC Sorted Instruments" folder
+  (Sample Packs), mirroring "BOTC Sorted Samples" for drums, and asked what
+  it takes to get the DJs actually playing them.
+- **Found, not assumed: every melodic chord/bass sample the DJs have played
+  since 2026-09-06 came from whatever was left in `sample_packs.json`'s
+  `roots` after the drum "sorted folder only" switch -- which is `[]`.**
+  `instrument_sampler.scan()`/`scan_bass()` call `melodic_loops.scan()` with
+  no roots, which defaults to `sample_library.load_roots()`: `roots` (now
+  empty) plus `sorted_root` (the DRUM folder). The four general melodic
+  packs (2022 sample packs, Function Loops Black Friday, Live loop cds, DAW
+  Projects Downloads Backup) are parked in `_all_roots`, inactive. One
+  config key was silently doing double duty for two unrelated pools. This is
+  the same class of bug as the 2026-07-25 "Where are my instruments" entry
+  (a label lied); this time the SAMPLES themselves were absent, and per that
+  entry's hard rule a starved instrument index renders NO chord/bass lane
+  rather than a synthesized stand-in -- so beats have quietly been going out
+  with silent chord/bass lanes, not a fallback anyone could hear as wrong.
+- Decision/change: added `instrument_roots` / `instrument_sorted_root` to
+  `sample_packs.json`, a `load_instrument_roots()` twin of `load_roots()` in
+  `sample_library.py`, and pointed the new key at BOTC Sorted Instruments
+  (mirroring `sorted_root`, "the ONE folder you sort yourself"). Updated
+  `instrument_sampler.scan()`/`scan_bass()` to pass these roots explicitly
+  instead of relying on the shared default, so the drum switch and the
+  instrument switch can never starve each other again. Also added
+  `_dir_group()` (the melodic twin of `sample_library._dir_role`): the
+  folder a file lives in now sets its instrument group BEFORE the filename
+  guess runs, same fix as the drum sorted folder for the same reason (owner
+  2026-09-06: "you would know what you're looking at regardless of the
+  name" -- now true for horns/piano/guitar/etc. too, not just drums). Added
+  "wood"/"woodwind"/"woodwinds" to the wood group's word list so the
+  Woodwinds folder name itself is recognized (Cymatics filenames already
+  said "flute"/"clarinet" so this was belt-and-suspenders, not the fix).
+  `chord_source` in `legends_config.json` already names these exact groups
+  (piano/guitar/bell/organ/horns/wood/string/synth/pluck/pad/orchestral/
+  chip) -- nothing there needed to change, it was only ever missing supply.
+- Reasoning: kept drum and instrument roots in separate config keys rather
+  than reusing `roots`/`sorted_root`, specifically so this exact failure
+  mode (one switch quietly disabling an unrelated pool) cannot recur. Scoped
+  the instrument pool to the sorted folder ONLY (`instrument_roots: []`,
+  matching the drum precedent) rather than also reactivating the four parked
+  general packs -- same reasoning the drum README gives (folder name stops
+  being authoritative the moment ungoverned packs are back in the pool), and
+  it's a bigger call (varies overall instrument variety) that's his to make,
+  not mine to default into silently.
+- Verify by: `tests/test_instrument_sampler.py`, `test_melodic_loops.py`,
+  `test_chord_rhythm.py`, and the chord/instrument-related slice of
+  `test_beat_machine.py` all still pass. Ran `instrument_sampler.scan()` /
+  `scan_bass()` against the real BOTC Sorted Instruments folder (188 key-
+  labeled files found; 151 chord/melody + 37 bass candidates before pitch
+  filtering; 136 chord/melody notes + 30 bass notes playable after it --
+  piano 16, guitar 27, bell 9, organ 1, brass 16, wood 10, string 1,
+  synth 26, pluck 16, pad 14). Choir and Chip folders are still empty (0
+  files) -- not a bug, nothing to index yet. His own coverage report,
+  `./.venv/bin/python tools/instrument_sampler.py`, will confirm the same on
+  his machine (next app launch also self-heals the stale
+  `~/.reason_voice/instrument_sampler_index.json` cache automatically).
+- **Known gap, not fixed here:** a 30-file "Instrument Chops" folder he also
+  created inside BOTC Sorted Instruments has no key token in any filename
+  (e.g. "BIZKEL Inst Chop 1.wav"), so `melodic_loops.scan()`'s key-parser
+  drops every one of them before instrument_sampler ever sees them -- this
+  is the existing "no parseable key -> not in the pool at all" rule
+  (documented in melodic_loops.py), not something this fix touches. Needs
+  his call: rename with keys, or a separate ingestion path.
+- **Also noticed, not fixed here:** `chord_synth.sample_pool` (the
+  loop_voice feature, real melodic-loop excerpts for DJs like DJ Premium)
+  calls `melodic_loops.scan()` with no roots too, so it is starved by the
+  exact same `roots: []` for the exact same reason -- but its source
+  material is the four parked general packs, not BOTC Sorted Instruments,
+  and reactivating those is the same "dilutes the sorted folder's
+  authority" tradeoff flagged above. Flagged for him, not decided for him.
+- Status: open -- needs his ear on a render to confirm chords/bass are
+  audible again, and a decision on Instrument Chops + the loop_voice packs.
+
 ### 2026-09-12 Step 8 started: six of its own phrases could never have worked, and the app cannot confirm Rex's names by itself
 
 - Context: "start me on Step 8, hand me one thing at a time." Steps 1-7 done,

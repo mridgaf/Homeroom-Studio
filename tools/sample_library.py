@@ -215,6 +215,33 @@ def load_roots():
     return roots
 
 
+def load_instrument_roots():
+    """Like load_roots() above, but for the melodic-instrument sorted
+    folder (BOTC Sorted Instruments) instead of the drum one.
+
+    Owner 2026-09-13: separated piano/guitar/brass/etc. samples into their
+    own sorted folder, same idea as the drum one (folder name says what a
+    sample truly is). Kept in SEPARATE config keys (instrument_roots /
+    instrument_sorted_root) rather than reusing roots/sorted_root, because
+    those are read by sample_library.scan_packs for the DRUM pool — the
+    2026-09-06 drum "sorted folder only" switch set roots=[] and that is
+    also what load_roots() (and therefore melodic_loops.scan's default,
+    and therefore every chord/bass sample instrument_sampler.py plays)
+    was reading, so flipping the drum switch silently starved every
+    melodic instrument voice too. Separate keys mean neither switch can
+    ever do that to the other again."""
+    try:
+        cfg = json.loads(PACKS_CONFIG.read_text())
+    except (OSError, json.JSONDecodeError):
+        return []
+    roots = list(cfg.get("instrument_roots", []))
+    sr = cfg.get("instrument_sorted_root")
+    if sr and not any(str(sr).rstrip("/").lower() == str(r).rstrip("/").lower()
+                      for r in roots):
+        roots.append(sr)
+    return roots
+
+
 def _dir_role(rel_parts):
     """Role from the nearest classifying ancestor folder, or None."""
     for part in reversed(rel_parts[:-1]):

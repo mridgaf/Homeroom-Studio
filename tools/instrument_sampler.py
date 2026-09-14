@@ -53,6 +53,7 @@ from chord_synth import PEAK_CEILING                        # noqa: E402
 from make_hiphop_tracks import load_audio, norm_rms         # noqa: E402
 from melodic_loops import chop_onsets                       # noqa: E402
 from melodic_loops import scan as scan_melodic              # noqa: E402
+from sample_library import load_instrument_roots             # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/instrument_sampler_index.json"))
 # Bump whenever detect_pitch changes: cached notes were measured by the
@@ -76,7 +77,8 @@ GROUPS = [
     ("brass", ("brass", "trumpet", "trumpets", "horn", "horns", "flugel",
                "fanfare", "trombone", "tuba", "cornet")),
     ("wood", ("flute", "flutes", "clarinet", "oboe", "bassoon", "sax",
-              "saxx", "saxophone", "whistle", "recorder", "ocarina")),
+              "saxx", "saxophone", "whistle", "recorder", "ocarina",
+              "wood", "woods", "woodwind", "woodwinds")),
     ("string", ("string", "strings", "violin", "violins", "cello", "viola",
                 "harp", "fiddle", "orchestra", "orchestral")),
     ("choir", ("choir", "choirs", "voices", "aah", "ooh", "vocalise")),
@@ -182,6 +184,32 @@ def group_of(name):
     for group, words in GROUPS:
         if toks & set(words):
             return group
+    return None
+
+
+def _dir_group(path_str, roots):
+    """Group from the nearest classifying ancestor folder under one of
+    `roots`, or None. Mirrors sample_library._dir_role for the drum pool:
+    under the OWNER-sorted instrument folder, the folder name is
+    authoritative, so a file keeps its real family even when the name
+    lies — same class of bug as the horns-correction/vocal-vox miss on
+    the drum side (owner 2026-09-13, BOTC Sorted Instruments). Checked
+    BEFORE group_of()'s filename guess, never after."""
+    p = Path(path_str)
+    for root in roots:
+        rootp = Path(root).expanduser()
+        try:
+            rel = p.relative_to(rootp)
+        except ValueError:
+            continue
+        for seg in reversed(rel.parts[:-1]):        # nearest ancestor first
+            if CHIP_RE.search(seg):
+                return "chip"
+            toks = _tokens(seg)
+            for group, words in GROUPS:
+                if toks & set(words):
+                    return group
+        return None
     return None
 
 
@@ -322,12 +350,13 @@ def scan(index=None, status=None):
     already cached and already has the unplugged-drive fallback, so this
     adds no new disk crawl.
     """
-    entries = scan_melodic() if index is None else index
+    roots = load_instrument_roots()
+    entries = scan_melodic(roots=roots) if index is None else index
     todo = []
     for e in entries:
         if e.get("role") == "bass":       # a bass sample voiced as a chord
             continue                      # is mud, whatever its name says
-        group = group_of(e["name"])
+        group = _dir_group(e["path"], roots) or group_of(e["name"])
         if group is not None:
             todo.append((e, group))
     return _pitched(todo, status, "index")
@@ -340,7 +369,7 @@ def scan_bass(index=None, status=None):
     excludes them — but a bass line plays one root at a time, and that is
     exactly what these files are. Owner 2026-07-25: the synth bass under
     the chords becomes his own bass sounds wherever they can reach."""
-    entries = scan_melodic() if index is None else index
+    entries = scan_melodic(roots=load_instrument_roots()) if index is None else index
     todo = [(e, "bass") for e in entries if e.get("role") == "bass"]
     return _pitched(todo, status, "bass_index")
 

@@ -28,3 +28,9 @@ reason_docs/
 # Retired Reason 7 (2013) Help Files — superseded by the Reason 12.7 Operation
 # Manual on 2026-09-10. Still the owner's licensed manual: stays local, never committed.
 _retired_reason7_2026-09-10/
+
+# Folders that are their own git repos (owner 2026-09-14). Committed here, git
+# stores an empty pointer instead of their files, so they stay out. Files stay on disk.
+sonic/
+vox_plugin/JUCE/
+.worktrees/
