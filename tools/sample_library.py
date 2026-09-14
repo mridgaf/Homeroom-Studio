@@ -242,6 +242,40 @@ def load_instrument_roots():
     return roots
 
 
+def load_loop_roots():
+    """Like load_roots()/load_instrument_roots() above, but for melodic
+    LOOPS (tools/melodic_loops.py) instead of drum one-shots or instrument
+    one-shots.
+
+    Owner 2026-09-14: melodic_loops.scan() had been defaulting to
+    load_roots() -- the DRUM switch -- same starvation bug as the
+    instrument one from 2026-09-13, just not yet hit: roots=[] +
+    sorted_root pointed at the drum-only BOTC Sorted Samples folder meant
+    the loop engine (and therefore chord_synth.py's loop-voice picks, the
+    DJ-Premier-style DJs lean on most) was scanning a folder with no
+    loops in it -- effectively finding nothing, regardless of what his
+    real loop packs contained. Separate keys (loop_roots /
+    loop_sorted_root) mean neither the drum switch nor the instrument one
+    can ever do that to this pool, or vice versa.
+
+    Defaults to his real pack folders (loop_roots) plus BOTC Sorted Loops
+    (loop_sorted_root) once he starts filing into it -- both merge here,
+    they are not exclusive, because nothing has been copied into BOTC
+    Sorted Loops yet so there is no double-counting risk today. If he
+    later copies pack loops into BOTC Sorted Loops for organizing, revisit
+    this the same way the drum sorted-only switch did (sample_source.py)."""
+    try:
+        cfg = json.loads(PACKS_CONFIG.read_text())
+    except (OSError, json.JSONDecodeError):
+        return []
+    roots = list(cfg.get("loop_roots", []))
+    sr = cfg.get("loop_sorted_root")
+    if sr and not any(str(sr).rstrip("/").lower() == str(r).rstrip("/").lower()
+                      for r in roots):
+        roots.append(sr)
+    return roots
+
+
 def _dir_role(rel_parts):
     """Role from the nearest classifying ancestor folder, or None."""
     for part in reversed(rel_parts[:-1]):

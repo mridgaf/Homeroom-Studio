@@ -134,6 +134,22 @@ crawls to hours. That looks exactly like a hang and isn't one.
 - Whisper "find something like this" often transcribed as "and something like
   this" — v2 should fuzzy-match intents, not just regex.
 - `small.en` latency ~1s on his hardware; offer tiny.en toggle in UI settings.
+- **MIDI chord packs as a new chord source (own session, owner 2026-09-14).**
+  `tools/midi_packs.py` is real but dormant: it reads exact notes (no
+  key-guessing) from 298 MIDI files sitting in the same loop pack folders
+  (183 chord, 58 melody, 53 drum, 4 bass — measured), and its own
+  vendor-label-vs-detected-key cross-check disagrees on 104 of 245 keyed
+  files, which is real signal, not noise. Two separate pieces of work,
+  don't conflate them: (1) mechanical — it still defaults to
+  `load_roots()` (the drum switch), same starvation shape as the
+  2026-09-13 instrument fix and the 2026-09-14 loop fix; give it its own
+  `midi_roots`/`midi_sorted_root` keys the same way. (2) real feature
+  work — MIDI is not a `chord_source` option anywhere today (checked
+  `chord_synth.py` and every `crew_config.json`/`legends_config.json`
+  entry: only sampled instruments and `"loop"` exist). Wiring it in means
+  deciding how `"midi"` competes against those in the weighted
+  chord_source lists. Owner wants this as its own session, not folded
+  into whatever else is in progress.
 
 ## Working rules for this project
 

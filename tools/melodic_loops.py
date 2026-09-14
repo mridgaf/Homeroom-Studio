@@ -37,7 +37,7 @@ sys.path.append(str(Path(__file__).parent))
 import numpy as np                                          # noqa: E402
 
 from key_context import KeyContext, mode_family, pitch_class   # noqa: E402
-from sample_library import AUDIO_EXTS, load_roots            # noqa: E402
+from sample_library import AUDIO_EXTS, load_loop_roots        # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/melodic_loop_index.json"))
 
@@ -152,8 +152,13 @@ def scan(roots=None):
     """Walk the pack roots -> melodic loops/one-shots whose file name
     itself names a key. Falls back to the last good scan when the drive
     is unplugged, same contract as sample_library.scan_packs and
-    midi_packs.scan."""
-    roots = roots if roots is not None else load_roots()
+    midi_packs.scan.
+
+    Default roots come from load_loop_roots() -- ITS OWN config keys
+    (loop_roots/loop_sorted_root), separate from the drum and instrument
+    pools on purpose (owner 2026-09-14, see load_loop_roots docstring).
+    Do not change this back to load_roots()."""
+    roots = roots if roots is not None else load_loop_roots()
     found = []
     seen_any = False
     for root in roots:

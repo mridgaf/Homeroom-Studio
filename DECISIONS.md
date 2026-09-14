@@ -5374,6 +5374,135 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   ~6s vs ~0.5s for drums-only, because the harmony is rebuilt each time.
   Cached per exact set of changes, so it is paid once per combination.
 
+### [2026-09-14] BOTC Sorted Loops folder created (filing cabinet only, not wired)
+
+- Context: owner asked for a group of folders to sort his own loop samples
+  by type for the DJ loop-tuning work, parallel to BOTC Sorted Samples
+  (drums) and BOTC Sorted Instruments (melodic).
+- Decision/change: created `/Volumes/TBOTC 3/Sample Packs/BOTC Sorted
+  Loops/` with subfolders Chords, Melody, Bass, Drums, Vocals — named
+  from tools/melodic_loops.py's own ROLE_WORDS vocabulary (drum, vocal,
+  bass, chord, melody), not invented. Added a READ ME.txt matching the
+  tone of the other two sorted folders' READMEs, explaining folder-name
+  filing, the copy-don't-move rule, AND the one real difference from the
+  other two: melodic_loops.py still requires a KEY token (e.g. "Gm") in
+  the file name or path or it skips the file entirely — folder name alone
+  does not make an unkeyed loop visible to that engine, unlike the fully
+  folder-authoritative Kicks/Pianos folders.
+- Reasoning: matches the sample-folder-onboarding skill's step 1
+  (name folders from the reading engine's own vocabulary) and step 2
+  (write a README, filing-cabinet only until wiring is worth it) — same
+  pattern already proven for BOTC Sorted Instruments.
+- Not done (flagged for owner's decision, not fixed): this folder is NOT
+  wired into melodic_loops.scan() yet. That function currently defaults
+  to load_roots() — the SAME roots/sorted_root switch the drum one-shots
+  use, currently pointed only at BOTC Sorted Samples (no loops in it), so
+  the loop engine is effectively scanning nothing useful right now. This
+  is the pre-existing "loop_voice/DJ-Premier-style melodic-loop feature"
+  starvation bug already on record (2026-09-13 entry, instrument fix).
+  Wiring this folder in needs its own loop_roots/loop_sorted_root config
+  keys, mirroring the instrument_roots fix, so it stops sharing a switch
+  with the drum folder — not done here since it's a code change and the
+  owner only asked for folders today.
+- Verify by: `ls "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops"` shows
+  Bass/Chords/Drums/Melody/Vocals + READ ME.txt.
+- Status: confirmed — folders and README created and verified present.
+- Outcome: filing cabinet only when created. Owner said "yes" to wiring
+  it in same session — see the 2026-09-14 entry below for the actual fix.
+
+### [2026-09-14] Loop engine given its own config keys — root-starvation bug fixed, real counts verified
+
+- Context: owner asked "does this mean all my other samples are being
+  ignored" after the BOTC Sorted Loops README flagged that
+  tools/melodic_loops.py still shared roots/sorted_root with the DRUM
+  pool (same starvation shape as the 2026-09-13 instrument bug, just not
+  yet hit). Measured before touching anything: with the config as it
+  stood, melodic_loops.scan() found 74 entries, ALL from BOTC Sorted
+  Samples (drum one-shots that happen to carry a note letter, e.g. "Kick
+  C.wav") — his three real loop pack folders (10,682 audio files) were
+  not being scanned at all, regardless of key. Owner said "Yes" to fixing
+  it.
+- Decision/change:
+  - `tools/sample_library.py`: added `load_loop_roots()`, mirroring
+    `load_instrument_roots()` exactly — merges `loop_roots` (list) with
+    `loop_sorted_root` (deduped), own try/except on the same
+    `PACKS_CONFIG`.
+  - `tools/melodic_loops.py`: `scan()`'s default now calls
+    `load_loop_roots()` instead of `load_roots()` (the drum switch) —
+    this is the actual fix. Docstring updated to warn against reverting
+    it. Import line updated to match.
+  - `sample_packs.json`: added `loop_roots` = his three real loop pack
+    folders (2022 sample packs, Function Loops - Black Friday 2024
+    Sampler, Live loop cds — the same folders drum one-shots are also
+    read from, filtered differently) and `loop_sorted_root` = BOTC
+    Sorted Loops. Both merge (not exclusive) since nothing has been
+    copied into BOTC Sorted Loops yet, so there is no double-count risk
+    today. `_readme` array updated with a matching doc line.
+  - `BOTC Sorted Loops/READ ME.txt`: "IS THIS WIRED IN YET? NOT YET"
+    section replaced with a "WIRED IN (2026-09-14)" section.
+  - `chord_synth.py`'s `scan_loops()` call (line 77, the actual
+    loop-voice/DJ-Premier-style code path) takes no args and was
+    already relying on melodic_loops.scan()'s default — so it is fixed
+    automatically, no change needed there. `instrument_sampler.py`'s
+    calls already passed `roots=` explicitly and were never affected.
+- Reasoning: exact same shape as the 2026-09-13 instrument_roots fix —
+  separate config keys so no future flip of the drum or instrument
+  switch can starve this pool again, and vice versa. Chose to merge
+  loop_roots + loop_sorted_root (not make them exclusive like the drum
+  sorted-only mode) because BOTC Sorted Loops is empty today; revisit if
+  he starts copying pack loops into it (would double-count).
+- Tests: `tests/test_melodic_loops.py`, `test_samples.py`,
+  `test_instrument_sampler.py`, `test_string_sampler.py`,
+  `test_chord_synth.py`, `test_key_context.py` — 100 passed. Chord/loop-
+  relevant slice of `test_beat_machine.py` (`-k "chord or instrument or
+  loop or melod or bass"`) — 25 passed. `py_compile` clean on both
+  edited files.
+- Verify by (already run, real files, real code path — not a dry run):
+  `melodic_loops.scan()` with no args (the actual default any caller
+  uses) now returns 1,920 entries — 1,240 melody, 448 bass, 232 chord —
+  from his real loop packs, up from 74 (all mislabeled drum one-shots)
+  before the fix. Isolation confirmed both directions: flipping
+  roots/sorted_root (drum) or instrument_roots/instrument_sorted_root
+  leaves load_loop_roots() unchanged; flipping loop_roots/
+  loop_sorted_root leaves load_roots() and load_instrument_roots()
+  unchanged. Config file diffed back to its intended state after the
+  isolation test (no leftover test values).
+- Status: confirmed.
+- Outcome: DJ Premium and the other loop-dominant DJs now draw from
+  1,920 real loop picks instead of 0. Remaining gap: of the 10,682 audio
+  files in those three pack folders, only 18% (1,920) carry a parseable
+  key — the other ~8,760 are mostly full drum loops (e.g. the Cymatics
+  Cobra pack) with no key, which is correct exclusion (they are not
+  melodic content), not a bug. BOTC Sorted Loops itself is still empty —
+  nothing to verify there yet, it will draw in automatically once filed.
+
+### [2026-09-14] MIDI chord packs found, evaluated, deliberately deferred
+
+- Context: owner uploaded a real file from his loop pack folders
+  ("Essential Chord MIDI 1 - C Min.mid") and asked if the MIDI packs
+  mixed in there could be useful.
+- Findings (measured, not guessed): `tools/midi_packs.py` already exists
+  (built 2026-07-19) and reads exact note data — no pitch/key guessing,
+  unlike the audio loop path. 298 MIDI files in his three loop pack
+  folders: 183 chord, 58 melody, 53 drum, 4 bass. Its own filename-vs-
+  detected-key cross-check disagrees on 104/245 keyed files. Ran the
+  actual detect_key()/progression() logic against the uploaded file:
+  alternating C minor (C-Eb-G) / C#-Db major (Db-F-Ab) chords, 4 beats
+  each — a real i-bII trap move, not a bug in the detector.
+  Two separate problems found: (1) midi_packs.py still defaults to
+  load_roots() (the drum switch) — same starvation shape as the
+  2026-09-13 instrument fix and this session's loop fix, currently finds
+  0 files. (2) MIDI is not wired in anywhere as a chord_source — checked
+  chord_synth.py and every crew_config.json/legends_config.json entry;
+  only sampled instruments and "loop" exist today. Fixing (1) alone
+  would leave it correctly scanned but still unused.
+- Decision: owner said to set this aside and make it its own session —
+  NOT done now. Logged in CLAUDE.md's "Known open items" (2026-09-14
+  entry) with the full breakdown so a future session doesn't have to
+  re-derive it.
+- Status: open.
+- Outcome: (pending — future session).
+
 ## Archived history — 66 entries moved, nothing deleted
 
 Everything up to and including 2026-07-25 now lives in
