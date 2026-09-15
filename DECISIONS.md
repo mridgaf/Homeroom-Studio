@@ -5978,3 +5978,44 @@ just not loaded by default.
 | 2026-07-25 | Real 8-bit sounds preferred over the synth chip; float-WAV bug | open |
 | 2026-07-25 | "Where are my instruments" — the LABEL was the bug; synth bass removed | open |
 | 2026-07-25 | Chord stems removable, 1 dB arrows, and a mix that opens quiet | open |
+
+### 2026-09-14 Filed loose top-level WAVs in BOTC Sorted Samples/Instruments
+- Context: owner had loose WAV files sitting at the TOP level of the two
+  owner-sorted folders (BOTC Sorted Samples = drums, BOTC Sorted
+  Instruments = melodic), outside any category subfolder — asked to find
+  homes for them, invent one, or leave loose if nothing fit.
+- Decision/change: moved (not copied — these were already inside the
+  sorted library, not a source pack) 17 files into existing category
+  folders, all matched by the folder-name vocabulary each READ ME.txt
+  already defines:
+  - talking drum1-9.wav, water bottle1.wav -> Percussion/ (assumption —
+    grouped with sibling world-percussion items already filed there from
+    what looks like the same original Dec-2002 pack: bongo/conga/tabla/
+    dumbek/shaker/tree etc.)
+  - towelbrushsnare1-4.wav -> Snares/Brushes/ (unambiguous — matches the
+    README's own worked example)
+  - tamb tom1-3.wav -> toms / (owner explicitly asked, since "tamb tom"
+    could have meant Percussion or an actual tom sound — he confirmed
+    toms folder)
+  - 8 loose Cymatics "One Shot" instrument files -> Bells/ (Cartoon Bell,
+    Kalimba Tape — kalimba is in the Bells word list), Pianos/ (Frozen
+    Keys, Grandmother Keys), Guitars/ (Lofi Guitar), Pads/ (Subtle Pad,
+    Vintage Pad), Plucks/ (Wisdom Pluck) — all unambiguous keyword
+    matches to the README's own category word lists, and several land
+    next to same-vendor files already filed there (Pianos, Guitars, Pads,
+    Plucks all already had other "Cymatics - X - C.wav" files).
+  - No new folders invented; no files left loose — every loose file found
+    a home in an existing category.
+  - Wrote `_loose_file_sort_manifest_2026-09-14.txt` in each of the two
+    sorted folders (old path -> new path, tab-separated) so every move is
+    auditable/reversible, matching the manifest style already used there
+    (`_move_manifest_2026-09-09_182811.csv`).
+- Verify by: listed both folders' top level after the moves — both are
+  clean (no loose .wav/.aif files remain outside a category folder).
+  Collision-checked every destination before moving; none found. This
+  was a file-organization pass only, no code touched, so no test suite
+  run applies.
+- Status: confirmed — verified by direct listing. Not yet verified: he
+  hasn't listened to talking drum/water bottle to confirm the Percussion
+  call was right (flagged as an assumption above, easy to move again if
+  wrong).
