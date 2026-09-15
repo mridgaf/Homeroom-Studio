@@ -730,7 +730,7 @@
       0.01
      ]
     ],
-    "open_p": 0.06
+    "open_p": 0.01
    }
   },
   "kick_flavors": [
@@ -3686,7 +3686,7 @@
     ],
     [
      "villain_harmonic",
-     1.0
+     1.5
     ],
     [
      "cinematic_rise",
@@ -3694,7 +3694,7 @@
     ],
     [
      "snarl_vamp",
-     2.0
+     1.5
     ]
    ],
    "chord_source": [

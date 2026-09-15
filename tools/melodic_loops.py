@@ -64,7 +64,12 @@ ROLE_WORDS = [
 # were silently dropped for "no key". Longer alternatives first so
 # "minor" wins over "min" before the $ anchor.
 _KEY_TOKEN = re.compile(r"^([A-G])(#|b)?(major|maj|minor|min|m)?$", re.I)
-_SPLIT = re.compile(r"[\s_\-]+")
+_SPLIT = re.compile(r"[\s_\-(),]+")  # 2026-09-15: also split on ()/, so
+# a folder like "Acid Techno (Ab, 131bpm)" yields clean "Ab" and "131" tokens
+# instead of "(Ab," and "131bpm)" -- neither of which matched the key/bpm
+# regexes below, so every un-keyed file under 6 of the 9 genre-pack folders
+# was silently invisible to the loop engine. Owner found this 2026-09-15
+# while separating loops; see DECISIONS.md.
 
 
 def _mode_from_suffix(suffix):

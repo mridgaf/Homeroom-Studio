@@ -6019,3 +6019,69 @@ just not loaded by default.
   hasn't listened to talking drum/water bottle to confirm the Percussion
   call was right (flagged as an assumption above, easy to move again if
   wrong).
+
+### 2026-09-15 Loop sort: fixed a real reachability bug, filed 966 loose loops
+- Context: owner separated BOTC Sorted Loops into folders and asked me to
+  confirm subfolders are actually reachable, rename badly-named files, and
+  file loose loops into the right folder/subfolder.
+- Finding: tools/melodic_loops.py's scan() DOES walk any subfolder depth
+  (rglob), so nesting itself was never the problem. The real bug: 6 of 9
+  genre-pack folders named like "Acid Techno (Ab, 131bpm)" had their key/
+  tempo glued to punctuation ("(Ab," / "131bpm)") that the old tokenizer
+  (`_SPLIT = re.compile(r"[\s_\-]+")`, no paren/comma split) could not
+  isolate into a clean token -- so every file under those packs without
+  ITS OWN key in the filename was silently invisible to the loop engine.
+  Measured with a read-only audit (pure-Python reimplementation of
+  melodic_loops.py's own tokenizer/key/role logic, run outside the venv
+  since this sandbox is Linux and the real venv is macOS): 544 of 2996
+  loop files were unreachable before any fix.
+- Decision/change (owner picked "do both" when asked rename-only vs
+  code-only vs both):
+  1. tools/melodic_loops.py: `_SPLIT` now also splits on `(`, `)`, `,` --
+     one line, comment explains why. Fixes this bug for every current
+     and future pack named this way, not just these 9.
+  2. Renamed the 9 genre-pack folders to clean, readable tokens, e.g.
+     "Acid Techno (Ab, 131bpm)" -> "Acid Techno - Ab - 131 bpm" (folder
+     rename only, no files inside touched).
+  3. "conga" folder renamed to "Percussion - Conga" (owner confirmed):
+     it was landing in the "melody" role and getting flagged as broken
+     for missing a key, when hand percussion doesn't need one -- same
+     as Drums, which scan() already excludes on purpose. No code change
+     needed; the rename alone makes "PERC" match the existing drum word
+     list.
+  4. Filed all 966 loops that were loose at the very top of BOTC Sorted
+     Loops into Chords/Melody/Bass/Drums/Vocals by computed role
+     (bass=95, drum=191, melody=590, chord=83, vocal=7). Zero name
+     collisions with what was already in those folders. Renamed nothing
+     -- these already carried a key/tempo in their own filename in the
+     large majority of cases.
+  Manifest for every move (folder renames + all 966 file moves):
+  `BOTC Sorted Loops/_loop_sort_manifest_2026-09-15.txt`.
+- Residual, NOT fixed, needs the owner's ear/eyes (flagged to him,
+  waiting on his answer, nothing done to these yet):
+  - 21 files whose names are cut short by an old 8.3-style filesystem
+    limit (e.g. "078_EntireLife_Elec Pian~c7.aif") -- no key recoverable
+    from the name. Checked for a lighter alternative to full audio key-
+    detection (which this project already flagged as blocked on heavy
+    deps -- essentia/madmom): AIFF COMT chunks on these files are empty,
+    so no rescue there. WAV files elsewhere DO carry a `smpl` chunk with
+    a MIDI unity-note (a real, cheap, no-new-dependency way to read a
+    root key straight from file metadata for WAV loops that have it) --
+    worth using for future unkeyed WAVs, but these 21 are AIFFs with
+    nothing in COMT. Sent owner the full list; he's going to look and
+    tell me what they are rather than have me guess.
+  - ~311 more loose-but-now-filed loops (mostly in Melody, Synths -
+    Loops, Melody Loops, Brush-70) whose names never had a key at all
+    (e.g. "080_wurvel", "092_skrund") -- not a truncation puzzle, likely
+    either genuinely unlabeled by the vendor or non-tonal sound-design
+    layers. Separate open question from the 21, not yet put to the
+    owner.
+- Verify by: before/after counts from the same read-only audit script
+  (966 -> 0 loose at root; 544 -> 340 unreachable-for-missing-key).
+  NOT verified: the actual project test suite
+  (`./.venv/bin/python -m pytest tests/test_melodic_loops.py -q`) has not
+  been run -- this sandbox can't execute the macOS venv. Owner needs to
+  run that command once before trusting the tokenizer change in
+  production, per the tests-before-beats hard rule.
+- Status: open until the owner (a) runs test_melodic_loops.py and (b)
+  resolves the 21 truncated-name files and the ~311 never-keyed ones.
