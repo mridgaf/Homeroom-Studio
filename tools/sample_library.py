@@ -276,6 +276,33 @@ def load_loop_roots():
     return roots
 
 
+def load_midi_roots():
+    """Like load_roots()/load_instrument_roots()/load_loop_roots() above,
+    but for MIDI chord/melody/bass phrases (tools/midi_packs.py) instead
+    of drum, instrument, or audio-loop one-shots.
+
+    Same starvation bug as the 2026-09-13 instrument fix and the
+    2026-09-14 loop fix: midi_packs.scan() had been defaulting to
+    load_roots() -- the DRUM switch -- which finds 0 of the owner's 298
+    real MIDI files (183 chord, 58 melody, 53 drum, 4 bass). Own config
+    keys (midi_roots/midi_sorted_root) mean neither the drum, instrument,
+    nor loop switch can ever starve this pool, or vice versa.
+
+    No midi_sorted_root default -- there's no "BOTC Sorted MIDI" folder
+    yet, unlike the drum/instrument/loop pools. Add one here if he ever
+    makes one, same merge pattern as the other three."""
+    try:
+        cfg = json.loads(PACKS_CONFIG.read_text())
+    except (OSError, json.JSONDecodeError):
+        return []
+    roots = list(cfg.get("midi_roots", []))
+    sr = cfg.get("midi_sorted_root")
+    if sr and not any(str(sr).rstrip("/").lower() == str(r).rstrip("/").lower()
+                      for r in roots):
+        roots.append(sr)
+    return roots
+
+
 def _dir_role(rel_parts):
     """Role from the nearest classifying ancestor folder, or None."""
     for part in reversed(rel_parts[:-1]):

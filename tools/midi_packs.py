@@ -31,7 +31,7 @@ sys.path.append(str(Path(__file__).parent))
 import mido                                              # noqa: E402
 
 from key_context import KeyContext, MODES, SHARPS, name_chord   # noqa: E402
-from sample_library import load_roots                     # noqa: E402
+from sample_library import load_midi_roots                # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/midi_index.json"))
 MIDI_EXTS = {".mid", ".midi"}
@@ -187,8 +187,12 @@ def _role(parts, notes):
 def scan(roots=None):
     """Walk the pack roots -> a list of MIDI entries with their key,
     chords, and length. Falls back to the last good scan when the drive
-    is unplugged, the same way the drum scanner does."""
-    roots = roots if roots is not None else load_roots()
+    is unplugged, the same way the drum scanner does.
+
+    Do not change this back to load_roots() -- that's the DRUM switch
+    and finds 0 of these files (2026-09-15 fix, same starvation bug as
+    the 2026-09-13 instrument fix and the 2026-09-14 loop fix)."""
+    roots = roots if roots is not None else load_midi_roots()
     found = []
     seen_any = False
     for root in roots:

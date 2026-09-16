@@ -1658,7 +1658,7 @@ def _source_order(pref, rng, free=False):
     if free:
         import instrument_sampler
         every = sorted(set(instrument_sampler.VOICES) - {"chip"}
-                       | {"strings", "loop"})
+                       | {"strings", "loop", "midi"})
         primary = rng.choice(every)
         names = [s[0] for s in pref] if pref else ["loop", "synth"]
     elif not pref:
@@ -1707,15 +1707,16 @@ def _split_chord_roles(notes):
 
 def _role_sources(primary, order, own, count):
     """`count` instruments for a multi-part chord — primary first, then
-    the identity's OTHER own sources in fallback order. "loop" and "chip"
-    never fill a role (a loop is a finished part on its own, chip is
+    the identity's OTHER own sources in fallback order. "loop", "midi",
+    and "chip" never fill a role (a loop or a MIDI pick is a finished
+    part on its own, chip is
     already a fused imitation of a whole chord) — see _build_chords.
 
     Repeats `primary` when the identity doesn't own `count` distinct
     voices. That's not a shortfall either: one instrument voicing two
     registers of the same chord (a pianist's left hand and right hand)
     is a real, ordinary arrangement, not a fallback."""
-    pool = [s for s in order if s in own and s not in ("loop", "chip")]
+    pool = [s for s in order if s in own and s not in ("loop", "chip", "midi")]
     if primary in pool:
         pool.remove(primary)
     srcs = [primary]
@@ -2044,6 +2045,18 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     want_loop = (not pref or any(s[0] == "loop" for s in pref)
                  or voice == "loop" or free)
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
+    # same "only scan if it's actually on the table" guard as want_loop
+    # above, for the owner's MIDI chord packs (tools/midi_packs.py) —
+    # one candidate file per beat, not per chord slot, same reasoning as
+    # loop_voice's own pool[:3] top-candidates convention.
+    want_midi = (pref and any(s[0] == "midi" for s in pref)) or voice == "midi" or free
+    midi_prog, midi_pick_name = None, None
+    if want_midi:
+        m_pool = chord_synth.midi_pool(key)
+        if m_pool:
+            m_pick = random.Random(variant * 967).choice(m_pool[:3])
+            midi_prog = chord_synth.midi_progression(m_pick, key)
+            midi_pick_name = m_pick["name"]
     strings_idx = None
     if voice == "strings" or free or (
             pref and any(s[0] == "strings" for s in pref)):
@@ -2139,6 +2152,20 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         different vendor packs, so per-note picking made one chord sound
         like several different instruments stacked."""
         notes = notes if notes is not None else chord["notes"]
+        # "midi" swaps in a real chord someone else already wrote in
+        # place of harmony.compose()'s notes, cycling through the
+        # picked file's own progression by slot — the same way a
+        # normal progression's 2-4 chords already cycle across a beat
+        # (see per_chord below). No audio here: a MIDI file is silent
+        # by itself, so it still needs a sampled voice to sound —
+        # forced to "synth" (owner 2026-07-23: no synthesized chord
+        # voice, everything sampled from his own banks).
+        midi_groups = None
+        if src == "midi":
+            if not midi_prog:
+                return None, None
+            _, _, notes = midi_prog[slot % len(midi_prog)]
+            midi_groups = instrument_sampler.VOICES["synth"]
         rhythm = rhythm_override or _rhythm
 
         def _fig(render_note, render_chord):
@@ -2248,17 +2275,20 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                                       tuning=tuning, rate_hz=rate)
             return a, ("chiptune arp%s"
                        % (" (atari-tuned)" if tuning == "atari" else ""))
-        if src in instrument_sampler.VOICES and inst_idx:
+        if (src in instrument_sampler.VOICES or midi_groups) and inst_idx:
             # EVERY named instrument voice — "horns", "synth", "piano",
             # "guitar", ... — is sampled from his own banks and
             # pitch-mapped (owner 2026-07-23). "synth" means sampled
-            # synth/pluck/pad material, NOT an oscillator.
-            groups = instrument_sampler.VOICES[src]
+            # synth/pluck/pad material, NOT an oscillator. "midi" isn't
+            # a real VOICES group — it's forced to the "synth" group
+            # above, since a MIDI pick supplies the NOTES but still
+            # needs one of his own samples to make a sound.
+            groups = midi_groups or instrument_sampler.VOICES[src]
             # An explicit pick means the thing he named, not its backups:
             # "pluck" lists ("pluck", "synth"), so without this, choosing
             # Pluck could hand back a synth and label it Pluck. The backup
             # groups stay in play for beats the machine voices itself.
-            if voice and src == voice:
+            if voice and src == voice and not midi_groups:
                 groups = groups[:1]
             # Name the group the audio ACTUALLY came from: a thin group
             # hands off to the next one (instrument_sampler.nearest), and
@@ -2271,6 +2301,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             got = instrument_sampler.nearest(
                 idx, notes[0], groups, prefer=pin[0] if pin else None)
             gname = got["group"] if got else src
+            if midi_groups:
+                gname = "midi: %s, %s" % (midi_pick_name, gname)
             cache = {}                       # one load per file, not step
             got = _fig(
                 lambda nt, sd: instrument_sampler.note_slice(

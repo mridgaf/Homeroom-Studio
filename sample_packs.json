@@ -5,7 +5,8 @@
   "sorted_root: the ONE folder you sort yourself. In there the FOLDER NAME says what a sample is and what it is like (Kicks/Hard), so file names stop mattering. Everywhere else taste words are read from the file name exactly as before, so nothing you have already approved can change. See its READ ME.",
   "instrument_sorted_root / instrument_roots: the melodic-instrument twin of sorted_root/roots above, kept in separate keys on purpose so switching the drum sample source never touches the instrument pool (and vice versa). See BOTC Sorted Instruments/READ ME.txt.",
   "strings_sections / strings_styles: which London Symphonic Strings the DJs can play (owner 2026-09-14). Sections: violin, viola, cello, basses. Styles: sustain (held), pizz (plucked), short (spiccato/marcato), tremolo. Remove a word to leave it out; the files stay where they are.",
-  "loop_roots / loop_sorted_root: the melodic-LOOP twin of instrument_roots/instrument_sorted_root above, kept in its own keys for the same reason -- so switching the drum or instrument source never starves loop_voice (tools/melodic_loops.py) again. Points at his real loop pack folders plus BOTC Sorted Loops; see its READ ME.txt."
+  "loop_roots / loop_sorted_root: the melodic-LOOP twin of instrument_roots/instrument_sorted_root above, kept in its own keys for the same reason -- so switching the drum or instrument source never starves loop_voice (tools/melodic_loops.py) again. Points at his real loop pack folders plus BOTC Sorted Loops; see its READ ME.txt.",
+  "midi_roots: the MIDI-chord-pack twin of loop_roots above (tools/midi_packs.py) -- same reason, own key so nothing else can starve it. Same 3 pack folders as loop_roots, since the 298 real MIDI files (chord/melody/drum/bass) live inside those same packs, not a separate location. No midi_sorted_root yet -- no sorted-MIDI folder exists."
  ],
  "roots": [],
  "sorted_root": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Samples",
@@ -34,5 +35,10 @@
   "/Volumes/TBOTC 3/Sample Packs/Function Loops - Black Friday 2024 Sampler",
   "/Volumes/TBOTC 3/Sample Packs/Live loop cds"
  ],
- "loop_sorted_root": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops"
+ "loop_sorted_root": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops",
+ "midi_roots": [
+  "/Volumes/TBOTC 3/Sample Packs/2022 sample packs",
+  "/Volumes/TBOTC 3/Sample Packs/Function Loops - Black Friday 2024 Sampler",
+  "/Volumes/TBOTC 3/Sample Packs/Live loop cds"
+ ]
 }

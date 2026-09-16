@@ -78,6 +78,31 @@ def sample_pool(key, bpm=None):
             if e["role"] in ("chord", "melody")]
 
 
+def midi_pool(key):
+    """In-key chord-role MIDI phrases from the owner's MIDI packs
+    (tools/midi_packs.py) — the symbolic twin of sample_pool above: a
+    real chord progression someone else already wrote, instead of a
+    real recorded loop someone else already played."""
+    import midi_packs
+    return midi_packs.in_key(midi_packs.scan(), key, role="chord")
+
+
+def midi_progression(pick, key):
+    """`pick`'s own chords, transposed into `key`:
+    [(root_pc, quality, [midi notes]), ...] in file order — or None if
+    the file has no usable chord content. Re-reads the file rather than
+    trusting the cached scan()["chords"] field, because that cache drops
+    the actual note stack (kept small on disk) and keeps only
+    (time, root, quality) — see midi_packs.scan()."""
+    import midi_packs
+    prog = midi_packs.progression(midi_packs.read_notes(pick["path"]))
+    if not prog:
+        return None
+    shift = key.shift_from(KeyContext(pick["key"], pick["mode"]))
+    return [(root, quality, sorted(n + shift for n in stack))
+            for _, root, quality, stack in prog]
+
+
 def loop_voice(pool, dur, key, sr=SR, rng=None, used=None):
     """Load+fit the best-available pick from `pool` into `dur` seconds
     at `key`; (None, None) if the pool's empty, the file won't load, or
