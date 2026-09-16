@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 #   - "loop"    a melodic loop from his library
 #   - "strings" the London Symphonic library, via string_sampler
 #   - "chip"    the synthesized chip voice (New Math / Chiptune only)
-VALID_SOURCES = set(instrument_sampler.VOICES) | {"loop", "strings", "chip"}
+VALID_SOURCES = set(instrument_sampler.VOICES) | {"loop", "strings", "chip", "midi"}
 VALID_RHYTHMS = {"arp", "sustain"}
 # Every mode KeyContext can actually build a scale from. A modal key is
 # fine now: melodic_loops.in_key matches samples by mode FAMILY (fixed

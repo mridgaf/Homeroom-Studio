@@ -30,7 +30,8 @@ sys.path.append(str(Path(__file__).parent))
 
 import mido                                              # noqa: E402
 
-from key_context import KeyContext, MODES, SHARPS, name_chord   # noqa: E402
+from key_context import (KeyContext, MODES, SHARPS,              # noqa: E402
+                        mode_family, name_chord)
 from sample_library import load_midi_roots                # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/midi_index.json"))
@@ -238,15 +239,27 @@ def scan(roots=None):
 
 def in_key(index, key, role="chord"):
     """The MIDI phrases worth reaching for in a given key: exact matches
-    first, then everything else in the same mode (any root), because a
-    phrase in the right mode transposes into the key cleanly — that's
-    what KeyContext.shift_from is for."""
+    first, then everything else in the same mode FAMILY (any root),
+    because a phrase in the right family transposes into the key
+    cleanly — that's what KeyContext.shift_from is for.
+
+    Matches on FAMILY, not the exact mode name — same fix as
+    melodic_loops.in_key (2026-07-24): these packs only ever get
+    detected as plain major/minor (detect_key scores just those two),
+    never a modal name, so comparing straight against an exotic beat
+    mode (harmonic_minor, phrygian_dominant, ...) matched nothing and
+    silently starved this pool for every beat not in a plain major or
+    minor key. Found 2026-09-15 verifying the "midi" chord_source wiring
+    live: forcing chord_source to 100% "midi" still never produced a
+    midi-sourced chord because most rolled beat keys are modal."""
+    want_family = mode_family(key.mode)
     want = [e for e in index if e.get("role") == role and e.get("key")]
     hit = [e for e in want
-           if e["key"] == key.root and e["mode"] == key.mode]
+           if e["key"] == key.root and mode_family(e["mode"]) == want_family]
     spot = set(e["path"] for e in hit)
     return hit + [e for e in want
-                  if e["mode"] == key.mode and e["path"] not in spot]
+                  if mode_family(e["mode"]) == want_family
+                  and e["path"] not in spot]
 
 
 def _report():

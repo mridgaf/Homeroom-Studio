@@ -105,6 +105,26 @@ def test_merge_into_dedupes_by_path(tmp_path, monkeypatch):
     assert len(merged["kick"]) == 2
 
 
+def test_load_midi_roots_merges_config_keys(tmp_path, monkeypatch):
+    """The 2026-09-15 fix: midi_roots/midi_sorted_root are OWN config
+    keys, same shape as load_instrument_roots/load_loop_roots, so the
+    drum/instrument/loop switches can never starve this pool again."""
+    cfg = tmp_path / "sample_packs.json"
+    monkeypatch.setattr(sample_library, "PACKS_CONFIG", cfg)
+    cfg.write_text(json.dumps({
+        "roots": ["/should-not-appear"],
+        "midi_roots": ["/a", "/b"],
+        "midi_sorted_root": "/sorted"}))
+    assert sample_library.load_midi_roots() == ["/a", "/b", "/sorted"]
+    # sorted root already listed in midi_roots -> no duplicate
+    cfg.write_text(json.dumps({
+        "midi_roots": ["/a"], "midi_sorted_root": "/a"}))
+    assert sample_library.load_midi_roots() == ["/a"]
+    # missing config entirely -> empty, not the drum defaults
+    cfg.unlink()
+    assert sample_library.load_midi_roots() == []
+
+
 # ------------------------------------------------- real time signatures
 
 

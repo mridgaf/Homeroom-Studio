@@ -20,6 +20,75 @@ entries.
 
 ## Log
 
+### 2026-09-15 MIDI chord packs wired in as a real chord_source
+
+- Context: DECISIONS.md 2026-09-14 had deliberately deferred this ("own
+  session, not folded into other work"). This session was that session,
+  scoped by his own clickable answers: MIDI packs only (Legends tuning
+  pushed to next session), full fix (mechanical + wired into the beat
+  generator), for both crew and Legends.
+- Decision/change:
+  1. Mechanical: `sample_library.load_midi_roots()` (own `midi_roots`/
+     `midi_sorted_root` config keys, same shape as the 2026-09-13
+     instrument and 2026-09-14 loop fixes) — `midi_packs.py` was
+     defaulting to `load_roots()` (the drum switch) and finding 0 of
+     298 real files. Now finds all 298 (183 chord/58 melody/53 drum/4
+     bass, confirmed by running `scan()`).
+  2. Feature: `"midi"` added as a real `chord_source` word — a beat can
+     now pull an actual chord progression from a real pack MIDI file
+     and voice it through the identity's own sampled instruments (see
+     `chord_synth.midi_pool`/`midi_progression`, `beat_machine.py`'s
+     `_build_chords`/`_render_one`).
+  3. Added to exactly 5 personas' `chord_source` (weight 1, a secondary
+     option): Night Metro, Rage Engine, New Math (crew_config.json);
+     Hitt Kid, DJ Light Green (legends_config.json) — picked by real-
+     producer-reference fit (Metro Boomin, Lex Luger, "the front edge",
+     Hit-Boy, DJ Green Lantern), same selectivity `"loop"` already uses.
+     **This persona list is a judgment call, not a measured fact** —
+     flagged to him in the plan, not separately re-confirmed after.
+  4. Two real bugs found and fixed only by actually rendering (not
+     caught by the plan or by reading code):
+     - `midi_packs.in_key()` matched the beat's key MODE literally, but
+       these packs are only ever detected as plain major/minor while
+       the engine rolls many modes (harmonic_minor, phrygian_dominant,
+       etc.) — same starvation shape `melodic_loops.in_key()` already
+       hit and fixed on 2026-07-24 via `mode_family()`. Fixed the same
+       way. Before this fix, forcing chord_source to 100% "midi" and
+       rendering 6 beats across different keys produced ZERO midi
+       picks — it was silently losing on every non-plain-major/minor
+       beat, which is most beats.
+     - Even after that, real pack chords are humanized/wide voicings
+       (a real chord spanned 19 semitones) that violate the
+       one-instrument-per-chord hard rule (2026-08-03,
+       PREFER_MAX_SHIFT=12 semitones in instrument_sampler.py) — every
+       midi pick still lost to a fallback instrument. Fixed by
+       re-voicing the file's root+quality compactly via
+       `KeyContext.voice()` (same voicing harmony.compose() already
+       uses) instead of reusing the file's raw note stack. The
+       progression sequence still comes from the real file; only the
+       exact voicing is re-derived.
+  5. Also fixed `tests/test_signature_words.py`'s `VALID_SOURCES`
+     allowlist, which didn't know "midi" and would have failed the
+     suite on the config changes alone.
+- Reasoning: root-cause fixes each time (same pattern already proven
+  twice for instruments/loops), not a workaround bolted onto
+  chord_synth.py. Re-voicing via KeyContext.voice rather than loosening
+  the one-instrument-per-chord hard rule, per "never weaken a hard rule
+  for convenience."
+- Verify by: full test suite ran clean (1176 passed, 1 pre-existing
+  unrelated failure — `test_real_beats_are_not_mono_or_silent`,
+  confirmed via `git stash` to fail identically without this session's
+  changes, a real rendered file that "came out mono," nothing to do
+  with MIDI). Confirmed live with an actual render:
+  `chords: dark_menacing in F harmonic_minor ... on midi: Cymatics -
+  Oracle Sad MIDI 6 - F Min, synth arp`. Real-weight batch (not forced)
+  produced "midi:" hits for Rage Engine and New Math within 8 tries
+  each, consistent with their rolled odds.
+- Status: confirmed
+- Outcome: mechanical fix and re-voicing fix both verified by render,
+  not just by reading the diff. The 5-persona list is unverified by
+  ear — flag for him to confirm or adjust once he's heard a batch.
+
 (new entries go below this line, most recent first)
 
 ### 2026-09-14 The 70/30 freedom pass, the London strings fix, one low sound per beat

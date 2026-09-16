@@ -6,10 +6,13 @@ this guards the functions a mislabeled or ambiguous file depends on.
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 from key_context import KeyContext                                   # noqa: E402
-from midi_packs import detect_key, key_in_name, progression          # noqa: E402
+from midi_packs import (detect_key, key_in_name, load_midi_roots,     # noqa: E402
+                        progression, scan)
 
 
 def test_key_in_name_reads_common_labels():
@@ -45,6 +48,20 @@ def test_progression_collapses_a_repeated_chord():
     chords = progression(notes)
     assert [(root, quality) for _, root, quality, _ in chords] \
         == [(0, "major"), (9, "minor")]
+
+
+@pytest.mark.skipif(not Path("/Volumes/TBOTC 3").exists(),
+                    reason="needs the TBOTC 3 drive mounted")
+def test_scan_finds_his_real_midi_packs():
+    """2026-09-15 fix: scan() used to default to the DRUM switch
+    (load_roots) and find 0 of these. Ballpark counts measured
+    2026-09-14 (298 total: 183 chord, 58 melody, 53 drum, 4 bass) --
+    asserted loosely since new packs may be added over time."""
+    index = scan(load_midi_roots())
+    assert len(index) > 250
+    roles = {e["role"] for e in index}
+    assert {"chord", "melody", "drum", "bass"} <= roles
+    assert sum(e["role"] == "chord" for e in index) > 100
 
 
 def test_progression_ignores_single_note_stacks():

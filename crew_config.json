@@ -3233,6 +3233,10 @@
     [
      "loop",
      2.0
+    ],
+    [
+     "midi",
+     1
     ]
    ],
    "chord_rhythm": [
@@ -3705,6 +3709,10 @@
     [
      "horns",
      2
+    ],
+    [
+     "midi",
+     1
     ]
    ],
    "chord_rhythm": [
@@ -4251,6 +4259,10 @@
    "chord_source": [
     [
      "chip",
+     1
+    ],
+    [
+     "midi",
      1
     ]
    ],

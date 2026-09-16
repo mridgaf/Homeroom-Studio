@@ -88,19 +88,33 @@ def midi_pool(key):
 
 
 def midi_progression(pick, key):
-    """`pick`'s own chords, transposed into `key`:
-    [(root_pc, quality, [midi notes]), ...] in file order — or None if
-    the file has no usable chord content. Re-reads the file rather than
-    trusting the cached scan()["chords"] field, because that cache drops
-    the actual note stack (kept small on disk) and keeps only
-    (time, root, quality) — see midi_packs.scan()."""
+    """`pick`'s own chord ROOTS and QUALITIES, transposed into `key` and
+    re-voiced compactly (KeyContext.voice — the same voicing
+    harmony.compose() uses): [(root_pc, quality, [midi notes]), ...] in
+    file order — or None if the file has no usable chord content.
+
+    Re-voices rather than reusing the file's own raw note stack on
+    purpose. Real pack chords are humanized and often wide/octave-
+    doubled — measured spans past 12 semitones are common — which the
+    one-instrument-per-chord hard rule (2026-08-03, PREFER_MAX_SHIFT=12
+    in instrument_sampler.py) can't voice from a single sample file, so
+    "midi" silently lost to every other plan on every real beat until
+    this fix (2026-09-15). The PROGRESSION — which chord, in what order
+    — still comes from the real file; only the exact voicing is
+    re-derived, same as every other chord source in this engine.
+
+    Re-reads the file rather than trusting the cached scan()["chords"]
+    field, because that cache drops the actual note stack (kept small
+    on disk) and keeps only (time, root, quality) — see
+    midi_packs.scan()."""
     import midi_packs
     prog = midi_packs.progression(midi_packs.read_notes(pick["path"]))
     if not prog:
         return None
     shift = key.shift_from(KeyContext(pick["key"], pick["mode"]))
-    return [(root, quality, sorted(n + shift for n in stack))
-            for _, root, quality, stack in prog]
+    return [((root + shift) % 12, quality,
+             key.voice((root + shift) % 12, quality))
+            for _, root, quality, _stack in prog]
 
 
 def loop_voice(pool, dur, key, sr=SR, rng=None, used=None):

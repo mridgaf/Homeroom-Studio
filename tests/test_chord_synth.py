@@ -12,6 +12,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 import chord_synth                                                # noqa: E402
+import midi_packs                                                 # noqa: E402
 from chord_synth import bass_voice, midi_to_hz                     # noqa: E402
 from key_context import KeyContext                                # noqa: E402
 from make_drum_loops import SR                                    # noqa: E402
@@ -90,3 +91,40 @@ def test_loop_voice_fits_pick_to_duration(monkeypatch):
     assert name == "test-pick"
     assert audio.shape == (int(0.5 * SR),)
     assert np.max(np.abs(audio)) < 1.0
+
+
+# ---------------------------------------------------- MIDI chord packs
+
+
+def test_midi_pool_delegates_to_midi_packs_in_key(monkeypatch):
+    monkeypatch.setattr(midi_packs, "scan", lambda: ["fake-index"])
+    seen = {}
+
+    def fake_in_key(index, key, role="chord"):
+        seen["args"] = (index, key.root, key.mode, role)
+        return ["a-pick"]
+    monkeypatch.setattr(midi_packs, "in_key", fake_in_key)
+    pool = chord_synth.midi_pool(KeyContext("C", "minor"))
+    assert pool == ["a-pick"]
+    assert seen["args"] == (["fake-index"], "C", "minor", "chord")
+
+
+def test_midi_progression_transposes_into_key(monkeypatch):
+    # File is itself in D minor; asking for it in C minor should shift
+    # the D-minor chord (root pc 2) down 2 semitones to root pc 0, and
+    # re-voice it compactly with KeyContext.voice (not reuse the file's
+    # own raw, possibly wide, note stack — see midi_progression's
+    # docstring).
+    pick = {"path": "/x.mid", "key": "D", "mode": "minor"}
+    monkeypatch.setattr(midi_packs, "read_notes", lambda path: "raw-notes")
+    monkeypatch.setattr(midi_packs, "progression", lambda notes: [
+        (0.0, 2, "minor", [50, 53, 57])])
+    prog = chord_synth.midi_progression(pick, KeyContext("C", "minor"))
+    assert prog == [(0, "minor", KeyContext("C", "minor").voice(0, "minor"))]
+
+
+def test_midi_progression_no_chords_returns_none(monkeypatch):
+    pick = {"path": "/x.mid", "key": "C", "mode": "minor"}
+    monkeypatch.setattr(midi_packs, "read_notes", lambda path: "raw-notes")
+    monkeypatch.setattr(midi_packs, "progression", lambda notes: [])
+    assert chord_synth.midi_progression(pick, KeyContext("C", "minor")) is None
