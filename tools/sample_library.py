@@ -452,6 +452,30 @@ def scan_packs(roots=None):
     return shots
 
 
+def loops_scored(shots, tags=None, bpm=None):
+    """Scored, non-excluding lookup over the drum-loop pool
+    (scan_packs()['_loops']) for the Loops page -- LOOPS-MODE-GAP-ANALYSIS.md
+    Part 4 step 1. "_loops" entries carry no key/mode (unlike
+    melodic_loops.py's pool), only tags (`tokens`) and `bpm`, so this scores
+    on tag/genre-word overlap and bpm closeness instead of key/mode family.
+    Every entry is returned; nothing is excluded -- fit_score is lower for a
+    closer fit."""
+    pool = shots.get("_loops", [])
+    want_tags = {t.lower() for t in (tags or [])}
+    scored = []
+    for e in pool:
+        toks = set(e.get("tokens") or [])
+        tag_score = -len(want_tags & toks)
+        if bpm is None or e.get("bpm") is None:
+            bpm_score = 999.0
+        else:
+            bpm_score = min(abs(e["bpm"] - bpm), 999.0) / 10.0
+        entry = dict(e)
+        entry["fit_score"] = tag_score + bpm_score
+        scored.append(entry)
+    return sorted(scored, key=lambda e: e["fit_score"])
+
+
 def merge_into(shots, pack_shots=None):
     """Add pack sounds to a build_shots() dict, deduped by path."""
     pack_shots = pack_shots if pack_shots is not None else scan_packs()

@@ -100,6 +100,12 @@ def _resolve_beats_root():
 
 
 ROOT = _resolve_beats_root()
+# Loops page (LOOPS-MODE-GAP-ANALYSIS.md, owner 2026-09-16): a raw loop is
+# not a beat, so it gets its own sibling folders and its own NN counter
+# (next_loop_number below) rather than sharing ROOT/next_number — loop
+# output must never eat into beat numbering.
+LOOPS_MELODIC_ROOT = ROOT.parent / "Loops - Melodic"
+LOOPS_DRUM_ROOT = ROOT.parent / "Loops - Drum"
 # the nine loose crew and the twelve Legends get their own boxes on the
 # page; both render through the same engine (CREW holds them all)
 CREW_ORDER = sorted((n for n in CREW
@@ -200,6 +206,25 @@ def next_number(root=ROOT):
     top = max((int(m.group(1)) for f in root.rglob("*.wav")
                if (m := re.match(r"(\d+) ", f.name))), default=0)
     return max(top, 85) + 1
+
+
+def next_loop_number(root):
+    """Own counter for loop output — owner 2026-09-16, so loop numbering
+    never eats into beat numbering. No `max(top, 85)` floor: unlike ROOT,
+    a loop root starts life empty."""
+    top = max((int(m.group(1)) for f in root.rglob("*.wav")
+              if (m := re.match(r"(\d+) ", f.name))), default=0)
+    return top + 1
+
+
+def save_loop_recipe(root, no, data):
+    """Small sidecar for a loop (owner 2026-09-16 — NOT the full beat
+    .recipes/NN.json shape, just enough to know what it was and how it was
+    picked): dj, kind, source file, key/bpm, and whether the pick was on
+    the DJ's own taste or the free/wide-open roll."""
+    d = root / ".recipes"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / f"{no}.json").write_text(json.dumps(data, indent=1))
 
 
 def fresh_title(names, rng, root=ROOT):
@@ -3280,6 +3305,20 @@ def beat_wav(no, root=None):
     return None
 
 
+def loop_wav(no, kind):
+    """Resolve a Loops-page NUMBER to its file, same idea as beat_wav()
+    but scoped to LOOPS_MELODIC_ROOT/LOOPS_DRUM_ROOT (own counter, own
+    folders — see next_loop_number)."""
+    root = LOOPS_MELODIC_ROOT if kind == "melodic" else LOOPS_DRUM_ROOT
+    if not root.exists():
+        return None
+    for p in root.rglob("*.wav"):
+        m = re.match(r"(\d+) ", p.name)
+        if m and int(m.group(1)) == int(no):
+            return p
+    return None
+
+
 def beat_location(no, root=None):
     """'favorites' / 'trash' / 'dj' by which top-level folder holds it."""
     root = Path(root or ROOT)
@@ -4362,6 +4401,164 @@ CHORD_VOICE_NAMES = {
     "chip": "8-bit / chiptune",
     "loop": "Melodic loop (a finished riff)",
 }
+
+
+def _loop_export_one(dj_name, kind, rng=None, shots=None, chop=False):
+    """Pick one loop for `dj_name`, color it through their own mix chain,
+    write it to disk under the Loops page's own root/numbering, and
+    return the card the page shows. kind is 'melodic' or 'drum'.
+    LOOPS-MODE-GAP-ANALYSIS.md Part 4 steps 3-5.
+
+    Reuses _roll_key (same harmonic dice _build_chords rolls, so a DJ's
+    key taste shows up here too) and loop_mode.apply_dj_finish (the same
+    mix-fingerprint functions render_crew_beat applies to a full beat).
+    Nothing here touches _pin_bars_for_loop_voice or PREFER_MAX_SHIFT —
+    those fit a pick into a chord SLOT, and a bare loop has none (Part 4a).
+
+    chop=True (melodic only, owner 2026-09-16 — default is the whole
+    loop, this is the optional toggle): slices the picked, pitch-fit loop
+    into its individual note/chord hits via melodic_loops.chop_onsets
+    (Part 6 — the same slicer a chord slot uses, borrowed here as-is, not
+    reworked) and keeps one hit. chop_onsets collapses to mono; the
+    single clip is duplicated to both channels rather than pretending a
+    stereo image survives a mono chop.
+    """
+    import loop_mode
+    from key_context import KeyContext
+    if dj_name not in CREW:
+        raise ValueError(f"No DJ named {dj_name!r}.")
+    if kind not in ("melodic", "drum"):
+        raise ValueError(f"kind must be 'melodic' or 'drum', got {kind!r}")
+    preset = CREW[dj_name]
+    sig = preset.get("signature") or {}
+    rng = rng or random.Random()
+    variant = rng.randrange(1_000_000)
+    srng = random.Random(f"{dj_name}|loop|{variant}")
+    key_root, mode, _prog = _roll_key(
+        sig, variant, {"force_key": None, "chord_feel": None},
+        open_roll=False, srng=srng)
+    key = KeyContext(key_root, mode)
+
+    if kind == "melodic":
+        import melodic_loops
+        pool = melodic_loops.in_key_scored(melodic_loops.scan(), key,
+                                           bpm=preset.get("bpm"))
+        root = LOOPS_MELODIC_ROOT
+    else:
+        import sample_library
+        # shots is passed in by the caller, same convention
+        # _preview_render(query, q, shots=None, root=None) already uses —
+        # locking the shared _CACHE is the caller's job, not this
+        # function's (do_GET's /loops/batch route already holds `lock`
+        # around this whole call; taking it again here on a plain
+        # threading.Lock would deadlock).
+        if shots is None:
+            shots = build_shots()
+        tags = [t for t, _w in (preset.get("library") or {}).get("tags", [])]
+        pool = sample_library.loops_scored(shots, tags=tags,
+                                           bpm=preset.get("bpm"))
+        root = LOOPS_DRUM_ROOT
+
+    entry, on_taste = loop_mode.pick_loop(sig, pool, srng)
+    if entry is None:
+        raise FileNotFoundError(
+            f"No {kind} loops found for {dj_name} — check the loop pool "
+            "roots are mounted (drive unplugged?).")
+
+    x = load_audio(entry["path"])
+    if x is None or not len(x):
+        raise FileNotFoundError(f"Couldn't read {entry['path']}")
+    L, R = x[:, 0].copy(), x[:, 1].copy()
+    if kind == "melodic" and entry.get("key"):
+        src_key = KeyContext(entry["key"], entry.get("mode") or "major")
+        secs = len(L) / SR
+        L = melodic_loops.fit_loop(L, SR, secs, src_key, key)
+        R = melodic_loops.fit_loop(R, SR, secs, src_key, key)
+    chop = bool(chop) and kind == "melodic"
+    if chop:
+        clips = melodic_loops.chop_onsets(np.stack([L, R], axis=1), SR)
+        if clips:
+            clip = clips[srng.randrange(len(clips))]
+            L, R = clip, clip.copy()
+        else:
+            chop = False          # nothing to chop; fall back to the whole loop
+    L, R = loop_mode.apply_dj_finish(L, R, preset,
+                                     seed=preset["num"] * 97 + variant)
+
+    root.mkdir(parents=True, exist_ok=True)
+    no = next_loop_number(root)
+    bpm = entry.get("bpm") or preset.get("bpm")
+    title = Path(entry["path"]).stem
+    kind_word = "Chop Loop" if chop else "Loop"
+    fname = f"{no} {dj_name} {title} {kind_word} {bpm}bpm.wav"
+    (root / fname).write_bytes(wav24_bytes(L, R))
+    save_loop_recipe(root, no, {
+        "dj": dj_name, "kind": kind, "source": entry["path"],
+        "key": key.root, "mode": key.mode, "bpm": bpm,
+        "taste_pick": on_taste, "chopped": chop,
+    })
+    return {"no": no, "dj": dj_name, "kind": kind, "title": title,
+           "file": fname, "taste_pick": on_taste, "chopped": chop,
+           "url": f"/loops/audio?no={no}&kind={kind}"}
+
+
+def _loops_page():
+    """Minimal standalone page — LOOPS-MODE-GAP-ANALYSIS.md Part 0 scopes
+    this to "cards you can click and download," no UI polish beyond that.
+    Its own template, not _PAGE/_dj_card (those are the beat-builder's
+    checkbox-rack per-DJ card, the wrong shape for "pick a DJ + kind, get
+    a loop"). Owner 2026-09-16: its own screen, not a beat-builder tab."""
+    options = "".join(f'<option value="{n}">{n}</option>' for n in ORDER)
+    return f"""<!doctype html><html><head><meta charset="utf-8">
+<title>Homeroom Studio — Loops</title>
+<style>
+body{{font-family:-apple-system,sans-serif;background:#111;color:#eee;
+     max-width:640px;margin:2rem auto;padding:0 1rem}}
+h1{{font-weight:600}}
+select,button{{font-size:1rem;padding:.4rem .6rem;margin:.25rem .5rem .25rem 0}}
+.card{{border:1px solid #333;border-radius:8px;padding:1rem;margin:1rem 0}}
+.card b{{display:block;margin-bottom:.3rem}}
+.err{{color:#f77}}
+audio{{width:100%;margin:.5rem 0}}
+a{{color:#8cf}}
+</style></head><body>
+<h1>Loops</h1>
+<p>Same DJs, same personalities — one usable loop instead of a full beat.</p>
+<div>
+  <select id="dj">{options}</select>
+  <select id="kind"><option value="melodic">Melodic</option>
+    <option value="drum">Drum</option></select>
+  <label><input type="checkbox" id="chop"> chop (melodic only)</label>
+  <button onclick="getLoop()">Get a loop</button>
+</div>
+<div id="cards"></div>
+<script>
+async function getLoop() {{
+  const dj = document.getElementById('dj').value;
+  const kind = document.getElementById('kind').value;
+  const chop = document.getElementById('chop').checked ? '1' : '0';
+  const cards = document.getElementById('cards');
+  const box = document.createElement('div');
+  box.className = 'card';
+  box.textContent = 'picking...';
+  cards.prepend(box);
+  try {{
+    const r = await fetch(`/loops/batch?dj=${{encodeURIComponent(dj)}}&kind=${{kind}}&chop=${{chop}}`);
+    const data = await r.json();
+    if (!data.ok) throw new Error(data.error || 'failed');
+    const c = data.loops[0];
+    box.innerHTML = `<b>#${{c.no}} ${{c.dj}} — ${{c.title}}</b>` +
+      (c.taste_pick ? 'on-taste pick' : 'free pick') +
+      (c.chopped ? ', chopped' : '') +
+      `<audio controls src="${{c.url}}"></audio>` +
+      `<a href="${{c.url}}" download>${{c.file}}</a>`;
+  }} catch (e) {{
+    box.className = 'card err';
+    box.textContent = 'Error: ' + e.message;
+  }}
+}}
+</script>
+</body></html>"""
 
 
 def _best_folder(idx, groups, notes):
@@ -6206,6 +6403,34 @@ def run_web(port=None):
                 except Exception:
                     ok = False
                 self._wav(Path(want) if ok else None)
+            elif u.path == "/loops":
+                self._send(200, "text/html; charset=utf-8",
+                           _loops_page().encode("utf-8"))
+            elif u.path == "/loops/batch":
+                q = parse_qs(u.query)
+                try:
+                    dj = q.get("dj", [""])[0]
+                    kind = q.get("kind", ["melodic"])[0]
+                    chop = q.get("chop", ["0"])[0] in ("1", "true")
+                    n = max(1, min(int(q.get("n", ["1"])[0] or 1), 8))
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        shots = _CACHE["shots"]
+                    cards = [_loop_export_one(dj, kind, shots=shots, chop=chop)
+                            for _ in range(n)]
+                    self._json({"ok": True, "loops": cards})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e), "loops": []})
+            elif u.path == "/loops/audio":
+                q = parse_qs(u.query)
+                no = q.get("no", [""])[0]
+                kind = q.get("kind", [""])[0]
+                w = loop_wav(no, kind) if str(no).isdigit() else None
+                if not w or not w.exists():
+                    self._send(404, "text/plain", b"not found")
+                    return
+                self._media(w.read_bytes())
             else:
                 self._send(404, "text/plain", b"not found")
 

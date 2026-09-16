@@ -238,6 +238,38 @@ def in_key(index, key, role=None, bpm=None):
     return ranked
 
 
+def in_key_scored(index, key, role=None, bpm=None):
+    """Loops-page counterpart to in_key() (LOOPS-MODE-GAP-ANALYSIS.md Part 4
+    step 1): same tier/dist logic, but never excludes anything -- every
+    entry gets a fit_score (lower = closer fit) instead of being dropped.
+    in_key() itself is untouched; full-beat generation keeps its hard
+    filter exactly as it is (Part 4a: this is a scoped exception for the
+    Loops page, not a rule change)."""
+    want = [e for e in index if e.get("role") == role] if role is not None \
+        else list(index)
+    want_family = mode_family(key.mode)
+
+    def tier(e):
+        fam = None if e["mode"] is None else mode_family(e["mode"])
+        if e["key"] == key.root and (fam is None or fam == want_family):
+            return 0
+        if fam == want_family:
+            return 1
+        return 2
+
+    def dist(e):
+        if bpm is None or e.get("bpm") is None:
+            return 999.0
+        return min(abs(e["bpm"] - bpm), 999.0)
+
+    scored = []
+    for e in want:
+        entry = dict(e)
+        entry["fit_score"] = tier(e) * 1000.0 + dist(e)
+        scored.append(entry)
+    return sorted(scored, key=lambda e: e["fit_score"])
+
+
 def fit_loop(x, sr, dst_secs, src_key=None, dst_key=None):
     """Pitch-correct a picked loop into `dst_key`, then crop/tile it to
     `dst_secs` — the same crop/tile-to-length every lane in this project
