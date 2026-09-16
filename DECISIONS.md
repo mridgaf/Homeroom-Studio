@@ -91,6 +91,56 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-16 Loops Mode — design session, planning only (no code changed)
+
+- Context: owner wants a standalone "Loops" page reusing the same crew/
+  legends personalities, serving raw melodic and drum loops instead of full
+  arranged beats, for use in Reason. Asked which loop types (both melodic
+  and drum), how "personality" should work, whether key/bpm should still
+  gate picks, where the page should live, and what to produce this session.
+- Decision/change: nothing in the codebase touched. Wrote
+  `LOOPS-MODE-GAP-ANALYSIS.md` (full spec, house Part 1-6 format) and
+  `HANDOFF-TO-CODE-LOOPS.md` (Claude Code kickoff), same convention as
+  `BEAT-GENERATOR-GAP-ANALYSIS.md` / `PACKAGING-GAP-ANALYSIS.md`. Owner's
+  answers, for the record:
+  1. Personality floor = weighted roll, same mechanic `pattern_gen.compose`
+     already uses for the groove-library seed (`lib.get("p", 0)` into
+     `_pick_library`) -- default p=0.5 per DJ, proposed in the gap doc as
+     `pick_loop()`.
+  2. Key/bpm matching becomes a soft score, never a hard filter, on this
+     page only.
+  3. Separate page on the same server (beat_machine.py, port 8770), not a
+     toggle on the existing beat-builder UI.
+  4. This session's deliverable is the design + handoff docs, not working
+     code -- Claude Code builds it against the real macOS venv, where it
+     can actually run pytest and render audio.
+  Owner also said explicitly: no DJ signature rule (chord_source, key/mode
+  weighting, genre tags) should ever exclude a sound on this page, only
+  weight toward it, with at least 50%+ personality "when possible."
+  Scoped this narrowly (Part 4a of the gap doc): the existing hard rules
+  ("no drum loops in beats", one-instrument-per-chord PREFER_MAX_SHIFT,
+  4-bar-if-loop pin) stay fully intact for compose()/full-beat generation.
+  They're inapplicable here, not repealed -- flagged explicitly so a future
+  session doesn't read this as a precedent to loosen a hard rule elsewhere.
+- Reasoning: found two loop pools that already exist as data and are
+  already dormant -- `melodic_loops.py`'s scanner (used today only as a
+  chord-slot ingredient, never surfaced whole) and `sample_library.py`'s
+  `"_loops"` bucket (written by `scan_packs()`, confirmed by grep that
+  NOTHING else in `tools/` reads it). Also found the exact "mostly
+  personality, not a hard wall" mechanic already shipping
+  (`pattern_gen.py` ~line 1137) -- reused that pattern rather than
+  inventing a new selection mechanic.
+- Verify by: nothing to verify yet -- no code was written this session.
+  The gap doc's Part 4 step 0 (boundary test) and step 2 (dry-run
+  `pick_loop()` roll distribution) are the first two things that should
+  get verified, before any audio rendering is built on top.
+- Status: open -- design accepted by owner in conversation; build not
+  started. Three sub-questions explicitly left for Code to raise with the
+  owner rather than decided here: loop filename/output-folder convention,
+  whole-vs-chopped default for melodic loops, and whether the `"_loops"`
+  bucket's `tonal` flag is even populated correctly (never read before).
+
+
 ### 2026-09-14 The 70/30 freedom pass, the London strings fix, one low sound per beat
 
 - Context: he asked how to use "some" of the London Symphonic Strings without
