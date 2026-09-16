@@ -18,6 +18,51 @@ tags-only one.
 """
 from __future__ import annotations
 
+import math
+
+import numpy as np
+
+
+def bars_in(n_samples, sr, bpm, tsig=(4, 4)):
+    """How many whole bars of audio this is, at this tempo. Rounds to the
+    nearest whole bar — a loop is assumed to be an honest multiple of a
+    bar, same assumption melodic_loops/sample_library already make about
+    loop-tagged files. Minimum 1: a loop shorter than one bar still
+    counts as one for tiling purposes."""
+    num, den = tsig
+    bar_s = num * (4.0 / den) * 60.0 / bpm
+    return max(1, round((n_samples / sr) / bar_s))
+
+
+def tile_to(x, target_samples):
+    """Repeat `x` end-to-end until it covers `target_samples`, then trim
+    to exactly that length. Repetition, not stretching — a loop's own
+    groove plays intact each time through, it just plays more than once."""
+    if len(x) >= target_samples:
+        return x[:target_samples]
+    reps = math.ceil(target_samples / len(x))
+    return np.tile(x, reps)[:target_samples]
+
+
+def match_lengths(clips, sr, bpm, tsig=(4, 4)):
+    """clips: {lane: mono np.ndarray}. Owner rule (2026-09-16): when loops
+    of different native lengths are combined, the shorter ones repeat to
+    match the longer — a 4-bar loop doubles alongside an 8-bar loop,
+    rather than either loop being cropped or stretched. General case is
+    the LCM of every clip's own bar count (doubling is just what that
+    looks like for 4-and-8); returns {lane: tiled np.ndarray}, all the
+    same length, and the shared bar count.
+    """
+    native_bars = {lane: bars_in(len(x), sr, bpm, tsig)
+                   for lane, x in clips.items()}
+    common = 1
+    for b in native_bars.values():
+        common = common * b // math.gcd(common, b)
+    num, den = tsig
+    bar_s = num * (4.0 / den) * 60.0 / bpm
+    target = int(round(common * bar_s * sr))
+    return ({lane: tile_to(x, target) for lane, x in clips.items()}, common)
+
 
 def apply_dj_finish(L, R, preset, seed=0):
     """Color a bare stereo loop buffer with a DJ's mix fingerprint.

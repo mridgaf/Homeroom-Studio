@@ -100,12 +100,6 @@ def _resolve_beats_root():
 
 
 ROOT = _resolve_beats_root()
-# Loops page (LOOPS-MODE-GAP-ANALYSIS.md, owner 2026-09-16): a raw loop is
-# not a beat, so it gets its own sibling folders and its own NN counter
-# (next_loop_number below) rather than sharing ROOT/next_number — loop
-# output must never eat into beat numbering.
-LOOPS_MELODIC_ROOT = ROOT.parent / "Loops - Melodic"
-LOOPS_DRUM_ROOT = ROOT.parent / "Loops - Drum"
 # the nine loose crew and the twelve Legends get their own boxes on the
 # page; both render through the same engine (CREW holds them all)
 CREW_ORDER = sorted((n for n in CREW
@@ -206,25 +200,6 @@ def next_number(root=ROOT):
     top = max((int(m.group(1)) for f in root.rglob("*.wav")
                if (m := re.match(r"(\d+) ", f.name))), default=0)
     return max(top, 85) + 1
-
-
-def next_loop_number(root):
-    """Own counter for loop output — owner 2026-09-16, so loop numbering
-    never eats into beat numbering. No `max(top, 85)` floor: unlike ROOT,
-    a loop root starts life empty."""
-    top = max((int(m.group(1)) for f in root.rglob("*.wav")
-              if (m := re.match(r"(\d+) ", f.name))), default=0)
-    return top + 1
-
-
-def save_loop_recipe(root, no, data):
-    """Small sidecar for a loop (owner 2026-09-16 — NOT the full beat
-    .recipes/NN.json shape, just enough to know what it was and how it was
-    picked): dj, kind, source file, key/bpm, and whether the pick was on
-    the DJ's own taste or the free/wide-open roll."""
-    d = root / ".recipes"
-    d.mkdir(parents=True, exist_ok=True)
-    (d / f"{no}.json").write_text(json.dumps(data, indent=1))
 
 
 def fresh_title(names, rng, root=ROOT):
@@ -2654,20 +2629,104 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     return midi_chords, harmony_info
 
 
+def _pick_loop_bed(dj_name, preset, dirs, key, shots, variant):
+    """Whole-beat-from-loops (owner 2026-09-16 correction: "I want the
+    loops. Option to make whole beats. using only loops."). Picks ONE
+    drum loop and ONE melodic loop for this DJ, on the same weighted
+    taste-roll every DJ already uses (loop_mode.pick_loop), pitch-fits
+    the melodic pick into the beat's key, and repeats whichever is
+    shorter until both match (loop_mode.match_lengths) rather than
+    stretching or cropping either one.
+
+    Returns (sources, loop_bufs, nbars): `sources` names the two loop
+    files (for the recipe/README/stems, same as a one-shot's source
+    path); `loop_bufs` is {"kick": mono, "chord0": mono} ready for
+    render_crew_beat's loop_bufs override — those two lane names are
+    reused on purpose (not new lane names) so the existing mix bus
+    (kick_dist, reverb space, mix EQ, glue, master) treats them exactly
+    like it would a normal beat's kick and chord lanes. No sidechain
+    duck for these lanes (owner 2026-09-16: skip it, revisit if it
+    sounds muddy) — that falls out for free, since duck() only fires at
+    onsets["kick"] positions and a loop lane's onsets list is left
+    empty rather than faked."""
+    import loop_mode
+    import melodic_loops
+    import sample_library
+    from key_context import KeyContext
+
+    sig = preset.get("signature") or {}
+    srng = random.Random(f"{dj_name}|loopbed|{variant}")
+    want_key = clean_key(key)
+    key_root, mode, _prog = _roll_key(
+        sig, variant,
+        {"force_key": want_key or dirs.get("force_key"), "chord_feel": None},
+        open_roll=False, srng=srng)
+    kctx = KeyContext(key_root, mode)
+
+    drum_pool = sample_library.loops_scored(
+        shots, tags=[t for t, _w in (preset.get("library") or {}).get("tags", [])],
+        bpm=preset.get("bpm"))
+    drum_entry, drum_taste = loop_mode.pick_loop(sig, drum_pool, srng)
+    if drum_entry is None:
+        raise FileNotFoundError(
+            "No drum loops found for a loops-only beat — check the loop "
+            "pool is mounted (drive unplugged?).")
+    mel_pool = melodic_loops.in_key_scored(melodic_loops.scan(), kctx,
+                                           bpm=preset.get("bpm"))
+    mel_entry, mel_taste = loop_mode.pick_loop(sig, mel_pool, srng)
+    if mel_entry is None:
+        raise FileNotFoundError(
+            "No melodic loops found for a loops-only beat — check the "
+            "loop pool is mounted (drive unplugged?).")
+
+    drum_x = load_audio(drum_entry["path"])
+    mel_x = load_audio(mel_entry["path"])
+    if drum_x is None or not len(drum_x):
+        raise FileNotFoundError(f"Couldn't read {drum_entry['path']}")
+    if mel_x is None or not len(mel_x):
+        raise FileNotFoundError(f"Couldn't read {mel_entry['path']}")
+    drum_mono = drum_x.mean(axis=1)
+    mL, mR = mel_x[:, 0].copy(), mel_x[:, 1].copy()
+    if mel_entry.get("key"):
+        src_key = KeyContext(mel_entry["key"], mel_entry.get("mode") or "major")
+        secs = len(mL) / SR
+        mL = melodic_loops.fit_loop(mL, SR, secs, src_key, kctx)
+        mR = melodic_loops.fit_loop(mR, SR, secs, src_key, kctx)
+    mel_mono = (mL + mR) / 2
+
+    loop_bufs, nbars = loop_mode.match_lengths(
+        {"kick": drum_mono, "chord0": mel_mono}, SR, preset["bpm"],
+        tuple(preset.get("tsig", (4, 4))))
+    sources = {"kick": drum_entry["path"], "chord0": mel_entry["path"]}
+    note = (f"loops only, {nbars} bars in {kctx}: drum loop "
+           f"'{Path(drum_entry['path']).stem}' ({'on-taste' if drum_taste else 'free pick'})"
+           f" + melodic loop '{Path(mel_entry['path']).stem}' "
+           f"({'on-taste' if mel_taste else 'free pick'})")
+    return sources, loop_bufs, nbars, note
+
+
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
-             traditional=False, status=lambda msg: None, key=None):
+             traditional=False, status=lambda msg: None, key=None,
+             loops_only=False):
     """Render one random beat (solo or collab) into names[0]'s folder.
     Returns (path, report_line). Raises on an empty selection.
     traditional=True (a quarter of every 4+ batch, owner rule
     2026-07-21, was half):
     a common, popular hip-hop beat — conventional kick+snare backbone,
     no exotic meter, and a tuned root 808 sub when the 808 flavor rolls
-    (so the sub is present on some but not every traditional beat)."""
+    (so the sub is present on some but not every traditional beat).
+
+    loops_only=True (owner 2026-09-16): the drums and melodic content
+    both come from a picked loop instead of one-shots/synth — see
+    _pick_loop_bed. One DJ at a time for now; a collab raises, since
+    whose loop taste should win hasn't been asked yet."""
     seen = set()                                  # dedupe, KEEP caller order
     names = [n for n in names
              if n in CREW and not (n in seen or seen.add(n))]
     if not names:
         raise ValueError("Check at least one DJ first.")
+    if loops_only and len(names) != 1:
+        raise ValueError("Loops-only beats are one DJ at a time for now.")
     bpm = None
     if tempo:
         bpm = int(round(float(tempo)))
@@ -2785,8 +2844,23 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     rng = random.Random(variant)
     title = fresh_title(names, rng, root)
 
-    status(f"Building the kit for {' x '.join(names)}…")
-    if len(names) == 1:
+    loop_bufs, loop_nbars = None, None
+    if loops_only:
+        status(f"Picking loops for {names[0]}…")
+        sources, loop_bufs, loop_nbars, loop_note = _pick_loop_bed(
+            names[0], preset, dirs, key, shots, variant)
+        kit, spec_used, lane_parent = {}, {}, {}
+        preset = dict(preset)                # don't mutate CREW's shared dict
+        preset["lanes"] = {
+            "kick": (0.0, 1.0, (0.0, 0.0, 0.0, 0), (("x",),)),
+            "chord0": (0.0, 1.0, (0.0, 0.0, 0.0, 0), (("x",),)),
+        }
+        # the one-shot vnotes above (groove seed, kick/snare flavor...)
+        # describe a composition that's about to be thrown away — none
+        # of it plays. Report what actually sounds instead.
+        vnotes = [loop_note]
+    elif len(names) == 1:
+        status(f"Building the kit for {' x '.join(names)}…")
         kit, sources = build_kit(shots, names[0], stamps[names[0]][1],
                                  variant=variant, avoid=avoid,
                                  preset=preset)
@@ -2797,6 +2871,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                      if ln != "stamp"}
         lane_parent = {ln: names[0] for ln in spec_used}
     else:
+        status(f"Building the kit for {' x '.join(names)}…")
         kit, sources, spec_used = collab_kit(shots, names, preset, stamps,
                                              variant, avoid)
         lane_parent = dict(preset["lane_parent"])
@@ -2836,49 +2911,57 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # docstring for why regenerating, not reusing the rendered stem.
     # the beat's ONE low sound, decided before the chords so the strings
     # know whether their basses may play (owner hard rule 2026-09-14)
-    low = _low_voice(preset, variant, dirs, traditional, names[0], shots)
-    midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
-                                              dirs, vnotes,
-                                              allow_basses=low is None)
+    if loops_only:
+        # a loop IS the melodic/rhythmic content — no synthesized chord
+        # lane, no sampled bass/vocal lanes, no root 808 (there's no
+        # "kick" one-shot for it to mirror). sources/spec_used/lane_parent
+        # were already set to the two loop files above.
+        low, midi_chords, harmony_info = None, None, None
+    else:
+        low = _low_voice(preset, variant, dirs, traditional, names[0], shots)
+        midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
+                                                  dirs, vnotes,
+                                                  allow_basses=low is None)
 
-    # ...and NOW the tuned root 808, moved below _build_chords so that on a
-    # chords beat it can be tuned to THAT BEAT'S KEY rather than skipped.
-    # Which of those two happens is ROOT_808_WITH_CHORDS, and with the flag
-    # off this is byte-identical to the old position: _build_chords returns
-    # immediately when there are no chords, and the sub's dice are their own
-    # seeded generators, so nothing upstream shifts by moving the call.
-    if low == "sub":
-        root_note = _add_root_sub(
-            preset, kit, sources, variant, vnotes,
-            harmony_info=harmony_info if ROOT_808_WITH_CHORDS else None,
-            traditional=traditional, dj=names[0], decided=True)
+        # ...and NOW the tuned root 808, moved below _build_chords so that on a
+        # chords beat it can be tuned to THAT BEAT'S KEY rather than skipped.
+        # Which of those two happens is ROOT_808_WITH_CHORDS, and with the flag
+        # off this is byte-identical to the old position: _build_chords returns
+        # immediately when there are no chords, and the sub's dice are their own
+        # seeded generators, so nothing upstream shifts by moving the call.
+        if low == "sub":
+            root_note = _add_root_sub(
+                preset, kit, sources, variant, vnotes,
+                harmony_info=harmony_info if ROOT_808_WITH_CHORDS else None,
+                traditional=traditional, dj=names[0], decided=True)
 
-    # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
-    # here, after the chord lanes so bass can defer to the harmony bass on a
-    # 'chords' beat.
-    _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
-                      key_root=(harmony_info or {}).get("root"), low=low)
-    _refuse_second_low(preset, kit, sources, vnotes)
+        # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
+        # here, after the chord lanes so bass can defer to the harmony bass on a
+        # 'chords' beat.
+        _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
+                          key_root=(harmony_info or {}).get("root"), low=low)
+        _refuse_second_low(preset, kit, sources, vnotes)
 
-    # bug found 2026-07-23 (owner: "a vocal sound... doesn't show up in the
-    # stems but is present in the song"): spec_used/lane_parent were snapshot
-    # right after build_kit, BEFORE the root sub, chords, and this phase-2
-    # code ever run — so a real sample lane added after that point (bass,
-    # vox) played correctly in the render but was invisible to the recipe
-    # (kit_spec), and everything downstream that reads it: the app's
-    # stems/swap list (_beat_stems), kit_paths, and the anti-repeat history.
-    # The audio was real; the bookkeeping just never caught up. Refresh both
-    # here, now that every lane that will ever touch preset["kit"] has run.
-    spec_used.update({ln: (r, m, w, _resolve_secs(s, preset["num"], variant))
-                      for ln, (r, m, w, s) in preset["kit"].items()
-                      if ln not in spec_used and ln != "stamp"})
-    lane_parent.update({ln: names[0] for ln in spec_used
-                        if ln not in lane_parent})
+        # bug found 2026-07-23 (owner: "a vocal sound... doesn't show up in the
+        # stems but is present in the song"): spec_used/lane_parent were snapshot
+        # right after build_kit, BEFORE the root sub, chords, and this phase-2
+        # code ever run — so a real sample lane added after that point (bass,
+        # vox) played correctly in the render but was invisible to the recipe
+        # (kit_spec), and everything downstream that reads it: the app's
+        # stems/swap list (_beat_stems), kit_paths, and the anti-repeat history.
+        # The audio was real; the bookkeeping just never caught up. Refresh both
+        # here, now that every lane that will ever touch preset["kit"] has run.
+        spec_used.update({ln: (r, m, w, _resolve_secs(s, preset["num"], variant))
+                          for ln, (r, m, w, s) in preset["kit"].items()
+                          if ln not in spec_used and ln != "stamp"})
+        lane_parent.update({ln: names[0] for ln in spec_used
+                            if ln not in lane_parent})
 
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
-    nbars = bars_of(preset)
-    L, R, lufs, parts = render_crew_beat(names[0], kit, space=space,
-                                         preset=preset, want_parts=True)
+    nbars = loop_nbars if loops_only else bars_of(preset)
+    L, R, lufs, parts = render_crew_beat(
+        names[0], kit, space=space, preset=preset, want_parts=True,
+        loop_bufs=loop_bufs, nbars_override=(loop_nbars if loops_only else None))
 
     def bar_swing(L, R):
         # floor at -30 dB: below that is silence to the ear, and counting
@@ -2949,7 +3032,9 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         "file": fname, "folder": names[0], "names": names, "title": title,
         "variant": variant, "bpm": preset["bpm"], "space": space,
         "preset": _shareable_preset(preset), "kit_spec": spec_used,
-        "kit_paths": {ln: sources[ln] for ln in spec_used},
+        "kit_paths": (dict(sources) if loops_only
+                     else {ln: sources[ln] for ln in spec_used}),
+        "loops_only": loops_only,
         "stamp_paths": stamp_paths, "stamp_secs": stamp_secs,
         "root_note": root_note, "traditional": traditional,
         "dj_cut_bar": cut_bar, "parent": None, "date": str(date.today()),
@@ -2971,7 +3056,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     tn, td = preset.get("tsig", (4, 4))
     dur = len(L) / SR
-    want = bars_of(preset) * tn * (4.0 / td) * 60.0 / preset["bpm"]
+    want = nbars * tn * (4.0 / td) * 60.0 / preset["bpm"]
     rms = 20 * np.log10(np.sqrt(0.5 * (L ** 2 + R ** 2).mean()) + 1e-12)
     vnotes.append(f"bar swing {swing:.1f} dB")
     from groove import OWNER_TASTE
@@ -3308,20 +3393,6 @@ def beat_items(no, root=None):
 def beat_wav(no, root=None):
     for p in beat_items(no, root):
         if p.suffix == ".wav":
-            return p
-    return None
-
-
-def loop_wav(no, kind):
-    """Resolve a Loops-page NUMBER to its file, same idea as beat_wav()
-    but scoped to LOOPS_MELODIC_ROOT/LOOPS_DRUM_ROOT (own counter, own
-    folders — see next_loop_number)."""
-    root = LOOPS_MELODIC_ROOT if kind == "melodic" else LOOPS_DRUM_ROOT
-    if not root.exists():
-        return None
-    for p in root.rglob("*.wav"):
-        m = re.match(r"(\d+) ", p.name)
-        if m and int(m.group(1)) == int(no):
             return p
     return None
 
@@ -4410,168 +4481,6 @@ CHORD_VOICE_NAMES = {
 }
 
 
-def _loop_export_one(dj_name, kind, rng=None, shots=None, chop=False):
-    """Pick one loop for `dj_name`, color it through their own mix chain,
-    write it to disk under the Loops page's own root/numbering, and
-    return the card the page shows. kind is 'melodic' or 'drum'.
-    LOOPS-MODE-GAP-ANALYSIS.md Part 4 steps 3-5.
-
-    Reuses _roll_key (same harmonic dice _build_chords rolls, so a DJ's
-    key taste shows up here too) and loop_mode.apply_dj_finish (the same
-    mix-fingerprint functions render_crew_beat applies to a full beat).
-    Nothing here touches _pin_bars_for_loop_voice or PREFER_MAX_SHIFT —
-    those fit a pick into a chord SLOT, and a bare loop has none (Part 4a).
-
-    chop=True (melodic only, owner 2026-09-16 — default is the whole
-    loop, this is the optional toggle): slices the picked, pitch-fit loop
-    into its individual note/chord hits via melodic_loops.chop_onsets
-    (Part 6 — the same slicer a chord slot uses, borrowed here as-is, not
-    reworked) and keeps one hit. chop_onsets collapses to mono; the
-    single clip is duplicated to both channels rather than pretending a
-    stereo image survives a mono chop.
-    """
-    import loop_mode
-    from key_context import KeyContext
-    if dj_name not in CREW:
-        raise ValueError(f"No DJ named {dj_name!r}.")
-    if kind not in ("melodic", "drum"):
-        raise ValueError(f"kind must be 'melodic' or 'drum', got {kind!r}")
-    preset = CREW[dj_name]
-    sig = preset.get("signature") or {}
-    rng = rng or random.Random()
-    variant = rng.randrange(1_000_000)
-    srng = random.Random(f"{dj_name}|loop|{variant}")
-    key_root, mode, _prog = _roll_key(
-        sig, variant, {"force_key": None, "chord_feel": None},
-        open_roll=False, srng=srng)
-    key = KeyContext(key_root, mode)
-
-    if kind == "melodic":
-        import melodic_loops
-        pool = melodic_loops.in_key_scored(melodic_loops.scan(), key,
-                                           bpm=preset.get("bpm"))
-        root = LOOPS_MELODIC_ROOT
-    else:
-        import sample_library
-        # shots is passed in by the caller, same convention
-        # _preview_render(query, q, shots=None, root=None) already uses —
-        # locking the shared _CACHE is the caller's job, not this
-        # function's (do_GET's /loops/batch route already holds `lock`
-        # around this whole call; taking it again here on a plain
-        # threading.Lock would deadlock).
-        if shots is None:
-            shots = build_shots()
-        tags = [t for t, _w in (preset.get("library") or {}).get("tags", [])]
-        pool = sample_library.loops_scored(shots, tags=tags,
-                                           bpm=preset.get("bpm"))
-        root = LOOPS_DRUM_ROOT
-
-    entry, on_taste = loop_mode.pick_loop(sig, pool, srng)
-    if entry is None:
-        raise FileNotFoundError(
-            f"No {kind} loops found for {dj_name} — check the loop pool "
-            "roots are mounted (drive unplugged?).")
-
-    x = load_audio(entry["path"])
-    if x is None or not len(x):
-        raise FileNotFoundError(f"Couldn't read {entry['path']}")
-    L, R = x[:, 0].copy(), x[:, 1].copy()
-    if kind == "melodic" and entry.get("key"):
-        src_key = KeyContext(entry["key"], entry.get("mode") or "major")
-        secs = len(L) / SR
-        L = melodic_loops.fit_loop(L, SR, secs, src_key, key)
-        R = melodic_loops.fit_loop(R, SR, secs, src_key, key)
-    chop = bool(chop) and kind == "melodic"
-    if chop:
-        clips = melodic_loops.chop_onsets(np.stack([L, R], axis=1), SR)
-        if clips:
-            clip = clips[srng.randrange(len(clips))]
-            L, R = clip, clip.copy()
-        else:
-            chop = False          # nothing to chop; fall back to the whole loop
-    L, R = loop_mode.apply_dj_finish(L, R, preset,
-                                     seed=preset["num"] * 97 + variant)
-
-    root.mkdir(parents=True, exist_ok=True)
-    no = next_loop_number(root)
-    bpm = entry.get("bpm") or preset.get("bpm")
-    title = Path(entry["path"]).stem
-    kind_word = "Chop Loop" if chop else "Loop"
-    fname = f"{no} {dj_name} {title} {kind_word} {bpm}bpm.wav"
-    (root / fname).write_bytes(wav24_bytes(L, R))
-    save_loop_recipe(root, no, {
-        "dj": dj_name, "kind": kind, "source": entry["path"],
-        "key": key.root, "mode": key.mode, "bpm": bpm,
-        "taste_pick": on_taste, "chopped": chop,
-    })
-    return {"no": no, "dj": dj_name, "kind": kind, "title": title,
-           "file": fname, "taste_pick": on_taste, "chopped": chop,
-           "url": f"/loops/audio?no={no}&kind={kind}"}
-
-
-def _loops_page():
-    """Minimal standalone page — LOOPS-MODE-GAP-ANALYSIS.md Part 0 scopes
-    this to "cards you can click and download," no UI polish beyond that.
-    Its own template, not _PAGE/_dj_card (those are the beat-builder's
-    checkbox-rack per-DJ card, the wrong shape for "pick a DJ + kind, get
-    a loop"). Owner 2026-09-16: its own screen, not a beat-builder tab."""
-    options = "".join(f'<option value="{n}">{n}</option>' for n in ORDER)
-    return f"""<!doctype html><html><head><meta charset="utf-8">
-<title>Homeroom Studio — Loops</title>
-<style>
-body{{font-family:-apple-system,sans-serif;background:#111;color:#eee;
-     max-width:640px;margin:2rem auto;padding:0 1rem}}
-h1{{font-weight:600}}
-select,button{{font-size:1rem;padding:.4rem .6rem;margin:.25rem .5rem .25rem 0}}
-.card{{border:1px solid #333;border-radius:8px;padding:1rem;margin:1rem 0}}
-.card b{{display:block;margin-bottom:.3rem}}
-.err{{color:#f77}}
-audio{{width:100%;margin:.5rem 0}}
-a{{color:#8cf}}
-nav a, nav span{{margin-right:.75rem;text-decoration:none;color:#8cf}}
-nav .here{{color:#eee;font-weight:600}}
-</style></head><body>
-<nav><a href="/">Make</a> <span class="here">Loops</span>
-  <a href="http://localhost:8765">Studio</a></nav>
-<h1>Loops</h1>
-<p>Same DJs, same personalities — one usable loop instead of a full beat.</p>
-<div>
-  <select id="dj">{options}</select>
-  <select id="kind"><option value="melodic">Melodic</option>
-    <option value="drum">Drum</option></select>
-  <label><input type="checkbox" id="chop"> chop (melodic only)</label>
-  <button onclick="getLoop()">Get a loop</button>
-</div>
-<div id="cards"></div>
-<script>
-async function getLoop() {{
-  const dj = document.getElementById('dj').value;
-  const kind = document.getElementById('kind').value;
-  const chop = document.getElementById('chop').checked ? '1' : '0';
-  const cards = document.getElementById('cards');
-  const box = document.createElement('div');
-  box.className = 'card';
-  box.textContent = 'picking...';
-  cards.prepend(box);
-  try {{
-    const r = await fetch(`/loops/batch?dj=${{encodeURIComponent(dj)}}&kind=${{kind}}&chop=${{chop}}`);
-    const data = await r.json();
-    if (!data.ok) throw new Error(data.error || 'failed');
-    const c = data.loops[0];
-    box.innerHTML = `<b>#${{c.no}} ${{c.dj}} — ${{c.title}}</b>` +
-      (c.taste_pick ? 'on-taste pick' : 'free pick') +
-      (c.chopped ? ', chopped' : '') +
-      `<audio controls src="${{c.url}}"></audio>` +
-      `<a href="${{c.url}}" download>${{c.file}}</a>`;
-  }} catch (e) {{
-    box.className = 'card err';
-    box.textContent = 'Error: ' + e.message;
-  }}
-}}
-</script>
-</body></html>"""
-
-
 def _best_folder(idx, groups, notes):
     """The entries of ONE folder inside `groups` that can reach every one
     of `notes` within MAX_SHIFT — or None if no single folder can.
@@ -5133,7 +5042,6 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <div class="board">
 <nav class="apptabs">
   <span class="here" title="You're here — making beats">Make</span>
-  <a href="/loops" title="Same DJs, one usable loop instead of a full beat.">Loops</a>
   <a href="http://localhost:8765"
      title="The studio half — recipes, patches, Reason. Same launcher starts it.">Studio</a>
 </nav>
@@ -5190,6 +5098,9 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
     <div class="field"><label>Directions</label>
       <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
       <div class="hint">used for this click and saved in the README</div></div>
+    <div class="field"><label>&nbsp;</label>
+      <label><input type="checkbox" id="loopsonly"> Loops only</label>
+      <div class="hint">whole beat built from loop material instead of one-shots</div></div>
   </div>
   <div class="fields refrow">
     <div class="field"><label>Key</label>
@@ -6036,7 +5947,8 @@ __BREAKS__
        body: JSON.stringify({ names: order,
          tempo: tempoBox.value.trim(),
          key: keyroot.value ? keyroot.value + ' ' + keymode.value : '',
-         count, notes: document.getElementById('notes').value }) });
+         count, notes: document.getElementById('notes').value,
+         loops_only: document.getElementById('loopsonly').checked }) });
      const d = await r.json();
      if (d.ok) { done(); await loadBatch(); }
      else failed(d.error);
@@ -6415,34 +6327,6 @@ def run_web(port=None):
                 except Exception:
                     ok = False
                 self._wav(Path(want) if ok else None)
-            elif u.path == "/loops":
-                self._send(200, "text/html; charset=utf-8",
-                           _loops_page().encode("utf-8"))
-            elif u.path == "/loops/batch":
-                q = parse_qs(u.query)
-                try:
-                    dj = q.get("dj", [""])[0]
-                    kind = q.get("kind", ["melodic"])[0]
-                    chop = q.get("chop", ["0"])[0] in ("1", "true")
-                    n = max(1, min(int(q.get("n", ["1"])[0] or 1), 8))
-                    with lock:
-                        if "shots" not in _CACHE:
-                            _CACHE["shots"] = build_shots()
-                        shots = _CACHE["shots"]
-                    cards = [_loop_export_one(dj, kind, shots=shots, chop=chop)
-                            for _ in range(n)]
-                    self._json({"ok": True, "loops": cards})
-                except Exception as e:
-                    self._json({"ok": False, "error": str(e), "loops": []})
-            elif u.path == "/loops/audio":
-                q = parse_qs(u.query)
-                no = q.get("no", [""])[0]
-                kind = q.get("kind", [""])[0]
-                w = loop_wav(no, kind) if str(no).isdigit() else None
-                if not w or not w.exists():
-                    self._send(404, "text/plain", b"not found")
-                    return
-                self._media(w.read_bytes())
             else:
                 self._send(404, "text/plain", b"not found")
 
@@ -6671,6 +6555,7 @@ def run_web(port=None):
             tempo = data.get("tempo") or None
             key = data.get("key") or None
             notes = data.get("notes", "")
+            loops_only = bool(data.get("loops_only"))
             try:
                 how_many = max(1, min(10, int(data.get("count") or 1)))
             except (TypeError, ValueError):
@@ -6685,7 +6570,8 @@ def run_web(port=None):
                         path, report = generate(names, tempo, notes,
                                                 traditional=flags[i],
                                                 shots=_CACHE["shots"],
-                                                key=key)
+                                                key=key,
+                                                loops_only=loops_only)
                         results.append(report)
                         made.append(int(path.name.split(" ", 1)[0]))
                         print(" ", report.replace("\n", " "))

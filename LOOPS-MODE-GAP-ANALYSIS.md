@@ -6,15 +6,48 @@ same format, same house rules. Read `CLAUDE.md` and the most recent
 
 ## Part 0 — What this is
 
-A standalone "Loops" page: the same nine-plus DJs (crew + legends), same
-personalities, but instead of composing a full arranged beat, each DJ hands
-you a usable loop — melodic/chord or drum — that you can audition and export
-straight into Reason. **Explicitly not** a mode inside the beat-builder page;
-it's its own screen on the same server (owner decision, 2026-09-16 session).
+**CORRECTED 2026-09-16 (DECISIONS.md, "Loops Mode CORRECTION" entry) —
+the scope below this line was wrong and is kept only as history.** The
+standalone page described here was built, then the owner said it wasn't
+the ask: "I want the loops. Option to make whole beats. using only
+loops." The real feature: a "loops only" checkbox on the **existing Make
+page**, next to the normal DJ picker. Pick a DJ as usual, check the box,
+get back a normal, fully arranged beat (drums + melodic content, the
+same output convention as any other beat — same `NN` counter, same DJ
+folder, same `.recipes/NN.json` shape) built entirely from loop material
+(drum-loop bed + melodic loop(s)) instead of one-shots/synth. Not a
+separate page, not a raw single-loop export.
 
-Out of scope for this doc: time-stretching a drum loop to a target tempo,
-any UI polish beyond "cards you can click and download," and touching
-anything in `remote/` or the Reason Voice half.
+The standalone page's route/page/export code (`/loops`, `/loops/batch`,
+`/loops/audio`, the `Loops` nav tab, `_loops_page()`,
+`_loop_export_one()`, the `Loops - Melodic`/`Loops - Drum` output
+folders) has been **removed** from `tools/beat_machine.py` per the
+owner's "DROP IT." `tools/loop_mode.py` (`pick_loop`,
+`apply_dj_finish`), `melodic_loops.in_key_scored()`, and
+`sample_library.loops_scored()` were kept — they're reusable
+building blocks for the real feature, not the wrong part.
+
+**Still undesigned** (this is the actual next-session work): how a
+drum-loop bed and melodic loop(s) get laid out across a beat's bar
+length and mixed together as one arrangement. Nothing existing does
+this — `compose()`/`render_crew_beat` arrange one-shots on a 16th-note
+grid; there's no "arrange whole loops instead" path. Whether that logic
+belongs inside `beat_machine.py`/`crew.py` calling into
+`loop_mode.py`'s picking functions, or needs a new module, is also
+undecided. `tests/test_loop_mode_boundary.py`'s rule (loop_mode.py never
+touches chord/arrangement slot-fitting modules) should keep guarding
+"picking/coloring a loop stays decoupled," not block this new feature
+from existing — but where the boundary line actually falls needs a
+fresh look once the arrangement design is picked.
+
+Everything below Part 0 in this document describes the **standalone
+page that was scrapped** — Parts 1-3 (existing building blocks) are
+still accurate and reusable, but Parts 4-7 (punch list, naming
+convention, proof steps) describe the wrong deliverable and should not
+be followed as-is for the new feature.
+
+Out of scope, unchanged: time-stretching a drum loop to a target tempo,
+and touching anything in `remote/` or the Reason Voice half.
 
 ## Part 1 — What already exists (more than expected)
 

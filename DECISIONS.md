@@ -134,6 +134,120 @@ entries.
 
 (new entries go below this line, most recent first)
 
+### 2026-09-16 Loops Mode — standalone page dropped, "loops only" built on the Make page
+
+- Context: continuing straight from the CORRECTION entry below in the
+  same day. Owner's next-session list said: drop the standalone page,
+  redraw the scope doc, then design/build the real feature. Same
+  session, no gap.
+- Owner answered three design questions before any code, one after
+  seeing a first render (all via clickable options, not free text):
+  1. Scope: "loops only" replaces BOTH drums and melodic content —
+     nothing one-shot/synth plays alongside a loop.
+  2. Length: loops of different native bar-lengths match by REPEATING
+     the shorter one (his example: a 4-bar loop doubles alongside an
+     8-bar loop) — never cropped, never stretched.
+  3. Mix: the SAME full mix bus every other beat gets (reverb space,
+     mix EQ, glue compression, master, house vinyl bed) — not the
+     lighter standalone-loop chain from the dropped page.
+  4. Sidechain duck: skip it for loop lanes for now and revisit only if
+     a rendered beat sounds muddy. (A loop has no hit-markers the duck
+     code can read directly; detecting them was the alternative,
+     explicitly deferred.)
+- Decision/change:
+  1. Removed the standalone page per his "DROP IT": `/loops`,
+     `/loops/batch`, `/loops/audio` routes, the `Loops` nav tab,
+     `_loops_page()`, `_loop_export_one()`, `next_loop_number()`,
+     `save_loop_recipe()`, `loop_wav()`, `LOOPS_MELODIC_ROOT`/
+     `LOOPS_DRUM_ROOT` — all from `tools/beat_machine.py`. Kept
+     `tools/loop_mode.py` (`pick_loop`, `apply_dj_finish`),
+     `melodic_loops.in_key_scored()`, `sample_library.loops_scored()`
+     per his instruction — reusable building blocks, not the wrong
+     part.
+  2. Redrew `LOOPS-MODE-GAP-ANALYSIS.md` Part 0 to describe the real
+     feature and marked Parts 4-7 (the dropped page's punch list/
+     naming convention) as history, not a spec to follow.
+  3. `tools/loop_mode.py`: added `bars_in()`, `tile_to()`,
+     `match_lengths()` — the length-matching-by-repetition rule (LCM of
+     each clip's own bar count; doubling is just what that looks like
+     for 4-and-8). Pure numpy, no new imports that would trip
+     `tests/test_loop_mode_boundary.py`.
+  4. `tools/crew.py`'s `render_crew_beat()`: added optional
+     `loop_bufs`/`nbars_override` params. A lane named in `loop_bufs`
+     skips the one-shot 16th-grid entirely and plays that buffer
+     verbatim; its onsets/events stay empty on purpose, which is what
+     makes duck() (fires only at `onsets["kick"]`) and gated reverb
+     no-op for that lane for free, with no separate flag needed. Every
+     other lane, and every DJ that doesn't use loops_only, is
+     untouched — this was checked, not assumed (see Verify by).
+  5. `tools/beat_machine.py`: new `_pick_loop_bed()` picks one drum loop
+     + one melodic loop for a DJ on the same weighted taste-roll every
+     DJ already uses, pitch-fits the melodic pick into the beat's
+     rolled key, and calls `match_lengths()`. `generate()` gained a
+     `loops_only` param that branches around `build_kit`/`_build_chords`/
+     `_add_sample_lanes`/root-808 entirely (a loop IS the arrangement,
+     there's nothing for those to add) but reuses everything else
+     unchanged: space/reverb rolling, `render_crew_beat`'s tail,
+     `write_midi` (writes a valid, honestly track-less SMF — no
+     discrete notes to record), `write_stems` (2 real stems: the drum
+     loop, the melodic loop, named from their real source files, same
+     as any other beat), `save_recipe`, the README line. One DJ at a
+     time for now — a collab raises a clear error; whose loop taste
+     should win on a collab hasn't been asked.
+  6. New "Loops only" checkbox on the Make page next to Tempo/How Many/
+     Directions, wired straight through to `generate(loops_only=...)`.
+  7. Fixed a real bug along the way: the beat-length sanity check
+     (`want = bars_of(preset) * ...`) recomputed the OLD bar count
+     instead of using the beat's actual rendered length, which would
+     have flagged every loops-only beat as "CHECK THIS ONE" even when
+     correct. Now uses the same `nbars` the render actually used —
+     fixes it for normal beats too, though they were never wrong there
+     since the two values used to always agree.
+- Reasoning: root-cause reuse throughout — one new module-level
+  primitive (`match_lengths`), one new optional renderer param
+  (`loop_bufs`), one new orchestration branch, not a second parallel
+  beat-generation pipeline. The empty-onsets trick specifically avoids
+  scattering "if loops_only" checks through every downstream mix-bus
+  effect.
+- Verify by: `.venv/bin/python -m pytest tests/ -q` — 1178 passed, 3
+  skipped, SAME 4 pre-existing failures as before this session (all
+  about the 2026-09-16 melodic-bassline reversal above, unrelated —
+  see that entry, still open). New test file
+  `tests/test_loops_only_beat.py` covers `bars_in`/`tile_to`/
+  `match_lengths` and confirms a `loop_bufs` lane plays verbatim with
+  empty onsets. Proof-rendered TWICE for real through the actual
+  running server (`POST /make` with `loops_only: true`, not a script) —
+  first render exposed a real bug (see below), second was clean:
+  beat #2568, Otto Grit, drum loop + melodic loop both on-taste, 1 bar
+  at 85 BPM, file duration matches the bar-length formula exactly
+  (2.82s), peak 0.34 / RMS -14.1 dB (sane range), 3 real stems (kick
+  loop, melodic loop, plus the house vinyl bed lane — confirms the
+  full mix bus really is running on a loop beat, not a lighter chain).
+- Bug found only by rendering, not by reading the diff: the FIRST proof
+  render worked correctly on disk (recipe confirmed real loop files,
+  correct lanes) but the REPORT TEXT was actively misleading — it still
+  printed the discarded one-shot composition's `vnotes` ("kick:
+  clean/short boom+punch; snare: seed:soul...") because those get built
+  BEFORE the loops_only branch runs and nothing overwrote them. Fixed
+  by having `_pick_loop_bed` return a real description (which two
+  loops, on-taste or free-pick, key, bar count) and having `generate()`
+  replace `vnotes` with it for a loops-only beat.
+- Known gaps, not fixed, flagged rather than silently shipped:
+  - No sidechain duck (owner's own call this session — revisit if a
+    rendered batch sounds muddy).
+  - The anti-repeat history (`record_history`) never records loop
+    picks, since `lane_parent` is empty for loop lanes — a DJ can get
+    the same loop again soon. Not asked for; flagging it.
+  - `variety.quick_check`'s "two kick lines within N moves" warning
+    compares the placeholder pattern every loops-only beat shares, so
+    it will likely fire often and means nothing for these beats. Cosmetic,
+    not wrong-sounding, not fixed.
+  - Collab loops-only (two+ DJs) is not implemented — raises a clear
+    error rather than guessing whose taste should drive the pick.
+- Status: open — mechanically verified (tests, real renders, measured
+  audio) but the owner hasn't heard a batch yet. Needs his ear before
+  this counts as done.
+
 ### 2026-09-16 Loops Mode CORRECTION — the built page was not what he wanted
 
 - Context: right after the "built and proof-rendered" session below, in

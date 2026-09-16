@@ -1352,7 +1352,8 @@ def grid_accent(res, s):
 
 
 def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
-                     eq=None, echo=None, chorus=None, phaser=None):
+                     eq=None, echo=None, chorus=None, phaser=None,
+                     loop_bufs=None, nbars_override=None):
     """Render one personality's 8-bar A/B beat. kit maps lane -> mono
     audio. space overrides the house snare treatment ('room'/'dry'/...)
     for era-deviation Alt renders. preset overrides CREW[name] — that's
@@ -1381,7 +1382,25 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     phaser={rate_hz, depth, mix, lanes} -> audio_engine.chorus/phaser,
     lanes being a tuple of lane-name prefixes. Both default to the lanes
     the effect is actually musical on rather than the whole mix, for the
-    same reason the echo does: modulation across the kick smears it."""
+    same reason the echo does: modulation across the kick smears it.
+
+    loop_bufs (owner 2026-09-16, "whole beats using only loops"): an
+    optional {lane: mono np.ndarray} of pre-built, already length-matched
+    loop audio (see loop_mode.match_lengths) that REPLACES the normal
+    16th-grid one-shot sequencing for those lane names only — the lane
+    plays exactly that buffer instead of `kit[lane]` stamped onto a
+    pattern. Its onsets/events lists stay empty, which is deliberate, not
+    an oversight: onset-driven effects downstream (kick sidechain duck,
+    gated reverb, transient shaping) have no discrete hits to key off a
+    continuous loop, so they naturally no-op for that lane rather than
+    needing a separate flag per effect. Amplitude-domain processing
+    (kick_dist, room/plate/hall reverb, mix EQ, glue compression, master)
+    still runs on these lanes exactly as it does for a normal beat —
+    that's the "full mix bus" the owner asked for. Every other lane not
+    named in loop_bufs renders exactly as before. nbars_override lets the
+    caller set the beat's bar count from the picked loops' own lengths
+    instead of bars_of(preset) — a loops-only beat has no pattern to
+    consult for its length."""
     p = preset or CREW[name]
     # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
     # and get them on every render; an explicit keyword still wins, which
@@ -1406,7 +1425,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # three quarter-note beats; 4/4 stays the default four.
     num, den = p.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / bpm
-    nbars = bars_of(p)
+    nbars = nbars_override or bars_of(p)
     end = int(round(nbars * bar_s * SR))
     n = end + int(1.5 * SR)
     # vel_seed (2026-07-17): without it every beat shared one accent
@@ -1471,9 +1490,20 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         percish = any(lane.startswith(s) for s in PERC_LIKE)
         g = gain * (snare_scale() if snarish
                     else perc_scale() if percish else 1.0)
-        snd = kit[lane]
         buf = np.zeros(n)
         ons, evs = [], []
+        if loop_bufs and lane in loop_bufs:
+            # whole-beat-from-loops (owner 2026-09-16): this lane plays
+            # the picked loop itself, not a one-shot stamped on a grid.
+            # onsets/events stay empty on purpose — see the loop_bufs
+            # docstring above for what that does downstream.
+            src = loop_bufs[lane]
+            buf[:min(n, len(src))] = src[:n]
+            bufs[lane] = buf
+            onsets[lane] = ons
+            events[lane] = evs
+            continue
+        snd = kit[lane]
         drops_out = _bd_bar >= 0 \
             and not any(lane.startswith(k) for k in _bd_keep)
         for b in range(nbars):
