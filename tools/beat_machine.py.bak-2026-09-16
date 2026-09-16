@@ -2519,21 +2519,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                       "progression on its own")
         return None, None
 
-    # ---- the bass line: back on (owner 2026-09-16 reversed the
-    # 2026-07-29 hard rule) ----
-    # The melodic bassline (chordbass family, bass0..N) had been off
-    # entirely since 2026-07-29 because he wanted to play it himself in
-    # Reason. Owner 2026-09-16: "allow them" -- the block traces back to
-    # that rule, not a classifier gap, and he wants it back. Restored to
-    # its pre-2026-07-29 behavior: his own bass one-shots (role "bass"
-    # in the melodic index, instrument_sampler.scan_bass()) voice the
-    # bassline one root at a time; per owner rule 2026-07-25, a bass
-    # sample voiced as a full CHORD is still mud, so scan() (used for
-    # the chord lanes above) keeps excluding role=="bass" -- only this
-    # dedicated bass lane uses them. No notes-box opt-out exists yet
-    # (removed along with the rest of the old mechanism in 2026-07-29);
-    # add one if he wants a per-beat "no bass" escape hatch back.
-    bass_idx = instrument_sampler.scan_bass()
+    # ---- the bass line: NEVER rendered (owner hard rule, 2026-07-29) ----
+    # The melodic bassline (chordbass family, bass0..N) is his to play
+    # himself in Reason — not the kick, not the 808 boom under it, just
+    # this one moving/harmonic line. Was previously opt-out via "no bass"
+    # in the notes box; now always off, no notes-box wording can bring it
+    # back. Same effect either way: bass_idx stays None, bass_beds stays
+    # empty, and every bass{i} lane below gets popped rather than filled.
+    bass_idx = None
     bass_beds, bass_files, bcache = {}, {}, {}
     if bass_idx:
         for i, chord, start_bar, dur in slots:
@@ -4528,11 +4521,7 @@ select,button{{font-size:1rem;padding:.4rem .6rem;margin:.25rem .5rem .25rem 0}}
 .err{{color:#f77}}
 audio{{width:100%;margin:.5rem 0}}
 a{{color:#8cf}}
-nav a, nav span{{margin-right:.75rem;text-decoration:none;color:#8cf}}
-nav .here{{color:#eee;font-weight:600}}
 </style></head><body>
-<nav><a href="/">Make</a> <span class="here">Loops</span>
-  <a href="http://localhost:8765">Studio</a></nav>
 <h1>Loops</h1>
 <p>Same DJs, same personalities — one usable loop instead of a full beat.</p>
 <div>
@@ -5133,7 +5122,6 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <div class="board">
 <nav class="apptabs">
   <span class="here" title="You're here — making beats">Make</span>
-  <a href="/loops" title="Same DJs, one usable loop instead of a full beat.">Loops</a>
   <a href="http://localhost:8765"
      title="The studio half — recipes, patches, Reason. Same launcher starts it.">Studio</a>
 </nav>

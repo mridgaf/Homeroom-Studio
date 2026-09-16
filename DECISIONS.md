@@ -20,6 +20,49 @@ entries.
 
 ## Log
 
+### 2026-09-16 Melodic bassline turned back on (reversed the 2026-07-29 hard rule)
+
+- Context: was running a functional check of the classifier-reachability-
+  audit skill against the real library (BOTC Sorted Instruments) and
+  flagged the "Bass" folder (87 files, 78 unreachable by
+  instrument_sampler.group_of/GROUPS) as a possible classifier gap. Owner
+  corrected the diagnosis: "Long ago I asked for no bass lines... that
+  could be the block for that. Allow them." He was right — it wasn't a
+  classifier gap. `instrument_sampler.scan()` deliberately excludes
+  role=="bass" (2026-07-25: "a bass sample voiced as a full CHORD is
+  mud"), and separately `beat_machine.py`'s `_build_chords` had
+  `bass_idx` hardcoded to `None` since 2026-07-29 ("Hard rule: no
+  melodic bassline, ever" — he wanted to play the bassline himself in
+  Reason). Both were working exactly as designed; the Bass folder was
+  never actually reachable by the melodic-bassline path because that
+  path was switched off entirely, not because the folder was unnamed
+  correctly.
+- Decision/change: `tools/beat_machine.py` `_build_chords` —
+  `bass_idx = None` reverted to `bass_idx = instrument_sampler.scan_bass()`,
+  restoring the pre-2026-07-29 behavior: his own bass one-shots (role
+  "bass" in the melodic index) voice the chordbass lane one root at a
+  time, same as before the hard rule. Comment block rewritten in place
+  to record the reversal and why, same as every other flag flip in this
+  file. No notes-box "no bass" opt-out was restored — that mechanism was
+  removed in 2026-07-29 along with the rest; only the hard off-switch
+  came back on.
+- Reasoning: direct owner instruction, reversing his own earlier hard
+  rule. `scan()` (chords) still excludes role=="bass" on purpose — that
+  part of the reasoning (a bass note stacked into a full chord is mud)
+  was never in question and stays as-is; only the *rendering* of the
+  bassline lane itself changed.
+- Verify by: `python3 -m py_compile tools/beat_machine.py` passed (syntax
+  only — this sandbox can't run the real macOS venv/numpy). NOT verified:
+  the real test suite
+  (`./.venv/bin/python -m pytest tests/test_beat_machine.py -q`) hasn't
+  been run, and no beat has been rendered with this change yet. Run both
+  before trusting it in production — the pytest command he can paste
+  straight in, and a couple of fresh renders will show whether bass0..N
+  lanes are actually coming back with real filenames (check the stem
+  rack, same "provenance" surface from the 2026-07-25 entry).
+- Status: open — mechanical revert done and syntax-checked; owner's ear
+  and the real test suite haven't confirmed it yet.
+
 ### 2026-09-15 MIDI chord packs wired in as a real chord_source
 
 - Context: DECISIONS.md 2026-09-14 had deliberately deferred this ("own
@@ -90,6 +133,145 @@ entries.
   ear — flag for him to confirm or adjust once he's heard a batch.
 
 (new entries go below this line, most recent first)
+
+### 2026-09-16 Loops Mode CORRECTION — the built page was not what he wanted
+
+- Context: right after the "built and proof-rendered" session below, in
+  the same conversation: "There must have been a miscommunication. I want
+  the loops. Option to make whole beats. using only loops."
+- What this means: the standalone "/loops" page built in the entry below
+  — pick a DJ, get back ONE raw loop file to use in Reason — is NOT the
+  ask. He wants an option to build a WHOLE, ARRANGED BEAT (the normal
+  Make-page output: drums + melodic content, sequenced and mixed) but
+  built ENTIRELY out of loop material instead of one-shots/synth. This is
+  a different feature from LOOPS-MODE-GAP-ANALYSIS.md's Part 0, which
+  explicitly scoped the opposite: "Explicitly not a mode inside the
+  beat-builder page." That scoping was wrong, or the doc was scoped
+  before this requirement was clear — either way, the doc's Part 0
+  boundary needs to be redrawn before more code gets written against it.
+- Owner answered both open questions (same conversation, right after this
+  was logged):
+  1. Lives on the EXISTING Make page — a new "loops only" option next to
+     the normal DJ picker, not a separate page/mode. Pick a DJ as usual,
+     check the option, get back a full arranged beat built from loop
+     material instead of one-shots.
+  2. The standalone "/loops" page (entry below) was NOT the ask — DROP
+     IT. Remove the `/loops`, `/loops/batch`, `/loops/audio` routes, the
+     `Loops` nav tab, `_loops_page()`, `_loop_export_one()`, and the
+     `Loops - Melodic`/`Loops - Drum` output folders/convention. Keep
+     `tools/loop_mode.py` (`pick_loop`, `apply_dj_finish`), `melodic_
+     loops.in_key_scored()`, and `sample_library.loops_scored()` — those
+     are reusable building blocks for the real ask, not the wrong part.
+- Status: open — he said he'll continue this in a NEW session; nothing
+  further built in this one after the answers landed. NEXT SESSION should
+  (a) remove the standalone-page code per point 2 above, (b) redraw
+  LOOPS-MODE-GAP-ANALYSIS.md's Part 0 around "loops-only" being an option
+  ON THE EXISTING BEAT-ARRANGEMENT PATH, not a separate page, and (c)
+  design how a drum-loop bed + melodic loop(s) get laid out across a
+  beat's bar length and mixed together as a real arrangement — this is
+  new work, nothing existing does it (compose()/render_crew_beat arrange
+  one-shots on a 16th-note grid; there's no "arrange whole loops instead"
+  path yet). That also means tests/test_loop_mode_boundary.py's rule
+  (loop_mode.py never touches the chord/arrangement slot-fitting modules)
+  needs a fresh look: this new work IS arrangement, on purpose, so it may
+  belong in beat_machine.py/crew.py calling INTO loop_mode.py's picking
+  functions, rather than inside loop_mode.py itself — the boundary test
+  should keep guarding "picking/coloring a loop stays decoupled," not
+  block the new feature from existing.
+- What's still true and reusable regardless of the answer: the scored,
+  non-excluding lookups (melodic_loops.in_key_scored,
+  sample_library.loops_scored), pick_loop()'s weighted-roll-then-wide-
+  open mechanic, and loop_mode.apply_dj_finish() (the per-DJ mix chain
+  reuse) are all still exactly the right building blocks for "assemble a
+  beat from loop material" — they just need to be called from inside a
+  beat-arrangement path instead of (or in addition to) a standalone
+  export. The NEW piece a whole-beats-from-loops mode needs that doesn't
+  exist yet: something that lays multiple loop picks (a drum loop bed +
+  melodic loop(s)) out across the beat's bar length and mixes them
+  together as a beat, which is arrangement work the boundary test
+  (tests/test_loop_mode_boundary.py) correctly keeps loop_mode.py away
+  from today — that boundary may need to move, or this new logic may need
+  to live in beat_machine.py/crew.py instead, once the design is settled.
+
+### 2026-09-16 Loops Mode — built and proof-rendered (Part 4, steps 0-7)
+
+- Context: same-day follow-on to the design session below. Asked to build
+  LOOPS-MODE-GAP-ANALYSIS.md's Part 4 punch list in order, starting with
+  step 0 (the boundary test), and to ask before finalizing the naming/
+  output convention Part 5 explicitly left open.
+- Decision/change:
+  1. Step 0: `tests/test_loop_mode_boundary.py` — static AST check that
+     `tools/loop_mode.py` never references `_pin_bars_for_loop_voice`/
+     `PREFER_MAX_SHIFT` and never imports `chord_synth`/
+     `instrument_sampler`/`harmony`. Written and run red (module didn't
+     exist yet) before any loop-mode code, stays as a permanent regression
+     guard.
+  2. Step 1: `melodic_loops.in_key_scored()` and
+     `sample_library.loops_scored()` — scored, non-excluding lookups.
+     `in_key_scored` mirrors `in_key`'s tier/dist logic exactly. The
+     `_loops` bucket carries no key/mode (only `tonal`/`bpm`/`tokens`) —
+     the gap doc assumed the same shape as melodic_loops, so
+     `loops_scored` scores on tag overlap + bpm instead; `in_key`/
+     `loops_scored`'s sibling `in_key` stay untouched, full-beat
+     generation's hard filter is unchanged.
+  3. Step 2: `tools/loop_mode.py` (new) — `pick_loop(dj_signature, pool,
+     rng)`, weighted-roll-then-wide-open per the owner's rule (default
+     p=0.5, on-taste is a lean via `fit_score` weighting, off-taste is a
+     uniform pick from the WHOLE pool). Returns `(entry, on_taste)` so the
+     sidecar can record which happened.
+  4. Steps 3/4: `loop_mode.apply_dj_finish()` reuses the SAME functions
+     `render_crew_beat` applies to a full beat's mix bus (`vinyl_bed` ->
+     `wow_flutter` -> `sat_unity` -> `sp1200` -> `eq3` -> `glue_compress`
+     -> `master`, same order) — not a second DSP chain. Wired into
+     `beat_machine._loop_export_one()`, which also reuses `_roll_key` so
+     a DJ's key taste shows up on the Loops page too.
+  5. Step 5: three new routes on the *existing* server (port 8770):
+     `GET /loops` (page), `/loops/batch?dj=&kind=&chop=` (JSON), `/loops/
+     audio?no=&kind=` (file). Page is intentionally minimal per Part 0's
+     own scope note ("cards you can click and download," not UI polish).
+  6. Step 6 naming, confirmed by him before building the file-writing
+     path (all 4 recommended options taken): split `Loops - Melodic` /
+     `Loops - Drum` folders (siblings of the beats ROOT), small sidecar
+     (`.recipes/NN.json` under each loop root — dj/kind/source/key/bpm/
+     taste_pick/chopped, not the full beat-recipe shape), own NN counter
+     (`next_loop_number`, separate from beats' `next_number`), whole loop
+     by default with a `chop` toggle (reuses `melodic_loops.chop_onsets`
+     as-is — it collapses to mono, so a chopped pick duplicates that one
+     channel to both rather than faking stereo).
+  7. Step 7 proof: actually rendered (not just asserted) one melodic loop
+     and one drum loop from two different DJs, plus forced p=0/p=1 runs
+     (10 each) to confirm the taste-vs-free split is real, plus one
+     chopped melodic pick. All landed on `/Volumes/TBOTC 3`, real audio
+     (peaks ~0.94, non-zero RMS, not silent/clipped), correct sidecars.
+- Reasoning: root-cause reuse throughout, not new parallel logic — the
+  mix-fingerprint chain, the key roll, and the tier/dist scoring are all
+  the SAME functions full-beat generation already uses, just called
+  without the arrangement machinery around them. Boundary test written
+  first (and kept) so that reuse can never quietly grow into a real
+  coupling later.
+- Verify by: `tests/test_loop_mode_boundary.py` +
+  `tests/test_melodic_loops.py` + `tests/test_beat_machine.py` — 93/93
+  passed after the full wiring landed. Full suite run once, before any
+  rendering (hard rule): 1178 passed, 1 pre-existing unrelated failure
+  (`test_real_beats_are_not_mono_or_silent` — a different, older beat;
+  same failure already logged 2026-09-15, confirmed unrelated to this
+  session's changes). Proof renders listed above, verified by loading the
+  actual output files back and checking peak/RMS, not by reading the code.
+- A real bug was found and fixed only by actually rendering, not by
+  reading the diff: the drum-loop path reached for a `threading.Lock`
+  (`lock`) that only exists inside `run_web()`'s closure — a `NameError`
+  standalone, and a DEADLOCK in the live server (the `/loops/batch` route
+  already holds that same lock around the whole call). Fixed by having
+  `_loop_export_one` take `shots` as a parameter instead, matching the
+  existing `_preview_render(query, q, shots=None, root=None)` convention
+  — the caller owns the lock, the worker doesn't reach for one.
+- Status: confirmed — boundary test, unit-level scoring/picking, and two
+  real end-to-end exports (plus the chop toggle) all verified by running
+  them. NOT yet verified: he hasn't heard a loop batch by ear, and the
+  page itself hasn't been clicked through in a browser (only exercised
+  via direct Python calls and the HTTP route code, not a live request).
+  Nothing committed — his call, per house rule.
+- Outcome: (fill in once he's opened /loops and listened)
 
 ### 2026-09-16 Loops Mode — design session, planning only (no code changed)
 
