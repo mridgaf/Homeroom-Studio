@@ -232,16 +232,75 @@ entries.
   by having `_pick_loop_bed` return a real description (which two
   loops, on-taste or free-pick, key, bar count) and having `generate()`
   replace `vnotes` with it for a loops-only beat.
+- Second bug, caught by re-running `variety.quick_check` directly
+  against the two real proof beats rather than trusting the report
+  text: it flagged "two kick lines within 0 moves of each other" on
+  every loops-only beat, because `_kick_bars()` reads the recipe's
+  saved kick-lane PATTERN, and every loops-only beat shares the
+  identical placeholder pattern (there's no real one-shot composition
+  to compare — the sound is a picked loop). Fixed in `tools/variety.py`:
+  `_kick_bars()` now returns `None` for any recipe with `loops_only:
+  true`, so those beats are skipped from the kick-pattern comparison
+  entirely rather than compared against a pattern that was never
+  composed. Covered by a new test
+  (`test_variety_check_ignores_the_loops_only_placeholder_pattern`);
+  confirmed against the real recipes for beats #2567/#2568 — flags are
+  empty now. All 40 `variety` tests plus the full suite still pass.
+- Third bug, the serious one, caught by the project's OWN test suite
+  (`test_real_beats_are_not_mono_or_silent`) on a scheduled full-suite
+  re-run, not by ear: beat #2567 itself measured -28.4 dB side/mid
+  ("came out mono"), because its two loop lanes were panned dead center
+  with no other width source, and the space roll that beat happened to
+  get ("dry") applies zero reverb-based stereo treatment to anything.
+  A normal beat never shows this because a dozen panned/naturally-
+  stereo one-shot lanes carry width regardless of the space roll; a
+  2-lane loop beat has nothing else to lean on. "Gated" space has the
+  same failure mode for a different reason: `gated_reverb()` gates on
+  onsets, a loop lane's onsets list is intentionally empty (see the
+  duck-skip decision above), so it silently produces zero wet signal.
+  Fixed properly, not patched around the symptom: `render_crew_beat`'s
+  `loop_bufs` contract changed from a mono buffer per lane to a real
+  stereo `(L, R)` pair; the function now derives the lane's mono fold
+  AND its side (width) signal directly from the loop's own audio and
+  feeds the side signal into `wet_side` — the exact mechanism the
+  room/plate reverb branch already uses to carry decorrelated width,
+  just sourced from the loop's real image instead of a synthesized
+  tail. The reverb-space loop now explicitly skips loop lanes outright
+  (gated/room/plate would either zero out or duplicate width that's
+  already there). `tools/beat_machine.py`'s `_pick_loop_bed` keeps the
+  real L/R through pitch-fitting and tiling instead of folding to mono
+  early. Two tests added:
+  `test_render_crew_beat_loop_lane_keeps_real_stereo_width` (broadband
+  noise, not a low sine — the mix intentionally forces everything under
+  120 Hz mono via `groove.mono_below`, real kick/808 mixing practice,
+  so a low-frequency test signal would fail for the wrong reason) checks
+  both a "dry" and a "gated" roll stay above the -22 dB floor.
+  Re-rendered 3 more real beats after the fix: #2570 (+0.4 dB) and
+  #2571 (+1.5 dB) are comfortably wide; #2569 (-24.8 dB) is STILL under
+  the floor — traced to the source file itself
+  (`77 Bpm_C_UNO_Sub Riser Lo.wav`, measured -25.9 dB side/mid on its
+  own, before any of this session's code runs). That's a genuinely
+  near-mono SUB-BASS sample — physically correct for sub content to
+  have little stereo image, and NOT something to fake width onto (the
+  codebase already refuses to Haas bass content for exactly this
+  phase-cancellation reason). This is a sample-pool/tagging question
+  (should a "Sub Riser" one-shot be eligible as a drum-LOOP pick at
+  all?), not a rendering bug — flagged below as a real, separate gap
+  rather than chased further this session.
 - Known gaps, not fixed, flagged rather than silently shipped:
+  - The drum-loop pool (`sample_library.scan_packs()["_loops"]`) can
+    surface a near-mono sub-bass one-shot (e.g. "Sub Riser") as a
+    loops-only beat's entire rhythm bed, which reads as "mono" on the
+    audio-quality test even though the rendering is correct — the
+    SOURCE has no width to derive. Whether risers/sub one-shots should
+    be excluded from the drum-LOOP role, or the mono floor should be
+    measured on the chord/melodic lane alone for a loops-only beat, is
+    an open design question for the owner, not something to guess at.
   - No sidechain duck (owner's own call this session — revisit if a
     rendered batch sounds muddy).
   - The anti-repeat history (`record_history`) never records loop
     picks, since `lane_parent` is empty for loop lanes — a DJ can get
     the same loop again soon. Not asked for; flagging it.
-  - `variety.quick_check`'s "two kick lines within N moves" warning
-    compares the placeholder pattern every loops-only beat shares, so
-    it will likely fire often and means nothing for these beats. Cosmetic,
-    not wrong-sounding, not fixed.
   - Collab loops-only (two+ DJs) is not implemented — raises a clear
     error rather than guessing whose taste should drive the pick.
 - Status: open — mechanically verified (tests, real renders, measured

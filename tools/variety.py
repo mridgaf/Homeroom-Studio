@@ -117,6 +117,13 @@ def load_recipes(root=ROOT, dj=None, last=12):
 
 
 def _kick_bars(rec):
+    # a loops-only beat's "kick" lane is a placeholder pattern (the real
+    # sound is a picked loop, not a one-shot grid) -- every loops-only
+    # beat shares the identical placeholder, which would falsely read as
+    # "zero moves apart" against any other loops-only beat. Skip it here
+    # rather than comparing patterns that were never composed.
+    if rec.get("loops_only"):
+        return None
     lanes = rec.get("preset", {}).get("lanes", {})
     if "kick" not in lanes:
         return None

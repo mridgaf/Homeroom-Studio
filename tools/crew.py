@@ -1385,22 +1385,35 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     same reason the echo does: modulation across the kick smears it.
 
     loop_bufs (owner 2026-09-16, "whole beats using only loops"): an
-    optional {lane: mono np.ndarray} of pre-built, already length-matched
-    loop audio (see loop_mode.match_lengths) that REPLACES the normal
-    16th-grid one-shot sequencing for those lane names only — the lane
-    plays exactly that buffer instead of `kit[lane]` stamped onto a
-    pattern. Its onsets/events lists stay empty, which is deliberate, not
-    an oversight: onset-driven effects downstream (kick sidechain duck,
-    gated reverb, transient shaping) have no discrete hits to key off a
-    continuous loop, so they naturally no-op for that lane rather than
-    needing a separate flag per effect. Amplitude-domain processing
-    (kick_dist, room/plate/hall reverb, mix EQ, glue compression, master)
-    still runs on these lanes exactly as it does for a normal beat —
-    that's the "full mix bus" the owner asked for. Every other lane not
-    named in loop_bufs renders exactly as before. nbars_override lets the
-    caller set the beat's bar count from the picked loops' own lengths
-    instead of bars_of(preset) — a loops-only beat has no pattern to
-    consult for its length."""
+    optional {lane: (L, R) stereo np.ndarray pair} of pre-built, already
+    length-matched loop audio (see loop_mode.match_lengths + tile_to)
+    that REPLACES the normal 16th-grid one-shot sequencing for those lane
+    names only — the lane plays exactly that loop instead of `kit[lane]`
+    stamped onto a pattern. Its onsets/events lists stay empty, which is
+    deliberate, not an oversight: onset-driven effects downstream (kick
+    sidechain duck, transient shaping, gated reverb) have no discrete
+    hits to key off a continuous loop, so they naturally no-op for that
+    lane rather than needing a separate flag per effect — the reverb-
+    space loop below additionally SKIPS a loop lane outright, since a
+    gated/room/plate tail built from a loop's own buffer would either
+    silently overwrite its width with nothing (gated, empty onsets) or
+    just be redundant (the loop already has real stereo). The stereo
+    pair is split into a mono fold (the dry lane, like every other lane)
+    and a side signal folded straight into wet_side — the SAME mechanism
+    the room/plate reverb branch already uses to carry decorrelated
+    width, just sourced from the loop's own image instead of a
+    convolution tail. This exists because the first proof render came
+    out measurably mono (a pan=0 loop lane with no reverb rolled has no
+    other width source, unlike a normal beat's dozen panned one-shot
+    lanes) — caught by tests/test_audio_quality.py against a real
+    rendered file, not by reading the code. Amplitude-domain processing
+    (kick_dist, mix EQ, glue compression, master) still runs on these
+    lanes exactly as it does for a normal beat — that's the "full mix
+    bus" the owner asked for. Every other lane not named in loop_bufs
+    renders exactly as before. nbars_override lets the caller set the
+    beat's bar count from the picked loops' own lengths instead of
+    bars_of(preset) — a loops-only beat has no pattern to consult for
+    its length."""
     p = preset or CREW[name]
     # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
     # and get them on every render; an explicit keyword still wins, which
@@ -1434,6 +1447,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     wob = np.random.default_rng(p["num"] * 7919
                                 + p.get("vel_seed", 0) * 13)
     bufs, onsets, events = {}, {}, {}
+    loop_side = {}          # real loop stereo width, folded into wet_side below
     # BREAKDOWN (owner 2026-09-03, "fix it now"). Night Metro's signature
     # moment — "bar 5 drops to the 808 alone" — was true of his one
     # prototype and 0 of 12 generated beats, because compose() and
@@ -1497,8 +1511,28 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             # the picked loop itself, not a one-shot stamped on a grid.
             # onsets/events stay empty on purpose — see the loop_bufs
             # docstring above for what that does downstream.
-            src = loop_bufs[lane]
-            buf[:min(n, len(src))] = src[:n]
+            #
+            # BUG (caught by test_real_beats_are_not_mono_or_silent on a
+            # real proof render, not by reading the diff): a loop lane
+            # panned dead center with no reverb decorrelation came out
+            # genuinely mono whenever "dry"/"gated" space rolled (gated
+            # reverb's onset-gated tail is also empty here, same reason
+            # duck is). A normal beat never notices because a dozen other
+            # panned/naturally-stereo one-shot lanes carry width anyway;
+            # a 2-lane loop beat has nothing else to. Fix: loop_bufs
+            # carries the loop's OWN real stereo pair, split into a mono
+            # fold (bufs, same as every other lane) and a side signal
+            # (loop_side, folded into wet_side right after it's created
+            # below) exactly the way the room/plate reverb branch already
+            # derives wet_side from a decorrelated IR — same math, source
+            # is the loop's own image instead of a convolution tail.
+            Lsrc, Rsrc = loop_bufs[lane]
+            mono = (Lsrc + Rsrc) / 2
+            side = (Lsrc - Rsrc) / 2
+            buf[:min(n, len(mono))] = mono[:n]
+            side_buf = np.zeros(n)
+            side_buf[:min(n, len(side))] = side[:n]
+            loop_side[lane] = side_buf
             bufs[lane] = buf
             onsets[lane] = ons
             events[lane] = evs
@@ -1540,6 +1574,11 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     onsets = {k: [x for x in v if x < end] for k, v in onsets.items()}
     events = {k: [(t, v) for t, v in evs if t * SR < end]
               for k, evs in events.items()}
+    # loop_side was built at the same padded length n as bufs (above),
+    # before this fold/trim -- it has to go through the same trim to
+    # end so it matches bufs[lane]'s length wherever it's added into
+    # wet_side further down.
+    loop_side = {k: v[:end] for k, v in loop_side.items()}
 
     # TRANSIENT SHAPING (owner 2026-09-05, Doc Day's new build). A preset
     # may sharpen the attack of named lanes: {"gain": 0.8, "lanes":
@@ -1593,11 +1632,16 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # cheapest real fix. Chord lanes are deliberately NOT panned apart: chord0
     # /1/2 are the progression's chords in SEQUENCE (verified — zero overlap),
     # so panning them would swing the progression across the image.
-    wet_side = {}
+    wet_side = dict(loop_side)   # a loop lane's own stereo image, unconditional
     treated = set()          # the lanes this block ACTUALLY treated
     # a treated lane may have been removed outright (stem rack
-    # 2026-07-21) — treat what's actually here
-    for lane in [ln for ln in p["space"][1] if ln in bufs]:
+    # 2026-07-21) — treat what's actually here. Loop lanes are excluded
+    # on purpose: gated reverb is an onset-triggered hit effect (empty
+    # onsets here would silently overwrite loop_side with zeros — the
+    # bug a real proof render caught), and a continuous loop bed already
+    # carries its own real stereo image, which is more honest than a
+    # synthesized tail computed from it.
+    for lane in [ln for ln in p["space"][1] if ln in bufs and ln not in loop_side]:
         if space == "gated":
             # hold scales to tempo — one 8th note (school 2026-07-15;
             # forums put 80s drama at 300+ ms, which a 90 bpm 8th hits)

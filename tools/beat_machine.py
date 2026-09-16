@@ -2685,18 +2685,32 @@ def _pick_loop_bed(dj_name, preset, dirs, key, shots, variant):
         raise FileNotFoundError(f"Couldn't read {drum_entry['path']}")
     if mel_x is None or not len(mel_x):
         raise FileNotFoundError(f"Couldn't read {mel_entry['path']}")
-    drum_mono = drum_x.mean(axis=1)
+    dL, dR = drum_x[:, 0].copy(), drum_x[:, 1].copy()
     mL, mR = mel_x[:, 0].copy(), mel_x[:, 1].copy()
     if mel_entry.get("key"):
         src_key = KeyContext(mel_entry["key"], mel_entry.get("mode") or "major")
         secs = len(mL) / SR
         mL = melodic_loops.fit_loop(mL, SR, secs, src_key, kctx)
         mR = melodic_loops.fit_loop(mR, SR, secs, src_key, kctx)
-    mel_mono = (mL + mR) / 2
 
-    loop_bufs, nbars = loop_mode.match_lengths(
-        {"kick": drum_mono, "chord0": mel_mono}, SR, preset["bpm"],
-        tuple(preset.get("tsig", (4, 4))))
+    # length-match on a mono fold of each (bar count doesn't care about
+    # channels), then tile the REAL stereo pairs to that same length —
+    # bug found on the first proof render: folding to mono here and
+    # relying on the random reverb roll for width left a "dry"/"gated"
+    # beat genuinely mono, since a 2-lane loop beat has no other stereo
+    # source. render_crew_beat now takes the loop's own L/R and derives
+    # width from it directly (see loop_bufs there), so the real pair has
+    # to survive past this point.
+    tsig = tuple(preset.get("tsig", (4, 4)))
+    _, nbars = loop_mode.match_lengths({"kick": dL, "chord0": mL}, SR,
+                                       preset["bpm"], tsig)
+    num, den = tsig
+    bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
+    target = int(round(nbars * bar_s * SR))
+    loop_bufs = {
+        "kick": (loop_mode.tile_to(dL, target), loop_mode.tile_to(dR, target)),
+        "chord0": (loop_mode.tile_to(mL, target), loop_mode.tile_to(mR, target)),
+    }
     sources = {"kick": drum_entry["path"], "chord0": mel_entry["path"]}
     note = (f"loops only, {nbars} bars in {kctx}: drum loop "
            f"'{Path(drum_entry['path']).stem}' ({'on-taste' if drum_taste else 'free pick'})"
