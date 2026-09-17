@@ -20,6 +20,48 @@ entries.
 
 ## Log
 
+### 2026-09-16 Loops-only beats: FIVE LANES (owner spec, overrides all earlier loops plans)
+
+- Context: closes "NEXT SESSION: loops-only beats need the normal lane types".
+  Owner: "this is the new plan. It overrides all of the old stuff."
+- Spec, every point from his clickable answers:
+  1. Five lanes, one loop each: DRUMS (full drum loop), LEAD (guitar, synth,
+     orchestral, melodies, keys), BASS (bass lines/sub), FX, and LANE 5 =
+     chords/keys, percussion, vocals or a second FX lane, 25% each per beat.
+  2. Piano/organ/pads can appear in Lead AND Chords.
+  3. Risers live in the FX pool, picked less than 10% of the time, both FX lanes.
+  4. FX is sparse: 1-2 hits per 8 bars on random bars (both FX lanes, may overlap).
+  5. No dice anywhere. Each lane is a dropdown grouped by folder; lane 5's
+     list shows only its own category. Beat starts filled: random pick
+     leaning on DJ taste.
+  6. Tempo = the drum loop's own BPM (from the name, else measured from its
+     length). Every other loop is time-stretched to it, pitch unchanged.
+  7. Always 8 bars: longer loops cut, shorter repeat.
+  8. Key: loops are NEVER pitch-shifted. 50% of beats pick lead/bass/chords
+     with the same key label (unlabeled loops still allowed); 50% ignore key.
+     Dropdowns always list everything.
+  9. Picking from a dropdown works like the stem rack: Play previews,
+     Rebuild saves a new numbered beat.
+- ASSUMING (told him, correct any time): Melody / Melody Loops folders feed
+  LEAD; FX only stretched when its name has a BPM, capped at 4 bars; new
+  loops on the drive appear after an app restart (scan cached in memory).
+- Built: tools/loop_lanes.py (pools, tempo, stretch via pedalboard, picks);
+  beat_machine.py _pick_loop_bed/generate/_beat_stems/_lane_candidates/
+  swap_many loops branch; dice + Roll everything hidden on loops beats.
+  Drum lane keeps the name "kick" (mix bus anchors to it).
+- Verify: tests/test_loop_lanes.py (4). Full suite 1185 pass / 5 fail, all
+  pre-existing (4 bass-reversal + beat 2583 mono). Scratch render: 24.0s =
+  8 bars at 80, 5 lanes, same-key Bb minor, fx on bars 3 and 8; swapping the
+  lead via swap_many produced a new beat with the chosen file. Page UI not
+  clicked through in a browser. Not heard by owner.
+- FX fix after his listen ("FX should not repeat on every bar"): an 8s FX
+  placed twice covered 6 of 8 bars. Each hit now cut to 1 bar (50ms fade),
+  1-2 hits, never adjacent bars. 5 scratch beats measured: FX sounds only on
+  planned bars (one 0.08s spill at -21 dB). Key-with-no-mode crash fixed.
+- Owner verdict on the 5-beat audition: "Things are working good".
+- Full suite NOT re-run after the FX change (owner chose render first).
+- Status: confirmed by ear.
+
 ### 2026-09-16 NEXT SESSION: loops-only beats need the normal lane types
 
 - Owner (end of session): "there should be the same lane types that there
@@ -33,7 +75,7 @@ entries.
 - Same session also: launcher now restarts a server running stale code
   (Homeroom Studio.command, restart_if_stale). Verified by opening the .app:
   Beat Machine restarted, "Loops only" box present.
-- Status: open.
+- Status: superseded by the FIVE LANES entry above (owner answered).
 
 ### 2026-09-16 Loops-only drum bed: real drum loops only
 

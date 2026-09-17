@@ -2629,96 +2629,25 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     return midi_chords, harmony_info
 
 
-def _pick_loop_bed(dj_name, preset, dirs, key, shots, variant):
-    """Whole-beat-from-loops (owner 2026-09-16 correction: "I want the
-    loops. Option to make whole beats. using only loops."). Picks ONE
-    drum loop and ONE melodic loop for this DJ, on the same weighted
-    taste-roll every DJ already uses (loop_mode.pick_loop), pitch-fits
-    the melodic pick into the beat's key, and repeats whichever is
-    shorter until both match (loop_mode.match_lengths) rather than
-    stretching or cropping either one.
-
-    Returns (sources, loop_bufs, nbars): `sources` names the two loop
-    files (for the recipe/README/stems, same as a one-shot's source
-    path); `loop_bufs` is {"kick": mono, "chord0": mono} ready for
-    render_crew_beat's loop_bufs override — those two lane names are
-    reused on purpose (not new lane names) so the existing mix bus
-    (kick_dist, reverb space, mix EQ, glue, master) treats them exactly
-    like it would a normal beat's kick and chord lanes. No sidechain
-    duck for these lanes (owner 2026-09-16: skip it, revisit if it
-    sounds muddy) — that falls out for free, since duck() only fires at
-    onsets["kick"] positions and a loop lane's onsets list is left
-    empty rather than faked."""
-    import loop_mode
-    import melodic_loops
-    import sample_library
-    from key_context import KeyContext
-
-    sig = preset.get("signature") or {}
-    srng = random.Random(f"{dj_name}|loopbed|{variant}")
-    want_key = clean_key(key)
-    key_root, mode, _prog = _roll_key(
-        sig, variant,
-        {"force_key": want_key or dirs.get("force_key"), "chord_feel": None},
-        open_roll=False, srng=srng)
-    kctx = KeyContext(key_root, mode)
-
-    # drum loops only (owner 2026-09-16): melodic_loops.scan_drums, not the
-    # old "_loops" bucket, which was mostly risers/subs/FX
-    drum_pool = sample_library.loops_scored(
-        {"_loops": melodic_loops.scan_drums()}, tags=[t for t, _w in (preset.get("library") or {}).get("tags", [])],
-        bpm=preset.get("bpm"))
-    drum_entry, drum_taste = loop_mode.pick_loop(sig, drum_pool, srng)
-    if drum_entry is None:
-        raise FileNotFoundError(
-            "No drum loops found for a loops-only beat — check the loop "
-            "pool is mounted (drive unplugged?).")
-    mel_pool = melodic_loops.in_key_scored(melodic_loops.scan(), kctx,
-                                           bpm=preset.get("bpm"))
-    mel_entry, mel_taste = loop_mode.pick_loop(sig, mel_pool, srng)
-    if mel_entry is None:
-        raise FileNotFoundError(
-            "No melodic loops found for a loops-only beat — check the "
-            "loop pool is mounted (drive unplugged?).")
-
-    drum_x = load_audio(drum_entry["path"])
-    mel_x = load_audio(mel_entry["path"])
-    if drum_x is None or not len(drum_x):
-        raise FileNotFoundError(f"Couldn't read {drum_entry['path']}")
-    if mel_x is None or not len(mel_x):
-        raise FileNotFoundError(f"Couldn't read {mel_entry['path']}")
-    dL, dR = drum_x[:, 0].copy(), drum_x[:, 1].copy()
-    mL, mR = mel_x[:, 0].copy(), mel_x[:, 1].copy()
-    if mel_entry.get("key"):
-        src_key = KeyContext(mel_entry["key"], mel_entry.get("mode") or "major")
-        secs = len(mL) / SR
-        mL = melodic_loops.fit_loop(mL, SR, secs, src_key, kctx)
-        mR = melodic_loops.fit_loop(mR, SR, secs, src_key, kctx)
-
-    # length-match on a mono fold of each (bar count doesn't care about
-    # channels), then tile the REAL stereo pairs to that same length —
-    # bug found on the first proof render: folding to mono here and
-    # relying on the random reverb roll for width left a "dry"/"gated"
-    # beat genuinely mono, since a 2-lane loop beat has no other stereo
-    # source. render_crew_beat now takes the loop's own L/R and derives
-    # width from it directly (see loop_bufs there), so the real pair has
-    # to survive past this point.
-    tsig = tuple(preset.get("tsig", (4, 4)))
-    _, nbars = loop_mode.match_lengths({"kick": dL, "chord0": mL}, SR,
-                                       preset["bpm"], tsig)
-    num, den = tsig
-    bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
-    target = int(round(nbars * bar_s * SR))
-    loop_bufs = {
-        "kick": (loop_mode.tile_to(dL, target), loop_mode.tile_to(dR, target)),
-        "chord0": (loop_mode.tile_to(mL, target), loop_mode.tile_to(mR, target)),
-    }
-    sources = {"kick": drum_entry["path"], "chord0": mel_entry["path"]}
-    note = (f"loops only, {nbars} bars in {kctx}: drum loop "
-           f"'{Path(drum_entry['path']).stem}' ({'on-taste' if drum_taste else 'free pick'})"
-           f" + melodic loop '{Path(mel_entry['path']).stem}' "
-           f"({'on-taste' if mel_taste else 'free pick'})")
-    return sources, loop_bufs, nbars, note
+def _pick_loop_bed(dj_name, preset, variant, state=None):
+    """Loops-only beat, FIVE LANES (owner spec 2026-09-16 — see
+    tools/loop_lanes.py and the DECISIONS.md entry). `state` is a saved
+    recipe's loop_state (a rebuild); None picks a fresh one leaning on
+    this DJ's taste. Returns (state, loop_bufs, nbars, note)."""
+    import loop_lanes
+    if state is None:
+        tags = [t for t, _w in (preset.get("library") or {}).get("tags", [])]
+        state = loop_lanes.pick_state(preset.get("signature") or {}, tags,
+                                      preset.get("bpm") or 90,
+                                      random.Random(f"{dj_name}|loops|{variant}"))
+    bufs = loop_lanes.render_bufs(state, SR)
+    note = "loops only, %d bars at %d BPM (drum loop's tempo), %s: %s" % (
+        loop_lanes.NBARS, state["bpm"],
+        "same key %s" % " ".join(k for k in state["key"] if k) if state["key"]
+        else "keys ignored",
+        "; ".join("%s '%s'" % (loop_lanes.LABELS[ln], Path(p).stem)
+                  for ln, p in state["lanes"].items()))
+    return state, bufs, loop_lanes.NBARS, note
 
 
 def generate(names, tempo=None, notes="", root=ROOT, shots=None,
@@ -2860,20 +2789,20 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     rng = random.Random(variant)
     title = fresh_title(names, rng, root)
 
-    loop_bufs, loop_nbars = None, None
+    loop_bufs, loop_nbars, loop_state = None, None, None
     if loops_only:
         status(f"Picking loops for {names[0]}…")
-        sources, loop_bufs, loop_nbars, loop_note = _pick_loop_bed(
-            names[0], preset, dirs, key, shots, variant)
-        kit, spec_used, lane_parent = {}, {}, {}
+        loop_state, loop_bufs, loop_nbars, loop_note = _pick_loop_bed(
+            names[0], preset, variant)
         preset = dict(preset)                # don't mutate CREW's shared dict
-        preset["lanes"] = {
-            "kick": (0.0, 1.0, (0.0, 0.0, 0.0, 0), (("x",),)),
-            "chord0": (0.0, 1.0, (0.0, 0.0, 0.0, 0), (("x",),)),
-        }
-        # the one-shot vnotes above (groove seed, kick/snare flavor...)
-        # describe a composition that's about to be thrown away — none
-        # of it plays. Report what actually sounds instead.
+        preset["bpm"] = loop_state["bpm"]    # the drum loop sets the tempo
+        sources = dict(loop_state["lanes"])
+        kit, lane_parent = {}, {ln: names[0] for ln in sources}
+        spec_used = {ln: (ln, None, [], 0) for ln in sources}
+        preset["lanes"] = {ln: (0.0, 1.0, (0.0, 0.0, 0.0, 0), (("x",),))
+                           for ln in sources}
+        # the one-shot vnotes above describe a composition that's about
+        # to be thrown away — report what actually sounds instead
         vnotes = [loop_note]
     elif len(names) == 1:
         status(f"Building the kit for {' x '.join(names)}…")
@@ -3051,6 +2980,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         "kit_paths": (dict(sources) if loops_only
                      else {ln: sources[ln] for ln in spec_used}),
         "loops_only": loops_only,
+        "loop_state": loop_state,
         "stamp_paths": stamp_paths, "stamp_secs": stamp_secs,
         "root_note": root_note, "traditional": traditional,
         "dj_cut_bar": cut_bar, "parent": None, "date": str(date.today()),
@@ -3672,115 +3602,141 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         pan, gain, feel, bars = preset["lanes"][lane]
         preset["lanes"][lane] = (pan, gain * 10 ** (db / 20.0), feel, bars)
     names = rec["names"]
-    if shots is None:
-        status("Scanning your sample library…")
-        shots = build_shots()
-
-    avoid = set(p for p in rec["kit_paths"].values() if p)
-    avoid |= set(rec["stamp_paths"].values())
-    avoid |= history_avoid(names)
-
-    kit_paths, fresh, olds = dict(rec["kit_paths"]), {}, {}
-    for lane in drops:
-        kit_paths.pop(lane, None)
-    for lane in sorted(picks):
-        role, must, wants, secs = rec["kit_spec"][lane]
-        olds[lane] = rec["kit_paths"].get(lane)
-        chosen = picks[lane]
-        if chosen:                              # he picked this one himself
-            x = _load_choked(chosen, secs)
-            if x is None:
-                raise RuntimeError(f"{Path(chosen).name} wouldn't load — "
-                                   "pick another one.")
-            new_path = chosen
-        else:                                   # surprise me
-            status(f"Picking a different {lane}…")
-            new_path, x = _pick_path(shots, role, wants, secs,
-                                     random.randrange(1, 1 << 30),
-                                     must=must, avoid=avoid)
-            if not new_path or new_path == olds[lane]:
-                raise RuntimeError(f"The library has no other {lane} to "
-                                   "reach for.")
-        kit_paths[lane] = new_path
-        fresh[lane] = x
-        avoid.add(new_path)          # two swapped lanes never land together
-
-    kit = {}
-    for ln, pth in kit_paths.items():
-        snd = (fresh[ln] if ln in fresh
-               else _load_choked(pth, rec["kit_spec"][ln][3]))
-        if snd is None:
-            raise RuntimeError(f"{Path(pth).name} (the beat's {ln}) has "
-                               "moved or vanished — can't rebuild.")
-        kit[ln] = snd
-    for ln, pth in rec["stamp_paths"].items():
-        snd = _load_choked(pth, rec["stamp_secs"][ln])
-        if snd is None:
-            raise RuntimeError(f"{Path(pth).name} (a locked stamp) has "
-                               "moved or vanished — can't rebuild.")
-        kit[ln] = snd
-    chord_sources = {}          # lane -> what to CALL it in the stems folder
-    # the tuned root sub is synthesized, not a sample — rebuild it from
-    # the recipe's root note so the swapped beat keeps its low end
-    if rec.get("root_note") and "sub" in preset.get("lanes", {}):
-        kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
-        # ...and it must still SAY what it is. generate() names this stem
-        # "bass drum - synth 808 sub, root F" (see the sources line in
-        # generate); without this a swap printed a bare "bass drum.wav".
-        chord_sources["sub"] = "synth 808 sub, root %s" % rec["root_note"]
-    # chord/chord-bass lanes are ALSO synthesized (owner 2026-07-23,
-    # "control the volume for all sounds" — the ask that surfaced this gap:
-    # those lanes now show a volume slider, so a rebuild has to actually be
-    # able to regenerate their audio). Detected by lane name since a chords
-    # beat's kit_spec never lists them (see _build_chords' docstring for why
-    # this regenerates rather than reuses the rendered stem, and the two
-    # narrow, disclosed limits on an exact match).
-    # EITHER family is enough to need the regen: removing just the chords
-    # leaves the bass roots behind, and they still need their audio built
-    # (they are synthesized-at-render like the chords, not kit_paths files)
-    if any(_chord_family(ln) for ln in preset.get("lanes", {})):
-        # chord/bass lanes are never in kit_paths (nothing to swap them
-        # for), so none of this is persisted into the recipe — but it IS
-        # what names their stem files. Passing a throwaway {} here printed
-        # every rebuilt chord stem as a bare "chord0.wav", losing the
-        # instrument and the chord it plays (owner rule 2026-07-18: a stem
-        # says WHICH sound it is). Measured 2026-09-01: swap one hat and
-        # "chord0 - sample_ Cymatics ... , Dm7 (ii7)" came back as
-        # "chord0". Keep the dict; write_stems reads it below.
-        #
-        # Hand back the KEY and the PROGRESSION this beat was actually
-        # printed in (2026-09-01). The rebuild used to re-roll both from
-        # the variant + the DJ's signature and land on the same answer by
-        # luck — a luck that ran out the moment a REFERENCE TRACK could
-        # override the signature. Pinning only the key was worse than
-        # pinning neither: it sent the rebuild down the forced branch,
-        # which re-picks the progression from the signature, so an
-        # open-roll beat came back with different chords under the same
-        # instrument (measured: F7#9 out, Gm7 back). The recipe knows
-        # all three, so hand back all three.
-        # Whether that hand-back actually happens is REBUILD_LOCKS_KEY.
-        _dirs = {"chords": True, "chord_feel": None}
-        if REBUILD_LOCKS_KEY:
-            _h = rec.get("harmony") or {}
-            _dirs["chord_feel"] = _h.get("progression")
-            if _h.get("root") and _h.get("mode"):
-                _dirs["force_key"] = (_h["root"], _h["mode"])
-        _build_chords(preset, kit, chord_sources, rec["variant"],
-                      _dirs, [], voice=chord_voice)
-        # ...but a chord/bass lane the owner just REMOVED must not come
-        # back: _build_chords rebuilds the whole family from the recipe's
-        # variant, which would silently undo the removal.
+    if rec.get("loops_only"):
+        # five-lane loops beat (owner 2026-09-16): swap = a different loop
+        # file on that lane; a new drum loop brings its own tempo
+        import loop_lanes
+        state = copy.deepcopy(rec["loop_state"])
+        olds = {ln: rec["kit_paths"].get(ln) for ln in picks}
+        for lane, chosen in picks.items():
+            if not chosen:
+                raise ValueError("Pick a loop from the list first.")
+            state["lanes"][lane] = chosen
         for lane in drops:
-            preset["lanes"].pop(lane, None)
-            kit.pop(lane, None)
+            state["lanes"].pop(lane, None)
+        if "kick" in picks and "kick" in state["lanes"]:
+            state["bpm"] = loop_lanes.drum_bpm(state["lanes"]["kick"],
+                                               CREW[names[0]]["bpm"])
+        preset["bpm"] = state["bpm"]
+        kit_paths, chord_sources, kit = dict(state["lanes"]), {}, {}
+        lanes = sorted(picks)
+        what, changed = _change_words(lanes, trims, drops, chord_voice)
+        status(f"Re-rendering beat {number} with the new {changed}…")
+        _, loop_bufs, nb, _note = _pick_loop_bed(names[0], preset,
+                                                 rec["variant"], state=state)
+        L, R, lufs, parts = render_crew_beat(
+            names[0], kit, space=rec["space"], preset=preset,
+            want_parts=True, loop_bufs=loop_bufs, nbars_override=nb)
+    else:
+        if shots is None:
+            status("Scanning your sample library…")
+            shots = build_shots()
 
-    lanes = sorted(picks)
-    what, changed = _change_words(lanes, trims, drops, chord_voice)
-    status(f"Re-rendering beat {number} with the new {changed}…")
-    L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
-                                         preset=preset, want_parts=True)
-    if rec.get("dj_cut_bar") is not None:
-        L, R = dj_cut(L, R, parts, rec["dj_cut_bar"])
+        avoid = set(p for p in rec["kit_paths"].values() if p)
+        avoid |= set(rec["stamp_paths"].values())
+        avoid |= history_avoid(names)
+
+        kit_paths, fresh, olds = dict(rec["kit_paths"]), {}, {}
+        for lane in drops:
+            kit_paths.pop(lane, None)
+        for lane in sorted(picks):
+            role, must, wants, secs = rec["kit_spec"][lane]
+            olds[lane] = rec["kit_paths"].get(lane)
+            chosen = picks[lane]
+            if chosen:                              # he picked this one himself
+                x = _load_choked(chosen, secs)
+                if x is None:
+                    raise RuntimeError(f"{Path(chosen).name} wouldn't load — "
+                                       "pick another one.")
+                new_path = chosen
+            else:                                   # surprise me
+                status(f"Picking a different {lane}…")
+                new_path, x = _pick_path(shots, role, wants, secs,
+                                         random.randrange(1, 1 << 30),
+                                         must=must, avoid=avoid)
+                if not new_path or new_path == olds[lane]:
+                    raise RuntimeError(f"The library has no other {lane} to "
+                                       "reach for.")
+            kit_paths[lane] = new_path
+            fresh[lane] = x
+            avoid.add(new_path)          # two swapped lanes never land together
+
+        kit = {}
+        for ln, pth in kit_paths.items():
+            snd = (fresh[ln] if ln in fresh
+                   else _load_choked(pth, rec["kit_spec"][ln][3]))
+            if snd is None:
+                raise RuntimeError(f"{Path(pth).name} (the beat's {ln}) has "
+                                   "moved or vanished — can't rebuild.")
+            kit[ln] = snd
+        for ln, pth in rec["stamp_paths"].items():
+            snd = _load_choked(pth, rec["stamp_secs"][ln])
+            if snd is None:
+                raise RuntimeError(f"{Path(pth).name} (a locked stamp) has "
+                                   "moved or vanished — can't rebuild.")
+            kit[ln] = snd
+        chord_sources = {}          # lane -> what to CALL it in the stems folder
+        # the tuned root sub is synthesized, not a sample — rebuild it from
+        # the recipe's root note so the swapped beat keeps its low end
+        if rec.get("root_note") and "sub" in preset.get("lanes", {}):
+            kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
+            # ...and it must still SAY what it is. generate() names this stem
+            # "bass drum - synth 808 sub, root F" (see the sources line in
+            # generate); without this a swap printed a bare "bass drum.wav".
+            chord_sources["sub"] = "synth 808 sub, root %s" % rec["root_note"]
+        # chord/chord-bass lanes are ALSO synthesized (owner 2026-07-23,
+        # "control the volume for all sounds" — the ask that surfaced this gap:
+        # those lanes now show a volume slider, so a rebuild has to actually be
+        # able to regenerate their audio). Detected by lane name since a chords
+        # beat's kit_spec never lists them (see _build_chords' docstring for why
+        # this regenerates rather than reuses the rendered stem, and the two
+        # narrow, disclosed limits on an exact match).
+        # EITHER family is enough to need the regen: removing just the chords
+        # leaves the bass roots behind, and they still need their audio built
+        # (they are synthesized-at-render like the chords, not kit_paths files)
+        if any(_chord_family(ln) for ln in preset.get("lanes", {})):
+            # chord/bass lanes are never in kit_paths (nothing to swap them
+            # for), so none of this is persisted into the recipe — but it IS
+            # what names their stem files. Passing a throwaway {} here printed
+            # every rebuilt chord stem as a bare "chord0.wav", losing the
+            # instrument and the chord it plays (owner rule 2026-07-18: a stem
+            # says WHICH sound it is). Measured 2026-09-01: swap one hat and
+            # "chord0 - sample_ Cymatics ... , Dm7 (ii7)" came back as
+            # "chord0". Keep the dict; write_stems reads it below.
+            #
+            # Hand back the KEY and the PROGRESSION this beat was actually
+            # printed in (2026-09-01). The rebuild used to re-roll both from
+            # the variant + the DJ's signature and land on the same answer by
+            # luck — a luck that ran out the moment a REFERENCE TRACK could
+            # override the signature. Pinning only the key was worse than
+            # pinning neither: it sent the rebuild down the forced branch,
+            # which re-picks the progression from the signature, so an
+            # open-roll beat came back with different chords under the same
+            # instrument (measured: F7#9 out, Gm7 back). The recipe knows
+            # all three, so hand back all three.
+            # Whether that hand-back actually happens is REBUILD_LOCKS_KEY.
+            _dirs = {"chords": True, "chord_feel": None}
+            if REBUILD_LOCKS_KEY:
+                _h = rec.get("harmony") or {}
+                _dirs["chord_feel"] = _h.get("progression")
+                if _h.get("root") and _h.get("mode"):
+                    _dirs["force_key"] = (_h["root"], _h["mode"])
+            _build_chords(preset, kit, chord_sources, rec["variant"],
+                          _dirs, [], voice=chord_voice)
+            # ...but a chord/bass lane the owner just REMOVED must not come
+            # back: _build_chords rebuilds the whole family from the recipe's
+            # variant, which would silently undo the removal.
+            for lane in drops:
+                preset["lanes"].pop(lane, None)
+                kit.pop(lane, None)
+
+        lanes = sorted(picks)
+        what, changed = _change_words(lanes, trims, drops, chord_voice)
+        status(f"Re-rendering beat {number} with the new {changed}…")
+        L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
+                                             preset=preset, want_parts=True)
+        if rec.get("dj_cut_bar") is not None:
+            L, R = dj_cut(L, R, parts, rec["dj_cut_bar"])
 
     if render_only:            # live preview — nothing is printed or filed
         return L, R
@@ -3807,6 +3763,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     write_stems(folder / f"{no} {stem_of} Stems", parts["stems"],
                 sources={**chord_sources, **kit_paths, **rec["stamp_paths"]})
 
+    if rec.get("loops_only"):
+        rec = dict(rec, loop_state=state, bpm=state["bpm"])
     rec2 = dict(rec, file=fname, kit_paths=kit_paths, parent=number,
                 folder=rec["folder"], date=str(date.today()))
     if drops:                    # the lane is gone from the child recipe
@@ -4194,6 +4152,11 @@ def _stem_wav(no, lane, root=None, folder=None):
     return None
 
 
+def _loop_label(lane):
+    import loop_lanes
+    return loop_lanes.LABELS.get(lane, lane)
+
+
 def _beat_stems(no, root=None):
     """Every drum in a beat: the real sample behind it, whether it can be
     swapped, and whether there's a solo stem to play. Stamps are the DJ's
@@ -4248,7 +4211,9 @@ def _beat_stems(no, root=None):
         spec = rec["kit_spec"].get(lane)
         out.append({
             "lane": lane,
-            "label": lane_label(lane),
+            "label": (_loop_label(lane) if rec.get("loops_only")
+                      else lane_label(lane)),
+            "loop": bool(rec.get("loops_only")),
             "role": spec[0] if spec else lane,
             "sample": Path(path).stem if path else "built from scratch",
             "pack": _pack_of(path),
@@ -4596,6 +4561,15 @@ def _lane_candidates(no, lane, shots=None, root=None):
     lane = str(lane).strip().lower()
     # a harmony row ("chords", "chords2", "chordbass") is an INSTRUMENT
     # row, not a file row — it offers voices instead of samples
+    if rec.get("loops_only"):
+        # five-lane loops beat: that lane's own category, grouped by folder
+        import loop_lanes
+        if lane not in rec["kit_paths"]:
+            raise ValueError(f"Beat {no} has no '{lane}'.")
+        current = rec["kit_paths"].get(lane)
+        return [{"path": e["path"], "name": e["name"], "pack": e["folder"],
+                 "current": e["path"] == current}
+                for e in loop_lanes.candidates(lane)]
     if _family_members(lane, rec["preset"].get("lanes", {})):
         return _chord_voices(rec)
     if lane not in rec["kit_spec"]:
@@ -5587,7 +5561,8 @@ __BREAKS__
        sel.value = opts[Math.floor(Math.random() * opts.length)].value;
        sel.onchange();                   // stages it, plays it, repaints
      };
-     picks.appendChild(dice);
+     // loops beats: dropdown only, no dice (owner 2026-09-16)
+     if (!s.loop) picks.appendChild(dice);
    } else {
      const t = document.createElement('span');
      t.className = 'lock'; t.textContent = s.why || '';
@@ -5769,6 +5744,7 @@ __BREAKS__
      '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
+   if (specs.some(x => x.loop)) foot.querySelector('.rollall').style.display = 'none';
    // One click, a whole new kit (owner 2026-08-04). Rolls every row that
    // CAN be rolled — the locked producer tag and the synthesised sub are
    // skipped, and so is anything already removed, since rolling a sound
