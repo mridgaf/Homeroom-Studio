@@ -38,6 +38,33 @@ up () { curl -s -o /dev/null --max-time 2 "$1"; }
 # end. If a piece is already running from an earlier window, it's left
 # alone and reused.
 PIDS=""
+
+# 2026-09-16: "already running — using it" kept serving a Beat Machine
+# started BEFORE the loops-only update, so the new page never showed.
+# Now: a running piece whose code changed since it started is stopped
+# and restarted fresh. Unchanged ones are still reused.
+restart_if_stale () {  # $1 = port, $2 = code folder/file to compare
+  pid=$(lsof -t -iTCP:"$1" -sTCP:LISTEN 2>/dev/null | head -1)
+  [ -z "$pid" ] && return
+  started=$(ps -o lstart= -p "$pid")
+  stale=$(./.venv/bin/python - "$started" "$2" <<'PY'
+import sys, os, time, datetime
+start = time.mktime(datetime.datetime.strptime(sys.argv[1].strip(), "%a %b %d %H:%M:%S %Y").timetuple())
+newest = max((os.path.getmtime(os.path.join(d, f)) for d, _, fs in os.walk(sys.argv[2])
+              for f in fs if f.endswith((".py", ".html", ".js", ".css"))), default=0)
+print("yes" if newest > start else "")
+PY
+)
+  if [ -n "$stale" ]; then
+    echo "Port $1 is running old code — restarting it."
+    kill "$pid" 2>/dev/null
+    for i in $(seq 1 10); do up "http://localhost:$1" || break; sleep 1; done
+  fi
+}
+restart_if_stale 8770 tools
+restart_if_stale 8765 reason_voice
+restart_if_stale 8767 sound_engine
+
 if up "$VOICE_URL"; then
   echo "Reason Voice is already running — using it."
 else

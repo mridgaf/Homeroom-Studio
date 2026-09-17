@@ -203,6 +203,106 @@ def scan(roots=None):
     return found
 
 
+# Loops-only beats' drum bed (owner 2026-09-16: "drum loops only"). The old
+# source, sample_library's "_loops" bucket, held 15 files and 13 were risers/
+# subs/FX. Real drum loops live in the LOOP roots. A file qualifies only if
+# its NAME says drums, or it sits in a drum-loop folder and its name says
+# nothing else. Any non-drum word in the name disqualifies it, whole-token
+# match, so "Sub Riser" and "lofi strings" (misfiled in Drums/) stay out.
+DRUM_LOOP_WORDS = {"DRUM", "DRUMS", "BREAK", "BREAKS", "BREAKBEAT", "KICK",
+                   "KICKS", "SNARE", "HAT", "HATS", "HIHAT", "PERC",
+                   "PERCUSSION", "TOP", "TOPS", "GROOVE", "SHAKER", "CONGA",
+                   "CONGAS", "BONGO", "BONGOS", "TABLA", "TABLAS", "CLAP",
+                   "RIM", "TOMS", "CYMBAL", "RIDE"}
+NOT_DRUM_WORDS = {"RISER", "RISERS", "UPLIFTER", "FX", "SFX", "SWEEP",
+                  "IMPACT", "REV", "REVERSE", "BLEEP", "SUB", "BASS", "808",
+                  "REESE", "PIANO", "KEYS", "ORGAN", "RHODES", "STRINGS",
+                  "STRING", "SYNTH", "SYNTHS", "PAD", "PADS", "LEAD", "ARP",
+                  "PLUCK", "GUITAR", "GUITARS", "FLUTE", "FLUTES", "SAX",
+                  "BRASS", "HORN", "HORNS", "BELL", "BELLS", "CHORD",
+                  "CHORDS", "MELODY", "MELODIC", "VOCAL", "VOCALS", "VOX",
+                  "CHOIR", "ALL", "FULL", "MIX", "MIXDOWN", "FILL", "FILLS",
+                  "VIOLIN", "CRASH", "CREAK", "INST"}
+DRUM_CACHE = CACHE.with_name("drum_loop_index.json")
+DUR_CACHE = CACHE.with_name("drum_loop_durations.json")
+# loop roots also hold one-shot kits: any folder saying so is out, and
+# anything shorter than one bar at 160 BPM (1.5s) is a hit, not a loop
+ONE_SHOT_FOLDER_WORDS = {"SHOT", "SHOTS", "ONESHOT", "ONESHOTS", "HIT",
+                         "HITS", "SINGLE", "KIT", "KITS", "CHOP", "CHOPS",
+                         "FOLEY", "INSTRUMENTS", "SFXS"}
+# ...and it has to LOOK like a loop: a loop word or a tempo in its path,
+# or he filed it himself under BOTC Sorted Loops/Drums
+LOOP_SIGN_WORDS = {"LOOP", "LOOPS", "BREAK", "BREAKS", "BREAKBEAT",
+                   "GROOVE", "GROOVES", "BPM", "BPMS"}
+MIN_DRUM_LOOP_SECS = 1.5
+
+
+def _words(s):
+    return {w for w in re.split(r"[^A-Za-z]+", s.upper()) if w}
+
+
+def is_drum_loop(folders, stem):
+    """folders: path parts above the file; stem: the file name, no ext."""
+    name = _words(stem)
+    folder = set().union(*(_words(f) for f in folders)) if folders else set()
+    if folder & ONE_SHOT_FOLDER_WORDS or name & NOT_DRUM_WORDS:
+        return False
+    if name & DRUM_LOOP_WORDS:
+        return True
+    return bool(folder & DRUM_LOOP_WORDS) and not (folder & NOT_DRUM_WORDS)
+
+
+def scan_drums(roots=None):
+    """Drum loops only, from the loop roots -> [{name, path, bpm, tokens}]
+    in the shape sample_library.loops_scored() reads. Last good scan when
+    the drive is unplugged, same contract as scan()."""
+    from sample_library import _wav_secs
+    roots = roots if roots is not None else load_loop_roots()
+    found, seen_any = [], False
+    try:
+        durs = json.loads(DUR_CACHE.read_text())
+    except (OSError, ValueError):
+        durs = {}
+    for root in roots:
+        rootp = Path(os.path.expanduser(root))
+        if not rootp.exists():
+            continue
+        seen_any = True
+        for path in sorted(rootp.rglob("*")):
+            if path.suffix.lower() not in AUDIO_EXTS or not path.is_file():
+                continue
+            rel = path.relative_to(rootp).parts
+            if not is_drum_loop(rel[:-1], path.stem):
+                continue
+            tokens = _tokens(path, rootp)
+            words = set().union(*(_words(r) for r in rel))
+            sorted_drums = rootp.name == "BOTC Sorted Loops" and rel[0] == "Drums"
+            if not (sorted_drums or words & LOOP_SIGN_WORDS
+                    or bpm_from_tokens(tokens)
+                    or re.search(r"\d{2,3}bpm", str(rel), re.I)):
+                continue
+            dkey = "%s|%d" % (path, path.stat().st_size)
+            if dkey not in durs:
+                durs[dkey] = _wav_secs(path)
+            if (durs[dkey] or 0) < MIN_DRUM_LOOP_SECS:
+                continue
+            found.append({"name": path.stem, "path": str(path),
+                          "kind": "loop", "bpm": bpm_from_tokens(tokens),
+                          "tokens": sorted({t.lower() for t in tokens})})
+    if not seen_any:
+        try:
+            return json.loads(DRUM_CACHE.read_text())
+        except (OSError, ValueError):
+            return []
+    try:
+        DRUM_CACHE.parent.mkdir(parents=True, exist_ok=True)
+        DRUM_CACHE.write_text(json.dumps(found))
+        DUR_CACHE.write_text(json.dumps(durs))
+    except OSError:
+        pass
+    return found
+
+
 def in_key(index, key, role=None, bpm=None):
     """Picks worth reaching for in a given key: exact root+mode first,
     then a root-only match (a one-shot with no mode marker fits either),

@@ -123,3 +123,18 @@ def test_variety_check_ignores_the_loops_only_placeholder_pattern():
     assert variety._kick_bars(rec) is None
     recs = [dict(rec, names=["Test"]) for _ in range(3)]
     assert variety.score_recipes(recs)["flags"] == []
+
+
+def test_drum_loop_filter_keeps_drums_and_drops_risers_subs_and_melodic():
+    import melodic_loops as m
+    keep = [((), "85_CanUFeelMe_Drums Ab"), (("Breaks",), "BIZKEL Break 77bpm Solar"),
+            (("Hihat Loops",), "Cymatics - Cobra Hihat Loop 3 - 140 BPM"),
+            (("Drums", "THE BAND-70"), "DR1143")]
+    drop = [((), "77 Bpm_C_UNO_Sub Riser Lo"), ((), "Cymatics - Tension Riser 14 - 140 BPM G"),
+            (("Drums",), "080_sky_D_lofi strings"), ((), "77 Bpm_Cm_UNO_808 Rev"),
+            (("Monte Booker Drum Kit", "SNAPS"), "IN SNAP"),
+            (("Drums - One Shots", "Percussion"), "Cymatics - Dubstep Perc 4")]
+    for folders, stem in keep:
+        assert m.is_drum_loop(folders, stem), stem
+    for folders, stem in drop:
+        assert not m.is_drum_loop(folders, stem), stem

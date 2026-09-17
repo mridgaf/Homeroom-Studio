@@ -20,6 +20,25 @@ entries.
 
 ## Log
 
+### 2026-09-16 Loops-only drum bed: real drum loops only
+
+- Context: owner flagged non-drum sounds as the drum loop (beat #2569 got
+  "Sub Riser"). Chose "drum loops only".
+- Finding: the old source (sample_library "_loops" bucket, drum roots) held
+  15 files: 13 risers/subs/FX, 2 kick loops. Zero real drum loops.
+- Change: new `melodic_loops.scan_drums()` reads the LOOP roots. A file must
+  (1) say drums in its name, or sit in a drum folder with no other word,
+  (2) have no non-drum word (riser, sub, 808, piano, strings, fx...),
+  (3) not sit in a one-shot/kit/chop folder, (4) look like a loop (loop/
+  break/groove word, a BPM, or in BOTC Sorted Loops/Drums), (5) be >=1.5s.
+  `_pick_loop_bed` uses it. Pool: 2,458 files. Still weighted by DJ taste,
+  nothing excluded inside the pool.
+- Verify by: test added (is_drum_loop keep/drop list), 27 loop tests pass;
+  test_beat_machine same 4 failures before and after (bass reversal).
+  Sampled 45 picks by eye: drums/percs/breaks. No beat rendered.
+- Status: open until he hears a loops-only batch. Known leftovers: a few
+  single-element stems (crash overheads, a "Beep Loop") can still pass.
+
 ### 2026-09-16 Melodic bassline turned back on (reversed the 2026-07-29 hard rule)
 
 - Context: was running a functional check of the classifier-reachability-

@@ -2663,8 +2663,10 @@ def _pick_loop_bed(dj_name, preset, dirs, key, shots, variant):
         open_roll=False, srng=srng)
     kctx = KeyContext(key_root, mode)
 
+    # drum loops only (owner 2026-09-16): melodic_loops.scan_drums, not the
+    # old "_loops" bucket, which was mostly risers/subs/FX
     drum_pool = sample_library.loops_scored(
-        shots, tags=[t for t, _w in (preset.get("library") or {}).get("tags", [])],
+        {"_loops": melodic_loops.scan_drums()}, tags=[t for t, _w in (preset.get("library") or {}).get("tags", [])],
         bpm=preset.get("bpm"))
     drum_entry, drum_taste = loop_mode.pick_loop(sig, drum_pool, srng)
     if drum_entry is None:
