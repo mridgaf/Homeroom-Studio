@@ -392,6 +392,29 @@ Tests for all of it live in `tests/test_beat_machine.py`.
 NOTE (2026-07-18): the swap flow now files results into song-family
 folders and the lane list is dynamic — see the two sections above.
 
+## Loops only: FIVE LANES (owner spec 2026-09-16, confirmed by ear)
+
+The "Loops only" box on the Make page. Code: `tools/loop_lanes.py` (pools,
+tempo, stretch, picks) + `_pick_loop_bed` and the loops branches in
+`generate` / `_beat_stems` / `_lane_candidates` / `swap_many` in
+`beat_machine.py`. Full spec in DECISIONS.md "Loops-only beats: FIVE
+LANES". Do not re-ask any of it:
+
+- Lanes: `kick` = full drum loop (name kept, since the mix bus anchors to
+  kick), `leadloop` (guitar, synth, orchestral, melodies, keys),
+  `bassloop`, `fxloop`, and lane 5 = chords / perc / vocals / fx2 at 25% each.
+- Tempo = the drum loop's BPM (from its name, else worked out from its
+  length). Everything else is time-stretched to it, and pitch NEVER shifts.
+  Always 8 bars.
+- Key: 50% of beats match key LABELS on lead, bass and chords (unlabeled
+  loops still allowed). The other 50% ignore key.
+- FX: 1–2 hits, random bars, never side by side, each cut to 1 bar.
+  Risers under 10% of FX picks.
+- Swaps: a dropdown per lane grouped by folder, NO dice, no Roll
+  everything. Play previews it and Rebuild prints a new numbered beat,
+  the same as the stem rack.
+- One DJ at a time. The first fill is random but leans on the DJ's taste.
+
 ## Project state
 
 Folders + Beat Machine (2026-07-15): all beats reorganized into per-DJ

@@ -19,7 +19,7 @@ Run `./.venv/bin/python tools/measure_batch.py <folder>` on a rendered
 batch. It reports length in bars, per-bar level of the mix AND of the drum
 stems alone, stereo width, and every stem's level against the kick.
 
-## The seven traps, all of which have bitten
+## The eight traps, all of which have bitten
 
 **1. Measuring an intermediate.** A volume cap took FOUR passes on
 2026-08-03 because each version measured one stage too early:
@@ -99,6 +99,16 @@ trade-off his ear has to judge.
 Any A/B where the change adds or removes energy has this. Ask: *is my
 "after" the same loudness as my "before"?* If yes, something scaled
 everything else to make that true.
+
+**8. The placement plan is not where the sound is.** 2026-09-16, loops-only beats: the recipe said the FX lane hits bars 3 and 8.
+He heard FX "on every bar". Both were true. The FX file was 8 seconds
+long, so the two hits (with the tail wrapping round the loop) covered 6 of
+the 8 bars. The plan was correct and the sound was wrong.
+
+Check any "plays on bars X" rule by measuring the lane's STEM bar by bar
+(peak per bar, over 5% of the stem's own peak = sounding), then compare
+that list to the plan. Keep testing with the longest real file in the
+pool, not a short test click.
 
 ## Before saying "fixed"
 
