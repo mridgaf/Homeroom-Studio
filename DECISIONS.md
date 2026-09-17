@@ -20,6 +20,21 @@ entries.
 
 ## Log
 
+### 2026-09-16 NEXT SESSION: loops-only beats need the normal lane types
+
+- Owner (end of session): "there should be the same lane types that there
+  is for the other DJs instead of the one chord lane you have going on."
+- Today a loops-only beat has 2 lanes: the whole drum loop in "kick" and one
+  melodic loop in "chord0". Normal beats have separate kick/snare/hat/perc/
+  808/chord/etc. lanes.
+- Not designed yet. Ask him before building (BLOCKING): which lanes, and
+  whether each lane gets its own loop (hat loop, perc loop, bass loop...)
+  or the drum loop is split.
+- Same session also: launcher now restarts a server running stale code
+  (Homeroom Studio.command, restart_if_stale). Verified by opening the .app:
+  Beat Machine restarted, "Loops only" box present.
+- Status: open.
+
 ### 2026-09-16 Loops-only drum bed: real drum loops only
 
 - Context: owner flagged non-drum sounds as the drum loop (beat #2569 got
