@@ -4250,9 +4250,8 @@
     "kick",
     null,
     [
-     "punch",
      "hard",
-     "knock"
+     "dry"
     ],
     [
      0.25,
@@ -4263,8 +4262,7 @@
     "snare",
     null,
     [
-     "crack",
-     "clean",
+     "hard",
      "trap"
     ],
     1.0
@@ -4281,9 +4279,8 @@
     "hat",
     null,
     [
-     "trap",
      "closed",
-     "tight"
+     "tite"
     ],
     0.5
    ],
@@ -4292,8 +4289,7 @@
     null,
     [
      "impact",
-     "reverse",
-     "riser"
+     "reverse"
     ],
     1.4
    ]
@@ -4502,10 +4498,7 @@
    [
     0.45,
     "808",
-    [
-     "deep",
-     "punch"
-    ],
+    [],
     [
      0.35,
      0.9
@@ -4515,9 +4508,8 @@
     0.55,
     null,
     [
-     "punch",
      "hard",
-     "knock"
+     "dry"
     ],
     [
      0.18,
@@ -4650,7 +4642,9 @@
     105
    ],
    "chords_default": true
-  }
+  },
+  "own_soundbank": true,
+  "_research_note": "NEW-BUILD 2026-09-19, eleventh legend through the pass. Backup: legends_config.pre-hitt-kid-2026-09-19.json.\n\nSTEP 1b CLEAN. Hit-Boy is not one of the nine, so unlike Farrow, Kane East, Timberline and J Dillo there was no duplicate and no era to pick between. (DJ Premium is the fourth duplicate -- Cutz is also built='DJ Premier' -- found on 2026-09-19 and left for its own session.)\n\nTHE ERA QUESTION WAS ASKED AND ANSWERED THE OTHER WAY. His drums read club-trap (2011-18) and his signature/chord block reads King's Disease (2020+), which looks like an inconsistency. Owner 2026-09-19, asked directly: KEEP THE SPLIT. His listen line opens 'the modern hybrid', so the two eras pointing different directions is the identity, not a fault to tidy. The July chord research stands untouched.\n\nSOURCE for this build: Sound On Sound, 'Inside Track: Hit-Boy', Paul Tingen, July 2024 -- a technical interview in his own words.\n\nWHAT THE SOURCE MOVED: nothing in the numbers, and that is the finding. Every processing knob he carries was already what the interview describes, so this build CONFIRMS rather than changes, and says so instead of inventing a change to look busy:\n  - clean stays clean (dust 0, vinyl 0, wow 0, mix_sat 0, kick_dist 0). His mixer David Kim is there to 'make sure that everything is blasting out at the right levels and hitting the way I want it to, WITH THE CLARITY at the same time', and he checks 808s on loud QSCs so they do not 'tear through the speakers'. That is 'clean and huge' exactly. NO allow_dirt -- the opposite call to Razor and J Dillo.\n  - timing stays programmed (jitter 1 ms, swing 50). 'I'm primarily a programmer'; FL Studio since ~2002 and 'it's an extension of me'. Nothing here asks for a human pull, so none was added.\n  - the two kick flavors stay two. The hybrid is real and he says so both ways: 'With 808s, I switch it up ... it's almost not an 808, and more like a Moog sound ... deep and hits like an 808, but it has this top that gives it a different bounce'; and on a stripped-down beat, 'the bass in this track was a one-shot acoustic bass, because it's very deep. THERE'S NO 808.' He genuinely trades, so 45/55 is his, not a roster default.\n\nWHAT ACTUALLY CHANGED -- the tags, which were nearly all dead code, and then own_soundbank on, IN THAT ORDER:\n  kick  punch/hard/knock -> hard/dry   (punch matched 1 of 488, knock 1)\n  snare crack/clean/trap -> hard/trap  (crack matched 0 of 680)\n  hat   trap/closed/tight -> closed/tite (trap 1, tight 1 of 662; this library spells it `tite`, the same trap Mustang hit. Spelled by hand, NOT fixed with flavor_match -- that flag is forward-only and must not go on any of the twelve existing legends.)\n  stamp impact/reverse/riser -> impact/reverse (Kane East's note: a riser is not a producer tag)\n  clap  left alone -- `clap` already matches 276 of 282.\n  snare is hard/trap and NOT hard/dry: Razor's note records that `dry` on a snare hands back sidesticks and rims, and it has been walked into twice since.\n\nTHE 808 BRANCH, and the reason this legend went first after the fix: on 2026-09-19 flavor_role() was fixed so an 808 kick flavor draws from `bass` (430 real 808s) instead of `kick` (2 matching files). His 808 wants were deep/punch, which match 0 and 1 of those 430 -- the bass pool's vocabulary is PACK NAMES (cymatics 45, oracle 34, playoffs 30, spinz 14, xangang 10), not taste words. Left as-is they would have funnelled every 808 beat he makes onto one file the moment own_soundbank went on. EMPTIED, exactly as Mustang's were on 2026-09-05 for the same reason.\n\nNO INVARIANT, said out loud rather than invented. His listen line has no absolute word in it -- 'halftime and backbeat both in the bag' is the opposite of a lock, so there is nothing to choke. Same call as Just Flame. Do not copy Doc Day's snare lock here.\n\nENGINE CHANGE SHIPPED WITH HIM (owner-approved 2026-09-19, all 13 legends, the nine untouched): the kick-flavor streak-breaker in pattern_gen.compose() now exempts legends. It zeroed a flavor's weight after two repeats, which with the TWO flavors every legend carries forced the other to certainty -- Just Flame's declared 15% delivered 38%, DJ Light Green's 80% delivered 60%. Four legends had their 808 branch DELETED to work around it. His own 45/55 was measuring 48/52."
  },
  "No Alias": {
   "num": 21,

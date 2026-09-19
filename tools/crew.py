@@ -36,7 +36,8 @@ import inspect
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
-from pattern_gen import DEFAULT_STYLE, STYLE_VERSION, free_beat
+from pattern_gen import (DEFAULT_STYLE, LEGEND_OPEN_P, STYLE_VERSION,
+                         free_beat)
 from make_drum_loops import SR, master, write_wav24
 from flavor_tags import matches as flavor_matches
 from make_drum_beats import build_shots, duck
@@ -1290,8 +1291,15 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
                              must=must, avoid=avoid,
                              own_bank=bool(p.get("own_soundbank")),
                              flavor_match=bool(p.get("flavor_match")),
-                             open_bank=(free_beat(variant) if is_dj(name)
-                                        else None))
+                             # a legend opens up at LEGEND_OPEN_P, not
+                             # OPEN_P (owner 2026-09-19) -- see free_beat.
+                             # Without this his researched tags were dead
+                             # on 30% of his beats, because open_bank
+                             # wipes them before own_bank is consulted.
+                             open_bank=(free_beat(
+                                 variant,
+                                 LEGEND_OPEN_P if p.get("legend") else None)
+                                 if is_dj(name) else None))
         if path:
             avoid.add(path)
         # sub_layer (2026-09-03): a preset can reinforce its KICK with a

@@ -65,6 +65,46 @@ from make_drum_beats import build_shots
 from crew import CREW, build_kit, lock_stamps, normalize_preset, render_crew_beat
 from pattern_gen import compose
 
+
+def add_melodic(preset, kit, src, variant, name, shots):
+    """Put the CHORDS (and the beat's one low sound) on the audition.
+
+    Owner 2026-09-19: "The auditions seem like they're only drums. Nobody
+    should be only drums." He was right, and it was never a regression --
+    checked every commit of this file and it has NEVER built a chord lane.
+    Every legend audition from Razor onward was judged on drums alone
+    while the researched `signature` block (Hitt Kid's piano/horns, No
+    Alias's Symphony strings, J Dillo's filtered soul) never sounded.
+
+    This is the melodic half of generate(), in generate()'s own order,
+    calling generate()'s own functions rather than reimplementing them --
+    _low_voice FIRST (the 2026-09-14 one-low-sound hard rule is decided
+    there, and the chords read its answer through allow_basses), then the
+    chords, then the root sub, then the sampled bass/vox lanes, then the
+    second-low refusal. Getting that order wrong is how you get two low
+    sounds fighting, which is the exact thing that rule exists to stop.
+
+    A legend without `chords_default` is left alone: this turns the lane
+    on the way generate() does, it does not invent one."""
+    import beat_machine as bm
+    dirs = bm.parse_directions("")
+    if not (preset.get("signature") or {}).get("chords_default"):
+        return None
+    dirs = dict(dirs, chords=True)
+    vnotes = []
+    low = bm._low_voice(preset, variant, dirs, False, name, shots)
+    _midi, harmony = bm._build_chords(preset, kit, src, variant, dirs,
+                                      vnotes, allow_basses=low is None)
+    if low == "sub":
+        bm._add_root_sub(preset, kit, src, variant, vnotes,
+                         harmony_info=(harmony if bm.ROOT_808_WITH_CHORDS
+                                       else None),
+                         traditional=False, dj=name, decided=True)
+    bm._add_sample_lanes(preset, kit, src, shots, variant, dirs, vnotes,
+                         key_root=(harmony or {}).get("root"), low=low)
+    bm._refuse_second_low(preset, kit, src, vnotes)
+    return harmony
+
 ROOT = Path(__file__).parent.parent
 
 NJUDGE = 2          # beats rendered old-vs-new
@@ -323,6 +363,7 @@ def main():
                 shown.update({ln: Path(v).name if v else "(none)"
                               for ln, v in src.items()})
                 picks.append((i, tag, shown, _shape(shape_p)))
+            add_melodic(p, kit, src, i, name, shots)
             L, R, got = render_crew_beat(name, kit, preset=p)
             sub, air, atk = (band_db(L, R, 30.0, 55.0),
                              band_db(L, R, 8000.0), attack_db(L, R))
@@ -356,6 +397,7 @@ def main():
                                   kit=seed_p["kit"]))
         kit, _src = build_kit(shots, name, stamps[name][1], variant=i,
                               avoid=set(avoid), preset=q)
+        add_melodic(q, kit, _src, i, name, shots)
         L, R, _got = render_crew_beat(name, kit, preset=q)
         write_wav24(scratch / "extra" / ("%s %dbpm beat %d b New.wav"
                                          % (name, q["bpm"], i)), L, R)

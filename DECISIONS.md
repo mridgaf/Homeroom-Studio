@@ -6733,3 +6733,171 @@ just not loaded by default.
 - Also noticed in passing: some already-keyed loops use a glued BPM token (e.g. "98bpm") that bpm_from_tokens() won't match since it requires a bare all-digit token. Not fixed, just flagging it for a future pass.
 - Verify by: run tools/key_tag_loops.py on both folders, spot-check anything flagged LOW CONFIDENCE by ear, then re-run the classifier audit to confirm the 244 drop to 0.
 - Status: misfiled-file moves done and verified (byte-size checked before removing sources). Key-tagging tool written, not yet executed.
+
+### 2026-09-19 The 430 real 808s were unreachable — flavor_role (recorded late)
+- Context: fixed earlier the same day, committed in `8c2c1ce`, but never
+  written down here. Recorded now because the reasoning only lived in a code
+  docstring and the ledger is what survives a session.
+- The fault: the 2026-09-07 kick/808/chords split took "808" off the kick role
+  and gave it to `bass`. Correct for the split — but every `kick_flavors` 808
+  branch on the roster still asked the KICK bucket for it. That matched exactly
+  TWO files of 488 (one named "VERY OVERUSED") while the 430 real 808s sat in
+  `bass`. Every 808 beat made between 2026-09-07 and 2026-09-19 played one of
+  those two samples. It hit 18 identities — 7 legends and ALL NINE crew DJs.
+  Mustang is 60% 808, DJ Light Green 80%.
+- Decision/change: `pattern_gen.flavor_role(must, role)` returns "bass" when
+  must == "808", else the lane's own role. Owner approved the roster-wide fix
+  rather than scoping it to one legend, because the nine were broken
+  identically. Length is still choked by the flavor's own `secs`, and
+  `_holds_low_end` keys off must/secs rather than the role, so the one-low-sound
+  rule is unaffected.
+- Verify by: `tests/test_pattern_gen.py::test_808_kick_flavor_draws_from_the_bass_bucket`.
+- Status: confirmed in code and test; the SOUND was first heard in the Hitt Kid
+  audition below (his two new beats picked two DIFFERENT 808s, which is the
+  audible proof).
+- Outcome: —
+
+### 2026-09-19 Hitt Kid new-built (11th legend) — and two engine faults under him
+- Context: "Continue tuning DJ Legends." 10 of 13 confirmed; his backup had been
+  taken earlier the same day with nothing changed after it.
+- ERA, asked and answered the other way for once: his drums read club-trap and
+  his chord block reads King's Disease. Owner: KEEP THE SPLIT — his listen line
+  opens "the modern hybrid", so the two eras pointing different ways IS the
+  identity. July chord research untouched.
+- RESEARCH (Sound On Sound, "Inside Track: Hit-Boy", Paul Tingen, July 2024)
+  MOVED NOTHING, and that is the finding. Clean stays clean (no allow_dirt — the
+  opposite call to Razor and J Dillo), timing stays programmed, the two kick
+  flavors stay two. Recorded as a confirmation rather than inventing a change to
+  look busy.
+- What changed: the tags, which were nearly all dead, then own_soundbank on, in
+  that order. punch=1 of 488, knock=1, crack=0 of 680, trap=1 and tight=1 of 662.
+  `tite` spelled BY HAND, not fixed with flavor_match (forward-only flag, must
+  not go on the twelve existing legends). The 808 branch's wants were EMPTIED —
+  deep/punch match 0 and 1 of the 430 808s, because that pool's vocabulary is
+  pack names; same call as Mustang.
+- ENGINE FAULT 1 — declared 808 shares never played. The kick-flavor
+  streak-breaker zeroed a flavor after two repeats; with the TWO flavors every
+  legend carries that forces the other to certainty. Just Flame's declared 15%
+  delivered 38% (the number already written in his own build note — that match
+  is how this was identified), DJ Light Green's 80% delivered 60%. FOUR legends
+  had their 808 branch DELETED to work around this instead of fixed. Legends are
+  now exempt, following the exemption already in that code for subgenres.
+  Damping instead of exempting was simulated and rejected (15% recovered only to
+  28%). Owner chose all 13 legends; the nine keep it. Cost, accepted: a legend
+  can now play the same kick flavor 3+ beats running.
+- ENGINE FAULT 2 — own_soundbank was DEAD on 30% of beats. `_pick_path` wipes
+  wants/must when open_bank is True BEFORE own_bank is read, so the 2026-09-14
+  "every DJ picks freely 30% of the time" rule silently beat the 2026-09-05
+  "rebuilt legends use their own tags" rule, for 5 days, on all TEN
+  own_soundbank legends. Surfaced because the first render of this audition put
+  `hat open.aif` on a man whose tags say closed/tite — the exact sound
+  own_soundbank was turned on to prevent. Asked in plain language; owner kept
+  BOTH rules and split them by roster: `LEGEND_OPEN_P = 0.15` for legends, the
+  nine stay at 0.30. Same seed, smaller threshold, so a legend's open beats are
+  a strict SUBSET — nothing already in character became free. Scoped to the
+  sample-pick call site only; the other free_beat callers were not widened.
+- Also fixed in passing: `legend_newbuild.checks()` tested for "NEW BUILD" while
+  every real note is written "NEW-BUILD", so it reported "no new-build research
+  note" for legends that had one. Only visible on unconfirmed legends, which is
+  how it survived ten builds.
+- Verify by: audition on his Desktop (`Homeroom Hitt Kid NEW BUILD 2026-09-19`),
+  READ ME names both engine changes and the gap. New tests:
+  `test_a_legends_declared_kick_flavor_split_actually_plays` (proved red by
+  removing the exemption: 0.60 against a declared 0.80),
+  `test_the_nine_keep_the_streak_breaker`,
+  `test_a_legend_opens_up_half_as_often_as_the_nine`. Full suite run BEFORE the
+  render per the hard rule: 1188 passed / 3 skipped, 6 failed — all 6 verified
+  PRE-EXISTING by stashing this session's changes and reproducing them on a
+  clean tree (chord/harmony/stem tests in test_beat_machine.py).
+- GAP NAMED, not hidden: both new beats rolled the 808 branch (45% declared, so
+  ordinary luck), so the pair shows his 808 half and NOT his hard-kick half.
+- Status: open — auditioned, measured, NOT heard. Only his ear closes it.
+- Outcome: —
+
+### 2026-09-19 Nightly Looperman loop fetch (built, NOT yet proven live)
+
+- Context: owner wants 4-6 a.m. nightly download of new Looperman loops, run
+  even if he is using the Mac. His answers: rotating theme (hip-hop/boom bap,
+  trap/drill, lo-fi/chill, soul/R&B/gospel), wake the Mac, skip duplicates and
+  grab others, review folder + morning note + 5-loop test first + slow
+  downloads, save the login on the Mac (script route, not Chrome).
+- Decision/change: 45 per night, NOT 50 - Looperman blocks around 48 per 24h
+  (owner's own earlier notes; batch 8 stopped at 48 on 2026-09-19). Any Chrome
+  batch the same day shares that cap. New files: tools/nightly_loops.py (stdlib,
+  py3.9-safe), tests/test_nightly_loops.py (17 pass), Save Looperman Login /
+  Test Nightly Loops (5) / Install Nightly Loops / Uninstall Nightly Loops
+  .command. Files land in <BOTC Sorted Loops>/_New Tonight/<date>/<Melody|Chords>/;
+  notes in "Nightly Loops/LATEST.txt". Password lives in the Keychain, email in
+  Nightly Loops/.looperman_account.
+- ASSUMING (told him): no Drums, same as every earlier batch; review folder
+  named _New Tonight. Owner declined the "read Looperman's rules first" option,
+  so their terms on automated downloading were NOT checked.
+- Not verified (cannot be from the cloud shell): the real login, the real
+  download link, the 429 cap text, launchd running with the drive attached
+  (macOS may ask permission for removable drives), the Mac waking at 3:58 with
+  lid closed, Keychain read while the screen is locked. Login form fields and
+  the logged-out page were read from the live site; download link
+  (getfiles/loops) comes from the earlier sourcing skill, never seen logged in here.
+- Verify by: double-click Save Looperman Login (login check, downloads nothing),
+  then Test Nightly Loops (5) tomorrow (cap likely used up today), then check
+  LATEST.txt the morning after Install.
+- Status: open
+
+### 2026-09-19 Legend auditions had NEVER contained chords — drums-only since Razor
+- Context: owner, hearing the Hitt Kid audition: "The auditions seem like
+  they're only drums. Nobody should be only drums." Then: "it was working last
+  night."
+- FINDING, and it is not a regression: checked every commit of
+  `tools/make_legend_newbuild.py` — it has NEVER referenced `_build_chords`,
+  `_low_voice` or `generate()`. It calls `build_kit` + `render_crew_beat`, which
+  is the DRUM renderer. `compose()` does not add chord lanes either (verified:
+  lanes in == lanes out). So every legend audition from Razor (2026-09-05)
+  onward — Razor, Mustang, Farrow, Kane East, J Dillo, Just Flame, Swish Beatz,
+  Timberline, DJ Light Green, Hitt Kid — was judged on DRUMS ALONE, while the
+  researched `signature` block that each build spent most of its effort on never
+  sounded once. Doc Day's own script is the same shape.
+  What was "working last night" was something else: the chords come from
+  `generate()`, which the Beat Machine app uses and these audition scripts do
+  not. The `key-check-2026-09-19` files he heard are chords with no drums, the
+  exact mirror image.
+- Decision/change: `make_legend_newbuild.add_melodic()` — the melodic half of
+  `generate()`, in generate()'s own order, calling generate()'s own functions
+  rather than reimplementing them: `_low_voice` FIRST (the 2026-09-14
+  one-low-sound hard rule is decided there, and the chords read it via
+  `allow_basses`), then `_build_chords`, then `_add_root_sub`, then
+  `_add_sample_lanes`, then `_refuse_second_low`. A legend without
+  `chords_default` is left alone — it turns the lane on the way generate() does,
+  it does not invent one.
+- Verify by: Hitt Kid re-rendered — lanes went from 5 (kick/snare/clap/hat/stamp)
+  to 14, adding chord0-3 and bass/bass0-3, with a real progression; stems on disk
+  now read "chord0 - piano comp, Gm (i)". Level barely moves because
+  render_crew_beat normalises to LUFS: the drums make room rather than the beat
+  getting louder.
+- Status: open — rendered and verified present, NOT heard.
+- Outcome: —
+
+### 2026-09-19 Hitt Kid loops vs no-loops audition, and what loops mode costs
+- Context: owner asked to hear the DJ both ways.
+- Rendered 3 + 3 via `generate(root=<desktop>, loops_only=True/False)` into
+  `Homeroom Hitt Kid LOOPS vs NOT 2026-09-19`. Used generate() rather than
+  extending the A/B script, because in loops mode the whole new build (kit tags,
+  808 branch, own_soundbank) is inert — loops replace the one-shots — so an
+  old-vs-new comparison there would render two identical files and the script's
+  own guard would refuse it. Said so in the READ ME rather than faking a
+  comparison.
+- TWO REAL PROBLEMS SURFACED, neither fixed, both put to him:
+  1. In loops mode the DJ stops being himself. The drum loop sets the tempo, so
+     the three beats came out at 60, 95 and 162 BPM against his own 96. None of
+     his settings apply.
+  2. Keys clash. 2 of 3 reported "keys ignored" in their own notes (beat 86:
+     lead in C over a bass in A# minor). Only the one that came out in a single
+     key (D) sounds like music.
+- ALSO FLAGGED, not changed: 2 of the 3 no-loops beats were "free beats" that
+  borrowed drums from other DJs (hat from Swish Beatz, kick from New Math, snare
+  from DJ Premium). That is the 30% open rule at the beat_machine call site. The
+  15% legend narrowing done earlier today was scoped to the SAMPLE-PICK site
+  only, deliberately and on the stated grounds that he was asked about taste tags
+  and not about cross-DJ borrowing. The evidence now says the other site matters
+  too; put to him rather than widened unilaterally.
+- Status: open — delivered, not heard.
+- Outcome: —

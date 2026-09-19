@@ -723,7 +723,7 @@ def test_own_soundbank_is_the_new_build_legends_only():
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
-                    "DJ Light Green"}
+                    "DJ Light Green", "Hitt Kid"}
 
 
 def test_legend_stamps_are_not_locked():

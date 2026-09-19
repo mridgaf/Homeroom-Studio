@@ -46,10 +46,35 @@ STYLE_VERSION = 7      # bump when DEFAULT_STYLE changes (config auto-syncs)
 # harmony roll always used, so the beats that were already open stay open.
 OPEN_P = 0.30
 
+# A RESEARCHED LEGEND OPENS UP LESS (owner 2026-09-19, "15% split the
+# difference"). The 09-14 rule above and the 09-05 own_soundbank rule
+# collided and the open one silently won: _pick_path wipes `wants` and
+# `must` when open_bank is True, BEFORE own_bank is ever read, so on 30%
+# of beats the researched tags of all ten rebuilt legends did nothing.
+# That is the exact sound own_soundbank was turned on to stop -- Hitt
+# Kid's 2026-09-19 audition picked `hat open.aif` against tags saying
+# closed/tite, and a snare matching neither word. Live for 5 days.
+# Asked in plain language; he kept BOTH rules and split them by roster:
+# the nine crew DJs stay at 30%, the legends drop to 15%.
+# Same seed and same comparison on purpose, so a legend's open beats are
+# a strict SUBSET of the ones that were already open -- nothing that was
+# in character becomes free.
+LEGEND_OPEN_P = 0.15
 
-def free_beat(variant):
-    """True on the OPEN_P share of beats that leave the DJ's character."""
-    return random.Random(variant * 911 + 73).random() < OPEN_P
+
+def free_beat(variant, open_p=None):
+    """True on the OPEN_P share of beats that leave the DJ's character.
+
+    open_p overrides the share for this caller; pass LEGEND_OPEN_P for a
+    legend. SCOPED DELIBERATELY: only the SAMPLE-PICK call site (crew
+    .build_kit -> _pick_path) passes it today, because that is the one
+    that collided with own_soundbank. The other free_beat callers in
+    beat_machine (low sound, library seeds, harmony) still ask at the
+    full 30% for everyone -- he was asked about taste tags, not about
+    those, and widening it on his behalf is how the nine get damaged.
+    """
+    return random.Random(variant * 911 + 73).random() < (
+        OPEN_P if open_p is None else open_p)
 
 # ------------------------------------------------- the groove library
 # Owner drop 2026-07-17 (second library expansion): 131 genre-tagged
@@ -1366,7 +1391,27 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         # 808 IS Miami bass and IS a screw beat, so forcing variety here
         # dragged an 80/20 lean down to 57/43 and took the style with
         # it. Their declared weights are the point — let them hold.
-        if not genre and len(past) >= 2 and past[0][3] == past[1][3] \
+        #
+        # LEGENDS ARE EXEMPT TOO (owner 2026-09-19), for exactly the same
+        # reason and by the same test. Zeroing a repeated flavor is only
+        # a nudge when there are three or more; with the TWO that every
+        # legend carries it forces the other to certainty, so the roll
+        # collapses toward alternation and the declared split never
+        # plays. Measured over 40k rolls of this branch: Just Flame's
+        # declared 15% 808 delivered 38%, DJ Light Green's 80% delivered
+        # 60%, Hitt Kid's 45% delivered 48%. That 38% is the same number
+        # already written in Just Flame's build note, which is how this
+        # was identified -- four legends had their 808 branch DELETED to
+        # work around it rather than fixed.
+        # Damping instead of zeroing was simulated and rejected: at a
+        # 0.25 factor Just Flame only came back to 28%. Forbidding runs
+        # is structurally at war with a lopsided two-way split, so the
+        # exemption is the honest fix, not a softer knob.
+        # The cost, accepted by the owner: a legend can now play the same
+        # kick flavor three or more beats in a row. The nine crew DJs
+        # keep the streak-breaker untouched.
+        if not genre and not preset.get("legend") \
+                and len(past) >= 2 and past[0][3] == past[1][3] \
                 and len(flavors) > 1 and past[0][3] < len(flavors):
             weights = [0 if i == past[0][3] else w
                        for i, w in enumerate(weights)]

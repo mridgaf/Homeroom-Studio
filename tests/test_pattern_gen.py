@@ -332,3 +332,76 @@ def test_808_kick_flavor_draws_from_the_bass_bucket():
             assert role == ("bass" if must == "808" else "kick"), (name, v)
             hit = hit or must == "808"
     assert hit, "no 808 flavor rolled — the assert above never fired"
+
+
+def _flavor_run(name, n=200):
+    """The index of the kick flavor each of n composes actually rolled."""
+    out = []
+    for v in range(n):
+        p, _ = _composed(name, v)
+        must = p["kit"]["kick"][1]
+        flavors = CREW[name]["kick_flavors"]
+        out.append(next(i for i, f in enumerate(flavors)
+                        if (f[1] == "808") == (must == "808")))
+    return out
+
+
+def test_a_legends_declared_kick_flavor_split_actually_plays():
+    """A legend's declared 808 share must be the share he gets.
+
+    The streak-breaker zeroes a flavor's weight after it repeats twice.
+    With three or more flavors that is a nudge; with the TWO every legend
+    carries it forces the other to certainty, so the roll collapses toward
+    alternation. Measured over 40k rolls of that branch: Just Flame's
+    declared 15% delivered 38% (the number in his own build note), DJ
+    Light Green's 80% delivered 60%. Four legends had their 808 branch
+    DELETED to work around this rather than fixed. Owner exempted legends
+    2026-09-19; drop `not preset.get("legend")` and this goes red.
+    """
+    for name in ("DJ Light Green", "Hitt Kid"):
+        flavors = CREW[name]["kick_flavors"]
+        assert len(flavors) == 2, (name, "test picked a legend to prove the "
+                                   "two-flavor collapse — it needs two")
+        run = _flavor_run(name)
+        declared = flavors[0][0] / sum(f[0] for f in flavors)
+        got = run.count(0) / len(run)
+        assert abs(got - declared) < 0.12, (name, declared, got)
+
+
+def test_the_nine_keep_the_streak_breaker():
+    """Scoped, the way own_soundbank and snare_locked_24 are scoped.
+
+    The exemption above is legends only. A crew DJ must still never play
+    the same kick flavor three beats in a row.
+    """
+    for name in ("Otto Grit", "Cutz"):
+        assert not CREW[name].get("legend"), name
+        run = _flavor_run(name, n=120)
+        runs3 = [i for i in range(2, len(run))
+                 if run[i] == run[i - 1] == run[i - 2]]
+        assert not runs3, (name, "3 in a row at " + str(runs3[:5]))
+
+
+def test_a_legend_opens_up_half_as_often_as_the_nine():
+    """Two owner rules collided and the open one silently won.
+
+    2026-09-05: own_soundbank makes a rebuilt legend's researched taste
+    tags gate his sample picks — the fix for "open hats where tight hats
+    belong". 2026-09-14: every DJ picks from the whole pool on 30% of
+    beats. _pick_path wipes `wants`/`must` when open_bank is True BEFORE
+    own_bank is read, so for 5 days all ten rebuilt legends ignored their
+    tags on 30% of beats. Hitt Kid's audition picked `hat open.aif`
+    against tags saying closed/tite, which is how it surfaced.
+
+    Owner 2026-09-19 kept both rules and split them by roster: the nine
+    stay at 30%, legends drop to 15%.
+    """
+    vs = range(4000)
+    legend = {v for v in vs if pattern_gen.free_beat(v,
+                                                     pattern_gen.LEGEND_OPEN_P)}
+    crew = {v for v in vs if pattern_gen.free_beat(v)}
+    assert 0.12 < len(legend) / len(vs) < 0.18
+    assert 0.27 < len(crew) / len(vs) < 0.33
+    # same seed, smaller threshold: a legend's open beats must be a strict
+    # SUBSET, so nothing that was already in character becomes free.
+    assert legend < crew

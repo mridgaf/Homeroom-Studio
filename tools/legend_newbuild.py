@@ -54,7 +54,11 @@ def checks(name, p):
     if not p.get("own_soundbank"):
         out.append("open sound bank still on (taste tags are dead code)")
     note = p.get("_research_note") or ""
-    if "NEW BUILD" not in note.upper():
+    # every real note is written "NEW-BUILD <date>" (Doc Day onward), so a
+    # bare "NEW BUILD" test reported "no new-build research note" for a
+    # legend that had one. Only ever visible on an unconfirmed legend,
+    # which is why it survived ten builds. Accept either spelling.
+    if "NEW BUILD" not in note.upper().replace("-", " "):
         out.append("no new-build research note")
     backups = sorted(ROOT.glob("legends_config.pre-*.json"))
     slug = name.lower().replace(" ", "-")
