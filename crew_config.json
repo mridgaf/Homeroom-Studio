@@ -3712,7 +3712,7 @@
    "chord_source": [
     [
      "strings",
-     3
+     2.0
     ],
     [
      "horns",
@@ -3720,7 +3720,7 @@
     ],
     [
      "midi",
-     1
+     2.0
     ]
    ],
    "chord_rhythm": [
@@ -4002,7 +4002,7 @@
     ],
     "ghosts": [
      0,
-     1
+     2
     ],
     "gcells": [
      2,
@@ -5139,7 +5139,7 @@
      2,
      4
     ],
-    "double_p": 0.18
+    "double_p": 0.1
    },
    "snare": {
     "modes": [
