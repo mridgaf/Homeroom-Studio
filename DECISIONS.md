@@ -6699,3 +6699,28 @@ just not loaded by default.
 - Status: confirmed.
 - Outcome: those 18 Freesound/Looperman loops are gone for good; if he wants
   them again they'd need to be re-downloaded.
+
+### 2026-09-19 Added tempo to the already-keyed synth loop batch
+
+- Context: owner connected Synths - Loops/Synth (105 raw, unlabeled files:
+  synth1.wav ... synth107.wav, no filename/metadata info at all) and said
+  the folder needs key and tempo. Key turned out to already be done: an
+  earlier 2026-09-18 pass ran tools/reference_track.py's detect_key() on
+  all 105 and copied keyed versions into BOTC Sorted Loops/Melody (logged
+  in synth_key_confidence_2026-09-18.txt), but no BPM had been added to
+  the filenames.
+- Decision/change: computed each file's exact duration and checked it
+  against 140bpm (owner-confirmed 4-bar loop) at every common bar length.
+  101 of 105 landed within 1% of a clean fit and got "_140" appended to
+  their already-keyed filename in Melody/. 4 files (synth12, synth3, synth4,
+  synth7) don't cleanly fit 140bpm at any bar count and were left without a
+  tempo tag rather than force-labeled; logged their closest guesses in
+  synth_key_confidence_2026-09-18.txt for the owner to check by ear.
+- Reasoning: duration math from the file's own real data isn't a guess the
+  way pitch/tempo DSP would be — it's arithmetic, and only applied where it
+  was clean (<1% error); the 4 outliers were flagged rather than forced.
+- Verify by: owner spot-checks a few of the 101 render at 140bpm without
+  drifting, and listens to the 4 flagged ones to give them a real tempo.
+- Status: confirmed (rename only, no data touched; raw originals in
+  Synths - Loops/Synth left untouched, matching copy-don't-move).
+- Outcome: —
