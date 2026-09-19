@@ -311,3 +311,24 @@ def test_boom_bap_mode_keeps_hats_on_the_grid():
         p, _ = _composed("New Math", v, boom_bap=True)
         assert all(len(b) == 16 for b in p["lanes"]["hat"][3])
         assert p["kit"]["kick"][3][1] <= 0.8  # no 2-second 808 tails
+
+
+def test_808_kick_flavor_draws_from_the_bass_bucket():
+    """An 808 kick must look where the 808s actually live.
+
+    The 2026-09-07 kick/808/chords split took "808" off the kick role, so
+    a must="808" flavor pointed at `kick` matched 2 files of 488 (one
+    named "VERY OVERUSED") while 430 real 808s sat in `bass`. Every 808
+    beat on the roster played one of those two for twelve days. Delete
+    flavor_role and this goes red.
+    """
+    assert pattern_gen.flavor_role("808", "kick") == "bass"
+    assert pattern_gen.flavor_role(None, "kick") == "kick"   # plain kicks stay
+    hit = False
+    for name in ("Night Metro", "Rage Engine", "New Math"):
+        for v in range(12):
+            p, _ = _composed(name, v)
+            role, must = p["kit"]["kick"][0], p["kit"]["kick"][1]
+            assert role == ("bass" if must == "808" else "kick"), (name, v)
+            hit = hit or must == "808"
+    assert hit, "no 808 flavor rolled — the assert above never fired"

@@ -6724,3 +6724,12 @@ just not loaded by default.
 - Status: confirmed (rename only, no data touched; raw originals in
   Synths - Loops/Synth left untouched, matching copy-don't-move).
 - Outcome: —
+
+### 2026-09-19 Fixed misfiled loops in Melody / Melody Loops, added key-tagging tool
+- Context: owner said the Melody folder had unkeyed files and files that belonged elsewhere by instrument name. Also connected "Melody Loops" mid-task.
+- Audited both folders by re-running melodic_loops.py's exact classifier logic (ROLE_WORDS/key regex) against the real filenames: Melody = 902 files (689 reachable, 200 missing a key, 12 misfiled as chord instruments); Melody Loops = 131 files (84 reachable, 44 missing a key, 8 misfiled: 5 drum, 2 chord, 1 bass).
+- Decision: moved the 19 clear-cut misfiled files to their correct role folder (12 piano/organ/guitar loops Melody -> Chords; 7 drum/bass/piano loops Melody Loops -> Drums/Bass/Chords). Left one ambiguous file, "090_alshon fx G.wav", in Melody Loops -- it only matched "drum" because of an "FX" substring, not a real drum sound, so it needs the owner's ear, not a guess.
+- The 244 files missing a key (200 Melody + 44 Melody Loops) are correctly categorized but invisible to the loop engine until they carry a key. Real key detection needs audio analysis (numpy/scipy), which this session's device-bridge shell can't run (the project's .venv python resolves outside the mounted-folder sandbox). Added tools/key_tag_loops.py, reusing reference_track.py's existing Krumhansl-Schmuckler detect_key() (the same method already trusted for the synth batch), to tag those files and write a confidence log. Not yet run -- owner needs to run it locally.
+- Also noticed in passing: some already-keyed loops use a glued BPM token (e.g. "98bpm") that bpm_from_tokens() won't match since it requires a bare all-digit token. Not fixed, just flagging it for a future pass.
+- Verify by: run tools/key_tag_loops.py on both folders, spot-check anything flagged LOW CONFIDENCE by ear, then re-run the classifier audit to confirm the 244 drop to 0.
+- Status: misfiled-file moves done and verified (byte-size checked before removing sources). Key-tagging tool written, not yet executed.

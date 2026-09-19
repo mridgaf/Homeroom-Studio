@@ -48,8 +48,8 @@ from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
 from beat_recipes import (history_avoid, lane_label, load_recipe,
                           record_history, save_recipe, write_midi,
                           write_stems)
-from pattern_gen import (LIB_DIR, break_list, compose, free_beat,
-                         load_library, _lib_lane)
+from pattern_gen import (LIB_DIR, break_list, compose, flavor_role,
+                         free_beat, load_library, _lib_lane)
 
 def _resolve_beats_root():
     """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
@@ -1169,7 +1169,7 @@ def apply_directions(preset, dirs):
                    if (f[1] == "808") == (dirs["kick"] == "808")]
         if flavors:
             _, must, wants, secs = flavors[0]
-            role = preset["kit"]["kick"][0]
+            role = flavor_role(must, preset["kit"]["kick"][0])
             preset["kit"]["kick"] = (role, must, list(wants), tuple(secs))
             notes.append(f"kick: {dirs['kick']} (as asked)")
 

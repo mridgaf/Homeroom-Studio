@@ -482,6 +482,29 @@ BOOM_BAP_FLAVORS = [[0.5, "808", ["boom", "dust", "dirty"], [0.35, 0.8]],
 # clean says so there (Doc Day: 808 at 0.1 vs punch at 0.75) instead of
 # every DJ being forced clean from here.
 
+def flavor_role(must, role):
+    """Which sample bucket an 808 kick flavor draws from.
+
+    An 808 kick flavor sets must="808", and `pick` matches that word
+    against the file PATH. On 2026-09-07 the kick/808/chords split took
+    "808" off the kick role (make_drum_beats.SHOT_WORDS) and gave it to
+    `bass` -- correct for the split, but every kick_flavors 808 branch
+    still asked the KICK bucket for it. That left exactly TWO matching
+    files out of 488 (one named "VERY OVERUSED"), so every 808 beat on
+    the roster played one of two samples while the 430 real 808s sat in
+    `bass`. Measured 2026-09-19 on Hitt Kid, 40 rolls, 23/17 split.
+
+    Affected 18 identities including all nine crew DJs; owner approved
+    the roster-wide fix on 2026-09-19 rather than scoping it to one
+    legend, because the nine were broken identically.
+
+    Length is still choked by the flavor's own `secs`, so a sustained
+    808 becomes a kick-length hit exactly as before, and
+    beat_machine._holds_low_end keys off must=="808" and the secs
+    range -- not the role -- so the one-low-sound rule is unaffected.
+    """
+    return "bass" if must == "808" else role
+
 # ------------------------------------------------------- the kick banks
 # Owner request 2026-07-17: a LARGER library of patterns. Each DJ carries
 # ~10 curated kick skeletons in their vocabulary — real moves from their
@@ -1007,7 +1030,8 @@ def _compose_odd(preset, style, name, variant, tsig):
                      weights=[f[0] for f in flavors])[0]
     _, must, wants, secs = flavors[fi]
     role, _, _, _ = preset["kit"]["kick"]
-    preset["kit"]["kick"] = (role, must, list(wants), tuple(secs))
+    preset["kit"]["kick"] = (flavor_role(must, role), must,
+                             list(wants), tuple(secs))
     notes.append("kick: " + ("808 " if must else "clean/short ")
                  + "+".join(wants[:2]))
     remember_pattern(name, (preset["lanes"]["kick"][3][0], "odd", "", fi))
@@ -1366,7 +1390,8 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         # quietly turn a dembow into generic syncopation)
         preset["_canon"] = sorted(canon)
     role, _, _, _ = preset["kit"]["kick"]
-    preset["kit"]["kick"] = (role, must, list(wants), tuple(secs))
+    preset["kit"]["kick"] = (flavor_role(must, role), must,
+                             list(wants), tuple(secs))
     notes.append("kick: " + ("808 " if must else "clean/short ")
                  + "+".join(wants[:2]))
     for lane in ("snare", "clap", "hat", "snap", "perc", "bongo"):
