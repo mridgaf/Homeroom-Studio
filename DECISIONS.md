@@ -6635,3 +6635,31 @@ just not loaded by default.
   production, per the tests-before-beats hard rule.
 - Status: open until the owner (a) runs test_melodic_loops.py and (b)
   resolves the 21 truncated-name files and the ~311 never-keyed ones.
+
+### 2026-09-18 Sorted loose loop downloads into BOTC Sorted Loops
+
+- Context: owner asked to sort loose loop/sample downloads sitting in his Mac
+  Downloads folder into the right BOTC Sorted Loops category folders on
+  TBOTC 3.
+- Decision/change: scoped to only files downloaded that same day, loose in
+  Downloads (not inside pack folders). Skipped anything already filed today
+  (matched by filename against BOTC Sorted Loops) and exact duplicate
+  downloads. Classified the rest by filename/keyword into the 5 top-level
+  category folders that turned out to be the ones actually in use today:
+  Drums, Bass, Chords, Melody, Vocals (there is also an unused "Melody Loops"
+  folder — do not file into it, "Melody" is the live one). Filed 34 new
+  loops (10 Drums / 6 Bass / 3 Chords / 12 Melody / 3 Vocals), plus cleaned
+  out 7 stray Downloads duplicates of files that were already filed earlier
+  today. License (NC/ND) sorting was explicitly skipped this round — owner's
+  call, everything just goes by sound type. Non-musical/atmosphere/ambiguous
+  loops (drones, tape/glitch textures, a couple of generic-named ones — 25
+  files) were deliberately left in Downloads rather than guessed into a
+  category; there is no "Free Loops" (non-musical) folder on the drive yet.
+- Reasoning: owner explicitly said skip FX/atmosphere sorting and skip
+  license-checking for this batch rather than have Claude guess; matched
+  destination folder choice to what today's own filing activity was already
+  using instead of guessing between "Melody" and "Melody Loops".
+- Verify by: spot-check a few of the 34 newly filed loops land in the folder
+  he'd expect by ear.
+- Status: confirmed (sizes verified byte-for-byte before deleting originals).
+- Outcome: —
