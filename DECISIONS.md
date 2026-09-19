@@ -6663,3 +6663,39 @@ just not loaded by default.
   he'd expect by ear.
 - Status: confirmed (sizes verified byte-for-byte before deleting originals).
 - Outcome: —
+
+### 2026-09-18 Moved un-keyed loops out of BOTC Sorted Loops into _Needs Key
+
+- Context: follow-up to the same-day loop sort. Checked melodic_loops.py's
+  key_from_tokens() against the 21 non-drum loops just filed and found most
+  have no key token, so they're correctly categorized but invisible to the
+  engine (see the sample-folder-onboarding skill update from this session).
+- Decision/change: moved the 18 truly key-less ones (5 from Bass, 2 from
+  Chords, 11 from Melody) into a new BOTC Sorted Loops/_Needs Key folder
+  with a README explaining why and what to do (add a key by ear, move back).
+  Did NOT move 2 files that technically pass key_from_tokens() but only by
+  accident: 503241__f-r-a-g-i-l-e__...progression.mp3 reads as key "e" from
+  letters in the artist's username, and looperman-l-6386371-...-a-gooey-
+  groove-piano-loop.wav reads as key "a" from the leading "a-" in its own
+  title. Both are technically reachable by the engine right now but with an
+  unverified/likely-wrong key label — flagged here rather than moved or
+  silently left alone.
+- Reasoning: owner asked to see the un-seeable ones in one place rather than
+  scattered across 3 folders; didn't guess at actual keys (audio judgment).
+- Verify by: owner listens to the 18, renames with a real key, moves back.
+- Status: confirmed (each move checked file-exists before/after).
+- Outcome: —
+
+### 2026-09-18 Deleted the _Needs Key folder (owner's call)
+
+- Context: owner reviewed the _Needs Key holding folder from the prior entry
+  and said he doesn't want those 18 unkeyed loops.
+- Decision/change: deleted BOTC Sorted Loops/_Needs Key entirely (18 loop
+  files + its README), on the owner's direct, explicit request.
+- Reasoning: explicit owner instruction to delete, not an automated/guessed
+  cleanup — the standing "never delete" rule is about scripts guessing wrong,
+  not about declining a specific, direct request.
+- Verify by: folder confirmed gone (rm -rf, then checked it no longer exists).
+- Status: confirmed.
+- Outcome: those 18 Freesound/Looperman loops are gone for good; if he wants
+  them again they'd need to be re-downloaded.
