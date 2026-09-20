@@ -20,6 +20,41 @@ entries.
 
 ## Log
 
+### 2026-09-19 From-scratch beats sound muddy/harsh vs the Loops page — fix planned, not started
+
+- Context: Owner — beats built on the Loops page (`loops_only` mode) sound
+  great; beats built from scratch (drum one-shots + synth chords + 808)
+  sound muddy and harsh. His words: he's "messed with the levels so much
+  it sounds bad." Confirmed reference = the Loops page. Problem = whole-mix
+  tonal (muddy + harsh), not one pair of elements. Owner explicitly
+  authorized new research to OVERRULE old code for this sound design.
+- Diagnosis (research, TinyFish, agent, sourced — full report in SCRATCH.md):
+  a loops-page beat is ONE already-carved source; the from-scratch path
+  SUMS raw elements with NO per-lane carving. Mud = 200-500 Hz stacking;
+  harsh = 2-5 kHz (worst 3-4 kHz); boom = kick+808 both under 150 Hz.
+  Current code only has a weak broad mix-bus EQ (-1 dB @ 800) + master tilt
+  in groove.OWNER_TASTE["mix_eq"] / make_drum_loops.master(). No per-lane
+  HPF or 200-500 trim exists — that's the gap.
+- Fix direction: on the loops_only=False path in crew.render_crew_beat,
+  before summing — HPF every lane except kick/bass/808 (~80-150 Hz), broad
+  200-500 Hz trim on busy midrange lanes (chords/samples), gain-stage per
+  lane, then check summed slope ~ -3 to -4.5 dB/oct (lows a few dB hot).
+- Decision: owner chose MEASURE FIRST, then fix. No loops-page beats are
+  saved in the library (0 `loops_only:true` recipes found), so there's
+  nothing kept to measure — must render a controlled A/B.
+- NEXT SESSION (paused here, usage low): (1) hard rule — run full suite
+  ONCE first: `./.venv/bin/python -m pytest tests/ -q` (~8 min), render
+  nothing during it. (2) Render a matched A/B into a SCRATCH dir (never the
+  library): same DJ+key+tempo, once `loops_only=True`, once `False`.
+  (3) Measure octave-band energies + slope of both (build small tool;
+  reference_track.py only does tempo/key, no spectral). (4) Report the
+  per-band dB gap = the correction target. (5) THEN implement the per-lane
+  fix and re-measure + audition for his ear.
+- Verify by: A/B band-energy gap should show from-scratch hotter in
+  200-500 Hz and 2-5 kHz vs loops-page; after fix, gap closes. Owner's ear
+  is the final judge (audition-batch).
+- Status: open
+
 ### 2026-09-19 MIDI plays on piano/organ/guitar/bell too; picks widened 3 -> 10
 
 - Owner: MIDI should use the instruments I suggested; tell him what is left
