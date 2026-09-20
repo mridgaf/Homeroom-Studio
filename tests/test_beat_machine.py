@@ -577,7 +577,7 @@ def test_stem_volume_trim_lands_on_the_lane_gain(machine_env):
     assert "New Mix" in new_path.name
 
 
-def test_volumes_alone_are_a_valid_rebuild(machine_env):
+def test_volumes_alone_are_a_valid_rebuild(machine_env, governed):
     """No drum has to change for a remix to be worth printing."""
     root, shots = machine_env
     path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)

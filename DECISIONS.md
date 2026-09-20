@@ -20,6 +20,84 @@ entries.
 
 ## Log
 
+### 2026-09-20 True levels made the default; Doc Day off strings; chip banned for all DJs
+- Context: owner heard the `Homeroom True Levels 2026-09-20` A/B and picked
+  "b True" (governors off). Three follow-on calls (clickable): make it the
+  default; take his "Dr. Dre" DJ (= Doc Day) off his odd string config so he
+  measures like everyone else; ban chiptune everywhere and have DJs use
+  sampled synths instead.
+- Decision/change:
+  - `crew.TRUE_LEVELS` now DEFAULTS ON (`crew.py` ~151:
+    `os.environ.get("REASON_VOICE_TRUE_LEVELS","1") != "0"`). Escape hatch
+    kept: `REASON_VOICE_TRUE_LEVELS=0` restores the kick-relative governors.
+  - Doc Day `chord_source` `[[strings,3],[piano,2],[synth,1]]` -> drop strings
+    -> `[[piano,2],[synth,1]]`. "strings" = the separate London Symphonic
+    library (`string_sampler`), not the project instrument pack; that was the
+    "weird config." Now piano/synth from the same pack as everyone.
+  - chip removed from every DJ, weight folded into `synth` (sampled synth
+    material from his own banks, NOT an oscillator — the in-pack "analog"
+    read): Farrow, Kane East, Timberline, DJ Light Green (legends_config.json)
+    and New Math (crew_config.json + DEFAULT_CREW in crew.py). New Math's whole
+    harmonic identity WAS chip — owner authorized gutting it explicitly. The
+    synthesized chip voice (chip_synth.py) still exists and is still tested
+    (`test_nothing_but_chip_is_ever_generated` monkeypatches it in); it is just
+    unreachable from any DJ config now. `chip_tuning`/`chip_count` on New Math
+    are now dead keys, left in place (harmless, minimal diff).
+  - "Chiptune" GENRE also debipped on owner's follow-up call: chord_source
+    chip -> synth in genres_config.json AND the genres.py default seed. So
+    literally nothing (DJ, legend, or genre) can reach the synthesized chip
+    voice from a config anymore.
+- Tests: 7 governor tests asserted the old kick-relative rules and went red
+  under the new default. Fixed with a `governed` fixture (tests/conftest.py)
+  that forces `crew.TRUE_LEVELS=False` so they test the shipped escape-hatch
+  mode: 4 in test_audio_quality.py, test_volumes_alone_are_a_valid_rebuild,
+  test_the_low_end_ducks..., test_breakdown_empties... All 7 now pass.
+- Verify by: `pytest tests/` — governor tests green. Owner ear on a new batch
+  (Doc Day + New Math changed the most audibly). NOT rendered/heard yet.
+- Status: open — code+tests verified; sound not auditioned.
+- KNOWN NOISE: ~4-7 test_beat_machine.py tests (generate-based:
+  test_generate_ships, test_stem_rack, test_chord_bass_line,
+  test_chords_direction, test_rebuild_regenerates, test_harmony_opens,
+  test_volumes_alone) flap pass/fail every run from generate()'s unpinnable
+  randomness — confirmed failing at the committed baseline too. Pre-existing,
+  not from this change.
+
+### 2026-09-20 From-scratch muddy/harsh: measured it, and it's the level governors
+- Context: continuing the 2026-09-19 "muddy/harsh vs Loops page" thread.
+  Owner redirected mid-session: "for this mix I want to start with everything
+  at its true volume and disregard any of those rules for the mix" — the
+  kick-relative level rules.
+- Measured first (new tool `tools/spectral_gap.py`, self-checked: pink -3.01
+  dB/oct): the from-scratch path is SCOOPED vs the loops that sound great —
+  250-500 Hz down 6-7 dB — with the SAME overall tilt (-4.8 both). NOT the
+  "200-500 mud buildup" the 2026-09-19 plan assumed; the plan's fix direction
+  was backwards.
+- Root cause = the chord/melodic bus governor in `crew.render_crew_beat`
+  (chords pinned `chord_bus_under_kick_db`=9 under the kick RMS; snare bus 3
+  under; peak ceilings). Owner's instinct was right.
+- Decision/change: added `crew.TRUE_LEVELS` (env `REASON_VOICE_TRUE_LEVELS=1`,
+  DEFAULT OFF) guarding exactly three blocks — snare-bus governor, chord-bus
+  governor, peak-ceiling clamp. Kept the sidechain duck, per-DJ lane gains,
+  and master_to_lufs (sound design / uniform headroom, not the kick-relative
+  rules). ponytail: env flag not a threaded param, it's an experiment switch.
+- MATCHED-PAIR PROOF (`tools/make_true_levels_ab.py`): first attempt used
+  compose()+build_kit and was DRUMS-ONLY (chords come from generate()'s
+  _build_chords) — same trap as the 2026-09-19 legend drums-only audition; it
+  showed <1 dB and got thrown out. Also tried seeding generate() for a matched
+  pair — generate() has unpinnable randomness (same-seed repeat differs -12.8
+  dBFS RMS), so a seeded pair is impossible; the bench's own determinism check
+  caught it and refused to ship. Working method: wrap `render_crew_beat` so the
+  ONE kit generate() builds (drums+chords) is rendered twice, flag off then on.
+  Same kit by construction. Result: body (200-600 Hz) rules-off minus rules-on
+  = Otto +0.1 (chords already near target), Night Metro +1.9, New Math +6.0,
+  Glass Cat +0.9; avg ~+2.2 dB fuller. So the governor really was the lever.
+- Verify by: owner ear. Delivered 8 files (4 DJs x a Rules / b True) to
+  ~/Desktop/Homeroom True Levels 2026-09-20/ with READ ME. Need back: is
+  "b True" the better starting point, and does anything now poke out too loud.
+- Status: open — delivered, NOT heard. Bright top (8k+ ~+5 dB vs loops) is a
+  separate, non-level issue if his ear wants it tamed.
+- Outcome: —
+
 ### 2026-09-19 From-scratch beats sound muddy/harsh vs the Loops page — fix planned, not started
 
 - Context: Owner — beats built on the Loops page (`loops_only` mode) sound

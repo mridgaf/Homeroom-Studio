@@ -1244,14 +1244,16 @@ GENRE_SIGNATURES = {
     # it had to read instantly on two voices through a TV speaker. The
     # heroic major (uplifting), the maj7 float (dreamy) and the driving
     # minor vamp (epic / vamp_i_VI) are the four colours that covers.
-    # chord_source is chip alone: falling through to a sampled piano
-    # would defeat the entire point of the style.
+    # chord_source was chip alone; owner banned the synthesized chiptune
+    # voice everywhere 2026-09-20, so this now uses sampled synth from his
+    # own banks like the DJs. (Historical: it used to be chip only, because
+    # falling through to a sampled piano would have defeated the style.)
     "Chiptune": dict(
         key=dict(roots=[["C", 3], ["G", 2], ["A", 2], ["D", 1], ["F", 1]],
                  mode="major"),
         progressions=[["uplifting", 3], ["epic", 3], ["dreamy", 2],
                       ["vamp_i_VI", 2], ["sad_accepting", 1]],
-        chord_source=[["chip", 1]],
+        chord_source=[["synth", 1]],
         chord_rhythm="arp",
         # the whole style IS the chip voice; without this, picking
         # Chiptune and pressing go rendered drums and no chip at all

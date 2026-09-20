@@ -401,7 +401,7 @@
      2
     ],
     [
-     "chip",
+     "synth",
      1
     ]
    ],
@@ -476,10 +476,6 @@
     ]
    ],
    "chord_source": [
-    [
-     "strings",
-     3
-    ],
     [
      "piano",
      2
@@ -1284,15 +1280,11 @@
    "chord_source": [
     [
      "synth",
-     4
+     5
     ],
     [
      "pluck",
      2
-    ],
-    [
-     "chip",
-     1
     ]
    ],
    "articulation": "sustain",
@@ -3017,11 +3009,7 @@
    "chord_source": [
     [
      "synth",
-     4
-    ],
-    [
-     "chip",
-     2
+     6
     ],
     [
      "pluck",
@@ -5509,15 +5497,11 @@
    "chord_source": [
     [
      "synth",
-     5
+     6
     ],
     [
      "pluck",
      2
-    ],
-    [
-     "chip",
-     1
     ],
     [
      "bell",

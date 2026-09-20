@@ -4266,11 +4266,11 @@
    ],
    "chord_source": [
     [
-     "chip",
+     "midi",
      1
     ],
     [
-     "midi",
+     "synth",
      1
     ]
    ],

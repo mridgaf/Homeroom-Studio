@@ -282,7 +282,7 @@ def test_a_rendered_beat_is_not_silent_and_does_not_clip():
     # something.
 
 
-def test_chord_bus_lands_at_a_consistent_level_under_the_kick():
+def test_chord_bus_lands_at_a_consistent_level_under_the_kick(governed):
     """The harmonic bus must be governed, not hoped for.
 
     Before 2026-07-31 the chord level was an open-loop constant, so where it
@@ -470,7 +470,7 @@ def test_real_beats_are_not_mono_or_silent():
 
 # ------------------------------------------- peak ceilings (owner 2026-08-01)
 
-def test_a_loud_clap_sample_is_pulled_under_the_kick():
+def test_a_loud_clap_sample_is_pulled_under_the_kick(governed):
     """Owner 2026-08-01, "clap and crash are being overused".
 
     The existing bus governors work on RMS, which is blind to a single loud
@@ -602,7 +602,7 @@ def test_the_backbeat_is_whichever_lane_carries_it():
         "level it happened to be" % rel["clap"])
 
 
-def test_the_backbeat_bus_is_governed_in_both_directions():
+def test_the_backbeat_bus_is_governed_in_both_directions(governed):
     """Same governor the chord bus got on 2026-07-31, same reason.
 
     Measured across 64 shipped beats the backbeat sat a median 3.8 dB under
@@ -736,7 +736,7 @@ def test_eq_and_echo_off_by_default_change_nothing():
     assert base_lufs == off_lufs
 
 
-def test_echo_does_not_let_the_backbeat_out_power_the_kick():
+def test_echo_does_not_let_the_backbeat_out_power_the_kick(governed):
     """The echo runs BEFORE the backbeat bus governor on purpose.
 
     Put it after and the repeats are free level: the bus is measured clean,

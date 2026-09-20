@@ -251,7 +251,7 @@ def test_stamp_locks_but_drums_experiment(tmp_path, monkeypatch):
     assert len(picks) > 1
 
 
-def test_the_low_end_ducks_the_same_depth_on_every_path():
+def test_the_low_end_ducks_the_same_depth_on_every_path(governed):
     """The sub's duck depth is decided in THREE places — the peak governor's
     measuring envelope, the mix bus, and the stem written to disk. They must
     all read it from `_lane_sc`.
@@ -455,7 +455,7 @@ def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
     assert calls == [OWNER_TASTE["mix_eq"]["low_db"]]
 
 
-def test_breakdown_empties_the_bar_for_every_lane_but_the_kept_one():
+def test_breakdown_empties_the_bar_for_every_lane_but_the_kept_one(governed):
     """Night Metro's signature moment (owner 2026-09-03, "fix it now").
     Pinned in render_crew_beat because that loop is the one place EVERY
     render path passes through and the only place the chord lanes exist

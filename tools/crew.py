@@ -138,6 +138,22 @@ def _extra_cut():
     return min(EXTRA_CUT_DB, 0.0)
 
 
+# TRUE-LEVELS EXPERIMENT (owner 2026-09-20): "for this mix I want to start with
+# everything at its true volume and disregard any of those rules for the mix."
+# When on, the three kick-relative level rules are bypassed so every sample
+# sums at its own recorded level: the snare-bus governor, the chord-bus
+# governor, and the peak-ceiling clamp. The sidechain duck, per-DJ lane gains,
+# and the final loudness normalise stay (they are sound design / uniform
+# headroom, not the kick-relative rules).
+# DEFAULT ON since 2026-09-20: owner heard the A/B and true levels ("b True")
+# is the better starting point, so it is now how every beat renders. The env
+# var is kept as an escape hatch — REASON_VOICE_TRUE_LEVELS=0 restores the old
+# kick-relative rules; anything else (unset included) keeps true levels.
+# ponytail: env flag, not a threaded param — one switch. Thread it through
+# render_crew_beat's signature if it becomes a real per-render option.
+TRUE_LEVELS = os.environ.get("REASON_VOICE_TRUE_LEVELS", "1") != "0"
+
+
 # The low end is exempt from the HAT ceiling, but not from everything. Owner
 # 2026-09-01, after the tuned root 808 came back on chords beats and measured
 # 5-10 dB OVER the kick: "kick stays on top". So it is capped level with the
@@ -589,7 +605,7 @@ DEFAULT_CREW = {
                             ["F", 1]], mode="major"),
             progressions=[["math_minor_thirds", 3], ["math_major_thirds", 3],
                           ["math_whole_tone", 2], ["vamp_static_riff", 1]],
-            chord_source=[["chip", 1]],
+            chord_source=[["synth", 1], ["midi", 1]],
             chord_rhythm="arp",
             chip_tuning="atari",
             chip_count=5,
@@ -1873,7 +1889,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         kick_rms = np.sqrt((bufs["kick"] ** 2).mean())
         sn = [ln for ln in bufs
               if any(ln.startswith(s) for s in SNARE_LIKE)]
-        if kick_rms > 0 and sn:
+        if not TRUE_LEVELS and kick_rms > 0 and sn:
             bus = sum(bufs[ln] for ln in sn)
             bus_rms = np.sqrt((bus ** 2).mean())
             want = kick_rms * 10 ** (
@@ -1919,7 +1935,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         # `bus = sum(...)` then RMS — which is why nobody caught it here.
         ch_rms = np.sqrt((sum(bufs[ln] for ln in ch) ** 2).mean()) if ch \
             else 0.0
-        if kick_rms > 0 and ch_rms > 1e-9:
+        if not TRUE_LEVELS and kick_rms > 0 and ch_rms > 1e-9:
             want = kick_rms * 10 ** (
                 -OWNER_TASTE.get("chord_bus_under_kick_db", 9.0) / 20)
             # ASYMMETRIC on purpose (owner 2026-08-03, "it's always way too
@@ -2110,7 +2126,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                        if ln.startswith(HAT_TIER)), default=0.0)
         hat_cap = tier_pk * 10 ** (_extra_cut() / 20.0) if tier_pk > 0 else 0.0
 
-        if ref_pk > 0:
+        if not TRUE_LEVELS and ref_pk > 0:
             for ln in bufs:
                 head = peak_ceiling_for(ln)
                 if head is None:          # kick and snare: the reference
