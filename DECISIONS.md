@@ -20,6 +20,25 @@ entries.
 
 ## Log
 
+### 2026-09-20 Renamed the three "mutate" functions (naming clarity, no behavior change)
+- Context: owner saw the word `mutate` while I worked and wanted to confirm the
+  OLD "mutate one hardcoded skeleton per DJ" variety-killer (dead since
+  2026-07-17, replaced by fresh per-generation composition) wasn't still
+  running. It isn't. But `mutate` still named two live, unrelated, GOOD jobs —
+  a confusion trap.
+- Decision/change: pure identifier rename, 8 lines, 2 files:
+  - `pattern_gen._mutate` → `_answer_bar` (song structure: bar 2 answers bar 1;
+    def + 3 calls in `assemble()`).
+  - `beat_machine._mutate_pat` → `_vary_pat`, `_mutate_kick` → `_vary_kick`
+    (the variety engine, owner verdict 2026-07-16). Docstrings/comments using
+    the English word "mutation" left as-is.
+- Reasoning: the dead concept and the two live ones share a word; renaming
+  removes the trap. No logic touched.
+- Verify by: `grep -rn "_mutate" tools/ --include=*.py` (excl worktrees) is
+  empty; both modules import clean. Done and checked.
+- Status: confirmed
+- Outcome: —
+
 ### 2026-09-20 Unused sounds wired in (drum bells, keyless instruments); string packets; MIDI-strings deferred
 - Context: owner wanted every real sample reachable. Two hidden rules were
   hiding sounds: (1) the DRUM classifier had no "bells" role, so the 7-file

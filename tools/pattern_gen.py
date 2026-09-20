@@ -854,7 +854,7 @@ def gen_timekeeper(spec, rng):
     return "x-" * 8, mode
 
 
-def _mutate(pat, rng, amount):
+def _answer_bar(pat, rng, amount):
     """Resample a fraction of the non-anchor hits: move, drop, or add —
     how a bar becomes its A' / B relatives without losing the plot."""
     s = list(pat)
@@ -901,19 +901,19 @@ def assemble(gen_bar, rng, form=8, nbars=None):
         return [A]
     if nbars == 2:
         return [A, _fill(A, rng)]
-    half = [A, _mutate(A, rng, 0.15), A, _fill(A, rng)][:nbars]
+    half = [A, _answer_bar(A, rng, 0.15), A, _fill(A, rng)][:nbars]
     if nbars <= 4:
         return half
     if form == 4:                    # the same loop again
         return (half * (nbars // len(half) + 1))[:nbars]
-    B = _mutate(A, rng, 0.45)
+    B = _answer_bar(A, rng, 0.45)
     if B == A:                       # the answer must actually answer
         gaps = [i for i, c in enumerate(B) if c == "-"]
         if gaps:
             s = list(B)
             s[rng.choice(gaps)] = "x"
             B = "".join(s)
-    tail = [B, _mutate(B, rng, 0.15), B, _fill(B, rng)]
+    tail = [B, _answer_bar(B, rng, 0.15), B, _fill(B, rng)]
     return (half + tail + (tail * nbars))[:nbars]
 
 

@@ -230,7 +230,7 @@ def _hits(pat):
     return sum(c != "-" for c in pat)
 
 
-def _mutate_pat(pat, rng, p_drop, adds):
+def _vary_pat(pat, rng, p_drop, adds):
     """Drop/shift the small hits (x o .), sprinkle a few new soft ones.
     Capital-X anchors (the character's core grammar) and deliberate
     all-rest bars (blackouts) are left alone."""
@@ -252,7 +252,7 @@ def _mutate_pat(pat, rng, p_drop, adds):
     return "".join(s)
 
 
-def _mutate_kick(bars, rng):
+def _vary_kick(bars, rng):
     """The kick grammar itself wanders between beats (owner 2026-07-16:
     half the crew wrote their kicks entirely in capital anchors, so the
     small-hit mutation never touched them and every beat shared one kick
@@ -379,7 +379,7 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             # pass must not erode it into a bare skeleton (2026-07-17:
             # two beats collapsed to the same line that way). Only the
             # gentle anchor wander applies.
-            rewrite(ln, _mutate_kick(list(bars), rng))
+            rewrite(ln, _vary_kick(list(bars), rng))
             continue
         busy_ok = sum(map(_hits, bars)) / len(bars) >= 4
         adds = ({"sparse": 0, "home": 1, "busy": 2}[profile]
@@ -392,7 +392,7 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         # "sparse" still thins a backbeat out — it just never piles on.
         if ln in BACKBONE:
             adds = 0
-        rewrite(ln, [_mutate_pat(b, rng, p_drop, adds) for b in bars])
+        rewrite(ln, [_vary_pat(b, rng, p_drop, adds) for b in bars])
     notes.append(f"{profile} density")
 
     # 2. timekeeper density (hat/snap): thin / home / dense
