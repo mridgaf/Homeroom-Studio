@@ -2092,6 +2092,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         midi_group_order = instrument_sampler.midi_groups(
             inst_idx, sorted({n for _, _, ns in midi_prog for n in ns}),
             random.Random(variant * 971 + 13))
+    # A MIDI phrase may instead be voiced on the London strings — exact note,
+    # no pitch shift (owner rule) — rather than the sampled instrument family.
+    # One choice for the WHOLE phrase (one instrument per lane, same as
+    # midi_group_order). Offered to a free beat ("all DJs have all instruments")
+    # and to any identity whose chord_source already asks for strings; never
+    # forced on an identity that doesn't. Owner 2026-09-20.
+    midi_on_strings = bool(
+        midi_prog and strings_idx and (
+            free or (pref and any(s[0] == "strings" for s in pref)))
+        and random.Random(variant * 733 + 51).random() < 0.5)
     # ---- the owner's own pick, made to actually land (2026-08-04) ----
     # Picking "guitar" on the rack used to change nothing: nearest() shops
     # per NOTE across the whole group, so a 3-note chord pulled its notes
@@ -2175,6 +2185,28 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             if not midi_prog:
                 return None, None
             _, _, notes = midi_prog[slot % len(midi_prog)]
+            if midi_on_strings and strings_idx:
+                # the MIDI phrase's notes, voiced on the London strings via the
+                # exact-note engine (owner 2026-09-20). Mirrors the src=="strings"
+                # branch below; one instrument (strings) for the whole lane.
+                cache = {}
+                lbl = "midi: %s, strings" % midi_pick_name
+                got = _fig(
+                    lambda nt, sd: string_sampler.note_slice(
+                        strings_idx, nt, sd, cache=cache, used=used, pin=pin),
+                    lambda ns, sd: string_sampler.play_chord(
+                        strings_idx, ns, sd, used=used, pin=pin))
+                if got:
+                    return got[0], "%s %s" % (lbl, got[1])
+                if (rhythm_override or _rhythm) == "arp":
+                    a = chord_synth.arp_riff(
+                        notes, dur, preset["bpm"],
+                        lambda nt, sd: string_sampler.note_slice(
+                            strings_idx, nt, sd, cache=cache, used=used,
+                            pin=pin))
+                    return a, "%s arp" % lbl
+                return (string_sampler.play_chord(
+                    strings_idx, notes, dur, used=used, pin=pin), lbl)
             midi_groups = (midi_group_order
                            or instrument_sampler.VOICES["synth"])
         rhythm = rhythm_override or _rhythm
@@ -2377,14 +2409,31 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # and the chip voice is already a fused chord — neither ever combines
     # with another part, so they always stay at one.
     primary = order[0]
-    # HARD RULE (owner 2026-07-29, overrides the 2026-07-25 rule below):
-    # exactly one melodic voice, always — no stacking whatsoever, not even
-    # the chip voice, no rare "extra" third part. The weighted 1/2/3-part
-    # roll that used to live here is gone; part_count stays 1, which makes
-    # the multi-part render path below (part_count >= 2) unreachable. Kept
-    # rather than torn out in case this ever comes back — see
-    # theory/arrangement.md and the now-dormant OWNER_TASTE weights.
-    part_count = 1
+    # How many separate melodic PARTS (owner 2026-07-25): "individual
+    # instruments... not everything stacked... one or two... up to three".
+    # Each part is its OWN lane with its OWN single instrument — _one_instrument
+    # guards against combining two instruments WITHIN a lane, while different
+    # lanes are free to use different instruments. That is the "one instrument
+    # per LANE" rule.
+    #
+    # This restores the weighted 1/2/3-part roll. It OVERRULES the 2026-07-29
+    # whole-beat clamp (`part_count = 1`): owner 2026-09-20 clarified that rule
+    # was only ever meant to be per-lane, not one instrument for the entire
+    # beat. The "noise mess" it was patching came from combining instruments
+    # inside one lane, which _one_instrument still prevents.
+    #
+    # A loop is a finished melody, and chip/midi are already self-voiced picks
+    # (a fused chord / a written phrase), so a beat led by one of those stays a
+    # single part — they never split into roles.
+    # An explicit instrument pick (voice) means "play the chords on THIS
+    # instrument" — one instrument, his choice, never auto-layered over. Loops
+    # and chip/midi are self-voiced picks, so they stay single too. Everything
+    # else the machine voices itself may layer.
+    if voice or primary in ("loop", "chip", "midi"):
+        part_count = 1
+    else:
+        part_count = random.Random(variant * 617 + 5).choices(
+            (1, 2, 3), weights=OWNER_TASTE["melody_part_weights"])[0]
 
     if part_count >= 2:
         role_srcs = _role_sources(primary, order, own, part_count)
@@ -3569,11 +3618,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # whole instrument out at once (owner 2026-07-25) — a per-bar removal
     # would make it drop out mid-beat.
     all_lanes = list(normalize_preset(rec["preset"]).get("lanes", {}))
+    # Each chord instrument is its own rack row (chords, chords2, chords3, …)
+    # since 2026-09-20 — a beat can layer more than one. Any family handle in
+    # `drops` that resolves to real lanes is expanded to them, so removing any
+    # instrument row takes that whole instrument out. Non-family names (a drum
+    # lane, a single chord lane) resolve to no members and stay as literals.
     fam_drops = []
-    for fam in (CHORD_FAM, CHORD_BASS_FAM):
-        if fam in drops:
-            drops.remove(fam)
-            fam_drops += _family_members(fam, all_lanes)
+    for fam in [f for f in list(drops) if _family_members(f, all_lanes)]:
+        drops.remove(fam)
+        fam_drops += _family_members(fam, all_lanes)
     # A pick on a harmony row names an INSTRUMENT, not a file (owner
     # 2026-08-04). It leaves `picks` here — there is no kit_paths entry
     # to swap — and is handed to _build_chords below as the voice to try
