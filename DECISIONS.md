@@ -20,6 +20,65 @@ entries.
 
 ## Log
 
+### 2026-09-20 Unused sounds wired in (drum bells, keyless instruments); string packets; MIDI-strings deferred
+- Context: owner wanted every real sample reachable. Two hidden rules were
+  hiding sounds: (1) the DRUM classifier had no "bells" role, so the 7-file
+  `BOTC Sorted Samples/bells` folder was invisible; (2) the INSTRUMENT/melodic
+  scanner (`melodic_loops.scan`) SILENTLY DROPS any file whose NAME has no
+  musical-key token — killing all of `sub`, `Instrument Chops`, `Risers` and
+  48/87 of `Bass` in `BOTC Sorted Instruments`.
+- Changes made & verified (74 targeted tests pass, loop engine byte-identical):
+  - `sample_library.py` DIR_ROLES + `make_drum_beats.py` SHOT_WORDS: bells →
+    **perc** lane. 8 drum bells now reach the pool.
+  - `melodic_loops.scan(require_key=True)`: new flag. Instrument engine calls
+    it `False` (it pitch-detects by ear in `instrument_sampler._pitched`, so
+    it doesn't need the key in the name). require_key=False NEVER writes the
+    shared CACHE, so loops stay a separate mix (owner hard constraint).
+  - `instrument_sampler.scan`/`scan_bass` call `require_key=False`; added
+    `chop/chops`→synth group; added `_is_riser()` guard. Result: Bass playable
+    29→**87**, sub 0→**10**, Instrument Chops 0→**16** chord voices, **risers
+    excluded** (owner: risers aren't a note, keep out of the pitched engine).
+- London Symphonic Strings: owner confirmed **exact-note engine only, NO pitch
+  shifting**, reading the **full library** (it already auto-picks Close mic +
+  4 styles). Built clean copy-only packets at `TBOTC 3/Sample Packs/London
+  Strings Packets/` (Cello/Violin/Viola/Basses × sustain/pizz/short/tremolo,
+  322 files/454 MB, 1 note per pitch, Close mic, mf) as a backup — NOT wired
+  in as source. Library is strings only; no woodwinds/brass exist anywhere.
+- Verify by: `scan_packs`/`scan`/`scan_bass` reachability counts above;
+  `du -sh` on the packets folder.
+- Status: confirmed (reachability + tests). Packets are a backup, unused.
+
+### NEXT SESSION: wire strings into MIDI + bump frequency (owner approved approach)
+- Owner chose "String DJs + bump their frequency": (1) let a **MIDI phrase**
+  be voiced on the London strings via the exact-note `string_sampler` path
+  (today `src=="midi"` only reaches `MIDI_VOICES` = piano/organ/guitar/bell/
+  synth/pluck/pad — strings are locked out; see `beat_machine.py` ~2174 and
+  the separate `src=="strings"` branch ~2204). All FOUR sections (basses only
+  when nothing else holds the low end — existing rule). (2) Bump how often the
+  string-suited DJs call for strings — identity-sensitive, keep to DJs that
+  ALREADY have strings in `chord_source`; do NOT add strings to others.
+- Delicate core-engine surgery (one-instrument-per-beat + pin rules). Verify
+  by RENDER audition (before/after), not code alone. Run full suite alone
+  first per hard rule.
+- Status: open — not started; approach approved this session.
+
+### 2026-09-20 NEXT SESSION START HERE: two "drum"-named low-end hits in one beat
+- Owner: "there should not be a kick drum and a bass drum, both named [drum],
+  together in a beat" — the newly rendered beats had it in many of them.
+- Grounded (read-only, no fix): the engine has separate low-end lanes —
+  `kick`, `bass` (the sampled 808), and the tuned `sub` (see crew.py:101,106
+  `_LOW_END`). A beat can carry kick + bass together; if the 808/`bass` lane
+  picks a sample file named "...Drum..."/kick-like, you get two drum-named
+  low hits stacked. That matches the report.
+- BLOCKING, UNANSWERED (owner dismissed the question, said wait): which rule?
+  (a) 808/bass lane must not pick a drum/kick-named sample (fix = filter the
+  808 pool), (b) never both a kick lane AND a sampled bass lane in one beat
+  (fix = stop them co-existing), or (c) stem-naming only (sound fine). These
+  are different fixes — do NOT guess; ask first next session.
+- Where the offending beats are (the scratch/library render he tried) not yet
+  identified — get the path so the fix can be measured on real cases.
+- Status: open — not investigated, not fixed. Ask the (a/b/c) question first.
+
 ### 2026-09-20 True levels made the default; Doc Day off strings; chip banned for all DJs
 - Context: owner heard the `Homeroom True Levels 2026-09-20` A/B and picked
   "b True" (governors off). Three follow-on calls (clickable): make it the

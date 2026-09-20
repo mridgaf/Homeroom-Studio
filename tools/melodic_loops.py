@@ -153,7 +153,7 @@ def is_full_mix(tokens):
     return False
 
 
-def scan(roots=None):
+def scan(roots=None, require_key=True):
     """Walk the pack roots -> melodic loops/one-shots whose file name
     itself names a key. Falls back to the last good scan when the drive
     is unplugged, same contract as sample_library.scan_packs and
@@ -162,7 +162,16 @@ def scan(roots=None):
     Default roots come from load_loop_roots() -- ITS OWN config keys
     (loop_roots/loop_sorted_root), separate from the drum and instrument
     pools on purpose (owner 2026-09-14, see load_loop_roots docstring).
-    Do not change this back to load_roots()."""
+    Do not change this back to load_roots().
+
+    require_key (owner 2026-09-20): the LOOP engine needs a name-key to
+    place a loop in-key, so it keeps require_key=True and behaves exactly
+    as before -- including the shared CACHE. The INSTRUMENT engine
+    (instrument_sampler) detects a file's pitch by EAR afterwards, so it
+    calls require_key=False to also bring in keyless files (key=None,
+    which instrument_sampler._pitched then measures). That path NEVER
+    writes the shared CACHE, so it can never leak keyless entries into the
+    loop engine's unplugged-drive fallback -- loops stay a separate mix."""
     roots = roots if roots is not None else load_loop_roots()
     found = []
     seen_any = False
@@ -177,7 +186,9 @@ def scan(roots=None):
             tokens = _tokens(path, rootp)
             key = key_from_tokens(tokens)
             if key is None:
-                continue
+                if require_key:
+                    continue
+                key = (None, None)            # pitch detected by ear later
             role = _role(tokens)
             if role in ("drum", "vocal"):
                 continue
@@ -195,11 +206,12 @@ def scan(roots=None):
             return json.loads(CACHE.read_text())
         except (OSError, ValueError):
             return []
-    try:
-        CACHE.parent.mkdir(parents=True, exist_ok=True)
-        CACHE.write_text(json.dumps(found))
-    except OSError:
-        pass
+    if require_key:                               # loop engine owns the cache
+        try:
+            CACHE.parent.mkdir(parents=True, exist_ok=True)
+            CACHE.write_text(json.dumps(found))
+        except OSError:
+            pass
     return found
 
 

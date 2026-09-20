@@ -64,8 +64,13 @@ DIR_ROLES = [
              "CLOSED HAT", "HAT", "RIDE")),
     ("crash", ("CRASH", "CYMBAL", "SPLASH", "CHINA")),
     ("bongo", ("BONGO", "CONGA")),
+    # bells added 2026-09-20 (owner): the drum-folder "bells" (7 Cymatics
+    # glock/vibra bells) were unreachable -- no drum role knew the word.
+    # They live in the DRUM sorted root, so they play as tuned percussion.
     ("perc", ("PERC", "TOM", "SHAKER", "TAMB", "COWBELL", "BLOCK",
-              "CLAVE", "TABLA", "TIMBALE")),
+              "CLAVE", "TABLA", "TIMBALE", "BELL", "BELLS", "GLOCK",
+              "GLOCKENSPIEL", "CHIME", "CHIMES", "KALIMBA", "MARIMBA",
+              "VIBRA", "VIBRAPHONE", "XYLO", "XYLOPHONE", "CELESTE")),
     # phase 2 (owner 2026-07-23): bass + vocals are in now.
     ("bass", ("808", "BASS", "SUB", "REESE", "BASSLINE")),
     ("vox", ("VOCAL", "VOX", "ACAPELLA", "ACAPPELLA", "ADLIB", "CHANT",

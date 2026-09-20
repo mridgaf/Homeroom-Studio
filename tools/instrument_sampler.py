@@ -85,7 +85,12 @@ GROUPS = [
     ("pluck", ("pluck", "plucks", "plucked")),
     ("pad", ("pad", "pads", "atmos", "ambient", "ambience", "drone")),
     ("synth", ("synth", "synths", "saw", "square", "lead", "leads", "arp",
-               "arps", "bleep", "stab", "stabs")),
+               "arps", "bleep", "stab", "stabs",
+               # "chop"/"chops" added 2026-09-20 (owner): the "Instrument
+               # Chops" folder is a grab-bag of chopped instrument stabs
+               # with no single family, so it plays as the generic sampled
+               # voice. Reached by folder name via _dir_group.
+               "chop", "chops")),
 ]
 GROUP_NAMES = tuple(g for g, _ in GROUPS)
 
@@ -365,6 +370,16 @@ def _pitched(todo, status, cache_key):
     return found
 
 
+def _is_riser(path_str):
+    """A riser/sweep transition, by folder or name. Owner 2026-09-20 chose
+    to keep risers OUT of the pitched instrument engine -- a swoosh has no
+    single note, so pitch-detecting it is meaningless. Whole-token match so
+    'Highriser' or 'Sunrise' can't trip it."""
+    import re as _re
+    toks = {t for p in Path(path_str).parts for t in _re.split(r"[^a-z0-9]+", p.lower())}
+    return bool(toks & {"riser", "risers", "uplifter", "uplifters"})
+
+
 def scan(index=None, status=None):
     """The playable instrument index: one entry per usable file, carrying
     the group it belongs to and the MIDI note it actually sounds. Reads
@@ -373,11 +388,17 @@ def scan(index=None, status=None):
     adds no new disk crawl.
     """
     roots = load_instrument_roots()
-    entries = scan_melodic(roots=roots) if index is None else index
+    # require_key=False (owner 2026-09-20): the instrument engine detects
+    # pitch by ear in _pitched below, so it does not need the key spelled
+    # in the file name -- this is what finally lets the keyless Bass, sub
+    # and Instrument Chops files in. The loop engine keeps require_key=True.
+    entries = scan_melodic(roots=roots, require_key=False) if index is None else index
     todo = []
     for e in entries:
         if e.get("role") == "bass":       # a bass sample voiced as a chord
             continue                      # is mud, whatever its name says
+        if _is_riser(e["path"]):          # risers stay out (owner 2026-09-20)
+            continue
         group = _dir_group(e["path"], roots) or group_of(e["name"])
         if group is not None:
             todo.append((e, group))
@@ -391,8 +412,9 @@ def scan_bass(index=None, status=None):
     excludes them — but a bass line plays one root at a time, and that is
     exactly what these files are. Owner 2026-07-25: the synth bass under
     the chords becomes his own bass sounds wherever they can reach."""
-    entries = scan_melodic(roots=load_instrument_roots()) if index is None else index
-    todo = [(e, "bass") for e in entries if e.get("role") == "bass"]
+    entries = scan_melodic(roots=load_instrument_roots(), require_key=False) if index is None else index
+    todo = [(e, "bass") for e in entries
+            if e.get("role") == "bass" and not _is_riser(e["path"])]
     return _pitched(todo, status, "bass_index")
 
 

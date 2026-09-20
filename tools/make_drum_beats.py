@@ -48,7 +48,13 @@ SHOT_WORDS = [
     ("snare", {"snare", "snares", "sd"}),
     ("perc", {"perc", "percussion", "conga", "bongo", "shaker", "tom",
               "toms", "tamb", "tambourine", "rim", "cowbell", "block",
-              "clave", "tabla"}),
+              "clave", "tabla",
+              # bells added 2026-09-20 (owner) -- mirror of the DIR_ROLES
+              # perc entry in sample_library so a bell caught by name (not
+              # just by folder) also lands as tuned percussion.
+              "bell", "bells", "glock", "glockenspiel", "chime", "chimes",
+              "kalimba", "marimba", "vibra", "vibraphone", "xylo",
+              "xylophone", "celeste"}),
     ("bongo", {"bongo", "bongos", "conga", "congas"}),
     ("fx", {"fx", "riser", "sweep", "impact", "whoosh", "foley", "glitch",
             "laser", "zap", "scratch", "texture", "reverse", "vinyl"}),
