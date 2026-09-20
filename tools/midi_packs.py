@@ -32,7 +32,7 @@ import mido                                              # noqa: E402
 
 from key_context import (KeyContext, MODES, SHARPS,              # noqa: E402
                         mode_family, name_chord)
-from sample_library import load_midi_roots                # noqa: E402
+from sample_library import load_midi_roots, load_midi_sorted_root  # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/midi_index.json"))
 MIDI_EXTS = {".mid", ".midi"}
@@ -47,6 +47,11 @@ ROLE_WORDS = [
     ("bass", ("BASS", "808", "SUB")),
     ("melody", ("MELOD", "LEAD", "ARP", "TOPLINE", "PLUCK")),
 ]
+
+# BOTC Sorted MIDI folder name -> role (folder wins over file name there)
+SORTED_FOLDER_ROLE = {"chords": "chord", "chord": "chord",
+                      "melody": "melody", "bass": "bass",
+                      "drums": "drum", "drum": "drum"}
 
 # "Cymatics - Python MIDI 12 - C# Min.mid" -> ("C#", "minor")
 KEY_IN_NAME = re.compile(
@@ -194,6 +199,7 @@ def scan(roots=None):
     and finds 0 of these files (2026-09-15 fix, same starvation bug as
     the 2026-09-13 instrument fix and the 2026-09-14 loop fix)."""
     roots = roots if roots is not None else load_midi_roots()
+    sorted_root = str(load_midi_sorted_root() or "").rstrip("/").lower()
     found = []
     seen_any = False
     for root in roots:
@@ -201,6 +207,7 @@ def scan(roots=None):
         if not rootp.exists():
             continue
         seen_any = True
+        is_sorted = str(root).rstrip("/").lower() == sorted_root
         for path in sorted(rootp.rglob("*")):
             if path.suffix.lower() not in MIDI_EXTS or not path.is_file():
                 continue
@@ -210,6 +217,11 @@ def scan(roots=None):
                 continue                          # we don't have, not a crash
             parts = path.relative_to(rootp).parts
             role = _role(list(parts), notes)
+            if is_sorted and len(parts) > 1:
+                # BOTC Sorted MIDI: the FOLDER he filed it in is the
+                # answer (Chords/Melody/Bass/Drums), never the file name
+                # (owner 2026-09-19, same rule as the other sorted folders)
+                role = SORTED_FOLDER_ROLE.get(parts[0].lower(), role)
             entry = {"name": path.stem, "path": str(path), "kind": "midi",
                      "role": role, "notes": len(notes),
                      "beats": round(max((e for _, e, _, _ in notes),

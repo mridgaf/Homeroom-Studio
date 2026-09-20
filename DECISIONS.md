@@ -20,6 +20,146 @@ entries.
 
 ## Log
 
+### 2026-09-19 MIDI plays on piano/organ/guitar/bell too; picks widened 3 -> 10
+
+- Owner: MIDI should use the instruments I suggested; tell him what is left
+  out and how to rename; check all subfolders are read; widen picks to 10.
+- Done: `instrument_sampler.MIDI_VOICES` (piano, organ, guitar, bell, synth,
+  pluck, pad) + `midi_groups()`: ONE primary group per beat, chosen only
+  among groups with a sample within 4 semitones of every phrase note, synth
+  family as backup (old behaviour if nothing covers). `beat_machine` uses it
+  (was hard-wired to synth/pluck/pad). `chord_synth.MIDI_PICK_TOP = 10`.
+- Audit of BOTC Sorted Instruments (320 wavs, all subfolders walked): 171
+  pass the name rules; 109 have no readable key (Bass 48, Instrument Chops
+  30, Synths 13, sub 11, Risers 7); Bells "Submarine" (contains SUB) and
+  Plucks "Waterdrum" (contains DRUM) are misread by name; Organs = 1 file.
+  Pitch clarity check not run (needs the Mac).
+- NEXT (owner 2026-09-19): end this session with NO full test run. Pick up
+  in Claude Code on the Mac: (1) render a batch first, MIDI forced, with
+  `tools/beat_machine.py --render ... --out <scratch>` (never into the
+  library); (2) let the render FINISH; (3) THEN run the full test suite
+  once, alone. Owner waived "tests before beats" for this one batch only.
+  Not done here: this cloud session cannot run the engine on his Mac. One
+  test beat rendered on a helper copy (Otto Grit, 91bpm, MIDI "Python MIDI
+  36 - F Min"); that copy is scratch, not a real result.
+- Owner rules restated: never guess, never assume; don't touch loops
+  (loop_roots left EMPTY, as it is now, by his answer).
+- Verify: tests added in test_midi_packs.py pass. Two test_v6 render tests
+  fail only because pedalboard isn't on the Linux helper. Full suite NOT run;
+  no beat rendered or heard. Organ rarely wins (1 file).
+- Status: open.
+
+### 2026-09-19 Sorted folders only: MIDI gets its own sorted folder, pack folders cut
+
+- Context: closes the BLOCKING item in the entry below. Owner: BOTC Sorted
+  Loops / Instruments / Samples are the only audio folders; he already
+  copied what he needed out of the packs. He wants MIDI to work with them.
+- Found: all 298 MIDI files lived ONLY in the pack folders (295 in 2022
+  sample packs, 3 in Function Loops, 0 in Live loop cds). The three sorted
+  folders had 0 MIDI. Cutting the packs alone would have emptied MIDI.
+- Answers (clickable): copy MIDI into a new folder; MIDI notes played by
+  Sorted Instruments; cut the 3 pack folders.
+- Done: COPIED (not moved) all 298 into `Sample Packs/BOTC Sorted MIDI/`
+  (Chords 183, Melody 58, Drums 53, Bass 4) + `_copy_manifest_2026-09-19.txt`.
+  sample_packs.json: `loop_roots` [] and `midi_roots` [] (were the 3 pack
+  folders), new `midi_sorted_root`. midi_packs.scan: in that folder the
+  FOLDER name sets the role, not the file name. New
+  `sample_library.load_midi_sorted_root`. Drums/instruments were already
+  sorted-only.
+- Verify: scan of the new folder = 298 files, same 183/58/53/4 split, 183
+  chord files all keyed. tests/test_midi_packs.py 6 pass, 1 skipped (needs
+  the drive). Full suite NOT run (no render this session, and the Mac venv
+  can't run on the Linux helper). Loop pool size after the cut not
+  re-measured. Not heard.
+- Still true: MIDI voices only through the instrument groups synth/pluck/pad
+  (beat_machine.py ~2168) and picks from the top 3 in-key files only.
+  Widening either is NOT done - asked owner.
+- Status: open (config + scan verified; no beat rendered).
+
+### 2026-09-19 Instrument-access audit, non-loop mode (READ ONLY — nothing fixed)
+
+- Context: owner asked for an adversarial read of how all DJs reach
+  instruments in normal (non-loop) beats, the chord/stacking history, and
+  whether loops-mode rules leak into normal beats. Explicitly: show the
+  picture, fix nothing. Three subagents (none wrote the code) plus my own
+  direct measurement on the drive. No renders, no pytest, no edits.
+- Roster correction: there are **24 personas, not 21** — crew_config.json
+  has Half Light and Fast Water beyond the nine; legends_config.json has
+  DJ Light Green beyond the twelve.
+
+**STACKING — settled, do not re-litigate.** The engine does not combine two
+instruments into one lane. `_one_instrument` (beat_machine.py:1820, called
+:2457) is a hard invariant, no exception clause; a failing plan is thrown
+out and the chord lane is dropped with a reason on the beat card. Measured
+over 1,533 saved recipes: last multi-folder chord lane was beat #1708
+(2026-08-03), zero in the 649 beats since. Two things that are NOT
+violations: (a) Otto Grit + Doc Day `sub_layer` sums a synth sub into the
+kick lane — he approved it by name 2026-09-03; (b) ~210 September stems are
+named "piano stack"/"bell stack" — that is `_render_one`'s label for ONE
+instrument playing a block chord (beat_machine.py:2298). The label is
+misleading and is the likely reason this keeps feeling unresolved.
+
+**LOOPS-MODE BLEED — essentially none.** One real crossover: the 2026-09-15
+widening of `melodic_loops._SPLIT` (split on `()` and `,`) also feeds the
+normal-beat loop pool. Correct direction, more reaching him. Gap: the
+boundary test covers only `loop_mode.py`, not `loop_lanes.py` (297 lines).
+
+**THE REAL LOCKOUT IS THE LIBRARY, NOT THE DJ CONFIGS.** Every persona rolls
+a "free beat" ~30% of the time where any voice can win, so `chord_source`
+weights narrow but never wall off. The only true per-DJ lockout is `chip`
+(excluded from free beats by his 2026-07-25 rule). Measured, my own run:
+- BOTC Sorted Instruments: 338 audio → 218 keyed → 178 playable (147 chord
+  index + 31 bass). Losses: 120 no readable key, 7 no instrument group (all
+  SynSounds), 17 clarity < 0.70, 16 unreadable/unmeasured.
+- Of the 147, only **55 distinct (group, note) pairs** are ever returned —
+  `_closest` is deterministic, so 92 files are permanently shadowed.
+- Chip and Choir folders are **EMPTY (0 files)**. That is why every "choir"
+  beat is a pad (`VOICES["choir"]=("choir","pad")`) and every chip beat is
+  the synthesized oscillator. Not a bug — nothing is in them.
+- `organ` = 1 file (note 48), `string` = 1 file (note 72).
+- Pluck samples start at MIDI 60; chord roots always land 48–59, so pluck
+  hands off to synth. Glass Cat declares 40% pluck, gets 9%.
+- `midi` voice is hard-wired to the synth group (beat_machine.py:2168) —
+  Rage Engine's "orchestral" character is a sampled synth on 44% of beats.
+- Strings: in-character is sustain + close mic only = 350 of 11,870 rows
+  (2.9%); the other 97.1% only on free beats.
+- Loop picks come from `pool[:3]` — 78.9% of the keyed loop pool can never
+  be chosen. MIDI is `role=="chord"` only → 120 of 183 unreachable.
+
+**NAME + FOLDER RULES that block files (measured on his three folders).**
+Key regex `melodic_loops._KEY_TOKEN` accepts exactly `A–G` + optional `#/b`
++ optional `m/maj/min/major/minor`. Name split on `[\s_\-(),]+` — square
+brackets and full stops are NOT split points.
+| pattern | instruments | loops | example |
+| no key at all | 98 | 346 | `BIZKEL Inst Chop 1.wav` |
+| key + octave | 14 | 60 | `Analagous_C3.wav` |
+| key in `[brackets]` | 6 | 0 | `Bass 01 [F] - Don't Start Now.wav` |
+| chord name | 0 | 4 | `Manta, Em7, 164 long.wav` |
+| key glued to word | 2 | 0 | `flagonC.wav` |
+Folder names not recognised as an instrument family: `Instrument Chops`
+(30), `SynSounds` (18 — 7 of them ARE keyed and die here), `sub` (11),
+`Risers` (7). On the drum side `bells` (8) has no DIR_ROLES match. All
+other folders across the three sorted roots classify correctly.
+⚠ 13 files get a WRONG key from a take-letter: `Angry OBX-a..e` (5 takes of
+one patch read as keys A/B/C/D/E) and `FX STAB A`/`STAB B` in Acid Techno
+(take letter beats the folder's real Ab; `STAB B4`, no space, is correct).
+
+**OPEN, BLOCKING, ASK HIM FIRST.** Owner 2026-09-19: BOTC Sorted Loops /
+Instruments / Samples "are the only folders" the project should pull from.
+Code disagrees on two of four roots (sample_packs.json):
+- drums → BOTC Sorted Samples only ✓
+- instruments → BOTC Sorted Instruments only ✓
+- loops → sorted folder + `2022 sample packs` + `Function Loops - Black
+  Friday 2024 Sampler` + `Live loop cds`. 2,095 of 3,612 entries come from
+  those three ✗
+- midi → ONLY those three; no sorted folder listed, no sorted-MIDI folder
+  exists. Cutting them leaves MIDI with **no source at all** ✗
+Also unreached by any root: `fk 11 kit !`, `fk drumkit ♡`, `fk mixing kit`.
+Do not start fixing until he says which way on the three pack folders.
+- Verify by: re-run the measurements in this entry after any fix.
+- Status: superseded 2026-09-19 (see entry above) — owner answered; packs cut, MIDI copied.
+
+
 ### 2026-09-16 Loops-only beats: FIVE LANES (owner spec, overrides all earlier loops plans)
 
 - Context: closes "NEXT SESSION: loops-only beats need the normal lane types".

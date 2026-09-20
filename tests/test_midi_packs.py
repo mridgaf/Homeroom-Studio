@@ -67,3 +67,38 @@ def test_scan_finds_his_real_midi_packs():
 def test_progression_ignores_single_note_stacks():
     notes = [(0.0, 1.0, 60, 90)]
     assert progression(notes) == []
+
+
+# ---- 2026-09-19: MIDI plays on more of his instrument folders ----------
+def _fake_index():
+    def e(g, note):
+        return {"group": g, "note": note, "path": "/x/%s%d.wav" % (g, note),
+                "name": g, "clarity": 0.9}
+    return ([e("piano", n) for n in (48, 55, 60)]
+            + [e("organ", 48)]                    # a 1-file group
+            + [e("synth", n) for n in (50, 57)])
+
+
+def test_midi_groups_only_uses_groups_that_cover_the_notes():
+    import random
+    import instrument_sampler as ins
+    idx = _fake_index()
+    seen = set()
+    for seed in range(40):
+        order = ins.midi_groups(idx, [48, 52, 55, 59], random.Random(seed))
+        seen.add(order[0])
+        assert order[1:] == tuple(g for g in ins.MIDI_FALLBACK if g != order[0])
+    assert "piano" in seen and "synth" in seen
+    assert "organ" not in seen        # 1 file at 48 can't reach 59 within 4
+    assert "guitar" not in seen       # no guitar files at all
+
+
+def test_midi_groups_falls_back_to_synth_family_when_nothing_covers():
+    import random
+    import instrument_sampler as ins
+    assert ins.midi_groups([], [48, 52], random.Random(1)) == ins.MIDI_FALLBACK
+
+
+def test_midi_pick_widened_to_ten():
+    import chord_synth
+    assert chord_synth.MIDI_PICK_TOP == 10

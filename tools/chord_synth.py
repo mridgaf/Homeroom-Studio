@@ -78,6 +78,11 @@ def sample_pool(key, bpm=None):
             if e["role"] in ("chord", "melody")]
 
 
+# How many in-key MIDI files a beat may choose from (owner 2026-09-19:
+# was 3, which left ~120 of 183 chord files unreachable).
+MIDI_PICK_TOP = 10
+
+
 def midi_pool(key):
     """In-key chord-role MIDI phrases from the owner's MIDI packs
     (tools/midi_packs.py) — the symbolic twin of sample_pool above: a

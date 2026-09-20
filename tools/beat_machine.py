@@ -2054,7 +2054,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     if want_midi:
         m_pool = chord_synth.midi_pool(key)
         if m_pool:
-            m_pick = random.Random(variant * 967).choice(m_pool[:3])
+            m_pick = random.Random(variant * 967).choice(
+                m_pool[:chord_synth.MIDI_PICK_TOP])
             midi_prog = chord_synth.midi_progression(m_pick, key)
             midi_pick_name = m_pick["name"]
     strings_idx = None
@@ -2083,6 +2084,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # needed for essentially every signature, not just the horn one.
     import instrument_sampler
     inst_idx = instrument_sampler.scan()
+    # ONE instrument for the whole MIDI phrase (owner 2026-09-19): piano,
+    # organ, guitar, bell or the synth family, chosen once per beat from
+    # whichever can cover the phrase's notes.
+    midi_group_order = None
+    if midi_prog and inst_idx:
+        midi_group_order = instrument_sampler.midi_groups(
+            inst_idx, sorted({n for _, _, ns in midi_prog for n in ns}),
+            random.Random(variant * 971 + 13))
     # ---- the owner's own pick, made to actually land (2026-08-04) ----
     # Picking "guitar" on the rack used to change nothing: nearest() shops
     # per NOTE across the whole group, so a 3-note chord pulled its notes
@@ -2158,14 +2167,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # normal progression's 2-4 chords already cycle across a beat
         # (see per_chord below). No audio here: a MIDI file is silent
         # by itself, so it still needs a sampled voice to sound —
-        # forced to "synth" (owner 2026-07-23: no synthesized chord
-        # voice, everything sampled from his own banks).
+        # played by his own sampled instruments (owner 2026-07-23: no
+        # synthesized chord voice; 2026-09-19: piano/organ/guitar/bell
+        # too, one per beat -- see instrument_sampler.midi_groups).
         midi_groups = None
         if src == "midi":
             if not midi_prog:
                 return None, None
             _, _, notes = midi_prog[slot % len(midi_prog)]
-            midi_groups = instrument_sampler.VOICES["synth"]
+            midi_groups = (midi_group_order
+                           or instrument_sampler.VOICES["synth"])
         rhythm = rhythm_override or _rhythm
 
         def _fig(render_note, render_chord):

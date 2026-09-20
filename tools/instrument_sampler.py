@@ -89,6 +89,28 @@ GROUPS = [
 ]
 GROUP_NAMES = tuple(g for g, _ in GROUPS)
 
+# Which BOTC Sorted Instruments folders a MIDI phrase may be played on
+# (owner 2026-09-19: "MIDI able to use the instruments you suggest" -
+# Pianos, Organs, Guitars, Bells on top of the Synths/Plucks/Pads it
+# already used). One instrument per beat, chosen from the ones that can
+# actually cover the phrase's notes; the synth family stays behind it as
+# the fall-through so a note never goes silent.
+MIDI_VOICES = ("piano", "organ", "guitar", "bell", "synth", "pluck", "pad")
+MIDI_FALLBACK = ("synth", "pluck", "pad")
+
+
+def midi_groups(index, notes, rng):
+    """The group order a beat's MIDI chords are played with: one primary
+    group (random, but only among those with a sample near EVERY note of
+    the phrase, so a 1-file group like Organs can't be stretched across
+    the whole range), then the synth family as backup. Falls back to the
+    old synth-only order when nothing covers."""
+    cands = [g for g in MIDI_VOICES if covers(index, notes, g)]
+    if not cands:
+        return MIDI_FALLBACK
+    primary = rng.choice(cands)
+    return (primary,) + tuple(g for g in MIDI_FALLBACK if g != primary)
+
 # A signature's `chord_source` word -> the group(s) it may draw from, best
 # first. "synth" stays a valid identity word (9 of the 12 legends are
 # built on it) but now means SAMPLED synth/pluck/pad material out of his

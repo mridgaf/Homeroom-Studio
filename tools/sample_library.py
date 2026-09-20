@@ -288,9 +288,10 @@ def load_midi_roots():
     keys (midi_roots/midi_sorted_root) mean neither the drum, instrument,
     nor loop switch can ever starve this pool, or vice versa.
 
-    No midi_sorted_root default -- there's no "BOTC Sorted MIDI" folder
-    yet, unlike the drum/instrument/loop pools. Add one here if he ever
-    makes one, same merge pattern as the other three."""
+    2026-09-19: BOTC Sorted MIDI now exists (midi_sorted_root) and
+    midi_roots is empty -- the 298 files were COPIED out of the three
+    pack folders, so MIDI reads only from the sorted folder, same as the
+    drum/instrument/loop pools."""
     try:
         cfg = json.loads(PACKS_CONFIG.read_text())
     except (OSError, json.JSONDecodeError):
@@ -301,6 +302,15 @@ def load_midi_roots():
                       for r in roots):
         roots.append(sr)
     return roots
+
+
+def load_midi_sorted_root():
+    """The one folder MIDI is filed in (midi_sorted_root), or None."""
+    try:
+        cfg = json.loads(PACKS_CONFIG.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    return cfg.get("midi_sorted_root")
 
 
 def _dir_role(rel_parts):
