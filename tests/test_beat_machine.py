@@ -1133,12 +1133,14 @@ def test_chord_bass_line_is_never_rendered(
     assert any(k.startswith("chord") for k in vf), vf
 
 
-def test_layering_never_happens_always_one_voice(
+def test_no_lane_ever_combines_two_instruments(
         machine_env, only_his_instruments, monkeypatch):
-    """Owner 2026-07-29 hard rule (overrides the old 'sometimes stacks
-    both, sometimes plays one, rolled per beat' rule): never layered —
-    always exactly one instrument voice for the whole beat, even for an
-    identity assigned two sounds it could have combined."""
+    """Owner 2026-09-20 (overrides the 2026-07-29 whole-beat clamp): the rule
+    is one instrument per LANE, not one instrument per beat. A beat may layer
+    more than one instrument — each in its own lane — but no single lane ever
+    combines two instruments ("piano and strings... a noise mess"). That
+    per-lane invariant is _one_instrument, and this checks it on real output
+    for an identity assigned two sounds it could have mixed."""
     root, shots = machine_env
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
@@ -1149,10 +1151,10 @@ def test_layering_never_happens_always_one_voice(
         random.seed(seed)
         path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
         rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
-        voices = _voices_of(rec)
-        assert len(set(voices)) == 1, voices        # locked, every time
-        labels = [c["voice"] for c in rec["harmony"]["chords"]]
-        assert not any(" + " in v for v in labels), labels   # never layered
+        vfiles = rec["harmony"].get("voice_files", {})
+        for lane, files in vfiles.items():
+            if beat_machine._CHORD_LANE.match(lane):
+                assert beat_machine._one_instrument(files), (lane, files)
 
 
 def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
@@ -1290,9 +1292,14 @@ def test_removing_the_chords_row_removes_every_chord_lane(
     root, shots = machine_env
     no, _p, report = _chords_beat(root, shots, monkeypatch)
     before = beat_machine.load_recipe(root, no)["preset"]["lanes"]
-    assert [ln for ln in before if beat_machine._CHORD_LANE.match(ln)], report
+    ch = [ln for ln in before if beat_machine._CHORD_LANE.match(ln)]
+    assert ch, report
+    # since 2026-09-20 a beat can carry more than one chord instrument, each
+    # its own removable row (chords, chords2, …); dropping every chord row
+    # clears every chord lane.
+    fams = sorted({beat_machine._chord_family(ln) for ln in ch})
     p2, rep2 = beat_machine.swap_many(no, {}, root=root, shots=shots,
-                                      drops=[beat_machine.CHORD_FAM])
+                                      drops=fams)
     rec2 = beat_recipes.load_recipe(root, int(p2.name.split()[0]))
     lanes = rec2["preset"]["lanes"]
     assert not [ln for ln in lanes if beat_machine._CHORD_LANE.match(ln)], \
@@ -1305,12 +1312,15 @@ def test_removing_the_chords_row_removes_every_chord_lane(
 def test_levelling_the_chords_row_moves_every_bar_together(
         machine_env, only_his_instruments, monkeypatch):
     """One row, one fader: a dB nudge has to reach every bar of that
-    instrument or the beat would get louder halfway through."""
+    instrument or the beat would get louder halfway through. Since 2026-09-20
+    a beat can hold more than one chord instrument, each its own row; the
+    'chords' fader moves the FIRST instrument's every bar together."""
     root, shots = machine_env
     no, _p, _r = _chords_beat(root, shots, monkeypatch)
     rec = beat_recipes.load_recipe(root, no)
-    was = {ln: g for ln, (p, g, f, b) in rec["preset"]["lanes"].items()
-           if beat_machine._CHORD_LANE.match(ln)}
+    members = beat_machine._family_members(
+        beat_machine.CHORD_FAM, rec["preset"]["lanes"])
+    was = {ln: rec["preset"]["lanes"][ln][1] for ln in members}
     assert len(was) > 1
     p2, _r2 = beat_machine.swap_many(no, {}, root=root, shots=shots,
                                      trims={beat_machine.CHORD_FAM: 4.0})
@@ -1640,15 +1650,16 @@ def _two_part_beat(root, shots, monkeypatch, seed=0, progression="epic"):
     return int(path.name.split()[0]), path, report
 
 
-def test_never_more_than_one_melodic_part(
+def test_more_than_one_melodic_part_is_possible_again(
         machine_env, two_real_instruments, monkeypatch):
-    """Owner 2026-07-29 hard rule (overrides the 2026-07-25 'up to three
-    parts' rule the three tests below this one used to check): exactly
-    one melodic voice, always — no stacking, no passing note, ever.
-    Sweeps the exact seeds/progressions that used to land on 2 parts
-    (seed 0, epic) and 3 parts (seeds 29 and 34, plugg_dream_9) to prove
-    the old weighted roll can no longer produce either."""
+    """Owner 2026-09-20 (lifts the 2026-07-29 'exactly one melodic voice'
+    clamp): the weighted 1/2/3-part roll — OWNER_TASTE['melody_part_weights']
+    — is back, so a beat can layer up to three instruments, each in its own
+    lane. Sweeps the seeds/progressions that historically landed on 2 and 3
+    parts and proves at least one now produces more than one melodic family
+    again, while every family is a real chord row (never a combined lane)."""
     root, shots = machine_env
+    seen_multi = False
     for seed, progression in ((0, "epic"), (29, "plugg_dream_9"),
                               (34, "plugg_dream_9")):
         no, path, report = _two_part_beat(root, shots, monkeypatch,
@@ -1658,13 +1669,10 @@ def test_never_more_than_one_melodic_part(
         ch_lanes = sorted(l for l in lanes if l.startswith("chord"))
         fams = sorted({beat_machine._chord_family(l) for l in ch_lanes}
                       - {None})
-        # NO chord lane at all is a valid outcome since 2026-08-03: the
-        # owner's one-instrument-per-stem rule drops the lane rather than
-        # voicing a chord from two instruments, and he confirmed "stick
-        # with the new rule where every beat does not have to have a chord
-        # lane". What must never happen is TWO melodic families in one
-        # beat — that is what this test is for, and it still checks it.
-        assert fams in ([], ["chords"]), (seed, report, ch_lanes)
+        assert all(f.startswith("chords") for f in fams), (seed, fams)
+        if len(fams) > 1:
+            seen_multi = True
+    assert seen_multi, "the restored roll should layer >1 instrument on a seed"
 
 
 def test_loops_always_play_alone(machine_env, monkeypatch):
