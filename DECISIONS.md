@@ -47,7 +47,7 @@ entries.
 - Verify: tests added in test_midi_packs.py pass. Two test_v6 render tests
   fail only because pedalboard isn't on the Linux helper. Full suite NOT run;
   no beat rendered or heard. Organ rarely wins (1 file).
-- Status: open.
+- Status: confirmed (MIDI-force verified on the Mac 2026-09-19, see entry below).
 
 ### 2026-09-19 Sorted folders only: MIDI gets its own sorted folder, pack folders cut
 
@@ -7041,3 +7041,40 @@ just not loaded by default.
   too; put to him rather than widened unilaterally.
 - Status: open — delivered, not heard.
 - Outcome: —
+
+### 2026-09-19 MIDI-force verified on the Mac; test beats trashed; 7 chord/harmony tests failing
+
+- Context: the waived-tests batch from the entry above, run on the Mac.
+  Owner: MIDI changes worked, don't keep the beats (trash), continue in a
+  new session.
+- Done: rendered 3 Razor beats with MIDI forced ON, into a scratch --out
+  (never the library). MIDI really drove the chords - stems named e.g.
+  "chord0 - midi_ Cymatics - Oracle Dark MIDI 15 - G Min, guitar comp,
+  Dm (i)". All voiced as guitar. Owner heard them, confirmed the MIDI
+  change works, then said trash - scratch beats removed, nothing saved,
+  nothing written to the drive.
+- HOW MIDI was forced (no built-in switch exists): copied
+  legends_config.json to scratch, set Razor's `signature.chord_source`
+  to `[["midi",1]]`, loaded via `REASON_VOICE_LEGENDS_CONFIG=<copy>`.
+  Real config untouched. chord_source lives INSIDE `signature`, not at
+  top level - the engine reads `sig.get("chord_source")`. `_source_order`
+  then commits "midi" as the beat's one primary voice.
+- Test suite (waived rule honored: render FINISHED first, then suite ran
+  ALONE): 1208 passed, 7 failed, 2 skipped, 9m17s. git clean throughout -
+  I changed no tracked code, so these 7 fail on committed main, not from
+  this work. All 7 are chord/harmony:
+  test_audio_quality::test_real_beats_are_not_mono_or_silent
+  test_beat_machine::test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims
+  test_beat_machine::test_volumes_alone_are_a_valid_rebuild
+  test_beat_machine::test_stem_rack_lists_every_drum_with_its_real_sample
+  test_beat_machine::test_chords_direction_adds_a_harmony_layer
+  test_beat_machine::test_chord_bass_line_is_never_rendered
+  test_beat_machine::test_harmony_opens_under_the_drums_with_per_bar_dynamics
+- NEXT (new session): (1) investigate the 7 failing chord/harmony tests -
+  not yet diagnosed; (2) the real feature is still unbuilt - "midi" is NOT
+  a chord_source option in any live config; wiring it in means deciding how
+  "midi" competes against sampled instruments + "loop" in the weighted
+  chord_source lists (owner wants this as its own session). Do NOT touch
+  loops.
+- Verify: re-run the 7 tests; check git stays clean.
+- Status: open (feature unbuilt; 7 tests failing, undiagnosed).
