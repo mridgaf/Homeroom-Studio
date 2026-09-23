@@ -24,6 +24,7 @@ before Checkpoint 4 ships the twenty.
 Run:  ./.venv/bin/python tools/crew.py          (prototype per personality)
 Out:  ~/Documents/Samples/Claude Drum Beats/Proto N <Name> Drums NNNbpm.wav
 """
+import bisect
 import json
 import os
 import re
@@ -38,7 +39,7 @@ import numpy as np
 sys.path.append(str(Path(__file__).parent))
 from pattern_gen import (DEFAULT_STYLE, LEGEND_OPEN_P, STYLE_VERSION,
                          free_beat)
-from make_drum_loops import SR, master, write_wav24
+from make_drum_loops import SR, highpass, master, write_wav24
 from flavor_tags import matches as flavor_matches
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
@@ -104,6 +105,23 @@ BACKBONE_LANES = ("kick", "snare")        # the reference — never adjusted
 # the digit-less "bass": bass0..N are the MELODIC chord bass and do fall
 # under the melodic ceiling below, which is why the check is exact.
 _LOW_END = {"sub", "bass", "sub808", "808"}
+# ...but the bass line (bass0..N, or an 808 playing the chords) is still a
+# BASS (owner 2026-09-23, standard hip-hop practice): kick first, then every
+# bass swells in behind it; one bass note at a time; never over the kick.
+# So it shares the low end's duck, choke and kick ceiling — while the peak,
+# hat and one-low-sound rules keep reading _LOW_END exactly.
+_BASS_LINE = re.compile(r"bass\d+$")
+
+
+def _ducks_deep(lane):
+    """The 808 / sub and the bass line: one deep duck, one choke group."""
+    return lane in _LOW_END or bool(_BASS_LINE.match(lane))
+# Where the chord / instrument lanes are cut (owner 2026-09-23). A 0.7-octave
+# edge around 120 Hz: gone below ~100, untouched above ~150 -- the bass's
+# room, per the usual "cut melodic parts under 100-200 Hz" advice, placed
+# at the low end of that range so a chord voiced down at C3 (131 Hz) only
+# dips ~4 dB instead of vanishing.
+CHORD_LOW_CUT_HZ = 120.0
 PEAK_CEILING_DB = {
     # louder than the perc floor: nothing. quieter: these two families.
     "crash": PUNCTUATION_UNDER_DB,
@@ -152,6 +170,12 @@ def _extra_cut():
 # ponytail: env flag, not a threaded param — one switch. Thread it through
 # render_crew_beat's signature if it becomes a real per-render option.
 TRUE_LEVELS = os.environ.get("REASON_VOICE_TRUE_LEVELS", "1") != "0"
+
+# NO MACHINE-MADE TONES (owner hard rule 2026-09-23: "I don't want any
+# tones created by machine"). Every sound is one of his samples -- his 808s
+# may be re-pitched ("fine, it's my sample"), but nothing is synthesized:
+# no tuned sine sub (beat_machine), no sine layered into the kick (here).
+MACHINE_TONES = False
 
 # The Loops page keeps its OWN switch (owner 2026-09-23): true levels were
 # meant for from-scratch beats only — "I didn't want any of that changed for
@@ -1332,7 +1356,12 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
         # short gated sub tone. Has to happen here, on the raw one-shot,
         # not later on the assembled beat — see kick_sub_reinforce's
         # docstring. Off unless the preset carries the field.
-        if lane == "kick" and p.get("sub_layer"):
+        # ...and OFF FOR EVERYONE since 2026-09-23, owner hard rule: "I
+        # don't want any tones created by machine." The layer is a
+        # synthesized sine, so it is refused here, at the one place it is
+        # applied, instead of trusting three configs to stay clean (the
+        # field stays in them so the old A/B benches still read).
+        if lane == "kick" and p.get("sub_layer") and MACHINE_TONES:
             x = kick_sub_reinforce(x, **p["sub_layer"])
         kit[lane] = x
         sources[lane] = path
@@ -1524,6 +1553,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             _bd_bar = _cands[int(_brng.integers(len(_cands)))]
             _bd_len = float(_bd.get("len", 1.0))
 
+    _choke_hits = {}          # low-end lane -> [(pos, vel, sound)]
     for lane, (pan, gain, feel_args, bars) in p["lanes"].items():
         off, jit, swing, seed = feel_args
         # hats_dead_straight (J Dillo, 2026-09-06). HIS ABSOLUTE, in his own
@@ -1574,6 +1604,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             events[lane] = evs
             continue
         snd = kit[lane]
+        choke = not loop_bufs and _ducks_deep(lane)
         drops_out = _bd_bar >= 0 \
             and not any(lane.startswith(k) for k in _bd_keep)
         for b in range(nbars):
@@ -1599,14 +1630,47 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                     buf[pos:e] += snd[:e - pos] * v
                     ons.append(pos)
                     evs.append((pos / SR, v))
+                    if choke:
+                        _choke_hits.setdefault(lane, []).append((pos, v, snd))
         bufs[lane] = buf
         onsets[lane] = ons
         events[lane] = evs
+
+    # ONE BASS NOTE AT A TIME (owner 2026-09-23, standard practice: an 808
+    # or a bass is mono -- each new note cuts the last, a sampler's "cut
+    # itself" / choke group). Hits used to stack, so two close 808s summed
+    # their tails into mud. Every low-end lane is ONE group, so an 808
+    # slot's last note is also cut by the next slot's first, and the loop's
+    # last note by its first (the fold below wraps it). From-scratch only.
+    if _choke_hits:
+        _starts = sorted({h[0] for hs in _choke_hits.values() for h in hs})
+        _fade = int(0.005 * SR)
+        for lane, hs in _choke_hits.items():
+            buf = np.zeros(n)
+            for pos, v, snd in hs:
+                i = bisect.bisect_right(_starts, pos)
+                nxt = _starts[i] if i < len(_starts) else _starts[0] + end
+                e = min(n, pos + len(snd), nxt)
+                seg = snd[:e - pos] * v
+                if e == nxt and len(seg) > _fade:          # cut, not ended
+                    seg = seg.copy()
+                    seg[-_fade:] *= np.linspace(1.0, 0.0, _fade)
+                buf[pos:e] += seg
+            bufs[lane] = buf
 
     # seamless loop: fold the ring-out past bar 8 back onto the start
     for lane in bufs:
         bufs[lane][:n - end] += bufs[lane][end:]
         bufs[lane] = bufs[lane][:end]
+    # CHORDS OUT OF THE BASS'S ROOM (owner 2026-09-23, standard practice:
+    # every melodic part is cut below the bass so the 808 / bass line owns
+    # the bottom). Runs on the loop-length buffer, and an FFT filter is
+    # circular, so it stays loop-safe. From-scratch only: the Loops page's
+    # "chordloop" lane keeps its own low end.
+    if not loop_bufs:
+        for lane in bufs:
+            if lane.startswith("chord"):
+                bufs[lane] = highpass(bufs[lane], CHORD_LOW_CUT_HZ)
     onsets = {k: [x for x in v if x < end] for k, v in onsets.items()}
     events = {k: [(t, v) for t, v in evs if t * SR < end]
               for k, evs in events.items()}
@@ -1873,7 +1937,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
 
     def _lane_sc(ln):
         """The duck depth this lane actually gets."""
-        return _sub_sc if ln in _LOW_END else p["sidechain"]
+        return _sub_sc if _ducks_deep(ln) else p["sidechain"]
 
     # BACKBEAT BUS GOVERNOR (owner 2026-09-02). Was a one-way cap: "the
     # snare bus never out-powers the kick" (owner 2026-07-18), which is
@@ -2164,6 +2228,21 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                     w = wet_side.get(ln)
                     if w is not None:
                         wet_side[ln] = w * (cap / pk)
+        # KICK ON TOP OF THE BASS, even at true levels (owner 2026-09-23:
+        # "kick on top, low end only"). True levels dropped every
+        # kick-relative rule, which let an 808 or bass line peak over the
+        # kick. This puts back only the low end's own ceiling; every other
+        # lane keeps its recorded level. From-scratch only (the Loops page
+        # keeps the rules it had, see LOOPS_TRUE_LEVELS).
+        if true_levels and not loop_bufs and ref_pk > 0:
+            cap = ref_pk * 10 ** (LOW_END_UNDER_DB / 20.0)
+            for ln in [l for l in bufs if _ducks_deep(l)]:
+                pk = _panned_pk(ln)
+                if pk > cap:
+                    bufs[ln] = bufs[ln] * (cap / pk)
+                    w = wet_side.get(ln)
+                    if w is not None:
+                        wet_side[ln] = w * (cap / pk)
 
 
     # stems: each lane panned to stereo with its space treatment, kick
@@ -2209,7 +2288,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             kR += bufs[lane] * gr
             if sd is not None:
                 kL, kR = kL + sd, kR - sd
-        elif lane in _LOW_END:
+        elif _ducks_deep(lane):
             bL += bufs[lane] * gl
             bR += bufs[lane] * gr
             if sd is not None:

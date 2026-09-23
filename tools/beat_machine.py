@@ -45,9 +45,9 @@ from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   build_kit, is_dj, lock_stamps, normalize_preset,
                   render_crew_beat, sub_sidechain,
                   _LOW_END, _load_choked, _pick_path, _resolve_secs)
-from beat_recipes import (history_avoid, lane_label, load_recipe,
-                          record_history, save_recipe, write_midi,
-                          write_stems)
+from beat_recipes import (OLD_LANE_LABELS, history_avoid, lane_label,
+                          load_recipe, record_history, save_recipe,
+                          write_midi, write_stems)
 from pattern_gen import (LIB_DIR, break_list, compose, flavor_role,
                          free_beat, load_library, _lib_lane)
 
@@ -952,7 +952,10 @@ LANE_WORDS = [              # most specific first; spellings are generous
     # for the kick here, so typing it changed the wrong sound; and "bass"
     # muted the 808 boom rather than the melodic line. Both fixed below —
     # longest phrase wins, see parse_directions.
-    ("kick", ("kick drums", "kick drum", "kicks", "kick")),
+    # 2026-09-23: "bass drum" means the KICK again -- the standard word;
+    # the long boom is "808" (owner: use the terms the way producers do).
+    ("kick", ("kick drums", "kick drum", "bass drums", "bass drum",
+              "kicks", "kick")),
     ("snap", ("snaps", "snap", "finger snaps")),
     ("perc", ("percussion", "percs", "perc")),
     ("bongo", ("bongos", "bongo", "congas", "conga")),
@@ -963,7 +966,7 @@ LANE_WORDS = [              # most specific first; spellings are generous
              "adlib", "chants", "chant")),
     # the BASS DRUM — the long low boom under the kick, whether it's a
     # sampled 808 (lane "bass") or the tuned synth root (lane "sub")
-    ("bass", ("bass drums", "bass drum", "bass 808", "808 bass", "808s",
+    ("bass", ("bass 808", "808 bass", "808s",
               "808", "sub bass", "subs", "sub")),
     # the BASS — the melodic low line following the chords (bass0..N).
     # Matches the chordbass family in _chord_family, which is what
@@ -1207,7 +1210,10 @@ def dj_cut(L, R, parts, bar, nbars=BARS):
 # 2026-09-01 — not by this flag but by a "not chords" condition at the
 # call site, once every identity gained chords_default. Fixed 2026-09-01:
 # the sub now rides WITH the chords, tuned to the beat's own key.
-ADD_THE_ROOT_808 = True
+# OFF since 2026-09-23 -- owner hard rule, "I don't want any tones created
+# by machine", and the tuned sub is a synthesized sine. Its DJs play the
+# bass line instead (BASS_808_DJS below). Kept only for the A/B bench.
+ADD_THE_ROOT_808 = False
 
 # Does the root 808 also ride on a CHORDS beat, tuned to that beat's key?
 #
@@ -1267,6 +1273,58 @@ REBUILD_LOCKS_KEY = True
 # Memphis, Crunk, Houston Screw, Emo Hip Hop, Miami Bass) gets the SAMPLE
 # instead; the boom-bap and live-band names get neither.
 SUB_DJS = ("Doc Day", "Wonky", "Trip Hop", "Half Light")
+
+# WHO PLAYS THE BASS ON AN 808 (owner 2026-09-23, list approved as shown).
+# Standard practice is ONE bass per beat, and which one is a style call:
+# in trap / Southern / Memphis / bounce the 808 IS the bass line -- his own
+# 808 sample, re-pitched onto each chord's root, on the kick's hits; in
+# boom bap, soul, funk and live-band styles a bass instrument plays the
+# line (his bass one-shots, _build_chords) under a short punchy kick and
+# there is no long 808. Everyone not named here is the second kind --
+# including the four old SUB_DJS, whose tuned sub was a machine tone.
+# A free beat (pattern_gen.free_beat) may land on either, as before.
+BASS_808_DJS = ("Night Metro", "Rage Engine", "Mustang", "Hitt Kid",
+                "DJ Light Green", "Memphis", "Crunk", "Houston Screw",
+                "Emo Hip Hop", "Miami Bass", "Plug", "Reggaeton Alt",
+                "New Math", "New Orleans Bounce")
+# The kick's longest ring whenever a bass plays: the kick is the punch,
+# the bass carries the long low tail (kick + 808 built as one unit).
+KICK_WITH_BASS_SECS = 0.5
+
+
+def _plays_808(variant, dirs, dj, shots):
+    """True when this beat's bass is the 808, False when it is the bass
+    line. Deterministic from the variant, so the kick pairing (before the
+    kit) and _low_voice (after it) always agree."""
+    if "bass" in dirs.get("mute", set()) or not shots.get("bass"):
+        return False
+    if dirs.get("kick") == "808":       # he typed "long 808": he gets one
+        return True
+    if free_beat(variant) and is_dj(dj):
+        return random.Random(variant * 383 + 19).random() < 0.5
+    return dj in BASS_808_DJS
+
+
+def _pair_kick(preset, plays_808, has_bass):
+    """Kick and bass as one unit (owner 2026-09-23, standard practice).
+    Whenever a bass plays, the kick is the short punchy hit -- capped at
+    KICK_WITH_BASS_SECS -- and the bass carries the long tail. On an 808
+    beat the kick also never comes from the 808 pool: two 808 samples
+    stacked is exactly the "kick drum AND bass drum" he heard 2026-09-20.
+    Runs before the kit is picked, so the kick sample is chosen short."""
+    spec = preset.get("kit", {}).get("kick")
+    if not spec or not has_bass:
+        return
+    role, must, wants, secs = spec
+    if plays_808 and must == "808":
+        flav = next((f for f in preset.get("kick_flavors", [])
+                     if f[1] != "808"), None)
+        role, must = "kick", None
+        wants, secs = (list(flav[2]), flav[3]) if flav else ([], secs)
+    lo, hi = secs if isinstance(secs, (tuple, list)) else (secs, secs)
+    cap = KICK_WITH_BASS_SECS
+    preset["kit"]["kick"] = (role, must, list(wants),
+                             (min(lo, cap), min(hi, cap)))
 
 
 def _add_root_sub(preset, kit, sources, variant, vnotes,
@@ -1354,42 +1412,61 @@ def _low_sample(kind, key_root, variant, secs):
 
 
 def _low_voice(preset, variant, dirs, traditional, dj, shots):
-    """This beat's ONE low sound: "sub", "808", "bass", "brass", "kit" (the
-    kit already carries it — a long 808 kick) or None.
+    """This beat's ONE low sound under the kick: "808" or None (None means
+    the bass LINE is the bass -- see _plays_808 / BASS_808_DJS).
 
-    OWNER HARD RULE 2026-09-14, "don't pile lows on lows": the kick plus
-    only ONE of sub / 808 / bass sample / low brass / the strings' basses.
-    This is the single place it is decided, before anything that could add
-    one: the strings read the answer (allow_basses) and the lanes add
-    exactly what it says. generate() then refuses a second low lane outright.
-
-    How OFTEN a beat has one is unchanged. In character this is the old
-    rule verbatim: the tuned sub for SUB_DJS on a traditional beat without
-    chords at 3 in 4, else the sampled 808 at SAMPLED_BASS_P. On a free beat
-    (pattern_gen.free_beat) any DJ gets any low sound his library can play,
-    at that same rate — "interchangeable with every DJ"."""
+    OWNER HARD RULE 2026-09-14, "don't pile lows on lows", made standard
+    practice 2026-09-23: one bass per beat, chosen by the DJ's style. This
+    is the single place it is decided, before anything that could add one;
+    generate() then refuses a second low lane outright."""
     if "kick" not in preset["lanes"]:
         return None
-    if _holds_low_end(preset):
-        return "kit"
-    muted = "bass" in dirs.get("mute", set())
-    sub_ok = ADD_THE_ROOT_808 and (ROOT_808_WITH_CHORDS or not dirs["chords"])
-    if (sub_ok and traditional and dj in SUB_DJS
-            and random.Random(variant * 577 + 13).random() < 0.75):
-        voice = "sub"
-    elif (shots.get("bass") and not muted
-          and random.Random(variant * 907 + 31).random() < SAMPLED_BASS_P):
-        voice = "808"
-    else:
-        return None
-    if not (free_beat(variant) and is_dj(dj)):
-        return voice
-    options = [v for v, ok in (("sub", sub_ok),
-                               ("808", bool(shots.get("bass")) and not muted),
-                               ("bass", not muted and bool(_low_pool("bass"))),
-                               ("brass", not muted and bool(_low_pool("brass"))))
-               if ok]
-    return random.Random(variant * 383 + 19).choice(options)
+    # 2026-09-23 (owner, standard practice): the one low sound is the 808
+    # for BASS_808_DJS and nothing here for everyone else -- their bass is
+    # the bass LINE, which _build_chords plays. No sub (a machine tone), no
+    # single held bass/brass root under the kick (that plus the line was
+    # two basses). A long 808 kick can no longer happen: _pair_kick caps
+    # every kick short before the kit is picked.
+    return "808" if _plays_808(variant, dirs, dj, shots) else None
+
+
+def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
+                        traditional, dj):
+    """The melodic half of a from-scratch beat, in its one right order:
+    decide the ONE bass, build the chords (and the bass line), add the 808
+    lane if it isn't already the line, refuse any second low sound.
+    generate() and the legend audition bench both call THIS, so an
+    audition can never drift from what generate() ships.
+    Returns (midi_chords, harmony_info)."""
+    low = _low_voice(preset, variant, dirs, traditional, dj, shots)
+    # an 808 beat: pick the one 808 now, so on a chords beat it can play
+    # the bass line on the chord roots (owner 2026-09-23). The strings'
+    # own basses never play -- the 808 or the bass line is THE bass.
+    bass808 = None
+    if low == "808":
+        _p, _a = _pick_path(shots, "bass", [], 0.8, variant * 71 + 5)
+        if _a is not None and np.any(_a):
+            bass808 = (_p, _a)
+    midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
+                                              dirs, vnotes,
+                                              allow_basses=False,
+                                              bass808=bass808)
+    if (harmony_info or {}).get("bass808"):
+        low = None               # the 808 is already in, as the bass line
+    # (the tuned root sub used to be added here -- gone 2026-09-23, owner:
+    # no machine-made tones. _add_root_sub survives for the A/B bench.)
+    # phase 2 (owner 2026-07-23): the sampled 808 lane -- only on a beat
+    # where it did NOT become the bass line (no chords) -- and vocals.
+    _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
+                      key_root=(harmony_info or {}).get("root"), low=low)
+    _refuse_second_low(preset, kit, sources, vnotes)
+    return midi_chords, harmony_info
+
+
+def pair_kick_for(preset, variant, dirs, dj, shots):
+    """generate()'s kick pairing, for any caller about to pick a kit."""
+    _808 = _plays_808(variant, dirs, dj, shots)
+    _pair_kick(preset, _808, has_bass=_808 or bool(dirs["chords"]))
 
 
 def _refuse_second_low(preset, kit, sources, vnotes):
@@ -1503,7 +1580,7 @@ def _808_to_key(path, audio, key_root):
 
     Shortest way round the circle, so the move is never more than 6
     semitones and the 808 keeps the register it was sampled in. Length is
-    preserved -- pedalboard's PitchShift, not a resample: a tape-speed
+    preserved -- Rubber Band, not a resample: a tape-speed
     shift would make the long 808s shorter as they go up, and the length
     of an 808's tail is the whole feel of it.
     """
@@ -1515,7 +1592,11 @@ def _808_to_key(path, audio, key_root):
         # pitch_class, not an index into a sharps-only list: "Bb".upper()
         # is "BB", which was not in it, so every Bb beat silently lost its
         # 808 (12% of chord beats, found 2026-09-14)
-        semis = (pitch_class(key_root) - pitch_class(have)) % 12
+        # a note name (the beat's key) or a pitch class 0-11 (a chord's
+        # root, when the 808 plays the bass line -- owner 2026-09-23)
+        target = (key_root % 12 if isinstance(key_root, int)
+                  else pitch_class(key_root))
+        semis = (target - pitch_class(have)) % 12
     except (ValueError, AttributeError):
         return None, 0
     if semis > 6:
@@ -1523,9 +1604,17 @@ def _808_to_key(path, audio, key_root):
     if semis == 0:
         return audio, 0
     try:
-        from pedalboard import PitchShift
+        # Rubber Band (pedalboard.time_stretch at 1.0), not PitchShift.
+        # Measured 2026-09-23 on 8 of his C 808s x 6 targets: PitchShift
+        # landed 22 cents off on average and up to 277 cents (nearly three
+        # semitones) -- its window is too short for a 30-60 Hz fundamental;
+        # Rubber Band 10 cents mean, 67 worst, and exact on a test sine.
+        # Formants follow the pitch: an 808 is a tone, not a voice.
+        from pedalboard import time_stretch
         x = np.asarray(audio, dtype=np.float32)
-        y = PitchShift(semitones=float(semis))(x.reshape(1, -1), SR)[0]
+        y = time_stretch(x.reshape(1, -1), SR, stretch_factor=1.0,
+                         pitch_shift_in_semitones=float(semis),
+                         preserve_formants=False)[0]
         return y.astype(np.float64)[:len(x)], semis
     except Exception:
         return audio, 0                   # shift unavailable: play it as-is
@@ -1941,7 +2030,7 @@ def _roll_key(sig, variant, dirs, open_roll, srng):
 
 
 def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
-                  allow_basses=None):
+                  allow_basses=None, bass808=None):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
     identity-blind default without one).
@@ -2568,8 +2657,21 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # dedicated bass lane uses them. No notes-box opt-out exists yet
     # (removed along with the rest of the old mechanism in 2026-07-29);
     # add one if he wants a per-beat "no bass" escape hatch back.
-    bass_idx = instrument_sampler.scan_bass()
     bass_beds, bass_files, bcache = {}, {}, {}
+    if bass808:
+        # THE 808 IS THE BASS LINE (owner 2026-09-23, BASS_808_DJS): his
+        # one picked 808 -- (path, audio) -- re-pitched onto each chord's
+        # root the shortest way round ("fine, it's my sample"). An 808
+        # whose note was never measured can't be tuned: no line at all.
+        p808, a808 = bass808
+        for i, chord, start_bar, dur in slots:
+            a, _semis = _808_to_key(p808, a808, chord["notes"][0])
+            if a is None:
+                bass_beds, bass_files = {}, {}
+                break
+            bass_beds[i] = a
+            bass_files[i] = p808
+    bass_idx = None if bass808 else instrument_sampler.scan_bass()
     if bass_idx:
         for i, chord, start_bar, dur in slots:
             bused = []
@@ -2601,11 +2703,28 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # 2026-07-25). Deterministic from the slot, so a rebuild matches.
         accent = _ACCENTS[slot_no % len(_ACCENTS)]
         old_b = preset["lanes"].get(f"bass{i}")
-        preset["lanes"][f"bass{i}"] = (0.0,
-                                       old_b[1] if old_b
-                                       else _BASS_GAIN * accent,
-                                       (0, 0, 50, variant + i),
-                                       [b for b in bars_list])
+        if bass808 and "kick" in preset["lanes"]:
+            # the 808 plays on the KICK's hits inside this chord's bars,
+            # with the kick's swing -- kick and 808 built as one unit, the
+            # way the old single 808 lane copied the kick. The render cuts
+            # each note at the next one (crew: one bass note at a time).
+            _kp, _kg, (_ko, _kj, ksw, ks), kbars = preset["lanes"]["kick"]
+            _end_bar = start_bar + max(1, int(round(dur / bar_s)))
+            b808 = [kbars[b % len(kbars)] if start_bar <= b < _end_bar
+                    else "-" * len(kbars[b % len(kbars)]) for b in range(nb)]
+            # ...and every chord change re-strikes it on its downbeat, kick
+            # or no kick. Without this a chord whose bars the kick skips
+            # kept the LAST chord's 808 ringing under it, a wrong note.
+            if b808[start_bar][:1] == "-":
+                b808[start_bar] = "X" + b808[start_bar][1:]
+            preset["lanes"][f"bass{i}"] = (
+                0.0, old_b[1] if old_b else 0.6, (0, 0, ksw, ks + 9), b808)
+        else:
+            preset["lanes"][f"bass{i}"] = (0.0,
+                                           old_b[1] if old_b
+                                           else _BASS_GAIN * accent,
+                                           (0, 0, 50, variant + i),
+                                           [b for b in bars_list])
         if committed:
             voice_desc = " + ".join(nm for _, nm, _ in beds[slot_no])
             # ONE LANE PER INSTRUMENT. Voice 0 keeps the plain chord{i}
@@ -2685,7 +2804,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                                     for ln, fs in voice_files.items()},
                     # which INSTRUMENT each chord lane is, so the rack can
                     # say "HORNS" instead of "CHORDS" (owner 2026-07-25)
-                    "voice_names": dict(voice_names)}
+                    "voice_names": dict(voice_names),
+                    # the 808 that played the bass line, so a rebuild can
+                    # voice it again (None: the bass line was his bass
+                    # one-shots, or there was no line)
+                    "bass808": (str(bass808[0]) if bass808 and bass_beds
+                                else None)}
+    if bass808 and bass_beds:
+        vnotes.append("bass: 808 %s on the chord roots"
+                      % Path(bass808[0]).stem)
     return midi_chords, harmony_info
 
 
@@ -2849,6 +2976,12 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     rng = random.Random(variant)
     title = fresh_title(names, rng, root)
 
+    if not loops_only:
+        # kick + bass built as one unit (owner 2026-09-23): the kick is
+        # chosen SHORT before the kit is picked, on the same deterministic
+        # call _low_voice makes after it. Chords on = a bass line plays.
+        pair_kick_for(preset, variant, dirs, names[0], shots)
+
     loop_bufs, loop_nbars, loop_state = None, None, None
     if loops_only:
         status(f"Picking loops for {names[0]}…")
@@ -2923,29 +3056,9 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         # were already set to the two loop files above.
         low, midi_chords, harmony_info = None, None, None
     else:
-        low = _low_voice(preset, variant, dirs, traditional, names[0], shots)
-        midi_chords, harmony_info = _build_chords(preset, kit, sources, variant,
-                                                  dirs, vnotes,
-                                                  allow_basses=low is None)
-
-        # ...and NOW the tuned root 808, moved below _build_chords so that on a
-        # chords beat it can be tuned to THAT BEAT'S KEY rather than skipped.
-        # Which of those two happens is ROOT_808_WITH_CHORDS, and with the flag
-        # off this is byte-identical to the old position: _build_chords returns
-        # immediately when there are no chords, and the sub's dice are their own
-        # seeded generators, so nothing upstream shifts by moving the call.
-        if low == "sub":
-            root_note = _add_root_sub(
-                preset, kit, sources, variant, vnotes,
-                harmony_info=harmony_info if ROOT_808_WITH_CHORDS else None,
-                traditional=traditional, dj=names[0], decided=True)
-
-        # phase 2 (owner 2026-07-23): sampled bass/808 and vocals get their lanes
-        # here, after the chord lanes so bass can defer to the harmony bass on a
-        # 'chords' beat.
-        _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
-                          key_root=(harmony_info or {}).get("root"), low=low)
-        _refuse_second_low(preset, kit, sources, vnotes)
+        midi_chords, harmony_info = add_bass_and_chords(
+            preset, kit, sources, shots, variant, dirs, vnotes,
+            traditional, names[0])
 
         # bug found 2026-07-23 (owner: "a vocal sound... doesn't show up in the
         # stems but is present in the song"): spec_used/lane_parent were snapshot
@@ -3740,14 +3853,11 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                                    "moved or vanished — can't rebuild.")
             kit[ln] = snd
         chord_sources = {}          # lane -> what to CALL it in the stems folder
-        # the tuned root sub is synthesized, not a sample — rebuild it from
-        # the recipe's root note so the swapped beat keeps its low end
-        if rec.get("root_note") and "sub" in preset.get("lanes", {}):
-            kit["sub"] = sub808(ROOT_HZ.get(rec["root_note"], 43.65), 0.6)
-            # ...and it must still SAY what it is. generate() names this stem
-            # "bass drum - synth 808 sub, root F" (see the sources line in
-            # generate); without this a swap printed a bare "bass drum.wav".
-            chord_sources["sub"] = "synth 808 sub, root %s" % rec["root_note"]
+        # the tuned root sub was synthesized, not a sample. Since 2026-09-23
+        # (owner: "I don't want any tones created by machine") a rebuild
+        # leaves it OUT rather than resynthesizing it.
+        if "sub" in preset.get("lanes", {}) and "sub" not in kit_paths:
+            preset["lanes"].pop("sub", None)
         # chord/chord-bass lanes are ALSO synthesized (owner 2026-07-23,
         # "control the volume for all sounds" — the ask that surfaced this gap:
         # those lanes now show a volume slider, so a rebuild has to actually be
@@ -3785,8 +3895,20 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                 _dirs["chord_feel"] = _h.get("progression")
                 if _h.get("root") and _h.get("mode"):
                     _dirs["force_key"] = (_h["root"], _h["mode"])
+            # an 808 that played the bass line plays it again (2026-09-23)
+            _b808 = (rec.get("harmony") or {}).get("bass808")
+            _b808_audio = _load_choked(_b808, 0.8) if _b808 else None
+            if _b808 and _b808_audio is None:
+                raise RuntimeError(f"{Path(_b808).name} (the beat's 808) has "
+                                   "moved or vanished — can't rebuild.")
             _build_chords(preset, kit, chord_sources, rec["variant"],
-                          _dirs, [], voice=chord_voice)
+                          _dirs, [], voice=chord_voice,
+                          # beats made since 2026-09-23 (the key exists
+                          # even when None) never let the strings' basses
+                          # play; older beats rebuild the way they were made
+                          allow_basses=(False if "bass808" in
+                                        (rec.get("harmony") or {}) else None),
+                          bass808=((_b808, _b808_audio) if _b808 else None))
             # ...but a chord/bass lane the owner just REMOVED must not come
             # back: _build_chords rebuilds the whole family from the recipe's
             # variant, which would silently undo the removal.
@@ -4209,7 +4331,8 @@ def _stem_wav(no, lane, root=None, folder=None):
     folder = folder if folder is not None else _stems_dir(no, root)
     if not folder:
         return None
-    names = [lane_label(lane), lane]
+    names = [n for n in (lane_label(lane), OLD_LANE_LABELS.get(lane), lane)
+             if n]
     for f in sorted(folder.glob("*.wav")):
         if any(f.stem == n or f.stem.startswith(n + " - ") for n in names):
             return f
@@ -4314,7 +4437,9 @@ def _beat_stems(no, root=None):
         # patch has a different sample per note), which is why they are one
         # row and not several. The bass LINE is just "bass".
         if fam == CHORD_BASS_FAM:
-            label = "bass"
+            # an 808 playing the chords is still called the 808 (2026-09-23)
+            label = ("808" if (rec.get("harmony") or {}).get("bass808")
+                     else "bass")
         else:
             # beats made before voice_names existed still recorded what
             # sounded, in chord_source — use it rather than showing them

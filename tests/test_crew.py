@@ -318,7 +318,11 @@ def test_only_otto_and_doc_day_carry_the_kick_sub_layer():
 def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
     """build_kit is the choke point: the sub has to be baked into the raw
     one-shot BEFORE it is tiled across the beat's hits, or only whichever
-    hit sits at sample 0 gets reinforced."""
+    hit sits at sample 0 gets reinforced.
+
+    Only reachable with crew.MACHINE_TONES on (the A/B benches): since
+    2026-09-23 the layer is off for every beat -- no machine-made tones
+    (tests/test_low_end.py::test_no_sine_is_layered_into_the_kick)."""
     from unittest.mock import patch
     p = dict(CREW["Otto Grit"])
     seen = {}
@@ -329,6 +333,7 @@ def test_sub_layer_reaches_the_kick_one_shot_not_the_finished_beat():
         return x
 
     with patch("crew._pick_path", return_value=("k.wav", np.ones(1000))), \
+            patch("crew.MACHINE_TONES", True), \
             patch("crew.kick_sub_reinforce", side_effect=fake_reinforce):
         crew.build_kit({}, "Otto Grit", np.zeros(10), preset=p)
     assert seen["amount"] == 0.35 and seen["len"] == 1000

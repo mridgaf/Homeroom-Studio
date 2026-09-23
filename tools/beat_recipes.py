@@ -122,21 +122,25 @@ def write_midi(path, events, bpm, tpq=480, tsig=(4, 4), chords=None):
 # Left as a knob, not deleted: set non-zero to bring the hot print back.
 STEM_BOOST_DB = 0.0
 
-# What each lane is CALLED, for the stem filename and the rack row. Three
-# separate low sounds, three separate words (owner 2026-07-25, his exact
-# distinction — these had been used interchangeably and it hid what was
-# actually playing):
-#   kick drum — the punchy drum sample
-#   bass drum — the long low 808 boom under it (sampled 808 or tuned sub)
-#   bass      — the melodic low LINE that follows the chords
-# `sub` and `bass` are mutually exclusive in a preset (see
-# _add_sample_lanes), so they never collide as filenames.
-LANE_LABELS = {"kick": "kick drum", "sub": "bass drum", "bass": "bass drum"}
+# What each lane is CALLED, for the stem filename and the rack row.
+# Standard producer words since 2026-09-23 (owner: "research how the terms
+# are used and you tell me"): KICK DRUM and BASS DRUM are the same drum, so
+# the long low boom is called what producers call it -- the 808. The
+# 2026-07-25 label "bass drum" put "kick drum" and "bass drum" side by side
+# on one beat, which read as two kicks (his 2026-09-20 complaint).
+#   kick drum -- the punchy drum
+#   808       -- his 808 sample, the long tuned boom
+#   bass      -- the melodic low LINE that follows the chords (bass0..N)
+# `sub` (the old tuned sine, retired 2026-09-23) only exists on old beats.
+LANE_LABELS = {"kick": "kick drum", "sub": "sub", "bass": "808"}
+# what the stems of beats made before 2026-09-23 are named, so they are
+# still found (_stem_wav)
+OLD_LANE_LABELS = {"sub": "bass drum", "bass": "bass drum"}
 
 
 def lane_label(lane):
-    """The owner-facing name for a lane — 'bass' the 808 drum is a BASS
-    DRUM; the melodic line lives on bass0..N and is just 'bass'."""
+    """The owner-facing name for a lane: 'bass' is the 808; the melodic
+    line lives on bass0..N and is just 'bass'."""
     return LANE_LABELS.get(lane, lane)
 
 

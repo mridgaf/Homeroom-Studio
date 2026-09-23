@@ -66,6 +66,16 @@ from crew import CREW, build_kit, lock_stamps, normalize_preset, render_crew_bea
 from pattern_gen import compose
 
 
+def pair_kick(preset, variant, name, shots):
+    """generate()'s kick pairing (2026-09-23), before the kit is picked:
+    short kick whenever a bass plays, never an 808 kick on an 808 beat."""
+    import beat_machine as bm
+    if (preset.get("signature") or {}).get("chords_default"):
+        bm.pair_kick_for(preset, variant,
+                         dict(bm.parse_directions(""), chords=True),
+                         name, shots)
+
+
 def add_melodic(preset, kit, src, variant, name, shots):
     """Put the CHORDS (and the beat's one low sound) on the audition.
 
@@ -78,11 +88,9 @@ def add_melodic(preset, kit, src, variant, name, shots):
 
     This is the melodic half of generate(), in generate()'s own order,
     calling generate()'s own functions rather than reimplementing them --
-    _low_voice FIRST (the 2026-09-14 one-low-sound hard rule is decided
-    there, and the chords read its answer through allow_basses), then the
-    chords, then the root sub, then the sampled bass/vox lanes, then the
-    second-low refusal. Getting that order wrong is how you get two low
-    sounds fighting, which is the exact thing that rule exists to stop.
+    since 2026-09-23 literally generate()'s own add_bass_and_chords, so
+    the one-bass order (decide the bass, chords + bass line, 808 lane,
+    refuse a second low) cannot drift between the two.
 
     A legend without `chords_default` is left alone: this turns the lane
     on the way generate() does, it does not invent one."""
@@ -92,17 +100,9 @@ def add_melodic(preset, kit, src, variant, name, shots):
         return None
     dirs = dict(dirs, chords=True)
     vnotes = []
-    low = bm._low_voice(preset, variant, dirs, False, name, shots)
-    _midi, harmony = bm._build_chords(preset, kit, src, variant, dirs,
-                                      vnotes, allow_basses=low is None)
-    if low == "sub":
-        bm._add_root_sub(preset, kit, src, variant, vnotes,
-                         harmony_info=(harmony if bm.ROOT_808_WITH_CHORDS
-                                       else None),
-                         traditional=False, dj=name, decided=True)
-    bm._add_sample_lanes(preset, kit, src, shots, variant, dirs, vnotes,
-                         key_root=(harmony or {}).get("root"), low=low)
-    bm._refuse_second_low(preset, kit, src, vnotes)
+    _midi, harmony = bm.add_bass_and_chords(preset, kit, src, shots,
+                                            variant, dirs, vnotes, False,
+                                            name)
     return harmony
 
 ROOT = Path(__file__).parent.parent
@@ -348,6 +348,7 @@ def main():
                 p = normalize_preset(dict(p, lanes=seed_p["lanes"],
                                           kit=seed_p["kit"]))
                 shape_p = seed_p
+            pair_kick(p, i, name, shots)
             kit, src = build_kit(shots, name, stamps[name][1], variant=i,
                                  avoid=set(avoid), preset=p)
             if ref is None or a.structure:
@@ -395,6 +396,7 @@ def main():
     for i, seed_p, _n in extras:
         q = normalize_preset(dict(NEW, lanes=seed_p["lanes"],
                                   kit=seed_p["kit"]))
+        pair_kick(q, i, name, shots)
         kit, _src = build_kit(shots, name, stamps[name][1], variant=i,
                               avoid=set(avoid), preset=q)
         add_melodic(q, kit, _src, i, name, shots)

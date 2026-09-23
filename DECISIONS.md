@@ -20,6 +20,55 @@ entries.
 
 ## Log
 
+### 2026-09-23 Low end set up to standard hip-hop practice (from-scratch only) — built, measured, NOT heard
+- Context: owner approved the 09-23 Loops-page level fix by ear, then asked
+  for the low end "set up as standard hip-hop practices would go". Research:
+  songen.app 808 guide, Joey Sturgis Tones, RouteNote bassline guide,
+  r/trapproduction, gearspace + LOW-END-LAYOUT-PROPOSAL.md sources. Loops page
+  explicitly left alone.
+- Owner answers (clickable): words = standard usage (kick = bass drum; the
+  long tuned boom = 808; bass = the line). NO machine-made tones ("I don't
+  want any tones created by machine") — re-pitching HIS 808 is fine. One bass
+  per beat BY DJ STYLE. Old sub DJs -> bass line. Kick on top of the low end
+  even at true levels. DJ split approved as listed (BASS_808_DJS).
+- Change (tools/beat_machine.py, crew.py, beat_recipes.py):
+  - `BASS_808_DJS` (14 names) + `_plays_808`: 808 DJs' 808 IS the bass line —
+    one picked 808, re-pitched onto each chord root, lanes bass0..N on the
+    kick's hits in that chord's bars, re-struck on every chord change. Others:
+    bass line from his bass one-shots, no 808, no single-root bass/brass lane.
+    Free beats 50/50. Typed "long 808" forces the 808.
+  - `_pair_kick`: kick capped 0.5 s whenever a bass plays; 808 beats never take
+    the kick from the 808 pool (fixes the 09-20 "kick drum AND bass drum").
+  - No machine tones: `ADD_THE_ROOT_808` False, tuned sub never chosen, rebuild
+    drops an old beat's sub instead of resynthesizing; `crew.MACHINE_TONES`
+    False refuses `sub_layer` (Otto Grit, Doc Day configs untouched).
+  - crew render: one bass note at a time (choke group bass/bass0..N/sub);
+    bass line on the deep 5 dB duck (`_ducks_deep`); low end capped
+    LOW_END_UNDER_DB under the kick at true levels; chord lanes high-passed
+    at CHORD_LOW_CUT_HZ=120 (0.7-oct edge). All gated `not loop_bufs`.
+  - FOUND + FIXED: `_808_to_key` used pedalboard PitchShift, measured 22 cents
+    off on average, worst 277 cents, on 8 real C 808s x 6 targets. Now Rubber
+    Band (`time_stretch`, preserve_formants=False): 10 mean / 67 worst, exact
+    on a test sine. This bug was in every keyed 808 since 2026-09-07.
+  - Labels: "bass" lane = "808" (was "bass drum"); typed "bass drum" = kick;
+    old "bass drum - x" stems still found. Rack row "808" when it's the line.
+  - `add_bass_and_chords` shared by generate() and make_legend_newbuild.py.
+  - Skipped: duck attack/release shape (kept 90 ms), hat choke, 808 own
+    rhythm, multiband duck (proposal items 4-7) — not asked for this pass.
+- Tests: tests/test_low_end.py (6) + 5 new in test_beat_machine; 9 old tests
+  rewritten to the new rules. New crew tests FAIL on the old code (checked in
+  a HEAD worktree). Full suite alone: 1221 passed, 6 failed — 4 fail
+  identically on the old code (still assert the pre-09-16 "no bass0" rule:
+  rebuild_regenerates..., chords_direction_adds..., chord_bass_line_is_never...,
+  harmony_opens_under...), 2 random on old code too (volumes_alone,
+  stem_rack_lists — the None-path rebuild bug from the entry below).
+- Verify by: owner ear on `~/Desktop/Homeroom Low End 2026-09-23/` (4 x 808
+  DJs, 4 x bass-line DJs; `tools/make_low_end_audition.py`, fail-loud checks
+  stayed silent). Measured in finished stems: each chord's 808 plays that
+  chord's root, 7/7. Bass peaks sit 0.9-16.5 dB under the kick — wide spread,
+  ask whether any 808 is too quiet.
+- Status: open — measured, not heard.
+
 ### 2026-09-23 Loops page given its own level switch — true levels are from-scratch only
 - Context: owner: the 2026-09-20 drum/instrument level changes were never
   meant for the loops section. Confirmed (clickable answers): "loops
@@ -50,7 +99,8 @@ entries.
   and not from this change - left for its own session.
 - Verify by: owner ear on a Loops-page batch. NOT rendered, NOT heard —
   cloud sandbox has no library drive.
-- Status: open — code + tests verified; sound not auditioned.
+- Status: confirmed — owner rendered Loops-page beats 2026-09-23 and
+  approved the change by ear.
 
 ### 2026-09-20 One instrument per LANE (not per beat) + strings-via-MIDI — code in, NOT verified
 - Context: owner: the 2026-07-29 "one instrument per beat" rule was always
@@ -165,7 +215,9 @@ entries.
   are different fixes — do NOT guess; ask first next session.
 - Where the offending beats are (the scratch/library render he tried) not yet
   identified — get the path so the fix can be measured on real cases.
-- Status: open — not investigated, not fixed. Ask the (a/b/c) question first.
+- Status: open — likely answered by 2026-09-23 (standard words: the boom is
+  now labelled "808", and 808 beats never take the kick from the 808 pool).
+  Confirm with him on the Low End audition before closing.
 
 ### 2026-09-20 True levels made the default; Doc Day off strings; chip banned for all DJs
 - Context: owner heard the `Homeroom True Levels 2026-09-20` A/B and picked

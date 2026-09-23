@@ -237,56 +237,19 @@ def test_generate_ships_wav_midi_stems_and_recipe(machine_env):
         ["Otto Grit"])
 
 
-def test_add_the_root_puts_a_tuned_sub_under_traditional_beats(machine_env):
-    # owner rule 2026-07-18 ("add the root"). It was switched off on
-    # 2026-07-23 as collateral of that morning's engine-wide 808 ban, and
-    # back on the same day when the ban was reversed — and NOTHING caught
-    # either move, because the feature had no test. This is that guard.
-    # random.seed fixes `variant`, which is the only input to the 3-in-4
-    # roll, so this is deterministic rather than "render until it lands".
-    # "no chords" pins the drums-only context this rule lives in: since
-    # chords_default went roster-wide (2026-07-25) a default beat carries
-    # harmony's own bassN lanes instead of the static sub — the second
-    # half of this test asserts exactly that skip.
+def test_no_tuned_sub_even_where_the_root_rule_used_to_add_one(machine_env):
+    # "add the root" (2026-07-18) put a SYNTHESIZED sine sub under the kick.
+    # Owner hard rule 2026-09-23: "I don't want any tones created by
+    # machine" -- so the beat it used to land on (Doc Day, traditional, no
+    # chords) now carries no sub at all.
     root, shots = machine_env
-    assert beat_machine.ADD_THE_ROOT_808, "the rule is off"
-    # "Doc Day" and not the old "Mustang" since 2026-09-07: the tuned
-    # sub is opt-in per DJ now (beat_machine.SUB_DJS) and Mustang is one
-    # of the 808 names, so he gets the SAMPLE instead. The rule under
-    # test is unchanged -- only who it can happen to.
-    assert "Doc Day" in beat_machine.SUB_DJS
+    assert not beat_machine.ADD_THE_ROOT_808
     random.seed(1)
     path, report = beat_machine.generate(["Doc Day"], root=root, shots=shots,
                                          traditional=True, notes="no chords")
-    no = int(path.name.split()[0])
-    rec = beat_recipes.load_recipe(root, no)
-    assert rec.get("root_note"), report        # a real musical root
-    assert "sub" in rec["preset"]["lanes"]
-    stem_dir = next(d for d in path.parent.glob("* Stems")
-                    if d.name.startswith(str(no)))
-    # the stem is named for what the sound IS: the tuned 808 under the kick
-    # is a BASS DRUM, not a "sub" (owner's vocabulary, 2026-07-25)
-    assert any(f.stem.startswith("bass drum - synth 808 sub, root")
-               for f in stem_dir.glob("*.wav")), list(stem_dir.iterdir())
-    # owner 2026-07-23 ("control the volume for all sounds"): a synthesized
-    # lane like this one has no sample to swap, so it's not in kit_spec —
-    # but it must still show up in the app's stem list with a volume
-    # control (locked=True, no swap dropdown, per the existing UI
-    # convention for stamps). Before this fix it wasn't listed at all.
-    ui_lanes = {s["lane"]: s for s in beat_machine._beat_stems(no, root)}
-    assert "sub" in ui_lanes, sorted(ui_lanes)
-    assert ui_lanes["sub"]["locked"] is True
-    assert ui_lanes["sub"]["stem"] is True     # the solo-play button works too
-    path_v, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
-                                       trims={"sub": -4.0})
-    assert path_v.exists()                     # a volume-only rebuild works
-    # ...and a chords beat skips it on purpose: harmony's own bass owns
-    # the low end there, and a static sub under it just fights.
-    path2, _ = beat_machine.generate(["Mustang"], root=root, shots=shots,
-                                     traditional=True, notes="chords")
-    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
-    assert rec2.get("root_note") is None
-    assert "sub" not in rec2["preset"]["lanes"]
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    assert "sub" not in rec["preset"]["lanes"], report
+    assert rec.get("root_note") is None
 
 
 def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env):
@@ -364,7 +327,10 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     # the sampled-bass lane is by design only for chord-free beats (a
     # chords beat's harmony bassN owns the low end) — and since
     # chords_default went roster-wide (2026-07-25), chord-free is opt-in.
-    p, report = beat_machine.generate(["Cutz"], tempo=96, root=root,
+    # an 808 DJ (2026-09-23: only BASS_808_DJS get an 808), pinned out of
+    # the free-for-all so the style call is deterministic
+    monkeypatch.setattr(beat_machine, "free_beat", lambda *a, **k: False)
+    p, report = beat_machine.generate(["Night Metro"], tempo=96, root=root,
                                       shots=shots, notes="no chords")
     no = int(p.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
@@ -374,9 +340,9 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     stem_dir = next(d for d in p.parent.glob("* Stems")
                     if d.name.startswith(p.name.split()[0]))
     stems = {f.stem for f in stem_dir.glob("*.wav")}
-    # the sampled 808 under the kick is a BASS DRUM in his vocabulary
-    # (2026-07-25) — "bass" on its own is the melodic line
-    assert any(s.startswith("bass drum - ") for s in stems), stems
+    # the sampled 808 is called the 808 (standard word, 2026-09-23) —
+    # "bass" on its own is the melodic line
+    assert any(s.startswith("808 - ") for s in stems), stems
     assert not any(s.startswith("loop - ") for s in stems), stems
     # bug found 2026-07-23 ("a vocal sound... doesn't show up in the stems
     # but is present in the song"): bass/vox rendered real audio but were
@@ -390,8 +356,10 @@ def test_phase2_bass_and_vox_lanes_but_never_a_drum_loop(machine_env, tmp_path,
     assert "vox" in ui_lanes and not ui_lanes["vox"]["locked"], ui_lanes
     # the anti-repeat history also needs these lanes attributed, or a bass/
     # vox sample could repeat across beats without tripping the avoid-set
-    assert rec["kit_paths"]["bass"] in beat_recipes.history_avoid(["Cutz"])
-    assert rec["kit_paths"]["vox"] in beat_recipes.history_avoid(["Cutz"])
+    assert rec["kit_paths"]["bass"] in beat_recipes.history_avoid(
+        ["Night Metro"])
+    assert rec["kit_paths"]["vox"] in beat_recipes.history_avoid(
+        ["Night Metro"])
     # a SECOND bug found while checking the first: kit_paths must hold the
     # raw file path (matching every other lane — build_kit: `sources[lane]
     # = path`), not a decorated display string ("vox: <name>"). A decorated
@@ -1374,40 +1342,35 @@ def test_harmony_opens_under_the_drums_with_per_bar_dynamics(
     assert chords[0] == pytest.approx(beat_machine._CHORD_GAIN)
 
 
-# ---- kick drum / bass drum / bass are three separate sounds (2026-07-25)
+# ---- kick drum, 808 and bass: the standard words (2026-09-23; was the
+# 2026-07-25 kick drum / bass drum / bass split)
 
 
-def test_the_three_low_sounds_never_share_a_word():
-    """His exact distinction: a KICK DRUM, a BASS DRUM (the 808 boom under
-    it) and the BASS (the melodic line) are three things. "bass drum" used
-    to be a plain synonym for the kick here, so typing it changed the
-    wrong sound; "no bass" killed the 808 rather than the line."""
-    assert beat_machine.parse_directions("no bass drum")["mute"] == {"bass"}
-    assert beat_machine.parse_directions("no bass")["mute"] == {"chordbass"}
+def test_the_low_sounds_use_the_words_producers_use():
+    """Kick drum and bass drum are the same drum; the long boom is the 808;
+    the melodic line is the bass. "no bass drum" contains "no bass", and
+    the longest phrase still wins, so it never takes the bass line out."""
+    assert beat_machine.parse_directions("no bass drum")["mute"] == {"kick"}
     assert beat_machine.parse_directions("no kick")["mute"] == {"kick"}
-    # and the longest phrase wins: "no bass drum" contains "no bass", which
-    # used to take the bass line out at the same time
-    assert "chordbass" not in beat_machine.parse_directions(
-        "no bass drum")["mute"]
-    assert "kick" not in beat_machine.parse_directions("no bass drum")["mute"]
+    assert beat_machine.parse_directions("no 808")["mute"] == {"bass"}
+    assert beat_machine.parse_directions("no bass")["mute"] == {"chordbass"}
 
 
 def test_lane_labels_say_which_low_sound_it_is():
     assert beat_recipes.lane_label("kick") == "kick drum"
-    assert beat_recipes.lane_label("bass") == "bass drum"   # the 808 boom
-    assert beat_recipes.lane_label("sub") == "bass drum"    # tuned root
+    assert beat_recipes.lane_label("bass") == "808"         # his 808 sample
     assert beat_recipes.lane_label("hat") == "hat"          # unchanged
 
 
-def test_muting_the_bass_drum_leaves_the_bass_line_alone():
+def test_muting_the_808_leaves_the_bass_line_alone():
     """apply_directions groups by FAMILY, not by stripping digits — bass0
-    is the bass line, `bass` is the 808 drum, and they must not move
+    is the bass line, `bass` is the 808, and they must not move
     together."""
     preset = {"lanes": {"kick": 1, "bass": 1, "bass0": 1, "bass1": 1,
                         "chord0": 1},
               "kit": {}, "space": ("dry", []), "sidechain": 0.5,
               "_guests": ()}
-    dirs = dict(beat_machine.parse_directions("no bass drum"),
+    dirs = dict(beat_machine.parse_directions("no 808"),
                 kick=None, density=None, space=None, swing=None, tsig=None)
     beat_machine.apply_directions(preset, dirs)
     assert "bass" not in preset["lanes"]                    # the 808 went
@@ -1704,34 +1667,14 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
 
 # ------------------------------------- the two flags he has now ruled on
 
-def test_root_808_flag_is_off_and_switching_it_on_tunes_the_sub_to_the_key(
-        machine_env, monkeypatch):
-    # Both halves matter. OFF is today's sound and must stay byte-for-byte
-    # what he has approved — the sibling test above already pins that a
-    # chords beat gets no sub. ON is the landing, and the only thing that
-    # makes it safe to land by flipping one constant: this asserts the sub
-    # actually appears AND takes the beat's own key, through generate()
-    # rather than through the audition bench, which calls _add_root_sub
-    # directly and so could pass while the real path stayed broken.
-    root, shots = machine_env
+def test_root_808_flag_stays_off():
+    # He heard the tuned sub on chords beats 2026-09-04 and said no. The
+    # "switch it on and it follows the key" half is gone since 2026-09-23:
+    # the sub was a synthesized sine and he wants no machine-made tones at
+    # all, so there is nothing left to switch on
+    # (test_no_tuned_sub_even_where_the_root_rule_used_to_add_one).
     assert beat_machine.ROOT_808_WITH_CHORDS is False, \
         "he heard it 2026-09-04 and said no — leave it off, do not re-propose"
-    monkeypatch.setattr(beat_machine, "ROOT_808_WITH_CHORDS", True)
-    # "Doc Day" and not the old "Mustang" since 2026-09-07: the tuned
-    # sub is opt-in per DJ now (beat_machine.SUB_DJS) and Mustang is one
-    # of the 808 names, so he gets the SAMPLE instead. The rule under
-    # test is unchanged -- only who it can happen to.
-    assert "Doc Day" in beat_machine.SUB_DJS
-    random.seed(1)
-    path, report = beat_machine.generate(["Doc Day"], root=root, shots=shots,
-                                         traditional=True, notes="chords")
-    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
-    assert rec.get("harmony"), report              # it really is a chords beat
-    assert rec.get("root_note"), report            # ...and it got a sub anyway
-    assert "sub" in rec["preset"]["lanes"]
-    # the whole point: the sub is in the beat's key, not a free roll
-    assert rec["root_note"] == rec["harmony"]["root"], (
-        rec["root_note"], rec["harmony"]["root"])
 
 
 def test_rebuild_lock_flag_is_on_he_kept_it():
@@ -1767,3 +1710,117 @@ def test_tuned_sub_is_opt_in_per_dj(machine_env):
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     assert "sub" not in rec["preset"]["lanes"], report
     assert not rec.get("root_note"), report
+
+
+# ---- the low end set up the way a producer would (owner 2026-09-23) ----
+# One bass per beat by DJ style: an 808 DJ's 808 IS the bass line (his
+# sample, re-pitched per chord, on the kick's hits); everyone else gets the
+# bass line from his bass one-shots under a short kick. No machine tones.
+
+def _with_808s(tmp_path, shots, monkeypatch, note="C"):
+    """Give the pool real 808 files whose note is 'measured' as `note`."""
+    files = []
+    for i in range(3):
+        f = tmp_path / f"808_long_{i}.wav"
+        x = (np.sin(2 * np.pi * 65.41 * np.arange(SR) / SR)
+             * 20000).astype("<i2")
+        with wave.open(str(f), "wb") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(SR)
+            w.writeframes(x.tobytes())
+        files.append(f)
+    monkeypatch.setattr(beat_machine, "_808_notes",
+                        lambda: {str(f): note for f in files})
+    return dict(shots, bass=[{"name": f.stem, "path": str(f)}
+                             for f in files])
+
+
+def _low_end_beat(root, shots, monkeypatch, name, seed=1):
+    monkeypatch.setattr(beat_machine, "free_beat", lambda *a, **k: False)
+    monkeypatch.setitem(CREW[name], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    random.seed(seed)
+    path, report = beat_machine.generate([name], root=root, shots=shots)
+    return beat_recipes.load_recipe(root, int(path.name.split()[0])), report
+
+
+def _line_lanes(lanes):
+    return sorted(l for l in lanes if re.fullmatch(r"bass\d+", l))
+
+
+def test_an_808_dj_plays_the_808_as_the_bass_line(
+        machine_env, only_his_instruments, monkeypatch, tmp_path):
+    root, shots = machine_env
+    shots = _with_808s(tmp_path, shots, monkeypatch)
+    rec, report = _low_end_beat(root, shots, monkeypatch, "Night Metro")
+    lanes = rec["preset"]["lanes"]
+    assert rec["harmony"]["bass808"], report
+    assert "bass" not in lanes and "sub" not in lanes     # ONE bass
+    line = _line_lanes(lanes)
+    assert len(line) > 1, "need several chords to prove anything"
+    kbars = lanes["kick"][3]
+    seen = set()
+    for ln in line:
+        hits = {(b, s) for b, pat in enumerate(lanes[ln][3])
+                for s, ch in enumerate(pat) if ch != "-"}
+        assert hits, ln
+        # the chord change always strikes the 808 on its downbeat...
+        first = min(b for b, _s in hits)
+        assert (first, 0) in hits, ln
+        # ...and every other 808 note lands on a kick hit (one unit)
+        assert all(kbars[b % len(kbars)][s] != "-"
+                   for b, s in hits - {(first, 0)}), ln
+        # ...and each chord's 808 plays only in that chord's own bars
+        bars = {b for b, _s in hits}
+        assert not bars & seen, ln
+        seen |= bars
+    role, _must, _wants, secs = rec["kit_spec"]["kick"]
+    assert role != "bass" and secs <= beat_machine.KICK_WITH_BASS_SECS
+
+
+def test_a_boom_bap_dj_gets_the_bass_line_and_no_808(
+        machine_env, only_his_instruments, monkeypatch, tmp_path):
+    root, shots = machine_env
+    shots = _with_808s(tmp_path, shots, monkeypatch)
+    rec, report = _low_end_beat(root, shots, monkeypatch, "Otto Grit")
+    lanes = rec["preset"]["lanes"]
+    assert rec["harmony"]["bass808"] is None, report
+    assert "bass" not in lanes and "sub" not in lanes
+    assert _line_lanes(lanes), report                     # the bass line
+    assert rec["kit_spec"]["kick"][3] <= beat_machine.KICK_WITH_BASS_SECS
+
+
+def test_the_old_sub_djs_never_get_a_machine_made_sub(machine_env):
+    _root, shots = machine_env
+    dirs = beat_machine.parse_directions("")
+    for dj in beat_machine.SUB_DJS:
+        preset = {"lanes": {"kick": (0, 1, (0, 0, 50, 0), ["X"])}, "kit": {}}
+        for v in range(40):
+            assert beat_machine._low_voice(preset, v, dirs, True, dj,
+                                           shots) != "sub", (dj, v)
+
+
+def test_an_808_retunes_to_a_chord_root(monkeypatch):
+    """A C 808 asked for G moves the shortest way (-5), and measures as G."""
+    monkeypatch.setattr(beat_machine, "_808_notes", lambda: {"x.wav": "C"})
+    c2 = 65.41
+    x = np.sin(2 * np.pi * c2 * np.arange(SR) / SR)
+    y, semis = beat_machine._808_to_key("x.wav", x, 43)   # 43 = G2
+    assert semis == -5
+    spec = np.abs(np.fft.rfft(y * np.hanning(len(y))))
+    f = np.fft.rfftfreq(len(y), 1 / SR)[spec.argmax()]
+    assert abs(12 * np.log2(f / c2) - (-5)) < 0.3, f
+
+
+def test_the_808_is_called_the_808_and_bass_drum_means_the_kick(tmp_path):
+    assert beat_recipes.lane_label("bass") == "808"
+    assert beat_machine.parse_directions("no bass drum")["mute"] == {"kick"}
+    assert beat_machine.parse_directions("no 808")["mute"] == {"bass"}
+    # an old beat's "bass drum - x.wav" stem is still found
+    (tmp_path / "bass drum - Oracle 808.wav").write_bytes(b"")
+    assert beat_machine._stem_wav(1, "bass", folder=tmp_path).name \
+        == "bass drum - Oracle 808.wav"

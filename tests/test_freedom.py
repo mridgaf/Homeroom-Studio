@@ -7,6 +7,7 @@ from a different DJ". And the hard rule that came with it: "don't pile lows
 on lows" — the kick plus ONE low sound per beat.
 """
 import random
+import re
 import sys
 import wave
 from pathlib import Path
@@ -162,10 +163,21 @@ def test_a_second_low_lane_is_refused():
     assert "bass" not in kit and "bass" not in sources and notes
 
 
-def test_a_long_808_kick_is_the_low_sound():
-    preset = {"lanes": {"kick": 1}, "kit": {"kick": ("kick", "808", [], 0.9)}}
-    assert beat_machine._low_voice(preset, 5, {"chords": True}, False,
-                                   "Otto Grit", {"bass": [1]}) == "kit"
+def test_the_kick_is_short_whenever_a_bass_plays():
+    """Kick and bass as one unit (owner 2026-09-23): a long 808 kick can no
+    longer be the beat's low sound. On an 808 beat the kick leaves the 808
+    pool for the DJ's own non-808 flavor; either way it is capped short."""
+    p = {"kit": {"kick": ("bass", "808", ["deep"], (0.9, 2.0))},
+         "kick_flavors": [[0.2, "808", ["deep"], [0.9, 2.0]],
+                          [0.8, None, ["punch"], [0.25, 0.6]]]}
+    beat_machine._pair_kick(p, plays_808=True, has_bass=True)
+    assert p["kit"]["kick"] == ("kick", None, ["punch"], (0.25, 0.5))
+    q = {"kit": {"kick": ("bass", "808", [], (0.9, 2.0))}, "kick_flavors": []}
+    beat_machine._pair_kick(q, plays_808=False, has_bass=True)
+    assert q["kit"]["kick"][3] == (0.5, 0.5)
+    r = {"kit": {"kick": ("bass", "808", [], (0.9, 2.0))}, "kick_flavors": []}
+    beat_machine._pair_kick(r, plays_808=False, has_bass=False)
+    assert r["kit"]["kick"][3] == (0.9, 2.0)        # no bass: left alone
 
 
 @pytest.fixture
@@ -195,8 +207,9 @@ def low_env(tmp_path, monkeypatch):
     return root, shots
 
 
-def test_strings_basses_only_play_when_the_beat_has_no_other_low(
-        low_env, monkeypatch):
+def test_the_strings_basses_never_play(low_env, monkeypatch):
+    """Since 2026-09-23 the 808 or the bass line is ALWAYS the bass, so the
+    strings' own double basses never get the low end."""
     root, shots = low_env
     seen = []
     real = beat_machine._build_chords
@@ -205,30 +218,30 @@ def test_strings_basses_only_play_when_the_beat_has_no_other_low(
         seen.append(kw.get("allow_basses"))
         return real(*a, **kw)
     monkeypatch.setattr(beat_machine, "_build_chords", spy)
-    for low, allowed in (("808", False), ("kit", False), (None, True)):
-        monkeypatch.setattr(beat_machine, "_low_voice",
-                            lambda *a, _low=low, **k: _low)
+    for name in ("Otto Grit", "Night Metro"):
         random.seed(4)
-        beat_machine.generate(["Otto Grit"], root=root, shots=shots)
-        assert seen and seen[-1] is allowed, (low, seen)
+        beat_machine.generate([name], root=root, shots=shots)
+    assert seen == [False, False], seen
 
 
-def test_no_beat_ever_has_two_low_sounds(low_env):
-    """The invariant, end to end: every beat, free or in character, keeps
-    at most one low lane. Premise check: the run must include a free beat
-    that reached a low sound other than the 808, or it proves nothing."""
+def test_no_beat_ever_has_two_basses(low_env, monkeypatch):
+    """The invariant, end to end: one bass per beat -- an 808 OR the bass
+    line, never both, never two low lanes. Premise check: the run must
+    include both kinds of beat, or it proves nothing."""
     root, shots = low_env
-    other = 0
-    for seed in range(18):
-        name = ("Otto Grit", "Crate Prophet", "Sunday Chop")[seed % 3]
+    monkeypatch.setattr(beat_machine, "_808_notes",
+                        lambda: {e["path"]: "C" for e in shots["bass"]})
+    kinds = set()
+    for seed in range(12):
+        name = ("Otto Grit", "Night Metro", "Mustang", "Sunday Chop")[seed % 4]
         random.seed(seed)
-        path, report = beat_machine.generate([name], root=root, shots=shots,
-                                             notes="no chords",
-                                             traditional=True)
+        path, report = beat_machine.generate([name], root=root, shots=shots)
         rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
-        lows = [ln for ln in rec["preset"]["lanes"] if ln in crew._LOW_END]
-        assert len(lows) <= 1, (lows, report)
-        bass_file = str((rec.get("kit_paths") or {}).get("bass") or "")
-        if "sub" in lows or "basssample" in bass_file:
-            other += 1
-    assert other, "no free beat reached a non-808 low sound"
+        lanes = rec["preset"]["lanes"]
+        lows = [ln for ln in lanes if ln in crew._LOW_END]
+        line = [ln for ln in lanes if re.fullmatch(r"bass\d+", ln)]
+        voiced_808 = bool((rec.get("harmony") or {}).get("bass808"))
+        assert len(lows) <= 1 and not (lows and line), (lows, line, report)
+        kinds.add("808" if (voiced_808 or lows) else
+                  "line" if line else "none")
+    assert {"808", "line"} <= kinds, kinds
