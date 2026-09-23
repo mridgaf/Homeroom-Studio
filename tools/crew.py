@@ -153,6 +153,16 @@ def _extra_cut():
 # render_crew_beat's signature if it becomes a real per-render option.
 TRUE_LEVELS = os.environ.get("REASON_VOICE_TRUE_LEVELS", "1") != "0"
 
+# The Loops page keeps its OWN switch (owner 2026-09-23): true levels were
+# meant for from-scratch beats only — "I didn't want any of that changed for
+# the loops section". Loop beats keep the kick-relative rules they had before
+# 2026-09-20 (the drum loop's lane is named "kick", so the peak ceilings held
+# the lead/bass/fx loops under it). TRUE_LEVELS never reaches a loops beat;
+# only this does. REASON_VOICE_LOOPS_TRUE_LEVELS=1 turns true levels on for
+# loops too.
+LOOPS_TRUE_LEVELS = os.environ.get("REASON_VOICE_LOOPS_TRUE_LEVELS",
+                                   "0") != "0"
+
 
 # The low end is exempt from the HAT ceiling, but not from everything. Owner
 # 2026-09-01, after the tuned root 808 came back on chords beats and measured
@@ -1439,6 +1449,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     bars_of(preset) — a loops-only beat has no pattern to consult for
     its length."""
     p = preset or CREW[name]
+    # a loops beat reads its own level switch, never the from-scratch one
+    true_levels = LOOPS_TRUE_LEVELS if loop_bufs else TRUE_LEVELS
     # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
     # and get them on every render; an explicit keyword still wins, which
     # is what the A/B scripts use.
@@ -1889,7 +1901,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         kick_rms = np.sqrt((bufs["kick"] ** 2).mean())
         sn = [ln for ln in bufs
               if any(ln.startswith(s) for s in SNARE_LIKE)]
-        if not TRUE_LEVELS and kick_rms > 0 and sn:
+        if not true_levels and kick_rms > 0 and sn:
             bus = sum(bufs[ln] for ln in sn)
             bus_rms = np.sqrt((bus ** 2).mean())
             want = kick_rms * 10 ** (
@@ -1935,7 +1947,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         # `bus = sum(...)` then RMS — which is why nobody caught it here.
         ch_rms = np.sqrt((sum(bufs[ln] for ln in ch) ** 2).mean()) if ch \
             else 0.0
-        if not TRUE_LEVELS and kick_rms > 0 and ch_rms > 1e-9:
+        if not true_levels and kick_rms > 0 and ch_rms > 1e-9:
             want = kick_rms * 10 ** (
                 -OWNER_TASTE.get("chord_bus_under_kick_db", 9.0) / 20)
             # ASYMMETRIC on purpose (owner 2026-08-03, "it's always way too
@@ -2126,7 +2138,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                        if ln.startswith(HAT_TIER)), default=0.0)
         hat_cap = tier_pk * 10 ** (_extra_cut() / 20.0) if tier_pk > 0 else 0.0
 
-        if not TRUE_LEVELS and ref_pk > 0:
+        if not true_levels and ref_pk > 0:
             for ln in bufs:
                 head = peak_ceiling_for(ln)
                 if head is None:          # kick and snare: the reference

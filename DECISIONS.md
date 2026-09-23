@@ -20,6 +20,38 @@ entries.
 
 ## Log
 
+### 2026-09-23 Loops page given its own level switch — true levels are from-scratch only
+- Context: owner: the 2026-09-20 drum/instrument level changes were never
+  meant for the loops section. Confirmed (clickable answers): "loops
+  section" = the Loops page (loops_only beats) ONLY — NOT the "loop"
+  chord_source inside from-scratch beats; and the Loops page should sound
+  exactly as before 09-20.
+- Found: of everything changed 09-19/20, only `crew.TRUE_LEVELS` (default
+  ON) reached the Loops page. The drum loop's lane is named "kick", so
+  before 09-20 the peak ceilings held leadloop/bassloop/fxloop/lane-5 under
+  it; since 09-20 they played at raw level. (Snare/chord-bus governors
+  match no real loop lane names, so only the peak ceiling actually changed.)
+  Other 09-20 edits (crew_config gains, strings, bells, part roll) only
+  touch the one-shot/from-scratch path.
+- Change (`tools/crew.py`): new `LOOPS_TRUE_LEVELS` (default OFF, env
+  `REASON_VOICE_LOOPS_TRUE_LEVELS=1` to turn on). `render_crew_beat` picks
+  `LOOPS_TRUE_LEVELS if loop_bufs else TRUE_LEVELS`. Covers both loops
+  render paths (generate + rebuild both pass loop_bufs). From-scratch
+  behavior byte-for-byte unchanged.
+- Tests: 2 new in tests/test_loops_only_beat.py — loops output identical
+  whichever way TRUE_LEVELS is set (FAILS on the old code, checked), and the
+  loops rules really do change a loud-lead loop beat (not vacuous).
+  Full suite (cloud sandbox, no library drive, test_dial skipped - no
+  PortAudio): 1108 passed, 12 failed, 21 skipped. 11 of the 12 fail
+  identically on the committed code. The 12th,
+  test_volumes_alone_are_a_valid_rebuild, is random: 6 pass / 4 fail in 10
+  runs on the OLD code, same crash (swap_many -> _load_choked gets a None
+  path when the kick lane "made no sound"). Real rebuild bug, not a flake
+  and not from this change - left for its own session.
+- Verify by: owner ear on a Loops-page batch. NOT rendered, NOT heard —
+  cloud sandbox has no library drive.
+- Status: open — code + tests verified; sound not auditioned.
+
 ### 2026-09-20 One instrument per LANE (not per beat) + strings-via-MIDI — code in, NOT verified
 - Context: owner: the 2026-07-29 "one instrument per beat" rule was always
   meant to be one instrument per LANE (never combine inside a lane). Legends
