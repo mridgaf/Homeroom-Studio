@@ -138,3 +138,44 @@ def test_drum_loop_filter_keeps_drums_and_drops_risers_subs_and_melodic():
         assert m.is_drum_loop(folders, stem), stem
     for folders, stem in drop:
         assert not m.is_drum_loop(folders, stem), stem
+
+
+def _loud_lead_loops_render():
+    """A loops beat whose lead loop is 4x the drum loop — exactly the case
+    the peak ceiling exists to pull down."""
+    bpm, nbars = 120, 2
+    n = int(round(nbars * 4 * 60 / bpm * SR))
+    rng = np.random.default_rng(1)
+    drum = rng.standard_normal(n) * 0.05
+    lead = rng.standard_normal(n) * 0.2
+    preset = _loop_preset(bpm, nbars)
+    preset["lanes"] = {ln: (0.0, 1.0, (0.0, 0.0, 0.0, 0), (("x",),))
+                       for ln in ("kick", "leadloop")}
+    L, R, *_ = render_crew_beat(
+        "Test", kit={}, preset=preset, want_parts=True,
+        loop_bufs={"kick": (drum, drum), "leadloop": (lead, lead)},
+        nbars_override=nbars)
+    return L
+
+
+def test_loops_beats_ignore_the_from_scratch_true_levels_switch(monkeypatch):
+    """Owner 2026-09-23: true levels were for from-scratch beats only; the
+    Loops page keeps the level rules it had before 2026-09-20. Flipping
+    crew.TRUE_LEVELS must not change a loops beat by a single sample."""
+    import crew
+    monkeypatch.setattr(crew, "TRUE_LEVELS", True)
+    on = _loud_lead_loops_render()
+    monkeypatch.setattr(crew, "TRUE_LEVELS", False)
+    off = _loud_lead_loops_render()
+    assert np.array_equal(on, off)
+
+
+def test_loops_beats_still_get_the_old_level_rules(monkeypatch):
+    """...and those rules really act on a loops beat (so the test above is
+    not passing only because nothing ever touches loop levels)."""
+    import crew
+    monkeypatch.setattr(crew, "LOOPS_TRUE_LEVELS", False)
+    ruled = _loud_lead_loops_render()
+    monkeypatch.setattr(crew, "LOOPS_TRUE_LEVELS", True)
+    free = _loud_lead_loops_render()
+    assert not np.allclose(ruled, free)
