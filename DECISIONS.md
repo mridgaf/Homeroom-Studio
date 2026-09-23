@@ -7263,8 +7263,8 @@ just not loaded by default.
   clean tree (chord/harmony/stem tests in test_beat_machine.py).
 - GAP NAMED, not hidden: both new beats rolled the 808 branch (45% declared, so
   ordinary luck), so the pair shows his 808 half and NOT his hard-kick half.
-- Status: open — auditioned, measured, NOT heard. Only his ear closes it.
-- Outcome: —
+- Status: confirmed — owner 2026-09-23: "I listened to hitt kid yes he's all set."
+- Outcome: heard and approved. 11 of 13 legends confirmed; left: DJ Premium, No Alias.
 
 ### 2026-09-19 Nightly Looperman loop fetch (built, NOT yet proven live)
 
