@@ -20,6 +20,42 @@ entries.
 
 ## Log
 
+### 2026-09-20 One instrument per LANE (not per beat) + strings-via-MIDI — code in, NOT verified
+- Context: owner: the 2026-07-29 "one instrument per beat" rule was always
+  meant to be one instrument per LANE (never combine inside a lane). Legends
+  re-tuning is deferred to its own session; this session = set up the sounds.
+- Changes (all `tools/beat_machine.py`, uncommitted):
+  - `part_count = 1` clamp replaced by the weighted 1/2/3 roll
+    (`OWNER_TASTE["melody_part_weights"]`). Stays 1 when primary is
+    loop/chip/midi OR when he explicitly picks an instrument (`voice`) — the
+    role split ignored his pick otherwise ("I picked a sound, nothing changed").
+    `_one_instrument` (per-lane guard) untouched.
+  - Owner chose (clickable): a SEPARATE mixer row per instrument (chords,
+    chords2, chords3). Trims already handled any family; fixed `swap_many`
+    drop expansion, which only knew `chords`/`chordbass`.
+  - strings-via-MIDI: `midi_on_strings` (per beat, 50%, only free beats or
+    identities that already list strings) voices the MIDI phrase through
+    `string_sampler` exact-note. Note: no current Legend lists both midi and
+    strings, so it only fires on free beats until Legends are tuned.
+  - Reachability checked: bass 87, synth 55 (incl. Instrument Chops),
+    London strings 11,870 files, bell 9.
+- Tests: full suite ran once BEFORE the drop/voice fixes: 12 failed / 1203
+  passed. 6 = known generate() flake; `test_real_beats_are_not_mono_or_silent`
+  = his real drive library, unrelated. The other 5 were proven mine (baseline
+  passes 3/3, change fails 3/3) and encoded the old one-voice world. Four
+  rewritten in `tests/test_beat_machine.py` (`test_no_lane_ever_combines_two_
+  instruments`, `test_more_than_one_melodic_part_is_possible_again`, removing
+  → drops every chord family, levelling → first family only).
+  `test_every_offered_chord_instrument_actually_plays` left as-is — expected
+  to pass via the `voice` guard.
+- NEXT SESSION START HERE: (1) rerun those 5 tests + `test_one_instrument_
+  plays_the_whole_beat` + `test_loops_always_play_alone` (the last attempt
+  errored on a mistyped test name — they have NOT been rerun since the edits);
+  (2) full suite once, alone; (3) render an audition batch — multi-instrument
+  beats must sound clean, no "noise mess"; owner ear is the gate; (4) then
+  Legends re-tuning, all 13 alphabetical, one at a time (owner's choice).
+- Status: open — code written, not re-tested, not heard.
+
 ### 2026-09-20 Renamed the three "mutate" functions (naming clarity, no behavior change)
 - Context: owner saw the word `mutate` while I worked and wanted to confirm the
   OLD "mutate one hardcoded skeleton per DJ" variety-killer (dead since
@@ -79,7 +115,8 @@ entries.
 - Delicate core-engine surgery (one-instrument-per-beat + pin rules). Verify
   by RENDER audition (before/after), not code alone. Run full suite alone
   first per hard rule.
-- Status: open — not started; approach approved this session.
+- Status: open — engine half BUILT 2026-09-20 (see the "One instrument per
+  LANE" entry above); the frequency bump is Legends work, not started.
 
 ### 2026-09-20 NEXT SESSION START HERE: two "drum"-named low-end hits in one beat
 - Owner: "there should not be a kick drum and a bass drum, both named [drum],
