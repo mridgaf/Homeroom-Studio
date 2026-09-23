@@ -1125,6 +1125,43 @@ def test_no_lane_ever_combines_two_instruments(
                 assert beat_machine._one_instrument(files), (lane, files)
 
 
+def test_a_bass_line_is_one_sound_and_never_an_808(
+        machine_env, only_his_instruments, monkeypatch, tmp_path):
+    """Owner hard rule 2026-09-23, beat 2807: the bass line switched sound
+    every bar (guitar bass, an 808, a unison bass) because each chord took
+    its own nearest file. Every bass{i} lane of one beat must come from ONE
+    file, and a non-808 DJ's line never uses an 808 file. The bass pool is
+    one file every 3 semitones plus 808s sitting right on the roots, so the
+    old per-chord pick fails both halves of this."""
+    import instrument_sampler
+    root, shots = machine_env
+    _bell, _piano, bass = only_his_instruments
+    fake808 = [dict(e, group="bass")        # files named 808_<note>.wav
+               for e in _inst_index(tmp_path, "808", range(29, 61, 3))]
+    monkeypatch.setattr(instrument_sampler, "scan_bass",
+                        lambda *a, **k: bass + fake808)
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    assert "Timberline" not in beat_machine.BASS_808_DJS
+    checked = 0
+    for seed in range(6):
+        random.seed(seed)
+        path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
+        rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+        vf = rec["harmony"].get("voice_files", {})
+        files = [f for ln, fs in vf.items() if re.fullmatch(r"bass\d+", ln)
+                 for f in fs]
+        if len(files) < 2:
+            continue
+        checked += 1
+        assert len(set(files)) == 1, files                   # ONE sound
+        assert not any("808" in Path(f).name for f in files), files
+    assert checked, "no multi-chord bass line was made; proves nothing"
+
+
 def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
         machine_env, only_his_instruments, monkeypatch):
     """THE bug, owner 2026-07-25: 'where are the real instruments from my

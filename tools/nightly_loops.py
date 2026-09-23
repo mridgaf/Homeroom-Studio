@@ -239,6 +239,7 @@ class Session:
     def _do(self, req):
         try:
             with self.opener.open(req, timeout=60) as r:
+                self.last_url = r.geturl()
                 return r.status, r.read()
         except urllib.error.HTTPError as e:
             return e.code, e.read()
@@ -291,12 +292,47 @@ def login(sess):
     fields.update({"user_email": email, "upass": password})
     fields.update(checks)                     # terms + remember-me boxes ticked
     fields[submit[0]] = submit[1]
-    status, _ = sess.post(login_url, fields, referer=login_url)
+    p_status, p_body = sess.post(login_url, fields, referer=login_url)
+    p_url = getattr(sess, "last_url", "?")
     status, body = sess.get(login_url)        # logged-in users don't get the form
     page = body.decode("utf-8", "ignore")
-    if 'name="upass"' in page or "name='upass'" in page:
+    failed = 'name="upass"' in page or "name='upass'" in page
+    _write_login_debug(fields, p_status, p_url, p_body, status, getattr(sess, "last_url", "?"), failed, sess)
+    if failed:
         return False, "Looperman did not accept the login (wrong password, or it blocks scripts)."
     return True, "Logged in."
+
+
+def _write_login_debug(fields, p_status, p_url, p_body, g_status, g_url, failed, sess):
+    """Saves what Looperman answered, so a failed login can be diagnosed.
+    Never writes the password."""
+    try:
+        txt = p_body.decode("utf-8", "ignore")
+        msgs = re.findall(r'class="[^"]*(?:invalid-feedback|alert|error)[^"]*"[^>]*>(.*?)</', txt, re.S)
+        msgs = [strip_tags(m).strip() for m in msgs if strip_tags(m).strip()]
+        title = re.search(r"<title>(.*?)</title>", txt, re.S)
+        lines = [
+            "Login debug - %s" % datetime.datetime.now().isoformat(timespec="seconds"),
+            "Result: %s" % ("FAILED" if failed else "ok"),
+            "Fields sent (password hidden): %s" % ", ".join(sorted(k for k in fields)),
+            "Password length sent: %d" % len(fields.get("upass", "")),
+            "POST status: %s  ended at: %s" % (p_status, p_url),
+            "POST page title: %s" % (title.group(1).strip() if title else "?"),
+            "Messages on page: %s" % (" | ".join(msgs[:8]) or "none found"),
+            "Cookies held: %s" % ", ".join(sorted(c.name for c in sess.jar)),
+            "Check page status: %s  ended at: %s" % (g_status, g_url),
+            "First 600 chars of POST reply (tags removed):",
+            re.sub(r"\s+", " ", strip_tags(txt))[:600],
+            "Text around 'Login Failed':",
+        ]
+        flat = re.sub(r"\s+", " ", strip_tags(txt))
+        i = flat.find("Login Failed")
+        lines.append(flat[i:i + 500] if i >= 0 else "(not found)")
+        os.makedirs(NOTES_DIR, exist_ok=True)
+        with open(os.path.join(NOTES_DIR, "login-debug.txt"), "w") as f:
+            f.write("\n".join(lines) + "\n")
+    except Exception as e:                     # debug must never break the run
+        print("(could not save login debug: %s)" % e)
 
 
 # ---------------------------------------------------------------- state / drive

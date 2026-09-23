@@ -20,6 +20,40 @@ entries.
 
 ## Log
 
+### 2026-09-23 Bass line = ONE sound per beat, and no 808s for non-808 DJs
+- Context: owner on beat 2807 (Just Flame): "two instruments being used in
+  the same lane sounds bad." Its bass line went F_DECEPT Guitar Bass / Fun
+  in it (808) / UNISON_BASS Commas / F_DECEPT, one per chord. Not his doing:
+  `_build_chords` called `voice_note` per chord with no `pin`, so each root
+  took the nearest of 87 bass files (reproduced exactly: 41->F_DECEPT,
+  46->808, 39->UNISON, 44->F_DECEPT). 26 of the 87 are 808s, so a non-808
+  DJ could get one, against the 09-23 low-end rule.
+- Decision (owner, clickable): one bass sound per beat, every DJ; 808s kept
+  out of the bass line for non-808 DJs.
+- Change (`tools/beat_machine.py`, bass-line block in `_build_chords`): pool
+  drops files with "808" in the name; ONE file picked per beat (seeded from
+  the variant among files within MAX_SHIFT of the roots' middle, else the
+  closest), and every root voiced from an index holding only that file.
+  Refuses by construction — no other file is reachable. The 808 DJs' branch
+  (bass808) was already one file and is untouched.
+- Test: `test_a_bass_line_is_one_sound_and_never_an_808` — red on HEAD
+  (checked in a scratch worktree), green 3/3 on the change.
+- Full suite alone: 1222 passed, 7 failed, 2 skipped (12 min). 5 fail
+  identically on HEAD (the 4 pre-09-16 bass-rule tests + stem_rack_lists).
+  volumes_alone and generate_ships_wav are the documented random ones:
+  generate_ships passed 3/3 re-run alone on the change.
+- Cost, accepted: roots far from the picked file get pitched further
+  (speed-change shift, up to ~half the roots' spread).
+- Owner also chose (clickable): free beats KEEP the 09-23 50/50 808 roll
+  for non-808 DJs — the 808 ban is the bass-line pool only. Found when the
+  audition's own check fired on a free beat's 808.
+- Verify by: owner ear on `~/Desktop/Homeroom Bass One Sound 2026-09-23/`
+  (4 Just Flame; 2 free-beat 808s, 2 bass lines). Measured: every bass
+  stem per beat names one file, 4/4; MIDI gate clean. Not heard: whether
+  the further-shifted notes sound OK. 2807 itself not re-made.
+- Status: open — tested, not heard.
+- Outcome: —
+
 ### 2026-09-23 Low end set up to standard hip-hop practice (from-scratch only) — built, measured, NOT heard
 - Context: owner approved the 09-23 Loops-page level fix by ear, then asked
   for the low end "set up as standard hip-hop practices would go". Research:

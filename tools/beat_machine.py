@@ -2671,8 +2671,23 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 break
             bass_beds[i] = a
             bass_files[i] = p808
-    bass_idx = None if bass808 else instrument_sampler.scan_bass()
+    # ONE BASS SOUND PER BEAT (owner hard rule 2026-09-23, beat 2807: the
+    # line went guitar bass / 808 / unison bass / guitar bass because every
+    # chord picked its own nearest file). The line's single file is chosen
+    # ONCE, near the middle of its roots, and every root is voiced from an
+    # index holding only that file -- nothing else is reachable. And no 808
+    # files: an 808 DJ's line is the bass808 branch above; everyone else
+    # plays a real bass line (owner 2026-09-23).
+    bass_idx = None if bass808 else [
+        e for e in instrument_sampler.scan_bass()
+        if "808" not in Path(e["path"]).name]
     if bass_idx:
+        roots = [chord["notes"][0] - 12 for _i, chord, _s, _d in slots]
+        mid = (min(roots) + max(roots)) / 2.0
+        near = [e for e in bass_idx
+                if abs(e["note"] - mid) <= instrument_sampler.MAX_SHIFT]
+        bass_idx = [random.Random(variant * 29 + 3).choice(near) if near
+                    else min(bass_idx, key=lambda e: abs(e["note"] - mid))]
         for i, chord, start_bar, dur in slots:
             bused = []
             a = instrument_sampler.voice_note(

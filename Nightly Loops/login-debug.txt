@@ -1,0 +1,13 @@
+Login debug - 2026-09-23T19:03:10
+Result: FAILED
+Fields sent (password hidden): csrftoken, page_token, submit, upass, user_disclaimer, user_email, user_remember_code
+Password length sent: 20
+POST status: 200  ended at: https://www.looperman.com/account/login
+POST page title: Looperman : Login | Looperman
+Messages on page: You must agree to the terms & privacy policy
+Cookies held: loop_csrfc, loop_session
+Check page status: 200  ended at: https://www.looperman.com/account/login
+First 600 chars of POST reply (tags removed):
+ Looperman : Login | Looperman Loops Acapellas Tracks Software Blog Help Login Register Menu Home Loops Acapellas Tracks Software Blog Help Contact Support My Profile More Blocked Users Followed Users Ignored Users My Loops More My Favourite Loops My Downloaded Loops My Acapellas More My Favourite Acapellas My Downloaded Acapellas My Tracks More My Favourite Tracks My Downloaded Tracks My Comments More My Comments On Tracks Comments On My Tracks My Comments On Loops Comments On My Loops My Comments On Acapellas Comments On My Acapellas Settings Log Out Login Failed There was a problem with you
+Text around 'Login Failed':
+Login Failed There was a problem with your login. Check your email and password and try again Login Email Password I agree to the terms of use & privacy policy You must agree to the terms & privacy policy Remember Me Login Register Account Forgot Password If you have issues staying logged in make sure to clear your existing browser cache and cookies Help & Support Help About Us Contact Support Copyright / DMCA Terms & Conditions Privacy Policy Cookies Policy FTC Disclosure Privacy Preferences Co
