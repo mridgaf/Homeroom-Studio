@@ -1789,34 +1789,37 @@ def _line_lanes(lanes):
     return sorted(l for l in lanes if re.fullmatch(r"bass\d+", l))
 
 
-def test_an_808_dj_plays_the_808_as_the_bass_line(
+def test_an_808_dj_bangs_one_in_key_808_with_the_kick_unpitched(
         machine_env, only_his_instruments, monkeypatch, tmp_path):
+    """Owner 2026-09-23 (second pass): the 808 does NOT play the chords.
+    One 808 lane on the kick's hits, an 808 recorded in the key, never
+    pitched or stretched, and no bass line under it."""
     root, shots = machine_env
-    shots = _with_808s(tmp_path, shots, monkeypatch)
+    shots = _with_808s(tmp_path, shots, monkeypatch)        # all "C"
+
+    def _no_shift(*a, **k):
+        raise AssertionError("a new beat's 808 must never be pitched")
+    monkeypatch.setattr(beat_machine, "_808_to_key", _no_shift)
     rec, report = _low_end_beat(root, shots, monkeypatch, "Night Metro")
     lanes = rec["preset"]["lanes"]
-    assert rec["harmony"]["bass808"], report
-    assert "bass" not in lanes and "sub" not in lanes     # ONE bass
-    line = _line_lanes(lanes)
-    assert len(line) > 1, "need several chords to prove anything"
-    kbars = lanes["kick"][3]
-    seen = set()
-    for ln in line:
-        hits = {(b, s) for b, pat in enumerate(lanes[ln][3])
-                for s, ch in enumerate(pat) if ch != "-"}
-        assert hits, ln
-        # the chord change always strikes the 808 on its downbeat...
-        first = min(b for b, _s in hits)
-        assert (first, 0) in hits, ln
-        # ...and every other 808 note lands on a kick hit (one unit)
-        assert all(kbars[b % len(kbars)][s] != "-"
-                   for b, s in hits - {(first, 0)}), ln
-        # ...and each chord's 808 plays only in that chord's own bars
-        bars = {b for b, _s in hits}
-        assert not bars & seen, ln
-        seen |= bars
+    assert rec["harmony"]["root"] == "C", report
+    assert not rec["harmony"].get("bass808"), report
+    assert "bass" in lanes and "sub" not in lanes, report  # ONE bass
+    assert not _line_lanes(lanes), report                  # no bass line
+    assert lanes["bass"][3] == lanes["kick"][3]            # bangs with kick
+    assert Path(rec["kit_paths"]["bass"]).stem.startswith("808_long_"), report
     role, _must, _wants, secs = rec["kit_spec"]["kick"]
     assert role != "bass" and secs <= beat_machine.KICK_WITH_BASS_SECS
+
+
+def test_no_808_in_the_key_means_no_808_not_a_shifted_one(
+        machine_env, only_his_instruments, monkeypatch, tmp_path):
+    root, shots = machine_env
+    shots = _with_808s(tmp_path, shots, monkeypatch, note="F#")  # key is C
+    rec, report = _low_end_beat(root, shots, monkeypatch, "Night Metro")
+    lanes = rec["preset"]["lanes"]
+    assert "bass" not in lanes and not _line_lanes(lanes), report
+    assert "no 808: none recorded in C" in report, report
 
 
 def test_a_boom_bap_dj_gets_the_bass_line_and_no_808(

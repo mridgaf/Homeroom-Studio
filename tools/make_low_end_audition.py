@@ -1,29 +1,26 @@
-"""Audition: the low end set up the way a hip-hop producer would (2026-09-23).
+"""Audition: the 808 bangs with the kick (2026-09-23, second pass).
 
-Owner: "set the sound up as standard hip-hop practices would go". What
-changed, from-scratch beats only (the Loops page is untouched):
-  * one bass per beat, by DJ style -- 808 DJs: his 808 plays the bass line,
-    re-pitched onto each chord's root; everyone else: the bass line from his
-    bass one-shots, no long 808
-  * the kick is short whenever a bass plays; never an 808 kick on 808 beats
-  * one bass note at a time (each new note cuts the last)
-  * the bass line ducks under the kick as deep as the 808 (5 dB)
-  * the kick stays on top of the low end even at true levels
-  * chords / instruments cut below ~100-150 Hz
-  * no machine-made tones (tuned sine sub, sine under the kick: gone)
-  * the 808 re-pitch is in tune (Rubber Band; the old shifter ran up to
-    ~3 semitones off on bass)
+Owner: "we shouldn't be using the sub to play chords, it should just bang
+along with the kick drum, side chained, like hip hop is produced much of
+the time. Shouldn't need to be pitched or stretched." What changed, from-
+scratch beats only (the Loops page is untouched):
+  * 808 DJs: ONE 808 on the kick's hits, ducked 5 dB under the kick --
+    no longer following the chords, and no bass line under it
+  * the 808 is never pitched or stretched: on a keyed beat only an 808
+    RECORDED in the key's root can play (none there -> no 808)
+  * everyone else: unchanged -- the bass line from his bass one-shots
 
 In-character seeds only (no free-for-all beats), so each folder is the
 style it says. Renders to scratch; copies the wavs to the Desktop. Library,
 sample history, pattern history and crew kit locks are all left untouched.
 
-Fails loud: every beat must have exactly the bass its style calls for, the
-kick must sit over every bass lane, the chord stems must be cut under the
-bass, and the file count must be right. A WARNING means do not hand it over.
+Fails loud: every beat must have exactly the bass its style calls for; an
+808 must sit on exactly the kick's hits, be recorded in the key, and
+MEASURE in the key in its finished stem; the kick must sit over every
+bass lane; the file count must be right. A WARNING means do not hand it over.
 
 Run:  ./.venv/bin/python tools/make_low_end_audition.py
-Out:  ~/Desktop/Homeroom Low End <today>/
+Out:  ~/Desktop/Homeroom 808 On The Kick <today>/
 """
 import random
 import re
@@ -43,10 +40,10 @@ import beat_recipes
 import crew
 import pattern_gen
 
-OUT = Path.home() / "Desktop" / f"Homeroom Low End {date.today()}"
+OUT = Path.home() / "Desktop" / f"Homeroom 808 On The Kick {date.today()}"
 FOLDERS = {
     "1 808 DJs": ["Night Metro", "Mustang", "Hitt Kid", "Memphis"],
-    "2 Bass-line DJs": ["Otto Grit", "DJ Premium", "Doc Day", "No Alias"],
+    "2 Bass-line DJs": ["Otto Grit", "DJ Premium"],
 }
 _LINE = re.compile(r"bass\d+$")
 
@@ -74,6 +71,18 @@ def _pk(stem):
     return float(np.abs(np.stack(stem)).max())
 
 
+def _pitch_class_of(stem):
+    """The finished 808 stem's own fundamental, as (pitch class, cents off):
+    the strongest bin 25-120 Hz. Measured on the OUTPUT, not the recipe."""
+    x = (stem[0] + stem[1]) / 2
+    sp = np.abs(np.fft.rfft(x * np.hanning(len(x))))
+    f = np.fft.rfftfreq(len(x), 1 / SR)
+    band = (f >= 25) & (f <= 120)
+    hz = f[band][sp[band].argmax()]
+    semis = 12 * np.log2(hz / 16.3516)          # C0
+    return int(round(semis)) % 12, 100 * (semis - round(semis))
+
+
 def _measure(rec, parts):
     lanes = rec["preset"]["lanes"]
     stems = parts["stems"]
@@ -81,6 +90,16 @@ def _measure(rec, parts):
     line = sorted(ln for ln in lanes if _LINE.match(ln))
     has_808 = bool(harm.get("bass808")) or "bass" in lanes
     kind = "808" if has_808 else "bass line" if line else "none"
+    path808 = (rec.get("kit_paths") or {}).get("bass") or ""
+    on_kick = (lanes["bass"][3] == lanes["kick"][3]) if "bass" in lanes \
+        else None
+    key_pc = recorded_pc = heard = None
+    if "bass" in lanes and harm.get("root"):
+        from key_context import pitch_class
+        key_pc = pitch_class(harm["root"])
+        note = bm._808_notes().get(path808)
+        recorded_pc = pitch_class(note) if note else None
+        heard = _pitch_class_of(stems["bass"])
     two = ("bass" in lanes and bool(line)) or "sub" in lanes
     kick = _pk(stems["kick"]) if "kick" in stems else 0.0
     low = [ln for ln in stems if ln == "bass" or _LINE.match(ln)]
@@ -100,7 +119,12 @@ def _measure(rec, parts):
     roots = [c["chord"] for c in harm.get("chords", [])]
     return {"kind": kind, "two": two, "over": over,
             "chord_lows": max(cut) if cut else None, "roots": roots,
-            "808": Path(harm["bass808"]).stem if harm.get("bass808") else ""}
+            "key": harm.get("key") or "", "on_kick": on_kick,
+            "key_pc": key_pc, "recorded_pc": recorded_pc, "heard": heard,
+            "off": (None if not heard else
+                    100 * ((heard[0] + heard[1] / 100 - key_pc + 6) % 12 - 6)),
+            "808": Path(path808).stem if "bass" in lanes else "",
+            "line_808": bool(harm.get("bass808"))}
 
 
 def main():
@@ -136,6 +160,20 @@ def main():
                       f" dB  chord lows {m['chord_lows'] and round(m['chord_lows'], 1)}")
                 if m["kind"] != want:
                     warnings.append(f"{fn}: wanted {want}, got {m['kind']}")
+                if m["line_808"]:
+                    warnings.append(f"{fn}: the 808 is playing the chords")
+                if m["on_kick"] is False:
+                    warnings.append(f"{fn}: the 808 is off the kick's hits")
+                if m["key_pc"] is not None and m["recorded_pc"] != m["key_pc"]:
+                    warnings.append(f"{fn}: the 808 is not recorded in "
+                                    f"{m['key']}")
+                # an 808 starts up to ~a semitone high and drops to its
+                # note (Hitt Kid's measured 105 -> 98.5 Hz in 0.3 s); on
+                # fast hits that start is most of what plays. More than a
+                # semitone off is a wrong file, not the glide.
+                if m["off"] is not None and abs(m["off"]) > 100:
+                    warnings.append(f"{fn}: the 808 stem measures "
+                                    f"{m['off']:+.0f} cents from {m['key']}")
                 if m["two"]:
                     warnings.append(f"{fn}: TWO basses")
                 if m["over"] is not None and m["over"] > crew.LOW_END_UNDER_DB + 0.1:
@@ -169,68 +207,57 @@ def main():
 
 def readme(rows):
     lines = [
-        f"THE LOW END, SET UP LIKE A PRODUCER WOULD   {date.today()}",
+        f"THE 808 BANGS WITH THE KICK   {date.today()}",
         "=" * 60, "",
         "WHAT YOU ASKED",
-        '  "Set the sound up as standard hip-hop practices would go" --',
-        "  kick, 808 and bass working together the way a producer who",
-        "  knows what they're doing would have them. Loops page untouched.",
+        '  "We shouldn\'t be using the sub to play chords. It should just',
+        '  bang along with the kick drum, side chained ... shouldn\'t need',
+        '  to be pitched or stretched."',
         "",
-        "WHAT CHANGED (every beat made from scratch)",
-        "  - ONE bass per beat, by DJ style. Folder 1: the 808 IS the bass",
-        "    line -- your 808, moved onto each chord's note. Folder 2: your",
-        "    bass one-shots play the line, and there is no long 808.",
-        "  - The kick is always short and punchy when a bass plays. On 808",
-        "    beats the kick never comes from the 808 pile (no more 'kick",
-        "    drum AND bass drum' stacked).",
-        "  - One bass note at a time: each new note cuts the last one off.",
-        "  - The bass line now ducks under the kick as deep as the 808.",
-        "  - The kick stays on top of the low end, even at true levels.",
-        "  - Chords and instruments are cut below the bass (under ~100-150",
-        "    Hz), so the bass owns the bottom.",
-        "  - No machine-made tones: the tuned sine sub and the sine layered",
-        "    into Otto Grit's and Doc Day's kick are gone.",
-        "  - The 808 is IN TUNE now. The old way of moving an 808 to a new",
-        "    note was off by about a quarter of a semitone on average and",
-        "    up to almost 3 semitones on some. Fixed.",
-        "  - The track name 'bass drum' is now '808'.",
+        "WHAT CHANGED (beats made from scratch; old beats untouched)",
+        "  - Folder 1 (808 DJs): ONE 808, hitting exactly where the kick",
+        "    hits, ducked 5 dB under the kick. It no longer moves with the",
+        "    chords, and there is no bass line under it.",
+        "  - The 808 is never pitched or stretched. It is picked from 808s",
+        "    already recorded in the beat's key. If none is, the beat gets",
+        "    no 808 (and the beat card says so).",
+        "  - Folder 2 (other DJs): unchanged -- the bass line from your",
+        "    bass one-shots. Here so you can compare.",
         "",
         "LISTEN FOR",
-        "  Folder 1: does the 808 follow the chords and sound in tune? Is",
-        "  the kick still clear on top of it?",
-        "  Folder 2: does the bass line sit under the kick without mud? Do",
-        "  the chords sound thinner than you want now that their bottom",
-        "  is cut?",
+        "  Folder 1: does the 808 sit with the kick like a real hip-hop",
+        "  beat? Does it clash with any chord now that it holds one note?",
         "",
         "THE BEATS",
     ]
     for folder, fn, m in rows:
         extra = f"808 '{m['808']}'" if m["808"] else m["kind"]
-        lines.append(f"  {folder} / {fn}")
+        tune = ("" if m["off"] is None else
+                f"; measures {m['off']:+.0f} cents from {m['key']}'s root")
         under = ("" if m["over"] is None
                  else f"; peaks {-m['over']:.1f} dB under the kick")
-        lines.append(f"      bass: {extra}{under}; chords: "
+        lines.append(f"  {folder} / {fn}")
+        lines.append(f"      bass: {extra}{tune}{under}; chords: "
                      f"{', '.join(m['roots']) or 'none'}")
     lines += [
         "",
         "MEASURED (not heard)",
-        "  Every beat: exactly one bass, of the kind its folder says.",
-        "  Every bass lane peaks under the kick -- but by very different"
-        "  amounts (listed per beat above). A long 808 has a lower peak"
-        "  than a kick for the same loudness, so a big number is not"
-        "  automatically too quiet. If one sounds too quiet, say which.",
-        "  Every chord lane has",
-        "  almost nothing left below 80 Hz. The script refuses to write",
-        "  this folder if any of that fails.",
+        "  Folder 1: every 808 plays on exactly the kick's hits, was",
+        "  recorded in the beat's key, and measures in that key in the",
+        "  finished file. Folder 2: bass line, no 808. One bass per beat.",
+        "  The script refuses to write this folder if any of that fails.",
         "",
         "NOT CHECKED -- your ear",
-        "  Whether the 808 following the chords feels right for each DJ,",
-        "  whether the 120 Hz chord cut is too much or too little, and",
-        "  whether the short kick takes away weight you liked. The duck",
-        "  timing (90 ms) was left as it was.",
+        "  Whether one held 808 note under changing chords sounds right.",
+        "  Beat 3 (Hitt Kid): his 808 starts about a semitone high and",
+        "  drops to G within 0.3 s -- normal for an 808. His hits are",
+        "  fast, so you mostly hear the high start. Nothing re-pitched it;",
+        "  the file settles on G. Tell me if it sounds out of key.",
+        "  Outside C there are only 4-25 808s per key, so those beats",
+        "  draw from a small pile.",
         "",
         "WHAT I NEED BACK",
-        "  For each folder: keep it, or what to change.",
+        "  Folder 1: keep it, or what to change.",
     ]
     return "\n".join(lines) + "\n"
 

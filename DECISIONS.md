@@ -20,6 +20,42 @@ entries.
 
 ## Log
 
+### 2026-09-23 The 808 bangs with the kick — no chord-following, never pitched
+- Context: owner, on that morning's 808-plays-the-chord-roots build: "we
+  shouldn't be using the sub to play chords it should just bang along with
+  the kick drum side chain ... shouldn't need to be pitched or stretched."
+- Owner answers (clickable): stay in key by picking an 808 RECORDED in the
+  beat's key (index: 324 of 411 are C, other keys 4-25); 808 DJs only —
+  the other DJs' bass line keeps following the chords.
+- Change (`tools/beat_machine.py`): `add_bass_and_chords` no longer passes
+  `bass808`; `_build_chords(bass_line=False)` on 808 beats, so no bass line
+  either. The ONE `bass` lane (`_add_sample_lanes`) copies the kick's bars
+  and already rides the 5 dB `_LOW_END` duck. Its 808 pick narrows to files
+  whose `_808_notes()` pitch class == the key root and plays as recorded;
+  none in key -> no 808, note "no 808: none recorded in X". `_808_to_key`
+  and the `bass808` branch kept ONLY so beats made earlier today rebuild as
+  made. Already-rendered beats untouched.
+- Tests: `test_an_808_dj_bangs_one_in_key_808_with_the_kick_unpitched`,
+  `test_no_808_in_the_key_means_no_808_not_a_shifted_one` — both red on
+  HEAD (scratch worktree), green after. Full suite alone: 1223 passed,
+  7 failed = exactly the 7 listed in the entry below (10:45).
+- Found by the audition's own check: an 808 starts up to ~a semitone high
+  and drops to its note (MZ 808 [Kick Back]: 105 -> 98.5 Hz in 0.3 s). On
+  fast hits the choke cuts it before it settles, so Hitt Kid's finished
+  stem measures +88 cents from G. File is correct (settles on G); nothing
+  re-pitched it. Check now fails only past 100 cents. Unresolved: whether
+  that sounds out of key to him.
+- `tools/make_low_end_audition.py` rewritten for this rule (old version
+  was the morning's 808-on-roots bench).
+- Verify by: owner ear on `~/Desktop/Homeroom 808 On The Kick 2026-09-23/`
+  (4 x 808 DJs, 2 x bass-line). Measured: every 808 on exactly the kick's
+  bars, recorded in key, stems within -18..+9 cents of the root except
+  Hitt Kid +88 (glide, above).
+- Status: confirmed — owner 2026-09-23: "keep folder 1 changes" (all four
+  808 DJs, Hitt Kid's +88-cent glide included). Folder 2 (bass-line DJs)
+  was the unchanged comparison, no verdict given on it.
+- Outcome: heard and kept.
+
 ### 2026-09-23 Bass line = ONE sound per beat, and no 808s for non-808 DJs
 - Context: owner on beat 2807 (Just Flame): "two instruments being used in
   the same lane sounds bad." Its bass line went F_DECEPT Guitar Bass / Fun
