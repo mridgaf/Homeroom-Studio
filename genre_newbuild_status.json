@@ -49,6 +49,6 @@
  "G-Funk": {
   "stage": "built",
   "date": "2026-09-24",
-  "notes": "Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Next: full suite alone, then make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first."
+  "notes": "Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Suite run 2026-09-24 (1240 pass; the one fail was the own_soundbank allow-list, G-Funk added, green). Next: render with make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first."
  }
 }

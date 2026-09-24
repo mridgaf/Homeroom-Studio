@@ -766,13 +766,14 @@ def test_own_soundbank_is_the_new_build_legends_only():
     snappy 0, hat tight 1 (tite). A genre is not a DJ, so there is no
     open-bank share at all — once on, its tags gate every pick. Acid Rap
     Detroit followed the same day: kick boom/dusty 0 of 488, snare
-    crack/dusty 0 of 680."""
+    crack/dusty 0 of 680. G-Funk followed: kick deep/round 0 of 488,
+    snare crack/snappy 0 of 680, stamp talkbox 0 anywhere."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
                     "DJ Light Green", "Hitt Kid", "Acid Rap Bright",
                     "Acid Rap Detroit", "Baltimore Club", "Chiptune",
-                    "Crunk", "Detroit", "Emo Hip Hop"}
+                    "Crunk", "Detroit", "Emo Hip Hop", "G-Funk"}
 
 
 def test_legend_stamps_are_not_locked():

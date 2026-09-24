@@ -113,8 +113,18 @@ def bpm_from_tokens(tokens):
     Range-gated so "808" (a bass name, not a tempo) doesn't get read as
     one — 808 is outside 50-220, so it's excluded on its own."""
     for tok in tokens:
-        if tok.isdigit() and len(tok) in (2, 3) and 50 <= int(tok) <= 220:
-            return int(tok)
+        if tok.isdigit() and len(tok) in (2, 3):
+            n = int(tok)
+        else:
+            # 2026-09-24: also a glued "140bpm" token. Every Looperman and
+            # Freesound loop is named "..._Am_140bpm", and the bare-digit-only
+            # rule read none of those tempos (DECISIONS.md had flagged it).
+            m = re.match(r"^(\d{2,3})bpm$", tok, re.I)
+            if not m:
+                continue
+            n = int(m.group(1))
+        if 50 <= n <= 220:
+            return n
     return None
 
 

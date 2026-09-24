@@ -20,6 +20,18 @@ entries.
 
 ## Log
 
+### 2026-09-24 Note-by-note instrument libraries downloaded (not wired in yet)
+- Context: owner wants instruments "with their variety of notes so I don't have to stretch or pitch any sounds", for the Beat Machine. Today instrument_sampler.py guesses pitch from loops and may stretch a note up to 12 semitones (PREFER_MAX_SHIFT), and chords can mix packs.
+- Decision/change: owner picked VCSL + VSCO 2 CE (both CC0) into a NEW folder `/Volumes/TBOTC 3/Sample Packs/BOTC Multisampled Instruments` (kept apart from BOTC Sorted Instruments, like London Strings). 7,399 audio files, 8.9 GB. Every file checked against GitHub's listed size: 0 mismatches. READ ME.txt in the folder. Salamander piano declined.
+- Reasoning: note name is in every file name ("Oboe_Sus_D3_v1_Main.wav"), so a string_sampler-style exact-note reader works: no pitch guessing. MEASURED from file names: NOT every note. Gaps between recorded notes: Kawai grand 3-7 semitones, marimba 4-7, oboe 3-5, trumpet 1-4, cello 1-4. So the worst stretch is about 1.5-3.5 semitones (vs up to 12 today); not zero. VSCO Upright Piano names didn't parse with the simple note reader; check before wiring.
+- Owner wiring decision (same day): these libraries play FIRST for their instrument family, his own samples as fallback. EXCEPT strings: London Symphonic Strings stays first for strings.
+- Measured coverage (note names parsed from files, releases/noise folders skipped): piano 13 instruments (Steinway B 42 notes, biggest gap 2), organ 2, bell 13, brass 5, wood 12, string 8, pluck 4 (mbira/psaltery). No guitars; no synth/pad/choir. 2,242 files have no note in the name (drums, FX, VSCO Upright Piano uses numbered files + MappingChart.txt).
+- Owner: the 4 thumb pianos/mbiras + psaltery go in BELL, not pluck (his synth plucks stay first for 'pluck').
+- Owner: build NOT started — "not yet", own session later. Download was 12 parallel requests, one 503 retried; next time download slower.
+- Verify by: when built — classifier-reachability-audit + full test suite (double-click file for him) + his ear.
+- Status: open
+- Outcome:
+
 ### 2026-09-24 Synonym matching for taste words — every pair ruled by the owner
 - Context: owner mid-build: "Word sounds won't be exact matches we should at least look for synonyms or similar words", then "Any synonym you're not sure about ask me". `flavor_tags.py` (opt-in `flavor_match`) existed since 09-09 but NO preset used it.
 - Decision/change: two rounds of clickable questions, every pair his call. He SPLIT lofi from dirty, clipped from distorted, fat from warm; CONFIRMED all other existing groups; ADDED raw=dirty, crunch=crush, heavy/slam=hard, live=roomy, reverb/hall=washed, tight=tite=short, shake=shaker, punch=knock, deep=sub=low=dark, light=soft, vinyl=dusty, bright=crisp, boom=808 (overruling the 09-09 "never group punch/knock/deep/boom" note). Fixed: the "grit" group never contained "grit". Folder words now go through synonyms too when opted in. New guards: a synonym-only match never puts a sidestick/stick/rim/clap/"kick n" combo in a snare slot, or an open hat/combo in a hat slot (literal words still match anything). `flavor_match: true` on the 7 genres built today (no other preset has it). Test `test_synonyms_never_land_a_sidestick_clap_or_open_hat`. Skill updated: every genre build sets flavor_match and asks him about any new pair.
@@ -7610,5 +7622,15 @@ just not loaded by default.
 - Decision/change: bpm 95 + tempo pocket 88-105 (12 sourced tempos, median 95); snare backbeat 0.95 / displaced 0.05 (owner: "Mostly, keep a little wander" — a weight, not a lock); own_soundbank + flavor_match; kit tags moved to real filenames; chords add piano + organ, loop 2->1. Stays clean. Full sourcing in its `_research_note`. Backup: `genres_config.pre-g-funk-2026-09-24.json`.
 - Found: a LITERAL tag hit skips `_NOT_A_SNARE` (only synonym hits are guarded) — plain "fat" pulled `Fatoes_Sidestick` into the snare slot; used "fat (snare)". Also `deep`'s synonym `low` matches "Shallow"/"Slow" in kick names — avoided, not fixed.
 - Verify by: suite alone, then `make_legend_newbuild.py --genres --legend "G-Funk" --structure --before genres_config.pre-g-funk-2026-09-24.json`; read the stamp first.
-- Status: open — built, suite was running at session end, not rendered, not heard.
+- Tests: full suite 1240 passed, 1 failed (test_own_soundbank_is_the_new_build_legends_only — the allow-list needed G-Funk, same as every genre before it). Added; test_crew.py re-run 38/38 green.
+- Status: open — built, tests green, NOT rendered, not heard.
+- Outcome: —
+
+### 2026-09-24 Loop engine now reads glued "140bpm" tempos + Batch 9 loops (Looperman + Freesound)
+- Context: owner asked for 200 more space/trippy loops (Drums allowed), slow downloads, site rules checked. While filing, found `tools/melodic_loops.py` `bpm_from_tokens()` only read a bare number, so every "..._Am_140bpm" Looperman/Freesound loop had tempo=None (key was read). Flagged earlier in this file but never fixed.
+- Decision/change: owner picked "fix the engine". `bpm_from_tokens()` now also accepts a glued `NNNbpm` token (same 50-220 range gate, same first-match order). Added `test_bpm_from_tokens_reads_glued_bpm_suffix` in tests/test_melodic_loops.py. sample_library.py already did this; now both agree.
+- Measured (plain python3 on the real BOTC Sorted Loops folders, Linux VM, real module imported): files with a readable tempo 1094 -> 1450 of 1890 (+356). 0 existing tempos changed value.
+- Loops: 45 Looperman (leftover Batch 8 IDs) + 56 Freesound (CC0 31 / CC-BY 25) filed = 101 of 200. Log + CC-BY credit list: BOTC Sorted Loops/SORTING-LOG-2026-09-24-Batch9-Spacey.txt. Freesound limits: 30 downloads/min, 500/day; ran at ~1 per 30-60s.
+- Verify by: owner runs the suite ALONE (no renders): `./.venv/bin/python -m pytest tests/ -q`. Could not run it here (the venv is macOS-only). Note the 7 chord/harmony failures logged earlier today are unrelated to this change.
+- Status: open (suite not run on the Mac yet).
 - Outcome: —

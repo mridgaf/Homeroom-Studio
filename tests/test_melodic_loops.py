@@ -51,6 +51,14 @@ def test_bpm_from_tokens_none_when_absent():
     assert bpm_from_tokens(["Cymatics", "KEYS", "Alloy", "C"]) is None
 
 
+def test_bpm_from_tokens_reads_glued_bpm_suffix():
+    # Looperman / Freesound loops are named "..._Am_140bpm" (2026-09-24).
+    tokens = "looperman-l-5565495-0328305-spacey-pad_Am_140bpm".replace("-", "_").split("_")
+    assert bpm_from_tokens(tokens) == 140
+    assert bpm_from_tokens(["loop", "C", "nokey", "80BPM"]) == 80
+    assert bpm_from_tokens(["loop", "300bpm"]) is None
+
+
 def _entry(key, mode, bpm, role="melody", **kw):
     e = {"name": "x", "path": "/x", "kind": "loop", "role": role,
          "key": key, "mode": mode, "bpm": bpm}
