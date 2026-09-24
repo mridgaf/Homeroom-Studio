@@ -1171,6 +1171,18 @@ def _sorted_root():
     return _SORTED_ROOT
 
 
+def grit_lane(p, lanes):
+    """Which lane `kick_dist` distorts. Owner 2026-09-24: since the 09-23
+    rule an 808 beat plays a short kick PLUS the 808 in its own "bass" lane
+    (a bass LINE is bass0, bass1...), so "808 only" dirt was distorting the
+    short kick and leaving the 808 clean. He chose "The 808, all three":
+    allow_dirt "low" (Crunk, Mustang, Night Metro) grits the 808 lane when
+    the beat has one. No 808 lane, or plain True dirt -> the kick, as before."""
+    if p.get("allow_dirt") == "low" and "bass" in lanes:
+        return "bass"
+    return "kick"
+
+
 def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
                own_bank=False, flavor_match=False, open_bank=None):
     """Like make_drum_beats.pick but returns the PATH so it can be locked.
@@ -1715,8 +1727,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     _house_clean = OWNER_TASTE.get("clean_renders", False)
     clean = _house_clean and not _dirt              # gates the 808/kick
     clean_mix = _house_clean and _dirt is not True  # gates everything else
-    if not clean and p["kick_dist"] > 0 and "kick" in bufs:
-        bufs["kick"] = dist808(bufs["kick"], p["kick_dist"])
+    _grit = grit_lane(p, bufs)
+    if not clean and p["kick_dist"] > 0 and _grit in bufs:
+        bufs[_grit] = dist808(bufs[_grit], p["kick_dist"])
     if not clean and p.get("rough_808") and "kick" in bufs:
         rate, depth = p["rough_808"]
         bufs["kick"] = roughness_am(bufs["kick"], rate, depth)
@@ -2378,6 +2391,10 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             if p["dust"] > 0:
                 sL = sp1200(sL, amount=p["dust"])
                 sR = sp1200(sR, amount=p["dust"])
+            # the FX on button (owner 2026-09-24): the stems carry the
+            # mix saturation too, not only the full beat
+            if p.get("fx_stems") and p["mix_sat"] > 0:
+                sL, sR = sat_unity(sL, p["mix_sat"]), sat_unity(sR, p["mix_sat"])
         stems[lane] = (sL, sR)
     peak = max(max(np.abs(sL).max(), np.abs(sR).max())
                for sL, sR in stems.values())

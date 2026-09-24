@@ -414,6 +414,19 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     written down and silently discarded; that pattern is the argument for
     checking allow_dirt on every legend BEFORE tuning anything.
 
+    Acid Rap Detroit is the tenth and the first GENRE, 2026-09-24, in by
+    his standing answer for the genre pass: "dirt follows the research",
+    no audition needed first. Its listen line says "tape hiss and vinyl
+    noise left in, nothing polished anywhere" and every source on Esham's
+    1989 record says lo-fi drum machine, thin, recorded in one day - and,
+    same fault as Razor, its dust 0.85 / vinyl -40 / wow had never played.
+    Baltimore Club followed the same day: "distorted and loud and crunchy"
+    (DJ Technics, RBMA) and "if not, then it isn't Bmore Club".
+    Chiptune joined by his own answer, asked in plain language after its
+    first audition: "Light 12-bit crunch" -> dust 0.25, the SP-1200 stage.
+    Crunk is "low" (the 808 only): its listen line says "a huge distorted
+    808", and kick_dist went 0.3 -> 9.0, Mustang's measured audible level.
+
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
     assert OWNER_TASTE["clean_renders"] is True
@@ -422,7 +435,9 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
                      "Rage Engine": True, "Cutz": True,
                      "Crate Prophet": True, "Razor": True,
                      "Mustang": "low", "Kane East": True,
-                     "J Dillo": True}, heard
+                     "J Dillo": True, "Acid Rap Detroit": True,
+                     "Baltimore Club": True, "Chiptune": True,
+                     "Crunk": "low"}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -530,6 +545,21 @@ def test_allow_dirt_low_grits_the_808_and_leaves_the_mix_clean():
         render_crew_beat("Night Metro", kit,
                          preset=dict(p, allow_dirt=True))
     assert s2.called and m2.call_args.kwargs["drive"] == p["drive"]
+
+
+def test_808_only_dirt_lands_on_the_808_not_the_kick():
+    """Owner 2026-09-24, "The 808, all three": an 808 beat since 09-23 has a
+    short kick plus the 808 in its own "bass" lane, and "low" dirt was
+    distorting the kick. It goes to the 808 now; everything else unchanged."""
+    low, full = {"allow_dirt": "low"}, {"allow_dirt": True}
+    assert crew.grit_lane(low, {"kick": 1, "bass": 1}) == "bass"
+    assert crew.grit_lane(low, {"kick": 1, "bass0": 1}) == "kick"  # a line
+    assert crew.grit_lane(low, {"kick": 1}) == "kick"
+    assert crew.grit_lane(full, {"kick": 1, "bass": 1}) == "kick"
+    src = Path(crew.__file__).read_text()
+    assert "bufs[_grit] = dist808(bufs[_grit]" in src
+    assert {n for n, q in CREW.items() if q.get("allow_dirt") == "low"} \
+        == {"Crunk", "Mustang", "Night Metro"}
 
 
 def test_only_night_metro_ships_with_a_breakdown():
@@ -724,11 +754,21 @@ def test_own_soundbank_is_the_new_build_legends_only():
     beats. Farrow's note in legends_config.json had already warned that
     plain `dry` drags those in; 8 of the 41 dry snares are sidesticks.
     The warning existed and was still walked into once. Do not put `dry`
-    on a snare in this repo."""
+    on a snare in this repo.
+
+    Acid Rap Bright joined 2026-09-24, the FIRST GENRE: owner asked for
+    the genres to get the same research-then-build pass as the legends,
+    A-Z. Tags proved first: kick warm/round/tight matched 0 of 488, snare
+    snappy 0, hat tight 1 (tite). A genre is not a DJ, so there is no
+    open-bank share at all — once on, its tags gate every pick. Acid Rap
+    Detroit followed the same day: kick boom/dusty 0 of 488, snare
+    crack/dusty 0 of 680."""
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
-                    "DJ Light Green", "Hitt Kid"}
+                    "DJ Light Green", "Hitt Kid", "Acid Rap Bright",
+                    "Acid Rap Detroit", "Baltimore Club", "Chiptune",
+                    "Crunk"}
 
 
 def test_legend_stamps_are_not_locked():

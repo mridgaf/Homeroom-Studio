@@ -450,6 +450,7 @@
     null,
     [
      "808",
+     "distort",
      "hard"
     ],
     [
@@ -461,12 +462,9 @@
     "clap",
     null,
     [
-     "808",
-     "909",
      "big",
-     "hard",
-     "stack",
-     "gang"
+     "crowd",
+     "hard"
     ],
     1.0
    ],
@@ -474,10 +472,8 @@
     "snare",
     null,
     [
-     "hard",
-     "tight",
-     "909",
-     "707"
+     "crack",
+     "hard"
     ],
     1.0
    ],
@@ -486,7 +482,7 @@
     null,
     [
      "closed",
-     "tite"
+     "tight"
     ],
     0.25
    ],
@@ -616,7 +612,7 @@
   ],
   "alt": null,
   "drive": 1.8,
-  "kick_dist": 9.0,
+  "kick_dist": 0.3,
   "mix_sat": 0.25,
   "grammar": {
    "kick": {
@@ -701,7 +697,11 @@
    [
     0.7,
     "808",
-    [],
+    [
+     "distort",
+     "hard",
+     "long"
+    ],
     [
      0.6,
      1.2
@@ -711,7 +711,9 @@
     0.3,
     null,
     [
-     "hard"
+     "punch",
+     "hard",
+     "knock"
     ],
     [
      0.3,
@@ -824,15 +826,8 @@
     ]
    ],
    "chord_rhythm": "arp",
-   "chords_default": true,
-   "tempo": [
-    140,
-    160
-   ]
-  },
-  "allow_dirt": "low",
-  "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-24, fifth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-crunk-2026-09-24.json.\n\nSOURCES\n- Wikipedia, Crunk: borrows from Miami bass, bounce and call-and-response hip hop; 'Heavy use of synthesized instruments and sparse, truncated 808 handclaps are staples'; 'Looped, stripped-down drum machine claps and bass drum rhythms'; 'The Roland TR-808 and 909 are among the most popular'; drum machines 'accompanied by simple, repeated synthesizer melodies in the form of ostinato, to create a hypnotic effect, and heavy bass stabs'; Get Crunk 78 BPM (bpmdatabase); lyrics 'isolated to simple chants'.\n- Recording Arts, 'Evolution of Crunk': 'a slow grinding tempo'; 'simple, hypnotic drum machine beats with massive bass lines'; staccato snare from Memphis mixtape DJs (Three 6 Mafia); David Banner 'foreboding synth stabs over a heavy beat'.\n- Wikipedia, Turn Down for What: E Phrygian, 100 BPM.\n- songbpm.com (Spotify analysis), Lil Jon & the East Side Boyz: Get Low 101, Get Crunk 78, Bia Bia 80, Bia Bia 2 80, I Don't Give A... 160 (=80), Play No Games 92, Put Yo Hood Up 150 (=75), Throw It Up 146 (=73), What U Gon' Do 150 (=75), Who U Wit 95, Lovers and Friends 140 (=70); BME Click 120 (ambiguous, left out). Half-time median ~80 = 160 on this engine's doubled count.\n\nCHANGES\n1. Kit tags to real filenames, own_soundbank ON. Dead before: kick distort = 0; clap crowd = 0 (lives only in vox); snare crack = 0. Now: kick 808/hard; clap 808/909/big/hard/stack/gang (the '808 handclaps' plus the biggest stacked claps he owns for 'hit like a crowd'); snare hard/tight/909/707 ('staccato snare'); hat closed/tite. kick_flavors: the 808 branch's distort/hard/long emptied (808 pool has no adjectives); plain branch = hard.\n2. Dirt: allow_dirt 'low' (the 808 only, mix stays clean) - his listen line says 'a huge distorted 808'. kick_dist 0.3 -> 9.0 (owner 2026-09-24, 'The 808, all three': crew.grit_lane now puts 'low' dirt on the 808 lane, not the short kick): Mustang's 2026-09-05 sweep measured 4.0 as inaudible (20.2 dB under the clean render) and landed on 9.0 for 'a distorted 808', so 0.3 could never have been heard. Same 'low' shape as Mustang and Night Metro.\n\nNOT CHANGED, and why\n- bpm 140 stays the default (the listen line says 'at 140'); owner 2026-09-24 picked 'Range 140-160' -> signature tempo pocket 140-160, so beats can land where the measured tracks sit (146-160 = 73-80 half-time).\n- No vocal chops added: the sources are full of chants, but the listen line keeps the room 'deliberately EMPTY for a chant' - that space is for the rapper.\n- chord_source synth 3 / horns 2 and chord_rhythm arp: synth ostinato and stabs are sourced; horns have no source here but nothing contradicts them.\n- key: E Phrygian (Turn Down for What) matches the roots/modes already set. songbpm reads 7 of 12 tracks in C#, but automated reads; left.\n- space gated clap, sidechain, grammar: no source speaks to them.\n- stamp tags: the stamp lane is globally off since 2026-08-01."
+   "chords_default": true
+  }
  },
  "Organized Noize": {
   "num": 24,

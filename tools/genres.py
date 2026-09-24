@@ -1456,7 +1456,10 @@ def load_genres(normalize):
         if raw.get("_genres_version", 0) < GENRES_VERSION \
                 and not raw.get("_style_lock"):
             for n, p in raw.items():
-                if not n.startswith("_") and n in GENRES_DEFAULT:
+                # a researched build (owner 2026-09-24, genre new-build
+                # pass) is never reset to the built-in default
+                if not n.startswith("_") and n in GENRES_DEFAULT \
+                        and not p.get("_research_note"):
                     for k in ("grammar", "kick_flavors", "extras",
                               "library", "canon", "signature"):
                         if k in GENRES_DEFAULT[n]:

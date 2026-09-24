@@ -450,6 +450,7 @@
     null,
     [
      "808",
+     "distort",
      "hard"
     ],
     [
@@ -461,12 +462,9 @@
     "clap",
     null,
     [
-     "808",
-     "909",
      "big",
-     "hard",
-     "stack",
-     "gang"
+     "crowd",
+     "hard"
     ],
     1.0
    ],
@@ -474,10 +472,8 @@
     "snare",
     null,
     [
-     "hard",
-     "tight",
-     "909",
-     "707"
+     "crack",
+     "hard"
     ],
     1.0
    ],
@@ -486,7 +482,7 @@
     null,
     [
      "closed",
-     "tite"
+     "tight"
     ],
     0.25
    ],
@@ -616,7 +612,7 @@
   ],
   "alt": null,
   "drive": 1.8,
-  "kick_dist": 9.0,
+  "kick_dist": 0.3,
   "mix_sat": 0.25,
   "grammar": {
    "kick": {
@@ -701,7 +697,11 @@
    [
     0.7,
     "808",
-    [],
+    [
+     "distort",
+     "hard",
+     "long"
+    ],
     [
      0.6,
      1.2
@@ -711,7 +711,9 @@
     0.3,
     null,
     [
-     "hard"
+     "punch",
+     "hard",
+     "knock"
     ],
     [
      0.3,
@@ -824,15 +826,8 @@
     ]
    ],
    "chord_rhythm": "arp",
-   "chords_default": true,
-   "tempo": [
-    140,
-    160
-   ]
-  },
-  "allow_dirt": "low",
-  "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-24, fifth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-crunk-2026-09-24.json.\n\nSOURCES\n- Wikipedia, Crunk: borrows from Miami bass, bounce and call-and-response hip hop; 'Heavy use of synthesized instruments and sparse, truncated 808 handclaps are staples'; 'Looped, stripped-down drum machine claps and bass drum rhythms'; 'The Roland TR-808 and 909 are among the most popular'; drum machines 'accompanied by simple, repeated synthesizer melodies in the form of ostinato, to create a hypnotic effect, and heavy bass stabs'; Get Crunk 78 BPM (bpmdatabase); lyrics 'isolated to simple chants'.\n- Recording Arts, 'Evolution of Crunk': 'a slow grinding tempo'; 'simple, hypnotic drum machine beats with massive bass lines'; staccato snare from Memphis mixtape DJs (Three 6 Mafia); David Banner 'foreboding synth stabs over a heavy beat'.\n- Wikipedia, Turn Down for What: E Phrygian, 100 BPM.\n- songbpm.com (Spotify analysis), Lil Jon & the East Side Boyz: Get Low 101, Get Crunk 78, Bia Bia 80, Bia Bia 2 80, I Don't Give A... 160 (=80), Play No Games 92, Put Yo Hood Up 150 (=75), Throw It Up 146 (=73), What U Gon' Do 150 (=75), Who U Wit 95, Lovers and Friends 140 (=70); BME Click 120 (ambiguous, left out). Half-time median ~80 = 160 on this engine's doubled count.\n\nCHANGES\n1. Kit tags to real filenames, own_soundbank ON. Dead before: kick distort = 0; clap crowd = 0 (lives only in vox); snare crack = 0. Now: kick 808/hard; clap 808/909/big/hard/stack/gang (the '808 handclaps' plus the biggest stacked claps he owns for 'hit like a crowd'); snare hard/tight/909/707 ('staccato snare'); hat closed/tite. kick_flavors: the 808 branch's distort/hard/long emptied (808 pool has no adjectives); plain branch = hard.\n2. Dirt: allow_dirt 'low' (the 808 only, mix stays clean) - his listen line says 'a huge distorted 808'. kick_dist 0.3 -> 9.0 (owner 2026-09-24, 'The 808, all three': crew.grit_lane now puts 'low' dirt on the 808 lane, not the short kick): Mustang's 2026-09-05 sweep measured 4.0 as inaudible (20.2 dB under the clean render) and landed on 9.0 for 'a distorted 808', so 0.3 could never have been heard. Same 'low' shape as Mustang and Night Metro.\n\nNOT CHANGED, and why\n- bpm 140 stays the default (the listen line says 'at 140'); owner 2026-09-24 picked 'Range 140-160' -> signature tempo pocket 140-160, so beats can land where the measured tracks sit (146-160 = 73-80 half-time).\n- No vocal chops added: the sources are full of chants, but the listen line keeps the room 'deliberately EMPTY for a chant' - that space is for the rapper.\n- chord_source synth 3 / horns 2 and chord_rhythm arp: synth ostinato and stabs are sourced; horns have no source here but nothing contradicts them.\n- key: E Phrygian (Turn Down for What) matches the roots/modes already set. songbpm reads 7 of 12 tracks in C#, but automated reads; left.\n- space gated clap, sidechain, grammar: no source speaks to them.\n- stamp tags: the stamp lane is globally off since 2026-08-01."
+   "chords_default": true
+  }
  },
  "Organized Noize": {
   "num": 24,
@@ -2113,7 +2108,7 @@
  },
  "Acid Rap Detroit": {
   "num": 27,
-  "bpm": 98,
+  "bpm": 92,
   "era": "genre",
   "built": "Esham — the 1989 Detroit acid rap that fathered horrorcore",
   "genre": true,
@@ -2125,10 +2120,9 @@
     "kick",
     null,
     [
-     "lofi",
-     "dirt",
-     "grit",
-     "oldie"
+     "boom",
+     "dusty",
+     "punch"
     ],
     [
      0.3,
@@ -2139,16 +2133,9 @@
     "snare",
     null,
     [
-     "lofi_snare",
-     "lofispace",
-     "snare [dirty]",
-     "grit",
-     "heavy",
-     "707",
-     "909",
-     "80s",
-     "retro",
-     "oldie"
+     "crack",
+     "dusty",
+     "lofi"
     ],
     1.0
    ],
@@ -2157,9 +2144,7 @@
     null,
     [
      "closed",
-     "tite",
-     "lofi",
-     "dirt"
+     "dusty"
     ],
     0.35
    ],
@@ -2349,7 +2334,10 @@
    [
     0.15,
     "808",
-    [],
+    [
+     "deep",
+     "dark"
+    ],
     [
      0.4,
      0.8
@@ -2359,10 +2347,9 @@
     0.85,
     null,
     [
-     "lofi",
-     "dirt",
-     "grit",
-     "oldie"
+     "boom",
+     "dusty",
+     "punch"
     ],
     [
      0.25,
@@ -2499,19 +2486,12 @@
      1
     ]
    ],
-   "chords_default": true,
-   "tempo": [
-    92,
-    104
-   ]
-  },
-  "own_soundbank": true,
-  "allow_dirt": true,
-  "_research_note": "NEW-BUILD 2026-09-24, second genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-acid-rap-detroit-2026-09-24.json.\n\nSOURCES\n- RapReviews, Boomin' Words From Hell (John-Michael Bond, 2009): 'a limited musical arsenal of a bass guitar, keyboard, and an early cheap drum machine'; 'simple, yet compelling, beats'; 'slowed down heavy metal bass lines'; 'True' studies Dr. Dre's N.W.A funk grooves; 'The production is incredibly thin, the bass doesn't so much boom as it does burp.'\n- AllMusic bio (Jason Birchmeier, via Qobuz): 'early albums were soundscapes pieced together from rock samples and some lo-fi drum machines and bass guitar'; Judgment Day (1992) used 'a broad palette of rock samples' (Black Sabbath 'War Pigs', Black Flag 'Rise Above').\n- Wikipedia, Boomin' Words from Hell: recorded in one day; Esham programming/production, Mike E. Clark engineering and keyboards.\n- Metro Times (2019), Esham: 'My music is Alice Cooper, it's Iggy Pop ... even Aretha Franklin'; 'a fusion of hip-hop and rock'.\n- songbpm.com tempos (Spotify analysis): Esham's Boomin 102, My 9 Rhymes 82, Red Rum 100, Devil's Groove 104, Dream Girl 171 (=85.5), Kissing Bandit 116, Knockin Em Dead 98, Devils in the Soup 105, Cross My Heart 98, Amen Another Sin 91, Pussy Ain't Got No Face 98, 4 All the Suicidalist 187 (=93.5). Median 98; 8 of 12 inside 92-104.\n\nCHANGES\n1. bpm 92 -> 98, signature tempo pocket 92-104. 92 sat below 8 of the 12 measured tracks.\n2. Kit tags rewritten to real filenames (+ his sorted folders), then own_soundbank ON. Dead before: kick boom/dusty = 0 of 488 (boom lives in the 808 bass bucket); snare crack/dusty = 0 of 680; hat dusty = 0. Now: kick lofi/dirt/grit/oldie = 12 ('lo-fi drum machines', 'cheap drum machine'); snare lofi_snare/lofispace/'snare [dirty]'/grit/heavy/707/909/80s/retro/oldie = 18 (drum-machine-era and dirty snares plus the Terror Heavy snares for 'cracks too loud'; 'lofi' alone avoided because it pulls two DECEPT sidesticks; plain 'dirt' avoided because it put MZ Clap [Dirty] in the snare slot on the first audition); hat closed/tite/lofi/dirt (Hats/Closed folder). kick_flavors' plain branch carries the kick words (it overrides the kit on composed beats); the 808 branch's deep/dark emptied (808 pool has no adjectives).\n3. Dirt ON (allow_dirt True): the listen line says 'tape hiss and vinyl noise left in, nothing polished anywhere' and every source says lo-fi, thin, cheap, one-day recording. The existing dust/vinyl/wow/mix_sat/drive/kick_dist values now actually play instead of being cleaned off.\n\nNOT CHANGED, and why\n- chord_source guitar 3 / synth 2 / organ 1: already matches 'rock samples' + 'keyboard'. The 'loop' source draws any in-key loop, not rock loops, so it would not add rock. Organ has one library file and no source; left as it was.\n- Bass: sources say bass guitar and slowed metal bass lines that 'burp'. The bass line belongs to the approved mix (one bass per beat), which the owner said stays put.\n- key/mode: automated key reads split 5 minor / 7 major with F# most common, but these are off tape-era masters; the listen line says 'eerie', so the minor modes and roots stay.\n- genre_swing 54, space, sidechain, grammar, extras, library tags: no source speaks to them.\n- stamp tags: the stamp lane is globally off since 2026-08-01."
+   "chords_default": true
+  }
  },
  "Acid Rap Bright": {
   "num": 28,
-  "bpm": 82,
+  "bpm": 88,
   "era": "genre",
   "built": "the 2013 Acid Rap lineage — bright, jazzy, gospel-leaning",
   "genre": true,
@@ -2523,9 +2503,9 @@
     "kick",
     null,
     [
-     "soft",
-     "live",
-     "clean"
+     "warm",
+     "round",
+     "tight"
     ],
     [
      0.2,
@@ -2536,10 +2516,9 @@
     "snare",
     null,
     [
-     "rimshot",
-     "towel",
-     "soft",
-     "clean"
+     "snappy",
+     "tight",
+     "rimshot"
     ],
     1.0
    ],
@@ -2547,10 +2526,8 @@
     "clap",
     null,
     [
-     "tight",
-     "light",
-     "snap",
-     "classic"
+     "clap",
+     "bright"
     ],
     1.0
    ],
@@ -2559,7 +2536,7 @@
     null,
     [
      "closed",
-     "tite"
+     "tight"
     ],
     0.4
    ],
@@ -2567,6 +2544,7 @@
     "bongo",
     null,
     [
+     "conga",
      "bongo"
     ],
     0.6
@@ -2777,7 +2755,7 @@
     "modes": [
      [
       "eighths",
-      0.3
+      0.35
      ],
      [
       "sixteenths",
@@ -2785,15 +2763,11 @@
      ],
      [
       "offbeats",
-      0.2
+      0.25
      ],
      [
       "broken",
       0.15
-     ],
-     [
-      "trip_rolls",
-      0.1
      ]
     ],
     "open_p": 0.12
@@ -2819,7 +2793,9 @@
    [
     0.1,
     "808",
-    [],
+    [
+     "warm"
+    ],
     [
      0.35,
      0.7
@@ -2829,9 +2805,10 @@
     0.9,
     null,
     [
-     "soft",
-     "live",
-     "clean"
+     "warm",
+     "round",
+     "tight",
+     "punch"
     ],
     [
      0.18,
@@ -2972,14 +2949,6 @@
     [
      "loop",
      2
-    ],
-    [
-     "horns",
-     2
-    ],
-    [
-     "guitar",
-     1
     ]
    ],
    "chord_rhythm": [
@@ -2992,14 +2961,8 @@
      2
     ]
    ],
-   "chords_default": true,
-   "tempo": [
-    78,
-    84
-   ]
-  },
-  "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-24, first genre through the pass (owner 2026-09-24: genres get the Legends process, A-Z, one at a time; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-acid-rap-bright-2026-09-24.json.\n\nSOURCES\n- Complex, 'The Oral History of Chance the Rapper's Acid Rap' (Josh Terry): Peter CottonTale - 'an acid jazz-inspired project'; 'the gospel, soul, and hip-hop fusion we were crafting ended up being the sonic foundation'. Stefan Ponce did 'the juke-style drums' on Good Ass Intro, 'I'd do the drums and Peter would play the keys'. Horns tracked live at Soundscape (JP Floyd trombone, Nico Segal trumpet). Nate Fox: 'sampled songs that I liked and chopped them real simply' (Willie Hutch, Betty Wright, Donny Hathaway). 'He wanted guitar and organ.' Engineer Elton Chueng: 'The drums on NaNa were a loop and I really wanted them to smack'; Chain Smoker - 'being honest with the drum sound'.\n- Andscape, 10-year retrospective: Cam O'bi 'brought those drums and that real natural, good-feeling sound'; 'fast-paced juke drums ... blended with thoughtfully laid keys'.\n- Wikipedia, Acid Rap: 'The acid jazz sound'; Chance: 'Peter Cottontale is a really sick jazz pianist.'\n- songbpm.com tempos: Good Ass Intro 80, NaNa 83, Acid Rain 84, Favorite Song 156 (= 78 half-time). Keys: 4 major (NaNa, Favorite Song, Chain Smoker, Acid Rain), 4 minor (Good Ass Intro, Cocoa Butter Kisses, Lost, Smoke Again).\n\nCHANGES\n1. bpm 88 -> 82, signature tempo pocket 78-84. 88 sat above every measured track.\n2. chord_source piano 3 / loop 2 -> piano 3 / loop 2 / HORNS 2 / guitar 1. Horns are the most-quoted instrument on the record and the library holds 16 real brass samples (instrument_sampler scan 2026-09-24); guitar 27 samples. Organ quoted too but the library has ONE organ file, so not added.\n3. hat grammar gains trip_rolls 0.1 - the juke drums (one track, so a small share). The other hat modes scaled down to fit.\n4. Kit tags rewritten to real filenames, then own_soundbank ON (genres are not DJs, so no open-bank share applies: tags always gate). Dead before: kick warm/round/tight = 0 of 488; snare snappy = 0; clap bright = 1; hat tight = 1 (library spells it tite); bongo conga = 0 in the bongo pool. Now: kick soft/live/clean = 16 ('light kick', 'real natural'); snare rimshot/towel/soft/clean = 32 (snappy Cobra rimshot snares + 70s towel-brush snares; NOT 'dry' - sidestick trap); clap tight/light/snap/classic = 9; hat closed/tite = 48; bongo = 16. Kick_flavors' plain branch uses the kick words (it overrides the kit on every composed beat); the 808 branch's wants emptied (Hitt Kid lesson: the 808 pool has no adjectives).\n5. Dirt: the research says clean ('real natural', 'honest drum sound') and so does the listen line ('not one grain of dust'). No allow_dirt.\n\nNOT CHANGED, and why\n- genre_swing 58, space room, sidechain 0.12, drive, glue: no source speaks to them.\n- key/mode: the listen line says major-key and grinning; the record measures half major, half minor. The listen line is the top rule, so the modes stay. FLAGGED.\n- library tags: the pattern library's vocabulary is hip-hop/funk/rock/electronic; no jazz tag exists to point at.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n- The 10% 808 kick branch stays (Pusha Man's trap drums, Ceej). Genres are exempt from the streak-breaker, so 10% really plays 10%."
+   "chords_default": true
+  }
  },
  "Horror Rap": {
   "num": 29,
@@ -4309,7 +4272,7 @@
   "era": "genre",
   "built": "Baltimore club — Rod Lee, KW Griff, the Bmore 8-count",
   "genre": true,
-  "genre_swing": 54,
+  "genre_swing": 50,
   "density": "busy",
   "listen": "the 8-count: a five-and-six-hit kick figure looping hard at 130 while claps push on the 'a' of 2 and the '&' of 3, breakbeat chops and vocal stabs flying over the top. Relentless, and it never lets up",
   "canon": {
@@ -4332,9 +4295,9 @@
     "kick",
     null,
     [
-     "big",
-     "fat",
-     "room"
+     "punch",
+     "tight",
+     "club"
     ],
     [
      0.14,
@@ -4345,12 +4308,8 @@
     "clap",
     null,
     [
-     "808",
-     "909",
-     "classic",
-     "big",
-     "dirty",
-     "lofi"
+     "clap",
+     "big"
     ],
     1.0
    ],
@@ -4358,9 +4317,8 @@
     "snare",
     null,
     [
-     "drsnare",
-     "drbsnare",
-     "hard"
+     "tight",
+     "crack"
     ],
     1.0
    ],
@@ -4369,7 +4327,7 @@
     null,
     [
      "closed",
-     "tite"
+     "tight"
     ],
     0.28
    ],
@@ -4586,21 +4544,24 @@
   },
   "kick_flavors": [
    [
-    0.7,
+    0.1,
     "808",
-    [],
+    [
+     "punch"
+    ],
     [
      0.2,
      0.4
     ]
    ],
    [
-    0.3,
+    0.9,
     null,
     [
-     "big",
-     "fat",
-     "room"
+     "punch",
+     "tight",
+     "club",
+     "knock"
     ],
     [
      0.12,
@@ -4651,22 +4612,6 @@
       "crash"
      ],
      "crash2"
-    ],
-    [
-     "perc",
-     [
-      "shaker"
-     ],
-     "shakers"
-    ],
-    [
-     "vox",
-     [
-      "vox",
-      "chant",
-      "hey"
-     ],
-     "vocal chops"
     ]
    ]
   },
@@ -4739,23 +4684,11 @@
     [
      "synth",
      2
-    ],
-    [
-     "horns",
-     2
     ]
    ],
    "chord_rhythm": "sustain",
-   "chords_default": true,
-   "tempo": [
-    125,
-    130
-   ]
-  },
-  "kick_min_hits": 5,
-  "own_soundbank": true,
-  "allow_dirt": true,
-  "_research_note": "NEW-BUILD 2026-09-24, third genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-baltimore-club-2026-09-24.json.\n\nSOURCES\n- Red Bull Music Academy, 'Sing Sing: A Loop History' (Vivian Host, 2014): Bmore producers 'upped the tempo to between 125 and 130 BPM, fed it through an ASR-10 sampler'; 'enormous muffled kick drums, and diced-up pieces of Lyn Collins' Think'; 'giant 808 kicks and massive mids'; the Sing Sing break is 'a section of shuffling shakers', 'the high-end'. Booman: the Think chops were 'the mids and the punch'; 'this sample just called bass kick ... an 808 that had gotten EQ'ed a million times. That was the low-end and then vocals.' Technics: 'distorted and loud and crunchy'; the pressing plant said 'The levels are out of control.' Early records 'pretty much all chants'; from DJ Class's 1999 'Tear Da Club Up', 'horns went with everything'. Mighty Mark: 'necessary to have some rawness or grit, some distortion and grime - if not, then it isn't Bmore Club.' Jersey club later 'dial[ed] down the swing'.\n- Wikipedia, Baltimore club: 8/4 structure, tempos around 130; 'repetitive, looped vocal snippets'; 'heavy breakbeats'; Sing Sing and Think the most-sampled breaks; ASR-10.\n- John's Guide: Baltimore Club (musicblog substack, 2023): Funky 69 is 'a Think break and an 808 clap on the second and fourth beats'.\n\nCHANGES\n1. Tempo pocket 125-130 (bpm 130 stays).\n2. Kick: the 808 branch 10% -> 70% ('bass kick', 'giant 808 kicks' - the low end IS an 808); its punch want emptied (808 pool has no adjectives). The plain 30% is the muffled big kick: big/fat/room = 14 files (was punch/tight/club = 1 of 488).\n3. Clap 808/909/classic/big/dirty/lofi = 17 ('808 clap', crunchy). Snare drsnare/drbsnare/hard = the real-drum snares of his acoustic folder plus hard snares, standing in for the Think break (the library has no Think one-shot by name; 'acoustic' as a folder word was avoided because it carries 5 sidesticks/rims). Was tight/crack = 1 of 680. Hat closed/tite.\n4. Extras gain SHAKERS (the Sing Sing, 32 perc files) and VOCAL CHOPS (the chants and looped vocal snippets; same vox entry DJ Light Green uses).\n5. chord_source loop 3 / synth 2 -> + HORNS 2 (horns 'went with everything' from 1999 on).\n6. Dirt ON (allow_dirt True): distortion and grime are in the definition. Its own drive 1.55 / mix_sat 0.15 / kick_dist 0.08 now play; amounts unsourced, left as written.\n7. ABSOLUTE 'a five-and-six-hit kick figure ... it never lets up' -> kick_min_hits 5: pattern_gen.compose puts any canon kick bar the fills thinned below 5 hits back to the full figure (4 of ~300 bars were 4-hit before). No breakdown key, so nothing drops the kit out.\n\nNOT CHANGED, and why\n- genre_swing: RBMA says the classics have 'grit and swing' and Jersey later dialed the swing down, but no source gives an amount. Owner 2026-09-24 picked 'Light swing' -> 50 to 54.\n- Canon kick/clap figures, grammar, space dry, sidechain, key/modes, library tags: no source contradicts them.\n- stamp tags: the stamp lane is globally off since 2026-08-01."
+   "chords_default": true
+  }
  },
  "Miami Bass": {
   "num": 33,
@@ -7433,8 +7366,9 @@
     "kick",
     null,
     [
-     "short",
-     "digital"
+     "punch",
+     "tight",
+     "electronic"
     ],
     [
      0.4,
@@ -7446,11 +7380,8 @@
     null,
     [
      "tight",
-     "909",
-     "707",
-     "retro",
-     "digital",
-     "80s"
+     "electronic",
+     "clap"
     ],
     1.0
    ],
@@ -7459,7 +7390,8 @@
     null,
     [
      "closed",
-     "tite"
+     "tight",
+     "bright"
     ],
     0.22
    ],
@@ -7467,9 +7399,9 @@
     "perc",
     null,
     [
+     "blip",
      "block",
-     "click",
-     "noise"
+     "click"
     ],
     0.5
    ],
@@ -7587,7 +7519,7 @@
     ]
    ]
   },
-  "dust": 0.25,
+  "dust": 0.0,
   "vinyl": 0,
   "wow": 0.0,
   "sidechain": 0.12,
@@ -7690,8 +7622,9 @@
     0.6,
     null,
     [
-     "short",
-     "digital"
+     "punch",
+     "tight",
+     "electronic"
     ],
     [
      0.3,
@@ -7701,7 +7634,10 @@
    [
     0.4,
     "808",
-    [],
+    [
+     "punch",
+     "short"
+    ],
     [
      0.4,
      0.8
@@ -7728,9 +7664,8 @@
     [
      "perc",
      [
-      "block",
-      "click",
-      "noise"
+      "blip",
+      "block"
      ],
      "blips"
     ],
@@ -7738,10 +7673,7 @@
      "fx",
      [
       "laser",
-      "arcade",
-      "8 bit",
-      "game",
-      "zap"
+      "arcade"
      ],
      "gamefx"
     ]
@@ -7831,14 +7763,7 @@
     ]
    ],
    "chord_rhythm": "arp",
-   "chords_default": true,
-   "chord_fallback": [
-    "bell",
-    "pluck"
-   ]
-  },
-  "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-24, fourth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-chiptune-2026-09-24.json.\n\nSOURCES\n- Wikipedia, Ricoh 2A03: the NES sound hardware has two square/pulse channels, a pseudo-triangle, an LFSR noise generator and a 1-bit DPCM sample channel; 'Super Mario Bros. 3 and Kirby's Adventure use the DPCM channel for simple drum sounds'; the stepped triangle has a 'buzzing' quality.\n- DDRKirby(ISQ), 'NES Chiptunes in Unlock Everything': triangle = bassline, sometimes a downward pitch slide as a drum (Mega Man trademark, 'not used on a majority of the songs'); noise channel = 'kick, closed hi hat, and snare' from noise bursts; pulse channels play lead + staccato harmony or an offset echo. His levels ran 100 / 150 / 180 BPM.\n- MusicRadar, 'Exploring the retro video game-inspired chiptune universe' (Jon Musgrave, 2025): 'quirky arpeggios, an abundance of pulse wave-based lead melodies and generally frantic delivery'; 'arpeggios typically replace chordal components'; 'Classic video game music is usually uptempo'; 8-bit samples are 'more noisy', lower sample rates mean 'less high frequency sparkle', emulate 'inherent distortions and noise'.\n\nCHANGES\n1. Kit tags rewritten to real filenames, own_soundbank ON. The library has almost no true chip drums (one fx file is named '8 Bit'), so the words reach for the nearest thing he owns to noise-burst drums: kick short/digital (his Kicks/Short folder; 'tight' matched 0 kicks plus MZ Kick [Digital]; was punch/tight/electronic = 1 of 488); snare tight/909/707/retro/digital/80s = 7 drum-machine snares (was 'clap', which pulled 61 claps into the snare slot, and electronic = 0); hat closed/tite; perc block/click/noise (noise = the noise channel; blip was 0). kick_flavors' plain branch carries the kick words, the 808 branch's wants emptied.\n2. Extras fx gain '8 bit', 'game', 'zap' next to laser/arcade (MusicRadar: beats plus sound effects).\n\nNOT CHANGED, and why\n- chord_source stays 'synth' (his 55 sampled synth files, arpeggiated - chord_rhythm arp already matches 'arpeggios replace chords'). The engine's 'chip' voice has 0 of his files (instrument_sampler report 2026-09-24), so it would fall back to the synthesized chip voice, which his 2026-09-23 hard rule forbids ('no tones created by machine').\n- Dirt: sources say real 8-bit sound is noisy and rough, but the engine's dirt is vinyl, wow and SP-1200 12-bit - not NES noise - and the listen line says 'thin bright bleeps'. Left clean. FLAGGED for the owner.\n- bpm 126: sources say 'usually uptempo' and give 100-180; no measured NES tempos were reachable (songbpm/tunebat blocked). Left.\n- genre_swing 50, space dry (listen line: no reverb), grammar, key/modes: consistent with the sources.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n\nOWNER ANSWERS 2026-09-24 (asked after the first audition)\n- Chords: 4 of 16 beats fell back to wood/piano/brass when no synth sound covered the progression. He picked 'Borrow bells/plucks only' -> signature.chord_fallback [bell, pluck] (Chiptune only).\n- Dirt: he picked 'Light 12-bit crunch' -> dust 0.25 (half his house SP-1200 blend of 0.5) and allow_dirt True, which also lets its own drive 1.1 play. vinyl/wow/mix_sat/kick_dist stay 0.",
-  "allow_dirt": true
+   "chords_default": true
+  }
  }
 }

@@ -160,10 +160,17 @@ def test_history_remembers_and_trims(tmp_path, monkeypatch):
 def _wav_pool(tmp_path, n=8):
     """A little library: n loadable wavs PER role (roles get their own
     files so the nine locked stamps can't drain the drum pools — that
-    pool-dry fallback is tested for real libraries elsewhere)."""
+    pool-dry fallback is tested for real libraries elsewhere).
+
+    `bass` is the 808 pool. Without it, every beat whose kick flavor rolls
+    the 808 (role bass, must "808") picked NOTHING and shipped with no
+    kick -- 0 of 1639 real recipes have that, because the real library
+    holds 430 808s. That gap is what made generate_ships / stem_rack /
+    volumes_alone fail at random (found 2026-09-24)."""
     shots = {}
     for r, role in enumerate(("kick", "snare", "hat", "clap", "snap",
-                              "perc", "bongo", "fx", "crash", "rim")):
+                              "perc", "bongo", "fx", "crash", "rim",
+                              "bass")):
         files = []
         for i in range(n):
             f = tmp_path / f"{role}_808_{chr(97 + i)}.wav"
@@ -277,8 +284,11 @@ def test_rebuild_regenerates_chord_audio_and_stacks_sequential_trims(machine_env
     assert path2.exists()
     rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
     g_c0 = rec2["preset"]["lanes"]["chord0"][1]
-    # bass0 never exists (owner 2026-07-29 hard rule: no melodic bassline)
-    assert "bass0" not in rec2["preset"]["lanes"]
+    # the bass line (back since 2026-09-16) survives the rebuild intact:
+    # a volume move on the chords must not add or lose a bass lane
+    basses = lambda r: sorted(ln for ln in r["preset"]["lanes"]
+                              if beat_machine._CHORD_BASS_LANE.match(ln))
+    assert basses(rec2) == basses(rec)
     # the OPENING level comes from groove.OWNER_TASTE (owner 2026-07-25 —
     # it used to be a flat 0.5, which sat the pad above the hats). Read
     # from the constant so tuning the house mix doesn't look like a
@@ -703,13 +713,13 @@ def test_chords_direction_adds_a_harmony_layer(machine_env):
     no = int(path.name.split()[0])
     rec = beat_recipes.load_recipe(root, no)
     lanes = rec["preset"]["lanes"]
-    # bass0 never exists (owner 2026-07-29 hard rule: no melodic bassline)
-    assert "chord0" in lanes and "bass0" not in lanes
+    assert "chord0" in lanes
     assert "chords: dreamy" in report
     stem_dir = list(path.parent.glob("* Stems"))[0]
     stems = {f.stem for f in stem_dir.glob("*.wav")}
     assert any(s.startswith("chord0") for s in stems)
-    assert not any(s.startswith("bass0") for s in stems)
+    # ONE low sound (owner 2026-09-23): the bass line or the 808, never both
+    assert not ("bass0" in lanes and "bass" in lanes), sorted(lanes)
     # the chord/bass stems actually carry audio, not silence
     with wave.open(str(next(stem_dir.glob("chord0*.wav"))), "rb") as f:
         frames = f.readframes(f.getnframes())
@@ -1074,14 +1084,13 @@ def test_a_chord_lane_never_drops_out_mid_beat(machine_env,
     assert len(chord_lanes) == n_chords, report      # and here it voiced
 
 
-def test_chord_bass_line_is_never_rendered(
+def test_chord_bass_line_plays_on_his_own_bass_samples(
         machine_env, only_his_instruments, monkeypatch):
-    """Owner 2026-07-29 hard rule: the melodic bassline is his to play
-    himself, in Reason — never rendered by the generator, even when his
-    own bass samples (the only_his_instruments fixture) could voice every
-    root in the progression. Supersedes the 2026-07-25 rule this test used
-    to check (his samples over a synth sub) — now there's no bass line at
-    all, sampled or synthesized."""
+    """This test used to assert the 2026-07-29 hard rule "never a melodic
+    bass line". The owner reversed it on 2026-09-16 (bass line back on)
+    and on 2026-09-23 made it ONE of his bass one-shots per beat for every
+    non-808 DJ (Timberline is one). So now: chords on -> a bass line under
+    them, voiced from his own samples, one file for the whole line."""
     root, shots = machine_env
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
@@ -1092,13 +1101,15 @@ def test_chord_bass_line_is_never_rendered(
     path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
     stem_dir = next(d for d in path.parent.glob("* Stems")
                     if d.name.startswith(path.name.split()[0]))
-    bass_stems = [f.name for f in stem_dir.glob("bass*.wav")]
-    assert not bass_stems, (report, [f.name for f in stem_dir.glob("*.wav")])
-    # the chords still play — only the bass line under them is gone
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    if "bass" in rec["preset"]["lanes"]:
+        return      # a free beat rolled the 808 (50/50) -- no line, by rule
+    bass_stems = [f.name for f in stem_dir.glob("bass*.wav")]
+    assert bass_stems, (report, [f.name for f in stem_dir.glob("*.wav")])
+    files = {n.split(" - ", 1)[1].split(",")[0] for n in bass_stems}
+    assert len(files) == 1, bass_stems          # one sound, every root
     vf = rec["harmony"]["voice_files"]
-    assert not any(k.startswith("bass") for k in vf), vf
-    assert any(k.startswith("chord") for k in vf), vf
+    assert any(k.startswith("chord") for k in vf), vf   # chords still play
 
 
 def test_no_lane_ever_combines_two_instruments(
@@ -1209,7 +1220,13 @@ def test_nothing_but_chip_is_ever_generated(machine_env, monkeypatch):
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     lanes = rec["preset"]["lanes"]
     assert not [ln for ln in lanes if ln.startswith("chord")], (report, lanes)
-    assert not [ln for ln in lanes if ln.startswith("bass")], (report, lanes)
+    # no bass LINE (bass0..N is voiced from instrument samples, and there
+    # are none). A plain "bass" lane is the 808 — a real file from his drum
+    # pool, never synthesised — so it is allowed, but it must BE a file.
+    assert not [ln for ln in lanes
+                if beat_machine._CHORD_BASS_LANE.match(ln)], (report, lanes)
+    if "bass" in lanes:
+        assert rec["kit_paths"].get("bass"), rec["kit_paths"]
     stem_dir = next(d for d in path.parent.glob("* Stems")
                     if d.name.startswith(path.name.split()[0]))
     names = " ".join(f.name for f in stem_dir.glob("*.wav"))
@@ -1360,8 +1377,10 @@ def test_harmony_opens_under_the_drums_with_per_bar_dynamics(
     basses = [g for ln, (p, g, f, b) in lanes.items()
               if beat_machine._CHORD_BASS_LANE.match(ln)]
     kick = lanes["kick"][1]
-    # bass0 never exists (owner 2026-07-29 hard rule: no melodic bassline)
-    assert chords and not basses, report
+    # the bass line is back (2026-09-16) but sits UNDER the kick, which
+    # is what the 2026-07-25 "loud and crazy" complaint was about
+    assert chords, report
+    assert not basses or max(basses) < kick, (basses, kick)
     # the harmony sits UNDER the kit, not on top of it
     assert max(chords) < kick, (max(chords), kick)
     assert max(chords) <= beat_machine._CHORD_GAIN + 1e-9
@@ -1864,3 +1883,21 @@ def test_the_808_is_called_the_808_and_bass_drum_means_the_kick(tmp_path):
     (tmp_path / "bass drum - Oracle 808.wav").write_bytes(b"")
     assert beat_machine._stem_wav(1, "bass", folder=tmp_path).name \
         == "bass drum - Oracle 808.wav"
+
+
+def test_fx_on_saves_a_copy_with_the_style_effects_baked_in(machine_env):
+    """The FX on button (owner 2026-09-24): a NEW beat with the style's own
+    dirt switched on, stems included; the clean original stays; a second
+    press on the FX copy is refused rather than printing a duplicate."""
+    root, shots = machine_env
+    path, _ = beat_machine.generate(["Memphis"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    assert not beat_recipes.load_recipe(root, no)["preset"].get("allow_dirt")
+    p2, _ = beat_machine.swap_many(no, {}, root=root, shots=shots, fx=True)
+    n2 = int(p2.name.split()[0])
+    assert n2 != no and "FX On" in p2.name
+    child = beat_recipes.load_recipe(root, n2)["preset"]
+    assert child["allow_dirt"] is True and child["fx_stems"] is True
+    assert beat_machine.beat_wav(no, root).exists()        # clean one stays
+    with pytest.raises(ValueError, match="already"):
+        beat_machine.swap_many(n2, {}, root=root, shots=shots, fx=True)

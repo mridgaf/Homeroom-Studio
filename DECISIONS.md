@@ -20,6 +20,96 @@ entries.
 
 ## Log
 
+### 2026-09-24 "808 only" dirt now distorts the 808, not the kick (Crunk, Mustang, Night Metro)
+- Context: building Crunk ("a huge distorted 808"). Since the 09-23 rule an 808 beat plays a short kick PLUS the 808 in its own `bass` lane, but `kick_dist` only ever touched the `kick` lane — so allow_dirt "low" presets were distorting the short kick and leaving the 808 clean.
+- Decision/change: owner answered "The 808, all three" (clickable, BLOCKING). New `crew.grit_lane(p, lanes)`: allow_dirt "low" + a `bass` lane -> the 808 gets `dist808`; otherwise the kick, as before (plain True dirt unchanged; a bass LINE is bass0.. and never gritted). Test `test_808_only_dirt_lands_on_the_808_not_the_kick` also pins the "low" set to exactly Crunk, Mustang, Night Metro.
+- Reasoning: all three presets' research says distort the 808 specifically; their kick_dist numbers (9.0 / 9.0 / 5.0) were measured when the kick WAS the 808.
+- Verify by: his ear on Mustang and Night Metro beats — their 808 is gritty now, their short kick clean. This changes two DJs he had approved by ear.
+- Status: open
+- Outcome:
+
+### 2026-09-24 Genre pass: Acid Rap Detroit, Baltimore Club, Chiptune built; "never lets up" kick floor
+- Context: owner "keep going with genres, I'll check the auditions later", then mid-turn "do new research using tiny fish for each rebuild of genres just like for legends" (saved to memory genre-new-build-pass). Each genre got fresh TinyFish research, sources quoted in its `_research_note`, one `genres_config.pre-<slug>-2026-09-24.json` backup each.
+- Decision/change:
+  - Acid Rap Detroit (Esham 1989): bpm 92->98 (songbpm median of 12 tracks), allow_dirt True (listen line + every source says lo-fi; its dust/vinyl/wow had never played), kit tags to real files + own_soundbank. Plain snare word "dirt" put `MZ Clap [Dirty]` in the snare slot on the first render -> replaced by "snare [dirty]".
+  - Baltimore Club (RBMA "Sing Sing: A Loop History"): 808 kick branch 10%->70% (58% measured), shakers + vocal-chop extras, horns in chords, allow_dirt True, tempo pocket 125-130. NEW INVARIANT `kick_min_hits: 5` from "a five-and-six-hit kick figure ... never lets up": held in `pattern_gen.compose` (after assemble) AND at the end of `beat_machine.vary_preset` (its anchor wander moved beat-3's downbeat). `test_baltimore_kick_never_lets_up` goes red without it (7 thin bars in 58 variants).
+  - Chiptune: kit tags only (the "clap" snare word was pulling claps into the snare slot) + own_soundbank. Chords stay "synth": the "chip" voice has 0 of his files and would fall back to chip_synth, forbidden by the 09-23 no-machine-tones rule.
+  - Roster tests updated: allow_dirt list + Acid Rap Detroit, Baltimore Club; own_soundbank list + all three.
+- Reasoning: same Legends process; mix untouched; dirt followed the research.
+- Verify by: his ear on the three Desktop folders. Full suite 1238 passed / 0 failed after the engine change, run alone before the Baltimore render.
+- Open questions put to him: Baltimore swing amount (sources say it swings, give no number; left 50); Chiptune falls back to wood/piano/brass chords on 4 of 16 beats (house fallback for every genre); Chiptune bit-crush dirt; Chiptune tempo unmeasured (songbpm/tunebat blocked).
+- His answers (same day, clickable): Baltimore Club swing 50->54 ("Light swing"); Chiptune `signature.chord_fallback: [bell, pluck]` ("Borrow bells/plucks only" - new key read in `_build_chords`' fallback list, absent = every group as before; 16/16 beats now synth or bell); Chiptune "Light 12-bit crunch" -> dust 0.25 + allow_dirt True. Tests: `test_chord_fallback_is_chiptune_only`, allow_dirt list + Chiptune. Suite 1239 passed / 0 failed.
+- Found while re-rendering: `make_legend_newbuild.py` never called `roll_swing`, so CANON lanes (Baltimore's 8-count) auditioned at swing 50 though real beats swing; legends lost their pocket wander the same way. Added `roll_swing` to both loops. Non-canon genres were unaffected (compose already applies genre_swing). A beat_machine comment saying "Baltimore club is straight or it isn't club" was an illustration, never his words (nothing in DECISIONS) - reworded.
+- Status: open (not heard).
+- Outcome:
+
+### 2026-09-24 The 7 "known" test failures fixed — suite fully green
+- Context: owner: "Fix the 7 failures." They had been carried as known
+  noise since 2026-09-16/20.
+- Cause 1 (4 tests: rebuild_regenerates, chords_direction,
+  chord_bass_line, harmony_opens): they still asserted the 2026-07-29
+  "never a bass line" rule, which the owner reversed 2026-09-16 and
+  reshaped 2026-09-23 (one bass one-shot per beat, non-808 DJs). Rewritten
+  to the CURRENT rules, not deleted: bass lanes survive a rebuild intact;
+  never bass line AND 808 together; the line plays on ONE of his files;
+  the line sits under the kick. chord_bass_line renamed
+  ..._plays_on_his_own_bass_samples.
+- Cause 2 (3 "random" tests: generate_ships, volumes_alone,
+  stem_rack_lists): the test sample pool `_wav_pool` had NO `bass` (808)
+  role. Any beat whose kick flavor rolled the 808 picked nothing and saved
+  kit_paths kick=None (reproduced 20+ times in 25 trials), which crashed
+  the stem rack and rebuilds. NOT an engine bug: 0 of 1639 real recipes
+  have an empty slot (the real library holds 430 808s). Fix = the fake
+  library gains a bass role. That made test_nothing_but_chip see a real
+  808 file lane; its check narrowed to "no bass LINE, and any 808 lane is
+  a real file" — the hard rule it guards (nothing synthesised) unchanged.
+- Verify: the 3 random tests 8x in a row green, the 8 touched 3x green;
+  full suite alone 1237 passed, 3 skipped, 0 failed (10:51).
+- Status: confirmed
+
+### 2026-09-24 Genres get the Legends new-build pass; Acid Rap Bright first; "Effects on" button
+- Context: owner: "start tuning the genres using the same format as the
+  rebuild for DJs, research first then build ... using the current
+  settings for mixes for the originals and the loops pages".
+- Owner answers (clickable): A-Z, ONE genre at a time; KEEP the approved
+  mix, tune only the style; dirt FOLLOWS THE RESEARCH (no per-genre ask);
+  plus a new feature: a BUTTON ON A SAVED BEAT that saves it with its
+  effects baked in, STEMS TOO.
+- Tooling: `--genres` on tools/legend_newbuild.py and
+  tools/make_legend_newbuild.py (own config, status file
+  `genre_newbuild_status.json`, backups `genres_config.pre-*`). Skill
+  legend-new-build extended to genres. genres.py: a genre with a
+  `_research_note` is never reset by a GENRES_VERSION bump (legends.py has
+  the same hole, NOT touched).
+- Audition-script faults fixed: it never dropped the stamp lane (generate()
+  has since 2026-08-01), so auditions could carry a producer-tag sample real
+  beats can't have (Acid Rap Bright listed a siren; numbers barely moved, so
+  likely inaudible). It now also prints which instrument the chords played.
+- Acid Rap Bright build (sources in its _research_note: Complex oral
+  history, Andscape, Wikipedia, songbpm): bpm 88->82 + tempo pocket 78-84;
+  chord_source + horns 2 + guitar 1 (16 brass / 27 guitar samples real);
+  hat trip_rolls 0.1 (juke drums); kit tags rewritten (kick warm/round/tight
+  were 0 of 488) then own_soundbank on; stays clean. Key/mode left major
+  per listen line though the record is half minor — FLAGGED.
+  808 kick share measured 45/400 = 11% vs 10% declared.
+- "Effects on" (rack button, `swap_many(fx=True)`, crew `fx_stems`): new
+  numbered copy with allow_dirt on; mix_sat now also printed on stems when
+  fx_stems. Refuses if already on or style has no effects. Measured in a
+  scratch root: Memphis FX copy air -5.2 dB, crest -2.9 dB, 8/8 stems
+  changed; Acid Rap Bright only -0.8 dB crest (almost no effects to add).
+  Button seen in the live page; NOT clicked there (would write to library).
+- Tests: +1 (fx button). test_own_soundbank list gains Acid Rap Bright.
+  Full suite alone BEFORE any render: 1229 passed, 8 failed = the 7 known (all fixed later the same day, see entry above)
+  (generate_ships, rebuild_regenerates, volumes_alone, stem_rack_lists,
+  chords_direction, chord_bass_line, harmony_opens) + own_soundbank list
+  (mine, fixed, re-run green).
+- Side effect: two scratch test beats went into the global anti-repeat
+  history (their sounds are avoided for a while). Harmless.
+- Verify by: owner ear on `~/Desktop/Homeroom Acid Rap Bright NEW BUILD
+  2026-09-24/` (old vs new) + "— Two more". Next genre A-Z: Acid Rap Detroit.
+- Status: open — auditioned, not heard.
+- Outcome: —
+
 ### 2026-09-23 Bass line out of tune — the bass files' notes were misread
 - Context: owner on "Homeroom 808 On The Kick" folder 2: "the bass lines are
   out of tune." Measured in the finished stems: Otto Grit -36/-39/+23 cents.

@@ -335,6 +335,12 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         pan, gain, feel, _ = lanes[ln]
         lanes[ln] = (pan, gain, feel, new_bars)
 
+    # kick_min_hits (Baltimore Club, 2026-09-24): compose() already holds
+    # the floor; this pass's anchor wander and bar treatments could still
+    # thin a bar under it, so the composed bar comes back at the end.
+    floor = preset.get("kick_min_hits")
+    kick_in = list(lanes["kick"][3]) if floor and "kick" in lanes else None
+
     def barlist(ln):
         """This lane's bars, padded to the beat's length so a treatment
         can index any bar without an IndexError on a short pattern."""
@@ -581,6 +587,9 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
                                     min(sig_tempo[1], preset["bpm"]))
         if preset["bpm"] != orig_bpm:
             notes.append(f"tempo leans to {preset['bpm']}")
+    if kick_in:
+        rewrite("kick", [b if _hits(b) >= floor else kick_in[i % len(kick_in)]
+                         for i, b in enumerate(lanes["kick"][3])])
     return notes
 
 
@@ -666,8 +675,10 @@ def roll_swing(preset, variant, force=None, crew_dj=False):
     legend = preset.get("legend")
     fixed = preset.get("legend_swing")
     # a subgenre's swing IS the subgenre (owner rule 2026-07-19): a
-    # reggaeton that wanders to 62% stops being one, and Baltimore club
-    # is straight or it isn't club. Pinned outright, no outliers.
+    # reggaeton that wanders to 62% stops being one. Pinned outright, no
+    # outliers. (This comment used to say "Baltimore club is straight or
+    # it isn't club" - an illustration, never his words; 2026-09-24 his
+    # research-build answer gave Baltimore Club a light swing, 54.)
     if preset.get("genre") and preset.get("genre_swing") is not None:
         fixed = preset["genre_swing"]
     if force is not None:
@@ -2482,7 +2493,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # Farrow's 1-in-6) — never as a substitute for his instruments.
     # Without this it became a universal fallback that always succeeds,
     # which is the opposite of the owner's hard rule (2026-07-25).
-    extra = [g for g in instrument_sampler.VOICES
+    #
+    # signature `chord_fallback` (owner 2026-09-24, Chiptune: "borrow
+    # bells/plucks only") narrows that list for one identity, so a beat its
+    # own sounds can't cover borrows a sound that still fits it instead of
+    # piano or brass. Absent -> every group, exactly as before.
+    extra = [g for g in (sig.get("chord_fallback")
+                         or instrument_sampler.VOICES)
              if g not in order and g != "chip"]
     plan_rng.shuffle(extra)
     plans += [(g,) for g in extra]
@@ -3681,7 +3698,7 @@ def swap(number, lane, root=ROOT, shots=None, status=lambda msg: None,
                      status=status)
 
 
-def _change_words(lanes, trims, drops, chord_voice=None):
+def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
     """How a staged set of rack changes reads: `what` is the short title
     that becomes part of a filename, `changed` is the sentence for the
     log. Split out of swap_many so the chunk folder names its files with
@@ -3689,6 +3706,11 @@ def _change_words(lanes, trims, drops, chord_voice=None):
 
     A family removal is 4 lanes but ONE musical change — say "Chords",
     not "Chord0 & Chord1 & Chord2 & Chord3"."""
+    if fx:                            # the FX on button, alone or on top
+        if not (lanes or trims or drops or chord_voice):
+            return "FX On", "effects on"
+        what, changed = _change_words(lanes, trims, drops, chord_voice)
+        return what + " FX", changed + ", effects on"
     said = [ln for ln in drops if not _chord_family(ln)]
     if any(_CHORD_LANE.match(ln) for ln in drops):
         said.append("chords")
@@ -3717,7 +3739,7 @@ def _change_words(lanes, trims, drops, chord_voice=None):
 
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
-              trims=None, drops=None, render_only=False):
+              trims=None, drops=None, render_only=False, fx=False):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -3748,7 +3770,13 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     and preview it — before committing to the rerender"). A swap can't
     be previewed by summing stems the way a level move can, so the
     preview IS this render — which also means what he hears is exactly
-    what Rebuild will print, not an approximation of it."""
+    what Rebuild will print, not an approximation of it.
+
+    `fx=True` (owner 2026-09-24, the "FX on" button): the same beat with
+    its style's own effects baked in -- dust, vinyl, wow, saturation, 808
+    drive, hot master -- which the clean-render rule keeps off by default.
+    The stems carry them too (his call). Lands as a new number like any
+    rebuild; the clean original stays."""
     number = int(number)
     rec = load_recipe(root, number)
     picks = {str(ln).strip().lower(): v for ln, v in (picks or {}).items()}
@@ -3794,7 +3822,16 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     if set(rec["kit_spec"]) <= set(drops):
         raise ValueError("That would remove every drum — keep at least "
                          "one.")
-    if not picks and not trims and not drops and not chord_voice:
+    if fx:
+        if preset.get("allow_dirt") is True:
+            raise ValueError("This beat already has its effects on.")
+        if not (any(preset.get(k, 0) > 0
+                    for k in ("dust", "wow", "mix_sat", "kick_dist"))
+                or preset.get("vinyl") or preset.get("drive", 0) > 0.7):
+            raise ValueError("This beat's style has no effects to turn on.")
+        preset["allow_dirt"] = True    # crew.render_crew_beat's own switch
+        preset["fx_stems"] = True      # ...and onto every stem, not just the mix
+    if not picks and not trims and not drops and not chord_voice and not fx:
         raise ValueError("Nothing to change — pick a different sound, "
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
@@ -3824,7 +3861,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         preset["bpm"] = state["bpm"]
         kit_paths, chord_sources, kit = dict(state["lanes"]), {}, {}
         lanes = sorted(picks)
-        what, changed = _change_words(lanes, trims, drops, chord_voice)
+        what, changed = _change_words(lanes, trims, drops, chord_voice, fx)
         status(f"Re-rendering beat {number} with the new {changed}…")
         _, loop_bufs, nb, _note = _pick_loop_bed(names[0], preset,
                                                  rec["variant"], state=state)
@@ -3944,7 +3981,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                 kit.pop(lane, None)
 
         lanes = sorted(picks)
-        what, changed = _change_words(lanes, trims, drops, chord_voice)
+        what, changed = _change_words(lanes, trims, drops, chord_voice, fx)
         status(f"Re-rendering beat {number} with the new {changed}…")
         L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
                                              preset=preset, want_parts=True)
@@ -3983,7 +4020,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     if drops:                    # the lane is gone from the child recipe
         rec2["kit_spec"] = {ln: s for ln, s in rec["kit_spec"].items()
                             if ln not in drops}
-    if trims or drops:           # the new gains/lanes ARE this beat
+    if trims or drops or fx:     # the new gains/lanes/effects ARE this beat
         rec2["preset"] = preset
     # a swap inherits its parent's recipe, so an OLD parent written before
     # 2026-07-25 would carry `built` forward into the new file
@@ -5957,6 +5994,9 @@ __BREAKS__
      '<button class="undo">clear changes</button>' +
      '<button class="chunk" title="Save this version into the Chunks ' +
        'folder and keep going">+ Add chunk</button>' +
+     '<button class="chunk fxon" title="Save a copy of this beat with ' +
+       'its style\'s effects (dust, vinyl, saturation) baked in, stems ' +
+       'too. The clean one stays.">Effects on</button>' +
      '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
@@ -5998,6 +6038,7 @@ __BREAKS__
      paintFoot(el, no);
    };
    foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
+   foot.querySelector('.fxon').onclick = () => rebuild(el, no, foot, true);
    foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
    rack.dataset.loaded = '1';
    paintFoot(el, no);
@@ -6024,12 +6065,13 @@ __BREAKS__
    btn.textContent = was; btn.disabled = false;
  }
 
- async function rebuild(el, no, foot) {
+ async function rebuild(el, no, foot, fx) {
    const picks = staged[no] || {}, vols = trims[no] || {};
    const gone = Object.keys(drops[no] || {});
-   if (!Object.keys(picks).length && !Object.keys(vols).length
+   if (!fx && !Object.keys(picks).length && !Object.keys(vols).length
        && !gone.length) return;
-   const btn = foot.querySelector('.rebuild'), msg = foot.querySelector('.rackmsg');
+   const btn = foot.querySelector(fx ? '.fxon' : '.rebuild'),
+         msg = foot.querySelector('.rackmsg');
    btn.disabled = true; msg.textContent = '';
    const was = btn.textContent;
    btn.textContent = 'Rebuilding…';
@@ -6037,7 +6079,7 @@ __BREAKS__
      const r = await fetch('/rebuild', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ number: no, picks, trims: vols,
-                              drops: gone }) });
+                              drops: gone, fx: !!fx }) });
      const d = await r.json();
      if (d.ok) { delete staged[no]; delete trims[no]; delete drops[no];
                  btn.textContent = was; await loadBatch(d.no); }
@@ -6696,7 +6738,8 @@ def run_web(port=None):
                         path, report = swap_many(no, picks,
                                                  shots=_CACHE["shots"],
                                                  trims=data.get("trims"),
-                                                 drops=data.get("drops"))
+                                                 drops=data.get("drops"),
+                                                 fx=bool(data.get("fx")))
                         print(" ", report.replace("\n", " "))
                     self._json({"ok": True,
                                 "no": int(path.name.split(" ", 1)[0])})

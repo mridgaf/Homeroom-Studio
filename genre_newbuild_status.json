@@ -1,0 +1,34 @@
+{
+ "_readme": [
+  "Where each genre stands in the new-build pass (owner 2026-09-24: the",
+  "genres get the same research-then-build process as the Legends, A-Z,",
+  "one at a time; the approved mix stays as it is, only the style is tuned;",
+  "dirt follows the research). Hand-kept, because the last stage is his ear.",
+  "",
+  "Read it with:  ./.venv/bin/python tools/legend_newbuild.py --genres",
+  "Audition:      ./.venv/bin/python tools/make_legend_newbuild.py --genres --legend \"Name\"",
+  "",
+  "stage:  not started | researched | built | auditioned | confirmed",
+  "        confirmed means HE HAS HEARD IT AND SAID YES."
+ ],
+ "Acid Rap Bright": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard."
+ },
+ "Acid Rap Detroit": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build (Esham, Boomin' Words From Hell 1989): bpm 92->98 (pocket 92-104, songbpm median 98 over 12 tracks), allow_dirt True (listen line + every source says lo-fi; dust/vinyl/wow had never played), kit tags fixed to real filenames + own_soundbank on (kick lofi/dirt/grit/oldie; snare drum-machine words, plain 'dirt' dropped after it put a clap in the snare slot). Chords, bass, key, swing unchanged. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Detroit NEW BUILD 2026-09-24/. Air -13.7 dB vs old (dirt). NOT heard."
+ },
+ "Baltimore Club": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build (RBMA 'Sing Sing: A Loop History', Wikipedia, club guide): 808 kick branch 10%->70% (58% measured over 40 beats), kit tags fixed + own_soundbank, shakers + vocal chops extras, horns in chords, allow_dirt True, tempo pocket 125-130, NEW INVARIANT kick_min_hits 5 ('never lets up') held in compose() and at the end of vary_preset, test_baltimore_kick_never_lets_up. Swing 50->54 (owner answer 'Light swing'). Re-rendered with the audition script's new roll_swing (canon lanes came out of compose() at 50, so the swing was inaudible in the first render). Auditioned 2026-09-24 (--structure --kick 808): ~/Desktop/Homeroom Baltimore Club NEW BUILD 2026-09-24/ (808 beats) + '— Two more' (plain kick, horns). NOT heard."
+ },
+ "Chiptune": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build (Ricoh 2A03 Wikipedia, DDRKirby NES write-up, MusicRadar): kit tags to nearest real files + own_soundbank; fx extras 8 bit/game/zap. Owner answers: chord_fallback [bell, pluck] (4 of 16 beats had fallen back to wood/piano/brass; now 16/16 synth or bell); 'Light 12-bit crunch' -> dust 0.25 + allow_dirt True. Chords stay sampled synth (0 chip samples; chip voice is synthesized). Tempo 126 unmeasured. Auditioned: ~/Desktop/Homeroom Chiptune NEW BUILD 2026-09-24/ (air -1.57 dB). NOT heard."
+ }
+}

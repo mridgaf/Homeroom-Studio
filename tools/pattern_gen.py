@@ -1248,6 +1248,16 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 bar = canon[lane][0] if traditional else rng.choice(canon[lane])
                 if lane == "kick":
                     lanes[lane] = assemble(lambda: bar, rng, form, nbars)
+                    # kick_min_hits (Baltimore Club, 2026-09-24). ITS
+                    # ABSOLUTE: "a five-and-six-hit kick figure ... it never
+                    # lets up". assemble's fills could thin a bar to 4, so a
+                    # bar under the floor goes back to the full figure. Runs
+                    # after assemble, so no rng draw moves. Single-preset
+                    # opt-in: absent -> nothing happens.
+                    floor = preset.get("kick_min_hits")
+                    if floor:
+                        lanes[lane] = [b if sum(c in "Xx" for c in b) >= floor
+                                       else bar for b in lanes[lane]]
                 else:
                     lanes[lane] = _phrase(bar, None, nbars, rng)
                     modes[lane] = "canon"

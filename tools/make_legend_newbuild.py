@@ -66,6 +66,22 @@ from crew import CREW, build_kit, lock_stamps, normalize_preset, render_crew_bea
 from pattern_gen import compose
 
 
+def drop_stamp(preset):
+    import beat_machine as bm
+    bm._drop_stamp(preset)
+
+
+def roll_swing(preset, variant):
+    """generate()'s swing roll. Found 2026-09-24: this script never called
+    it. compose() already sets most genres' swing, but a CANON lane (the
+    Baltimore 8-count, the dembow) comes out of compose() at 50, so
+    Baltimore Club's new 54 was inaudible in its audition while real beats
+    had it. Legends lost their pocket wander the same way. Same variant for
+    both versions, so the old side gets ITS swing and the new its own."""
+    import beat_machine as bm
+    bm.roll_swing(preset, variant)
+
+
 def pair_kick(preset, variant, name, shots):
     """generate()'s kick pairing (2026-09-23), before the kit is picked:
     short kick whenever a bass plays, never an 808 kick on an 808 beat."""
@@ -113,19 +129,23 @@ NSCAN = 12          # variants composed before choosing
 MIN_KICK_HITS = 15  # below this the kick is too sparse to judge (his word)
 
 
+CONFIG = "legends_config.json"      # --genres switches to genres_config.json
+
+
 def find_before(name):
     """The 'before' comes off disk, never rebuilt by popping keys off the
     new preset — a before assembled from memory is only as honest as the
     list of keys you remembered."""
     slug = name.lower().replace(" ", "-")
-    hits = sorted(ROOT.glob("legends_config.pre-*.json"))
+    stem = CONFIG[:-len(".json")]
+    hits = sorted(ROOT.glob(stem + ".pre-*.json"))
     hits = [h for h in hits if slug in h.name.lower()]
     if not hits:
         raise SystemExit(
-            "no 'before' backup for %r. Copy legends_config.json to\n"
-            "  legends_config.pre-%s-<today>.json\n"
+            "no 'before' backup for %r. Copy %s to\n"
+            "  %s.pre-%s-<today>.json\n"
             "BEFORE you edit his settings, or there is nothing to A/B."
-            % (name, slug))
+            % (name, CONFIG, stem, slug))
     if len(hits) > 1:
         # NEVER GUESS THE BASELINE. This picked the alphabetically-last
         # file once and silently chose a HALF-BUILT intermediate
@@ -265,10 +285,16 @@ def main():
                          "with its own drums at the same variant, instead "
                          "of both borrowing the new build's. Without this "
                          "a structure-only change renders IDENTICAL files.")
+    ap.add_argument("--genres", action="store_true",
+                    help="a genre from genres_config.json (owner "
+                         "2026-09-24: genres get the same pass)")
     ap.add_argument("--force", action="store_true",
                     help="overwrite an existing Desktop folder (it may be a "
                          "batch he already has — check before using this)")
     a = ap.parse_args()
+    global CONFIG
+    if a.genres:
+        CONFIG = "genres_config.json"
     name = a.legend
     if name not in CREW:
         raise SystemExit("no legend named %r" % name)
@@ -276,8 +302,8 @@ def main():
     before = Path(a.before) if a.before else find_before(name)
     print("before: %s" % before.name)
     old = json.loads(before.read_text())[name]
-    old["legend"] = True
-    live = json.loads((ROOT / "legends_config.json").read_text())[name]
+    old["genre" if a.genres else "legend"] = True
+    live = json.loads((ROOT / CONFIG).read_text())[name]
     # Kit held constant across a and b — sample choice is not on trial.
     # Unless it IS: under --structure the old build keeps its own kit and
     # its own sound-bank setting, because that is the change being judged.
@@ -348,6 +374,12 @@ def main():
                 p = normalize_preset(dict(p, lanes=seed_p["lanes"],
                                           kit=seed_p["kit"]))
                 shape_p = seed_p
+            # generate() drops the stamp lane on every new beat (owner
+            # 2026-08-01). This script never did, so every audition since
+            # carried a producer-tag sample his real beats cannot have --
+            # found 2026-09-24 when a siren rode both Acid Rap Bright pairs.
+            drop_stamp(p)
+            roll_swing(p, i)
             pair_kick(p, i, name, shots)
             kit, src = build_kit(shots, name, stamps[name][1], variant=i,
                                  avoid=set(avoid), preset=p)
@@ -359,12 +391,15 @@ def main():
                 # tag under that blind spot — Doc Day, Razor, Mustang and
                 # Farrow — and Kane East's was a field recording of a
                 # river. It goes first now, because it is heard most.
-                shown = {"stamp": Path(stamps[name][0]).name
-                         if stamps[name][0] else "(none)"}
-                shown.update({ln: Path(v).name if v else "(none)"
-                              for ln, v in src.items()})
+                shown = {ln: Path(v).name if v else "(none)"
+                         for ln, v in src.items() if ln in p["kit"]}
                 picks.append((i, tag, shown, _shape(shape_p)))
-            add_melodic(p, kit, src, i, name, shots)
+            harmony = add_melodic(p, kit, src, i, name, shots)
+            if harmony and (ref is None or a.structure):
+                # which instrument the chords actually played -- the part
+                # of a build this list could not show until 2026-09-24
+                shown["chords"] = ", ".join(harmony.get("chord_source")
+                                            or []) or "(none)"
             L, R, got = render_crew_beat(name, kit, preset=p)
             sub, air, atk = (band_db(L, R, 30.0, 55.0),
                              band_db(L, R, 8000.0), attack_db(L, R))
@@ -396,6 +431,8 @@ def main():
     for i, seed_p, _n in extras:
         q = normalize_preset(dict(NEW, lanes=seed_p["lanes"],
                                   kit=seed_p["kit"]))
+        drop_stamp(q)
+        roll_swing(q, i)
         pair_kick(q, i, name, shots)
         kit, _src = build_kit(shots, name, stamps[name][1], variant=i,
                               avoid=set(avoid), preset=q)
@@ -472,7 +509,7 @@ def readme(name, before, changed, rows, deltas, picks,
         "  thing you're hearing between a and b is the settings.", ""]) + [
         "  a Old   him exactly as he was, read straight off %s" % before.name,
         "  b New   the research build.", "",
-        "  Only this one legend changed. Nobody else on the roster moved.",
+        "  Only this one changed. Nobody else on the roster moved.",
         "",
         "I PICKED THESE TWO, and I'm saying so rather than pretending it",
         "  was random. Beats whose kick is already a long 808, or that hit",

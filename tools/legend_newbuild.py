@@ -28,6 +28,16 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 CONFIG = ROOT / "legends_config.json"
 STATUS = ROOT / "legend_newbuild_status.json"
+BACKUP = "legends_config.pre-"
+
+
+def use_genres():
+    """--genres (owner 2026-09-24): the genres get the same pass, A-Z, one
+    at a time. Same checks, their own config, status file and backups."""
+    global CONFIG, STATUS, BACKUP
+    CONFIG = ROOT / "genres_config.json"
+    STATUS = ROOT / "genre_newbuild_status.json"
+    BACKUP = "genres_config.pre-"
 
 # Words in a `listen` line that mean the owner stated an ABSOLUTE. A rule
 # written as NEVER is an invariant, not a weight — see the
@@ -60,7 +70,7 @@ def checks(name, p):
     # which is why it survived ten builds. Accept either spelling.
     if "NEW BUILD" not in note.upper().replace("-", " "):
         out.append("no new-build research note")
-    backups = sorted(ROOT.glob("legends_config.pre-*.json"))
+    backups = sorted(ROOT.glob(BACKUP + "*.json"))
     slug = name.lower().replace(" ", "-")
     if not any(slug in b.name.lower() for b in backups):
         out.append("no 'before' backup file to A/B against")
@@ -152,7 +162,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--legend")
     ap.add_argument("--tags", action="store_true")
+    ap.add_argument("--genres", action="store_true",
+                    help="the genre roster instead of the legends")
     a = ap.parse_args()
+    if a.genres:
+        use_genres()
 
     ros, st = legends(), status()
     if a.legend:
@@ -198,7 +212,8 @@ def main():
     # "0 of 12" while looking at one not-started legend.
     every = legends()
     done = sum(1 for n in every if st.get(n, {}).get("stage") == "confirmed")
-    print("%d of %d legends confirmed." % (done, len(every)))
+    print("%d of %d %s confirmed." % (done, len(every),
+                                     "genres" if a.genres else "legends"))
     print("Next: pick one 'not started', read the skill "
           "(.claude/skills/legend-new-build/SKILL.md).")
 

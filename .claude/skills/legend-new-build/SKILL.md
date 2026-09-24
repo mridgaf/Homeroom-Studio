@@ -1,6 +1,6 @@
 ---
 name: legend-new-build
-description: "Rebuild one Legend's sound from research and audition it old-vs-new. Use when the owner names a Legend to work on, asks what is left to do on the legends, says any of new build / rebuild / research him / make him sound like himself, or when a Legend's beats do not match his own written description. Covers all twelve; the nine crew DJs are explicitly NOT in scope."
+description: "Rebuild one Legend's or one GENRE's sound from research and audition it old-vs-new. Use when the owner names a Legend or genre to work on, asks what is left to do on the legends or genres, says tune the genres / new build / rebuild / research him / make him sound like himself, or when a Legend's beats do not match his own written description. Covers the Legends and the 18 genres; the nine crew DJs are explicitly NOT in scope."
 ---
 
 # One Legend, rebuilt from research, judged by his ear
@@ -14,6 +14,25 @@ clear for each session"* — **"So you remember."**
 Twelve Legends. One is done. This is the process for the rest, one per
 session. **The nine crew DJs are not in scope** and their settings must not
 move.
+
+## Genres use this same process (owner 2026-09-24)
+
+"Start tuning the genres using the same format as the rebuild for DJs,
+research first then build." His answers, all clickable:
+- **A-Z, one at a time**, same as the Legends. Progress lives in
+  `genre_newbuild_status.json`.
+- **Keep the approved mix, tune the style.** True levels, the low-end
+  rules, one bass per beat and the Loops page's own levels stay exactly
+  as they are. Change the genre's drums, tempo, sounds, tags and chords.
+- **Dirt follows the research** without asking: if the sources say the
+  genre is dirty, set `allow_dirt` (True or "low") for that genre.
+- Every tool takes `--genres`:
+  `tools/legend_newbuild.py --genres --legend "Name" --tags` and
+  `tools/make_legend_newbuild.py --genres --legend "Name" --structure`.
+  Backups are `genres_config.pre-<slug>-<date>.json`.
+- A genre with a `_research_note` is never reset by a GENRES_VERSION bump.
+- Genres are not DJs: `own_soundbank` gates EVERY pick (no open-bank
+  share) and they are exempt from the kick-flavor streak-breaker.
 
 ## Start every session here
 

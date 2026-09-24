@@ -89,6 +89,34 @@ def test_baltimore_is_the_doubled_tresillo():
         assert 8 in hits, fig
 
 
+def test_baltimore_kick_never_lets_up():
+    """Baltimore Club's ABSOLUTE, its own listen line: "a five-and-six-hit
+    kick figure ... it never lets up" (new build 2026-09-24). assemble's
+    fills thinned 4 of ~300 bars to 4 hits before the floor. Every bar,
+    not just bar 1, across many variants - compose() re-rolls per
+    variant, so one variant proves nothing. Single-preset opt-in."""
+    assert CREW["Baltimore Club"].get("kick_min_hits") == 5
+    assert {n for n, p in CREW.items() if p.get("kick_min_hits")} \
+        == {"Baltimore Club"}
+    assert not CREW["Baltimore Club"].get("breakdown")
+    for v in range(2, 60):
+        p, _ = _beat("Baltimore Club", v)
+        for i, bar in enumerate(p["lanes"]["kick"][3]):
+            assert sum(c in "Xx" for c in bar) >= 5, (v, i, bar)
+
+
+def test_chord_fallback_is_chiptune_only():
+    """Owner 2026-09-24, Chiptune: when its synth sounds can't cover a
+    beat, "borrow bells/plucks only" - not piano, wood or brass, which
+    4 of 16 beats were getting. Scoped to the one genre he answered for."""
+    have = {n: (p.get("signature") or {}).get("chord_fallback")
+            for n, p in CREW.items()
+            if (p.get("signature") or {}).get("chord_fallback")}
+    assert have == {"Chiptune": ["bell", "pluck"]}
+    src = Path(BM.__file__).read_text()
+    assert 'sig.get("chord_fallback")' in src
+
+
 @pytest.mark.parametrize("name", CANON_STYLES)
 def test_canon_lanes_are_protected_from_the_variety_pass(name):
     for v in VARIANTS:
