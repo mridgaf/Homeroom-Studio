@@ -5653,7 +5653,7 @@
  },
  "G-Funk": {
   "num": 35,
-  "bpm": 95,
+  "bpm": 94,
   "era": "genre",
   "built": "DJ Quik / Warren G / Above the Law (NOT Doc Day's surgical Dre pocket)",
   "genre": true,
@@ -5665,9 +5665,9 @@
     "kick",
     null,
     [
-     "soft",
-     "clean",
-     "fat"
+     "deep",
+     "round",
+     "punch"
     ],
     [
      0.25,
@@ -5678,9 +5678,9 @@
     "snare",
     null,
     [
-     "clean",
+     "crack",
      "tight",
-     "fat (snare)"
+     "snappy"
     ],
     1.0
    ],
@@ -5689,7 +5689,7 @@
     null,
     [
      "closed",
-     "tite"
+     "tight"
     ],
     0.4
    ],
@@ -5706,8 +5706,9 @@
     "fx",
     null,
     [
-     "scratch",
-     "vocal"
+     "vocal",
+     "talkbox",
+     "scratch"
     ],
     0.9
    ]
@@ -5858,10 +5859,14 @@
     "modes": [
      [
       "backbeat",
-      0.95
+      0.85
      ],
      [
       "displaced",
+      0.1
+     ],
+     [
+      "sparse",
       0.05
      ]
     ],
@@ -6072,16 +6077,8 @@
      3
     ],
     [
-     "piano",
-     2
-    ],
-    [
-     "organ",
-     1
-    ],
-    [
      "loop",
-     1
+     2
     ]
    ],
    "chord_rhythm": [
@@ -6094,15 +6091,8 @@
      1
     ]
    ],
-   "chords_default": true,
-   "tempo": [
-    88,
-    105
-   ]
-  },
-  "own_soundbank": true,
-  "flavor_match": true,
-  "_research_note": "NEW-BUILD 2026-09-24, eighth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-g-funk-2026-09-24.json. Era: DJ Quik / Warren G / Above the Law, NOT Dr. Dre (he is the Legend Doc Day); none of the nine is G-funk.\n\nSOURCES\n- Wikipedia, G-funk: 'typically set at between 90 and 100 BPM'; 'slow hypnotic grooves, a deep bass, heavy use of the snare drum, background female vocals'; 'a high-pitched portamento saw wave synthesizer lead'; typical instruments include electric piano, talkbox, turntables. Adam Krims: 'live instrumentation, heavy on bass and keyboards, with minimal (sometimes no) sampling'. 'smooth, slow-tempo', 'laid-back'.\n- Wikipedia, Regulate (Warren G, 1994): Akai MPC 60 + Technics 1200s; a four-bar loop of a Michael McDonald keyboard groove; SY77 string keys; a riff 'in the style of a Hammond organ at the end of every fourth bar'.\n- Wikipedia, DJ Quik: Roger Troutman taught him the talkbox, 'a trademark for Quik's sound'.\n- Tempos (tunebat / songbpm / bpmdatabase / sfrbeats): Regulate 95, This D.J. 92, Tonite 105, Jus Lyke Compton 95, Safe + Sound 95, Hand In Hand 95, Pitch In Ona Party 106, You'z A Ganxta 102, Black Superman 88, Murder Rap 98, It Was A Good Day 82, Fantastic Voyage 105. Median 95.\n\nCHANGES\n1. bpm 94 -> 95 (median of 12), tempo pocket 88-105 (the spread without the 82 outlier).\n2. Snare 'planted on 2 and 4': owner answer 'Mostly, keep a little wander' -> backbeat 0.95 / displaced 0.05, sparse removed. A weight, not a lock (no invariant, by his choice).\n3. own_soundbank + flavor_match on. Kit tags fixed to real filenames: kick deep/round/punch (0/0/1 literal) -> soft/clean/fat; NOT 'deep' (its synonym 'low' matches 'Shallow'/'Slow' inside kick names) and NOT 'funk' (all 12 hits are 'Brazillian Funk Kick'). Snare crack/tight/snappy (0/1/0) -> clean/tight/'fat (snare)' (plain 'fat' also hit Fatoes_Sidestick: a LITERAL hit skips the _NOT_A_SNARE guard, which only blocks synonym hits). Hat -> closed/tite. Stamp drops 'talkbox' (0 files anywhere) -> scratch/vocal (turntables are sourced).\n4. Chords: synth 3 / loop 2 -> synth 3, piano 2, organ 1, loop 1 ('heavy on keyboards', electric piano, the Hammond riff; 'minimal sampling' is why loop went down).\n5. Stays clean: research and listen line agree. allow_dirt unset; dust/vinyl untouched.\nUNCHANGED (unsourced or approved mix): swing 56, 808 branch 25%, extras, key, progressions, library tags, every level.\n\nGAPS\n- No talkbox sample in the library and no portamento 'whine' lead (cannot be synthesized: no-machine-tones rule). No female background-vocal samples."
+   "chords_default": true
+  }
  },
  "Reggaeton Alt": {
   "num": 36,

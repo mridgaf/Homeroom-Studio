@@ -7604,3 +7604,11 @@ just not loaded by default.
   loops.
 - Verify: re-run the 7 tests; check git stays clean.
 - Status: open (feature unbuilt; 7 tests failing, undiagnosed).
+
+### 2026-09-24 G-Funk research build (8th genre) — built, not rendered
+- Context: genre pass A-Z; G-Funk next after Emo Hip Hop. Era stays DJ Quik / Warren G / Above the Law (Dre is Doc Day).
+- Decision/change: bpm 95 + tempo pocket 88-105 (12 sourced tempos, median 95); snare backbeat 0.95 / displaced 0.05 (owner: "Mostly, keep a little wander" — a weight, not a lock); own_soundbank + flavor_match; kit tags moved to real filenames; chords add piano + organ, loop 2->1. Stays clean. Full sourcing in its `_research_note`. Backup: `genres_config.pre-g-funk-2026-09-24.json`.
+- Found: a LITERAL tag hit skips `_NOT_A_SNARE` (only synonym hits are guarded) — plain "fat" pulled `Fatoes_Sidestick` into the snare slot; used "fat (snare)". Also `deep`'s synonym `low` matches "Shallow"/"Slow" in kick names — avoided, not fixed.
+- Verify by: suite alone, then `make_legend_newbuild.py --genres --legend "G-Funk" --structure --before genres_config.pre-g-funk-2026-09-24.json`; read the stamp first.
+- Status: open — built, suite was running at session end, not rendered, not heard.
+- Outcome: —

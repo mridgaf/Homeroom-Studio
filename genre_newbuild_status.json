@@ -45,5 +45,10 @@
   "stage": "auditioned",
   "date": "2026-09-24",
   "notes": "Research build (Wikipedia Emo rap, Hellboy + COWYS pages, 16 songbpm tempos): kit tags fixed + own_soundbank + flavor_match; allow_dirt 'low' + kick_dist 9.0 (808 lane); tempo pocket 130-150 with default 150 per listen line (ASSUMING the owner's Crunk call applies). Auditioned: ~/Desktop/Homeroom Emo Hip Hop NEW BUILD 2026-09-24/. NOT heard."
+ },
+ "G-Funk": {
+  "stage": "built",
+  "date": "2026-09-24",
+  "notes": "Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Next: full suite alone, then make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first."
  }
 }
