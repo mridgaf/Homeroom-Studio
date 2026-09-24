@@ -20,6 +20,24 @@ entries.
 
 ## Log
 
+### 2026-09-24 Synonym matching for taste words — every pair ruled by the owner
+- Context: owner mid-build: "Word sounds won't be exact matches we should at least look for synonyms or similar words", then "Any synonym you're not sure about ask me". `flavor_tags.py` (opt-in `flavor_match`) existed since 09-09 but NO preset used it.
+- Decision/change: two rounds of clickable questions, every pair his call. He SPLIT lofi from dirty, clipped from distorted, fat from warm; CONFIRMED all other existing groups; ADDED raw=dirty, crunch=crush, heavy/slam=hard, live=roomy, reverb/hall=washed, tight=tite=short, shake=shaker, punch=knock, deep=sub=low=dark, light=soft, vinyl=dusty, bright=crisp, boom=808 (overruling the 09-09 "never group punch/knock/deep/boom" note). Fixed: the "grit" group never contained "grit". Folder words now go through synonyms too when opted in. New guards: a synonym-only match never puts a sidestick/stick/rim/clap/"kick n" combo in a snare slot, or an open hat/combo in a hat slot (literal words still match anything). `flavor_match: true` on the 7 genres built today (no other preset has it). Test `test_synonyms_never_land_a_sidestick_clap_or_open_hat`. Skill updated: every genre build sets flavor_match and asks him about any new pair.
+- Reasoning: filenames rarely carry adjectives, so literal matching left most tag words dead; the audit found each widening's wrong pulls (DECEPT_Lofi_Sidestick, CRAWL_SideStick, MZ Clap [Dirty], a Tight Open Hihat, Kick n Hat combos) before shipping.
+- Verify by: his ear on the re-rendered auditions.
+- Status: open
+- Outcome:
+
+### 2026-09-24 Genre pass continued: Crunk and Detroit
+- Context: same pass (fresh TinyFish research each, sources in each `_research_note`).
+- Decision/change: Crunk — kit tags fixed, allow_dirt "low" + kick_dist 9.0 (Mustang's measured level; 0.3 could never be heard), tempo pocket 140-160 (owner "Range 140-160"; default 140 stays per listen line), no vocal chops (listen line keeps the room empty). Detroit — bpm 93->88 (pocket 82-98, 32 measured tracks), swing 55->52 (owner "Nearly straight"), allow_dirt True, kit tags fixed, + synth in chords. Roster tests updated (allow_dirt, own_soundbank).
+- Emo Hip Hop (same day): kit tags fixed, allow_dirt "low" + kick_dist 9.0 (listen line "clipped distorted 808"; lands on the 808 lane), tempo pocket 130-150 with default 150 kept per its listen line — ASSUMING his Crunk answer ("Range", default kept) applies; not asked separately.
+- All seven of today's genres re-rendered after flavor_match was switched on (suite 1241 passed / 0 failed first).
+- Found: the audition script's backup glob matches `pre-acid-rap-detroit` for "Detroit" and refuses to guess — pass `--before genres_config.pre-detroit-2026-09-24.json`.
+- Verify by: his ear on the Desktop folders.
+- Status: open (not heard)
+- Outcome:
+
 ### 2026-09-24 "808 only" dirt now distorts the 808, not the kick (Crunk, Mustang, Night Metro)
 - Context: building Crunk ("a huge distorted 808"). Since the 09-23 rule an 808 beat plays a short kick PLUS the 808 in its own `bass` lane, but `kick_dist` only ever touched the `kick` lane — so allow_dirt "low" presets were distorting the short kick and leaving the 808 clean.
 - Decision/change: owner answered "The 808, all three" (clickable, BLOCKING). New `crew.grit_lane(p, lanes)`: allow_dirt "low" + a `bass` lane -> the 808 gets `dist808`; otherwise the kick, as before (plain True dirt unchanged; a bass LINE is bass0.. and never gritted). Test `test_808_only_dirt_lands_on_the_808_not_the_kick` also pins the "low" set to exactly Crunk, Mustang, Night Metro.

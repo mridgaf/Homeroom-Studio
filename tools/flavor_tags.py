@@ -22,7 +22,12 @@ feature: a single boolean opt-out/opt-in, never a roster-wide behavior
 change. Do not flip this on for an existing legend without being asked --
 that is exactly the "blanket-apply" the legend-new-build skill forbids.
 
-WHAT IS DELIBERATELY NOT GROUPED HERE, and why: `dry` (already documented
+UPDATE 2026-09-24: the owner ruled on every pair himself (see the notes
+in SYNONYM_GROUPS). He grouped punch/knock, deep/sub/low/dark and boom/808,
+overruling the paragraph below, and split lofi from dirty, clipped from
+distorted and fat from warm. `dry` is still not grouped.
+
+WHAT WAS DELIBERATELY NOT GROUPED HERE (2026-09-09), and why: `dry` (already documented
 as an over-eager match -- it drags in SIDESTICK samples like
 "HWIP_Dry_SideStick" and "sn4 flam dry" on nearly every legend that tried
 it); `boom` (matched 808 files under the OLD kick/808 pool split -- the
@@ -42,17 +47,52 @@ note describes "gritty and raw"). Expand them as real audits turn up more
 # A tag word not listed here just falls back to plain substring matching,
 # same as before this module existed.
 SYNONYM_GROUPS = {
-    "grit":    {"dust", "dusty", "dirty", "gritty", "raw", "grimy",
-                "grungy", "lofi", "lo-fi", "filthy"},
-    "tight":   {"tight", "tite"},
-    "clean":   {"clean", "crisp", "pristine"},
-    "warm":    {"warm", "round", "fat"},
+    "grit":    {"grit", "dirt", "dust", "dusty", "dirty", "gritty", "raw",
+                "grimy", "grungy", "filthy", "vinyl"},
+    "tight":   {"tight", "tite", "short"},
+    "clean":   {"clean", "crisp", "pristine", "bright"},
+    "warm":    {"warm", "round"},
     "big":     {"big", "huge", "massive", "thick"},
-    "soft":    {"soft", "gentle", "mellow"},
+    "soft":    {"soft", "gentle", "mellow", "light"},
     "vintage": {"vintage", "retro", "old-school", "oldschool", "analog"},
     "room":    {"room", "roomy", "live", "natural"},
     "crack":   {"crack", "crackly", "snappy"},
+    # 2026-09-24, owner: "Word sounds won't be exact matches we should at
+    # least look for synonyms or similar words". HE RULED ON EACH PAIR
+    # (clickable, same day): lofi is NOT dirty/dusty, clipped is NOT
+    # distorted, fat is NOT warm; raw=dirty, crunch=crush, heavy/slam=hard,
+    # live=roomy, reverb/hall=washed, tight=tite=short, huge/massive=big,
+    # snappy=crack, shake=shaker are all his "same sound". Each group below was
+    # counted against his real drum pools first (distort/clip +4 kicks,
+    # heavy +3 snares, ...); none of them is a word any preset used before.
+    "distort": {"distort", "distorted", "dist", "saturated", "overdrive",
+                "fuzz"},
+    "hard":    {"hard", "heavy", "slam", "smack"},
+    "crunch":  {"crunch", "crunchy", "crush", "crushed"},
+    "noise":   {"noise", "noisy", "static"},
+    "wash":    {"wash", "washed", "verb", "reverb", "hall"},
+    "shaker":  {"shaker", "shake", "shkr"},
+    # round 2 of his rulings, same day: every existing group above confirmed
+    # as-is, plus these. punch/knock, deep and boom were deliberately left
+    # ungrouped on 2026-09-09 because of Doc Day's history (see the module
+    # docstring); HE overruled that on 2026-09-24 - "punch = knock",
+    # "deep = sub = low", "dark = low", "boom = 808" are his words.
+    "punch":   {"punch", "punchy", "knock"},
+    "deep":    {"deep", "sub", "low", "dark"},
+    "boom":    {"boom", "808"},
 }
+
+# A SNARE want reached only through a synonym never lands on one of these
+# (2026-09-24): the grit group's "lofi" pulls DECEPT_Lofi_Sidestick, "raw"
+# pulls CRAWL_SideStick, "dirty" pulls MZ Clap [Dirty] out of the snare
+# bucket. Same failure as the documented `dry` trap. The LITERAL word still
+# matches anything, so asking for "rimshot" on purpose keeps working.
+import re as _re
+_NOT_A_SNARE = _re.compile(r"side ?stick|\bstick\b|\bss\b|\brim\b|clap|kick n")
+# and a HAT want reached only through a synonym never lands on an open hat:
+# "tite" -> "tight" pulled "Cymatics - Tight Open Hihat" into closed lanes.
+# "kick n hat"/"kick n snare" are layered combos (tite=short reached them).
+_NOT_A_CLOSED_HAT = _re.compile(r"\bopen\b|\boh\b|kick n")
 
 _WORD_TO_GROUP = {}
 for _canon, _words in SYNONYM_GROUPS.items():
@@ -72,11 +112,19 @@ def expand_word(word):
     return set(SYNONYM_GROUPS[group]) | {w}
 
 
-def matches(word, name):
+def matches(word, name, role=None):
     """True if taste-tag `word` matches sample-name-or-path `name`,
     either literally or via a documented synonym/spelling variant. Pass
     `name` already lowercased (callers already do this for the plain
     check, so this stays a drop-in replacement). Always a superset of
-    `word in name` -- never matches less than the old check did."""
+    `word in name` -- never matches less than the old check did.
+    role="snare": a synonym-only match on a sidestick/rim/clap is refused
+    (see _NOT_A_SNARE)."""
     name = name.lower()
+    if word.lower() in name:
+        return True
+    if role == "snare" and _NOT_A_SNARE.search(name):
+        return False
+    if role == "hat" and _NOT_A_CLOSED_HAT.search(name):
+        return False
     return any(variant in name for variant in expand_word(word))

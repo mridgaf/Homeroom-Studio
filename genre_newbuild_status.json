@@ -14,21 +14,36 @@
  "Acid Rap Bright": {
   "stage": "auditioned",
   "date": "2026-09-24",
-  "notes": "Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard."
+  "notes": "Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Acid Rap Detroit": {
   "stage": "auditioned",
   "date": "2026-09-24",
-  "notes": "Research build (Esham, Boomin' Words From Hell 1989): bpm 92->98 (pocket 92-104, songbpm median 98 over 12 tracks), allow_dirt True (listen line + every source says lo-fi; dust/vinyl/wow had never played), kit tags fixed to real filenames + own_soundbank on (kick lofi/dirt/grit/oldie; snare drum-machine words, plain 'dirt' dropped after it put a clap in the snare slot). Chords, bass, key, swing unchanged. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Detroit NEW BUILD 2026-09-24/. Air -13.7 dB vs old (dirt). NOT heard."
+  "notes": "Research build (Esham, Boomin' Words From Hell 1989): bpm 92->98 (pocket 92-104, songbpm median 98 over 12 tracks), allow_dirt True (listen line + every source says lo-fi; dust/vinyl/wow had never played), kit tags fixed to real filenames + own_soundbank on (kick lofi/dirt/grit/oldie; snare drum-machine words, plain 'dirt' dropped after it put a clap in the snare slot). Chords, bass, key, swing unchanged. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Detroit NEW BUILD 2026-09-24/. Air -13.7 dB vs old (dirt). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Baltimore Club": {
   "stage": "auditioned",
   "date": "2026-09-24",
-  "notes": "Research build (RBMA 'Sing Sing: A Loop History', Wikipedia, club guide): 808 kick branch 10%->70% (58% measured over 40 beats), kit tags fixed + own_soundbank, shakers + vocal chops extras, horns in chords, allow_dirt True, tempo pocket 125-130, NEW INVARIANT kick_min_hits 5 ('never lets up') held in compose() and at the end of vary_preset, test_baltimore_kick_never_lets_up. Swing 50->54 (owner answer 'Light swing'). Re-rendered with the audition script's new roll_swing (canon lanes came out of compose() at 50, so the swing was inaudible in the first render). Auditioned 2026-09-24 (--structure --kick 808): ~/Desktop/Homeroom Baltimore Club NEW BUILD 2026-09-24/ (808 beats) + '— Two more' (plain kick, horns). NOT heard."
+  "notes": "Research build (RBMA 'Sing Sing: A Loop History', Wikipedia, club guide): 808 kick branch 10%->70% (58% measured over 40 beats), kit tags fixed + own_soundbank, shakers + vocal chops extras, horns in chords, allow_dirt True, tempo pocket 125-130, NEW INVARIANT kick_min_hits 5 ('never lets up') held in compose() and at the end of vary_preset, test_baltimore_kick_never_lets_up. Swing 50->54 (owner answer 'Light swing'). Re-rendered with the audition script's new roll_swing (canon lanes came out of compose() at 50, so the swing was inaudible in the first render). Auditioned 2026-09-24 (--structure --kick 808): ~/Desktop/Homeroom Baltimore Club NEW BUILD 2026-09-24/ (808 beats) + '— Two more' (plain kick, horns). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Chiptune": {
   "stage": "auditioned",
   "date": "2026-09-24",
-  "notes": "Research build (Ricoh 2A03 Wikipedia, DDRKirby NES write-up, MusicRadar): kit tags to nearest real files + own_soundbank; fx extras 8 bit/game/zap. Owner answers: chord_fallback [bell, pluck] (4 of 16 beats had fallen back to wood/piano/brass; now 16/16 synth or bell); 'Light 12-bit crunch' -> dust 0.25 + allow_dirt True. Chords stay sampled synth (0 chip samples; chip voice is synthesized). Tempo 126 unmeasured. Auditioned: ~/Desktop/Homeroom Chiptune NEW BUILD 2026-09-24/ (air -1.57 dB). NOT heard."
+  "notes": "Research build (Ricoh 2A03 Wikipedia, DDRKirby NES write-up, MusicRadar): kit tags to nearest real files + own_soundbank; fx extras 8 bit/game/zap. Owner answers: chord_fallback [bell, pluck] (4 of 16 beats had fallen back to wood/piano/brass; now 16/16 synth or bell); 'Light 12-bit crunch' -> dust 0.25 + allow_dirt True. Chords stay sampled synth (0 chip samples; chip voice is synthesized). Tempo 126 unmeasured. Auditioned: ~/Desktop/Homeroom Chiptune NEW BUILD 2026-09-24/ (air -1.57 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+ },
+ "Crunk": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build (Wikipedia Crunk, Recording Arts, Turn Down for What, 12 songbpm Lil Jon tempos): kit tags fixed + own_soundbank; allow_dirt 'low' + kick_dist 9.0 (Mustang's measured level); owner answers: 'The 808, all three' -> crew.grit_lane puts 'low' dirt on the 808 lane (Crunk, Mustang, Night Metro); tempo pocket 140-160 (default 140 per listen line). No vocal chops (listen line keeps the room empty). Auditioned (--structure --kick 808): ~/Desktop/Homeroom Crunk NEW BUILD 2026-09-24/. sub +2.2 dB. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+ },
+ "Detroit": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build (XLR8R + RBMA + The Message Black Milk interviews, RapReviews/Albumism on Apollo Brown, 32 songbpm tempos): bpm 93->88 (pocket 82-98), swing 55->52 (owner 'Nearly straight'), allow_dirt True, kit tags fixed + own_soundbank, synth added to chords. Backup is genres_config.pre-detroit-2026-09-24.json - the audition script's backup glob also matches pre-acid-rap-detroit, so pass --before. Auditioned: ~/Desktop/Homeroom Detroit NEW BUILD 2026-09-24/ (air -9.8 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+ },
+ "Emo Hip Hop": {
+  "stage": "auditioned",
+  "date": "2026-09-24",
+  "notes": "Research build (Wikipedia Emo rap, Hellboy + COWYS pages, 16 songbpm tempos): kit tags fixed + own_soundbank + flavor_match; allow_dirt 'low' + kick_dist 9.0 (808 lane); tempo pocket 130-150 with default 150 per listen line (ASSUMING the owner's Crunk call applies). Auditioned: ~/Desktop/Homeroom Emo Hip Hop NEW BUILD 2026-09-24/. NOT heard."
  }
 }

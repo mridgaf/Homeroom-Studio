@@ -1234,7 +1234,7 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
     def has_want(e):
         nm = e["name"].lower()
         if flavor_match:
-            if any(flavor_matches(w, nm) for w in wants):
+            if any(flavor_matches(w, nm, role) for w in wants):
                 return True
         elif any(w in nm for w in wants):
             return True
@@ -1246,8 +1246,15 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
         # move. `must` has always read the whole path (has_must above);
         # this brings taste into line for his own folders only.
         root = _sorted_root()
-        return bool(root) and e["path"].lower().startswith(root) \
-            and any(w in e["path"].lower() for w in wants)
+        if not (root and e["path"].lower().startswith(root)):
+            return False
+        # his folder words go through the same synonym layer when the
+        # preset opted in (2026-09-24): "hard" also reaches Kicks/Hard's
+        # neighbours by meaning, not only by the exact folder name
+        folder = e["path"].lower()[len(root):]
+        if flavor_match:
+            return any(flavor_matches(w, folder, role) for w in wants)
+        return any(w in e["path"].lower() for w in wants)
 
     tiers = []
     if must and wants:

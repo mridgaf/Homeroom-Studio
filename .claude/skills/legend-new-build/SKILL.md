@@ -33,6 +33,16 @@ research first then build." His answers, all clickable:
 - A genre with a `_research_note` is never reset by a GENRES_VERSION bump.
 - Genres are not DJs: `own_soundbank` gates EVERY pick (no open-bank
   share) and they are exempt from the kick-flavor streak-breaker.
+- **Fresh TinyFish research for every genre** (owner 2026-09-24), sources
+  quoted in its `_research_note`. Never build from the old config alone.
+- **`"flavor_match": true` on every genre build** (owner 2026-09-24: "we
+  should at least look for synonyms or similar words"). He ruled on every
+  synonym pair himself — see `tools/flavor_tags.py` SYNONYM_GROUPS. Any
+  NEW pairing you are unsure of: ask him with clickable options ("I can
+  tell you immediately what should be what"), never guess.
+- A synonym never lands a sidestick/rim/clap/combo in a snare slot or an
+  open hat/combo in a hat slot (`_NOT_A_SNARE`, `_NOT_A_CLOSED_HAT`). After
+  `--tags`, still list the files each lane newly reaches and read them.
 
 ## Start every session here
 

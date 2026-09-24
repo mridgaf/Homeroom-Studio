@@ -426,6 +426,9 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     first audition: "Light 12-bit crunch" -> dust 0.25, the SP-1200 stage.
     Crunk is "low" (the 808 only): its listen line says "a huge distorted
     808", and kick_dist went 0.3 -> 9.0, Mustang's measured audible level.
+    Detroit: "dirty drums" (Black Milk, XLR8R), "dusty breaks" (Apollo
+    Brown), and its own listen line's "grit left in".
+    Emo Hip Hop is "low": its listen line's "clipped distorted 808".
 
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
@@ -437,7 +440,8 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
                      "Mustang": "low", "Kane East": True,
                      "J Dillo": True, "Acid Rap Detroit": True,
                      "Baltimore Club": True, "Chiptune": True,
-                     "Crunk": "low"}, heard
+                     "Crunk": "low", "Detroit": True,
+                     "Emo Hip Hop": "low"}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -559,7 +563,7 @@ def test_808_only_dirt_lands_on_the_808_not_the_kick():
     src = Path(crew.__file__).read_text()
     assert "bufs[_grit] = dist808(bufs[_grit]" in src
     assert {n for n, q in CREW.items() if q.get("allow_dirt") == "low"} \
-        == {"Crunk", "Mustang", "Night Metro"}
+        == {"Crunk", "Mustang", "Night Metro", "Emo Hip Hop"}
 
 
 def test_only_night_metro_ships_with_a_breakdown():
@@ -768,7 +772,7 @@ def test_own_soundbank_is_the_new_build_legends_only():
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
                     "DJ Light Green", "Hitt Kid", "Acid Rap Bright",
                     "Acid Rap Detroit", "Baltimore Club", "Chiptune",
-                    "Crunk"}
+                    "Crunk", "Detroit", "Emo Hip Hop"}
 
 
 def test_legend_stamps_are_not_locked():
@@ -1002,6 +1006,29 @@ def test_flavor_match_off_matches_old_behavior():
         "default (no flavor_match) must stay literal-substring only"
     assert picked(flavor_match=False) == {"kick_tight.wav"}, \
         "explicit flavor_match=False must match the default exactly"
+
+
+def test_synonyms_never_land_a_sidestick_clap_or_open_hat():
+    """Owner 2026-09-24: "look for synonyms or similar words". The groups
+    were widened for it, and the audit showed the cost straight away: grit's
+    "lofi"/"raw" reached DECEPT_Lofi_Sidestick and CRAWL_SideStick, "dirty"
+    reached MZ Clap [Dirty] in the snare bucket, "tite" reached an OPEN hat.
+    A synonym-only match on those is refused; the literal word still works."""
+    from flavor_tags import matches
+    assert matches("grit", "gritty kick", "kick")                 # canonical
+    assert matches("grit", "grimy snare", "snare")                # reaches
+    # his rulings: lofi is not dirty, clipped is not distorted
+    assert not matches("grit", "bleech_lofi_snare", "snare")
+    assert not matches("distort", "mz kick [clipped]", "kick")
+    assert matches("tight", "short kick", "kick")                 # tite=short
+    assert not matches("grit", "decept_lofi_sidestick", "snare")
+    assert not matches("grit", "crawl_sidestick", "snare")
+    assert not matches("grit", "mz clap [dirty]", "snare")
+    assert not matches("tite", "cymatics - tight open hihat", "hat")
+    assert not matches("tite", "rover_kick n hat", "hat")          # a combo
+    assert not matches("tight", "rover_kick n snare", "snare")
+    assert matches("rimshot", "cobra rimshot snare 8", "snare")   # literal
+    assert matches("grit", "crawl_kick", "kick") is True  # role-scoped
 
 
 def test_flavor_match_on_reaches_the_documented_spelling_variant():

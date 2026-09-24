@@ -127,8 +127,8 @@ def tag_audit(name, p):
     # exactly as before -- see flavor_tags.py for the scope decision.
     use_flavor = bool(p.get("flavor_match"))
 
-    def _hit(w, nm):
-        return flavor_matches(w, nm) if use_flavor else w in nm
+    def _hit(w, nm, role=None):
+        return flavor_matches(w, nm, role) if use_flavor else w in nm
 
     rows = []
     for lane, spec in (p.get("kit") or {}).items():
@@ -138,7 +138,7 @@ def tag_audit(name, p):
         if not isinstance(wants, list) or not wants:
             continue
         pool = shots.get(role, [])
-        per = {w: sum(1 for e in pool if _hit(w, e["name"].lower()))
+        per = {w: sum(1 for e in pool if _hit(w, e["name"].lower(), role))
                for w in wants}
         # for each DEAD word, where does it actually live? Loops are
         # excluded (not one-shot material) and a single stray file is
