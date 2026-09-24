@@ -152,6 +152,7 @@ VOICES = {
 # every note built from it at the wrong pitch.
 MIN_CLARITY = 0.70
 NOTE_LO, NOTE_HI = 33, 96      # a detected pitch outside this is a bad read
+BASS_NOTE_LO = 23              # B0 (31 Hz): bass reads go below NOTE_LO
 CHOP_SECS = 3.0                # longer than this = a phrase; take one hit
 # How far a note may be pitch-shifted from its source before the group is
 # considered unable to cover it and the NEXT group in the VOICES list is
@@ -306,6 +307,78 @@ def detect_pitch(mono, sr=SR):
     return midi, float(ac[k])
 
 
+# BASS pitch reading (owner 2026-09-23: "the bass lines are out of tune").
+# detect_pitch above is the chord reader: it stops at 55 Hz and reads only
+# the first half second. On his bass one-shots that misread 67 of 87 files
+# as a 1225 Hz "D#6" (the lag-0 lobe of a low note runs past its shortest
+# lag), rounded the rest to whole notes (Otto Grit's sub: 27 cents lost),
+# and never saw a note that sags as it rings (the same sub drops 77 cents).
+BASS_LO_HZ, BASS_HI_HZ = 25.0, 400.0
+BASS_MAX_WANDER_C = 30     # a note that moves more than this can't sit in tune
+
+
+def _ac_pitch(x, sr, lo_hz, hi_hz):
+    """(midi, clarity) of one window, or (None, 0.0). Autocorrelation
+    divided by the window's own (so the taper doesn't pull the peak
+    sharp), searched only past the lag-0 lobe, peak interpolated to a
+    fraction of a sample so the read is good to a few cents."""
+    x = np.asarray(x, dtype=np.float64)
+    x = x - x.mean()
+    w = np.hanning(len(x))
+    n = 1 << (2 * len(x) - 1).bit_length()
+
+    def ac_of(v):
+        f = np.fft.rfft(v, n)
+        return np.fft.irfft(f * np.conj(f))[:len(v)]
+    ac, wac = ac_of(x * w), ac_of(w)
+    if ac[0] <= 0:
+        return None, 0.0
+    hi = min(int(sr / lo_hz), len(x) // 2)
+    ac = ac[:hi + 2] / np.maximum(wac[:hi + 2], 1e-12) * (wac[0] / ac[0])
+    neg = np.where(ac[:hi] < 0)[0]
+    if not len(neg):
+        return None, 0.0
+    lo = max(int(sr / hi_hz), int(neg[0]))
+    seg = ac[lo:hi]
+    if len(seg) < 3 or seg.max() <= 0:
+        return None, 0.0
+    best = float(seg.max())
+    peaks = np.where((seg[1:-1] >= seg[:-2]) & (seg[1:-1] >= seg[2:]))[0] + 1
+    near = [int(p) for p in peaks if seg[p] >= 0.9 * best]
+    k = (near[0] if near else int(np.argmax(seg))) + lo
+    a, b, c = ac[k - 1], ac[k], ac[k + 1]
+    d = 0.5 * (a - c) / (a - 2 * b + c) if a - 2 * b + c else 0.0
+    return 69.0 + 12.0 * np.log2(sr / (k + d) / 440.0), float(min(b, 1.0))
+
+
+def detect_bass_pitch(mono, sr=SR):
+    """(midi, clarity, wander_cents) of what a bass one-shot PLAYS — the
+    same one hit voice_note plays (_one_hit), read in 0.2 s windows for as
+    long as the note sounds. midi is the median, exact to the cent (not
+    rounded); wander is how far the pitch moves over the note."""
+    hit = _one_hit(np.asarray(mono, dtype=np.float64), sr)
+    win = min(int(0.2 * sr), len(hit))
+    if win < int(0.1 * sr):
+        return None, 0.0, 0.0
+    peak = np.abs(hit).max()
+    if peak < 1e-5:
+        return None, 0.0, 0.0
+    reads, clar = [], []
+    for s in range(0, len(hit) - win + 1, win):
+        if np.abs(hit[s:s + win]).max() < 0.1 * peak:     # note has died
+            break
+        m, c = _ac_pitch(hit[s:s + win], sr, BASS_LO_HZ, BASS_HI_HZ)
+        if m is not None:
+            reads.append(m)
+            clar.append(c)
+    if not reads:
+        return None, 0.0, 0.0
+    r = np.array(reads)
+    r = r - 12 * np.round((r - np.median(r)) / 12)       # octave slips
+    midi = float(np.median(r))
+    return midi, float(np.median(clar)), float(100 * np.ptp(r))
+
+
 def _load_cache():
     try:
         got = json.loads(CACHE.read_text())
@@ -316,7 +389,7 @@ def _load_cache():
     return got
 
 
-def _pitched(todo, status, cache_key):
+def _pitched(todo, status, cache_key, bass=False):
     """Pitch-detect a list of (entry, group) pairs into index rows, with
     the shared per-(path, size) pitch cache. Both indexes (chords and
     bass) go through here so a file's pitch is only ever measured once.
@@ -325,9 +398,12 @@ def _pitched(todo, status, cache_key):
     library costs real time (~76ms a file), so `status` gets progress
     lines; every run after is a dict lookup, since a sample's pitch can't
     change without its bytes changing.
+
+    `bass=True` reads with detect_bass_pitch into its own cache field, and
+    each row keeps the exact `pitch` so voice_note tunes to the cent.
     """
     cache = _load_cache()
-    pitches = cache.get("_pitches", {})
+    pitches = cache.setdefault("_bass_pitches" if bass else "_pitches", {})
     found = []
     fresh = 0
     for i, (e, group) in enumerate(todo):
@@ -344,23 +420,31 @@ def _pitched(todo, status, cache_key):
             if x is None:
                 continue
             mono = x.mean(axis=1) if x.ndim == 2 else x
-            midi, clarity = detect_pitch(mono)
-            got = [None if midi is None else round(midi, 2), round(clarity, 3)]
+            if bass:
+                midi, clarity, wander = detect_bass_pitch(mono)
+            else:
+                (midi, clarity), wander = detect_pitch(mono), 0.0
+            got = [None if midi is None else round(midi, 2), round(clarity, 3),
+                   round(wander)]
             pitches[key] = got
             fresh += 1
-        midi, clarity = got
+        midi, clarity = got[:2]
         if midi is None or clarity < MIN_CLARITY:
             continue
-        note = int(round(midi))
-        if not NOTE_LO <= note <= NOTE_HI:
+        if bass and got[2] > BASS_MAX_WANDER_C:       # can't be in tune
             continue
-        found.append({"path": str(path), "name": e["name"], "note": note,
-                      "clarity": clarity, "group": group})
+        note = int(round(midi))
+        if not (BASS_NOTE_LO if bass else NOTE_LO) <= note <= NOTE_HI:
+            continue
+        row = {"path": str(path), "name": e["name"], "note": note,
+               "clarity": clarity, "group": group}
+        if bass:
+            row["pitch"] = midi
+        found.append(row)
     if found:                    # always refresh: writing only when new
         try:                     # files appeared would leave the unplugged
             CACHE.parent.mkdir(parents=True, exist_ok=True)   # fallback
             cache["version"] = DETECT_VERSION                 # index stale
-            cache["_pitches"] = pitches
             cache[cache_key] = found
             CACHE.write_text(json.dumps(cache))
         except OSError:
@@ -415,7 +499,7 @@ def scan_bass(index=None, status=None):
     entries = scan_melodic(roots=load_instrument_roots(), require_key=False) if index is None else index
     todo = [(e, "bass") for e in entries
             if e.get("role") == "bass" and not _is_riser(e["path"])]
-    return _pitched(todo, status, "bass_index")
+    return _pitched(todo, status, "bass_index", bass=True)
 
 
 def _as_groups(groups):
@@ -619,7 +703,8 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None,
             cache[key] = mono
     if not len(mono):
         return None
-    seg = _shift(mono, note - pick["note"])
+    # a bass row carries its exact pitch; chord rows only the whole note
+    seg = _shift(mono, note - pick.get("pitch", pick["note"]))
     return _declick(_fit_length(seg, max(int(dur * sr), 1), sr), sr)
 
 

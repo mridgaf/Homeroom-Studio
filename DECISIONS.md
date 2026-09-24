@@ -20,6 +20,42 @@ entries.
 
 ## Log
 
+### 2026-09-23 Bass line out of tune — the bass files' notes were misread
+- Context: owner on "Homeroom 808 On The Kick" folder 2: "the bass lines are
+  out of tune." Measured in the finished stems: Otto Grit -36/-39/+23 cents.
+- Cause (`instrument_sampler`): scan_bass used the chord reader
+  (detect_pitch), which (a) stops at 55 Hz, so 67 of 87 bass files read as
+  a 1225 Hz "D#6" (the lag-0 lobe of a low note runs past its shortest lag);
+  (b) index rounded to whole notes (Otto's sub: 27 cents lost); (c) read only
+  the first 0.5 s, so notes that sag (that sub: -77 cents as it rings) or
+  slide looked fine.
+- Change: `detect_bass_pitch` (25-400 Hz, window-normalized autocorrelation,
+  sub-sample peak, median over the whole played hit + "wander"); bass rows
+  carry exact `pitch`, `voice_note` shifts by it; files wandering > 30 cents
+  (`BASS_MAX_WANDER_C`) are out of the bass line. Own cache field
+  `_bass_pitches`; chord reader, chord index, 808s untouched. Result: 38
+  steady non-808 bass files (both folder-2 files were wanderers, now out).
+- Tests: 3 in test_instrument_sampler.py (exact below 55 Hz incl. cents,
+  sag flagged, voice_note tunes a bass row to the cent) — red on HEAD
+  (scratch worktree), green after. Full suite alone: 1231 passed, 6 failed =
+  the 6 known pre-existing ones listed in the entries below.
+- Audition bench `tools/make_bass_tune_audition.py`: replays the same 6-beat
+  sequence (asserts drums/chords/length match the old beats), fails loud on
+  > 15 cents off or > 30 cents slide (middle half of 0.2 s windows — a
+  loop-back re-attack reads 40 cents for one slice; that is a restart, not a
+  sag). New: every note -4..-1 cents, slide ≤ 15. Old Otto slid 44-57; old
+  DJ Premium only 18-26, so the check does NOT prove his DJ Premium problem.
+- Known side effects: variety is thin — 3 of 4 beats got UNISON_BASS_Commas,
+  because most steady files sit in octave 1 (C1-B1) and the line plays at
+  root-12 (octave 2), MAX_SHIFT 4. Possible next step (NOT done, ask him):
+  let the line drop an octave to meet the file. Rebuilding an old bass-line
+  beat may now pick a different bass file (no pinning); rendered wavs unchanged.
+- Verify by: owner ear on `~/Desktop/Homeroom Bass In Tune 2026-09-23/`
+  (1a/1b, 2a/2b before/after; 3-4 new).
+- Status: confirmed — owner 2026-09-24: "keep the new bass." Octave-drop
+  for variety not asked for; he moves on to tuning the genres next session.
+- Outcome: heard and kept.
+
 ### 2026-09-23 The 808 bangs with the kick — no chord-following, never pitched
 - Context: owner, on that morning's 808-plays-the-chord-roots build: "we
   shouldn't be using the sub to play chords it should just bang along with

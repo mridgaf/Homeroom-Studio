@@ -313,3 +313,39 @@ def test_covers_is_strict_where_nearest_is_forgiving(tmp_path):
     # ...while nearest still hands back the stretched sample, as designed
     assert instrument_sampler.nearest(idx, 65, ("brass",))["note"] == 60
     assert not instrument_sampler.covers(idx, [60], ("chip",))   # no group
+
+
+# ---- bass reader (owner 2026-09-23: "the bass lines are out of tune") ----
+def _bass(midi, secs=1.5, sag_cents=0.0, sr=SR):
+    """A bass-like tone; `sag_cents` bends it down over its length, the
+    way Otto Grit's sub (@hiheazy (Sub) (5)) drops 77 cents as it rings."""
+    n = int(secs * sr)
+    hz = 440.0 * 2.0 ** ((midi - 69 - np.linspace(0, sag_cents / 100, n)) / 12)
+    ph = 2 * np.pi * np.cumsum(hz) / sr
+    x = sum(np.sin(k * ph) / k for k in range(1, 6)) * np.exp(-np.arange(n) / sr)
+    return x / np.max(np.abs(x))
+
+
+@pytest.mark.parametrize("midi", [24.0, 28.3, 33.27, 40.0, 47.6])
+def test_bass_reader_is_exact_below_55hz_and_keeps_the_cents(midi):
+    # the chord reader stops at 55 Hz (MIDI 33) and misread 67 of his 87
+    # bass files as a 1225 Hz D#6; the index also rounded to whole notes
+    got, clarity, wander = instrument_sampler.detect_bass_pitch(_bass(midi))
+    assert abs(got - midi) < 0.03, "read %.3f, wanted %.2f" % (got, midi)
+    assert clarity > 0.9 and wander < 5
+
+
+def test_bass_reader_flags_a_note_that_sags():
+    _, _, wander = instrument_sampler.detect_bass_pitch(_bass(36, sag_cents=75))
+    assert wander > instrument_sampler.BASS_MAX_WANDER_C
+
+
+def test_voice_note_tunes_a_bass_row_to_the_cent(tmp_path):
+    import soundfile as sf
+    p = tmp_path / "sub.wav"
+    sf.write(str(p), _bass(36.27), SR)          # 27 cents sharp of C2
+    row = {"path": str(p), "name": "sub", "note": 36, "pitch": 36.27,
+           "clarity": 1.0, "group": "bass"}
+    out = instrument_sampler.voice_note([row], 38, 1.0)
+    got, _, _ = instrument_sampler.detect_bass_pitch(out)
+    assert abs(got - 38) < 0.05, "played %.3f, wanted 38" % got
