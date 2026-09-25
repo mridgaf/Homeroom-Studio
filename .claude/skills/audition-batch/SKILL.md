@@ -11,11 +11,11 @@ them. A change is not settled until he has heard it.
 
 ## Where the files go
 
-**Render to a scratch folder, then COPY to the Desktop. Never render into
+**Render to a scratch folder, then COPY to ~/Desktop/Homeroom Auditions/. Never render into
 his library.**
 
 ```
-~/Desktop/Homeroom <what it is> <YYYY-MM-DD>/
+~/Desktop/Homeroom Auditions/Homeroom <what it is> <YYYY-MM-DD>/
 ```
 
 Rendering into `/Volumes/TBOTC 3/Claude Drum Beats` takes real beat numbers
@@ -24,7 +24,7 @@ takes `root=`; point it at the scratch dir under this session's scratchpad.
 
 Sub-folders only when there is a real reason to separate — a before/after
 comparison, or normal beats vs break beats. Two or three folders, not six.
-Delete any older audition folder first so there is no doubt which is current.
+Keep every older audition folder — all auditions, old and new, live in ~/Desktop/Homeroom Auditions (owner rule 2026-09-25). The date in the name shows which is current.
 
 ## The README
 
@@ -93,8 +93,8 @@ that fired.
 
 ## Before you hand it over
 
-- [ ] Rendered to scratch, copied to the Desktop — library untouched
-- [ ] Old audition folder deleted
+- [ ] Rendered to scratch, copied into ~/Desktop/Homeroom Auditions — library untouched
+- [ ] Landed inside ~/Desktop/Homeroom Auditions (old ones kept)
 - [ ] No duplicate files across the sub-folders (copy, then move — and
       re-count afterwards; this has gone wrong)
 - [ ] README written in plain words, quoting his complaint

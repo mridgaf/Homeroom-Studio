@@ -38,7 +38,7 @@ FREE = ("Otto Grit", "Night Metro", "Doc Day", "Mustang", "J Dillo",
 KEPT = ("Cutz", "Sunday Chop", "Kane East", "DJ Premium", "Timberline",
         "Razor")
 OUT = Path(os.path.expanduser(
-    "~/Desktop/Homeroom Strings + Freedom 2026-09-14/2 Free-for-all beats"))
+    "~/Desktop/Homeroom Auditions/Homeroom Strings + Freedom 2026-09-14/2 Free-for-all beats"))
 
 READ_ME = """FREE-FOR-ALL BEATS
 

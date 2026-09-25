@@ -33,7 +33,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_doc_day_ab.py
-Out:  ~/Desktop/Homeroom Doc Day <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Doc Day <today>/
 """
 import os
 import shutil
@@ -50,7 +50,7 @@ from make_drum_beats import build_shots
 from crew import CREW, build_kit, lock_stamps, render_crew_beat
 from groove import OWNER_TASTE
 
-DESK = Path(os.path.expanduser(f"~/Desktop/Homeroom Doc Day {date.today()}"))
+DESK = Path(os.path.expanduser(f"~/Desktop/Homeroom Auditions/Homeroom Doc Day {date.today()}"))
 NAME = "Doc Day"
 NBEATS = 3                    # three different beats, same three versions
 

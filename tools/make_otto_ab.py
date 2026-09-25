@@ -36,7 +36,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_otto_ab.py
-Out:  ~/Desktop/Homeroom Otto <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Otto <today>/
 """
 import os
 import shutil
@@ -53,7 +53,7 @@ from make_drum_beats import build_shots
 from crew import CREW, build_kit, lock_stamps, render_crew_beat
 from groove import OWNER_TASTE
 
-DESK = Path(os.path.expanduser(f"~/Desktop/Homeroom Otto {date.today()}"))
+DESK = Path(os.path.expanduser(f"~/Desktop/Homeroom Auditions/Homeroom Otto {date.today()}"))
 NAME = "Otto Grit"
 NBEATS = 3                    # three different beats, same three versions
 

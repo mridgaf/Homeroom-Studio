@@ -176,6 +176,14 @@ it.
   developer procedure.
 - Explain the "why" only when it changes what he decides.
 
+### HARD RULE: If Claude can do it, Claude does it
+
+Owner, 2026-09-25: "If there is something that I do not have to do manually, you need to do it. Explain what you're going to do and then just do it. Quit giving me tasks."
+- Say in one or two lines what you are about to do, then do it. Do not hand him commands to paste, files to click, or steps to run that you could run yourself.
+- Only hand something to him when it truly needs him: his ears (listening), his password, a macOS permission dialog, or a physical action.
+- If a safety check blocks you, first try a safer way yourself (smaller steps, move instead of delete). Only then come to him, as one clickable yes/no, never as a to-do list.
+- House safety rules still hold: never delete his files (move them), never commit/push unless he says so.
+
 ### 0b. Ambiguity: stop and ask. Never guess
 
 His standing instruction (2026-08-03, after several breaches): "I don't want
@@ -237,6 +245,18 @@ to stop.)
 
 This is a hard rule, not a preference. No "just this once because the
 change is small" — that is exactly how it came back.
+
+### 0e. The Dock always opens the newest version
+
+Owner, 2026-09-25: the Dock icons (the row of apps at the bottom of the screen) must always open the
+newest version. They point at the live apps in this folder, never a copy or an old build.
+A new app or page gets a Dock icon. If an app is moved or renamed, re-point its Dock icon
+in the same session. To check the paths: `defaults read com.apple.dock persistent-apps`.
+
+### 0f. All auditions live in ONE folder: ~/Desktop/Homeroom Auditions
+
+Owner, 2026-09-25. Every audition, new and old, goes inside `~/Desktop/Homeroom Auditions/`,
+never loose on the Desktop, and old ones are kept. The audition scripts in `tools/` already write there.
 
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished

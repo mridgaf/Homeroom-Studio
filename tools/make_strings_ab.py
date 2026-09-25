@@ -46,7 +46,7 @@ DJS = ("Doc Day", "Razor", "Rage Engine")
 CHORDS = {"chords": True, "chord_feel": None}
 NSCAN = 60
 OUT = Path(os.path.expanduser(
-    "~/Desktop/Homeroom Strings + Freedom 2026-09-14/1 Strings before-after"))
+    "~/Desktop/Homeroom Auditions/Homeroom Strings + Freedom 2026-09-14/1 Strings before-after"))
 REPO = Path(__file__).resolve().parent.parent
 
 READ_ME = """LONDON STRINGS - BEFORE AND AFTER

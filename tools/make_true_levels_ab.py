@@ -18,7 +18,7 @@ unpinnable randomness; a seeded matched pair is impossible, checked).
 Renders to scratch, copies to the Desktop. Library on TBOTC 3 untouched.
 
 Run:  ./.venv/bin/python tools/make_true_levels_ab.py
-Out:  ~/Desktop/Homeroom True Levels <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom True Levels <today>/
 """
 import copy
 import shutil
@@ -34,7 +34,7 @@ from make_drum_loops import SR, write_wav24
 import crew
 import beat_machine as bm
 
-DESK = Path(f"{Path.home()}/Desktop/Homeroom True Levels {date.today()}")
+DESK = Path(f"{Path.home()}/Desktop/Homeroom Auditions/Homeroom True Levels {date.today()}")
 DJS = ["Otto Grit", "Night Metro", "New Math", "Glass Cat"]
 KEY, TEMPO = "F minor", 90
 

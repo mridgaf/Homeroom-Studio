@@ -105,7 +105,7 @@ def main():
     off.pop("chord_grammar", None)
 
     desk = Path(os.path.expanduser(
-        "~/Desktop/Homeroom %s CHORD GRAMMAR %s" % (name, date.today())))
+        "~/Desktop/Homeroom Auditions/Homeroom %s CHORD GRAMMAR %s" % (name, date.today())))
     # Checked BEFORE rendering: rmtree does not go to the Trash, and this
     # exact pattern deleted an approved batch on 2026-09-05.
     if desk.exists() and not a.force:

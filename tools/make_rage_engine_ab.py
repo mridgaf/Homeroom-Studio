@@ -38,7 +38,7 @@ his call, 2026-09-03. And "never leave a bar empty" is left alone: only
 silence is barely touching him.
 
 Run:  ./.venv/bin/python tools/make_rage_engine_ab.py
-Out:  ~/Desktop/Homeroom Rage Engine <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Rage Engine <today>/
 """
 import json
 import os
@@ -59,7 +59,7 @@ from pattern_gen import compose
 from beat_machine import vary_preset
 
 DESK = Path(os.path.expanduser(
-    f"~/Desktop/Homeroom Rage Engine {date.today()}"))
+    f"~/Desktop/Homeroom Auditions/Homeroom Rage Engine {date.today()}"))
 NAME = "Rage Engine"
 NBEATS = 3
 

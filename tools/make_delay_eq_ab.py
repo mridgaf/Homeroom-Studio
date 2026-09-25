@@ -17,7 +17,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_delay_eq_ab.py
-Out:  ~/Desktop/Homeroom Delay and EQ <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Delay and EQ <today>/
 """
 import os
 import shutil
@@ -34,7 +34,7 @@ from make_drum_beats import build_shots
 from crew import CREW, build_kit, lock_stamps, render_crew_beat
 
 DESK = Path(os.path.expanduser(
-    f"~/Desktop/Homeroom Delay and EQ {date.today()}"))
+    f"~/Desktop/Homeroom Auditions/Homeroom Delay and EQ {date.today()}"))
 
 # Six DJs chosen to spread the variables the effects interact with: tempo
 # 88-140, backbeat on snare AND on clap, and a dry / gated / plate spread

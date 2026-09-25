@@ -37,7 +37,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_night_metro_ab.py
-Out:  ~/Desktop/Homeroom Night Metro <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Night Metro <today>/
 """
 import json
 import os
@@ -58,7 +58,7 @@ from pattern_gen import compose
 from beat_machine import vary_preset
 
 DESK = Path(os.path.expanduser(
-    f"~/Desktop/Homeroom Night Metro {date.today()}"))
+    f"~/Desktop/Homeroom Auditions/Homeroom Night Metro {date.today()}"))
 NAME = "Night Metro"
 NBEATS = 3
 

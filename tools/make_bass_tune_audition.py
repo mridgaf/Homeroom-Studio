@@ -20,7 +20,7 @@ bass-line stem must MEASURE within 15 cents of its chord's root in the
 finished stem; one bass file per beat.
 
 Run:  ./.venv/bin/python tools/make_bass_tune_audition.py
-Out:  ~/Desktop/Homeroom Bass In Tune <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Bass In Tune <today>/
 """
 import json
 import random
@@ -42,8 +42,8 @@ import crew
 import pattern_gen
 import make_low_end_audition as le
 
-OUT = Path.home() / "Desktop" / f"Homeroom Bass In Tune {date.today()}"
-OLD = Path.home() / "Desktop" / "Homeroom 808 On The Kick 2026-09-23" \
+OUT = Path.home() / "Desktop" / "Homeroom Auditions" / "Homeroom Auditions" / f"Homeroom Bass In Tune {date.today()}"
+OLD = Path.home() / "Desktop" / "Homeroom Auditions" / "Homeroom 808 On The Kick 2026-09-23" \
     / "2 Bass-line DJs"
 # the old bench's scratch recipes, to prove a re-made beat is the same beat
 OLD_RECIPES = {"Otto Grit": 812, "DJ Premium": 813}

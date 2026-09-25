@@ -24,7 +24,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_low_shelf_ab.py
-Out:  ~/Desktop/Homeroom Low Shelf <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Low Shelf <today>/
 """
 import os
 import shutil
@@ -41,7 +41,7 @@ from make_drum_beats import build_shots
 from crew import CREW, build_kit, lock_stamps, render_crew_beat
 from groove import OWNER_TASTE
 
-DESK = Path(os.path.expanduser(f"~/Desktop/Homeroom Low Shelf {date.today()}"))
+DESK = Path(os.path.expanduser(f"~/Desktop/Homeroom Auditions/Homeroom Low Shelf {date.today()}"))
 
 PICKS = ["Otto Grit", "Kane East", "Mustang",
          "DJ Premium", "Night Metro", "Trip Hop"]

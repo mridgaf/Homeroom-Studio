@@ -26,7 +26,7 @@ import beat_machine as bm                                        # noqa: E402
 DJS = ["Half Light", "Fast Water"]
 PER_DJ = 3
 TWIST = {"Half Light": "chorus", "Fast Water": "phaser"}
-OUT = Path.home() / "Desktop" / "Homeroom Two New DJs 2026-09-03"
+OUT = Path.home() / "Desktop" / "Homeroom Auditions" / "Homeroom Two New DJs 2026-09-03"
 
 
 def _rms_db(a, b):

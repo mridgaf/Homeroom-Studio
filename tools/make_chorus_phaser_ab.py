@@ -31,7 +31,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_chorus_phaser_ab.py
-Out:  ~/Desktop/Homeroom Chorus and Phaser <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Chorus and Phaser <today>/
 """
 import os
 import shutil
@@ -48,7 +48,7 @@ from make_drum_beats import build_shots
 from crew import CREW, build_kit, lock_stamps, render_crew_beat
 
 DESK = Path(os.path.expanduser(
-    f"~/Desktop/Homeroom Chorus and Phaser {date.today()}"))
+    f"~/Desktop/Homeroom Auditions/Homeroom Chorus and Phaser {date.today()}"))
 
 # The same six as the delay/EQ batch, so he can put the two folders side
 # by side: tempo 88-140, backbeat on snare AND on clap, and a dry / gated

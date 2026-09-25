@@ -31,6 +31,10 @@ default, he decides when the box goes.
    Offer it first when unsure.
 5. **Require typed `yes`** before moving (allow `--yes` to skip for power
    use). Print the count and the destination before asking.
+   When Claude runs the move itself (the default — owner hard rule
+   2026-09-25: if Claude can do it, Claude does it), ask ONE clickable
+   yes/no with the count and destination, then run with `--yes`. Do not
+   hand him the `.command` to double-click.
 6. **Handle name collisions** without clobbering — prefix `NN DUP ` like the
    existing scripts (or `mv -n` for an ad hoc interactive move), never
    overwrite.

@@ -20,7 +20,7 @@ MEASURE in the key in its finished stem; the kick must sit over every
 bass lane; the file count must be right. A WARNING means do not hand it over.
 
 Run:  ./.venv/bin/python tools/make_low_end_audition.py
-Out:  ~/Desktop/Homeroom 808 On The Kick <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom 808 On The Kick <today>/
 """
 import random
 import re
@@ -40,7 +40,7 @@ import beat_recipes
 import crew
 import pattern_gen
 
-OUT = Path.home() / "Desktop" / f"Homeroom 808 On The Kick {date.today()}"
+OUT = Path.home() / "Desktop" / "Homeroom Auditions" / "Homeroom Auditions" / f"Homeroom 808 On The Kick {date.today()}"
 FOLDERS = {
     "1 808 DJs": ["Night Metro", "Mustang", "Hitt Kid", "Memphis"],
     "2 Bass-line DJs": ["Otto Grit", "DJ Premium"],

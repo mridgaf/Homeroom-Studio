@@ -31,7 +31,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3 is
 never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_doc_day_newbuild.py
-Out:  ~/Desktop/Homeroom Doc Day NEW BUILD <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Doc Day NEW BUILD <today>/
 """
 import json
 import os
@@ -52,7 +52,7 @@ from groove import OWNER_TASTE
 
 ROOT = Path(__file__).parent.parent
 DESK = Path(os.path.expanduser(
-    f"~/Desktop/Homeroom Doc Day NEW BUILD {date.today()}"))
+    f"~/Desktop/Homeroom Auditions/Homeroom Doc Day NEW BUILD {date.today()}"))
 NAME = "Doc Day"
 
 # HOW MANY, AND HOW THEY ARE CHOSEN. He asked for two completely different

@@ -44,7 +44,7 @@ Renders to a scratch dir, copies to the Desktop. The library on TBOTC 3
 is never touched and no beat numbers are used.
 
 Run:  ./.venv/bin/python tools/make_root_808_ab.py
-Out:  ~/Desktop/Homeroom Root 808 and Locks <today>/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom Root 808 and Locks <today>/
 """
 import json
 import os
@@ -64,7 +64,7 @@ from pattern_gen import compose
 import beat_machine as bm
 
 DESK = Path(os.path.expanduser(
-    f"~/Desktop/Homeroom Root 808 and Locks {date.today()}"))
+    f"~/Desktop/Homeroom Auditions/Homeroom Root 808 and Locks {date.today()}"))
 F1 = "1 Root 808"
 F2 = "2 Rebuild key lock"
 

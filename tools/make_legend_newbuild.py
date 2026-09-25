@@ -45,8 +45,8 @@ re-derive them:
     whole round trip.
 
 Run:  ./.venv/bin/python tools/make_legend_newbuild.py --legend "Razor"
-Out:  ~/Desktop/Homeroom <Legend> NEW BUILD <today>/
-      ~/Desktop/Homeroom <Legend> NEW BUILD <today> — Two more/
+Out:  ~/Desktop/Homeroom Auditions/Homeroom <Legend> NEW BUILD <today>/
+      ~/Desktop/Homeroom Auditions/Homeroom <Legend> NEW BUILD <today> — Two more/
 """
 import argparse
 import json
@@ -324,7 +324,7 @@ def main():
     print("changed: %s" % ", ".join(k for k, _o, _n in changed))
 
     desk = Path(os.path.expanduser(
-        "~/Desktop/Homeroom %s NEW BUILD %s" % (name, date.today())))
+        "~/Desktop/Homeroom Auditions/Homeroom %s NEW BUILD %s" % (name, date.today())))
     versions = [("a Old", OLD), ("b New", NEW)]
 
     # CHECKED BEFORE ANYTHING IS RENDERED — both so he never loses a batch
