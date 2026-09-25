@@ -7699,3 +7699,9 @@ just not loaded by default.
 ### 2026-09-25 NEXT SESSION: one lane, several instruments (beat 2876)
 - Owner: in beat 2876 the "strings stab" lane — and many others he's rendered — reaches for a DIFFERENT instrument within the same lane. He doesn't like it. Start there: read 2876's recipe `harmony.voice_files`, find why one lane mixes instruments, agree a fix with him.
 - Status: open.
+
+### 2026-09-25 One instrument per PART for the whole beat (the 2876 follow-up)
+- Cause: multi-part beats (support/lead/passing) picked each part's instrument per chord with no pin and no one-instrument check. Beats 2800-2867: 6 of 90 parts switched pack between chords (2827, 2829, 2832, 2837, 2866) — all multi-part. Single-part path checked per chord only, so its pin (a preference) could also drift.
+- Owner pick (clickable): "Lock + pick another". `_build_chords` now renders each role across ALL chords on one source with a shared pin, checks `_one_instrument` over the whole beat, and if it fails tries the DJ's next own family; support/lead failing everywhere -> single-part path. Single-part plans now also need one instrument per source across the whole beat.
+- Test: `test_no_lane_ever_combines_two_instruments` extended to check per part across chords. GAP: two fixtures tried, neither reproduces the bug on the OLD code, so no test proves the fix. Real proof = recipe scan of the next batch he renders (voice_files grouped by v-suffix, folders per part).
+- Status: open

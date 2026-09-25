@@ -2556,48 +2556,80 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
 
     if part_count >= 2:
         role_srcs = _role_sources(primary, order, own, part_count)
-        role_beds, role_ok = [], True
-        for i, chord, start_bar, dur in slots:
-            support_n, lead_n, passing_n = _split_chord_roles(chord["notes"])
-            if not lead_n:               # nothing left to split (e.g. a
-                role_ok = False          # bare power chord) — not a
-                break                    # multi-part beat after all
-            layers = []
-            used_s = []
-            a_s, nm_s = _render_one(role_srcs[0], chord, dur, used=used_s,
-                                    notes=support_n, slot=i,
-                                    rhythm_override="sustain")
-            if a_s is None or not np.max(np.abs(a_s)) > 0:
-                role_ok = False
-                break
-            layers.append((a_s, "%s (support)" % nm_s, used_s))
-            used_l = []
-            a_l, nm_l = _render_one(role_srcs[1], chord, dur, used=used_l,
-                                    notes=lead_n, slot=i)
-            if a_l is None or not np.max(np.abs(a_l)) > 0:
-                role_ok = False
-                break
-            layers.append((a_l, "%s (lead)" % nm_l, used_l))
-            # passing is never fatal — a plain triad has no note to spare
-            # for it, and even when a chord has one, it only plays SOME
-            # of the time (owner: "the sparsest, easiest to cut"). Rolled
-            # per slot so it can appear on one chord and rest on the next.
-            if (part_count >= 3 and passing_n and random.Random(
-                    variant * 991 + 43 + i).random()
-                    < OWNER_TASTE["passing_note_p"]):
-                used_p = []
-                a_p, nm_p = _render_one(role_srcs[2], chord, dur,
-                                        used=used_p, notes=passing_n,
-                                        slot=i, rhythm_override="sustain")
-                if a_p is not None and np.max(np.abs(a_p)) > 0:
-                    layers.append((a_p, "%s (passing)" % nm_p, used_p))
-            g = _balance_layers([a for a, _, _ in layers],
-                                chord_synth.PEAK_CEILING)
-            n = min(len(a) for a, _, _ in layers)
-            role_beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
-                              for a, nm, fl in layers])
+        splits = [_split_chord_roles(chord["notes"])
+                  for _, chord, _, _ in slots]
+        # a bare power chord has no lead note to split off -> single part
+        role_ok = all(lead_n for _, lead_n, _ in splits)
+
+        def _whole_role(src, role, pick):
+            """One ROLE across EVERY chord slot on ONE instrument -> list of
+            per-slot (audio, name, files) or None. `pick(k)` says whether
+            slot k plays this role at all (passing is optional).
+
+            OWNER 2026-09-25 (beat 2876): "I don't want instruments reaching
+            for other instruments in the same lane." Before this the roles
+            were rendered chord by chord with no pin and no one-instrument
+            check, so the lead could be a trombone on chord 1 and a muted-horn
+            loop on chord 2 (beats 2827, 2832, 2866). His pick was "lock +
+            pick another": the caller tries the next family if this fails."""
+            pin, out, every = [], [], []
+            for k, (i, chord, _, dur) in enumerate(slots):
+                if not pick(k):
+                    out.append(None)
+                    continue
+                used = []
+                a, nm = _render_one(
+                    src, chord, dur, used=used, notes=splits[k][role],
+                    slot=i, pin=pin,
+                    rhythm_override=None if role == 1 else "sustain")
+                if a is None or not np.max(np.abs(a)) > 0:
+                    return None
+                every += used
+                out.append((a, "%s (%s)" % (nm, ("support", "lead",
+                                                 "passing")[role]), used))
+            # the WHOLE beat, not one chord: one instrument for the lane
+            return out if _one_instrument(every) else None
+
+        def _lock_role(role, pick):
+            cands = [role_srcs[role]] + [
+                s for s in order if s in own and s != role_srcs[role]
+                and s not in ("loop", "chip", "midi")]
+            for src in cands:
+                got = _whole_role(src, role, pick)
+                if got is not None:
+                    role_srcs[role] = src
+                    return got
+            return None
+
+        per_role = []
         if role_ok:
-            committed, beds = tuple(role_srcs), role_beds
+            for role in (0, 1):
+                got = _lock_role(role, lambda k: True)
+                if got is None:
+                    role_ok = False
+                    break
+                per_role.append(got)
+        if role_ok and part_count >= 3:
+            # passing is never fatal and only plays SOME chords (owner:
+            # "the sparsest, easiest to cut") — rolled per slot as before
+            want = [bool(splits[k][2]) and random.Random(
+                        variant * 991 + 43 + i).random()
+                    < OWNER_TASTE["passing_note_p"]
+                    for k, (i, _, _, _) in enumerate(slots)]
+            if any(want):
+                got = _lock_role(2, lambda k: want[k])
+                if got is not None:
+                    per_role.append(got)
+        if role_ok:
+            role_beds = []
+            for k in range(len(slots)):
+                layers = [r[k] for r in per_role if r[k] is not None]
+                g = _balance_layers([a for a, _, _ in layers],
+                                    chord_synth.PEAK_CEILING)
+                n = min(len(a) for a, _, _ in layers)
+                role_beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
+                                  for a, nm, fl in layers])
+            committed, beds = tuple(role_srcs[:len(per_role)]), role_beds
 
     if committed is None:
         for plan in plans:
@@ -2644,7 +2676,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 n = min(len(a) for a, _, _ in layers)
                 beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
                             for a, nm, fl in layers])
-            if ok and beds:
+            # per-slot check above isn't enough: the pin is only a
+            # preference, so chord 2 could still land on another pack. One
+            # instrument per source across the WHOLE beat (owner 2026-09-25).
+            if ok and beds and all(
+                    _one_instrument([f for bed in beds for f in bed[v][2]])
+                    for v in range(len(plan))):
                 committed = plan
                 break
 
