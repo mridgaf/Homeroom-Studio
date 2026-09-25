@@ -1,0 +1,212 @@
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Alto Recorder Staccato
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Alto Recorder SusVib
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Alto Recorder Sustain
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Bass Recorder Staccato
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Bass Recorder SusVib
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Bass Recorder Sustain
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Soprano Recorder Staccato
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Soprano Recorder Sustain
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder Staccato
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder SusVib
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder Sustain
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Ocarina, Small Staccato
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Ocarina, Small Sustain
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Ocarina, Typical Sustains/Sus
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Ocarina, Typical Sustains/SusVib
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Pipe Organ Loud
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Pipe Organ Loud Pedal
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Pipe Organ Quiet
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Pipe Organ Quiet Pedal
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Renaissance Organ 4'
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Renaissance Organ 8'
+  measuring octaves: VCSL/Aerophones/Edge-blown Aerophones/Renaissance Organ Full
+  measuring octaves: VCSL/Aerophones/Reed Aerophones/Saxello Non-Vibrato
+  measuring octaves: VCSL/Aerophones/Reed Aerophones/Saxello Staccato
+  measuring octaves: VCSL/Aerophones/Reed Aerophones/Saxello Vibrato
+  measuring octaves: VCSL/Aerophones/Reed Aerophones/Tenor Saxophone Non-Vibrato
+  measuring octaves: VCSL/Aerophones/Reed Aerophones/Tenor Saxophone Staccato
+  measuring octaves: VCSL/Aerophones/Reed Aerophones/Tenor Saxophone Vibrato
+  measuring octaves: VCSL/Chordophones/Composite Chordophones/Concert Harp -
+  measuring octaves: VCSL/Chordophones/Composite Chordophones/Folk Harp -
+  measuring octaves: VCSL/Chordophones/Composite Chordophones/Strumstick Finger
+  measuring octaves: VCSL/Chordophones/Zithers/Dan Tranh Normal
+  measuring octaves: VCSL/Chordophones/Zithers/Dan Tranh Tremolo
+  measuring octaves: VCSL/Chordophones/Zithers/Dan Tranh Vibrato
+  measuring octaves: VCSL/Chordophones/Zithers/Grand Piano, Kawai Sustains
+  measuring octaves: VCSL/Chordophones/Zithers/Grand Piano, Kawai - Legacy Sustains
+  measuring octaves: VCSL/Chordophones/Zithers/Grand Piano, Steinway B NoSus
+  measuring octaves: VCSL/Chordophones/Zithers/Grand Piano, Steinway B Sus
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, English Sustains/Lute
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, English Sustains/Normal
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, Flemish Sustains/High
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, Flemish Sustains/Low
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, French Sustains
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, Italian Sustains/stop1
+  measuring octaves: VCSL/Chordophones/Zithers/Harpsichord, Unk Sustains
+  measuring octaves: VCSL/Chordophones/Zithers/Psaltery, Bowed and Plucked LongBow
+  measuring octaves: VCSL/Chordophones/Zithers/Psaltery, Bowed and Plucked Pluck
+  measuring octaves: VCSL/Chordophones/Zithers/Psaltery, Bowed and Plucked Spiccato
+  measuring octaves: VCSL/Chordophones/Zithers/Upright Piano, Knight Sustains
+  measuring octaves: VCSL/Chordophones/Zithers/Upright Piano, Yamaha Sustains
+  measuring octaves: VCSL/Electrophones/TX81Z/Clavisynth -
+  measuring octaves: VCSL/Electrophones/TX81Z/FM Piano -
+  measuring octaves: VCSL/Electrophones/TX81Z/Piano 1 -
+  measuring octaves: VCSL/Idiophones/Friction Idiophones/Wine Glasses Sustains/Fast
+  measuring octaves: VCSL/Idiophones/Friction Idiophones/Wine Glasses Sustains/Slow
+  measuring octaves: VCSL/Idiophones/Plucked Idiophones/Kalimba, Kenya -
+  measuring octaves: VCSL/Idiophones/Plucked Idiophones/Kalimba, Tanzania -
+  measuring octaves: VCSL/Idiophones/Plucked Idiophones/Mbira Mavembe (Gandanga), Zimbabwe, Low G -
+  measuring octaves: VCSL/Idiophones/Plucked Idiophones/Mbira dzaVadzimu Nyamaropa, Zimbabwe, Low B -
+  measuring octaves: VCSL/Idiophones/Plucked Idiophones/Nyunga Nyunga, Mozambique, Low F -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Balafon Hard Mallet
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Balafon Soft Mallet
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Balafon Traditional Mallet
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Glockenspiel -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Hand Chimes -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Marimba -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Tubular Bells 1 -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Tubular Bells 2 -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Tubular Glockenspiel -
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Vibraphone Bowed
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Vibraphone Hard Mallets
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Vibraphone Soft Mallets
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Xylophone Hard Mallets
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Xylophone Medium Mallets
+  measuring octaves: VCSL/Idiophones/Struck Idiophones/Xylophone Soft Mallets
+  measuring octaves: VSCO 2 CE/Brass/F Horn mute
+  measuring octaves: VSCO 2 CE/Brass/F Horn stac
+  measuring octaves: VSCO 2 CE/Brass/F Horn sus
+  measuring octaves: VSCO 2 CE/Brass/OldTrombone Short
+  measuring octaves: VSCO 2 CE/Brass/OldTrombone Sustain
+  measuring octaves: VSCO 2 CE/Brass/OldTrombone Vibrato
+  measuring octaves: VSCO 2 CE/Brass/Tenor Trombone stac
+  measuring octaves: VSCO 2 CE/Brass/Tenor Trombone sus
+  measuring octaves: VSCO 2 CE/Brass/Tenor Trombone vib
+  measuring octaves: VSCO 2 CE/Brass/Trumpet harmonM-sus
+  measuring octaves: VSCO 2 CE/Brass/Trumpet stac
+  measuring octaves: VSCO 2 CE/Brass/Trumpet straightM-sus
+  measuring octaves: VSCO 2 CE/Brass/Trumpet sus
+  measuring octaves: VSCO 2 CE/Brass/Trumpet susvib
+  measuring octaves: VSCO 2 CE/Brass/Tuba stac
+  measuring octaves: VSCO 2 CE/Brass/Tuba sus
+  measuring octaves: VSCO 2 CE/Keys/Upright Nr1 -
+  measuring octaves: VSCO 2 CE/Percussion/Glock -
+  measuring octaves: VSCO 2 CE/Percussion/Marimba -
+  measuring octaves: VSCO 2 CE/Percussion/Xylo -
+  measuring octaves: VSCO 2 CE/Strings/Cello Section pizzT
+  measuring octaves: VSCO 2 CE/Strings/Cello Section spic
+  measuring octaves: VSCO 2 CE/Strings/Cello Section susvib
+  measuring octaves: VSCO 2 CE/Strings/Cello Section trem
+  measuring octaves: VSCO 2 CE/Strings/Harp -
+  measuring octaves: VSCO 2 CE/Strings/Solo Contrabass Pizz
+  measuring octaves: VSCO 2 CE/Strings/Solo Contrabass Spic
+  measuring octaves: VSCO 2 CE/Strings/Solo Contrabass SusNV
+  measuring octaves: VSCO 2 CE/Strings/Solo Contrabass SusVib
+  measuring octaves: VSCO 2 CE/Strings/Solo Contrabass Trem
+  measuring octaves: VSCO 2 CE/Strings/Solo Violin Arco Vib
+  measuring octaves: VSCO 2 CE/Strings/Solo Violin Pizz
+  measuring octaves: VSCO 2 CE/Strings/Solo Violin Trem
+  measuring octaves: VSCO 2 CE/Strings/Solo Violin spic
+  measuring octaves: VSCO 2 CE/Strings/Viola Section pizz
+  measuring octaves: VSCO 2 CE/Strings/Viola Section spic
+  measuring octaves: VSCO 2 CE/Strings/Viola Section susvib
+  measuring octaves: VSCO 2 CE/Strings/Viola Section trem
+  measuring octaves: VSCO 2 CE/Strings/Violin Section Pizz
+  measuring octaves: VSCO 2 CE/Strings/Violin Section Spic
+  measuring octaves: VSCO 2 CE/Strings/Violin Section Trem
+  measuring octaves: VSCO 2 CE/Strings/Violin Section susVib
+  measuring octaves: VSCO 2 CE/Woodwinds/Bassoon stac
+  measuring octaves: VSCO 2 CE/Woodwinds/Bassoon sus
+  measuring octaves: VSCO 2 CE/Woodwinds/Bassoon vib
+  measuring octaves: VSCO 2 CE/Woodwinds/Clarinet stac
+  measuring octaves: VSCO 2 CE/Woodwinds/Clarinet susLong
+  measuring octaves: VSCO 2 CE/Woodwinds/Flute expvib
+  measuring octaves: VSCO 2 CE/Woodwinds/Flute stac
+  measuring octaves: VSCO 2 CE/Woodwinds/Flute susNV
+  measuring octaves: VSCO 2 CE/Woodwinds/Flute susvib
+  measuring octaves: VSCO 2 CE/Woodwinds/Oboe Stacc
+  measuring octaves: VSCO 2 CE/Woodwinds/Oboe Sus
+  measuring octaves: VSCO 2 CE/Woodwinds/Oboe Vib
+  measuring octaves: VSCO 2 CE/Woodwinds/Piccolo Stac
+  measuring octaves: VSCO 2 CE/Woodwinds/Piccolo Sus
+
+4221 playable note samples, 63 instruments
+
+bell    VCSL/Chordophones/Zithers/Psaltery, Bowed and Plucked    11 notes  70..90  biggest gap 2
+bell    VCSL/Idiophones/Friction Idiophones/Wine Glasses          4 notes  75..86  biggest gap 4
+bell    VCSL/Idiophones/Plucked Idiophones/Kalimba, Kenya        11 notes  59..83  biggest gap 3
+bell    VCSL/Idiophones/Plucked Idiophones/Kalimba, Tanzania     25 notes  43..97  biggest gap 5
+bell    ed Idiophones/Mbira Mavembe (Gandanga), Zimbabwe, Low G  22 notes  46..81  biggest gap 2
+bell     Idiophones/Mbira dzaVadzimu Nyamaropa, Zimbabwe, Low B  22 notes  46..85  biggest gap 5
+bell    nes/Plucked Idiophones/Nyunga Nyunga, Mozambique, Low F  14 notes  53..77  biggest gap 4
+bell    VCSL/Idiophones/Struck Idiophones/Balafon                 6 notes  61..89  biggest gap 7
+bell    VCSL/Idiophones/Struck Idiophones/Glockenspiel            7 notes  79..108  biggest gap 7
+bell    VCSL/Idiophones/Struck Idiophones/Hand Chimes            19 notes  60..96  biggest gap 3
+bell    VCSL/Idiophones/Struck Idiophones/Marimba                10 notes  41..96  biggest gap 7
+bell    VCSL/Idiophones/Struck Idiophones/Tubular Bells 1         9 notes  60..76  biggest gap 2
+bell    VCSL/Idiophones/Struck Idiophones/Tubular Bells 2        11 notes  60..77  biggest gap 2
+bell    VCSL/Idiophones/Struck Idiophones/Tubular Glockenspiel    9 notes  79..93  biggest gap 2
+bell    VCSL/Idiophones/Struck Idiophones/Vibraphone             11 notes  53..88  biggest gap 4
+bell    VCSL/Idiophones/Struck Idiophones/Xylophone               8 notes  67..108  biggest gap 7
+bell    VSCO 2 CE/Percussion/Glock                                6 notes  79..108  biggest gap 7
+bell    VSCO 2 CE/Percussion/Marimba                             10 notes  41..96  biggest gap 7
+bell    VSCO 2 CE/Percussion/Xylo                                 8 notes  67..108  biggest gap 7
+brass   VSCO 2 CE/Brass/F Horn                                   15 notes  33..77  biggest gap 5
+brass   VSCO 2 CE/Brass/OldTrombone                              16 notes  41..67  biggest gap 2
+brass   VSCO 2 CE/Brass/Tenor Trombone                           17 notes  34..65  biggest gap 3
+brass   VSCO 2 CE/Brass/Trumpet                                  14 notes  53..84  biggest gap 4
+brass   VSCO 2 CE/Brass/Tuba                                      9 notes  29..62  biggest gap 5
+guitar  VCSL/Chordophones/Composite Chordophones/Concert Harp    23 notes  28..101  biggest gap 4
+guitar  VCSL/Chordophones/Composite Chordophones/Folk Harp       29 notes  36..92  biggest gap 2
+guitar  VCSL/Chordophones/Composite Chordophones/Strumstick      19 notes  50..81  biggest gap 2
+guitar  VCSL/Chordophones/Zithers/Dan Tranh                      16 notes  47..83  biggest gap 3
+guitar  VSCO 2 CE/Strings/Harp                                   23 notes  28..101  biggest gap 4
+organ   VCSL/Aerophones/Edge-blown Aerophones/Pipe Organ         25 notes  24..96  biggest gap 3
+organ   VCSL/Aerophones/Edge-blown Aerophones/Renaissance Organ  33 notes  36..100  biggest gap 2
+piano   VCSL/Chordophones/Zithers/Grand Piano, Kawai             38 notes  22..108  biggest gap 3
+piano   VCSL/Chordophones/Zithers/Grand Piano, Kawai - Legacy    19 notes  24..108  biggest gap 7
+piano   VCSL/Chordophones/Zithers/Grand Piano, Steinway B        42 notes  22..104  biggest gap 2
+piano   VCSL/Chordophones/Zithers/Harpsichord, English           28 notes  34..88  biggest gap 2
+piano   VCSL/Chordophones/Zithers/Harpsichord, Flemish           38 notes  30..96  biggest gap 2
+piano   VCSL/Chordophones/Zithers/Harpsichord, French            28 notes  26..84  biggest gap 6
+piano   VCSL/Chordophones/Zithers/Harpsichord, Italian           32 notes  30..83  biggest gap 2
+piano   VCSL/Chordophones/Zithers/Harpsichord, Unk               61 notes  29..89  biggest gap 1
+piano   VCSL/Chordophones/Zithers/Upright Piano, Knight          45 notes  21..108  biggest gap 2
+piano   VCSL/Chordophones/Zithers/Upright Piano, Yamaha          13 notes  24..96  biggest gap 7
+piano   VSCO 2 CE/Keys/Upright Nr1                               14 notes  24..103  biggest gap 7
+string  VSCO 2 CE/Strings/Cello Section                          14 notes  36..77  biggest gap 4
+string  VSCO 2 CE/Strings/Solo Contrabass                        14 notes  28..59  biggest gap 4
+string  VSCO 2 CE/Strings/Solo Violin                            15 notes  55..96  biggest gap 4
+string  VSCO 2 CE/Strings/Viola Section                          13 notes  48..86  biggest gap 4
+string  VSCO 2 CE/Strings/Violin Section                         11 notes  55..86  biggest gap 4
+synth   VCSL/Electrophones/TX81Z/Clavisynth                      19 notes  36..108  biggest gap 4
+synth   VCSL/Electrophones/TX81Z/FM Piano                        19 notes  24..96  biggest gap 4
+synth   VCSL/Electrophones/TX81Z/Piano 1                         22 notes  24..108  biggest gap 4
+wood    /Aerophones/Edge-blown Aerophones/Baroque Alto Recorder  13 notes  65..88  biggest gap 2
+wood    /Aerophones/Edge-blown Aerophones/Baroque Bass Recorder  21 notes  53..77  biggest gap 2
+wood    rophones/Edge-blown Aerophones/Baroque Soprano Recorder  13 notes  72..96  biggest gap 3
+wood    Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder  18 notes  60..84  biggest gap 2
+wood    VCSL/Aerophones/Edge-blown Aerophones/Ocarina, Small     15 notes  81..96  biggest gap 2
+wood    VCSL/Aerophones/Edge-blown Aerophones/Ocarina, Typical   13 notes  69..85  biggest gap 2
+wood    VCSL/Aerophones/Reed Aerophones/Saxello                  10 notes  58..88  biggest gap 4
+wood    VCSL/Aerophones/Reed Aerophones/Tenor Saxophone          27 notes  44..88  biggest gap 2
+wood    VSCO 2 CE/Woodwinds/Bassoon                              20 notes  34..75  biggest gap 3
+wood    VSCO 2 CE/Woodwinds/Clarinet                             12 notes  50..90  biggest gap 5
+wood    VSCO 2 CE/Woodwinds/Flute                                10 notes  60..96  biggest gap 5
+wood    VSCO 2 CE/Woodwinds/Oboe                                  9 notes  58..89  biggest gap 5
+wood    VSCO 2 CE/Woodwinds/Piccolo                               5 notes  79..103  biggest gap 7
+    return self.router.on_event(event_type)
+
+sound_engine/server.py:49
+  /Users/johnsuhr/Desktop/Homeroom Studio/sound_engine/server.py:49: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_audio_quality.py::test_real_beats_are_not_mono_or_silent - ...
+1 failed, 1250 passed, 2 skipped, 4 warnings in 698.13s (0:11:38)
