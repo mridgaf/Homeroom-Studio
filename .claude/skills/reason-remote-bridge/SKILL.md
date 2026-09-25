@@ -26,7 +26,10 @@ Reason REQUIRES `remote_supported_control_surfaces()` to return a table with:
 - `remote_init()`
 - `remote.define_items` — 10 buttons + 48 knobs + one `Device` text item
 - `remote.define_auto_inputs` —
-  - buttons: CC 20–29 on any channel, as 7f=press / 00=release **pairs**
+  - buttons: CC 20–29 on any channel, ONE line each, factory style:
+    `{pattern="b? 16 xx", name="Play"}`. **Do not go back to 7f/00 pairs with
+    `value="1"`/`value="0"`** — that form loaded without error but Reason ignored
+    every button (Play, Stop, Record all dead). Fixed and proven 2026-09-25 night 2.
   - knobs: CC 30–77, `input="value", min=0, max=127`, ONE line each
     (`{pattern="b? 1e xx", name="Knob 1"}`) — no press/release pair
   - `Device` has `output="text"` and NO input: it is report-only
@@ -168,17 +171,24 @@ Rules, each found by a step failing:
 1. **The effect needs its own sequencer track first.** Right-click the panel →
    "Create Track for <name>". With no track, the knob moves and records NOTHING
    (take 1). With the track (it arrives record-armed), the lane records (take 2).
-2. **Transport over the bridge is UNPROVEN and did not work.** `tap("record")`
-   did not start Reason recording, though the knob moved in the same run. Start
-   recording with Reason's own record button (or fix/verify the transport
-   scope first). Do not tell him the bridge can start recording.
+2. **Transport over the bridge WORKS (fixed 2026-09-25, night 2).** The
+   buttons were dead because of the 7f/00 pair lines (see the codec section).
+   After switching to factory-style `xx` lines + a Reason restart: bridge Play
+   started playback, double Stop returned to bar 1, and bridge Record + knob
+   sweeps recorded lanes. `multi_knob_test.py` in the test folder does it.
 3. The lock item is labelled **"Lock ReasonVoice ReasonVoice 2 to This Device"**
    in the right-click menu. A checkmark confirms it.
 4. **Scripts that send CC must run on macOS, not in the Cowork Linux VM.**
    The VM has no IAC port. Launch a `.command` file from Finder (the test used
    `Run Sweep Only.command`, `NO_TRANSPORT=1`).
-5. **Only one knob on one device is proven.** Other mapped knobs should behave
-   the same way. Say "should", not "does", until each one is tested.
+5. **Proven knobs (lanes recorded via bridge Record, 2026-09-25):**
+   Scream 4 — Damage Control, Parameter 1, Cut Lo, Body Resonance;
+   RV7000 — Decay, HF Damp, Dry/Wet; MClass Compressor — Threshold, Ratio,
+   Attack; Kong — Drum 1 Level; Redrum — Drum 1 Level/Pitch/Length/Pan;
+   Dr.REX — Filter Freq/Filter Res/Loop Level.
+   **Kong Drum 1 Pitch Offset / Decay Offset did NOT record** (run twice; Reason
+   reported a value, no lane appeared). Cause unknown — don't promise Kong
+   pitch/decay automation until solved. Thor/NN-XT/Europa have no bridge knobs.
 
 Working pipeline for "build me lanes + effects + automation":
 MIDI file (notes, tempo, one track per part) → pre-wired Combinator patch via

@@ -23,10 +23,10 @@ MAP = REMOTE / "ReasonVoice.remotemap"
 def _cc_map_from_lua():
     """{'patch_next': 20, ...} as the .lua codec actually declares it.
 
-    Each command has TWO auto-input lines -- press and release:
-        {pattern="b? 14 7f", name="Patch Next", value="1"}
-        {pattern="b? 14 00", name="Patch Next", value="0"}
-    Both must carry the same CC. Collecting a set rather than overwriting is the
+    One auto-input line per command, factory style (2026-09-25: the old
+    7f/00 press/release pairs loaded silently but Reason ignored them):
+        {pattern="b? 14 xx", name="Patch Next"}
+    If pairs ever come back, both lines must carry the same CC. Collecting a set rather than overwriting is the
     whole point: an earlier version of this test kept only the last line, so
     editing just the press line slipped through it.
     """

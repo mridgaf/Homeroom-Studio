@@ -96,16 +96,26 @@ function remote_init()
     g_device_text = ""
 
     local inputs={
-        {pattern="b? 14 xx", name="Patch Next"},
-        {pattern="b? 15 xx", name="Patch Prev"},
-        {pattern="b? 16 xx", name="Play"},
-        {pattern="b? 17 xx", name="Stop"},
-        {pattern="b? 18 xx", name="Record"},
-        {pattern="b? 19 xx", name="Loop"},
-        {pattern="b? 1a xx", name="Track Prev"},
-        {pattern="b? 1b xx", name="Track Next"},
-        {pattern="b? 1c xx", name="Undo"},
-        {pattern="b? 1d xx", name="Redo"},
+        {pattern="b? 14 7f", name="Patch Next", value="1"},
+        {pattern="b? 14 00", name="Patch Next", value="0"},
+        {pattern="b? 15 7f", name="Patch Prev", value="1"},
+        {pattern="b? 15 00", name="Patch Prev", value="0"},
+        {pattern="b? 16 7f", name="Play", value="1"},
+        {pattern="b? 16 00", name="Play", value="0"},
+        {pattern="b? 17 7f", name="Stop", value="1"},
+        {pattern="b? 17 00", name="Stop", value="0"},
+        {pattern="b? 18 7f", name="Record", value="1"},
+        {pattern="b? 18 00", name="Record", value="0"},
+        {pattern="b? 19 7f", name="Loop", value="1"},
+        {pattern="b? 19 00", name="Loop", value="0"},
+        {pattern="b? 1a 7f", name="Track Prev", value="1"},
+        {pattern="b? 1a 00", name="Track Prev", value="0"},
+        {pattern="b? 1b 7f", name="Track Next", value="1"},
+        {pattern="b? 1b 00", name="Track Next", value="0"},
+        {pattern="b? 1c 7f", name="Undo", value="1"},
+        {pattern="b? 1c 00", name="Undo", value="0"},
+        {pattern="b? 1d 7f", name="Redo", value="1"},
+        {pattern="b? 1d 00", name="Redo", value="0"},
         -- Knob k arrives on CC 29 + k; CC 30 is 0x1e. Knobs 1-16 keep the
         -- exact CCs they have always had. The FEEDBACK range moved (60-75 ->
         -- 78-125) to make room for knobs 17-48 going out on 46-77 -- the two

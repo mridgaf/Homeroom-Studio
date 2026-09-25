@@ -7657,4 +7657,22 @@ just not loaded by default.
 - Results: (1) MIDI CC74 imported as an alien clip on the ID8 track — confirms the manual. (2) Bridge `tap("record")` did NOT start the transport; knob still moved. Transport buttons are UNPROVEN. (3) With Reason's record button: no lane while Scream 4 had no track. (4) After "Create Track for EasyFuzz": Damage Control lane recorded, matching the up/down sweep. Saved: experiments/automation-test-2026-09-25/automation test 09 25 26.reason.
 - Rule: an effect needs its own sequencer track before remote knob moves record as automation.
 - Status: lane PROVEN on screen; sound not checked. Transport-over-bridge is still open.
-- Outcome: —
+- Outcome: transport fixed and proven the same night — see next entry.
+
+### 2026-09-25 Bridge buttons were ALL dead — fixed (one `xx` line per button)
+- Context: owner asked to fix the bridge's Record button. Test showed Play did nothing either, so every button was dead; knobs worked.
+- Cause: `.lua` auto-inputs used press/release pairs (`b? 18 7f` value="1" / `b? 18 00` value="0"). Reason loaded it silently and ignored them. Reason's own Launchkey MK3 codec uses one `xx` line per button.
+- Change: 10 button lines -> `{pattern="b? NN xx", name="..."}`. Backups of repo + installed .lua in `remote/_installed_backup_2026-09-10/`. Installed only the .lua (not install.sh — it rebuilds the venv). Reason quit + reopened; his unsaved "untitled 4" saved first as a copy in experiments/automation-test-2026-09-25/.
+- Proven on screen: bridge Play played; Stop x2 back to bar 1; bridge Record + `multi_knob_test.py 3 5 12` recorded 3 new Scream 4 lanes (Parameter 1, Cut Lo, Body Resonance). test_remote_bridge 16/16.
+- Not done (proposal, owner's call): Combinator Rotary 1-16 are not mapped in ReasonVoice.remotemap. Mapping them would let the bridge automate ANY parameter inside a Combi.
+- Also proven after owner chose "test other devices first": RV7000 Decay/HF Damp/Dry-Wet and MClass Compressor Threshold/Ratio/Attack — 6 lanes.
+- Instruments (owner's pick next): Redrum 4/4 and Dr.REX 3/3 knobs recorded. Kong Drum 1 Level recorded; Kong Drum 1 Pitch Offset and Decay Offset did NOT (twice). Cause unknown, open.
+- Status: confirmed (screen). Sound not checked.
+
+### 2026-09-25 device_refs: 42 new device guides from the Reason 12.7 manual
+- Owner asked Claude to learn the Reason effects/instruments overnight, skipping ones already known. Existing 14 guides untouched.
+- New: the-echo, mclass-equalizer/-stereo-imager/-maximizer, combinator, nn-xt, nn-19, malstrom, thor, europa, grain, mimic, channel-eq, channel-dynamics, master-bus-compressor, rv-7, ddl-1, d-11, ecf-42, cf-101, ph-90, un-16, comp-01, peq-2, pulveriser, synchronous, audiomatic, neptune, bv512, quartet, sweeper, monotone, id8, rytmik, radical-piano, klang, pangea, humana, pulsar, rpg-8, matrix, mixer-14-2.
+- Every bolded "Key controls" name checked against docs/reason/remote-vocab.json (scratch checker, 0 misses). Each cites manual chapter + pages.
+- Gaps named in the files, not guessed: Rytmik has no Remote names; Humana's "Filter 1/2" map names are unexplained by the manual. Synchronous spells `Delay  Amount` with two spaces.
+- Status: open — written from the manual, not heard.
+
