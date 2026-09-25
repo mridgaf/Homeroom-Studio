@@ -7658,3 +7658,11 @@ just not loaded by default.
 - Rule: an effect needs its own sequencer track before remote knob moves record as automation.
 - Status: lane PROVEN on screen; sound not checked. Transport-over-bridge is still open.
 - Outcome: —
+
+### 2026-09-25 Synonyms on for all 41 + wood/bell/organ families added everywhere
+- Context: owner: "Retune all DJ and legends with new synonyms and instruments". Clickable answers: scope = 11 crew entries (9 DJs + Half Light, Fast Water) + 13 Legends + all 18 genres; synonyms = "switch on + fix tags"; instruments = "add the new families everywhere" (wood, bell, organ, small chance, no research per person).
+- Change: `flavor_match: true` on every preset in crew/legends/genres configs (was on 8 genres only). Each missing family of wood/bell/organ appended to `signature.chord_source` at weight 5% of that preset's existing total (min 0.1), so each new family is ~4-5% of beats. Chiptune (synth-only) and New Math got them too, as he picked "everywhere". Backups: `*.pre-synonyms-families-2026-09-25.json` (all three).
+- NOT done: tag fixing. It needs the real file names on TBOTC 3; this session was in a Linux sandbox with no drive. Run `legend_newbuild.py --tags` (and `--genres --tags`) on the Mac and fix dead/wrong words. The crew DJs have no audit command.
+- Side effect to know about: evolution.py `chord_voice` moves 0.5-1.0 weight between a DJ's OWN voices. The new families are now "own" voices, so a 0.25 wood can become 1.25 in one day.
+- Tests (sandbox, no drive/mac deps): test_crew/evolution/genres/multisample: 165 pass / 7 fail, IDENTICAL list before and after the change (the 7 fail on missing modules/drive). Full suite not run - needs the Mac.
+- Status: open - not run on the Mac, not rendered, not heard.

@@ -420,14 +420,6 @@
     [
      "loop",
      2
-    ],
-    [
-     "wood",
-     0.25
-    ],
-    [
-     "bell",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -441,8 +433,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Crunk": {
   "num": 23,
@@ -830,18 +821,6 @@
     [
      "horns",
      2
-    ],
-    [
-     "wood",
-     0.25
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
     ]
    ],
    "chord_rhythm": "arp",
@@ -1342,14 +1321,6 @@
     [
      "organ",
      2
-    ],
-    [
-     "wood",
-     0.35
-    ],
-    [
-     "bell",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -1363,8 +1334,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Houston Screw": {
   "num": 25,
@@ -1730,24 +1700,11 @@
     [
      "loop",
      2
-    ],
-    [
-     "wood",
-     0.3
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
     ]
    ],
    "chord_rhythm": "sustain",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Emo Hip Hop": {
   "num": 26,
@@ -2137,18 +2094,6 @@
     [
      "piano",
      1
-    ],
-    [
-     "wood",
-     0.25
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -2548,14 +2493,6 @@
     [
      "organ",
      1
-    ],
-    [
-     "wood",
-     0.3
-    ],
-    [
-     "bell",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -3050,18 +2987,6 @@
     [
      "guitar",
      1
-    ],
-    [
-     "wood",
-     0.4
-    ],
-    [
-     "bell",
-     0.4
-    ],
-    [
-     "organ",
-     0.4
     ]
    ],
    "chord_rhythm": [
@@ -3497,20 +3422,11 @@
     [
      "loop",
      1
-    ],
-    [
-     "wood",
-     0.3
-    ],
-    [
-     "bell",
-     0.3
     ]
    ],
    "chord_rhythm": "sustain",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Wonky": {
   "num": 30,
@@ -3945,18 +3861,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "wood",
-     0.3
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -3970,8 +3874,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Trip Hop": {
   "num": 31,
@@ -4393,14 +4296,6 @@
     [
      "loop",
      1
-    ],
-    [
-     "wood",
-     0.35
-    ],
-    [
-     "bell",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -4414,8 +4309,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Baltimore Club": {
   "num": 32,
@@ -4857,18 +4751,6 @@
     [
      "horns",
      2
-    ],
-    [
-     "wood",
-     0.35
-    ],
-    [
-     "bell",
-     0.35
-    ],
-    [
-     "organ",
-     0.35
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5346,24 +5228,11 @@
     [
      "pluck",
      1
-    ],
-    [
-     "wood",
-     0.2
-    ],
-    [
-     "bell",
-     0.2
-    ],
-    [
-     "organ",
-     0.2
     ]
    ],
    "chord_rhythm": "arp",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "New Orleans Bounce": {
   "num": 34,
@@ -5776,20 +5645,11 @@
     [
      "synth",
      1
-    ],
-    [
-     "wood",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
     ]
    ],
    "chord_rhythm": "arp",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "G-Funk": {
   "num": 35,
@@ -6222,14 +6082,6 @@
     [
      "loop",
      1
-    ],
-    [
-     "wood",
-     0.35
-    ],
-    [
-     "bell",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -6720,18 +6572,6 @@
     [
      "guitar",
      1
-    ],
-    [
-     "wood",
-     0.3
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -6745,8 +6585,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Detroit": {
   "num": 37,
@@ -7175,14 +7014,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "wood",
-     0.4
-    ],
-    [
-     "bell",
-     0.4
     ]
    ],
    "chord_rhythm": [
@@ -7604,14 +7435,6 @@
     [
      "bell",
      2
-    ],
-    [
-     "wood",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -7625,8 +7448,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Chiptune": {
   "num": 39,
@@ -8037,18 +7859,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "wood",
-     0.1
-    ],
-    [
-     "bell",
-     0.1
-    ],
-    [
-     "organ",
-     0.1
     ]
    ],
    "chord_rhythm": "arp",
