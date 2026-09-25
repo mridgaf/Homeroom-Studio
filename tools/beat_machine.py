@@ -2714,18 +2714,31 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     bass_idx = None if (bass808 or not bass_line) else [
         e for e in instrument_sampler.scan_bass()
         if "808" not in Path(e["path"]).name]
+    bass_oct = 0
     if bass_idx:
         roots = [chord["notes"][0] - 12 for _i, chord, _s, _d in slots]
         mid = (min(roots) + max(roots)) / 2.0
+
+        def _oct(e):
+            # whole octaves that bring the line's middle to this file
+            return int(round((e["note"] - mid) / 12.0))
+
+        def _gap(e):
+            return abs(e["note"] - (mid + 12 * _oct(e)))
+        # EVERY bass file is a candidate (owner 2026-09-25: "the same
+        # instrument almost every time"). Was: only files within 4 notes
+        # of the line's pitch -- his bass files sit at notes 24-31 and the
+        # line near 36-45, so 1-2 files ever qualified. Now the LINE moves
+        # by whole octaves to meet the file (same notes, other octave).
         near = [e for e in bass_idx
-                if abs(e["note"] - mid) <= instrument_sampler.MAX_SHIFT]
-        bass_idx = [random.Random(variant * 29 + 3).choice(near) if near
-                    else min(bass_idx, key=lambda e: abs(e["note"] - mid))]
+                if _gap(e) <= instrument_sampler.MAX_SHIFT] or bass_idx
+        pick = random.Random(variant * 29 + 3).choice(near)
+        bass_idx, bass_oct = [pick], 12 * _oct(pick)
         for i, chord, start_bar, dur in slots:
             bused = []
             a = instrument_sampler.voice_note(
-                bass_idx, chord["notes"][0] - 12, dur, cache=bcache,
-                used=bused)
+                bass_idx, chord["notes"][0] - 12 + bass_oct, dur,
+                cache=bcache, used=bused)
             if a is None:
                 bass_beds, bass_files = {}, {}
                 break

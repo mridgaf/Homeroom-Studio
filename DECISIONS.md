@@ -7684,3 +7684,18 @@ just not loaded by default.
 - Tests (sandbox, no drive/mac deps): test_crew/evolution/genres/multisample: 165 pass / 7 fail, IDENTICAL list before and after the change (the 7 fail on missing modules/drive). Full suite not run - needs the Mac.
 - Status: open - not run on the Mac, not rendered, not heard.
 - UPDATE same day, owner: "all of the instruments, not just wood bell organ"; "alphabetically" = work through them A-Z (his clickable answer). Every preset now has all 11 instrument families (bell, choir, guitar, horns, organ, pad, piano, pluck, strings, synth, wood); each missing one at 5% of that preset's ORIGINAL total (min 0.1). Loop/MIDI only where they already were. Combined result: new instruments now voice 26-33% of beats per preset (Chiptune 50%, as its original list was synth alone). Same 165/7 sandbox test result before and after.
+
+### 2026-09-25 Bass line was the same file almost every beat — fixed (not rendered)
+- Context: owner: "the bass line instrument... sounds like the same instrument almost every time"; newer instruments not reaching beats; duck happens "when there is not a kick".
+- Cause (measured, real recipes): only files within 4 notes of the line's pitch could play it. His bass files sit at notes 24-31, the line near 36-45, so 1-3 files ever qualified. `UNISON_BASS_Commas` played 29 of ~41 recent bass lines.
+- Change: `beat_machine._build_chords` — every non-808 bass file is a candidate; the line moves by whole octaves to meet the chosen file. Simulated 200 beats: 8 -> 37 different files, top file 121/200 -> 10/200. Bass tests 30/30. MIDI bass note NOT octave-shifted (audio only).
+- Instruments: since VCSL/VSCO arrived (Sep 24 18:12) 55 beats; 21 of 63 note-by-note instruments used. wood 0/13, bell 2/19, VSCO strings 0/5 (backup-only by design). Cause is odds, not a bug: new families are 5% weight each, then split across many instruments. Asked owner whether to raise.
+- Duck: owner said "parts of the beat where the kick drops out". Found 63 ghost kicks (".", -12 dB) in 83 recent beats, 9 beats with bars of ONLY ghosts, each ducking full depth. crew.py: `duck_ons` = kick hits >= half the loudest kick; used by the stems, mix bus AND the peak governor's envelope (all three paths).
+- Families: owner picked "make all families equal". Every preset's 11 instrument families now share one weight = the mean of their old weights (family total unchanged; loop/midi untouched). Backups `*.pre-equal-families-2026-09-25.json`. Note: evolution.py `chord_voice` will un-equalize them a little each day.
+- New HARD RULE (all projects, in ~/.claude/CLAUDE.md): never render unless he asks.
+- Tests: full suite 1251 passed, 3 skipped.
+- Status: open — not rendered, not heard.
+
+### 2026-09-25 NEXT SESSION: one lane, several instruments (beat 2876)
+- Owner: in beat 2876 the "strings stab" lane — and many others he's rendered — reaches for a DIFFERENT instrument within the same lane. He doesn't like it. Start there: read 2876's recipe `harmony.voice_files`, find why one lane mixes instruments, agree a fix with him.
+- Status: open.

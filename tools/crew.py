@@ -1705,6 +1705,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     onsets = {k: [x for x in v if x < end] for k, v in onsets.items()}
     events = {k: [(t, v) for t, v in evs if t * SR < end]
               for k, evs in events.items()}
+    # GHOST KICKS DON'T PUMP (owner 2026-09-25: "the ducking happens even
+    # when there is not a kick drum"). A ghost kick (".", -12 dB) ducked the
+    # mix as hard as a full hit, so a bar of only ghosts pumped with no kick
+    # you could hear. Only hits at least half the loudest kick's level duck.
+    _kv = [v for _t, v in events.get("kick", [])]
+    duck_ons = [pos for pos, v in zip(onsets.get("kick", []), _kv)
+                if v >= 0.5 * max(_kv)] if _kv else []
     # loop_side was built at the same padded length n as bufs (above),
     # before this fold/trim -- it has to go through the same trim to
     # end so it matches bufs[lane]'s length wherever it's added into
@@ -2134,7 +2141,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             _L = int(_REL * 3 * SR)
             g = np.ones(end + _L)
             _dip = 1 - depth * np.exp(-np.arange(_L) / (_REL * SR))
-            for _pos in onsets["kick"]:
+            for _pos in duck_ons:
                 if _pos < end:
                     g[_pos:_pos + _L] = np.minimum(g[_pos:_pos + _L],
                                                    _dip[:len(g) - _pos])
@@ -2144,7 +2151,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         # The peak governor needs BOTH envelopes, or it misjudges the sub's
         # level by the difference between the two depths.
         _duck_envs = {}
-        if onsets.get("kick"):
+        if duck_ons:
             for _d in {p["sidechain"], _sub_sc}:
                 if _d > 0:
                     _duck_envs[_d] = _mk_duck_env(_d)
@@ -2326,8 +2333,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             # kick while the governor read it as level. Three paths, one
             # depth function.
             _d = _lane_sc(lane)
-            if _d > 0 and lane != "kick" and onsets.get("kick"):
-                sL, sR = duck(sL, sR, onsets["kick"], depth=_d, loop=True)
+            if _d > 0 and lane != "kick" and duck_ons:
+                sL, sR = duck(sL, sR, duck_ons, depth=_d, loop=True)
             stems[lane] = (sL, sR)
 
     # stereo mix, kick kept aside so the duck breathes around it
@@ -2354,12 +2361,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             oR += bufs[lane] * gr
             if sd is not None:
                 oL, oR = oL + sd, oR - sd
-    if onsets.get("kick"):
+    if duck_ons:
         if p["sidechain"] > 0:
-            oL, oR = duck(oL, oR, onsets["kick"], depth=p["sidechain"],
+            oL, oR = duck(oL, oR, duck_ons, depth=p["sidechain"],
                           loop=True)
         if _sub_sc > 0:
-            bL, bR = duck(bL, bR, onsets["kick"], depth=_sub_sc, loop=True)
+            bL, bR = duck(bL, bR, duck_ons, depth=_sub_sc, loop=True)
     L, R = kL + oL + bL, kR + oR + bR
 
     if not clean_mix and p["vinyl"]:
