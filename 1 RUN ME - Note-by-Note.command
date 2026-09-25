@@ -2,6 +2,8 @@
 # Adds the note-by-note instruments (VCSL + VSCO) to the Beat Machine.
 # Double-click. Safe: it stops before changing anything if the patch doesn't fit.
 cd "$HOME/Desktop/Homeroom Studio" || { echo "Homeroom Studio folder not found"; read -n1; exit 1; }
+exec > >(tee "Note-by-Note Log.txt") 2>&1
+echo "Started $(date)"
 PATCH="$(dirname "$0")/note-by-note-instruments.patch"
 [ -f "$PATCH" ] || PATCH="./note-by-note-instruments.patch"
 if [ ! -d "/Volumes/TBOTC 3/Sample Packs/BOTC Multisampled Instruments" ]; then
