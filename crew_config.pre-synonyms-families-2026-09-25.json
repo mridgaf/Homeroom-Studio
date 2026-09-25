@@ -444,46 +444,6 @@
     [
      "loop",
      2
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "guitar",
-     0.25
-    ],
-    [
-     "horns",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "pluck",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
-    ],
-    [
-     "synth",
-     0.25
-    ],
-    [
-     "wood",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -528,8 +488,7 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "flavor_match": true
+  }
  },
  "Cutz": {
   "num": 2,
@@ -929,46 +888,6 @@
     [
      "loop",
      3.5
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "strings",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": "arp",
@@ -988,8 +907,7 @@
    "mid_q": 0.9,
    "high_db": 0.0,
    "high_hz": 8000.0
-  },
-  "flavor_match": true
+  }
  },
  "Crate Prophet": {
   "num": 3,
@@ -1449,42 +1367,6 @@
     [
      "piano",
      1
-    ],
-    [
-     "bell",
-     0.35
-    ],
-    [
-     "choir",
-     0.35
-    ],
-    [
-     "guitar",
-     0.35
-    ],
-    [
-     "organ",
-     0.35
-    ],
-    [
-     "pad",
-     0.35
-    ],
-    [
-     "pluck",
-     0.35
-    ],
-    [
-     "strings",
-     0.35
-    ],
-    [
-     "synth",
-     0.35
-    ],
-    [
-     "wood",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -1513,8 +1395,7 @@
    "mid_q": 0.9,
    "high_db": -1.5,
    "high_hz": 8000.0
-  },
-  "flavor_match": true
+  }
  },
  "Chrome Dial": {
   "num": 4,
@@ -1956,42 +1837,6 @@
     [
      "synth",
      2
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "guitar",
-     0.25
-    ],
-    [
-     "horns",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "piano",
-     0.25
-    ],
-    [
-     "pluck",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -2010,8 +1855,7 @@
    "note": 0.5,
    "feedback": 0.35,
    "mix": 0.2
-  },
-  "flavor_match": true
+  }
  },
  "Glass Cat": {
   "num": 5,
@@ -2447,42 +2291,6 @@
     [
      "pluck",
      2
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "guitar",
-     0.25
-    ],
-    [
-     "horns",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "piano",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
-    ],
-    [
-     "synth",
-     0.25
-    ],
-    [
-     "wood",
-     0.25
     ]
    ],
    "chord_rhythm": "arp",
@@ -2495,8 +2303,7 @@
    "lanes": [
     "chord"
    ]
-  },
-  "flavor_match": true
+  }
  },
  "Sunday Chop": {
   "num": 6,
@@ -2996,42 +2803,6 @@
     [
      "loop",
      1
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "strings",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -3053,8 +2824,7 @@
    "lanes": [
     "hat"
    ]
-  },
-  "flavor_match": true
+  }
  },
  "Night Metro": {
   "num": 7,
@@ -3475,42 +3245,6 @@
     [
      "midi",
      1
-    ],
-    [
-     "choir",
-     0.35
-    ],
-    [
-     "guitar",
-     0.35
-    ],
-    [
-     "horns",
-     0.35
-    ],
-    [
-     "organ",
-     0.35
-    ],
-    [
-     "piano",
-     0.35
-    ],
-    [
-     "pluck",
-     0.35
-    ],
-    [
-     "strings",
-     0.35
-    ],
-    [
-     "synth",
-     0.35
-    ],
-    [
-     "wood",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -3545,8 +3279,7 @@
    "keep": [
     "kick"
    ]
-  },
-  "flavor_match": true
+  }
  },
  "Rage Engine": {
   "num": 8,
@@ -3988,42 +3721,6 @@
     [
      "midi",
      2.0
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -4045,8 +3742,7 @@
    "note": 0.25,
    "feedback": 0.28,
    "mix": 0.16
-  },
-  "flavor_match": true
+  }
  },
  "New Math": {
   "num": 9,
@@ -4576,46 +4272,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "bell",
-     0.1
-    ],
-    [
-     "choir",
-     0.1
-    ],
-    [
-     "guitar",
-     0.1
-    ],
-    [
-     "horns",
-     0.1
-    ],
-    [
-     "organ",
-     0.1
-    ],
-    [
-     "pad",
-     0.1
-    ],
-    [
-     "piano",
-     0.1
-    ],
-    [
-     "pluck",
-     0.1
-    ],
-    [
-     "strings",
-     0.1
-    ],
-    [
-     "wood",
-     0.1
     ]
    ],
    "chord_rhythm": "arp",
@@ -4630,8 +4286,7 @@
    "lanes": [
     "hat"
    ]
-  },
-  "flavor_match": true
+  }
  },
  "Half Light": {
   "num": 10,
@@ -5166,38 +4821,6 @@
     [
      "organ",
      1
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "strings",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5210,8 +4833,7 @@
    "lanes": [
     "chord"
    ]
-  },
-  "flavor_match": true
+  }
  },
  "Fast Water": {
   "num": 11,
@@ -5488,38 +5110,6 @@
     [
      "bell",
      1.5
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5777,8 +5367,7 @@
    "lanes": [
     "hat"
    ]
-  },
-  "flavor_match": true
+  }
  },
  "_style_version": 6,
  "_style_lock": true

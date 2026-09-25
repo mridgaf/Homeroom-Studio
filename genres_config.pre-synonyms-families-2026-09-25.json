@@ -420,46 +420,6 @@
     [
      "loop",
      2
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "guitar",
-     0.25
-    ],
-    [
-     "horns",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "piano",
-     0.25
-    ],
-    [
-     "pluck",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
-    ],
-    [
-     "synth",
-     0.25
-    ],
-    [
-     "wood",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -473,8 +433,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Crunk": {
   "num": 23,
@@ -862,42 +821,6 @@
     [
      "horns",
      2
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "guitar",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "piano",
-     0.25
-    ],
-    [
-     "pluck",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
-    ],
-    [
-     "wood",
-     0.25
     ]
    ],
    "chord_rhythm": "arp",
@@ -1398,38 +1321,6 @@
     [
      "organ",
      2
-    ],
-    [
-     "bell",
-     0.35
-    ],
-    [
-     "choir",
-     0.35
-    ],
-    [
-     "horns",
-     0.35
-    ],
-    [
-     "pad",
-     0.35
-    ],
-    [
-     "piano",
-     0.35
-    ],
-    [
-     "pluck",
-     0.35
-    ],
-    [
-     "synth",
-     0.35
-    ],
-    [
-     "wood",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -1443,8 +1334,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Houston Screw": {
   "num": 25,
@@ -1810,52 +1700,11 @@
     [
      "loop",
      2
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": "sustain",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Emo Hip Hop": {
   "num": 26,
@@ -2245,42 +2094,6 @@
     [
      "piano",
      1
-    ],
-    [
-     "bell",
-     0.25
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "horns",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "pluck",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
-    ],
-    [
-     "synth",
-     0.25
-    ],
-    [
-     "wood",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -2680,38 +2493,6 @@
     [
      "organ",
      1
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "strings",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -3206,38 +2987,6 @@
     [
      "guitar",
      1
-    ],
-    [
-     "bell",
-     0.4
-    ],
-    [
-     "choir",
-     0.4
-    ],
-    [
-     "organ",
-     0.4
-    ],
-    [
-     "pad",
-     0.4
-    ],
-    [
-     "pluck",
-     0.4
-    ],
-    [
-     "strings",
-     0.4
-    ],
-    [
-     "synth",
-     0.4
-    ],
-    [
-     "wood",
-     0.4
     ]
    ],
    "chord_rhythm": [
@@ -3673,48 +3422,11 @@
     [
      "loop",
      1
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": "sustain",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Wonky": {
   "num": 30,
@@ -4149,38 +3861,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -4194,8 +3874,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Trip Hop": {
   "num": 31,
@@ -4617,42 +4296,6 @@
     [
      "loop",
      1
-    ],
-    [
-     "bell",
-     0.35
-    ],
-    [
-     "choir",
-     0.35
-    ],
-    [
-     "guitar",
-     0.35
-    ],
-    [
-     "horns",
-     0.35
-    ],
-    [
-     "pad",
-     0.35
-    ],
-    [
-     "piano",
-     0.35
-    ],
-    [
-     "pluck",
-     0.35
-    ],
-    [
-     "synth",
-     0.35
-    ],
-    [
-     "wood",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -4666,8 +4309,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Baltimore Club": {
   "num": 32,
@@ -5109,42 +4751,6 @@
     [
      "horns",
      2
-    ],
-    [
-     "bell",
-     0.35
-    ],
-    [
-     "choir",
-     0.35
-    ],
-    [
-     "guitar",
-     0.35
-    ],
-    [
-     "organ",
-     0.35
-    ],
-    [
-     "pad",
-     0.35
-    ],
-    [
-     "piano",
-     0.35
-    ],
-    [
-     "pluck",
-     0.35
-    ],
-    [
-     "strings",
-     0.35
-    ],
-    [
-     "wood",
-     0.35
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5622,48 +5228,11 @@
     [
      "pluck",
      1
-    ],
-    [
-     "bell",
-     0.2
-    ],
-    [
-     "choir",
-     0.2
-    ],
-    [
-     "guitar",
-     0.2
-    ],
-    [
-     "horns",
-     0.2
-    ],
-    [
-     "organ",
-     0.2
-    ],
-    [
-     "pad",
-     0.2
-    ],
-    [
-     "piano",
-     0.2
-    ],
-    [
-     "strings",
-     0.2
-    ],
-    [
-     "wood",
-     0.2
     ]
    ],
    "chord_rhythm": "arp",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "New Orleans Bounce": {
   "num": 34,
@@ -6076,44 +5645,11 @@
     [
      "synth",
      1
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "guitar",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pad",
-     0.3
-    ],
-    [
-     "piano",
-     0.3
-    ],
-    [
-     "strings",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": "arp",
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "G-Funk": {
   "num": 35,
@@ -6546,38 +6082,6 @@
     [
      "loop",
      1
-    ],
-    [
-     "bell",
-     0.35
-    ],
-    [
-     "choir",
-     0.35
-    ],
-    [
-     "guitar",
-     0.35
-    ],
-    [
-     "horns",
-     0.35
-    ],
-    [
-     "pad",
-     0.35
-    ],
-    [
-     "pluck",
-     0.35
-    ],
-    [
-     "strings",
-     0.35
-    ],
-    [
-     "wood",
-     0.35
     ]
    ],
    "chord_rhythm": [
@@ -7068,38 +6572,6 @@
     [
      "guitar",
      1
-    ],
-    [
-     "bell",
-     0.3
-    ],
-    [
-     "choir",
-     0.3
-    ],
-    [
-     "horns",
-     0.3
-    ],
-    [
-     "organ",
-     0.3
-    ],
-    [
-     "pluck",
-     0.3
-    ],
-    [
-     "strings",
-     0.3
-    ],
-    [
-     "synth",
-     0.3
-    ],
-    [
-     "wood",
-     0.3
     ]
    ],
    "chord_rhythm": [
@@ -7113,8 +6585,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Detroit": {
   "num": 37,
@@ -7543,34 +7014,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "bell",
-     0.4
-    ],
-    [
-     "choir",
-     0.4
-    ],
-    [
-     "guitar",
-     0.4
-    ],
-    [
-     "pad",
-     0.4
-    ],
-    [
-     "piano",
-     0.4
-    ],
-    [
-     "pluck",
-     0.4
-    ],
-    [
-     "wood",
-     0.4
     ]
    ],
    "chord_rhythm": [
@@ -7992,42 +7435,6 @@
     [
      "bell",
      2
-    ],
-    [
-     "choir",
-     0.25
-    ],
-    [
-     "guitar",
-     0.25
-    ],
-    [
-     "horns",
-     0.25
-    ],
-    [
-     "organ",
-     0.25
-    ],
-    [
-     "pad",
-     0.25
-    ],
-    [
-     "pluck",
-     0.25
-    ],
-    [
-     "strings",
-     0.25
-    ],
-    [
-     "synth",
-     0.25
-    ],
-    [
-     "wood",
-     0.25
     ]
    ],
    "chord_rhythm": [
@@ -8041,8 +7448,7 @@
     ]
    ],
    "chords_default": true
-  },
-  "flavor_match": true
+  }
  },
  "Chiptune": {
   "num": 39,
@@ -8453,46 +7859,6 @@
     [
      "synth",
      1
-    ],
-    [
-     "bell",
-     0.1
-    ],
-    [
-     "choir",
-     0.1
-    ],
-    [
-     "guitar",
-     0.1
-    ],
-    [
-     "horns",
-     0.1
-    ],
-    [
-     "organ",
-     0.1
-    ],
-    [
-     "pad",
-     0.1
-    ],
-    [
-     "piano",
-     0.1
-    ],
-    [
-     "pluck",
-     0.1
-    ],
-    [
-     "strings",
-     0.1
-    ],
-    [
-     "wood",
-     0.1
     ]
    ],
    "chord_rhythm": "arp",
