@@ -1131,9 +1131,16 @@ def test_no_lane_ever_combines_two_instruments(
         path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
         rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
         vfiles = rec["harmony"].get("voice_files", {})
+        part = {}
         for lane, files in vfiles.items():
             if beat_machine._CHORD_LANE.match(lane):
                 assert beat_machine._one_instrument(files), (lane, files)
+                # owner 2026-09-25: a part keeps ONE instrument across every
+                # chord, not a fresh pick per chord (chord0v1 == chord1v1)
+                v = lane.split("v")[1] if "v" in lane else "0"
+                part.setdefault(v, []).extend(files)
+        for v, files in part.items():
+            assert beat_machine._one_instrument(files), (v, files)
 
 
 def test_a_bass_line_is_one_sound_and_never_an_808(
