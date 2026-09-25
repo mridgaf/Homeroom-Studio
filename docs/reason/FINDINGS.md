@@ -127,6 +127,15 @@ Also unverified: whether Rack Extension scopes (`se.propellerheads.*`) behave th
 same as built-in device scopes in a hand-written map. The factory maps use both
 identically, which is good evidence, not proof.
 
+## Update 2026-09-25: automation recording proven
+
+A bridge knob sweep on a locked Scream 4 recorded as an automation lane, once
+the effect had its own sequencer track ("Create Track for <name>"). Transport
+buttons over the bridge (Record) did NOT start recording and remain unproven.
+Imported MIDI files: one ID8 track per part; CCs become "Controller #N" lanes,
+which are alien clips when the device lacks that control. Details:
+`experiments/automation-test-2026-09-25/RESULTS.md`, and the two Reason skills.
+
 ## Superseded
 
 The Reason 7 (2013) Help Files as a behaviour source, and this file's own original

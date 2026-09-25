@@ -7650,3 +7650,11 @@ just not loaded by default.
 - Change: `crew.LOW_END_LOUD_UNDER_DB = -4.0` (his number) — the low lanes' loudest 400 ms RMS, together, sits 4 dB under the kick's. In the true-levels branch of render_crew_beat; Loops page untouched. Owner scope: every beat. Plain RMS, not K-weighted (errs quieter on 808s).
 - Test: test_the_bass_sounds_quieter_than_the_kick (fails without the cap: +10.8 vs -4.0); loops test extended. test_low_end + test_crew 45/45. Full suite (run before the edit loaded): 1249 pass, 1 fail test_j_dillo_hats_are_dead_straight (unrelated, not chased).
 - Status: open — measured on synthetic audio, not heard.
+
+### 2026-09-25 Bridge-driven automation recording: PROVEN on Scream 4 (effect)
+- Context: owner asked whether Claude can build Reason lanes, effects and automation "using MIDI". Research (Reason 12.7 manual, song-file-handling): imported MIDI -> one ID8 track per part, CC -> automation lanes, but CCs the device lacks become alien clips. Cables/effects can't come from a MIDI file.
+- Test (run by Claude via screen control, owner asleep): new song from "Empty + FX", imported test MIDI, Create > Effects > Scream 4, locked to ReasonVoice, experiments/automation-test-2026-09-25/sweep_test.py swept Knob 1 (Damage Control).
+- Results: (1) MIDI CC74 imported as an alien clip on the ID8 track — confirms the manual. (2) Bridge `tap("record")` did NOT start the transport; knob still moved. Transport buttons are UNPROVEN. (3) With Reason's record button: no lane while Scream 4 had no track. (4) After "Create Track for EasyFuzz": Damage Control lane recorded, matching the up/down sweep. Saved: experiments/automation-test-2026-09-25/automation test 09 25 26.reason.
+- Rule: an effect needs its own sequencer track before remote knob moves record as automation.
+- Status: lane PROVEN on screen; sound not checked. Transport-over-bridge is still open.
+- Outcome: —

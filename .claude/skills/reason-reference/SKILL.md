@@ -104,6 +104,24 @@ Known limits, so nobody over-claims from it:
 - The manual is 12.7; the install is 12.7.4d3. Minor drift is possible, and the
   factory maps win on any naming disagreement.
 
+## What a Standard MIDI File does on import (Reason 12.7 manual, confirmed live 2026-09-25)
+
+Sources: docs.reasonstudios.com/reason12/song-file-handling, and the test in
+`experiments/automation-test-2026-09-25/`.
+
+- File > Import MIDI File: **one track per MIDI track, each with an ID8** (the
+  General MIDI sound module), and the file's tempo is applied (90 BPM landed as
+  90). Use SMF **format 1** so the parts stay separate.
+- Pitch bend and mod wheel stay inside the note clip.
+- Other CCs → **separate automation lanes** named "Controller #N". If the
+  device has no control for that CC it is an **alien clip** (striped red and
+  yellow) and does nothing. CC74 on an ID8 did exactly this.
+- A MIDI file **cannot** create effects, cables or patches, or target an
+  effect. Aiming CCs at specific instrument knobs needs a Reason 12 CC chart,
+  and we have none (only Reason 7, which is out of scope). Don't guess the numbers.
+- For automation on real parameters, use the Remote bridge (see
+  `reason-remote-bridge` → "Recording automation through the bridge").
+
 ## When new documentation arrives
 
 More is expected. The routine:

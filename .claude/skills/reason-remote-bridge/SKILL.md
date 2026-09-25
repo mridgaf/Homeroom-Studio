@@ -80,7 +80,9 @@ document scope without testing it in Reason first.
 
 `open -a Reason <patchfile>` adds a device to the rack. That is the **only**
 channel besides MIDI. There is **NO API** to build device chains, route cables,
-or set knobs programmatically.
+or set knobs programmatically. (Knobs: the bridge moves MAPPED knobs on a
+locked device, and since 2026-09-25 that is proven to record as automation.
+See below.)
 
 ## The repo copies are authoritative now (2026-09-10)
 
@@ -153,6 +155,35 @@ out of the compressor's calibration table.
 This is the supported route. **Remote Override** (right-click a knob → learn) also
 works but saves *with the song*, so it must be redone in every new song — do not
 build on it. `reason_voice/HANDOFF.md` proposed exactly that; it is superseded.
+
+## Recording automation through the bridge — PROVEN 2026-09-25
+
+Test: `experiments/automation-test-2026-09-25/` (RESULTS.md, and the proof song
+`automation test 09 25 26.reason`). A bridge sweep of Scream 4 Knob 1 (Damage
+Control) recorded as a real automation lane whose shape matched the sweep.
+This is the route to automation on EFFECTS, which a MIDI file cannot reach.
+
+Rules, each found by a step failing:
+
+1. **The effect needs its own sequencer track first.** Right-click the panel →
+   "Create Track for <name>". With no track, the knob moves and records NOTHING
+   (take 1). With the track (it arrives record-armed), the lane records (take 2).
+2. **Transport over the bridge is UNPROVEN and did not work.** `tap("record")`
+   did not start Reason recording, though the knob moved in the same run. Start
+   recording with Reason's own record button (or fix/verify the transport
+   scope first). Do not tell him the bridge can start recording.
+3. The lock item is labelled **"Lock ReasonVoice ReasonVoice 2 to This Device"**
+   in the right-click menu. A checkmark confirms it.
+4. **Scripts that send CC must run on macOS, not in the Cowork Linux VM.**
+   The VM has no IAC port. Launch a `.command` file from Finder (the test used
+   `Run Sweep Only.command`, `NO_TRANSPORT=1`).
+5. **Only one knob on one device is proven.** Other mapped knobs should behave
+   the same way. Say "should", not "does", until each one is tested.
+
+Working pipeline for "build me lanes + effects + automation":
+MIDI file (notes, tempo, one track per part) → pre-wired Combinator patch via
+`open -a Reason <patch>` (devices + cables) → Create Track for each effect to
+automate → Reason record button → bridge sweep script.
 
 ## The return path: Reason → us (added 2026-09-10)
 
