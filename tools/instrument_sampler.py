@@ -486,7 +486,14 @@ def scan(index=None, status=None):
         group = _dir_group(e["path"], roots) or group_of(e["name"])
         if group is not None:
             todo.append((e, group))
-    return _pitched(todo, status, "index")
+    own = _pitched(todo, status, "index")
+    if index is not None:               # a caller-supplied index is the
+        return own                      # whole world (tests, one-offs)
+    # The note-by-note libraries (tools/multisample.py, owner 2026-09-24):
+    # appended, never replacing his own rows; nearest() is what plays them
+    # FIRST. Their notes come from the file name, octave measured.
+    import multisample
+    return own + multisample.scan(status=status)
 
 
 def scan_bass(index=None, status=None):
@@ -556,7 +563,19 @@ def nearest(index, midi_note, groups=None, max_shift=MAX_SHIFT, prefer=None):
     match out to PREFER_MAX_SHIFT (wider than max_shift on purpose — see
     its own comment); losing pitch precision on some notes is worth
     keeping the whole chord one real instrument."""
-    if prefer is not None and abs(prefer["note"] - midi_note) <= PREFER_MAX_SHIFT:
+    if prefer is not None and prefer.get("multi"):
+        # A note-by-note instrument (tools/multisample.py): stay on the
+        # SAME instrument and articulation, but every note gets its OWN
+        # recording — handing back the pinned file would stretch one note
+        # across the chord, the exact C-C-C bug string_sampler had until
+        # 2026-09-14. Same PREFER_MAX_SHIFT ceiling as below: one
+        # instrument color beats a closer note from another.
+        same = [e for e in index if e.get("multi") == prefer["multi"]
+                and e.get("art") == prefer.get("art")]
+        pick = _closest(same, midi_note)
+        if pick is not None and abs(pick["note"] - midi_note) <= PREFER_MAX_SHIFT:
+            return pick
+    elif prefer is not None and abs(prefer["note"] - midi_note) <= PREFER_MAX_SHIFT:
         return prefer
     groups = _as_groups(groups)
     if groups is None:
@@ -567,9 +586,16 @@ def nearest(index, midi_note, groups=None, max_shift=MAX_SHIFT, prefer=None):
         if not got:
             continue
         considered.extend(got)
-        pick = _closest(got, midi_note)
-        if abs(pick["note"] - midi_note) <= max_shift:
-            return pick
+        # Owner 2026-09-24: the note-by-note libraries play FIRST for their
+        # family, his own samples are the fallback — except VSCO strings,
+        # which are a backup behind everything (London stays first).
+        tiers = ([e for e in got if e.get("multi") and not e.get("backup")],
+                 [e for e in got if not e.get("multi")],
+                 [e for e in got if e.get("backup")])
+        for tier in tiers:
+            pick = _closest(tier, midi_note)
+            if pick is not None and abs(pick["note"] - midi_note) <= max_shift:
+                return pick
     return _closest(considered, midi_note)
 
 

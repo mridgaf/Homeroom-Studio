@@ -2192,7 +2192,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # his own banks (owner 2026-07-23) — "synth" included, so this index is
     # needed for essentially every signature, not just the horn one.
     import instrument_sampler
-    inst_idx = instrument_sampler.scan()
+    import multisample
+    # one note-by-note instrument, articulation and layer per group for
+    # this whole beat (owner 2026-09-24; see multisample.one_per_beat)
+    inst_idx = multisample.one_per_beat(instrument_sampler.scan(),
+                                        random.Random(variant * 983 + 41))
     # ONE instrument for the whole MIDI phrase (owner 2026-09-19): piano,
     # organ, guitar, bell or the synth family, chosen once per beat from
     # whichever can cover the phrase's notes.
