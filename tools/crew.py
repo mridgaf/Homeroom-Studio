@@ -202,6 +202,18 @@ LOOPS_TRUE_LEVELS = os.environ.get("REASON_VOICE_LOOPS_TRUE_LEVELS",
 # never over it). Now a touch under it.
 LOW_END_UNDER_DB = -0.9
 
+# ...but a PEAK cap cannot hold a bass under the kick (owner 2026-09-24,
+# after the genre auditions: "The bass note or instrument is significantly
+# louder than everything"). The kick is a short hit, a bass note holds, so
+# at the same peak the bass SOUNDS far louder. So the low end is also capped
+# by loudness: its loudest 400 ms (the EBU momentary-loudness window) sits
+# this far under the kick's loudest 400 ms. His number: "go 4 db quieter
+# than the kick". Every from-scratch beat; the Loops page is untouched.
+# ponytail: plain RMS, not K-weighted -- reads sub-heavy 808s a little
+# hot, so it errs quieter. K-weight it if 808s come back too thin.
+LOW_END_LOUD_UNDER_DB = -4.0
+LOUD_WINDOW_S = 0.4
+
 
 def sub_sidechain(preset):
     """How deep the LOW END ducks under the kick.
@@ -2137,7 +2149,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                 if _d > 0:
                     _duck_envs[_d] = _mk_duck_env(_d)
 
-        def _panned_pk(ln):
+        def _panned_eff(ln):
             row = p["lanes"].get(ln)
             pan = row[0] if row else 0.0
             side = max(np.cos((pan + 1) * np.pi / 4),
@@ -2149,7 +2161,17 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             _env = _duck_envs.get(_lane_sc(ln)) if ln != "kick" else None
             if _env is not None:
                 eff = eff[:end] * _env[:len(eff)]
-            return float(eff.max())
+            return eff
+
+        def _panned_pk(ln):
+            return float(_panned_eff(ln).max())
+
+        def _loudest(eff):
+            """Loudest LOUD_WINDOW_S of RMS, wrapped round the loop seam."""
+            n = max(1, min(int(LOUD_WINDOW_S * SR), len(eff)))
+            sq = np.concatenate([eff, eff[:n]]) ** 2
+            c = np.concatenate([[0.0], np.cumsum(sq)])
+            return float(np.sqrt(max((c[n:] - c[:-n]).max(), 0.0) / n))
 
         kick_pk = _panned_pk("kick")
         # THE KICK IS THE ANCHOR (owner 2026-09-02, after checking his rules
@@ -2256,13 +2278,27 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         # keeps the rules it had, see LOOPS_TRUE_LEVELS).
         if true_levels and not loop_bufs and ref_pk > 0:
             cap = ref_pk * 10 ** (LOW_END_UNDER_DB / 20.0)
-            for ln in [l for l in bufs if _ducks_deep(l)]:
+            lows = [l for l in bufs if _ducks_deep(l)]
+            for ln in lows:
                 pk = _panned_pk(ln)
                 if pk > cap:
                     bufs[ln] = bufs[ln] * (cap / pk)
                     w = wet_side.get(ln)
                     if w is not None:
                         wet_side[ln] = w * (cap / pk)
+            # ...and by LOUDNESS, all low lanes together (the bass line's
+            # voices sound as one bass). See LOW_END_LOUD_UNDER_DB.
+            if lows:
+                kick_ld = _loudest(_panned_eff("kick"))
+                low_ld = _loudest(sum(_panned_eff(l) for l in lows))
+                lcap = kick_ld * 10 ** (LOW_END_LOUD_UNDER_DB / 20.0)
+                if low_ld > lcap > 0:
+                    g = lcap / low_ld
+                    for ln in lows:
+                        bufs[ln] = bufs[ln] * g
+                        w = wet_side.get(ln)
+                        if w is not None:
+                            wet_side[ln] = w * g
 
 
     # stems: each lane panned to stereo with its space treatment, kick

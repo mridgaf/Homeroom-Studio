@@ -7643,3 +7643,10 @@ just not loaded by default.
 - Verify by: owner runs the suite ALONE (no renders): `./.venv/bin/python -m pytest tests/ -q`. Could not run it here (the venv is macOS-only). Note the 7 chord/harmony failures logged earlier today are unrelated to this change.
 - Status: open (suite not run on the Mac yet).
 - Outcome: —
+
+### 2026-09-24 Bass capped by LOUDNESS, 4 dB under the kick (every from-scratch beat)
+- Context: owner heard the genre auditions: "The bass note or instrument is significantly louder than everything." Also: stop reviewing old rendered beats; he runs auditions himself now.
+- Cause: at true levels the low end was only PEAK-capped (-0.9 dB under the kick). A held bass note peaking at half the kick measured +10.8 dB LOUDER than the kick.
+- Change: `crew.LOW_END_LOUD_UNDER_DB = -4.0` (his number) — the low lanes' loudest 400 ms RMS, together, sits 4 dB under the kick's. In the true-levels branch of render_crew_beat; Loops page untouched. Owner scope: every beat. Plain RMS, not K-weighted (errs quieter on 808s).
+- Test: test_the_bass_sounds_quieter_than_the_kick (fails without the cap: +10.8 vs -4.0); loops test extended. test_low_end + test_crew 45/45. Full suite (run before the edit loaded): 1249 pass, 1 fail test_j_dillo_hats_are_dead_straight (unrelated, not chased).
+- Status: open — measured on synthetic audio, not heard.

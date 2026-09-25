@@ -82,6 +82,29 @@ def test_the_kick_stays_on_top_of_the_bass_at_true_levels(monkeypatch):
         assert 20 * np.log10(pk / kick) <= crew.LOW_END_UNDER_DB + 0.05, lane
 
 
+def _loudest(x):
+    n = int(crew.LOUD_WINDOW_S * SR)
+    c = np.concatenate([[0.0], np.cumsum(np.concatenate([x, x[:n]]) ** 2)])
+    return np.sqrt((c[n:] - c[:-n]).max() / n)
+
+
+def test_the_bass_sounds_quieter_than_the_kick(monkeypatch):
+    """Owner 2026-09-24: "The bass note or instrument is significantly louder
+    than everything." A held bass note can peak UNDER the kick and still
+    sound far louder, so the peak cap alone let it through. This bass peaks
+    at half the kick -- the peak cap never fires -- and must still come out
+    LOW_END_LOUD_UNDER_DB under the kick by loudness."""
+    monkeypatch.setattr(crew, "TRUE_LEVELS", True)
+    p = _preset({"kick": (0.0, 1.0, (0, 0, 50, 1), ["X---X---X---X---"]),
+                 "bass": (0.0, 1.0, (0, 0, 50, 2), ["X-------X-------"])})
+    kit = {"kick": _kick(), "bass": np.full(20 * SR, 0.5)}
+    _L, _R, _lufs, parts = render_crew_beat("Cutz", kit, preset=p,
+                                            want_parts=True)
+    kick = _loudest(_stem(parts, "kick"))
+    bass = _loudest(_stem(parts, "bass"))
+    assert 20 * np.log10(bass / kick) <= crew.LOW_END_LOUD_UNDER_DB + 0.1
+
+
 def test_chords_stay_out_of_the_bass_room():
     p = _preset({"kick": (0.0, 1.0, (0, 0, 50, 1), ["X---------------"]),
                  "chord0": (0.0, 0.5, (0, 0, 50, 3), ["X---------------"])})
@@ -138,4 +161,5 @@ def test_the_loops_page_is_untouched_by_the_low_end_rules(monkeypatch):
     before = render()
     monkeypatch.setattr(crew, "CHORD_LOW_CUT_HZ", 2000.0)
     monkeypatch.setattr(crew, "LOW_END_UNDER_DB", -30.0)
+    monkeypatch.setattr(crew, "LOW_END_LOUD_UNDER_DB", -30.0)
     assert np.array_equal(before, render())
