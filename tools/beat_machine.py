@@ -2775,7 +2775,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             bused = []
             a = instrument_sampler.voice_note(
                 bass_idx, chord["notes"][0] - 12 + bass_oct, dur,
-                cache=bcache, used=bused)
+                cache=bcache, used=bused, snap_sec=bar_s / num)
             if a is None:
                 bass_beds, bass_files = {}, {}
                 break

@@ -639,7 +639,7 @@ def _one_hit(mono, sr=SR):
     return chops[0] if chops else x[:int(CHOP_SECS * sr)]
 
 
-def _fit_length(seg, n, sr=SR):
+def _fit_length(seg, n, sr=SR, snap_sec=None):
     """`seg` cropped or repeated to exactly `n` samples, CROSSFADING each
     repeat instead of butt-splicing it.
 
@@ -648,7 +648,17 @@ def _fit_length(seg, n, sr=SR):
     from a 1.07s sample had hard jumps at 1.074s and 2.148s, the second
     landing 52ms before the end — "clipping at the end of the samples".
     A short equal-length crossfade removes the step; the seam is still a
-    repeat musically, but it no longer ticks."""
+    repeat musically, but it no longer ticks.
+
+    `snap_sec`, if given, is one musical beat's length in seconds. The
+    repeat spacing is rounded DOWN to the largest whole number of
+    `snap_sec` units that still fits one copy of `seg` — so the repeat
+    seam lands ON the beat instead of drifting against it (owner
+    2026-09-26: a bass note held across a whole chord "pulses and loses
+    time with the rhythm" — measured: the seam was repeating every
+    ~1.3-1.4s, which doesn't divide into any tempo, so it never landed on
+    a beat). Only callers that pass it are affected; everyone else's
+    repeat spacing is unchanged."""
     seg = np.asarray(seg, dtype=np.float64)
     if not len(seg):
         return np.zeros(n)
@@ -659,6 +669,11 @@ def _fit_length(seg, n, sr=SR):
         return np.tile(seg, n // len(seg) + 1)[:n]
     fade_in = np.linspace(0.0, 1.0, xf)
     hop = len(seg) - xf
+    if snap_sec:
+        beat_n = max(1, int(round(snap_sec * sr)))
+        units = hop // beat_n            # largest whole number of beats that fits
+        if units >= 1:
+            hop = units * beat_n
     out = np.zeros(n + len(seg))
     pos = 0
     while pos < n:
@@ -686,7 +701,7 @@ def _declick(seg, sr=SR):
 
 
 def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None,
-               pin=None):
+               pin=None, snap_sec=None):
     """One note at `note`, exactly in tune, `dur` seconds long: nearest
     source -> one hit -> pitch-shift to the target -> fit to length with
     crossfaded repeats -> de-clicked at both edges. None when nothing's
@@ -698,6 +713,11 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None,
     nearest()). Empty going in means "nothing chosen yet"; this call fills
     it in with whichever entry actually got used, so the next call reuses
     it. None (the default) keeps the old independent-per-note behavior.
+
+    `snap_sec` (one beat's length in seconds), if given, is passed to
+    _fit_length so a note held longer than its source repeats ON the
+    beat instead of at an arbitrary offset. None (the default) keeps the
+    old behavior — see _fit_length's docstring.
 
     The edge ramps are a deliberate, narrow exception to the project's
     "no edge fades" loop-safe rule. That rule protects the BEAT's own loop
@@ -731,7 +751,8 @@ def voice_note(index, note, dur, groups=None, sr=SR, cache=None, used=None,
         return None
     # a bass row carries its exact pitch; chord rows only the whole note
     seg = _shift(mono, note - pick.get("pitch", pick["note"]))
-    return _declick(_fit_length(seg, max(int(dur * sr), 1), sr), sr)
+    return _declick(_fit_length(seg, max(int(dur * sr), 1), sr,
+                                 snap_sec=snap_sec), sr)
 
 
 def note_slice(index, note, dur, sr=SR, cache=None, groups=None, used=None,
