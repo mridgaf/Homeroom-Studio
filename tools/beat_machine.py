@@ -2050,7 +2050,8 @@ def _roll_key(sig, variant, dirs, open_roll, srng):
 
 
 def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
-                  allow_basses=None, bass808=None, bass_line=True):
+                  allow_basses=None, bass808=None, bass_line=True,
+                  bass_pick=None):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
     identity-blind default without one).
@@ -2086,7 +2087,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     one actually audible in the original file. (2) a "loop"/"strings"
     voice draws from a fresh library scan, so if packs changed since the
     original render, the exact sample picked could differ. Both are
-    disclosed here rather than silently risked."""
+    disclosed here rather than silently risked.
+
+    `bass_pick` (a bass file's path, owner 2026-09-26: the bass row's
+    dropdown) is the ONE file the bass line plays instead of the seeded
+    roll. It touches only the bass block below -- the chord voice, key and
+    progression never see it. A path that is no longer in the bass pool
+    (moved, or an 808 on a non-808 beat) is ignored and the seeded roll
+    stands, so an old pick can't break a rebuild."""
     if not dirs["chords"]:
         return None, None
     import chord_rhythm
@@ -2769,7 +2777,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # by whole octaves to meet the file (same notes, other octave).
         near = [e for e in bass_idx
                 if _gap(e) <= instrument_sampler.MAX_SHIFT] or bass_idx
-        pick = random.Random(variant * 29 + 3).choice(near)
+        pick = next((e for e in bass_idx if bass_pick
+                     and str(e["path"]) == str(bass_pick)), None)
+        if pick is None:
+            pick = random.Random(variant * 29 + 3).choice(near)
         bass_idx, bass_oct = [pick], 12 * _oct(pick)
         for i, chord, start_bar, dur in slots:
             bused = []
@@ -2907,7 +2918,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     # voice it again (None: the bass line was his bass
                     # one-shots, or there was no line)
                     "bass808": (str(bass808[0]) if bass808 and bass_beds
-                                else None)}
+                                else None),
+                    # the ONE file the bass line played (None: an 808 line
+                    # or no line), so the rack can mark it and a rebuild
+                    # keeps a pick he made
+                    "bass_file": (str(next(iter(bass_files.values()), None))
+                                  if bass_beds and not bass808 and any(
+                                      bass_files.values()) else None)}
     if bass808 and bass_beds:
         vnotes.append("bass: 808 %s on the chord roots"
                       % Path(bass808[0]).stem)
@@ -3855,8 +3872,18 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # first. Only the chord family takes one: the bass line is his to
     # play (2026-07-29), so its lanes are never rendered.
     chord_voice = None
+    bass_pick = None
     for fam in [f for f in list(picks) if _family_members(f, all_lanes)]:
         want = picks.pop(fam)
+        if fam == CHORD_BASS_FAM:
+            # the bass row lists his real bass FILES (owner 2026-09-26),
+            # and the pick is one of them -- never a chord voice
+            if want and want not in {c["path"] for c in
+                                     _lane_candidates(number, fam, root=root)}:
+                raise ValueError(f"'{want}' isn't a bass in your library.")
+            if want and want != (rec.get("harmony") or {}).get("bass_file"):
+                bass_pick = want
+            continue
         if want and want not in {c["path"] for c in _chord_voices()}:
             raise ValueError(f"'{want}' isn't an instrument in your library.")
         chord_voice = want or chord_voice
@@ -3885,7 +3912,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             raise ValueError("This beat's style has no effects to turn on.")
         preset["allow_dirt"] = True    # crew.render_crew_beat's own switch
         preset["fx_stems"] = True      # ...and onto every stem, not just the mix
-    if not picks and not trims and not drops and not chord_voice and not fx:
+    if (not picks and not trims and not drops and not chord_voice
+            and not bass_pick and not fx):
         raise ValueError("Nothing to change — pick a different sound, "
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
@@ -3931,6 +3959,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         avoid |= set(rec["stamp_paths"].values())
         avoid |= history_avoid(names)
 
+        bass_rebuilt = None
         kit_paths, fresh, olds = dict(rec["kit_paths"]), {}, {}
         for lane in drops:
             kit_paths.pop(lane, None)
@@ -4019,8 +4048,12 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             if _b808 and _b808_audio is None:
                 raise RuntimeError(f"{Path(_b808).name} (the beat's 808) has "
                                    "moved or vanished — can't rebuild.")
-            _build_chords(preset, kit, chord_sources, rec["variant"],
-                          _dirs, [], voice=chord_voice,
+            # a bass he picked, else the one this beat was last built on
+            _hb = rec.get("harmony") or {}
+            _bp = bass_pick or _hb.get("bass_file")
+            _, bass_rebuilt = _build_chords(
+                          preset, kit, chord_sources, rec["variant"],
+                          _dirs, [], voice=chord_voice, bass_pick=_bp,
                           # beats made since 2026-09-23 (the key exists
                           # even when None) never let the strings' basses
                           # play; older beats rebuild the way they were made
@@ -4035,7 +4068,9 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                 kit.pop(lane, None)
 
         lanes = sorted(picks)
-        what, changed = _change_words(lanes, trims, drops, chord_voice, fx)
+        what, changed = _change_words(
+            lanes + (["bass"] if bass_pick else []), trims, drops,
+            chord_voice, fx)
         status(f"Re-rendering beat {number} with the new {changed}…")
         L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
                                              preset=preset, want_parts=True)
@@ -4074,6 +4109,14 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     if drops:                    # the lane is gone from the child recipe
         rec2["kit_spec"] = {ln: s for ln, s in rec["kit_spec"].items()
                             if ln not in drops}
+    if bass_pick and bass_rebuilt:   # the child beat remembers its bass
+        _h = dict(rec.get("harmony") or {})
+        _h["bass_file"] = bass_rebuilt.get("bass_file")
+        _h["voice_files"] = {
+            **(_h.get("voice_files") or {}),
+            **{ln: fs for ln, fs in bass_rebuilt["voice_files"].items()
+               if _CHORD_BASS_LANE.match(ln)}}
+        rec2["harmony"] = _h
     if trims or drops or fx:     # the new gains/lanes/effects ARE this beat
         rec2["preset"] = preset
     # a swap inherits its parent's recipe, so an OLD parent written before
@@ -4578,7 +4621,8 @@ def _beat_stems(no, root=None):
             # not a file — the DJ's identity still picks the default, this
             # just lets him overrule it for one beat. Before this the row
             # could only be levelled and removed.
-            "can_swap": True,
+            "can_swap": not (fam == CHORD_BASS_FAM
+                             and (rec.get("harmony") or {}).get("bass808")),
             "voices": True,          # the dropdown lists instruments
             "why": why,
             "members": sorted(members, key=_lane_sort),
@@ -4858,6 +4902,30 @@ def _chord_voices(rec=None):
                             .get(g, g).lower())]
 
 
+def _bass_files(rec):
+    """The bass row's dropdown: his real bass one-shots (scan_bass), grouped
+    by pack like a drum row. No 808s -- the bass LINE never plays one
+    outside the legacy 808 beats, whose row is locked and lists nothing.
+    Same pool _build_chords draws from, so every entry here will play."""
+    h = rec.get("harmony") or {}
+    if h.get("bass808"):
+        return []
+    import instrument_sampler
+    current, seen, out = h.get("bass_file"), set(), []
+    if not current:            # made before bass_file: the row's own file
+        current = next(iter((h.get("voice_files") or {}).get("bass0") or []),
+                       None)
+    for e in instrument_sampler.scan_bass():
+        p = str(e["path"])
+        if p in seen or "808" in Path(p).name:
+            continue
+        seen.add(p)
+        out.append({"path": p, "name": Path(p).stem, "pack": _pack_of(p),
+                    "current": p == current})
+    out.sort(key=lambda d: (d["pack"].lower(), d["name"].lower()))
+    return out
+
+
 def _lane_candidates(no, lane, shots=None, root=None):
     """Every sample in the library that could fill this lane, grouped by
     pack for the dropdown. Also the allow-list the rebuild validates
@@ -4878,6 +4946,8 @@ def _lane_candidates(no, lane, shots=None, root=None):
                  "current": e["path"] == current}
                 for e in loop_lanes.candidates(lane)]
     if _family_members(lane, rec["preset"].get("lanes", {})):
+        if lane == CHORD_BASS_FAM:
+            return _bass_files(rec)
         return _chord_voices(rec)
     if lane not in rec["kit_spec"]:
         raise ValueError(f"Beat {no} has no '{lane}'.")

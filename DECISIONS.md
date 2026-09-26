@@ -20,6 +20,16 @@ entries.
 
 ## Log
 
+### 2026-09-26 Bass row picks his real bass files, and only the bass changes
+- Context: owner: picking on the bass row didn't change the bass, the list showed piano/guitar, and the picked sound faintly played over the old bass.
+- Cause (confirmed in code): `_lane_candidates` sent every harmony row, "chordbass" too, to `_chord_voices`; `swap_many` folded that pick into `chord_voice`, which re-voiced the CHORDS (the faint layer); `_build_chords` chose the bass file from `Random(variant*29+3)`, blind to any pick.
+- Change (`tools/beat_machine.py`): new `_bass_files` = the bass row's list (scan_bass, no 808s, grouped by pack, current marked); `swap_many` takes a chordbass pick as `bass_pick` (allow-listed, never `chord_voice`); `_build_chords(bass_pick=)` plays that one file, all other bass rules untouched (one file per beat, octave shift, 808 ban, bass808 branch); chord RNG never sees it. New `harmony.bass_file` (+ updated bass `voice_files`) written to the child recipe so a later rebuild keeps the pick. Preview and dice needed no change (same allow-list, dice rolls the dropdown).
+- Owner answer (clickable): old 2026-09-23 bass-808 beats get a LOCKED bass row (volume/remove only), no dropdown.
+- Test: `test_a_bass_pick_changes_only_the_bass_and_survives_a_rebuild`: dropdown = bass files only, pick lands in the bass stem name, chord stems byte-identical, pick survives a second rebuild, piano/808/foreign path refused. Fails with the fix backed out (dropdown offers Piano/Strings), passes with it. test_beat_machine + test_instrument_sampler: 120 passed with the fix; with it backed out 119 passed + only the new test failing. Nothing else was failing.
+- NOT verified: heard by ear; the browser dropdown/dice clicked in the real page (JS untouched, exercised only through the Python paths it calls); a real-library beat. Beats made before this have no `bass_file`, so their first bass pick works but "in this beat now" is read from the stem's file name.
+- Status: open
+- Outcome: -
+
 ### 2026-09-24 Note-by-note instruments wired in (built off the Mac — not yet run on it)
 - Context: continues "Note-by-note instrument libraries downloaded". Mac was offline, so this was built in a Linux sandbox from the GitHub copy of the repo (commit "loops run", 18:23) and shipped as a patch.
 - Found (MEASURED, not assumed): most VCSL/VSCO file names read ONE OCTAVE LOW (middle C written C3). Named at true pitch: Steinway B, Pipe Organ, Concert Harp, FM Piano, Tubular Bells 2, VSCO Upright Nr1, VSCO Harp, Solo Violin. Tubular Glockenspiel is 5 octaves off; Renaissance Organ's 4' stop sounds 2 octaves up. Checked on ~250 real files pulled from GitHub; detect_pitch and librosa pyin agree on every offset.

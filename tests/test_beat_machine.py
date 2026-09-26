@@ -1180,6 +1180,73 @@ def test_a_bass_line_is_one_sound_and_never_an_808(
     assert checked, "no multi-chord bass line was made; proves nothing"
 
 
+def test_a_bass_pick_changes_only_the_bass_and_survives_a_rebuild(
+        machine_env, only_his_instruments, monkeypatch, tmp_path):
+    """Owner 2026-09-26: the bass row's dropdown listed CHORD instruments,
+    a pick re-voiced the chords, and the bass never changed (the file came
+    from Random(variant*29+3), blind to any pick). Now the row lists his
+    real bass files (never an 808), a pick makes the ONE bass file the
+    line plays, and the chord stems come out byte-for-byte as before."""
+    import instrument_sampler
+    root, shots = machine_env
+    _bell, _piano, bass = only_his_instruments
+    fake808 = [dict(e, group="bass")
+               for e in _inst_index(tmp_path, "808", range(29, 61, 3))]
+    monkeypatch.setattr(instrument_sampler, "scan_bass",
+                        lambda *a, **k: bass + fake808)
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    for seed in range(20):          # a free beat may roll the 808: skip it
+        random.seed(seed)
+        path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        if "bass0" in rec["preset"]["lanes"]:
+            break
+    assert "bass0" in rec["preset"]["lanes"], "no bass-line beat in 20 seeds"
+
+    cands = beat_machine._lane_candidates(no, "chordbass", root=root)
+    names = [c["name"] for c in cands]
+    assert names and all(n.startswith("bass_") for n in names), names  # his files
+    assert sum(c["current"] for c in cands) == 1, cands
+    old = next(c for c in cands if c["current"])["path"]
+    pick = next(c["path"] for c in cands if c["path"] != old)
+
+    def stems(p):
+        d = next(d for d in p.parent.glob("* Stems")
+                 if d.name.startswith(p.name.split()[0] + " "))
+        return {f.name.split(" - ")[0]: f for f in d.glob("*.wav")}
+    before = {ln: f.read_bytes() for ln, f in stems(path).items()}
+    path2, _ = beat_machine.swap_many(no, {"chordbass": pick}, root=root,
+                                      shots=shots)
+    after = stems(path2)
+    bass_lanes = [ln for ln in after if re.fullmatch(r"bass\d+", ln)]
+    assert bass_lanes
+    for ln in bass_lanes:                        # the bass plays THAT file
+        assert Path(pick).stem in after[ln].name, (ln, after[ln].name)
+    chord_lanes = [ln for ln in before if ln.startswith("chord")]
+    assert chord_lanes
+    for ln in chord_lanes:                       # ...and only the bass moved
+        assert before[ln] == after[ln].read_bytes(), ln
+    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
+    assert rec2["harmony"]["bass_file"] == pick
+    # a later rebuild of the child (a volume move) keeps the picked bass
+    path3, _ = beat_machine.swap_many(int(path2.name.split()[0]), {},
+                                      root=root, shots=shots,
+                                      trims={"chord0": 1.0})
+    for ln, f in stems(path3).items():
+        if re.fullmatch(r"bass\d+", ln):
+            assert Path(pick).stem in f.name, f.name
+    # never a chord voice, never an 808, never a stranger's path
+    for bad in ("piano", fake808[0]["path"], "/etc/passwd"):
+        with pytest.raises(ValueError):
+            beat_machine.swap_many(no, {"chordbass": bad}, root=root,
+                                   shots=shots)
+
+
 def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
         machine_env, only_his_instruments, monkeypatch):
     """THE bug, owner 2026-07-25: 'where are the real instruments from my
