@@ -7794,3 +7794,11 @@ just not loaded by default.
 - One instrument per part: confirmed by owner's ear (entry above updated).
 - Looperman nightly: only real run 2026-09-23 failed at login ("did not accept the login"); no launch agent installed, no Keychain entry found. Needs owner (password) — not closable by Claude.
 - Status: open (Looperman; 2924 mono edge)
+
+### 2026-09-26 Downloads vs TBOTC 3 duplicate sweep
+- Context: owner asked to find exact-duplicate sounds sitting in Downloads that already exist safely in the Sample Packs library on TBOTC 3, scoped to the folder the Beat Machine actually uses (Sample Packs), not the whole drive.
+- Decision/change: hashed (sha256, size-prefiltered) 6,449 Downloads audio files against 102,488 library audio files. Found 6,234 byte-for-byte duplicates (7.99 GB) and 10 same-name-but-different-content cases. Owner asked to remove the duplicates; since this session's device bridge can't reach the real macOS Trash, moved all 6,234 into `Downloads/Cleared 2026-09-26/` (original subfolders preserved, manifest.txt inside) for him to review and trash himself.
+- Reasoning: matched the project's move-don't-delete pattern (safe-file-ops skill) rather than deleting outright, since deletion wasn't reachable from this tool anyway.
+- Verify by: owner opens `Downloads/Cleared 2026-09-26`, spot-checks a few against manifest.txt, then trashes the folder.
+- Status: open
+- Outcome: (pending owner review)
