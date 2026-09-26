@@ -7705,3 +7705,28 @@ just not loaded by default.
 - Owner pick (clickable): "Lock + pick another". `_build_chords` now renders each role across ALL chords on one source with a shared pin, checks `_one_instrument` over the whole beat, and if it fails tries the DJ's next own family; support/lead failing everywhere -> single-part path. Single-part plans now also need one instrument per source across the whole beat.
 - Test: `test_no_lane_ever_combines_two_instruments` extended to check per part across chords. GAP: two fixtures tried, neither reproduces the bug on the OLD code, so no test proves the fix. Real proof = recipe scan of the next batch he renders (voice_files grouped by v-suffix, folders per part).
 - Status: open
+
+### 2026-09-25 Horror Rap research build (9th genre) — built, not rendered
+- Context: genre pass A-Z; no open questions left on the instrument work (one-instrument-per-part and equal families both built, waiting on his ear).
+- Change: bpm 92, pocket 81-96 (5 sourced tempos); roots E/Bb/F# (sourced keys); library +soul; allow_dirt True (sources: dusty sampled boom bap, "washed in minor chords"); own_soundbank on; dead tags removed (snare crack 0/680, stamp scream 0/353). Snare/lanes/families untouched. Sources in `_research_note`. Backup: `genres_config.pre-horror-rap-2026-09-25.json`. Added to the own_soundbank test allow-list.
+- Status: open — built, NOT rendered, not heard.
+
+### 2026-09-25 Houston Screw + Memphis research builds (10th, 11th genres) — built, not rendered
+- Houston Screw: pocket 60-70 (Wikipedia: screwed = "60 and 70 quarter-note beats per minute"); allow_dirt True ("rap records played underwater on an old cassette deck"); stamp scratch/vocal/reverse; kick 808/sub/deep/boom (dead: long, tape); library +soul; own_soundbank on. Backup `genres_config.pre-houston-screw-2026-09-25.json`.
+- Memphis: pocket 130-160, bpm 140 kept (7 tunebat tempos); roots A/F# lead; allow_dirt True ('"distorted", lo-fi', TR-808, tape); snare lofi/dusty/crisp/tight/808 ("sharp digital snares"); stamp vocal/dark/scratch (dead: scream); library +soul; own_soundbank on. Backup `genres_config.pre-memphis-2026-09-25.json`.
+- Both added to the dirt and own_soundbank test lists. test_crew + test_genres: 144 passed. Full suite run once this session (after Horror Rap).
+- Status: open — built, NOT rendered, not heard.
+
+### 2026-09-25 Miami Bass research build (12th genre) — built, not rendered
+- bpm 138->129, pocket 122-134 (7 sourced tempos, all 122-133); clap backbeat 0.95/displaced 0.05 (owner: "Mostly 2&4, a little wander"); "808 filling every gap" = a feel, not a lock (owner pick); roots C/E/A, minor=major; dead tags long/crack replaced; stays clean; own_soundbank on. Backup `genres_config.pre-miami-bass-2026-09-25.json`.
+- Status: open — built, NOT rendered, not heard.
+
+### 2026-09-25 Last six genres research-built — genre pass 18/18 built, none rendered
+- New Orleans Bounce: pocket 95-108 (Drag Rap 95, Freedia median 103); dead crack/snappy/shout/whistle replaced — library has NO whistle files though Wikipedia names whistling as a bounce element (a sourcing gap, not faked).
+- Organized Noize: bpm 95->90, pocket 83-101 (6 tempos); conga moved from bongo lane (0 files) to perc (8); dead warm/round/horn/guitar replaced.
+- Plug: pocket 130-150; NEW sparse shaker/bongo perc lane (Wikipedia: "Zaytoven shaker", bongos); "808 never distorts" locked by test_plug_808_never_distorts.
+- Reggaeton Alt: bpm 92->94, pocket 88-98; no timbale or clave files exist in the library.
+- Trip Hop: bpm 88->80 (5 tempos, median 80); NO pocket ("never speeds up"); allow_dirt True ("scratchy", vinyl bed).
+- Wonky: pocket 78-90; "every lane jittered" locked by test_wonky_every_lane_jitters (all lanes already 7-9 ms).
+- Backups `genres_config.pre-<slug>-2026-09-25.json` (six). All in the own_soundbank allow-list; Trip Hop in the dirt list.
+- Status: open — built, NOT rendered, not heard.

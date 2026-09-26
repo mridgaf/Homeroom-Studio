@@ -429,6 +429,13 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     Detroit: "dirty drums" (Black Milk, XLR8R), "dusty breaks" (Apollo
     Brown), and its own listen line's "grit left in".
     Emo Hip Hop is "low": its listen line's "clipped distorted 808".
+    Horror Rap: "flustered beats, washed in minor chords" (EW on 6 Feet
+    Deep) and its own listen line's "heavy dusty kick" and "tape hiss".
+    Houston Screw: "rap records played underwater on an old cassette deck"
+    (NYT on DJ Screw, via Wikipedia).
+    Memphis: 'a "distorted", lo-fi soundscape' (Wikipedia, Memphis rap).
+    Trip Hop: Portishead's "scratchy, jazz-sample-based aesthetic"
+    (Wikipedia) and its own listen line's "thick vinyl bed".
 
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
@@ -441,7 +448,9 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
                      "J Dillo": True, "Acid Rap Detroit": True,
                      "Baltimore Club": True, "Chiptune": True,
                      "Crunk": "low", "Detroit": True,
-                     "Emo Hip Hop": "low"}, heard
+                     "Emo Hip Hop": "low", "Horror Rap": True,
+                     "Houston Screw": True, "Memphis": True,
+                     "Trip Hop": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -773,7 +782,9 @@ def test_own_soundbank_is_the_new_build_legends_only():
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
                     "DJ Light Green", "Hitt Kid", "Acid Rap Bright",
                     "Acid Rap Detroit", "Baltimore Club", "Chiptune",
-                    "Crunk", "Detroit", "Emo Hip Hop", "G-Funk"}
+                    "Crunk", "Detroit", "Emo Hip Hop", "G-Funk", "Horror Rap", "Houston Screw", "Memphis", "Miami Bass",
+                    "New Orleans Bounce", "Organized Noize", "Plug",
+                    "Reggaeton Alt", "Trip Hop", "Wonky"}
 
 
 def test_legend_stamps_are_not_locked():
@@ -1159,3 +1170,21 @@ def test_j_dillo_hats_are_dead_straight():
         if lane.startswith("hat"):
             off, jit, swing, _seed = feel[2]
             assert (off, jit, swing) == (0, 0, 50), (lane, feel[2])
+
+
+def test_plug_808_never_distorts():
+    """Plug's listen line: 'a soft rounded 808 that NEVER distorts'
+    (owner absolute, genre pass 2026-09-25). No kick distortion and no
+    dirt opt-in, so the clean-renders house rule keeps it clean."""
+    p = CREW["Plug"]
+    assert not p.get("kick_dist"), p.get("kick_dist")
+    assert not p.get("allow_dirt"), p.get("allow_dirt")
+
+
+def test_wonky_every_lane_jitters():
+    """Wonky's listen line: 'EVERY lane jittered by milliseconds so
+    nothing lines up' (owner absolute, genre pass 2026-09-25)."""
+    lanes = CREW["Wonky"]["lanes"]
+    assert lanes
+    for name, lane in lanes.items():
+        assert lane[2][1] > 0, (name, lane[2])

@@ -50,5 +50,55 @@
   "stage": "built",
   "date": "2026-09-24",
   "notes": "Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Suite run 2026-09-24 (1240 pass; the one fail was the own_soundbank allow-list, G-Funk added, green). Next: render with make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first."
+ },
+ "Horror Rap": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Horrorcore/6 Feet Deep; tempos 91/94/92/95/81, median 92): bpm 90->92, pocket 81-96; roots E/Bb/F# lead; library +soul; allow_dirt True; own_soundbank on; dead tags crack (snare) and scream (stamp) removed. Lanes/snare/families untouched. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Horror Rap\" --structure --before genres_config.pre-horror-rap-2026-09-25.json, read stamp first."
+ },
+ "Houston Screw": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Chopped and screwed / DJ Screw: 60-70 bpm, old-cassette sound, scratching): pocket 60-70, allow_dirt True, stamp scratch/vocal/reverse, kick 808/sub/deep/boom, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Houston Screw\" --structure --before genres_config.pre-houston-screw-2026-09-25.json, read stamp first."
+ },
+ "Memphis": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Memphis rap / Mystic Stylez; 7 tunebat tempos): pocket 130-160, roots A/F# lead, allow_dirt True, snare lofi/dusty/crisp/tight/808, stamp vocal/dark/scratch, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Memphis\" --structure --before genres_config.pre-memphis-2026-09-25.json, read stamp first."
+ },
+ "Miami Bass": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Miami bass; 7 tempos, median 129): bpm 138->129, pocket 122-134; clap backbeat 0.95 (owner pick); every-gap stays a feel (owner pick); roots C/E/A; dead tags long/crack replaced; stamp +scratch; clean; own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Miami Bass\" --structure --before genres_config.pre-miami-bass-2026-09-25.json, read stamp first."
+ },
+ "New Orleans Bounce": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Bounce; Drag Rap 95, Freedia median 103): pocket 95-108; dead tags crack/snappy/shout/whistle replaced (no whistle files exist); clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"New Orleans Bounce\" --structure --before genres_config.pre-new-orleans-bounce-2026-09-25.json, read stamp first."
+ },
+ "Organized Noize": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (6 tempos, median ~89): bpm 95->90, pocket 83-101; dead tags warm/round/horn/guitar replaced; conga moved to perc lane; clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Organized Noize\" --structure --before genres_config.pre-organized-noize-2026-09-25.json, read stamp first."
+ },
+ "Plug": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Plugg; 130-150): pocket 130-150; new sparse shaker/bongo lane (Zaytoven shaker); never-distorts locked by a test. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Plug\" --structure --before genres_config.pre-plug-2026-09-25.json, read stamp first."
+ },
+ "Reggaeton Alt": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Dembow; tempos 85-97): bpm 92->94, pocket 88-98; dead round/snappy/timbale/clave replaced (no timbale or clave files). NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Reggaeton Alt\" --structure --before genres_config.pre-reggaeton-alt-2026-09-25.json, read stamp first."
+ },
+ "Trip Hop": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Trip hop; 5 tempos median 80): bpm 88->80, no pocket (never speeds up); allow_dirt True; dead round/tape replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Trip Hop\" --structure --before genres_config.pre-trip-hop-2026-09-25.json, read stamp first."
+ },
+ "Wonky": {
+  "stage": "built",
+  "date": "2026-09-25",
+  "notes": "Research build (Wikipedia Wonky; FlyLo 77-79): pocket 78-90; every-lane jitter locked by a test; dead smear/bend replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Wonky\" --structure --before genres_config.pre-wonky-2026-09-25.json, read stamp first."
  }
 }
