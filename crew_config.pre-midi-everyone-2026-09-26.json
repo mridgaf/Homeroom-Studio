@@ -484,10 +484,6 @@
     [
      "wood",
      0.5
-    ],
-    [
-     "midi",
-     0.833
     ]
    ],
    "chord_rhythm": [
@@ -973,10 +969,6 @@
     [
      "wood",
      0.5
-    ],
-    [
-     "midi",
-     1.0
     ]
    ],
    "chord_rhythm": "arp",
@@ -1493,10 +1485,6 @@
     [
      "wood",
      0.559
-    ],
-    [
-     "midi",
-     1.128
     ]
    ],
    "chord_rhythm": [
@@ -2004,10 +1992,6 @@
     [
      "strings",
      0.659
-    ],
-    [
-     "midi",
-     0.805
     ]
    ],
    "chord_rhythm": [
@@ -2499,10 +2483,6 @@
     [
      "wood",
      0.659
-    ],
-    [
-     "midi",
-     0.805
     ]
    ],
    "chord_rhythm": "arp",
@@ -3052,10 +3032,6 @@
     [
      "wood",
      0.7
-    ],
-    [
-     "midi",
-     0.967
     ]
    ],
    "chord_rhythm": [
@@ -5222,10 +5198,6 @@
     [
      "wood",
      0.764
-    ],
-    [
-     "midi",
-     0.934
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5548,10 +5520,6 @@
     [
      "wood",
      0.764
-    ],
-    [
-     "midi",
-     0.934
     ]
    ],
    "chord_rhythm": "sustain",
