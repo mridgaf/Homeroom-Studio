@@ -371,7 +371,7 @@ entries.
   (2) full suite once, alone; (3) render an audition batch — multi-instrument
   beats must sound clean, no "noise mess"; owner ear is the gate; (4) then
   Legends re-tuning, all 13 alphabetical, one at a time (owner's choice).
-- Status: open — code written, not re-tested, not heard.
+- Status: superseded — replaced by one instrument per PART; owner heard it working 2026-09-26. (was: open — code written, not re-tested, not heard.)
 
 ### 2026-09-20 Renamed the three "mutate" functions (naming clarity, no behavior change)
 - Context: owner saw the word `mutate` while I worked and wanted to confirm the
@@ -621,7 +621,7 @@ entries.
 - Still true: MIDI voices only through the instrument groups synth/pluck/pad
   (beat_machine.py ~2168) and picks from the top 3 in-key files only.
   Widening either is NOT done - asked owner.
-- Status: open (config + scan verified; no beat rendered).
+- Status: confirmed 2026-09-26 — MIDI beats rendered + heard 2026-09-19; test_midi_packs.py 10/10 (close-up pass 2026-09-26). (was: open (config + scan verified; no beat rendered).)
 
 ### 2026-09-19 Instrument-access audit, non-loop mode (READ ONLY — nothing fixed)
 
@@ -1098,7 +1098,7 @@ Do not start fixing until he says which way on the three pack folders.
      `tools/loop_mode.py` (`pick_loop`, `apply_dj_finish`), `melodic_
      loops.in_key_scored()`, and `sample_library.loops_scored()` — those
      are reusable building blocks for the real ask, not the wrong part.
-- Status: open — he said he'll continue this in a NEW session; nothing
+- Status: superseded — rebuilt as 'loops only' on the Make page (2026-09-16 entry above). (was: open — he said he'll continue this in a NEW session; nothing)
   further built in this one after the answers landed. NEXT SESSION should
   (a) remove the standalone-page code per point 2 above, (b) redraw
   LOOPS-MODE-GAP-ANALYSIS.md's Part 0 around "loops-only" being an option
@@ -1252,7 +1252,7 @@ Do not start fixing until he says which way on the three pack folders.
   The gap doc's Part 4 step 0 (boundary test) and step 2 (dry-run
   `pick_loop()` roll distribution) are the first two things that should
   get verified, before any audio rendering is built on top.
-- Status: open -- design accepted by owner in conversation; build not
+- Status: superseded — built as 'loops only' on the Make page (2026-09-16 entry above). (was: open -- design accepted by owner in conversation; build not)
   started. Three sub-questions explicitly left for Code to raise with the
   owner rather than decided here: loop filename/output-folder convention,
   whole-vs-chopped default for melodic loops, and whether the `"_loops"`
@@ -3075,7 +3075,7 @@ TWO TRAPS THAT COST TIME TODAY — both are now guarded, do not re-learn them:
   `legend_newbuild.py --tags` now prints where a dead word really lives.
 - `dry` on a snare pulls in sidesticks. `hard` is the clean word.
 
-- Status: open
+- Status: superseded — a handoff snapshot; later entries carry the live state. (was: open)
 - Outcome:
 
 ### 2026-09-06 A sorted sample folder: the folder says what a sample is
@@ -5111,7 +5111,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   Claude Code, so that was not proof until he checked. This ledger entry
   itself is one commit later than that push.)
 - Full suite at handoff: 972 passed / 3 skipped.
-- Status: open.
+- Status: superseded — the three verdicts were applied (2026-09-03 'three audition verdicts applied', CONFIRMED). (was: open.)
 - Outcome:
 
 ### 2026-09-03 Rage Engine, third of the per-DJ pass — the saturation persona has been rendering clean
@@ -5372,7 +5372,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   plus this entry). Git has no credentials from inside Claude Code — he
   pushes from his own terminal. If a fresh session finds main ahead of
   the remote, that is why, not a mistake.
-- Status: open.
+- Status: superseded — the per-DJ pass was done (Cutz, Crate Prophet, the last three DJs, 2026-09-03/04 entries). (was: open.)
 - Outcome:
 
 
@@ -6737,7 +6737,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   NOT done now. Logged in CLAUDE.md's "Known open items" (2026-09-14
   entry) with the full breakdown so a future session doesn't have to
   re-derive it.
-- Status: open.
+- Status: confirmed 2026-09-26 — MIDI chord source built and added to every DJ/Legend/genre at 10% (entry 2026-09-26). (was: open.)
 - Outcome: (pending — future session).
 
 ### 2026-09-26 Well Damn (FnZ / Finatik N Zac) — a fourteenth Legend, built from the cloud sandbox
@@ -6957,7 +6957,7 @@ just not loaded by default.
   section is explicitly labelled "do not rediscover these" and is therefore
   the most load-bearing wrong text in the repo.
 - Verify by: re-run the sysctl/sw_vers block above; it takes one command.
-- Status: open
+- Status: confirmed 2026-09-26 — CLAUDE.md now carries the verified M2 Pro / macOS 26 facts. (was: open)
 - Outcome: (awaiting owner go-ahead to edit CLAUDE.md)
 
 ### 2026-07-31 Rebuild review: measured the audio instead of reading the code — the engine is fine, the OUTPUT STAGE is where value leaks
@@ -7069,7 +7069,7 @@ just not loaded by default.
   line. Upgrade path if this isn't good enough by ear: same-pack fallback
   before cross-pack fallback (the "better, more work" option he didn't
   pick this time).
-- Status: open — owner hasn't heard beats rendered under the wider
+- Status: confirmed 2026-09-26 — one instrument per part; owner heard it working. (was: open — owner hasn't heard beats rendered under the wider)
   reuse range yet. The chipmunk-tradeoff risk is real, flagged, not
   hidden.
 
@@ -7643,7 +7643,7 @@ just not loaded by default.
   chord_source lists (owner wants this as its own session). Do NOT touch
   loops.
 - Verify: re-run the 7 tests; check git stays clean.
-- Status: open (feature unbuilt; 7 tests failing, undiagnosed).
+- Status: confirmed 2026-09-26 — feature built (2026-09-26 entry); the 7 chord/harmony failures are gone: Mac suite 2026-09-26 = 1260 passed, 1 failed (an unrelated mono beat). (was: open (feature unbuilt; 7 tests failing, undiagnosed).)
 
 ### 2026-09-24 G-Funk research build (8th genre) — built, not rendered
 - Context: genre pass A-Z; G-Funk next after Emo Hip Hop. Era stays DJ Quik / Warren G / Above the Law (Dre is Doc Day).
@@ -7660,7 +7660,7 @@ just not loaded by default.
 - Measured (plain python3 on the real BOTC Sorted Loops folders, Linux VM, real module imported): files with a readable tempo 1094 -> 1450 of 1890 (+356). 0 existing tempos changed value.
 - Loops: 45 Looperman (leftover Batch 8 IDs) + 56 Freesound (CC0 31 / CC-BY 25) filed = 101 of 200. Log + CC-BY credit list: BOTC Sorted Loops/SORTING-LOG-2026-09-24-Batch9-Spacey.txt. Freesound limits: 30 downloads/min, 500/day; ran at ~1 per 30-60s.
 - Verify by: owner runs the suite ALONE (no renders): `./.venv/bin/python -m pytest tests/ -q`. Could not run it here (the venv is macOS-only). Note the 7 chord/harmony failures logged earlier today are unrelated to this change.
-- Status: open (suite not run on the Mac yet).
+- Status: confirmed 2026-09-26 — full suite ran on the Mac 2026-09-26 (1260 passed; the one failure is an unrelated mono beat). (was: open (suite not run on the Mac yet).)
 - Outcome: —
 
 ### 2026-09-24 Bass capped by LOUDNESS, 4 dB under the kick (every from-scratch beat)
@@ -7717,7 +7717,7 @@ just not loaded by default.
 
 ### 2026-09-25 NEXT SESSION: one lane, several instruments (beat 2876)
 - Owner: in beat 2876 the "strings stab" lane — and many others he's rendered — reaches for a DIFFERENT instrument within the same lane. He doesn't like it. Start there: read 2876's recipe `harmony.voice_files`, find why one lane mixes instruments, agree a fix with him.
-- Status: open.
+- Status: confirmed — fixed in the entry below; owner heard it 2026-09-26.
 
 ### 2026-09-25 One instrument per PART for the whole beat (the 2876 follow-up)
 - Cause: multi-part beats (support/lead/passing) picked each part's instrument per chord with no pin and no one-instrument check. Beats 2800-2867: 6 of 90 parts switched pack between chords (2827, 2829, 2832, 2837, 2866) — all multi-part. Single-part path checked per chord only, so its pin (a preference) could also drift.

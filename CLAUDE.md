@@ -142,11 +142,8 @@ crawls to hours. That looks exactly like a hang and isn't one.
   files, which is real signal, not noise. The folder fix is DONE
   (2026-09-15: own `midi_roots`/`midi_sorted_root` keys, reads
   `BOTC Sorted MIDI`, guarded by `test_scan_finds_his_real_midi_packs`).
-  Still open: MIDI is not a `chord_source` option in any live config;
-  wiring it in means
-  deciding how `"midi"` competes against sampled instruments and `"loop"` in the weighted
-  chord_source lists. Owner wants this as its own session, not folded
-  into whatever else is in progress.
+  DONE 2026-09-26: `"midi"` is in every DJ/Legend/genre's `chord_source`
+  at 10% of beats (5 kept their higher shares). Not yet heard at that mix.
 
 ## Working rules for this project
 
