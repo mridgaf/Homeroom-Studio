@@ -7723,7 +7723,7 @@ just not loaded by default.
 - Cause: multi-part beats (support/lead/passing) picked each part's instrument per chord with no pin and no one-instrument check. Beats 2800-2867: 6 of 90 parts switched pack between chords (2827, 2829, 2832, 2837, 2866) — all multi-part. Single-part path checked per chord only, so its pin (a preference) could also drift.
 - Owner pick (clickable): "Lock + pick another". `_build_chords` now renders each role across ALL chords on one source with a shared pin, checks `_one_instrument` over the whole beat, and if it fails tries the DJ's next own family; support/lead failing everywhere -> single-part path. Single-part plans now also need one instrument per source across the whole beat.
 - Test: `test_no_lane_ever_combines_two_instruments` extended to check per part across chords. GAP: two fixtures tried, neither reproduces the bug on the OLD code, so no test proves the fix. Real proof = recipe scan of the next batch he renders (voice_files grouped by v-suffix, folders per part).
-- Status: open
+- Status: confirmed — owner 2026-09-26: "the one instrument per part worked. I listened."
 
 ### 2026-09-25 Horror Rap research build (9th genre) — built, not rendered
 - Context: genre pass A-Z; no open questions left on the instrument work (one-instrument-per-part and equal families both built, waiting on his ear).
