@@ -11,7 +11,8 @@ Owner 2026-09-05, after Doc Day's rebuild landed: *"I'll want this same for
 all remaining legends. Not in the 9. Create something to make that easy and
 clear for each session"* — **"So you remember."**
 
-Twelve Legends. One is done. This is the process for the rest, one per
+Fourteen Legends: 11 confirmed, 3 not started (DJ Premium, No Alias, Well
+Damn — run the status command below, it is always current). One per
 session. **The nine crew DJs are not in scope** and their settings must not
 move.
 
@@ -20,7 +21,8 @@ move.
 "Start tuning the genres using the same format as the rebuild for DJs,
 research first then build." His answers, all clickable:
 - **A-Z, one at a time**, same as the Legends. Progress lives in
-  `genre_newbuild_status.json`.
+  `genre_newbuild_status.json`. All 18 were research-built by 2026-09-25;
+  what is left is rendering (only when he asks) and his ear.
 - **Keep the approved mix, tune the style.** True levels, the low-end
   rules, one bass per beat and the Loops page's own levels stay exactly
   as they are. Change the genre's drums, tempo, sounds, tags and chords.
@@ -43,6 +45,14 @@ research first then build." His answers, all clickable:
 - A synonym never lands a sidestick/rim/clap/combo in a snare slot or an
   open hat/combo in a hat slot (`_NOT_A_SNARE`, `_NOT_A_CLOSED_HAT`). After
   `--tags`, still list the files each lane newly reaches and read them.
+- **Every build touches two test lists** in `tests/test_crew.py`: the
+  own_soundbank allow-list, and (if dirt goes on) the `allow_dirt` dict in
+  `test_allow_dirt_is_eight_presets_not_the_roster`. Also grep the tests
+  for the genre's name: a test may use it as its "clean" example (Memphis
+  in `test_fx_on_saves_a_copy...` broke when Memphis turned dirty).
+- **A sound the research names may not exist in his library** (bounce
+  whistles, timbale, clave: 0 files). Use the nearest real sound and say
+  so in the `_research_note`; never fake it with a wrong word.
 
 ## Start every session here
 
@@ -50,7 +60,7 @@ research first then build." His answers, all clickable:
 ./.venv/bin/python tools/legend_newbuild.py
 ```
 
-Prints where all twelve stand, and for anyone not started: his `listen`
+Prints where every Legend stands, and for anyone not started: his `listen`
 line, any ABSOLUTE words in it, and what is still wrong with his config.
 Stage comes from `legend_newbuild_status.json`; the checks are read live so
 they cannot go stale. Add `--tags` to audit taste tags against the real
@@ -107,20 +117,11 @@ filenames** (`--tags`): they match FILENAMES, not intent. Doc Day's
 three of which two were 808s — the words read perfectly and delivered the
 opposite.
 
-**New for legends built from 2026-09-09 on: also set `"flavor_match":
-true`.** This turns on `flavor_tags.py`'s synonym layer, so a want-tag
-also reaches its documented synonyms/spelling variants (e.g. "tight" now
-also matches this library's "tite" files) instead of only the exact
-literal word — the class of dead-tag finding `--tags` keeps turning up on
-every legend so far. Owner directive, 2026-09-09: wire this forward-only.
-**Do not add this flag to any of the twelve existing legends or the nine
-crew DJs** — they stay on the old literal-only matching until he asks for
-that retag pass separately. `--tags` audits a `flavor_match` legend with
-the same synonym-aware logic it will actually run with, so a lower "dead
-word" count on a new legend is real, not a blind spot. See
-`tools/flavor_tags.py`'s module docstring for which words are
-deliberately NOT grouped (`dry`, `boom`, `punch`/`knock`/`deep` — each has
-its own documented over-matching history) and why.
+**Set `"flavor_match": true`.** It lets a sound word also reach its
+synonyms/spellings ("tight" also finds "tite" files). Since 2026-09-25 it is
+on for EVERY crew DJ, Legend and genre (owner). `--tags` audits with the same
+synonym logic. See `tools/flavor_tags.py` for the words deliberately NOT
+grouped (`dry`, `boom`, `punch`/`knock`/`deep`) and why.
 
 **6. Render the audition.**
 ```
@@ -143,7 +144,7 @@ round trip: a batch went out with two sidesticks where snares belong, open
 hats where tight hats belong, and a talking drum.
 
 **8. Tests, then hand it to him.** Full suite (`.venv/bin/python -m pytest
-tests/ -q`, ~8 min, baseline 994 passed / 3 skipped). Any invariant test
+tests/ -q`, ~14 min, baseline 1252 passed / 2 skipped on 2026-09-25). Any invariant test
 that touches `compose()` must be run several times over — compose() re-rolls
 per process, so one green run proves nothing.
 

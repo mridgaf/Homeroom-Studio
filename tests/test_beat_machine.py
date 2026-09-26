@@ -1897,7 +1897,7 @@ def test_fx_on_saves_a_copy_with_the_style_effects_baked_in(machine_env):
     dirt switched on, stems included; the clean original stays; a second
     press on the FX copy is refused rather than printing a duplicate."""
     root, shots = machine_env
-    path, _ = beat_machine.generate(["Memphis"], root=root, shots=shots)
+    path, _ = beat_machine.generate(["Wonky"], root=root, shots=shots)
     no = int(path.name.split()[0])
     assert not beat_recipes.load_recipe(root, no)["preset"].get("allow_dirt")
     p2, _ = beat_machine.swap_many(no, {}, root=root, shots=shots, fx=True)

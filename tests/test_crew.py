@@ -132,7 +132,7 @@ def test_kick_sustain_is_a_range_not_a_constant():
 # and never names a stamp. kit["stamp"] deliberately STAYS (crew.lock_stamps
 # reads it unconditionally); only the pattern is gone. A SECOND name here is
 # that decision being made again — say why, in the config's _research_note.
-NO_STAMP_LANE = {"Razor", "DJ Light Green"}
+NO_STAMP_LANE = {"Razor", "DJ Light Green", "Well Damn"}
 
 
 def test_every_personality_has_a_stamp():
@@ -780,7 +780,8 @@ def test_own_soundbank_is_the_new_build_legends_only():
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
-                    "DJ Light Green", "Hitt Kid", "Acid Rap Bright",
+                    "DJ Light Green", "Hitt Kid", "Well Damn",
+                    "Acid Rap Bright",
                     "Acid Rap Detroit", "Baltimore Club", "Chiptune",
                     "Crunk", "Detroit", "Emo Hip Hop", "G-Funk", "Horror Rap", "Houston Screw", "Memphis", "Miami Bass",
                     "New Orleans Bounce", "Organized Noize", "Plug",
@@ -809,7 +810,7 @@ def test_legend_stamps_are_not_locked():
     stamps = crew.lock_stamps(shots)
 
     legends = [n for n, p in CREW.items() if p.get("legend")]
-    assert len(legends) == 13, legends   # DJ Light Green added 2026-09-09
+    assert len(legends) == 14, legends   # Well Damn (FnZ) added 2026-09-26
     for n in legends:
         assert stamps[n] == (None, None), f"{n} is still locked"
 

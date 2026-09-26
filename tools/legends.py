@@ -664,6 +664,65 @@ LEGENDS_DEFAULT = {
             ["fx", ["riser", "impact", "reverse"], "edm fx"],
             ["crash", ["crash"], "crash2"]]),
     ),
+    # ------------------------------------------------ Miami-bass revival
+    # The fourteenth, added 2026-09-26. Owner researched FnZ (Finatik N
+    # Zac) and picked the roster name (Well Damn, their producer tag) and
+    # the era himself: the Denzel Curry / ZUU side, not the Drake/Future
+    # sample-flip side (on those, another producer usually adds the
+    # drums — see legends_config.json's signature._note for the full
+    # sourcing, including which kit tags are borrowed from the Miami
+    # Bass GENRE build done the same session and which numbers are
+    # unsourced magnitudes flagged as such).
+    "Well Damn": dict(
+        num=41, bpm=165, era="legend",
+        built=("FnZ (Finatik N Zac) — the Denzel Curry Miami-bass era "
+               "(ZUU/TA13OO), not the Drake/sample-flip side"),
+        legend=True, legend_swing=52,
+        listen=("brash Miami-bass revival at 165 halftime, going "
+                "straight off feel with no overthinking: a steroidal, "
+                "heavily distorted 808 filling almost every gap, a clap "
+                "hard on 2 and 4 with a little wander, driving 16th "
+                "hats, cowbell riding through, and an air-raid-siren-"
+                "style fx stamp on every beat"),
+        kit=dict(
+            kick=("kick", None, ["808", "sub", "deep", "boom"],
+                  (0.8, 1.6)),
+            clap=("clap", None, ["clap", "big"], 1.0),
+            hat=("hat", None, ["closed", "tight"], 0.3),
+            perc=("perc", None, ["cowbell"], 0.4),
+            stamp=("fx", None, ["vocal", "zap", "laser", "scratch"], 1.2),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 1, 55, 1141), _BK),
+            clap=(0.0, 0.9, (0, 1, 55, 1142), _BK),
+            hat=(-0.12, 0.35, (0, 1, 55, 1143), _H8),
+            perc=(0.15, 0.3, (0, 2, 55, 1144), _H8),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.35,
+        space=("dry", ["clap"]), alt=None,
+        drive=1.6, kick_dist=6.0, mix_sat=3.0,
+        own_soundbank=True,
+        grammar=dict(
+            kick=dict(w=[10, 1, 1, 5, 1, 2, 6, 1, 4, 1, 5, 2, 6, 1, 3, 2],
+                      hits=[3, 6], double_p=0.3),
+            clap=dict(modes=[["backbeat", 0.95], ["displaced", 0.05]],
+                      ghosts=[0, 1], gcells=[7, 15]),
+            hat=dict(modes=[["drive16", 0.4], ["sixteenths", 0.3],
+                            ["offbeats", 0.2], ["eighths", 0.1]],
+                     open_p=0.16),
+            perc=dict(modes=[["offbeats", 0.4], ["eighths", 0.35],
+                             ["sixteenths", 0.25]]),
+        ),
+        kick_flavors=[[0.85, "808", ["sub", "long", "deep"], [1.0, 1.8]],
+                      [0.15, None, ["punch", "tight"], [0.2, 0.45]]],
+        library=dict(p=0.5, tags=[["trap", 3], ["electro", 3],
+                                  ["drill", 1]]),
+        extras=dict(p=0.65, nmax=2, pool=[
+            ["fx", ["zap", "laser", "scratch"], "sirens & scratches"],
+            ["perc", ["cowbell"], "cowbell"],
+            ["crash", ["crash"], "crash2"]]),
+        flavor_match=True,
+    ),
 }
 
 # ------------------------------------------------------ their kick books
@@ -747,6 +806,13 @@ LEGEND_KICK_BANK = {
         "X---x-----X-x---", "X-----xx--X--x--", "X-x---x---X-----",
         "X-----x---X-xx--", "X--x------X---x-", "X-----x--xX-----",
         "X---xx----X--x--", "X------x--X--x--", "X-----x---X---x-"],
+    "Well Damn": [                 # 808 filling every gap, Miami-bass busy
+        # answering hit deliberately spread across steps 5-14, same fix
+        # DJ Light Green and DJ Premium needed for the variety floor.
+        "X--x--x---x-X---", "X--x----x-X--x--", "X---x--x--X-x---",
+        "X--x--x-X-x-----", "X----x--x-X--x--", "X--x---xX---x---",
+        "X--x--x---X--x-x", "X---x-x-X-x-----", "X--x----X-x--x--",
+        "X--x--x-x-X-----", "X---x--xX---x--x", "X--x-x----X--x--"],
 }
 
 # ------------------------------------------------- their beat titles
@@ -806,6 +872,10 @@ LEGEND_TITLES = {
                   "Classic", "Modest", "Studied"],
                  ["Notebook", "Portrait", "Manuscript", "Redraft",
                   "Excerpt", "Preface", "Margin", "Draft"]),
+    "Well Damn": (["Trunk", "Carol City", "Chevy", "Siren", "Impala",
+                   "Bassline", "Flea Market", "Overpass"],
+                  ["Rattle", "Zuu", "Bounce", "Wail", "Slap", "Static",
+                   "Damn", "Feel"]),
 }
 
 KICK_BANK.update(LEGEND_KICK_BANK)
