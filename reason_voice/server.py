@@ -900,7 +900,7 @@ class WebApp:
             # his reject pile, resurfacing it here would undo the triage.
             self._stop_audition()
             markers = (os.sep + "Claude Drum Loops" + os.sep,
-                       os.sep + "Claude Drum Beats" + os.sep)
+                       os.sep + "Homeroom Rhythms" + os.sep)
 
             def _place(e):
                 """(folder shown in the browser, its dir) or None."""

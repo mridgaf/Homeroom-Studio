@@ -62,7 +62,7 @@ def _resolve_beats_root():
     does.
 
     Override with REASON_VOICE_BEATS_ROOT, or beats_root.json at the
-    project root: {"root": "/Volumes/TBOTC 3/Claude Drum Beats"}
+    project root: {"root": "/Volumes/TBOTC 3/Homeroom Rhythms"}
     """
     env = os.environ.get("REASON_VOICE_BEATS_ROOT")
     if env:
@@ -78,7 +78,7 @@ def _resolve_beats_root():
         except (json.JSONDecodeError, KeyError, TypeError):
             print("WARNING: beats_root.json is broken — ignoring it.")
     home = Path.home()
-    name = "Claude Drum Beats"
+    name = "Homeroom Rhythms"
     cands = [home / "Documents/Samples" / name,
              home / "Library/Mobile Documents/com~apple~CloudDocs"
              / "Documents/Samples" / name]

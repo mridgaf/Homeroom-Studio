@@ -16,7 +16,7 @@ import pytest
 sys.path.append(str(Path(__file__).parent.parent / "tools"))
 import reference_track as rt
 
-LIBRARY = Path("/Volumes/TBOTC 3/Claude Drum Beats/Favorites")
+LIBRARY = Path("/Volumes/TBOTC 3/Homeroom Rhythms/Favorites")
 
 
 def test_the_modules_own_self_check_passes():

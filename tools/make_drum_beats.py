@@ -282,6 +282,7 @@ def _clean_pool(shots):
             e for e in entries
             if not is_banned(e["path"], banned, sounds, stems)
             and "/Claude Drum Beats/" not in e["path"]
+            and "/Homeroom Rhythms/" not in e["path"]
             and not (BAND_TOKENS
                      & set(e.get("tokens")
                            or Path(e["path"]).stem.lower().split()))]

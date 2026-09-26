@@ -59,7 +59,7 @@ take 6m28 and produce nothing readable. Full rule in CLAUDE.md §0d.
 - The pure synth engine is `tools/make_drum_loops.py` (see the `drum-loops`
   skill); that one is intentionally synthesized. Pick the engine the request
   implies; when he says "use my samples", it's `make_drum_beats.py`.
-- Output roots: beats → `~/Documents/Samples/Claude Drum Beats`, loops →
+- Output roots: beats → `/Volumes/TBOTC 3/Homeroom Rhythms`, loops →
   `~/Documents/Samples/Claude Drum Loops`, where Reason Voice indexes them.
 
 ## Before you hand it over

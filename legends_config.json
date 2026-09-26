@@ -6018,10 +6018,9 @@
         "kick",
         null,
         [
-          "808",
-          "sub",
-          "deep",
-          "boom"
+          "hard",
+          "dry",
+          "bass"
         ],
         [
           0.8,
@@ -6032,8 +6031,7 @@
         "clap",
         null,
         [
-          "clap",
-          "big"
+          "clap"
         ],
         1.0
       ],
@@ -6058,10 +6056,9 @@
         "fx",
         null,
         [
-          "vocal",
-          "zap",
-          "laser",
-          "scratch"
+          "siren",
+          "alarm",
+          "riser"
         ],
         1.2
       ]
@@ -6252,8 +6249,8 @@
         0.85,
         "808",
         [
-          "sub",
-          "long",
+          "808",
+          "boom",
           "deep"
         ],
         [
@@ -6265,8 +6262,8 @@
         0.15,
         null,
         [
-          "punch",
-          "tight"
+          "hard",
+          "dry"
         ],
         [
           0.2,
@@ -6298,7 +6295,9 @@
         [
           "fx",
           [
-            "zap",
+            "siren",
+            "alarm",
+            "riser",
             "laser",
             "scratch"
           ],
@@ -6361,7 +6360,7 @@
       ]
     },
     "signature": {
-      "_note": "NEW BUILD \u2014 NEW LEGEND 2026-09-26, the fourteenth. Owner asked for FnZ (Finatik N Zac) after researching them, and chose the roster name himself (Well Damn, from their producer tag \"FNZ, well damn!\", per Highsnobiety 2019). Owner picked the era himself, clickable: their Denzel Curry / Miami-bass side (ZUU, TA13OO), NOT the sample-flip side that dominates their Drake/Future/Kid Laroi hits \u2014 on those, FnZ mostly supply a chopped sample and another producer (Vinylz, Tay Keith) adds the drums, so that side has no real FnZ drum identity to build from. Added as #14, replacing nobody.\n\nSOURCES (6, TinyFish 2026-09-26)\n- Sound On Sound, 'Inside Track: FNZ' (Paul Tingen, May 2024): sample-first workflow (70%+ of beats start with a sample), Ableton-based, but this describes their co-write/sample-flip side, not their own drum programming \u2014 confirms this era is the exception where they DO build the beat themselves.\n- Highsnobiety (Danny Schwartz, 2019-06-25): ZUU's '808s and air siren synths, inspired equally by 2 Live Crew and XXXTentacion'; made 'going straight off feel... not a lot of overthinking at all' (Finatik, on ZUU vs the slower TA13OO process); producer tag 'FNZ, well damn!' heard throughout.\n- Complex (Steve Duck, 2019-06-04): confirms FnZ, not just Denzel, drove ZUU's direction ('it just happened').\n- Wikipedia 'FnZ': full credit list, used to confirm Denzel's four projects (Imperial, TA1300, ZUU, Melt My Eyez) are the FnZ-as-drummer body of work, distinct from the co-write credits that make up most of the page.\n- What Went Right With... ZUU (2019-05-30): 'loud, bass-heavy, brash production'; names 'Birdz' (distorted synth squeal over a bass-heavy beat) as the LP's best production.\n- Tunebat/songbpm (2026-09-26): tempos for FnZ-drummed Denzel tracks \u2014 Knotty Head 158 (half-time 79), Ricky 169 (half-time 85), Shake 88 182, P.A.T. 160, Birdz 156 (double-time reading of 78). Median ~163; set bpm 165 with a halftime backbeat, which lands the FELT snare speed at ~82 \u2014 right in the sourced half-time range.\n\nWHAT'S SOURCED vs BORROWED vs UNSOURCED, named honestly:\n- bpm 165 + halftime clap: directly sourced (tempos above).\n- kick 808/sub/deep/boom, clap backbeat 0.95/displaced 0.05, hat drive16 grammar, perc cowbell: BORROWED from the Miami Bass GENRE build done the same session (genres_config.json, 2026-09-25) \u2014 legitimate because Highsnobiety names 2 Live Crew as ZUU's direct inspiration and that genre tag audit already proved these words match real files in THIS library. No crew DJ or Legend was built on that genre before this.\n- kick_dist 6.0 / mix_sat 3.0 / drive 1.6: UNSOURCED magnitudes, chosen to be the roster's most distorted/loudest to match 'steroidal 808s' and 'brash' \u2014 the direction is sourced, the exact numbers are not. First thing to change if the audition sounds wrong.\n- stamp tags (vocal/zap/laser/scratch, fx bucket): also borrowed from the Miami Bass genre's verified-real stamp bucket rather than an unverified 'siren' tag \u2014 see the tag audit gap below.\n- chord signature (minor/dorian, dark_menacing/snarl_vamp/vamp_static_riff progressions): UNSOURCED \u2014 no source discusses FnZ's harmony on this era. Chosen to match 'brash', 'no overthinking' (mostly static one-chord vamps) rather than the melodic sample-chops that define their OTHER (unbuilt) side. Flagged, not invented to look busy.\n\nGAP NOT CLOSED THIS SESSION, said out loud rather than guessed: this was built in the cloud sandbox, which cannot reach the TBOTC 3 drive or the real macOS venv (pedalboard is a macOS-only wheel). So the usual --tags audit against live filenames, the MIDI validity gate, the full pytest run, and an actual rendered audition ALL still need to happen on his machine before this is anything more than data on disk. The kit tags above are the closest honest guess (borrowed from a same-day, same-library, already-audited genre build) rather than a fresh guess, but they are NOT independently verified for Well Damn.",
+      "_note": "NEW BUILD \u2014 NEW LEGEND 2026-09-26, the fourteenth. Owner asked for FnZ (Finatik N Zac) after researching them, and chose the roster name himself (Well Damn, from their producer tag \"FNZ, well damn!\", per Highsnobiety 2019). Owner picked the era himself, clickable: their Denzel Curry / Miami-bass side (ZUU, TA13OO), NOT the sample-flip side that dominates their Drake/Future/Kid Laroi hits \u2014 on those, FnZ mostly supply a chopped sample and another producer (Vinylz, Tay Keith) adds the drums, so that side has no real FnZ drum identity to build from. Added as #14, replacing nobody.\n\nSOURCES (6, TinyFish 2026-09-26)\n- Sound On Sound, 'Inside Track: FNZ' (Paul Tingen, May 2024): sample-first workflow (70%+ of beats start with a sample), Ableton-based, but this describes their co-write/sample-flip side, not their own drum programming \u2014 confirms this era is the exception where they DO build the beat themselves.\n- Highsnobiety (Danny Schwartz, 2019-06-25): ZUU's '808s and air siren synths, inspired equally by 2 Live Crew and XXXTentacion'; made 'going straight off feel... not a lot of overthinking at all' (Finatik, on ZUU vs the slower TA13OO process); producer tag 'FNZ, well damn!' heard throughout.\n- Complex (Steve Duck, 2019-06-04): confirms FnZ, not just Denzel, drove ZUU's direction ('it just happened').\n- Wikipedia 'FnZ': full credit list, used to confirm Denzel's four projects (Imperial, TA1300, ZUU, Melt My Eyez) are the FnZ-as-drummer body of work, distinct from the co-write credits that make up most of the page.\n- What Went Right With... ZUU (2019-05-30): 'loud, bass-heavy, brash production'; names 'Birdz' (distorted synth squeal over a bass-heavy beat) as the LP's best production.\n- Tunebat/songbpm (2026-09-26): tempos for FnZ-drummed Denzel tracks \u2014 Knotty Head 158 (half-time 79), Ricky 169 (half-time 85), Shake 88 182, P.A.T. 160, Birdz 156 (double-time reading of 78). Median ~163; set bpm 165 with a halftime backbeat, which lands the FELT snare speed at ~82 \u2014 right in the sourced half-time range.\n\nWHAT'S SOURCED vs BORROWED vs UNSOURCED, named honestly:\n- bpm 165 + halftime clap: directly sourced (tempos above).\n- kick 808/sub/deep/boom, clap backbeat 0.95/displaced 0.05, hat drive16 grammar, perc cowbell: BORROWED from the Miami Bass GENRE build done the same session (genres_config.json, 2026-09-25) \u2014 legitimate because Highsnobiety names 2 Live Crew as ZUU's direct inspiration and that genre tag audit already proved these words match real files in THIS library. No crew DJ or Legend was built on that genre before this.\n- kick_dist 6.0 / mix_sat 3.0 / drive 1.6: UNSOURCED magnitudes, chosen to be the roster's most distorted/loudest to match 'steroidal 808s' and 'brash' \u2014 the direction is sourced, the exact numbers are not. First thing to change if the audition sounds wrong.\n- stamp tags (vocal/zap/laser/scratch, fx bucket): also borrowed from the Miami Bass genre's verified-real stamp bucket rather than an unverified 'siren' tag \u2014 see the tag audit gap below.\n- chord signature (minor/dorian, dark_menacing/snarl_vamp/vamp_static_riff progressions): UNSOURCED \u2014 no source discusses FnZ's harmony on this era. Chosen to match 'brash', 'no overthinking' (mostly static one-chord vamps) rather than the melodic sample-chops that define their OTHER (unbuilt) side. Flagged, not invented to look busy.\n\nGAP NOT CLOSED THIS SESSION, said out loud rather than guessed: this was built in the cloud sandbox, which cannot reach the TBOTC 3 drive or the real macOS venv (pedalboard is a macOS-only wheel). So the usual --tags audit against live filenames, the MIDI validity gate, the full pytest run, and an actual rendered audition ALL still need to happen on his machine before this is anything more than data on disk. The kit tags above are the closest honest guess (borrowed from a same-day, same-library, already-audited genre build) rather than a fresh guess, but they are NOT independently verified for Well Damn.\n\nREAL TAG AUDIT 2026-09-26 (--tags, TBOTC 3 mounted via the device bridge this session -- the borrowed guess above was checked, not left as a guess). First pass (the borrowed Miami-Bass-genre words) was almost entirely dead IN THIS LEGEND'S OWN BUCKETS: kick 808/boom matched 0 of 282 (both ARE real words, but they live in the BASS bucket now -- 808 left the kick tuple 2026-09-07, and 808=111 / boom=111 there); clap 'big' 0 of 53; stamp vocal/zap 0-1 of 167. Rewritten against real filenames: kit.kick hard/dry/bass (18/22/7 of 282); kick_flavors' 808 branch moved off the dead sub/long/deep to 808/boom/deep (111/111/5 of 132 in the BASS bucket, where an '808' kick_flavor actually draws from); the short kick_flavor moved from punch/tight (0/2) to hard/dry; clap dropped to clap alone (52 of 53 -- 'big' added nothing); stamp moved from vocal/zap/laser/scratch to siren/alarm/riser (4/2/4 of 167) -- thinner than the genre's borrowed words but the actually-correct concept for 'air-raid-siren-style', confirmed real rather than assumed. Hat (closed/tight, 30/17 of 337) and perc (cowbell, 21 of 340) were already alive and left as-is.",
       "key": {
         "roots": [
           "E",
@@ -6453,16 +6452,16 @@
       "chords_default": true,
       "chord_rhythm": [
         [
-          "stab",
+          "sustain",
           3
         ],
         [
-          "sustain",
-          2
+          "arp",
+          1
         ]
       ]
     },
     "flavor_match": true,
-    "_research_note": "SEE signature._note \u2014 full sourcing kept there to stay next to the harmony it justifies, same as this legend's chord picks. Structural picks (kit/grammar/tempo) sourced inline above."
+    "_research_note": "SEE signature._note \u2014 full sourcing kept there to stay next to the harmony it justifies, same as this legend's chord picks. Structural picks (kit/grammar/tempo) sourced inline above.\n\nREAL TAG AUDIT 2026-09-26 (--tags, TBOTC 3 mounted via the device bridge this session -- the borrowed guess above was checked, not left as a guess). First pass (the borrowed Miami-Bass-genre words) was almost entirely dead IN THIS LEGEND'S OWN BUCKETS: kick 808/boom matched 0 of 282 (both ARE real words, but they live in the BASS bucket now -- 808 left the kick tuple 2026-09-07, and 808=111 / boom=111 there); clap 'big' 0 of 53; stamp vocal/zap 0-1 of 167. Rewritten against real filenames: kit.kick hard/dry/bass (18/22/7 of 282); kick_flavors' 808 branch moved off the dead sub/long/deep to 808/boom/deep (111/111/5 of 132 in the BASS bucket, where an '808' kick_flavor actually draws from); the short kick_flavor moved from punch/tight (0/2) to hard/dry; clap dropped to clap alone (52 of 53 -- 'big' added nothing); stamp moved from vocal/zap/laser/scratch to siren/alarm/riser (4/2/4 of 167) -- thinner than the genre's borrowed words but the actually-correct concept for 'air-raid-siren-style', confirmed real rather than assumed. Hat (closed/tight, 30/17 of 337) and perc (cowbell, 21 of 340) were already alive and left as-is."
   }
 }

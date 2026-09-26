@@ -6750,6 +6750,15 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
 - Outcome: (needs his machine — tag audit, then a rendered audition, then his ear)
 
 
+### 2026-09-26 Well Damn — the tag audit and audition actually ran (same session, drive turned out reachable)
+- Context: right after logging Well Damn as needing his machine, he said "you should be able to complete the next step for me." Requested folder access to /Volumes/TBOTC 3 and it granted and mounted into this sandbox — the earlier "cloud sandbox can't reach the drive" limit was about this session's DEFAULT reach, not a hard wall; asking for the folder got past it.
+- Decision/change: ran the real `--tags` audit. The borrowed Miami-Bass-genre words were almost entirely dead in Well Damn's OWN buckets: kick 808/boom matched 0 of 282 (both live in the BASS bucket now, not kick — 808 left the kick tuple 2026-09-07); clap "big" 0 of 53; stamp vocal/zap 0-1 of 167. Rewrote against real filenames: kit.kick hard/dry/bass (18/22/7); kick_flavors' 808 branch moved to 808/boom/deep off the BASS bucket (111/111/5 of 132 — huge improvement over the dead sub/long/deep); short kick_flavor to hard/dry; clap to clap alone (52 of 53); stamp to siren/alarm/riser (4/2/4 of 167 — thinner, but the honestly-correct concept, not a proxy). Re-audit: zero dead tags across every lane. Also found (via `tests/test_signature_words.py`, not the tag audit) that `chord_rhythm: "stab"` is not a valid word — only arp/sustain are — and fixed it to sustain/arp.
+- Reasoning: borrowed tags were a reasonable placeholder when the drive looked unreachable, but "borrowed and flagged" is not the same as "verified", and the owner was right that nothing here actually required leaving it unverified — it only required asking for the folder.
+- Verify by: `tools/legend_newbuild.py --legend "Well Damn" --tags` now shows zero DEAD tags on every lane. `pytest tests/test_crew.py` 40/40. `pytest tests/test_genres.py tests/test_signature.py tests/test_signature_words.py tests/test_variety.py tests/test_pattern_gen.py` 349+183, all passing. Rendered 4 real beats (86-89) with `tools/beat_machine.py --render "Well Damn" --count 4`, all 4 passed the MIDI validity gate, LUFS -12.6/-12.7. Delivered to `~/Desktop/Homeroom Auditions/Homeroom Well Damn NEW LEGEND 2026-09-26/` with a plain READ ME. Full ~1000-test suite NOT run end-to-end this session (command cap is 3 minutes; the suite runs ~8) — named as a real gap, not silently skipped. `tests/test_dial.py` can't even collect on this sandbox (missing PortAudio, unrelated to this work).
+- Status: open
+- Outcome: (rendered and gate-passed; NOT heard — his ear is still the only thing that closes this)
+
+
 ## Archived history — 66 entries moved, nothing deleted
 
 Everything up to and including 2026-07-25 now lives in
@@ -7740,3 +7749,11 @@ just not loaded by default.
 - Wonky: pocket 78-90; "every lane jittered" locked by test_wonky_every_lane_jitters (all lanes already 7-9 ms).
 - Backups `genres_config.pre-<slug>-2026-09-25.json` (six). All in the own_soundbank allow-list; Trip Hop in the dirt list.
 - Status: open — built, NOT rendered, not heard.
+
+### 2026-09-25 Old beats cleared out; rename to "Homeroom Rhythms" NOT done
+- Context: owner asked to clear every DJ/genre beat older than 3 days into one folder he'll trash himself, keep only Favorites + Experiments, and rename the library "Claude Drum Beats" -> "Homeroom Rhythms".
+- Decision/change: moved 1,848 items (~970 beats, 29.6 GB) into `Claude Drum Beats/_To Delete - Old Beats 2026-09-25/` with manifest.txt. Beat age = the .wav's date; its .mid/.txt/Stems moved with it. Whole folders moved when nothing new was left (29, incl. Trash, Prototypes, Fixed Bank, _Flagged - Banned Samples - owner OK'd Prototypes + Fixed Bank by click). Beats from the last 3 days stayed in their folders. .recipes, README.txt, Homeroom Studio.command left in place. Nothing deleted.
+- Rename blocked: needs access to the top of the TBOTC 3 drive, which was refused this session. When it happens, update in the SAME step or beats land in the wrong place: beats_root.json "root", sound_engine/library.py:37 + tools/beat_machine.py:81 fallback name, reason_voice/server.py:903 browse marker, tests/test_reference_track.py:19. Also check `~/reason code` (not checked).
+- Verify by: 0 beats older than 3 days left outside Favorites/Experiments/holding folder (checked right after the move).
+- Status: confirmed (move) / open (rename - see outcome)
+- Outcome: 2026-09-25 later same session, owner said "rename it now": renamed to `/Volumes/TBOTC 3/Homeroom Rhythms` after confirming no beat was written in the last 5 min. Same step updated beats_root.json, library.py + beat_machine.py fallback name, server.py browse marker, test_reference_track.py, make_drum_beats.py sample-scan filter (now excludes BOTH names), and 3 skill docs. JSON parses + edited files compile (Linux VM only). NOT yet checked: a real beat rendered on the Mac landing in Homeroom Rhythms; `~/reason code` not searched; Dock/Finder sidebar shortcuts to the old name not checked. Legacy tools (crew.py, variety.py, make_*.py, quarantine_banned.py) still name the long-dead ~/Documents/Samples path - untouched.

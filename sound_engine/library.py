@@ -34,7 +34,7 @@ def resolve_beats_root() -> Path:
         except (json.JSONDecodeError, KeyError, TypeError):
             print("WARNING: beats_root.json is broken — ignoring it.")
     home = Path.home()
-    name = "Claude Drum Beats"
+    name = "Homeroom Rhythms"
     cands = [home / "Documents/Samples" / name,
               home / "Library/Mobile Documents/com~apple~CloudDocs"
               / "Documents/Samples" / name]

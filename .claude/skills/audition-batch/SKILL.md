@@ -18,7 +18,7 @@ his library.**
 ~/Desktop/Homeroom Auditions/Homeroom <what it is> <YYYY-MM-DD>/
 ```
 
-Rendering into `/Volumes/TBOTC 3/Claude Drum Beats` takes real beat numbers
+Rendering into `/Volumes/TBOTC 3/Homeroom Rhythms` takes real beat numbers
 from the global counter and mixes auditions in with keepers. `generate()`
 takes `root=`; point it at the scratch dir under this session's scratchpad.
 

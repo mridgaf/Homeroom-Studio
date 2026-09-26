@@ -685,12 +685,14 @@ LEGENDS_DEFAULT = {
                 "hats, cowbell riding through, and an air-raid-siren-"
                 "style fx stamp on every beat"),
         kit=dict(
-            kick=("kick", None, ["808", "sub", "deep", "boom"],
-                  (0.8, 1.6)),
-            clap=("clap", None, ["clap", "big"], 1.0),
+            kick=("kick", None, ["hard", "dry", "bass"], (0.8, 1.6)),
+            clap=("clap", None, ["clap"], 1.0),
             hat=("hat", None, ["closed", "tight"], 0.3),
             perc=("perc", None, ["cowbell"], 0.4),
-            stamp=("fx", None, ["vocal", "zap", "laser", "scratch"], 1.2),
+            # tag-audited 2026-09-26: an "808" kick_flavor draws from the
+            # BASS bucket (808 left the kick tuple 2026-09-07), so this
+            # kit lane's own words are hard/dry/bass, not 808/boom.
+            stamp=("fx", None, ["siren", "alarm", "riser"], 1.2),
         ),
         lanes=dict(
             kick=(0.0, 1.0, (0, 1, 55, 1141), _BK),
@@ -713,12 +715,16 @@ LEGENDS_DEFAULT = {
             perc=dict(modes=[["offbeats", 0.4], ["eighths", 0.35],
                              ["sixteenths", 0.25]]),
         ),
-        kick_flavors=[[0.85, "808", ["sub", "long", "deep"], [1.0, 1.8]],
-                      [0.15, None, ["punch", "tight"], [0.2, 0.45]]],
+        # tag-audited 2026-09-26: 808/boom hit 111 of 132 in the BASS
+        # bucket (where the "808" flavor label actually searches); the
+        # borrowed sub/long/deep matched almost nothing there.
+        kick_flavors=[[0.85, "808", ["808", "boom", "deep"], [1.0, 1.8]],
+                      [0.15, None, ["hard", "dry"], [0.2, 0.45]]],
         library=dict(p=0.5, tags=[["trap", 3], ["electro", 3],
                                   ["drill", 1]]),
         extras=dict(p=0.65, nmax=2, pool=[
-            ["fx", ["zap", "laser", "scratch"], "sirens & scratches"],
+            ["fx", ["siren", "alarm", "riser", "laser", "scratch"],
+             "sirens & scratches"],
             ["perc", ["cowbell"], "cowbell"],
             ["crash", ["crash"], "crash2"]]),
         flavor_match=True,

@@ -108,7 +108,7 @@ idea** so he can hear it. Hard cap: **3 novelty beats per day**
 `~/.reason_voice/novelty_log.json` as {"YYYY-MM-DD": count} — check and
 update it before rendering. Never pad to hit the cap; fewer good ideas
 beats filler. Name files
-"Experiment NN <Idea> Drums <bpm>bpm.wav" in the Claude Drum Beats folder
+"Experiment NN <Idea> Drums <bpm>bpm.wav" in the Homeroom Rhythms folder
 and document the idea, its source, and why it's novel in the README.
 Candidates so far unexplored (see connections-2026-07.md for the first
 three): Roughness 808 (30-80 Hz AM on the sub tail = documented threat
