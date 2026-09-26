@@ -7777,3 +7777,10 @@ just not loaded by default.
 - Tests (Linux sandbox): test_crew/genres/signature/variety 180 passed, 7 failed. 6 of those fail because pedalboard is missing on this machine (known). `test_legend_stamps_are_not_locked` fails the same way on the unchanged code, so it is NOT from this change and is still not diagnosed.
 - Not done: full suite and a render on the Mac; not heard.
 - Status: open. Built, not rendered.
+
+### 2026-09-26 Close-up pass: suite on the Mac, MIDI roots, Looperman
+- Full suite on the Mac after the bass-seam (pulse) fix: 1260 passed, 1 failed, 2 skipped, 13m31s, run alone. Only failure: test_real_beats_are_not_mono_or_silent — beat 2924 (Just Flame) side level -22.27 dB vs -22.0 dB limit. Real beat on the drive, not the pulse fix; not chased.
+- MIDI pack folder fix was already done 2026-09-15 (own midi_roots/midi_sorted_root keys); test_midi_packs.py 10/10. CLAUDE.md open item corrected. MIDI as a chord_source is still unbuilt (own session).
+- One instrument per part: confirmed by owner's ear (entry above updated).
+- Looperman nightly: only real run 2026-09-23 failed at login ("did not accept the login"); no launch agent installed, no Keychain entry found. Needs owner (password) — not closable by Claude.
+- Status: open (Looperman; 2924 mono edge)
