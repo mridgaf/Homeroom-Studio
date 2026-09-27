@@ -1,9 +1,7 @@
 #!/bin/bash
 cd "$HOME/Desktop/Homeroom Studio" || exit 1
 mkdir -p "Nightly Loops"
-printf '%s' "johnsuhr007@gmail.com" > "Nightly Loops/.zapsplat_account"
 security add-generic-password -U -s "HomeroomStudio Zapsplat" -a "johnsuhr007@gmail.com" -w "zyfqaj-sunvav-tybPu3" 2>&1 | grep -v "already exists" || true
-
 LABEL="com.homeroomstudio.nightlyzapsplat"
 PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
 cat > "$PLIST" <<'EOF'
@@ -19,14 +17,13 @@ cat > "$PLIST" <<'EOF'
   </array>
   <key>WorkingDirectory</key><string>$HOME/Desktop/Homeroom Studio</string>
   <key>StartCalendarInterval</key>
-  <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>
+  <dict><key>Hour</key><integer>4</integer><key>Minute</key><integer>0</integer></dict>
   <key>StandardOutPath</key><string>$HOME/Desktop/Homeroom Studio/Nightly Loops/zapsplat.log</string>
   <key>StandardErrorPath</key><string>$HOME/Desktop/Homeroom Studio/Nightly Loops/zapsplat.log</string>
 </dict>
 </plist>
 EOF
-
 launchctl bootout "gui/$(id -u)" "$PLIST" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$PLIST"
-echo "✓ Zapsplat nightly: 6:00 a.m., 50 loops"
+echo "✓ Zapsplat nightly: 4:00 a.m."
 read -r -p "Press Return to close"
