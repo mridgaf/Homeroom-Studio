@@ -20,6 +20,14 @@ entries.
 
 ## Log
 
+### 2026-09-26 Key-tag sweep: detector failed its test, nothing renamed; 3 drums unblocked
+- Context: owner asked to key-tag melodic samples in BOTC Sorted Instruments via `tools/reference_track.py`, only after proving it accurate.
+- Measured: chroma/Krumhansl-Schmuckler detector on files with a known key: 211 instrument files 140 exact (+1 relative), 70 wrong (mostly single bass notes read as the fifth, C as G); 100 keyed loop phrases 46 exact (+9 relative). Confidence score does not separate right from wrong (best cutoff ~82%). Gate failed -> NO key renames.
+- Found: instruments already get pitch from the audio (`instrument_sampler.detect_pitch`), filename key unused there; 16 of 30 Instrument Chops already play. Owner (clickable): leave chops in place, do not move.
+- Drums: 3712 files in BOTC Sorted Samples indexed; only 4 unindexed, all caught by the nature-sound filter. Renamed 3 real drum hits (Ocean (HH)->Oceans (HH), MZ Perc [River]->[Rivers], Snare (Birds)->Snare (Bird)), originals copied to `~/Desktop/Homeroom Backups/key-fix-2026-09-26/`; all 3 now indexed. `MZ FX [Birds]` (13 s field recording) left blocked. No code changed.
+- Status: open (drums not heard; a better key detector would need building + testing)
+- Outcome: -
+
 ### 2026-09-26 Bass row picks his real bass files, and only the bass changes
 - Context: owner: picking on the bass row didn't change the bass, the list showed piano/guitar, and the picked sound faintly played over the old bass.
 - Cause (confirmed in code): `_lane_candidates` sent every harmony row, "chordbass" too, to `_chord_voices`; `swap_many` folded that pick into `chord_voice`, which re-voiced the CHORDS (the faint layer); `_build_chords` chose the bass file from `Random(variant*29+3)`, blind to any pick.
