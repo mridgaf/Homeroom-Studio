@@ -1,5 +1,4 @@
 Nightly loops - 2026-09-27
 Theme: Lo-fi / chill
-Login: Looperman did not accept the login (wrong password, or it blocks scripts).
+Login: Logged in.
 Filed: 0 (none)
-Stopped: login failed
