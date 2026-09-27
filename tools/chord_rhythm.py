@@ -102,7 +102,12 @@ def spec_for(preset, free=False):
     whatever the DJ's own settings. Genre presets without the key -> None,
     their opt-in unchanged."""
     raw = preset.get("chord_grammar")
-    if not raw and preset.get("genre"):
+    # Genres: opt-in only on beats made before chord flow (2026-09-26,
+    # owner: all 18 genres were stuck on one held pad or one climbing arp).
+    # A new genre beat plays the house figures unless its config says
+    # `"chord_grammar": false`; an old one rebuilds exactly as it was.
+    if not raw and preset.get("genre") and (
+            raw is False or not preset.get("chord_flow")):
         return None
     spec = dict(DEFAULT)
     if isinstance(raw, dict) and not free:

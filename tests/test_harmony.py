@@ -85,3 +85,118 @@ def test_every_progression_renders_in_every_mode():
             for c in chords:
                 assert c["notes"], (name, mode, c)
                 assert all(0 <= n < 128 for n in c["notes"]), (name, mode, c)
+
+
+# ---- chord flow (owner 2026-09-26: "not very much variety") ----
+
+def test_arrange_always_fills_the_loop_exactly_and_never_needs_a_fifth_row():
+    """Every progression, both loop lengths, many seeds: the chord lengths
+    add up to the loop, and there are never more than four chord slots
+    (each slot is its own rack row; a 4-chord loop already had four)."""
+    for name in harmony.names():
+        for bars in (4, 8):
+            for seed in range(40):
+                key = KeyContext("F", "minor")
+                _n, chords = harmony.compose(key, name)
+                out = harmony.arrange(key, chords, bars, random.Random(seed))
+                assert sum(c["bars"] for c in out) == bars, (name, bars, out)
+                assert 1 <= len(out) <= 4, (name, bars, len(out))
+                assert all(c["bars"] >= 1 for c in out)
+
+
+def test_arrange_varies_where_the_chords_change():
+    """The old layout was ONE even split for every beat. Now a 2-chord
+    loop over 8 bars lands on several different layouts."""
+    key = KeyContext("A", "minor")
+    _n, chords = harmony.compose(key, "vamp_i_VI")
+    layouts = {tuple((c["chord"], c["bars"]) for c in
+                     harmony.arrange(key, chords, 8, random.Random(s)))
+               for s in range(200)}
+    assert len(layouts) >= 5, layouts
+
+
+def test_a_turnaround_is_a_new_chord_in_the_last_bar():
+    key = KeyContext("A", "minor")
+    _n, chords = harmony.compose(key, "vamp_static_riff")
+    seen = 0
+    for s in range(200):
+        out = harmony.arrange(key, chords, 4, random.Random(s))
+        if any(c.get("turnaround") for c in out):
+            seen += 1
+            assert out[-1].get("turnaround")
+            assert out[-1]["chord"] != "Am"
+    # TURNAROUND_P is 0.4; 200 rolls land well inside 50..110
+    assert 50 <= seen <= 110, seen
+
+
+def test_voice_lead_keeps_the_chord_and_moves_less_than_root_position():
+    """Same notes (pitch classes), a comping range, and the hand travels
+    less between chords than the old root-up stacks did."""
+    key = KeyContext("C", "minor")
+    smooth_total = root_total = 0
+    for name in harmony.names():
+        for s in range(10):
+            _n, chords = harmony.compose(key, name)
+            rng = random.Random(s)
+            out = harmony.arrange(key, chords, 8, rng)
+            style = harmony.voice_lead(out, rng)
+            for c in out:
+                assert c["notes"][0] % 12 == key.voice(
+                    (c["notes"][0]) % 12, c["quality"], 3)[0] % 12
+                assert {n % 12 for n in c["voiced"]} == \
+                    {n % 12 for n in c["notes"]}
+                if style != "root":
+                    assert min(c["voiced"]) >= harmony.VOICE_LO
+                    assert max(c["voiced"]) <= harmony.VOICE_HI + 12
+            if style == "smooth":
+                for a, b in zip(out, out[1:]):
+                    smooth_total += harmony._move(a["voiced"], b["voiced"])
+                    root_total += harmony._move(a["notes"], b["notes"])
+    assert smooth_total < root_total * 0.8, (smooth_total, root_total)
+
+
+def test_voice_lead_leaves_root_position_notes_for_the_bass():
+    """The bass line, the 808 and the multi-part split read the root from
+    notes[0]. Voicing must never touch `notes`."""
+    key = KeyContext("D", "minor")
+    _n, chords = harmony.compose(key, "sad_accepting")
+    before = [list(c["notes"]) for c in chords]
+    out = harmony.arrange(key, chords, 8, random.Random(3))
+    harmony.voice_lead(out, random.Random(3))
+    assert [c["notes"] for c in chords] == before
+    for c in out:
+        assert c["notes"] == key.voice(c["notes"][0] % 12, c["quality"], 3)
+
+
+def test_pick_weights_halves_the_one_and_two_chord_loops():
+    got = dict((n, w) for n, w in harmony.pick_weights(
+        [["vamp_i_VI", 2], ["sad_accepting", 2], "vamp_static_riff"]))
+    assert got == {"vamp_i_VI": 1.0, "sad_accepting": 2,
+                   "vamp_static_riff": 0.5}
+
+
+def test_lead_parts_glides_each_part_and_keeps_the_top_part_on_top():
+    """Multi-part beats (about 45%) never used the smooth voicing, so a
+    chord-flow A/B pair came out byte-identical (Sunday Chop, 2026-09-26).
+    Each part now moves by octaves toward where it just was; the split's
+    notes are unchanged and the top part stays above the low part."""
+    import beat_machine
+    key = KeyContext("C", "minor")
+    moved_new = moved_old = 0
+    for name in harmony.names():
+        _n, chords = harmony.compose(key, name)
+        old = [beat_machine._split_chord_roles(c["notes"]) for c in chords]
+        new = harmony.lead_parts(old)
+        for o, n in zip(old, new):
+            for po, pn in zip(o, n):
+                assert sorted(x % 12 for x in po) == sorted(x % 12 for x in pn)
+            if n[0] and n[1]:
+                assert min(n[1]) > max(n[0]), (name, n)
+        for k in (0, 1):
+            for a, b in zip(old, old[1:]):
+                if a[k] and b[k]:
+                    moved_old += harmony._move(a[k], b[k])
+            for a, b in zip(new, new[1:]):
+                if a[k] and b[k]:
+                    moved_new += harmony._move(a[k], b[k])
+    assert moved_new < moved_old, (moved_new, moved_old)

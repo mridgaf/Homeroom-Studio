@@ -252,6 +252,18 @@ in the same session. To check the paths: `defaults read com.apple.dock persisten
 Owner, 2026-09-25. Every audition, new and old, goes inside `~/Desktop/Homeroom Auditions/`,
 never loose on the Desktop, and old ones are kept. The audition scripts in `tools/` already write there.
 
+### 0g. HARD RULE: Don't go looking for problems in old beats
+
+Owner, 2026-09-26: "Stop looking for problems that don't need to be fixed.
+Stop looking at old beats for problems. That needs to be a rule."
+
+- Beats already made are finished. Don't scan, measure or check them for faults.
+  Don't report anything about them, and don't offer to investigate.
+- Only work on what he asked about, plus anything your own change broke.
+- If a check turns up a fault in an old beat by accident, drop it. Don't mention it.
+- This does not stop you from reading an old beat's recipe when HE asks
+  about that beat.
+
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished
 without actually checking it:

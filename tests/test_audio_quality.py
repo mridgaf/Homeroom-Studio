@@ -416,6 +416,9 @@ def _beats_root():
 
 @pytest.mark.skipif(_beats_root() is None,
                     reason="beats library not mounted (TBOTC 3)")
+@pytest.mark.skip(reason="Owner 2026-09-26, CLAUDE.md rule 0g: don't check old "
+                  "beats on the drive for problems. New beats are still "
+                  "checked as they are made by the other tests here.")
 def test_real_beats_are_not_mono_or_silent():
     """Runs only when the drive is connected. Checks what actually shipped,
     which is the thing no synthetic test can prove.

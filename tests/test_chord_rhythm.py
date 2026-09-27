@@ -25,6 +25,21 @@ def test_genre_presets_keep_the_opt_in():
     assert spec_for({"genre": True, "chord_grammar": False}) is None
 
 
+def test_new_genre_beats_get_the_figures_unless_they_opt_out():
+    """Chord flow (owner 2026-09-26): all 18 genres were stuck on one held
+    pad or one climbing arp. A NEW genre beat (chord_flow set) now plays the
+    house figures, its arp share from its own chord_rhythm; an explicit
+    false still opts out, and an old beat rebuilds exactly as before."""
+    got = spec_for({"genre": True, "chord_flow": 1,
+                    "signature": {"chord_rhythm": "sustain"}})
+    assert got and "arp" not in dict(got["figures"])
+    got = spec_for({"genre": True, "chord_flow": 1,
+                    "signature": {"chord_rhythm": "arp"}})
+    assert dict(got["figures"])["arp"] > 0
+    assert spec_for({"genre": True, "chord_flow": 1,
+                     "chord_grammar": False}) is None
+
+
 def test_every_dj_gets_the_grammar_with_arps_halved():
     # owner 2026-09-14: the old arp is "repetitious and boring" -> these
     # rhythms for every DJ, "50% less than now"

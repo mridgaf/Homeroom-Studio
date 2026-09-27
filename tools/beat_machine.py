@@ -1451,6 +1451,12 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     audition can never drift from what generate() ships.
     Returns (midi_chords, harmony_info)."""
     low = _low_voice(preset, variant, dirs, traditional, dj, shots)
+    # CHORD FLOW (owner 2026-09-26, "not very much variety"): smooth
+    # voicings, varied chord lengths, turnarounds, fewer 1-2 chord loops.
+    # Stamped on NEW beats only, and saved in the recipe, so a rebuild of a
+    # beat made before today gives back exactly the sound it had.
+    import harmony
+    preset.setdefault("chord_flow", harmony.FLOW_VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2019,7 +2025,7 @@ def _decay_chord_slots(beds, slots, variant):
     return beds
 
 
-def _roll_key(sig, variant, dirs, open_roll, srng):
+def _roll_key(sig, variant, dirs, open_roll, srng, flow=False):
     """(key root, mode, progression name or None) for one beat — the three
     harmonic dice _build_chords rolls, in the same order on the same `srng`.
     A reference track's key wins hard; a free beat rolls the whole pool
@@ -2028,23 +2034,31 @@ def _roll_key(sig, variant, dirs, open_roll, srng):
     import harmony
     from key_context import MODES, SUB_ROOTS
     sig_key = sig.get("key") or {}
+    # chord flow: 1-2 chord loops picked half as often (harmony.pick_weights)
+    progs = (harmony.pick_weights(sig.get("progressions")) if flow
+             else sig.get("progressions"))
+
+    def _any(rng):
+        if not flow:
+            return rng.choice(harmony.names())
+        return _wpick(harmony.pick_weights(harmony.names()), rng)
     forced = dirs.get("force_key")
     if forced:
         key_root, mode = forced
         prog = dirs["chord_feel"] or (
-            _wpick(sig.get("progressions"), random.Random(variant * 419 + 5))
-            or srng.choice(harmony.names()))
+            _wpick(progs, random.Random(variant * 419 + 5))
+            or _any(srng))
     elif open_roll:
         # SUB_ROOTS is only seven and stays that way for the in-character pick
         key_root = srng.choice(sorted(ROOT_HZ))
         mode = srng.choice(sorted(MODES))
-        prog = dirs["chord_feel"] or srng.choice(harmony.names())
+        prog = dirs["chord_feel"] or _any(srng)
     else:
         key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
         mode = sig_key.get("mode", "minor")
         if isinstance(mode, list):                  # weighted mode list
             mode = _wpick(mode, srng)
-        prog = dirs["chord_feel"] or _wpick(sig.get("progressions"),
+        prog = dirs["chord_feel"] or _wpick(progs,
                                             random.Random(variant * 419 + 5))
     return key_root, mode, prog
 
@@ -2120,7 +2134,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # asked directly: "reference wins, hard"). The progression still
     # rolls in character — only the root and the mode are pinned, so a
     # batch in F minor still sounds like the DJ who made it.
-    key_root, mode, prog = _roll_key(sig, variant, dirs, open_roll, srng)
+    flow = bool(preset.get("chord_flow"))
+    key_root, mode, prog = _roll_key(sig, variant, dirs, open_roll, srng,
+                                     flow=flow)
     key = KeyContext(key_root, mode)
     prog_name, chords = harmony.compose(
         key, prog, rng=random.Random(variant * 419 + 5))
@@ -2133,6 +2149,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # loop is 4 bars — and tests/test_harmony.py pins it so a future 6-chord
     # progression fails loudly instead of arriving half-played.
     per_chord = max(1, nb // len(chords))
+    voicing = None
+    if flow:
+        # chord flow: lay the chords over the loop (uneven lengths, repeats,
+        # a turnaround) and voice each one close to the chord before it.
+        # Own seed, so none of the older rolls above move.
+        _frng = random.Random(variant * 541 + 23)
+        chords = harmony.arrange(key, chords, nb, _frng)
+        voicing = harmony.voice_lead(chords, _frng)
     pref = sig.get("chord_source")
     # "arp" = broken-chord riff, "sustain" = held block. A weighted list
     # rolls per beat (Dre's keepers were a mix of both — owner 2026-07-22).
@@ -2237,7 +2261,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # the sound of anything he didn't ask to change.
     forced_idx = None
     if voice:
-        _all_notes = sorted({n for c in chords for n in c["notes"]})
+        _all_notes = sorted({n for c in chords
+                             for n in c.get("voiced", c["notes"])})
         if voice == "strings" and strings_idx:
             forced_idx = _best_folder(
                 strings_idx, {e.get("group") for e in strings_idx},
@@ -2257,7 +2282,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # a stack) is decided below, once, the same way — see
     # theory/arrangement.md and OWNER_TASTE["melody_part_weights"].
     slots = []
-    for i, chord in enumerate(chords):
+    if flow:
+        _at = 0
+        for i, chord in enumerate(chords):
+            if _at >= nb:
+                break
+            _b = min(chord["bars"], nb - _at)
+            slots.append((i, chord, _at, _b * bar_s))
+            _at += _b
+    for i, chord in (() if flow else enumerate(chords)):
         start_bar = i * per_chord
         if start_bar >= nb:
             break
@@ -2291,7 +2324,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         why — a thin group like "synth" is scattered one-shots from many
         different vendor packs, so per-note picking made one chord sound
         like several different instruments stacked."""
-        notes = notes if notes is not None else chord["notes"]
+        notes = notes if notes is not None else chord.get("voiced",
+                                                          chord["notes"])
         # "midi" swaps in a real chord someone else already wrote in
         # place of harmony.compose()'s notes, cycling through the
         # picked file's own progression by slot — the same way a
@@ -2566,6 +2600,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         role_srcs = _role_sources(primary, order, own, part_count)
         splits = [_split_chord_roles(chord["notes"])
                   for _, chord, _, _ in slots]
+        if voicing in ("smooth", "open"):
+            # chord flow: each part glides to its nearest octave instead of
+            # every part jumping with the root (same split, same notes)
+            splits = harmony.lead_parts(splits)
         # a bare power chord has no lead note to split off -> single part
         role_ok = all(lead_n for _, lead_n, _ in splits)
 
@@ -2881,11 +2919,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             preset["lanes"].pop(f"bass{i}", None)
         midi_chords.append({"start_sec": start_bar * bar_s,
                             "dur_sec": dur,
-                            "notes": chord["notes"] + [bass_note]})
+                            "notes": chord.get("voiced", chord["notes"])
+                            + [bass_note]})
         chord_rows.append({"bar": start_bar + 1,      # 1-based, as counted
                            "roman": chord["roman"],
                            "chord": chord["chord"],
-                           "notes": list(chord["notes"]),
+                           "notes": list(chord.get("voiced", chord["notes"])),
                            "bass": bass_note,
                            "voice": voice_desc})
     if committed:
@@ -2903,6 +2942,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                       "chord lane left out" % (prog_name, key))
     harmony_info = {"key": str(key), "root": key_root, "mode": mode,
                     "progression": prog_name, "rhythm": _rhythm,
+                    # chord flow (2026-09-26): how the chords were stacked
+                    # and how many bars each got; None on older beats
+                    "flow": ({"voicing": voicing,
+                              "bars": [c["bars"] for c in chords],
+                              "turnaround": next((c["chord"] for c in chords
+                                                  if c.get("turnaround")),
+                                                 None)}
+                             if flow else None),
                     "chords": chord_rows,
                     # what actually sounded, not what the identity asked for
                     "chord_source": sorted({r["voice"] for r in chord_rows

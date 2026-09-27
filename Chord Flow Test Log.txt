@@ -1,0 +1,66 @@
+=== Step 1 of 2: full test suite (about 16 min) ===
+.........................................................s.....s........ [  5%]
+........................................................................ [ 11%]
+........................................................................ [ 16%]
+........................................................................ [ 22%]
+........................................................................ [ 28%]
+........................................................................ [ 33%]
+........................................................................ [ 39%]
+........................................................................ [ 45%]
+........................................................................ [ 50%]
+........................................................................ [ 56%]
+........................................................................ [ 62%]
+........................................................................ [ 67%]
+........................................................................ [ 73%]
+........................................................................ [ 79%]
+........................................................................ [ 84%]
+........................................................................ [ 90%]
+........................................................................ [ 96%]
+.................................................                        [100%]
+=============================== warnings summary ===============================
+reason_voice/server.py:1187
+  /Users/johnsuhr/Desktop/Homeroom Studio/reason_voice/server.py:1187: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+.venv/lib/python3.9/site-packages/fastapi/applications.py:4579
+.venv/lib/python3.9/site-packages/fastapi/applications.py:4579
+  /Users/johnsuhr/Desktop/Homeroom Studio/.venv/lib/python3.9/site-packages/fastapi/applications.py:4579: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+sound_engine/server.py:49
+  /Users/johnsuhr/Desktop/Homeroom Studio/sound_engine/server.py:49: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1271 passed, 2 skipped, 1 deselected, 4 warnings in 928.95s (0:15:28)
+=== Step 2 of 2: rendering 5 old-vs-new pairs ===
+Scanning library for one-shots...
+    Cutz 93bpm beat 1000 a OLD.wav               hendrix_snarl | G7#9 C7 | chords start on bars [1, 3]
+    Cutz 93bpm beat 1000 b NEW.wav               snarl_vamp | G7#9 A# C7 | chords start on bars [1, 2, 4] | voicing: open
+    Sunday Chop 96bpm beat 1137 a OLD.wav        sad_accepting | Cm G# D# A# | chords start on bars [1, 3, 5, 7]
+    Sunday Chop 96bpm beat 1137 b NEW.wav        sad_accepting | Cm G# D# A# | chords start on bars [1, 3, 5, 8] | voicing: smooth
+    Doc Day 93bpm beat 1274 a OLD.wav            gfunk_minor_i_iv_v | Cm Fm Gm | chords start on bars [1, 2, 3]
+    Doc Day 93bpm beat 1274 b NEW.wav            gfunk_minor_i_iv_v | Cm Fm Gm | chords start on bars [1, 3, 4] | voicing: smooth
+    G-Funk 95bpm beat 1412 a OLD.wav             gfunk_dorian_9 | Cm9 F7 | chords start on bars [1, 5]
+    G-Funk 95bpm beat 1412 b NEW.wav             dreamy | Cmaj7 Fmaj7 Cmaj7 G7 | chords start on bars [1, 3, 5, 7] | voicing: smooth
+    Trip Hop 80bpm beat 1548 a OLD.wav           lydian_wander | Amaj9 B7 F#m7 Dmaj7 | chords start on bars [1, 3, 5, 7]
+    Trip Hop 80bpm beat 1548 b NEW.wav           lydian_wander | Amaj9 B7 F#m7 Dmaj7 | chords start on bars [1, 4, 5, 8] | voicing: smooth
+
+/Users/johnsuhr/Desktop/Homeroom Auditions/Homeroom CHORD FLOW 2026-09-26 v3
+11 files.
+Done. Listen in: Desktop > Homeroom Auditions > Homeroom CHORD FLOW ... v3

@@ -785,8 +785,20 @@ def test_recipe_records_key_progression_and_chords(machine_env):
     # the romans/spellings/notes recorded are the ones harmony.compose gives
     # for this key and progression — compose is deterministic once the
     # progression is named, so this is a real independent recomputation.
-    _, expect = harmony.compose(KeyContext(h["root"], h["mode"]),
-                                h["progression"])
+    key = KeyContext(h["root"], h["mode"])
+    _, expect = harmony.compose(key, h["progression"])
+    if h.get("flow"):
+        # chord flow (2026-09-26): the rows are the ARRANGED loop — repeats,
+        # a turnaround, uneven lengths — and the notes are the voiced ones.
+        # Recomputed from the saved variant with the same seed _build_chords
+        # uses, so this is still an independent check, not a copy.
+        nb = len(rec["preset"]["lanes"]["chord0"][3])
+        frng = random.Random(rec["variant"] * 541 + 23)
+        expect = harmony.arrange(key, expect, nb, frng)
+        harmony.voice_lead(expect, frng)
+        assert h["flow"]["bars"] == [c["bars"] for c in expect]
+        for c in expect:
+            c["notes"] = c["voiced"]
     got = h["chords"]
     assert [c["roman"] for c in got] == [c["roman"] for c in expect[:len(got)]]
     assert [c["chord"] for c in got] == [c["chord"] for c in expect[:len(got)]]
@@ -1079,7 +1091,10 @@ def test_a_chord_lane_never_drops_out_mid_beat(machine_env,
     path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     n_chords = len(rec["harmony"]["chords"])
-    chord_lanes = [ln for ln in rec["lanes"] if ln.startswith("chord")]
+    # one BASE lane per chord slot; a layered second instrument on a slot
+    # is chord{i}v1 (2026-07-25) and says nothing about drop-outs. Counting
+    # those too only held while this seed happened to voice one part.
+    chord_lanes = [ln for ln in rec["lanes"] if re.fullmatch(r"chord\d+", ln)]
     assert len(chord_lanes) in (0, n_chords), (report, sorted(rec["lanes"]))
     assert len(chord_lanes) == n_chords, report      # and here it voiced
 
@@ -1778,16 +1793,25 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
         "progressions": [["dreamy", 1]],
         "chord_source": [["loop", 1]],
         "chords_default": True})
-    for seed in range(6):
+    from pattern_gen import free_beat
+    checked = 0
+    for seed in range(8):
         random.seed(seed)
         path, report = beat_machine.generate(["Timberline"], root=root,
                                              shots=shots)
         no = int(path.name.split()[0])
         rec = beat_recipes.load_recipe(root, no)
+        # A free beat (30%) ignores the signature, so it is not a loop beat
+        # and may layer two instruments by design. Seed 5 is one; it only
+        # passed before because its layering happened to fail to voice.
+        if free_beat(rec["variant"]):
+            continue
+        checked += 1
         lanes = rec["preset"]["lanes"]
         fams = {beat_machine._chord_family(l) for l in lanes
                if l.startswith("chord")} - {None}
         assert fams <= {"chords"}, (seed, report, sorted(lanes))
+    assert checked >= 5, checked
 
 
 # passing-note tests (seeds 29 and 34, 9th-chord progression) folded into
@@ -1975,3 +1999,35 @@ def test_fx_on_saves_a_copy_with_the_style_effects_baked_in(machine_env):
     assert beat_machine.beat_wav(no, root).exists()        # clean one stays
     with pytest.raises(ValueError, match="already"):
         beat_machine.swap_many(n2, {}, root=root, shots=shots, fx=True)
+
+
+def test_chord_flow_picks_fewer_one_and_two_chord_loops():
+    """Chord flow (owner 2026-09-26): 45% of in-character beats were 1-2
+    chord loops. With `flow` on, _roll_key weights those at half. Beats made
+    before (flow off) roll exactly what they always rolled."""
+    import harmony
+    sig = {"progressions": [["vamp_i_VI", 2], ["vamp_static_riff", 2],
+                            ["sad_accepting", 2], ["soul_turnaround", 2]],
+           "key": {"roots": ["F"], "mode": "minor"}}
+    dirs = {"chord_feel": None}
+
+    def short_share(flow):
+        n = 0
+        for v in range(2, 3002):
+            _r, _m, p = beat_machine._roll_key(
+                sig, v, dirs, False, random.Random(v * 353 + 17), flow=flow)
+            n += len(harmony.PROGRESSIONS[p]["chords"]) <= 2
+        return n / 3000.0
+    old, new = short_share(False), short_share(True)
+    assert 0.45 <= old <= 0.55, old          # 2 of 4 equal weights
+    assert 0.28 <= new <= 0.39, new          # halved: 1/3
+
+
+def test_chord_flow_is_stamped_on_new_beats_only():
+    """add_bass_and_chords stamps chord_flow; a preset without it (a beat
+    made before 2026-09-26) is left alone by _build_chords' flow switch."""
+    import inspect
+    src = inspect.getsource(beat_machine.add_bass_and_chords)
+    assert 'preset.setdefault("chord_flow"' in src
+    src = inspect.getsource(beat_machine._build_chords)
+    assert 'flow = bool(preset.get("chord_flow"))' in src
