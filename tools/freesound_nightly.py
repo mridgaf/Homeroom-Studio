@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Looperman nightly - downloads 45 loops, moves (not copies) to role folders, cleans up."""
-import os, sys, json, subprocess, time, shutil, hashlib
+"""Freesound nightly - downloads 60 loops, moves to role folders, cleans up."""
+import os, sys, shutil
 from pathlib import Path
 from datetime import datetime
 
 LOOPS_LIB = os.getenv("LOOPS_LIB_ROOT", "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops")
-TEMP_DIR = Path(os.path.expanduser("~/Desktop/Homeroom Studio/Nightly Loops/.temp"))
+TEMP_DIR = Path(os.path.expanduser("~/Desktop/Homeroom Studio/Nightly Loops/.freesound_temp"))
 ROLES = ["Melody", "Chords", "Bass", "Drums", "Vocals"]
 
 def log_summary(date_str, filed, skipped):
     """Write summary—only file written is this log."""
-    summary = f"""Looperman nightly - {date_str}
+    summary = f"""Freesound nightly - {date_str}
 Filed: {sum(filed.values())} loops
   - Melody: {filed.get('Melody', 0)}
   - Chords: {filed.get('Chords', 0)}
@@ -19,7 +19,7 @@ Filed: {sum(filed.values())} loops
   - Vocals: {filed.get('Vocals', 0)}
 Skipped: {len(skipped)}
 """
-    log_path = Path(os.path.expanduser("~/Desktop/Homeroom Studio/Nightly Loops/LATEST.txt"))
+    log_path = Path(os.path.expanduser("~/Desktop/Homeroom Studio/Nightly Loops/freesound.log"))
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_path.write_text(summary)
     print(summary)
@@ -49,7 +49,7 @@ def process_downloads():
         cleanup_temp()
         return
     
-    print(f"Looperman nightly - {datetime.now().strftime('%Y-%m-%d')}")
+    print(f"Freesound nightly - {datetime.now().strftime('%Y-%m-%d')}")
     
     # Create role directories
     for role in ROLES:

@@ -1,4 +1,4 @@
-Login debug - 2026-09-23T19:03:10
+Login debug - 2026-09-27T01:06:35
 Result: FAILED
 Fields sent (password hidden): csrftoken, page_token, submit, upass, user_disclaimer, user_email, user_remember_code
 Password length sent: 20
