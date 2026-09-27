@@ -7868,3 +7868,9 @@ just not loaded by default.
 - NOT yet verified: an actual loop download (the "search and file 5 loops" pipeline, `Test Nightly Loops (5).command`). That part of the code was untouched by this fix and worked before (this file was restored from the last known-good 2026-09-23 version), but hasn't been re-proven since restoring + patching headers. Needs TBOTC 3 plugged in - owner's own next click.
 - Status: confirmed (login) / open (full download pipeline not re-tested)
 - Outcome: —
+
+### 2026-09-27 "Changing one sound changes every other sound's volume" — root cause found, NOT fixed
+- Context: owner: "When I remove or change a sound, all of the other sounds are changing. To compensate for the rules in the beat making logic." Clarified it's specifically volume, not sound-selection.
+- Found (read the real code, not guessed): tools/crew.py:2419 (render_crew_beat) calls groove.master_to_lufs(L, R) on the FULL finished mix. That function (tools/groove.py:681) measures the whole mix's loudness and multiplies the ENTIRE mix by one shared gain to hit a fixed target (OWNER_TASTE["master_lufs"]), recalculated fresh every render. Change/remove one sound -> total loudness shifts -> shared gain shifts -> every other sound rides along with it. Secondary contributor: glue_compressor (tools/audio_engine.py) runs just before this and reacts to overall mix loudness too, so squashing amount shifts slightly as well.
+- Not done: no fix implemented, no owner decision on the trade-off (consistent per-beat loudness vs. sounds holding a fixed level when something else changes). A written handoff prompt for Claude Code was produced instead (owner asked for the handoff only, not the fix).
+- Status: open — diagnosed, not fixed, not rendered.
