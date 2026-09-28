@@ -12,7 +12,7 @@ where you're at the machine.
 
 ---
 
-## ▶ NEXT SESSION STARTS HERE (owner, 2026-09-28)
+## Done 2026-09-28
 
 - [x] **0. Change how the kick drums work.** ✅ 2026-09-28: he named the change himself (long kick gets a snap + 5 dB duck, 7 in 10; see DECISIONS.md top). First, explain to him ALL the rules about
   kick drums and bass drums: their names (kick / bass drum / 808 / boom / sub / bass),
@@ -26,11 +26,14 @@ where you're at the machine.
 
 ---
 
+## ▶ NEXT SESSION STARTS HERE: step 1 (set 2026-09-28)
+
 ## 1. Fix what's broken (🤖, no listening needed)
 
 - [ ] **1. Beat-making crashes on MIDI-chords-played-on-strings beats.**
   `_fig` is used before it's defined. Hit randomly by tests.
-  Ref: [tools/beat_machine.py:2354](tools/beat_machine.py:2354) (defined at 2374)
+  Still there 2026-09-28: used at line 2419, defined at 2439.
+  Ref: [tools/beat_machine.py:2419](tools/beat_machine.py:2419) (defined at 2439)
 - [ ] **2. Apply the 5 skill fixes from 09-09.** None were ever applied. They stop repeat
   mistakes in the genre/Legend builds coming up (step 7), e.g. "read the STAMP first"
   points at a lane that no longer plays. Gap #4 ("only bell instruments exist") is now
@@ -90,7 +93,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 - [ ] **24. Hear the 4 new effects** (hall, wide hats, ratchet hits, layered kick) and the Loops-page lock.
   Shares are first guesses: hall 10%, wide hats 20%, ratchet 15%, kick layer 15%.
   Ref: [tools/beat_machine.py](tools/beat_machine.py) `EXTRA_FX_P`
-- [ ] **25. Hear the long-kick snap + duck** (2026-09-28). A kick that rings past 0.5 s gets a
+- [x] **25. Hear the long-kick snap + duck** (2026-09-28). ✅ heard, kept 2026-09-28. A kick that rings past 0.5 s gets a
   short kick's snap on top, its tail dips 5 dB under it, one hit at a time. 7 beats in 10.
   Rack row "kick snap". Not heard yet: the snap's level (matched to the long kick's peak) is a first guess.
   Ref: [tools/crew.py](tools/crew.py) `punch_long_kick`
