@@ -133,7 +133,7 @@ STEM_BOOST_DB = 0.0
 #   bass      -- the melodic low LINE that follows the chords (bass0..N)
 # `sub` (the old tuned sine, retired 2026-09-23) only exists on old beats.
 LANE_LABELS = {"kick": "kick drum", "sub": "sub", "bass": "808",
-               "kicklayer": "kick layer"}
+               "kicklayer": "kick layer", "kickpunch": "kick snap"}
 # what the stems of beats made before 2026-09-23 are named, so they are
 # still found (_stem_wav)
 OLD_LANE_LABELS = {"sub": "bass drum", "bass": "bass drum"}

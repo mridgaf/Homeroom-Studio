@@ -43,8 +43,8 @@ from make_hiphop_tracks import load_audio
 from crew import (BARS, CREW, GENRE_NAMES, LEGEND_NAMES, bars_of,
                   boom_bap_variant,
                   build_kit, is_dj, lock_stamps, normalize_preset,
-                  render_crew_beat, sub_sidechain,
-                  _LOW_END, _load_choked, _pick_path, _resolve_secs)
+                  render_crew_beat, ring_secs, sub_sidechain,
+                  LONG_KICK_SECS, _LOW_END, _load_choked, _pick_path, _resolve_secs)
 from beat_recipes import (OLD_LANE_LABELS, history_avoid, lane_label,
                           load_recipe, record_history, save_recipe,
                           write_midi, write_stems)
@@ -1275,6 +1275,10 @@ REBUILD_LOCKS_KEY = True
 EXTRA_FX_P = {"hall": 0.10, "haas": 0.20, "ratchet": 0.15,
               "kick_layer": 0.15}
 HAAS_LANES = ("hat", "perc", "shaker", "snap", "bongo", "conga", "rim")
+# A kick that rings past crew.LONG_KICK_SECS gets a short kick's snap on
+# top and ducks under it (crew.punch_long_kick) on this share of beats --
+# owner 2026-09-28, "7 of 10". The other 3 keep the raw long kick.
+LONG_KICK_PUNCH_P = 0.7
 
 
 def _roll_extra_fx(preset, kit, sources, spec_used, lane_parent, shots,
@@ -1311,6 +1315,21 @@ def _roll_extra_fx(preset, kit, sources, spec_used, lane_parent, shots,
                 sources["kicklayer"] = path
                 spec_used["kicklayer"] = spec_used["kick"]
                 lane_parent["kicklayer"] = owner
+    krng = random.Random(variant * 1013 + 7)
+    if ("kick" in kit and ring_secs(kit["kick"]) > LONG_KICK_SECS
+            and krng.random() < LONG_KICK_PUNCH_P):
+        avoid = set(p for p in sources.values() if p)
+        for _ in range(5):               # the snap is a kick, never an 808
+            path, x = _pick_path(shots, "kick", [], KICK_WITH_BASS_SECS,
+                                 krng.randrange(1, 1 << 30), avoid=avoid)
+            if path and x is not None and "808" not in Path(path).name:
+                kit["kickpunch"] = x
+                sources["kickpunch"] = path
+                spec_used["kickpunch"] = ("kick", None, [],
+                                          KICK_WITH_BASS_SECS)
+                lane_parent["kickpunch"] = owner
+                break
+            avoid.add(path)
 
 
 

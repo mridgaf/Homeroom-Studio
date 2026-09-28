@@ -20,9 +20,16 @@ entries.
 
 ## Log
 
+### 2026-09-28 Long kick gets a short kick's snap + a 5 dB duck (7 beats in 10)
+- Context: owner: "some of the really long bass drums need to have a kick drum and side compression". Played back, then clickable picks: ANY long kick slot (808 boom or long bass drum); 7 in 10; cut old tail (one hit at a time); snap only (above 100 Hz, so it reads as one drum, not the 09-20 two-kick stack); 5 dB (his 09-01 sub-duck call).
+- Change: crew.ring_secs (how long a one-shot rings, within 30 dB of peak; not file length) > LONG_KICK_SECS 0.5 -> beat_machine._roll_extra_fx rolls LONG_KICK_PUNCH_P 0.7, picks a non-808 short kick into kit["kickpunch"] (recipe kit_paths, rack row "kick snap"). render_crew_beat: crew.punch_long_kick = long kick ducked 5 dB at its own hit + high-passed snap, levelled back to the long kick's peak (kick-anchored levels don't move). Kick lane then chokes itself (own choke group, separate from the low end) so an old tail never rings under the next hit un-ducked. A swap to a short kick turns it off at render.
+- Verify by: tests/test_long_kick_punch.py (dip measures the duck curve; kick stem after hit 2 = 1.00x hit 1 with it, 1.79x without). Ear: OPEN-ISSUES item 25. Snap level vs the boom is a first guess.
+- Status: open (built, tested, not heard)
+
 ### 2026-09-28 NEXT SESSION START HERE: explain the kick/bass drum rules, then he changes them
+- DONE 2026-09-28: he named the change (entry above).
 - Owner: next session begins with a change to how kick drums work. FIRST explain every kick and bass drum rule (names, what each is, how each relates to the beat), from the code, in plain words. He decides the change after that; change nothing before. Full brief + start points: OPEN-ISSUES.md item 0.
-- Status: open
+- Status: confirmed
 
 ### 2026-09-28 Loops beats locked per sound + the four unused effects switched on (small share, everyone)
 - Context: OPEN-ISSUES.md step 4, owner: "yes, both" (15: lock Loops-page beats too; 16: use the four unused effects). Effects, clickable: "Small share, everyone" (NOT picked: only where it fits, only when typed).

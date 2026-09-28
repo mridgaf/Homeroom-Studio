@@ -14,7 +14,7 @@ where you're at the machine.
 
 ## ▶ NEXT SESSION STARTS HERE (owner, 2026-09-28)
 
-- [ ] **0. Change how the kick drums work.** First, explain to him ALL the rules about
+- [x] **0. Change how the kick drums work.** ✅ 2026-09-28: he named the change himself (long kick gets a snap + 5 dB duck, 7 in 10; see DECISIONS.md top). First, explain to him ALL the rules about
   kick drums and bass drums: their names (kick / bass drum / 808 / boom / sub / bass),
   what each one is, and how each relates to the rest of the beat (levels, the kick as
   the anchor, the 808 with the kick, one bass sound per beat, the layered kick, flavors).
@@ -90,6 +90,10 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 - [ ] **24. Hear the 4 new effects** (hall, wide hats, ratchet hits, layered kick) and the Loops-page lock.
   Shares are first guesses: hall 10%, wide hats 20%, ratchet 15%, kick layer 15%.
   Ref: [tools/beat_machine.py](tools/beat_machine.py) `EXTRA_FX_P`
+- [ ] **25. Hear the long-kick snap + duck** (2026-09-28). A kick that rings past 0.5 s gets a
+  short kick's snap on top, its tail dips 5 dB under it, one hit at a time. 7 beats in 10.
+  Rack row "kick snap". Not heard yet: the snap's level (matched to the long kick's peak) is a first guess.
+  Ref: [tools/crew.py](tools/crew.py) `punch_long_kick`
 
 ## 6. Low value: whenever (🤖)
 

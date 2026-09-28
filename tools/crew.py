@@ -44,7 +44,7 @@ from flavor_tags import matches as flavor_matches
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
 from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
-                    glue_compress, kick_layer, kick_sub_reinforce,
+                    glue_compress, hp1, kick_layer, kick_sub_reinforce,
                     loop_convolve, ratchet_times, transient_shape,
                     make_ir, master_to_lufs, mono_below, mpc_swing_offset,
                     perc_scale, roughness_am, sat_unity, snare_scale,
@@ -1445,6 +1445,41 @@ def grid_accent(res, s):
     return 1.0
 
 
+# LONG KICK GETS A SNAP AND A DUCK (owner 2026-09-28: "some of the really
+# long bass drums need to have a kick drum and side compression"). When the
+# kick slot's sample still rings past LONG_KICK_SECS, a short kick's SNAP
+# (above 100 Hz only -- his pick, so it reads as one drum, not the two-kick
+# stack he heard 2026-09-20) goes on the front, and the long tail dips
+# 5 dB under it and swells back: 5 dB is his own sub-duck call of
+# 2026-09-01, reused by his pick. The kick lane then plays one hit at a
+# time (render_crew_beat), so an old tail can never ring under the next hit
+# un-ducked -- which makes this per-hit duck the same as a real sidechain.
+LONG_KICK_SECS = 0.5             # the house "short kick" cap (KICK_WITH_BASS_SECS)
+LONG_KICK_FLOOR_DB = -30.0       # "still ringing" = within 30 dB of the peak
+LONG_KICK_DUCK = 1 - 10 ** (-5.0 / 20)   # measures a 5.0 dB dip
+PUNCH_SPLIT_HZ = 100.0
+
+
+def ring_secs(x, floor_db=LONG_KICK_FLOOR_DB):
+    """How long a one-shot actually rings: last sample within floor_db of
+    its peak. File length lies -- silence padding is not a tail."""
+    a = np.abs(x)
+    loud = np.nonzero(a >= a.max() * 10 ** (floor_db / 20))[0]
+    return (loud[-1] + 1) / SR if len(loud) else 0.0
+
+
+def punch_long_kick(kick, punch):
+    """The long kick, ducked 5 dB under a short kick's snap, levelled back
+    to the long kick's own peak so the kick-anchored level rules don't move."""
+    top = hp1(hp1(punch, PUNCH_SPLIT_HZ), PUNCH_SPLIT_HZ)
+    pk = np.abs(kick).max()
+    top = top * pk / (np.abs(top).max() + 1e-9)
+    tail, _ = duck(kick, kick, [0], depth=LONG_KICK_DUCK)
+    n = max(len(tail), len(top))
+    out = np.pad(tail, (0, n - len(tail))) + np.pad(top, (0, n - len(top)))
+    return out * pk / (np.abs(out).max() + 1e-9)
+
+
 def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                      eq=None, echo=None, chorus=None, phaser=None,
                      loop_bufs=None, nbars_override=None, lock=None):
@@ -1529,6 +1564,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         _lay = kick_layer(_k, kit["kicklayer"])
         kit = dict(kit, kick=_lay * (np.abs(_k).max()
                                      / (np.abs(_lay).max() + 1e-9)))
+    # a swap to a short kick switches this off on its own: only a kick that
+    # still rings long gets the snap, the duck and the one-hit-at-a-time
+    _long_kick = ("kickpunch" in kit and "kick" in kit and not loop_bufs
+                  and ring_secs(kit["kick"]) > LONG_KICK_SECS)
+    if _long_kick:
+        kit = dict(kit, kick=punch_long_kick(kit["kick"], kit["kickpunch"]))
     # a loops beat reads its own level switch, never the from-scratch one
     true_levels = LOOPS_TRUE_LEVELS if loop_bufs else TRUE_LEVELS
     # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
@@ -1655,7 +1696,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             events[lane] = evs
             continue
         snd = kit[lane]
-        choke = not loop_bufs and _ducks_deep(lane)
+        choke = not loop_bufs and (_ducks_deep(lane)
+                                   or (lane == "kick" and _long_kick))
         drops_out = _bd_bar >= 0 \
             and not any(lane.startswith(k) for k in _bd_keep)
         for b in range(nbars):
@@ -1699,9 +1741,17 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # slot's last note is also cut by the next slot's first, and the loop's
     # last note by its first (the fold below wraps it). From-scratch only.
     if _choke_hits:
-        _starts = sorted({h[0] for hs in _choke_hits.values() for h in hs})
+        # two groups: the low end chokes itself; a long kick chokes only
+        # itself (a bass note must not cut the kick, nor the kick a bass)
+        def _group(ln):
+            return "kick" if ln == "kick" else "low"
+        _gstarts = {}
+        for ln, hs in _choke_hits.items():
+            _gstarts.setdefault(_group(ln), set()).update(h[0] for h in hs)
+        _gstarts = {g: sorted(v) for g, v in _gstarts.items()}
         _fade = int(0.005 * SR)
         for lane, hs in _choke_hits.items():
+            _starts = _gstarts[_group(lane)]
             buf = np.zeros(n)
             for pos, v, snd in hs:
                 i = bisect.bisect_right(_starts, pos)
