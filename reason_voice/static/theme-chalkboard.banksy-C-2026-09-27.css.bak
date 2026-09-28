@@ -1,0 +1,171 @@
+/* Homeroom Studio "Taped on the wall" theme (Banksy-inspired, variation C).
+   Chalkboard wall everywhere, paper notepad sheets taped on top, one red accent.
+   Loaded AFTER style.css. To go back to the old look: delete the one
+   <link> line for this file in index.html. Nothing else was changed.
+   Font: drop Blackboard-Graffiti.woff2 in this same folder; until then a
+   marker-style backup font is used. */
+
+@font-face {
+  font-family: "Blackboard Graffiti";
+  src: url("/static/Blackboard-Graffiti.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --bg: #161816;
+  --panel: #1c1e1c;
+  --panel2: #272a27;
+  --line: #ffffff26;
+  --text: #eeeeee;
+  --dim: #eeeeee99;
+  --accent: #e5231b;
+  --accent-dim: #5b1b18;
+  --blue: #ff7a70;
+  --green: #7dff8a;
+  --red: #e5231b;
+  --ink: #0d0d0d;
+  --paper: #fdfdf6;
+  --chalk-font: "Blackboard Graffiti", "Marker Felt", "Chalkboard SE", "Kalam", cursive;
+  --stencil: Impact, "Arial Narrow Bold", Haettenschweiler, sans-serif;
+}
+
+/* ---- the wall ---- */
+body {
+  background: radial-gradient(ellipse at 50% 15%, #2a2d2a, #161816 70%) !important;
+}
+body::before { filter: invert(1); opacity: 0.025; }
+#walkbar button:empty { display: none; }
+body::after { display: none; }
+
+header, aside, footer {
+  background-color: rgba(22, 24, 22, 0.88) !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+header { border-bottom: 3px dashed #ffffff33; }
+aside  { border-right: 3px dashed #ffffff26; }
+footer { border-top: 3px dashed #ffffff33; }
+
+/* ---- chalk lettering ---- */
+.brand {
+  font-family: var(--chalk-font);
+  font-size: 34px;
+  color: var(--text);
+  text-shadow: 0 0 10px #fff4;
+  transform: rotate(-2deg);
+  display: flex; align-items: center; gap: 10px;
+}
+.brand::before {
+  content: "";
+  width: 20px; height: 34px; flex: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 70'><path d='M20 2C9 2 2 11 2 22c0 12 9 22 18 26 9-4 18-14 18-26C38 11 31 2 20 2z' fill='%23e5231b'/><path d='M20 48l-4 6h8z' fill='%23e5231b'/><path d='M20 54c-6 5 6 8 0 14' stroke='%23eee' fill='none' stroke-width='2'/></svg>") no-repeat center / contain;
+  animation: hs-bob 3.5s ease-in-out infinite;
+}
+@keyframes hs-bob { 50% { transform: translateY(-4px) rotate(4deg); } }
+
+.panel-title, .book-group h3, .heard .label {
+  font-family: var(--stencil);
+  letter-spacing: .12em;
+  font-weight: 400;
+}
+.book-group h3 { color: var(--accent); }
+.apptabs { border: 2px dashed #ffffff55; }
+.apptabs .here { background: var(--accent); color: #fff; }
+.apptabs a { background: transparent; }
+.feedback { font-family: var(--chalk-font); font-size: 17px; border-left: 4px solid var(--accent); }
+.empty { font-family: var(--chalk-font); font-size: 20px; }
+
+/* ---- paper buttons (footer, walk bar, inside paper) ---- */
+footer button, #walkbar button, .card button, .modal button:not(.ghost) {
+  font-family: var(--stencil);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--paper);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 #000;
+}
+footer button:hover, #walkbar button:hover, .card button:hover { border-color: var(--accent); }
+footer button:active, #walkbar button:active, .card button:active { box-shadow: 1px 1px 0 #000; transform: translate(2px, 2px); }
+button.accent, #walkbar button.accent { background: var(--accent) !important; color: #fff !important; }
+button.rec { color: var(--accent) !important; }
+button.ghost { box-shadow: none !important; background: none !important; border: none !important; color: var(--dim) !important; }
+button.danger { border-color: var(--accent); color: var(--accent) !important; }
+
+#ptt { font-family: var(--stencil); text-transform: uppercase; letter-spacing: .08em;
+       background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 2px; box-shadow: 4px 4px 0 #000; }
+#ptt.recording { background: var(--accent); color: #fff; border-color: #fff; }
+.pill { font-family: var(--stencil); letter-spacing: .15em; border-radius: 2px; }
+.pill.recording { background: var(--accent); color: #fff; }
+.group { border-left: 2px dashed #ffffff33; }
+
+/* ---- paper sheets taped on the wall ---- */
+.card, #docPanel, .modal {
+  --text: var(--ink);
+  --dim: #0d0d0d99;
+  --line: #0d0d0d26;
+  --panel2: #ffffff;
+  --bg: #f1f1e6;
+  --accent-dim: #ffe3e0;
+  --blue: var(--accent);
+  --green: #1f7a3d;
+  color: var(--ink);
+  background-color: var(--paper) !important;
+  background-image: repeating-linear-gradient(transparent 0 31px, #0d0d0d1a 31px 32px) !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 14px 30px #000a;
+}
+.card { position: relative; padding: 34px 26px 28px; margin-bottom: 14px; }
+#card { transform: rotate(-.35deg); }
+/* tape */
+.card::before {
+  content: "";
+  position: absolute; top: -10px; left: 30px;
+  width: 92px; height: 26px;
+  background: #d9cf9acc;
+  transform: rotate(-5deg);
+}
+/* torn bottom edge */
+.card::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -10px; height: 10px;
+  background:
+    linear-gradient(135deg, var(--paper) 50%, transparent 50%) 0 0 / 14px 10px,
+    linear-gradient(225deg, var(--paper) 50%, transparent 50%) 0 0 / 14px 10px;
+  pointer-events: none;
+}
+.modal { padding: 26px 26px; }
+
+.card-head h2 {
+  font-family: var(--stencil);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  background: var(--ink);
+  color: #fff;
+  padding: 2px 12px;
+  transform: rotate(-.8deg);
+}
+.modal-head h2 { font-family: var(--stencil); font-weight: 400; text-transform: uppercase; }
+.section h4 { font-family: var(--stencil); font-weight: 400; letter-spacing: .12em; color: var(--accent); border-bottom: 2px solid var(--ink); }
+.chip { border-radius: 2px; background: #fff; border-width: 2px; }
+.sounds-like { color: #0d0d0dbb; }
+
+/* steps: the current one lights up solid red */
+ol.steps li { font-size: 16px; }
+ol.steps li::before { font-family: var(--stencil); font-size: 15px; background: #fff; border: 2px solid var(--ink); color: var(--ink); border-radius: 2px; }
+ol.steps li.active { background: var(--accent); color: #fff; border-color: transparent; transform: rotate(.3deg); }
+ol.steps li.active::before { background: #fff; color: var(--accent); border-color: #fff; }
+ol.steps li.done { opacity: .5; }
+ol.steps li.done::before { color: var(--green); }
+#walkbar { background: linear-gradient(transparent, #161816 40%); }
+
+.dial-val { border: 2px solid var(--ink); border-radius: 2px; }
+.dial-row input[type=range] { accent-color: var(--accent); }
+.modal select { border: 2px solid var(--ink); border-radius: 2px; background: #fff; color: var(--ink); }
+#helpTable td:first-child { color: var(--accent); }
+.overlay { background: rgba(0, 0, 0, .7); }

@@ -1,0 +1,1 @@
+Blackboard Graffiti, traced edition. The A-Z, a-z and 0-9 glyphs were extracted and adapted from the right panel of the user-provided chalkboard specimen. Common punctuation was also traced; remaining ASCII symbols were created as compatible fallback shapes. The source is an AI-generated raster specimen, so some glyphs required interpretation. Best at large display sizes.

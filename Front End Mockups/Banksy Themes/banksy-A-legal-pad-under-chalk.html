@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Homeroom Banksy A</title><style>
+@font-face{font-family:"Blackboard Graffiti";src:url("Blackboard-Graffiti.woff2") format("woff2");font-display:swap}
+*{box-sizing:border-box;margin:0}
+:root{--red:#e5231b;--ink:#0d0d0d;--chalk:#eee;--board:#161816;--font:"Blackboard Graffiti","Marker Felt","Chalkboard SE","Comic Sans MS",sans-serif;--sten:Impact,"Arial Narrow Bold","Haettenschweiler",sans-serif}
+body{font-family:var(--font);min-height:100vh}
+.chalk h1{font-family:var(--font);font-weight:400}
+button{font-family:var(--sten);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:3px solid var(--ink);background:#fff;color:var(--ink);padding:10px 16px;font-size:15px}
+button:active{transform:translateY(2px)}
+button.hot{background:var(--red);color:#fff}
+.balloon{width:34px;height:60px;animation:bob 3.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
+.state{font-family:var(--sten);letter-spacing:.15em;font-size:14px}
+.state.live{color:var(--red)}
+.list ul{list-style:none;padding:0}
+.list li{padding:8px 0}
+.sheet ol{padding-left:0;list-style:none;counter-item:s;margin:16px 0}
+.sheet li{counter-increment:s;padding:10px 8px 10px 44px;position:relative;cursor:pointer;font-size:19px}
+.sheet li::before{content:counter(s);position:absolute;left:8px;font-family:var(--sten);font-size:22px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.meta{font-family:system-ui,sans-serif;font-size:13px}
+.heard{font-family:system-ui,sans-serif;font-size:14px}
+@media(max-width:700px){.wrap{grid-template-columns:1fr!important}}
+
+/* A: chalkboard top, legal pad below, black stencil ink, one red accent */
+body{background:#d8d2c0}
+.chalk{background:var(--board);color:var(--chalk);padding:34px 28px 48px;display:flex;justify-content:space-between;align-items:flex-end;
+  border-bottom:10px solid #6b4a2b;box-shadow:inset 0 0 90px #000a}
+.brand{display:flex;align-items:flex-end;gap:14px}
+.chalk h1{font-size:clamp(34px,7vw,64px);text-shadow:0 0 10px #fff3;transform:rotate(-1.5deg)}
+.state{color:#bbb}
+.wrap{display:grid;grid-template-columns:1fr 240px;gap:0;max-width:980px;margin:-24px auto 40px;padding:0 16px}
+.sheet{background:#fff59a;background-image:repeating-linear-gradient(transparent 0 33px,#4a7fc155 33px 34px);
+  padding:20px 24px 24px 64px;position:relative;color:var(--ink);box-shadow:0 10px 24px #0005;transform:rotate(.4deg)}
+.sheet::before{content:"";position:absolute;left:44px;top:0;bottom:0;width:2px;background:var(--red)}
+.sheet h2{font-family:var(--sten);font-size:34px;text-transform:uppercase;letter-spacing:.04em;line-height:1.05;margin-top:8px}
+.sheet li.now{background:#fff;outline:3px solid var(--red);transform:rotate(-.6deg)}
+.sheet li.now::after{content:"";position:absolute;right:10px;top:50%;width:14px;height:14px;background:var(--red);border-radius:50%}
+.list{background:#fff;color:var(--ink);padding:18px;margin-left:14px;align-self:start;border:3px solid var(--ink);transform:rotate(-.8deg);margin-top:34px}
+.list h3{font-family:var(--sten);text-transform:uppercase;letter-spacing:.1em}
+.list li{border-bottom:2px dashed #0003}
+.list li.on{color:var(--red)}
+</style></head><body>
+<header class="chalk">
+  <div class="brand"><svg class="balloon" viewBox="0 0 40 70" aria-hidden="true"><path d="M20 2C9 2 2 11 2 22c0 12 9 22 18 26 9-4 18-14 18-26C38 11 31 2 20 2z" fill="#e5231b"/><path d="M20 48l-4 6h8z" fill="#e5231b"/><path d="M20 54c-6 5 6 8 0 14" stroke="#eee" fill="none" stroke-width="1.5"/></svg>
+    <h1>Homeroom Studio</h1></div>
+  <div class="state" id="state">IDLE</div>
+</header>
+<div class="wrap">
+<section class="sheet">
+  <p class="heard">You said: <b id="heard">"open the Phil Collins snare"</b></p>
+  <h2>Gated Snare (Phil Collins style)</h2>
+  <p class="meta">Accuracy B &middot; theoretical</p>
+  <ol id="steps">
+    <li>Load a Redrum and pick a big acoustic snare.</li>
+    <li>Add a Gate after it. Short hold, fast release.</li>
+    <li>Send the snare into a large Reverb.</li>
+    <li>Put the Gate on the reverb return so the tail chops off.</li>
+    <li>Nudge the reverb size until it slams and stops.</li>
+  </ol>
+  <div class="btns">
+    <button id="prev">Back</button>
+    <button id="next" class="hot">Next step</button>
+    <button id="talk">Hold to talk</button>
+  </div>
+</section>
+<aside class="list">
+  <h3>Recipes</h3>
+  <ul><li class="on">Gated Snare</li><li>Dusty Boom-Bap Kick</li><li>Wobble Bass</li><li>Tape Piano</li><li>Vinyl Hats</li></ul>
+</aside>
+</div>
+<script>
+const steps=[...document.querySelectorAll('#steps li')];let i=0;
+function show(){steps.forEach((s,n)=>s.classList.toggle('now',n===i));}
+document.getElementById('next').onclick=()=>{i=Math.min(i+1,steps.length-1);show()};
+document.getElementById('prev').onclick=()=>{i=Math.max(i-1,0);show()};
+steps.forEach((s,n)=>s.onclick=()=>{i=n;show()});
+const t=document.getElementById('talk'),st=document.getElementById('state');
+const on=()=>{st.textContent='LISTENING';st.classList.add('live')};
+const off=()=>{st.textContent='IDLE';st.classList.remove('live')};
+t.onmousedown=on;t.onmouseup=off;t.onmouseleave=off;
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat){e.preventDefault();on()}});
+document.addEventListener('keyup',e=>{if(e.code==='Space')off()});
+show();
+</script>
+</body></html>

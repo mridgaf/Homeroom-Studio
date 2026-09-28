@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "Blackboard Graffiti";
+  src: url("Blackboard-Graffiti.woff2") format("woff2"),
+       url("Blackboard-Graffiti.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+body {
+  background: #111;
+  color: #eee;
+  font-family: "Blackboard Graffiti", sans-serif;
+}
