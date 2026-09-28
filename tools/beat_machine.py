@@ -472,7 +472,20 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
     # added its own. That is the "drum parts get way too quiet". With
     # everything level, a dip is the one thing that contradicts the rule, so
     # the only non-hole treatment left is the arrangement move.
-    HOLE_P = 1 / 6.0
+    # OWNER RULE 2026-09-28: "too often" and "doesn't sound intentional".
+    # 1 in 6 -> 1 in 20, and every stop now slams back in: the bar after
+    # the hole plays its accents hard (frisson already did). Length and
+    # placement unchanged -- he didn't flag them.
+    HOLE_P = 1 / 20.0
+    def _slam(b):
+        """Bar b comes back hard after a stop: its hits play as accents."""
+        if b >= nbars:
+            return
+        for ln in mutable:
+            bars = barlist(ln)
+            bars[b] = bars[b].replace("x", "X")
+            rewrite(ln, bars)
+
     if preset.get("break_beat"):
         # REAL REGRESSION, 2026-08-04, caught by
         # test_real_beats_are_not_mono_or_silent on his beat 1803 and traced
@@ -502,7 +515,8 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             else:
                 bars[b] = "-" * len(bars[b])
             rewrite(ln, bars)
-        notes.append(f"bar {b + 1} drops out")
+        _slam(b + 1)
+        notes.append(f"bar {b + 1} drops out, bar {b + 2} slams back")
     elif t == "frisson" and nbars >= 2:      # build: thins, then slams
         for ln in mutable:
             bars = barlist(ln)
@@ -540,7 +554,9 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             n = len(bars[b])
             bars[b] = bars[b][:n // 2] + "-" * (n - n // 2)
             rewrite(ln, bars)
-        notes.append(f"lanes sit out the back half of bar {b + 1}")
+        _slam(b + 1)
+        notes.append(f"lanes sit out the back half of bar {b + 1}, "
+                     f"bar {b + 2} slams back")
 
     # 4c. OWNER RULE 2026-08-01: bar 1 always has a kick. Separate from the
     # gap rule and not covered by it — measured under 07-29, 1 beat in 20

@@ -798,7 +798,32 @@ def test_gaps_are_possible_but_rare():
             holed += beat_has_hole
     assert saw_silence, "the backbone can no longer go silent at all"
     rate = holed / total
-    assert rate < 0.30, "gaps are back to being common: %.0f%%" % (100 * rate)
+    # OWNER RULE 2026-09-28: 1 in 20 (was 1 in 6)
+    assert rate < 0.10, "gaps are back to being common: %.0f%%" % (100 * rate)
+
+
+def test_every_stop_slams_back_in():
+    """OWNER RULE 2026-09-28: a stop must sound intentional -- the bar
+    after it comes back hard (its hits play as accents)."""
+    import copy as _copy
+    stops = 0
+    for name in ("Otto Grit", "Night Metro", "Glass Cat"):
+        for v in range(200):
+            p = _copy.deepcopy(CREW[name])
+            pattern_gen.compose(p, name, v)
+            notes = beat_machine.vary_preset(p, v, CREW[name]["num"],
+                                              tempo_locked=False)
+            hole = [n for n in notes if "drops out" in n or "sit out" in n
+                    or "thins out" in n]
+            if not hole:
+                continue
+            stops += 1
+            assert "slam" in hole[0], hole
+            nb = int(hole[0].split("bar ")[-1].split()[0]) - 1
+            for ln, (_, _, _, bars) in p["lanes"].items():
+                if not ln.startswith(("chord", "bass", "stamp")):
+                    assert "x" not in bars[nb % len(bars)], (name, v, ln)
+    assert stops, "no stops at all in 600 beats"
 
 
 def test_direction_parser_reads_his_words():

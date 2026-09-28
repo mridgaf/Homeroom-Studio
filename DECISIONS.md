@@ -20,6 +20,16 @@ entries.
 
 ## Log
 
+### 2026-09-28 Drum stops: 1 in 20, and they slam back in
+- Context: owner heard drums "come to a full stop" mid/late loop in many beats. Measured 18 of 159 recent beats with a fully silent drum bar (bar 3 of 4, or 5-7 of 8) + 4 Night Metro half-bar breakdowns (crew.py `breakdown`, kick keeps playing). Cause: `vary_preset` step 4 hole roll (thinbar/frisson/breath), owner rule 2026-08-01 "one in six".
+- Owner (clickable): stops are fine ON PURPOSE; what was wrong = "too often" + "doesn't sound intentional". Intentional = "slam back in". Length/placement not flagged -> unchanged. No safety net for accidental silent bars. A bar with only rims/fx playing is NOT a full stop.
+- Change: `HOLE_P` 1/6 -> 1/20 (measured 105/2000 = 1 in 19); new `_slam(b)` makes the bar after a thinbar/breath stop play all hits as accents (frisson already did). Night Metro breakdown untouched.
+- Dropped along the way: a "never stop" guard + removing all holes (built on my first reading, reverted after he clarified; diff saved in scratchpad only).
+- Tests: test_gaps_are_possible_but_rare now < 10%; new test_every_stop_slams_back_in. Full suite 1282 passed / 3 skipped.
+- Verify by: his ear on new beats.
+- Status: open (not heard yet)
+- Outcome: —
+
 ### 2026-09-28 Why the last 147 beats (09-26..09-28) sound alike — diagnosed and changed
 - CORRECTION to Cause 2 below: WRONG. Chord lanes only mark where each chord slot starts; chord_rhythm figures play inside it. All 147 had stab/arp/comp parts (stab 118, arp 68, comp 63). Told owner; no change made there.
 - Changed (owner clickable answers): (1) `multisample.one_per_beat()` — per beat per group, 50% his own sorted sounds play first and the note-by-note instrument becomes backup (a group he owns none of keeps it first). Softens the 2026-09-24 "note-by-note first" rule. (2) `beat_machine.OWN_808_RHYTHM_P = 1/3` + `_own_808_bars()` — about 1 in 3 808 beats: 808 lands with the bar's first kick, then 1-2 hits in the kick's gaps; never pitched. Overrules part of 2026-09-23 "bang along with the kick" (owner said overrule, clickable).
@@ -31,8 +41,8 @@ entries.
 - Cause 2, chord rhythm: 147/147 beats hit every chord only on the bar's first beat and hold it; only 1 beat used a real loop.
 - Cause 3, bass: where there's an 808 lane (44 beats) it copies the kick exactly 44/44.
 - Also: 60% of tempos 82-101; drive 1.3-1.5 on 84%.
-- Status: open (changed in code, not heard yet)
-- Outcome: —
+- Status: confirmed 2026-09-28 — owner listened: "the beats sound different. Keep changes." Full suite 1281 passed / 3 skipped / 0 failed.
+- Outcome: kept.
 
 ### 2026-09-28 DJ Premium new build: era picked, researched, NOT built yet
 - Owner (clickable): Cutz keeps Premier's mid-90s; DJ Premium becomes the **late-90s/2000s horn-stab era** (Moment of Truth, Nas Is Like, Royalty, So Ghetto, Mathematics, Aguilera "Ain't No Other Man").
