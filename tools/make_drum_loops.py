@@ -170,7 +170,12 @@ def render(bpm, bars, tracks, swing=0.0, humanize=0.0):
 
 # ---------------------------------------------------------------- master
 
-def master(L, R, drive=1.4):
+def master(L, R, drive=1.4, peaks=None):
+    # `peaks` (owner 2026-09-27, "lock it per beat"): both peak-normalise
+    # steps below scale the WHOLE mix by its loudest moment, so a louder
+    # swapped-in hat turned every other sound down. Pass an EMPTY list and
+    # the two peaks used are appended; pass them back to replay them.
+    replay = list(peaks) if peaks else None
     for x in (L, R):
         x -= x.mean()
     # keep lows mono, add air, tame boxy mids a touch
@@ -193,11 +198,14 @@ def master(L, R, drive=1.4):
     side = 0.5 * (L - R)
     side = highpass(side, 200)                           # mono bass
     L, R = m + side, m - side
-    peak = max(np.abs(L).max(), np.abs(R).max(), 1e-9)
+    peak = (replay[0] if replay
+            else max(np.abs(L).max(), np.abs(R).max(), 1e-9))
     L, R = L / peak * drive, R / peak * drive            # push into the glue
     L, R = np.tanh(L) / np.tanh(drive), np.tanh(R) / np.tanh(drive)
-    peak = max(np.abs(L).max(), np.abs(R).max())
-    L, R = L / peak * 0.94, R / peak * 0.94              # ~-0.5 dBFS
+    peak2 = replay[1] if replay else max(np.abs(L).max(), np.abs(R).max())
+    L, R = L / peak2 * 0.94, R / peak2 * 0.94            # ~-0.5 dBFS
+    if peaks is not None and not replay:
+        peaks += [float(peak), float(peak2)]
     # no edge fades: these files are loops — the tail fold already makes
     # the seam continuous, and a fade dipped the downbeat at every repeat
     # (owner 2026-07-18: "they don't loop right")

@@ -2175,7 +2175,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         preset, free=free_beat(variant) and not preset.get("genre"))
     # what the drums are already playing, so the "comp" figure can answer
     # them instead of doubling them. Read BEFORE any chord lane is added.
-    _busy = {k: v[3] for k, v in preset["lanes"].items()
+    # A rebuild hands back the lanes the beat was MADE with (dirs
+    # "busy_lanes"), so removing a drum doesn't re-roll the chords'
+    # rhythm too (owner 2026-09-27: "remove a sound and all the other
+    # sounds change").
+    _busy = {k: v[3] for k, v in
+             (dirs.get("busy_lanes") or preset["lanes"]).items()
              if not k.startswith(("chord", "bass")) and len(v) > 3}
     # only pay for the melodic-loop library scan if a loop voice is on
     # the table (the default, a signature that lists "loop", or the owner
@@ -3312,6 +3317,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         "file": fname, "folder": names[0], "names": names, "title": title,
         "variant": variant, "bpm": preset["bpm"], "space": space,
         "preset": _shareable_preset(preset), "kit_spec": spec_used,
+        "lock": parts["lock"],
         "kit_paths": (dict(sources) if loops_only
                      else {ln: sources[ln] for ln in spec_used}),
         "loops_only": loops_only,
@@ -3455,7 +3461,7 @@ def generate_fixed(idx, root=ROOT, shots=None, status=lambda msg: None):
         "file": fname, "folder": "Fixed Bank", "names": ["Fixed Bank"],
         "title": title, "variant": idx, "bpm": preset["bpm"],
         "space": "dry", "preset": _shareable_preset(preset),
-        "kit_spec": spec_used,
+        "kit_spec": spec_used, "lock": parts["lock"],
         "kit_paths": {ln: sources[ln] for ln in spec_used},
         "stamp_paths": {}, "stamp_secs": {}, "root_note": None,
         "traditional": False, "dj_cut_bar": None, "parent": None,
@@ -3600,7 +3606,7 @@ def generate_library(genre_key, name, root=ROOT, shots=None,
         "file": fname, "folder": label, "names": [label],
         "title": title, "variant": variant, "bpm": preset["bpm"],
         "space": "dry", "preset": _shareable_preset(preset),
-        "kit_spec": spec_used,
+        "kit_spec": spec_used, "lock": parts["lock"],
         "kit_paths": {ln: sources[ln] for ln in spec_used},
         "stamp_paths": {}, "stamp_secs": {}, "root_note": None,
         "traditional": False, "dj_cut_bar": None, "parent": None,
@@ -3857,7 +3863,8 @@ def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
 
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
-              trims=None, drops=None, render_only=False, fx=False):
+              trims=None, drops=None, render_only=False, fx=False,
+              _learn=False):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -3894,9 +3901,25 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     its style's own effects baked in -- dust, vinyl, wow, saturation, 808
     drive, hot master -- which the clean-render rule keeps off by default.
     The stems carry them too (his call). Lands as a new number like any
-    rebuild; the clean original stays."""
+    rebuild; the clean original stays.
+
+    The beat's VOLUME SETTING is locked (owner 2026-09-27, "lock it per
+    beat"): the rebuild replays rec["lock"] instead of re-levelling the
+    whole mix, so only the sound he touched changes. A beat made before
+    the lock existed learns it on its first edit ("learn it on first
+    edit"): one unchanged re-render (`_learn=True`, returns the lock and
+    stops), saved into its recipe so it only ever happens once."""
     number = int(number)
     rec = load_recipe(root, number)
+    lock = rec.get("lock")
+    if lock is None and not _learn:
+        status(f"First edit of beat {number} — learning its volume…")
+        if shots is None and not rec.get("loops_only"):
+            status("Scanning your sample library…")
+            shots = build_shots()
+        lock = swap_many(number, {}, root=root, shots=shots, _learn=True)
+        rec["lock"] = lock
+        save_recipe(root, number, dict(load_recipe(root, number), lock=lock))
     picks = {str(ln).strip().lower(): v for ln, v in (picks or {}).items()}
     drops = sorted({str(ln).strip().lower() for ln in (drops or [])})
     # "chords"/"bass" are FAMILY names from the rack: one row standing for
@@ -3960,7 +3983,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         preset["allow_dirt"] = True    # crew.render_crew_beat's own switch
         preset["fx_stems"] = True      # ...and onto every stem, not just the mix
     if (not picks and not trims and not drops and not chord_voice
-            and not bass_pick and not fx):
+            and not bass_pick and not fx and not _learn):
         raise ValueError("Nothing to change — pick a different sound, "
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
@@ -3996,7 +4019,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                                                  rec["variant"], state=state)
         L, R, lufs, parts = render_crew_beat(
             names[0], kit, space=rec["space"], preset=preset,
-            want_parts=True, loop_bufs=loop_bufs, nbars_override=nb)
+            want_parts=True, loop_bufs=loop_bufs, nbars_override=nb,
+            lock=lock)
     else:
         if shots is None:
             status("Scanning your sample library…")
@@ -4083,7 +4107,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             # instrument (measured: F7#9 out, Gm7 back). The recipe knows
             # all three, so hand back all three.
             # Whether that hand-back actually happens is REBUILD_LOCKS_KEY.
-            _dirs = {"chords": True, "chord_feel": None}
+            _dirs = {"chords": True, "chord_feel": None,
+                     "busy_lanes": normalize_preset(rec["preset"])["lanes"]}
             if REBUILD_LOCKS_KEY:
                 _h = rec.get("harmony") or {}
                 _dirs["chord_feel"] = _h.get("progression")
@@ -4120,10 +4145,13 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             chord_voice, fx)
         status(f"Re-rendering beat {number} with the new {changed}…")
         L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
-                                             preset=preset, want_parts=True)
+                                             preset=preset, want_parts=True,
+                                             lock=lock)
         if rec.get("dj_cut_bar") is not None:
             L, R = dj_cut(L, R, parts, rec["dj_cut_bar"])
 
+    if _learn:                 # the unchanged beat's volume setting
+        return parts["lock"]
     if render_only:            # live preview — nothing is printed or filed
         return L, R
 

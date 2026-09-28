@@ -1447,7 +1447,7 @@ def grid_accent(res, s):
 
 def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                      eq=None, echo=None, chorus=None, phaser=None,
-                     loop_bufs=None, nbars_override=None):
+                     loop_bufs=None, nbars_override=None, lock=None):
     """Render one personality's 8-bar A/B beat. kit maps lane -> mono
     audio. space overrides the house snare treatment ('room'/'dry'/...)
     for era-deviation Alt renders. preset overrides CREW[name] — that's
@@ -1507,7 +1507,15 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     renders exactly as before. nbars_override lets the caller set the
     beat's bar count from the picked loops' own lengths instead of
     bars_of(preset) — a loops-only beat has no pattern to consult for
-    its length."""
+    its length.
+
+    lock (owner 2026-09-27, picked "lock it per beat"): the beat's saved
+    volume setting, {"master_peaks": [p1, p2], "master_gains": [g1, g2],
+    "stem_scale": s}. Given, master()'s peak-normalise, the final loudness
+    step and the stems' shared scale REPLAY it instead of
+    re-measuring the whole mix, so changing one sound leaves every other
+    sound where it was. With want_parts the lock actually used comes back
+    as parts["lock"], which is what the recipe saves."""
     p = preset or CREW[name]
     # a loops beat reads its own level switch, never the from-scratch one
     true_levels = LOOPS_TRUE_LEVELS if loop_bufs else TRUE_LEVELS
@@ -2398,7 +2406,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     L, R = glue_compress(L, R, **p.get("glue", {}))
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't
-    L, R = master(L, R, drive=0.7 if clean_mix else p["drive"])
+    _peaks = list((lock or {}).get("master_peaks") or [])
+    L, R = master(L, R, drive=0.7 if clean_mix else p["drive"],
+                  peaks=_peaks)
     # CENTRE THE BASS LAST (owner 2026-09-02, "take it"). This used to run
     # BEFORE master_to_lufs, and master_to_lufs soft-clips L and R
     # separately — running a non-linear stage on two channels that differ
@@ -2416,7 +2426,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # to two decimal places. (On the synthetic test kit the peak moves up to
     # 0.85 dB, because a pure sine has no crest factor to hide the filter's
     # ringing. Real drums do.)
-    L, R, got = master_to_lufs(L, R)
+    _gains = list((lock or {}).get("master_gains") or [])
+    L, R, got = master_to_lufs(L, R, gains=_gains)
     L, R = mono_below(L, R, 120)
     if not want_parts:
         return L, R, got
@@ -2448,12 +2459,21 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         stems[lane] = (sL, sR)
     peak = max(max(np.abs(sL).max(), np.abs(sR).max())
                for sL, sR in stems.values())
-    if peak > 0:
+    scale = (lock or {}).get("stem_scale")
+    if scale is None:
         # 0.5 = -6 dBFS on the loudest stem; was 0.9, which summed to a
         # redlining channel the moment the stems landed in Reason
-        stems = {ln: (sL * 0.5 / peak, sR * 0.5 / peak)
-                 for ln, (sL, sR) in stems.items()}
-    return L, R, got, {"events": events, "stems": stems}
+        scale = 0.5 / peak if peak > 0 else 1.0
+    elif peak * scale > 1.0:
+        # ponytail: a locked scale that would clip a stem (a sound turned
+        # up 6+ dB) falls back to just-under-clipping, which moves every
+        # stem together. Rare; a per-stem headroom rule if he hits it.
+        scale = 1.0 / peak
+    stems = {ln: (sL * scale, sR * scale) for ln, (sL, sR) in stems.items()}
+    return L, R, got, {"events": events, "stems": stems,
+                       "lock": {"master_peaks": _peaks,
+                                "master_gains": _gains,
+                                "stem_scale": float(scale)}}
 
 # ------------------------------------------------------------------- main
 

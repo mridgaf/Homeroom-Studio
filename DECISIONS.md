@@ -20,6 +20,25 @@ entries.
 
 ## Log
 
+### 2026-09-27 Volume locked per beat: editing one sound no longer moves the others
+- Context: continues the 2026-09-27 entry further down ("Changing one sound changes every other sound's volume").
+- Owner (clickable): "Lock it per beat" (new beats still land at -12 LUFS; the volume setting is saved in the recipe and replayed on every edit; removing a sound makes the beat a bit quieter, like a real fader) and "Learn it on first edit" for old beats (one unchanged re-render, saved into the parent recipe, never repeated). NOT picked: level-matching swapped sounds, leaving it as is.
+- Found while fixing, THREE whole-mix level steps, not one: (1) `groove.master_to_lufs` (the known one); (2) `make_drum_loops.master()` peak-normalises the whole mix to its loudest moment TWICE; the old auto-loudness hid it, locking (1) alone made a louder swapped hat pull everything down 2.6 dB on 3056; (3) stems scaled so the loudest is -6 dBFS. Plus (4): a rebuild dropped the removed drum BEFORE rebuilding chords, and the chord "comp" rhythm answers the drum pattern (`_busy`), so removing a drum re-rolled the chord rhythm (3 of 12 test beats, chord stems up to 4 dB). The glue compressor was tested as a suspect (replayed its gain curve): no measurable effect, left alone.
+- Change: `master()` takes `peaks=`, `master_to_lufs` takes `gains=` (empty list = record, filled = replay). `render_crew_beat(lock=)` replays {master_peaks, master_gains, stem_scale} and returns the one used as parts["lock"]. All 3 new-beat recipes save "lock"; `swap_many` reuses it, learns it once for old beats (`_learn=True`), children inherit it. `_build_chords` reads `dirs["busy_lanes"]` = the recipe's original lanes on a rebuild. Stem scale falls back to just-under-clipping if a big turn-up would clip a stem (ponytail note in crew.py).
+- ASSUMING (told to owner): chords keep answering the ORIGINAL drums after a drum is removed (that re-roll was part of "other sounds change").
+- Verified on real beats, rendered into scratch only (not his library), old code vs new, other sounds' level in the final mix (joint least-squares per stem) and in the stems:
+  - 3056 remove snare: mix worst 0.69 -> 0.52 dB (most sounds 0.2 -> <=0.06); stems 0 -> 0.
+  - 3056 swap hat (new hat +13.5 dB louder): mix worst 0.51 -> 0.19 dB; with the lock but WITHOUT master() peaks locked it was 2.75, which is how (2) was found.
+  - 3053 remove snare (snare was the loudest stem): stems 0.35 -> 0.00 dB; mix worst 0.37 -> 0.19 (vinyl row excluded, see below).
+  - 3053 swap hat: already ~0 both ways.
+  - The vinyl bed reads -1.0 dB on hat swaps on BOTH old and new code: it's noise, so the least-squares can't separate it from the hat. Measuring artifact, not a level move.
+  - Remaining <=0.5 dB is the saturation/soft clip reacting to the changed sound itself; not locked.
+- Test: `test_removing_a_sound_leaves_every_other_sound_where_it_was` (new beat + old beat without a lock; every other stem within 0.01 dB; child inherits the lock). Fails on the old code. Full suite before 1271 passed / 3 skipped; after 1272 passed / 3 skipped.
+- Noticed, not touched: `beat_machine.py` ~2349 `_fig` used before it's defined crashes `generate()` on some random seeds (hit by an unseeded run of the new test, which is now seeded).
+- Not verified: his ear; the Loops-page kick/hat-relative rules (they still re-level other sounds when the kick or hat changes on a Loops beat, out of scope of his pick).
+- Status: open (measured, not heard)
+- Outcome: -
+
 ### 2026-09-26 Chord flow: more variety in the chords (new beats only)
 - Context: owner: "a lot of similar chord progressions ... not very much variety". Asked whether it's just the DJs being too narrow.
 - Measured (not the DJs): each identity already has ~7 progressions and 30% of beats ignore the DJ. Real causes: 43-45% of beats were 1-2 chord loops (13% one chord); chords always split evenly from bar 1; every chord stacked root-up in octave 3 (no inversions); all 18 genres on the old held-pad/one-arp path; `dark_menacing` and `vamp_static_riff` in 21 of 43 identities.
@@ -7873,4 +7892,4 @@ just not loaded by default.
 - Context: owner: "When I remove or change a sound, all of the other sounds are changing. To compensate for the rules in the beat making logic." Clarified it's specifically volume, not sound-selection.
 - Found (read the real code, not guessed): tools/crew.py:2419 (render_crew_beat) calls groove.master_to_lufs(L, R) on the FULL finished mix. That function (tools/groove.py:681) measures the whole mix's loudness and multiplies the ENTIRE mix by one shared gain to hit a fixed target (OWNER_TASTE["master_lufs"]), recalculated fresh every render. Change/remove one sound -> total loudness shifts -> shared gain shifts -> every other sound rides along with it. Secondary contributor: glue_compressor (tools/audio_engine.py) runs just before this and reacts to overall mix loudness too, so squashing amount shifts slightly as well.
 - Not done: no fix implemented, no owner decision on the trade-off (consistent per-beat loudness vs. sounds holding a fixed level when something else changes). A written handoff prompt for Claude Code was produced instead (owner asked for the handoff only, not the fix).
-- Status: open — diagnosed, not fixed, not rendered.
+- Status: confirmed (fixed, see "Volume locked per beat" at the top of the log, same day)

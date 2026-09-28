@@ -527,6 +527,46 @@ def test_stem_removal_drops_the_lane_completely(machine_env):
         assert rec2["kit_paths"][lane] == rec["kit_paths"][lane], lane
 
 
+def test_removing_a_sound_leaves_every_other_sound_where_it_was(machine_env):
+    """Owner 2026-09-27: "when I remove or change a sound, all of the other
+    sounds are changing." Picked "lock it per beat": an edit replays the
+    beat's saved volume setting, so the other stems and the mix gain stay
+    exactly put. A beat with no saved lock (made before this) learns it on
+    its first edit and keeps it. Removing a drum also must not re-roll the
+    chords' rhythm, which answers the drum pattern (the chord stems moved
+    up to 4 dB before that was pinned)."""
+    from make_drum_loops import read_wav24
+    root, shots = machine_env
+    random.seed(4)
+
+    def levels(path):
+        no = path.name.split()[0]
+        d = next(path.parent.glob(f"{no} * Stems"))
+        return {f.name.split(" - ")[0].split(".")[0]:
+                float(np.abs(np.concatenate(read_wav24(f))).max())
+                for f in d.glob("*.wav")}
+
+    for old_beat in (False, True):
+        path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        assert len(rec["lock"]["master_gains"]) == 2
+        assert len(rec["lock"]["master_peaks"]) == 2
+        if old_beat:
+            del rec["lock"]
+            beat_recipes.save_recipe(root, no, rec)
+        before = levels(path)
+        new_path, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                             drops=["snare"])
+        after = levels(new_path)
+        assert after and "snare" not in after
+        for lane, pk in after.items():
+            assert abs(20 * np.log10(pk / before[lane])) < 0.01, lane
+        child = beat_recipes.load_recipe(
+            root, int(new_path.name.split()[0]))
+        assert child["lock"] == beat_recipes.load_recipe(root, no)["lock"]
+
+
 # ------------------------------------------- per-stem volume (2026-07-19)
 
 

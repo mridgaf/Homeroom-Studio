@@ -1,0 +1,1405 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homeroom Studio</title>
+<style>
+ /* ---------------------------------------------------------------
+    Homeroom Studio — reskinned 2026-08-06 to mockup D ("Show Flyer"):
+    paper + halftone, blue ink, yellow highlight, poster-condensed type.
+    Owner picked D after reviewing A-G, then asked for it live on both
+    rooms (Beat Machine + Reason Voice). Same palette shape as before —
+    the mark's yellow scrawl and blue square carry every accent — just
+    flipped from dark xerox paper to light flyer stock.
+    ---------------------------------------------------------------- */
+ :root {
+   --paper:   #f4ecc4;
+   --card:    #fffef4;
+   --card2:   #ffffff;
+   --line:    #1020a826;
+   --line2:   #1020a845;
+   --text:    #12157f;
+   --dim:     #12157f99;
+   --dimmer:  #12157f66;
+   /* straight off the Back of the Class mark: the yellow scrawl and the
+      blue square it sits on — verbatim, "keep the blue and yellow no
+      matter what" (owner, 2026-08-06). --co/--ch used to be lifted
+      tints for a dark background; on paper the ink blue reads fine on
+      its own, so both now just alias --blue.                         */
+   --hi:      #e8d810;   /* band yellow — actions, keeps, selection    */
+   --hi-ink:  #16150a;
+   --blue:    #1020a8;   /* band blue — masthead, fills, blocks, ink   */
+   --co:      #1020a8;
+   --no:      #ff4d4d;   /* trash + real errors only                   */
+   --ch:      #1020a8;
+   --display: "Anton", Impact, "Haettenschweiler", sans-serif;
+   --mono:    "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+ }
+ * { box-sizing: border-box; }
+ html { -webkit-text-size-adjust: 100%; }
+ @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+ body {
+   font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+   margin: 0; padding: 0 24px 90px;
+   background: radial-gradient(circle, #1020a814 1px, transparent 1.4px) 0 0/16px 16px,
+               var(--paper);
+   color: var(--text); line-height: 1.5;
+   -webkit-font-smoothing: antialiased;
+ }
+ /* photocopy grain — one inline SVG, no downloads, sits over everything */
+ body::before {
+   /* no mix-blend-mode: a full-screen blended layer makes the whole page
+      recomposite on every scroll, and plain low opacity looks the same */
+   content: ""; position: fixed; inset: 0; z-index: 9; pointer-events: none;
+   opacity: .035;
+   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+ }
+ .wrap { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+
+ /* ------------------------------------------------------- masthead */
+ /* the masthead is the band's blue square, blown up: the mark sits on
+    the same field it was drawn on, so his logo lands in it seamlessly */
+ .board { background: var(--blue); border-radius: 18px; margin: 22px 0 0;
+          padding: 26px 30px; position: relative; overflow: hidden; }
+ .board::after {                       /* chalk-dust wash, keeps it flat-free */
+   /* thrown to the RIGHT on purpose: the logo's own blue is exactly
+      --blue, so any highlight behind it turns the artwork into a
+      visible square instead of letting it melt into the board */
+   content: ""; position: absolute; inset: 0; pointer-events: none;
+   background: radial-gradient(110% 90% at 92% 0%, #ffffff1c, transparent 58%); }
+ header { display: grid; grid-template-columns: auto minmax(0, 1fr);
+          gap: 0 20px; align-items: center; position: relative; z-index: 1; }
+ /* MAKE / STUDIO — one app, two rooms (packaging step 5). Plain links on
+    purpose; no iframes until the simple version has been lived with. */
+ .apptabs { position: absolute; top: 0; right: 0; z-index: 2; display: flex; }
+ .apptabs a, .apptabs .here {
+   font-family: var(--display); font-weight: 700; font-size: 13.5px;
+   letter-spacing: .13em; text-transform: uppercase;
+   padding: 10px 20px 12px; text-decoration: none; }
+ .apptabs .here { background: var(--hi); color: var(--hi-ink);
+                  border-radius: 0 0 0 14px; }
+ .apptabs a { color: #ffffffb8; background: #00000026;
+              border-radius: 0 18px 0 0; }
+ .apptabs a:hover { color: #fff; background: #00000042; }
+ .mark { width: 108px; height: 108px; flex: none; display: grid;
+         place-items: center; overflow: hidden; background: var(--blue); }
+ .mark img { width: 100%; height: 100%; object-fit: contain; }
+ .mark span { font-family: var(--display); font-weight: 700; font-size: 25px;
+              letter-spacing: .04em; color: var(--hi); }
+ /* no band name in type up here — the mark already says it (owner
+    2026-07-18: "I agree about the redundant title, don't use it") */
+ h1 { font-family: var(--display); font-weight: 700;
+      font-size: clamp(38px, 6vw, 66px); line-height: .86;
+      letter-spacing: .012em; margin: 0; text-transform: uppercase;
+      color: #fff; }
+ .scrawl { display: block; width: min(330px, 80%); height: 13px;
+           margin: 8px 0 0; overflow: visible; }
+ .scrawl path { fill: none; stroke: var(--hi); stroke-width: 5;
+                stroke-linecap: round; }
+ .tag { grid-column: 2; margin: 12px 0 0; color: #ffffffc4;
+        max-width: 62ch; font-size: 14.5px; }
+
+ /* -------------------------------------------------- section heads */
+ h2.box { font-family: var(--display); font-weight: 700; font-size: 20px;
+          letter-spacing: .1em; text-transform: uppercase;
+          margin: 34px 0 12px; display: flex; align-items: center; gap: 11px; }
+ h2.box::before {                       /* stencil bars */
+   content: ""; width: 26px; height: 13px; flex: none; border-radius: 2px;
+   background: repeating-linear-gradient(90deg, var(--hi) 0 4px,
+               transparent 4px 8px);
+ }
+ h2.box small { font-family: -apple-system, sans-serif; font-weight: 400;
+                font-size: 12.5px; letter-spacing: .02em; color: var(--dimmer);
+                text-transform: none; }
+
+ /* ------------------------------------------------------ DJ crates */
+ .djs { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+        gap: 9px; }
+ .fixedbank { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+              gap: 9px; margin-bottom: 6px; }
+ .fixedbtn { padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+             background: var(--card); cursor: pointer; text-align: left;
+             font-family: var(--display); font-weight: 600; font-size: 15px;
+             color: var(--text); transition: border-color .13s, transform .13s; }
+ .fixedbtn:hover { border-color: var(--hi); transform: translateY(-1px); }
+ .fixedbtn:disabled { opacity: .5; cursor: default; transform: none; }
+ .fixedbtn small { display: block; font-weight: 400;
+                   font-size: 12px; color: var(--dim); text-transform: none;
+                   letter-spacing: 0; margin-top: 3px; }
+ .dj { position: relative; display: flex; align-items: center; gap: 10px;
+       padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+       background: var(--card); cursor: pointer; user-select: none;
+       transition: border-color .13s, background .13s, transform .13s; }
+ .dj:hover { border-color: var(--line2); transform: translateY(-1px); }
+ .dj input { position: absolute; opacity: 0; pointer-events: none; }
+ .dj .dot { width: 11px; height: 11px; border-radius: 50%; flex: none;
+            border: 2px solid var(--line2); transition: all .13s; }
+ .dj .who { flex: 1; min-width: 0; }
+ .dj .name { display: block; font-family: var(--display); font-weight: 600;
+             font-size: 18.5px; line-height: 1.12; letter-spacing: .028em;
+             text-transform: uppercase; white-space: nowrap; overflow: hidden;
+             text-overflow: ellipsis; }
+ .dj .built { display: block; font-size: 11.5px; color: var(--dimmer);
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .dj .bpm { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
+            border: 1px solid var(--line); border-radius: 5px;
+            padding: 2px 5px; flex: none; }
+ .dj .ord { position: absolute; top: -7px; right: -7px; width: 21px;
+            height: 21px; border-radius: 50%; display: none;
+            place-items: center; font-family: var(--mono); font-size: 11px;
+            font-weight: 700; background: var(--hi); color: var(--hi-ink); }
+ .dj:has(input:checked) { border-color: var(--hi); background: #e8d81014; }
+ .dj:has(input:checked) .dot { background: var(--hi); border-color: var(--hi); }
+ .dj:has(input:checked) .ord { display: grid; }
+ .dj.legend:has(input:checked) { border-color: var(--co); background: #1020a814; }
+ .dj.legend:has(input:checked) .dot { background: var(--co); border-color: var(--co); }
+ .dj.legend:has(input:checked) .ord { background: var(--co); color: #fff; }
+ /* the third box gets CHALK rather than a fourth hue — the mark only
+    owns yellow and blue, and chalk on a board is the one other colour
+    this band already has (crew = yellow scrawl, legends = blue, styles
+    = chalk). */
+ .dj.genre:has(input:checked) { border-color: var(--ch); border-style: dashed; background: #1020a80c; }
+ .dj.genre:has(input:checked) .dot { background: var(--ch); border-color: var(--ch); }
+ .dj.genre:has(input:checked) .ord { background: var(--ch); color: #16150a; }
+ .dj.genre .built { font-style: italic; }
+
+ /* ------------------------------------------------------- controls */
+ .panel { margin-top: 24px; padding: 20px 22px; border: 1px solid var(--line);
+          border-radius: 14px; background: var(--card); }
+ .fields { display: grid; grid-template-columns: 132px 132px 1fr; gap: 16px; }
+ .field label { display: block; font-family: var(--display); font-weight: 600;
+                font-size: 12.5px; letter-spacing: .11em; text-transform: uppercase;
+                color: var(--dim); margin-bottom: 6px; }
+ .field input, .field select { width: 100%; font-size: 15px; padding: 10px 12px;
+                border-radius: 9px; border: 1px solid var(--line2);
+                background: var(--card2); color: var(--text); font-family: inherit; }
+ .field input:focus, .field select:focus { outline: none; border-color: var(--hi); }
+ .field.quick { margin-top: 16px; }
+ .field .hint { font-size: 11.5px; color: var(--dimmer); margin-top: 5px; }
+ .fire { display: flex; align-items: center; gap: 16px; margin-top: 18px;
+         flex-wrap: wrap; }
+ #go { position: relative; font-family: var(--display); font-weight: 700;
+       font-size: 21px; letter-spacing: .07em; text-transform: uppercase;
+       padding: 13px 30px; border: 0; border-radius: 10px;
+       background: var(--hi); color: var(--hi-ink); cursor: pointer;
+       transition: transform .1s; }
+ #go::after {                            /* sticker shadow, marker-ish */
+   content: ""; position: absolute; inset: 0; border-radius: 10px;
+   border: 2px solid var(--text); opacity: .17;
+   transform: translate(4px, 4px) rotate(-.5deg); pointer-events: none; }
+ #go:hover:not(:disabled) { transform: translate(-1px, -1px); }
+ #go:disabled { opacity: .45; cursor: default; }
+ #hosthint { color: var(--dim); font-size: 13.5px; flex: 1; min-width: 180px; }
+
+ /* the working strip — replaces the old green wall of filenames */
+ #work { margin-top: 16px; display: none; }
+ #work.on { display: block; }
+ #workbar { height: 4px; border-radius: 3px; background: var(--line);
+            overflow: hidden; }
+ #workbar i { display: block; height: 100%; width: 34%; border-radius: 3px;
+              background: var(--hi); animation: slide 1.15s ease-in-out infinite; }
+ @keyframes slide { 0% { margin-left: -34%; } 100% { margin-left: 100%; } }
+ #worktext { margin-top: 9px; font-size: 13.5px; color: var(--dim); }
+ #work.bad #workbar { display: none; }
+ #work.bad #worktext { color: var(--no); white-space: pre-wrap; }
+
+ /* --------------------------------------------------- batch + bins */
+ .zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px;
+          margin: 14px 0 16px; }
+ .zone { border: 1.5px dashed var(--line2); border-radius: 12px;
+         padding: 15px 12px; text-align: center;
+         font-family: var(--display); font-weight: 600; font-size: 15.5px;
+         letter-spacing: .07em; text-transform: uppercase; color: var(--dim);
+         transition: background .12s, border-color .12s, color .12s; }
+ .zone small { display: block; font-family: -apple-system, sans-serif;
+               font-weight: 400; font-size: 11.5px; letter-spacing: 0;
+               text-transform: none; color: var(--dimmer); margin-top: 3px; }
+ .zone.fav.over   { border-color: var(--hi); background: #e8d8101f; color: var(--hi); }
+ .zone.djz.over   { border-color: var(--co); background: #7d8cff1f; color: var(--co); }
+ .zone.trash.over { border-color: var(--no); background: #ff4d4d1f; color: var(--no); }
+
+ /* ------------------------------------------- reference track (sec. 5) */
+ #refdrop { border: 1.5px dashed var(--line2); border-radius: 10px;
+            padding: 11px 12px; text-align: center; font-size: 12.5px;
+            color: var(--dim); cursor: default;
+            transition: background .12s, border-color .12s, color .12s; }
+ #refdrop.over, #refdrop.busy { border-color: var(--co); color: var(--co);
+                                background: #7d8cff14; }
+ /* the row is its own grid: the two key dropdowns need more than the
+    132px column the tempo box sits in, and the drop target needs the
+    rest of the width or its one sentence wraps into three lines. */
+ .refrow { grid-template-columns: 264px 1fr; }
+ #refline { min-height: 15px; }
+ #refline b { color: var(--ink); }
+ #refline button { font-size: 11px; padding: 1px 7px; margin-left: 5px;
+                   vertical-align: baseline; }
+
+ #empty { padding: 34px 0 10px; text-align: center; position: relative; }
+ #empty .ghost { width: 132px; margin: 0 auto 4px; opacity: .13;
+                 transform: rotate(-3deg); }
+ #empty .ghost img { width: 100%; display: block; }
+ #empty .scribble { font-family: var(--display); font-weight: 700;
+                    font-size: 38px; letter-spacing: .04em; color: #1020a812;
+                    text-transform: uppercase; transform: rotate(-2.5deg);
+                    display: inline-block; }
+ #empty p { color: var(--dimmer); font-size: 13.5px; margin: 6px 0 0; }
+
+ /* ------------------------------------------------------ the track */
+ .track { position: relative; border: 1px solid var(--line); border-radius: 13px;
+          background: var(--card); margin: 9px 0; overflow: hidden;
+          transition: border-color .13s; }
+ .track.dragging { opacity: .35; }
+ .track.loc-favorites { border-color: #e8d81066; }
+ .track.loc-trash { border-color: #ff4d4d55; opacity: .62; }
+ .thead { display: flex; align-items: center; gap: 13px; padding: 12px 14px;
+          cursor: grab; }
+ .thead .no { font-family: var(--display); font-weight: 700; font-size: 27px;
+              color: var(--dimmer); flex: none; min-width: 46px; }
+ .track.loc-favorites .thead .no { color: var(--hi); }
+ .tmeta { flex: 1; min-width: 0; }
+ .tname { display: block; font-family: var(--display); font-weight: 600; font-size: 19px;
+          letter-spacing: .026em; text-transform: uppercase;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .tsub { display: block; font-size: 11.5px; color: var(--dimmer); font-family: var(--mono);
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ /* the browser's own audio control is a white pill — it wrecked the
+    page, and it can't be restyled, so the track gets its own transport */
+ .thead audio { display: none; }
+ .player { display: flex; align-items: center; gap: 10px; flex: none;
+           width: 238px; }
+ .pp { width: 33px; height: 33px; flex: none; border-radius: 50%;
+       border: 1px solid var(--line2); background: #1020a80a;
+       color: var(--text); cursor: pointer; font-size: 11px;
+       display: grid; place-items: center; transition: all .12s; }
+ .pp:hover { background: #1020a81c; }
+ .pp.on { background: var(--hi); border-color: var(--hi); color: var(--hi-ink); }
+ .bar { flex: 1; height: 5px; border-radius: 3px; background: var(--line2);
+        cursor: pointer; position: relative; }
+ .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+          background: var(--hi); border-radius: 3px; }
+ .time { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
+         min-width: 36px; text-align: right; }
+ .acts { display: flex; gap: 4px; flex: none; }
+ .acts button, .stembtn { font-size: 14px; line-height: 1; padding: 7px 9px;
+       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+       background: #1020a808; color: var(--text); transition: all .12s; }
+ .acts button:hover { background: #1020a817; }
+ .acts button.on-fav   { border-color: var(--hi); color: var(--hi); }
+ .acts button.on-trash { border-color: var(--no); color: var(--no); }
+ .stembtn { font-family: var(--display); font-weight: 600; font-size: 12.5px;
+            letter-spacing: .09em; text-transform: uppercase; padding: 8px 12px;
+            white-space: nowrap; }
+ .stembtn.open { background: var(--hi); color: var(--hi-ink); border-color: var(--hi); }
+
+ /* ------------------------------------- why this beat works (step 3) */
+ .theory { display: none; border-top: 1px solid var(--line);
+           padding: 9px 14px 11px; background: #1020a805; }
+ .tline { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
+          display: flex; flex-wrap: wrap; gap: 7px; align-items: baseline; }
+ .tline b { color: var(--hi); font-weight: 700; }
+ .tline i { color: var(--line); font-style: normal; }
+ .tline .rom { color: var(--dim); }
+ .twhy { margin-top: 6px; font-size: 12.5px; line-height: 1.5;
+         color: var(--dim); max-width: 66ch; }
+
+ /* -------------------------------------------------- the stem rack */
+ .rack { display: none; border-top: 1px solid var(--line);
+         background: #1020a80d; padding: 4px 14px 14px; }
+ .rack.open { display: block; }
+ .lane { display: grid; grid-template-columns: 74px 1fr auto auto;
+         gap: 12px; align-items: center; padding: 10px 0;
+         border-bottom: 1px solid #1020a80c; }
+ .lane:last-of-type { border-bottom: 0; }
+ .lane .who2 { display: flex; align-items: center; gap: 7px; }
+ .lane .swatch { width: 3px; height: 17px; border-radius: 2px;
+                 background: var(--co); flex: none; }
+ .lane.locked .swatch { background: var(--dimmer); }
+ .lane.changed .swatch { background: var(--hi); }
+ .lane .lname { font-family: var(--display); font-weight: 600; font-size: 14px;
+                letter-spacing: .1em; text-transform: uppercase; }
+ .lane .what { min-width: 0; }
+ .lane .sample { display: block; font-size: 13px; white-space: nowrap;
+                 overflow: hidden; text-overflow: ellipsis; }
+ .lane .pack { display: block; font-size: 11px; color: var(--dimmer);
+               font-family: var(--mono); white-space: nowrap;
+               overflow: hidden; text-overflow: ellipsis; }
+ .lane.changed .sample { color: var(--hi); }
+ .lane .picks { display: flex; align-items: center; gap: 6px; flex: none; }
+ .lane select { appearance: none; -webkit-appearance: none;
+       font-family: inherit; font-size: 12.5px; max-width: 250px;
+       padding: 7px 26px 7px 10px; border-radius: 8px;
+       border: 1px solid var(--line2); background: var(--card2);
+       color: var(--text); cursor: pointer;
+       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231020a8' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+       background-repeat: no-repeat; background-position: right 9px center; }
+ .lane select:focus { outline: none; border-color: var(--hi); }
+ .lane.changed select { border-color: var(--hi); }
+ .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px;
+       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+       background: #1020a808; color: var(--text); }
+ .lane .mini:hover { background: #1020a817; }
+ .lane .mini.playing { border-color: var(--co); color: var(--co); }
+ .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
+
+ /* the stem faders — one per lane, so the rack reads down like a mixer */
+ /* volume: 1 dB arrows, not a slider (owner 2026-07-25 — the slider
+    jumped and left gaps). The dB readout doubles as the reset button. */
+ .lane .vol { display: flex; align-items: center; gap: 2px; flex: none; }
+ .lane .vol .step { width: 26px; height: 26px; padding: 0; line-height: 1;
+       font-size: 15px; font-weight: 700; border-radius: 7px;
+       border: 1px solid var(--line2); background: var(--card2);
+       color: var(--text); cursor: pointer; }
+ .lane .vol .step:hover { border-color: var(--hi); color: var(--hi); }
+ .lane .vol .step:active { transform: translateY(1px); }
+ .lane .vol .db { font-family: var(--mono); font-size: 12px;
+       color: var(--dimmer); width: 40px; text-align: center;
+       cursor: pointer; user-select: none; }
+ .lane.trimmed .vol .db { color: var(--hi); }
+ .lane.trimmed .swatch { background: var(--hi); }
+ /* a stem staged for removal reads as struck-through and faded */
+ /* the ban prompt: three real buttons, because a ban cannot be
+    undone from this page and confirm() has no safe third answer */
+ .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap;
+   align-items: center; gap: 7px; margin-top: 6px; padding: 7px 9px;
+   border-radius: 7px; background: #3a2020; color: #f4e6e6;
+   font-size: 13px; }
+ .banask span { flex: 1 1 220px; }
+ .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol {
+   opacity: .35; text-decoration: line-through; }
+
+ .rackfoot { display: flex; align-items: center; gap: 14px; padding: 13px 0 3px;
+             border-top: 1px solid var(--line); margin-top: 4px; flex-wrap: wrap; }
+ .rackfoot .staged { font-size: 12.5px; color: var(--dim); flex: 1;
+                     min-width: 150px; }
+ .rackfoot .staged b { color: var(--hi); }
+ .rebuild { font-family: var(--display); font-weight: 700; font-size: 14.5px;
+       letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
+       border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
+       cursor: pointer; }
+ .chunk { font-family: var(--display); font-weight: 700; font-size: 13px;
+   background: none; border: 1px solid var(--dim); border-radius: 6px;
+   color: var(--ink); padding: 5px 10px; cursor: pointer; }
+ .chunk:disabled { color: var(--dimmer); border-color: var(--dimmer);
+   cursor: default; }
+ .rebuild:disabled { background: #1020a810; color: var(--dimmer); cursor: default; }
+ .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
+         cursor: pointer; text-decoration: underline; padding: 6px; }
+ /* secondary to Rebuild: rolling stages changes, it doesn't print a beat */
+ .rollall { font-family: var(--display); font-weight: 700; font-size: 12.5px;
+       letter-spacing: .06em; text-transform: uppercase; padding: 9px 15px;
+       border: 1px solid #1020a826; border-radius: 9px; background: none;
+       color: var(--text); cursor: pointer; white-space: nowrap; }
+ .rollall:hover { border-color: var(--hi); color: var(--hi); }
+ .rackmsg { font-size: 12.5px; color: var(--no); padding: 4px 0 0;
+            white-space: pre-wrap; }
+
+ /* -------------------------------------------------------- pull-up */
+ .pullup { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+ .pullup .field { width: 130px; }
+ .pullup button { font-family: var(--display); font-weight: 600; font-size: 14px;
+       letter-spacing: .08em; text-transform: uppercase; padding: 11px 20px;
+       border: 1px solid var(--co); border-radius: 9px; background: #1020a81a;
+       color: var(--co); cursor: pointer; }
+ .pullup .note { flex: 1; min-width: 200px; font-size: 12.5px;
+                 color: var(--dimmer); }
+ #pullmsg { font-size: 13px; color: var(--no); margin-top: 9px; }
+
+ @media (max-width: 720px) {
+   .fields { grid-template-columns: 1fr 1fr; }
+   .refrow { grid-template-columns: 1fr; }
+   .fields .field:last-child { grid-column: 1 / -1; }
+   .thead audio { width: 100%; order: 9; }
+   .thead { flex-wrap: wrap; }
+   .lane { grid-template-columns: 1fr; gap: 7px; }
+   .zones { grid-template-columns: 1fr; }
+ }
+</style></head><body>
+<div class="wrap">
+
+<div class="board">
+<nav class="apptabs">
+  <span class="here" title="You're here — making beats">Make</span>
+  <a href="http://localhost:8765"
+     title="The studio half — recipes, patches, Reason. Same launcher starts it.">Studio</a>
+</nav>
+<header>
+  <div class="mark" id="mark">__MARK__</div>
+  <div class="title">
+    <h1>Homeroom Studio</h1>
+    <svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"
+         aria-hidden="true"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2
+         14-.9 27-2.3 40-4.8"/></svg>
+  </div>
+  <p class="tag">Check one DJ for a beat of their own. Check more for a collab &mdash;
+  it lands in the folder of whoever you check <b>first</b>. Ask for four or more
+  and a quarter come back as straight, traditional hip hop.</p>
+</header>
+</div>
+
+<h2 class="box">The Crew <small>__CREWCOUNT__ personalities</small></h2>
+<div class="djs">__CREW__</div>
+<h2 class="box">The Legends <small>signature styles</small></h2>
+<div class="djs">__LEGENDS__</div>
+<h2 class="box">The Styles <small>seventeen subgenres, played by the rules</small></h2>
+<div class="djs">__GENRES__</div>
+
+<h2 class="box">Rhythm test bank <small>five real, well-known hip-hop beats — the rhythm never changes, only the sounds</small></h2>
+<div class="fixedbank" id="fixedbank">__FIXEDBANK__</div>
+
+<h2 class="box">Pattern library <small>every transcribed groove, by genre — drums only, no chords or bass</small></h2>
+<div class="pullup">
+  <div class="field" style="width:170px"><label>Genre</label>
+    <select id="libgenre">__LIBGENRES__</select></div>
+  <div class="field" style="width:300px"><label>Pattern</label>
+    <select id="libpattern"></select></div>
+  <button id="libgo">Play it</button>
+  <div class="note">renders standalone, drops into the player below — roll again for a new kit on the same rhythm</div>
+</div>
+
+<h2 class="box">Breaks <small>famous figures + funk breaks — kept separate, played verbatim</small></h2>
+<div class="pullup">
+  <div class="field" style="width:340px"><label>Break</label>
+    <select id="libbreak">__LIBBREAKS__</select></div>
+  <button id="libbreakgo">Play it</button>
+  <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
+</div>
+
+<div class="panel">
+  <div class="fields">
+    <div class="field"><label>Tempo</label>
+      <input type="text" id="tempo" placeholder="95">
+      <div class="hint">blank = home tempo</div></div>
+    <div class="field"><label>How many</label>
+      <input type="number" id="count" value="1" min="1" max="10">
+      <div class="hint">up to 10</div></div>
+    <div class="field"><label>Directions</label>
+      <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
+      <div class="hint">used for this click and saved in the README</div></div>
+    <div class="field"><label>&nbsp;</label>
+      <label><input type="checkbox" id="loopsonly"> Loops only</label>
+      <div class="hint">whole beat built from loop material instead of one-shots</div></div>
+  </div>
+  <div class="fields refrow">
+    <div class="field"><label>Key</label>
+      <span style="display:flex; gap:6px">
+        <select id="keyroot"><option value="">&mdash; any &mdash;</option>__KEYROOTS__</select>
+        <select id="keymode">__KEYMODES__</select>
+      </span>
+      <div class="hint">set a key and the beat gets chords in it</div></div>
+    <div class="field"><label>Reference track</label>
+      <div id="refdrop">Drag a song here to match its tempo and key</div>
+      <div class="hint" id="refline">nothing dropped yet</div></div>
+  </div>
+  <div class="field quick"><label>Quick directions</label>
+    <select id="quick">
+      <option value="">&mdash; pick one &mdash;</option>
+      <option value="no chords">no chords &mdash; drums only, old style</option>
+      <option value="sparse">sparse &mdash; thin everything out</option>
+      <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+      <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+      <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+      <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+      <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+      <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+      <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+      <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+      <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+      <option value="no perc">no perc &mdash; percussion off</option>
+      <option value="crisp">crisp &mdash; crisp, clear samples</option>
+      <option value="dusty">dusty &mdash; dusty, aged samples</option>
+    </select>
+    <div class="hint">fills the Directions box above &mdash; edit it after if you like</div></div>
+  <div class="field quick"><label>Famous beats</label>
+    <select id="famous">
+      <option value="">&mdash; none, make it up &mdash;</option>
+      <option value="break">surprise me &mdash; any of them</option>
+__BREAKS__
+    </select>
+    <div class="hint">the drum part is played exactly as it was drummed, on
+      your own samples &mdash; no audio from any record</div></div>
+  <div class="fire">
+    <button id="go">Make my beats</button>
+    <span id="hosthint"></span>
+  </div>
+  <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
+</div>
+
+<h2 class="box">This batch <small>play, open the stems, sort</small></h2>
+<div class="zones">
+  <div class="zone fav"   data-dest="favorites">&starf; Favorites<small>drag here to keep</small></div>
+  <div class="zone djz"   data-dest="dj">&#9635; DJ folder<small>the default home</small></div>
+  <div class="zone trash" data-dest="trash">&#9587; Trash<small>moved, never deleted</small></div>
+</div>
+<div id="tracklist"></div>
+<div id="empty">__GHOST__<span class="scribble">nothing cooking yet</span>
+  <p>Make a beat and it lands here &mdash; with every drum in it.</p></div>
+
+<h2 class="box">Pull up a beat <small>anything you made before</small></h2>
+<div class="pullup">
+  <div class="field"><label>Beat number</label>
+    <input type="number" id="pullno" min="1" placeholder="316"></div>
+  <button id="pullgo">Open it</button>
+  <span class="note">Adds an older beat to the list above so you can play it,
+  open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
+</div>
+<div id="pullmsg"></div>
+
+</div>
+<script>
+ // the quick list just types into the Directions box for him, so the
+ // whole existing parser + README trail works unchanged
+ document.getElementById('quick').addEventListener('change', e => {
+   if (e.target.value) document.getElementById('notes').value = e.target.value;
+ });
+
+ // Famous beats: same trick — it types the words into Directions, so there
+ // is ONE code path (parse_directions) whether he picks it or types it, and
+ // the README trail says what he asked for either way.
+ const BREAK_WORDS = __BREAKWORDS__;
+ document.getElementById('famous').addEventListener('change', e => {
+   const n = document.getElementById('notes');
+   const kept = n.value.split(',').map(s => s.trim())
+                 .filter(s => s && !BREAK_WORDS.includes(s.toLowerCase()));
+   if (e.target.value) kept.unshift(e.target.value);
+   n.value = kept.join(', ');
+ });
+
+ // ---------------------------------------------------------- crew picking
+ const order = [];
+ function refresh() {
+   document.querySelectorAll('.dj').forEach(d => {
+     const cb = d.querySelector('input');
+     const pos = order.indexOf(cb.value);
+     d.querySelector('.ord').textContent = pos >= 0 ? (pos + 1) : '';
+   });
+   const hint = document.getElementById('hosthint');
+   if (!order.length) hint.textContent = '';
+   else if (order.length === 1) hint.textContent = 'Solo beat from ' + order[0] + '.';
+   else hint.textContent = 'Collab — lands in ' + order[0] + "'s folder.";
+ }
+ document.querySelectorAll('.dj input').forEach(cb => {
+   cb.addEventListener('change', () => {
+     if (cb.checked) { if (!order.includes(cb.value)) order.push(cb.value); }
+     else { const i = order.indexOf(cb.value); if (i >= 0) order.splice(i, 1); }
+     refresh();
+   });
+ });
+
+ // ------------------------------------------------------------- one voice
+ // every preview shares one player, so clicking around never stacks sounds
+ const audition = new Audio();
+ let auditionBtn = null;
+ function play(url, btn) {
+   if (auditionBtn) auditionBtn.classList.remove('playing');
+   if (auditionBtn === btn && !audition.paused) {
+     audition.pause(); auditionBtn = null; return;
+   }
+   document.querySelectorAll('.track audio').forEach(a => a.pause());
+   audition.src = url; audition.play().catch(() => {});
+   auditionBtn = btn || null;
+   if (auditionBtn) auditionBtn.classList.add('playing');
+ }
+ audition.addEventListener('ended', () => {
+   if (auditionBtn) auditionBtn.classList.remove('playing');
+   auditionBtn = null;
+ });
+
+ // ------------------------------------------------------------ the batch
+ const LOC = { favorites: '&starf; kept', trash: 'trashed', dj: '' };
+ const staged = {};                    // beat no -> { lane: path | null }
+ const trims = {};                     // beat no -> { lane: dB }
+ const drops = {};                     // beat no -> { lane: true }
+
+ function setLoc(el, loc) {
+   el.className = 'track loc-' + loc;
+   el.querySelector('.tloc').innerHTML = LOC[loc] || '';
+   el.querySelectorAll('.acts button').forEach(b => {
+     b.classList.toggle('on-fav', loc === 'favorites' && b.dataset.dest === 'favorites');
+     b.classList.toggle('on-trash', loc === 'trash' && b.dataset.dest === 'trash');
+   });
+ }
+ async function triage(no, dest, el) {
+   try {
+     const r = await fetch('/triage', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, dest }) });
+     const d = await r.json();
+     if (d.ok && el) setLoc(el, d.loc);
+   } catch (e) {}
+ }
+
+ function prettyTitle(label) {          // "316 Doc Day Boulevard Protocol Drums 93bpm"
+   const m = label.match(/^(\d+)\s+(.*?)\s+Drums\s+([\d.]+)bpm$/i);
+   return m ? { no: m[1], rest: m[2], bpm: m[3] } : { no: '', rest: label, bpm: '' };
+ }
+
+ function makeTrack(b) {
+   const t = prettyTitle(b.label);
+   const el = document.createElement('div');
+   el.className = 'track loc-' + b.loc;
+   el.draggable = true;
+   el.dataset.no = b.no;
+   el.innerHTML =
+     '<div class="thead">' +
+       '<span class="no">' + b.no + '</span>' +
+       '<span class="tmeta"><span class="tname"></span>' +
+         '<span class="tsub"></span></span>' +
+       '<span class="player"><button class="pp">&#9654;</button>' +
+         '<span class="bar"><i></i></span>' +
+         '<span class="time">0:00</span></span>' +
+       // `loop`: a beat repeats until you press stop (owner 2026-08-31).
+       // The attribute lives on the ELEMENT, so it survives cue()'s
+       // src+load() and the /mix preview loops too. Renders are already
+       // loop-safe (no edge fades, tails wrap), so the seam is clean.
+       '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
+       '<span class="acts">' +
+         '<button class="stembtn" data-role="stems">Stems</button>' +
+         (b.se_id ? '<button class="stembtn" data-role="engine" ' +
+           'title="Open in the Sound Engine with this DJ&apos;s effects ' +
+           'already dialled in (start it from Sound Engine.command first)">' +
+           'FX</button>' : '') +
+         '<button title="Keep it" data-dest="favorites">&starf;</button>' +
+         '<button title="DJ folder" data-dest="dj">&#9635;</button>' +
+         '<button title="Trash it" data-dest="trash">&#9587;</button>' +
+       '</span>' +
+     '</div>' +
+     '<div class="theory"></div>' +
+     '<div class="rack"></div>';
+   el.querySelector('.tname').textContent = t.rest;
+   el.querySelector('.tsub').innerHTML =
+     (t.bpm ? t.bpm + ' BPM' : '') + ' <span class="tloc"></span>';
+   // why this beat works — only for beats that recorded their harmony;
+   // anything older just doesn't get the block (see _beat_theory)
+   const th = b.theory;
+   if (th && th.key) {
+     const box = el.querySelector('.theory');
+     const bits = ['<b>' + esc(th.key) + '</b>'];
+     if (th.progression) bits.push(esc(th.progression));
+     if (th.roman) bits.push('<span class="rom">' + esc(th.roman) + '</span>');
+     if (th.chords) bits.push('<span class="rom">' + esc(th.chords) + '</span>');
+     if (th.voices) bits.push(esc(th.voices));
+     box.innerHTML = '<div class="tline">' + bits.join('<i>·</i>') + '</div>' +
+       (th.why ? '<div class="twhy">' + esc(th.why) + '</div>' : '');
+     box.style.display = 'block';
+   }
+   setLoc(el, b.loc);
+   el.addEventListener('dragstart', e => {
+     e.dataTransfer.setData('text/plain', b.no); el.classList.add('dragging'); });
+   el.addEventListener('dragend', () => el.classList.remove('dragging'));
+   el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
+     btn.onclick = () => triage(b.no, btn.dataset.dest, el));
+   el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.target);
+   // Open this beat in the Sound Engine with the DJ's effects already set
+   // (sound_engine/fx_presets.py). It is a separate app on its own port, so
+   // this is a plain link out — nothing is printed here and this beat's
+   // files are not touched. If the Sound Engine isn't running the new tab
+   // just fails to connect, which is why the button says to start it.
+   const eng = el.querySelector('[data-role=engine]');
+   if (eng) eng.onclick = () => window.open(
+     'http://localhost:8767/?beat=' + encodeURIComponent(b.se_id), '_blank');
+   wireTransport(el);
+   return el;
+ }
+
+ function clock(s) {
+   if (!isFinite(s)) return '0:00';
+   const m = Math.floor(s / 60), r = Math.floor(s % 60);
+   return m + ':' + String(r).padStart(2, '0');
+ }
+
+ function wireTransport(el) {
+   const au = el.querySelector('audio'), pp = el.querySelector('.pp'),
+         bar = el.querySelector('.bar'), fill = bar.querySelector('i'),
+         time = el.querySelector('.time');
+   pp.onclick = () => {
+     if (!au.paused) { au.pause(); return; }
+     audition.pause();                     // never two things at once
+     document.querySelectorAll('.track audio').forEach(a => {
+       if (a !== au) a.pause();
+     });
+     // Play what the rack is currently SET to, not the file on disk: with
+     // volumes nudged or stems removed, hitting play has to reflect that
+     // so a mix decision can be heard before rendering (owner 2026-07-25).
+     // The beat number comes off the element — wireTransport only gets
+     // `el`, and reaching for makeTrack's `b` here threw on every click.
+     if (cue(au, mixUrl(el.dataset.no))) {
+       // a staged sample swap makes the machine render the beat again,
+       // which is a couple of seconds — say so, or it reads as broken
+       pp.innerHTML = '&hellip;';
+       au.addEventListener('canplay', function once() {
+         au.removeEventListener('canplay', once);
+         au.play().catch(() => {});
+       });
+     } else {
+       au.play().catch(() => {});
+     }
+   };
+   au.addEventListener('play', () => { pp.classList.add('on');
+     pp.innerHTML = '&#10073;&#10073;'; });
+   const stop = () => { pp.classList.remove('on'); pp.innerHTML = '&#9654;'; };
+   // A preview that couldn't be built has to SAY so. It used to serve the
+   // untouched beat instead, so a failed swap sounded exactly like a swap
+   // that did nothing (owner 2026-08-04).
+   au.addEventListener('error', () => {
+     stop();
+     if (au.dataset.src && au.dataset.src.indexOf('/mix') === 0)
+       failed('Could not build that preview — the beat you are hearing is '
+              + 'unchanged. Check the drive is connected.');
+   });
+   au.addEventListener('pause', stop);
+   au.addEventListener('ended', () => { stop(); fill.style.width = '0';
+     time.textContent = clock(au.duration); });
+   au.addEventListener('timeupdate', () => {
+     if (au.duration) fill.style.width =
+       (au.currentTime / au.duration * 100) + '%';
+     time.textContent = clock(au.duration - au.currentTime);
+   });
+   au.addEventListener('loadedmetadata', () => {
+     time.textContent = clock(au.duration); });
+   bar.onclick = e => {
+     if (!au.duration) return;
+     const r = bar.getBoundingClientRect();
+     au.currentTime = ((e.clientX - r.left) / r.width) * au.duration;
+   };
+ }
+
+ async function loadBatch(focus) {
+   let d;
+   try { d = await (await fetch('/batch')).json(); } catch (e) { return; }
+   const list = document.getElementById('tracklist');
+   const open = [...list.querySelectorAll('.rack.open')]
+                  .map(r => r.closest('.track').dataset.no);
+   list.innerHTML = '';
+   document.getElementById('empty').style.display =
+     (d.beats && d.beats.length) ? 'none' : 'block';
+   (d.beats || []).forEach(b => {
+     const el = makeTrack(b);
+     list.appendChild(el);
+     if (open.includes(String(b.no)))
+       toggleRack(el, b.no, el.querySelector('[data-role=stems]'));
+   });
+   if (focus) {
+     const el = list.querySelector('.track[data-no="' + focus + '"]');
+     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+   }
+ }
+
+ // ---------------------------------------------------------- the stem rack
+ function stagedCount(no) { return Object.keys(staged[no] || {}).length; }
+ function trimCount(no) { return Object.keys(trims[no] || {}).length; }
+ function dropCount(no) { return Object.keys(drops[no] || {}).length; }
+
+ // Where to play a beat FROM. Untouched, that's the rendered file (which
+ // seeks, since /audio serves byte ranges). Touched at all — a new sound,
+ // a volume, a removal — it's /mix, which renders the beat as the rack is
+ // set (owner 2026-08-03: picking a new hi hat changed nothing when he
+ // played the beat back). One URL shape for all three kinds of change, so
+ // the preview can never disagree with itself.
+ function mixUrl(no) {
+   const t = trims[no] || {}, d = drops[no] || {}, p = staged[no] || {};
+   const tk = Object.keys(t), dk = Object.keys(d).filter(k => d[k]);
+   const pk = Object.keys(p).filter(k => p[k]);
+   if (!tk.length && !dk.length && !pk.length) return '/audio?no=' + no;
+   let u = '/mix?no=' + no
+     + '&trims=' + encodeURIComponent(tk.map(k => k + ':' + t[k]).join(','))
+     + '&drop=' + encodeURIComponent(dk.join(','));
+   if (pk.length) {
+     const picks = {};
+     pk.forEach(k => picks[k] = p[k]);
+     u += '&picks=' + encodeURIComponent(JSON.stringify(picks));
+   }
+   return u;
+ }
+
+ // Point a player at a URL. load() is not optional: these elements are
+ // preload="none", and assigning .src alone leaves them sitting there —
+ // that is what made the tracks go silent while the stems still played.
+ function cue(au, url) {
+   if (au.dataset.src === url && au.readyState) return false;
+   au.dataset.src = url; au.src = url; au.load();
+   return true;
+ }
+
+ // A beat that's already playing re-cues with the new levels. A paused one
+ // is left alone on purpose: every arrow click would otherwise make the
+ // server mix the beat again and throw the last one away, and the URL is
+ // worked out at play time anyway.
+ function refreshMix(el, no) {
+   const au = el.querySelector('audio');
+   if (!au || au.paused) return;
+   const want = mixUrl(no);
+   if (au.dataset.src === want) return;
+   const at = au.currentTime;
+   cue(au, want);
+   au.addEventListener('loadedmetadata', function once() {
+     au.removeEventListener('loadedmetadata', once);
+     if (at < au.duration) au.currentTime = at;
+     au.play().catch(() => {});
+   });
+ }
+
+ function paintFoot(el, no) {
+   const n = stagedCount(no), v = trimCount(no), r = dropCount(no);
+   const foot = el.querySelector('.rackfoot');
+   if (!foot) return;
+   const bits = [];
+   if (n) bits.push('<b>' + n + ' ' + (n === 1 ? 'sound' : 'sounds') + ' staged</b>');
+   if (v) bits.push('<b>' + v + ' ' + (v === 1 ? 'volume' : 'volumes') + ' changed</b>');
+   if (r) bits.push('<b>' + r + ' ' + (r === 1 ? 'stem' : 'stems') + ' removed</b>');
+   foot.querySelector('.staged').innerHTML = bits.length
+     ? bits.join(' + ') + ' — rebuild makes one new beat with every change in it'
+     : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
+   foot.querySelector('.rebuild').disabled = !(n + v + r);
+   foot.querySelector('.chunk').disabled = !(n + v + r);
+   foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
+   refreshMix(el, no);      // every volume/remove change lands here first
+ }
+
+ function laneRow(no, s) {
+   const row = document.createElement('div');
+   row.className = 'lane' + (s.locked ? ' locked' : '');
+   row.dataset.lane = s.lane;
+   row.innerHTML =
+     '<span class="who2"><span class="swatch"></span>' +
+       '<span class="lname"></span></span>' +
+     '<span class="what"><span class="sample"></span>' +
+       '<span class="pack"></span></span>' +
+     '<span class="vol">' +
+       '<button class="step dn" title="1 dB quieter">&minus;</button>' +
+       '<span class="db" title="Click to reset to 0">0</span>' +
+       '<button class="step up" title="1 dB louder">+</button>' +
+     '</span>' +
+     '<span class="picks"></span>';
+   // the row says what the sound IS — "kick drum", "bass drum", "bass",
+   // "horns stack" — never a lane key (owner 2026-07-25)
+   row.querySelector('.lname').textContent = (s.label || s.lane).toUpperCase();
+   row.querySelector('.sample').textContent = s.sample;
+   row.querySelector('.pack').textContent = s.pack || '';
+
+   // Volume rides on every lane, locked ones included: a stamp's SAMPLE is
+   // the DJ's identity, its level is just mix. Arrows rather than a slider
+   // (owner 2026-07-25): a slider jumped and left gaps, this steps exactly
+   // 1 dB a click — the standard fine-adjust on a real desk — and the
+   // number always shows where you are.
+   const db = row.querySelector('.db');
+   const STEP = 1, LIMIT = 24;
+   let v = 0;
+   const showDb = () => {
+     db.textContent = v ? (v > 0 ? '+' : '') + v.toFixed(0) : '0';
+     row.classList.toggle('trimmed', !!v);
+     trims[no] = trims[no] || {};
+     if (v) trims[no][s.lane] = v; else delete trims[no][s.lane];
+     if (!Object.keys(trims[no]).length) delete trims[no];
+     paintFoot(row.closest('.track'), no);
+   };
+   const nudge = (d) => {
+     v = Math.max(-LIMIT, Math.min(LIMIT, v + d));
+     showDb();
+   };
+   row.querySelector('.step.up').onclick = () => nudge(STEP);
+   row.querySelector('.step.dn').onclick = () => nudge(-STEP);
+   db.onclick = () => { v = 0; showDb(); };
+
+   const picks = row.querySelector('.picks');
+
+   if (s.stem) {
+     const b = document.createElement('button');
+     b.className = 'mini';
+     b.title = 'Hear this on its own, at its level in the track';
+     b.innerHTML = '&#9654;';
+     // the staged dB rides along, so a stem previews at the level the
+     // arrows are set to — same as it will sound in the beat
+     b.onclick = () => play('/stem?no=' + no + '&lane=' +
+                            encodeURIComponent(s.lane) +
+                            '&db=' + (v || 0), b);
+     picks.appendChild(b);
+   }
+   if (s.locked) {
+     const t = document.createElement('span');
+     t.className = 'lock'; t.textContent = s.why || 'locked';
+     picks.appendChild(t);
+     return row;
+   }
+
+   // Drum rows list SAMPLES; a chord/bass row lists INSTRUMENTS (s.voices)
+   // — a chord voice is a whole multisample, so there is no one file to
+   // pick. Same dropdown, same dice, different contents and a different
+   // way of auditioning: see sel.onchange below.
+   let sel = null;
+   if (s.can_swap) {
+     sel = document.createElement('select');
+     sel.innerHTML = '<option value="">reading your library&hellip;</option>';
+     sel.disabled = true;
+     picks.appendChild(sel);
+
+     const dice = document.createElement('button');
+     dice.className = 'mini';
+     dice.title = 'Roll a random one — you hear it straight away';
+     dice.textContent = '🎲';
+     // The dice picks a REAL sample out of the same list the dropdown
+     // shows, then plays it (owner 2026-08-03: "I would like the dice
+     // roll option to allow me to hear what the sound would be"). It
+     // used to stage a "surprise me" the machine only resolved during
+     // the rebuild, so there was nothing to play and nothing to name.
+     // Roll again for a different one.
+     dice.onclick = () => {
+       const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
+       if (!opts.length) return;         // list still loading, or nothing else
+       sel.value = opts[Math.floor(Math.random() * opts.length)].value;
+       sel.onchange();                   // stages it, plays it, repaints
+     };
+     // loops beats: dropdown only, no dice (owner 2026-09-16)
+     if (!s.loop) picks.appendChild(dice);
+   } else {
+     const t = document.createElement('span');
+     t.className = 'lock'; t.textContent = s.why || '';
+     picks.appendChild(t);
+   }
+
+   // remove the stem completely (owner request 2026-07-21) — click
+   // again to change your mind; the rebuild prints a beat without it
+   const rm = document.createElement('button');
+   rm.className = 'mini'; rm.title = 'Remove this stem from the beat';
+   rm.innerHTML = '&#10005;';
+   rm.onclick = () => {
+     drops[no] = drops[no] || {};
+     if (drops[no][s.lane]) {
+       delete drops[no][s.lane];
+       if (!Object.keys(drops[no]).length) delete drops[no];
+     } else drops[no][s.lane] = true;
+     row.classList.toggle('dropped', !!(drops[no] && drops[no][s.lane]));
+     paintFoot(row.closest('.track'), no);
+   };
+   picks.appendChild(rm);
+
+   // Ban this sound for good (owner 2026-08-31: "When I ban a sound, it is
+   // banned everywhere. forever."). Only offered on rows that ARE a sample
+   // — there is nothing to ban on a synthesised lane. Existing beats are
+   // never touched; this only stops it being picked again.
+   if (s.can_swap) {
+     const ban = document.createElement('button');
+     ban.className = 'mini';
+     ban.title = 'Never use this sound again';
+     ban.textContent = '🚫';
+     ban.onclick = () => {
+       if (ban.disabled) return;              // no double-fire
+       const done = d => {
+         ban.textContent = '✓';
+         ban.disabled = true;
+         ban.title = (d.banned === 'name'
+           ? 'Every sound called "' + d.name + '" is banned'
+           : '"' + d.name + '" is banned — it will not come back');
+       };
+       const send = choice => {
+         ban.disabled = true;
+         return fetch('/ban', {
+           method: 'POST',
+           headers: {'Content-Type': 'application/json'},
+           body: JSON.stringify({number: no, lane: s.lane, choice: choice})
+         }).then(r => r.json()).then(d => {
+           if (!d.ok) { ban.disabled = false; alert(d.error); return; }
+           if (d.asked) { ask(d); return; }
+           done(d);
+         }).catch(() => { ban.disabled = false;
+                          alert('could not reach the beat machine'); });
+       };
+       // A ban cannot be undone from this page, so the choice is three
+       // real buttons and NOT confirm(). confirm() has only two answers,
+       // which forced Cancel — and Escape, and clicking away — to mean
+       // "ban every sound with this name". The dangerous option was on
+       // the key people press to get out of a dialog.
+       const ask = d => {
+         ban.disabled = false;
+         const box = document.createElement('div');
+         box.className = 'banask';
+         const n = d.twins;
+         box.innerHTML = '<span>' + (d.sure
+           ? n + ' sounds in your library are called "' + esc(d.name) + '".'
+           : 'Other sounds may be called "' + esc(d.name) + '" too.')
+           + '</span>';
+         const pick = (label, choice, title) => {
+           const b = document.createElement('button');
+           b.className = 'mini'; b.textContent = label; b.title = title;
+           b.onclick = () => { box.remove(); if (choice) send(choice); };
+           box.appendChild(b);
+         };
+         pick('just this one', 'sound', 'Ban only the exact sound in this beat');
+         if (d.sure) pick('all ' + n, 'name',
+                          'Ban every sound with this file name');
+         pick('cancel', null, 'Change nothing');
+         row.appendChild(box);
+       };
+       send(null);
+     };
+     picks.appendChild(ban);
+   }
+
+   if (!sel) return row;          // locked row: level + remove only
+
+   sel.onchange = () => {
+     staged[no] = staged[no] || {};
+     if (!sel.value) delete staged[no][s.lane];
+     else {
+       staged[no][s.lane] = sel.value;
+       // A drum has one file, so play that file. An instrument doesn't —
+       // "piano" is a whole multisample, and a single note out of it says
+       // nothing about how the chords will sit. So a harmony row auditions
+       // by rendering the BEAT with that instrument in it, which is the
+       // only honest way to hear the choice (owner 2026-08-04).
+       if (s.voices) play(mixUrl(no));
+       else play('/sample?no=' + no + '&lane=' + encodeURIComponent(s.lane) +
+                 '&path=' + encodeURIComponent(sel.value));
+     }
+     paintLane(row, no, s);
+   };
+
+   fetch('/candidates?no=' + no + '&lane=' + encodeURIComponent(s.lane))
+     .then(r => r.json()).then(d => {
+       if (!d.ok || !d.candidates.length) {
+         sel.innerHTML = '<option value="">' +
+           (d.error || 'nothing else in the library') + '</option>';
+         return;
+       }
+       const packs = new Map();
+       d.candidates.forEach(c => {
+         if (!packs.has(c.pack)) packs.set(c.pack, []);
+         packs.get(c.pack).push(c);
+       });
+       let html = '<option value="">keep this one</option>';
+       packs.forEach((list, pack) => {
+         html += '<optgroup label="' + esc(pack) + '">';
+         list.forEach(c => {
+           html += '<option value="' + esc(c.path) + '">' + esc(c.name) +
+                   (c.current ? ' (in this beat now)' : '') + '</option>';
+         });
+         html += '</optgroup>';
+       });
+       sel.innerHTML = html;
+       sel.disabled = false;
+       const st = (staged[no] || {})[s.lane];
+       if (st) sel.value = st;
+     })
+     .catch(() => { sel.innerHTML = '<option value="">could not read the library</option>'; });
+   return row;
+ }
+
+ function esc(s) {
+   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+ }
+
+ function paintLane(row, no, s) {
+   const cur = (staged[no] || {});
+   const on = s.lane in cur;
+   row.classList.toggle('changed', on);
+   const name = row.querySelector('.sample');
+   if (!on) { name.textContent = s.sample; row.querySelector('.pack').textContent = s.pack || ''; }
+   else {
+     const opt = row.querySelector('select').selectedOptions[0];
+     name.textContent = opt ? opt.textContent.replace(' (in this beat now)', '') : 'chosen';
+     // an instrument row says what INSTRUMENT it was ("was strings arp"),
+     // not which files it drew on — the file names mean nothing here
+     row.querySelector('.pack').textContent =
+       'was ' + (s.voices ? (s.label || s.sample) : s.sample);
+   }
+   paintFoot(row.closest('.track'), no);
+ }
+
+ async function toggleRack(el, no, btn) {
+   const rack = el.querySelector('.rack');
+   if (rack.classList.contains('open')) {
+     rack.classList.remove('open'); btn.classList.remove('open'); return;
+   }
+   rack.classList.add('open'); btn.classList.add('open');
+   if (rack.dataset.loaded) return;
+   rack.innerHTML = '<div class="lane"><span class="lname">reading the beat&hellip;</span></div>';
+   let d;
+   try { d = await (await fetch('/stems?no=' + no)).json(); }
+   catch (e) { rack.innerHTML = '<div class="rackmsg">Could not read that beat.</div>'; return; }
+   if (!d.ok) { rack.innerHTML = '<div class="rackmsg">' + esc(d.error) + '</div>'; return; }
+   rack.innerHTML = '';
+   const specs = d.stems;
+   specs.forEach(s => rack.appendChild(laneRow(no, s)));
+   const foot = document.createElement('div');
+   foot.className = 'rackfoot';
+   foot.innerHTML = '<span class="staged"></span>' +
+     '<button class="rollall" title="New sound for every row at once">' +
+       '🎲 Roll everything</button>' +
+     '<button class="undo">clear changes</button>' +
+     '<button class="chunk" title="Save this version into the Chunks ' +
+       'folder and keep going">+ Add chunk</button>' +
+     '<button class="chunk fxon" title="Save a copy of this beat with ' +
+       'its style\'s effects (dust, vinyl, saturation) baked in, stems ' +
+       'too. The clean one stays.">Effects on</button>' +
+     '<button class="rebuild">Rebuild beat</button>' +
+     '<div class="rackmsg" style="flex-basis:100%"></div>';
+   rack.appendChild(foot);
+   if (specs.some(x => x.loop)) foot.querySelector('.rollall').style.display = 'none';
+   // One click, a whole new kit (owner 2026-08-04). Rolls every row that
+   // CAN be rolled — the locked producer tag and the synthesised sub are
+   // skipped, and so is anything already removed, since rolling a sound
+   // he just took out would be nonsense. Nothing plays per row: with a
+   // dozen rows that would be a dozen overlapping one-shots, so it
+   // auditions once, as the beat, which is the point of rolling them all.
+   foot.querySelector('.rollall').onclick = () => {
+     let n = 0;
+     rack.querySelectorAll('.lane').forEach(r => {
+       const sel = r.querySelector('select');
+       if (!sel || sel.disabled) return;
+       if (drops[no] && drops[no][r.dataset.lane]) return;
+       const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
+       if (!opts.length) return;
+       sel.value = opts[Math.floor(Math.random() * opts.length)].value;
+       staged[no] = staged[no] || {};
+       staged[no][r.dataset.lane] = sel.value;
+       const s = specs.find(x => x.lane === r.dataset.lane);
+       if (s) paintLane(r, no, s);
+       n++;
+     });
+     if (n) play(mixUrl(no));
+   };
+   foot.querySelector('.undo').onclick = () => {
+     delete staged[no]; delete trims[no]; delete drops[no];
+     rack.querySelectorAll('.lane').forEach(r => {
+       const sel = r.querySelector('select'); if (sel) sel.value = '';
+       const d = r.querySelector('.db');
+       if (d) d.click();                       // arrows: click resets to 0
+       r.classList.remove('trimmed');
+       r.classList.remove('dropped');
+       const s = specs.find(x => x.lane === r.dataset.lane);
+       if (s) paintLane(r, no, s);
+     });
+     paintFoot(el, no);
+   };
+   foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
+   foot.querySelector('.fxon').onclick = () => rebuild(el, no, foot, true);
+   foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
+   rack.dataset.loaded = '1';
+   paintFoot(el, no);
+ }
+
+ // Songify: file the rack as it stands into the beat's Chunks folder,
+ // then LEAVE the rack staged — the next chunk is usually one more mute
+ // on top of this one, not a fresh start.
+ async function addChunk(no, foot) {
+   const btn = foot.querySelector('.chunk'), msg = foot.querySelector('.rackmsg');
+   const was = btn.textContent;
+   btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
+   try {
+     const r = await fetch('/chunk', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks: staged[no] || {},
+                              trims: trims[no] || {},
+                              drops: Object.keys(drops[no] || {}) }) });
+     const d = await r.json();
+     msg.textContent = d.ok
+       ? 'chunk ' + d.count + ' saved — ' + d.file
+       : d.error;
+   } catch (e) { msg.textContent = String(e); }
+   btn.textContent = was; btn.disabled = false;
+ }
+
+ async function rebuild(el, no, foot, fx) {
+   const picks = staged[no] || {}, vols = trims[no] || {};
+   const gone = Object.keys(drops[no] || {});
+   if (!fx && !Object.keys(picks).length && !Object.keys(vols).length
+       && !gone.length) return;
+   const btn = foot.querySelector(fx ? '.fxon' : '.rebuild'),
+         msg = foot.querySelector('.rackmsg');
+   btn.disabled = true; msg.textContent = '';
+   const was = btn.textContent;
+   btn.textContent = 'Rebuilding…';
+   try {
+     const r = await fetch('/rebuild', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks, trims: vols,
+                              drops: gone, fx: !!fx }) });
+     const d = await r.json();
+     if (d.ok) { delete staged[no]; delete trims[no]; delete drops[no];
+                 btn.textContent = was; await loadBatch(d.no); }
+     else { msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
+   } catch (e) {
+     msg.textContent = String(e); btn.textContent = was; btn.disabled = false;
+   }
+ }
+
+ // -------------------------------------------------------------- the bins
+ document.querySelectorAll('.zone').forEach(z => {
+   z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+   z.addEventListener('dragleave', () => z.classList.remove('over'));
+   z.addEventListener('drop', e => {
+     e.preventDefault(); z.classList.remove('over');
+     const no = e.dataTransfer.getData('text/plain');
+     triage(no, z.dataset.dest,
+            document.querySelector('.track[data-no="' + no + '"]'));
+   });
+ });
+
+ // --------------------------------------------- reference track (sec. 5)
+ // Drop a song; read its tempo and key; SHOW both so he can correct them.
+ // The detector is wrong in two predictable ways — half or double the
+ // tempo, and the relative major/minor — so the correction buttons are
+ // the feature, not a fallback.
+ const refdrop = document.getElementById('refdrop'),
+       refline = document.getElementById('refline'),
+       keyroot = document.getElementById('keyroot'),
+       keymode = document.getElementById('keymode'),
+       tempoBox = document.getElementById('tempo');
+ let refName = '', refAlt = null;
+ const TLO = __TEMPOLO__, THI = __TEMPOHI__;   // the window /make enforces
+
+ function refSay() {
+   if (!refName) { refline.textContent = 'nothing dropped yet'; return; }
+   const bpm = parseFloat(tempoBox.value);
+   refline.innerHTML = '<b>' + esc(refName) + '</b> &mdash; ' +
+     (tempoBox.value || '?') + ' BPM, ' + (keyroot.value || 'any') + ' ' +
+     keymode.value +
+     // only offer an octave the tempo box would actually accept
+     (bpm / 2 >= TLO ? '<button data-ref="half">&divide;2</button>' : '') +
+     (bpm * 2 <= THI ? '<button data-ref="double">&times;2</button>' : '') +
+     (refAlt ? '<button data-ref="rel">' + esc(refAlt.root + ' ' +
+               refAlt.mode) + '?</button>' : '') +
+     '<button data-ref="clear">clear</button>';
+ }
+
+ refline.onclick = e => {
+   const what = e.target.dataset && e.target.dataset.ref;
+   if (!what) return;
+   const bpm = parseFloat(tempoBox.value);
+   if (what === 'half' && bpm / 2 >= TLO) tempoBox.value = Math.round(bpm / 2);
+   if (what === 'double' && bpm * 2 <= THI) tempoBox.value = Math.round(bpm * 2);
+   if (what === 'rel' && refAlt) {          // swaps, so it flips back
+     const was = { root: keyroot.value, mode: keymode.value };
+     keyroot.value = refAlt.root; keymode.value = refAlt.mode;
+     refAlt = was;
+   }
+   if (what === 'clear') {
+     refName = ''; refAlt = null; tempoBox.value = ''; keyroot.value = '';
+   }
+   refSay();
+ };
+
+ ['dragover', 'dragenter'].forEach(ev =>
+   refdrop.addEventListener(ev, e => {
+     e.preventDefault(); refdrop.classList.add('over'); }));
+ refdrop.addEventListener('dragleave', () => refdrop.classList.remove('over'));
+ refdrop.addEventListener('drop', async e => {
+   e.preventDefault(); refdrop.classList.remove('over');
+   const f = e.dataTransfer.files && e.dataTransfer.files[0];
+   if (!f) return;
+   const was = refdrop.textContent;
+   refdrop.classList.add('busy');
+   refdrop.textContent = 'Listening to ' + f.name + '\u2026';
+   try {
+     const dot = f.name.lastIndexOf('.');
+     const ext = (dot > 0 ? f.name.slice(dot) : '.wav')
+                   .replace(/[^A-Za-z0-9.]/g, '');
+     const r = await fetch('/reference', { method: 'POST',
+       headers: { 'X-Ext': ext || '.wav' }, body: await f.arrayBuffer() });
+     const d = await r.json();
+     if (d.ok) {
+       refName = f.name;
+       tempoBox.value = d.bpm;
+       keyroot.value = d.root;
+       keymode.value = d.mode;
+       refAlt = { root: d.alt_root, mode: d.alt_mode };
+       refSay();
+     } else { refline.textContent = d.error; }
+   } catch (err) { refline.textContent = String(err); }
+   refdrop.classList.remove('busy');
+   refdrop.textContent = was;
+ });
+
+ // ------------------------------------------------------------- make them
+ const go = document.getElementById('go'),
+       work = document.getElementById('work'),
+       worktext = document.getElementById('worktext');
+ function working(msg) { work.className = 'on'; worktext.textContent = msg; }
+ function failed(msg) { work.className = 'on bad'; worktext.textContent = msg; }
+ function done() { work.className = ''; }
+
+ go.onclick = async () => {
+   if (!order.length) { failed('Check at least one DJ first.'); return; }
+   const count = document.getElementById('count').value;
+   go.disabled = true;
+   working(count > 1
+     ? 'Making ' + count + ' beats… the first one scans your sample library.'
+     : 'Making it… the first beat scans your sample library (about 30 seconds).');
+   try {
+     const r = await fetch('/make', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ names: order,
+         tempo: tempoBox.value.trim(),
+         key: keyroot.value ? keyroot.value + ' ' + keymode.value : '',
+         count, notes: document.getElementById('notes').value,
+         loops_only: document.getElementById('loopsonly').checked }) });
+     const d = await r.json();
+     if (d.ok) { done(); await loadBatch(); }
+     else failed(d.error);
+   } catch (e) { failed(String(e)); }
+   go.disabled = false;
+ };
+
+ // ------------------------------------------------------- rhythm test bank
+ document.querySelectorAll('.fixedbtn').forEach(btn => {
+   btn.onclick = async () => {
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = true);
+     working('Rolling a new kit for ' + btn.dataset.title + '…');
+     try {
+       const r = await fetch('/fixed', { method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ idx: parseInt(btn.dataset.idx, 10) }) });
+       const d = await r.json();
+       if (d.ok) { done(); await loadBatch(d.no); }
+       else failed(d.error);
+     } catch (e) { failed(String(e)); }
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = false);
+   };
+ });
+
+ // -------------------------------------------------------- pattern library
+ const LIBRARY_PATTERNS = __LIBRARYJSON__;
+ function fillLibPatterns() {
+   const names = LIBRARY_PATTERNS[document.getElementById('libgenre').value] || [];
+   document.getElementById('libpattern').innerHTML =
+     names.map(n => `<option value="${n}">${n}</option>`).join('');
+ }
+ document.getElementById('libgenre').onchange = fillLibPatterns;
+ fillLibPatterns();
+
+ async function playLibrary(genre, name, btn) {
+   btn.disabled = true;
+   working('Rendering ' + name + '…');
+   try {
+     const r = await fetch('/library', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ genre, name }) });
+     const d = await r.json();
+     if (d.ok) { done(); await loadBatch(d.no); }
+     else failed(d.error);
+   } catch (e) { failed(String(e)); }
+   btn.disabled = false;
+ }
+ document.getElementById('libgo').onclick = () => {
+   const btn = document.getElementById('libgo');
+   playLibrary(document.getElementById('libgenre').value,
+              document.getElementById('libpattern').value, btn);
+ };
+ document.getElementById('libbreakgo').onclick = () => {
+   const btn = document.getElementById('libbreakgo');
+   playLibrary('breaks', document.getElementById('libbreak').value, btn);
+ };
+
+ // --------------------------------------------------------------- pull up
+ document.getElementById('pullgo').onclick = async () => {
+   const no = document.getElementById('pullno').value.trim();
+   const msg = document.getElementById('pullmsg');
+   msg.textContent = '';
+   if (!no) { msg.textContent = 'Which beat number?'; return; }
+   try {
+     const d = await (await fetch('/pull?no=' + no)).json();
+     if (d.ok) { await loadBatch(d.no); document.getElementById('pullno').value = ''; }
+     else msg.textContent = d.error;
+   } catch (e) { msg.textContent = String(e); }
+ };
+
+ loadBatch();
+</script></body></html>

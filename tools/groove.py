@@ -678,18 +678,29 @@ def glue_compress(L, R, threshold_db=None, ratio=None, env_ms=None,
     return L * g, R * g
 
 
-def master_to_lufs(L, R, target=None, ceiling_db=None):
+def master_to_lufs(L, R, target=None, ceiling_db=None, gains=None):
     """Modern beat loudness: measure, gain toward target, soft-clip into
     the house ceiling, re-measure and report. Iterate twice — the clip
     changes the measurement. Defaults come from OWNER_TASTE so one edit
-    there re-levels every render path."""
+    there re-levels every render path.
+
+    `gains` (owner 2026-09-27, "remove one sound and every other sound's
+    volume moves"): pass an EMPTY list and the two gains used are appended
+    to it; pass the two saved gains back and they are replayed instead of
+    re-measured, so an edited beat keeps the volume setting it was made
+    with and only the sound he touched changes."""
     if target is None:
         target = OWNER_TASTE["master_lufs"]
     if ceiling_db is None:
         ceiling_db = OWNER_TASTE["peak_ceiling_db"]
-    for _ in range(2):
-        cur = lufs(L, R)
-        g = 10 ** ((target - cur) / 20)
+    replay = list(gains) if gains else None
+    for i in range(2):
+        if replay:
+            g = replay[i]
+        else:
+            g = 10 ** ((target - lufs(L, R)) / 20)
+            if gains is not None:
+                gains.append(float(g))
         ceil = 10 ** (ceiling_db / 20)
         L = np.tanh(L * g / ceil) * ceil
         R = np.tanh(R * g / ceil) * ceil
