@@ -1,7 +1,9 @@
 # Open Issues — in working order
 
 Checked 2026-09-28 against the code and the ledger, not just the status labels.
-Tick a box when it's done. To start one, tell Claude: "do step N".
+Tick a box when it's done.
+**This list goes stale** (he works in the app and other sessions). Before starting a step, check
+the Mac for proof it's already done — CLAUDE.md §0h. To start one, tell Claude: "do step N".
 
 **Who's needed:** 🤖 Claude alone · 👂 your ears · 🎹 you at Reason · 🗳️ a decision from you
 
@@ -26,22 +28,36 @@ where you're at the machine.
 
 ---
 
-## ▶ NEXT SESSION STARTS HERE: step 1 (set 2026-09-28)
+## ▶ NEXT SESSION STARTS HERE: "why do the beats all sound alike?" (owner, 2026-09-28)
+
+His words: "look at all of the beats that have been rendered in the past two days and see
+what's going on with the commonalities and why they sound so alike. And how to fix that."
+- HE ASKED, so rule 0g (don't scan old beats) does not block this. Scope = beats rendered
+  2026-09-26 to 2026-09-28 only (file dates in `/Volumes/TBOTC 3/Homeroom Rhythms/<name>/`).
+- Read their recipes (`.recipes/NN.json`: kit_paths, lanes, harmony, chord voices, bpm, lock),
+  count what repeats across DJs/genres (same sample files, same chord progressions/voices,
+  same bass file, same drum patterns, same tempos, same effects). Numbers, not adjectives.
+- Explain the causes in plain words, propose fixes as clickable options. Change nothing
+  before he picks. Don't render (hard rule) unless he asks.
+- Likely suspects to CHECK, not assume: shared house rules that override identities (house
+  chord grammar for everyone, 30% free beats, 10% MIDI everywhere, all 11 instrument
+  families in every chord_source at equal odds 09-25, synonyms on for everyone 09-25,
+  own_soundbank narrowing to the same few files, one bass pool).
+
+Then: finish step 14 (DJ Premium is half-done: DECISIONS.md top entry has the full plan).
 
 ## 1. Fix what's broken (🤖, no listening needed)
 
-- [ ] **1. Beat-making crashes on MIDI-chords-played-on-strings beats.**
-  `_fig` is used before it's defined. Hit randomly by tests.
-  Still there 2026-09-28: used at line 2419, defined at 2439.
-  Ref: [tools/beat_machine.py:2419](tools/beat_machine.py:2419) (defined at 2439)
-- [ ] **2. Apply the 5 skill fixes from 09-09.** None were ever applied. They stop repeat
-  mistakes in the genre/Legend builds coming up (step 7), e.g. "read the STAMP first"
-  points at a lane that no longer plays. Gap #4 ("only bell instruments exist") is now
-  out of date and needs rewriting, not copying.
-  Ref: [DECISIONS.md:2780](DECISIONS.md:2780)
-- [ ] **3. Prove the Looperman nightly download works end to end.** Login is fixed; the download
-  itself hasn't been re-run. The drive is plugged in, so Claude can run it.
-  Ref: [DECISIONS.md:7881](DECISIONS.md:7881)
+- [x] **1. Beat-making crashes on MIDI-chords-played-on-strings beats.** ✅ 2026-09-28: `_fig` moved
+  above its first use. Crash reproduced on old code (seed 7), gone on new.
+  Test: `test_midi_chords_played_on_strings_do_not_crash`.
+- [x] **2. Apply the 5 skill fixes from 09-09.** ✅ 2026-09-28: legend-new-build skill (stamp step
+  rewritten, one config file, roster test, no `dry` on snares, library re-counted: 4,386 pitched
+  samples, 0 choir, 0 chip), `--words` added to `tools/legend_newbuild.py`, render command
+  added to beat-output-conventions.
+- [x] **3. Looperman download.** Handled by the owner's own daytime scheduled task (Looperman +
+  sample grab). Do NOT run `Test Nightly Loops (5)`: owner 2026-09-28, "the test download won't
+  work", already tried to fix it that day.
 
 ## 2. One listening session: things already built (👂) — ✅ done 2026-09-28, kept
 
@@ -61,11 +77,11 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 ## 3. Genre + Legend pass (👂 then 🤖)
 
-- [ ] **11. Hear the 7 genres already auditioned:** Acid Rap Bright, Acid Rap Detroit, Baltimore Club,
+- [x] **11. Hear the 7 genres already auditioned:** ✅ 2026-09-28 heard, kept ("They sound good."). Acid Rap Bright, Acid Rap Detroit, Baltimore Club,
   Chiptune, Crunk, Detroit, Emo Hip Hop. Folders are in Homeroom Auditions.
   Ref: [genre_newbuild_status.json](genre_newbuild_status.json) · [DECISIONS.md:103](DECISIONS.md:103) · [DECISIONS.md:121](DECISIONS.md:121) · [DECISIONS.md:160](DECISIONS.md:160)
-- [ ] **12. Hear Legend Well Damn** (auditioned 09-26, not heard). Ref: `tools/legend_newbuild.py`
-- [ ] **13. Audition the 11 genres that are built but not rendered:** G-Funk, Horror Rap, Houston Screw,
+- [x] **12. Hear Legend Well Damn** ✅ 2026-09-28 heard, kept. (auditioned 09-26, not heard). Ref: `tools/legend_newbuild.py`
+- [x] **13. ✅ 2026-09-28: he rendered + heard all 11 on the app, kept.** Audition the 11 genres that are built but not rendered:** G-Funk, Horror Rap, Houston Screw,
   Memphis, Miami Bass, New Orleans Bounce, Organized Noize, Plug, Reggaeton Alt, Trip Hop, Wonky.
   Then hear them. Ref: [genre_newbuild_status.json](genre_newbuild_status.json)
 - [ ] **14. Build the last 2 Legends: DJ Premium and No Alias** (not started). 11 of 14 confirmed.

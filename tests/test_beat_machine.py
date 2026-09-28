@@ -2149,3 +2149,22 @@ def test_chord_flow_is_stamped_on_new_beats_only():
     assert 'preset.setdefault("chord_flow"' in src
     src = inspect.getsource(beat_machine._build_chords)
     assert 'flow = bool(preset.get("chord_flow"))' in src
+
+
+@pytest.mark.skipif(not Path("/Volumes/TBOTC 3").exists(),
+                    reason="needs his real MIDI packs + London strings")
+def test_midi_chords_played_on_strings_do_not_crash(machine_env, monkeypatch):
+    """`_fig` was used before it was defined, so any beat that rolled a
+    MIDI chord phrase voiced on the strings crashed (UnboundLocalError).
+    Seed 7 hit it on the old code (checked 2026-09-28)."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["midi", 1], ["strings", 1]],
+        "chords_default": True})
+    random.seed(7)
+    path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
+    rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+    voices = [c["voice"] for c in rec["harmony"]["chords"]]
+    assert all(v.startswith("midi:") and "strings" in v for v in voices), voices

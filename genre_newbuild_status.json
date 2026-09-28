@@ -12,93 +12,111 @@
   "        confirmed means HE HAS HEARD IT AND SAID YES."
  ],
  "Acid Rap Bright": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Acid Rap Detroit": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build (Esham, Boomin' Words From Hell 1989): bpm 92->98 (pocket 92-104, songbpm median 98 over 12 tracks), allow_dirt True (listen line + every source says lo-fi; dust/vinyl/wow had never played), kit tags fixed to real filenames + own_soundbank on (kick lofi/dirt/grit/oldie; snare drum-machine words, plain 'dirt' dropped after it put a clap in the snare slot). Chords, bass, key, swing unchanged. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Detroit NEW BUILD 2026-09-24/. Air -13.7 dB vs old (dirt). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Baltimore Club": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build (RBMA 'Sing Sing: A Loop History', Wikipedia, club guide): 808 kick branch 10%->70% (58% measured over 40 beats), kit tags fixed + own_soundbank, shakers + vocal chops extras, horns in chords, allow_dirt True, tempo pocket 125-130, NEW INVARIANT kick_min_hits 5 ('never lets up') held in compose() and at the end of vary_preset, test_baltimore_kick_never_lets_up. Swing 50->54 (owner answer 'Light swing'). Re-rendered with the audition script's new roll_swing (canon lanes came out of compose() at 50, so the swing was inaudible in the first render). Auditioned 2026-09-24 (--structure --kick 808): ~/Desktop/Homeroom Baltimore Club NEW BUILD 2026-09-24/ (808 beats) + '— Two more' (plain kick, horns). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Chiptune": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build (Ricoh 2A03 Wikipedia, DDRKirby NES write-up, MusicRadar): kit tags to nearest real files + own_soundbank; fx extras 8 bit/game/zap. Owner answers: chord_fallback [bell, pluck] (4 of 16 beats had fallen back to wood/piano/brass; now 16/16 synth or bell); 'Light 12-bit crunch' -> dust 0.25 + allow_dirt True. Chords stay sampled synth (0 chip samples; chip voice is synthesized). Tempo 126 unmeasured. Auditioned: ~/Desktop/Homeroom Chiptune NEW BUILD 2026-09-24/ (air -1.57 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Crunk": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build (Wikipedia Crunk, Recording Arts, Turn Down for What, 12 songbpm Lil Jon tempos): kit tags fixed + own_soundbank; allow_dirt 'low' + kick_dist 9.0 (Mustang's measured level); owner answers: 'The 808, all three' -> crew.grit_lane puts 'low' dirt on the 808 lane (Crunk, Mustang, Night Metro); tempo pocket 140-160 (default 140 per listen line). No vocal chops (listen line keeps the room empty). Auditioned (--structure --kick 808): ~/Desktop/Homeroom Crunk NEW BUILD 2026-09-24/. sub +2.2 dB. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Detroit": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build (XLR8R + RBMA + The Message Black Milk interviews, RapReviews/Albumism on Apollo Brown, 32 songbpm tempos): bpm 93->88 (pocket 82-98), swing 55->52 (owner 'Nearly straight'), allow_dirt True, kit tags fixed + own_soundbank, synth added to chords. Backup is genres_config.pre-detroit-2026-09-24.json - the audition script's backup glob also matches pre-acid-rap-detroit, so pass --before. Auditioned: ~/Desktop/Homeroom Detroit NEW BUILD 2026-09-24/ (air -9.8 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Emo Hip Hop": {
-  "stage": "auditioned",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner heard the audition: They sound good. Keep.",
   "notes": "Research build (Wikipedia Emo rap, Hellboy + COWYS pages, 16 songbpm tempos): kit tags fixed + own_soundbank + flavor_match; allow_dirt 'low' + kick_dist 9.0 (808 lane); tempo pocket 130-150 with default 150 per listen line (ASSUMING the owner's Crunk call applies). Auditioned: ~/Desktop/Homeroom Emo Hip Hop NEW BUILD 2026-09-24/. NOT heard."
  },
  "G-Funk": {
-  "stage": "built",
-  "date": "2026-09-24",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Suite run 2026-09-24 (1240 pass; the one fail was the own_soundbank allow-list, G-Funk added, green). Next: render with make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first."
  },
  "Horror Rap": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Horrorcore/6 Feet Deep; tempos 91/94/92/95/81, median 92): bpm 90->92, pocket 81-96; roots E/Bb/F# lead; library +soul; allow_dirt True; own_soundbank on; dead tags crack (snare) and scream (stamp) removed. Lanes/snare/families untouched. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Horror Rap\" --structure --before genres_config.pre-horror-rap-2026-09-25.json, read stamp first."
  },
  "Houston Screw": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Chopped and screwed / DJ Screw: 60-70 bpm, old-cassette sound, scratching): pocket 60-70, allow_dirt True, stamp scratch/vocal/reverse, kick 808/sub/deep/boom, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Houston Screw\" --structure --before genres_config.pre-houston-screw-2026-09-25.json, read stamp first."
  },
  "Memphis": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Memphis rap / Mystic Stylez; 7 tunebat tempos): pocket 130-160, roots A/F# lead, allow_dirt True, snare lofi/dusty/crisp/tight/808, stamp vocal/dark/scratch, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Memphis\" --structure --before genres_config.pre-memphis-2026-09-25.json, read stamp first."
  },
  "Miami Bass": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Miami bass; 7 tempos, median 129): bpm 138->129, pocket 122-134; clap backbeat 0.95 (owner pick); every-gap stays a feel (owner pick); roots C/E/A; dead tags long/crack replaced; stamp +scratch; clean; own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Miami Bass\" --structure --before genres_config.pre-miami-bass-2026-09-25.json, read stamp first."
  },
  "New Orleans Bounce": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Bounce; Drag Rap 95, Freedia median 103): pocket 95-108; dead tags crack/snappy/shout/whistle replaced (no whistle files exist); clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"New Orleans Bounce\" --structure --before genres_config.pre-new-orleans-bounce-2026-09-25.json, read stamp first."
  },
  "Organized Noize": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (6 tempos, median ~89): bpm 95->90, pocket 83-101; dead tags warm/round/horn/guitar replaced; conga moved to perc lane; clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Organized Noize\" --structure --before genres_config.pre-organized-noize-2026-09-25.json, read stamp first."
  },
  "Plug": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Plugg; 130-150): pocket 130-150; new sparse shaker/bongo lane (Zaytoven shaker); never-distorts locked by a test. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Plug\" --structure --before genres_config.pre-plug-2026-09-25.json, read stamp first."
  },
  "Reggaeton Alt": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Dembow; tempos 85-97): bpm 92->94, pocket 88-98; dead round/snappy/timbale/clave replaced (no timbale or clave files). NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Reggaeton Alt\" --structure --before genres_config.pre-reggaeton-alt-2026-09-25.json, read stamp first."
  },
  "Trip Hop": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Trip hop; 5 tempos median 80): bpm 88->80, no pocket (never speeds up); allow_dirt True; dead round/tape replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Trip Hop\" --structure --before genres_config.pre-trip-hop-2026-09-25.json, read stamp first."
  },
  "Wonky": {
-  "stage": "built",
-  "date": "2026-09-25",
+  "stage": "confirmed",
+  "date": "2026-09-28",
+  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
   "notes": "Research build (Wikipedia Wonky; FlyLo 77-79): pocket 78-90; every-lane jitter locked by a test; dead smear/bend replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Wonky\" --structure --before genres_config.pre-wonky-2026-09-25.json, read stamp first."
  }
 }

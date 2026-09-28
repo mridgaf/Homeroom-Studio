@@ -265,6 +265,17 @@ Stop looking at old beats for problems. That needs to be a rule."
 - This does not stop you from reading an old beat's recipe when HE asks
   about that beat.
 
+### 0h. The to-do list goes stale. Check before redoing anything
+
+Owner, 2026-09-28: "you keep trying to fix things that we've already taken
+care of." He makes and hears beats in the app, Looperman runs outside this
+project, and other sessions do work. None of it writes back to
+OPEN-ISSUES.md or DECISIONS.md. Before offering or starting any step, look
+for proof it's done: beat folder dates in `/Volumes/TBOTC 3/Homeroom
+Rhythms/<name>`, `Nightly Loops/LATEST.txt`, `git log`, other sessions'
+transcripts. If it looks done, ask one clickable "looks done, mark it?",
+never redo it.
+
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished
 without actually checking it:

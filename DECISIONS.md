@@ -20,6 +20,29 @@ entries.
 
 ## Log
 
+### 2026-09-28 DJ Premium new build: era picked, researched, NOT built yet
+- Owner (clickable): Cutz keeps Premier's mid-90s; DJ Premium becomes the **late-90s/2000s horn-stab era** (Moment of Truth, Nas Is Like, Royalty, So Ghetto, Mathematics, Aguilera "Ain't No Other Man").
+- Backup made: `legends_config.pre-dj-premium-2026-09-28.json` (the only one; the A/B "before"). legends_config.json NOT edited yet — session paused when the command checker failed.
+- Research (sources): Sound On Sound "DJ Premier" (2007: MPC60 triggers, S950 samples; "I'll turn off the 16th notes and play the MPC live, so it sounds like live drumming... a little bounce"; "the sample is mellow, but the drums are still smacking"; "I'll always follow the exact bass line of the song and put that underneath"; Aguilera: "the drum pattern and the stabs"; finished in Pro Tools). RouteNote producer profile (1998-2003 iconic period; 51-54% swing; tight trimmed one-shots from dusty breaks; gap-filled chops; scratched hooks). Wikipedia Ain't No Other Man (132 bpm F minor, brass sample, "horn-driven"). lamniformes substack (16th swing on kick/snare/hats; one main sample cut to a two-bar loop).
+- Tempos (songbpm, halved where doubled): Moment of Truth 90 F#m, Steez 90 Ebm, Royalty 90 G, Above the Clouds 86, So Ghetto 92 Ab, Work 93, Mathematics 94 C#m, Nas Is Like 94.5 F#m, Full Clip 95 C#. Aguilera 132 = pop outlier, excluded.
+- Planned edits (DJ Premium only): bpm 92, tempo [86,95]; roots F#/C#/G/G#/D#, mode minor 5/major 3/dorian 1; add major progressions (mixo_soul_climb, backdoor_soul — names are my pick, the major share is sourced); chord_source loop 3, horns 3, piano 1, the other 9 families 0.559 each, midi = total/9 (10%); `chord_grammar` {"figures": [["stab",5],["comp",2],["pad",1]], "rest_p": 0.3} (no arps; 0.3 is my guess); lane jitter up for looser "played live" drums (magnitude my guess; confirm the lane tuple field order in crew.py first); kick tags hard/lofi (28 files; NOT break/funk — those are pack names "Break My Heart"/"Brazillian Funk"), snare hard only (crack=0, lofi pulls sidesticks), hats closed/tight; own_soundbank true; stays clean (Pro Tools era); swing 53 locked kept; 808 kick_flavor share left as is (unsourced either way); rewrite `listen` line for the new era; `_research_note` with the sources above. Then add to own_soundbank test list in tests/test_crew.py, full suite, stop. Render only if he asks.
+- Status: open (researched, not built)
+
+### 2026-09-28 All 18 genres + Well Damn confirmed by ear
+- Owner rendered beats for the 11 remaining genres on the app himself and heard them (G-Funk, Horror Rap, Houston Screw, Memphis, Miami Bass, New Orleans Bounce, Organized Noize, Plug, Reggaeton Alt, Trip Hop, Wonky), then heard the Well Damn audition: "Keep all of the changes." Settings already live; status files set to confirmed. Genre pass 18/18 done. Legends: DJ Premium + No Alias left (step 14).
+- Status: confirmed
+
+### 2026-09-28 Seven genre builds confirmed by ear
+- Owner heard all 7 genre auditions (Acid Rap Bright, Acid Rap Detroit, Baltimore Club, Chiptune, Crunk, Detroit, Emo Hip Hop): "They sound good. Save the changes." Settings were already live in genres_config.json; genre_newbuild_status.json set to confirmed. Genre pass: 7 of 18 confirmed; 11 built, not rendered (OPEN-ISSUES step 13).
+- Status: confirmed
+
+### 2026-09-28 OPEN-ISSUES steps 1-3: crash fixed, 09-09 skill gaps applied, Looperman left alone
+- Step 1: `_render_one` in tools/beat_machine.py called `_fig` before defining it; any beat that rolled MIDI chords voiced on strings crashed (UnboundLocalError). Moved `rhythm =` + `def _fig` above the MIDI branch (closure reads `notes` at call time, so MIDI notes still play). Old code crashed on seed 7 (Timberline, chord_source midi+strings); new code voices it "midi: ..., strings pad/stab". Test `test_midi_chords_played_on_strings_do_not_crash` (skips without TBOTC 3).
+- Step 2: the five 09-09 skill gaps, checked against today's code first. legend-new-build: stamp step rewritten (STAMP_LANE False), legends live in legends_config.json only + roster count test, pick tags from `--words` (new in tools/legend_newbuild.py), never `dry` on a snare, brand-new legend has no "before". Gap 4 re-measured: instrument index 4,386 samples (piano 959, brass 783, string 745, wood 712, bell 469, guitar 305, synth 235, organ 146, pad 16, pluck 16; 0 choir, 0 chip). beat-output-conventions: render command added, test count updated.
+- Step 3: owner stopped the Looperman test download: "the test download won't work", fixed/tried earlier today; a separate daytime scheduled task handles Looperman + sample grab. Don't re-run `Test Nightly Loops (5)`. The stopped run left no files.
+- Status: confirmed (1, 2) / owner's (3).
+- Outcome: full suite on the Mac, run alone, 2026-09-28: 1279 passed, 3 skipped, 0 failed (16.5 min).
+
 ### 2026-09-28 Long kick gets a short kick's snap + a 5 dB duck (7 beats in 10)
 - Context: owner: "some of the really long bass drums need to have a kick drum and side compression". Played back, then clickable picks: ANY long kick slot (808 boom or long bass drum); 7 in 10; cut old tail (one hit at a time); snap only (above 100 Hz, so it reads as one drum, not the 09-20 two-kick stack); 5 dB (his 09-01 sub-duck call).
 - Change: crew.ring_secs (how long a one-shot rings, within 30 dB of peak; not file length) > LONG_KICK_SECS 0.5 -> beat_machine._roll_extra_fx rolls LONG_KICK_PUNCH_P 0.7, picks a non-808 short kick into kit["kickpunch"] (recipe kit_paths, rack row "kick snap"). render_crew_beat: crew.punch_long_kick = long kick ducked 5 dB at its own hit + high-passed snap, levelled back to the long kick's peak (kick-anchored levels don't move). Kick lane then chokes itself (own choke group, separate from the low end) so an old tail never rings under the next hit un-ducked. A swap to a short kick turns it off at render.

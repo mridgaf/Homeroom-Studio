@@ -158,13 +158,39 @@ def tag_audit(name, p):
     return rows
 
 
+def common_words(role, n=28):
+    """The most common words in one drum bucket's FILENAMES — pick taste
+    tags from these, BEFORE writing them (2026-09-09: `--tags` only says a
+    word is dead after you chose it; choosing from this list is what
+    actually worked on DJ Light Green)."""
+    import collections
+    import re
+    sys.path.insert(0, str(Path(__file__).parent))
+    from make_drum_beats import build_shots
+    pool = build_shots().get(role)
+    if pool is None:
+        raise SystemExit("no bucket %r. Buckets: %s" % (
+            role, ", ".join(sorted(build_shots()))))
+    c = collections.Counter(w for e in pool for w in
+                            set(re.findall(r"[a-z]{3,}", e["name"].lower())))
+    return len(pool), c.most_common(n)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--legend")
     ap.add_argument("--tags", action="store_true")
     ap.add_argument("--genres", action="store_true",
                     help="the genre roster instead of the legends")
+    ap.add_argument("--words", metavar="BUCKET",
+                    help="most common filename words in one drum bucket "
+                         "(kick, snare, hat...) — pick tags from these")
     a = ap.parse_args()
+    if a.words:
+        n, top = common_words(a.words)
+        print("%s: %d files\n  %s" % (a.words, n, ", ".join(
+            "%s=%d" % kv for kv in top)))
+        return
     if a.genres:
         use_genres()
 

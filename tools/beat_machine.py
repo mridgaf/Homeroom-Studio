@@ -2405,6 +2405,30 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # played by his own sampled instruments (owner 2026-07-23: no
         # synthesized chord voice; 2026-09-19: piano/organ/guitar/bell
         # too, one per beat -- see instrument_sampler.midi_groups).
+        rhythm = rhythm_override or _rhythm
+
+        def _fig(render_note, render_chord):
+            """The grammar's take on this slot as (audio, figure), or None
+            when the identity hasn't opted in — then the caller's old
+            arp/sustain runs untouched. One roll per slot, seeded off the
+            beat so a rebuild matches."""
+            if not _grammar or rhythm_override:
+                return None                  # support/passing roles hold
+            rng = random.Random(variant * 733 + 97 + slot)
+            nbars = max(int(round(dur / bar_s)), 1)
+            figure, bars, shape = chord_rhythm.gen_figure(
+                _grammar, rng, nbars, busy=_busy)
+            a = chord_rhythm.render_figure(
+                bars, dur, preset["bpm"], notes, render_note, render_chord,
+                figure=figure, shape=shape, spec=_grammar,
+                seed=variant * 101 + slot)
+            # Silence means his library couldn't voice a single step of
+            # the figure. Hand back None so the OLD arp/sustain path gets
+            # its own try, rather than failing the whole plan — the
+            # grammar is a way of playing these notes, not a gate on them.
+            if a is None or not np.max(np.abs(a)) > 0:
+                return None
+            return a, figure
         midi_groups = None
         if src == "midi":
             if not midi_prog:
@@ -2434,30 +2458,6 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     strings_idx, notes, dur, used=used, pin=pin), lbl)
             midi_groups = (midi_group_order
                            or instrument_sampler.VOICES["synth"])
-        rhythm = rhythm_override or _rhythm
-
-        def _fig(render_note, render_chord):
-            """The grammar's take on this slot as (audio, figure), or None
-            when the identity hasn't opted in — then the caller's old
-            arp/sustain runs untouched. One roll per slot, seeded off the
-            beat so a rebuild matches."""
-            if not _grammar or rhythm_override:
-                return None                  # support/passing roles hold
-            rng = random.Random(variant * 733 + 97 + slot)
-            nbars = max(int(round(dur / bar_s)), 1)
-            figure, bars, shape = chord_rhythm.gen_figure(
-                _grammar, rng, nbars, busy=_busy)
-            a = chord_rhythm.render_figure(
-                bars, dur, preset["bpm"], notes, render_note, render_chord,
-                figure=figure, shape=shape, spec=_grammar,
-                seed=variant * 101 + slot)
-            # Silence means his library couldn't voice a single step of
-            # the figure. Hand back None so the OLD arp/sustain path gets
-            # its own try, rather than failing the whole plan — the
-            # grammar is a way of playing these notes, not a gate on them.
-            if a is None or not np.max(np.abs(a)) > 0:
-                return None
-            return a, figure
         if src == "strings" and strings_idx:
             cache = {}                           # one load per note, not step
             got = _fig(

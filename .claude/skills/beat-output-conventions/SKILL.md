@@ -17,7 +17,7 @@ specify, ask; don't assume.
 ```
 ./.venv/bin/python -m pytest tests/ -q
 ```
-~1036 tests, ~6-8 min. Later renders that session don't repeat it unless
+~1275 tests, ~14-17 min. Later renders that session don't repeat it unless
 code changed.
 
 **Never render while it is running.** Both read beats off the external
@@ -29,6 +29,15 @@ the suite was ever run, and three roster assertions in `tests/test_crew.py`
 had been failing the whole time — one of them since 2026-09-07, unnoticed.
 The renders also ran on top of a background suite, which is what made it
 take 6m28 and produce nothing readable. Full rule in CLAUDE.md §0d.
+
+## The render command
+
+```
+./.venv/bin/python tools/beat_machine.py --render "Otto Grit,Cutz" --count 2 --out <dir>
+```
+Optional `--tempo 95`, `--notes "..."`. `--out` keeps test renders out of his
+library. Don't import `tools/crew.py` to render: it has no command line and
+takes 2+ minutes to import. Only render when he asks (hard rule).
 
 ## Naming
 

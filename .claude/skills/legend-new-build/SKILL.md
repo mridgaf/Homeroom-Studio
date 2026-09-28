@@ -68,11 +68,21 @@ library (needs TBOTC 3 mounted).
 
 ## The order of work
 
+**0. A Legend lives in `legends_config.json` — that file ONLY.**
+`legends.load_legends()` reads the config; the built-ins in `tools/legends.py`
+are used only when the config file is missing. A block added to
+`tools/legends.py` alone silently does not exist. Adding or removing a Legend
+also breaks the roster count in `tests/test_crew.py`
+(`assert len(legends) == 14`) — update it in the same step.
+
 **1. Back up first, or there is nothing to A/B.**
 ```
 cp legends_config.json legends_config.pre-<slug>-$(date +%F).json
 ```
 One backup per legend, and only one — the render script now REFUSES to
+guess between two, and refuses with NO backup. A brand-new Legend (not in
+the backup) has no "old": the audition is new beats only, say so in the
+README — don't fake a before. It REFUSES to
 guess between two, because it once silently picked a half-built
 intermediate and reported +0.92 dB where the truth was +5.03.
 
@@ -111,7 +121,16 @@ one-in-ten fired in a real audition.
 **5. Turn his sound bank on and fix the tags.**
 `"own_soundbank": true` makes his taste tags actually gate sample picks —
 without it the July open-sound-bank rule wipes them and every pick is
-random from the whole bucket. **Then check the tags against real
+random from the whole bucket. **Pick tags FROM the library, not from
+the description.** First list the real words in that lane's bucket:
+```
+./.venv/bin/python tools/legend_newbuild.py --words snare
+```
+(any bucket: kick, snare, hat, clap, rim, perc, fx, vox, bass, crash...).
+Choose from what it prints. `--tags` afterwards only confirms; used alone it
+tells you a word is dead after you picked it (09-09, cost a render).
+**Never put `dry` on a snare:** it matches sidesticks and rims (8 of 41 dry
+snares were sidesticks; walked into twice). **Then check the tags against real
 filenames** (`--tags`): they match FILENAMES, not intent. Doc Day's
 `punch/knock/deep` matched ONE file in the library, and `boom` matched
 three of which two were 808s — the words read perfectly and delivered the
@@ -131,26 +150,32 @@ Every lesson from the three Doc Day batches is already in that script —
 read its docstring rather than re-deriving them. It refuses to overwrite a
 folder he already has.
 
-**7. Read the printed sample list before you ship it — the STAMP first.**
-The locked stamp is the one sample heard on every single beat, and until
-2026-09-05 the list did not print it: `build_kit` puts it in `kit["stamp"]`
-but never in `sources`. Four legends in a row shipped a wrong producer tag
-under that blind spot — a rain field recording (Farrow), a river (Kane
-East). It is printed first now. If it is wrong, fix the `kit["stamp"]` tags
-AND delete that legend's entry from `~/.reason_voice/crew_kits.json`, or the
-stale lock survives the fix. State the pass
+**7. Read the printed sample list before you ship it.**
+NOT the stamp: `STAMP_LANE = False` in `tools/beat_machine.py` since
+2026-08-01, so the stamp never plays — tuning its tags changes nothing you
+can hear (this cost a full render cycle on 09-09). Read every lane that
+DOES play: snare, hat, kick, perc. State the pass
 condition first, then check it. This is the step whose absence cost a whole
 round trip: a batch went out with two sidesticks where snares belong, open
 hats where tight hats belong, and a talking drum.
 
 **8. Tests, then hand it to him.** Full suite (`.venv/bin/python -m pytest
-tests/ -q`, ~14 min, baseline 1252 passed / 2 skipped on 2026-09-25). Any invariant test
+tests/ -q`, ~14 min, baseline 1275 passed / 3 skipped on 2026-09-28). Any invariant test
 that touches `compose()` must be run several times over — compose() re-rolls
 per process, so one green run proves nothing.
 
 **9. Record the stage.** Update `legend_newbuild_status.json` and append to
 `DECISIONS.md`. `confirmed` means **he has heard it and said yes** — nothing
 else counts. Measured-and-shipped is `auditioned`.
+
+## What the melodic library actually holds (re-measured 2026-09-28)
+
+Chord voices (`chord_source`) come from the instrument index, NOT the drum
+buckets. 4,386 pitched samples: piano 959, brass 783, string 745, wood 712,
+bell 469, guitar 305, synth 235, organ 146, pad 16, pluck 16. **Zero choir,
+zero chip.** So `choir` plays pad, and `chip` has nothing to play. The old
+"only 7 bell samples exist" note (09-09) is dead — don't repeat it. Re-count:
+`instrument_sampler.scan()` grouped by `"group"`.
 
 ## When an old decision blocks the new build
 
