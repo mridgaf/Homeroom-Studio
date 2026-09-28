@@ -1597,6 +1597,31 @@ def _root_sub(variant, secs=0.6):
 # choked into a drum hit); nothing plays them. Melodic/in-key loops are
 # unaffected — those reach a beat through the chords feature's own scanner.
 SAMPLED_BASS_P = 0.4        # sampled 808 under the kick (non-chord beats)
+# Owner 2026-09-28, overruling part of 2026-09-23 ("bang along with the
+# kick"): 808 on the kick's hits made every 808 beat's low end identical
+# (44 of 44 measured). About 1 in 3 now plays its OWN rhythm: it still lands
+# with the bar's first kick, then answers in the kick's gaps. Still one note,
+# never pitched. 0 = always on the kick.
+OWN_808_RHYTHM_P = 1 / 3
+
+
+def _own_808_bars(kbars, rng):
+    """The 808's own rhythm off the kick's bars: struck with the first kick
+    of each bar, then 1-2 hits on even steps where the kick is silent. A bar
+    the kick rests in, the 808 rests in too."""
+    out = []
+    for bar in kbars:
+        hits = [i for i, c in enumerate(bar) if c != "-"]
+        if not hits:
+            out.append(bar)
+            continue
+        cells = ["-"] * len(bar)
+        cells[hits[0]] = "X"
+        gaps = [i for i in range(hits[0] + 3, len(bar), 2) if bar[i] == "-"]
+        for i in rng.sample(gaps, min(len(gaps), rng.choice((1, 2)))):
+            cells[i] = "x"
+        out.append("".join(cells))
+    return out
 # Owner rule 2026-08-01: "Kill the vocal hits completely." Was 0.3 — a vocal
 # one-shot on 30% of beats, measured at up to +7.9 dB ABOVE the kick, i.e. the
 # loudest thing in the beat. 0.0 switches the lane off without deleting the
@@ -1763,8 +1788,11 @@ def _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
     if low in ("808", "bass", "brass"):
         if path is not None and audio is not None and np.any(audio):
             _pan, _g, (_o, _j, ksw, ks), kbars = preset["lanes"]["kick"]
-            preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9),
-                                       [b for b in kbars])
+            brng = random.Random(variant * 631 + 17)
+            bbars = (_own_808_bars(kbars, brng)
+                     if label == "808" and brng.random() < OWN_808_RHYTHM_P
+                     else [b for b in kbars])
+            preset["lanes"]["bass"] = (0.0, 0.6, (0, 0, ksw, ks + 9), bbars)
             kit["bass"] = audio
             # sources[lane] must be the RAW path, matching every other
             # lane (build_kit: `sources[lane] = path`) — write_stems reads

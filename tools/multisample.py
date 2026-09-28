@@ -360,8 +360,15 @@ def one_per_beat(index, rng):
     the one nearest the middle (not the softest or hardest)."""
     own = [e for e in index if not e.get("multi")]
     multi = [e for e in index if e.get("multi")]
+    own_groups = {e["group"] for e in own}
     keep = []
     for g in sorted({e["group"] for e in multi}):
+        # Owner 2026-09-28: 50/50 per beat per group. Heads, the note-by-note
+        # instrument plays first (the 2026-09-24 rule); tails, his own sorted
+        # sounds play first and it's only the backup for notes they can't
+        # reach. Before this, "synth" was the TX81Z on 42 of 42 beats and
+        # his 59 synths never played. A group he has none of keeps it first.
+        mine_first = g in own_groups and rng.random() < 0.5
         es = [e for e in multi if e["group"] == g]
         insts = sorted({e["multi"] for e in es})
         inst = rng.choice(insts)
@@ -379,7 +386,8 @@ def one_per_beat(index, rng):
             if best is None or (abs(e["layer"] - layer)
                                 < abs(best["layer"] - layer)):
                 by_note[e["note"]] = e
-        keep.extend(by_note[n] for n in sorted(by_note))
+        keep.extend(dict(by_note[n], backup=True) if mine_first
+                    else by_note[n] for n in sorted(by_note))
     return own + keep
 
 

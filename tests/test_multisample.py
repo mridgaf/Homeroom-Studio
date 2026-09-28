@@ -183,3 +183,20 @@ def test_one_per_beat_keeps_one_instrument_articulation_and_layer():
     insts = {[e for e in MS.one_per_beat(idx, random.Random(s))
               if e.get("multi")][0]["multi"] for s in range(40)}
     assert insts == {"Steinway", "Kawai"}                       # variety
+
+
+def test_his_own_sounds_play_first_on_about_half_the_beats():
+    """Owner 2026-09-28: 50/50 per beat. Before, the TX81Z won 42 of 42
+    synth beats and his own 59 synths never played."""
+    idx = [_row("/his/Synths/a.wav", 60, "synth")]
+    idx += [_row("/ms/TX81Z/fm/%d.wav" % n, n, "synth", "TX81Z", "fm")
+            for n in (60, 62, 64)]
+    idx += [_row("/ms/Organ/o/%d.wav" % n, n, "organ", "Organ", "o")
+            for n in (60, 62)]                   # he owns no organ
+    his = 0
+    for seed in range(200):
+        got = MS.one_per_beat(idx, random.Random(seed))
+        pick = IS.nearest(got, 60, "synth")
+        his += pick["path"].startswith("/his/")
+        assert IS.nearest(got, 62, "organ")["multi"] == "Organ"
+    assert 70 <= his <= 130, his

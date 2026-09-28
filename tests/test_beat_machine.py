@@ -2035,6 +2035,7 @@ def test_an_808_dj_bangs_one_in_key_808_with_the_kick_unpitched(
     def _no_shift(*a, **k):
         raise AssertionError("a new beat's 808 must never be pitched")
     monkeypatch.setattr(beat_machine, "_808_to_key", _no_shift)
+    monkeypatch.setattr(beat_machine, "OWN_808_RHYTHM_P", 0)
     rec, report = _low_end_beat(root, shots, monkeypatch, "Night Metro")
     lanes = rec["preset"]["lanes"]
     assert rec["harmony"]["root"] == "C", report
@@ -2045,6 +2046,17 @@ def test_an_808_dj_bangs_one_in_key_808_with_the_kick_unpitched(
     assert Path(rec["kit_paths"]["bass"]).stem.startswith("808_long_"), report
     role, _must, _wants, secs = rec["kit_spec"]["kick"]
     assert role != "bass" and secs <= beat_machine.KICK_WITH_BASS_SECS
+
+
+def test_808_own_rhythm_lands_with_the_kick_then_answers_it():
+    """Owner 2026-09-28: about 1 in 3 808 beats get their own rhythm."""
+    kbars = ["X--x---xX----x--", "----------------", "X-------X-------"]
+    for seed in range(30):
+        got = beat_machine._own_808_bars(kbars, random.Random(seed))
+        assert got[1] == kbars[1]                 # kick rests, 808 rests
+        for k, b in zip(kbars[::2], got[::2]):
+            assert b[0] == "X" and b != k         # with the kick, own after
+            assert all(k[i] == "-" for i, c in enumerate(b) if c == "x")
 
 
 def test_no_808_in_the_key_means_no_808_not_a_shifted_one(
