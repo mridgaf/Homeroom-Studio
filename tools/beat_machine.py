@@ -1267,6 +1267,52 @@ ROOT_808_WITH_CHORDS = False
 # cases he creates on purpose, the reference track and the typed mood word.
 REBUILD_LOCKS_KEY = True
 
+# FOUR EFFECTS THAT USED TO GO UNUSED (owner 2026-09-28, "small share,
+# everyone"): each rolls per beat, on this share of beats, for every DJ,
+# Legend and genre. Hall is a reverb SPACE, so a genre (which keeps the
+# space it declares, owner rule 2026-07-19) never rolls it. First guesses,
+# not heard: one number each.
+EXTRA_FX_P = {"hall": 0.10, "haas": 0.20, "ratchet": 0.15,
+              "kick_layer": 0.15}
+HAAS_LANES = ("hat", "perc", "shaker", "snap", "bongo", "conga", "rim")
+
+
+def _roll_extra_fx(preset, kit, sources, spec_used, lane_parent, shots,
+                   variant, owner):
+    """Haas, ratchet and kick layer for one new beat. Everything lands in
+    the preset/kit/recipe, so a rebuild plays the same thing back."""
+    rng = random.Random(variant * 977 + 31)
+    lanes = preset["lanes"] = dict(preset["lanes"])
+    if rng.random() < EXTRA_FX_P["haas"]:
+        preset["haas_lanes"] = [ln for ln in lanes
+                                if ln.startswith(HAAS_LANES)]
+    if rng.random() < EXTRA_FX_P["ratchet"]:
+        for ln, (pan, gain, feel, bars) in list(lanes.items()):
+            if not ln.startswith("hat"):
+                continue
+            new = []
+            for b in bars:
+                hits = [i for i, c in enumerate(b) if c == "x"]
+                if len(b) == 16 and hits and rng.random() < 0.5:
+                    b = list(b)
+                    b[rng.choice(hits[len(hits) // 2:])] = "r"   # late in the bar
+                    b = "".join(b)
+                new.append(b)
+            lanes[ln] = (pan, gain, feel, new)
+    if ("kick" in kit and "kick" in spec_used
+            and rng.random() < EXTRA_FX_P["kick_layer"]):
+        role, must, wants, secs = spec_used["kick"]
+        if "808" not in str(must or ""):     # an 808 kick carries its own low end
+            path, x = _pick_path(shots, role, wants, secs,
+                                 rng.randrange(1, 1 << 30), must=must,
+                                 avoid=set(p for p in sources.values() if p))
+            if path and x is not None:
+                kit["kicklayer"] = x
+                sources["kicklayer"] = path
+                spec_used["kicklayer"] = spec_used["kick"]
+                lane_parent["kicklayer"] = owner
+
+
 
 # WHO GETS THE TUNED SUB (owner 2026-09-07: "tuned sub should only be used
 # when specific DJs require it"). It is a synthesized SINE on the beat's
@@ -3194,8 +3240,13 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     elif preset.get("genre"):
         space = preset["space"][0]
     else:
+        # hall takes its EXTRA_FX_P share off the top; the old four keep
+        # their proportions in the rest
+        _h = EXTRA_FX_P["hall"]
         space = random.Random(variant * 941 + 7).choices(
-            ["gated", "dry", "room", "plate"], [0.35, 0.35, 0.2, 0.1])[0]
+            ["gated", "dry", "room", "plate", "hall"],
+            [0.35 * (1 - _h), 0.35 * (1 - _h), 0.2 * (1 - _h),
+             0.1 * (1 - _h), _h])[0]
 
     # "add the root" (owner rule 2026-07-18): traditional beats get a
     # tuned 808 sub on a musical root under the kick — 3 in 4 of them,
@@ -3241,6 +3292,10 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
                           if ln not in spec_used and ln != "stamp"})
         lane_parent.update({ln: names[0] for ln in spec_used
                             if ln not in lane_parent})
+
+    if not loops_only:
+        _roll_extra_fx(preset, kit, sources, spec_used, lane_parent, shots,
+                       variant, names[0])
 
     status(f"Rendering beat {no} at {preset['bpm']} BPM…")
     nbars = loop_nbars if loops_only else bars_of(preset)
@@ -3912,7 +3967,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     number = int(number)
     rec = load_recipe(root, number)
     lock = rec.get("lock")
-    if lock is None and not _learn:
+    if (lock is None or "lane_gains" not in lock) and not _learn:
         status(f"First edit of beat {number} — learning its volume…")
         if shots is None and not rec.get("loops_only"):
             status("Scanning your sample library…")
@@ -3988,6 +4043,17 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
         preset["lanes"].pop(lane, None)
+    # a changed sound gets levelled fresh by the rules; every other sound
+    # keeps the level it was made with (owner 2026-09-28)
+    if lock and not _learn:
+        _changed = set(picks)
+        lock = dict(lock, lane_gains={
+            ln: g for ln, g in (lock.get("lane_gains") or {}).items()
+            if ln not in _changed
+            and not (chord_voice and ln.startswith("chord"))
+            and not (bass_pick and _CHORD_BASS_LANE.match(ln))})
+    if fx:                   # the effects button re-voices everything:
+        lock = None          # it gets levelled fresh, then locked anew
     # bake the trims into this beat's own gains. The child recipe stores
     # the RESULT, so its sliders start at 0 again ("nudge from how it
     # sounds now") and re-rendering it without trims reproduces it.
@@ -4180,7 +4246,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     if rec.get("loops_only"):
         rec = dict(rec, loop_state=state, bpm=state["bpm"])
     rec2 = dict(rec, file=fname, kit_paths=kit_paths, parent=number,
-                folder=rec["folder"], date=str(date.today()))
+                folder=rec["folder"], date=str(date.today()),
+                lock=parts["lock"])
     if drops:                    # the lane is gone from the child recipe
         rec2["kit_spec"] = {ln: s for ln, s in rec["kit_spec"].items()
                             if ln not in drops}

@@ -143,7 +143,8 @@ crawls to hours. That looks exactly like a hang and isn't one.
   (2026-09-15: own `midi_roots`/`midi_sorted_root` keys, reads
   `BOTC Sorted MIDI`, guarded by `test_scan_finds_his_real_midi_packs`).
   DONE 2026-09-26: `"midi"` is in every DJ/Legend/genre's `chord_source`
-  at 10% of beats (5 kept their higher shares). Not yet heard at that mix.
+  at 10% of beats (5 kept their higher shares). Heard and kept
+  2026-09-28 (listening checklist item 10).
 
 ## Working rules for this project
 

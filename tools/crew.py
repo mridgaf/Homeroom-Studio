@@ -44,8 +44,8 @@ from flavor_tags import matches as flavor_matches
 from make_drum_beats import build_shots, duck
 from make_hiphop_tracks import load_audio, norm_rms
 from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
-                    glue_compress, kick_sub_reinforce, loop_convolve,
-                    transient_shape,
+                    glue_compress, kick_layer, kick_sub_reinforce,
+                    loop_convolve, ratchet_times, transient_shape,
                     make_ir, master_to_lufs, mono_below, mpc_swing_offset,
                     perc_scale, roughness_am, sat_unity, snare_scale,
                     sp1200, velocity, vinyl_bed, wow_flutter)
@@ -1509,6 +1509,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     bars_of(preset) — a loops-only beat has no pattern to consult for
     its length.
 
+    kit["kicklayer"] (owner 2026-09-28, "small share, everyone"): a second
+    kick sample stacked under the kick, groove.kick_layer — this one's
+    punch above 100 Hz, that one's low end below, phase-checked. Levelled
+    back to the kick's own peak so the kick-anchored rules don't move.
+    preset["haas_lanes"] widens those lanes (groove.haas, 12 ms, loop-safe
+    wrap) and an "r" in a bar is a ratchet: three quick hits in one step.
+
     lock (owner 2026-09-27, picked "lock it per beat"): the beat's saved
     volume setting, {"master_peaks": [p1, p2], "master_gains": [g1, g2],
     "stem_scale": s}. Given, master()'s peak-normalise, the final loudness
@@ -1517,6 +1524,11 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     sound where it was. With want_parts the lock actually used comes back
     as parts["lock"], which is what the recipe saves."""
     p = preset or CREW[name]
+    if "kicklayer" in kit and "kick" in kit:
+        _k = kit["kick"]
+        _lay = kick_layer(_k, kit["kicklayer"])
+        kit = dict(kit, kick=_lay * (np.abs(_k).max()
+                                     / (np.abs(_lay).max() + 1e-9)))
     # a loops beat reads its own level switch, never the from-scratch one
     true_levels = LOOPS_TRUE_LEVELS if loop_bufs else TRUE_LEVELS
     # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
@@ -1661,16 +1673,21 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                 if res == 16:
                     t += mpc_swing_offset(s, bpm, feel.swing)
                 t += feel.offset + feel.rng.normal(0, feel.jitter / 3)
-                pos = int(max(t, 0.0) * SR)
-                v = velocity(ch, s if res == 16 else s // 2, wob) * g \
+                v = velocity("x" if ch == "r" else ch,
+                             s if res == 16 else s // 2, wob) * g \
                     * grid_accent(res, s)
-                e = min(n, pos + len(snd))
-                if 0 <= pos < n and v > 0:
-                    buf[pos:e] += snd[:e - pos] * v
-                    ons.append(pos)
-                    evs.append((pos / SR, v))
-                    if choke:
-                        _choke_hits.setdefault(lane, []).append((pos, v, snd))
+                hits = (ratchet_times(t, bar_s / res) if ch == "r"
+                        else [(t, 1.0)])
+                for th, hv in hits:
+                    pos = int(max(th, 0.0) * SR)
+                    e = min(n, pos + len(snd))
+                    if 0 <= pos < n and v > 0:
+                        buf[pos:e] += snd[:e - pos] * v * hv
+                        ons.append(pos)
+                        evs.append((pos / SR, v * hv))
+                        if choke:
+                            _choke_hits.setdefault(lane, []).append(
+                                (pos, v * hv, snd))
         bufs[lane] = buf
         onsets[lane] = ons
         events[lane] = evs
@@ -1981,6 +1998,20 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # only runs on a beat that HAS a kick, and the duck call sites further
     # down run on every beat.
     _sub_sc = sub_sidechain(p)
+
+    # HAAS width on the lanes the beat rolled it for. Mid stays the dry
+    # lane; the delayed difference goes to the side, so the mono sum is
+    # untouched. np.roll wraps the delay round the loop seam (loop-safe).
+    for ln in p.get("haas_lanes") or ():
+        if ln in bufs:
+            _hs = 10 ** (-4.0 / 20) * 0.5 * (
+                bufs[ln] - np.roll(bufs[ln], int(0.012 * SR)))
+            wet_side[ln] = wet_side[ln] + _hs if ln in wet_side else _hs
+
+    # every level rule below scales whole lanes; remember each lane as it
+    # was so the beat's lock can replay what they decided (owner
+    # 2026-09-28: Loops beats locked too)
+    _pre, _pre_w = dict(bufs), dict(wet_side)
 
     def _lane_sc(ln):
         """The duck depth this lane actually gets."""
@@ -2316,6 +2347,22 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                             wet_side[ln] = w * g
 
 
+    # THE LOCK, per sound: a lane the edit didn't touch gets back the
+    # level the rules gave it when the beat was made, so changing the kick
+    # or hat can't re-level the rest. Lanes the edit changed aren't in the
+    # lock (swap_many leaves them out) and keep what the rules just gave.
+    _lane_gains = {}
+    for ln in bufs:
+        _a = float(np.abs(_pre[ln]).max()) if ln in _pre else 0.0
+        _lane_gains[ln] = (float(np.abs(bufs[ln]).max()) / _a
+                           if _a > 0 else 1.0)
+    for ln, _g in ((lock or {}).get("lane_gains") or {}).items():
+        if ln in bufs and ln in _pre:
+            bufs[ln] = _pre[ln] * _g
+            if ln in _pre_w:
+                wet_side[ln] = _pre_w[ln] * _g
+            _lane_gains[ln] = _g
+
     # stems: each lane panned to stereo with its space treatment, kick
     # character, and the duck baked in (duck is a plain envelope multiply,
     # so per-lane ducking sums to exactly the mix-bus duck)
@@ -2471,7 +2518,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
         scale = 1.0 / peak
     stems = {ln: (sL * scale, sR * scale) for ln, (sL, sR) in stems.items()}
     return L, R, got, {"events": events, "stems": stems,
-                       "lock": {"master_peaks": _peaks,
+                       "lock": {"lane_gains": _lane_gains,
+                                "master_peaks": _peaks,
                                 "master_gains": _gains,
                                 "stem_scale": float(scale)}}
 

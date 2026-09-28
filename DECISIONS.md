@@ -20,6 +20,21 @@ entries.
 
 ## Log
 
+### 2026-09-28 NEXT SESSION START HERE: explain the kick/bass drum rules, then he changes them
+- Owner: next session begins with a change to how kick drums work. FIRST explain every kick and bass drum rule (names, what each is, how each relates to the beat), from the code, in plain words. He decides the change after that; change nothing before. Full brief + start points: OPEN-ISSUES.md item 0.
+- Status: open
+
+### 2026-09-28 Loops beats locked per sound + the four unused effects switched on (small share, everyone)
+- Context: OPEN-ISSUES.md step 4, owner: "yes, both" (15: lock Loops-page beats too; 16: use the four unused effects). Effects, clickable: "Small share, everyone" (NOT picked: only where it fits, only when typed).
+- Lock, per sound: `render_crew_beat` snapshots every lane before the level rules (backbeat/chord bus governors, kick/hat peak ceilings, true-levels low-end cap) and records what they did as lock["lane_gains"]. An edit replays those for every lane it didn't touch; the changed lane (swap, chord voice, bass pick) is levelled fresh. Child recipes now save the lock actually used (so a new sound's level locks for the next edit). Beats whose lock lacks lane_gains (made 09-27) re-learn once. FX button renders unlocked, then locks anew. Covers from-scratch beats too (their only rule left is the low end under the kick).
+- Effects (`beat_machine.EXTRA_FX_P`, first guesses, NOT heard): hall reverb 10% of rolled spaces (genres keep their declared space, 2026-07-19 rule); haas width 20% of beats on hat/perc/shaker/snap/bongo/conga/rim lanes (side only, mono sum untouched, np.roll = loop-safe); ratchet 15% of beats: an "r" on a late hat hit in ~half the bars = 3 rising hits in one step (groove.ratchet_times); kick layer 15%: a second kick from the same kick spec under the first (groove.kick_layer, levelled to the kick's own peak; never on an 808 kick). All stored in the recipe (space, preset haas_lanes, bar strings, kit_paths "kicklayer" = rack row "kick layer", swappable/removable) so rebuilds match. Not in generate_fixed / generate_library (fixed reference patterns).
+- Already existing, so NOT duplicated: 32nd hat rolls (pattern_gen "rolls32", ~10% of bars, every DJ). Ratchet is the different thing (3 hits squeezed into one 16th).
+- Known wart: the rack's volume slider on "kick layer" answers "no 'kicklayer' to turn up or down" (it isn't a mix lane; it lives inside the kick).
+- Tests: test_swapping_the_kick_leaves_the_rule_levelled_sounds_put (rules ON; fails with the replay removed: bass moved), test_the_four_extra_effects_land_play_and_survive_a_rebuild, test_a_ratchet_is_three_rising_hits_in_one_step; the 09-27 lock test updated (child lock drops the removed lane). Full suite: see Outcome.
+- Also recorded: owner approved listening items 4-10 by ear ("I listened. Everything worked. Keep the changes."); those 7 entries marked confirmed.
+- Status: open (built + tested, not heard, not rendered on real beats)
+- Outcome: full suite 2026-09-28: 1275 passed, 3 skipped, 0 failed (16.5 min). Not heard yet (checklist item 24).
+
 ### 2026-09-27 Volume locked per beat: editing one sound no longer moves the others
 - Context: continues the 2026-09-27 entry further down ("Changing one sound changes every other sound's volume").
 - Owner (clickable): "Lock it per beat" (new beats still land at -12 LUFS; the volume setting is saved in the recipe and replayed on every edit; removing a sound makes the beat a bit quieter, like a real fader) and "Learn it on first edit" for old beats (one unchanged re-render, saved into the parent recipe, never repeated). NOT picked: level-matching swapped sounds, leaving it as is.
@@ -36,7 +51,7 @@ entries.
 - Test: `test_removing_a_sound_leaves_every_other_sound_where_it_was` (new beat + old beat without a lock; every other stem within 0.01 dB; child inherits the lock). Fails on the old code. Full suite before 1271 passed / 3 skipped; after 1272 passed / 3 skipped.
 - Noticed, not touched: `beat_machine.py` ~2349 `_fig` used before it's defined crashes `generate()` on some random seeds (hit by an unseeded run of the new test, which is now seeded).
 - Not verified: his ear; the Loops-page kick/hat-relative rules (they still re-level other sounds when the kick or hat changes on a Loops beat, out of scope of his pick).
-- Status: open (measured, not heard)
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open (measured, not heard)
 - Outcome: -
 
 ### 2026-09-26 Chord flow: more variety in the chords (new beats only)
@@ -68,7 +83,7 @@ entries.
 - Owner answer (clickable): old 2026-09-23 bass-808 beats get a LOCKED bass row (volume/remove only), no dropdown.
 - Test: `test_a_bass_pick_changes_only_the_bass_and_survives_a_rebuild`: dropdown = bass files only, pick lands in the bass stem name, chord stems byte-identical, pick survives a second rebuild, piano/808/foreign path refused. Fails with the fix backed out (dropdown offers Piano/Strings), passes with it. test_beat_machine + test_instrument_sampler: 120 passed with the fix; with it backed out 119 passed + only the new test failing. Nothing else was failing.
 - NOT verified: heard by ear; the browser dropdown/dice clicked in the real page (JS untouched, exercised only through the Python paths it calls); a real-library beat. Beats made before this have no `bass_file`, so their first bass pick works but "in this beat now" is read from the stem's file name.
-- Status: open
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open
 - Outcome: -
 
 ### 2026-09-24 Note-by-note instruments wired in (built off the Mac — not yet run on it)
@@ -77,7 +92,7 @@ entries.
 - Decision/change: new `tools/multisample.py` — note from the file NAME (upper-case note token, so a dynamic like "f2" isn't read as F2), octave from a VOTE of detect_pitch on up to 6 mid-range files per articulation folder; a folder with no agreeing reads is left out. Families per owner's clickable answers (same day): harps/Dan Tranh/Strumstick -> guitar; harpsichords -> piano; TX81Z FM Piano/Piano 1/Clavisynth -> synth; recorders/ocarinas/sax/saxello + VSCO winds -> wood, harmonicas OUT; mbiras/kalimbas/psaltery -> bell; VSCO strings = backup only. `instrument_sampler.scan()` appends these rows; `nearest()` tries them FIRST per group, his own samples next, VSCO strings last; a pinned multisample keeps the instrument but each note gets its OWN recording. `_build_chords` calls `multisample.one_per_beat()` — one instrument, one articulation, one loudness layer per group per beat.
 - ASSUMING (told to owner): every instrument in a group equally likely per beat (harpsichord as likely as Steinway); the middle loudness layer; VSCO strings behind his own string samples in the instrument path, and NOT added to the London "strings" voice (London covers its range within a semitone, so a backup there would practically never fire). VSCO Upright Piano + VSCO Organ (numbered files) still skipped.
 - Verify by: `tools/multisample.py` report on the Mac (first run reads ~900 files for the octave vote, once, cached); tests/test_multisample.py (8); full suite; then his ear. In the sandbox: 8/8 new tests pass; the 12 related test files fail the SAME 58 tests before and after (Linux: no drive, no mac deps); 19 real notes rendered through voice_note all landed within 0.2 semitone of target.
-- Status: open (runs on the Mac; not heard yet)
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open (runs on the Mac; not heard yet)
 - Outcome: 2026-09-24 23:08 on the Mac: 8/8 new tests; 4,221 note files, 63 instruments, none dropped, octaves match the sandbox check; full suite 1250 passed / 1 failed / 2 skipped (11.6 min). The 1 failure is test_real_beats_are_not_mono_or_silent on beat 2815 Razor (width -22.9 dB vs the -22 line), rendered 18:28, four hours BEFORE this was installed and with no multisample code in it; not caused by this. Installer renamed "1 RUN ME - Note-by-Note.command".
 
 ### 2026-09-24 Note-by-note instrument libraries downloaded (not wired in yet)
@@ -115,7 +130,7 @@ entries.
 - Decision/change: owner answered "The 808, all three" (clickable, BLOCKING). New `crew.grit_lane(p, lanes)`: allow_dirt "low" + a `bass` lane -> the 808 gets `dist808`; otherwise the kick, as before (plain True dirt unchanged; a bass LINE is bass0.. and never gritted). Test `test_808_only_dirt_lands_on_the_808_not_the_kick` also pins the "low" set to exactly Crunk, Mustang, Night Metro.
 - Reasoning: all three presets' research says distort the 808 specifically; their kick_dist numbers (9.0 / 9.0 / 5.0) were measured when the kick WAS the 808.
 - Verify by: his ear on Mustang and Night Metro beats — their 808 is gritty now, their short kick clean. This changes two DJs he had approved by ear.
-- Status: open
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open
 - Outcome:
 
 ### 2026-09-24 Genre pass: Acid Rap Detroit, Baltimore Club, Chiptune built; "never lets up" kick floor
@@ -303,7 +318,7 @@ entries.
   (4 Just Flame; 2 free-beat 808s, 2 bass lines). Measured: every bass
   stem per beat names one file, 4/4; MIDI gate clean. Not heard: whether
   the further-shifted notes sound OK. 2807 itself not re-made.
-- Status: open — tested, not heard.
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open — tested, not heard.
 - Outcome: —
 
 ### 2026-09-23 Low end set up to standard hip-hop practice (from-scratch only) — built, measured, NOT heard
@@ -353,7 +368,7 @@ entries.
   stayed silent). Measured in finished stems: each chord's 808 plays that
   chord's root, 7/7. Bass peaks sit 0.9-16.5 dB under the kick — wide spread,
   ask whether any 808 is too quiet.
-- Status: open — measured, not heard.
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open — measured, not heard.
 
 ### 2026-09-23 Loops page given its own level switch — true levels are from-scratch only
 - Context: owner: the 2026-09-20 drum/instrument level changes were never
@@ -579,7 +594,7 @@ entries.
 - Verify by: owner ear. Delivered 8 files (4 DJs x a Rules / b True) to
   ~/Desktop/Homeroom True Levels 2026-09-20/ with READ ME. Need back: is
   "b True" the better starting point, and does anything now poke out too loud.
-- Status: open — delivered, NOT heard. Bright top (8k+ ~+5 dB vs loops) is a
+- Status: confirmed 2026-09-28 — owner, on the listening checklist (items 4-10): "I listened. Everything worked. Keep the changes." Was: open — delivered, NOT heard. Bright top (8k+ ~+5 dB vs loops) is a
   separate, non-level issue if his ear wants it tamed.
 - Outcome: —
 
@@ -3250,8 +3265,8 @@ TWO TRAPS THAT COST TIME TODAY — both are now guarded, do not re-learn them:
   many kick notes say 808, compare to kick_flavors[0][0]. Affected today:
   Chrome Dial and Glass Cat in the nine; DJ Premium, Timberline, Razor and
   Doc Day among the legends. Their weights all read lower than they play.
-- Status: open — reported, not fixed
-- Outcome:
+- Status: confirmed (checked 2026-09-28)
+- Outcome: fixed for Legends 2026-09-19 (exempt from the streak-breaker, pattern_gen.py ~1399); the nine crew DJs keep it on purpose, owner-accepted.
 
 ### 2026-09-06 Swish Beatz (Swizz Beatz) new build
 
@@ -5531,7 +5546,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   localhost:8767: nodes present, six phaser stages, audio through the new
   section, sliders driving the right gains, and the `cho_*`/`phs_*` keys
   reaching the server payload with the values the sliders show.
-- Status: open — NOTHING TURNS THEM ON YET. No preset in fx_presets.json
+- Status: confirmed (checked 2026-09-28: chorus/phaser now set on 7 DJs in crew_config.json). Was: open — NOTHING TURNS THEM ON YET. No preset in fx_presets.json
   sets them and no DJ passes them, because he has not heard them. The
   amounts are library defaults, not his taste. Audition rendered (below);
   the per-DJ pass waits on his verdict.

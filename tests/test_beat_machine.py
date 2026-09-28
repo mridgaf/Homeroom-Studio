@@ -1,5 +1,6 @@
 """The 2026-07-16 spec features: config file, recipes + swap, MIDI +
 stems, sample history, and the 50/50 collab blend."""
+import copy
 import json
 import random
 import re
@@ -564,7 +565,84 @@ def test_removing_a_sound_leaves_every_other_sound_where_it_was(machine_env):
             assert abs(20 * np.log10(pk / before[lane])) < 0.01, lane
         child = beat_recipes.load_recipe(
             root, int(new_path.name.split()[0]))
-        assert child["lock"] == beat_recipes.load_recipe(root, no)["lock"]
+        parent = beat_recipes.load_recipe(root, no)["lock"]
+        for k in ("master_peaks", "master_gains", "stem_scale"):
+            assert child["lock"][k] == parent[k], k
+        assert "snare" not in child["lock"]["lane_gains"]
+        for ln, g in child["lock"]["lane_gains"].items():
+            assert g == parent["lane_gains"][ln], ln
+
+
+def test_swapping_the_kick_leaves_the_rule_levelled_sounds_put(machine_env,
+                                                               monkeypatch):
+    """Owner 2026-09-28 ("yes, both"): Loops beats get the lock too. Their
+    level rules measure every sound against the kick and hats, so a new
+    kick used to re-level the rest. The rules run here with true levels
+    OFF — exactly the Loops page's setting — and a kick swap must leave
+    every other stem where it was."""
+    from make_drum_loops import read_wav24
+    monkeypatch.setattr(crew, "TRUE_LEVELS", False)
+    root, shots = machine_env
+    random.seed(4)
+
+    def levels(path):
+        no = path.name.split()[0]
+        d = next(path.parent.glob(f"{no} * Stems"))
+        return {f.name.split(" - ")[0].split(".")[0]:
+                float(np.abs(np.concatenate(read_wav24(f))).max())
+                for f in d.glob("*.wav")}
+
+    path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+    no = int(path.name.split()[0])
+    before = levels(path)
+    new_path, _ = beat_machine.swap_many(no, {"kick": None}, root=root,
+                                         shots=shots)
+    after = levels(new_path)
+    assert len(after) > 3
+    for lane, pk in after.items():
+        if lane != "kick drum":
+            assert abs(20 * np.log10(pk / before[lane])) < 0.01, lane
+
+
+def test_the_four_extra_effects_land_play_and_survive_a_rebuild(
+        machine_env, monkeypatch):
+    """Owner 2026-09-28, "small share, everyone": hall, haas, ratchet and
+    kick layer each roll per beat. Forced on here: each must reach the
+    recipe, play, and come back unchanged from a rebuild."""
+    monkeypatch.setattr(beat_machine, "EXTRA_FX_P",
+                        {k: 1.0 for k in beat_machine.EXTRA_FX_P})
+    root, shots = machine_env
+    random.seed(4)
+    for _ in range(12):     # an 808 kick is never layered: find a plain one
+        path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        if "kicklayer" in rec["kit_paths"]:
+            break
+    assert rec["space"] == "hall"
+    assert rec["preset"]["haas_lanes"]
+    assert any("r" in b for ln, row in rec["preset"]["lanes"].items()
+               if ln.startswith("hat") for b in row[3])
+    assert rec["kit_paths"]["kicklayer"] != rec["kit_paths"]["kick"]
+    new_path, _ = beat_machine.swap_many(no, {}, root=root, shots=shots,
+                                         drops=["snare"])
+    rec2 = beat_recipes.load_recipe(root, int(new_path.name.split()[0]))
+    for key in ("space",):
+        assert rec2[key] == rec[key]
+    assert rec2["kit_paths"]["kicklayer"] == rec["kit_paths"]["kicklayer"]
+    assert rec2["preset"]["haas_lanes"] == rec["preset"]["haas_lanes"]
+
+
+def test_a_ratchet_is_three_rising_hits_in_one_step():
+    kit = {"hat": np.ones(200)}
+    p = copy.deepcopy(crew.CREW["Cutz"])
+    p["lanes"] = {"hat": (0.0, 1.0, (0.0, 0.0, 0.0, 0),
+                          ["r" + "-" * 15])}
+    _L, _R, _got, parts = crew.render_crew_beat("Cutz", kit, preset=p,
+                                                want_parts=True)
+    hits = sorted(parts["events"]["hat"])[:3]
+    assert len(parts["events"]["hat"]) == 3 * crew.bars_of(p)
+    assert hits[0][1] < hits[1][1] < hits[2][1]
 
 
 # ------------------------------------------- per-stem volume (2026-07-19)
