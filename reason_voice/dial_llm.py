@@ -30,7 +30,32 @@ DEVICE_REF_FILES = {"MClass Compressor": "mclass-compressor.md",
                     "Kong Drum Designer": "kong.md",
                     "Redrum Drum Computer": "redrum.md",
                     "Dr.REX Loop Player": "dr-octo-rex.md",
-                    "Alligator": "alligator.md"}
+                    "Alligator": "alligator.md",
+                    # the rest of the stock effects, wired 2026-09-29
+                    "The Echo": "the-echo.md",
+                    "Pulveriser": "pulveriser.md",
+                    "MClass Equalizer": "mclass-equalizer.md",
+                    "MClass Maximizer": "mclass-maximizer.md",
+                    "MClass Stereo Imager": "mclass-stereo-imager.md",
+                    "DDL-1 Digital Delay Line": "ddl-1.md",
+                    "RV-7 Digital Reverb": "rv-7.md",
+                    "D-11 Foldback Distortion": "d-11.md",
+                    "ECF-42 Envelope Controlled Filter": "ecf-42.md",
+                    "CF-101 Chorus/Flanger": "cf-101.md",
+                    "PH-90 Phaser": "ph-90.md",
+                    "UN-16 Unison": "un-16.md",
+                    "COMP-01 Compressor/Limiter": "comp-01.md",
+                    "PEQ-2 Two Band Parametric EQ": "peq-2.md",
+                    "Neptune Pitch Adjuster": "neptune.md",
+                    "se.propellerheads.Synchronous": "synchronous.md",
+                    "se.propellerheads.Audiomatic": "audiomatic.md",
+                    "se.propellerheads.ChannelEQ": "channel-eq.md",
+                    "se.propellerheads.ChannelDynamics": "channel-dynamics.md",
+                    "se.propellerheads.MasterCompressor": "master-bus-compressor.md",
+                    "se.propellerheads.Quartet": "quartet.md",
+                    "se.propellerheads.Sweeper": "sweeper.md",
+                    "se.propellerheads.ReasonAmp": "guitar-amps.md",
+                    "se.propellerheads.ReasonBassAmp": "guitar-amps.md"}
 
 # The remotemap spells a control the way REASON does; a device guide spells it
 # the way a person does. One entry so far: the RV7000's algorithm picker is
@@ -79,17 +104,23 @@ def devices(remotemap=REMOTEMAP):
     return out
 
 
-def device_for_param(param, remotemap=REMOTEMAP):
+def device_for_param(param, remotemap=REMOTEMAP, knob=None):
     """Which mapped device owns this parameter name? None if it is not unique.
 
     Reason names the parameter with every change it reports ("Damage Control"),
     so this is how the app knows what got locked without being told. A name
     that two devices share ("Enabled") returns None -- it never guesses.
+
+    Given the knob slot the report came in on, a device must map the name to
+    THAT slot. Name alone stopped being enough on 2026-09-29: with 31 devices
+    mapped, "Attack" belongs to four compressors, and COMP-01 has no name of
+    its own at all -- but only the MClass Compressor puts Attack on knob 5.
     """
     if not param:
         return None
     hits = [d for d in devices(remotemap)
-            if param in set(knob_map(d, remotemap).values())]
+            if (knob_map(d, remotemap).get(knob) == param if knob
+                else param in set(knob_map(d, remotemap).values()))]
     return hits[0] if len(hits) == 1 else None
 
 
@@ -237,8 +268,13 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
                      "<- one of that knob's settings")
     forms += ['  {"knob":"knob_N","target":"75%"}      <- a position, no unit given',
               '  {"knob":"knob_N","delta":"-5%"}       <- a nudge from where it is now']
-    rule = ("Use `delta` whenever they said more/less/up/down/turn it X percent. "
-            "Use `target` when they named a destination. ")
+    # "longer/louder/..." added 2026-09-29: without them the model answered
+    # "turn up pad 5" with target "75%". A nudge by an amount keeps its unit:
+    # "down 3 dB" had come back as "-3%", which moved Threshold 1.1 dB.
+    rule = ("Use `delta` whenever they said more/less/up/down/longer/shorter/"
+            "louder/quieter or turn it by an amount -- keep their unit: "
+            "\"down 3 dB\" is delta \"-3 dB\". "
+            "Use `target` only when they named a destination. ")
     if any_named:
         rule += ("For a knob that lists settings, `target` must be one of them, "
                  "spelled exactly as listed. ")
@@ -355,11 +391,80 @@ def _depends_text(depends):
 
 
 def _num_unit(s):
-    m = re.match(r"^\s*(-?\d+(?:\.\d+)?)\s*(.*)$", s or "")
+    # "+3 dB" too: without the plus sign a "+5%" nudge parsed as nothing at all
+    m = re.match(r"^\s*([+-]?\d+(?:\.\d+)?)\s*(.*)$", s or "")
     return (float(m.group(1)), m.group(2).strip()) if m else (None, "")
 
 
-def resolve(answer, device, current_pos=None, calibration=None):
+def _same_unit(a, b):
+    """"semitone" is "semitones"; "ms" is never "s" -- plurals only on real words."""
+    a, b = (a or "").lower(), (b or "").lower()
+    a = a[:-1] if len(a) > 3 and a.endswith("s") else a
+    b = b[:-1] if len(b) > 3 and b.endswith("s") else b
+    return a == b
+
+
+def _nearest(table, value, unit):
+    """The measured position whose reading, in this unit, is closest."""
+    best, best_gap = None, None
+    for pos, shown in table:
+        got, got_unit = _num_unit(shown)
+        if got is None or not _same_unit(got_unit, unit):
+            continue
+        gap = abs(got - value)
+        if best_gap is None or gap < best_gap:
+            best, best_gap = (pos, shown), gap
+    return None if best is None else (best[0], "measured: %s" % best[1])
+
+
+def _adopt_unit(unit, entry):
+    """A bare number on a knob whose table speaks ONE unit means that unit.
+    Step 8, 2026-09-29: "pitch the loop down two semitones" came back as "-2",
+    and a -12..12 table labelled semitones refused it on the unit comparison."""
+    if unit:
+        return unit
+    units = {u for _, s in entry.get("table") or []
+             for v, u in [_num_unit(s)] if v is not None}
+    return units.pop() if len(units) == 1 else unit
+
+
+# "Turn it up" with no amount. ASSUMING 10% of travel (told to the owner
+# 2026-09-29, his call to change) -- twice the -5% nudge the model already uses.
+NUDGE_PCT = 10.0
+
+# Which way HE said to go -- read off his words, never off the model's answer.
+# Step 8, 2026-09-29: the model answered "turn up pad 5", "more wet" and "make
+# drum 4 ring longer" with target "75%" on knobs already above 75%, so all
+# three went DOWN. Five phrases on four devices; a rule, not a fluke.
+_UP_WORDS = frozenset("up louder longer higher raise boost increase".split())
+_DOWN_WORDS = frozenset("down quieter shorter lower decrease".split())
+# "more"/"less" name a QUALITY, not the knob's travel: "give it more punch" is
+# a FASTER attack, a lower number. So they only steer a percentage the model
+# made up ("more wet" -> 75% on a Dry/Wet already at 100%), never a real value.
+_MORE_WORDS, _LESS_WORDS = frozenset(["more"]), frozenset(["less"])
+
+
+def said_direction(phrase, quality=False):
+    """+1 up, -1 down, 0 when he said neither -- or both. quality=True also
+    counts more/less."""
+    words = set(re.findall(r"[a-z]+", (phrase or "").lower()))
+    up, down = bool(words & _UP_WORDS), bool(words & _DOWN_WORDS)
+    if quality and not (up or down):
+        up, down = bool(words & _MORE_WORDS), bool(words & _LESS_WORDS)
+    return 1 if up and not down else -1 if down and not up else 0
+
+
+def _said_value(phrase, text):
+    """Did HE say the number in the model's answer? Then it is his, not a guess."""
+    value, _ = _num_unit(text)
+    if value is None:
+        return False
+    if value == int(value):
+        return said_the_number(phrase, abs(int(value)))
+    return ("%g" % abs(value)) in (phrase or "")
+
+
+def resolve(answer, device, current_pos=None, calibration=None, phrase=None):
     """Turn {"target": "30 ms"} into a 0-127 position. (position, note) or None.
 
     Percentages are exact arithmetic. Real units (ms, dB) and named settings
@@ -367,6 +472,9 @@ def resolve(answer, device, current_pos=None, calibration=None):
     itself -- never a modelled curve and never a hardcoded list, so a knob with
     an odd taper is as accurate as a linear one and a picker is as accurate as
     a knob.
+
+    Given the phrase, the move is then held to the direction he SAID (see
+    _keep_his_direction): a model guess never turns "up" into down.
     """
     knob = answer["knob"]
     cal = calibration if calibration is not None else load_calibration()
@@ -375,6 +483,35 @@ def resolve(answer, device, current_pos=None, calibration=None):
         if e.get("knob") == knob:
             entry = e
             break
+    placed = _place(answer, entry, current_pos)
+    return _keep_his_direction(placed, answer, entry, current_pos, phrase)
+
+
+def _keep_his_direction(placed, answer, entry, current_pos, phrase):
+    """He said up and it went down (or nowhere): nudge his way instead.
+
+    Also the fallback when the model named a unit this knob does not have
+    ("2.5 s" on the RV7000's raw 0-127 Decay): with a direction said, a nudge
+    that way beats refusing. Never applied when he named the number himself,
+    or on a picker or a button -- "up" means nothing on Filter Mode.
+    """
+    asked = answer.get("target") or answer.get("delta") or ""
+    way = said_direction(phrase, quality=asked.strip().endswith("%"))
+    if not way or current_pos is None or entry is None:
+        return placed
+    if entry.get("named") or entry.get("flat"):
+        return placed
+    if _said_value(phrase, asked):
+        return placed
+    if placed is not None and (placed[0] - current_pos) * way > 0:
+        return placed
+    pos = max(0, min(127, int(round(current_pos + way * NUDGE_PCT * 127.0 / 100.0))))
+    return pos, "turned %s %d%% from %d, the way you said" % (
+        "up" if way > 0 else "down", NUDGE_PCT, current_pos)
+
+
+def _place(answer, entry, current_pos):
+    """resolve() without the direction check: what the answer itself asks for."""
 
     # A knob whose meaning is set by something else (Scream 4's P1/P2 follow
     # Damage Type) has a table that is only true for one setting. Percentages
@@ -393,24 +530,45 @@ def resolve(answer, device, current_pos=None, calibration=None):
     volatile = bool(entry is not None and entry.get("volatile"))
     unverifiable = bool(volatile and not (entry or {}).get("requires"))
 
-    if answer.get("delta"):
-        amount, unit = _num_unit(answer["delta"])
-        if amount is None or unit not in ("%", "percent"):
-            return None  # only percentage nudges for now
-        if current_pos is None:
-            return None
-        pos = current_pos + amount * 127.0 / 100.0
-        return max(0, min(127, int(round(pos)))), "nudged from %d" % current_pos
+    target, delta = answer.get("target"), answer.get("delta")
+    # A signed target is a nudge filed under the wrong key: "turn up pad five"
+    # came back as target "+10%" (Step 8, 2026-09-29). A minus sign is only a
+    # nudge on a percentage -- "-20 dB" is a real place to go.
+    t = (target or "").strip()
+    if not delta and (t.startswith("+") or (t.startswith("-") and t.endswith("%"))):
+        target, delta = None, t
 
-    value, unit = _num_unit(answer.get("target"))
+    if delta:
+        amount, unit = _num_unit(delta)
+        if amount is None or current_pos is None:
+            return None
+        if unit in ("%", "percent"):
+            pos = current_pos + amount * 127.0 / 100.0
+            return max(0, min(127, int(round(pos)))), "nudged from %d" % current_pos
+        # A nudge in a real unit ("down 3 dB") counts from what Reason SHOWS at
+        # the current position, then looks the answer up in the same measured
+        # table -- never arithmetic on the position, which has a taper.
+        if entry is None or volatile or not entry.get("table"):
+            return None
+        unit = _adopt_unit(unit, entry)
+        now = [_num_unit(s) for p, s in entry["table"] if p == current_pos]
+        if not now or now[0][0] is None or not _same_unit(now[0][1], unit):
+            return None
+        return _nearest(entry["table"], now[0][0] + amount, unit)
+
+    value, unit = _num_unit(target)
     if value is None:
         # Not a number: a named setting ("Tape", "C", "Off"). Match it against
         # what Reason actually displayed during the sweep, and land in the
         # MIDDLE of the run of positions holding it -- an edge position is one
         # rounding step away from the neighbouring setting.
-        wanted = (answer.get("target") or "").strip().lower()
+        wanted = (target or "").strip().lower()
         if not wanted or entry is None or unverifiable or not entry.get("table"):
             return None
+        # A switch Reason reports as bare 0/1 ("Gate 2 Open"): On is 1.
+        if (wanted in ("on", "off")
+                and {(s or "").strip() for _, s in entry["table"]} <= {"0", "1"}):
+            wanted = "1" if wanted == "on" else "0"
         for match in (lambda s: s == wanted, lambda s: wanted in s):
             hits = [pos for pos, shown in entry["table"]
                     if match((shown or "").strip().lower())]
@@ -426,17 +584,7 @@ def resolve(answer, device, current_pos=None, calibration=None):
     # missing table is a crash: measured on Kong's Drum 2 Level, 2026-09-11.
     if entry is None or volatile or not entry.get("table"):
         return None  # a real unit on an unmeasured, context-dependent or unswept knob
-    best, best_gap = None, None
-    for pos, shown in entry["table"]:
-        got, got_unit = _num_unit(shown)
-        if got is None or got_unit.lower() != unit.lower():
-            continue
-        gap = abs(got - value)
-        if best_gap is None or gap < best_gap:
-            best, best_gap = (pos, shown), gap
-    if best is None:
-        return None
-    return best[0], "measured: %s" % best[1]
+    return _nearest(entry["table"], value, _adopt_unit(unit, entry))
 
 
 # Kong names every pad in the parameter itself -- "Drum 7 Level" -- and Reason

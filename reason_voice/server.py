@@ -276,8 +276,8 @@ class WebApp:
         """
         c = self.control
         found = None
-        for name, _shown in reversed(list(c.displays.values())):
-            found = dial_llm.device_for_param(name)
+        for knob, (name, _shown) in reversed(list(c.displays.items())):
+            found = dial_llm.device_for_param(name, knob=knob)
             if found:
                 break
         if found is None and c.device in dial_llm.devices():
@@ -684,7 +684,7 @@ class WebApp:
                     placed = dial_llm.resolve(
                         answer, self.dial_device,
                         current_pos=(got[0] if got else None),
-                        calibration=self.dial_cal)
+                        calibration=self.dial_cal, phrase=phrase)
                     if placed is None:
                         self.say(f"{name}: can’t place “{asked}”. Percentages "
                                  "always work; real units only where that knob "
@@ -713,7 +713,11 @@ class WebApp:
                                 why = answer.get("why") or ""
                                 extra = "".join(" (%s → %s first)" % kv
                                                 for kv in needs.items())
-                                self.say(f"{name} → {asked} ({note}){extra}."
+                                # a direction fix replaced the model's number,
+                                # so showing "→ 75%" would name a move not made
+                                head = (f"{name}: {note}" if note.startswith("turned")
+                                        else f"{name} → {asked} ({note})")
+                                self.say(f"{head}{extra}."
                                          + (f" {why}" if why else ""))
                             else:
                                 self.dial_undo = None

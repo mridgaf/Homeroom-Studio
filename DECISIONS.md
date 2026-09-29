@@ -19,10 +19,21 @@ entries.
 ---
 
 ## Log
+### 2026-09-29 Step 8 run at Reason + the rest of the effects mapped (PAUSED mid-sweep)
+- Step 8 (typed phrases via the app, Reason read by screenshot, scratch song `experiments/step8-2026-09-29/`): 30/53 worked. Rex names CONFIRMED on the panel (Filter Mode, LFO wave/dest, Trig Next, Filter On). Osc Octave: 4 = no change. Slots: Selected Loop Slot + Editor count from 0, Notes to Slot from 1. Alligator Gate Open = indicator lights while the pattern runs.
+- Fixed (dial_llm.resolve, tests in test_dial.py): "turn up/longer/louder" can never move a knob down (10% nudge, ASSUMING); "down 3 dB" moves 3 dB (item 27); "+10%" and bare "-2" on semitone knobs understood; missing-unit answers fall back to his direction; On=1 on 0/1 switches. Device now identified by knob slot + name (needed once names are shared).
+- Mapped 24 more stock effects via new `reason_voice/map_device.py` (installed; Reason restarted). Measured: The Echo only (all 26 knobs clean). NEXT: add + sweep the other 23, then phrase-test each.
+- Flagged, not done: Rex loop-slot labels + octave labels; wrong-knob notes (gate/stutter, ring longer, open up the low pass, damp the highs); 160 of 533 knobs have no guide note; Polar/BV512/BVX need his cut choice (>48); lock must be on the DEVICE panel, not the mixer strip above it; voice timing + closing ~45 old notes still queued.
+- Tests: voice-app tests 208 passed. Full suite NOT run this session.
+- Status: open
+
 
 ### 2026-09-29 NEXT SESSION START HERE: list everything open (Beat Machine + Reason Voice)
 - Owner: "List anything that's open for the beat machine project and the reason voice project. When we start the next session, not now." Brief: OPEN-ISSUES.md item 00.
-- Status: open
+- Scope correction (owner, mid-task): "reason voice not code" = the voice app (`reason_voice/`), not the `~/reason code` folder (which has no open list, no ledger, no git anyway).
+- Checked on the Mac: Legends 12/14 confirmed (DJ Premium, No Alias not started); genres 18/18 confirmed; delay (`backbeat_echo`, 5 DJs) + house EQ are on main; Dock points at the live apps; `Downloads/Cleared 2026-09-26` + `setup_looperman.sh` gone (he cleared them); `Nightly Loops/Unsorted 2026-09-27 morning` still holds 14 unfiled loops; `Downloads/_to_delete/loops-2026-09-28` still there (his loop task says trash it); recipes 2 tested / 25 theoretical; dial nudges are percent-only. Branches never-guess-hooks (87), sound-engine-mixer (25), 3 small ones: 4 weeks old, work redone on main.
+- About 45 older entries still say `open` but later work he heard settled them. NOT re-marked one by one: asked him (clickable) whether to close them.
+- Status: confirmed (list delivered 2026-09-29)
 
 ### 2026-09-28 Sound dropdowns: type first, then sounds grouped by name words (+ tempo on the Loops page)
 - Context: owner: first dropdown = instrument type (brass, strings, woodwind...), second = sounds grouped by the naming vocabulary + synonyms; same on the Loops page with tempo; generic names grouped by instrument and tempo.

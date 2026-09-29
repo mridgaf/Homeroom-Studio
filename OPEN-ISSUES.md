@@ -16,11 +16,10 @@ where you're at the machine.
 
 ## NEXT SESSION START HERE (owner 2026-09-29)
 
-- [ ] **00. First thing: list everything still open** for the Beat Machine AND Reason Voice
-  (reason_voice/ here; its other half is `~/reason code` — CLAUDE.md says treat them as one).
-  Sources: every unticked box below, DECISIONS.md entries still `open`, `~/reason code`'s own
-  open list. Check each against the Mac for proof it's done (§0h) before listing it.
-  Plain, short list; he picks what to do. Owner: "When we start the next session, not now."
+- [x] **00. First thing: list everything still open** for the Beat Machine AND Reason Voice.
+  ✅ 2026-09-29: listed, checked on the Mac. Owner corrected scope: "reason voice not code"
+  (the voice app in `reason_voice/`, NOT the `~/reason code` folder). New items from the
+  check: 26, 27 below.
 
 ---
 
@@ -38,7 +37,7 @@ where you're at the machine.
 
 ---
 
-## ▶ NEXT SESSION STARTS HERE: "why do the beats all sound alike?" (owner, 2026-09-28)
+## ✅ DONE 2026-09-28: "why do the beats all sound alike?" (heard, kept — DECISIONS.md "Why the last 147 beats")
 
 His words: "look at all of the beats that have been rendered in the past two days and see
 what's going on with the commonalities and why they sound so alike. And how to fix that."
@@ -112,7 +111,10 @@ Hear these before anything new is stacked on them. Claude renders one small audi
   to "Level"; sort that out here.
   Ref: [DECISIONS.md:1999](DECISIONS.md:1999) · [DECISIONS.md:1903](DECISIONS.md:1903) · [DECISIONS.md:1858](DECISIONS.md:1858) · [DECISIONS.md:1739](DECISIONS.md:1739)
 - [ ] **19. Re-measure voice speed on the M2** (the small/tiny model switch already exists).
+  🤖 Claude alone (checked 2026-09-29): time both models on a spoken test file; no Reason needed.
   Ref: [CLAUDE.md:136](CLAUDE.md:136)
+- [ ] **27. "Turn it down 3 dB" doesn't work** (🤖). Knob nudges only take percent
+  (`reason_voice/dial_llm.py` "only percentage nudges for now"). Found 2026-09-10, never built.
 
 ## 5b. New from step 4 (👂)
 
@@ -133,6 +135,8 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 - [ ] **22. Faster parallel test run** (parked). Ref: [DECISIONS.md:2950](DECISIONS.md:2950)
 - [ ] **23. Recipes: 25 theoretical, 2 tested.** Flip each as you try it. Ongoing, not a task.
   Ref: [CLAUDE.md:133](CLAUDE.md:133)
+- [ ] **26. 14 loops from the 09-27 morning grab still unfiled** (👂): 13 have no name.
+  `Nightly Loops/Unsorted 2026-09-27 morning/` (has a README). Checked there 2026-09-29.
 
 ---
 

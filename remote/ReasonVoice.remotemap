@@ -242,10 +242,63 @@ Map	Knob 48		Enabled
 Scope	Propellerheads	Pulveriser
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Blend
+Map	Knob 2		Dirt
+Map	Knob 3		Enabled
+Map	Knob 4		Filter Frequency
+Map	Knob 5		Filter Mode
+Map	Knob 6		Follow
+Map	Knob 7		Follower Attack
+Map	Knob 8		Follower Release
+Map	Knob 9		Follower Threshold
+Map	Knob 10		Follower Trig
+Map	Knob 11		Follower to Frequency
+Map	Knob 12		Follower to Rate
+Map	Knob 13		Peak
+Map	Knob 14		Release
+Map	Knob 15		Routing
+Map	Knob 16		Squash
+Map	Knob 17		Sync
+Map	Knob 18		Tone
+Map	Knob 19		Tremor Lag
+Map	Knob 20		Tremor Rate
+Map	Knob 21		Tremor Spread
+Map	Knob 22		Tremor Waveform
+Map	Knob 23		Tremor to Frequency
+Map	Knob 24		Tremor to Volume
+Map	Knob 25		Volume
 
 Scope	Propellerheads	The Echo
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Delay Time
+Map	Knob 2		Diffuse Amount
+Map	Knob 3		Diffuse On
+Map	Knob 4		Diffuse Spread
+Map	Knob 5		Drive Amount
+Map	Knob 6		Drive Type
+Map	Knob 7		Dry/Wet Balance
+Map	Knob 8		Ducking
+Map	Knob 9		Enabled
+Map	Knob 10		Envelope
+Map	Knob 11		Feedback
+Map	Knob 12		Filter Frequency
+Map	Knob 13		Filter On
+Map	Knob 14		Filter Resonance
+Map	Knob 15		Input Mode
+Map	Knob 16		Keep Pitch
+Map	Knob 17		LFO Amount
+Map	Knob 18		LFO Rate
+Map	Knob 19		Ping-Pong Mode
+Map	Knob 20		Ping-Pong Pan
+Map	Knob 21		Right Ch Feedback Offset
+Map	Knob 22		Right Ch Time Offset
+Map	Knob 23		Roll Enabled
+Map	Knob 24		Sync
+Map	Knob 25		Trig
+Map	Knob 26		Wobble
 
 Scope	Propellerheads	MClass Compressor
 Map	Device		Device Name
@@ -295,3 +348,377 @@ Map	Knob 13		Soft Knob 5
 Map	Knob 14		Soft Knob 6
 Map	Knob 15		Soft Knob 7
 Map	Knob 16		Soft Knob 8
+
+Scope	Propellerheads	MClass Equalizer
+Map	Device		Device Name
+Map	Knob 1		Enabled
+Map	Knob 2		Hi Shelf Enable
+Map	Knob 3		Hi Shelf Frequency
+Map	Knob 4		Hi Shelf Gain
+Map	Knob 5		Hi Shelf Q
+Map	Knob 6		Low Cut Enable
+Map	Knob 7		Low Shelf Enable
+Map	Knob 8		Low Shelf Frequency
+Map	Knob 9		Low Shelf Gain
+Map	Knob 10		Low Shelf Q
+Map	Knob 11		Parametric 1 Enable
+Map	Knob 12		Parametric 1 Frequency
+Map	Knob 13		Parametric 1 Gain
+Map	Knob 14		Parametric 1 Q
+Map	Knob 15		Parametric 2 Enable
+Map	Knob 16		Parametric 2 Frequency
+Map	Knob 17		Parametric 2 Gain
+Map	Knob 18		Parametric 2 Q
+
+Scope	Propellerheads	MClass Maximizer
+Map	Device		Device Name
+Map	Knob 1		Attack Speed
+Map	Knob 2		Enabled
+Map	Knob 3		Input Gain
+Map	Knob 4		Limiter Enable
+Map	Knob 5		Look Ahead Enable
+Map	Knob 6		Output Gain
+Map	Knob 7		Output Level Left
+Map	Knob 8		Output Level Right
+Map	Knob 9		Release Speed
+Map	Knob 10		Soft Clip Amount
+Map	Knob 11		Soft Clip Enable
+
+Scope	Propellerheads	MClass Stereo Imager
+Map	Device		Device Name
+Map	Knob 1		Enabled
+Map	Knob 2		High Band Active
+Map	Knob 3		High Width
+Map	Knob 4		Low Band Active
+Map	Knob 5		Low Width
+Map	Knob 6		Separate Out Mode
+Map	Knob 7		Solo Mode
+Map	Knob 8		X-Over Frequency
+
+Scope	Propellerheads	DDL-1 Digital Delay Line
+Map	Device		Device Name
+Map	Knob 1		DelayTime (ms)
+Map	Knob 2		DelayTime (steps)
+Map	Knob 3		Dry/Wet Balance
+Map	Knob 4		Enabled
+Map	Knob 5		Feedback
+Map	Knob 6		Pan
+Map	Knob 7		Step Length
+Map	Knob 8		Unit
+
+Scope	Propellerheads	RV-7 Digital Reverb
+Map	Device		Device Name
+Map	Knob 1		Algorithm
+Map	Knob 2		Damping
+Map	Knob 3		Decay
+Map	Knob 4		Dry/Wet
+Map	Knob 5		Enabled
+Map	Knob 6		Size
+
+Scope	Propellerheads	D-11 Foldback Distortion
+Map	Device		Device Name
+Map	Knob 1		Amount
+Map	Knob 2		Enabled
+Map	Knob 3		Foldback
+
+Scope	Propellerheads	ECF-42 Envelope Controlled Filter
+Map	Device		Device Name
+Map	Knob 1		Attack
+Map	Knob 2		Decay
+Map	Knob 3		Enabled
+Map	Knob 4		Env Amount
+Map	Knob 5		Frequency
+Map	Knob 6		Mode
+Map	Knob 7		Release
+Map	Knob 8		Resonance
+Map	Knob 9		Sustain
+Map	Knob 10		Trigger
+Map	Knob 11		Velocity
+
+Scope	Propellerheads	CF-101 Chorus/Flanger
+Map	Device		Device Name
+Map	Knob 1		Delay
+Map	Knob 2		Enabled
+Map	Knob 3		Feedback
+Map	Knob 4		LFO Sync Enable
+Map	Knob 5		Modulation Amount
+Map	Knob 6		Rate
+Map	Knob 7		Send/Insert Mode
+
+Scope	Propellerheads	PH-90 Phaser
+Map	Device		Device Name
+Map	Knob 1		Enabled
+Map	Knob 2		Feedback
+Map	Knob 3		Frequency
+Map	Knob 4		Frequency Modulation
+Map	Knob 5		LFO Sync Enable
+Map	Knob 6		Rate
+Map	Knob 7		Split
+Map	Knob 8		Width
+
+Scope	Propellerheads	UN-16 Unison
+Map	Device		Device Name
+Map	Knob 1		Detune
+Map	Knob 2		Dry/Wet
+Map	Knob 3		Enabled
+Map	Knob 4		Voice Count
+
+Scope	Propellerheads	COMP-01 Compressor/Limiter
+Map	Device		Device Name
+Map	Knob 1		Attack
+Map	Knob 2		Enabled
+Map	Knob 3		Gain
+Map	Knob 4		Ratio
+Map	Knob 5		Release
+Map	Knob 6		Threshold
+
+Scope	Propellerheads	PEQ-2 Two Band Parametric EQ
+Map	Device		Device Name
+Map	Knob 1		Enabled
+Map	Knob 2		Filter A Freq
+Map	Knob 3		Filter A Gain
+Map	Knob 4		Filter A Q
+Map	Knob 5		Filter B Freq
+Map	Knob 6		Filter B Gain
+Map	Knob 7		Filter B On/Off
+Map	Knob 8		Filter B Q
+
+Scope	Propellerheads	Neptune Pitch Adjuster
+Map	Device		Device Name
+Map	Knob 1		Catch Zone
+Map	Knob 2		Cent
+Map	Knob 3		Correction Speed
+Map	Knob 4		Enabled
+Map	Knob 5		Formant On/Off
+Map	Knob 6		Formant Shift
+Map	Knob 7		Live Mode
+Map	Knob 8		Low Freq Input
+Map	Knob 9		MIDI Destination
+Map	Knob 10		Midi Destination
+Map	Knob 11		Mod Wheel
+Map	Knob 12		Mod wheel
+Map	Knob 13		Pitch Adjust Amount
+Map	Knob 14		Pitch Adjust On/Off
+Map	Knob 15		Pitch Bend
+Map	Knob 16		Pitch Bend Range
+Map	Knob 17		Pitched Signal Level
+Map	Knob 18		Preserve Expression
+Map	Knob 19		Scale Memory
+Map	Knob 20		Semitones
+Map	Knob 21		Transpose On/Off
+Map	Knob 22		Vibrato Rate
+Map	Knob 23		Vibrato rate
+Map	Knob 24		Voice Synth Level
+Map	Knob 25		Wide Vibrato
+Map	Knob 26		pitch bend
+
+Scope	Propellerhead Software	se.propellerheads.Synchronous
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Delay  Amount
+Map	Knob 2		Delay Feedback
+Map	Knob 3		Delay Keep Pitch
+Map	Knob 4		Delay On
+Map	Knob 5		Delay Pan
+Map	Knob 6		Delay Ping Pong
+Map	Knob 7		Delay Roll
+Map	Knob 8		Delay SendReturn
+Map	Knob 9		Delay Synched Time
+Map	Knob 10		Delay Tempo Sync
+Map	Knob 11		Delay Time
+Map	Knob 12		Dist Amount
+Map	Knob 13		Dist Character
+Map	Knob 14		Dist On
+Map	Knob 15		Dist Post Filter
+Map	Knob 16		Dist Type
+Map	Knob 17		DryWet
+Map	Knob 18		Enabled
+Map	Knob 19		Filter Freq
+Map	Knob 20		Filter Lag
+Map	Knob 21		Filter On
+Map	Knob 22		Filter Reso
+Map	Knob 23		Filter Type
+Map	Knob 24		Level
+Map	Knob 25		Level InOut
+Map	Knob 26		Master Level
+Map	Knob 27		Reverb Amount
+Map	Knob 28		Reverb Damp
+Map	Knob 29		Reverb Decay
+Map	Knob 30		Reverb On
+Map	Knob 31		Reverb SendReturn
+Map	Knob 32		Reverb Size
+
+Scope	Propellerhead Software	se.propellerheads.Audiomatic
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Dry Wet
+Map	Knob 2		Enabled
+Map	Knob 3		Input Gain
+Map	Knob 4		Preset
+Map	Knob 5		Transform
+Map	Knob 6		Volume
+
+Scope	Propellerhead Software	se.propellerheads.ChannelEQ
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		E Mode On
+Map	Knob 2		Enabled
+Map	Knob 3		Gain
+Map	Knob 4		HF Bell On
+Map	Knob 5		HF Frequency
+Map	Knob 6		HF Gain
+Map	Knob 7		HMF Frequency
+Map	Knob 8		HMF Gain
+Map	Knob 9		HMF Q
+Map	Knob 10		HPF Frequency
+Map	Knob 11		HPF On
+Map	Knob 12		LF Bell On
+Map	Knob 13		LF Frequency
+Map	Knob 14		LF Gain
+Map	Knob 15		LMF Frequency
+Map	Knob 16		LMF Gain
+Map	Knob 17		LMF Q
+Map	Knob 18		LPF Frequency
+Map	Knob 19		LPF On
+
+Scope	Propellerhead Software	se.propellerheads.ChannelDynamics
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Comp Fast On
+Map	Knob 2		Comp On
+Map	Knob 3		Comp Peak On
+Map	Knob 4		Comp Ratio
+Map	Knob 5		Comp Release
+Map	Knob 6		Comp Threshold
+Map	Knob 7		Enabled
+Map	Knob 8		Gate Exp On
+Map	Knob 9		Gate Fast On
+Map	Knob 10		Gate Hold
+Map	Knob 11		Gate On
+Map	Knob 12		Gate Range
+Map	Knob 13		Gate Release
+Map	Knob 14		Gate Threshold
+Map	Knob 15		Input Gain
+Map	Knob 16		Mix
+Map	Knob 17		Sidechain
+
+Scope	Propellerhead Software	se.propellerheads.MasterCompressor
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Attack
+Map	Knob 2		Enabled
+Map	Knob 3		Input Gain
+Map	Knob 4		Make-Up Gain
+Map	Knob 5		Mix
+Map	Knob 6		Ratio
+Map	Knob 7		Release
+Map	Knob 8		Sidechain
+Map	Knob 9		Threshold
+
+Scope	Propellerhead Software	se.propellerheads.Quartet
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		BBD Delay
+Map	Knob 2		BBD Depth
+Map	Knob 3		BBD DryWet
+Map	Knob 4		BBD Noise
+Map	Knob 5		BBD Rate
+Map	Knob 6		BBD Width
+Map	Knob 7		Chorus Delay
+Map	Knob 8		Chorus Depth
+Map	Knob 9		Chorus DryWet
+Map	Knob 10		Chorus Feedback
+Map	Knob 11		Chorus Rate
+Map	Knob 12		Chorus Width
+Map	Knob 13		Effect Select
+Map	Knob 14		Enabled
+Map	Knob 15		FFT Depth
+Map	Knob 16		FFT DryWet
+Map	Knob 17		FFT End
+Map	Knob 18		FFT Size
+Map	Knob 19		FFT Start
+Map	Knob 20		FFT Width
+Map	Knob 21		Grain Density
+Map	Knob 22		Grain Depth
+Map	Knob 23		Grain DryWet
+Map	Knob 24		Grain Jitter
+Map	Knob 25		Grain Phase
+Map	Knob 26		Grain Size
+Map	Knob 27		Grain Width
+Map	Knob 28		Stereo Mode
+
+Scope	Propellerhead Software	se.propellerheads.Sweeper
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Bandwidth
+Map	Knob 2		BeatSync
+Map	Knob 3		DryWet
+Map	Knob 4		Enabled
+Map	Knob 5		Env Amp Mod
+Map	Knob 6		Env Freq Mod
+Map	Knob 7		Env Loop
+Map	Knob 8		Env Rate
+Map	Knob 9		Env Synced Rate
+Map	Knob 10		Feedback
+Map	Knob 11		Filter Drive
+Map	Knob 12		Filter Type
+Map	Knob 13		Follow Attack
+Map	Knob 14		Follow Gain
+Map	Knob 15		Follow Release
+Map	Knob 16		Freq
+Map	Knob 17		LFO Amp Mod
+Map	Knob 18		LFO Freq Mod
+Map	Knob 19		LFO Rate
+Map	Knob 20		LFO Sync
+Map	Knob 21		LFO Synced Rate
+Map	Knob 22		LFO Wave
+Map	Knob 23		ModType
+Map	Knob 24		Mute Dry
+Map	Knob 25		Phaser Stages
+Map	Knob 26		Polarity
+Map	Knob 27		Rate Mod
+Map	Knob 28		Reso
+Map	Knob 29		Spread
+Map	Knob 30		Stereo Mode
+Map	Knob 31		Trig On
+Map	Knob 32		Type
+Map	Knob 33		Volume
+
+Scope	Propellerhead Software	se.propellerheads.ReasonAmp
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp Switch
+Map	Knob 2		Bass
+Map	Knob 3		Boost
+Map	Knob 4		Cab Switch
+Map	Knob 5		Enabled
+Map	Knob 6		Gain
+Map	Knob 7		Gate
+Map	Knob 8		Mid
+Map	Knob 9		Poweramp Gain
+Map	Knob 10		Treble
+Map	Knob 11		Volume
+
+Scope	Propellerhead Software	se.propellerheads.ReasonBassAmp
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp Switch
+Map	Knob 2		Bass
+Map	Knob 3		Cab Switch
+Map	Knob 4		Drive
+Map	Knob 5		Enabled
+Map	Knob 6		Mid Freq
+Map	Knob 7		Middle
+Map	Knob 8		Treble
+Map	Knob 9		Ultra Hi
+Map	Knob 10		Ultra Lo
+Map	Knob 11		Volume

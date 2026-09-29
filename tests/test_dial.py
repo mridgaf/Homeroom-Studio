@@ -404,7 +404,8 @@ def test_the_reverb_maps_sixteen_controls():
     by_knob = {k["knob"]: k for k in st["knobs"]}
     assert by_knob["knob_9"]["param"] == "Soft Knob 1"   # the algorithm dial
     assert by_knob["knob_5"]["param"] == "Edit Mode"
-    assert dial_llm.device_for_param("Decay") == RV7000
+    # RV-7 says "Decay" too since 2026-09-29; the knob slot tells them apart
+    assert dial_llm.device_for_param("Decay", knob="knob_1") == RV7000
     assert dial_llm.device_for_param("Enabled") is None  # on all three devices
 
 
@@ -801,11 +802,12 @@ def test_rex_does_not_remap_screams_master_level():
     rex = dial_llm.knob_map(REX)
     assert "Master Level" not in rex.values()
     assert "Loop Level" in rex.values()
-    assert dial_llm.device_for_param("Master Level") == SCREAM
+    assert dial_llm.device_for_param("Master Level", knob="knob_8") == SCREAM
     # and Rex is still identified easily -- these are its alone
     for param in ("Osc Env Amount", "Selected Loop Slot", "Loop Transpose",
                   "Filter Freq", "Select Loop 5"):
-        assert dial_llm.device_for_param(param) == REX, param
+        slot = next(k for k, v in rex.items() if v == param)
+        assert dial_llm.device_for_param(param, knob=slot) == REX, param
 
 
 def test_a_copy_numbered_at_the_end_still_needs_the_number_spoken():
@@ -930,8 +932,8 @@ def test_alligator_and_rex_both_say_amp_env_attack():
                    "Filter Env Attack", "Filter Env Decay",
                    "Filter Env Release"):
         assert dial_llm.device_for_param(shared) is None, shared
+    assert dial_llm.device_for_param("Ducking", knob="knob_47") == ALLIGATOR
     for param, dev in (("Band Pass Drive Amount", ALLIGATOR),
-                       ("Ducking", ALLIGATOR),
                        ("High Pass Frequency", ALLIGATOR),
                        ("Osc Env Amount", REX),
                        ("Selected Loop Slot", REX)):
@@ -1619,3 +1621,123 @@ def test_a_walkthrough_does_not_switch_the_dial_off():
     a.s.recipe = object()      # _contextualize only checks it is not None
     a.s.step = 0
     assert a._contextualize(parse("stop the loop"), "stop the loop").command == "dial"
+
+
+# -- Step 8 at Reason, 2026-09-29: 23 of 53 phrases failed; the shared causes --
+
+def _level_cal():
+    """A plain 0..127 knob, the way Kong/Redrum Level and the RV7000's Decay
+    report: bare numbers, no unit."""
+    return {KONG: {"Drum 5 Level": {"knob": "knob_13", "unit": "",
+                                    "table": [[p, str(p)] for p in range(128)]}}}
+
+
+def test_turn_up_never_turns_it_down():
+    """The model answered "turn up pad 5" with target 75% on a pad already at
+    100 -- a move DOWN. His word decides the direction, not the model's number."""
+    cal = _level_cal()
+    pos, note = dial_llm.resolve({"knob": "knob_13", "target": "75%"}, KONG,
+                                 current_pos=100, calibration=cal,
+                                 phrase="turn up pad 5")
+    assert pos == 113 and "the way you said" in note
+    # already at 75% "turn up" still has to move it (it did nothing, live)
+    pos, _ = dial_llm.resolve({"knob": "knob_13", "target": "75%"}, KONG,
+                              current_pos=95, calibration=cal,
+                              phrase="turn up channel three")
+    assert pos > 95
+    # the same answer is fine when it already goes his way
+    pos, note = dial_llm.resolve({"knob": "knob_13", "target": "75%"}, KONG,
+                                 current_pos=20, calibration=cal,
+                                 phrase="turn up pad 5")
+    assert (pos, note) == (95, "percent of travel")
+    # and with no direction said, nothing is second-guessed
+    assert dial_llm.resolve({"knob": "knob_13", "target": "75%"}, KONG,
+                            current_pos=100, calibration=cal,
+                            phrase="set pad 5 level")[0] == 95
+
+
+def test_his_own_number_is_never_second_guessed():
+    cal = {COMPRESSOR: {"Threshold": {"knob": "knob_1", "unit": "dB", "table": [
+        [p, "%.1f dB" % (-36 + p * 36 / 127.0)] for p in range(128)]}}}
+    # "down to -20 dB" from -30 dB is UP in position -- but he named the value
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "-20 dB"}, COMPRESSOR,
+                              current_pos=21, calibration=cal,
+                              phrase="turn the threshold down to -20 dB")
+    assert abs(float(cal[COMPRESSOR]["Threshold"]["table"][pos][1].split()[0]) + 20) < 0.2
+
+
+def test_a_nudge_in_a_real_unit_moves_that_many_units():
+    """OPEN-ISSUES item 27: "down 3 dB" read as -3% moved Threshold 1.1 dB."""
+    cal = {COMPRESSOR: {"Threshold": {"knob": "knob_1", "unit": "dB", "table": [
+        [p, "%.1f dB" % (-36 + p * 36 / 127.0)] for p in range(128)]}}}
+    table = cal[COMPRESSOR]["Threshold"]["table"]
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "delta": "-3 dB"}, COMPRESSOR,
+                              current_pos=64, calibration=cal,
+                              phrase="turn the threshold down 3 dB")
+    moved = float(table[64][1].split()[0]) - float(table[pos][1].split()[0])
+    assert abs(moved - 3.0) < 0.2, moved
+    # a real-unit nudge on a knob with no such unit is refused, not guessed
+    assert dial_llm.resolve({"knob": "knob_13", "delta": "-3 dB"}, KONG,
+                            current_pos=64, calibration=_level_cal()) is None
+
+
+def test_plus_signs_and_bare_numbers_are_understood():
+    cal = _level_cal()
+    # "+10%" came back as a TARGET for "turn up pad five"; it is a nudge
+    pos, _ = dial_llm.resolve({"knob": "knob_13", "target": "+10%"}, KONG,
+                              current_pos=64, calibration=cal)
+    assert pos == 77
+    pos, _ = dial_llm.resolve({"knob": "knob_13", "delta": "+5%"}, KONG,
+                              current_pos=64, calibration=cal)
+    assert pos == 70
+    # "-2" on a knob labelled semitones means -2 semitones
+    rex = {REX: {"Transpose": {"knob": "knob_16", "unit": "semitones", "table": [
+        [p, "%d semitones" % (min(24, p * 25 // 128) - 12)] for p in range(128)]}}}
+    pos, _ = dial_llm.resolve({"knob": "knob_16", "target": "-2"}, REX,
+                              current_pos=64, calibration=rex,
+                              phrase="pitch the loop down two semitones")
+    assert rex[REX]["Transpose"]["table"][pos][1] == "-2 semitones"
+
+
+def test_a_unit_the_knob_lacks_falls_back_to_his_direction():
+    """"make the tail longer" came back as "2.5 s" on the RV7000's raw 0..127
+    Decay. With a direction said, nudge that way; with none, still refuse."""
+    cal = _level_cal()
+    pos, note = dial_llm.resolve({"knob": "knob_13", "target": "2.5 s"}, KONG,
+                                 current_pos=50, calibration=cal,
+                                 phrase="make the tail longer")
+    assert pos == 63 and "the way you said" in note
+    assert dial_llm.resolve({"knob": "knob_13", "target": "2.5 s"}, KONG,
+                            current_pos=50, calibration=cal,
+                            phrase="give it a big tail") is None
+
+
+def test_on_means_one_on_a_switch_that_reports_numbers():
+    cal = {ALLIGATOR: {"Gate 2 Open": {"knob": "knob_27", "unit": "",
+                                       "table": [[p, "0" if p < 64 else "1"]
+                                                 for p in range(128)]}}}
+    pos, _ = dial_llm.resolve({"knob": "knob_27", "target": "On"}, ALLIGATOR,
+                              calibration=cal)
+    assert pos >= 64
+
+
+def test_the_app_holds_the_model_to_his_direction(monkeypatch):
+    """End to end through the server: the phrase reaches resolve()."""
+    monkeypatch.setattr(dial_llm, "choose",
+                        lambda *a, **k: {"knob": "knob_5", "target": "75%",
+                                         "delta": None, "why": ""})
+    a = app()
+    a.control.report("knob_5", 120, "Attack", "94 ms")
+    said = run(a, "dial", phrase="make the attack longer")
+    assert a.control.sent[-1][1] == 127          # up from 120, clamped
+    assert "the way you said" in said and "75%" not in said
+
+
+def test_every_mapped_device_can_be_told_apart():
+    """31 devices share names like Attack, Decay and Enabled (2026-09-29);
+    COMP-01 has no name of its own at all. The knob slot a report arrives on
+    must still pin each device, or the app refuses to move anything on it."""
+    for dev in dial_llm.devices():
+        km = dial_llm.knob_map(dev)
+        assert any(dial_llm.device_for_param(p, knob=k) == dev
+                   for k, p in km.items()), dev
