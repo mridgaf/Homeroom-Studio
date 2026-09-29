@@ -1,11 +1,10 @@
-Nightly loops - 2026-09-27 (evening run)
+Nightly loops - 2026-09-28
 Login: Looperman logged in, Freesound logged in.
 Filed: 125 total
-  Looperman 45: Melody 22, Chords 5, Bass 2, Drums 3, Vocals 13
-  Freesound 80: Melody 37, Chords 8, Bass 7, Drums 28
-Nothing short. Downloads folder cleaned up (only tonight's files).
-Key unknown (named C_nokey): 52 files (most are drum loops).
-CC-BY files needing credit if released: 43 - see credits list in the log.
+  Looperman 45: Melody 30, Drums 9, Vocals 6
+  Freesound 80: Melody 40, Chords 2, Bass 5, Drums 33
+Nothing short. Paused 2:55-4:00pm as you asked, then finished.
+Downloads: originals moved to Downloads/_to_delete/loops-2026-09-28 (couldn't delete them) - safe to trash that folder.
+Key unknown (named C_nokey): 54 files (most are drum loops).
+CC-BY files needing credit if released: 53 - see credits list in the log.
 Full list: Sample Packs/BOTC Sorted Loops/SORTING-LOG-daily.txt
-
-Test run (21:06 UTC): folders OK, both sites logged in. Downloaded nothing more - today's 45 Looperman + 80 Freesound already hit the safe daily limits. Next full grab on the next scheduled day.
