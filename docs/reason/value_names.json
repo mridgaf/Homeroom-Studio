@@ -110,6 +110,27 @@
         "Off",
         "On"
       ]
+    },
+    "RV-7 Digital Reverb": {
+      "Algorithm": [
+        "Hall",
+        "Large Hall",
+        "Hall 2",
+        "Large Room",
+        "Medium Room",
+        "Small Room",
+        "Gated",
+        "Low Density",
+        "Stereo Echoes",
+        "Pan Room"
+      ]
+    },
+    "ECF-42 Envelope Controlled Filter": {
+      "Mode": [
+        "Low Pass 24 dB",
+        "Low Pass 12 dB",
+        "Band Pass 12 dB"
+      ]
     }
   },
   "units": {

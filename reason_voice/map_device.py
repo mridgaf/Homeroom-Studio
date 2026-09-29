@@ -25,7 +25,9 @@ MAX_KNOBS = 48          # the codec defines 48; the CC budget caps it (skill)
 # Not knobs: the patch browser, the rack label, and read-only meters/lights.
 # Whole words: "LED" is inside "Enabled", "Meter" inside "Parameter".
 NOT_A_KNOB = re.compile(r"Device Name|Patch Name|Select (Next|Previous) Patch|"
-                        r"Select Patch Delta|\bMeter\b|\bLED\b|\bIndicator\b", re.I)
+                        r"Select Patch Delta|\bMeter\b|\bLED\b|\bIndicator\b|"
+                        r"Select (Next|Previous) |\w+ Name$|"          # step buttons, name readouts
+                        r"Output Level (Left|Right)|\bC Peak\b", re.I)   # Maximizer meters
 
 
 def find_device(name, vocab):

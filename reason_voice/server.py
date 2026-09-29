@@ -669,7 +669,7 @@ class WebApp:
                 self.dial_cal = dial_llm.load_calibration()
                 answer = await asyncio.to_thread(
                     dial_llm.choose, phrase, self.dial_device,
-                    calibration=self.dial_cal)
+                    calibration=self.dial_cal, now=dict(self.control.positions))
                 self.status = "idle"
                 if answer is None:
                     self.say(f"Couldn’t turn “{phrase}” into a knob move. Try "

@@ -1646,11 +1646,16 @@ def test_turn_up_never_turns_it_down():
                               current_pos=95, calibration=cal,
                               phrase="turn up channel three")
     assert pos > 95
-    # the same answer is fine when it already goes his way
+    # going his way but no amount said: one nudge, not a jump (item 28, 2026-09-29)
     pos, note = dial_llm.resolve({"knob": "knob_13", "target": "75%"}, KONG,
                                  current_pos=20, calibration=cal,
                                  phrase="turn up pad 5")
-    assert (pos, note) == (95, "percent of travel")
+    assert pos == 33 and "no amount said" in note
+    # a small move his way is left alone
+    pos, note = dial_llm.resolve({"knob": "knob_13", "target": "20%"}, KONG,
+                                 current_pos=20, calibration=cal,
+                                 phrase="turn up pad 5")
+    assert (pos, note) == (25, "percent of travel")
     # and with no direction said, nothing is second-guessed
     assert dial_llm.resolve({"knob": "knob_13", "target": "75%"}, KONG,
                             current_pos=100, calibration=cal,
@@ -1756,3 +1761,132 @@ def test_a_unit_named_only_in_the_parameter_name_is_understood():
     # only the unit the name states -- a different one is still refused
     assert dial_llm.resolve({"knob": "knob_1", "target": "250 Hz"},
                             "DDL-1 Digital Delay Line", calibration=cal) is None
+
+
+# ---- item 28 fixes, 2026-09-29: each case is a phrase that went wrong live ----
+
+def _hz_khz():
+    # MClass EQ style: Hz below 1 kHz, kHz above
+    table = []
+    for p in range(128):
+        hz = 20 * (1000 ** (p / 127.0))
+        table.append([p, "%.1f Hz" % hz if hz < 1000 else "%.2f kHz" % (hz / 1000)])
+    return {"D": {"Freq": {"knob": "knob_1", "table": table}}}
+
+
+def test_khz_and_hz_are_one_scale():
+    cal = _hz_khz()
+    table = dict(cal["D"]["Freq"]["table"])
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "2000 Hz"}, "D", calibration=cal)
+    assert table[pos].endswith("kHz") and abs(float(table[pos].split()[0]) - 2) < 0.2
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "2 kHz"}, "D", calibration=cal)
+    assert abs(float(table[pos].split()[0]) - 2) < 0.2
+    # a nudge across the switch-over: 900 Hz up 300 Hz is about 1.2 kHz
+    start = min(table, key=lambda p: abs(float(table[p].split()[0]) - 900)
+                if table[p].endswith(" Hz") else 1e9)
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "delta": "+300 Hz"}, "D",
+                              current_pos=start, calibration=cal)
+    assert table[pos].endswith("kHz") and 1.1 < float(table[pos].split()[0]) < 1.3
+
+
+def test_his_amount_beats_the_models_rewrite():
+    dyn = {"D": {"Thr": {"knob": "knob_1", "table": [
+        [p, "%.1f dB" % (-60 + p * 60 / 127.0)] for p in range(128)]}}}
+    table = dict(dyn["D"]["Thr"]["table"])
+    # "down 6 dB" came back as target -6 dB and went TO -6
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "-6 dB"}, "D",
+                              current_pos=64, calibration=dyn,
+                              phrase="gate threshold down 6 dB")
+    assert abs(float(table[pos].split()[0]) - (float(table[64].split()[0]) - 6)) < 0.5
+    # "down to -6 dB" really is a destination
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "-6 dB"}, "D",
+                              current_pos=64, calibration=dyn,
+                              phrase="threshold down to -6 dB")
+    assert abs(float(table[pos].split()[0]) + 6) < 0.5
+    # Mimic: "down 5 semitones" came back as -5%
+    semi = {"D": {"Pitch Semi 1": {"knob": "knob_2", "table": [
+        [p, "%d" % round(-24 + p * 48 / 127.0)] for p in range(128)]}}}
+    pos, _ = dial_llm.resolve({"knob": "knob_2", "delta": "-5%"}, "D",
+                              current_pos=64, calibration=semi,
+                              phrase="slot 1 pitch down 5 semitones")
+    assert dict(semi["D"]["Pitch Semi 1"]["table"])[pos] == "-5"
+    # SubTractor: "down an octave" on the octave selector is one step
+    octv = {"D": {"Osc1 Octave": {"knob": "knob_3", "table": [
+        [p, "%d" % (p * 10 // 128)] for p in range(128)]}}}
+    otable = dict(octv["D"]["Osc1 Octave"]["table"])
+    pos, _ = dial_llm.resolve({"knob": "knob_3", "delta": "-10%"}, "D",
+                              current_pos=64, calibration=octv,
+                              phrase="osc 1 down an octave")
+    assert otable[pos] == "4" and otable[64] == "5"
+    # and on a semitone knob an octave is 12
+    pos, _ = dial_llm.resolve({"knob": "knob_2", "delta": "+10%"}, "D",
+                              current_pos=64, calibration=semi,
+                              phrase="up an octave")
+    assert dict(semi["D"]["Pitch Semi 1"]["table"])[pos] == "12"
+
+
+def test_no_amount_said_never_jumps_to_an_end():
+    cal = {"D": {"Mix": {"knob": "knob_1", "table": [
+        [p, "%.0f%%" % (p * 100 / 127.0)] for p in range(128)]}}}
+    pos, note = dial_llm.resolve({"knob": "knob_1", "target": "100%"}, "D",
+                                 current_pos=64, calibration=cal,
+                                 phrase="make it wetter")
+    assert pos == 77 and "no amount said" in note
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "0%"}, "D",
+                              current_pos=64, calibration=cal,
+                              phrase="filter cutoff down")
+    assert pos == 51
+    # unless he asked for the end
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "100%"}, "D",
+                              current_pos=64, calibration=cal,
+                              phrase="turn it all the way up")
+    assert pos == 127
+
+
+def test_on_works_on_a_switch_that_reads_percent():
+    cal = {"D": {"Dist On": {"knob": "knob_1", "table": [
+        [p, "0%" if p < 64 else "100%"] for p in range(128)]}}}
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "On"}, "D", calibration=cal)
+    assert pos >= 64
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "off"}, "D", calibration=cal)
+    assert pos < 64
+
+
+def test_rv7_and_ecf42_pickers_have_names():
+    cal = dial_llm.load_calibration()
+    if "RV-7 Digital Reverb" not in cal:
+        pytest.skip("RV-7 not calibrated on this machine")
+    assert dial_llm.named_choices(cal["RV-7 Digital Reverb"]["Algorithm"])[0] == "Hall"
+    pos, _ = dial_llm.resolve({"knob": cal["RV-7 Digital Reverb"]["Algorithm"]["knob"],
+                               "target": "Small Room"}, "RV-7 Digital Reverb",
+                              calibration=cal)
+    assert dict(cal["RV-7 Digital Reverb"]["Algorithm"]["table"])[pos] == "Small Room"
+    assert "Band Pass 12 dB" in dial_llm.named_choices(
+        cal["ECF-42 Envelope Controlled Filter"]["Mode"])
+
+
+def test_every_name_on_a_shared_guide_line_gets_the_line():
+    """"**Filter Type** / **Reso**: ..." gave only Filter Type a description, so
+    the model picked Feedback for "more resonance" on Sweeper (2026-09-29)."""
+    notes = dial_llm.control_notes("se.propellerheads.Sweeper")
+    assert "resonance" in notes["Reso"].lower()
+    assert notes.get("Filter Drive")
+    assert "resonance" not in notes["Feedback"].lower()
+
+
+def test_up_never_nudges_a_switch():
+    cal = {"D": {"Boost": {"knob": "knob_1", "table": [
+        [p, "0" if p < 64 else "1"] for p in range(128)]}}}
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "On"}, "D",
+                              current_pos=0, calibration=cal, phrase="open gate two up")
+    assert pos >= 64
+
+
+def test_the_other_modes_knob_is_swapped_for_this_modes():
+    knobs = {"knob_3": "BBD DryWet", "knob_9": "Chorus DryWet", "knob_13": "Effect Select"}
+    cal = {"Q": {"Effect Select": {"knob": "knob_13", "table": [
+        [p, ["Chorus", "BBD", "FFT", "Grain"][p // 32]] for p in range(128)]}}}
+    assert dial_llm.same_knob_in_mode("knob_3", knobs, cal, "Q", {"knob_13": 5}) == "knob_9"
+    assert dial_llm.same_knob_in_mode("knob_3", knobs, cal, "Q", {"knob_13": 40}) == "knob_3"
+    # no twin for this mode (FFT has no DryWet here): left alone
+    assert dial_llm.same_knob_in_mode("knob_3", knobs, cal, "Q", {"knob_13": 70}) == "knob_3"

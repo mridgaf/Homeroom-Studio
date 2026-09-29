@@ -145,10 +145,13 @@ def control_notes(device="MClass Compressor"):
             continue
         if in_section:
             # "**Attack**: ..." and "**Algorithm** (in the programmer): ..."
-            m = re.match(r"\s*-\s*\*\*(.+?)\*\*[^:]*:\s*(.+)", line)
+            # and "**Filter Type** / **Reso**: ..." -- every bold name before
+            # the colon gets the line; only the first did until 2026-09-29.
+            m = re.match(r"\s*-\s*(\*\*.+?\*\*[^:]*):\s*(.+)", line)
             if m:
-                for key in m.group(1).split("/"):
-                    notes[key.strip()] = m.group(2).strip()
+                for bold in re.findall(r"\*\*(.+?)\*\*", m.group(1)):
+                    for key in bold.split("/"):
+                        notes[key.strip()] = m.group(2).strip()
     return notes
 
 
@@ -193,7 +196,14 @@ def named_choices(entry, limit=12):
     return seen
 
 
-def build_prompt(phrase, device="MClass Compressor", calibration=None):
+def _is_switch(entry):
+    """Two numeric readings and nothing between: "0"/"1" or "0%"/"100%"."""
+    shown = {(s or "").strip() for _, s in (entry or {}).get("table") or []}
+    return len(shown) == 2 and all(_num_unit(s)[0] is not None for s in shown)
+
+
+def build_prompt(phrase, device="MClass Compressor", calibration=None, now=None):
+    """now: {"knob_13": 40, ...} -- where each knob sits, from the lock report."""
     knobs = knob_map(device)
     notes = control_notes(device)
     cal = (calibration if calibration is not None else load_calibration())
@@ -204,7 +214,8 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
         param = knobs[knob]
         note = note_for(notes, param, NOTE_ALIASES.get(device, {}).get(param))
         cal_entry = by_knob.get(knob)
-        choices = named_choices(cal_entry)
+        choices = named_choices(cal_entry) or (["Off", "On"] if _is_switch(cal_entry)
+                                               else None)
         if choices:
             any_named = True
             # A volatile knob CAN still be named -- the RV7000's algorithm
@@ -213,6 +224,11 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
             # knob still refuses is a real unit; see resolve().
             note = ((note + " " if note else "")
                     + "settings: " + ", ".join(choices))
+            # Which mode it is IN. Without it, Quartet in Chorus mode answered
+            # "dry wet to 30%" with BBD DryWet (2026-09-29).
+            at = dict(cal_entry.get("table") or []).get((now or {}).get(knob))
+            if len(choices) > 2 and at:
+                note += " (now: %s)" % at
         elif cal_entry is not None and cal_entry.get("volatile"):
             note = ((note + " " if note else "")
                     + "meaning depends on %s -- ask for a percentage"
@@ -274,7 +290,15 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None):
     rule = ("Use `delta` whenever they said more/less/up/down/longer/shorter/"
             "louder/quieter or turn it by an amount -- keep their unit: "
             "\"down 3 dB\" is delta \"-3 dB\". "
-            "Use `target` only when they named a destination. ")
+            "Use `target` only when they named a destination. "
+            # 2026-09-29: "open the filter" moved Resonance/Env Amount twice;
+            # "turn on soft clip" moved the amount; "turn on pitch adjust"
+            # moved the device's own bypass.
+            "\"Open the filter\" means its cutoff/frequency knob, not resonance. "
+            "\"Turn on X\" means X's own on/off switch, not its amount -- and "
+            "never the device's Enabled switch unless they said bypass. ")
+    if now:
+        rule += ("Where a mode picker says (now: X), use the knobs for mode X. ")
     if any_named:
         rule += ("For a knob that lists settings, `target` must be one of them, "
                  "spelled exactly as listed. ")
@@ -404,12 +428,29 @@ def _same_unit(a, b):
     return a == b
 
 
+# Reason switches unit partway up a knob: MClass EQ reads "952.6 Hz" then
+# "1.02 kHz"; envelopes read "850 ms" then "1.2 s". Without this, "2 kHz"
+# matched only the Hz half and landed on 952 Hz (2026-09-29).
+_SCALE = {"khz": (1000.0, "hz"), "kilohertz": (1000.0, "hz"), "hertz": (1.0, "hz"),
+          "s": (1000.0, "ms"), "sec": (1000.0, "ms"), "second": (1000.0, "ms"),
+          "millisecond": (1.0, "ms"), "decibel": (1.0, "db"), "semi": (1.0, "semitone")}
+
+
+def _base(value, unit):
+    """(2000.0, "hz") for (2, "kHz"): one scale per quantity, for comparing."""
+    u = (unit or "").lower()
+    u = u[:-1] if len(u) > 3 and u.endswith("s") else u
+    k, b = _SCALE.get(u, (1.0, u))
+    return (None if value is None else value * k), b
+
+
 def _nearest(table, value, unit):
     """The measured position whose reading, in this unit, is closest."""
+    value, unit = _base(value, unit)
     best, best_gap = None, None
     for pos, shown in table:
-        got, got_unit = _num_unit(shown)
-        if got is None or not _same_unit(got_unit, unit):
+        got, got_unit = _base(*_num_unit(shown))
+        if got is None or got_unit != unit:
             continue
         gap = abs(got - value)
         if best_gap is None or gap < best_gap:
@@ -423,7 +464,7 @@ def _adopt_unit(unit, entry):
     and a -12..12 table labelled semitones refused it on the unit comparison."""
     if unit:
         return unit
-    units = {u for _, s in entry.get("table") or []
+    units = {_base(v, u)[1] for _, s in entry.get("table") or []
              for v, u in [_num_unit(s)] if v is not None}
     return units.pop() if len(units) == 1 else unit
 
@@ -436,12 +477,22 @@ NUDGE_PCT = 10.0
 # Step 8, 2026-09-29: the model answered "turn up pad 5", "more wet" and "make
 # drum 4 ring longer" with target "75%" on knobs already above 75%, so all
 # three went DOWN. Five phrases on four devices; a rule, not a fluke.
-_UP_WORDS = frozenset("up louder longer higher raise boost increase".split())
-_DOWN_WORDS = frozenset("down quieter shorter lower decrease".split())
+_UP_WORDS = frozenset("up louder longer higher raise boost increase open".split())
+_DOWN_WORDS = frozenset("down quieter shorter lower decrease close".split())
 # "more"/"less" name a QUALITY, not the knob's travel: "give it more punch" is
 # a FASTER attack, a lower number. So they only steer a percentage the model
 # made up ("more wet" -> 75% on a Dry/Wet already at 100%), never a real value.
 _MORE_WORDS, _LESS_WORDS = frozenset(["more"]), frozenset(["less"])
+# Words that ask for a CHANGE, not a place. Direction unknown ("faster attack"
+# is a lower number), so they only cap the size of the move; see
+# _keep_his_direction.
+_RELATIVE_WORDS = frozenset(
+    "more less bit little slightly tad touch wetter drier dryer faster slower "
+    "harder softer brighter darker longer shorter louder quieter tighter looser "
+    "bigger smaller wider narrower deeper fatter thinner warmer heavier lighter "
+    "higher lower".split())
+# ...unless he asked for the end himself.
+_EXTREME_WORDS = frozenset("all max maximum min minimum full fully".split())
 
 
 def said_direction(phrase, quality=False):
@@ -483,9 +534,65 @@ def resolve(answer, device, current_pos=None, calibration=None, phrase=None):
         if e.get("knob") == knob:
             entry, name = e, param
             break
-    answer = _unit_from_name(answer, entry, name)
+    answer = _unit_from_name(_from_phrase(answer, entry, name, phrase), entry, name)
     placed = _place(answer, entry, current_pos)
     return _keep_his_direction(placed, answer, entry, current_pos, phrase)
+
+
+_AMOUNT = re.compile(
+    r"([+-]?\d+(?:\.\d+)?)\s*(khz|kilohertz|hz|hertz|ms|milliseconds?|seconds?|secs?|s|"
+    r"db|decibels?|semitones?|semis?|cents?|octaves?|steps?|notches?|%|percent)(?![a-z])")
+
+
+def _from_phrase(answer, entry, name, phrase):
+    """When HE said the amount, his words win over the model's rewrite of them.
+
+    2026-09-29, all measured: "down 6 dB" came back as target "-6 dB" (went TO
+    -6), "down 5 semitones" as delta "-5%", "feedback to 50%" as "30", and "up
+    an octave" as a 10% nudge. One amount in the phrase is read here instead:
+    "to"/"at" before it is a destination; otherwise a said direction (or
+    "by") makes it a move that way. Two amounts ("boost 5 kHz by 2 dB") or
+    none: the model's answer stands.
+    """
+    if not phrase or entry is None or not entry.get("table"):
+        return answer
+    if entry.get("named") or entry.get("flat") or entry.get("volatile"):
+        return answer
+    low = re.sub(r"\b(an?|one)\s+(octave|semitone|semi|step|notch)",
+                 r"1 \2", phrase.lower())
+    for word, n in _SPELLED.items():
+        low = re.sub(r"\b%s\s+(?=(octave|semi|step|notch|db|decibel|percent|cent))"
+                     % word, "%d " % n, low)
+    hits = list(_AMOUNT.finditer(low))
+    if len(hits) != 1:
+        return answer
+    m = hits[0]
+    value, unit = float(m.group(1)), m.group(2)
+    table_units = {_base(v, u)[1] for _, s in entry["table"]
+                   for v, u in [_num_unit(s)] if v is not None}
+    base = _base(0, unit)[1]
+    if base == "octave":
+        if "oct" in (name or "").lower():
+            base, unit = "", ""           # an octave selector: one step per octave
+        else:
+            value, base, unit = value * 12, "semitone", "semitones"
+    if base in ("semitone", "step", "notche", "notch") and table_units == {""}:
+        unit = ""                         # bare-number pitch knobs (Mimic, Thor)
+    elif base in ("percent", "%"):
+        unit = "%"
+    elif base not in table_units and not (base == "" and table_units == {""}):
+        return answer                     # a unit this knob doesn't speak
+    before = low[:m.start()].split()
+    way = said_direction(phrase)
+    text = ("%g %s" % (abs(value), unit)).strip()
+    if before and before[-1] in ("to", "at"):
+        out = {"target": ("%g %s" % (value, unit)).strip(), "delta": None}
+    elif way or (before and before[-1] == "by"):
+        sign = way or (-1 if (_num_unit(answer.get("delta"))[0] or 0) < 0 else 1)
+        out = {"target": None, "delta": ("-" if sign < 0 else "+") + text}
+    else:
+        return answer
+    return dict(answer, from_phrase=True, **out)
 
 
 def _unit_from_name(answer, entry, name):
@@ -517,12 +624,29 @@ def _keep_his_direction(placed, answer, entry, current_pos, phrase):
     or on a picker or a button -- "up" means nothing on Filter Mode.
     """
     asked = answer.get("target") or answer.get("delta") or ""
-    way = said_direction(phrase, quality=asked.strip().endswith("%"))
-    if not way or current_pos is None or entry is None:
+    if answer.get("from_phrase") or current_pos is None or entry is None:
         return placed
-    if entry.get("named") or entry.get("flat"):
+    if entry.get("named") or entry.get("flat") or _is_switch(entry):
         return placed
     if _said_value(phrase, asked):
+        return placed
+    way = said_direction(phrase, quality=asked.strip().endswith("%"))
+    words = set(re.findall(r"[a-z]+", (phrase or "").lower()))
+    # No amount said, only a direction or a comparative: one nudge, never a
+    # jump. 2026-09-29: "filter cutoff down" went to 20 Hz (silence), "make it
+    # wetter" and "more modulation" to 100%, "faster correction" to the end.
+    # A comparative alone ("more punch") still may pick a real value like
+    # 30 ms -- only a made-up percentage or an end of the knob is capped.
+    big = placed is not None and abs(placed[0] - current_pos) > NUDGE_PCT * 1.27 + 0.5
+    capped = way or (words & _RELATIVE_WORDS and (
+        asked.strip().endswith("%") or (placed and placed[0] in (0, 127))))
+    if (big and capped and not words & _EXTREME_WORDS
+            and (not way or (placed[0] - current_pos) * way > 0)):
+        step = way or (1 if placed[0] > current_pos else -1)
+        pos = max(0, min(127, int(round(current_pos + step * NUDGE_PCT * 127.0 / 100.0))))
+        return pos, "turned %s %d%% from %d -- no amount said" % (
+            "up" if step > 0 else "down", NUDGE_PCT, current_pos)
+    if not way:
         return placed
     if placed is not None and (placed[0] - current_pos) * way > 0:
         return placed
@@ -572,8 +696,9 @@ def _place(answer, entry, current_pos):
         if entry is None or volatile or not entry.get("table"):
             return None
         unit = _adopt_unit(unit, entry)
-        now = [_num_unit(s) for p, s in entry["table"] if p == current_pos]
-        if not now or now[0][0] is None or not _same_unit(now[0][1], unit):
+        now = [_base(*_num_unit(s)) for p, s in entry["table"] if p == current_pos]
+        amount, unit = _base(amount, unit)
+        if not now or now[0][0] is None or now[0][1] != unit:
             return None
         return _nearest(entry["table"], now[0][0] + amount, unit)
 
@@ -586,10 +711,11 @@ def _place(answer, entry, current_pos):
         wanted = (target or "").strip().lower()
         if not wanted or entry is None or unverifiable or not entry.get("table"):
             return None
-        # A switch Reason reports as bare 0/1 ("Gate 2 Open"): On is 1.
-        if (wanted in ("on", "off")
-                and {(s or "").strip() for _, s in entry["table"]} <= {"0", "1"}):
-            wanted = "1" if wanted == "on" else "0"
+        # A switch Reason reports as two numbers -- "0"/"1" ("Gate 2 Open") or
+        # "0%"/"100%" (Synchronous's Dist On): On is the higher one.
+        if wanted in ("on", "off") and _is_switch(entry):
+            shown = {(s or "").strip() for _, s in entry["table"]}
+            wanted = sorted(shown, key=lambda s: _num_unit(s)[0])[wanted == "on"].lower()
         for match in (lambda s: s == wanted, lambda s: wanted in s):
             hits = [pos for pos, shown in entry["table"]
                     if match((shown or "").strip().lower())]
@@ -657,7 +783,32 @@ def said_the_number(phrase, n):
                for w in re.findall(r"[a-z]+", low))
 
 
-def choose(phrase, device="MClass Compressor", timeout=20, calibration=None):
+def same_knob_in_mode(knob, knobs, cal, device, now):
+    """"BBD DryWet" while Quartet is in Chorus mode -> "Chorus DryWet".
+
+    The model was TOLD the mode and still picked the other one's knob
+    (2026-09-29). A knob named "<setting> <rest>", where <setting> is one of a
+    mode picker's settings but not the current one, is swapped for "<current>
+    <rest>" -- only when that twin exists.
+    """
+    name = knobs.get(knob, "")
+    by_knob = {e.get("knob"): e for e in (cal.get(device) or {}).values()}
+    for k, e in by_knob.items():
+        choices = named_choices(e) or []
+        at = dict(e.get("table") or []).get(now.get(k))
+        if len(choices) < 3 or not at:
+            continue
+        for c in choices:
+            if c != at and name.startswith(c + " "):
+                twin = at + name[len(c):]
+                for kk, nn in knobs.items():
+                    if nn == twin:
+                        return kk
+    return knob
+
+
+def choose(phrase, device="MClass Compressor", timeout=20, calibration=None,
+           now=None):
     """{"knob","target","delta","why"} or None if the model gave nothing usable."""
     knobs = knob_map(device)
     if not knobs:
@@ -671,7 +822,7 @@ def choose(phrase, device="MClass Compressor", timeout=20, calibration=None):
         # guessed -- `reasoning_budget: 0` does NOT work, this does.
         "chat_template_kwargs": {"enable_thinking": False},
         "messages": [{"role": "user",
-                      "content": build_prompt(phrase, device, calibration)}],
+                      "content": build_prompt(phrase, device, calibration, now)}],
     }).encode()
     req = urllib.request.Request(SERVER, data=body,
                                  headers={"Content-Type": "application/json"})
@@ -681,6 +832,10 @@ def choose(phrase, device="MClass Compressor", timeout=20, calibration=None):
     except (urllib.error.URLError, OSError, KeyError, IndexError, ValueError):
         return None  # server down or answered nonsense -- caller falls back
     move = _extract(reply, knobs)
+    if move and now:
+        move["knob"] = same_knob_in_mode(move["knob"], knobs, calibration if
+                                         calibration is not None else
+                                         load_calibration(), device, now)
     if move:
         n = copy_number(knobs.get(move["knob"], ""), device)
         if n is not None and not said_the_number(phrase, n):
@@ -732,9 +887,9 @@ if __name__ == "__main__":
 
     # ---- two devices: the app must never guess which one is locked ----
     devs = devices()
-    assert devs == ["Kong Drum Designer", "Redrum Drum Computer",
+    assert {"Kong Drum Designer", "Redrum Drum Computer",   # 45 by 2026-09-29
                     "Dr.REX Loop Player", "Alligator", "MClass Compressor",
-                    "Scream 4 Distortion", "RV7000 Advanced Reverb"], devs
+                    "Scream 4 Distortion", "RV7000 Advanced Reverb"} <= set(devs), devs
     kong = knob_map("Kong Drum Designer")
     assert len(kong) == 48 and kong["knob_1"] == "Drum 1 Level", kong
     assert kong["knob_48"] == "Drum 16 Decay Offset", kong

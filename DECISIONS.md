@@ -19,6 +19,27 @@ entries.
 ---
 
 ## Log
+### 2026-09-29 NEXT SESSION START HERE: explore the Street Phone demo song
+- Owner wants the next session to open a demo song, learn how musical sweeps (automation) are made and how devices are connected, and play with the controls to learn why. Full brief: OPEN-ISSUES.md item 00b.
+- His picks (clickable): Street Phone (not Airplane); "sweeps" = musical sweeps/automation, not calibrate.py.
+- Status: open
+
+### 2026-09-29 Item 28 voice-dial fixes (after wiring all 37 devices)
+- Context: owner "Start fixing the item 28 list". Phrases that went wrong in the wiring tests.
+- Change (reason_voice/dial_llm.py unless noted):
+  - Hz/kHz and ms/s are one scale (_base). "2 kHz" was landing on 952 Hz.
+  - His own amount wins over the model's rewrite (_from_phrase): "down 6 dB" = down BY 6, "to -6 dB" = to; "down 5 semitones", "up an octave" (1 step on an octave selector, 12 on a semitone knob), "feedback to 50%".
+  - No amount said + up/down/comparative = one 10% nudge, never a jump (ASSUMING the 10% already told to him). Exception: "all the way", max, min. A comparative alone may still pick a real value that is not an end ("more punch" -> 30 ms stays). "open"/"close" count as up/down. Switches are never nudged.
+  - Switches reading 0/1 or 0%/100% answer On/Off and are offered as Off/On to the model.
+  - Model told: "open the filter" = cutoff; "turn on X" = X's switch, not Enabled.
+  - control_notes gave only the FIRST name on a "**A** / **B**: ..." guide line its description; every name gets it now. Sweeper guide: Reso is the filter's resonance.
+  - Model is told each picker's current mode; plus same_knob_in_mode swaps "BBD DryWet" for "Chorus DryWet" when Quartet is in Chorus (model ignored the hint alone). server.py passes positions.
+  - value_names.json: RV-7 Algorithm (10 names) and ECF-42 Mode (Low Pass 24 dB / Low Pass 12 dB / Band Pass 12 dB), order from device_refs.
+  - Map: Maximizer meters and 14 ID8 preset buttons/name readouts removed; map_device.py NOT_A_KNOB skips them. Installed (Reason reads it at next launch).
+- Verify: tests/test_dial.py + test_remote_bridge.py 111 passed. Real model + real calibration, 23 failing phrases re-run: 21 right, 2 refuse safely.
+- Left open: COMP-01 Ratio reports raw 0-127 (no "16:1" possible); Neptune "faster correction" -> model answers a word; Softube Amp "Amp Switch" table has junk numbers in positions 0-24 (re-sweep knob_1 with the amp on screen); dial_llm.py __main__ self-check is stale since the 7-device days (pytest is the guard).
+- Status: confirmed (tests + offline phrase re-run); not yet re-tried live in Reason
+
 ### 2026-09-29 All 23 newly mapped effects MEASURED (calibration.json: 31 devices)
 - Swept every knob of the 23 effects mapped by map_device.py, in the scratch song `experiments/step8-2026-09-29/`. Spot-check: "-10 dB" on Master Bus Comp, "100 Hz" on Channel EQ HPF, "250" on DDL-1, "100 ms" on Sweeper release all land within 2%. test_dial + test_remote_bridge: 102 passed. Full suite NOT run (no render this session).
 - How to lock (owner, 2026-09-29): right-click the device panel -> "Lock ReasonVoice ... to This Device". NOT the Options > Surface Locking window (it stays open). Start calibrate.py first, then lock. To re-lock the same device: click the ticked item once (unlocks), then lock again. Twice (Softube Amp, Audiomatic) one report went missing on lock; unlock + relock fixed it.
@@ -35,7 +56,7 @@ entries.
   velocity and ext-mod routings left out. Mimic = 5 per slot x 8 + master (43), like Kong.
   Europa's map has no Osc2/3 Semi -> Blend instead. NN19 now shares "Osc Env Amount" with Rex
   (knob slot still tells them apart; test updated). remotemap: 47 scopes. Reason restarted.
-- Status: confirmed (wired + measured), open (item 28 fixes)
+- Status: confirmed (wired + measured); item 28 fixes done same day, see entry above
 
 ### 2026-09-29 Step 8 run at Reason + the rest of the effects mapped (PAUSED mid-sweep)
 - Step 8 (typed phrases via the app, Reason read by screenshot, scratch song `experiments/step8-2026-09-29/`): 30/53 worked. Rex names CONFIRMED on the panel (Filter Mode, LFO wave/dest, Trig Next, Filter On). Osc Octave: 4 = no change. Slots: Selected Loop Slot + Editor count from 0, Notes to Slot from 1. Alligator Gate Open = indicator lights while the pattern runs.

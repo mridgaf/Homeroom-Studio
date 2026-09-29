@@ -399,24 +399,10 @@ Map	Knob 41		LFO Sync Enable
 Scope	Propellerheads	ID8 Instrument Device
 Map	Device		Device Name
 Map	Knob 1		Category
-Map	Knob 2		Category Name
 Map	Knob 3		Mod Wheel
 Map	Knob 4		Parameter 1
 Map	Knob 5		Parameter 2
 Map	Knob 6		Pitch Bend
-Map	Knob 7		Preset
-Map	Knob 8		Select Next Category
-Map	Knob 9		Select Next Preset
-Map	Knob 10		Select Next Sound
-Map	Knob 11		Select Previous Category
-Map	Knob 12		Select Previous Preset
-Map	Knob 13		Select Previous Sound
-Map	Knob 14		Sound
-Map	Knob 15		Sound A
-Map	Knob 16		Sound B
-Map	Knob 17		Sound C
-Map	Knob 18		Sound D
-Map	Knob 19		Sound Name
 Map	Knob 20		Volume
 
 Scope	Propellerheads	Alligator
@@ -611,8 +597,6 @@ Map	Knob 3		Input Gain
 Map	Knob 4		Limiter Enable
 Map	Knob 5		Look Ahead Enable
 Map	Knob 6		Output Gain
-Map	Knob 7		Output Level Left
-Map	Knob 8		Output Level Right
 Map	Knob 9		Release Speed
 Map	Knob 10		Soft Clip Amount
 Map	Knob 11		Soft Clip Enable

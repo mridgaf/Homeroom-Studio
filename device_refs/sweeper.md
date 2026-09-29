@@ -14,11 +14,12 @@ Named exactly as Reason's Remote layer names them.
 
 - **Type**: Phaser, Flanger or Filter.
 - **Freq**: phaser/flanger/filter frequency, 37.6 Hz–16.17 kHz.
-- **Feedback**: intensity/resonance of the phaser or flanger.
+- **Feedback**: intensity of the phaser or flanger (those two modes only).
 - **Bandwidth** / **Phaser Stages**: phaser notch width and number of notches (1–40).
 - **Polarity**: flip notches to peaks (or back).
 - **Mute Dry**: remove the dry signal — phaser becomes tremolo-like, flanger thinner.
-- **Filter Type** / **Reso** / **Filter Drive**: SVF HP/BP/LP 12, SVF Notch, Ladder LP 24, MFB LP 12/24, MFB HP 24, K35 LP 12 (MS-20 style). Careful: Ladder/MFB/K35 can self-oscillate loudly.
+- **Reso**: the filter's resonance (Filter mode) — the peak at the cutoff.
+- **Filter Type** / **Filter Drive**: SVF HP/BP/LP 12, SVF Notch, Ladder LP 24, MFB LP 12/24, MFB HP 24, K35 LP 12 (MS-20 style). Careful: Ladder/MFB/K35 can self-oscillate loudly.
 - **LFO Wave** / **LFO Rate** / **LFO Sync** / **LFO Synced Rate**: ten shapes, 0.05–50 Hz or 8 bars–1/64.
 - **LFO Freq Mod** / **LFO Amp Mod**: LFO to frequency / to volume (tremolo). Bipolar.
 - **ModType**: modulator is the drawn Envelope or the Audio Follower (one at a time).

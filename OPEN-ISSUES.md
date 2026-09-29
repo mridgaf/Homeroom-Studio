@@ -16,6 +16,24 @@ where you're at the machine.
 
 ## NEXT SESSION START HERE (owner 2026-09-29)
 
+- [ ] **00b. Explore a demo song and learn from it** (🤖, owner 2026-09-29, for the next session).
+  His words: "open and look at one of the demo songs. And see what you can learn from it. As far
+  as how sweeps work and different components can be connected. And anything else that will be
+  useful to know. ... play around in the demo song ... By being curious and messing with controls
+  on various components and trying things."
+  - **Song (his pick):** `~/Music/Reason 12/Demo Songs/Gabriel Gassi - Street Phone.rsndemo` (47 MB).
+  - **"Sweeps" = MUSICAL sweeps (his pick):** filter sweeps and other knob moves recorded into
+    the song over time (automation), and how they're set up. NOT calibrate.py.
+  - Learn: how devices are cabled (Tab flips the rack to the back: audio, CV, gate), mixer
+    inserts/sends, Combinators, automation lanes in the sequencer, anything else useful.
+  - Play with it: turn knobs, re-patch, mute, solo, watch what changes. A `.rsndemo` can't be saved
+    over; never Save, and answer "Don't Save" on close. Playing it in Reason is fine; no exports
+    (no-render rule). Claude can't hear: go by screen and meters, and ask him (clickable) if a
+    change needs ears.
+  - Write what's learned to `docs/reason/demo-song-notes.md` (plain words), and add anything
+    that changes how the voice app should work to OPEN-ISSUES.
+  - Reason may still have the unsaved scratch song "Step 8 test copy 09 29 26" open; don't save it.
+
 - [x] **00. First thing: list everything still open** for the Beat Machine AND Reason Voice.
   ✅ 2026-09-29: listed, checked on the Mac. Owner corrected scope: "reason voice not code"
   (the voice app in `reason_voice/`, NOT the `~/reason code` folder). New items from the
@@ -115,7 +133,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
   Ref: [CLAUDE.md:136](CLAUDE.md:136)
 - [ ] **27. "Turn it down 3 dB" doesn't work** (🤖). Knob nudges only take percent
   (`reason_voice/dial_llm.py` "only percentage nudges for now"). Found 2026-09-10, never built.
-- [ ] **28. Voice-dial fixes found wiring 23 effects + 14 instruments** (🤖, 2026-09-29).
+- [x] **28. Voice-dial fixes found wiring 23 effects + 14 instruments** (🤖, 2026-09-29). ✅ fixed 2026-09-29 (DECISIONS "Item 28 voice-dial fixes"); left: COMP-01 ratio, Neptune "faster", Softube Amp Switch re-sweep.
   All 37 are mapped, measured and phrase-tested; most phrases land right. Owner: "small
   details we can flag and finish once everything is wired." In order:
   1. **Hz vs kHz** (and ms vs s): "2 kHz" landed on 952 Hz (MClass EQ, Grain). The app doesn't
