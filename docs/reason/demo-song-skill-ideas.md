@@ -1,0 +1,32 @@
+# Skill ideas from the demo songs (Street Phone, then Airplane)
+
+Running list (started 2026-09-29, step 00b). Skills worth having, found while exploring the demo.
+Song details are in [demo-song-notes.md](demo-song-notes.md).
+
+**Your rule for this session:** list first, build only the clear wins (small, reusable, already done by
+hand in the demo).
+**Why nothing is built yet:** your standing rule (memory `skill-benchmark-loop`) says a new skill goes
+through skill-creator's benchmark loop (test prompts, with/without runs, review viewer, then your
+feedback). That is a separate piece of work, not something to slip in at the end of an exploring
+session. The two clear wins are marked below and are ready to start on your say-so.
+
+Status: `idea` | `clear win, ready to build` | `built`
+
+| Skill | One-line job | What triggers it | Status | Came from |
+|---|---|---|---|---|
+| **explore-reason-song** | Safely tour an open Reason song by screen: switch Mixer / Rack / Sequencer, unfold devices, expand automation lanes, read the transport, then close with Don't Save | "look at this song", "what's in this song", "learn from this demo" | **clear win, ready to build** | Everything I did by hand this session. Traps from this session, with how sure I am: Magnify tool zooms on double-click (seen, use the arrow); a second double-click on an automation clip may have changed its point (manual says it inserts one; I couldn't tell what happened), so open a clip once and click a point once; my playhead clicks landed on wrong bars because I mis-scaled coordinates (my error, so read the transport readout); a batch that stops mid-way leaves playback running (seen); never press a lane's X (manual); File > Close and Edit > Undo were greyed out while Reason wasn't the active app (seen), so close with the window's red button and read which document the dialog names first. **From Airplane (00c):** Window > View Main Mixer / View Racks / View Sequencer switches the view (Seen); Options > Toggle Rack Front/Rear flips to the back (Seen; a Tab keypress via the tool got "no verdict" twice, the menu worked); the mixer scrolls sideways by dragging its bottom scrollbar and the rack by dragging the blue box in its top-right map (Seen); the sequencer's ZOOM button fits the whole song and the two magnifiers at bottom left change track height, not the timeline (Seen); the small triangle at a device's top left folds it (Seen, needs a precise click); pop-up menus on jacks and hover tooltips need screen control, which was not approved (owner away) |
+| **reason-automation-lanes** | Read, open and explain automation: one lane per knob, clips with a cut corner, one-point clips holding a value, the Static Value, green borders, Automation Override, what M and X do | "how is this sweep made", "what is automated", "add a sweep" | **clear win (read side), ready to build**. The create side is from the manual only, not tried | Organ 1 filter clip opened by hand; override tested on the WarmPad fader; manual ch. 6 and 9 |
+| reason-signal-flow | Read the back of the rack: cable colours (green effects, red instrument-to-mixer, yellow CV, blue Combinator), insert chains, shared effects on the Master Section's 8 sends, P-LAN having no cables, hover and "Scroll to Connected Device" | "how is this connected", "where does this go" | idea. Cable tracing itself was mostly not done | Back view of the ECF-42; manual ch. 16 and 17 |
+| reason-combinator-macros | Read a Combinator's face (Rotary 1-4, Button 1-4, author labels), open its Devices and Editor, explain Modulation Routing (source to target, min/max, reversed, source range) | "what does this knob do", "what's inside this box" | idea. Modulation Routing itself not opened | KICK SQUASH and PAD PROCESSOR faces; manual ch. 63 |
+| reason-mixer-by-master-section | Control any mixer channel by number through the Master Section map (Mute, Solo, Level, Pan, FX sends, All Mutes Off), and the channel-name-to-number step | "mute the kick", "more delay on the vocal" | idea (needs the app work in OPEN-ISSUES item 29 first) | Found in `remote-vocab.json` while checking the phrase list |
+| song-to-phrase-gaps | Take the devices and lanes of an open song, look each up in the remotemap and calibration, and print what the voice app can and can't do | "what can the voice app do with this song" | idea. A small script plus a skill | The phrase list (A-E) was made by hand this way |
+| reason-reference (update, not new) | Add a chapter-and-page pointer table to the existing skill: automation (ch. 6, 9), routing (16), main mixer and sends (17), Combinator (63), rack groups (11) | "look up how Reason does X" | idea. Small edit to an existing skill | The manual answered almost every "why" question I had |
+| **reason-ducking-methods** | Explain the three ways a Reason song can "duck" or pump, and how to tell which one a song uses: (a) a compressor keyed by a cable in its Sidechain Input (Manual [17], lines ~12958-12991), (b) an Output Bus with a sidechain source (same place), (c) a Synchronous curve on Level, no cable (Airplane) | "how is this sidechained", "why does it pump" | idea. Method (c) is Guess: the curve is Seen, the sound is not heard | Airplane: the channel and bus are both named "Sidechain Bus", but the Sidechain Input jacks are empty and the pumping device is a Synchronous "Long Sidechain" |
+| **reason-output-bus-routing** | Read which channels feed which Output Bus: pink Output labels in the mixer, "Audio Output" on each rack device, red fader knob and "INPUT DISABLED, CHANNEL IS USED AS OUTPUT BUS" on the bus device's back | "what goes to this bus", "why is this pink" | idea. Small; done by hand in Airplane. Manual [17] "Output Busses" lines 12600-12660 | Airplane mixer and rack back |
+
+## Notes
+- The first two are the ones I'd build first. `explore-reason-song` would have saved most of the wrong
+  turns in this session.
+- `reason-remote-bridge` already covers locking a device and the bridge's file formats. None of the
+  ideas above overlap it.
+- Only `reason-ducking-methods` needs a listening check (method (c) is a guess until someone hears the Airplane bus).

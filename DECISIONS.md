@@ -19,10 +19,22 @@ entries.
 ---
 
 ## Log
-### 2026-09-29 NEXT SESSION START HERE: explore the Street Phone demo song
-- Owner wants the next session to open a demo song, learn how musical sweeps (automation) are made and how devices are connected, and play with the controls to learn why. Full brief: OPEN-ISSUES.md item 00b.
-- His picks (clickable): Street Phone (not Airplane); "sweeps" = musical sweeps/automation, not calibrate.py.
-- Status: open
+### 2026-09-29 Explored the Airplane demo song (00c)
+- Context: owner asked for the same exploration as Street Phone on the next demo, `Carlstrom - Airplane.rsndemo` (OPEN-ISSUES 00c), after `/compact`. Paused once when his usage limit hit, then resumed. Same tags (Seen / Manual / Guess) and the "don't record my mistakes as truths" rule.
+- Done: notes in `docs/reason/demo-song-notes-airplane.md`; phrase list section F and two skill rows appended; OPEN-ISSUES 00c ticked, new items 34-37. Looked at the mixer (18 channels), the whole rack front, the back of the Sidechain Bus group and a few devices, and the sequencer (about 64 bars, lane names and clip places for every track). Played a few seconds and opened one automation clip inline.
+- Main findings: (1) 7 channels output to a pink Output Bus called "Sidechain Bus", but its Sidechain Input jacks have no cable; the pumping device is a Synchronous "Long Sidechain" patch inside an insert Combinator. My first guess (Kick keys the bus) was wrong and is written down as wrong. (2) Automation lane names are the parameter names; Combinator lanes take the patch author's knob label ("Shift"). (3) The Kick's mixer-style lanes (LPF On/Off, HPF On/Off, FX1 Send On/Off, Level) match Reason's own "Channel N ..." names in `remote-vocab.json`. (4) The voice app already maps Europa Filter Mod, Grain Filter Freq and Dist Amount, Synchronous Level; it has nothing for Redrum pattern or Dr. Octorex.
+- Decisions: (a) Screen control (`request_full_control`) was asked twice for the owner's tip about the jack pop-up menus and not approved, because he was away; stayed on background tools and left the menus as OPEN-ISSUES 37. (b) Skills are LISTED, not built (benchmark-loop rule; needs his review). (c) No knob, mute, solo, cable or save; Don't Save after reading the dialog.
+- Known limits, not to be re-litigated as findings: I can't hear, so whether the Synchronous curve dips or swells the sound is unknown (item 36). My slips, not Reason quirks: two missed clicks while unfolding a device I had folded (I clicked its triangle hoping it was the owner's cable drop-down), a wrong guess that the zoom-out buttons zoom time (they change track height), a wrong guess that "[Run]" is a Combinator control (it is part of a Thor patch name). The meaning of "(Mod Wheel)" brackets and of lit blue send buttons is unknown.
+- Verify by: `shasum` of the demo before and after are identical (`91a2df7a...`); re-read the notes for tags; OPEN-ISSUES 34-37.
+- Status: confirmed (exploration done and documented); follow-ups open as items 34-37
+
+### 2026-09-29 Explored the Street Phone demo song (00b); next: Airplane (00c)
+- Owner wanted the demo song opened, musical sweeps (automation) and cabling learned, controls played with. Brief: OPEN-ISSUES.md item 00b. His picks: Street Phone; "sweeps" = automation, not calibrate.py. Added mid-session: find new phrase ideas and skill ideas as running lists; look through Reason's files for info on the song; then do the same for Airplane.
+- Done: notes in `docs/reason/demo-song-notes.md`, lists in `docs/reason/demo-song-phrase-ideas.md` and `demo-song-skill-ideas.md`. Reason's own files (app, manual, Showcase file, Spotlight) say nothing about the song; the 12.7 manual explained the features seen. Demo opened read-only, closed with Don't Save; file unchanged (same size and date).
+- Decisions: (1) Skills are LISTED, not built: two are marked "clear win", but the standing rule (memory skill-benchmark-loop) runs the benchmark loop for new skills, which needs his review. (2) Phrase/skill lists are ideas for him to pick from; nothing built.
+- Known limits, not to be re-litigated as findings: knob-watching by screenshot was unreliable (two runs disagreed; some of my playhead clicks landed on wrong bars, my coordinate error). One accidental second double-click on an automation clip left unclear whether its point changed (toolbar showed Value 24); discarded via Don't Save. So the Organ 1 filter clips' actual numbers are UNKNOWN; only their order (low, higher, higher) and Static Value 127 were seen. Not done: re-patch a cable, solo, deliberate sweep edit, Combinator Modulation Routing.
+- Verify by: open the notes, check tags (Seen / Manual / Guess); OPEN-ISSUES 29-33 for the voice-app gaps.
+- Status: confirmed (exploration done and documented); voice-app follow-ups open as items 29-33
 
 ### 2026-09-29 Item 28 voice-dial fixes (after wiring all 37 devices)
 - Context: owner "Start fixing the item 28 list". Phrases that went wrong in the wiring tests.

@@ -16,7 +16,23 @@ where you're at the machine.
 
 ## NEXT SESSION START HERE (owner 2026-09-29)
 
-- [ ] **00b. Explore a demo song and learn from it** (🤖, owner 2026-09-29, for the next session).
+- [x] **00c. Do the same for the next demo song: `Carlstrom - Airplane.rsndemo`** (🤖, owner 2026-09-29:
+  "when complete /compact then do the same with the next demo song"). Same rules as 00b. Use
+  `docs/reason/demo-song-notes.md` as the template and keep the same tags (Seen / Manual / Guess);
+  put its notes in `docs/reason/demo-song-notes-airplane.md` and append to the two lists. The lessons
+  from 00b are in that file's section 4 and in the `explore-reason-song` row of
+  `docs/reason/demo-song-skill-ideas.md`. `open -a "Reason 12" "<file>"` opens it in its own window;
+  close it with the window's red button and read the dialog before answering Don't Save.
+  (Reason may still hold the unsaved scratch song "Step 8 test copy 09 29 26": don't save or close it.)
+  ✅ 2026-09-29: Airplane explored; notes in `docs/reason/demo-song-notes-airplane.md`, phrase list section F and
+  two new skill rows added; new follow-ups are items 34-37 below. Closed with Don't Save; the demo file's SHA-1 is
+  identical before and after. Not done: re-patching a cable, soloing, a deliberate sweep edit, Combinator Modulation
+  Routing, the jack pop-up menus (owner's tip; needs screen control), and every check that needs ears.
+
+- [x] **00b. Explore a demo song and learn from it** (🤖, owner 2026-09-29). ✅ 2026-09-29: Street Phone
+  explored; notes in `docs/reason/demo-song-notes.md`, lists in `demo-song-phrase-ideas.md` and
+  `demo-song-skill-ideas.md`; voice-app gaps are items 29-33 below. Not done: re-patching a cable,
+  soloing, a deliberate sweep edit, Combinator Modulation Routing (see the "Not looked at" list in the notes).
   His words: "open and look at one of the demo songs. And see what you can learn from it. As far
   as how sweeps work and different components can be connected. And anything else that will be
   useful to know. ... play around in the demo song ... By being curious and messing with controls
@@ -152,6 +168,53 @@ Hear these before anything new is stacked on them. Claude renders one small audi
   8. Tidy: map_device.py maps meters (Maximizer Output Level); ID8 map is mostly preset buttons;
      check the "readings lost" warnings on Grain/Europa/Monotone/Humana (likely false alarms).
   Two-part asks ("boost 5 kHz by 2 dB") only do the first half: one knob per phrase, by design.
+
+## 5a. New from the Street Phone demo song (00b, 2026-09-29)
+
+Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list beside it.
+
+- [ ] **29. The voice app can't touch mixer channels** (🤖 then 🎹). Fact: `remote/ReasonVoice.remotemap`
+  has no mixer scope, and `intents.py` has no mute or solo. Fact: Reason's own "Reason Master Section"
+  map (in `docs/reason/remote-vocab.json`) names every channel's Mute, Solo, Level, Pan and FX1-FX8
+  Send Level, plus "All Mutes Off" and "All Solo Off". Untried: whether locking the Master Section
+  reaches all of them. Also needed: turning "the kick" into "Channel N".
+- [ ] **30. The voice app can't turn Combinator knobs** (🤖 then 🎹). Fact: the remotemap's Combinator
+  scope has only Patch Next/Prev (lines 17-19); Reason has Rotary 1-16 and Button 1-4. The knob
+  labels ("Reverb", "Filter Freq") are set by each song's author, so a phrase like "more reverb on the
+  pad" needs a per-song label list.
+- [ ] **31. Automation by voice** (🗳️ decide first): "sweep the filter up over four bars" and similar.
+  Fact: nothing in `reason_voice/` writes a move over time. Fact: the 09-25 test showed the bridge can
+  write automation on a locked device that has its own sequencer track while Reason records.
+  Decision for you: is it wanted?
+- [ ] **32. Review the two lists** (🗳️): `docs/reason/demo-song-phrase-ideas.md` (phrases) and
+  `docs/reason/demo-song-skill-ideas.md` (skills). Two skill ideas are marked "clear win": they are not
+  built because your rule is to run the skill-creator benchmark loop for new skills.
+- [ ] **33. `docs/reason/FINDINGS.md` disagrees with `experiments/automation-test-2026-09-25/RESULTS.md`**
+  (🤖). FINDINGS (09-25 update) says Record over the bridge is "unproven"; RESULTS "Night 2" says
+  Record and Play were fixed. Check which is current before editing either.
+
+## 5c. New from the Airplane demo song (00c, 2026-09-29)
+
+Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
+
+- [ ] **34. Many devices of one type, one locked device** (🗳️ decide first). Fact: the bridge answers for the ONE
+  device locked to ReasonVoice. Airplane has 4 Europas and 4 Grains; Street Phone has 5 ECF-42 filters. So "open
+  the pad filter" can't pick which one. Decision for you: do you want a way to choose the device by its name?
+  (Not checked: whether a script can switch the lock.)
+- [ ] **35. Redrum pattern and Dr. Octorex have no voice-app scope** (🤖). Fact: the Redrum scope in
+  `remote/ReasonVoice.remotemap` has no item with "pattern" in its name, and "Octo" appears nowhere in the remotemap,
+  `calibration.json` or `remote-vocab.json`. Airplane automates Redrum "Pattern Select" on its Kick and Clap.
+  Europa (Filter Mod), Grain (Filter Freq, Dist Amount) and Synchronous (Level and effect knobs) ARE mapped.
+- [ ] **36. Listen to the Airplane "Sidechain Bus"** (👂). Fact: seven channels output to it, its Sidechain Input
+  jacks have no cable, and a Synchronous "Long Sidechain" patch sits in its insert Combinator. Not known: whether
+  that curve dips the sound on the beat or swells it. One listen at bar 45 onward, with and without the
+  Combinator's Bypass FX, would settle it. Claude can't hear.
+- [ ] **37. Open the jack pop-up menus on the back of the rack** (🎹, you at the machine). Your tip: "The back has
+  drop downs to see all cables." The manual match is right-click or Ctrl-click on a jack (Manual [16], lines
+  11646-11660): a menu lists every device, with an asterisk on jacks already cabled. Claude's background clicks
+  can't open pop-ups, and the screen-control approval didn't come through while you were away. When you're back,
+  approve screen control and Claude will open a few menus to look, then press Escape (picking an item would
+  replace a cable).
 
 ## 5b. New from step 4 (👂)
 
