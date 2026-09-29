@@ -443,3 +443,42 @@ applied to his session state instead of his files.
 
 All three live in `reason_voice/`, **not** `tools/` — `tools/` is DAW-neutral
 and `tests/test_boundary.py` fails if anything there imports `reason_voice`.
+
+### Measuring a device, start to finish (the routine — 31 devices done this way)
+
+Claude does all of this by screen control; the owner is not needed.
+
+1. **Map it**: `.venv/bin/python reason_voice/map_device.py "<device>"`, then
+   `./install.sh` and a full Cmd+Q restart of Reason.
+2. **Add it**: Reason must be FRONTMOST, or menu items come back disabled.
+   `Create > Effects > Reason Studios > <menu name>`. Menu names differ from
+   scope names (Softube Amp = `se.propellerheads.ReasonAmp`, Master Bus
+   Compressor = `MasterCompressor`, Pulveriser Demolition = `Pulveriser`).
+   You can add all of them first, then measure one by one.
+3. **Start the sweep FIRST** (it has to be listening when the lock happens), in
+   the background, unbuffered:
+   `.venv/bin/python -u reason_voice/calibrate.py --device "<scope name>" > log 2>&1 &`
+4. **Lock by right-clicking the device panel** on a blank spot (not a knob) →
+   **"Lock ReasonVoice ReasonVoice 2 to This Device"** (near the bottom of the menu).
+   **Owner, 2026-09-29: do NOT use Options > Surface Locking** — that window
+   stays open on top. The item shows a tick when locked; clicking the ticked
+   item UNLOCKS.
+5. **Wait for `Wrote` in the log** before starting the next device. Never run two
+   sweeps at once: a sweep listening while you lock something else will sweep the
+   wrong device. The WRONG DEVICE check stops it after one knob, but that knob
+   has already been moved.
+6. **"Heard N-1 of N … NOTHING WAS SWEPT"**: one report went missing at lock
+   time. Restart the sweep, unlock (click the ticked item), and lock again.
+   Fixed it both times it happened.
+7. **Read the "READINGS LOST" warnings, don't just re-run them.** Knobs that turn
+   slowly at one end (EQ Q, chorus rate, attack/release in ms, 5-way switches)
+   repeat the same value for a few positions, and that trips the warning. A
+   re-run on a quiet bus gives the exact same pattern. A REAL drop is a stuck
+   value followed by a jump (`87%, 87%, 87%, 90%`). Re-run only those.
+8. `reads 'X' at ALL 128 positions` = a meter, a trigger button, or one of the
+   factory map's lowercase duplicate names (Neptune: `Mod wheel`, `pitch bend`).
+   These are recorded as unreadable, so the app accepts percentages only for them.
+   That's the correct result, not a failure.
+9. Spot-check: `dial_llm.resolve({"knob": k, "target": "-10 dB"}, dev,
+   calibration=dial_llm.apply_value_names(cal))` should land within ~2%.
+   The app re-reads calibration.json on every phrase, so no restart is needed.

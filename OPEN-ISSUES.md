@@ -115,6 +115,25 @@ Hear these before anything new is stacked on them. Claude renders one small audi
   Ref: [CLAUDE.md:136](CLAUDE.md:136)
 - [ ] **27. "Turn it down 3 dB" doesn't work** (🤖). Knob nudges only take percent
   (`reason_voice/dial_llm.py` "only percentage nudges for now"). Found 2026-09-10, never built.
+- [ ] **28. Voice-dial fixes found wiring 23 effects + 14 instruments** (🤖, 2026-09-29).
+  All 37 are mapped, measured and phrase-tested; most phrases land right. Owner: "small
+  details we can flag and finish once everything is wired." In order:
+  1. **Hz vs kHz** (and ms vs s): "2 kHz" landed on 952 Hz (MClass EQ, Grain). The app doesn't
+     convert when Reason's display changes units partway up the knob.
+  2. **Jumps too far**: plain up/down/more/less/"a bit" sometimes goes to an end instead of a
+     nudge. Pangea "filter cutoff down" → 20 Hz (silence). Also Europa, Radical Piano, CF-101,
+     Neptune, Klang, DDL-1 "wetter".
+  3. **Wrong knob**: "open the filter" → Resonance/Env Amount (SubTractor, ECF-42); "turn on X"
+     → the amount instead of the switch (Maximizer soft clip, Neptune pitch adjust → bypass);
+     Sweeper "resonance" → Feedback; Quartet/Softube Amp pick the other mode's knob.
+  4. **Steps**: "up an octave" / "down 5 semitones" nudge by % instead of moving 1 octave / 5
+     semitones (SubTractor, Thor, Mimic).
+  5. **"down 6 dB" went TO -6 dB** instead of down by 6 (Channel Dynamics).
+  6. **Switches shown as 0%/100%** don't answer to "on" (Synchronous); COMP-01 "16:1" refused.
+  7. **Unnamed pickers**: RV-7 algorithm, ECF-42 mode report numbers only; need names added.
+  8. Tidy: map_device.py maps meters (Maximizer Output Level); ID8 map is mostly preset buttons;
+     check the "readings lost" warnings on Grain/Europa/Monotone/Humana (likely false alarms).
+  Two-part asks ("boost 5 kHz by 2 dB") only do the first half: one knob per phrase, by design.
 
 ## 5b. New from step 4 (👂)
 

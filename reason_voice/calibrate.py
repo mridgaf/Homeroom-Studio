@@ -23,6 +23,7 @@ Your knobs are put back where they started when it finishes. If it could not
 hear the lock it refuses to sweep at all, rather than leaving them at 127.
 """
 import json
+import os
 import re
 import sys
 import time
@@ -478,4 +479,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Hard exit: the MIDI input thread kept finished runs alive (2026-09-29,
+    # twice), still listening on IAC -- and the NEXT run's lock was then heard
+    # by two processes. sys.exit messages still print; only the code is lost.
+    code = 0
+    try:
+        main()
+    except SystemExit as e:
+        if e.code not in (None, 0):
+            print(e.code if isinstance(e.code, str) else "", file=sys.stderr)
+            code = 1
+    sys.stdout.flush()
+    sys.stderr.flush()
+    os._exit(code)

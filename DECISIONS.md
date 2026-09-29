@@ -19,6 +19,24 @@ entries.
 ---
 
 ## Log
+### 2026-09-29 All 23 newly mapped effects MEASURED (calibration.json: 31 devices)
+- Swept every knob of the 23 effects mapped by map_device.py, in the scratch song `experiments/step8-2026-09-29/`. Spot-check: "-10 dB" on Master Bus Comp, "100 Hz" on Channel EQ HPF, "250" on DDL-1, "100 ms" on Sweeper release all land within 2%. test_dial + test_remote_bridge: 102 passed. Full suite NOT run (no render this session).
+- How to lock (owner, 2026-09-29): right-click the device panel -> "Lock ReasonVoice ... to This Device". NOT the Options > Surface Locking window (it stays open). Start calibrate.py first, then lock. To re-lock the same device: click the ticked item once (unlocks), then lock again. Twice (Softube Amp, Audiomatic) one report went missing on lock; unlock + relock fixed it.
+- Unreadable (recorded, percent-only): Maximizer Output Level L/R (meters), Stereo Imager High/Low Band Active, ECF-42 Trigger, COMP-01 Gain, Pulveriser Follow, Neptune's lowercase duplicate names (Midi Destination, Mod wheel, Vibrato rate, pitch bend) + Pitch Adjust Amount (reads 200 at every position -- maybe needs Pitch Adjust On; not chased).
+- calibrate.py's "READINGS LOST" warning false-alarms on knobs that turn slowly at one end (MClass EQ Q, Quartet Chorus Rate, Sweeper Follow Attack/Release, Softube Amp switch): same pattern twice on a quiet 2-knob run, values checked by eye. Real drops look like a stuck value then a jump (Pulveriser, re-run clean).
+- calibrate.py processes sometimes don't exit after "Wrote" and keep the IAC port open; kill them before the next sweep.
+- Phrase-tested all 23 via the running app (scratchpad say.py over its websocket, 3-4 phrases
+  each; a few checked on the panel by eye). Most land right. Fix list: OPEN-ISSUES item 28.
+- Fixed: "250 ms" on DDL-1's "DelayTime (ms)" (unit only in the NAME, table shows bare
+  numbers) -> dial_llm._unit_from_name + test. calibrate.py now hard-exits when done.
+- INSTRUMENTS (owner asked same treatment): 14 installed ones mapped, measured, phrase-tested.
+  6 fit whole (ID8, NN-XT, Klang, Pangea, Monotone, Radical Piano). 8 are over 48: owner chose
+  "Claude picks the 48 you'd use most": osc/filter/envelopes/LFO/FX/volume; mod-wheel,
+  velocity and ext-mod routings left out. Mimic = 5 per slot x 8 + master (43), like Kong.
+  Europa's map has no Osc2/3 Semi -> Blend instead. NN19 now shares "Osc Env Amount" with Rex
+  (knob slot still tells them apart; test updated). remotemap: 47 scopes. Reason restarted.
+- Status: confirmed (wired + measured), open (item 28 fixes)
+
 ### 2026-09-29 Step 8 run at Reason + the rest of the effects mapped (PAUSED mid-sweep)
 - Step 8 (typed phrases via the app, Reason read by screenshot, scratch song `experiments/step8-2026-09-29/`): 30/53 worked. Rex names CONFIRMED on the panel (Filter Mode, LFO wave/dest, Trig Next, Filter On). Osc Octave: 4 = no change. Slots: Selected Loop Slot + Editor count from 0, Notes to Slot from 1. Alligator Gate Open = indicator lights while the pattern runs.
 - Fixed (dial_llm.resolve, tests in test_dial.py): "turn up/longer/louder" can never move a knob down (10% nudge, ASSUMING); "down 3 dB" moves 3 dB (item 27); "+10%" and bare "-2" on semitone knobs understood; missing-unit answers fall back to his direction; On=1 on 0/1 switches. Device now identified by knob slot + name (needed once names are shared).

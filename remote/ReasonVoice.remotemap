@@ -119,22 +119,236 @@ Map	Knob 40		Drum 10 Pan
 Scope	Propellerheads	SubTractor Analog Synthesizer
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Osc1 Wave
+Map	Knob 2		Osc1 Octave
+Map	Knob 3		Osc1 Semitone
+Map	Knob 4		Osc1 Fine Tune
+Map	Knob 5		Osc2 On/Off
+Map	Knob 6		Osc2 Wave
+Map	Knob 7		Osc2 Octave
+Map	Knob 8		Osc2 Semitone
+Map	Knob 9		Osc2 Fine Tune
+Map	Knob 10		Osc Mix
+Map	Knob 11		FM Amount
+Map	Knob 12		Ring Mod
+Map	Knob 13		Noise On/Off
+Map	Knob 14		Noise Level
+Map	Knob 15		Noise Decay
+Map	Knob 16		Noise Color
+Map	Knob 17		Filter Type
+Map	Knob 18		Filter Freq
+Map	Knob 19		Filter Res
+Map	Knob 20		Filter Kbd Track
+Map	Knob 21		Filter2 On/Off
+Map	Knob 22		Filter2 Freq
+Map	Knob 23		Filter2 Res
+Map	Knob 24		Filter Env Amount
+Map	Knob 25		Filter Env Attack
+Map	Knob 26		Filter Env Decay
+Map	Knob 27		Filter Env Sustain
+Map	Knob 28		Filter Env Release
+Map	Knob 29		Filter Env Vel Amount
+Map	Knob 30		Amp Env Attack
+Map	Knob 31		Amp Env Decay
+Map	Knob 32		Amp Env Sustain
+Map	Knob 33		Amp Env Release
+Map	Knob 34		Amp Vel Amount
+Map	Knob 35		Mod Env Attack
+Map	Knob 36		Mod Env Decay
+Map	Knob 37		Mod Env Dest
+Map	Knob 38		Mod Env Gain
+Map	Knob 39		LFO1 Wave
+Map	Knob 40		LFO1 Rate
+Map	Knob 41		LFO1 Amount
+Map	Knob 42		LFO1 Dest
+Map	Knob 43		LFO Sync Enable
+Map	Knob 44		LFO2 Rate
+Map	Knob 45		LFO2 Amount
+Map	Knob 46		LFO2 Dest
+Map	Knob 47		Portamento
+Map	Knob 48		Master Level
 
 Scope	Propellerheads	Thor Polysonic Synthesizer
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Osc 1 Type
+Map	Knob 2		Osc 1 Oct
+Map	Knob 3		Osc 1 Semi
+Map	Knob 4		Osc 1 Tune
+Map	Knob 5		Osc 1 Mod
+Map	Knob 6		Osc 2 Type
+Map	Knob 7		Osc 2 Oct
+Map	Knob 8		Osc 2 Semi
+Map	Knob 9		Osc 2 Tune
+Map	Knob 10		Osc 2 Mod
+Map	Knob 11		Osc 3 Type
+Map	Knob 12		Osc 3 Oct
+Map	Knob 13		Osc 3 Semi
+Map	Knob 14		Osc 3 Tune
+Map	Knob 15		Osc 3 Mod
+Map	Knob 16		Osc 3 Level
+Map	Knob 17		Osc 1 And 2 Level
+Map	Knob 18		Osc 1 And 2 Balance
+Map	Knob 19		Filter 1 Type
+Map	Knob 20		Filter 1 Freq
+Map	Knob 21		Filter 1 Res
+Map	Knob 22		Filter 1 Drive
+Map	Knob 23		Filter 1 Env Amount
+Map	Knob 24		Filter 1 Kbd
+Map	Knob 25		Filter 2 Type
+Map	Knob 26		Filter 2 Freq
+Map	Knob 27		Filter 2 Res
+Map	Knob 28		Filter 2 Env Amount
+Map	Knob 29		Filter Env Attack
+Map	Knob 30		Filter Env Decay
+Map	Knob 31		Filter Env Sustain
+Map	Knob 32		Filter Env Release
+Map	Knob 33		Amp Env Attack
+Map	Knob 34		Amp Env Decay
+Map	Knob 35		Amp Env Sustain
+Map	Knob 36		Amp Env Release
+Map	Knob 37		Amplifier Gain
+Map	Knob 38		LFO 1 Rate
+Map	Knob 39		LFO 1 Waveform
+Map	Knob 40		Shaper On
+Map	Knob 41		Shaper Drive
+Map	Knob 42		Delay On
+Map	Knob 43		Delay Dry Wet
+Map	Knob 44		Delay Time
+Map	Knob 45		Delay Feedback
+Map	Knob 46		Chorus On
+Map	Knob 47		Chorus Dry Wet
+Map	Knob 48		Master Level
 
 Scope	Propellerheads	Malstrom Graintable Synthesizer
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Oscillator A On/Off
+Map	Knob 2		Oscillator A Index
+Map	Knob 3		Oscillator A Motion
+Map	Knob 4		Oscillator A Shift
+Map	Knob 5		Oscillator A Octave
+Map	Knob 6		Oscillator A Semi
+Map	Knob 7		Oscillator A Cent
+Map	Knob 8		Oscillator A Gain
+Map	Knob 9		Oscillator A Attack
+Map	Knob 10		Oscillator A Decay
+Map	Knob 11		Oscillator A Sustain
+Map	Knob 12		Oscillator A Release
+Map	Knob 13		Oscillator B On/Off
+Map	Knob 14		Oscillator B Index
+Map	Knob 15		Oscillator B Motion
+Map	Knob 16		Oscillator B Shift
+Map	Knob 17		Oscillator B Octave
+Map	Knob 18		Oscillator B Semi
+Map	Knob 19		Oscillator B Cent
+Map	Knob 20		Oscillator B Gain
+Map	Knob 21		Oscillator B Attack
+Map	Knob 22		Oscillator B Decay
+Map	Knob 23		Oscillator B Sustain
+Map	Knob 24		Oscillator B Release
+Map	Knob 25		Filter A On/Off
+Map	Knob 26		Filter A Mode
+Map	Knob 27		Filter A Freq
+Map	Knob 28		Filter A Resonance
+Map	Knob 29		Filter A Env
+Map	Knob 30		Filter B On/Off
+Map	Knob 31		Filter B Mode
+Map	Knob 32		Filter B Freq
+Map	Knob 33		Filter B Resonance
+Map	Knob 34		Filter Env Attack
+Map	Knob 35		Filter Env Decay
+Map	Knob 36		Filter Env Sustain
+Map	Knob 37		Filter Env Release
+Map	Knob 38		Filter Env Amount
+Map	Knob 39		Shaper On/Off
+Map	Knob 40		Shaper Mode
+Map	Knob 41		Shaper Amount
+Map	Knob 42		Modulator A Rate
+Map	Knob 43		Modulator A Curve
+Map	Knob 44		Modulator A To Pitch
+Map	Knob 45		Modulator B Rate
+Map	Knob 46		Modulator B To Filter
+Map	Knob 47		Portamento
+Map	Knob 48		Master Level
 
 Scope	Propellerheads	NN19 Digital Sampler
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp Attack Vel Amount
+Map	Knob 2		Amp Env Attack
+Map	Knob 3		Amp Env Decay
+Map	Knob 4		Amp Env Release
+Map	Knob 5		Amp Env Sustain
+Map	Knob 6		Amp Mod Wheel Amount
+Map	Knob 7		Amp Vel Amount
+Map	Knob 8		Ext Mod Select
+Map	Knob 9		Filter Decay Vel Amount
+Map	Knob 10		Filter Env Amount
+Map	Knob 11		Filter Env Attack
+Map	Knob 12		Filter Env Decay
+Map	Knob 13		Filter Env Invert
+Map	Knob 14		Filter Env Release
+Map	Knob 15		Filter Env Sustain
+Map	Knob 16		Filter Env Vel Amount
+Map	Knob 17		Filter Freq
+Map	Knob 18		Filter Freq Mod Wheel Amount
+Map	Knob 19		Filter Kbd Track
+Map	Knob 20		Filter Mode
+Map	Knob 21		Filter On/Off
+Map	Knob 22		Filter Res
+Map	Knob 23		High Quality Interpolation
+Map	Knob 24		Key Mode
+Map	Knob 25		LFO Amount
+Map	Knob 26		LFO Dest
+Map	Knob 27		LFO Mod Wheel Amount
+Map	Knob 28		LFO Rate
+Map	Knob 29		LFO Sync Enable
+Map	Knob 30		LFO Wave
+Map	Knob 31		Low Bandwidth On/Off
+Map	Knob 32		Master Level
+Map	Knob 33		Mod Wheel
+Map	Knob 34		Osc Env Amount
+Map	Knob 35		Osc Fine Tune
+Map	Knob 36		Osc Kbd Track
+Map	Knob 37		Osc Octave
+Map	Knob 38		Osc Semitone
+Map	Knob 39		Pitch Bend
+Map	Knob 40		Pitch Bend Range
+Map	Knob 41		Polyphony
+Map	Knob 42		Portamento
+Map	Knob 43		Sample
+Map	Knob 44		Sample Start
+Map	Knob 45		Sample Start Vel Amount
+Map	Knob 46		Solo Sample
+Map	Knob 47		Spread Mode
+Map	Knob 48		Stereo Spread
 
 Scope	Propellerheads	NN-XT Advanced Sampler
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp Env Attack
+Map	Knob 2		Amp Env Decay
+Map	Knob 3		Amp Env Release
+Map	Knob 4		External Controller
+Map	Knob 5		External Controller Source
+Map	Knob 6		External controller
+Map	Knob 7		Filter Freq
+Map	Knob 8		Filter Res
+Map	Knob 9		High Quality Interpolation
+Map	Knob 10		Master Volume
+Map	Knob 11		Master volume
+Map	Knob 12		Mod Env Decay
+Map	Knob 13		Mod Wheel
+Map	Knob 14		Mod env Decay
+Map	Knob 15		Mod wheel
+Map	Knob 16		Pitch Bend
+Map	Knob 17		Sample
 
 Scope	Propellerheads	Dr.REX Loop Player
 Map	Patch Next		Select Next Patch
@@ -183,8 +397,27 @@ Map	Knob 40		LFO1 Dest
 Map	Knob 41		LFO Sync Enable
 
 Scope	Propellerheads	ID8 Instrument Device
-Map	Patch Next		Select Next Preset
-Map	Patch Prev		Select Previous Preset
+Map	Device		Device Name
+Map	Knob 1		Category
+Map	Knob 2		Category Name
+Map	Knob 3		Mod Wheel
+Map	Knob 4		Parameter 1
+Map	Knob 5		Parameter 2
+Map	Knob 6		Pitch Bend
+Map	Knob 7		Preset
+Map	Knob 8		Select Next Category
+Map	Knob 9		Select Next Preset
+Map	Knob 10		Select Next Sound
+Map	Knob 11		Select Previous Category
+Map	Knob 12		Select Previous Preset
+Map	Knob 13		Select Previous Sound
+Map	Knob 14		Sound
+Map	Knob 15		Sound A
+Map	Knob 16		Sound B
+Map	Knob 17		Sound C
+Map	Knob 18		Sound D
+Map	Knob 19		Sound Name
+Map	Knob 20		Volume
 
 Scope	Propellerheads	Alligator
 Map	Patch Next		Select Next Patch
@@ -722,3 +955,373 @@ Map	Knob 8		Treble
 Map	Knob 9		Ultra Hi
 Map	Knob 10		Ultra Lo
 Map	Knob 11		Volume
+
+Scope	Propellerhead Software	se.propellerheads.Klang
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Aftertouch
+Map	Knob 2		Amp_Attack
+Map	Knob 3		Amp_Decay
+Map	Knob 4		Amp_Release
+Map	Knob 5		Amp_Sustain
+Map	Knob 6		Delay Amount
+Map	Knob 7		Delay_Damp
+Map	Knob 8		Delay_Feedback
+Map	Knob 9		Delay_On
+Map	Knob 10		Delay_PingPong
+Map	Knob 11		Delay_Sync
+Map	Knob 12		Delay_Time
+Map	Knob 13		Filter_Attack
+Map	Knob 14		Filter_Cutoff
+Map	Knob 15		Filter_Decay
+Map	Knob 16		Filter_Env
+Map	Knob 17		Filter_KeyFollow
+Map	Knob 18		Filter_On
+Map	Knob 19		Filter_Release
+Map	Knob 20		Filter_Reso
+Map	Knob 21		Filter_Sustain
+Map	Knob 22		Filter_Type
+Map	Knob 23		Filter_Velocity
+Map	Knob 24		Finetune
+Map	Knob 25		Instrument
+Map	Knob 26		Master_Volume
+Map	Knob 27		Mod Wheel
+Map	Knob 28		Mod Wheel to Amp Level
+Map	Knob 29		Octave
+Map	Knob 30		Pitch Bend
+Map	Knob 31		Reverb Amount
+Map	Knob 32		Reverb_HighDamp
+Map	Knob 33		Reverb_LowDamp
+Map	Knob 34		Reverb_On
+Map	Knob 35		Reverb_PreDelay
+Map	Knob 36		Reverb_Time
+Map	Knob 37		SampleStart
+Map	Knob 38		Semitune
+Map	Knob 39		Synced_Delay_Time
+
+Scope	Propellerhead Software	se.propellerheads.Pangea
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Aftertouch
+Map	Knob 2		Amp_Attack
+Map	Knob 3		Amp_Decay
+Map	Knob 4		Amp_Release
+Map	Knob 5		Amp_Sustain
+Map	Knob 6		Delay_Amount
+Map	Knob 7		Delay_Damp
+Map	Knob 8		Delay_Feedback
+Map	Knob 9		Delay_On
+Map	Knob 10		Delay_PingPong
+Map	Knob 11		Delay_Sync
+Map	Knob 12		Delay_Time
+Map	Knob 13		Filter_Attack
+Map	Knob 14		Filter_Cutoff
+Map	Knob 15		Filter_Decay
+Map	Knob 16		Filter_Env
+Map	Knob 17		Filter_KeyFollow
+Map	Knob 18		Filter_On
+Map	Knob 19		Filter_Release
+Map	Knob 20		Filter_Reso
+Map	Knob 21		Filter_Sustain
+Map	Knob 22		Filter_Type
+Map	Knob 23		Filter_Velocity
+Map	Knob 24		Finetune
+Map	Knob 25		Instrument
+Map	Knob 26		Master_Volume
+Map	Knob 27		Mod Wheel
+Map	Knob 28		ModWheel_to_Amp_Level
+Map	Knob 29		Octave
+Map	Knob 30		Pitch Bend
+Map	Knob 31		Reverb_Amount
+Map	Knob 32		Reverb_HighDamp
+Map	Knob 33		Reverb_LowDamp
+Map	Knob 34		Reverb_On
+Map	Knob 35		Reverb_PreDelay
+Map	Knob 36		Reverb_Time
+Map	Knob 37		SampleStart
+Map	Knob 38		Semitune
+Map	Knob 39		Synced_Delay_Time
+
+Scope	Propellerhead Software	se.propellerheads.Monotone
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp Attack
+Map	Knob 2		Amp Decay
+Map	Knob 3		Amp Release
+Map	Knob 4		Amp Sustain
+Map	Knob 5		Chorus Amount
+Map	Knob 6		Chorus Rate
+Map	Knob 7		Chorus Spread
+Map	Knob 8		Delay Amount
+Map	Knob 9		Delay Feedback
+Map	Knob 10		Delay Pingpong
+Map	Knob 11		Delay Time
+Map	Knob 12		FM Env Amt
+Map	Knob 13		Filter Attack
+Map	Knob 14		Filter Decay
+Map	Knob 15		Filter Drive
+Map	Knob 16		Filter Env Amount
+Map	Knob 17		Filter Freq
+Map	Knob 18		Filter Key Amt
+Map	Knob 19		Filter LFO Amt
+Map	Knob 20		Filter Release
+Map	Knob 21		Filter Reso
+Map	Knob 22		Filter Sustain
+Map	Knob 23		LFO Rate
+Map	Knob 24		LFO Wave
+Map	Knob 25		Mod Wheel
+Map	Knob 26		Noise
+Map	Knob 27		Osc Detune
+Map	Knob 28		Osc Mix
+Map	Knob 29		Osc1 Oct
+Map	Knob 30		Osc1 Wave
+Map	Knob 31		Osc2 Oct
+Map	Knob 32		Osc2 Pitch
+Map	Knob 33		Osc2 Wave
+Map	Knob 34		Pitch Bend
+Map	Knob 35		Pitch LFO Amt
+Map	Knob 36		Portamento
+Map	Knob 37		Portamento Mode
+Map	Knob 38		ReTrig
+Map	Knob 39		Volume
+
+Scope	Propellerhead Software	se.propellerheads.radicalpiano
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Ambience Level
+Map	Knob 2		Ambience Type
+Map	Knob 3		Character
+Map	Knob 4		Compression Amount
+Map	Knob 5		EQ Hi Gain
+Map	Knob 6		EQ Lo Gain
+Map	Knob 7		EQ Mid Gain
+Map	Knob 8		EQ On/Off
+Map	Knob 9		Env Attack
+Map	Knob 10		Env Decay Curve
+Map	Knob 11		Env Release
+Map	Knob 12		Key Down Level
+Map	Knob 13		Key Up Level
+Map	Knob 14		Master Volume
+Map	Knob 15		Microphone 1 Type
+Map	Knob 16		Microphone 2 Type
+Map	Knob 17		Microphone and Instrument Blend
+Map	Knob 18		Pedal Level
+Map	Knob 19		Stereo Width
+Map	Knob 20		Symp Res Level
+Map	Knob 21		Symp Res Release Time
+Map	Knob 22		Tune
+Map	Knob 23		Tune Drift
+Map	Knob 24		Vel Response Curve
+Map	Knob 25		Vel Response High
+Map	Knob 26		Vel Response Low
+
+Scope	Propellerhead Software	se.propellerheads.Humana
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp_Attack
+Map	Knob 2		Amp_Decay
+Map	Knob 3		Amp_Release
+Map	Knob 4		Amp_Sustain
+Map	Knob 5		Delay_Amount
+Map	Knob 6		Delay_Damp
+Map	Knob 7		Delay_Feedback
+Map	Knob 8		Delay_On
+Map	Knob 9		Delay_PingPong
+Map	Knob 10		Delay_Sync
+Map	Knob 11		Delay_Time
+Map	Knob 12		Filter 1 Frequency
+Map	Knob 13		Filter 1 Mode
+Map	Knob 14		Filter 1 Resonance
+Map	Knob 15		Filter 1 To Filter 2
+Map	Knob 16		Filter 2 Frequency
+Map	Knob 17		Filter 2 Mode
+Map	Knob 18		Filter 2 Resonance
+Map	Knob 19		Filter_Attack
+Map	Knob 20		Filter_Cutoff
+Map	Knob 21		Filter_Decay
+Map	Knob 22		Filter_Env
+Map	Knob 23		Filter_KeyFollow
+Map	Knob 24		Filter_On
+Map	Knob 25		Filter_Release
+Map	Knob 26		Filter_Reso
+Map	Knob 27		Filter_Sustain
+Map	Knob 28		Filter_Type
+Map	Knob 29		Filter_Velocity
+Map	Knob 30		Finetune
+Map	Knob 31		Instrument
+Map	Knob 32		Master_Volume
+Map	Knob 33		Mod Wheel
+Map	Knob 34		ModWheel_to_Amp_Level
+Map	Knob 35		Octave
+Map	Knob 36		Osc 1 Filter Select
+Map	Knob 37		Osc 2 Filter Select
+Map	Knob 38		Osc 3 Filter Select
+Map	Knob 39		Pitch Bend
+Map	Knob 40		Reverb_Amount
+Map	Knob 41		Reverb_HighDamp
+Map	Knob 42		Reverb_LowDamp
+Map	Knob 43		Reverb_On
+Map	Knob 44		Reverb_PreDelay
+Map	Knob 45		Reverb_Time
+Map	Knob 46		SampleStart
+Map	Knob 47		Semitune
+Map	Knob 48		Synced_Delay_Time
+
+Scope	Propellerhead Software	se.propellerheads.Grain
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Algorithm
+Map	Knob 2		Position
+Map	Knob 3		Grain Length
+Map	Knob 4		Rate-Spacing
+Map	Knob 5		Motion
+Map	Knob 6		Jitter
+Map	Knob 7		Speed
+Map	Knob 8		Formant
+Map	Knob 9		Sample Level
+Map	Knob 10		Oct
+Map	Knob 11		Semi
+Map	Knob 12		Tune
+Map	Knob 13		Osc On
+Map	Knob 14		Osc Wave
+Map	Knob 15		Osc Level
+Map	Knob 16		Filter Type
+Map	Knob 17		Filter Freq
+Map	Knob 18		Filter Reso
+Map	Knob 19		Filter Env2
+Map	Knob 20		Filter Kbd
+Map	Knob 21		Amp Attack
+Map	Knob 22		Amp Decay
+Map	Knob 23		Amp Sustain
+Map	Knob 24		Amp Release
+Map	Knob 25		Amp Gain
+Map	Knob 26		LFO 1 Rate
+Map	Knob 27		LFO 2 Rate
+Map	Knob 28		Dist On
+Map	Knob 29		Dist Amount
+Map	Knob 30		Dist Drive
+Map	Knob 31		Dist Tone
+Map	Knob 32		Comp On
+Map	Knob 33		Comp Threshold
+Map	Knob 34		Comp Ratio
+Map	Knob 35		Delay On
+Map	Knob 36		Delay Amount
+Map	Knob 37		Delay Time
+Map	Knob 38		Delay FB
+Map	Knob 39		Reverb On
+Map	Knob 40		Reverb Amount
+Map	Knob 41		Reverb Decay
+Map	Knob 42		Reverb Size
+Map	Knob 43		Mod Effect Type
+Map	Knob 44		Mod Effect Amount
+Map	Knob 45		Mod Effect Rate
+Map	Knob 46		Pan Spread
+Map	Knob 47		Portamento
+Map	Knob 48		Master Volume
+
+Scope	Propellerhead Software	se.propellerheads.Mimic
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Amp Gain 1
+Map	Knob 2		Pitch Semi 1
+Map	Knob 3		Filter Freq 1
+Map	Knob 4		Start Pos 1
+Map	Knob 5		Amp Decay 1
+Map	Knob 6		Amp Gain 2
+Map	Knob 7		Pitch Semi 2
+Map	Knob 8		Filter Freq 2
+Map	Knob 9		Start Pos 2
+Map	Knob 10		Amp Decay 2
+Map	Knob 11		Amp Gain 3
+Map	Knob 12		Pitch Semi 3
+Map	Knob 13		Filter Freq 3
+Map	Knob 14		Start Pos 3
+Map	Knob 15		Amp Decay 3
+Map	Knob 16		Amp Gain 4
+Map	Knob 17		Pitch Semi 4
+Map	Knob 18		Filter Freq 4
+Map	Knob 19		Start Pos 4
+Map	Knob 20		Amp Decay 4
+Map	Knob 21		Amp Gain 5
+Map	Knob 22		Pitch Semi 5
+Map	Knob 23		Filter Freq 5
+Map	Knob 24		Start Pos 5
+Map	Knob 25		Amp Decay 5
+Map	Knob 26		Amp Gain 6
+Map	Knob 27		Pitch Semi 6
+Map	Knob 28		Filter Freq 6
+Map	Knob 29		Start Pos 6
+Map	Knob 30		Amp Decay 6
+Map	Knob 31		Amp Gain 7
+Map	Knob 32		Pitch Semi 7
+Map	Knob 33		Filter Freq 7
+Map	Knob 34		Start Pos 7
+Map	Knob 35		Amp Decay 7
+Map	Knob 36		Amp Gain 8
+Map	Knob 37		Pitch Semi 8
+Map	Knob 38		Filter Freq 8
+Map	Knob 39		Start Pos 8
+Map	Knob 40		Amp Decay 8
+Map	Knob 41		Master Volume
+Map	Knob 42		Play Mode
+Map	Knob 43		Algorithm
+
+Scope	Propellerhead Software	se.propellerheads.Europa
+Map	Patch Next		Select Next Patch
+Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Osc1 On
+Map	Knob 2		Osc1 Wave
+Map	Knob 3		Osc1 Semi
+Map	Knob 4		Osc1 Detune
+Map	Knob 5		Osc1 Level
+Map	Knob 6		Osc1 Shape Amt
+Map	Knob 7		Osc1 Spread
+Map	Knob 8		Osc1 Unison On
+Map	Knob 9		Osc2 On
+Map	Knob 10		Osc2 Wave
+Map	Knob 11		Osc2 Blend
+Map	Knob 12		Osc2 Detune
+Map	Knob 13		Osc2 Level
+Map	Knob 14		Osc2 Shape Amt
+Map	Knob 15		Osc2 Spread
+Map	Knob 16		Osc2 Unison On
+Map	Knob 17		Osc3 On
+Map	Knob 18		Osc3 Wave
+Map	Knob 19		Osc3 Blend
+Map	Knob 20		Osc3 Detune
+Map	Knob 21		Osc3 Level
+Map	Knob 22		Osc3 Shape Amt
+Map	Knob 23		Osc3 Spread
+Map	Knob 24		Osc3 Unison On
+Map	Knob 25		Filter Type
+Map	Knob 26		Filter Freq
+Map	Knob 27		Filter Reso
+Map	Knob 28		Filter Drive
+Map	Knob 29		Filter Kbd
+Map	Knob 30		Filter Mod
+Map	Knob 31		Amp Attack
+Map	Knob 32		Amp Decay
+Map	Knob 33		Amp Sustain
+Map	Knob 34		Amp Release
+Map	Knob 35		Amp Gain
+Map	Knob 36		Amp Velocity
+Map	Knob 37		LFO 1 Rate
+Map	Knob 38		Dist On
+Map	Knob 39		Dist Amount
+Map	Knob 40		Delay On
+Map	Knob 41		Delay Amount
+Map	Knob 42		Delay Time
+Map	Knob 43		Delay FB
+Map	Knob 44		Reverb On
+Map	Knob 45		Reverb Amount
+Map	Knob 46		Reverb Size
+Map	Knob 47		Portamento
+Map	Knob 48		Master Volume

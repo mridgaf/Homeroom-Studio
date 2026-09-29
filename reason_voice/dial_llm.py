@@ -478,13 +478,34 @@ def resolve(answer, device, current_pos=None, calibration=None, phrase=None):
     """
     knob = answer["knob"]
     cal = calibration if calibration is not None else load_calibration()
-    entry = None
+    entry, name = None, ""
     for param, e in (cal.get(device) or {}).items():
         if e.get("knob") == knob:
-            entry = e
+            entry, name = e, param
             break
+    answer = _unit_from_name(answer, entry, name)
     placed = _place(answer, entry, current_pos)
     return _keep_his_direction(placed, answer, entry, current_pos, phrase)
+
+
+def _unit_from_name(answer, entry, name):
+    """"250 ms" on DDL-1's "DelayTime (ms)", whose table reads bare "252".
+
+    Some devices put the unit in the parameter NAME and show plain numbers, so
+    the unit comparison refused a value he said exactly right (2026-09-29).
+    Only the unit the name states is dropped -- "250 Hz" there still fails.
+    """
+    m = re.search(r"\(([^)]+)\)\s*$", name or "")
+    if not m or entry is None or not entry.get("table"):
+        return answer
+    if any(u for _, s in entry["table"] for v, u in [_num_unit(s)] if v is not None):
+        return answer
+    out = dict(answer)
+    for key in ("target", "delta"):
+        value, unit = _num_unit(out.get(key))
+        if value is not None and unit and _same_unit(unit, m.group(1)):
+            out[key] = (out[key] or "").strip()[:-len(unit)].strip()
+    return out
 
 
 def _keep_his_direction(placed, answer, entry, current_pos, phrase):

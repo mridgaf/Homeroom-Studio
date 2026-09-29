@@ -935,9 +935,10 @@ def test_alligator_and_rex_both_say_amp_env_attack():
     assert dial_llm.device_for_param("Ducking", knob="knob_47") == ALLIGATOR
     for param, dev in (("Band Pass Drive Amount", ALLIGATOR),
                        ("High Pass Frequency", ALLIGATOR),
-                       ("Osc Env Amount", REX),
                        ("Selected Loop Slot", REX)):
         assert dial_llm.device_for_param(param) == dev, param
+    # NN19 (mapped 2026-09-29) shares this name; the knob slot still pins Rex
+    assert dial_llm.device_for_param("Osc Env Amount", knob="knob_20") == REX
 
 
 def test_alligator_gates_are_numbered_but_its_bands_are_not(monkeypatch):
@@ -1741,3 +1742,17 @@ def test_every_mapped_device_can_be_told_apart():
         km = dial_llm.knob_map(dev)
         assert any(dial_llm.device_for_param(p, knob=k) == dev
                    for k, p in km.items()), dev
+
+
+def test_a_unit_named_only_in_the_parameter_name_is_understood():
+    # DDL-1 shows "252", not "252 ms" -- the ms is in "DelayTime (ms)".
+    # "250 ms" was refused on the unit comparison (2026-09-29).
+    cal = {"DDL-1 Digital Delay Line": {"DelayTime (ms)": {
+        "knob": "knob_1", "unit": "",
+        "table": [[p, str(1 + p * 16)] for p in range(128)]}}}
+    got = dial_llm.resolve({"knob": "knob_1", "target": "250 ms"},
+                           "DDL-1 Digital Delay Line", calibration=cal)
+    assert got == (16, "measured: 257")
+    # only the unit the name states -- a different one is still refused
+    assert dial_llm.resolve({"knob": "knob_1", "target": "250 Hz"},
+                            "DDL-1 Digital Delay Line", calibration=cal) is None
