@@ -1,0 +1,123 @@
+<div class="cols">
+  <section class="left">
+    <h2 class="box">The Crew <small>__CREWCOUNT__ personalities</small></h2>
+    <div class="djs">__CREW__</div>
+    <h2 class="box">The Legends <small>signature styles</small></h2>
+    <div class="djs">__LEGENDS__</div>
+    <h2 class="box">The Styles <small>seventeen subgenres, played by the rules</small></h2>
+    <div class="djs">__GENRES__</div>
+
+    <h2 class="box">Your choices <small>directions, key, and reference track</small></h2>
+    <div class="panel">
+      <div class="fields" style="grid-template-columns:1fr 200px">
+        <div class="field"><label>Directions</label>
+          <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
+          <div class="hint">used for this click and saved in the README</div></div>
+        <div class="field"><label>&nbsp;</label>
+          <label><input type="checkbox" id="loopsonly"> Loops only</label>
+          <div class="hint">whole beat built from loop material instead of one-shots</div></div>
+      </div>
+      <div class="fields refrow">
+        <div class="field"><label>Key</label>
+          <span style="display:flex; gap:6px">
+            <select id="keyroot"><option value="">&mdash; any &mdash;</option>__KEYROOTS__</select>
+            <select id="keymode">__KEYMODES__</select>
+          </span>
+          <div class="hint">set a key and the beat gets chords in it</div></div>
+        <div class="field"><label>Reference track</label>
+          <div id="refdrop">Drag a song here to match its tempo and key</div>
+          <div class="hint" id="refline">nothing dropped yet</div></div>
+      </div>
+      <div class="field quick"><label>Quick directions</label>
+        <select id="quick">
+          <option value="">&mdash; pick one &mdash;</option>
+          <option value="no chords">no chords &mdash; drums only, old style</option>
+          <option value="sparse">sparse &mdash; thin everything out</option>
+          <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+          <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+          <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+          <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+          <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+          <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+          <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+          <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+          <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+          <option value="no perc">no perc &mdash; percussion off</option>
+          <option value="crisp">crisp &mdash; crisp, clear samples</option>
+          <option value="dusty">dusty &mdash; dusty, aged samples</option>
+        </select>
+        <div class="hint">fills the Directions box above &mdash; edit it after if you like</div></div>
+      <div class="field quick"><label>Famous beats</label>
+        <select id="famous">
+          <option value="">&mdash; none, make it up &mdash;</option>
+          <option value="break">surprise me &mdash; any of them</option>
+__BREAKS__
+        </select>
+        <div class="hint">the drum part is played exactly as it was drummed, on
+          your own samples &mdash; no audio from any record</div></div>
+    </div>
+  </section>
+
+  <aside class="right">
+    <div class="panel">
+      <div class="fields" style="grid-template-columns:132px 132px">
+        <div class="field"><label>Tempo</label>
+          <input type="text" id="tempo" placeholder="95">
+          <div class="hint">blank = home tempo</div></div>
+        <div class="field"><label>How many</label>
+          <input type="number" id="count" value="1" min="1" max="10">
+          <div class="hint">up to 10</div></div>
+      </div>
+      <div class="fire">
+        <button id="go">Make my beats</button>
+        <span id="hosthint"></span>
+      </div>
+      <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
+    </div>
+
+    <h2 class="box">This batch <small>play, open the stems, sort</small></h2>
+    <div class="zones">
+      <div class="zone fav"   data-dest="favorites">&starf; Favorites<small>drag here to keep</small></div>
+      <div class="zone djz"   data-dest="dj">&#9635; DJ folder<small>the default home</small></div>
+      <div class="zone trash" data-dest="trash">&#9587; Trash<small>moved, never deleted</small></div>
+    </div>
+    <div id="tracklist"></div>
+    <div id="empty">__GHOST__<span class="scribble">nothing cooking yet</span>
+      <p>Make a beat and it lands here &mdash; with every drum in it.</p></div>
+
+    <div class="logo-spacer"><div class="logo-mark"></div></div>
+  </aside>
+</div>
+
+<div class="bottom">
+  <h2 class="box">Rhythm test bank <small>five real, well-known hip-hop beats — the rhythm never changes, only the sounds</small></h2>
+  <div class="fixedbank" id="fixedbank">__FIXEDBANK__</div>
+
+  <h2 class="box">Pattern library <small>every transcribed groove, by genre — drums only, no chords or bass</small></h2>
+  <div class="pullup">
+    <div class="field" style="width:170px"><label>Genre</label>
+      <select id="libgenre">__LIBGENRES__</select></div>
+    <div class="field" style="width:300px"><label>Pattern</label>
+      <select id="libpattern"></select></div>
+    <button id="libgo">Play it</button>
+    <div class="note">renders standalone, drops into the player below — roll again for a new kit on the same rhythm</div>
+  </div>
+
+  <h2 class="box">Breaks <small>famous figures + funk breaks — kept separate, played verbatim</small></h2>
+  <div class="pullup">
+    <div class="field" style="width:340px"><label>Break</label>
+      <select id="libbreak">__LIBBREAKS__</select></div>
+    <button id="libbreakgo">Play it</button>
+    <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
+  </div>
+
+  <h2 class="box">Pull up a beat <small>anything you made before</small></h2>
+  <div class="pullup">
+    <div class="field"><label>Beat number</label>
+      <input type="number" id="pullno" min="1" placeholder="316"></div>
+    <button id="pullgo">Open it</button>
+    <span class="note">Adds an older beat to the list above so you can play it,
+    open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
+  </div>
+  <div id="pullmsg"></div>
+</div>

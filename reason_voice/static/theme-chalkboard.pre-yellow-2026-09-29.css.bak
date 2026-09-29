@@ -16,7 +16,7 @@
   --line: #eeeeee33;
   --text: #eee;
   --dim: #eeeeeeaa;
-  --accent: #e8d810;
+  --accent: #eee;
   --accent-dim: #2b2b2b;
   --blue: #eee;
 }
@@ -38,10 +38,9 @@ header, aside, footer, .card, .modal, #docPanel {
 .card, .modal { border: 1px solid #eeeeee44; }
 button, input, select, textarea { font-family: "Blackboard Graffiti", sans-serif; color: #eee; }
 button { background: #1b1b1b; }
-button:hover { border: 1px solid #e8d810; }
-.brand { color: #eee; font-family: "Blackboard Graffiti", sans-serif; transform: rotate(-1deg); }
-ol.steps li.active { background: #e8d810; border-color: #e8d810; color: #111; }
-ol.steps li.active::before { background: #111; color: #e8d810; }
+.brand { color: #eee; font-family: "Blackboard Graffiti", sans-serif; }
+ol.steps li.active { background: #2b2b2b; border-color: #eee; color: #eee; }
+ol.steps li.active::before { background: #eee; color: #111; }
 #walkbar { background: linear-gradient(transparent, #111 30%); }
 .modal select { background: #111; color: #eee; }
 #walkbar button:empty { display: none; }

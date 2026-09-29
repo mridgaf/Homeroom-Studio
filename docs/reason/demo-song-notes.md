@@ -256,3 +256,25 @@ could be read. **Sample only, not a full map.**
   the other Combinators, because the devices are folded to strips.
 - **File check:** SHA-1 of the demo before this visit and after closing: `e377af376e09a211ad065069149e71b515906652`
   both times. Closing gave no save dialog.
+
+## 7. Channel wiring, started (second pass, 2026-09-29; in progress)
+Read by hover after unfolding devices one at a time. Unfolding several devices in one batch of clicks does not work: Reason scrolls
+the rack when an unfolded device ends below the window, so later click positions are wrong (my error while trying it; only some devices
+unfolded). One click, one screenshot, is reliable. Option-click "unfold the whole column" (Manual [11] line 9103) could not be tried:
+display-scope mouse clicks stayed blocked by the Dictation overlay and my request for access to it was declined.
+- **Kick channel (Seen, all four jacks by tooltip):** Kong "KICK" Main Audio Out L / R -> **Kick Comp** (MClass Compressor) Left / Right;
+  Kick Comp output -> **Kick Squash** (Combinator) Input L / R (the tooltips on the Combinator inputs read "Kick Comp: Left / Right");
+  Kick Squash Output L / R -> **Kick** channel strip Input L / R. So: Kong, Compressor, Squash Combinator, channel. Kong Aux Send Out jacks and
+  the Combinator's Gate/CV inputs show no cable. The Combinator's four Control CV labels: Comp Input, EQ Bass Freq, EQ Treble Amount, Maximizer Input.
+- Not yet read: every other channel (Clap, LambaBeat, Timbales, Bass Tonewheel, Organ 1, Organ 2, WarmPad, Guitar question, Pictures of Moments,
+  Main Vox, Middle 8 Vox, Chorus Vox, Booomzzz) and the insides of the Combinators. Several devices are now unfolded in the open (unsaved) copy only.
+- **Clap channel (Seen, all read by tooltip):** exactly the Kick pattern: Kong "CLAP" Main Audio Out L / R -> **Clap Comp** (Compressor) Audio Input L / R; Clap Comp
+  Audio Output L / R -> **Clap Squash** (Combinator) Combi Input Left / Right; Clap Squash Output L / R -> **Clap** channel strip Input L / R.
+  Same four Control CV labels as Kick Squash (Comp Input, EQ Bass Freq, EQ Treble Amount, Maximizer Input). Kong Aux Send Out jacks: no cable.
+- **LambaBeat channel (Seen, by tooltip):** Dr. OctoRex "LAMBABEAT" Left / Right -> **Beat Process** (Combinator) Combi Input L / R (tooltips "LambaBeat: Left / Right", read from the
+  Combinator side); Beat Process Output L / R -> **LambaBeat** channel strip Input L / R. The Dr. OctoRex's own jacks were not hovered (folded). Control CV labels of Beat Process:
+  Filter Freq, Reverb, Filter Rez, Dly (same four as PAD PROCESSOR, so the "Synth Processor" patch).
+- **Timbales channel (Seen, ECF side and strip side):** Timbales is an Audio Track (no instrument). Its Insert FX jacks go out to **Timb Process** (Combinator); **Timb Process Combi Output Left / Right ->
+  ECF-42 "TIMB FILTER" In L / R** (tooltips on the ECF inputs); **ECF-42 Out L / R -> Timbales strip "From Insert FX" L / R**. So the audio clip runs Insert FX send, Timb Process,
+  the ECF-42 filter, and back into the strip. The ECF-42's Freq CV, Decay CV, Res CV and Env. Gate jacks show no cable. Not read: what feeds Timb Process (its input side).
+  The strip's Audio Output reads "Master Section" (front label).

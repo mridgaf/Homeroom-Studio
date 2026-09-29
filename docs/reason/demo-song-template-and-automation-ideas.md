@@ -8,7 +8,7 @@ Automation ideas and skill ideas. Along with phrases." Skills and phrases live i
 could be saved as a Reason template or written up as a recipe card in `recipes/`.
 
 Tags as in the song notes: **Seen** = on screen · **Manual** = manual place named · **Guess** = not confirmed.
-Songs: [Street Phone](demo-song-notes.md) · [Airplane](demo-song-notes-airplane.md). Nothing here was heard.
+Songs: [Street Phone](demo-song-notes.md) · [Airplane](demo-song-notes-airplane.md) · [Power](demo-song-notes-power.md). Nothing here was heard.
 
 ## A. Template ideas (setups worth reusing)
 
@@ -28,6 +28,13 @@ Songs: [Street Phone](demo-song-notes.md) · [Airplane](demo-song-notes-airplane
 | **Pulsar as an oscillator** | A Combinator with no synth: Pulsar LFO 1 Audio Out feeds an ECF-42 filter, a second Pulsar's CV Out wobbles LFO 1's Rate, then mixer, Scream 4, RV7000; an RPG-8 arpeggiator on top | Airplane "Pulse Scream -LC" (wiring file, D3) | Seen the cables. How it sounds: not heard |
 | **Double Malstrom "Kalimba" voice** | Two Malstrom synths (L and R) into a Line Mixer 6:2, then Pulveriser, The Echo, Compressor, all inside one Combinator with four macro knobs (Shift, Dirt, Width, Reverb Level) | Airplane "Norwegian Boy -LNB" (wiring file, D and D2) | Seen. What the knobs drive: Modulation Routing not opened |
 | **Same master Combinator in both songs** | "Master Section FX": M EQ, Stereo Imager, M Comp, Maximizer inside a Combinator, knobs Loudness Curve, Compression, EQ Boost Freq, Master Gain | Airplane and Street Phone | Seen (left jacks read) |
+| **Silent kick trigger for the bass duck** | A Redrum (pattern A1, steps 1-5-9-13, one kick sample) cabled from its channel 1 outputs into the Bass mixer channel's Side Chain Input, with the channel compressor's KEY lit. Nothing else in the mix plays it | Power "BASS SIDECHA..." Redrum | Seen wiring and KEY. That it pumps: not heard, and whether the Redrum runs is unknown (OPEN-ISSUES 41) |
+| **Per-channel insert chain "Comp, EQ, Scream 4, EQ"** | Four inserts under the instrument, each labelled with the channel name (PIANO L COMP, PIANO L EQ, ...) and a Scream 4 in the middle | Power Piano L/R and Mal L/R | Seen. Order taken from the rack order; middle links not hovered |
+| **Drum-machine character chain "Audiomatic, Pulveriser, EQ"** | Each Kong runs through an Audiomatic (Retro Transformer) then a Pulveriser, and Kong FX adds an EQ | Power Kong half / double / FX | Seen (Kong half fully hovered) |
+| **RPG-8 into a synth by CV and gate** | An RPG-8 arpeggiator cabled to the Malstrom's Gate, CV, Mod Wheel and Pitch Wheel inputs, so an arp part plays the same bass patch | Power Bass arp to Bass | Seen by hover |
+| **Send 5 on for every channel** | One shared Unison effect on send 5, on for all 13 channels, while send 4 (a second Echo) is on for none | Power mixer | Seen (levels not read) |
+| **Own track for the vocal, own strip** | An Audio Track "Jayy vox comp" whose channel has sends 3 and 4 off | Power | Seen |
+| **42-bar hook song at 84 BPM** | Intro 1-3, verse 3-11, hook 11-19, break 19-25, verse 25-29, final hook 29-40, echo tail 40-42 | Power | Guess (read from clip positions) |
 
 ## B. Automation ideas (patterns for moves over time)
 
@@ -43,6 +50,8 @@ Songs: [Street Phone](demo-song-notes.md) · [Airplane](demo-song-notes-airplane
 | **Automate the modulation, not the sound** | Synchronous already loops a curve on the beat, so the song only needs to change its settings (Level, filter) instead of drawing many volume dips | Airplane Synchronous | Seen the device. How the composer used it: Guess |
 | **Lane name equals parameter name** | The lane is named by the parameter ("Filter Mod", "Filter Freq", "Dist Amount", "Pattern Select"); the voice app's Europa and Grain scopes already have "Filter Mod", "Filter Freq", "Dist Amount" | Airplane and `remote/ReasonVoice.remotemap` | Seen |
 | **Voice-written sweep** | "Sweep the filter up over four bars" would write a clip like the Mushi one. Proven by hand for a device with its own track while recording (`experiments/automation-test-2026-09-25/RESULTS.md`); nothing in `reason_voice/` writes it. OPEN-ISSUES 31 | Both songs | Seen (bridge test) and file facts |
+| **Channel-strip HPF lift** | A short clip on a mixer channel's "HPF Frequency" lane (Drum loop, about bars 25-29), the channel's high-pass knob getting a green frame | Power | Seen the lane and the green frame. Direction: not read |
+| **Echo throw at the end** | A short "Dry/Wet Balance" clip on an echo device over the last two bars (about 40-42) | Power "Jayy echo" | Seen the lane. What it sounds like: not heard |
 
 ## B2. Things this exploring taught about method (worth reusing)
 

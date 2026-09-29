@@ -1,0 +1,1550 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homeroom Studio</title>
+<style>
+ /* ---------------------------------------------------------------
+    Homeroom Studio — reskinned 2026-08-06 to mockup D ("Show Flyer"):
+    paper + halftone, blue ink, yellow highlight, poster-condensed type.
+    Owner picked D after reviewing A-G, then asked for it live on both
+    rooms (Beat Machine + Reason Voice). Same palette shape as before —
+    the mark's yellow scrawl and blue square carry every accent — just
+    flipped from dark xerox paper to light flyer stock.
+    ---------------------------------------------------------------- */
+ :root {
+   --paper:   #f4ecc4;
+   --card:    #fffef4;
+   --card2:   #ffffff;
+   --line:    #00000026;
+   --line2:   #00000045;
+   --text:    #171717;
+   --dim:     #17171799;
+   --dimmer:  #17171766;
+   /* owner ask 2026-09-29: swap the blue ink for black + yellow-family
+      accents. --hi (band yellow) and --no (red, trash/errors) are
+      unchanged on purpose — --hi was already the action/selection
+      color, and --no is a functional safety color, not decoration. */
+   --hi:      #e8d810;   /* unchanged: band yellow — actions, keeps, selection */
+   --hi-ink:  #16150a;
+   --blue:    #8a6d00;   /* was band blue; dark mustard now — black+yellow palette (owner ask 2026-09-29) */
+   --co:      #b8860b;   /* legend picks — goldenrod: keeps a visually distinct 3rd shade from crew's --hi and genre's --ch */
+   --no:      #ff4d4d;   /* trash + real errors only — kept red on purpose, it's a safety signal not decoration */
+   --ch:      #8a6d00;   /* genre picks — dark mustard; dashed border still sets it apart from legend's solid goldenrod border */
+   --display: "Anton", Impact, "Haettenschweiler", sans-serif;
+   --mono:    "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+   --graffiti: "Blackboard Graffiti", "Marker Felt", "Chalkboard SE", var(--display);
+ }
+ @font-face {
+   font-family: "Blackboard Graffiti";
+   src: url("data:font/woff2;base64,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") format("woff2");
+   font-display: swap;
+ }
+ * { box-sizing: border-box; }
+ html { -webkit-text-size-adjust: 100%; }
+ @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+ body {
+   font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+   margin: 0; padding: 0 24px 90px;
+   background: radial-gradient(circle, #00000014 1px, transparent 1.4px) 0 0/16px 16px,
+               var(--paper);
+   color: var(--text); line-height: 1.5;
+   -webkit-font-smoothing: antialiased;
+ }
+ /* photocopy grain — one inline SVG, no downloads, sits over everything */
+ body::before {
+   /* no mix-blend-mode: a full-screen blended layer makes the whole page
+      recomposite on every scroll, and plain low opacity looks the same */
+   content: ""; position: fixed; inset: 0; z-index: 9; pointer-events: none;
+   opacity: .035;
+   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+ }
+ .wrap { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+
+ /* ------------------------------------------------------- masthead */
+ /* the masthead is the band's blue square, blown up: the mark sits on
+    the same field it was drawn on, so his logo lands in it seamlessly */
+ .board { background: var(--blue); border-radius: 18px; margin: 22px 0 0;
+          padding: 26px 30px; position: relative; overflow: hidden; }
+ .board::after {                       /* chalk-dust wash, keeps it flat-free */
+   /* thrown to the RIGHT on purpose: the logo's own blue is exactly
+      --blue, so any highlight behind it turns the artwork into a
+      visible square instead of letting it melt into the board */
+   content: ""; position: absolute; inset: 0; pointer-events: none;
+   background: radial-gradient(110% 90% at 92% 0%, #ffffff1c, transparent 58%); }
+ header { display: grid; grid-template-columns: auto minmax(0, 1fr);
+          gap: 0 20px; align-items: center; position: relative; z-index: 1; }
+ /* MAKE / STUDIO — one app, two rooms (packaging step 5). Plain links on
+    purpose; no iframes until the simple version has been lived with. */
+ .apptabs { position: absolute; top: 0; right: 0; z-index: 2; display: flex; }
+ .apptabs a, .apptabs .here {
+   font-family: var(--display); font-weight: 700; font-size: 13.5px;
+   letter-spacing: .13em; text-transform: uppercase;
+   padding: 10px 20px 12px; text-decoration: none; }
+ .apptabs .here { background: var(--hi); color: var(--hi-ink);
+                  border-radius: 0 0 0 14px; }
+ .apptabs a { color: #ffffffb8; background: #00000026;
+              border-radius: 0 18px 0 0; }
+ .apptabs a:hover { color: #fff; background: #00000042; }
+ .mark { width: 108px; height: 108px; flex: none; display: grid;
+         place-items: center; overflow: hidden; background: var(--blue); }
+ .mark img { width: 100%; height: 100%; object-fit: contain; }
+ .mark span { font-family: var(--display); font-weight: 700; font-size: 25px;
+              letter-spacing: .04em; color: var(--hi); }
+ /* no band name in type up here — the mark already says it (owner
+    2026-07-18: "I agree about the redundant title, don't use it") */
+ h1 { font-family: var(--graffiti); font-weight: 700;
+      font-size: clamp(38px, 6vw, 66px); line-height: .86;
+      letter-spacing: .012em; margin: 0; text-transform: uppercase;
+      color: #fff; }
+ .scrawl { display: block; width: min(330px, 80%); height: 13px;
+           margin: 8px 0 0; overflow: visible; }
+ .scrawl path { fill: none; stroke: var(--hi); stroke-width: 5;
+                stroke-linecap: round; }
+ .tag { grid-column: 2; margin: 12px 0 0; color: #ffffffc4;
+        max-width: 62ch; font-size: 14.5px; }
+
+ /* -------------------------------------------------- section heads */
+ h2.box { font-family: var(--display); font-weight: 700; font-size: 20px;
+          letter-spacing: .1em; text-transform: uppercase;
+          margin: 34px 0 12px; display: flex; align-items: center; gap: 11px; }
+ h2.box::before {                       /* stencil bars */
+   content: ""; width: 26px; height: 13px; flex: none; border-radius: 2px;
+   background: repeating-linear-gradient(90deg, var(--hi) 0 4px,
+               transparent 4px 8px);
+ }
+ h2.box small { font-family: -apple-system, sans-serif; font-weight: 400;
+                font-size: 12.5px; letter-spacing: .02em; color: var(--dimmer);
+                text-transform: none; }
+
+ /* ------------------------------------------------------ DJ crates */
+ .djs { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+        gap: 9px; }
+ .fixedbank { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+              gap: 9px; margin-bottom: 6px; }
+ .fixedbtn { padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+             background: var(--card); cursor: pointer; text-align: left;
+             font-family: var(--display); font-weight: 600; font-size: 15px;
+             color: var(--text); transition: border-color .13s, transform .13s; }
+ .fixedbtn:hover { border-color: var(--hi); transform: translateY(-1px); }
+ .fixedbtn:disabled { opacity: .5; cursor: default; transform: none; }
+ .fixedbtn small { display: block; font-weight: 400;
+                   font-size: 12px; color: var(--dim); text-transform: none;
+                   letter-spacing: 0; margin-top: 3px; }
+ .dj { position: relative; display: flex; align-items: center; gap: 10px;
+       padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+       background: var(--card); cursor: pointer; user-select: none;
+       transition: border-color .13s, background .13s, transform .13s; }
+ .dj:hover { border-color: var(--line2); transform: translateY(-1px); }
+ .dj input { position: absolute; opacity: 0; pointer-events: none; }
+ .dj .dot { width: 11px; height: 11px; border-radius: 50%; flex: none;
+            border: 2px solid var(--line2); transition: all .13s; }
+ .dj .who { flex: 1; min-width: 0; }
+ .dj .name { display: block; font-family: var(--display); font-weight: 600;
+             font-size: 18.5px; line-height: 1.12; letter-spacing: .028em;
+             text-transform: uppercase; white-space: nowrap; overflow: hidden;
+             text-overflow: ellipsis; }
+ .dj .built { display: block; font-size: 11.5px; color: var(--dimmer);
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .dj .bpm { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
+            border: 1px solid var(--line); border-radius: 5px;
+            padding: 2px 5px; flex: none; }
+ .dj .ord { position: absolute; top: -7px; right: -7px; width: 21px;
+            height: 21px; border-radius: 50%; display: none;
+            place-items: center; font-family: var(--mono); font-size: 11px;
+            font-weight: 700; background: var(--hi); color: var(--hi-ink); }
+ .dj:has(input:checked) { border-color: var(--hi); background: #e8d81014; }
+ .dj:has(input:checked) .dot { background: var(--hi); border-color: var(--hi); }
+ .dj:has(input:checked) .ord { display: grid; }
+ .dj.legend:has(input:checked) { border-color: var(--co); background: #00000014; }
+ .dj.legend:has(input:checked) .dot { background: var(--co); border-color: var(--co); }
+ .dj.legend:has(input:checked) .ord { background: var(--co); color: #fff; }
+ /* the third box gets CHALK rather than a fourth hue — the mark only
+    owns yellow and blue, and chalk on a board is the one other colour
+    this band already has (crew = yellow scrawl, legends = blue, styles
+    = chalk). */
+ .dj.genre:has(input:checked) { border-color: var(--ch); border-style: dashed; background: #0000000c; }
+ .dj.genre:has(input:checked) .dot { background: var(--ch); border-color: var(--ch); }
+ .dj.genre:has(input:checked) .ord { background: var(--ch); color: #16150a; }
+ .dj.genre .built { font-style: italic; }
+
+ /* ------------------------------------------------------- controls */
+ .panel { margin-top: 24px; padding: 20px 22px; border: 1px solid var(--line);
+          border-radius: 14px; background: var(--card); }
+ .fields { display: grid; grid-template-columns: 132px 132px 1fr; gap: 16px; }
+ .field label { display: block; font-family: var(--display); font-weight: 600;
+                font-size: 12.5px; letter-spacing: .11em; text-transform: uppercase;
+                color: var(--dim); margin-bottom: 6px; }
+ .field input, .field select { width: 100%; font-size: 15px; padding: 10px 12px;
+                border-radius: 9px; border: 1px solid var(--line2);
+                background: var(--card2); color: var(--text); font-family: inherit; }
+ .field input:focus, .field select:focus { outline: none; border-color: var(--hi); }
+ .field.quick { margin-top: 16px; }
+ .field .hint { font-size: 11.5px; color: var(--dimmer); margin-top: 5px; }
+ .fire { display: flex; align-items: center; gap: 16px; margin-top: 18px;
+         flex-wrap: wrap; }
+ #go { position: relative; font-family: var(--display); font-weight: 700;
+       font-size: 21px; letter-spacing: .07em; text-transform: uppercase;
+       padding: 13px 30px; border: 0; border-radius: 10px;
+       background: var(--hi); color: var(--hi-ink); cursor: pointer;
+       transition: transform .1s; }
+ #go::after {                            /* sticker shadow, marker-ish */
+   content: ""; position: absolute; inset: 0; border-radius: 10px;
+   border: 2px solid var(--text); opacity: .17;
+   transform: translate(4px, 4px) rotate(-.5deg); pointer-events: none; }
+ #go:hover:not(:disabled) { transform: translate(-1px, -1px); }
+ #go:disabled { opacity: .45; cursor: default; }
+ #hosthint { color: var(--dim); font-size: 13.5px; flex: 1; min-width: 180px; }
+
+ /* the working strip — replaces the old green wall of filenames */
+ #work { margin-top: 16px; display: none; }
+ #work.on { display: block; }
+ #workbar { height: 4px; border-radius: 3px; background: var(--line);
+            overflow: hidden; }
+ #workbar i { display: block; height: 100%; width: 34%; border-radius: 3px;
+              background: var(--hi); animation: slide 1.15s ease-in-out infinite; }
+ @keyframes slide { 0% { margin-left: -34%; } 100% { margin-left: 100%; } }
+ #worktext { margin-top: 9px; font-size: 13.5px; color: var(--dim); }
+ #work.bad #workbar { display: none; }
+ #work.bad #worktext { color: var(--no); white-space: pre-wrap; }
+
+ /* --------------------------------------------------- batch + bins */
+ .zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px;
+          margin: 14px 0 16px; }
+ .zone { border: 1.5px dashed var(--line2); border-radius: 12px;
+         padding: 15px 12px; text-align: center;
+         font-family: var(--display); font-weight: 600; font-size: 15.5px;
+         letter-spacing: .07em; text-transform: uppercase; color: var(--dim);
+         transition: background .12s, border-color .12s, color .12s; }
+ .zone small { display: block; font-family: -apple-system, sans-serif;
+               font-weight: 400; font-size: 11.5px; letter-spacing: 0;
+               text-transform: none; color: var(--dimmer); margin-top: 3px; }
+ .zone.fav.over   { border-color: var(--hi); background: #e8d8101f; color: var(--hi); }
+ .zone.djz.over   { border-color: var(--co); background: #7d8cff1f; color: var(--co); }
+ .zone.trash.over { border-color: var(--no); background: #ff4d4d1f; color: var(--no); }
+
+ /* ------------------------------------------- reference track (sec. 5) */
+ #refdrop { border: 1.5px dashed var(--line2); border-radius: 10px;
+            padding: 11px 12px; text-align: center; font-size: 12.5px;
+            color: var(--dim); cursor: default;
+            transition: background .12s, border-color .12s, color .12s; }
+ #refdrop.over, #refdrop.busy { border-color: var(--co); color: var(--co);
+                                background: #7d8cff14; }
+ /* the row is its own grid: the two key dropdowns need more than the
+    132px column the tempo box sits in, and the drop target needs the
+    rest of the width or its one sentence wraps into three lines. */
+ .refrow { grid-template-columns: 264px 1fr; }
+ #refline { min-height: 15px; }
+ #refline b { color: var(--ink); }
+ #refline button { font-size: 11px; padding: 1px 7px; margin-left: 5px;
+                   vertical-align: baseline; }
+
+ #empty { padding: 34px 0 10px; text-align: center; position: relative; }
+ #empty .ghost { width: 132px; margin: 0 auto 4px; opacity: .13;
+                 transform: rotate(-3deg); }
+ #empty .ghost img { width: 100%; display: block; }
+ #empty .scribble { font-family: var(--display); font-weight: 700;
+                    font-size: 38px; letter-spacing: .04em; color: #00000012;
+                    text-transform: uppercase; transform: rotate(-2.5deg);
+                    display: inline-block; }
+ #empty p { color: var(--dimmer); font-size: 13.5px; margin: 6px 0 0; }
+
+ /* ------------------------------------------------------ the track */
+ .track { position: relative; border: 1px solid var(--line); border-radius: 13px;
+          background: var(--card); margin: 9px 0; overflow: hidden;
+          transition: border-color .13s; }
+ .track.dragging { opacity: .35; }
+ .track.loc-favorites { border-color: #e8d81066; }
+ .track.loc-trash { border-color: #ff4d4d55; opacity: .62; }
+ .thead { display: flex; align-items: center; gap: 13px; padding: 12px 14px;
+          cursor: grab; }
+ .thead .no { font-family: var(--display); font-weight: 700; font-size: 27px;
+              color: var(--dimmer); flex: none; min-width: 46px; }
+ .track.loc-favorites .thead .no { color: var(--hi); }
+ .tmeta { flex: 1; min-width: 0; }
+ .tname { display: block; font-family: var(--display); font-weight: 600; font-size: 19px;
+          letter-spacing: .026em; text-transform: uppercase;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .tsub { display: block; font-size: 11.5px; color: var(--dimmer); font-family: var(--mono);
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ /* the browser's own audio control is a white pill — it wrecked the
+    page, and it can't be restyled, so the track gets its own transport */
+ .thead audio { display: none; }
+ .player { display: flex; align-items: center; gap: 10px; flex: none;
+           width: 238px; }
+ .pp { width: 33px; height: 33px; flex: none; border-radius: 50%;
+       border: 1px solid var(--line2); background: #0000000a;
+       color: var(--text); cursor: pointer; font-size: 11px;
+       display: grid; place-items: center; transition: all .12s; }
+ .pp:hover { background: #0000001c; }
+ .pp.on { background: var(--hi); border-color: var(--hi); color: var(--hi-ink); }
+ .bar { flex: 1; height: 5px; border-radius: 3px; background: var(--line2);
+        cursor: pointer; position: relative; }
+ .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+          background: var(--hi); border-radius: 3px; }
+ .time { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
+         min-width: 36px; text-align: right; }
+ .acts { display: flex; gap: 4px; flex: none; }
+ .acts button, .stembtn { font-size: 14px; line-height: 1; padding: 7px 9px;
+       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+       background: #00000008; color: var(--text); transition: all .12s; }
+ .acts button:hover { background: #00000017; }
+ .acts button.on-fav   { border-color: var(--hi); color: var(--hi); }
+ .acts button.on-trash { border-color: var(--no); color: var(--no); }
+ .stembtn { font-family: var(--display); font-weight: 600; font-size: 12.5px;
+            letter-spacing: .09em; text-transform: uppercase; padding: 8px 12px;
+            white-space: nowrap; }
+ .stembtn.open { background: var(--hi); color: var(--hi-ink); border-color: var(--hi); }
+
+ /* ------------------------------------- why this beat works (step 3) */
+ .theory { display: none; border-top: 1px solid var(--line);
+           padding: 9px 14px 11px; background: #00000005; }
+ .tline { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
+          display: flex; flex-wrap: wrap; gap: 7px; align-items: baseline; }
+ .tline b { color: var(--hi); font-weight: 700; }
+ .tline i { color: var(--line); font-style: normal; }
+ .tline .rom { color: var(--dim); }
+ .twhy { margin-top: 6px; font-size: 12.5px; line-height: 1.5;
+         color: var(--dim); max-width: 66ch; }
+
+ /* -------------------------------------------------- the stem rack */
+ .rack { display: none; border-top: 1px solid var(--line);
+         background: #0000000d; padding: 4px 14px 14px; }
+ .rack.open { display: block; }
+ .lane { display: grid; grid-template-columns: 74px 1fr auto auto;
+         gap: 12px; align-items: center; padding: 10px 0;
+         border-bottom: 1px solid #0000000c; }
+ .lane:last-of-type { border-bottom: 0; }
+ .lane .who2 { display: flex; align-items: center; gap: 7px; }
+ .lane .swatch { width: 3px; height: 17px; border-radius: 2px;
+                 background: var(--co); flex: none; }
+ .lane.locked .swatch { background: var(--dimmer); }
+ .lane.changed .swatch { background: var(--hi); }
+ .lane .lname { font-family: var(--display); font-weight: 600; font-size: 14px;
+                letter-spacing: .1em; text-transform: uppercase; }
+ .lane .what { min-width: 0; }
+ .lane .sample { display: block; font-size: 13px; white-space: nowrap;
+                 overflow: hidden; text-overflow: ellipsis; }
+ .lane .pack { display: block; font-size: 11px; color: var(--dimmer);
+               font-family: var(--mono); white-space: nowrap;
+               overflow: hidden; text-overflow: ellipsis; }
+ .lane.changed .sample { color: var(--hi); }
+ .lane .picks { display: flex; align-items: center; gap: 6px; flex: none; }
+ .lane select { appearance: none; -webkit-appearance: none;
+       font-family: inherit; font-size: 12.5px; max-width: 250px;
+       padding: 7px 26px 7px 10px; border-radius: 8px;
+       border: 1px solid var(--line2); background: var(--card2);
+       color: var(--text); cursor: pointer;
+       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23171717' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+       background-repeat: no-repeat; background-position: right 9px center; }
+ .lane select:focus { outline: none; border-color: var(--hi); }
+ /* type + tempo steps (2026-09-28) sit before the sound list, narrower */
+ .lane .picks { flex-wrap: wrap; justify-content: flex-end; }
+ .lane select:not(.snd) { max-width: 140px; }
+ .lane.changed select { border-color: var(--hi); }
+ .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px;
+       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+       background: #00000008; color: var(--text); }
+ .lane .mini:hover { background: #00000017; }
+ .lane .mini.playing { border-color: var(--co); color: var(--co); }
+ .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
+
+ /* the stem faders — one per lane, so the rack reads down like a mixer */
+ /* volume: 1 dB arrows, not a slider (owner 2026-07-25 — the slider
+    jumped and left gaps). The dB readout doubles as the reset button. */
+ .lane .vol { display: flex; align-items: center; gap: 2px; flex: none; }
+ .lane .vol .step { width: 26px; height: 26px; padding: 0; line-height: 1;
+       font-size: 15px; font-weight: 700; border-radius: 7px;
+       border: 1px solid var(--line2); background: var(--card2);
+       color: var(--text); cursor: pointer; }
+ .lane .vol .step:hover { border-color: var(--hi); color: var(--hi); }
+ .lane .vol .step:active { transform: translateY(1px); }
+ .lane .vol .db { font-family: var(--mono); font-size: 12px;
+       color: var(--dimmer); width: 40px; text-align: center;
+       cursor: pointer; user-select: none; }
+ .lane.trimmed .vol .db { color: var(--hi); }
+ .lane.trimmed .swatch { background: var(--hi); }
+ /* a stem staged for removal reads as struck-through and faded */
+ /* the ban prompt: three real buttons, because a ban cannot be
+    undone from this page and confirm() has no safe third answer */
+ .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap;
+   align-items: center; gap: 7px; margin-top: 6px; padding: 7px 9px;
+   border-radius: 7px; background: #3a2020; color: #f4e6e6;
+   font-size: 13px; }
+ .banask span { flex: 1 1 220px; }
+ .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol {
+   opacity: .35; text-decoration: line-through; }
+
+ .rackfoot { display: flex; align-items: center; gap: 14px; padding: 13px 0 3px;
+             border-top: 1px solid var(--line); margin-top: 4px; flex-wrap: wrap; }
+ .rackfoot .staged { font-size: 12.5px; color: var(--dim); flex: 1;
+                     min-width: 150px; }
+ .rackfoot .staged b { color: var(--hi); }
+ .rebuild { font-family: var(--display); font-weight: 700; font-size: 14.5px;
+       letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
+       border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
+       cursor: pointer; }
+ .chunk { font-family: var(--display); font-weight: 700; font-size: 13px;
+   background: none; border: 1px solid var(--dim); border-radius: 6px;
+   color: var(--ink); padding: 5px 10px; cursor: pointer; }
+ .chunk:disabled { color: var(--dimmer); border-color: var(--dimmer);
+   cursor: default; }
+ .rebuild:disabled { background: #00000010; color: var(--dimmer); cursor: default; }
+ .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
+         cursor: pointer; text-decoration: underline; padding: 6px; }
+ /* secondary to Rebuild: rolling stages changes, it doesn't print a beat */
+ .rollall { font-family: var(--display); font-weight: 700; font-size: 12.5px;
+       letter-spacing: .06em; text-transform: uppercase; padding: 9px 15px;
+       border: 1px solid #00000026; border-radius: 9px; background: none;
+       color: var(--text); cursor: pointer; white-space: nowrap; }
+ .rollall:hover { border-color: var(--hi); color: var(--hi); }
+ .rackmsg { font-size: 12.5px; color: var(--no); padding: 4px 0 0;
+            white-space: pre-wrap; }
+
+ /* -------------------------------------------------------- pull-up */
+ .pullup { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+ .pullup .field { width: 130px; }
+ .pullup button { font-family: var(--display); font-weight: 600; font-size: 14px;
+       letter-spacing: .08em; text-transform: uppercase; padding: 11px 20px;
+       border: 1px solid var(--co); border-radius: 9px; background: #b8860b1f;
+       color: var(--co); cursor: pointer; }
+ .pullup .note { flex: 1; min-width: 200px; font-size: 12.5px;
+                 color: var(--dimmer); }
+ #pullmsg { font-size: 13px; color: var(--no); margin-top: 9px; }
+
+ @media (max-width: 720px) {
+   .fields { grid-template-columns: 1fr 1fr; }
+   .refrow { grid-template-columns: 1fr; }
+   .fields .field:last-child { grid-column: 1 / -1; }
+   .thead audio { width: 100%; order: 9; }
+   .thead { flex-wrap: wrap; }
+   .lane { grid-template-columns: 1fr; gap: 7px; }
+   .zones { grid-template-columns: 1fr; }
+ }
+
+ /* ---------------------------------------------------------------
+    Black + yellow "school bus" pass (mockup M, owner ask 2026-09-29):
+    two-column layout, black chalkboard results column, graffiti +
+    typewriter type accents, mural crookedness on static chips only.
+    ---------------------------------------------------------------- */
+
+ /* typewriter feel on all small/label text across the page */
+ small, .hint, .note, label { font-family: var(--mono) !important; }
+
+ .cols { display: grid; grid-template-columns: minmax(0,1fr) 420px; gap: 26px;
+         align-items: stretch; }
+ @media (max-width: 1000px) { .cols { grid-template-columns: 1fr; } }
+
+ /* the right column is its own little chalkboard: re-theme its vars
+    locally so every card/field/track inside just re-skins for free */
+ .right {
+   --card: #171717; --card2: #171717; --line: #ffffff26; --line2: #ffffff45;
+   --text: #f4f1e6; --dim: #f4f1e699; --dimmer: #f4f1e666;
+   background: #111; color: #f4f1e6; border-radius: 10px; padding: 20px;
+   display: flex; flex-direction: column; min-height: 100%;
+   transform: rotate(-1.1deg);
+ }
+ .right h2.box, .right #go { font-family: var(--graffiti); }
+
+ .logo-spacer { flex: 1; display: flex; align-items: center; justify-content: center;
+                min-height: 80px; }
+ .logo-mark { width: 80%; max-width: 260px; aspect-ratio: 1;
+              background-image: url("/brand?name=logo-black.png");
+              background-size: contain; background-repeat: no-repeat;
+              background-position: center;
+              filter: invert(1) sepia(1) saturate(8) hue-rotate(-20deg) brightness(1.15);
+              mix-blend-mode: screen; opacity: .5; pointer-events: none; }
+
+ /* mural/crooked touches — static chips only, never .track or anything
+    inside #tracklist (rotation there breaks drag-and-drop hit-testing) */
+ .dj:nth-child(3n)   { transform: rotate(-1.6deg); }
+ .dj:nth-child(3n+1) { transform: rotate(1.3deg); }
+ .dj:nth-child(3n+2) { transform: rotate(-.9deg); }
+ .fixedbtn:nth-child(3n)   { transform: rotate(-1.4deg); }
+ .fixedbtn:nth-child(3n+1) { transform: rotate(1.1deg); }
+ .fixedbtn:nth-child(3n+2) { transform: rotate(-.8deg); }
+ .pullup button { transform: rotate(-.8deg); }
+ .panel { transform: rotate(.5deg); }
+
+ .bottom { margin: 20px 0 40px; padding: 22px; border: 9px solid transparent;
+           border-image: repeating-linear-gradient(45deg, #111 0 16px, #e8d810 16px 32px) 18;
+           border-radius: 2px; }
+</style></head><body>
+<div class="wrap">
+
+<div class="board">
+<nav class="apptabs">
+  <span class="here" title="You're here — making beats">Make</span>
+  <a href="http://localhost:8765"
+     title="The studio half — recipes, patches, Reason. Same launcher starts it.">Studio</a>
+</nav>
+<header>
+  <div class="mark" id="mark"><span>BOTC</span></div>
+  <div class="title">
+    <h1>Homeroom Studio</h1>
+    <svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"
+         aria-hidden="true"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2
+         14-.9 27-2.3 40-4.8"/></svg>
+  </div>
+  <p class="tag">Check one DJ for a beat of their own. Check more for a collab &mdash;
+  it lands in the folder of whoever you check <b>first</b>. Ask for four or more
+  and a quarter come back as straight, traditional hip hop.</p>
+</header>
+</div>
+
+<div class="cols">
+  <section class="left">
+    <h2 class="box">The Crew <small>14 personalities</small></h2>
+    <div class="djs"><label class="dj crew"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Crew 0</span><span class="built">built stuff</span></span><span class="bpm">95</span><span class="ord"></span></label><label class="dj crew"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Crew 1</span><span class="built">built stuff</span></span><span class="bpm">95</span><span class="ord"></span></label><label class="dj crew"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Crew 2</span><span class="built">built stuff</span></span><span class="bpm">95</span><span class="ord"></span></label><label class="dj crew"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Crew 3</span><span class="built">built stuff</span></span><span class="bpm">95</span><span class="ord"></span></label><label class="dj crew"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Crew 4</span><span class="built">built stuff</span></span><span class="bpm">95</span><span class="ord"></span></label><label class="dj crew"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Crew 5</span><span class="built">built stuff</span></span><span class="bpm">95</span><span class="ord"></span></label></div>
+    <h2 class="box">The Legends <small>signature styles</small></h2>
+    <div class="djs"><label class="dj legend"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Legend 0</span><span class="built">built stuff</span></span><span class="bpm">90</span><span class="ord"></span></label><label class="dj legend"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Legend 1</span><span class="built">built stuff</span></span><span class="bpm">90</span><span class="ord"></span></label><label class="dj legend"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Legend 2</span><span class="built">built stuff</span></span><span class="bpm">90</span><span class="ord"></span></label><label class="dj legend"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Legend 3</span><span class="built">built stuff</span></span><span class="bpm">90</span><span class="ord"></span></label></div>
+    <h2 class="box">The Styles <small>seventeen subgenres, played by the rules</small></h2>
+    <div class="djs"><label class="dj genre"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Genre 0</span><span class="built">built stuff</span></span><span class="bpm">100</span><span class="ord"></span></label><label class="dj genre"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Genre 1</span><span class="built">built stuff</span></span><span class="bpm">100</span><span class="ord"></span></label><label class="dj genre"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Genre 2</span><span class="built">built stuff</span></span><span class="bpm">100</span><span class="ord"></span></label><label class="dj genre"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Genre 3</span><span class="built">built stuff</span></span><span class="bpm">100</span><span class="ord"></span></label><label class="dj genre"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Genre 4</span><span class="built">built stuff</span></span><span class="bpm">100</span><span class="ord"></span></label><label class="dj genre"><input type="checkbox"><span class="dot"></span><span class="who"><span class="name">Genre 5</span><span class="built">built stuff</span></span><span class="bpm">100</span><span class="ord"></span></label></div>
+
+    <h2 class="box">Your choices <small>directions, key, and reference track</small></h2>
+    <div class="panel">
+      <div class="fields" style="grid-template-columns:1fr 200px">
+        <div class="field"><label>Directions</label>
+          <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
+          <div class="hint">used for this click and saved in the README</div></div>
+        <div class="field"><label>&nbsp;</label>
+          <label><input type="checkbox" id="loopsonly"> Loops only</label>
+          <div class="hint">whole beat built from loop material instead of one-shots</div></div>
+      </div>
+      <div class="fields refrow">
+        <div class="field"><label>Key</label>
+          <span style="display:flex; gap:6px">
+            <select id="keyroot"><option value="">&mdash; any &mdash;</option><option>C</option><option>D</option></select>
+            <select id="keymode"><option>major</option><option selected>minor</option></select>
+          </span>
+          <div class="hint">set a key and the beat gets chords in it</div></div>
+        <div class="field"><label>Reference track</label>
+          <div id="refdrop">Drag a song here to match its tempo and key</div>
+          <div class="hint" id="refline">nothing dropped yet</div></div>
+      </div>
+      <div class="field quick"><label>Quick directions</label>
+        <select id="quick">
+          <option value="">&mdash; pick one &mdash;</option>
+          <option value="no chords">no chords &mdash; drums only, old style</option>
+          <option value="sparse">sparse &mdash; thin everything out</option>
+          <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+          <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+          <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+          <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+          <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+          <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+          <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+          <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+          <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+          <option value="no perc">no perc &mdash; percussion off</option>
+          <option value="crisp">crisp &mdash; crisp, clear samples</option>
+          <option value="dusty">dusty &mdash; dusty, aged samples</option>
+        </select>
+        <div class="hint">fills the Directions box above &mdash; edit it after if you like</div></div>
+      <div class="field quick"><label>Famous beats</label>
+        <select id="famous">
+          <option value="">&mdash; none, make it up &mdash;</option>
+          <option value="break">surprise me &mdash; any of them</option>
+<option value="amen">Amen Break</option>
+        </select>
+        <div class="hint">the drum part is played exactly as it was drummed, on
+          your own samples &mdash; no audio from any record</div></div>
+    </div>
+  </section>
+
+  <aside class="right">
+    <div class="panel">
+      <div class="fields" style="grid-template-columns:132px 132px">
+        <div class="field"><label>Tempo</label>
+          <input type="text" id="tempo" placeholder="95">
+          <div class="hint">blank = home tempo</div></div>
+        <div class="field"><label>How many</label>
+          <input type="number" id="count" value="1" min="1" max="10">
+          <div class="hint">up to 10</div></div>
+      </div>
+      <div class="fire">
+        <button id="go">Make my beats</button>
+        <span id="hosthint"></span>
+      </div>
+      <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
+    </div>
+
+    <h2 class="box">This batch <small>play, open the stems, sort</small></h2>
+    <div class="zones">
+      <div class="zone fav"   data-dest="favorites">&starf; Favorites<small>drag here to keep</small></div>
+      <div class="zone djz"   data-dest="dj">&#9635; DJ folder<small>the default home</small></div>
+      <div class="zone trash" data-dest="trash">&#9587; Trash<small>moved, never deleted</small></div>
+    </div>
+    <div id="tracklist"></div>
+    <div id="empty"><span class="scribble">nothing cooking yet</span>
+      <p>Make a beat and it lands here &mdash; with every drum in it.</p></div>
+
+    <div class="logo-spacer"><div class="logo-mark"></div></div>
+  </aside>
+</div>
+
+<div class="bottom">
+  <h2 class="box">Rhythm test bank <small>five real, well-known hip-hop beats — the rhythm never changes, only the sounds</small></h2>
+  <div class="fixedbank" id="fixedbank"><button class="fixedbtn" data-idx="0" data-title="Pattern 0">Pattern 0<small>lib</small></button><button class="fixedbtn" data-idx="1" data-title="Pattern 1">Pattern 1<small>lib</small></button><button class="fixedbtn" data-idx="2" data-title="Pattern 2">Pattern 2<small>lib</small></button><button class="fixedbtn" data-idx="3" data-title="Pattern 3">Pattern 3<small>lib</small></button><button class="fixedbtn" data-idx="4" data-title="Pattern 4">Pattern 4<small>lib</small></button></div>
+
+  <h2 class="box">Pattern library <small>every transcribed groove, by genre — drums only, no chords or bass</small></h2>
+  <div class="pullup">
+    <div class="field" style="width:170px"><label>Genre</label>
+      <select id="libgenre"><option>Trap</option><option>Boom Bap</option></select></div>
+    <div class="field" style="width:300px"><label>Pattern</label>
+      <select id="libpattern"></select></div>
+    <button id="libgo">Play it</button>
+    <div class="note">renders standalone, drops into the player below — roll again for a new kit on the same rhythm</div>
+  </div>
+
+  <h2 class="box">Breaks <small>famous figures + funk breaks — kept separate, played verbatim</small></h2>
+  <div class="pullup">
+    <div class="field" style="width:340px"><label>Break</label>
+      <select id="libbreak"><option>Amen Break</option></select></div>
+    <button id="libbreakgo">Play it</button>
+    <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
+  </div>
+
+  <h2 class="box">Pull up a beat <small>anything you made before</small></h2>
+  <div class="pullup">
+    <div class="field"><label>Beat number</label>
+      <input type="number" id="pullno" min="1" placeholder="316"></div>
+    <button id="pullgo">Open it</button>
+    <span class="note">Adds an older beat to the list above so you can play it,
+    open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
+  </div>
+  <div id="pullmsg"></div>
+</div>
+
+</div>
+<script>
+ // the quick list just types into the Directions box for him, so the
+ // whole existing parser + README trail works unchanged
+ document.getElementById('quick').addEventListener('change', e => {
+   if (e.target.value) document.getElementById('notes').value = e.target.value;
+ });
+
+ // Famous beats: same trick — it types the words into Directions, so there
+ // is ONE code path (parse_directions) whether he picks it or types it, and
+ // the README trail says what he asked for either way.
+ const BREAK_WORDS = [];
+ document.getElementById('famous').addEventListener('change', e => {
+   const n = document.getElementById('notes');
+   const kept = n.value.split(',').map(s => s.trim())
+                 .filter(s => s && !BREAK_WORDS.includes(s.toLowerCase()));
+   if (e.target.value) kept.unshift(e.target.value);
+   n.value = kept.join(', ');
+ });
+
+ // ---------------------------------------------------------- crew picking
+ const order = [];
+ function refresh() {
+   document.querySelectorAll('.dj').forEach(d => {
+     const cb = d.querySelector('input');
+     const pos = order.indexOf(cb.value);
+     d.querySelector('.ord').textContent = pos >= 0 ? (pos + 1) : '';
+   });
+   const hint = document.getElementById('hosthint');
+   if (!order.length) hint.textContent = '';
+   else if (order.length === 1) hint.textContent = 'Solo beat from ' + order[0] + '.';
+   else hint.textContent = 'Collab — lands in ' + order[0] + "'s folder.";
+ }
+ document.querySelectorAll('.dj input').forEach(cb => {
+   cb.addEventListener('change', () => {
+     if (cb.checked) { if (!order.includes(cb.value)) order.push(cb.value); }
+     else { const i = order.indexOf(cb.value); if (i >= 0) order.splice(i, 1); }
+     refresh();
+   });
+ });
+
+ // ------------------------------------------------------------- one voice
+ // every preview shares one player, so clicking around never stacks sounds
+ const audition = new Audio();
+ let auditionBtn = null;
+ function play(url, btn) {
+   if (auditionBtn) auditionBtn.classList.remove('playing');
+   if (auditionBtn === btn && !audition.paused) {
+     audition.pause(); auditionBtn = null; return;
+   }
+   document.querySelectorAll('.track audio').forEach(a => a.pause());
+   audition.src = url; audition.play().catch(() => {});
+   auditionBtn = btn || null;
+   if (auditionBtn) auditionBtn.classList.add('playing');
+ }
+ audition.addEventListener('ended', () => {
+   if (auditionBtn) auditionBtn.classList.remove('playing');
+   auditionBtn = null;
+ });
+
+ // ------------------------------------------------------------ the batch
+ const LOC = { favorites: '&starf; kept', trash: 'trashed', dj: '' };
+ const staged = {};                    // beat no -> { lane: path | null }
+ const trims = {};                     // beat no -> { lane: dB }
+ const drops = {};                     // beat no -> { lane: true }
+
+ function setLoc(el, loc) {
+   el.className = 'track loc-' + loc;
+   el.querySelector('.tloc').innerHTML = LOC[loc] || '';
+   el.querySelectorAll('.acts button').forEach(b => {
+     b.classList.toggle('on-fav', loc === 'favorites' && b.dataset.dest === 'favorites');
+     b.classList.toggle('on-trash', loc === 'trash' && b.dataset.dest === 'trash');
+   });
+ }
+ async function triage(no, dest, el) {
+   try {
+     const r = await fetch('/triage', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, dest }) });
+     const d = await r.json();
+     if (d.ok && el) setLoc(el, d.loc);
+   } catch (e) {}
+ }
+
+ function prettyTitle(label) {          // "316 Doc Day Boulevard Protocol Drums 93bpm"
+   const m = label.match(/^(\d+)\s+(.*?)\s+Drums\s+([\d.]+)bpm$/i);
+   return m ? { no: m[1], rest: m[2], bpm: m[3] } : { no: '', rest: label, bpm: '' };
+ }
+
+ function makeTrack(b) {
+   const t = prettyTitle(b.label);
+   const el = document.createElement('div');
+   el.className = 'track loc-' + b.loc;
+   el.draggable = true;
+   el.dataset.no = b.no;
+   el.innerHTML =
+     '<div class="thead">' +
+       '<span class="no">' + b.no + '</span>' +
+       '<span class="tmeta"><span class="tname"></span>' +
+         '<span class="tsub"></span></span>' +
+       '<span class="player"><button class="pp">&#9654;</button>' +
+         '<span class="bar"><i></i></span>' +
+         '<span class="time">0:00</span></span>' +
+       // `loop`: a beat repeats until you press stop (owner 2026-08-31).
+       // The attribute lives on the ELEMENT, so it survives cue()'s
+       // src+load() and the /mix preview loops too. Renders are already
+       // loop-safe (no edge fades, tails wrap), so the seam is clean.
+       '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
+       '<span class="acts">' +
+         '<button class="stembtn" data-role="stems">Stems</button>' +
+         (b.se_id ? '<button class="stembtn" data-role="engine" ' +
+           'title="Open in the Sound Engine with this DJ&apos;s effects ' +
+           'already dialled in (start it from Sound Engine.command first)">' +
+           'FX</button>' : '') +
+         '<button title="Keep it" data-dest="favorites">&starf;</button>' +
+         '<button title="DJ folder" data-dest="dj">&#9635;</button>' +
+         '<button title="Trash it" data-dest="trash">&#9587;</button>' +
+       '</span>' +
+     '</div>' +
+     '<div class="theory"></div>' +
+     '<div class="rack"></div>';
+   el.querySelector('.tname').textContent = t.rest;
+   el.querySelector('.tsub').innerHTML =
+     (t.bpm ? t.bpm + ' BPM' : '') + ' <span class="tloc"></span>';
+   // why this beat works — only for beats that recorded their harmony;
+   // anything older just doesn't get the block (see _beat_theory)
+   const th = b.theory;
+   if (th && th.key) {
+     const box = el.querySelector('.theory');
+     const bits = ['<b>' + esc(th.key) + '</b>'];
+     if (th.progression) bits.push(esc(th.progression));
+     if (th.roman) bits.push('<span class="rom">' + esc(th.roman) + '</span>');
+     if (th.chords) bits.push('<span class="rom">' + esc(th.chords) + '</span>');
+     if (th.voices) bits.push(esc(th.voices));
+     box.innerHTML = '<div class="tline">' + bits.join('<i>·</i>') + '</div>' +
+       (th.why ? '<div class="twhy">' + esc(th.why) + '</div>' : '');
+     box.style.display = 'block';
+   }
+   setLoc(el, b.loc);
+   el.addEventListener('dragstart', e => {
+     e.dataTransfer.setData('text/plain', b.no); el.classList.add('dragging'); });
+   el.addEventListener('dragend', () => el.classList.remove('dragging'));
+   el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
+     btn.onclick = () => triage(b.no, btn.dataset.dest, el));
+   el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.target);
+   // Open this beat in the Sound Engine with the DJ's effects already set
+   // (sound_engine/fx_presets.py). It is a separate app on its own port, so
+   // this is a plain link out — nothing is printed here and this beat's
+   // files are not touched. If the Sound Engine isn't running the new tab
+   // just fails to connect, which is why the button says to start it.
+   const eng = el.querySelector('[data-role=engine]');
+   if (eng) eng.onclick = () => window.open(
+     'http://localhost:8767/?beat=' + encodeURIComponent(b.se_id), '_blank');
+   wireTransport(el);
+   return el;
+ }
+
+ function clock(s) {
+   if (!isFinite(s)) return '0:00';
+   const m = Math.floor(s / 60), r = Math.floor(s % 60);
+   return m + ':' + String(r).padStart(2, '0');
+ }
+
+ function wireTransport(el) {
+   const au = el.querySelector('audio'), pp = el.querySelector('.pp'),
+         bar = el.querySelector('.bar'), fill = bar.querySelector('i'),
+         time = el.querySelector('.time');
+   pp.onclick = () => {
+     if (!au.paused) { au.pause(); return; }
+     audition.pause();                     // never two things at once
+     document.querySelectorAll('.track audio').forEach(a => {
+       if (a !== au) a.pause();
+     });
+     // Play what the rack is currently SET to, not the file on disk: with
+     // volumes nudged or stems removed, hitting play has to reflect that
+     // so a mix decision can be heard before rendering (owner 2026-07-25).
+     // The beat number comes off the element — wireTransport only gets
+     // `el`, and reaching for makeTrack's `b` here threw on every click.
+     if (cue(au, mixUrl(el.dataset.no))) {
+       // a staged sample swap makes the machine render the beat again,
+       // which is a couple of seconds — say so, or it reads as broken
+       pp.innerHTML = '&hellip;';
+       au.addEventListener('canplay', function once() {
+         au.removeEventListener('canplay', once);
+         au.play().catch(() => {});
+       });
+     } else {
+       au.play().catch(() => {});
+     }
+   };
+   au.addEventListener('play', () => { pp.classList.add('on');
+     pp.innerHTML = '&#10073;&#10073;'; });
+   const stop = () => { pp.classList.remove('on'); pp.innerHTML = '&#9654;'; };
+   // A preview that couldn't be built has to SAY so. It used to serve the
+   // untouched beat instead, so a failed swap sounded exactly like a swap
+   // that did nothing (owner 2026-08-04).
+   au.addEventListener('error', () => {
+     stop();
+     if (au.dataset.src && au.dataset.src.indexOf('/mix') === 0)
+       failed('Could not build that preview — the beat you are hearing is '
+              + 'unchanged. Check the drive is connected.');
+   });
+   au.addEventListener('pause', stop);
+   au.addEventListener('ended', () => { stop(); fill.style.width = '0';
+     time.textContent = clock(au.duration); });
+   au.addEventListener('timeupdate', () => {
+     if (au.duration) fill.style.width =
+       (au.currentTime / au.duration * 100) + '%';
+     time.textContent = clock(au.duration - au.currentTime);
+   });
+   au.addEventListener('loadedmetadata', () => {
+     time.textContent = clock(au.duration); });
+   bar.onclick = e => {
+     if (!au.duration) return;
+     const r = bar.getBoundingClientRect();
+     au.currentTime = ((e.clientX - r.left) / r.width) * au.duration;
+   };
+ }
+
+ async function loadBatch(focus) {
+   let d;
+   try { d = await (await fetch('/batch')).json(); } catch (e) { return; }
+   const list = document.getElementById('tracklist');
+   const open = [...list.querySelectorAll('.rack.open')]
+                  .map(r => r.closest('.track').dataset.no);
+   list.innerHTML = '';
+   document.getElementById('empty').style.display =
+     (d.beats && d.beats.length) ? 'none' : 'block';
+   (d.beats || []).forEach(b => {
+     const el = makeTrack(b);
+     list.appendChild(el);
+     if (open.includes(String(b.no)))
+       toggleRack(el, b.no, el.querySelector('[data-role=stems]'));
+   });
+   if (focus) {
+     const el = list.querySelector('.track[data-no="' + focus + '"]');
+     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+   }
+ }
+
+ // ---------------------------------------------------------- the stem rack
+ function stagedCount(no) { return Object.keys(staged[no] || {}).length; }
+ function trimCount(no) { return Object.keys(trims[no] || {}).length; }
+ function dropCount(no) { return Object.keys(drops[no] || {}).length; }
+
+ // Where to play a beat FROM. Untouched, that's the rendered file (which
+ // seeks, since /audio serves byte ranges). Touched at all — a new sound,
+ // a volume, a removal — it's /mix, which renders the beat as the rack is
+ // set (owner 2026-08-03: picking a new hi hat changed nothing when he
+ // played the beat back). One URL shape for all three kinds of change, so
+ // the preview can never disagree with itself.
+ function mixUrl(no) {
+   const t = trims[no] || {}, d = drops[no] || {}, p = staged[no] || {};
+   const tk = Object.keys(t), dk = Object.keys(d).filter(k => d[k]);
+   const pk = Object.keys(p).filter(k => p[k]);
+   if (!tk.length && !dk.length && !pk.length) return '/audio?no=' + no;
+   let u = '/mix?no=' + no
+     + '&trims=' + encodeURIComponent(tk.map(k => k + ':' + t[k]).join(','))
+     + '&drop=' + encodeURIComponent(dk.join(','));
+   if (pk.length) {
+     const picks = {};
+     pk.forEach(k => picks[k] = p[k]);
+     u += '&picks=' + encodeURIComponent(JSON.stringify(picks));
+   }
+   return u;
+ }
+
+ // Point a player at a URL. load() is not optional: these elements are
+ // preload="none", and assigning .src alone leaves them sitting there —
+ // that is what made the tracks go silent while the stems still played.
+ function cue(au, url) {
+   if (au.dataset.src === url && au.readyState) return false;
+   au.dataset.src = url; au.src = url; au.load();
+   return true;
+ }
+
+ // A beat that's already playing re-cues with the new levels. A paused one
+ // is left alone on purpose: every arrow click would otherwise make the
+ // server mix the beat again and throw the last one away, and the URL is
+ // worked out at play time anyway.
+ function refreshMix(el, no) {
+   const au = el.querySelector('audio');
+   if (!au || au.paused) return;
+   const want = mixUrl(no);
+   if (au.dataset.src === want) return;
+   const at = au.currentTime;
+   cue(au, want);
+   au.addEventListener('loadedmetadata', function once() {
+     au.removeEventListener('loadedmetadata', once);
+     if (at < au.duration) au.currentTime = at;
+     au.play().catch(() => {});
+   });
+ }
+
+ function paintFoot(el, no) {
+   const n = stagedCount(no), v = trimCount(no), r = dropCount(no);
+   const foot = el.querySelector('.rackfoot');
+   if (!foot) return;
+   const bits = [];
+   if (n) bits.push('<b>' + n + ' ' + (n === 1 ? 'sound' : 'sounds') + ' staged</b>');
+   if (v) bits.push('<b>' + v + ' ' + (v === 1 ? 'volume' : 'volumes') + ' changed</b>');
+   if (r) bits.push('<b>' + r + ' ' + (r === 1 ? 'stem' : 'stems') + ' removed</b>');
+   foot.querySelector('.staged').innerHTML = bits.length
+     ? bits.join(' + ') + ' — rebuild makes one new beat with every change in it'
+     : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
+   foot.querySelector('.rebuild').disabled = !(n + v + r);
+   foot.querySelector('.chunk').disabled = !(n + v + r);
+   foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
+   refreshMix(el, no);      // every volume/remove change lands here first
+ }
+
+ function laneRow(no, s) {
+   const row = document.createElement('div');
+   row.className = 'lane' + (s.locked ? ' locked' : '');
+   row.dataset.lane = s.lane;
+   row.innerHTML =
+     '<span class="who2"><span class="swatch"></span>' +
+       '<span class="lname"></span></span>' +
+     '<span class="what"><span class="sample"></span>' +
+       '<span class="pack"></span></span>' +
+     '<span class="vol">' +
+       '<button class="step dn" title="1 dB quieter">&minus;</button>' +
+       '<span class="db" title="Click to reset to 0">0</span>' +
+       '<button class="step up" title="1 dB louder">+</button>' +
+     '</span>' +
+     '<span class="picks"></span>';
+   // the row says what the sound IS — "kick drum", "bass drum", "bass",
+   // "horns stack" — never a lane key (owner 2026-07-25)
+   row.querySelector('.lname').textContent = (s.label || s.lane).toUpperCase();
+   row.querySelector('.sample').textContent = s.sample;
+   row.querySelector('.pack').textContent = s.pack || '';
+
+   // Volume rides on every lane, locked ones included: a stamp's SAMPLE is
+   // the DJ's identity, its level is just mix. Arrows rather than a slider
+   // (owner 2026-07-25): a slider jumped and left gaps, this steps exactly
+   // 1 dB a click — the standard fine-adjust on a real desk — and the
+   // number always shows where you are.
+   const db = row.querySelector('.db');
+   const STEP = 1, LIMIT = 24;
+   let v = 0;
+   const showDb = () => {
+     db.textContent = v ? (v > 0 ? '+' : '') + v.toFixed(0) : '0';
+     row.classList.toggle('trimmed', !!v);
+     trims[no] = trims[no] || {};
+     if (v) trims[no][s.lane] = v; else delete trims[no][s.lane];
+     if (!Object.keys(trims[no]).length) delete trims[no];
+     paintFoot(row.closest('.track'), no);
+   };
+   const nudge = (d) => {
+     v = Math.max(-LIMIT, Math.min(LIMIT, v + d));
+     showDb();
+   };
+   row.querySelector('.step.up').onclick = () => nudge(STEP);
+   row.querySelector('.step.dn').onclick = () => nudge(-STEP);
+   db.onclick = () => { v = 0; showDb(); };
+
+   const picks = row.querySelector('.picks');
+
+   if (s.stem) {
+     const b = document.createElement('button');
+     b.className = 'mini';
+     b.title = 'Hear this on its own, at its level in the track';
+     b.innerHTML = '&#9654;';
+     // the staged dB rides along, so a stem previews at the level the
+     // arrows are set to — same as it will sound in the beat
+     b.onclick = () => play('/stem?no=' + no + '&lane=' +
+                            encodeURIComponent(s.lane) +
+                            '&db=' + (v || 0), b);
+     picks.appendChild(b);
+   }
+   if (s.locked) {
+     const t = document.createElement('span');
+     t.className = 'lock'; t.textContent = s.why || 'locked';
+     picks.appendChild(t);
+     return row;
+   }
+
+   // Drum rows list SAMPLES; a chord/bass row lists INSTRUMENTS (s.voices)
+   // — a chord voice is a whole multisample, so there is no one file to
+   // pick. Same dropdown, same dice, different contents and a different
+   // way of auditioning: see sel.onchange below.
+   let sel = null;
+   if (s.can_swap) {
+     sel = document.createElement('select');
+     sel.className = 'snd';            // the sound list; type/tempo sit before it
+     sel.innerHTML = '<option value="">reading your library&hellip;</option>';
+     sel.disabled = true;
+     picks.appendChild(sel);
+
+     const dice = document.createElement('button');
+     dice.className = 'mini';
+     dice.title = 'Roll a random one — you hear it straight away';
+     dice.textContent = '🎲';
+     // The dice picks a REAL sample out of the same list the dropdown
+     // shows, then plays it (owner 2026-08-03: "I would like the dice
+     // roll option to allow me to hear what the sound would be"). It
+     // used to stage a "surprise me" the machine only resolved during
+     // the rebuild, so there was nothing to play and nothing to name.
+     // Roll again for a different one.
+     dice.onclick = () => {
+       if (row.pickType) row.pickType();   // no type chosen yet: roll one
+       const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
+       if (!opts.length) return;         // list still loading, or nothing else
+       sel.value = opts[Math.floor(Math.random() * opts.length)].value;
+       sel.onchange();                   // stages it, plays it, repaints
+     };
+     // loops beats: dropdown only, no dice (owner 2026-09-16)
+     if (!s.loop) picks.appendChild(dice);
+   } else {
+     const t = document.createElement('span');
+     t.className = 'lock'; t.textContent = s.why || '';
+     picks.appendChild(t);
+   }
+
+   // remove the stem completely (owner request 2026-07-21) — click
+   // again to change your mind; the rebuild prints a beat without it
+   const rm = document.createElement('button');
+   rm.className = 'mini'; rm.title = 'Remove this stem from the beat';
+   rm.innerHTML = '&#10005;';
+   rm.onclick = () => {
+     drops[no] = drops[no] || {};
+     if (drops[no][s.lane]) {
+       delete drops[no][s.lane];
+       if (!Object.keys(drops[no]).length) delete drops[no];
+     } else drops[no][s.lane] = true;
+     row.classList.toggle('dropped', !!(drops[no] && drops[no][s.lane]));
+     paintFoot(row.closest('.track'), no);
+   };
+   picks.appendChild(rm);
+
+   // Ban this sound for good (owner 2026-08-31: "When I ban a sound, it is
+   // banned everywhere. forever."). Only offered on rows that ARE a sample
+   // — there is nothing to ban on a synthesised lane. Existing beats are
+   // never touched; this only stops it being picked again.
+   if (s.can_swap) {
+     const ban = document.createElement('button');
+     ban.className = 'mini';
+     ban.title = 'Never use this sound again';
+     ban.textContent = '🚫';
+     ban.onclick = () => {
+       if (ban.disabled) return;              // no double-fire
+       const done = d => {
+         ban.textContent = '✓';
+         ban.disabled = true;
+         ban.title = (d.banned === 'name'
+           ? 'Every sound called "' + d.name + '" is banned'
+           : '"' + d.name + '" is banned — it will not come back');
+       };
+       const send = choice => {
+         ban.disabled = true;
+         return fetch('/ban', {
+           method: 'POST',
+           headers: {'Content-Type': 'application/json'},
+           body: JSON.stringify({number: no, lane: s.lane, choice: choice})
+         }).then(r => r.json()).then(d => {
+           if (!d.ok) { ban.disabled = false; alert(d.error); return; }
+           if (d.asked) { ask(d); return; }
+           done(d);
+         }).catch(() => { ban.disabled = false;
+                          alert('could not reach the beat machine'); });
+       };
+       // A ban cannot be undone from this page, so the choice is three
+       // real buttons and NOT confirm(). confirm() has only two answers,
+       // which forced Cancel — and Escape, and clicking away — to mean
+       // "ban every sound with this name". The dangerous option was on
+       // the key people press to get out of a dialog.
+       const ask = d => {
+         ban.disabled = false;
+         const box = document.createElement('div');
+         box.className = 'banask';
+         const n = d.twins;
+         box.innerHTML = '<span>' + (d.sure
+           ? n + ' sounds in your library are called "' + esc(d.name) + '".'
+           : 'Other sounds may be called "' + esc(d.name) + '" too.')
+           + '</span>';
+         const pick = (label, choice, title) => {
+           const b = document.createElement('button');
+           b.className = 'mini'; b.textContent = label; b.title = title;
+           b.onclick = () => { box.remove(); if (choice) send(choice); };
+           box.appendChild(b);
+         };
+         pick('just this one', 'sound', 'Ban only the exact sound in this beat');
+         if (d.sure) pick('all ' + n, 'name',
+                          'Ban every sound with this file name');
+         pick('cancel', null, 'Change nothing');
+         row.appendChild(box);
+       };
+       send(null);
+     };
+     picks.appendChild(ban);
+   }
+
+   if (!sel) return row;          // locked row: level + remove only
+
+   sel.onchange = () => {
+     staged[no] = staged[no] || {};
+     if (!sel.value) delete staged[no][s.lane];
+     else {
+       staged[no][s.lane] = sel.value;
+       // A drum has one file, so play that file. An instrument doesn't —
+       // "piano" is a whole multisample, and a single note out of it says
+       // nothing about how the chords will sit. So a harmony row auditions
+       // by rendering the BEAT with that instrument in it, which is the
+       // only honest way to hear the choice (owner 2026-08-04).
+       if (s.voices) play(mixUrl(no));
+       else play('/sample?no=' + no + '&lane=' + encodeURIComponent(s.lane) +
+                 '&path=' + encodeURIComponent(sel.value));
+     }
+     paintLane(row, no, s);
+   };
+
+   fetch('/candidates?no=' + no + '&lane=' + encodeURIComponent(s.lane))
+     .then(r => r.json()).then(d => {
+       if (!d.ok || !d.candidates.length) {
+         sel.innerHTML = '<option value="">' +
+           (d.error || 'nothing else in the library') + '</option>';
+         return;
+       }
+       // Owner 2026-09-28: instrument TYPE first (brass, strings,
+       // woodwind...), then TEMPO on the Loops page, then the sounds
+       // grouped by the words in their names (his synonyms as one group,
+       // plain names by pack). A row with one type skips that step.
+       const cands = d.candidates;
+       const types = [...new Set(cands.map(c => c.type).filter(Boolean))]
+         .sort((a, b) => (a === 'Unlabeled') - (b === 'Unlabeled') ||
+                         a.localeCompare(b));
+       const timed = cands.some(c => 'bpm' in c);
+       const bin = c => c.bpm ? String(Math.floor(c.bpm / 10) * 10) : 'none';
+       const mine = d.bpm ? String(Math.floor(d.bpm / 10) * 10) : '';
+       const mk = title => {
+         const x = document.createElement('select');
+         x.title = title; picks.insertBefore(x, sel); return x;
+       };
+       const typeSel = types.length > 1 ? mk('Instrument type') : null;
+       const tempoSel = timed ? mk('Tempo') : null;
+       if (typeSel) typeSel.innerHTML =
+         '<option value="">' + (s.voices ? 'pick a type&hellip;' : 'every type') +
+         '</option>' + types.map(t => '<option>' + esc(t) + '</option>').join('');
+       const ofType = () => cands.filter(c =>
+         !typeSel || !typeSel.value || c.type === typeSel.value);
+       const fillTempo = () => {
+         if (!tempoSel) return;
+         const bins = [...new Set(ofType().map(bin))].sort((a, b) =>
+           a === 'none' ? 1 : b === 'none' ? -1 : a - b);
+         tempoSel.innerHTML = '<option value="">every tempo</option>' +
+           bins.map(b => '<option value="' + b + '">' +
+             (b === 'none' ? 'no tempo in name' : b + '–' + (+b + 9) + ' bpm') +
+             (b === mine ? ' (this beat)' : '') + '</option>').join('');
+         if (bins.includes(mine)) tempoSel.value = mine;
+       };
+       const fillSounds = () => {
+         let html = '<option value="">keep this one</option>';
+         if (s.voices && typeSel && !typeSel.value) {   // type comes first
+           sel.innerHTML = html; return;
+         }
+         const list = ofType().filter(c =>
+           !tempoSel || !tempoSel.value || bin(c) === tempoSel.value);
+         list.filter(c => c.any).forEach(c => {
+           html += '<option value="' + esc(c.path) + '">any ' +
+                   esc(c.type.toLowerCase()) + ' &mdash; the machine picks</option>';
+         });
+         const groups = new Map();
+         list.filter(c => !c.any).forEach(c =>
+           (c.words && c.words.length ? c.words : [c.pack || 'other']).forEach(w => {
+             if (!groups.has(w)) groups.set(w, []);
+             groups.get(w).push(c);
+           }));
+         const plain = w => w.startsWith('Plain names');
+         [...groups.keys()].sort((a, b) => (plain(a) - plain(b)) ||
+                                          a.localeCompare(b)).forEach(w => {
+           html += '<optgroup label="' + esc(w) + '">';
+           groups.get(w).forEach(c => {
+             html += '<option value="' + esc(c.path) + '">' + esc(c.name) +
+                     (c.bpm ? ' · ' + c.bpm + ' bpm' : '') +
+                     (c.current ? ' (in this beat now)' : '') + '</option>';
+           });
+           html += '</optgroup>';
+         });
+         sel.innerHTML = html;
+         const st = (staged[no] || {})[s.lane];
+         if (st && list.some(c => c.path === st)) sel.value = st;
+       };
+       row.refill = () => { fillTempo(); fillSounds(); };
+       row.pickType = () => {
+         if (!typeSel || typeSel.value) return;
+         typeSel.value = types[Math.floor(Math.random() * types.length)];
+         row.refill();
+       };
+       if (typeSel) typeSel.onchange = () => {
+         row.refill();
+         // one click on a chord type still does what it always did: that
+         // instrument, the machine picking inside it
+         if (s.voices) {
+           const any = cands.find(c => c.any && c.type === typeSel.value);
+           sel.value = any ? any.path : '';
+           sel.onchange();
+         }
+       };
+       if (tempoSel) tempoSel.onchange = fillSounds;
+       const st = cands.find(c => c.path === (staged[no] || {})[s.lane]);
+       if (st && typeSel) typeSel.value = st.type;
+       fillTempo();
+       if (st && tempoSel) tempoSel.value = bin(st);
+       fillSounds();
+       sel.disabled = false;
+     })
+     .catch(() => { sel.innerHTML = '<option value="">could not read the library</option>'; });
+   return row;
+ }
+
+ function esc(s) {
+   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+ }
+
+ function paintLane(row, no, s) {
+   const cur = (staged[no] || {});
+   const on = s.lane in cur;
+   row.classList.toggle('changed', on);
+   const name = row.querySelector('.sample');
+   if (!on) { name.textContent = s.sample; row.querySelector('.pack').textContent = s.pack || ''; }
+   else {
+     const opt = row.querySelector('select.snd').selectedOptions[0];
+     name.textContent = opt ? opt.textContent.replace(' (in this beat now)', '') : 'chosen';
+     // an instrument row says what INSTRUMENT it was ("was strings arp"),
+     // not which files it drew on — the file names mean nothing here
+     row.querySelector('.pack').textContent =
+       'was ' + (s.voices ? (s.label || s.sample) : s.sample);
+   }
+   paintFoot(row.closest('.track'), no);
+ }
+
+ async function toggleRack(el, no, btn) {
+   const rack = el.querySelector('.rack');
+   if (rack.classList.contains('open')) {
+     rack.classList.remove('open'); btn.classList.remove('open'); return;
+   }
+   rack.classList.add('open'); btn.classList.add('open');
+   if (rack.dataset.loaded) return;
+   rack.innerHTML = '<div class="lane"><span class="lname">reading the beat&hellip;</span></div>';
+   let d;
+   try { d = await (await fetch('/stems?no=' + no)).json(); }
+   catch (e) { rack.innerHTML = '<div class="rackmsg">Could not read that beat.</div>'; return; }
+   if (!d.ok) { rack.innerHTML = '<div class="rackmsg">' + esc(d.error) + '</div>'; return; }
+   rack.innerHTML = '';
+   const specs = d.stems;
+   specs.forEach(s => rack.appendChild(laneRow(no, s)));
+   const foot = document.createElement('div');
+   foot.className = 'rackfoot';
+   foot.innerHTML = '<span class="staged"></span>' +
+     '<button class="rollall" title="New sound for every row at once">' +
+       '🎲 Roll everything</button>' +
+     '<button class="undo">clear changes</button>' +
+     '<button class="chunk" title="Save this version into the Chunks ' +
+       'folder and keep going">+ Add chunk</button>' +
+     '<button class="chunk fxon" title="Save a copy of this beat with ' +
+       'its style\'s effects (dust, vinyl, saturation) baked in, stems ' +
+       'too. The clean one stays.">Effects on</button>' +
+     '<button class="rebuild">Rebuild beat</button>' +
+     '<div class="rackmsg" style="flex-basis:100%"></div>';
+   rack.appendChild(foot);
+   if (specs.some(x => x.loop)) foot.querySelector('.rollall').style.display = 'none';
+   // One click, a whole new kit (owner 2026-08-04). Rolls every row that
+   // CAN be rolled — the locked producer tag and the synthesised sub are
+   // skipped, and so is anything already removed, since rolling a sound
+   // he just took out would be nonsense. Nothing plays per row: with a
+   // dozen rows that would be a dozen overlapping one-shots, so it
+   // auditions once, as the beat, which is the point of rolling them all.
+   foot.querySelector('.rollall').onclick = () => {
+     let n = 0;
+     rack.querySelectorAll('.lane').forEach(r => {
+       const sel = r.querySelector('select.snd');
+       if (!sel || sel.disabled) return;
+       if (drops[no] && drops[no][r.dataset.lane]) return;
+       if (r.pickType) r.pickType();
+       const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
+       if (!opts.length) return;
+       sel.value = opts[Math.floor(Math.random() * opts.length)].value;
+       staged[no] = staged[no] || {};
+       staged[no][r.dataset.lane] = sel.value;
+       const s = specs.find(x => x.lane === r.dataset.lane);
+       if (s) paintLane(r, no, s);
+       n++;
+     });
+     if (n) play(mixUrl(no));
+   };
+   foot.querySelector('.undo').onclick = () => {
+     delete staged[no]; delete trims[no]; delete drops[no];
+     rack.querySelectorAll('.lane').forEach(r => {
+       r.querySelectorAll('select').forEach(x => { x.value = ''; });
+       if (r.refill) r.refill();
+       const d = r.querySelector('.db');
+       if (d) d.click();                       // arrows: click resets to 0
+       r.classList.remove('trimmed');
+       r.classList.remove('dropped');
+       const s = specs.find(x => x.lane === r.dataset.lane);
+       if (s) paintLane(r, no, s);
+     });
+     paintFoot(el, no);
+   };
+   foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
+   foot.querySelector('.fxon').onclick = () => rebuild(el, no, foot, true);
+   foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
+   rack.dataset.loaded = '1';
+   paintFoot(el, no);
+ }
+
+ // Songify: file the rack as it stands into the beat's Chunks folder,
+ // then LEAVE the rack staged — the next chunk is usually one more mute
+ // on top of this one, not a fresh start.
+ async function addChunk(no, foot) {
+   const btn = foot.querySelector('.chunk'), msg = foot.querySelector('.rackmsg');
+   const was = btn.textContent;
+   btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
+   try {
+     const r = await fetch('/chunk', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks: staged[no] || {},
+                              trims: trims[no] || {},
+                              drops: Object.keys(drops[no] || {}) }) });
+     const d = await r.json();
+     msg.textContent = d.ok
+       ? 'chunk ' + d.count + ' saved — ' + d.file
+       : d.error;
+   } catch (e) { msg.textContent = String(e); }
+   btn.textContent = was; btn.disabled = false;
+ }
+
+ async function rebuild(el, no, foot, fx) {
+   const picks = staged[no] || {}, vols = trims[no] || {};
+   const gone = Object.keys(drops[no] || {});
+   if (!fx && !Object.keys(picks).length && !Object.keys(vols).length
+       && !gone.length) return;
+   const btn = foot.querySelector(fx ? '.fxon' : '.rebuild'),
+         msg = foot.querySelector('.rackmsg');
+   btn.disabled = true; msg.textContent = '';
+   const was = btn.textContent;
+   btn.textContent = 'Rebuilding…';
+   try {
+     const r = await fetch('/rebuild', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ number: no, picks, trims: vols,
+                              drops: gone, fx: !!fx }) });
+     const d = await r.json();
+     if (d.ok) { delete staged[no]; delete trims[no]; delete drops[no];
+                 btn.textContent = was; await loadBatch(d.no); }
+     else { msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
+   } catch (e) {
+     msg.textContent = String(e); btn.textContent = was; btn.disabled = false;
+   }
+ }
+
+ // -------------------------------------------------------------- the bins
+ document.querySelectorAll('.zone').forEach(z => {
+   z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+   z.addEventListener('dragleave', () => z.classList.remove('over'));
+   z.addEventListener('drop', e => {
+     e.preventDefault(); z.classList.remove('over');
+     const no = e.dataTransfer.getData('text/plain');
+     triage(no, z.dataset.dest,
+            document.querySelector('.track[data-no="' + no + '"]'));
+   });
+ });
+
+ // --------------------------------------------- reference track (sec. 5)
+ // Drop a song; read its tempo and key; SHOW both so he can correct them.
+ // The detector is wrong in two predictable ways — half or double the
+ // tempo, and the relative major/minor — so the correction buttons are
+ // the feature, not a fallback.
+ const refdrop = document.getElementById('refdrop'),
+       refline = document.getElementById('refline'),
+       keyroot = document.getElementById('keyroot'),
+       keymode = document.getElementById('keymode'),
+       tempoBox = document.getElementById('tempo');
+ let refName = '', refAlt = null;
+ const TLO = __TEMPOLO__, THI = __TEMPOHI__;   // the window /make enforces
+
+ function refSay() {
+   if (!refName) { refline.textContent = 'nothing dropped yet'; return; }
+   const bpm = parseFloat(tempoBox.value);
+   refline.innerHTML = '<b>' + esc(refName) + '</b> &mdash; ' +
+     (tempoBox.value || '?') + ' BPM, ' + (keyroot.value || 'any') + ' ' +
+     keymode.value +
+     // only offer an octave the tempo box would actually accept
+     (bpm / 2 >= TLO ? '<button data-ref="half">&divide;2</button>' : '') +
+     (bpm * 2 <= THI ? '<button data-ref="double">&times;2</button>' : '') +
+     (refAlt ? '<button data-ref="rel">' + esc(refAlt.root + ' ' +
+               refAlt.mode) + '?</button>' : '') +
+     '<button data-ref="clear">clear</button>';
+ }
+
+ refline.onclick = e => {
+   const what = e.target.dataset && e.target.dataset.ref;
+   if (!what) return;
+   const bpm = parseFloat(tempoBox.value);
+   if (what === 'half' && bpm / 2 >= TLO) tempoBox.value = Math.round(bpm / 2);
+   if (what === 'double' && bpm * 2 <= THI) tempoBox.value = Math.round(bpm * 2);
+   if (what === 'rel' && refAlt) {          // swaps, so it flips back
+     const was = { root: keyroot.value, mode: keymode.value };
+     keyroot.value = refAlt.root; keymode.value = refAlt.mode;
+     refAlt = was;
+   }
+   if (what === 'clear') {
+     refName = ''; refAlt = null; tempoBox.value = ''; keyroot.value = '';
+   }
+   refSay();
+ };
+
+ ['dragover', 'dragenter'].forEach(ev =>
+   refdrop.addEventListener(ev, e => {
+     e.preventDefault(); refdrop.classList.add('over'); }));
+ refdrop.addEventListener('dragleave', () => refdrop.classList.remove('over'));
+ refdrop.addEventListener('drop', async e => {
+   e.preventDefault(); refdrop.classList.remove('over');
+   const f = e.dataTransfer.files && e.dataTransfer.files[0];
+   if (!f) return;
+   const was = refdrop.textContent;
+   refdrop.classList.add('busy');
+   refdrop.textContent = 'Listening to ' + f.name + '\u2026';
+   try {
+     const dot = f.name.lastIndexOf('.');
+     const ext = (dot > 0 ? f.name.slice(dot) : '.wav')
+                   .replace(/[^A-Za-z0-9.]/g, '');
+     const r = await fetch('/reference', { method: 'POST',
+       headers: { 'X-Ext': ext || '.wav' }, body: await f.arrayBuffer() });
+     const d = await r.json();
+     if (d.ok) {
+       refName = f.name;
+       tempoBox.value = d.bpm;
+       keyroot.value = d.root;
+       keymode.value = d.mode;
+       refAlt = { root: d.alt_root, mode: d.alt_mode };
+       refSay();
+     } else { refline.textContent = d.error; }
+   } catch (err) { refline.textContent = String(err); }
+   refdrop.classList.remove('busy');
+   refdrop.textContent = was;
+ });
+
+ // ------------------------------------------------------------- make them
+ const go = document.getElementById('go'),
+       work = document.getElementById('work'),
+       worktext = document.getElementById('worktext');
+ function working(msg) { work.className = 'on'; worktext.textContent = msg; }
+ function failed(msg) { work.className = 'on bad'; worktext.textContent = msg; }
+ function done() { work.className = ''; }
+
+ go.onclick = async () => {
+   if (!order.length) { failed('Check at least one DJ first.'); return; }
+   const count = document.getElementById('count').value;
+   go.disabled = true;
+   working(count > 1
+     ? 'Making ' + count + ' beats… the first one scans your sample library.'
+     : 'Making it… the first beat scans your sample library (about 30 seconds).');
+   try {
+     const r = await fetch('/make', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ names: order,
+         tempo: tempoBox.value.trim(),
+         key: keyroot.value ? keyroot.value + ' ' + keymode.value : '',
+         count, notes: document.getElementById('notes').value,
+         loops_only: document.getElementById('loopsonly').checked }) });
+     const d = await r.json();
+     if (d.ok) { done(); await loadBatch(); }
+     else failed(d.error);
+   } catch (e) { failed(String(e)); }
+   go.disabled = false;
+ };
+
+ // ------------------------------------------------------- rhythm test bank
+ document.querySelectorAll('.fixedbtn').forEach(btn => {
+   btn.onclick = async () => {
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = true);
+     working('Rolling a new kit for ' + btn.dataset.title + '…');
+     try {
+       const r = await fetch('/fixed', { method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ idx: parseInt(btn.dataset.idx, 10) }) });
+       const d = await r.json();
+       if (d.ok) { done(); await loadBatch(d.no); }
+       else failed(d.error);
+     } catch (e) { failed(String(e)); }
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = false);
+   };
+ });
+
+ // -------------------------------------------------------- pattern library
+ const LIBRARY_PATTERNS = __LIBRARYJSON__;
+ function fillLibPatterns() {
+   const names = LIBRARY_PATTERNS[document.getElementById('libgenre').value] || [];
+   document.getElementById('libpattern').innerHTML =
+     names.map(n => `<option value="${n}">${n}</option>`).join('');
+ }
+ document.getElementById('libgenre').onchange = fillLibPatterns;
+ fillLibPatterns();
+
+ async function playLibrary(genre, name, btn) {
+   btn.disabled = true;
+   working('Rendering ' + name + '…');
+   try {
+     const r = await fetch('/library', { method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ genre, name }) });
+     const d = await r.json();
+     if (d.ok) { done(); await loadBatch(d.no); }
+     else failed(d.error);
+   } catch (e) { failed(String(e)); }
+   btn.disabled = false;
+ }
+ document.getElementById('libgo').onclick = () => {
+   const btn = document.getElementById('libgo');
+   playLibrary(document.getElementById('libgenre').value,
+              document.getElementById('libpattern').value, btn);
+ };
+ document.getElementById('libbreakgo').onclick = () => {
+   const btn = document.getElementById('libbreakgo');
+   playLibrary('breaks', document.getElementById('libbreak').value, btn);
+ };
+
+ // --------------------------------------------------------------- pull up
+ document.getElementById('pullgo').onclick = async () => {
+   const no = document.getElementById('pullno').value.trim();
+   const msg = document.getElementById('pullmsg');
+   msg.textContent = '';
+   if (!no) { msg.textContent = 'Which beat number?'; return; }
+   try {
+     const d = await (await fetch('/pull?no=' + no)).json();
+     if (d.ok) { await loadBatch(d.no); document.getElementById('pullno').value = ''; }
+     else msg.textContent = d.error;
+   } catch (e) { msg.textContent = String(e); }
+ };
+
+ loadBatch();
+</script></body></html>

@@ -1,0 +1,139 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beat Machine Mockup L - School bus colors, logo on the blackboard</title>
+<style>
+@font-face{font-family:"Blackboard Graffiti";src:url("font/Blackboard-Graffiti.woff2") format("woff2"),url("font/Blackboard-Graffiti.woff") format("woff");}
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+:root{
+  --bg:#f4ecc4;--panel:#fffef4;--panel2:#ffffff;--line:#00000026;--text:#111;--dim:#111111a0;
+  --accent:#e8d810;--accent-dim:#fff3b0;--blue:#8a6d00;
+  --board:#111;--chalk:#f7e9a0;--chalk-dim:#e8d810bb;--chalk-line:#e8d81044;
+  --graffiti:"Blackboard Graffiti",cursive; --type:"Courier New",Courier,"American Typewriter",monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{background:repeating-linear-gradient(var(--bg) 0 30px,var(--line) 30px 31px),var(--bg);color:var(--text);font:16px/1.55 -apple-system,"Helvetica Neue",sans-serif}
+small,.small,label,.lab,.note,.hint{font-family:var(--type) !important; letter-spacing:0}
+
+/* ---- small black chalkboard header, logo blended in ---- */
+header{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;padding:14px 22px;background:var(--board);height:74px}
+/* logo moved to the right blackboard panel */
+header h1{position:relative;font-family:var(--graffiti);font-weight:400;font-size:34px;color:var(--chalk);text-shadow:0 0 8px #fff3}
+.tabs{position:relative;display:flex;border:1px solid var(--chalk-line);border-radius:9px;overflow:hidden}
+.tabs span,.tabs a{padding:5px 14px;font-size:11px;font-family:var(--type) !important;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--chalk-dim)}
+.tabs .here{background:var(--chalk);color:#111}
+.note{position:relative;margin-left:auto;font-size:11px;color:var(--chalk-dim)}
+
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:24px;padding:20px 22px;align-items:start}
+h2{font-family:"Kalam",cursive;font-weight:700;font-size:21px;margin:22px 0 10px;color:var(--blue);border-bottom:1px solid var(--line);padding-bottom:4px}
+h2:first-child{margin-top:0} h2 small{font-weight:400;font-size:12px;color:var(--dim);margin-left:8px}
+.djs{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.dj{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 12px 9px 32px;cursor:pointer;font-size:14px;font-family:var(--type)}
+.dj input{display:none} .dj .ord{position:absolute;left:10px;top:8px;width:16px;font-weight:700;color:var(--blue)}
+.dj:has(input:checked){background:var(--accent-dim);border-color:var(--accent)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field label,.field .lab{display:block;font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--dim);text-transform:uppercase;margin-bottom:3px}
+input[type=text],input[type=number],select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font:13px var(--type)}
+.wide{grid-column:1/-1} .drop{border:2px dashed var(--line);border-radius:8px;padding:14px;text-align:center;color:var(--dim);font-size:12px;font-family:var(--type)}
+
+/* ---- right column: blackboard, graffiti for big text ---- */
+.right{position:sticky;top:16px;background:var(--board);color:var(--chalk);border:1px solid var(--chalk-line);border-radius:12px;padding:18px;box-shadow:0 10px 26px #000a;overflow:hidden}
+.right .logo-mark{position:absolute;right:-16px;top:-14px;width:150px;height:150px;background-image:url("brand/logo-black.png");background-size:contain;background-repeat:no-repeat;background-position:center;filter:invert(1) sepia(1) saturate(8) hue-rotate(-20deg) brightness(1.15);mix-blend-mode:screen;opacity:.5;pointer-events:none}
+.right .fields{margin-bottom:14px}
+.right .field label{color:var(--chalk-dim)}
+.right input[type=text],.right input[type=number]{background:#1c1c1c;color:var(--chalk);border:1px solid var(--chalk-line)}
+button{font:14px var(--type);font-weight:700;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 16px;cursor:pointer}
+#go{width:100%;font-family:var(--graffiti);font-weight:400;font-size:30px;padding:14px;background:#e8d810;border-color:#e8d810;color:#111}
+.right h2{font-family:var(--graffiti);font-weight:400;font-size:26px;color:var(--chalk);border-bottom:1px solid var(--chalk-line);margin-top:20px}
+.right h2 small{font-family:var(--type);color:var(--chalk-dim)}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 10px}
+.zone{border:1px dashed var(--chalk-line);border-radius:8px;padding:8px;text-align:center;font-size:11px;font-family:var(--type);color:var(--chalk-dim)}
+.track{background:#1c1c1c;border:1px solid var(--chalk-line);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;font-family:var(--type);font-size:13px}
+.track b{font-weight:700;flex:1;color:var(--chalk)} .track small{color:var(--chalk-dim)}
+.track button{padding:6px 12px;font-size:12px;background:#e8d810;color:#111;border-color:#e8d810}
+
+.bottom{margin:20px 22px 40px;padding:22px;border:9px solid transparent;border-image:repeating-linear-gradient(45deg,#111 0 16px,#e8d810 16px 32px) 18;background:var(--bg);border-radius:2px}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.bank button{background:var(--panel2);border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:13px;border-radius:8px} .bank small{display:block;font-size:11px;color:var(--dim)}
+.row{display:flex;gap:10px;align-items:end} .row .field{flex:1}
+@media(max-width:1000px){.cols{grid-template-columns:1fr} .right{position:static}}
+
+/* ---- mural texture: grain, wobble, drips ---- */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+header h1{transform:rotate(-3.5deg);display:inline-block}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:6px;
+  background:repeating-linear-gradient(90deg,#eee0 0 14px,#eee6 14px 17px,#eee0 17px 30px);opacity:.5}
+.spray{position:absolute;border-radius:50%;pointer-events:none;filter:blur(.5px)}
+header .spray1{width:70px;height:26px;left:230px;top:8px;background:radial-gradient(ellipse,#e8d81066,#e8d81000 70%);transform:rotate(-8deg)}
+
+/* wobble the DJ chips and buttons: slight rotation + uneven corners, alternating */
+.dj:nth-child(3n){transform:rotate(-1.6deg)}
+.dj:nth-child(3n+1){transform:rotate(1.3deg)}
+.dj:nth-child(3n+2){transform:rotate(-.9deg)}
+.dj:nth-child(5n){transform:rotate(2deg)}
+.dj{border-radius:9px 6px 8px 5px !important}
+.dj:nth-child(4n){border-radius:5px 9px 6px 10px !important}
+.dj:has(input:checked){transform:rotate(-2.2deg) scale(1.03);box-shadow:3px 4px 0 #00000055}
+
+button{border-radius:7px 5px 8px 4px}
+.bank button:nth-child(2n){transform:rotate(-1.8deg)}
+.bank button:nth-child(2n+1){transform:rotate(1.4deg)}
+
+h2{transform:rotate(-1deg);display:inline-block;color:#111}
+
+/* right column: rough torn-paper edge + tape + slight tilt, drip off the bottom */
+.right{transform:rotate(-1.3deg);border-radius:4px 14px 6px 16px;position:relative}
+.right::before{content:"";position:absolute;top:-9px;left:38px;width:64px;height:20px;background:#e8d810cc;transform:rotate(-6deg);box-shadow:0 1px 2px #0006}
+.right::after{content:"";position:absolute;left:24px;right:24px;bottom:-12px;height:12px;pointer-events:none;
+  background:
+    radial-gradient(circle at 30px 0,#111 3px,transparent 4px),
+    radial-gradient(circle at 90px 0,#111 2px,transparent 3px),
+    radial-gradient(circle at 190px 0,#111 4px,transparent 5px),
+    radial-gradient(circle at 260px 0,#111 2px,transparent 3px),
+    radial-gradient(circle at 340px 0,#111 3px,transparent 4px);
+  background-repeat:no-repeat}
+#go{border-radius:6px 16px 8px 14px;position:relative;transform:rotate(-1.1deg)}
+#go::after{content:"";position:absolute;left:22px;bottom:-9px;width:4px;height:11px;background:#e8d810;border-radius:0 0 3px 3px;opacity:.9}
+#go::before{content:"";position:absolute;right:38px;bottom:-7px;width:3px;height:8px;background:#e8d810;border-radius:0 0 3px 3px;opacity:.8}
+
+.track:nth-child(odd){transform:rotate(.9deg)}
+.track:nth-child(even){transform:rotate(-.9deg)}
+</style></head><body>
+<header><h1>Homeroom Studio</h1><div class="tabs"><span class="here">Make</span><a href="#">Studio</a></div>
+<span class="note">PREVIEW ONLY. Names are sample names.</span></header>
+<div class="cols">
+ <section class="left">
+  <h2>The Crew <small>tap one for their own beat, tap more for a collab &mdash; first tapped hosts</small></h2><div class="djs"><label class="dj"><input type="checkbox" value="Otto Grit"><span class="ord"></span>Otto Grit</label><label class="dj"><input type="checkbox" value="Cutz"><span class="ord"></span>Cutz</label><label class="dj"><input type="checkbox" value="Crate Prophet"><span class="ord"></span>Crate Prophet</label><label class="dj"><input type="checkbox" value="Chrome Dial"><span class="ord"></span>Chrome Dial</label><label class="dj"><input type="checkbox" value="Glass Cat"><span class="ord"></span>Glass Cat</label><label class="dj"><input type="checkbox" value="Sunday Chop"><span class="ord"></span>Sunday Chop</label><label class="dj"><input type="checkbox" value="Night Metro"><span class="ord"></span>Night Metro</label><label class="dj"><input type="checkbox" value="Rage Engine"><span class="ord"></span>Rage Engine</label><label class="dj"><input type="checkbox" value="New Math"><span class="ord"></span>New Math</label><label class="dj"><input type="checkbox" value="Half Light"><span class="ord"></span>Half Light</label><label class="dj"><input type="checkbox" value="Fast Water"><span class="ord"></span>Fast Water</label></div>
+  <h2>The Legends <small>signature styles</small></h2><div class="djs"><label class="dj"><input type="checkbox" value="Farrow"><span class="ord"></span>Farrow</label><label class="dj"><input type="checkbox" value="Doc Day"><span class="ord"></span>Doc Day</label><label class="dj"><input type="checkbox" value="Kane East"><span class="ord"></span>Kane East</label><label class="dj"><input type="checkbox" value="J Dillo"><span class="ord"></span>J Dillo</label><label class="dj"><input type="checkbox" value="Mustang"><span class="ord"></span>Mustang</label><label class="dj"><input type="checkbox" value="Swish Beatz"><span class="ord"></span>Swish Beatz</label><label class="dj"><input type="checkbox" value="DJ Premium"><span class="ord"></span>DJ Premium</label><label class="dj"><input type="checkbox" value="Timberline"><span class="ord"></span>Timberline</label><label class="dj"><input type="checkbox" value="Just Flame"><span class="ord"></span>Just Flame</label><label class="dj"><input type="checkbox" value="Razor"><span class="ord"></span>Razor</label><label class="dj"><input type="checkbox" value="Hitt Kid"><span class="ord"></span>Hitt Kid</label><label class="dj"><input type="checkbox" value="No Alias"><span class="ord"></span>No Alias</label><label class="dj"><input type="checkbox" value="DJ Light Green"><span class="ord"></span>DJ Light Green</label><label class="dj"><input type="checkbox" value="Well Damn"><span class="ord"></span>Well Damn</label></div>
+  <h2>The Styles <small>subgenres, played by the rules</small></h2><div class="djs"><label class="dj"><input type="checkbox" value="Memphis"><span class="ord"></span>Memphis</label><label class="dj"><input type="checkbox" value="Crunk"><span class="ord"></span>Crunk</label><label class="dj"><input type="checkbox" value="Organized Noize"><span class="ord"></span>Organized Noize</label><label class="dj"><input type="checkbox" value="Houston Screw"><span class="ord"></span>Houston Screw</label><label class="dj"><input type="checkbox" value="Emo Hip Hop"><span class="ord"></span>Emo Hip Hop</label><label class="dj"><input type="checkbox" value="Acid Rap Detroit"><span class="ord"></span>Acid Rap Detroit</label><label class="dj"><input type="checkbox" value="Acid Rap Bright"><span class="ord"></span>Acid Rap Bright</label><label class="dj"><input type="checkbox" value="Horror Rap"><span class="ord"></span>Horror Rap</label><label class="dj"><input type="checkbox" value="Wonky"><span class="ord"></span>Wonky</label><label class="dj"><input type="checkbox" value="Trip Hop"><span class="ord"></span>Trip Hop</label><label class="dj"><input type="checkbox" value="Baltimore Club"><span class="ord"></span>Baltimore Club</label><label class="dj"><input type="checkbox" value="Miami Bass"><span class="ord"></span>Miami Bass</label><label class="dj"><input type="checkbox" value="New Orleans Bounce"><span class="ord"></span>New Orleans Bounce</label><label class="dj"><input type="checkbox" value="G-Funk"><span class="ord"></span>G-Funk</label><label class="dj"><input type="checkbox" value="Reggaeton Alt"><span class="ord"></span>Reggaeton Alt</label><label class="dj"><input type="checkbox" value="Detroit"><span class="ord"></span>Detroit</label><label class="dj"><input type="checkbox" value="Plug"><span class="ord"></span>Plug</label><label class="dj"><input type="checkbox" value="Chiptune"><span class="ord"></span>Chiptune</label></div>
+  <h2>Your choices</h2>
+  <div class="fields">
+   <div class="field wide"><label>Directions</label><input type="text" placeholder="no hi hats, dusty, sparse, no 808..."></div>
+   <div class="field"><label>Quick directions</label><select><option>&mdash; pick one &mdash;</option><option>sparse</option><option>dusty</option><option>crisp</option></select></div>
+   <div class="field"><label>Famous beats</label><select><option>&mdash; none, make it up &mdash;</option><option>surprise me</option></select></div>
+   <div class="field"><span class="lab">Key</span><div class="row"><select><option>&mdash; any &mdash;</option><option>A</option><option>C</option></select><select><option>minor</option><option>major</option></select></div></div>
+   <div class="field"><span class="lab">Loops only</span><label style="text-transform:none;font-weight:400;font-size:13px;color:var(--text);font-family:var(--type)"><input type="checkbox" style="display:inline;width:auto"> whole beat from loops</label></div>
+   <div class="field wide"><span class="lab">Reference track</span><div class="drop">Drag a song here to match its tempo and key</div></div>
+  </div>
+ </section>
+ <aside class="right"><span class="logo-mark"></span>
+  <div class="fields"><div class="field"><label>Tempo</label><input type="text" placeholder="95"></div><div class="field"><label>How many</label><input type="number" value="1" min="1" max="10"></div></div>
+  <button id="go">Make my beats</button>
+  <h2 style="font-size:22px">This batch <small>play, open stems, sort</small></h2>
+  <div class="zones"><div class="zone">Favorites</div><div class="zone">DJ folder</div><div class="zone">Trash</div></div>
+  <div class="track"><b>Beat 412</b><small>Otto Grit, 95 bpm</small><button>Play</button></div>
+  <div class="track"><b>Beat 413</b><small>Doc Day, 92 bpm</small><button>Play</button></div>
+  <div class="track"><b>Beat 414</b><small>Memphis, 132 bpm</small><button>Play</button></div>
+ </aside>
+</div>
+<div class="bottom"><div class="bgrid">
+ <div><h2>Rhythm test bank <small>five real beats</small></h2><div class="bank"><button>Classic Boom Bap<small>90 bpm</small></button><button>UK Drill<small>142 bpm</small></button><button>90s New Jack Swing<small>108 bpm</small></button><button>West Coast G-Funk<small>96 bpm</small></button><button>Memphis Trap<small>132 bpm</small></button></div></div>
+ <div><h2>Pattern library <small>every groove, by genre</small></h2><div class="row"><div class="field"><label>Genre</label><select><option>Boom-Bap</option></select></div><div class="field"><label>Pattern</label><select><option>Backbeat</option></select></div><button>Play</button></div></div>
+ <div><h2>Breaks <small>famous figures + funk breaks</small></h2><div class="row"><div class="field"><label>Break</label><select><option>Amen</option></select></div><button>Play</button></div></div>
+ <div><h2>Pull up a beat <small>anything you made before</small></h2><div class="row"><div class="field"><label>Beat number</label><input type="number" placeholder="316"></div><button>Open it</button></div></div>
+</div></div>
+<script>
+const order=[];document.querySelectorAll('.dj input').forEach(cb=>cb.addEventListener('change',()=>{
+ const v=cb.value,i=order.indexOf(v);if(cb.checked&&i<0)order.push(v);if(!cb.checked&&i>=0)order.splice(i,1);
+ document.querySelectorAll('.dj').forEach(d=>{const p=order.indexOf(d.querySelector('input').value);d.querySelector('.ord').textContent=p>=0?p+1:''});}));
+</script></body></html>

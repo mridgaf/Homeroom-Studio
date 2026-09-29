@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beat Machine Mockup I - Field Notebook blend</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Space+Mono:wght@400;700&display=swap');
+:root{--bg:#f4ecc4;--panel:#fffef4;--panel2:#ffffff;--line:#1020a826;--text:#12157f;--dim:#12157f99;--accent:#e8d810;--accent-dim:#f7e9a0;--green:#2f9e52;--red:#ff4d4d;--blue:#1020a8;}
+*{box-sizing:border-box;margin:0}
+body{background:repeating-linear-gradient(var(--bg) 0 30px,var(--line) 30px 31px),var(--bg);color:var(--text);font:16px/1.55 -apple-system,"Helvetica Neue",sans-serif}
+header{display:flex;align-items:center;gap:16px;padding:14px 22px;background:var(--panel);border-bottom:1px solid var(--line)}
+header h1{font-family:"Kalam",cursive;font-weight:700;font-size:28px;color:var(--blue)}
+.tabs{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.tabs span,.tabs a{padding:5px 14px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--dim)}
+.tabs .here{background:var(--accent);color:#1a1610}
+.note{margin-left:auto;font-size:12px;color:var(--dim)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:24px;padding:20px 22px;align-items:start}
+h2{font-family:"Kalam",cursive;font-weight:700;font-size:21px;margin:22px 0 10px;color:var(--blue);border-bottom:1px solid var(--line);padding-bottom:4px}
+h2:first-child{margin-top:0} h2 small{font-family:-apple-system,sans-serif;font-weight:400;font-size:13px;color:var(--dim);margin-left:8px}
+.djs{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.dj{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 12px 9px 32px;cursor:pointer;font-size:14px}
+.dj input{display:none} .dj .ord{position:absolute;left:10px;top:8px;width:16px;font-weight:700;color:var(--blue)}
+.dj:has(input:checked){background:var(--accent-dim);border-color:var(--accent)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field label,.field .lab{display:block;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--dim);text-transform:uppercase;margin-bottom:3px}
+input[type=text],input[type=number],select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font:inherit;font-size:14px}
+.wide{grid-column:1/-1} .drop{border:2px dashed var(--line);border-radius:8px;padding:14px;text-align:center;color:var(--dim);font-size:13px}
+.right{position:sticky;top:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 6px 16px #1020a814}
+.right .fields{margin-bottom:14px}
+button{font:inherit;font-weight:700;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:14px}
+#go{width:100%;font-family:"Kalam",cursive;font-size:22px;padding:14px;background:var(--accent);border-color:var(--accent);color:#1a1610}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 10px}
+.zone{border:1px dashed var(--line);border-radius:8px;padding:8px;text-align:center;font-size:12px;color:var(--dim)}
+.track{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;font-size:14px}
+.track b{font-weight:700;flex:1} .track small{color:var(--dim)} .track button{padding:6px 12px;font-size:13px}
+.bottom{border-top:1px solid var(--line);padding:10px 22px 40px}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.bank button{background:var(--panel2);border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:14px;border-radius:8px} .bank small{display:block;font-size:11px;color:var(--dim)}
+.row{display:flex;gap:10px;align-items:end} .row .field{flex:1}
+@media(max-width:1000px){.cols{grid-template-columns:1fr} .right{position:static}}
+</style></head><body>
+<header><h1>Homeroom Studio</h1><div class="tabs"><span class="here">Make</span><a href="#">Studio</a></div>
+<span class="note">PREVIEW ONLY. Names are sample names.</span></header>
+<div class="cols">
+ <section class="left">
+  <h2>The Crew <small>tap one for their own beat, tap more for a collab &mdash; first tapped hosts</small></h2><div class="djs"><label class="dj"><input type="checkbox" value="Otto Grit"><span class="ord"></span>Otto Grit</label><label class="dj"><input type="checkbox" value="Cutz"><span class="ord"></span>Cutz</label><label class="dj"><input type="checkbox" value="Crate Prophet"><span class="ord"></span>Crate Prophet</label><label class="dj"><input type="checkbox" value="Chrome Dial"><span class="ord"></span>Chrome Dial</label><label class="dj"><input type="checkbox" value="Glass Cat"><span class="ord"></span>Glass Cat</label><label class="dj"><input type="checkbox" value="Sunday Chop"><span class="ord"></span>Sunday Chop</label><label class="dj"><input type="checkbox" value="Night Metro"><span class="ord"></span>Night Metro</label><label class="dj"><input type="checkbox" value="Rage Engine"><span class="ord"></span>Rage Engine</label><label class="dj"><input type="checkbox" value="New Math"><span class="ord"></span>New Math</label><label class="dj"><input type="checkbox" value="Half Light"><span class="ord"></span>Half Light</label><label class="dj"><input type="checkbox" value="Fast Water"><span class="ord"></span>Fast Water</label></div>
+  <h2>The Legends <small>signature styles</small></h2><div class="djs"><label class="dj"><input type="checkbox" value="Farrow"><span class="ord"></span>Farrow</label><label class="dj"><input type="checkbox" value="Doc Day"><span class="ord"></span>Doc Day</label><label class="dj"><input type="checkbox" value="Kane East"><span class="ord"></span>Kane East</label><label class="dj"><input type="checkbox" value="J Dillo"><span class="ord"></span>J Dillo</label><label class="dj"><input type="checkbox" value="Mustang"><span class="ord"></span>Mustang</label><label class="dj"><input type="checkbox" value="Swish Beatz"><span class="ord"></span>Swish Beatz</label><label class="dj"><input type="checkbox" value="DJ Premium"><span class="ord"></span>DJ Premium</label><label class="dj"><input type="checkbox" value="Timberline"><span class="ord"></span>Timberline</label><label class="dj"><input type="checkbox" value="Just Flame"><span class="ord"></span>Just Flame</label><label class="dj"><input type="checkbox" value="Razor"><span class="ord"></span>Razor</label><label class="dj"><input type="checkbox" value="Hitt Kid"><span class="ord"></span>Hitt Kid</label><label class="dj"><input type="checkbox" value="No Alias"><span class="ord"></span>No Alias</label><label class="dj"><input type="checkbox" value="DJ Light Green"><span class="ord"></span>DJ Light Green</label><label class="dj"><input type="checkbox" value="Well Damn"><span class="ord"></span>Well Damn</label></div>
+  <h2>The Styles <small>subgenres, played by the rules</small></h2><div class="djs"><label class="dj"><input type="checkbox" value="Memphis"><span class="ord"></span>Memphis</label><label class="dj"><input type="checkbox" value="Crunk"><span class="ord"></span>Crunk</label><label class="dj"><input type="checkbox" value="Organized Noize"><span class="ord"></span>Organized Noize</label><label class="dj"><input type="checkbox" value="Houston Screw"><span class="ord"></span>Houston Screw</label><label class="dj"><input type="checkbox" value="Emo Hip Hop"><span class="ord"></span>Emo Hip Hop</label><label class="dj"><input type="checkbox" value="Acid Rap Detroit"><span class="ord"></span>Acid Rap Detroit</label><label class="dj"><input type="checkbox" value="Acid Rap Bright"><span class="ord"></span>Acid Rap Bright</label><label class="dj"><input type="checkbox" value="Horror Rap"><span class="ord"></span>Horror Rap</label><label class="dj"><input type="checkbox" value="Wonky"><span class="ord"></span>Wonky</label><label class="dj"><input type="checkbox" value="Trip Hop"><span class="ord"></span>Trip Hop</label><label class="dj"><input type="checkbox" value="Baltimore Club"><span class="ord"></span>Baltimore Club</label><label class="dj"><input type="checkbox" value="Miami Bass"><span class="ord"></span>Miami Bass</label><label class="dj"><input type="checkbox" value="New Orleans Bounce"><span class="ord"></span>New Orleans Bounce</label><label class="dj"><input type="checkbox" value="G-Funk"><span class="ord"></span>G-Funk</label><label class="dj"><input type="checkbox" value="Reggaeton Alt"><span class="ord"></span>Reggaeton Alt</label><label class="dj"><input type="checkbox" value="Detroit"><span class="ord"></span>Detroit</label><label class="dj"><input type="checkbox" value="Plug"><span class="ord"></span>Plug</label><label class="dj"><input type="checkbox" value="Chiptune"><span class="ord"></span>Chiptune</label></div>
+  <h2>Your choices</h2>
+  <div class="fields">
+   <div class="field wide"><label>Directions</label><input type="text" placeholder="no hi hats, dusty, sparse, no 808..."></div>
+   <div class="field"><label>Quick directions</label><select><option>&mdash; pick one &mdash;</option><option>sparse</option><option>dusty</option><option>crisp</option></select></div>
+   <div class="field"><label>Famous beats</label><select><option>&mdash; none, make it up &mdash;</option><option>surprise me</option></select></div>
+   <div class="field"><span class="lab">Key</span><div class="row"><select><option>&mdash; any &mdash;</option><option>A</option><option>C</option></select><select><option>minor</option><option>major</option></select></div></div>
+   <div class="field"><span class="lab">Loops only</span><label style="text-transform:none;font-weight:400;font-size:14px;color:var(--text)"><input type="checkbox" style="display:inline;width:auto"> whole beat from loops</label></div>
+   <div class="field wide"><span class="lab">Reference track</span><div class="drop">Drag a song here to match its tempo and key</div></div>
+  </div>
+ </section>
+ <aside class="right">
+  <div class="fields"><div class="field"><label>Tempo</label><input type="text" placeholder="95"></div><div class="field"><label>How many</label><input type="number" value="1" min="1" max="10"></div></div>
+  <button id="go">Make my beats</button>
+  <h2 style="font-size:18px;margin-top:20px">This batch <small>play, open stems, sort</small></h2>
+  <div class="zones"><div class="zone">Favorites</div><div class="zone">DJ folder</div><div class="zone">Trash</div></div>
+  <div class="track"><b>Beat 412</b><small>Otto Grit, 95 bpm</small><button>Play</button></div>
+  <div class="track"><b>Beat 413</b><small>Doc Day, 92 bpm</small><button>Play</button></div>
+  <div class="track"><b>Beat 414</b><small>Memphis, 132 bpm</small><button>Play</button></div>
+ </aside>
+</div>
+<div class="bottom"><div class="bgrid">
+ <div><h2>Rhythm test bank <small>five real beats</small></h2><div class="bank"><button>Classic Boom Bap<small>90 bpm</small></button><button>UK Drill<small>142 bpm</small></button><button>90s New Jack Swing<small>108 bpm</small></button><button>West Coast G-Funk<small>96 bpm</small></button><button>Memphis Trap<small>132 bpm</small></button></div></div>
+ <div><h2>Pattern library <small>every groove, by genre</small></h2><div class="row"><div class="field"><label>Genre</label><select><option>Boom-Bap</option></select></div><div class="field"><label>Pattern</label><select><option>Backbeat</option></select></div><button>Play</button></div></div>
+ <div><h2>Breaks <small>famous figures + funk breaks</small></h2><div class="row"><div class="field"><label>Break</label><select><option>Amen</option></select></div><button>Play</button></div></div>
+ <div><h2>Pull up a beat <small>anything you made before</small></h2><div class="row"><div class="field"><label>Beat number</label><input type="number" placeholder="316"></div><button>Open it</button></div></div>
+</div></div>
+<script>
+const order=[];document.querySelectorAll('.dj input').forEach(cb=>cb.addEventListener('change',()=>{
+ const v=cb.value,i=order.indexOf(v);if(cb.checked&&i<0)order.push(v);if(!cb.checked&&i>=0)order.splice(i,1);
+ document.querySelectorAll('.dj').forEach(d=>{const p=order.indexOf(d.querySelector('input').value);d.querySelector('.ord').textContent=p>=0?p+1:''});}));
+</script></body></html>

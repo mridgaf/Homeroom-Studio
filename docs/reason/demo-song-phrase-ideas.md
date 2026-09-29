@@ -1,4 +1,4 @@
-# Phrase ideas from the demo songs (Street Phone A-E, Airplane F)
+# Phrase ideas from the demo songs (Street Phone A-E, Airplane F, Power G)
 
 Running list (started 2026-09-29, step 00b). Spoken phrases the voice app may need for controls and
 techniques seen in the demo song. Your call which to add; nothing here has been built.
@@ -98,3 +98,22 @@ Please Release Me), so "which one?" is the same open problem as the five ECF-42s
 | "arp on" / "hold" | Control the Dual Arpeggio player | Dual Arpeggio | **needs new code**: the remotemap has no Dual Arpeggio scope (the vocab file mentions "Arpeggio" on 6 lines; not read in detail) | Norwegian Boy -LNB is played through Dual Arpeggio |
 | "what goes to the sidechain bus?" | Read back which channels feed a bus | mixer Output labels | **needs new code**: the app can't read the rack or mixer, only the locked device | The pink Sidechain Bus channel and the pink Output labels |
 
+
+## G. Added from the BLKMGK "Power" demo song (step 00d, 2026-09-29)
+
+Song details are in [demo-song-notes-power.md](demo-song-notes-power.md). Same rule: "yes" means the code or map is there, not
+proven live, and only the ONE locked device answers. None of these was heard.
+
+| Phrase | What it should do | Device / control | Can the app do it today? | Seen in the song |
+|---|---|---|---|---|
+| "turn on the unison send for the piano" / "no echo two on the bass" | Switch a channel's FX send on or off by the effect's name | "Channel N FX Send On" (name in `remote-vocab.json`) plus the send names Plate, Room, Echo, Echo 2, Unison | **needs new code**, OPEN-ISSUES 29 (no mixer scope). Needs the name-to-number step (Plate=1 ... Unison=5) | Mixer send names 1-5; send 5 on for every channel, send 4 on for none |
+| "bypass the audiomatic on the drums" / "audiomatic off" | Turn one Audiomatic insert off | Audiomatic scope `se.propellerheads.Audiomatic` (remotemap line 769: Enabled, Dry Wet, Transform, Input Gain, Volume, Preset) | **yes**, if that Audiomatic is locked. This song has 6 of them (Kong half, Kong double, Kong FX, Drum loop, Bass, Wub M), the same "which one?" problem as OPEN-ISSUES 34 | Kong, Drum loop, Bass and Wub M insert chains |
+| "more transform" | Turn the Audiomatic "Transform" knob | same scope, Transform | **yes**, if locked | Audiomatic front and back (CV jacks Transform and Dry-Wet, no cables) |
+| "more squash on the kick" / "more dirt on the drums" | Move a Pulveriser knob | Pulveriser is in the remotemap (scope exists, listed in the Street Phone section A) | **yes**, if that Pulveriser is locked (there are 3 in this song: Kong half, Kong double, Kong FX) | Kong "pulveriser" inserts |
+| "more scream on the piano" | Move Scream 4 "Damage Control" or "Master Level" | Scream 4 scope (remotemap line 533: Damage Control, Damage Type, Master Level, Enabled ...) | **yes**, if locked (4 Scream 4s here: Piano L, Piano R, Mal L, Mal R) | Scream 4 inserts on the Piano and Mal chains |
+| "arp on the bass" / "hold the arp" | Turn the RPG-8 on, or set its mode | RPG-8 (Bass arp): no scope in the remotemap that I checked | **needs new code**, same open issue as the Dual Arpeggio row in section F | Bass arp is an RPG-8 cabled to the Bass Malstrom by CV and gate; its clips are at bars 11-19 and 29-40 |
+| "duck the bass under the kick" | Change how hard the Bass compressor is keyed | Bass channel compressor, KEY, threshold | **needs new code** (no mixer scope) | Bass channel KEY is lit and a Redrum feeds its Side Chain Input |
+| "high pass the drums up for four bars" | Write a short filter-lift clip on the drum channel | Channel HPF Frequency automation lane | **needs new code**, OPEN-ISSUES 31 (no code writes automation) | Drum loop "HPF Frequency" lane clip at about bars 25-29 |
+| "throw the echo on the last word" / "more echo" | Move an Echo's Dry/Wet Balance, or write a short clip on that lane | The Echo scope (remotemap line 491 has "Dry/Wet Balance", Feedback, Delay Time, Ducking ...) | **knob: yes**, if locked (there are 2 Echoes). **Writing the lane: needs new code**, OPEN-ISSUES 31 | "Jayy echo" lane "Dry/Wet Balance", bars ~40-42 |
+| "show me the back of the piano" | Flip to the rack back and scroll to a device | Reason UI only (Tab, RACK button); no bridge path | **needs new code and is out of the bridge's reach**: today only the mouse or keyboard can do it | Tab key and PageUp/PageDown worked while the mouse was blocked |
+| "more unison" / "less chorus" | Move UN-16 Unison Dry/Wet or Detune | UN-16 Unison scope (remotemap line 676: Detune, Dry/Wet, Voice Count, Enabled) | **yes**, if locked | Unison is send 5, on for all 13 channels |

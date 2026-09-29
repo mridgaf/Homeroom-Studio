@@ -226,6 +226,25 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   devices folded to strips, so they need unfolding first. Each Airplane visit that needed screen control was approved
   once this session.
 
+- [x] **40. Explore a hip hop demo song: BLKMGK "Power"** (🤖, owner 2026-09-29: "find the other demo songs ... hip hop
+  priority ... begin learning and wiring the first one alphabetically"). ✅ Only two demos were on the Mac (Airplane,
+  Street Phone); reasonstudios.com lists ten, two hip hop (BLKMGK "Power", Qua z mo "I Just Wanna Be"). Owner said yes
+  to downloading Power only (33 MB zip, `~/Downloads/Reason Demo Songs/`). Notes: `docs/reason/demo-song-notes-power.md`
+  (arrangement, whole rack back read by hover, sends table, lanes). Closed unchanged (SHA-1 `704ee4ff...`).
+- [ ] **41. Does the Power "Bass Sidechain" Redrum actually run?** (👂). Fact: a Redrum (pattern A1, steps 1-5-9-13, a
+  bass-drum sample) has no sequencer track, its RUN button looked unlit with the transport stopped, and its output
+  goes to the Bass channel's Side Chain Input (KEY lit). Not known: whether it plays and pumps the bass. Needs one
+  short Play with the Bass compressor meter watched, or ears. I did not press Play (audible while you work).
+- [x] **42. Second hip hop demo: Qua z mo "I Just Wanna Be"** (🤖, owner picked "Qua z mo next"). ✅ First pass:
+  `docs/reason/demo-song-notes-quazmo.md` (30 tracks, 97.29 BPM, sub-mix buses, sends 4-6 = Delay 3/16, Scream 1, Scream 2,
+  master Combinator hovered, "PAD FX" Combinator). Not done: Neptune devices, automation lanes, most channel cables.
+  Closed unchanged (SHA-1 `290f75ff...`). Eight more demo songs are on the site (Rack Disco, Mountain, What's the Reason,
+  700 Dreams, Purple Ribbons, Recall, Evolution, Metamorph, Bajo Caida); not downloaded, needs a yes.
+- [ ] **43. Mouse clicks are blocked while macOS Dictation is on** (🤖). Fact: with the orange microphone dot showing,
+  every display-scope click and scroll failed ("would land on Dictation"); hover, keyboard and the background app
+  tools still worked (Tab flips the rack, PageUp/PageDown scroll it, arrow keys move between rack columns).
+  Ctrl-click jack menus need clicks, so they were not possible in this visit.
+
 ## 5b. New from step 4 (👂)
 
 - [x] **24. Hear the 4 new effects** (hall, wide hats, ratchet hits, layered kick) and the Loops-page lock. ✅ heard, kept 2026-09-28.

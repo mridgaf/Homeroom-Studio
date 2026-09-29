@@ -19,6 +19,22 @@ entries.
 ---
 
 ## Log
+### 2026-09-29 Explored Qua z mo "I Just Wanna Be" (second hip hop demo, first pass)
+- Context: owner answered "Qua z mo next" to the clickable question after the BLKMGK "Power" visit. Same rules; download was asked and approved.
+- Done: downloaded `Quazmo-IJustWannaBe.zip` (63,484,511 bytes) to `~/Downloads/Reason Demo Songs/`, SHA-1 `290f75ff...`. Read the song info, all 30 tracks, mixer (sends, output buses Lead Vox / Adlib / Hook / P1: Hook), master Section by hover, "PAD FX" Combinator. Notes: `docs/reason/demo-song-notes-quazmo.md`. OPEN-ISSUES 42 ticked.
+- Decisions: first pass only (most channel cables and all automation lanes not read); nothing saved; closed with no dialog; SHA-1 identical before and after; earlier demos unchanged.
+- Known limits: can't hear; Neptune devices not identified; several "Guess" items are marked in the notes.
+- Verify by: `shasum -a 1 "$HOME/Downloads/Reason Demo Songs/Qua z mo - I Just Wanna Be.rsndemo"` = `290f75ff1e5713ca9e4316b31f907da80ec8d25c`.
+- Status: confirmed for what was read; follow-ups open.
+
+### 2026-09-29 Found other Reason demo songs; explored BLKMGK "Power" (hip hop)
+- Context: owner asked to find the other Reason demo songs (hip hop first, maybe online) and, failing that, do Street Phone's channel wiring; then "begin learning and wiring the first one alphabetically" and to ask for screen control if needed. Screen control was already approved for this session.
+- Done: found only two demos on the Mac; reasonstudios.com/download/reason/demo-songs/ lists ten, two hip hop (BLKMGK "Power", Qua z mo "I Just Wanna Be"). Asked a clickable question (owner picked "BLKMGK - Power only"), downloaded `BLKMGK-Power.zip` (33,156,523 bytes = the server's length) to `~/Downloads/Reason Demo Songs/`, unzipped, SHA-1 `704ee4ff...`. Opened in Reason 12, read the arrangement (42 bars, 84 BPM, 17 tracks), the mixer sends (send 4 Echo 2 unused by all 13 channels; send 5 Unison on for all), and the rack back by hover: master chain, five send effects, every instrument to its insert chain to its strip, RPG-8 cabled by CV/gate into the Bass Malstrom, and a Redrum "Bass Sidechain" cabled into the Bass channel's Side Chain Input. Notes: `docs/reason/demo-song-notes-power.md`. Lists updated: phrase F2, skill rows, template rows. OPEN-ISSUES 40-43.
+- Decisions: downloads only with a yes (asked; Power only); nothing saved; song closed with no dialog (read-only), SHA-1 identical before and after, Airplane and Street Phone SHA-1 unchanged; scratch song left open and unsaved.
+- Known limits: I can't hear, so whether the Redrum runs and pumps the bass is unknown (item 41). The macOS Dictation overlay blocked every click and scroll, so no Ctrl-click menus this visit; hover, Tab, PageUp/PageDown and arrow keys worked. The right jacks and middle insert links are read only where listed in the notes (section 9). My slips (not Reason facts) are in notes section 8.
+- Verify by: `shasum -a 1 "$HOME/Downloads/Reason Demo Songs/BLKMGK - Power.rsndemo"` = `704ee4ff38319a70d214e907afb9af65375c45f9`; re-read the notes for Seen/Manual/Guess tags.
+- Status: confirmed for what was read; follow-ups open (OPEN-ISSUES 41, 42, 39).
+
 ### 2026-09-29 Explored the Airplane demo song (00c)
 - Context: owner asked for the same exploration as Street Phone on the next demo, `Carlstrom - Airplane.rsndemo` (OPEN-ISSUES 00c), after `/compact`. Paused once when his usage limit hit, then resumed. Same tags (Seen / Manual / Guess) and the "don't record my mistakes as truths" rule.
 - Done: notes in `docs/reason/demo-song-notes-airplane.md`; phrase list section F and two skill rows appended; OPEN-ISSUES 00c ticked, new items 34-37. Looked at the mixer (18 channels), the whole rack front, the back of the Sidechain Bus group and a few devices, and the sequencer (about 64 bars, lane names and clip places for every track). Played a few seconds and opened one automation clip inline.

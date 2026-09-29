@@ -1,0 +1,14 @@
+/* Homeroom Studio black + yellow theme for Sound Engine. Loaded after style.css.
+   To undo: remove the one <link> line for this file in index.html. */
+@font-face { font-family: "Blackboard Graffiti"; src: url("/static/Blackboard-Graffiti.woff2") format("woff2"); font-display: swap; }
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+:root {
+  --bg: #111; --panel: #171717; --border: #e8d81044;
+  --text: #f4f1e6; --muted: #f4f1e699;
+  --accent: #e8d810; --accent-dim: #8a6d00;
+}
+body { font-family: "Space Mono", ui-monospace, Menlo, monospace; }
+h1, h2, h3 { font-family: "Blackboard Graffiti", "Marker Felt", sans-serif; font-weight: 400; color: var(--accent); }
+h1 { transform: rotate(-1deg); display: inline-block; }
+button { font-family: "Space Mono", ui-monospace, Menlo, monospace; }
+button:hover { border-color: var(--accent); }
