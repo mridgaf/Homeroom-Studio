@@ -224,3 +224,35 @@ Nothing needed a listening check, so no question went to you.
 - The Delay 3/16 device track's lanes, the Timb Processor, Organ Echo and Organ 2 Filter tracks, and the second "WarmPad" track.
 - What the teal cables in the back view are.
 - How the "Dance" boxes on Kick, Clap and the organs differ from each other.
+
+## 6. Wiring read by hover tooltip (added later the same day, after the owner approved screen control)
+Owner's tip: hovering a jack shows what it is wired to. **Seen: it works on jacks** ("Connected to ..." tooltip).
+Hovering the cable bodies in the folded rack view showed nothing (two tries; not proven that cable bodies never
+show one). Street Phone's devices are folded to strips in the rear view, so only the jacks of unfolded devices
+could be read. **Sample only, not a full map.**
+
+| From (jack) | Connected to |
+|---|---|
+| Master Section FX Send 1 Left / 2 Left / 3 Left / 4 Left | Plate: Left Input / Room: Left Input / Echo: Left Input / Delay 3/16: Left |
+| FX Return 1 (Left) | Plate: Left Output (read from the send side: same wire) |
+| FX Return 4 (Left) | Delay 3/16: Left (Guess for the direction: the tooltip reads the same as Send 4) |
+| Master Section Insert FX "To Device" L | Master Section FX (Combinator): Combi Input Left |
+| Master Section Insert FX "From Device" L | Master Section FX (Combinator): Combi Output (tooltip cut off at the edge) |
+| Master Out Left | Default Mastering Suite (Combinator): Combi Input Left |
+| Master Section FX Combinator, "To Devices Output L" | MClass "M EQ" input L |
+| M EQ output | Stereo Imager: Left |
+| Stereo Imager input L | M EQ: Left |
+| Maximizer input L | M Comp (Compressor): Left |
+| Maximizer output R | Master Section FX: Mixer Input Right (tooltip text cut off) |
+
+- **Seen, so the chain inside the master Combinator is:** Master Section insert, then M EQ, Stereo Imager, M Comp, Maximizer,
+  back to the Combinator's mixer. (Compressor input not read; inferred from the neighbours.)
+- **Correction to my earlier reading (section 1):** I listed the master chain as "Combinator MASTER SECT, then MClass EQ
+  MASTER EQ, then Combinator DEFAULT MAS...". The tooltips say Master Out goes straight into the "Default Mastering
+  Suite" Combinator, so that one is the last stage before the speakers. Where it leads next: not read.
+- **Seen:** on the back, this song's master effects (Plate, Room, Echo, Delay 3/16) are wired to Master Section sends 1 to 4 and
+  returns 1 to 4, matching the FX RETURN names in section 3.
+- **Not done:** every channel's instrument-to-mixer cable, the insert chains, and the Combinator inner cabling of
+  the other Combinators, because the devices are folded to strips.
+- **File check:** SHA-1 of the demo before this visit and after closing: `e377af376e09a211ad065069149e71b515906652`
+  both times. Closing gave no save dialog.

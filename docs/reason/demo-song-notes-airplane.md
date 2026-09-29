@@ -14,9 +14,12 @@ Manual places are line numbers in `~/.reason_voice/reason12_manual/Reason_12.7_O
   `91a2df7aedba4313b274f45511b2046c72575649` (5,242,932 bytes, dated Sep 4 2023). The `ls` line now shows an
   "@" flag on the file. `xattr -l` shows it is only macOS's "last used date" tag (`com.apple.lastuseddate#PS`),
   which the Street Phone file has too. The contents are identical.
+- **Second visit, same day, after the owner approved screen control:** Airplane was reopened only to look at the
+  jack pop-up menus and tooltips (section 5). Closing it this time showed **no save dialog** (nothing had been
+  changed), and the window simply closed. SHA-1 checked again afterwards: identical.
 - The scratch song "Step 8 test copy 09 29 26" is still open and unsaved, as before.
 - Not done from the brief: re-patching a cable, soloing, a deliberate sweep edit, Combinator Modulation Routing,
-  the connector pop-up menus (section 5), and every "needs ears" check (section 8).
+  and every "needs ears" check (section 8).
 
 ## 1. The song itself
 - **Seen:** title bar "Carlstrom - Airplane.rsndemo [Reason 10 Demo Song] [Read-only]". 125.000 BPM, 4/4.
@@ -82,11 +85,25 @@ Manual places are line numbers in `~/.reason_voice/reason12_manual/Reason_12.7_O
 
   After Boomer Bass the left column ends in empty rack (an "Add device" area).
 - **Right column, seen but order not confirmed:** Kick (Redrum, then Pulveriser 1 with a SQUASH knob),
-  Hi-hat (Dr. Octorex), Clap and Hats (Redrum), two "Stereo Noise Sw..." channels (device type not
-  identified), Mushi (Grain, sample "Bird3.aif"), Unisaw (Europa), Ending Top (Dr. Octorex),
-  Pulse Scream -LC (a small device, type not identified), Please Release Me (Grain, sample "HRP_GL_Dwn(E3).aif"),
+  Hi-hat (Dr. Octorex), Clap and Hats (Redrum), two "Stereo Noise Sweep [Run]" channels (Thor synthesizers), Mushi (Grain, sample "Bird3.aif"), Unisaw (Europa), Ending Top (Dr. Octorex),
+  Pulse Scream -LC (a Combinator; its inner devices are listed in the jack pop-up, see below), Please Release Me (Grain, sample "HRP_GL_Dwn(E3).aif"),
   Crash (an Audio Track device), Sidechain Bus (Mix Channel device).
 - **Seen:** the Kick track uses the Redrum drum machine here (Street Phone used Kong).
+- **Seen, full device list from the jack pop-up menu (section 5), in rack order:** Hardware Interface II, Master
+  Section, Master Section FX (Combinator), Plate (RV7000), Room (RV7000), Echo (The Echo); then per channel:
+  Nightclub Saw (Mix Channel, Europa), Long Sidechain (Synchronous), Fifth Dimension (Mix Channel, Europa),
+  Punch Drunk Saw (Mix Channel, Europa), Norwegian Boy -LNB (Mix Channel, Default Arp = Dual Arpeggio,
+  Combinator), Mothership Landing (Mix Channel, Grain), Boomer Bass (Mix Channel, Grain), Kick (Mix Channel,
+  Redrum, Pulveriser 1), Hi-hat (Mix Channel, Dr. Octo Rex), Clap and Hats (Mix Channel, Redrum "Clap"),
+  Stereo Noise Sweep [Run] (Mix Channel, Thor) twice, Mushi (Mix Channel, Grain), Crash (Audio Track),
+  Sidechain Bus (Mix Channel), Sidechain Bus FX (Combinator), Unisaw (Mix Channel, Europa), Ending Top (Mix
+  Channel, "ny_drm124_ruff_top" Dr. Octo Rex), Pulse Scream -LC (Mix Channel, Combinator), Please Release Me
+  (Mix Channel, Grain). Devices inside a Combinator are not in the main list; they show under the Combinator's
+  sub-menu. New from this: **there is a "Master Section FX" Combinator** which I had not
+  spotted on the front view (Guess: it is the master insert; blue cables enter the Master Section's Insert FX slot on the back view).
+- **Seen (Pulse Scream -LC sub-menu, first rows only, list not scrolled to the end):** Spider Audio 1, EasyFuzz
+  (Scream 4), First Mix (Line Mixer 6:2), AMB Blue Room (RV7000), Pulse Osc (Pulsar), Filter__ (ECF-42 Filter),
+  Vibrato (Pulsar).
 
 ## 4. The Sidechain Bus, in detail (Seen unless marked)
 This is the main thing this song shows that Street Phone did not.
@@ -97,6 +114,10 @@ This is the main thing this song shows that Street Phone did not.
   dropdown). The bus channel gets a coloured fader background and a red fader knob. The device's Audio
   Output then shows the bus name instead of "Master Section". All of that matches what is on screen: the
   Boomer Bass Mix Channel device reads "Audio Output: Sidechain Bus", and so does the Crash Audio Track device.
+- **Seen (jack pop-up menu, section 5): none of the 18 channel devices has a cable in its Side Chain Input.** In
+  each one's sub-menu "Side Chain Input L" and "R" have no asterisk (an asterisk means already cabled). The only
+  device with "From Insert FX L/R" marked occupied is the Sidechain Bus. So there is no keyed sidechain anywhere
+  in this song (the Master Section's own sidechain jacks looked empty on the back view; not checked in a menu).
 - **Seen:** on the bus Mix Channel and on Crash, the "Sidechain Input" jacks (the Dynamics section, with a KEY
   button) have **no cables**, and the KEY button does not look lit. So nothing is keyed through those jacks.
   My first guess (the Kick feeds the bus's sidechain input) was **wrong** for these jacks.
@@ -124,10 +145,21 @@ This is the main thing this song shows that Street Phone did not.
 - **Seen:** the "non-standard routing" warning is printed on the bus device, but its small light looks dark (a tiny dot; not certain).
   **Manual [18] (line ~13346):** that light comes on when Reason detects non-standard routing; hovering over it
   shows why. If it is dark, Reason is reporting no problem; I did not hover.
-- **Seen:** Nightclub Saw has its own Synchronous "Long Sidechain" in the rack too. Why only that track:
-  not known (Guess: it is not routed to the bus, so it gets its own pumping).
+- **Seen:** Nightclub Saw has its own Synchronous "Long Sidechain" in the rack too. Hovering Nightclub Saw's
+  Europa "Audio Left" jack shows the tooltip "Connected to Long Sidechain: Left Input", so that Europa plays
+  through its own Synchronous. That Synchronous is folded to a strip in this song. Where its output goes:
+  not checked (Guess: to the Nightclub Saw Mix Channel input, which the menu shows as occupied).
+  Why only that track has one: not known (Guess: it is not routed to the bus, so it gets its own pumping).
+- **Seen (pop-up sub-menu of "Sidechain Bus FX (Combinator)"):** "Combi Input Left/Right" and "Mixer Input
+  Left 1 / Right 1" are marked occupied, Mixer Inputs 2 to 8 are free, and "Long Sidechain (Synchronous)" is
+  listed inside it. That confirms the Synchronous sits inside that Combinator.
 
 ## 5. Cables (back view)
+**The full wiring map is in [demo-song-wiring-airplane.md](demo-song-wiring-airplane.md)** (fourth visit, 2026-09-29). It
+supersedes the sample below where they differ. Three things it added or corrected: the Pulse Scream -LC Combinator has no
+synthesizer (a Pulsar LFO is used as the audio oscillator, with CV cables between Pulsars); the Norwegian Boy -LNB Combinator
+holds two Malstrom synths ("Kalimba L / R") with a mixer, Pulveriser, Echo and compressor; and the Redrum send outputs are
+unconnected (my earlier "has a cable" was a misreading). The "no CV cable anywhere" idea was wrong, see section F there.
 - **Manual [16], "About cables" (lines 11430-11500):** the colours are green for effect devices, red for
   instrument to mixer, yellow for CV, blue for Combinator. [K] or Options > Reduce Cable Clutter toggles a
   view that shows fewer cables. Hover over a jack for a tooltip naming the device and jack at the other end.
@@ -139,13 +171,47 @@ This is the main thing this song shows that Street Phone did not.
   CV Modulation In/Out 1-4 all empty. Only audio is cabled.
 - **Seen:** the Norwegian Boy Combinator back panel: Gate In, CV In, four "Control CV In" jacks with dropdowns
   reading Shift, Dirt, Width, Reverb Level (the same four labels as the front knobs). Their jacks look empty.
-- **Owner's tip, 2026-09-29 (from the owner, not yet seen by me):** "The back has drop downs to see all cables."
-  **Manual [16], "Connecting cables using pop-up menus" (lines 11646-11660):** right-click or Ctrl-click a
-  jack and a menu lists all devices; its sub-menus list each device's suitable jacks, and an asterisk (*)
-  marks jacks that already have a cable. That is my best match for the tip, **not confirmed as what the owner
-  meant**. Not opened: Claude's background clicks can't open pop-up menus, and the screen-control approval
-  was not granted while the owner was away. Picking a jack in that menu would replace its cable, so open it
-  only to look, then press Escape.
+- **Owner's tip, 2026-09-29: "The back has drop downs to see all cables."** Tried after the owner approved
+  screen control. **Seen:** Ctrl-click on a jack opens a menu. Top of the menu: "Scroll to Connected Device",
+  "Route to New Mix Channel", "Disconnect". Below that, a list of EVERY device in the rack. A **check mark** sits
+  on the device this jack is cabled to (here "Plate (RV7000)" for FX Send 1 Left), devices with no suitable
+  jack are greyed, and hovering a device opens a sub-menu of its jacks: a check mark on the one this cable
+  uses ("Left Input") and an **asterisk** on jacks that already have a cable ("Right Input *"). That matches
+  Manual [16] (lines 11646-11660), and it is very likely what the owner meant, though he did not say so.
+- **Seen, hover:** resting the pointer on a jack shows a tooltip such as "Connected to Long Sidechain: Left Input"
+  (Nightclub Saw's Europa) and "...d to Plate: Left Input" (FX Send 1 Left; the first word is hidden by a second
+  small label reading "Reason Sounds"). Matches Manual [16] line ~11470.
+- **How the menu behaved (Seen):** Escape closes only sub-menus, not the main list. The list scrolls while the
+  pointer rests on the arrow at its bottom edge. Clicking the window's title bar closed it. I picked no item;
+  the cables looked the same afterwards on screenshots (not diffed). Picking a device would replace the cable.
+- **Seen (Master Section back):** FX Send 1, 2, 3 and FX Return 1, 2, 3 have cables and 4 to 8 have none, to
+  (the Send 1 tooltip names Plate; I did not read tooltips for Sends 2 and 3, whose Return names are Room and Echo).
+- **Wiring read by hover tooltip (Seen, third visit, "Connected to ..." text quoted):**
+
+| From (jack) | Connected to |
+|---|---|
+| Master Section FX Send 1 Left / 2 Left / 3 Left | Plate: Left Input / Room: Left Input / Echo: Left Input |
+| Plate / Room / Echo outputs | Master Section FX Return 1 / 2 / 3 (Plate and Room read from the return side as "Plate: Left Output" and "Room: Left Output"; Echo as "Echo: Left Output") |
+| Master Out Left | Hardware Interface II: Output 1 |
+| Nightclub Saw Europa, Audio Left | Long Sidechain (Synchronous): Left Input |
+| Nightclub Saw Mix Channel, Input L | Long Sidechain: Left Output |
+| Fifth Dimension Mix Channel, Input L | Fifth Dimension (Europa): Left Output. Mix Channel Audio Output reads "Sidechain Bus" |
+| Punch Drunk Saw Europa Audio Left | Punch Drunk Saw (Mix Channel): Input L |
+| Mothership Landing Mix Channel, Input L | Mothership Landing (Grain): Left Output. Audio Output reads "Master Section" |
+| Norwegian Boy Combinator, Output | Norwegian Boy -LNB (Mix Channel): Input R |
+| Sidechain Bus Mix Channel insert: To Insert FX L / R | the Sidechain Bus FX Combinator (Combi Input) |
+| Sidechain Bus Mix Channel insert: From Insert FX L / R | the Sidechain Bus FX Combinator (Combi Output) |
+
+  Not read by tooltip (so **only cabled, source not read**): the input jacks of the other twelve channels' Mix
+  Channels. Their pop-up menus showed "Input L *" and "Input R *" as occupied, so a cable is there.
+  The Norwegian Boy Combinator's Input jack: hovering gave only its name, "Combi Input Left" (no "Connected to"),
+  which may mean nothing is cabled to it (Guess); the Dual Arpeggio player is a Player, not an audio device, and
+  reaches the Combinator without an audio cable (Guess, not traced).
+- **Seen:** the RACK button under a mixer channel strip scrolls the rack to that channel's device. That was the easy way
+  to reach the Sidechain Bus, which sits in the second rack column. (Mixer view: press RACK; then look at the rack.)
+- **Seen, unexplained:** while reading tooltips in the Norwegian Boy area the rack scrolled by itself and the
+  Mothership Landing back panel appeared unfolded, though I had not clicked it. I do not know why; it is a view
+  change only and nothing was edited.
 - **Folding:** the small triangle at the top left of a device folds it to a one-unit strip (Seen). I folded the
   Synchronous back panel that way. My first two attempts to unfold it missed the triangle (my aim, not a
   Reason quirk); the third worked and a screenshot shows it open again. View change only.
@@ -219,16 +285,18 @@ and the clip stayed selected. No point was dragged or typed.
   going down, and I could not hear it.
 - No knob was turned, no mute or solo pressed, no cable touched, nothing saved. The demo is read-only and
   was closed with Don't Save (see "Where it ended").
+- **Second visit (screen control):** Ctrl-clicked the FX Send 1 Left jack twice to open its menu, hovered items
+  and read sub-menus for all 18 channels, hovered two jacks for tooltips, scrolled the rack, dismissed each menu
+  with a click on the title bar, then closed the window with the red button (no dialog, nothing changed).
 - **Slips of mine, not Reason facts:** I clicked a fold triangle hoping it was the owner's cable drop-down and it folded the Synchronous back panel; two of my unfold clicks then missed before the third worked; two "app_key" and
   two "app_menu" calls returned "no verdict" from the safety check (transient; retried or worked around); the
   zoom-out buttons at the bottom left changed track height, not the timeline (my wrong guess about them).
 
 ## 8. Not looked at
-- The connector pop-up menus from the owner's tip (section 5).
 - Combinator "Modulation Routing" for the Norwegian Boy Combinator (Manual [63]) and what its Control CV jacks do.
 - Whether the pink Synchronous curve dips or swells the level (needs ears).
 - Nightclub Saw's own Synchronous "Long Sidechain": its settings, and what feeds it.
-- Hover tooltips on jacks and "Scroll to Connected Device" (need screen control; not approved).
+- "Scroll to Connected Device" (not pressed) and most jack tooltips; only two were read.
 - What a lit blue send button means on the Main Mixer, and each channel's send levels.
 - The unnamed devices (Pulse Scream -LC, Stereo Noise Sw...) beyond their headers, and the Transport track.
 - Everything that needs a listening check.

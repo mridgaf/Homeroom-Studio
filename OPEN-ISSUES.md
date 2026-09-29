@@ -27,7 +27,7 @@ where you're at the machine.
   ✅ 2026-09-29: Airplane explored; notes in `docs/reason/demo-song-notes-airplane.md`, phrase list section F and
   two new skill rows added; new follow-ups are items 34-37 below. Closed with Don't Save; the demo file's SHA-1 is
   identical before and after. Not done: re-patching a cable, soloing, a deliberate sweep edit, Combinator Modulation
-  Routing, the jack pop-up menus (owner's tip; needs screen control), and every check that needs ears.
+  Routing, and every check that needs ears. The jack pop-up menus (owner's tip) were looked at in a second visit once he approved screen control: see item 37.
 
 - [x] **00b. Explore a demo song and learn from it** (🤖, owner 2026-09-29). ✅ 2026-09-29: Street Phone
   explored; notes in `docs/reason/demo-song-notes.md`, lists in `demo-song-phrase-ideas.md` and
@@ -209,12 +209,22 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   jacks have no cable, and a Synchronous "Long Sidechain" patch sits in its insert Combinator. Not known: whether
   that curve dips the sound on the beat or swells it. One listen at bar 45 onward, with and without the
   Combinator's Bypass FX, would settle it. Claude can't hear.
-- [ ] **37. Open the jack pop-up menus on the back of the rack** (🎹, you at the machine). Your tip: "The back has
-  drop downs to see all cables." The manual match is right-click or Ctrl-click on a jack (Manual [16], lines
-  11646-11660): a menu lists every device, with an asterisk on jacks already cabled. Claude's background clicks
-  can't open pop-ups, and the screen-control approval didn't come through while you were away. When you're back,
-  approve screen control and Claude will open a few menus to look, then press Escape (picking an item would
-  replace a cable).
+- [x] **37. Open the jack pop-up menus on the back of the rack** (🎹). ✅ 2026-09-29, after you approved screen
+  control. Ctrl-click on a jack lists every device in the rack with a check mark on the connected one and an
+  asterisk on jacks already cabled; hovering a jack gives a "Connected to ..." tooltip. Nothing was picked, the
+  song was closed unchanged (SHA-1 identical). Found with it: no channel's Side Chain Input has a cable in
+  Airplane, so its "sidechain" is all Synchronous curves. A wiring sample was then read by tooltip for both songs
+  (Airplane: sends, returns, master, bus insert, five channel inputs; Street Phone: sends, returns, master chain); a full map of either
+  song is not done. Details:
+  `docs/reason/demo-song-notes-airplane.md` sections 3-5.
+
+- [x] **38. Map Airplane's wiring fully** (🤖, owner 2026-09-29). ✅ `docs/reason/demo-song-wiring-airplane.md`. Not read:
+  right jacks on a few devices, several inner cables of the Pulse Scream and Norwegian Boy Combinators, and Modulation
+  Routing for both (see section E there).
+- [ ] **39. Map Street Phone's wiring the same way** (🤖, owner picked "Map Street Phone too"). Done so far: sends,
+  returns, master chain (notes section 6). To do: every channel's cables and the Combinators' insides; its rear view has
+  devices folded to strips, so they need unfolding first. Each Airplane visit that needed screen control was approved
+  once this session.
 
 ## 5b. New from step 4 (👂)
 
