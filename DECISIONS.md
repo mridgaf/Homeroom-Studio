@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### 2026-09-29 Practice songs built in Reason; skill sets listed (owner: prove you learned)
+- Context: owner asked for a song with automation from a new file, then Thor + Matrix + effect chain, all audible.
+- Done (Seen, unsaved): untitled 2 (19 instruments, effects, Matrix on Thor and Pangea, lanes); untitled 3 (Thor + Matrix 1 + Alligator, Scream 4, CF-101, DDL-1 with 4 shaped lanes, loop bars 1-7). Owner heard melody and effect changes; loop needed to match lane length (owner showed the marker drag, I repeated it).
+- New rule: owner moves cursor, I stop and watch. Skill sets written to demo-song-skill-ideas.md; none built.
+- Not done: live knob recording wrote no lanes; nothing saved; owner's untitled 2 was edited by owner.
+- Status: confirmed for what was heard by owner.
+
 ### 2026-09-29 Practice song with automation, built by hand in a new Reason file (owner: "prove you learned something")
 - Context: owner asked for a song with automations from a fresh file; sound doesn't matter. Owner said "use a little bit of everything you learned".
 - Done (Seen on screen, unsaved "untitled"): Cmd-N gave a file with starter devices; owner chose to clear it (Edit > Select All Devices, Delete). Created a SubTractor (Create > Instruments), drew a 7-bar note clip with the pencil and 6 notes in the note editor, then made three automation lanes via right-click on the control > Edit Automation: SubTractor Filter 1 Freq (rising line, bars 1-4), Filter 1 Res (zigzag, bars 4-7), and, after Create > Effects > Scream 4 (inserted under the bass), Scream 4 Damage Control (empty clip, bars 3-7, no points; a hold would need a point). Green frames appeared on each automated control.

@@ -30,3 +30,29 @@ Status: `idea` | `clear win, ready to build` | `built`
 - `reason-remote-bridge` already covers locking a device and the bridge's file formats. None of the
   ideas above overlap it.
 - Only `reason-ducking-methods` needs a listening check (method (c) is a guess until someone hears the Airplane bus).
+
+## Build-by-hand skills (2026-09-29, practice songs untitled 2 and 3)
+Owner: many small skills in sets, not one big one, for Hermes to do these jobs in Reason. All Seen by doing, none heard by me, none built.
+
+| Set | Skill | Job and trap |
+|---|---|---|
+| 1 Safe handling | open-close-demo-safely | hash before/after, red-button close, read dialog, never save |
+| 1 | fresh-blank-song | Cmd-N, Select All, Delete Tracks and Devices, answer "Delete All in Group" |
+| 1 | reason-control-methods | app_menu picks menu items by name (best); coordinate menu clicks flaky; right-click and real drags need the full-screen tools |
+| 2 Reading | read-rack-by-hover | hover 3 s for "Connected to..." |
+| 2 | read-insert-chains | strip above its inserts, named for the channel |
+| 2 | read-combinator-routing | Editor, click each device row: Source, Target, Min/Max |
+| 2 | unfold-one-at-a-time | one unfold per screenshot |
+| 3 Building | create-devices-by-menu | Create > Instruments/Effects/Utilities; effects made with an instrument selected chain in |
+| 3 | matrix-on-instrument | right-click instrument > Utilities > Matrix (auto-cabled), draw 16 notes, Run |
+| 3 | redrum-pattern | click steps; needs a Pattern Select lane clip or it does not play |
+| 4 Automation | make-automation-lane | right-click knob > Edit Automation |
+| 4 | draw-lane-clip | pencil: press, move, release (plain drag does nothing; first stroke after a tool switch is swallowed) |
+| 4 | shape-lane-curve | Edit Inline (sometimes needs a second click), pencil a curve |
+| 4 | matrix-pattern-lane | Matrix "Pattern Enable" lane needs a clip |
+| 4 | loop-to-lanes | drag right loop marker to end of lanes, Loop on; else lanes end and effects stop |
+| 5 Traps | hands-off-when-owner-moves | owner rule: cursor moves, stop and watch |
+| 5 | dictation-blocks-clicks | turn Dictation off first |
+| 5 | classifier-no-verdict | retry once, then stop and report |
+
+Build first: make-automation-lane, draw-lane-clip, loop-to-lanes, matrix-on-instrument, create-devices-by-menu. Not solid: live knob recording wrote no lanes; Redrum and Europa sounding not confirmed.
