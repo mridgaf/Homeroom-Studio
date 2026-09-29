@@ -20,6 +20,23 @@ entries.
 
 ## Log
 
+### 2026-09-29 NEXT SESSION START HERE: list everything open (Beat Machine + Reason Voice)
+- Owner: "List anything that's open for the beat machine project and the reason voice project. When we start the next session, not now." Brief: OPEN-ISSUES.md item 00.
+- Status: open
+
+### 2026-09-28 Sound dropdowns: type first, then sounds grouped by name words (+ tempo on the Loops page)
+- Context: owner: first dropdown = instrument type (brass, strings, woodwind...), second = sounds grouped by the naming vocabulary + synonyms; same on the Loops page with tempo; generic names grouped by instrument and tempo.
+- Owner (clickable): drum/bass rows = one step grouped by words (a kick row only takes kicks); chord rows = the EXACT instrument in step 2; loops with no instrument word (803 of 1,659 lead loops) = "Unlabeled" type, by tempo; Loops page = type -> tempo -> sounds; plain names split by pack.
+- Synonyms, round 3 (his rulings): staccato = short (joins tight/tite/short), pizzicato = plucked, stab = hit, wet = washed, spacey = ambient = ethereal = cosmic = galaxy = psychedelic = trippy, horror = creepy = scary. NOT chop = stab. He asked them to reach DJ + genre picks too -> added to flavor_tags.SYNONYM_GROUPS (all 43 presets have flavor_match on). New spellings match WHOLE words only ("stac" is in "stack", "hit" in "white"); older groups unchanged. Measured: 0 drum names carry staccato/stac/spic, 1 has "wet", 6 "hit"; no preset asks stab/hit on a drum lane -> no drum pick moves today.
+- Change: new tools/sound_words.py (a sound goes under every word group its name or folder has, else "Plain names · <pack>"; lists > 12: a group needs 2+ sounds, a word in > half the NAMES is generic; folder words never count toward that half -- his "Short" folder holds 315 of 488 kicks). beat_machine: candidates carry words (+ type/bpm on Loops-page lead/chord lanes); _chord_choices/_exact_voices = types + exact instruments that reach every chord note (note-by-note instrument+articulation within MAX_SHIFT; his own file within PREFER_MAX_SHIFT, the octave he approved 2026-07-29; London Strings style; in-key loop); _build_chords(exact=); swap_many takes "voice::exact", allow-listed.
+- Fixed on the way (exact picks needed it): a chord pick was never saved in the child recipe, so the child's next rebuild went back to the old instrument and the rack kept the old name. Now harmony.voice_pick + the new chord voice_files/names are saved.
+- Tests: tests/test_sound_words.py (4); test_an_exact_instrument_pick_plays_just_it_and_survives_a_rebuild (fails on a scratch copy with the save removed, passes with it). Browser, test copy on port 8790: drum rows grouped by words; chord row type -> instrument lists fill; Loops beat 3172 shows type/tempo/sounds. Chord list builds in 1.2 s.
+- ASSUMING (told to owner): a sound shows under every word group it has; 10-bpm tempo bins starting on the beat's own; "no tempo in name" bin; a chord row's "Melodic loop" type lists every in-key loop (no tempo step); VSCO string sections sit under "Orchestral", London styles under "Strings".
+- Not changed: Loops-page auto-picks (loops_scored) never used synonyms and still don't.
+- Verify by: him using the dropdowns in the app.
+- Status: confirmed 2026-09-29 — owner used them in the app: "Everything works". Was: open (built + tested, not used by him yet)
+- Outcome: full suite 2026-09-28, run alone: 1286 passed, 3 skipped, 1 failed (16.4 min). The 1 = test_pattern_gen::test_guest_lanes_appear_from_the_dj_palette (Crate Prophet guest "reversefx"); fails identically on a clean copy of HEAD, so not this change. Not investigated (not asked).
+
 ### 2026-09-28 Drum stops: 1 in 20, and they slam back in
 - Context: owner heard drums "come to a full stop" mid/late loop in many beats. Measured 18 of 159 recent beats with a fully silent drum bar (bar 3 of 4, or 5-7 of 8) + 4 Night Metro half-bar breakdowns (crew.py `breakdown`, kick keeps playing). Cause: `vary_preset` step 4 hole roll (thinbar/frisson/breath), owner rule 2026-08-01 "one in six".
 - Owner (clickable): stops are fine ON PURPOSE; what was wrong = "too often" + "doesn't sound intentional". Intentional = "slam back in". Length/placement not flagged -> unchanged. No safety net for accidental silent bars. A bar with only rims/fx playing is NOT a full stop.
@@ -27,8 +44,8 @@ entries.
 - Dropped along the way: a "never stop" guard + removing all holes (built on my first reading, reverted after he clarified; diff saved in scratchpad only).
 - Tests: test_gaps_are_possible_but_rare now < 10%; new test_every_stop_slams_back_in. Full suite 1282 passed / 3 skipped.
 - Verify by: his ear on new beats.
-- Status: open (not heard yet)
-- Outcome: —
+- Status: confirmed 2026-09-28 — owner: "I listened to the last few changes and I like them. I want to keep those changes." (clickable: heard this one). Was: open (not heard yet)
+- Outcome: kept as built (1 in 20, slam back in).
 
 ### 2026-09-28 Why the last 147 beats (09-26..09-28) sound alike — diagnosed and changed
 - CORRECTION to Cause 2 below: WRONG. Chord lanes only mark where each chord slot starts; chord_rhythm figures play inside it. All 147 had stab/arp/comp parts (stab 118, arp 68, comp 63). Told owner; no change made there.
@@ -87,8 +104,8 @@ entries.
 - Known wart: the rack's volume slider on "kick layer" answers "no 'kicklayer' to turn up or down" (it isn't a mix lane; it lives inside the kick).
 - Tests: test_swapping_the_kick_leaves_the_rule_levelled_sounds_put (rules ON; fails with the replay removed: bass moved), test_the_four_extra_effects_land_play_and_survive_a_rebuild, test_a_ratchet_is_three_rising_hits_in_one_step; the 09-27 lock test updated (child lock drops the removed lane). Full suite: see Outcome.
 - Also recorded: owner approved listening items 4-10 by ear ("I listened. Everything worked. Keep the changes."); those 7 entries marked confirmed.
-- Status: open (built + tested, not heard, not rendered on real beats)
-- Outcome: full suite 2026-09-28: 1275 passed, 3 skipped, 0 failed (16.5 min). Not heard yet (checklist item 24).
+- Status: confirmed 2026-09-28 — owner heard the 4 effects + Loops-page lock (clickable) and said keep them. Was: open (built + tested, not heard)
+- Outcome: full suite 2026-09-28: 1275 passed, 3 skipped, 0 failed (16.5 min). Kept by ear; shares stay as built (hall 10%, wide hats 20%, ratchet 15%, kick layer 15%).
 
 ### 2026-09-27 Volume locked per beat: editing one sound no longer moves the others
 - Context: continues the 2026-09-27 entry further down ("Changing one sound changes every other sound's volume").

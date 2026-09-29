@@ -2174,7 +2174,7 @@ def _roll_key(sig, variant, dirs, open_roll, srng, flow=False):
 
 def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                   allow_basses=None, bass808=None, bass_line=True,
-                  bass_pick=None):
+                  bass_pick=None, exact=None):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
     identity-blind default without one).
@@ -2217,7 +2217,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     roll. It touches only the bass block below -- the chord voice, key and
     progression never see it. A path that is no longer in the bass pool
     (moved, or an 808 on a non-808 beat) is ignored and the seeded roll
-    stands, so an old pick can't break a rebuild."""
+    stands, so an old pick can't break a rebuild.
+
+    `exact` (owner 2026-09-28, the chord row's second dropdown): the ONE
+    instrument inside `voice` to play -- see _exact_voices for the forms.
+    Like bass_pick, one that no longer exists is ignored and `voice`
+    alone stands."""
     if not dirs["chords"]:
         return None, None
     import chord_rhythm
@@ -2300,6 +2305,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     want_loop = (not pref or any(s[0] == "loop" for s in pref)
                  or voice == "loop" or free)
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
+    if exact and exact.startswith("loop:"):      # his exact loop, alone
+        pool = [e for e in pool if e["path"] == exact[5:]] or pool
     # same "only scan if it's actually on the table" guard as want_loop
     # above, for the owner's MIDI chord packs (tools/midi_packs.py) —
     # one candidate file per beat, not per chord slot, same reasoning as
@@ -2327,6 +2334,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             s_mic = s_rng.choice(sorted({e["mic"] for e in s_all}))
         else:
             s_style, s_mic = sig.get("articulation"), string_sampler.CLOSE
+        if exact and exact.startswith("style:"):  # the style he picked
+            s_style = exact[6:]
         # one low sound per beat: the basses only play when nothing else
         # holds the low end. generate() decides that before the chords and
         # passes it in; a rebuild reads it off the saved lanes.
@@ -2386,6 +2395,21 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         elif voice in instrument_sampler.VOICES:
             forced_idx = _best_folder(       # [:1] — the named group only
                 inst_idx, instrument_sampler.VOICES[voice][:1], _all_notes)
+            # the exact instrument he picked (2026-09-28): a note-by-note
+            # instrument keeps one recording per note (one_per_beat on just
+            # that instrument), his own sound is that one file
+            _grp = instrument_sampler.VOICES[voice][0]
+            if exact and exact.startswith("multi:"):
+                _m, _, _a = exact[6:].rpartition("|")
+                forced_idx = multisample.one_per_beat(
+                    [e for e in instrument_sampler.scan()
+                     if e.get("multi") == _m and e.get("art", "-") == _a
+                     and e.get("group") == _grp],
+                    random.Random(variant * 983 + 41)) or forced_idx
+            elif exact and exact.startswith("file:"):
+                forced_idx = [e for e in instrument_sampler.scan()
+                              if e["path"] == exact[5:] and not e.get("multi")
+                              and e.get("group") == _grp] or forced_idx
     # ---- geometry first, voice second (owner 2026-07-25) ----
     # The voice is committed ONCE for the whole beat, before any audio is
     # kept: the owner heard beat 1174 go strings, strings, choir — the old
@@ -4059,7 +4083,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # to swap — and is handed to _build_chords below as the voice to try
     # first. Only the chord family takes one: the bass line is his to
     # play (2026-07-29), so its lanes are never rendered.
-    chord_voice = None
+    chord_voice = chord_exact = None
     bass_pick = None
     for fam in [f for f in list(picks) if _family_members(f, all_lanes)]:
         want = picks.pop(fam)
@@ -4072,9 +4096,20 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             if want and want != (rec.get("harmony") or {}).get("bass_file"):
                 bass_pick = want
             continue
-        if want and want not in {c["path"] for c in _chord_voices()}:
+        # "voice" = a type, the machine picks inside it; "voice::exact" =
+        # the one instrument he picked in the second dropdown (2026-09-28)
+        voice, _, exact = (want or "").partition("::")
+        if voice and voice not in {c["path"] for c in _chord_voices()}:
             raise ValueError(f"'{want}' isn't an instrument in your library.")
-        chord_voice = want or chord_voice
+        if exact and want not in {c["path"] for c in _chord_choices(rec)}:
+            raise ValueError(f"'{exact}' can't play this beat's chords.")
+        if voice:
+            chord_voice, chord_exact = voice, exact or None
+    # a pick made on an earlier rebuild keeps playing (2026-09-28): before
+    # this, the child's next rebuild quietly went back to the old voice
+    _vp = (rec.get("harmony") or {}).get("voice_pick") or {}
+    play_voice = chord_voice or _vp.get("voice")
+    play_exact = chord_exact if chord_voice else _vp.get("exact")
     for lane in list(picks) + drops:
         if lane not in rec["kit_spec"]:
             raise ValueError(f"Beat {number} has no '{lane}' to change — "
@@ -4254,7 +4289,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             _bp = bass_pick or _hb.get("bass_file")
             _, bass_rebuilt = _build_chords(
                           preset, kit, chord_sources, rec["variant"],
-                          _dirs, [], voice=chord_voice, bass_pick=_bp,
+                          _dirs, [], voice=play_voice, bass_pick=_bp,
+                          exact=play_exact,
                           # beats made since 2026-09-23 (the key exists
                           # even when None) never let the strings' basses
                           # play; older beats rebuild the way they were made
@@ -4321,6 +4357,18 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             **(_h.get("voice_files") or {}),
             **{ln: fs for ln, fs in bass_rebuilt["voice_files"].items()
                if _CHORD_BASS_LANE.match(ln)}}
+        rec2["harmony"] = _h
+    if chord_voice and bass_rebuilt:   # ...and its chord instrument
+        _h = dict(rec2.get("harmony") or {})
+        _h["voice_pick"] = {"voice": chord_voice, "exact": chord_exact}
+        for k in ("chords", "chord_source"):
+            if k in bass_rebuilt:
+                _h[k] = bass_rebuilt[k]
+        for k in ("voice_files", "voice_names"):   # chord rows: new names
+            _h[k] = {**{ln: v for ln, v in (_h.get(k) or {}).items()
+                        if not _CHORD_LANE.match(ln)},
+                     **{ln: v for ln, v in (bass_rebuilt.get(k) or {}).items()
+                        if _CHORD_LANE.match(ln)}}
         rec2["harmony"] = _h
     if trims or drops or fx:     # the new gains/lanes/effects ARE this beat
         rec2["preset"] = preset
@@ -5053,7 +5101,7 @@ def _voice_covers(idx, groups, notes):
     return _best_folder(idx, groups, notes) is not None
 
 
-def _chord_voices(rec=None):
+def _chord_voices(rec=None, idx=None, sidx=None):
     """Which instruments can play THIS beat's harmony, for the rack's
     chord/bass dropdown (owner 2026-08-04: "chords and bass can now have
     drop downs and dice"). Unlike a drum, the value is an instrument
@@ -5078,7 +5126,7 @@ def _chord_voices(rec=None):
     out = []
     try:
         import instrument_sampler
-        idx = instrument_sampler.scan()
+        idx = idx if idx is not None else instrument_sampler.scan()
         for g, groups in instrument_sampler.VOICES.items():
             # [:1] — offer a voice only when the group it is NAMED for can
             # play the beat. "pluck" falling back to its synth group would
@@ -5091,7 +5139,7 @@ def _chord_voices(rec=None):
         pass
     try:
         import string_sampler
-        sidx = string_sampler.scan()
+        sidx = sidx if sidx is not None else string_sampler.scan()
         if sidx and (not notes or _voice_covers(sidx, ("string",), notes)
                      or _voice_covers(sidx, {e.get("group") for e in sidx},
                                       notes)):
@@ -5105,6 +5153,103 @@ def _chord_voices(rec=None):
              "pack": "your instruments", "current": False}
             for g in sorted(set(out), key=lambda g: CHORD_VOICE_NAMES
                             .get(g, g).lower())]
+
+
+# instrument group -> the word the dropdowns show for it
+TYPE_NAMES = {"piano": "Piano", "guitar": "Guitar", "bell": "Bells",
+              "organ": "Organ", "brass": "Brass", "wood": "Woodwind",
+              "string": "Strings", "choir": "Choir", "pluck": "Pluck",
+              "pad": "Pad", "synth": "Synth", "chip": "8-bit"}
+
+
+def _exact_voices(g, notes, rec, idx, s_all):
+    """The exact instruments inside chord voice `g` that can play every one
+    of `notes` (owner 2026-09-28: pick Trumpet vs Tuba vs his own horn
+    stab, not just "brass"). Values: "multi:<instrument>|<articulation>"
+    (a note-by-note library), "file:<path>" (one of his own sounds, which
+    the engine already stretches up to an octave once chosen --
+    PREFER_MAX_SHIFT), "style:<style>" (London strings), "loop:<path>" (an
+    in-key melodic loop). Listed only if it will actually play, same
+    promise as _chord_voices."""
+    import instrument_sampler
+    out = []
+
+    def add(ref, name, pack):
+        out.append({"path": ref, "name": name, "pack": pack,
+                    "current": False})
+    if g == "strings":
+        import string_sampler
+        for style in sorted({e["style"] for e in s_all}):
+            pool = string_sampler.beat_pool(s_all, style)
+            if pool and (not notes or _voice_covers(
+                    pool, {e.get("group") for e in pool}, notes)):
+                add("style:" + style, "London Strings — " + style,
+                    "London Strings")
+        return out
+    if g == "loop":
+        h = rec.get("harmony") or {}
+        if h.get("root") and h.get("mode"):
+            import chord_synth
+            from key_context import KeyContext
+            for e in chord_synth.sample_pool(KeyContext(h["root"], h["mode"]),
+                                             rec["preset"].get("bpm")):
+                add("loop:" + e["path"], e["name"], Path(e["path"]).parent.name)
+        return out
+    groups = instrument_sampler.VOICES.get(g)
+    if not groups or g == "chip":
+        return out
+    combos = {}
+    for e in idx:
+        if e.get("group") != groups[0]:
+            continue
+        if e.get("multi"):
+            combos.setdefault((e["multi"], e.get("art", "-")), []).append(e)
+        elif all(abs(e["note"] - n) <= instrument_sampler.PREFER_MAX_SHIFT
+                 for n in notes):
+            add("file:" + e["path"], e["name"],
+                _pack_of(e["path"]) or Path(e["path"]).parent.name)
+    for (multi, art), es in sorted(combos.items()):
+        if all(min(abs(e["note"] - n) for e in es)
+               <= instrument_sampler.MAX_SHIFT for n in notes):
+            inst = multi.split("/")[-1]
+            add("multi:%s|%s" % (multi, art),
+                inst if art in ("-", "") else "%s — %s" % (inst, art),
+                multi.split("/")[0])
+    return out
+
+
+def _chord_choices(rec):
+    """A chord row's two dropdowns (owner 2026-09-28). Step 1 = the
+    instrument TYPE (the old one-step list, _chord_voices): its value is
+    the voice, and the machine picks inside it as before. Step 2 = the
+    exact instruments of that type, grouped by the words in their names;
+    value "voice::exact". Also the allow-list every rebuild path checks."""
+    import sound_words
+    notes = sorted({n for ch in ((rec or {}).get("harmony") or {}).get(
+        "chords") or [] for n in (ch.get("notes") or [])})
+    import instrument_sampler
+    import string_sampler
+    idx = instrument_sampler.scan()    # read once, not once per type
+    try:
+        s_all = string_sampler.scan()
+    except Exception:
+        s_all = []
+    out = []
+    for v in _chord_voices(rec, idx=idx, sidx=s_all):
+        g, tname = v["path"], v["name"].split(" (")[0]
+        out.append(dict(v, type=tname, any=True, words=[]))
+        out += [dict(e, path="%s::%s" % (g, e["path"]), type=tname)
+                for e in sound_words.tag(_exact_voices(g, notes, rec, idx, s_all))]
+    return out
+
+
+def _loop_type(e):
+    """A loop's instrument for the Loops page's first dropdown: from its
+    name, else its folder names, else "Unlabeled" (owner 2026-09-28)."""
+    import instrument_sampler
+    g = (instrument_sampler.group_of(e["name"])
+         or instrument_sampler.group_of(e["folder"].replace("/", " ")))
+    return TYPE_NAMES.get(g, "Unlabeled")
 
 
 def _bass_files(rec):
@@ -5136,24 +5281,30 @@ def _lane_candidates(no, lane, shots=None, root=None):
     pack for the dropdown. Also the allow-list the rebuild validates
     against: a path the client sends back is only ever accepted if it
     came from here, so no client string reaches disk unchecked."""
+    import sound_words
     root = Path(root or ROOT)
     rec = load_recipe(root, int(no))
     lane = str(lane).strip().lower()
     # a harmony row ("chords", "chords2", "chordbass") is an INSTRUMENT
     # row, not a file row — it offers voices instead of samples
     if rec.get("loops_only"):
-        # five-lane loops beat: that lane's own category, grouped by folder
+        # five-lane loops beat: that lane's own category. Owner 2026-09-28:
+        # instrument type first (lead/chords lanes), then tempo, then the
+        # sounds grouped by the words in their names.
         import loop_lanes
         if lane not in rec["kit_paths"]:
             raise ValueError(f"Beat {no} has no '{lane}'.")
         current = rec["kit_paths"].get(lane)
-        return [{"path": e["path"], "name": e["name"], "pack": e["folder"],
-                 "current": e["path"] == current}
-                for e in loop_lanes.candidates(lane)]
+        typed = loop_lanes.lane_category(lane) in ("lead", "chords")
+        return sound_words.tag(
+            [{"path": e["path"], "name": e["name"], "pack": e["folder"],
+              "current": e["path"] == current, "bpm": e.get("bpm"),
+              "type": _loop_type(e) if typed else None}
+             for e in loop_lanes.candidates(lane)], by="type")
     if _family_members(lane, rec["preset"].get("lanes", {})):
         if lane == CHORD_BASS_FAM:
-            return _bass_files(rec)
-        return _chord_voices(rec)
+            return sound_words.tag(_bass_files(rec))
+        return _chord_choices(rec)
     if lane not in rec["kit_spec"]:
         raise ValueError(f"Beat {no} has no '{lane}'.")
     if lane == "stamp" or lane.startswith("stamp"):
@@ -5170,7 +5321,7 @@ def _lane_candidates(no, lane, shots=None, root=None):
         out.append({"path": p, "name": Path(p).stem, "pack": _pack_of(p),
                     "current": p == current})
     out.sort(key=lambda d: (d["pack"].lower(), d["name"].lower()))
-    return out
+    return sound_words.tag(out)       # grouped by name words (2026-09-28)
 
 
 def _traditional_flags(how_many, names=None):
@@ -5528,6 +5679,9 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231020a8' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
        background-repeat: no-repeat; background-position: right 9px center; }
  .lane select:focus { outline: none; border-color: var(--hi); }
+ /* type + tempo steps (2026-09-28) sit before the sound list, narrower */
+ .lane .picks { flex-wrap: wrap; justify-content: flex-end; }
+ .lane select:not(.snd) { max-width: 140px; }
  .lane.changed select { border-color: var(--hi); }
  .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px;
        border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
@@ -6123,6 +6277,7 @@ __BREAKS__
    let sel = null;
    if (s.can_swap) {
      sel = document.createElement('select');
+     sel.className = 'snd';            // the sound list; type/tempo sit before it
      sel.innerHTML = '<option value="">reading your library&hellip;</option>';
      sel.disabled = true;
      picks.appendChild(sel);
@@ -6138,6 +6293,7 @@ __BREAKS__
      // the rebuild, so there was nothing to play and nothing to name.
      // Roll again for a different one.
      dice.onclick = () => {
+       if (row.pickType) row.pickType();   // no type chosen yet: roll one
        const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
        if (!opts.length) return;         // list still loading, or nothing else
        sel.value = opts[Math.floor(Math.random() * opts.length)].value;
@@ -6255,24 +6411,93 @@ __BREAKS__
            (d.error || 'nothing else in the library') + '</option>';
          return;
        }
-       const packs = new Map();
-       d.candidates.forEach(c => {
-         if (!packs.has(c.pack)) packs.set(c.pack, []);
-         packs.get(c.pack).push(c);
-       });
-       let html = '<option value="">keep this one</option>';
-       packs.forEach((list, pack) => {
-         html += '<optgroup label="' + esc(pack) + '">';
-         list.forEach(c => {
-           html += '<option value="' + esc(c.path) + '">' + esc(c.name) +
-                   (c.current ? ' (in this beat now)' : '') + '</option>';
+       // Owner 2026-09-28: instrument TYPE first (brass, strings,
+       // woodwind...), then TEMPO on the Loops page, then the sounds
+       // grouped by the words in their names (his synonyms as one group,
+       // plain names by pack). A row with one type skips that step.
+       const cands = d.candidates;
+       const types = [...new Set(cands.map(c => c.type).filter(Boolean))]
+         .sort((a, b) => (a === 'Unlabeled') - (b === 'Unlabeled') ||
+                         a.localeCompare(b));
+       const timed = cands.some(c => 'bpm' in c);
+       const bin = c => c.bpm ? String(Math.floor(c.bpm / 10) * 10) : 'none';
+       const mine = d.bpm ? String(Math.floor(d.bpm / 10) * 10) : '';
+       const mk = title => {
+         const x = document.createElement('select');
+         x.title = title; picks.insertBefore(x, sel); return x;
+       };
+       const typeSel = types.length > 1 ? mk('Instrument type') : null;
+       const tempoSel = timed ? mk('Tempo') : null;
+       if (typeSel) typeSel.innerHTML =
+         '<option value="">' + (s.voices ? 'pick a type&hellip;' : 'every type') +
+         '</option>' + types.map(t => '<option>' + esc(t) + '</option>').join('');
+       const ofType = () => cands.filter(c =>
+         !typeSel || !typeSel.value || c.type === typeSel.value);
+       const fillTempo = () => {
+         if (!tempoSel) return;
+         const bins = [...new Set(ofType().map(bin))].sort((a, b) =>
+           a === 'none' ? 1 : b === 'none' ? -1 : a - b);
+         tempoSel.innerHTML = '<option value="">every tempo</option>' +
+           bins.map(b => '<option value="' + b + '">' +
+             (b === 'none' ? 'no tempo in name' : b + '–' + (+b + 9) + ' bpm') +
+             (b === mine ? ' (this beat)' : '') + '</option>').join('');
+         if (bins.includes(mine)) tempoSel.value = mine;
+       };
+       const fillSounds = () => {
+         let html = '<option value="">keep this one</option>';
+         if (s.voices && typeSel && !typeSel.value) {   // type comes first
+           sel.innerHTML = html; return;
+         }
+         const list = ofType().filter(c =>
+           !tempoSel || !tempoSel.value || bin(c) === tempoSel.value);
+         list.filter(c => c.any).forEach(c => {
+           html += '<option value="' + esc(c.path) + '">any ' +
+                   esc(c.type.toLowerCase()) + ' &mdash; the machine picks</option>';
          });
-         html += '</optgroup>';
-       });
-       sel.innerHTML = html;
+         const groups = new Map();
+         list.filter(c => !c.any).forEach(c =>
+           (c.words && c.words.length ? c.words : [c.pack || 'other']).forEach(w => {
+             if (!groups.has(w)) groups.set(w, []);
+             groups.get(w).push(c);
+           }));
+         const plain = w => w.startsWith('Plain names');
+         [...groups.keys()].sort((a, b) => (plain(a) - plain(b)) ||
+                                          a.localeCompare(b)).forEach(w => {
+           html += '<optgroup label="' + esc(w) + '">';
+           groups.get(w).forEach(c => {
+             html += '<option value="' + esc(c.path) + '">' + esc(c.name) +
+                     (c.bpm ? ' · ' + c.bpm + ' bpm' : '') +
+                     (c.current ? ' (in this beat now)' : '') + '</option>';
+           });
+           html += '</optgroup>';
+         });
+         sel.innerHTML = html;
+         const st = (staged[no] || {})[s.lane];
+         if (st && list.some(c => c.path === st)) sel.value = st;
+       };
+       row.refill = () => { fillTempo(); fillSounds(); };
+       row.pickType = () => {
+         if (!typeSel || typeSel.value) return;
+         typeSel.value = types[Math.floor(Math.random() * types.length)];
+         row.refill();
+       };
+       if (typeSel) typeSel.onchange = () => {
+         row.refill();
+         // one click on a chord type still does what it always did: that
+         // instrument, the machine picking inside it
+         if (s.voices) {
+           const any = cands.find(c => c.any && c.type === typeSel.value);
+           sel.value = any ? any.path : '';
+           sel.onchange();
+         }
+       };
+       if (tempoSel) tempoSel.onchange = fillSounds;
+       const st = cands.find(c => c.path === (staged[no] || {})[s.lane]);
+       if (st && typeSel) typeSel.value = st.type;
+       fillTempo();
+       if (st && tempoSel) tempoSel.value = bin(st);
+       fillSounds();
        sel.disabled = false;
-       const st = (staged[no] || {})[s.lane];
-       if (st) sel.value = st;
      })
      .catch(() => { sel.innerHTML = '<option value="">could not read the library</option>'; });
    return row;
@@ -6290,7 +6515,7 @@ __BREAKS__
    const name = row.querySelector('.sample');
    if (!on) { name.textContent = s.sample; row.querySelector('.pack').textContent = s.pack || ''; }
    else {
-     const opt = row.querySelector('select').selectedOptions[0];
+     const opt = row.querySelector('select.snd').selectedOptions[0];
      name.textContent = opt ? opt.textContent.replace(' (in this beat now)', '') : 'chosen';
      // an instrument row says what INSTRUMENT it was ("was strings arp"),
      // not which files it drew on — the file names mean nothing here
@@ -6339,9 +6564,10 @@ __BREAKS__
    foot.querySelector('.rollall').onclick = () => {
      let n = 0;
      rack.querySelectorAll('.lane').forEach(r => {
-       const sel = r.querySelector('select');
+       const sel = r.querySelector('select.snd');
        if (!sel || sel.disabled) return;
        if (drops[no] && drops[no][r.dataset.lane]) return;
+       if (r.pickType) r.pickType();
        const opts = [...sel.options].filter(o => o.value && o.value !== sel.value);
        if (!opts.length) return;
        sel.value = opts[Math.floor(Math.random() * opts.length)].value;
@@ -6356,7 +6582,8 @@ __BREAKS__
    foot.querySelector('.undo').onclick = () => {
      delete staged[no]; delete trims[no]; delete drops[no];
      rack.querySelectorAll('.lane').forEach(r => {
-       const sel = r.querySelector('select'); if (sel) sel.value = '';
+       r.querySelectorAll('select').forEach(x => { x.value = ''; });
+       if (r.refill) r.refill();
        const d = r.querySelector('.db');
        if (d) d.click();                       // arrows: click resets to 0
        r.classList.remove('trimmed');
@@ -6827,7 +7054,9 @@ def run_web(port=None):
                         cands = _lane_candidates(q.get("no", [""])[0],
                                                  q.get("lane", [""])[0],
                                                  shots=_CACHE["shots"])
-                    self._json({"ok": True, "candidates": cands})
+                        bpm = load_recipe(ROOT, int(q.get("no", [""])[0])
+                                          )["preset"].get("bpm")
+                    self._json({"ok": True, "candidates": cands, "bpm": bpm})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e),
                                 "candidates": []})

@@ -14,6 +14,16 @@ where you're at the machine.
 
 ---
 
+## NEXT SESSION START HERE (owner 2026-09-29)
+
+- [ ] **00. First thing: list everything still open** for the Beat Machine AND Reason Voice
+  (reason_voice/ here; its other half is `~/reason code` — CLAUDE.md says treat them as one).
+  Sources: every unticked box below, DECISIONS.md entries still `open`, `~/reason code`'s own
+  open list. Check each against the Mac for proof it's done (§0h) before listing it.
+  Plain, short list; he picks what to do. Owner: "When we start the next session, not now."
+
+---
+
 ## Done 2026-09-28
 
 - [x] **0. Change how the kick drums work.** ✅ 2026-09-28: he named the change himself (long kick gets a snap + 5 dB duck, 7 in 10; see DECISIONS.md top). First, explain to him ALL the rules about
@@ -106,7 +116,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 ## 5b. New from step 4 (👂)
 
-- [ ] **24. Hear the 4 new effects** (hall, wide hats, ratchet hits, layered kick) and the Loops-page lock.
+- [x] **24. Hear the 4 new effects** (hall, wide hats, ratchet hits, layered kick) and the Loops-page lock. ✅ heard, kept 2026-09-28.
   Shares are first guesses: hall 10%, wide hats 20%, ratchet 15%, kick layer 15%.
   Ref: [tools/beat_machine.py](tools/beat_machine.py) `EXTRA_FX_P`
 - [x] **25. Hear the long-kick snap + duck** (2026-09-28). ✅ heard, kept 2026-09-28. A kick that rings past 0.5 s gets a

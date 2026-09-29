@@ -82,6 +82,26 @@ SYNONYM_GROUPS = {
     "boom":    {"boom", "808"},
 }
 
+# Round 3, 2026-09-28 (clickable, while building the rack's word dropdowns):
+# staccato = short (joins tight/tite/short), pizzicato = plucked, stab = hit,
+# wet = washed, spacey = ambient = ethereal = cosmic = galaxy = psychedelic =
+# trippy, horror = creepy = scary. NOT the same: chop vs stab. He asked for
+# these to reach every DJ's and genre's picks too, not just the dropdowns.
+# They match WHOLE WORDS only (see matches): as substrings "stac" is in
+# "stack", "spic" in "spicy", "hit" in "white".
+RULED_2026_09_28 = {
+    "tight":   {"staccato", "stac", "stacc", "spic", "spiccato"},
+    "wash":    {"wet"},
+    "plucked": {"plucked", "pizz", "pizzicato"},
+    "stab":    {"stab", "stabs", "hit", "hits"},
+    "spacey":  {"spacey", "space", "ambient", "ethereal", "cosmic", "galaxy",
+                "psychedelic", "trippy"},
+    "horror":  {"horror", "creepy", "scary"},
+}
+_WHOLE_WORD = set().union(*RULED_2026_09_28.values())
+for _canon, _words in RULED_2026_09_28.items():
+    SYNONYM_GROUPS[_canon] = SYNONYM_GROUPS.get(_canon, set()) | _words
+
 # A SNARE want reached only through a synonym never lands on one of these
 # (2026-09-24): the grit group's "lofi" pulls DECEPT_Lofi_Sidestick, "raw"
 # pulls CRAWL_SideStick, "dirty" pulls MZ Clap [Dirty] out of the snare
@@ -127,4 +147,6 @@ def matches(word, name, role=None):
         return False
     if role == "hat" and _NOT_A_CLOSED_HAT.search(name):
         return False
-    return any(variant in name for variant in expand_word(word))
+    toks = set(_re.split(r"[^a-z0-9]+", name))
+    return any((variant in toks) if variant in _WHOLE_WORD else
+               (variant in name) for variant in expand_word(word))

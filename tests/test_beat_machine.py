@@ -1405,6 +1405,74 @@ def test_a_bass_pick_changes_only_the_bass_and_survives_a_rebuild(
                                    shots=shots)
 
 
+def test_an_exact_instrument_pick_plays_just_it_and_survives_a_rebuild(
+        machine_env, monkeypatch, tmp_path):
+    """Owner 2026-09-28: the chord row's first dropdown is the TYPE (piano,
+    brass...), the second the EXACT instrument (Trumpet vs Tuba vs his own
+    horn stab). Before, only a type could be picked, and a later rebuild of
+    that beat quietly went back to the old instrument."""
+    import instrument_sampler
+
+    def multi(name, art, notes):
+        return [dict(e, group="piano", multi="Lib/" + name, art=art, layer=0.5)
+                for e in _inst_index(tmp_path, "Lib_%s_%s" % (name, art), notes)]
+    pool = (multi("Grand", "Sus", range(36, 85, 3))
+            + multi("Upright", "Stac", range(37, 86, 3))  # sounds different
+            + multi("Toy", "Sus", [72]))                 # can't reach a chord
+    monkeypatch.setattr(instrument_sampler, "scan", lambda *a, **k: pool)
+    monkeypatch.setattr(instrument_sampler, "scan_bass", lambda *a, **k: [])
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    root, shots = machine_env
+    for seed in range(20):
+        random.seed(seed)
+        path, _ = beat_machine.generate(["Timberline"], root=root, shots=shots)
+        no = int(path.name.split()[0])
+        rec = beat_recipes.load_recipe(root, no)
+        if any(ln.startswith("chord") for ln in rec["preset"]["lanes"]):
+            break
+    cands = beat_machine._lane_candidates(no, "chords", root=root)
+    piano = [c for c in cands if c["type"] == "Piano"]
+    assert [c["path"] for c in piano if c.get("any")] == ["piano"]
+    exact = {c["name"]: c["path"] for c in piano if "::" in c["path"]}
+    assert set(exact) == {"Grand — Sus", "Upright — Stac"}, exact
+
+    def chord_files(r):
+        return {Path(f).name for ln, fs in r["harmony"]["voice_files"].items()
+                if beat_machine._CHORD_LANE.match(ln) for f in fs}
+
+    def chord_stems(p):
+        d = next(d for d in p.parent.glob("* Stems")
+                 if d.name.startswith(p.name.split()[0] + " "))
+        return {f.name.split(" - ")[0]: f.read_bytes()
+                for f in d.glob("chord*.wav")}
+    # pick the one the beat does NOT play now, so a slide back would show
+    lib = "Grand" if any("Upright" in f for f in chord_files(rec)) else "Upright"
+    pick = next(p for n, p in exact.items() if n.startswith(lib))
+    path2, _ = beat_machine.swap_many(no, {"chords": pick}, root=root,
+                                      shots=shots)
+    rec2 = beat_recipes.load_recipe(root, int(path2.name.split()[0]))
+    got = chord_files(rec2)
+    assert got and all(f.startswith("Lib_%s_" % lib) for f in got), got
+    assert rec2["harmony"]["voice_pick"] == {"voice": "piano",
+                                             "exact": pick.split("::", 1)[1]}
+    # a later rebuild of that beat (a drum volume move) keeps the pick
+    path3, _ = beat_machine.swap_many(int(path2.name.split()[0]), {},
+                                      root=root, shots=shots,
+                                      trims={"kick": 1.0})
+    assert chord_stems(path3) == chord_stems(path2)
+    # never a made-up path, an instrument that can't reach the notes, or
+    # a type he doesn't own
+    for bad in ("piano::file:/etc/passwd", "piano::multi:Lib/Toy|Sus",
+                "banjo"):
+        with pytest.raises(ValueError):
+            beat_machine.swap_many(no, {"chords": bad}, root=root,
+                                   shots=shots)
+
+
 def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
         machine_env, only_his_instruments, monkeypatch):
     """THE bug, owner 2026-07-25: 'where are the real instruments from my
