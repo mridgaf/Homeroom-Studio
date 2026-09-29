@@ -278,3 +278,79 @@ display-scope mouse clicks stayed blocked by the Dictation overlay and my reques
   ECF-42 "TIMB FILTER" In L / R** (tooltips on the ECF inputs); **ECF-42 Out L / R -> Timbales strip "From Insert FX" L / R**. So the audio clip runs Insert FX send, Timb Process,
   the ECF-42 filter, and back into the strip. The ECF-42's Freq CV, Decay CV, Res CV and Env. Gate jacks show no cable. Not read: what feeds Timb Process (its input side).
   The strip's Audio Output reads "Master Section" (front label).
+
+### 7b. Channel wiring, continued (third pass, all read by hover, Seen; left jacks only)
+Method: hover a jack for 3 s, tooltip "Connected to <device>: <jack>". The tooltip did not show when I moved the mouse 1 pixel from a jack I had just hovered; moving away first and back fixed it (my method note). Rack window had moved down on screen between passes, so I re-took a screenshot before using coordinates.
+
+| Channel | Chain (instrument, then inserts, then strip) |
+|---|---|
+| Bass Tonewheel | Tonewheel Combinator (Combi Output Left) -> TW COMP (MClass Compressor) -> TW EQ (MClass Equalizer) -> channel "Bass Tonewheel" Input L |
+| Organ 1 | "ORGAN 1" Combinator (Combi Output Left) -> ORG 1 SQUASH Combinator (Input L) -> ECF-42 "ORGAN 1 FILT..." (L In from Org 1 Squash Combi Output Left) -> channel "Organ 1" Input L |
+| Organ 2 | "ORGAN 2" Combinator -> ORG 2 SQUASH Combinator -> ECF-42 "ORGAN 2 FILT..." (L In from Org 2 Squash Combi Output Left) -> channel "Organ 2" Input L. The tooltip on Org 2 Squash Input L was cut off after "Connected to Organ 2: Combi Outpu", read as the Organ 2 Combinator's Combi Output Left (**Guess** on the last word) |
+| WarmPad | Subtractor "WARMPAD" (Out) -> PAD COMP -> PAD EQ -> PAD PROCESSOR Combinator (Combi Input Left) -> channel "WarmPad" Input L |
+| Guitar question | "GUITAR QUEST..." Combinator (Combi Output Left; its own Input jacks have no cable) -> GUIT EQ -> "Deluxe Vocal FX Chain" Combinator (Combi Input Left) -> channel "Guitar question" Input L (from Deluxe Vocal FX Chain Combi Output Left) |
+| Pictures of Moments | "PICTURES OF ..." Combinator (control labels Squash, Dirt, Tremolo, Unison Detune) -> SYNTH PROCESSOR Combinator (labels Filter Freq, Filter Rez, Reverb, Dly) -> PICTURES EQ -> channel "Pictures of Moments" Input L |
+
+- Same layout convention as the other songs (strip on top, inserts below it named for the channel). Organ 1 and 2 use the same "squash then ECF-42 filter" pattern as Timbales.
+- **Guitar question:** the name is the channel's; its instrument is a Combinator labelled "GUITAR QUEST...", with control labels including Delay Time, Control 3, Gtr Decay. It goes through a vocal FX Combinator named "Deluxe Vocal FX Chain" (name as shown; I did not open it, so I do not know what is inside). Whether the sound is a guitar: **not known**, not heard.
+- Channel Audio Output on Guitar question and Pictures of Moments reads "Master Section" (Seen).
+- Ctrl-click and clicks were not used. Nothing was played or saved.
+- Still unread: Main Vox, Middle 8 Vox, Chorus Vox, Booomzzz, the inside of every Combinator, right-hand jacks.
+
+### 7c. Vocal channels and Booomzzz (fourth pass, Seen by hover; left jacks only)
+All vocal channels are Audio Tracks with the Insert FX section (the strip's "To Insert FX" / "From Insert FX" jacks). Output of every one reads "Master Section" on the strip.
+
+| Channel | Insert chain, in signal order |
+|---|---|
+| Main Vox | strip To Insert FX L -> "VOCAL KHABA..." Combinator (controls unlabelled: Control 1-4) -> M VOX EQ -> M VOX FILTER (ECF-42) -> FILTER EQ -> M VOX COMP -> strip From Insert FX L. Every link read from at least one side; M VOX EQ's own jacks were not hovered (read from its neighbours' tooltips) |
+| Middle 8 Vox | strip To Insert FX L -> TOXIC VOCAL Combinator (Control 1-4) -> **Neptune "MB VOX NEPT..."** (pitch adjuster and voice synth, Audio In L from Toxic Vocal, Audio Out L to MB Vox Filter; Note, Gate, Bend, Vibrato, Formant, Pitch and Amplitude jacks have no cable) -> MB VOX FILTER (ECF-42) -> MB VOX COMP -> MB FILTER EQ -> strip From Insert FX L |
+| Chorus Vox | Audio Track with **no insert devices** (Insert FX section empty, next rack item is Kick) |
+| Booomzzz | Audio Track (red) with **no insert devices**; Direct Out jacks have no cable; output Master Section |
+
+- **Neptune is in this song** (only on Middle 8 Vox). Its settings and what it does to the vocal were not read (Guess: it is used as a pitch effect; not heard).
+- The order of EQ and comp differs between the two vocals (Main Vox: EQ, filter, EQ, comp; Middle 8: filter, comp, EQ), so it is not a copied chain.
+- Issue on my side: I unfolded devices (Toxic Vocal, Neptune, ECF-42, Comp, Equalizer, Chorus Vox strip; Vocal Khaba, M Vox Comp, Filter EQ, M Vox Filter) in the open copy; view state only, never saved.
+- Dictation blocked clicks twice during this pass (the owner turned it off for the second half). Hover and keys worked throughout.
+
+### 7d. Status after this pass
+Channel chains read: Kick, Clap, LambaBeat, Timbales, Bass Tonewheel, Organ 1, Organ 2, WarmPad, Guitar question, Pictures of Moments, Main Vox, Middle 8 Vox, Chorus Vox, Booomzzz. Still not read: inside of every Combinator (Modulation Routing, what the macro knobs drive), right-hand jacks, Neptune settings, whether "Guitar question" is a guitar. Nothing was heard.
+
+### 7e. How it closed (Seen)
+Red button: Reason asked "Do you want to save the changes you made in the document 'Gabriel Gassi - Street Phone.rsndemo'?" (Save / Don't Save / Cancel). Answered **Don't Save**. Earlier demos closed with no dialog; this one did because I had unfolded devices (**Guess**: unfolding counts as a change). SHA-1 after: `e377af376e09a211ad065069149e71b515906652`, same as before; the Demo Songs folder still holds the same two files, dated 2023-09-04. The scratch song "Step 8 test copy 09 29 26" is still open and unsaved.
+
+## 8. Inside the Combinators (fifth pass; Street Phone reopened read-only, Seen)
+Method: unfold the Combinator (triangle), click **Editor** ("Show Programmer") to see its device list and, for a device clicked in the list, its Modulation Routing (Source, Target, Min, Max). **Devices** shows the inner rack. Clicking a row in the Editor list is view-only. Target names in the list are cut off at about 18 characters ("Channel 1 Aux 1 Sen..."); I read the tail as "Send" (**Guess** on that one word).
+
+### 8a. BEAT PROCESS (LambaBeat insert, patch name "Synth Processor")
+- Front: knobs Filter Freq, Filter Rez, Reverb, Dly; buttons Chorus (lit), Dly FX (off), Unison (lit), Wide (lit); RUN and BYPASS FX buttons; Pitch and Mod wheels.
+- Inside (Devices): Combinator Mixer (14 channels plus a return strip labelled "CHORUS" and "UNISON"; channel 1 fader labelled "FILTER"), MClass Compressor "COMPRESSOR", Stereo Imager "IMAGER", CF-101 Chorus/Flanger "CHORUS", UN-16 Unison "UNISON", ECF-42 "FILTER".
+- Routing read:
+  | Device | Source -> Target (min-max) |
+  |---|---|
+  | Filter (ECF-42) | Filter Freq -> Frequency (0-127); Filter Rez -> Resonance (0-127) |
+  | Mixer | Reverb -> Channel 1 Aux 1 Send (0-127); Dly -> Channel 1 Aux 2 Send (0-127); Chorus (button) -> Channel 13 Mute (1 to 0, reversed); Dly FX (button) -> Channel 12 Aux 3 Send (0-64); Unison (button) -> Channel 1 Aux 4 Send (0-83) |
+  | Imager | Wide (button) -> Enabled (2 to 1, as shown) |
+  | Chorus, Unison, Compressor | no mappings |
+
+### 8b. TIMB PROCESS (Timbales insert, patch name also "Synth Processor")
+- Same front labels as Beat Process. The **Reverb knob has a green frame** (automated; Seen). Buttons: Chorus lit, Dly FX off, Unison off, Wide lit.
+- **Same patch name, different insides:** the Editor list is Compressor (M Comp), Imager (M Stereo), Mixer, Main Verb (RV7000), Delay L (Delay), Delay R (Delay), BP Filter (M EQ), Dly Verb (RV7000), and possibly more below (the list has a scroll bar; not scrolled). So a patch name does not tell you what is inside (my caution: I first expected them to match).
+- Routing read: Mixer has the **same five mappings as Beat Process** (Reverb, Dly, Chorus, Dly FX, Unison to the channel targets above); Imager: Wide -> Enabled (2 to 1); BP Filter (M EQ): Dly FX -> Enabled (2 to 1); Dly Verb (RV7000): Dly FX -> Enabled (2 to 1). Main Verb, Delay L, Delay R: none. Compressor: not clicked.
+- Not read: the rest of Timb Process's list, and the other Combinators (Clap/Kick/Org 1/Org 2 Squash "Dance", Organ 1/2 "Organ & Choir", Bass Tonewheel "Tonewheels - Jazz Perc", Pad Processor, Guitar question, Deluxe Vocal FX Chain, Pictures of Moments, Synth Processor, Toxic Vocal, Vocal Khaba, Master Section FX, Default Mastering Suite). Front patch names Seen on the rack front: Clap Squash = "Dance", Org 1 Squash = "Dance", Org 2 Squash = "Dance", Organ 1 = "Organ & Choir", Organ 2 = "Organ & Choir", Bass Tonewheel = "Tonewheels - Jazz Perc"; Organ 1 and Organ 2 also show an "INSTRUMENT" tag.
+
+### 8c. Voice-app relevance (Guess until tested)
+- The Combinator macro buttons drive mixer sends and mutes inside the Combinator (Dly FX -> Aux 3 Send, Unison -> Aux 4 Send). A phrase like "turn on the chorus on the beat process" would mean pressing a Combinator button. The remotemap has no Combinator-inner scope for these; whether the Combinator front controls are remotable was not checked.
+
+### 8d. Correction to 8b (mine)
+I wrote that Timb Process's device list might have more rows and that its Chorus, Unison and Filter were unread. After scrolling the list: it holds 11 devices in this order: Compressor, Imager, Mixer, Main Verb (RV7000), Delay L, Delay R, BP Filter (M EQ), Dly Verb (RV7000), Chorus, Unison, Filter. Read: **Filter: Filter Freq -> Frequency and Filter Rez -> Resonance (0-127), same as Beat Process; Chorus and Unison: no mappings.** So Timb Process has Beat Process's six devices plus two RV7000s, two Delays and a BP Filter (M EQ). Compressor is the only Timb device not clicked. The scroll I sent to the list also moved the rack behind it a little (view only).
+
+### 8e. ORG 1 SQUASH (Organ 1 insert, patch name "Dance")
+- Front labels: Comp Input, EQ Bass Freq, EQ Treble Amount, Maximizer Input (four knobs, buttons unlit, no button labels).
+- Inside (Editor list, 4 devices, names as shown): "M Comp copy 3" (M Comp), "M EQ copy 3" (M EQ), "Stereo Imager copy 3" (M Stereo), "Maximizer copy 3" (M Maximizer). The "copy 3" tails suggest the same four devices were copied for other channels (**Guess**; Clap Squash and Org 2 Squash also show patch name "Dance" on the rack front).
+- Routing read: M Comp: Comp Input -> Input Gain (0-127). M EQ: EQ Bass Freq -> Parametric 1 Frequency (30-200); EQ Treble Amount -> Hi Shelf Gain (0-30). Stereo Imager: none. Maximizer: Maximizer Input -> Input Gain (0-127).
+- So one knob each drives the compressor's input, the bass EQ frequency, the treble shelf and the maximizer's input: a "squash" macro (matches the label, **Guess** on what it sounds like).
+- Voice-app link: Combinator front knobs are named by the author; no remotemap scope for these was checked.
+
+### 8f. How the second close went (Seen) and a correction (mine)
+Closed with the red button: **no save dialog this time**, even though I unfolded Combinators and opened Editors. So my earlier guess (7e) that unfolding devices makes Reason ask to save is **not supported**: the first visit's dialog appeared after unfolding rack devices and hovering, this one after unfolding Combinators and clicking Editor rows. What triggers the dialog is unknown. Both times the answer was Don't Save (first) or none needed (second). SHA-1 after: `e377af376e09a211ad065069149e71b515906652`, same as before; Demo Songs folder unchanged (two files, 2023-09-04). Scratch song still open, unsaved.
+Also my slip at the start of this reopening: I typed a file path into Reason after Cmd-O and Cmd-Shift-G, assuming a Finder-style dialog; Reason's Open Song is an in-app browser panel, so the keys went to the scratch song window. Its title and tempo (90 BPM) looked unchanged afterwards; I did not check further, and it is a scratch song that is never saved.

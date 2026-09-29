@@ -19,6 +19,25 @@ entries.
 ---
 
 ## Log
+### 2026-09-29 Practice song with automation, built by hand in a new Reason file (owner: "prove you learned something")
+- Context: owner asked for a song with automations from a fresh file; sound doesn't matter. Owner said "use a little bit of everything you learned".
+- Done (Seen on screen, unsaved "untitled"): Cmd-N gave a file with starter devices; owner chose to clear it (Edit > Select All Devices, Delete). Created a SubTractor (Create > Instruments), drew a 7-bar note clip with the pencil and 6 notes in the note editor, then made three automation lanes via right-click on the control > Edit Automation: SubTractor Filter 1 Freq (rising line, bars 1-4), Filter 1 Res (zigzag, bars 4-7), and, after Create > Effects > Scream 4 (inserted under the bass), Scream 4 Damage Control (empty clip, bars 3-7, no points; a hold would need a point). Green frames appeared on each automated control.
+- Proof: played bars 1-8; the Filter 1 Freq slider moved up between playhead positions (three zoomed captures) and the channel and master meters lit. Not heard.
+- What I used from the demos: right-click a knob to get its lane; lane clips with points; green frame = automated; insert chain convention (Scream 4 under the instrument); Tab to see the rack back.
+- My slips: I clicked the "record enable parameter automation" button by mistake and turned it back on; a plain drag with the pencil did nothing, press-move-release worked, and the first pencil stroke after switching tools was swallowed; the Damage Control clip has no points because Edit Inline would not open for it.
+- Extended after the owner said "a little bit of everything, add other instruments" (Seen): Redrum "Hip Hop Kit 03" with kick on steps 1-5-9-13, snare on 5-13, hat on 3-7-11-15, plus a "Pattern Select" lane clip A1 bars 1-8 (Manual [6]: a Redrum has no static value; without a pattern clip it stops); Europa "Friendly Keys" with a 2-chord clip; a DDL-1 delay made with Create > Send FX (came in as FX return 1, "Delay 1"); a mixer-channel lane "FX1 Send Level" on Friendly Keys (bars 3-8, low then rising) made by right-click on the send knob; Damage Control got real points (low, jump high, fall) after Edit Inline worked on a second click. Playhead ran bars 1-5 across two plays; the slider and meters proof is only for the first bass part. Redrum and Europa were not shown sounding (meters not captured).
+- Not done: nothing saved (owner's rule); no Combinator built. Reason still has this untitled song and the scratch song open. Mixer now shows 3 channels (Bass Guitar, Hip Hop Kit 03, Friendly Keys) plus the Scream 4 and the delay send.
+- Status: confirmed for what was seen.
+
+### 2026-09-29 Street Phone channel wiring finished (all insert chains read); skill list merged; how-to written
+- Context: owner asked to go back to work needing screen control after a docs-only stretch (classifier had blocked writes).
+- Done: read every channel's insert chain in Street Phone by hover (notes 7b, 7c); Neptune is on Middle 8 Vox only; Chorus Vox and Booomzzz have no inserts. Closed with the red button. **A save dialog appeared this time** (first time after unfolding devices); it named Street Phone, answered Don't Save. SHA-1 after `e377af376e09a211ad065069149e71b515906652` (same as before).
+- Docs: `docs/reason/rack-back-reading-howto.md` written; `demo-song-skill-ideas.md` merged 12 rows to 9 (rack-back-reading and insert-chain-convention folded into reason-signal-flow; sidechain-by-redrum into reason-ducking-methods as method d) with the owner's yes. No skills built.
+- Owner decision: phrase and template lists are NOT merged until everything is scanned.
+- Known limits: left jacks only; Combinator insides, right jacks and Neptune settings unread; nothing heard. Dictation blocked clicks twice until the owner turned it off.
+- Verify by: `shasum ~/Music/"Reason 12"/"Demo Songs/Gabriel Gassi - Street Phone.rsndemo"` = the hash above.
+- Status: confirmed for what was read; OPEN-ISSUES 39 stays open for Combinator insides.
+
 ### 2026-09-29 Explored Qua z mo "I Just Wanna Be" (second hip hop demo, first pass)
 - Context: owner answered "Qua z mo next" to the clickable question after the BLKMGK "Power" visit. Same rules; download was asked and approved.
 - Done: downloaded `Quazmo-IJustWannaBe.zip` (63,484,511 bytes) to `~/Downloads/Reason Demo Songs/`, SHA-1 `290f75ff...`. Read the song info, all 30 tracks, mixer (sends, output buses Lead Vox / Adlib / Hook / P1: Hook), master Section by hover, "PAD FX" Combinator. Notes: `docs/reason/demo-song-notes-quazmo.md`. OPEN-ISSUES 42 ticked.

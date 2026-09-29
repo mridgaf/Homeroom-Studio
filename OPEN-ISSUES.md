@@ -222,9 +222,14 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   right jacks on a few devices, several inner cables of the Pulse Scream and Norwegian Boy Combinators, and Modulation
   Routing for both (see section E there).
 - [ ] **39. Map Street Phone's wiring the same way** (🤖, owner picked "Map Street Phone too"). Done so far: sends,
-  returns, master chain (notes section 6). To do: every channel's cables and the Combinators' insides; its rear view has
-  devices folded to strips, so they need unfolding first. Each Airplane visit that needed screen control was approved
-  once this session.
+  returns, master chain (notes section 6), and **every channel's insert chain** (notes sections 7, 7b, 7c: Kick, Clap,
+  LambaBeat, Timbales, Bass Tonewheel, Organ 1, Organ 2, WarmPad, Guitar question, Pictures of Moments, Main Vox,
+  Middle 8 Vox, Chorus Vox, Booomzzz; read by hover, left jacks only). Combinator insides started (notes section 8):
+  Beat Process, Timb Process and Org 1 Squash read (devices and Modulation Routing). Still to do: the other ~15
+  Combinators (Clap/Kick/Org 2 Squash, Organ 1/2, Bass Tonewheel, Pad Processor, Guitar question, Deluxe Vocal FX
+  Chain, Pictures of Moments, Synth Processor, Toxic Vocal, Vocal Khaba, master ones), right-hand jacks, Neptune
+  settings on Middle 8 Vox. First close showed a save dialog (answered Don't Save), the second did not; cause unknown
+  (notes 8f). SHA-1 after both: `e377af37...` (unchanged).
 
 - [x] **40. Explore a hip hop demo song: BLKMGK "Power"** (🤖, owner 2026-09-29: "find the other demo songs ... hip hop
   priority ... begin learning and wiring the first one alphabetically"). ✅ Only two demos were on the Mac (Airplane,
