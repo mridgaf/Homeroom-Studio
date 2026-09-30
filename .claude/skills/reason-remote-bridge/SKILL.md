@@ -195,7 +195,7 @@ Rules, each found by a step failing:
    Dr.REX — Filter Freq/Filter Res/Loop Level.
    **Kong Drum 1 Pitch Offset / Decay Offset did NOT record** (run twice; Reason
    reported a value, no lane appeared). Cause unknown — don't promise Kong
-   pitch/decay automation until solved. Thor/NN-XT/Europa have no bridge knobs.
+   pitch/decay automation until solved. (That 2026-09-25 line said Thor/NN-XT/Europa have no bridge knobs; it is out of date: the remotemap now has scopes for all three, e.g. NN-XT has 17 controls, checked 2026-09-30.)
 
 Working pipeline for "build me lanes + effects + automation":
 MIDI file (notes, tempo, one track per part) → pre-wired Combinator patch via
