@@ -19,6 +19,15 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Item 39 sixth pass: 9 more Street Phone Combinators read; Kick Squash and the rest not yet
+- Seen (Street Phone opened read-only, every Editor row clicked, notes in docs/reason/demo-song-notes.md sections 8g-8s): Clap Squash, Bass Tonewheel, Organ 1, Organ 2, Org 2 Squash, Pad Processor, Guitar question, Deluxe Vocal FX Chain, Pictures of Moments, the Synth Processor under it, and the master-section Combinator. Together with the earlier passes that is Beat Process, Timb Process, Org 1 Squash plus these.
+- Found: the "Dance" squash patch is one set of mappings used three times (Clap, Organ 1, Organ 2); "Synth Processor" has two different insides (Beat Process vs. Timb/Pad/Pictures); Organ 2 has an extra RV7000 "Organ Echo" that its Organ Spring / Spring Length buttons drive, Organ 1 does not (I had guessed wrong about Organ 1 and corrected it in 8j).
+- My slips, all corrected in the notes: I wrote that the NN-XT was not in the voice map; it is (17 controls, Amp Env Decay = knob 2), and the bridge skill's old "Thor/NN-XT/Europa have no bridge knobs" line was out of date, now amended. Several of my Editor clicks landed one row off; I re-clicked with zoom before writing anything down.
+- Closed with the red button: no save dialog; SHA-1 after e377af37... (same as before), 46,923,828 bytes.
+- NOT read: Kick Squash (probably = the other squash ones, unconfirmed), the vocal-channel inserts higher up (Main Vox, Middle 8 Vox, Chorus Vox), Toxic Vocal, Vocal Khaba, right-hand jacks, Neptune settings on Middle 8 Vox. The Street Phone automation lanes were not looked at this pass.
+- Status: open (item 39 still not finished)
+- Outcome: -
+
 ### 2026-09-30 Item 30: Combinator knobs mapped, measured, tried in real Reason (labels NOT built)
 - Seen: loaded a factory Combinator ("ALL Cuper Hall Bright", panel labels Decay / Size / Length / Pre Dly and buttons EQ / Gate / HF Damp / Hi EQ) and locked it with a listener running. Reason announced ONLY Rotary 1-4 and Button 1-4 (8 controls); Rotary 5-16 never answered, so the map holds 8 (Knob 1-4 = Rotary 1-4, Knob 5-8 = Button 1-4, plus Patch Next/Prev and Device Name), written with map_device.py, installed (identical), Reason restarted twice (scratch song discarded, Don't Save).
 - Seen: Reason reports the GENERIC names ("Rotary 1", "Button 3"), never the panel labels. So "more decay" cannot be resolved from the bridge: the app cannot learn a Combinator's labels by listening. Names are unique to the Combinator in the map, so the device is identified correctly (device_for_param with knob="knob_1" etc.).

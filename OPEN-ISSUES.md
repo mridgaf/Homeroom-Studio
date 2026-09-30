@@ -229,11 +229,7 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   returns, master chain (notes section 6), and **every channel's insert chain** (notes sections 7, 7b, 7c: Kick, Clap,
   LambaBeat, Timbales, Bass Tonewheel, Organ 1, Organ 2, WarmPad, Guitar question, Pictures of Moments, Main Vox,
   Middle 8 Vox, Chorus Vox, Booomzzz; read by hover, left jacks only). Combinator insides started (notes section 8):
-  Beat Process, Timb Process and Org 1 Squash read (devices and Modulation Routing). Still to do: the other ~15
-  Combinators (Clap/Kick/Org 2 Squash, Organ 1/2, Bass Tonewheel, Pad Processor, Guitar question, Deluxe Vocal FX
-  Chain, Pictures of Moments, Synth Processor, Toxic Vocal, Vocal Khaba, master ones), right-hand jacks, Neptune
-  settings on Middle 8 Vox. First close showed a save dialog (answered Don't Save), the second did not; cause unknown
-  (notes 8f). SHA-1 after both: `e377af37...` (unchanged).
+  Beat Process, Timb Process and Org 1 Squash read (devices and Modulation Routing). 2026-09-30 sixth pass: Clap Squash, Bass Tonewheel, Organ 1, Organ 2, Org 2 Squash, Pad Processor, Guitar question, Deluxe Vocal FX Chain, Pictures of Moments, Synth Processor and the master Combinator now read (notes 8g-8s). Still to do: Kick Squash, the vocal inserts (Main Vox, Middle 8 Vox, Chorus Vox), Toxic Vocal, Vocal Khaba, right-hand jacks, Neptune settings on Middle 8 Vox.
 
 - [x] **40. Explore a hip hop demo song: BLKMGK "Power"** (🤖, owner 2026-09-29: "find the other demo songs ... hip hop
   priority ... begin learning and wiring the first one alphabetically"). ✅ Only two demos were on the Mac (Airplane,
