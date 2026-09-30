@@ -17,8 +17,20 @@ from .dial_llm import _SPELLED
 
 _SWEEP = re.compile(
     r"^sweep\s+(?:the\s+)?(.+?)\s+(up|down)\s+over\s+(\w+)\s+bars?"
-    r"(?:\s+at\s+(\d{2,3})(?:\s*bpm)?)?$")
+    r"(?:\s+at\s+(\d{2,3})(?:\s*(?:bpm|beats per minute))?)?$")
 _COUNT = dict(_SPELLED, **{"for": 4})     # whisper hears "four" as "for"
+_THROW = re.compile(
+    r"^throw\s+(?:the\s+)?(.+?)\s+for\s+(\w+)\s+bars?"
+    r"(?:\s+at\s+(\d{2,3})(?:\s*(?:bpm|beats per minute))?)?$")
+_FILL = re.compile(
+    r"^fill[\s-]?in\s+over\s+(\w+)\s+bars?"
+    r"(?:\s+at\s+(\d{2,3})(?:\s*(?:bpm|beats per minute))?)?$")
+_SNAP = re.compile(r"^snap[\s-]?back$")
+
+
+def _bars(n):
+    bars = int(n) if n.isdigit() else _COUNT.get(n)
+    return bars if bars and bars >= 1 else None
 
 
 def parse_sweep(text):
@@ -27,11 +39,38 @@ def parse_sweep(text):
     if not m:
         return None
     what, way, n, bpm = m.groups()
-    bars = int(n) if n.isdigit() else _COUNT.get(n)
-    if not bars or bars < 1:
+    bars = _bars(n)
+    if not bars:
         return None
     return {"what": what, "way": way, "bars": bars,
             "bpm": int(bpm) if bpm else None}
+
+
+def parse_throw(text):
+    """"throw the reverb for one bar" -> {"what","bars","bpm"} or None."""
+    m = _THROW.match((text or "").strip().lower().rstrip(".!?,"))
+    bars = _bars(m.group(2)) if m else None
+    if not bars:
+        return None
+    return {"what": m.group(1), "bars": bars,
+            "bpm": int(m.group(3)) if m.group(3) else None}
+
+
+def parse_fill_in(text):
+    """"fill in over eight bars": the DJ-intro sound, thin to full. It is the
+    high pass (low cut) swept down, so it comes back as a sweep. Both words are
+    said because the knob picker reads names literally: on a Scream 4 "high
+    pass" picked Cut Hi (a top cut) and "low cut or high pass" picked Cut Lo."""
+    m = _FILL.match((text or "").strip().lower().rstrip(".!?,"))
+    bars = _bars(m.group(1)) if m else None
+    if not bars:
+        return None
+    return {"what": "low cut or high pass", "way": "down", "bars": bars,
+            "bpm": int(m.group(2)) if m.group(2) else None}
+
+
+def is_snap_back(text):
+    return bool(_SNAP.match((text or "").strip().lower().rstrip(".!?,")))
 
 
 def bars_to_seconds(bars, bpm):
@@ -53,7 +92,18 @@ def demo():
         "what": "filter", "way": "up", "bars": 4, "bpm": None}
     assert parse_sweep("sweep the low pass down over 8 bars at 90")["bpm"] == 90
     assert parse_sweep("sweep the filter up over for bars")["bars"] == 4
+    assert parse_sweep("sweep the filter up over 4 bars at 90 beats per minute")["bpm"] == 90
     assert parse_sweep("sweep the filter up") is None
+    assert parse_throw("Throw the reverb for one bar.") == {
+        "what": "reverb", "bars": 1, "bpm": None}
+    assert parse_throw("throw the delay for 2 bars at 90")["bpm"] == 90
+    assert parse_throw("throw the reverb") is None
+    assert parse_fill_in("Fill in over eight bars.") == {
+        "what": "low cut or high pass", "way": "down", "bars": 8, "bpm": None}
+    assert parse_fill_in("fill-in over 4 bars at 90")["bpm"] == 90
+    assert parse_fill_in("fill in") is None
+    assert is_snap_back("Snap back.") and is_snap_back("snapback")
+    assert not is_snap_back("snap back the filter")
     assert parse_sweep("sweep the filter up over zero bars") is None
     assert bars_to_seconds(4, 120) == 8.0
     p = plan(0, 127, 8.0)

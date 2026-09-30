@@ -135,6 +135,9 @@ HELP_ITEMS = [
     ("give it more punch", "move a knob on the locked device — say what you\n"
      "     want it to sound like, not a number"),
     ("set the attack to 30 milliseconds", "or name the exact value"),
+    ("sweep the filter up over four bars at 90", "records a smooth move into a locked device's own track (tempo is remembered)"),
+    ("fill in over eight bars", "the DJ-intro sound: a high pass swept down, thin to full"),
+    ("throw the reverb for one bar · snap back", "record a short jump, then a jump back to where the last move began"),
     ("more results / rebuild index / help / quit", "housekeeping"),
 ]
 
@@ -248,6 +251,7 @@ class WebApp:
         self.dial_cal = dial_llm.load_calibration()
         self.dial_undo = None      # one slot: {knob, pos, param, shown}
         self.tempo = None          # bpm, said once in a sweep phrase ("... at 90")
+        self.last_sweep = None     # {knob, start, name}: what "snap back" returns to
         self.recorder = WebRecorder(self.cfg.get("max_utterance_seconds", 15))
         self.templates = TemplateLibrary(
             self.cfg.get("templates_dir", str(PROJECT_ROOT / "templates")))
@@ -629,25 +633,27 @@ class WebApp:
         i = max(0, min(self.s.step, len(r.steps) - 1))
         self.say(f"Step {i + 1} of {len(r.steps)}. {r.steps[i]}")
 
-    async def _sweep(self, args):
-        """"sweep the filter up over four bars": Record, ramp one knob, Stop."""
+    async def _pick(self, args, way):
+        """Shared front of sweep and throw: something locked, a tempo, which knob
+        the words mean, where it is now. -> (knob, got, name), or None after
+        saying why."""
         self.control.poll()
         self._sync_device()
         if not self.control.positions or self.dial_device is None:
             self.say("Nothing is locked to ReasonVoice. Lock the device first "
-                     "(and Create Track for it, so the sweep can be recorded).")
-            return
+                     "(and Create Track for it, so the move can be recorded).")
+            return None
         if args.get("bpm"):
             self.tempo = args["bpm"]
         if not self.tempo:
             self.say("What tempo? Say it once at the end: sweep the filter up "
                      "over four bars at 90.")
-            return
+            return None
         self.status = "thinking"
         await self.push()
         self.dial_cal = dial_llm.load_calibration()
         answer = await asyncio.to_thread(
-            dial_llm.choose, "turn the %s %s" % (args["what"], args["way"]),
+            dial_llm.choose, "turn the %s %s" % (args["what"], way),
             self.dial_device, calibration=self.dial_cal,
             now=dict(self.control.positions))
         self.status = "idle"
@@ -655,15 +661,24 @@ class WebApp:
         if answer is None or got is None:
             self.say("Couldn’t tell which knob “%s” is, or where it is now. "
                      "Nudge it once so Reason reports it." % args["what"])
+            return None
+        knob = answer["knob"]
+        return knob, got, got[1] or self.dial_knobs.get(knob, knob)
+
+    async def _sweep(self, args):
+        """"sweep the filter up over four bars": Record, ramp one knob, Stop."""
+        picked = await self._pick(args, args["way"])
+        if picked is None:
             return
-        knob, start = answer["knob"], got[0]
+        knob, got, name = picked
+        start = got[0]
         end = 127 if args["way"] == "up" else 0
-        name = got[1] or self.dial_knobs.get(knob, knob)
         if start == end:
             self.say("%s is already at the %s." % (name, "top" if end else "bottom"))
             return
         seconds = sweep.bars_to_seconds(args["bars"], self.tempo)
         self._dial_note(knob, got)
+        self.last_sweep = {"knob": knob, "start": start, "name": name}
         if not self.control.tap("record"):
             self.say(NO_MIDI)
             return
@@ -679,6 +694,58 @@ class WebApp:
         self.control.tap("stop")
         self.say("%s swept %s over %d bars. Undo puts it back." % (
             name, "up" if end else "down", args["bars"]))
+
+    async def _throw(self, args):
+        """"throw the reverb for one bar": Record, knob to the top, hold, back."""
+        picked = await self._pick(args, "up")
+        if picked is None:
+            return
+        knob, got, name = picked
+        start = got[0]
+        if start == 127:
+            self.say("%s is already at the top." % name)
+            return
+        seconds = sweep.bars_to_seconds(args["bars"], self.tempo)
+        self._dial_note(knob, got)
+        self.last_sweep = {"knob": knob, "start": start, "name": name}
+        if not self.control.tap("record"):
+            self.say(NO_MIDI)
+            return
+        self.say("Throwing %s to the top for %d bar%s (%.1f s)…"
+                 % (name, args["bars"], "s" if args["bars"] > 1 else "", seconds))
+        await self.push()
+        await asyncio.sleep(0.5)
+        self.control.set_value(knob, 127)
+        await asyncio.sleep(seconds)
+        self.control.set_value(knob, start)
+        await asyncio.sleep(0.3)
+        self.control.tap("stop")
+        self.say("%s thrown for %d bars, then back to where it was." % (
+            name, args["bars"]))
+
+    async def _snap_back(self):
+        """"snap back": record the last swept knob jumping to where it began."""
+        self.control.poll()
+        self._sync_device()
+        last = self.last_sweep
+        if not last or last["knob"] not in self.control.positions:
+            self.say("Nothing to snap back. Sweep or throw something first "
+                     "(and keep the same device locked).")
+            return
+        self._dial_note(last["knob"], self.control.current(last["knob"]))
+        if not self.control.tap("record"):
+            self.say(NO_MIDI)
+            return
+        self.say("Recording %s snapping back…" % last["name"])
+        await self.push()
+        await asyncio.sleep(0.5)
+        self.control.set_value(last["knob"], last["start"])
+        # Seen 2026-09-30: stopping 0.3 s after one jump made no clip at all;
+        # holding 1.5 s did. Reason wants the take to run on after the change.
+        await asyncio.sleep(1.5)
+        self.control.tap("stop")
+        self.say("%s snapped back to where it began. Undo puts it back."
+                 % last["name"])
 
     async def execute(self, intent: Intent):
         s, cmd, args = self.s, intent.command, intent.args
@@ -777,6 +844,12 @@ class WebApp:
 
         elif cmd == "sweep":
             await self._sweep(args)
+
+        elif cmd == "throw":
+            await self._throw(args)
+
+        elif cmd == "snap_back":
+            await self._snap_back()
 
         elif cmd == "dial_set":
             knob = str(args.get("knob", ""))

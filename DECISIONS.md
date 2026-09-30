@@ -19,6 +19,65 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Item 39 eighth pass: finished (owner: "Do 39")
+- Read read-only, notes `docs/reason/demo-song-notes.md` 8u: Default Mastering Suite Combinator = same four-device routing as the master Combinator (8s); automation lanes on Main Vox, M Vox Filter, Middle 8 Vox, M8 Vox Filter, Chorus Vox (sends and filters mostly switched on and held, flat lines; no sweeps).
+- Skipped on purpose: right-hand jacks (mirror the left side). Item 39 marked done in OPEN-ISSUES.
+- Closed Street Phone: Reason asked to save this time; answered Don't Save. SHA-1 unchanged. No file of his changed. No commit.
+- Status: confirmed
+- Outcome: -
+
+### 2026-09-30 Item 31 fourth pass: "fill in over N bars" (his pick, Fill-In)
+- Done: `sweep.py` parse_fill_in, one line in `intents.py`, one help line, one test. "fill in over eight bars [at 115]" comes back as an ordinary sweep of "low cut or high pass" DOWN for N bars (thin to full). No new recording code.
+- Seen, catch: the first wording ("high pass") picked **Cut Hi** on the Scream 4 (a top cut, wrong control) and recorded a Cut Hi lane. Typed as plain nudges: "turn the low cut down" -> Cut Lo, "turn the high pass down" -> Cut Hi, "turn the low cut or high pass down" -> Cut Lo. So the phrase now says both words. (The knob picker reads names literally; on a device whose high-pass knob has another name it may still miss; not tried elsewhere.)
+- Seen in real Reason (typed in the app's box, Scream 4 "EasyFuzz", playhead bar 20): "sweep the low cut or high pass down over one bar at 115" -> a "Cut Lo" lane with a 1-bar downward clip at bars 20.2 to 21.3. The exact Fill-In phrase was typed once, before the wording change (it hit Cut Hi); after the change the typed sweep with the same words was used instead of a second restart-and-relock. Playback not read back this time.
+- Tests: 231 passed in test_dial + test_intents + test_remote_bridge. Suite not re-run.
+- Not done: the microphone; the Fill-In on a device with a real high-pass filter; Throw on mixer sends. Songs: "untitled 2" unsaved, now with Cut Lo / Cut Hi lanes of test clips.
+- Status: confirmed for the sweep it becomes on a Scream 4; open elsewhere
+- Outcome: -
+
+### 2026-09-30 Full test suite run (once this session, nothing rendering, no audio touched)
+- Seen: ran in three parts because the first used stop-at-first-failure: 843 passed, 3 skipped, then the 16 remaining files 470 passed, then `tests/test_pattern_gen.py` alone 19 passed and 1 failed. The one failure: `test_guest_lanes_appear_from_the_dj_palette`. Not voice-app code and not diagnosed (owner rule: unrelated failures get one line). First part took 17 min 24 s.
+- Every voice-app test from today's work (sweep, throw, snap back, tempo wording) is in the passing set.
+- Status: open (one unrelated failure)
+- Outcome: -
+
+### 2026-09-30 Item 39 seventh pass (owner away): Kick Squash, Toxic Vocal, Vocal Khabang 2, Neptune read
+- Owner said he was away from the computer and to move on with things that don't need him. I read the leftover Street Phone parts read-only (his earlier "Map Street Phone too"). Details in `docs/reason/demo-song-notes.md` 8t.
+- Seen: Kick Squash has exactly the mappings of the other three "Dance" squash Combinators; Toxic Vocal and Vocal Khabang 2 are the same three devices (M EQ 2, M Comp 2, M Comp 1) and have NO routing, so their knobs do nothing; Neptune has no scale set and follows MIDI. Nothing in it changes what the voice app can do; it only closes the reading.
+- Closed Street Phone with the red button, no dialog; demo SHA-1 unchanged. "untitled 2" left open. No file of his changed. No commit.
+- Not done: right-hand jacks, Master Section FX, automation lanes (item 39 stays open for those).
+- Status: open
+- Outcome: -
+
+### 2026-09-30 Item 31 third pass: Throw and Snap-Back built (his pick, "assume the playhead")
+- Owner (clickable): "Snap-Back + Throw". I stated the assumption: a move lands where the playhead is; "snap back" returns to where the last sweep/throw began.
+- Done: `sweep.py` parse_throw / is_snap_back; `intents.py` (two lines before the grammar); `server.py` `_pick` (the shared front of sweep/throw, pulled out of `_sweep`), `_throw`, `_snap_back`, `last_sweep`, two help lines. "throw the reverb for one bar [at 115]": Record, knob to the top, hold N bars, back to where it was, Stop. "snap back": Record, knob to where the last sweep/throw began, hold 1.5 s, Stop. The knob comes from the same model pick as sweep ("the reverb" -> whatever knob the model names), so on a device with no reverb knob it says it can't tell.
+- Tests: 4 new (beats per minute, throw, snap back, phrase intents); test_dial + test_intents + test_remote_bridge 230 passed (full suite NOT run).
+- Seen in real Reason (his open song, Scream 4 "EasyFuzz", Damage Control, typed into the app's box): throw at bar 6: a 1-bar clip; playback read 70, then 127 for ~2 s, then back to 70. Sweep down 1 bar at bar 13, playhead to bar 15, "snap back": a clip from 15.25 to 16 and playback read 127 for ~1.6 s, then 70 (Damage Control's resting value).
+- Seen, BUG FOUND AND FIXED: first "snap back" (stop 0.3 s after the jump) said it snapped back but made NO clip, twice; a script holding 1.5 s after the jump made one. `_snap_back` now holds 1.5 s. Only a one-jump take is affected; sweeps and throws always ran long enough. Likely (Guess) the same kind of miss as my very first "down" attempt that said swept but left the old ramp; that one is still unexplained.
+- Not done: Fill-In; mixer sends for Throw; microphone (Mac output was muted, volume untouched); the lane is full of my test clips and the song is unsaved. The voice server was restarted several times today: each restart drops the lock report, so the device has to be re-locked (MatrixBass2 first, then EasyFuzz) before the next phrase.
+- Status: confirmed for typed phrases; open for mic and Fill-In
+- Outcome: -
+
+### 2026-09-30 Item 31 second pass: "down" works; mic not testable; "beats per minute" tempo fixed
+- Seen (same song, same lock): "sweep the damage control down over two bars" (tempo remembered from "at 115", not said again) recorded a new 2-bar clip; playback read-back 68, 54, 42, 27, 12, 1, i.e. down. Two sweeps back to back (up 1 bar, then down 1 bar) both landed; the later one replaced the earlier in the lane.
+- Slip / unexplained: my FIRST down attempt said "swept down" but the lane kept the old up-ramp. I had left Reason playing from a read-back check before sending it (Guess: that is why; not proven). Automation Override was lit then, but a later sweep recorded fine with it lit, so override is NOT the cause (Seen).
+- Mic: NOT tested. The Mac's output is muted (volume 0, `output muted: true`), so the speaker-to-mic loop heard nothing ("Didn't catch that"); changing volume is a system setting, left alone. Instead ran the Mac's own spoken phrases through the app's real speech model (small.en) and parser: "sweep the damage control down over two bars at 90", "...up over 4 bars", "sweep the filter up over 8 bars", "... at 115", "... at 90 bpm" all parsed as sweeps with the right numbers. "at one fifteen" came out "1.15" (not a sweep; say "at 115").
+- Fixed: "at 90 beats per minute" fell through to the dial grammar; `sweep.py` now accepts it. Test `test_a_sweep_tempo_can_be_said_as_beats_per_minute` added; test_dial + test_intents + test_remote_bridge 227 passed (full suite not run). Voice server restarted to load it.
+- Not done: real microphone (owner says it aloud, or unmutes), Fill-In / Snap-Back / Throw: all need his call on WHERE in the song a move lands (the recording always starts at the playhead and Reason returns to the start on Stop).
+- Status: confirmed for typed/parsed sweeps up and down; open for mic and the other types
+- Outcome: -
+
+### 2026-09-30 Item 31 redone through the real app: sweep by typed phrase works, lane needs no arm click
+- Seen (owner's open song "untitled 2", his OK to use it; Scream 4 renamed "EasyFuzz", tempo 115): right-click > Create Track for EasyFuzz; locked MatrixBass2 first, then EasyFuzz (lock-order quirk, worked, all 16 knobs announced). Typed "sweep the damage control up over four bars at 115" into the voice app's own type box (page at localhost:8765, in the built-in browser pane, NOT the Reason Voice .app window, NOT the microphone).
+- Seen: Reason started recording by itself, a "Damage Control" lane and a yellow clip appeared, clip ~4.08 bars long (bars 1.3 to 5.4), straight rising line, Automation Override light lit; app said "Damage Control swept up over 4 bars. Undo puts it back."
+- Seen: **no separate lane-arm click was needed.** Create Track + lock + the bridge's Record was enough (same as the 09-30 Combinator run). His arm-the-lane button was never pressed. Unproven for other devices.
+- Seen (playback, Reason's own read-back via the app): rewind + Play moved Damage Control 70, 73, 82, 91, 100, 109, 118 at 1.3 s steps, i.e. the lane drives the knob.
+- Found: the server on port 8765 was started 1:26 PM, before sweep.py was saved (1:41 PM), so it had no sweep code; I restarted only that server (Homeroom Studio.command already has restart_if_stale for it). If "sweep" is ever ignored, stale server first.
+- Not done: spoken phrase through the microphone; the Reason Voice .app window (opened, it did not show on either screen); direction "down"; Fill-In / Snap-Back / Throw; shaped curves. Song left unsaved with the test lane in it; Reason and screen control left on at his request.
+- Status: confirmed for typed "sweep ... up" on Scream 4 (open for mic and the other types)
+- Outcome: -
+
 ### 2026-09-30 Item 31 first build: "sweep the filter up over four bars"
 - Owner picked this as the first sweep phrase (clickable).
 - Done: `reason_voice/sweep.py` (parse, bars->seconds at 4/4, timed ramp plan, self-check), one early line in `intents.py` parse() (sweep outranks the grammar), `WebApp._sweep` in `server.py`: needs a locked device, a tempo (said once as "... at 90", remembered; asked for if missing, never guessed), picks the knob with dial_llm.choose("turn the <what> <way>"), taps Record, waits 0.5 s, ramps every position from where the knob is to its top (up) or 0 (down) on the wall clock, taps Stop, sets one-step Undo. Ends are the knob's own ends; no shaped curves; 4/4 only.

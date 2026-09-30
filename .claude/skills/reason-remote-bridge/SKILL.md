@@ -203,8 +203,9 @@ Rules, each found by a step failing:
    red = armed. I watched his demo and did not catch the click (screenshots 4-5 s
    apart). My own 09-30 sweep on a Combinator recorded a "Size" lane with only
    Create Track + lock + bridge Record, no separate lane click, so a lane may get
-   armed by the track's own dot. Unproven either way; if a lane does not record,
-   check this button first.
+   armed by the track's own dot. **Seen 2026-09-30 (second run, through the app):** Create Track + lock + the app's
+   Record recorded a "Damage Control" lane on a Scream 4 with no lane click. Not needed
+   in that case; if a lane ever does not record, check this button first.
 7. **The lock announcement can fail (2026-09-30, Seen twice: Redrum, Combinator).**
    If the device's track is already selected, locking it gives 0 knob announcements
    and the app says nothing is locked. Fix that worked: lock a DIFFERENT device first
@@ -216,7 +217,11 @@ Rules, each found by a step failing:
    seconds, tap Stop. Reason cannot report tempo over the bridge, so the tempo is
    said once and remembered. Proven on the Combinator's Rotary 2: one clip about
    2 bars long, straight line, stored as two points. Through a stand-in script, not
-   the app window or the microphone.
+   the app window or the microphone. **Also Seen 2026-09-30 through the app's type box on
+   a Scream 4:** up, down, "throw the X for one bar" (top for N bars, then back) and
+   "snap back" (jump to where the last move began) all recorded and played back.
+   A take that changes the knob ONCE must run on: stopping 0.3 s after one jump made
+   no clip; holding 1.5 s did. Moves land at the playhead (he clicks the ruler first).
 9. **While I control the screen:** full-screen control only (`computer_batch`). One
    `app_*` call earlier locks `computer_batch` out (memory: screen-control-no-app-tools).
 

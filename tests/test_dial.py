@@ -87,6 +87,7 @@ def app(connected=True):
     a.dial_knobs = {}
     a.dial_cal = dial_llm.load_calibration()
     a.dial_undo = None
+    a.last_sweep = None
     # _contextualize() reads these two; the real __init__ sets them at 222-223
     a.audition_active = False
     a.audition_i = -1
@@ -2051,3 +2052,47 @@ def test_a_sweep_phrase_is_its_own_intent_not_a_dial_phrase():
     i = parse("Sweep the filter up over four bars at 90.")
     assert i.command == "sweep" and i.args["bars"] == 4 and i.args["bpm"] == 90
     assert parse("turn the filter up").command == "dial"
+
+
+def test_a_sweep_tempo_can_be_said_as_beats_per_minute():
+    # Heard 2026-09-30: whisper writes "at 90 beats per minute" and it fell
+    # through to the dial grammar; only "at 90 bpm" used to parse.
+    from reason_voice.intents import parse
+    i = parse("sweep the filter up over 4 bars at 90 beats per minute.")
+    assert i.command == "sweep" and i.args["bpm"] == 90
+
+
+def test_throw_goes_to_the_top_holds_then_returns(monkeypatch):
+    a = _sweep_app(monkeypatch, 40)
+    said = run(a, "throw", what="attack", bars=1, bpm=None)
+    assert a.control.taps == ["record", "stop"]
+    assert a.control.sent == [("knob_5", 127), ("knob_5", 40)]   # up, then back to where it was
+    assert "thrown" in said and a.dial_undo["pos"] == 40
+    b = _sweep_app(monkeypatch, 127)
+    assert "top" in run(b, "throw", what="attack", bars=1, bpm=None) and b.control.taps == []
+
+
+def test_snap_back_returns_to_where_the_last_sweep_began(monkeypatch):
+    a = _sweep_app(monkeypatch, 30)
+    assert "Nothing to snap back" in run(a, "snap_back")
+    assert a.control.sent == [] and a.control.taps == []
+    run(a, "sweep", what="attack", way="up", bars=1, bpm=None)
+    a.control.sent, a.control.taps = [], []
+    a.control.report("knob_5", 127, "Attack", "x")
+    run(a, "snap_back")
+    assert a.control.sent == [("knob_5", 30)] and a.control.taps == ["record", "stop"]
+
+
+def test_throw_and_snap_back_phrases_are_their_own_intents():
+    from reason_voice.intents import parse
+    assert parse("Throw the reverb for one bar.").command == "throw"
+    assert parse("snap back").command == "snap_back"
+    assert parse("turn the reverb up").command == "dial"
+
+
+def test_fill_in_is_a_high_pass_sweep_down():
+    from reason_voice.intents import parse
+    i = parse("Fill in over eight bars.")
+    assert i.command == "sweep" and i.args == {
+        "what": "low cut or high pass", "way": "down", "bars": 8, "bpm": None}
+    assert parse("fill-in over 4 bars at 90").args["bpm"] == 90

@@ -32,13 +32,13 @@ sequencer track and Reason recording: `experiments/automation-test-2026-09-25/RE
 | Phrase | Type | Status |
 |---|---|---|
 | "filter down 20 percent" | (single move) | live (existing nudge) |
-| "sweep the filter up over four bars" | generic sweep | needs build |
-| "sweep the filter down over eight bars" | generic sweep | needs build |
+| "sweep the filter up over four bars" | generic sweep | **live 2026-09-30** (recorded + played back in Reason) |
+| "sweep the filter down over eight bars" | generic sweep | **live 2026-09-30** |
 | "open the filter over eight bars" | 1 / 2 (low-pass opens) | needs build |
-| "fill-in over eight bars" | 1 Fill-In (high-pass from high to low) | needs build |
+| "fill in over eight bars" | 1 Fill-In (high-pass from high to low) | **live 2026-09-30**: a sweep DOWN of "low cut or high pass"; proven on a Scream 4 (Cut Lo), not on a real filter |
 | "build the high pass over four bars" | 2 Build | needs build |
-| "snap back" | 2 Snap-Back (return to where it started) | needs build |
-| "throw the reverb for one bar" | 3 Throw | needs build (send scope on the mixer now exists, item 29) |
+| "snap back" | 2 Snap-Back (return to where it started) | **live 2026-09-30**: records at the playhead a jump to where the last sweep/throw began, holds 1.5 s |
+| "throw the reverb for one bar" | 3 Throw | **live 2026-09-30** on any device knob ("the" knob the model picks, goes to the top for N bars then back); mixer sends not wired |
 | "sweep the filter from 500 hertz to 4 kilohertz over two bars" | generic, exact ends | needs build |
 
 ### Open choices for later (not decided)
