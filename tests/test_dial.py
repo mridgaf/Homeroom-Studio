@@ -697,9 +697,14 @@ def test_redrum_reaches_every_channel_four_deep():
         for control in ("Level", "Pitch", "Length", "Pan"):
             k += 1
             want["knob_%d" % k] = "Drum %d %s" % (ch, control)
+    # knobs 41-48 are the pattern controls (added 2026-09-30, item 35)
+    for i, p in enumerate(("Pattern Select in Bank", "Bank Select", "Run",
+                           "Shuffle", "Flam Amount", "Resolution",
+                           "Pattern Enable", "Master Level"), 41):
+        want["knob_%d" % i] = p
     assert got == want, sorted(set(got.items()) ^ set(want.items()))
-    assert len(got) == 40
-    # the controls that are NOT wired stay out of the map
+    assert len(got) == 48
+    # the per-drum controls that are NOT wired stay out of the map
     for skip in (" Tone", " Send 1", " Send 2", " Mute", " Solo",
                  " Vel to ", " Sample", "Decay/Gate"):
         assert not [p for p in got.values() if skip in p], skip
@@ -766,7 +771,7 @@ def test_the_device_is_read_from_the_newest_report_not_the_oldest():
     assert a.dial_state()["device"] == KONG
     a.control.report("knob_3", 64, "Drum 1 Length", "64")          # Redrum now
     assert a.dial_state()["device"] == REDRUM
-    assert len(a.dial_state()["knobs"]) == 40
+    assert len(a.dial_state()["knobs"]) == 48   # Redrum fills all 48 since 2026-09-30
     # and back again, without restarting the app
     a.control.report("knob_47", 64, "Drum 16 Pitch Offset", "0")
     assert a.dial_state()["device"] == KONG

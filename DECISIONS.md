@@ -19,6 +19,18 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Open-issues audit; Redrum pattern knobs added; voice speed measured
+- Context: owner said finished things were being missed. A read-only agent checked every open item against code, git, ledger, docs.
+- Found already done, ticked: 17 (Rex names confirmed 09-29), 27 (dB nudges, commit e51ae85, test_dial.py:1680), 33 (FINDINGS.md matched to RESULTS). Item 35's Octo Rex half was already mapped as "Dr.REX Loop Player" (41 of 58).
+- Built: Redrum knobs 41-48 in remote/ReasonVoice.remotemap (Pattern Select in Bank, Bank Select, Run, Shuffle, Flam Amount, Resolution, Pattern Enable, Master Level) via map_device.py; ./install.sh run, installed copy identical. Two old tests said Redrum = 40 knobs, updated to 48. tests/test_remote_bridge.py + tests/test_dial.py: 111 passed (full suite NOT run). Five of the eight names are shared with other devices (Master Level, Run, Shuffle, Resolution, Pattern Enable), so only Pattern Select in Bank, Bank Select, Flam Amount identify Redrum alone; Redrum's Drum N Pitch/Length/Pan still pin it.
+- Measured (Seen): faster-whisper via reason_voice/transcribe.py, 2.8 s spoken phrase (macOS `say`, synthetic voice), 5 timed runs after warm-up: tiny.en 0.33 s, small.en 1.53 s, same words heard by both. CPU int8; whisper.cpp/Metal NOT measured. Real-voice accuracy difference NOT measured.
+- NOT done: knobs 41-48 are unmeasured in Reason (needs Redrum locked by right-click = full-screen control approval, which timed out with owner away), so no voice phrase uses them yet. calibrate.py knob_41..knob_48, sweep started before the lock.
+- Reason state: Reason was found not running when I went to quit it (owner had said discard); relaunched, holds an unsaved "untitled" song. The earlier practice songs (untitled 2/3, Step 8 test copy) were open before; I did not quit them, cannot tell what happened to any unsaved lanes.
+- DJ Premium built (item 14) from the 09-28 plan, sourced edits only; guessed items (rest_p, lane jitter, 808 share) left at old/house values; 808 flavor wants emptied (0 of 430 808s match punch/hard, Mustang/Hitt Kid precedent); status file = built, NOT rendered, NOT heard. Backup legends_config.pre-dj-premium-2026-09-28.json.
+- Full suite 2026-09-30 (run alone, 16:49): 1305 passed, 3 skipped, 1 failed: tests/test_pattern_gen.py::test_guest_lanes_appear_from_the_dj_palette. Crate Prophet's crew_config extras pool has `reversefx` (file last changed 09-28, engine churn) that pattern_gen.DEFAULT_STYLE lacks. Not caused by this session; NOT investigated.
+- Status: open (35 measuring; 14 awaiting his ear); confirmed (19 measured)
+- Outcome: —
+
 ### 2026-09-29 Practice songs built in Reason; skill sets listed (owner: prove you learned)
 - Context: owner asked for a song with automation from a new file, then Thor + Matrix + effect chain, all audible.
 - Done (Seen, unsaved): untitled 2 (19 instruments, effects, Matrix on Thor and Pangea, lanes); untitled 3 (Thor + Matrix 1 + Alligator, Scream 4, CF-101, DDL-1 with 4 shaped lanes, loop bars 1-7). Owner heard melody and effect changes; loop needed to match lane length (owner showed the marker drag, I repeated it).

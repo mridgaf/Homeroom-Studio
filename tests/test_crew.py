@@ -780,7 +780,7 @@ def test_own_soundbank_is_the_new_build_legends_only():
     have = {n for n, p in CREW.items() if p.get("own_soundbank")}
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
-                    "DJ Light Green", "Hitt Kid", "Well Damn",
+                    "DJ Light Green", "Hitt Kid", "Well Damn", "DJ Premium",
                     "Acid Rap Bright",
                     "Acid Rap Detroit", "Baltimore Club", "Chiptune",
                     "Crunk", "Detroit", "Emo Hip Hop", "G-Funk", "Horror Rap", "Houston Screw", "Memphis", "Miami Bass",

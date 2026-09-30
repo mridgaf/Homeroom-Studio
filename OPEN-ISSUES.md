@@ -127,7 +127,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 - [x] **13. ✅ 2026-09-28: he rendered + heard all 11 on the app, kept.** Audition the 11 genres that are built but not rendered:** G-Funk, Horror Rap, Houston Screw,
   Memphis, Miami Bass, New Orleans Bounce, Organized Noize, Plug, Reggaeton Alt, Trip Hop, Wonky.
   Then hear them. Ref: [genre_newbuild_status.json](genre_newbuild_status.json)
-- [ ] **14. Build the last 2 Legends: DJ Premium and No Alias** (not started). 11 of 14 confirmed.
+- [ ] **14. Build the last 2 Legends: DJ Premium and No Alias** (2026-09-30: DJ Premium BUILT, not rendered or heard, waiting on his ear; No Alias not started). 11 of 14 confirmed.
   Ref: `tools/legend_newbuild.py`
 
 ## 4. Decisions only you can make (🗳️) — ✅ done 2026-09-28: both built (see DECISIONS.md top)
@@ -139,15 +139,15 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 ## 5. Reason control session (🎹, you at the machine with Reason open)
 
-- [ ] **17. Finish "Step 8":** one look at the Dr. Octo Rex panel confirms its 5 unconfirmed names.
+- [x] **17. (✅ 2026-09-29, DECISIONS "Step 8 run": Rex names confirmed on the panel) Finish "Step 8":** one look at the Dr. Octo Rex panel confirms its 5 unconfirmed names.
   Ref: [DECISIONS.md:1495](DECISIONS.md:1495) · [DECISIONS.md:1641](DECISIONS.md:1641)
 - [ ] **18. Prove RV7000, Kong, Redrum, Alligator in real Reason.** Redrum and Kong both answer
   to "Level"; sort that out here.
   Ref: [DECISIONS.md:1999](DECISIONS.md:1999) · [DECISIONS.md:1903](DECISIONS.md:1903) · [DECISIONS.md:1858](DECISIONS.md:1858) · [DECISIONS.md:1739](DECISIONS.md:1739)
-- [ ] **19. Re-measure voice speed on the M2** (the small/tiny model switch already exists).
+- [x] **19. (✅ 2026-09-30, measured: tiny.en 0.33 s, small.en 1.53 s per 2.8 s phrase, same words heard; DECISIONS 2026-09-30) Re-measure voice speed on the M2** (the small/tiny model switch already exists).
   🤖 Claude alone (checked 2026-09-29): time both models on a spoken test file; no Reason needed.
   Ref: [CLAUDE.md:136](CLAUDE.md:136)
-- [ ] **27. "Turn it down 3 dB" doesn't work** (🤖). Knob nudges only take percent
+- [x] **27. (✅ found already built 2026-09-30: dial_llm.resolve real-unit nudge, commit e51ae85, test_dial.py:1680) "Turn it down 3 dB" doesn't work** (🤖). Knob nudges only take percent
   (`reason_voice/dial_llm.py` "only percentage nudges for now"). Found 2026-09-10, never built.
 - [x] **28. Voice-dial fixes found wiring 23 effects + 14 instruments** (🤖, 2026-09-29). ✅ fixed 2026-09-29 (DECISIONS "Item 28 voice-dial fixes"); left: COMP-01 ratio, Neptune "faster", Softube Amp Switch re-sweep.
   All 37 are mapped, measured and phrase-tested; most phrases land right. Owner: "small
@@ -201,7 +201,11 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   device locked to ReasonVoice. Airplane has 4 Europas and 4 Grains; Street Phone has 5 ECF-42 filters. So "open
   the pad filter" can't pick which one. Decision for you: do you want a way to choose the device by its name?
   (Not checked: whether a script can switch the lock.)
-- [ ] **35. Redrum pattern and Dr. Octorex have no voice-app scope** (🤖). Fact: the Redrum scope in
+- [ ] **35. Redrum pattern and Dr. Octorex have no voice-app scope** (🤖). 2026-09-30 PROGRESS: Octo Rex was already mapped (Reason calls it
+  `Dr.REX Loop Player`, 41 of 58 controls). Redrum knobs 41-48 ADDED to the repo map + installed (Pattern Select in Bank, Bank Select, Run,
+  Shuffle, Flam Amount, Resolution, Pattern Enable, Master Level); tests updated, 111 pass. NOT DONE: measure them (needs a Redrum locked in
+  Reason = right-click + full-screen control approval), so voice phrases can't use them yet. Reason was relaunched (map loads); it holds an
+  unsaved "untitled" song, never save it. Next: `calibrate.py knob_41 ... knob_48` with the sweep started BEFORE the lock. ORIGINAL TEXT: Fact: the Redrum scope in
   `remote/ReasonVoice.remotemap` has no item with "pattern" in its name, and "Octo" appears nowhere in the remotemap,
   `calibration.json` or `remote-vocab.json`. Airplane automates Redrum "Pattern Select" on its Kick and Clap.
   Europa (Filter Mod), Grain (Filter Freq, Dist Amount) and Synchronous (Level and effect knobs) ARE mapped.

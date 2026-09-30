@@ -2816,31 +2816,33 @@
   },
   "DJ Premium": {
     "num": 16,
-    "bpm": 93,
+    "bpm": 92,
     "era": "legend",
     "built": "DJ Premier",
     "legend": true,
     "legend_swing": 53,
-    "listen": "surgical boom bap at a locked 53% swing: tight punchy kick, cracking snare with real ghost notes, dead-steady eighth hats, scratch-stab color, moderate dust",
+    "listen": "late-90s/2000s horn-stab boom bap at a locked 53% swing: hard tight kick, hard snare with ghost notes, closed tight hats played a little loose like live drumming, brass and piano stabs, clean Pro Tools-era mix",
     "signature": {
       "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Premier: dorian RESTORED. It was flattened to minor earlier today when modal keys were found to return zero samples \u2014 but the real fault was in melodic_loops.in_key, now fixed to match by mode FAMILY, so he keeps his mode AND gets his loops. He is loop-DOMINANT, so that bug had been failing him over to synth on every single beat. horns added for his documented horn/vocal stabs.",
       "key": {
         "roots": [
-          "D",
-          "E",
-          "A"
+          "F#",
+          "C#",
+          "G",
+          "G#",
+          "D#"
         ],
         "mode": [
           [
             "minor",
-            2
+            5
+          ],
+          [
+            "major",
+            3
           ],
           [
             "dorian",
-            1
-          ],
-          [
-            "mixolydian",
             1
           ]
         ]
@@ -2877,16 +2879,28 @@
         [
           "neo_soul_descent",
           1.0
+        ],
+        [
+          "mixo_soul_climb",
+          1.0
+        ],
+        [
+          "backdoor_soul",
+          1.0
         ]
       ],
       "chord_source": [
         [
           "loop",
-          4
+          3
         ],
         [
           "horns",
-          0.559
+          3
+        ],
+        [
+          "piano",
+          1
         ],
         [
           "synth",
@@ -2913,10 +2927,6 @@
           0.559
         ],
         [
-          "piano",
-          0.559
-        ],
-        [
           "pluck",
           0.559
         ],
@@ -2930,12 +2940,12 @@
         ],
         [
           "midi",
-          1.128
+          1.337
         ]
       ],
       "tempo": [
-        82,
-        96
+        86,
+        95
       ],
       "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7.",
       "chords_default": true
@@ -2945,9 +2955,8 @@
         "kick",
         null,
         [
-          "punch",
           "hard",
-          "knock"
+          "lofi"
         ],
         [
           0.2,
@@ -2958,8 +2967,6 @@
         "snare",
         null,
         [
-          "crack",
-          "tight",
           "hard"
         ],
         1.0
@@ -3165,10 +3172,7 @@
       [
         0.25,
         "808",
-        [
-          "punch",
-          "hard"
-        ],
+        [],
         [
           0.3,
           0.7
@@ -3178,9 +3182,8 @@
         0.75,
         null,
         [
-          "punch",
-          "knock",
-          "hard"
+          "hard",
+          "lofi"
         ],
         [
           0.15,
@@ -3226,7 +3229,25 @@
         ]
       ]
     },
-    "flavor_match": true
+    "flavor_match": true,
+    "chord_grammar": {
+      "figures": [
+        [
+          "stab",
+          5
+        ],
+        [
+          "comp",
+          2
+        ],
+        [
+          "pad",
+          1
+        ]
+      ]
+    },
+    "own_soundbank": true,
+    "_research_note": "NEW BUILD 2026-09-30 (plan from 2026-09-28, era picked by owner: Cutz keeps Premier's mid-90s, DJ Premium = late-90s/2000s horn-stab era). Sources: Sound On Sound 'DJ Premier' (2007: MPC60 triggers, S950 samples; 'I'll turn off the 16th notes and play the MPC live, so it sounds like live drumming... a little bounce'; 'the sample is mellow, but the drums are still smacking'; Aguilera: 'the drum pattern and the stabs'; finished in Pro Tools). RouteNote producer profile (1998-2003 iconic period; 51-54% swing; tight trimmed one-shots). Wikipedia 'Ain't No Other Man' (F minor, brass sample, horn-driven). Tempos from songbpm: Moment of Truth 90 F#m, Steez 90 Ebm, Royalty 90 G, Above the Clouds 86, So Ghetto 92 Ab, Work 93, Mathematics 94 C#m, Nas Is Like 94.5 F#m, Full Clip 95 C# -> bpm 92, range 86-95. Roots F#/C#/G/G#/D#; mode minor 5/major 3/dorian 1 (from those songs' keys). chord_source: loop 3, horns 3, piano 1, other 9 families 0.559, midi = one ninth of the rest (10%). chord_grammar figures stab 5 / comp 2 / pad 1, no arps (sources: 'stabs'); rest_p and every other grammar number left at the house default. UNSOURCED, LEFT AT THE OLD VALUE (not guessed): lane jitter, 808 kick_flavor share, dust/vinyl, all mix numbers. Kit tags read from the library: kick hard/lofi, snare hard only (crack has 0 files, lofi pulls sidesticks), hats closed/tight. Progressions mixo_soul_climb and backdoor_soul are existing entries in progressions_config.json; their weight of 1 is a pick, not sourced. KICK FLAVORS 2026-09-30: 808 branch wants EMPTIED (punch/hard match 0 of 430 real 808s, and with own_soundbank on that funnels every 808 beat onto one file: same fix as Mustang and Hitt Kid, DECISIONS/status notes); normal-kick branch tags set to the kit's hard/lofi (punch and knock match 1 file each). Shares 0.25/0.75 and size ranges unchanged."
   },
   "Timberline": {
     "num": 17,

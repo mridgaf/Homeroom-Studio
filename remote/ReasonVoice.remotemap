@@ -115,6 +115,14 @@ Map	Knob 37		Drum 10 Level
 Map	Knob 38		Drum 10 Pitch
 Map	Knob 39		Drum 10 Length
 Map	Knob 40		Drum 10 Pan
+Map	Knob 41		Pattern Select in Bank
+Map	Knob 42		Bank Select
+Map	Knob 43		Run
+Map	Knob 44		Shuffle
+Map	Knob 45		Flam Amount
+Map	Knob 46		Resolution
+Map	Knob 47		Pattern Enable
+Map	Knob 48		Master Level
 
 Scope	Propellerheads	SubTractor Analog Synthesizer
 Map	Patch Next		Select Next Patch

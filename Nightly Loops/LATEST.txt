@@ -1,7 +1,1 @@
-TEST (5 loops) - 2026-09-29
-
-BLOCKED:
-- Browser cannot connect to Hermes Chrome (port 9222 blocked). 
-  Open the "Hermes Chrome" window with CDP enabled and I'll run again.
-
-No loops were downloaded or filed today.
+2026-09-30 daily loop grab - BLOCKED at step 1 (open Chrome): the Claude in Chrome extension was not connected (tried twice, 1 min apart), so nothing was downloaded or filed. The loop drive and folders were fine.
