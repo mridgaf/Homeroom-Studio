@@ -653,10 +653,35 @@ def test_it_refuses_to_pick_a_pad_he_did_not_name(monkeypatch):
     assert call("make the snare louder") is None       # knob_13 is Drum 5 Level
     assert call("turn up pad 5")["knob"] == "knob_13"  # digits
     assert call("turn up pad five")["knob"] == "knob_13"   # or the word
-    assert call("turn up pad 15") is None              # 15 is not 5
+    # 15 is not 5: the guess (Drum 5) is refused, and the pad he DID name gets
+    # its Level -- never the wrong drum
+    assert call("turn up pad 15")["knob"] == "knob_43"  # Drum 15 Level
+    assert call("turn up pad 15 pitch") is None         # a named control is not guessed
     # a device whose parameters name no copy is untouched by the rule
     assert dial_llm.numbered_copy("Attack") is None
     assert dial_llm.numbered_copy("Soft Knob 1") is None
+
+
+def test_a_drum_named_alone_means_its_level(monkeypatch):
+    """2026-09-30, real Kong and Redrum: "turn drum 1 up 20 percent" got no
+    answer from the model, so nothing moved."""
+    import contextlib
+    import io
+    monkeypatch.setattr(dial_llm.urllib.request, "urlopen",
+                        lambda *a, **k: contextlib.closing(io.BytesIO(
+                            b'{"choices":[{"message":{"content":"no idea"}}]}')))
+    for dev in (KONG, "Redrum Drum Computer"):
+        a = dial_llm.choose("turn drum 1 up 20 percent", dev, calibration={})
+        assert a["knob"] == "knob_1", a
+        cal = {dev: {"Drum 1 Level": {"knob": "knob_1", "table": [
+            [p, "%d" % p] for p in range(128)]}}}
+        assert dial_llm.resolve(a, dev, current_pos=90, calibration=cal,
+                                phrase="turn drum 1 up 20 percent")[0] == 115
+        assert dial_llm.resolve(a, dev, current_pos=90, calibration=cal,
+                                phrase="turn drum 1 down")[0] < 90
+        # no drum named, or another control named: still nothing
+        assert dial_llm.choose("make it louder", dev, calibration={}) is None
+        assert dial_llm.choose("drum 1 pitch up", dev, calibration={}) is None
 
 
 def test_one_description_per_control_not_one_per_pad():

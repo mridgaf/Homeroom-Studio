@@ -856,8 +856,31 @@ def choose(phrase, device="MClass Compressor", timeout=20, calibration=None,
     if move:
         n = copy_number(knobs.get(move["knob"], ""), device)
         if n is not None and not said_the_number(phrase, n):
-            return None   # it guessed which pad -- refuse rather than move one
-    return move
+            move = None   # it guessed which pad -- refuse rather than move one
+    return move or _bare_drum_level(phrase, knobs)
+
+
+# A control he named means that control; a drum he named alone means its Level.
+_OTHER_DRUM_CONTROLS = frozenset(
+    "pitch tune tone length decay pan start rate bend vel velocity select mute "
+    "solo send aux offset".split())
+
+
+def _bare_drum_level(phrase, knobs):
+    """"turn drum 1 up 20 percent": the model cannot know which of Drum 1's
+    controls he meant and answers nothing (2026-09-30, Kong and Redrum). He
+    named the drum and no other control, so it is that drum's Level.
+    resolve() reads the direction and amount from the phrase itself."""
+    text = (phrase or "").lower()
+    m = re.search(r"\b(?:drum|pad)\s*(\d+)\b", text)
+    if not m or set(re.findall(r"[a-z]+", text)) & _OTHER_DRUM_CONTROLS:
+        return None
+    want = "Drum %d Level" % int(m.group(1))
+    for knob, name in knobs.items():
+        if name == want:
+            return {"knob": knob, "target": None, "delta": "+10%",
+                    "why": "no control named, so its Level"}
+    return None
 
 
 if __name__ == "__main__":

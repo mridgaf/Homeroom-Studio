@@ -26,8 +26,9 @@ entries.
 - Kong 1/1: "turn drum 1 down" Drum 1 Level 90->84.
 - Redrum percent phrases (owner: instructions will be given in percentages, read as phrases to the app): "drum 1 level up 20 percent" stayed at 127 (already max); "drum 1 level down 20 percent" 127->102 (20% of 127). "turn drum 1 up 20 percent" with no knob named got NO knob move on both Redrum and Kong (model returned null, offline check). Naming the knob works.
 - Fixed: "wetter"/"drier" now take their direction from the chosen knob's own name (Wet/Dry-Wet up, Dry down; a knob naming neither behaves as before). New test_wetter_follows_the_knobs_own_name fails on the old code, passes on the new; tests/test_dial.py + tests/test_remote_bridge.py: 112 passed (full suite NOT run). Owner picked this option.
-- Not done: Kong Pitch/Decay offsets, RV7000 Hi EQ/Edit Mode/Soft Knobs, Alligator gates; phrases typed in the app window or spoken (script only); "drum 1" with no knob named returns nothing.
-- Status: confirmed for what is listed; open for the unnamed-knob case.
+- Fixed after (owner picked it next): dial_llm.choose falls back to "Drum N Level" when the model gives nothing and the phrase names a drum/pad N and no other control (pitch, length, decay, pan, tone, ...). Kong and Redrum only (they are the ones with "Drum N Level"). resolve() already read the direction and amount from the phrase. Test test_a_drum_named_alone_means_its_level fails on the old code, passes on the new. One old assertion changed on purpose: "turn up pad 15" (model guessed Drum 5) used to return nothing, now picks Drum 15 Level; a named control ("pad 15 pitch") still returns nothing. Live on the real Redrum: "turn drum 1 up 20 percent" 102 -> 127 (capped), Reason read-back 127; I passed the start position 102 by hand in that one script. tests/test_dial.py + test_remote_bridge.py: 113 passed (full suite NOT run).
+- Not done: Kong Pitch/Decay offsets, RV7000 Hi EQ/Edit Mode/Soft Knobs, Alligator gates; phrases typed in the app window or spoken (script only).
+- Status: confirmed for what is listed.
 - Outcome: -
 
 ### 2026-09-30 Flam fixed, mixer spot-checked, Redrum phrases proven in Reason (item 35 done)
