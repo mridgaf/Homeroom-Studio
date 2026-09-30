@@ -263,7 +263,8 @@ def await_lock(r, knobs, seconds=30, out=print):
         return start
 
     out("\n   Ctrl-click the device panel -> Lock to ReasonVoice NOW.")
-    out("   Already locked? Unlock it and lock it again.")
+    out("   Already locked to this device? Unlock + re-lock sends NOTHING.")
+    out("   Lock a DIFFERENT device first (an effect is fine), then this one.")
     out("   Reason lists every knob when you do, and that is the only moment")
     out("   it says where they are -- without it nothing can be put back.")
     deadline = time.time() + seconds
@@ -318,7 +319,7 @@ def main():
             "\n   Heard %d of %d knobs, so %d of them could not be put back\n"
             "   afterwards. NOTHING WAS SWEPT -- a sweep drives every knob to\n"
             "   127 and without a starting position that is where it stays.\n"
-            "   Lock the device (or unlock and re-lock it) and run this again."
+            "   Lock a DIFFERENT device, then this one, and run this again."
             % (len(start), len(knobs), len(knobs) - len(start)))
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

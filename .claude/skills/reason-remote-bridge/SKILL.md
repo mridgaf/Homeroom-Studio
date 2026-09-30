@@ -472,9 +472,19 @@ Claude does all of this by screen control; the owner is not needed.
    item UNLOCKS.
    **Before EVERY click, zoom on the menu and read the tick.** Ticked = locked
    already, so the click UNLOCKS (2026-09-30: five tries lost to clicking a
-   ticked item). Sequence that works: open menu, unlock if ticked, confirm the
-   tick is gone, start the sweep (step 3), reopen the menu, click Lock. The
-   sweep listens only 30 s, so do the last two inside that window.
+   ticked item).
+   **Unlock + re-lock of the SAME device sends NOTHING (Seen 2026-09-30, 3
+   failed Redrum tries, then fixed).** Reason only announces every knob when
+   the lock MOVES to a device: Scream 4 re-locked after an unlock announced
+   all 16 (it has no track), a Redrum re-locked after an unlock announced 0
+   (its selected track already holds the surface, so nothing changes). What
+   works: lock a DIFFERENT device first (an effect with no track is easiest),
+   confirm the target's tick is gone, start the sweep (step 3), reopen the
+   target's menu, click Lock. Proved with the unmodified calibrate.py:
+   "Heard all 1. Sweeping." The sweep listens only 30 s, so do the last two
+   inside that window. Scratch device and no announcement? Last resort:
+   `reason_voice/calibrate_known_start.py START --device ... knob_N` sweeps
+   with a stated start position instead (it restores every knob to START).
    For the mixer: right-click a blank spot of the mixer's master section.
    The menu is long; hover its bottom arrow to scroll to the Lock item.
 5. **Wait for `Wrote` in the log** before starting the next device. Never run two
