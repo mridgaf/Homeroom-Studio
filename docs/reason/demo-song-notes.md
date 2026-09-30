@@ -393,5 +393,20 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
   | Choir EQ (M EQ) | Color -> Parametric 1 Frequency (1,000-615) |
   | Choir Crs L and Crs R | Vox Flange (button) -> Enabled (2 to 1, as shown) |
   | RV7000, Organ ID8, both Imagers, Organ Comp | none |
-- Two buttons on the front (Organ Spring, Spring Length) had **no mapping in the Editor rows I read** (the Organ ID8 row shows none). **Guess:** they may be mapped inside the ID8 itself, not through the Combinator; not checked.
+- Two buttons on the front (Organ Spring, Spring Length) have **no mapping in Organ 1's Editor rows** (Seen). Corrected by 8k: they drive an "Organ Echo" RV7000 that Organ 1 does not have, so on Organ 1 those two buttons do nothing I could find (**Guess**: Organ 1 was copied from Organ 2 and lost the device).
 - Voice-app link (updates 8c, see 8i): its four knobs are the Combinator's Rotary 1-4 and its four buttons Button 1-4 to Remote, so "rotary 3" here would move "Color" (an EQ frequency in both EQs, in opposite directions: Organ 0 up to 1,000, Choir 1,000 down to 615).
+
+### 8k. ORGAN 2 (Organ 2 insert, patch name "Organ & Choir"; Seen)
+- Same ID8 COMBINATOR front as Organ 1 (Organ Level, Vox Level, Color, Reverb; Organ Spring, Spring Length, Vox Flange, Vox Reverb), mixer labelled "MIXER COPY 2", channels ORGAN and CHOIR. **Its device list is one longer**: an extra RV7000 MkII "ORGAN ECHO" (patch "Init Patch") sits between the Organ Imager and the Organ EQ. Names end "copy" or "copy 2" (Organ 1's end "copy 2" or "copy 3"), so Organ 2 is the older one (**Guess**).
+- Key ranges same as Organ 1: both ID8s C-2 to G8, Choir +12.
+- Routing read, every row clicked except the Choir Crs R (shown the same as Crs L by its panel; not opened):
+  | Device | Source -> Target (min-max) |
+  |---|---|
+  | Mixer copy 2 | Organ Level -> Channel 1 Level (0-100); Vox Level -> Channel 2 Level (0-100); Reverb -> Aux Return Level (0-104); Vox Reverb -> Channel 2 Aux Send (0-62) |
+  | **Organ Echo (RV7000)** | **Organ Spring (button) -> Dry/Wet (0-54); Spring Length (button) -> Spring Length (48-127)** |
+  | Organ EQ (M EQ) | Color -> Parametric 2 Frequency (0-1,000) |
+  | Choir ID8 | Mod Wheel -> Volume (100-60, reversed) |
+  | Choir EQ (M EQ) | Color -> Parametric 1 Frequency (1,000-615) |
+  | Choir Crs L | Vox Flange -> Enabled (2 to 1, as shown) |
+  | RV7000 copy, Organ ID8, both Imagers, Organ Comp | none |
+- So the four knob mappings match Organ 1; the two spring buttons only work here, because only this one has the Echo reverb to drive. Both use the Combinator's front controls, which the voice app reaches as Rotary 1-4 and Button 1-4 (see 8i).
