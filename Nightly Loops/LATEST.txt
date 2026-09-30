@@ -1,10 +1,7 @@
-Nightly loops - 2026-09-28
-Login: Looperman logged in, Freesound logged in.
-Filed: 125 total
-  Looperman 45: Melody 30, Drums 9, Vocals 6
-  Freesound 80: Melody 40, Chords 2, Bass 5, Drums 33
-Nothing short. Paused 2:55-4:00pm as you asked, then finished.
-Downloads: originals moved to Downloads/_to_delete/loops-2026-09-28 (couldn't delete them) - safe to trash that folder.
-Key unknown (named C_nokey): 54 files (most are drum loops).
-CC-BY files needing credit if released: 53 - see credits list in the log.
-Full list: Sample Packs/BOTC Sorted Loops/SORTING-LOG-daily.txt
+TEST (5 loops) - 2026-09-29
+
+BLOCKED:
+- Browser cannot connect to Hermes Chrome (port 9222 blocked). 
+  Open the "Hermes Chrome" window with CDP enabled and I'll run again.
+
+No loops were downloaded or filed today.
