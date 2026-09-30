@@ -410,3 +410,13 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
   | Choir Crs L | Vox Flange -> Enabled (2 to 1, as shown) |
   | RV7000 copy, Organ ID8, both Imagers, Organ Comp | none |
 - So the four knob mappings match Organ 1; the two spring buttons only work here, because only this one has the Echo reverb to drive. Both use the Combinator's front controls, which the voice app reaches as Rotary 1-4 and Button 1-4 (see 8i).
+
+### 8l. ORG 2 SQUASH (Organ 2 insert, patch name "Dance"; Seen)
+- Front: the same four labels (Comp Input, EQ Bass Freq, EQ Treble Amount, Maximizer Input). Editor list names end "copy 2" (M Comp copy 2, M EQ copy 2, Stereo Imager copy 2, Maximizer copy 2).
+- Routing read, all four rows: Comp Input -> Input Gain (0-127); EQ Bass Freq -> Parametric 1 Frequency (30-200); EQ Treble Amount -> Hi Shelf Gain (0-30); Stereo Imager none; Maximizer Input -> Input Gain (0-127). **Identical to Clap Squash (8g) and Org 1 Squash (8e).** So the "Dance" squash macro is one patch used three times (Clap, Organ 1, Organ 2; Kick Squash not opened yet).
+
+### 8m. PAD PROCESSOR (WarmPad insert, patch name "Synth Processor"; Seen)
+- Front: same as Beat Process (8a): knobs Filter Freq, Filter Rez, Reverb (green frame = automated), Dly; buttons Chorus (lit), Dly FX (off), Unison (off), Wide (lit).
+- Editor list (11 devices, same order as Timb Process 8d): Compressor (M Comp), Imager (M Stereo), Mixer, Main Verb (RV7000), Delay L, Delay R, BP Filter (M EQ), Dly Verb (RV7000), Chorus, Unison, Filter.
+- Routing read, all 11 rows clicked: Imager: Wide -> Enabled (2 to 1). Mixer: Reverb -> Channel 1 Aux 1 Send (0-127); Dly -> Channel 1 Aux 2 Send (0-127); Chorus (button) -> Channel 13 Mute (1 to 0, reversed); Dly FX (button) -> Channel 12 Aux 3 Send (0-64); Unison (button) -> Channel 1 Aux 4 Send (0-83). BP Filter (M EQ): Dly FX -> Enabled (2 to 1). Dly Verb (RV7000): Dly FX -> Enabled (2 to 1). Filter: Filter Freq -> Frequency (0-127); Filter Rez -> Resonance (0-127). Compressor, Main Verb, Delay L, Delay R, Chorus, Unison: none.
+- **Identical to Timb Process.** Beat Process (8a) had a different list (a 14-channel mixer, different devices) but the same knob and button names. So far "Synth Processor" is one front used over two different insides: Beat Process, and Timb Process / Pad Processor as a matching pair.
