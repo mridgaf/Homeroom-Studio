@@ -450,3 +450,15 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
   | Chorus, Distributor | none |
 - Reading: one Decay knob sweeps two reverbs over **non-overlapping ranges** (Short Hall 0-74, Long Verb 85-125), so the same knob position gives a short hall in the lower half and a long verb in the upper half (**Guess** that this is a crossfade by range); the Effect Mixer levels are the three blends (early reverb, tail, delay). The four automated knobs mean the song moves this effect by automation lanes.
 - Voice link: these four knobs are Rotary 1-4 and the four buttons Button 1-4 to Remote (8i). A phrase like "more delay" has no route to "Delay Vol" until labels exist (DECISIONS 2026-09-30 item 30).
+
+### 8p. PICTURES OF MOMENTS (Pictures of Moments insert, patch name "Pictures of Moments"; Seen)
+- Front: knobs Squash, Tremolo, Dirt, Unison Detune; buttons Long Release, Tremolo Spread (lit), No Pulveriser, Unison (all others unlit).
+- Editor list (6 devices): Pulveriser, Unison, Mixer (Line Mixer), Hall Reverb (RV7000), Sine (Malström), Triangle (Malström). Both Malströms play the full keyboard C-2 to G8, no transpose.
+- Routing read, all 6 rows clicked. Values here show **percent and on/off words** rather than raw numbers: 
+  | Device | Source -> Target (min-max) |
+  |---|---|
+  | Pulveriser | Squash -> Squash (0%-100%); Tremolo -> Tremor to Volume (0%-100%); Dirt -> Dirt (0%-100%); Long Release (button) -> Release (15%-55%); Tremolo Spread (button) -> Tremor Spread (Off-On); No Pulveriser (button) -> Blend (100% to 0%, reversed) |
+  | Unison | Unison Detune -> Detune (0-127); Unison (button) -> Enabled (2 to 1, as shown) |
+  | Mixer, Hall Reverb, Sine, Triangle | none |
+- Reading: a synth pad made of a sine and a triangle Malström through a Pulveriser (squash / tremolo / dirt). "No Pulveriser" is a bypass made by turning the Pulveriser's Blend to 0%.
+- This Combinator's Editor shows the percentage scale, not 0-127, for the Pulveriser targets; Remote still reports its own controls as Rotary 1-4 and Button 1-4 (8i).
