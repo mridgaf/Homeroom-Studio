@@ -420,3 +420,17 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
 - Editor list (11 devices, same order as Timb Process 8d): Compressor (M Comp), Imager (M Stereo), Mixer, Main Verb (RV7000), Delay L, Delay R, BP Filter (M EQ), Dly Verb (RV7000), Chorus, Unison, Filter.
 - Routing read, all 11 rows clicked: Imager: Wide -> Enabled (2 to 1). Mixer: Reverb -> Channel 1 Aux 1 Send (0-127); Dly -> Channel 1 Aux 2 Send (0-127); Chorus (button) -> Channel 13 Mute (1 to 0, reversed); Dly FX (button) -> Channel 12 Aux 3 Send (0-64); Unison (button) -> Channel 1 Aux 4 Send (0-83). BP Filter (M EQ): Dly FX -> Enabled (2 to 1). Dly Verb (RV7000): Dly FX -> Enabled (2 to 1). Filter: Filter Freq -> Frequency (0-127); Filter Rez -> Resonance (0-127). Compressor, Main Verb, Delay L, Delay R, Chorus, Unison: none.
 - **Identical to Timb Process.** Beat Process (8a) had a different list (a 14-channel mixer, different devices) but the same knob and button names. So far "Synth Processor" is one front used over two different insides: Beat Process, and Timb Process / Pad Processor as a matching pair.
+
+### 8n. GUITAR QUESTION (Guitar question insert, patch name "Guitar question"; Seen)
+- Front: knobs Delay Time, Gtr Decay and two unlabelled knobs; button Loudness (lit), three more unlabelled buttons. Only two knobs and one button carry labels here.
+- Editor list (7 devices): Scream 1 (Scream), Line Mixer 1, Guitar1 (NN-XT), Guitar 7th (NN-XT), Guitar 12 (NN-XT), Delay 7, Delay 12. The three NN-XTs play the full keyboard C-2 to G8, no transpose (their names say what they are: a plain guitar, a 7th, and a 12-string, **Guess**).
+- Routing read, all 7 rows clicked:
+  | Device | Source -> Target (min-max) |
+  |---|---|
+  | Scream 1 | Loudness (button) -> Enabled (2 to 1, as shown) |
+  | Guitar1, Guitar 7th, Guitar 12 (NN-XT) | Gtr Decay -> Amp Env Decay (-17 to 5), the same range on all three |
+  | Delay 7 | Delay Time -> DelayTime (steps) (1-4) |
+  | Delay 12 | Delay Time -> DelayTime (steps) (2-8) |
+  | Line Mixer 1 | none |
+- Reading: Delay Time sets two delays in step units over different ranges (1-4 and 2-8, so Delay 12 runs at twice Delay 7's steps; **Guess**), and Gtr Decay shortens or lengthens all three guitars together. The Scream turns on with the Loudness button.
+- Voice link: this Combinator's two labelled knobs are Rotary 1 and Rotary 2 to Remote, Loudness is Button 1 (8i). The NN-XT is not mapped in the voice app (the remotemap has no NN-XT scope; earlier notes say Thor/NN-XT/Europa have no bridge knobs), so only these macro controls are reachable.
