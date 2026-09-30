@@ -462,3 +462,13 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
   | Mixer, Hall Reverb, Sine, Triangle | none |
 - Reading: a synth pad made of a sine and a triangle Malström through a Pulveriser (squash / tremolo / dirt). "No Pulveriser" is a bypass made by turning the Pulveriser's Blend to 0%.
 - This Combinator's Editor shows the percentage scale, not 0-127, for the Pulveriser targets; Remote still reports its own controls as Rotary 1-4 and Button 1-4 (8i).
+
+### 8q. SYNTH PROCESSOR (Pictures of Moments insert, rack label "SYNTH PROCE..."; Seen)
+- Same "Synth Processor" front as 8a/8b/8m (Filter Freq, Filter Rez, Reverb, Dly; Chorus lit, Dly FX off, Unison off, Wide lit). Here the Reverb knob has **no** green frame (Pad Processor and Timb Process do), so this one is not automated.
+- Editor list, same 11 devices in the same order as Timb Process and Pad Processor. Rows clicked: Imager, Mixer, BP Filter, Dly Verb, Filter (the others carry no mapping in the two earlier copies; Compressor, Main Verb, Delay L/R, Chorus, Unison not clicked here).
+- Mappings match Pad Processor exactly: Imager: Wide -> Enabled (2 to 1); Mixer: Reverb -> Channel 1 Aux 1 Send (0-127), Dly -> Channel 1 Aux 2 Send (0-127), Chorus -> Channel 13 Mute (1 to 0), Dly FX -> Channel 12 Aux 3 Send (0-64), Unison -> Channel 1 Aux 4 Send (0-83); BP Filter: Dly FX -> Enabled (2 to 1); Dly Verb: Dly FX -> Enabled (2 to 1); Filter: Filter Freq -> Frequency (0-127), Filter Rez -> Resonance (0-127).
+- **The "Synth Processor" is used at least three times with one inside (Timb, Pad, this), plus Beat Process with a different inside.**
+
+### 8r. Where item 39 stands after the sixth pass (2026-09-30)
+- Read so far in Street Phone: Beat Process, Timb Process, Org 1 Squash (earlier passes); Clap Squash, Bass Tonewheel, Organ 1, Organ 2, Org 2 Squash, Pad Processor, Guitar question, Deluxe Vocal FX Chain, Pictures of Moments, Synth Processor (today).
+- Not read: Kick Squash (same "Dance" patch name as the other squash ones, probably identical, not confirmed), the vocal channels' Combinators higher up the rack (Main Vox, Middle 8 Vox, Chorus Vox inserts), Toxic Vocal, Vocal Khaba, and the master-section Combinators (Master Section FX, Default Mastering Suite). Right-hand jacks and Neptune settings on Middle 8 Vox also still open.
