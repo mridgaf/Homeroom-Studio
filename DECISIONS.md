@@ -19,6 +19,17 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Flam fixed, mixer spot-checked, Redrum phrases proven in Reason (item 35 done)
+- Seen: repo remotemap/lua/luacodec identical to installed (cmp). The mixer block NEVER had a "Device Name" line (added whole in 5372411; Reason's Master Section vocab has no such item) - nothing was lost at restart. Reason had started before the map was written (10:08 vs 10:12), hence the restart. Quit with Don't Save, relaunched 10:29.
+- Seen: lock announcement did NOT arrive on 3 lock cycles (Redrum locked, tick read before every click, sweep/listener started first; a read-only listener also heard 0 of 48 knobs). Bridge itself is fine: CCs go out, changes come back (Shuffle, Flam Amount answered); Preferences surface ReasonVoice 2 = IAC Driver Bus 1 in and out. Cause of the missing lock dump: unknown (Guess: Reason only re-sends changed values; NOT confirmed, a hand-moved Flam knob did not fix it).
+- Done: new reason_voice/calibrate_known_start.py runs calibrate.main() with a stated start position instead of waiting for the dump (scratch devices only; restores every knob to that start). Flam Amount (knob_45) re-swept with it: 128 entries, position 0 reads 0, 0..127 linear, no READINGS LOST. Only that entry changed in the Redrum block.
+- Done: mixer spot-check, channels 2, 8, 16 (Level start 100, Mute/Solo start 0): all nine tables identical to Channel 1 (Level -inf/-27.86/-9.80/+0.77 dB at 0/32/64/96, range -inf..8.06 dB; Mute/Solo 0..1). Scratch song got 12 extra mix channels to reach 16.
+- Done: "pattern 3" -> knob_41 pos 32, Reason said Pattern Select in Bank = 3, pattern 3 lit on the panel (was 2). "start the drum machine" -> knob_43 pos 96, Reason Run = 1, RUN lit. "more swing" -> knob_44 pos 96, Reason Shuffle = 1, Shuffle box lit. Run put back to 0. Replayed the server's steps (dial_llm.choose, resolve, set_value) in a script, not through the app window or by voice.
+- My slip: one click in Preferences > MIDI ticked "Use with Reason" on the first ReasonVoice surface; I unticked it straight away and confirmed it is back to before (first unticked, ReasonVoice 2 ticked with the green check).
+- Not done: other 13 channels not swept (spot-check only, owner picked it); channel 1 still swept on the old lock-dump path; the missing lock announcement; the real app window and microphone path for these phrases.
+- Status: confirmed for the three phrases and Flam; open for the lock-dump cause.
+- Outcome: -
+
 ### 2026-09-30 Mixer scope added to voice map (item 29, first half)
 - Done: Reason Master Section scope in remote/ReasonVoice.remotemap = Level, Mute, Solo for channels 1-16 (knobs 1-16, 17-32, 33-48), installed (identical copy). Reason quit without saving and relaunched (owner allowed 09-30).
 - Seen: right-click the mixer > Lock, sweep of Channel 1 Level/Mute/Solo worked. Level reads -inf, -27.86, -9.80, +0.77 dB at 0/32/64/96 ("not numeric" because of -inf); Mute and Solo 0/1.

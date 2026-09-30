@@ -173,7 +173,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list beside it.
 
-- [ ] **29. The voice app can't touch mixer channels** (🤖 then 🎹). Fact: `remote/ReasonVoice.remotemap`
+- [ ] **29. The voice app can't touch mixer channels** (🤖 then 🎹). 2026-09-30: mixer scope is mapped and measured for channels 1, 2, 8, 16 (all identical); voice phrases and "the kick" -> channel number still NOT built. Fact: `remote/ReasonVoice.remotemap`
   has no mixer scope, and `intents.py` has no mute or solo. Fact: Reason's own "Reason Master Section"
   map (in `docs/reason/remote-vocab.json`) names every channel's Mute, Solo, Level, Pan and FX1-FX8
   Send Level, plus "All Mutes Off" and "All Solo Off". Untried: whether locking the Master Section
@@ -201,7 +201,7 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   device locked to ReasonVoice. Airplane has 4 Europas and 4 Grains; Street Phone has 5 ECF-42 filters. So "open
   the pad filter" can't pick which one. Decision for you: do you want a way to choose the device by its name?
   (Not checked: whether a script can switch the lock.)
-- [ ] **35. Redrum pattern and Dr. Octorex have no voice-app scope** (🤖). 2026-09-30 PROGRESS: Octo Rex was already mapped (Reason calls it
+- [x] **35. (✅ 2026-09-30: Flam re-swept, 'pattern 3' / 'start the drum machine' / 'more swing' all moved the Redrum in real Reason; DECISIONS top entry) Redrum pattern and Dr. Octorex have no voice-app scope** (🤖). 2026-09-30 PROGRESS: Octo Rex was already mapped (Reason calls it
   `Dr.REX Loop Player`, 41 of 58 controls). Redrum knobs 41-48 ADDED to the repo map + installed (Pattern Select in Bank, Bank Select, Run,
   Shuffle, Flam Amount, Resolution, Pattern Enable, Master Level); tests updated, 111 pass. NOT DONE: measure them (needs a Redrum locked in
   Reason = right-click + full-screen control approval), so voice phrases can't use them yet. Reason was relaunched (map loads); it holds an
