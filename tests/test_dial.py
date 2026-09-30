@@ -1943,3 +1943,58 @@ def test_the_other_modes_knob_is_swapped_for_this_modes():
     assert dial_llm.same_knob_in_mode("knob_3", knobs, cal, "Q", {"knob_13": 40}) == "knob_3"
     # no twin for this mode (FFT has no DryWet here): left alone
     assert dial_llm.same_knob_in_mode("knob_3", knobs, cal, "Q", {"knob_13": 70}) == "knob_3"
+
+
+def test_mixer_channel_phrases_come_from_his_words_not_the_models(monkeypatch):
+    """2026-09-30, real model: "solo channel 12" -> knob_48 (channel 16) and
+    "mute channel 12" -> Off. Channel number and mute/solo direction are taken
+    from what he said; the model is never asked about mute/solo."""
+    import contextlib
+    import io
+
+    wrong = json.dumps({"choices": [{"message": {
+        "content": '{"knob":"knob_48","target":"Off"}'}}]})   # always wrong
+    monkeypatch.setattr(dial_llm.urllib.request, "urlopen",
+                        lambda *a, **k: contextlib.closing(io.BytesIO(wrong.encode())))
+    call = lambda ph: dial_llm.choose(ph, dial_llm.MIXER, calibration={})
+
+    for phrase, knob, target in [
+            ("mute channel 12", "knob_28", "On"),
+            ("solo channel 12", "knob_44", "On"),
+            ("solo channel twelve", "knob_44", "On"),
+            ("un-mute channel 16", "knob_32", "Off"),
+            ("unmute channel 3", "knob_19", "Off"),
+            ("unsolo channel 5", "knob_37", "Off"),
+            ("mute 3", "knob_19", "On")]:
+        move = call(phrase)
+        assert (move["knob"], move["target"]) == (knob, target), phrase
+    # no channel said, or one that does not exist: nothing moves
+    assert call("mute the kick") is None
+    assert call("solo channel 17") is None
+
+
+def test_mixer_level_is_pinned_to_the_channel_he_named(monkeypatch):
+    import contextlib
+    import io
+
+    # model names channel 16's Level (knob_16) for a phrase about channel 13
+    reply = json.dumps({"choices": [{"message": {
+        "content": '{"knob":"knob_16","target":"-6 dB"}'}}]})
+    monkeypatch.setattr(dial_llm.urllib.request, "urlopen",
+                        lambda *a, **k: contextlib.closing(io.BytesIO(reply.encode())))
+    call = lambda ph: dial_llm.choose(ph, dial_llm.MIXER, calibration={})
+
+    assert call("channel 13 to minus 6 dB")["knob"] == "knob_13"
+    # the number after the word "channel", not the 3 in "3 dB"
+    assert call("turn it down 3 dB on channel 5")["knob"] == "knob_5"
+    assert call("turn it down 3 dB") is None            # which channel? refuse
+
+
+def test_every_mixer_channel_has_a_table_for_each_control():
+    cal = dial_llm.load_calibration()[dial_llm.MIXER]
+    km = dial_llm.knob_map(dial_llm.MIXER)
+    assert len(cal) == 48
+    for knob, name in km.items():
+        assert cal[name]["knob"] == knob and len(cal[name]["table"]) == 128
+    copied = [n for n, e in cal.items() if e.get("copied_from")]
+    assert len(copied) == 36      # 12 channels x 3; channels 1, 2, 8, 16 are measured

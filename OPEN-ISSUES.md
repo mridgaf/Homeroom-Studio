@@ -173,7 +173,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list beside it.
 
-- [ ] **29. The voice app can't touch mixer channels** (🤖 then 🎹). 2026-09-30: mixer scope is mapped and measured for channels 1, 2, 8, 16 (all identical); voice phrases and "the kick" -> channel number still NOT built. Fact: `remote/ReasonVoice.remotemap`
+- [x] **29. The voice app can't touch mixer channels** (🤖 then 🎹). ✅ 2026-09-30: "mute / unmute / solo / unsolo channel N" and "channel N up/down X dB" built and moved in real Reason (DECISIONS top entry). Numbers only, by his choice: "the kick" -> channel NOT built. Not done: app window + microphone path. Original note: mixer scope mapped and measured for channels 1, 2, 8, 16 (all identical). Fact: `remote/ReasonVoice.remotemap`
   has no mixer scope, and `intents.py` has no mute or solo. Fact: Reason's own "Reason Master Section"
   map (in `docs/reason/remote-vocab.json`) names every channel's Mute, Solo, Level, Pan and FX1-FX8
   Send Level, plus "All Mutes Off" and "All Solo Off". Untried: whether locking the Master Section

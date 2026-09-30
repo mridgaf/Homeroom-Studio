@@ -824,12 +824,58 @@ def same_knob_in_mode(knob, knobs, cal, device, now):
     return knob
 
 
+MIXER = "Reason Master Section"
+_MIXER_SWITCH = re.compile(r"\b(un)?[- ]?(mute|solo)\b")
+_MIXER_KIND = {"Level": 0, "Mute": 16, "Solo": 32}
+
+
+def _mixer_channel(phrase):
+    """Channel 1-16 he SAID ("channel 12", "channel twelve", "mute 3"), or None.
+
+    Mixer channels are 16 copies of three controls, and the model cannot count:
+    "solo channel 12" came back as knob 48 (channel 16) and "mute channel 12"
+    as Off (2026-09-30). So the number and the mute/solo direction come from
+    his words, never from the model.
+    """
+    low = (phrase or "").lower()
+    m = (re.search(r"\b(?:channel|track|strip)\s+(?:number\s+)?(\w+)", low)
+         or re.search(r"\b(?:mute|solo)\s+(?:number\s+)?(\w+)", low))
+    if not m:
+        return None
+    w = m.group(1)
+    n = int(w) if w.isdigit() else _SPELLED.get(w)
+    return n if n and 1 <= n <= 16 else None
+
+
+def _mixer_move(phrase, move, knobs):
+    """Mixer channel phrases: mute/solo by rule, any other move pinned to the
+    channel he spoke. Returns the move, or None (refuse -- no channel said)."""
+    n = _mixer_channel(phrase)
+    if n is None:
+        return None
+    sw = _MIXER_SWITCH.search((phrase or "").lower())
+    if sw:
+        kind = "Mute" if sw.group(2) == "mute" else "Solo"
+        return {"knob": "knob_%d" % (_MIXER_KIND[kind] + n),
+                "target": "Off" if sw.group(1) else "On", "delta": None,
+                "why": "%s channel %d" % ("un" + kind.lower() if sw.group(1)
+                                         else kind.lower(), n)}
+    name = knobs.get((move or {}).get("knob"), "")
+    m = re.match(r"^Channel \d+ (Level|Mute|Solo)$", name)
+    if not m:
+        return None
+    move["knob"] = "knob_%d" % (_MIXER_KIND[m.group(1)] + n)
+    return move
+
+
 def choose(phrase, device="MClass Compressor", timeout=20, calibration=None,
            now=None):
     """{"knob","target","delta","why"} or None if the model gave nothing usable."""
     knobs = knob_map(device)
     if not knobs:
         return None
+    if device == MIXER and _MIXER_SWITCH.search((phrase or "").lower()):
+        return _mixer_move(phrase, None, knobs)   # no model: it inverts these
     body = json.dumps({
         "model": "local",
         "temperature": 0,
@@ -849,6 +895,8 @@ def choose(phrase, device="MClass Compressor", timeout=20, calibration=None,
     except (urllib.error.URLError, OSError, KeyError, IndexError, ValueError):
         return None  # server down or answered nonsense -- caller falls back
     move = _extract(reply, knobs)
+    if move and device == MIXER:
+        return _mixer_move(phrase, move, knobs)
     if move and now:
         move["knob"] = same_knob_in_mode(move["knob"], knobs, calibration if
                                          calibration is not None else

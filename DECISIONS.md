@@ -19,6 +19,19 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Item 29 second half: mixer phrases by channel NUMBER (names left out by his choice)
+- Owner chose (clickable): numbers only ("mute channel 3"); "the kick" -> channel NOT built (Reason never reports channel names).
+- Seen (real model, read-only probe): the local model cannot count channels. "solo channel 12" came back as knob_48 (= channel 16) and "mute channel 12" as Off (would have UNmuted). The old "say the number" check refused the first but let the second through the wrong way.
+- Done: `dial_llm.py` `_mixer_channel` / `_mixer_move` (used by `choose()` only for "Reason Master Section"): mute/solo/unmute/unsolo skip the model (knob = 16+n / 32+n, On/Off from his words); any other mixer move is pinned to the channel he named (number after "channel", not the 3 in "3 dB"); no channel said or one above 16 -> nothing moves. Also 12 unswept channels (3-7, 9-15) got a COPY of channel 1's Level/Mute/Solo tables in docs/reason/calibration.json, tagged `copied_from` (Guess: same as channel 1; basis is that channels 2, 8, 16 measured identical). Level for copied channels is unmeasured in Reason.
+- Tests: 3 new in tests/test_dial.py; test_dial + test_remote_bridge 116 passed (full suite not run, no audio touched).
+- Seen in real Reason (scratch song "untitled", mixer right-click > Lock, persistent stand-in running dial_llm.choose/resolve/set_value; NOT the app window or microphone): "mute channel 3" -> Reason read Channel 3 Mute = 1; "solo channel 5" -> Solo = 1; "channel 2 down 3 dB" -> Level -3.01 dB (from -0.04, pos 93 -> 83); "unmute channel 3" -> 0, "unsolo channel 5" -> 0, "channel 2 up 3 dB" -> -0.04 dB. Mixer's MUTE ALL OFF / SOLO ALL OFF buttons lit while muted/soloed and went dark after. The mute/solo channel buttons themselves were off-screen, so those were not seen directly.
+- Oddity (Seen): once, after "unmute channel 3" Reason's read-back still said 1 (late message); a repeat cycle read 1 then 0 and the ALL OFF button lit/dimmed to match. Treated as a late read-back, not a failed move.
+- Slip: the model server has ONE slot and another client held it (10,946-token job) so my Level probe timed out at 20 s every time; it was not my code. Waited for the slot, re-ran, all fine. Also used app_* tools before full control (breaks computer_batch lock), released once, memory updated.
+- Left clean: stand-in stopped, mixer lock turned OFF (toggle, checkmark read first), nothing saved, no render, no commit.
+- Not done: "the kick" names; Level for copied channels not measured per channel; the app window + microphone path; other phrase forms ("turn off solo on 5").
+- Status: confirmed for mute/solo/level by number
+- Outcome: -
+
 ### 2026-09-30 Item 39 sixth pass: 9 more Street Phone Combinators read; Kick Squash and the rest not yet
 - Seen (Street Phone opened read-only, every Editor row clicked, notes in docs/reason/demo-song-notes.md sections 8g-8s): Clap Squash, Bass Tonewheel, Organ 1, Organ 2, Org 2 Squash, Pad Processor, Guitar question, Deluxe Vocal FX Chain, Pictures of Moments, the Synth Processor under it, and the master-section Combinator. Together with the earlier passes that is Beat Process, Timb Process, Org 1 Squash plus these.
 - Found: the "Dance" squash patch is one set of mappings used three times (Clap, Organ 1, Organ 2); "Synth Processor" has two different insides (Beat Process vs. Timb/Pad/Pictures); Organ 2 has an extra RV7000 "Organ Echo" that its Organ Spring / Spring Length buttons drive, Organ 1 does not (I had guessed wrong about Organ 1 and corrected it in 8j).
