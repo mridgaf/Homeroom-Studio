@@ -1,1 +1,140 @@
-2026-09-30 daily loop grab - BLOCKED at step 1 (open Chrome): the Claude in Chrome extension was not connected (tried twice, 1 min apart), so nothing was downloaded or filed. The loop drive and folders were fine.
+2026-09-30 loop grab - DONE
+Filed 125 new loops into BOTC Sorted Loops.
+Looperman 45: Chords 7, Drums 4, Melody 26, Vocals 8
+Freesound 80: Bass 4, Drums 30, Melody 46
+No-key files: 56 (named key C + _nokey). CC-BY files needing credit: 35.
+Skipped: FX/noise/ambience, one-shots, and loops you already had. No extra copies left in Downloads.
+Full list with every file name and credits: BOTC Sorted Loops/SORTING-LOG-daily.txt
+
+[Looperman > Chords]
+  looperman-l-2910346-0384424-playboi-carti-x-lucki-x-pierre-bourne-trap-pad_C_nokey_162bpm.wav
+  looperman-l-3406761-0386611-melancholic-and-sombre-acoustic-guitar-chords-indie-acoustic-guitar_E_85bpm.wav
+  looperman-l-3867067-0366581-sense-pozer-type-jersey-club-synth-pad-uk-drill-pad_Gm_150bpm.wav
+  looperman-l-4212795-0399921-retro-2000s-russian-chop-boom-bap-pad_C_nokey_90bpm.wav
+  looperman-l-5030382-0393827-upbeat-e-guitar-chords-rock-alt-rock-indie-rock-electric-guitar_B_160bpm.wav
+  looperman-l-5830682-0359867-bossy-simple-bossa-nova-chord-progression-jazz-rhodes-piano_Fm_125bpm.wav
+  looperman-l-7497733-0397216-tinkerbell-drake-chords-rnb-am-rnb-synth_Am_145bpm.wav
+[Looperman > Drums]
+  looperman-l-1929922-0236982-old-school-boom-bap-hip-hop-drums-bpm-hip-hop-drum_C_nokey_90bpm.wav
+  looperman-l-2972529-0362838-ashtray-slowcore-drums-indie-drum_C_90bpm.wav
+  looperman-l-6647434-0366218-rio-beat-brazil-funk-type-beat-funk-drum_C_nokey_130bpm.wav
+  looperman-l-6656132-0375006-dembow-reggaeton-drum-loop-reggaeton-drum_C_nokey_95bpm.wav
+[Looperman > Melody]
+  looperman-l-1069771-0379771-hopefully-boom-bap-piano_Cm_85bpm.wav
+  looperman-l-1882592-0257924-loopgod-x-travis-scott-trap-synth_D_140bpm.wav
+  looperman-l-1929922-0105936-trap-pack-piano-sampl-bpm-by-alabafruit-trap-piano_C_nokey_140bpm.wav
+  looperman-l-2226294-0380726-hyperpop-plucks-ogrb-trap-synth_B_142bpm.wav
+  looperman-l-2560975-0397251-deep-house-synth-loop-firefly-brebeats-x-kyro-deep-house-synth_Em_121bpm.wav
+  looperman-l-2639603-0185431-travis-scott-highest-in-the-room-jackboys-type-loop-trap-synth_G_130bpm.wav
+  looperman-l-2749178-0303946-red-hawk-hip-hop-piano_G_174bpm.wav
+  looperman-l-2797143-0408610-90s-2000s-aaliyah-timbaland-tlc-type-loop-rnb-acoustic-guitar_D#m_163bpm.wav
+  looperman-l-3146146-0406492-headaches-rnb-synth_Dm_77bpm.wav
+  looperman-l-3146146-0424553-coldsummers-rnb-synth_D#m_126bpm.wav
+  looperman-l-3315737-0395719-chill-piano-shifty-cat-jazz-piano_D#m_130bpm.wav
+  looperman-l-3481630-0305770-frank-ocean-frank-dukes-vintage-sounding-sample-rnb-synth_G#m_165bpm.wav
+  looperman-l-3677171-0231358-aggressive-electric-guitar-murder-by-ditten-rock-electric-guitar_G#_150bpm.wav
+  looperman-l-4115918-0410530-hyperpop-x-underground-x-rage-x-electronic-loop-electronic-synth_C_nokey_141bpm.wav
+  looperman-l-4190085-0362442-full-sample-dont-rush-it-bigjenny-jazz-piano_Em_87bpm.wav
+  looperman-l-4209310-0348090-zone-in-yeat-x-kankan-x-playboi-carti-synth-hip-hop-synth_C#m_169bpm.wav
+  looperman-l-4615896-0376078-trashy-new-jazz-x-pluggnb-synth-trap-synth_G_150bpm.wav
+  looperman-l-5125700-0315058-pills-acoustic-guitar-melody-trap-acoustic-guitar_G_160bpm.wav
+  looperman-l-5176548-0377729-kendrick-lamar-piano-boom-bap-piano_C_nokey_87bpm.wav
+  looperman-l-5239946-0385002-pierre-bourne-x-playboi-carti-type-loop-hip-hop-synth_C_nokey_160bpm.wav
+  looperman-l-5317095-0398537-more-chaos-4-ken-carson-x-playboi-carti-synth-loop-trap-synth_Fm_140bpm.wav
+  looperman-l-5516108-0365675-nir-part-1-bass-piano-dark-loop-trap-piano_C#m_166bpm.wav
+  looperman-l-5645014-0405215-exhibition-rnb-acoustic-guitar_Bm_122bpm.wav
+  looperman-l-5872015-0328676-ken-carson-x-playboi-carti-type-loop-trap-synth_F#m_150bpm.wav
+  looperman-l-6000702-0401531-indie-x-pop-guitar-loop-indie-bass-guitar_C_nokey_135bpm.wav
+  looperman-l-7083138-0378701-akaci-hyperpop-brakence-guitar-glitch-electric-guitar_E_170bpm.wav
+[Looperman > Vocals]
+  looperman-l-2578287-0377257-drake-x-partynextdoor-type-loop-by-landsharkszn-rnb-vocal_Bm_140bpm.wav
+  looperman-l-2578287-0401435-drake-x-partynextdoor-type-loop-by-landsharkszn-rnb-vocal_A_140bpm.wav
+  looperman-l-2578287-0402164-ny-drill-x-sexy-drill-type-loop-by-landsharkszn-uk-drill-vocal_G#m_140bpm.wav
+  looperman-l-3146146-0405112-memphis-hip-hop-vocal_G#m_154bpm.wav
+  looperman-l-4485963-0416118-3-am-vocal-loop-trap-vocal_Am_157bpm.wav
+  looperman-l-4865372-0416680-hyperpop-type-vocal-chop-hip-hop-vocal_G#_135bpm.wav
+  looperman-l-5091060-0390667-with-you-vocal-loop-part-1-soul-vocal_C#_90bpm.wav
+  looperman-l-6394724-0399118-vocal-chops-trap-vocal_G_130bpm.wav
+[Freesound > Bass]
+  206172__billdancourtney__bass-01_C_nokey.wav
+  208514__frankum__kick-and-bass-techno-1_C_nokey.wav
+  233699__gulyas25__acid-jazz-loop-music-bed_Dm_70bpm.wav
+  49746__Sub-d__bass-and-drum-loop_Dm_80bpm.wav
+[Freesound > Drums]
+  123889__Sorrow-Fox__brake-real-drum-loop-1_C_nokey_100bpm.wav
+  138142__NenadSimic__tight-beat_C_nokey_95bpm.wav
+  16397__kejkz__shakedarperc01_C_nokey_77bpm.wav
+  16452__kejkz__mixdrums_C_nokey.wav
+  177422__c0mp0s3r__reggaeton-groove-4-bars_C_nokey_105bpm.wav
+  182515__Sound_Designer_105__african-drums-loop_C_nokey_138bpm.wav
+  183441__Alastair_Pursloe__old-school-rave-drum-loop_C_nokey_135bpm.wav
+  23555__djduppy__duppybigbeat01_C_nokey_150bpm.wav
+  23557__djduppy__duppyd-b02_C_nokey_168bpm.wav
+  23560__djduppy__duppygarage01b_C_nokey_126bpm.wav
+  23571__djduppy__duppyragga01_C_nokey_105bpm.wav
+  242969__Bronxio__classic-breakbeats-apache-middle-break-original-2-bar_C_nokey.wav
+  249730__PaynesBeats__suspense-hip-hop-loop-paynesbeats_C_nokey_135bpm.wav
+  252451__Scydan__trap-beat_C_nokey_130bpm.wav
+  252453__Scydan__jazzy-beat_C_nokey_75bpm.wav
+  255696__TheTunk__drums-and-strings-dramatic-intro_C_nokey_120bpm.wav
+  261423__Xinematix__action-percussion-ensemble-fast-2_C_nokey_170bpm.wav
+  262130__Stereo Surgeon__kick-loop-1_C_nokey.wav
+  271044__spinozz__dnbbreak170-e_C_nokey_170bpm.wav
+  322327__RastSound__middle-east-ethnic-tribal-percussion_C_nokey_90bpm.wav
+  32306__-zin-__trance-beat_C_nokey_140bpm.wav
+  323250__scale75__hip-hop-beats-techno_C_nokey.wav
+  352409__nesmartu__simple-trap-beat-with-deep-bass_C_nokey.wav
+  372069__SwagMasterLord__s-old-school-rap-drum-loop_C_nokey_90bpm.wav
+  382251__AlexProst__energetic-bigbeat-drum-loop_C_nokey_128bpm.wav
+  423269__vincent sermonne__punk-rock-groove_C_nokey.wav
+  429539__stevysound__indian-percussion-loop_C_nokey_121bpm.wav
+  58907__suonho__ijontichy-groover-drum-xp-1-dubreakfiller-rwrk_C_nokey.wav
+  59312__suonho__abstract-electrofunkbreakbeats-duburby_C_nokey_89bpm.wav
+  65769__dahovv__dnb-beat-2-normal_C_nokey.wav
+[Freesound > Melody]
+  112810__juskiddink__lil-ol-dub_Am_85bpm.wav
+  123882__calpomatt__lostsouls_C_nokey.wav
+  12696__starpause__burzguit2_D.wav
+  1282__plagasul__arpeggio8_Em.wav
+  12928__Tilde__synth-loop_Am_140bpm.wav
+  131616__DWSD__c-cantstopgroovin_Cm_128bpm.wav
+  161470__husky70__jungle-guitar-drum-2_A.wav
+  16443__kejkz__raga-loop_C_nokey.wav
+  176365__sakebeats__electro-house-loop_G_128bpm.wav
+  180171__symphoid__confused-piano_F#m.wav
+  200839__LoopPacks__bassdrop_Cm_140bpm.wav
+  20161__patchen__dream_A_95bpm.wav
+  20162__patchen__drowning_C_nokey_83bpm.wav
+  203932__aptbr__lofi-guitar_F.wav
+  211492__benpm__guitar-music_C_nokey.wav
+  223725__bigcat_smauls__without-a-care-loop_D.wav
+  238504__Orboscope__dubstep-loop_Dm.wav
+  250750__joshuaempyre__chill-guitar-with-drums-loop_C_nokey.wav
+  25923__suonho__funkysynth-talkwha-play-wheel-wow_Bm_95bpm.wav
+  260873__simonjsounds__primitive-snake-charmer-melody_C_nokey.wav
+  277017__tyops__old-piano-drama-theme-reversed_Gm_120bpm.wav
+  30189__ERH__cello-2-loop_Fm_120bpm.wav
+  323674__Shuinvy__relax_C_nokey.wav
+  331365__orangefreesounds__funk-guitar-loop_Am_114bpm.wav
+  331881__furbyguy__energetic-dance_G#_120bpm.wav
+  3450__patchen__booba-slo_C_nokey.wav
+  346200__levelclearer__battle_Am_130bpm.wav
+  39484__M-RED__trance-trumpet-loop_Cm_140bpm.wav
+  397489__Kodack__distant-hip-hop-music_C_nokey.wav
+  39871__jus__plucked-thecureish2_Gm_115bpm.wav
+  416512__CarlosCarty__medieval-flute-loop_Am_124bpm.wav
+  41667__digifishmusic__flamenco-loop1_Bm.wav
+  41722__M-RED__happy-freaq_F#m_140bpm.wav
+  420984__YellowTree__lil-peep-guitar_F#m_106bpm.wav
+  438540__Mattc90__neurofunk-d-n-b-style-distorted-synth-bass-wob_C.wav
+  46688__uauaua__08010706_C_nokey.wav
+  468507__kroshe__african_Dm_120bpm.wav
+  50093__Zajo__loop12-01_G#m.wav
+  609209__kjartan_abel__crossed-path-a-lo-fi-instrumental-hip-hop-track_C_nokey.wav
+  629147__holizna__chill-lofi-melody-loop_C_nokey_95bpm.wav
+  629150__holizna__lofi-guitar-loop-em-3_C_nokey_119bpm.wav
+  629170__holizna__chill-lofi-epiano-loop_C#_80bpm.wav
+  651797__gis_sweden__background-music-loop-220928_G#_120bpm.wav
+  663687__Orboram__soft-piano-loop_Bm_160bpm.wav
+  676484__NearTheAtmoshphere__sec-commercial-music-music-for-pickup-trucks-loopable_C_nokey.wav
+  706196__Garuda1982__sad-electric-guitar-loop-for-background-music_Am.wav
