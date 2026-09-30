@@ -379,3 +379,19 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
 
 ### 8i. Correction to 8c (2026-09-30, Seen in real Reason)
 8c said it was not checked whether Combinator front controls are remotable. They are: Reason's Remote exposes exactly **Rotary 1-4 and Button 1-4** per Combinator (Rotary 5-16 never answered), under those generic names, never the panel labels (Lo Drive, Reverb, Perc...). The voice app can now move them by number ("rotary 2 up 30 percent", "switch button 1 off", tried on a factory reverb Combinator). Phrases by label ("more reverb on the bass tonewheel") are not built; see DECISIONS 2026-09-30 item 30. Not tried on this song's Combinators (demo songs are read-only and I did not lock anything here).
+
+### 8j. ORGAN 1 (Organ 1 insert, patch name "Organ & Choir"; Seen)
+- Front: an "ID8 COMBINATOR" panel. Knobs Organ Level, Vox Level, Color, Reverb; buttons Organ Spring, Spring Length, Vox Flange, Vox Reverb (all lit). Programmer and Device buttons lit while I looked. **It is an ID8 Combinator**: the same patch name on Organ 2 was not opened (that one I only saw on the rack front, so the two are not confirmed identical).
+- Inside (Devices): Combinator Mixer, a micromix "MIXER COPY 3" (channel 1 "ORGAN", channel 2 "CHOIR", channels 3-6 blank), RV7000 MkII "RV7000 COPY 2" (patch "ALL DarkStrsHall"), an ID8 "ORGAN" (Organ page, variation B "Perc"), MClass Stereo Imager "ORGAN IMAGE...", MClass Equalizer "ORGAN EQ CO...", MClass Compressor "ORGAN", an ID8 "CHOIR" (Strings page, variation D "Choir"), then a Choir Imager, Choir EQ, and two CF-101 choruses "CHOIR CRS L/R". Every name ends "copy 2" or "copy 3", so this was copied from another Combinator (**Guess**: the Organ 2 one).
+- Key ranges (Editor list): both ID8s play the full keyboard C-2 to G8; **the Choir is transposed +12** (an octave up), the organ 0.
+- Routing read, every row clicked:
+  | Device | Source -> Target (min-max) |
+  |---|---|
+  | Mixer copy 3 | Organ Level -> Channel 1 Level (0-100); Vox Level -> Channel 2 Level (0-100); Reverb -> Aux Return Level (0-104); Vox Reverb (button) -> Channel 2 Aux Send (0-62) |
+  | Organ EQ (M EQ) | Color -> Parametric 2 Frequency (0-1,000) |
+  | Choir ID8 | Mod Wheel -> Volume (100-60, reversed) |
+  | Choir EQ (M EQ) | Color -> Parametric 1 Frequency (1,000-615) |
+  | Choir Crs L and Crs R | Vox Flange (button) -> Enabled (2 to 1, as shown) |
+  | RV7000, Organ ID8, both Imagers, Organ Comp | none |
+- Two buttons on the front (Organ Spring, Spring Length) had **no mapping in the Editor rows I read** (the Organ ID8 row shows none). **Guess:** they may be mapped inside the ID8 itself, not through the Combinator; not checked.
+- Voice-app link (updates 8c, see 8i): its four knobs are the Combinator's Rotary 1-4 and its four buttons Button 1-4 to Remote, so "rotary 3" here would move "Color" (an EQ frequency in both EQs, in opposite directions: Organ 0 up to 1,000, Choir 1,000 down to 615).
