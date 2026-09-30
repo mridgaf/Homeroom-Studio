@@ -26,7 +26,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import dial_llm
+from . import dial_llm, sweep
 from .crates import Crates
 from .indexer import PatchIndex, REX_EXTENSIONS, bins, tokenize
 from .intents import Intent, parse
@@ -247,6 +247,7 @@ class WebApp:
         self.dial_knobs = {}
         self.dial_cal = dial_llm.load_calibration()
         self.dial_undo = None      # one slot: {knob, pos, param, shown}
+        self.tempo = None          # bpm, said once in a sweep phrase ("... at 90")
         self.recorder = WebRecorder(self.cfg.get("max_utterance_seconds", 15))
         self.templates = TemplateLibrary(
             self.cfg.get("templates_dir", str(PROJECT_ROOT / "templates")))
@@ -628,6 +629,57 @@ class WebApp:
         i = max(0, min(self.s.step, len(r.steps) - 1))
         self.say(f"Step {i + 1} of {len(r.steps)}. {r.steps[i]}")
 
+    async def _sweep(self, args):
+        """"sweep the filter up over four bars": Record, ramp one knob, Stop."""
+        self.control.poll()
+        self._sync_device()
+        if not self.control.positions or self.dial_device is None:
+            self.say("Nothing is locked to ReasonVoice. Lock the device first "
+                     "(and Create Track for it, so the sweep can be recorded).")
+            return
+        if args.get("bpm"):
+            self.tempo = args["bpm"]
+        if not self.tempo:
+            self.say("What tempo? Say it once at the end: sweep the filter up "
+                     "over four bars at 90.")
+            return
+        self.status = "thinking"
+        await self.push()
+        self.dial_cal = dial_llm.load_calibration()
+        answer = await asyncio.to_thread(
+            dial_llm.choose, "turn the %s %s" % (args["what"], args["way"]),
+            self.dial_device, calibration=self.dial_cal,
+            now=dict(self.control.positions))
+        self.status = "idle"
+        got = self.control.current(answer["knob"]) if answer else None
+        if answer is None or got is None:
+            self.say("Couldn’t tell which knob “%s” is, or where it is now. "
+                     "Nudge it once so Reason reports it." % args["what"])
+            return
+        knob, start = answer["knob"], got[0]
+        end = 127 if args["way"] == "up" else 0
+        name = got[1] or self.dial_knobs.get(knob, knob)
+        if start == end:
+            self.say("%s is already at the %s." % (name, "top" if end else "bottom"))
+            return
+        seconds = sweep.bars_to_seconds(args["bars"], self.tempo)
+        self._dial_note(knob, got)
+        if not self.control.tap("record"):
+            self.say(NO_MIDI)
+            return
+        self.say("Recording a %d-bar sweep of %s at %d bpm (%.1f s)…"
+                 % (args["bars"], name, self.tempo, seconds))
+        await self.push()
+        await asyncio.sleep(0.5)
+        t0 = asyncio.get_running_loop().time()
+        for at, value in sweep.plan(start, end, seconds):
+            await asyncio.sleep(max(0.0, t0 + at - asyncio.get_running_loop().time()))
+            self.control.set_value(knob, value)
+        await asyncio.sleep(0.3)
+        self.control.tap("stop")
+        self.say("%s swept %s over %d bars. Undo puts it back." % (
+            name, "up" if end else "down", args["bars"]))
+
     async def execute(self, intent: Intent):
         s, cmd, args = self.s, intent.command, intent.args
         extra = None
@@ -722,6 +774,9 @@ class WebApp:
                             else:
                                 self.dial_undo = None
                                 self.say(NO_MIDI)
+
+        elif cmd == "sweep":
+            await self._sweep(args)
 
         elif cmd == "dial_set":
             knob = str(args.get("knob", ""))

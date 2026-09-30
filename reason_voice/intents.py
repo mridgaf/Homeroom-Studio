@@ -13,6 +13,8 @@ from dataclasses import dataclass, field
 
 from rapidfuzz import fuzz
 
+from .sweep import parse_sweep
+
 NUM_WORDS = {
     "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
     "1": 1, "2": 2, "3": 3, "4": 4, "5": 5,
@@ -121,6 +123,9 @@ def parse(text: str) -> Intent:
     text = text.strip().lower().rstrip(".!?,")
     if not text:
         return Intent("noop")
+    swept = parse_sweep(text)    # before the grammar: "sweep ... over four bars"
+    if swept:
+        return Intent("sweep", swept)
     for pattern, command, arg_name in PATTERNS:
         m = re.search(pattern, text)
         if not m:

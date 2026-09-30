@@ -197,6 +197,29 @@ Rules, each found by a step failing:
    reported a value, no lane appeared). Cause unknown — don't promise Kong
    pitch/decay automation until solved. (That 2026-09-25 line said Thor/NN-XT/Europa have no bridge knobs; it is out of date: the remotemap now has scopes for all three, e.g. NN-XT has 17 controls, checked 2026-09-30.)
 
+6. **Arming a lane (owner told me 2026-09-30, NOT yet seen by me):** each automation
+   lane under a track has its own round record button next to that lane's name
+   (beside the lane's M/solo buttons, e.g. the "Input Gain" lane). Click it: it turns
+   red = armed. I watched his demo and did not catch the click (screenshots 4-5 s
+   apart). My own 09-30 sweep on a Combinator recorded a "Size" lane with only
+   Create Track + lock + bridge Record, no separate lane click, so a lane may get
+   armed by the track's own dot. Unproven either way; if a lane does not record,
+   check this button first.
+7. **The lock announcement can fail (2026-09-30, Seen twice: Redrum, Combinator).**
+   If the device's track is already selected, locking it gives 0 knob announcements
+   and the app says nothing is locked. Fix that worked: lock a DIFFERENT device first
+   (the mixer will do), then lock the target, then send a phrase. The lock item is a
+   toggle: read the checkmark before every click.
+8. **A timed ramp over the bridge is a sweep (2026-09-30, `reason_voice/sweep.py` +
+   `WebApp._sweep`).** "sweep the filter up over four bars at 90": tap Record, wait
+   0.5 s, `set_value` every position start to end evenly over `bars*4*60/bpm`
+   seconds, tap Stop. Reason cannot report tempo over the bridge, so the tempo is
+   said once and remembered. Proven on the Combinator's Rotary 2: one clip about
+   2 bars long, straight line, stored as two points. Through a stand-in script, not
+   the app window or the microphone.
+9. **While I control the screen:** full-screen control only (`computer_batch`). One
+   `app_*` call earlier locks `computer_batch` out (memory: screen-control-no-app-tools).
+
 Working pipeline for "build me lanes + effects + automation":
 MIDI file (notes, tempo, one track per part) → pre-wired Combinator patch via
 `open -a Reason <patch>` (devices + cables) → Create Track for each effect to

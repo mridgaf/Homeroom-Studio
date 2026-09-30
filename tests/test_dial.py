@@ -1998,3 +1998,56 @@ def test_every_mixer_channel_has_a_table_for_each_control():
         assert cal[name]["knob"] == knob and len(cal[name]["table"]) == 128
     copied = [n for n, e in cal.items() if e.get("copied_from")]
     assert len(copied) == 36      # 12 channels x 3; channels 1, 2, 8, 16 are measured
+
+
+# ---- sweeps over time (OPEN-ISSUES 31) -------------------------------------
+
+def _sweep_app(monkeypatch, start, tempo=220):
+    monkeypatch.setattr(dial_llm, "choose",
+                        lambda *a, **k: {"knob": "knob_5", "target": "100%",
+                                         "delta": None, "why": ""})
+    a = locked()
+    a.control.report("knob_5", start, "Attack", "x")
+    a.tempo = tempo
+    a.control.taps = []
+    a.control.tap = lambda c: a.control.taps.append(c) or True
+    return a
+
+
+def test_sweep_records_ramps_the_knob_and_stops(monkeypatch):
+    a = _sweep_app(monkeypatch, 100)
+    said = run(a, "sweep", what="attack", way="up", bars=1, bpm=None)
+    sent = [v for k, v in a.control.sent]
+    assert a.control.taps == ["record", "stop"]          # record first, stop last
+    assert sent == list(range(101, 128))                 # every step, in order
+    assert "up over 1 bars" in said and a.dial_undo["pos"] == 100
+
+
+def test_sweep_down_ends_at_zero(monkeypatch):
+    a = _sweep_app(monkeypatch, 20)
+    run(a, "sweep", what="attack", way="down", bars=1, bpm=None)
+    assert a.control.sent[-1] == ("knob_5", 0) and a.control.taps == ["record", "stop"]
+
+
+def test_sweep_without_a_tempo_asks_and_moves_nothing(monkeypatch):
+    a = _sweep_app(monkeypatch, 100, tempo=None)
+    said = run(a, "sweep", what="attack", way="up", bars=4, bpm=None)
+    assert "tempo" in said.lower() and a.control.sent == [] and a.control.taps == []
+    run(a, "sweep", what="attack", way="up", bars=1, bpm=220)   # said it: remembered
+    assert a.tempo == 220 and a.control.taps == ["record", "stop"]
+
+
+def test_sweep_unlocked_or_already_there_does_nothing(monkeypatch):
+    a = app()
+    a.tempo = 120
+    assert "locked" in run(a, "sweep", what="filter", way="up", bars=4, bpm=None).lower()
+    b = _sweep_app(monkeypatch, 127)
+    assert "top" in run(b, "sweep", what="attack", way="up", bars=1, bpm=None)
+    assert b.control.taps == [] and b.control.sent == []
+
+
+def test_a_sweep_phrase_is_its_own_intent_not_a_dial_phrase():
+    from reason_voice.intents import parse
+    i = parse("Sweep the filter up over four bars at 90.")
+    assert i.command == "sweep" and i.args["bars"] == 4 and i.args["bpm"] == 90
+    assert parse("turn the filter up").command == "dial"

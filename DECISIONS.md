@@ -19,6 +19,30 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Item 31 first build: "sweep the filter up over four bars"
+- Owner picked this as the first sweep phrase (clickable).
+- Done: `reason_voice/sweep.py` (parse, bars->seconds at 4/4, timed ramp plan, self-check), one early line in `intents.py` parse() (sweep outranks the grammar), `WebApp._sweep` in `server.py`: needs a locked device, a tempo (said once as "... at 90", remembered; asked for if missing, never guessed), picks the knob with dial_llm.choose("turn the <what> <way>"), taps Record, waits 0.5 s, ramps every position from where the knob is to its top (up) or 0 (down) on the wall clock, taps Stop, sets one-step Undo. Ends are the knob's own ends; no shaped curves; 4/4 only.
+- Tests: 5 new in tests/test_dial.py; test_dial + test_remote_bridge + test_intents 226 passed. Full suite not run.
+- Seen in real Reason (scratch song, Combinator "ALL Cuper Hall Bright", through a stand-in that runs the real WebApp.execute, NOT the app window or microphone): "sweep rotary 2 up over two bars at 115" -> Reason made a "Size" lane with one clip about 2.07 bars long (280 px at 135 px per bar), straight line from 102 to the top; Automation Override light lit; the Size knob was turned up.
+- Seen, catch: the first try heard 0 knobs ("nothing locked") although the lock was on, because the device's track was selected. Locking the mixer first, then the Combinator, made all 18 knobs announce. Same quirk as the 09-30 Redrum finding; the app gives no fix for it yet.
+- Seen (owner demo): he made a track for an MClass Compressor copy (right-click > "Create Track for ..."), then recorded by hand; lanes Input Gain, Threshold, Ratio appeared. The track's round red record dot was lit both in his run and in mine after Create Track; I did NOT see the exact click that arms a lane (screenshots 4-5 s apart), so whether anything beyond Create Track is needed is unproven.
+- Owner told me (not Seen): each lane has its own round record button next to its name, beside the lane's M/solo; click it and it turns red = armed. He will delete the "untitled" scratch song and continue in a NEW session: start over and redo the sweep the way he teaches (arm the lane). Skill updated: reason-remote-bridge rules 6-9.
+- Not done: voice path through the real app window and microphone; two-point ramp only (Reason stored the straight line as two points, Seen); "snap back", Fill-In, Throw; clean-up of the test lane (scratch song, not saved); mixer/Combinator lock left on in the scratch song; no commit.
+- Status: open (works in a stand-in, not heard or used through the app)
+- Outcome: -
+
+### 2026-09-30 Items 31 and 34: his calls
+- Owner (clickable): item 34 "Not now" (parked). Item 31 "wanted, small first", and asked first for research, three named sweep types and a running phrase list.
+- Done: `docs/reason/sweep-types-and-phrases.md` (Fill-In, Build and Snap-Back, Throw; 9 starter phrases; open choices). Sources: Soundfly, Perfect Circuit, r/trapproduction, plus the Street Phone notes. Gap said plainly: the pages name techniques, not specific producers, so no producer names were attached.
+- Not done: no code for writing automation. Next step is his pick of the first phrase.
+- Status: open
+- Outcome: -
+
+### 2026-09-30 DJ Premium: heard, kept
+- Owner (chat): "I listen to DJ Premium. Keep those changes." Nothing changed in code. OPEN-ISSUES 14 now says DJ Premium kept; No Alias still not started.
+- Status: confirmed
+- Outcome: -
+
 ### 2026-09-30 Item 29 second half: mixer phrases by channel NUMBER (names left out by his choice)
 - Owner chose (clickable): numbers only ("mute channel 3"); "the kick" -> channel NOT built (Reason never reports channel names).
 - Seen (real model, read-only probe): the local model cannot count channels. "solo channel 12" came back as knob_48 (= channel 16) and "mute channel 12" as Off (would have UNmuted). The old "say the number" check refused the first but let the second through the wrong way.

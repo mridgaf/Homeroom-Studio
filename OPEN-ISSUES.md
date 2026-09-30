@@ -127,7 +127,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 - [x] **13. ✅ 2026-09-28: he rendered + heard all 11 on the app, kept.** Audition the 11 genres that are built but not rendered:** G-Funk, Horror Rap, Houston Screw,
   Memphis, Miami Bass, New Orleans Bounce, Organized Noize, Plug, Reggaeton Alt, Trip Hop, Wonky.
   Then hear them. Ref: [genre_newbuild_status.json](genre_newbuild_status.json)
-- [ ] **14. Build the last 2 Legends: DJ Premium and No Alias** (2026-09-30: DJ Premium BUILT, not rendered or heard, waiting on his ear; No Alias not started). 11 of 14 confirmed.
+- [ ] **14. Build the last 2 Legends: DJ Premium and No Alias** (2026-09-30: DJ Premium BUILT; owner said he listens to DJ Premium and to keep the changes, so heard and kept; No Alias not started). 12 of 14 confirmed.
   Ref: `tools/legend_newbuild.py`
 
 ## 4. Decisions only you can make (🗳️) — ✅ done 2026-09-28: both built (see DECISIONS.md top)
@@ -182,7 +182,7 @@ Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list be
   scope has only Patch Next/Prev (lines 17-19); Reason has Rotary 1-16 and Button 1-4. The knob
   labels ("Reverb", "Filter Freq") are set by each song's author, so a phrase like "more reverb on the
   pad" needs a per-song label list.
-- [ ] **31. Automation by voice** (🗳️ decide first): "sweep the filter up over four bars" and similar.
+- [ ] **31. Automation by voice** (owner 2026-09-30: "wanted, small first"; research + 3 named types + running phrase list are in `docs/reason/sweep-types-and-phrases.md`; **first phrase BUILT 2026-09-30:** "sweep the filter up over four bars" (say "at 90" once for tempo); recorded a lane in real Reason via a stand-in, not yet tried through the app window or mic; device needs its own track (Create Track for ...) and a lock; see DECISIONS top entry; next: NEW SESSION, owner deletes the untitled scratch song, then redo the sweep from scratch with him: make the track, ARM THE LANE (round button next to the lane name), sweep, try it by voice in the app, then Fill-In / Snap-Back / Throw). Original: (🗳️ decide first): "sweep the filter up over four bars" and similar.
   Fact: nothing in `reason_voice/` writes a move over time. Fact: the 09-25 test showed the bridge can
   write automation on a locked device that has its own sequencer track while Reason records.
   Decision for you: is it wanted?
@@ -197,7 +197,7 @@ Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list be
 
 Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
 
-- [ ] **34. Many devices of one type, one locked device** (🗳️ decide first). Fact: the bridge answers for the ONE
+- [ ] **34. Many devices of one type, one locked device** (owner 2026-09-30: "not now", parked; nothing to build). Original: (🗳️ decide first). Fact: the bridge answers for the ONE
   device locked to ReasonVoice. Airplane has 4 Europas and 4 Grains; Street Phone has 5 ECF-42 filters. So "open
   the pad filter" can't pick which one. Decision for you: do you want a way to choose the device by its name?
   (Not checked: whether a script can switch the lock.)
