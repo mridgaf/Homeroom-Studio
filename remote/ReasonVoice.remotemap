@@ -1317,3 +1317,53 @@ Map	Knob 45		Reverb Amount
 Map	Knob 46		Reverb Size
 Map	Knob 47		Portamento
 Map	Knob 48		Master Volume
+
+Scope	Propellerheads	Reason Master Section
+Map	Knob 1		Channel 1 Level
+Map	Knob 2		Channel 2 Level
+Map	Knob 3		Channel 3 Level
+Map	Knob 4		Channel 4 Level
+Map	Knob 5		Channel 5 Level
+Map	Knob 6		Channel 6 Level
+Map	Knob 7		Channel 7 Level
+Map	Knob 8		Channel 8 Level
+Map	Knob 9		Channel 9 Level
+Map	Knob 10		Channel 10 Level
+Map	Knob 11		Channel 11 Level
+Map	Knob 12		Channel 12 Level
+Map	Knob 13		Channel 13 Level
+Map	Knob 14		Channel 14 Level
+Map	Knob 15		Channel 15 Level
+Map	Knob 16		Channel 16 Level
+Map	Knob 17		Channel 1 Mute
+Map	Knob 18		Channel 2 Mute
+Map	Knob 19		Channel 3 Mute
+Map	Knob 20		Channel 4 Mute
+Map	Knob 21		Channel 5 Mute
+Map	Knob 22		Channel 6 Mute
+Map	Knob 23		Channel 7 Mute
+Map	Knob 24		Channel 8 Mute
+Map	Knob 25		Channel 9 Mute
+Map	Knob 26		Channel 10 Mute
+Map	Knob 27		Channel 11 Mute
+Map	Knob 28		Channel 12 Mute
+Map	Knob 29		Channel 13 Mute
+Map	Knob 30		Channel 14 Mute
+Map	Knob 31		Channel 15 Mute
+Map	Knob 32		Channel 16 Mute
+Map	Knob 33		Channel 1 Solo
+Map	Knob 34		Channel 2 Solo
+Map	Knob 35		Channel 3 Solo
+Map	Knob 36		Channel 4 Solo
+Map	Knob 37		Channel 5 Solo
+Map	Knob 38		Channel 6 Solo
+Map	Knob 39		Channel 7 Solo
+Map	Knob 40		Channel 8 Solo
+Map	Knob 41		Channel 9 Solo
+Map	Knob 42		Channel 10 Solo
+Map	Knob 43		Channel 11 Solo
+Map	Knob 44		Channel 12 Solo
+Map	Knob 45		Channel 13 Solo
+Map	Knob 46		Channel 14 Solo
+Map	Knob 47		Channel 15 Solo
+Map	Knob 48		Channel 16 Solo

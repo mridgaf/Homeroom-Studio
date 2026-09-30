@@ -19,6 +19,14 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Mixer scope added to voice map (item 29, first half)
+- Done: Reason Master Section scope in remote/ReasonVoice.remotemap = Level, Mute, Solo for channels 1-16 (knobs 1-16, 17-32, 33-48), installed (identical copy). Reason quit without saving and relaunched (owner allowed 09-30).
+- Seen: right-click the mixer > Lock, sweep of Channel 1 Level/Mute/Solo worked. Level reads -inf, -27.86, -9.80, +0.77 dB at 0/32/64/96 ("not numeric" because of -inf); Mute and Solo 0/1.
+- Lesson (Seen): the lock item is a TOGGLE. My earlier Redrum re-runs heard nothing because clicks toggled it off. Check the checkmark in the menu before every click. So Flam Amount (knob_45) is likely just re-runnable.
+- NOT done: no phrase/intent uses channels yet ("mute channel 3"); "the kick" -> Channel N not built; channels 2-16 not swept (only ch1).
+- Status: open
+- Outcome: —
+
 ### 2026-09-30 Redrum knobs 41-48 measured (7 of 8 clean)
 - Seen: calibrate.py sweep with Redrum locked (right-click lock, sweep started first). Ranges: Pattern Select 1-8, Bank 1-4, Run 0/1, Shuffle 0/1, Resolution 0-8, Pattern Enable 0/1, Master Level 0-127. Written to docs/reason/calibration.json.
 - Flam Amount (knob_45) lost 2 readings: table position 0 reads 127 (bad), range shows 127..127. Re-runs (1 knob, then all 8) heard 0 lock announcements after unlock/re-lock, so NOT fixed. Cause unknown.

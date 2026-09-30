@@ -214,7 +214,10 @@ def test_device_name_is_mapped_wherever_knobs_are():
     """
     missing = [d for d, maps in _scope_blocks().items()
                if any(k.startswith("Knob ") for k in maps)
-               and maps.get("Device") != "Device Name"]
+               and maps.get("Device") != "Device Name"
+               # Reason's mixer has no Device Name item at all; its knob names
+               # ("Channel 1 Level") exist on no other device, so they identify it.
+               and d != "Reason Master Section"]
     assert not missing, f"knob scopes with no Device Name mapping: {missing}"
 
 
