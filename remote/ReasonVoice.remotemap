@@ -17,6 +17,15 @@ Map	Redo		Redo
 Scope	Propellerheads	Combinator
 Map	Patch Next		Select Next Patch
 Map	Patch Prev		Select Previous Patch
+Map	Device		Device Name
+Map	Knob 1		Rotary 1
+Map	Knob 2		Rotary 2
+Map	Knob 3		Rotary 3
+Map	Knob 4		Rotary 4
+Map	Knob 5		Button 1
+Map	Knob 6		Button 2
+Map	Knob 7		Button 3
+Map	Knob 8		Button 4
 
 Scope	Propellerheads	Kong Drum Designer
 Map	Patch Next		Select Next Patch

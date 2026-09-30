@@ -178,7 +178,7 @@ Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list be
   map (in `docs/reason/remote-vocab.json`) names every channel's Mute, Solo, Level, Pan and FX1-FX8
   Send Level, plus "All Mutes Off" and "All Solo Off". Untried: whether locking the Master Section
   reaches all of them. Also needed: turning "the kick" into "Channel N".
-- [ ] **30. The voice app can't turn Combinator knobs** (🤖 then 🎹). Fact: the remotemap's Combinator
+- [ ] **30. The voice app can't turn Combinator knobs** (🤖 then 🎹). 2026-09-30: DONE for "rotary 2" / "button 1" style phrases (8 controls mapped, measured, moved in real Reason). NOT done: panel labels ("more decay"); Reason reports only Rotary N, so labels need a list; see DECISIONS top entry. Fact: the remotemap's Combinator
   scope has only Patch Next/Prev (lines 17-19); Reason has Rotary 1-16 and Button 1-4. The knob
   labels ("Reverb", "Filter Freq") are set by each song's author, so a phrase like "more reverb on the
   pad" needs a per-song label list.

@@ -19,6 +19,16 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Item 30: Combinator knobs mapped, measured, tried in real Reason (labels NOT built)
+- Seen: loaded a factory Combinator ("ALL Cuper Hall Bright", panel labels Decay / Size / Length / Pre Dly and buttons EQ / Gate / HF Damp / Hi EQ) and locked it with a listener running. Reason announced ONLY Rotary 1-4 and Button 1-4 (8 controls); Rotary 5-16 never answered, so the map holds 8 (Knob 1-4 = Rotary 1-4, Knob 5-8 = Button 1-4, plus Patch Next/Prev and Device Name), written with map_device.py, installed (identical), Reason restarted twice (scratch song discarded, Don't Save).
+- Seen: Reason reports the GENERIC names ("Rotary 1", "Button 3"), never the panel labels. So "more decay" cannot be resolved from the bridge: the app cannot learn a Combinator's labels by listening. Names are unique to the Combinator in the map, so the device is identified correctly (device_for_param with knob="knob_1" etc.).
+- Measured with the unmodified calibrate.py after locking another device first ("Heard all 8. Sweeping."): Rotary 1-4 0..127 linear (raw numbers, no units), Button 1-4 0/1 (switch at 64). No lost readings; nothing else in calibration.json changed.
+- Seen live (script, start positions passed by hand from the lock announcement): "turn rotary 2 up 30 percent" 64->102, Size knob visibly turned, Reason read back 102. "switch button 1 off" -> Button 1 = 0, the EQ button went dark. Offline: "rotary 1 down a bit" -> 92->86 nudge. "turn on button 3" got NO answer from the model; "more decay" got none (expected, labels unknown).
+- NOT built: any label list (phrase "more reverb on the pad" -> which rotary). Reason does report Device Name (the rack label) so a table keyed by that label would be possible; needs the owner's call on how labels get into it.
+- Tests: tests/test_remote_bridge.py + tests/test_dial.py 113 passed (full suite NOT run).
+- Status: confirmed for numbered rotaries/buttons; open for labels.
+- Outcome: -
+
 ### 2026-09-30 Item 18: Kong, RV7000, Alligator, Redrum tried in real Reason; "wetter" wrong-way fixed
 - Seen (scratch song, persistent stand-in for the app that keeps lock-announcement state and identifies the device like server.py _sync_device; phrases went through dial_llm.choose -> resolve -> set_value; panels zoomed before/after, Reason's own read-back quoted): device identification was right every time, in this order: RV7000, Alligator, RV7000, Kong, Redrum (Redrum right after Kong, the "Level" clash case: identified Redrum, and its own Drum 1 Level read 127 while Kong's read 84, no mixing).
 - Alligator 3/3: "more resonance on the low pass" 16%->26%; "low pass frequency to 2 kilohertz" 1.96 kHz (knob was already there, so no movement shown); "turn the low pass frequency down a bit" 1.96->1.18 kHz.
