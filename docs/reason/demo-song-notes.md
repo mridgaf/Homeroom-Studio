@@ -434,3 +434,19 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
   | Line Mixer 1 | none |
 - Reading: Delay Time sets two delays in step units over different ranges (1-4 and 2-8, so Delay 12 runs at twice Delay 7's steps; **Guess**), and Gtr Decay shortens or lengthens all three guitars together. The Scream turns on with the Loudness button.
 - Voice link: this Combinator's two labelled knobs are Rotary 1 and Rotary 2 to Remote, Loudness is Button 1 (8i). (Correction, mine: I first wrote here that the NN-XT is not in the voice map. It is: `remote/ReasonVoice.remotemap` has an "NN-XT Advanced Sampler" scope with 17 controls, checked 2026-09-30. The old line in the bridge skill that says NN-XT has no bridge knobs is out of date. Amp Env Decay is its knob 2, so a locked NN-XT can be told "longer decay" directly; the NN-XT scope has not been measured or phrase-tested here.)
+
+### 8o. DELUXE VOCAL FX CHAIN (insert under the Guitar question channel, patch name "Deluxe Vocal FX Chain"; Seen)
+- Front: a factory "MULTI FX combinator" panel. Knobs Decay, Early Rvb Vol, Tail Volume, Delay Vol (**all four have green frames = automated**); buttons Long Dly Tail, Hi Damp (off), Hi EQ Boost (lit), Delay Color (lit). Programmer and Device buttons shown.
+- Editor list (8 devices): Effect Mixer (Line Mixer), Short Hall RV 7000, Long Verb RV 7000, Delay L DDL-1, Delay R DDL-1, Delay M EQ, Chorus CF-101, Distributor (Spider Audio).
+- Routing read, all 8 rows clicked (min-max as shown):
+  | Device | Source -> Target |
+  |---|---|
+  | Effect Mixer | Early Rvb Vol -> Channel 1 Level (0-127); Tail Volume -> Channel 2 Level (0-127); Delay Vol -> Channel 3 Level (0-127) |
+  | Short Hall (RV7000) | Decay -> Decay (0-74); Hi Damp (button) -> HF Damp (40-115); Hi EQ Boost (button) -> Hi EQ (-20 to 60) |
+  | Long Verb (RV7000) | Decay -> Decay (85-125); Hi Damp -> HF Damp (45-120); Hi EQ Boost -> Hi EQ (-20 to 60) |
+  | Delay L (DDL-1) | Long Dly Tail (button) -> DelayTime (steps) (2-3) |
+  | Delay R (DDL-1) | Long Dly Tail -> DelayTime (steps) (3-4) |
+  | Delay M EQ (M EQ) | Delay Color (button) -> Low Shelf Enable, Parametric 2 Enable, Hi Shelf Enable (each 0-1) |
+  | Chorus, Distributor | none |
+- Reading: one Decay knob sweeps two reverbs over **non-overlapping ranges** (Short Hall 0-74, Long Verb 85-125), so the same knob position gives a short hall in the lower half and a long verb in the upper half (**Guess** that this is a crossfade by range); the Effect Mixer levels are the three blends (early reverb, tail, delay). The four automated knobs mean the song moves this effect by automation lanes.
+- Voice link: these four knobs are Rotary 1-4 and the four buttons Button 1-4 to Remote (8i). A phrase like "more delay" has no route to "Delay Vol" until labels exist (DECISIONS 2026-09-30 item 30).
