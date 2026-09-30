@@ -141,7 +141,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 - [x] **17. (✅ 2026-09-29, DECISIONS "Step 8 run": Rex names confirmed on the panel) Finish "Step 8":** one look at the Dr. Octo Rex panel confirms its 5 unconfirmed names.
   Ref: [DECISIONS.md:1495](DECISIONS.md:1495) · [DECISIONS.md:1641](DECISIONS.md:1641)
-- [ ] **18. Prove RV7000, Kong, Redrum, Alligator in real Reason.** Redrum and Kong both answer
+- [x] **18. (✅ 2026-09-30, a few phrases each in real Reason, device identified right every time incl. Kong then Redrum; DECISIONS top entry; NOT tried: Kong pitch/decay, RV7000 EQ/soft knobs, Alligator gates, spoken/app-window path) Prove RV7000, Kong, Redrum, Alligator in real Reason.** Redrum and Kong both answer
   to "Level"; sort that out here.
   Ref: [DECISIONS.md:1999](DECISIONS.md:1999) · [DECISIONS.md:1903](DECISIONS.md:1903) · [DECISIONS.md:1858](DECISIONS.md:1858) · [DECISIONS.md:1739](DECISIONS.md:1739)
 - [x] **19. (✅ 2026-09-30, measured: tiny.en 0.33 s, small.en 1.53 s per 2.8 s phrase, same words heard; DECISIONS 2026-09-30) Re-measure voice speed on the M2** (the small/tiny model switch already exists).

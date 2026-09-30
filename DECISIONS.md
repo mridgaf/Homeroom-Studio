@@ -19,6 +19,17 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Item 18: Kong, RV7000, Alligator, Redrum tried in real Reason; "wetter" wrong-way fixed
+- Seen (scratch song, persistent stand-in for the app that keeps lock-announcement state and identifies the device like server.py _sync_device; phrases went through dial_llm.choose -> resolve -> set_value; panels zoomed before/after, Reason's own read-back quoted): device identification was right every time, in this order: RV7000, Alligator, RV7000, Kong, Redrum (Redrum right after Kong, the "Level" clash case: identified Redrum, and its own Drum 1 Level read 127 while Kong's read 84, no mixing).
+- Alligator 3/3: "more resonance on the low pass" 16%->26%; "low pass frequency to 2 kilohertz" 1.96 kHz (knob was already there, so no movement shown); "turn the low pass frequency down a bit" 1.96->1.18 kHz.
+- RV7000 2/3 before the fix: "make the reverb longer" Decay 104->117; "darken the reverb tail" HF Damp 28->95 (model gave 75% of travel, a big jump, direction right); "make it wetter" went DOWN 127->114.
+- Kong 1/1: "turn drum 1 down" Drum 1 Level 90->84.
+- Redrum percent phrases (owner: instructions will be given in percentages, read as phrases to the app): "drum 1 level up 20 percent" stayed at 127 (already max); "drum 1 level down 20 percent" 127->102 (20% of 127). "turn drum 1 up 20 percent" with no knob named got NO knob move on both Redrum and Kong (model returned null, offline check). Naming the knob works.
+- Fixed: "wetter"/"drier" now take their direction from the chosen knob's own name (Wet/Dry-Wet up, Dry down; a knob naming neither behaves as before). New test_wetter_follows_the_knobs_own_name fails on the old code, passes on the new; tests/test_dial.py + tests/test_remote_bridge.py: 112 passed (full suite NOT run). Owner picked this option.
+- Not done: Kong Pitch/Decay offsets, RV7000 Hi EQ/Edit Mode/Soft Knobs, Alligator gates; phrases typed in the app window or spoken (script only); "drum 1" with no knob named returns nothing.
+- Status: confirmed for what is listed; open for the unnamed-knob case.
+- Outcome: -
+
 ### 2026-09-30 Flam fixed, mixer spot-checked, Redrum phrases proven in Reason (item 35 done)
 - Seen: repo remotemap/lua/luacodec identical to installed (cmp). The mixer block NEVER had a "Device Name" line (added whole in 5372411; Reason's Master Section vocab has no such item) - nothing was lost at restart. Reason had started before the map was written (10:08 vs 10:12), hence the restart. Quit with Don't Save, relaunched 10:29.
 - Seen: lock announcement did NOT arrive on 3 lock cycles (Redrum locked, tick read before every click, sweep/listener started first; a read-only listener also heard 0 of 48 knobs). Bridge itself is fine: CCs go out, changes come back (Shuffle, Flam Amount answered); Preferences surface ReasonVoice 2 = IAC Driver Bus 1 in and out. CAUSE FOUND afterwards (Seen, listener + real calibrate.py): Reason announces every knob only when the lock MOVES to a device. Scream 4 (no track) unlocked then re-locked: 48/48 heard both times. Redrum locked while the lock sat on the Scream: 48/48 heard. Redrum unlocked then re-locked (its track is selected, so the surface already follows it): 0 heard, every time. Recipe: lock a DIFFERENT device first, then the target; calibrate.py then said 'Heard all 1. Sweeping.' and gave the same Flam table. Why the track matters is my reading, not proven. The 09-29 rule 'unlock and relock fixed it' only holds for devices without a track.

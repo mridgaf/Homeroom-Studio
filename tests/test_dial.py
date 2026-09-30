@@ -1830,6 +1830,29 @@ def test_his_amount_beats_the_models_rewrite():
     assert dict(semi["D"]["Pitch Semi 1"]["table"])[pos] == "12"
 
 
+def test_wetter_follows_the_knobs_own_name():
+    # 2026-09-30, real RV7000: "make it wetter" at 100% went DOWN because the
+    # model's made-up 75% was the only direction the code had.
+    def cal(name):
+        return {"D": {name: {"knob": "knob_1", "table": [
+            [p, "%.0f%%" % (p * 100 / 127.0)] for p in range(128)]}}}
+    ask = {"knob": "knob_1", "target": "75%"}
+    pos, _ = dial_llm.resolve(ask, "D", current_pos=127, calibration=cal("Dry/Wet"),
+                              phrase="make it wetter")
+    assert pos == 127          # already full wet: stays, never turns down
+    pos, _ = dial_llm.resolve(ask, "D", current_pos=64, calibration=cal("Dry/Wet"),
+                              phrase="make it drier")
+    assert pos < 64
+    pos, _ = dial_llm.resolve({"knob": "knob_1", "target": "100%"}, "D", current_pos=64,
+                              calibration=cal("Dry Volume"), phrase="make it wetter")
+    assert pos < 64            # a Dry knob goes DOWN for wetter
+    # a knob that names neither keeps the old behaviour
+    pos, note = dial_llm.resolve({"knob": "knob_1", "target": "100%"}, "D",
+                                 current_pos=64, calibration=cal("Mix"),
+                                 phrase="make it wetter")
+    assert pos == 77 and "no amount said" in note
+
+
 def test_no_amount_said_never_jumps_to_an_end():
     cal = {"D": {"Mix": {"knob": "knob_1", "table": [
         [p, "%.0f%%" % (p * 100 / 127.0)] for p in range(128)]}}}

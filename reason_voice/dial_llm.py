@@ -536,7 +536,7 @@ def resolve(answer, device, current_pos=None, calibration=None, phrase=None):
             break
     answer = _unit_from_name(_from_phrase(answer, entry, name, phrase), entry, name)
     placed = _place(answer, entry, current_pos)
-    return _keep_his_direction(placed, answer, entry, current_pos, phrase)
+    return _keep_his_direction(placed, answer, entry, current_pos, phrase, name)
 
 
 _AMOUNT = re.compile(
@@ -615,7 +615,23 @@ def _unit_from_name(answer, entry, name):
     return out
 
 
-def _keep_his_direction(placed, answer, entry, current_pos, phrase):
+def _wet_dry_way(phrase, name):
+    """+1/-1 for "wetter"/"drier" from the knob's OWN name, else 0.
+
+    "Wetter" is up on Dry/Wet or any Wet knob and down on a Dry knob; a knob
+    named neither says nothing about which way "wetter" goes. 2026-09-30: on a
+    Dry/Wet already at 100% the model's made-up 75% sent "make it wetter" DOWN.
+    """
+    words = set(re.findall(r"[a-z]+", (phrase or "").lower()))
+    wetter, drier = bool(words & {"wetter"}), bool(words & {"drier", "dryer"})
+    label = (name or "").lower()
+    if wetter == drier or not ("wet" in label or "dry" in label):
+        return 0
+    wet_is_up = 1 if "wet" in label else -1
+    return wet_is_up if wetter else -wet_is_up
+
+
+def _keep_his_direction(placed, answer, entry, current_pos, phrase, name=""):
     """He said up and it went down (or nowhere): nudge his way instead.
 
     Also the fallback when the model named a unit this knob does not have
@@ -630,7 +646,8 @@ def _keep_his_direction(placed, answer, entry, current_pos, phrase):
         return placed
     if _said_value(phrase, asked):
         return placed
-    way = said_direction(phrase, quality=asked.strip().endswith("%"))
+    way = (said_direction(phrase, quality=asked.strip().endswith("%"))
+           or _wet_dry_way(phrase, name))
     words = set(re.findall(r"[a-z]+", (phrase or "").lower()))
     # No amount said, only a direction or a comparative: one nudge, never a
     # jump. 2026-09-29: "filter cutoff down" went to 20 Hz (silence), "make it
