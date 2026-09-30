@@ -222,6 +222,15 @@ Rules, each found by a step failing:
    "snap back" (jump to where the last move began) all recorded and played back.
    A take that changes the knob ONCE must run on: stopping 0.3 s after one jump made
    no clip; holding 1.5 s did. Moves land at the playhead (he clicks the ruler first).
+   "fill in over N bars" is just a sweep DOWN of "low cut or high pass". Say both
+   words: the knob picker reads names literally, and on a Scream 4 "high pass" picked
+   Cut Hi (a top cut) while "low cut or high pass" picked Cut Lo.
+   **Restarting the voice server drops the lock report.** After every restart, redo
+   rule 7 (lock another device, then the target) before sending a phrase. A server
+   started before the code was saved silently ignores new phrases: restart it first.
+   To test by typing, submit the page's `typeForm` (`requestSubmit()`); a fake Enter
+   key does nothing. A speaker-to-microphone test needs the Mac unmuted; his output
+   was muted (volume 0) and changing it is a system setting, so the mic stays his to test.
 9. **While I control the screen:** full-screen control only (`computer_batch`). One
    `app_*` call earlier locks `computer_batch` out (memory: screen-control-no-app-tools).
 
