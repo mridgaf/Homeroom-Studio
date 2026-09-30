@@ -131,7 +131,11 @@ identically, which is good evidence, not proof.
 
 A bridge knob sweep on a locked Scream 4 recorded as an automation lane, once
 the effect had its own sequencer track ("Create Track for <name>"). Transport
-buttons over the bridge (Record) did NOT start recording and remain unproven.
+buttons over the bridge (Record) did NOT start recording at first. **Fixed the
+same night (RESULTS.md "Night 2"):** buttons are now one line each, like Reason's
+own Launchkey codec; bridge Play, Stop and Record all work, and Record plus a
+knob sweep recorded lanes on Scream 4, RV7000, MClass, Redrum and Dr. REX
+(Kong: only Drum 1 Level, cause unknown).
 Imported MIDI files: one ID8 track per part; CCs become "Controller #N" lanes,
 which are alien clips when the device lacks that control. Details:
 `experiments/automation-test-2026-09-25/RESULTS.md`, and the two Reason skills.

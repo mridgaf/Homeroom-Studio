@@ -189,7 +189,7 @@ Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list be
 - [ ] **32. Review the two lists** (🗳️): `docs/reason/demo-song-phrase-ideas.md` (phrases) and
   `docs/reason/demo-song-skill-ideas.md` (skills). Two skill ideas are marked "clear win": they are not
   built because your rule is to run the skill-creator benchmark loop for new skills.
-- [ ] **33. `docs/reason/FINDINGS.md` disagrees with `experiments/automation-test-2026-09-25/RESULTS.md`**
+- [x] **33. `docs/reason/FINDINGS.md` disagrees with `experiments/automation-test-2026-09-25/RESULTS.md`**
   (🤖). FINDINGS (09-25 update) says Record over the bridge is "unproven"; RESULTS "Night 2" says
   Record and Play were fixed. Check which is current before editing either.
 
@@ -249,6 +249,12 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   every display-scope click and scroll failed ("would land on Dictation"); hover, keyboard and the background app
   tools still worked (Tab flips the rack, PageUp/PageDown scroll it, arrow keys move between rack columns).
   Ctrl-click jack menus need clicks, so they were not possible in this visit.
+
+- [ ] **44. Can Claude build and cable a rack by screen control?** (idea, owner 2026-09-29: create a Redrum + a Scream and wire
+  them by right-click / hover on jacks). Tried in scratch song "untitled 3" with background control: Create menu presses
+  (Create > Instruments > Redrum, Create > Effects > Scream 4) were accepted but no new device could be seen in the rack, and
+  Tab did not flip the rack in background mode. Cabling itself NOT tried. Needs full-screen control (Ctrl-click a jack lists
+  devices, item 37) and Dictation off. Nothing saved; "untitled 3" may hold unseen extra devices. Owner stopped it here.
 
 ## 5b. New from step 4 (👂)
 
