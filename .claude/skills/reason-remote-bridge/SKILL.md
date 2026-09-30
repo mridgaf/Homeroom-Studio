@@ -244,7 +244,7 @@ guard — an overlap makes the app read its own echo as Reason's answer, which
 is silent and corrupts the one table the dial trusts for real units.
 
 **`displays` is keyed by knob SLOT and is never cleared — scan it NEWEST
-first.** The devices are different widths (Kong 48, Redrum 40, Scream 16,
+first.** The devices are different widths (Kong 48, Redrum 48 since 2026-09-30 (was 40), Scream 16,
 MClass 8), so after a wide sweep the high slots keep the previous device's
 parameter names forever. Oldest-first identification then pins the device he
 unlocked an hour ago and moves the right CC out of the WRONG calibration
