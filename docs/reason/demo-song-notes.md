@@ -354,3 +354,28 @@ I wrote that Timb Process's device list might have more rows and that its Chorus
 ### 8f. How the second close went (Seen) and a correction (mine)
 Closed with the red button: **no save dialog this time**, even though I unfolded Combinators and opened Editors. So my earlier guess (7e) that unfolding devices makes Reason ask to save is **not supported**: the first visit's dialog appeared after unfolding rack devices and hovering, this one after unfolding Combinators and clicking Editor rows. What triggers the dialog is unknown. Both times the answer was Don't Save (first) or none needed (second). SHA-1 after: `e377af376e09a211ad065069149e71b515906652`, same as before; Demo Songs folder unchanged (two files, 2023-09-04). Scratch song still open, unsaved.
 Also my slip at the start of this reopening: I typed a file path into Reason after Cmd-O and Cmd-Shift-G, assuming a Finder-style dialog; Reason's Open Song is an in-app browser panel, so the keys went to the scratch song window. Its title and tempo (90 BPM) looked unchanged afterwards; I did not check further, and it is a scratch song that is never saved.
+
+### 8g. CLAP SQUASH (Clap insert, patch name "Dance"; sixth pass 2026-09-30, Seen)
+- Front labels identical to Org 1 Squash: Comp Input, EQ Bass Freq, EQ Treble Amount, Maximizer Input (four knobs, buttons unlit, no button labels).
+- Editor list: "M Comp (M Comp)", "M EQ (M EQ)", "Stereo Imager (M Stereo)", "Maximizer (M Maximizer)". No "copy 3" tails, which fits my earlier guess (8e, **Guess**) that Org 1 Squash is a copy of this one.
+- Routing read, all four rows clicked: M Comp: Comp Input -> Input Gain (0-127). M EQ: EQ Bass Freq -> Parametric 1 Frequency (30-200); EQ Treble Amount -> Hi Shelf Gain (0-30). Stereo Imager: none. Maximizer: Maximizer Input -> Input Gain (0-127). **Same mappings as Org 1 Squash.**
+
+### 8h. BASS TONEWHEEL (Bass Tonewheel insert, patch name "Tonewheels - Jazz Perc"; Seen)
+- Front: knobs Lo Drive, Hi Drive, Balance, Reverb (Reverb has a green frame = automated); buttons Perc (lit), Perc 2nd/3rd (lit), Click (lit), Chorus (unlit, green frame = automated). Pitch and Mod wheels.
+- Inside (Devices view), top to bottom: Combinator Mixer, micromix "OUT MIX", RV7000 MkII "RV7000 1" (patch "ALL Cl Sml Hall"), reMIX "DRAWBAR MIX", CF-101 "CHORUS/FLAN...", MClass Stereo Imager "M STEREO 1", Scream 4 "LOW", Spider Audio "LOW" with CF-101 "LOW L" and "LOW R", Scream 4 "HIGH", Spider Audio "HIGH" with CF-101 "HIGH L" and "HIGH R", SubTractor "DRAWBARS 1-2", two Spider CV splitters, SubTractor "DRAWBARS 3-4", SubTractor "PERC", and (Editor list only) a fourth SubTractor "Single Trig". So it is a drawbar organ made from four SubTractors, each on Init Patch (the sound lives in the Combinator, not in a SubTractor patch).
+- Routing read (Editor, rows clicked; min-max as shown):
+  | Device | Source -> Target |
+  |---|---|
+  | Out Mix (Line Mixer) | Balance -> Channel 2 Level (118-63, reversed) and Channel 1 Level (118-63, reversed); Balance -> Channel 3 Level (63-127) and Channel 4 Level (63-127); Reverb -> Aux Return Level (0-127) |
+  | Drawbar mix (Mixer) | Perc (button) -> Channel 3 Mute (1 to 0, reversed); Chorus (button) -> Aux 1 Return Level (0-127) |
+  | Low (Scream) | Lo Drive -> Damage Control (0-60) and Master Level (127-63, reversed) |
+  | High (Scream) | Hi Drive -> Damage Control (0-60) and Master Level (127-63, reversed) |
+  | Drawbars 1-2 (SubTractor) | Mod Wheel -> LFO1 Rate (28-79) |
+  | Drawbars 3-4 (SubTractor) | Click (button) -> Noise On/Off (0-1); Mod Wheel -> LFO1 Rate (28-78) |
+  | Perc (SubTractor) | Perc 2nd/3rd (button) -> Osc Mix (0-127) |
+  | RV7000 1, Chorus/Flanger 1, M Stereo 1, Single Trig | none |
+- Reading: Balance crossfades two pairs of mixer channels (the low and high drawbar banks; **Guess**), and each Drive knob both raises a Scream's Damage and lowers its output to compensate (Master Level runs down as Damage runs up).
+- Not clicked: the Spider Audio and Spider CV rows and the four CF-101 rows (splitters and chorus; none expected, **Guess**).
+
+### 8i. Correction to 8c (2026-09-30, Seen in real Reason)
+8c said it was not checked whether Combinator front controls are remotable. They are: Reason's Remote exposes exactly **Rotary 1-4 and Button 1-4** per Combinator (Rotary 5-16 never answered), under those generic names, never the panel labels (Lo Drive, Reverb, Perc...). The voice app can now move them by number ("rotary 2 up 30 percent", "switch button 1 off", tried on a factory reverb Combinator). Phrases by label ("more reverb on the bass tonewheel") are not built; see DECISIONS 2026-09-30 item 30. Not tried on this song's Combinators (demo songs are read-only and I did not lock anything here).
