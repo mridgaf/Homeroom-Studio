@@ -155,6 +155,13 @@ only, because it is the rack LABEL and the owner can rename it. With neither
 available the app refuses to move anything rather than read a Scream's knob
 out of the compressor's calibration table.
 
+**One exception: `Reason Master Section` (the mixer, added 2026-09-30).** Reason
+gives the mixer no `Device Name` item, so its block has none and
+`test_device_name_is_mapped_wherever_knobs_are` skips it by name. Its names
+("Channel 1 Level") exist on no other device, so `device_for_param()` still
+identifies it. Its 48 knobs are Level 1-16, Mute 1-16, Solo 1-16. Level reads
+`-inf dB` at 0, so calibrate calls it "not numeric" -- expected, not a failure.
+
 This is the supported route. **Remote Override** (right-click a knob → learn) also
 works but saves *with the song*, so it must be redone in every new song — do not
 build on it. `reason_voice/HANDOFF.md` proposed exactly that; it is superseded.
@@ -463,13 +470,24 @@ Claude does all of this by screen control; the owner is not needed.
    **Owner, 2026-09-29: do NOT use Options > Surface Locking** — that window
    stays open on top. The item shows a tick when locked; clicking the ticked
    item UNLOCKS.
+   **Before EVERY click, zoom on the menu and read the tick.** Ticked = locked
+   already, so the click UNLOCKS (2026-09-30: five tries lost to clicking a
+   ticked item). Sequence that works: open menu, unlock if ticked, confirm the
+   tick is gone, start the sweep (step 3), reopen the menu, click Lock. The
+   sweep listens only 30 s, so do the last two inside that window.
+   For the mixer: right-click a blank spot of the mixer's master section.
+   The menu is long; hover its bottom arrow to scroll to the Lock item.
 5. **Wait for `Wrote` in the log** before starting the next device. Never run two
    sweeps at once: a sweep listening while you lock something else will sweep the
    wrong device. The WRONG DEVICE check stops it after one knob, but that knob
    has already been moved.
 6. **"Heard N-1 of N … NOTHING WAS SWEPT"**: one report went missing at lock
    time. Restart the sweep, unlock (click the ticked item), and lock again.
-   Fixed it both times it happened.
+   Fixed it both times it happened. **"Heard 0 of N" is different**: nothing
+   arrived at all -- almost always the lock was clicked while already ticked
+   (so it unlocked), or the 30 s window had passed. Read the tick, redo the
+   sequence above. It is not a broken bridge (a plain listener proved Reason
+   sends all 48 positions on a good lock).
 7. **Read the "READINGS LOST" warnings, don't just re-run them.** Knobs that turn
    slowly at one end (EQ Q, chorus rate, attack/release in ms, 5-way switches)
    repeat the same value for a few positions, and that trips the warning. A
