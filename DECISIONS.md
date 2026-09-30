@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Redrum knobs 41-48 measured (7 of 8 clean)
+- Seen: calibrate.py sweep with Redrum locked (right-click lock, sweep started first). Ranges: Pattern Select 1-8, Bank 1-4, Run 0/1, Shuffle 0/1, Resolution 0-8, Pattern Enable 0/1, Master Level 0-127. Written to docs/reason/calibration.json.
+- Flam Amount (knob_45) lost 2 readings: table position 0 reads 127 (bad), range shows 127..127. Re-runs (1 knob, then all 8) heard 0 lock announcements after unlock/re-lock, so NOT fixed. Cause unknown.
+- Seen (no CC sent, Reason not watched): dial_llm.choose + resolve map "pattern 3" -> knob_41 pos 32; "start the drum machine" -> knob_43 pos 96; "more swing" -> knob_44 (Shuffle) pos 96.
+- Status: open (item 35 NOT ticked: Flam Amount bad, end-to-end move in Reason not seen)
+- Outcome: —
+
 ### 2026-09-30 Open-issues audit; Redrum pattern knobs added; voice speed measured
 - Context: owner said finished things were being missed. A read-only agent checked every open item against code, git, ledger, docs.
 - Found already done, ticked: 17 (Rex names confirmed 09-29), 27 (dB nudges, commit e51ae85, test_dial.py:1680), 33 (FINDINGS.md matched to RESULTS). Item 35's Octo Rex half was already mapped as "Dr.REX Loop Player" (41 of 58).
