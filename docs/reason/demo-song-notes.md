@@ -472,3 +472,15 @@ Also my slip at the start of this reopening: I typed a file path into Reason aft
 ### 8r. Where item 39 stands after the sixth pass (2026-09-30)
 - Read so far in Street Phone: Beat Process, Timb Process, Org 1 Squash (earlier passes); Clap Squash, Bass Tonewheel, Organ 1, Organ 2, Org 2 Squash, Pad Processor, Guitar question, Deluxe Vocal FX Chain, Pictures of Moments, Synth Processor (today).
 - Not read: Kick Squash (same "Dance" patch name as the other squash ones, probably identical, not confirmed), the vocal channels' Combinators higher up the rack (Main Vox, Middle 8 Vox, Chorus Vox inserts), Toxic Vocal, Vocal Khaba, and the master-section Combinators (Master Section FX, Default Mastering Suite). Right-hand jacks and Neptune settings on Middle 8 Vox also still open.
+
+### 8s. MASTER SECTION COMBINATOR (rack label "MASTER SECT...", patch name "Init Patch"; Seen)
+- Front: knobs Loudness Curve, EQ Boost Freq, Compression, Master Gain; buttons Stereo Imager On, EQ Boost On, Compressor On (lit), Punch. Inside: Combinator Mixer, then MClass Equalizer, Stereo Imager, Compressor, Maximizer (the mastering chain I saw in the master section before, notes section 6).
+- Editor list (4 devices): M EQ, Stereo Imager, M Comp, Maximizer. Routing read, all rows clicked (min-max as shown):
+  | Device | Source -> Target |
+  |---|---|
+  | M EQ | Loudness Curve -> Low Shelf Gain (-8 to 23) and Parametric 2 Gain (-8 to 23); EQ Boost Freq -> Parametric 1 Frequency (315-1,000); EQ Boost On (button) -> Parametric 1 Enabled (0-1) |
+  | Stereo Imager | Stereo Imager On (button) -> Enabled (2 to 1, as shown) |
+  | M Comp | Compression -> Threshold (127 to 0, reversed) and Ratio (25-50); Master Gain -> Output Gain (51-88); Compressor On (button) -> Enabled (2 to 1) |
+  | Maximizer | Master Gain -> Input Gain (48-127); Punch (button) -> Look Ahead Enable (1 to 0, reversed), Soft Clip Enable (0-1), Attack Speed (0-2) |
+- Reading: one **Compression** knob lowers the threshold and raises the ratio together (more squash), and one **Master Gain** knob raises the compressor's output and the maximizer's input together. "Punch" switches the maximizer to soft clip, fast attack and no look-ahead. (**Guess** on how each sounds; nothing heard.)
+- The patch name "Init Patch" says nothing about what is inside; here the front labels were the only hint.
