@@ -1,0 +1,47 @@
+{
+  "skill_name": "reason-vocal-chain",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Give me a starting vocal chain for a mono rap lead in Reason 12.7. Only stock devices. Order, device names, settings. Keep it short.",
+      "expected_output": "HPF 60-100 Hz, de-ess before compressors, mud cut, presence, two gentle 2:1 stages, reverb/delay on sends, level matching, no 13/14 devices.",
+      "files": [],
+      "assertions": [
+        "Sets a high-pass filter somewhere between 60 and 100 Hz",
+        "Puts de-essing before the compressors (mixer 'Filters To Dyn S/C' (also spelled 'Filters Dyn S/C') or an equivalent sidechain de-esser)",
+        "Uses two gentle compression stages (around 2:1, about 2 dB each) rather than one heavy compressor",
+        "Puts reverb and delay on sends, not as inserts on the vocal channel",
+        "Does not use Reason 13/14-only devices (Gain Tool, Stereo Tool, Sidechain Tool, Ripley, RV-9)",
+        "Says the settings are starting points to adjust by ear or mentions level-matching before judging",
+        "Keeps the lead centered/mono and puts width in the sends or tells him not to widen the lead",
+        "Does not rely on the channel strip's own HPF for the rumble cut while ALSO using the strip's Filters To Dyn S/C de-esser (rumble cut is in a separate EQ device, or no strip de-esser is used)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Neptune makes my vocal sound robotic. I want it natural, and I also want a quiet octave-up double under the chorus. How do I do both in Reason 12.7?",
+      "expected_output": "Natural: Neptune insert, Scale set, moderate Correction Speed, Formant on. Octave: Neptune on a send, Pitch Adjust off, Transpose on, Semi +12.",
+      "files": [],
+      "assertions": [
+        "For the natural sound: Neptune as an insert with the Scale set, a moderate (not maximum) Correction Speed, and the Formant section on",
+        "For the octave: Neptune on a SEND (not the insert), Pitch Adjust OFF, Transpose ON, Semitones (Semi) set to +12",
+        "Tells him to balance the octave double with the channel's send knob so it is quiet",
+        "Uses at least three real Neptune control names (Correction Speed, Formant, Transpose, Semitones, Pitch Adjust, Preserve Expression, Scale)",
+        "Answer is 300 words or fewer"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "How do I make a talking-synth robot voice with the vocoder in Reason 12.7? I'm singing into my audio interface.",
+      "expected_output": "BV512 with a synth carrier, voice into Modulator Input, Dry/Wet fully wet, play notes on the carrier.",
+      "files": [],
+      "assertions": [
+        "Explains two signals: a synth as the carrier and his voice as the modulator (the roles are explicit)",
+        "Says the carrier synth must play notes or nothing is heard",
+        "Patches the audio interface input to the BV512's Modulator Input (back panel)",
+        "Sets Dry/Wet fully Wet",
+        "Names the BV512 vocoder (not a Reason 13/14-only device)"
+      ]
+    }
+  ]
+}

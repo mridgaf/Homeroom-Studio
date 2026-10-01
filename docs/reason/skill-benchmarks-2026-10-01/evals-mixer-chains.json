@@ -1,0 +1,46 @@
+{
+  "skill_name": "reason-mixer-chains",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I've got a Kong kit, a bass synth and a vocal, each on its own Mix Channel in Reason 12. I want the bass to duck every time the kick hits. Give me the exact clicks. Short and plain please, I'm not a tech guy.",
+      "expected_output": "Splits the kick off Kong onto its own channel first, then kick channel Parallel Out -> bass channel Sidechain input, compressor on, KEY light.",
+      "files": [],
+      "assertions": [
+        "Gets the kick onto its own channel BEFORE the sidechain steps, naming how (Kong Drum Output selector set to 3-4 with the output cabled to a Mix Channel, or Redrum's own output jack)",
+        "Cables the kick channel's Parallel Out (or a Spider split of the kick) to the bass channel's Sidechain input",
+        "Says to turn the bass channel's compressor on and/or mentions the KEY light",
+        "Does not recommend a 'Sidechain Tool' or any other Reason 13/14-only device",
+        "Flags once that the Threshold/Ratio values are by ear / not tested, without a long disclaimer",
+        "Answer is 350 words or fewer and uses numbered steps"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "In Reason 12.7, how do I (a) put one reverb that all my vocal tracks share and (b) record my vocal so the compressor is baked into the recording instead of only being on during playback? Exact steps please.",
+      "expected_output": "(a) Create Send FX on Master Section + channel send levels. (b) Separate Mix Channel with effects, Rec Source, audio track input set to it.",
+      "files": [],
+      "assertions": [
+        "States that audio records DRY by default / effects only apply on playback, AND names routing through a separate Mix Channel with Rec Source as the way to record processed (does not claim it is impossible)",
+        "Part (b): a separate Mix Channel carries the effect (a compressor device in its Insert FX is best), Rec Source is pressed, and the Audio Track's input is set to that Mix Channel",
+        "Part (a): shared reverb as a send effect (Create Send FX on the Master Section or a channel, then each channel's Send Level knob), not a separate reverb inserted on every track",
+        "Mentions muting the Mix Channel (or monitoring) so the vocal is not heard twice",
+        "Does not recommend any Reason 13/14-only feature",
+        "Answer uses numbered steps and names real buttons (Rec Source, Create Send FX)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I made a reverb in Reason 12.7 while my synth was selected and now the whole synth sounds wet and I can't turn the reverb down with the mixer. What happened and how do I fix it?",
+      "expected_output": "Effect created with an instrument selected is inserted between instrument and Mix Channel. Fix: delete/disconnect and recreate with the Master Section selected (send), or use the device's Dry/Wet.",
+      "files": [],
+      "assertions": [
+        "Explains that what was selected at creation decided the routing (instrument selected = effect inserted in series between synth and its Mix Channel)",
+        "Gives a concrete fix: delete or Disconnect Device, then recreate the reverb as a SEND (Master Section selected, Create Send FX). Turning down Dry/Wet alone does not count",
+        "Mentions Shift-while-creating (no auto-routing) or Auto-route Device / Disconnect Device",
+        "Tells him to press Tab to flip the rack and look at the cables, or says where the send level knobs are on the channel",
+        "Answer is 250 words or fewer"
+      ]
+    }
+  ]
+}

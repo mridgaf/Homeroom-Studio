@@ -19,6 +19,26 @@ entries.
 ---
 
 ## Log
+### 2026-10-01 Three Reason 12.7 skills built and benchmarked (reason-mixer-chains, reason-vocal-chain, reason-drum-bus)
+- Context: owner chose "Turn it into skills" after the knowledge library was written. Project rule: new skills go through the skill-creator benchmark loop.
+- Done: 3 job-based skills drafted from `docs/reason/techniques/` + `manual-digest/`. Two test rounds, 8 questions, each answered with and without the skill and scored by a separate grader. Round 1 (first drafts): 45/47 checks with skill vs 25/47 without. Round 2 (fixed skills): 46/48 vs 23/48. Record, review pages, question files and a copy of each SKILL.md: `docs/reason/skill-benchmarks-2026-10-01/`.
+- Found and fixed by the test: (1) strip de-ess via Filters To Dyn S/C turns the strip HPF/LPF into trigger filters, so rumble HPF must be an EQ device; (2) Neptune is "Semitones" and BV512 is "HF Emphasis" in Remote names; (3) missing Kong/Redrum split-out steps; (4) glue and parallel compressors are two devices; (5) octave double needs a second Neptune on a send. Also fixed in `techniques/vocals.md` and `manual-digest/routing-and-main-mixer.md`.
+- Judgment calls: checks were written by me from the same notes the skills use, so the score flatters the skills; real gap is smaller on generic advice. Three small wording edits after round 2 were not re-tested. Triggering (description matching) was not tested; the description optimizer was not run.
+- NOT installed as project skills: Cowork cannot write inside `.claude/` (the write was refused; I did not work around it). The skills are delivered as save-able skill cards; copies are in the benchmark folder. Three empty folders were created by mistake at `.claude/skills/reason-mixer-chains`, `reason-vocal-chain`, `reason-drum-bus` (no SKILL.md in them; safe to delete or to put the SKILL.md copies there).
+- Still unverified: whether Parallel Out follows the channel fader; whether a Mix Channel strip compressor is recorded through Rec Source. Nothing heard in Reason. `reason-regroove` draft is still unbenchmarked.
+- Verify by: ask him to try one chain from each skill in Reason and listen; add more test questions before calling them finished.
+- Status: open
+- Outcome: -
+
+### 2026-10-01 Reason 12.7 knowledge library: manual digests + technique files (reading only, nothing heard)
+- Context: owner asked for a deep dive into Reason 12 ("master it": chains for vocals, drums, instruments, everything), organized so it can be recalled later. Replaces the earlier "bigger wins" list.
+- Done: 18 manual digests in `docs/reason/manual-digest/` (index in its README.md; chapters 5-11, 13-17, 19-21, 23, 25, 63, plus Kong/Redrum/Dr. Octo Rex and the six synth/sampler chapters) and 5 technique files in `docs/reason/techniques/` (vocals, drums, bass-and-low-end, instruments-and-movement, buses-sends-master; index README.md) with web research. Tags: Manual / Web (URLs listed) / Guess.
+- Judgment calls: web pages about Reason 13/14 devices (Sidechain Tool, Gain Tool, Stereo Tool, Ripley, RV-9, Track Panel) are marked "not in 12.7" with a 12.7 substitute (the first four are not in the 12.7 manual, checked). A Reason Studios "808 bass lines" page was left out as low-quality filler. A forum site and one video page blocked automated fetching and were not worked around.
+- Not done: no skills created from these (rule: new skills go through the skill-creator benchmark loop); nothing has been tried in Reason or heard; no existing files were changed apart from this entry. Four reader agents wrote 6 of the digests; I spot-checked 6 of their claims against the manual and fixed one wrong one (Normalize).
+- Verify by: ask him to try a vocal chain / a sidechain from `techniques/` and listen; before turning any digest into a skill run the benchmark loop.
+- Status: open
+- Outcome: -
+
 ### 2026-09-30 Spoken sweep through the microphone: works (The Echo, lane armed)
 - Seen (he spoke, held the page's talk button; the watcher log shows recording -> thinking -> idle): "sweep the filter frequency down over 4 bars at 115" heard word for word; app said "Recording a 4-bar sweep ... (8.3 s)" then "swept down over 4 bars". Reason's Filter Frequency lane on the Echo track shows a NEW clip at bars 5-9 with a falling line, next to his wavy clip (bars 2-4) and my typed rising clip (bars 11-15). Playhead was set to bar 5 first so nothing was overwritten.
 - Not done: playing the clips back to read the knob (typed sweep played back earlier only on the Scream 4, 09-30); mic sweep on a Scream 4/Combinator; "throw", "snap back", "fill in" by mic.

@@ -1,0 +1,34 @@
+{
+  "skill_name": "reason-drum-bus",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "My Redrum beat in Reason 12.7 sounds thin and the drums feel separate from each other. How do I glue it together and get punch plus weight using only stock devices? Short steps.",
+      "expected_output": "Output Bus (Cmd+G), Master Bus Compressor 2:1 1-3 dB attack 10-30 ms, parallel via Mix 30-50%, saturation with Scream 4, one shared room send, Redrum output jack caveat.",
+      "files": [],
+      "assertions": [
+        "Places the glue compressor on a drum bus (channels grouped with Cmd+G / Route to New Output Bus) OR inserts it directly after the Redrum, and says which",
+        "Warns that using a Redrum individual output jack removes that drum from Redrum's main stereo out (so route it or it disappears from the mix)",
+        "Glue compressor at about 2:1 with about 1 to 3 dB of reduction",
+        "Attack 10 to 30 ms (or slow-ish attack) so hits still punch through",
+        "Parallel compression using a Mix knob around 30 to 50 percent or a Parallel Channel, on a SEPARATE compressor from the glue one (or clearly a second pass)",
+        "Adds saturation/grit (Scream 4 or MClass Maximizer) and/or one shared room reverb send",
+        "Does not rely on Reason 13/14-only tools (Sidechain Tool, Gain Tool, Stereo Tool)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Setting up a trap beat in Kong in Reason 12.7 with an 808, clap, closed hat and open hat. Where do I route things, how do I make the two hats choke each other, and how do I make the hats roll? Keep it plain.",
+      "expected_output": "Drum Output selector to separate jack pairs cabled by hand, Mute Group for hat choke, hat rolls with 16ths/triplets/32nds, Output Bus.",
+      "files": [],
+      "assertions": [
+        "Uses Kong's Drum Output selector to send pads to their own output pairs and says those outputs are not auto-routed (cable them to Mix Channels yourself)",
+        "Puts the closed and open hat pads in one Mute Group for the choke, and says where it is set (Quick Edit in the Pad Group section)",
+        "Hat rolls: straight 16ths plus triplets / 32nds / faster bursts at the end of phrases, or a velocity ramp",
+        "Gives a trap tempo range of about 60 to 90 BPM or clap/snare on beats 2 and 4",
+        "Groups drums on an Output Bus (Cmd+G) or otherwise explains the bus",
+        "Does not rely on Reason 13/14-only tools"
+      ]
+    }
+  ]
+}
