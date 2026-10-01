@@ -16,7 +16,7 @@ Source: Reason 12.7 Operation Manual, ch. 54, pp. 1197–1220.
 Named exactly as Reason's Remote layer names them.
 
 - **Pitch Adjust On/Off**: the corrector.
-- **Correction Speed**: slow = invisible; ~12 o'clock = natural; fast = stepped robot.
+- **Correction Speed**: turn UP for faster correction (stepped robot); turn DOWN for slower (invisible); the middle sounds natural.
 - **Preserve Expression**: how much of the singer's own vibrato survives fast correction.
 - **Catch Zone**: how far off (±20–600 cents, default ±100) a note can be and still get pulled to the scale. Outside it passes untouched.
 - **Scale Memory**: 4 memories of Root/Scale/Catch Zone — automate to change key mid-song. (Root and Scale themselves: Chromatic, Major, Natural/Harmonic Minor, Dorian, Mixolydian, or click your own notes.)

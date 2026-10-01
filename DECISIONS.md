@@ -19,6 +19,42 @@ entries.
 ---
 
 ## Log
+### 2026-09-30 Spoken sweep through the microphone: works (The Echo, lane armed)
+- Seen (he spoke, held the page's talk button; the watcher log shows recording -> thinking -> idle): "sweep the filter frequency down over 4 bars at 115" heard word for word; app said "Recording a 4-bar sweep ... (8.3 s)" then "swept down over 4 bars". Reason's Filter Frequency lane on the Echo track shows a NEW clip at bars 5-9 with a falling line, next to his wavy clip (bars 2-4) and my typed rising clip (bars 11-15). Playhead was set to bar 5 first so nothing was overwritten.
+- Not done: playing the clips back to read the knob (typed sweep played back earlier only on the Scream 4, 09-30); mic sweep on a Scream 4/Combinator; "throw", "snap back", "fill in" by mic.
+- Status: confirmed
+- Outcome: -
+
+### 2026-09-30 Spoken sweep by microphone: heard right, but NO lane recorded on The Echo (open)
+- Seen (he spoke, held the page's talk button; first try he had not held it long enough, nothing reached the app): "sweep the filter frequency up over 4 bars at 115" was heard word for word, the app said "Recording a 4-bar sweep ... (8.3 s)" then "swept up over 4 bars". A typed "... down over four bars at 115" did the same; Reason's Record and Play buttons were lit during it (screenshot) and the knob moved (Filter Frequency 651 Hz -> 5.64 kHz -> 175 Hz, read back by the app).
+- Seen, the failure: afterwards the Echo track (Create Track for Echo, then locked from the Softube Amp) showed NO clip and NO lane in bars 1-15; playing bars 1-4 from the start (Reason's counter ran to 3.4.1) did not move the knob (poll saw one reading only). Echo's automation-override icon was lit red, then went normal after one click on it. So the knob moves, the recording does not land. Cause NOT found.
+- Difference from the working runs (Scream 4 "EasyFuzz" and the Combinator, earlier today): there the lock came from a device WITH a track (MatrixBass2) and the target was a Scream 4/Combinator; here an effect with no track (Softube Amp) was locked first and the target is The Echo. Guess only; not tested.
+- His suggestion: work in a short loop or note which bars the effect is on and always start there. Moot here (nothing recorded), kept as the method for the next try.
+- Not done: retry with the working order (lock MatrixBass2 first) or on a Scream 4. Reason left on "untitled 3" (unsaved): Softube Amp, The Echo with a track, Echo filter at 175 Hz, loop locators at bars 1 and 9.
+- UPDATE (same night, after he changed things in the song and taught the steps: right-click > Create/Go to Track, arm button just right of S, red = armed, move a knob in a recording and a lane with its name appears): the Echo track now HAS a "Filter Frequency" lane (plus a short wavy clip of his at about bars 2-4, left alone). I typed "sweep the filter frequency up over four bars at 115" with the playhead at bar 11: Seen, a clip with a rising line recorded at bars 11-15 (red while recording, green after), transport stopped by the app. What he changed is not known to me (I did not see it), so the cause of the earlier failure stays unproven. The earlier microphone result (heard word for word) still stands.
+- Not done: the spoken (mic) sweep on a device that already has its lane; playing it back to read the knob.
+- Status: confirmed for typed sweep on The Echo once its lane exists; mic path heard right earlier
+- Outcome: -
+
+### 2026-09-30 Microphone path tried: spoken phrases through the real app, Softube Amp
+- Setup: re-locked MClass Compressor then Softube Amp (the app's restart had dropped the lock); the app listed all knob positions. Page at localhost:8765 opened in his normal browser (the built-in pane was hidden under my screen-control overlay; overlay released).
+- Seen (he spoke, held the page's talk button): "turn the gain up a bit" heard exactly; feedback "Gain: turned up 10% from 127". NOT a proof of a move: Gain was already at its maximum, so nothing could change.
+- Seen: "make it twang." heard exactly; feedback "Amp Switch -> Twang (measured: Twang)"; the app's read-back showed position 0 / Twang; Reason's own panel showed the TWANG light lit and Crunch dark, Cab stayed on Tight. So the microphone -> speech -> knob path works end to end for a named setting.
+- Not done: a spoken sweep ("sweep the filter up over four bars at 90") through the mic; spoken mixer/Combinator/Redrum phrases; the Reason Voice .app window.
+- Status: confirmed (mic path for a nudge and a named setting)
+- Outcome: -
+
+### 2026-09-30 Item 28 leftovers: Neptune "faster" fixed, Softube Amp Switch re-measured, COMP-01 ratio left
+- Checked first (Seen, 22:15): voice app, model server and its login service running; bridge files identical to the repo; 231 voice tests passed; git clean.
+- Neptune: the model picked the right knob (Correction Speed) but answered a word ("fast"), which has no number, so nothing moved. Two edits: `dial_llm.build_prompt` now says knobs without a settings list take a number, percentage or nudge, "never a word like fast or slow"; `device_refs/neptune.md` now says turn UP for faster (it said "~12 o'clock", which the model copied as the answer). Seen with the real model: "faster correction", "make the correction faster", "more correction speed" now nudge up; "slower correction" and "down a bit" nudge down. Lesson: the model copies example wording from a device guide line, so write guide lines as plain direction ("turn UP for faster"). Seven guard phrases on other devices (Quartet, Sweeper, Alligator, MClass, DDL-1, Pangea, Scream 4, RV7000) answered the same before and after. NOT tried live in Reason.
+- Softube Amp Switch: Seen in real Reason (scratch song "untitled 3", Softube Amp added, MClass Compressor locked first, sweep started, then amp locked, "Heard all 1. Sweeping."): Twang 0-25, Crunch 26-50, Rock 51-76, Lead 77-101, Bypass 102-127. The old table had stray numbers at 0-22. Only that one entry changed in calibration.json (compared old vs new). The panel's own labels read Twang/Crunch/Rock/Lead/Bypass, same order.
+- Not done: COMP-01 Ratio. Reason reports a bare 0-127 and the panel has no numeric readout, only printed ends (1:1 .. 16:1), so any "4:1" would be a modelled curve. Left percent-only on purpose.
+- Tests: 2 new in tests/test_dial.py; test_dial + test_intents + test_remote_bridge 233 passed. Full suite not run. Voice server restarted to load the changes (port 8765, 22:26); it drops the lock report, re-lock before the next phrase.
+- Left in Reason: scratch song "untitled 3" (unsaved) with a Softube Amp added, ReasonVoice locked to it, Mixer and Sequencer collapsed. Nothing saved. No commit.
+- Also found stale: reason_voice/HANDOFF.md says llama-server start-at-login is unstarted; it is done (com.homeroom.llama-server). Not edited.
+- Status: confirmed (Neptune: real model, not Reason; Amp: measured in Reason)
+- Outcome: -
+
 ### 2026-09-30 Item 39 eighth pass: finished (owner: "Do 39")
 - Read read-only, notes `docs/reason/demo-song-notes.md` 8u: Default Mastering Suite Combinator = same four-device routing as the master Combinator (8s); automation lanes on Main Vox, M Vox Filter, Middle 8 Vox, M8 Vox Filter, Chorus Vox (sends and filters mostly switched on and held, flat lines; no sweeps).
 - Skipped on purpose: right-hand jacks (mirror the left side). Item 39 marked done in OPEN-ISSUES.

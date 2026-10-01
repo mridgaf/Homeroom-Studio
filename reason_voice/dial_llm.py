@@ -300,8 +300,11 @@ def build_prompt(phrase, device="MClass Compressor", calibration=None, now=None)
     if now:
         rule += ("Where a mode picker says (now: X), use the knobs for mode X. ")
     if any_named:
+        # 2026-09-30: Neptune "faster correction" came back as target "fast" --
+        # a word on a knob with no settings list resolves to nothing.
         rule += ("For a knob that lists settings, `target` must be one of them, "
-                 "spelled exactly as listed. ")
+                 "spelled exactly as listed. Any other knob takes a number, a "
+                 "percentage or a nudge -- never a word like fast or slow. ")
     else:
         rule += ("No knob here has named settings, so `target` must be a number "
                  "with a unit or a percentage -- never a word. ")

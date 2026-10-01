@@ -149,7 +149,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
   Ref: [CLAUDE.md:136](CLAUDE.md:136)
 - [x] **27. (✅ found already built 2026-09-30: dial_llm.resolve real-unit nudge, commit e51ae85, test_dial.py:1680) "Turn it down 3 dB" doesn't work** (🤖). Knob nudges only take percent
   (`reason_voice/dial_llm.py` "only percentage nudges for now"). Found 2026-09-10, never built.
-- [x] **28. Voice-dial fixes found wiring 23 effects + 14 instruments** (🤖, 2026-09-29). ✅ fixed 2026-09-29 (DECISIONS "Item 28 voice-dial fixes"); left: COMP-01 ratio, Neptune "faster", Softube Amp Switch re-sweep.
+- [x] **28. Voice-dial fixes found wiring 23 effects + 14 instruments** (🤖, 2026-09-29). ✅ fixed 2026-09-29 (DECISIONS "Item 28 voice-dial fixes"); left: COMP-01 ratio only (no panel readout, percent-only on purpose). 2026-09-30: Neptune "faster" fixed, Softube Amp Switch re-measured (DECISIONS top entry).
   All 37 are mapped, measured and phrase-tested; most phrases land right. Owner: "small
   details we can flag and finish once everything is wired." In order:
   1. **Hz vs kHz** (and ms vs s): "2 kHz" landed on 952 Hz (MClass EQ, Grain). The app doesn't
@@ -173,7 +173,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 
 Source for all of these: `docs/reason/demo-song-notes.md` and the phrase list beside it.
 
-- [x] **29. The voice app can't touch mixer channels** (🤖 then 🎹). ✅ 2026-09-30: "mute / unmute / solo / unsolo channel N" and "channel N up/down X dB" built and moved in real Reason (DECISIONS top entry). Numbers only, by his choice: "the kick" -> channel NOT built. Not done: app window + microphone path. Original note: mixer scope mapped and measured for channels 1, 2, 8, 16 (all identical). Fact: `remote/ReasonVoice.remotemap`
+- [x] **29. The voice app can't touch mixer channels** (🤖 then 🎹). ✅ 2026-09-30: "mute / unmute / solo / unsolo channel N" and "channel N up/down X dB" built and moved in real Reason (DECISIONS top entry). Numbers only, by his choice: "the kick" -> channel NOT built. Microphone path proven 2026-09-30 (spoken, Softube Amp; DECISIONS top entry). Spoken sweep by mic proven 2026-09-30 on The Echo (DECISIONS top entry). Not done: the Reason Voice .app window. Original note: mixer scope mapped and measured for channels 1, 2, 8, 16 (all identical). Fact: `remote/ReasonVoice.remotemap`
   has no mixer scope, and `intents.py` has no mute or solo. Fact: Reason's own "Reason Master Section"
   map (in `docs/reason/remote-vocab.json`) names every channel's Mute, Solo, Level, Pan and FX1-FX8
   Send Level, plus "All Mutes Off" and "All Solo Off". Untried: whether locking the Master Section
@@ -255,6 +255,7 @@ Source: `docs/reason/demo-song-notes-airplane.md`, phrase list section F.
   (Create > Instruments > Redrum, Create > Effects > Scream 4) were accepted but no new device could be seen in the rack, and
   Tab did not flip the rack in background mode. Cabling itself NOT tried. Needs full-screen control (Ctrl-click a jack lists
   devices, item 37) and Dictation off. Nothing saved; "untitled 3" may hold unseen extra devices. Owner stopped it here.
+  2026-09-30: adding a device from Reason's browser (search, double-click) worked under full-screen control; Create-menu presses were never the way. Cabling still not tried.
 
 ## 5b. New from step 4 (👂)
 

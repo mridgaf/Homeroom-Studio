@@ -2096,3 +2096,17 @@ def test_fill_in_is_a_high_pass_sweep_down():
     assert i.command == "sweep" and i.args == {
         "what": "low cut or high pass", "way": "down", "bars": 8, "bpm": None}
     assert parse("fill-in over 4 bars at 90").args["bpm"] == 90
+
+
+def test_neptune_correction_speed_says_which_way_is_faster_and_bans_words():
+    # 2026-09-30: "faster correction" came back as target "fast" and moved nothing.
+    p = dial_llm.build_prompt("faster correction", "Neptune Pitch Adjuster")
+    assert "never a word like fast or slow" in p
+    assert "turn UP for faster" in p
+
+
+def test_softube_amp_switch_has_no_stray_numbers_before_its_first_name():
+    # 2026-09-30 re-sweep with the amp on screen: positions 0-22 used to hold
+    # numbers ("20", "24"...), so "twang" landed on one edge position.
+    t = dial_llm.load_calibration()["se.propellerheads.ReasonAmp"]["Amp Switch"]["table"]
+    assert {s for _, s in t} == {"Twang", "Crunch", "Rock", "Lead", "Bypass"}

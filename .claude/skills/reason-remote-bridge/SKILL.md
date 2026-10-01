@@ -197,15 +197,20 @@ Rules, each found by a step failing:
    reported a value, no lane appeared). Cause unknown — don't promise Kong
    pitch/decay automation until solved. (That 2026-09-25 line said Thor/NN-XT/Europa have no bridge knobs; it is out of date: the remotemap now has scopes for all three, e.g. NN-XT has 17 controls, checked 2026-09-30.)
 
-6. **Arming a lane (owner told me 2026-09-30, NOT yet seen by me):** each automation
-   lane under a track has its own round record button next to that lane's name
-   (beside the lane's M/solo buttons, e.g. the "Input Gain" lane). Click it: it turns
-   red = armed. I watched his demo and did not catch the click (screenshots 4-5 s
-   apart). My own 09-30 sweep on a Combinator recorded a "Size" lane with only
-   Create Track + lock + bridge Record, no separate lane click, so a lane may get
-   armed by the track's own dot. **Seen 2026-09-30 (second run, through the app):** Create Track + lock + the app's
-   Record recorded a "Damage Control" lane on a Scream 4 with no lane click. Not needed
-   in that case; if a lane ever does not record, check this button first.
+6. **Arming a lane: the owner's steps (2026-09-30, then Seen).** Use these every time,
+   for any device or effect that can have a track:
+   1. Right-click the device > **Create Track for X**. Once a track exists the same
+      menu shows **Go to Track for X**; if that item is live, the track exists.
+   2. On that track's row, the button **just right of the S (solo) button** is the
+      record-arm. **Red = armed.** Read its colour before and after any click on it:
+      on 2026-09-30 I clicked a red one and disarmed it.
+   3. Start recording and move a knob. A lane **named after that knob** appears on
+      the track. Nothing appears until a knob moves during a recording.
+   If a lane does not record, look at the track row first (is it red?), then check
+   the lane exists, then check you are looking at the bars the sweep landed on (rule 11).
+   Seen 2026-09-30: with the track armed, a Filter Frequency lane on The Echo
+   recorded both a typed and a spoken sweep. The earlier belief that each lane has
+   its own button is dropped.
 7. **The lock announcement can fail (2026-09-30, Seen twice: Redrum, Combinator).**
    If the device's track is already selected, locking it gives 0 knob announcements
    and the app says nothing is locked. Fix that worked: lock a DIFFERENT device first
@@ -231,8 +236,37 @@ Rules, each found by a step failing:
    To test by typing, submit the page's `typeForm` (`requestSubmit()`); a fake Enter
    key does nothing. A speaker-to-microphone test needs the Mac unmuted; his output
    was muted (volume 0) and changing it is a system setting, so the mic stays his to test.
+   **Microphone path proven 2026-09-30 (Softube Amp, The Echo).** He held the page's
+   talk button: "make it twang." and "sweep the filter frequency down over 4 bars at
+   115" were heard word for word and ran. **He must hold the button the whole time he
+   speaks;** a short tap loses the phrase and the app shows nothing new (no error).
+   To see why a phrase is missing, run a watcher on the page's websocket
+   (`ws://localhost:8765/ws`) and print status changes: recording > thinking > idle.
+   A test that cannot move anything proves nothing: "gain up a bit" on a knob already
+   at maximum was heard right but changed nothing. Pick a phrase that visibly moves.
 9. **While I control the screen:** full-screen control only (`computer_batch`). One
    `app_*` call earlier locks `computer_batch` out (memory: screen-control-no-app-tools).
+
+10. **Add a device from Reason's own browser (Seen 2026-09-30).** Click the
+    browser's Effects (or Instruments) category, click the search box (click first;
+    typing before the box has focus goes nowhere), type part of the name, press
+    Return, then **double-click** the result. The Softube Amp ("Amp") was added this
+    way and then swept (Twang 0-25, Crunch 26-50, Rock 51-76, Lead 77-101,
+    Bypass 102-127). This replaces the 09-29 note that Create-menu presses added
+    nothing visible. A new device lands after the selected one; scroll the rack to it.
+11. **Before judging a sweep, know which bars it is on.** A move lands at the
+    playhead and Reason's sequencer view may be scrolled elsewhere (it sat at bar
+    98 while the song was at bar 1). Click the ruler to put the playhead on **empty
+    bars** (4 bars ahead of any other clip), note the bar number, and look at those
+    bars. Optional, the owner's idea: a short loop (about 5 bars) with Loop on and the
+    view zoomed to it, so the whole piece is always on screen. At the end of the
+    loop the playhead jumps back and the lane plays again from its start; that is
+    looping, not a failure. Not tried: recording while Loop is on may add a new
+    take each pass.
+12. **Screen control puts an overlay over his whole screen.** While it is on he
+    cannot see or use the app page, so he cannot speak to it. Release it
+    (`release_full_control`) whenever he must look or talk, and ask again when I
+    need clicks. Overrides the earlier "never release" note.
 
 Working pipeline for "build me lanes + effects + automation":
 MIDI file (notes, tempo, one track per part) → pre-wired Combinator patch via
