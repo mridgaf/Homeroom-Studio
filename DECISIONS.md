@@ -19,6 +19,26 @@ entries.
 ---
 
 ## Log
+### 2026-10-02 Reason Voice.app repointed (item 29 leftover: "the .app window")
+- Found: `~/Applications/Reason Voice.app` launcher pointed at `~/Music/Reason 12/reason-voice 3/ReasonVoice.command`, a folder that no longer exists (project moved 2026-07-19). That is why the app "did not show on either screen" on 09-30. Not in the Dock; Dock only has Homeroom Studio.app and Sound Engine.app.
+- Done: launcher now opens `~/Desktop/Homeroom Studio/ReasonVoice.command`. Killed the stale server (started 09-30 10 PM, before the last `dial_llm.py` change); opening the app started a fresh one (pid 3161, port 8765 answers 200).
+- Seen (same day, owner's open "untitled" song with Redrum "Peff 808 A" + Softube Amp; fresh server launched by the app): right-click Redrum > "Lock ReasonVoice ReasonVoice 2 to This Device"; page said NOT LOCKED until I dragged the Flam knob once, then showed "Redrum Drum Computer" LOCKED. Typed in the page's box (built-in browser pane, not his Chrome): "pattern 3" -> "Pattern Select in Bank -> 3 (measured: 3)", pattern 3 lit in Reason (was 2); "pattern 2" put it back. "sweep the flam up over two bars at 115" -> "Flam Amount swept up over 2 bars"; Reason shows a "Flam Amount" lane with a ~2-bar rising clip at bars 1-3 on the track, Automation Override lit. No arm click, no second lock needed.
+- Side effects left in his scratch song: that Flam Amount lane/clip, Flam knob nudged by drag, Reason window enlarged, mixer panel open. Playback of the lane not read back.
+- Not done: the microphone (Throw / Snap-Back / Fill-In spoken), mixer phrases on this song, Dock icon for the app (not asked). The page opened by the app is in his normal browser; typing there was done in the built-in pane.
+- Status: confirmed for launch, lock, typed nudge and typed sweep; open for mic
+- Outcome: -
+
+### 2026-10-02 Mic path through Reason Voice.app: found and fixed (Terminal had no mic permission)
+- Seen: spoken sweep gave "Didn't catch that"; added a readout to server.py: "(heard 8.7 s, loudness 0.00)" = pure silence. Test from my shell: peak 0.0078 (mic fine). Same test run INSIDE Terminal.app: peak 0.0 = Terminal had no Microphone permission (macOS gives silence, no error). He switched Terminal on in System Settings > Privacy > Microphone; same test in Terminal then peak 0.0076, no Terminal restart needed (new processes only; the voice server had to restart because its mic stream was already open). 09-30's working mic test must have run from a different parent.
+- Seen: then it heard "sweet flam down over two bars sweet flam down over two bars" (Whisper: "sweet" for "sweep", phrase doubled). Fix in `sweep.py`: sweep also matches "sweet"/"swipe"; `_clean()` collapses an exact repeat; used by all four parsers. Test `test_sweep_heard_as_sweet_and_said_twice`; test_dial + test_intents 217 passed before adding it.
+- Seen (he spoke, slow, "sweep the flam down over two bars at 115"): heard exact, "Flam Amount swept down over 2 bars". Lane check: at bar 1 an old "up" clip was already there and stayed (playback read 64 -> 127, i.e. still the up sweep). Typed same phrase at bar 5 (empty): new clip with a falling line. So: record onto EMPTY bars; recording over an existing clip does not replace it. Not fixed in code (his own tip earlier: start where nothing is).
+- Re-lock after any server restart: lock the mixer first, then the Redrum, then nudge a knob (bridge skill rule 7). I read that rule only after two failed tries; read the skill first next time.
+- A macOS Dictation overlay blocked clicks once (cleared by him). Reason window left enlarged, scratch song has Flam lanes at bars 1 and 5.
+- Later same day, spoken on empty bars (Redrum "Peff 808 A"): "throw the flam for one bar at 115" -> he read "thrown, then back" on screen; "snap back" -> "Recording snapping back" (his report; I did not look at the lanes afterwards). "fill in over two bars at 115" -> heard right but swept **Master Level** down (Redrum has no filter; the knob picker always names some knob). I clicked Undo on the page. Fix: Fill-In now refuses unless the picked knob name has cut/pass/filter/freq (`"fill": True` flag from parse_fill_in, check in `_sweep`); test updated, 218 passed in test_dial + test_intents. Server restarted after the fix (lock dropped; relock mixer first, then device).
+- Not done: Fill-In on a device that HAS a high-pass (guard only tried in code, not in Reason); Throw on mixer sends; Master Level on the Redrum not re-read after Undo.
+- Status: confirmed (mic, sweep, throw, snap back by mouth); Fill-In fixed in code, not re-tried
+- Outcome: -
+
 ### 2026-10-01 Three Reason 12.7 skills built and benchmarked (reason-mixer-chains, reason-vocal-chain, reason-drum-bus)
 - Context: owner chose "Turn it into skills" after the knowledge library was written. Project rule: new skills go through the skill-creator benchmark loop.
 - Done: 3 job-based skills drafted from `docs/reason/techniques/` + `manual-digest/`. Two test rounds, 8 questions, each answered with and without the skill and scored by a separate grader. Round 1 (first drafts): 45/47 checks with skill vs 25/47 without. Round 2 (fixed skills): 46/48 vs 23/48. Record, review pages, question files and a copy of each SKILL.md: `docs/reason/skill-benchmarks-2026-10-01/`.

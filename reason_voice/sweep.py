@@ -16,7 +16,7 @@ import re
 from .dial_llm import _SPELLED
 
 _SWEEP = re.compile(
-    r"^sweep\s+(?:the\s+)?(.+?)\s+(up|down)\s+over\s+(\w+)\s+bars?"
+    r"^(?:sweep|sweet|swipe)\s+(?:the\s+)?(.+?)\s+(up|down)\s+over\s+(\w+)\s+bars?"
     r"(?:\s+at\s+(\d{2,3})(?:\s*(?:bpm|beats per minute))?)?$")
 _COUNT = dict(_SPELLED, **{"for": 4})     # whisper hears "four" as "for"
 _THROW = re.compile(
@@ -28,6 +28,15 @@ _FILL = re.compile(
 _SNAP = re.compile(r"^snap[\s-]?back$")
 
 
+def _clean(text):
+    """Lowercase, no end punctuation; "x x" said once but heard twice -> "x"."""
+    t = (text or "").strip().lower().rstrip(".!?,")
+    half = len(t) // 2
+    if len(t) % 2 == 1 and t[:half].strip() == t[half + 1:].strip() and t[half] == " ":
+        t = t[:half].strip().rstrip(".!?,")
+    return t
+
+
 def _bars(n):
     bars = int(n) if n.isdigit() else _COUNT.get(n)
     return bars if bars and bars >= 1 else None
@@ -35,7 +44,7 @@ def _bars(n):
 
 def parse_sweep(text):
     """{"what","way","bars","bpm"} or None. `bpm` is None when not said."""
-    m = _SWEEP.match((text or "").strip().lower().rstrip(".!?,"))
+    m = _SWEEP.match(_clean(text))
     if not m:
         return None
     what, way, n, bpm = m.groups()
@@ -48,7 +57,7 @@ def parse_sweep(text):
 
 def parse_throw(text):
     """"throw the reverb for one bar" -> {"what","bars","bpm"} or None."""
-    m = _THROW.match((text or "").strip().lower().rstrip(".!?,"))
+    m = _THROW.match(_clean(text))
     bars = _bars(m.group(2)) if m else None
     if not bars:
         return None
@@ -61,16 +70,16 @@ def parse_fill_in(text):
     high pass (low cut) swept down, so it comes back as a sweep. Both words are
     said because the knob picker reads names literally: on a Scream 4 "high
     pass" picked Cut Hi (a top cut) and "low cut or high pass" picked Cut Lo."""
-    m = _FILL.match((text or "").strip().lower().rstrip(".!?,"))
+    m = _FILL.match(_clean(text))
     bars = _bars(m.group(1)) if m else None
     if not bars:
         return None
     return {"what": "low cut or high pass", "way": "down", "bars": bars,
-            "bpm": int(m.group(2)) if m.group(2) else None}
+            "bpm": int(m.group(2)) if m.group(2) else None, "fill": True}
 
 
 def is_snap_back(text):
-    return bool(_SNAP.match((text or "").strip().lower().rstrip(".!?,")))
+    return bool(_SNAP.match(_clean(text)))
 
 
 def bars_to_seconds(bars, bpm):

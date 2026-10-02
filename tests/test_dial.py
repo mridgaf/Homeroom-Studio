@@ -2094,7 +2094,7 @@ def test_fill_in_is_a_high_pass_sweep_down():
     from reason_voice.intents import parse
     i = parse("Fill in over eight bars.")
     assert i.command == "sweep" and i.args == {
-        "what": "low cut or high pass", "way": "down", "bars": 8, "bpm": None}
+        "what": "low cut or high pass", "way": "down", "bars": 8, "bpm": None, "fill": True}
     assert parse("fill-in over 4 bars at 90").args["bpm"] == 90
 
 
@@ -2110,3 +2110,9 @@ def test_softube_amp_switch_has_no_stray_numbers_before_its_first_name():
     # numbers ("20", "24"...), so "twang" landed on one edge position.
     t = dial_llm.load_calibration()["se.propellerheads.ReasonAmp"]["Amp Switch"]["table"]
     assert {s for _, s in t} == {"Twang", "Crunch", "Rock", "Lead", "Bypass"}
+
+
+def test_sweep_heard_as_sweet_and_said_twice():
+    from reason_voice.sweep import parse_sweep
+    got = parse_sweep("sweet flam down over two bars sweet flam down over two bars")
+    assert got == {"what": "flam", "way": "down", "bars": 2, "bpm": None}

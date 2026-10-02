@@ -14,6 +14,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 import signal
 import subprocess
 import webbrowser
@@ -491,7 +492,9 @@ class WebApp:
         text = await asyncio.to_thread(self.stt.transcribe, audio)
         self.status = "idle"
         if not text:
-            self.say("Didn't catch that.")
+            secs = audio.size / 16000
+            peak = float(abs(audio).max()) if audio.size else 0.0
+            self.say(f"Didn't catch that. (heard {secs:.1f} s, loudness {peak:.2f})")
             await self.push()
             return
         await self.run_text(text)
@@ -671,6 +674,12 @@ class WebApp:
         if picked is None:
             return
         knob, got, name = picked
+        # The picker always names SOME knob. Seen 2026-10-02: fill-in on a
+        # Redrum (no filter) swept Master Level. Fill-in must land on a filter.
+        if args.get("fill") and not re.search(r"cut|pass|filter|freq", name, re.I):
+            self.say("No high-pass or filter knob on this device (it picked %s). "
+                     "Nothing recorded." % name)
+            return
         start = got[0]
         end = 127 if args["way"] == "up" else 0
         if start == end:
