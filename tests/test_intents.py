@@ -80,6 +80,7 @@ def test_walkthrough_start():
 
 @pytest.mark.parametrize("text,expected", [
     ("next step", "step_next"), ("step", "step_next"),
+    ("show me the next step", "step_next"), ("go to the next step", "step_next"),
     ("previous step", "step_prev"), ("back step", "step_prev"),
     ("repeat", "step_repeat"), ("repeat that", "step_repeat"),
     ("say that again", "step_repeat"),

@@ -19,6 +19,18 @@ entries.
 ---
 
 ## Log
+### 2026-10-03 Reason Voice page re-skinned to approved mockup 10 (notebook + chalkboard)
+- Context: owner approved `10-reason-voice.png` (Codex project, copy in `Front End Mockups/approved-reason-voice-mockup-10.png`) and asked for it on the real app, matching the beat page.
+- Done: new `reason_voice/static/index.html` + `notebook.css`, `app.js` re-wired (backups `index.pre-notebook-2026-10-03.html`, `app.pre-notebook-2026-10-03.js`). server.py untouched; every old feature kept (results, doc panel, knob dial, templates, crates, bins, Claude loops, patch/track/undo, help, settings). Recipe search + genre filter run in the page off `/api/recipes`. Talk/transport tray is pinned to the window bottom so it never scrolls away. Knob panel moved below the tray (48-knob Redrum pushed it off screen). Mic-permission hint shows when the server reports "loudness 0.0x".
+- Grammar: "show me / go to the next step" now = step_next (`intents.py`, 2 cases in test_intents). Was a patch search, and with a device locked it went to the knob helper.
+- MISTAKE during the check: typed "Show me the next step" on the LIVE server (old grammar still loaded) with his Redrum locked -> knob helper switched Redrum "Run" ON. Undone at once with the app's Undo; Reason reported Run back to 0. Lesson: on the live server, never type free phrases while a device is locked.
+- Beat page nav link text "Studio" -> "Reason Voice" (tools/beat_machine.py), ASSUMING he wants the mockup's name on both pages. Shows after the beat server restarts.
+- Not live yet: the grammar fix needs a Reason Voice restart (restart drops the Reason lock).
+- Gaps: "How do I build this sound?" (mockup helper text) goes to the knob helper, not a Q&A — left off the page, owner to decide. No free-form question answering exists; the Ask box runs the same command grammar. Account icon left out (same as beat page).
+- Verified in browser on the live server: recipe pick/highlight, search + empty search, genre filter, walkthrough start/Back/Repeat/Next (step 3 of 6, 2 ticks, 3/6 bar), Ask box (Enter sends, "what is scream 4" opens the guide), transport + hold-to-talk send the right commands (blocked before reaching Reason), loading/listening/thinking/mic/empty/offline states, phone width (no sideways scroll). Beat page still loads, no console errors.
+- Status: open (owner has not seen it)
+- Outcome: -
+
 ### 2026-10-03 Beat Machine re-skinned to the approved "09 charcoal" mockup (notebook + chalkboard)
 - Context: owner approved `Front End Mockups/approved-homeroom-mockup-09-charcoal.png` (made in a Codex/ChatGPT project, `~/.codex/.chatgpt-projects/.../output/homeroom-mockups/`) and asked for it on the real app, with real controls.
 - Owner answers (clickable): Crew/Legends/Styles = dropdowns that KEEP multi-pick (chips in pick order, first pick still = folder); waveforms from a new server route; "This batch / Favorites / DJ folder" tabs real and read-only; account icon left out.

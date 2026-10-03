@@ -20,11 +20,11 @@ function connect() {
     else if (msg.type === "bins") renderBins(msg.bins);
     else if (msg.type === "dial") renderDial(msg.dial);
   };
-  ws.onopen = () => { $("offline").hidden = true; };
   ws.onclose = () => {
-    $("status").textContent = "Offline";
-    $("status").className = "pill offline";
-    $("offline").hidden = false;
+    $("status").textContent = "DISCONNECTED";
+    $("status").className = "pill loading";
+    $("feedback").textContent =
+      "Lost connection — is the ReasonVoice window in Terminal still open?";
     setTimeout(connect, 1500);
   };
 }
@@ -66,11 +66,8 @@ function mdlite(text) {
 /* ---------- rendering ---------- */
 
 const STATUS_LABEL = {
-  idle: "Ready", recording: "Listening…", thinking: "Thinking…",
+  idle: "READY", recording: "RECORDING…", thinking: "THINKING…",
 };
-/* the server's own words when the mic recorded nothing but silence —
-   on this Mac that means Terminal lacks Microphone permission */
-const SILENT_MIC = /loudness 0\.0\d?\)/;
 
 function render(st) {
   lastState = st;
@@ -78,9 +75,9 @@ function render(st) {
   // status pill
   const pill = $("status");
   if (!st.model_ready && st.status === "idle") {
-    pill.textContent = "Loading model"; pill.className = "pill loading";
+    pill.textContent = "LOADING MODEL"; pill.className = "pill loading";
   } else {
-    pill.textContent = STATUS_LABEL[st.status] || st.status;
+    pill.textContent = STATUS_LABEL[st.status] || st.status.toUpperCase();
     pill.className = "pill " + st.status;
   }
   $("midi").classList.toggle("ok", st.midi_connected);
@@ -90,15 +87,12 @@ function render(st) {
   $("ptt").classList.toggle("recording", st.status === "recording");
   $("pttLabel").textContent =
     st.status === "recording" ? "Listening… release when done"
-      : st.status === "thinking" ? "Working it out…"
-      : st.model_ready ? "Hold to talk" : "Speech model loading…";
-  $("ptt").disabled = !st.model_ready;
+      : st.model_ready ? "Hold to talk" : "Model loading…";
 
   // transcript + feedback
   $("heard").hidden = !st.transcript;
   $("transcript").textContent = st.transcript;
   $("feedback").textContent = st.feedback;
-  $("micHelp").hidden = !SILENT_MIC.test(st.feedback || "");
 
   renderDial(st.dial);
   renderResults(st);
@@ -146,7 +140,7 @@ function renderResults(st) {
     const btns = li.querySelector(".row-btns");
     const addBtn = (label, title, command) => {
       const b = document.createElement("button");
-      b.className = "cbtn small";
+      b.className = "small";
       b.textContent = label;
       b.title = title;
       b.onclick = () =>
@@ -176,39 +170,10 @@ function renderResults(st) {
   $("moreBtn").hidden = last >= st.results_total;
 }
 
-const LESSON_SECTIONS = ["the chain", "steps"];
-
-/* "SubTractor (sine sub) → Kong (kit)" -> boxes with the bracket as a
-   second line. A chain with no arrows stays one plain line. */
-function renderChain(text) {
-  const box = $("chain");
-  box.innerHTML = "";
-  const line = text.replace(/\s+/g, " ").trim();
-  const parts = line.split(/\s*(?:→|->)\s*/).filter(Boolean);
-  box.classList.toggle("plain", parts.length < 2);
-  if (parts.length < 2) { box.innerHTML = inline(line); return; }
-  parts.forEach((p, i) => {
-    if (i) {
-      const a = document.createElement("span");
-      a.className = "arrow"; a.textContent = "→"; a.setAttribute("aria-hidden", "true");
-      box.appendChild(a);
-    }
-    const m = p.match(/^([^(]+?)\s*\((.+)\)\s*$/);
-    const node = document.createElement("div");
-    node.className = "node";
-    node.textContent = m ? m[1] : p;
-    if (m) {
-      const sm = document.createElement("small");
-      sm.textContent = m[2];
-      node.appendChild(sm);
-    }
-    box.appendChild(node);
-  });
-}
-
 function renderRecipe(st) {
   const card = $("card");
   const r = st.recipe;
+  $("walkbar").hidden = !r;
   $("empty").hidden = !!r;
   markOpenRecipe(r ? r.path : null);
   if (!r) { card.hidden = true; return; }
@@ -216,75 +181,54 @@ function renderRecipe(st) {
 
   $("rName").textContent = r.name;
   $("rBook").textContent = r.book || "recipe";
-  $("rAcc").textContent = "Accuracy " + r.accuracy;
+  $("rAcc").textContent = "accuracy " + r.accuracy;
+  $("rAcc").className = "chip acc-" + r.accuracy.toLowerCase();
   $("rStatus").textContent = r.status;
-  $("rStatus").className = "badge line " + (r.status === "tested" ? "ok" : "dim");
+  $("rStatus").className = "chip " + (r.status === "tested" ? "tested" : "");
   $("testedBtn").hidden = r.status !== "theoretical";
-  $("rLike").textContent = r.sounds_like ? "Sounds like " + r.sounds_like + "." : "";
+  $("rLike").textContent = r.sounds_like ? "Sounds like: " + r.sounds_like : "";
   $("rLike").hidden = !r.sounds_like;
 
-  const chain = r.sections.find(([t]) => t.toLowerCase() === "the chain");
-  $("chainBox").hidden = !chain;
-  if (chain) renderChain(chain[1]);
-
-  // steps: done ✓, active = lime box, the rest plain
-  const n = r.steps.length;
-  const started = st.step >= 0;
-  $("stepCount").textContent = !n ? "No numbered steps"
-    : started ? `Step ${st.step + 1} of ${n}` : `${n} steps`;
-  const bar = $("stepBar");
-  bar.innerHTML = "";
-  if (n <= 16) {
-    for (let i = 0; i < n; i++) {
-      const seg = document.createElement("i");
-      if (started && i <= st.step) seg.className = "on";
-      bar.appendChild(seg);
-    }
-  }
-  const ol = $("steps");
-  ol.innerHTML = "";
-  r.steps.forEach((s, i) => {
-    const li = document.createElement("li");
-    const state = !started ? "" : i === st.step ? "active" : i < st.step ? "done" : "";
-    li.className = state;
-    if (state === "active") li.setAttribute("aria-current", "step");
-    li.innerHTML = `<span class="num">${i + 1}</span><span class="txt">${inline(s)}</span>`
-      + `<span class="tick" aria-label="${state === "done" ? "done" : ""}">${state === "done" ? "✓" : ""}</span>`;
-    ol.appendChild(li);
-  });
-  const active = ol.querySelector("li.active");
-  if (active) {   // scroll the steps list only, never the page:
-    // the active step sits near the top with the last finished one above it
-    const prev = active.previousElementSibling;
-    const top = (prev || active).offsetTop - ol.offsetTop;
-    ol.scrollTo({ top: Math.max(0, top - 4), behavior: "smooth" });
-  }
-
-  // everything else in the recipe, folded away under the lesson
   const box = $("rSections");
   box.innerHTML = "";
-  const rest = r.sections.filter(([t]) => !LESSON_SECTIONS.includes(t.toLowerCase()));
-  $("moreSections").hidden = !rest.length;
-  for (const [title, content] of rest) {
+  for (const [title, content] of r.sections) {
     const sec = document.createElement("div");
     sec.className = "section";
     const h = document.createElement("h4");
     h.textContent = title;
-    const div = document.createElement("div");
-    div.className = "prose";
-    div.innerHTML = mdlite(content);
     sec.appendChild(h);
-    sec.appendChild(div);
+    if (title.toLowerCase() === "steps") {
+      const ol = document.createElement("ol");
+      ol.className = "steps";
+      r.steps.forEach((s, i) => {
+        const li = document.createElement("li");
+        li.appendChild(document.createTextNode(s));
+        if (st.step >= 0) {
+          if (i === st.step) li.className = "active";
+          else if (i < st.step) li.className = "done";
+        }
+        ol.appendChild(li);
+      });
+      sec.appendChild(ol);
+    } else {
+      const div = document.createElement("div");
+      div.className = "prose";
+      div.innerHTML = mdlite(content);
+      sec.appendChild(div);
+    }
     box.appendChild(sec);
   }
+  const active = box.querySelector("li.active");
+  if (active) active.scrollIntoView({ block: "nearest", behavior: "smooth" });
 
-  // walkthrough buttons: Start until it has started, then Back/Repeat/Next
-  const q = (c) => document.querySelector(`#walkbar [data-cmd="${c}"]`);
-  q("walkthrough").hidden = started || !n;
-  ["step_prev", "step_repeat", "step_next", "walkthrough_done"].forEach((c) => { q(c).hidden = !started; });
-  q("step_prev").disabled = st.step <= 0;
-  q("step_next").textContent = started && st.step >= n - 1 ? "Finish" : "Next step";
+  // walkthrough button states
+  const started = st.step >= 0;
+  document.querySelector('[data-cmd="walkthrough"]').hidden = started;
+  ["step_prev", "step_repeat", "step_next"].forEach((c) => {
+    document.querySelector(`#walkbar [data-cmd="${c}"]`).hidden = !started;
+  });
 
+  // template button: start a session if one matches this recipe, else explain
   const tplBtn = $("tplBtn");
   if (st.recipe_template) {
     tplBtn.textContent = "🎛 New session from template";
@@ -292,7 +236,8 @@ function renderRecipe(st) {
                                   args: { query: st.recipe_template } });
   } else {
     tplBtn.textContent = "Save as template…";
-    tplBtn.onclick = () => send({ type: "command", command: "template_howto", args: {} });
+    tplBtn.onclick = () => send({ type: "command", command: "template_howto",
+                                  args: {} });
   }
 }
 
@@ -342,7 +287,7 @@ function renderDial(d) {
   $("dialPanel").hidden = false;
   $("dialDevice").textContent = d.device || "Knobs";
   $("dialLock").textContent = d.locked ? "locked" : "not locked";
-  $("dialLock").className = "badge line " + (d.locked ? "ok" : "dim");
+  $("dialLock").className = "chip " + (d.locked ? "tested" : "");
   $("dialPanel").classList.toggle("dim", !d.locked);
   $("dialHint").hidden = d.locked;
   $("dialHint").textContent =
@@ -372,143 +317,115 @@ function renderDial(d) {
   }
 }
 
-/* ---------- notebook rows: templates, sample bins, crates ---------- */
-
-const ICON = {
-  doc: '<svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>',
-  folder: '<svg viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11H3z"/></svg>',
-  star: '<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
-};
-
-function nbRow(icon, label, onclick, extra) {
-  const b = document.createElement("button");
-  b.className = "nbrow go";
-  b.innerHTML = ICON[icon] + '<span class="nm"></span>';
-  b.querySelector(".nm").textContent = label;
-  if (extra) b.appendChild(extra);
-  b.onclick = onclick;
-  return b;
-}
-
-function countTag(n) {
-  const c = document.createElement("span");
-  c.className = "count";
-  c.textContent = n;
-  return c;
-}
+/* ---------- templates ---------- */
 
 function renderTemplates(items) {
   const box = $("tplList");
   box.innerHTML = "";
   if (!items.length) {
-    box.innerHTML = '<p class="nbnote">None yet — open a recipe and press “Save as template…”, or click + above.</p>';
+    const p = document.createElement("p");
+    p.className = "tpl-empty";
+    p.textContent = "None yet — open a recipe and press “Save as template…”, or click ＋ above.";
+    box.appendChild(p);
     return;
   }
   for (const t of items) {
-    const act = document.createElement("span");
-    act.className = "act";
-    act.textContent = t.kind === "song" ? "New session" : "Add to rack";
-    const row = nbRow("doc", t.name, () => send({ type: "command", command: "template_start",
-                                                  args: { query: t.name } }), act);
-    row.classList.add("tplrow");
-    row.classList.remove("go");
-    row.title = t.path;
+    const row = document.createElement("div");
+    row.className = "tpl-row";
+    const name = document.createElement("span");
+    name.className = "tpl-name";
+    name.textContent = (t.kind === "song" ? "🎵 " : "🎛 ") + t.name;
+    name.title = t.path;
+    const b = document.createElement("button");
+    b.className = "small";
+    b.textContent = t.kind === "song" ? "New session" : "Add to rack";
+    b.onclick = () => send({ type: "command", command: "template_start",
+                             args: { query: t.name } });
+    row.appendChild(name);
+    row.appendChild(b);
     box.appendChild(row);
   }
 }
+
+/* ---------- sample bins ---------- */
 
 function renderBins(bins) {
   const box = $("binList");
   box.innerHTML = "";
-  if (!bins.length) {
-    box.innerHTML = '<p class="nbnote">No sample bins yet — the library is still being scanned, or the TBOTC 3 drive is not plugged in.</p>';
-    return;
-  }
+  $("binsSection").hidden = !bins.length;
   for (const bin of bins) {
-    const row = nbRow("folder", bin.label, () => send({ type: "text", text: bin.query }), countTag(bin.count));
-    row.title = bin.query;
-    box.appendChild(row);
+    const b = document.createElement("button");
+    b.title = bin.query;
+    b.textContent = bin.label;
+    const c = document.createElement("span");
+    c.className = "count";
+    c.textContent = bin.count;
+    b.appendChild(c);
+    b.onclick = () => send({ type: "text", text: bin.query });
+    box.appendChild(b);
   }
 }
 
 async function loadBins() {
-  try {
-    renderBins(await (await fetch("/api/bins")).json());
-  } catch (e) {
-    $("binList").innerHTML = '<p class="nbnote err">Couldn’t load sample bins.</p>';
-  }
+  renderBins(await (await fetch("/api/bins")).json());
 }
+
+/* ---------- crates ---------- */
 
 function renderCrates(crates) {
   const box = $("crateList");
   box.innerHTML = "";
   $("cratesSection").hidden = !crates.length;
   for (const c of crates) {
-    box.appendChild(nbRow("star", c.name, () => send({ type: "command", command: "crate_open",
-                                                       args: { name: c.name } }), countTag(c.count)));
+    const b = document.createElement("button");
+    b.textContent = "★ " + c.name;
+    const n = document.createElement("span");
+    n.className = "count";
+    n.textContent = c.count;
+    b.appendChild(n);
+    b.onclick = () => send({ type: "command", command: "crate_open",
+                             args: { name: c.name } });
+    box.appendChild(b);
   }
 }
 
-/* ---------- recipe book: search + genre filter, all in the page ---------- */
+/* ---------- recipe book sidebar ---------- */
 
-const BOOK_LABEL = { rock: "Rock", "hip-hop": "Hip-hop", feelings: "Feelings" };
-let allRecipes = null;
+const BOOK_LABEL = { rock: "Rock", "hip-hop": "Hip-hop" };
 
 async function loadBook() {
-  try {
-    allRecipes = await (await fetch("/api/recipes")).json();
-  } catch (e) {
-    $("recipeList").innerHTML = '<p class="nbnote err">Couldn’t open the recipe book — is Reason Voice still running?</p>';
-    return;
+  const recipes = await (await fetch("/api/recipes")).json();
+  const groups = {};
+  for (const r of recipes) {
+    const key = r.book || "other";
+    (groups[key] = groups[key] || []).push(r);
   }
-  const books = [...new Set(allRecipes.map((r) => r.book || "other"))].sort();
-  const sel = $("genre");
-  for (const b of books) {
-    const o = document.createElement("option");
-    o.value = b;
-    o.textContent = BOOK_LABEL[b] || b;
-    sel.appendChild(o);
-  }
-  drawBook();
-}
-
-function drawBook() {
-  if (!allRecipes) return;
-  const q = $("recipeSearch").value.trim().toLowerCase();
-  const genre = $("genre").value;
-  const hits = allRecipes.filter((r) =>
-    (!genre || (r.book || "other") === genre)
-    && (!q || [r.name, r.sounds_like, r.book].join(" ").toLowerCase().includes(q)));
-  hits.sort((a, b) => (a.book || "other").localeCompare(b.book || "other"));
   const box = $("recipeList");
   box.innerHTML = "";
-  if (!allRecipes.length) {
-    box.innerHTML = '<p class="nbnote">The recipe book is empty.</p>';
-    return;
-  }
-  if (!hits.length) {
-    box.innerHTML = '<p class="nbnote">No recipes match. Clear the search or pick another genre.</p>';
-    return;
-  }
-  let lastBook = null;
-  for (const r of hits) {
-    const book = r.book || "other";
-    if (!genre && book !== lastBook) {
-      const h = document.createElement("div");
-      h.className = "rgroup";
-      h.textContent = BOOK_LABEL[book] || book;
-      box.appendChild(h);
-      lastBook = book;
+  for (const key of Object.keys(groups).sort()) {
+    const g = document.createElement("div");
+    g.className = "book-group";
+    const h = document.createElement("h3");
+    h.textContent = BOOK_LABEL[key] || key;
+    g.appendChild(h);
+    for (const r of groups[key]) {
+      const b = document.createElement("button");
+      b.className = "recipe-item";
+      b.dataset.path = r.path;
+      const name = document.createElement("span");
+      name.textContent = r.name;
+      const sub = document.createElement("span");
+      sub.className = "sub";
+      sub.textContent = [
+        r.sounds_like && `sounds like ${r.sounds_like}`,
+        `accuracy ${r.accuracy}`, r.status,
+      ].filter(Boolean).join(" · ");
+      b.appendChild(name);
+      b.appendChild(sub);
+      b.onclick = () => send({ type: "open_recipe", path: r.path });
+      g.appendChild(b);
     }
-    const b = document.createElement("button");
-    b.className = "recipe-item";
-    b.dataset.path = r.path;
-    b.title = [r.sounds_like && `sounds like ${r.sounds_like}`, r.status].filter(Boolean).join(" · ");
-    b.innerHTML = '<span class="nm"></span><span class="acc"></span>';
-    b.querySelector(".nm").textContent = r.name;
-    b.querySelector(".acc").textContent = "Accuracy " + r.accuracy;
-    b.onclick = () => send({ type: "open_recipe", path: r.path });
-    box.appendChild(b);
+    box.appendChild(g);
   }
   markOpenRecipe(openRecipePath);
 }
@@ -516,18 +433,8 @@ function drawBook() {
 function markOpenRecipe(path) {
   openRecipePath = path;
   document.querySelectorAll(".recipe-item").forEach((b) => {
-    const on = b.dataset.path === path;
-    b.classList.toggle("open", on);
-    if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+    b.classList.toggle("open", b.dataset.path === path);
   });
-  const open = document.querySelector(".recipe-item.open");
-  if (open) {   // scroll the list only, never the page
-    const box = $("recipeList");
-    const top = open.offsetTop - box.offsetTop;
-    if (top < box.scrollTop || top + open.offsetHeight > box.scrollTop + box.clientHeight) {
-      box.scrollTop = top - box.clientHeight / 3;
-    }
-  }
 }
 
 /* ---------- doc panel (device references) ---------- */
@@ -596,21 +503,12 @@ document.querySelectorAll("[data-cmd]").forEach((b) => {
     send({ type: "command", command: b.dataset.cmd, args: {} }));
 });
 
-$("askForm").addEventListener("submit", (e) => {
+$("typeForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const text = $("typebox").value.trim();
   if (text) send({ type: "text", text });
   $("typebox").value = "";
 });
-// Enter sends, Shift+Enter makes a new line
-$("typebox").addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    $("askForm").requestSubmit();
-  }
-});
-$("recipeSearch").addEventListener("input", drawBook);
-$("genre").addEventListener("change", drawBook);
 
 $("claudeLoops").onclick = () => send({ type: "command", command: "claude_loops", args: {} });
 $("moreBtn").onclick = () => send({ type: "command", command: "more_results", args: {} });

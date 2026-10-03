@@ -3,210 +3,253 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reason Voice</title>
-<link rel="stylesheet" href="/static/style.css">
-<link rel="stylesheet" href="/static/theme-chalkboard.css">
+<title>Reason Voice — Homeroom Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/static/notebook.css">
 </head>
 <body>
 
-<header>
-  <img id="art" src="/brand/logo-blue.png" alt="" title="The Back of the Class"
-       onerror="this.src='/static/art.png'; this.onerror=()=>this.hidden=true">
-  <div class="brand">Reason&nbsp;Voice</div>
+<header class="top">
+  <div class="brandword">
+    <p class="wordmark">Homeroom Studios</p>
+    <svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"
+         aria-hidden="true"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2
+         14-.9 27-2.3 40-4.8"/></svg>
+  </div>
+  <p class="motto">Music starts here.</p>
   <nav class="apptabs">
     <a href="http://localhost:8770"
        title="The beat-making half — the same launcher starts it.">Make</a>
-    <span class="here" title="You're here — the studio half">Studio</span>
+    <span class="here" title="You're here — recipes, patches, Reason">Reason Voice</span>
+    <button id="helpBtn" class="iconbtn" title="What can I say?" aria-label="What can I say?">?</button>
+    <button id="settingsBtn" class="iconbtn" title="Settings" aria-label="Settings">&#9881;</button>
   </nav>
-  <div id="status" class="pill loading">LOADING&nbsp;MODEL</div>
-  <div id="midi" class="midi" title="MIDI bridge">MIDI <span class="dot"></span></div>
-  <div class="spacer"></div>
-  <button id="helpBtn" class="ghost" title="What can I say?">?</button>
-  <button id="settingsBtn" class="ghost" title="Settings">&#9881;</button>
 </header>
 
-<main>
-  <aside>
-    <form id="typeForm">
-      <input id="typebox" type="text" autocomplete="off"
-             placeholder='Type anything you could say… e.g. recipe for trap 808'>
-    </form>
+<div id="offline" class="offline" role="alert" hidden>
+  Lost connection to Reason Voice — is its Terminal window still open? Trying again…
+</div>
 
-    <button id="claudeLoops" class="wide pinned"
-            title='Also speakable: "claude loops"'>&#129345; Claude Drum Loops</button>
+<div class="cols">
+  <!-- ================= notebook ================= -->
+  <section class="left notebook">
+    <div class="rings" aria-hidden="true"></div>
+    <h1 class="nbtitle"><span>The Back of the Class</span></h1>
 
-    <div id="resultsPanel" hidden>
-      <div class="panel-title">
-        <span id="resultsTitle">Results</span>
-        <span>
-          <button id="auditionBtn" class="ghost small" title="Audition — play results one after another" hidden>&#9654;&#9654;</button>
-          <button id="stopPreview" class="ghost small" title="Stop preview / audition" hidden>&#9632;</button>
-          <button id="clearResults" class="ghost small" title="Clear">&times;</button>
-        </span>
-      </div>
-      <ol id="results"></ol>
-      <button id="moreBtn" class="wide">More results &darr;</button>
+    <label class="nblabel" for="recipeSearch">Recipe book</label>
+    <div class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <input id="recipeSearch" type="text" autocomplete="off" placeholder="Search recipes…">
+    </div>
+    <div class="row">
+      <label for="genre">Genre</label>
+      <select id="genre"><option value="">All</option></select>
+    </div>
+    <div id="recipeList" class="rlist" aria-live="polite">
+      <p class="nbnote">Opening the recipe book…</p>
     </div>
 
-    <div class="panel-title">Templates
+    <div class="nbhead">
+      <span class="nblabel">Templates</span>
       <span>
-        <button id="tplHow" class="ghost small" title="How to save a template">&#65291;</button>
-        <button id="tplFolder" class="ghost small" title="Open Templates folder">&#128194;</button>
+        <button id="tplHow" class="mini" title="How to save a template" aria-label="How to save a template">+</button>
+        <button id="tplFolder" class="mini" title="Open Templates folder" aria-label="Open Templates folder">&#128194;</button>
       </span>
     </div>
     <div id="tplList"></div>
 
     <div id="cratesSection" hidden>
-      <div class="panel-title">Crates</div>
-      <div id="crateList" class="bins"></div>
+      <span class="nblabel">Crates</span>
+      <div id="crateList"></div>
     </div>
 
-    <div id="binsSection" hidden>
-      <div class="panel-title">Sample bins</div>
-      <div id="binList" class="bins"></div>
+    <div id="binsSection">
+      <span class="nblabel">Sample bins</span>
+      <div id="binList"><p class="nbnote">Looking for sample bins…</p></div>
     </div>
 
-    <div class="panel-title">Recipe book</div>
-    <div id="recipeList"></div>
-  </aside>
+    <button id="claudeLoops" class="nbrow plain"
+            title='Also speakable: "claude loops"'>&#129345; Claude Drum Loops</button>
 
-  <section id="stage">
-    <div id="heard" class="heard" hidden>
-      <span class="label">Heard</span> <span id="transcript"></span>
-    </div>
-    <div id="feedback" class="feedback">Starting up…</div>
+    <hr class="dash">
+    <form id="askForm">
+      <label class="nblabel" for="typebox">Ask Reason Voice</label>
+      <div class="ask">
+        <textarea id="typebox" rows="2" autocomplete="off"
+                  placeholder="Type a question or hold to talk…"></textarea>
+        <button type="submit" class="sendbtn">Send</button>
+      </div>
+      <p class="hint">e.g. what is Scream 4? · recipe for trap 808 · find a kick · next step</p>
+    </form>
+  </section>
 
-    <section id="dialPanel" class="card dial" hidden>
-      <div class="card-head">
-        <h2 id="dialDevice">Knobs</h2>
-        <div class="chips">
-          <span id="dialLock" class="chip"></span>
-          <button id="dialUndo" class="small" hidden>&#8617; Undo</button>
+  <!-- ================= chalkboard ================= -->
+  <section class="right board">
+    <img class="boardlogo" src="/brand/logo-white.png" alt="The Back of the Class"
+         onerror="this.hidden=true">
+    <div class="boardtop">
+      <div>
+        <h2 class="rvtitle"><span>Reason Voice</span></h2>
+        <div class="statusrow">
+          <span id="status" class="pill loading" aria-live="polite">Loading model</span>
+          <span id="midi" class="midi" title="MIDI bridge">MIDI <i class="dot"></i></span>
         </div>
       </div>
-      <p id="dialHint" class="sounds-like" hidden></p>
-      <div id="dialKnobs"></div>
-      <p class="dial-tip">Say or type what you want it to do &mdash;
-         &ldquo;give it more punch&rdquo;, &ldquo;set the attack to 30
-         milliseconds&rdquo;, &ldquo;turn the threshold down five
-         percent&rdquo;.</p>
+    </div>
+
+    <!-- search results (patches, samples, recipes) -->
+    <section id="resultsPanel" class="panel" hidden>
+      <div class="panelhead">
+        <h3 id="resultsTitle">Results</h3>
+        <span>
+          <button id="auditionBtn" class="cbtn small" title="Audition — play results one after another" hidden>&#9654;&#9654;</button>
+          <button id="stopPreview" class="cbtn small" title="Stop preview / audition" hidden>&#9632;</button>
+          <button id="clearResults" class="cbtn small" title="Close" aria-label="Close results">&times;</button>
+        </span>
+      </div>
+      <ol id="results"></ol>
+      <button id="moreBtn" class="cbtn">More results &darr;</button>
     </section>
 
-    <div id="docPanel" class="card" hidden>
-      <div class="card-head">
-        <h2 id="docTitle"></h2>
-        <button id="docClose" class="ghost small">&times;</button>
+    <section id="docPanel" class="panel" hidden>
+      <div class="panelhead">
+        <h3 id="docTitle"></h3>
+        <button id="docClose" class="cbtn small" aria-label="Close">&times;</button>
       </div>
       <div id="docBody" class="prose"></div>
-    </div>
+    </section>
 
     <div id="empty" class="empty">
-      <p>Pick a recipe from the book on the left,<br>
-         hold <b>Talk</b> (or the spacebar) and ask for a sound,<br>
-         or type in the box up there. Everything you can say, you can click.</p>
+      <p class="scribble">Pick a recipe</p>
+      <p>Choose one from the notebook, ask for one in the box,<br>
+         or hold <b>Hold to talk</b> (or the spacebar) and say
+         &ldquo;recipe for trap 808&rdquo;.</p>
     </div>
 
-    <article id="card" class="card" hidden>
-      <div class="card-head">
+    <article id="card" hidden>
+      <div class="rhead">
         <h2 id="rName"></h2>
-        <div class="chips">
-          <span id="rBook" class="chip"></span>
-          <span id="rAcc" class="chip"></span>
-          <span id="rStatus" class="chip"></span>
-          <button id="testedBtn" class="small" hidden
-                  title="Flips this recipe's status to tested in its file">&#10003; it worked</button>
-        </div>
+        <span id="rBook" class="badge sun"></span>
+        <span id="rAcc" class="badge line"></span>
+        <span id="rStatus" class="badge line dim"></span>
+        <button id="testedBtn" class="cbtn small" hidden
+                title="Flips this recipe's status to tested in its file">&#10003; it worked</button>
       </div>
-      <p id="rLike" class="sounds-like"></p>
-      <div id="rSections"></div>
+      <p id="rLike" class="like"></p>
+
+      <div id="chainBox">
+        <h3 class="chalkhead"><span>The Chain</span></h3>
+        <div id="chain" class="chain"></div>
+      </div>
+
+      <hr class="chalkline">
+      <div class="stepshead">
+        <h3 class="chalkhead"><span>Steps</span></h3>
+        <span id="stepCount" class="stepcount"></span>
+        <span id="stepBar" class="stepbar" aria-hidden="true"></span>
+      </div>
+      <ol id="steps" class="steps"></ol>
+
+      <div id="walkbar">
+        <button data-cmd="walkthrough" class="cbtn sun">&#9654; Walk me through it</button>
+        <button data-cmd="step_prev" class="cbtn">Back</button>
+        <button data-cmd="step_repeat" class="cbtn">Repeat</button>
+        <button data-cmd="step_next" class="cbtn sun">Next step</button>
+        <button data-cmd="walkthrough_done" class="cbtn ghost">Done</button>
+        <button id="tplBtn" class="cbtn ghost"></button>
+      </div>
+
+      <details id="moreSections" class="more">
+        <summary>Why it works, tricks &amp; upgrades</summary>
+        <div id="rSections"></div>
+      </details>
     </article>
 
-    <div id="walkbar" hidden>
-      <button data-cmd="walkthrough" class="accent">&#9654; Walk me through it</button>
-      <button data-cmd="step_prev">&larr; Back</button>
-      <button data-cmd="step_repeat">Repeat</button>
-      <button data-cmd="step_next" class="accent">Next step &rarr;</button>
-      <button data-cmd="walkthrough_done">Done</button>
-      <button id="tplBtn"></button>
-    </div>
-  </section>
-</main>
 
-<footer>
-  <button id="ptt">
-    <span class="mic">&#127908;</span>
-    <span id="pttLabel">Hold to talk</span>
-  </button>
-  <div class="group" title="Transport">
-    <button data-cmd="play">&#9654; Play</button>
-    <button data-cmd="stop">&#9632; Stop</button>
-    <button data-cmd="record" class="rec">&#9679; Rec</button>
-    <button data-cmd="loop">&#8635; Loop</button>
-  </div>
-  <div class="group" title="Patch on targeted device">
-    <button data-cmd="patch_prev">&#8676; Patch</button>
-    <button data-cmd="patch_next">Patch &#8677;</button>
-  </div>
-  <div class="group" title="Target track">
-    <button data-cmd="track_prev">&uarr; Track</button>
-    <button data-cmd="track_next">&darr; Track</button>
-  </div>
-  <div class="group">
-    <button data-cmd="undo">Undo</button>
-    <button data-cmd="redo">Redo</button>
-    <button data-cmd="find_like_last" title="Find patches similar to the last one loaded">Similar</button>
-  </div>
-</footer>
+    <hr class="chalkline">
+    <div class="voicetray">
+      <button id="ptt" aria-label="Hold to talk">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>
+      </button>
+      <span id="pttLabel" class="pttlabel">Hold to talk</span>
+      <span class="vsep" aria-hidden="true"></span>
+      <div class="transport" role="group" aria-label="Transport">
+        <button data-cmd="play" class="round" title="Play" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" class="fill"/></svg></button>
+        <button data-cmd="stop" class="round" title="Stop" aria-label="Stop"><svg viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" class="fill"/></svg></button>
+        <button data-cmd="record" class="round" title="Record" aria-label="Record"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" class="rec"/></svg></button>
+        <button data-cmd="loop" class="round" title="Loop on/off" aria-label="Loop"><svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3M20 13v2a3 3 0 0 1-3 3H4"/></svg></button>
+      </div>
+      <span class="vsep" aria-hidden="true"></span>
+      <div class="heardbox" aria-live="polite">
+        <div id="heard" hidden><span class="label">Heard:</span> <q id="transcript"></q></div>
+        <div id="feedback" class="feedback">Starting up…</div>
+        <div id="micHelp" class="michelp" hidden>
+          Heard only silence. The mic needs permission: System Settings → Privacy &amp; Security →
+          Microphone → turn on <b>Terminal</b>, then restart Reason Voice.
+        </div>
+      </div>
+    </div>
+    <div class="extras" aria-label="More Reason controls">
+      <span>Patch</span>
+      <button data-cmd="patch_prev" class="cbtn small" title="Previous patch on the targeted device">&#8676;</button>
+      <button data-cmd="patch_next" class="cbtn small" title="Next patch on the targeted device">&#8677;</button>
+      <span>Track</span>
+      <button data-cmd="track_prev" class="cbtn small" title="Target the track above">&uarr;</button>
+      <button data-cmd="track_next" class="cbtn small" title="Target the track below">&darr;</button>
+      <button data-cmd="undo" class="cbtn small">Undo</button>
+      <button data-cmd="redo" class="cbtn small">Redo</button>
+      <button data-cmd="find_like_last" class="cbtn small" title="Find patches similar to the last one loaded">Similar</button>
+    </div>
+    <section id="dialPanel" class="panel dial" hidden>
+      <div class="panelhead">
+        <h3 id="dialDevice">Knobs</h3>
+        <span>
+          <span id="dialLock" class="badge line"></span>
+          <button id="dialUndo" class="cbtn small" hidden>&#8617; Undo</button>
+        </span>
+      </div>
+      <p id="dialHint" class="like" hidden></p>
+      <div id="dialKnobs"></div>
+      <p class="dialtip">Say or type what you want it to do — &ldquo;give it more punch&rdquo;,
+         &ldquo;set the attack to 30 milliseconds&rdquo;.</p>
+    </section>
+    <div class="tray" aria-hidden="true"><i></i><i></i><b></b></div>
+  </section>
+</div>
 
 <div id="helpModal" class="overlay" hidden>
-  <div class="modal">
-    <div class="modal-head"><h2>What can I say?</h2>
-      <button class="ghost small close">&times;</button></div>
+  <div class="modal" role="dialog" aria-label="What can I say?">
+    <div class="panelhead"><h3>What can I say?</h3>
+      <button class="cbtn small close" aria-label="Close">&times;</button></div>
     <table id="helpTable"></table>
-    <p class="hint">Hold the Talk button or the spacebar while speaking.
-       Every command also has a button, and the type-box understands the
-       same phrases.</p>
+    <p class="like">Hold the talk button or the spacebar while speaking. Every command
+       also has a button, and the Ask box understands the same phrases.</p>
   </div>
 </div>
 
 <div id="settingsModal" class="overlay" hidden>
-  <div class="modal">
-    <div class="modal-head"><h2>Settings</h2>
-      <button class="ghost small close">&times;</button></div>
-    <label class="row">
-      <span>Speak replies out loud</span>
-      <input type="checkbox" id="setSpeak">
-    </label>
-    <label class="row">
-      <span>Speech model <small>(tiny = fastest, small = most accurate)</small></span>
+  <div class="modal" role="dialog" aria-label="Settings">
+    <div class="panelhead"><h3>Settings</h3>
+      <button class="cbtn small close" aria-label="Close">&times;</button></div>
+    <label class="srow"><span>Speak replies out loud</span>
+      <input type="checkbox" id="setSpeak"></label>
+    <label class="srow"><span>Speech model <small>(tiny = fastest, small = most accurate)</small></span>
       <select id="setModel">
         <option value="tiny.en">tiny.en</option>
         <option value="base.en">base.en</option>
         <option value="small.en">small.en</option>
-      </select>
-    </label>
-    <label class="row">
-      <span>Results per page</span>
-      <select id="setPer">
-        <option>5</option><option>10</option><option>20</option><option>40</option>
-      </select>
-    </label>
-    <div class="row">
-      <span>Patch index</span>
-      <button data-cmd="reindex" class="small">Rebuild index</button>
-    </div>
-    <div class="row">
-      <span>Phone / tablet remote <small>same wifi</small></span>
-      <span id="infoLan" class="info-val">&mdash;</span>
-    </div>
-    <div class="row">
-      <span>MIDI push-to-talk <small>hold sustain pedal / configured CC</small></span>
-      <span id="infoMidi" class="info-val">&mdash;</span>
-    </div>
-    <div class="row">
-      <span>Quit Reason Voice</span>
-      <button data-cmd="quit" class="small danger">Quit</button>
-    </div>
+      </select></label>
+    <label class="srow"><span>Results per page</span>
+      <select id="setPer"><option>5</option><option>10</option><option>20</option><option>40</option></select></label>
+    <div class="srow"><span>Patch index</span>
+      <button data-cmd="reindex" class="cbtn small">Rebuild index</button></div>
+    <div class="srow"><span>Phone / tablet remote <small>same wifi</small></span>
+      <span id="infoLan" class="info">&mdash;</span></div>
+    <div class="srow"><span>MIDI push-to-talk <small>sustain pedal / configured CC</small></span>
+      <span id="infoMidi" class="info">&mdash;</span></div>
+    <div class="srow"><span>Quit Reason Voice</span>
+      <button data-cmd="quit" class="cbtn small danger">Quit</button></div>
   </div>
 </div>
 

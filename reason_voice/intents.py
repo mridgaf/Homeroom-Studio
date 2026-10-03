@@ -66,7 +66,7 @@ PATTERNS = [
     # -- reindex must outrank recipe search ("rebuild the recipe index") --
     (r"\b(rebuild|refresh|update)\b.*\b(index|library)\b", "reindex", None),
     # -- recipes & walkthrough --
-    (r"^(?:next step|step)$", "step_next", None),
+    (r"^(?:(?:show me|go to|give me)\s+)?(?:the\s+)?(?:next step|step)$", "step_next", None),
     (r"^(?:previous|last|back)\s+step$", "step_prev", None),
     (r"^(?:repeat(?:\s+(?:that|step))?|say (?:that )?again)$", "step_repeat", None),
     (r"^(?:done|finished|end|stop)(?:\s+(?:walkthrough|recipe))?$", "walkthrough_done", None),

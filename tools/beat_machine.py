@@ -6231,7 +6231,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
   <nav class="apptabs">
     <span class="here" title="You're here &mdash; making beats">Make</span>
     <a href="http://localhost:8765"
-       title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Studio</a>
+       title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Reason Voice</a>
   </nav>
 </header>
 
