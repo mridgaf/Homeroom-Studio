@@ -19,6 +19,26 @@ entries.
 ---
 
 ## Log
+### 2026-10-03 Panel Map Phase 0 done: Scream 4 fully checked in Reason
+- Context: owner approved the 7-phase plan (device_refs/_panel_map/PLAN.md, hermes house doc 29) and Phase 0 on Opus medium.
+- Done: all 38 Scream 4 positions checked in Reason 12.7 (37 + new SCR4-F-B09, made by splitting the patch arrows: up = "Select previous patch", down = "Select next patch"). Each row's checked_2026_10_03 field records what Reason showed. Manual ch.51 read in full: every row agrees. Test cable removed (Disconnect). Fold tested and undone. Every remote-vocab item has a code except "Select Patch Delta", which has no control of its own on the panel.
+- Found: hovering any control shows a tooltip with its exact name (+ value). That makes it the zero-change proof method. Sliders show it only on the handle. A cabled jack shows "Connected to <device>: <jack>". Back trims show "<input>: <value>". Displays and the fold triangle show none. Folded devices move their controls.
+- Built: tools/to_screen.py (map pos -> screen point from corner screws; all 38 landed). Method written as a skill (device_refs/_panel_map/SKILL-panel-map.md). It could not be written to .claude/skills ("Writing to .claude is not permitted via remote tools"), so it was offered to the owner as a skill save card.
+- Side effects: test song "untitled 4" still open, unsaved, with the Scream 4. Rack window on the back.
+- Status: confirmed
+- Outcome: -
+
+### 2026-10-02 Panel Map pilot: coded labels for every control, front and back (Scream 4)
+- Context: owner's idea is to give every knob, button, slider and jack a code, so Claude and Hermes always know where things are. It's a reference only; he doesn't want to see it or memorize it. He left the code style to Claude and chose a one-device pilot (Scream 4).
+- Done: device_refs/_panel_map/ has PANEL-MAP.md (code table + rules), scream-4.json (37 controls: 24 front, 13 back), and labeled + raw front/back pictures from his Reason 12.7. Codes look like SCR4-F-K03. Each row holds the exact Remote name, the knob slot/CC (CC 29+k, feedback 77+k), the cable-menu jack name, and the position as a 0-1 fraction of the picture.
+- Reasoning: the code is a nickname layered on top. Reason only accepts its own exact names, so the codes never replace them in the remotemap.
+- Found (tested by opening and closing menus, NO cable made): right-clicking a back-panel jack opens a menu of every device in the song, then a submenu of only the jacks that fit. `*` = already cabled, grey = not allowed, audio outs also offer "Route to New Mix Channel". These menus ARE in the Mac accessibility tree with text (the rack is not). So cabling only needs the jack's position, which is what the map gives.
+- Follow-up same session: CABLE MADE AND CONFIRMED. Map position for SCR4-B-J05 -> screen (513,372) by matching corner screws; right-click hit the jack; picked Room (RV7000) > Decay CV In; re-opened menu shows checkmarks on both + 'Scroll to Connected Device'. Cable left in unsaved 'untitled 4'.
+- Not done: other 36 positions not click-tested; Auto CV Output's menu name not read; arrow direction on the patch browse buttons not checked; no check against the manual (~/.hermes not mounted); no copy for Hermes yet; Hermes with/without-map test not run.
+- Side effects: new unsaved song "untitled 4" with a Scream 4 added, rack detached into its own window and left on the front.
+- Status: open
+- Outcome: -
+
 ### 2026-10-02 Reason Voice.app repointed (item 29 leftover: "the .app window")
 - Found: `~/Applications/Reason Voice.app` launcher pointed at `~/Music/Reason 12/reason-voice 3/ReasonVoice.command`, a folder that no longer exists (project moved 2026-07-19). That is why the app "did not show on either screen" on 09-30. Not in the Dock; Dock only has Homeroom Studio.app and Sound Engine.app.
 - Done: launcher now opens `~/Desktop/Homeroom Studio/ReasonVoice.command`. Killed the stale server (started 09-30 10 PM, before the last `dial_llm.py` change); opening the app started a fresh one (pid 3161, port 8765 answers 200).

@@ -1,0 +1,638 @@
+{
+ "device": "Scream 4 Distortion",
+ "remote_scope": "Propellerheads / Scream 4 Distortion",
+ "code_prefix": "SCR4",
+ "reason_version": "12.7 (screenshots 2026-10-02, John's Mac)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye from one zoom level; not yet click-tested.",
+ "status": "Phase 0 done: all 38 positions checked in Reason 12.7 on 2026-10-03 (hover tooltips / fold click / cable menu); manual ch.51 check passed",
+ "controls": [
+  {
+   "code": "SCR4-F-B01",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.061,
+    0.147
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Enabled: On\""
+  },
+  {
+   "code": "SCR4-F-D01",
+   "side": "front",
+   "panel_label": "(LED column)",
+   "what": "Input level meter",
+   "reason_name": "Input Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.061,
+    0.367
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "no tooltip (display); position checked by eye"
+  },
+  {
+   "code": "SCR4-F-D02",
+   "side": "front",
+   "panel_label": "EASYFUZZ tape",
+   "what": "Device name tape (shows this device's name)",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.524
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"EasyFuzz\" (device name)"
+  },
+  {
+   "code": "SCR4-F-B02",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.161
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "no tooltip; clicked = device folded, clicked again (new spot when folded) = unfolded",
+   "note": "When folded, the device is a thin strip and this triangle sits at its left end (different spot)."
+  },
+  {
+   "code": "SCR4-F-D03",
+   "side": "front",
+   "panel_label": "EasyFuzz",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.156,
+    0.857
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"EasyFuzz\" (patch name)"
+  },
+  {
+   "code": "SCR4-F-B03",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.239,
+    0.822
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Select previous patch\""
+  },
+  {
+   "code": "SCR4-F-B09",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.239,
+    0.885
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Select next patch\""
+  },
+  {
+   "code": "SCR4-F-B04",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.264,
+    0.853
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "tooltip \"Browse patch\""
+  },
+  {
+   "code": "SCR4-F-B05",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.288,
+    0.853
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "tooltip \"Save patch\""
+  },
+  {
+   "code": "SCR4-F-B06",
+   "side": "front",
+   "panel_label": "DAMAGE",
+   "what": "Damage section on/off",
+   "reason_name": "Damage On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.131,
+    0.133
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Damage On/Off\""
+  },
+  {
+   "code": "SCR4-F-K01",
+   "side": "front",
+   "panel_label": "DAMAGE CONTROL",
+   "what": "Amount of distortion",
+   "reason_name": "Damage Control",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.159,
+    0.413
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Damage Control: 70\""
+  },
+  {
+   "code": "SCR4-F-K02",
+   "side": "front",
+   "panel_label": "(type selector)",
+   "what": "Picks 1 of 10 damage types",
+   "reason_name": "Damage Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.228,
+    0.395
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Damage Type\""
+  },
+  {
+   "code": "SCR4-F-D04",
+   "side": "front",
+   "panel_label": "OVERDRIVE...SCREAM",
+   "what": "Damage type list with lights (shows P1/P2 meaning)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.399,
+    0.392
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "no tooltip (display); position checked by eye"
+  },
+  {
+   "code": "SCR4-F-K03",
+   "side": "front",
+   "panel_label": "P1",
+   "what": "Parameter 1 (meaning depends on type)",
+   "reason_name": "Parameter 1",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.346,
+    0.825
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Parameter 1: 52\""
+  },
+  {
+   "code": "SCR4-F-K04",
+   "side": "front",
+   "panel_label": "P2",
+   "what": "Parameter 2 (meaning depends on type)",
+   "reason_name": "Parameter 2",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.424,
+    0.825
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Parameter 2: 28\""
+  },
+  {
+   "code": "SCR4-F-B07",
+   "side": "front",
+   "panel_label": "CUT",
+   "what": "Cut EQ on/off",
+   "reason_name": "Cut On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.562,
+    0.133
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Cut On/Off\""
+  },
+  {
+   "code": "SCR4-F-S01",
+   "side": "front",
+   "panel_label": "LO",
+   "what": "Cut EQ low slider",
+   "reason_name": "Cut Lo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.554,
+    0.524
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Cut Lo: 10\" (on the handle only)",
+   "note": "pos = centre of the slider track. The handle moves with the value; hover the HANDLE to see the tooltip."
+  },
+  {
+   "code": "SCR4-F-S02",
+   "side": "front",
+   "panel_label": "MID",
+   "what": "Cut EQ mid slider",
+   "reason_name": "Cut Mid",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.577,
+    0.524
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Cut Mid: -11\" (on the handle only)",
+   "note": "pos = centre of the slider track. The handle moves with the value; hover the HANDLE to see the tooltip."
+  },
+  {
+   "code": "SCR4-F-S03",
+   "side": "front",
+   "panel_label": "HI",
+   "what": "Cut EQ high slider",
+   "reason_name": "Cut Hi",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.601,
+    0.524
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Cut Hi: 11\" (on the handle only)",
+   "note": "pos = centre of the slider track. The handle moves with the value; hover the HANDLE to see the tooltip."
+  },
+  {
+   "code": "SCR4-F-B08",
+   "side": "front",
+   "panel_label": "BODY",
+   "what": "Body section on/off",
+   "reason_name": "Body On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.658,
+    0.517
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Body On/Off\""
+  },
+  {
+   "code": "SCR4-F-K05",
+   "side": "front",
+   "panel_label": "RESO",
+   "what": "Body resonance",
+   "reason_name": "Body Resonance",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.681,
+    0.692
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Body Resonance: 2\""
+  },
+  {
+   "code": "SCR4-F-K06",
+   "side": "front",
+   "panel_label": "SCALE",
+   "what": "Body size (clockwise = smaller)",
+   "reason_name": "Body Scale",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.729,
+    0.692
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Body Scale: 62\""
+  },
+  {
+   "code": "SCR4-F-K07",
+   "side": "front",
+   "panel_label": "AUTO",
+   "what": "How much the input level moves Body Scale (envelope follower)",
+   "reason_name": "Body Auto",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.777,
+    0.692
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Body Auto: 0\""
+  },
+  {
+   "code": "SCR4-F-K08",
+   "side": "front",
+   "panel_label": "TYPE",
+   "what": "Body type A-E",
+   "reason_name": "Body Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.828,
+    0.692
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Body Type\""
+  },
+  {
+   "code": "SCR4-F-K09",
+   "side": "front",
+   "panel_label": "MASTER",
+   "what": "Output volume",
+   "reason_name": "Master Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.93,
+    0.692
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Master Level: 85\""
+  },
+  {
+   "code": "SCR4-B-J01",
+   "side": "back",
+   "panel_label": "Damage Control (CV in)",
+   "what": "CV input",
+   "reason_cable_menu_name": "Damage Control CV Input",
+   "pos": [
+    0.457,
+    0.221
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Damage Control CV Input\""
+  },
+  {
+   "code": "SCR4-B-K01",
+   "side": "back",
+   "panel_label": "(trim)",
+   "what": "Amount knob for J01",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.492,
+    0.221
+   ],
+   "how": "drag (trim/amount for its CV input); no Remote item",
+   "checked_2026_10_03": "tooltip \"Damage Control CV Input: 127\"",
+   "reason_name": "Damage Control CV Input"
+  },
+  {
+   "code": "SCR4-B-J02",
+   "side": "back",
+   "panel_label": "P1 (CV in)",
+   "what": "CV input",
+   "reason_cable_menu_name": "Parameter 1 CV Input",
+   "pos": [
+    0.457,
+    0.363
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Parameter 1 CV Input\""
+  },
+  {
+   "code": "SCR4-B-K02",
+   "side": "back",
+   "panel_label": "(trim)",
+   "what": "Amount knob for J02",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.492,
+    0.363
+   ],
+   "how": "drag (trim/amount for its CV input); no Remote item",
+   "checked_2026_10_03": "tooltip \"Parameter 1 CV Input: 127\"",
+   "reason_name": "Parameter 1 CV Input"
+  },
+  {
+   "code": "SCR4-B-J03",
+   "side": "back",
+   "panel_label": "P2 (CV in)",
+   "what": "CV input",
+   "reason_cable_menu_name": "Parameter 2 CV Input",
+   "pos": [
+    0.457,
+    0.505
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Parameter 2 CV Input\""
+  },
+  {
+   "code": "SCR4-B-K03",
+   "side": "back",
+   "panel_label": "(trim)",
+   "what": "Amount knob for J03",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.492,
+    0.505
+   ],
+   "how": "drag (trim/amount for its CV input); no Remote item",
+   "checked_2026_10_03": "tooltip \"Parameter 2 CV Input: 127\"",
+   "reason_name": "Parameter 2 CV Input"
+  },
+  {
+   "code": "SCR4-B-J04",
+   "side": "back",
+   "panel_label": "Scale (CV in)",
+   "what": "CV input",
+   "reason_cable_menu_name": "Body Scale CV Input",
+   "pos": [
+    0.457,
+    0.647
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Body Scale CV Input\""
+  },
+  {
+   "code": "SCR4-B-K04",
+   "side": "back",
+   "panel_label": "(trim)",
+   "what": "Amount knob for J04",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.492,
+    0.647
+   ],
+   "how": "drag (trim/amount for its CV input); no Remote item",
+   "checked_2026_10_03": "tooltip \"Body Scale CV Input: 127\"",
+   "reason_name": "Body Scale CV Input"
+  },
+  {
+   "code": "SCR4-B-J05",
+   "side": "back",
+   "panel_label": "Auto CV Output",
+   "what": "CV output from the Body envelope follower (follows input level)",
+   "reason_cable_menu_name": "Body Auto CV Output",
+   "pos": [
+    0.457,
+    0.789
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Body Auto CV Output\"; also a test cable made by map position to Room (RV7000) Decay CV In, confirmed, then disconnected"
+  },
+  {
+   "code": "SCR4-B-J06",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": "Left Input",
+   "pos": [
+    0.657,
+    0.521
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Connected to MatrixBass2: Out\" (cabled); name \"Left Input\" from cable menu"
+  },
+  {
+   "code": "SCR4-B-J07",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": "Right Input",
+   "pos": [
+    0.695,
+    0.521
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Right Input\""
+  },
+  {
+   "code": "SCR4-B-J08",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": "Left Output",
+   "pos": [
+    0.657,
+    0.757
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Connected to side chain: Left\" (cabled); name \"Left Output\" from cable menu"
+  },
+  {
+   "code": "SCR4-B-J09",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": "Right Output",
+   "pos": [
+    0.695,
+    0.757
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Right Output\""
+  }
+ ],
+ "transform_note": "To turn pos into a screen point: find the panel's top-left and bottom-right corner screws on screen and in the picture (front picture screws ~(30,18),(1540,265); back ~(48,38),(1515,278)), then use tools/to_screen.py."
+}
