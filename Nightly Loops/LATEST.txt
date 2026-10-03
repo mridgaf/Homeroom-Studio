@@ -1,10 +1,1 @@
-2026-10-02 loop grab - DONE
-Filed 125 new loops into BOTC Sorted Loops.
-Looperman 45: Bass 1, Chords 1, Drums 3, Melody 32, Vocals 8
-Freesound 80: Bass 8, Chords 3, Drums 40, Melody 29
-No-key files: 57 (named key C + _nokey). CC-BY files needing credit: 43.
-Skipped: Looperman 1 ambience loop (303242 ambience-soft-plucks-hyperpop) and 4 list entries in an odd format (183937, 190391, 229531, 237424).
-  Freesound: FX/noise/ambience/voice sounds and non-music categories skipped, incl. 1169 swoosh FX; 2428 wash FX; 23042 ambience; 39147 beep FX; 67878 FX (saber hum); 159401 riser/tide FX; 169669 hum/noise; 192569 FX/ambience; 248202 heartbeat FX; 427026 wildlife ambience; 431524 humming voice; 443865 laser FX; 586173 club ambience.
-  Duplicates: none. Throttles/429: none. 6 Looperman downloads failed once (network) and worked on retry.
-Short: none. Downloads folder cleaned (originals deleted after filing).
-Full list with every file name and credits: BOTC Sorted Loops/SORTING-LOG-daily.txt
+2026-10-03 loop grab - NOT RUN: Chrome could not be reached (Claude extension not connected) at step 1, before any search or download. Nothing downloaded, nothing filed, nothing deleted.

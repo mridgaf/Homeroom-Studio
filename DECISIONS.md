@@ -19,6 +19,23 @@ entries.
 ---
 
 ## Log
+### 2026-10-03 Panel Map: The Echo done — first device labeled by a cheaper helper
+- Context: owner approved testing whether a Sonnet helper can place the labels on the pictures (Batch A, The Echo first). VST plugins are left out of the map for now (owner's choice).
+- Done: Claude took the pictures in test song "untitled 4". The helper drafted 48 codes, boxes, names and descriptions from the pictures, remotemap, remote-vocab and manual ch.50. Claude then hovered all 48 positions in Reason: 48/48 on target, including the 6 the helper marked medium. The 4 cabled main jacks' names were read from the cable menu. Manual spot-check (5 claims) passed. name_check passes. Fold tested and undone; no cables changed.
+- Found: a hover name can differ from the Remote name ("Diffusion Spread" vs Remote "Diffuse Spread"), so keep both. The INPUT meter's hover says "Master".
+- Verdict: helper labeling works on a fixed-panel device when every position is hover-checked afterwards. Keep the hover check mandatory.
+- Side effect: "untitled 4" now also has The Echo on its own Mix Channel (auto-routed when created). Still unsaved.
+- Status: confirmed
+- Outcome: -
+
+### 2026-10-03 Panel Map Phase 1-2: helpers + inventory, first use of cheaper helper agents
+- Context: owner asked to hand lower-level work to cheaper agents where their work can be checked.
+- Done: two Sonnet helpers worked ONLY on copies in the cloud workspace (no access to his Mac). (1) tools/name_check.py: checks a device map against remote-vocab + remotemap (names, knob slots, CC 29+k / 77+k, codes, positions, checked field). Verified by Claude: Scream 4 passes (only WARN = Select Patch Delta), helper's 10 broken copies fail, Claude's own swapped-knob test fails correctly, also runs on the Mac side (python 3.10 there; 3.9 syntax only checked by the helper, not run). (2) inventory.csv (148 devices Reason has Remote maps for). Counts spot-checked by Claude.
+- Claude then read Reason's Create menus (text, no screen): installed = 63 Reason-made + 15 third-party Rack Extensions + 15 VST plugins (installed.csv, INVENTORY.md). Ch.62 membership and ch.55 settled from the manual text; guitar-amps.md = his physical amps.
+- Open: 5 probable name joins to confirm in Reason (Scales & Chords, Dual Arpeggio, Softube Amp, Softube Bass Amp, Mix Channel). VST plugins left out of the rack map pending owner choice. Box placement by a cheaper model not yet tested.
+- Status: confirmed (tools + inventory) / open (joins, VST scope)
+- Outcome: -
+
 ### 2026-10-03 Panel Map Phase 0 done: Scream 4 fully checked in Reason
 - Context: owner approved the 7-phase plan (device_refs/_panel_map/PLAN.md, hermes house doc 29) and Phase 0 on Opus medium.
 - Done: all 38 Scream 4 positions checked in Reason 12.7 (37 + new SCR4-F-B09, made by splitting the patch arrows: up = "Select previous patch", down = "Select next patch"). Each row's checked_2026_10_03 field records what Reason showed. Manual ch.51 read in full: every row agrees. Test cable removed (Disconnect). Fold tested and undone. Every remote-vocab item has a code except "Select Patch Delta", which has no control of its own on the panel.

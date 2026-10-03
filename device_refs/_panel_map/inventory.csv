@@ -1,0 +1,152 @@
+device_name,manufacturer,in_remote_vocab,vocab_item_count,in_our_remotemap,our_knob_count,guide_file,manual_chapter,panel_map_status,notes
+AcousticGuitarist,Propellerhead Software,yes,10,no,0,none,none,not started,"vocab id ""se.propellerheads.AcousticGuitarist"""
+Algoritm,Propellerhead Software,yes,180,no,0,none,none,not started,"vocab id ""se.propellerheads.Algoritm"""
+Alias8cv,Peff,yes,45,no,0,none,none,not started,"vocab id ""com.peff.Alias8cv"""
+Alligator,Propellerheads,yes,67,yes,48,alligator.md,48 Alligator Triple Filtered Gate,not started,remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)
+Analog Lab V,Arturia,yes,13,no,0,none,none,not started,"vocab id ""vst.Alav.Analog Lab V"""
+Arpeggio,Propellerhead Software,yes,12,no,0,none,none,not started,"vocab id ""se.propellerheads.Arpeggio"""
+Audiomatic,Propellerhead Software,yes,10,yes,6,audiomatic.md,56 Audiomatic Retro Transformer,not started,"vocab id ""se.propellerheads.Audiomatic""; remotemap: exact (scope name = vocab id); 9 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+AutoArp,Black and Orange,yes,26,no,0,none,none,not started,"vocab id ""com.blackandorange.AutoArp"""
+BeatMap,Propellerhead Software,yes,12,no,0,none,none,not started,"vocab id ""se.propellerheads.BeatMap"""
+Buffre,Peff,yes,26,no,0,none,none,not started,"vocab id ""com.peff.Buffre"""
+BV512 Digital Vocoder,Propellerheads,yes,76,no,0,bv512.md,52 BV512 Vocoder,not started,"guide: prefix (one name starts with the other); chapter: judged - title ""BV512 Vocoder"" vs ""BV512 Digital Vocoder"": ""Digital"" extra"
+BVXVocoder,Propellerhead Software,yes,125,no,0,none,none,not started,"vocab id ""se.propellerheads.BVXVocoder"""
+CF-101 Chorus/Flanger,Propellerheads,yes,9,yes,7,cf-101.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 8 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+ChannelDynamics,Propellerhead Software,yes,21,yes,17,channel-dynamics.md,57 Channel Dynamics Compressor & Gate,not started,"vocab id ""se.propellerheads.ChannelDynamics""; remotemap: exact (scope name = vocab id); 20 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+ChannelEQ,Propellerhead Software,yes,23,yes,19,channel-eq.md,58 Channel EQ Equalizer,not started,"vocab id ""se.propellerheads.ChannelEQ""; remotemap: exact (scope name = vocab id); 22 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Combinator,Propellerheads,yes,34,yes,8,combinator.md,63 The Combinator,not started,remotemap: exact (scope name = vocab id and name); 11 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: judged
+COMP-01 Compressor/Limiter,Propellerheads,yes,8,yes,6,comp-01.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 7 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+Complex,Propellerhead Software,yes,110,no,0,none,none,not started,"vocab id ""se.propellerheads.Complex"""
+D-11 Foldback Distortion,Propellerheads,yes,5,yes,3,d-11.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 4 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+DDL-1 Digital Delay Line,Propellerheads,yes,10,yes,8,ddl-1.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 9 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+Directre,Peff,yes,28,no,0,none,none,not started,"vocab id ""com.peff.Directre"""
+Distributor,"Blamsoft, Inc.",yes,8,no,0,none,none,not started,"vocab id ""com.blamsoft.Distributor"""
+DMFC,Propellerhead Software,yes,72,no,0,none,none,not started,"vocab id ""se.propellerheads.DMFC"""
+Dr.REX Loop Player,Propellerheads,yes,58,yes,41,dr-octo-rex.md,29 Dr. Octo Rex Loop Player,not started,"remotemap: exact (scope name = vocab id and name); 44 Map lines total; guide: judged - guide slug ""dr-octo-rex"" vs vocab ""Dr.REX Loop Player""; manual ch.29 is titled ""Dr. Octo Rex Loop Player"", sharing ""Dr."" and ""Rex"" - same device by name similarity; chapter: judged - title ""Dr. Octo Rex Loop Player"" vs vocab ""Dr.REX Loop Player"": same ""Dr."" / ""Rex"" / ""Loop Player"" words"
+dr4,DLD Technology,yes,9,no,0,none,none,not started,"vocab id ""com.dldtechnology.dr4"""
+ECF-42 Envelope Controlled Filter,Propellerheads,yes,13,yes,11,ecf-42.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 12 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+ElectricBass,Propellerhead Software,yes,38,no,0,none,none,not started,"vocab id ""se.propellerheads.ElectricBass"""
+ElectricGuitaristPC,Propellerhead Software,yes,15,no,0,none,none,not started,"vocab id ""se.propellerheads.ElectricGuitaristPC"""
+Europa,Propellerhead Software,yes,130,yes,48,europa.md,30 Europa Shapeshifting Synthesizer,not started,"vocab id ""se.propellerheads.Europa""; remotemap: exact (scope name = vocab id); 51 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+externalmidiinstrument,Propellerhead Software,yes,123,no,0,none,none,not started,"vocab id ""se.propellerheads.externalmidiinstrument"""
+Friktion,Propellerhead Software,yes,96,no,0,none,none,not started,"vocab id ""se.propellerheads.Friktion"""
+getlayedsound,Deadman Audio Devices,yes,23,no,0,none,none,not started,"vocab id ""com.deadmanaudiodevices.getlayedsound"""
+getlayedvoltage,Deadman Audio Devices,yes,22,no,0,none,none,not started,"vocab id ""com.deadmanaudiodevices.getlayedvoltage"""
+Grain,Propellerhead Software,yes,147,yes,48,grain.md,31 Grain Sample Manipulator,not started,"vocab id ""se.propellerheads.Grain""; remotemap: exact (scope name = vocab id); 51 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Humana,Propellerhead Software,yes,53,yes,48,humana.md,42 Humana Vocal Ensemble,not started,"vocab id ""se.propellerheads.Humana""; remotemap: exact (scope name = vocab id); 51 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+ID8 Instrument Device,Propellerheads,yes,22,yes,6,id8.md,37 ID8 Instrument Device,not started,remotemap: exact (scope name = vocab id and name); 7 Map lines total; guide: prefix (one name starts with the other); chapter: exact (same after ignoring case/punctuation)
+Klang,Propellerhead Software,yes,43,yes,39,klang.md,40 Klang Tuned Percussion,not started,"vocab id ""se.propellerheads.Klang""; remotemap: exact (scope name = vocab id); 42 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Kong Drum Designer,Propellerheads,yes,371,yes,48,kong.md,27 Kong Drum Designer,not started,remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: prefix (one name starts with the other); chapter: exact (same after ignoring case/punctuation)
+korg.MonoPoly,KORG,yes,58,no,0,none,none,not started,"vocab id ""jp.co.korg.MonoPoly"""
+korg.Polysix,KORG,yes,34,no,0,none,none,not started,"vocab id ""jp.co.korg.Polysix"""
+labonerecordings.ReQ131,LAB ONE Recordings,yes,9,no,0,none,none,not started,"vocab id ""co.uk.labonerecordings.ReQ131"""
+layers,Propellerhead Software,yes,162,no,0,none,none,not started,"vocab id ""se.propellerheads.layers"""
+layers_wave_edition,Propellerhead Software,yes,163,no,0,none,none,not started,"vocab id ""se.propellerheads.layers_wave_edition"""
+Line 6 Bass Amp,Propellerheads,yes,18,no,0,none,none,not started,
+Line 6 Guitar Amp,Propellerheads,yes,19,no,0,none,none,not started,
+Line Mixer 6:2,Propellerheads,yes,48,no,0,none,68 The Line Mixer 6:2,not started,chapter: judged
+Malstrom Graintable Synthesizer,Propellerheads,yes,120,yes,48,malstrom.md,35 Malström Synthesizer,not started,"remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: prefix (one name starts with the other); chapter: judged - title ""Malström Synthesizer"" vs ""Malstrom Graintable Synthesizer"": diacritic differs, ""Graintable"" extra"
+Master Keyboard,Propellerheads,yes,7,no,0,none,none,not started,
+MasterCompressor,Propellerhead Software,yes,13,yes,9,master-bus-compressor.md,59 Master Bus Compressor,not started,"vocab id ""se.propellerheads.MasterCompressor""; remotemap: exact (scope name = vocab id); 12 Map lines total; guide: judged - guide ""Master Bus Compressor"" vs vocab ""MasterCompressor"": different wording, same words Master+Compressor; ch.59 is ""Master Bus Compressor""; chapter: judged - title ""Master Bus Compressor"" vs ""MasterCompressor"": ""Bus"" extra, spacing differs"
+Matrix Pattern Sequencer,Propellerheads,yes,60,no,0,matrix.md,66 Matrix Pattern Sequencer,not started,guide: prefix (one name starts with the other); chapter: exact (same after ignoring case/punctuation)
+MClass Compressor,Propellerheads,yes,14,yes,8,mclass-compressor.md,61 The MClass Effects,not started,remotemap: exact (scope name = vocab id and name); 9 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: judged - via chapter title
+MClass Equalizer,Propellerheads,yes,20,yes,18,mclass-equalizer.md,61 The MClass Effects,not started,remotemap: exact (scope name = vocab id and name); 19 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: judged - via chapter title
+MClass Maximizer,Propellerheads,yes,15,yes,9,mclass-maximizer.md,61 The MClass Effects,not started,remotemap: exact (scope name = vocab id and name); 10 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: judged - via chapter title
+MClass Stereo Imager,Propellerheads,yes,12,yes,8,mclass-stereo-imager.md,61 The MClass Effects,not started,remotemap: exact (scope name = vocab id and name); 9 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: judged - via chapter title
+Mimic,Propellerhead Software,yes,489,yes,43,mimic.md,32 Mimic Creative Sampler,not started,"vocab id ""se.propellerheads.Mimic""; remotemap: exact (scope name = vocab id); 46 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Mixer 14:2,Propellerheads,yes,208,no,0,mixer-14-2.md,67 Mixer 14:2,not started,guide: exact (same after ignoring case/punctuation); chapter: exact (same after ignoring case/punctuation)
+Monotone,Propellerhead Software,yes,43,yes,39,monotone.md,36 Monotone Bass Synthesizer,not started,"vocab id ""se.propellerheads.Monotone""; remotemap: exact (scope name = vocab id); 42 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Neptune Pitch Adjuster,Propellerheads,yes,27,yes,26,neptune.md,54 Neptune Pitch Adjuster and Voice Synth,not started,remotemap: exact (scope name = vocab id and name); 27 Map lines total; guide: prefix (one name starts with the other); chapter: prefix (one name starts with the other)
+NN-XT Advanced Sampler,Propellerheads,yes,23,yes,17,nn-xt.md,43 NN-XT Sampler,not started,"remotemap: exact (scope name = vocab id and name); 20 Map lines total; guide: prefix (one name starts with the other); chapter: judged - title ""NN-XT Sampler"" vs ""NN-XT Advanced Sampler"": ""Advanced"" extra"
+NN19 Digital Sampler,Propellerheads,yes,59,yes,48,nn-19.md,44 NN-19 Sampler,not started,"remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: prefix (one name starts with the other); chapter: judged - title ""NN-19 Sampler"" vs ""NN19 Digital Sampler"": hyphen and ""Digital"" differ"
+NoteEcho,Propellerhead Software,yes,8,no,0,none,none,not started,"vocab id ""se.propellerheads.NoteEcho"""
+Objekt,Propellerhead Software,yes,145,no,0,none,none,not started,"vocab id ""se.propellerheads.Objekt"""
+Pangea,Propellerhead Software,yes,43,yes,39,pangea.md,41 Pangea World Instruments,not started,"vocab id ""se.propellerheads.Pangea""; remotemap: exact (scope name = vocab id); 42 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Parsec,Propellerhead Software,yes,101,no,0,none,none,not started,"vocab id ""se.propellerheads.Parsec"""
+PEQ-2 Two Band Parametric EQ,Propellerheads,yes,10,yes,8,peq-2.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 9 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+PH-90 Phaser,Propellerheads,yes,10,yes,8,ph-90.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 9 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+Polar,Propellerhead Software,yes,54,no,0,none,none,not started,"vocab id ""se.propellerheads.Polar"""
+ProcessedPianos,Propellerhead Software,yes,103,no,0,none,none,not started,"vocab id ""se.propellerheads.ProcessedPianos"""
+Pulsar,Propellerhead Software,yes,33,no,0,pulsar.md,64 Pulsar Dual LFO,not started,"vocab id ""se.propellerheads.Pulsar""; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Pulveriser,Propellerheads,yes,31,yes,25,pulveriser.md,49 Pulveriser,not started,remotemap: exact (scope name = vocab id and name); 28 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: exact (same after ignoring case/punctuation)
+PX7,Propellerhead Software,yes,32,no,0,none,none,not started,"vocab id ""se.propellerheads.PX7""; another vocab id has the same name ignoring case (kept as separate rows)"
+px7,Propellerhead Software,yes,1,no,0,none,none,not started,"vocab id ""se.propellerheads.px7""; another vocab id has the same name ignoring case (kept as separate rows)"
+Quartet,Propellerhead Software,yes,32,yes,28,quartet.md,46 Quartet Chorus Ensemble,not started,"vocab id ""se.propellerheads.Quartet""; remotemap: exact (scope name = vocab id); 31 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+RadicalKeys,Propellerhead Software,yes,59,no,0,none,none,not started,"vocab id ""se.propellerheads.RadicalKeys""; another vocab id has the same name ignoring case (kept as separate rows)"
+radicalkeys,Propellerhead Software,yes,1,no,0,none,none,not started,"vocab id ""se.propellerheads.radicalkeys""; another vocab id has the same name ignoring case (kept as separate rows)"
+radicalpiano,Propellerhead Software,yes,31,yes,26,radical-piano.md,39 Radical Piano,not started,"vocab id ""se.propellerheads.radicalpiano""; remotemap: exact (scope name = vocab id); 29 Map lines total; guide: exact (same after ignoring case/punctuation) - vocab also has RadicalKeys/radicalkeys (different names); only ""radicalpiano"" matches the slug; chapter: exact (same after ignoring case/punctuation)"
+RDK,Propellerhead Software,yes,206,no,0,none,none,not started,"vocab id ""se.propellerheads.RDK"""
+RE2A,Cakewalk,yes,6,no,0,none,none,not started,"vocab id ""com.cakewalk.RE2A"""
+Reason Document,Propellerheads,yes,69,yes,0,none,none,not started,remotemap: exact (scope name = vocab id and name); 8 Map lines total
+Reason Essentials Main Mixer Channel,Propellerheads,yes,43,no,0,none,none,not started,
+Reason Essentials Master Section,Propellerheads,yes,963,no,0,none,none,not started,
+Reason Main Mixer Channel,Propellerheads,yes,87,no,0,none,none,not started,
+Reason Master Section,Propellerheads,yes,1855,yes,48,none,none,not started,remotemap: exact (scope name = vocab id and name); 48 Map lines total
+ReasonAmp,Propellerhead Software,yes,16,yes,11,none,none,not started,"vocab id ""se.propellerheads.ReasonAmp""; remotemap: exact (scope name = vocab id); 14 Map lines total"
+ReasonBassAmp,Propellerhead Software,yes,16,yes,11,none,none,not started,"vocab id ""se.propellerheads.ReasonBassAmp""; remotemap: exact (scope name = vocab id); 14 Map lines total"
+ReBirth Input Machine,Propellerheads,yes,20,no,0,none,none,not started,
+Record Document,Propellerheads,yes,64,no,0,none,none,not started,
+Record Main Mixer Channel,Propellerheads,yes,87,no,0,none,none,not started,
+Record Master Section,Propellerheads,yes,1620,no,0,none,none,not started,
+Redrum Drum Computer,Propellerheads,yes,241,yes,48,redrum.md,28 Redrum Drum Computer,not started,remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: prefix (one name starts with the other); chapter: exact (same after ignoring case/punctuation)
+ReGroove Mixer,Propellerheads,yes,227,no,0,none,22 The ReGroove Mixer,not started,"chapter: judged - title ""The ReGroove Mixer"" vs ""ReGroove Mixer"": leading ""The"""
+Resampler,"Blamsoft, Inc.",yes,10,no,0,none,none,not started,"vocab id ""com.blamsoft.Resampler"""
+ReVolt,Black and Orange,yes,17,no,0,none,none,not started,"vocab id ""com.blackandorange.ReVolt"""
+Rotor,Propellerhead Software,yes,20,no,0,none,none,not started,"vocab id ""se.propellerheads.Rotor""; another vocab id has the same name ignoring case (kept as separate rows)"
+rotor,Propellerhead Software,yes,1,no,0,none,none,not started,"vocab id ""se.propellerheads.rotor""; another vocab id has the same name ignoring case (kept as separate rows)"
+roughrider,"Audio Damage, Inc.",yes,8,no,0,none,none,not started,"vocab id ""com.audiodamage.roughrider"""
+RPG-8 Monophonic Arpeggiator,Propellerheads,yes,90,no,0,rpg-8.md,65 RPG-8 Arpeggiator,not started,"guide: prefix (one name starts with the other); chapter: judged - title ""RPG-8 Arpeggiator"" vs ""RPG-8 Monophonic Arpeggiator"": ""Monophonic"" extra"
+RV-7 Digital Reverb,Propellerheads,yes,8,yes,6,rv-7.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 7 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+RV7000 Advanced Reverb,Propellerheads,yes,23,yes,16,rv7000-mkii.md,53 RV7000 Mk II Advanced Reverb,not started,"remotemap: exact (scope name = vocab id and name); 17 Map lines total; guide: judged - guide ""RV7000 Mk II"" vs vocab ""RV7000 Advanced Reverb"": share ""RV7000""; ch.53 title is ""RV7000 Mk II Advanced Reverb""; chapter: judged - title ""RV7000 Mk II Advanced Reverb"" vs ""RV7000 Advanced Reverb"": ""Mk II"" extra"
+ScalesAndChords,Propellerhead Software,yes,11,no,0,none,none,not started,"vocab id ""se.propellerheads.ScalesAndChords"""
+ScenicHybrid,Propellerhead Software,yes,147,no,0,none,none,not started,"vocab id ""se.propellerheads.ScenicHybrid"""
+Scream 4 Distortion,Propellerheads,yes,22,yes,16,scream-4.md,51 Scream 4 Sound Destruction Unit,done,"remotemap: exact (scope name = vocab id and name); 17 Map lines total; guide: prefix (one name starts with the other); chapter: judged - title ""Scream 4 Sound Destruction Unit"" vs ""Scream 4 Distortion"": share ""Scream 4""; panel map: done (PANEL-MAP.md Devices table row ""Scream 4 Distortion"", exact vocab name)"
+Spider Audio Merger & Splitter,Propellerheads,yes,11,no,0,none,none,not started,
+Spider CV Merger & Splitter,Propellerheads,yes,48,no,0,none,none,not started,
+SubTractor Analog Synthesizer,Propellerheads,yes,91,yes,48,subtractor.md,34 Subtractor Synthesizer,not started,"remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: prefix (one name starts with the other); chapter: judged - title ""Subtractor Synthesizer"" vs ""SubTractor Analog Synthesizer"": same word Subtractor + Synthesizer (case differs, ""Analog"" extra)"
+Sweeper,Propellerhead Software,yes,37,yes,33,sweeper.md,47 Sweeper Modulation Effect,not started,"vocab id ""se.propellerheads.Sweeper""; remotemap: exact (scope name = vocab id); 36 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+Synchronous,Propellerhead Software,yes,36,yes,32,synchronous.md,60 Synchronous Timed Effect Modulator,not started,"vocab id ""se.propellerheads.Synchronous""; remotemap: exact (scope name = vocab id); 35 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: prefix (one name starts with the other)"
+The Echo,Propellerheads,yes,32,yes,26,the-echo.md,50 The Echo,not started,remotemap: exact (scope name = vocab id and name); 29 Map lines total; guide: exact (same after ignoring case/punctuation); chapter: exact (same after ignoring case/punctuation)
+THOR Polysonic Synthesizer,Propellerheads,yes,207,no,0,none,none,not started,"vocab id ""THOR Polysonic Synthesizer""; another vocab id has the same name ignoring case (kept as separate rows)"
+Thor Polysonic Synthesizer,Propellerheads,yes,369,yes,48,thor.md,33 Thor Polysonic Synthesizer,not started,"vocab id ""Thor Polysonic Synthesizer""; another vocab id has the same name ignoring case (kept as separate rows); remotemap: exact (scope name = vocab id and name); 51 Map lines total; guide: prefix (one name starts with the other) - vocab has two ids that differ only by case (""THOR..."" 207 items, ""Thor..."" 369 items); attached to the ""Thor"" one, which is the exact-case name used in our remotemap; chapter: exact (same after ignoring case/punctuation)"
+TrafficControl,Black and Orange,yes,1,no,0,none,none,not started,"vocab id ""com.blackandorange.TrafficControl"""
+Umpf,Propellerhead Software,yes,156,no,0,none,none,not started,"vocab id ""se.propellerheads.Umpf"""
+UmpfRetroBeats,Propellerhead Software,yes,145,no,0,none,none,not started,"vocab id ""se.propellerheads.UmpfRetroBeats"""
+UN-16 Unison,Propellerheads,yes,6,yes,4,un-16.md,62 Half-Rack Effects,not started,remotemap: exact (scope name = vocab id and name); 5 Map lines total; guide: prefix (one name starts with the other); chapter: judged - via chapter title; chapter 62 membership unverified (see report)
+Viking,"Blamsoft, Inc.",yes,25,no,0,none,none,not started,"vocab id ""com.blamsoft.Viking"""
+vst.ARP3,Arturia,yes,9,no,0,none,none,not started,
+vst.AStr,Arturia,yes,1,no,0,none,none,not started,
+vst.AVcs,Arturia,yes,1,no,0,none,none,not started,
+vst.BuEa,Arturia,yes,1,no,0,none,none,not started,
+vst.Clav,Arturia,yes,1,no,0,none,none,not started,
+vst.CMIv,Arturia,yes,1,no,0,none,none,not started,
+vst.CsCz,Arturia,yes,1,no,0,none,none,not started,
+vst.CSV4,Arturia,yes,1,no,0,none,none,not started,
+vst.Dx71,Arturia,yes,1,no,0,none,none,not started,
+vst.Emu1,Arturia,yes,1,no,0,none,none,not started,
+vst.Farf,Arturia,yes,1,no,0,none,none,not started,
+vst.Jun1,Arturia,yes,1,no,0,none,none,not started,
+vst.JUP4,Arturia,yes,1,no,0,none,none,not started,
+vst.Kat1,Arturia,yes,2,no,0,none,none,not started,
+vst.KMSV,Arturia,yes,1,no,0,none,none,not started,
+vst.Mat2,Arturia,yes,1,no,0,none,none,not started,
+vst.Min3,Arturia,yes,1,no,0,none,none,not started,
+vst.MLTN,Arturia,yes,1,no,0,none,none,not started,
+vst.MOD3,Arturia,yes,1,no,0,none,none,not started,
+vst.OBS2,Arturia,yes,1,no,0,none,none,not started,
+vst.OBXa,Arturia,yes,1,no,0,none,none,not started,
+vst.Pia3.Piano V3,Arturia,yes,13,no,0,none,none,not started,
+vst.PRO5,Arturia,yes,1,no,0,none,none,not started,
+vst.PRVS,Arturia,yes,1,no,0,none,none,not started,
+vst.SNTY,Arturia,yes,1,no,0,none,none,not started,
+vst.Sol2,Arturia,yes,1,no,0,none,none,not started,
+vst.SQ80,Arturia,yes,1,no,0,none,none,not started,
+vst.Stg2,Arturia,yes,1,no,0,none,none,not started,
+vst.Sycl,Arturia,yes,1,no,0,none,none,not started,
+vst.TnW2,Arturia,yes,1,no,0,none,none,not started,
+vst.Voco,Arturia,yes,1,no,0,none,none,not started,
+vst.Vox2,Arturia,yes,1,no,0,none,none,not started,
+vst.WUR2,Arturia,yes,1,no,0,none,none,not started,
+Rytmik Drum Machine,unknown,no,0,no,0,rytmik.md,38 Rytmik Drum Machine,not started,"not in remote-vocab; name taken from manual ch.38 title; guide joined by judged match: slug ""rytmik"" vs title ""Rytmik Drum Machine"" (prefix); chapter: exact (title = name)"
+MIDI Out Device,unknown,no,0,no,0,none,45 MIDI Out Device,not started,"not joined to any vocab device (possible vocab ""externalmidiinstrument"" not asserted); row represents the chapter only."
+Softube Amps,unknown,no,0,no,0,none,55 Softube Amps,not started,"group chapter ""Softube Amps"" (via chapter title). No vocab device name says Softube, so which devices it covers is unknown; no vocab/guide joined. Row represents the chapter only."

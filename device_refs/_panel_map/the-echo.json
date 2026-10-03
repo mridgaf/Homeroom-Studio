@@ -1,0 +1,812 @@
+{
+ "device": "The Echo",
+ "remote_scope": "Propellerheads / The Echo",
+ "code_prefix": "ECHO",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye from one zoom level; not yet click-tested.",
+ "status": "done 2026-10-03: labels drafted by a Sonnet helper; all 48 positions hover/click-checked in Reason 12.7 by Claude (48/48 on target)",
+ "controls": [
+  {
+   "code": "ECHO-F-B02",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.13,
+    0.141
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Enabled: On\""
+  },
+  {
+   "code": "ECHO-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.08
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "no tooltip; clicked = folded, clicked folded strip's triangle = unfolded"
+  },
+  {
+   "code": "ECHO-F-D02",
+   "side": "front",
+   "panel_label": "Input",
+   "what": "Input level meter (3 LEDs: green, yellow, red = clipping)",
+   "reason_name": "Input Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.864,
+    0.141
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Master\" (twice). Not proof of the name \"Input Peak Meter\"; position is the INPUT meter by eye"
+  },
+  {
+   "code": "ECHO-F-D03",
+   "side": "front",
+   "panel_label": "WARM ECHO tape",
+   "what": "Device name tape (shows this device's name)",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.023,
+    0.664
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Warm Echo\""
+  },
+  {
+   "code": "ECHO-F-D01",
+   "side": "front",
+   "panel_label": "Warm Echo",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.513,
+    0.143
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Warm Echo\""
+  },
+  {
+   "code": "ECHO-F-B03",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.67,
+    0.118
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Select previous patch\""
+  },
+  {
+   "code": "ECHO-F-B04",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.67,
+    0.166
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_03": "tooltip \"Select next patch\""
+  },
+  {
+   "code": "ECHO-F-B05",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.695,
+    0.143
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "tooltip \"Browse patch\""
+  },
+  {
+   "code": "ECHO-F-B06",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.719,
+    0.143
+   ],
+   "how": "click only",
+   "checked_2026_10_03": "tooltip \"Save patch\""
+  },
+  {
+   "code": "ECHO-F-B07",
+   "side": "front",
+   "panel_label": "NORMAL/TRIGGERED/ROLL",
+   "what": "Mode switch, 3 positions: Normal, Triggered, Roll",
+   "reason_name": "Input Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.145,
+    0.402
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Input Mode: Normal\""
+  },
+  {
+   "code": "ECHO-F-B09",
+   "side": "front",
+   "panel_label": "TRIG",
+   "what": "Trigger button; opens the input gate while held (Triggered mode only)",
+   "reason_name": "Trig",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.2,
+    0.602
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Trig\""
+  },
+  {
+   "code": "ECHO-F-S01",
+   "side": "front",
+   "panel_label": "0 ... ROLL",
+   "what": "Roll slider; slide 0 to full Roll for stutter/repeat (Roll mode only)",
+   "reason_name": "Roll Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.172,
+    0.793
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Roll Enabled: 0%\""
+  },
+  {
+   "code": "ECHO-F-K01",
+   "side": "front",
+   "panel_label": "TIME",
+   "what": "Delay time (1-1000 ms, or note values with Sync)",
+   "reason_name": "Delay Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.269,
+    0.402
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Delay Time: 3/16\""
+  },
+  {
+   "code": "ECHO-F-K02",
+   "side": "front",
+   "panel_label": "OFFSET R (Delay)",
+   "what": "Right channel delay time offset",
+   "reason_name": "Right Ch Time Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.325,
+    0.409
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Right Ch Time Offset: 0\""
+  },
+  {
+   "code": "ECHO-F-B10",
+   "side": "front",
+   "panel_label": "KEEP PITCH",
+   "what": "Keep pitch fixed when delay time changes",
+   "reason_name": "Keep Pitch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.253,
+    0.6
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Keep Pitch\""
+  },
+  {
+   "code": "ECHO-F-B11",
+   "side": "front",
+   "panel_label": "SYNC",
+   "what": "Tempo sync for Time and Offset R",
+   "reason_name": "Sync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.311,
+    0.602
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Sync\""
+  },
+  {
+   "code": "ECHO-F-B14",
+   "side": "front",
+   "panel_label": "PING-PONG",
+   "what": "Ping-pong on/off (repeats alternate left and right)",
+   "reason_name": "Ping-Pong Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.268,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Ping-Pong Mode\""
+  },
+  {
+   "code": "ECHO-F-K09",
+   "side": "front",
+   "panel_label": "PAN",
+   "what": "Ping-pong stereo width and first-repeat side",
+   "reason_name": "Ping-Pong Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.325,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Ping-Pong Pan: -100\""
+  },
+  {
+   "code": "ECHO-F-K03",
+   "side": "front",
+   "panel_label": "FEEDBACK",
+   "what": "Amount of echo fed back (number of repeats)",
+   "reason_name": "Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.409,
+    0.402
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Feedback: 22%\""
+  },
+  {
+   "code": "ECHO-F-K04",
+   "side": "front",
+   "panel_label": "OFFSET R (Feedback)",
+   "what": "Right channel feedback offset (bipolar)",
+   "reason_name": "Right Ch Feedback Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.467,
+    0.405
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Right Ch Feedback Offset: 0%\""
+  },
+  {
+   "code": "ECHO-F-B12",
+   "side": "front",
+   "panel_label": "DIFFUSION (button)",
+   "what": "Diffusion on/off",
+   "reason_name": "Diffuse On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.381,
+    0.614
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Diffuse On\""
+  },
+  {
+   "code": "ECHO-F-K10",
+   "side": "front",
+   "panel_label": "SPREAD",
+   "what": "Diffusion spread (how wide the smear is)",
+   "reason_name": "Diffuse Spread",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.409,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Diffusion Spread: 50%\"",
+   "tooltip_name": "Diffusion Spread",
+   "note": "Hover name differs from the Remote name (Diffusion vs Diffuse). Use the Remote name to control it."
+  },
+  {
+   "code": "ECHO-F-K11",
+   "side": "front",
+   "panel_label": "AMOUNT (Diffusion)",
+   "what": "Diffusion amount",
+   "reason_name": "Diffuse Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.467,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Diffusion Amount: 50%\"",
+   "tooltip_name": "Diffusion Amount",
+   "note": "Hover name differs from the Remote name (Diffusion vs Diffuse). Use the Remote name to control it."
+  },
+  {
+   "code": "ECHO-F-K05",
+   "side": "front",
+   "panel_label": "DRIVE",
+   "what": "Amount of the selected limiter/distortion",
+   "reason_name": "Drive Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.55,
+    0.414
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Drive Amount: 32%\""
+  },
+  {
+   "code": "ECHO-F-B08",
+   "side": "front",
+   "panel_label": "TYPE (LIM/OVDR/DIST/TUBE)",
+   "what": "Color type switch, 4 positions",
+   "reason_name": "Drive Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.594,
+    0.402
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Drive Type: Tube\""
+  },
+  {
+   "code": "ECHO-F-B13",
+   "side": "front",
+   "panel_label": "FILTER (button)",
+   "what": "Filter on/off",
+   "reason_name": "Filter On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.523,
+    0.614
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Filter On\""
+  },
+  {
+   "code": "ECHO-F-K12",
+   "side": "front",
+   "panel_label": "FREQ",
+   "what": "Filter frequency",
+   "reason_name": "Filter Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.55,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Filter Frequency: 651.3 Hz\""
+  },
+  {
+   "code": "ECHO-F-K13",
+   "side": "front",
+   "panel_label": "RESO",
+   "what": "Filter resonance",
+   "reason_name": "Filter Resonance",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.609,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Filter Resonance: 22%\""
+  },
+  {
+   "code": "ECHO-F-K06",
+   "side": "front",
+   "panel_label": "ENV",
+   "what": "Pitch bend of repeats, down or up (bipolar)",
+   "reason_name": "Envelope",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.692,
+    0.414
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Envelope: 0%\""
+  },
+  {
+   "code": "ECHO-F-K07",
+   "side": "front",
+   "panel_label": "WOBBLE",
+   "what": "Random tape-speed wobble",
+   "reason_name": "Wobble",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.751,
+    0.414
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Wobble: 0%\""
+  },
+  {
+   "code": "ECHO-F-K14",
+   "side": "front",
+   "panel_label": "RATE",
+   "what": "LFO speed",
+   "reason_name": "LFO Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.692,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"LFO Rate: 0.46 Hz\""
+  },
+  {
+   "code": "ECHO-F-K15",
+   "side": "front",
+   "panel_label": "AMOUNT (LFO)",
+   "what": "LFO amount",
+   "reason_name": "LFO Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.751,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"LFO Amount: 0%\""
+  },
+  {
+   "code": "ECHO-F-K08",
+   "side": "front",
+   "panel_label": "DRY/WET",
+   "what": "Balance between dry and echo signal",
+   "reason_name": "Dry/Wet Balance",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.832,
+    0.414
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Dry/Wet Balance: 100%\""
+  },
+  {
+   "code": "ECHO-F-K16",
+   "side": "front",
+   "panel_label": "DUCKING",
+   "what": "Lowers echo while input is playing",
+   "reason_name": "Ducking",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.832,
+    0.732
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_03": "tooltip \"Ducking: 0%\""
+  },
+  {
+   "code": "ECHO-B-J01",
+   "side": "back",
+   "panel_label": "Trig (CV in)",
+   "what": "Gate input for the Trig function",
+   "reason_cable_menu_name": "Trig CV In",
+   "pos": [
+    0.275,
+    0.341
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Trig CV In\""
+  },
+  {
+   "code": "ECHO-B-J02",
+   "side": "back",
+   "panel_label": "Roll (CV in)",
+   "what": "CV input for Roll amount",
+   "reason_cable_menu_name": "Roll CV In",
+   "pos": [
+    0.275,
+    0.465
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Roll CV In\""
+  },
+  {
+   "code": "ECHO-B-J03",
+   "side": "back",
+   "panel_label": "Delay Time (CV in)",
+   "what": "CV input for delay time",
+   "reason_cable_menu_name": "Delay Time CV In",
+   "pos": [
+    0.275,
+    0.588
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Delay Time CV In\""
+  },
+  {
+   "code": "ECHO-B-J04",
+   "side": "back",
+   "panel_label": "Filter Freq (CV in)",
+   "what": "CV input for filter frequency",
+   "reason_cable_menu_name": "Filter Frequency CV In",
+   "pos": [
+    0.275,
+    0.712
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Filter Frequency CV In\""
+  },
+  {
+   "code": "ECHO-B-K01",
+   "side": "back",
+   "panel_label": "(trim)",
+   "what": "Amount knob for Delay Time CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.246,
+    0.588
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_03": "tooltip \"Delay Time CV Modulation Amount: 100\"",
+   "reason_name": "Delay Time CV Modulation Amount",
+   "remote_item": false
+  },
+  {
+   "code": "ECHO-B-K02",
+   "side": "back",
+   "panel_label": "(trim)",
+   "what": "Amount knob for Filter Freq CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.246,
+    0.712
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_03": "tooltip \"Filter Frequency CV Modulation Amoun[t] (cut off)\"",
+   "reason_name": "Filter Frequency CV Modulation Amount",
+   "remote_item": false
+  },
+  {
+   "code": "ECHO-B-J05",
+   "side": "back",
+   "panel_label": "Breakout Output L",
+   "what": "Feedback loop send, left",
+   "reason_cable_menu_name": "Feedback Loop Left Output",
+   "pos": [
+    0.554,
+    0.302
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Feedback Loop Left Output\""
+  },
+  {
+   "code": "ECHO-B-J06",
+   "side": "back",
+   "panel_label": "Breakout Output R",
+   "what": "Feedback loop send, right",
+   "reason_cable_menu_name": "Feedback Loop Right Output",
+   "pos": [
+    0.602,
+    0.302
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Feedback Loop Right Output\""
+  },
+  {
+   "code": "ECHO-B-J07",
+   "side": "back",
+   "panel_label": "Main Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": "Left Input",
+   "pos": [
+    0.696,
+    0.302
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Connected to Mix Channel: To Insert FX\"; name \"Left Input\" read from the cable menu"
+  },
+  {
+   "code": "ECHO-B-J08",
+   "side": "back",
+   "panel_label": "Main Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": "Right Input",
+   "pos": [
+    0.743,
+    0.302
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Connected to Mix Channel: To Insert FX\"; name \"Right Input\" read from the cable menu"
+  },
+  {
+   "code": "ECHO-B-J09",
+   "side": "back",
+   "panel_label": "Breakout Input L",
+   "what": "Feedback loop return, left",
+   "reason_cable_menu_name": "Feedback Loop Left Input",
+   "pos": [
+    0.554,
+    0.737
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Feedback Loop Left Input\""
+  },
+  {
+   "code": "ECHO-B-J10",
+   "side": "back",
+   "panel_label": "Breakout Input R",
+   "what": "Feedback loop return, right",
+   "reason_cable_menu_name": "Feedback Loop Right Input",
+   "pos": [
+    0.602,
+    0.737
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Feedback Loop Right Input\""
+  },
+  {
+   "code": "ECHO-B-J11",
+   "side": "back",
+   "panel_label": "Main Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": "Left Output",
+   "pos": [
+    0.696,
+    0.737
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Connected to Mix Channel: From Insert\"; name \"Left Output\" read from the cable menu"
+  },
+  {
+   "code": "ECHO-B-J12",
+   "side": "back",
+   "panel_label": "Main Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": "Right Output",
+   "pos": [
+    0.745,
+    0.737
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_03": "tooltip \"Connected to Mix Channel: From Insert\"; name \"Right Output\" read from the cable menu"
+  }
+ ]
+}
