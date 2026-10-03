@@ -19,6 +19,14 @@ entries.
 ---
 
 ## Log
+### 2026-10-03 Panel Map Batch A paused (14 of 17 captured)
+- Raw front/back pictures for 14 devices saved to device_refs/_panel_map/_captures_batchA/ (see RESUME.md there). RV7000 programmer: Reverb mode only.
+- Not done: Channel EQ, Channel Dynamics, Master Bus Compressor; helper labeling; hover checks.
+- Reason state: test song "untitled 4" open, unsaved, holds all those devices. Reduce Cable Clutter (K) is ON. Turn it off when Batch A ends.
+- Paused because the action safety checker went offline mid-run, then owner chose to pause.
+- Status: open
+- Outcome: -
+
 ### 2026-10-03 Panel Map: The Echo done — first device labeled by a cheaper helper
 - Context: owner approved testing whether a Sonnet helper can place the labels on the pictures (Batch A, The Echo first). VST plugins are left out of the map for now (owner's choice).
 - Done: Claude took the pictures in test song "untitled 4". The helper drafted 48 codes, boxes, names and descriptions from the pictures, remotemap, remote-vocab and manual ch.50. Claude then hovered all 48 positions in Reason: 48/48 on target, including the 6 the helper marked medium. The 4 cabled main jacks' names were read from the cable menu. Manual spot-check (5 claims) passed. name_check passes. Fold tested and undone; no cables changed.

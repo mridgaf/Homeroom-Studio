@@ -171,6 +171,17 @@ it.
   developer procedure.
 - Explain the "why" only when it changes what he decides.
 
+### HARD RULE: Anything he must click goes LAST, at the very bottom
+
+Owner, 2026-10-03: he has ADHD and misses buttons or cards that appear mid-reply.
+
+- Any action only he can do — saving or updating a skill card, an approval, a permission prompt, any button — is the
+  LAST thing in the reply. It's the final line, marked plainly, e.g. **👉 YOUR ACTION: click "Save" on the skill card above.**
+- Put the tool call that makes the card (e.g. propose_skills) LAST, after all other work, then end the reply with that one action line.
+  Nothing comes after it, not even a summary.
+- One action line per pending button, in a short numbered list if there are several.
+- If an action from an earlier reply is still pending, repeat it at the bottom of the next reply until he says it's done.
+
 ### HARD RULE: If Claude can do it, Claude does it
 
 Owner, 2026-09-25: "If there is something that I do not have to do manually, you need to do it. Explain what you're going to do and then just do it. Quit giving me tasks."
