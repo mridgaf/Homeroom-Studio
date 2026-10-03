@@ -19,6 +19,16 @@ entries.
 ---
 
 ## Log
+### 2026-10-03 Beat Machine re-skinned to the approved "09 charcoal" mockup (notebook + chalkboard)
+- Context: owner approved `Front End Mockups/approved-homeroom-mockup-09-charcoal.png` (made in a Codex/ChatGPT project, `~/.codex/.chatgpt-projects/.../output/homeroom-mockups/`) and asked for it on the real app, with real controls.
+- Owner answers (clickable): Crew/Legends/Styles = dropdowns that KEEP multi-pick (chips in pick order, first pick still = folder); waveforms from a new server route; "This batch / Favorites / DJ folder" tabs real and read-only; account icon left out.
+- Done (all in `tools/beat_machine.py` `_PAGE` + 2 routes; backup `tools/beat_machine.pre-notebook-2026-10-03.py`): charcoal page, spiral notebook, chalkboard; every old element id kept. New GET `/peaks` (RMS bars + length; plain peaks drew a flat block, measured 0.88-1.0) and GET `/folder?loc=favorites|dj` (newest 50, walks one folder only). Star now toggles (2nd click = back to DJ folder). DJ folder / Trash / FX moved into the "..." menu. Reference track now also click-to-upload. Logo: `brand/logo-white.png` (supplied white-on-black file, not redrawn). Old 2026-09-29 school-bus CSS block replaced.
+- ASSUMING: "DJ folder" tab = the folder of the DJ the last batch went to.
+- Verified on a side server (port 8790), real library, read-only: picks/chips/order, steppers, quick/famous/key/loops, Make payload (fetch stubbed, nothing made), loading + error + empty states, play/seek/pause (muted), waveform, Stems rack (8 lanes), menu, tabs (Favorites 50, DJ 11), drawers, phone/tablet (no sideways scroll). 2 new tests pass. Full suite NOT run (no engine code changed). Star/Trash not clicked on real beats. No beats rendered. Screenshot: `Front End Mockups/live-page-2026-10-03.jpg`.
+- Known gaps: account icon (no accounts); waveform shows the printed beat, not a staged stem-mix preview; "why this beat works" block makes cards taller than the mockup; `/batch` itself takes ~2.6 s (was already that slow).
+- Status: confirmed
+- Outcome: 2026-10-03 owner: "That's perfect, keep the changes." Next session continues from here.
+
 ### 2026-10-03 Panel Map Batch A paused (14 of 17 captured)
 - Raw front/back pictures for 14 devices saved to device_refs/_panel_map/_captures_batchA/ (see RESUME.md there). RV7000 programmer: Reverb mode only.
 - Not done: Channel EQ, Channel Dynamics, Master Bus Compressor; helper labeling; hover checks.

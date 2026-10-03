@@ -2273,3 +2273,43 @@ def test_midi_chords_played_on_strings_do_not_crash(machine_env, monkeypatch):
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     voices = [c["voice"] for c in rec["harmony"]["chords"]]
     assert all(v.startswith("midi:") and "strings" in v for v in voices), voices
+
+
+# ------------------------------------- batch tabs + waveforms (2026-10-03)
+
+def _tiny_wav(path, samples):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with wave.open(str(path), "wb") as w:
+        w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
+        w.writeframes((np.asarray(samples) * 32767).astype("<i2").tobytes())
+
+
+def test_folder_tabs_list_only_their_own_folder_newest_first(tmp_path, monkeypatch):
+    root = tmp_path
+    for rel in ("Favorites/12 Otto Grit Low Drums 92bpm.wav",
+                "Favorites/30 Cutz Fast Drums 101bpm.wav",
+                "Favorites/30 Cutz Fast Stems/30 kick Drums 101bpm.wav",
+                "Trash/40 Cutz Bin Drums 90bpm.wav",
+                "Cutz/41 Cutz Home Drums 95bpm.wav",
+                "Cutz/7 Cutz Older Drums 88bpm.wav"):
+        _tiny_wav(root / rel, np.zeros(10))
+    favs = beat_machine._folder_beats("favorites", root=root)
+    assert [b["no"] for b in favs] == [30, 12]          # stems + trash skipped
+    assert {b["loc"] for b in favs} == {"favorites"}
+    monkeypatch.setattr(beat_machine, "ROOT", root)
+    monkeypatch.setattr(beat_machine, "_load_state", lambda: {"last_batch": [41]})
+    dj = beat_machine._folder_beats("dj", root=root)
+    assert [b["no"] for b in dj] == [41, 7] and dj[0]["label"] == "41 Cutz Home Drums 95bpm"
+    monkeypatch.setattr(beat_machine, "_load_state", lambda: {})
+    assert beat_machine._folder_beats("dj", root=root) == []
+    with pytest.raises(ValueError):
+        beat_machine._folder_beats("trash", root=root)   # not a tab
+
+
+def test_peaks_are_one_bar_per_slice_scaled_to_the_loudest(tmp_path):
+    wav = tmp_path / "1 X Drums 90bpm.wav"
+    _tiny_wav(wav, np.concatenate([np.full(500, .1), np.full(500, .5)]))
+    p = beat_machine._peaks(wav, n=20)
+    assert len(p) == 20 and max(p) == 1.0
+    assert all(0 <= v <= 1 for v in p)
+    assert abs(p[0] - .2) < .01                          # .1 of a .5 peak

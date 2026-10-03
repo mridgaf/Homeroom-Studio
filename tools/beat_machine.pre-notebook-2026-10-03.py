@@ -28,7 +28,6 @@ import random
 import re
 import shutil
 import sys
-import wave
 import zlib
 from datetime import date
 from pathlib import Path
@@ -4536,91 +4535,11 @@ def _batch_beats(root=None):
     for no in _load_state().get("last_batch", []):
         w = beat_wav(no, root)
         if w:
-            _WAV_AT[int(no)] = w
             beats.append({"no": int(no), "label": w.stem,
                           "loc": beat_location(no, root),
                           "se_id": _sound_engine_id(w, root),
                           "theory": _beat_theory(no, root)})
     return beats
-
-
-# ---- the batch tabs + waveforms (owner 2026-10-03, notebook/chalkboard
-# redesign). Both are READ-ONLY: nothing here moves, writes or deletes.
-
-_BEAT_WAV = re.compile(r"^(\d+) .+ Drums [\d.]+bpm$", re.I)
-
-
-def _folder_beats(loc, root=None, limit=50):
-    """Beats sitting in Favorites ('favorites') or in the current batch's
-    host DJ folder ('dj'), newest first, same shape as _batch_beats.
-    Walks only that one folder (never the whole library) and skips the
-    Stems/Chunks folders that live beside each beat."""
-    root = Path(root or ROOT)
-    if loc == "favorites":
-        top = FAV_DIR
-    elif loc == "dj":
-        batch = _load_state().get("last_batch", []) if root == ROOT else []
-        top = beat_dj(batch[0], root) if batch else None
-        if not top:
-            return []
-    else:
-        raise ValueError(f"No such folder: {loc}")
-    folder = root / top
-    if not folder.is_dir():
-        return []
-    hits = {}
-    for w in folder.rglob("*.wav"):
-        if any(p.endswith(("Stems", "Chunks")) for p in w.relative_to(folder).parts[:-1]):
-            continue
-        m = _BEAT_WAV.match(w.stem)
-        if m:
-            hits.setdefault(int(m.group(1)), w)
-    out = []
-    for no in sorted(hits, reverse=True)[:limit]:
-        w = hits[no]
-        if root == ROOT:
-            _WAV_AT[no] = w
-        out.append({"no": no, "label": w.stem,
-                    "loc": "favorites" if top == FAV_DIR else "dj",
-                    "se_id": _sound_engine_id(w, root),
-                    "theory": _beat_theory(no, root)})
-    return out
-
-
-_PEAKS = {}                                   # (path, mtime, n) -> peaks
-# beat no -> wav path, filled by the listings above so a card's waveform
-# doesn't search the whole drive again. Only trusted while the file is
-# still there; a moved beat falls back to the full search.
-_WAV_AT = {}
-
-
-def _known_wav(no):
-    w = _WAV_AT.get(int(no))
-    if not (w and w.exists()):
-        w = beat_wav(int(no))
-        if w:
-            _WAV_AT[int(no)] = w
-    return w
-
-
-def _peaks(wav, n=160):
-    """n bars, 0..1, the loudness (RMS) of each slice of the beat — what
-    the card draws as its waveform. RMS, not the loudest sample: a
-    mastered beat peaks near full scale in every slice, so peaks drew a
-    flat block (measured 0.88-1.0 on beat 3187). Cached by file + time."""
-    wav = Path(wav)
-    key = (str(wav), wav.stat().st_mtime, n)
-    if key not in _PEAKS:
-        left, right = read_wav24(wav)
-        mono = (left + right) / 2
-        if not len(mono):
-            return [0.0] * n
-        edges = np.linspace(0, len(mono), n + 1).astype(int)
-        bars = np.array([np.sqrt(np.mean(mono[a:max(b, a + 1)] ** 2))
-                         for a, b in zip(edges, edges[1:])])
-        top = bars.max() or 1.0
-        _PEAKS[key] = [round(float(v), 3) for v in bars / top]
-    return _PEAKS[key]
 
 
 def _swap_lanes(no, root=None):
@@ -5429,9 +5348,7 @@ _CACHE = {}
 
 _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Homeroom Studios</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Anton&family=Space+Mono:wght@400;700&display=swap">
+<title>Homeroom Studio</title>
 <style>
  /* ---------------------------------------------------------------
     Homeroom Studio — reskinned 2026-08-06 to mockup D ("Show Flyer"):
@@ -5851,560 +5768,198 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
    .zones { grid-template-columns: 1fr; }
  }
 
-  /* ---------------------------------------------------------------
-     Notebook + chalkboard (owner-approved mockup "09 charcoal",
-     2026-10-03): charcoal page, yellow spiral notebook on the left for
-     every choice, black chalkboard on the right for make / tempo /
-     count / your beats. Built in CSS - no screenshot behind the
-     controls. Reference: Front End Mockups/approved-homeroom-mockup-09-charcoal.png
-     Replaces the 2026-09-29 "school bus" pass (backup:
-     tools/beat_machine.pre-notebook-2026-10-03.py).
-     ---------------------------------------------------------------- */
-  :root {
-    --page: #303236; --ink: #1d3a8a; --paper-y: #fdf2b3; --rule: #9fb6dc70;
-    --margin: #e48a8a; --chalk: #f2f1ea; --chalk-dim: #f2f1eaa6;
-    --lime: #9be22d; --sun: #f6e04b; --wood: #7b3f1d;
-    --hand: "Patrick Hand", "Chalkboard SE", "Comic Sans MS", var(--mono);
-    --marker: "Permanent Marker", "Marker Felt", var(--display);
-    --serif: "DM Serif Display", Georgia, "Times New Roman", serif;
-  }
-  body { background: var(--page); color: #fff; padding: 0 22px 60px; }
-  body::before { display: none; }
-  .wrap { max-width: 1500px; }
-  [hidden] { display: none !important; }
+ /* ---------------------------------------------------------------
+    Black + yellow "school bus" pass (mockup M, owner ask 2026-09-29):
+    two-column layout, black chalkboard results column, graffiti +
+    typewriter type accents, mural crookedness on static chips only.
+    ---------------------------------------------------------------- */
 
-  /* --------------------------------------------------------- masthead */
-  header.top { display: flex; align-items: center; gap: 8px 26px; flex-wrap: wrap;
-               padding: 20px 8px 18px; }
-  .wordmark { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 46px);
-              color: #fff; line-height: 1; margin: 0; font-weight: 400; }
-  header.top .scrawl { width: 100%; height: 10px; margin: 5px 0 0; }
-  .motto { color: #fff; font-family: var(--mono); font-size: 15px; margin: 0; }
-  .apptabs { position: static; margin-left: auto; display: flex; gap: 10px;
-             align-items: center; }
-  .apptabs .here, .apptabs a { font-family: var(--hand); font-size: 20px;
-             letter-spacing: .02em; text-transform: none; font-weight: 400;
-             padding: 6px 28px; border-radius: 8px; }
-  .apptabs .here { background: #1f55e6; color: #fff; }
-  .apptabs a { background: none; color: #fff; }
-  .apptabs a:hover { background: #ffffff14; }
+ /* typewriter feel on all small/label text across the page */
+ small, .hint, .note, label { font-family: var(--mono) !important; }
 
-  .cols { display: grid; grid-template-columns: minmax(330px, 2fr) minmax(0, 3fr);
-          gap: 4px; align-items: stretch; }
+ .cols { display: grid; grid-template-columns: minmax(0,1fr) 420px; gap: 26px;
+         align-items: stretch; }
+ @media (max-width: 1000px) { .cols { grid-template-columns: 1fr; } }
 
-  /* --------------------------------------------------------- notebook */
-  .left.notebook {
-    --card: #fff; --card2: #fff; --line: #1d3a8a26; --line2: #1d3a8a59;
-    --text: #1b2a55; --dim: #1b2a55b8; --dimmer: #1b2a5585; --co: #9a6a00;
-    --ch: #6b5200;
-    position: relative; padding: 24px 26px 30px 70px;
-    border-radius: 6px 4px 4px 6px;
-    background:
-      linear-gradient(90deg, transparent 56px, var(--margin) 56px 58px, transparent 58px),
-      repeating-linear-gradient(180deg, transparent 0 27px, var(--rule) 27px 28px),
-      var(--paper-y);
-    box-shadow: 0 10px 30px #0006, inset 0 0 0 1px #0000000f;
-    color: var(--text); font-family: var(--hand);
-  }
-  .rings { position: absolute; left: -16px; top: 12px; bottom: 12px; width: 48px;
-           pointer-events: none;
-           background:
-             radial-gradient(circle at 36px 50%, #303236 0 5px, transparent 5.6px) 0 0/48px 34px repeat-y,
-             linear-gradient(180deg, transparent 12px, #9a9a9a 12px, #e8e8e8 15px,
-                             #8a8a8a 18px, transparent 19px) 0 0/40px 34px repeat-y; }
-  .nbtitle { font-family: var(--marker); color: var(--ink); font-weight: 400;
-             font-size: clamp(22px, 2.1vw, 33px); letter-spacing: .03em;
-             text-transform: uppercase; line-height: 1.25; margin: 0 0 10px;
-             transform: none; }
-  .nbtitle span { background: linear-gradient(transparent 64%, #f6e04bd9 64% 88%, transparent 88%);
-                  padding: 0 4px; }
-  .nblabel { display: block; font-family: var(--hand); font-size: 22px;
-             color: var(--ink); margin: 12px 0 4px; line-height: 1.2; }
-  .notebook .hint { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
-                    margin-top: 4px; }
-  .notebook select, .notebook input[type=text], .notebook input[type=number],
-  .notebook textarea, .picker {
-    width: 100%; font-family: var(--hand); font-size: 17.5px; color: var(--ink);
-    background: #fff; border: 1.5px solid #9fb0d6; border-radius: 7px;
-    padding: 7px 12px; line-height: 1.3; }
-  .notebook select { appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%231d3a8a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center; }
-  .notebook select:focus, .notebook input:focus, .notebook textarea:focus,
-  .picker:focus-visible { outline: 2px solid #1f55e6; outline-offset: 1px; }
-  #notes { min-height: 70px; resize: vertical; display: block; }
-  .row { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px;
-         align-items: center; margin-top: 12px; }
-  .row > label { font-size: 20px; color: var(--ink); }
-  .keyrow { grid-template-columns: 140px minmax(0, 1fr) auto; }
-  .keysel { display: flex; min-width: 0; }
-  .keysel select:first-child { border-radius: 7px 0 0 7px; }
-  .keysel select:last-child { border-radius: 0 7px 7px 0; border-left: 0; }
-  .loops { display: flex; align-items: center; gap: 8px; font-size: 20px;
-           color: var(--ink); cursor: pointer; white-space: nowrap; }
-  .loops input { width: 22px; height: 22px; accent-color: #1f55e6; margin: 0; }
+ /* the right column is its own little chalkboard: re-theme its vars
+    locally so every card/field/track inside just re-skins for free */
+ .right {
+   --card: #171717; --card2: #171717; --line: #ffffff26; --line2: #ffffff45;
+   --text: #f4f1e6; --dim: #f4f1e699; --dimmer: #f4f1e666;
+   background: #111; color: #f4f1e6; border-radius: 10px; padding: 20px;
+   display: flex; flex-direction: column; min-height: 100%;
+   transform: rotate(-1.1deg);
+ }
+ .right h2.box, .right #go { font-family: var(--graffiti); }
 
-  /* crew / legends / styles: a dropdown that still takes many picks */
-  .pick { position: relative; }
-  .picker { display: flex; align-items: center; gap: 8px; min-height: 42px;
-            cursor: pointer; text-align: left; padding: 5px 10px 5px 12px; }
-  .picker .chips { flex: 1; display: flex; flex-wrap: wrap; gap: 5px; min-width: 0; }
-  .picker .ph { color: var(--dim); }
-  .chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 5px;
-          padding: 1px 2px 1px 7px; font-size: 16px; background: var(--sun); color: #16150a; }
-  .pick[data-kind=legends] .chip { background: #f1c75e; }
-  .pick[data-kind=styles] .chip { background: #fff7c2; outline: 1.5px dashed #6b5200; }
-  .chip b { font-family: var(--mono); font-size: 11px; }
-  .chip .x { border: 0; background: none; cursor: pointer; font-size: 17px;
-             line-height: 1; padding: 0 5px; color: inherit; border-radius: 4px; }
-  .chip .x:hover { background: #0000001a; }
-  .chev { flex: none; width: 14px; height: 9px; transition: transform .15s;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%231d3a8a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center; }
-  .pick.open .chev { transform: rotate(180deg); }
-  .pop { display: none; position: absolute; z-index: 20; left: 0; right: 0;
-         top: calc(100% + 4px); max-height: min(400px, 62vh); overflow: auto;
-         background: #fffdf0; border: 1.5px solid #9fb0d6; border-radius: 9px;
-         box-shadow: 0 14px 30px #0005; padding: 10px; }
-  .pick.open .pop { display: block; }
-  .pop .popnote { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
-                  margin: 0 2px 8px; }
-  .pop .djs { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 7px; }
-  .notebook .dj { padding: 8px 11px; }
-  .notebook .dj .name { font-family: var(--hand); font-size: 18.5px; font-weight: 400;
-                        text-transform: none; letter-spacing: 0; }
+ .logo-spacer { flex: 1; display: flex; align-items: center; justify-content: center;
+                min-height: 80px; }
+ .logo-mark { width: 80%; max-width: 260px; aspect-ratio: 1;
+              background-image: url("/brand?name=logo-black.png");
+              background-size: contain; background-repeat: no-repeat;
+              background-position: center;
+              filter: invert(1) sepia(1) saturate(8) hue-rotate(-20deg) brightness(1.15);
+              mix-blend-mode: screen; opacity: .5; pointer-events: none; }
 
-  /* reference track */
-  .notebook #refdrop { display: flex; align-items: center; justify-content: center; gap: 14px;
-         border: 1.5px dashed #8ea2cc; border-radius: 8px; background: #ffffff8c;
-         padding: 12px 14px; cursor: pointer; text-align: left; font-size: 16.5px;
-         color: var(--ink); }
-  .notebook #refdrop:focus-visible { outline: 2px solid #1f55e6; }
-  #refdrop svg { width: 30px; height: 30px; flex: none; stroke: var(--ink); fill: none;
-                 stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  #refdrop small { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
-  .notebook #refdrop.over, .notebook #refdrop.busy { background: #f6e04b55; border-color: var(--ink); }
-  .notebook #refline button { font-family: var(--hand); font-size: 14px; padding: 0 8px;
-         margin-left: 5px; border: 1px solid #9fb0d6; border-radius: 5px; background: #fff;
-         color: var(--ink); cursor: pointer; }
+ /* mural/crooked touches — static chips only, never .track or anything
+    inside #tracklist (rotation there breaks drag-and-drop hit-testing) */
+ .dj:nth-child(3n)   { transform: rotate(-1.6deg); }
+ .dj:nth-child(3n+1) { transform: rotate(1.3deg); }
+ .dj:nth-child(3n+2) { transform: rotate(-.9deg); }
+ .fixedbtn:nth-child(3n)   { transform: rotate(-1.4deg); }
+ .fixedbtn:nth-child(3n+1) { transform: rotate(1.1deg); }
+ .fixedbtn:nth-child(3n+2) { transform: rotate(-.8deg); }
+ .pullup button { transform: rotate(-.8deg); }
+ .panel { transform: rotate(.5deg); }
 
-  /* the four drawers: test bank, pattern library, breaks, saved beat */
-  .drawer { margin-top: 10px; background: #fff; border: 1.5px solid #9fb0d6; border-radius: 7px; }
-  .drawers { margin-top: 18px; }
-  .drawer + .drawer { margin-top: 8px; }
-  .drawer summary { list-style: none; cursor: pointer; display: flex; align-items: center;
-                    gap: 11px; padding: 6px 12px; font-size: 20.5px; color: var(--ink); }
-  .drawer summary::-webkit-details-marker { display: none; }
-  .drawer summary::after { content: ""; margin-left: auto; width: 14px; height: 9px;
-          transition: transform .15s;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%231d3a8a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center; }
-  .drawer[open] summary::after { transform: rotate(180deg); }
-  .drawer summary svg { width: 26px; height: 26px; flex: none; stroke: var(--ink); fill: none;
-                        stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .drawer .inner { padding: 2px 12px 14px; }
-  .drawer .inner > .hint { margin: 0 0 10px; }
-  .notebook .field label { font-family: var(--hand); font-size: 17px; text-transform: none;
-                           letter-spacing: 0; color: var(--ink); font-weight: 400; }
-  .notebook .pullup { gap: 10px; align-items: flex-end; }
-  .notebook .pullup .field { width: auto !important; flex: 1 1 160px; }
-  .notebook .pullup button, .notebook .fixedbtn {
-         font-family: var(--hand); font-size: 18px; font-weight: 400; letter-spacing: 0;
-         text-transform: none; padding: 7px 18px; border: 1.5px solid var(--ink);
-         border-radius: 7px; background: var(--sun); color: #16150a; cursor: pointer; }
-  .notebook .fixedbtn { background: #fff; border-color: #9fb0d6; text-align: left; }
-  .notebook .fixedbtn:hover { border-color: var(--ink); }
-  .notebook .fixedbtn small { font-family: var(--mono); }
-  .notebook .pullup .note { flex-basis: 100%; font-family: var(--mono); font-size: 11.5px; }
-  #pullmsg { color: #c0261c; font-family: var(--hand); font-size: 16px; }
-
-  /* ------------------------------------------------------- chalkboard */
-  .right.board {
-    --card: transparent; --card2: #1d1d1d; --line: #ffffff2e; --line2: #ffffff59;
-    --text: var(--chalk); --dim: var(--chalk-dim); --dimmer: #f2f1ea73; --co: var(--sun);
-    --ink: var(--chalk);
-    position: relative; min-width: 0; color: var(--chalk); font-family: var(--hand);
-    padding: 20px 24px 56px;
-    background:
-      radial-gradient(120% 80% at 30% 15%, #ffffff0b, transparent 60%),
-      radial-gradient(60% 50% at 80% 95%, #ffffff07, transparent 70%),
-      #141414;
-    border: 16px solid var(--wood);
-    border-image: linear-gradient(135deg, #8d4c26, #5e2e12 35%, #93522a 65%, #5a2c11) 1;
-    box-shadow: 0 10px 30px #0008, inset 0 0 50px #000c;
-  }
-  .tray { position: absolute; left: -16px; right: -16px; bottom: -16px; height: 20px;
-          background: linear-gradient(#a3622f, #5e2e12); box-shadow: 0 5px 9px #0007; }
-  .tray i, .tray b { position: absolute; bottom: 14px; border-radius: 3px; }
-  .tray i { width: 58px; height: 9px; background: linear-gradient(#fff, #cfcfcf); left: 70px; }
-  .tray i + i { left: 146px; width: 44px; }
-  .tray b { width: 120px; height: 16px; right: 34%; background: linear-gradient(#3a3a3a 0 55%, #b98b54 55%); }
-
-  .boardtop { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px;
-              align-items: start; }
-  .boardlogo { width: clamp(110px, 14vw, 232px); aspect-ratio: 1; object-fit: contain;
-               background: #000; display: block; }
-  .makebox { padding: 4px 0 0 14px; min-width: 0; }
-  .gowrap { position: relative; display: inline-block; margin: 20px 34px 10px; }
-  .gowrap::before, .gowrap::after { content: ""; position: absolute; top: -26px;
-          width: 44px; height: 44px; pointer-events: none;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cg stroke='%23f6e04b' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M34 34L14 26'/%3E%3Cpath d='M36 24L22 8'/%3E%3Cpath d='M30 44L8 44'/%3E%3C/g%3E%3C/svg%3E") no-repeat; }
-  .gowrap::before { left: -40px; }
-  .gowrap::after { right: -40px; transform: scaleX(-1); }
-  .board #go { font-family: var(--hand); font-weight: 400; font-size: clamp(30px, 3vw, 46px);
-         text-transform: none; letter-spacing: .01em; line-height: 1.1;
-         background: var(--sun); color: #151515; padding: 12px 36px;
-         border-radius: 14px 10px 16px 9px; transform: rotate(-2.5deg);
-         box-shadow: 3px 4px 0 #0009; }
-  .board #go::after { display: none; }
-  .board #go:hover:not(:disabled) { transform: rotate(-2.5deg) translate(-1px, -1px); }
-  .board #go:disabled { opacity: .55; }
-  .steppers { display: flex; gap: 24px; align-items: flex-start; margin-top: 10px;
-              flex-wrap: wrap; }
-  .steppers .divider { width: 2px; align-self: stretch; background: var(--chalk-dim); }
-  .stepper label { display: block; font-size: 24px; color: var(--chalk);
-                   margin-bottom: 6px; font-family: var(--hand); }
-  .spin { display: flex; align-items: stretch; border: 2px solid var(--chalk);
-          border-radius: 10px; overflow: hidden; height: 74px; }
-  .spin input { width: 112px; background: none; border: 0; color: var(--chalk);
-                font-family: var(--hand); font-size: 48px; text-align: center;
-                padding: 0 0 0 10px; -moz-appearance: textfield; }
-  .spin input::placeholder { color: #f2f1ea55; }
-  .spin input:focus { outline: none; background: #ffffff0d; }
-  .spin input::-webkit-inner-spin-button, .spin input::-webkit-outer-spin-button {
-          -webkit-appearance: none; margin: 0; }
-  #count { width: 100px; }
-  .spin .unit { align-self: center; font-size: 17px; padding-right: 12px; }
-  .spin .arrows { display: flex; flex-direction: column; border-left: 2px solid var(--chalk); }
-  .spin .arrows button { flex: 1; width: 44px; background: none; border: 0;
-          color: var(--chalk); cursor: pointer; font-size: 13px; }
-  .spin .arrows button + button { border-top: 2px solid var(--chalk); }
-  .spin .arrows button:hover { background: #ffffff17; }
-  .stepper .hint { font-family: var(--mono); font-size: 11.5px; color: var(--chalk-dim);
-                   margin-top: 5px; }
-  .board #hosthint { display: block; margin-top: 10px; color: var(--sun); font-size: 18px; }
-  .board #work { margin: 12px 0 0; }
-  .board #workbar { background: #ffffff22; }
-  .board #workbar i { background: var(--sun); }
-  .board #worktext { font-family: var(--hand); font-size: 18px; color: var(--chalk); }
-  .board #work.bad #worktext { color: #ff8a7a; }
-  hr.chalkline { border: 0; height: 3px; background: var(--chalk); opacity: .85;
-                 border-radius: 2px; margin: 18px 0 12px; }
-
-  .beatshead { display: flex; align-items: center; gap: 12px 14px; flex-wrap: wrap; }
-  .yourbeats { font-family: var(--hand); font-size: clamp(36px, 3.6vw, 54px); font-weight: 400;
-               margin: 0; color: var(--chalk); text-decoration: underline;
-               text-decoration-thickness: 2px; text-underline-offset: 8px; }
-  .tabs { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
-  .tab { font-family: var(--hand); font-size: 19px; color: var(--chalk); background: none;
-         border: 2px solid var(--chalk); border-radius: 8px; padding: 4px 22px; cursor: pointer; }
-  .tab.on { background: var(--lime); border-color: var(--lime); color: #111; }
-  .tab:hover:not(.on) { background: #ffffff14; }
-
-  /* the beat cards */
-  .board .track { border: 2px solid #ffffffb8; border-radius: 10px; background: #ffffff05;
-                  margin: 10px 0; overflow: visible; }
-  .board .track.loc-favorites { border-color: var(--sun); }
-  .board .track.loc-trash { border-color: #ff6b6b; opacity: .6; }
-  .board .thead { display: grid; grid-template-columns: minmax(0, 1fr) auto;
-          grid-template-areas: "meta acts" "player player"; gap: 6px 14px;
-          padding: 10px 14px 12px; }
-  .board .thead .no { display: none; }
-  .board .tmeta { grid-area: meta; }
-  .board .tname { font-family: var(--hand); font-size: 28px; font-weight: 400;
-          text-transform: none; letter-spacing: 0; color: var(--chalk); line-height: 1.15; }
-  .board .tname u { text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
-  .board .tsub { font-family: var(--hand); font-size: 16.5px; color: var(--chalk-dim); }
-  .board .tsub .who { opacity: .8; }
-  .board .tloc { color: var(--sun); margin-left: 6px; }
-  .board .player { grid-area: player; width: auto; gap: 14px; }
-  .board .pp { width: 52px; height: 52px; background: var(--sun); color: #111; border: 0;
-               font-size: 18px; }
-  .board .pp:hover { filter: brightness(1.08); }
-  .player .sep { width: 2px; height: 44px; background: var(--chalk-dim); flex: none; }
-  .board .bar { height: 5px; align-self: center; background: var(--line2); }
-  .board .bar.has-wave { height: 46px; background: none; border-radius: 0; }
-  .bar canvas { display: none; width: 100%; height: 100%; }
-  .bar.has-wave canvas { display: block; }
-  .bar.has-wave i { display: none; }
-  .board .time { font-family: var(--hand); font-size: 15.5px; color: var(--chalk);
-                 min-width: 82px; }
-  .board .acts { grid-area: acts; align-items: center; gap: 8px; }
-  .board .acts .star { border: 0; background: none; padding: 4px; color: var(--chalk); }
-  .star svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.7;
-              stroke-linejoin: round; pointer-events: none; display: block; }
-  .board .acts .star.on-fav { color: var(--sun); }
-  .star.on-fav svg { fill: var(--sun); }
-  .board .acts .stembtn { font-family: var(--hand); font-size: 18px; font-weight: 400;
-          text-transform: none; letter-spacing: 0; border: 2px solid var(--chalk);
-          border-radius: 8px; padding: 5px 14px; background: none; color: var(--chalk);
-          display: inline-flex; gap: 8px; align-items: center; }
-  .board .acts .stembtn:hover { background: #ffffff14; }
-  .board .acts .stembtn.open { background: var(--sun); color: #111; border-color: var(--sun); }
-  .stembtn svg { width: 20px; height: 20px; pointer-events: none; stroke: currentColor;
-                 fill: none; stroke-width: 1.8; stroke-linejoin: round; }
-  .more { position: relative; }
-  .board .acts .morebtn { border: 0; background: none; color: var(--chalk); font-size: 24px;
-          line-height: 1; padding: 2px 6px 8px; letter-spacing: 1px; border-radius: 6px; }
-  .board .acts .morebtn:hover { background: #ffffff14; }
-  .menu { display: none; position: absolute; right: 0; top: calc(100% + 6px); z-index: 15;
-          background: #1c1c1c; border: 1.5px solid #ffffff59; border-radius: 9px; padding: 6px;
-          min-width: 230px; box-shadow: 0 12px 26px #000a; }
-  .more.open .menu { display: block; }
-  .board .acts .menu button { display: flex; width: 100%; gap: 10px; align-items: center;
-          background: none; border: 0; color: var(--chalk); font-family: var(--hand);
-          font-size: 17.5px; padding: 7px 10px; border-radius: 6px; text-align: left; }
-  .board .acts .menu button:hover { background: #ffffff17; }
-  .board .acts .menu button.on-trash { color: #ff8a7a; }
-  .board .theory { background: none; border-top: 1px dashed #ffffff33; }
-  .board .tline b { color: var(--sun); }
-
-  /* stem rack on the board */
-  .board .rack { background: #ffffff07; border-top-color: #ffffff22; border-radius: 0 0 8px 8px; }
-  .board .lane { border-bottom-color: #ffffff14; }
-  .board .lane select { background-color: #1d1d1d; color: var(--chalk);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2f1ea' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
-  .board .rollall { border-color: #ffffff40; }
-  .board .chunk { color: var(--chalk); }
-
-  /* drag-to-folder strip, and the empty / loading / error states */
-  .traylabel { font-family: var(--mono); font-size: 11.5px; color: var(--chalk-dim);
-               margin: 16px 0 6px; }
-  .board .zones { margin: 0; }
-  .board .zone { border-color: #ffffff47; color: var(--chalk-dim); font-family: var(--hand);
-                 text-transform: none; font-size: 17px; letter-spacing: 0; padding: 8px; }
-  .board .zone small { font-family: var(--mono); }
-  .board #empty { padding: 24px 0 8px; }
-  .board #empty .ghost { width: 120px; opacity: .16; }
-  .board #empty .ghost img { background: #000; }
-  .board #empty .scribble { font-family: var(--hand); color: #ffffff2b; text-transform: none;
-                            font-size: 42px; font-weight: 400; }
-  .board #empty p { color: var(--chalk-dim); font-family: var(--hand); font-size: 18px; }
-  .board #empty.err p { color: #ff8a7a; }
-  #tracklist.loading::before { content: "chalking up your beats\2026"; display: block;
-          padding: 38px 0; margin: 10px 0; text-align: center; border: 2px dashed #ffffff47;
-          border-radius: 10px; color: var(--chalk-dim); font-family: var(--hand); font-size: 22px;
-          animation: chalkpulse 1.4s ease-in-out infinite; }
-  #tracklist.loading + #empty { display: none !important; }
-  @keyframes chalkpulse { 50% { opacity: .45; } }
-
-  @media (max-width: 1080px) { .cols { grid-template-columns: 1fr; gap: 26px; } }
-  @media (max-width: 640px) {
-    body { padding: 0 16px 50px; }
-    header.top { padding: 14px 4px 14px; }
-    .apptabs { margin-left: 0; }
-    .left.notebook { padding: 18px 14px 22px 46px;
-      background:
-        linear-gradient(90deg, transparent 36px, var(--margin) 36px 38px, transparent 38px),
-        repeating-linear-gradient(180deg, transparent 0 27px, var(--rule) 27px 28px),
-        var(--paper-y); }
-    .rings { left: -12px; width: 40px; }
-    .row, .keyrow { grid-template-columns: 1fr; gap: 4px; }
-    .right.board { border-width: 10px; padding: 14px 12px 46px; }
-    .tray { left: -10px; right: -10px; bottom: -10px; height: 16px; }
-    .boardtop { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
-    .boardlogo { width: 84px; }
-    .makebox { padding-left: 2px; }
-    .gowrap { margin: 18px 22px 8px; }
-    .gowrap::before { left: -30px; } .gowrap::after { right: -30px; }
-    .board #go { font-size: 28px; padding: 8px 20px; }
-    .steppers { gap: 14px; }
-    .steppers .divider { display: none; }
-    .spin { height: 58px; }
-    .spin input { font-size: 34px; width: 80px; }
-    .tabs { margin-left: 0; }
-    .tab { padding: 3px 14px; font-size: 17px; }
-    .board .thead { grid-template-areas: "meta" "acts" "player"; grid-template-columns: 1fr; }
-    .board .pp { width: 44px; height: 44px; }
-    .player .sep { display: none; }
-    .board .time { min-width: 62px; font-size: 13.5px; }
-    .menu { right: auto; left: 0; }
-  }
+ .bottom { margin: 20px 0 40px; padding: 22px; border: 9px solid transparent;
+           border-image: repeating-linear-gradient(45deg, #111 0 16px, #e8d810 16px 32px) 18;
+           border-radius: 2px; }
 </style></head><body>
 <div class="wrap">
 
-<header class="top">
-  <div class="brandword">
-    <p class="wordmark">Homeroom Studios</p>
+<div class="board">
+<nav class="apptabs">
+  <span class="here" title="You're here — making beats">Make</span>
+  <a href="http://localhost:8765"
+     title="The studio half — recipes, patches, Reason. Same launcher starts it.">Studio</a>
+</nav>
+<header>
+  <div class="mark" id="mark">__MARK__</div>
+  <div class="title">
+    <h1>Homeroom Studio</h1>
     <svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"
          aria-hidden="true"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2
          14-.9 27-2.3 40-4.8"/></svg>
   </div>
-  <p class="motto">Music starts here.</p>
-  <nav class="apptabs">
-    <span class="here" title="You're here &mdash; making beats">Make</span>
-    <a href="http://localhost:8765"
-       title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Studio</a>
-  </nav>
+  <p class="tag">Check one DJ for a beat of their own. Check more for a collab &mdash;
+  it lands in the folder of whoever you check <b>first</b>. Ask for four or more
+  and a quarter come back as straight, traditional hip hop.</p>
 </header>
+</div>
 
 <div class="cols">
-  <section class="left notebook">
-    <div class="rings" aria-hidden="true"></div>
-    <h1 class="nbtitle"><span>The Back of the Class</span></h1>
+  <section class="left">
+    <h2 class="box">The Crew <small>__CREWCOUNT__ personalities</small></h2>
+    <div class="djs">__CREW__</div>
+    <h2 class="box">The Legends <small>signature styles</small></h2>
+    <div class="djs">__LEGENDS__</div>
+    <h2 class="box">The Styles <small>seventeen subgenres, played by the rules</small></h2>
+    <div class="djs">__GENRES__</div>
 
-    <div class="pick" data-kind="crew">
-      <label class="nblabel" id="lbl-crew">The Crew</label>
-      <div class="picker" role="button" tabindex="0" aria-haspopup="true"
-           aria-expanded="false" aria-labelledby="lbl-crew">
-        <span class="chips"><span class="ph">Pick DJs &mdash; __CREWCOUNT__ personalities</span></span>
-        <span class="chev" aria-hidden="true"></span></div>
-      <div class="pop"><p class="popnote">Tick one for a solo beat. Tick more for a collab &mdash;
-        it lands in the folder of whoever you tick <b>first</b>. Ask for four or more and
-        a quarter come back as straight, traditional hip hop.</p>
-        <div class="djs">__CREW__</div></div>
-    </div>
-
-    <div class="pick" data-kind="legends">
-      <label class="nblabel" id="lbl-legends">The Legends</label>
-      <div class="picker" role="button" tabindex="0" aria-haspopup="true"
-           aria-expanded="false" aria-labelledby="lbl-legends">
-        <span class="chips"><span class="ph">Choose a signature style</span></span>
-        <span class="chev" aria-hidden="true"></span></div>
-      <div class="pop"><div class="djs">__LEGENDS__</div></div>
-    </div>
-
-    <div class="pick" data-kind="styles">
-      <label class="nblabel" id="lbl-styles">Styles</label>
-      <div class="picker" role="button" tabindex="0" aria-haspopup="true"
-           aria-expanded="false" aria-labelledby="lbl-styles">
-        <span class="chips"><span class="ph">Subgenres, played by the rules</span></span>
-        <span class="chev" aria-hidden="true"></span></div>
-      <div class="pop"><div class="djs">__GENRES__</div></div>
-    </div>
-
-    <label class="nblabel" for="notes">Directions</label>
-    <textarea id="notes" rows="2" placeholder="Dusty drums, warm bass, no hi-hats&hellip;"></textarea>
-    <div class="hint">used for this click and saved in the README</div>
-
-    <div class="row"><label for="quick">Quick directions</label>
-      <select id="quick">
-        <option value="">e.g. dark, melodic, aggressive&hellip;</option>
-        <option value="no chords">no chords &mdash; drums only, old style</option>
-        <option value="sparse">sparse &mdash; thin everything out</option>
-        <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
-        <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
-        <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
-        <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
-        <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
-        <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
-        <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
-        <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
-        <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
-        <option value="no perc">no perc &mdash; percussion off</option>
-        <option value="crisp">crisp &mdash; crisp, clear samples</option>
-        <option value="dusty">dusty &mdash; dusty, aged samples</option>
-      </select></div>
-
-    <div class="row"><label for="famous">Famous beats</label>
-      <select id="famous">
-        <option value="">e.g. a famous drum break&hellip;</option>
-        <option value="break">surprise me &mdash; any of them</option>
+    <h2 class="box">Your choices <small>directions, key, and reference track</small></h2>
+    <div class="panel">
+      <div class="fields" style="grid-template-columns:1fr 200px">
+        <div class="field"><label>Directions</label>
+          <input type="text" id="notes" placeholder="no hi hats, dusty, sparse, no 808&hellip;">
+          <div class="hint">used for this click and saved in the README</div></div>
+        <div class="field"><label>&nbsp;</label>
+          <label><input type="checkbox" id="loopsonly"> Loops only</label>
+          <div class="hint">whole beat built from loop material instead of one-shots</div></div>
+      </div>
+      <div class="fields refrow">
+        <div class="field"><label>Key</label>
+          <span style="display:flex; gap:6px">
+            <select id="keyroot"><option value="">&mdash; any &mdash;</option>__KEYROOTS__</select>
+            <select id="keymode">__KEYMODES__</select>
+          </span>
+          <div class="hint">set a key and the beat gets chords in it</div></div>
+        <div class="field"><label>Reference track</label>
+          <div id="refdrop">Drag a song here to match its tempo and key</div>
+          <div class="hint" id="refline">nothing dropped yet</div></div>
+      </div>
+      <div class="field quick"><label>Quick directions</label>
+        <select id="quick">
+          <option value="">&mdash; pick one &mdash;</option>
+          <option value="no chords">no chords &mdash; drums only, old style</option>
+          <option value="sparse">sparse &mdash; thin everything out</option>
+          <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+          <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+          <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+          <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+          <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+          <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+          <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+          <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+          <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+          <option value="no perc">no perc &mdash; percussion off</option>
+          <option value="crisp">crisp &mdash; crisp, clear samples</option>
+          <option value="dusty">dusty &mdash; dusty, aged samples</option>
+        </select>
+        <div class="hint">fills the Directions box above &mdash; edit it after if you like</div></div>
+      <div class="field quick"><label>Famous beats</label>
+        <select id="famous">
+          <option value="">&mdash; none, make it up &mdash;</option>
+          <option value="break">surprise me &mdash; any of them</option>
 __BREAKS__
-      </select></div>
-
-    <div class="row keyrow"><label for="keyroot">Key</label>
-      <span class="keysel">
-        <select id="keyroot" aria-label="Key note"><option value="">any key</option>__KEYROOTS__</select>
-        <select id="keymode" aria-label="Major or minor">__KEYMODES__</select>
-      </span>
-      <label class="loops" title="whole beat built from loop material instead of one-shots">Loops only
-        <input type="checkbox" id="loopsonly"></label></div>
-
-    <label class="nblabel">Reference track</label>
-    <div id="refdrop" role="button" tabindex="0"
-         aria-label="Drop a track here or click to upload, to match its tempo and key">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 14v5h14v-5"/></svg>
-      <span>Drop a track here or click to upload
-        <small>MP3, WAV, M4A &mdash; matches its tempo and key</small></span></div>
-    <input type="file" id="reffile" accept="audio/*" hidden>
-    <div class="hint" id="refline">nothing dropped yet</div>
-
-    <div class="drawers">
-      <details class="drawer">
-        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="7" rx="8" ry="3"/><path d="M4 7v9c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 11.5c2 1.3 4.8 2 8 2s6-.7 8-2"/></svg>Rhythm test bank</summary>
-        <div class="inner"><p class="hint">five real, well-known hip-hop beats &mdash; the rhythm never changes, only the sounds</p>
-          <div class="fixedbank" id="fixedbank">__FIXEDBANK__</div></div>
-      </details>
-      <details class="drawer">
-        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Pattern library</summary>
-        <div class="inner"><p class="hint">every transcribed groove, by genre &mdash; drums only, no chords or bass</p>
-          <div class="pullup">
-            <div class="field"><label for="libgenre">Genre</label>
-              <select id="libgenre">__LIBGENRES__</select></div>
-            <div class="field"><label for="libpattern">Pattern</label>
-              <select id="libpattern"></select></div>
-            <button id="libgo">Play it</button>
-            <div class="note">renders standalone, drops onto the chalkboard &mdash; roll again for a new kit on the same rhythm</div>
-          </div></div>
-      </details>
-      <details class="drawer">
-        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2"/></svg>Breaks</summary>
-        <div class="inner"><p class="hint">famous figures + funk breaks &mdash; kept separate, played verbatim</p>
-          <div class="pullup">
-            <div class="field"><label for="libbreak">Break</label>
-              <select id="libbreak">__LIBBREAKS__</select></div>
-            <button id="libbreakgo">Play it</button>
-            <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
-          </div></div>
-      </details>
-      <details class="drawer">
-        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Find a saved beat</summary>
-        <div class="inner">
-          <div class="pullup">
-            <div class="field"><label for="pullno">Beat number</label>
-              <input type="number" id="pullno" min="1" placeholder="316"></div>
-            <button id="pullgo">Open it</button>
-            <span class="note">Puts an older beat on the chalkboard so you can play it,
-            open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
-          </div>
-          <div id="pullmsg"></div></div>
-      </details>
+        </select>
+        <div class="hint">the drum part is played exactly as it was drummed, on
+          your own samples &mdash; no audio from any record</div></div>
     </div>
   </section>
 
-  <aside class="right board">
-    <div class="boardtop">
-      <div class="makebox">
-        <div class="gowrap"><button id="go">Make My Beats</button></div>
-        <div class="steppers">
-          <div class="stepper"><label for="tempo">Tempo</label>
-            <div class="spin"><input type="text" id="tempo" inputmode="numeric" placeholder="95">
-              <span class="unit">BPM</span>
-              <span class="arrows"><button type="button" data-for="tempo" data-d="1" aria-label="Tempo up">&#9650;</button><button type="button" data-for="tempo" data-d="-1" aria-label="Tempo down">&#9660;</button></span></div>
-            <div class="hint">blank = home tempo</div></div>
-          <div class="divider" aria-hidden="true"></div>
-          <div class="stepper"><label for="count">Number of beats</label>
-            <div class="spin"><input type="number" id="count" value="1" min="1" max="10">
-              <span class="arrows"><button type="button" data-for="count" data-d="1" aria-label="One more beat">&#9650;</button><button type="button" data-for="count" data-d="-1" aria-label="One fewer beat">&#9660;</button></span></div>
-            <div class="hint">up to 10</div></div>
-        </div>
+  <aside class="right">
+    <div class="panel">
+      <div class="fields" style="grid-template-columns:132px 132px">
+        <div class="field"><label>Tempo</label>
+          <input type="text" id="tempo" placeholder="95">
+          <div class="hint">blank = home tempo</div></div>
+        <div class="field"><label>How many</label>
+          <input type="number" id="count" value="1" min="1" max="10">
+          <div class="hint">up to 10</div></div>
+      </div>
+      <div class="fire">
+        <button id="go">Make my beats</button>
         <span id="hosthint"></span>
       </div>
-      <img class="boardlogo" src="/brand?name=logo-white.png" alt="The Back of the Class"
-           onerror="this.style.visibility='hidden'">
+      <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
     </div>
-    <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
 
-    <hr class="chalkline">
-    <div class="beatshead">
-      <h2 class="yourbeats">Your beats</h2>
-      <div class="tabs" role="tablist">
-        <button class="tab on" role="tab" data-src="batch">This batch</button>
-        <button class="tab" role="tab" data-src="favorites">Favorites</button>
-        <button class="tab" role="tab" data-src="dj">DJ folder</button>
-      </div>
-    </div>
-    <div id="tracklist"></div>
-    <div id="empty"><div class="ghost"><img src="/brand?name=logo-white.png" alt=""
-         onerror="this.style.display='none'"></div><span class="scribble">nothing cooking yet</span>
-      <p id="emptytext">Make a beat and it lands here &mdash; with every drum in it.</p></div>
-
-    <p class="traylabel">or drag a beat into a folder:</p>
+    <h2 class="box">This batch <small>play, open the stems, sort</small></h2>
     <div class="zones">
       <div class="zone fav"   data-dest="favorites">&starf; Favorites<small>drag here to keep</small></div>
       <div class="zone djz"   data-dest="dj">&#9635; DJ folder<small>the default home</small></div>
       <div class="zone trash" data-dest="trash">&#9587; Trash<small>moved, never deleted</small></div>
     </div>
-    <div class="tray" aria-hidden="true"><i></i><i></i><b></b></div>
+    <div id="tracklist"></div>
+    <div id="empty">__GHOST__<span class="scribble">nothing cooking yet</span>
+      <p>Make a beat and it lands here &mdash; with every drum in it.</p></div>
+
+    <div class="logo-spacer"><div class="logo-mark"></div></div>
   </aside>
+</div>
+
+<div class="bottom">
+  <h2 class="box">Rhythm test bank <small>five real, well-known hip-hop beats — the rhythm never changes, only the sounds</small></h2>
+  <div class="fixedbank" id="fixedbank">__FIXEDBANK__</div>
+
+  <h2 class="box">Pattern library <small>every transcribed groove, by genre — drums only, no chords or bass</small></h2>
+  <div class="pullup">
+    <div class="field" style="width:170px"><label>Genre</label>
+      <select id="libgenre">__LIBGENRES__</select></div>
+    <div class="field" style="width:300px"><label>Pattern</label>
+      <select id="libpattern"></select></div>
+    <button id="libgo">Play it</button>
+    <div class="note">renders standalone, drops into the player below — roll again for a new kit on the same rhythm</div>
+  </div>
+
+  <h2 class="box">Breaks <small>famous figures + funk breaks — kept separate, played verbatim</small></h2>
+  <div class="pullup">
+    <div class="field" style="width:340px"><label>Break</label>
+      <select id="libbreak">__LIBBREAKS__</select></div>
+    <button id="libbreakgo">Play it</button>
+    <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
+  </div>
+
+  <h2 class="box">Pull up a beat <small>anything you made before</small></h2>
+  <div class="pullup">
+    <div class="field"><label>Beat number</label>
+      <input type="number" id="pullno" min="1" placeholder="316"></div>
+    <button id="pullgo">Open it</button>
+    <span class="note">Adds an older beat to the list above so you can play it,
+    open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
+  </div>
+  <div id="pullmsg"></div>
 </div>
 
 </div>
@@ -6439,63 +5994,7 @@ __BREAKS__
    if (!order.length) hint.textContent = '';
    else if (order.length === 1) hint.textContent = 'Solo beat from ' + order[0] + '.';
    else hint.textContent = 'Collab — lands in ' + order[0] + "'s folder.";
-   // each dropdown shows its own picks as chips, numbered in pick order
-   document.querySelectorAll('.pick').forEach(pk => {
-     const mine = [...pk.querySelectorAll('.dj input')].map(cb => cb.value);
-     const picked = order.filter(n => mine.includes(n));
-     pk.querySelector('.chips').innerHTML = picked.length
-       ? picked.map(n => '<span class="chip"><b>' + (order.indexOf(n) + 1) +
-           '</b>' + esc(n) + '<span class="x" role="button" tabindex="0" ' +
-           'aria-label="Remove ' + esc(n) + '" data-name="' + esc(n) +
-           '">&times;</span></span>').join('')
-       : '<span class="ph">' + pk.dataset.ph + '</span>';
-   });
  }
- // the dropdowns: open one at a time; the tick boxes inside are the same
- // .dj cards as before, so picking, pick order and the folder rule are
- // untouched (owner 2026-10-03: dropdowns, but keep picking several)
- function closePicks() {
-   document.querySelectorAll('.pick.open').forEach(o => {
-     o.classList.remove('open');
-     o.querySelector('.picker').setAttribute('aria-expanded', 'false');
-   });
- }
- document.querySelectorAll('.pick').forEach(pk => {
-   pk.dataset.ph = pk.querySelector('.ph').innerHTML;
-   const btn = pk.querySelector('.picker');
-   const toggle = () => {
-     const open = !pk.classList.contains('open');
-     closePicks();
-     pk.classList.toggle('open', open);
-     btn.setAttribute('aria-expanded', open);
-   };
-   btn.addEventListener('click', e => {
-     const x = e.target.closest('.x');
-     if (x) {                                  // a chip's ×: untick it
-       const cb = [...pk.querySelectorAll('.dj input')]
-                    .find(c => c.value === x.dataset.name);
-       if (cb) { cb.checked = false; cb.dispatchEvent(new Event('change')); }
-       return;
-     }
-     toggle();
-   });
-   btn.addEventListener('keydown', e => {
-     if (e.key !== 'Enter' && e.key !== ' ') return;
-     e.preventDefault();
-     const x = e.target.closest('.x');
-     if (x) x.click(); else toggle();
-   });
- });
- document.addEventListener('click', e => {
-   if (!e.target.closest('.pick')) closePicks();
-   if (!e.target.closest('.more'))
-     document.querySelectorAll('.more.open').forEach(m => m.classList.remove('open'));
- });
- document.addEventListener('keydown', e => {
-   if (e.key !== 'Escape') return;
-   closePicks();
-   document.querySelectorAll('.more.open').forEach(m => m.classList.remove('open'));
- });
  document.querySelectorAll('.dj input').forEach(cb => {
    cb.addEventListener('change', () => {
      if (cb.checked) { if (!order.includes(cb.value)) order.push(cb.value); }
@@ -6563,44 +6062,33 @@ __BREAKS__
        '<span class="no">' + b.no + '</span>' +
        '<span class="tmeta"><span class="tname"></span>' +
          '<span class="tsub"></span></span>' +
-       '<span class="player"><button class="pp" aria-label="Play">&#9654;</button>' +
-         '<span class="sep"></span>' +
-         '<span class="bar"><canvas></canvas><i></i></span>' +
+       '<span class="player"><button class="pp">&#9654;</button>' +
+         '<span class="bar"><i></i></span>' +
          '<span class="time">0:00</span></span>' +
        // `loop`: a beat repeats until you press stop (owner 2026-08-31).
        // The attribute lives on the ELEMENT, so it survives cue()'s
        // src+load() and the /mix preview loops too. Renders are already
        // loop-safe (no edge fades, tails wrap), so the seam is clean.
        '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
-       // star = keep (a second click sends it back to its DJ folder);
-       // the rest live in the "..." menu — same data-dest buttons as before
        '<span class="acts">' +
-         '<button class="star" title="Keep it" aria-label="Keep it" data-dest="favorites">' +
-           '<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></button>' +
-         '<button class="stembtn" data-role="stems">' +
-           '<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>Stems</button>' +
-         '<span class="more"><button class="morebtn" title="More" aria-label="More" aria-haspopup="true">&middot;&middot;&middot;</button>' +
-           '<span class="menu">' +
-             (b.se_id ? '<button data-role="engine" ' +
-               'title="Open in the Sound Engine with this DJ&apos;s effects ' +
-               'already dialled in (start it from Sound Engine.command first)">' +
-               '&#10022; FX in the Sound Engine</button>' : '') +
-             '<button title="DJ folder" data-dest="dj">&#9635; Back to its DJ folder</button>' +
-             '<button title="Trash it" data-dest="trash">&#9587; Trash (moved, never deleted)</button>' +
-           '</span></span>' +
+         '<button class="stembtn" data-role="stems">Stems</button>' +
+         (b.se_id ? '<button class="stembtn" data-role="engine" ' +
+           'title="Open in the Sound Engine with this DJ&apos;s effects ' +
+           'already dialled in (start it from Sound Engine.command first)">' +
+           'FX</button>' : '') +
+         '<button title="Keep it" data-dest="favorites">&starf;</button>' +
+         '<button title="DJ folder" data-dest="dj">&#9635;</button>' +
+         '<button title="Trash it" data-dest="trash">&#9587;</button>' +
        '</span>' +
      '</div>' +
      '<div class="theory"></div>' +
      '<div class="rack"></div>';
-   const th = b.theory;
-   el.querySelector('.tname').innerHTML = 'Beat <u>' + esc(String(b.no)) + '</u>';
+   el.querySelector('.tname').textContent = t.rest;
    el.querySelector('.tsub').innerHTML =
-     [t.bpm ? t.bpm + ' BPM' : '', th && th.key ? esc(th.key) : '']
-       .filter(Boolean).join(' &nbsp;|&nbsp; ') +
-     ' <span class="who">&middot; ' + esc(t.rest) + '</span>' +
-     ' <span class="tloc"></span>';
+     (t.bpm ? t.bpm + ' BPM' : '') + ' <span class="tloc"></span>';
    // why this beat works — only for beats that recorded their harmony;
    // anything older just doesn't get the block (see _beat_theory)
+   const th = b.theory;
    if (th && th.key) {
      const box = el.querySelector('.theory');
      const bits = ['<b>' + esc(th.key) + '</b>'];
@@ -6617,20 +6105,8 @@ __BREAKS__
      e.dataTransfer.setData('text/plain', b.no); el.classList.add('dragging'); });
    el.addEventListener('dragend', () => el.classList.remove('dragging'));
    el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
-     btn.onclick = () => {
-       const dest = btn.classList.contains('star') && btn.classList.contains('on-fav')
-         ? 'dj' : btn.dataset.dest;
-       triage(b.no, dest, el);
-       el.querySelector('.more').classList.remove('open');
-     });
-   el.querySelector('.morebtn').onclick = () => {
-     const m = el.querySelector('.more'), open = !m.classList.contains('open');
-     document.querySelectorAll('.more.open').forEach(x => x.classList.remove('open'));
-     m.classList.toggle('open', open);
-   };
-   // currentTarget, not target: the button holds an icon now, and a click
-   // on the icon would otherwise get the "open" class instead of the button
-   el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.currentTarget);
+     btn.onclick = () => triage(b.no, btn.dataset.dest, el));
+   el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.target);
    // Open this beat in the Sound Engine with the DJ's effects already set
    // (sound_engine/fx_presets.py). It is a separate app on its own port, so
    // this is a plain link out — nothing is printed here and this beat's
@@ -6689,17 +6165,15 @@ __BREAKS__
               + 'unchanged. Check the drive is connected.');
    });
    au.addEventListener('pause', stop);
-   const told = () => time.textContent = clock(au.currentTime) + ' / ' + clock(au.duration);
    au.addEventListener('ended', () => { stop(); fill.style.width = '0';
-     paintWave(bar, 0); told(); });
+     time.textContent = clock(au.duration); });
    au.addEventListener('timeupdate', () => {
-     if (au.duration) {
-       fill.style.width = (au.currentTime / au.duration * 100) + '%';
-       paintWave(bar, au.currentTime / au.duration);
-     }
-     told();
+     if (au.duration) fill.style.width =
+       (au.currentTime / au.duration * 100) + '%';
+     time.textContent = clock(au.duration - au.currentTime);
    });
-   au.addEventListener('loadedmetadata', told);
+   au.addEventListener('loadedmetadata', () => {
+     time.textContent = clock(au.duration); });
    bar.onclick = e => {
      if (!au.duration) return;
      const r = bar.getBoundingClientRect();
@@ -6707,94 +6181,18 @@ __BREAKS__
    };
  }
 
- // ------------------------------------------------------------ waveforms
- // Bars come from the server (/peaks, read-only), drawn on a canvas; the
- // part already played is full colour. If they can't be read the card
- // keeps the old thin progress bar, so playback never depends on it.
- const WAVE_COLORS = ['#9be22d', '#f2f1ea', '#f6e04b'];
- async function drawWave(el, idx) {
-   const bar = el.querySelector('.bar');
-   try {
-     const d = await (await fetch('/peaks?no=' + el.dataset.no + '&n=150')).json();
-     if (!d.ok || !d.peaks.length) throw new Error(d.error || 'no peaks');
-     bar.peaks = d.peaks;
-     bar.color = WAVE_COLORS[idx % WAVE_COLORS.length];
-     // the length is known before the audio loads, so the card can say
-     // "0:00 / 0:12" like the mockup without fetching the whole beat
-     const au = el.querySelector('audio'), time = el.querySelector('.time');
-     if (d.seconds && !au.duration) time.textContent = '0:00 / ' + clock(d.seconds);
-     bar.classList.add('has-wave');
-     paintWave(bar, bar.frac || 0);
-   } catch (e) { bar.classList.remove('has-wave'); }
- }
- function paintWave(bar, frac) {
-   bar.frac = frac;
-   const p = bar.peaks, cv = bar.querySelector('canvas');
-   if (!p || !cv) return;
-   const w = cv.clientWidth, h = cv.clientHeight, dpr = window.devicePixelRatio || 1;
-   if (!w || !h) return;
-   if (cv.width !== Math.round(w * dpr)) {
-     cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
-   }
-   const g = cv.getContext('2d');
-   g.setTransform(dpr, 0, 0, dpr, 0, 0);
-   g.clearRect(0, 0, w, h);
-   const step = w / p.length, bw = Math.max(1, step * 0.55), mid = h / 2;
-   g.fillStyle = bar.color;
-   g.globalAlpha = .9;
-   g.fillRect(0, mid - .75, w, 1.5);                 // the chalk centre line
-   p.forEach((v, i) => {
-     const x = i * step;
-     g.globalAlpha = (frac > 0 && x / w > frac) ? .38 : 1;
-     const bh = Math.max(2, v * (h - 4));
-     g.fillRect(x, mid - bh / 2, bw, bh);
-   });
-   g.globalAlpha = 1;
- }
- window.addEventListener('resize', () =>
-   document.querySelectorAll('.bar.has-wave').forEach(b => paintWave(b, b.frac || 0)));
-
- // ----------------------------------------- tabs: batch / favorites / dj
- // This batch = what you just made (/batch). Favorites and DJ folder are
- // read-only listings (/folder) — nothing is moved by switching tabs.
- const EMPTY_SAY = {
-   batch: 'Make a beat and it lands here &mdash; with every drum in it.',
-   favorites: 'No favorites yet &mdash; star a beat to keep it.',
-   dj: 'Nothing here yet. This tab shows the folder of the DJ your last batch went to.'
- };
- let SRC = 'batch';
- document.querySelectorAll('.tab').forEach(t => t.onclick = () => loadBatch(null, t.dataset.src));
-
- async function loadBatch(focus, src) {
-   SRC = src || 'batch';
-   document.querySelectorAll('.tab').forEach(t => {
-     t.classList.toggle('on', t.dataset.src === SRC);
-     t.setAttribute('aria-selected', t.dataset.src === SRC);
-   });
-   const list = document.getElementById('tracklist'),
-         empty = document.getElementById('empty'),
-         say = document.getElementById('emptytext');
+ async function loadBatch(focus) {
    let d;
-   try {
-     d = await (await fetch(SRC === 'batch' ? '/batch' : '/folder?loc=' + SRC)).json();
-     if (d.ok === false) throw new Error(d.error);
-   } catch (e) {
-     list.innerHTML = '';
-     empty.classList.add('err'); empty.style.display = 'block';
-     say.textContent = "Couldn't read your beats (" + (e.message || e) +
-       '). Is the beats drive plugged in?';
-     return;
-   }
-   empty.classList.remove('err');
-   say.innerHTML = EMPTY_SAY[SRC];
+   try { d = await (await fetch('/batch')).json(); } catch (e) { return; }
+   const list = document.getElementById('tracklist');
    const open = [...list.querySelectorAll('.rack.open')]
                   .map(r => r.closest('.track').dataset.no);
    list.innerHTML = '';
-   empty.style.display = (d.beats && d.beats.length) ? 'none' : 'block';
-   (d.beats || []).forEach((b, i) => {
+   document.getElementById('empty').style.display =
+     (d.beats && d.beats.length) ? 'none' : 'block';
+   (d.beats || []).forEach(b => {
      const el = makeTrack(b);
      list.appendChild(el);
-     drawWave(el, i);
      if (open.includes(String(b.no)))
        toggleRack(el, b.no, el.querySelector('[data-role=stems]'));
    });
@@ -7376,19 +6774,11 @@ __BREAKS__
    refdrop.addEventListener(ev, e => {
      e.preventDefault(); refdrop.classList.add('over'); }));
  refdrop.addEventListener('dragleave', () => refdrop.classList.remove('over'));
- refdrop.addEventListener('drop', e => {
+ refdrop.addEventListener('drop', async e => {
    e.preventDefault(); refdrop.classList.remove('over');
-   readRef(e.dataTransfer.files && e.dataTransfer.files[0]);
- });
- // click (or Enter) to pick a file instead of dragging one \u2014 same reader
- const reffile = document.getElementById('reffile');
- refdrop.addEventListener('click', () => { if (!refdrop.classList.contains('busy')) reffile.click(); });
- refdrop.addEventListener('keydown', e => {
-   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); refdrop.click(); } });
- reffile.addEventListener('change', () => { readRef(reffile.files[0]); reffile.value = ''; });
- async function readRef(f) {
+   const f = e.dataTransfer.files && e.dataTransfer.files[0];
    if (!f) return;
-   const was = refdrop.innerHTML;
+   const was = refdrop.textContent;
    refdrop.classList.add('busy');
    refdrop.textContent = 'Listening to ' + f.name + '\u2026';
    try {
@@ -7408,38 +6798,16 @@ __BREAKS__
      } else { refline.textContent = d.error; }
    } catch (err) { refline.textContent = String(err); }
    refdrop.classList.remove('busy');
-   refdrop.innerHTML = was;
- }
-
- // ------------------------------------------------- tempo / count arrows
- // Tempo blank still means "home tempo"; the first arrow click starts from
- // the first-picked DJ's home tempo (or 95) so it never jumps somewhere odd.
- document.querySelectorAll('.spin [data-for]').forEach(b => b.onclick = () => {
-   const box = document.getElementById(b.dataset.for);
-   const isTempo = box.id === 'tempo';
-   const lo = isTempo ? TLO : 1, hi = isTempo ? THI : 10;
-   let v = parseFloat(box.value);
-   if (!isFinite(v)) {
-     const card = order.length && [...document.querySelectorAll('.dj input')]
-                    .find(c => c.value === order[0]);
-     v = isTempo ? parseFloat(card ? card.closest('.dj').querySelector('.bpm').textContent : 95) || 95
-                 : 1;
-     if (isTempo) { box.value = Math.min(hi, Math.max(lo, Math.round(v))); return; }
-   }
-   box.value = Math.min(hi, Math.max(lo, Math.round(v + Number(b.dataset.d))));
+   refdrop.textContent = was;
  });
 
  // ------------------------------------------------------------- make them
  const go = document.getElementById('go'),
        work = document.getElementById('work'),
-       worktext = document.getElementById('worktext'),
-       tracklist = document.getElementById('tracklist');
- // while anything renders, the board shows a pulsing placeholder card
- function working(msg) { work.className = 'on'; worktext.textContent = msg;
-                         if (SRC === 'batch') tracklist.classList.add('loading'); }
- function failed(msg) { work.className = 'on bad'; worktext.textContent = msg;
-                        tracklist.classList.remove('loading'); }
- function done() { work.className = ''; tracklist.classList.remove('loading'); }
+       worktext = document.getElementById('worktext');
+ function working(msg) { work.className = 'on'; worktext.textContent = msg; }
+ function failed(msg) { work.className = 'on bad'; worktext.textContent = msg; }
+ function done() { work.className = ''; }
 
  go.onclick = async () => {
    if (!order.length) { failed('Check at least one DJ first.'); return; }
@@ -7733,27 +7101,6 @@ def run_web(port=None):
                            _page().encode("utf-8"))
             elif u.path == "/batch":
                 self._json({"beats": _batch_beats()})
-            elif u.path == "/folder":
-                loc = parse_qs(u.query).get("loc", [""])[0]
-                try:
-                    self._json({"ok": True, "beats": _folder_beats(loc)})
-                except Exception as e:
-                    self._json({"ok": False, "error": str(e), "beats": []})
-            elif u.path == "/peaks":
-                q = parse_qs(u.query)
-                no = q.get("no", [""])[0]
-                n = q.get("n", ["160"])[0]
-                w = _known_wav(no) if no.isdigit() else None
-                try:
-                    if not w:
-                        raise FileNotFoundError(f"No beat {no} in your library.")
-                    with wave.open(str(w), "rb") as f:   # length, header only
-                        secs = f.getnframes() / float(f.getframerate())
-                    self._json({"ok": True, "seconds": round(secs, 2),
-                                "peaks": _peaks(w, max(16, min(
-                                    int(n) if n.isdigit() else 160, 600)))})
-                except Exception as e:
-                    self._json({"ok": False, "error": str(e), "peaks": []})
             elif u.path == "/lanes":
                 no = parse_qs(u.query).get("no", [""])[0]
                 try:
