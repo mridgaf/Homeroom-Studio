@@ -1,0 +1,181 @@
+/* Effects Controller — chalkboard (owner-approved mockup
+   11-effects-controller.png, 2026-10-03). Header, board, tray and title
+   copied from reason_voice/static/notebook.css so the three rooms match.
+   style.css (loaded first) still dresses the fine-tune drawer. */
+
+:root {
+  --page: #303236; --chalk: #f2f1ea; --chalk-dim: #f2f1eaa6; --chalk-faint: #f2f1ea55;
+  --lime: #9be22d; --sun: #f6e04b; --wood: #7b3f1d; --red: #ff6b5e; --band: #e8d810;
+  --hand: "Patrick Hand", "Chalkboard SE", "Comic Sans MS", sans-serif;
+  --serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --mono: "Space Mono", ui-monospace, Menlo, monospace;
+  --accent: var(--lime);
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+body { margin: 0; max-width: none; background: var(--page); color: #fff; padding: 0 22px 60px;
+       font-family: var(--hand); }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, select:focus-visible, input:focus-visible, .dial:focus-visible,
+summary:focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
+
+/* ------------------------------------------------------------ masthead */
+header.top { max-width: 1500px; margin: 0 auto; text-align: left; display: flex; align-items: center;
+             gap: 8px 26px; flex-wrap: wrap; padding: 20px 8px 18px; }
+.wordmark { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 46px); color: #fff; line-height: 1; margin: 0; }
+.scrawl { display: block; width: 100%; height: 10px; margin: 5px 0 0; overflow: visible; }
+.scrawl path { fill: none; stroke: var(--band); stroke-width: 5; stroke-linecap: round; }
+.motto { color: #fff; font-family: var(--mono); font-size: 15px; margin: 0; }
+.apptabs { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+.apptabs .here, .apptabs a { font-family: var(--hand); font-size: 20px; padding: 6px 28px;
+             border-radius: 8px; color: #fff; text-decoration: none; }
+.apptabs .here { background: #1f55e6; }
+.apptabs a:hover { background: #ffffff14; }
+
+/* ------------------------------------------------------------ board */
+main.board {
+  position: relative; max-width: 1500px; margin: 0 auto; color: var(--chalk); padding: 20px 30px 60px;
+  background:
+    radial-gradient(120% 80% at 30% 15%, #ffffff0b, transparent 60%),
+    radial-gradient(60% 50% at 80% 95%, #ffffff07, transparent 70%),
+    #141414;
+  border: 16px solid var(--wood);
+  border-image: linear-gradient(135deg, #8d4c26, #5e2e12 35%, #93522a 65%, #5a2c11) 1;
+  box-shadow: 0 10px 30px #0008, inset 0 0 50px #000c;
+}
+.tray { position: absolute; left: -16px; right: -16px; bottom: -16px; height: 20px;
+        background: linear-gradient(#a3622f, #5e2e12); box-shadow: 0 5px 9px #0007; pointer-events: none; }
+.tray i, .tray b { position: absolute; bottom: 14px; border-radius: 3px; }
+.tray i { width: 58px; height: 9px; background: linear-gradient(#fff, #cfcfcf); left: 28%; }
+.tray i + i { left: calc(28% + 76px); width: 44px; }
+.tray b { width: 120px; height: 16px; right: 30%; background: linear-gradient(#3a3a3a 0 55%, #b98b54 55%); }
+
+.boardtop { display: flow-root; }
+.boardlogo { float: right; width: clamp(96px, 10vw, 160px); aspect-ratio: 1; object-fit: contain;
+             background: #000; display: block; margin: 0 0 10px 22px; }
+.rvtitle { font-family: var(--hand); font-weight: 400; margin: 0; color: var(--chalk);
+           font-size: clamp(36px, 4vw, 62px); line-height: 1.1; padding: 6px 0 0 34px; }
+.rvtitle span { position: relative; display: inline-block; text-decoration: underline;
+  text-decoration-color: var(--sun); text-decoration-thickness: 4px; text-underline-offset: 9px; }
+.rvtitle span::before, .rvtitle span::after {
+  content: ""; position: absolute; top: -8px; width: 26px; height: 34px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 34'%3E%3Cg stroke='%23f6e04b' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 4l6 6'/%3E%3Cpath d='M4 17h10'/%3E%3Cpath d='M6 30l6-6'/%3E%3C/g%3E%3C/svg%3E") no-repeat; }
+.rvtitle span::before { left: -34px; transform: scaleX(-1); }
+.rvtitle span::after { right: -34px; }
+
+.cbtn { font-family: var(--hand); font-size: 19px; color: var(--chalk); background: none;
+        border: 2px solid var(--chalk); border-radius: 8px; padding: 5px 26px; display: inline-block; cursor: pointer; }
+.cbtn:hover { background: #ffffff14; }
+.cbtn.sun { background: var(--sun); border-color: var(--sun); color: #111; }
+
+/* pick-a-beat box (before anything is loaded) */
+.board .dropzone { margin: 26px 0 6px; border: 2px dashed var(--chalk-faint); border-radius: 12px;
+  background: none; padding: 36px 20px; text-align: center; color: var(--chalk); }
+.board .dropzone p { color: var(--chalk); font-size: 20px; }
+.board .dropzone .hint { color: var(--chalk-dim); font-family: var(--mono); font-size: 12px; }
+.board .dropzone .cbtn { margin: 6px 6px 0; }
+.board .dropzone.drag { border-color: var(--lime); }
+.hidden { display: none; }
+
+/* ------------------------------------------------------------ playback strip */
+.strip { display: flex; align-items: center; gap: 18px; margin: 14px 0 4px;
+         border: 2px solid var(--chalk-dim); border-radius: 10px; padding: 12px 18px; }
+.playbtn { width: 62px; height: 62px; flex: none; border-radius: 50%; border: 0; background: var(--sun);
+           display: grid; place-items: center; }
+.playbtn .ico { width: 0; height: 0; border-left: 20px solid #111; border-top: 13px solid transparent;
+                border-bottom: 13px solid transparent; margin-left: 5px; }
+.playbtn.playing .ico { width: 20px; height: 24px; border: 0; margin: 0;
+  background: linear-gradient(90deg, #111 0 7px, transparent 7px 13px, #111 13px); }
+.stopbtn { width: 56px; height: 56px; flex: none; border-radius: 9px; border: 3px solid var(--chalk);
+           background: none; display: grid; place-items: center; }
+.stopbtn span { width: 20px; height: 20px; background: var(--chalk); border-radius: 2px; }
+.beatname { flex: none; padding: 0 22px 0 18px; border-left: 2px solid var(--chalk-dim); min-width: 120px; max-width: 260px; }
+#fileName { font-size: 26px; line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.bpm { font-size: 17px; color: var(--chalk-dim); }
+#wave { flex: 1; min-width: 80px; height: 56px; cursor: pointer; }
+.playstate { flex: none; display: flex; align-items: center; gap: 9px; font-size: 21px; color: var(--chalk-dim); }
+.playstate i { width: 14px; height: 14px; border-radius: 50%; background: var(--chalk-faint); }
+.playstate i.live { background: var(--lime); box-shadow: 0 0 10px #9be22d99; }
+.playstate i.live + span { color: var(--lime); }
+
+/* ------------------------------------------------------------ knobs */
+.workspace { margin-top: 18px; clear: both; }
+.knobgrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 18px; }
+.fx { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.fxname { font-size: 24px; color: var(--chalk); }
+.dial { position: relative; width: clamp(100px, 8.2vw, 132px); aspect-ratio: 1; touch-action: none;
+        cursor: ns-resize; border-radius: 50%; user-select: none; -webkit-user-select: none; }
+.dial svg { width: 100%; height: 100%; display: block; }
+.dial .track { fill: none; stroke: #f4f4f0; stroke-width: 8; stroke-linecap: round; }
+.dial .lit { fill: none; stroke: var(--lime); stroke-width: 9; stroke-linecap: round; }
+.dial .cap { fill: #1c1c1c; stroke: #2b2b2b; stroke-width: 2; filter: drop-shadow(0 3px 4px #000c); }
+.dial .ptr rect { fill: var(--sun); }
+.dial .pct { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--hand);
+             font-size: clamp(20px, 1.8vw, 26px); color: #fff; pointer-events: none; }
+.fx:not(.on) .lit { stroke: #6f8f4a; }
+.sw { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 96px; height: 36px;
+      padding: 0 5px 0 16px; border-radius: 18px; border: 2px solid var(--chalk); background: none; color: var(--chalk); }
+.sw b { font-weight: 400; font-size: 17px; font-family: var(--mono); }
+.sw i { width: 24px; height: 24px; border-radius: 50%; background: #fff; }
+.fx.on .sw { background: var(--lime); border-color: var(--lime); color: #111; }
+.fxtip { font-size: 14px; color: var(--chalk-dim); text-align: center; min-height: 1.2em; }
+.fx.noir .dial { opacity: .35; pointer-events: none; }
+.fx.noir .sw { opacity: .35; pointer-events: none; }
+.workspace.held .fx { opacity: .55; }
+.workspace.held .dial, .workspace.held .sw { pointer-events: none; }
+
+/* ------------------------------------------------------------ bottom bar */
+hr.chalkline { border: 0; height: 3px; background: var(--chalk); opacity: .85; border-radius: 2px; margin: 18px 0 16px; }
+.perfbar { display: grid; grid-template-columns: auto 1fr auto; gap: 18px 34px; align-items: center; }
+.perfbar > * + * { border-left: 2px solid var(--chalk-dim); padding-left: 34px; }
+.holdbox, .cleanbox { display: flex; align-items: center; gap: 16px; font-size: 17px; color: var(--chalk-dim); }
+.cleanbox { flex-direction: column; gap: 8px; }
+.holdbtn { font-family: var(--hand); font-size: 30px; letter-spacing: .06em; color: var(--chalk); background: none;
+           border: 3px solid var(--chalk); border-radius: 10px; padding: 6px 42px; }
+.holdbtn[aria-pressed=true] { background: var(--chalk); color: #111; }
+.cleanbtn { font-family: var(--hand); font-size: 28px; letter-spacing: .06em; background: var(--sun); color: #111;
+            border: 0; border-radius: 12px; padding: 12px 46px; box-shadow: 0 4px 0 #b9a52a; }
+.cleanbtn:hover:not(:disabled) { filter: brightness(1.06); }
+.cleanbtn:disabled { opacity: .4; cursor: default; }
+.drywet { min-width: 0; }
+.dwtop { display: flex; gap: 20px; align-items: baseline; }
+.dwlabel { font-size: 24px; color: var(--chalk); }
+#dryWetVal { font-size: 22px; color: #fff; margin-left: auto; margin-right: 40%; }
+.dwrow { display: flex; align-items: center; gap: 16px; font-size: 18px; color: var(--chalk-dim); }
+#dryWet { --fill: 100%; flex: 1; min-width: 60px; -webkit-appearance: none; appearance: none; height: 8px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--lime) var(--fill), #8a8a8a var(--fill)); }
+#dryWet::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: var(--sun); border: 0; }
+#dryWet::-moz-range-thumb { width: 30px; height: 30px; border-radius: 50%; background: var(--sun); border: 0; }
+
+/* ------------------------------------------------------------ fine-tune drawer */
+details.finetune { margin-top: 34px; border-top: 1px dashed var(--chalk-faint); padding-top: 12px; }
+details.finetune summary { cursor: pointer; font-size: 20px; color: var(--chalk-dim); }
+.ftrow { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 14px 0 6px; font-size: 18px; }
+.ftrow select { font: inherit; font-size: 17px; background: #1e2028; color: var(--chalk); border: 1px solid var(--chalk-faint);
+                border-radius: 6px; padding: 4px 8px; }
+.finetune .panel { background: #1b1b1b; border-color: #333; }
+.finetune .meta { color: var(--chalk-dim); }
+
+/* the old modal is plain dark — give it the chalk font */
+.modal-card { font-family: var(--hand); }
+
+/* ------------------------------------------------------------ narrow windows */
+@media (max-width: 1100px) {
+  .knobgrid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .perfbar { grid-template-columns: 1fr; }
+  .perfbar > * + * { border-left: 0; padding-left: 0; }
+  .strip { flex-wrap: wrap; }
+  #wave { flex-basis: 100%; order: 5; }
+  .playstate { margin-left: auto; }
+}
+@media (max-width: 600px) {
+  body { padding: 0 8px 40px; }
+  main.board { padding: 14px 14px 50px; border-width: 10px; }
+  .apptabs { margin-left: 0; }
+  .apptabs .here, .apptabs a { padding: 6px 14px; font-size: 18px; }
+  .boardlogo { width: 72px; }
+  .rvtitle { font-size: 32px; }
+  .mixer { flex-direction: column; }
+  .channelList { width: 100%; }
+}

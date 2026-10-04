@@ -33,7 +33,7 @@ from . import dsp, fx_presets, library
 
 import groove  # noqa: E402  (tools/ is on sys.path once dsp is imported)
 
-PORT = 8767
+PORT = int(os.environ.get("SOUND_ENGINE_PORT", "8767"))  # side port for testing
 STATIC_DIR = Path(__file__).parent / "static"
 # ephemeral working files — not the owner's library, safe to clear anytime
 WORK_DIR = Path(os.path.expanduser("~/.homeroom_engine"))
@@ -540,7 +540,7 @@ def _pan_gains(pan):
 
 
 @app.post("/api/project/{project_id}/export")
-async def project_export(project_id: str):
+async def project_export(project_id: str, dry_wet: float = 1.0):
     project = PROJECTS.get(project_id)
     if project is None:
         return JSONResponse({"error": "unknown project_id"}, status_code=404)
@@ -553,15 +553,19 @@ async def project_export(project_id: str):
         return JSONResponse({"error": "nothing to export — every channel is muted"},
                              status_code=400)
     sr = next(iter(channels.values()))["sr"]
-    n = max(len(c["wet"][0]) for c in audible)
+    n = max(max(len(c["wet"][0]), len(c["dry"][0])) for c in audible)
     mixL = np.zeros(n)
     mixR = np.zeros(n)
+    # the Effects page's Dry/Wet slider: 1 = effects only (the old export),
+    # 0 = the untouched stems. Same crossfade the browser plays.
+    w = min(max(float(dry_wet), 0.0), 1.0)
     for c in audible:
-        L, R = c["wet"]
         g = 10 ** (c["gain_db"] / 20.0)
         panL, panR = _pan_gains(c["pan"])
-        mixL[:len(L)] += L * g * panL
-        mixR[:len(R)] += R * g * panR
+        for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
+            if k:
+                mixL[:len(L)] += L * g * panL * k
+                mixR[:len(R)] += R * g * panR * k
     ae = dsp.audio_engine
     mixL, mixR = ae.brickwall_limit(mixL, mixR, ceiling_db=-0.3, sr=sr)
     stem = re.sub(r'[\\/:*?"<>|]', "_", project["name"]).strip() or "mix"
@@ -572,6 +576,8 @@ async def project_export(project_id: str):
 
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+# band logo for the Effects page (same file the other two pages show)
+app.mount("/brand", StaticFiles(directory=str(STATIC_DIR.parent.parent / "brand")), name="brand")
 
 
 def _port_in_use(port: int) -> bool:

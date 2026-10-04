@@ -26,6 +26,15 @@ entries.
 - Status: confirmed (owner heard it 2026-10-03: "That worked.")
 - Outcome: —
 
+### 2026-10-03 Sound Engine replaced by the "Effects Controller" page (mockup 11)
+- Context: owner: "now we do the EQ" + mockup `11-effects-controller.png` (copy: `Front End Mockups/approved-effects-mockup-11.png`). Owner chose (clickable): REPLACE the Sound Engine page; 10 knobs = real effects, Claude picks.
+- Done: new `sound_engine/static/index.html` + `effects.css` + `effects.js` (backups `index.pre-effects-2026-10-03.html`, `app.pre-effects-2026-10-03.js`). Knobs = the engine's own 10 effects: EQ (low +9 / high +6 dB at 100%), Compress (ratio 1-8, makeup 0-4), Drive, Width, Chorus, Phaser, Echo, Stutter, Reverb, Convolve (greyed until a sound is dropped). Knobs move the old sliders via fireControl, so live/sync/export stay one path. Default: whole beat; "Big knobs change" picker = one stem. Every old control kept in a "Fine tune" drawer (only Bypass removed: Dry/Wet replaces it). Hold = locks knobs/switches/slider/clean. Return to Clean = all OFF, amounts kept, beat keeps playing. Play button now pauses in place; click waveform to jump; Space = play/pause.
+- Server: export takes `?dry_wet=` (crossfades dry stems with wet, same as the browser); `/brand` mounted for the logo; `SOUND_ENGINE_PORT` env var (default 8767). "Effects" tab added to Make + Reason Voice headers.
+- Verified on the live server (restarted, muted): 15-stem beat, knobs hit all 15 stems, clean/ON/pause/resume/hold/dry-wet, export at 35% (file moved to scratch, not left in his exports), 1586x992 fits one screen, phone no sideways scroll, no console errors. tests: sound_engine + beat_machine 209 passed. Not heard by ear. Screenshot: `Front End Mockups/live-effects-2026-10-03.jpg`.
+- ASSUMING: knob 100% ranges above (taste call, change in effects.js EFFECTS). Beat Machine needs a restart to show its new Effects tab.
+- Status: open (owner has not seen it)
+- Outcome: -
+
 ### 2026-10-03 Reason Voice page re-skinned to approved mockup 10 (notebook + chalkboard)
 - Context: owner approved `10-reason-voice.png` (Codex project, copy in `Front End Mockups/approved-reason-voice-mockup-10.png`) and asked for it on the real app, matching the beat page.
 - Done: new `reason_voice/static/index.html` + `notebook.css`, `app.js` re-wired (backups `index.pre-notebook-2026-10-03.html`, `app.pre-notebook-2026-10-03.js`). server.py untouched; every old feature kept (results, doc panel, knob dial, templates, crates, bins, Claude loops, patch/track/undo, help, settings). Recipe search + genre filter run in the page off `/api/recipes`. Talk/transport tray is pinned to the window bottom so it never scrolls away. Knob panel moved below the tray (48-knob Redrum pushed it off screen). Mic-permission hint shows when the server reports "loudness 0.0x".

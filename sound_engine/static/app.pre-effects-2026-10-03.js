@@ -31,10 +31,7 @@ const fileMeta = document.getElementById("fileMeta");
 const playBtn = document.getElementById("playBtn");
 const stopBtn = document.getElementById("stopBtn");
 const loopToggle = document.getElementById("loopToggle");
-// Dry/Wet (0 = untouched stems, 1 = full effects) replaced the old
-// Bypass A/B switch — Bypass is just Dry/Wet at 0. The Effects page sets it.
-let dryWet = 1;
-let pausedAt = 0;  // seconds into the beat where Pause left off
+const bypassToggle = document.getElementById("bypassToggle");
 const playStatus = document.getElementById("playStatus");
 const exportBtn = document.getElementById("exportBtn");
 const exportStatus = document.getElementById("exportStatus");
@@ -234,8 +231,6 @@ async function openProject(data) {
   }
   applyDjPresets(data);
   selectChannel(channelOrder[0]);
-  pausedAt = 0;
-  if (typeof effectsProjectOpened === "function") effectsProjectOpened(data);
   dropzone.classList.add("hidden");
   workspace.classList.remove("hidden");
 }
@@ -1405,7 +1400,7 @@ function rebuildRepeat(ch) {
   startRepeatSource(ch, startAt, offset);
 }
 
-function play(offset = 0) {
+function play() {
   const bufferLen = channelOrder.length ? channels[channelOrder[0]].audioBuffer.length : 0;
   if (!bufferLen) return;
   stopPlayback();
@@ -1425,16 +1420,14 @@ function play(offset = 0) {
     src.loop = loopToggle.checked;
     src.connect(ch.brDry);
     src.connect(ch.bypassGain);
-    src.start(startAt, offset);
+    src.start(startAt);
     ch.sourceNode = src;
     // building a stuttered copy of every stem on every Play would be wasted
     // work at Mix 0 — the wet source starts the moment the knob leaves zero
-    if (ch.br.mix > 0) startRepeatSource(ch, startAt, offset);
+    if (ch.br.mix > 0) startRepeatSource(ch, startAt, 0);
   }
-  // shifted back by the offset so rebuildRepeat's elapsed-time maths
-  // still lands on the playhead after a resume from Pause
-  playStartedAt = startAt - offset;
-  applyDryWet();
+  playStartedAt = startAt;
+  setBypass(bypassToggle.checked);
   recomputeAudibility();
   isPlaying = true;
   playStatus.textContent = "Playing…";
@@ -1444,19 +1437,19 @@ function play(offset = 0) {
   const longest = channelOrder.reduce((a, b) =>
     channels[a].audioBuffer.length >= channels[b].audioBuffer.length ? a : b);
   channels[longest].sourceNode.onended = () => {
-    if (isPlaying) { isPlaying = false; pausedAt = 0; playStatus.textContent = ""; }
+    if (isPlaying) { isPlaying = false; playStatus.textContent = ""; }
   };
 }
 
-function applyDryWet() {
-  if (!audioCtx) return;
+function setBypass(on) {
   const t = audioCtx.currentTime;
   for (const laneId of channelOrder) {
     const ch = channels[laneId];
-    ch.wetGain.gain.setTargetAtTime(dryWet, t, RAMP_SECONDS);
-    ch.bypassGain.gain.setTargetAtTime(1 - dryWet, t, RAMP_SECONDS);
+    ch.wetGain.gain.setTargetAtTime(on ? 0 : 1, t, RAMP_SECONDS);
+    ch.bypassGain.gain.setTargetAtTime(on ? 1 : 0, t, RAMP_SECONDS);
   }
 }
+bypassToggle.addEventListener("change", () => { if (audioCtx) setBypass(bypassToggle.checked); });
 loopToggle.addEventListener("change", () => {
   // an AudioBufferSourceNode reads .loop when it starts, so the already-
   // running wet sources have to be re-laid or they drift out of the dry
@@ -1483,19 +1476,8 @@ function stopPlayback() {
   playStatus.textContent = "";
 }
 
-// one button: Play, or Pause (remembers the spot) while playing
-function playheadSeconds() {
-  if (!isPlaying || !channelOrder.length) return pausedAt;
-  const dur = channels[channelOrder[0]].audioBuffer.duration;
-  const el = audioCtx.currentTime - playStartedAt;
-  return loopToggle.checked ? ((el % dur) + dur) % dur : Math.min(Math.max(el, 0), dur);
-}
-playBtn.addEventListener("click", () => {
-  if (!audioCtx) return;
-  if (isPlaying) { pausedAt = playheadSeconds(); stopPlayback(); return; }
-  audioCtx.resume(); play(pausedAt);
-});
-stopBtn.addEventListener("click", () => { stopPlayback(); pausedAt = 0; });
+playBtn.addEventListener("click", () => { audioCtx.resume(); play(); });
+stopBtn.addEventListener("click", stopPlayback);
 
 // Safety net (added after a looping preview was accidentally left running
 // in a backgrounded tab and kept playing indefinitely — closing the tab
@@ -1521,7 +1503,7 @@ exportBtn.addEventListener("click", async () => {
   try {
     for (const laneId of channelOrder) syncChannelToServer(laneId, true);
     await new Promise(r => setTimeout(r, 150));  // let the syncs land server-side
-    const res = await fetch(`/api/project/${projectId}/export?dry_wet=${dryWet}`, { method: "POST" });
+    const res = await fetch(`/api/project/${projectId}/export`, { method: "POST" });
     const data = await res.json();
     if (data.path && syncFailedLanes.size) {
       exportStatus.textContent =

@@ -6252,6 +6252,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
     <span class="here" title="You're here &mdash; making beats">Make</span>
     <a href="http://localhost:8765"
        title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Reason Voice</a>
+    <a href="http://localhost:8767" title="Live effects on a beat">Effects</a>
   </nav>
 </header>
 
