@@ -909,9 +909,16 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
     p["vel_seed"] = variant
     if tsig:
         p["tsig"] = list(tsig)
-    pan = CREW[host]["lanes"]["stamp"][0]
-    p["lanes"]["stamp"] = copy.deepcopy(CREW[host]["lanes"]["stamp"])
+    # Razor, DJ Light Green and Well Damn have no stamp lane — a collab
+    # with them crashed on a KeyError. Stamps are stripped from every new
+    # beat anyway (_drop_stamp), so whoever lacks one is just skipped.
+    no_stamp = (0.0, 0.0, None, None)
+    pan = CREW[host]["lanes"].get("stamp", no_stamp)[0]
+    if "stamp" in CREW[host]["lanes"]:
+        p["lanes"]["stamp"] = copy.deepcopy(CREW[host]["lanes"]["stamp"])
     for i, g in enumerate(names[1:]):
+        if "stamp" not in CREW[g]["lanes"]:
+            continue
         gpan, ggain, gfeel, gbars = CREW[g]["lanes"]["stamp"]
         side = -pan if abs(pan) > 0.05 else 0.3 * (1 if i % 2 == 0 else -1)
         p["lanes"][f"stamp{i + 2}"] = (side, ggain, gfeel, gbars)
@@ -948,11 +955,14 @@ def collab_kit(shots, names, preset, stamps, variant, avoid):
         kit[lane] = x
         sources[lane] = path
         spec_used[lane] = (role, must, wants, secs)
-    kit["stamp"] = stamps[host][1]
-    sources["stamp"] = f"{Path(stamps[host][0]).stem}  [{host}'s stamp]"
-    for i, g in enumerate(names[1:]):
-        kit[f"stamp{i + 2}"] = stamps[g][1]
-        sources[f"stamp{i + 2}"] = f"{Path(stamps[g][0]).stem}  [{g}'s stamp]"
+    # Legends have no locked stamp (None) and three identities have no
+    # stamp lane at all; generate() drops stamp lanes from new beats
+    # anyway, so only a real locked stamp is carried here.
+    for lane, who in [("stamp", host)] + [(f"stamp{i + 2}", g)
+                                         for i, g in enumerate(names[1:])]:
+        if lane in preset["lanes"] and stamps.get(who, (None,))[0]:
+            kit[lane] = stamps[who][1]
+            sources[lane] = f"{Path(stamps[who][0]).stem}  [{who}'s stamp]"
     return kit, sources, spec_used
 
 
@@ -3117,15 +3127,23 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     return midi_chords, harmony_info
 
 
-def _pick_loop_bed(dj_name, preset, variant, state=None):
+def _pick_loop_bed(dj_name, preset, variant, state=None, guests=()):
     """Loops-only beat, FIVE LANES (owner spec 2026-09-16 — see
     tools/loop_lanes.py and the DECISIONS.md entry). `state` is a saved
     recipe's loop_state (a rebuild); None picks a fresh one leaning on
-    this DJ's taste. Returns (state, loop_bufs, nbars, note)."""
+    this DJ's taste. Returns (state, loop_bufs, nbars, note).
+    `guests` are the genres in a loops collab: their library tags join
+    the host's, so the loops lean on both."""
     import loop_lanes
     if state is None:
-        tags = [t for t, _w in (preset.get("library") or {}).get("tags", [])]
-        state = loop_lanes.pick_state(preset.get("signature") or {}, tags,
+        # a collab preset carries no library/signature — fall back to the host's
+        tags = [t for t, _w in (preset.get("library")
+                                or CREW[dj_name].get("library") or {}).get("tags", [])]
+        for g in guests:
+            tags += [t for t, _w in (CREW[g].get("library") or {}).get("tags", [])
+                     if t not in tags]
+        state = loop_lanes.pick_state(preset.get("signature")
+                                      or CREW[dj_name].get("signature") or {}, tags,
                                       preset.get("bpm") or 90,
                                       random.Random(f"{dj_name}|loops|{variant}"))
     bufs = loop_lanes.render_bufs(state, SR)
@@ -3151,15 +3169,17 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     loops_only=True (owner 2026-09-16): the drums and melodic content
     both come from a picked loop instead of one-shots/synth — see
-    _pick_loop_bed. One DJ at a time for now; a collab raises, since
-    whose loop taste should win hasn't been asked yet."""
+    _pick_loop_bed. Owner 2026-10-03: in loops mode a DJ collabs with
+    GENRES only, never another DJ (crew or Legend) — so at most one
+    non-genre name; the host's folder, tempo and taste lead."""
     seen = set()                                  # dedupe, KEEP caller order
     names = [n for n in names
              if n in CREW and not (n in seen or seen.add(n))]
     if not names:
         raise ValueError("Check at least one DJ first.")
-    if loops_only and len(names) != 1:
-        raise ValueError("Loops-only beats are one DJ at a time for now.")
+    if loops_only and sum(n not in GENRE_NAMES for n in names) > 1:
+        raise ValueError("Loops only: a DJ can team up with styles, "
+                         "not with another DJ. Untick all but one DJ.")
     bpm = None
     if tempo:
         bpm = int(round(float(tempo)))
@@ -3285,9 +3305,9 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
 
     loop_bufs, loop_nbars, loop_state = None, None, None
     if loops_only:
-        status(f"Picking loops for {names[0]}…")
+        status(f"Picking loops for {' x '.join(names)}…")
         loop_state, loop_bufs, loop_nbars, loop_note = _pick_loop_bed(
-            names[0], preset, variant)
+            names[0], preset, variant, guests=names[1:])
         preset = dict(preset)                # don't mutate CREW's shared dict
         preset["bpm"] = loop_state["bpm"]    # the drum loop sets the tempo
         sources = dict(loop_state["lanes"])
@@ -6507,13 +6527,87 @@ __BREAKS__
  // ------------------------------------------------------------- one voice
  // every preview shares one player, so clicking around never stacks sounds
  const audition = new Audio();
+
+ // A beat repeats until you press stop (owner 2026-08-31), and with NO
+ // gap at the seam (owner 2026-10-03). <audio loop> hiccups every time it
+ // wraps; the Sound Engine page loops a decoded buffer in Web Audio and
+ // is seamless, so the beat cards do the same. Same surface as <audio>
+ // (src/load/play/pause/currentTime/duration + events) so the transport
+ // code around it didn't change.
+ const actx = new (window.AudioContext || window.webkitAudioContext)();
+ class LoopAudio extends EventTarget {
+   constructor(src) {
+     super(); this.src = src; this.dataset = {}; this.buf = null;
+     this.node = null; this.paused = true; this.readyState = 0;
+     this._off = 0; this._t0 = 0; this._gen = 0; this._loading = false;
+     this._tick = null; LoopAudio.all.push(this);
+   }
+   get duration() { return this.buf ? this.buf.duration : NaN; }
+   get currentTime() {
+     if (!this.buf) return 0;
+     if (this.paused) return this._off;
+     return (actx.currentTime - this._t0) % this.buf.duration;
+   }
+   set currentTime(t) {
+     this._off = t;
+     if (!this.paused) { this._kill(); this._start(); }
+   }
+   _fire(n) { this.dispatchEvent(new Event(n)); }
+   load() {
+     const gen = ++this._gen;
+     this._kill(); clearInterval(this._tick); this.paused = true; this.buf = null;
+     this.readyState = 0; this._off = 0; this._loading = true;
+     fetch(this.src)
+       .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+       .then(b => actx.decodeAudioData(b))
+       .then(buf => {
+         if (gen !== this._gen) return;          // a newer load won
+         this.buf = buf; this.readyState = 4; this._loading = false;
+         this._fire('loadedmetadata'); this._fire('canplay');
+       })
+       .catch(() => {
+         if (gen !== this._gen) return;
+         this._loading = false; this._fire('error');
+       });
+   }
+   async play() {
+     this._want = true;
+     await actx.resume();
+     if (!this.buf) {
+       if (!this._loading) this.load();
+       await new Promise((ok, no) => {
+         this.addEventListener('canplay', ok, { once: true });
+         this.addEventListener('error', no, { once: true });
+       });
+     }
+     if (!this.paused || !this._want) return;   // paused while it loaded
+     this.paused = false; this._start(); this._fire('play');
+     this._tick = setInterval(() => this._fire('timeupdate'), 200);
+   }
+   pause() {
+     this._want = false;
+     if (this.paused) return;
+     this._off = this.currentTime; this._kill(); clearInterval(this._tick);
+     this.paused = true; this._fire('pause');
+   }
+   _start() {
+     const n = actx.createBufferSource();
+     n.buffer = this.buf; n.loop = true; n.connect(actx.destination);
+     const off = (this._off || 0) % this.buf.duration;
+     n.start(0, off); this._t0 = actx.currentTime - off; this.node = n;
+   }
+   _kill() {
+     if (this.node) { try { this.node.stop(); } catch (e) {} this.node.disconnect(); this.node = null; }
+   }
+ }
+ LoopAudio.all = [];
  let auditionBtn = null;
  function play(url, btn) {
    if (auditionBtn) auditionBtn.classList.remove('playing');
    if (auditionBtn === btn && !audition.paused) {
      audition.pause(); auditionBtn = null; return;
    }
-   document.querySelectorAll('.track audio').forEach(a => a.pause());
+   LoopAudio.all.forEach(a => a.pause());
    audition.src = url; audition.play().catch(() => {});
    auditionBtn = btn || null;
    if (auditionBtn) auditionBtn.classList.add('playing');
@@ -6558,6 +6652,7 @@ __BREAKS__
    el.className = 'track loc-' + b.loc;
    el.draggable = true;
    el.dataset.no = b.no;
+   el.au = new LoopAudio('/audio?no=' + b.no);
    el.innerHTML =
      '<div class="thead">' +
        '<span class="no">' + b.no + '</span>' +
@@ -6567,11 +6662,6 @@ __BREAKS__
          '<span class="sep"></span>' +
          '<span class="bar"><canvas></canvas><i></i></span>' +
          '<span class="time">0:00</span></span>' +
-       // `loop`: a beat repeats until you press stop (owner 2026-08-31).
-       // The attribute lives on the ELEMENT, so it survives cue()'s
-       // src+load() and the /mix preview loops too. Renders are already
-       // loop-safe (no edge fades, tails wrap), so the seam is clean.
-       '<audio loop preload="none" src="/audio?no=' + b.no + '"></audio>' +
        // star = keep (a second click sends it back to its DJ folder);
        // the rest live in the "..." menu — same data-dest buttons as before
        '<span class="acts">' +
@@ -6650,15 +6740,13 @@ __BREAKS__
  }
 
  function wireTransport(el) {
-   const au = el.querySelector('audio'), pp = el.querySelector('.pp'),
+   const au = el.au, pp = el.querySelector('.pp'),
          bar = el.querySelector('.bar'), fill = bar.querySelector('i'),
          time = el.querySelector('.time');
    pp.onclick = () => {
      if (!au.paused) { au.pause(); return; }
      audition.pause();                     // never two things at once
-     document.querySelectorAll('.track audio').forEach(a => {
-       if (a !== au) a.pause();
-     });
+     LoopAudio.all.forEach(a => { if (a !== au) a.pause(); });
      // Play what the rack is currently SET to, not the file on disk: with
      // volumes nudged or stems removed, hitting play has to reflect that
      // so a mix decision can be heard before rendering (owner 2026-07-25).
@@ -6721,7 +6809,7 @@ __BREAKS__
      bar.color = WAVE_COLORS[idx % WAVE_COLORS.length];
      // the length is known before the audio loads, so the card can say
      // "0:00 / 0:12" like the mockup without fetching the whole beat
-     const au = el.querySelector('audio'), time = el.querySelector('.time');
+     const au = el.au, time = el.querySelector('.time');
      if (d.seconds && !au.duration) time.textContent = '0:00 / ' + clock(d.seconds);
      bar.classList.add('has-wave');
      paintWave(bar, bar.frac || 0);
@@ -6845,7 +6933,7 @@ __BREAKS__
  // server mix the beat again and throw the last one away, and the URL is
  // worked out at play time anyway.
  function refreshMix(el, no) {
-   const au = el.querySelector('audio');
+   const au = el.au;
    if (!au || au.paused) return;
    const want = mixUrl(no);
    if (au.dataset.src === want) return;
@@ -7443,6 +7531,12 @@ __BREAKS__
 
  go.onclick = async () => {
    if (!order.length) { failed('Check at least one DJ first.'); return; }
+   // loops mode: a DJ teams up with styles only, never another DJ
+   if (document.getElementById('loopsonly').checked &&
+       order.filter(n => !document.querySelector(
+         '.dj.genre input[value="' + CSS.escape(n) + '"]')).length > 1) {
+     failed('Loops only: a DJ can team up with styles, not with another DJ. ' +
+            'Untick all but one DJ.'); return; }
    const count = document.getElementById('count').value;
    go.disabled = true;
    working(count > 1

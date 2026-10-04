@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### 2026-10-03 Beat Machine: gapless loop playback + DJ×genre collabs (loops: DJ + styles only)
+- Context: owner: beats skip at the loop point on the Beat Machine page (Sound Engine page loops perfectly); fix collabs, DJs must collab with genres; in Loops only, DJs collab with genres only, never another DJ.
+- Decision/change: beat cards now play through a Web Audio looped buffer (`LoopAudio` in tools/beat_machine.py — same method as sound_engine/static/app.js) instead of `<audio loop>`. Collab crash fixed: Razor / DJ Light Green / Well Damn have no stamp lane and Legends have no locked stamp → collab_preset/collab_kit KeyError/TypeError; now skipped (stamps are dropped from new beats anyway). Loops only: generate() allows at most one non-genre name; genres' library tags blend into the loop pick; page blocks DJ+DJ before sending.
+- Verify by: tests/test_collab_genres.py; owner listens to a beat loop round on the page.
+- Status: confirmed (owner heard it 2026-10-03: "That worked.")
+- Outcome: —
+
 ### 2026-10-03 Reason Voice page re-skinned to approved mockup 10 (notebook + chalkboard)
 - Context: owner approved `10-reason-voice.png` (Codex project, copy in `Front End Mockups/approved-reason-voice-mockup-10.png`) and asked for it on the real app, matching the beat page.
 - Done: new `reason_voice/static/index.html` + `notebook.css`, `app.js` re-wired (backups `index.pre-notebook-2026-10-03.html`, `app.pre-notebook-2026-10-03.js`). server.py untouched; every old feature kept (results, doc panel, knob dial, templates, crates, bins, Claude loops, patch/track/undo, help, settings). Recipe search + genre filter run in the page off `/api/recipes`. Talk/transport tray is pinned to the window bottom so it never scrolls away. Knob panel moved below the tray (48-knob Redrum pushed it off screen). Mic-permission hint shows when the server reports "loudness 0.0x".
