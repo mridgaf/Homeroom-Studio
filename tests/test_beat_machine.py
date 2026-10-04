@@ -2302,8 +2302,41 @@ def test_folder_tabs_list_only_their_own_folder_newest_first(tmp_path, monkeypat
     assert [b["no"] for b in dj] == [41, 7] and dj[0]["label"] == "41 Cutz Home Drums 95bpm"
     monkeypatch.setattr(beat_machine, "_load_state", lambda: {})
     assert beat_machine._folder_beats("dj", root=root) == []
+    # Trash is listable so a failed beat can be found and moved back
+    # (design handoff 2026-10-04); anything else is still refused
+    trash = beat_machine._folder_beats("trash", root=root)
+    assert [b["no"] for b in trash] == [40] and trash[0]["loc"] == "trash"
     with pytest.raises(ValueError):
-        beat_machine._folder_beats("trash", root=root)   # not a tab
+        beat_machine._folder_beats("nowhere", root=root)
+
+
+def test_failed_beat_goes_to_trash_and_comes_back_to_exactly_where_it_was(tmp_path):
+    """Fail = Trash is a MOVE with a way back, even for a beat with no
+    saved recipe and one that lives in a nested variations folder."""
+    root = tmp_path
+    home = "Cutz/50 Cutz Song Variations"
+    wav = root / home / "51 Cutz Alt Drums 90bpm.wav"
+    _tiny_wav(wav, np.zeros(10))
+    (root / home / "51 Cutz Alt Stems").mkdir()
+    assert beat_machine.triage(51, "trash", root=root) == "trash"
+    assert not wav.exists()
+    assert (root / "Trash" / wav.name).exists()                  # moved, kept
+    assert (root / "Trash" / "51 Cutz Alt Stems").is_dir()       # stems too
+    assert beat_machine.beat_location(51, root) == "trash"
+    # fav -> trash -> back: the FIRST home is the one remembered
+    beat_machine.triage(51, "favorites", root=root)
+    assert beat_machine.triage(51, "dj", root=root) == "dj"
+    assert wav.exists() and (root / home / "51 Cutz Alt Stems").is_dir()
+    assert not (root / "Trash" / wav.name).exists()
+    assert "51" not in beat_machine._origins(root)               # address cleared
+
+
+def test_triage_without_a_known_home_says_so_instead_of_guessing(tmp_path):
+    root = tmp_path
+    _tiny_wav(root / "Trash" / "60 Cutz Lost Drums 90bpm.wav", np.zeros(10))
+    with pytest.raises(ValueError):
+        beat_machine.triage(60, "dj", root=root)
+    assert (root / "Trash" / "60 Cutz Lost Drums 90bpm.wav").exists()
 
 
 def test_peaks_are_one_bar_per_slice_scaled_to_the_loudest(tmp_path):

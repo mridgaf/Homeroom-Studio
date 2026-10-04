@@ -27,7 +27,6 @@ import os
 import random
 import re
 import shutil
-import subprocess
 import sys
 import wave
 import zlib
@@ -3880,74 +3879,29 @@ def beat_dj(no, root=None):
     return None
 
 
-_ORIGINS = ".triage_origins.json"       # beside the beats: where each beat came from
-
-
-def _origins(root):
-    try:
-        return json.loads((Path(root) / _ORIGINS).read_text())
-    except (OSError, ValueError):
-        return {}
-
-
-def _save_origins(root, data):
-    f = Path(root) / _ORIGINS
-    tmp = f.with_name(f.name + ".tmp")
-    tmp.write_text(json.dumps(data, indent=1))
-    tmp.replace(f)
-
-
 def triage(no, dest, root=None):
-    """Move beat `no` to Favorites / Trash / back to where it came from.
-    MOVE, never delete. Returns the new location string. Idempotent.
-
-    The folder a beat sits in before it first goes to Favorites or Trash is
-    remembered (.triage_origins.json), so "back to its DJ folder" returns
-    it to EXACTLY that folder, even for a beat with no saved recipe, and a
-    failed beat can always be recovered (design handoff 2026-10-04)."""
+    """Move beat `no` to Favorites / Trash / its DJ folder. MOVE, never
+    delete. Returns the new location string. Idempotent."""
     root = Path(root or ROOT)
     no = int(no)
     items = beat_items(no, root)
     if not items:
         raise FileNotFoundError(f"No beat {no} to move.")
-    kept = _origins(root)
-    mine = kept.get(str(no), {})
     if dest in ("fav", "favorite", "favorites"):
         target, loc = Path(root) / FAV_DIR, "favorites"
     elif dest in ("trash", "bin", "reject"):
         target, loc = Path(root) / TRASH_DIR, "trash"
-    else:                                     # 'dj' - back where it came from
-        target, loc = None, "dj"
-    # remember each item's home before it first leaves it
-    if target is not None:
-        for p in items:
-            if p.relative_to(root).parts[0] not in (FAV_DIR, TRASH_DIR):
-                mine[p.name] = str(p.parent.relative_to(root))
-        if mine:
-            kept[str(no)] = mine
-            _save_origins(root, kept)
-    dj = None
+    else:                                     # 'dj' — back to their folder
+        dj = beat_dj(no, root)
+        if not dj:
+            raise ValueError(f"Don't know which DJ beat {no} belongs to.")
+        target, loc = Path(root) / dj, "dj"
+    target.mkdir(parents=True, exist_ok=True)
     for p in items:
-        if target is not None:
-            to = target
-        else:
-            home = mine.get(p.name)
-            if home:
-                to = Path(root) / home
-            else:
-                dj = dj or beat_dj(no, root)
-                if not dj:
-                    raise ValueError(
-                        f"Don't know which DJ beat {no} belongs to.")
-                to = Path(root) / dj
-        to.mkdir(parents=True, exist_ok=True)
-        d = to / p.name
+        d = target / p.name
         if p.resolve() == d.resolve() or d.exists():
             continue                          # already there / never clobber
         shutil.move(str(p), str(d))
-    if target is None and mine:               # home again: forget the old address
-        kept.pop(str(no), None)
-        _save_origins(root, kept)
     return loc
 
 
@@ -4617,17 +4571,13 @@ _BEAT_WAV = re.compile(r"^(\d+) .+ Drums [\d.]+bpm$", re.I)
 
 
 def _folder_beats(loc, root=None, limit=50):
-    """Beats sitting in Favorites ('favorites'), Trash ('trash') or in the
-    current batch's host DJ folder ('dj'), newest first, same shape as
-    _batch_beats. Trash is listed so a failed beat can be found and moved
-    back (design handoff 2026-10-04: fail is recoverable, never a delete).
+    """Beats sitting in Favorites ('favorites') or in the current batch's
+    host DJ folder ('dj'), newest first, same shape as _batch_beats.
     Walks only that one folder (never the whole library) and skips the
     Stems/Chunks folders that live beside each beat."""
     root = Path(root or ROOT)
     if loc == "favorites":
         top = FAV_DIR
-    elif loc == "trash":
-        top = TRASH_DIR
     elif loc == "dj":
         batch = _load_state().get("last_batch", []) if root == ROOT else []
         top = beat_dj(batch[0], root) if batch else None
@@ -4651,8 +4601,7 @@ def _folder_beats(loc, root=None, limit=50):
         if root == ROOT:
             _WAV_AT[no] = w
         out.append({"no": no, "label": w.stem,
-                    "loc": {FAV_DIR: "favorites",
-                            TRASH_DIR: "trash"}.get(top, "dj"),
+                    "loc": "favorites" if top == FAV_DIR else "dj",
                     "se_id": _sound_engine_id(w, root),
                     "theory": _beat_theory(no, root)})
     return out
@@ -5502,7 +5451,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homeroom Studios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Anton&family=Space+Mono:wght@400;700&family=Special+Elite&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Anton&family=Space+Mono:wght@400;700&display=swap">
 <style>
  /* ---------------------------------------------------------------
     Homeroom Studio — reskinned 2026-08-06 to mockup D ("Show Flyer"):
@@ -5620,6 +5569,17 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  /* ------------------------------------------------------ DJ crates */
  .djs { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
         gap: 9px; }
+ .fixedbank { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+              gap: 9px; margin-bottom: 6px; }
+ .fixedbtn { padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
+             background: var(--card); cursor: pointer; text-align: left;
+             font-family: var(--display); font-weight: 600; font-size: 15px;
+             color: var(--text); transition: border-color .13s, transform .13s; }
+ .fixedbtn:hover { border-color: var(--hi); transform: translateY(-1px); }
+ .fixedbtn:disabled { opacity: .5; cursor: default; transform: none; }
+ .fixedbtn small { display: block; font-weight: 400;
+                   font-size: 12px; color: var(--dim); text-transform: none;
+                   letter-spacing: 0; margin-top: 3px; }
  .dj { position: relative; display: flex; align-items: center; gap: 10px;
        padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
        background: var(--card); cursor: pointer; user-select: none;
@@ -5696,6 +5656,21 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  #worktext { margin-top: 9px; font-size: 13.5px; color: var(--dim); }
  #work.bad #workbar { display: none; }
  #work.bad #worktext { color: var(--no); white-space: pre-wrap; }
+
+ /* --------------------------------------------------- batch + bins */
+ .zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px;
+          margin: 14px 0 16px; }
+ .zone { border: 1.5px dashed var(--line2); border-radius: 12px;
+         padding: 15px 12px; text-align: center;
+         font-family: var(--display); font-weight: 600; font-size: 15.5px;
+         letter-spacing: .07em; text-transform: uppercase; color: var(--dim);
+         transition: background .12s, border-color .12s, color .12s; }
+ .zone small { display: block; font-family: -apple-system, sans-serif;
+               font-weight: 400; font-size: 11.5px; letter-spacing: 0;
+               text-transform: none; color: var(--dimmer); margin-top: 3px; }
+ .zone.fav.over   { border-color: var(--hi); background: #e8d8101f; color: var(--hi); }
+ .zone.djz.over   { border-color: var(--co); background: #7d8cff1f; color: var(--co); }
+ .zone.trash.over { border-color: var(--no); background: #ff4d4d1f; color: var(--no); }
 
  /* ------------------------------------------- reference track (sec. 5) */
  #refdrop { border: 1.5px dashed var(--line2); border-radius: 10px;
@@ -5897,169 +5872,168 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  }
 
   /* ---------------------------------------------------------------
-     Homeroom Studios (design handoff 2026-10-04, design-reference.png):
-     charcoal page, yellow ruled spiral notebook on the left (black
-     typewriter lettering), wood-framed chalkboard on the right (chalk
-     lettering, lime green + yellow accents, rough chalk edges).
-     Built in CSS, live text and real controls - no screenshot behind them.
-     Replaces the 2026-10-03 "09 charcoal" layer (backup:
-     tools/beat_machine.pre-homeroom-studios-2026-10-04.py).
-     --------------------------------------------------------------- */
+     Notebook + chalkboard (owner-approved mockup "09 charcoal",
+     2026-10-03): charcoal page, yellow spiral notebook on the left for
+     every choice, black chalkboard on the right for make / tempo /
+     count / your beats. Built in CSS - no screenshot behind the
+     controls. Reference: Front End Mockups/approved-homeroom-mockup-09-charcoal.png
+     Replaces the 2026-09-29 "school bus" pass (backup:
+     tools/beat_machine.pre-notebook-2026-10-03.py).
+     ---------------------------------------------------------------- */
   :root {
-    --page: #2c2e32; --ink: #141414; --paper-y: #f8edb2; --rule: #8fa6c870;
-    --margin: #d9776f; --chalk: #f2f1ea; --chalk-dim: #f2f1eaa6;
+    --page: #303236; --ink: #1d3a8a; --paper-y: #fdf2b3; --rule: #9fb6dc70;
+    --margin: #e48a8a; --chalk: #f2f1ea; --chalk-dim: #f2f1eaa6;
     --lime: #9be22d; --sun: #f6e04b; --wood: #7b3f1d;
-    --type: "Special Elite", "American Typewriter", "Courier New", monospace;
     --hand: "Patrick Hand", "Chalkboard SE", "Comic Sans MS", var(--mono);
+    --marker: "Permanent Marker", "Marker Felt", var(--display);
+    --serif: "DM Serif Display", Georgia, "Times New Roman", serif;
   }
   body { background: var(--page); color: #fff; padding: 0 22px 60px; }
   body::before { display: none; }
   .wrap { max-width: 1500px; }
   [hidden] { display: none !important; }
-  .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden;
-        clip: rect(0 0 0 0); white-space: nowrap; }
-  /* one chalk look for every outline, number, button and icon: a rough
-     edge (displacement) plus a little grain. Subtle on purpose. */
-  .chalky { filter: url(#chalk); }
-  .chalktext { filter: url(#chalk-text); }
 
-  /* ------------------------------------------------------- top bar */
-  header.top { display: flex; justify-content: flex-end; padding: 22px 8px 16px; }
-  .apptabs { position: static; display: flex; align-items: center; gap: 22px; }
-  .apptabs a, .apptabs .profile {
-    font-family: var(--hand); font-size: 30px; line-height: 1; font-weight: 400;
-    letter-spacing: .02em; text-transform: none; text-decoration: none;
-    color: var(--lime); background: none; border-radius: 0; padding: 6px 10px;
-    filter: url(#chalk); }
-  .apptabs a.here { border: 3px solid var(--lime); border-radius: 12px; padding: 5px 24px;
-                    background: none; color: var(--lime); font-family: var(--hand);
-                    font-size: 30px; letter-spacing: .02em; text-transform: none; }
-  .apptabs a:hover { background: #9be22d1c; }
-  .apptabs a:focus-visible, .apptabs .profile:focus-visible, .board button:focus-visible,
-  .board input:focus-visible, .board summary:focus-visible, .board select:focus-visible {
-    outline: 3px dashed var(--sun); outline-offset: 3px; }
-  .apptabs .profile { border: 0; cursor: default; padding: 0; width: 48px; height: 48px;
-                      display: grid; place-items: center; border-radius: 50%; }
-  .apptabs .profile svg { width: 48px; height: 48px; stroke: currentColor; fill: none;
-                          stroke-width: 3; stroke-linecap: round; }
+  /* --------------------------------------------------------- masthead */
+  header.top { display: flex; align-items: center; gap: 8px 26px; flex-wrap: wrap;
+               padding: 20px 8px 18px; }
+  .wordmark { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 46px);
+              color: #fff; line-height: 1; margin: 0; font-weight: 400; }
+  header.top .scrawl { width: 100%; height: 10px; margin: 5px 0 0; }
+  .motto { color: #fff; font-family: var(--mono); font-size: 15px; margin: 0; }
+  .apptabs { position: static; margin-left: auto; display: flex; gap: 10px;
+             align-items: center; }
+  .apptabs .here, .apptabs a { font-family: var(--hand); font-size: 20px;
+             letter-spacing: .02em; text-transform: none; font-weight: 400;
+             padding: 6px 28px; border-radius: 8px; }
+  .apptabs .here { background: #1f55e6; color: #fff; }
+  .apptabs a { background: none; color: #fff; }
+  .apptabs a:hover { background: #ffffff14; }
 
   .cols { display: grid; grid-template-columns: minmax(330px, 2fr) minmax(0, 3fr);
           gap: 4px; align-items: stretch; }
 
   /* --------------------------------------------------------- notebook */
   .left.notebook {
-    --card: #fff; --card2: #fff; --line: #14141426; --line2: #14141459;
-    --text: #141414; --dim: #141414b8; --dimmer: #14141488; --co: #6b5200;
-    --ch: #4a3a00;
-    position: relative; padding: 22px 26px 30px 76px;
+    --card: #fff; --card2: #fff; --line: #1d3a8a26; --line2: #1d3a8a59;
+    --text: #1b2a55; --dim: #1b2a55b8; --dimmer: #1b2a5585; --co: #9a6a00;
+    --ch: #6b5200;
+    position: relative; padding: 24px 26px 30px 70px;
     border-radius: 6px 4px 4px 6px;
     background:
-      linear-gradient(90deg, transparent 60px, var(--margin) 60px 62px, transparent 62px),
+      linear-gradient(90deg, transparent 56px, var(--margin) 56px 58px, transparent 58px),
       repeating-linear-gradient(180deg, transparent 0 27px, var(--rule) 27px 28px),
       var(--paper-y);
     box-shadow: 0 10px 30px #0006, inset 0 0 0 1px #0000000f;
-    color: var(--text); font-family: var(--type);
+    color: var(--text); font-family: var(--hand);
   }
   .rings { position: absolute; left: -16px; top: 12px; bottom: 12px; width: 48px;
            pointer-events: none;
            background:
-             radial-gradient(circle at 36px 50%, #2c2e32 0 5px, transparent 5.6px) 0 0/48px 34px repeat-y,
+             radial-gradient(circle at 36px 50%, #303236 0 5px, transparent 5.6px) 0 0/48px 34px repeat-y,
              linear-gradient(180deg, transparent 12px, #9a9a9a 12px, #e8e8e8 15px,
                              #8a8a8a 18px, transparent 19px) 0 0/40px 34px repeat-y; }
-  .nbtitle { font-family: var(--type); color: #111; font-weight: 400;
-             font-size: clamp(34px, 3.4vw, 52px); letter-spacing: -.01em;
-             text-transform: none; line-height: 1.1; margin: 0 0 8px; transform: none;
-             -webkit-text-stroke: 1.2px #111; text-shadow: 1px 1px 0 #00000038; }
-  .nblabel { display: block; font-family: var(--type); font-size: 19px;
-             color: var(--ink); margin: 11px 0 4px; line-height: 1.2; }
-  .notebook .hint { font-family: var(--type); font-size: 11.5px; color: var(--dimmer);
+  .nbtitle { font-family: var(--marker); color: var(--ink); font-weight: 400;
+             font-size: clamp(22px, 2.1vw, 33px); letter-spacing: .03em;
+             text-transform: uppercase; line-height: 1.25; margin: 0 0 10px;
+             transform: none; }
+  .nbtitle span { background: linear-gradient(transparent 64%, #f6e04bd9 64% 88%, transparent 88%);
+                  padding: 0 4px; }
+  .nblabel { display: block; font-family: var(--hand); font-size: 22px;
+             color: var(--ink); margin: 12px 0 4px; line-height: 1.2; }
+  .notebook .hint { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
                     margin-top: 4px; }
   .notebook select, .notebook input[type=text], .notebook input[type=number],
-  .picker {
-    width: 100%; font-family: var(--type); font-size: 16px; color: var(--ink);
-    background: #fffdf2d9; border: 1.5px solid #8b8573; border-radius: 7px;
+  .notebook textarea, .picker {
+    width: 100%; font-family: var(--hand); font-size: 17.5px; color: var(--ink);
+    background: #fff; border: 1.5px solid #9fb0d6; border-radius: 7px;
     padding: 7px 12px; line-height: 1.3; }
   .notebook select { appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
-    background: #fffdf2d9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%23141414' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center; }
-  .notebook select:focus-visible, .notebook input:focus-visible,
-  .picker:focus-visible, .drawer summary:focus-visible, #refdrop:focus-visible {
-    outline: 2px solid #141414; outline-offset: 2px; }
-  .row { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%231d3a8a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center; }
+  .notebook select:focus, .notebook input:focus, .notebook textarea:focus,
+  .picker:focus-visible { outline: 2px solid #1f55e6; outline-offset: 1px; }
+  #notes { min-height: 70px; resize: vertical; display: block; }
+  .row { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px;
          align-items: center; margin-top: 12px; }
-  .row > label { font-size: 19px; color: var(--ink); }
-  .keyrow select { max-width: 190px; }
+  .row > label { font-size: 20px; color: var(--ink); }
+  .keyrow { grid-template-columns: 140px minmax(0, 1fr) auto; }
+  .keysel { display: flex; min-width: 0; }
+  .keysel select:first-child { border-radius: 7px 0 0 7px; }
+  .keysel select:last-child { border-radius: 0 7px 7px 0; border-left: 0; }
+  .loops { display: flex; align-items: center; gap: 8px; font-size: 20px;
+           color: var(--ink); cursor: pointer; white-space: nowrap; }
+  .loops input { width: 22px; height: 22px; accent-color: #1f55e6; margin: 0; }
 
-  /* The Back of the Class / The Legends / Styles: a dropdown that still takes many picks */
+  /* crew / legends / styles: a dropdown that still takes many picks */
   .pick { position: relative; }
   .picker { display: flex; align-items: center; gap: 8px; min-height: 42px;
             cursor: pointer; text-align: left; padding: 5px 10px 5px 12px; }
   .picker .chips { flex: 1; display: flex; flex-wrap: wrap; gap: 5px; min-width: 0; }
   .picker .ph { color: var(--dim); }
   .chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 5px;
-          padding: 1px 2px 1px 7px; font-size: 14.5px; background: var(--sun); color: #16150a; }
+          padding: 1px 2px 1px 7px; font-size: 16px; background: var(--sun); color: #16150a; }
   .pick[data-kind=legends] .chip { background: #f1c75e; }
-  .pick[data-kind=styles] .chip { background: #fff7c2; outline: 1.5px dashed #4a3a00; }
+  .pick[data-kind=styles] .chip { background: #fff7c2; outline: 1.5px dashed #6b5200; }
   .chip b { font-family: var(--mono); font-size: 11px; }
   .chip .x { border: 0; background: none; cursor: pointer; font-size: 17px;
              line-height: 1; padding: 0 5px; color: inherit; border-radius: 4px; }
   .chip .x:hover { background: #0000001a; }
   .chev { flex: none; width: 14px; height: 9px; transition: transform .15s;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%23141414' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat; }
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%231d3a8a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center; }
   .pick.open .chev { transform: rotate(180deg); }
   .pop { display: none; position: absolute; z-index: 20; left: 0; right: 0;
          top: calc(100% + 4px); max-height: min(400px, 62vh); overflow: auto;
-         background: #fffdf0; border: 1.5px solid #8b8573; border-radius: 9px;
+         background: #fffdf0; border: 1.5px solid #9fb0d6; border-radius: 9px;
          box-shadow: 0 14px 30px #0005; padding: 10px; }
   .pick.open .pop { display: block; }
-  .pop .popnote { font-family: var(--type); font-size: 11.5px; color: var(--dimmer);
+  .pop .popnote { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
                   margin: 0 2px 8px; }
   .pop .djs { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 7px; }
   .notebook .dj { padding: 8px 11px; }
-  .notebook .dj .name { font-family: var(--type); font-size: 15.5px; font-weight: 400;
+  .notebook .dj .name { font-family: var(--hand); font-size: 18.5px; font-weight: 400;
                         text-transform: none; letter-spacing: 0; }
 
   /* reference track */
   .notebook #refdrop { display: flex; align-items: center; justify-content: center; gap: 14px;
-         border: 1.5px dashed #6f6a5a; border-radius: 8px; background: #fffdf29a;
-         padding: 12px 14px; cursor: pointer; text-align: left; font-size: 13.5px;
+         border: 1.5px dashed #8ea2cc; border-radius: 8px; background: #ffffff8c;
+         padding: 12px 14px; cursor: pointer; text-align: left; font-size: 16.5px;
          color: var(--ink); }
-  #refdrop svg { width: 36px; height: 36px; flex: none; stroke: var(--ink); fill: none;
-                 stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  #refdrop small { display: block; font-family: var(--type); font-size: 11.5px; color: var(--dim); }
-  .notebook #refdrop.over, .notebook #refdrop.busy { background: #f6e04b66; border-color: var(--ink); }
-  .notebook #refline { min-height: 16px; }
-  .notebook #refline.bad { color: #b3261e; }
-  .notebook #refline button { font-family: var(--type); font-size: 12px; padding: 0 8px;
-         margin-left: 5px; border: 1px solid #8b8573; border-radius: 5px; background: #fff;
+  .notebook #refdrop:focus-visible { outline: 2px solid #1f55e6; }
+  #refdrop svg { width: 30px; height: 30px; flex: none; stroke: var(--ink); fill: none;
+                 stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  #refdrop small { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+  .notebook #refdrop.over, .notebook #refdrop.busy { background: #f6e04b55; border-color: var(--ink); }
+  .notebook #refline button { font-family: var(--hand); font-size: 14px; padding: 0 8px;
+         margin-left: 5px; border: 1px solid #9fb0d6; border-radius: 5px; background: #fff;
          color: var(--ink); cursor: pointer; }
 
-  /* the three drawers: pattern library, breaks, find a saved beat */
-  .drawer { margin-top: 8px; background: #fffdf2b3; border: 1.5px solid #bdb59a; border-radius: 7px; }
-  .drawers { margin-top: 16px; }
+  /* the four drawers: test bank, pattern library, breaks, saved beat */
+  .drawer { margin-top: 10px; background: #fff; border: 1.5px solid #9fb0d6; border-radius: 7px; }
+  .drawers { margin-top: 18px; }
+  .drawer + .drawer { margin-top: 8px; }
   .drawer summary { list-style: none; cursor: pointer; display: flex; align-items: center;
-                    gap: 12px; padding: 4px 12px 4px 8px; font-size: 19px; color: var(--ink); min-height: 50px; }
+                    gap: 11px; padding: 6px 12px; font-size: 20.5px; color: var(--ink); }
   .drawer summary::-webkit-details-marker { display: none; }
   .drawer summary::after { content: ""; margin-left: auto; width: 14px; height: 9px;
           transition: transform .15s;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%23141414' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat; }
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%231d3a8a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center; }
   .drawer[open] summary::after { transform: rotate(180deg); }
-  .drawer summary svg { width: 40px; height: 40px; flex: none; stroke: #141414; fill: none;
-                        stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
-                        filter: url(#ink); }
+  .drawer summary svg { width: 26px; height: 26px; flex: none; stroke: var(--ink); fill: none;
+                        stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .drawer .inner { padding: 2px 12px 14px; }
   .drawer .inner > .hint { margin: 0 0 10px; }
-  .notebook .field label { font-family: var(--type); font-size: 14px; text-transform: none;
+  .notebook .field label { font-family: var(--hand); font-size: 17px; text-transform: none;
                            letter-spacing: 0; color: var(--ink); font-weight: 400; }
   .notebook .pullup { gap: 10px; align-items: flex-end; }
   .notebook .pullup .field { width: auto !important; flex: 1 1 160px; }
-  .notebook .pullup button {
-         font-family: var(--type); font-size: 15px; font-weight: 400; letter-spacing: 0;
-         text-transform: none; padding: 8px 18px; border: 1.5px solid var(--ink);
+  .notebook .pullup button, .notebook .fixedbtn {
+         font-family: var(--hand); font-size: 18px; font-weight: 400; letter-spacing: 0;
+         text-transform: none; padding: 7px 18px; border: 1.5px solid var(--ink);
          border-radius: 7px; background: var(--sun); color: #16150a; cursor: pointer; }
-  .notebook .pullup button:disabled { opacity: .5; cursor: default; }
-  .notebook .pullup .note { flex-basis: 100%; font-family: var(--type); font-size: 11.5px; }
-  #pullmsg { color: #b3261e; font-family: var(--type); font-size: 13px; }
+  .notebook .fixedbtn { background: #fff; border-color: #9fb0d6; text-align: left; }
+  .notebook .fixedbtn:hover { border-color: var(--ink); }
+  .notebook .fixedbtn small { font-family: var(--mono); }
+  .notebook .pullup .note { flex-basis: 100%; font-family: var(--mono); font-size: 11.5px; }
+  #pullmsg { color: #c0261c; font-family: var(--hand); font-size: 16px; }
 
   /* ------------------------------------------------------- chalkboard */
   .right.board {
@@ -6067,7 +6041,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
     --text: var(--chalk); --dim: var(--chalk-dim); --dimmer: #f2f1ea73; --co: var(--sun);
     --ink: var(--chalk);
     position: relative; min-width: 0; color: var(--chalk); font-family: var(--hand);
-    padding: 0 24px 56px;
+    padding: 20px 24px 56px;
     background:
       radial-gradient(120% 80% at 30% 15%, #ffffff0b, transparent 60%),
       radial-gradient(60% 50% at 80% 95%, #ffffff07, transparent 70%),
@@ -6083,114 +6057,112 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
   .tray i + i { left: 146px; width: 44px; }
   .tray b { width: 120px; height: 16px; right: 34%; background: linear-gradient(#3a3a3a 0 55%, #b98b54 55%); }
 
-  /* the header: TWO EQUAL columns - the face of controls | the logo */
-  .boardtop { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
-  .face { display: flex; flex-direction: column; align-items: center;
-          padding: 22px 22px 18px 0; border-right: 3px solid var(--chalk-dim); min-width: 0; }
-  .eyes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 460px;
-          align-items: end; }
-  .eye { min-width: 0; }
-  .eye > label { display: block; font-size: 26px; line-height: 1.1; margin: 0 0 6px 2px;
-                 color: var(--chalk); font-family: var(--hand); filter: url(#chalk-text); }
-  .spin { display: flex; align-items: center; height: 78px; width: 100%;
-          border: 3px solid var(--chalk); border-radius: 14px; background: none;
-          padding: 0 4px 0 8px; filter: url(#chalk); }
-  .spin input { flex: 1; min-width: 0; width: 100%; background: none; border: 0; color: var(--lime);
-                font-family: var(--hand); font-size: 56px; line-height: 1; text-align: center;
-                padding: 0; -moz-appearance: textfield; text-shadow: 0 0 1px #9be22d88; }
-  .spin input::placeholder { color: #9be22d66; font-size: 34px; }
-  .spin input:focus { outline: none; }
-  .spin:focus-within { box-shadow: 0 0 0 3px #f6e04b66; }
+  .boardtop { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px;
+              align-items: start; }
+  .boardlogo { width: clamp(110px, 14vw, 232px); aspect-ratio: 1; object-fit: contain;
+               background: #000; display: block; }
+  .makebox { padding: 4px 0 0 14px; min-width: 0; }
+  .gowrap { position: relative; display: inline-block; margin: 20px 34px 10px; }
+  .gowrap::before, .gowrap::after { content: ""; position: absolute; top: -26px;
+          width: 44px; height: 44px; pointer-events: none;
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cg stroke='%23f6e04b' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M34 34L14 26'/%3E%3Cpath d='M36 24L22 8'/%3E%3Cpath d='M30 44L8 44'/%3E%3C/g%3E%3C/svg%3E") no-repeat; }
+  .gowrap::before { left: -40px; }
+  .gowrap::after { right: -40px; transform: scaleX(-1); }
+  .board #go { font-family: var(--hand); font-weight: 400; font-size: clamp(30px, 3vw, 46px);
+         text-transform: none; letter-spacing: .01em; line-height: 1.1;
+         background: var(--sun); color: #151515; padding: 12px 36px;
+         border-radius: 14px 10px 16px 9px; transform: rotate(-2.5deg);
+         box-shadow: 3px 4px 0 #0009; }
+  .board #go::after { display: none; }
+  .board #go:hover:not(:disabled) { transform: rotate(-2.5deg) translate(-1px, -1px); }
+  .board #go:disabled { opacity: .55; }
+  .steppers { display: flex; gap: 24px; align-items: flex-start; margin-top: 10px;
+              flex-wrap: wrap; }
+  .steppers .divider { width: 2px; align-self: stretch; background: var(--chalk-dim); }
+  .stepper label { display: block; font-size: 24px; color: var(--chalk);
+                   margin-bottom: 6px; font-family: var(--hand); }
+  .spin { display: flex; align-items: stretch; border: 2px solid var(--chalk);
+          border-radius: 10px; overflow: hidden; height: 74px; }
+  .spin input { width: 112px; background: none; border: 0; color: var(--chalk);
+                font-family: var(--hand); font-size: 48px; text-align: center;
+                padding: 0 0 0 10px; -moz-appearance: textfield; }
+  .spin input::placeholder { color: #f2f1ea55; }
+  .spin input:focus { outline: none; background: #ffffff0d; }
   .spin input::-webkit-inner-spin-button, .spin input::-webkit-outer-spin-button {
           -webkit-appearance: none; margin: 0; }
-  .spin .unit { font-size: 18px; color: var(--chalk); padding: 6px 4px 0 0; }
-  .spin .arrows { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-  .spin .arrows button { width: 34px; height: 30px; background: none; border: 0; padding: 0;
-          color: var(--sun); cursor: pointer; font-size: 24px; line-height: 1; border-radius: 6px; }
-  .spin .arrows button:hover { background: #f6e04b22; }
-  .nose { display: flex; flex-direction: column; align-items: center; gap: 3px;
-          margin-top: 14px; cursor: pointer; font-size: 22px; color: var(--chalk); }
-  .nose span { filter: url(#chalk-text); }
-  .nose input { appearance: none; -webkit-appearance: none; width: 38px; height: 38px; margin: 0;
-          border: 3px solid var(--chalk); border-radius: 7px; background: none; cursor: pointer;
-          display: grid; place-content: center; filter: url(#chalk); }
-  .nose input:checked::before { content: "\2713"; color: var(--lime); font-size: 34px; line-height: 1;
-          font-family: var(--hand); }
-  #go { margin-top: 12px; min-width: 232px; height: 64px; padding: 0 28px;
-        font-family: var(--hand); font-size: 44px; font-weight: 400; line-height: 1; letter-spacing: .01em;
-        text-transform: none; background: none; color: var(--chalk); cursor: pointer;
-        border: 3px solid var(--chalk); border-radius: 12px; box-shadow: none; transform: none;
-        filter: url(#chalk); }
-  #go::after { display: none; }
-  #go:hover:not(:disabled) { background: #ffffff14; transform: none; }
-  #go:disabled { opacity: .5; cursor: default; }
-  #hosthint { display: block; margin-top: 8px; min-height: 0; color: var(--sun); font-size: 17px;
-              text-align: center; flex: none; min-width: 0; }
-  #hosthint:empty { display: none; }
-  .logocol { display: grid; place-items: center; padding: 18px 0 18px 22px; min-width: 0; }
-  .boardlogo { width: min(88%, 330px); height: auto; aspect-ratio: 870 / 785; display: block;
-               object-fit: contain; filter: url(#chalk); }
-  hr.chalkline { border: 0; height: 3px; background: var(--chalk); opacity: .9;
-                 border-radius: 2px; margin: 0 -24px 14px; filter: url(#chalk); }
-  .board #work { margin: 0 0 6px; }
+  #count { width: 100px; }
+  .spin .unit { align-self: center; font-size: 17px; padding-right: 12px; }
+  .spin .arrows { display: flex; flex-direction: column; border-left: 2px solid var(--chalk); }
+  .spin .arrows button { flex: 1; width: 44px; background: none; border: 0;
+          color: var(--chalk); cursor: pointer; font-size: 13px; }
+  .spin .arrows button + button { border-top: 2px solid var(--chalk); }
+  .spin .arrows button:hover { background: #ffffff17; }
+  .stepper .hint { font-family: var(--mono); font-size: 11.5px; color: var(--chalk-dim);
+                   margin-top: 5px; }
+  .board #hosthint { display: block; margin-top: 10px; color: var(--sun); font-size: 18px; }
+  .board #work { margin: 12px 0 0; }
   .board #workbar { background: #ffffff22; }
   .board #workbar i { background: var(--sun); }
   .board #worktext { font-family: var(--hand); font-size: 18px; color: var(--chalk); }
   .board #work.bad #worktext { color: #ff8a7a; }
+  hr.chalkline { border: 0; height: 3px; background: var(--chalk); opacity: .85;
+                 border-radius: 2px; margin: 18px 0 12px; }
+
+  .beatshead { display: flex; align-items: center; gap: 12px 14px; flex-wrap: wrap; }
+  .yourbeats { font-family: var(--hand); font-size: clamp(36px, 3.6vw, 54px); font-weight: 400;
+               margin: 0; color: var(--chalk); text-decoration: underline;
+               text-decoration-thickness: 2px; text-underline-offset: 8px; }
+  .tabs { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+  .tab { font-family: var(--hand); font-size: 19px; color: var(--chalk); background: none;
+         border: 2px solid var(--chalk); border-radius: 8px; padding: 4px 22px; cursor: pointer; }
+  .tab.on { background: var(--lime); border-color: var(--lime); color: #111; }
+  .tab:hover:not(.on) { background: #ffffff14; }
 
   /* the beat cards */
-  .board .track { position: relative; border: 0; background: none; margin: 12px 0; overflow: visible; }
-  .board .track::before { content: ""; position: absolute; inset: 0; border: 2.5px solid #ffffffd4;
-          border-radius: 12px; pointer-events: none; filter: url(#chalk); }
-  .board .track.loc-favorites::before { border-color: var(--sun); }
-  .board .track.loc-trash::before { border-color: #ff6b6b; }
-  .board .track.loc-trash .thead { opacity: .6; }
+  .board .track { border: 2px solid #ffffffb8; border-radius: 10px; background: #ffffff05;
+                  margin: 10px 0; overflow: visible; }
+  .board .track.loc-favorites { border-color: var(--sun); }
+  .board .track.loc-trash { border-color: #ff6b6b; opacity: .6; }
   .board .thead { display: grid; grid-template-columns: minmax(0, 1fr) auto;
-          grid-template-areas: "meta acts" "player player"; gap: 4px 14px;
-          padding: 10px 16px 12px; cursor: default; }
+          grid-template-areas: "meta acts" "player player"; gap: 6px 14px;
+          padding: 10px 14px 12px; }
   .board .thead .no { display: none; }
   .board .tmeta { grid-area: meta; }
-  .board .tname { font-family: var(--hand); font-size: 38px; font-weight: 400; text-transform: none;
-          letter-spacing: 0; color: var(--sun); line-height: 1.05; filter: url(#chalk-text);
-          -webkit-text-stroke: .5px var(--sun); }
-  .board .tname u { text-decoration: none; }
-  .board .tsub { font-family: var(--hand); font-size: 19px; color: var(--chalk); filter: url(#chalk-text); }
-  .board .tsub .who { opacity: .6; font-size: 16px; }
+  .board .tname { font-family: var(--hand); font-size: 28px; font-weight: 400;
+          text-transform: none; letter-spacing: 0; color: var(--chalk); line-height: 1.15; }
+  .board .tname u { text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+  .board .tsub { font-family: var(--hand); font-size: 16.5px; color: var(--chalk-dim); }
+  .board .tsub .who { opacity: .8; }
   .board .tloc { color: var(--sun); margin-left: 6px; }
   .board .player { grid-area: player; width: auto; gap: 14px; }
-  .board .pp { width: 56px; height: 56px; background: var(--sun); color: #141414; border: 0;
-               font-size: 20px; border-radius: 50%; filter: url(#chalk); padding: 0 0 0 3px; }
-  .board .pp.on { padding: 0; }
-  .board .pp:hover { filter: url(#chalk) brightness(1.08); }
-  .player .sep { width: 2px; height: 46px; background: var(--chalk-dim); flex: none; }
+  .board .pp { width: 52px; height: 52px; background: var(--sun); color: #111; border: 0;
+               font-size: 18px; }
+  .board .pp:hover { filter: brightness(1.08); }
+  .player .sep { width: 2px; height: 44px; background: var(--chalk-dim); flex: none; }
   .board .bar { height: 5px; align-self: center; background: var(--line2); }
-  .board .bar.has-wave { height: 48px; background: none; border-radius: 0; }
+  .board .bar.has-wave { height: 46px; background: none; border-radius: 0; }
   .bar canvas { display: none; width: 100%; height: 100%; }
   .bar.has-wave canvas { display: block; }
   .bar.has-wave i { display: none; }
-  .board .time { font-family: var(--hand); font-size: 16px; color: var(--chalk);
-                 min-width: 88px; }
-  .board .acts { grid-area: acts; align-items: center; gap: 10px; }
-  .board .acts .star, .board .acts .eraser { border: 0; background: none; padding: 4px; cursor: pointer;
-          display: grid; place-items: center; border-radius: 8px; }
-  .board .acts .star:hover, .board .acts .eraser:hover { background: #ffffff14; }
-  .star svg, .eraser svg { width: 34px; height: 34px; stroke-linejoin: round; pointer-events: none;
-          display: block; filter: url(#chalk); }
-  .star svg { fill: var(--sun); stroke: var(--sun); stroke-width: 1.6; }
-  .eraser svg { fill: none; stroke: var(--chalk); stroke-width: 1.9; }
-  .board .acts .star.on-fav { background: #f6e04b2e; box-shadow: 0 0 0 2px var(--sun) inset; }
-  .board .acts .eraser.on-trash { background: #ff6b6b2e; box-shadow: 0 0 0 2px #ff6b6b inset; }
-  .board .acts .stembtn { font-family: var(--hand); font-size: 20px; font-weight: 400;
-          text-transform: none; letter-spacing: 0; border: 2.5px solid var(--chalk);
-          border-radius: 9px; padding: 6px 16px; background: none; color: var(--chalk);
-          display: inline-flex; gap: 9px; align-items: center; cursor: pointer; filter: url(#chalk); }
+  .board .time { font-family: var(--hand); font-size: 15.5px; color: var(--chalk);
+                 min-width: 82px; }
+  .board .acts { grid-area: acts; align-items: center; gap: 8px; }
+  .board .acts .star { border: 0; background: none; padding: 4px; color: var(--chalk); }
+  .star svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.7;
+              stroke-linejoin: round; pointer-events: none; display: block; }
+  .board .acts .star.on-fav { color: var(--sun); }
+  .star.on-fav svg { fill: var(--sun); }
+  .board .acts .stembtn { font-family: var(--hand); font-size: 18px; font-weight: 400;
+          text-transform: none; letter-spacing: 0; border: 2px solid var(--chalk);
+          border-radius: 8px; padding: 5px 14px; background: none; color: var(--chalk);
+          display: inline-flex; gap: 8px; align-items: center; }
   .board .acts .stembtn:hover { background: #ffffff14; }
   .board .acts .stembtn.open { background: var(--sun); color: #111; border-color: var(--sun); }
-  .stembtn svg { width: 22px; height: 22px; pointer-events: none; stroke: currentColor;
+  .stembtn svg { width: 20px; height: 20px; pointer-events: none; stroke: currentColor;
                  fill: none; stroke-width: 1.8; stroke-linejoin: round; }
   .more { position: relative; }
-  .board .acts .morebtn { border: 0; background: none; color: var(--chalk); font-size: 26px;
-          line-height: 1; padding: 2px 6px 8px; letter-spacing: 1px; border-radius: 6px; cursor: pointer; }
+  .board .acts .morebtn { border: 0; background: none; color: var(--chalk); font-size: 24px;
+          line-height: 1; padding: 2px 6px 8px; letter-spacing: 1px; border-radius: 6px; }
   .board .acts .morebtn:hover { background: #ffffff14; }
   .menu { display: none; position: absolute; right: 0; top: calc(100% + 6px); z-index: 15;
           background: #1c1c1c; border: 1.5px solid #ffffff59; border-radius: 9px; padding: 6px;
@@ -6198,22 +6170,30 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
   .more.open .menu { display: block; }
   .board .acts .menu button { display: flex; width: 100%; gap: 10px; align-items: center;
           background: none; border: 0; color: var(--chalk); font-family: var(--hand);
-          font-size: 18px; padding: 7px 10px; border-radius: 6px; text-align: left; cursor: pointer; }
+          font-size: 17.5px; padding: 7px 10px; border-radius: 6px; text-align: left; }
   .board .acts .menu button:hover { background: #ffffff17; }
+  .board .acts .menu button.on-trash { color: #ff8a7a; }
   .board .theory { background: none; border-top: 1px dashed #ffffff33; }
   .board .tline b { color: var(--sun); }
 
   /* stem rack on the board */
-  .board .rack { background: #ffffff07; border-top-color: #ffffff22; border-radius: 0 0 10px 10px; }
+  .board .rack { background: #ffffff07; border-top-color: #ffffff22; border-radius: 0 0 8px 8px; }
   .board .lane { border-bottom-color: #ffffff14; }
   .board .lane select { background-color: #1d1d1d; color: var(--chalk);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2f1ea' stroke-width='1.6' fill='none'/%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2f1ea' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
   .board .rollall { border-color: #ffffff40; }
   .board .chunk { color: var(--chalk); }
 
-  /* empty / loading / error states + the undo toast */
-  .board #empty { padding: 18px 0 8px; }
+  /* drag-to-folder strip, and the empty / loading / error states */
+  .traylabel { font-family: var(--mono); font-size: 11.5px; color: var(--chalk-dim);
+               margin: 16px 0 6px; }
+  .board .zones { margin: 0; }
+  .board .zone { border-color: #ffffff47; color: var(--chalk-dim); font-family: var(--hand);
+                 text-transform: none; font-size: 17px; letter-spacing: 0; padding: 8px; }
+  .board .zone small { font-family: var(--mono); }
+  .board #empty { padding: 24px 0 8px; }
   .board #empty .ghost { width: 120px; opacity: .16; }
+  .board #empty .ghost img { background: #000; }
   .board #empty .scribble { font-family: var(--hand); color: #ffffff2b; text-transform: none;
                             font-size: 42px; font-weight: 400; }
   .board #empty p { color: var(--chalk-dim); font-family: var(--hand); font-size: 18px; }
@@ -6224,19 +6204,12 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
           animation: chalkpulse 1.4s ease-in-out infinite; }
   #tracklist.loading + #empty { display: none !important; }
   @keyframes chalkpulse { 50% { opacity: .45; } }
-  #toast { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 40;
-           display: flex; align-items: center; gap: 16px; padding: 10px 18px; max-width: 92vw;
-           background: #1c1c1c; color: var(--chalk); border: 2px solid var(--chalk-dim);
-           border-radius: 10px; font-family: var(--hand); font-size: 19px; box-shadow: 0 12px 26px #000a; }
-  #toast button { font-family: var(--hand); font-size: 19px; color: #141414; background: var(--sun);
-           border: 0; border-radius: 7px; padding: 3px 16px; cursor: pointer; }
 
   @media (max-width: 1080px) { .cols { grid-template-columns: 1fr; gap: 26px; } }
   @media (max-width: 640px) {
     body { padding: 0 16px 50px; }
-    header.top { padding: 14px 4px 14px; justify-content: center; }
-    .apptabs { gap: 10px; }
-    .apptabs a { font-size: 24px; }
+    header.top { padding: 14px 4px 14px; }
+    .apptabs { margin-left: 0; }
     .left.notebook { padding: 18px 14px 22px 46px;
       background:
         linear-gradient(90deg, transparent 36px, var(--margin) 36px 38px, transparent 38px),
@@ -6244,66 +6217,52 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
         var(--paper-y); }
     .rings { left: -12px; width: 40px; }
     .row, .keyrow { grid-template-columns: 1fr; gap: 4px; }
-    .right.board { border-width: 10px; padding: 0 12px 46px; }
+    .right.board { border-width: 10px; padding: 14px 12px 46px; }
     .tray { left: -10px; right: -10px; bottom: -10px; height: 16px; }
-    .boardtop { grid-template-columns: 1fr; }
-    .face { border-right: 0; border-bottom: 3px solid var(--chalk-dim); padding: 16px 0; }
-    .logocol { padding: 14px 0; }
-    .boardlogo { width: min(60%, 220px); }
-    .spin { height: 64px; }
-    .spin input { font-size: 42px; }
-    hr.chalkline { display: none; }
+    .boardtop { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+    .boardlogo { width: 84px; }
+    .makebox { padding-left: 2px; }
+    .gowrap { margin: 18px 22px 8px; }
+    .gowrap::before { left: -30px; } .gowrap::after { right: -30px; }
+    .board #go { font-size: 28px; padding: 8px 20px; }
+    .steppers { gap: 14px; }
+    .steppers .divider { display: none; }
+    .spin { height: 58px; }
+    .spin input { font-size: 34px; width: 80px; }
+    .tabs { margin-left: 0; }
+    .tab { padding: 3px 14px; font-size: 17px; }
     .board .thead { grid-template-areas: "meta" "acts" "player"; grid-template-columns: 1fr; }
-    .board .pp { width: 46px; height: 46px; }
+    .board .pp { width: 44px; height: 44px; }
     .player .sep { display: none; }
-    .board .time { min-width: 66px; font-size: 14px; }
+    .board .time { min-width: 62px; font-size: 13.5px; }
     .menu { right: auto; left: 0; }
   }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style></head><body>
-<!-- one shared chalk look: rough edges + a little grain (see .chalky). #ink is
-     the lighter version for the black notebook icons. -->
-<svg class="defs" aria-hidden="true" focusable="false">
-  <defs>
-    <filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/>
-      <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/>
-      <feComposite in="rough" in2="grain" operator="in"/>
-    </filter>
-    <filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/>
-      <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/>
-      <feComposite in="rough" in2="grain" operator="in"/>
-    </filter>
-    <filter id="ink" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="7" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-  </defs>
-</svg>
 <div class="wrap">
 
 <header class="top">
-  <nav class="apptabs" aria-label="Main">
-    <a class="here" href="/" aria-current="page" title="You're here &mdash; making beats">Create</a>
+  <div class="brandword">
+    <p class="wordmark">Homeroom Studios</p>
+    <svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"
+         aria-hidden="true"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2
+         14-.9 27-2.3 40-4.8"/></svg>
+  </div>
+  <p class="motto">Music starts here.</p>
+  <nav class="apptabs">
+    <span class="here" title="You're here &mdash; making beats">Make</span>
     <a href="http://localhost:8765"
-       title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Get Schooled</a>
-    <button type="button" class="profile" aria-label="Profile (not set up yet)" aria-disabled="true"
-            title="Profile &mdash; this app has no accounts yet"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20"/><circle cx="24" cy="19" r="7"/><path d="M10.5 37c2.6-6 7.4-9 13.5-9s10.9 3 13.5 9"/></svg></button>
+       title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Reason Voice</a>
+    <a href="http://localhost:8767" title="Live effects on a beat">Effects</a>
   </nav>
 </header>
 
 <div class="cols">
   <section class="left notebook">
     <div class="rings" aria-hidden="true"></div>
-    <h1 class="nbtitle">Homeroom Studios</h1>
+    <h1 class="nbtitle"><span>The Back of the Class</span></h1>
 
     <div class="pick" data-kind="crew">
-      <label class="nblabel" id="lbl-crew">The Back of the Class</label>
+      <label class="nblabel" id="lbl-crew">The Crew</label>
       <div class="picker" role="button" tabindex="0" aria-haspopup="true"
            aria-expanded="false" aria-labelledby="lbl-crew">
         <span class="chips"><span class="ph">Pick DJs &mdash; __CREWCOUNT__ personalities</span></span>
@@ -6332,51 +6291,61 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
       <div class="pop"><div class="djs">__GENRES__</div></div>
     </div>
 
-    <!-- Quick directions + Famous beats still feed the same notes text the
-         old Directions box held (syncNotes, below), so the parser and the
-         README trail are unchanged. The big typing box itself is gone. -->
-    <input type="hidden" id="notes" value="">
+    <label class="nblabel" for="notes">Directions</label>
+    <textarea id="notes" rows="2" placeholder="Dusty drums, warm bass, no hi-hats&hellip;"></textarea>
+    <div class="hint">used for this click and saved in the README</div>
 
-    <label class="nblabel" for="quick">Quick directions</label>
-    <select id="quick">
-      <option value="">e.g. dark, melodic, aggressive&hellip;</option>
-      <option value="no chords">no chords &mdash; drums only, old style</option>
-      <option value="sparse">sparse &mdash; thin everything out</option>
-      <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
-      <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
-      <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
-      <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
-      <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
-      <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
-      <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
-      <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
-      <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
-      <option value="no perc">no perc &mdash; percussion off</option>
-      <option value="crisp">crisp &mdash; crisp, clear samples</option>
-      <option value="dusty">dusty &mdash; dusty, aged samples</option>
-    </select>
+    <div class="row"><label for="quick">Quick directions</label>
+      <select id="quick">
+        <option value="">e.g. dark, melodic, aggressive&hellip;</option>
+        <option value="no chords">no chords &mdash; drums only, old style</option>
+        <option value="sparse">sparse &mdash; thin everything out</option>
+        <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+        <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+        <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+        <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+        <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+        <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+        <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+        <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+        <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+        <option value="no perc">no perc &mdash; percussion off</option>
+        <option value="crisp">crisp &mdash; crisp, clear samples</option>
+        <option value="dusty">dusty &mdash; dusty, aged samples</option>
+      </select></div>
 
-    <label class="nblabel" for="famous">Famous beats</label>
-    <select id="famous">
-      <option value="">e.g. a famous drum break&hellip;</option>
-      <option value="break">surprise me &mdash; any of them</option>
+    <div class="row"><label for="famous">Famous beats</label>
+      <select id="famous">
+        <option value="">e.g. a famous drum break&hellip;</option>
+        <option value="break">surprise me &mdash; any of them</option>
 __BREAKS__
-    </select>
+      </select></div>
 
-    <div class="row keyrow"><label for="key">Key</label>
-      <select id="key"><option value="">any key</option>__KEYOPTS__</select></div>
+    <div class="row keyrow"><label for="keyroot">Key</label>
+      <span class="keysel">
+        <select id="keyroot" aria-label="Key note"><option value="">any key</option>__KEYROOTS__</select>
+        <select id="keymode" aria-label="Major or minor">__KEYMODES__</select>
+      </span>
+      <label class="loops" title="whole beat built from loop material instead of one-shots">Loops only
+        <input type="checkbox" id="loopsonly"></label></div>
 
-    <label class="nblabel" id="lbl-ref">Reference track</label>
-    <div id="refdrop" role="button" tabindex="0" aria-labelledby="lbl-ref refdrop-hint">
+    <label class="nblabel">Reference track</label>
+    <div id="refdrop" role="button" tabindex="0"
+         aria-label="Drop a track here or click to upload, to match its tempo and key">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 14v5h14v-5"/></svg>
       <span>Drop a track here or click to upload
-        <small id="refdrop-hint">MP3, WAV, M4A, AIFF, FLAC (max 300 MB) &mdash; matches its tempo and key</small></span></div>
-    <input type="file" id="reffile" accept=".mp3,.wav,.m4a,.aif,.aiff,.flac,audio/*" hidden>
-    <div class="hint" id="refline" role="status">nothing dropped yet</div>
+        <small>MP3, WAV, M4A &mdash; matches its tempo and key</small></span></div>
+    <input type="file" id="reffile" accept="audio/*" hidden>
+    <div class="hint" id="refline">nothing dropped yet</div>
 
     <div class="drawers">
       <details class="drawer">
-        <summary><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.5"/><rect x="16" y="5" width="8" height="8" rx="1.5"/><rect x="27" y="5" width="8" height="8" rx="1.5"/><rect x="5" y="16" width="8" height="8" rx="1.5"/><rect x="16" y="16" width="8" height="8" rx="1.5"/><rect x="27" y="16" width="8" height="8" rx="1.5"/><rect x="5" y="27" width="8" height="8" rx="1.5"/><rect x="16" y="27" width="8" height="8" rx="1.5"/><rect x="27" y="27" width="8" height="8" rx="1.5"/></svg>Pattern library</summary>
+        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="7" rx="8" ry="3"/><path d="M4 7v9c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 11.5c2 1.3 4.8 2 8 2s6-.7 8-2"/></svg>Rhythm test bank</summary>
+        <div class="inner"><p class="hint">five real, well-known hip-hop beats &mdash; the rhythm never changes, only the sounds</p>
+          <div class="fixedbank" id="fixedbank">__FIXEDBANK__</div></div>
+      </details>
+      <details class="drawer">
+        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Pattern library</summary>
         <div class="inner"><p class="hint">every transcribed groove, by genre &mdash; drums only, no chords or bass</p>
           <div class="pullup">
             <div class="field"><label for="libgenre">Genre</label>
@@ -6388,7 +6357,7 @@ __BREAKS__
           </div></div>
       </details>
       <details class="drawer">
-        <summary><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 4l17 16M33 4L16 20"/><circle cx="7" cy="4" r="1.8"/><circle cx="33" cy="4" r="1.8"/><ellipse cx="20" cy="24" rx="13" ry="4.5"/><path d="M7 24v7c0 2.5 5.8 4.5 13 4.5S33 33.5 33 31v-7M12 28.5l2 5M20 29v6M28 28.5l-2 5"/></svg>Breaks</summary>
+        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2"/></svg>Breaks</summary>
         <div class="inner"><p class="hint">famous figures + funk breaks &mdash; kept separate, played verbatim</p>
           <div class="pullup">
             <div class="field"><label for="libbreak">Break</label>
@@ -6398,76 +6367,86 @@ __BREAKS__
           </div></div>
       </details>
       <details class="drawer">
-        <summary><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="24" cy="13" r="9"/><circle cx="24" cy="13" r="2.5"/><path d="M4 18h5M31 18h5"/><path d="M5 21h30v14H5z"/><path d="M5 26h30M5 31h30"/><circle cx="14" cy="17" r="5.5"/><circle cx="14" cy="17" r="1.2"/></svg>Find a saved beat</summary>
+        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Find a saved beat</summary>
         <div class="inner">
           <div class="pullup">
-            <div class="field"><label for="viewsrc">Show on the chalkboard</label>
-              <select id="viewsrc">
-                <option value="batch">This batch</option>
-                <option value="favorites">Favorites</option>
-                <option value="dj">DJ folder</option>
-                <option value="trash">Trash (recover a failed beat)</option>
-              </select></div>
             <div class="field"><label for="pullno">Beat number</label>
               <input type="number" id="pullno" min="1" placeholder="316"></div>
             <button id="pullgo">Open it</button>
             <span class="note">Puts an older beat on the chalkboard so you can play it,
             open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
           </div>
-          <div id="pullmsg" role="status"></div></div>
+          <div id="pullmsg"></div></div>
       </details>
     </div>
   </section>
 
   <aside class="right board">
     <div class="boardtop">
-      <div class="face">
-        <div class="eyes">
-          <div class="eye"><label for="tempo">Tempo</label>
-            <div class="spin"><input type="text" id="tempo" inputmode="numeric" placeholder="auto"
-                title="Leave blank to use the DJ's home tempo">
+      <div class="makebox">
+        <div class="gowrap"><button id="go">Make My Beats</button></div>
+        <div class="steppers">
+          <div class="stepper"><label for="tempo">Tempo</label>
+            <div class="spin"><input type="text" id="tempo" inputmode="numeric" placeholder="95">
               <span class="unit">BPM</span>
-              <span class="arrows"><button type="button" data-for="tempo" data-d="1" aria-label="Tempo up">&#9650;</button><button type="button" data-for="tempo" data-d="-1" aria-label="Tempo down">&#9660;</button></span></div></div>
-          <div class="eye"><label for="count">Number of beats</label>
-            <div class="spin"><input type="number" id="count" value="1" min="1" max="10"
-                title="Up to 10">
-              <span class="arrows"><button type="button" data-for="count" data-d="1" aria-label="One more beat">&#9650;</button><button type="button" data-for="count" data-d="-1" aria-label="One fewer beat">&#9660;</button></span></div></div>
+              <span class="arrows"><button type="button" data-for="tempo" data-d="1" aria-label="Tempo up">&#9650;</button><button type="button" data-for="tempo" data-d="-1" aria-label="Tempo down">&#9660;</button></span></div>
+            <div class="hint">blank = home tempo</div></div>
+          <div class="divider" aria-hidden="true"></div>
+          <div class="stepper"><label for="count">Number of beats</label>
+            <div class="spin"><input type="number" id="count" value="1" min="1" max="10">
+              <span class="arrows"><button type="button" data-for="count" data-d="1" aria-label="One more beat">&#9650;</button><button type="button" data-for="count" data-d="-1" aria-label="One fewer beat">&#9660;</button></span></div>
+            <div class="hint">up to 10</div></div>
         </div>
-        <label class="nose" title="Build the whole beat from loop material instead of one-shots">
-          <input type="checkbox" id="loopsonly"><span>Loops only</span></label>
-        <button type="button" id="go" aria-label="Test &mdash; make the beats">Test</button>
-        <span id="hosthint" role="status"></span>
+        <span id="hosthint"></span>
       </div>
-      <div class="logocol">
-        <img class="boardlogo" src="/brand?name=logo-chalk.png" alt="The Back of the Class"
-             onerror="this.style.visibility='hidden'">
-      </div>
+      <img class="boardlogo" src="/brand?name=logo-white.png" alt="The Back of the Class"
+           onerror="this.style.visibility='hidden'">
     </div>
+    <div id="work"><div id="workbar"><i></i></div><div id="worktext"></div></div>
 
     <hr class="chalkline">
-    <div id="work" role="status"><div id="workbar"><i></i></div><div id="worktext"></div></div>
-
+    <div class="beatshead">
+      <h2 class="yourbeats">Your beats</h2>
+      <div class="tabs" role="tablist">
+        <button class="tab on" role="tab" data-src="batch">This batch</button>
+        <button class="tab" role="tab" data-src="favorites">Favorites</button>
+        <button class="tab" role="tab" data-src="dj">DJ folder</button>
+      </div>
+    </div>
     <div id="tracklist"></div>
-    <div id="empty"><div class="ghost"><img src="/brand?name=logo-chalk.png" alt=""
+    <div id="empty"><div class="ghost"><img src="/brand?name=logo-white.png" alt=""
          onerror="this.style.display='none'"></div><span class="scribble">nothing cooking yet</span>
       <p id="emptytext">Make a beat and it lands here &mdash; with every drum in it.</p></div>
+
+    <p class="traylabel">or drag a beat into a folder:</p>
+    <div class="zones">
+      <div class="zone fav"   data-dest="favorites">&starf; Favorites<small>drag here to keep</small></div>
+      <div class="zone djz"   data-dest="dj">&#9635; DJ folder<small>the default home</small></div>
+      <div class="zone trash" data-dest="trash">&#9587; Trash<small>moved, never deleted</small></div>
+    </div>
     <div class="tray" aria-hidden="true"><i></i><i></i><b></b></div>
   </aside>
 </div>
 
 </div>
-<div id="toast" role="status" aria-live="polite" hidden></div>
 <script>
- // The Directions typing box is gone. Quick directions and Famous beats
- // still make the SAME notes text (a hidden field), so parse_directions and
- // the README trail are unchanged whether he picks or, in future, types.
- const notesBox = document.getElementById('notes');
- function syncNotes() {
-   notesBox.value = [document.getElementById('famous').value,
-                     document.getElementById('quick').value].filter(Boolean).join(', ');
- }
- ['quick', 'famous'].forEach(id =>
-   document.getElementById(id).addEventListener('change', syncNotes));
+ // the quick list just types into the Directions box for him, so the
+ // whole existing parser + README trail works unchanged
+ document.getElementById('quick').addEventListener('change', e => {
+   if (e.target.value) document.getElementById('notes').value = e.target.value;
+ });
+
+ // Famous beats: same trick — it types the words into Directions, so there
+ // is ONE code path (parse_directions) whether he picks it or types it, and
+ // the README trail says what he asked for either way.
+ const BREAK_WORDS = __BREAKWORDS__;
+ document.getElementById('famous').addEventListener('change', e => {
+   const n = document.getElementById('notes');
+   const kept = n.value.split(',').map(s => s.trim())
+                 .filter(s => s && !BREAK_WORDS.includes(s.toLowerCase()));
+   if (e.target.value) kept.unshift(e.target.value);
+   n.value = kept.join(', ');
+ });
 
  // ---------------------------------------------------------- crew picking
  const order = [];
@@ -6640,55 +6619,27 @@ __BREAKS__
  });
 
  // ------------------------------------------------------------ the batch
- const LOC = { favorites: '&starf; passed', trash: 'in Trash', dj: '' };
+ const LOC = { favorites: '&starf; kept', trash: 'trashed', dj: '' };
  const staged = {};                    // beat no -> { lane: path | null }
  const trims = {};                     // beat no -> { lane: dB }
  const drops = {};                     // beat no -> { lane: true }
 
  function setLoc(el, loc) {
    el.className = 'track loc-' + loc;
-   el.dataset.loc = loc;
    el.querySelector('.tloc').innerHTML = LOC[loc] || '';
-   el.querySelectorAll('.acts button[data-dest]').forEach(b => {
-     const on = (loc === 'favorites' && b.dataset.dest === 'favorites') ||
-                (loc === 'trash' && b.dataset.dest === 'trash');
-     b.classList.toggle('on-fav', on && b.dataset.dest === 'favorites');
-     b.classList.toggle('on-trash', on && b.dataset.dest === 'trash');
-     if (b.classList.contains('star') || b.classList.contains('eraser'))
-       b.setAttribute('aria-pressed', on);
+   el.querySelectorAll('.acts button').forEach(b => {
+     b.classList.toggle('on-fav', loc === 'favorites' && b.dataset.dest === 'favorites');
+     b.classList.toggle('on-trash', loc === 'trash' && b.dataset.dest === 'trash');
    });
  }
- // Pass (star) and Fail (eraser) only ever MOVE the beat's files between
- // folders on the server - nothing is deleted - so a fail can be undone.
- let toastTimer;
- function toast(msg, undo) {
-   const t = document.getElementById('toast');
-   clearTimeout(toastTimer);
-   t.textContent = '';
-   const s = document.createElement('span'); s.textContent = msg; t.appendChild(s);
-   if (undo) {
-     const b = document.createElement('button');
-     b.type = 'button'; b.textContent = 'Undo';
-     b.onclick = () => { t.hidden = true; undo(); };
-     t.appendChild(b);
-   }
-   t.hidden = false;
-   toastTimer = setTimeout(() => { t.hidden = true; }, 9000);
- }
- async function triage(no, dest, el, was) {
+ async function triage(no, dest, el) {
    try {
      const r = await fetch('/triage', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ number: no, dest }) });
      const d = await r.json();
-     if (!d.ok) throw new Error(d.error || 'the move failed');
-     if (el) setLoc(el, d.loc);
-     if (d.loc === 'trash')
-       toast('Beat ' + no + ' moved to Trash (nothing is deleted).',
-             () => triage(no, was && was !== 'trash' ? was : 'dj', el));
-   } catch (e) {
-     failed('Could not move beat ' + no + ': ' + (e.message || e));
-   }
+     if (d.ok && el) setLoc(el, d.loc);
+   } catch (e) {}
  }
 
  function prettyTitle(label) {          // "316 Doc Day Boulevard Protocol Drums 93bpm"
@@ -6700,6 +6651,7 @@ __BREAKS__
    const t = prettyTitle(b.label);
    const el = document.createElement('div');
    el.className = 'track loc-' + b.loc;
+   el.draggable = true;
    el.dataset.no = b.no;
    el.au = new LoopAudio('/audio?no=' + b.no);
    el.innerHTML =
@@ -6707,13 +6659,15 @@ __BREAKS__
        '<span class="no">' + b.no + '</span>' +
        '<span class="tmeta"><span class="tname"></span>' +
          '<span class="tsub"></span></span>' +
+       '<span class="player"><button class="pp" aria-label="Play">&#9654;</button>' +
+         '<span class="sep"></span>' +
+         '<span class="bar"><canvas></canvas><i></i></span>' +
+         '<span class="time">0:00</span></span>' +
        // star = keep (a second click sends it back to its DJ folder);
        // the rest live in the "..." menu — same data-dest buttons as before
        '<span class="acts">' +
-         '<button class="star" title="Pass \u2014 save to Favorites" aria-label="Pass / Save to Favorites" aria-pressed="false" data-dest="favorites">' +
+         '<button class="star" title="Keep it" aria-label="Keep it" data-dest="favorites">' +
            '<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></button>' +
-         '<button class="eraser" title="Fail \u2014 move to Trash (you can get it back)" aria-label="Fail / Move to Trash" aria-pressed="false" data-dest="trash">' +
-           '<svg viewBox="0 0 24 24"><path d="M3.5 15.5l9.500-9.500a2 2 0 0 1 2.800 0l3.200 3.200a2 2 0 0 1 0 2.800L11.500 20H7z"/><path d="M8 11.500l5.5 5.5M11.500 20H21"/></svg></button>' +
          '<button class="stembtn" data-role="stems">' +
            '<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>Stems</button>' +
          '<span class="more"><button class="morebtn" title="More" aria-label="More" aria-haspopup="true">&middot;&middot;&middot;</button>' +
@@ -6722,13 +6676,10 @@ __BREAKS__
                'title="Open in the Sound Engine with this DJ&apos;s effects ' +
                'already dialled in (start it from Sound Engine.command first)">' +
                '&#10022; FX in the Sound Engine</button>' : '') +
-             '<button title="Move it back to its DJ folder (also gets a beat out of Trash or Favorites)" data-dest="dj">&#9635; Back to its DJ folder</button>' +
+             '<button title="DJ folder" data-dest="dj">&#9635; Back to its DJ folder</button>' +
+             '<button title="Trash it" data-dest="trash">&#9587; Trash (moved, never deleted)</button>' +
            '</span></span>' +
        '</span>' +
-       '<span class="player"><button class="pp" aria-label="Play">&#9654;</button>' +
-         '<span class="sep"></span>' +
-         '<span class="bar"><canvas></canvas><i></i></span>' +
-         '<span class="time">0:00</span></span>' +
      '</div>' +
      '<div class="theory"></div>' +
      '<div class="rack"></div>';
@@ -6753,13 +6704,14 @@ __BREAKS__
      box.style.display = 'block';
    }
    setLoc(el, b.loc);
+   el.addEventListener('dragstart', e => {
+     e.dataTransfer.setData('text/plain', b.no); el.classList.add('dragging'); });
+   el.addEventListener('dragend', () => el.classList.remove('dragging'));
    el.querySelectorAll('.acts button[data-dest]').forEach(btn =>
      btn.onclick = () => {
-       const was = el.dataset.loc;
-       let dest = btn.dataset.dest;
-       // pressing a lit star / eraser again takes it back to the DJ folder
-       if (dest === was && dest !== 'dj') dest = 'dj';
-       triage(b.no, dest, el, was);
+       const dest = btn.classList.contains('star') && btn.classList.contains('on-fav')
+         ? 'dj' : btn.dataset.dest;
+       triage(b.no, dest, el);
        el.querySelector('.more').classList.remove('open');
      });
    el.querySelector('.morebtn').onclick = () => {
@@ -6896,17 +6848,18 @@ __BREAKS__
  // read-only listings (/folder) — nothing is moved by switching tabs.
  const EMPTY_SAY = {
    batch: 'Make a beat and it lands here &mdash; with every drum in it.',
-   favorites: 'No favorites yet &mdash; pass a beat with its star to keep it.',
-   trash: 'Trash is empty. A beat you fail lands here &mdash; nothing is deleted, and you can move it back.',
+   favorites: 'No favorites yet &mdash; star a beat to keep it.',
    dj: 'Nothing here yet. This tab shows the folder of the DJ your last batch went to.'
  };
  let SRC = 'batch';
- const viewsrc = document.getElementById('viewsrc');
- viewsrc.onchange = () => loadBatch(null, viewsrc.value);
+ document.querySelectorAll('.tab').forEach(t => t.onclick = () => loadBatch(null, t.dataset.src));
 
  async function loadBatch(focus, src) {
    SRC = src || 'batch';
-   viewsrc.value = SRC;
+   document.querySelectorAll('.tab').forEach(t => {
+     t.classList.toggle('on', t.dataset.src === SRC);
+     t.setAttribute('aria-selected', t.dataset.src === SRC);
+   });
    const list = document.getElementById('tracklist'),
          empty = document.getElementById('empty'),
          say = document.getElementById('emptytext');
@@ -7452,6 +7405,18 @@ __BREAKS__
    }
  }
 
+ // -------------------------------------------------------------- the bins
+ document.querySelectorAll('.zone').forEach(z => {
+   z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+   z.addEventListener('dragleave', () => z.classList.remove('over'));
+   z.addEventListener('drop', e => {
+     e.preventDefault(); z.classList.remove('over');
+     const no = e.dataTransfer.getData('text/plain');
+     triage(no, z.dataset.dest,
+            document.querySelector('.track[data-no="' + no + '"]'));
+   });
+ });
+
  // --------------------------------------------- reference track (sec. 5)
  // Drop a song; read its tempo and key; SHOW both so he can correct them.
  // The detector is wrong in two predictable ways — half or double the
@@ -7459,23 +7424,23 @@ __BREAKS__
  // the feature, not a fallback.
  const refdrop = document.getElementById('refdrop'),
        refline = document.getElementById('refline'),
-       keysel = document.getElementById('key'),
+       keyroot = document.getElementById('keyroot'),
+       keymode = document.getElementById('keymode'),
        tempoBox = document.getElementById('tempo');
  let refName = '', refAlt = null;
  const TLO = __TEMPOLO__, THI = __TEMPOHI__;   // the window /make enforces
 
  function refSay() {
-   refline.classList.remove('bad');
    if (!refName) { refline.textContent = 'nothing dropped yet'; return; }
    const bpm = parseFloat(tempoBox.value);
    refline.innerHTML = '<b>' + esc(refName) + '</b> &mdash; ' +
-     (tempoBox.value || '?') + ' BPM, ' +
-     (keysel.value ? keysel.value.replace('_', ' ') : 'any key') +
+     (tempoBox.value || '?') + ' BPM, ' + (keyroot.value || 'any') + ' ' +
+     keymode.value +
      // only offer an octave the tempo box would actually accept
      (bpm / 2 >= TLO ? '<button data-ref="half">&divide;2</button>' : '') +
      (bpm * 2 <= THI ? '<button data-ref="double">&times;2</button>' : '') +
-     (refAlt ? '<button data-ref="rel">' + esc(refAlt.replace('_', ' ')) +
-               '?</button>' : '') +
+     (refAlt ? '<button data-ref="rel">' + esc(refAlt.root + ' ' +
+               refAlt.mode) + '?</button>' : '') +
      '<button data-ref="clear">clear</button>';
  }
 
@@ -7486,12 +7451,12 @@ __BREAKS__
    if (what === 'half' && bpm / 2 >= TLO) tempoBox.value = Math.round(bpm / 2);
    if (what === 'double' && bpm * 2 <= THI) tempoBox.value = Math.round(bpm * 2);
    if (what === 'rel' && refAlt) {          // swaps, so it flips back
-     const was = keysel.value;
-     keysel.value = refAlt;
-     refAlt = was || null;
+     const was = { root: keyroot.value, mode: keymode.value };
+     keyroot.value = refAlt.root; keymode.value = refAlt.mode;
+     refAlt = was;
    }
    if (what === 'clear') {
-     refName = ''; refAlt = null; tempoBox.value = ''; keysel.value = '';
+     refName = ''; refAlt = null; tempoBox.value = ''; keyroot.value = '';
    }
    refSay();
  };
@@ -7510,37 +7475,27 @@ __BREAKS__
  refdrop.addEventListener('keydown', e => {
    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); refdrop.click(); } });
  reffile.addEventListener('change', () => { readRef(reffile.files[0]); reffile.value = ''; });
- // what the server's reader can open (reference_track.py: libsndfile, then
- // macOS afconvert for m4a/mp3) and the size it will take (/reference)
- const REF_EXT = ['.mp3', '.wav', '.m4a', '.aif', '.aiff', '.flac'];
- const REF_MAX = 300 * 1024 * 1024;
- function refBad(msg) { refline.textContent = msg; refline.classList.add('bad'); }
  async function readRef(f) {
    if (!f) return;
-   const dot = f.name.lastIndexOf('.');
-   const ext = (dot > 0 ? f.name.slice(dot) : '.wav')
-                 .replace(/[^A-Za-z0-9.]/g, '');
-   if (!REF_EXT.includes(ext.toLowerCase())) {
-     refBad("Can't read " + (ext || 'that') + ' files. Use MP3, WAV, M4A, AIFF or FLAC.');
-     return; }
-   if (f.size > REF_MAX) {
-     refBad('That file is ' + Math.round(f.size / 1048576) + ' MB. The limit is 300 MB.');
-     return; }
    const was = refdrop.innerHTML;
    refdrop.classList.add('busy');
    refdrop.textContent = 'Listening to ' + f.name + '\u2026';
    try {
+     const dot = f.name.lastIndexOf('.');
+     const ext = (dot > 0 ? f.name.slice(dot) : '.wav')
+                   .replace(/[^A-Za-z0-9.]/g, '');
      const r = await fetch('/reference', { method: 'POST',
        headers: { 'X-Ext': ext || '.wav' }, body: await f.arrayBuffer() });
      const d = await r.json();
      if (d.ok) {
        refName = f.name;
        tempoBox.value = d.bpm;
-       keysel.value = d.root + ' ' + d.mode;
-       refAlt = d.alt_root ? d.alt_root + ' ' + d.alt_mode : null;
+       keyroot.value = d.root;
+       keymode.value = d.mode;
+       refAlt = { root: d.alt_root, mode: d.alt_mode };
        refSay();
-     } else { refBad(d.error); }
-   } catch (err) { refBad(String(err)); }
+     } else { refline.textContent = d.error; }
+   } catch (err) { refline.textContent = String(err); }
    refdrop.classList.remove('busy');
    refdrop.innerHTML = was;
  }
@@ -7584,7 +7539,7 @@ __BREAKS__
      failed('Loops only: a DJ can team up with styles, not with another DJ. ' +
             'Untick all but one DJ.'); return; }
    const count = document.getElementById('count').value;
-   go.disabled = true; go.setAttribute('aria-busy', 'true');
+   go.disabled = true;
    working(count > 1
      ? 'Making ' + count + ' beats… the first one scans your sample library.'
      : 'Making it… the first beat scans your sample library (about 30 seconds).');
@@ -7593,15 +7548,32 @@ __BREAKS__
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ names: order,
          tempo: tempoBox.value.trim(),
-         key: keysel.value,
-         count, notes: notesBox.value,
+         key: keyroot.value ? keyroot.value + ' ' + keymode.value : '',
+         count, notes: document.getElementById('notes').value,
          loops_only: document.getElementById('loopsonly').checked }) });
      const d = await r.json();
      if (d.ok) { done(); await loadBatch(); }
      else failed(d.error);
    } catch (e) { failed(String(e)); }
-   go.disabled = false; go.removeAttribute('aria-busy');
+   go.disabled = false;
  };
+
+ // ------------------------------------------------------- rhythm test bank
+ document.querySelectorAll('.fixedbtn').forEach(btn => {
+   btn.onclick = async () => {
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = true);
+     working('Rolling a new kit for ' + btn.dataset.title + '…');
+     try {
+       const r = await fetch('/fixed', { method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ idx: parseInt(btn.dataset.idx, 10) }) });
+       const d = await r.json();
+       if (d.ok) { done(); await loadBatch(d.no); }
+       else failed(d.error);
+     } catch (e) { failed(String(e)); }
+     document.querySelectorAll('.fixedbtn').forEach(b => b.disabled = false);
+   };
+ });
 
  // -------------------------------------------------------- pattern library
  const LIBRARY_PATTERNS = __LIBRARYJSON__;
@@ -7755,6 +7727,10 @@ def _page():
     crew = "".join(_dj_card(n) for n in CREW_ORDER)
     legends = "".join(_dj_card(n) for n in LEGEND_ORDER)
     styles = "".join(_dj_card(n) for n in GENRE_ORDER)
+    fixedbank = "".join(
+        f'<button class="fixedbtn" data-idx="{i}" data-title="{title}">'
+        f'{title}<small>{lib}</small></button>'
+        for i, (title, lib, _bpm) in enumerate(FIXED_PATTERNS))
     logo = _brand_logo("blue")
     if logo:
         src = f"/brand?name={quote(logo.name)}"
@@ -7762,21 +7738,20 @@ def _page():
         ghost = f'<div class="ghost"><img src="{src}" alt=""></div>'
     else:                       # no artwork dropped in yet — type mark
         mark, ghost = "<span>BOTC</span>", ""
+    words = json.dumps([w for w, _ in BREAK_WORDS] + ["break"])
     # straight off ROOT_HZ and MODES, so the dropdowns can never offer a
     # key the engine would then refuse
     from key_context import MODES
-    # ONE dropdown ("A minor"): minor keys, major keys, then the other modes
-    order = [m for m in ("minor", "major") if m in MODES] + sorted(
-        m for m in MODES if m not in ("minor", "major"))
-    keyopts = "".join(
-        '<optgroup label="%s keys">%s</optgroup>' % (
-            m.replace("_", " ").capitalize(),
-            "".join('<option value="%s %s">%s %s</option>'
-                    % (r, m, r, m.replace("_", " ")) for r in ROOT_HZ))
-        for m in order)
+    keyroots = "".join(f"<option>{r}</option>" for r in ROOT_HZ)
+    keymodes = "".join(
+        '<option value="%s"%s>%s</option>'
+        % (m, " selected" if m == "minor" else "", m.replace("_", " "))
+        for m in sorted(MODES))
     return (_PAGE.replace("__CREW__", crew).replace("__LEGENDS__", legends)
             .replace("__GENRES__", styles)
+            .replace("__FIXEDBANK__", fixedbank)
             .replace("__BREAKS__", _break_options())
+            .replace("__BREAKWORDS__", words)
             .replace("__LIBGENRES__", _library_genre_options())
             .replace("__LIBBREAKS__", _library_break_options())
             .replace("__LIBRARYJSON__", json.dumps({
@@ -7785,7 +7760,8 @@ def _page():
             .replace("__CREWCOUNT__", _count_word(len(CREW_ORDER)))
             .replace("__TEMPOLO__", str(TEMPO_LO))
             .replace("__TEMPOHI__", str(TEMPO_HI))
-            .replace("__KEYOPTS__", keyopts)
+            .replace("__KEYROOTS__", keyroots)
+            .replace("__KEYMODES__", keymodes)
             .replace("__MARK__", mark).replace("__GHOST__", ghost))
 
 
@@ -8084,11 +8060,6 @@ def run_web(port=None):
                     print("  reference: %s BPM, %s %s"
                           % (res["bpm"], res["root"], res["mode"]))
                     self._json({"ok": True, **res})
-                except subprocess.CalledProcessError:
-                    # afconvert (the m4a/mp3 reader) refused it
-                    self._json({"ok": False, "error":
-                                "Couldn't read that file as audio. Try an "
-                                "MP3, WAV, M4A, AIFF or FLAC."})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return
