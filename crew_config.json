@@ -1552,8 +1552,8 @@
      "tight"
     ],
     [
-     0.59,
-     1.02
+     0.74,
+     1.27
     ]
    ],
    "clap": [
@@ -2923,6 +2923,16 @@
       "impact"
      ],
      "swellfx"
+    ],
+    [
+     "fx",
+     [
+      "vocal",
+      "chant",
+      "hey",
+      "yeah"
+     ],
+     "voxchops"
     ]
    ]
   },
