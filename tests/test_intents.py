@@ -74,8 +74,16 @@ def test_reindex_outranks_recipe_search(text):
 
 # -- walkthrough / steps -----------------------------------------------------
 
-def test_walkthrough_start():
-    assert cmd("walk me through it") == "walkthrough"
+@pytest.mark.parametrize("text", [
+    "walk me through it", "How do I build this sound?", "how do i make this sound",
+    "how can i get that sound",
+])
+def test_walkthrough_start(text):
+    assert cmd(text) == "walkthrough"
+
+
+def test_how_do_i_make_x_is_still_recipe_search():
+    assert cmd("how do i make a dark bass") == "recipe_find"
 
 
 @pytest.mark.parametrize("text,expected", [

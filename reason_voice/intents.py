@@ -71,6 +71,9 @@ PATTERNS = [
     (r"^(?:repeat(?:\s+(?:that|step))?|say (?:that )?again)$", "step_repeat", None),
     (r"^(?:done|finished|end|stop)(?:\s+(?:walkthrough|recipe))?$", "walkthrough_done", None),
     (r"\bwalk me through\b", "walkthrough", None),
+    # "how do i build this sound" = the walkthrough of the open recipe (owner 2026-10-03);
+    # must outrank "how do i make X" recipe search below
+    (r"^how (?:do|can|would) i (?:build|make|get) (?:this|that|it)(?: sound)?$", "walkthrough", None),
     # feelings: "make it feel nostalgic", "how do i make this feel dark"
     (r"^(?:how (?:do|can) i )?make (?:it|this|something|the beat) feel\s+(.+)$", "recipe_find", "query"),
     (r"^i want (?:it|this|the beat) to feel\s+(.+)$", "recipe_find", "query"),

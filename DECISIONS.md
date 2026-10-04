@@ -26,7 +26,9 @@ entries.
 - MISTAKE during the check: typed "Show me the next step" on the LIVE server (old grammar still loaded) with his Redrum locked -> knob helper switched Redrum "Run" ON. Undone at once with the app's Undo; Reason reported Run back to 0. Lesson: on the live server, never type free phrases while a device is locked.
 - Beat page nav link text "Studio" -> "Reason Voice" (tools/beat_machine.py), ASSUMING he wants the mockup's name on both pages. Shows after the beat server restarts.
 - Not live yet: the grammar fix needs a Reason Voice restart (restart drops the Reason lock).
-- Gaps: "How do I build this sound?" (mockup helper text) goes to the knob helper, not a Q&A — left off the page, owner to decide. No free-form question answering exists; the Ask box runs the same command grammar. Account icon left out (same as beat page).
+- "How do I build this sound?": owner chose (2026-10-03) = start the walkthrough. Grammar rule in `intents.py` (also "how do i make/get this|that|it sound"; "how do i make a dark bass" stays recipe search), 2 tests, hint back under the Ask box. Needs a Reason Voice restart to go live.
+- Full suite 2026-10-03 (after disk-full fix, 41 GB free): 1327 passed, 3 skipped, 1 failed (`test_pattern_gen.py::test_guest_lanes_appear_from_the_dj_palette`, not touched this session, not investigated).
+- Gaps: No free-form question answering exists; the Ask box runs the same command grammar. Account icon left out (same as beat page).
 - Verified in browser on the live server: recipe pick/highlight, search + empty search, genre filter, walkthrough start/Back/Repeat/Next (step 3 of 6, 2 ticks, 3/6 bar), Ask box (Enter sends, "what is scream 4" opens the guide), transport + hold-to-talk send the right commands (blocked before reaching Reason), loading/listening/thinking/mic/empty/offline states, phone width (no sideways scroll). Beat page still loads, no console errors.
 - Status: open (owner has not seen it)
 - Outcome: -
