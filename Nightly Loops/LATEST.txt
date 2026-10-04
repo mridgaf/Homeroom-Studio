@@ -1,1 +1,1 @@
-2026-10-03 loop grab - NOT RUN: Chrome could not be reached (Claude extension not connected) at step 1, before any search or download. Nothing downloaded, nothing filed, nothing deleted.
+2026-10-04 loop grab - NOT RUN: Chrome could not be reached (Claude extension not connected, no browser online) at step 1, before any search or download. Nothing downloaded, nothing filed, nothing deleted.
