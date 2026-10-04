@@ -155,10 +155,15 @@ The page plays the batch he just asked for and lets him sort it:
   HTML5 player (`GET /audio?no=NN`, byte-range supported so seeking
   works). Only a beat NUMBER crosses the wire — resolved to a file
   server-side, so no client path ever touches disk.
-- **Drag a card** (or tap ★ / 📁 / 🗑) onto a bin: Favorites, DJ folder,
-  or Trash. `POST /triage` MOVES the wav, its `.mid`, and its Stems
-  folder. **Trash is a folder move, never a delete** — nothing is ever
-  destroyed. Anything he leaves alone stays in its DJ folder.
+- **★ = Pass (Favorites), eraser = Fail (Trash), "…" = back to its DJ
+  folder** (no bins or tabs since the 2026-10-04 redesign; "Find a saved
+  beat" picks This batch / Favorites / DJ folder / Trash). `POST /triage`
+  MOVES the wav, its `.mid`, and its Stems folder. **Trash is a folder
+  move, never a delete.** The first home of each beat is kept in
+  `<beats root>/.triage_origins.json`, so "back" returns it to exactly
+  where it was. Anything he leaves alone stays in its DJ folder. To test
+  pass/fail, serve a scratch copy (`REASON_VOICE_BEATS_ROOT=...`), never
+  his real library.
 - Placement IS where the file lives (`beat_location` reads the top-level
   folder), so it survives everything. The batch itself is remembered in
   `~/.reason_voice/beat_machine_state.json`, so closing, relaunching, or
