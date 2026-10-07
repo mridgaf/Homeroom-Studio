@@ -1,0 +1,3371 @@
+{
+ "device": "Main Mixer",
+ "remote_scope": "Propellerheads / Reason Main Mixer Channel + Master Section",
+ "code_prefix": "MMIX",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: ASSUMED view = Reason's Main Mixer window (F5), one representative channel strip (the Mix Channel strip) plus the master strip, stitched from 4 scroll slices (picture is 4 stacked slices, each 1362 px tall; overlaps repeat but each control is boxed once). Other channel strips repeat the same controls. All 168 positions hovered in Reason; faders, meters and displays show no tooltip in this window (recorded as seen). name_check: only the expected no-vocab/no-Scope errors.",
+ "controls": [
+  {
+   "code": "MMIX-F-K01",
+   "side": "front",
+   "panel_label": "strip Input gain knob",
+   "what": "Channel strip: Input gain (+/-18 dB) (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.014
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input Gain: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "Input Gain: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-B02",
+   "side": "front",
+   "panel_label": "strip INV button",
+   "what": "Channel strip: Phase invert (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.014
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Invert Phase Off",
+   "confidence": "high",
+   "tooltip_name": "Invert Phase Off"
+  },
+  {
+   "code": "MMIX-F-B03",
+   "side": "front",
+   "panel_label": "strip INSERT PRE checkbox",
+   "what": "Channel strip: Signal path: insert first (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.048,
+    0.036
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Insert Section Pre Dynamics and EQ Off",
+   "confidence": "high",
+   "tooltip_name": "Insert Section Pre Dynamics and EQ Off"
+  },
+  {
+   "code": "MMIX-F-B04",
+   "side": "front",
+   "panel_label": "strip DYN POSTEQ checkbox",
+   "what": "Channel strip: Signal path: dynamics after EQ (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.048,
+    0.044
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Dynamics Section Post Equalizer Off",
+   "confidence": "high",
+   "tooltip_name": "Dynamics Section Post Equalizer Off"
+  },
+  {
+   "code": "MMIX-F-D01",
+   "side": "front",
+   "panel_label": "strip Signal path display",
+   "what": "Channel strip: Shows the processing order (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.138,
+    0.072
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B05",
+   "side": "front",
+   "panel_label": "strip FILTERS TO DYN S/C checkbox (input)",
+   "what": "Channel strip: Send EQ filters to dynamics side chain (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.048,
+    0.1
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Filters to Dynamics Sidechain Off",
+   "confidence": "high",
+   "tooltip_name": "Filters to Dynamics Sidechain Off"
+  },
+  {
+   "code": "MMIX-F-B01",
+   "side": "front",
+   "panel_label": "strip Input section header light",
+   "what": "Channel strip: Section header light (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.249,
+    0.003
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input section Disabled",
+   "confidence": "high",
+   "tooltip_name": "Input section Disabled"
+  },
+  {
+   "code": "MMIX-F-B06",
+   "side": "front",
+   "panel_label": "strip Dynamics section header light",
+   "what": "Channel strip: Section header light (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.249,
+    0.108
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Dynamics Disabled",
+   "confidence": "high",
+   "tooltip_name": "Dynamics Disabled"
+  },
+  {
+   "code": "MMIX-F-B08",
+   "side": "front",
+   "panel_label": "strip COMP ON",
+   "what": "Channel strip: Compressor on/off (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.116
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Disabled",
+   "confidence": "high",
+   "tooltip_name": "Compressor Disabled"
+  },
+  {
+   "code": "MMIX-F-B10",
+   "side": "front",
+   "panel_label": "strip PEAK",
+   "what": "Channel strip: Compressor peak detection (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.125
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Peak Off",
+   "confidence": "high",
+   "tooltip_name": "Compressor Peak Off"
+  },
+  {
+   "code": "MMIX-F-K02",
+   "side": "front",
+   "panel_label": "strip COMP RATIO knob",
+   "what": "Channel strip: Compressor ratio (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.126
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Ratio: 4.06:1",
+   "confidence": "high",
+   "tooltip_name": "Compressor Ratio: 4.06:1"
+  },
+  {
+   "code": "MMIX-F-K03",
+   "side": "front",
+   "panel_label": "strip COMP THRES knob",
+   "what": "Channel strip: Compressor threshold (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.137
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Threshold: -25.80 dB",
+   "confidence": "high",
+   "tooltip_name": "Compressor Threshold: -25.80 dB"
+  },
+  {
+   "code": "MMIX-F-K04",
+   "side": "front",
+   "panel_label": "strip COMP REL knob",
+   "what": "Channel strip: Compressor release (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.145
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Release: 554 ms",
+   "confidence": "high",
+   "tooltip_name": "Compressor Release: 554 ms"
+  },
+  {
+   "code": "MMIX-F-B11",
+   "side": "front",
+   "panel_label": "strip COMP FAST",
+   "what": "Channel strip: Compressor fast attack (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Fast Attack Off",
+   "confidence": "high",
+   "tooltip_name": "Compressor Fast Attack Off"
+  },
+  {
+   "code": "MMIX-F-D03",
+   "side": "front",
+   "panel_label": "strip Gate gain-reduction lights",
+   "what": "Channel strip: Left LED column (tooltip: Gate Gain Reduction) (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.059,
+    0.169
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Gain Reduction",
+   "confidence": "high",
+   "tooltip_name": "Gate Gain Reduction"
+  },
+  {
+   "code": "MMIX-F-D04",
+   "side": "front",
+   "panel_label": "strip Compressor gain-reduction lights",
+   "what": "Channel strip: Right LED column (tooltip: Compressor Gain Reduction) (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.222,
+    0.169
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Compressor Gain Reduction",
+   "confidence": "high",
+   "tooltip_name": "Compressor Gain Reduction"
+  },
+  {
+   "code": "MMIX-F-B12",
+   "side": "front",
+   "panel_label": "strip Dynamics KEY",
+   "what": "Channel strip: Sidechain key (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.137,
+    0.171
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Sidechain Key Off",
+   "confidence": "high",
+   "tooltip_name": "Sidechain Key Off"
+  },
+  {
+   "code": "MMIX-F-B13",
+   "side": "front",
+   "panel_label": "strip GATE ON",
+   "what": "Channel strip: Gate on/off (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.189
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Disabled",
+   "confidence": "high",
+   "tooltip_name": "Gate Disabled"
+  },
+  {
+   "code": "MMIX-F-B14",
+   "side": "front",
+   "panel_label": "strip GATE EXP",
+   "what": "Channel strip: Expander mode (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.197
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Expander Mode Off",
+   "confidence": "high",
+   "tooltip_name": "Gate Expander Mode Off"
+  },
+  {
+   "code": "MMIX-F-K07",
+   "side": "front",
+   "panel_label": "strip GATE RANGE knob",
+   "what": "Channel strip: Gate range (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.2
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Range: -20.16 dB",
+   "confidence": "high",
+   "tooltip_name": "Gate Range: -20.16 dB"
+  },
+  {
+   "code": "MMIX-F-K08",
+   "side": "front",
+   "panel_label": "strip GATE THRES knob",
+   "what": "Channel strip: Gate threshold (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.209
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Threshold: -38.90 dB",
+   "confidence": "high",
+   "tooltip_name": "Gate Threshold: -38.90 dB"
+  },
+  {
+   "code": "MMIX-F-K09",
+   "side": "front",
+   "panel_label": "strip GATE REL knob",
+   "what": "Channel strip: Gate release (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.218
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Release: 554 ms",
+   "confidence": "high",
+   "tooltip_name": "Gate Release: 554 ms"
+  },
+  {
+   "code": "MMIX-F-K10",
+   "side": "front",
+   "panel_label": "strip GATE HOLD knob",
+   "what": "Channel strip: Gate hold (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.227
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Hold: 0 ms",
+   "confidence": "high",
+   "tooltip_name": "Gate Hold: 0 ms"
+  },
+  {
+   "code": "MMIX-F-B16",
+   "side": "front",
+   "panel_label": "strip GATE FAST",
+   "what": "Channel strip: Gate fast attack (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.068,
+    0.233
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Gate Fast Attack Off",
+   "confidence": "high",
+   "tooltip_name": "Gate Fast Attack Off"
+  },
+  {
+   "code": "MMIX-F-B07",
+   "side": "front",
+   "panel_label": "Master compressor header light",
+   "what": "Master strip: Section header light (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.969,
+    0.108
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Disabled",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Disabled"
+  },
+  {
+   "code": "MMIX-F-B09",
+   "side": "front",
+   "panel_label": "Master compressor ON",
+   "what": "Master strip: Master compressor on/off (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.119
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Disabled",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Disabled"
+  },
+  {
+   "code": "MMIX-F-D02",
+   "side": "front",
+   "panel_label": "Master compression meter",
+   "what": "Master strip: Gain-reduction meter (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.64,
+    0.149
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-K05",
+   "side": "front",
+   "panel_label": "Master comp THRESHOLD knob",
+   "what": "Master strip: Master compressor threshold (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.423,
+    0.196
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Threshold: -14.88 dB",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Threshold: -14.88 dB"
+  },
+  {
+   "code": "MMIX-F-K06",
+   "side": "front",
+   "panel_label": "Master comp RATIO knob",
+   "what": "Master strip: Master compressor ratio (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.64,
+    0.196
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Ratio: 2:1",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Ratio: 2:1"
+  },
+  {
+   "code": "MMIX-F-K11",
+   "side": "front",
+   "panel_label": "Master comp ATTACK knob",
+   "what": "Master strip: Master compressor attack (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.423,
+    0.221
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Attack: 10.0 ms",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Attack: 10.0 ms"
+  },
+  {
+   "code": "MMIX-F-K12",
+   "side": "front",
+   "panel_label": "Master comp RELEASE knob",
+   "what": "Master strip: Master compressor release (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.643,
+    0.221
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Release: 0.6 s",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Release: 0.6 s"
+  },
+  {
+   "code": "MMIX-F-K13",
+   "side": "front",
+   "panel_label": "Master comp MAKE-UP knob",
+   "what": "Master strip: Master compressor make-up gain (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.865,
+    0.221
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Make-Up Gain: 2.87 dB",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Make-Up Gain: 2.87 dB"
+  },
+  {
+   "code": "MMIX-F-B15",
+   "side": "front",
+   "panel_label": "Master comp EXTERNAL SIDE CHAIN KEY",
+   "what": "Master strip: Master compressor external sidechain key (mixer window, slice 1 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.873,
+    0.195
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Compressor Sidechain Key Off",
+   "confidence": "high",
+   "tooltip_name": "Master Compressor Sidechain Key Off"
+  },
+  {
+   "code": "MMIX-F-D05",
+   "side": "front",
+   "panel_label": "strip EQ header light",
+   "what": "Channel strip: EQ section on/off light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.249,
+    0.267
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "EQ Disabled",
+   "confidence": "high",
+   "tooltip_name": "EQ Disabled"
+  },
+  {
+   "code": "MMIX-F-B17",
+   "side": "front",
+   "panel_label": "strip EQ spectrum button",
+   "what": "Channel strip: show channel spectrum EQ (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.135,
+    0.277
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show in Spectrum EQ Window",
+   "confidence": "high",
+   "tooltip_name": "Show in Spectrum EQ Window"
+  },
+  {
+   "code": "MMIX-F-B18",
+   "side": "front",
+   "panel_label": "strip LPF ON",
+   "what": "Channel strip: low-pass filter on (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.069,
+    0.293
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Pass Filter Disabled",
+   "confidence": "high",
+   "tooltip_name": "Low Pass Filter Disabled"
+  },
+  {
+   "code": "MMIX-F-K14",
+   "side": "front",
+   "panel_label": "strip LPF kHz",
+   "what": "Channel strip: low-pass frequency (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.289
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Pass Filter Frequency: 3.54 kHz",
+   "confidence": "high",
+   "tooltip_name": "Low Pass Filter Frequency: 3.54 kHz"
+  },
+  {
+   "code": "MMIX-F-K15",
+   "side": "front",
+   "panel_label": "strip HPF Hz",
+   "what": "Channel strip: high-pass frequency (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.068,
+    0.307
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Pass Filter Frequency: 187.1 Hz",
+   "confidence": "high",
+   "tooltip_name": "High Pass Filter Frequency: 187.1 Hz"
+  },
+  {
+   "code": "MMIX-F-B19",
+   "side": "front",
+   "panel_label": "strip HPF ON",
+   "what": "Channel strip: high-pass filter on (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.312
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Pass Filter Disabled",
+   "confidence": "high",
+   "tooltip_name": "High Pass Filter Disabled"
+  },
+  {
+   "code": "MMIX-F-B21",
+   "side": "front",
+   "panel_label": "strip EQ filters to dyn S/C",
+   "what": "Channel strip: filters feed dynamics side chain (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.048,
+    0.324
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Filters to Dynamics Sidechain Off",
+   "confidence": "high",
+   "tooltip_name": "Filters to Dynamics Sidechain Off"
+  },
+  {
+   "code": "MMIX-F-B23",
+   "side": "front",
+   "panel_label": "strip HF BELL",
+   "what": "Channel strip: HF bell/shelf switch (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.34
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Frequency Shelf Mode",
+   "confidence": "high",
+   "tooltip_name": "High Frequency Shelf Mode"
+  },
+  {
+   "code": "MMIX-F-D08",
+   "side": "front",
+   "panel_label": "strip HF light",
+   "what": "Channel strip: HF band on light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.117,
+    0.335
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-K18",
+   "side": "front",
+   "panel_label": "strip HF dB",
+   "what": "Channel strip: HF gain (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.068,
+    0.344
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Frequency Gain: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "High Frequency Gain: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K19",
+   "side": "front",
+   "panel_label": "strip HF kHz",
+   "what": "Channel strip: HF frequency (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.352
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Frequency: 5.74 kHz",
+   "confidence": "high",
+   "tooltip_name": "High Frequency: 5.74 kHz"
+  },
+  {
+   "code": "MMIX-F-K21",
+   "side": "front",
+   "panel_label": "strip HMF dB",
+   "what": "Channel strip: HMF gain (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.366
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Mid Frequency Gain: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "High Mid Frequency Gain: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K23",
+   "side": "front",
+   "panel_label": "strip HMF kHz",
+   "what": "Channel strip: HMF frequency (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.376
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Mid Frequency: 2.05 kHz",
+   "confidence": "high",
+   "tooltip_name": "High Mid Frequency: 2.05 kHz"
+  },
+  {
+   "code": "MMIX-F-D09",
+   "side": "front",
+   "panel_label": "strip HMF light",
+   "what": "Channel strip: HMF band on light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.117,
+    0.376
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-K24",
+   "side": "front",
+   "panel_label": "strip HMF Q",
+   "what": "Channel strip: HMF Q (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.385
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "High Mid Frequency Q Value: 1.33",
+   "confidence": "high",
+   "tooltip_name": "High Mid Frequency Q Value: 1.33"
+  },
+  {
+   "code": "MMIX-F-B26",
+   "side": "front",
+   "panel_label": "strip HMF ON",
+   "what": "Channel strip: HMF/LMF on (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.219,
+    0.392
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Equalizer Disabled",
+   "confidence": "high",
+   "tooltip_name": "Equalizer Disabled"
+  },
+  {
+   "code": "MMIX-F-B28",
+   "side": "front",
+   "panel_label": "strip HMF E",
+   "what": "Channel strip: E-series EQ (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.219,
+    0.401
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Equalizer E Mode (Constant Q) Disabled",
+   "confidence": "high",
+   "tooltip_name": "Equalizer E Mode (Constant Q) Disabled"
+  },
+  {
+   "code": "MMIX-F-K26",
+   "side": "front",
+   "panel_label": "strip LMF dB",
+   "what": "Channel strip: LMF gain (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.409
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Mid Frequency Gain: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "Low Mid Frequency Gain: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K28",
+   "side": "front",
+   "panel_label": "strip LMF kHz",
+   "what": "Channel strip: LMF frequency (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Mid Frequency: 632.5 Hz",
+   "confidence": "high",
+   "tooltip_name": "Low Mid Frequency: 632.5 Hz"
+  },
+  {
+   "code": "MMIX-F-D10",
+   "side": "front",
+   "panel_label": "strip LMF light",
+   "what": "Channel strip: LMF band on light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.117,
+    0.419
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-K29",
+   "side": "front",
+   "panel_label": "strip LMF Q",
+   "what": "Channel strip: LMF Q (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.428
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Mid Frequency Q Value: 1.33",
+   "confidence": "high",
+   "tooltip_name": "Low Mid Frequency Q Value: 1.33"
+  },
+  {
+   "code": "MMIX-F-D11",
+   "side": "front",
+   "panel_label": "strip LF light",
+   "what": "Channel strip: LF band on light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.117,
+    0.443
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-K31",
+   "side": "front",
+   "panel_label": "strip LF Hz",
+   "what": "Channel strip: LF frequency (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.44
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Frequency: 154.9 Hz",
+   "confidence": "high",
+   "tooltip_name": "Low Frequency: 154.9 Hz"
+  },
+  {
+   "code": "MMIX-F-K32",
+   "side": "front",
+   "panel_label": "strip LF dB",
+   "what": "Channel strip: LF gain (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.451
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Frequency Gain: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "Low Frequency Gain: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-B31",
+   "side": "front",
+   "panel_label": "strip LF BELL",
+   "what": "Channel strip: LF bell/shelf switch (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.456
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Low Frequency Shelf Mode",
+   "confidence": "high",
+   "tooltip_name": "Low Frequency Shelf Mode"
+  },
+  {
+   "code": "MMIX-F-D13",
+   "side": "front",
+   "panel_label": "strip INSERTS header light",
+   "what": "Channel strip: insert section light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.249,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Insert FX Disconnected",
+   "confidence": "high",
+   "tooltip_name": "Insert FX Disconnected"
+  },
+  {
+   "code": "MMIX-F-B33",
+   "side": "front",
+   "panel_label": "strip INSERTS BYPASS",
+   "what": "Channel strip: bypass inserts (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.138,
+    0.475
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Bypass Master Insert FX Off",
+   "confidence": "high",
+   "tooltip_name": "Bypass Master Insert FX Off"
+  },
+  {
+   "code": "MMIX-F-B35",
+   "side": "front",
+   "panel_label": "strip EDIT INSERTS",
+   "what": "Channel strip: edit inserts (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.138,
+    0.487
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit Inserts",
+   "confidence": "high",
+   "tooltip_name": "Edit Inserts"
+  },
+  {
+   "code": "MMIX-F-K16",
+   "side": "front",
+   "panel_label": "master FX1 LEVEL",
+   "what": "Master strip: master FX 1 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.304
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX1 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K17",
+   "side": "front",
+   "panel_label": "master FX2 LEVEL",
+   "what": "Master strip: master FX 2 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.325
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX2 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K20",
+   "side": "front",
+   "panel_label": "master FX3 LEVEL",
+   "what": "Master strip: master FX 3 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.346
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX3 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K22",
+   "side": "front",
+   "panel_label": "master FX4 LEVEL",
+   "what": "Master strip: master FX 4 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.367
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX4 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K25",
+   "side": "front",
+   "panel_label": "master FX5 LEVEL",
+   "what": "Master strip: master FX 5 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.388
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX5 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K27",
+   "side": "front",
+   "panel_label": "master FX6 LEVEL",
+   "what": "Master strip: master FX 6 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.409
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX6 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K30",
+   "side": "front",
+   "panel_label": "master FX7 LEVEL",
+   "what": "Master strip: master FX 7 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.43
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX7 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K33",
+   "side": "front",
+   "panel_label": "master FX8 LEVEL",
+   "what": "Master strip: master FX 8 level (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.451
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Master Send Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX8 Master Send Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-B20",
+   "side": "front",
+   "panel_label": "master FX1 EDIT",
+   "what": "Master strip: edit FX 1 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.309
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX1",
+   "confidence": "high",
+   "tooltip_name": "Edit FX1"
+  },
+  {
+   "code": "MMIX-F-B22",
+   "side": "front",
+   "panel_label": "master FX2 EDIT",
+   "what": "Master strip: edit FX 2 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.33
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX2",
+   "confidence": "high",
+   "tooltip_name": "Edit FX2"
+  },
+  {
+   "code": "MMIX-F-B24",
+   "side": "front",
+   "panel_label": "master FX3 EDIT",
+   "what": "Master strip: edit FX 3 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.351
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX3",
+   "confidence": "high",
+   "tooltip_name": "Edit FX3"
+  },
+  {
+   "code": "MMIX-F-B25",
+   "side": "front",
+   "panel_label": "master FX4 EDIT",
+   "what": "Master strip: edit FX 4 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.372
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX4",
+   "confidence": "high",
+   "tooltip_name": "Edit FX4"
+  },
+  {
+   "code": "MMIX-F-B27",
+   "side": "front",
+   "panel_label": "master FX5 EDIT",
+   "what": "Master strip: edit FX 5 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.393
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX5",
+   "confidence": "high",
+   "tooltip_name": "Edit FX5"
+  },
+  {
+   "code": "MMIX-F-B29",
+   "side": "front",
+   "panel_label": "master FX6 EDIT",
+   "what": "Master strip: edit FX 6 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.414
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX6",
+   "confidence": "high",
+   "tooltip_name": "Edit FX6"
+  },
+  {
+   "code": "MMIX-F-B30",
+   "side": "front",
+   "panel_label": "master FX7 EDIT",
+   "what": "Master strip: edit FX 7 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.435
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX7",
+   "confidence": "high",
+   "tooltip_name": "Edit FX7"
+  },
+  {
+   "code": "MMIX-F-B32",
+   "side": "front",
+   "panel_label": "master FX8 EDIT",
+   "what": "Master strip: edit FX 8 device (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.723,
+    0.456
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX8",
+   "confidence": "high",
+   "tooltip_name": "Edit FX8"
+  },
+  {
+   "code": "MMIX-F-D14",
+   "side": "front",
+   "panel_label": "master MASTER INSERTS light",
+   "what": "Master strip: master inserts light (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.969,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Master Insert FX Connected",
+   "confidence": "high",
+   "tooltip_name": "Master Insert FX Connected"
+  },
+  {
+   "code": "MMIX-F-B34",
+   "side": "front",
+   "panel_label": "master MASTER INSERTS BYPASS",
+   "what": "Master strip: bypass master inserts (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.426,
+    0.475
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Bypass Master Insert FX On",
+   "confidence": "high",
+   "tooltip_name": "Bypass Master Insert FX On"
+  },
+  {
+   "code": "MMIX-F-B36",
+   "side": "front",
+   "panel_label": "master EDIT INSERTS",
+   "what": "Master strip: edit master inserts (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.426,
+    0.487
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit Inserts",
+   "confidence": "high",
+   "tooltip_name": "Edit Inserts"
+  },
+  {
+   "code": "MMIX-F-B37",
+   "side": "front",
+   "panel_label": "master INSERTS PRE COMPRESSOR",
+   "what": "Master strip: inserts before compressor (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.682,
+    0.491
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Insert Section Pre Compressor Off",
+   "confidence": "high",
+   "tooltip_name": "Insert Section Pre Compressor Off"
+  },
+  {
+   "code": "MMIX-F-D06",
+   "side": "front",
+   "panel_label": "master FX1 LEDs",
+   "what": "Master strip: FX1 activity LEDs (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.592,
+    0.304
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Send Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX1 Send Level Meter"
+  },
+  {
+   "code": "MMIX-F-D12",
+   "side": "front",
+   "panel_label": "master FX8 LEDs",
+   "what": "Master strip: FX8 activity LEDs (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.592,
+    0.45
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Send Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX8 Send Level Meter"
+  },
+  {
+   "code": "MMIX-F-D07",
+   "side": "front",
+   "panel_label": "master FX1 name",
+   "what": "Master strip: FX1 name display (mixer window, slice 2 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.804,
+    0.301
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-D15",
+   "side": "front",
+   "panel_label": "strip SEND header light",
+   "what": "Channel strip: send section light (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.249,
+    0.525
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX Sends Disabled",
+   "confidence": "high",
+   "tooltip_name": "FX Sends Disabled"
+  },
+  {
+   "code": "MMIX-F-B38",
+   "side": "front",
+   "panel_label": "strip SEND1 PRE",
+   "what": "Channel strip: send 1 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.538
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX1 Send Off"
+  },
+  {
+   "code": "MMIX-F-K36",
+   "side": "front",
+   "panel_label": "strip SEND1 LEVEL",
+   "what": "Channel strip: send 1 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.536
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX1 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B41",
+   "side": "front",
+   "panel_label": "strip SEND2 PRE",
+   "what": "Channel strip: send 2 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.556
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX2 Send Off"
+  },
+  {
+   "code": "MMIX-F-K37",
+   "side": "front",
+   "panel_label": "strip SEND2 LEVEL",
+   "what": "Channel strip: send 2 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.555
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX2 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B44",
+   "side": "front",
+   "panel_label": "strip SEND3 PRE",
+   "what": "Channel strip: send 3 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.575
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX3 Send Off"
+  },
+  {
+   "code": "MMIX-F-K40",
+   "side": "front",
+   "panel_label": "strip SEND3 LEVEL",
+   "what": "Channel strip: send 3 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX3 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B47",
+   "side": "front",
+   "panel_label": "strip SEND4 PRE",
+   "what": "Channel strip: send 4 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.593
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX4 Send Off"
+  },
+  {
+   "code": "MMIX-F-K43",
+   "side": "front",
+   "panel_label": "strip SEND4 LEVEL",
+   "what": "Channel strip: send 4 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.592
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX4 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B50",
+   "side": "front",
+   "panel_label": "strip SEND5 PRE",
+   "what": "Channel strip: send 5 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.611
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX5 Send Off"
+  },
+  {
+   "code": "MMIX-F-K46",
+   "side": "front",
+   "panel_label": "strip SEND5 LEVEL",
+   "what": "Channel strip: send 5 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.61
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX5 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B53",
+   "side": "front",
+   "panel_label": "strip SEND6 PRE",
+   "what": "Channel strip: send 6 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.63
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX6 Send Off"
+  },
+  {
+   "code": "MMIX-F-K49",
+   "side": "front",
+   "panel_label": "strip SEND6 LEVEL",
+   "what": "Channel strip: send 6 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.629
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX6 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B56",
+   "side": "front",
+   "panel_label": "strip SEND7 PRE",
+   "what": "Channel strip: send 7 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.648
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX7 Send Off"
+  },
+  {
+   "code": "MMIX-F-K52",
+   "side": "front",
+   "panel_label": "strip SEND7 LEVEL",
+   "what": "Channel strip: send 7 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.647
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX7 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-B59",
+   "side": "front",
+   "panel_label": "strip SEND8 PRE",
+   "what": "Channel strip: send 8 pre-fader (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.667
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Send Off",
+   "confidence": "high",
+   "tooltip_name": "FX8 Send Off"
+  },
+  {
+   "code": "MMIX-F-K55",
+   "side": "front",
+   "panel_label": "strip SEND8 LEVEL",
+   "what": "Channel strip: send 8 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.666
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Send Level: -12.04 dB",
+   "confidence": "high",
+   "tooltip_name": "FX8 Send Level: -12.04 dB"
+  },
+  {
+   "code": "MMIX-F-K58",
+   "side": "front",
+   "panel_label": "strip WIDTH",
+   "what": "Channel strip: stereo width (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.064,
+    0.689
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Stereo Width: 127",
+   "confidence": "high",
+   "tooltip_name": "Stereo Width: 127"
+  },
+  {
+   "code": "MMIX-F-K59",
+   "side": "front",
+   "panel_label": "strip PAN",
+   "what": "Channel strip: pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.193,
+    0.691
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "Pan: 0"
+  },
+  {
+   "code": "MMIX-F-B62",
+   "side": "front",
+   "panel_label": "strip MUTE",
+   "what": "Channel strip: mute (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.074,
+    0.71
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Mix Channel Mute Off",
+   "confidence": "high",
+   "tooltip_name": "Mix Channel Mute Off"
+  },
+  {
+   "code": "MMIX-F-B63",
+   "side": "front",
+   "panel_label": "strip SOLO",
+   "what": "Channel strip: solo (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.199,
+    0.71
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Mix Channel Solo Off",
+   "confidence": "high",
+   "tooltip_name": "Mix Channel Solo Off"
+  },
+  {
+   "code": "MMIX-F-D16",
+   "side": "front",
+   "panel_label": "master RETURN1 name",
+   "what": "Master strip: return 1 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.534
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B39",
+   "side": "front",
+   "panel_label": "master RETURN1 EDIT",
+   "what": "Master strip: edit return 1 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.541
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX1",
+   "confidence": "high",
+   "tooltip_name": "Edit FX1"
+  },
+  {
+   "code": "MMIX-F-B40",
+   "side": "front",
+   "panel_label": "master RETURN1 M",
+   "what": "Master strip: mute return 1 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.541
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX1 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K34",
+   "side": "front",
+   "panel_label": "master RETURN1 LEVEL",
+   "what": "Master strip: return 1 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.536
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX1 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K35",
+   "side": "front",
+   "panel_label": "master RETURN1 PAN",
+   "what": "Master strip: return 1 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.536
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX1 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D17",
+   "side": "front",
+   "panel_label": "master RETURN1 LEDs",
+   "what": "Master strip: return 1 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.536
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX1 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX1 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D18",
+   "side": "front",
+   "panel_label": "master RETURN2 name",
+   "what": "Master strip: return 2 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.552
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B42",
+   "side": "front",
+   "panel_label": "master RETURN2 EDIT",
+   "what": "Master strip: edit return 2 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.56
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX2",
+   "confidence": "high",
+   "tooltip_name": "Edit FX2"
+  },
+  {
+   "code": "MMIX-F-B43",
+   "side": "front",
+   "panel_label": "master RETURN2 M",
+   "what": "Master strip: mute return 2 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.56
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX2 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K38",
+   "side": "front",
+   "panel_label": "master RETURN2 LEVEL",
+   "what": "Master strip: return 2 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.554
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX2 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K39",
+   "side": "front",
+   "panel_label": "master RETURN2 PAN",
+   "what": "Master strip: return 2 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.554
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX2 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D19",
+   "side": "front",
+   "panel_label": "master RETURN2 LEDs",
+   "what": "Master strip: return 2 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.554
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX2 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX2 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D20",
+   "side": "front",
+   "panel_label": "master RETURN3 name",
+   "what": "Master strip: return 3 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.571
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B45",
+   "side": "front",
+   "panel_label": "master RETURN3 EDIT",
+   "what": "Master strip: edit return 3 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.578
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX3",
+   "confidence": "high",
+   "tooltip_name": "Edit FX3"
+  },
+  {
+   "code": "MMIX-F-B46",
+   "side": "front",
+   "panel_label": "master RETURN3 M",
+   "what": "Master strip: mute return 3 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.578
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX3 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K41",
+   "side": "front",
+   "panel_label": "master RETURN3 LEVEL",
+   "what": "Master strip: return 3 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX3 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K42",
+   "side": "front",
+   "panel_label": "master RETURN3 PAN",
+   "what": "Master strip: return 3 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX3 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D21",
+   "side": "front",
+   "panel_label": "master RETURN3 LEDs",
+   "what": "Master strip: return 3 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX3 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX3 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D22",
+   "side": "front",
+   "panel_label": "master RETURN4 name",
+   "what": "Master strip: return 4 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.589
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B48",
+   "side": "front",
+   "panel_label": "master RETURN4 EDIT",
+   "what": "Master strip: edit return 4 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.597
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX4",
+   "confidence": "high",
+   "tooltip_name": "Edit FX4"
+  },
+  {
+   "code": "MMIX-F-B49",
+   "side": "front",
+   "panel_label": "master RETURN4 M",
+   "what": "Master strip: mute return 4 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.597
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX4 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K44",
+   "side": "front",
+   "panel_label": "master RETURN4 LEVEL",
+   "what": "Master strip: return 4 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.591
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX4 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K45",
+   "side": "front",
+   "panel_label": "master RETURN4 PAN",
+   "what": "Master strip: return 4 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.591
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX4 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D23",
+   "side": "front",
+   "panel_label": "master RETURN4 LEDs",
+   "what": "Master strip: return 4 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.591
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX4 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX4 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D24",
+   "side": "front",
+   "panel_label": "master RETURN5 name",
+   "what": "Master strip: return 5 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B51",
+   "side": "front",
+   "panel_label": "master RETURN5 EDIT",
+   "what": "Master strip: edit return 5 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.615
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX5",
+   "confidence": "high",
+   "tooltip_name": "Edit FX5"
+  },
+  {
+   "code": "MMIX-F-B52",
+   "side": "front",
+   "panel_label": "master RETURN5 M",
+   "what": "Master strip: mute return 5 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.615
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX5 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K47",
+   "side": "front",
+   "panel_label": "master RETURN5 LEVEL",
+   "what": "Master strip: return 5 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.61
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX5 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K48",
+   "side": "front",
+   "panel_label": "master RETURN5 PAN",
+   "what": "Master strip: return 5 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.61
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX5 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D25",
+   "side": "front",
+   "panel_label": "master RETURN5 LEDs",
+   "what": "Master strip: return 5 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.61
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX5 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX5 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D26",
+   "side": "front",
+   "panel_label": "master RETURN6 name",
+   "what": "Master strip: return 6 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.626
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B54",
+   "side": "front",
+   "panel_label": "master RETURN6 EDIT",
+   "what": "Master strip: edit return 6 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.634
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX6",
+   "confidence": "high",
+   "tooltip_name": "Edit FX6"
+  },
+  {
+   "code": "MMIX-F-B55",
+   "side": "front",
+   "panel_label": "master RETURN6 M",
+   "what": "Master strip: mute return 6 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.634
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX6 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K50",
+   "side": "front",
+   "panel_label": "master RETURN6 LEVEL",
+   "what": "Master strip: return 6 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.628
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX6 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K51",
+   "side": "front",
+   "panel_label": "master RETURN6 PAN",
+   "what": "Master strip: return 6 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.628
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX6 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D27",
+   "side": "front",
+   "panel_label": "master RETURN6 LEDs",
+   "what": "Master strip: return 6 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.628
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX6 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX6 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D28",
+   "side": "front",
+   "panel_label": "master RETURN7 name",
+   "what": "Master strip: return 7 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.645
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B57",
+   "side": "front",
+   "panel_label": "master RETURN7 EDIT",
+   "what": "Master strip: edit return 7 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX7",
+   "confidence": "high",
+   "tooltip_name": "Edit FX7"
+  },
+  {
+   "code": "MMIX-F-B58",
+   "side": "front",
+   "panel_label": "master RETURN7 M",
+   "what": "Master strip: mute return 7 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX7 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K53",
+   "side": "front",
+   "panel_label": "master RETURN7 LEVEL",
+   "what": "Master strip: return 7 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.647
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX7 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K54",
+   "side": "front",
+   "panel_label": "master RETURN7 PAN",
+   "what": "Master strip: return 7 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.647
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX7 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D29",
+   "side": "front",
+   "panel_label": "master RETURN7 LEDs",
+   "what": "Master strip: return 7 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.647
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX7 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX7 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D30",
+   "side": "front",
+   "panel_label": "master RETURN8 name",
+   "what": "Master strip: return 8 device name (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B60",
+   "side": "front",
+   "panel_label": "master RETURN8 EDIT",
+   "what": "Master strip: edit return 8 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.671
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Edit FX8",
+   "confidence": "high",
+   "tooltip_name": "Edit FX8"
+  },
+  {
+   "code": "MMIX-F-B61",
+   "side": "front",
+   "panel_label": "master RETURN8 M",
+   "what": "Master strip: mute return 8 (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.605,
+    0.671
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Return Mute Off",
+   "confidence": "high",
+   "tooltip_name": "FX8 Return Mute Off"
+  },
+  {
+   "code": "MMIX-F-K56",
+   "side": "front",
+   "panel_label": "master RETURN8 LEVEL",
+   "what": "Master strip: return 8 level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.665
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Return Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "FX8 Return Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-K57",
+   "side": "front",
+   "panel_label": "master RETURN8 PAN",
+   "what": "Master strip: return 8 pan (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.839,
+    0.665
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Return Pan: 0",
+   "confidence": "high",
+   "tooltip_name": "FX8 Return Pan: 0"
+  },
+  {
+   "code": "MMIX-F-D31",
+   "side": "front",
+   "panel_label": "master RETURN8 LEDs",
+   "what": "Master strip: return 8 activity LEDs (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.944,
+    0.665
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "FX8 Return Level Meter",
+   "confidence": "high",
+   "tooltip_name": "FX8 Return Level Meter"
+  },
+  {
+   "code": "MMIX-F-D32",
+   "side": "front",
+   "panel_label": "master CONTROL ROOM OUT display",
+   "what": "Master strip: control room out (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.889,
+    0.708
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-K60",
+   "side": "front",
+   "panel_label": "master CONTROL ROOM LEVEL",
+   "what": "Master strip: control room level (mixer window, slice 3 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.883,
+    0.722
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Control Room Level: 0.00 dB",
+   "confidence": "high",
+   "tooltip_name": "Control Room Level: 0.00 dB"
+  },
+  {
+   "code": "MMIX-F-D34",
+   "side": "front",
+   "panel_label": "strip output meter",
+   "what": "Channel strip: level meter (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.088,
+    0.945
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-S02",
+   "side": "front",
+   "panel_label": "strip fader handle",
+   "what": "Channel strip: channel fader (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.209,
+    0.935
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B67",
+   "side": "front",
+   "panel_label": "strip OUTPUT menu arrow",
+   "what": "Channel strip: output menu (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.206,
+    0.985
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-D38",
+   "side": "front",
+   "panel_label": "strip OUTPUT display",
+   "what": "Channel strip: output name display (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.137,
+    0.994
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B64",
+   "side": "front",
+   "panel_label": "master FADER RESET",
+   "what": "Master strip: reset clip indicators (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.418,
+    0.881
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-D33",
+   "side": "front",
+   "panel_label": "master FADER meter",
+   "what": "Master strip: VU/peak level meter (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.415,
+    0.924
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B66",
+   "side": "front",
+   "panel_label": "master FADER MODE",
+   "what": "Master strip: meter mode (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.418,
+    0.974
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Meter Mode: VU + Peak",
+   "confidence": "high",
+   "tooltip_name": "Meter Mode: VU + Peak"
+  },
+  {
+   "code": "MMIX-F-S01",
+   "side": "front",
+   "panel_label": "master FADER handle",
+   "what": "Master strip: master fader (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.651,
+    0.909
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B65",
+   "side": "front",
+   "panel_label": "master DELAY COMP button",
+   "what": "Master strip: delay compensation (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.889,
+    0.957
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-D36",
+   "side": "front",
+   "panel_label": "master DELAY COMP OFF display",
+   "what": "Master strip: delay comp state (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.889,
+    0.968
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-D37",
+   "side": "front",
+   "panel_label": "master TOTAL DELAY display",
+   "what": "Master strip: total delay (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.889,
+    0.975
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  },
+  {
+   "code": "MMIX-F-B68",
+   "side": "front",
+   "panel_label": "master spectrum EQ button",
+   "what": "Master strip: spectrum window (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.415,
+    0.988
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show in Spectrum EQ Window",
+   "confidence": "high",
+   "tooltip_name": "Show in Spectrum EQ Window"
+  },
+  {
+   "code": "MMIX-F-D35",
+   "side": "front",
+   "panel_label": "master VU/PEAK label",
+   "what": "Master strip: meter VU/PEAK label (mixer window, slice 4 of 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.418,
+    0.961
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip shown on hover"
+  }
+ ],
+ "view_note": "Front only. Mixer window has no back. Slices top to bottom: 1 input/dynamics, 2 EQ/FX send/inserts, 3 send/returns/fader top, 4 fader/output."
+}

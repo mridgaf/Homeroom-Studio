@@ -1,0 +1,299 @@
+{
+  "device": "Audio Track",
+  "remote_scope": "none (no Remote map for Audio Track)",
+  "code_prefix": "AUDT",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all 15 positions checked in Reason (11 front, 4 back). name_check: only errors are no vocab entry and no Scope block (Audio Track has no Remote map). Back has no jacks. Level fader checked on the handle.",
+  "controls": [
+    {
+      "code": "AUDT-F-B01",
+      "side": "front",
+      "panel_label": "(fold triangle)",
+      "what": "Folds/unfolds this track's device",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.027,
+        0.478
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (fold triangle)",
+      "confidence": "high",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-D01",
+      "side": "front",
+      "panel_label": "Audio Track 1 tape",
+      "what": "Device (track) name tape",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.121,
+        0.493
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Audio Track 1' (name tape)",
+      "confidence": "high",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-B02",
+      "side": "front",
+      "panel_label": "MUTE",
+      "what": "Mutes this track (tooltip 'Audio Track 1 Mute Off')",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.219,
+        0.493
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Audio Track 1 Mute Off'",
+      "confidence": "high",
+      "tooltip_name": "Mute",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-B03",
+      "side": "front",
+      "panel_label": "SOLO",
+      "what": "Solos this track (tooltip 'Audio Track 1 Solo Off')",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.254,
+        0.493
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Audio Track 1 Solo Off'",
+      "confidence": "high",
+      "tooltip_name": "Solo",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-S01",
+      "side": "front",
+      "panel_label": "(level fader)",
+      "what": "Track level fader; tooltip 'Level: 0.00 dB'",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.395,
+        0.522
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Level: 0.00 dB' (hover the handle at about 0.435 across the picture, not the box centre)",
+      "confidence": "medium",
+      "confidence_reason": "hover the handle at x=682",
+      "tooltip_name": "Level",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-K01",
+      "side": "front",
+      "panel_label": "(pan knob)",
+      "what": "Track pan; tooltip 'Pan: 0'",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.534,
+        0.522
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Pan: 0'",
+      "confidence": "high",
+      "tooltip_name": "Pan",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-B04",
+      "side": "front",
+      "panel_label": "SEQ",
+      "what": "Scrolls the sequencer to this track",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.584,
+        0.507
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Sequencer Track'",
+      "confidence": "medium",
+      "confidence_reason": "name from tooltip",
+      "tooltip_name": "Show Sequencer Track",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-B05",
+      "side": "front",
+      "panel_label": "MIX",
+      "what": "Shows this track's mixer strip",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.614,
+        0.507
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Mixer Strip'",
+      "confidence": "medium",
+      "confidence_reason": "name from tooltip",
+      "tooltip_name": "Show Mixer Strip",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-B06",
+      "side": "front",
+      "panel_label": "(curve button)",
+      "what": "Opens the spectrum EQ window",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.652,
+        0.507
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show in Spectrum EQ Window'",
+      "confidence": "medium",
+      "confidence_reason": "what it does is read from the tooltip",
+      "tooltip_name": "Show in Spectrum EQ Window",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-D02",
+      "side": "front",
+      "panel_label": "(level meter)",
+      "what": "Track level meter",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.781,
+        0.522
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (level meter)",
+      "confidence": "medium",
+      "confidence_reason": "display",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-F-D03",
+      "side": "front",
+      "panel_label": "AUDIO TRACK label",
+      "what": "Device type label",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.928,
+        0.522
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (label)",
+      "confidence": "high",
+      "reason_cable_menu_name": null
+    },
+    {
+      "code": "AUDT-B-B01",
+      "side": "back",
+      "panel_label": "(fold triangle)",
+      "what": "Folds/unfolds the device (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.027,
+        0.478
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (fold triangle)",
+      "confidence": "medium"
+    },
+    {
+      "code": "AUDT-B-D01",
+      "side": "back",
+      "panel_label": "Audio Track 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.128,
+        0.493
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Audio Track 1' (name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "AUDT-B-D02",
+      "side": "back",
+      "panel_label": "(black slot)",
+      "what": "Black slot, no jack or control",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.673,
+        0.463
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (black slot, no jack)",
+      "confidence": "high",
+      "confidence_reason": "looks decorative"
+    },
+    {
+      "code": "AUDT-B-D03",
+      "side": "back",
+      "panel_label": "AUDIO TRACK label",
+      "what": "Device type label (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.918,
+        0.478
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (label)",
+      "confidence": "high"
+    }
+  ]
+}

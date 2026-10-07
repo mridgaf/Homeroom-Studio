@@ -1,0 +1,6346 @@
+{
+ "device": "Hardware Interface",
+ "remote_scope": "none (no Remote map for Hardware Interface)",
+ "code_prefix": "HWIF",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: all 354 positions (207 front, 147 back) checked in Reason. Rack name seen in tooltips: 'Hardware Interface II'. Front meters name the right channel of each pair; D16, D40, D64 name other channels (recorded as seen). name_check: only the expected no-vocab/no-Scope errors.",
+ "controls": [
+  {
+   "code": "HWIF-F-B01",
+   "side": "front",
+   "panel_label": "(fold triangle)",
+   "what": "Folds/unfolds the Hardware Interface",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.037
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-F-D01",
+   "side": "front",
+   "panel_label": "HARDWARE INTERFACE label",
+   "what": "Device name label",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.112,
+    0.037
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-F-D02",
+   "side": "front",
+   "panel_label": "Active audio driver display",
+   "what": "Shows the active audio driver (Scarlett 2i2 USB)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.26,
+    0.027
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-F-B02",
+   "side": "front",
+   "panel_label": "AUDIO I/O (button)",
+   "what": "Shows/hides the Audio I/O section (1-16 and sampling input)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.408,
+    0.04
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show basic Audio in and outs",
+   "confidence": "high",
+   "tooltip_name": "Show basic Audio in and outs"
+  },
+  {
+   "code": "HWIF-F-B03",
+   "side": "front",
+   "panel_label": "MORE AUDIO (button)",
+   "what": "Shows/hides the Audio I/O 17-64 sections",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.501,
+    0.04
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show extra Audio ins and outs",
+   "confidence": "high",
+   "tooltip_name": "Show extra Audio ins and outs"
+  },
+  {
+   "code": "HWIF-F-B04",
+   "side": "front",
+   "panel_label": "BIG METER (button)",
+   "what": "Shows/hides the Big Meter section",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.593,
+    0.04
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show Big Meter panel",
+   "confidence": "high",
+   "tooltip_name": "Show Big Meter panel"
+  },
+  {
+   "code": "HWIF-F-B05",
+   "side": "front",
+   "panel_label": "ADVANCED MIDI (button)",
+   "what": "Shows/hides the Advanced MIDI Device section",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.686,
+    0.04
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show MIDI External Control panel",
+   "confidence": "high",
+   "tooltip_name": "Show MIDI External Control panel"
+  },
+  {
+   "code": "HWIF-F-B06",
+   "side": "front",
+   "panel_label": "INPUT FOCUS (light)",
+   "what": "Input focus light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.758,
+    0.023
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input Focus",
+   "confidence": "medium",
+   "confidence_reason": "what it does is read from the tooltip",
+   "tooltip_name": "Input Focus"
+  },
+  {
+   "code": "HWIF-F-B07",
+   "side": "front",
+   "panel_label": "PLAY FOCUS (light)",
+   "what": "Play focus light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.854,
+    0.023
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Play Focus",
+   "confidence": "medium",
+   "confidence_reason": "what it does is read from the tooltip",
+   "tooltip_name": "Play Focus"
+  },
+  {
+   "code": "HWIF-F-D03",
+   "side": "front",
+   "panel_label": "MIDI SYNC IN (light)",
+   "what": "MIDI sync in light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.855,
+    0.056
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light, read from the tooltip"
+  },
+  {
+   "code": "HWIF-F-B08",
+   "side": "front",
+   "panel_label": "Monitor (speaker button)",
+   "what": "Sampling input monitor on/off",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.189,
+    0.162
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Sample Monitoring On/Off",
+   "confidence": "medium",
+   "tooltip_name": "Sample Monitoring On/Off"
+  },
+  {
+   "code": "HWIF-F-B09",
+   "side": "front",
+   "panel_label": "AUTO (checkbox)",
+   "what": "Sampling input monitor Auto",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.219,
+    0.231
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Automatic Sample Monitoring On/Off",
+   "confidence": "medium",
+   "tooltip_name": "Automatic Sample Monitoring On/Off"
+  },
+  {
+   "code": "HWIF-F-K01",
+   "side": "front",
+   "panel_label": "LEVEL (knob)",
+   "what": "Sampling input monitor level",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.29,
+    0.175
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Sample Monitoring Level: 0.00 dB",
+   "confidence": "medium",
+   "tooltip_name": "Sample Monitoring Level: 0.00 dB"
+  },
+  {
+   "code": "HWIF-F-D04",
+   "side": "front",
+   "panel_label": "Sampling input meter L/R",
+   "what": "Level meter for the sampling input L and R",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.33,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Sampling Right Input: in use",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Sampling Right Input: in use"
+  },
+  {
+   "code": "HWIF-F-B10",
+   "side": "front",
+   "panel_label": "Sampling input (checkbox)",
+   "what": "Checkbox under the sampling input meter (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.33,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D05",
+   "side": "front",
+   "panel_label": "Audio Input 1-2 meter",
+   "what": "Level meter for audio inputs 1 and 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.377,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 2: in use",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 2: in use"
+  },
+  {
+   "code": "HWIF-F-B11",
+   "side": "front",
+   "panel_label": "Audio Input 1-2 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 1-2 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.377,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D06",
+   "side": "front",
+   "panel_label": "Audio Input 3-4 meter",
+   "what": "Level meter for audio inputs 3 and 4",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.411,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 4: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 4: not available"
+  },
+  {
+   "code": "HWIF-F-B12",
+   "side": "front",
+   "panel_label": "Audio Input 3-4 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 3-4 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.411,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D07",
+   "side": "front",
+   "panel_label": "Audio Input 5-6 meter",
+   "what": "Level meter for audio inputs 5 and 6",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.444,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 6: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 6: not available"
+  },
+  {
+   "code": "HWIF-F-B13",
+   "side": "front",
+   "panel_label": "Audio Input 5-6 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 5-6 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.444,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D08",
+   "side": "front",
+   "panel_label": "Audio Input 7-8 meter",
+   "what": "Level meter for audio inputs 7 and 8",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 8: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 8: not available"
+  },
+  {
+   "code": "HWIF-F-B14",
+   "side": "front",
+   "panel_label": "Audio Input 7-8 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 7-8 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D09",
+   "side": "front",
+   "panel_label": "Audio Input 9-10 meter",
+   "what": "Level meter for audio inputs 9 and 10",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.523,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 10: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 10: not available"
+  },
+  {
+   "code": "HWIF-F-B15",
+   "side": "front",
+   "panel_label": "Audio Input 9-10 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 9-10 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.523,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D10",
+   "side": "front",
+   "panel_label": "Audio Input 11-12 meter",
+   "what": "Level meter for audio inputs 11 and 12",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.557,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 12: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 12: not available"
+  },
+  {
+   "code": "HWIF-F-B16",
+   "side": "front",
+   "panel_label": "Audio Input 11-12 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 11-12 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.557,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D11",
+   "side": "front",
+   "panel_label": "Audio Input 13-14 meter",
+   "what": "Level meter for audio inputs 13 and 14",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 14: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 14: not available"
+  },
+  {
+   "code": "HWIF-F-B17",
+   "side": "front",
+   "panel_label": "Audio Input 13-14 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 13-14 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D12",
+   "side": "front",
+   "panel_label": "Audio Input 15-16 meter",
+   "what": "Level meter for audio inputs 15 and 16",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.623,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 16: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 16: not available"
+  },
+  {
+   "code": "HWIF-F-B18",
+   "side": "front",
+   "panel_label": "Audio Input 15-16 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 15-16 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.623,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D13",
+   "side": "front",
+   "panel_label": "Audio Output 1-2 meter",
+   "what": "Level meter for audio outputs 1 and 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.668,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 2: available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 2: available"
+  },
+  {
+   "code": "HWIF-F-B19",
+   "side": "front",
+   "panel_label": "Audio Output 1-2 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 1-2 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.668,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D14",
+   "side": "front",
+   "panel_label": "Audio Output 3-4 meter",
+   "what": "Level meter for audio outputs 3 and 4",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 4: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 4: not available"
+  },
+  {
+   "code": "HWIF-F-B20",
+   "side": "front",
+   "panel_label": "Audio Output 3-4 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 3-4 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D15",
+   "side": "front",
+   "panel_label": "Audio Output 5-6 meter",
+   "what": "Level meter for audio outputs 5 and 6",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.735,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 6: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 6: not available"
+  },
+  {
+   "code": "HWIF-F-B21",
+   "side": "front",
+   "panel_label": "Audio Output 5-6 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 5-6 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.735,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D16",
+   "side": "front",
+   "panel_label": "Audio Output 7-8 meter",
+   "what": "Level meter for audio outputs 7 and 8",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 7: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 7: not available"
+  },
+  {
+   "code": "HWIF-F-B22",
+   "side": "front",
+   "panel_label": "Audio Output 7-8 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 7-8 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D17",
+   "side": "front",
+   "panel_label": "Audio Output 9-10 meter",
+   "what": "Level meter for audio outputs 9 and 10",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 10: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 10: not available"
+  },
+  {
+   "code": "HWIF-F-B23",
+   "side": "front",
+   "panel_label": "Audio Output 9-10 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 9-10 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D18",
+   "side": "front",
+   "panel_label": "Audio Output 11-12 meter",
+   "what": "Level meter for audio outputs 11 and 12",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.848,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 12: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 12: not available"
+  },
+  {
+   "code": "HWIF-F-B24",
+   "side": "front",
+   "panel_label": "Audio Output 11-12 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 11-12 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.848,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D19",
+   "side": "front",
+   "panel_label": "Audio Output 13-14 meter",
+   "what": "Level meter for audio outputs 13 and 14",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.881,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 14: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 14: not available"
+  },
+  {
+   "code": "HWIF-F-B25",
+   "side": "front",
+   "panel_label": "Audio Output 13-14 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 13-14 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.881,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D20",
+   "side": "front",
+   "panel_label": "Audio Output 15-16 meter",
+   "what": "Level meter for audio outputs 15 and 16",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.915,
+    0.17
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 16: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 16: not available"
+  },
+  {
+   "code": "HWIF-F-B26",
+   "side": "front",
+   "panel_label": "Audio Output 15-16 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 15-16 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.915,
+    0.241
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D21",
+   "side": "front",
+   "panel_label": "Audio Input 17-18 meter",
+   "what": "Level meter for audio inputs 17 and 18",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.087,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 18: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 18: not available"
+  },
+  {
+   "code": "HWIF-F-B27",
+   "side": "front",
+   "panel_label": "Audio Input 17-18 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 17-18 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.087,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D22",
+   "side": "front",
+   "panel_label": "Audio Input 19-20 meter",
+   "what": "Level meter for audio inputs 19 and 20",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.121,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 20: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 20: not available"
+  },
+  {
+   "code": "HWIF-F-B28",
+   "side": "front",
+   "panel_label": "Audio Input 19-20 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 19-20 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.121,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D23",
+   "side": "front",
+   "panel_label": "Audio Input 21-22 meter",
+   "what": "Level meter for audio inputs 21 and 22",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.154,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 22: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 22: not available"
+  },
+  {
+   "code": "HWIF-F-B29",
+   "side": "front",
+   "panel_label": "Audio Input 21-22 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 21-22 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.154,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D24",
+   "side": "front",
+   "panel_label": "Audio Input 23-24 meter",
+   "what": "Level meter for audio inputs 23 and 24",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.187,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 24: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 24: not available"
+  },
+  {
+   "code": "HWIF-F-B30",
+   "side": "front",
+   "panel_label": "Audio Input 23-24 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 23-24 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.187,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D25",
+   "side": "front",
+   "panel_label": "Audio Input 25-26 meter",
+   "what": "Level meter for audio inputs 25 and 26",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.233,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 26: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 26: not available"
+  },
+  {
+   "code": "HWIF-F-B31",
+   "side": "front",
+   "panel_label": "Audio Input 25-26 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 25-26 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.233,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D26",
+   "side": "front",
+   "panel_label": "Audio Input 27-28 meter",
+   "what": "Level meter for audio inputs 27 and 28",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.267,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 28: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 28: not available"
+  },
+  {
+   "code": "HWIF-F-B32",
+   "side": "front",
+   "panel_label": "Audio Input 27-28 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 27-28 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.267,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D27",
+   "side": "front",
+   "panel_label": "Audio Input 29-30 meter",
+   "what": "Level meter for audio inputs 29 and 30",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.3,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 30: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 30: not available"
+  },
+  {
+   "code": "HWIF-F-B33",
+   "side": "front",
+   "panel_label": "Audio Input 29-30 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 29-30 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.3,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D28",
+   "side": "front",
+   "panel_label": "Audio Input 31-32 meter",
+   "what": "Level meter for audio inputs 31 and 32",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.334,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 32: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 32: not available"
+  },
+  {
+   "code": "HWIF-F-B34",
+   "side": "front",
+   "panel_label": "Audio Input 31-32 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 31-32 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.334,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D29",
+   "side": "front",
+   "panel_label": "Audio Input 33-34 meter",
+   "what": "Level meter for audio inputs 33 and 34",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.378,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 34: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 34: not available"
+  },
+  {
+   "code": "HWIF-F-B35",
+   "side": "front",
+   "panel_label": "Audio Input 33-34 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 33-34 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.378,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D30",
+   "side": "front",
+   "panel_label": "Audio Input 35-36 meter",
+   "what": "Level meter for audio inputs 35 and 36",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.411,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 36: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 36: not available"
+  },
+  {
+   "code": "HWIF-F-B36",
+   "side": "front",
+   "panel_label": "Audio Input 35-36 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 35-36 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.411,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D31",
+   "side": "front",
+   "panel_label": "Audio Input 37-38 meter",
+   "what": "Level meter for audio inputs 37 and 38",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.444,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 38: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 38: not available"
+  },
+  {
+   "code": "HWIF-F-B37",
+   "side": "front",
+   "panel_label": "Audio Input 37-38 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 37-38 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.444,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D32",
+   "side": "front",
+   "panel_label": "Audio Input 39-40 meter",
+   "what": "Level meter for audio inputs 39 and 40",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 40: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 40: not available"
+  },
+  {
+   "code": "HWIF-F-B38",
+   "side": "front",
+   "panel_label": "Audio Input 39-40 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 39-40 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D33",
+   "side": "front",
+   "panel_label": "Audio Input 41-42 meter",
+   "what": "Level meter for audio inputs 41 and 42",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.523,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 42: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 42: not available"
+  },
+  {
+   "code": "HWIF-F-B39",
+   "side": "front",
+   "panel_label": "Audio Input 41-42 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 41-42 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.523,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D34",
+   "side": "front",
+   "panel_label": "Audio Input 43-44 meter",
+   "what": "Level meter for audio inputs 43 and 44",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.557,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 44: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 44: not available"
+  },
+  {
+   "code": "HWIF-F-B40",
+   "side": "front",
+   "panel_label": "Audio Input 43-44 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 43-44 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.557,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D35",
+   "side": "front",
+   "panel_label": "Audio Input 45-46 meter",
+   "what": "Level meter for audio inputs 45 and 46",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 46: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 46: not available"
+  },
+  {
+   "code": "HWIF-F-B41",
+   "side": "front",
+   "panel_label": "Audio Input 45-46 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 45-46 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D36",
+   "side": "front",
+   "panel_label": "Audio Input 47-48 meter",
+   "what": "Level meter for audio inputs 47 and 48",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.623,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 48: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 48: not available"
+  },
+  {
+   "code": "HWIF-F-B42",
+   "side": "front",
+   "panel_label": "Audio Input 47-48 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 47-48 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.623,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D37",
+   "side": "front",
+   "panel_label": "Audio Input 49-50 meter",
+   "what": "Level meter for audio inputs 49 and 50",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.668,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 50: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 50: not available"
+  },
+  {
+   "code": "HWIF-F-B43",
+   "side": "front",
+   "panel_label": "Audio Input 49-50 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 49-50 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.668,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D38",
+   "side": "front",
+   "panel_label": "Audio Input 51-52 meter",
+   "what": "Level meter for audio inputs 51 and 52",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 52: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 52: not available"
+  },
+  {
+   "code": "HWIF-F-B44",
+   "side": "front",
+   "panel_label": "Audio Input 51-52 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 51-52 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D39",
+   "side": "front",
+   "panel_label": "Audio Input 53-54 meter",
+   "what": "Level meter for audio inputs 53 and 54",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.735,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 54: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 54: not available"
+  },
+  {
+   "code": "HWIF-F-B45",
+   "side": "front",
+   "panel_label": "Audio Input 53-54 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 53-54 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.735,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D40",
+   "side": "front",
+   "panel_label": "Audio Input 55-56 meter",
+   "what": "Level meter for audio inputs 55 and 56",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 55: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 55: not available"
+  },
+  {
+   "code": "HWIF-F-B46",
+   "side": "front",
+   "panel_label": "Audio Input 55-56 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 55-56 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D41",
+   "side": "front",
+   "panel_label": "Audio Input 57-58 meter",
+   "what": "Level meter for audio inputs 57 and 58",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 58: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 58: not available"
+  },
+  {
+   "code": "HWIF-F-B47",
+   "side": "front",
+   "panel_label": "Audio Input 57-58 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 57-58 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D42",
+   "side": "front",
+   "panel_label": "Audio Input 59-60 meter",
+   "what": "Level meter for audio inputs 59 and 60",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.848,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 60: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 60: not available"
+  },
+  {
+   "code": "HWIF-F-B48",
+   "side": "front",
+   "panel_label": "Audio Input 59-60 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 59-60 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.848,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D43",
+   "side": "front",
+   "panel_label": "Audio Input 61-62 meter",
+   "what": "Level meter for audio inputs 61 and 62",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.881,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 62: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 62: not available"
+  },
+  {
+   "code": "HWIF-F-B49",
+   "side": "front",
+   "panel_label": "Audio Input 61-62 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 61-62 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.881,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D44",
+   "side": "front",
+   "panel_label": "Audio Input 63-64 meter",
+   "what": "Level meter for audio inputs 63 and 64",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.915,
+    0.355
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Input 64: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Input 64: not available"
+  },
+  {
+   "code": "HWIF-F-B50",
+   "side": "front",
+   "panel_label": "Audio Input 63-64 (checkbox)",
+   "what": "Checkbox under the meter for audio inputs 63-64 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.915,
+    0.424
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D45",
+   "side": "front",
+   "panel_label": "Audio Output 17-18 meter",
+   "what": "Level meter for audio outputs 17 and 18",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.087,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 18: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 18: not available"
+  },
+  {
+   "code": "HWIF-F-B51",
+   "side": "front",
+   "panel_label": "Audio Output 17-18 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 17-18 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.087,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D46",
+   "side": "front",
+   "panel_label": "Audio Output 19-20 meter",
+   "what": "Level meter for audio outputs 19 and 20",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.121,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 20: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 20: not available"
+  },
+  {
+   "code": "HWIF-F-B52",
+   "side": "front",
+   "panel_label": "Audio Output 19-20 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 19-20 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.121,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D47",
+   "side": "front",
+   "panel_label": "Audio Output 21-22 meter",
+   "what": "Level meter for audio outputs 21 and 22",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.154,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 22: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 22: not available"
+  },
+  {
+   "code": "HWIF-F-B53",
+   "side": "front",
+   "panel_label": "Audio Output 21-22 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 21-22 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.154,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D48",
+   "side": "front",
+   "panel_label": "Audio Output 23-24 meter",
+   "what": "Level meter for audio outputs 23 and 24",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.187,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 24: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 24: not available"
+  },
+  {
+   "code": "HWIF-F-B54",
+   "side": "front",
+   "panel_label": "Audio Output 23-24 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 23-24 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.187,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D49",
+   "side": "front",
+   "panel_label": "Audio Output 25-26 meter",
+   "what": "Level meter for audio outputs 25 and 26",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.233,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 26: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 26: not available"
+  },
+  {
+   "code": "HWIF-F-B55",
+   "side": "front",
+   "panel_label": "Audio Output 25-26 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 25-26 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.233,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D50",
+   "side": "front",
+   "panel_label": "Audio Output 27-28 meter",
+   "what": "Level meter for audio outputs 27 and 28",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.267,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 28: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 28: not available"
+  },
+  {
+   "code": "HWIF-F-B56",
+   "side": "front",
+   "panel_label": "Audio Output 27-28 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 27-28 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.267,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D51",
+   "side": "front",
+   "panel_label": "Audio Output 29-30 meter",
+   "what": "Level meter for audio outputs 29 and 30",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.3,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 30: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 30: not available"
+  },
+  {
+   "code": "HWIF-F-B57",
+   "side": "front",
+   "panel_label": "Audio Output 29-30 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 29-30 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.3,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D52",
+   "side": "front",
+   "panel_label": "Audio Output 31-32 meter",
+   "what": "Level meter for audio outputs 31 and 32",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.334,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 32: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 32: not available"
+  },
+  {
+   "code": "HWIF-F-B58",
+   "side": "front",
+   "panel_label": "Audio Output 31-32 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 31-32 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.334,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D53",
+   "side": "front",
+   "panel_label": "Audio Output 33-34 meter",
+   "what": "Level meter for audio outputs 33 and 34",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.378,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 34: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 34: not available"
+  },
+  {
+   "code": "HWIF-F-B59",
+   "side": "front",
+   "panel_label": "Audio Output 33-34 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 33-34 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.378,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D54",
+   "side": "front",
+   "panel_label": "Audio Output 35-36 meter",
+   "what": "Level meter for audio outputs 35 and 36",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.411,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 36: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 36: not available"
+  },
+  {
+   "code": "HWIF-F-B60",
+   "side": "front",
+   "panel_label": "Audio Output 35-36 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 35-36 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.411,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D55",
+   "side": "front",
+   "panel_label": "Audio Output 37-38 meter",
+   "what": "Level meter for audio outputs 37 and 38",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.444,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 38: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 38: not available"
+  },
+  {
+   "code": "HWIF-F-B61",
+   "side": "front",
+   "panel_label": "Audio Output 37-38 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 37-38 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.444,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D56",
+   "side": "front",
+   "panel_label": "Audio Output 39-40 meter",
+   "what": "Level meter for audio outputs 39 and 40",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 40: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 40: not available"
+  },
+  {
+   "code": "HWIF-F-B62",
+   "side": "front",
+   "panel_label": "Audio Output 39-40 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 39-40 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D57",
+   "side": "front",
+   "panel_label": "Audio Output 41-42 meter",
+   "what": "Level meter for audio outputs 41 and 42",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.523,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 42: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 42: not available"
+  },
+  {
+   "code": "HWIF-F-B63",
+   "side": "front",
+   "panel_label": "Audio Output 41-42 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 41-42 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.523,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D58",
+   "side": "front",
+   "panel_label": "Audio Output 43-44 meter",
+   "what": "Level meter for audio outputs 43 and 44",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.557,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 44: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 44: not available"
+  },
+  {
+   "code": "HWIF-F-B64",
+   "side": "front",
+   "panel_label": "Audio Output 43-44 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 43-44 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.557,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D59",
+   "side": "front",
+   "panel_label": "Audio Output 45-46 meter",
+   "what": "Level meter for audio outputs 45 and 46",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 46: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 46: not available"
+  },
+  {
+   "code": "HWIF-F-B65",
+   "side": "front",
+   "panel_label": "Audio Output 45-46 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 45-46 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D60",
+   "side": "front",
+   "panel_label": "Audio Output 47-48 meter",
+   "what": "Level meter for audio outputs 47 and 48",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.623,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 48: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 48: not available"
+  },
+  {
+   "code": "HWIF-F-B66",
+   "side": "front",
+   "panel_label": "Audio Output 47-48 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 47-48 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.623,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D61",
+   "side": "front",
+   "panel_label": "Audio Output 49-50 meter",
+   "what": "Level meter for audio outputs 49 and 50",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.668,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 50: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 50: not available"
+  },
+  {
+   "code": "HWIF-F-B67",
+   "side": "front",
+   "panel_label": "Audio Output 49-50 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 49-50 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.668,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D62",
+   "side": "front",
+   "panel_label": "Audio Output 51-52 meter",
+   "what": "Level meter for audio outputs 51 and 52",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 52: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 52: not available"
+  },
+  {
+   "code": "HWIF-F-B68",
+   "side": "front",
+   "panel_label": "Audio Output 51-52 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 51-52 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D63",
+   "side": "front",
+   "panel_label": "Audio Output 53-54 meter",
+   "what": "Level meter for audio outputs 53 and 54",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.735,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 54: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 54: not available"
+  },
+  {
+   "code": "HWIF-F-B69",
+   "side": "front",
+   "panel_label": "Audio Output 53-54 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 53-54 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.735,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D64",
+   "side": "front",
+   "panel_label": "Audio Output 55-56 meter",
+   "what": "Level meter for audio outputs 55 and 56",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 55: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 55: not available"
+  },
+  {
+   "code": "HWIF-F-B70",
+   "side": "front",
+   "panel_label": "Audio Output 55-56 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 55-56 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D65",
+   "side": "front",
+   "panel_label": "Audio Output 57-58 meter",
+   "what": "Level meter for audio outputs 57 and 58",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 58: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 58: not available"
+  },
+  {
+   "code": "HWIF-F-B71",
+   "side": "front",
+   "panel_label": "Audio Output 57-58 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 57-58 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D66",
+   "side": "front",
+   "panel_label": "Audio Output 59-60 meter",
+   "what": "Level meter for audio outputs 59 and 60",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.848,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 60: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 60: not available"
+  },
+  {
+   "code": "HWIF-F-B72",
+   "side": "front",
+   "panel_label": "Audio Output 59-60 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 59-60 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.848,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D67",
+   "side": "front",
+   "panel_label": "Audio Output 61-62 meter",
+   "what": "Level meter for audio outputs 61 and 62",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.881,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 62: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 62: not available"
+  },
+  {
+   "code": "HWIF-F-B73",
+   "side": "front",
+   "panel_label": "Audio Output 61-62 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 61-62 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.881,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D68",
+   "side": "front",
+   "panel_label": "Audio Output 63-64 meter",
+   "what": "Level meter for audio outputs 63 and 64",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.915,
+    0.537
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Output 64: not available",
+   "confidence": "medium",
+   "confidence_reason": "meter",
+   "tooltip_name": "Output 64: not available"
+  },
+  {
+   "code": "HWIF-F-B74",
+   "side": "front",
+   "panel_label": "Audio Output 63-64 (checkbox)",
+   "what": "Checkbox under the meter for audio outputs 63-64 (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.915,
+    0.607
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "confidence_reason": "name from tooltip",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-B75",
+   "side": "front",
+   "panel_label": "Big meter VU (light)",
+   "what": "Big Meter VU mode light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.081,
+    0.696
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "what it does is read from the tooltip"
+  },
+  {
+   "code": "HWIF-F-B76",
+   "side": "front",
+   "panel_label": "Big meter PPM (light)",
+   "what": "Big Meter PPM mode light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.081,
+    0.72
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium"
+  },
+  {
+   "code": "HWIF-F-B79",
+   "side": "front",
+   "panel_label": "Big meter PEAK (light)",
+   "what": "Big Meter peak light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.081,
+    0.744
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium"
+  },
+  {
+   "code": "HWIF-F-B77",
+   "side": "front",
+   "panel_label": "Big meter FIVE SEC (light)",
+   "what": "Big Meter five-second peak hold light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.14,
+    0.72
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium"
+  },
+  {
+   "code": "HWIF-F-B81",
+   "side": "front",
+   "panel_label": "Big meter INFINITE (light)",
+   "what": "Big Meter infinite peak hold light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.14,
+    0.744
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium"
+  },
+  {
+   "code": "HWIF-F-B80",
+   "side": "front",
+   "panel_label": "MODE (checkbox)",
+   "what": "Big Meter mode checkbox",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.082,
+    0.779
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Meter Mode: VU + Peak",
+   "confidence": "medium",
+   "tooltip_name": "Meter Mode: VU + Peak"
+  },
+  {
+   "code": "HWIF-F-B82",
+   "side": "front",
+   "panel_label": "PEAK HOLD (checkbox)",
+   "what": "Big Meter peak hold checkbox",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.142,
+    0.779
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Change Peak Hold Time",
+   "confidence": "medium",
+   "tooltip_name": "Change Peak Hold Time"
+  },
+  {
+   "code": "HWIF-F-K02",
+   "side": "front",
+   "panel_label": "VU OFFSET (knob)",
+   "what": "Big Meter VU offset",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.24,
+    0.718
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Change VU Offset",
+   "confidence": "medium",
+   "tooltip_name": "Change VU Offset"
+  },
+  {
+   "code": "HWIF-F-K03",
+   "side": "front",
+   "panel_label": "CHANNEL (knob)",
+   "what": "Big Meter channel select (picks this as the Big Meter source)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.302,
+    0.716
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Select an input or output for the Big Meter",
+   "confidence": "medium",
+   "tooltip_name": "Select an input or output for the Big Meter"
+  },
+  {
+   "code": "HWIF-F-D69",
+   "side": "front",
+   "panel_label": "Big meter display",
+   "what": "Big Meter two-channel level display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.644,
+    0.72
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-B78",
+   "side": "front",
+   "panel_label": "Big meter RESET (button)",
+   "what": "Resets the Big Meter clip and peak readings",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.893,
+    0.718
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Reset Clip indicators",
+   "confidence": "medium",
+   "tooltip_name": "Reset Clip indicators"
+  },
+  {
+   "code": "HWIF-F-B83",
+   "side": "front",
+   "panel_label": "BUS SELECT A",
+   "what": "Advanced MIDI bus A",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.375,
+    0.837
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "MIDI Bus Select",
+   "confidence": "high",
+   "tooltip_name": "MIDI Bus Select"
+  },
+  {
+   "code": "HWIF-F-B84",
+   "side": "front",
+   "panel_label": "BUS SELECT B",
+   "what": "Advanced MIDI bus B",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.409,
+    0.837
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "MIDI Bus Select",
+   "confidence": "high",
+   "tooltip_name": "MIDI Bus Select"
+  },
+  {
+   "code": "HWIF-F-B85",
+   "side": "front",
+   "panel_label": "BUS SELECT C",
+   "what": "Advanced MIDI bus C",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.442,
+    0.837
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "MIDI Bus Select",
+   "confidence": "high",
+   "tooltip_name": "MIDI Bus Select"
+  },
+  {
+   "code": "HWIF-F-B86",
+   "side": "front",
+   "panel_label": "BUS SELECT D",
+   "what": "Advanced MIDI bus D",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.475,
+    0.837
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "MIDI Bus Select",
+   "confidence": "high",
+   "tooltip_name": "MIDI Bus Select"
+  },
+  {
+   "code": "HWIF-F-D70",
+   "side": "front",
+   "panel_label": "MIDI input name display",
+   "what": "Shows the MIDI input for the selected bus (No MIDI Input)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.608,
+    0.837
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D71",
+   "side": "front",
+   "panel_label": "Channel 1 name display",
+   "what": "Advanced MIDI channel 1 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.124,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D79",
+   "side": "front",
+   "panel_label": "Channel 1 (light)",
+   "what": "Advanced MIDI channel 1 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.081,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B87",
+   "side": "front",
+   "panel_label": "Channel 1 (dropdown)",
+   "what": "Advanced MIDI channel 1 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.163,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D72",
+   "side": "front",
+   "panel_label": "Channel 2 name display",
+   "what": "Advanced MIDI channel 2 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.232,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D81",
+   "side": "front",
+   "panel_label": "Channel 2 (light)",
+   "what": "Advanced MIDI channel 2 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.189,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B88",
+   "side": "front",
+   "panel_label": "Channel 2 (dropdown)",
+   "what": "Advanced MIDI channel 2 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.27,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D73",
+   "side": "front",
+   "panel_label": "Channel 3 name display",
+   "what": "Advanced MIDI channel 3 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.339,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D83",
+   "side": "front",
+   "panel_label": "Channel 3 (light)",
+   "what": "Advanced MIDI channel 3 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.297,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B89",
+   "side": "front",
+   "panel_label": "Channel 3 (dropdown)",
+   "what": "Advanced MIDI channel 3 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.378,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D74",
+   "side": "front",
+   "panel_label": "Channel 4 name display",
+   "what": "Advanced MIDI channel 4 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D85",
+   "side": "front",
+   "panel_label": "Channel 4 (light)",
+   "what": "Advanced MIDI channel 4 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.404,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B90",
+   "side": "front",
+   "panel_label": "Channel 4 (dropdown)",
+   "what": "Advanced MIDI channel 4 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.486,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D75",
+   "side": "front",
+   "panel_label": "Channel 5 name display",
+   "what": "Advanced MIDI channel 5 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.555,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D87",
+   "side": "front",
+   "panel_label": "Channel 5 (light)",
+   "what": "Advanced MIDI channel 5 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.512,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B91",
+   "side": "front",
+   "panel_label": "Channel 5 (dropdown)",
+   "what": "Advanced MIDI channel 5 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.594,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D76",
+   "side": "front",
+   "panel_label": "Channel 6 name display",
+   "what": "Advanced MIDI channel 6 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.663,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D89",
+   "side": "front",
+   "panel_label": "Channel 6 (light)",
+   "what": "Advanced MIDI channel 6 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.62,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B92",
+   "side": "front",
+   "panel_label": "Channel 6 (dropdown)",
+   "what": "Advanced MIDI channel 6 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D77",
+   "side": "front",
+   "panel_label": "Channel 7 name display",
+   "what": "Advanced MIDI channel 7 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.77,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D91",
+   "side": "front",
+   "panel_label": "Channel 7 (light)",
+   "what": "Advanced MIDI channel 7 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.728,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B93",
+   "side": "front",
+   "panel_label": "Channel 7 (dropdown)",
+   "what": "Advanced MIDI channel 7 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.809,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D78",
+   "side": "front",
+   "panel_label": "Channel 8 name display",
+   "what": "Advanced MIDI channel 8 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.878,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D93",
+   "side": "front",
+   "panel_label": "Channel 8 (light)",
+   "what": "Advanced MIDI channel 8 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.835,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B94",
+   "side": "front",
+   "panel_label": "Channel 8 (dropdown)",
+   "what": "Advanced MIDI channel 8 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.917,
+    0.902
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D80",
+   "side": "front",
+   "panel_label": "Channel 9 name display",
+   "what": "Advanced MIDI channel 9 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.124,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D95",
+   "side": "front",
+   "panel_label": "Channel 9 (light)",
+   "what": "Advanced MIDI channel 9 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.081,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B95",
+   "side": "front",
+   "panel_label": "Channel 9 (dropdown)",
+   "what": "Advanced MIDI channel 9 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.163,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D82",
+   "side": "front",
+   "panel_label": "Channel 10 name display",
+   "what": "Advanced MIDI channel 10 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.232,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D96",
+   "side": "front",
+   "panel_label": "Channel 10 (light)",
+   "what": "Advanced MIDI channel 10 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.189,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B96",
+   "side": "front",
+   "panel_label": "Channel 10 (dropdown)",
+   "what": "Advanced MIDI channel 10 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.27,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D84",
+   "side": "front",
+   "panel_label": "Channel 11 name display",
+   "what": "Advanced MIDI channel 11 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.339,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D97",
+   "side": "front",
+   "panel_label": "Channel 11 (light)",
+   "what": "Advanced MIDI channel 11 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.297,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B97",
+   "side": "front",
+   "panel_label": "Channel 11 (dropdown)",
+   "what": "Advanced MIDI channel 11 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.378,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D86",
+   "side": "front",
+   "panel_label": "Channel 12 name display",
+   "what": "Advanced MIDI channel 12 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D98",
+   "side": "front",
+   "panel_label": "Channel 12 (light)",
+   "what": "Advanced MIDI channel 12 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.404,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B98",
+   "side": "front",
+   "panel_label": "Channel 12 (dropdown)",
+   "what": "Advanced MIDI channel 12 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.486,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D88",
+   "side": "front",
+   "panel_label": "Channel 13 name display",
+   "what": "Advanced MIDI channel 13 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.555,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D99",
+   "side": "front",
+   "panel_label": "Channel 13 (light)",
+   "what": "Advanced MIDI channel 13 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.512,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B99",
+   "side": "front",
+   "panel_label": "Channel 13 (dropdown)",
+   "what": "Advanced MIDI channel 13 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.594,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D90",
+   "side": "front",
+   "panel_label": "Channel 14 name display",
+   "what": "Advanced MIDI channel 14 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.663,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D100",
+   "side": "front",
+   "panel_label": "Channel 14 (light)",
+   "what": "Advanced MIDI channel 14 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.62,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B100",
+   "side": "front",
+   "panel_label": "Channel 14 (dropdown)",
+   "what": "Advanced MIDI channel 14 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.702,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D92",
+   "side": "front",
+   "panel_label": "Channel 15 name display",
+   "what": "Advanced MIDI channel 15 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.77,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D101",
+   "side": "front",
+   "panel_label": "Channel 15 (light)",
+   "what": "Advanced MIDI channel 15 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.728,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B101",
+   "side": "front",
+   "panel_label": "Channel 15 (dropdown)",
+   "what": "Advanced MIDI channel 15 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.809,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-F-D94",
+   "side": "front",
+   "panel_label": "Channel 16 name display",
+   "what": "Advanced MIDI channel 16 patch/name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.878,
+    0.94
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "HWIF-F-D102",
+   "side": "front",
+   "panel_label": "Channel 16 (light)",
+   "what": "Advanced MIDI channel 16 light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.835,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "light"
+  },
+  {
+   "code": "HWIF-F-B102",
+   "side": "front",
+   "panel_label": "Channel 16 (dropdown)",
+   "what": "Advanced MIDI channel 16 dropdown arrow",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.917,
+    0.971
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "opens a menu; not opened, hover only"
+  },
+  {
+   "code": "HWIF-B-B01",
+   "side": "back",
+   "panel_label": "(fold triangle)",
+   "what": "Folds/unfolds the Hardware Interface (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.043,
+    0.035
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip (fold triangle)",
+   "confidence": "medium"
+  },
+  {
+   "code": "HWIF-B-D01",
+   "side": "back",
+   "panel_label": "HARDWARE INTERFACE label",
+   "what": "Device name label (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.175,
+    0.035
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-D02",
+   "side": "back",
+   "panel_label": "(black slot)",
+   "what": "Black slot, no jack or control",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.499,
+    0.033
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "looks decorative"
+  },
+  {
+   "code": "HWIF-B-B02",
+   "side": "back",
+   "panel_label": "AUDIO I/O (button, back)",
+   "what": "Shows/hides the Audio I/O section",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.636,
+    0.035
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Show basic Audio in and outs",
+   "confidence": "medium",
+   "tooltip_name": "Show basic Audio in and outs"
+  },
+  {
+   "code": "HWIF-B-B03",
+   "side": "back",
+   "panel_label": "MORE AUDIO (button, back)",
+   "what": "Shows/hides the Audio I/O 17-64 sections",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.712,
+    0.035
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Show extra Audio ins and outs",
+   "confidence": "medium",
+   "tooltip_name": "Show extra Audio ins and outs"
+  },
+  {
+   "code": "HWIF-B-B04",
+   "side": "back",
+   "panel_label": "BIG METER (button, back)",
+   "what": "Shows/hides the Big Meter section",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.789,
+    0.035
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Show Big Meter panel",
+   "confidence": "medium",
+   "tooltip_name": "Show Big Meter panel"
+  },
+  {
+   "code": "HWIF-B-B05",
+   "side": "back",
+   "panel_label": "ADV. MIDI (button, back)",
+   "what": "Shows/hides the Advanced MIDI section",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.867,
+    0.035
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Show MIDI External Control panel",
+   "confidence": "medium",
+   "tooltip_name": "Show MIDI External Control panel"
+  },
+  {
+   "code": "HWIF-B-D03",
+   "side": "back",
+   "panel_label": "AUDIO I/O name plate",
+   "what": "Name plate for the 1-16 jack panel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.112,
+    0.166
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-D04",
+   "side": "back",
+   "panel_label": "(black slot 2)",
+   "what": "Black slot under the name plate",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.201,
+    0.228
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "looks decorative"
+  },
+  {
+   "code": "HWIF-B-D05",
+   "side": "back",
+   "panel_label": "BIG METER name plate",
+   "what": "Name plate for the Big Meter panel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.147,
+    0.719
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-D06",
+   "side": "back",
+   "panel_label": "LED status label",
+   "what": "Label explaining the channel LED colours",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.411,
+    0.723
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "printed note"
+  },
+  {
+   "code": "HWIF-B-D07",
+   "side": "back",
+   "panel_label": "LED (indicator)",
+   "what": "LED indicator drawing",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.545,
+    0.726
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "printed picture"
+  },
+  {
+   "code": "HWIF-B-D08",
+   "side": "back",
+   "panel_label": "Big Meter fan vent",
+   "what": "Fan vent grille (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.692,
+    0.739
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "HWIF-B-D09",
+   "side": "back",
+   "panel_label": "Big Meter power socket",
+   "what": "Power cable plug picture",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.886,
+    0.719
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "HWIF-B-D10",
+   "side": "back",
+   "panel_label": "ADVANCED MIDI name plate",
+   "what": "Name plate for the Advanced MIDI panel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.131,
+    0.908
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-D11",
+   "side": "back",
+   "panel_label": "Advanced MIDI fan vent",
+   "what": "Fan vent grille (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.692,
+    0.921
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "HWIF-B-D12",
+   "side": "back",
+   "panel_label": "Advanced MIDI power socket",
+   "what": "Power cable plug picture",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.886,
+    0.905
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "HWIF-B-J01",
+   "side": "back",
+   "panel_label": "Sampling Input L",
+   "what": "Sampling input left jack",
+   "reason_cable_menu_name": "Sampling Left Input",
+   "pos": [
+    0.297,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Hardware Interface II: Input 1",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J18",
+   "side": "back",
+   "panel_label": "Sampling Input R",
+   "what": "Sampling input right jack",
+   "reason_cable_menu_name": "Sampling Right Input",
+   "pos": [
+    0.297,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Hardware Interface II: Input 2",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J02",
+   "side": "back",
+   "panel_label": "Audio Input 1",
+   "what": "From Audio Input 1 (L)",
+   "reason_cable_menu_name": "Input 1",
+   "pos": [
+    0.389,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Hardware Interface II: Sampling Left Input",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J19",
+   "side": "back",
+   "panel_label": "Audio Input 2",
+   "what": "From Audio Input 2 (R)",
+   "reason_cable_menu_name": "Input 2",
+   "pos": [
+    0.389,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Hardware Interface II: Sampling Right Input",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J03",
+   "side": "back",
+   "panel_label": "Audio Input 3",
+   "what": "From Audio Input 3 (L)",
+   "reason_cable_menu_name": "Input 3",
+   "pos": [
+    0.418,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 3",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J20",
+   "side": "back",
+   "panel_label": "Audio Input 4",
+   "what": "From Audio Input 4 (R)",
+   "reason_cable_menu_name": "Input 4",
+   "pos": [
+    0.418,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 4",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J04",
+   "side": "back",
+   "panel_label": "Audio Input 5",
+   "what": "From Audio Input 5 (L)",
+   "reason_cable_menu_name": "Input 5",
+   "pos": [
+    0.446,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 5",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J21",
+   "side": "back",
+   "panel_label": "Audio Input 6",
+   "what": "From Audio Input 6 (R)",
+   "reason_cable_menu_name": "Input 6",
+   "pos": [
+    0.446,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 6",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J05",
+   "side": "back",
+   "panel_label": "Audio Input 7",
+   "what": "From Audio Input 7 (L)",
+   "reason_cable_menu_name": "Input 7",
+   "pos": [
+    0.474,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 7",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J22",
+   "side": "back",
+   "panel_label": "Audio Input 8",
+   "what": "From Audio Input 8 (R)",
+   "reason_cable_menu_name": "Input 8",
+   "pos": [
+    0.474,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 8",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J06",
+   "side": "back",
+   "panel_label": "Audio Input 9",
+   "what": "From Audio Input 9 (L)",
+   "reason_cable_menu_name": "Input 9",
+   "pos": [
+    0.521,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 9",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J23",
+   "side": "back",
+   "panel_label": "Audio Input 10",
+   "what": "From Audio Input 10 (R)",
+   "reason_cable_menu_name": "Input 10",
+   "pos": [
+    0.521,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 10",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J07",
+   "side": "back",
+   "panel_label": "Audio Input 11",
+   "what": "From Audio Input 11 (L)",
+   "reason_cable_menu_name": "Input 11",
+   "pos": [
+    0.549,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 11",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J24",
+   "side": "back",
+   "panel_label": "Audio Input 12",
+   "what": "From Audio Input 12 (R)",
+   "reason_cable_menu_name": "Input 12",
+   "pos": [
+    0.549,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 12",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J08",
+   "side": "back",
+   "panel_label": "Audio Input 13",
+   "what": "From Audio Input 13 (L)",
+   "reason_cable_menu_name": "Input 13",
+   "pos": [
+    0.577,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 13",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J25",
+   "side": "back",
+   "panel_label": "Audio Input 14",
+   "what": "From Audio Input 14 (R)",
+   "reason_cable_menu_name": "Input 14",
+   "pos": [
+    0.577,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 14",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J09",
+   "side": "back",
+   "panel_label": "Audio Input 15",
+   "what": "From Audio Input 15 (L)",
+   "reason_cable_menu_name": "Input 15",
+   "pos": [
+    0.605,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 15",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J26",
+   "side": "back",
+   "panel_label": "Audio Input 16",
+   "what": "From Audio Input 16 (R)",
+   "reason_cable_menu_name": "Input 16",
+   "pos": [
+    0.605,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 16",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J10",
+   "side": "back",
+   "panel_label": "Audio Output 1",
+   "what": "To Audio Output 1 (L)",
+   "reason_cable_menu_name": "Output 1",
+   "pos": [
+    0.649,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Master Section: Master Output L",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J27",
+   "side": "back",
+   "panel_label": "Audio Output 2",
+   "what": "To Audio Output 2 (R)",
+   "reason_cable_menu_name": "Output 2",
+   "pos": [
+    0.649,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 2",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J11",
+   "side": "back",
+   "panel_label": "Audio Output 3",
+   "what": "To Audio Output 3 (L)",
+   "reason_cable_menu_name": "Output 3",
+   "pos": [
+    0.677,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 3",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J28",
+   "side": "back",
+   "panel_label": "Audio Output 4",
+   "what": "To Audio Output 4 (R)",
+   "reason_cable_menu_name": "Output 4",
+   "pos": [
+    0.677,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 4",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J12",
+   "side": "back",
+   "panel_label": "Audio Output 5",
+   "what": "To Audio Output 5 (L)",
+   "reason_cable_menu_name": "Output 5",
+   "pos": [
+    0.705,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 5",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J29",
+   "side": "back",
+   "panel_label": "Audio Output 6",
+   "what": "To Audio Output 6 (R)",
+   "reason_cable_menu_name": "Output 6",
+   "pos": [
+    0.705,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 6",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J13",
+   "side": "back",
+   "panel_label": "Audio Output 7",
+   "what": "To Audio Output 7 (L)",
+   "reason_cable_menu_name": "Output 7",
+   "pos": [
+    0.733,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 7",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J30",
+   "side": "back",
+   "panel_label": "Audio Output 8",
+   "what": "To Audio Output 8 (R)",
+   "reason_cable_menu_name": "Output 8",
+   "pos": [
+    0.733,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 8",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J14",
+   "side": "back",
+   "panel_label": "Audio Output 9",
+   "what": "To Audio Output 9 (L)",
+   "reason_cable_menu_name": "Output 9",
+   "pos": [
+    0.779,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 9",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J31",
+   "side": "back",
+   "panel_label": "Audio Output 10",
+   "what": "To Audio Output 10 (R)",
+   "reason_cable_menu_name": "Output 10",
+   "pos": [
+    0.779,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 10",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J15",
+   "side": "back",
+   "panel_label": "Audio Output 11",
+   "what": "To Audio Output 11 (L)",
+   "reason_cable_menu_name": "Output 11",
+   "pos": [
+    0.807,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 11",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J32",
+   "side": "back",
+   "panel_label": "Audio Output 12",
+   "what": "To Audio Output 12 (R)",
+   "reason_cable_menu_name": "Output 12",
+   "pos": [
+    0.807,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 12",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J16",
+   "side": "back",
+   "panel_label": "Audio Output 13",
+   "what": "To Audio Output 13 (L)",
+   "reason_cable_menu_name": "Output 13",
+   "pos": [
+    0.835,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 13",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J33",
+   "side": "back",
+   "panel_label": "Audio Output 14",
+   "what": "To Audio Output 14 (R)",
+   "reason_cable_menu_name": "Output 14",
+   "pos": [
+    0.835,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 14",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J17",
+   "side": "back",
+   "panel_label": "Audio Output 15",
+   "what": "To Audio Output 15 (L)",
+   "reason_cable_menu_name": "Output 15",
+   "pos": [
+    0.864,
+    0.137
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 15",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J34",
+   "side": "back",
+   "panel_label": "Audio Output 16",
+   "what": "To Audio Output 16 (R)",
+   "reason_cable_menu_name": "Output 16",
+   "pos": [
+    0.864,
+    0.196
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 16",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J35",
+   "side": "back",
+   "panel_label": "Audio Input 17",
+   "what": "From Audio Input 17 (L)",
+   "reason_cable_menu_name": "Input 17",
+   "pos": [
+    0.131,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 17",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J59",
+   "side": "back",
+   "panel_label": "Audio Input 18",
+   "what": "From Audio Input 18 (R)",
+   "reason_cable_menu_name": "Input 18",
+   "pos": [
+    0.131,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 18",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J36",
+   "side": "back",
+   "panel_label": "Audio Input 19",
+   "what": "From Audio Input 19 (L)",
+   "reason_cable_menu_name": "Input 19",
+   "pos": [
+    0.159,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 19",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J60",
+   "side": "back",
+   "panel_label": "Audio Input 20",
+   "what": "From Audio Input 20 (R)",
+   "reason_cable_menu_name": "Input 20",
+   "pos": [
+    0.159,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 20",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J37",
+   "side": "back",
+   "panel_label": "Audio Input 21",
+   "what": "From Audio Input 21 (L)",
+   "reason_cable_menu_name": "Input 21",
+   "pos": [
+    0.188,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 21",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J61",
+   "side": "back",
+   "panel_label": "Audio Input 22",
+   "what": "From Audio Input 22 (R)",
+   "reason_cable_menu_name": "Input 22",
+   "pos": [
+    0.188,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 22",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J38",
+   "side": "back",
+   "panel_label": "Audio Input 23",
+   "what": "From Audio Input 23 (L)",
+   "reason_cable_menu_name": "Input 23",
+   "pos": [
+    0.216,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 23",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J62",
+   "side": "back",
+   "panel_label": "Audio Input 24",
+   "what": "From Audio Input 24 (R)",
+   "reason_cable_menu_name": "Input 24",
+   "pos": [
+    0.216,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 24",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J39",
+   "side": "back",
+   "panel_label": "Audio Input 25",
+   "what": "From Audio Input 25 (L)",
+   "reason_cable_menu_name": "Input 25",
+   "pos": [
+    0.261,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 25",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J63",
+   "side": "back",
+   "panel_label": "Audio Input 26",
+   "what": "From Audio Input 26 (R)",
+   "reason_cable_menu_name": "Input 26",
+   "pos": [
+    0.261,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 26",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J40",
+   "side": "back",
+   "panel_label": "Audio Input 27",
+   "what": "From Audio Input 27 (L)",
+   "reason_cable_menu_name": "Input 27",
+   "pos": [
+    0.29,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 27",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J64",
+   "side": "back",
+   "panel_label": "Audio Input 28",
+   "what": "From Audio Input 28 (R)",
+   "reason_cable_menu_name": "Input 28",
+   "pos": [
+    0.29,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 28",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J41",
+   "side": "back",
+   "panel_label": "Audio Input 29",
+   "what": "From Audio Input 29 (L)",
+   "reason_cable_menu_name": "Input 29",
+   "pos": [
+    0.318,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 29",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J65",
+   "side": "back",
+   "panel_label": "Audio Input 30",
+   "what": "From Audio Input 30 (R)",
+   "reason_cable_menu_name": "Input 30",
+   "pos": [
+    0.318,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 30",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J42",
+   "side": "back",
+   "panel_label": "Audio Input 31",
+   "what": "From Audio Input 31 (L)",
+   "reason_cable_menu_name": "Input 31",
+   "pos": [
+    0.346,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 31",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J66",
+   "side": "back",
+   "panel_label": "Audio Input 32",
+   "what": "From Audio Input 32 (R)",
+   "reason_cable_menu_name": "Input 32",
+   "pos": [
+    0.346,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 32",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J43",
+   "side": "back",
+   "panel_label": "Audio Input 33",
+   "what": "From Audio Input 33 (L)",
+   "reason_cable_menu_name": "Input 33",
+   "pos": [
+    0.389,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 33",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J67",
+   "side": "back",
+   "panel_label": "Audio Input 34",
+   "what": "From Audio Input 34 (R)",
+   "reason_cable_menu_name": "Input 34",
+   "pos": [
+    0.389,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 34",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J44",
+   "side": "back",
+   "panel_label": "Audio Input 35",
+   "what": "From Audio Input 35 (L)",
+   "reason_cable_menu_name": "Input 35",
+   "pos": [
+    0.418,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 35",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J68",
+   "side": "back",
+   "panel_label": "Audio Input 36",
+   "what": "From Audio Input 36 (R)",
+   "reason_cable_menu_name": "Input 36",
+   "pos": [
+    0.418,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 36",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J45",
+   "side": "back",
+   "panel_label": "Audio Input 37",
+   "what": "From Audio Input 37 (L)",
+   "reason_cable_menu_name": "Input 37",
+   "pos": [
+    0.446,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 37",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J69",
+   "side": "back",
+   "panel_label": "Audio Input 38",
+   "what": "From Audio Input 38 (R)",
+   "reason_cable_menu_name": "Input 38",
+   "pos": [
+    0.446,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 38",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J46",
+   "side": "back",
+   "panel_label": "Audio Input 39",
+   "what": "From Audio Input 39 (L)",
+   "reason_cable_menu_name": "Input 39",
+   "pos": [
+    0.474,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 39",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J70",
+   "side": "back",
+   "panel_label": "Audio Input 40",
+   "what": "From Audio Input 40 (R)",
+   "reason_cable_menu_name": "Input 40",
+   "pos": [
+    0.474,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 40",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J47",
+   "side": "back",
+   "panel_label": "Audio Input 41",
+   "what": "From Audio Input 41 (L)",
+   "reason_cable_menu_name": "Input 41",
+   "pos": [
+    0.521,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 41",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J71",
+   "side": "back",
+   "panel_label": "Audio Input 42",
+   "what": "From Audio Input 42 (R)",
+   "reason_cable_menu_name": "Input 42",
+   "pos": [
+    0.521,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 42",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J48",
+   "side": "back",
+   "panel_label": "Audio Input 43",
+   "what": "From Audio Input 43 (L)",
+   "reason_cable_menu_name": "Input 43",
+   "pos": [
+    0.549,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 43",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J72",
+   "side": "back",
+   "panel_label": "Audio Input 44",
+   "what": "From Audio Input 44 (R)",
+   "reason_cable_menu_name": "Input 44",
+   "pos": [
+    0.549,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 44",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J49",
+   "side": "back",
+   "panel_label": "Audio Input 45",
+   "what": "From Audio Input 45 (L)",
+   "reason_cable_menu_name": "Input 45",
+   "pos": [
+    0.577,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 45",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J73",
+   "side": "back",
+   "panel_label": "Audio Input 46",
+   "what": "From Audio Input 46 (R)",
+   "reason_cable_menu_name": "Input 46",
+   "pos": [
+    0.577,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 46",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J50",
+   "side": "back",
+   "panel_label": "Audio Input 47",
+   "what": "From Audio Input 47 (L)",
+   "reason_cable_menu_name": "Input 47",
+   "pos": [
+    0.605,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 47",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J74",
+   "side": "back",
+   "panel_label": "Audio Input 48",
+   "what": "From Audio Input 48 (R)",
+   "reason_cable_menu_name": "Input 48",
+   "pos": [
+    0.605,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 48",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J51",
+   "side": "back",
+   "panel_label": "Audio Input 49",
+   "what": "From Audio Input 49 (L)",
+   "reason_cable_menu_name": "Input 49",
+   "pos": [
+    0.649,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 49",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J75",
+   "side": "back",
+   "panel_label": "Audio Input 50",
+   "what": "From Audio Input 50 (R)",
+   "reason_cable_menu_name": "Input 50",
+   "pos": [
+    0.649,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 50",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J52",
+   "side": "back",
+   "panel_label": "Audio Input 51",
+   "what": "From Audio Input 51 (L)",
+   "reason_cable_menu_name": "Input 51",
+   "pos": [
+    0.677,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 51",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J76",
+   "side": "back",
+   "panel_label": "Audio Input 52",
+   "what": "From Audio Input 52 (R)",
+   "reason_cable_menu_name": "Input 52",
+   "pos": [
+    0.677,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 52",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J53",
+   "side": "back",
+   "panel_label": "Audio Input 53",
+   "what": "From Audio Input 53 (L)",
+   "reason_cable_menu_name": "Input 53",
+   "pos": [
+    0.705,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 53",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J77",
+   "side": "back",
+   "panel_label": "Audio Input 54",
+   "what": "From Audio Input 54 (R)",
+   "reason_cable_menu_name": "Input 54",
+   "pos": [
+    0.705,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 54",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J54",
+   "side": "back",
+   "panel_label": "Audio Input 55",
+   "what": "From Audio Input 55 (L)",
+   "reason_cable_menu_name": "Input 55",
+   "pos": [
+    0.733,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 55",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J78",
+   "side": "back",
+   "panel_label": "Audio Input 56",
+   "what": "From Audio Input 56 (R)",
+   "reason_cable_menu_name": "Input 56",
+   "pos": [
+    0.733,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 56",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J55",
+   "side": "back",
+   "panel_label": "Audio Input 57",
+   "what": "From Audio Input 57 (L)",
+   "reason_cable_menu_name": "Input 57",
+   "pos": [
+    0.779,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 57",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J79",
+   "side": "back",
+   "panel_label": "Audio Input 58",
+   "what": "From Audio Input 58 (R)",
+   "reason_cable_menu_name": "Input 58",
+   "pos": [
+    0.779,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 58",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J56",
+   "side": "back",
+   "panel_label": "Audio Input 59",
+   "what": "From Audio Input 59 (L)",
+   "reason_cable_menu_name": "Input 59",
+   "pos": [
+    0.807,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 59",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J80",
+   "side": "back",
+   "panel_label": "Audio Input 60",
+   "what": "From Audio Input 60 (R)",
+   "reason_cable_menu_name": "Input 60",
+   "pos": [
+    0.807,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 60",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J57",
+   "side": "back",
+   "panel_label": "Audio Input 61",
+   "what": "From Audio Input 61 (L)",
+   "reason_cable_menu_name": "Input 61",
+   "pos": [
+    0.835,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 61",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J81",
+   "side": "back",
+   "panel_label": "Audio Input 62",
+   "what": "From Audio Input 62 (R)",
+   "reason_cable_menu_name": "Input 62",
+   "pos": [
+    0.835,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 62",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J58",
+   "side": "back",
+   "panel_label": "Audio Input 63",
+   "what": "From Audio Input 63 (L)",
+   "reason_cable_menu_name": "Input 63",
+   "pos": [
+    0.864,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 63",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J82",
+   "side": "back",
+   "panel_label": "Audio Input 64",
+   "what": "From Audio Input 64 (R)",
+   "reason_cable_menu_name": "Input 64",
+   "pos": [
+    0.864,
+    0.39
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Input 64",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J83",
+   "side": "back",
+   "panel_label": "Audio Output 17",
+   "what": "To Audio Output 17 (L)",
+   "reason_cable_menu_name": "Output 17",
+   "pos": [
+    0.131,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 17",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J107",
+   "side": "back",
+   "panel_label": "Audio Output 18",
+   "what": "To Audio Output 18 (R)",
+   "reason_cable_menu_name": "Output 18",
+   "pos": [
+    0.131,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 18",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J84",
+   "side": "back",
+   "panel_label": "Audio Output 19",
+   "what": "To Audio Output 19 (L)",
+   "reason_cable_menu_name": "Output 19",
+   "pos": [
+    0.159,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 19",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J108",
+   "side": "back",
+   "panel_label": "Audio Output 20",
+   "what": "To Audio Output 20 (R)",
+   "reason_cable_menu_name": "Output 20",
+   "pos": [
+    0.159,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 20",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J85",
+   "side": "back",
+   "panel_label": "Audio Output 21",
+   "what": "To Audio Output 21 (L)",
+   "reason_cable_menu_name": "Output 21",
+   "pos": [
+    0.188,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 21",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J109",
+   "side": "back",
+   "panel_label": "Audio Output 22",
+   "what": "To Audio Output 22 (R)",
+   "reason_cable_menu_name": "Output 22",
+   "pos": [
+    0.188,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 22",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J86",
+   "side": "back",
+   "panel_label": "Audio Output 23",
+   "what": "To Audio Output 23 (L)",
+   "reason_cable_menu_name": "Output 23",
+   "pos": [
+    0.216,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 23",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J110",
+   "side": "back",
+   "panel_label": "Audio Output 24",
+   "what": "To Audio Output 24 (R)",
+   "reason_cable_menu_name": "Output 24",
+   "pos": [
+    0.216,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 24",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J87",
+   "side": "back",
+   "panel_label": "Audio Output 25",
+   "what": "To Audio Output 25 (L)",
+   "reason_cable_menu_name": "Output 25",
+   "pos": [
+    0.261,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 25",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J111",
+   "side": "back",
+   "panel_label": "Audio Output 26",
+   "what": "To Audio Output 26 (R)",
+   "reason_cable_menu_name": "Output 26",
+   "pos": [
+    0.261,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 26",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J88",
+   "side": "back",
+   "panel_label": "Audio Output 27",
+   "what": "To Audio Output 27 (L)",
+   "reason_cable_menu_name": "Output 27",
+   "pos": [
+    0.29,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 27",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J112",
+   "side": "back",
+   "panel_label": "Audio Output 28",
+   "what": "To Audio Output 28 (R)",
+   "reason_cable_menu_name": "Output 28",
+   "pos": [
+    0.29,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 28",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J89",
+   "side": "back",
+   "panel_label": "Audio Output 29",
+   "what": "To Audio Output 29 (L)",
+   "reason_cable_menu_name": "Output 29",
+   "pos": [
+    0.318,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 29",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J113",
+   "side": "back",
+   "panel_label": "Audio Output 30",
+   "what": "To Audio Output 30 (R)",
+   "reason_cable_menu_name": "Output 30",
+   "pos": [
+    0.318,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 30",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J90",
+   "side": "back",
+   "panel_label": "Audio Output 31",
+   "what": "To Audio Output 31 (L)",
+   "reason_cable_menu_name": "Output 31",
+   "pos": [
+    0.346,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 31",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J114",
+   "side": "back",
+   "panel_label": "Audio Output 32",
+   "what": "To Audio Output 32 (R)",
+   "reason_cable_menu_name": "Output 32",
+   "pos": [
+    0.346,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 32",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J91",
+   "side": "back",
+   "panel_label": "Audio Output 33",
+   "what": "To Audio Output 33 (L)",
+   "reason_cable_menu_name": "Output 33",
+   "pos": [
+    0.389,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 33",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J115",
+   "side": "back",
+   "panel_label": "Audio Output 34",
+   "what": "To Audio Output 34 (R)",
+   "reason_cable_menu_name": "Output 34",
+   "pos": [
+    0.389,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 34",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J92",
+   "side": "back",
+   "panel_label": "Audio Output 35",
+   "what": "To Audio Output 35 (L)",
+   "reason_cable_menu_name": "Output 35",
+   "pos": [
+    0.418,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 35",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J116",
+   "side": "back",
+   "panel_label": "Audio Output 36",
+   "what": "To Audio Output 36 (R)",
+   "reason_cable_menu_name": "Output 36",
+   "pos": [
+    0.418,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 36",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J93",
+   "side": "back",
+   "panel_label": "Audio Output 37",
+   "what": "To Audio Output 37 (L)",
+   "reason_cable_menu_name": "Output 37",
+   "pos": [
+    0.446,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 37",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J117",
+   "side": "back",
+   "panel_label": "Audio Output 38",
+   "what": "To Audio Output 38 (R)",
+   "reason_cable_menu_name": "Output 38",
+   "pos": [
+    0.446,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 38",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J94",
+   "side": "back",
+   "panel_label": "Audio Output 39",
+   "what": "To Audio Output 39 (L)",
+   "reason_cable_menu_name": "Output 39",
+   "pos": [
+    0.474,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 39",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J118",
+   "side": "back",
+   "panel_label": "Audio Output 40",
+   "what": "To Audio Output 40 (R)",
+   "reason_cable_menu_name": "Output 40",
+   "pos": [
+    0.474,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 40",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J95",
+   "side": "back",
+   "panel_label": "Audio Output 41",
+   "what": "To Audio Output 41 (L)",
+   "reason_cable_menu_name": "Output 41",
+   "pos": [
+    0.521,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 41",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J119",
+   "side": "back",
+   "panel_label": "Audio Output 42",
+   "what": "To Audio Output 42 (R)",
+   "reason_cable_menu_name": "Output 42",
+   "pos": [
+    0.521,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 42",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J96",
+   "side": "back",
+   "panel_label": "Audio Output 43",
+   "what": "To Audio Output 43 (L)",
+   "reason_cable_menu_name": "Output 43",
+   "pos": [
+    0.549,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 43",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J120",
+   "side": "back",
+   "panel_label": "Audio Output 44",
+   "what": "To Audio Output 44 (R)",
+   "reason_cable_menu_name": "Output 44",
+   "pos": [
+    0.549,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 44",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J97",
+   "side": "back",
+   "panel_label": "Audio Output 45",
+   "what": "To Audio Output 45 (L)",
+   "reason_cable_menu_name": "Output 45",
+   "pos": [
+    0.577,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 45",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J121",
+   "side": "back",
+   "panel_label": "Audio Output 46",
+   "what": "To Audio Output 46 (R)",
+   "reason_cable_menu_name": "Output 46",
+   "pos": [
+    0.577,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 46",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J98",
+   "side": "back",
+   "panel_label": "Audio Output 47",
+   "what": "To Audio Output 47 (L)",
+   "reason_cable_menu_name": "Output 47",
+   "pos": [
+    0.605,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 47",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J122",
+   "side": "back",
+   "panel_label": "Audio Output 48",
+   "what": "To Audio Output 48 (R)",
+   "reason_cable_menu_name": "Output 48",
+   "pos": [
+    0.605,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 48",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J99",
+   "side": "back",
+   "panel_label": "Audio Output 49",
+   "what": "To Audio Output 49 (L)",
+   "reason_cable_menu_name": "Output 49",
+   "pos": [
+    0.649,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 49",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J123",
+   "side": "back",
+   "panel_label": "Audio Output 50",
+   "what": "To Audio Output 50 (R)",
+   "reason_cable_menu_name": "Output 50",
+   "pos": [
+    0.649,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 50",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J100",
+   "side": "back",
+   "panel_label": "Audio Output 51",
+   "what": "To Audio Output 51 (L)",
+   "reason_cable_menu_name": "Output 51",
+   "pos": [
+    0.677,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 51",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J124",
+   "side": "back",
+   "panel_label": "Audio Output 52",
+   "what": "To Audio Output 52 (R)",
+   "reason_cable_menu_name": "Output 52",
+   "pos": [
+    0.677,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 52",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J101",
+   "side": "back",
+   "panel_label": "Audio Output 53",
+   "what": "To Audio Output 53 (L)",
+   "reason_cable_menu_name": "Output 53",
+   "pos": [
+    0.705,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 53",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J125",
+   "side": "back",
+   "panel_label": "Audio Output 54",
+   "what": "To Audio Output 54 (R)",
+   "reason_cable_menu_name": "Output 54",
+   "pos": [
+    0.705,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 54",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J102",
+   "side": "back",
+   "panel_label": "Audio Output 55",
+   "what": "To Audio Output 55 (L)",
+   "reason_cable_menu_name": "Output 55",
+   "pos": [
+    0.733,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 55",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J126",
+   "side": "back",
+   "panel_label": "Audio Output 56",
+   "what": "To Audio Output 56 (R)",
+   "reason_cable_menu_name": "Output 56",
+   "pos": [
+    0.733,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 56",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J103",
+   "side": "back",
+   "panel_label": "Audio Output 57",
+   "what": "To Audio Output 57 (L)",
+   "reason_cable_menu_name": "Output 57",
+   "pos": [
+    0.779,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 57",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J127",
+   "side": "back",
+   "panel_label": "Audio Output 58",
+   "what": "To Audio Output 58 (R)",
+   "reason_cable_menu_name": "Output 58",
+   "pos": [
+    0.779,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 58",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J104",
+   "side": "back",
+   "panel_label": "Audio Output 59",
+   "what": "To Audio Output 59 (L)",
+   "reason_cable_menu_name": "Output 59",
+   "pos": [
+    0.807,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 59",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J128",
+   "side": "back",
+   "panel_label": "Audio Output 60",
+   "what": "To Audio Output 60 (R)",
+   "reason_cable_menu_name": "Output 60",
+   "pos": [
+    0.807,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 60",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J105",
+   "side": "back",
+   "panel_label": "Audio Output 61",
+   "what": "To Audio Output 61 (L)",
+   "reason_cable_menu_name": "Output 61",
+   "pos": [
+    0.835,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 61",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J129",
+   "side": "back",
+   "panel_label": "Audio Output 62",
+   "what": "To Audio Output 62 (R)",
+   "reason_cable_menu_name": "Output 62",
+   "pos": [
+    0.835,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 62",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J106",
+   "side": "back",
+   "panel_label": "Audio Output 63",
+   "what": "To Audio Output 63 (L)",
+   "reason_cable_menu_name": "Output 63",
+   "pos": [
+    0.864,
+    0.501
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Master Section: Master Output R",
+   "confidence": "high"
+  },
+  {
+   "code": "HWIF-B-J130",
+   "side": "back",
+   "panel_label": "Audio Output 64",
+   "what": "To Audio Output 64 (R)",
+   "reason_cable_menu_name": "Output 64",
+   "pos": [
+    0.864,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Output 64",
+   "confidence": "high"
+  }
+ ],
+ "rack_name_seen": "Hardware Interface II"
+}

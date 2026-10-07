@@ -1,0 +1,20 @@
+{"device":"Audio Track","slug":"audio-track","prefix":"AUDT","remote_scope":"none (no Remote map for Audio Track)","front_raw":"_captures_batchC/audio-track_front_raw.jpg","back_raw":"_captures_batchC/audio-track_back_raw.jpg","out_dir":".","date":"2026-10-07",
+"front":[
+["(fold triangle)","Folds/unfolds this track's device",null,null,[43,32],[11,13],"B","high",""],
+["Audio Track 1 tape","Device (track) name tape",null,null,[190,33],[85,14],"D","high",""],
+["MUTE","Mutes this track",null,null,[343,33],[23,15],"B","high",""],
+["SOLO","Solos this track",null,null,[399,33],[23,15],"B","high",""],
+["(level fader)","Track level fader",null,null,[619,35],[150,14],"S","medium","hover the handle at x=682"],
+["(pan knob)","Track pan (L to R)",null,null,[838,35],[23,20],"K","high",""],
+["SEQ","Shows this track in the sequencer",null,null,[915,34],[19,14],"B","medium","name from tooltip"],
+["MIX","Shows this track in the mixer",null,null,[962,34],[19,14],"B","medium","name from tooltip"],
+["(curve button)","Button with a curve picture beside MIX",null,null,[1022,34],[33,16],"B","medium","what it does is read from the tooltip"],
+["(level meter)","Track level meter",null,null,[1225,35],[160,15],"D","medium","display"],
+["AUDIO TRACK label","Device type label",null,null,[1455,35],[45,18],"D","high",""]
+],
+"back":[
+["(fold triangle)","Folds/unfolds the device (back)","B",[43,32],[11,13],""],
+["Audio Track 1 tape","Device name tape (back)","D",[200,33],[100,14],""],
+["(black slot)","Black slot, no jack or control","D",[1055,31],[125,10],"looks decorative"],
+["AUDIO TRACK label","Device type label (back)","D",[1440,32],[40,18],""]
+]}

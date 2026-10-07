@@ -1,0 +1,910 @@
+{
+ "device": "Master Section",
+ "remote_scope": "Propellerheads / Reason Master Section",
+ "code_prefix": "MSEC",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: all 59 positions (13 front, 46 back) checked in Reason. Device name here is the rack Master Section panel; the remotemap 'Reason Master Section' scope is the mixer's channel Remote scope, so it does not apply. name_check: only the expected no-vocab/no-Scope errors.",
+ "controls": [
+  {
+   "code": "MSEC-F-B01",
+   "side": "front",
+   "panel_label": "(fold triangle)",
+   "what": "Folds/unfolds the Master Section",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.108
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-F-D01",
+   "side": "front",
+   "panel_label": "MASTER SECTION label",
+   "what": "Device name label",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.156,
+    0.108
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-F-B02",
+   "side": "front",
+   "panel_label": "(spectrum button)",
+   "what": "Button with a curve picture",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.578,
+    0.1
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show in Spectrum EQ Window",
+   "confidence": "medium",
+   "confidence_reason": "what it does is read from the tooltip"
+  },
+  {
+   "code": "MSEC-F-B03",
+   "side": "front",
+   "panel_label": "DIM -20dB",
+   "what": "Dims the control room output by 20 dB",
+   "reason_name": "Dim -20dB",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.641,
+    0.1
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "Lower Master Level 20 dB Off",
+   "confidence": "medium",
+   "confidence_reason": "Remote item Dim -20dB; knob slot not in our remotemap"
+  },
+  {
+   "code": "MSEC-F-D02",
+   "side": "front",
+   "panel_label": "Master meter",
+   "what": "Master output level meter (L/R, VU/PEAK)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.802,
+    0.251
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "display"
+  },
+  {
+   "code": "MSEC-F-B04",
+   "side": "front",
+   "panel_label": "REC SOURCE (checkbox)",
+   "what": "Marks the Master Section as the Rec source",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.705,
+    0.409
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Rec Source",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-F-B05",
+   "side": "front",
+   "panel_label": "MODE (checkbox)",
+   "what": "Meter mode",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.806,
+    0.409
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Meter Mode: VU + Peak",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-F-B06",
+   "side": "front",
+   "panel_label": "RESET (checkbox)",
+   "what": "Resets the meter clip and peak readings",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.864,
+    0.409
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Reset Clip indicators",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-F-B08",
+   "side": "front",
+   "panel_label": "SHOW INSERT FX (arrow)",
+   "what": "Shows/hides the insert FX slot",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.074,
+    0.885
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Show Insert FX",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-F-B07",
+   "side": "front",
+   "panel_label": "BYPASS (insert FX)",
+   "what": "Bypasses the master insert FX",
+   "reason_name": "Bypass Insert FX",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.244,
+    0.774
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "Bypass Master Insert FX On",
+   "confidence": "medium",
+   "confidence_reason": "Remote item Bypass Insert FX"
+  },
+  {
+   "code": "MSEC-F-D03",
+   "side": "front",
+   "panel_label": "(grille 1)",
+   "what": "Speaker grille (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.499,
+    0.71
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "MSEC-F-D04",
+   "side": "front",
+   "panel_label": "(grille 2)",
+   "what": "Speaker grille (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.676,
+    0.71
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "MSEC-F-D05",
+   "side": "front",
+   "panel_label": "(grille 3)",
+   "what": "Speaker grille (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.858,
+    0.71
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium",
+   "confidence_reason": "decorative"
+  },
+  {
+   "code": "MSEC-B-B01",
+   "side": "back",
+   "panel_label": "(fold triangle)",
+   "what": "Folds/unfolds the Master Section (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.027,
+    0.098
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-B-D01",
+   "side": "back",
+   "panel_label": "MASTER SECTION label",
+   "what": "Device name label (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.871,
+    0.101
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-B02",
+   "side": "back",
+   "panel_label": "SHOW INSERT FX (button, back)",
+   "what": "Shows/hides the insert FX slot (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.083,
+    0.37
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Show Insert FX",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-B-J01",
+   "side": "back",
+   "panel_label": "Sidechain Input L",
+   "what": "Dynamics sidechain input left",
+   "reason_cable_menu_name": "Side Chain Input L",
+   "pos": [
+    0.343,
+    0.188
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Side Chain Input L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J03",
+   "side": "back",
+   "panel_label": "Sidechain Input R",
+   "what": "Dynamics sidechain input right",
+   "reason_cable_menu_name": "Side Chain Input R",
+   "pos": [
+    0.343,
+    0.355
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Side Chain Input R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-B03",
+   "side": "back",
+   "panel_label": "KEY (button)",
+   "what": "Sidechain key button",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.421,
+    0.33
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Sidechain Key On/Off",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-B-K01",
+   "side": "back",
+   "panel_label": "Master Level CV In (trim knob)",
+   "what": "Trim for Master Level CV In",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.506,
+    0.188
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "Master Level CV In: 64",
+   "confidence": "medium"
+  },
+  {
+   "code": "MSEC-B-J02",
+   "side": "back",
+   "panel_label": "Master Level CV In",
+   "what": "Master Level CV input",
+   "reason_cable_menu_name": "Master Level CV In",
+   "pos": [
+    0.538,
+    0.181
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Master Level CV In",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-D02",
+   "side": "back",
+   "panel_label": "(black slot)",
+   "what": "Black slot above the insert FX slot",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.665,
+    0.486
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "looks decorative"
+  },
+  {
+   "code": "MSEC-B-D03",
+   "side": "back",
+   "panel_label": "INSERT FX slot",
+   "what": "Insert FX slot (empty)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.692,
+    0.815
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip",
+   "confidence": "high",
+   "confidence_reason": "empty slot"
+  },
+  {
+   "code": "MSEC-B-J04",
+   "side": "back",
+   "panel_label": "FX Send 1 L",
+   "what": "FX Send 1 left",
+   "reason_cable_menu_name": "FX 1 Send L",
+   "pos": [
+    0.075,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Plate: Left Input",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J22",
+   "side": "back",
+   "panel_label": "FX Send 1 R",
+   "what": "FX Send 1 right",
+   "reason_cable_menu_name": "FX 1 Send R",
+   "pos": [
+    0.075,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Plate: Right Input",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J05",
+   "side": "back",
+   "panel_label": "FX Send 2 L",
+   "what": "FX Send 2 left",
+   "reason_cable_menu_name": "FX 2 Send L",
+   "pos": [
+    0.102,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Room: Left Input",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J23",
+   "side": "back",
+   "panel_label": "FX Send 2 R",
+   "what": "FX Send 2 right",
+   "reason_cable_menu_name": "FX 2 Send R",
+   "pos": [
+    0.102,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Room: Right Input",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J06",
+   "side": "back",
+   "panel_label": "FX Send 3 L",
+   "what": "FX Send 3 left",
+   "reason_cable_menu_name": "FX 3 Send L",
+   "pos": [
+    0.128,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Echo: Left Input",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J24",
+   "side": "back",
+   "panel_label": "FX Send 3 R",
+   "what": "FX Send 3 right",
+   "reason_cable_menu_name": "FX 3 Send R",
+   "pos": [
+    0.128,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Echo: Right Input",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J07",
+   "side": "back",
+   "panel_label": "FX Send 4 L",
+   "what": "FX Send 4 left",
+   "reason_cable_menu_name": "FX 4 Send L",
+   "pos": [
+    0.155,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Delay 3/16: Left",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J25",
+   "side": "back",
+   "panel_label": "FX Send 4 R",
+   "what": "FX Send 4 right",
+   "reason_cable_menu_name": "FX 4 Send R",
+   "pos": [
+    0.155,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Delay 3/16: Right",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J08",
+   "side": "back",
+   "panel_label": "FX Send 5 L",
+   "what": "FX Send 5 left",
+   "reason_cable_menu_name": "FX 5 Send L",
+   "pos": [
+    0.204,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 5 Send L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J26",
+   "side": "back",
+   "panel_label": "FX Send 5 R",
+   "what": "FX Send 5 right",
+   "reason_cable_menu_name": "FX 5 Send R",
+   "pos": [
+    0.204,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 5 Send R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J09",
+   "side": "back",
+   "panel_label": "FX Send 6 L",
+   "what": "FX Send 6 left",
+   "reason_cable_menu_name": "FX 6 Send L",
+   "pos": [
+    0.231,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 6 Send L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J27",
+   "side": "back",
+   "panel_label": "FX Send 6 R",
+   "what": "FX Send 6 right",
+   "reason_cable_menu_name": "FX 6 Send R",
+   "pos": [
+    0.231,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 6 Send R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J10",
+   "side": "back",
+   "panel_label": "FX Send 7 L",
+   "what": "FX Send 7 left",
+   "reason_cable_menu_name": "FX 7 Send L",
+   "pos": [
+    0.258,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 7 Send L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J28",
+   "side": "back",
+   "panel_label": "FX Send 7 R",
+   "what": "FX Send 7 right",
+   "reason_cable_menu_name": "FX 7 Send R",
+   "pos": [
+    0.258,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 7 Send R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J11",
+   "side": "back",
+   "panel_label": "FX Send 8 L",
+   "what": "FX Send 8 left",
+   "reason_cable_menu_name": "FX 8 Send L",
+   "pos": [
+    0.285,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 8 Send L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J29",
+   "side": "back",
+   "panel_label": "FX Send 8 R",
+   "what": "FX Send 8 right",
+   "reason_cable_menu_name": "FX 8 Send R",
+   "pos": [
+    0.285,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 8 Send R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J12",
+   "side": "back",
+   "panel_label": "FX Return 1 L",
+   "what": "FX Return 1 left",
+   "reason_cable_menu_name": "FX 1 Return L",
+   "pos": [
+    0.336,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Plate: Left Output",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J30",
+   "side": "back",
+   "panel_label": "FX Return 1 R",
+   "what": "FX Return 1 right",
+   "reason_cable_menu_name": "FX 1 Return R",
+   "pos": [
+    0.336,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Plate: Right Output",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J13",
+   "side": "back",
+   "panel_label": "FX Return 2 L",
+   "what": "FX Return 2 left",
+   "reason_cable_menu_name": "FX 2 Return L",
+   "pos": [
+    0.364,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Room: Left Output",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J31",
+   "side": "back",
+   "panel_label": "FX Return 2 R",
+   "what": "FX Return 2 right",
+   "reason_cable_menu_name": "FX 2 Return R",
+   "pos": [
+    0.364,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Room: Right Output",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J14",
+   "side": "back",
+   "panel_label": "FX Return 3 L",
+   "what": "FX Return 3 left",
+   "reason_cable_menu_name": "FX 3 Return L",
+   "pos": [
+    0.391,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Echo: Left Output",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J32",
+   "side": "back",
+   "panel_label": "FX Return 3 R",
+   "what": "FX Return 3 right",
+   "reason_cable_menu_name": "FX 3 Return R",
+   "pos": [
+    0.391,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Echo: Right Output",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J15",
+   "side": "back",
+   "panel_label": "FX Return 4 L",
+   "what": "FX Return 4 left",
+   "reason_cable_menu_name": "FX 4 Return L",
+   "pos": [
+    0.418,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Delay 3/16: Left",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J33",
+   "side": "back",
+   "panel_label": "FX Return 4 R",
+   "what": "FX Return 4 right",
+   "reason_cable_menu_name": "FX 4 Return R",
+   "pos": [
+    0.418,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Delay 3/16: Right",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J16",
+   "side": "back",
+   "panel_label": "FX Return 5 L",
+   "what": "FX Return 5 left",
+   "reason_cable_menu_name": "FX 5 Return L",
+   "pos": [
+    0.467,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 5 Return L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J34",
+   "side": "back",
+   "panel_label": "FX Return 5 R",
+   "what": "FX Return 5 right",
+   "reason_cable_menu_name": "FX 5 Return R",
+   "pos": [
+    0.467,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 5 Return R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J17",
+   "side": "back",
+   "panel_label": "FX Return 6 L",
+   "what": "FX Return 6 left",
+   "reason_cable_menu_name": "FX 6 Return L",
+   "pos": [
+    0.494,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 6 Return L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J35",
+   "side": "back",
+   "panel_label": "FX Return 6 R",
+   "what": "FX Return 6 right",
+   "reason_cable_menu_name": "FX 6 Return R",
+   "pos": [
+    0.494,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 6 Return R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J18",
+   "side": "back",
+   "panel_label": "FX Return 7 L",
+   "what": "FX Return 7 left",
+   "reason_cable_menu_name": "FX 7 Return L",
+   "pos": [
+    0.522,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 7 Return L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J36",
+   "side": "back",
+   "panel_label": "FX Return 7 R",
+   "what": "FX Return 7 right",
+   "reason_cable_menu_name": "FX 7 Return R",
+   "pos": [
+    0.522,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 7 Return R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J19",
+   "side": "back",
+   "panel_label": "FX Return 8 L",
+   "what": "FX Return 8 left",
+   "reason_cable_menu_name": "FX 8 Return L",
+   "pos": [
+    0.548,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 8 Return L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J37",
+   "side": "back",
+   "panel_label": "FX Return 8 R",
+   "what": "FX Return 8 right",
+   "reason_cable_menu_name": "FX 8 Return R",
+   "pos": [
+    0.548,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "FX 8 Return R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J20",
+   "side": "back",
+   "panel_label": "Ctrl Room Out L",
+   "what": "Control room out left",
+   "reason_cable_menu_name": "Control Room L",
+   "pos": [
+    0.817,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Control Room L",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J38",
+   "side": "back",
+   "panel_label": "Ctrl Room Out R",
+   "what": "Control room out right",
+   "reason_cable_menu_name": "Control Room R",
+   "pos": [
+    0.817,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Control Room R",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J21",
+   "side": "back",
+   "panel_label": "Master Out L",
+   "what": "Master out left",
+   "reason_cable_menu_name": "Master Output L",
+   "pos": [
+    0.906,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Hardware Interface II: Output 1",
+   "confidence": "high"
+  },
+  {
+   "code": "MSEC-B-J39",
+   "side": "back",
+   "panel_label": "Master Out R",
+   "what": "Master out right",
+   "reason_cable_menu_name": "Master Output R",
+   "pos": [
+    0.906,
+    0.83
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "Connected to Hardware Interface II: Output 63",
+   "confidence": "high"
+  }
+ ]
+}

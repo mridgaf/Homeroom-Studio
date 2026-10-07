@@ -8,7 +8,7 @@ import json
 import re
 import sys
 
-CODE_RE = re.compile(r"^[A-Z0-9]+-(F|B)-(K|B|S|J|D)\d{2}$")
+CODE_RE = re.compile(r"^[A-Z0-9]+-(F|B)-(K|B|S|J|D)\d{2,3}$")
 
 
 def is_num(v):

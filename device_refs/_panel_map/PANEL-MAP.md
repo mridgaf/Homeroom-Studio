@@ -55,6 +55,10 @@ Reference for Claude and Hermes. John doesn't need to read this. Plan: PLAN.md. 
 | Mixer 14:2 | MX14 | mixer-14-2_front_labeled.png | mixer-14-2_back_labeled.png | mixer-14-2.json | done 2026-10-07: all 324 positions hover-checked in Reason; name_check: Remote items all matched; only errors are no Mixer 14:2 Scope block in remotemap (not edited) and 3-digit codes K100-K102 failing the checker's 2-digit code pattern (codes kept, checker not edited) |
 | Mix Channel | MXCH | mix-channel_front_labeled.png | mix-channel_back_labeled.png | mix-channel.json | done 2026-10-07: all 31 positions hover-checked in Reason. name_check can't pass: vocab lists this device as 'Reason Main Mixer Channel' (not 'Mix Channel') and the remotemap has no Scope block (not edited). Remote names used (Mute, Solo, Level, Pan, Bypass Insert FX, Channel Name) all appear in that vocab entry. Audio Output menu not opened (no tooltip). Insert FX slot was empty, so no insert-FX controls exist to map. Two tooltips cut off at the zoom edge (Bypass ... Off; Show in Spectrum EQ Window). |
 | Combinator | COMB | combinator_front_labeled.png | combinator_back_labeled.png | combinator.json | done 2026-10-07: all 47 positions hover-checked in Reason (default Init Patch panel: Control 1-4, Switch 1-4). Unfolded Combinator mixer and the Programmer/Devices views are separate views, not mapped here. Selector dropdowns not opened. Orange light and green meters have no tooltip; their Remote item (Audio In/Out, Note On indicators) not confirmed, so left unnamed. name_check PASS (0 errors; 20 warnings: Remote items like Rotary 5-16, Run Pattern Devices, Bypass All FX have no control on this default panel; patch up/down arrows are one row named Select Next Patch, top half is Select Previous Patch). |
+| Audio Track | AUDT | audio-track_front_labeled.png | audio-track_back_labeled.png | audio-track.json | done 2026-10-07: all 15 positions checked in Reason (11 front, 4 back). name_check: only errors are no vocab entry and no Scope block (Audio Track has no Remote map). Back has no jacks. Level fader checked on the handle. |
+| Hardware Interface | HWIF | hardware-interface_front_labeled.png | hardware-interface_back_labeled.png | hardware-interface.json | done 2026-10-07: all 354 positions (207 front, 147 back) checked in Reason. Rack name seen in tooltips: 'Hardware Interface II'. Front meters name the right channel of each pair; D16, D40, D64 name other channels (recorded as seen). name_check: only the expected no-vocab/no-Scope errors. |
+| Master Section | MSEC | master-section_front_labeled.png | master-section_back_labeled.png | master-section.json | done 2026-10-07: all 59 positions (13 front, 46 back) checked in Reason. Device name here is the rack Master Section panel; the remotemap 'Reason Master Section' scope is the mixer's channel Remote scope, so it does not apply. name_check: only the expected no-vocab/no-Scope errors. |
+| Main Mixer | MMIX | main-mixer_front_labeled.png | — (mixer window has no back) | main-mixer.json | done 2026-10-07: ASSUMED view = Reason's Main Mixer window (F5), one representative channel strip (the Mix Channel strip) plus the master strip, stitched from 4 scroll slices (picture is 4 stacked slices, each 1362 px tall; overlaps repeat but each control is boxed once). Other channel strips repeat the same controls. All 168 positions hovered in Reason; faders, meters and displays show no tooltip in this window (recorded as seen). name_check: only the expected no-vocab/no-Scope errors. |
 
 ## Scream 4 — front
 | Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
@@ -1338,6 +1342,630 @@ Notes: hover shows "Diffusion Spread/Amount" but the Remote names are "Diffuse S
 | COMB-B-J09 | Output L | Combi Output Left | Combi Output Left | — | cable: right-click jack > device > jack name | tooltip 'Connected to Combinator 1 Combi Output Left+Combi Output Right: Input L' (cabled to the auto-named Mix Channel); own name from cable menu: 'Combi Output Left' |
 | COMB-B-J10 | Output R | Combi Output Right | Combi Output Right | — | cable: right-click jack > device > jack name | tooltip 'Connected to Combinator 1 Combi Output Left+Combi Output Right: Input R' (cabled to the auto-named Mix Channel); own name from cable menu: 'Combi Output Right' |
 | COMB-B-B04 | Mixer fold arrow | Unfolds the built-in Combinator mixer (back) | — | — | click/drag only (no Remote item) | no tooltip (mixer fold arrow) |
+
+## Audio Track — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| AUDT-F-B01 | (fold triangle) | Folds/unfolds this track's device | — | — | click only | no tooltip (fold triangle) |
+| AUDT-F-D01 | Audio Track 1 tape | Device (track) name tape | — | — | click only | tooltip 'Audio Track 1' (name tape) |
+| AUDT-F-B02 | MUTE | Mutes this track (tooltip 'Audio Track 1 Mute Off') | — | — | click only | tooltip 'Audio Track 1 Mute Off' |
+| AUDT-F-B03 | SOLO | Solos this track (tooltip 'Audio Track 1 Solo Off') | — | — | click only | tooltip 'Audio Track 1 Solo Off' |
+| AUDT-F-S01 | (level fader) | Track level fader; tooltip 'Level: 0.00 dB' | — | — | click only | tooltip 'Level: 0.00 dB' (hover the handle at about 0.435 across the picture, not the box centre) |
+| AUDT-F-K01 | (pan knob) | Track pan; tooltip 'Pan: 0' | — | — | click only | tooltip 'Pan: 0' |
+| AUDT-F-B04 | SEQ | Scrolls the sequencer to this track | — | — | click only | tooltip 'Show Sequencer Track' |
+| AUDT-F-B05 | MIX | Shows this track's mixer strip | — | — | click only | tooltip 'Show Mixer Strip' |
+| AUDT-F-B06 | (curve button) | Opens the spectrum EQ window | — | — | click only | tooltip 'Show in Spectrum EQ Window' |
+| AUDT-F-D02 | (level meter) | Track level meter | — | — | click only | no tooltip (level meter) |
+| AUDT-F-D03 | AUDIO TRACK label | Device type label | — | — | click only | no tooltip (label) |
+
+## Audio Track — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| AUDT-B-B01 | (fold triangle) | Folds/unfolds the device (back) | — | — | click/drag only (no Remote item) | no tooltip (fold triangle) |
+| AUDT-B-D01 | Audio Track 1 tape | Device name tape (back) | — | — | click/drag only (no Remote item) | tooltip 'Audio Track 1' (name tape) |
+| AUDT-B-D02 | (black slot) | Black slot, no jack or control | — | — | click/drag only (no Remote item) | no tooltip (black slot, no jack) |
+| AUDT-B-D03 | AUDIO TRACK label | Device type label (back) | — | — | click/drag only (no Remote item) | no tooltip (label) |
+
+## Hardware Interface — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| HWIF-F-B01 | (fold triangle) | Folds/unfolds the Hardware Interface | — | — | click only | no tooltip |
+| HWIF-F-D01 | HARDWARE INTERFACE label | Device name label | — | — | click only | no tooltip |
+| HWIF-F-D02 | Active audio driver display | Shows the active audio driver (Scarlett 2i2 USB) | — | — | click only | no tooltip |
+| HWIF-F-B02 | AUDIO I/O (button) | Shows/hides the Audio I/O section (1-16 and sampling input) | — | — | click only | Show basic Audio in and outs |
+| HWIF-F-B03 | MORE AUDIO (button) | Shows/hides the Audio I/O 17-64 sections | — | — | click only | Show extra Audio ins and outs |
+| HWIF-F-B04 | BIG METER (button) | Shows/hides the Big Meter section | — | — | click only | Show Big Meter panel |
+| HWIF-F-B05 | ADVANCED MIDI (button) | Shows/hides the Advanced MIDI Device section | — | — | click only | Show MIDI External Control panel |
+| HWIF-F-B06 | INPUT FOCUS (light) | Input focus light | — | — | click only | Input Focus |
+| HWIF-F-B07 | PLAY FOCUS (light) | Play focus light | — | — | click only | Play Focus |
+| HWIF-F-D03 | MIDI SYNC IN (light) | MIDI sync in light | — | — | click only | no tooltip |
+| HWIF-F-B08 | Monitor (speaker button) | Sampling input monitor on/off | — | — | click only | Sample Monitoring On/Off |
+| HWIF-F-B09 | AUTO (checkbox) | Sampling input monitor Auto | — | — | click only | Automatic Sample Monitoring On/Off |
+| HWIF-F-K01 | LEVEL (knob) | Sampling input monitor level | — | — | click only | Sample Monitoring Level: 0.00 dB |
+| HWIF-F-D04 | Sampling input meter L/R | Level meter for the sampling input L and R | — | — | click only | Sampling Right Input: in use |
+| HWIF-F-B10 | Sampling input (checkbox) | Checkbox under the sampling input meter (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D05 | Audio Input 1-2 meter | Level meter for audio inputs 1 and 2 | — | — | click only | Input 2: in use |
+| HWIF-F-B11 | Audio Input 1-2 (checkbox) | Checkbox under the meter for audio inputs 1-2 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D06 | Audio Input 3-4 meter | Level meter for audio inputs 3 and 4 | — | — | click only | Input 4: not available |
+| HWIF-F-B12 | Audio Input 3-4 (checkbox) | Checkbox under the meter for audio inputs 3-4 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D07 | Audio Input 5-6 meter | Level meter for audio inputs 5 and 6 | — | — | click only | Input 6: not available |
+| HWIF-F-B13 | Audio Input 5-6 (checkbox) | Checkbox under the meter for audio inputs 5-6 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D08 | Audio Input 7-8 meter | Level meter for audio inputs 7 and 8 | — | — | click only | Input 8: not available |
+| HWIF-F-B14 | Audio Input 7-8 (checkbox) | Checkbox under the meter for audio inputs 7-8 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D09 | Audio Input 9-10 meter | Level meter for audio inputs 9 and 10 | — | — | click only | Input 10: not available |
+| HWIF-F-B15 | Audio Input 9-10 (checkbox) | Checkbox under the meter for audio inputs 9-10 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D10 | Audio Input 11-12 meter | Level meter for audio inputs 11 and 12 | — | — | click only | Input 12: not available |
+| HWIF-F-B16 | Audio Input 11-12 (checkbox) | Checkbox under the meter for audio inputs 11-12 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D11 | Audio Input 13-14 meter | Level meter for audio inputs 13 and 14 | — | — | click only | Input 14: not available |
+| HWIF-F-B17 | Audio Input 13-14 (checkbox) | Checkbox under the meter for audio inputs 13-14 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D12 | Audio Input 15-16 meter | Level meter for audio inputs 15 and 16 | — | — | click only | Input 16: not available |
+| HWIF-F-B18 | Audio Input 15-16 (checkbox) | Checkbox under the meter for audio inputs 15-16 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D13 | Audio Output 1-2 meter | Level meter for audio outputs 1 and 2 | — | — | click only | Output 2: available |
+| HWIF-F-B19 | Audio Output 1-2 (checkbox) | Checkbox under the meter for audio outputs 1-2 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D14 | Audio Output 3-4 meter | Level meter for audio outputs 3 and 4 | — | — | click only | Output 4: not available |
+| HWIF-F-B20 | Audio Output 3-4 (checkbox) | Checkbox under the meter for audio outputs 3-4 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D15 | Audio Output 5-6 meter | Level meter for audio outputs 5 and 6 | — | — | click only | Output 6: not available |
+| HWIF-F-B21 | Audio Output 5-6 (checkbox) | Checkbox under the meter for audio outputs 5-6 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D16 | Audio Output 7-8 meter | Level meter for audio outputs 7 and 8 | — | — | click only | Output 7: not available |
+| HWIF-F-B22 | Audio Output 7-8 (checkbox) | Checkbox under the meter for audio outputs 7-8 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D17 | Audio Output 9-10 meter | Level meter for audio outputs 9 and 10 | — | — | click only | Output 10: not available |
+| HWIF-F-B23 | Audio Output 9-10 (checkbox) | Checkbox under the meter for audio outputs 9-10 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D18 | Audio Output 11-12 meter | Level meter for audio outputs 11 and 12 | — | — | click only | Output 12: not available |
+| HWIF-F-B24 | Audio Output 11-12 (checkbox) | Checkbox under the meter for audio outputs 11-12 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D19 | Audio Output 13-14 meter | Level meter for audio outputs 13 and 14 | — | — | click only | Output 14: not available |
+| HWIF-F-B25 | Audio Output 13-14 (checkbox) | Checkbox under the meter for audio outputs 13-14 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D20 | Audio Output 15-16 meter | Level meter for audio outputs 15 and 16 | — | — | click only | Output 16: not available |
+| HWIF-F-B26 | Audio Output 15-16 (checkbox) | Checkbox under the meter for audio outputs 15-16 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D21 | Audio Input 17-18 meter | Level meter for audio inputs 17 and 18 | — | — | click only | Input 18: not available |
+| HWIF-F-B27 | Audio Input 17-18 (checkbox) | Checkbox under the meter for audio inputs 17-18 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D22 | Audio Input 19-20 meter | Level meter for audio inputs 19 and 20 | — | — | click only | Input 20: not available |
+| HWIF-F-B28 | Audio Input 19-20 (checkbox) | Checkbox under the meter for audio inputs 19-20 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D23 | Audio Input 21-22 meter | Level meter for audio inputs 21 and 22 | — | — | click only | Input 22: not available |
+| HWIF-F-B29 | Audio Input 21-22 (checkbox) | Checkbox under the meter for audio inputs 21-22 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D24 | Audio Input 23-24 meter | Level meter for audio inputs 23 and 24 | — | — | click only | Input 24: not available |
+| HWIF-F-B30 | Audio Input 23-24 (checkbox) | Checkbox under the meter for audio inputs 23-24 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D25 | Audio Input 25-26 meter | Level meter for audio inputs 25 and 26 | — | — | click only | Input 26: not available |
+| HWIF-F-B31 | Audio Input 25-26 (checkbox) | Checkbox under the meter for audio inputs 25-26 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D26 | Audio Input 27-28 meter | Level meter for audio inputs 27 and 28 | — | — | click only | Input 28: not available |
+| HWIF-F-B32 | Audio Input 27-28 (checkbox) | Checkbox under the meter for audio inputs 27-28 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D27 | Audio Input 29-30 meter | Level meter for audio inputs 29 and 30 | — | — | click only | Input 30: not available |
+| HWIF-F-B33 | Audio Input 29-30 (checkbox) | Checkbox under the meter for audio inputs 29-30 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D28 | Audio Input 31-32 meter | Level meter for audio inputs 31 and 32 | — | — | click only | Input 32: not available |
+| HWIF-F-B34 | Audio Input 31-32 (checkbox) | Checkbox under the meter for audio inputs 31-32 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D29 | Audio Input 33-34 meter | Level meter for audio inputs 33 and 34 | — | — | click only | Input 34: not available |
+| HWIF-F-B35 | Audio Input 33-34 (checkbox) | Checkbox under the meter for audio inputs 33-34 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D30 | Audio Input 35-36 meter | Level meter for audio inputs 35 and 36 | — | — | click only | Input 36: not available |
+| HWIF-F-B36 | Audio Input 35-36 (checkbox) | Checkbox under the meter for audio inputs 35-36 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D31 | Audio Input 37-38 meter | Level meter for audio inputs 37 and 38 | — | — | click only | Input 38: not available |
+| HWIF-F-B37 | Audio Input 37-38 (checkbox) | Checkbox under the meter for audio inputs 37-38 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D32 | Audio Input 39-40 meter | Level meter for audio inputs 39 and 40 | — | — | click only | Input 40: not available |
+| HWIF-F-B38 | Audio Input 39-40 (checkbox) | Checkbox under the meter for audio inputs 39-40 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D33 | Audio Input 41-42 meter | Level meter for audio inputs 41 and 42 | — | — | click only | Input 42: not available |
+| HWIF-F-B39 | Audio Input 41-42 (checkbox) | Checkbox under the meter for audio inputs 41-42 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D34 | Audio Input 43-44 meter | Level meter for audio inputs 43 and 44 | — | — | click only | Input 44: not available |
+| HWIF-F-B40 | Audio Input 43-44 (checkbox) | Checkbox under the meter for audio inputs 43-44 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D35 | Audio Input 45-46 meter | Level meter for audio inputs 45 and 46 | — | — | click only | Input 46: not available |
+| HWIF-F-B41 | Audio Input 45-46 (checkbox) | Checkbox under the meter for audio inputs 45-46 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D36 | Audio Input 47-48 meter | Level meter for audio inputs 47 and 48 | — | — | click only | Input 48: not available |
+| HWIF-F-B42 | Audio Input 47-48 (checkbox) | Checkbox under the meter for audio inputs 47-48 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D37 | Audio Input 49-50 meter | Level meter for audio inputs 49 and 50 | — | — | click only | Input 50: not available |
+| HWIF-F-B43 | Audio Input 49-50 (checkbox) | Checkbox under the meter for audio inputs 49-50 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D38 | Audio Input 51-52 meter | Level meter for audio inputs 51 and 52 | — | — | click only | Input 52: not available |
+| HWIF-F-B44 | Audio Input 51-52 (checkbox) | Checkbox under the meter for audio inputs 51-52 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D39 | Audio Input 53-54 meter | Level meter for audio inputs 53 and 54 | — | — | click only | Input 54: not available |
+| HWIF-F-B45 | Audio Input 53-54 (checkbox) | Checkbox under the meter for audio inputs 53-54 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D40 | Audio Input 55-56 meter | Level meter for audio inputs 55 and 56 | — | — | click only | Input 55: not available |
+| HWIF-F-B46 | Audio Input 55-56 (checkbox) | Checkbox under the meter for audio inputs 55-56 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D41 | Audio Input 57-58 meter | Level meter for audio inputs 57 and 58 | — | — | click only | Input 58: not available |
+| HWIF-F-B47 | Audio Input 57-58 (checkbox) | Checkbox under the meter for audio inputs 57-58 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D42 | Audio Input 59-60 meter | Level meter for audio inputs 59 and 60 | — | — | click only | Input 60: not available |
+| HWIF-F-B48 | Audio Input 59-60 (checkbox) | Checkbox under the meter for audio inputs 59-60 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D43 | Audio Input 61-62 meter | Level meter for audio inputs 61 and 62 | — | — | click only | Input 62: not available |
+| HWIF-F-B49 | Audio Input 61-62 (checkbox) | Checkbox under the meter for audio inputs 61-62 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D44 | Audio Input 63-64 meter | Level meter for audio inputs 63 and 64 | — | — | click only | Input 64: not available |
+| HWIF-F-B50 | Audio Input 63-64 (checkbox) | Checkbox under the meter for audio inputs 63-64 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D45 | Audio Output 17-18 meter | Level meter for audio outputs 17 and 18 | — | — | click only | Output 18: not available |
+| HWIF-F-B51 | Audio Output 17-18 (checkbox) | Checkbox under the meter for audio outputs 17-18 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D46 | Audio Output 19-20 meter | Level meter for audio outputs 19 and 20 | — | — | click only | Output 20: not available |
+| HWIF-F-B52 | Audio Output 19-20 (checkbox) | Checkbox under the meter for audio outputs 19-20 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D47 | Audio Output 21-22 meter | Level meter for audio outputs 21 and 22 | — | — | click only | Output 22: not available |
+| HWIF-F-B53 | Audio Output 21-22 (checkbox) | Checkbox under the meter for audio outputs 21-22 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D48 | Audio Output 23-24 meter | Level meter for audio outputs 23 and 24 | — | — | click only | Output 24: not available |
+| HWIF-F-B54 | Audio Output 23-24 (checkbox) | Checkbox under the meter for audio outputs 23-24 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D49 | Audio Output 25-26 meter | Level meter for audio outputs 25 and 26 | — | — | click only | Output 26: not available |
+| HWIF-F-B55 | Audio Output 25-26 (checkbox) | Checkbox under the meter for audio outputs 25-26 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D50 | Audio Output 27-28 meter | Level meter for audio outputs 27 and 28 | — | — | click only | Output 28: not available |
+| HWIF-F-B56 | Audio Output 27-28 (checkbox) | Checkbox under the meter for audio outputs 27-28 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D51 | Audio Output 29-30 meter | Level meter for audio outputs 29 and 30 | — | — | click only | Output 30: not available |
+| HWIF-F-B57 | Audio Output 29-30 (checkbox) | Checkbox under the meter for audio outputs 29-30 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D52 | Audio Output 31-32 meter | Level meter for audio outputs 31 and 32 | — | — | click only | Output 32: not available |
+| HWIF-F-B58 | Audio Output 31-32 (checkbox) | Checkbox under the meter for audio outputs 31-32 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D53 | Audio Output 33-34 meter | Level meter for audio outputs 33 and 34 | — | — | click only | Output 34: not available |
+| HWIF-F-B59 | Audio Output 33-34 (checkbox) | Checkbox under the meter for audio outputs 33-34 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D54 | Audio Output 35-36 meter | Level meter for audio outputs 35 and 36 | — | — | click only | Output 36: not available |
+| HWIF-F-B60 | Audio Output 35-36 (checkbox) | Checkbox under the meter for audio outputs 35-36 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D55 | Audio Output 37-38 meter | Level meter for audio outputs 37 and 38 | — | — | click only | Output 38: not available |
+| HWIF-F-B61 | Audio Output 37-38 (checkbox) | Checkbox under the meter for audio outputs 37-38 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D56 | Audio Output 39-40 meter | Level meter for audio outputs 39 and 40 | — | — | click only | Output 40: not available |
+| HWIF-F-B62 | Audio Output 39-40 (checkbox) | Checkbox under the meter for audio outputs 39-40 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D57 | Audio Output 41-42 meter | Level meter for audio outputs 41 and 42 | — | — | click only | Output 42: not available |
+| HWIF-F-B63 | Audio Output 41-42 (checkbox) | Checkbox under the meter for audio outputs 41-42 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D58 | Audio Output 43-44 meter | Level meter for audio outputs 43 and 44 | — | — | click only | Output 44: not available |
+| HWIF-F-B64 | Audio Output 43-44 (checkbox) | Checkbox under the meter for audio outputs 43-44 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D59 | Audio Output 45-46 meter | Level meter for audio outputs 45 and 46 | — | — | click only | Output 46: not available |
+| HWIF-F-B65 | Audio Output 45-46 (checkbox) | Checkbox under the meter for audio outputs 45-46 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D60 | Audio Output 47-48 meter | Level meter for audio outputs 47 and 48 | — | — | click only | Output 48: not available |
+| HWIF-F-B66 | Audio Output 47-48 (checkbox) | Checkbox under the meter for audio outputs 47-48 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D61 | Audio Output 49-50 meter | Level meter for audio outputs 49 and 50 | — | — | click only | Output 50: not available |
+| HWIF-F-B67 | Audio Output 49-50 (checkbox) | Checkbox under the meter for audio outputs 49-50 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D62 | Audio Output 51-52 meter | Level meter for audio outputs 51 and 52 | — | — | click only | Output 52: not available |
+| HWIF-F-B68 | Audio Output 51-52 (checkbox) | Checkbox under the meter for audio outputs 51-52 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D63 | Audio Output 53-54 meter | Level meter for audio outputs 53 and 54 | — | — | click only | Output 54: not available |
+| HWIF-F-B69 | Audio Output 53-54 (checkbox) | Checkbox under the meter for audio outputs 53-54 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D64 | Audio Output 55-56 meter | Level meter for audio outputs 55 and 56 | — | — | click only | Output 55: not available |
+| HWIF-F-B70 | Audio Output 55-56 (checkbox) | Checkbox under the meter for audio outputs 55-56 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D65 | Audio Output 57-58 meter | Level meter for audio outputs 57 and 58 | — | — | click only | Output 58: not available |
+| HWIF-F-B71 | Audio Output 57-58 (checkbox) | Checkbox under the meter for audio outputs 57-58 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D66 | Audio Output 59-60 meter | Level meter for audio outputs 59 and 60 | — | — | click only | Output 60: not available |
+| HWIF-F-B72 | Audio Output 59-60 (checkbox) | Checkbox under the meter for audio outputs 59-60 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D67 | Audio Output 61-62 meter | Level meter for audio outputs 61 and 62 | — | — | click only | Output 62: not available |
+| HWIF-F-B73 | Audio Output 61-62 (checkbox) | Checkbox under the meter for audio outputs 61-62 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D68 | Audio Output 63-64 meter | Level meter for audio outputs 63 and 64 | — | — | click only | Output 64: not available |
+| HWIF-F-B74 | Audio Output 63-64 (checkbox) | Checkbox under the meter for audio outputs 63-64 (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-B75 | Big meter VU (light) | Big Meter VU mode light | — | — | click only | no tooltip |
+| HWIF-F-B76 | Big meter PPM (light) | Big Meter PPM mode light | — | — | click only | no tooltip |
+| HWIF-F-B79 | Big meter PEAK (light) | Big Meter peak light | — | — | click only | no tooltip |
+| HWIF-F-B77 | Big meter FIVE SEC (light) | Big Meter five-second peak hold light | — | — | click only | no tooltip |
+| HWIF-F-B81 | Big meter INFINITE (light) | Big Meter infinite peak hold light | — | — | click only | no tooltip |
+| HWIF-F-B80 | MODE (checkbox) | Big Meter mode checkbox | — | — | click only | Meter Mode: VU + Peak |
+| HWIF-F-B82 | PEAK HOLD (checkbox) | Big Meter peak hold checkbox | — | — | click only | Change Peak Hold Time |
+| HWIF-F-K02 | VU OFFSET (knob) | Big Meter VU offset | — | — | click only | Change VU Offset |
+| HWIF-F-K03 | CHANNEL (knob) | Big Meter channel select (picks this as the Big Meter source) | — | — | click only | Select an input or output for the Big Meter |
+| HWIF-F-D69 | Big meter display | Big Meter two-channel level display | — | — | click only | no tooltip |
+| HWIF-F-B78 | Big meter RESET (button) | Resets the Big Meter clip and peak readings | — | — | click only | Reset Clip indicators |
+| HWIF-F-B83 | BUS SELECT A | Advanced MIDI bus A | — | — | click only | MIDI Bus Select |
+| HWIF-F-B84 | BUS SELECT B | Advanced MIDI bus B | — | — | click only | MIDI Bus Select |
+| HWIF-F-B85 | BUS SELECT C | Advanced MIDI bus C | — | — | click only | MIDI Bus Select |
+| HWIF-F-B86 | BUS SELECT D | Advanced MIDI bus D | — | — | click only | MIDI Bus Select |
+| HWIF-F-D70 | MIDI input name display | Shows the MIDI input for the selected bus (No MIDI Input) | — | — | click only | no tooltip |
+| HWIF-F-D71 | Channel 1 name display | Advanced MIDI channel 1 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D79 | Channel 1 (light) | Advanced MIDI channel 1 light | — | — | click only | no tooltip |
+| HWIF-F-B87 | Channel 1 (dropdown) | Advanced MIDI channel 1 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D72 | Channel 2 name display | Advanced MIDI channel 2 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D81 | Channel 2 (light) | Advanced MIDI channel 2 light | — | — | click only | no tooltip |
+| HWIF-F-B88 | Channel 2 (dropdown) | Advanced MIDI channel 2 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D73 | Channel 3 name display | Advanced MIDI channel 3 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D83 | Channel 3 (light) | Advanced MIDI channel 3 light | — | — | click only | no tooltip |
+| HWIF-F-B89 | Channel 3 (dropdown) | Advanced MIDI channel 3 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D74 | Channel 4 name display | Advanced MIDI channel 4 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D85 | Channel 4 (light) | Advanced MIDI channel 4 light | — | — | click only | no tooltip |
+| HWIF-F-B90 | Channel 4 (dropdown) | Advanced MIDI channel 4 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D75 | Channel 5 name display | Advanced MIDI channel 5 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D87 | Channel 5 (light) | Advanced MIDI channel 5 light | — | — | click only | no tooltip |
+| HWIF-F-B91 | Channel 5 (dropdown) | Advanced MIDI channel 5 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D76 | Channel 6 name display | Advanced MIDI channel 6 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D89 | Channel 6 (light) | Advanced MIDI channel 6 light | — | — | click only | no tooltip |
+| HWIF-F-B92 | Channel 6 (dropdown) | Advanced MIDI channel 6 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D77 | Channel 7 name display | Advanced MIDI channel 7 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D91 | Channel 7 (light) | Advanced MIDI channel 7 light | — | — | click only | no tooltip |
+| HWIF-F-B93 | Channel 7 (dropdown) | Advanced MIDI channel 7 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D78 | Channel 8 name display | Advanced MIDI channel 8 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D93 | Channel 8 (light) | Advanced MIDI channel 8 light | — | — | click only | no tooltip |
+| HWIF-F-B94 | Channel 8 (dropdown) | Advanced MIDI channel 8 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D80 | Channel 9 name display | Advanced MIDI channel 9 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D95 | Channel 9 (light) | Advanced MIDI channel 9 light | — | — | click only | no tooltip |
+| HWIF-F-B95 | Channel 9 (dropdown) | Advanced MIDI channel 9 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D82 | Channel 10 name display | Advanced MIDI channel 10 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D96 | Channel 10 (light) | Advanced MIDI channel 10 light | — | — | click only | no tooltip |
+| HWIF-F-B96 | Channel 10 (dropdown) | Advanced MIDI channel 10 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D84 | Channel 11 name display | Advanced MIDI channel 11 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D97 | Channel 11 (light) | Advanced MIDI channel 11 light | — | — | click only | no tooltip |
+| HWIF-F-B97 | Channel 11 (dropdown) | Advanced MIDI channel 11 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D86 | Channel 12 name display | Advanced MIDI channel 12 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D98 | Channel 12 (light) | Advanced MIDI channel 12 light | — | — | click only | no tooltip |
+| HWIF-F-B98 | Channel 12 (dropdown) | Advanced MIDI channel 12 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D88 | Channel 13 name display | Advanced MIDI channel 13 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D99 | Channel 13 (light) | Advanced MIDI channel 13 light | — | — | click only | no tooltip |
+| HWIF-F-B99 | Channel 13 (dropdown) | Advanced MIDI channel 13 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D90 | Channel 14 name display | Advanced MIDI channel 14 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D100 | Channel 14 (light) | Advanced MIDI channel 14 light | — | — | click only | no tooltip |
+| HWIF-F-B100 | Channel 14 (dropdown) | Advanced MIDI channel 14 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D92 | Channel 15 name display | Advanced MIDI channel 15 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D101 | Channel 15 (light) | Advanced MIDI channel 15 light | — | — | click only | no tooltip |
+| HWIF-F-B101 | Channel 15 (dropdown) | Advanced MIDI channel 15 dropdown arrow | — | — | click only | no tooltip |
+| HWIF-F-D94 | Channel 16 name display | Advanced MIDI channel 16 patch/name display | — | — | click only | no tooltip |
+| HWIF-F-D102 | Channel 16 (light) | Advanced MIDI channel 16 light | — | — | click only | no tooltip |
+| HWIF-F-B102 | Channel 16 (dropdown) | Advanced MIDI channel 16 dropdown arrow | — | — | click only | no tooltip |
+
+## Hardware Interface — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| HWIF-B-B01 | (fold triangle) | Folds/unfolds the Hardware Interface (back) | — | — | click/drag only (no Remote item) | no tooltip (fold triangle) |
+| HWIF-B-D01 | HARDWARE INTERFACE label | Device name label (back) | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D02 | (black slot) | Black slot, no jack or control | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-B02 | AUDIO I/O (button, back) | Shows/hides the Audio I/O section | — | — | click/drag only (no Remote item) | Show basic Audio in and outs |
+| HWIF-B-B03 | MORE AUDIO (button, back) | Shows/hides the Audio I/O 17-64 sections | — | — | click/drag only (no Remote item) | Show extra Audio ins and outs |
+| HWIF-B-B04 | BIG METER (button, back) | Shows/hides the Big Meter section | — | — | click/drag only (no Remote item) | Show Big Meter panel |
+| HWIF-B-B05 | ADV. MIDI (button, back) | Shows/hides the Advanced MIDI section | — | — | click/drag only (no Remote item) | Show MIDI External Control panel |
+| HWIF-B-D03 | AUDIO I/O name plate | Name plate for the 1-16 jack panel | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D04 | (black slot 2) | Black slot under the name plate | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D05 | BIG METER name plate | Name plate for the Big Meter panel | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D06 | LED status label | Label explaining the channel LED colours | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D07 | LED (indicator) | LED indicator drawing | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D08 | Big Meter fan vent | Fan vent grille (decoration) | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D09 | Big Meter power socket | Power cable plug picture | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D10 | ADVANCED MIDI name plate | Name plate for the Advanced MIDI panel | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D11 | Advanced MIDI fan vent | Fan vent grille (decoration) | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-D12 | Advanced MIDI power socket | Power cable plug picture | — | — | click/drag only (no Remote item) | no tooltip |
+| HWIF-B-J01 | Sampling Input L | Sampling input left jack | Sampling Left Input | — | cable: right-click jack > device > jack name | Connected to Hardware Interface II: Input 1 |
+| HWIF-B-J18 | Sampling Input R | Sampling input right jack | Sampling Right Input | — | cable: right-click jack > device > jack name | Connected to Hardware Interface II: Input 2 |
+| HWIF-B-J02 | Audio Input 1 | From Audio Input 1 (L) | Input 1 | — | cable: right-click jack > device > jack name | Connected to Hardware Interface II: Sampling Left Input |
+| HWIF-B-J19 | Audio Input 2 | From Audio Input 2 (R) | Input 2 | — | cable: right-click jack > device > jack name | Connected to Hardware Interface II: Sampling Right Input |
+| HWIF-B-J03 | Audio Input 3 | From Audio Input 3 (L) | Input 3 | — | cable: right-click jack > device > jack name | Input 3 |
+| HWIF-B-J20 | Audio Input 4 | From Audio Input 4 (R) | Input 4 | — | cable: right-click jack > device > jack name | Input 4 |
+| HWIF-B-J04 | Audio Input 5 | From Audio Input 5 (L) | Input 5 | — | cable: right-click jack > device > jack name | Input 5 |
+| HWIF-B-J21 | Audio Input 6 | From Audio Input 6 (R) | Input 6 | — | cable: right-click jack > device > jack name | Input 6 |
+| HWIF-B-J05 | Audio Input 7 | From Audio Input 7 (L) | Input 7 | — | cable: right-click jack > device > jack name | Input 7 |
+| HWIF-B-J22 | Audio Input 8 | From Audio Input 8 (R) | Input 8 | — | cable: right-click jack > device > jack name | Input 8 |
+| HWIF-B-J06 | Audio Input 9 | From Audio Input 9 (L) | Input 9 | — | cable: right-click jack > device > jack name | Input 9 |
+| HWIF-B-J23 | Audio Input 10 | From Audio Input 10 (R) | Input 10 | — | cable: right-click jack > device > jack name | Input 10 |
+| HWIF-B-J07 | Audio Input 11 | From Audio Input 11 (L) | Input 11 | — | cable: right-click jack > device > jack name | Input 11 |
+| HWIF-B-J24 | Audio Input 12 | From Audio Input 12 (R) | Input 12 | — | cable: right-click jack > device > jack name | Input 12 |
+| HWIF-B-J08 | Audio Input 13 | From Audio Input 13 (L) | Input 13 | — | cable: right-click jack > device > jack name | Input 13 |
+| HWIF-B-J25 | Audio Input 14 | From Audio Input 14 (R) | Input 14 | — | cable: right-click jack > device > jack name | Input 14 |
+| HWIF-B-J09 | Audio Input 15 | From Audio Input 15 (L) | Input 15 | — | cable: right-click jack > device > jack name | Input 15 |
+| HWIF-B-J26 | Audio Input 16 | From Audio Input 16 (R) | Input 16 | — | cable: right-click jack > device > jack name | Input 16 |
+| HWIF-B-J10 | Audio Output 1 | To Audio Output 1 (L) | Output 1 | — | cable: right-click jack > device > jack name | Connected to Master Section: Master Output L |
+| HWIF-B-J27 | Audio Output 2 | To Audio Output 2 (R) | Output 2 | — | cable: right-click jack > device > jack name | Output 2 |
+| HWIF-B-J11 | Audio Output 3 | To Audio Output 3 (L) | Output 3 | — | cable: right-click jack > device > jack name | Output 3 |
+| HWIF-B-J28 | Audio Output 4 | To Audio Output 4 (R) | Output 4 | — | cable: right-click jack > device > jack name | Output 4 |
+| HWIF-B-J12 | Audio Output 5 | To Audio Output 5 (L) | Output 5 | — | cable: right-click jack > device > jack name | Output 5 |
+| HWIF-B-J29 | Audio Output 6 | To Audio Output 6 (R) | Output 6 | — | cable: right-click jack > device > jack name | Output 6 |
+| HWIF-B-J13 | Audio Output 7 | To Audio Output 7 (L) | Output 7 | — | cable: right-click jack > device > jack name | Output 7 |
+| HWIF-B-J30 | Audio Output 8 | To Audio Output 8 (R) | Output 8 | — | cable: right-click jack > device > jack name | Output 8 |
+| HWIF-B-J14 | Audio Output 9 | To Audio Output 9 (L) | Output 9 | — | cable: right-click jack > device > jack name | Output 9 |
+| HWIF-B-J31 | Audio Output 10 | To Audio Output 10 (R) | Output 10 | — | cable: right-click jack > device > jack name | Output 10 |
+| HWIF-B-J15 | Audio Output 11 | To Audio Output 11 (L) | Output 11 | — | cable: right-click jack > device > jack name | Output 11 |
+| HWIF-B-J32 | Audio Output 12 | To Audio Output 12 (R) | Output 12 | — | cable: right-click jack > device > jack name | Output 12 |
+| HWIF-B-J16 | Audio Output 13 | To Audio Output 13 (L) | Output 13 | — | cable: right-click jack > device > jack name | Output 13 |
+| HWIF-B-J33 | Audio Output 14 | To Audio Output 14 (R) | Output 14 | — | cable: right-click jack > device > jack name | Output 14 |
+| HWIF-B-J17 | Audio Output 15 | To Audio Output 15 (L) | Output 15 | — | cable: right-click jack > device > jack name | Output 15 |
+| HWIF-B-J34 | Audio Output 16 | To Audio Output 16 (R) | Output 16 | — | cable: right-click jack > device > jack name | Output 16 |
+| HWIF-B-J35 | Audio Input 17 | From Audio Input 17 (L) | Input 17 | — | cable: right-click jack > device > jack name | Input 17 |
+| HWIF-B-J59 | Audio Input 18 | From Audio Input 18 (R) | Input 18 | — | cable: right-click jack > device > jack name | Input 18 |
+| HWIF-B-J36 | Audio Input 19 | From Audio Input 19 (L) | Input 19 | — | cable: right-click jack > device > jack name | Input 19 |
+| HWIF-B-J60 | Audio Input 20 | From Audio Input 20 (R) | Input 20 | — | cable: right-click jack > device > jack name | Input 20 |
+| HWIF-B-J37 | Audio Input 21 | From Audio Input 21 (L) | Input 21 | — | cable: right-click jack > device > jack name | Input 21 |
+| HWIF-B-J61 | Audio Input 22 | From Audio Input 22 (R) | Input 22 | — | cable: right-click jack > device > jack name | Input 22 |
+| HWIF-B-J38 | Audio Input 23 | From Audio Input 23 (L) | Input 23 | — | cable: right-click jack > device > jack name | Input 23 |
+| HWIF-B-J62 | Audio Input 24 | From Audio Input 24 (R) | Input 24 | — | cable: right-click jack > device > jack name | Input 24 |
+| HWIF-B-J39 | Audio Input 25 | From Audio Input 25 (L) | Input 25 | — | cable: right-click jack > device > jack name | Input 25 |
+| HWIF-B-J63 | Audio Input 26 | From Audio Input 26 (R) | Input 26 | — | cable: right-click jack > device > jack name | Input 26 |
+| HWIF-B-J40 | Audio Input 27 | From Audio Input 27 (L) | Input 27 | — | cable: right-click jack > device > jack name | Input 27 |
+| HWIF-B-J64 | Audio Input 28 | From Audio Input 28 (R) | Input 28 | — | cable: right-click jack > device > jack name | Input 28 |
+| HWIF-B-J41 | Audio Input 29 | From Audio Input 29 (L) | Input 29 | — | cable: right-click jack > device > jack name | Input 29 |
+| HWIF-B-J65 | Audio Input 30 | From Audio Input 30 (R) | Input 30 | — | cable: right-click jack > device > jack name | Input 30 |
+| HWIF-B-J42 | Audio Input 31 | From Audio Input 31 (L) | Input 31 | — | cable: right-click jack > device > jack name | Input 31 |
+| HWIF-B-J66 | Audio Input 32 | From Audio Input 32 (R) | Input 32 | — | cable: right-click jack > device > jack name | Input 32 |
+| HWIF-B-J43 | Audio Input 33 | From Audio Input 33 (L) | Input 33 | — | cable: right-click jack > device > jack name | Input 33 |
+| HWIF-B-J67 | Audio Input 34 | From Audio Input 34 (R) | Input 34 | — | cable: right-click jack > device > jack name | Input 34 |
+| HWIF-B-J44 | Audio Input 35 | From Audio Input 35 (L) | Input 35 | — | cable: right-click jack > device > jack name | Input 35 |
+| HWIF-B-J68 | Audio Input 36 | From Audio Input 36 (R) | Input 36 | — | cable: right-click jack > device > jack name | Input 36 |
+| HWIF-B-J45 | Audio Input 37 | From Audio Input 37 (L) | Input 37 | — | cable: right-click jack > device > jack name | Input 37 |
+| HWIF-B-J69 | Audio Input 38 | From Audio Input 38 (R) | Input 38 | — | cable: right-click jack > device > jack name | Input 38 |
+| HWIF-B-J46 | Audio Input 39 | From Audio Input 39 (L) | Input 39 | — | cable: right-click jack > device > jack name | Input 39 |
+| HWIF-B-J70 | Audio Input 40 | From Audio Input 40 (R) | Input 40 | — | cable: right-click jack > device > jack name | Input 40 |
+| HWIF-B-J47 | Audio Input 41 | From Audio Input 41 (L) | Input 41 | — | cable: right-click jack > device > jack name | Input 41 |
+| HWIF-B-J71 | Audio Input 42 | From Audio Input 42 (R) | Input 42 | — | cable: right-click jack > device > jack name | Input 42 |
+| HWIF-B-J48 | Audio Input 43 | From Audio Input 43 (L) | Input 43 | — | cable: right-click jack > device > jack name | Input 43 |
+| HWIF-B-J72 | Audio Input 44 | From Audio Input 44 (R) | Input 44 | — | cable: right-click jack > device > jack name | Input 44 |
+| HWIF-B-J49 | Audio Input 45 | From Audio Input 45 (L) | Input 45 | — | cable: right-click jack > device > jack name | Input 45 |
+| HWIF-B-J73 | Audio Input 46 | From Audio Input 46 (R) | Input 46 | — | cable: right-click jack > device > jack name | Input 46 |
+| HWIF-B-J50 | Audio Input 47 | From Audio Input 47 (L) | Input 47 | — | cable: right-click jack > device > jack name | Input 47 |
+| HWIF-B-J74 | Audio Input 48 | From Audio Input 48 (R) | Input 48 | — | cable: right-click jack > device > jack name | Input 48 |
+| HWIF-B-J51 | Audio Input 49 | From Audio Input 49 (L) | Input 49 | — | cable: right-click jack > device > jack name | Input 49 |
+| HWIF-B-J75 | Audio Input 50 | From Audio Input 50 (R) | Input 50 | — | cable: right-click jack > device > jack name | Input 50 |
+| HWIF-B-J52 | Audio Input 51 | From Audio Input 51 (L) | Input 51 | — | cable: right-click jack > device > jack name | Input 51 |
+| HWIF-B-J76 | Audio Input 52 | From Audio Input 52 (R) | Input 52 | — | cable: right-click jack > device > jack name | Input 52 |
+| HWIF-B-J53 | Audio Input 53 | From Audio Input 53 (L) | Input 53 | — | cable: right-click jack > device > jack name | Input 53 |
+| HWIF-B-J77 | Audio Input 54 | From Audio Input 54 (R) | Input 54 | — | cable: right-click jack > device > jack name | Input 54 |
+| HWIF-B-J54 | Audio Input 55 | From Audio Input 55 (L) | Input 55 | — | cable: right-click jack > device > jack name | Input 55 |
+| HWIF-B-J78 | Audio Input 56 | From Audio Input 56 (R) | Input 56 | — | cable: right-click jack > device > jack name | Input 56 |
+| HWIF-B-J55 | Audio Input 57 | From Audio Input 57 (L) | Input 57 | — | cable: right-click jack > device > jack name | Input 57 |
+| HWIF-B-J79 | Audio Input 58 | From Audio Input 58 (R) | Input 58 | — | cable: right-click jack > device > jack name | Input 58 |
+| HWIF-B-J56 | Audio Input 59 | From Audio Input 59 (L) | Input 59 | — | cable: right-click jack > device > jack name | Input 59 |
+| HWIF-B-J80 | Audio Input 60 | From Audio Input 60 (R) | Input 60 | — | cable: right-click jack > device > jack name | Input 60 |
+| HWIF-B-J57 | Audio Input 61 | From Audio Input 61 (L) | Input 61 | — | cable: right-click jack > device > jack name | Input 61 |
+| HWIF-B-J81 | Audio Input 62 | From Audio Input 62 (R) | Input 62 | — | cable: right-click jack > device > jack name | Input 62 |
+| HWIF-B-J58 | Audio Input 63 | From Audio Input 63 (L) | Input 63 | — | cable: right-click jack > device > jack name | Input 63 |
+| HWIF-B-J82 | Audio Input 64 | From Audio Input 64 (R) | Input 64 | — | cable: right-click jack > device > jack name | Input 64 |
+| HWIF-B-J83 | Audio Output 17 | To Audio Output 17 (L) | Output 17 | — | cable: right-click jack > device > jack name | Output 17 |
+| HWIF-B-J107 | Audio Output 18 | To Audio Output 18 (R) | Output 18 | — | cable: right-click jack > device > jack name | Output 18 |
+| HWIF-B-J84 | Audio Output 19 | To Audio Output 19 (L) | Output 19 | — | cable: right-click jack > device > jack name | Output 19 |
+| HWIF-B-J108 | Audio Output 20 | To Audio Output 20 (R) | Output 20 | — | cable: right-click jack > device > jack name | Output 20 |
+| HWIF-B-J85 | Audio Output 21 | To Audio Output 21 (L) | Output 21 | — | cable: right-click jack > device > jack name | Output 21 |
+| HWIF-B-J109 | Audio Output 22 | To Audio Output 22 (R) | Output 22 | — | cable: right-click jack > device > jack name | Output 22 |
+| HWIF-B-J86 | Audio Output 23 | To Audio Output 23 (L) | Output 23 | — | cable: right-click jack > device > jack name | Output 23 |
+| HWIF-B-J110 | Audio Output 24 | To Audio Output 24 (R) | Output 24 | — | cable: right-click jack > device > jack name | Output 24 |
+| HWIF-B-J87 | Audio Output 25 | To Audio Output 25 (L) | Output 25 | — | cable: right-click jack > device > jack name | Output 25 |
+| HWIF-B-J111 | Audio Output 26 | To Audio Output 26 (R) | Output 26 | — | cable: right-click jack > device > jack name | Output 26 |
+| HWIF-B-J88 | Audio Output 27 | To Audio Output 27 (L) | Output 27 | — | cable: right-click jack > device > jack name | Output 27 |
+| HWIF-B-J112 | Audio Output 28 | To Audio Output 28 (R) | Output 28 | — | cable: right-click jack > device > jack name | Output 28 |
+| HWIF-B-J89 | Audio Output 29 | To Audio Output 29 (L) | Output 29 | — | cable: right-click jack > device > jack name | Output 29 |
+| HWIF-B-J113 | Audio Output 30 | To Audio Output 30 (R) | Output 30 | — | cable: right-click jack > device > jack name | Output 30 |
+| HWIF-B-J90 | Audio Output 31 | To Audio Output 31 (L) | Output 31 | — | cable: right-click jack > device > jack name | Output 31 |
+| HWIF-B-J114 | Audio Output 32 | To Audio Output 32 (R) | Output 32 | — | cable: right-click jack > device > jack name | Output 32 |
+| HWIF-B-J91 | Audio Output 33 | To Audio Output 33 (L) | Output 33 | — | cable: right-click jack > device > jack name | Output 33 |
+| HWIF-B-J115 | Audio Output 34 | To Audio Output 34 (R) | Output 34 | — | cable: right-click jack > device > jack name | Output 34 |
+| HWIF-B-J92 | Audio Output 35 | To Audio Output 35 (L) | Output 35 | — | cable: right-click jack > device > jack name | Output 35 |
+| HWIF-B-J116 | Audio Output 36 | To Audio Output 36 (R) | Output 36 | — | cable: right-click jack > device > jack name | Output 36 |
+| HWIF-B-J93 | Audio Output 37 | To Audio Output 37 (L) | Output 37 | — | cable: right-click jack > device > jack name | Output 37 |
+| HWIF-B-J117 | Audio Output 38 | To Audio Output 38 (R) | Output 38 | — | cable: right-click jack > device > jack name | Output 38 |
+| HWIF-B-J94 | Audio Output 39 | To Audio Output 39 (L) | Output 39 | — | cable: right-click jack > device > jack name | Output 39 |
+| HWIF-B-J118 | Audio Output 40 | To Audio Output 40 (R) | Output 40 | — | cable: right-click jack > device > jack name | Output 40 |
+| HWIF-B-J95 | Audio Output 41 | To Audio Output 41 (L) | Output 41 | — | cable: right-click jack > device > jack name | Output 41 |
+| HWIF-B-J119 | Audio Output 42 | To Audio Output 42 (R) | Output 42 | — | cable: right-click jack > device > jack name | Output 42 |
+| HWIF-B-J96 | Audio Output 43 | To Audio Output 43 (L) | Output 43 | — | cable: right-click jack > device > jack name | Output 43 |
+| HWIF-B-J120 | Audio Output 44 | To Audio Output 44 (R) | Output 44 | — | cable: right-click jack > device > jack name | Output 44 |
+| HWIF-B-J97 | Audio Output 45 | To Audio Output 45 (L) | Output 45 | — | cable: right-click jack > device > jack name | Output 45 |
+| HWIF-B-J121 | Audio Output 46 | To Audio Output 46 (R) | Output 46 | — | cable: right-click jack > device > jack name | Output 46 |
+| HWIF-B-J98 | Audio Output 47 | To Audio Output 47 (L) | Output 47 | — | cable: right-click jack > device > jack name | Output 47 |
+| HWIF-B-J122 | Audio Output 48 | To Audio Output 48 (R) | Output 48 | — | cable: right-click jack > device > jack name | Output 48 |
+| HWIF-B-J99 | Audio Output 49 | To Audio Output 49 (L) | Output 49 | — | cable: right-click jack > device > jack name | Output 49 |
+| HWIF-B-J123 | Audio Output 50 | To Audio Output 50 (R) | Output 50 | — | cable: right-click jack > device > jack name | Output 50 |
+| HWIF-B-J100 | Audio Output 51 | To Audio Output 51 (L) | Output 51 | — | cable: right-click jack > device > jack name | Output 51 |
+| HWIF-B-J124 | Audio Output 52 | To Audio Output 52 (R) | Output 52 | — | cable: right-click jack > device > jack name | Output 52 |
+| HWIF-B-J101 | Audio Output 53 | To Audio Output 53 (L) | Output 53 | — | cable: right-click jack > device > jack name | Output 53 |
+| HWIF-B-J125 | Audio Output 54 | To Audio Output 54 (R) | Output 54 | — | cable: right-click jack > device > jack name | Output 54 |
+| HWIF-B-J102 | Audio Output 55 | To Audio Output 55 (L) | Output 55 | — | cable: right-click jack > device > jack name | Output 55 |
+| HWIF-B-J126 | Audio Output 56 | To Audio Output 56 (R) | Output 56 | — | cable: right-click jack > device > jack name | Output 56 |
+| HWIF-B-J103 | Audio Output 57 | To Audio Output 57 (L) | Output 57 | — | cable: right-click jack > device > jack name | Output 57 |
+| HWIF-B-J127 | Audio Output 58 | To Audio Output 58 (R) | Output 58 | — | cable: right-click jack > device > jack name | Output 58 |
+| HWIF-B-J104 | Audio Output 59 | To Audio Output 59 (L) | Output 59 | — | cable: right-click jack > device > jack name | Output 59 |
+| HWIF-B-J128 | Audio Output 60 | To Audio Output 60 (R) | Output 60 | — | cable: right-click jack > device > jack name | Output 60 |
+| HWIF-B-J105 | Audio Output 61 | To Audio Output 61 (L) | Output 61 | — | cable: right-click jack > device > jack name | Output 61 |
+| HWIF-B-J129 | Audio Output 62 | To Audio Output 62 (R) | Output 62 | — | cable: right-click jack > device > jack name | Output 62 |
+| HWIF-B-J106 | Audio Output 63 | To Audio Output 63 (L) | Output 63 | — | cable: right-click jack > device > jack name | Connected to Master Section: Master Output R |
+| HWIF-B-J130 | Audio Output 64 | To Audio Output 64 (R) | Output 64 | — | cable: right-click jack > device > jack name | Output 64 |
+
+## Master Section — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MSEC-F-B01 | (fold triangle) | Folds/unfolds the Master Section | — | — | click only | no tooltip |
+| MSEC-F-D01 | MASTER SECTION label | Device name label | — | — | click only | no tooltip |
+| MSEC-F-B02 | (spectrum button) | Button with a curve picture | — | — | click only | Show in Spectrum EQ Window |
+| MSEC-F-B03 | DIM -20dB | Dims the control room output by 20 dB | Dim -20dB | — | display/Remote item, not mapped | Lower Master Level 20 dB Off |
+| MSEC-F-D02 | Master meter | Master output level meter (L/R, VU/PEAK) | — | — | click only | no tooltip |
+| MSEC-F-B04 | REC SOURCE (checkbox) | Marks the Master Section as the Rec source | — | — | click only | Rec Source |
+| MSEC-F-B05 | MODE (checkbox) | Meter mode | — | — | click only | Meter Mode: VU + Peak |
+| MSEC-F-B06 | RESET (checkbox) | Resets the meter clip and peak readings | — | — | click only | Reset Clip indicators |
+| MSEC-F-B08 | SHOW INSERT FX (arrow) | Shows/hides the insert FX slot | — | — | click only | Show Insert FX |
+| MSEC-F-B07 | BYPASS (insert FX) | Bypasses the master insert FX | Bypass Insert FX | — | display/Remote item, not mapped | Bypass Master Insert FX On |
+| MSEC-F-D03 | (grille 1) | Speaker grille (decoration) | — | — | click only | no tooltip |
+| MSEC-F-D04 | (grille 2) | Speaker grille (decoration) | — | — | click only | no tooltip |
+| MSEC-F-D05 | (grille 3) | Speaker grille (decoration) | — | — | click only | no tooltip |
+
+## Master Section — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MSEC-B-B01 | (fold triangle) | Folds/unfolds the Master Section (back) | — | — | click/drag only (no Remote item) | no tooltip |
+| MSEC-B-D01 | MASTER SECTION label | Device name label (back) | — | — | click/drag only (no Remote item) | no tooltip |
+| MSEC-B-B02 | SHOW INSERT FX (button, back) | Shows/hides the insert FX slot (back) | — | — | click/drag only (no Remote item) | Show Insert FX |
+| MSEC-B-J01 | Sidechain Input L | Dynamics sidechain input left | Side Chain Input L | — | cable: right-click jack > device > jack name | Side Chain Input L |
+| MSEC-B-J03 | Sidechain Input R | Dynamics sidechain input right | Side Chain Input R | — | cable: right-click jack > device > jack name | Side Chain Input R |
+| MSEC-B-B03 | KEY (button) | Sidechain key button | — | — | click/drag only (no Remote item) | Sidechain Key On/Off |
+| MSEC-B-K01 | Master Level CV In (trim knob) | Trim for Master Level CV In | — | — | click/drag only (no Remote item) | Master Level CV In: 64 |
+| MSEC-B-J02 | Master Level CV In | Master Level CV input | Master Level CV In | — | cable: right-click jack > device > jack name | Master Level CV In |
+| MSEC-B-D02 | (black slot) | Black slot above the insert FX slot | — | — | click/drag only (no Remote item) | no tooltip |
+| MSEC-B-D03 | INSERT FX slot | Insert FX slot (empty) | — | — | click/drag only (no Remote item) | no tooltip |
+| MSEC-B-J04 | FX Send 1 L | FX Send 1 left | FX 1 Send L | — | cable: right-click jack > device > jack name | Connected to Plate: Left Input |
+| MSEC-B-J22 | FX Send 1 R | FX Send 1 right | FX 1 Send R | — | cable: right-click jack > device > jack name | Connected to Plate: Right Input |
+| MSEC-B-J05 | FX Send 2 L | FX Send 2 left | FX 2 Send L | — | cable: right-click jack > device > jack name | Connected to Room: Left Input |
+| MSEC-B-J23 | FX Send 2 R | FX Send 2 right | FX 2 Send R | — | cable: right-click jack > device > jack name | Connected to Room: Right Input |
+| MSEC-B-J06 | FX Send 3 L | FX Send 3 left | FX 3 Send L | — | cable: right-click jack > device > jack name | Connected to Echo: Left Input |
+| MSEC-B-J24 | FX Send 3 R | FX Send 3 right | FX 3 Send R | — | cable: right-click jack > device > jack name | Connected to Echo: Right Input |
+| MSEC-B-J07 | FX Send 4 L | FX Send 4 left | FX 4 Send L | — | cable: right-click jack > device > jack name | Connected to Delay 3/16: Left |
+| MSEC-B-J25 | FX Send 4 R | FX Send 4 right | FX 4 Send R | — | cable: right-click jack > device > jack name | Connected to Delay 3/16: Right |
+| MSEC-B-J08 | FX Send 5 L | FX Send 5 left | FX 5 Send L | — | cable: right-click jack > device > jack name | FX 5 Send L |
+| MSEC-B-J26 | FX Send 5 R | FX Send 5 right | FX 5 Send R | — | cable: right-click jack > device > jack name | FX 5 Send R |
+| MSEC-B-J09 | FX Send 6 L | FX Send 6 left | FX 6 Send L | — | cable: right-click jack > device > jack name | FX 6 Send L |
+| MSEC-B-J27 | FX Send 6 R | FX Send 6 right | FX 6 Send R | — | cable: right-click jack > device > jack name | FX 6 Send R |
+| MSEC-B-J10 | FX Send 7 L | FX Send 7 left | FX 7 Send L | — | cable: right-click jack > device > jack name | FX 7 Send L |
+| MSEC-B-J28 | FX Send 7 R | FX Send 7 right | FX 7 Send R | — | cable: right-click jack > device > jack name | FX 7 Send R |
+| MSEC-B-J11 | FX Send 8 L | FX Send 8 left | FX 8 Send L | — | cable: right-click jack > device > jack name | FX 8 Send L |
+| MSEC-B-J29 | FX Send 8 R | FX Send 8 right | FX 8 Send R | — | cable: right-click jack > device > jack name | FX 8 Send R |
+| MSEC-B-J12 | FX Return 1 L | FX Return 1 left | FX 1 Return L | — | cable: right-click jack > device > jack name | Connected to Plate: Left Output |
+| MSEC-B-J30 | FX Return 1 R | FX Return 1 right | FX 1 Return R | — | cable: right-click jack > device > jack name | Connected to Plate: Right Output |
+| MSEC-B-J13 | FX Return 2 L | FX Return 2 left | FX 2 Return L | — | cable: right-click jack > device > jack name | Connected to Room: Left Output |
+| MSEC-B-J31 | FX Return 2 R | FX Return 2 right | FX 2 Return R | — | cable: right-click jack > device > jack name | Connected to Room: Right Output |
+| MSEC-B-J14 | FX Return 3 L | FX Return 3 left | FX 3 Return L | — | cable: right-click jack > device > jack name | Connected to Echo: Left Output |
+| MSEC-B-J32 | FX Return 3 R | FX Return 3 right | FX 3 Return R | — | cable: right-click jack > device > jack name | Connected to Echo: Right Output |
+| MSEC-B-J15 | FX Return 4 L | FX Return 4 left | FX 4 Return L | — | cable: right-click jack > device > jack name | Connected to Delay 3/16: Left |
+| MSEC-B-J33 | FX Return 4 R | FX Return 4 right | FX 4 Return R | — | cable: right-click jack > device > jack name | Connected to Delay 3/16: Right |
+| MSEC-B-J16 | FX Return 5 L | FX Return 5 left | FX 5 Return L | — | cable: right-click jack > device > jack name | FX 5 Return L |
+| MSEC-B-J34 | FX Return 5 R | FX Return 5 right | FX 5 Return R | — | cable: right-click jack > device > jack name | FX 5 Return R |
+| MSEC-B-J17 | FX Return 6 L | FX Return 6 left | FX 6 Return L | — | cable: right-click jack > device > jack name | FX 6 Return L |
+| MSEC-B-J35 | FX Return 6 R | FX Return 6 right | FX 6 Return R | — | cable: right-click jack > device > jack name | FX 6 Return R |
+| MSEC-B-J18 | FX Return 7 L | FX Return 7 left | FX 7 Return L | — | cable: right-click jack > device > jack name | FX 7 Return L |
+| MSEC-B-J36 | FX Return 7 R | FX Return 7 right | FX 7 Return R | — | cable: right-click jack > device > jack name | FX 7 Return R |
+| MSEC-B-J19 | FX Return 8 L | FX Return 8 left | FX 8 Return L | — | cable: right-click jack > device > jack name | FX 8 Return L |
+| MSEC-B-J37 | FX Return 8 R | FX Return 8 right | FX 8 Return R | — | cable: right-click jack > device > jack name | FX 8 Return R |
+| MSEC-B-J20 | Ctrl Room Out L | Control room out left | Control Room L | — | cable: right-click jack > device > jack name | Control Room L |
+| MSEC-B-J38 | Ctrl Room Out R | Control room out right | Control Room R | — | cable: right-click jack > device > jack name | Control Room R |
+| MSEC-B-J21 | Master Out L | Master out left | Master Output L | — | cable: right-click jack > device > jack name | Connected to Hardware Interface II: Output 1 |
+| MSEC-B-J39 | Master Out R | Master out right | Master Output R | — | cable: right-click jack > device > jack name | Connected to Hardware Interface II: Output 63 |
+
+## Main Mixer — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MMIX-F-K01 | strip Input gain knob | Channel strip: Input gain (+/-18 dB) (mixer window, slice 1 of 4) | — | — | click only | Input Gain: 0.00 dB |
+| MMIX-F-B02 | strip INV button | Channel strip: Phase invert (mixer window, slice 1 of 4) | — | — | click only | Invert Phase Off |
+| MMIX-F-B03 | strip INSERT PRE checkbox | Channel strip: Signal path: insert first (mixer window, slice 1 of 4) | — | — | click only | Insert Section Pre Dynamics and EQ Off |
+| MMIX-F-B04 | strip DYN POSTEQ checkbox | Channel strip: Signal path: dynamics after EQ (mixer window, slice 1 of 4) | — | — | click only | Dynamics Section Post Equalizer Off |
+| MMIX-F-D01 | strip Signal path display | Channel strip: Shows the processing order (mixer window, slice 1 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B05 | strip FILTERS TO DYN S/C checkbox (input) | Channel strip: Send EQ filters to dynamics side chain (mixer window, slice 1 of 4) | — | — | click only | Filters to Dynamics Sidechain Off |
+| MMIX-F-B01 | strip Input section header light | Channel strip: Section header light (mixer window, slice 1 of 4) | — | — | click only | Input section Disabled |
+| MMIX-F-B06 | strip Dynamics section header light | Channel strip: Section header light (mixer window, slice 1 of 4) | — | — | click only | Dynamics Disabled |
+| MMIX-F-B08 | strip COMP ON | Channel strip: Compressor on/off (mixer window, slice 1 of 4) | — | — | click only | Compressor Disabled |
+| MMIX-F-B10 | strip PEAK | Channel strip: Compressor peak detection (mixer window, slice 1 of 4) | — | — | click only | Compressor Peak Off |
+| MMIX-F-K02 | strip COMP RATIO knob | Channel strip: Compressor ratio (mixer window, slice 1 of 4) | — | — | click only | Compressor Ratio: 4.06:1 |
+| MMIX-F-K03 | strip COMP THRES knob | Channel strip: Compressor threshold (mixer window, slice 1 of 4) | — | — | click only | Compressor Threshold: -25.80 dB |
+| MMIX-F-K04 | strip COMP REL knob | Channel strip: Compressor release (mixer window, slice 1 of 4) | — | — | click only | Compressor Release: 554 ms |
+| MMIX-F-B11 | strip COMP FAST | Channel strip: Compressor fast attack (mixer window, slice 1 of 4) | — | — | click only | Compressor Fast Attack Off |
+| MMIX-F-D03 | strip Gate gain-reduction lights | Channel strip: Left LED column (tooltip: Gate Gain Reduction) (mixer window, slice 1 of 4) | — | — | click only | Gate Gain Reduction |
+| MMIX-F-D04 | strip Compressor gain-reduction lights | Channel strip: Right LED column (tooltip: Compressor Gain Reduction) (mixer window, slice 1 of 4) | — | — | click only | Compressor Gain Reduction |
+| MMIX-F-B12 | strip Dynamics KEY | Channel strip: Sidechain key (mixer window, slice 1 of 4) | — | — | click only | Sidechain Key Off |
+| MMIX-F-B13 | strip GATE ON | Channel strip: Gate on/off (mixer window, slice 1 of 4) | — | — | click only | Gate Disabled |
+| MMIX-F-B14 | strip GATE EXP | Channel strip: Expander mode (mixer window, slice 1 of 4) | — | — | click only | Gate Expander Mode Off |
+| MMIX-F-K07 | strip GATE RANGE knob | Channel strip: Gate range (mixer window, slice 1 of 4) | — | — | click only | Gate Range: -20.16 dB |
+| MMIX-F-K08 | strip GATE THRES knob | Channel strip: Gate threshold (mixer window, slice 1 of 4) | — | — | click only | Gate Threshold: -38.90 dB |
+| MMIX-F-K09 | strip GATE REL knob | Channel strip: Gate release (mixer window, slice 1 of 4) | — | — | click only | Gate Release: 554 ms |
+| MMIX-F-K10 | strip GATE HOLD knob | Channel strip: Gate hold (mixer window, slice 1 of 4) | — | — | click only | Gate Hold: 0 ms |
+| MMIX-F-B16 | strip GATE FAST | Channel strip: Gate fast attack (mixer window, slice 1 of 4) | — | — | click only | Gate Fast Attack Off |
+| MMIX-F-B07 | Master compressor header light | Master strip: Section header light (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Disabled |
+| MMIX-F-B09 | Master compressor ON | Master strip: Master compressor on/off (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Disabled |
+| MMIX-F-D02 | Master compression meter | Master strip: Gain-reduction meter (mixer window, slice 1 of 4) | — | — | click only | no tooltip |
+| MMIX-F-K05 | Master comp THRESHOLD knob | Master strip: Master compressor threshold (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Threshold: -14.88 dB |
+| MMIX-F-K06 | Master comp RATIO knob | Master strip: Master compressor ratio (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Ratio: 2:1 |
+| MMIX-F-K11 | Master comp ATTACK knob | Master strip: Master compressor attack (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Attack: 10.0 ms |
+| MMIX-F-K12 | Master comp RELEASE knob | Master strip: Master compressor release (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Release: 0.6 s |
+| MMIX-F-K13 | Master comp MAKE-UP knob | Master strip: Master compressor make-up gain (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Make-Up Gain: 2.87 dB |
+| MMIX-F-B15 | Master comp EXTERNAL SIDE CHAIN KEY | Master strip: Master compressor external sidechain key (mixer window, slice 1 of 4) | — | — | click only | Master Compressor Sidechain Key Off |
+| MMIX-F-D05 | strip EQ header light | Channel strip: EQ section on/off light (mixer window, slice 2 of 4) | — | — | click only | EQ Disabled |
+| MMIX-F-B17 | strip EQ spectrum button | Channel strip: show channel spectrum EQ (mixer window, slice 2 of 4) | — | — | click only | Show in Spectrum EQ Window |
+| MMIX-F-B18 | strip LPF ON | Channel strip: low-pass filter on (mixer window, slice 2 of 4) | — | — | click only | Low Pass Filter Disabled |
+| MMIX-F-K14 | strip LPF kHz | Channel strip: low-pass frequency (mixer window, slice 2 of 4) | — | — | click only | Low Pass Filter Frequency: 3.54 kHz |
+| MMIX-F-K15 | strip HPF Hz | Channel strip: high-pass frequency (mixer window, slice 2 of 4) | — | — | click only | High Pass Filter Frequency: 187.1 Hz |
+| MMIX-F-B19 | strip HPF ON | Channel strip: high-pass filter on (mixer window, slice 2 of 4) | — | — | click only | High Pass Filter Disabled |
+| MMIX-F-B21 | strip EQ filters to dyn S/C | Channel strip: filters feed dynamics side chain (mixer window, slice 2 of 4) | — | — | click only | Filters to Dynamics Sidechain Off |
+| MMIX-F-B23 | strip HF BELL | Channel strip: HF bell/shelf switch (mixer window, slice 2 of 4) | — | — | click only | High Frequency Shelf Mode |
+| MMIX-F-D08 | strip HF light | Channel strip: HF band on light (mixer window, slice 2 of 4) | — | — | click only | no tooltip |
+| MMIX-F-K18 | strip HF dB | Channel strip: HF gain (mixer window, slice 2 of 4) | — | — | click only | High Frequency Gain: 0.00 dB |
+| MMIX-F-K19 | strip HF kHz | Channel strip: HF frequency (mixer window, slice 2 of 4) | — | — | click only | High Frequency: 5.74 kHz |
+| MMIX-F-K21 | strip HMF dB | Channel strip: HMF gain (mixer window, slice 2 of 4) | — | — | click only | High Mid Frequency Gain: 0.00 dB |
+| MMIX-F-K23 | strip HMF kHz | Channel strip: HMF frequency (mixer window, slice 2 of 4) | — | — | click only | High Mid Frequency: 2.05 kHz |
+| MMIX-F-D09 | strip HMF light | Channel strip: HMF band on light (mixer window, slice 2 of 4) | — | — | click only | no tooltip |
+| MMIX-F-K24 | strip HMF Q | Channel strip: HMF Q (mixer window, slice 2 of 4) | — | — | click only | High Mid Frequency Q Value: 1.33 |
+| MMIX-F-B26 | strip HMF ON | Channel strip: HMF/LMF on (mixer window, slice 2 of 4) | — | — | click only | Equalizer Disabled |
+| MMIX-F-B28 | strip HMF E | Channel strip: E-series EQ (mixer window, slice 2 of 4) | — | — | click only | Equalizer E Mode (Constant Q) Disabled |
+| MMIX-F-K26 | strip LMF dB | Channel strip: LMF gain (mixer window, slice 2 of 4) | — | — | click only | Low Mid Frequency Gain: 0.00 dB |
+| MMIX-F-K28 | strip LMF kHz | Channel strip: LMF frequency (mixer window, slice 2 of 4) | — | — | click only | Low Mid Frequency: 632.5 Hz |
+| MMIX-F-D10 | strip LMF light | Channel strip: LMF band on light (mixer window, slice 2 of 4) | — | — | click only | no tooltip |
+| MMIX-F-K29 | strip LMF Q | Channel strip: LMF Q (mixer window, slice 2 of 4) | — | — | click only | Low Mid Frequency Q Value: 1.33 |
+| MMIX-F-D11 | strip LF light | Channel strip: LF band on light (mixer window, slice 2 of 4) | — | — | click only | no tooltip |
+| MMIX-F-K31 | strip LF Hz | Channel strip: LF frequency (mixer window, slice 2 of 4) | — | — | click only | Low Frequency: 154.9 Hz |
+| MMIX-F-K32 | strip LF dB | Channel strip: LF gain (mixer window, slice 2 of 4) | — | — | click only | Low Frequency Gain: 0.00 dB |
+| MMIX-F-B31 | strip LF BELL | Channel strip: LF bell/shelf switch (mixer window, slice 2 of 4) | — | — | click only | Low Frequency Shelf Mode |
+| MMIX-F-D13 | strip INSERTS header light | Channel strip: insert section light (mixer window, slice 2 of 4) | — | — | click only | Insert FX Disconnected |
+| MMIX-F-B33 | strip INSERTS BYPASS | Channel strip: bypass inserts (mixer window, slice 2 of 4) | — | — | click only | Bypass Master Insert FX Off |
+| MMIX-F-B35 | strip EDIT INSERTS | Channel strip: edit inserts (mixer window, slice 2 of 4) | — | — | click only | Edit Inserts |
+| MMIX-F-K16 | master FX1 LEVEL | Master strip: master FX 1 level (mixer window, slice 2 of 4) | — | — | click only | FX1 Master Send Level: 0.00 dB |
+| MMIX-F-K17 | master FX2 LEVEL | Master strip: master FX 2 level (mixer window, slice 2 of 4) | — | — | click only | FX2 Master Send Level: 0.00 dB |
+| MMIX-F-K20 | master FX3 LEVEL | Master strip: master FX 3 level (mixer window, slice 2 of 4) | — | — | click only | FX3 Master Send Level: 0.00 dB |
+| MMIX-F-K22 | master FX4 LEVEL | Master strip: master FX 4 level (mixer window, slice 2 of 4) | — | — | click only | FX4 Master Send Level: 0.00 dB |
+| MMIX-F-K25 | master FX5 LEVEL | Master strip: master FX 5 level (mixer window, slice 2 of 4) | — | — | click only | FX5 Master Send Level: 0.00 dB |
+| MMIX-F-K27 | master FX6 LEVEL | Master strip: master FX 6 level (mixer window, slice 2 of 4) | — | — | click only | FX6 Master Send Level: 0.00 dB |
+| MMIX-F-K30 | master FX7 LEVEL | Master strip: master FX 7 level (mixer window, slice 2 of 4) | — | — | click only | FX7 Master Send Level: 0.00 dB |
+| MMIX-F-K33 | master FX8 LEVEL | Master strip: master FX 8 level (mixer window, slice 2 of 4) | — | — | click only | FX8 Master Send Level: 0.00 dB |
+| MMIX-F-B20 | master FX1 EDIT | Master strip: edit FX 1 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX1 |
+| MMIX-F-B22 | master FX2 EDIT | Master strip: edit FX 2 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX2 |
+| MMIX-F-B24 | master FX3 EDIT | Master strip: edit FX 3 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX3 |
+| MMIX-F-B25 | master FX4 EDIT | Master strip: edit FX 4 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX4 |
+| MMIX-F-B27 | master FX5 EDIT | Master strip: edit FX 5 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX5 |
+| MMIX-F-B29 | master FX6 EDIT | Master strip: edit FX 6 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX6 |
+| MMIX-F-B30 | master FX7 EDIT | Master strip: edit FX 7 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX7 |
+| MMIX-F-B32 | master FX8 EDIT | Master strip: edit FX 8 device (mixer window, slice 2 of 4) | — | — | click only | Edit FX8 |
+| MMIX-F-D14 | master MASTER INSERTS light | Master strip: master inserts light (mixer window, slice 2 of 4) | — | — | click only | Master Insert FX Connected |
+| MMIX-F-B34 | master MASTER INSERTS BYPASS | Master strip: bypass master inserts (mixer window, slice 2 of 4) | — | — | click only | Bypass Master Insert FX On |
+| MMIX-F-B36 | master EDIT INSERTS | Master strip: edit master inserts (mixer window, slice 2 of 4) | — | — | click only | Edit Inserts |
+| MMIX-F-B37 | master INSERTS PRE COMPRESSOR | Master strip: inserts before compressor (mixer window, slice 2 of 4) | — | — | click only | Insert Section Pre Compressor Off |
+| MMIX-F-D06 | master FX1 LEDs | Master strip: FX1 activity LEDs (mixer window, slice 2 of 4) | — | — | click only | FX1 Send Level Meter |
+| MMIX-F-D12 | master FX8 LEDs | Master strip: FX8 activity LEDs (mixer window, slice 2 of 4) | — | — | click only | FX8 Send Level Meter |
+| MMIX-F-D07 | master FX1 name | Master strip: FX1 name display (mixer window, slice 2 of 4) | — | — | click only | no tooltip |
+| MMIX-F-D15 | strip SEND header light | Channel strip: send section light (mixer window, slice 3 of 4) | — | — | click only | FX Sends Disabled |
+| MMIX-F-B38 | strip SEND1 PRE | Channel strip: send 1 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX1 Send Off |
+| MMIX-F-K36 | strip SEND1 LEVEL | Channel strip: send 1 level (mixer window, slice 3 of 4) | — | — | click only | FX1 Send Level: -12.04 dB |
+| MMIX-F-B41 | strip SEND2 PRE | Channel strip: send 2 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX2 Send Off |
+| MMIX-F-K37 | strip SEND2 LEVEL | Channel strip: send 2 level (mixer window, slice 3 of 4) | — | — | click only | FX2 Send Level: -12.04 dB |
+| MMIX-F-B44 | strip SEND3 PRE | Channel strip: send 3 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX3 Send Off |
+| MMIX-F-K40 | strip SEND3 LEVEL | Channel strip: send 3 level (mixer window, slice 3 of 4) | — | — | click only | FX3 Send Level: -12.04 dB |
+| MMIX-F-B47 | strip SEND4 PRE | Channel strip: send 4 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX4 Send Off |
+| MMIX-F-K43 | strip SEND4 LEVEL | Channel strip: send 4 level (mixer window, slice 3 of 4) | — | — | click only | FX4 Send Level: -12.04 dB |
+| MMIX-F-B50 | strip SEND5 PRE | Channel strip: send 5 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX5 Send Off |
+| MMIX-F-K46 | strip SEND5 LEVEL | Channel strip: send 5 level (mixer window, slice 3 of 4) | — | — | click only | FX5 Send Level: -12.04 dB |
+| MMIX-F-B53 | strip SEND6 PRE | Channel strip: send 6 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX6 Send Off |
+| MMIX-F-K49 | strip SEND6 LEVEL | Channel strip: send 6 level (mixer window, slice 3 of 4) | — | — | click only | FX6 Send Level: -12.04 dB |
+| MMIX-F-B56 | strip SEND7 PRE | Channel strip: send 7 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX7 Send Off |
+| MMIX-F-K52 | strip SEND7 LEVEL | Channel strip: send 7 level (mixer window, slice 3 of 4) | — | — | click only | FX7 Send Level: -12.04 dB |
+| MMIX-F-B59 | strip SEND8 PRE | Channel strip: send 8 pre-fader (mixer window, slice 3 of 4) | — | — | click only | FX8 Send Off |
+| MMIX-F-K55 | strip SEND8 LEVEL | Channel strip: send 8 level (mixer window, slice 3 of 4) | — | — | click only | FX8 Send Level: -12.04 dB |
+| MMIX-F-K58 | strip WIDTH | Channel strip: stereo width (mixer window, slice 3 of 4) | — | — | click only | Stereo Width: 127 |
+| MMIX-F-K59 | strip PAN | Channel strip: pan (mixer window, slice 3 of 4) | — | — | click only | Pan: 0 |
+| MMIX-F-B62 | strip MUTE | Channel strip: mute (mixer window, slice 3 of 4) | — | — | click only | Mix Channel Mute Off |
+| MMIX-F-B63 | strip SOLO | Channel strip: solo (mixer window, slice 3 of 4) | — | — | click only | Mix Channel Solo Off |
+| MMIX-F-D16 | master RETURN1 name | Master strip: return 1 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B39 | master RETURN1 EDIT | Master strip: edit return 1 (mixer window, slice 3 of 4) | — | — | click only | Edit FX1 |
+| MMIX-F-B40 | master RETURN1 M | Master strip: mute return 1 (mixer window, slice 3 of 4) | — | — | click only | FX1 Return Mute Off |
+| MMIX-F-K34 | master RETURN1 LEVEL | Master strip: return 1 level (mixer window, slice 3 of 4) | — | — | click only | FX1 Return Level: 0.00 dB |
+| MMIX-F-K35 | master RETURN1 PAN | Master strip: return 1 pan (mixer window, slice 3 of 4) | — | — | click only | FX1 Return Pan: 0 |
+| MMIX-F-D17 | master RETURN1 LEDs | Master strip: return 1 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX1 Return Level Meter |
+| MMIX-F-D18 | master RETURN2 name | Master strip: return 2 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B42 | master RETURN2 EDIT | Master strip: edit return 2 (mixer window, slice 3 of 4) | — | — | click only | Edit FX2 |
+| MMIX-F-B43 | master RETURN2 M | Master strip: mute return 2 (mixer window, slice 3 of 4) | — | — | click only | FX2 Return Mute Off |
+| MMIX-F-K38 | master RETURN2 LEVEL | Master strip: return 2 level (mixer window, slice 3 of 4) | — | — | click only | FX2 Return Level: 0.00 dB |
+| MMIX-F-K39 | master RETURN2 PAN | Master strip: return 2 pan (mixer window, slice 3 of 4) | — | — | click only | FX2 Return Pan: 0 |
+| MMIX-F-D19 | master RETURN2 LEDs | Master strip: return 2 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX2 Return Level Meter |
+| MMIX-F-D20 | master RETURN3 name | Master strip: return 3 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B45 | master RETURN3 EDIT | Master strip: edit return 3 (mixer window, slice 3 of 4) | — | — | click only | Edit FX3 |
+| MMIX-F-B46 | master RETURN3 M | Master strip: mute return 3 (mixer window, slice 3 of 4) | — | — | click only | FX3 Return Mute Off |
+| MMIX-F-K41 | master RETURN3 LEVEL | Master strip: return 3 level (mixer window, slice 3 of 4) | — | — | click only | FX3 Return Level: 0.00 dB |
+| MMIX-F-K42 | master RETURN3 PAN | Master strip: return 3 pan (mixer window, slice 3 of 4) | — | — | click only | FX3 Return Pan: 0 |
+| MMIX-F-D21 | master RETURN3 LEDs | Master strip: return 3 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX3 Return Level Meter |
+| MMIX-F-D22 | master RETURN4 name | Master strip: return 4 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B48 | master RETURN4 EDIT | Master strip: edit return 4 (mixer window, slice 3 of 4) | — | — | click only | Edit FX4 |
+| MMIX-F-B49 | master RETURN4 M | Master strip: mute return 4 (mixer window, slice 3 of 4) | — | — | click only | FX4 Return Mute Off |
+| MMIX-F-K44 | master RETURN4 LEVEL | Master strip: return 4 level (mixer window, slice 3 of 4) | — | — | click only | FX4 Return Level: 0.00 dB |
+| MMIX-F-K45 | master RETURN4 PAN | Master strip: return 4 pan (mixer window, slice 3 of 4) | — | — | click only | FX4 Return Pan: 0 |
+| MMIX-F-D23 | master RETURN4 LEDs | Master strip: return 4 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX4 Return Level Meter |
+| MMIX-F-D24 | master RETURN5 name | Master strip: return 5 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B51 | master RETURN5 EDIT | Master strip: edit return 5 (mixer window, slice 3 of 4) | — | — | click only | Edit FX5 |
+| MMIX-F-B52 | master RETURN5 M | Master strip: mute return 5 (mixer window, slice 3 of 4) | — | — | click only | FX5 Return Mute Off |
+| MMIX-F-K47 | master RETURN5 LEVEL | Master strip: return 5 level (mixer window, slice 3 of 4) | — | — | click only | FX5 Return Level: 0.00 dB |
+| MMIX-F-K48 | master RETURN5 PAN | Master strip: return 5 pan (mixer window, slice 3 of 4) | — | — | click only | FX5 Return Pan: 0 |
+| MMIX-F-D25 | master RETURN5 LEDs | Master strip: return 5 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX5 Return Level Meter |
+| MMIX-F-D26 | master RETURN6 name | Master strip: return 6 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B54 | master RETURN6 EDIT | Master strip: edit return 6 (mixer window, slice 3 of 4) | — | — | click only | Edit FX6 |
+| MMIX-F-B55 | master RETURN6 M | Master strip: mute return 6 (mixer window, slice 3 of 4) | — | — | click only | FX6 Return Mute Off |
+| MMIX-F-K50 | master RETURN6 LEVEL | Master strip: return 6 level (mixer window, slice 3 of 4) | — | — | click only | FX6 Return Level: 0.00 dB |
+| MMIX-F-K51 | master RETURN6 PAN | Master strip: return 6 pan (mixer window, slice 3 of 4) | — | — | click only | FX6 Return Pan: 0 |
+| MMIX-F-D27 | master RETURN6 LEDs | Master strip: return 6 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX6 Return Level Meter |
+| MMIX-F-D28 | master RETURN7 name | Master strip: return 7 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B57 | master RETURN7 EDIT | Master strip: edit return 7 (mixer window, slice 3 of 4) | — | — | click only | Edit FX7 |
+| MMIX-F-B58 | master RETURN7 M | Master strip: mute return 7 (mixer window, slice 3 of 4) | — | — | click only | FX7 Return Mute Off |
+| MMIX-F-K53 | master RETURN7 LEVEL | Master strip: return 7 level (mixer window, slice 3 of 4) | — | — | click only | FX7 Return Level: 0.00 dB |
+| MMIX-F-K54 | master RETURN7 PAN | Master strip: return 7 pan (mixer window, slice 3 of 4) | — | — | click only | FX7 Return Pan: 0 |
+| MMIX-F-D29 | master RETURN7 LEDs | Master strip: return 7 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX7 Return Level Meter |
+| MMIX-F-D30 | master RETURN8 name | Master strip: return 8 device name (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B60 | master RETURN8 EDIT | Master strip: edit return 8 (mixer window, slice 3 of 4) | — | — | click only | Edit FX8 |
+| MMIX-F-B61 | master RETURN8 M | Master strip: mute return 8 (mixer window, slice 3 of 4) | — | — | click only | FX8 Return Mute Off |
+| MMIX-F-K56 | master RETURN8 LEVEL | Master strip: return 8 level (mixer window, slice 3 of 4) | — | — | click only | FX8 Return Level: 0.00 dB |
+| MMIX-F-K57 | master RETURN8 PAN | Master strip: return 8 pan (mixer window, slice 3 of 4) | — | — | click only | FX8 Return Pan: 0 |
+| MMIX-F-D31 | master RETURN8 LEDs | Master strip: return 8 activity LEDs (mixer window, slice 3 of 4) | — | — | click only | FX8 Return Level Meter |
+| MMIX-F-D32 | master CONTROL ROOM OUT display | Master strip: control room out (mixer window, slice 3 of 4) | — | — | click only | no tooltip |
+| MMIX-F-K60 | master CONTROL ROOM LEVEL | Master strip: control room level (mixer window, slice 3 of 4) | — | — | click only | Control Room Level: 0.00 dB |
+| MMIX-F-D34 | strip output meter | Channel strip: level meter (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-S02 | strip fader handle | Channel strip: channel fader (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B67 | strip OUTPUT menu arrow | Channel strip: output menu (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-D38 | strip OUTPUT display | Channel strip: output name display (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B64 | master FADER RESET | Master strip: reset clip indicators (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-D33 | master FADER meter | Master strip: VU/peak level meter (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B66 | master FADER MODE | Master strip: meter mode (mixer window, slice 4 of 4) | — | — | click only | Meter Mode: VU + Peak |
+| MMIX-F-S01 | master FADER handle | Master strip: master fader (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B65 | master DELAY COMP button | Master strip: delay compensation (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-D36 | master DELAY COMP OFF display | Master strip: delay comp state (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-D37 | master TOTAL DELAY display | Master strip: total delay (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+| MMIX-F-B68 | master spectrum EQ button | Master strip: spectrum window (mixer window, slice 4 of 4) | — | — | click only | Show in Spectrum EQ Window |
+| MMIX-F-D35 | master VU/PEAK label | Master strip: meter VU/PEAK label (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
 
 ## Where each fact came from
 - Pictures: screenshots of John's Reason 12.7, in a blank test song made from his template.

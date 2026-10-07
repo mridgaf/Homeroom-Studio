@@ -8446,3 +8446,13 @@ just not loaded by default.
 - Mix Channel: insert FX slot was empty, so no insert-FX controls exist to map; Audio Output menu not opened.
 - Test changes undone: RPG-8 Pattern turned on then off; Show Insert FX folded back. Cables auto-made in the test song ignored.
 - Not yet done: Batches C-F (instruments, changing-panel devices, Rack Extensions, other effects), Channel EQ / Channel Dynamics / Master Bus Compressor, RV7000 programmer EQ/Gate views, hermes house doc.
+
+### 2026-10-07 Panel Map Batch C: Audio Track, Hardware Interface, Master Section, Main Mixer done
+- Context: finish the mixing/utilities batch. Other 9 devices (Batch B) untouched.
+- Done (device_refs/_panel_map/): JSON + labeled pictures. Audio Track 15, Hardware Interface 354 (207 front + 147 back), Master Section 59 (13 + 46), Main Mixer 168 (front only). Every position hovered in Reason 12.7 in the throwaway test song; nothing saved. PANEL-MAP.md Devices table + sections added for HWIF, MSEC, MMIX.
+- Decision: tools/name_check.py code pattern now allows 2-3 digit numbers (Hardware Interface has J100-J130 etc).
+- ASSUMED: "Main Mixer" = the mixer window (F5). Mapped ONE representative channel strip (the Mix Channel strip) + the master strip, in 4 stacked scroll slices (one 622x5448 picture; the numbers go top to bottom through the slices). Other channel strips repeat the same controls. Faders, meters, displays show no tooltip in that window (recorded as seen). If he meant something else, this needs redoing.
+- name_check: only the expected 2 errors (no vocab entry, no Scope block) for HWIF, MSEC, MMIX. MSEC: remotemap 'Reason Master Section' is the mixer channel scope, not this panel, so the device name was left as 'Master Section'.
+- Seen, not caused: Master Out R goes to Hardware Interface Output 63 (not Output 2). Left as found.
+- Status: confirmed (hover-checked). K (Reduce Cable Clutter) off was pressed at the end but not re-verified on screen.
+- Outcome: —
