@@ -59,6 +59,9 @@ Reference for Claude and Hermes. John doesn't need to read this. Plan: PLAN.md. 
 | Hardware Interface | HWIF | hardware-interface_front_labeled.png | hardware-interface_back_labeled.png | hardware-interface.json | done 2026-10-07: all 354 positions (207 front, 147 back) checked in Reason. Rack name seen in tooltips: 'Hardware Interface II'. Front meters name the right channel of each pair; D16, D40, D64 name other channels (recorded as seen). name_check: only the expected no-vocab/no-Scope errors. |
 | Master Section | MSEC | master-section_front_labeled.png | master-section_back_labeled.png | master-section.json | done 2026-10-07: all 59 positions (13 front, 46 back) checked in Reason. Device name here is the rack Master Section panel; the remotemap 'Reason Master Section' scope is the mixer's channel Remote scope, so it does not apply. name_check: only the expected no-vocab/no-Scope errors. |
 | Main Mixer | MMIX | main-mixer_front_labeled.png | — (mixer window has no back) | main-mixer.json | done 2026-10-07: ASSUMED view = Reason's Main Mixer window (F5), one representative channel strip (the Mix Channel strip) plus the master strip, stitched from 4 scroll slices (picture is 4 stacked slices, each 1362 px tall; overlaps repeat but each control is boxed once). Other channel strips repeat the same controls. All 168 positions hovered in Reason; faders, meters and displays show no tooltip in this window (recorded as seen). name_check: only the expected no-vocab/no-Scope errors. |
+| Channel EQ | CEQ | channel-eq_front_labeled.png | channel-eq_back_labeled.png | channel-eq.json | done 2026-10-07: all 44 positions (25 front, 19 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'ChannelEQ'); 'what' lines spot-checked against manual ch.58. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). Rack Channel EQ attached itself to the Mix Channel's insert chain, so its audio jacks show cables. |
+| Channel Dynamics | CDYN | channel-dynamics_front_labeled.png | channel-dynamics_back_labeled.png | channel-dynamics.json | done 2026-10-07: all 33 positions (22 front, 11 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'ChannelDynamics'); 'what' lines spot-checked against manual ch.57. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). |
+| Master Bus Compressor | MBC | master-bus-compressor_front_labeled.png | master-bus-compressor_back_labeled.png | master-bus-compressor.json | done 2026-10-07: all 23 positions (13 front, 10 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'MasterCompressor'); 'what' lines spot-checked against manual ch.59. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). |
 
 ## Scream 4 — front
 | Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
@@ -1966,6 +1969,130 @@ Notes: hover shows "Diffusion Spread/Amount" but the Remote names are "Diffuse S
 | MMIX-F-D37 | master TOTAL DELAY display | Master strip: total delay (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
 | MMIX-F-B68 | master spectrum EQ button | Master strip: spectrum window (mixer window, slice 4 of 4) | — | — | click only | Show in Spectrum EQ Window |
 | MMIX-F-D35 | master VU/PEAK label | Master strip: meter VU/PEAK label (mixer window, slice 4 of 4) | — | — | click only | no tooltip |
+
+## Channel EQ — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| CEQ-F-B01 | Bypass/On/Off | 3-way device switch | Enabled | 2 / CC 31 | voice/MIDI or click | hover: 'Enabled: On' |
+| CEQ-F-D05 | CHANEQ 1 tape | Device name tape (vertical) | Device Name | — | display/Remote item, not mapped | name tape: hover 'ChanEQ 1' |
+| CEQ-F-B02 | HPF ON | High-pass filter on/off | HPF On | 11 / CC 40 | voice/MIDI or click | hover: 'HPF On' |
+| CEQ-F-K07 | HPF Hz | High-pass filter frequency, 20 Hz to 4 kHz | HPF Frequency | 10 / CC 39 | voice/MIDI or click | hover: 'HPF Frequency: 20.0 Hz' |
+| CEQ-F-B03 | LPF ON | Low-pass filter on/off | LPF On | 19 / CC 48 | voice/MIDI or click | hover: 'LPF On' |
+| CEQ-F-K08 | LPF kHz | Low-pass filter frequency, 100 Hz to 20 kHz | LPF Frequency | 18 / CC 47 | voice/MIDI or click | hover: 'LPF Frequency: 20.00 kHz' |
+| CEQ-F-K01 | LF dB | Low shelf boost/cut | LF Gain | 14 / CC 43 | voice/MIDI or click | hover: 'LF Gain: 0.00 dB' |
+| CEQ-F-D01 | (LF light) | Light beside the LF dB knob | — | — | click only | light beside LF dB, no tooltip (by eye) |
+| CEQ-F-B04 | LF Bell | Low band bell/shelf switch | LF Bell On | 12 / CC 41 | voice/MIDI or click | hover: 'LF Bell On' |
+| CEQ-F-K09 | LF Hz | Low shelf frequency, 40 to 600 Hz | LF Frequency | 13 / CC 42 | voice/MIDI or click | hover: 'LF Frequency: 154.9 Hz' |
+| CEQ-F-K02 | LMF dB | Low-mid boost/cut | LMF Gain | 16 / CC 45 | voice/MIDI or click | hover: 'LMF Gain: 0.00 dB' |
+| CEQ-F-D02 | (LMF light) | Light beside the LMF dB knob | — | — | click only | light beside LMF dB, no tooltip (by eye) |
+| CEQ-F-K03 | LMF Q | Low-mid width (Q), 0.70 to 2.50 | LMF Q | 17 / CC 46 | voice/MIDI or click | hover: 'LMF Q: 50.0 %' |
+| CEQ-F-K10 | LMF kHz | Low-mid frequency, 200 Hz to 2 kHz | LMF Frequency | 15 / CC 44 | voice/MIDI or click | hover: 'LMF Frequency: 632.5 Hz' |
+| CEQ-F-B05 | E Mode | E Mode on/off: keeps LMF/HMF bandwidth constant at all Gain settings | E Mode On | 1 / CC 30 | voice/MIDI or click | hover: 'E Mode On' |
+| CEQ-F-K04 | HMF dB | High-mid boost/cut | HMF Gain | 8 / CC 37 | voice/MIDI or click | hover: 'HMF Gain: 0.00 dB' |
+| CEQ-F-D03 | (HMF light) | Light beside the HMF dB knob | — | — | click only | light beside HMF dB, no tooltip (by eye) |
+| CEQ-F-K05 | HMF Q | High-mid width (Q), 0.70 to 2.50 | HMF Q | 9 / CC 38 | voice/MIDI or click | hover: 'HMF Q: 50.0 %' |
+| CEQ-F-K11 | HMF kHz | High-mid frequency, 600 Hz to 7 kHz | HMF Frequency | 7 / CC 36 | voice/MIDI or click | hover: 'HMF Frequency: 2.05 kHz' |
+| CEQ-F-K06 | HF dB | High shelf boost/cut | HF Gain | 6 / CC 35 | voice/MIDI or click | hover: 'HF Gain: 0.00 dB' |
+| CEQ-F-D04 | (HF light) | Light beside the HF dB knob | — | — | click only | light beside HF dB, no tooltip (by eye) |
+| CEQ-F-K12 | HF kHz | High shelf frequency, 1.5 to 22 kHz | HF Frequency | 5 / CC 34 | voice/MIDI or click | hover: 'HF Frequency: 5.74 kHz' |
+| CEQ-F-B06 | HF Bell | High band bell/shelf switch | HF Bell On | 4 / CC 33 | voice/MIDI or click | hover: 'HF Bell On' |
+| CEQ-F-K13 | Gain | Output gain | Gain | 3 / CC 32 | voice/MIDI or click | hover: 'Gain: 0.00 dB' |
+| CEQ-F-D06 | (LED column) | Level meter lights | — | — | click only | LED column, no tooltip (by eye) |
+
+## Channel EQ — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| CEQ-B-D03 | CHANEQ 1 tape | Device name tape (back, vertical) | — | — | click/drag only (no Remote item) | name tape: hover 'ChanEQ 1' |
+| CEQ-B-K01 | HMF Gain CV trim | CV amount for HMF Gain | — | — | click/drag only (no Remote item) | hover: 'HMF Gain CV Amt: 100.0 %' |
+| CEQ-B-J01 | HMF Gain CV In | CV input for HMF Gain | HMF Gain CV Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'HMF Gain CV Input' |
+| CEQ-B-K02 | HMF Freq CV trim | CV amount for HMF Frequency | — | — | click/drag only (no Remote item) | hover: 'HMF Frequency CV Amt: 100.0 %' |
+| CEQ-B-J02 | HMF Freq CV In | CV input for HMF Frequency | HMF Freq CV Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'HMF Freq CV Input' |
+| CEQ-B-K03 | HPF Freq CV trim | CV amount for HPF Frequency | — | — | click/drag only (no Remote item) | hover: 'HPF CV Amt: 100.0 %' |
+| CEQ-B-J03 | HPF Freq CV In | CV input for HPF Frequency | HPF CV Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'HPF CV Input' |
+| CEQ-B-K04 | LMF Gain CV trim | CV amount for LMF Gain | — | — | click/drag only (no Remote item) | hover: 'LMF Gain CV Amt: 100.0 %' |
+| CEQ-B-J04 | LMF Gain CV In | CV input for LMF Gain | LMF Gain CV Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'LMF Gain CV Input' |
+| CEQ-B-K05 | LPF Freq CV trim | CV amount for LPF Frequency | — | — | click/drag only (no Remote item) | hover: 'LPF CV Amt: 100.0 %' |
+| CEQ-B-J05 | LPF Freq CV In | CV input for LPF Frequency | LPF CV Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'LPF CV Input' |
+| CEQ-B-K06 | LMF Freq CV trim | CV amount for LMF Frequency | — | — | click/drag only (no Remote item) | hover: 'LMF Frequency CV Amt: 100.0 %' |
+| CEQ-B-J06 | LMF Freq CV In | CV input for LMF Frequency | LMF Freq CV Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'LMF Freq CV Input' |
+| CEQ-B-J07 | Input L | Audio input left | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to Mix Channel: To Insert FX' (text may continue past zoom edge) |
+| CEQ-B-J08 | Input R | Audio input right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to Mix Channel: To Insert FX' (text may continue past zoom edge) |
+| CEQ-B-J09 | Output L | Audio output left | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to ChanDyn 1: Left Input' |
+| CEQ-B-J10 | Output R | Audio output right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to ChanDyn 1: Right Input' |
+| CEQ-B-D01 | (routing icon 1) | Small icon at top right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
+| CEQ-B-D02 | (routing icon 2) | Small icon at right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
+
+## Channel Dynamics — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| CDYN-F-B01 | Bypass/On/Off | 3-way device switch | Enabled | 7 / CC 36 | voice/MIDI or click | hover: 'Enabled: On' |
+| CDYN-F-D01 | CHANDYN 1 tape | Device name tape (vertical) | Device Name | — | display/Remote item, not mapped | name tape: hover 'ChanDyn 1' |
+| CDYN-F-B02 | Comp ON | Compressor on/off | Comp On | 2 / CC 31 | voice/MIDI or click | hover: 'Comp On' |
+| CDYN-F-B04 | Comp Peak | Compressor peak detection on/off (instead of RMS) | Comp Peak On | 3 / CC 32 | voice/MIDI or click | hover: 'Comp Peak On' |
+| CDYN-F-B05 | Comp Fast | Compressor fast reaction on/off (fixed 3 ms for 20 dB) | Comp Fast On | 1 / CC 30 | voice/MIDI or click | hover: 'Comp Fast On' |
+| CDYN-F-K03 | Input Gain | Level into the compressor, -18 to +18 dB | Input Gain | 15 / CC 44 | voice/MIDI or click | hover: 'Input Gain: 0.00 dB' |
+| CDYN-F-K04 | Ratio | Compression ratio, 1 to infinity | Comp Ratio | 4 / CC 33 | voice/MIDI or click | hover: 'Comp Ratio: 4.00 : 1' |
+| CDYN-F-K05 | Thresh (comp) | Level above which compression starts, -52 to 0 dB | Comp Threshold | 6 / CC 35 | voice/MIDI or click | hover: 'Comp Threshold: -26.0 dB' |
+| CDYN-F-K06 | Release (comp) | How fast compression lets go, 100 to 1000 ms | Comp Release | 5 / CC 34 | voice/MIDI or click | hover: 'Comp Release: 550 ms' |
+| CDYN-F-D02 | (Comp light column) | Compressor gain reduction lights | — | — | click only | comp light column, no tooltip (by eye) |
+| CDYN-F-B03 | Gate ON | Gate/expander on/off | Gate On | 11 / CC 40 | voice/MIDI or click | hover: 'Gate On' |
+| CDYN-F-B06 | Exp. | Expander instead of gate on/off | Gate Exp On | 8 / CC 37 | voice/MIDI or click | hover: 'Gate Exp On' |
+| CDYN-F-K01 | Hold | Gate hold time, 0 to 4000 ms | Gate Hold | 10 / CC 39 | voice/MIDI or click | hover: 'Gate Hold: 0.0 ms' |
+| CDYN-F-B07 | Gate Fast | Gate fast attack on/off (100 microseconds per 40 dB instead of 1.5 ms) | Gate Fast On | 9 / CC 38 | voice/MIDI or click | hover: 'Gate Fast On' |
+| CDYN-F-K07 | Range | Gate range, 0 to 40 dB | Gate Range | 12 / CC 41 | voice/MIDI or click | hover: 'Gate Range: -20.00 dB' |
+| CDYN-F-K08 | Thresh (gate) | Level at which the gate opens or closes, -52 to 0 dB | Gate Threshold | 14 / CC 43 | voice/MIDI or click | hover: 'Gate Threshold: -33.8 dB' |
+| CDYN-F-K09 | Release (gate) | Time for the gate to go from open to fully closed, 100 to 1000 ms | Gate Release | 13 / CC 42 | voice/MIDI or click | hover: 'Gate Release: 550 ms' |
+| CDYN-F-D03 | (Gate light column) | Gate activity lights | — | — | click only | gate light column, no tooltip (by eye) |
+| CDYN-F-D04 | Connected (light) | Sidechain cable connected light | — | — | click only | Connected light, no tooltip (by eye) |
+| CDYN-F-D05 | Active (light) | Sidechain active light | — | — | click only | Active light, no tooltip (by eye) |
+| CDYN-F-B08 | Sidechain | Sidechain on/off | Sidechain | 17 / CC 46 | voice/MIDI or click | hover: 'Sidechain' |
+| CDYN-F-K02 | Mix | Dry/wet mix | Mix | 16 / CC 45 | voice/MIDI or click | hover: 'Mix: 100.0 %' |
+
+## Channel Dynamics — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| CDYN-B-D03 | CHANDYN 1 tape | Device name tape (back, vertical) | — | — | click/drag only (no Remote item) | hover on name tape: 'ChanDyn 1' (rack name) |
+| CDYN-B-J03 | Comp Gain Reduction CV Out | CV output following compressor gain reduction | Comp CV Output | — | cable: right-click jack > device > jack name | hover (empty jack): 'Comp CV Output' |
+| CDYN-B-J04 | Gate Gain CV Out | CV output following gate gain | GateExp CV Output | — | cable: right-click jack > device > jack name | hover (empty jack): 'GateExp CV Output' |
+| CDYN-B-J01 | Sidechain In L | Sidechain input left | Left Key Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'Left Key Input' |
+| CDYN-B-J02 | Sidechain In R | Sidechain input right | Right Key Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'Right Key Input' |
+| CDYN-B-J05 | Input L | Audio input left | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to ChanEQ 1: Left Output' |
+| CDYN-B-J06 | Input R | Audio input right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to ChanEQ 1: Right Output' |
+| CDYN-B-J07 | Output L | Audio output left | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to MasterComp 1: Left Input' |
+| CDYN-B-J08 | Output R | Audio output right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to MasterComp 1: Right Inpu...' (text cut at zoom edge) |
+| CDYN-B-D01 | (routing icon 1) | Small icon at top right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
+| CDYN-B-D02 | (routing icon 2) | Small icon at right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
+
+## Master Bus Compressor — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MBC-F-B01 | Bypass/On/Off | 3-way device switch | Enabled | 2 / CC 31 | voice/MIDI or click | hover: 'Enabled: On' |
+| MBC-F-D03 | MASTERCOMP 1 tape | Device name tape (vertical) | Device Name | — | display/Remote item, not mapped | name tape, no tooltip (by eye) |
+| MBC-F-K01 | Threshold | Level above which compression starts, -30 to 0 dB | Threshold | 9 / CC 38 | voice/MIDI or click | hover: 'Threshold: -15.00 dB' |
+| MBC-F-K05 | Ratio | Compression ratio, 2 to 10 | Ratio | 6 / CC 35 | voice/MIDI or click | hover: 'Ratio: 2:1' |
+| MBC-F-K04 | Input Gain | Level into the compressor, -18 to +18 dB | Input Gain | 3 / CC 32 | voice/MIDI or click | hover: 'Input Gain: 0.00 dB' |
+| MBC-F-D01 | (VU meter) | Gain reduction meter, 0 to 20 dB | — | — | click only | VU meter, no tooltip (by eye) |
+| MBC-F-K02 | Attack-ms | Attack time, 0.1 to 30 ms | Attack | 1 / CC 30 | voice/MIDI or click | hover: 'Attack: 1ms' |
+| MBC-F-K06 | Release-sec | Release time, 0.1 to 1.2 s or AUTO | Release | 7 / CC 36 | voice/MIDI or click | hover: 'Release: 0.6s' |
+| MBC-F-K07 | Make-Up | Make-up gain, -5 to +15 dB | Make-Up Gain | 4 / CC 33 | voice/MIDI or click | hover: 'Make-Up Gain: 5.00 dB' |
+| MBC-F-D02 | Connected (light) | Sidechain cable connected light | — | — | click only | Connected light, no tooltip (by eye) |
+| MBC-F-D04 | Active (light) | Sidechain active light | — | — | click only | Active light, no tooltip (by eye) |
+| MBC-F-B02 | Sidechain | Sidechain on/off | Sidechain | 8 / CC 37 | voice/MIDI or click | hover: 'Sidechain' |
+| MBC-F-K03 | Mix | Dry/wet mix | Mix | 5 / CC 34 | voice/MIDI or click | hover: 'Mix: 100.0 %' |
+
+## Master Bus Compressor — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MBC-B-D03 | MASTERCOMP 1 tape | Device name tape (back, vertical) | — | — | click/drag only (no Remote item) | hover on name tape: 'MasterComp 1' (rack name) |
+| MBC-B-J03 | Comp Gain Reduction CV Out | CV output following gain reduction | GainRed CV Output | — | cable: right-click jack > device > jack name | hover (empty jack): 'GainRed CV Output' |
+| MBC-B-J01 | Sidechain In L | Sidechain input left | Left Key Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'Left Key Input' |
+| MBC-B-J02 | Sidechain In R | Sidechain input right | Right Key Input | — | cable: right-click jack > device > jack name | hover (empty jack): 'Right Key Input' |
+| MBC-B-J04 | Input L | Audio input left | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to ChanDyn 1: Left Output' |
+| MBC-B-J05 | Input R | Audio input right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to ChanDyn 1: Right Output' |
+| MBC-B-J06 | Output L | Audio output left | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to Mix Channel: From Insert F...' (text cut at zoom edge) |
+| MBC-B-J07 | Output R | Audio output right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to Mix Channel: From Insert F...' (text cut at zoom edge) |
+| MBC-B-D01 | (routing icon 1) | Small icon at top right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
+| MBC-B-D02 | (routing icon 2) | Small icon at right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
 
 ## Where each fact came from
 - Pictures: screenshots of John's Reason 12.7, in a blank test song made from his template.

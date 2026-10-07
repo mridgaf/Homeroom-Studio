@@ -1,0 +1,756 @@
+{
+ "device": "Channel EQ",
+ "remote_scope": "se.propellerheads.ChannelEQ",
+ "code_prefix": "CEQ",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: all 44 positions (25 front, 19 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'ChannelEQ'); 'what' lines spot-checked against manual ch.58. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). Rack Channel EQ attached itself to the Mix Channel's insert chain, so its audio jacks show cables.",
+ "controls": [
+  {
+   "code": "CEQ-F-B01",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.062,
+    0.163
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Enabled: On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-D05",
+   "side": "front",
+   "panel_label": "CHANEQ 1 tape",
+   "what": "Device name tape (vertical)",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.038,
+    0.462
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "name tape: hover 'ChanEQ 1'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-B02",
+   "side": "front",
+   "panel_label": "HPF ON",
+   "what": "High-pass filter on/off",
+   "reason_name": "HPF On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.14,
+    0.421
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HPF On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K07",
+   "side": "front",
+   "panel_label": "HPF Hz",
+   "what": "High-pass filter frequency, 20 Hz to 4 kHz",
+   "reason_name": "HPF Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.138,
+    0.609
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HPF Frequency: 20.0 Hz'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-B03",
+   "side": "front",
+   "panel_label": "LPF ON",
+   "what": "Low-pass filter on/off",
+   "reason_name": "LPF On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.2,
+    0.421
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LPF On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K08",
+   "side": "front",
+   "panel_label": "LPF kHz",
+   "what": "Low-pass filter frequency, 100 Hz to 20 kHz",
+   "reason_name": "LPF Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.203,
+    0.611
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LPF Frequency: 20.00 kHz'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K01",
+   "side": "front",
+   "panel_label": "LF dB",
+   "what": "Low shelf boost/cut",
+   "reason_name": "LF Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.284,
+    0.34
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LF Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-D01",
+   "side": "front",
+   "panel_label": "(LF light)",
+   "what": "Light beside the LF dB knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.324,
+    0.326
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "light beside LF dB, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CEQ-F-B04",
+   "side": "front",
+   "panel_label": "LF Bell",
+   "what": "Low band bell/shelf switch",
+   "reason_name": "LF Bell On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.271,
+    0.633
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LF Bell On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K09",
+   "side": "front",
+   "panel_label": "LF Hz",
+   "what": "Low shelf frequency, 40 to 600 Hz",
+   "reason_name": "LF Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.332,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LF Frequency: 154.9 Hz'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K02",
+   "side": "front",
+   "panel_label": "LMF dB",
+   "what": "Low-mid boost/cut",
+   "reason_name": "LMF Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.4,
+    0.334
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LMF Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-D02",
+   "side": "front",
+   "panel_label": "(LMF light)",
+   "what": "Light beside the LMF dB knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.435,
+    0.326
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "light beside LMF dB, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CEQ-F-K03",
+   "side": "front",
+   "panel_label": "LMF Q",
+   "what": "Low-mid width (Q), 0.70 to 2.50",
+   "reason_name": "LMF Q",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.476,
+    0.332
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LMF Q: 50.0 %'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K10",
+   "side": "front",
+   "panel_label": "LMF kHz",
+   "what": "Low-mid frequency, 200 Hz to 2 kHz",
+   "reason_name": "LMF Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.436,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'LMF Frequency: 632.5 Hz'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-B05",
+   "side": "front",
+   "panel_label": "E Mode",
+   "what": "E Mode on/off: keeps LMF/HMF bandwidth constant at all Gain settings",
+   "reason_name": "E Mode On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.518,
+    0.633
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'E Mode On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K04",
+   "side": "front",
+   "panel_label": "HMF dB",
+   "what": "High-mid boost/cut",
+   "reason_name": "HMF Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.566,
+    0.334
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HMF Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-D03",
+   "side": "front",
+   "panel_label": "(HMF light)",
+   "what": "Light beside the HMF dB knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.601,
+    0.326
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "light beside HMF dB, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CEQ-F-K05",
+   "side": "front",
+   "panel_label": "HMF Q",
+   "what": "High-mid width (Q), 0.70 to 2.50",
+   "reason_name": "HMF Q",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.642,
+    0.332
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HMF Q: 50.0 %'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K11",
+   "side": "front",
+   "panel_label": "HMF kHz",
+   "what": "High-mid frequency, 600 Hz to 7 kHz",
+   "reason_name": "HMF Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.606,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HMF Frequency: 2.05 kHz'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K06",
+   "side": "front",
+   "panel_label": "HF dB",
+   "what": "High shelf boost/cut",
+   "reason_name": "HF Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.756,
+    0.334
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HF Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-D04",
+   "side": "front",
+   "panel_label": "(HF light)",
+   "what": "Light beside the HF dB knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.71,
+    0.337
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "light beside HF dB, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CEQ-F-K12",
+   "side": "front",
+   "panel_label": "HF kHz",
+   "what": "High shelf frequency, 1.5 to 22 kHz",
+   "reason_name": "HF Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.712,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HF Frequency: 5.74 kHz'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-B06",
+   "side": "front",
+   "panel_label": "HF Bell",
+   "what": "High band bell/shelf switch",
+   "reason_name": "HF Bell On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.772,
+    0.633
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'HF Bell On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-K13",
+   "side": "front",
+   "panel_label": "Gain",
+   "what": "Output gain",
+   "reason_name": "Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.885,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-F-D06",
+   "side": "front",
+   "panel_label": "(LED column)",
+   "what": "Level meter lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.929,
+    0.557
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "LED column, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CEQ-B-D03",
+   "side": "back",
+   "panel_label": "CHANEQ 1 tape",
+   "what": "Device name tape (back, vertical)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.038,
+    0.462
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "name tape: hover 'ChanEQ 1'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-K01",
+   "side": "back",
+   "panel_label": "HMF Gain CV trim",
+   "what": "CV amount for HMF Gain",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.261,
+    0.253
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover: 'HMF Gain CV Amt: 100.0 %'",
+   "confidence": "medium"
+  },
+  {
+   "code": "CEQ-B-J01",
+   "side": "back",
+   "panel_label": "HMF Gain CV In",
+   "what": "CV input for HMF Gain",
+   "reason_cable_menu_name": "HMF Gain CV Input",
+   "pos": [
+    0.292,
+    0.258
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'HMF Gain CV Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-K02",
+   "side": "back",
+   "panel_label": "HMF Freq CV trim",
+   "what": "CV amount for HMF Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.261,
+    0.37
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover: 'HMF Frequency CV Amt: 100.0 %'",
+   "confidence": "medium"
+  },
+  {
+   "code": "CEQ-B-J02",
+   "side": "back",
+   "panel_label": "HMF Freq CV In",
+   "what": "CV input for HMF Frequency",
+   "reason_cable_menu_name": "HMF Freq CV Input",
+   "pos": [
+    0.292,
+    0.375
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'HMF Freq CV Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-K03",
+   "side": "back",
+   "panel_label": "HPF Freq CV trim",
+   "what": "CV amount for HPF Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.121,
+    0.524
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover: 'HPF CV Amt: 100.0 %'",
+   "confidence": "medium"
+  },
+  {
+   "code": "CEQ-B-J03",
+   "side": "back",
+   "panel_label": "HPF Freq CV In",
+   "what": "CV input for HPF Frequency",
+   "reason_cable_menu_name": "HPF CV Input",
+   "pos": [
+    0.152,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'HPF CV Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-K04",
+   "side": "back",
+   "panel_label": "LMF Gain CV trim",
+   "what": "CV amount for LMF Gain",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.261,
+    0.527
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover: 'LMF Gain CV Amt: 100.0 %'",
+   "confidence": "medium"
+  },
+  {
+   "code": "CEQ-B-J04",
+   "side": "back",
+   "panel_label": "LMF Gain CV In",
+   "what": "CV input for LMF Gain",
+   "reason_cable_menu_name": "LMF Gain CV Input",
+   "pos": [
+    0.292,
+    0.533
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'LMF Gain CV Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-K05",
+   "side": "back",
+   "panel_label": "LPF Freq CV trim",
+   "what": "CV amount for LPF Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.121,
+    0.644
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover: 'LPF CV Amt: 100.0 %'",
+   "confidence": "medium"
+  },
+  {
+   "code": "CEQ-B-J05",
+   "side": "back",
+   "panel_label": "LPF Freq CV In",
+   "what": "CV input for LPF Frequency",
+   "reason_cable_menu_name": "LPF CV Input",
+   "pos": [
+    0.152,
+    0.649
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'LPF CV Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-K06",
+   "side": "back",
+   "panel_label": "LMF Freq CV trim",
+   "what": "CV amount for LMF Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.261,
+    0.644
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover: 'LMF Frequency CV Amt: 100.0 %'",
+   "confidence": "medium"
+  },
+  {
+   "code": "CEQ-B-J06",
+   "side": "back",
+   "panel_label": "LMF Freq CV In",
+   "what": "CV input for LMF Frequency",
+   "reason_cable_menu_name": "LMF Freq CV Input",
+   "pos": [
+    0.292,
+    0.649
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'LMF Freq CV Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-J07",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.676,
+    0.666
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to Mix Channel: To Insert FX' (text may continue past zoom edge)",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-J08",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.712,
+    0.666
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to Mix Channel: To Insert FX' (text may continue past zoom edge)",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-J09",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.666
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to ChanDyn 1: Left Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-J10",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.841,
+    0.666
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to ChanDyn 1: Right Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-D01",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Small icon at top right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.204
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "icon, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "CEQ-B-D02",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Small icon at right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.321
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "icon, no tooltip (by eye)",
+   "confidence": "high"
+  }
+ ]
+}

@@ -1,4 +1,4 @@
-# Batch A — paused 2026-10-03 (resume here)
+# Batch A — FINISHED 2026-10-07 (17/17; nothing left to resume)
 
 ## Done
 - Raw front + back pictures for 14 devices, taken in test song "untitled 4" (unsaved):

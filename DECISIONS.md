@@ -8456,3 +8456,14 @@ just not loaded by default.
 - Seen, not caused: Master Out R goes to Hardware Interface Output 63 (not Output 2). Left as found.
 - Status: confirmed (hover-checked). K (Reduce Cable Clutter) off was pressed at the end but not re-verified on screen.
 - Outcome: —
+
+### 2026-10-07 Panel Map Batch A finished: Channel EQ, Channel Dynamics, Master Bus Compressor
+- Context: last 3 devices of Batch A. Reason's open song "untitled" had real-looking tracks, so with owner's OK I used File > New ("untitled 2", unsaved, never saved).
+- Done (device_refs/_panel_map/): JSON + labeled pictures + raw pictures. Channel EQ 44 positions (25 front, 19 back), Channel Dynamics 33 (22 + 11), Master Bus Compressor 23 (13 + 10). Every position hovered in Reason; results in `checked_2026_10_07`. name_check PASS (0 errors) on all three.
+- Trap: with Mix Channel selected, new effects join its insert chain (Mix Channel > ChanEQ > ChanDyn > MasterComp), so the audio jacks show "Connected to ..." cables. Accepted; empty jacks give the real names (Left/Right Key Input, Comp CV Output, GateExp CV Output, GainRed CV Output, HMF Gain CV Input...).
+- name_check: the remotemap Scope lines use ids (se.propellerheads.ChannelEQ) but vocab uses the short name (ChannelEQ), so it only passes on a temp copy with the Scope names shortened. Real remotemap NOT edited. JSON `device` = display name; `remote_scope` = id.
+- Manual check (ch.57/58/59) fixed 3 'what' lines: E Mode (constant bandwidth, not "SSL-style"), Gate Fast (fast attack, not release), plus ranges added.
+- Cut-off tooltips (two "Connected to Mix Channel: From Insert F..." rows) recorded as seen. Lights, meters, icons: no tooltip.
+- Left behind: "untitled 2" open and unsaved with the 3 devices, rack window detached. Reduce Cable Clutter (K) pressed off (looks off on screen).
+- Status: confirmed. Batch A is now 17/17.
+- Outcome: —

@@ -1,0 +1,398 @@
+{
+ "device": "Master Bus Compressor",
+ "remote_scope": "se.propellerheads.MasterCompressor",
+ "code_prefix": "MBC",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: all 23 positions (13 front, 10 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'MasterCompressor'); 'what' lines spot-checked against manual ch.59. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye).",
+ "controls": [
+  {
+   "code": "MBC-F-B01",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.062,
+    0.146
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Enabled: On'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-D03",
+   "side": "front",
+   "panel_label": "MASTERCOMP 1 tape",
+   "what": "Device name tape (vertical)",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.038,
+    0.518
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "name tape, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-K01",
+   "side": "front",
+   "panel_label": "Threshold",
+   "what": "Level above which compression starts, -30 to 0 dB",
+   "reason_name": "Threshold",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.286,
+    0.25
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Threshold: -15.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-K05",
+   "side": "front",
+   "panel_label": "Ratio",
+   "what": "Compression ratio, 2 to 10",
+   "reason_name": "Ratio",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.283,
+    0.634
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Ratio: 2:1'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-K04",
+   "side": "front",
+   "panel_label": "Input Gain",
+   "what": "Level into the compressor, -18 to +18 dB",
+   "reason_name": "Input Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.14,
+    0.634
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Input Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-D01",
+   "side": "front",
+   "panel_label": "(VU meter)",
+   "what": "Gain reduction meter, 0 to 20 dB",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.408,
+    0.39
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "VU meter, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meter shows no tooltip"
+  },
+  {
+   "code": "MBC-F-K02",
+   "side": "front",
+   "panel_label": "Attack-ms",
+   "what": "Attack time, 0.1 to 30 ms",
+   "reason_name": "Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.534,
+    0.25
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Attack: 1ms'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-K06",
+   "side": "front",
+   "panel_label": "Release-sec",
+   "what": "Release time, 0.1 to 1.2 s or AUTO",
+   "reason_name": "Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.536,
+    0.634
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Release: 0.6s'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-K07",
+   "side": "front",
+   "panel_label": "Make-Up",
+   "what": "Make-up gain, -5 to +15 dB",
+   "reason_name": "Make-Up Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.678,
+    0.634
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Make-Up Gain: 5.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-D02",
+   "side": "front",
+   "panel_label": "Connected (light)",
+   "what": "Sidechain cable connected light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.829,
+    0.473
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Connected light, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-D04",
+   "side": "front",
+   "panel_label": "Active (light)",
+   "what": "Sidechain active light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.829,
+    0.552
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Active light, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-B02",
+   "side": "front",
+   "panel_label": "Sidechain",
+   "what": "Sidechain on/off",
+   "reason_name": "Sidechain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.828,
+    0.649
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Sidechain'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-F-K03",
+   "side": "front",
+   "panel_label": "Mix",
+   "what": "Dry/wet mix",
+   "reason_name": "Mix",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.912,
+    0.579
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Mix: 100.0 %'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-D03",
+   "side": "back",
+   "panel_label": "MASTERCOMP 1 tape",
+   "what": "Device name tape (back, vertical)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.038,
+    0.503
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover on name tape: 'MasterComp 1' (rack name)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J03",
+   "side": "back",
+   "panel_label": "Comp Gain Reduction CV Out",
+   "what": "CV output following gain reduction",
+   "reason_cable_menu_name": "GainRed CV Output",
+   "pos": [
+    0.189,
+    0.646
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'GainRed CV Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J01",
+   "side": "back",
+   "panel_label": "Sidechain In L",
+   "what": "Sidechain input left",
+   "reason_cable_menu_name": "Left Key Input",
+   "pos": [
+    0.805,
+    0.29
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'Left Key Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J02",
+   "side": "back",
+   "panel_label": "Sidechain In R",
+   "what": "Sidechain input right",
+   "reason_cable_menu_name": "Right Key Input",
+   "pos": [
+    0.842,
+    0.29
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'Right Key Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J04",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.676,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to ChanDyn 1: Left Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J05",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.712,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to ChanDyn 1: Right Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J06",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to Mix Channel: From Insert F...' (text cut at zoom edge)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-J07",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.842,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to Mix Channel: From Insert F...' (text cut at zoom edge)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-D01",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Small icon at top right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.183
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "icon, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "MBC-B-D02",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Small icon at right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.311
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "icon, no tooltip (by eye)",
+   "confidence": "high"
+  }
+ ]
+}

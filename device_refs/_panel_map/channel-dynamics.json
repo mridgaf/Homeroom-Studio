@@ -1,0 +1,584 @@
+{
+ "device": "Channel Dynamics",
+ "remote_scope": "se.propellerheads.ChannelDynamics",
+ "code_prefix": "CDYN",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: all 33 positions (22 front, 11 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'ChannelDynamics'); 'what' lines spot-checked against manual ch.57. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye).",
+ "controls": [
+  {
+   "code": "CDYN-F-B01",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.062,
+    0.143
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Enabled: On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-D01",
+   "side": "front",
+   "panel_label": "CHANDYN 1 tape",
+   "what": "Device name tape (vertical)",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.038,
+    0.506
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "name tape: hover 'ChanDyn 1'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-B02",
+   "side": "front",
+   "panel_label": "Comp ON",
+   "what": "Compressor on/off",
+   "reason_name": "Comp On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.141,
+    0.134
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Comp On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-B04",
+   "side": "front",
+   "panel_label": "Comp Peak",
+   "what": "Compressor peak detection on/off (instead of RMS)",
+   "reason_name": "Comp Peak On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.202,
+    0.336
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Comp Peak On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-B05",
+   "side": "front",
+   "panel_label": "Comp Fast",
+   "what": "Compressor fast reaction on/off (fixed 3 ms for 20 dB)",
+   "reason_name": "Comp Fast On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.331,
+    0.336
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Comp Fast On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K03",
+   "side": "front",
+   "panel_label": "Input Gain",
+   "what": "Level into the compressor, -18 to +18 dB",
+   "reason_name": "Input Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.126,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Input Gain: 0.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K04",
+   "side": "front",
+   "panel_label": "Ratio",
+   "what": "Compression ratio, 1 to infinity",
+   "reason_name": "Comp Ratio",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.203,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Comp Ratio: 4.00 : 1'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K05",
+   "side": "front",
+   "panel_label": "Thresh (comp)",
+   "what": "Level above which compression starts, -52 to 0 dB",
+   "reason_name": "Comp Threshold",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.272,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Comp Threshold: -26.0 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K06",
+   "side": "front",
+   "panel_label": "Release (comp)",
+   "what": "How fast compression lets go, 100 to 1000 ms",
+   "reason_name": "Comp Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.335,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Comp Release: 550 ms'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-D02",
+   "side": "front",
+   "panel_label": "(Comp light column)",
+   "what": "Compressor gain reduction lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.385,
+    0.551
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "comp light column, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CDYN-F-B03",
+   "side": "front",
+   "panel_label": "Gate ON",
+   "what": "Gate/expander on/off",
+   "reason_name": "Gate On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.436,
+    0.134
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-B06",
+   "side": "front",
+   "panel_label": "Exp.",
+   "what": "Expander instead of gate on/off",
+   "reason_name": "Gate Exp On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.47,
+    0.336
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate Exp On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K01",
+   "side": "front",
+   "panel_label": "Hold",
+   "what": "Gate hold time, 0 to 4000 ms",
+   "reason_name": "Gate Hold",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.545,
+    0.327
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate Hold: 0.0 ms'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-B07",
+   "side": "front",
+   "panel_label": "Gate Fast",
+   "what": "Gate fast attack on/off (100 microseconds per 40 dB instead of 1.5 ms)",
+   "reason_name": "Gate Fast On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.608,
+    0.336
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate Fast On'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K07",
+   "side": "front",
+   "panel_label": "Range",
+   "what": "Gate range, 0 to 40 dB",
+   "reason_name": "Gate Range",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.473,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate Range: -20.00 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K08",
+   "side": "front",
+   "panel_label": "Thresh (gate)",
+   "what": "Level at which the gate opens or closes, -52 to 0 dB",
+   "reason_name": "Gate Threshold",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.544,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate Threshold: -33.8 dB'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K09",
+   "side": "front",
+   "panel_label": "Release (gate)",
+   "what": "Time for the gate to go from open to fully closed, 100 to 1000 ms",
+   "reason_name": "Gate Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.608,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Gate Release: 550 ms'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-D03",
+   "side": "front",
+   "panel_label": "(Gate light column)",
+   "what": "Gate activity lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.671,
+    0.551
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "gate light column, no tooltip (by eye)",
+   "confidence": "medium",
+   "confidence_reason": "meaning not confirmed"
+  },
+  {
+   "code": "CDYN-F-D04",
+   "side": "front",
+   "panel_label": "Connected (light)",
+   "what": "Sidechain cable connected light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.831,
+    0.476
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Connected light, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-D05",
+   "side": "front",
+   "panel_label": "Active (light)",
+   "what": "Sidechain active light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.831,
+    0.56
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "Active light, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-B08",
+   "side": "front",
+   "panel_label": "Sidechain",
+   "what": "Sidechain on/off",
+   "reason_name": "Sidechain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.829,
+    0.655
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Sidechain'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-F-K02",
+   "side": "front",
+   "panel_label": "Mix",
+   "what": "Dry/wet mix",
+   "reason_name": "Mix",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.913,
+    0.574
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "hover: 'Mix: 100.0 %'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-D03",
+   "side": "back",
+   "panel_label": "CHANDYN 1 tape",
+   "what": "Device name tape (back, vertical)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.038,
+    0.488
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "hover on name tape: 'ChanDyn 1' (rack name)",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J03",
+   "side": "back",
+   "panel_label": "Comp Gain Reduction CV Out",
+   "what": "CV output following compressor gain reduction",
+   "reason_cable_menu_name": "Comp CV Output",
+   "pos": [
+    0.189,
+    0.567
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'Comp CV Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J04",
+   "side": "back",
+   "panel_label": "Gate Gain CV Out",
+   "what": "CV output following gate gain",
+   "reason_cable_menu_name": "GateExp CV Output",
+   "pos": [
+    0.189,
+    0.692
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'GateExp CV Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J01",
+   "side": "back",
+   "panel_label": "Sidechain In L",
+   "what": "Sidechain input left",
+   "reason_cable_menu_name": "Left Key Input",
+   "pos": [
+    0.805,
+    0.29
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'Left Key Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J02",
+   "side": "back",
+   "panel_label": "Sidechain In R",
+   "what": "Sidechain input right",
+   "reason_cable_menu_name": "Right Key Input",
+   "pos": [
+    0.842,
+    0.29
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (empty jack): 'Right Key Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J05",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.676,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to ChanEQ 1: Left Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J06",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.712,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to ChanEQ 1: Right Output'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J07",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to MasterComp 1: Left Input'",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-J08",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.842,
+    0.716
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "hover (cabled): 'Connected to MasterComp 1: Right Inpu...' (text cut at zoom edge)",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-D01",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Small icon at top right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.183
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "icon, no tooltip (by eye)",
+   "confidence": "high"
+  },
+  {
+   "code": "CDYN-B-D02",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Small icon at right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.311
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "icon, no tooltip (by eye)",
+   "confidence": "high"
+  }
+ ]
+}
