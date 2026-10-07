@@ -1,0 +1,345 @@
+{
+  "device": "MClass Stereo Imager",
+  "remote_scope": "Propellerheads / MClass Stereo Imager",
+  "code_prefix": "MSIM",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "MSIM-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.054,
+        0.248
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover on the bypass switch: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-D01",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.055,
+        0.654
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "MSIM-F-D02",
+      "side": "front",
+      "panel_label": "M STEREO 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.18,
+        0.784
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'M Stereo 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-K01",
+      "side": "front",
+      "panel_label": "LO BAND (width)",
+      "what": "Low band stereo width, mono to wide",
+      "reason_name": "Low Width",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.402,
+        0.49
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Low Width: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-B02",
+      "side": "front",
+      "panel_label": "LO BAND ACTIVE",
+      "what": "Low band on/off (light shows on)",
+      "reason_name": "Low Band Active",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.493,
+        0.373
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip; checked by eye: LO BAND ACTIVE light (no hover tooltip)",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-D03",
+      "side": "front",
+      "panel_label": "(Lo width meter)",
+      "what": "Low band width meter",
+      "reason_name": "Low Width Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.408,
+        0.797
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: lo width meter (no hover tooltip)",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-K02",
+      "side": "front",
+      "panel_label": "X-OVER FREQ",
+      "what": "Where the low and high bands split, 100 Hz to 6 kHz",
+      "reason_name": "X-Over Frequency",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.555,
+        0.471
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'X-Over Frequency: 787 Hz'",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-B03",
+      "side": "front",
+      "panel_label": "HI BAND ACTIVE",
+      "what": "High band on/off (light shows on)",
+      "reason_name": "High Band Active",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.617,
+        0.373
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip; checked by eye: HI BAND ACTIVE light (no hover tooltip)",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-K03",
+      "side": "front",
+      "panel_label": "HI BAND (width)",
+      "what": "High band stereo width, mono to wide",
+      "reason_name": "High Width",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.702,
+        0.49
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'High Width: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-D04",
+      "side": "front",
+      "panel_label": "(Hi width meter)",
+      "what": "High band width meter",
+      "reason_name": "High Width Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.702,
+        0.797
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: hi width meter (no hover tooltip)",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-F-B04",
+      "side": "front",
+      "panel_label": "SOLO (HI/LO/NORMAL)",
+      "what": "Solo mode: 3 buttons, pick one",
+      "reason_name": "Solo Mode",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.797,
+        0.516
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Solo Mode: Normal'",
+      "confidence": "medium",
+      "confidence_reason": "3 buttons act as one control"
+    },
+    {
+      "code": "MSIM-B-D01",
+      "side": "back",
+      "panel_label": "M STEREO 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.175,
+        0.739
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'M Stereo 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "MSIM-B-J01",
+      "side": "back",
+      "panel_label": "Audio Input L",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.27,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Maximizer 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MSIM-B-J02",
+      "side": "back",
+      "panel_label": "Audio Input R",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.306,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Maximizer 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MSIM-B-J03",
+      "side": "back",
+      "panel_label": "Audio Output L",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.352,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to ALL Plate Spread: Left Inpu...' (tooltip clipped by zoom)",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MSIM-B-J04",
+      "side": "back",
+      "panel_label": "Audio Output R",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.389,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to ALL Plate Spread: Right Inp...' (tooltip clipped by zoom)",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MSIM-B-J05",
+      "side": "back",
+      "panel_label": "Separate Out L",
+      "what": "Separate output left",
+      "reason_cable_menu_name": "Separate Out Left",
+      "pos": [
+        0.464,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Separate Out Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MSIM-B-J06",
+      "side": "back",
+      "panel_label": "Separate Out R",
+      "what": "Separate output right",
+      "reason_cable_menu_name": "Separate Out Right",
+      "pos": [
+        0.503,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Separate Out Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MSIM-B-B01",
+      "side": "back",
+      "panel_label": "Hi Band / Lo Band switch",
+      "what": "Which band the Separate Out carries",
+      "reason_cable_menu_name": null,
+      "reason_name": "Separate Out Mode",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.534,
+        0.536
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Separate Out Mode: Lo Band' (switch currently on Lo Band)",
+      "confidence": "medium"
+    }
+  ]
+}

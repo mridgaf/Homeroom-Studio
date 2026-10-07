@@ -1,0 +1,287 @@
+{
+ "device": "RV7000 Advanced Reverb",
+ "remote_scope": "Propellerheads / RV7000 Advanced Reverb",
+ "code_prefix": "RV7K",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "draft, unchecked",
+ "controls": [
+  {
+   "code": "RV7K-F-B13",
+   "side": "front",
+   "panel_label": "Edit Mode",
+   "what": "Cycle the programmer view: Reverb, EQ, Gate",
+   "reason_name": "Edit Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.07,
+    0.843
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "high"
+  },
+  {
+   "code": "RV7K-F-D05",
+   "side": "front",
+   "panel_label": "Reverb/EQ/Gate lights",
+   "what": "Shows which edit mode is showing",
+   "reason_name": "Edit Mode Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.083,
+    0.661
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "three lights + names"
+  },
+  {
+   "code": "RV7K-F-B10",
+   "side": "front",
+   "panel_label": "(up/down arrows)",
+   "what": "Step through patches",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.093,
+    0.368
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "probably patch up/down like the main panel; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-B11",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.118,
+    0.368
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "medium"
+  },
+  {
+   "code": "RV7K-F-B12",
+   "side": "front",
+   "panel_label": "(waveform button)",
+   "what": "Unknown (waveform icon); confirm by hover",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.142,
+    0.368
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low"
+  },
+  {
+   "code": "RV7K-F-D04",
+   "side": "front",
+   "panel_label": "(display)",
+   "what": "Graph + parameter names/values for the current view",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.561,
+    0.482
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "display only"
+  },
+  {
+   "code": "RV7K-F-K05",
+   "side": "front",
+   "panel_label": "(left knob 1)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 1",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.186,
+    0.161
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K06",
+   "side": "front",
+   "panel_label": "(right knob 5)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 5",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.92,
+    0.161
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K07",
+   "side": "front",
+   "panel_label": "(left knob 2)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 2",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.186,
+    0.375
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K08",
+   "side": "front",
+   "panel_label": "(right knob 6)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 6",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.92,
+    0.375
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K09",
+   "side": "front",
+   "panel_label": "(left knob 3)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 3",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.186,
+    0.589
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K10",
+   "side": "front",
+   "panel_label": "(right knob 7)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 7",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.92,
+    0.589
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K11",
+   "side": "front",
+   "panel_label": "(left knob 4)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 4",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.186,
+    0.804
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  },
+  {
+   "code": "RV7K-F-K12",
+   "side": "front",
+   "panel_label": "(right knob 8)",
+   "what": "Soft knob beside the display",
+   "reason_name": "Soft Knob 8",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.92,
+    0.804
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "soft knob numbering (1-4 left, 5-8 right) is a guess; confirm by hover"
+  }
+ ]
+}

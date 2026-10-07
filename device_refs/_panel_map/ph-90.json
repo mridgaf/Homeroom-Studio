@@ -1,0 +1,335 @@
+{
+  "device": "PH-90 Phaser",
+  "remote_scope": "Propellerheads / PH-90 Phaser",
+  "code_prefix": "PH90",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "PH90-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "PH90-F-D01",
+      "side": "front",
+      "panel_label": "PHASER 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.508,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Phaser 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-K01",
+      "side": "front",
+      "panel_label": "FREQ",
+      "what": "Phaser frequency",
+      "reason_name": "Frequency",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.165,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Frequency: 58'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-K02",
+      "side": "front",
+      "panel_label": "SPLIT",
+      "what": "Split of the phase stages",
+      "reason_name": "Split",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.31,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Split: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-K03",
+      "side": "front",
+      "panel_label": "WIDTH",
+      "what": "Stereo width",
+      "reason_name": "Width",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.452,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Width: 100'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-K04",
+      "side": "front",
+      "panel_label": "RATE",
+      "what": "LFO speed",
+      "reason_name": "Rate",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.589,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Rate: 32'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-B02",
+      "side": "front",
+      "panel_label": "SYNC",
+      "what": "LFO tempo sync on/off (light shows on)",
+      "reason_name": "LFO Sync Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.679,
+        0.589
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'LFO Sync Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-K05",
+      "side": "front",
+      "panel_label": "F. MOD",
+      "what": "How much the LFO moves the frequency",
+      "reason_name": "Frequency Modulation",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.775,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Frequency Modulation: 70'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-F-K06",
+      "side": "front",
+      "panel_label": "FEEDBACK",
+      "what": "Feedback amount",
+      "reason_name": "Feedback",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.901,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Feedback: 100'",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-B-D01",
+      "side": "back",
+      "panel_label": "PHASER 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.279,
+        0.184
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip; checked by eye: tape reads PHASER 1",
+      "confidence": "high"
+    },
+    {
+      "code": "PH90-B-K01",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Freq CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.105,
+        0.725
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Freq CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "PH90-B-J01",
+      "side": "back",
+      "panel_label": "Freq (CV in)",
+      "what": "CV input for Freq",
+      "reason_cable_menu_name": "Freq CV",
+      "pos": [
+        0.153,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Freq CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PH90-B-K02",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Rate CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.231,
+        0.725
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Rate CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "PH90-B-J02",
+      "side": "back",
+      "panel_label": "Rate (CV in)",
+      "what": "CV input for Rate",
+      "reason_cable_menu_name": "Rate CV",
+      "pos": [
+        0.279,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Rate CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PH90-B-J03",
+      "side": "back",
+      "panel_label": "Left (In)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.508,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to EQ 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PH90-B-J04",
+      "side": "back",
+      "panel_label": "Right (In)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.582,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to EQ 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PH90-B-J05",
+      "side": "back",
+      "panel_label": "Left (Out)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.696,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Reverb 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PH90-B-J06",
+      "side": "back",
+      "panel_label": "Right (Out)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.769,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Reverb 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

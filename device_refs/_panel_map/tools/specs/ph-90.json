@@ -1,0 +1,310 @@
+{
+"device": "PH-90 Phaser",
+"slug": "ph-90",
+"prefix": "PH90",
+"remote_scope": "Propellerheads / PH-90 Phaser",
+"front_raw": "_captures_batchA/ph-90_front_raw.jpg",
+"back_raw": "_captures_batchA/ph-90_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"Bypass/On/Off",
+"3-way device switch",
+"Enabled",
+1,
+[
+37,
+45
+],
+[
+13,
+20
+],
+"B",
+"high",
+""
+],
+[
+"(LED column)",
+"Input level meter",
+"Peak Meter",
+null,
+[
+37,
+130
+],
+[
+9,
+42
+],
+"D",
+"medium",
+"vocab item 'Peak Meter' assumed by position"
+],
+[
+"PHASER 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+500,
+38
+],
+[
+80,
+15
+],
+"D",
+"high",
+""
+],
+[
+"FREQ",
+"Phaser frequency",
+"Frequency",
+3,
+[
+163,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"SPLIT",
+"Split of the phase stages",
+"Split",
+7,
+[
+305,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"WIDTH",
+"Stereo width",
+"Width",
+8,
+[
+445,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"RATE",
+"LFO speed",
+"Rate",
+6,
+[
+580,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"SYNC",
+"LFO tempo sync on/off (light shows on)",
+"LFO Sync Enable",
+5,
+[
+669,
+122
+],
+[
+14,
+32
+],
+"B",
+"high",
+""
+],
+[
+"F. MOD",
+"How much the LFO moves the frequency",
+"Frequency Modulation",
+4,
+[
+763,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"FEEDBACK",
+"Feedback amount",
+"Feedback",
+2,
+[
+887,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+]
+],
+"back": [
+[
+"PHASER 1 tape",
+"Device name tape (back)",
+"D",
+[
+275,
+38
+],
+[
+105,
+16
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Freq CV",
+"K",
+[
+103,
+150
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"Freq (CV in)",
+"CV input for Freq",
+"J",
+[
+151,
+150
+],
+[
+17,
+17
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Rate CV",
+"K",
+[
+228,
+150
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"Rate (CV in)",
+"CV input for Rate",
+"J",
+[
+275,
+150
+],
+[
+17,
+17
+],
+""
+],
+[
+"Left (In)",
+"Audio input left",
+"J",
+[
+500,
+150
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (In)",
+"Audio input right",
+"J",
+[
+573,
+150
+],
+[
+22,
+22
+],
+""
+],
+[
+"Left (Out)",
+"Audio output left",
+"J",
+[
+686,
+150
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (Out)",
+"Audio output right",
+"J",
+[
+757,
+150
+],
+[
+22,
+22
+],
+""
+]
+]
+}

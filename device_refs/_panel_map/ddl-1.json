@@ -1,0 +1,359 @@
+{
+  "device": "DDL-1 Digital Delay Line",
+  "remote_scope": "Propellerheads / DDL-1 Digital Delay Line",
+  "code_prefix": "DDL1",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "DDL1-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "DDL1-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "DDL1-F-D01",
+      "side": "front",
+      "panel_label": "DELAY 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.494,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Delay 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "DDL1-F-D03",
+      "side": "front",
+      "panel_label": "(digit display)",
+      "what": "Delay time readout (shows 'DelayTime (steps)' in Reason when UNIT = STEPS)",
+      "reason_name": "DelayTime (steps)",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.117,
+        0.618
+      ],
+      "how": "Remote: knob slot 2 (steps mode); same display as D04",
+      "checked_2026_10_07": "hover on digit display: 'DelayTime (steps)' while UNIT=STEPS; after clicking UNIT to MS it showed 'DelayTime (ms)'; UNIT clicked back to STEPS (undone)",
+      "confidence": "medium",
+      "confidence_reason": "display; Remote items DelayTime (ms)/(steps) not yet tied to a control, hover to confirm"
+    },
+    {
+      "code": "DDL1-F-D04",
+      "side": "front",
+      "panel_label": "(digit display, MS mode)",
+      "what": "Same digit display as D03, when UNIT = MS (Reason shows 'DelayTime (ms)')",
+      "reason_name": "DelayTime (ms)",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.117,
+        0.618
+      ],
+      "how": "Remote: knob slot 1 (ms mode); no separate control, same spot as D03 (no box drawn)",
+      "checked_2026_10_07": "hover with UNIT=MS: 'DelayTime (ms)' (UNIT set back to STEPS afterwards)",
+      "confidence": "high",
+      "confidence_reason": "Reason's tooltip on the display changed from 'DelayTime (steps)' to 'DelayTime (ms)' when UNIT was switched to MS (switched back afterwards)."
+    },
+    {
+      "code": "DDL1-F-B02",
+      "side": "front",
+      "panel_label": "(up/down arrows)",
+      "what": "Change the delay time",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.215,
+        0.618
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip; checked by eye: up/down arrows (no tooltip on either arrow)",
+      "confidence": "low",
+      "confidence_reason": "Remote items DelayTime (ms) / DelayTime (steps) likely belong here; confirm by hover"
+    },
+    {
+      "code": "DDL1-F-B03",
+      "side": "front",
+      "panel_label": "MS / STEPS lights + UNIT",
+      "what": "UNIT button: switches between ms and steps (lights show which)",
+      "reason_name": "Unit",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.274,
+        0.618
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover UNIT button: 'Unit'; MS/STEPS lights have no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "button and its two lights boxed together"
+    },
+    {
+      "code": "DDL1-F-B04",
+      "side": "front",
+      "panel_label": "1/16 / 1/8T lights + STEP LENGTH",
+      "what": "STEP LENGTH button: step size 1/16 or 1/8 triplet",
+      "reason_name": "Step Length",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.398,
+        0.618
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover STEP LENGTH button: 'Step Length'; 1/16, 1/8T lights have no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "button and its two lights boxed together"
+    },
+    {
+      "code": "DDL1-F-K01",
+      "side": "front",
+      "panel_label": "FEEDBACK",
+      "what": "Amount of delayed signal fed back",
+      "reason_name": "Feedback",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.638,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Feedback: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "DDL1-F-K02",
+      "side": "front",
+      "panel_label": "PAN",
+      "what": "Pan of the delayed signal, L to R",
+      "reason_name": "Pan",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.766,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Pan: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "DDL1-F-K03",
+      "side": "front",
+      "panel_label": "DRY/WET",
+      "what": "Balance dry and delayed signal",
+      "reason_name": "Dry/Wet Balance",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.895,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Dry/Wet Balance: 127'",
+      "confidence": "high"
+    },
+    {
+      "code": "DDL1-B-J01",
+      "side": "back",
+      "panel_label": "Pan (CV in)",
+      "what": "CV input for Pan",
+      "reason_cable_menu_name": "Pan CV",
+      "pos": [
+        0.093,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Pan CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "DDL1-B-J02",
+      "side": "back",
+      "panel_label": "Feedback (CV in)",
+      "what": "CV input for Feedback",
+      "reason_cable_menu_name": "Feedback CV",
+      "pos": [
+        0.221,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Feedback CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "DDL1-B-K01",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Pan CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.091,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Pan CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "DDL1-B-K02",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Feedback CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.223,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Feedback CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "DDL1-B-D01",
+      "side": "back",
+      "panel_label": "DELAY 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.376,
+        0.739
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'Delay 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "DDL1-B-J03",
+      "side": "back",
+      "panel_label": "Left (Input)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.594,
+        0.396
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Dist 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "DDL1-B-J04",
+      "side": "back",
+      "panel_label": "Right (Input)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.665,
+        0.396
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Dist 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "DDL1-B-J05",
+      "side": "back",
+      "panel_label": "Left (Output)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.594,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Filter 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "DDL1-B-J06",
+      "side": "back",
+      "panel_label": "Right (Output)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.665,
+        0.676
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Filter 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

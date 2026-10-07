@@ -1,0 +1,5616 @@
+{
+ "device": "Mixer 14:2",
+ "remote_scope": "Propellerheads / Mixer 14:2",
+ "code_prefix": "MX14",
+ "reason_version": "12.7 (screenshots 2026-10-03)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07: all 324 positions hover-checked in Reason; name_check: Remote items all matched; only errors are no Mixer 14:2 Scope block in remotemap (not edited) and 3-digit codes K100-K102 failing the checker's 2-digit code pattern (codes kept, checker not edited)",
+ "controls": [
+  {
+   "code": "MX14-F-D04",
+   "side": "front",
+   "panel_label": "MIXER 1 tape",
+   "what": "Device name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.029,
+    0.435
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tape tooltip 'Mixer 1' (device name)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K01",
+   "side": "front",
+   "panel_label": "Ch 1 AUX 1",
+   "what": "Channel 1 aux send 1",
+   "reason_name": "Channel 1 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.061,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K17",
+   "side": "front",
+   "panel_label": "Ch 1 AUX 2",
+   "what": "Channel 1 aux send 2",
+   "reason_name": "Channel 1 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.084,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K16",
+   "side": "front",
+   "panel_label": "Ch 1 AUX 3",
+   "what": "Channel 1 aux send 3",
+   "reason_name": "Channel 1 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.062,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K44",
+   "side": "front",
+   "panel_label": "Ch 1 AUX 4",
+   "what": "Channel 1 aux send 4",
+   "reason_name": "Channel 1 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.084,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B01",
+   "side": "front",
+   "panel_label": "Ch 1 P (aux 4 pre)",
+   "what": "Channel 1 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 1 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.052,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B15",
+   "side": "front",
+   "panel_label": "Ch 1 EQ on",
+   "what": "Channel 1 EQ on/off",
+   "reason_name": "Channel 1 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.052,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K60",
+   "side": "front",
+   "panel_label": "Ch 1 TREBLE",
+   "what": "Channel 1 treble amount",
+   "reason_name": "Channel 1 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K74",
+   "side": "front",
+   "panel_label": "Ch 1 BASS",
+   "what": "Channel 1 bass amount",
+   "reason_name": "Channel 1 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B29",
+   "side": "front",
+   "panel_label": "Ch 1 Mute",
+   "what": "Channel 1 mute",
+   "reason_name": "Channel 1 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.052,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B30",
+   "side": "front",
+   "panel_label": "Ch 1 Solo",
+   "what": "Channel 1 solo",
+   "reason_name": "Channel 1 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.077,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K89",
+   "side": "front",
+   "panel_label": "Ch 1 PAN",
+   "what": "Channel 1 pan (left to right)",
+   "reason_name": "Channel 1 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.072,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S01",
+   "side": "front",
+   "panel_label": "Ch 1 fader",
+   "what": "Channel 1 volume fader",
+   "reason_name": "Channel 1 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.071,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 1 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D07",
+   "side": "front",
+   "panel_label": "(Ch 1 meter)",
+   "what": "Channel 1 level meter",
+   "reason_name": "Channel 1 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.091,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "level meter, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D06",
+   "side": "front",
+   "panel_label": "Ch 1 name tape",
+   "what": "Channel 1 name label (type your own name)",
+   "reason_name": "Channel 1 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.052,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K02",
+   "side": "front",
+   "panel_label": "Ch 2 AUX 1",
+   "what": "Channel 2 aux send 1",
+   "reason_name": "Channel 2 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.119,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K19",
+   "side": "front",
+   "panel_label": "Ch 2 AUX 2",
+   "what": "Channel 2 aux send 2",
+   "reason_name": "Channel 2 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.142,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K18",
+   "side": "front",
+   "panel_label": "Ch 2 AUX 3",
+   "what": "Channel 2 aux send 3",
+   "reason_name": "Channel 2 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.12,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K45",
+   "side": "front",
+   "panel_label": "Ch 2 AUX 4",
+   "what": "Channel 2 aux send 4",
+   "reason_name": "Channel 2 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.142,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B02",
+   "side": "front",
+   "panel_label": "Ch 2 P (aux 4 pre)",
+   "what": "Channel 2 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 2 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.11,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B16",
+   "side": "front",
+   "panel_label": "Ch 2 EQ on",
+   "what": "Channel 2 EQ on/off",
+   "reason_name": "Channel 2 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.11,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K61",
+   "side": "front",
+   "panel_label": "Ch 2 TREBLE",
+   "what": "Channel 2 treble amount",
+   "reason_name": "Channel 2 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.13,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K75",
+   "side": "front",
+   "panel_label": "Ch 2 BASS",
+   "what": "Channel 2 bass amount",
+   "reason_name": "Channel 2 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.13,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B31",
+   "side": "front",
+   "panel_label": "Ch 2 Mute",
+   "what": "Channel 2 mute",
+   "reason_name": "Channel 2 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.11,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B32",
+   "side": "front",
+   "panel_label": "Ch 2 Solo",
+   "what": "Channel 2 solo",
+   "reason_name": "Channel 2 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.135,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K90",
+   "side": "front",
+   "panel_label": "Ch 2 PAN",
+   "what": "Channel 2 pan (left to right)",
+   "reason_name": "Channel 2 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.13,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S02",
+   "side": "front",
+   "panel_label": "Ch 2 fader",
+   "what": "Channel 2 volume fader",
+   "reason_name": "Channel 2 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.129,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 2 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D09",
+   "side": "front",
+   "panel_label": "(Ch 2 meter)",
+   "what": "Channel 2 level meter",
+   "reason_name": "Channel 2 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.149,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D08",
+   "side": "front",
+   "panel_label": "Ch 2 name tape",
+   "what": "Channel 2 name label (type your own name)",
+   "reason_name": "Channel 2 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.11,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K03",
+   "side": "front",
+   "panel_label": "Ch 3 AUX 1",
+   "what": "Channel 3 aux send 1",
+   "reason_name": "Channel 3 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.177,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K21",
+   "side": "front",
+   "panel_label": "Ch 3 AUX 2",
+   "what": "Channel 3 aux send 2",
+   "reason_name": "Channel 3 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.2,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K20",
+   "side": "front",
+   "panel_label": "Ch 3 AUX 3",
+   "what": "Channel 3 aux send 3",
+   "reason_name": "Channel 3 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.178,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K46",
+   "side": "front",
+   "panel_label": "Ch 3 AUX 4",
+   "what": "Channel 3 aux send 4",
+   "reason_name": "Channel 3 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.2,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B03",
+   "side": "front",
+   "panel_label": "Ch 3 P (aux 4 pre)",
+   "what": "Channel 3 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 3 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.168,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B17",
+   "side": "front",
+   "panel_label": "Ch 3 EQ on",
+   "what": "Channel 3 EQ on/off",
+   "reason_name": "Channel 3 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.168,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K62",
+   "side": "front",
+   "panel_label": "Ch 3 TREBLE",
+   "what": "Channel 3 treble amount",
+   "reason_name": "Channel 3 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.188,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K76",
+   "side": "front",
+   "panel_label": "Ch 3 BASS",
+   "what": "Channel 3 bass amount",
+   "reason_name": "Channel 3 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.188,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B33",
+   "side": "front",
+   "panel_label": "Ch 3 Mute",
+   "what": "Channel 3 mute",
+   "reason_name": "Channel 3 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.168,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B34",
+   "side": "front",
+   "panel_label": "Ch 3 Solo",
+   "what": "Channel 3 solo",
+   "reason_name": "Channel 3 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.193,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K91",
+   "side": "front",
+   "panel_label": "Ch 3 PAN",
+   "what": "Channel 3 pan (left to right)",
+   "reason_name": "Channel 3 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.188,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S03",
+   "side": "front",
+   "panel_label": "Ch 3 fader",
+   "what": "Channel 3 volume fader",
+   "reason_name": "Channel 3 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.187,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 3 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D11",
+   "side": "front",
+   "panel_label": "(Ch 3 meter)",
+   "what": "Channel 3 level meter",
+   "reason_name": "Channel 3 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.207,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D10",
+   "side": "front",
+   "panel_label": "Ch 3 name tape",
+   "what": "Channel 3 name label (type your own name)",
+   "reason_name": "Channel 3 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.168,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K04",
+   "side": "front",
+   "panel_label": "Ch 4 AUX 1",
+   "what": "Channel 4 aux send 1",
+   "reason_name": "Channel 4 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.235,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K23",
+   "side": "front",
+   "panel_label": "Ch 4 AUX 2",
+   "what": "Channel 4 aux send 2",
+   "reason_name": "Channel 4 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.258,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K22",
+   "side": "front",
+   "panel_label": "Ch 4 AUX 3",
+   "what": "Channel 4 aux send 3",
+   "reason_name": "Channel 4 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.236,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K47",
+   "side": "front",
+   "panel_label": "Ch 4 AUX 4",
+   "what": "Channel 4 aux send 4",
+   "reason_name": "Channel 4 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.258,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B04",
+   "side": "front",
+   "panel_label": "Ch 4 P (aux 4 pre)",
+   "what": "Channel 4 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 4 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.226,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B18",
+   "side": "front",
+   "panel_label": "Ch 4 EQ on",
+   "what": "Channel 4 EQ on/off",
+   "reason_name": "Channel 4 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.226,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K63",
+   "side": "front",
+   "panel_label": "Ch 4 TREBLE",
+   "what": "Channel 4 treble amount",
+   "reason_name": "Channel 4 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.246,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K77",
+   "side": "front",
+   "panel_label": "Ch 4 BASS",
+   "what": "Channel 4 bass amount",
+   "reason_name": "Channel 4 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.246,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B35",
+   "side": "front",
+   "panel_label": "Ch 4 Mute",
+   "what": "Channel 4 mute",
+   "reason_name": "Channel 4 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.226,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B36",
+   "side": "front",
+   "panel_label": "Ch 4 Solo",
+   "what": "Channel 4 solo",
+   "reason_name": "Channel 4 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.251,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K92",
+   "side": "front",
+   "panel_label": "Ch 4 PAN",
+   "what": "Channel 4 pan (left to right)",
+   "reason_name": "Channel 4 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.246,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S04",
+   "side": "front",
+   "panel_label": "Ch 4 fader",
+   "what": "Channel 4 volume fader",
+   "reason_name": "Channel 4 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.245,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 4 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D13",
+   "side": "front",
+   "panel_label": "(Ch 4 meter)",
+   "what": "Channel 4 level meter",
+   "reason_name": "Channel 4 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.265,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D12",
+   "side": "front",
+   "panel_label": "Ch 4 name tape",
+   "what": "Channel 4 name label (type your own name)",
+   "reason_name": "Channel 4 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.226,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K05",
+   "side": "front",
+   "panel_label": "Ch 5 AUX 1",
+   "what": "Channel 5 aux send 1",
+   "reason_name": "Channel 5 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.293,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K25",
+   "side": "front",
+   "panel_label": "Ch 5 AUX 2",
+   "what": "Channel 5 aux send 2",
+   "reason_name": "Channel 5 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.316,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K24",
+   "side": "front",
+   "panel_label": "Ch 5 AUX 3",
+   "what": "Channel 5 aux send 3",
+   "reason_name": "Channel 5 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.294,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K48",
+   "side": "front",
+   "panel_label": "Ch 5 AUX 4",
+   "what": "Channel 5 aux send 4",
+   "reason_name": "Channel 5 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.316,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B05",
+   "side": "front",
+   "panel_label": "Ch 5 P (aux 4 pre)",
+   "what": "Channel 5 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 5 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.284,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B19",
+   "side": "front",
+   "panel_label": "Ch 5 EQ on",
+   "what": "Channel 5 EQ on/off",
+   "reason_name": "Channel 5 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.284,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K64",
+   "side": "front",
+   "panel_label": "Ch 5 TREBLE",
+   "what": "Channel 5 treble amount",
+   "reason_name": "Channel 5 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.304,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K78",
+   "side": "front",
+   "panel_label": "Ch 5 BASS",
+   "what": "Channel 5 bass amount",
+   "reason_name": "Channel 5 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.304,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B37",
+   "side": "front",
+   "panel_label": "Ch 5 Mute",
+   "what": "Channel 5 mute",
+   "reason_name": "Channel 5 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.284,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B38",
+   "side": "front",
+   "panel_label": "Ch 5 Solo",
+   "what": "Channel 5 solo",
+   "reason_name": "Channel 5 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.309,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K93",
+   "side": "front",
+   "panel_label": "Ch 5 PAN",
+   "what": "Channel 5 pan (left to right)",
+   "reason_name": "Channel 5 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.304,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S05",
+   "side": "front",
+   "panel_label": "Ch 5 fader",
+   "what": "Channel 5 volume fader",
+   "reason_name": "Channel 5 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.303,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 5 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D15",
+   "side": "front",
+   "panel_label": "(Ch 5 meter)",
+   "what": "Channel 5 level meter",
+   "reason_name": "Channel 5 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.323,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D14",
+   "side": "front",
+   "panel_label": "Ch 5 name tape",
+   "what": "Channel 5 name label (type your own name)",
+   "reason_name": "Channel 5 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.284,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K06",
+   "side": "front",
+   "panel_label": "Ch 6 AUX 1",
+   "what": "Channel 6 aux send 1",
+   "reason_name": "Channel 6 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.351,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K27",
+   "side": "front",
+   "panel_label": "Ch 6 AUX 2",
+   "what": "Channel 6 aux send 2",
+   "reason_name": "Channel 6 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.374,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K26",
+   "side": "front",
+   "panel_label": "Ch 6 AUX 3",
+   "what": "Channel 6 aux send 3",
+   "reason_name": "Channel 6 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.352,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K49",
+   "side": "front",
+   "panel_label": "Ch 6 AUX 4",
+   "what": "Channel 6 aux send 4",
+   "reason_name": "Channel 6 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.374,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B06",
+   "side": "front",
+   "panel_label": "Ch 6 P (aux 4 pre)",
+   "what": "Channel 6 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 6 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.342,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B20",
+   "side": "front",
+   "panel_label": "Ch 6 EQ on",
+   "what": "Channel 6 EQ on/off",
+   "reason_name": "Channel 6 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.342,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K65",
+   "side": "front",
+   "panel_label": "Ch 6 TREBLE",
+   "what": "Channel 6 treble amount",
+   "reason_name": "Channel 6 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.362,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K79",
+   "side": "front",
+   "panel_label": "Ch 6 BASS",
+   "what": "Channel 6 bass amount",
+   "reason_name": "Channel 6 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.362,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B39",
+   "side": "front",
+   "panel_label": "Ch 6 Mute",
+   "what": "Channel 6 mute",
+   "reason_name": "Channel 6 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.342,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B40",
+   "side": "front",
+   "panel_label": "Ch 6 Solo",
+   "what": "Channel 6 solo",
+   "reason_name": "Channel 6 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.367,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K94",
+   "side": "front",
+   "panel_label": "Ch 6 PAN",
+   "what": "Channel 6 pan (left to right)",
+   "reason_name": "Channel 6 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.362,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S06",
+   "side": "front",
+   "panel_label": "Ch 6 fader",
+   "what": "Channel 6 volume fader",
+   "reason_name": "Channel 6 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.361,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 6 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D17",
+   "side": "front",
+   "panel_label": "(Ch 6 meter)",
+   "what": "Channel 6 level meter",
+   "reason_name": "Channel 6 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.381,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D16",
+   "side": "front",
+   "panel_label": "Ch 6 name tape",
+   "what": "Channel 6 name label (type your own name)",
+   "reason_name": "Channel 6 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.342,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K07",
+   "side": "front",
+   "panel_label": "Ch 7 AUX 1",
+   "what": "Channel 7 aux send 1",
+   "reason_name": "Channel 7 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.409,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K29",
+   "side": "front",
+   "panel_label": "Ch 7 AUX 2",
+   "what": "Channel 7 aux send 2",
+   "reason_name": "Channel 7 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.432,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K28",
+   "side": "front",
+   "panel_label": "Ch 7 AUX 3",
+   "what": "Channel 7 aux send 3",
+   "reason_name": "Channel 7 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.41,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K50",
+   "side": "front",
+   "panel_label": "Ch 7 AUX 4",
+   "what": "Channel 7 aux send 4",
+   "reason_name": "Channel 7 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.432,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B07",
+   "side": "front",
+   "panel_label": "Ch 7 P (aux 4 pre)",
+   "what": "Channel 7 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 7 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.401,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B21",
+   "side": "front",
+   "panel_label": "Ch 7 EQ on",
+   "what": "Channel 7 EQ on/off",
+   "reason_name": "Channel 7 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.401,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K66",
+   "side": "front",
+   "panel_label": "Ch 7 TREBLE",
+   "what": "Channel 7 treble amount",
+   "reason_name": "Channel 7 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.42,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K80",
+   "side": "front",
+   "panel_label": "Ch 7 BASS",
+   "what": "Channel 7 bass amount",
+   "reason_name": "Channel 7 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.42,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B41",
+   "side": "front",
+   "panel_label": "Ch 7 Mute",
+   "what": "Channel 7 mute",
+   "reason_name": "Channel 7 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.401,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B42",
+   "side": "front",
+   "panel_label": "Ch 7 Solo",
+   "what": "Channel 7 solo",
+   "reason_name": "Channel 7 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.425,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K95",
+   "side": "front",
+   "panel_label": "Ch 7 PAN",
+   "what": "Channel 7 pan (left to right)",
+   "reason_name": "Channel 7 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.42,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S07",
+   "side": "front",
+   "panel_label": "Ch 7 fader",
+   "what": "Channel 7 volume fader",
+   "reason_name": "Channel 7 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.419,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 7 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D19",
+   "side": "front",
+   "panel_label": "(Ch 7 meter)",
+   "what": "Channel 7 level meter",
+   "reason_name": "Channel 7 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.439,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D18",
+   "side": "front",
+   "panel_label": "Ch 7 name tape",
+   "what": "Channel 7 name label (type your own name)",
+   "reason_name": "Channel 7 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K08",
+   "side": "front",
+   "panel_label": "Ch 8 AUX 1",
+   "what": "Channel 8 aux send 1",
+   "reason_name": "Channel 8 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.467,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K31",
+   "side": "front",
+   "panel_label": "Ch 8 AUX 2",
+   "what": "Channel 8 aux send 2",
+   "reason_name": "Channel 8 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.49,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K30",
+   "side": "front",
+   "panel_label": "Ch 8 AUX 3",
+   "what": "Channel 8 aux send 3",
+   "reason_name": "Channel 8 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.468,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K51",
+   "side": "front",
+   "panel_label": "Ch 8 AUX 4",
+   "what": "Channel 8 aux send 4",
+   "reason_name": "Channel 8 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.49,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B08",
+   "side": "front",
+   "panel_label": "Ch 8 P (aux 4 pre)",
+   "what": "Channel 8 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 8 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.459,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B22",
+   "side": "front",
+   "panel_label": "Ch 8 EQ on",
+   "what": "Channel 8 EQ on/off",
+   "reason_name": "Channel 8 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.459,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K67",
+   "side": "front",
+   "panel_label": "Ch 8 TREBLE",
+   "what": "Channel 8 treble amount",
+   "reason_name": "Channel 8 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.478,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K81",
+   "side": "front",
+   "panel_label": "Ch 8 BASS",
+   "what": "Channel 8 bass amount",
+   "reason_name": "Channel 8 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.478,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B43",
+   "side": "front",
+   "panel_label": "Ch 8 Mute",
+   "what": "Channel 8 mute",
+   "reason_name": "Channel 8 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.459,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B44",
+   "side": "front",
+   "panel_label": "Ch 8 Solo",
+   "what": "Channel 8 solo",
+   "reason_name": "Channel 8 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.483,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K96",
+   "side": "front",
+   "panel_label": "Ch 8 PAN",
+   "what": "Channel 8 pan (left to right)",
+   "reason_name": "Channel 8 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.478,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S08",
+   "side": "front",
+   "panel_label": "Ch 8 fader",
+   "what": "Channel 8 volume fader",
+   "reason_name": "Channel 8 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 8 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D21",
+   "side": "front",
+   "panel_label": "(Ch 8 meter)",
+   "what": "Channel 8 level meter",
+   "reason_name": "Channel 8 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.497,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D20",
+   "side": "front",
+   "panel_label": "Ch 8 name tape",
+   "what": "Channel 8 name label (type your own name)",
+   "reason_name": "Channel 8 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.458,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K09",
+   "side": "front",
+   "panel_label": "Ch 9 AUX 1",
+   "what": "Channel 9 aux send 1",
+   "reason_name": "Channel 9 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K33",
+   "side": "front",
+   "panel_label": "Ch 9 AUX 2",
+   "what": "Channel 9 aux send 2",
+   "reason_name": "Channel 9 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.548,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K32",
+   "side": "front",
+   "panel_label": "Ch 9 AUX 3",
+   "what": "Channel 9 aux send 3",
+   "reason_name": "Channel 9 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.526,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K52",
+   "side": "front",
+   "panel_label": "Ch 9 AUX 4",
+   "what": "Channel 9 aux send 4",
+   "reason_name": "Channel 9 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.548,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B09",
+   "side": "front",
+   "panel_label": "Ch 9 P (aux 4 pre)",
+   "what": "Channel 9 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 9 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.517,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B23",
+   "side": "front",
+   "panel_label": "Ch 9 EQ on",
+   "what": "Channel 9 EQ on/off",
+   "reason_name": "Channel 9 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.517,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K68",
+   "side": "front",
+   "panel_label": "Ch 9 TREBLE",
+   "what": "Channel 9 treble amount",
+   "reason_name": "Channel 9 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.536,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K82",
+   "side": "front",
+   "panel_label": "Ch 9 BASS",
+   "what": "Channel 9 bass amount",
+   "reason_name": "Channel 9 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.536,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B45",
+   "side": "front",
+   "panel_label": "Ch 9 Mute",
+   "what": "Channel 9 mute",
+   "reason_name": "Channel 9 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.517,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B46",
+   "side": "front",
+   "panel_label": "Ch 9 Solo",
+   "what": "Channel 9 solo",
+   "reason_name": "Channel 9 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.541,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K97",
+   "side": "front",
+   "panel_label": "Ch 9 PAN",
+   "what": "Channel 9 pan (left to right)",
+   "reason_name": "Channel 9 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.536,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S09",
+   "side": "front",
+   "panel_label": "Ch 9 fader",
+   "what": "Channel 9 volume fader",
+   "reason_name": "Channel 9 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.535,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 9 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D23",
+   "side": "front",
+   "panel_label": "(Ch 9 meter)",
+   "what": "Channel 9 level meter",
+   "reason_name": "Channel 9 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.555,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D22",
+   "side": "front",
+   "panel_label": "Ch 9 name tape",
+   "what": "Channel 9 name label (type your own name)",
+   "reason_name": "Channel 9 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.516,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K10",
+   "side": "front",
+   "panel_label": "Ch 10 AUX 1",
+   "what": "Channel 10 aux send 1",
+   "reason_name": "Channel 10 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.583,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K35",
+   "side": "front",
+   "panel_label": "Ch 10 AUX 2",
+   "what": "Channel 10 aux send 2",
+   "reason_name": "Channel 10 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.606,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K34",
+   "side": "front",
+   "panel_label": "Ch 10 AUX 3",
+   "what": "Channel 10 aux send 3",
+   "reason_name": "Channel 10 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.584,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K53",
+   "side": "front",
+   "panel_label": "Ch 10 AUX 4",
+   "what": "Channel 10 aux send 4",
+   "reason_name": "Channel 10 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.606,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B10",
+   "side": "front",
+   "panel_label": "Ch 10 P (aux 4 pre)",
+   "what": "Channel 10 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 10 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.575,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B24",
+   "side": "front",
+   "panel_label": "Ch 10 EQ on",
+   "what": "Channel 10 EQ on/off",
+   "reason_name": "Channel 10 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.575,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K69",
+   "side": "front",
+   "panel_label": "Ch 10 TREBLE",
+   "what": "Channel 10 treble amount",
+   "reason_name": "Channel 10 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.594,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K83",
+   "side": "front",
+   "panel_label": "Ch 10 BASS",
+   "what": "Channel 10 bass amount",
+   "reason_name": "Channel 10 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.594,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B47",
+   "side": "front",
+   "panel_label": "Ch 10 Mute",
+   "what": "Channel 10 mute",
+   "reason_name": "Channel 10 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.575,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B48",
+   "side": "front",
+   "panel_label": "Ch 10 Solo",
+   "what": "Channel 10 solo",
+   "reason_name": "Channel 10 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.599,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K98",
+   "side": "front",
+   "panel_label": "Ch 10 PAN",
+   "what": "Channel 10 pan (left to right)",
+   "reason_name": "Channel 10 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.594,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S10",
+   "side": "front",
+   "panel_label": "Ch 10 fader",
+   "what": "Channel 10 volume fader",
+   "reason_name": "Channel 10 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.593,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 10 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D25",
+   "side": "front",
+   "panel_label": "(Ch 10 meter)",
+   "what": "Channel 10 level meter",
+   "reason_name": "Channel 10 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.614,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D24",
+   "side": "front",
+   "panel_label": "Ch 10 name tape",
+   "what": "Channel 10 name label (type your own name)",
+   "reason_name": "Channel 10 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.574,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K11",
+   "side": "front",
+   "panel_label": "Ch 11 AUX 1",
+   "what": "Channel 11 aux send 1",
+   "reason_name": "Channel 11 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.641,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K37",
+   "side": "front",
+   "panel_label": "Ch 11 AUX 2",
+   "what": "Channel 11 aux send 2",
+   "reason_name": "Channel 11 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.664,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K36",
+   "side": "front",
+   "panel_label": "Ch 11 AUX 3",
+   "what": "Channel 11 aux send 3",
+   "reason_name": "Channel 11 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.642,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K54",
+   "side": "front",
+   "panel_label": "Ch 11 AUX 4",
+   "what": "Channel 11 aux send 4",
+   "reason_name": "Channel 11 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.664,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B11",
+   "side": "front",
+   "panel_label": "Ch 11 P (aux 4 pre)",
+   "what": "Channel 11 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 11 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.633,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B25",
+   "side": "front",
+   "panel_label": "Ch 11 EQ on",
+   "what": "Channel 11 EQ on/off",
+   "reason_name": "Channel 11 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.633,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K70",
+   "side": "front",
+   "panel_label": "Ch 11 TREBLE",
+   "what": "Channel 11 treble amount",
+   "reason_name": "Channel 11 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.652,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K84",
+   "side": "front",
+   "panel_label": "Ch 11 BASS",
+   "what": "Channel 11 bass amount",
+   "reason_name": "Channel 11 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.652,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B49",
+   "side": "front",
+   "panel_label": "Ch 11 Mute",
+   "what": "Channel 11 mute",
+   "reason_name": "Channel 11 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.633,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B50",
+   "side": "front",
+   "panel_label": "Ch 11 Solo",
+   "what": "Channel 11 solo",
+   "reason_name": "Channel 11 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.658,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K99",
+   "side": "front",
+   "panel_label": "Ch 11 PAN",
+   "what": "Channel 11 pan (left to right)",
+   "reason_name": "Channel 11 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.652,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S11",
+   "side": "front",
+   "panel_label": "Ch 11 fader",
+   "what": "Channel 11 volume fader",
+   "reason_name": "Channel 11 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.651,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 11 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D27",
+   "side": "front",
+   "panel_label": "(Ch 11 meter)",
+   "what": "Channel 11 level meter",
+   "reason_name": "Channel 11 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.672,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D26",
+   "side": "front",
+   "panel_label": "Ch 11 name tape",
+   "what": "Channel 11 name label (type your own name)",
+   "reason_name": "Channel 11 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.632,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K12",
+   "side": "front",
+   "panel_label": "Ch 12 AUX 1",
+   "what": "Channel 12 aux send 1",
+   "reason_name": "Channel 12 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.699,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K39",
+   "side": "front",
+   "panel_label": "Ch 12 AUX 2",
+   "what": "Channel 12 aux send 2",
+   "reason_name": "Channel 12 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.722,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K38",
+   "side": "front",
+   "panel_label": "Ch 12 AUX 3",
+   "what": "Channel 12 aux send 3",
+   "reason_name": "Channel 12 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.7,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K55",
+   "side": "front",
+   "panel_label": "Ch 12 AUX 4",
+   "what": "Channel 12 aux send 4",
+   "reason_name": "Channel 12 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.722,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B12",
+   "side": "front",
+   "panel_label": "Ch 12 P (aux 4 pre)",
+   "what": "Channel 12 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 12 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.691,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B26",
+   "side": "front",
+   "panel_label": "Ch 12 EQ on",
+   "what": "Channel 12 EQ on/off",
+   "reason_name": "Channel 12 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.691,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K71",
+   "side": "front",
+   "panel_label": "Ch 12 TREBLE",
+   "what": "Channel 12 treble amount",
+   "reason_name": "Channel 12 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.71,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K85",
+   "side": "front",
+   "panel_label": "Ch 12 BASS",
+   "what": "Channel 12 bass amount",
+   "reason_name": "Channel 12 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.71,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B51",
+   "side": "front",
+   "panel_label": "Ch 12 Mute",
+   "what": "Channel 12 mute",
+   "reason_name": "Channel 12 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.691,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B52",
+   "side": "front",
+   "panel_label": "Ch 12 Solo",
+   "what": "Channel 12 solo",
+   "reason_name": "Channel 12 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.716,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K100",
+   "side": "front",
+   "panel_label": "Ch 12 PAN",
+   "what": "Channel 12 pan (left to right)",
+   "reason_name": "Channel 12 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.71,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S12",
+   "side": "front",
+   "panel_label": "Ch 12 fader",
+   "what": "Channel 12 volume fader",
+   "reason_name": "Channel 12 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.709,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 12 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D29",
+   "side": "front",
+   "panel_label": "(Ch 12 meter)",
+   "what": "Channel 12 level meter",
+   "reason_name": "Channel 12 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.73,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D28",
+   "side": "front",
+   "panel_label": "Ch 12 name tape",
+   "what": "Channel 12 name label (type your own name)",
+   "reason_name": "Channel 12 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.69,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K13",
+   "side": "front",
+   "panel_label": "Ch 13 AUX 1",
+   "what": "Channel 13 aux send 1",
+   "reason_name": "Channel 13 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.757,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K41",
+   "side": "front",
+   "panel_label": "Ch 13 AUX 2",
+   "what": "Channel 13 aux send 2",
+   "reason_name": "Channel 13 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.78,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K40",
+   "side": "front",
+   "panel_label": "Ch 13 AUX 3",
+   "what": "Channel 13 aux send 3",
+   "reason_name": "Channel 13 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.758,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K56",
+   "side": "front",
+   "panel_label": "Ch 13 AUX 4",
+   "what": "Channel 13 aux send 4",
+   "reason_name": "Channel 13 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.78,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B13",
+   "side": "front",
+   "panel_label": "Ch 13 P (aux 4 pre)",
+   "what": "Channel 13 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 13 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.749,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B27",
+   "side": "front",
+   "panel_label": "Ch 13 EQ on",
+   "what": "Channel 13 EQ on/off",
+   "reason_name": "Channel 13 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.749,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K72",
+   "side": "front",
+   "panel_label": "Ch 13 TREBLE",
+   "what": "Channel 13 treble amount",
+   "reason_name": "Channel 13 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K86",
+   "side": "front",
+   "panel_label": "Ch 13 BASS",
+   "what": "Channel 13 bass amount",
+   "reason_name": "Channel 13 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B53",
+   "side": "front",
+   "panel_label": "Ch 13 Mute",
+   "what": "Channel 13 mute",
+   "reason_name": "Channel 13 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.749,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B54",
+   "side": "front",
+   "panel_label": "Ch 13 Solo",
+   "what": "Channel 13 solo",
+   "reason_name": "Channel 13 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.774,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K101",
+   "side": "front",
+   "panel_label": "Ch 13 PAN",
+   "what": "Channel 13 pan (left to right)",
+   "reason_name": "Channel 13 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.768,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S13",
+   "side": "front",
+   "panel_label": "Ch 13 fader",
+   "what": "Channel 13 volume fader",
+   "reason_name": "Channel 13 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.767,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 13 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D31",
+   "side": "front",
+   "panel_label": "(Ch 13 meter)",
+   "what": "Channel 13 level meter",
+   "reason_name": "Channel 13 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.788,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D30",
+   "side": "front",
+   "panel_label": "Ch 13 name tape",
+   "what": "Channel 13 name label (type your own name)",
+   "reason_name": "Channel 13 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.748,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K14",
+   "side": "front",
+   "panel_label": "Ch 14 AUX 1",
+   "what": "Channel 14 aux send 1",
+   "reason_name": "Channel 14 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.815,
+    0.09
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Aux 1 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K43",
+   "side": "front",
+   "panel_label": "Ch 14 AUX 2",
+   "what": "Channel 14 aux send 2",
+   "reason_name": "Channel 14 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.838,
+    0.144
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Aux 2 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K42",
+   "side": "front",
+   "panel_label": "Ch 14 AUX 3",
+   "what": "Channel 14 aux send 3",
+   "reason_name": "Channel 14 Aux 3 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.816,
+    0.203
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Aux 3 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K57",
+   "side": "front",
+   "panel_label": "Ch 14 AUX 4",
+   "what": "Channel 14 aux send 4",
+   "reason_name": "Channel 14 Aux 4 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.838,
+    0.261
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Aux 4 Send: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B14",
+   "side": "front",
+   "panel_label": "Ch 14 P (aux 4 pre)",
+   "what": "Channel 14 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+   "reason_name": "Channel 14 Aux 4 Pre Fader On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.807,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Aux 4 Pre Fader On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B28",
+   "side": "front",
+   "panel_label": "Ch 14 EQ on",
+   "what": "Channel 14 EQ on/off",
+   "reason_name": "Channel 14 EQ On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.807,
+    0.322
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 EQ On/Off'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K73",
+   "side": "front",
+   "panel_label": "Ch 14 TREBLE",
+   "what": "Channel 14 treble amount",
+   "reason_name": "Channel 14 Treble Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.827,
+    0.386
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Treble Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K87",
+   "side": "front",
+   "panel_label": "Ch 14 BASS",
+   "what": "Channel 14 bass amount",
+   "reason_name": "Channel 14 Bass Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.827,
+    0.483
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Bass Amount: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B55",
+   "side": "front",
+   "panel_label": "Ch 14 Mute",
+   "what": "Channel 14 mute",
+   "reason_name": "Channel 14 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.807,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Mute'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-B56",
+   "side": "front",
+   "panel_label": "Ch 14 Solo",
+   "what": "Channel 14 solo",
+   "reason_name": "Channel 14 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.832,
+    0.574
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Solo'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K102",
+   "side": "front",
+   "panel_label": "Ch 14 PAN",
+   "what": "Channel 14 pan (left to right)",
+   "reason_name": "Channel 14 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.827,
+    0.638
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Pan: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S14",
+   "side": "front",
+   "panel_label": "Ch 14 fader",
+   "what": "Channel 14 volume fader",
+   "reason_name": "Channel 14 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.825,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Channel 14 Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D33",
+   "side": "front",
+   "panel_label": "(Ch 14 meter)",
+   "what": "Channel 14 level meter",
+   "reason_name": "Channel 14 Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.846,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D32",
+   "side": "front",
+   "panel_label": "Ch 14 name tape",
+   "what": "Channel 14 name label (type your own name)",
+   "reason_name": "Channel 14 Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.806,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K15",
+   "side": "front",
+   "panel_label": "Return 1 level",
+   "what": "Level of aux return 1",
+   "reason_name": "Aux 1 Return Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.886,
+    0.087
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Aux 1 Return Level: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D01",
+   "side": "front",
+   "panel_label": "Return 1 name tape",
+   "what": "Name label for aux return 1",
+   "reason_name": "Aux 1 Return Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.902,
+    0.153
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K58",
+   "side": "front",
+   "panel_label": "Return 2 level",
+   "what": "Level of aux return 2",
+   "reason_name": "Aux 2 Return Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.92,
+    0.217
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Aux 2 Return Level: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D02",
+   "side": "front",
+   "panel_label": "Return 2 name tape",
+   "what": "Name label for aux return 2",
+   "reason_name": "Aux 2 Return Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.902,
+    0.278
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K59",
+   "side": "front",
+   "panel_label": "Return 3 level",
+   "what": "Level of aux return 3",
+   "reason_name": "Aux 3 Return Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.886,
+    0.339
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Aux 3 Return Level: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D03",
+   "side": "front",
+   "panel_label": "Return 3 name tape",
+   "what": "Name label for aux return 3",
+   "reason_name": "Aux 3 Return Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.902,
+    0.4
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-K88",
+   "side": "front",
+   "panel_label": "Return 4 level",
+   "what": "Level of aux return 4",
+   "reason_name": "Aux 4 Return Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.92,
+    0.461
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Aux 4 Return Level: 0'",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D05",
+   "side": "front",
+   "panel_label": "Return 4 name tape",
+   "what": "Name label for aux return 4",
+   "reason_name": "Aux 4 Return Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.902,
+    0.517
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-S15",
+   "side": "front",
+   "panel_label": "MASTER fader",
+   "what": "Master volume fader",
+   "reason_name": "Master Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.902,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip 'Master Level: 100' (shown below the fader strip when hovering the handle)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D34",
+   "side": "front",
+   "panel_label": "(Master meter L)",
+   "what": "Master output meter, left",
+   "reason_name": "Master Left Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.88,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-F-D35",
+   "side": "front",
+   "panel_label": "(Master meter R)",
+   "what": "Master output meter, right",
+   "reason_name": "Master Right Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.926,
+    0.843
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "meter/name tape, no tooltip",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-D01",
+   "side": "back",
+   "panel_label": "MIXER 1 tape",
+   "what": "Device name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.029,
+    0.431
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tape tooltip 'Mixer 1' (device name)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J01",
+   "side": "back",
+   "panel_label": "Ch 1 in L",
+   "what": "Channel 1 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 1 Left",
+   "pos": [
+    0.084,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 1 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J21",
+   "side": "back",
+   "panel_label": "Ch 1 in R",
+   "what": "Channel 1 audio input, right",
+   "reason_cable_menu_name": "Channel 1 Right",
+   "pos": [
+    0.084,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 1 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J40",
+   "side": "back",
+   "panel_label": "Ch 1 Level CV in",
+   "what": "Channel 1 level CV input",
+   "reason_cable_menu_name": "Channel 1 Level CV",
+   "pos": [
+    0.084,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 1 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K01",
+   "side": "back",
+   "panel_label": "Ch 1 Level CV trim",
+   "what": "Amount knob for Channel 1 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.084,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 1 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J62",
+   "side": "back",
+   "panel_label": "Ch 1 Pan CV in",
+   "what": "Channel 1 pan CV input",
+   "reason_cable_menu_name": "Channel 1 Pan CV",
+   "pos": [
+    0.084,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 1 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K16",
+   "side": "back",
+   "panel_label": "Ch 1 Pan CV trim",
+   "what": "Amount knob for Channel 1 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.084,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 1 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J02",
+   "side": "back",
+   "panel_label": "Ch 2 in L",
+   "what": "Channel 2 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 2 Left",
+   "pos": [
+    0.12,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 2 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J22",
+   "side": "back",
+   "panel_label": "Ch 2 in R",
+   "what": "Channel 2 audio input, right",
+   "reason_cable_menu_name": "Channel 2 Right",
+   "pos": [
+    0.12,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 2 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J41",
+   "side": "back",
+   "panel_label": "Ch 2 Level CV in",
+   "what": "Channel 2 level CV input",
+   "reason_cable_menu_name": "Channel 2 Level CV",
+   "pos": [
+    0.12,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 2 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K02",
+   "side": "back",
+   "panel_label": "Ch 2 Level CV trim",
+   "what": "Amount knob for Channel 2 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.12,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 2 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J63",
+   "side": "back",
+   "panel_label": "Ch 2 Pan CV in",
+   "what": "Channel 2 pan CV input",
+   "reason_cable_menu_name": "Channel 2 Pan CV",
+   "pos": [
+    0.12,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 2 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K17",
+   "side": "back",
+   "panel_label": "Ch 2 Pan CV trim",
+   "what": "Amount knob for Channel 2 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.12,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 2 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J03",
+   "side": "back",
+   "panel_label": "Ch 3 in L",
+   "what": "Channel 3 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 3 Left",
+   "pos": [
+    0.156,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 3 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J23",
+   "side": "back",
+   "panel_label": "Ch 3 in R",
+   "what": "Channel 3 audio input, right",
+   "reason_cable_menu_name": "Channel 3 Right",
+   "pos": [
+    0.156,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 3 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J42",
+   "side": "back",
+   "panel_label": "Ch 3 Level CV in",
+   "what": "Channel 3 level CV input",
+   "reason_cable_menu_name": "Channel 3 Level CV",
+   "pos": [
+    0.156,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 3 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K03",
+   "side": "back",
+   "panel_label": "Ch 3 Level CV trim",
+   "what": "Amount knob for Channel 3 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.156,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 3 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J64",
+   "side": "back",
+   "panel_label": "Ch 3 Pan CV in",
+   "what": "Channel 3 pan CV input",
+   "reason_cable_menu_name": "Channel 3 Pan CV",
+   "pos": [
+    0.156,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 3 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K18",
+   "side": "back",
+   "panel_label": "Ch 3 Pan CV trim",
+   "what": "Amount knob for Channel 3 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.156,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 3 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J04",
+   "side": "back",
+   "panel_label": "Ch 4 in L",
+   "what": "Channel 4 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 4 Left",
+   "pos": [
+    0.191,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 4 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J24",
+   "side": "back",
+   "panel_label": "Ch 4 in R",
+   "what": "Channel 4 audio input, right",
+   "reason_cable_menu_name": "Channel 4 Right",
+   "pos": [
+    0.191,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 4 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J43",
+   "side": "back",
+   "panel_label": "Ch 4 Level CV in",
+   "what": "Channel 4 level CV input",
+   "reason_cable_menu_name": "Channel 4 Level CV",
+   "pos": [
+    0.191,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 4 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K04",
+   "side": "back",
+   "panel_label": "Ch 4 Level CV trim",
+   "what": "Amount knob for Channel 4 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.191,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 4 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J65",
+   "side": "back",
+   "panel_label": "Ch 4 Pan CV in",
+   "what": "Channel 4 pan CV input",
+   "reason_cable_menu_name": "Channel 4 Pan CV",
+   "pos": [
+    0.191,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 4 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K19",
+   "side": "back",
+   "panel_label": "Ch 4 Pan CV trim",
+   "what": "Amount knob for Channel 4 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.191,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 4 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J05",
+   "side": "back",
+   "panel_label": "Ch 5 in L",
+   "what": "Channel 5 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 5 Left",
+   "pos": [
+    0.227,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 5 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J25",
+   "side": "back",
+   "panel_label": "Ch 5 in R",
+   "what": "Channel 5 audio input, right",
+   "reason_cable_menu_name": "Channel 5 Right",
+   "pos": [
+    0.227,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 5 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J44",
+   "side": "back",
+   "panel_label": "Ch 5 Level CV in",
+   "what": "Channel 5 level CV input",
+   "reason_cable_menu_name": "Channel 5 Level CV",
+   "pos": [
+    0.227,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 5 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K05",
+   "side": "back",
+   "panel_label": "Ch 5 Level CV trim",
+   "what": "Amount knob for Channel 5 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.227,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 5 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J66",
+   "side": "back",
+   "panel_label": "Ch 5 Pan CV in",
+   "what": "Channel 5 pan CV input",
+   "reason_cable_menu_name": "Channel 5 Pan CV",
+   "pos": [
+    0.227,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 5 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K20",
+   "side": "back",
+   "panel_label": "Ch 5 Pan CV trim",
+   "what": "Amount knob for Channel 5 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.227,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 5 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J06",
+   "side": "back",
+   "panel_label": "Ch 6 in L",
+   "what": "Channel 6 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 6 Left",
+   "pos": [
+    0.263,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 6 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J26",
+   "side": "back",
+   "panel_label": "Ch 6 in R",
+   "what": "Channel 6 audio input, right",
+   "reason_cable_menu_name": "Channel 6 Right",
+   "pos": [
+    0.263,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 6 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J45",
+   "side": "back",
+   "panel_label": "Ch 6 Level CV in",
+   "what": "Channel 6 level CV input",
+   "reason_cable_menu_name": "Channel 6 Level CV",
+   "pos": [
+    0.263,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 6 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K06",
+   "side": "back",
+   "panel_label": "Ch 6 Level CV trim",
+   "what": "Amount knob for Channel 6 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.263,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 6 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J67",
+   "side": "back",
+   "panel_label": "Ch 6 Pan CV in",
+   "what": "Channel 6 pan CV input",
+   "reason_cable_menu_name": "Channel 6 Pan CV",
+   "pos": [
+    0.263,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 6 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K21",
+   "side": "back",
+   "panel_label": "Ch 6 Pan CV trim",
+   "what": "Amount knob for Channel 6 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.263,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 6 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J07",
+   "side": "back",
+   "panel_label": "Ch 7 in L",
+   "what": "Channel 7 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 7 Left",
+   "pos": [
+    0.298,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 7 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J27",
+   "side": "back",
+   "panel_label": "Ch 7 in R",
+   "what": "Channel 7 audio input, right",
+   "reason_cable_menu_name": "Channel 7 Right",
+   "pos": [
+    0.298,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 7 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J46",
+   "side": "back",
+   "panel_label": "Ch 7 Level CV in",
+   "what": "Channel 7 level CV input",
+   "reason_cable_menu_name": "Channel 7 Level CV",
+   "pos": [
+    0.298,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 7 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K07",
+   "side": "back",
+   "panel_label": "Ch 7 Level CV trim",
+   "what": "Amount knob for Channel 7 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.298,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 7 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J68",
+   "side": "back",
+   "panel_label": "Ch 7 Pan CV in",
+   "what": "Channel 7 pan CV input",
+   "reason_cable_menu_name": "Channel 7 Pan CV",
+   "pos": [
+    0.298,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 7 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K22",
+   "side": "back",
+   "panel_label": "Ch 7 Pan CV trim",
+   "what": "Amount knob for Channel 7 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.298,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 7 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J08",
+   "side": "back",
+   "panel_label": "Ch 8 in L",
+   "what": "Channel 8 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 8 Left",
+   "pos": [
+    0.334,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 8 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J28",
+   "side": "back",
+   "panel_label": "Ch 8 in R",
+   "what": "Channel 8 audio input, right",
+   "reason_cable_menu_name": "Channel 8 Right",
+   "pos": [
+    0.334,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 8 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J47",
+   "side": "back",
+   "panel_label": "Ch 8 Level CV in",
+   "what": "Channel 8 level CV input",
+   "reason_cable_menu_name": "Channel 8 Level CV",
+   "pos": [
+    0.334,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 8 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K08",
+   "side": "back",
+   "panel_label": "Ch 8 Level CV trim",
+   "what": "Amount knob for Channel 8 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.334,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 8 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J69",
+   "side": "back",
+   "panel_label": "Ch 8 Pan CV in",
+   "what": "Channel 8 pan CV input",
+   "reason_cable_menu_name": "Channel 8 Pan CV",
+   "pos": [
+    0.334,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 8 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K23",
+   "side": "back",
+   "panel_label": "Ch 8 Pan CV trim",
+   "what": "Amount knob for Channel 8 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.334,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 8 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J09",
+   "side": "back",
+   "panel_label": "Ch 9 in L",
+   "what": "Channel 9 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 9 Left",
+   "pos": [
+    0.369,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 9 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J29",
+   "side": "back",
+   "panel_label": "Ch 9 in R",
+   "what": "Channel 9 audio input, right",
+   "reason_cable_menu_name": "Channel 9 Right",
+   "pos": [
+    0.369,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 9 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J48",
+   "side": "back",
+   "panel_label": "Ch 9 Level CV in",
+   "what": "Channel 9 level CV input",
+   "reason_cable_menu_name": "Channel 9 Level CV",
+   "pos": [
+    0.369,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 9 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K09",
+   "side": "back",
+   "panel_label": "Ch 9 Level CV trim",
+   "what": "Amount knob for Channel 9 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.369,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 9 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J70",
+   "side": "back",
+   "panel_label": "Ch 9 Pan CV in",
+   "what": "Channel 9 pan CV input",
+   "reason_cable_menu_name": "Channel 9 Pan CV",
+   "pos": [
+    0.369,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 9 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K24",
+   "side": "back",
+   "panel_label": "Ch 9 Pan CV trim",
+   "what": "Amount knob for Channel 9 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.369,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 9 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J10",
+   "side": "back",
+   "panel_label": "Ch 10 in L",
+   "what": "Channel 10 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 10 Left",
+   "pos": [
+    0.405,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 10 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J30",
+   "side": "back",
+   "panel_label": "Ch 10 in R",
+   "what": "Channel 10 audio input, right",
+   "reason_cable_menu_name": "Channel 10 Right",
+   "pos": [
+    0.405,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 10 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J49",
+   "side": "back",
+   "panel_label": "Ch 10 Level CV in",
+   "what": "Channel 10 level CV input",
+   "reason_cable_menu_name": "Channel 10 Level CV",
+   "pos": [
+    0.405,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 10 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K10",
+   "side": "back",
+   "panel_label": "Ch 10 Level CV trim",
+   "what": "Amount knob for Channel 10 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.405,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 10 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J71",
+   "side": "back",
+   "panel_label": "Ch 10 Pan CV in",
+   "what": "Channel 10 pan CV input",
+   "reason_cable_menu_name": "Channel 10 Pan CV",
+   "pos": [
+    0.405,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 10 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K25",
+   "side": "back",
+   "panel_label": "Ch 10 Pan CV trim",
+   "what": "Amount knob for Channel 10 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.405,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 10 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J11",
+   "side": "back",
+   "panel_label": "Ch 11 in L",
+   "what": "Channel 11 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 11 Left",
+   "pos": [
+    0.441,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 11 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J31",
+   "side": "back",
+   "panel_label": "Ch 11 in R",
+   "what": "Channel 11 audio input, right",
+   "reason_cable_menu_name": "Channel 11 Right",
+   "pos": [
+    0.441,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 11 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J50",
+   "side": "back",
+   "panel_label": "Ch 11 Level CV in",
+   "what": "Channel 11 level CV input",
+   "reason_cable_menu_name": "Channel 11 Level CV",
+   "pos": [
+    0.441,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 11 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K11",
+   "side": "back",
+   "panel_label": "Ch 11 Level CV trim",
+   "what": "Amount knob for Channel 11 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.441,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 11 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J72",
+   "side": "back",
+   "panel_label": "Ch 11 Pan CV in",
+   "what": "Channel 11 pan CV input",
+   "reason_cable_menu_name": "Channel 11 Pan CV",
+   "pos": [
+    0.441,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 11 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K26",
+   "side": "back",
+   "panel_label": "Ch 11 Pan CV trim",
+   "what": "Amount knob for Channel 11 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.441,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 11 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J12",
+   "side": "back",
+   "panel_label": "Ch 12 in L",
+   "what": "Channel 12 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 12 Left",
+   "pos": [
+    0.476,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 12 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J32",
+   "side": "back",
+   "panel_label": "Ch 12 in R",
+   "what": "Channel 12 audio input, right",
+   "reason_cable_menu_name": "Channel 12 Right",
+   "pos": [
+    0.476,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 12 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J51",
+   "side": "back",
+   "panel_label": "Ch 12 Level CV in",
+   "what": "Channel 12 level CV input",
+   "reason_cable_menu_name": "Channel 12 Level CV",
+   "pos": [
+    0.476,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 12 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K12",
+   "side": "back",
+   "panel_label": "Ch 12 Level CV trim",
+   "what": "Amount knob for Channel 12 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.476,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 12 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J73",
+   "side": "back",
+   "panel_label": "Ch 12 Pan CV in",
+   "what": "Channel 12 pan CV input",
+   "reason_cable_menu_name": "Channel 12 Pan CV",
+   "pos": [
+    0.476,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 12 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K27",
+   "side": "back",
+   "panel_label": "Ch 12 Pan CV trim",
+   "what": "Amount knob for Channel 12 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.476,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 12 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J13",
+   "side": "back",
+   "panel_label": "Ch 13 in L",
+   "what": "Channel 13 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 13 Left",
+   "pos": [
+    0.512,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 13 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J33",
+   "side": "back",
+   "panel_label": "Ch 13 in R",
+   "what": "Channel 13 audio input, right",
+   "reason_cable_menu_name": "Channel 13 Right",
+   "pos": [
+    0.512,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 13 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J52",
+   "side": "back",
+   "panel_label": "Ch 13 Level CV in",
+   "what": "Channel 13 level CV input",
+   "reason_cable_menu_name": "Channel 13 Level CV",
+   "pos": [
+    0.512,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 13 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K13",
+   "side": "back",
+   "panel_label": "Ch 13 Level CV trim",
+   "what": "Amount knob for Channel 13 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.512,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 13 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J74",
+   "side": "back",
+   "panel_label": "Ch 13 Pan CV in",
+   "what": "Channel 13 pan CV input",
+   "reason_cable_menu_name": "Channel 13 Pan CV",
+   "pos": [
+    0.512,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 13 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K28",
+   "side": "back",
+   "panel_label": "Ch 13 Pan CV trim",
+   "what": "Amount knob for Channel 13 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.512,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 13 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J14",
+   "side": "back",
+   "panel_label": "Ch 14 in L",
+   "what": "Channel 14 audio input, left (L/Mono)",
+   "reason_cable_menu_name": "Channel 14 Left",
+   "pos": [
+    0.548,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 14 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J34",
+   "side": "back",
+   "panel_label": "Ch 14 in R",
+   "what": "Channel 14 audio input, right",
+   "reason_cable_menu_name": "Channel 14 Right",
+   "pos": [
+    0.548,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 14 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J53",
+   "side": "back",
+   "panel_label": "Ch 14 Level CV in",
+   "what": "Channel 14 level CV input",
+   "reason_cable_menu_name": "Channel 14 Level CV",
+   "pos": [
+    0.548,
+    0.36
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 14 Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K14",
+   "side": "back",
+   "panel_label": "Ch 14 Level CV trim",
+   "what": "Amount knob for Channel 14 level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.548,
+    0.438
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 14 Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J75",
+   "side": "back",
+   "panel_label": "Ch 14 Pan CV in",
+   "what": "Channel 14 pan CV input",
+   "reason_cable_menu_name": "Channel 14 Pan CV",
+   "pos": [
+    0.548,
+    0.537
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Channel 14 Pan CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K29",
+   "side": "back",
+   "panel_label": "Ch 14 Pan CV trim",
+   "what": "Amount knob for Channel 14 pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.548,
+    0.617
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Channel 14 Pan CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J15",
+   "side": "back",
+   "panel_label": "Aux 1 send L",
+   "what": "Aux 1 send output, left (L/Mono)",
+   "reason_cable_menu_name": "Send 1 Left",
+   "pos": [
+    0.689,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 1 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J35",
+   "side": "back",
+   "panel_label": "Aux 1 send R",
+   "what": "Aux 1 send output, right",
+   "reason_cable_menu_name": "Send 1 Right",
+   "pos": [
+    0.689,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 1 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J54",
+   "side": "back",
+   "panel_label": "Aux 1 return L",
+   "what": "Aux 1 return input, left (L/Mono)",
+   "reason_cable_menu_name": "Return 1 Left",
+   "pos": [
+    0.689,
+    0.395
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 1 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J58",
+   "side": "back",
+   "panel_label": "Aux 1 return R",
+   "what": "Aux 1 return input, right",
+   "reason_cable_menu_name": "Return 1 Right",
+   "pos": [
+    0.689,
+    0.482
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 1 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J76",
+   "side": "back",
+   "panel_label": "Aux 1 chain in L",
+   "what": "Chaining Aux 1 send input, left (L/Mono)",
+   "reason_cable_menu_name": "Aux 1 Chain Left",
+   "pos": [
+    0.689,
+    0.675
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 1 Chain Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J82",
+   "side": "back",
+   "panel_label": "Aux 1 chain in R",
+   "what": "Chaining Aux 1 send input, right",
+   "reason_cable_menu_name": "Aux 1 Chain Right",
+   "pos": [
+    0.689,
+    0.762
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 1 Chain Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J16",
+   "side": "back",
+   "panel_label": "Aux 2 send L",
+   "what": "Aux 2 send output, left (L/Mono)",
+   "reason_cable_menu_name": "Send 2 Left",
+   "pos": [
+    0.724,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 2 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J36",
+   "side": "back",
+   "panel_label": "Aux 2 send R",
+   "what": "Aux 2 send output, right",
+   "reason_cable_menu_name": "Send 2 Right",
+   "pos": [
+    0.724,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 2 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J55",
+   "side": "back",
+   "panel_label": "Aux 2 return L",
+   "what": "Aux 2 return input, left (L/Mono)",
+   "reason_cable_menu_name": "Return 2 Left",
+   "pos": [
+    0.724,
+    0.395
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 2 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J59",
+   "side": "back",
+   "panel_label": "Aux 2 return R",
+   "what": "Aux 2 return input, right",
+   "reason_cable_menu_name": "Return 2 Right",
+   "pos": [
+    0.724,
+    0.482
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 2 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J77",
+   "side": "back",
+   "panel_label": "Aux 2 chain in L",
+   "what": "Chaining Aux 2 send input, left (L/Mono)",
+   "reason_cable_menu_name": "Aux 2 Chain Left",
+   "pos": [
+    0.724,
+    0.675
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 2 Chain Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J83",
+   "side": "back",
+   "panel_label": "Aux 2 chain in R",
+   "what": "Chaining Aux 2 send input, right",
+   "reason_cable_menu_name": "Aux 2 Chain Right",
+   "pos": [
+    0.724,
+    0.762
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 2 Chain Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J17",
+   "side": "back",
+   "panel_label": "Aux 3 send L",
+   "what": "Aux 3 send output, left (L/Mono)",
+   "reason_cable_menu_name": "Send 3 Left",
+   "pos": [
+    0.76,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 3 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J37",
+   "side": "back",
+   "panel_label": "Aux 3 send R",
+   "what": "Aux 3 send output, right",
+   "reason_cable_menu_name": "Send 3 Right",
+   "pos": [
+    0.76,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 3 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J56",
+   "side": "back",
+   "panel_label": "Aux 3 return L",
+   "what": "Aux 3 return input, left (L/Mono)",
+   "reason_cable_menu_name": "Return 3 Left",
+   "pos": [
+    0.76,
+    0.395
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 3 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J60",
+   "side": "back",
+   "panel_label": "Aux 3 return R",
+   "what": "Aux 3 return input, right",
+   "reason_cable_menu_name": "Return 3 Right",
+   "pos": [
+    0.76,
+    0.482
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 3 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J78",
+   "side": "back",
+   "panel_label": "Aux 3 chain in L",
+   "what": "Chaining Aux 3 send input, left (L/Mono)",
+   "reason_cable_menu_name": "Aux 3 Chain Left",
+   "pos": [
+    0.76,
+    0.675
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 3 Chain Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J84",
+   "side": "back",
+   "panel_label": "Aux 3 chain in R",
+   "what": "Chaining Aux 3 send input, right",
+   "reason_cable_menu_name": "Aux 3 Chain Right",
+   "pos": [
+    0.76,
+    0.762
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 3 Chain Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J18",
+   "side": "back",
+   "panel_label": "Aux 4 send L",
+   "what": "Aux 4 send output, left (L/Mono)",
+   "reason_cable_menu_name": "Send 4 Left",
+   "pos": [
+    0.795,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 4 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J38",
+   "side": "back",
+   "panel_label": "Aux 4 send R",
+   "what": "Aux 4 send output, right",
+   "reason_cable_menu_name": "Send 4 Right",
+   "pos": [
+    0.795,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Send 4 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J57",
+   "side": "back",
+   "panel_label": "Aux 4 return L",
+   "what": "Aux 4 return input, left (L/Mono)",
+   "reason_cable_menu_name": "Return 4 Left",
+   "pos": [
+    0.795,
+    0.395
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 4 Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J61",
+   "side": "back",
+   "panel_label": "Aux 4 return R",
+   "what": "Aux 4 return input, right",
+   "reason_cable_menu_name": "Return 4 Right",
+   "pos": [
+    0.795,
+    0.482
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Return 4 Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J79",
+   "side": "back",
+   "panel_label": "Aux 4 chain in L",
+   "what": "Chaining Aux 4 send input, left (L/Mono)",
+   "reason_cable_menu_name": "Aux 4 Chain Left",
+   "pos": [
+    0.795,
+    0.675
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 4 Chain Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J85",
+   "side": "back",
+   "panel_label": "Aux 4 chain in R",
+   "what": "Chaining Aux 4 send input, right",
+   "reason_cable_menu_name": "Aux 4 Chain Right",
+   "pos": [
+    0.795,
+    0.762
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Aux 4 Chain Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J19",
+   "side": "back",
+   "panel_label": "Master out L",
+   "what": "Master output, left",
+   "reason_cable_menu_name": "Left",
+   "pos": [
+    0.868,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Connected to Mixer 1: Input L' (cabled); own name 'Left' from the cable menu",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J20",
+   "side": "back",
+   "panel_label": "Master out R",
+   "what": "Master output, right",
+   "reason_cable_menu_name": "Right",
+   "pos": [
+    0.904,
+    0.169
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Connected to Mixer 1: Input R' (cabled); own name 'Right' from the cable menu",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J39",
+   "side": "back",
+   "panel_label": "Master Level CV in",
+   "what": "Master level CV input",
+   "reason_cable_menu_name": "Master Level CV",
+   "pos": [
+    0.886,
+    0.344
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Master Level CV' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-K15",
+   "side": "back",
+   "panel_label": "Master Level CV trim",
+   "what": "Amount knob for Master level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.886,
+    0.423
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'Master Level CV: 127'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  },
+  {
+   "code": "MX14-B-J80",
+   "side": "back",
+   "panel_label": "Chain master L",
+   "what": "Chaining master input, left",
+   "reason_cable_menu_name": "Chain Left",
+   "pos": [
+    0.868,
+    0.687
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Chain Left' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-J81",
+   "side": "back",
+   "panel_label": "Chain master R",
+   "what": "Chaining master input, right",
+   "reason_cable_menu_name": "Chain Right",
+   "pos": [
+    0.904,
+    0.687
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip 'Chain Right' (empty jack)",
+   "confidence": "high"
+  },
+  {
+   "code": "MX14-B-B01",
+   "side": "back",
+   "panel_label": "EQ switch (Compatible/Improved)",
+   "what": "Picks the EQ type: Compatible (like the old mixer) or Improved",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.075,
+    0.734
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip 'EQ Mode: 0'",
+   "confidence": "medium",
+   "confidence_reason": "no Remote item in the vocab"
+  }
+ ]
+}

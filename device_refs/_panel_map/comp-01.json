@@ -1,0 +1,238 @@
+{
+  "device": "COMP-01 Compressor/Limiter",
+  "remote_scope": "Propellerheads / COMP-01 Compressor/Limiter",
+  "code_prefix": "COMP01",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "COMP01-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "COMP01-F-D01",
+      "side": "front",
+      "panel_label": "COMPRESSOR 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.533,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Compressor 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-F-K01",
+      "side": "front",
+      "panel_label": "RATIO",
+      "what": "Compression ratio, 1:1 to 16:1",
+      "reason_name": "Ratio",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.162,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Ratio: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-F-K02",
+      "side": "front",
+      "panel_label": "THRESHOLD",
+      "what": "Level above which compression starts",
+      "reason_name": "Threshold",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.276,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Threshold: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-F-K03",
+      "side": "front",
+      "panel_label": "ATTACK",
+      "what": "How fast compression kicks in",
+      "reason_name": "Attack",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.391,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Attack: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-F-K04",
+      "side": "front",
+      "panel_label": "RELEASE",
+      "what": "How fast compression lets go",
+      "reason_name": "Release",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.506,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Release: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-F-D03",
+      "side": "front",
+      "panel_label": "GAIN (LED row)",
+      "what": "Gain reduction meter, -36 to +36 dB (display)",
+      "reason_name": "Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.746,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip; checked by eye: gain-reduction LED meter (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "Remote item 'Gain' (slot 3) assumed to be this meter; confirm by hover"
+    },
+    {
+      "code": "COMP01-B-D01",
+      "side": "back",
+      "panel_label": "COMPRESSOR 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.348,
+        0.184
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'Compressor 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMP01-B-J01",
+      "side": "back",
+      "panel_label": "L (In)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.505,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Chorus/Flanger 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "COMP01-B-J02",
+      "side": "back",
+      "panel_label": "R (In)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.578,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Chorus/Flanger 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "COMP01-B-J03",
+      "side": "back",
+      "panel_label": "L (Out)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.69,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Dist 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "COMP01-B-J04",
+      "side": "back",
+      "panel_label": "R (Out)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.763,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Dist 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

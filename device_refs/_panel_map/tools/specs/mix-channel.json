@@ -1,0 +1,495 @@
+{
+"device": "Mix Channel",
+"slug": "mix-channel",
+"prefix": "MXCH",
+"remote_scope": "Propellerheads / Mix Channel",
+"front_raw": "_captures_batchB/mix-channel_front_raw.jpg",
+"back_raw": "_captures_batchB/mix-channel_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"(fold triangle)",
+"Fold triangle: folds the device up to a thin strip",
+null,
+null,
+[
+40,
+33
+],
+[
+9,
+7
+],
+"B",
+"medium",
+"no tooltip, no Remote item"
+],
+[
+"Mix Channel name",
+"Channel name label (type your own name)",
+"Channel Name",
+null,
+[
+185,
+36
+],
+[
+62,
+15
+],
+"D",
+"medium",
+"tooltip shows the channel name"
+],
+[
+"Show Insert FX",
+"Opens/closes the insert FX slot under the strip (drop an effect device there)",
+null,
+null,
+[
+112,
+115
+],
+[
+17,
+11
+],
+"B",
+"medium",
+"no Remote item"
+],
+[
+"MUTE",
+"Mutes this channel",
+"Mute",
+null,
+[
+343,
+34
+],
+[
+22,
+17
+],
+"B",
+"high",
+""
+],
+[
+"SOLO",
+"Solos this channel",
+"Solo",
+null,
+[
+398,
+34
+],
+[
+22,
+17
+],
+"B",
+"high",
+""
+],
+[
+"BYPASS",
+"Bypasses the insert FX",
+"Bypass Insert FX",
+null,
+[
+371,
+86
+],
+[
+26,
+12
+],
+"B",
+"high",
+""
+],
+[
+"Level fader",
+"Channel level (horizontal fader)",
+"Level",
+null,
+[
+680,
+36
+],
+[
+34,
+16
+],
+"S",
+"high",
+"",
+"below"
+],
+[
+"PAN",
+"Channel pan (left to right)",
+"Pan",
+null,
+[
+836,
+36
+],
+[
+21,
+21
+],
+"K",
+"high",
+"",
+"below"
+],
+[
+"SEQ",
+"Shows this channel's sequencer track",
+null,
+null,
+[
+913,
+35
+],
+[
+18,
+14
+],
+"B",
+"medium",
+"no Remote item",
+"below"
+],
+[
+"MIX",
+"Shows this channel's mixer strip",
+null,
+null,
+[
+960,
+35
+],
+[
+18,
+14
+],
+"B",
+"medium",
+"no Remote item",
+"below"
+],
+[
+"Spectrum EQ button",
+"Shows this channel in the Spectrum EQ window",
+null,
+null,
+[
+1020,
+35
+],
+[
+33,
+17
+],
+"B",
+"medium",
+"no Remote item",
+"below"
+],
+[
+"(level meter)",
+"Channel level meter",
+null,
+null,
+[
+1237,
+31
+],
+[
+172,
+12
+],
+"D",
+"medium",
+"no tooltip; Remote item unknown for this device"
+],
+[
+"AUDIO OUTPUT menu",
+"Pick where the channel's sound goes (Master Section or another bus)",
+null,
+null,
+[
+1130,
+86
+],
+[
+235,
+13
+],
+"B",
+"medium",
+"no tooltip; opens a menu, not clicked"
+],
+[
+"REC SOURCE",
+"Rec Source: marks this channel as a recording source",
+null,
+null,
+[
+1386,
+120
+],
+[
+9,
+9
+],
+"B",
+"medium",
+"no Remote item"
+]
+],
+"back": [
+[
+"(fold triangle)",
+"Fold triangle (back)",
+"B",
+[
+40,
+33
+],
+[
+9,
+7
+],
+"no tooltip, no Remote item"
+],
+[
+"Mix Channel name",
+"Channel name box (back)",
+"D",
+[
+198,
+35
+],
+[
+100,
+18
+],
+"tooltip shows the channel name"
+],
+[
+"Show Insert FX",
+"Opens/closes the insert FX slot",
+"B",
+[
+125,
+108
+],
+[
+17,
+11
+],
+"no Remote item"
+],
+[
+"(output-bus light)",
+"Lit when the channel is used as an output bus (its input is then disabled)",
+"D",
+[
+456,
+79
+],
+[
+8,
+8
+],
+"no tooltip"
+],
+[
+"Input L",
+"Audio input, left (L/Mono)",
+"J",
+[
+498,
+57
+],
+[
+17,
+17
+],
+""
+],
+[
+"Input R",
+"Audio input, right",
+"J",
+[
+498,
+100
+],
+[
+17,
+17
+],
+""
+],
+[
+"Parallel out L",
+"Parallel (pre-insert) output, left",
+"J",
+[
+620,
+57
+],
+[
+17,
+17
+],
+""
+],
+[
+"Parallel out R",
+"Parallel (pre-insert) output, right",
+"J",
+[
+620,
+100
+],
+[
+17,
+17
+],
+""
+],
+[
+"Sidechain in L",
+"Sidechain input, left",
+"J",
+[
+748,
+57
+],
+[
+17,
+17
+],
+""
+],
+[
+"Sidechain in R",
+"Sidechain input, right",
+"J",
+[
+748,
+100
+],
+[
+17,
+17
+],
+""
+],
+[
+"KEY",
+"Sidechain Key on/off",
+"B",
+[
+845,
+70
+],
+[
+17,
+15
+],
+"tooltip Sidechain Key On/Off"
+],
+[
+"Gain Reduction CV out",
+"CV output that follows the dynamics gain reduction",
+"J",
+[
+900,
+63
+],
+[
+12,
+12
+],
+""
+],
+[
+"(insert FX slot)",
+"Slot for an insert effect device",
+"D",
+[
+1050,
+75
+],
+[
+120,
+45
+],
+"no tooltip"
+],
+[
+"Direct out L",
+"Direct output, left",
+"J",
+[
+1228,
+57
+],
+[
+17,
+17
+],
+""
+],
+[
+"Direct out R",
+"Direct output, right",
+"J",
+[
+1228,
+100
+],
+[
+17,
+17
+],
+""
+],
+[
+"(breaks internal mixer routing)",
+"Label: using Direct Out breaks the internal mixer routing",
+"D",
+[
+1340,
+33
+],
+[
+70,
+16
+],
+"no tooltip"
+],
+[
+"(Audio Output display)",
+"Shows where the channel is routed (Master Section)",
+"D",
+[
+1358,
+105
+],
+[
+75,
+12
+],
+"no tooltip"
+]
+]
+}

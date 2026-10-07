@@ -1,0 +1,559 @@
+{
+"device": "Matrix Pattern Sequencer",
+"slug": "matrix",
+"prefix": "MTRX",
+"remote_scope": "Propellerheads / Matrix Pattern Sequencer",
+"front_raw": "_captures_batchB/matrix_front_raw.jpg",
+"back_raw": "_captures_batchB/matrix_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"MATRIX 2 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+46,
+120
+],
+[
+16,
+52
+],
+"D",
+"high",
+""
+],
+[
+"Pattern (switch)",
+"Pattern Enable: turns pattern playback on/off at the next downbeat (light shows on)",
+"Pattern Enable",
+null,
+[
+115,
+75
+],
+[
+27,
+11
+],
+"B",
+"high",
+""
+],
+[
+"Mute (light)",
+"Mute light: lit when the Matrix track is muted in the sequencer",
+null,
+null,
+[
+237,
+75
+],
+[
+11,
+11
+],
+"D",
+"high",
+""
+],
+[
+"Pattern 1",
+"Pattern button 1 (selects pattern 1 in the current bank)",
+"Pattern 1",
+null,
+[
+101,
+115
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 2",
+"Pattern button 2 (selects pattern 2 in the current bank)",
+"Pattern 2",
+null,
+[
+138,
+115
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 3",
+"Pattern button 3 (selects pattern 3 in the current bank)",
+"Pattern 3",
+null,
+[
+175,
+115
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 4",
+"Pattern button 4 (selects pattern 4 in the current bank)",
+"Pattern 4",
+null,
+[
+212,
+115
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 5",
+"Pattern button 5 (selects pattern 5 in the current bank)",
+"Pattern 5",
+null,
+[
+101,
+172
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 6",
+"Pattern button 6 (selects pattern 6 in the current bank)",
+"Pattern 6",
+null,
+[
+138,
+172
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 7",
+"Pattern button 7 (selects pattern 7 in the current bank)",
+"Pattern 7",
+null,
+[
+175,
+172
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Pattern 8",
+"Pattern button 8 (selects pattern 8 in the current bank)",
+"Pattern 8",
+null,
+[
+212,
+172
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Bank A",
+"Bank button A (pick the bank, then click a Pattern button)",
+"Bank A",
+null,
+[
+101,
+229
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Bank B",
+"Bank button B (pick the bank, then click a Pattern button)",
+"Bank B",
+null,
+[
+138,
+229
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Bank C",
+"Bank button C (pick the bank, then click a Pattern button)",
+"Bank C",
+null,
+[
+175,
+229
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Bank D",
+"Bank button D (pick the bank, then click a Pattern button)",
+"Bank D",
+null,
+[
+212,
+229
+],
+[
+17,
+21
+],
+"B",
+"high",
+"",
+"in"
+],
+[
+"Run",
+"Run: starts/stops this Matrix on its own, without the main sequencer",
+"Run",
+null,
+[
+265,
+166
+],
+[
+20,
+28
+],
+"B",
+"high",
+""
+],
+[
+"Keys/Curve switch",
+"Switches the upper pattern window between Keys (note pitch) and Curve (curve CV) editing",
+null,
+null,
+[
+327,
+62
+],
+[
+18,
+40
+],
+"B",
+"medium",
+"no Remote item for this switch in the vocab"
+],
+[
+"(Keys/Curve lights)",
+"Lights show whether Keys or Curve is showing",
+null,
+null,
+[
+358,
+62
+],
+[
+10,
+26
+],
+"D",
+"medium",
+"display lights"
+],
+[
+"(octave slider 1-5)",
+"5-way slider: picks which of five octaves the note row shows",
+null,
+null,
+[
+327,
+185
+],
+[
+18,
+50
+],
+"S",
+"medium",
+"no Remote item in the vocab",
+"left"
+],
+[
+"(octave arrows 1-5)",
+"Arrows 1 to 5 beside the slider show the chosen octave",
+null,
+null,
+[
+362,
+186
+],
+[
+20,
+46
+],
+"D",
+"medium",
+"display",
+"right"
+],
+[
+"Tie",
+"Tie: draw longer (tied) gate steps",
+null,
+null,
+[
+335,
+264
+],
+[
+18,
+11
+],
+"B",
+"medium",
+"no Remote item in the vocab"
+],
+[
+"(Curve/Keys pattern window)",
+"Upper pattern window: note pitch (Keys) or curve values (Curve); click/drag to draw",
+null,
+null,
+[
+897,
+120
+],
+[
+466,
+90
+],
+"D",
+"medium",
+"edit area, hover-check by eye"
+],
+[
+"(Gate pattern window)",
+"Lower pattern window: gate/velocity strips; click/drag to draw",
+null,
+null,
+[
+897,
+246
+],
+[
+466,
+26
+],
+"D",
+"medium",
+"edit area, hover-check by eye"
+],
+[
+"Steps (display)",
+"Number of steps in the pattern (1 to 32)",
+null,
+null,
+[
+1417,
+47
+],
+[
+26,
+18
+],
+"D",
+"medium",
+"display",
+"left"
+],
+[
+"Steps (up/down arrows)",
+"Raise or lower the number of steps",
+null,
+null,
+[
+1455,
+47
+],
+[
+13,
+22
+],
+"B",
+"medium",
+"no Remote item in the vocab",
+"below"
+],
+[
+"RESOLUTION",
+"How fast the pattern plays relative to the tempo, 1/2 to 1/128",
+"Resolution",
+null,
+[
+1416,
+168
+],
+[
+36,
+36
+],
+"K",
+"medium",
+"Remote item Resolution; the device has no knob slot in our remotemap"
+],
+[
+"Shuffle",
+"Shuffle on/off for this pattern (amount is set by Global Shuffle in the ReGroove Mixer)",
+"Pattern Shuffle",
+null,
+[
+1413,
+264
+],
+[
+40,
+11
+],
+"B",
+"medium",
+"Remote item Pattern Shuffle"
+]
+],
+"back": [
+[
+"MATRIX 2 tape",
+"Device name tape (back)",
+"D",
+[
+46,
+118
+],
+[
+16,
+52
+],
+""
+],
+[
+"Curve CV",
+"Curve CV output",
+"J",
+[
+150,
+105
+],
+[
+17,
+17
+],
+""
+],
+[
+"Note CV",
+"Note CV output (pitch)",
+"J",
+[
+239,
+105
+],
+[
+17,
+17
+],
+""
+],
+[
+"Gate CV",
+"Gate CV output (on/off + velocity)",
+"J",
+[
+330,
+105
+],
+[
+17,
+17
+],
+""
+],
+[
+"Bipolar/Unipolar switch",
+"Curve CV range: Bipolar (zero in the middle) or Unipolar (zero at the bottom)",
+"B",
+[
+430,
+105
+],
+[
+18,
+26
+],
+"no Remote item in the vocab"
+]
+]
+}

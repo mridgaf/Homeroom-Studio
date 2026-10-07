@@ -1,0 +1,403 @@
+{
+"device": "ECF-42 Envelope Controlled Filter",
+"slug": "ecf-42",
+"prefix": "ECF42",
+"remote_scope": "Propellerheads / ECF-42 Envelope Controlled Filter",
+"front_raw": "_captures_batchA/ecf-42_front_raw.jpg",
+"back_raw": "_captures_batchA/ecf-42_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"Bypass/On/Off",
+"3-way device switch",
+"Enabled",
+3,
+[
+37,
+45
+],
+[
+13,
+20
+],
+"B",
+"high",
+""
+],
+[
+"(LED column)",
+"Input level meter",
+"Peak Meter",
+null,
+[
+37,
+130
+],
+[
+9,
+42
+],
+"D",
+"medium",
+"vocab item 'Peak Meter' assumed by position"
+],
+[
+"FILTER 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+505,
+38
+],
+[
+82,
+15
+],
+"D",
+"high",
+""
+],
+[
+"GATE (light)",
+"Gate light: lights when the envelope is triggered (display)",
+"",
+null,
+[
+722,
+38
+],
+[
+14,
+14
+],
+"D",
+"medium",
+"likely tied to Remote 'Trigger'; confirm by hover"
+],
+[
+"FREQ",
+"Filter frequency",
+"Frequency",
+5,
+[
+163,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"RES",
+"Filter resonance",
+"Resonance",
+8,
+[
+255,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"ENV.AMT",
+"How far the envelope moves the filter",
+"Env Amount",
+4,
+[
+345,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"VEL.",
+"How much note velocity opens the filter",
+"Velocity",
+11,
+[
+437,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"BP12/LP12/LP24 lights + MODE",
+"MODE button: cycles filter type BP 12, LP 12, LP 24 (lights show which)",
+"Mode",
+6,
+[
+505,
+122
+],
+[
+22,
+50
+],
+"B",
+"medium",
+"button and its three lights boxed together"
+],
+[
+"A (Envelope)",
+"Envelope attack",
+"Attack",
+1,
+[
+622,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"D (Envelope)",
+"Envelope decay",
+"Decay",
+2,
+[
+712,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"S (Envelope)",
+"Envelope sustain",
+"Sustain",
+9,
+[
+805,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"R (Envelope)",
+"Envelope release",
+"Release",
+7,
+[
+895,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+]
+],
+"back": [
+[
+"FILTER 1 tape",
+"Device name tape (back)",
+"D",
+[
+293,
+38
+],
+[
+105,
+16
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Freq CV",
+"K",
+[
+82,
+152
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"Freq (CV in)",
+"CV input for Freq",
+"J",
+[
+131,
+152
+],
+[
+17,
+17
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Decay CV",
+"K",
+[
+212,
+152
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"Decay (CV in)",
+"CV input for Decay",
+"J",
+[
+260,
+152
+],
+[
+17,
+17
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Res CV",
+"K",
+[
+340,
+152
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"Res (CV in)",
+"CV input for Res",
+"J",
+[
+388,
+152
+],
+[
+17,
+17
+],
+""
+],
+[
+"Env. Gate (CV in)",
+"Gate input for the envelope",
+"J",
+[
+483,
+152
+],
+[
+17,
+17
+],
+""
+],
+[
+"Left (In)",
+"Audio input left",
+"J",
+[
+580,
+150
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (In)",
+"Audio input right",
+"J",
+[
+651,
+150
+],
+[
+22,
+22
+],
+""
+],
+[
+"Left (Out)",
+"Audio output left",
+"J",
+[
+734,
+150
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (Out)",
+"Audio output right",
+"J",
+[
+806,
+150
+],
+[
+22,
+22
+],
+""
+]
+]
+}

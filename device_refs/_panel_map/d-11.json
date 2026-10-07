@@ -1,0 +1,210 @@
+{
+  "device": "D-11 Foldback Distortion",
+  "remote_scope": "Propellerheads / D-11 Foldback Distortion",
+  "code_prefix": "D11",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "D11-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "D11-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "D11-F-D01",
+      "side": "front",
+      "panel_label": "DIST 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.538,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Dist 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "D11-F-K01",
+      "side": "front",
+      "panel_label": "AMOUNT",
+      "what": "Distortion amount",
+      "reason_name": "Amount",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.165,
+        0.589
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Amount: 20'",
+      "confidence": "high"
+    },
+    {
+      "code": "D11-F-K02",
+      "side": "front",
+      "panel_label": "FOLDBACK",
+      "what": "Foldback threshold: how far the wave folds back",
+      "reason_name": "Foldback",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.457,
+        0.589
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Foldback: 34'",
+      "confidence": "high"
+    },
+    {
+      "code": "D11-B-D01",
+      "side": "back",
+      "panel_label": "DIST 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.284,
+        0.184
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip; checked by eye: tape reads DIST 1",
+      "confidence": "high"
+    },
+    {
+      "code": "D11-B-K01",
+      "side": "back",
+      "panel_label": "Amount CV (trim)",
+      "what": "Amount knob for Amount CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.105,
+        0.725
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Amount CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "D11-B-J01",
+      "side": "back",
+      "panel_label": "Amount CV (jack)",
+      "what": "CV input for Amount",
+      "reason_cable_menu_name": "Amount CV",
+      "pos": [
+        0.153,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Amount CV' (empty jack)",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "D11-B-J02",
+      "side": "back",
+      "panel_label": "L (In)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.508,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Compressor 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "D11-B-J03",
+      "side": "back",
+      "panel_label": "R (In)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.582,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Compressor 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "D11-B-J04",
+      "side": "back",
+      "panel_label": "L (Out)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.696,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Delay 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "D11-B-J05",
+      "side": "back",
+      "panel_label": "R (Out)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.769,
+        0.725
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Delay 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

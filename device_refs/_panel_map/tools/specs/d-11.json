@@ -1,0 +1,18 @@
+{"device":"D-11 Foldback Distortion","slug":"d-11","prefix":"D11","remote_scope":"Propellerheads / D-11 Foldback Distortion",
+"front_raw":"_captures_batchA/d-11_front_raw.jpg","back_raw":"_captures_batchA/d-11_back_raw.jpg","out_dir":".","date":"2026-10-07",
+"front":[
+["Bypass/On/Off","3-way device switch","Enabled",2,[37,45],[13,20],"B","high",""],
+["(LED column)","Input level meter","Peak Meter",null,[37,130],[9,42],"D","medium","vocab item 'Peak Meter' assumed by position"],
+["DIST 1 tape","Device name tape","Device Name",null,[530,38],[105,15],"D","high",""],
+["AMOUNT","Distortion amount","Amount",1,[163,122],[38,38],"K","high",""],
+["FOLDBACK","Foldback threshold: how far the wave folds back","Foldback",3,[450,122],[38,38],"K","high",""]
+],
+"back":[
+["DIST 1 tape","Device name tape (back)","D",[280,38],[108,17],""],
+["Amount CV (trim)","Amount knob for Amount CV","K",[103,150],[17,17],"trim next to CV jack; matched by position"],
+["Amount CV (jack)","CV input for Amount","J",[151,150],[17,17],""],
+["L (In)","Audio input left","J",[500,150],[22,22],""],
+["R (In)","Audio input right","J",[573,150],[22,22],""],
+["L (Out)","Audio output left","J",[686,150],[22,22],""],
+["R (Out)","Audio output right","J",[757,150],[22,22],""]
+]}

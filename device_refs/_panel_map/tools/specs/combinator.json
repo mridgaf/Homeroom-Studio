@@ -1,0 +1,743 @@
+{
+"device": "Combinator",
+"slug": "combinator",
+"prefix": "COMB",
+"remote_scope": "Propellerheads / Combinator",
+"front_raw": "_captures_batchB/combinator_front_raw.jpg",
+"back_raw": "_captures_batchB/combinator_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"(fold triangle)",
+"Fold triangle: folds the Combinator up to a thin strip",
+null,
+null,
+[
+41,
+29
+],
+[
+9,
+8
+],
+"B",
+"medium",
+"no tooltip, no Remote item"
+],
+[
+"Bypass/On/Off switch",
+"Bypass / On / Off switch for the whole Combinator",
+"Enabled",
+null,
+[
+78,
+29
+],
+[
+11,
+24
+],
+"B",
+"high",
+"tooltip 'Enabled: On'"
+],
+[
+"Combinator 1 name tape",
+"Device name label",
+"Device Name",
+null,
+[
+213,
+40
+],
+[
+76,
+13
+],
+"D",
+"high",
+"tooltip shows the device name"
+],
+[
+"(orange LED)",
+"Small orange light next to the Editor button",
+null,
+null,
+[
+333,
+29
+],
+[
+8,
+8
+],
+"D",
+"low",
+"no tooltip; could be a Remote indicator, not confirmed"
+],
+[
+"Editor (Show Programmer)",
+"Opens the Programmer (where the knobs get mapped)",
+null,
+null,
+[
+399,
+29
+],
+[
+40,
+19
+],
+"B",
+"high",
+"tooltip 'Show Programmer'"
+],
+[
+"Devices (Show Devices)",
+"Shows the devices inside the Combinator",
+null,
+null,
+[
+485,
+29
+],
+[
+40,
+19
+],
+"B",
+"high",
+"tooltip 'Show Devices'"
+],
+[
+"(green meters)",
+"Small green meters left of the patch name",
+null,
+null,
+[
+567,
+32
+],
+[
+19,
+21
+],
+"D",
+"low",
+"no tooltip; could be Audio In/Out indicators, not confirmed"
+],
+[
+"Patch name display",
+"Shows the loaded patch name",
+"Patch Name",
+null,
+[
+860,
+33
+],
+[
+190,
+19
+],
+"D",
+"medium",
+"tooltip shows the patch name"
+],
+[
+"Patch up/down arrows",
+"Select previous (top half) / next (bottom half) patch",
+"Select Next Patch",
+null,
+[
+1155,
+31
+],
+[
+20,
+24
+],
+"B",
+"medium",
+"two halves: top = Select previous patch, bottom = Select next patch (both tooltips seen)"
+],
+[
+"Browse patch (folder)",
+"Opens the patch browser",
+null,
+null,
+[
+1193,
+31
+],
+[
+17,
+17
+],
+"B",
+"high",
+"tooltip 'Browse patch'"
+],
+[
+"Save patch (disk)",
+"Saves the patch",
+null,
+null,
+[
+1230,
+31
+],
+[
+17,
+17
+],
+"B",
+"high",
+"tooltip 'Save patch'"
+],
+[
+"PITCH wheel",
+"Pitch bend wheel, passed to all instruments inside",
+"Pitch Bend",
+null,
+[
+117,
+162
+],
+[
+15,
+70
+],
+"S",
+"high",
+"tooltip 'Pitch Bend: 0'",
+"right"
+],
+[
+"MOD wheel",
+"Mod wheel, passed to all instruments inside",
+"Mod Wheel",
+null,
+[
+183,
+162
+],
+[
+15,
+70
+],
+"S",
+"high",
+"tooltip 'Mod Wheel: 0'",
+"right"
+],
+[
+"Control 1",
+"Rotary 1: virtual knob, does nothing until mapped in the Programmer",
+"Rotary 1",
+1,
+[
+523,
+122
+],
+[
+42,
+42
+],
+"K",
+"high",
+"tooltip 'Control 1: 64'"
+],
+[
+"Control 2",
+"Rotary 2: virtual knob",
+"Rotary 2",
+2,
+[
+695,
+122
+],
+[
+42,
+42
+],
+"K",
+"high",
+"tooltip 'Control 2: 64'"
+],
+[
+"Control 3",
+"Rotary 3: virtual knob",
+"Rotary 3",
+3,
+[
+867,
+122
+],
+[
+42,
+42
+],
+"K",
+"high",
+"tooltip 'Control 3: 64'"
+],
+[
+"Control 4",
+"Rotary 4: virtual knob",
+"Rotary 4",
+4,
+[
+1038,
+122
+],
+[
+42,
+42
+],
+"K",
+"high",
+"tooltip 'Control 4: 64'"
+],
+[
+"Switch 1",
+"Button 1: virtual switch",
+"Button 1",
+5,
+[
+522,
+214
+],
+[
+26,
+14
+],
+"B",
+"high",
+"tooltip 'Switch 1'"
+],
+[
+"Switch 2",
+"Button 2: virtual switch",
+"Button 2",
+6,
+[
+695,
+214
+],
+[
+26,
+14
+],
+"B",
+"high",
+"tooltip 'Switch 2'"
+],
+[
+"Switch 3",
+"Button 3: virtual switch",
+"Button 3",
+7,
+[
+867,
+214
+],
+[
+26,
+14
+],
+"B",
+"high",
+"tooltip 'Switch 3'"
+],
+[
+"Switch 4",
+"Button 4: virtual switch",
+"Button 4",
+8,
+[
+1038,
+214
+],
+[
+26,
+14
+],
+"B",
+"high",
+"tooltip 'Switch 4'"
+],
+[
+"Mixer fold arrow",
+"Unfolds the built-in Combinator mixer (not mapped here)",
+null,
+null,
+[
+43,
+323
+],
+[
+8,
+9
+],
+"B",
+"medium",
+"no tooltip; the unfolded mixer is a separate view, not mapped"
+],
+[
+"(mixer channel lights 1-16)",
+"Lights showing which of the 8 stereo inputs of the Combinator mixer are in use",
+null,
+null,
+[
+783,
+312
+],
+[
+245,
+14
+],
+"D",
+"medium",
+"no tooltip"
+]
+],
+"back": [
+[
+"(fold triangle)",
+"Fold triangle (back)",
+"B",
+[
+41,
+30
+],
+[
+9,
+8
+],
+"no tooltip, no Remote item"
+],
+[
+"Editor (Show Programmer)",
+"Opens the Programmer",
+"B",
+[
+107,
+63
+],
+[
+40,
+19
+],
+"tooltip 'Show Programmer'"
+],
+[
+"Devices (Show Devices)",
+"Shows the devices inside",
+"B",
+[
+107,
+104
+],
+[
+40,
+19
+],
+"tooltip 'Show Devices'"
+],
+[
+"Gate In",
+"Sequencer Control: Mono Gate Input",
+"J",
+[
+216,
+62
+],
+[
+15,
+15
+],
+""
+],
+[
+"CV In",
+"Sequencer Control: Mono CV Input",
+"J",
+[
+216,
+102
+],
+[
+15,
+15
+],
+""
+],
+[
+"Control CV In 1 trim",
+"Amount knob for Control CV In 1",
+"K",
+[
+437,
+66
+],
+[
+19,
+19
+],
+"no Remote item in the vocab"
+],
+[
+"Control CV In 3 trim",
+"Amount knob for Control CV In 3",
+"K",
+[
+437,
+104
+],
+[
+19,
+19
+],
+"no Remote item in the vocab"
+],
+[
+"Control CV In 1",
+"Control CV input 1",
+"J",
+[
+485,
+66
+],
+[
+14,
+14
+],
+""
+],
+[
+"Control CV In 3",
+"Control CV input 3",
+"J",
+[
+485,
+104
+],
+[
+14,
+14
+],
+""
+],
+[
+"Control 1 selector",
+"Picks which Combinator control the top-left CV input drives (shows Control 1)",
+"D",
+[
+597,
+64
+],
+[
+82,
+14
+],
+"no tooltip; dropdown not opened"
+],
+[
+"Control 3 selector",
+"Picks which control the lower-left CV input drives (shows Control 3)",
+"D",
+[
+597,
+104
+],
+[
+82,
+14
+],
+"no tooltip; dropdown not opened"
+],
+[
+"Control CV In 2 trim",
+"Amount knob for Control CV In 2",
+"K",
+[
+715,
+66
+],
+[
+19,
+19
+],
+"no Remote item in the vocab"
+],
+[
+"Control CV In 4 trim",
+"Amount knob for Control CV In 4",
+"K",
+[
+715,
+104
+],
+[
+19,
+19
+],
+"no Remote item in the vocab"
+],
+[
+"Control CV In 2",
+"Control CV input 2",
+"J",
+[
+762,
+66
+],
+[
+14,
+14
+],
+""
+],
+[
+"Control CV In 4",
+"Control CV input 4",
+"J",
+[
+762,
+104
+],
+[
+14,
+14
+],
+""
+],
+[
+"Control 2 selector",
+"Picks which control the top-right CV input drives (shows Control 2)",
+"D",
+[
+875,
+64
+],
+[
+82,
+14
+],
+"no tooltip; dropdown not opened"
+],
+[
+"Control 4 selector",
+"Picks which control the lower-right CV input drives (shows Control 4)",
+"D",
+[
+875,
+104
+],
+[
+82,
+14
+],
+"no tooltip; dropdown not opened"
+],
+[
+"Combinator 1 name tape",
+"Device name label (back)",
+"D",
+[
+1117,
+66
+],
+[
+80,
+14
+],
+""
+],
+[
+"(name strip)",
+"Dark strip under the name tape",
+"D",
+[
+1115,
+104
+],
+[
+100,
+8
+],
+"no tooltip"
+],
+[
+"Input L",
+"Combi Input Left",
+"J",
+[
+1266,
+104
+],
+[
+17,
+17
+],
+""
+],
+[
+"Input R",
+"Combi Input Right",
+"J",
+[
+1322,
+104
+],
+[
+17,
+17
+],
+""
+],
+[
+"Output L",
+"Combi Output Left",
+"J",
+[
+1415,
+104
+],
+[
+17,
+17
+],
+""
+],
+[
+"Output R",
+"Combi Output Right",
+"J",
+[
+1473,
+104
+],
+[
+17,
+17
+],
+""
+],
+[
+"Mixer fold arrow",
+"Unfolds the built-in Combinator mixer (back)",
+"B",
+[
+43,
+323
+],
+[
+8,
+9
+],
+"not mapped here"
+]
+]
+}

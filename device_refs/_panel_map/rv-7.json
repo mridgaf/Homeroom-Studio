@@ -1,0 +1,288 @@
+{
+  "device": "RV-7 Digital Reverb",
+  "remote_scope": "Propellerheads / RV-7 Digital Reverb",
+  "code_prefix": "RV7",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "RV7-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "RV7-F-D01",
+      "side": "front",
+      "panel_label": "REVERB 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.494,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Reverb 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-F-D03",
+      "side": "front",
+      "panel_label": "(algorithm display)",
+      "what": "Shows the reverb type (Hall, etc.)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.165,
+        0.618
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "hover on display: 'Algorithm: 0' (display shows 'Hall')",
+      "confidence": "medium",
+      "confidence_reason": "display"
+    },
+    {
+      "code": "RV7-F-B02",
+      "side": "front",
+      "panel_label": "(up/down arrows)",
+      "what": "Step through reverb types",
+      "reason_name": "Algorithm",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.289,
+        0.618
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip; checked by eye: up/down arrows (no hover tooltip on either arrow; the display tooltip is 'Algorithm: 0')",
+      "confidence": "medium",
+      "confidence_reason": "Remote 'Algorithm' assumed to be this selector; confirm by hover"
+    },
+    {
+      "code": "RV7-F-K01",
+      "side": "front",
+      "panel_label": "SIZE",
+      "what": "Room size",
+      "reason_name": "Size",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.445,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Size: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-F-K02",
+      "side": "front",
+      "panel_label": "DECAY",
+      "what": "Reverb tail length",
+      "reason_name": "Decay",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.597,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Decay: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-F-K03",
+      "side": "front",
+      "panel_label": "DAMP",
+      "what": "High-frequency damping",
+      "reason_name": "Damping",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.748,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Damping: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-F-K04",
+      "side": "front",
+      "panel_label": "DRY/WET",
+      "what": "Balance dry and reverb",
+      "reason_name": "Dry/Wet",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.895,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Dry/Wet: 127'",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-B-J01",
+      "side": "back",
+      "panel_label": "Decay (CV in)",
+      "what": "CV input for Decay",
+      "reason_cable_menu_name": "Decay CV",
+      "pos": [
+        0.093,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Decay CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7-B-K01",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Decay CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.091,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Decay CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "RV7-B-D01",
+      "side": "back",
+      "panel_label": "REVERB 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.374,
+        0.749
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'Reverb 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "RV7-B-J02",
+      "side": "back",
+      "panel_label": "Left (In)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.592,
+        0.411
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Phaser 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7-B-J03",
+      "side": "back",
+      "panel_label": "Right (In)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.663,
+        0.411
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Phaser 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7-B-J04",
+      "side": "back",
+      "panel_label": "Left (Out)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.592,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Unison 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7-B-J05",
+      "side": "back",
+      "panel_label": "Right (Out)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.663,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Unison 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

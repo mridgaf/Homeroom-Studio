@@ -1,0 +1,327 @@
+{
+"device": "PEQ-2 Two Band Parametric EQ",
+"slug": "peq-2",
+"prefix": "PEQ2",
+"remote_scope": "Propellerheads / PEQ-2 Two Band Parametric EQ",
+"front_raw": "_captures_batchA/peq-2_front_raw.jpg",
+"back_raw": "_captures_batchA/peq-2_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"Bypass/On/Off",
+"3-way device switch",
+"Enabled",
+1,
+[
+37,
+45
+],
+[
+13,
+20
+],
+"B",
+"high",
+""
+],
+[
+"(LED column)",
+"Input level meter",
+"Peak Meter",
+null,
+[
+37,
+130
+],
+[
+9,
+42
+],
+"D",
+"medium",
+"vocab item 'Peak Meter' assumed by position"
+],
+[
+"EQ 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+485,
+38
+],
+[
+108,
+15
+],
+"D",
+"high",
+""
+],
+[
+"(EQ display)",
+"Frequency response graph, 31 Hz to 16k, +18 to -18 dB (display)",
+"",
+null,
+[
+297,
+128
+],
+[
+182,
+38
+],
+"D",
+"medium",
+"display only"
+],
+[
+"A FREQ",
+"Band A frequency",
+"Filter A Freq",
+2,
+[
+678,
+60
+],
+[
+32,
+32
+],
+"K",
+"high",
+""
+],
+[
+"A Q",
+"Band A width (Q)",
+"Filter A Q",
+4,
+[
+780,
+60
+],
+[
+32,
+32
+],
+"K",
+"high",
+""
+],
+[
+"A GAIN",
+"Band A boost/cut",
+"Filter A Gain",
+3,
+[
+880,
+60
+],
+[
+32,
+32
+],
+"K",
+"high",
+""
+],
+[
+"B FREQ",
+"Band B frequency",
+"Filter B Freq",
+5,
+[
+678,
+150
+],
+[
+32,
+32
+],
+"K",
+"high",
+""
+],
+[
+"B Q",
+"Band B width (Q)",
+"Filter B Q",
+8,
+[
+780,
+150
+],
+[
+32,
+32
+],
+"K",
+"high",
+""
+],
+[
+"B GAIN",
+"Band B boost/cut",
+"Filter B Gain",
+6,
+[
+880,
+150
+],
+[
+32,
+32
+],
+"K",
+"high",
+""
+],
+[
+"B (button)",
+"Band B on/off (light shows on)",
+"Filter B On/Off",
+7,
+[
+576,
+142
+],
+[
+14,
+30
+],
+"B",
+"high",
+""
+]
+],
+"back": [
+[
+"Freq 1 (CV in)",
+"CV input for Freq 1",
+"J",
+[
+92,
+102
+],
+[
+17,
+17
+],
+""
+],
+[
+"Freq 2 (CV in)",
+"CV input for Freq 2",
+"J",
+[
+220,
+102
+],
+[
+17,
+17
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Freq 1 CV",
+"K",
+[
+90,
+158
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"(trim)",
+"Amount knob for Freq 2 CV",
+"K",
+[
+220,
+158
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"EQ 1 tape",
+"Device name tape (back)",
+"D",
+[
+368,
+155
+],
+[
+108,
+16
+],
+""
+],
+[
+"Left (In)",
+"Audio input left",
+"J",
+[
+585,
+82
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (In)",
+"Audio input right",
+"J",
+[
+655,
+82
+],
+[
+22,
+22
+],
+""
+],
+[
+"Left (Out)",
+"Audio output left",
+"J",
+[
+585,
+138
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (Out)",
+"Audio output right",
+"J",
+[
+655,
+138
+],
+[
+22,
+22
+],
+""
+]
+]
+}

@@ -1,0 +1,230 @@
+{
+  "device": "UN-16 Unison",
+  "remote_scope": "Propellerheads / UN-16 Unison",
+  "code_prefix": "UN16",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "UN16-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "UN16-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "UN16-F-D01",
+      "side": "front",
+      "panel_label": "UNISON 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.497,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Unison 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "UN16-F-B02",
+      "side": "front",
+      "panel_label": "16/8/4 lights + VOICE COUNT",
+      "what": "VOICE COUNT button: cycles 16, 8, 4 voices (lights show which)",
+      "reason_name": "Voice Count",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.313,
+        0.556
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover VOICE COUNT button: 'Voice Count'; 16/8/4 lights have no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "button and its three lights boxed together"
+    },
+    {
+      "code": "UN16-F-K01",
+      "side": "front",
+      "panel_label": "DETUNE",
+      "what": "Detune amount",
+      "reason_name": "Detune",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.627,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Detune: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "UN16-F-K02",
+      "side": "front",
+      "panel_label": "DRY/WET",
+      "what": "Balance dry and unison signal",
+      "reason_name": "Dry/Wet",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.899,
+        0.604
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Dry/Wet: 127'",
+      "confidence": "high"
+    },
+    {
+      "code": "UN16-B-J01",
+      "side": "back",
+      "panel_label": "Detune (CV in)",
+      "what": "CV input for Detune",
+      "reason_cable_menu_name": "Detune CV",
+      "pos": [
+        0.096,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Detune CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "UN16-B-K01",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Detune CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.096,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Detune CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "UN16-B-D01",
+      "side": "back",
+      "panel_label": "UNISON 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.378,
+        0.749
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'Unison 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "UN16-B-J02",
+      "side": "back",
+      "panel_label": "Left (In)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.594,
+        0.411
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Reverb 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "UN16-B-J03",
+      "side": "back",
+      "panel_label": "Right (In)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.665,
+        0.411
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Reverb 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "UN16-B-J04",
+      "side": "back",
+      "panel_label": "Left (Out)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.594,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M EQ 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "UN16-B-J05",
+      "side": "back",
+      "panel_label": "Right (Out)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.665,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M EQ 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

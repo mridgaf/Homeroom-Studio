@@ -1,0 +1,316 @@
+{
+  "device": "CF-101 Chorus/Flanger",
+  "remote_scope": "Propellerheads / CF-101 Chorus/Flanger",
+  "code_prefix": "CF101",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "CF101-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item is 'Peak Meter'; matched by position (only meter)"
+    },
+    {
+      "code": "CF101-F-D01",
+      "side": "front",
+      "panel_label": "CHORUS/FLAN... tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.497,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'Chorus/Flanger 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-K01",
+      "side": "front",
+      "panel_label": "DELAY",
+      "what": "Delay time: short = flanger, medium = chorus",
+      "reason_name": "Delay",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.164,
+        0.614
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Delay: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-K02",
+      "side": "front",
+      "panel_label": "FEEDBACK",
+      "what": "Feedback amount, centre = off; left/right = two flavours of resonant flanging",
+      "reason_name": "Feedback",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.351,
+        0.614
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Feedback: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-K03",
+      "side": "front",
+      "panel_label": "RATE",
+      "what": "LFO speed",
+      "reason_name": "Rate",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.536,
+        0.614
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Rate: 40'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-B02",
+      "side": "front",
+      "panel_label": "SYNC",
+      "what": "LFO tempo sync on/off",
+      "reason_name": "LFO Sync Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.638,
+        0.618
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'LFO Sync Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-K04",
+      "side": "front",
+      "panel_label": "MOD AMOUNT",
+      "what": "LFO modulation depth (0 = frozen)",
+      "reason_name": "Modulation Amount",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.753,
+        0.614
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Modulation Amount: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-F-B03",
+      "side": "front",
+      "panel_label": "SEND MODE",
+      "what": "Send mode: outputs only the wet signal",
+      "reason_name": "Send/Insert Mode",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.902,
+        0.618
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Send/Insert Mode'",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-B-J01",
+      "side": "back",
+      "panel_label": "Delay (CV in)",
+      "what": "CV input for Delay",
+      "reason_cable_menu_name": "Delay CV",
+      "pos": [
+        0.098,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Delay CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "CF101-B-J02",
+      "side": "back",
+      "panel_label": "Rate (CV in)",
+      "what": "CV input for Rate",
+      "reason_cable_menu_name": "Rate CV",
+      "pos": [
+        0.228,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Rate CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "CF101-B-K01",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Delay CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.096,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Delay CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "CF101-B-K02",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Rate CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.228,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Rate CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "CF101-B-D01",
+      "side": "back",
+      "panel_label": "CHORUS/FLAN... tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.381,
+        0.749
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'Chorus/Flanger 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "CF101-B-J03",
+      "side": "back",
+      "panel_label": "Left (Input)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.595,
+        0.396
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Mix Channel: To Insert FX Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "CF101-B-J04",
+      "side": "back",
+      "panel_label": "Right (Input)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.666,
+        0.396
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Mix Channel: To Insert FX Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "CF101-B-J05",
+      "side": "back",
+      "panel_label": "Left (Output)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.595,
+        0.676
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Compressor 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "CF101-B-J06",
+      "side": "back",
+      "panel_label": "Right (Output)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.666,
+        0.676
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Compressor 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

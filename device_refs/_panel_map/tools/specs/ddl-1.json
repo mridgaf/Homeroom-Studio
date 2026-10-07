@@ -1,0 +1,25 @@
+{"device":"DDL-1 Digital Delay Line","slug":"ddl-1","prefix":"DDL1","remote_scope":"Propellerheads / DDL-1 Digital Delay Line",
+"front_raw":"_captures_batchA/ddl-1_front_raw.jpg","back_raw":"_captures_batchA/ddl-1_back_raw.jpg","out_dir":".","date":"2026-10-07",
+"front":[
+["Bypass/On/Off","3-way device switch","Enabled",4,[37,45],[13,20],"B","high",""],
+["(LED column)","Input level meter","Peak Meter",null,[37,130],[9,42],"D","medium","vocab item 'Peak Meter' assumed by position"],
+["DELAY 1 tape","Device name tape","Device Name",null,[487,38],[108,15],"D","high",""],
+["(digit display)","Delay time readout (ms or steps)","",null,[115,128],[52,20],"D","medium","display; Remote items DelayTime (ms)/(steps) not yet tied to a control, hover to confirm"],
+["(up/down arrows)","Change the delay time","",null,[212,128],[18,26],"B","low","Remote items DelayTime (ms) / DelayTime (steps) likely belong here; confirm by hover"],
+["MS / STEPS lights + UNIT","UNIT button: switches between ms and steps (lights show which)","Unit",8,[270,128],[18,42],"B","medium","button and its two lights boxed together"],
+["1/16 / 1/8T lights + STEP LENGTH","STEP LENGTH button: step size 1/16 or 1/8 triplet","Step Length",7,[392,128],[18,42],"B","medium","button and its two lights boxed together"],
+["FEEDBACK","Amount of delayed signal fed back","Feedback",5,[628,125],[34,34],"K","high",""],
+["PAN","Pan of the delayed signal, L to R","Pan",6,[755,125],[34,34],"K","high",""],
+["DRY/WET","Balance dry and delayed signal","Dry/Wet Balance",3,[882,125],[34,34],"K","high",""]
+],
+"back":[
+["Pan (CV in)","CV input for Pan","J",[92,102],[17,17],""],
+["Feedback (CV in)","CV input for Feedback","J",[218,102],[17,17],""],
+["(trim)","Amount knob for Pan CV","K",[90,158],[20,20],"trim next to CV jack; matched by position"],
+["(trim)","Amount knob for Feedback CV","K",[220,158],[20,20],"trim next to CV jack; matched by position"],
+["DELAY 1 tape","Device name tape (back)","D",[370,153],[108,17],""],
+["Left (Input)","Audio input left","J",[585,82],[22,22],""],
+["Right (Input)","Audio input right","J",[655,82],[22,22],""],
+["Left (Output)","Audio output left","J",[585,138],[22,22],""],
+["Right (Output)","Audio output right","J",[655,140],[22,22],""]
+]}

@@ -1,0 +1,531 @@
+{
+  "device": "Mix Channel",
+  "remote_scope": "Propellerheads / Mix Channel",
+  "code_prefix": "MXCH",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all 31 positions hover-checked in Reason. name_check can't pass: vocab lists this device as 'Reason Main Mixer Channel' (not 'Mix Channel') and the remotemap has no Scope block (not edited). Remote names used (Mute, Solo, Level, Pan, Bypass Insert FX, Channel Name) all appear in that vocab entry. Audio Output menu not opened (no tooltip). Insert FX slot was empty, so no insert-FX controls exist to map. Two tooltips cut off at the zoom edge (Bypass ... Off; Show in Spectrum EQ Window).",
+  "controls": [
+    {
+      "code": "MXCH-F-B01",
+      "side": "front",
+      "panel_label": "(fold triangle)",
+      "what": "Fold triangle: folds the device up to a thin strip",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.026,
+        0.234
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (fold triangle)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip, no Remote item"
+    },
+    {
+      "code": "MXCH-F-D01",
+      "side": "front",
+      "panel_label": "Mix Channel name",
+      "what": "Channel name label (type your own name)",
+      "reason_name": "Channel Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.118,
+        0.255
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Mix Channel' (channel name)",
+      "confidence": "medium",
+      "confidence_reason": "tooltip shows the channel name"
+    },
+    {
+      "code": "MXCH-F-B07",
+      "side": "front",
+      "panel_label": "Show Insert FX",
+      "what": "Opens/closes the insert FX slot under the strip (drop an effect device there)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.071,
+        0.816
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Insert FX'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item"
+    },
+    {
+      "code": "MXCH-F-B02",
+      "side": "front",
+      "panel_label": "MUTE",
+      "what": "Mutes this channel",
+      "reason_name": "Mute",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.219,
+        0.241
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Mix Channel Mute Off'",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-F-B03",
+      "side": "front",
+      "panel_label": "SOLO",
+      "what": "Solos this channel",
+      "reason_name": "Solo",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.254,
+        0.241
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Mix Channel Solo Off'",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-F-B08",
+      "side": "front",
+      "panel_label": "BYPASS",
+      "what": "Bypasses the insert FX",
+      "reason_name": "Bypass Insert FX",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.237,
+        0.61
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Bypass Master Insert FX Of...' (cut off at the edge of the zoom; Off)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-F-S01",
+      "side": "front",
+      "panel_label": "Level fader",
+      "what": "Channel level (horizontal fader)",
+      "reason_name": "Level",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.434,
+        0.255
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Level: 0.00 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-F-K01",
+      "side": "front",
+      "panel_label": "PAN",
+      "what": "Channel pan (left to right)",
+      "reason_name": "Pan",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.533,
+        0.255
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pan: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-F-B04",
+      "side": "front",
+      "panel_label": "SEQ",
+      "what": "Shows this channel's sequencer track",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.582,
+        0.248
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Sequencer Track'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item"
+    },
+    {
+      "code": "MXCH-F-B05",
+      "side": "front",
+      "panel_label": "MIX",
+      "what": "Shows this channel's mixer strip",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.612,
+        0.248
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Mixer Strip'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item"
+    },
+    {
+      "code": "MXCH-F-B06",
+      "side": "front",
+      "panel_label": "Spectrum EQ button",
+      "what": "Shows this channel in the Spectrum EQ window",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.651,
+        0.248
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show in Spectrum EQ Windo...' (cut off at the edge of the zoom)",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item"
+    },
+    {
+      "code": "MXCH-F-D02",
+      "side": "front",
+      "panel_label": "(level meter)",
+      "what": "Channel level meter",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.789,
+        0.22
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (level meter)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip; Remote item unknown for this device"
+    },
+    {
+      "code": "MXCH-F-B09",
+      "side": "front",
+      "panel_label": "AUDIO OUTPUT menu",
+      "what": "Pick where the channel's sound goes (Master Section or another bus)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.721,
+        0.61
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (output menu; not opened)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip; opens a menu, not clicked"
+    },
+    {
+      "code": "MXCH-F-B10",
+      "side": "front",
+      "panel_label": "REC SOURCE",
+      "what": "Rec Source: marks this channel as a recording source",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.884,
+        0.851
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Rec Source'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item"
+    },
+    {
+      "code": "MXCH-B-B01",
+      "side": "back",
+      "panel_label": "(fold triangle)",
+      "what": "Fold triangle (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.026,
+        0.234
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (fold triangle)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip, no Remote item"
+    },
+    {
+      "code": "MXCH-B-D01",
+      "side": "back",
+      "panel_label": "Mix Channel name",
+      "what": "Channel name box (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.126,
+        0.248
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Mix Channel' (channel name)",
+      "confidence": "high",
+      "confidence_reason": "tooltip shows the channel name"
+    },
+    {
+      "code": "MXCH-B-B03",
+      "side": "back",
+      "panel_label": "Show Insert FX",
+      "what": "Opens/closes the insert FX slot",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.08,
+        0.766
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Show Insert FX'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item"
+    },
+    {
+      "code": "MXCH-B-D03",
+      "side": "back",
+      "panel_label": "(output-bus light)",
+      "what": "Lit when the channel is used as an output bus (its input is then disabled)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.291,
+        0.56
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (light)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip"
+    },
+    {
+      "code": "MXCH-B-J01",
+      "side": "back",
+      "panel_label": "Input L",
+      "what": "Audio input, left (L/Mono)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.318,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Input L' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-J06",
+      "side": "back",
+      "panel_label": "Input R",
+      "what": "Audio input, right",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.318,
+        0.709
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Input R' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-J02",
+      "side": "back",
+      "panel_label": "Parallel out L",
+      "what": "Parallel (pre-insert) output, left",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.395,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Parallel Output L' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-J07",
+      "side": "back",
+      "panel_label": "Parallel out R",
+      "what": "Parallel (pre-insert) output, right",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.395,
+        0.709
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Parallel Output R' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-J03",
+      "side": "back",
+      "panel_label": "Sidechain in L",
+      "what": "Sidechain input, left",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.477,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Side Chain Input L' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-J08",
+      "side": "back",
+      "panel_label": "Sidechain in R",
+      "what": "Sidechain input, right",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.477,
+        0.709
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Side Chain Input R' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-B02",
+      "side": "back",
+      "panel_label": "KEY",
+      "what": "Sidechain Key on/off",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.539,
+        0.496
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Sidechain Key On/Off'",
+      "confidence": "medium",
+      "confidence_reason": "tooltip Sidechain Key On/Off"
+    },
+    {
+      "code": "MXCH-B-J04",
+      "side": "back",
+      "panel_label": "Gain Reduction CV out",
+      "what": "CV output that follows the dynamics gain reduction",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.574,
+        0.447
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Gain Reduction CV' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-D04",
+      "side": "back",
+      "panel_label": "(insert FX slot)",
+      "what": "Slot for an insert effect device",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.67,
+        0.532
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (insert FX slot)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip"
+    },
+    {
+      "code": "MXCH-B-J05",
+      "side": "back",
+      "panel_label": "Direct out L",
+      "what": "Direct output, left",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.783,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Mix Channel Output L' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-J09",
+      "side": "back",
+      "panel_label": "Direct out R",
+      "what": "Direct output, right",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.783,
+        0.709
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Mix Channel Output R' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "MXCH-B-D02",
+      "side": "back",
+      "panel_label": "(breaks internal mixer routing)",
+      "what": "Label: using Direct Out breaks the internal mixer routing",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.855,
+        0.234
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (label)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip"
+    },
+    {
+      "code": "MXCH-B-D05",
+      "side": "back",
+      "panel_label": "(Audio Output display)",
+      "what": "Shows where the channel is routed (Master Section)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.866,
+        0.745
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (display)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip"
+    }
+  ]
+}

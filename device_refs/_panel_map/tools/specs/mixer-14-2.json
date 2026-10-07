@@ -1,0 +1,5381 @@
+{
+"device": "Mixer 14:2",
+"slug": "mixer-14-2",
+"prefix": "MX14",
+"remote_scope": "Propellerheads / Mixer 14:2",
+"front_raw": "_captures_batchB/mixer-14-2_front_raw.jpg",
+"back_raw": "_captures_batchB/mixer-14-2_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"MIXER 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+45,
+250
+],
+[
+14,
+80
+],
+"D",
+"high",
+""
+],
+[
+"Ch 1 AUX 1",
+"Channel 1 aux send 1",
+"Channel 1 Aux 1 Send",
+null,
+[
+95,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 1 AUX 2",
+"Channel 1 aux send 2",
+"Channel 1 Aux 2 Send",
+null,
+[
+131,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 1 AUX 3",
+"Channel 1 aux send 3",
+"Channel 1 Aux 3 Send",
+null,
+[
+97,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 1 AUX 4",
+"Channel 1 aux send 4",
+"Channel 1 Aux 4 Send",
+null,
+[
+131,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 1 P (aux 4 pre)",
+"Channel 1 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 1 Aux 4 Pre Fader On/Off",
+null,
+[
+82,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 1 EQ on",
+"Channel 1 EQ on/off",
+"Channel 1 EQ On/Off",
+null,
+[
+82,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 1 TREBLE",
+"Channel 1 treble amount",
+"Channel 1 Treble Amount",
+null,
+[
+113,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 1 BASS",
+"Channel 1 bass amount",
+"Channel 1 Bass Amount",
+null,
+[
+113,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 1 Mute",
+"Channel 1 mute",
+"Channel 1 Mute",
+null,
+[
+82,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 1 Solo",
+"Channel 1 solo",
+"Channel 1 Solo",
+null,
+[
+121,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 1 PAN",
+"Channel 1 pan (left to right)",
+"Channel 1 Pan",
+null,
+[
+113,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 1 fader",
+"Channel 1 volume fader",
+"Channel 1 Level",
+null,
+[
+111,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 1 meter)",
+"Channel 1 level meter",
+"Channel 1 Peak Meter",
+null,
+[
+143,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 1 name tape",
+"Channel 1 name label (type your own name)",
+"Channel 1 Name",
+null,
+[
+81,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 2 AUX 1",
+"Channel 2 aux send 1",
+"Channel 2 Aux 1 Send",
+null,
+[
+186,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 2 AUX 2",
+"Channel 2 aux send 2",
+"Channel 2 Aux 2 Send",
+null,
+[
+222,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 2 AUX 3",
+"Channel 2 aux send 3",
+"Channel 2 Aux 3 Send",
+null,
+[
+188,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 2 AUX 4",
+"Channel 2 aux send 4",
+"Channel 2 Aux 4 Send",
+null,
+[
+222,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 2 P (aux 4 pre)",
+"Channel 2 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 2 Aux 4 Pre Fader On/Off",
+null,
+[
+173,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 2 EQ on",
+"Channel 2 EQ on/off",
+"Channel 2 EQ On/Off",
+null,
+[
+173,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 2 TREBLE",
+"Channel 2 treble amount",
+"Channel 2 Treble Amount",
+null,
+[
+204,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 2 BASS",
+"Channel 2 bass amount",
+"Channel 2 Bass Amount",
+null,
+[
+204,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 2 Mute",
+"Channel 2 mute",
+"Channel 2 Mute",
+null,
+[
+173,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 2 Solo",
+"Channel 2 solo",
+"Channel 2 Solo",
+null,
+[
+212,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 2 PAN",
+"Channel 2 pan (left to right)",
+"Channel 2 Pan",
+null,
+[
+204,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 2 fader",
+"Channel 2 volume fader",
+"Channel 2 Level",
+null,
+[
+202,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 2 meter)",
+"Channel 2 level meter",
+"Channel 2 Peak Meter",
+null,
+[
+234,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 2 name tape",
+"Channel 2 name label (type your own name)",
+"Channel 2 Name",
+null,
+[
+172,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 3 AUX 1",
+"Channel 3 aux send 1",
+"Channel 3 Aux 1 Send",
+null,
+[
+277,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 3 AUX 2",
+"Channel 3 aux send 2",
+"Channel 3 Aux 2 Send",
+null,
+[
+313,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 3 AUX 3",
+"Channel 3 aux send 3",
+"Channel 3 Aux 3 Send",
+null,
+[
+279,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 3 AUX 4",
+"Channel 3 aux send 4",
+"Channel 3 Aux 4 Send",
+null,
+[
+313,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 3 P (aux 4 pre)",
+"Channel 3 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 3 Aux 4 Pre Fader On/Off",
+null,
+[
+264,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 3 EQ on",
+"Channel 3 EQ on/off",
+"Channel 3 EQ On/Off",
+null,
+[
+264,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 3 TREBLE",
+"Channel 3 treble amount",
+"Channel 3 Treble Amount",
+null,
+[
+295,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 3 BASS",
+"Channel 3 bass amount",
+"Channel 3 Bass Amount",
+null,
+[
+295,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 3 Mute",
+"Channel 3 mute",
+"Channel 3 Mute",
+null,
+[
+264,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 3 Solo",
+"Channel 3 solo",
+"Channel 3 Solo",
+null,
+[
+303,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 3 PAN",
+"Channel 3 pan (left to right)",
+"Channel 3 Pan",
+null,
+[
+295,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 3 fader",
+"Channel 3 volume fader",
+"Channel 3 Level",
+null,
+[
+293,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 3 meter)",
+"Channel 3 level meter",
+"Channel 3 Peak Meter",
+null,
+[
+325,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 3 name tape",
+"Channel 3 name label (type your own name)",
+"Channel 3 Name",
+null,
+[
+263,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 4 AUX 1",
+"Channel 4 aux send 1",
+"Channel 4 Aux 1 Send",
+null,
+[
+368,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 4 AUX 2",
+"Channel 4 aux send 2",
+"Channel 4 Aux 2 Send",
+null,
+[
+404,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 4 AUX 3",
+"Channel 4 aux send 3",
+"Channel 4 Aux 3 Send",
+null,
+[
+370,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 4 AUX 4",
+"Channel 4 aux send 4",
+"Channel 4 Aux 4 Send",
+null,
+[
+404,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 4 P (aux 4 pre)",
+"Channel 4 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 4 Aux 4 Pre Fader On/Off",
+null,
+[
+355,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 4 EQ on",
+"Channel 4 EQ on/off",
+"Channel 4 EQ On/Off",
+null,
+[
+355,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 4 TREBLE",
+"Channel 4 treble amount",
+"Channel 4 Treble Amount",
+null,
+[
+386,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 4 BASS",
+"Channel 4 bass amount",
+"Channel 4 Bass Amount",
+null,
+[
+386,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 4 Mute",
+"Channel 4 mute",
+"Channel 4 Mute",
+null,
+[
+355,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 4 Solo",
+"Channel 4 solo",
+"Channel 4 Solo",
+null,
+[
+394,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 4 PAN",
+"Channel 4 pan (left to right)",
+"Channel 4 Pan",
+null,
+[
+386,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 4 fader",
+"Channel 4 volume fader",
+"Channel 4 Level",
+null,
+[
+384,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 4 meter)",
+"Channel 4 level meter",
+"Channel 4 Peak Meter",
+null,
+[
+416,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 4 name tape",
+"Channel 4 name label (type your own name)",
+"Channel 4 Name",
+null,
+[
+354,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 5 AUX 1",
+"Channel 5 aux send 1",
+"Channel 5 Aux 1 Send",
+null,
+[
+459,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 5 AUX 2",
+"Channel 5 aux send 2",
+"Channel 5 Aux 2 Send",
+null,
+[
+495,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 5 AUX 3",
+"Channel 5 aux send 3",
+"Channel 5 Aux 3 Send",
+null,
+[
+461,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 5 AUX 4",
+"Channel 5 aux send 4",
+"Channel 5 Aux 4 Send",
+null,
+[
+495,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 5 P (aux 4 pre)",
+"Channel 5 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 5 Aux 4 Pre Fader On/Off",
+null,
+[
+446,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 5 EQ on",
+"Channel 5 EQ on/off",
+"Channel 5 EQ On/Off",
+null,
+[
+446,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 5 TREBLE",
+"Channel 5 treble amount",
+"Channel 5 Treble Amount",
+null,
+[
+477,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 5 BASS",
+"Channel 5 bass amount",
+"Channel 5 Bass Amount",
+null,
+[
+477,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 5 Mute",
+"Channel 5 mute",
+"Channel 5 Mute",
+null,
+[
+446,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 5 Solo",
+"Channel 5 solo",
+"Channel 5 Solo",
+null,
+[
+485,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 5 PAN",
+"Channel 5 pan (left to right)",
+"Channel 5 Pan",
+null,
+[
+477,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 5 fader",
+"Channel 5 volume fader",
+"Channel 5 Level",
+null,
+[
+475,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 5 meter)",
+"Channel 5 level meter",
+"Channel 5 Peak Meter",
+null,
+[
+507,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 5 name tape",
+"Channel 5 name label (type your own name)",
+"Channel 5 Name",
+null,
+[
+445,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 6 AUX 1",
+"Channel 6 aux send 1",
+"Channel 6 Aux 1 Send",
+null,
+[
+550,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 6 AUX 2",
+"Channel 6 aux send 2",
+"Channel 6 Aux 2 Send",
+null,
+[
+586,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 6 AUX 3",
+"Channel 6 aux send 3",
+"Channel 6 Aux 3 Send",
+null,
+[
+552,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 6 AUX 4",
+"Channel 6 aux send 4",
+"Channel 6 Aux 4 Send",
+null,
+[
+586,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 6 P (aux 4 pre)",
+"Channel 6 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 6 Aux 4 Pre Fader On/Off",
+null,
+[
+537,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 6 EQ on",
+"Channel 6 EQ on/off",
+"Channel 6 EQ On/Off",
+null,
+[
+537,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 6 TREBLE",
+"Channel 6 treble amount",
+"Channel 6 Treble Amount",
+null,
+[
+568,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 6 BASS",
+"Channel 6 bass amount",
+"Channel 6 Bass Amount",
+null,
+[
+568,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 6 Mute",
+"Channel 6 mute",
+"Channel 6 Mute",
+null,
+[
+537,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 6 Solo",
+"Channel 6 solo",
+"Channel 6 Solo",
+null,
+[
+576,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 6 PAN",
+"Channel 6 pan (left to right)",
+"Channel 6 Pan",
+null,
+[
+568,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 6 fader",
+"Channel 6 volume fader",
+"Channel 6 Level",
+null,
+[
+566,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 6 meter)",
+"Channel 6 level meter",
+"Channel 6 Peak Meter",
+null,
+[
+598,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 6 name tape",
+"Channel 6 name label (type your own name)",
+"Channel 6 Name",
+null,
+[
+536,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 7 AUX 1",
+"Channel 7 aux send 1",
+"Channel 7 Aux 1 Send",
+null,
+[
+641,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 7 AUX 2",
+"Channel 7 aux send 2",
+"Channel 7 Aux 2 Send",
+null,
+[
+677,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 7 AUX 3",
+"Channel 7 aux send 3",
+"Channel 7 Aux 3 Send",
+null,
+[
+643,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 7 AUX 4",
+"Channel 7 aux send 4",
+"Channel 7 Aux 4 Send",
+null,
+[
+677,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 7 P (aux 4 pre)",
+"Channel 7 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 7 Aux 4 Pre Fader On/Off",
+null,
+[
+628,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 7 EQ on",
+"Channel 7 EQ on/off",
+"Channel 7 EQ On/Off",
+null,
+[
+628,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 7 TREBLE",
+"Channel 7 treble amount",
+"Channel 7 Treble Amount",
+null,
+[
+659,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 7 BASS",
+"Channel 7 bass amount",
+"Channel 7 Bass Amount",
+null,
+[
+659,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 7 Mute",
+"Channel 7 mute",
+"Channel 7 Mute",
+null,
+[
+628,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 7 Solo",
+"Channel 7 solo",
+"Channel 7 Solo",
+null,
+[
+667,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 7 PAN",
+"Channel 7 pan (left to right)",
+"Channel 7 Pan",
+null,
+[
+659,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 7 fader",
+"Channel 7 volume fader",
+"Channel 7 Level",
+null,
+[
+657,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 7 meter)",
+"Channel 7 level meter",
+"Channel 7 Peak Meter",
+null,
+[
+689,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 7 name tape",
+"Channel 7 name label (type your own name)",
+"Channel 7 Name",
+null,
+[
+627,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 8 AUX 1",
+"Channel 8 aux send 1",
+"Channel 8 Aux 1 Send",
+null,
+[
+732,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 8 AUX 2",
+"Channel 8 aux send 2",
+"Channel 8 Aux 2 Send",
+null,
+[
+768,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 8 AUX 3",
+"Channel 8 aux send 3",
+"Channel 8 Aux 3 Send",
+null,
+[
+734,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 8 AUX 4",
+"Channel 8 aux send 4",
+"Channel 8 Aux 4 Send",
+null,
+[
+768,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 8 P (aux 4 pre)",
+"Channel 8 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 8 Aux 4 Pre Fader On/Off",
+null,
+[
+719,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 8 EQ on",
+"Channel 8 EQ on/off",
+"Channel 8 EQ On/Off",
+null,
+[
+719,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 8 TREBLE",
+"Channel 8 treble amount",
+"Channel 8 Treble Amount",
+null,
+[
+750,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 8 BASS",
+"Channel 8 bass amount",
+"Channel 8 Bass Amount",
+null,
+[
+750,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 8 Mute",
+"Channel 8 mute",
+"Channel 8 Mute",
+null,
+[
+719,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 8 Solo",
+"Channel 8 solo",
+"Channel 8 Solo",
+null,
+[
+758,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 8 PAN",
+"Channel 8 pan (left to right)",
+"Channel 8 Pan",
+null,
+[
+750,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 8 fader",
+"Channel 8 volume fader",
+"Channel 8 Level",
+null,
+[
+748,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 8 meter)",
+"Channel 8 level meter",
+"Channel 8 Peak Meter",
+null,
+[
+780,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 8 name tape",
+"Channel 8 name label (type your own name)",
+"Channel 8 Name",
+null,
+[
+718,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 9 AUX 1",
+"Channel 9 aux send 1",
+"Channel 9 Aux 1 Send",
+null,
+[
+823,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 9 AUX 2",
+"Channel 9 aux send 2",
+"Channel 9 Aux 2 Send",
+null,
+[
+859,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 9 AUX 3",
+"Channel 9 aux send 3",
+"Channel 9 Aux 3 Send",
+null,
+[
+825,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 9 AUX 4",
+"Channel 9 aux send 4",
+"Channel 9 Aux 4 Send",
+null,
+[
+859,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 9 P (aux 4 pre)",
+"Channel 9 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 9 Aux 4 Pre Fader On/Off",
+null,
+[
+810,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 9 EQ on",
+"Channel 9 EQ on/off",
+"Channel 9 EQ On/Off",
+null,
+[
+810,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 9 TREBLE",
+"Channel 9 treble amount",
+"Channel 9 Treble Amount",
+null,
+[
+841,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 9 BASS",
+"Channel 9 bass amount",
+"Channel 9 Bass Amount",
+null,
+[
+841,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 9 Mute",
+"Channel 9 mute",
+"Channel 9 Mute",
+null,
+[
+810,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 9 Solo",
+"Channel 9 solo",
+"Channel 9 Solo",
+null,
+[
+849,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 9 PAN",
+"Channel 9 pan (left to right)",
+"Channel 9 Pan",
+null,
+[
+841,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 9 fader",
+"Channel 9 volume fader",
+"Channel 9 Level",
+null,
+[
+839,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 9 meter)",
+"Channel 9 level meter",
+"Channel 9 Peak Meter",
+null,
+[
+871,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 9 name tape",
+"Channel 9 name label (type your own name)",
+"Channel 9 Name",
+null,
+[
+809,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 10 AUX 1",
+"Channel 10 aux send 1",
+"Channel 10 Aux 1 Send",
+null,
+[
+914,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 10 AUX 2",
+"Channel 10 aux send 2",
+"Channel 10 Aux 2 Send",
+null,
+[
+950,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 10 AUX 3",
+"Channel 10 aux send 3",
+"Channel 10 Aux 3 Send",
+null,
+[
+916,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 10 AUX 4",
+"Channel 10 aux send 4",
+"Channel 10 Aux 4 Send",
+null,
+[
+950,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 10 P (aux 4 pre)",
+"Channel 10 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 10 Aux 4 Pre Fader On/Off",
+null,
+[
+901,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 10 EQ on",
+"Channel 10 EQ on/off",
+"Channel 10 EQ On/Off",
+null,
+[
+901,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 10 TREBLE",
+"Channel 10 treble amount",
+"Channel 10 Treble Amount",
+null,
+[
+932,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 10 BASS",
+"Channel 10 bass amount",
+"Channel 10 Bass Amount",
+null,
+[
+932,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 10 Mute",
+"Channel 10 mute",
+"Channel 10 Mute",
+null,
+[
+901,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 10 Solo",
+"Channel 10 solo",
+"Channel 10 Solo",
+null,
+[
+940,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 10 PAN",
+"Channel 10 pan (left to right)",
+"Channel 10 Pan",
+null,
+[
+932,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 10 fader",
+"Channel 10 volume fader",
+"Channel 10 Level",
+null,
+[
+930,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 10 meter)",
+"Channel 10 level meter",
+"Channel 10 Peak Meter",
+null,
+[
+962,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 10 name tape",
+"Channel 10 name label (type your own name)",
+"Channel 10 Name",
+null,
+[
+900,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 11 AUX 1",
+"Channel 11 aux send 1",
+"Channel 11 Aux 1 Send",
+null,
+[
+1005,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 11 AUX 2",
+"Channel 11 aux send 2",
+"Channel 11 Aux 2 Send",
+null,
+[
+1041,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 11 AUX 3",
+"Channel 11 aux send 3",
+"Channel 11 Aux 3 Send",
+null,
+[
+1007,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 11 AUX 4",
+"Channel 11 aux send 4",
+"Channel 11 Aux 4 Send",
+null,
+[
+1041,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 11 P (aux 4 pre)",
+"Channel 11 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 11 Aux 4 Pre Fader On/Off",
+null,
+[
+992,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 11 EQ on",
+"Channel 11 EQ on/off",
+"Channel 11 EQ On/Off",
+null,
+[
+992,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 11 TREBLE",
+"Channel 11 treble amount",
+"Channel 11 Treble Amount",
+null,
+[
+1023,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 11 BASS",
+"Channel 11 bass amount",
+"Channel 11 Bass Amount",
+null,
+[
+1023,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 11 Mute",
+"Channel 11 mute",
+"Channel 11 Mute",
+null,
+[
+992,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 11 Solo",
+"Channel 11 solo",
+"Channel 11 Solo",
+null,
+[
+1031,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 11 PAN",
+"Channel 11 pan (left to right)",
+"Channel 11 Pan",
+null,
+[
+1023,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 11 fader",
+"Channel 11 volume fader",
+"Channel 11 Level",
+null,
+[
+1021,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 11 meter)",
+"Channel 11 level meter",
+"Channel 11 Peak Meter",
+null,
+[
+1053,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 11 name tape",
+"Channel 11 name label (type your own name)",
+"Channel 11 Name",
+null,
+[
+991,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 12 AUX 1",
+"Channel 12 aux send 1",
+"Channel 12 Aux 1 Send",
+null,
+[
+1096,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 12 AUX 2",
+"Channel 12 aux send 2",
+"Channel 12 Aux 2 Send",
+null,
+[
+1132,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 12 AUX 3",
+"Channel 12 aux send 3",
+"Channel 12 Aux 3 Send",
+null,
+[
+1098,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 12 AUX 4",
+"Channel 12 aux send 4",
+"Channel 12 Aux 4 Send",
+null,
+[
+1132,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 12 P (aux 4 pre)",
+"Channel 12 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 12 Aux 4 Pre Fader On/Off",
+null,
+[
+1083,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 12 EQ on",
+"Channel 12 EQ on/off",
+"Channel 12 EQ On/Off",
+null,
+[
+1083,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 12 TREBLE",
+"Channel 12 treble amount",
+"Channel 12 Treble Amount",
+null,
+[
+1114,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 12 BASS",
+"Channel 12 bass amount",
+"Channel 12 Bass Amount",
+null,
+[
+1114,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 12 Mute",
+"Channel 12 mute",
+"Channel 12 Mute",
+null,
+[
+1083,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 12 Solo",
+"Channel 12 solo",
+"Channel 12 Solo",
+null,
+[
+1122,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 12 PAN",
+"Channel 12 pan (left to right)",
+"Channel 12 Pan",
+null,
+[
+1114,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 12 fader",
+"Channel 12 volume fader",
+"Channel 12 Level",
+null,
+[
+1112,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 12 meter)",
+"Channel 12 level meter",
+"Channel 12 Peak Meter",
+null,
+[
+1144,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 12 name tape",
+"Channel 12 name label (type your own name)",
+"Channel 12 Name",
+null,
+[
+1082,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 13 AUX 1",
+"Channel 13 aux send 1",
+"Channel 13 Aux 1 Send",
+null,
+[
+1187,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 13 AUX 2",
+"Channel 13 aux send 2",
+"Channel 13 Aux 2 Send",
+null,
+[
+1223,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 13 AUX 3",
+"Channel 13 aux send 3",
+"Channel 13 Aux 3 Send",
+null,
+[
+1189,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 13 AUX 4",
+"Channel 13 aux send 4",
+"Channel 13 Aux 4 Send",
+null,
+[
+1223,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 13 P (aux 4 pre)",
+"Channel 13 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 13 Aux 4 Pre Fader On/Off",
+null,
+[
+1174,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 13 EQ on",
+"Channel 13 EQ on/off",
+"Channel 13 EQ On/Off",
+null,
+[
+1174,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 13 TREBLE",
+"Channel 13 treble amount",
+"Channel 13 Treble Amount",
+null,
+[
+1205,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 13 BASS",
+"Channel 13 bass amount",
+"Channel 13 Bass Amount",
+null,
+[
+1205,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 13 Mute",
+"Channel 13 mute",
+"Channel 13 Mute",
+null,
+[
+1174,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 13 Solo",
+"Channel 13 solo",
+"Channel 13 Solo",
+null,
+[
+1213,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 13 PAN",
+"Channel 13 pan (left to right)",
+"Channel 13 Pan",
+null,
+[
+1205,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 13 fader",
+"Channel 13 volume fader",
+"Channel 13 Level",
+null,
+[
+1203,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 13 meter)",
+"Channel 13 level meter",
+"Channel 13 Peak Meter",
+null,
+[
+1235,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 13 name tape",
+"Channel 13 name label (type your own name)",
+"Channel 13 Name",
+null,
+[
+1173,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 14 AUX 1",
+"Channel 14 aux send 1",
+"Channel 14 Aux 1 Send",
+null,
+[
+1278,
+52
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 14 AUX 2",
+"Channel 14 aux send 2",
+"Channel 14 Aux 2 Send",
+null,
+[
+1314,
+83
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 14 AUX 3",
+"Channel 14 aux send 3",
+"Channel 14 Aux 3 Send",
+null,
+[
+1280,
+117
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"left"
+],
+[
+"Ch 14 AUX 4",
+"Channel 14 aux send 4",
+"Channel 14 Aux 4 Send",
+null,
+[
+1314,
+150
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 14 P (aux 4 pre)",
+"Channel 14 aux 4 Pre Fader on/off: send 4 is taken before the fader when on",
+"Channel 14 Aux 4 Pre Fader On/Off",
+null,
+[
+1265,
+152
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 14 EQ on",
+"Channel 14 EQ on/off",
+"Channel 14 EQ On/Off",
+null,
+[
+1265,
+185
+],
+[
+10,
+10
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 14 TREBLE",
+"Channel 14 treble amount",
+"Channel 14 Treble Amount",
+null,
+[
+1296,
+222
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 14 BASS",
+"Channel 14 bass amount",
+"Channel 14 Bass Amount",
+null,
+[
+1296,
+278
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 14 Mute",
+"Channel 14 mute",
+"Channel 14 Mute",
+null,
+[
+1265,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 14 Solo",
+"Channel 14 solo",
+"Channel 14 Solo",
+null,
+[
+1304,
+330
+],
+[
+11,
+11
+],
+"B",
+"high",
+"",
+"above"
+],
+[
+"Ch 14 PAN",
+"Channel 14 pan (left to right)",
+"Channel 14 Pan",
+null,
+[
+1296,
+367
+],
+[
+19,
+19
+],
+"K",
+"high",
+"",
+"right"
+],
+[
+"Ch 14 fader",
+"Channel 14 volume fader",
+"Channel 14 Level",
+null,
+[
+1294,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Ch 14 meter)",
+"Channel 14 level meter",
+"Channel 14 Peak Meter",
+null,
+[
+1326,
+485
+],
+[
+9,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 14 name tape",
+"Channel 14 name label (type your own name)",
+"Channel 14 Name",
+null,
+[
+1264,
+485
+],
+[
+11,
+75
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Return 1 level",
+"Level of aux return 1",
+"Aux 1 Return Level",
+null,
+[
+1390,
+50
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"above"
+],
+[
+"Return 1 name tape",
+"Name label for aux return 1",
+"Aux 1 Return Name",
+null,
+[
+1415,
+88
+],
+[
+66,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Return 2 level",
+"Level of aux return 2",
+"Aux 2 Return Level",
+null,
+[
+1442,
+125
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"above"
+],
+[
+"Return 2 name tape",
+"Name label for aux return 2",
+"Aux 2 Return Name",
+null,
+[
+1415,
+160
+],
+[
+66,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Return 3 level",
+"Level of aux return 3",
+"Aux 3 Return Level",
+null,
+[
+1390,
+195
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"above"
+],
+[
+"Return 3 name tape",
+"Name label for aux return 3",
+"Aux 3 Return Name",
+null,
+[
+1415,
+230
+],
+[
+66,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Return 4 level",
+"Level of aux return 4",
+"Aux 4 Return Level",
+null,
+[
+1442,
+265
+],
+[
+17,
+17
+],
+"K",
+"high",
+"",
+"above"
+],
+[
+"Return 4 name tape",
+"Name label for aux return 4",
+"Aux 4 Return Name",
+null,
+[
+1415,
+297
+],
+[
+66,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"MASTER fader",
+"Master volume fader",
+"Master Level",
+null,
+[
+1415,
+437
+],
+[
+17,
+30
+],
+"S",
+"high",
+"",
+"above"
+],
+[
+"(Master meter L)",
+"Master output meter, left",
+"Master Left Peak Meter",
+null,
+[
+1380,
+485
+],
+[
+8,
+80
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"(Master meter R)",
+"Master output meter, right",
+"Master Right Peak Meter",
+null,
+[
+1452,
+485
+],
+[
+8,
+80
+],
+"D",
+"high",
+"",
+"below"
+]
+],
+"back": [
+[
+"MIXER 1 tape",
+"Device name tape (back)",
+"D",
+[
+45,
+248
+],
+[
+14,
+78
+],
+""
+],
+[
+"Ch 1 in L",
+"Channel 1 audio input, left (L/Mono)",
+"J",
+[
+132,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 1 in R",
+"Channel 1 audio input, right",
+"J",
+[
+132,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 1 Level CV in",
+"Channel 1 level CV input",
+"J",
+[
+132,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 1 Level CV trim",
+"Amount knob for Channel 1 level CV",
+"K",
+[
+132,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 1 Pan CV in",
+"Channel 1 pan CV input",
+"J",
+[
+132,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 1 Pan CV trim",
+"Amount knob for Channel 1 pan CV",
+"K",
+[
+132,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 2 in L",
+"Channel 2 audio input, left (L/Mono)",
+"J",
+[
+188,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 2 in R",
+"Channel 2 audio input, right",
+"J",
+[
+188,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 2 Level CV in",
+"Channel 2 level CV input",
+"J",
+[
+188,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 2 Level CV trim",
+"Amount knob for Channel 2 level CV",
+"K",
+[
+188,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 2 Pan CV in",
+"Channel 2 pan CV input",
+"J",
+[
+188,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 2 Pan CV trim",
+"Amount knob for Channel 2 pan CV",
+"K",
+[
+188,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 3 in L",
+"Channel 3 audio input, left (L/Mono)",
+"J",
+[
+244,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 3 in R",
+"Channel 3 audio input, right",
+"J",
+[
+244,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 3 Level CV in",
+"Channel 3 level CV input",
+"J",
+[
+244,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 3 Level CV trim",
+"Amount knob for Channel 3 level CV",
+"K",
+[
+244,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 3 Pan CV in",
+"Channel 3 pan CV input",
+"J",
+[
+244,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 3 Pan CV trim",
+"Amount knob for Channel 3 pan CV",
+"K",
+[
+244,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 4 in L",
+"Channel 4 audio input, left (L/Mono)",
+"J",
+[
+300,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 4 in R",
+"Channel 4 audio input, right",
+"J",
+[
+300,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 4 Level CV in",
+"Channel 4 level CV input",
+"J",
+[
+300,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 4 Level CV trim",
+"Amount knob for Channel 4 level CV",
+"K",
+[
+300,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 4 Pan CV in",
+"Channel 4 pan CV input",
+"J",
+[
+300,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 4 Pan CV trim",
+"Amount knob for Channel 4 pan CV",
+"K",
+[
+300,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 5 in L",
+"Channel 5 audio input, left (L/Mono)",
+"J",
+[
+356,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 5 in R",
+"Channel 5 audio input, right",
+"J",
+[
+356,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 5 Level CV in",
+"Channel 5 level CV input",
+"J",
+[
+356,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 5 Level CV trim",
+"Amount knob for Channel 5 level CV",
+"K",
+[
+356,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 5 Pan CV in",
+"Channel 5 pan CV input",
+"J",
+[
+356,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 5 Pan CV trim",
+"Amount knob for Channel 5 pan CV",
+"K",
+[
+356,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 6 in L",
+"Channel 6 audio input, left (L/Mono)",
+"J",
+[
+412,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 6 in R",
+"Channel 6 audio input, right",
+"J",
+[
+412,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 6 Level CV in",
+"Channel 6 level CV input",
+"J",
+[
+412,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 6 Level CV trim",
+"Amount knob for Channel 6 level CV",
+"K",
+[
+412,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 6 Pan CV in",
+"Channel 6 pan CV input",
+"J",
+[
+412,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 6 Pan CV trim",
+"Amount knob for Channel 6 pan CV",
+"K",
+[
+412,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 7 in L",
+"Channel 7 audio input, left (L/Mono)",
+"J",
+[
+467,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 7 in R",
+"Channel 7 audio input, right",
+"J",
+[
+467,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 7 Level CV in",
+"Channel 7 level CV input",
+"J",
+[
+467,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 7 Level CV trim",
+"Amount knob for Channel 7 level CV",
+"K",
+[
+467,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 7 Pan CV in",
+"Channel 7 pan CV input",
+"J",
+[
+467,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 7 Pan CV trim",
+"Amount knob for Channel 7 pan CV",
+"K",
+[
+467,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 8 in L",
+"Channel 8 audio input, left (L/Mono)",
+"J",
+[
+523,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 8 in R",
+"Channel 8 audio input, right",
+"J",
+[
+523,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 8 Level CV in",
+"Channel 8 level CV input",
+"J",
+[
+523,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 8 Level CV trim",
+"Amount knob for Channel 8 level CV",
+"K",
+[
+523,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 8 Pan CV in",
+"Channel 8 pan CV input",
+"J",
+[
+523,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 8 Pan CV trim",
+"Amount knob for Channel 8 pan CV",
+"K",
+[
+523,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 9 in L",
+"Channel 9 audio input, left (L/Mono)",
+"J",
+[
+579,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 9 in R",
+"Channel 9 audio input, right",
+"J",
+[
+579,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 9 Level CV in",
+"Channel 9 level CV input",
+"J",
+[
+579,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 9 Level CV trim",
+"Amount knob for Channel 9 level CV",
+"K",
+[
+579,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 9 Pan CV in",
+"Channel 9 pan CV input",
+"J",
+[
+579,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 9 Pan CV trim",
+"Amount knob for Channel 9 pan CV",
+"K",
+[
+579,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 10 in L",
+"Channel 10 audio input, left (L/Mono)",
+"J",
+[
+635,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 10 in R",
+"Channel 10 audio input, right",
+"J",
+[
+635,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 10 Level CV in",
+"Channel 10 level CV input",
+"J",
+[
+635,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 10 Level CV trim",
+"Amount knob for Channel 10 level CV",
+"K",
+[
+635,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 10 Pan CV in",
+"Channel 10 pan CV input",
+"J",
+[
+635,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 10 Pan CV trim",
+"Amount knob for Channel 10 pan CV",
+"K",
+[
+635,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 11 in L",
+"Channel 11 audio input, left (L/Mono)",
+"J",
+[
+691,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 11 in R",
+"Channel 11 audio input, right",
+"J",
+[
+691,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 11 Level CV in",
+"Channel 11 level CV input",
+"J",
+[
+691,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 11 Level CV trim",
+"Amount knob for Channel 11 level CV",
+"K",
+[
+691,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 11 Pan CV in",
+"Channel 11 pan CV input",
+"J",
+[
+691,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 11 Pan CV trim",
+"Amount knob for Channel 11 pan CV",
+"K",
+[
+691,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 12 in L",
+"Channel 12 audio input, left (L/Mono)",
+"J",
+[
+747,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 12 in R",
+"Channel 12 audio input, right",
+"J",
+[
+747,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 12 Level CV in",
+"Channel 12 level CV input",
+"J",
+[
+747,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 12 Level CV trim",
+"Amount knob for Channel 12 level CV",
+"K",
+[
+747,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 12 Pan CV in",
+"Channel 12 pan CV input",
+"J",
+[
+747,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 12 Pan CV trim",
+"Amount knob for Channel 12 pan CV",
+"K",
+[
+747,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 13 in L",
+"Channel 13 audio input, left (L/Mono)",
+"J",
+[
+803,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 13 in R",
+"Channel 13 audio input, right",
+"J",
+[
+803,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 13 Level CV in",
+"Channel 13 level CV input",
+"J",
+[
+803,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 13 Level CV trim",
+"Amount knob for Channel 13 level CV",
+"K",
+[
+803,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 13 Pan CV in",
+"Channel 13 pan CV input",
+"J",
+[
+803,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 13 Pan CV trim",
+"Amount knob for Channel 13 pan CV",
+"K",
+[
+803,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 14 in L",
+"Channel 14 audio input, left (L/Mono)",
+"J",
+[
+859,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 14 in R",
+"Channel 14 audio input, right",
+"J",
+[
+859,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 14 Level CV in",
+"Channel 14 level CV input",
+"J",
+[
+859,
+207
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 14 Level CV trim",
+"Amount knob for Channel 14 level CV",
+"K",
+[
+859,
+252
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 14 Pan CV in",
+"Channel 14 pan CV input",
+"J",
+[
+859,
+309
+],
+[
+12,
+12
+],
+""
+],
+[
+"Ch 14 Pan CV trim",
+"Amount knob for Channel 14 pan CV",
+"K",
+[
+859,
+355
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Aux 1 send L",
+"Aux 1 send output, left (L/Mono)",
+"J",
+[
+1080,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 1 send R",
+"Aux 1 send output, right",
+"J",
+[
+1080,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 1 return L",
+"Aux 1 return input, left (L/Mono)",
+"J",
+[
+1080,
+227
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 1 return R",
+"Aux 1 return input, right",
+"J",
+[
+1080,
+277
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 1 chain in L",
+"Chaining Aux 1 send input, left (L/Mono)",
+"J",
+[
+1080,
+388
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 1 chain in R",
+"Chaining Aux 1 send input, right",
+"J",
+[
+1080,
+438
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 2 send L",
+"Aux 2 send output, left (L/Mono)",
+"J",
+[
+1136,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 2 send R",
+"Aux 2 send output, right",
+"J",
+[
+1136,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 2 return L",
+"Aux 2 return input, left (L/Mono)",
+"J",
+[
+1136,
+227
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 2 return R",
+"Aux 2 return input, right",
+"J",
+[
+1136,
+277
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 2 chain in L",
+"Chaining Aux 2 send input, left (L/Mono)",
+"J",
+[
+1136,
+388
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 2 chain in R",
+"Chaining Aux 2 send input, right",
+"J",
+[
+1136,
+438
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 3 send L",
+"Aux 3 send output, left (L/Mono)",
+"J",
+[
+1191,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 3 send R",
+"Aux 3 send output, right",
+"J",
+[
+1191,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 3 return L",
+"Aux 3 return input, left (L/Mono)",
+"J",
+[
+1191,
+227
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 3 return R",
+"Aux 3 return input, right",
+"J",
+[
+1191,
+277
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 3 chain in L",
+"Chaining Aux 3 send input, left (L/Mono)",
+"J",
+[
+1191,
+388
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 3 chain in R",
+"Chaining Aux 3 send input, right",
+"J",
+[
+1191,
+438
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 4 send L",
+"Aux 4 send output, left (L/Mono)",
+"J",
+[
+1247,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 4 send R",
+"Aux 4 send output, right",
+"J",
+[
+1247,
+147
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 4 return L",
+"Aux 4 return input, left (L/Mono)",
+"J",
+[
+1247,
+227
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 4 return R",
+"Aux 4 return input, right",
+"J",
+[
+1247,
+277
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 4 chain in L",
+"Chaining Aux 4 send input, left (L/Mono)",
+"J",
+[
+1247,
+388
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux 4 chain in R",
+"Chaining Aux 4 send input, right",
+"J",
+[
+1247,
+438
+],
+[
+17,
+17
+],
+""
+],
+[
+"Master out L",
+"Master output, left",
+"J",
+[
+1361,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Master out R",
+"Master output, right",
+"J",
+[
+1417,
+97
+],
+[
+17,
+17
+],
+""
+],
+[
+"Master Level CV in",
+"Master level CV input",
+"J",
+[
+1390,
+198
+],
+[
+12,
+12
+],
+""
+],
+[
+"Master Level CV trim",
+"Amount knob for Master level CV",
+"K",
+[
+1390,
+243
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Chain master L",
+"Chaining master input, left",
+"J",
+[
+1361,
+395
+],
+[
+17,
+17
+],
+""
+],
+[
+"Chain master R",
+"Chaining master input, right",
+"J",
+[
+1417,
+395
+],
+[
+17,
+17
+],
+""
+],
+[
+"EQ switch (Compatible/Improved)",
+"Picks the EQ type: Compatible (like the old mixer) or Improved",
+"B",
+[
+118,
+422
+],
+[
+10,
+22
+],
+"no Remote item in the vocab"
+]
+]
+}

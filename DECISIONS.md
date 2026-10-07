@@ -19,6 +19,18 @@ entries.
 ---
 
 ## Log
+### 2026-10-07 Panel Map Batch A: 14 devices labeled and hover-checked (fronts + backs)
+- Context: owner asked to continue Reason 12 labeling until the map is complete. Batch A = CF-101, COMP-01, D-11, DDL-1, ECF-42, PEQ-2, PH-90, RV-7, UN-16, MClass Compressor/Equalizer/Maximizer/Stereo Imager, RV7000 (94 installed total).
+- Done (device_refs/_panel_map/): JSON + labeled pictures for all 14; every position hovered in Reason 12 in the throwaway "untitled" song and recorded in `checked_2026_10_07`; name_check PASS on all 14; PANEL-MAP.md has a Devices row and front/back tables per device. New tools: build_device.py, hover_batch.py, record_checks.py, panel_map_md.py, gen_*_specs.py (+ tools/specs/).
+- Jack names: Left/Right etc. read from Reason's cable menu or the partner jack's "Connected to <device>: <jack>" tooltip (RV7000 = Left/Right Input, Left/Right Output).
+- ASSUMING: ECF-42 GATE light (ECF42-F-D02) = Remote item "Trigger" (slot 10). Reason shows no tooltip for it; needed to make name_check pass.
+- Added a second row DDL1-F-D04 for the DDL-1 time display (same spot as D03): Reason's tooltip is "DelayTime (steps)" in STEPS and "DelayTime (ms)" in MS (UNIT toggled to prove it, set back).
+- NOT proven: RV7000 Remote Programmer soft knobs RV7K-F-K05..K12 (no tooltip in Reason; 1-4 left / 5-8 right is a guess), so rv7000.json status stays draft. RV7000 programmer EQ and Gate edit-mode views not captured.
+- Test changes undone: DDL-1 UNIT back to STEPS, RV7000 programmer folded. No song saved. the-echo.json was touched by mistake by a script and restored byte-for-byte from git.
+- Not yet done: ~80 other devices (Batches B-F), Channel EQ / Channel Dynamics / Master Bus Compressor not captured, hermes house doc.
+- Status: open
+- Outcome: —
+
 ### 2026-10-04 Beat Machine page rebuilt to the "Homeroom Studios" design handoff
 - Context: owner attached `CLAUDE-HANDOFF.md` + `design-reference.png` (copies in project root and `Homeroom-Studios-Claude-Handoff/`). Rebuild the Beat Machine page to it, keep the backend, honour the removed/replaced list.
 - Done (tools/beat_machine.py; backup `beat_machine.pre-homeroom-studios-2026-10-04.py`): top bar = green outlined Create + green Get Schooled + profile icon; notebook = black typewriter (Special Elite), "Homeroom Studios" title, The Back of the Class / The Legends / Styles / Quick directions / Famous beats / Key (ONE dropdown now, "A minor") / Reference track / Pattern library / Breaks / Find a saved beat; chalkboard header = two equal columns (tempo + beats eyes, Loops only nose, unfilled Test mouth | chalk logo), then cards straight away. Removed: Directions box, Rhythm test bank (UI only), Loops only in notebook, Make My Beats, Your beats heading + tabs, drag-to-folder strip, separate Trash button, wordmark/motto/scrawl, blue ink.
@@ -8425,3 +8437,12 @@ just not loaded by default.
 - Found (read the real code, not guessed): tools/crew.py:2419 (render_crew_beat) calls groove.master_to_lufs(L, R) on the FULL finished mix. That function (tools/groove.py:681) measures the whole mix's loudness and multiplies the ENTIRE mix by one shared gain to hit a fixed target (OWNER_TASTE["master_lufs"]), recalculated fresh every render. Change/remove one sound -> total loudness shifts -> shared gain shifts -> every other sound rides along with it. Secondary contributor: glue_compressor (tools/audio_engine.py) runs just before this and reacts to overall mix loudness too, so squashing amount shifts slightly as well.
 - Not done: no fix implemented, no owner decision on the trade-off (consistent per-beat loudness vs. sounds holding a fixed level when something else changes). A written handoff prompt for Claude Code was produced instead (owner asked for the handoff only, not the fix).
 - Status: confirmed (fixed, see "Volume locked per beat" at the top of the log, same day)
+
+### 2026-10-07 Panel Map Batch B: 9 devices labeled and hover-checked (fronts + backs)
+- Context: owner asked to continue Reason 12 labeling until the map is complete. Batch B = Matrix, Spider Audio, Spider CV, Pulsar, RPG-8, Line Mixer 6:2, Mixer 14:2, Mix Channel, Combinator outer panel.
+- Done (device_refs/_panel_map/): JSON + labeled pictures for all 9; every position hovered in Reason 12 in the throwaway "untitled" song (Matrix, Pulsar etc. added to it, nothing saved) and recorded in `checked_2026_10_07`; PANEL-MAP.md has a row and tables per device. New tools: hover3.py, rec_chunk.py, rec_auto.py; specs in gen_batchB_specs.py.
+- name_check: PASS on Combinator. It cannot pass for Matrix, Spider Audio, Spider CV, Pulsar, RPG-8, Line Mixer, Mixer 14:2 (no Scope block in the remotemap, not edited) and Mix Channel (vocab lists it as "Reason Main Mixer Channel", no Scope block). Mixer 14:2 also has 3-digit codes K100-K102 the checker's 2-digit pattern rejects (codes kept, checker not edited). Remote names used were checked against remote-vocab by hand.
+- Combinator: only the default Init Patch outer panel (Control 1-4 = Rotary 1-4 slots 1-4, Switch 1-4 = Button 1-4 slots 5-8). The unfolded Combinator mixer, Programmer and Devices views are not mapped. Its orange light and green meters have no tooltip and stay unnamed.
+- Mix Channel: insert FX slot was empty, so no insert-FX controls exist to map; Audio Output menu not opened.
+- Test changes undone: RPG-8 Pattern turned on then off; Show Insert FX folded back. Cables auto-made in the test song ignored.
+- Not yet done: Batches C-F (instruments, changing-panel devices, Rack Extensions, other effects), Channel EQ / Channel Dynamics / Master Bus Compressor, RV7000 programmer EQ/Gate views, hermes house doc.

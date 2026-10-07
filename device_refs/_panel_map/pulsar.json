@@ -1,0 +1,1259 @@
+{
+  "device": "Pulsar Dual LFO",
+  "remote_scope": "se.propellerheads.Pulsar",
+  "code_prefix": "PULS",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: every position hover-checked in Reason. Rack Extension; name_check cannot run: our remotemap has no Scope block for Pulsar (not added; out of scope)",
+  "controls": [
+    {
+      "code": "PULS-F-D04",
+      "side": "front",
+      "panel_label": "PULSAR 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.028,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pulsar 1'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-D01",
+      "side": "front",
+      "panel_label": "LFO 1 (rate lamp)",
+      "what": "Lamp above the Rate knob; blinks at the LFO 1 rate",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.065,
+        0.133
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (lamp), checked by eye: lit",
+      "confidence": "medium",
+      "confidence_reason": "lamp"
+    },
+    {
+      "code": "PULS-F-K02",
+      "side": "front",
+      "panel_label": "LFO 1 RATE",
+      "what": "LFO 1 speed (tempo-sync step when Tempo Sync is on)",
+      "reason_name": "LFO1 Rate Free",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.101,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Rate Synced: 3/8' (Tempo Sync was on; with it off Reason shows LFO1 Rate Free)",
+      "confidence": "medium",
+      "confidence_reason": "Remote items LFO1 Rate Free (free) and LFO1 Rate Synced (synced); one knob"
+    },
+    {
+      "code": "PULS-F-B01",
+      "side": "front",
+      "panel_label": "LFO 1 waveform up",
+      "what": "Next LFO 1 waveform",
+      "reason_name": "LFO1 Waveform",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.177,
+        0.232
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Waveform'",
+      "confidence": "medium",
+      "confidence_reason": "Remote item LFO1 Waveform belongs to the selector"
+    },
+    {
+      "code": "PULS-F-D05",
+      "side": "front",
+      "panel_label": "LFO 1 waveform display",
+      "what": "Shows the LFO 1 waveform (click-drag up/down to change)",
+      "reason_name": "LFO1 Waveform",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.177,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Waveform: Sine'",
+      "confidence": "medium",
+      "confidence_reason": "display"
+    },
+    {
+      "code": "PULS-F-B05",
+      "side": "front",
+      "panel_label": "LFO 1 waveform down",
+      "what": "Previous LFO 1 waveform",
+      "reason_name": "LFO1 Waveform",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.177,
+        0.632
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Waveform'",
+      "confidence": "medium",
+      "confidence_reason": "Remote item LFO1 Waveform belongs to the selector"
+    },
+    {
+      "code": "PULS-F-K03",
+      "side": "front",
+      "panel_label": "LFO 1 LEVEL",
+      "what": "LFO 1 output level",
+      "reason_name": "LFO1 Level",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.247,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Level: 50%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-B07",
+      "side": "front",
+      "panel_label": "ENV SYNC (LFO 1)",
+      "what": "Envelope trigger also restarts LFO 1",
+      "reason_name": "LFO1 Env Sync",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.064,
+        0.793
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Env Sync'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-B09",
+      "side": "front",
+      "panel_label": "TEMPO SYNC (LFO 1)",
+      "what": "LFO 1 follows the song tempo",
+      "reason_name": "LFO1 Tempo Sync",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.064,
+        0.905
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Tempo Sync'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K10",
+      "side": "front",
+      "panel_label": "PHASE (LFO 1)",
+      "what": "Where in its cycle LFO 1 starts, 0-360 degrees",
+      "reason_name": "LFO1 Phase",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.171,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Phase: 0°'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K11",
+      "side": "front",
+      "panel_label": "SHUFFLE (LFO 1)",
+      "what": "Swing between pairs of LFO 1 cycles, 50-75%",
+      "reason_name": "LFO1 Shuffle",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.228,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Shuffle: 50%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K12",
+      "side": "front",
+      "panel_label": "LAG (LFO 1)",
+      "what": "Smooths LFO 1 (lowpass)",
+      "reason_name": "LFO1 Lag",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.281,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Lag: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K01",
+      "side": "front",
+      "panel_label": "RATE (LFO 2 to LFO 1)",
+      "what": "How much LFO 2 changes LFO 1 rate (FM)",
+      "reason_name": "LFO2 to LFO1 Rate",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.349,
+        0.246
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 to LFO1 Rate: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K04",
+      "side": "front",
+      "panel_label": "LEVEL (LFO 2 to LFO 1)",
+      "what": "How much LFO 2 changes LFO 1 level (AM)",
+      "reason_name": "LFO2 to LFO1 Level",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.349,
+        0.554
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 to LFO1 Level: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-B10",
+      "side": "front",
+      "panel_label": "SYNC (LFO 1 to LFO 2)",
+      "what": "Every new LFO 2 cycle restarts LFO 1",
+      "reason_name": "Sync LFO1 to LFO2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.371,
+        0.853
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Sync LFO1 to LFO2'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-D02",
+      "side": "front",
+      "panel_label": "LFO 2 (rate lamp)",
+      "what": "Lamp above the Rate knob; blinks at the LFO 2 rate",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.418,
+        0.14
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (lamp), checked by eye: dark",
+      "confidence": "medium",
+      "confidence_reason": "lamp"
+    },
+    {
+      "code": "PULS-F-K05",
+      "side": "front",
+      "panel_label": "LFO 2 RATE",
+      "what": "LFO 2 speed (tempo-sync step when Tempo Sync is on)",
+      "reason_name": "LFO2 Rate Free",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.454,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Rate Free: 8.18 Hz'",
+      "confidence": "medium",
+      "confidence_reason": "Remote items LFO2 Rate Free (free) and LFO2 Rate Synced (synced); one knob"
+    },
+    {
+      "code": "PULS-F-B02",
+      "side": "front",
+      "panel_label": "LFO 2 waveform up",
+      "what": "Next LFO 2 waveform",
+      "reason_name": "LFO2 Waveform",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.531,
+        0.232
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Waveform'",
+      "confidence": "medium",
+      "confidence_reason": "Remote item LFO2 Waveform belongs to the selector"
+    },
+    {
+      "code": "PULS-F-D06",
+      "side": "front",
+      "panel_label": "LFO 2 waveform display",
+      "what": "Shows the LFO 2 waveform (click-drag up/down to change)",
+      "reason_name": "LFO2 Waveform",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.531,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Waveform: Triangle'",
+      "confidence": "medium",
+      "confidence_reason": "display"
+    },
+    {
+      "code": "PULS-F-B06",
+      "side": "front",
+      "panel_label": "LFO 2 waveform down",
+      "what": "Previous LFO 2 waveform",
+      "reason_name": "LFO2 Waveform",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.531,
+        0.632
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Waveform'",
+      "confidence": "medium",
+      "confidence_reason": "Remote item LFO2 Waveform belongs to the selector"
+    },
+    {
+      "code": "PULS-F-K06",
+      "side": "front",
+      "panel_label": "LFO 2 LEVEL",
+      "what": "LFO 2 output level",
+      "reason_name": "LFO2 Level",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.602,
+        0.439
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Level: 50%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-B08",
+      "side": "front",
+      "panel_label": "ON/OFF (LFO 2)",
+      "what": "Turn LFO 2 on or off",
+      "reason_name": "LFO2 Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.415,
+        0.793
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Enabled'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-B11",
+      "side": "front",
+      "panel_label": "TEMPO SYNC (LFO 2)",
+      "what": "LFO 2 follows the song tempo",
+      "reason_name": "LFO2 Tempo Sync",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.415,
+        0.905
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Tempo Sync'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K13",
+      "side": "front",
+      "panel_label": "PHASE (LFO 2)",
+      "what": "Where in its cycle LFO 2 starts, 0-360 degrees",
+      "reason_name": "LFO2 Phase",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.527,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Phase: 0°'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K14",
+      "side": "front",
+      "panel_label": "SHUFFLE (LFO 2)",
+      "what": "Swing between pairs of LFO 2 cycles, 50-75%",
+      "reason_name": "LFO2 Shuffle",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.584,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Shuffle: 50%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K15",
+      "side": "front",
+      "panel_label": "LAG (LFO 2)",
+      "what": "Smooths LFO 2 (lowpass)",
+      "reason_name": "LFO2 Lag",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.636,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Lag: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-B04",
+      "side": "front",
+      "panel_label": "LFO2 TRIG",
+      "what": "Every new LFO 2 cycle triggers the envelope",
+      "reason_name": "LFO2 Triggers Envelope",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.682,
+        0.281
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Triggers Envelope'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-D03",
+      "side": "front",
+      "panel_label": "(envelope lamp)",
+      "what": "Lamp between LFO2 TRIG and TRIG; lit while the envelope runs",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.784,
+        0.288
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (lamp), checked by eye",
+      "confidence": "medium",
+      "confidence_reason": "lamp"
+    },
+    {
+      "code": "PULS-F-B03",
+      "side": "front",
+      "panel_label": "TRIG",
+      "what": "Non-latching button that triggers the envelope",
+      "reason_name": "Trig",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.875,
+        0.263
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Trig'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K07",
+      "side": "front",
+      "panel_label": "ATTACK",
+      "what": "Envelope attack time (0.1 ms to 3 s)",
+      "reason_name": "Attack",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.751,
+        0.554
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Attack: 0.1 ms'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K08",
+      "side": "front",
+      "panel_label": "RELEASE",
+      "what": "Envelope release time (0 ms to 10 s)",
+      "reason_name": "Release",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.82,
+        0.554
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Release: 1.29 s'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K16",
+      "side": "front",
+      "panel_label": "RATE (envelope to LFO 1)",
+      "what": "How much the envelope changes LFO 1 rate",
+      "reason_name": "LFO1 Env Rate",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.703,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Env Rate: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K17",
+      "side": "front",
+      "panel_label": "LEVEL (envelope to LFO 1)",
+      "what": "How much the envelope changes LFO 1 level",
+      "reason_name": "LFO1 Env Level",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.753,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO1 Env Level: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K18",
+      "side": "front",
+      "panel_label": "RATE (envelope to LFO 2)",
+      "what": "How much the envelope changes LFO 2 rate",
+      "reason_name": "LFO2 Env Rate",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.82,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Env Rate: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K19",
+      "side": "front",
+      "panel_label": "LEVEL (envelope to LFO 2)",
+      "what": "How much the envelope changes LFO 2 level",
+      "reason_name": "LFO2 Env Level",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.869,
+        0.835
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'LFO2 Env Level: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-F-K09",
+      "side": "front",
+      "panel_label": "KBD FOLLOW",
+      "what": "How much MIDI notes change the LFO rates (bipolar)",
+      "reason_name": "Keyboard Track",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.92,
+        0.498
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Keyboard Track: 0%'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-B-D01",
+      "side": "back",
+      "panel_label": "PULSAR 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.059,
+        0.439
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Pulsar 1'",
+      "confidence": "high"
+    },
+    {
+      "code": "PULS-B-K01",
+      "side": "back",
+      "panel_label": "LFO 1 Rate (trim)",
+      "what": "Amount knob for the LFO 1 Rate CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.089,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO1 Rate Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J01",
+      "side": "back",
+      "panel_label": "LFO 1 Rate (CV in)",
+      "what": "CV input: modulates LFO 1 Rate",
+      "reason_cable_menu_name": "LFO1 Rate CV",
+      "pos": [
+        0.112,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 Rate CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K02",
+      "side": "back",
+      "panel_label": "LFO 1 Phase (trim)",
+      "what": "Amount knob for the LFO 1 Phase CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.144,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO1 Phase Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J02",
+      "side": "back",
+      "panel_label": "LFO 1 Phase (CV in)",
+      "what": "CV input: modulates LFO 1 Phase",
+      "reason_cable_menu_name": "LFO1 Phase CV",
+      "pos": [
+        0.167,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 Phase CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K03",
+      "side": "back",
+      "panel_label": "LFO 1 Shuffle (trim)",
+      "what": "Amount knob for the LFO 1 Shuffle CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.2,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO1 Shuffle Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J03",
+      "side": "back",
+      "panel_label": "LFO 1 Shuffle (CV in)",
+      "what": "CV input: modulates LFO 1 Shuffle",
+      "reason_cable_menu_name": "LFO1 Shuffle CV",
+      "pos": [
+        0.223,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 Shuffle CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K04",
+      "side": "back",
+      "panel_label": "LFO 1 Level (trim)",
+      "what": "Amount knob for the LFO 1 Level CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.256,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO1 Level Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J04",
+      "side": "back",
+      "panel_label": "LFO 1 Level (CV in)",
+      "what": "CV input: modulates LFO 1 Level",
+      "reason_cable_menu_name": "LFO1 Level CV",
+      "pos": [
+        0.279,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 Level CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K05",
+      "side": "back",
+      "panel_label": "LFO 2 Rate (trim)",
+      "what": "Amount knob for the LFO 2 Rate CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.431,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO2 Rate Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J05",
+      "side": "back",
+      "panel_label": "LFO 2 Rate (CV in)",
+      "what": "CV input: modulates LFO 2 Rate",
+      "reason_cable_menu_name": "LFO2 Rate CV",
+      "pos": [
+        0.455,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 Rate CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K06",
+      "side": "back",
+      "panel_label": "LFO 2 Phase (trim)",
+      "what": "Amount knob for the LFO 2 Phase CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.489,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO2 Phase Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J06",
+      "side": "back",
+      "panel_label": "LFO 2 Phase (CV in)",
+      "what": "CV input: modulates LFO 2 Phase",
+      "reason_cable_menu_name": "LFO2 Phase CV",
+      "pos": [
+        0.511,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 Phase CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K07",
+      "side": "back",
+      "panel_label": "LFO 2 Shuffle (trim)",
+      "what": "Amount knob for the LFO 2 Shuffle CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.545,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO2 Shuffle Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J07",
+      "side": "back",
+      "panel_label": "LFO 2 Shuffle (CV in)",
+      "what": "CV input: modulates LFO 2 Shuffle",
+      "reason_cable_menu_name": "LFO2 Shuffle CV",
+      "pos": [
+        0.568,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 Shuffle CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-K08",
+      "side": "back",
+      "panel_label": "LFO 2 Level (trim)",
+      "what": "Amount knob for the LFO 2 Level CV input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.603,
+        0.218
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'LFO2 Level Modulation Input: 100%'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "PULS-B-J08",
+      "side": "back",
+      "panel_label": "LFO 2 Level (CV in)",
+      "what": "CV input: modulates LFO 2 Level",
+      "reason_cable_menu_name": "LFO2 Level CV",
+      "pos": [
+        0.627,
+        0.218
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 Level CV'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J10",
+      "side": "back",
+      "panel_label": "LFO 1 CV out 1",
+      "what": "LFO 1 CV output 1",
+      "reason_cable_menu_name": "LFO1 CVOut1",
+      "pos": [
+        0.135,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 CVOut1'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J20",
+      "side": "back",
+      "panel_label": "LFO 1 audio out 1",
+      "what": "LFO 1 audio output 1",
+      "reason_cable_menu_name": "LFO1 AudioOut1",
+      "pos": [
+        0.134,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 AudioOut1'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J11",
+      "side": "back",
+      "panel_label": "LFO 1 CV out 2",
+      "what": "LFO 1 CV output 2",
+      "reason_cable_menu_name": "LFO1 CVOut2",
+      "pos": [
+        0.17,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 CVOut2'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J21",
+      "side": "back",
+      "panel_label": "LFO 1 audio out 2",
+      "what": "LFO 1 audio output 2",
+      "reason_cable_menu_name": "LFO1 AudioOut2",
+      "pos": [
+        0.168,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 AudioOut2'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J12",
+      "side": "back",
+      "panel_label": "LFO 1 CV out 3 (inverted)",
+      "what": "LFO 1 CV output 3 (inverted)",
+      "reason_cable_menu_name": "LFO1 CVOut3",
+      "pos": [
+        0.204,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 CVOut3'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J22",
+      "side": "back",
+      "panel_label": "LFO 1 audio out 3 (inverted)",
+      "what": "LFO 1 audio output 3 (inverted)",
+      "reason_cable_menu_name": "LFO1 AudioOut3",
+      "pos": [
+        0.204,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 AudioOut3'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J13",
+      "side": "back",
+      "panel_label": "LFO 1 CV out 4 (inverted)",
+      "what": "LFO 1 CV output 4 (inverted)",
+      "reason_cable_menu_name": "LFO1 CVOut4",
+      "pos": [
+        0.239,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 CVOut4'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J23",
+      "side": "back",
+      "panel_label": "LFO 1 audio out 4 (inverted)",
+      "what": "LFO 1 audio output 4 (inverted)",
+      "reason_cable_menu_name": "LFO1 AudioOut4",
+      "pos": [
+        0.239,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO1 AudioOut4'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J14",
+      "side": "back",
+      "panel_label": "LFO 2 CV out 1",
+      "what": "LFO 2 CV output 1",
+      "reason_cable_menu_name": "LFO2 CVOut1",
+      "pos": [
+        0.478,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 CVOut1'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J25",
+      "side": "back",
+      "panel_label": "LFO 2 audio out 1",
+      "what": "LFO 2 audio output 1",
+      "reason_cable_menu_name": "LFO2 AudioOut1",
+      "pos": [
+        0.476,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 AudioOut1'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J15",
+      "side": "back",
+      "panel_label": "LFO 2 CV out 2",
+      "what": "LFO 2 CV output 2",
+      "reason_cable_menu_name": "LFO2 CVOut2",
+      "pos": [
+        0.513,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 CVOut2'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J26",
+      "side": "back",
+      "panel_label": "LFO 2 audio out 2",
+      "what": "LFO 2 audio output 2",
+      "reason_cable_menu_name": "LFO2 AudioOut2",
+      "pos": [
+        0.512,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 AudioOut2'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J16",
+      "side": "back",
+      "panel_label": "LFO 2 CV out 3 (inverted)",
+      "what": "LFO 2 CV output 3 (inverted)",
+      "reason_cable_menu_name": "LFO2 CVOut3",
+      "pos": [
+        0.548,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 CVOut3'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J27",
+      "side": "back",
+      "panel_label": "LFO 2 audio out 3 (inverted)",
+      "what": "LFO 2 audio output 3 (inverted)",
+      "reason_cable_menu_name": "LFO2 AudioOut3",
+      "pos": [
+        0.548,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 AudioOut3'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J17",
+      "side": "back",
+      "panel_label": "LFO 2 CV out 4 (inverted)",
+      "what": "LFO 2 CV output 4 (inverted)",
+      "reason_cable_menu_name": "LFO2 CVOut4",
+      "pos": [
+        0.585,
+        0.618
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 CVOut4'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J28",
+      "side": "back",
+      "panel_label": "LFO 2 audio out 4 (inverted)",
+      "what": "LFO 2 audio output 4 (inverted)",
+      "reason_cable_menu_name": "LFO2 AudioOut4",
+      "pos": [
+        0.585,
+        0.828
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO2 AudioOut4'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J09",
+      "side": "back",
+      "panel_label": "LFO 1+2 CV out",
+      "what": "Combined LFO 1+2 CV output",
+      "reason_cable_menu_name": "LFO12 CVOut",
+      "pos": [
+        0.353,
+        0.526
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO12 CVOut'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J24",
+      "side": "back",
+      "panel_label": "LFO 1+2 audio out",
+      "what": "Combined LFO 1+2 audio output",
+      "reason_cable_menu_name": "LFO12 AudioOut",
+      "pos": [
+        0.353,
+        0.744
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'LFO12 AudioOut'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J18",
+      "side": "back",
+      "panel_label": "Envelope Gate In",
+      "what": "CV/gate input that triggers the envelope",
+      "reason_cable_menu_name": "Envelope Gate In",
+      "pos": [
+        0.729,
+        0.596
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Envelope Gate In'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "PULS-B-J19",
+      "side": "back",
+      "panel_label": "Envelope CV Out",
+      "what": "Envelope CV output",
+      "reason_cable_menu_name": "Env CVOut",
+      "pos": [
+        0.837,
+        0.596
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Env CVOut'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    }
+  ]
+}

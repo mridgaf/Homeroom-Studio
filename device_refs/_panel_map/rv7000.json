@@ -1,0 +1,782 @@
+{
+  "device": "RV7000 Advanced Reverb",
+  "remote_scope": "Propellerheads / RV7000 Advanced Reverb",
+  "code_prefix": "RV7K",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: everything hover-checked; soft knobs numbered by position per owner (names change by page); programmer EQ and Gate edit-mode views not captured; name_check PASS",
+  "controls": [
+    {
+      "code": "RV7K-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.054,
+        0.248
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover on the bypass switch: 'Enabled: On'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-D03",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Input Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.055,
+        0.654
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column (input peak meter)",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-D01",
+      "side": "front",
+      "panel_label": "ALL PLATE SP... tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.187,
+        0.183
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'ALL Plate Spread' (device name tape; tape reads ALL PLATE SP...)",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-D02",
+      "side": "front",
+      "panel_label": "(patch display)",
+      "what": "Patch name display",
+      "reason_name": "Patch Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.188,
+        0.392
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover on patch display: tooltip 'ALL Plate Spread'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B03",
+      "side": "front",
+      "panel_label": "(up arrow)",
+      "what": "Load previous patch",
+      "reason_name": "Select Previous Patch",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.27,
+        0.327
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: 'Select previous patch'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B04",
+      "side": "front",
+      "panel_label": "(down arrow)",
+      "what": "Load next patch",
+      "reason_name": "Select Next Patch",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.27,
+        0.458
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: 'Select next patch'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B05",
+      "side": "front",
+      "panel_label": "(folder)",
+      "what": "Open patch browser",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.293,
+        0.392
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "hover: 'Browse patch'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B06",
+      "side": "front",
+      "panel_label": "(disk)",
+      "what": "Save patch",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.317,
+        0.392
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "hover: 'Save patch'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B02",
+      "side": "front",
+      "panel_label": "(triangle)",
+      "what": "Fold/unfold device",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.035,
+        0.327
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip; checked by eye: fold triangle (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "tiny triangle under the top-left screw",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B08",
+      "side": "front",
+      "panel_label": "Remote Programmer (slot + arrow)",
+      "what": "Show/hide the Remote Programmer section (see rv7000-programmer)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.137,
+        0.667
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip; checked by eye: Remote Programmer slot + arrow (no hover tooltip)",
+      "confidence": "medium",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B07",
+      "side": "front",
+      "panel_label": "EQ Enable",
+      "what": "EQ section on/off (light shows on)",
+      "reason_name": "EQ On/Off",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.389,
+        0.346
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'EQ On/Off'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-B09",
+      "side": "front",
+      "panel_label": "Gate Enable",
+      "what": "Gate section on/off (light shows on)",
+      "reason_name": "Gate On/Off",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.389,
+        0.627
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Gate On/Off'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-K01",
+      "side": "front",
+      "panel_label": "Decay",
+      "what": "Reverb tail length",
+      "reason_name": "Decay",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.566,
+        0.471
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Decay: 104'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-K02",
+      "side": "front",
+      "panel_label": "HF Damp",
+      "what": "High-frequency damping",
+      "reason_name": "HF Damp",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.633,
+        0.471
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'HF Damp: 28'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-K03",
+      "side": "front",
+      "panel_label": "HI EQ",
+      "what": "High EQ amount",
+      "reason_name": "Hi EQ",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.698,
+        0.471
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Hi EQ: 0'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-F-K04",
+      "side": "front",
+      "panel_label": "Dry - Wet",
+      "what": "Balance dry and reverb",
+      "reason_name": "Dry/Wet",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.807,
+        0.471
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Dry/Wet: 127'",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-B-D01",
+      "side": "back",
+      "panel_label": "ALL PLATE SP... tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.187,
+        0.229
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'ALL Plate Spread' (device name tape)",
+      "confidence": "high",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-B-K01",
+      "side": "back",
+      "panel_label": "Decay (trim)",
+      "what": "Amount knob for Decay CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.295,
+        0.49
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Decay CV In: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-B-J01",
+      "side": "back",
+      "panel_label": "Decay (CV in)",
+      "what": "CV input for Decay",
+      "reason_cable_menu_name": "Decay CV In",
+      "pos": [
+        0.325,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Decay CV In'",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-B-K02",
+      "side": "back",
+      "panel_label": "HF Damp (trim)",
+      "what": "Amount knob for HF Damp CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.362,
+        0.49
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'HF Damp CV In: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position",
+      "view": "main panel"
+    },
+    {
+      "code": "RV7K-B-J02",
+      "side": "back",
+      "panel_label": "HF Damp (CV in)",
+      "what": "CV input for HF Damp",
+      "reason_cable_menu_name": "HF Damp CV In",
+      "pos": [
+        0.391,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'HF Damp CV In'",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-B-J03",
+      "side": "back",
+      "panel_label": "Gate Trig (CV in)",
+      "what": "Gate trigger input",
+      "reason_cable_menu_name": "Gate Trig Input",
+      "pos": [
+        0.437,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Gate Trig Input'",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-B-J04",
+      "side": "back",
+      "panel_label": "Audio Input L",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left Input",
+      "pos": [
+        0.553,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Stereo 1: Left'",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-B-J05",
+      "side": "back",
+      "panel_label": "Audio Input R",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right Input",
+      "pos": [
+        0.591,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Stereo 1: Right'",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-B-J06",
+      "side": "back",
+      "panel_label": "Audio Output L",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left Output",
+      "pos": [
+        0.644,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Mix Channel: From Insert F...' (tooltip clipped by zoom)",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-B-J07",
+      "side": "back",
+      "panel_label": "Audio Output R",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right Output",
+      "pos": [
+        0.682,
+        0.49
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Mix Channel: From Insert F...' (tooltip clipped by zoom)",
+      "confidence": "high",
+      "view": "main panel",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "RV7K-F-B13",
+      "side": "front",
+      "panel_label": "Edit Mode",
+      "what": "Cycle the programmer view: Reverb, EQ, Gate",
+      "reason_name": "Edit Mode",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.07,
+        0.843
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Edit Mode' (Reverb/EQ/Gate button)",
+      "confidence": "high",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-D05",
+      "side": "front",
+      "panel_label": "Reverb/EQ/Gate lights",
+      "what": "Shows which edit mode is showing",
+      "reason_name": "Edit Mode Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.083,
+        0.661
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: Reverb/EQ/Gate lights",
+      "confidence": "medium",
+      "confidence_reason": "three lights + names",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-B10",
+      "side": "front",
+      "panel_label": "(up/down arrows)",
+      "what": "Step through patches | Reason tooltips: up='Select previous sample', down='Select next sample'",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.093,
+        0.368
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "hover: up arrow 'Select previous sample', down arrow 'Select next sample'",
+      "confidence": "low",
+      "confidence_reason": "probably patch up/down like the main panel; confirm by hover",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-B11",
+      "side": "front",
+      "panel_label": "(folder)",
+      "what": "Open patch browser",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.118,
+        0.368
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "hover: 'Browse sample'",
+      "confidence": "medium",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-B12",
+      "side": "front",
+      "panel_label": "(waveform button)",
+      "what": "Unknown (waveform icon); confirm by hover",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.142,
+        0.368
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "hover: 'Start sampling'",
+      "confidence": "low",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-D04",
+      "side": "front",
+      "panel_label": "(display)",
+      "what": "Graph + parameter names/values for the current view",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.561,
+        0.482
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip; checked by eye: programmer display (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "display only",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K05",
+      "side": "front",
+      "panel_label": "(left knob 1)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 9,
+      "cc": 38,
+      "feedback_cc": 86,
+      "pos": [
+        0.186,
+        0.161
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K06",
+      "side": "front",
+      "panel_label": "(right knob 5)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 5",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 13,
+      "cc": 42,
+      "feedback_cc": 90,
+      "pos": [
+        0.92,
+        0.161
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K07",
+      "side": "front",
+      "panel_label": "(left knob 2)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 10,
+      "cc": 39,
+      "feedback_cc": 87,
+      "pos": [
+        0.186,
+        0.375
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K08",
+      "side": "front",
+      "panel_label": "(right knob 6)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 6",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 14,
+      "cc": 43,
+      "feedback_cc": 91,
+      "pos": [
+        0.92,
+        0.375
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K09",
+      "side": "front",
+      "panel_label": "(left knob 3)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 3",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 11,
+      "cc": 40,
+      "feedback_cc": 88,
+      "pos": [
+        0.186,
+        0.589
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K10",
+      "side": "front",
+      "panel_label": "(right knob 7)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 7",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 15,
+      "cc": 44,
+      "feedback_cc": 92,
+      "pos": [
+        0.92,
+        0.589
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K11",
+      "side": "front",
+      "panel_label": "(left knob 4)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 4",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 12,
+      "cc": 41,
+      "feedback_cc": 89,
+      "pos": [
+        0.186,
+        0.804
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    },
+    {
+      "code": "RV7K-F-K12",
+      "side": "front",
+      "panel_label": "(right knob 8)",
+      "what": "Soft knob beside the display. What it controls changes with the programmer page and can be empty.",
+      "reason_name": "Soft Knob 8",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 16,
+      "cc": 45,
+      "feedback_cc": 93,
+      "pos": [
+        0.92,
+        0.804
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "no tooltip in Reason (hovered 2x, 2.5 s); soft-knob numbering NOT provable from the panel; manual says 8 dials around the display whose names show in the display",
+      "confidence": "medium",
+      "confidence_reason": "Owner decision 2026-10-07: number the soft knobs by position (1-4 left, 5-8 right); the parameter each one controls changes by page, so no fixed name.",
+      "view": "Remote Programmer, Reverb edit mode (picture rv7000-programmer-reverb_front_labeled.png)"
+    }
+  ],
+  "views_note": "Remote Programmer has 3 edit modes; only Reverb mode is captured so far (EQ, Gate not)."
+}

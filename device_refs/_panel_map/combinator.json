@@ -1,0 +1,819 @@
+{
+  "device": "Combinator",
+  "remote_scope": "Propellerheads / Combinator",
+  "code_prefix": "COMB",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all 47 positions hover-checked in Reason (default Init Patch panel: Control 1-4, Switch 1-4). Unfolded Combinator mixer and the Programmer/Devices views are separate views, not mapped here. Selector dropdowns not opened. Orange light and green meters have no tooltip; their Remote item (Audio In/Out, Note On indicators) not confirmed, so left unnamed. name_check PASS (0 errors; 20 warnings: Remote items like Rotary 5-16, Run Pattern Devices, Bypass All FX have no control on this default panel; patch up/down arrows are one row named Select Next Patch, top half is Select Previous Patch).",
+  "controls": [
+    {
+      "code": "COMB-F-B01",
+      "side": "front",
+      "panel_label": "(fold triangle)",
+      "what": "Fold triangle: folds the Combinator up to a thin strip",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.026,
+        0.07
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (fold triangle)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip, no Remote item"
+    },
+    {
+      "code": "COMB-F-B02",
+      "side": "front",
+      "panel_label": "Bypass/On/Off switch",
+      "what": "Bypass / On / Off switch for the whole Combinator",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.05,
+        0.07
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Enabled: On'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Enabled: On'"
+    },
+    {
+      "code": "COMB-F-D04",
+      "side": "front",
+      "panel_label": "Combinator 1 name tape",
+      "what": "Device name label",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.136,
+        0.096
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Combinator 1' (device name)",
+      "confidence": "high",
+      "confidence_reason": "tooltip shows the device name"
+    },
+    {
+      "code": "COMB-F-D01",
+      "side": "front",
+      "panel_label": "(orange LED)",
+      "what": "Small orange light next to the Editor button",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.212,
+        0.07
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (orange light)",
+      "confidence": "low",
+      "confidence_reason": "no tooltip; could be a Remote indicator, not confirmed"
+    },
+    {
+      "code": "COMB-F-B03",
+      "side": "front",
+      "panel_label": "Editor (Show Programmer)",
+      "what": "Opens the Programmer (where the knobs get mapped)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.254,
+        0.07
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Programmer'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Show Programmer'"
+    },
+    {
+      "code": "COMB-F-B04",
+      "side": "front",
+      "panel_label": "Devices (Show Devices)",
+      "what": "Shows the devices inside the Combinator",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.309,
+        0.07
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Show Devices'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Show Devices'"
+    },
+    {
+      "code": "COMB-F-D02",
+      "side": "front",
+      "panel_label": "(green meters)",
+      "what": "Small green meters left of the patch name",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.362,
+        0.077
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (green meters)",
+      "confidence": "low",
+      "confidence_reason": "no tooltip; could be Audio In/Out indicators, not confirmed"
+    },
+    {
+      "code": "COMB-F-D03",
+      "side": "front",
+      "panel_label": "Patch name display",
+      "what": "Shows the loaded patch name",
+      "reason_name": "Patch Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.548,
+        0.08
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Init Patch' (patch name)",
+      "confidence": "medium",
+      "confidence_reason": "tooltip shows the patch name"
+    },
+    {
+      "code": "COMB-F-B05",
+      "side": "front",
+      "panel_label": "Patch up/down arrows",
+      "what": "Select previous (top half) / next (bottom half) patch",
+      "reason_name": "Select Next Patch",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.737,
+        0.075
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltips: top half 'Select previous patch', bottom half 'Select next patch'",
+      "confidence": "medium",
+      "confidence_reason": "two halves: top = Select previous patch, bottom = Select next patch (both tooltips seen)"
+    },
+    {
+      "code": "COMB-F-B06",
+      "side": "front",
+      "panel_label": "Browse patch (folder)",
+      "what": "Opens the patch browser",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.761,
+        0.075
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Browse patch'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Browse patch'"
+    },
+    {
+      "code": "COMB-F-B07",
+      "side": "front",
+      "panel_label": "Save patch (disk)",
+      "what": "Saves the patch",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.784,
+        0.075
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Save patch'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Save patch'"
+    },
+    {
+      "code": "COMB-F-S01",
+      "side": "front",
+      "panel_label": "PITCH wheel",
+      "what": "Pitch bend wheel, passed to all instruments inside",
+      "reason_name": "Pitch Bend",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.075,
+        0.39
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pitch Bend: 0'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Pitch Bend: 0'"
+    },
+    {
+      "code": "COMB-F-S02",
+      "side": "front",
+      "panel_label": "MOD wheel",
+      "what": "Mod wheel, passed to all instruments inside",
+      "reason_name": "Mod Wheel",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.117,
+        0.39
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Mod Wheel: 0'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Mod Wheel: 0'"
+    },
+    {
+      "code": "COMB-F-K01",
+      "side": "front",
+      "panel_label": "Control 1",
+      "what": "Rotary 1: virtual knob, does nothing until mapped in the Programmer",
+      "reason_name": "Rotary 1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.334,
+        0.294
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Control 1: 64'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Control 1: 64'"
+    },
+    {
+      "code": "COMB-F-K02",
+      "side": "front",
+      "panel_label": "Control 2",
+      "what": "Rotary 2: virtual knob",
+      "reason_name": "Rotary 2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.443,
+        0.294
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Control 2: 64'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Control 2: 64'"
+    },
+    {
+      "code": "COMB-F-K03",
+      "side": "front",
+      "panel_label": "Control 3",
+      "what": "Rotary 3: virtual knob",
+      "reason_name": "Rotary 3",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.553,
+        0.294
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Control 3: 64'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Control 3: 64'"
+    },
+    {
+      "code": "COMB-F-K04",
+      "side": "front",
+      "panel_label": "Control 4",
+      "what": "Rotary 4: virtual knob",
+      "reason_name": "Rotary 4",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.662,
+        0.294
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Control 4: 64'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Control 4: 64'"
+    },
+    {
+      "code": "COMB-F-B08",
+      "side": "front",
+      "panel_label": "Switch 1",
+      "what": "Button 1: virtual switch",
+      "reason_name": "Button 1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.333,
+        0.516
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Switch 1'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Switch 1'"
+    },
+    {
+      "code": "COMB-F-B09",
+      "side": "front",
+      "panel_label": "Switch 2",
+      "what": "Button 2: virtual switch",
+      "reason_name": "Button 2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.443,
+        0.516
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Switch 2'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Switch 2'"
+    },
+    {
+      "code": "COMB-F-B10",
+      "side": "front",
+      "panel_label": "Switch 3",
+      "what": "Button 3: virtual switch",
+      "reason_name": "Button 3",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.553,
+        0.516
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Switch 3'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Switch 3'"
+    },
+    {
+      "code": "COMB-F-B11",
+      "side": "front",
+      "panel_label": "Switch 4",
+      "what": "Button 4: virtual switch",
+      "reason_name": "Button 4",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.662,
+        0.516
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "tooltip 'Switch 4'",
+      "confidence": "high",
+      "confidence_reason": "tooltip 'Switch 4'"
+    },
+    {
+      "code": "COMB-F-B12",
+      "side": "front",
+      "panel_label": "Mixer fold arrow",
+      "what": "Unfolds the built-in Combinator mixer (not mapped here)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.027,
+        0.778
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (mixer fold arrow)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip; the unfolded mixer is a separate view, not mapped"
+    },
+    {
+      "code": "COMB-F-D05",
+      "side": "front",
+      "panel_label": "(mixer channel lights 1-16)",
+      "what": "Lights showing which of the 8 stereo inputs of the Combinator mixer are in use",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.499,
+        0.752
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (mixer lights)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip"
+    },
+    {
+      "code": "COMB-B-B01",
+      "side": "back",
+      "panel_label": "(fold triangle)",
+      "what": "Fold triangle (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.026,
+        0.072
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (fold triangle)",
+      "confidence": "medium",
+      "confidence_reason": "no tooltip, no Remote item"
+    },
+    {
+      "code": "COMB-B-B02",
+      "side": "back",
+      "panel_label": "Editor (Show Programmer)",
+      "what": "Opens the Programmer",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.068,
+        0.152
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Show Programmer'",
+      "confidence": "medium",
+      "confidence_reason": "tooltip 'Show Programmer'"
+    },
+    {
+      "code": "COMB-B-B03",
+      "side": "back",
+      "panel_label": "Devices (Show Devices)",
+      "what": "Shows the devices inside",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.068,
+        0.251
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Show Devices'",
+      "confidence": "medium",
+      "confidence_reason": "tooltip 'Show Devices'"
+    },
+    {
+      "code": "COMB-B-J01",
+      "side": "back",
+      "panel_label": "Gate In",
+      "what": "Sequencer Control: Mono Gate Input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.138,
+        0.149
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Mono Gate Input' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-J04",
+      "side": "back",
+      "panel_label": "CV In",
+      "what": "Sequencer Control: Mono CV Input",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.138,
+        0.246
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Mono CV Input' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-K01",
+      "side": "back",
+      "panel_label": "Control CV In 1 trim",
+      "what": "Amount knob for Control CV In 1",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.279,
+        0.159
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Control CV In 1: 127'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    },
+    {
+      "code": "COMB-B-K03",
+      "side": "back",
+      "panel_label": "Control CV In 3 trim",
+      "what": "Amount knob for Control CV In 3",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.279,
+        0.251
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Control CV In 3: 127'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    },
+    {
+      "code": "COMB-B-J02",
+      "side": "back",
+      "panel_label": "Control CV In 1",
+      "what": "Control CV input 1",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.309,
+        0.159
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Control CV In 1' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-J05",
+      "side": "back",
+      "panel_label": "Control CV In 3",
+      "what": "Control CV input 3",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.309,
+        0.251
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Control CV In 3' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-D01",
+      "side": "back",
+      "panel_label": "Control 1 selector",
+      "what": "Picks which Combinator control the top-left CV input drives (shows Control 1)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.381,
+        0.154
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (selector, not opened)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip; dropdown not opened"
+    },
+    {
+      "code": "COMB-B-D04",
+      "side": "back",
+      "panel_label": "Control 3 selector",
+      "what": "Picks which control the lower-left CV input drives (shows Control 3)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.381,
+        0.251
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (selector, not opened)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip; dropdown not opened"
+    },
+    {
+      "code": "COMB-B-K02",
+      "side": "back",
+      "panel_label": "Control CV In 2 trim",
+      "what": "Amount knob for Control CV In 2",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.456,
+        0.159
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Control CV In 2: 127'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    },
+    {
+      "code": "COMB-B-K04",
+      "side": "back",
+      "panel_label": "Control CV In 4 trim",
+      "what": "Amount knob for Control CV In 4",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.456,
+        0.251
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Control CV In 4: 127'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    },
+    {
+      "code": "COMB-B-J03",
+      "side": "back",
+      "panel_label": "Control CV In 2",
+      "what": "Control CV input 2",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.486,
+        0.159
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Control CV In 2' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-J06",
+      "side": "back",
+      "panel_label": "Control CV In 4",
+      "what": "Control CV input 4",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.486,
+        0.251
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Control CV In 4' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-D02",
+      "side": "back",
+      "panel_label": "Control 2 selector",
+      "what": "Picks which control the top-right CV input drives (shows Control 2)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.558,
+        0.154
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (selector, not opened)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip; dropdown not opened"
+    },
+    {
+      "code": "COMB-B-D05",
+      "side": "back",
+      "panel_label": "Control 4 selector",
+      "what": "Picks which control the lower-right CV input drives (shows Control 4)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.558,
+        0.251
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (selector, not opened)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip; dropdown not opened"
+    },
+    {
+      "code": "COMB-B-D03",
+      "side": "back",
+      "panel_label": "Combinator 1 name tape",
+      "what": "Device name label (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.712,
+        0.159
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Combinator 1' (device name)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-D06",
+      "side": "back",
+      "panel_label": "(name strip)",
+      "what": "Dark strip under the name tape",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.711,
+        0.251
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (dark strip)",
+      "confidence": "high",
+      "confidence_reason": "no tooltip"
+    },
+    {
+      "code": "COMB-B-J07",
+      "side": "back",
+      "panel_label": "Input L",
+      "what": "Combi Input Left",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.807,
+        0.251
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Combi Input Left' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-J08",
+      "side": "back",
+      "panel_label": "Input R",
+      "what": "Combi Input Right",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.843,
+        0.251
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Combi Input Right' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-J09",
+      "side": "back",
+      "panel_label": "Output L",
+      "what": "Combi Output Left",
+      "reason_cable_menu_name": "Combi Output Left",
+      "pos": [
+        0.902,
+        0.251
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Connected to Combinator 1 Combi Output Left+Combi Output Right: Input L' (cabled to the auto-named Mix Channel); own name from cable menu: 'Combi Output Left'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-J10",
+      "side": "back",
+      "panel_label": "Output R",
+      "what": "Combi Output Right",
+      "reason_cable_menu_name": "Combi Output Right",
+      "pos": [
+        0.939,
+        0.251
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Connected to Combinator 1 Combi Output Left+Combi Output Right: Input R' (cabled to the auto-named Mix Channel); own name from cable menu: 'Combi Output Right'",
+      "confidence": "high"
+    },
+    {
+      "code": "COMB-B-B04",
+      "side": "back",
+      "panel_label": "Mixer fold arrow",
+      "what": "Unfolds the built-in Combinator mixer (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.027,
+        0.778
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "no tooltip (mixer fold arrow)",
+      "confidence": "medium",
+      "confidence_reason": "not mapped here"
+    }
+  ]
+}

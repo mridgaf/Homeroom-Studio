@@ -1,0 +1,375 @@
+{
+  "device": "MClass Maximizer",
+  "remote_scope": "Propellerheads / MClass Maximizer",
+  "code_prefix": "MMAX",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "MMAX-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.054,
+        0.248
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-D03",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.055,
+        0.654
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "MMAX-F-D05",
+      "side": "front",
+      "panel_label": "M MAXIMIZER 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.18,
+        0.784
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'M Maximizer 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-K01",
+      "side": "front",
+      "panel_label": "INPUT GAIN",
+      "what": "Level into the maximizer",
+      "reason_name": "Input Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.271,
+        0.49
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Input Gain: 0.0 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-B02",
+      "side": "front",
+      "panel_label": "LIMITER",
+      "what": "Limiter on/off",
+      "reason_name": "Limiter Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.319,
+        0.17
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Limiter Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-B04",
+      "side": "front",
+      "panel_label": "4ms LOOK AHEAD",
+      "what": "Look ahead on/off",
+      "reason_name": "Look Ahead Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.348,
+        0.477
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Look Ahead Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-D01",
+      "side": "front",
+      "panel_label": "GAIN (meter)",
+      "what": "Gain reduction meter, 0 to -20 dB",
+      "reason_name": "Gain Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.402,
+        0.458
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: gain-reduction meter (no hover tooltip)",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-B05",
+      "side": "front",
+      "panel_label": "ATTACK (FAST/MID/SLOW)",
+      "what": "Attack speed: 3 buttons, pick one",
+      "reason_name": "Attack Speed",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.458,
+        0.503
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Attack Speed: 4 ms'",
+      "confidence": "medium",
+      "confidence_reason": "3 buttons act as one control"
+    },
+    {
+      "code": "MMAX-F-B06",
+      "side": "front",
+      "panel_label": "RELEASE (FAST/SLOW/AUTO)",
+      "what": "Release speed: 3 buttons, pick one",
+      "reason_name": "Release Speed",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 9,
+      "cc": 38,
+      "feedback_cc": 86,
+      "pos": [
+        0.507,
+        0.503
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Release Speed: 150 ms'",
+      "confidence": "medium",
+      "confidence_reason": "3 buttons act as one control"
+    },
+    {
+      "code": "MMAX-F-K02",
+      "side": "front",
+      "panel_label": "OUTPUT GAIN",
+      "what": "Level out of the maximizer",
+      "reason_name": "Output Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.577,
+        0.49
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Output Gain: 0.0 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-B03",
+      "side": "front",
+      "panel_label": "SOFT CLIP",
+      "what": "Soft clip on/off",
+      "reason_name": "Soft Clip Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 11,
+      "cc": 40,
+      "feedback_cc": 88,
+      "pos": [
+        0.627,
+        0.17
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Soft Clip Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-K03",
+      "side": "front",
+      "panel_label": "AMOUNT (Soft Clip)",
+      "what": "How much soft clipping",
+      "reason_name": "Soft Clip Amount",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 10,
+      "cc": 39,
+      "feedback_cc": 87,
+      "pos": [
+        0.67,
+        0.49
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Soft Clip Amount: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-F-B07",
+      "side": "front",
+      "panel_label": "PEAK / VU",
+      "what": "Output meter mode: Peak or VU",
+      "reason_name": "Output Level Meter Mode",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.732,
+        0.471
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover PEAK and VU buttons: 'Output Level Meter Mode: Peak'",
+      "confidence": "medium",
+      "confidence_reason": "2 buttons act as one control"
+    },
+    {
+      "code": "MMAX-F-D02",
+      "side": "front",
+      "panel_label": "OUTPUT LEVEL L",
+      "what": "Output level meter, left bar",
+      "reason_name": "Output Level Left",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.848,
+        0.405
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: output level meter L (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "left/right bars matched by order"
+    },
+    {
+      "code": "MMAX-F-D04",
+      "side": "front",
+      "panel_label": "OUTPUT LEVEL R",
+      "what": "Output level meter, right bar",
+      "reason_name": "Output Level Right",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.848,
+        0.542
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: output level meter R (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "left/right bars matched by order"
+    },
+    {
+      "code": "MMAX-B-D01",
+      "side": "back",
+      "panel_label": "M MAXIMIZER 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.175,
+        0.739
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'M Maximizer 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "MMAX-B-J01",
+      "side": "back",
+      "panel_label": "Audio Input L",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.27,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M EQ 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MMAX-B-J02",
+      "side": "back",
+      "panel_label": "Audio Input R",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.306,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M EQ 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MMAX-B-J03",
+      "side": "back",
+      "panel_label": "Audio Output L",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.352,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Stereo 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MMAX-B-J04",
+      "side": "back",
+      "panel_label": "Audio Output R",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.389,
+        0.523
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Stereo 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

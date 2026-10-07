@@ -1,0 +1,1213 @@
+{
+  "device": "RPG-8 Monophonic Arpeggiator",
+  "remote_scope": "Propellerheads / RPG-8 Monophonic Arpeggiator",
+  "code_prefix": "RPG8",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason; Pattern turned on briefly to read step tooltips, then off; name_check can't run (no RPG-8 Scope block in remotemap, not edited)",
+  "controls": [
+    {
+      "code": "RPG8-F-D03",
+      "side": "front",
+      "panel_label": "ARP 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.028,
+        0.479
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tape shows 'Arp 1'; tooltip 'Arp 1' label only",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-K01",
+      "side": "front",
+      "panel_label": "VELOCITY",
+      "what": "Fixed note velocity 1-127, or Manual (use played velocity) at the far right",
+      "reason_name": "Velocity/Manual",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.097,
+        0.264
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Velocity: Manual'",
+      "confidence": "medium",
+      "confidence_reason": "Remote has Manual Velocity and Velocity/Manual; hover shows which"
+    },
+    {
+      "code": "RPG8-F-D02",
+      "side": "front",
+      "panel_label": "(Manual light)",
+      "what": "Light beside MAN.: lit when Velocity is on Manual",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.126,
+        0.327
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "LED, no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "light"
+    },
+    {
+      "code": "RPG8-F-D01",
+      "side": "front",
+      "panel_label": "MIDI IN (light)",
+      "what": "Lights when MIDI notes arrive",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.203,
+        0.178
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "MIDI In LED, no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "light"
+    },
+    {
+      "code": "RPG8-F-B24",
+      "side": "front",
+      "panel_label": "HOLD",
+      "what": "Hold: arpeggio keeps playing after you release the keys",
+      "reason_name": "Hold",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.203,
+        0.318
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Hold'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-D04",
+      "side": "front",
+      "panel_label": "(octave shift lights -3 to +3)",
+      "what": "Seven lights show the octave shift, -3 to +3",
+      "reason_name": "Octave Shift",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.145,
+        0.477
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "octave-shift LEDs, no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "display; Remote item Octave Shift"
+    },
+    {
+      "code": "RPG8-F-B31",
+      "side": "front",
+      "panel_label": "OCTAVE SHIFT (left arrow)",
+      "what": "Shift the arpeggio down one octave",
+      "reason_name": "Octave Shift Down",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.071,
+        0.542
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Octave Shift: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B32",
+      "side": "front",
+      "panel_label": "OCTAVE SHIFT (right arrow)",
+      "what": "Shift the arpeggio up one octave",
+      "reason_name": "Octave Shift Up",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.221,
+        0.542
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Octave Shift: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B01",
+      "side": "front",
+      "panel_label": "ON",
+      "what": "Arpeggiator on/off",
+      "reason_name": "Arpeggiator Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.288,
+        0.084
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Arpeggiator Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-K02",
+      "side": "front",
+      "panel_label": "MODE",
+      "what": "Arpeggio direction: Up, Up+Down, Down, Random, Manual",
+      "reason_name": "Mode",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.397,
+        0.322
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Mode'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B05",
+      "side": "front",
+      "panel_label": "4 OCT",
+      "what": "Octave range 4",
+      "reason_name": "Octave 4",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.489,
+        0.273
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Octave'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B25",
+      "side": "front",
+      "panel_label": "3 OCT",
+      "what": "Octave range 3",
+      "reason_name": "Octave 3",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.489,
+        0.336
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Octave'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B27",
+      "side": "front",
+      "panel_label": "2 OCT",
+      "what": "Octave range 2",
+      "reason_name": "Octave 2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.489,
+        0.4
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Octave'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B28",
+      "side": "front",
+      "panel_label": "1 OCT",
+      "what": "Octave range 1 (just the played notes)",
+      "reason_name": "Octave 1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.489,
+        0.46
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Octave'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B06",
+      "side": "front",
+      "panel_label": "INSERT 4-2",
+      "what": "Insert: adds notes in a 4-2 pattern",
+      "reason_name": "Insert 4-2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.564,
+        0.21
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Insert'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B07",
+      "side": "front",
+      "panel_label": "INSERT 3-1",
+      "what": "Insert: adds notes in a 3-1 pattern",
+      "reason_name": "Insert 3-1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.564,
+        0.273
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Insert'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B26",
+      "side": "front",
+      "panel_label": "INSERT HI",
+      "what": "Insert: adds the highest note",
+      "reason_name": "Insert High",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.564,
+        0.336
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Insert'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B29",
+      "side": "front",
+      "panel_label": "INSERT LOW",
+      "what": "Insert: adds the lowest note",
+      "reason_name": "Insert Low",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.564,
+        0.4
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Insert'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B30",
+      "side": "front",
+      "panel_label": "INSERT OFF",
+      "what": "Insert off",
+      "reason_name": "Insert Off",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.564,
+        0.46
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Insert'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B33",
+      "side": "front",
+      "panel_label": "SYNC",
+      "what": "Rate follows the song tempo",
+      "reason_name": "Sync",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.285,
+        0.713
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Sync'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B34",
+      "side": "front",
+      "panel_label": "FREE",
+      "what": "Rate runs free (not tied to tempo)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.332,
+        0.713
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Sync' (Sync/Free pair is one Sync switch)",
+      "confidence": "medium",
+      "confidence_reason": "no separate Remote item; Sync covers the pair"
+    },
+    {
+      "code": "RPG8-F-D06",
+      "side": "front",
+      "panel_label": "(rate display)",
+      "what": "Shows the rate value, e.g. 1/16",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.308,
+        0.801
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "rate display shows 1/16; no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "display"
+    },
+    {
+      "code": "RPG8-F-K03",
+      "side": "front",
+      "panel_label": "RATE",
+      "what": "Arpeggio speed (note value when Sync is on)",
+      "reason_name": "Rate",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.4,
+        0.752
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Synced Rate: 1/16'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-D07",
+      "side": "front",
+      "panel_label": "(Rate light)",
+      "what": "Light by the Rate knob: blinks at the rate",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.372,
+        0.925
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "Rate LED, no tooltip",
+      "confidence": "medium",
+      "confidence_reason": "light"
+    },
+    {
+      "code": "RPG8-F-K04",
+      "side": "front",
+      "panel_label": "GATE LENGTH",
+      "what": "Length of each note, 0 to Tie (legato)",
+      "reason_name": "Gate Length",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.483,
+        0.757
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Gate Length: 95'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B35",
+      "side": "front",
+      "panel_label": "SINGLE NOTE REPEAT",
+      "what": "Repeat a single held note",
+      "reason_name": "Single Note Repeat",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.565,
+        0.736
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Single Note Repeat'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B02",
+      "side": "front",
+      "panel_label": "PATTERN",
+      "what": "Pattern editor on/off",
+      "reason_name": "Pattern Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.635,
+        0.07
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B03",
+      "side": "front",
+      "panel_label": "STEPS -",
+      "what": "Fewer pattern steps",
+      "reason_name": "Pattern Length Down",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.865,
+        0.072
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Step Count: 16' (shown only while Pattern is on; none when off)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B04",
+      "side": "front",
+      "panel_label": "STEPS +",
+      "what": "More pattern steps",
+      "reason_name": "Pattern Length Up",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.908,
+        0.072
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Step Count: 16' (shown only while Pattern is on; none when off)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-F-B08",
+      "side": "front",
+      "panel_label": "Pattern step 1",
+      "what": "Pattern step 1 on/off",
+      "reason_name": "Pattern Step 1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.635,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B09",
+      "side": "front",
+      "panel_label": "Pattern step 2",
+      "what": "Pattern step 2 on/off",
+      "reason_name": "Pattern Step 2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.654,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B10",
+      "side": "front",
+      "panel_label": "Pattern step 3",
+      "what": "Pattern step 3 on/off",
+      "reason_name": "Pattern Step 3",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.673,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B11",
+      "side": "front",
+      "panel_label": "Pattern step 4",
+      "what": "Pattern step 4 on/off",
+      "reason_name": "Pattern Step 4",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.691,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B12",
+      "side": "front",
+      "panel_label": "Pattern step 5",
+      "what": "Pattern step 5 on/off",
+      "reason_name": "Pattern Step 5",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.71,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B13",
+      "side": "front",
+      "panel_label": "Pattern step 6",
+      "what": "Pattern step 6 on/off",
+      "reason_name": "Pattern Step 6",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.728,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B14",
+      "side": "front",
+      "panel_label": "Pattern step 7",
+      "what": "Pattern step 7 on/off",
+      "reason_name": "Pattern Step 7",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.747,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B15",
+      "side": "front",
+      "panel_label": "Pattern step 8",
+      "what": "Pattern step 8 on/off",
+      "reason_name": "Pattern Step 8",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.766,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B16",
+      "side": "front",
+      "panel_label": "Pattern step 9",
+      "what": "Pattern step 9 on/off",
+      "reason_name": "Pattern Step 9",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.784,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B17",
+      "side": "front",
+      "panel_label": "Pattern step 10",
+      "what": "Pattern step 10 on/off",
+      "reason_name": "Pattern Step 10",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.804,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B18",
+      "side": "front",
+      "panel_label": "Pattern step 11",
+      "what": "Pattern step 11 on/off",
+      "reason_name": "Pattern Step 11",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.822,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B19",
+      "side": "front",
+      "panel_label": "Pattern step 12",
+      "what": "Pattern step 12 on/off",
+      "reason_name": "Pattern Step 12",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.841,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B20",
+      "side": "front",
+      "panel_label": "Pattern step 13",
+      "what": "Pattern step 13 on/off",
+      "reason_name": "Pattern Step 13",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.86,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B21",
+      "side": "front",
+      "panel_label": "Pattern step 14",
+      "what": "Pattern step 14 on/off",
+      "reason_name": "Pattern Step 14",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.878,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B22",
+      "side": "front",
+      "panel_label": "Pattern step 15",
+      "what": "Pattern step 15 on/off",
+      "reason_name": "Pattern Step 15",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.897,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-B23",
+      "side": "front",
+      "panel_label": "Pattern step 16",
+      "what": "Pattern step 16 on/off",
+      "reason_name": "Pattern Step 16",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.916,
+        0.187
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern value: 32767' (shown only while Pattern is on; none when off)",
+      "confidence": "medium",
+      "confidence_reason": "step button; hover to confirm numbering"
+    },
+    {
+      "code": "RPG8-F-D05",
+      "side": "front",
+      "panel_label": "(pattern display)",
+      "what": "Shows the notes the arpeggio plays (C-1 to C7)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.775,
+        0.537
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "pattern grid display, no tooltip seen",
+      "confidence": "medium",
+      "confidence_reason": "display"
+    },
+    {
+      "code": "RPG8-F-B36",
+      "side": "front",
+      "panel_label": "SHUFFLE",
+      "what": "Shuffle on/off",
+      "reason_name": "Pattern Shuffle",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.632,
+        0.9
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Shuffle'",
+      "confidence": "medium",
+      "confidence_reason": "Remote has Pattern Shuffle and Shuffle; hover shows which"
+    },
+    {
+      "code": "RPG8-B-D01",
+      "side": "back",
+      "panel_label": "ARP 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.028,
+        0.479
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "Tape shows 'Arp 1' (device name); no tooltip",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-K01",
+      "side": "back",
+      "panel_label": "Gate Length (trim)",
+      "what": "Amount knob for Gate Length CV In",
+      "reason_cable_menu_name": "Gate",
+      "pos": [
+        0.227,
+        0.299
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Gate: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "RPG8-B-J01",
+      "side": "back",
+      "panel_label": "Gate Length CV In",
+      "what": "CV input: Gate Length CV In",
+      "reason_cable_menu_name": "Gate",
+      "pos": [
+        0.251,
+        0.299
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Gate' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-K02",
+      "side": "back",
+      "panel_label": "Velocity (trim)",
+      "what": "Amount knob for Velocity CV In",
+      "reason_cable_menu_name": "Velocity",
+      "pos": [
+        0.227,
+        0.404
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Velocity: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "RPG8-B-J04",
+      "side": "back",
+      "panel_label": "Velocity CV In",
+      "what": "CV input: Velocity CV In",
+      "reason_cable_menu_name": "Velocity",
+      "pos": [
+        0.251,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Velocity' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-K03",
+      "side": "back",
+      "panel_label": "Rate/Resolution (trim)",
+      "what": "Amount knob for Rate/Resolution CV In",
+      "reason_cable_menu_name": "Rate",
+      "pos": [
+        0.227,
+        0.509
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Rate: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "RPG8-B-J07",
+      "side": "back",
+      "panel_label": "Rate/Resolution CV In",
+      "what": "CV input: Rate/Resolution CV In",
+      "reason_cable_menu_name": "Rate",
+      "pos": [
+        0.251,
+        0.509
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Rate' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-K04",
+      "side": "back",
+      "panel_label": "Octave Shift (trim)",
+      "what": "Amount knob for Octave Shift CV In",
+      "reason_cable_menu_name": "Octave Shift",
+      "pos": [
+        0.227,
+        0.617
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Octave Shift: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to its CV jack; matched by position"
+    },
+    {
+      "code": "RPG8-B-J10",
+      "side": "back",
+      "panel_label": "Octave Shift CV In",
+      "what": "CV input: Octave Shift CV In",
+      "reason_cable_menu_name": "Octave Shift",
+      "pos": [
+        0.251,
+        0.617
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Octave Shift' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J13",
+      "side": "back",
+      "panel_label": "Start of Arpeggio Trig In",
+      "what": "Trigger input: restarts the arpeggio",
+      "reason_cable_menu_name": "Restart Arpeggio Trig",
+      "pos": [
+        0.251,
+        0.724
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Restart Arpeggio Trig' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J02",
+      "side": "back",
+      "panel_label": "Gate CV Out (velocity)",
+      "what": "Output: Gate CV Out (velocity)",
+      "reason_cable_menu_name": "Gate",
+      "pos": [
+        0.415,
+        0.299
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Gate' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J05",
+      "side": "back",
+      "panel_label": "Note CV Out",
+      "what": "Output: Note CV Out",
+      "reason_cable_menu_name": "Note",
+      "pos": [
+        0.415,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Note' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J08",
+      "side": "back",
+      "panel_label": "Mod Wheel CV Out",
+      "what": "Output: Mod Wheel CV Out",
+      "reason_cable_menu_name": "Mod Wheel",
+      "pos": [
+        0.415,
+        0.509
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Mod Wheel' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J11",
+      "side": "back",
+      "panel_label": "Pitch Bend CV Out",
+      "what": "Output: Pitch Bend CV Out",
+      "reason_cable_menu_name": "Pitch Bend",
+      "pos": [
+        0.415,
+        0.617
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Pitch Bend' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J03",
+      "side": "back",
+      "panel_label": "Aftertouch CV Out",
+      "what": "Output: Aftertouch CV Out",
+      "reason_cable_menu_name": "Aftertouch",
+      "pos": [
+        0.592,
+        0.299
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Aftertouch' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J06",
+      "side": "back",
+      "panel_label": "Expression CV Out",
+      "what": "Output: Expression CV Out",
+      "reason_cable_menu_name": "Expression",
+      "pos": [
+        0.592,
+        0.404
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Expression' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J09",
+      "side": "back",
+      "panel_label": "Breath CV Out",
+      "what": "Output: Breath CV Out",
+      "reason_cable_menu_name": "Breath",
+      "pos": [
+        0.592,
+        0.509
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Breath' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J12",
+      "side": "back",
+      "panel_label": "Start of Arpeggio Trig Out",
+      "what": "Output: Start of Arpeggio Trig Out",
+      "reason_cable_menu_name": "Start of Arpeggio Trig",
+      "pos": [
+        0.592,
+        0.617
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Start of Arpeggio Trig' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-J14",
+      "side": "back",
+      "panel_label": "Sustain Pedal Gate Out (pedal down = open)",
+      "what": "Output: Sustain Pedal Gate Out (pedal down = open)",
+      "reason_cable_menu_name": "Sustain Pedal Gate",
+      "pos": [
+        0.592,
+        0.724
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "tooltip 'Sustain Pedal Gate' (empty jack)",
+      "confidence": "high"
+    },
+    {
+      "code": "RPG8-B-D02",
+      "side": "back",
+      "panel_label": "(CV modulation in use light)",
+      "what": "Lit when a CV input is cabled and modulating",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.251,
+        0.864
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "light, no tooltip (seen: red CV-modulation-in-use lamp)",
+      "confidence": "high",
+      "confidence_reason": "light"
+    }
+  ]
+}

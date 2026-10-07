@@ -1,0 +1,485 @@
+{
+  "device": "MClass Equalizer",
+  "remote_scope": "Propellerheads / MClass Equalizer",
+  "code_prefix": "MEQ",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "MEQ-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.062,
+        0.128
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover on the bypass switch: 'Enabled: On' (hover ~9 px left of the drawn box centre; the box centre itself showed no tooltip)",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-D01",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.055,
+        0.337
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "MEQ-F-D02",
+      "side": "front",
+      "panel_label": "MEQ 1 tape",
+      "what": "Device name tape (vertical)",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.455
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'M EQ 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-D03",
+      "side": "front",
+      "panel_label": "(EQ display)",
+      "what": "Frequency response graph, 39 Hz to 20 kHz, +/-18 dB",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.301,
+        0.522
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip; checked by eye: EQ curve display (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "display only"
+    },
+    {
+      "code": "MEQ-F-B02",
+      "side": "front",
+      "panel_label": "LO CUT",
+      "what": "Low cut on/off",
+      "reason_name": "Low Cut Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.543,
+        0.088
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Low Cut Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-B03",
+      "side": "front",
+      "panel_label": "LO SHELF (button)",
+      "what": "Low Shelf on/off",
+      "reason_name": "Low Shelf Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.595,
+        0.088
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Low Shelf Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K01",
+      "side": "front",
+      "panel_label": "LO SHELF FREQ",
+      "what": "Low Shelf frequency",
+      "reason_name": "Low Shelf Frequency",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.644,
+        0.242
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Low Shelf Frequency: 134.2 Hz'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K05",
+      "side": "front",
+      "panel_label": "LO SHELF GAIN",
+      "what": "Low Shelf boost/cut",
+      "reason_name": "Low Shelf Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 9,
+      "cc": 38,
+      "feedback_cc": 86,
+      "pos": [
+        0.644,
+        0.529
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Low Shelf Gain: 0.0 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K09",
+      "side": "front",
+      "panel_label": "LO SHELF Q",
+      "what": "Low Shelf width (Q)",
+      "reason_name": "Low Shelf Q",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 10,
+      "cc": 39,
+      "feedback_cc": 87,
+      "pos": [
+        0.644,
+        0.801
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Low Shelf Q: 0.62'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-B04",
+      "side": "front",
+      "panel_label": "PARAM 1 (button)",
+      "what": "Parametric 1 on/off",
+      "reason_name": "Parametric 1 Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 11,
+      "cc": 40,
+      "feedback_cc": 88,
+      "pos": [
+        0.688,
+        0.088
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 1 Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K02",
+      "side": "front",
+      "panel_label": "PARAM 1 FREQ",
+      "what": "Parametric 1 frequency",
+      "reason_name": "Parametric 1 Frequency",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 12,
+      "cc": 41,
+      "feedback_cc": 89,
+      "pos": [
+        0.735,
+        0.242
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 1 Frequency: 883.9 Hz'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K06",
+      "side": "front",
+      "panel_label": "PARAM 1 GAIN",
+      "what": "Parametric 1 boost/cut",
+      "reason_name": "Parametric 1 Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 13,
+      "cc": 42,
+      "feedback_cc": 90,
+      "pos": [
+        0.735,
+        0.529
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 1 Gain: 0.0 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K10",
+      "side": "front",
+      "panel_label": "PARAM 1 Q",
+      "what": "Parametric 1 width (Q)",
+      "reason_name": "Parametric 1 Q",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 14,
+      "cc": 43,
+      "feedback_cc": 91,
+      "pos": [
+        0.735,
+        0.801
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 1 Q: 5.7'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-B05",
+      "side": "front",
+      "panel_label": "PARAM 2 (button)",
+      "what": "Parametric 2 on/off",
+      "reason_name": "Parametric 2 Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 15,
+      "cc": 44,
+      "feedback_cc": 92,
+      "pos": [
+        0.778,
+        0.088
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 2 Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K03",
+      "side": "front",
+      "panel_label": "PARAM 2 FREQ",
+      "what": "Parametric 2 frequency",
+      "reason_name": "Parametric 2 Frequency",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 16,
+      "cc": 45,
+      "feedback_cc": 93,
+      "pos": [
+        0.829,
+        0.242
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 2 Frequency: 883.9 Hz'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K07",
+      "side": "front",
+      "panel_label": "PARAM 2 GAIN",
+      "what": "Parametric 2 boost/cut",
+      "reason_name": "Parametric 2 Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 17,
+      "cc": 46,
+      "feedback_cc": 94,
+      "pos": [
+        0.829,
+        0.529
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 2 Gain: 0.0 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K11",
+      "side": "front",
+      "panel_label": "PARAM 2 Q",
+      "what": "Parametric 2 width (Q)",
+      "reason_name": "Parametric 2 Q",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 18,
+      "cc": 47,
+      "feedback_cc": 95,
+      "pos": [
+        0.829,
+        0.801
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Parametric 2 Q: 5.7'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-B06",
+      "side": "front",
+      "panel_label": "HI SHELF (button)",
+      "what": "Hi Shelf on/off",
+      "reason_name": "Hi Shelf Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.871,
+        0.088
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Hi Shelf Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K04",
+      "side": "front",
+      "panel_label": "HI SHELF FREQ",
+      "what": "Hi Shelf frequency",
+      "reason_name": "Hi Shelf Frequency",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.92,
+        0.242
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Hi Shelf Frequency: 6.000 kHz'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K08",
+      "side": "front",
+      "panel_label": "HI SHELF GAIN",
+      "what": "Hi Shelf boost/cut",
+      "reason_name": "Hi Shelf Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.92,
+        0.529
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Hi Shelf Gain: 0.0 dB'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-F-K12",
+      "side": "front",
+      "panel_label": "HI SHELF Q",
+      "what": "Hi Shelf width (Q)",
+      "reason_name": "Hi Shelf Q",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.92,
+        0.801
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Hi Shelf Q: 0.62'",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-B-D01",
+      "side": "back",
+      "panel_label": "MEQ 1 tape",
+      "what": "Device name tape (back, vertical)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.036,
+        0.455
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'M EQ 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "MEQ-B-J01",
+      "side": "back",
+      "panel_label": "Audio Input L",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.356,
+        0.697
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Unison 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MEQ-B-J02",
+      "side": "back",
+      "panel_label": "Audio Input R",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.394,
+        0.697
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Unison 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MEQ-B-J03",
+      "side": "back",
+      "panel_label": "Audio Output L",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.469,
+        0.697
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Maximizer 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "MEQ-B-J04",
+      "side": "back",
+      "panel_label": "Audio Output R",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.507,
+        0.697
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to M Maximizer 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}

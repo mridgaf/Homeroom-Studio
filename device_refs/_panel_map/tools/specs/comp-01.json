@@ -1,0 +1,19 @@
+{"device":"COMP-01 Compressor/Limiter","slug":"comp-01","prefix":"COMP01","remote_scope":"Propellerheads / COMP-01 Compressor/Limiter",
+"front_raw":"_captures_batchA/comp-01_front_raw.jpg","back_raw":"_captures_batchA/comp-01_back_raw.jpg","out_dir":".","date":"2026-10-07",
+"front":[
+["Bypass/On/Off","3-way device switch","Enabled",2,[37,45],[13,20],"B","high",""],
+["(LED column)","Input level meter","Peak Meter",null,[37,130],[9,42],"D","medium","vocab item 'Peak Meter' assumed by position"],
+["COMPRESSOR 1 tape","Device name tape","Device Name",null,[525,38],[102,15],"D","high",""],
+["RATIO","Compression ratio, 1:1 to 16:1","Ratio",4,[160,125],[34,34],"K","high",""],
+["THRESHOLD","Level above which compression starts","Threshold",6,[272,125],[34,34],"K","high",""],
+["ATTACK","How fast compression kicks in","Attack",1,[385,125],[34,34],"K","high",""],
+["RELEASE","How fast compression lets go","Release",5,[498,125],[34,34],"K","high",""],
+["GAIN (LED row)","Gain reduction meter, -36 to +36 dB (display)","Gain",3,[735,125],[165,20],"D","medium","Remote item 'Gain' (slot 3) assumed to be this meter; confirm by hover"]
+],
+"back":[
+["COMPRESSOR 1 tape","Device name tape (back)","D",[343,38],[105,16],""],
+["L (In)","Audio input left","J",[497,150],[22,22],""],
+["R (In)","Audio input right","J",[569,150],[22,22],""],
+["L (Out)","Audio output left","J",[680,150],[22,22],""],
+["R (Out)","Audio output right","J",[752,150],[22,22],""]
+]}

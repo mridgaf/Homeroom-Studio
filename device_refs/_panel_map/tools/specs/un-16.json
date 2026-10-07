@@ -1,0 +1,214 @@
+{
+"device": "UN-16 Unison",
+"slug": "un-16",
+"prefix": "UN16",
+"remote_scope": "Propellerheads / UN-16 Unison",
+"front_raw": "_captures_batchA/un-16_front_raw.jpg",
+"back_raw": "_captures_batchA/un-16_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"Bypass/On/Off",
+"3-way device switch",
+"Enabled",
+3,
+[
+37,
+45
+],
+[
+13,
+20
+],
+"B",
+"high",
+""
+],
+[
+"(LED column)",
+"Input level meter",
+"Peak Meter",
+null,
+[
+37,
+130
+],
+[
+9,
+42
+],
+"D",
+"medium",
+"vocab item 'Peak Meter' assumed by position"
+],
+[
+"UNISON 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+490,
+38
+],
+[
+108,
+15
+],
+"D",
+"high",
+""
+],
+[
+"16/8/4 lights + VOICE COUNT",
+"VOICE COUNT button: cycles 16, 8, 4 voices (lights show which)",
+"Voice Count",
+4,
+[
+308,
+115
+],
+[
+22,
+56
+],
+"B",
+"medium",
+"button and its three lights boxed together"
+],
+[
+"DETUNE",
+"Detune amount",
+"Detune",
+1,
+[
+618,
+125
+],
+[
+36,
+36
+],
+"K",
+"high",
+""
+],
+[
+"DRY/WET",
+"Balance dry and unison signal",
+"Dry/Wet",
+2,
+[
+886,
+125
+],
+[
+36,
+36
+],
+"K",
+"high",
+""
+]
+],
+"back": [
+[
+"Detune (CV in)",
+"CV input for Detune",
+"J",
+[
+95,
+102
+],
+[
+17,
+17
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Detune CV",
+"K",
+[
+95,
+158
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"UNISON 1 tape",
+"Device name tape (back)",
+"D",
+[
+372,
+155
+],
+[
+105,
+16
+],
+""
+],
+[
+"Left (In)",
+"Audio input left",
+"J",
+[
+585,
+85
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (In)",
+"Audio input right",
+"J",
+[
+655,
+85
+],
+[
+22,
+22
+],
+""
+],
+[
+"Left (Out)",
+"Audio output left",
+"J",
+[
+585,
+138
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (Out)",
+"Audio output right",
+"J",
+[
+655,
+138
+],
+[
+22,
+22
+],
+""
+]
+]
+}

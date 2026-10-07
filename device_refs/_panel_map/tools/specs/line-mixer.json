@@ -1,0 +1,1287 @@
+{
+"device": "Line Mixer 6:2",
+"slug": "line-mixer",
+"prefix": "LNMX",
+"remote_scope": "Propellerheads / Line Mixer 6:2",
+"front_raw": "_captures_batchB/line-mixer_front_raw.jpg",
+"back_raw": "_captures_batchB/line-mixer_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"LINE MIXER 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+1407,
+32
+],
+[
+70,
+13
+],
+"D",
+"high",
+""
+],
+[
+"Ch 1 AUX",
+"Channel 1 aux send amount (to the Aux Send jacks)",
+"Channel 1 Aux Send",
+null,
+[
+98,
+40
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"Ch 1 PAN",
+"Channel 1 pan (left to right)",
+"Channel 1 Pan",
+null,
+[
+214,
+40
+],
+[
+18,
+18
+],
+"K",
+"high",
+""
+],
+[
+"Ch 1 LEVEL",
+"Channel 1 volume",
+"Channel 1 Level",
+null,
+[
+160,
+60
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"Ch 1 Mute",
+"Channel 1 mute button",
+"Channel 1 Mute",
+null,
+[
+87,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 1 Solo",
+"Channel 1 solo button",
+"Channel 1 Solo",
+null,
+[
+111,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"(Ch 1 meter)",
+"Channel 1 level meter",
+"Channel 1 Peak Meter",
+null,
+[
+214,
+97
+],
+[
+10,
+20
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Ch 1 name tape",
+"Channel 1 name label (type your own name)",
+"Channel 1 Name",
+null,
+[
+147,
+127
+],
+[
+68,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 2 AUX",
+"Channel 2 aux send amount (to the Aux Send jacks)",
+"Channel 2 Aux Send",
+null,
+[
+276,
+40
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"Ch 2 PAN",
+"Channel 2 pan (left to right)",
+"Channel 2 Pan",
+null,
+[
+391,
+40
+],
+[
+18,
+18
+],
+"K",
+"high",
+""
+],
+[
+"Ch 2 LEVEL",
+"Channel 2 volume",
+"Channel 2 Level",
+null,
+[
+338,
+60
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"Ch 2 Mute",
+"Channel 2 mute button",
+"Channel 2 Mute",
+null,
+[
+265,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 2 Solo",
+"Channel 2 solo button",
+"Channel 2 Solo",
+null,
+[
+289,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"(Ch 2 meter)",
+"Channel 2 level meter",
+"Channel 2 Peak Meter",
+null,
+[
+391,
+97
+],
+[
+10,
+20
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Ch 2 name tape",
+"Channel 2 name label (type your own name)",
+"Channel 2 Name",
+null,
+[
+324,
+127
+],
+[
+68,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 3 AUX",
+"Channel 3 aux send amount (to the Aux Send jacks)",
+"Channel 3 Aux Send",
+null,
+[
+454,
+40
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"Ch 3 PAN",
+"Channel 3 pan (left to right)",
+"Channel 3 Pan",
+null,
+[
+569,
+40
+],
+[
+18,
+18
+],
+"K",
+"high",
+""
+],
+[
+"Ch 3 LEVEL",
+"Channel 3 volume",
+"Channel 3 Level",
+null,
+[
+515,
+60
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"Ch 3 Mute",
+"Channel 3 mute button",
+"Channel 3 Mute",
+null,
+[
+442,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 3 Solo",
+"Channel 3 solo button",
+"Channel 3 Solo",
+null,
+[
+467,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"(Ch 3 meter)",
+"Channel 3 level meter",
+"Channel 3 Peak Meter",
+null,
+[
+569,
+97
+],
+[
+10,
+20
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Ch 3 name tape",
+"Channel 3 name label (type your own name)",
+"Channel 3 Name",
+null,
+[
+502,
+127
+],
+[
+68,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 4 AUX",
+"Channel 4 aux send amount (to the Aux Send jacks)",
+"Channel 4 Aux Send",
+null,
+[
+631,
+40
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"Ch 4 PAN",
+"Channel 4 pan (left to right)",
+"Channel 4 Pan",
+null,
+[
+747,
+40
+],
+[
+18,
+18
+],
+"K",
+"high",
+""
+],
+[
+"Ch 4 LEVEL",
+"Channel 4 volume",
+"Channel 4 Level",
+null,
+[
+693,
+60
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"Ch 4 Mute",
+"Channel 4 mute button",
+"Channel 4 Mute",
+null,
+[
+620,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 4 Solo",
+"Channel 4 solo button",
+"Channel 4 Solo",
+null,
+[
+644,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"(Ch 4 meter)",
+"Channel 4 level meter",
+"Channel 4 Peak Meter",
+null,
+[
+747,
+97
+],
+[
+10,
+20
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Ch 4 name tape",
+"Channel 4 name label (type your own name)",
+"Channel 4 Name",
+null,
+[
+680,
+127
+],
+[
+68,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 5 AUX",
+"Channel 5 aux send amount (to the Aux Send jacks)",
+"Channel 5 Aux Send",
+null,
+[
+809,
+40
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"Ch 5 PAN",
+"Channel 5 pan (left to right)",
+"Channel 5 Pan",
+null,
+[
+924,
+40
+],
+[
+18,
+18
+],
+"K",
+"high",
+""
+],
+[
+"Ch 5 LEVEL",
+"Channel 5 volume",
+"Channel 5 Level",
+null,
+[
+871,
+60
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"Ch 5 Mute",
+"Channel 5 mute button",
+"Channel 5 Mute",
+null,
+[
+798,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 5 Solo",
+"Channel 5 solo button",
+"Channel 5 Solo",
+null,
+[
+822,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"(Ch 5 meter)",
+"Channel 5 level meter",
+"Channel 5 Peak Meter",
+null,
+[
+924,
+97
+],
+[
+10,
+20
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Ch 5 name tape",
+"Channel 5 name label (type your own name)",
+"Channel 5 Name",
+null,
+[
+857,
+127
+],
+[
+68,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Ch 6 AUX",
+"Channel 6 aux send amount (to the Aux Send jacks)",
+"Channel 6 Aux Send",
+null,
+[
+986,
+40
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"Ch 6 PAN",
+"Channel 6 pan (left to right)",
+"Channel 6 Pan",
+null,
+[
+1102,
+40
+],
+[
+18,
+18
+],
+"K",
+"high",
+""
+],
+[
+"Ch 6 LEVEL",
+"Channel 6 volume",
+"Channel 6 Level",
+null,
+[
+1048,
+60
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"Ch 6 Mute",
+"Channel 6 mute button",
+"Channel 6 Mute",
+null,
+[
+975,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"Ch 6 Solo",
+"Channel 6 solo button",
+"Channel 6 Solo",
+null,
+[
+1000,
+96
+],
+[
+11,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"(Ch 6 meter)",
+"Channel 6 level meter",
+"Channel 6 Peak Meter",
+null,
+[
+1102,
+97
+],
+[
+10,
+20
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Ch 6 name tape",
+"Channel 6 name label (type your own name)",
+"Channel 6 Name",
+null,
+[
+1035,
+127
+],
+[
+68,
+12
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"AUX RETURN",
+"Level of the signal coming back in at the Aux Return jacks",
+"Aux Return Level",
+null,
+[
+1169,
+36
+],
+[
+20,
+20
+],
+"K",
+"high",
+""
+],
+[
+"MASTER",
+"Master volume of the mixer",
+"Master Level",
+null,
+[
+1372,
+90
+],
+[
+26,
+26
+],
+"K",
+"high",
+""
+],
+[
+"(Master meter L)",
+"Master output meter, left",
+"Master Left Peak Meter",
+null,
+[
+1426,
+95
+],
+[
+8,
+36
+],
+"D",
+"high",
+"",
+"left"
+],
+[
+"(Master meter R)",
+"Master output meter, right",
+"Master Right Peak Meter",
+null,
+[
+1458,
+95
+],
+[
+8,
+36
+],
+"D",
+"high",
+"",
+"right"
+]
+],
+"back": [
+[
+"LINE MIXER 1 tape",
+"Device name tape (back)",
+"D",
+[
+1410,
+32
+],
+[
+80,
+13
+],
+""
+],
+[
+"Ch 1 in L",
+"Channel 1 audio input, left (L/Mono)",
+"J",
+[
+119,
+67
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 1 in R",
+"Channel 1 audio input, right",
+"J",
+[
+119,
+108
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 1 Pan CV trim",
+"Amount knob for the Channel 1 Pan CV input",
+"K",
+[
+211,
+73
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 1 Pan CV in",
+"Channel 1 pan CV input",
+"J",
+[
+211,
+110
+],
+[
+13,
+13
+],
+""
+],
+[
+"Ch 2 in L",
+"Channel 2 audio input, left (L/Mono)",
+"J",
+[
+296,
+67
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 2 in R",
+"Channel 2 audio input, right",
+"J",
+[
+296,
+108
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 2 Pan CV trim",
+"Amount knob for the Channel 2 Pan CV input",
+"K",
+[
+387,
+73
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 2 Pan CV in",
+"Channel 2 pan CV input",
+"J",
+[
+387,
+110
+],
+[
+13,
+13
+],
+""
+],
+[
+"Ch 3 in L",
+"Channel 3 audio input, left (L/Mono)",
+"J",
+[
+472,
+67
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 3 in R",
+"Channel 3 audio input, right",
+"J",
+[
+472,
+108
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 3 Pan CV trim",
+"Amount knob for the Channel 3 Pan CV input",
+"K",
+[
+563,
+73
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 3 Pan CV in",
+"Channel 3 pan CV input",
+"J",
+[
+563,
+110
+],
+[
+13,
+13
+],
+""
+],
+[
+"Ch 4 in L",
+"Channel 4 audio input, left (L/Mono)",
+"J",
+[
+649,
+67
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 4 in R",
+"Channel 4 audio input, right",
+"J",
+[
+649,
+108
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 4 Pan CV trim",
+"Amount knob for the Channel 4 Pan CV input",
+"K",
+[
+740,
+73
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 4 Pan CV in",
+"Channel 4 pan CV input",
+"J",
+[
+740,
+110
+],
+[
+13,
+13
+],
+""
+],
+[
+"Ch 5 in L",
+"Channel 5 audio input, left (L/Mono)",
+"J",
+[
+825,
+67
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 5 in R",
+"Channel 5 audio input, right",
+"J",
+[
+825,
+108
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 5 Pan CV trim",
+"Amount knob for the Channel 5 Pan CV input",
+"K",
+[
+916,
+73
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 5 Pan CV in",
+"Channel 5 pan CV input",
+"J",
+[
+916,
+110
+],
+[
+13,
+13
+],
+""
+],
+[
+"Ch 6 in L",
+"Channel 6 audio input, left (L/Mono)",
+"J",
+[
+1002,
+67
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 6 in R",
+"Channel 6 audio input, right",
+"J",
+[
+1002,
+108
+],
+[
+17,
+17
+],
+""
+],
+[
+"Ch 6 Pan CV trim",
+"Amount knob for the Channel 6 Pan CV input",
+"K",
+[
+1093,
+73
+],
+[
+16,
+16
+],
+"no Remote item in the vocab"
+],
+[
+"Ch 6 Pan CV in",
+"Channel 6 pan CV input",
+"J",
+[
+1093,
+110
+],
+[
+13,
+13
+],
+""
+],
+[
+"Aux Pre/Post",
+"Aux send taken before (Pre) or after (Post) the channel fader",
+"B",
+[
+1170,
+90
+],
+[
+14,
+24
+],
+""
+],
+[
+"Aux Send L",
+"Aux send output, left",
+"J",
+[
+1227,
+63
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux Send R",
+"Aux send output, right",
+"J",
+[
+1227,
+103
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux Return L",
+"Aux return input, left",
+"J",
+[
+1284,
+63
+],
+[
+17,
+17
+],
+""
+],
+[
+"Aux Return R",
+"Aux return input, right",
+"J",
+[
+1284,
+103
+],
+[
+17,
+17
+],
+""
+],
+[
+"Master Out L",
+"Master output, left",
+"J",
+[
+1374,
+117
+],
+[
+17,
+17
+],
+""
+],
+[
+"Master Out R",
+"Master output, right",
+"J",
+[
+1426,
+117
+],
+[
+17,
+17
+],
+""
+]
+]
+}

@@ -1,0 +1,265 @@
+{
+"device": "RV-7 Digital Reverb",
+"slug": "rv-7",
+"prefix": "RV7",
+"remote_scope": "Propellerheads / RV-7 Digital Reverb",
+"front_raw": "_captures_batchA/rv-7_front_raw.jpg",
+"back_raw": "_captures_batchA/rv-7_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"Bypass/On/Off",
+"3-way device switch",
+"Enabled",
+5,
+[
+37,
+45
+],
+[
+13,
+20
+],
+"B",
+"high",
+""
+],
+[
+"(LED column)",
+"Input level meter",
+"Peak Meter",
+null,
+[
+37,
+130
+],
+[
+9,
+42
+],
+"D",
+"medium",
+"vocab item 'Peak Meter' assumed by position"
+],
+[
+"REVERB 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+487,
+38
+],
+[
+108,
+15
+],
+"D",
+"high",
+""
+],
+[
+"(algorithm display)",
+"Shows the reverb type (Hall, etc.)",
+"",
+null,
+[
+163,
+128
+],
+[
+98,
+22
+],
+"D",
+"medium",
+"display"
+],
+[
+"(up/down arrows)",
+"Step through reverb types",
+"Algorithm",
+1,
+[
+285,
+128
+],
+[
+18,
+26
+],
+"B",
+"medium",
+"Remote 'Algorithm' assumed to be this selector; confirm by hover"
+],
+[
+"SIZE",
+"Room size",
+"Size",
+6,
+[
+438,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"DECAY",
+"Reverb tail length",
+"Decay",
+3,
+[
+588,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"DAMP",
+"High-frequency damping",
+"Damping",
+2,
+[
+737,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+],
+[
+"DRY/WET",
+"Balance dry and reverb",
+"Dry/Wet",
+4,
+[
+882,
+125
+],
+[
+34,
+34
+],
+"K",
+"high",
+""
+]
+],
+"back": [
+[
+"Decay (CV in)",
+"CV input for Decay",
+"J",
+[
+92,
+102
+],
+[
+17,
+17
+],
+""
+],
+[
+"(trim)",
+"Amount knob for Decay CV",
+"K",
+[
+90,
+158
+],
+[
+20,
+20
+],
+"trim next to CV jack; matched by position"
+],
+[
+"REVERB 1 tape",
+"Device name tape (back)",
+"D",
+[
+368,
+155
+],
+[
+108,
+16
+],
+""
+],
+[
+"Left (In)",
+"Audio input left",
+"J",
+[
+583,
+85
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (In)",
+"Audio input right",
+"J",
+[
+653,
+85
+],
+[
+22,
+22
+],
+""
+],
+[
+"Left (Out)",
+"Audio output left",
+"J",
+[
+583,
+138
+],
+[
+22,
+22
+],
+""
+],
+[
+"Right (Out)",
+"Audio output right",
+"J",
+[
+653,
+138
+],
+[
+22,
+22
+],
+""
+]
+]
+}

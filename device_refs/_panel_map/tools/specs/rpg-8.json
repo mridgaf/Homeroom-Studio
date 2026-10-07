@@ -1,0 +1,1137 @@
+{
+"device": "RPG-8 Monophonic Arpeggiator",
+"slug": "rpg-8",
+"prefix": "RPG8",
+"remote_scope": "Propellerheads / RPG-8 Monophonic Arpeggiator",
+"front_raw": "_captures_batchB/rpg-8_front_raw.jpg",
+"back_raw": "_captures_batchB/rpg-8_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"ARP 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+44,
+205
+],
+[
+16,
+80
+],
+"D",
+"high",
+""
+],
+[
+"VELOCITY",
+"Fixed note velocity 1-127, or Manual (use played velocity) at the far right",
+"Velocity/Manual",
+null,
+[
+152,
+113
+],
+[
+40,
+40
+],
+"K",
+"medium",
+"Remote has Manual Velocity and Velocity/Manual; hover shows which"
+],
+[
+"(Manual light)",
+"Light beside MAN.: lit when Velocity is on Manual",
+null,
+null,
+[
+197,
+140
+],
+[
+8,
+8
+],
+"D",
+"medium",
+"light"
+],
+[
+"MIDI IN (light)",
+"Lights when MIDI notes arrive",
+null,
+null,
+[
+319,
+76
+],
+[
+9,
+9
+],
+"D",
+"medium",
+"light"
+],
+[
+"HOLD",
+"Hold: arpeggio keeps playing after you release the keys",
+"Hold",
+null,
+[
+319,
+136
+],
+[
+44,
+18
+],
+"B",
+"high",
+""
+],
+[
+"(octave shift lights -3 to +3)",
+"Seven lights show the octave shift, -3 to +3",
+"Octave Shift",
+null,
+[
+227,
+204
+],
+[
+100,
+10
+],
+"D",
+"medium",
+"display; Remote item Octave Shift"
+],
+[
+"OCTAVE SHIFT (left arrow)",
+"Shift the arpeggio down one octave",
+"Octave Shift Down",
+null,
+[
+112,
+232
+],
+[
+28,
+12
+],
+"B",
+"high",
+""
+],
+[
+"OCTAVE SHIFT (right arrow)",
+"Shift the arpeggio up one octave",
+"Octave Shift Up",
+null,
+[
+346,
+232
+],
+[
+28,
+12
+],
+"B",
+"high",
+""
+],
+[
+"ON",
+"Arpeggiator on/off",
+"Arpeggiator Enable",
+null,
+[
+452,
+36
+],
+[
+44,
+18
+],
+"B",
+"high",
+""
+],
+[
+"MODE",
+"Arpeggio direction: Up, Up+Down, Down, Random, Manual",
+"Mode",
+null,
+[
+622,
+138
+],
+[
+50,
+50
+],
+"K",
+"high",
+""
+],
+[
+"4 OCT",
+"Octave range 4",
+"Octave 4",
+null,
+[
+766,
+117
+],
+[
+42,
+11
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"3 OCT",
+"Octave range 3",
+"Octave 3",
+null,
+[
+766,
+144
+],
+[
+42,
+11
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"2 OCT",
+"Octave range 2",
+"Octave 2",
+null,
+[
+766,
+171
+],
+[
+42,
+11
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"1 OCT",
+"Octave range 1 (just the played notes)",
+"Octave 1",
+null,
+[
+766,
+197
+],
+[
+42,
+11
+],
+"B",
+"high",
+"",
+"left"
+],
+[
+"INSERT 4-2",
+"Insert: adds notes in a 4-2 pattern",
+"Insert 4-2",
+null,
+[
+885,
+90
+],
+[
+44,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"INSERT 3-1",
+"Insert: adds notes in a 3-1 pattern",
+"Insert 3-1",
+null,
+[
+885,
+117
+],
+[
+44,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"INSERT HI",
+"Insert: adds the highest note",
+"Insert High",
+null,
+[
+885,
+144
+],
+[
+44,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"INSERT LOW",
+"Insert: adds the lowest note",
+"Insert Low",
+null,
+[
+885,
+171
+],
+[
+44,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"INSERT OFF",
+"Insert off",
+"Insert Off",
+null,
+[
+885,
+197
+],
+[
+44,
+10
+],
+"B",
+"high",
+"",
+"right"
+],
+[
+"SYNC",
+"Rate follows the song tempo",
+"Sync",
+null,
+[
+447,
+305
+],
+[
+26,
+12
+],
+"B",
+"high",
+""
+],
+[
+"FREE",
+"Rate runs free (not tied to tempo)",
+null,
+null,
+[
+521,
+305
+],
+[
+26,
+12
+],
+"B",
+"medium",
+"no separate Remote item; Sync covers the pair"
+],
+[
+"(rate display)",
+"Shows the rate value, e.g. 1/16",
+"",
+null,
+[
+483,
+343
+],
+[
+62,
+20
+],
+"D",
+"medium",
+"display"
+],
+[
+"RATE",
+"Arpeggio speed (note value when Sync is on)",
+"Rate",
+null,
+[
+627,
+322
+],
+[
+52,
+52
+],
+"K",
+"high",
+""
+],
+[
+"(Rate light)",
+"Light by the Rate knob: blinks at the rate",
+null,
+null,
+[
+584,
+396
+],
+[
+7,
+7
+],
+"D",
+"medium",
+"light"
+],
+[
+"GATE LENGTH",
+"Length of each note, 0 to Tie (legato)",
+"Gate Length",
+null,
+[
+757,
+324
+],
+[
+38,
+38
+],
+"K",
+"high",
+""
+],
+[
+"SINGLE NOTE REPEAT",
+"Repeat a single held note",
+"Single Note Repeat",
+null,
+[
+886,
+315
+],
+[
+26,
+13
+],
+"B",
+"high",
+""
+],
+[
+"PATTERN",
+"Pattern editor on/off",
+"Pattern Enable",
+null,
+[
+995,
+30
+],
+[
+14,
+14
+],
+"B",
+"high",
+""
+],
+[
+"STEPS -",
+"Fewer pattern steps",
+"Pattern Length Down",
+null,
+[
+1357,
+31
+],
+[
+26,
+12
+],
+"B",
+"high",
+""
+],
+[
+"STEPS +",
+"More pattern steps",
+"Pattern Length Up",
+null,
+[
+1423,
+31
+],
+[
+26,
+12
+],
+"B",
+"high",
+""
+],
+[
+"Pattern step 1",
+"Pattern step 1 on/off",
+"Pattern Step 1",
+null,
+[
+996,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 2",
+"Pattern step 2 on/off",
+"Pattern Step 2",
+null,
+[
+1025,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 3",
+"Pattern step 3 on/off",
+"Pattern Step 3",
+null,
+[
+1055,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 4",
+"Pattern step 4 on/off",
+"Pattern Step 4",
+null,
+[
+1084,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 5",
+"Pattern step 5 on/off",
+"Pattern Step 5",
+null,
+[
+1113,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 6",
+"Pattern step 6 on/off",
+"Pattern Step 6",
+null,
+[
+1142,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 7",
+"Pattern step 7 on/off",
+"Pattern Step 7",
+null,
+[
+1172,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 8",
+"Pattern step 8 on/off",
+"Pattern Step 8",
+null,
+[
+1201,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 9",
+"Pattern step 9 on/off",
+"Pattern Step 9",
+null,
+[
+1230,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 10",
+"Pattern step 10 on/off",
+"Pattern Step 10",
+null,
+[
+1260,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 11",
+"Pattern step 11 on/off",
+"Pattern Step 11",
+null,
+[
+1289,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 12",
+"Pattern step 12 on/off",
+"Pattern Step 12",
+null,
+[
+1318,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 13",
+"Pattern step 13 on/off",
+"Pattern Step 13",
+null,
+[
+1348,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 14",
+"Pattern step 14 on/off",
+"Pattern Step 14",
+null,
+[
+1377,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"Pattern step 15",
+"Pattern step 15 on/off",
+"Pattern Step 15",
+null,
+[
+1406,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"above"
+],
+[
+"Pattern step 16",
+"Pattern step 16 on/off",
+"Pattern Step 16",
+null,
+[
+1436,
+80
+],
+[
+13,
+15
+],
+"B",
+"medium",
+"step button; hover to confirm numbering",
+"below"
+],
+[
+"(pattern display)",
+"Shows the notes the arpeggio plays (C-1 to C7)",
+null,
+null,
+[
+1215,
+230
+],
+[
+238,
+125
+],
+"D",
+"medium",
+"display"
+],
+[
+"SHUFFLE",
+"Shuffle on/off",
+"Pattern Shuffle",
+null,
+[
+991,
+385
+],
+[
+14,
+14
+],
+"B",
+"medium",
+"Remote has Pattern Shuffle and Shuffle; hover shows which"
+]
+],
+"back": [
+[
+"ARP 1 tape",
+"Device name tape (back)",
+"D",
+[
+44,
+205
+],
+[
+16,
+80
+],
+""
+],
+[
+"Gate Length (trim)",
+"Amount knob for Gate Length CV In",
+"K",
+[
+356,
+128
+],
+[
+16,
+16
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"Gate Length CV In",
+"CV input: Gate Length CV In",
+"J",
+[
+394,
+128
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Velocity (trim)",
+"Amount knob for Velocity CV In",
+"K",
+[
+356,
+173
+],
+[
+16,
+16
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"Velocity CV In",
+"CV input: Velocity CV In",
+"J",
+[
+394,
+173
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Rate/Resolution (trim)",
+"Amount knob for Rate/Resolution CV In",
+"K",
+[
+356,
+218
+],
+[
+16,
+16
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"Rate/Resolution CV In",
+"CV input: Rate/Resolution CV In",
+"J",
+[
+394,
+218
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Octave Shift (trim)",
+"Amount knob for Octave Shift CV In",
+"K",
+[
+356,
+264
+],
+[
+16,
+16
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"Octave Shift CV In",
+"CV input: Octave Shift CV In",
+"J",
+[
+394,
+264
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Start of Arpeggio Trig In",
+"Trigger input: restarts the arpeggio",
+"J",
+[
+394,
+310
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Gate CV Out (velocity)",
+"Output: Gate CV Out (velocity)",
+"J",
+[
+650,
+128
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Note CV Out",
+"Output: Note CV Out",
+"J",
+[
+650,
+173
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Mod Wheel CV Out",
+"Output: Mod Wheel CV Out",
+"J",
+[
+650,
+218
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Pitch Bend CV Out",
+"Output: Pitch Bend CV Out",
+"J",
+[
+650,
+264
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Aftertouch CV Out",
+"Output: Aftertouch CV Out",
+"J",
+[
+928,
+128
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Expression CV Out",
+"Output: Expression CV Out",
+"J",
+[
+928,
+173
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Breath CV Out",
+"Output: Breath CV Out",
+"J",
+[
+928,
+218
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Start of Arpeggio Trig Out",
+"Output: Start of Arpeggio Trig Out",
+"J",
+[
+928,
+264
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"Sustain Pedal Gate Out (pedal down = open)",
+"Output: Sustain Pedal Gate Out (pedal down = open)",
+"J",
+[
+928,
+310
+],
+[
+14,
+14
+],
+"",
+"right"
+],
+[
+"(CV modulation in use light)",
+"Lit when a CV input is cabled and modulating",
+"D",
+[
+393,
+370
+],
+[
+8,
+8
+],
+"light",
+"below"
+]
+]
+}

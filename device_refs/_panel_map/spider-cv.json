@@ -1,0 +1,442 @@
+{
+  "device": "Spider CV Merger & Splitter",
+  "remote_scope": "Propellerheads / Spider CV Merger & Splitter",
+  "code_prefix": "SPDC",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: every position hover-checked in Reason. name_check cannot run: our remotemap has no Scope block for Spider CV (not added; out of scope)",
+  "controls": [
+    {
+      "code": "SPDC-F-D01",
+      "side": "front",
+      "panel_label": "SPIDER CV 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.632,
+        0.151
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Spider CV 1'",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-F-D04",
+      "side": "front",
+      "panel_label": "Merge input 1 (light)",
+      "what": "Lights when a CV signal arrives at merge input 1",
+      "reason_name": "Merge Input 1 Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.494,
+        0.768
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-F-D05",
+      "side": "front",
+      "panel_label": "Merge input 2 (light)",
+      "what": "Lights when a CV signal arrives at merge input 2",
+      "reason_name": "Merge Input 2 Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.528,
+        0.768
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-F-D06",
+      "side": "front",
+      "panel_label": "Merge input 3 (light)",
+      "what": "Lights when a CV signal arrives at merge input 3",
+      "reason_name": "Merge Input 3 Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.563,
+        0.768
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-F-D07",
+      "side": "front",
+      "panel_label": "Merge input 4 (light)",
+      "what": "Lights when a CV signal arrives at merge input 4",
+      "reason_name": "Merge Input 4 Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.597,
+        0.768
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-F-D02",
+      "side": "front",
+      "panel_label": "Split A input (light)",
+      "what": "Lights when a CV signal arrives at split A",
+      "reason_name": "Split A Input Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.709,
+        0.616
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-F-D03",
+      "side": "front",
+      "panel_label": "Split B input (light)",
+      "what": "Lights when a CV signal arrives at split B",
+      "reason_name": "Split B Input Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.815,
+        0.616
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-B-D01",
+      "side": "back",
+      "panel_label": "SPIDER CV 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.632,
+        0.151
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Spider CV 1'",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDC-B-K01",
+      "side": "back",
+      "panel_label": "Merge trim 1",
+      "what": "Level knob for merge input 1",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.078,
+        0.514
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Merge Input 1: 127' (trim at full)",
+      "confidence": "medium",
+      "confidence_reason": "trim above its input jack; matched by position"
+    },
+    {
+      "code": "SPDC-B-J07",
+      "side": "back",
+      "panel_label": "Merge input 1",
+      "what": "Merger CV input 1",
+      "reason_cable_menu_name": "Merge Input 1",
+      "pos": [
+        0.078,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 1'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-K02",
+      "side": "back",
+      "panel_label": "Merge trim 2",
+      "what": "Level knob for merge input 2",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.139,
+        0.514
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Merge Input 2: 127' (trim at full)",
+      "confidence": "medium",
+      "confidence_reason": "trim above its input jack; matched by position"
+    },
+    {
+      "code": "SPDC-B-J08",
+      "side": "back",
+      "panel_label": "Merge input 2",
+      "what": "Merger CV input 2",
+      "reason_cable_menu_name": "Merge Input 2",
+      "pos": [
+        0.14,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 2'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-K03",
+      "side": "back",
+      "panel_label": "Merge trim 3",
+      "what": "Level knob for merge input 3",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.202,
+        0.514
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Merge Input 3: 127' (trim at full)",
+      "confidence": "medium",
+      "confidence_reason": "trim above its input jack; matched by position"
+    },
+    {
+      "code": "SPDC-B-J09",
+      "side": "back",
+      "panel_label": "Merge input 3",
+      "what": "Merger CV input 3",
+      "reason_cable_menu_name": "Merge Input 3",
+      "pos": [
+        0.202,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 3'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-K04",
+      "side": "back",
+      "panel_label": "Merge trim 4",
+      "what": "Level knob for merge input 4",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.266,
+        0.514
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Merge Input 4: 127' (trim at full)",
+      "confidence": "medium",
+      "confidence_reason": "trim above its input jack; matched by position"
+    },
+    {
+      "code": "SPDC-B-J10",
+      "side": "back",
+      "panel_label": "Merge input 4",
+      "what": "Merger CV input 4",
+      "reason_cable_menu_name": "Merge Input 4",
+      "pos": [
+        0.266,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 4'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J11",
+      "side": "back",
+      "panel_label": "Merge out",
+      "what": "Merger CV output",
+      "reason_cable_menu_name": "Merge Output",
+      "pos": [
+        0.358,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Output'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J01",
+      "side": "back",
+      "panel_label": "Split A in",
+      "what": "Split A input",
+      "reason_cable_menu_name": "Split A Input",
+      "pos": [
+        0.474,
+        0.53
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "cabled: 'Connected to Matrix 2: Curve CV'; own name from Reason's cable menu: 'Split A Input'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J02",
+      "side": "back",
+      "panel_label": "Split A out 1",
+      "what": "Split A output",
+      "reason_cable_menu_name": "Split A Output 1",
+      "pos": [
+        0.527,
+        0.53
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "cabled: 'Connected to ALL Plate Spread: Decay CV In'; own name from Reason's cable menu: 'Split A Output 1'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J03",
+      "side": "back",
+      "panel_label": "Split A out 2",
+      "what": "Split A output",
+      "reason_cable_menu_name": "Split A Output 2",
+      "pos": [
+        0.577,
+        0.53
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split A Output 2'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J12",
+      "side": "back",
+      "panel_label": "Split A out 3",
+      "what": "Split A output",
+      "reason_cable_menu_name": "Split A Output 3",
+      "pos": [
+        0.527,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split A Output 3'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J13",
+      "side": "back",
+      "panel_label": "Split A inverted out",
+      "what": "Split A inverted output (Inv)",
+      "reason_cable_menu_name": "Split A Output 4/Inv",
+      "pos": [
+        0.577,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split A Output 4/Inv'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J04",
+      "side": "back",
+      "panel_label": "Split B in",
+      "what": "Split B input",
+      "reason_cable_menu_name": "Split B Input",
+      "pos": [
+        0.689,
+        0.53
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "cabled: 'Connected to Matrix 2: Gate'; own name from Reason's cable menu: 'Split B Input'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J05",
+      "side": "back",
+      "panel_label": "Split B out 1",
+      "what": "Split B output",
+      "reason_cable_menu_name": "Split B Output 1",
+      "pos": [
+        0.743,
+        0.53
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "cabled: 'Connected to ALL Plate Spread: Gate Trig Input'; own name from Reason's cable menu: 'Split B Output 1'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J06",
+      "side": "back",
+      "panel_label": "Split B out 2",
+      "what": "Split B output",
+      "reason_cable_menu_name": "Split B Output 2",
+      "pos": [
+        0.795,
+        0.53
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split B Output 2'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J14",
+      "side": "back",
+      "panel_label": "Split B out 3",
+      "what": "Split B output",
+      "reason_cable_menu_name": "Split B Output 3",
+      "pos": [
+        0.743,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split B Output 3'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    },
+    {
+      "code": "SPDC-B-J15",
+      "side": "back",
+      "panel_label": "Split B inverted out",
+      "what": "Split B inverted output (Inv)",
+      "reason_cable_menu_name": "Split B Output 4/Inv",
+      "pos": [
+        0.795,
+        0.8
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split B Output 4/Inv'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (Spider CV 1 submenus, 2026-10-07)"
+    }
+  ]
+}

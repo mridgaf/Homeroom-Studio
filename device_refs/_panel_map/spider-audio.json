@@ -1,0 +1,533 @@
+{
+  "device": "Spider Audio Merger & Splitter",
+  "remote_scope": "Propellerheads / Spider Audio Merger & Splitter",
+  "code_prefix": "SPDA",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: every position hover-checked in Reason. name_check cannot run: our remotemap has no Scope block for Spider Audio (not added; out of scope)",
+  "controls": [
+    {
+      "code": "SPDA-F-D01",
+      "side": "front",
+      "panel_label": "SPIDER AUDIO 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.661,
+        0.151
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Spider Audio 1'",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D02",
+      "side": "front",
+      "panel_label": "Merge input 1 L (light)",
+      "what": "Lights when audio arrives at merge input 1, left",
+      "reason_name": "Merge Input 1 Left Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.565,
+        0.557
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D07",
+      "side": "front",
+      "panel_label": "Merge input 1 R (light)",
+      "what": "Lights when audio arrives at merge input 1, right",
+      "reason_name": "Merge Input 1 Right Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.565,
+        0.757
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D03",
+      "side": "front",
+      "panel_label": "Merge input 2 L (light)",
+      "what": "Lights when audio arrives at merge input 2, left",
+      "reason_name": "Merge Input 2 Left Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.598,
+        0.557
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D08",
+      "side": "front",
+      "panel_label": "Merge input 2 R (light)",
+      "what": "Lights when audio arrives at merge input 2, right",
+      "reason_name": "Merge Input 2 Right Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.598,
+        0.757
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D04",
+      "side": "front",
+      "panel_label": "Merge input 3 L (light)",
+      "what": "Lights when audio arrives at merge input 3, left",
+      "reason_name": "Merge Input 3 Left Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.632,
+        0.557
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D09",
+      "side": "front",
+      "panel_label": "Merge input 3 R (light)",
+      "what": "Lights when audio arrives at merge input 3, right",
+      "reason_name": "Merge Input 3 Right Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.632,
+        0.757
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D05",
+      "side": "front",
+      "panel_label": "Merge input 4 L (light)",
+      "what": "Lights when audio arrives at merge input 4, left",
+      "reason_name": "Merge Input 4 Left Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.666,
+        0.557
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D10",
+      "side": "front",
+      "panel_label": "Merge input 4 R (light)",
+      "what": "Lights when audio arrives at merge input 4, right",
+      "reason_name": "Merge Input 4 Right Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.666,
+        0.757
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D06",
+      "side": "front",
+      "panel_label": "Split input L (light)",
+      "what": "Lights when audio arrives at the splitter input, left",
+      "reason_name": "Split Input Left Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.782,
+        0.557
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-F-D11",
+      "side": "front",
+      "panel_label": "Split input R (light)",
+      "what": "Lights when audio arrives at the splitter input, right",
+      "reason_name": "Split Input Right Activity",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.782,
+        0.757
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: dark when idle",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-B-D01",
+      "side": "back",
+      "panel_label": "SPIDER AUDIO 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.661,
+        0.151
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Spider Audio 1'",
+      "confidence": "high"
+    },
+    {
+      "code": "SPDA-B-J01",
+      "side": "back",
+      "panel_label": "Merge input 1 L",
+      "what": "Merger input 1, left (L/Mono)",
+      "reason_cable_menu_name": "Merge Input 1 Left",
+      "pos": [
+        0.153,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 1 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J11",
+      "side": "back",
+      "panel_label": "Merge input 1 R",
+      "what": "Merger input 1, right",
+      "reason_cable_menu_name": "Merge Input 1 Right",
+      "pos": [
+        0.153,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 1 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J02",
+      "side": "back",
+      "panel_label": "Merge input 2 L",
+      "what": "Merger input 2, left (L/Mono)",
+      "reason_cable_menu_name": "Merge Input 2 Left",
+      "pos": [
+        0.211,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 2 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J12",
+      "side": "back",
+      "panel_label": "Merge input 2 R",
+      "what": "Merger input 2, right",
+      "reason_cable_menu_name": "Merge Input 2 Right",
+      "pos": [
+        0.211,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 2 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J03",
+      "side": "back",
+      "panel_label": "Merge input 3 L",
+      "what": "Merger input 3, left (L/Mono)",
+      "reason_cable_menu_name": "Merge Input 3 Left",
+      "pos": [
+        0.268,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 3 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J13",
+      "side": "back",
+      "panel_label": "Merge input 3 R",
+      "what": "Merger input 3, right",
+      "reason_cable_menu_name": "Merge Input 3 Right",
+      "pos": [
+        0.268,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 3 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J04",
+      "side": "back",
+      "panel_label": "Merge input 4 L",
+      "what": "Merger input 4, left (L/Mono)",
+      "reason_cable_menu_name": "Merge Input 4 Left",
+      "pos": [
+        0.324,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 4 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J14",
+      "side": "back",
+      "panel_label": "Merge input 4 R",
+      "what": "Merger input 4, right",
+      "reason_cable_menu_name": "Merge Input 4 Right",
+      "pos": [
+        0.324,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Input 4 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J05",
+      "side": "back",
+      "panel_label": "Merge out L",
+      "what": "Merger output, left",
+      "reason_cable_menu_name": "Merge Output Left",
+      "pos": [
+        0.41,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Output Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J15",
+      "side": "back",
+      "panel_label": "Merge out R",
+      "what": "Merger output, right",
+      "reason_cable_menu_name": "Merge Output Right",
+      "pos": [
+        0.41,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Merge Output Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J06",
+      "side": "back",
+      "panel_label": "Split in A (L)",
+      "what": "Splitter input, left (A)",
+      "reason_cable_menu_name": "Split Input Left",
+      "pos": [
+        0.583,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Input Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J16",
+      "side": "back",
+      "panel_label": "Split in B (R)",
+      "what": "Splitter input, right (B)",
+      "reason_cable_menu_name": "Split Input Right",
+      "pos": [
+        0.583,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Input Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J07",
+      "side": "back",
+      "panel_label": "Split out 1 A (L)",
+      "what": "Splitter output 1, left (A)",
+      "reason_cable_menu_name": "Split Output 1 Left",
+      "pos": [
+        0.668,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 1 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J17",
+      "side": "back",
+      "panel_label": "Split out 1 B (R)",
+      "what": "Splitter output 1, right (B)",
+      "reason_cable_menu_name": "Split Output 1 Right",
+      "pos": [
+        0.668,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 1 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J08",
+      "side": "back",
+      "panel_label": "Split out 2 A (L)",
+      "what": "Splitter output 2, left (A)",
+      "reason_cable_menu_name": "Split Output 2 Left",
+      "pos": [
+        0.724,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 2 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J18",
+      "side": "back",
+      "panel_label": "Split out 2 B (R)",
+      "what": "Splitter output 2, right (B)",
+      "reason_cable_menu_name": "Split Output 2 Right",
+      "pos": [
+        0.724,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 2 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J09",
+      "side": "back",
+      "panel_label": "Split out 3 A (L)",
+      "what": "Splitter output 3, left (A)",
+      "reason_cable_menu_name": "Split Output 3 Left",
+      "pos": [
+        0.782,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 3 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J19",
+      "side": "back",
+      "panel_label": "Split out 3 B (R)",
+      "what": "Splitter output 3, right (B)",
+      "reason_cable_menu_name": "Split Output 3 Right",
+      "pos": [
+        0.782,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 3 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J10",
+      "side": "back",
+      "panel_label": "Split out 4 A (L)",
+      "what": "Splitter output 4, left (A)",
+      "reason_cable_menu_name": "Split Output 4 Left",
+      "pos": [
+        0.839,
+        0.443
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 4 Left'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    },
+    {
+      "code": "SPDA-B-J20",
+      "side": "back",
+      "panel_label": "Split out 4 B (R)",
+      "what": "Splitter output 4, right (B)",
+      "reason_cable_menu_name": "Split Output 4 Right",
+      "pos": [
+        0.839,
+        0.768
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty jack: tooltip 'Split Output 4 Right'",
+      "confidence": "high",
+      "cable_name_source": "empty-jack tooltip (name shown by Reason)"
+    }
+  ]
+}

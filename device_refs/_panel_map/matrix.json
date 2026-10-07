@@ -1,0 +1,624 @@
+{
+  "device": "Matrix Pattern Sequencer",
+  "remote_scope": "Propellerheads / Matrix Pattern Sequencer",
+  "code_prefix": "MTRX",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: every position hover-checked in Reason. name_check cannot run: our remotemap has no Scope block for Matrix (not added; out of scope)",
+  "controls": [
+    {
+      "code": "MTRX-F-D04",
+      "side": "front",
+      "panel_label": "MATRIX 2 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.029,
+        0.421
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Matrix 2' (device name)",
+      "confidence": "high"
+    },
+    {
+      "code": "MTRX-F-B01",
+      "side": "front",
+      "panel_label": "Pattern (switch)",
+      "what": "Pattern Enable: turns pattern playback on/off at the next downbeat (light shows on)",
+      "reason_name": "Pattern Enable",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.073,
+        0.263
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Enable'",
+      "confidence": "high"
+    },
+    {
+      "code": "MTRX-F-D01",
+      "side": "front",
+      "panel_label": "Mute (light)",
+      "what": "Mute light: lit when the Matrix track is muted in the sequencer",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.151,
+        0.263
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (light), checked by eye: Mute light, dark",
+      "confidence": "high"
+    },
+    {
+      "code": "MTRX-F-B04",
+      "side": "front",
+      "panel_label": "Pattern 1",
+      "what": "Pattern button 1 (selects pattern 1 in the current bank)",
+      "reason_name": "Pattern 1",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.064,
+        0.404
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 1)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B05",
+      "side": "front",
+      "panel_label": "Pattern 2",
+      "what": "Pattern button 2 (selects pattern 2 in the current bank)",
+      "reason_name": "Pattern 2",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.088,
+        0.404
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 2)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B06",
+      "side": "front",
+      "panel_label": "Pattern 3",
+      "what": "Pattern button 3 (selects pattern 3 in the current bank)",
+      "reason_name": "Pattern 3",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.112,
+        0.404
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 3)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B07",
+      "side": "front",
+      "panel_label": "Pattern 4",
+      "what": "Pattern button 4 (selects pattern 4 in the current bank)",
+      "reason_name": "Pattern 4",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.135,
+        0.404
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 4)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B08",
+      "side": "front",
+      "panel_label": "Pattern 5",
+      "what": "Pattern button 5 (selects pattern 5 in the current bank)",
+      "reason_name": "Pattern 5",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.064,
+        0.604
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 5)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B09",
+      "side": "front",
+      "panel_label": "Pattern 6",
+      "what": "Pattern button 6 (selects pattern 6 in the current bank)",
+      "reason_name": "Pattern 6",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.088,
+        0.604
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 6)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B10",
+      "side": "front",
+      "panel_label": "Pattern 7",
+      "what": "Pattern button 7 (selects pattern 7 in the current bank)",
+      "reason_name": "Pattern 7",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.112,
+        0.604
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 7)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B11",
+      "side": "front",
+      "panel_label": "Pattern 8",
+      "what": "Pattern button 8 (selects pattern 8 in the current bank)",
+      "reason_name": "Pattern 8",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.135,
+        0.604
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Pattern Select' (Remote item is Pattern 8)",
+      "confidence": "high",
+      "tooltip_name": "Pattern Select"
+    },
+    {
+      "code": "MTRX-F-B13",
+      "side": "front",
+      "panel_label": "Bank A",
+      "what": "Bank button A (pick the bank, then click a Pattern button)",
+      "reason_name": "Bank A",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.064,
+        0.804
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Bank Select' (Remote item is Bank A)",
+      "confidence": "high",
+      "tooltip_name": "Bank Select"
+    },
+    {
+      "code": "MTRX-F-B14",
+      "side": "front",
+      "panel_label": "Bank B",
+      "what": "Bank button B (pick the bank, then click a Pattern button)",
+      "reason_name": "Bank B",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.088,
+        0.804
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Bank Select' (Remote item is Bank B)",
+      "confidence": "high",
+      "tooltip_name": "Bank Select"
+    },
+    {
+      "code": "MTRX-F-B15",
+      "side": "front",
+      "panel_label": "Bank C",
+      "what": "Bank button C (pick the bank, then click a Pattern button)",
+      "reason_name": "Bank C",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.112,
+        0.804
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Bank Select' (Remote item is Bank C)",
+      "confidence": "high",
+      "tooltip_name": "Bank Select"
+    },
+    {
+      "code": "MTRX-F-B16",
+      "side": "front",
+      "panel_label": "Bank D",
+      "what": "Bank button D (pick the bank, then click a Pattern button)",
+      "reason_name": "Bank D",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.135,
+        0.804
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Bank Select' (Remote item is Bank D)",
+      "confidence": "high",
+      "tooltip_name": "Bank Select"
+    },
+    {
+      "code": "MTRX-F-B12",
+      "side": "front",
+      "panel_label": "Run",
+      "what": "Run: starts/stops this Matrix on its own, without the main sequencer",
+      "reason_name": "Run",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.169,
+        0.582
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Play' (Remote item is Run)",
+      "confidence": "high",
+      "tooltip_name": "Play"
+    },
+    {
+      "code": "MTRX-F-B02",
+      "side": "front",
+      "panel_label": "Keys/Curve switch",
+      "what": "Switches the upper pattern window between Keys (note pitch) and Curve (curve CV) editing",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.209,
+        0.218
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Mode: Key Edit' (shown with the switch on Keys)",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item for this switch in the vocab",
+      "tooltip_name": "Mode: Key Edit"
+    },
+    {
+      "code": "MTRX-F-D02",
+      "side": "front",
+      "panel_label": "(Keys/Curve lights)",
+      "what": "Lights show whether Keys or Curve is showing",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.228,
+        0.218
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (lights), checked by eye: lower light lit = Keys",
+      "confidence": "medium",
+      "confidence_reason": "display lights"
+    },
+    {
+      "code": "MTRX-F-S01",
+      "side": "front",
+      "panel_label": "(octave slider 1-5)",
+      "what": "5-way slider: picks which of five octaves the note row shows",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.209,
+        0.649
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Octave: 3'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    },
+    {
+      "code": "MTRX-F-D06",
+      "side": "front",
+      "panel_label": "(octave arrows 1-5)",
+      "what": "Arrows 1 to 5 beside the slider show the chosen octave",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.231,
+        0.653
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip, checked by eye: arrows 1-5 beside the slider",
+      "confidence": "medium",
+      "confidence_reason": "display"
+    },
+    {
+      "code": "MTRX-F-B17",
+      "side": "front",
+      "panel_label": "Tie",
+      "what": "Tie: draw longer (tied) gate steps",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.214,
+        0.926
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Gate Tie'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab",
+      "tooltip_name": "Gate Tie"
+    },
+    {
+      "code": "MTRX-F-D05",
+      "side": "front",
+      "panel_label": "(Curve/Keys pattern window)",
+      "what": "Upper pattern window: note pitch (Keys) or curve values (Curve); click/drag to draw",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.572,
+        0.421
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip, checked by eye: upper pattern grid with the note row",
+      "confidence": "medium",
+      "confidence_reason": "edit area, hover-check by eye"
+    },
+    {
+      "code": "MTRX-F-D07",
+      "side": "front",
+      "panel_label": "(Gate pattern window)",
+      "what": "Lower pattern window: gate/velocity strips; click/drag to draw",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.572,
+        0.863
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip, checked by eye: gate strips",
+      "confidence": "medium",
+      "confidence_reason": "edit area, hover-check by eye"
+    },
+    {
+      "code": "MTRX-F-D03",
+      "side": "front",
+      "panel_label": "Steps (display)",
+      "what": "Number of steps in the pattern (1 to 32)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.904,
+        0.165
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "tooltip 'Pattern Length: 16'",
+      "confidence": "medium",
+      "confidence_reason": "display",
+      "tooltip_name": "Pattern Length"
+    },
+    {
+      "code": "MTRX-F-B03",
+      "side": "front",
+      "panel_label": "Steps (up/down arrows)",
+      "what": "Raise or lower the number of steps",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.928,
+        0.165
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip (arrows never show one); checked by eye",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    },
+    {
+      "code": "MTRX-F-K01",
+      "side": "front",
+      "panel_label": "RESOLUTION",
+      "what": "How fast the pattern plays relative to the tempo, 1/2 to 1/128",
+      "reason_name": "Resolution",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.903,
+        0.589
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Resolution: 1/16'",
+      "confidence": "medium",
+      "confidence_reason": "Remote item Resolution; the device has no knob slot in our remotemap"
+    },
+    {
+      "code": "MTRX-F-B18",
+      "side": "front",
+      "panel_label": "Shuffle",
+      "what": "Shuffle on/off for this pattern (amount is set by Global Shuffle in the ReGroove Mixer)",
+      "reason_name": "Pattern Shuffle",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.901,
+        0.926
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "tooltip 'Shuffle' (Remote item is Pattern Shuffle)",
+      "confidence": "medium",
+      "confidence_reason": "Remote item Pattern Shuffle"
+    },
+    {
+      "code": "MTRX-B-D01",
+      "side": "back",
+      "panel_label": "MATRIX 2 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.029,
+        0.414
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Matrix 2'",
+      "confidence": "high"
+    },
+    {
+      "code": "MTRX-B-J01",
+      "side": "back",
+      "panel_label": "Curve CV",
+      "what": "Curve CV output",
+      "reason_cable_menu_name": "Curve CV",
+      "pos": [
+        0.096,
+        0.368
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "cabled: 'Connected to ALL Plate Spread: Decay CV In'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (submenu of Matrix 2 (Matrix), 2026-10-07)"
+    },
+    {
+      "code": "MTRX-B-J02",
+      "side": "back",
+      "panel_label": "Note CV",
+      "what": "Note CV output (pitch)",
+      "reason_cable_menu_name": "Note CV",
+      "pos": [
+        0.152,
+        0.368
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "empty: tooltip 'Note CV'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (submenu of Matrix 2 (Matrix), 2026-10-07)"
+    },
+    {
+      "code": "MTRX-B-J03",
+      "side": "back",
+      "panel_label": "Gate CV",
+      "what": "Gate CV output (on/off + velocity)",
+      "reason_cable_menu_name": "Gate",
+      "pos": [
+        0.21,
+        0.368
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "cabled: 'Connected to ALL Plate Spread: Gate Trig Input'",
+      "confidence": "high",
+      "cable_name_source": "Reason cable menu (submenu of Matrix 2 (Matrix), 2026-10-07)"
+    },
+    {
+      "code": "MTRX-B-B01",
+      "side": "back",
+      "panel_label": "Bipolar/Unipolar switch",
+      "what": "Curve CV range: Bipolar (zero in the middle) or Unipolar (zero at the bottom)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.274,
+        0.368
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "tooltip 'Unipolar/Bipolar Curve: 0'",
+      "confidence": "medium",
+      "confidence_reason": "no Remote item in the vocab"
+    }
+  ]
+}

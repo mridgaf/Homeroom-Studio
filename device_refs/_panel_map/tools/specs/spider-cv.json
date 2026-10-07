@@ -1,0 +1,417 @@
+{
+"device": "Spider CV Merger & Splitter",
+"slug": "spider-cv",
+"prefix": "SPDC",
+"remote_scope": "Propellerheads / Spider CV Merger & Splitter",
+"front_raw": "_captures_batchB/spider-cv_front_raw.jpg",
+"back_raw": "_captures_batchB/spider-cv_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"SPIDER CV 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+610,
+28
+],
+[
+108,
+17
+],
+"D",
+"high",
+""
+],
+[
+"Merge input 1 (light)",
+"Lights when a CV signal arrives at merge input 1",
+"Merge Input 1 Activity",
+null,
+[
+477,
+142
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Merge input 2 (light)",
+"Lights when a CV signal arrives at merge input 2",
+"Merge Input 2 Activity",
+null,
+[
+510,
+142
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Merge input 3 (light)",
+"Lights when a CV signal arrives at merge input 3",
+"Merge Input 3 Activity",
+null,
+[
+543,
+142
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Merge input 4 (light)",
+"Lights when a CV signal arrives at merge input 4",
+"Merge Input 4 Activity",
+null,
+[
+576,
+142
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Split A input (light)",
+"Lights when a CV signal arrives at split A",
+"Split A Input Activity",
+null,
+[
+684,
+114
+],
+[
+11,
+11
+],
+"D",
+"high",
+""
+],
+[
+"Split B input (light)",
+"Lights when a CV signal arrives at split B",
+"Split B Input Activity",
+null,
+[
+786,
+114
+],
+[
+11,
+11
+],
+"D",
+"high",
+""
+]
+],
+"back": [
+[
+"SPIDER CV 1 tape",
+"Device name tape (back)",
+"D",
+[
+610,
+28
+],
+[
+108,
+17
+],
+""
+],
+[
+"Merge trim 1",
+"Level knob for merge input 1",
+"K",
+[
+75,
+95
+],
+[
+24,
+24
+],
+"trim above its input jack; matched by position"
+],
+[
+"Merge input 1",
+"Merger CV input 1",
+"J",
+[
+75,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge trim 2",
+"Level knob for merge input 2",
+"K",
+[
+134,
+95
+],
+[
+24,
+24
+],
+"trim above its input jack; matched by position"
+],
+[
+"Merge input 2",
+"Merger CV input 2",
+"J",
+[
+135,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge trim 3",
+"Level knob for merge input 3",
+"K",
+[
+195,
+95
+],
+[
+24,
+24
+],
+"trim above its input jack; matched by position"
+],
+[
+"Merge input 3",
+"Merger CV input 3",
+"J",
+[
+195,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge trim 4",
+"Level knob for merge input 4",
+"K",
+[
+257,
+95
+],
+[
+24,
+24
+],
+"trim above its input jack; matched by position"
+],
+[
+"Merge input 4",
+"Merger CV input 4",
+"J",
+[
+257,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge out",
+"Merger CV output",
+"J",
+[
+345,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split A in",
+"Split A input",
+"J",
+[
+457,
+98
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split A out 1",
+"Split A output",
+"J",
+[
+509,
+98
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split A out 2",
+"Split A output",
+"J",
+[
+557,
+98
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split A out 3",
+"Split A output",
+"J",
+[
+509,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split A inverted out",
+"Split A inverted output (Inv)",
+"J",
+[
+557,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split B in",
+"Split B input",
+"J",
+[
+665,
+98
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split B out 1",
+"Split B output",
+"J",
+[
+717,
+98
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split B out 2",
+"Split B output",
+"J",
+[
+767,
+98
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split B out 3",
+"Split B output",
+"J",
+[
+717,
+148
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split B inverted out",
+"Split B inverted output (Inv)",
+"J",
+[
+767,
+148
+],
+[
+19,
+19
+],
+""
+]
+]
+}

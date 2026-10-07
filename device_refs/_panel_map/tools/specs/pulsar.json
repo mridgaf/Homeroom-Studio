@@ -1,0 +1,1160 @@
+{
+"device": "Pulsar Dual LFO",
+"slug": "pulsar",
+"prefix": "PULS",
+"remote_scope": "se.propellerheads.Pulsar",
+"front_raw": "_captures_batchB/pulsar_front_raw.jpg",
+"back_raw": "_captures_batchB/pulsar_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"PULSAR 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+44,
+125
+],
+[
+18,
+58
+],
+"D",
+"high",
+""
+],
+[
+"LFO 1 (rate lamp)",
+"Lamp above the Rate knob; blinks at the LFO 1 rate",
+null,
+null,
+[
+102,
+38
+],
+[
+24,
+24
+],
+"D",
+"medium",
+"lamp"
+],
+[
+"LFO 1 RATE",
+"LFO 1 speed (tempo-sync step when Tempo Sync is on)",
+"LFO1 Rate Free",
+null,
+[
+159,
+125
+],
+[
+54,
+54
+],
+"K",
+"medium",
+"Remote items LFO1 Rate Free (free) and LFO1 Rate Synced (synced); one knob"
+],
+[
+"LFO 1 waveform up",
+"Next LFO 1 waveform",
+"LFO1 Waveform",
+null,
+[
+278,
+66
+],
+[
+17,
+17
+],
+"B",
+"medium",
+"Remote item LFO1 Waveform belongs to the selector"
+],
+[
+"LFO 1 waveform display",
+"Shows the LFO 1 waveform (click-drag up/down to change)",
+"LFO1 Waveform",
+null,
+[
+277,
+125
+],
+[
+35,
+35
+],
+"D",
+"medium",
+"display"
+],
+[
+"LFO 1 waveform down",
+"Previous LFO 1 waveform",
+"LFO1 Waveform",
+null,
+[
+277,
+180
+],
+[
+17,
+17
+],
+"B",
+"medium",
+"Remote item LFO1 Waveform belongs to the selector"
+],
+[
+"LFO 1 LEVEL",
+"LFO 1 output level",
+"LFO1 Level",
+null,
+[
+388,
+125
+],
+[
+54,
+54
+],
+"K",
+"high",
+""
+],
+[
+"ENV SYNC (LFO 1)",
+"Envelope trigger also restarts LFO 1",
+"LFO1 Env Sync",
+null,
+[
+100,
+226
+],
+[
+16,
+14
+],
+"B",
+"high",
+""
+],
+[
+"TEMPO SYNC (LFO 1)",
+"LFO 1 follows the song tempo",
+"LFO1 Tempo Sync",
+null,
+[
+100,
+258
+],
+[
+16,
+14
+],
+"B",
+"high",
+""
+],
+[
+"PHASE (LFO 1)",
+"Where in its cycle LFO 1 starts, 0-360 degrees",
+"LFO1 Phase",
+null,
+[
+268,
+238
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"SHUFFLE (LFO 1)",
+"Swing between pairs of LFO 1 cycles, 50-75%",
+"LFO1 Shuffle",
+null,
+[
+357,
+238
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"LAG (LFO 1)",
+"Smooths LFO 1 (lowpass)",
+"LFO1 Lag",
+null,
+[
+440,
+238
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"RATE (LFO 2 to LFO 1)",
+"How much LFO 2 changes LFO 1 rate (FM)",
+"LFO2 to LFO1 Rate",
+null,
+[
+548,
+70
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"LEVEL (LFO 2 to LFO 1)",
+"How much LFO 2 changes LFO 1 level (AM)",
+"LFO2 to LFO1 Level",
+null,
+[
+548,
+158
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"SYNC (LFO 1 to LFO 2)",
+"Every new LFO 2 cycle restarts LFO 1",
+"Sync LFO1 to LFO2",
+null,
+[
+582,
+243
+],
+[
+13,
+13
+],
+"B",
+"high",
+""
+],
+[
+"LFO 2 (rate lamp)",
+"Lamp above the Rate knob; blinks at the LFO 2 rate",
+null,
+null,
+[
+656,
+40
+],
+[
+24,
+24
+],
+"D",
+"medium",
+"lamp"
+],
+[
+"LFO 2 RATE",
+"LFO 2 speed (tempo-sync step when Tempo Sync is on)",
+"LFO2 Rate Free",
+null,
+[
+712,
+125
+],
+[
+54,
+54
+],
+"K",
+"medium",
+"Remote items LFO2 Rate Free (free) and LFO2 Rate Synced (synced); one knob"
+],
+[
+"LFO 2 waveform up",
+"Next LFO 2 waveform",
+"LFO2 Waveform",
+null,
+[
+833,
+66
+],
+[
+17,
+17
+],
+"B",
+"medium",
+"Remote item LFO2 Waveform belongs to the selector"
+],
+[
+"LFO 2 waveform display",
+"Shows the LFO 2 waveform (click-drag up/down to change)",
+"LFO2 Waveform",
+null,
+[
+833,
+125
+],
+[
+35,
+35
+],
+"D",
+"medium",
+"display"
+],
+[
+"LFO 2 waveform down",
+"Previous LFO 2 waveform",
+"LFO2 Waveform",
+null,
+[
+833,
+180
+],
+[
+17,
+17
+],
+"B",
+"medium",
+"Remote item LFO2 Waveform belongs to the selector"
+],
+[
+"LFO 2 LEVEL",
+"LFO 2 output level",
+"LFO2 Level",
+null,
+[
+944,
+125
+],
+[
+54,
+54
+],
+"K",
+"high",
+""
+],
+[
+"ON/OFF (LFO 2)",
+"Turn LFO 2 on or off",
+"LFO2 Enabled",
+null,
+[
+650,
+226
+],
+[
+16,
+14
+],
+"B",
+"high",
+""
+],
+[
+"TEMPO SYNC (LFO 2)",
+"LFO 2 follows the song tempo",
+"LFO2 Tempo Sync",
+null,
+[
+650,
+258
+],
+[
+16,
+14
+],
+"B",
+"high",
+""
+],
+[
+"PHASE (LFO 2)",
+"Where in its cycle LFO 2 starts, 0-360 degrees",
+"LFO2 Phase",
+null,
+[
+827,
+238
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"SHUFFLE (LFO 2)",
+"Swing between pairs of LFO 2 cycles, 50-75%",
+"LFO2 Shuffle",
+null,
+[
+915,
+238
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"LAG (LFO 2)",
+"Smooths LFO 2 (lowpass)",
+"LFO2 Lag",
+null,
+[
+998,
+238
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"LFO2 TRIG",
+"Every new LFO 2 cycle triggers the envelope",
+"LFO2 Triggers Envelope",
+null,
+[
+1070,
+80
+],
+[
+16,
+14
+],
+"B",
+"high",
+""
+],
+[
+"(envelope lamp)",
+"Lamp between LFO2 TRIG and TRIG; lit while the envelope runs",
+null,
+null,
+[
+1230,
+82
+],
+[
+22,
+22
+],
+"D",
+"medium",
+"lamp"
+],
+[
+"TRIG",
+"Non-latching button that triggers the envelope",
+"Trig",
+null,
+[
+1372,
+75
+],
+[
+30,
+30
+],
+"B",
+"high",
+""
+],
+[
+"ATTACK",
+"Envelope attack time (0.1 ms to 3 s)",
+"Attack",
+null,
+[
+1178,
+158
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"RELEASE",
+"Envelope release time (0 ms to 10 s)",
+"Release",
+null,
+[
+1285,
+158
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+],
+[
+"RATE (envelope to LFO 1)",
+"How much the envelope changes LFO 1 rate",
+"LFO1 Env Rate",
+null,
+[
+1103,
+238
+],
+[
+26,
+26
+],
+"K",
+"high",
+""
+],
+[
+"LEVEL (envelope to LFO 1)",
+"How much the envelope changes LFO 1 level",
+"LFO1 Env Level",
+null,
+[
+1180,
+238
+],
+[
+26,
+26
+],
+"K",
+"high",
+""
+],
+[
+"RATE (envelope to LFO 2)",
+"How much the envelope changes LFO 2 rate",
+"LFO2 Env Rate",
+null,
+[
+1285,
+238
+],
+[
+26,
+26
+],
+"K",
+"high",
+""
+],
+[
+"LEVEL (envelope to LFO 2)",
+"How much the envelope changes LFO 2 level",
+"LFO2 Env Level",
+null,
+[
+1363,
+238
+],
+[
+26,
+26
+],
+"K",
+"high",
+""
+],
+[
+"KBD FOLLOW",
+"How much MIDI notes change the LFO rates (bipolar)",
+"Keyboard Track",
+null,
+[
+1443,
+142
+],
+[
+28,
+28
+],
+"K",
+"high",
+""
+]
+],
+"back": [
+[
+"PULSAR 1 tape",
+"Device name tape (back)",
+"D",
+[
+92,
+125
+],
+[
+18,
+55
+],
+""
+],
+[
+"LFO 1 Rate (trim)",
+"Amount knob for the LFO 1 Rate CV input",
+"K",
+[
+140,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 1 Rate (CV in)",
+"CV input: modulates LFO 1 Rate",
+"J",
+[
+176,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 1 Phase (trim)",
+"Amount knob for the LFO 1 Phase CV input",
+"K",
+[
+226,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 1 Phase (CV in)",
+"CV input: modulates LFO 1 Phase",
+"J",
+[
+262,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 1 Shuffle (trim)",
+"Amount knob for the LFO 1 Shuffle CV input",
+"K",
+[
+313,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 1 Shuffle (CV in)",
+"CV input: modulates LFO 1 Shuffle",
+"J",
+[
+349,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 1 Level (trim)",
+"Amount knob for the LFO 1 Level CV input",
+"K",
+[
+401,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 1 Level (CV in)",
+"CV input: modulates LFO 1 Level",
+"J",
+[
+437,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 2 Rate (trim)",
+"Amount knob for the LFO 2 Rate CV input",
+"K",
+[
+676,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 2 Rate (CV in)",
+"CV input: modulates LFO 2 Rate",
+"J",
+[
+714,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 2 Phase (trim)",
+"Amount knob for the LFO 2 Phase CV input",
+"K",
+[
+766,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 2 Phase (CV in)",
+"CV input: modulates LFO 2 Phase",
+"J",
+[
+802,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 2 Shuffle (trim)",
+"Amount knob for the LFO 2 Shuffle CV input",
+"K",
+[
+855,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 2 Shuffle (CV in)",
+"CV input: modulates LFO 2 Shuffle",
+"J",
+[
+891,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 2 Level (trim)",
+"Amount knob for the LFO 2 Level CV input",
+"K",
+[
+945,
+62
+],
+[
+18,
+18
+],
+"trim next to its CV jack; matched by position",
+"above"
+],
+[
+"LFO 2 Level (CV in)",
+"CV input: modulates LFO 2 Level",
+"J",
+[
+983,
+62
+],
+[
+15,
+15
+],
+"",
+"below"
+],
+[
+"LFO 1 CV out 1",
+"LFO 1 CV output 1",
+"J",
+[
+212,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 1 audio out 1",
+"LFO 1 audio output 1",
+"J",
+[
+210,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 1 CV out 2",
+"LFO 1 CV output 2",
+"J",
+[
+266,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 1 audio out 2",
+"LFO 1 audio output 2",
+"J",
+[
+264,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 1 CV out 3 (inverted)",
+"LFO 1 CV output 3 (inverted)",
+"J",
+[
+320,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 1 audio out 3 (inverted)",
+"LFO 1 audio output 3 (inverted)",
+"J",
+[
+320,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 1 CV out 4 (inverted)",
+"LFO 1 CV output 4 (inverted)",
+"J",
+[
+374,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 1 audio out 4 (inverted)",
+"LFO 1 audio output 4 (inverted)",
+"J",
+[
+374,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 2 CV out 1",
+"LFO 2 CV output 1",
+"J",
+[
+749,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 2 audio out 1",
+"LFO 2 audio output 1",
+"J",
+[
+747,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 2 CV out 2",
+"LFO 2 CV output 2",
+"J",
+[
+804,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 2 audio out 2",
+"LFO 2 audio output 2",
+"J",
+[
+803,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 2 CV out 3 (inverted)",
+"LFO 2 CV output 3 (inverted)",
+"J",
+[
+859,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 2 audio out 3 (inverted)",
+"LFO 2 audio output 3 (inverted)",
+"J",
+[
+859,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 2 CV out 4 (inverted)",
+"LFO 2 CV output 4 (inverted)",
+"J",
+[
+917,
+176
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 2 audio out 4 (inverted)",
+"LFO 2 audio output 4 (inverted)",
+"J",
+[
+917,
+236
+],
+[
+18,
+18
+],
+""
+],
+[
+"LFO 1+2 CV out",
+"Combined LFO 1+2 CV output",
+"J",
+[
+553,
+150
+],
+[
+15,
+15
+],
+""
+],
+[
+"LFO 1+2 audio out",
+"Combined LFO 1+2 audio output",
+"J",
+[
+553,
+212
+],
+[
+18,
+18
+],
+""
+],
+[
+"Envelope Gate In",
+"CV/gate input that triggers the envelope",
+"J",
+[
+1143,
+170
+],
+[
+16,
+16
+],
+""
+],
+[
+"Envelope CV Out",
+"Envelope CV output",
+"J",
+[
+1312,
+170
+],
+[
+16,
+16
+],
+""
+]
+]
+}

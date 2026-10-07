@@ -1,0 +1,503 @@
+{
+"device": "Spider Audio Merger & Splitter",
+"slug": "spider-audio",
+"prefix": "SPDA",
+"remote_scope": "Propellerheads / Spider Audio Merger & Splitter",
+"front_raw": "_captures_batchB/spider-audio_front_raw.jpg",
+"back_raw": "_captures_batchB/spider-audio_back_raw.jpg",
+"out_dir": ".",
+"date": "2026-10-07",
+"front": [
+[
+"SPIDER AUDIO 1 tape",
+"Device name tape",
+"Device Name",
+null,
+[
+638,
+28
+],
+[
+108,
+16
+],
+"D",
+"high",
+""
+],
+[
+"Merge input 1 L (light)",
+"Lights when audio arrives at merge input 1, left",
+"Merge Input 1 Left Activity",
+null,
+[
+545,
+103
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Merge input 1 R (light)",
+"Lights when audio arrives at merge input 1, right",
+"Merge Input 1 Right Activity",
+null,
+[
+545,
+140
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"left"
+],
+[
+"Merge input 2 L (light)",
+"Lights when audio arrives at merge input 2, left",
+"Merge Input 2 Left Activity",
+null,
+[
+577,
+103
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Merge input 2 R (light)",
+"Lights when audio arrives at merge input 2, right",
+"Merge Input 2 Right Activity",
+null,
+[
+577,
+140
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Merge input 3 L (light)",
+"Lights when audio arrives at merge input 3, left",
+"Merge Input 3 Left Activity",
+null,
+[
+610,
+103
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"above"
+],
+[
+"Merge input 3 R (light)",
+"Lights when audio arrives at merge input 3, right",
+"Merge Input 3 Right Activity",
+null,
+[
+610,
+140
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"below"
+],
+[
+"Merge input 4 L (light)",
+"Lights when audio arrives at merge input 4, left",
+"Merge Input 4 Left Activity",
+null,
+[
+643,
+103
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"right"
+],
+[
+"Merge input 4 R (light)",
+"Lights when audio arrives at merge input 4, right",
+"Merge Input 4 Right Activity",
+null,
+[
+643,
+140
+],
+[
+11,
+11
+],
+"D",
+"high",
+"",
+"right"
+],
+[
+"Split input L (light)",
+"Lights when audio arrives at the splitter input, left",
+"Split Input Left Activity",
+null,
+[
+755,
+103
+],
+[
+11,
+11
+],
+"D",
+"high",
+""
+],
+[
+"Split input R (light)",
+"Lights when audio arrives at the splitter input, right",
+"Split Input Right Activity",
+null,
+[
+755,
+140
+],
+[
+11,
+11
+],
+"D",
+"high",
+""
+]
+],
+"back": [
+[
+"SPIDER AUDIO 1 tape",
+"Device name tape (back)",
+"D",
+[
+638,
+28
+],
+[
+108,
+16
+],
+""
+],
+[
+"Merge input 1 L",
+"Merger input 1, left (L/Mono)",
+"J",
+[
+148,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 1 R",
+"Merger input 1, right",
+"J",
+[
+148,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 2 L",
+"Merger input 2, left (L/Mono)",
+"J",
+[
+204,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 2 R",
+"Merger input 2, right",
+"J",
+[
+204,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 3 L",
+"Merger input 3, left (L/Mono)",
+"J",
+[
+259,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 3 R",
+"Merger input 3, right",
+"J",
+[
+259,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 4 L",
+"Merger input 4, left (L/Mono)",
+"J",
+[
+313,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge input 4 R",
+"Merger input 4, right",
+"J",
+[
+313,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge out L",
+"Merger output, left",
+"J",
+[
+396,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Merge out R",
+"Merger output, right",
+"J",
+[
+396,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split in A (L)",
+"Splitter input, left (A)",
+"J",
+[
+563,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split in B (R)",
+"Splitter input, right (B)",
+"J",
+[
+563,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 1 A (L)",
+"Splitter output 1, left (A)",
+"J",
+[
+645,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 1 B (R)",
+"Splitter output 1, right (B)",
+"J",
+[
+645,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 2 A (L)",
+"Splitter output 2, left (A)",
+"J",
+[
+699,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 2 B (R)",
+"Splitter output 2, right (B)",
+"J",
+[
+699,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 3 A (L)",
+"Splitter output 3, left (A)",
+"J",
+[
+755,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 3 B (R)",
+"Splitter output 3, right (B)",
+"J",
+[
+755,
+142
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 4 A (L)",
+"Splitter output 4, left (A)",
+"J",
+[
+810,
+82
+],
+[
+19,
+19
+],
+""
+],
+[
+"Split out 4 B (R)",
+"Splitter output 4, right (B)",
+"J",
+[
+810,
+142
+],
+[
+19,
+19
+],
+""
+]
+]
+}

@@ -1,0 +1,355 @@
+{
+  "device": "PEQ-2 Two Band Parametric EQ",
+  "remote_scope": "Propellerheads / PEQ-2 Two Band Parametric EQ",
+  "code_prefix": "PEQ2",
+  "reason_version": "12.7 (screenshots 2026-10-03)",
+  "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+  "status": "done 2026-10-07: all positions hover-checked in Reason 12 by Claude; name_check PASS; 'what' lines spot-checked against the manual",
+  "controls": [
+    {
+      "code": "PEQ2-F-B01",
+      "side": "front",
+      "panel_label": "Bypass/On/Off",
+      "what": "3-way device switch",
+      "reason_name": "Enabled",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 1,
+      "cc": 30,
+      "feedback_cc": 78,
+      "pos": [
+        0.038,
+        0.217
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Enabled: On'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-D02",
+      "side": "front",
+      "panel_label": "(LED column)",
+      "what": "Input level meter",
+      "reason_name": "Peak Meter",
+      "remote_item": true,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.038,
+        0.628
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "no tooltip; checked by eye: LED column",
+      "confidence": "medium",
+      "confidence_reason": "vocab item 'Peak Meter' assumed by position"
+    },
+    {
+      "code": "PEQ2-F-D01",
+      "side": "front",
+      "panel_label": "EQ 1 tape",
+      "what": "Device name tape",
+      "reason_name": "Device Name",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.492,
+        0.184
+      ],
+      "how": "display/Remote item, not mapped",
+      "checked_2026_10_07": "hover: tooltip 'EQ 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-D03",
+      "side": "front",
+      "panel_label": "(EQ display)",
+      "what": "Frequency response graph, 31 Hz to 16k, +18 to -18 dB (display)",
+      "reason_name": null,
+      "remote_item": false,
+      "mapped_in_our_remotemap": false,
+      "knob_slot": null,
+      "cc": null,
+      "feedback_cc": null,
+      "pos": [
+        0.302,
+        0.618
+      ],
+      "how": "click only",
+      "checked_2026_10_07": "no tooltip; checked by eye: EQ curve display (no hover tooltip)",
+      "confidence": "medium",
+      "confidence_reason": "display only"
+    },
+    {
+      "code": "PEQ2-F-K01",
+      "side": "front",
+      "panel_label": "A FREQ",
+      "what": "Band A frequency",
+      "reason_name": "Filter A Freq",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 2,
+      "cc": 31,
+      "feedback_cc": 79,
+      "pos": [
+        0.688,
+        0.29
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter A Freq: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-K02",
+      "side": "front",
+      "panel_label": "A Q",
+      "what": "Band A width (Q)",
+      "reason_name": "Filter A Q",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 4,
+      "cc": 33,
+      "feedback_cc": 81,
+      "pos": [
+        0.792,
+        0.29
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter A Q: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-K03",
+      "side": "front",
+      "panel_label": "A GAIN",
+      "what": "Band A boost/cut",
+      "reason_name": "Filter A Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 3,
+      "cc": 32,
+      "feedback_cc": 80,
+      "pos": [
+        0.893,
+        0.29
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter A Gain: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-K04",
+      "side": "front",
+      "panel_label": "B FREQ",
+      "what": "Band B frequency",
+      "reason_name": "Filter B Freq",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 5,
+      "cc": 34,
+      "feedback_cc": 82,
+      "pos": [
+        0.688,
+        0.725
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter B Freq: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-K05",
+      "side": "front",
+      "panel_label": "B Q",
+      "what": "Band B width (Q)",
+      "reason_name": "Filter B Q",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 8,
+      "cc": 37,
+      "feedback_cc": 85,
+      "pos": [
+        0.792,
+        0.725
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter B Q: 64'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-K06",
+      "side": "front",
+      "panel_label": "B GAIN",
+      "what": "Band B boost/cut",
+      "reason_name": "Filter B Gain",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 6,
+      "cc": 35,
+      "feedback_cc": 83,
+      "pos": [
+        0.893,
+        0.725
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter B Gain: 0'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-F-B02",
+      "side": "front",
+      "panel_label": "B (button)",
+      "what": "Band B on/off (light shows on)",
+      "reason_name": "Filter B On/Off",
+      "remote_item": true,
+      "mapped_in_our_remotemap": true,
+      "knob_slot": 7,
+      "cc": 36,
+      "feedback_cc": 84,
+      "pos": [
+        0.585,
+        0.686
+      ],
+      "how": "voice/MIDI or click",
+      "checked_2026_10_07": "hover: 'Filter B On/Off'",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-B-J01",
+      "side": "back",
+      "panel_label": "Freq 1 (CV in)",
+      "what": "CV input for Freq 1",
+      "reason_cable_menu_name": "Filter 1 Freq CV",
+      "pos": [
+        0.093,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Filter 1 Freq CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PEQ2-B-J02",
+      "side": "back",
+      "panel_label": "Freq 2 (CV in)",
+      "what": "CV input for Freq 2",
+      "reason_cable_menu_name": "Filter 2 Freq CV",
+      "pos": [
+        0.223,
+        0.493
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Filter 2 Freq CV'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PEQ2-B-K01",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Freq 1 CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.091,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Filter 1 Freq CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "PEQ2-B-K02",
+      "side": "back",
+      "panel_label": "(trim)",
+      "what": "Amount knob for Freq 2 CV",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.223,
+        0.763
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: 'Filter 2 Freq CV: 127'",
+      "confidence": "medium",
+      "confidence_reason": "trim next to CV jack; matched by position"
+    },
+    {
+      "code": "PEQ2-B-D01",
+      "side": "back",
+      "panel_label": "EQ 1 tape",
+      "what": "Device name tape (back)",
+      "reason_cable_menu_name": null,
+      "pos": [
+        0.374,
+        0.749
+      ],
+      "how": "click/drag only (no Remote item)",
+      "checked_2026_10_07": "hover: tooltip 'EQ 1' (device name tape)",
+      "confidence": "high"
+    },
+    {
+      "code": "PEQ2-B-J03",
+      "side": "back",
+      "panel_label": "Left (In)",
+      "what": "Audio input left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.594,
+        0.396
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Filter 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PEQ2-B-J04",
+      "side": "back",
+      "panel_label": "Right (In)",
+      "what": "Audio input right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.665,
+        0.396
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Filter 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PEQ2-B-J05",
+      "side": "back",
+      "panel_label": "Left (Out)",
+      "what": "Audio output left",
+      "reason_cable_menu_name": "Left",
+      "pos": [
+        0.594,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Phaser 1: Left'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    },
+    {
+      "code": "PEQ2-B-J06",
+      "side": "back",
+      "panel_label": "Right (Out)",
+      "what": "Audio output right",
+      "reason_cable_menu_name": "Right",
+      "pos": [
+        0.665,
+        0.667
+      ],
+      "how": "cable: right-click jack > device > jack name",
+      "checked_2026_10_07": "hover: 'Connected to Phaser 1: Right'",
+      "confidence": "high",
+      "cable_name_source": "cable menu (Left/Right/Left Input, Sidechain etc.) or Reason's 'Connected to <device>: <jack>' tooltip on the partner jack, checked 2026-10-07"
+    }
+  ]
+}
