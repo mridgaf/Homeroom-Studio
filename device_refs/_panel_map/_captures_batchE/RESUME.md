@@ -81,3 +81,19 @@ NN19 front hovers DONE (several sliders no tooltip; by position). Next: Tab back
 NN19 back hovers DONE (nn19_back_raw.jpg same frame as front). Still to hover: filter ON light (553,282) on front after Tab back. Then gen_nn19.py (remotemap block has Master Level slot32 w/o panel control: park).
 
 ## 2026-10-08 NN19 DONE (PARTIAL): nn19.json 116 rows, PASS. Reason on FRONT view, NN19 top at screen y=62. NEXT: SubTractor (create below NN19: app_menu app="se.propellerheads.reason" path Create>Instruments>Reason Studios>"SubTractor Analog Synthesizer", then app_release, scroll rack ~50px/tick), Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8. 20 of 26 done... (Kong..NN19 = 7 instruments + 9 effects + earlier = see PANEL-MAP.md). Reduce Cable Clutter (K) still ON.
+## SUBTRACTOR started: created below NN19, rack scrolled so top y=62. subtractor_front_raw.jpg = zoom [70,62,1030,412] 1563x571 (k=1.628). ALL front pts in subtractor_pts.json (screen). notes subtractor_notes.txt. Hovered through polyarrows. Next: range onward in pts order.
+Subtractor hovered through c2_fm. Next o1phase.. (pts order). LED radios (atouch/expr/breath, o1x.., l1w*, l1d_*, l2d_*, md_*, f1m_*) to be marked 'not hovered pattern' unless time.
+Subtractor hovered through ringmod. Next noiselight.. (pts order).
+Subtractor hovered through mdbtn. Next f1freq.. (pts order).
+Subtractor hovered through fenvicon (f2freq,f2level retry). Next aenv, velocity.
+Subtractor FRONT hovers done (LED radios not hovered, pattern). Next: Tab back.
+Subtractor back raw saved; back hovered through f2freq. Next: amp level, mod wheel, pitch wheel (y310,339,369; trim x308 jack x337), mod outs (496: 135,164,193), gate ins (676: 135,164,193), main out (822,139).
+Subtractor ALL hovers done. Next: Tab to front, gen_subtractor.py (screen k=1.628 origin 70,62; back pts in this log).
+
+## 2026-10-08 SUBTRACTOR DONE (PARTIAL): subtractor.json 160 rows, PASS. NEXT: Radical Piano (create below SubTractor), Monotone, Pangea, Klang, NN-XT, ID8.
+## RADICAL PIANO started: created below SubTractor, rack scrolled so top y=66 (bottom 502). radicalpiano_front_raw.jpg = zoom [70,66,1030,502] (1565x712, k=1.63, origin 70,66). notes radicalpiano_notes.txt. Hovered header through patchdisp (micblend (535,189) tooltip cut: retry). Next: lower panel.
+RadicalPiano hovered through pedal (lower panel). Next: EQ, ambience, output; then Tab back.
+RadicalPiano FRONT hovers done. Back panel open now (Tab): hover next. Back pts screen: gate 273,212 cv 273,243 pitch trim 443,212 jack 470,212 mastervol trim 443,243 jack 470,243 audioin 669,212 outL 775,232 outR 825,232.
+RadicalPiano ALL hovers done (back raw saved). Next Tab to front, gen_radicalpiano.py
+
+## 2026-10-08 RADICAL PIANO DONE (PARTIAL): radical-piano.json 71 rows, PASS (scratch copy device name radicalpiano). Owner asked for SubTractor + Radical Piano only; STOPPED there. NEXT: Monotone, Pangea, Klang, NN-XT, ID8. Reason on FRONT view, Radical Piano top y=66. Reduce Cable Clutter (K) still ON.

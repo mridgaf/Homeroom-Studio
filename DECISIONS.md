@@ -8530,3 +8530,13 @@ just not loaded by default.
 - Result: `nn19.json` 116 rows (96 front incl. 1 parked row for Remote 'Master Level' which has no panel control; 20 back). `name_check` PASS (0 errors, 3 warnings = patch next/delta names). Tools: `tools/gen_nn19.py`, `_captures_batchE/nn19_*`.
 - Not done: the text readouts under the keymap (lo/hi key, sample name, root, tune, level, loop); several sliders gave no tooltip (placed by position); amp level slider has no Remote name.
 - Status: open (partial). Outcome: —
+
+### 2026-10-08 Panel Map: SubTractor done (PARTIAL), 7th of 26 instruments
+- Result: `subtractor.json` 160 rows (133 front, 27 back). `name_check` PASS (0 errors, 5 warnings). json device name must be "SubTractor Analog Synthesizer". Tools: `tools/gen_subtractor.py`, `_captures_batchE/subtractor_*`.
+- Not done: radio-LED rows (osc phase mode, LFO wave/dest, mod-env dest, filter type) not hovered, marked as pattern; Filter 2 freq + amp sustain faders no tooltip (by position).
+- Status: open (partial). Outcome: —
+
+### 2026-10-08 Panel Map: Radical Piano done (PARTIAL), 8th of 26 instruments
+- Result: `radical-piano.json` 71 rows (62 front, 9 back). `name_check` PASS (0 errors, 3 warnings) — checked on a scratch copy with device name "radicalpiano" (the remotemap scope is `se.propellerheads.radicalpiano`); the real json keeps "Radical Piano". Tools: `tools/gen_radicalpiano.py`, `_captures_batchE/radicalpiano_*`.
+- Not done: 24 mic LEDs hovered once per group (rest by pattern); X/S velocity buttons and sustain meter have no tooltip; signal-flow buttons on the back are decoration, not mapped.
+- Status: open (partial). Outcome: —

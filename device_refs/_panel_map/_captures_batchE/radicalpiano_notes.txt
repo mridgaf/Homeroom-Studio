@@ -1,0 +1,53 @@
+fold|(no tooltip)
+tape|American Pop Piano
+noteled|(no tooltip)
+audioin|(no tooltip)
+character|Character
+mic1a|Microphone 1 Type
+mic1b|Microphone 1 Type
+mic2a|Microphone 2 Type
+mic2b|Microphone 2 Type
+mic2c|Microphone 2 Type
+volume|Master Volume
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+patchdisp|American Pop Piano
+micblend|Microphone and Instrument...
+velhigh|Vel Response High
+velx|(no tooltip)
+vellow|Vel Response Low
+vels|(no tooltip)
+velcurve|Vel Response Curve
+cent|Tune
+drift|Tune Drift
+pedalmeter|(no tooltip)
+resLevel|Symp Res Level
+resRelease|Symp Res Release Time
+envAttack|Env Attack
+envDecay|Env Decay Curve
+envRelease|Env Release
+keydown|Key Down Level
+keyup|Key Up Level
+pedal|Pedal Level
+eqlight|EQ On/Off
+eqhi|EQ Hi Gain
+eqmid|EQ Mid Gain
+eqlo|EQ Lo Gain
+ambLevel|Ambience Level
+amb1|Ambience Type
+amb2|Ambience Type
+amb3|Ambience Type
+amb4|Ambience Type
+comp|Compression Amount
+width|Stereo Width
+BACK:
+gate|Sequencer Control Gate In
+cv|Sequencer Control CV In
+pitch_trim|Pitch CV Amount
+pitch_jack|Pitch CV Input
+vol_trim|Volume CV Amount
+vol_jack|Volume CV Input
+audioin|Audio Input
+outL|Left Output
+outR|Right Output

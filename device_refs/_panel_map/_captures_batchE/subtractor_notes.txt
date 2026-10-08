@@ -1,0 +1,125 @@
+fold|(no tooltip)
+patchdisp|Bass Guitar
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+tape|Bass Guitar
+noteon|(no tooltip)
+legato|(no tooltip)
+retrig|(no tooltip)
+mode|Key Mode
+porta|Portamento
+lobw|Low Bandwidth On/Off
+poly|Polyphony
+polyarrows|(no tooltip)
+range|Pitch Bend Range
+rangearrows|(no tooltip)
+wheelP|Pitch Bend
+wheelM|Mod Wheel
+extmod|Ext Mod Select
+c1_ffreq|Filter Freq Mod Wheel Amount
+c1_fres|Filter Res Mod Wheel Amount
+c1_lfo|LFO1 Mod Wheel Amount
+c1_phase|Phase Diff Mod Wheel Amount
+c1_fm|FM Mod Wheel Amount
+c2_ffreq|Filter Freq Ext Mod
+c2_lfo|LFO1 Ext Mod
+c2_amp|Amp Ext Mod
+c2_fm|FM Ext Mod
+o1phase|Osc1 Phase Diff
+o1wave|Osc1 Wave
+o1wavearr|(no tooltip)
+o1oct|Osc1 Octave
+o1semi|Osc1 Semitone
+o1cent|Osc1 Fine Tune
+o1mode|Osc1 Phase Mode
+o1kbd|Osc1 Kbd Track
+o1fm|FM Amount
+o1mix|Osc Mix
+o2light|Osc2 On/Off
+o2phase|Osc2 Phase Diff
+o2wave|Osc2 Wave
+o2wavearr|(no tooltip)
+o2oct|Osc2 Octave
+o2semi|Osc2 Semitone
+o2cent|Osc2 Fine Tune
+o2mode|Osc2 Phase Mode
+o2kbd|Osc2 Kbd Track
+ringmod|Ring Mod
+noiselight|Noise On/Off
+noisedecay|Noise Decay
+noisecolor|Noise Color
+noiselevel|Noise Level
+lfo1sync|LFO Sync Enable
+lfo1rate|LFO1 Rate
+lfo1amt|LFO1 Amount
+l1wbtn|LFO1 Wave
+l1dbtn|LFO1 Dest
+l2dbtn|LFO2 Dest
+l2rate|LFO2 Rate
+l2amt|LFO2 Amount
+l2kbd|LFO2 Kbd Track
+l2delay|LFO2 Delay
+menvA|Mod Env Attack
+menvD|Mod Env Decay
+menvS|Mod Env Sustain
+menvR|Mod Env Release
+menvamt|Mod Env Gain
+menvicon|Mod Env Invert
+mdbtn|Mod Env Dest
+f1freq|Filter Freq
+f1res|Filter Res
+f1link|Filter Link Freq On/Off
+f1kbd|Filter Kbd Track
+f1type|Filter Type
+f2light|Filter2 On/Off
+f2res|Filter2 Res
+fenvA|Filter Env Attack
+fenvD|Filter Env Decay
+fenvS|Filter Env Sustain
+fenvR|Filter Env Release
+fenvamt|Filter Env Amount
+fenvicon|Filter Env Invert
+f2freq|(no tooltip)
+f2level|Master Level
+aenvA|Amp Env Attack
+aenvD|Amp Env Decay
+aenvS|(no tooltip)
+aenvR|Amp Env Release
+v_amp|Amp Vel Amount
+v_fm|FM Vel Amount
+v_menv|Mod Env Vel Amount
+v_phase|Phase Vel Amount
+v_freq2|Filter2 Freq Vel Amount
+v_fenv|Filter Env Vel Amount
+v_fdec|Filter Decay Vel Amount
+v_mix|Mix Vel Amount
+v_aatk|Amp Attack Vel Amount
+BACK:
+gate|Mono Gate Input
+cv|Mono CV Input
+pitch_trim|OSC Pitch Modulation Input
+pitch_jack|OSC Pitch Modulation Input
+phase_trim|OSC Phase Modulation Input
+phase_jack|OSC Phase Modulation Input
+fm_trim|FM Amount Modulation Input
+fm_jack|FM Amount Modulation Input
+f1freq_trim|Filter1 Cutoff Modulation Input
+f1freq_jack|Filter1 Cutoff Modulation Input
+f1res_trim|Filter1 Resonance Modulation Input
+f1res_jack|Filter1 Resonance Modulation Input
+f2freq_trim|Filter2 Cutoff Modulation Input
+f2freq_jack|Filter2 Cutoff Modulation Input
+level_trim|Amp Level Modulation Input
+level_jack|Amp Level Modulation Input
+mw_trim|Mod Wheel Modulation Input
+mw_jack|Mod Wheel Modulation Input
+pw_trim|Pitch Wheel Modulation Input
+pw_jack|Pitch Wheel Modulation Input
+menv_out|Mod Env Modulation Output
+fenv_out|Filter Env Modulation Output
+lfo_out|LFO1 Modulation Output
+ampgate|Amp Env Gate Input
+fgate|Filter Env Gate Input
+mgate|Mod Env Gate Input
+out|Out
