@@ -8467,3 +8467,13 @@ just not loaded by default.
 - Left behind: "untitled 2" open and unsaved with the 3 devices, rack window detached. Reduce Cable Clutter (K) pressed off (looks off on screen).
 - Status: confirmed. Batch A is now 17/17.
 - Outcome: —
+
+### 2026-10-07 Panel Map joined to knob proof; 48-slot cap left as is
+- Context: owner asked how to combine the Panel Map with devices not yet proven controllable.
+- Done: `device_refs/_panel_map/tools/join_proof.py` (read-only) writes `PROOF-STATUS.csv` (1777 controls: 211 mapped+proven, 35 mapped not proven, rest unmapped). `tools/gen_names_only.py` wrote 26 names-only skeletons to `names_only/` for devices proven in calibration.json but with no Panel Map (no pictures/positions/codes; those need Reason hover check).
+- 35 mapped-not-proven: 28 are "Device Name" (text label, can't be swept). Real gaps: COMP-01 Gain, ECF-42 Trigger, MClass Stereo Imager Low/High Band Active, patch next/prev buttons (Combinator, RV7000, The Echo).
+- Trap: rewriting the panel JSONs with json.dump reformats ~20k lines. Tried, reverted via git checkout. Don't add fields to those files with a script that re-dumps.
+- Found: the remotemap gives every large device exactly 48 knob slots (Thor offers 369 items, Kong 371, Redrum 241). Owner decided (clickable): leave at 48. Remote file not touched.
+- Verify by: re-run join_proof.py after any new calibrate.py sweep; counts should shift mapped-not-proven down.
+- Status: confirmed (script run; counts checked against the survey). Pictures for the 26 not started.
+- Outcome: —

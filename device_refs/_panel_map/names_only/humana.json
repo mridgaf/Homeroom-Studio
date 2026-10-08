@@ -1,0 +1,653 @@
+{
+ "device": "Humana",
+ "remote_scope": "se.propellerheads.Humana",
+ "status": "names only: from calibration.json. No picture, no positions, no codes yet (needs Reason hover check)",
+ "controls": [
+  {
+   "reason_name": "Amp_Attack",
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "proven": true,
+   "range": [
+    "-inf dB",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": [
+    "lossy"
+   ]
+  },
+  {
+   "reason_name": "Amp_Decay",
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp_Release",
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp_Sustain",
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_Amount",
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_Damp",
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_Feedback",
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_On",
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "proven": true,
+   "range": [
+    "Off",
+    "On"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_PingPong",
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "proven": true,
+   "range": [
+    "Off",
+    "On"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_Sync",
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "proven": true,
+   "range": [
+    "Off",
+    "On"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Delay_Time",
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "proven": true,
+   "range": [
+    "0.00 ms",
+    "4.00 s"
+   ],
+   "unit": "s",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter 1 Frequency",
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter 1 Mode",
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter 1 Resonance",
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter 1 To Filter 2",
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter 2 Frequency",
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter 2 Mode",
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter 2 Resonance",
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Filter_Attack",
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Cutoff",
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "proven": true,
+   "range": [
+    "20.00 Hz",
+    "25.0 kHz"
+   ],
+   "unit": "kHz",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Decay",
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Env",
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_KeyFollow",
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_On",
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "proven": true,
+   "range": [
+    "Off",
+    "On"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Release",
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Reso",
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Sustain",
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Type",
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "proven": true,
+   "range": [
+    "LP",
+    "Comb"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter_Velocity",
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Finetune",
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "proven": true,
+   "range": [
+    "-50 cents",
+    "50 cents"
+   ],
+   "unit": "cents",
+   "flags": []
+  },
+  {
+   "reason_name": "Instrument",
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "proven": true,
+   "range": [
+    "Mars ah",
+    "Male ah"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Master_Volume",
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "proven": true,
+   "range": [
+    "-inf dB",
+    "12.0 dB"
+   ],
+   "unit": "dB",
+   "flags": []
+  },
+  {
+   "reason_name": "Mod Wheel",
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "proven": true,
+   "range": [
+    "0%",
+    "100%"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "ModWheel_to_Amp_Level",
+   "knob_slot": 34,
+   "cc": 63,
+   "feedback_cc": 111,
+   "proven": true,
+   "range": [
+    "-100.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Octave",
+   "knob_slot": 35,
+   "cc": 64,
+   "feedback_cc": 112,
+   "proven": true,
+   "range": [
+    "-2",
+    "2"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Osc 1 Filter Select",
+   "knob_slot": 36,
+   "cc": 65,
+   "feedback_cc": 113,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Osc 2 Filter Select",
+   "knob_slot": 37,
+   "cc": 66,
+   "feedback_cc": 114,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Osc 3 Filter Select",
+   "knob_slot": 38,
+   "cc": 67,
+   "feedback_cc": 115,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Pitch Bend",
+   "knob_slot": 39,
+   "cc": 68,
+   "feedback_cc": 116,
+   "proven": true,
+   "range": [
+    "-100.0%",
+    "100.0%"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Reverb_Amount",
+   "knob_slot": 40,
+   "cc": 69,
+   "feedback_cc": 117,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Reverb_HighDamp",
+   "knob_slot": 41,
+   "cc": 70,
+   "feedback_cc": 118,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Reverb_LowDamp",
+   "knob_slot": 42,
+   "cc": 71,
+   "feedback_cc": 119,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Reverb_On",
+   "knob_slot": 43,
+   "cc": 72,
+   "feedback_cc": 120,
+   "proven": true,
+   "range": [
+    "Off",
+    "On"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Reverb_PreDelay",
+   "knob_slot": 44,
+   "cc": 73,
+   "feedback_cc": 121,
+   "proven": true,
+   "range": [
+    "0.00 ms",
+    "200 ms"
+   ],
+   "unit": "ms",
+   "flags": []
+  },
+  {
+   "reason_name": "Reverb_Time",
+   "knob_slot": 45,
+   "cc": 74,
+   "feedback_cc": 122,
+   "proven": true,
+   "range": [
+    "0.0",
+    "100.0"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "SampleStart",
+   "knob_slot": 46,
+   "cc": 75,
+   "feedback_cc": 123,
+   "proven": true,
+   "range": [
+    "0 ms",
+    "150 ms"
+   ],
+   "unit": "ms",
+   "flags": []
+  },
+  {
+   "reason_name": "Semitune",
+   "knob_slot": 47,
+   "cc": 76,
+   "feedback_cc": 124,
+   "proven": true,
+   "range": [
+    "-12",
+    "12"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Synced_Delay_Time",
+   "knob_slot": 48,
+   "cc": 77,
+   "feedback_cc": 125,
+   "proven": true,
+   "range": [
+    "0",
+    "4/4"
+   ],
+   "unit": "/4",
+   "flags": []
+  }
+ ]
+}

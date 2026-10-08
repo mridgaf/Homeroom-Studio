@@ -1,0 +1,85 @@
+{
+ "device": "Audiomatic",
+ "remote_scope": "se.propellerheads.Audiomatic",
+ "status": "names only: from calibration.json. No picture, no positions, no codes yet (needs Reason hover check)",
+ "controls": [
+  {
+   "reason_name": "Dry Wet",
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "proven": true,
+   "range": [
+    "20",
+    "100%"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Enabled",
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "proven": true,
+   "range": [
+    "Off",
+    "Bypass"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Input Gain",
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "proven": true,
+   "range": [
+    "-inf dB",
+    "12.0 dB"
+   ],
+   "unit": "dB",
+   "flags": []
+  },
+  {
+   "reason_name": "Preset",
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "proven": true,
+   "range": [
+    "Tape",
+    "Eerie"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Transform",
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "proven": true,
+   "range": [
+    "0%",
+    "100%"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Volume",
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "proven": true,
+   "range": [
+    "-inf dB",
+    "12.0 dB"
+   ],
+   "unit": "dB",
+   "flags": []
+  }
+ ]
+}

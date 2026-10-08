@@ -1,0 +1,373 @@
+{
+ "device": "Quartet",
+ "remote_scope": "se.propellerheads.Quartet",
+ "status": "names only: from calibration.json. No picture, no positions, no codes yet (needs Reason hover check)",
+ "controls": [
+  {
+   "reason_name": "BBD Delay",
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "proven": true,
+   "range": [
+    "1.00 ms",
+    "30.00 ms"
+   ],
+   "unit": "ms",
+   "flags": []
+  },
+  {
+   "reason_name": "BBD Depth",
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "BBD DryWet",
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "BBD Noise",
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "BBD Rate",
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "proven": true,
+   "range": [
+    "0.20 Hz",
+    "10.0 Hz"
+   ],
+   "unit": "Hz",
+   "flags": []
+  },
+  {
+   "reason_name": "BBD Width",
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Chorus Delay",
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "proven": true,
+   "range": [
+    "1.00 ms",
+    "30.00 ms"
+   ],
+   "unit": "ms",
+   "flags": []
+  },
+  {
+   "reason_name": "Chorus Depth",
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Chorus DryWet",
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Chorus Feedback",
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Chorus Rate",
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "proven": true,
+   "range": [
+    "0.10 Hz",
+    "5.00 Hz"
+   ],
+   "unit": "Hz",
+   "flags": [
+    "lossy"
+   ]
+  },
+  {
+   "reason_name": "Chorus Width",
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Effect Select",
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "proven": true,
+   "range": [
+    "Chorus",
+    "Grain"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Enabled",
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "proven": true,
+   "range": [
+    "Off",
+    "Bypass"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "FFT Depth",
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "FFT DryWet",
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "FFT End",
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "proven": true,
+   "range": [
+    "20.0 Hz",
+    "20.00 kHz"
+   ],
+   "unit": "kHz",
+   "flags": []
+  },
+  {
+   "reason_name": "FFT Size",
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "proven": true,
+   "range": [
+    "1",
+    "4"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "FFT Start",
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "proven": true,
+   "range": [
+    "20.0 Hz",
+    "20.00 kHz"
+   ],
+   "unit": "kHz",
+   "flags": []
+  },
+  {
+   "reason_name": "FFT Width",
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain Density",
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain Depth",
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain DryWet",
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain Jitter",
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain Phase",
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "proven": true,
+   "range": [
+    "Off",
+    "On"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain Size",
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Grain Width",
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "proven": true,
+   "range": [
+    "0.0 %",
+    "100.0 %"
+   ],
+   "unit": "%",
+   "flags": []
+  },
+  {
+   "reason_name": "Stereo Mode",
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "proven": true,
+   "range": [
+    "Stereo",
+    "Dual Mono"
+   ],
+   "unit": "",
+   "flags": []
+  }
+ ]
+}

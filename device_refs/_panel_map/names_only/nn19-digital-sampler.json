@@ -1,0 +1,633 @@
+{
+ "device": "NN19 Digital Sampler",
+ "remote_scope": "NN19 Digital Sampler",
+ "status": "names only: from calibration.json. No picture, no positions, no codes yet (needs Reason hover check)",
+ "controls": [
+  {
+   "reason_name": "Amp Attack Vel Amount",
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp Env Attack",
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp Env Decay",
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp Env Release",
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp Env Sustain",
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp Mod Wheel Amount",
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Amp Vel Amount",
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Ext Mod Select",
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "proven": true,
+   "range": [
+    "0",
+    "2"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Decay Vel Amount",
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Amount",
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Attack",
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Decay",
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Invert",
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Release",
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Sustain",
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Env Vel Amount",
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Freq",
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Freq Mod Wheel Amount",
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Kbd Track",
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Mode",
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "proven": true,
+   "range": [
+    "0",
+    "4"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter On/Off",
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Filter Res",
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "High Quality Interpolation",
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Key Mode",
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "LFO Amount",
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "LFO Dest",
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "proven": true,
+   "range": [
+    "0",
+    "2"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "LFO Mod Wheel Amount",
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "LFO Rate",
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "LFO Sync Enable",
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "LFO Wave",
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "proven": true,
+   "range": [
+    "0",
+    "5"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Low Bandwidth On/Off",
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Master Level",
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Mod Wheel",
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Osc Env Amount",
+   "knob_slot": 34,
+   "cc": 63,
+   "feedback_cc": 111,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Osc Fine Tune",
+   "knob_slot": 35,
+   "cc": 64,
+   "feedback_cc": 112,
+   "proven": true,
+   "range": [
+    "-50",
+    "50"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Osc Kbd Track",
+   "knob_slot": 36,
+   "cc": 65,
+   "feedback_cc": 113,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Osc Octave",
+   "knob_slot": 37,
+   "cc": 66,
+   "feedback_cc": 114,
+   "proven": true,
+   "range": [
+    "0",
+    "8"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Osc Semitone",
+   "knob_slot": 38,
+   "cc": 67,
+   "feedback_cc": 115,
+   "proven": true,
+   "range": [
+    "0",
+    "12"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Pitch Bend",
+   "knob_slot": 39,
+   "cc": 68,
+   "feedback_cc": 116,
+   "proven": true,
+   "range": [
+    "-8192",
+    "8191"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Pitch Bend Range",
+   "knob_slot": 40,
+   "cc": 69,
+   "feedback_cc": 117,
+   "proven": true,
+   "range": [
+    "0",
+    "24"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Polyphony",
+   "knob_slot": 41,
+   "cc": 70,
+   "feedback_cc": 118,
+   "proven": true,
+   "range": [
+    "1",
+    "99"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Portamento",
+   "knob_slot": 42,
+   "cc": 71,
+   "feedback_cc": 119,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Sample",
+   "knob_slot": 43,
+   "cc": 72,
+   "feedback_cc": 120,
+   "proven": false,
+   "range": [
+    null,
+    null
+   ],
+   "unit": "",
+   "flags": [
+    "flat"
+   ]
+  },
+  {
+   "reason_name": "Sample Start",
+   "knob_slot": 44,
+   "cc": 73,
+   "feedback_cc": 121,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Sample Start Vel Amount",
+   "knob_slot": 45,
+   "cc": 74,
+   "feedback_cc": 122,
+   "proven": true,
+   "range": [
+    "-64",
+    "63"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Solo Sample",
+   "knob_slot": 46,
+   "cc": 75,
+   "feedback_cc": 123,
+   "proven": true,
+   "range": [
+    "0",
+    "1"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Spread Mode",
+   "knob_slot": 47,
+   "cc": 76,
+   "feedback_cc": 124,
+   "proven": true,
+   "range": [
+    "0",
+    "2"
+   ],
+   "unit": "",
+   "flags": []
+  },
+  {
+   "reason_name": "Stereo Spread",
+   "knob_slot": 48,
+   "cc": 77,
+   "feedback_cc": 125,
+   "proven": true,
+   "range": [
+    "0",
+    "127"
+   ],
+   "unit": "",
+   "flags": []
+  }
+ ]
+}
