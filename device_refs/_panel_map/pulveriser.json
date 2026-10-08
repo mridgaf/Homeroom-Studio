@@ -1,0 +1,1181 @@
+{
+ "device": "Pulveriser",
+ "remote_scope": "Propellerheads / Pulveriser",
+ "code_prefix": "PULV",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. Follow (flat Remote item) placed on the follower light, NOT proven. Waveform arrows, light LEDs, routing icons give no tooltip. Audio jack names unread (cabled).",
+ "controls": [
+  {
+   "code": "PULV-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.074
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B02",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.057,
+    0.065
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D01",
+   "side": "front",
+   "panel_label": "(red light)",
+   "what": "Red light next to the switch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.129,
+    0.076
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D02",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.515,
+    0.076
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Basic Pulverisation\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B03",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.67,
+    0.051
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B06",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.67,
+    0.104
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B04",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.693,
+    0.076
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B05",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.717,
+    0.076
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D06",
+   "side": "front",
+   "panel_label": "BASIC PULVER tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.048,
+    0.497
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Basic Pulverisation\" (patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K01",
+   "side": "front",
+   "panel_label": "SQUASH",
+   "what": "Squash (compression) amount",
+   "reason_name": "Squash",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.107,
+    0.351
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Squash: 49%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K02",
+   "side": "front",
+   "panel_label": "DIRT",
+   "what": "Dirt (distortion) amount",
+   "reason_name": "Dirt",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.205,
+    0.351
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dirt: 61%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K09",
+   "side": "front",
+   "panel_label": "RELEASE",
+   "what": "Squash release time",
+   "reason_name": "Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.105,
+    0.651
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Release: 56%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K10",
+   "side": "front",
+   "panel_label": "TONE",
+   "what": "Tone",
+   "reason_name": "Tone",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.205,
+    0.651
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tone: 83%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-S01",
+   "side": "front",
+   "panel_label": "Filter mode",
+   "what": "Filter mode lever (Bypass / Low Pass 24 / LP12+Notch / Band Pass / High Pass / Comb)",
+   "reason_name": "Filter Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.389,
+    0.416
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Mode: Low Pass 24\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K12",
+   "side": "front",
+   "panel_label": "FREQUENCY",
+   "what": "Filter frequency",
+   "reason_name": "Filter Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.307,
+    0.739
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Frequency: 11.05 kHz\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K13",
+   "side": "front",
+   "panel_label": "PEAK",
+   "what": "Filter peak (resonance)",
+   "reason_name": "Peak",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.392,
+    0.739
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Peak: 14%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-S02",
+   "side": "front",
+   "panel_label": "Routing",
+   "what": "Order of Squash, Dirt and Filter",
+   "reason_name": "Routing",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.23,
+    0.859
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Routing: 1\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K04",
+   "side": "front",
+   "panel_label": "Tremor RATE",
+   "what": "Tremor rate",
+   "reason_name": "Tremor Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.545,
+    0.335
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor Rate: 1.68 Hz\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D03",
+   "side": "front",
+   "panel_label": "Tremor SYNC light",
+   "what": "Tremor sync light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.596,
+    0.273
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B08",
+   "side": "front",
+   "panel_label": "Tremor SYNC",
+   "what": "Tremor tempo sync",
+   "reason_name": "Sync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.595,
+    0.386
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor Sync\" (Remote name is 'Sync')",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D05",
+   "side": "front",
+   "panel_label": "Tremor WAVEFORM",
+   "what": "Tremor waveform display (pick a shape with the arrows)",
+   "reason_name": "Tremor Waveform",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.651,
+    0.335
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor Waveform: Sine\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B07",
+   "side": "front",
+   "panel_label": "Waveform up arrow",
+   "what": "Previous waveform",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.692,
+    0.3
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B09",
+   "side": "front",
+   "panel_label": "Waveform down arrow",
+   "what": "Next waveform",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.692,
+    0.37
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D04",
+   "side": "front",
+   "panel_label": "Tremor SPREAD light",
+   "what": "Tremor spread light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.74,
+    0.273
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B10",
+   "side": "front",
+   "panel_label": "Tremor SPREAD",
+   "what": "Tremor stereo spread on/off",
+   "reason_name": "Tremor Spread",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.739,
+    0.386
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor Spread\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K05",
+   "side": "front",
+   "panel_label": "Tremor LAG",
+   "what": "Tremor lag",
+   "reason_name": "Tremor Lag",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.788,
+    0.346
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor Lag: 16%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K03",
+   "side": "front",
+   "panel_label": "Tremor > Frequency",
+   "what": "Tremor amount to filter frequency",
+   "reason_name": "Tremor to Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.482,
+    0.346
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor to Frequency: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K08",
+   "side": "front",
+   "panel_label": "Follower > Rate",
+   "what": "Follower amount to tremor rate",
+   "reason_name": "Follower to Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.482,
+    0.57
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follower to Rate: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K14",
+   "side": "front",
+   "panel_label": "Follower > Frequency",
+   "what": "Follower amount to filter frequency",
+   "reason_name": "Follower to Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.482,
+    0.808
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follower to Frequency: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K06",
+   "side": "front",
+   "panel_label": "Tremor > Volume",
+   "what": "Tremor amount to volume",
+   "reason_name": "Tremor to Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.846,
+    0.351
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Tremor to Volume: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K07",
+   "side": "front",
+   "panel_label": "VOLUME",
+   "what": "Output volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.913,
+    0.342
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Volume: 65%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K11",
+   "side": "front",
+   "panel_label": "BLEND",
+   "what": "Dry/wet blend",
+   "reason_name": "Blend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.886,
+    0.734
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Blend: 100%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-B11",
+   "side": "front",
+   "panel_label": "Follower TRIG",
+   "what": "Follower trigger button",
+   "reason_name": "Follower Trig",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.546,
+    0.804
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follower Trig\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K15",
+   "side": "front",
+   "panel_label": "THRESHOLD",
+   "what": "Follower threshold",
+   "reason_name": "Follower Threshold",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.598,
+    0.797
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follower Threshold: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-D07",
+   "side": "front",
+   "panel_label": "Follower light",
+   "what": "Follower light (red)",
+   "reason_name": "Follow",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.656,
+    0.797
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip; Remote item 'Follow' is a 'flat' item (did not change during the sweep); placed on this light, NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item 'Follow'; likely this lamp; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K16",
+   "side": "front",
+   "panel_label": "ATTACK",
+   "what": "Follower attack",
+   "reason_name": "Follower Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.706,
+    0.797
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follower Attack: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-F-K17",
+   "side": "front",
+   "panel_label": "Follower RELEASE",
+   "what": "Follower release",
+   "reason_name": "Follower Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.763,
+    0.797
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follower Release: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-D04",
+   "side": "back",
+   "panel_label": "BASIC PULVER tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.085,
+    0.507
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Basic Pulverisation\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-D02",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.108,
+    0.401
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-D05",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.108,
+    0.486
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-D01",
+   "side": "back",
+   "panel_label": "(triangle) back",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.037,
+    0.068
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K01",
+   "side": "back",
+   "panel_label": "Squash CV trim",
+   "what": "Amount for Squash CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.151,
+    0.237
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Squash CV Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J01",
+   "side": "back",
+   "panel_label": "Squash CV In",
+   "what": "CV input: Squash",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.18,
+    0.241
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Squash CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K03",
+   "side": "back",
+   "panel_label": "Dirt CV trim",
+   "what": "Amount for Dirt CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.151,
+    0.345
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Dirt CV Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J06",
+   "side": "back",
+   "panel_label": "Dirt CV In",
+   "what": "CV input: Dirt",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.18,
+    0.35
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Dirt CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K05",
+   "side": "back",
+   "panel_label": "Filter Frequency CV trim",
+   "what": "Amount for Filter Frequency CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.151,
+    0.458
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Filter Freq CV Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J09",
+   "side": "back",
+   "panel_label": "Filter Frequency CV In",
+   "what": "CV input: Filter Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.18,
+    0.461
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Filter CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K06",
+   "side": "back",
+   "panel_label": "Tremor Rate CV trim",
+   "what": "Amount for Tremor Rate CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.151,
+    0.567
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Tremor Rate CV Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J10",
+   "side": "back",
+   "panel_label": "Tremor Rate CV In",
+   "what": "CV input: Tremor Rate",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.18,
+    0.569
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Tremor CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K07",
+   "side": "back",
+   "panel_label": "Volume CV trim",
+   "what": "Amount for Volume CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.151,
+    0.676
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Volume CV Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J13",
+   "side": "back",
+   "panel_label": "Volume CV In",
+   "what": "CV input: Volume",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.18,
+    0.678
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Volume CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K02",
+   "side": "back",
+   "panel_label": "Filter Frequency audio trim",
+   "what": "Amount for Filter Frequency audio modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.328,
+    0.237
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Filter Freq Audio Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to audio jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J02",
+   "side": "back",
+   "panel_label": "Filter Frequency audio In",
+   "what": "Audio modulation input: Filter Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.359,
+    0.241
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Filter Freq Audio Modulation In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K04",
+   "side": "back",
+   "panel_label": "Volume audio trim",
+   "what": "Amount for Volume audio modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.328,
+    0.345
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Volume Audio Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to audio jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J07",
+   "side": "back",
+   "panel_label": "Volume audio In",
+   "what": "Audio modulation input: Volume",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.359,
+    0.35
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Volume Audio Modulation In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-K08",
+   "side": "back",
+   "panel_label": "Follower CV trim",
+   "what": "Amount for Follower CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.33,
+    0.676
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Follower CV Modulation Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J14",
+   "side": "back",
+   "panel_label": "Follower CV In",
+   "what": "CV input: Follower (breaks internal routing)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.36,
+    0.676
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Follow CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J03",
+   "side": "back",
+   "panel_label": "Follower mod Out",
+   "what": "Modulation output: Follower",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.527,
+    0.249
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Follower CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J08",
+   "side": "back",
+   "panel_label": "Tremor mod Out",
+   "what": "Modulation output: Tremor",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.527,
+    0.356
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Tremor CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J04",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.79,
+    0.284
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Neptune 1: Left Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J05",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.834,
+    0.284
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Neptune 1: Right Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J11",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.79,
+    0.586
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Big BBD Ensemble: Left Inpu(t)\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-J12",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.834,
+    0.586
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Big BBD Ensemble: Right Inp(ut)\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-D06",
+   "side": "back",
+   "panel_label": "Warning plate",
+   "what": "Warning plate (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.554,
+    0.721
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "PULV-B-D03",
+   "side": "back",
+   "panel_label": "PULVERISER logo",
+   "what": "Logo (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.676,
+    0.405
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

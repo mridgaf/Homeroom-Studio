@@ -1,0 +1,1044 @@
+{
+ "device": "Quartet",
+ "remote_scope": "se.propellerheads.Quartet",
+ "code_prefix": "QRTT",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12): BBD main view (pictured), Chorus, FFT and Grain modes, back panel. Stereo selector, FFT Start/End handles give no tooltip (names from Remote list). Audio jack names unread (cabled). Set back to BBD mode.",
+ "controls": [
+  {
+   "code": "QRTT-F-B05",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.061,
+    0.137
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.031,
+    0.13
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-D04",
+   "side": "front",
+   "panel_label": "(lights)",
+   "what": "Level lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.061,
+    0.314
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.426,
+    0.126
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Big BBD Ensemble\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B02",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.61,
+    0.102
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B06",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.61,
+    0.164
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B03",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.635,
+    0.126
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B04",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.658,
+    0.126
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-D02",
+   "side": "front",
+   "panel_label": "BIG BBD ENSE tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.777,
+    0.137
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Big BBD Ensemble\" (patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-D03",
+   "side": "front",
+   "panel_label": "Stereo",
+   "what": "Stereo / Dual Mono selector",
+   "reason_name": "Stereo Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.883,
+    0.212
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "name from Remote list; NOT proven by tooltip",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B07",
+   "side": "front",
+   "panel_label": "CHORUS",
+   "what": "Ensemble mode: Chorus",
+   "reason_name": "Effect Select",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.389,
+    0.413
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Effect Select\"; clicked, view changed, set back to BBD",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B08",
+   "side": "front",
+   "panel_label": "BBD",
+   "what": "Ensemble mode: BBD",
+   "reason_name": "Effect Select",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.464,
+    0.413
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Effect Select\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B09",
+   "side": "front",
+   "panel_label": "FFT",
+   "what": "Ensemble mode: FFT",
+   "reason_name": "Effect Select",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.538,
+    0.413
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Effect Select\"; clicked, view changed, set back to BBD",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-B10",
+   "side": "front",
+   "panel_label": "GRAIN",
+   "what": "Ensemble mode: Grain",
+   "reason_name": "Effect Select",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.612,
+    0.413
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Effect Select\"; clicked, view changed, set back to BBD",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K01",
+   "side": "front",
+   "panel_label": "BBD Delay",
+   "what": "BBD Delay",
+   "reason_name": "BBD Delay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.243,
+    0.717
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"BBD Delay: 7.23 ms\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K02",
+   "side": "front",
+   "panel_label": "BBD Mod Depth",
+   "what": "BBD Mod Depth",
+   "reason_name": "BBD Depth",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.349,
+    0.717
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"BBD Depth: 53.5 %\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K03",
+   "side": "front",
+   "panel_label": "BBD Mod Rate",
+   "what": "BBD Mod Rate",
+   "reason_name": "BBD Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.449,
+    0.717
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"BBD Rate: 1.53 Hz\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K04",
+   "side": "front",
+   "panel_label": "BBD Noise Mod",
+   "what": "BBD Noise Mod",
+   "reason_name": "BBD Noise",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.549,
+    0.717
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"BBD Noise: 0.0 %\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K05",
+   "side": "front",
+   "panel_label": "BBD Width",
+   "what": "BBD Width",
+   "reason_name": "BBD Width",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.649,
+    0.717
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"BBD Width: 89.5 %\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K06",
+   "side": "front",
+   "panel_label": "BBD Dry/Wet",
+   "what": "BBD Dry/Wet",
+   "reason_name": "BBD DryWet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.751,
+    0.717
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"BBD DryWet: 100.0 %\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-D01",
+   "side": "back",
+   "panel_label": "(triangle) back",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.033,
+    0.13
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-D02",
+   "side": "back",
+   "panel_label": "BIG BBD ENSE tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.816,
+    0.143
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Big BBD Ensemble\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-D03",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.893,
+    0.171
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-D04",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.893,
+    0.324
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-D05",
+   "side": "back",
+   "panel_label": "(routing icon 3)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.893,
+    0.471
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-K01",
+   "side": "back",
+   "panel_label": "Mod Depth CV trim",
+   "what": "Amount for Mod Depth CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.507,
+    0.358
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Depth CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J01",
+   "side": "back",
+   "panel_label": "Mod Depth CV In",
+   "what": "CV input: Mod Depth",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.538,
+    0.365
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Depth CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-K02",
+   "side": "back",
+   "panel_label": "Width CV trim",
+   "what": "Amount for Width CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.596,
+    0.358
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Width CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J02",
+   "side": "back",
+   "panel_label": "Width CV In",
+   "what": "CV input: Width",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.627,
+    0.365
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Width CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-K03",
+   "side": "back",
+   "panel_label": "DryWet CV trim",
+   "what": "Amount for DryWet CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.673,
+    0.358
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"DryWet CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J03",
+   "side": "back",
+   "panel_label": "DryWet CV In",
+   "what": "CV input: DryWet",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.705,
+    0.365
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"DryWet CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J04",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.368,
+    0.751
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Basic Pulverisation: Left Out...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J05",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.413,
+    0.751
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Basic Pulverisation: Right O...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J06",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.571,
+    0.751
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to British Drive 3: Main In Left\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-B-J07",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.615,
+    0.751
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to British Drive 3: Main In Right\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "QRTT-F-K101",
+   "side": "front",
+   "panel_label": "Chorus Delay",
+   "what": "Chorus Delay",
+   "reason_name": "Chorus Delay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.252,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Chorus Delay: 5.08 ms\"",
+   "confidence": "high",
+   "view": "Chorus mode (picture quartet-chorus-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K102",
+   "side": "front",
+   "panel_label": "Chorus Mod Depth",
+   "what": "Chorus Mod Depth",
+   "reason_name": "Chorus Depth",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.357,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Chorus Depth: 50.0 %\"",
+   "confidence": "high",
+   "view": "Chorus mode (picture quartet-chorus-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K103",
+   "side": "front",
+   "panel_label": "Chorus Mod Rate",
+   "what": "Chorus Mod Rate",
+   "reason_name": "Chorus Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.466,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Chorus Rate: 0.71 Hz\"",
+   "confidence": "high",
+   "view": "Chorus mode (picture quartet-chorus-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K104",
+   "side": "front",
+   "panel_label": "Chorus Feedback",
+   "what": "Chorus Feedback",
+   "reason_name": "Chorus Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.571,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Chorus Feedback: 0.0 %\"",
+   "confidence": "high",
+   "view": "Chorus mode (picture quartet-chorus-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K105",
+   "side": "front",
+   "panel_label": "Chorus Width",
+   "what": "Chorus Width",
+   "reason_name": "Chorus Width",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.678,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Chorus Width: 100.0 %\"",
+   "confidence": "high",
+   "view": "Chorus mode (picture quartet-chorus-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K106",
+   "side": "front",
+   "panel_label": "Chorus Dry/Wet",
+   "what": "Chorus Dry/Wet",
+   "reason_name": "Chorus DryWet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.779,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Chorus DryWet: 100.0 %\"",
+   "confidence": "high",
+   "view": "Chorus mode (picture quartet-chorus-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S201",
+   "side": "front",
+   "panel_label": "FFT Size",
+   "what": "FFT size slider (1 to 4)",
+   "reason_name": "FFT Size",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.256,
+    0.748
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"FFT Size: 3\"",
+   "confidence": "high",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K201",
+   "side": "front",
+   "panel_label": "FFT Mod Depth",
+   "what": "FFT mod depth",
+   "reason_name": "FFT Depth",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.36,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"FFT Depth: 50.0 %\"",
+   "confidence": "high",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S202",
+   "side": "front",
+   "panel_label": "Frequency Range start",
+   "what": "Frequency range start handle",
+   "reason_name": "FFT Start",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.425,
+    0.721
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (handle)",
+   "confidence": "medium",
+   "confidence_reason": "name from Remote list; NOT proven by tooltip",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S203",
+   "side": "front",
+   "panel_label": "Frequency Range end",
+   "what": "Frequency range end handle",
+   "reason_name": "FFT End",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.611,
+    0.721
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (handle)",
+   "confidence": "medium",
+   "confidence_reason": "name from Remote list; NOT proven by tooltip",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-D201",
+   "side": "front",
+   "panel_label": "Frequency Range display",
+   "what": "Frequency range display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.517,
+    0.721
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "display only",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K202",
+   "side": "front",
+   "panel_label": "FFT Width",
+   "what": "FFT width",
+   "reason_name": "FFT Width",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.677,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"FFT Width: 100.0 %\"",
+   "confidence": "high",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K203",
+   "side": "front",
+   "panel_label": "FFT Dry/Wet",
+   "what": "FFT dry/wet",
+   "reason_name": "FFT DryWet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.778,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"FFT DryWet: 100.0 %\"",
+   "confidence": "high",
+   "view": "FFT mode (picture quartet-fft-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-B301",
+   "side": "front",
+   "panel_label": "Phase RND",
+   "what": "Grain random phase on/off",
+   "reason_name": "Grain Phase",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.183,
+    0.748
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain Random Phase\" (Remote name is 'Grain Phase')",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S301",
+   "side": "front",
+   "panel_label": "Grain Size",
+   "what": "Grain size slider",
+   "reason_name": "Grain Size",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.276,
+    0.748
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain Size: 50.0 %\"",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S302",
+   "side": "front",
+   "panel_label": "Grain Mod Depth",
+   "what": "Grain mod depth slider",
+   "reason_name": "Grain Depth",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.37,
+    0.748
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain Depth: 40.0 %\"",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S303",
+   "side": "front",
+   "panel_label": "Grain Jitter",
+   "what": "Grain jitter slider",
+   "reason_name": "Grain Jitter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.478,
+    0.748
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain Jitter: 50.0 %\"",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-S304",
+   "side": "front",
+   "panel_label": "Grain Density",
+   "what": "Grain density slider",
+   "reason_name": "Grain Density",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.587,
+    0.748
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain Density: 60.0 %\"",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K301",
+   "side": "front",
+   "panel_label": "Grain Width",
+   "what": "Grain width",
+   "reason_name": "Grain Width",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.677,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain Width: 100.0 %\"",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  },
+  {
+   "code": "QRTT-F-K302",
+   "side": "front",
+   "panel_label": "Grain Dry/Wet",
+   "what": "Grain dry/wet",
+   "reason_name": "Grain DryWet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.778,
+    0.715
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Grain DryWet: 100.0 %\"",
+   "confidence": "high",
+   "view": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+  }
+ ]
+}

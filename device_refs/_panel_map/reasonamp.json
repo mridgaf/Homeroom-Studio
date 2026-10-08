@@ -1,0 +1,893 @@
+{
+ "device": "ReasonAmp",
+ "remote_scope": "se.propellerheads.ReasonAmp",
+ "code_prefix": "RAMP",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12; rack name 'Softube Amp', Remote name ReasonAmp): all front and back positions. Amp/Cab model lights all show one tooltip each. Lamp, logos, level lights, fuses, ground screw give no tooltip. Audio jack names unread (cabled).",
+ "controls": [
+  {
+   "code": "RAMP-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.032,
+    0.085
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B03",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.059,
+    0.103
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-D04",
+   "side": "front",
+   "panel_label": "BRITISH DRIVE tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.055,
+    0.413
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"British Drive 3\" (patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B04",
+   "side": "front",
+   "panel_label": "AMP TWANG",
+   "what": "Amp model: Twang",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.258,
+    0.103
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B05",
+   "side": "front",
+   "panel_label": "AMP CRUNCH",
+   "what": "Amp model: Crunch",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.285,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Amp Switch'; Remote item is stepped Twang..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B06",
+   "side": "front",
+   "panel_label": "AMP ROCK",
+   "what": "Amp model: Rock",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.311,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Amp Switch'; Remote item is stepped Twang..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B07",
+   "side": "front",
+   "panel_label": "AMP LEAD",
+   "what": "Amp model: Lead",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.337,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Amp Switch'; Remote item is stepped Twang..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B08",
+   "side": "front",
+   "panel_label": "AMP BYPASS",
+   "what": "Amp model: Bypass",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.364,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Amp Switch'; Remote item is stepped Twang..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.46,
+    0.108
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"British Drive 3\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B02",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.548,
+    0.08
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B09",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.548,
+    0.131
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B10",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.572,
+    0.108
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B11",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.598,
+    0.108
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B12",
+   "side": "front",
+   "panel_label": "CAB BRIGHT",
+   "what": "Cabinet: Bright",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.636,
+    0.103
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B13",
+   "side": "front",
+   "panel_label": "CAB ROOM",
+   "what": "Cabinet: Room",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.662,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Cab Switch'; Remote item is stepped Bright..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B14",
+   "side": "front",
+   "panel_label": "CAB FAT",
+   "what": "Cabinet: Fat",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.688,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Cab Switch'; Remote item is stepped Bright..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B15",
+   "side": "front",
+   "panel_label": "CAB TIGHT",
+   "what": "Cabinet: Tight",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.714,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Cab Switch'; Remote item is stepped Bright..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B16",
+   "side": "front",
+   "panel_label": "CAB BYPASS",
+   "what": "Cabinet: Bypass",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.74,
+    0.103
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 5 lights show tooltip 'Cab Switch'; Remote item is stepped Bright..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-D02",
+   "side": "front",
+   "panel_label": "Softube logo",
+   "what": "Logo (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.964,
+    0.11
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-D03",
+   "side": "front",
+   "panel_label": "AMP logo",
+   "what": "Logo (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.494,
+    0.333
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-D05",
+   "side": "front",
+   "panel_label": "Red lamp",
+   "what": "Red power lamp",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.2,
+    0.757
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-B17",
+   "side": "front",
+   "panel_label": "Boost switch",
+   "what": "Boost on/off toggle",
+   "reason_name": "Boost",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.273,
+    0.7
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Boost: Normal\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K07",
+   "side": "front",
+   "panel_label": "Gate",
+   "what": "Noise gate threshold",
+   "reason_name": "Gate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.274,
+    0.842
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Gate: 0.1\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K01",
+   "side": "front",
+   "panel_label": "Gain",
+   "what": "Amp gain",
+   "reason_name": "Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.362,
+    0.75
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Gain: 10.0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K02",
+   "side": "front",
+   "panel_label": "Bass",
+   "what": "Bass",
+   "reason_name": "Bass",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.445,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Bass: 4.7\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K03",
+   "side": "front",
+   "panel_label": "Mid",
+   "what": "Mid",
+   "reason_name": "Mid",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.52,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Mid: 8.4\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K04",
+   "side": "front",
+   "panel_label": "Treble",
+   "what": "Treble",
+   "reason_name": "Treble",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.593,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Treble: 6.9\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K05",
+   "side": "front",
+   "panel_label": "Poweramp Gain",
+   "what": "Poweramp gain",
+   "reason_name": "Poweramp Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.673,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Poweramp Gain: 5.0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-D06",
+   "side": "front",
+   "panel_label": "Level lights",
+   "what": "Output level lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.749,
+    0.745
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-F-K06",
+   "side": "front",
+   "panel_label": "Volume",
+   "what": "Output volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.8,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Volume: -3.0 dB\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D01",
+   "side": "back",
+   "panel_label": "(triangle) back",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.032,
+    0.085
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D02",
+   "side": "back",
+   "panel_label": "BRITISH DRIVE tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.737,
+    0.085
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"British Drive 3\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D03",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.099,
+    0.683
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D04",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.119,
+    0.683
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D05",
+   "side": "back",
+   "panel_label": "Warning sticker",
+   "what": "Sticker (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.253,
+    0.688
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J04",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.654
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Big BBD Ensemble: Left Output\" (cut off at edge); this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J05",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.392,
+    0.654
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Big BBD Ensemble: Right Output\" (cut off at edge); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J06",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.445,
+    0.654
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Smooth Bass: Main In Left\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J07",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.487,
+    0.654
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Smooth Bass: Main In Right\"; own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J01",
+   "side": "back",
+   "panel_label": "Gate CV In",
+   "what": "CV input: gate",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.544,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate CV\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-K01",
+   "side": "back",
+   "panel_label": "Gate CV trim",
+   "what": "Amount for Gate CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.545,
+    0.729
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Gate CV: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim under its CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J02",
+   "side": "back",
+   "panel_label": "Gain CV In",
+   "what": "CV input: gain",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.614,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gain CV\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-K02",
+   "side": "back",
+   "panel_label": "Gain CV trim",
+   "what": "Amount for Gain CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.615,
+    0.729
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Gain CV: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim under its CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-J03",
+   "side": "back",
+   "panel_label": "Volume CV In",
+   "what": "CV input: volume",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.68,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Volume CV\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-K03",
+   "side": "back",
+   "panel_label": "Volume CV trim",
+   "what": "Amount for Volume CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.681,
+    0.729
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Volume CV: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim under its CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D06",
+   "side": "back",
+   "panel_label": "Ground screw (J)",
+   "what": "Ground terminal (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.741,
+    0.654
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D07",
+   "side": "back",
+   "panel_label": "Fuse 1",
+   "what": "Fuse cap (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.795,
+    0.716
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RAMP-B-D08",
+   "side": "back",
+   "panel_label": "Fuse 2",
+   "what": "Fuse cap (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.855,
+    0.716
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

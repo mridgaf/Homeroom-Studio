@@ -1,0 +1,1313 @@
+{
+ "device": "Sweeper",
+ "remote_scope": "se.propellerheads.Sweeper",
+ "code_prefix": "SWPR",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 except two rows (Claude, hover-checked in Reason 12; LFO/Env synced-rate readouts SWPR-F-D05/D06-type rows NOT hovered): Phaser+Envelope main view, Filter view, Audio Follower view, back panel. NOT shown: Flanger view (same controls as Phaser minus Bandwidth/Stages). 7 front controls and 3 back icons give no tooltip (recorded as seen); the 4 audio jacks are cabled so their own names are unread (null). Device Name / BeatSync / Trig On / Stereo Mode / LFO Wave / LFO Sync / Env Loop assignments rest on the Remote list, not a tooltip.",
+ "controls": [
+  {
+   "code": "SWPR-F-B03",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.061,
+    0.077
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.501,
+    0.069
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Basic Phasing\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B01",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.61,
+    0.055
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B04",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.61,
+    0.086
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B05",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.635,
+    0.069
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B06",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.659,
+    0.069
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B02",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.033,
+    0.07
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "tiny triangle top-left",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D02",
+   "side": "front",
+   "panel_label": "BASIC PHASING tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.783,
+    0.077
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Basic Phasing\" (tooltip is the patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices, not provable by tooltip",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B07",
+   "side": "front",
+   "panel_label": "PHASER",
+   "what": "Effect type: Phaser",
+   "reason_name": "Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "pos": [
+    0.427,
+    0.192
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Effect Type\"; clicked, view changed, set back to Phaser",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B08",
+   "side": "front",
+   "panel_label": "FLANGER",
+   "what": "Effect type: Flanger",
+   "reason_name": "Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.501,
+    0.192
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Effect Type\"; clicked, view changed, set back",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B09",
+   "side": "front",
+   "panel_label": "FILTER",
+   "what": "Effect type: Filter",
+   "reason_name": "Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.575,
+    0.192
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Effect Type\"; clicked, view changed, set back",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D03",
+   "side": "front",
+   "panel_label": "Stereo",
+   "what": "Stereo / Dual Mono selector",
+   "reason_name": "Stereo Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "pos": [
+    0.883,
+    0.112
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K01",
+   "side": "front",
+   "panel_label": "LFO > Freq",
+   "what": "LFO amount to Frequency",
+   "reason_name": "LFO Freq Mod",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.131,
+    0.345
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"LFO Freq Mod: 84.1 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K07",
+   "side": "front",
+   "panel_label": "MOD > Freq",
+   "what": "Modulator (envelope/follower) amount to Frequency",
+   "reason_name": "Env Freq Mod",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.131,
+    0.536
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Env Freq Mod: 0.0 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K05",
+   "side": "front",
+   "panel_label": "Frequency",
+   "what": "Phaser/flanger frequency",
+   "reason_name": "Freq",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.289,
+    0.433
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Freq: 798.2 Hz\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K02",
+   "side": "front",
+   "panel_label": "Bandwidth",
+   "what": "Phaser bandwidth",
+   "reason_name": "Bandwidth",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.383,
+    0.349
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Bandwidth: 79.5 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K08",
+   "side": "front",
+   "panel_label": "Feedback",
+   "what": "Feedback amount",
+   "reason_name": "Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.383,
+    0.538
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Feedback: 83.9 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D04",
+   "side": "front",
+   "panel_label": "Stages",
+   "what": "Number of phaser stages (up/down)",
+   "reason_name": "Phaser Stages",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.475,
+    0.43
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; name from Remote list",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B10",
+   "side": "front",
+   "panel_label": "Polarity",
+   "what": "Flip effect polarity",
+   "reason_name": "Polarity",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.562,
+    0.368
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Polarity\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B11",
+   "side": "front",
+   "panel_label": "Mute Dry",
+   "what": "Mute the dry signal",
+   "reason_name": "Mute Dry",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.562,
+    0.505
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Mute Dry\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K03",
+   "side": "front",
+   "panel_label": "Spread",
+   "what": "Stereo spread",
+   "reason_name": "Spread",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "pos": [
+    0.668,
+    0.349
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Spread: 20.5 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K09",
+   "side": "front",
+   "panel_label": "Dry/Wet",
+   "what": "Balance dry and effect",
+   "reason_name": "DryWet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.668,
+    0.538
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dry-Wet: 100.0 %\" (hover spells Dry-Wet; Remote name is DryWet)",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K06",
+   "side": "front",
+   "panel_label": "Volume",
+   "what": "Output volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "pos": [
+    0.747,
+    0.435
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Volume: -6.4 dB\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K04",
+   "side": "front",
+   "panel_label": "LFO > Volume",
+   "what": "LFO amount to Volume",
+   "reason_name": "LFO Amp Mod",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.874,
+    0.345
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"LFO Amp Mod: 0.0 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K10",
+   "side": "front",
+   "panel_label": "MOD > Volume",
+   "what": "Modulator amount to Volume",
+   "reason_name": "Env Amp Mod",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.874,
+    0.536
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Env Amp Mod: 0.0 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B17",
+   "side": "front",
+   "panel_label": "LFO wave arrows",
+   "what": "Pick LFO waveform (up/down)",
+   "reason_name": "LFO Wave",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.097,
+    0.83
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K12",
+   "side": "front",
+   "panel_label": "LFO rate",
+   "what": "LFO rate (Hz, or note value when synced)",
+   "reason_name": "LFO Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.156,
+    0.842
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"LFO Rate: 15.0 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B19",
+   "side": "front",
+   "panel_label": "LFO SYNC",
+   "what": "LFO tempo-sync on/off",
+   "reason_name": "LFO Sync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.158,
+    0.923
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K11",
+   "side": "front",
+   "panel_label": "Rate Mod",
+   "what": "Modulator amount to LFO rate",
+   "reason_name": "Rate Mod",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.215,
+    0.771
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Rate Mod: 0.0 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B12",
+   "side": "front",
+   "panel_label": "Envelope tab",
+   "what": "Modulator type: Envelope",
+   "reason_name": "ModType",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.418,
+    0.692
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Modulator Type\"; clicked the other tab and back",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B13",
+   "side": "front",
+   "panel_label": "Audio Follower tab",
+   "what": "Modulator type: Audio Follower",
+   "reason_name": "ModType",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.545,
+    0.692
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Modulator Type\"; clicked, view changed, set back",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B15",
+   "side": "front",
+   "panel_label": "PRESET",
+   "what": "Envelope preset menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.265,
+    0.773
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B18",
+   "side": "front",
+   "panel_label": "EDIT",
+   "what": "Envelope edit",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.265,
+    0.868
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D07",
+   "side": "front",
+   "panel_label": "Envelope graph",
+   "what": "Envelope shape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.51,
+    0.842
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "display/editor",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B14",
+   "side": "front",
+   "panel_label": "LOOP",
+   "what": "Loop the envelope",
+   "reason_name": "Env Loop",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.768,
+    0.698
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K13",
+   "side": "front",
+   "panel_label": "Env rate",
+   "what": "Envelope time (s, or note value when synced)",
+   "reason_name": "Env Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.767,
+    0.838
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Env Rate: 50.4 %\"",
+   "confidence": "high",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B20",
+   "side": "front",
+   "panel_label": "Env SYNC",
+   "what": "Envelope tempo-sync on/off",
+   "reason_name": "BeatSync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.767,
+    0.923
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "low",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover; BeatSync vs Env Synced Rate is a guess (the SYNC button is BeatSync, Synced Rate is the same knob when sync is on)",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-B16",
+   "side": "front",
+   "panel_label": "AUDIO TRIG OFF",
+   "what": "Audio trigger on/off",
+   "reason_name": "Trig On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "pos": [
+    0.875,
+    0.763
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "low",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D05",
+   "side": "front",
+   "panel_label": "LFO rate (synced)",
+   "what": "LFO rate as a note value when SYNC is on (same spot as the LFO rate knob)",
+   "reason_name": "LFO Synced Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.156,
+    0.782
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered: readout under the LFO rate knob (SYNC is off; the synced note value is not showing); name NOT proven",
+   "confidence": "low",
+   "confidence_reason": "same display as the LFO rate readout; shows only with SYNC on; NOT proven",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-D06",
+   "side": "front",
+   "panel_label": "Env rate (synced)",
+   "what": "Envelope time as a note value when SYNC is on (same spot as the Env rate knob)",
+   "reason_name": "Env Synced Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.767,
+    0.756
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered: readout under the Env rate knob (SYNC off); name NOT proven",
+   "confidence": "low",
+   "confidence_reason": "same display as the Env time readout; shows only with SYNC on; NOT proven",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-F-K14",
+   "side": "front",
+   "panel_label": "Threshold",
+   "what": "Audio trigger threshold",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.875,
+    0.845
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip in Reason (hovered 2.5 s, nudged); name taken from Remote list, NOT proven by hover; Remote list has no threshold item",
+   "view": "main panel (Phaser, Envelope view)"
+  },
+  {
+   "code": "SWPR-B-D01",
+   "side": "back",
+   "panel_label": "BASIC PHASING tape",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.82,
+    0.137
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Basic Phasing\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-K01",
+   "side": "back",
+   "panel_label": "Freq CV Amt (trim)",
+   "what": "Amount for Freq CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.317,
+    0.369
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Freq CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J01",
+   "side": "back",
+   "panel_label": "Freq CV In",
+   "what": "CV input: Frequency",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.373
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Freq CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-K02",
+   "side": "back",
+   "panel_label": "Feedback CV Amt (trim)",
+   "what": "Amount for Feedback CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.317,
+    0.46
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Feedback CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J03",
+   "side": "back",
+   "panel_label": "Feedback/Reso CV In",
+   "what": "CV input: Feedback/Reso",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.46
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Feedback CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-K03",
+   "side": "back",
+   "panel_label": "Spread CV Amt (trim)",
+   "what": "Amount for Spread CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.317,
+    0.55
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Spread CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J05",
+   "side": "back",
+   "panel_label": "Spread CV In",
+   "what": "CV input: Spread",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.552
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Spread CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-K04",
+   "side": "back",
+   "panel_label": "DryWet CV Amt (trim)",
+   "what": "Amount for Dry/Wet CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.317,
+    0.639
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"DryWet CV Amt: 100.0 %\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J07",
+   "side": "back",
+   "panel_label": "Dry/Wet CV In",
+   "what": "CV input: Dry/Wet",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.641
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"DryWet CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J08",
+   "side": "back",
+   "panel_label": "Trig Envelope CV In",
+   "what": "Trigger input for the envelope",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.727
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Trig CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J02",
+   "side": "back",
+   "panel_label": "LFO CV Out",
+   "what": "LFO CV output",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.582,
+    0.373
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"LFO CV Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J04",
+   "side": "back",
+   "panel_label": "Fol/Env CV Out",
+   "what": "Follower/Envelope CV output",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.582,
+    0.46
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Env CV Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J06",
+   "side": "back",
+   "panel_label": "Trigger CV Out",
+   "what": "Trigger CV output",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.582,
+    0.552
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Trig CV Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J09",
+   "side": "back",
+   "panel_label": "Audio Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.369,
+    0.876
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Smooth Bass: Main Out L\" (cut off at edge); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J10",
+   "side": "back",
+   "panel_label": "Audio Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.414,
+    0.876
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Smooth Bass: Main Out R\" (cut off at edge); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J11",
+   "side": "back",
+   "panel_label": "Audio Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.572,
+    0.876
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Default Synchronous: Le...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-J12",
+   "side": "back",
+   "panel_label": "Audio Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.617,
+    0.876
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Default Synchronous: Rig...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-D02",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.155
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "high",
+   "confidence_reason": "no tooltip",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-D03",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.225
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "high",
+   "confidence_reason": "no tooltip",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-B-D04",
+   "side": "back",
+   "panel_label": "(routing icon 3)",
+   "what": "Routing icon (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.896,
+    0.296
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "high",
+   "confidence_reason": "no tooltip",
+   "view": "main panel"
+  },
+  {
+   "code": "SWPR-F-K101",
+   "side": "front",
+   "panel_label": "Drive",
+   "what": "Filter drive",
+   "reason_name": "Filter Drive",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.266,
+    0.421
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Drive: 29.9 %\"",
+   "confidence": "high",
+   "view": "Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-D101",
+   "side": "front",
+   "panel_label": "(Drive light)",
+   "what": "Drive on light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.266,
+    0.309
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip",
+   "view": "Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-K102",
+   "side": "front",
+   "panel_label": "Resonance",
+   "what": "Filter resonance",
+   "reason_name": "Reso",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.454,
+    0.421
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reso: 78.0 %\"",
+   "confidence": "high",
+   "view": "Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-B101",
+   "side": "front",
+   "panel_label": "Filter TYPE",
+   "what": "Filter type menu (Notch 12 dB shown)",
+   "reason_name": "Filter Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.546,
+    0.44
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Type: Ladder LP 24dB\" (while the panel display read 'Notch 12 dB': recorded as seen)",
+   "confidence": "high",
+   "view": "Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-K201",
+   "side": "front",
+   "panel_label": "Gain In",
+   "what": "Audio follower input gain",
+   "reason_name": "Follow Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.298,
+    0.824
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follow Gain: 0.00 dB\"",
+   "confidence": "high",
+   "view": "Audio Follower view (picture sweeper-follower-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-K202",
+   "side": "front",
+   "panel_label": "Attack",
+   "what": "Audio follower attack",
+   "reason_name": "Follow Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.366,
+    0.824
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follow Attack: 11 ms\"",
+   "confidence": "high",
+   "view": "Audio Follower view (picture sweeper-follower-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-K203",
+   "side": "front",
+   "panel_label": "Release",
+   "what": "Audio follower release",
+   "reason_name": "Follow Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.434,
+    0.824
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Follow Release: 110 ms\"",
+   "confidence": "high",
+   "view": "Audio Follower view (picture sweeper-follower-view_front_labeled.png)"
+  },
+  {
+   "code": "SWPR-F-D201",
+   "side": "front",
+   "panel_label": "Follower graph",
+   "what": "Follower display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.717,
+    0.836
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5-2.5 s)",
+   "confidence": "medium",
+   "confidence_reason": "display",
+   "view": "Audio Follower view (picture sweeper-follower-view_front_labeled.png)"
+  }
+ ]
+}

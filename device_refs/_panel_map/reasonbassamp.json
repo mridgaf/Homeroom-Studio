@@ -1,0 +1,800 @@
+{
+ "device": "ReasonBassAmp",
+ "remote_scope": "se.propellerheads.ReasonBassAmp",
+ "code_prefix": "RBAS",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12; rack name 'Softube Bass Amp', Remote name ReasonBassAmp): all front and back positions. Amp/Cab model lights each show one tooltip. Both patch arrows read 'Select previous patch' in this pass (not told apart). Level lights, fuses, vent, labels give no tooltip. Audio jack names unread (cabled).",
+ "controls": [
+  {
+   "code": "RBAS-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.033,
+    0.087
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B02",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.059,
+    0.103
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-D01",
+   "side": "front",
+   "panel_label": "(speaker slots)",
+   "what": "Decoration (vent slots)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.142,
+    0.161
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B03",
+   "side": "front",
+   "panel_label": "AMP MODERN",
+   "what": "Amp model: Modern",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.29,
+    0.149
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B04",
+   "side": "front",
+   "panel_label": "AMP VINTAGE",
+   "what": "Amp model: Vintage",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.317,
+    0.149
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 3 lights show tooltip 'Amp Switch'; Remote item is stepped Modern..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B05",
+   "side": "front",
+   "panel_label": "AMP BYPASS",
+   "what": "Amp model: Bypass",
+   "reason_name": "Amp Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.343,
+    0.149
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Amp Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 3 lights show tooltip 'Amp Switch'; Remote item is stepped Modern..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-D02",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.46,
+    0.154
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Smooth Bass\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B06",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.547,
+    0.131
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B07",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.547,
+    0.174
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\" (second hover also read 'Select previous patch'; the down arrow's own text was not told apart; Remote item 'Select Next Patch' is by position)",
+   "confidence": "medium",
+   "confidence_reason": "tooltip read 'Select previous patch' on both arrows in this pass; NOT told apart",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B08",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.572,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B09",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.598,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B10",
+   "side": "front",
+   "panel_label": "CAB DARK",
+   "what": "Cabinet: Dark",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.635,
+    0.149
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B11",
+   "side": "front",
+   "panel_label": "CAB BRIGHT",
+   "what": "Cabinet: Bright",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.661,
+    0.149
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 4 lights show tooltip 'Cab Switch'; Remote item is stepped Dark..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B12",
+   "side": "front",
+   "panel_label": "CAB ROOM",
+   "what": "Cabinet: Room",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.687,
+    0.149
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 4 lights show tooltip 'Cab Switch'; Remote item is stepped Dark..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B13",
+   "side": "front",
+   "panel_label": "CAB BYPASS",
+   "what": "Cabinet: Bypass",
+   "reason_name": "Cab Switch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.713,
+    0.149
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Cab Switch\"",
+   "confidence": "medium",
+   "confidence_reason": "all 4 lights show tooltip 'Cab Switch'; Remote item is stepped Dark..Bypass",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-D03",
+   "side": "front",
+   "panel_label": "Softube logo",
+   "what": "Logo (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.883,
+    0.144
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-D04",
+   "side": "front",
+   "panel_label": "SMOOTH BASS tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.03,
+    0.539
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Smooth Bass\" (patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-K01",
+   "side": "front",
+   "panel_label": "Drive",
+   "what": "Drive",
+   "reason_name": "Drive",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.142,
+    0.642
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Drive: 7.0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-K02",
+   "side": "front",
+   "panel_label": "Bass",
+   "what": "Bass",
+   "reason_name": "Bass",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.263,
+    0.642
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Bass: 5.5\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-K03",
+   "side": "front",
+   "panel_label": "Middle",
+   "what": "Middle",
+   "reason_name": "Middle",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.364,
+    0.642
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Middle: 2.5\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-K04",
+   "side": "front",
+   "panel_label": "Mid Freq",
+   "what": "Mid frequency (1 to 5)",
+   "reason_name": "Mid Freq",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.453,
+    0.654
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Mid Freq: 1\" (read as 'Mid Freq: 1')",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-K05",
+   "side": "front",
+   "panel_label": "Treble",
+   "what": "Treble",
+   "reason_name": "Treble",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.556,
+    0.642
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Treble: 5.0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B14",
+   "side": "front",
+   "panel_label": "ULTRA LO",
+   "what": "Ultra Lo switch",
+   "reason_name": "Ultra Lo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.224,
+    0.833
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Ultra Lo\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-B15",
+   "side": "front",
+   "panel_label": "ULTRA HI",
+   "what": "Ultra Hi switch",
+   "reason_name": "Ultra Hi",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.521,
+    0.833
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Ultra Hi\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-D05",
+   "side": "front",
+   "panel_label": "Level lights",
+   "what": "Output level lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.917,
+    0.619
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-K06",
+   "side": "front",
+   "panel_label": "Volume",
+   "what": "Output volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.845,
+    0.642
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Volume: -8.2 dB\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-F-D06",
+   "side": "front",
+   "panel_label": "VOLUME label",
+   "what": "Label bar under Volume (decoration)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.845,
+    0.842
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D01",
+   "side": "back",
+   "panel_label": "(triangle) back",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.032,
+    0.085
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D02",
+   "side": "back",
+   "panel_label": "SMOOTH BASS tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.737,
+    0.062
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Smooth Bass\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D05",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.069,
+    0.493
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D07",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.069,
+    0.596
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-J01",
+   "side": "back",
+   "panel_label": "Drive CV In",
+   "what": "CV input: drive",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.132,
+    0.413
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Drive CV\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-K01",
+   "side": "back",
+   "panel_label": "Drive CV trim",
+   "what": "Amount for Drive CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.172,
+    0.413
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Drive CV: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-J02",
+   "side": "back",
+   "panel_label": "Volume CV In",
+   "what": "CV input: volume",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.242,
+    0.413
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Volume CV\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-K02",
+   "side": "back",
+   "panel_label": "Volume CV trim",
+   "what": "Amount for Volume CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.284,
+    0.413
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Volume CV: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-J03",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.134,
+    0.649
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to British Drive 3: Main Out Le(ft)\" (cut off); this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-J04",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.19,
+    0.649
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to British Drive 3: Main Out Rig(ht)\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-J05",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.243,
+    0.649
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Basic Phasing: Left Input\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-J06",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.298,
+    0.649
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Basic Phasing: Right Input\"; own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D03",
+   "side": "back",
+   "panel_label": "Fuse 1",
+   "what": "Fuse cap (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.554,
+    0.31
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D04",
+   "side": "back",
+   "panel_label": "Fuse 2",
+   "what": "Fuse cap (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.616,
+    0.31
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D06",
+   "side": "back",
+   "panel_label": "Vent grille",
+   "what": "Decoration (vent)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.81,
+    0.493
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "RBAS-B-D08",
+   "side": "back",
+   "panel_label": "Warning label",
+   "what": "Sticker (decoration)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.545,
+    0.654
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

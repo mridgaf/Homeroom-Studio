@@ -62,6 +62,15 @@ Reference for Claude and Hermes. John doesn't need to read this. Plan: PLAN.md. 
 | Channel EQ | CEQ | channel-eq_front_labeled.png | channel-eq_back_labeled.png | channel-eq.json | done 2026-10-07: all 44 positions (25 front, 19 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'ChannelEQ'); 'what' lines spot-checked against manual ch.58. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). Rack Channel EQ attached itself to the Mix Channel's insert chain, so its audio jacks show cables. |
 | Channel Dynamics | CDYN | channel-dynamics_front_labeled.png | channel-dynamics_back_labeled.png | channel-dynamics.json | done 2026-10-07: all 33 positions (22 front, 11 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'ChannelDynamics'); 'what' lines spot-checked against manual ch.57. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). |
 | Master Bus Compressor | MBC | master-bus-compressor_front_labeled.png | master-bus-compressor_back_labeled.png | master-bus-compressor.json | done 2026-10-07: all 23 positions (13 front, 10 back) hover-checked in Reason 12 by Claude; name_check PASS (vocab/remotemap name is 'MasterCompressor'); 'what' lines spot-checked against manual ch.59. Test chain Mix Channel > ChanEQ > ChanDyn > MasterComp: audio jacks show cables ('Connected to ...'), cut-off tooltip text noted per row; empty-jack names are what Reason showed. Light/meter/icon rows have no tooltip (by eye). |
+| Sweeper Modulation Effect | SWPR | sweeper_front_labeled.png | sweeper_back_labeled.png | sweeper.json | done 2026-10-07 except two rows (Claude, hover-checked in Reason 12; LFO/Env synced-rate readouts SWPR-F-D05/D06-type rows NOT hovered): Phaser+Envelope main view, Filter view, Audio Follower view, back panel. NOT shown: Flanger view (same controls as Phaser minus Bandwidth/Stages). 7 front controls and 3 back icons give no tooltip (recorded as seen); the 4 audio jacks are cabled so their own names are unread (null). Device Name / BeatSync / Trig On / Stereo Mode / LFO Wave / LFO Sync / Env Loop assignments rest on the Remote list, not a tooltip. |
+| Synchronous Effect Modulator | SYNC | synchronous_front_labeled.png | synchronous_back_labeled.png | synchronous.json | done 2026-10-07 (Claude, hover-checked in Reason 12): front (all positions), back (all positions). Display controls (TOOL, RATE, SPEED, FREE, tracks, FRZ/KILL, MASTER OFFSET, PHASE, DIM, MOD CTRL, 10 MOD knobs) give NO tooltip and have no Remote item. Delay Time (ms) row and the 4 audio jack names are unproven (see rows). |
+| Audiomatic Retro Transformer | AUDM | audiomatic_front_labeled.png | audiomatic_back_labeled.png | audiomatic.json | done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. No Patch Name item (device has no patch browser). 16 preset buttons all read tooltip 'Preset'. Audio jack names unread (cabled). |
+| Neptune Pitch Adjuster | NEPT | neptune_front_labeled.png | neptune_back_labeled.png | neptune.json | done 2026-10-07 except noted (Claude, hover-checked in Reason 12): all front and back positions. Remote has case-variant duplicate items (Midi Destination, Mod wheel, Vibrato rate, pitch bend) and 'Pitch Adjust Amount' with no known panel control: rows are placeholders, NOT proven. Faders PITCHED SIGNAL / VOICE SYNTH and 12 note keys give no tooltip. Audio jack names unread (cabled). |
+| Pulveriser | PULV | pulveriser_front_labeled.png | pulveriser_back_labeled.png | pulveriser.json | done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. Follow (flat Remote item) placed on the follower light, NOT proven. Waveform arrows, light LEDs, routing icons give no tooltip. Audio jack names unread (cabled). |
+| Quartet Chorus Ensemble | QRTT | quartet_front_labeled.png | quartet_back_labeled.png | quartet.json | done 2026-10-07 (Claude, hover-checked in Reason 12): BBD main view (pictured), Chorus, FFT and Grain modes, back panel. Stereo selector, FFT Start/End handles give no tooltip (names from Remote list). Audio jack names unread (cabled). Set back to BBD mode. |
+| Alligator Filter Gate | ALGT | alligator_front_labeled.png | alligator_back_labeled.png | alligator.json | done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. Controls past slot 48 (band Phaser/Delay amounts, Dry Pan, Delay and Phaser sections) have Remote names but no slot in our remotemap. Gate Open lights (flat items), meter lights, pattern/LFO arrows give no usable tooltip. Audio jack names unread (cabled). |
+| Softube Amp (ReasonAmp) | RAMP | reasonamp_front_labeled.png | reasonamp_back_labeled.png | reasonamp.json | done 2026-10-07 (Claude, hover-checked in Reason 12; rack name 'Softube Amp', Remote name ReasonAmp): all front and back positions. Amp/Cab model lights all show one tooltip each. Lamp, logos, level lights, fuses, ground screw give no tooltip. Audio jack names unread (cabled). |
+| Softube Bass Amp (ReasonBassAmp) | RBAS | reasonbassamp_front_labeled.png | reasonbassamp_back_labeled.png | reasonbassamp.json | done 2026-10-07 (Claude, hover-checked in Reason 12; rack name 'Softube Bass Amp', Remote name ReasonBassAmp): all front and back positions. Amp/Cab model lights each show one tooltip. Both patch arrows read 'Select previous patch' in this pass (not told apart). Level lights, fuses, vent, labels give no tooltip. Audio jack names unread (cabled). |
 
 ## Scream 4 — front
 | Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
@@ -2093,6 +2102,687 @@ Notes: hover shows "Diffusion Spread/Amount" but the Remote names are "Diffuse S
 | MBC-B-J07 | Output R | Audio output right | — | — | cable: right-click jack > device > jack name | hover (cabled): 'Connected to Mix Channel: From Insert F...' (text cut at zoom edge) |
 | MBC-B-D01 | (routing icon 1) | Small icon at top right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
 | MBC-B-D02 | (routing icon 2) | Small icon at right | — | — | click/drag only (no Remote item) | icon, no tooltip (by eye) |
+
+## Sweeper Modulation Effect — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| SWPR-F-B03 | Bypass/On/Off | 3-way device switch | Enabled | 4 / CC 33 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Enabled: On" |
+| SWPR-F-D01 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Basic Phasing" |
+| SWPR-F-B01 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Select previous patch" |
+| SWPR-F-B04 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Select next patch" |
+| SWPR-F-B05 | (folder) | Open patch browser | — | — | click only | [main panel (Phaser, Envelope view)] tooltip "Browse patch" |
+| SWPR-F-B06 | (disk) | Save patch | — | — | click only | [main panel (Phaser, Envelope view)] tooltip "Save patch" |
+| SWPR-F-B02 | (triangle) | Fold/unfold device | — | — | click only | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-D02 | BASIC PHASING tape | Patch name tape | Device Name | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Basic Phasing" (tooltip is the patch name; 'Device Name' item not provable here) |
+| SWPR-F-B07 | PHASER | Effect type: Phaser | Type | 32 / CC 61 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Effect Type"; clicked, view changed, set back to Phaser |
+| SWPR-F-B08 | FLANGER | Effect type: Flanger | Type | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Effect Type"; clicked, view changed, set back |
+| SWPR-F-B09 | FILTER | Effect type: Filter | Type | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Effect Type"; clicked, view changed, set back |
+| SWPR-F-D03 | Stereo | Stereo / Dual Mono selector | Stereo Mode | 30 / CC 59 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-K01 | LFO > Freq | LFO amount to Frequency | LFO Freq Mod | 18 / CC 47 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "LFO Freq Mod: 84.1 %" |
+| SWPR-F-K07 | MOD > Freq | Modulator (envelope/follower) amount to Frequency | Env Freq Mod | 6 / CC 35 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Env Freq Mod: 0.0 %" |
+| SWPR-F-K05 | Frequency | Phaser/flanger frequency | Freq | 16 / CC 45 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Freq: 798.2 Hz" |
+| SWPR-F-K02 | Bandwidth | Phaser bandwidth | Bandwidth | 1 / CC 30 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Bandwidth: 79.5 %" |
+| SWPR-F-K08 | Feedback | Feedback amount | Feedback | 10 / CC 39 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Feedback: 83.9 %" |
+| SWPR-F-D04 | Stages | Number of phaser stages (up/down) | Phaser Stages | 25 / CC 54 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-B10 | Polarity | Flip effect polarity | Polarity | 26 / CC 55 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Polarity" |
+| SWPR-F-B11 | Mute Dry | Mute the dry signal | Mute Dry | 24 / CC 53 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Mute Dry" |
+| SWPR-F-K03 | Spread | Stereo spread | Spread | 29 / CC 58 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Spread: 20.5 %" |
+| SWPR-F-K09 | Dry/Wet | Balance dry and effect | DryWet | 3 / CC 32 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Dry-Wet: 100.0 %" (hover spells Dry-Wet; Remote name is DryWet) |
+| SWPR-F-K06 | Volume | Output volume | Volume | 33 / CC 62 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Volume: -6.4 dB" |
+| SWPR-F-K04 | LFO > Volume | LFO amount to Volume | LFO Amp Mod | 17 / CC 46 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "LFO Amp Mod: 0.0 %" |
+| SWPR-F-K10 | MOD > Volume | Modulator amount to Volume | Env Amp Mod | 5 / CC 34 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Env Amp Mod: 0.0 %" |
+| SWPR-F-B17 | LFO wave arrows | Pick LFO waveform (up/down) | LFO Wave | 22 / CC 51 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-K12 | LFO rate | LFO rate (Hz, or note value when synced) | LFO Rate | 19 / CC 48 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "LFO Rate: 15.0 %" |
+| SWPR-F-B19 | LFO SYNC | LFO tempo-sync on/off | LFO Sync | 20 / CC 49 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-K11 | Rate Mod | Modulator amount to LFO rate | Rate Mod | 27 / CC 56 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Rate Mod: 0.0 %" |
+| SWPR-F-B12 | Envelope tab | Modulator type: Envelope | ModType | 23 / CC 52 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Modulator Type"; clicked the other tab and back |
+| SWPR-F-B13 | Audio Follower tab | Modulator type: Audio Follower | ModType | — | display/Remote item, not mapped | [main panel (Phaser, Envelope view)] tooltip "Modulator Type"; clicked, view changed, set back |
+| SWPR-F-B15 | PRESET | Envelope preset menu | — | — | click only | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-B18 | EDIT | Envelope edit | — | — | click only | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-D07 | Envelope graph | Envelope shape | — | — | click only | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-B14 | LOOP | Loop the envelope | Env Loop | 7 / CC 36 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-K13 | Env rate | Envelope time (s, or note value when synced) | Env Rate | 8 / CC 37 | voice/MIDI or click | [main panel (Phaser, Envelope view)] tooltip "Env Rate: 50.4 %" |
+| SWPR-F-B20 | Env SYNC | Envelope tempo-sync on/off | BeatSync | 2 / CC 31 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-B16 | AUDIO TRIG OFF | Audio trigger on/off | Trig On | 31 / CC 60 | voice/MIDI or click | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-D05 | LFO rate (synced) | LFO rate as a note value when SYNC is on (same spot as the LFO rate knob) | LFO Synced Rate | 21 / CC 50 | voice/MIDI or click | [main panel (Phaser, Envelope view)] not hovered: readout under the LFO rate knob (SYNC is off; the synced note value is not showing); name NOT proven |
+| SWPR-F-D06 | Env rate (synced) | Envelope time as a note value when SYNC is on (same spot as the Env rate knob) | Env Synced Rate | 9 / CC 38 | voice/MIDI or click | [main panel (Phaser, Envelope view)] not hovered: readout under the Env rate knob (SYNC off); name NOT proven |
+| SWPR-F-K14 | Threshold | Audio trigger threshold | — | — | click only | [main panel (Phaser, Envelope view)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-K101 | Drive | Filter drive | Filter Drive | 11 / CC 40 | voice/MIDI or click | [Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)] tooltip "Filter Drive: 29.9 %" |
+| SWPR-F-D101 | (Drive light) | Drive on light | — | — | click only | [Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)] no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-F-K102 | Resonance | Filter resonance | Reso | 28 / CC 57 | voice/MIDI or click | [Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)] tooltip "Reso: 78.0 %" |
+| SWPR-F-B101 | Filter TYPE | Filter type menu (Notch 12 dB shown) | Filter Type | 12 / CC 41 | voice/MIDI or click | [Filter view (Filter button; picture sweeper-filter-view_front_labeled.png)] tooltip "Filter Type: Ladder LP 24dB" (while the panel display read 'Notch 12 dB': recorded as seen) |
+| SWPR-F-K201 | Gain In | Audio follower input gain | Follow Gain | 14 / CC 43 | voice/MIDI or click | [Audio Follower view (picture sweeper-follower-view_front_labeled.png)] tooltip "Follow Gain: 0.00 dB" |
+| SWPR-F-K202 | Attack | Audio follower attack | Follow Attack | 13 / CC 42 | voice/MIDI or click | [Audio Follower view (picture sweeper-follower-view_front_labeled.png)] tooltip "Follow Attack: 11 ms" |
+| SWPR-F-K203 | Release | Audio follower release | Follow Release | 15 / CC 44 | voice/MIDI or click | [Audio Follower view (picture sweeper-follower-view_front_labeled.png)] tooltip "Follow Release: 110 ms" |
+| SWPR-F-D201 | Follower graph | Follower display | — | — | click only | [Audio Follower view (picture sweeper-follower-view_front_labeled.png)] no tooltip in Reason (hovered 1.5-2.5 s) |
+
+## Sweeper Modulation Effect — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| SWPR-B-D01 | BASIC PHASING tape | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Basic Phasing" |
+| SWPR-B-K01 | Freq CV Amt (trim) | Amount for Freq CV | — | — | click/drag only (no Remote item) | tooltip "Freq CV Amt: 100.0 %" |
+| SWPR-B-J01 | Freq CV In | CV input: Frequency | — | — | cable: right-click jack > device > jack name | tooltip "Freq CV Input" |
+| SWPR-B-K02 | Feedback CV Amt (trim) | Amount for Feedback CV | — | — | click/drag only (no Remote item) | tooltip "Feedback CV Amt: 100.0 %" |
+| SWPR-B-J03 | Feedback/Reso CV In | CV input: Feedback/Reso | — | — | cable: right-click jack > device > jack name | tooltip "Feedback CV Input" |
+| SWPR-B-K03 | Spread CV Amt (trim) | Amount for Spread CV | — | — | click/drag only (no Remote item) | tooltip "Spread CV Amt: 100.0 %" |
+| SWPR-B-J05 | Spread CV In | CV input: Spread | — | — | cable: right-click jack > device > jack name | tooltip "Spread CV Input" |
+| SWPR-B-K04 | DryWet CV Amt (trim) | Amount for Dry/Wet CV | — | — | click/drag only (no Remote item) | tooltip "DryWet CV Amt: 100.0 %" |
+| SWPR-B-J07 | Dry/Wet CV In | CV input: Dry/Wet | — | — | cable: right-click jack > device > jack name | tooltip "DryWet CV Input" |
+| SWPR-B-J08 | Trig Envelope CV In | Trigger input for the envelope | — | — | cable: right-click jack > device > jack name | tooltip "Trig CV In" |
+| SWPR-B-J02 | LFO CV Out | LFO CV output | — | — | cable: right-click jack > device > jack name | tooltip "LFO CV Output" |
+| SWPR-B-J04 | Fol/Env CV Out | Follower/Envelope CV output | — | — | cable: right-click jack > device > jack name | tooltip "Env CV Output" |
+| SWPR-B-J06 | Trigger CV Out | Trigger CV output | — | — | cable: right-click jack > device > jack name | tooltip "Trig CV Output" |
+| SWPR-B-J09 | Audio Input L | Audio input left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Smooth Bass: Main Out L" (cut off at edge); own jack name NOT read yet |
+| SWPR-B-J10 | Audio Input R | Audio input right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Smooth Bass: Main Out R" (cut off at edge); own jack name NOT read yet |
+| SWPR-B-J11 | Audio Output L | Audio output left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Default Synchronous: Le..." (cut off); own jack name NOT read yet |
+| SWPR-B-J12 | Audio Output R | Audio output right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Default Synchronous: Rig..." (cut off); own jack name NOT read yet |
+| SWPR-B-D02 | (routing icon 1) | Routing icon (no tooltip) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-B-D03 | (routing icon 2) | Routing icon (no tooltip) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.5-2.5 s) |
+| SWPR-B-D04 | (routing icon 3) | Routing icon (no tooltip) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.5-2.5 s) |
+
+## Synchronous Effect Modulator — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| SYNC-F-B03 | Bypass/On/Off | 3-way device switch | Enabled | 18 / CC 47 | voice/MIDI or click | tooltip "Enabled: On" |
+| SYNC-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-D01 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | tooltip "Default Synchronous" |
+| SYNC-F-B02 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| SYNC-F-B04 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| SYNC-F-B05 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| SYNC-F-B06 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| SYNC-F-D02 | INPUT meter | Input level light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-D06 | DEFAULT SYN tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "Default Synchronous" (patch name; 'Device Name' item not provable here) |
+| SYNC-F-B07 | TOOL 1 | Wave shape tool 1 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B08 | TOOL 2 | Wave shape tool 2 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B09 | TOOL 3 | Wave shape tool 3 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B10 | TOOL 4 | Wave shape tool 4 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B11 | TOOL 5 | Wave shape tool 5 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B12 | TOOL 6 | Wave shape tool 6 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B13 | TOOL 7 | Wave shape tool 7 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B14 | TOOL 8 | Wave shape tool 8 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B15 | TOOL 9 | Wave shape tool 9 (draws the shape on the selected track) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B16 | FREE | Free-run mode (no tempo sync) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B17 | RATE 1/64 | Wave rate 1/64 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B18 | RATE 1/32 | Wave rate 1/32 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B19 | RATE 1/16T | Wave rate 1/16T | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B20 | RATE 1/16 | Wave rate 1/16 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B21 | RATE 1/8T | Wave rate 1/8T | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B22 | RATE 1/8 | Wave rate 1/8 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B23 | RATE 1/4 | Wave rate 1/4 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B24 | RATE 1/2 | Wave rate 1/2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B25 | RATE 1/1 | Wave rate 1/1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B26 | SPEED x2 | Speed multiplier x2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B27 | SPEED x1 | Speed multiplier x1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B28 | SPEED x0.5 | Speed multiplier x0.5 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K01 | MASTER OFFSET | Master offset knob | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-D03 | MASTER OFFSET value | Master offset readout | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K02 | PHASE | Phase knob | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K03 | DIM | Dim knob | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B29 | TRACK 1 | Select track 1 (yellow) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B32 | TRACK 2 | Select track 2 (magenta) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B36 | TRACK 3 | Select track 3 (blue) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B30 | TRACK 1 FRZ | Freeze track 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B31 | TRACK 1 KILL | Kill track 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B33 | TRACK 2 FRZ | Freeze track 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B34 | TRACK 2 KILL | Kill track 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B35 | TRACK 3 FRZ | Freeze track 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B37 | TRACK 3 KILL | Kill track 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-D04 | Wave display | Curve drawing/preview area for the 3 tracks | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-B38 | MOD CTRL | Show/hide the modulation controls row | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K04 | MOD 1 | Modulation amount knob 1 (above the main knob 1) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K05 | MOD 2 | Modulation amount knob 2 (above the main knob 2) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K06 | MOD 3 | Modulation amount knob 3 (above the main knob 3) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K07 | MOD 4 | Modulation amount knob 4 (above the main knob 4) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K08 | MOD 5 | Modulation amount knob 5 (above the main knob 5) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K09 | MOD 6 | Modulation amount knob 6 (above the main knob 6) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K10 | MOD 7 | Modulation amount knob 7 (above the main knob 7) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K11 | MOD 8 | Modulation amount knob 8 (above the main knob 8) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K12 | MOD 9 | Modulation amount knob 9 (above the main knob 9) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K13 | MOD 10 | Modulation amount knob 10 (above the main knob 10) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-F-K14 | Dist Amount | Distortion amount | Dist Amount | 12 / CC 41 | voice/MIDI or click | tooltip "Dist Amount: 50%" |
+| SYNC-F-K15 | Dist Character | Distortion character | Dist Character | 13 / CC 42 | voice/MIDI or click | tooltip "Dist Character: 50%" |
+| SYNC-F-K16 | Filter Freq | Filter frequency | Filter Freq | 19 / CC 48 | voice/MIDI or click | tooltip "Filter Freq: 75%" |
+| SYNC-F-K17 | Filter Resonance | Filter resonance | Filter Reso | 22 / CC 51 | voice/MIDI or click | tooltip "Filter Reso: 0%" |
+| SYNC-F-K18 | Delay Amount | Delay amount | Delay  Amount | 1 / CC 30 | voice/MIDI or click | tooltip "Delay Amount: 50%" |
+| SYNC-F-K19 | Delay Time | Delay time (note value when Sync is on) | Delay Synched Time | 9 / CC 38 | voice/MIDI or click | tooltip "Delay Synced Time: 3/16" |
+| SYNC-F-K20 | Delay Feedback | Delay feedback | Delay Feedback | 2 / CC 31 | voice/MIDI or click | tooltip "Delay Feedback: 50%" |
+| SYNC-F-K21 | Reverb Amount | Reverb amount | Reverb Amount | 27 / CC 56 | voice/MIDI or click | tooltip "Reverb Amount: 50%" |
+| SYNC-F-K22 | Reverb Decay | Reverb decay | Reverb Decay | 29 / CC 58 | voice/MIDI or click | tooltip "Reverb Decay: 50%" |
+| SYNC-F-K23 | Level | Level (In/Out switch below) | Level | 24 / CC 53 | voice/MIDI or click | tooltip "Level: 0.0 dB" |
+| SYNC-F-D05 | Delay Time (ms) | Delay time in ms (same knob as Delay Time; shows when Sync is off) | Delay Time | 11 / CC 40 | voice/MIDI or click | not hovered: same knob as Delay Time; its Remote name 'Delay Time' (ms) NOT proven by tooltip (tooltip read 'Delay Synced Time' because Sync is on) |
+| SYNC-F-S01 | Dist type | Distortion type slider (Dist 1 / Dist 2 / Lo-Fi / Ring Mod) | Dist Type | 16 / CC 45 | voice/MIDI or click | tooltip "Dist Type: Dist 1" |
+| SYNC-F-B39 | Post Filter | Put the filter after the distortion | Dist Post Filter | 15 / CC 44 | voice/MIDI or click | tooltip "Dist Post Filter" |
+| SYNC-F-S02 | Filter type | Filter type slider (HP / BP / LP / Comb) | Filter Type | 23 / CC 52 | voice/MIDI or click | tooltip "Filter Type: LP" |
+| SYNC-F-K24 | Lag | Filter lag knob | Filter Lag | 20 / CC 49 | voice/MIDI or click | tooltip "Filter Lag: 0%" |
+| SYNC-F-B40 | Keep Pitch | Keep pitch when delay time changes | Delay Keep Pitch | 3 / CC 32 | voice/MIDI or click | tooltip "Delay Keep Pitch" |
+| SYNC-F-B41 | Sync | Delay tempo sync | Delay Tempo Sync | 10 / CC 39 | voice/MIDI or click | tooltip "Delay Tempo Sync" |
+| SYNC-F-B43 | Ping Pong | Ping-pong delay | Delay Ping Pong | 6 / CC 35 | voice/MIDI or click | tooltip "Delay Ping Pong" |
+| SYNC-F-B42 | Roll | Delay roll (hold feedback) | Delay Roll | 7 / CC 36 | voice/MIDI or click | tooltip "Delay Roll" |
+| SYNC-F-B44 | Delay Send/Return | Delay as send or return effect | Delay SendReturn | 8 / CC 37 | voice/MIDI or click | tooltip "Delay Send/Return: Send" |
+| SYNC-F-K28 | Pan | Delay pan | Delay Pan | 5 / CC 34 | voice/MIDI or click | tooltip "Delay Pan: 50%" |
+| SYNC-F-K25 | Reverb Size | Reverb size | Reverb Size | 32 / CC 61 | voice/MIDI or click | tooltip "Reverb Size: 50%" |
+| SYNC-F-K26 | Reverb Damp | Reverb damping | Reverb Damp | 28 / CC 57 | voice/MIDI or click | tooltip "Reverb Damp: 20%" |
+| SYNC-F-B45 | Reverb Send/Return | Reverb as send or return effect | Reverb SendReturn | 31 / CC 60 | voice/MIDI or click | tooltip "Reverb Send/Return: Return" |
+| SYNC-F-B46 | Level In/Out | Level knob works on In or Out | Level InOut | 25 / CC 54 | voice/MIDI or click | tooltip "Level In/Out: Out" |
+| SYNC-F-K27 | Dry/Wet | Dry/wet balance | DryWet | 17 / CC 46 | voice/MIDI or click | tooltip "Dry/Wet: 100%" |
+| SYNC-F-K29 | Master Level | Master output level | Master Level | 26 / CC 55 | voice/MIDI or click | tooltip "Master Level: 0.0 dB" |
+| SYNC-F-B47 | DIST | Distortion section on/off | Dist On | 14 / CC 43 | voice/MIDI or click | tooltip "Dist On" |
+| SYNC-F-B48 | FILTER | Filter section on/off | Filter On | 21 / CC 50 | voice/MIDI or click | tooltip "Filter On" |
+| SYNC-F-B49 | DELAY | Delay section on/off | Delay On | 4 / CC 33 | voice/MIDI or click | tooltip "Delay On" |
+| SYNC-F-B50 | REVERB | Reverb section on/off | Reverb On | 30 / CC 59 | voice/MIDI or click | tooltip "Reverb On" |
+
+## Synchronous Effect Modulator — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| SYNC-B-K01 | Curve 1 CV trim | Amount for Curve 1 CV | — | — | click/drag only (no Remote item) | tooltip "Curve 1 CV Amount: 100%" |
+| SYNC-B-J01 | Curve 1 CV In | CV input: curve 1 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 1 CV In" |
+| SYNC-B-J02 | Freeze 1 CV In | CV input: freeze track 1 | — | — | cable: right-click jack > device > jack name | tooltip "Freeze 1 CV In" |
+| SYNC-B-J03 | Curve 1 CV Out | CV output: curve 1 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 1 CV Out" |
+| SYNC-B-J04 | Curve 1 Inverted CV Out | CV output: inverted curve 1 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 1 Inv CV Out" |
+| SYNC-B-K02 | Curve 2 CV trim | Amount for Curve 2 CV | — | — | click/drag only (no Remote item) | tooltip "Curve 2 CV Amount: 100%" |
+| SYNC-B-J05 | Curve 2 CV In | CV input: curve 2 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 2 CV In" |
+| SYNC-B-J06 | Freeze 2 CV In | CV input: freeze track 2 | — | — | cable: right-click jack > device > jack name | tooltip "Freeze 2 CV In" |
+| SYNC-B-J07 | Curve 2 CV Out | CV output: curve 2 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 2 CV Out" |
+| SYNC-B-J08 | Curve 2 Inverted CV Out | CV output: inverted curve 2 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 2 Inv CV Out" |
+| SYNC-B-K03 | Curve 3 CV trim | Amount for Curve 3 CV | — | — | click/drag only (no Remote item) | tooltip "Curve 3 CV Amount: 100%" |
+| SYNC-B-J13 | Curve 3 CV In | CV input: curve 3 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 3 CV In" |
+| SYNC-B-J14 | Freeze 3 CV In | CV input: freeze track 3 | — | — | cable: right-click jack > device > jack name | tooltip "Freeze 3 CV In" |
+| SYNC-B-J15 | Curve 3 CV Out | CV output: curve 3 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 3 CV Out" |
+| SYNC-B-J16 | Curve 3 Inverted CV Out | CV output: inverted curve 3 | — | — | cable: right-click jack > device > jack name | tooltip "Curve 3 Inv CV Out" |
+| SYNC-B-K04 | Master Level CV trim | Amount for Master Level CV | — | — | click/drag only (no Remote item) | tooltip "Master Level CV Amount: 100%" |
+| SYNC-B-J17 | Master Level CV In | CV input: master level | — | — | cable: right-click jack > device > jack name | tooltip "Master Level CV In" |
+| SYNC-B-J09 | Audio In L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Basic Phasing: Left Output"; this jack's own name NOT read yet |
+| SYNC-B-J10 | Audio In R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Basic Phasing: Right Output"; this jack's own name NOT read yet |
+| SYNC-B-J11 | Audio Out L | Audio output left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Mix Channel: From Insert FX..." (cut off); own jack name NOT read yet |
+| SYNC-B-J12 | Audio Out R | Audio output right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Mix Channel: From Insert FX..." (cut off); own jack name NOT read yet |
+| SYNC-B-D03 | (routing icon 1) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-B-D04 | (routing icon 2) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-B-D05 | (routing icon 3) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-B-D06 | (routing icon 4) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-B-D07 | (routing icon 5) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| SYNC-B-D02 | DEFAULT SYN tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Default Synchronous" |
+| SYNC-B-D01 | (triangle) back | Fold/unfold device | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Audiomatic Retro Transformer — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| AUDM-F-B02 | Bypass/On/Off | 3-way device switch | Enabled | 2 / CC 31 | voice/MIDI or click | tooltip "Enabled: On" |
+| AUDM-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-F-D02 | AUDIOMATIC 1 tape | Device name tape | Device Name | — | display/Remote item, not mapped | tooltip "Audiomatic 1" (device name) |
+| AUDM-F-D01 | Input meter | Input level lights (6) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-F-K02 | Gain | Input gain | Input Gain | 3 / CC 32 | voice/MIDI or click | tooltip "Input Gain: 0.0 dB" |
+| AUDM-F-D03 | (screen) | Picture screen that changes with the chosen preset | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-F-B03 | Preset Tape | Preset button: Tape | Preset | 4 / CC 33 | voice/MIDI or click | tooltip "Preset" |
+| AUDM-F-B04 | Preset Hi-Fi | Preset button: Hi-Fi | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B05 | Preset Bright | Preset button: Bright | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B06 | Preset Bottom | Preset button: Bottom | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B07 | Preset Spread | Preset button: Spread | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B08 | Preset Radio | Preset button: Radio | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B09 | Preset VHS | Preset button: VHS | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B10 | Preset Vinyl | Preset button: Vinyl | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B11 | Preset mp3 | Preset button: mp3 | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B12 | Preset Psyche | Preset button: Psyche | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B13 | Preset Cracked | Preset button: Cracked | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B14 | Preset Gadget | Preset button: Gadget | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B15 | Preset Circuit | Preset button: Circuit | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B16 | Preset Wash | Preset button: Wash | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B17 | Preset PVC | Preset button: PVC | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-B18 | Preset Eerie | Preset button: Eerie | Preset | — | display/Remote item, not mapped | tooltip "Preset" |
+| AUDM-F-K01 | Transform | Transform amount | Transform | 5 / CC 34 | voice/MIDI or click | tooltip "Transform: 50%" |
+| AUDM-F-K03 | Dry/Wet | Dry/wet balance | Dry Wet | 1 / CC 30 | voice/MIDI or click | tooltip "Dry Wet: 100%" (hover spells 'Dry Wet'; read as 'Dry/Wet: 100%' from the zoom) |
+| AUDM-F-K04 | Volume | Output volume | Volume | 6 / CC 35 | voice/MIDI or click | tooltip "Volume: 0.0 dB" |
+
+## Audiomatic Retro Transformer — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| AUDM-B-K01 | Transform CV trim | Amount for Transform CV | — | — | click/drag only (no Remote item) | tooltip "Transform CV Trim: 100%" |
+| AUDM-B-J01 | Transform CV In | CV input: Transform | — | — | cable: right-click jack > device > jack name | tooltip "Transform CV Input" |
+| AUDM-B-K02 | Dry-Wet CV trim | Amount for Dry-Wet CV | — | — | click/drag only (no Remote item) | tooltip "Dry Wet CV Trim: 100%" |
+| AUDM-B-J02 | Dry-Wet CV In | CV input: Dry-Wet | — | — | cable: right-click jack > device > jack name | tooltip "Dry Wet CV Input" |
+| AUDM-B-J03 | Audio In L | Audio input left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Pad Rhythmification: Left Ou..." (cut off); own jack name NOT read yet |
+| AUDM-B-J04 | Audio In R | Audio input right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Pad Rhythmification: Right ..." (cut off); own jack name NOT read yet |
+| AUDM-B-J05 | Audio Out L | Audio output left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Vocoder 1: Left Carrier"; own jack name NOT read yet |
+| AUDM-B-J06 | Audio Out R | Audio output right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Vocoder 1: Right Carrier"; own jack name NOT read yet |
+| AUDM-B-D03 | (routing icon 1) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-B-D04 | (routing icon 2) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-B-D06 | (routing icon 3) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-B-D07 | (routing icon 4) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-B-D08 | (routing icon 5) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-B-D02 | AUDIOMATIC 1 tape (back) | Device name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Audiomatic 1" |
+| AUDM-B-D01 | (triangle) back | Fold/unfold device | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| AUDM-B-D05 | Speaker grille | Decoration (speaker grille) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Neptune Pitch Adjuster — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| NEPT-F-B02 | Bypass/On/Off | 3-way device switch | Enabled | 4 / CC 33 | voice/MIDI or click | tooltip "Enabled: On" |
+| NEPT-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-D01 | Input meter | Input level lights | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-D02 | FF logo | Powered by FF logo | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-D07 | NEPTUNE 1 tape | Device name tape | Device Name | — | display/Remote item, not mapped | tooltip "Neptune 1" (device name) |
+| NEPT-F-B05 | LOW FREQ | Input: low-frequency mode | Low Freq Input | 8 / CC 37 | voice/MIDI or click | tooltip "Low Freq Input" |
+| NEPT-F-B06 | WIDE VIBRATO | Input: wide vibrato | Wide Vibrato | 25 / CC 54 | voice/MIDI or click | tooltip "Wide Vibrato" |
+| NEPT-F-B13 | LIVE MODE | Input: live mode | Live Mode | 7 / CC 36 | voice/MIDI or click | tooltip "Live Mode" |
+| NEPT-F-B17 | MIDI | MIDI destination button (cycles between the three lights) | MIDI Destination | 9 / CC 38 | voice/MIDI or click | tooltip "MIDI Destination" |
+| NEPT-F-B16 | MIDI (dup) | Remote duplicate of MIDI Destination (same button) | Midi Destination | 10 / CC 39 | voice/MIDI or click | not hovered separately: same spot as MIDI; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven |
+| NEPT-F-D10 | TO PITCH ADJUST | MIDI goes to Pitch Adjust (light) | — | — | click only | tooltip "MIDI Destination" |
+| NEPT-F-D11 | TO VOICE SYNTH | MIDI goes to Voice Synth (light) | — | — | click only | tooltip "MIDI Destination" |
+| NEPT-F-D12 | MIDI INPUT | MIDI input light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-D08 | BEND RANGE | Pitch bend range (stepper) | Pitch Bend Range | 16 / CC 45 | voice/MIDI or click | tooltip "Pitch Bend Range: 7" |
+| NEPT-F-S04 | Pitch wheel | Pitch bend wheel | Pitch Bend | 15 / CC 44 | voice/MIDI or click | tooltip "Pitch Bend: 0" |
+| NEPT-F-S05 | Pitch wheel (dup) | Remote duplicate 'pitch bend' (same wheel) | pitch bend | 26 / CC 55 | voice/MIDI or click | not hovered separately: same wheel as Pitch wheel; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven |
+| NEPT-F-S06 | Mod wheel | Mod wheel (vibrato wheel) | Mod Wheel | 11 / CC 40 | voice/MIDI or click | tooltip "Mod Wheel: 0" |
+| NEPT-F-S07 | Mod wheel (dup) | Remote duplicate 'Mod wheel' (same wheel) | Mod wheel | 12 / CC 41 | voice/MIDI or click | not hovered separately: same wheel as Mod wheel; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven |
+| NEPT-F-K02 | VIBRATO RATE | Vibrato rate | Vibrato Rate | 22 / CC 51 | voice/MIDI or click | tooltip "Vibrato Rate: 64" |
+| NEPT-F-K03 | VIBRATO RATE (dup) | Remote duplicate 'Vibrato rate' (same knob) | Vibrato rate | 23 / CC 52 | voice/MIDI or click | not hovered separately: same knob as VIBRATO RATE; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven |
+| NEPT-F-D04 | ROOT display | Root key display | — | — | click only | tooltip "Root Key"; no Remote item |
+| NEPT-F-B07 | ROOT stepper | Root key up/down | — | — | click only | tooltip "Root Key"; no Remote item |
+| NEPT-F-D05 | SCALE display | Scale name display | — | — | click only | tooltip "Scale"; no Remote item |
+| NEPT-F-B08 | SCALE stepper | Scale up/down | — | — | click only | tooltip "Scale"; no Remote item |
+| NEPT-F-B09 | SCALE MEMORY 1 | Scale memory slot 1 | Scale Memory | 19 / CC 48 | voice/MIDI or click | tooltip "Scale Memory" |
+| NEPT-F-B10 | SCALE MEMORY 2 | Scale memory slot 2 | Scale Memory | — | display/Remote item, not mapped | tooltip "Scale Memory" |
+| NEPT-F-B11 | SCALE MEMORY 3 | Scale memory slot 3 | Scale Memory | — | display/Remote item, not mapped | tooltip "Scale Memory" |
+| NEPT-F-B12 | SCALE MEMORY 4 | Scale memory slot 4 | Scale Memory | — | display/Remote item, not mapped | tooltip "Scale Memory" |
+| NEPT-F-S01 | CATCH ZONE SIZE | Catch zone slider (handle) | Catch Zone | 1 / CC 30 | voice/MIDI or click | tooltip "Catch Zone Size: 157" (Remote name is 'Catch Zone') |
+| NEPT-F-D09 | Catch graph | Note catch display | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B18 | Key C | On-screen key C (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B19 | Key C# | On-screen key C# (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B20 | Key D | On-screen key D (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B21 | Key D# | On-screen key D# (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B22 | Key E | On-screen key E (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B23 | Key F | On-screen key F (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B24 | Key F# | On-screen key F# (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B25 | Key G | On-screen key G (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B26 | Key G# | On-screen key G# (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B27 | Key A | On-screen key A (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B28 | Key A# | On-screen key A# (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B29 | Key B | On-screen key B (note on/off for scale) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-F-B15 | PITCH ADJUST | Pitch adjust on/off | Pitch Adjust On/Off | 14 / CC 43 | voice/MIDI or click | tooltip "Pitch Adjust On/Off" |
+| NEPT-F-B14 | PITCH ADJUST amount? | Remote item 'Pitch Adjust Amount': panel control NOT found | Pitch Adjust Amount | 13 / CC 42 | voice/MIDI or click | not located: no panel control is known for this Remote item; row placed on the PITCH ADJUST button only so the checker has a position; NOT proven |
+| NEPT-F-K04 | CORRECTION SPEED | Correction speed | Correction Speed | 3 / CC 32 | voice/MIDI or click | tooltip "Correction Speed: 64" |
+| NEPT-F-K05 | PRESERVE EXPRESSION | Preserve expression | Preserve Expression | 18 / CC 47 | voice/MIDI or click | tooltip "Preserve Expression: 0" |
+| NEPT-F-B03 | TRANSPOSE | Transpose on/off | Transpose On/Off | 21 / CC 50 | voice/MIDI or click | tooltip "Transpose On/Off" |
+| NEPT-F-D03 | SEMI | Transpose semitones (stepper) | Semitones | 20 / CC 49 | voice/MIDI or click | tooltip "Semitones: 0" |
+| NEPT-F-D06 | CENT | Transpose cents (stepper) | Cent | 2 / CC 31 | voice/MIDI or click | tooltip "Cents: 0" (Remote name is 'Cent') |
+| NEPT-F-B04 | FORMANT | Formant on/off | Formant On/Off | 5 / CC 34 | voice/MIDI or click | tooltip "Formant On/Off" |
+| NEPT-F-K01 | SHIFT | Formant shift | Formant Shift | 6 / CC 35 | voice/MIDI or click | tooltip "Formant Shift: 0" |
+| NEPT-F-S02 | PITCHED SIGNAL | Mixer fader: pitched signal level | Pitched Signal Level | 17 / CC 46 | voice/MIDI or click | no tooltip on the handle or the rail (3 tries); name from the Remote list and the panel label |
+| NEPT-F-S03 | VOICE SYNTH | Mixer fader: voice synth level | Voice Synth Level | 24 / CC 53 | voice/MIDI or click | no tooltip on the handle or the rail (3 tries); name from the Remote list and the panel label |
+
+## Neptune Pitch Adjuster — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| NEPT-B-D01 | (seq icon 1) | Sequencer control icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-B-D02 | (seq icon 2) | Sequencer control icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-B-D04 | Vent holes | Decoration | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-B-D03 | VOID IF REMOVED sticker | Decoration | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| NEPT-B-J01 | Note (Mono CV In) | Sequencer control: note CV input | — | — | cable: right-click jack > device > jack name | tooltip "Mono CV Input" |
+| NEPT-B-J02 | Gate (Mono Gate In) | Sequencer control: gate input | — | — | cable: right-click jack > device > jack name | tooltip "Mono Gate Input" |
+| NEPT-B-K01 | Bend trim | Amount for Bend CV | — | — | click/drag only (no Remote item) | tooltip "Pitch Bend Input: 127" |
+| NEPT-B-K02 | Vibrato trim | Amount for Vibrato CV | — | — | click/drag only (no Remote item) | tooltip "Mod Wheel Modulation Input: 127" |
+| NEPT-B-K03 | Formant trim | Amount for Formant CV | — | — | click/drag only (no Remote item) | tooltip "Formant Shift Input: 127" |
+| NEPT-B-J03 | Bend CV In | CV input: pitch bend | — | — | cable: right-click jack > device > jack name | tooltip "Pitch Bend Input" |
+| NEPT-B-J04 | Vibrato CV In | CV input: vibrato (mod wheel) | — | — | cable: right-click jack > device > jack name | tooltip "Mod Wheel Modulation Input" |
+| NEPT-B-J05 | Formant CV In | CV input: formant shift | — | — | cable: right-click jack > device > jack name | tooltip "Formant Shift Input" |
+| NEPT-B-J06 | Pitch CV Out | CV output: pitch (after pitch adjuster/transpose) | — | — | cable: right-click jack > device > jack name | tooltip "Pitch Output" |
+| NEPT-B-J07 | Amplitude CV Out | CV output: amplitude | — | — | cable: right-click jack > device > jack name | tooltip "Amplitude Output" |
+| NEPT-B-J08 | Audio In L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Vocoder 1: Left Output"; this jack's own name NOT read yet |
+| NEPT-B-J09 | Audio In R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Vocoder 1: Right Output"; this jack's own name NOT read yet |
+| NEPT-B-J10 | Voice Synth Out L | Voice synth output left | — | — | cable: right-click jack > device > jack name | tooltip "Voice Synth Left Output" |
+| NEPT-B-J11 | Voice Synth Out R | Voice synth output right | — | — | cable: right-click jack > device > jack name | tooltip "Voice Synth Right Output" |
+| NEPT-B-J12 | Audio Out L | Audio output left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Basic Pulverisation: Left Inp..." (cut off); own jack name NOT read yet |
+| NEPT-B-J13 | Audio Out R | Audio output right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Basic Pulverisation: Right In..." (cut off); own jack name NOT read yet |
+
+## Pulveriser — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| PULV-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-F-B02 | Bypass/On/Off | 3-way device switch | Enabled | 3 / CC 32 | voice/MIDI or click | tooltip "Enabled: On" |
+| PULV-F-D01 | (red light) | Red light next to the switch | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-F-D02 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | tooltip "Basic Pulverisation" |
+| PULV-F-B03 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| PULV-F-B06 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| PULV-F-B04 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| PULV-F-B05 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| PULV-F-D06 | BASIC PULVER tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "Basic Pulverisation" (patch name; 'Device Name' item not provable here) |
+| PULV-F-K01 | SQUASH | Squash (compression) amount | Squash | 16 / CC 45 | voice/MIDI or click | tooltip "Squash: 49%" |
+| PULV-F-K02 | DIRT | Dirt (distortion) amount | Dirt | 2 / CC 31 | voice/MIDI or click | tooltip "Dirt: 61%" |
+| PULV-F-K09 | RELEASE | Squash release time | Release | 14 / CC 43 | voice/MIDI or click | tooltip "Release: 56%" |
+| PULV-F-K10 | TONE | Tone | Tone | 18 / CC 47 | voice/MIDI or click | tooltip "Tone: 83%" |
+| PULV-F-S01 | Filter mode | Filter mode lever (Bypass / Low Pass 24 / LP12+Notch / Band Pass / High Pass / Comb) | Filter Mode | 5 / CC 34 | voice/MIDI or click | tooltip "Filter Mode: Low Pass 24" |
+| PULV-F-K12 | FREQUENCY | Filter frequency | Filter Frequency | 4 / CC 33 | voice/MIDI or click | tooltip "Filter Frequency: 11.05 kHz" |
+| PULV-F-K13 | PEAK | Filter peak (resonance) | Peak | 13 / CC 42 | voice/MIDI or click | tooltip "Peak: 14%" |
+| PULV-F-S02 | Routing | Order of Squash, Dirt and Filter | Routing | 15 / CC 44 | voice/MIDI or click | tooltip "Routing: 1" |
+| PULV-F-K04 | Tremor RATE | Tremor rate | Tremor Rate | 20 / CC 49 | voice/MIDI or click | tooltip "Tremor Rate: 1.68 Hz" |
+| PULV-F-D03 | Tremor SYNC light | Tremor sync light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-F-B08 | Tremor SYNC | Tremor tempo sync | Sync | 17 / CC 46 | voice/MIDI or click | tooltip "Tremor Sync" (Remote name is 'Sync') |
+| PULV-F-D05 | Tremor WAVEFORM | Tremor waveform display (pick a shape with the arrows) | Tremor Waveform | 22 / CC 51 | voice/MIDI or click | tooltip "Tremor Waveform: Sine" |
+| PULV-F-B07 | Waveform up arrow | Previous waveform | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-F-B09 | Waveform down arrow | Next waveform | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-F-D04 | Tremor SPREAD light | Tremor spread light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-F-B10 | Tremor SPREAD | Tremor stereo spread on/off | Tremor Spread | 21 / CC 50 | voice/MIDI or click | tooltip "Tremor Spread" |
+| PULV-F-K05 | Tremor LAG | Tremor lag | Tremor Lag | 19 / CC 48 | voice/MIDI or click | tooltip "Tremor Lag: 16%" |
+| PULV-F-K03 | Tremor > Frequency | Tremor amount to filter frequency | Tremor to Frequency | 23 / CC 52 | voice/MIDI or click | tooltip "Tremor to Frequency: 0%" |
+| PULV-F-K08 | Follower > Rate | Follower amount to tremor rate | Follower to Rate | 12 / CC 41 | voice/MIDI or click | tooltip "Follower to Rate: 0%" |
+| PULV-F-K14 | Follower > Frequency | Follower amount to filter frequency | Follower to Frequency | 11 / CC 40 | voice/MIDI or click | tooltip "Follower to Frequency: 0%" |
+| PULV-F-K06 | Tremor > Volume | Tremor amount to volume | Tremor to Volume | 24 / CC 53 | voice/MIDI or click | tooltip "Tremor to Volume: 0%" |
+| PULV-F-K07 | VOLUME | Output volume | Volume | 25 / CC 54 | voice/MIDI or click | tooltip "Volume: 65%" |
+| PULV-F-K11 | BLEND | Dry/wet blend | Blend | 1 / CC 30 | voice/MIDI or click | tooltip "Blend: 100%" |
+| PULV-F-B11 | Follower TRIG | Follower trigger button | Follower Trig | 10 / CC 39 | voice/MIDI or click | tooltip "Follower Trig" |
+| PULV-F-K15 | THRESHOLD | Follower threshold | Follower Threshold | 9 / CC 38 | voice/MIDI or click | tooltip "Follower Threshold: 0%" |
+| PULV-F-D07 | Follower light | Follower light (red) | Follow | 6 / CC 35 | voice/MIDI or click | no tooltip; Remote item 'Follow' is a 'flat' item (did not change during the sweep); placed on this light, NOT proven |
+| PULV-F-K16 | ATTACK | Follower attack | Follower Attack | 7 / CC 36 | voice/MIDI or click | tooltip "Follower Attack: 0%" |
+| PULV-F-K17 | Follower RELEASE | Follower release | Follower Release | 8 / CC 37 | voice/MIDI or click | tooltip "Follower Release: 0%" |
+
+## Pulveriser — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| PULV-B-D04 | BASIC PULVER tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Basic Pulverisation" |
+| PULV-B-D02 | (routing icon 1) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-B-D05 | (routing icon 2) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-B-D01 | (triangle) back | Fold/unfold device | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-B-K01 | Squash CV trim | Amount for Squash CV | — | — | click/drag only (no Remote item) | tooltip "Squash CV Modulation Amount: 100%" |
+| PULV-B-J01 | Squash CV In | CV input: Squash | — | — | cable: right-click jack > device > jack name | tooltip "Squash CV In" |
+| PULV-B-K03 | Dirt CV trim | Amount for Dirt CV | — | — | click/drag only (no Remote item) | tooltip "Dirt CV Modulation Amount: 100%" |
+| PULV-B-J06 | Dirt CV In | CV input: Dirt | — | — | cable: right-click jack > device > jack name | tooltip "Dirt CV In" |
+| PULV-B-K05 | Filter Frequency CV trim | Amount for Filter Frequency CV | — | — | click/drag only (no Remote item) | tooltip "Filter Freq CV Modulation Amount: 100%" |
+| PULV-B-J09 | Filter Frequency CV In | CV input: Filter Frequency | — | — | cable: right-click jack > device > jack name | tooltip "Filter CV In" |
+| PULV-B-K06 | Tremor Rate CV trim | Amount for Tremor Rate CV | — | — | click/drag only (no Remote item) | tooltip "Tremor Rate CV Modulation Amount: 100%" |
+| PULV-B-J10 | Tremor Rate CV In | CV input: Tremor Rate | — | — | cable: right-click jack > device > jack name | tooltip "Tremor CV In" |
+| PULV-B-K07 | Volume CV trim | Amount for Volume CV | — | — | click/drag only (no Remote item) | tooltip "Volume CV Modulation Amount: 100%" |
+| PULV-B-J13 | Volume CV In | CV input: Volume | — | — | cable: right-click jack > device > jack name | tooltip "Volume CV In" |
+| PULV-B-K02 | Filter Frequency audio trim | Amount for Filter Frequency audio modulation | — | — | click/drag only (no Remote item) | tooltip "Filter Freq Audio Modulation Amount: 100%" |
+| PULV-B-J02 | Filter Frequency audio In | Audio modulation input: Filter Frequency | — | — | cable: right-click jack > device > jack name | tooltip "Filter Freq Audio Modulation In" |
+| PULV-B-K04 | Volume audio trim | Amount for Volume audio modulation | — | — | click/drag only (no Remote item) | tooltip "Volume Audio Modulation Amount: 100%" |
+| PULV-B-J07 | Volume audio In | Audio modulation input: Volume | — | — | cable: right-click jack > device > jack name | tooltip "Volume Audio Modulation In" |
+| PULV-B-K08 | Follower CV trim | Amount for Follower CV | — | — | click/drag only (no Remote item) | tooltip "Follower CV Modulation Amount: 100%" |
+| PULV-B-J14 | Follower CV In | CV input: Follower (breaks internal routing) | — | — | cable: right-click jack > device > jack name | tooltip "Follow CV In" |
+| PULV-B-J03 | Follower mod Out | Modulation output: Follower | — | — | cable: right-click jack > device > jack name | tooltip "Follower CV Out" |
+| PULV-B-J08 | Tremor mod Out | Modulation output: Tremor | — | — | cable: right-click jack > device > jack name | tooltip "Tremor CV Out" |
+| PULV-B-J04 | Audio In L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Neptune 1: Left Output"; this jack's own name NOT read yet |
+| PULV-B-J05 | Audio In R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Neptune 1: Right Output"; this jack's own name NOT read yet |
+| PULV-B-J11 | Audio Out L | Audio output left | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Big BBD Ensemble: Left Inpu(t)" (cut off); own jack name NOT read yet |
+| PULV-B-J12 | Audio Out R | Audio output right | — | — | cable: right-click jack > device > jack name | cabled: tooltip "Connected to Big BBD Ensemble: Right Inp(ut)" (cut off); own jack name NOT read yet |
+| PULV-B-D06 | Warning plate | Warning plate (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| PULV-B-D03 | PULVERISER logo | Logo (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Quartet Chorus Ensemble — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| QRTT-F-B05 | Bypass/On/Off | 3-way device switch | Enabled | 14 / CC 43 | voice/MIDI or click | tooltip "Enabled: On" |
+| QRTT-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-F-D04 | (lights) | Level lights | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-F-D01 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | tooltip "Big BBD Ensemble" |
+| QRTT-F-B02 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| QRTT-F-B06 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| QRTT-F-B03 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| QRTT-F-B04 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| QRTT-F-D02 | BIG BBD ENSE tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "Big BBD Ensemble" (patch name; 'Device Name' item not provable here) |
+| QRTT-F-D03 | Stereo | Stereo / Dual Mono selector | Stereo Mode | 28 / CC 57 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-F-B07 | CHORUS | Ensemble mode: Chorus | Effect Select | 13 / CC 42 | voice/MIDI or click | tooltip "Effect Select"; clicked, view changed, set back to BBD |
+| QRTT-F-B08 | BBD | Ensemble mode: BBD | Effect Select | — | display/Remote item, not mapped | tooltip "Effect Select" |
+| QRTT-F-B09 | FFT | Ensemble mode: FFT | Effect Select | — | display/Remote item, not mapped | tooltip "Effect Select"; clicked, view changed, set back to BBD |
+| QRTT-F-B10 | GRAIN | Ensemble mode: Grain | Effect Select | — | display/Remote item, not mapped | tooltip "Effect Select"; clicked, view changed, set back to BBD |
+| QRTT-F-K01 | BBD Delay | BBD Delay | BBD Delay | 1 / CC 30 | voice/MIDI or click | tooltip "BBD Delay: 7.23 ms" |
+| QRTT-F-K02 | BBD Mod Depth | BBD Mod Depth | BBD Depth | 2 / CC 31 | voice/MIDI or click | tooltip "BBD Depth: 53.5 %" |
+| QRTT-F-K03 | BBD Mod Rate | BBD Mod Rate | BBD Rate | 5 / CC 34 | voice/MIDI or click | tooltip "BBD Rate: 1.53 Hz" |
+| QRTT-F-K04 | BBD Noise Mod | BBD Noise Mod | BBD Noise | 4 / CC 33 | voice/MIDI or click | tooltip "BBD Noise: 0.0 %" |
+| QRTT-F-K05 | BBD Width | BBD Width | BBD Width | 6 / CC 35 | voice/MIDI or click | tooltip "BBD Width: 89.5 %" |
+| QRTT-F-K06 | BBD Dry/Wet | BBD Dry/Wet | BBD DryWet | 3 / CC 32 | voice/MIDI or click | tooltip "BBD DryWet: 100.0 %" |
+| QRTT-F-K101 | Chorus Delay | Chorus Delay | Chorus Delay | 7 / CC 36 | voice/MIDI or click | [Chorus mode (picture quartet-chorus-view_front_labeled.png)] tooltip "Chorus Delay: 5.08 ms" |
+| QRTT-F-K102 | Chorus Mod Depth | Chorus Mod Depth | Chorus Depth | 8 / CC 37 | voice/MIDI or click | [Chorus mode (picture quartet-chorus-view_front_labeled.png)] tooltip "Chorus Depth: 50.0 %" |
+| QRTT-F-K103 | Chorus Mod Rate | Chorus Mod Rate | Chorus Rate | 11 / CC 40 | voice/MIDI or click | [Chorus mode (picture quartet-chorus-view_front_labeled.png)] tooltip "Chorus Rate: 0.71 Hz" |
+| QRTT-F-K104 | Chorus Feedback | Chorus Feedback | Chorus Feedback | 10 / CC 39 | voice/MIDI or click | [Chorus mode (picture quartet-chorus-view_front_labeled.png)] tooltip "Chorus Feedback: 0.0 %" |
+| QRTT-F-K105 | Chorus Width | Chorus Width | Chorus Width | 12 / CC 41 | voice/MIDI or click | [Chorus mode (picture quartet-chorus-view_front_labeled.png)] tooltip "Chorus Width: 100.0 %" |
+| QRTT-F-K106 | Chorus Dry/Wet | Chorus Dry/Wet | Chorus DryWet | 9 / CC 38 | voice/MIDI or click | [Chorus mode (picture quartet-chorus-view_front_labeled.png)] tooltip "Chorus DryWet: 100.0 %" |
+| QRTT-F-S201 | FFT Size | FFT size slider (1 to 4) | FFT Size | 18 / CC 47 | voice/MIDI or click | [FFT mode (picture quartet-fft-view_front_labeled.png)] tooltip "FFT Size: 3" |
+| QRTT-F-K201 | FFT Mod Depth | FFT mod depth | FFT Depth | 15 / CC 44 | voice/MIDI or click | [FFT mode (picture quartet-fft-view_front_labeled.png)] tooltip "FFT Depth: 50.0 %" |
+| QRTT-F-S202 | Frequency Range start | Frequency range start handle | FFT Start | 19 / CC 48 | voice/MIDI or click | [FFT mode (picture quartet-fft-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (handle) |
+| QRTT-F-S203 | Frequency Range end | Frequency range end handle | FFT End | 17 / CC 46 | voice/MIDI or click | [FFT mode (picture quartet-fft-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (handle) |
+| QRTT-F-D201 | Frequency Range display | Frequency range display | — | — | click only | [FFT mode (picture quartet-fft-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-F-K202 | FFT Width | FFT width | FFT Width | 20 / CC 49 | voice/MIDI or click | [FFT mode (picture quartet-fft-view_front_labeled.png)] tooltip "FFT Width: 100.0 %" |
+| QRTT-F-K203 | FFT Dry/Wet | FFT dry/wet | FFT DryWet | 16 / CC 45 | voice/MIDI or click | [FFT mode (picture quartet-fft-view_front_labeled.png)] tooltip "FFT DryWet: 100.0 %" |
+| QRTT-F-B301 | Phase RND | Grain random phase on/off | Grain Phase | 25 / CC 54 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain Random Phase" (Remote name is 'Grain Phase') |
+| QRTT-F-S301 | Grain Size | Grain size slider | Grain Size | 26 / CC 55 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain Size: 50.0 %" |
+| QRTT-F-S302 | Grain Mod Depth | Grain mod depth slider | Grain Depth | 22 / CC 51 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain Depth: 40.0 %" |
+| QRTT-F-S303 | Grain Jitter | Grain jitter slider | Grain Jitter | 24 / CC 53 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain Jitter: 50.0 %" |
+| QRTT-F-S304 | Grain Density | Grain density slider | Grain Density | 21 / CC 50 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain Density: 60.0 %" |
+| QRTT-F-K301 | Grain Width | Grain width | Grain Width | 27 / CC 56 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain Width: 100.0 %" |
+| QRTT-F-K302 | Grain Dry/Wet | Grain dry/wet | Grain DryWet | 23 / CC 52 | voice/MIDI or click | [Grain mode (picture quartet-grain-view_front_labeled.png)] tooltip "Grain DryWet: 100.0 %" |
+
+## Quartet Chorus Ensemble — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| QRTT-B-D01 | (triangle) back | Fold/unfold device | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-B-D02 | BIG BBD ENSE tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Big BBD Ensemble" |
+| QRTT-B-D03 | (routing icon 1) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-B-D04 | (routing icon 2) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-B-D05 | (routing icon 3) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| QRTT-B-K01 | Mod Depth CV trim | Amount for Mod Depth CV | — | — | click/drag only (no Remote item) | tooltip "Depth CV Amt: 100.0 %" |
+| QRTT-B-J01 | Mod Depth CV In | CV input: Mod Depth | — | — | cable: right-click jack > device > jack name | tooltip "Depth CV Input" |
+| QRTT-B-K02 | Width CV trim | Amount for Width CV | — | — | click/drag only (no Remote item) | tooltip "Width CV Amt: 100.0 %" |
+| QRTT-B-J02 | Width CV In | CV input: Width | — | — | cable: right-click jack > device > jack name | tooltip "Width CV Input" |
+| QRTT-B-K03 | DryWet CV trim | Amount for DryWet CV | — | — | click/drag only (no Remote item) | tooltip "DryWet CV Amt: 100.0 %" |
+| QRTT-B-J03 | DryWet CV In | CV input: DryWet | — | — | cable: right-click jack > device > jack name | tooltip "DryWet CV Input" |
+| QRTT-B-J04 | Audio In L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Basic Pulverisation: Left Out..." (cut off); own jack name NOT read yet |
+| QRTT-B-J05 | Audio In R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Basic Pulverisation: Right O..." (cut off); own jack name NOT read yet |
+| QRTT-B-J06 | Audio Out L | Audio output left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to British Drive 3: Main In Left"; this jack's own name NOT read yet |
+| QRTT-B-J07 | Audio Out R | Audio output right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to British Drive 3: Main In Right"; this jack's own name NOT read yet |
+
+## Alligator Filter Gate — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| ALGT-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| ALGT-F-B02 | Bypass/On/Off | 3-way device switch | Enabled | 48 / CC 77 | voice/MIDI or click | tooltip "Enabled: On" |
+| ALGT-F-D01 | (meter lights) | Level lights | — | — | click only | tooltip "Master" (tooltip text; no Remote item assigned) |
+| ALGT-F-D02 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | tooltip "Pad Rhythmification" |
+| ALGT-F-B03 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| ALGT-F-B06 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| ALGT-F-B04 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| ALGT-F-B05 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| ALGT-F-D07 | PAD RHYTHMIF tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "Pad Rhythmification" (patch name; 'Device Name' item not provable here) |
+| ALGT-F-B07 | Pattern ON | Pattern on/off button | Pattern Enable | 41 / CC 70 | voice/MIDI or click | tooltip "Pattern Enable" |
+| ALGT-F-D03 | Pattern light | Pattern on light | — | — | click only | tooltip "Pattern Enable" |
+| ALGT-F-B10 | SHUFFLE | Pattern shuffle | Shuffle | 44 / CC 73 | voice/MIDI or click | tooltip "Shuffle" |
+| ALGT-F-D05 | Pattern display | Pattern number (stepper) | Pattern | 40 / CC 69 | voice/MIDI or click | tooltip "Pattern: 1" |
+| ALGT-F-B11 | Pattern up arrow | Next pattern | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| ALGT-F-B12 | Pattern down arrow | Previous pattern | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| ALGT-F-K20 | RESOLUTION | Pattern resolution | Resolution | 42 / CC 71 | voice/MIDI or click | tooltip "Resolution: 1/16" |
+| ALGT-F-K33 | SHIFT | Pattern shift | Shift | 43 / CC 72 | voice/MIDI or click | tooltip "Shift: 0" |
+| ALGT-F-B08 | MANUAL GATE 1 | Manual gate 1 button | Gate 1 Trig | 26 / CC 55 | voice/MIDI or click | tooltip "Gate 1 Trig" |
+| ALGT-F-D04 | Gate 1 light | Gate 1 open light | Gate 1 Open | 25 / CC 54 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Gate 1 Open' is a 'flat' item; placed on this light, NOT proven |
+| ALGT-F-B13 | MANUAL GATE 2 | Manual gate 2 button | Gate 2 Trig | 28 / CC 57 | voice/MIDI or click | tooltip "Gate 2 Trig" |
+| ALGT-F-D06 | Gate 2 light | Gate 2 open light | Gate 2 Open | 27 / CC 56 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Gate 2 Open' is a 'flat' item; placed on this light, NOT proven |
+| ALGT-F-B15 | MANUAL GATE 3 | Manual gate 3 button | Gate 3 Trig | 30 / CC 59 | voice/MIDI or click | tooltip "Gate 3 Trig" |
+| ALGT-F-D08 | Gate 3 light | Gate 3 open light | Gate 3 Open | 29 / CC 58 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Gate 3 Open' is a 'flat' item; placed on this light, NOT proven |
+| ALGT-F-B09 | HIGH PASS ON | High Pass filter on/off | High Pass Filter On | 17 / CC 46 | voice/MIDI or click | tooltip "High Pass Filter On" |
+| ALGT-F-K01 | HIGH PASS LFO | High Pass filter: LFO amount | High Pass LFO Amount | 21 / CC 50 | voice/MIDI or click | tooltip "High Pass LFO Amount: 22%" |
+| ALGT-F-K02 | HIGH PASS FREQ | High Pass filter frequency | High Pass Frequency | 18 / CC 47 | voice/MIDI or click | tooltip "High Pass Frequency: 1.74 kHz" |
+| ALGT-F-K03 | HIGH PASS RES | High Pass filter resonance | High Pass Resonance | 19 / CC 48 | voice/MIDI or click | tooltip "High Pass Resonance: 31%" |
+| ALGT-F-K04 | HIGH PASS ENV | High Pass filter: envelope amount | High Pass Env Amount | 20 / CC 49 | voice/MIDI or click | tooltip "High Pass Env Amount: -25%" |
+| ALGT-F-B14 | BAND PASS ON | Band Pass filter on/off | Band Pass Filter On | 9 / CC 38 | voice/MIDI or click | tooltip "Band Pass Filter On" |
+| ALGT-F-K10 | BAND PASS LFO | Band Pass filter: LFO amount | Band Pass LFO Amount | 13 / CC 42 | voice/MIDI or click | tooltip "Band Pass LFO Amount: 22%" |
+| ALGT-F-K11 | BAND PASS FREQ | Band Pass filter frequency | Band Pass Frequency | 10 / CC 39 | voice/MIDI or click | tooltip "Band Pass Frequency: 376.3 Hz" |
+| ALGT-F-K12 | BAND PASS RES | Band Pass filter resonance | Band Pass Resonance | 11 / CC 40 | voice/MIDI or click | tooltip "Band Pass Resonance: 60%" |
+| ALGT-F-K13 | BAND PASS ENV | Band Pass filter: envelope amount | Band Pass Env Amount | 12 / CC 41 | voice/MIDI or click | tooltip "Band Pass Env Amount: 19%" |
+| ALGT-F-B16 | LOW PASS ON | Low Pass filter on/off | Low Pass Filter On | 1 / CC 30 | voice/MIDI or click | tooltip "Low Pass Filter On" |
+| ALGT-F-K21 | LOW PASS LFO | Low Pass filter: LFO amount | Low Pass LFO Amount | 5 / CC 34 | voice/MIDI or click | tooltip "Low Pass LFO Amount: 22%" |
+| ALGT-F-K22 | LOW PASS FREQ | Low Pass filter frequency | Low Pass Frequency | 2 / CC 31 | voice/MIDI or click | tooltip "Low Pass Frequency: 1.96 kHz" |
+| ALGT-F-K23 | LOW PASS RES | Low Pass filter resonance | Low Pass Resonance | 3 / CC 32 | voice/MIDI or click | tooltip "Low Pass Resonance: 16%" |
+| ALGT-F-K24 | LOW PASS ENV | Low Pass filter: envelope amount | Low Pass Env Amount | 4 / CC 33 | voice/MIDI or click | tooltip "Low Pass Env Amount: 16%" |
+| ALGT-F-K05 | High Pass DRIVE | High Pass band: drive amount | High Pass Drive Amount | 22 / CC 51 | voice/MIDI or click | tooltip "High Pass Drive Amount: 17%" |
+| ALGT-F-K06 | High Pass PHASER | High Pass band: phaser amount | High Pass Phaser Amount | — | display/Remote item, not mapped | tooltip "High Pass Phaser Amount: 0%" |
+| ALGT-F-K07 | High Pass DELAY | High Pass band: delay amount | High Pass Delay Amount | — | display/Remote item, not mapped | tooltip "High Pass Delay Amount: 9%" |
+| ALGT-F-K08 | High Pass PAN | High Pass band: pan | High Pass Pan | 23 / CC 52 | voice/MIDI or click | tooltip "High Pass Pan: -27" |
+| ALGT-F-K09 | High Pass VOLUME | High Pass band: volume | High Pass Volume | 24 / CC 53 | voice/MIDI or click | tooltip "High Pass Volume: 75%" |
+| ALGT-F-K14 | Band Pass DRIVE | Band Pass band: drive amount | Band Pass Drive Amount | 14 / CC 43 | voice/MIDI or click | tooltip "Band Pass Drive Amount: 31%" |
+| ALGT-F-K15 | Band Pass PHASER | Band Pass band: phaser amount | Band Pass Phaser Amount | — | display/Remote item, not mapped | tooltip "Band Pass Phaser Amount: 0%" |
+| ALGT-F-K16 | Band Pass DELAY | Band Pass band: delay amount | Band Pass Delay Amount | — | display/Remote item, not mapped | tooltip "Band Pass Delay Amount: 35%" |
+| ALGT-F-K17 | Band Pass PAN | Band Pass band: pan | Band Pass Pan | 15 / CC 44 | voice/MIDI or click | tooltip "Band Pass Pan: 2" |
+| ALGT-F-K18 | Band Pass VOLUME | Band Pass band: volume | Band Pass Volume | 16 / CC 45 | voice/MIDI or click | tooltip "Band Pass Volume: 70%" |
+| ALGT-F-K25 | Low Pass DRIVE | Low Pass band: drive amount | Low Pass Drive Amount | 6 / CC 35 | voice/MIDI or click | tooltip "Low Pass Drive Amount: 39%" |
+| ALGT-F-K26 | Low Pass PHASER | Low Pass band: phaser amount | Low Pass Phaser Amount | — | display/Remote item, not mapped | tooltip "Low Pass Phaser Amount: 0%" |
+| ALGT-F-K27 | Low Pass DELAY | Low Pass band: delay amount | Low Pass Delay Amount | — | display/Remote item, not mapped | tooltip "Low Pass Delay Amount: 9%" |
+| ALGT-F-K28 | Low Pass PAN | Low Pass band: pan | Low Pass Pan | 7 / CC 36 | voice/MIDI or click | tooltip "Low Pass Pan: 27" |
+| ALGT-F-K29 | Low Pass VOLUME | Low Pass band: volume | Low Pass Volume | 8 / CC 37 | voice/MIDI or click | tooltip "Low Pass Volume: 75%" |
+| ALGT-F-K30 | DUCKING | Ducking amount | Ducking | 47 / CC 76 | voice/MIDI or click | tooltip "Ducking: 0%" |
+| ALGT-F-K31 | DRY PAN | Dry signal pan | Dry Pan | — | display/Remote item, not mapped | tooltip "Dry Pan: 2" |
+| ALGT-F-K32 | DRY VOLUME | Dry signal volume | Dry Volume | 45 / CC 74 | voice/MIDI or click | tooltip "Dry Volume: 0%" |
+| ALGT-F-K19 | MASTER | Master volume | Master Volume | 46 / CC 75 | voice/MIDI or click | tooltip "Master Volume: 72%" |
+| ALGT-F-K34 | AMP ENV A | Amplitude envelope attack | Amp Env Attack | 31 / CC 60 | voice/MIDI or click | tooltip "Amp Env Attack: 16%" |
+| ALGT-F-K35 | AMP ENV D | Amplitude envelope decay | Amp Env Decay | 32 / CC 61 | voice/MIDI or click | tooltip "Amp Env Decay: 61%" |
+| ALGT-F-K36 | AMP ENV R | Amplitude envelope release | Amp Env Release | 33 / CC 62 | voice/MIDI or click | tooltip "Amp Env Release: 29%" |
+| ALGT-F-D09 | LFO waveform display | LFO waveform (pick with the arrows) | LFO Waveform | 38 / CC 67 | voice/MIDI or click | tooltip "LFO Waveform: Triangle" |
+| ALGT-F-B17 | LFO wave up arrow | Previous waveform | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| ALGT-F-B20 | LFO wave down arrow | Next waveform | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| ALGT-F-K37 | LFO FREQ | LFO frequency (note value when SYNC is on) | LFO Freq | 37 / CC 66 | voice/MIDI or click | tooltip "LFO Freq: 3/8" |
+| ALGT-F-B18 | LFO SYNC | LFO tempo sync | LFOSync | 39 / CC 68 | voice/MIDI or click | tooltip "LFO Sync" (Remote name is 'LFOSync') |
+| ALGT-F-K38 | FILTER ENV A | Filter envelope attack | Filter Env Attack | 34 / CC 63 | voice/MIDI or click | tooltip "Filter Env Attack: 9%" |
+| ALGT-F-K39 | FILTER ENV D | Filter envelope decay | Filter Env Decay | 35 / CC 64 | voice/MIDI or click | tooltip "Filter Env Decay: 39%" |
+| ALGT-F-K40 | FILTER ENV R | Filter envelope release | Filter Env Release | 36 / CC 65 | voice/MIDI or click | tooltip "Filter Env Release: 27%" |
+| ALGT-F-K41 | DELAY TIME | Delay time (note value when SYNC is on) | Delay Time | — | display/Remote item, not mapped | tooltip "Delay Time: 1/8" |
+| ALGT-F-B19 | DELAY SYNC | Delay tempo sync | DelaySync | — | display/Remote item, not mapped | tooltip "Delay Sync" (Remote name is 'DelaySync') |
+| ALGT-F-K42 | DELAY FEEDBACK | Delay feedback | Delay Feedback | — | display/Remote item, not mapped | tooltip "Delay Feedback: 35%" |
+| ALGT-F-K43 | DELAY PAN | Delay pan | Delay Pan | — | display/Remote item, not mapped | tooltip "Delay Pan: -2" |
+| ALGT-F-K44 | PHASER RATE | Phaser rate | Phaser Rate | — | display/Remote item, not mapped | tooltip "Phaser Rate: 28%" |
+| ALGT-F-K45 | PHASER FBK | Phaser feedback | Phaser Feedback | — | display/Remote item, not mapped | tooltip "Phaser Feedback: 29%" |
+
+## Alligator Filter Gate — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| ALGT-B-D01 | PAD RHYTHMIF tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Pad Rhythmification" |
+| ALGT-B-J05 | Gate 1 CV In | CV input: gate 1 (MIDI note) | — | — | cable: right-click jack > device > jack name | tooltip "Gate 1 CV In" |
+| ALGT-B-J08 | Gate 2 CV In | CV input: gate 2 (MIDI note) | — | — | cable: right-click jack > device > jack name | tooltip "Gate 2 CV In" |
+| ALGT-B-J13 | Gate 3 CV In | CV input: gate 3 (MIDI note) | — | — | cable: right-click jack > device > jack name | tooltip "Gate 3 CV In" |
+| ALGT-B-K01 | High Pass Freq CV trim | Amount for High Pass Freq CV | — | — | click/drag only (no Remote item) | tooltip "High Pass Filter Freq CV Amount: 50%" |
+| ALGT-B-J06 | High Pass Freq CV In | CV input: High Pass Freq | — | — | cable: right-click jack > device > jack name | tooltip "High Pass Filter Freq CV In" |
+| ALGT-B-K02 | Band Pass Freq CV trim | Amount for Band Pass Freq CV | — | — | click/drag only (no Remote item) | tooltip "Band Pass Filter Freq CV Amount: 50%" |
+| ALGT-B-J09 | Band Pass Freq CV In | CV input: Band Pass Freq | — | — | cable: right-click jack > device > jack name | tooltip "Band Pass Filter Freq CV In" |
+| ALGT-B-K03 | Low Pass Freq CV trim | Amount for Low Pass Freq CV | — | — | click/drag only (no Remote item) | tooltip "Low Pass Filter Freq CV Amount: 50%" |
+| ALGT-B-J14 | Low Pass Freq CV In | CV input: Low Pass Freq | — | — | cable: right-click jack > device > jack name | tooltip "Low Pass Filter Freq CV In" |
+| ALGT-B-K04 | LFO Rate CV trim | Amount for LFO Rate CV | — | — | click/drag only (no Remote item) | tooltip "LFO Rate CV Modulation Amount: 50%" |
+| ALGT-B-J18 | LFO Rate CV In | CV input: LFO Rate | — | — | cable: right-click jack > device > jack name | tooltip "LFO Rate CV In" |
+| ALGT-B-J07 | Gate 1 CV Out | CV output: gate 1 | — | — | cable: right-click jack > device > jack name | tooltip "Gate 1 CV Out" |
+| ALGT-B-J10 | Gate 2 CV Out | CV output: gate 2 | — | — | cable: right-click jack > device > jack name | tooltip "Gate 2 CV Out" |
+| ALGT-B-J15 | Gate 3 CV Out | CV output: gate 3 | — | — | cable: right-click jack > device > jack name | tooltip "Gate 3 CV Out" |
+| ALGT-B-J19 | LFO CV Out | CV output: LFO | — | — | cable: right-click jack > device > jack name | tooltip "LFO CV Out" |
+| ALGT-B-J03 | High Pass Channel L | Separate output left | — | — | cable: right-click jack > device > jack name | tooltip "High Pass Channel Left Output" |
+| ALGT-B-J04 | High Pass Channel R | Separate output right | — | — | cable: right-click jack > device > jack name | tooltip "High Pass Channel Right Output" |
+| ALGT-B-J11 | Band Pass Channel L | Separate output left | — | — | cable: right-click jack > device > jack name | tooltip "Band Pass Channel Left Output" |
+| ALGT-B-J12 | Band Pass Channel R | Separate output right | — | — | cable: right-click jack > device > jack name | tooltip "Band Pass Channel Right Output" |
+| ALGT-B-J16 | Low Pass Channel L | Separate output left | — | — | cable: right-click jack > device > jack name | tooltip "Low Pass Channel Left Output" |
+| ALGT-B-J17 | Low Pass Channel R | Separate output right | — | — | cable: right-click jack > device > jack name | tooltip "Low Pass Channel Right Output" |
+| ALGT-B-J01 | Audio In L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to MasterComp 1: Left Output"; this jack's own name NOT read yet |
+| ALGT-B-J02 | Audio In R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to MasterComp 1: Right Output" (cut off at edge); own jack name NOT read yet |
+| ALGT-B-J20 | Main Out L | Main output left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Audiomatic 1: Left Input"; this jack's own name NOT read yet |
+| ALGT-B-J21 | Main Out R | Main output right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Audiomatic 1: Right Input"; this jack's own name NOT read yet |
+
+## Softube Amp (ReasonAmp) — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| RAMP-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-F-B03 | Bypass/On/Off | 3-way device switch | Enabled | 5 / CC 34 | voice/MIDI or click | tooltip "Enabled: On" |
+| RAMP-F-D04 | BRITISH DRIVE tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "British Drive 3" (patch name; 'Device Name' item not provable here) |
+| RAMP-F-B04 | AMP TWANG | Amp model: Twang | Amp Switch | 1 / CC 30 | voice/MIDI or click | tooltip "Amp Switch" |
+| RAMP-F-B05 | AMP CRUNCH | Amp model: Crunch | Amp Switch | — | display/Remote item, not mapped | tooltip "Amp Switch" |
+| RAMP-F-B06 | AMP ROCK | Amp model: Rock | Amp Switch | — | display/Remote item, not mapped | tooltip "Amp Switch" |
+| RAMP-F-B07 | AMP LEAD | Amp model: Lead | Amp Switch | — | display/Remote item, not mapped | tooltip "Amp Switch" |
+| RAMP-F-B08 | AMP BYPASS | Amp model: Bypass | Amp Switch | — | display/Remote item, not mapped | tooltip "Amp Switch" |
+| RAMP-F-D01 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | tooltip "British Drive 3" |
+| RAMP-F-B02 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| RAMP-F-B09 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| RAMP-F-B10 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| RAMP-F-B11 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| RAMP-F-B12 | CAB BRIGHT | Cabinet: Bright | Cab Switch | 4 / CC 33 | voice/MIDI or click | tooltip "Cab Switch" |
+| RAMP-F-B13 | CAB ROOM | Cabinet: Room | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RAMP-F-B14 | CAB FAT | Cabinet: Fat | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RAMP-F-B15 | CAB TIGHT | Cabinet: Tight | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RAMP-F-B16 | CAB BYPASS | Cabinet: Bypass | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RAMP-F-D02 | Softube logo | Logo (decoration) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-F-D03 | AMP logo | Logo (decoration) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-F-D05 | Red lamp | Red power lamp | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-F-B17 | Boost switch | Boost on/off toggle | Boost | 3 / CC 32 | voice/MIDI or click | tooltip "Boost: Normal" |
+| RAMP-F-K07 | Gate | Noise gate threshold | Gate | 7 / CC 36 | voice/MIDI or click | tooltip "Gate: 0.1" |
+| RAMP-F-K01 | Gain | Amp gain | Gain | 6 / CC 35 | voice/MIDI or click | tooltip "Gain: 10.0" |
+| RAMP-F-K02 | Bass | Bass | Bass | 2 / CC 31 | voice/MIDI or click | tooltip "Bass: 4.7" |
+| RAMP-F-K03 | Mid | Mid | Mid | 8 / CC 37 | voice/MIDI or click | tooltip "Mid: 8.4" |
+| RAMP-F-K04 | Treble | Treble | Treble | 10 / CC 39 | voice/MIDI or click | tooltip "Treble: 6.9" |
+| RAMP-F-K05 | Poweramp Gain | Poweramp gain | Poweramp Gain | 9 / CC 38 | voice/MIDI or click | tooltip "Poweramp Gain: 5.0" |
+| RAMP-F-D06 | Level lights | Output level lights | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-F-K06 | Volume | Output volume | Volume | 11 / CC 40 | voice/MIDI or click | tooltip "Volume: -3.0 dB" |
+
+## Softube Amp (ReasonAmp) — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| RAMP-B-D01 | (triangle) back | Fold/unfold device | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-B-D02 | BRITISH DRIVE tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "British Drive 3" |
+| RAMP-B-D03 | (routing icon 1) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-B-D04 | (routing icon 2) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-B-D05 | Warning sticker | Sticker (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-B-J04 | Input L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Big BBD Ensemble: Left Output" (cut off at edge); this jack's own name NOT read yet |
+| RAMP-B-J05 | Input R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Big BBD Ensemble: Right Output" (cut off at edge); own jack name NOT read yet |
+| RAMP-B-J06 | Output L | Audio output left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Smooth Bass: Main In Left"; this jack's own name NOT read yet |
+| RAMP-B-J07 | Output R | Audio output right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Smooth Bass: Main In Right"; own jack name NOT read yet |
+| RAMP-B-J01 | Gate CV In | CV input: gate | — | — | cable: right-click jack > device > jack name | tooltip "Gate CV" |
+| RAMP-B-K01 | Gate CV trim | Amount for Gate CV | — | — | click/drag only (no Remote item) | tooltip "Gate CV: 127" |
+| RAMP-B-J02 | Gain CV In | CV input: gain | — | — | cable: right-click jack > device > jack name | tooltip "Gain CV" |
+| RAMP-B-K02 | Gain CV trim | Amount for Gain CV | — | — | click/drag only (no Remote item) | tooltip "Gain CV: 127" |
+| RAMP-B-J03 | Volume CV In | CV input: volume | — | — | cable: right-click jack > device > jack name | tooltip "Volume CV" |
+| RAMP-B-K03 | Volume CV trim | Amount for Volume CV | — | — | click/drag only (no Remote item) | tooltip "Volume CV: 127" |
+| RAMP-B-D06 | Ground screw (J) | Ground terminal (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-B-D07 | Fuse 1 | Fuse cap (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RAMP-B-D08 | Fuse 2 | Fuse cap (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Softube Bass Amp (ReasonBassAmp) — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| RBAS-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-F-B02 | Bypass/On/Off | 3-way device switch | Enabled | 5 / CC 34 | voice/MIDI or click | tooltip "Enabled: On" |
+| RBAS-F-D01 | (speaker slots) | Decoration (vent slots) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-F-B03 | AMP MODERN | Amp model: Modern | Amp Switch | 1 / CC 30 | voice/MIDI or click | tooltip "Amp Switch" |
+| RBAS-F-B04 | AMP VINTAGE | Amp model: Vintage | Amp Switch | — | display/Remote item, not mapped | tooltip "Amp Switch" |
+| RBAS-F-B05 | AMP BYPASS | Amp model: Bypass | Amp Switch | — | display/Remote item, not mapped | tooltip "Amp Switch" |
+| RBAS-F-D02 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | tooltip "Smooth Bass" |
+| RBAS-F-B06 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| RBAS-F-B07 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" (second hover also read 'Select previous patch'; the down arrow's own text was not told apart; Remote item 'Select Next Patch' is by position) |
+| RBAS-F-B08 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| RBAS-F-B09 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| RBAS-F-B10 | CAB DARK | Cabinet: Dark | Cab Switch | 3 / CC 32 | voice/MIDI or click | tooltip "Cab Switch" |
+| RBAS-F-B11 | CAB BRIGHT | Cabinet: Bright | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RBAS-F-B12 | CAB ROOM | Cabinet: Room | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RBAS-F-B13 | CAB BYPASS | Cabinet: Bypass | Cab Switch | — | display/Remote item, not mapped | tooltip "Cab Switch" |
+| RBAS-F-D03 | Softube logo | Logo (decoration) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-F-D04 | SMOOTH BASS tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "Smooth Bass" (patch name; 'Device Name' item not provable here) |
+| RBAS-F-K01 | Drive | Drive | Drive | 4 / CC 33 | voice/MIDI or click | tooltip "Drive: 7.0" |
+| RBAS-F-K02 | Bass | Bass | Bass | 2 / CC 31 | voice/MIDI or click | tooltip "Bass: 5.5" |
+| RBAS-F-K03 | Middle | Middle | Middle | 7 / CC 36 | voice/MIDI or click | tooltip "Middle: 2.5" |
+| RBAS-F-K04 | Mid Freq | Mid frequency (1 to 5) | Mid Freq | 6 / CC 35 | voice/MIDI or click | tooltip "Mid Freq: 1" (read as 'Mid Freq: 1') |
+| RBAS-F-K05 | Treble | Treble | Treble | 8 / CC 37 | voice/MIDI or click | tooltip "Treble: 5.0" |
+| RBAS-F-B14 | ULTRA LO | Ultra Lo switch | Ultra Lo | 10 / CC 39 | voice/MIDI or click | tooltip "Ultra Lo" |
+| RBAS-F-B15 | ULTRA HI | Ultra Hi switch | Ultra Hi | 9 / CC 38 | voice/MIDI or click | tooltip "Ultra Hi" |
+| RBAS-F-D05 | Level lights | Output level lights | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-F-K06 | Volume | Output volume | Volume | 11 / CC 40 | voice/MIDI or click | tooltip "Volume: -8.2 dB" |
+| RBAS-F-D06 | VOLUME label | Label bar under Volume (decoration) | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Softube Bass Amp (ReasonBassAmp) — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| RBAS-B-D01 | (triangle) back | Fold/unfold device | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-B-D02 | SMOOTH BASS tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | tooltip "Smooth Bass" |
+| RBAS-B-D05 | (routing icon 1) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-B-D07 | (routing icon 2) | Routing icon | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-B-J01 | Drive CV In | CV input: drive | — | — | cable: right-click jack > device > jack name | tooltip "Drive CV" |
+| RBAS-B-K01 | Drive CV trim | Amount for Drive CV | — | — | click/drag only (no Remote item) | tooltip "Drive CV: 127" |
+| RBAS-B-J02 | Volume CV In | CV input: volume | — | — | cable: right-click jack > device > jack name | tooltip "Volume CV" |
+| RBAS-B-K02 | Volume CV trim | Amount for Volume CV | — | — | click/drag only (no Remote item) | tooltip "Volume CV: 127" |
+| RBAS-B-J03 | Input L | Audio input left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to British Drive 3: Main Out Le(ft)" (cut off); this jack's own name NOT read yet |
+| RBAS-B-J04 | Input R | Audio input right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to British Drive 3: Main Out Rig(ht)" (cut off); own jack name NOT read yet |
+| RBAS-B-J05 | Output L | Audio output left | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Basic Phasing: Left Input"; this jack's own name NOT read yet |
+| RBAS-B-J06 | Output R | Audio output right | — | — | cable: right-click jack > device > jack name | tooltip "Connected to Basic Phasing: Right Input"; own jack name NOT read yet |
+| RBAS-B-D03 | Fuse 1 | Fuse cap (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-B-D04 | Fuse 2 | Fuse cap (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-B-D06 | Vent grille | Decoration (vent) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| RBAS-B-D08 | Warning label | Sticker (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
 
 ## Where each fact came from
 - Pictures: screenshots of John's Reason 12.7, in a blank test song made from his template.

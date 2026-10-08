@@ -1,0 +1,770 @@
+{
+ "device": "Audiomatic",
+ "remote_scope": "se.propellerheads.Audiomatic",
+ "code_prefix": "AUDM",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. No Patch Name item (device has no patch browser). 16 preset buttons all read tooltip 'Preset'. Audio jack names unread (cabled).",
+ "controls": [
+  {
+   "code": "AUDM-F-B02",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.061,
+    0.06
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.026,
+    0.048
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-D02",
+   "side": "front",
+   "panel_label": "AUDIOMATIC 1 tape",
+   "what": "Device name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.026,
+    0.481
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Audiomatic 1\" (device name)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; the tooltip shows the rack name 'Audiomatic 1'",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-D01",
+   "side": "front",
+   "panel_label": "Input meter",
+   "what": "Input level lights (6)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.216,
+    0.457
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-K02",
+   "side": "front",
+   "panel_label": "Gain",
+   "what": "Input gain",
+   "reason_name": "Input Gain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.216,
+    0.714
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Input Gain: 0.0 dB\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-D03",
+   "side": "front",
+   "panel_label": "(screen)",
+   "what": "Picture screen that changes with the chosen preset",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.348,
+    0.51
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "display only",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B03",
+   "side": "front",
+   "panel_label": "Preset Tape",
+   "what": "Preset button: Tape",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.49,
+    0.183
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "high",
+   "confidence_reason": "all 16 buttons show the same tooltip 'Preset'; Remote item 'Preset' is stepped Tape..Eerie, so the 16 buttons are its 16 values",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B04",
+   "side": "front",
+   "panel_label": "Preset Hi-Fi",
+   "what": "Preset button: Hi-Fi",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.543,
+    0.183
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B05",
+   "side": "front",
+   "panel_label": "Preset Bright",
+   "what": "Preset button: Bright",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.595,
+    0.183
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B06",
+   "side": "front",
+   "panel_label": "Preset Bottom",
+   "what": "Preset button: Bottom",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.647,
+    0.183
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B07",
+   "side": "front",
+   "panel_label": "Preset Spread",
+   "what": "Preset button: Spread",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.49,
+    0.363
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B08",
+   "side": "front",
+   "panel_label": "Preset Radio",
+   "what": "Preset button: Radio",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.543,
+    0.363
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B09",
+   "side": "front",
+   "panel_label": "Preset VHS",
+   "what": "Preset button: VHS",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.595,
+    0.363
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B10",
+   "side": "front",
+   "panel_label": "Preset Vinyl",
+   "what": "Preset button: Vinyl",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.647,
+    0.363
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B11",
+   "side": "front",
+   "panel_label": "Preset mp3",
+   "what": "Preset button: mp3",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.49,
+    0.55
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B12",
+   "side": "front",
+   "panel_label": "Preset Psyche",
+   "what": "Preset button: Psyche",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.543,
+    0.55
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B13",
+   "side": "front",
+   "panel_label": "Preset Cracked",
+   "what": "Preset button: Cracked",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.595,
+    0.55
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B14",
+   "side": "front",
+   "panel_label": "Preset Gadget",
+   "what": "Preset button: Gadget",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.647,
+    0.55
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B15",
+   "side": "front",
+   "panel_label": "Preset Circuit",
+   "what": "Preset button: Circuit",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.49,
+    0.731
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B16",
+   "side": "front",
+   "panel_label": "Preset Wash",
+   "what": "Preset button: Wash",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.543,
+    0.731
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B17",
+   "side": "front",
+   "panel_label": "Preset PVC",
+   "what": "Preset button: PVC",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.595,
+    0.731
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-B18",
+   "side": "front",
+   "panel_label": "Preset Eerie",
+   "what": "Preset button: Eerie",
+   "reason_name": "Preset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.647,
+    0.731
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Preset\"",
+   "confidence": "medium",
+   "confidence_reason": "same Remote item 'Preset' (one row carries the knob slot)",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-K01",
+   "side": "front",
+   "panel_label": "Transform",
+   "what": "Transform amount",
+   "reason_name": "Transform",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.751,
+    0.413
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Transform: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-K03",
+   "side": "front",
+   "panel_label": "Dry/Wet",
+   "what": "Dry/wet balance",
+   "reason_name": "Dry Wet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.721,
+    0.714
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dry Wet: 100%\" (hover spells 'Dry Wet'; read as 'Dry/Wet: 100%' from the zoom)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-F-K04",
+   "side": "front",
+   "panel_label": "Volume",
+   "what": "Output volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.781,
+    0.714
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Volume: 0.0 dB\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-K01",
+   "side": "back",
+   "panel_label": "Transform CV trim",
+   "what": "Amount for Transform CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.59,
+    0.321
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Transform CV Trim: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-J01",
+   "side": "back",
+   "panel_label": "Transform CV In",
+   "what": "CV input: Transform",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.625,
+    0.321
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Transform CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-K02",
+   "side": "back",
+   "panel_label": "Dry-Wet CV trim",
+   "what": "Amount for Dry-Wet CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.676,
+    0.321
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Dry Wet CV Trim: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-J02",
+   "side": "back",
+   "panel_label": "Dry-Wet CV In",
+   "what": "CV input: Dry-Wet",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.711,
+    0.321
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Dry Wet CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-J03",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.498,
+    0.696
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Pad Rhythmification: Left Ou...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-J04",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.536,
+    0.696
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Pad Rhythmification: Right ...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-J05",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.774,
+    0.696
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Vocoder 1: Left Carrier\"; own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-J06",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.813,
+    0.696
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Vocoder 1: Right Carrier\"; own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D03",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.168,
+    0.432
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D04",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.168,
+    0.527
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D06",
+   "side": "back",
+   "panel_label": "(routing icon 3)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.168,
+    0.622
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D07",
+   "side": "back",
+   "panel_label": "(routing icon 4)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.168,
+    0.713
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D08",
+   "side": "back",
+   "panel_label": "(routing icon 5)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.168,
+    0.806
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D02",
+   "side": "back",
+   "panel_label": "AUDIOMATIC 1 tape (back)",
+   "what": "Device name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.019,
+    0.401
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Audiomatic 1\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D01",
+   "side": "back",
+   "panel_label": "(triangle) back",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.018,
+    0.084
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "AUDM-B-D05",
+   "side": "back",
+   "panel_label": "Speaker grille",
+   "what": "Decoration (speaker grille)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.344,
+    0.538
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

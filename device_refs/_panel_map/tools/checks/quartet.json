@@ -1,0 +1,75 @@
+{
+"device": "Quartet",
+"front": {
+"Bypass/On/Off": "tooltip \"Enabled: On\"",
+"(triangle)": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"(lights)": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"Patch display": "tooltip \"Big BBD Ensemble\"",
+"(up arrow)": "tooltip \"Select previous patch\"",
+"(down arrow)": "tooltip \"Select next patch\"",
+"(folder)": "tooltip \"Browse patch\"",
+"(disk)": "tooltip \"Save patch\"",
+"BIG BBD ENSE tape": "tooltip \"Big BBD Ensemble\" (patch name; 'Device Name' item not provable here)",
+"Stereo": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"CHORUS": "tooltip \"Effect Select\"; clicked, view changed, set back to BBD",
+"BBD": "tooltip \"Effect Select\"",
+"FFT": "tooltip \"Effect Select\"; clicked, view changed, set back to BBD",
+"GRAIN": "tooltip \"Effect Select\"; clicked, view changed, set back to BBD",
+"BBD Delay": "tooltip \"BBD Delay: 7.23 ms\"",
+"BBD Mod Depth": "tooltip \"BBD Depth: 53.5 %\"",
+"BBD Mod Rate": "tooltip \"BBD Rate: 1.53 Hz\"",
+"BBD Noise Mod": "tooltip \"BBD Noise: 0.0 %\"",
+"BBD Width": "tooltip \"BBD Width: 89.5 %\"",
+"BBD Dry/Wet": "tooltip \"BBD DryWet: 100.0 %\""
+},
+"back": {
+"(triangle) back": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"BIG BBD ENSE tape (back)": "tooltip \"Big BBD Ensemble\"",
+"(routing icon 1)": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"(routing icon 2)": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"(routing icon 3)": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"Mod Depth CV trim": "tooltip \"Depth CV Amt: 100.0 %\"",
+"Mod Depth CV In": "tooltip \"Depth CV Input\"",
+"Width CV trim": "tooltip \"Width CV Amt: 100.0 %\"",
+"Width CV In": "tooltip \"Width CV Input\"",
+"DryWet CV trim": "tooltip \"DryWet CV Amt: 100.0 %\"",
+"DryWet CV In": "tooltip \"DryWet CV Input\"",
+"Audio In L": "tooltip \"Connected to Basic Pulverisation: Left Out...\" (cut off); own jack name NOT read yet",
+"Audio In R": "tooltip \"Connected to Basic Pulverisation: Right O...\" (cut off); own jack name NOT read yet",
+"Audio Out L": "tooltip \"Connected to British Drive 3: Main In Left\"; this jack's own name NOT read yet",
+"Audio Out R": "tooltip \"Connected to British Drive 3: Main In Right\"; this jack's own name NOT read yet"
+},
+"views": {
+"chorus": {
+"Chorus Delay": "tooltip \"Chorus Delay: 5.08 ms\"",
+"Chorus Mod Depth": "tooltip \"Chorus Depth: 50.0 %\"",
+"Chorus Mod Rate": "tooltip \"Chorus Rate: 0.71 Hz\"",
+"Chorus Feedback": "tooltip \"Chorus Feedback: 0.0 %\"",
+"Chorus Width": "tooltip \"Chorus Width: 100.0 %\"",
+"Chorus Dry/Wet": "tooltip \"Chorus DryWet: 100.0 %\""
+},
+"fft": {
+"FFT Size": "tooltip \"FFT Size: 3\"",
+"FFT Mod Depth": "tooltip \"FFT Depth: 50.0 %\"",
+"Frequency Range start": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (handle)",
+"Frequency Range end": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (handle)",
+"Frequency Range display": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+"FFT Width": "tooltip \"FFT Width: 100.0 %\"",
+"FFT Dry/Wet": "tooltip \"FFT DryWet: 100.0 %\""
+},
+"grain": {
+"Phase RND": "tooltip \"Grain Random Phase\" (Remote name is 'Grain Phase')",
+"Grain Size": "tooltip \"Grain Size: 50.0 %\"",
+"Grain Mod Depth": "tooltip \"Grain Depth: 40.0 %\"",
+"Grain Jitter": "tooltip \"Grain Jitter: 50.0 %\"",
+"Grain Density": "tooltip \"Grain Density: 60.0 %\"",
+"Grain Width": "tooltip \"Grain Width: 100.0 %\"",
+"Grain Dry/Wet": "tooltip \"Grain DryWet: 100.0 %\""
+}
+},
+"view_titles": {
+"chorus": "Chorus mode (picture quartet-chorus-view_front_labeled.png)",
+"fft": "FFT mode (picture quartet-fft-view_front_labeled.png)",
+"grain": "Grain mode (picture quartet-grain-view_front_labeled.png)"
+}
+}

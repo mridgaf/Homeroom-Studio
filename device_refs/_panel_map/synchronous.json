@@ -1,0 +1,2178 @@
+{
+ "device": "Synchronous",
+ "remote_scope": "se.propellerheads.Synchronous",
+ "code_prefix": "SYNC",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12): front (all positions), back (all positions). Display controls (TOOL, RATE, SPEED, FREE, tracks, FRZ/KILL, MASTER OFFSET, PHASE, DIM, MOD CTRL, 10 MOD knobs) give NO tooltip and have no Remote item. Delay Time (ms) row and the 4 audio jack names are unproven (see rows).",
+ "controls": [
+  {
+   "code": "SYNC-F-B03",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.048,
+    0.055
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.028
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.682,
+    0.055
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Default Synchronous\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B02",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.813,
+    0.043
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B04",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.813,
+    0.065
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B05",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.837,
+    0.055
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B06",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.86,
+    0.055
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-D02",
+   "side": "front",
+   "panel_label": "INPUT meter",
+   "what": "Input level light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.94,
+    0.055
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-D06",
+   "side": "front",
+   "panel_label": "DEFAULT SYN tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.067,
+    0.794
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Default Synchronous\" (patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B07",
+   "side": "front",
+   "panel_label": "TOOL 1",
+   "what": "Wave shape tool 1 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.149,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B08",
+   "side": "front",
+   "panel_label": "TOOL 2",
+   "what": "Wave shape tool 2 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.196,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B09",
+   "side": "front",
+   "panel_label": "TOOL 3",
+   "what": "Wave shape tool 3 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.243,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B10",
+   "side": "front",
+   "panel_label": "TOOL 4",
+   "what": "Wave shape tool 4 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.291,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B11",
+   "side": "front",
+   "panel_label": "TOOL 5",
+   "what": "Wave shape tool 5 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.339,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B12",
+   "side": "front",
+   "panel_label": "TOOL 6",
+   "what": "Wave shape tool 6 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.386,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B13",
+   "side": "front",
+   "panel_label": "TOOL 7",
+   "what": "Wave shape tool 7 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.433,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B14",
+   "side": "front",
+   "panel_label": "TOOL 8",
+   "what": "Wave shape tool 8 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.481,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B15",
+   "side": "front",
+   "panel_label": "TOOL 9",
+   "what": "Wave shape tool 9 (draws the shape on the selected track)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.529,
+    0.151
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B16",
+   "side": "front",
+   "panel_label": "FREE",
+   "what": "Free-run mode (no tempo sync)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.587,
+    0.15
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B17",
+   "side": "front",
+   "panel_label": "RATE 1/64",
+   "what": "Wave rate 1/64",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.147,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B18",
+   "side": "front",
+   "panel_label": "RATE 1/32",
+   "what": "Wave rate 1/32",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.195,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B19",
+   "side": "front",
+   "panel_label": "RATE 1/16T",
+   "what": "Wave rate 1/16T",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.243,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B20",
+   "side": "front",
+   "panel_label": "RATE 1/16",
+   "what": "Wave rate 1/16",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.291,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B21",
+   "side": "front",
+   "panel_label": "RATE 1/8T",
+   "what": "Wave rate 1/8T",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.339,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B22",
+   "side": "front",
+   "panel_label": "RATE 1/8",
+   "what": "Wave rate 1/8",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.386,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B23",
+   "side": "front",
+   "panel_label": "RATE 1/4",
+   "what": "Wave rate 1/4",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.433,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B24",
+   "side": "front",
+   "panel_label": "RATE 1/2",
+   "what": "Wave rate 1/2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.481,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B25",
+   "side": "front",
+   "panel_label": "RATE 1/1",
+   "what": "Wave rate 1/1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.529,
+    0.203
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B26",
+   "side": "front",
+   "panel_label": "SPEED x2",
+   "what": "Speed multiplier x2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.634,
+    0.204
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B27",
+   "side": "front",
+   "panel_label": "SPEED x1",
+   "what": "Speed multiplier x1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.662,
+    0.204
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B28",
+   "side": "front",
+   "panel_label": "SPEED x0.5",
+   "what": "Speed multiplier x0.5",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.69,
+    0.204
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K01",
+   "side": "front",
+   "panel_label": "MASTER OFFSET",
+   "what": "Master offset knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.793,
+    0.155
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-D03",
+   "side": "front",
+   "panel_label": "MASTER OFFSET value",
+   "what": "Master offset readout",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.827,
+    0.155
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K02",
+   "side": "front",
+   "panel_label": "PHASE",
+   "what": "Phase knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.793,
+    0.207
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K03",
+   "side": "front",
+   "panel_label": "DIM",
+   "what": "Dim knob",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.882,
+    0.207
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B29",
+   "side": "front",
+   "panel_label": "TRACK 1",
+   "what": "Select track 1 (yellow)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.101,
+    0.292
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B32",
+   "side": "front",
+   "panel_label": "TRACK 2",
+   "what": "Select track 2 (magenta)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.101,
+    0.373
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B36",
+   "side": "front",
+   "panel_label": "TRACK 3",
+   "what": "Select track 3 (blue)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.101,
+    0.456
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B30",
+   "side": "front",
+   "panel_label": "TRACK 1 FRZ",
+   "what": "Freeze track 1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.267
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B31",
+   "side": "front",
+   "panel_label": "TRACK 1 KILL",
+   "what": "Kill track 1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.305
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B33",
+   "side": "front",
+   "panel_label": "TRACK 2 FRZ",
+   "what": "Freeze track 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.353
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B34",
+   "side": "front",
+   "panel_label": "TRACK 2 KILL",
+   "what": "Kill track 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.392
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B35",
+   "side": "front",
+   "panel_label": "TRACK 3 FRZ",
+   "what": "Freeze track 3",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.438
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B37",
+   "side": "front",
+   "panel_label": "TRACK 3 KILL",
+   "what": "Kill track 3",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.477
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-D04",
+   "side": "front",
+   "panel_label": "Wave display",
+   "what": "Curve drawing/preview area for the 3 tracks",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.497,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "display only",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B38",
+   "side": "front",
+   "panel_label": "MOD CTRL",
+   "what": "Show/hide the modulation controls row",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.079,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K04",
+   "side": "front",
+   "panel_label": "MOD 1",
+   "what": "Modulation amount knob 1 (above the main knob 1)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.157,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K05",
+   "side": "front",
+   "panel_label": "MOD 2",
+   "what": "Modulation amount knob 2 (above the main knob 2)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.233,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K06",
+   "side": "front",
+   "panel_label": "MOD 3",
+   "what": "Modulation amount knob 3 (above the main knob 3)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.308,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K07",
+   "side": "front",
+   "panel_label": "MOD 4",
+   "what": "Modulation amount knob 4 (above the main knob 4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.383,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K08",
+   "side": "front",
+   "panel_label": "MOD 5",
+   "what": "Modulation amount knob 5 (above the main knob 5)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.459,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K09",
+   "side": "front",
+   "panel_label": "MOD 6",
+   "what": "Modulation amount knob 6 (above the main knob 6)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.534,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K10",
+   "side": "front",
+   "panel_label": "MOD 7",
+   "what": "Modulation amount knob 7 (above the main knob 7)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.61,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K11",
+   "side": "front",
+   "panel_label": "MOD 8",
+   "what": "Modulation amount knob 8 (above the main knob 8)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.685,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K12",
+   "side": "front",
+   "panel_label": "MOD 9",
+   "what": "Modulation amount knob 9 (above the main knob 9)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.761,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K13",
+   "side": "front",
+   "panel_label": "MOD 10",
+   "what": "Modulation amount knob 10 (above the main knob 10)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.836,
+    0.542
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K14",
+   "side": "front",
+   "panel_label": "Dist Amount",
+   "what": "Distortion amount",
+   "reason_name": "Dist Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.159,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dist Amount: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K15",
+   "side": "front",
+   "panel_label": "Dist Character",
+   "what": "Distortion character",
+   "reason_name": "Dist Character",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.234,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dist Character: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K16",
+   "side": "front",
+   "panel_label": "Filter Freq",
+   "what": "Filter frequency",
+   "reason_name": "Filter Freq",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.308,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Freq: 75%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K17",
+   "side": "front",
+   "panel_label": "Filter Resonance",
+   "what": "Filter resonance",
+   "reason_name": "Filter Reso",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.384,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Reso: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K18",
+   "side": "front",
+   "panel_label": "Delay Amount",
+   "what": "Delay amount",
+   "reason_name": "Delay  Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.46,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Amount: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K19",
+   "side": "front",
+   "panel_label": "Delay Time",
+   "what": "Delay time (note value when Sync is on)",
+   "reason_name": "Delay Synched Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.534,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Synced Time: 3/16\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K20",
+   "side": "front",
+   "panel_label": "Delay Feedback",
+   "what": "Delay feedback",
+   "reason_name": "Delay Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.61,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Feedback: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K21",
+   "side": "front",
+   "panel_label": "Reverb Amount",
+   "what": "Reverb amount",
+   "reason_name": "Reverb Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.685,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reverb Amount: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K22",
+   "side": "front",
+   "panel_label": "Reverb Decay",
+   "what": "Reverb decay",
+   "reason_name": "Reverb Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "pos": [
+    0.761,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reverb Decay: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K23",
+   "side": "front",
+   "panel_label": "Level",
+   "what": "Level (In/Out switch below)",
+   "reason_name": "Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.837,
+    0.603
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Level: 0.0 dB\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-D05",
+   "side": "front",
+   "panel_label": "Delay Time (ms)",
+   "what": "Delay time in ms (same knob as Delay Time; shows when Sync is off)",
+   "reason_name": "Delay Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.534,
+    0.64
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered: same knob as Delay Time; its Remote name 'Delay Time' (ms) NOT proven by tooltip (tooltip read 'Delay Synced Time' because Sync is on)",
+   "confidence": "low",
+   "confidence_reason": "same spot as the Delay Time knob; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-S01",
+   "side": "front",
+   "panel_label": "Dist type",
+   "what": "Distortion type slider (Dist 1 / Dist 2 / Lo-Fi / Ring Mod)",
+   "reason_name": "Dist Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.138,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dist Type: Dist 1\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B39",
+   "side": "front",
+   "panel_label": "Post Filter",
+   "what": "Put the filter after the distortion",
+   "reason_name": "Dist Post Filter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.224,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dist Post Filter\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-S02",
+   "side": "front",
+   "panel_label": "Filter type",
+   "what": "Filter type slider (HP / BP / LP / Comb)",
+   "reason_name": "Filter Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.289,
+    0.745
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Type: LP\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K24",
+   "side": "front",
+   "panel_label": "Lag",
+   "what": "Filter lag knob",
+   "reason_name": "Filter Lag",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.383,
+    0.729
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Lag: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B40",
+   "side": "front",
+   "panel_label": "Keep Pitch",
+   "what": "Keep pitch when delay time changes",
+   "reason_name": "Delay Keep Pitch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.45,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Keep Pitch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B41",
+   "side": "front",
+   "panel_label": "Sync",
+   "what": "Delay tempo sync",
+   "reason_name": "Delay Tempo Sync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.534,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Tempo Sync\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B43",
+   "side": "front",
+   "panel_label": "Ping Pong",
+   "what": "Ping-pong delay",
+   "reason_name": "Delay Ping Pong",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.45,
+    0.77
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Ping Pong\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B42",
+   "side": "front",
+   "panel_label": "Roll",
+   "what": "Delay roll (hold feedback)",
+   "reason_name": "Delay Roll",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.61,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Roll\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B44",
+   "side": "front",
+   "panel_label": "Delay Send/Return",
+   "what": "Delay as send or return effect",
+   "reason_name": "Delay SendReturn",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.534,
+    0.819
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Send/Return: Send\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K28",
+   "side": "front",
+   "panel_label": "Pan",
+   "what": "Delay pan",
+   "reason_name": "Delay Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.61,
+    0.8
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay Pan: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K25",
+   "side": "front",
+   "panel_label": "Reverb Size",
+   "what": "Reverb size",
+   "reason_name": "Reverb Size",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "pos": [
+    0.685,
+    0.729
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reverb Size: 50%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K26",
+   "side": "front",
+   "panel_label": "Reverb Damp",
+   "what": "Reverb damping",
+   "reason_name": "Reverb Damp",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.759,
+    0.729
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reverb Damp: 20%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B45",
+   "side": "front",
+   "panel_label": "Reverb Send/Return",
+   "what": "Reverb as send or return effect",
+   "reason_name": "Reverb SendReturn",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "pos": [
+    0.722,
+    0.819
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reverb Send/Return: Return\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B46",
+   "side": "front",
+   "panel_label": "Level In/Out",
+   "what": "Level knob works on In or Out",
+   "reason_name": "Level InOut",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.837,
+    0.819
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Level In/Out: Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K27",
+   "side": "front",
+   "panel_label": "Dry/Wet",
+   "what": "Dry/wet balance",
+   "reason_name": "DryWet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.924,
+    0.729
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dry/Wet: 100%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-K29",
+   "side": "front",
+   "panel_label": "Master Level",
+   "what": "Master output level",
+   "reason_name": "Master Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.924,
+    0.86
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Master Level: 0.0 dB\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B47",
+   "side": "front",
+   "panel_label": "DIST",
+   "what": "Distortion section on/off",
+   "reason_name": "Dist On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.195,
+    0.921
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dist On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B48",
+   "side": "front",
+   "panel_label": "FILTER",
+   "what": "Filter section on/off",
+   "reason_name": "Filter On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.347,
+    0.921
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B49",
+   "side": "front",
+   "panel_label": "DELAY",
+   "what": "Delay section on/off",
+   "reason_name": "Delay On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.534,
+    0.921
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Delay On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-F-B50",
+   "side": "front",
+   "panel_label": "REVERB",
+   "what": "Reverb section on/off",
+   "reason_name": "Reverb On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "pos": [
+    0.722,
+    0.921
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Reverb On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-K01",
+   "side": "back",
+   "panel_label": "Curve 1 CV trim",
+   "what": "Amount for Curve 1 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.223,
+    0.504
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Curve 1 CV Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J01",
+   "side": "back",
+   "panel_label": "Curve 1 CV In",
+   "what": "CV input: curve 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.254,
+    0.504
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 1 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J02",
+   "side": "back",
+   "panel_label": "Freeze 1 CV In",
+   "what": "CV input: freeze track 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.367,
+    0.504
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Freeze 1 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J03",
+   "side": "back",
+   "panel_label": "Curve 1 CV Out",
+   "what": "CV output: curve 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.496,
+    0.504
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 1 CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J04",
+   "side": "back",
+   "panel_label": "Curve 1 Inverted CV Out",
+   "what": "CV output: inverted curve 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.625,
+    0.504
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 1 Inv CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-K02",
+   "side": "back",
+   "panel_label": "Curve 2 CV trim",
+   "what": "Amount for Curve 2 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.223,
+    0.559
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Curve 2 CV Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J05",
+   "side": "back",
+   "panel_label": "Curve 2 CV In",
+   "what": "CV input: curve 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.254,
+    0.559
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 2 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J06",
+   "side": "back",
+   "panel_label": "Freeze 2 CV In",
+   "what": "CV input: freeze track 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.367,
+    0.559
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Freeze 2 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J07",
+   "side": "back",
+   "panel_label": "Curve 2 CV Out",
+   "what": "CV output: curve 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.496,
+    0.559
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 2 CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J08",
+   "side": "back",
+   "panel_label": "Curve 2 Inverted CV Out",
+   "what": "CV output: inverted curve 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.625,
+    0.559
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 2 Inv CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-K03",
+   "side": "back",
+   "panel_label": "Curve 3 CV trim",
+   "what": "Amount for Curve 3 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.223,
+    0.615
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Curve 3 CV Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J13",
+   "side": "back",
+   "panel_label": "Curve 3 CV In",
+   "what": "CV input: curve 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.254,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 3 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J14",
+   "side": "back",
+   "panel_label": "Freeze 3 CV In",
+   "what": "CV input: freeze track 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.367,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Freeze 3 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J15",
+   "side": "back",
+   "panel_label": "Curve 3 CV Out",
+   "what": "CV output: curve 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.496,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 3 CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J16",
+   "side": "back",
+   "panel_label": "Curve 3 Inverted CV Out",
+   "what": "CV output: inverted curve 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.625,
+    0.615
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Curve 3 Inv CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-K04",
+   "side": "back",
+   "panel_label": "Master Level CV trim",
+   "what": "Amount for Master Level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.338,
+    0.67
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Master Level CV Amount: 100%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J17",
+   "side": "back",
+   "panel_label": "Master Level CV In",
+   "what": "CV input: master level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.369,
+    0.67
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Master Level CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J09",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.726,
+    0.551
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Basic Phasing: Left Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J10",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.768,
+    0.551
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Basic Phasing: Right Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J11",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.836,
+    0.551
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Mix Channel: From Insert FX...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-J12",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.878,
+    0.551
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Mix Channel: From Insert FX...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D03",
+   "side": "back",
+   "panel_label": "(routing icon 1)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.085,
+    0.482
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D04",
+   "side": "back",
+   "panel_label": "(routing icon 2)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.085,
+    0.521
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D05",
+   "side": "back",
+   "panel_label": "(routing icon 3)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.085,
+    0.561
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D06",
+   "side": "back",
+   "panel_label": "(routing icon 4)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.085,
+    0.6
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D07",
+   "side": "back",
+   "panel_label": "(routing icon 5)",
+   "what": "Routing icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.085,
+    0.64
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D02",
+   "side": "back",
+   "panel_label": "DEFAULT SYN tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.735,
+    0.16
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Default Synchronous\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "SYNC-B-D01",
+   "side": "back",
+   "panel_label": "(triangle) back",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.033,
+    0.16
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

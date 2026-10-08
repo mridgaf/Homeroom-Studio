@@ -1,0 +1,1397 @@
+{
+ "device": "Neptune Pitch Adjuster",
+ "remote_scope": "Propellerheads / Neptune Pitch Adjuster",
+ "code_prefix": "NEPT",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 except noted (Claude, hover-checked in Reason 12): all front and back positions. Remote has case-variant duplicate items (Midi Destination, Mod wheel, Vibrato rate, pitch bend) and 'Pitch Adjust Amount' with no known panel control: rows are placeholders, NOT proven. Faders PITCHED SIGNAL / VOICE SYNTH and 12 note keys give no tooltip. Audio jack names unread (cabled).",
+ "controls": [
+  {
+   "code": "NEPT-F-B02",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.073,
+    0.088
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.074
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D01",
+   "side": "front",
+   "panel_label": "Input meter",
+   "what": "Input level lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.073,
+    0.231
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D02",
+   "side": "front",
+   "panel_label": "FF logo",
+   "what": "Powered by FF logo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.155,
+    0.238
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D07",
+   "side": "front",
+   "panel_label": "NEPTUNE 1 tape",
+   "what": "Device name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.03,
+    0.497
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Neptune 1\" (device name)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; tooltip shows the rack name 'Neptune 1'",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B05",
+   "side": "front",
+   "panel_label": "LOW FREQ",
+   "what": "Input: low-frequency mode",
+   "reason_name": "Low Freq Input",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.302,
+    0.196
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Freq Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B06",
+   "side": "front",
+   "panel_label": "WIDE VIBRATO",
+   "what": "Input: wide vibrato",
+   "reason_name": "Wide Vibrato",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.302,
+    0.303
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Wide Vibrato\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B13",
+   "side": "front",
+   "panel_label": "LIVE MODE",
+   "what": "Input: live mode",
+   "reason_name": "Live Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.302,
+    0.409
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Live Mode\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B17",
+   "side": "front",
+   "panel_label": "MIDI",
+   "what": "MIDI destination button (cycles between the three lights)",
+   "reason_name": "MIDI Destination",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.302,
+    0.589
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"MIDI Destination\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B16",
+   "side": "front",
+   "panel_label": "MIDI (dup)",
+   "what": "Remote duplicate of MIDI Destination (same button)",
+   "reason_name": "Midi Destination",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.29,
+    0.589
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered separately: same spot as MIDI; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D10",
+   "side": "front",
+   "panel_label": "TO PITCH ADJUST",
+   "what": "MIDI goes to Pitch Adjust (light)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.302,
+    0.695
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"MIDI Destination\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D11",
+   "side": "front",
+   "panel_label": "TO VOICE SYNTH",
+   "what": "MIDI goes to Voice Synth (light)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.302,
+    0.801
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"MIDI Destination\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D12",
+   "side": "front",
+   "panel_label": "MIDI INPUT",
+   "what": "MIDI input light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.302,
+    0.905
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D08",
+   "side": "front",
+   "panel_label": "BEND RANGE",
+   "what": "Pitch bend range (stepper)",
+   "reason_name": "Pitch Bend Range",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.083,
+    0.538
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Pitch Bend Range: 7\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S04",
+   "side": "front",
+   "panel_label": "Pitch wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": "Pitch Bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.085,
+    0.82
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Pitch Bend: 0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S05",
+   "side": "front",
+   "panel_label": "Pitch wheel (dup)",
+   "what": "Remote duplicate 'pitch bend' (same wheel)",
+   "reason_name": "pitch bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.096,
+    0.762
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered separately: same wheel as Pitch wheel; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S06",
+   "side": "front",
+   "panel_label": "Mod wheel",
+   "what": "Mod wheel (vibrato wheel)",
+   "reason_name": "Mod Wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.153,
+    0.813
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Mod Wheel: 0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S07",
+   "side": "front",
+   "panel_label": "Mod wheel (dup)",
+   "what": "Remote duplicate 'Mod wheel' (same wheel)",
+   "reason_name": "Mod wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.163,
+    0.762
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered separately: same wheel as Mod wheel; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-K02",
+   "side": "front",
+   "panel_label": "VIBRATO RATE",
+   "what": "Vibrato rate",
+   "reason_name": "Vibrato Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.153,
+    0.538
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Vibrato Rate: 64\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-K03",
+   "side": "front",
+   "panel_label": "VIBRATO RATE (dup)",
+   "what": "Remote duplicate 'Vibrato rate' (same knob)",
+   "reason_name": "Vibrato rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.167,
+    0.497
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not hovered separately: same knob as VIBRATO RATE; Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item with a case-variant duplicate name; probably the same control as the row above; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D04",
+   "side": "front",
+   "panel_label": "ROOT display",
+   "what": "Root key display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.36,
+    0.309
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Root Key\"; no Remote item",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B07",
+   "side": "front",
+   "panel_label": "ROOT stepper",
+   "what": "Root key up/down",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.389,
+    0.309
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Root Key\"; no Remote item",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D05",
+   "side": "front",
+   "panel_label": "SCALE display",
+   "what": "Scale name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.474,
+    0.309
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Scale\"; no Remote item",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B08",
+   "side": "front",
+   "panel_label": "SCALE stepper",
+   "what": "Scale up/down",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.539,
+    0.309
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Scale\"; no Remote item",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B09",
+   "side": "front",
+   "panel_label": "SCALE MEMORY 1",
+   "what": "Scale memory slot 1",
+   "reason_name": "Scale Memory",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.571,
+    0.309
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Scale Memory\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B10",
+   "side": "front",
+   "panel_label": "SCALE MEMORY 2",
+   "what": "Scale memory slot 2",
+   "reason_name": "Scale Memory",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.593,
+    0.309
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Scale Memory\"",
+   "confidence": "medium",
+   "confidence_reason": "all four slots show tooltip 'Scale Memory'",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B11",
+   "side": "front",
+   "panel_label": "SCALE MEMORY 3",
+   "what": "Scale memory slot 3",
+   "reason_name": "Scale Memory",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.615,
+    0.309
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Scale Memory\"",
+   "confidence": "medium",
+   "confidence_reason": "all four slots show tooltip 'Scale Memory'",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B12",
+   "side": "front",
+   "panel_label": "SCALE MEMORY 4",
+   "what": "Scale memory slot 4",
+   "reason_name": "Scale Memory",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.638,
+    0.309
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Scale Memory\"",
+   "confidence": "medium",
+   "confidence_reason": "all four slots show tooltip 'Scale Memory'",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S01",
+   "side": "front",
+   "panel_label": "CATCH ZONE SIZE",
+   "what": "Catch zone slider (handle)",
+   "reason_name": "Catch Zone",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.492,
+    0.434
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Catch Zone Size: 157\" (Remote name is 'Catch Zone')",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D09",
+   "side": "front",
+   "panel_label": "Catch graph",
+   "what": "Note catch display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.501,
+    0.559
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "display only",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B18",
+   "side": "front",
+   "panel_label": "Key C",
+   "what": "On-screen key C (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.359,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B19",
+   "side": "front",
+   "panel_label": "Key C#",
+   "what": "On-screen key C# (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.385,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B20",
+   "side": "front",
+   "panel_label": "Key D",
+   "what": "On-screen key D (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.41,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B21",
+   "side": "front",
+   "panel_label": "Key D#",
+   "what": "On-screen key D# (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.434,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B22",
+   "side": "front",
+   "panel_label": "Key E",
+   "what": "On-screen key E (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.459,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B23",
+   "side": "front",
+   "panel_label": "Key F",
+   "what": "On-screen key F (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.483,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B24",
+   "side": "front",
+   "panel_label": "Key F#",
+   "what": "On-screen key F# (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.508,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B25",
+   "side": "front",
+   "panel_label": "Key G",
+   "what": "On-screen key G (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.534,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B26",
+   "side": "front",
+   "panel_label": "Key G#",
+   "what": "On-screen key G# (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.559,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B27",
+   "side": "front",
+   "panel_label": "Key A",
+   "what": "On-screen key A (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.584,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B28",
+   "side": "front",
+   "panel_label": "Key A#",
+   "what": "On-screen key A# (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.61,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B29",
+   "side": "front",
+   "panel_label": "Key B",
+   "what": "On-screen key B (note on/off for scale)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.635,
+    0.831
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip; no Remote item",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B15",
+   "side": "front",
+   "panel_label": "PITCH ADJUST",
+   "what": "Pitch adjust on/off",
+   "reason_name": "Pitch Adjust On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.775,
+    0.503
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Pitch Adjust On/Off\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B14",
+   "side": "front",
+   "panel_label": "PITCH ADJUST amount?",
+   "what": "Remote item 'Pitch Adjust Amount': panel control NOT found",
+   "reason_name": "Pitch Adjust Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.746,
+    0.503
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not located: no panel control is known for this Remote item; row placed on the PITCH ADJUST button only so the checker has a position; NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item with no known panel control; position is a placeholder",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-K04",
+   "side": "front",
+   "panel_label": "CORRECTION SPEED",
+   "what": "Correction speed",
+   "reason_name": "Correction Speed",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.7,
+    0.686
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Correction Speed: 64\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-K05",
+   "side": "front",
+   "panel_label": "PRESERVE EXPRESSION",
+   "what": "Preserve expression",
+   "reason_name": "Preserve Expression",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.768,
+    0.686
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Preserve Expression: 0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B03",
+   "side": "front",
+   "panel_label": "TRANSPOSE",
+   "what": "Transpose on/off",
+   "reason_name": "Transpose On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.786,
+    0.09
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Transpose On/Off\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D03",
+   "side": "front",
+   "panel_label": "SEMI",
+   "what": "Transpose semitones (stepper)",
+   "reason_name": "Semitones",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.74,
+    0.219
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Semitones: 0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-D06",
+   "side": "front",
+   "panel_label": "CENT",
+   "what": "Transpose cents (stepper)",
+   "reason_name": "Cent",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.74,
+    0.337
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Cents: 0\" (Remote name is 'Cent')",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-B04",
+   "side": "front",
+   "panel_label": "FORMANT",
+   "what": "Formant on/off",
+   "reason_name": "Formant On/Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.916,
+    0.09
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Formant On/Off\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-K01",
+   "side": "front",
+   "panel_label": "SHIFT",
+   "what": "Formant shift",
+   "reason_name": "Formant Shift",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.871,
+    0.242
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Formant Shift: 0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S02",
+   "side": "front",
+   "panel_label": "PITCHED SIGNAL",
+   "what": "Mixer fader: pitched signal level",
+   "reason_name": "Pitched Signal Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.847,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip on the handle or the rail (3 tries); name from the Remote list and the panel label",
+   "confidence": "medium",
+   "confidence_reason": "name by label; NOT proven by tooltip",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-F-S03",
+   "side": "front",
+   "panel_label": "VOICE SYNTH",
+   "what": "Mixer fader: voice synth level",
+   "reason_name": "Voice Synth Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.903,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip on the handle or the rail (3 tries); name from the Remote list and the panel label",
+   "confidence": "medium",
+   "confidence_reason": "name by label; NOT proven by tooltip",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-D01",
+   "side": "back",
+   "panel_label": "(seq icon 1)",
+   "what": "Sequencer control icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.04,
+    0.102
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-D02",
+   "side": "back",
+   "panel_label": "(seq icon 2)",
+   "what": "Sequencer control icon",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.04,
+    0.208
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-D04",
+   "side": "back",
+   "panel_label": "Vent holes",
+   "what": "Decoration",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.089,
+    0.35
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-D03",
+   "side": "back",
+   "panel_label": "VOID IF REMOVED sticker",
+   "what": "Decoration",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.947,
+    0.201
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J01",
+   "side": "back",
+   "panel_label": "Note (Mono CV In)",
+   "what": "Sequencer control: note CV input",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.064,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Mono CV Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J02",
+   "side": "back",
+   "panel_label": "Gate (Mono Gate In)",
+   "what": "Sequencer control: gate input",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.131,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Mono Gate Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-K01",
+   "side": "back",
+   "panel_label": "Bend trim",
+   "what": "Amount for Bend CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.196,
+    0.693
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Pitch Bend Input: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim above its CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-K02",
+   "side": "back",
+   "panel_label": "Vibrato trim",
+   "what": "Amount for Vibrato CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.262,
+    0.693
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Mod Wheel Modulation Input: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim above its CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-K03",
+   "side": "back",
+   "panel_label": "Formant trim",
+   "what": "Amount for Formant CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.329,
+    0.693
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Formant Shift Input: 127\"",
+   "confidence": "medium",
+   "confidence_reason": "trim above its CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J03",
+   "side": "back",
+   "panel_label": "Bend CV In",
+   "what": "CV input: pitch bend",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.196,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Pitch Bend Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J04",
+   "side": "back",
+   "panel_label": "Vibrato CV In",
+   "what": "CV input: vibrato (mod wheel)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.262,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Mod Wheel Modulation Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J05",
+   "side": "back",
+   "panel_label": "Formant CV In",
+   "what": "CV input: formant shift",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.329,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Formant Shift Input\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J06",
+   "side": "back",
+   "panel_label": "Pitch CV Out",
+   "what": "CV output: pitch (after pitch adjuster/transpose)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.408,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Pitch Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J07",
+   "side": "back",
+   "panel_label": "Amplitude CV Out",
+   "what": "CV output: amplitude",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.474,
+    0.816
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Amplitude Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J08",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.559,
+    0.811
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Vocoder 1: Left Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J09",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.605,
+    0.811
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Vocoder 1: Right Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J10",
+   "side": "back",
+   "panel_label": "Voice Synth Out L",
+   "what": "Voice synth output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.68,
+    0.811
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Voice Synth Left Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J11",
+   "side": "back",
+   "panel_label": "Voice Synth Out R",
+   "what": "Voice synth output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.726,
+    0.811
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Voice Synth Right Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J12",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.8,
+    0.811
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Basic Pulverisation: Left Inp...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "NEPT-B-J13",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.846,
+    0.811
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "cabled: tooltip \"Connected to Basic Pulverisation: Right In...\" (cut off); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

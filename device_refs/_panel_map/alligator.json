@@ -1,0 +1,1903 @@
+{
+ "device": "Alligator",
+ "remote_scope": "Propellerheads / Alligator",
+ "code_prefix": "ALGT",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. Controls past slot 48 (band Phaser/Delay amounts, Dry Pan, Delay and Phaser sections) have Remote names but no slot in our remotemap. Gate Open lights (flat items), meter lights, pattern/LFO arrows give no usable tooltip. Audio jack names unread (cabled).",
+ "controls": [
+  {
+   "code": "ALGT-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.026,
+    0.06
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "medium",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B02",
+   "side": "front",
+   "panel_label": "Bypass/On/Off",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 48,
+   "cc": 77,
+   "feedback_cc": 125,
+   "pos": [
+    0.059,
+    0.06
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D01",
+   "side": "front",
+   "panel_label": "(meter lights)",
+   "what": "Level lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.117,
+    0.065
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Master\" (tooltip text; no Remote item assigned)",
+   "confidence": "medium",
+   "confidence_reason": "tooltip 'Master'; Remote has an 'Input Peak Meter' item but the match is NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D02",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.477,
+    0.065
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Pad Rhythmification\"",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; tooltip shows the patch name",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B03",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.665,
+    0.048
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B06",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.665,
+    0.078
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B04",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.689,
+    0.061
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B05",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.713,
+    0.061
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D07",
+   "side": "front",
+   "panel_label": "PAD RHYTHMIF tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.03,
+    0.468
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Pad Rhythmification\" (patch name; 'Device Name' item not provable here)",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B07",
+   "side": "front",
+   "panel_label": "Pattern ON",
+   "what": "Pattern on/off button",
+   "reason_name": "Pattern Enable",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 41,
+   "cc": 70,
+   "feedback_cc": 118,
+   "pos": [
+    0.089,
+    0.216
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Pattern Enable\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D03",
+   "side": "front",
+   "panel_label": "Pattern light",
+   "what": "Pattern on light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.117,
+    0.216
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "tooltip \"Pattern Enable\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B10",
+   "side": "front",
+   "panel_label": "SHUFFLE",
+   "what": "Pattern shuffle",
+   "reason_name": "Shuffle",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 44,
+   "cc": 73,
+   "feedback_cc": 121,
+   "pos": [
+    0.084,
+    0.293
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Shuffle\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D05",
+   "side": "front",
+   "panel_label": "Pattern display",
+   "what": "Pattern number (stepper)",
+   "reason_name": "Pattern",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 40,
+   "cc": 69,
+   "feedback_cc": 117,
+   "pos": [
+    0.101,
+    0.376
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Pattern: 1\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B11",
+   "side": "front",
+   "panel_label": "Pattern up arrow",
+   "what": "Next pattern",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.135,
+    0.361
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B12",
+   "side": "front",
+   "panel_label": "Pattern down arrow",
+   "what": "Previous pattern",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.135,
+    0.395
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K20",
+   "side": "front",
+   "panel_label": "RESOLUTION",
+   "what": "Pattern resolution",
+   "reason_name": "Resolution",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 42,
+   "cc": 71,
+   "feedback_cc": 119,
+   "pos": [
+    0.11,
+    0.531
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Resolution: 1/16\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K33",
+   "side": "front",
+   "panel_label": "SHIFT",
+   "what": "Pattern shift",
+   "reason_name": "Shift",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 43,
+   "cc": 72,
+   "feedback_cc": 120,
+   "pos": [
+    0.11,
+    0.694
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Shift: 0\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B08",
+   "side": "front",
+   "panel_label": "MANUAL GATE 1",
+   "what": "Manual gate 1 button",
+   "reason_name": "Gate 1 Trig",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.221,
+    0.233
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Gate 1 Trig\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D04",
+   "side": "front",
+   "panel_label": "Gate 1 light",
+   "what": "Gate 1 open light",
+   "reason_name": "Gate 1 Open",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.261,
+    0.238
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Gate 1 Open' is a 'flat' item; placed on this light, NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item 'Gate 1 Open'; likely this light; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B13",
+   "side": "front",
+   "panel_label": "MANUAL GATE 2",
+   "what": "Manual gate 2 button",
+   "reason_name": "Gate 2 Trig",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.221,
+    0.369
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Gate 2 Trig\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D06",
+   "side": "front",
+   "panel_label": "Gate 2 light",
+   "what": "Gate 2 open light",
+   "reason_name": "Gate 2 Open",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.261,
+    0.374
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Gate 2 Open' is a 'flat' item; placed on this light, NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item 'Gate 2 Open'; likely this light; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B15",
+   "side": "front",
+   "panel_label": "MANUAL GATE 3",
+   "what": "Manual gate 3 button",
+   "reason_name": "Gate 3 Trig",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "pos": [
+    0.221,
+    0.507
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Gate 3 Trig\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D08",
+   "side": "front",
+   "panel_label": "Gate 3 light",
+   "what": "Gate 3 open light",
+   "reason_name": "Gate 3 Open",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "pos": [
+    0.261,
+    0.507
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Gate 3 Open' is a 'flat' item; placed on this light, NOT proven",
+   "confidence": "low",
+   "confidence_reason": "Remote item 'Gate 3 Open'; likely this light; NOT proven",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B09",
+   "side": "front",
+   "panel_label": "HIGH PASS ON",
+   "what": "High Pass filter on/off",
+   "reason_name": "High Pass Filter On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.328,
+    0.221
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Filter On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K01",
+   "side": "front",
+   "panel_label": "HIGH PASS LFO",
+   "what": "High Pass filter: LFO amount",
+   "reason_name": "High Pass LFO Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.415,
+    0.241
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass LFO Amount: 22%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K02",
+   "side": "front",
+   "panel_label": "HIGH PASS FREQ",
+   "what": "High Pass filter frequency",
+   "reason_name": "High Pass Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.465,
+    0.241
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Frequency: 1.74 kHz\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K03",
+   "side": "front",
+   "panel_label": "HIGH PASS RES",
+   "what": "High Pass filter resonance",
+   "reason_name": "High Pass Resonance",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.514,
+    0.241
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Resonance: 31%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K04",
+   "side": "front",
+   "panel_label": "HIGH PASS ENV",
+   "what": "High Pass filter: envelope amount",
+   "reason_name": "High Pass Env Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.563,
+    0.241
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Env Amount: -25%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B14",
+   "side": "front",
+   "panel_label": "BAND PASS ON",
+   "what": "Band Pass filter on/off",
+   "reason_name": "Band Pass Filter On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.328,
+    0.361
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Filter On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K10",
+   "side": "front",
+   "panel_label": "BAND PASS LFO",
+   "what": "Band Pass filter: LFO amount",
+   "reason_name": "Band Pass LFO Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.415,
+    0.378
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass LFO Amount: 22%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K11",
+   "side": "front",
+   "panel_label": "BAND PASS FREQ",
+   "what": "Band Pass filter frequency",
+   "reason_name": "Band Pass Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.465,
+    0.378
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Frequency: 376.3 Hz\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K12",
+   "side": "front",
+   "panel_label": "BAND PASS RES",
+   "what": "Band Pass filter resonance",
+   "reason_name": "Band Pass Resonance",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.514,
+    0.378
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Resonance: 60%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K13",
+   "side": "front",
+   "panel_label": "BAND PASS ENV",
+   "what": "Band Pass filter: envelope amount",
+   "reason_name": "Band Pass Env Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.563,
+    0.378
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Env Amount: 19%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B16",
+   "side": "front",
+   "panel_label": "LOW PASS ON",
+   "what": "Low Pass filter on/off",
+   "reason_name": "Low Pass Filter On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.328,
+    0.495
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Filter On\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K21",
+   "side": "front",
+   "panel_label": "LOW PASS LFO",
+   "what": "Low Pass filter: LFO amount",
+   "reason_name": "Low Pass LFO Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.415,
+    0.514
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass LFO Amount: 22%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K22",
+   "side": "front",
+   "panel_label": "LOW PASS FREQ",
+   "what": "Low Pass filter frequency",
+   "reason_name": "Low Pass Frequency",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.465,
+    0.514
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Frequency: 1.96 kHz\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K23",
+   "side": "front",
+   "panel_label": "LOW PASS RES",
+   "what": "Low Pass filter resonance",
+   "reason_name": "Low Pass Resonance",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.514,
+    0.514
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Resonance: 16%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K24",
+   "side": "front",
+   "panel_label": "LOW PASS ENV",
+   "what": "Low Pass filter: envelope amount",
+   "reason_name": "Low Pass Env Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.563,
+    0.514
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Env Amount: 16%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K05",
+   "side": "front",
+   "panel_label": "High Pass DRIVE",
+   "what": "High Pass band: drive amount",
+   "reason_name": "High Pass Drive Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.663,
+    0.238
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Drive Amount: 17%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K06",
+   "side": "front",
+   "panel_label": "High Pass PHASER",
+   "what": "High Pass band: phaser amount",
+   "reason_name": "High Pass Phaser Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.712,
+    0.238
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"High Pass Phaser Amount: 0%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K07",
+   "side": "front",
+   "panel_label": "High Pass DELAY",
+   "what": "High Pass band: delay amount",
+   "reason_name": "High Pass Delay Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.761,
+    0.238
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"High Pass Delay Amount: 9%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K08",
+   "side": "front",
+   "panel_label": "High Pass PAN",
+   "what": "High Pass band: pan",
+   "reason_name": "High Pass Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.814,
+    0.238
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Pan: -27\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K09",
+   "side": "front",
+   "panel_label": "High Pass VOLUME",
+   "what": "High Pass band: volume",
+   "reason_name": "High Pass Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.866,
+    0.238
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"High Pass Volume: 75%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K14",
+   "side": "front",
+   "panel_label": "Band Pass DRIVE",
+   "what": "Band Pass band: drive amount",
+   "reason_name": "Band Pass Drive Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.663,
+    0.374
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Drive Amount: 31%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K15",
+   "side": "front",
+   "panel_label": "Band Pass PHASER",
+   "what": "Band Pass band: phaser amount",
+   "reason_name": "Band Pass Phaser Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.712,
+    0.374
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Band Pass Phaser Amount: 0%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K16",
+   "side": "front",
+   "panel_label": "Band Pass DELAY",
+   "what": "Band Pass band: delay amount",
+   "reason_name": "Band Pass Delay Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.761,
+    0.374
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Band Pass Delay Amount: 35%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K17",
+   "side": "front",
+   "panel_label": "Band Pass PAN",
+   "what": "Band Pass band: pan",
+   "reason_name": "Band Pass Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.814,
+    0.374
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Pan: 2\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K18",
+   "side": "front",
+   "panel_label": "Band Pass VOLUME",
+   "what": "Band Pass band: volume",
+   "reason_name": "Band Pass Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.866,
+    0.374
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Band Pass Volume: 70%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K25",
+   "side": "front",
+   "panel_label": "Low Pass DRIVE",
+   "what": "Low Pass band: drive amount",
+   "reason_name": "Low Pass Drive Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.663,
+    0.51
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Drive Amount: 39%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K26",
+   "side": "front",
+   "panel_label": "Low Pass PHASER",
+   "what": "Low Pass band: phaser amount",
+   "reason_name": "Low Pass Phaser Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.712,
+    0.51
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Low Pass Phaser Amount: 0%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K27",
+   "side": "front",
+   "panel_label": "Low Pass DELAY",
+   "what": "Low Pass band: delay amount",
+   "reason_name": "Low Pass Delay Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.761,
+    0.51
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Low Pass Delay Amount: 9%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K28",
+   "side": "front",
+   "panel_label": "Low Pass PAN",
+   "what": "Low Pass band: pan",
+   "reason_name": "Low Pass Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.814,
+    0.51
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Pan: 27\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K29",
+   "side": "front",
+   "panel_label": "Low Pass VOLUME",
+   "what": "Low Pass band: volume",
+   "reason_name": "Low Pass Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.866,
+    0.51
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Low Pass Volume: 75%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K30",
+   "side": "front",
+   "panel_label": "DUCKING",
+   "what": "Ducking amount",
+   "reason_name": "Ducking",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 47,
+   "cc": 76,
+   "feedback_cc": 124,
+   "pos": [
+    0.764,
+    0.677
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Ducking: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K31",
+   "side": "front",
+   "panel_label": "DRY PAN",
+   "what": "Dry signal pan",
+   "reason_name": "Dry Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.814,
+    0.677
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Dry Pan: 2\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K32",
+   "side": "front",
+   "panel_label": "DRY VOLUME",
+   "what": "Dry signal volume",
+   "reason_name": "Dry Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 45,
+   "cc": 74,
+   "feedback_cc": 122,
+   "pos": [
+    0.866,
+    0.677
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Dry Volume: 0%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K19",
+   "side": "front",
+   "panel_label": "MASTER",
+   "what": "Master volume",
+   "reason_name": "Master Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 46,
+   "cc": 75,
+   "feedback_cc": 123,
+   "pos": [
+    0.923,
+    0.378
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Master Volume: 72%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K34",
+   "side": "front",
+   "panel_label": "AMP ENV A",
+   "what": "Amplitude envelope attack",
+   "reason_name": "Amp Env Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "pos": [
+    0.089,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Amp Env Attack: 16%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K35",
+   "side": "front",
+   "panel_label": "AMP ENV D",
+   "what": "Amplitude envelope decay",
+   "reason_name": "Amp Env Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "pos": [
+    0.135,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Amp Env Decay: 61%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K36",
+   "side": "front",
+   "panel_label": "AMP ENV R",
+   "what": "Amplitude envelope release",
+   "reason_name": "Amp Env Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "pos": [
+    0.181,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Amp Env Release: 29%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-D09",
+   "side": "front",
+   "panel_label": "LFO waveform display",
+   "what": "LFO waveform (pick with the arrows)",
+   "reason_name": "LFO Waveform",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 38,
+   "cc": 67,
+   "feedback_cc": 115,
+   "pos": [
+    0.267,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"LFO Waveform: Triangle\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B17",
+   "side": "front",
+   "panel_label": "LFO wave up arrow",
+   "what": "Previous waveform",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.302,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B20",
+   "side": "front",
+   "panel_label": "LFO wave down arrow",
+   "what": "Next waveform",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.302,
+    0.906
+   ],
+   "how": "click only",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K37",
+   "side": "front",
+   "panel_label": "LFO FREQ",
+   "what": "LFO frequency (note value when SYNC is on)",
+   "reason_name": "LFO Freq",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 37,
+   "cc": 66,
+   "feedback_cc": 114,
+   "pos": [
+    0.345,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"LFO Freq: 3/8\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B18",
+   "side": "front",
+   "panel_label": "LFO SYNC",
+   "what": "LFO tempo sync",
+   "reason_name": "LFOSync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 39,
+   "cc": 68,
+   "feedback_cc": 116,
+   "pos": [
+    0.387,
+    0.85
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"LFO Sync\" (Remote name is 'LFOSync')",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K38",
+   "side": "front",
+   "panel_label": "FILTER ENV A",
+   "what": "Filter envelope attack",
+   "reason_name": "Filter Env Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 34,
+   "cc": 63,
+   "feedback_cc": 111,
+   "pos": [
+    0.46,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Env Attack: 9%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K39",
+   "side": "front",
+   "panel_label": "FILTER ENV D",
+   "what": "Filter envelope decay",
+   "reason_name": "Filter Env Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 35,
+   "cc": 64,
+   "feedback_cc": 112,
+   "pos": [
+    0.504,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Env Decay: 39%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K40",
+   "side": "front",
+   "panel_label": "FILTER ENV R",
+   "what": "Filter envelope release",
+   "reason_name": "Filter Env Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 36,
+   "cc": 65,
+   "feedback_cc": 113,
+   "pos": [
+    0.55,
+    0.884
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "tooltip \"Filter Env Release: 27%\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K41",
+   "side": "front",
+   "panel_label": "DELAY TIME",
+   "what": "Delay time (note value when SYNC is on)",
+   "reason_name": "Delay Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.64,
+    0.884
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Delay Time: 1/8\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-B19",
+   "side": "front",
+   "panel_label": "DELAY SYNC",
+   "what": "Delay tempo sync",
+   "reason_name": "DelaySync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.682,
+    0.85
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Delay Sync\" (Remote name is 'DelaySync')",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K42",
+   "side": "front",
+   "panel_label": "DELAY FEEDBACK",
+   "what": "Delay feedback",
+   "reason_name": "Delay Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.727,
+    0.884
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Delay Feedback: 35%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K43",
+   "side": "front",
+   "panel_label": "DELAY PAN",
+   "what": "Delay pan",
+   "reason_name": "Delay Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.781,
+    0.884
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Delay Pan: -2\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K44",
+   "side": "front",
+   "panel_label": "PHASER RATE",
+   "what": "Phaser rate",
+   "reason_name": "Phaser Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.859,
+    0.884
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Phaser Rate: 28%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-F-K45",
+   "side": "front",
+   "panel_label": "PHASER FBK",
+   "what": "Phaser feedback",
+   "reason_name": "Phaser Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.911,
+    0.884
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_07": "tooltip \"Phaser Feedback: 29%\"",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-D01",
+   "side": "back",
+   "panel_label": "PAD RHYTHMIF tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.036,
+    0.423
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Pad Rhythmification\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J05",
+   "side": "back",
+   "panel_label": "Gate 1 CV In",
+   "what": "CV input: gate 1 (MIDI note)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.075,
+    0.269
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate 1 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J08",
+   "side": "back",
+   "panel_label": "Gate 2 CV In",
+   "what": "CV input: gate 2 (MIDI note)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.075,
+    0.355
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate 2 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J13",
+   "side": "back",
+   "panel_label": "Gate 3 CV In",
+   "what": "CV input: gate 3 (MIDI note)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.075,
+    0.443
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate 3 CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-K01",
+   "side": "back",
+   "panel_label": "High Pass Freq CV trim",
+   "what": "Amount for High Pass Freq CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.26,
+    0.261
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"High Pass Filter Freq CV Amount: 50%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J06",
+   "side": "back",
+   "panel_label": "High Pass Freq CV In",
+   "what": "CV input: High Pass Freq",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.288,
+    0.269
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"High Pass Filter Freq CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-K02",
+   "side": "back",
+   "panel_label": "Band Pass Freq CV trim",
+   "what": "Amount for Band Pass Freq CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.26,
+    0.352
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Band Pass Filter Freq CV Amount: 50%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J09",
+   "side": "back",
+   "panel_label": "Band Pass Freq CV In",
+   "what": "CV input: Band Pass Freq",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.288,
+    0.355
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Band Pass Filter Freq CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-K03",
+   "side": "back",
+   "panel_label": "Low Pass Freq CV trim",
+   "what": "Amount for Low Pass Freq CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.26,
+    0.443
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"Low Pass Filter Freq CV Amount: 50%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J14",
+   "side": "back",
+   "panel_label": "Low Pass Freq CV In",
+   "what": "CV input: Low Pass Freq",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.288,
+    0.443
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Low Pass Filter Freq CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-K04",
+   "side": "back",
+   "panel_label": "LFO Rate CV trim",
+   "what": "Amount for LFO Rate CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.26,
+    0.55
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_07": "tooltip \"LFO Rate CV Modulation Amount: 50%\"",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; Remote has no item for it",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J18",
+   "side": "back",
+   "panel_label": "LFO Rate CV In",
+   "what": "CV input: LFO Rate",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.288,
+    0.554
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"LFO Rate CV In\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J07",
+   "side": "back",
+   "panel_label": "Gate 1 CV Out",
+   "what": "CV output: gate 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.497,
+    0.269
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate 1 CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J10",
+   "side": "back",
+   "panel_label": "Gate 2 CV Out",
+   "what": "CV output: gate 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.497,
+    0.355
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate 2 CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J15",
+   "side": "back",
+   "panel_label": "Gate 3 CV Out",
+   "what": "CV output: gate 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.497,
+    0.445
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Gate 3 CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J19",
+   "side": "back",
+   "panel_label": "LFO CV Out",
+   "what": "CV output: LFO",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.497,
+    0.557
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"LFO CV Out\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J03",
+   "side": "back",
+   "panel_label": "High Pass Channel L",
+   "what": "Separate output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.687,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"High Pass Channel Left Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J04",
+   "side": "back",
+   "panel_label": "High Pass Channel R",
+   "what": "Separate output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.735,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"High Pass Channel Right Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J11",
+   "side": "back",
+   "panel_label": "Band Pass Channel L",
+   "what": "Separate output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.687,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Band Pass Channel Left Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J12",
+   "side": "back",
+   "panel_label": "Band Pass Channel R",
+   "what": "Separate output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.735,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Band Pass Channel Right Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J16",
+   "side": "back",
+   "panel_label": "Low Pass Channel L",
+   "what": "Separate output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.687,
+    0.518
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Low Pass Channel Left Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J17",
+   "side": "back",
+   "panel_label": "Low Pass Channel R",
+   "what": "Separate output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.735,
+    0.518
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Low Pass Channel Right Output\"",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J01",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.829,
+    0.13
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to MasterComp 1: Left Output\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J02",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.883,
+    0.13
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to MasterComp 1: Right Output\" (cut off at edge); own jack name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J20",
+   "side": "back",
+   "panel_label": "Main Out L",
+   "what": "Main output left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.829,
+    0.647
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Audiomatic 1: Left Input\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  },
+  {
+   "code": "ALGT-B-J21",
+   "side": "back",
+   "panel_label": "Main Out R",
+   "what": "Main output right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.883,
+    0.647
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_07": "tooltip \"Connected to Audiomatic 1: Right Input\"; this jack's own name NOT read yet",
+   "confidence": "high",
+   "view": "main panel"
+  }
+ ]
+}

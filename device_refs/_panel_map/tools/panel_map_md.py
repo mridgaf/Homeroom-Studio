@@ -10,7 +10,7 @@ def cell(c):
     return str(c).replace("|","/").replace("\n"," ")
 for slug,title in order:
     d=json.load(open(slug+".json")); pre=d["code_prefix"]
-    if "| %s |"%pre in md: continue
+    if "| %s | %s_front_labeled.png"%(pre,slug) in md: continue
     n=len(d["controls"])
     rows.append("| %s | %s | %s_front_labeled.png | %s_back_labeled.png | %s.json | %s |"%(title,pre,slug,slug,slug,cell(d["status"])))
     for side,label in (("front","front"),("back","back")):

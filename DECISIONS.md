@@ -8477,3 +8477,24 @@ just not loaded by default.
 - Verify by: re-run join_proof.py after any new calibrate.py sweep; counts should shift mapped-not-proven down.
 - Status: confirmed (script run; counts checked against the survey). Pictures for the 26 not started.
 - Outcome: —
+
+### 2026-10-07 Panel Map: Sweeper done (first of the 26 proven-but-unmapped devices)
+- Context: owner chose "finish each device fully, batch D effects first" (names-only skeletons in `device_refs/_panel_map/names_only/`).
+- Done: `sweeper.json` (69 rows: Phaser/Envelope main view, Filter view, Audio Follower view, back panel), 4 labeled pictures, PANEL-MAP.md row + sections, `name_check` PASS (0 errors) on a temp copy of the remotemap with `se.propellerheads.` stripped (real remotemap NOT edited, same trap as Channel EQ). Tools: `tools/gen_sweeper_specs.py`, `tools/merge_sweeper.py`.
+- Hover results: 30 rows have a tooltip. Seen with NO tooltip (name rests on the Remote list): triangle, Stereo, Stages, LFO wave, LFO SYNC, LOOP, Env SYNC, Audio Trig OFF, Threshold, PRESET/EDIT/graph, routing icons. Two rows (LFO/Env synced-rate readouts) NOT hovered. 4 audio jacks are cabled: own names unread (null). Flanger view not pictured (same as Phaser minus Bandwidth/Stages).
+- Quirks seen: hover says "Dry-Wet" (Remote DryWet); Filter Type tooltip read "Ladder LP 24dB" while display read "Notch 12 dB".
+- Trap: a mouse_move straight onto a control sometimes shows no tooltip; moving in from 5 px away first worked for most.
+- Env: Pillow installed into `.venv` (needed by build_device.py). Test song "untitled 2" left open, unsaved; Sweeper set back to Phaser + Envelope view.
+- Status: open (25 devices left; Sweeper has the gaps above).
+- Outcome: —
+
+### 2026-10-07 Panel Map: batch D effects done (9 of the 26 proven devices)
+- Context: owner said run all 9 batch D effects without stopping. Each done fully: front, every extra view, back, labeled pictures, JSON, PANEL-MAP.md, `name_check` PASS (0 errors, on a temp copy of the remotemap with `se.propellerheads.` stripped; real remotemap NOT edited).
+- Done (rows): Sweeper 69, Synchronous 115, Audiomatic 41, Neptune 73, Pulveriser 65, Quartet 55 (BBD + Chorus/FFT/Grain views), Alligator 100, ReasonAmp 48 (rack name Softube Amp), ReasonBassAmp 43 (rack name Softube Bass Amp). 609 rows total.
+- New tools: `tools/finish_device.py` (build from spec + stamp hover results; refuses if any row has no check text), `tools/gen_<device>.py` (spec + check text per device), `tools/checks/*.json`. Pillow installed in `.venv`.
+- Seen in Reason: many controls give NO tooltip (display buttons, lights, arrows, faders on Neptune, Synchronous display row); recorded as "no tooltip", name from Remote list, NOT proven by hover. Cabled audio jacks: own names unread (null); the tooltip shows the partner jack, which also proved partner names (e.g. Pulveriser inputs read Neptune "Left Output"/"Right Output").
+- Remote oddities noted in rows: Neptune has case-variant duplicates (Midi Destination, Mod wheel, Vibrato rate, pitch bend) and 'Pitch Adjust Amount' with no known panel control; Pulveriser 'Follow' (flat); Alligator Phaser/Delay/Dry Pan and the whole Delay + Phaser sections are beyond slot 48 (named, no slot).
+- Not done: 17 instruments (Kong, Redrum, Dr.REX, Mimic, Thor, Grain, Europa, Malström, Humana, NN19, SubTractor, Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8). No raw pictures exist for them yet (batch D pictures were effects only), so each needs the device created in the test song first.
+- Reason state left: test song "untitled 2" open, unsaved, all devices restored to the state found (Sweeper Phaser+Envelope, Quartet BBD). Rack on front view.
+- Status: open (17 left).
+- Outcome: —
