@@ -31,3 +31,140 @@ btn1disp|(no tooltip)
 btn1arrows|(no tooltip)
 btn1label|(no tooltip)
 btn2|Button 2
+btn2disp|(no tooltip)
+btn2arrows|(no tooltip)
+btn2label|(no tooltip)
+master|Master Level: -19.1 dB
+amfrom|Osc 1 AM From Osc 2: 0
+mo_menu|(no tooltip)
+mo_kbd|Osc 1 Kbd: 127
+mo_oct|Osc 1 Oct: 4
+mo_semi|Osc 1 Semi: 0
+mo_tune|Osc 1 Tune: -1
+mo_detune|(no tooltip)
+mo_detarrows|(no tooltip)
+mo_amt|Osc 1 Detune Amt: 37
+mo_off|Osc 1 Multi Wave
+mo_led1|(no tooltip)
+mo_led2|(not hovered)
+mo_led3|(not hovered)
+mo_led4|(no tooltip)
+wt_menu|(no tooltip)
+wt_kbd|Osc 2 Kbd: 127
+wt_oct|Osc 2 Oct: 4
+wt_semi|Osc 2 Semi: 0
+wt_tune|Osc 2 Tune: 0
+wt_table|(no tooltip)
+wt_tablearrows|(no tooltip)
+wt_pos|Osc 2 Pos: 93
+wt_xfade|Osc 2 Wavetable Smooth X fade
+sync1|Osc 2 Sync To Osc 1
+bw1|(no tooltip)
+sync2|Osc 3 Sync To Osc 1
+bw2|Osc 3 Sync BW: 127
+an_menu|(no tooltip)
+an_kbd|Osc 3 Kbd: 127
+an_oct|Osc 3 Oct: 4
+an_semi|Osc 3 Semi: 0
+an_tune|Osc 3 Tune: -1
+an_w1|(no tooltip)
+an_pw|Osc 3 PW: 93
+an_off|Osc 3 Analog Wave
+f1_menu|(no tooltip)
+f1_self|Filter 1 Self Osc
+f1_t1|(no tooltip)
+f1_t5|(no tooltip)
+f1_freq|Filter 1 Freq: 9.30 kHz
+f1_res|Filter 1 Res: 0
+f1_drive|Filter 1 Drive: 79
+f1_inv|Filter 1 Env Invert
+f1_env|Filter 1 Env Amount: 33
+f1_vel|Filter 1 Velocity: 47
+f1_kbd|Filter 1 Kbd: 0
+f1_mode|Filter 1 Ladder Slope
+f1_pwr|(no tooltip)
+rt1|Osc 1 To Filter 1 Enable
+rt2|Osc 2 To Filter 1 Enable
+rt3|Osc 3 To Filter 1 Enable
+rb1|Osc 1 To Filter 2 Enable
+rb2|Osc 2 To Filter 2 Enable
+rb3|Osc 3 To Filter 2 Enable
+mix_bal|Osc 1 And 2 Balance: 64
+mix_s12|Osc 1 And 2 Level: -2.1 dB
+mix_s3|Osc 3 Level: -2.1 dB
+sh_on|Shaper On
+sh_type|(no tooltip)
+sh_arrows|(not hovered)
+sh_drive|Shaper Drive: 37
+amp_vel|Amplifier Velocity: 105
+amp_gain|Amplifier Gain: -5.2 dB
+amp_pan|Amplifier Pan: 0
+arrowL|Shaper to Filter 2
+arrowR|Shaper to Amplifier
+arrowB|Filter2ToAmplifier Enable
+f2_menu|(no tooltip)
+l1_key|LFO 1 Key Sync
+l1_tempo|LFO 1 Tempo Sync
+l1_rate|LFO 1 Rate: 1/8T
+l1_delay|LFO 1 Delay: 0.0 ms
+l1_kbdf|LFO 1 KbdFollow: 0
+l1_wave|LFO 1 Waveform: 0
+l1_arrows|(no tooltip)
+me_gate|Mod Env Gate Trig On
+me_tempo|Mod Env Tempo Sync
+me_loop|Mod Env Loop
+me_delay|Mod Env Delay: 0.0 ms
+me_A|Mod Env Attack: 0.0 ms
+me_D|Mod Env Decay: 4.35 s
+me_R|Mod Env Release: 4.35 s
+fe_gate|Filter Env Gate Trig On
+fe_A|Filter Env Attack: 0.0 ms
+fe_D|Filter Env Decay: 4.35 s
+fe_S|Filter Env Sustain: -21.8 dB
+fe_R|Filter Env Release: 4.35 s
+ae_gate|Amp Env Gate Trig On
+ae_A|Amp Env Attack: 0.4 ms
+ae_D|Amp Env Decay: 3.49 s
+ae_S|Amp Env Sustain: -108.2 dB
+ae_R|Amp Env Release: 3.82 s
+dl_on|Delay On
+dl_sync|Delay Sync
+dl_time|Delay Time: 2/16
+dl_fback|Delay Feedback: 50
+dl_rate|Delay Rate: 0.63 Hz
+dl_amt|Delay Amt: 45
+dl_dw|Delay Dry Wet: 0
+ch_on|Chorus On
+ch_delay|Chorus Delay: 12.1 ms
+ch_fback|Chorus Feedback: 0
+ch_rate|Chorus Rate: 0.66 Hz
+ch_amt|Chorus Amt: 32
+ch_dw|Chorus Dry Wet: 60
+cf_menu|(no tooltip)
+cf_pwr|(no tooltip)
+cf_drive|Filter 3 Drive: 80
+cf_freq|Filter 3 Freq: 9.30 kHz
+cf_res|Filter 3 Res: 0
+cf_p|(no tooltip)
+cf_m|(no tooltip)
+cf_mode|Filter 3 Comb Preset
+cf_inv|Filter 3 Global Env Invert
+cf_env|Filter 3 Global Env Amount: 0
+cf_vel|Filter 3 Velocity: 47
+cf_kbd|Filter 3 Kbd: 0
+ge_gate|Global Env Gate Trig On
+ge_tempo|Global Env Tempo Sync
+ge_loop|Global Env Loop
+ge_delay|Global Env Delay: 0.0 ms
+ge_A|Global Env Attack: 0.0 ms
+ge_hold|Global Env Hold: 0.0 ms
+ge_D|Global Env Decay: 1.24 s
+ge_S|Global Env Sustain: -21.8 dB
+ge_R|Global Env Release: 1.24 s
+l2_key|LFO 2 Key Sync
+l2_tempo|LFO 2 Tempo Sync
+l2_rate|LFO 2 Rate: 5/4
+l2_delay|LFO 2 Delay: 0.0 ms
+l2_wave|LFO 2 Waveform: 0
+l2_arrows|(no tooltip)
+MATRIX|Sample hovers only. Dropdown cells (source/dest) = no tooltip. Number cells: "Mod N Dest Amount: v", "Mod N Dest 2 Amount: v", "Mod N Scale Amount: v", "Mod N Scale 2 Amount: v" (seen N=1,8,12). Clear button: "Clear Sources, Modulations and Scales". Row-to-N mapping per row NOT verified: use remotemap/manual.

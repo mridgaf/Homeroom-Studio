@@ -1,0 +1,111 @@
+fold|(no tooltip)
+tape|(no tooltip)
+patchdisp|(no tooltip)
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+eng1|Engine Select
+eng2|Engine Select
+eng3|Engine Select
+eng1on|Eng1 On
+waveon|Eng1 On
+eng1arrow|(no tooltip)
+wavedisp|(no tooltip)
+wavemenu|(no tooltip)
+eng2on|(no tooltip; retried 1.6 s)
+eng3on|(no tooltip; retried 1.6 s)
+eng2arrow|(no tooltip)
+wavearrows|(no tooltip)
+oct|Eng1 Oct: 2
+semi|Eng1 Semi: 0
+tune|Eng1 Tune: 0
+kbd|Eng1 Pitch Kbd: 100.0 %
+shape|Eng1 Shape: 50.0 %
+shapelfo|Eng1 Shape Amt: 0.0 %
+shapesrc|(no tooltip)
+shapevelo|Eng1 Shape Vel: 0.0 %
+phasesync|Eng1 SyncPhase
+mod1on|Eng1 Mod1 On
+mod1menu|(no tooltip)
+mod1amt|Eng1 Mod1 Amt: 46.9 %
+mod1lfo|Eng1 Mod1 Mod: 0.0 %
+mod1src|(no tooltip)
+mod2on|Eng1 Mod2 On
+mod2menu|(no tooltip)
+mod2amt|Eng1 Mod2 Amt: 0.0 %
+mod2lfo|Eng1 Mod2 Mod: 0.0 %
+mod2src|(no tooltip)
+sfon|Eng1 Filter On
+sfdisp|(no tooltip)
+sfmenu|(no tooltip)
+sffreq|Eng1 Filter Freq: 23.4 %
+sfreso|Eng1 Filter Reso: 0.0 %
+sfkbd|Eng1 Filter Kbd: 100.0 %
+sfenv|Eng1 Filter Mod: 0.0 %
+sfsrc|(no tooltip)
+sfvelo|Eng1 Filter Vel: 0.0 %
+harmon|Eng1 Harm On
+harmmenu|(no tooltip)
+harmpos|Eng1 Harm Pos: 50.0 %
+harmamt|Eng1 Harm Amt: 28.1 %
+unison|Eng1 Unison On
+unidisp|(no tooltip)
+unimenu|(no tooltip)
+unicount|Eng1 Count: 2
+uniblend|Eng1 Blend: 100.0 %
+unidetune|Eng1 Detune: 67.2 %
+unispread|Eng1 Spread: 100.0 %
+uwdisp|(no tooltip)
+uwarrows|Select previous sample
+uwfolder|Browse sample
+uwwave|Start sampling
+uwpencil|Edit Sample
+slider1|Eng1 Level: -7.0 dB
+slider2|Eng2 Level: 15.6 dB
+slider3|Eng3 Level: 10.8 dB
+pan1|Eng1 Pan: 50.0 %
+pan2|Eng2 Pan: 50.0 %
+pan3|Eng3 Pan: 50.0 %
+route1|Eng1 To Filter
+route2|Eng2 To Filter
+route3|Eng3 To Filter
+fmenu|(no tooltip)
+fdrivebtn|(no tooltip)
+fdrive|Filter Drive: 15.0 %
+freso|Filter Reso: 0.0 %
+ffreq|Filter Freq: 302.1 Hz
+fkbd|Filter Kbd: 0.0 %
+fenv|Filter Mod: 81.2 %
+fsrc|(no tooltip)
+fvelo|Filter Velocity: 56.2 %
+amppan|Pan: 50.0 %
+ampgain|Amp Gain: 12.3 dB
+ampvelo|Amp Velocity: 32.8 %
+ampA|Amp Attack: 0.6 ms
+ampD|Amp Decay: 8.30 s
+ampS|Amp Sustain: 0.0 %
+ampR|Amp Release: 3.34 s
+master|Master Volume: 14.5 dB
+voices|Voices: 16
+voicesarrows|(no tooltip)
+envtab1|(no tooltip)
+envtab2|(no tooltip)
+keymode|Key Mode: Poly
+portamode|Portamento Mode: Off
+portatime|Portamento: 0.0 %
+envtab3|(no tooltip)
+envtab4|(no tooltip)
+preset|(no tooltip)
+editypos|(no tooltip)
+envdisp|(no tooltip)
+sustain|(no tooltip)
+loop|(no tooltip)
+keytrig|(no tooltip)
+envrate|(no tooltip; value shown as text above knob)
+envsync|(no tooltip)
+envbipolar|(no tooltip)
+envglobal|(no tooltip)
+lfotab1|(no tooltip)
+lfotab2|(no tooltip)
+lfotab3|(no tooltip)
+lfowave|(no tooltip)

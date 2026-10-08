@@ -1,0 +1,49 @@
+BOTTOM (empty jacks / knobs, tooltips as Reason showed):
+seq_gate_in jack|Step Sequencer Trig
+seq_rate knob|Step Sequencer Rate: 127
+seq_rate jack|Step Sequencer Rate
+seq_pitch knob|Step Sequencer Transpose: 127
+seq_pitch jack|Step Sequencer Transpose
+seq_gatelen knob|Step Sequencer Gate Length: 127
+seq_gatelen jack|Step Sequencer Gate Length
+seq_vel knob|Step Sequencer Velocity: 127
+seq_vel jack|Step Sequencer Velocity
+out_note|Step Sequencer Note
+out_curve1|Step Sequencer Curve 1
+out_start|Step Sequencer Start Trig
+out_gatevel|Step Sequencer Gate
+out_curve2|Step Sequencer Curve 2
+out_end|Step Sequencer End Trig
+TOP:
+gate jack|Mono Gate Input
+cv jack|Mono CV Input
+pitchbend knob|Pitch Wheel Modulation Input: 127
+pitchbend jack|Pitch Wheel Modulation Input
+modwheel knob|Mod Wheel Modulation Input: 127
+modwheel jack|Mod Wheel Modulation Input
+rotary1 knob|Rotary 1: 127
+rotary1 jack|Rotary 1
+modin cv1 jack|Modulator 1
+rotary2 knob|Rotary 2: 127
+rotary2 jack|Rotary 2
+modin cv2 jack|Modulator 2
+filterfreq knob|Filter 1 Param X: 127
+filterfreq jack|Filter 1 Param X
+modin cv3 jack|Modulator 3
+amplevel knob|Level: 127
+amplevel jack|Level
+modin cv4 jack|Modulator 4
+modout global_env jack|Global Envelope
+modout lfo2 jack|LFO 2
+modout cv1 jack|Modulator 1
+modout cv2 jack|Modulator 2
+modout cv3 jack|Modulator 3
+modout cv4 jack|Modulator 4
+audio in 1 jack|In 1
+audio in 2 jack|In 2
+audio in 3 jack|In 3
+audio in 4 jack|In 4
+audio out 1 jack|Out 1 Left
+audio out 2 jack|Out 2 Right
+audio out 3 jack|Out 3
+audio out 4 jack|Out 4

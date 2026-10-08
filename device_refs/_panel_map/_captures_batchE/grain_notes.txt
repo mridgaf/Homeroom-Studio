@@ -1,0 +1,163 @@
+fold|(no tooltip)
+patchdisp|(no tooltip)
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+tape|(no tooltip)
+voices|Voices: 8
+voicesarrows|(no tooltip)
+master|Master Volume: 1.5 dB
+filename|(no tooltip)
+samplearrows|Select previous sample
+samplefolder|Browse sample
+samplerec|Start sampling
+sampleedit|Edit Sample
+overview|(no tooltip)
+preview|Preview
+waveform|(no tooltip)
+startmark|(no tooltip)
+endmark|(no tooltip)
+ypos|(no tooltip)
+motionmenu|(no tooltip)
+speed|Speed: 34.4 %
+jitter|Jitter: 0.0 %
+globalpos|(no tooltip)
+rootkey|(no tooltip)
+rootfine|(no tooltip)
+rootset|(no tooltip)
+analyzed|(no tooltip)
+grainsmenu|(no tooltip)
+panspread|Pan Spread: 71.9 %
+pitchjitter|Pitch Jitter: 0.0 %
+graindisp|(no tooltip)
+grainlen|Grain Length: 68.4 %
+rate|Rate-Spacing: 48.4 %
+xfade|X-Fade: 78.1 %
+pitchoct|Oct: 2
+pitchsemi|Semi: 0
+pitchtune|Tune: 0
+pitchkbd|Pitch Kbd: 100.0 %
+samplelevel|Sample Level: -8.3 dB
+sampleroute1|Sample To Filter
+sampleroute2|Sample To Filter
+oscpower|Osc On
+oscoct|Osc Oct: 0
+oscwavedisp|(no tooltip)
+oscwavearrows|(no tooltip)
+oscmod|Osc Mod: 0.0 %
+osclevel|Osc Level: -13.9 dB
+oscroute1|Osc To Filter
+oscroute2|Osc To Filter
+filtermenu|(no tooltip)
+filterfreq|Filter Freq: 401.7 Hz
+filterreso|Filter Reso: 12.5 %
+filterenv2|Filter Env2: 57.8 %
+filtervel|Filter Velocity: 15.6 %
+filterkbd|Filter Kbd: 37.5 %
+ampA|Amp Attack: 0.6 ms
+ampD|Amp Decay: 6.95 s
+ampS|(no tooltip; tried 3 times)
+ampR|Amp Release: 2.50 s
+ampgain|Amp Gain: 0.2 dB
+ampvel|Amp Velocity: 0.0 %
+amppan|Pan: 50.0 %
+envtab1|(no tooltip)
+envtab2|(no tooltip)
+envtab3|(no tooltip)
+envtab4|(no tooltip)
+keymode|Key Mode: Poly
+portamode|Portamento Mode: Off
+portatime|Portamento: 25.0 %
+envdisplay|(no tooltip)
+envpreset|(no tooltip)
+envedit|(no tooltip)
+envsustain|(no tooltip)
+envloop|(no tooltip)
+envkeytrig|(no tooltip)
+lfotab1|(no tooltip)
+lfotab2|(no tooltip)
+lfotab3|(no tooltip)
+lfowave|(no tooltip)
+lfowavearrows|(no tooltip)
+lfo1rate|(no tooltip; value shown as text 0.067Hz above the knob; retried 2 s)
+lfo1sync|(no tooltip)
+lfo1bipolar|(no tooltip)
+lfo1global|(no tooltip)
+lfo2rate|(no tooltip; value shown as text 0.806Hz above the knob; retried 2 s)
+lfo2sync|(no tooltip)
+lfo2keysync|(no tooltip)
+lfo2global|(no tooltip)
+lfo2delay|(no tooltip)
+pbrange|Pitchbend Range: 2
+wheelP|(Pitch Bend): 0.0%
+wheelM|(Mod Wheel): 0%
+mx_src|(no tooltip)
+mx_amt1|(no tooltip)
+mx_k1|Mod1 Dest1 Amt: 0
+mx_dest1|(no tooltip)
+mx_d1arrow|(no tooltip)
+mx_amtb|(no tooltip)
+mx_k2|Mod1 Dest2 Amt: 0
+mx_dest2|(no tooltip)
+mx_d2arrow|(no tooltip)
+mx_amtc|(no tooltip)
+mx_k3|Mod1 Scale Amt: 0
+mx_scale|(no tooltip)
+mx_clear|(no tooltip)
+fxpower|Effects On
+fxon|(no tooltip)
+fxtab_phsr|(no tooltip)
+fxon_phsr|(no tooltip)
+fxtab_dist|(no tooltip)
+fxon_dist|(no tooltip)
+fxtab_eq|(no tooltip)
+fxon_eq|(no tooltip)
+fxtab_comp|(no tooltip)
+fxon_comp|(no tooltip)
+fxtab_dly|(no tooltip)
+fxon_dly|(no tooltip)
+fxtab_rev|(no tooltip)
+fxon_rev|(no tooltip)
+compattack|Comp Attack: 7.6 ms
+compthres|Comp Threshold: -12.0 dB
+comprelease|Comp Release: 636 ms
+compratio|Comp Ratio: 2.00 : 1
+rev_decay|Reverb Decay: 67.7 %
+rev_size|Reverb Size: 70.0 %
+rev_damp|Reverb Damp: 30.0 %
+rev_amt|Reverb Amount: 36.6 %
+dly_sync|Delay Sync: On
+dly_time|Delay Synced Time: 3/16
+dly_pp|Delay PingPong: On
+dly_pan|Delay Pan: 100.0 %
+dly_fb|Delay Feedback: 17.2 %
+dly_amt|Delay Amount: 27.2 %
+eq_freq|EQ Freq: 104.1 Hz
+eq_q|EQ Q: 16.2 %
+eq_gain|EQ Gain: -1.1 dB
+dist_type|Dist Type: Dist
+dist_drive|Dist Drive: 50.0 %
+dist_tone|Dist Tone: 80.0 %
+dist_amt|Dist Amount: 100.0 %
+mod_type|Mod Effect Type: Phaser
+mod_depth|Mod Effect Depth: 80.0 %
+mod_rate|Mod Effect Rate: 0.20 Hz
+mod_spread|Mod Effect Spread: 25.0 %
+mod_amt|Mod Effect Amount: 60.0 %
+BACK:
+gate|Seq Gate Input
+cv|Seq Note Input
+pbtrim|PitchBend CV Amount: 100.0 %
+pbjack|Pitch Bend CV Input
+mwtrim|ModWheel CV Amount: 100.0 %
+mwjack|Mod Wheel CV Input
+cvin1|CV Input 1
+cvin2|CV Input 2
+cvin3|CV Input 3
+cvin4|CV Input 4
+cvout1|CV Output 1
+cvout2|CV Output 2
+cvout3|CV Output 3
+cvout4|CV Output 4
+audioL|Left Output
+audioR|Right Output

@@ -75,6 +75,8 @@ Reference for Claude and Hermes. John doesn't need to read this. Plan: PLAN.md. 
 | Redrum Drum Computer | REDR | redrum-drum-computer_front_labeled.png | redrum-drum-computer_back_labeled.png | redrum-drum-computer.json | done 2026-10-08 (Claude, hover-checked in Reason 12): front (10 channels + pattern section) and back. Channels 1-4 fully hovered; channels 5-10 hovered except the two small lights and SELECT (no tooltip seen on channels 1-4). Step buttons, SELECT, lights, patch/sample displays gave no tooltip: names from the Remote list. |
 | Dr. Octo Rex Loop Player | DREX | dr-rex-loop-player_front_labeled.png | dr-rex-loop-player_back_labeled.png | dr-rex-loop-player.json | done 2026-10-08 (Claude, hover-checked in Reason 12): front with Programmer open, and back. Loop buttons, loop-name displays, lamps, RUN, filter-mode lights, LFO wave/dest lights gave no tooltip: names from the Remote list. Remote slot 10 'Selected Loop in Editor' has no proven control (stand-in row, low confidence). Lower half of loop-file arrows and Trigger-Next BAR/BEAT/1/16 buttons not separately proven. |
 | Mimic Creative Sampler | MIMC | mimic_front_labeled.png | mimic_back_labeled.png | mimic.json | done 2026-10-08 (Claude, hover-checked in Reason 12): front (Slot 1 selected) and back. Menus, modes, slot tabs, envelope D/S sliders, wheels, markers gave no tooltip: names from the Remote list. Remote has Slot 1-8 versions of every control; one physical control serves all; rows K301-K335 are aliases for slots 2-8. Slot 43 'Algorithm' placed on the stretch menu (low confidence). Some knobs (Start/Pitch/Pan mod amounts, Filter Kbd/Vel, Send 2, wheels) have tooltip names but no Remote item. |
+| Thor Polysonic Synthesizer | THOR | thor_front_labeled.png | thor_back_labeled.png | thor.json | PARTIAL 2026-10-08: front+back+Filter 2 view hovered; matrix rows other than 1, 8, 12 inferred from pattern; Programmer panel + step sequencer panel not mapped |
+| Grain Sample Manipulator | GRAN | grain_front_labeled.png | grain_back_labeled.png | grain.json | PARTIAL 2026-10-08: front (top + lower views + 5 effect panels) and back hovered; matrix rows 2-8 inferred from row 1; other grain algorithm modes (Formant knob) and LFO 3 not captured |
 
 ## Scream 4 — front
 | Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
@@ -3726,6 +3728,564 @@ Notes: hover shows "Diffusion Spread/Amount" but the Remote names are "Diffuse S
 | MIMC-B-J28 | FX Send 2 R | FX send 2 output, right | — | — | cable: right-click jack > device > jack name | tooltip "Send2 Right" |
 | MIMC-B-J29 | Master Out L | Master audio output, left | — | — | cable: right-click jack > device > jack name | tooltip "Left Output" |
 | MIMC-B-J30 | Master Out R | Master audio output, right | — | — | cable: right-click jack > device > jack name | tooltip "Right Output" |
+
+## Thor Polysonic Synthesizer — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| THOR-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D01 | Range display | Keyboard range (number of keys) | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B02 | (range arrows) | Range down/up | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D02 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B03 | (patch arrows) | Previous / next patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch (upper half)" |
+| THOR-F-B04 | (patch folder) | Browse patch | — | — | click only | tooltip "Browse patch" |
+| THOR-F-B05 | (patch disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| THOR-F-D06 | Patch name tape | Patch name tape | Device Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-S01 | PITCH BEND wheel | Pitch bend wheel | Pitch Bend | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-S02 | MOD wheel | Mod wheel | Mod Wheel | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D03 | POLYPHONY display | Polyphony (voices) | Polyphony | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B06 | (polyphony arrows) | Polyphony down/up | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D07 | RELEASE POLYPHONY display | Release polyphony (voices) | Release Polyphony | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B11 | (release polyphony arrows) | Release polyphony down/up | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B07 | KEY MODE: Mono legato | Key mode: mono legato | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B08 | KEY MODE: Mono retrig | Key mode: mono retrig | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B12 | KEY MODE: Polyphonic | Key mode: polyphonic | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B13 | KEY MODE (mode button) | Key mode / Remote item 'Key Mode' | Key Mode | — | display/Remote item, not mapped | tooltip "Key Mode" |
+| THOR-F-K03 | PORTAMENTO knob | Portamento | Portamento | — | display/Remote item, not mapped | tooltip "Portamento: 40" |
+| THOR-F-B14 | PORTAMENTO switch (OFF/ON/AUTO) | Portamento mode | Portamento Mode | — | display/Remote item, not mapped | tooltip "Portamento Mode: 0" |
+| THOR-F-B19 | Show Programmer | Show/hide the programmer panel | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B09 | TRIGGER: MIDI | Note trigger: MIDI | Note Trigger MIDI | — | display/Remote item, not mapped | tooltip "Note Trigger MIDI" |
+| THOR-F-B10 | TRIGGER: STEP SEQ | Note trigger: step sequencer | Note Trigger Step Seq | — | display/Remote item, not mapped | tooltip "Note Trigger Step Seq" |
+| THOR-F-D08 | NOTE ON light | Note-on light | Note On Indicator | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K01 | ROTARY 1 | Rotary 1 knob | Rotary 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D04 | ROTARY 1 label display | Rotary 1 label (assignment name) | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K02 | ROTARY 2 | Rotary 2 knob | Rotary 2 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D05 | ROTARY 2 label display | Rotary 2 label (assignment name) | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B15 | BUTTON 1 | Button 1 | Button 1 | — | display/Remote item, not mapped | tooltip "Button 1" |
+| THOR-F-D09 | BUTTON 1 display | Button 1 assignment display | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B16 | (button 1 arrows) | Button 1 destination prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D11 | BUTTON 1 label | Button 1 label | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B17 | BUTTON 2 | Button 2 | Button 2 | — | display/Remote item, not mapped | tooltip "Button 2" |
+| THOR-F-D10 | BUTTON 2 display | Button 2 assignment display | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B18 | (button 2 arrows) | Button 2 destination prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D12 | BUTTON 2 label | Button 2 label | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K04 | MASTER VOLUME | Master level | Master Level | 48 / CC 77 | voice/MIDI or click | tooltip "Master Level: -19.1 dB" |
+| THOR-F-K14 | OSC 1 AM FROM OSC 2 | Osc 1 amplitude modulation from osc 2 | Osc 1 AM From Osc 2 | — | display/Remote item, not mapped | tooltip "Osc 1 AM From Osc 2: 0" |
+| THOR-F-D13 | OSC 1 type menu | Osc 1 type (Multi Osc) | Osc 1 Type | 1 / CC 30 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K05 | OSC 1 KBD | Osc 1 keyboard tracking | Osc 1 Kbd | — | display/Remote item, not mapped | tooltip "Osc 1 Kbd: 127" |
+| THOR-F-K06 | OSC 1 OCT | Osc 1 octave | Osc 1 Oct | 2 / CC 31 | voice/MIDI or click | tooltip "Osc 1 Oct: 4" |
+| THOR-F-K07 | OSC 1 SEMI | Osc 1 semitone | Osc 1 Semi | 3 / CC 32 | voice/MIDI or click | tooltip "Osc 1 Semi: 0" |
+| THOR-F-K08 | OSC 1 TUNE | Osc 1 fine tune | Osc 1 Tune | 4 / CC 33 | voice/MIDI or click | tooltip "Osc 1 Tune: -1" |
+| THOR-F-D16 | MULTI OSC DETUNE MODE display | Multi osc detune mode | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B27 | (detune mode arrows) | Detune mode prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K25 | OSC 1 DETUNE AMT | Osc 1 detune amount | Osc 1 Mod | 5 / CC 34 | voice/MIDI or click | tooltip "Osc 1 Detune Amt: 37" |
+| THOR-F-B39 | OSC 1 MULTI WAVE | Osc 1 multi waveform select | — | — | click only | tooltip "Osc 1 Multi Wave" |
+| THOR-F-D15 | OSC 1 mode LED 1 | Osc 1 multi osc mode light 1 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D17 | OSC 1 mode LED 2 | Osc 1 multi osc mode light 2 | — | — | click only | not hovered (indicator light / sub-part of a hovered control) |
+| THOR-F-D18 | OSC 1 mode LED 3 | Osc 1 multi osc mode light 3 | — | — | click only | not hovered (indicator light / sub-part of a hovered control) |
+| THOR-F-D19 | OSC 1 mode LED 4 | Osc 1 multi osc mode light 4 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D21 | OSC 2 type menu | Osc 2 type (Wavetable Osc) | Osc 2 Type | 6 / CC 35 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K30 | OSC 2 KBD | Osc 2 keyboard tracking | Osc 2 Kbd | — | display/Remote item, not mapped | tooltip "Osc 2 Kbd: 127" |
+| THOR-F-K31 | OSC 2 OCT | Osc 2 octave | Osc 2 Oct | 7 / CC 36 | voice/MIDI or click | tooltip "Osc 2 Oct: 4" |
+| THOR-F-K32 | OSC 2 SEMI | Osc 2 semitone | Osc 2 Semi | 8 / CC 37 | voice/MIDI or click | tooltip "Osc 2 Semi: 0" |
+| THOR-F-K33 | OSC 2 TUNE | Osc 2 fine tune | Osc 2 Tune | 9 / CC 38 | voice/MIDI or click | tooltip "Osc 2 Tune: 0" |
+| THOR-F-D23 | TABLE SELECT display | Osc 2 wavetable name | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B46 | (table arrows) | Wavetable prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K39 | OSC 2 POSITION | Osc 2 wavetable position | Osc 2 Mod | 10 / CC 39 | voice/MIDI or click | tooltip "Osc 2 Pos: 93" |
+| THOR-F-B55 | OSC 2 X-FADE | Osc 2 wavetable smooth crossfade | — | — | click only | tooltip "Osc 2 Wavetable Smooth X fade" |
+| THOR-F-D26 | OSC 2 X-FADE light | Osc 2 x-fade light | — | — | click only | not hovered (indicator light / sub-part of a hovered control) |
+| THOR-F-B43 | OSC 2 SYNC | Osc 2 sync to osc 1 | Osc 2 Sync To Osc 1 | — | display/Remote item, not mapped | tooltip "Osc 2 Sync To Osc 1" |
+| THOR-F-K46 | OSC 2 SYNC BW | Osc 2 sync bandwidth | Osc 2 Sync BW | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B56 | OSC 3 SYNC | Osc 3 sync to osc 1 | Osc 3 Sync To Osc 1 | — | display/Remote item, not mapped | tooltip "Osc 3 Sync To Osc 1" |
+| THOR-F-K53 | OSC 3 SYNC BW | Osc 3 sync bandwidth | Osc 3 Sync BW | — | display/Remote item, not mapped | tooltip "Osc 3 Sync BW: 127" |
+| THOR-F-D25 | OSC 3 type menu | Osc 3 type (Analog Osc) | Osc 3 Type | 11 / CC 40 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K47 | OSC 3 KBD | Osc 3 keyboard tracking | Osc 3 Kbd | — | display/Remote item, not mapped | tooltip "Osc 3 Kbd: 127" |
+| THOR-F-K48 | OSC 3 OCT | Osc 3 octave | Osc 3 Oct | 12 / CC 41 | voice/MIDI or click | tooltip "Osc 3 Oct: 4" |
+| THOR-F-K49 | OSC 3 SEMI | Osc 3 semitone | Osc 3 Semi | 13 / CC 42 | voice/MIDI or click | tooltip "Osc 3 Semi: 0" |
+| THOR-F-K50 | OSC 3 TUNE | Osc 3 fine tune | Osc 3 Tune | 14 / CC 43 | voice/MIDI or click | tooltip "Osc 3 Tune: -1" |
+| THOR-F-B65 | OSC 3 wave button 1 | Osc 3 analog waveform 1 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B66 | OSC 3 wave button 2 | Osc 3 analog waveform 2 | — | — | click only | not hovered; same group as the first wave button, which gave no tooltip |
+| THOR-F-B67 | OSC 3 wave button 3 | Osc 3 analog waveform 3 | — | — | click only | not hovered; same group as the first wave button, which gave no tooltip |
+| THOR-F-B72 | OSC 3 wave button 4 | Osc 3 analog waveform 4 | — | — | click only | not hovered; same group as the first wave button, which gave no tooltip |
+| THOR-F-K54 | OSC 3 PW | Osc 3 pulse width | Osc 3 Mod | 15 / CC 44 | voice/MIDI or click | tooltip "Osc 3 PW: 93" |
+| THOR-F-B71 | OSC 3 ANALOG WAVE | Osc 3 analog waveform select | — | — | click only | tooltip "Osc 3 Analog Wave" |
+| THOR-F-D14 | FILTER 1 type menu | Filter 1 type (Low Pass Ladder) | Filter 1 Type | 19 / CC 48 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B21 | FILTER 1 SELF OSC | Filter 1 self oscillation | Filter 1 Self Osc | — | display/Remote item, not mapped | tooltip "Filter 1 Self Osc" |
+| THOR-F-B30 | FILTER 1 slope button 1 | Filter 1 ladder slope selector 1 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B31 | FILTER 1 slope button 2 | Filter 1 ladder slope selector 2 | — | — | click only | not hovered; same group, other buttons gave no tooltip |
+| THOR-F-B32 | FILTER 1 slope button 3 | Filter 1 ladder slope selector 3 | — | — | click only | not hovered; same group, other buttons gave no tooltip |
+| THOR-F-B36 | FILTER 1 slope button 4 | Filter 1 ladder slope selector 4 | — | — | click only | not hovered; same group, other buttons gave no tooltip |
+| THOR-F-B37 | FILTER 1 slope button 5 | Filter 1 ladder slope selector 5 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K16 | FILTER 1 FREQ | Filter 1 frequency | Filter 1 Freq | 20 / CC 49 | voice/MIDI or click | tooltip "Filter 1 Freq: 9.30 kHz" |
+| THOR-F-K17 | FILTER 1 RES | Filter 1 resonance | Filter 1 Res | 21 / CC 50 | voice/MIDI or click | tooltip "Filter 1 Res: 0" |
+| THOR-F-K15 | FILTER 1 DRIVE | Filter 1 drive | Filter 1 Drive | 22 / CC 51 | voice/MIDI or click | tooltip "Filter 1 Drive: 79" |
+| THOR-F-B40 | FILTER 1 INV | Filter 1 envelope invert | Filter 1 Env Invert | — | display/Remote item, not mapped | tooltip "Filter 1 Env Invert" |
+| THOR-F-K26 | FILTER 1 ENV | Filter 1 envelope amount | Filter 1 Env Amount | 23 / CC 52 | voice/MIDI or click | tooltip "Filter 1 Env Amount: 33" |
+| THOR-F-K27 | FILTER 1 VEL | Filter 1 velocity | Filter 1 Velocity | — | display/Remote item, not mapped | tooltip "Filter 1 Velocity: 47" |
+| THOR-F-K28 | FILTER 1 KBD | Filter 1 keyboard tracking | Filter 1 Kbd | 24 / CC 53 | voice/MIDI or click | tooltip "Filter 1 Kbd: 0" |
+| THOR-F-B41 | FILTER 1 slope selector | Filter 1 ladder slope | — | — | click only | tooltip "Filter 1 Ladder Slope" |
+| THOR-F-B22 | FILTER 1 power | Filter 1 on/off | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B20 | OSC 1 to FILTER 1 | Route osc 1 to filter 1 | Osc 1 To Filter 1 Enable | — | display/Remote item, not mapped | tooltip "Osc 1 To Filter 1 Enable" |
+| THOR-F-B64 | OSC 1 to FILTER 2 | Route osc 1 to filter 2 | Osc 1 To Filter 2 Enable | — | display/Remote item, not mapped | tooltip "Osc 1 To Filter 2 Enable" |
+| THOR-F-B28 | OSC 2 to FILTER 1 | Route osc 2 to filter 1 | Osc 2 To Filter 1 Enable | — | display/Remote item, not mapped | tooltip "Osc 2 To Filter 1 Enable" |
+| THOR-F-B68 | OSC 2 to FILTER 2 | Route osc 2 to filter 2 | Osc 2 To Filter 2 Enable | — | display/Remote item, not mapped | tooltip "Osc 2 To Filter 2 Enable" |
+| THOR-F-B29 | OSC 3 to FILTER 1 | Route osc 3 to filter 1 | Osc 3 To Filter 1 Enable | — | display/Remote item, not mapped | tooltip "Osc 3 To Filter 1 Enable" |
+| THOR-F-B69 | OSC 3 to FILTER 2 | Route osc 3 to filter 2 | Osc 3 To Filter 2 Enable | — | display/Remote item, not mapped | tooltip "Osc 3 To Filter 2 Enable" |
+| THOR-F-K37 | MIXER BALANCE | Osc 1 and 2 balance | Osc 1 And 2 Balance | 18 / CC 47 | voice/MIDI or click | tooltip "Osc 1 And 2 Balance: 64" |
+| THOR-F-S07 | MIXER OSC 1+2 slider | Osc 1 and 2 level | Osc 1 And 2 Level | 17 / CC 46 | voice/MIDI or click | tooltip "Osc 1 And 2 Level: -2.1 dB" |
+| THOR-F-S08 | MIXER OSC 3 slider | Osc 3 level | Osc 3 Level | 16 / CC 45 | voice/MIDI or click | tooltip "Osc 3 Level: -2.1 dB" |
+| THOR-F-B44 | SHAPER on | Shaper on/off | Shaper On | 40 / CC 69 | voice/MIDI or click | tooltip "Shaper On" |
+| THOR-F-D24 | SHAPER type menu | Shaper type | Shaper Type | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B47 | (shaper type arrows) | Shaper type prev/next | — | — | click only | not hovered (indicator light / sub-part of a hovered control) |
+| THOR-F-K38 | SHAPER DRIVE | Shaper drive | Shaper Drive | 41 / CC 70 | voice/MIDI or click | tooltip "Shaper Drive: 37" |
+| THOR-F-K40 | AMP VEL | Amplifier velocity | Amplifier Velocity | — | display/Remote item, not mapped | tooltip "Amplifier Velocity: 105" |
+| THOR-F-K41 | AMP GAIN | Amplifier gain | Amplifier Gain | 37 / CC 66 | voice/MIDI or click | tooltip "Amplifier Gain: -5.2 dB" |
+| THOR-F-K42 | AMP PAN | Amplifier pan | Amplifier Pan | — | display/Remote item, not mapped | tooltip "Amplifier Pan: 0" |
+| THOR-F-B50 | SHAPER to FILTER 2 | Shaper output to filter 2 | — | — | click only | tooltip "Shaper to Filter 2" |
+| THOR-F-B51 | SHAPER to AMP | Shaper output to amplifier | — | — | click only | tooltip "Shaper to Amplifier" |
+| THOR-F-B52 | FILTER 2 to AMP | Filter 2 output to amplifier | Filter2ToAmplifier Enable | — | display/Remote item, not mapped | tooltip "Filter2ToAmplifier Enable" |
+| THOR-F-D27 | FILTER 2 type menu | Filter 2 type (bypassed, folded view) | Filter 2 Type | 25 / CC 54 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B23 | LFO 1 KEY SYNC | LFO 1 key sync | LFO 1 Key Sync | — | display/Remote item, not mapped | tooltip "LFO 1 Key Sync" |
+| THOR-F-B33 | LFO 1 TEMPO SYNC | LFO 1 tempo sync | LFO 1 Tempo Sync | — | display/Remote item, not mapped | tooltip "LFO 1 Tempo Sync" |
+| THOR-F-K18 | LFO 1 RATE | LFO 1 rate | LFO 1 Rate | 38 / CC 67 | voice/MIDI or click | tooltip "LFO 1 Rate: 1/8T" |
+| THOR-F-K19 | LFO 1 DELAY | LFO 1 delay | LFO 1 Delay | — | display/Remote item, not mapped | tooltip "LFO 1 Delay: 0.0 ms" |
+| THOR-F-K29 | LFO 1 KBD FOLLOW | LFO 1 keyboard follow | LFO 1 KbdFollow | — | display/Remote item, not mapped | tooltip "LFO 1 KbdFollow: 0" |
+| THOR-F-D22 | LFO 1 WAVEFORM | LFO 1 waveform | LFO 1 Waveform | 39 / CC 68 | voice/MIDI or click | tooltip "LFO 1 Waveform: 0" |
+| THOR-F-B45 | (LFO 1 waveform arrows) | LFO 1 waveform prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B24 | MOD ENV GATE TRIG | Mod envelope gate trigger | Mod Env Gate Trig On | — | display/Remote item, not mapped | tooltip "Mod Env Gate Trig On" |
+| THOR-F-B34 | MOD ENV TEMPO SYNC | Mod envelope tempo sync | Mod Env Tempo Sync | — | display/Remote item, not mapped | tooltip "Mod Env Tempo Sync" |
+| THOR-F-B38 | MOD ENV LOOP | Mod envelope loop | Mod Env Loop | — | display/Remote item, not mapped | tooltip "Mod Env Loop" |
+| THOR-F-S05 | MOD ENV DELAY | Mod envelope delay | Mod Env Delay | — | display/Remote item, not mapped | tooltip "Mod Env Delay: 0.0 ms" |
+| THOR-F-S06 | MOD ENV A | Mod envelope attack | Mod Env Attack | — | display/Remote item, not mapped | tooltip "Mod Env Attack: 0.0 ms" |
+| THOR-F-S03 | MOD ENV D | Mod envelope decay | Mod Env Decay | — | display/Remote item, not mapped | tooltip "Mod Env Decay: 4.35 s" |
+| THOR-F-S04 | MOD ENV R | Mod envelope release | Mod Env Release | — | display/Remote item, not mapped | tooltip "Mod Env Release: 4.35 s" |
+| THOR-F-B57 | FILTER ENV GATE TRIG | Filter envelope gate trigger | Filter Env Gate Trig On | — | display/Remote item, not mapped | tooltip "Filter Env Gate Trig On" |
+| THOR-F-S10 | FILTER ENV A | Filter envelope attack | Filter Env Attack | 29 / CC 58 | voice/MIDI or click | tooltip "Filter Env Attack: 0.0 ms" |
+| THOR-F-S11 | FILTER ENV D | Filter envelope decay | Filter Env Decay | 30 / CC 59 | voice/MIDI or click | tooltip "Filter Env Decay: 4.35 s" |
+| THOR-F-S12 | FILTER ENV S | Filter envelope sustain | Filter Env Sustain | 31 / CC 60 | voice/MIDI or click | tooltip "Filter Env Sustain: -21.8 dB" |
+| THOR-F-S09 | FILTER ENV R | Filter envelope release | Filter Env Release | 32 / CC 61 | voice/MIDI or click | tooltip "Filter Env Release: 4.35 s" |
+| THOR-F-B58 | AMP ENV GATE TRIG | Amp envelope gate trigger | Amp Env Gate Trig On | — | display/Remote item, not mapped | tooltip "Amp Env Gate Trig On" |
+| THOR-F-S13 | AMP ENV A | Amp envelope attack | Amp Env Attack | 33 / CC 62 | voice/MIDI or click | tooltip "Amp Env Attack: 0.4 ms" |
+| THOR-F-S14 | AMP ENV D | Amp envelope decay | Amp Env Decay | 34 / CC 63 | voice/MIDI or click | tooltip "Amp Env Decay: 3.49 s" |
+| THOR-F-S15 | AMP ENV S | Amp envelope sustain | Amp Env Sustain | 35 / CC 64 | voice/MIDI or click | tooltip "Amp Env Sustain: -108.2 dB" |
+| THOR-F-S16 | AMP ENV R | Amp envelope release | Amp Env Release | 36 / CC 65 | voice/MIDI or click | tooltip "Amp Env Release: 3.82 s" |
+| THOR-F-B25 | DELAY on | Delay on/off | Delay On | 42 / CC 71 | voice/MIDI or click | tooltip "Delay On" |
+| THOR-F-B26 | DELAY SYNC | Delay tempo sync | Delay Sync | — | display/Remote item, not mapped | tooltip "Delay Sync" |
+| THOR-F-K09 | DELAY TIME | Delay time | Delay Time | 44 / CC 73 | voice/MIDI or click | tooltip "Delay Time: 2/16" |
+| THOR-F-K10 | DELAY F.BACK | Delay feedback | Delay Feedback | 45 / CC 74 | voice/MIDI or click | tooltip "Delay Feedback: 50" |
+| THOR-F-K11 | DELAY RATE | Delay modulation rate | Delay Rate | — | display/Remote item, not mapped | tooltip "Delay Rate: 0.63 Hz" |
+| THOR-F-K12 | DELAY AMT | Delay modulation amount | Delay Amt | — | display/Remote item, not mapped | tooltip "Delay Amt: 45" |
+| THOR-F-K13 | DELAY D/WET | Delay dry/wet | Delay Dry Wet | 43 / CC 72 | voice/MIDI or click | tooltip "Delay Dry Wet: 0" |
+| THOR-F-B35 | CHORUS on | Chorus on/off | Chorus On | 46 / CC 75 | voice/MIDI or click | tooltip "Chorus On" |
+| THOR-F-K20 | CHORUS DELAY | Chorus delay | Chorus Delay | — | display/Remote item, not mapped | tooltip "Chorus Delay: 12.1 ms" |
+| THOR-F-K21 | CHORUS F.BACK | Chorus feedback | Chorus Feedback | — | display/Remote item, not mapped | tooltip "Chorus Feedback: 0" |
+| THOR-F-K22 | CHORUS RATE | Chorus rate | Chorus Rate | — | display/Remote item, not mapped | tooltip "Chorus Rate: 0.66 Hz" |
+| THOR-F-K23 | CHORUS AMT | Chorus amount | Chorus Amt | — | display/Remote item, not mapped | tooltip "Chorus Amt: 32" |
+| THOR-F-K24 | CHORUS D/WET | Chorus dry/wet | Chorus Dry Wet | 47 / CC 76 | voice/MIDI or click | tooltip "Chorus Dry Wet: 60" |
+| THOR-F-D20 | COMB FILTER type menu | Filter 3 type (Comb Filter) | Filter 3 Type | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B42 | COMB FILTER power | Filter 3 on/off | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K34 | COMB DRIVE | Filter 3 drive | Filter 3 Drive | — | display/Remote item, not mapped | tooltip "Filter 3 Drive: 80" |
+| THOR-F-K35 | COMB FREQ | Filter 3 frequency | Filter 3 Freq | — | display/Remote item, not mapped | tooltip "Filter 3 Freq: 9.30 kHz" |
+| THOR-F-K36 | COMB RES | Filter 3 resonance | Filter 3 Res | — | display/Remote item, not mapped | tooltip "Filter 3 Res: 0" |
+| THOR-F-B48 | COMB+ | Comb filter positive | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B49 | COMB- | Comb filter negative | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B54 | COMB MODE | Filter 3 comb preset | — | — | click only | tooltip "Filter 3 Comb Preset" |
+| THOR-F-B53 | COMB INV | Filter 3 global envelope invert | Filter 3 Global Env Invert | — | display/Remote item, not mapped | tooltip "Filter 3 Global Env Invert" |
+| THOR-F-K43 | COMB ENV | Filter 3 global envelope amount | Filter 3 Global Env Amount | — | display/Remote item, not mapped | tooltip "Filter 3 Global Env Amount: 0" |
+| THOR-F-K44 | COMB VEL | Filter 3 velocity | Filter 3 Velocity | — | display/Remote item, not mapped | tooltip "Filter 3 Velocity: 47" |
+| THOR-F-K45 | COMB KBD | Filter 3 keyboard tracking | Filter 3 Kbd | — | display/Remote item, not mapped | tooltip "Filter 3 Kbd: 0" |
+| THOR-F-B59 | GLOBAL ENV GATE TRIG | Global envelope gate trigger | Global Env Gate Trig On | — | display/Remote item, not mapped | tooltip "Global Env Gate Trig On" |
+| THOR-F-B61 | GLOBAL ENV TEMPO SYNC | Global envelope tempo sync | Global Env Tempo Sync | — | display/Remote item, not mapped | tooltip "Global Env Tempo Sync" |
+| THOR-F-B60 | GLOBAL ENV LOOP | Global envelope loop | Global Env Loop | — | display/Remote item, not mapped | tooltip "Global Env Loop" |
+| THOR-F-S17 | GLOBAL ENV DELAY | Global envelope delay | Global Env Delay | — | display/Remote item, not mapped | tooltip "Global Env Delay: 0.0 ms" |
+| THOR-F-S18 | GLOBAL ENV A | Global envelope attack | Global Env Attack | — | display/Remote item, not mapped | tooltip "Global Env Attack: 0.0 ms" |
+| THOR-F-S19 | GLOBAL ENV HOLD | Global envelope hold | Global Env Hold | — | display/Remote item, not mapped | tooltip "Global Env Hold: 0.0 ms" |
+| THOR-F-S20 | GLOBAL ENV D | Global envelope decay | Global Env Decay | — | display/Remote item, not mapped | tooltip "Global Env Decay: 1.24 s" |
+| THOR-F-S21 | GLOBAL ENV S | Global envelope sustain | Global Env Sustain | — | display/Remote item, not mapped | tooltip "Global Env Sustain: -21.8 dB" |
+| THOR-F-S22 | GLOBAL ENV R | Global envelope release | Global Env Release | — | display/Remote item, not mapped | tooltip "Global Env Release: 1.24 s" |
+| THOR-F-B62 | LFO 2 KEY SYNC | LFO 2 key sync | LFO 2 Key Sync | — | display/Remote item, not mapped | tooltip "LFO 2 Key Sync" |
+| THOR-F-B63 | LFO 2 TEMPO SYNC | LFO 2 tempo sync | LFO 2 Tempo Sync | — | display/Remote item, not mapped | tooltip "LFO 2 Tempo Sync" |
+| THOR-F-K51 | LFO 2 RATE | LFO 2 rate | LFO 2 Rate | — | display/Remote item, not mapped | tooltip "LFO 2 Rate: 5/4" |
+| THOR-F-K52 | LFO 2 DELAY | LFO 2 delay | LFO 2 Delay | — | display/Remote item, not mapped | tooltip "LFO 2 Delay: 0.0 ms" |
+| THOR-F-D28 | LFO 2 WAVEFORM | LFO 2 waveform | LFO 2 Waveform | — | display/Remote item, not mapped | tooltip "LFO 2 Waveform: 0" |
+| THOR-F-B70 | (LFO 2 waveform arrows) | LFO 2 waveform prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D29 | MOD 1 source menu | Mod 1 source | Mod 1 Source | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D30 | MOD 1 dest amount | Mod 1 destination amount | Mod 1 Dest Amount | — | display/Remote item, not mapped | tooltip "Mod 1 Dest Amount: 15" |
+| THOR-F-D31 | MOD 1 dest menu | Mod 1 destination | Mod 1 Dest | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D32 | MOD 1 scale amount | Mod 1 scale amount | Mod 1 Scale Amount | — | display/Remote item, not mapped | tooltip "Mod 1 Scale Amount: 0" |
+| THOR-F-D33 | MOD 1 scale menu | Mod 1 scale source | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B73 | MOD 1 clear | Clear mod row 1 | — | — | click only | tooltip "Clear Sources, Modulations and Scales" |
+| THOR-F-D41 | MOD 2 source menu | Mod 2 source | Mod 2 Source | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D43 | MOD 2 dest amount | Mod 2 destination amount | Mod 2 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D45 | MOD 2 dest menu | Mod 2 destination | Mod 2 Dest | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D47 | MOD 2 scale amount | Mod 2 scale amount | Mod 2 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D49 | MOD 2 scale menu | Mod 2 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B75 | MOD 2 clear | Clear mod row 2 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D42 | MOD 3 source menu | Mod 3 source | Mod 3 Source | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D44 | MOD 3 dest amount | Mod 3 destination amount | Mod 3 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D46 | MOD 3 dest menu | Mod 3 destination | Mod 3 Dest | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D48 | MOD 3 scale amount | Mod 3 scale amount | Mod 3 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D50 | MOD 3 scale menu | Mod 3 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B76 | MOD 3 clear | Clear mod row 3 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D65 | MOD 4 source menu | Mod 4 source | Mod 4 Source | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D67 | MOD 4 dest amount | Mod 4 destination amount | Mod 4 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D69 | MOD 4 dest menu | Mod 4 destination | Mod 4 Dest | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D71 | MOD 4 scale amount | Mod 4 scale amount | Mod 4 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D73 | MOD 4 scale menu | Mod 4 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B79 | MOD 4 clear | Clear mod row 4 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D66 | MOD 5 source menu | Mod 5 source | Mod 5 Source | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D68 | MOD 5 dest amount | Mod 5 destination amount | Mod 5 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D70 | MOD 5 dest menu | Mod 5 destination | Mod 5 Dest | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D72 | MOD 5 scale amount | Mod 5 scale amount | Mod 5 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D74 | MOD 5 scale menu | Mod 5 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B80 | MOD 5 clear | Clear mod row 5 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D82 | MOD 6 source menu | Mod 6 source | Mod 6 Source | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D84 | MOD 6 dest amount | Mod 6 destination amount | Mod 6 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D86 | MOD 6 dest menu | Mod 6 destination | Mod 6 Dest | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D88 | MOD 6 scale amount | Mod 6 scale amount | Mod 6 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D90 | MOD 6 scale menu | Mod 6 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B82 | MOD 6 clear | Clear mod row 6 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D83 | MOD 7 source menu | Mod 7 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D85 | MOD 7 dest amount | Mod 7 destination amount | Mod 7 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D87 | MOD 7 dest menu | Mod 7 destination | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D89 | MOD 7 scale amount | Mod 7 scale amount | Mod 7 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D91 | MOD 7 scale menu | Mod 7 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B83 | MOD 7 clear | Clear mod row 7 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D34 | MOD 8 source menu | Mod 8 source | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D35 | MOD 8 dest amount | Mod 8 destination amount | Mod 8 Dest Amount | — | display/Remote item, not mapped | tooltip "Mod 8 Dest Amount: -88" |
+| THOR-F-D36 | MOD 8 dest 1 menu | Mod 8 destination 1 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D37 | MOD 8 dest 2 amount | Mod 8 destination 2 amount | Mod 8 Dest 2 Amount | — | display/Remote item, not mapped | tooltip "Mod 8 Dest 2 Amount: 56" |
+| THOR-F-D38 | MOD 8 dest 2 menu | Mod 8 destination 2 | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D39 | MOD 8 scale amount | Mod 8 scale amount | Mod 8 Scale Amount | — | display/Remote item, not mapped | tooltip "Mod 8 Scale Amount: 0" |
+| THOR-F-D40 | MOD 8 scale menu | Mod 8 scale source | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B74 | MOD 8 clear | Clear mod row 8 | — | — | click only | tooltip "Clear Sources, Modulations and Scales" |
+| THOR-F-D51 | MOD 9 source menu | Mod 9 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D53 | MOD 9 dest amount | Mod 9 destination amount | Mod 9 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D55 | MOD 9 dest 1 menu | Mod 9 destination 1 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D57 | MOD 9 dest 2 amount | Mod 9 destination 2 amount | Mod 9 Dest 2 Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D59 | MOD 9 dest 2 menu | Mod 9 destination 2 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D61 | MOD 9 scale amount | Mod 9 scale amount | Mod 9 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D63 | MOD 9 scale menu | Mod 9 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B77 | MOD 9 clear | Clear mod row 9 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D52 | MOD 10 source menu | Mod 10 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D54 | MOD 10 dest amount | Mod 10 destination amount | Mod 10 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D56 | MOD 10 dest 1 menu | Mod 10 destination 1 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D58 | MOD 10 dest 2 amount | Mod 10 destination 2 amount | Mod 10 Dest 2 Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D60 | MOD 10 dest 2 menu | Mod 10 destination 2 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D62 | MOD 10 scale amount | Mod 10 scale amount | Mod 10 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D64 | MOD 10 scale menu | Mod 10 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B78 | MOD 10 clear | Clear mod row 10 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D75 | MOD 11 source menu | Mod 11 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D76 | MOD 11 dest amount | Mod 11 destination amount | Mod 11 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D77 | MOD 11 dest 1 menu | Mod 11 destination 1 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D78 | MOD 11 dest 2 amount | Mod 11 destination 2 amount | Mod 11 Dest 2 Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D79 | MOD 11 dest 2 menu | Mod 11 destination 2 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D80 | MOD 11 scale amount | Mod 11 scale amount | Mod 11 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D81 | MOD 11 scale menu | Mod 11 scale source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B81 | MOD 11 clear | Clear mod row 11 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D92 | MOD 12 source menu | Mod 12 source | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D94 | MOD 12 dest amount | Mod 12 destination amount | Mod 12 Dest Amount | — | display/Remote item, not mapped | tooltip "Mod 12 Dest Amount: 0" |
+| THOR-F-D96 | MOD 12 dest menu | Mod 12 destination | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D98 | MOD 12 scale amount | Mod 12 scale 1 amount | Mod 12 Scale Amount | — | display/Remote item, not mapped | tooltip "Mod 12 Scale Amount: 0" |
+| THOR-F-D100 | MOD 12 scale 1 menu | Mod 12 scale 1 source | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-D102 | MOD 12 scale 2 amount | Mod 12 scale 2 amount | Mod 12 Scale 2 Amount | — | display/Remote item, not mapped | tooltip "Mod 12 Scale 2 Amount: 0" |
+| THOR-F-D104 | MOD 12 scale 2 menu | Mod 12 scale 2 source | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B84 | MOD 12 clear | Clear mod row 12 | — | — | click only | tooltip "Clear Sources, Modulations and Scales" |
+| THOR-F-D93 | MOD 13 source menu | Mod 13 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D95 | MOD 13 dest amount | Mod 13 destination amount | Mod 13 Dest Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D97 | MOD 13 dest menu | Mod 13 destination | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D99 | MOD 13 scale amount | Mod 13 scale 1 amount | Mod 13 Scale Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D101 | MOD 13 scale 1 menu | Mod 13 scale 1 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D103 | MOD 13 scale 2 amount | Mod 13 scale 2 amount | Mod 13 Scale 2 Amount | — | display/Remote item, not mapped | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D105 | MOD 13 scale 2 menu | Mod 13 scale 2 source | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-B85 | MOD 13 clear | Clear mod row 13 | — | — | click only | not hovered; same column as the hovered row, name follows the row pattern (row number from table order). Click to confirm before relying on it. |
+| THOR-F-D501 | FILTER 2 type menu | Filter 2 type (menu arrow) | Filter 2 Type | 25 / CC 54 | voice/MIDI or click | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B501 | FILTER 2 power | Filter 2 on/off (close button) | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B502 | FILTER 2 SELF OSC | Filter 2 self oscillation | Filter 2 Self Osc | — | display/Remote item, not mapped | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Self Osc" |
+| THOR-F-B503 | FILTER 2 slope button 1 | Filter 2 ladder slope selector 1 | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B504 | FILTER 2 slope button 2 | Filter 2 ladder slope selector 2 | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B505 | FILTER 2 slope button 3 | Filter 2 ladder slope selector 3 | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B506 | FILTER 2 slope button 4 | Filter 2 ladder slope selector 4 | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-B508 | FILTER 2 slope button 5 | Filter 2 ladder slope selector 5 | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| THOR-F-K501 | FILTER 2 FREQ | Filter 2 frequency | Filter 2 Freq | 26 / CC 55 | voice/MIDI or click | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Freq: 1.56 kHz" |
+| THOR-F-K502 | FILTER 2 RES | Filter 2 resonance | Filter 2 Res | 27 / CC 56 | voice/MIDI or click | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Res: 77" |
+| THOR-F-S501 | FILTER 2 DRIVE | Filter 2 drive | Filter 2 Drive | — | display/Remote item, not mapped | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Drive: 64" |
+| THOR-F-B507 | FILTER 2 INV | Filter 2 envelope invert | Filter 2 Env Invert | — | display/Remote item, not mapped | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Env Invert" |
+| THOR-F-K503 | FILTER 2 ENV | Filter 2 envelope amount | Filter 2 Env Amount | 28 / CC 57 | voice/MIDI or click | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Env Amount: 33" |
+| THOR-F-K504 | FILTER 2 VEL | Filter 2 velocity | Filter 2 Velocity | — | display/Remote item, not mapped | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Velocity: 47" |
+| THOR-F-K505 | FILTER 2 KBD | Filter 2 keyboard tracking | Filter 2 Kbd | — | display/Remote item, not mapped | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Kbd: 0" |
+| THOR-F-B509 | FILTER 2 slope selector | Filter 2 ladder slope | — | — | click only | [Filter 2 switched on (Low Pass Ladder; default patch has Bypass) (picture thor-filter2-view_front_labeled.png)] tooltip "Filter 2 Ladder Slope" |
+
+## Thor Polysonic Synthesizer — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| THOR-B-J01 | Mono Gate In | Gate input (mono) | — | — | cable: right-click jack > device > jack name | tooltip "Mono Gate Input" |
+| THOR-B-J09 | Mono CV In | CV input (mono pitch) | — | — | cable: right-click jack > device > jack name | tooltip "Mono CV Input" |
+| THOR-B-K01 | Pitch Bend trim | Amount for pitch bend CV | — | — | click/drag only (no Remote item) | tooltip "Pitch Wheel Modulation Input: 127" |
+| THOR-B-J02 | Pitch Bend CV In | CV input: pitch bend | — | — | cable: right-click jack > device > jack name | tooltip "Pitch Wheel Modulation Input" |
+| THOR-B-K03 | Mod Wheel trim | Amount for mod wheel CV | — | — | click/drag only (no Remote item) | tooltip "Mod Wheel Modulation Input: 127" |
+| THOR-B-J10 | Mod Wheel CV In | CV input: mod wheel | — | — | cable: right-click jack > device > jack name | tooltip "Mod Wheel Modulation Input" |
+| THOR-B-K02 | Rotary 1 trim | Amount for the Rotary 1 CV input | — | — | click/drag only (no Remote item) | tooltip "Rotary 1: 127" |
+| THOR-B-J03 | Rotary 1 CV In | CV input for Rotary 1 | — | — | cable: right-click jack > device > jack name | tooltip "Rotary 1" |
+| THOR-B-J04 | Mod Input CV 1 | Modulation input CV 1 (assignable modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 1" |
+| THOR-B-K04 | Rotary 2 trim | Amount for the Rotary 2 CV input | — | — | click/drag only (no Remote item) | tooltip "Rotary 2: 127" |
+| THOR-B-J11 | Rotary 2 CV In | CV input for Rotary 2 | — | — | cable: right-click jack > device > jack name | tooltip "Rotary 2" |
+| THOR-B-J12 | Mod Input CV 2 | Modulation input CV 2 (assignable modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 2" |
+| THOR-B-K05 | Filter Freq trim | Amount for the Filter Freq CV input | — | — | click/drag only (no Remote item) | tooltip "Filter 1 Param X: 127" |
+| THOR-B-J17 | Filter Freq CV In | CV input for Filter Freq | — | — | cable: right-click jack > device > jack name | tooltip "Filter 1 Param X" |
+| THOR-B-J19 | Mod Input CV 3 | Modulation input CV 3 (assignable modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 3" |
+| THOR-B-K06 | Amp Level trim | Amount for the Amp Level CV input | — | — | click/drag only (no Remote item) | tooltip "Level: 127" |
+| THOR-B-J18 | Amp Level CV In | CV input for Amp Level | — | — | cable: right-click jack > device > jack name | tooltip "Level" |
+| THOR-B-J20 | Mod Input CV 4 | Modulation input CV 4 (assignable modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 4" |
+| THOR-B-J05 | Global Envelope Out | Global envelope CV output | — | — | cable: right-click jack > device > jack name | tooltip "Global Envelope" |
+| THOR-B-J13 | LFO 2 Out | LFO 2 CV output | — | — | cable: right-click jack > device > jack name | tooltip "LFO 2" |
+| THOR-B-J06 | Mod Output CV 1 | Modulation output CV 1 | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 1" |
+| THOR-B-J14 | Mod Output CV 2 | Modulation output CV 2 | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 2" |
+| THOR-B-J21 | Mod Output CV 3 | Modulation output CV 3 | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 3" |
+| THOR-B-J24 | Mod Output CV 4 | Modulation output CV 4 | — | — | cable: right-click jack > device > jack name | tooltip "Modulator 4" |
+| THOR-B-J07 | Audio In 1 | Audio input 1 | — | — | cable: right-click jack > device > jack name | tooltip "In 1" |
+| THOR-B-J15 | Audio In 2 | Audio input 2 | — | — | cable: right-click jack > device > jack name | tooltip "In 2" |
+| THOR-B-J22 | Audio In 3 | Audio input 3 | — | — | cable: right-click jack > device > jack name | tooltip "In 3" |
+| THOR-B-J25 | Audio In 4 | Audio input 4 | — | — | cable: right-click jack > device > jack name | tooltip "In 4" |
+| THOR-B-J08 | Audio Out 1 | Audio output 1 | — | — | cable: right-click jack > device > jack name | tooltip "Out 1 Left" |
+| THOR-B-J16 | Audio Out 2 | Audio output 2 | — | — | cable: right-click jack > device > jack name | tooltip "Out 2 Right" |
+| THOR-B-J23 | Audio Out 3 | Audio output 3 | — | — | cable: right-click jack > device > jack name | tooltip "Out 3" |
+| THOR-B-J26 | Audio Out 4 | Audio output 4 | — | — | cable: right-click jack > device > jack name | tooltip "Out 4" |
+| THOR-B-J27 | Seq Gate In | Step sequencer trigger input | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Trig" |
+| THOR-B-K07 | Seq Rate trim | Amount for step sequencer rate CV | — | — | click/drag only (no Remote item) | tooltip "Step Sequencer Rate: 127" |
+| THOR-B-J28 | Seq Rate In | Step sequencer rate CV input | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Rate" |
+| THOR-B-K09 | Seq Pitch trim | Amount for step sequencer transpose CV | — | — | click/drag only (no Remote item) | tooltip "Step Sequencer Transpose: 127" |
+| THOR-B-J33 | Seq Pitch In | Step sequencer pitch/transpose CV input | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Transpose" |
+| THOR-B-K08 | Seq Gate Length trim | Amount for step sequencer gate length CV | — | — | click/drag only (no Remote item) | tooltip "Step Sequencer Gate Length: 127" |
+| THOR-B-J29 | Seq Gate Length In | Step sequencer gate length CV input | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Gate Length" |
+| THOR-B-K10 | Seq Velocity trim | Amount for step sequencer velocity CV | — | — | click/drag only (no Remote item) | tooltip "Step Sequencer Velocity: 127" |
+| THOR-B-J34 | Seq Velocity In | Step sequencer velocity CV input | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Velocity" |
+| THOR-B-J30 | Seq Note Out | Step sequencer note CV output | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Note" |
+| THOR-B-J31 | Seq Curve 1 Out | Step sequencer curve 1 CV output | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Curve 1" |
+| THOR-B-J32 | Seq Start Out | Step sequencer start-of-sequence trigger output | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Start Trig" |
+| THOR-B-J35 | Seq Gate Out | Step sequencer gate/velocity output | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Gate" |
+| THOR-B-J36 | Seq Curve 2 Out | Step sequencer curve 2 CV output | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer Curve 2" |
+| THOR-B-J37 | Seq End Out | Step sequencer end-of-sequence trigger output | — | — | cable: right-click jack > device > jack name | tooltip "Step Sequencer End Trig" |
+
+## Grain Sample Manipulator — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| GRAN-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D01 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B02 | (patch arrows) | Previous / next patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| GRAN-F-B03 | (patch folder) | Browse patch | — | — | click only | tooltip "Browse patch" |
+| GRAN-F-B04 | (patch disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| GRAN-F-D02 | Patch name tape | Patch name tape | Device Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D03 | VOICES display | Number of voices | — | — | click only | tooltip "Voices: 8" |
+| GRAN-F-B05 | (voices arrows) | Voices down/up | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K01 | MASTER VOLUME | Master volume | Master Volume | 48 / CC 77 | voice/MIDI or click | tooltip "Master Volume: 1.5 dB" |
+| GRAN-F-D04 | Sample name display | Name of the loaded sample | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B06 | (sample arrows) | Previous / next sample | — | — | click only | tooltip "Select previous sample" |
+| GRAN-F-B07 | (sample folder) | Browse samples | — | — | click only | tooltip "Browse sample" |
+| GRAN-F-B08 | (sample record) | Start sampling | Record Sample | — | display/Remote item, not mapped | tooltip "Start sampling" |
+| GRAN-F-B09 | (sample edit pencil) | Edit sample | — | — | click only | tooltip "Edit Sample" |
+| GRAN-F-D05 | Overview waveform | Whole-sample overview with the zoom window | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B10 | (preview button) | Preview the sample | — | — | click only | tooltip "Preview" |
+| GRAN-F-D06 | Main waveform | Waveform display: start, end and playhead | Position | 2 / CC 31 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B11 | START marker | Sample start marker | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B12 | END marker | Sample end marker | End Pos | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-S01 | DISPLAY Y POS slider | Waveform display vertical position | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D07 | MOTION menu (Envelope 1) | Motion envelope menu | Motion | 5 / CC 34 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K02 | SPEED | Motion speed | Speed | 7 / CC 36 | voice/MIDI or click | tooltip "Speed: 34.4 %" |
+| GRAN-F-K03 | JITTER | Motion jitter | Jitter | 6 / CC 35 | voice/MIDI or click | tooltip "Jitter: 0.0 %" |
+| GRAN-F-B13 | GLOBAL POSITION | Global position on/off | Global Position | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D08 | ROOT KEY note | Root key note | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D09 | ROOT KEY fine tune | Root key fine tune | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B14 | SET | Set root key from analysis | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D10 | ANALYZED | Analysed pitch of the sample | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D11 | LONG GRAINS menu | Grain algorithm menu | Algorithm | 1 / CC 30 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K04 | FORMANT (other grain mode) | Formant knob: not visible in Long Grains mode | Formant | 8 / CC 37 | voice/MIDI or click | not hovered: control is not on screen in Long Grains mode |
+| GRAN-F-K10 | PAN SPREAD | Grain pan spread | Pan Spread | 46 / CC 75 | voice/MIDI or click | tooltip "Pan Spread: 71.9 %" |
+| GRAN-F-K13 | PITCH JITTER | Grain pitch jitter | Pitch Jitter | — | display/Remote item, not mapped | tooltip "Pitch Jitter: 0.0 %" |
+| GRAN-F-D13 | Grain shape display | Grain window shape | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K14 | GRAIN LENGTH | Grain length | Grain Length | 3 / CC 32 | voice/MIDI or click | tooltip "Grain Length: 68.4 %" |
+| GRAN-F-K15 | RATE | Grain rate / spacing | Rate-Spacing | 4 / CC 33 | voice/MIDI or click | tooltip "Rate-Spacing: 48.4 %" |
+| GRAN-F-K16 | X-FADE | Grain crossfade | XFade | — | display/Remote item, not mapped | tooltip "X-Fade: 78.1 %" |
+| GRAN-F-K05 | PITCH OCT | Pitch octave | Oct | 10 / CC 39 | voice/MIDI or click | tooltip "Oct: 2" |
+| GRAN-F-K06 | PITCH SEMI | Pitch semitone | Semi | 11 / CC 40 | voice/MIDI or click | tooltip "Semi: 0" |
+| GRAN-F-K07 | PITCH TUNE | Pitch fine tune | Tune | 12 / CC 41 | voice/MIDI or click | tooltip "Tune: 0" |
+| GRAN-F-K08 | PITCH KBD | Pitch keyboard tracking | Pitch Kbd | — | display/Remote item, not mapped | tooltip "Pitch Kbd: 100.0 %" |
+| GRAN-F-K09 | SAMPLE LEVEL | Sample level | Sample Level | 9 / CC 38 | voice/MIDI or click | tooltip "Sample Level: -8.3 dB" |
+| GRAN-F-B15 | SAMPLE to FILTER (upper) | Route sample to filter | Sample To Filter | — | display/Remote item, not mapped | tooltip "Sample To Filter" |
+| GRAN-F-B16 | SAMPLE to FILTER (lower) | Route sample to filter (second button of the pair) | Sample To Filter | — | display/Remote item, not mapped | tooltip "Sample To Filter" |
+| GRAN-F-B17 | OSCILLATOR on | Oscillator on/off | Osc On | 13 / CC 42 | voice/MIDI or click | tooltip "Osc On" |
+| GRAN-F-K17 | OSC OCT | Oscillator octave | Osc Oct | — | display/Remote item, not mapped | tooltip "Osc Oct: 0" |
+| GRAN-F-D14 | OSC WAVEFORM display | Oscillator waveform | Osc Wave | 14 / CC 43 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B18 | (osc waveform arrows) | Oscillator waveform prev/next | — | — | click only | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K18 | OSC MOD | Oscillator mod amount | Osc Mod | — | display/Remote item, not mapped | tooltip "Osc Mod: 0.0 %" |
+| GRAN-F-K19 | OSC LEVEL | Oscillator level | Osc Level | 15 / CC 44 | voice/MIDI or click | tooltip "Osc Level: -13.9 dB" |
+| GRAN-F-B19 | OSC to FILTER (upper) | Route oscillator to filter | Osc To Filter | — | display/Remote item, not mapped | tooltip "Osc To Filter" |
+| GRAN-F-B20 | OSC to FILTER (lower) | Route oscillator to filter (second button) | Osc To Filter | — | display/Remote item, not mapped | tooltip "Osc To Filter" |
+| GRAN-F-D12 | FILTER type menu (LP 12dB) | Filter type menu | Filter Type | 16 / CC 45 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K11 | FILTER FREQ | Filter frequency | Filter Freq | 17 / CC 46 | voice/MIDI or click | tooltip "Filter Freq: 401.7 Hz" |
+| GRAN-F-K12 | FILTER RESO | Filter resonance | Filter Reso | 18 / CC 47 | voice/MIDI or click | tooltip "Filter Reso: 12.5 %" |
+| GRAN-F-K20 | FILTER ENV 2 | Filter envelope 2 amount | Filter Env2 | 19 / CC 48 | voice/MIDI or click | tooltip "Filter Env2: 57.8 %" |
+| GRAN-F-K21 | FILTER VEL | Filter velocity | Filter Vel | — | display/Remote item, not mapped | tooltip "Filter Velocity: 15.6 %" |
+| GRAN-F-K22 | FILTER KBD | Filter keyboard tracking | Filter Kbd | 20 / CC 49 | voice/MIDI or click | tooltip "Filter Kbd: 37.5 %" |
+| GRAN-F-S02 | AMP A | Amp attack | Amp Attack | 21 / CC 50 | voice/MIDI or click | tooltip "Amp Attack: 0.6 ms" |
+| GRAN-F-S03 | AMP D | Amp decay | Amp Decay | 22 / CC 51 | voice/MIDI or click | tooltip "Amp Decay: 6.95 s" |
+| GRAN-F-S04 | AMP S | Amp sustain | Amp Sustain | 23 / CC 52 | voice/MIDI or click | no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-S05 | AMP R | Amp release | Amp Release | 24 / CC 53 | voice/MIDI or click | tooltip "Amp Release: 2.50 s" |
+| GRAN-F-K23 | AMP GAIN | Amp gain | Amp Gain | 25 / CC 54 | voice/MIDI or click | tooltip "Amp Gain: 0.2 dB" |
+| GRAN-F-K24 | AMP VEL | Amp velocity | — | — | click only | tooltip "Amp Velocity: 0.0 %" |
+| GRAN-F-K25 | AMP PAN | Amp pan | — | — | click only | tooltip "Pan: 50.0 %" |
+| GRAN-F-S301 | DIST type slider | Distortion type | — | — | click only | [Effects: DIST tab (picture grain-fxdist-view_front_labeled.png)] tooltip "Dist Type: Dist" |
+| GRAN-F-K301 | DIST DRIVE | Distortion drive | Dist Drive | 30 / CC 59 | voice/MIDI or click | [Effects: DIST tab (picture grain-fxdist-view_front_labeled.png)] tooltip "Dist Drive: 50.0 %" |
+| GRAN-F-K302 | DIST TONE | Distortion tone | Dist Tone | 31 / CC 60 | voice/MIDI or click | [Effects: DIST tab (picture grain-fxdist-view_front_labeled.png)] tooltip "Dist Tone: 80.0 %" |
+| GRAN-F-K303 | DIST AMOUNT | Distortion amount | Dist Amount | 29 / CC 58 | voice/MIDI or click | [Effects: DIST tab (picture grain-fxdist-view_front_labeled.png)] tooltip "Dist Amount: 100.0 %" |
+| GRAN-F-B501 | DELAY SYNC | Delay tempo sync | Delay Sync | — | display/Remote item, not mapped | [Effects: DLY tab (picture grain-fxdly-view_front_labeled.png)] tooltip "Delay Sync: On" |
+| GRAN-F-S501 | DELAY TIME | Delay time (synced time when SYNC is on) | Delay Time | 37 / CC 66 | voice/MIDI or click | [Effects: DLY tab (picture grain-fxdly-view_front_labeled.png)] tooltip "Delay Synced Time: 3/16" |
+| GRAN-F-B502 | DELAY PING PONG | Delay ping pong | Delay PingPong | — | display/Remote item, not mapped | [Effects: DLY tab (picture grain-fxdly-view_front_labeled.png)] tooltip "Delay PingPong: On" |
+| GRAN-F-K501 | DELAY PAN | Delay pan | Delay Pan | — | display/Remote item, not mapped | [Effects: DLY tab (picture grain-fxdly-view_front_labeled.png)] tooltip "Delay Pan: 100.0 %" |
+| GRAN-F-K502 | DELAY FB | Delay feedback | Delay FB | 38 / CC 67 | voice/MIDI or click | [Effects: DLY tab (picture grain-fxdly-view_front_labeled.png)] tooltip "Delay Feedback: 17.2 %" |
+| GRAN-F-K503 | DELAY AMOUNT | Delay amount | Delay Amount | 36 / CC 65 | voice/MIDI or click | [Effects: DLY tab (picture grain-fxdly-view_front_labeled.png)] tooltip "Delay Amount: 27.2 %" |
+| GRAN-F-K401 | EQ FREQ | EQ frequency | EQ Freq | — | display/Remote item, not mapped | [Effects: EQ tab (picture grain-fxeq-view_front_labeled.png)] tooltip "EQ Freq: 104.1 Hz" |
+| GRAN-F-K402 | EQ Q | EQ Q | EQ Q | — | display/Remote item, not mapped | [Effects: EQ tab (picture grain-fxeq-view_front_labeled.png)] tooltip "EQ Q: 16.2 %" |
+| GRAN-F-K403 | EQ GAIN | EQ gain | EQ Gain | — | display/Remote item, not mapped | [Effects: EQ tab (picture grain-fxeq-view_front_labeled.png)] tooltip "EQ Gain: -1.1 dB" |
+| GRAN-F-S201 | MOD FX type slider | Modulation effect type (chorus/flanger/phaser) | Mod Effect Type | 43 / CC 72 | voice/MIDI or click | [Effects: PHSR (modulation FX) tab (picture grain-fxphsr-view_front_labeled.png)] tooltip "Mod Effect Type: Phaser" |
+| GRAN-F-K201 | MOD FX DEPTH | Modulation effect depth | Mod Effect Depth | — | display/Remote item, not mapped | [Effects: PHSR (modulation FX) tab (picture grain-fxphsr-view_front_labeled.png)] tooltip "Mod Effect Depth: 80.0 %" |
+| GRAN-F-K202 | MOD FX RATE | Modulation effect rate | Mod Effect Rate | 45 / CC 74 | voice/MIDI or click | [Effects: PHSR (modulation FX) tab (picture grain-fxphsr-view_front_labeled.png)] tooltip "Mod Effect Rate: 0.20 Hz" |
+| GRAN-F-K204 | MOD FX SPREAD | Modulation effect spread | Mod Effect Spread | — | display/Remote item, not mapped | [Effects: PHSR (modulation FX) tab (picture grain-fxphsr-view_front_labeled.png)] tooltip "Mod Effect Spread: 25.0 %" |
+| GRAN-F-K203 | MOD FX AMOUNT | Modulation effect amount | Mod Effect Amount | 44 / CC 73 | voice/MIDI or click | [Effects: PHSR (modulation FX) tab (picture grain-fxphsr-view_front_labeled.png)] tooltip "Mod Effect Amount: 60.0 %" |
+| GRAN-F-S601 | REVERB DECAY | Reverb decay | Reverb Decay | 41 / CC 70 | voice/MIDI or click | [Effects: REV tab (picture grain-fxrev-view_front_labeled.png)] tooltip "Reverb Decay: 67.7 %" |
+| GRAN-F-K601 | REVERB SIZE | Reverb size | Reverb Size | 42 / CC 71 | voice/MIDI or click | [Effects: REV tab (picture grain-fxrev-view_front_labeled.png)] tooltip "Reverb Size: 70.0 %" |
+| GRAN-F-K602 | REVERB DAMP | Reverb damp | Reverb Damp | — | display/Remote item, not mapped | [Effects: REV tab (picture grain-fxrev-view_front_labeled.png)] tooltip "Reverb Damp: 30.0 %" |
+| GRAN-F-K603 | REVERB AMOUNT | Reverb amount | Reverb Amount | 40 / CC 69 | voice/MIDI or click | [Effects: REV tab (picture grain-fxrev-view_front_labeled.png)] tooltip "Reverb Amount: 36.6 %" |
+| GRAN-F-B108 | KEY MODE switch | Key mode (POLY/RETRIG/LEGATO) | Key Mode | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Key Mode: Poly" |
+| GRAN-F-B112 | PORTA switch (OFF/ON/AUTO) | Portamento mode | Portamento Mode | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Portamento Mode: Off" |
+| GRAN-F-K104 | PORTA TIME | Portamento time | Portamento | 47 / CC 76 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Portamento: 25.0 %" |
+| GRAN-F-B101 | ENVELOPE tab 1 (Motion) | Select envelope 1 | Env Select | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B102 | ENVELOPE tab 2 (Filter) | Select envelope 2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B103 | ENVELOPE tab 3 | Select envelope 3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B104 | ENVELOPE tab 4 | Select envelope 4 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D102 | Envelope display | Envelope editor | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B109 | PRESET | Envelope preset | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B116 | EDIT Y-POS | Edit envelope y position | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B110 | SUSTAIN | Envelope sustain | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B113 | LOOP | Envelope loop | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B119 | KEY TRIG | Envelope key trigger | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B105 | LFO tab 1 | Select LFO 1 | LFO Select | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B106 | LFO tab 2 | Select LFO 2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B107 | LFO tab 3 | Select LFO 3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D101 | LFO WAVEFORM display | LFO waveform | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B111 | (LFO waveform arrows) | LFO waveform prev/next | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K101 | LFO 1 RATE | LFO 1 rate | LFO 1 Rate | 26 / CC 55 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B114 | LFO 1 BEAT SYNC | LFO 1 tempo sync | LFO 1 TempoSync | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B117 | LFO 1 BIPOLAR | LFO 1 bipolar | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B120 | LFO 1 GLOBAL | LFO 1 global | LFO 1 Global | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K102 | LFO 2 RATE | LFO 2 rate | LFO 2 Rate | 27 / CC 56 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B115 | LFO 2 BEAT SYNC | LFO 2 tempo sync | LFO 2 TempoSync | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B118 | LFO 2 KEY SYNC | LFO 2 key sync | LFO 2 KeySync | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B121 | LFO 2 GLOBAL | LFO 2 global | LFO 2 Global | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K103 | LFO DELAY | LFO delay | LFO 1 Delay | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D103 | P.RANGE | Pitch bend range | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Pitchbend Range: 2" |
+| GRAN-F-S101 | PITCH wheel | Pitch bend wheel | Pitch Bend | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "(Pitch Bend): 0.0%" |
+| GRAN-F-S102 | MOD wheel | Mod wheel | Mod Wheel | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "(Mod Wheel): 0%" |
+| GRAN-F-D104 | MOD 1 src | Modulation matrix row 1: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K105 | MOD 1 k1 | Modulation matrix row 1: k1 | Mod1 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Mod1 Dest1 Amt: 0" |
+| GRAN-F-D105 | MOD 1 dest1 | Modulation matrix row 1: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K106 | MOD 1 k2 | Modulation matrix row 1: k2 | Mod1 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Mod1 Dest2 Amt: 0" |
+| GRAN-F-D106 | MOD 1 dest2 | Modulation matrix row 1: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K107 | MOD 1 k3 | Modulation matrix row 1: k3 | Mod1 Scale Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Mod1 Scale Amt: 0" |
+| GRAN-F-D107 | MOD 1 scale | Modulation matrix row 1: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B128 | MOD 1 clr | Modulation matrix row 1: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-D108 | MOD 2 src | Modulation matrix row 2: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K108 | MOD 2 k1 | Modulation matrix row 2: k1 | Mod2 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D110 | MOD 2 dest1 | Modulation matrix row 2: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K110 | MOD 2 k2 | Modulation matrix row 2: k2 | Mod2 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D112 | MOD 2 dest2 | Modulation matrix row 2: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K112 | MOD 2 k3 | Modulation matrix row 2: k3 | Mod2 Scale Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D114 | MOD 2 scale | Modulation matrix row 2: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B136 | MOD 2 clr | Modulation matrix row 2: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D109 | MOD 3 src | Modulation matrix row 3: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K109 | MOD 3 k1 | Modulation matrix row 3: k1 | Mod3 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D111 | MOD 3 dest1 | Modulation matrix row 3: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K111 | MOD 3 k2 | Modulation matrix row 3: k2 | Mod3 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D113 | MOD 3 dest2 | Modulation matrix row 3: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K113 | MOD 3 k3 | Modulation matrix row 3: k3 | Mod3 Scale Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D115 | MOD 3 scale | Modulation matrix row 3: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B137 | MOD 3 clr | Modulation matrix row 3: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D116 | MOD 4 src | Modulation matrix row 4: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K114 | MOD 4 k1 | Modulation matrix row 4: k1 | Mod4 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D117 | MOD 4 dest1 | Modulation matrix row 4: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K115 | MOD 4 k2 | Modulation matrix row 4: k2 | Mod4 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D118 | MOD 4 dest2 | Modulation matrix row 4: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K116 | MOD 4 k3 | Modulation matrix row 4: k3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D119 | MOD 4 scale | Modulation matrix row 4: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B138 | MOD 4 clr | Modulation matrix row 4: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D120 | MOD 5 src | Modulation matrix row 5: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K119 | MOD 5 k1 | Modulation matrix row 5: k1 | Mod5 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D122 | MOD 5 dest1 | Modulation matrix row 5: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K121 | MOD 5 k2 | Modulation matrix row 5: k2 | Mod5 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D124 | MOD 5 dest2 | Modulation matrix row 5: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K123 | MOD 5 k3 | Modulation matrix row 5: k3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D126 | MOD 5 scale | Modulation matrix row 5: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B139 | MOD 5 clr | Modulation matrix row 5: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D121 | MOD 6 src | Modulation matrix row 6: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K120 | MOD 6 k1 | Modulation matrix row 6: k1 | Mod6 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D123 | MOD 6 dest1 | Modulation matrix row 6: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K122 | MOD 6 k2 | Modulation matrix row 6: k2 | Mod6 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D125 | MOD 6 dest2 | Modulation matrix row 6: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K124 | MOD 6 k3 | Modulation matrix row 6: k3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D127 | MOD 6 scale | Modulation matrix row 6: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B140 | MOD 6 clr | Modulation matrix row 6: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D128 | MOD 7 src | Modulation matrix row 7: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K125 | MOD 7 k1 | Modulation matrix row 7: k1 | Mod7 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D129 | MOD 7 dest1 | Modulation matrix row 7: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K126 | MOD 7 k2 | Modulation matrix row 7: k2 | Mod7 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D130 | MOD 7 dest2 | Modulation matrix row 7: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K127 | MOD 7 k3 | Modulation matrix row 7: k3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D131 | MOD 7 scale | Modulation matrix row 7: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B141 | MOD 7 clr | Modulation matrix row 7: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D132 | MOD 8 src | Modulation matrix row 8: src | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K130 | MOD 8 k1 | Modulation matrix row 8: k1 | Mod8 Dest1 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D133 | MOD 8 dest1 | Modulation matrix row 8: dest1 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K131 | MOD 8 k2 | Modulation matrix row 8: k2 | Mod8 Dest2 Amt | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D134 | MOD 8 dest2 | Modulation matrix row 8: dest2 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-K132 | MOD 8 k3 | Modulation matrix row 8: k3 | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-D135 | MOD 8 scale | Modulation matrix row 8: scale | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B142 | MOD 8 clr | Modulation matrix row 8: clr | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] not hovered; same column/row pattern as the hovered row 1 (name inferred from table order) |
+| GRAN-F-B129 | EFFECTS power | Effects section on/off | Effect On | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s); the upper light (753,286) showed tooltip "Effects On" |
+| GRAN-F-B122 | PHSR tab | Show the PHSR panel | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B130 | PHSR ON/OFF | PHSR effect on/off | Phaser On | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B123 | DIST tab | Show the DIST panel | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B131 | DIST ON/OFF | DIST effect on/off | Dist On | 28 / CC 57 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B124 | EQ tab | Show the EQ panel | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B132 | EQ ON/OFF | EQ effect on/off | EQ On | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B125 | COMP tab | Show the COMP panel | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B133 | COMP ON/OFF | COMP effect on/off | Comp On | 32 / CC 61 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B126 | DLY tab | Show the DLY panel | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B134 | DLY ON/OFF | DLY effect on/off | Delay On | 35 / CC 64 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B127 | REV tab | Show the REV panel | — | — | click only | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-B135 | REV ON/OFF | REV effect on/off | Reverb On | 39 / CC 68 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] no tooltip in Reason (hovered 1.2 s) |
+| GRAN-F-K117 | COMP ATTACK | Compressor attack | Comp Attack | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Comp Attack: 7.6 ms" |
+| GRAN-F-K118 | COMP THRES | Compressor threshold | Comp Threshold | 33 / CC 62 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Comp Threshold: -12.0 dB" |
+| GRAN-F-K128 | COMP RELEASE | Compressor release | Comp Release | — | display/Remote item, not mapped | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Comp Release: 636 ms" |
+| GRAN-F-K129 | COMP RATIO | Compressor ratio | Comp Ratio | 34 / CC 63 | voice/MIDI or click | [Lower half: envelopes, LFOs, modulation matrix, effects row (scrolled down) (picture grain-lower-view_front_labeled.png)] tooltip "Comp Ratio: 2.00 : 1" |
+
+## Grain Sample Manipulator — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| GRAN-B-J01 | Seq Gate In | Gate input (sequencer) | — | — | cable: right-click jack > device > jack name | tooltip "Seq Gate Input" |
+| GRAN-B-J05 | Seq Note In | Note CV input (sequencer) | — | — | cable: right-click jack > device > jack name | tooltip "Seq Note Input" |
+| GRAN-B-K01 | Pitch Bend CV trim | Amount for pitch bend CV | — | — | click/drag only (no Remote item) | tooltip "PitchBend CV Amount: 100.0 %" |
+| GRAN-B-J02 | Pitch Bend CV In | CV input: pitch bend | — | — | cable: right-click jack > device > jack name | tooltip "Pitch Bend CV Input" |
+| GRAN-B-K02 | Mod Wheel CV trim | Amount for mod wheel CV | — | — | click/drag only (no Remote item) | tooltip "ModWheel CV Amount: 100.0 %" |
+| GRAN-B-J06 | Mod Wheel CV In | CV input: mod wheel | — | — | cable: right-click jack > device > jack name | tooltip "Mod Wheel CV Input" |
+| GRAN-B-J03 | CV In 1 | CV input 1 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 1" |
+| GRAN-B-J07 | CV In 2 | CV input 2 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 2" |
+| GRAN-B-J09 | CV In 3 | CV input 3 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 3" |
+| GRAN-B-J11 | CV In 4 | CV input 4 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 4" |
+| GRAN-B-J04 | CV Out 1 | CV output 1 | — | — | cable: right-click jack > device > jack name | tooltip "CV Output 1" |
+| GRAN-B-J08 | CV Out 2 | CV output 2 | — | — | cable: right-click jack > device > jack name | tooltip "CV Output 2" |
+| GRAN-B-J10 | CV Out 3 | CV output 3 | — | — | cable: right-click jack > device > jack name | tooltip "CV Output 3" |
+| GRAN-B-J12 | CV Out 4 | CV output 4 | — | — | cable: right-click jack > device > jack name | tooltip "CV Output 4" |
+| GRAN-B-J13 | Audio Out L | Audio output, left | — | — | cable: right-click jack > device > jack name | tooltip "Left Output" |
+| GRAN-B-J14 | Audio Out R | Audio output, right | — | — | cable: right-click jack > device > jack name | tooltip "Right Output" |
 
 ## Where each fact came from
 - Pictures: screenshots of John's Reason 12.7, in a blank test song made from his template.
