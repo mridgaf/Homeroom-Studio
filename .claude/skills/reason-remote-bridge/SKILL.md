@@ -379,6 +379,8 @@ otherwise say outright that a word is never valid.
 _exists` asserts BOTH directions — withhold it on a device with no picker,
 keep it on one that has a picker, or "give me a plate" stops working.
 
+**Big devices stay at 48 knob slots (owner decision, 2026-10-07).** The remotemap gives every large device exactly 48 knob slots, although the factory data offers more (Thor 369 items, Kong 371, Redrum 241). Leave it at 48: the cap is the CC budget above, and `remote/ReasonVoice.remotemap` is not touched for this. Ask in clickable options before widening any device past 48.
+
 **The surface is FULL as of Alligator: 48 of 48.** Every device wider than
 that now needs an explicit cut decision from him before anything is written —
 Alligator had 61 remotable controls and 13 had to go. Ask in clickable options

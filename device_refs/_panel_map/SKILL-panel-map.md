@@ -58,3 +58,15 @@ Right-click the source jack > device (by rack name) > jack. Prove it: hover the 
 - Keys and the Options menu only reach Reason when it's frontmost (full-screen control). Background clicks work, keys don't.
 - A submenu stays open after Escape. Click empty black space beside the rack instead.
 - Turning a map position into a screen point only holds while the rack doesn't scroll or change zoom. Take a new screenshot before each batch.
+
+## Added 2026-10-07 (batch D effects session)
+- **Hover trick:** jump the pointer straight onto a control and Reason often shows NO tooltip. Do two `mouse_move`s: first 4-5 px up-left, then onto the control, then wait 1.3 s. That got tooltips on nearly everything. Still none on lights, arrows, display buttons, some faders: record "no tooltip", never invent a name.
+- **Zoom region** must be 320x60 or taller, starting at the pointer: tooltips near an edge get cut off ("Connected to Mix Channel: From Insert FX..."). Cabled-jack tooltips name the PARTNER jack, which also proves the partner's own jack name.
+- **Screen mapping:** screen = panel_left + raw_x * scale (scale ~0.61-0.64 at this zoom). Measure from a fresh screenshot of that panel each time; Tab and scrolling shift it. Re-aim if a hover lands on the wrong control.
+- **Stepped Remote items** (amp/cab model lights, SCALE MEMORY slots, preset buttons): every button shows the same tooltip (the Remote name). Put the knob slot on the first row only.
+- **Tools:** write `tools/gen_<device>.py` (spec + check text per label), then `tools/finish_device.py <slug> "<status>"` builds the pictures and stamps `checked_` on every row; it refuses if any row has no check text. Extra views: `tools/specs/<slug>--<view>.json` + a `views` block in `tools/checks/<slug>.json`. Copy `gen_alligator.py` as the pattern.
+- **name_check:** device name in the JSON must be the short vocab name ("Sweeper", not "Sweeper Modulation Effect"). Remotemap scopes with `se.propellerheads.` need a temp copy with that prefix stripped (`sed 's/\tse\.propellerheads\./\t/'`); never edit the real remotemap.
+- **Never rewrite finished panel JSONs with json.dump:** it reformats ~20k lines. Add fields only to new files.
+- `tools/panel_map_md.py` skips a device only if its picture row already exists (fixed: prefix "SYNC" collided with the word SYNC).
+- Pillow is installed in `.venv` (needed by build_device.py).
+- Remote has only 48 knob slots per device; controls past 48 get a name but slot None ("NOSLOT" note).
