@@ -1,0 +1,10 @@
+waveon|Eng3 On
+wavemenu|(no tooltip)
+semi|Eng3 Semi: 0
+shapelfo|Eng3 Shape Amt
+mod1on|Eng3 Mod1 On
+sffreq|(no tooltip captured; knob)
+unison|Eng3 Unison On
+uniblend|Eng3 Blend: 100.0
+unidetune|Eng3 Detune: 25.0
+unispread|Eng3 Spread: 100.0

@@ -109,3 +109,86 @@ lfotab1|(no tooltip)
 lfotab2|(no tooltip)
 lfotab3|(no tooltip)
 lfowave|(no tooltip)
+lfowavearrows|(no tooltip)
+lforate|(no tooltip)
+lfodelay|(no tooltip)
+lfosync|(no tooltip)
+lfokeysync|(no tooltip)
+lfoglobal|(no tooltip)
+prange|Pitchbend Range: 2
+wheelP|(Pitch Bend): 0.0%
+wheelM|(Mod Wheel): 0%
+mtx1_amt1|Mod1 Dest1 Amt
+mtx1_amt2|Mod1 Dest2 Amt
+mtx1_scale|Mod1 Scale Amt
+mtx2_amt1|Mod2 Dest1 Amt
+mtx2_amt2|Mod2 Dest2 Amt
+mtx2_scale|Mod2 Scale Amt
+mtx3_amt1|Mod3 Dest1 Amt
+mtx3_amt2|Mod3 Dest2 Amt
+mtx3_scale|Mod3 Scale Amt
+mtx4_amt1|Mod4 Dest1 Amt
+mtx4_amt2|Mod4 Dest2 Amt
+mtx4_scale|Mod4 Scale Amt
+mtx5_amt1|Mod5 Dest1 Amt
+mtx5_amt2|Mod5 Dest2 Amt
+mtx5_scale|Mod5 Scale Amt
+mtx6_amt1|Mod6 Dest1 Amt
+mtx6_amt2|Mod6 Dest2 Amt
+mtx6_scale|Mod6 Scale Amt
+mtx7_amt1|Mod7 Dest1 Amt
+mtx7_amt2|Mod7 Dest2 Amt
+mtx7_scale|Mod7 Scale Amt
+mtx8_amt1|Mod8 Dest1 Amt
+mtx8_amt2|Mod8 Dest2 Amt
+mtx8_scale|Mod8 Scale Amt
+mtx_source_dest_arrows_x|(no tooltip) seen row1: source, Dest1/2 names, up-arrows, X buttons
+fx_comp_attack|Comp Attack: 7.6
+fx_comp_thres|Comp Threshold
+fx_comp_release|Comp Release: 63
+fx_comp_ratio|Comp Ratio: 2.00
+fx_dly_sync|Delay Sync: On
+fx_dly_time|Delay (time slider handle; text clipped)
+fx_dly_pingpong|Delay PingPong: On
+fx_dly_pan|Delay Pan: 25.0 %
+fx_dly_fb|Delay Feedback
+fx_dly_amount|Delay Amount: 25
+fx_eq_freq|EQ Freq: 12.69 kHz
+fx_eq_q|EQ Q: 10.0 %
+fx_eq_gain|EQ Gain: 5.6 dB
+fx_dist_type|Dist Type: Dist
+fx_dist_drive|Dist Drive: 50.0 %
+fx_dist_tone|Dist Tone: 80.0 %
+fx_dist_amount|Dist Amount: 100
+fx_phsr_type|Mod Effect Type
+fx_phsr_depth|Mod Effect Depth
+fx_phsr_rate|Mod Effect Rate
+fx_phsr_spread|Mod Effect Spread
+fx_phsr_amount|Mod Effect Amount
+fx_rev_decay|Reverb Decay
+fx_rev_size|Reverb Size: 73.1
+fx_rev_damp|Reverb Damp: 20.0
+fx_rev_amount|Reverb Amount: 4x (clipped)
+fx_master_light|Effect On
+fx_master_power|(no tooltip)
+fx_tab_phsr|(no tooltip)
+fx_on_phsr|(no tooltip)
+fx_on_others|(no tooltip; tabs and ON buttons)
+eng3arrow|(no tooltip)
+BACK:
+b_gate|Seq Gate Input
+b_cv|Seq Note Input
+b_pbtrim|PitchBend CV Amount (clipped)
+b_pbjack|PitchBend CV Input
+b_mwtrim|ModWheel CV Amount (clipped)
+b_mwjack|ModWheel CV Input
+b_cvin1|CV Input 1
+b_cvin2|CV Input 2
+b_cvin3|CV Input 3
+b_cvin4|CV Input 4
+b_cvout1|CV Output 1
+b_cvout2|CV Output 2
+b_cvout3|CV Output 3
+b_cvout4|CV Output 4
+b_audioL|Left Output
+b_audioR|Right Output

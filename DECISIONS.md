@@ -8507,3 +8507,11 @@ just not loaded by default.
 - Reason state left: test song "untitled 2" open, unsaved, all devices restored to the state found (Sweeper Phaser+Envelope, Quartet BBD). Rack on front view.
 - Status: open (17 left).
 - Outcome: —
+
+### 2026-10-08 Panel Map: Europa done (PARTIAL), 3rd of 26 instruments... (Thor, Grain, Europa)
+- Context: owner said resume; Europa was paused mid-way. Finished top-row hovers, matrix (all 8 rows, knobs hovered; text/arrows no tooltip), 6 effect panels (PHSR, DIST, EQ, DLY, REV, COMP), back panel, plus engine II (43/43 hovered) and engine III (10/43) views — needed because remotemap knobs 9-24 (Osc2/Osc3) have no panel row otherwise.
+- Result: `europa.json` 343 rows, `name_check` PASS (0 errors, stripped-remotemap copy; real remotemap NOT edited). Row added to PANEL-MAP.md. Tools: `tools/gen_europa.py`, `_captures_batchE/europa_*`.
+- Not done: LFO 2/3 and envelope 1/3/4 tab views; engine III 33 controls by pattern. Reason state: test song "untitled 2" unsaved, engine I reselected, REV tab, Reduce Cable Clutter (K) ON, rack on front.
+- Left: Malstrom, Humana, NN19, SubTractor, Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8 (+Kong, Redrum, Dr.REX, Mimic status per earlier logs).
+- Status: open (partial).
+- Outcome: —

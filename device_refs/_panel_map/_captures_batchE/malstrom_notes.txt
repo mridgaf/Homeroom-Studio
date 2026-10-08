@@ -1,0 +1,103 @@
+fold|(no tooltip)
+patchdisp|(no tooltip)
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+modAlight|Modulator A On/Off
+modAdisp|Modulator A Curve
+modAarrows|(no tooltip)
+modA1shot|Modulator A One Shot
+modAsync|Modulator A Sync
+modArate|Modulator A Rate
+modApitch|Modulator A To Pitch
+modAindex|Modulator A To Index
+modAshift|Modulator A To Shift
+modAswitch|Modulator A Target
+modBlight|Modulator B On/Off
+modBdisp|Modulator B Curve
+modBarrows|(no tooltip)
+modB1shot|Modulator B One Shot
+modBsync|Modulator B Sync
+modBrate|Modulator B Rate
+modBmotion|Modulator B To Motion
+modBvol|Modulator B To Level
+modBfilter|Modulator B To Filter
+modBmodA|Modulator B To Modulator A
+modBswitch|Modulator B Target
+fenvA|Filter Env Attack
+fenvR|Filter Env Release
+fenvinv|Filter Env Invert
+fenvamt|Filter Env Amount
+polydisp|Polyphony: 8
+polyarrows|(no tooltip)
+legato|Legato On/Off
+noteon|(no tooltip)
+fenvD|(no tooltip)
+fenvS|(no tooltip)
+porta|Portamento
+vel_lvlA|Velocity To Level A
+vel_lvlB|Velocity To Level B
+vel_fenv|Velocity To Filter Env
+vel_atk|Velocity To Attack
+vel_shift|Velocity To Shift
+vel_mod|Velocity To Modulator
+velswitch|Velocity Target
+rangedisp|Pitch Bend Range: 7
+rangearrows|(no tooltip)
+wheelP|(no tooltip)
+wheelM|(no tooltip)
+mw_index|Mod Wheel To Index
+mw_shift|Mod Wheel To Shift
+mw_filter|Mod Wheel To Filter
+mw_mod|Mod Wheel To Modulator
+mwswitch|Mod Wheel Target
+oscAlight|Oscillator A On/Off
+oscAdisp|(no tooltip)
+oscAarrows|(no tooltip)
+oscAmotion|Oscillator A Motion
+oscAindex|Oscillator A Index
+oscAshift|Oscillator A Shift
+oscAoct|Oscillator A Octave
+oscAsemi|Oscillator A Semi
+oscAcent|Oscillator A Cent
+oscAatk|Oscillator A Attack
+oscAdec|Oscillator A Decay
+oscAsus|Oscillator A Sustain
+oscArel|Oscillator A Release
+oscAvol|Oscillator A Gain
+oscAroute|Route Oscillator A To Shaper
+oscBlight|Oscillator B On/Off
+oscBdisp|(no tooltip)
+oscBarrows|(no tooltip)
+oscBmotion|Oscillator B Motion
+oscBindex|Oscillator B Index
+oscBshift|Oscillator B Shift
+oscBoct|Oscillator B Octave
+oscBsemi|Oscillator B Semi
+oscBcent|Oscillator B Cent
+oscBatk|Oscillator B Attack
+oscBdec|Oscillator B Decay
+oscBsus|Oscillator B Sustain
+oscBrel|Oscillator B Release
+oscBvol|Oscillator B Gain
+oscBroute1|Route Oscillator A To Filter B
+oscBroute2|Route Oscillator B To Filter B
+shapelight|Shaper On/Off
+wheelP|Pitch Bend
+wheelM|Mod Wheel
+fenvD|Filter Env Decay
+fenvS|Filter Env Sustain
+shape_sine|(no tooltip)
+shape_sat|(no tooltip)
+shape_clip|(no tooltip)
+shape_quant|(no tooltip)
+shape_noise|(no tooltip)
+shapemode|Shaper Mode
+shapeamt|Shaper Amount
+filtAlight|Filter A On/Off
+fA_lp12|(no tooltip)
+fA_bp12|(no tooltip)
+fA_combp|(no tooltip)
+fA_combm|(no tooltip)
+fA_am|Filter A Mode
+fAmode|Filter A Mode

@@ -1,0 +1,43 @@
+waveon|Eng2 On
+wavemenu|(no tooltip)
+wavedisp|(no tooltip)
+wavearrows|(no tooltip)
+oct|Eng2 Oct: 1
+semi|Eng2 Semi: 0
+tune|Eng2 Tune: 0
+kbd|Eng2 Pitch Kbd: 10x (clipped)
+shape|(no tooltip captured)
+shapelfo|Eng2 Shape Amt
+shapesrc|(no tooltip)
+shapevelo|Eng2 Shape Vel: 0
+phasesync|Eng2 SyncPhase
+mod1on|Eng2 Mod1 On
+mod1menu|(no tooltip)
+mod1amt|Eng2 Mod1 Amt
+mod1lfo|Eng2 Mod1 Mod: 1x (clipped)
+mod1src|(no tooltip)
+mod2on|Eng2 Mod2 On
+mod2menu|(no tooltip)
+mod2amt|Eng2 Mod2 Amt
+mod2lfo|Eng2 Mod2 Mod: 0x (clipped)
+mod2src|(no tooltip captured)
+sfon|Eng2 Filter On
+sfdisp|(no tooltip)
+sfmenu|(no tooltip)
+sffreq|(no tooltip captured; knob)
+sfreso|Eng2 Filter Reso: 0
+sfkbd|Eng2 Filter Kbd: 100
+sfenv|Eng2 Filter Mod: 0.0
+sfsrc|(no tooltip captured)
+sfvelo|Eng2 Filter Vel: 0
+harmon|Eng2 Harm On
+harmmenu|(no tooltip)
+harmpos|Eng2 Harm Pos
+harmamt|Eng2 Harm Amt
+unison|Eng2 Unison On
+unidisp|(no tooltip)
+unimenu|(no tooltip)
+unicount|Eng2 Count: 2
+uniblend|Eng2 Blend: 100.0
+unidetune|Eng2 Detune: 57.8
+unispread|Eng2 Spread: 100.0

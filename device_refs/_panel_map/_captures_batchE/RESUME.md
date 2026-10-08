@@ -41,3 +41,24 @@ Europa hovers done through portatime; next envtab3/4, preset, editypos, envdisp,
 Done: Thor, Grain (both PARTIAL, logged in PANEL-MAP.md). Europa: created below Grain; europa_front_top_raw.jpg + europa_pts.json (screen coords) + europa_notes.txt hold hovers through lfowave. LEFT for Europa: lfowavearrows, lforate, lfodelay, lfosync, lfokeysync, lfoglobal, prange, wheelP, wheelM (pts in europa_pts.json), then scroll down for matrix + effects row/panels, then back panel, then gen_europa.py + finish_device.py + name_check + panel_map_md.py.
 Then: Malstrom, Humana, NN19, SubTractor, Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8.
 Reason state: test song "untitled 2" unsaved, front view, Reduce Cable Clutter (K) ON, full-screen control granted this session.
+
+## 2026-10-08 resumed: EUROPA top-scroll hovers ALL DONE (LFO row = no tooltip, seen). LEFT: scroll down for matrix + effects row/panels, then back panel, then gen_europa.py + finish_device.py + name_check + panel_map_md.py. Reason state unchanged (Europa top at y~62).
+europa_front_bottom_raw.jpg = zoom screen [70,100,1030,442] after scroll down 8 (1568x559; screen=70+px/1.6333, 100+py/1.6333). Matrix 8 rows.
+Europa MATRIX hovers DONE (8 rows, knobs Mod N Dest1/Dest2/Scale Amt; text fields/arrows/X no tooltip). Matrix knob screen x 303/454/607, row y 304,320,337,353,370,386,402,419 (scrolled view). NEXT: fx tabs (y 286: PHSR 783, DIST 822, EQ 861, DLY 900, REV 938, COMP 977), fx panels, back.
+Europa fx hovered: COMP, DLY, EQ. Next DIST (tab 822), PHSR (783), REV (938), tab buttons/ON/power, then back. fx screen pts: DIST slider 766,407 drive 853,372 tone 901,372 amt 950,372; PHSR slider 818,397 depth 857,351 rate 857,382 spread 857,411 amt 954,370; REV decay 868,350 size 806,392 damp 866,392 amt 926,392
+Europa fx panels ALL hovered (dist, phsr, rev too). Left: fx tab/ON/power/master buttons hover, then Tab for back panel, gen_europa.py. Tooltip text sometimes clipped by my zoom; names clear.
+Europa FRONT ALL DONE. Next: back panel (Tab key), then gen_europa.py + finish_device.py.
+europa_back_raw.jpg = zoom screen [60,215,1000,810] (1372x869; screen=60+px/1.4596, 215+py/1.4596), rack scrolled so Europa back header y~222. Back hovers next: gate 242,510 cv 242,541 pbtrim 362,509 pbjack 390,510 mwtrim 362,541 mwjack 390,541 CVin 586 x y510/538/567/594; CVout 775; audio L 813,781 R 861,781
+Europa ALL hovers DONE incl back (flipped back to front). Next: tools/gen_europa.py (model: gen_grain.py) + finish_device.py europa + name_check + panel_map_md.py.
+Europa fx raws saved (573x353 = zoom screen [740,275,1000,435], k=2.2038). REV tab reselected. NEXT: write tools/gen_europa.py
+Europa ENGINE II view: europa_eng2_raw.jpg (zoom screen [70,62,1030,812], 1232x962, same pts as engine I). Hover list eng_keys.json (43 keys). Needed because remotemap Osc2/Osc3 knobs slots 9-24 need rows. Then engine III.
+Engine II hovers DONE (europa_eng2_notes.txt). Engine III next: click (147,294), capture raw, hover subset.
+europa_eng3_raw.jpg saved; eng3 hovers subset next
+Engine III subset hovered (europa_eng3_notes.txt). Engine I reselected. NEXT: add eng2/eng3 views to gen_europa.py, finish, name_check.
+## 2026-10-08 EUROPA DONE (PARTIAL): europa.json 343 rows, name_check PASS, PANEL-MAP row added, DECISIONS entry written. NEXT: Malstrom.
+
+## MALSTROM started: created below Europa via app_menu Create>Instruments>Reason Studios (then app_release before full-screen tools). malstrom_front_raw.jpg = zoom screen [70,62,1030,412] (1563x571; screen=70+px/1.628, 62+py/1.628), device top at y~62.
+Malstrom pts: malstrom_pts.json / malstrom_keys.json; notes malstrom_notes.txt (first 36 keys done, fenvD/S retry). Use zoom width 240 for tooltips.
+Malstrom hovers done through oscAindex (notes file); next from oscAshift (keys[58:]); wheels/fenvD/S gave no tooltip
+Malstrom hovers through oscB and wheels/fenv done; remaining keys from shape_sine onward (keys[85:]). Faders need zoom region y..y+100 and approach from above, wait 2s.
+## PAUSED by owner 2026-10-08 (said 'Pause') mid-MALSTROM. Done: malstrom_notes.txt through fAmode (Shaper + Filter A mode). LEFT: fAenv fAkbd fAres fAfreq filtBlight fBroute fB_lp12 fBmode fBenv fBkbd fBres fBfreq spread volume meter (pts in malstrom_pts.json; approach from above, zoom y..y+100), then back panel (Tab), gen_malstrom.py, finish_device, name_check, panel_map_md. Reason: Malstrom created below Europa (Europa engine I selected), test song unsaved, rack front view.
