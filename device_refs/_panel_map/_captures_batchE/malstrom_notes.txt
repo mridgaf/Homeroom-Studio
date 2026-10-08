@@ -101,3 +101,48 @@ fA_combp|(no tooltip)
 fA_combm|(no tooltip)
 fA_am|Filter A Mode
 fAmode|Filter A Mode
+fAenv|Filter A Env
+fAkbd|Filter A Kbd Track
+fAres|Filter A Resonance
+fAfreq|Filter A Freq
+filtBlight|Filter B On/Off
+fBroute|Route Filter B To Shaper
+fB_lp12|(no tooltip)
+fBmode|Filter B Mode
+fBenv|Filter B Env
+fBkbd|Filter B Kbd Track
+fBres|Filter B Resonance
+fBfreq|Filter B Freq
+spread|Spread Amount
+volume|Master Level
+meter|(no tooltip)
+BACK:
+gate|Mono Gate Input
+cv|Mono CV Input
+ampenv|Amp Env Gate Input
+filterenv|Filter Env Gate Input
+pitch_jack|Pitch Modulation Input
+pitch_trim|Pitch Modulation Input: 127
+filter_jack|Filter Modulation Input
+filter_trim|Filter Modulation Input: 127
+index_jack|Index Modulation Input
+index_trim|Index Modulation Input: 127
+shift_jack|Shift Modulation Input
+shift_trim|Shift Modulation Input: 127
+level_jack|Level Modulation Input
+level_trim|Level Modulation Input: 127
+modamt_jack|Mod Amount Modulation Input
+modamt_trim|Mod Amount Modulation Input
+modwheel_jack|Mod Wheel Modulation Input
+modwheel_trim|Mod Wheel Modulation Input
+pwheel_jack|Pitch Wheel Modulation Input
+pwheel_trim|Pitch Wheel Modulation Input
+modA_out|Modulator A Control Output
+modB_out|Modulator B Control Output
+fenv_out|Filter Env Control Output
+left|Shaper / Filter A Audio Output
+right|Filter B Audio Output
+oscA_out|Oscillator A Audio Output
+oscB_out|Oscillator B Audio Output
+shaper_in|Shaper / Filter A Audio Input
+filterB_in|Filter B Audio Input

@@ -1,0 +1,116 @@
+fold|(no tooltip)
+patchdisp|(no tooltip)
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+tape|FARFISAORGAN
+porta|Portamento
+poly|Polyphony
+polyarrows|(no tooltip)
+spread|Stereo Spread
+key|(no tooltip)
+key2|(no tooltip)
+jump|(no tooltip)
+spreadmode|Spread Mode
+lobw|Low Bandwidth On/Off
+noteon|(no tooltip)
+legato|(no tooltip)
+retrig|(no tooltip)
+keymode|Key Mode
+c_ffreq|Filter Freq Ext Mod
+c_lfo|LFO Ext Mod
+c_amp|Amp Ext Mod
+atouch|(no tooltip)
+expr|(no tooltip)
+breath|(no tooltip)
+source|Ext Mod Select
+mw_ffreq|Filter Freq Mod Wheel Amount
+mw_fres|Filter Res Mod Wheel Amount
+mw_fdecay|Filter Decay Mod Wheel Amount
+mw_amp|Amp Mod Wheel Amount
+mw_lfo|LFO Mod Wheel Amount
+v_fenv|Filter Env Vel Amount
+v_fdecay|Filter Decay Vel Amount
+v_amp|Amp Vel Amount
+v_aatk|Amp Attack Vel Amount
+v_sstart|Sample Start Vel Amount
+rangedisp|Pitch Bend Range
+rangearrows|(no tooltip)
+wheelP|Pitch Bend
+wheelM|Mod Wheel
+midisel|Select Keyzone via MIDI
+solo|Solo Sample
+topbtn1|Select previous sample
+topbtn2|Browse sample
+topbtn3|Start sampling
+keymap|(no tooltip)
+lokey|Set Sample Low Key
+hikey|Set Sample High Key
+sample|Select Sample
+root|Set Sample Root Key
+tune|Set Sample Tuning
+level|Set Sample Level
+loop|Set Sample Loop Mode
+sstart|Sample Start
+oct|Osc Octave
+semi|Osc Semitone
+hqi|High Quality Interpolation
+envamt|Osc Env Amount
+fine|Osc Fine Tune
+kbdtrack|Osc Kbd Track
+lfosync|LFO Sync Enable
+lforate|LFO Rate
+lfoamt|LFO Amount
+wave1|(no tooltip)
+wave2|(no tooltip)
+wave3|(no tooltip)
+wave4|(no tooltip)
+wave5|(no tooltip)
+wave6|(no tooltip)
+wavebtn|LFO Wave
+destosc|(no tooltip)
+destfilter|(no tooltip)
+destpan|(no tooltip)
+destbtn|LFO Dest
+filtfreq|(no tooltip)
+filtres|Filter Res
+fkbd|Filter Kbd Track
+fm_notch|(no tooltip)
+fm_hp24|(no tooltip)
+fm_bp12|(no tooltip)
+fm_lp12|(no tooltip)
+fm_lp24|(no tooltip)
+fmodebtn|Filter Mode
+fenvA|Filter Env Attack
+fenvD|(no tooltip)
+fenvS|Filter Env Sustain
+fenvR|(no tooltip)
+finvert|Filter Env Invert
+fenvamt|Filter Env Amount
+alevel|(no tooltip)
+aenvA|Amp Env Attack
+aenvD|(no tooltip)
+aenvS|(no tooltip)
+aenvR|Amp Env Release
+filtlight|Filter On/Off
+BACK:
+gate|Mono Gate Input
+cv|Mono CV Input
+pitch_trim|OSC Pitch Modulation Input
+pitch_jack|OSC Pitch Modulation Input
+cutoff_trim|Filter1 Cutoff Modulation Input
+cutoff_jack|Filter1 Cutoff Modulation Input
+res_trim|Filter1 Resonance Modulation Input
+res_jack|Filter1 Resonance Modulation Input
+level_trim|Amp Level Modulation Input
+level_jack|Amp Level Modulation Input
+mw_trim|Mod Wheel Modulation Input
+mw_jack|Mod Wheel Modulation Input
+pw_trim|Pitch Wheel Modulation Input
+pw_jack|Pitch Wheel Modulation Input
+fenv_out|Filter Env Modulation Output
+lfo_out|LFO Modulation Output
+ampgate|Amp Env Gate Input
+fgate|Filter Env Gate Input
+outL|Left
+outR|Right

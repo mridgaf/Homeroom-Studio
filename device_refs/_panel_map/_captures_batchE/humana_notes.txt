@@ -1,0 +1,64 @@
+fold|(no tooltip)
+patcharrows|Select previous patch
+patchfolder|Browse patch
+patchdisk|Save patch
+patchdisp|Mercury Ah Dressed
+tape|Mercury Ah Dressed
+master|Master Volume
+note|(no tooltip)
+rangedisp|Pitch Bend Range: 2
+mw_sstart|Mod Wheel To Sample Start: 0
+mw_ffreq|Mod Wheel To Filter Cutoff: 0
+mw_level|Mod Wheel To Amp Level: -28
+wheelP|(no tooltip)
+wheelM|(no tooltip)
+sampledisp|(no tooltip)
+samplemenu|(no tooltip)
+s_start|Sample Start
+s_oct|Octave
+s_semi|Semitone
+s_fine|Finetune
+filtlight|Filter On
+filttype|(no tooltip)
+cutoff|Filter Cutoff
+reso|Filter Reso
+fenv|Filter Env
+fvel|Filter Velocity
+fkbd|Filter Key Follow
+fenvA|Filter Attack
+fenvD|Filter Decay
+fenvS|Filter Sustain
+fenvR|Filter Release
+ampvel|Amp Velocity
+ampA|Amp Attack
+dlylight|Delay On
+dlytime|Synced Delay Time
+dlyfb|Delay Feedback
+dlysync|Delay Sync
+dlypp|Delay Ping Pong
+dlydamp|Delay Damp
+dlyamt|Delay Amount
+ampD|Amp Decay
+ampS|(no tooltip)
+ampR|Amp Release
+revlight|Reverb On
+revtime|Reverb Time
+revpre|Reverb Pre Delay
+revhi|Reverb High Damp
+revlo|Reverb Low Damp
+revamt|Reverb Amount
+BACK:
+gate|Gate CV Input
+cv|Note CV Input
+pb_trim|Pitch Bend CV Input: 127
+pb_jack|Pitch Bend CV Input
+mw_trim|Mod Wheel CV Input: 127
+mw_jack|Mod Wheel CV Input
+cutoff_trim|Filter Cutoff CV Input: 127
+cutoff_jack|Filter Cutoff CV Input
+reso_trim|Filter Resonance CV Input: 127
+reso_jack|Filter Resonance CV Input
+level_trim|Amp Level CV Input: 127
+level_jack|Amp Level CV Input
+outL|Left Out
+outR|Right Out

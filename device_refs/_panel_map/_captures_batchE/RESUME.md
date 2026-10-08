@@ -62,3 +62,22 @@ Malstrom pts: malstrom_pts.json / malstrom_keys.json; notes malstrom_notes.txt (
 Malstrom hovers done through oscAindex (notes file); next from oscAshift (keys[58:]); wheels/fenvD/S gave no tooltip
 Malstrom hovers through oscB and wheels/fenv done; remaining keys from shape_sine onward (keys[85:]). Faders need zoom region y..y+100 and approach from above, wait 2s.
 ## PAUSED by owner 2026-10-08 (said 'Pause') mid-MALSTROM. Done: malstrom_notes.txt through fAmode (Shaper + Filter A mode). LEFT: fAenv fAkbd fAres fAfreq filtBlight fBroute fB_lp12 fBmode fBenv fBkbd fBres fBfreq spread volume meter (pts in malstrom_pts.json; approach from above, zoom y..y+100), then back panel (Tab), gen_malstrom.py, finish_device, name_check, panel_map_md. Reason: Malstrom created below Europa (Europa engine I selected), test song unsaved, rack front view.
+Malstrom FRONT hovers ALL DONE. Next: Tab for back panel, hover, gen_malstrom.py
+Malstrom back hovers DONE (malstrom_back_raw.jpg = zoom screen [60,62,1030,410] 1568x563, screen=60+px/1.616,62+py/1.616). Next: Tab to front, gen_malstrom.py
+
+## 2026-10-08 MALSTROM DONE (PARTIAL): malstrom.json 148 rows, name_check PASS, PANEL-MAP row added, DECISIONS written. Reason on FRONT view, Malstrom top at screen y~62. NEXT: Humana (create below Malstrom via Create > Instruments > Reason Studios), NN19, SubTractor, Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8. Reduce Cable Clutter (K) still ON.
+## HUMANA started: created below Malstrom; rack scrolled so Humana top y=62 (fits in one view, bottom y~318). humana_front_raw.jpg = zoom screen [70,62,1030,318] (1565x418, screen=70+px/1.63, 62+py/1.63). Notes humana_notes.txt key|text; pts humana_pts.json (screen). Done: top row + left block through mw_level. Next: wheels, sample display/menu, lower knobs, filter, amp, delay, reverb, then back.
+Humana hovered through fkbd. Next: filter env faders (x 457/483/509/535 y~262), amp vel + faders (x 637/663/689/715), delay, reverb, back.
+Humana hovered through delay (amp D/S/R no tooltip first try, retry). Next: reverb, back.
+Humana FRONT hovers ALL DONE (ampD/R retried ok, ampS none). Next: Tab for back.
+Humana ALL hovers done (back too; humana_back_raw.jpg same zoom region as front, screen=70+px/1.63,62+py/1.63). Flip back to front (Tab). Next: gen_humana.py + finish_device.py humana
+
+## 2026-10-08 HUMANA DONE (PARTIAL): humana.json 74 rows, PASS. Reason on FRONT view, rack scrolled (Humana top y=62). NEXT: NN19 (create below Humana: Create > Instruments > Reason Studios > NN19 Digital Sampler; use app_menu with app="se.propellerheads.reason" then app_release), SubTractor, Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8. Remotemap block needs a row for EVERY knob slot (park rows for items with no panel control, see gen_humana.py). json device name must equal remotemap scope name (e.g. "Humana").
+## NN19 started: created below Humana, rack scrolled so NN19 top y=62 (bottom ~412). nn19_front_raw.jpg = zoom screen [70,62,1030,412] (1563x571, screen=70+px/1.628, 62+py/1.628). ALL point coords for the front in nn19_pts.json (screen); notes nn19_notes.txt key|text in pts order. Hovered through lobw. Next: noteon.. (follow nn19_pts.json key order from noteon).
+NN19 hovered through v_sstart (pts key order). Next: rangedisp, rangearrows, wheelP, wheelM, midisel.. keymap, lokey.., osc, lfo, filter, amp env, back.
+NN19 hovered through loop (text readouts under display NOT hovered, skip). Next: sstart.. osc, lfo, filter, amp env, back.
+NN19 hovered through destbtn. Next: filter (filtfreq..), amp env, then back.
+NN19 front hovers DONE (several sliders no tooltip; by position). Next: Tab back panel + hover, gen_nn19.py
+NN19 back hovers DONE (nn19_back_raw.jpg same frame as front). Still to hover: filter ON light (553,282) on front after Tab back. Then gen_nn19.py (remotemap block has Master Level slot32 w/o panel control: park).
+
+## 2026-10-08 NN19 DONE (PARTIAL): nn19.json 116 rows, PASS. Reason on FRONT view, NN19 top at screen y=62. NEXT: SubTractor (create below NN19: app_menu app="se.propellerheads.reason" path Create>Instruments>Reason Studios>"SubTractor Analog Synthesizer", then app_release, scroll rack ~50px/tick), Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8. 20 of 26 done... (Kong..NN19 = 7 instruments + 9 effects + earlier = see PANEL-MAP.md). Reduce Cable Clutter (K) still ON.

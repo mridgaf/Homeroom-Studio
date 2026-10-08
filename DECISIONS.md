@@ -8515,3 +8515,18 @@ just not loaded by default.
 - Left: Malstrom, Humana, NN19, SubTractor, Radical Piano, Monotone, Pangea, Klang, NN-XT, ID8 (+Kong, Redrum, Dr.REX, Mimic status per earlier logs).
 - Status: open (partial).
 - Outcome: —
+
+### 2026-10-08 Panel Map: Malstrom done (PARTIAL), 4th of 26 instruments (Thor, Grain, Europa, Malstrom)
+- Result: `malstrom.json` 148 rows (119 front, 29 back), `name_check` PASS (0 errors, 32 warnings = Remote items matched only by case; stripped-remotemap copy). Row added to PANEL-MAP.md. Tools: `tools/gen_malstrom.py`, `_captures_batchE/malstrom_*`.
+- Not done: Filter env D/S, LED mode rows, A/B switches have no tooltip (placed by position). Back A/B switches next to the trims not mapped.
+- Status: open (partial). Outcome: —
+
+### 2026-10-08 Panel Map: Humana done (PARTIAL), 5th of 26 instruments
+- Result: `humana.json` 74 rows (60 front incl. 11 parked rows for Remote items with no panel control: Filter 1/2, Osc 1-3 Filter Select, unsynced Delay Time; 14 back). `name_check` PASS (0 errors; device name must be "Humana" in the json to match the remotemap scope). Tools: `tools/gen_humana.py`, `_captures_batchE/humana_*`.
+- Not done: syllable buttons in the sample display; amp sustain fader had no tooltip (placed by position).
+- Status: open (partial). Outcome: —
+
+### 2026-10-08 Panel Map: NN19 done (PARTIAL), 6th of 26 instruments
+- Result: `nn19.json` 116 rows (96 front incl. 1 parked row for Remote 'Master Level' which has no panel control; 20 back). `name_check` PASS (0 errors, 3 warnings = patch next/delta names). Tools: `tools/gen_nn19.py`, `_captures_batchE/nn19_*`.
+- Not done: the text readouts under the keymap (lo/hi key, sample name, root, tune, level, loop); several sliders gave no tooltip (placed by position); amp level slider has no Remote name.
+- Status: open (partial). Outcome: —
