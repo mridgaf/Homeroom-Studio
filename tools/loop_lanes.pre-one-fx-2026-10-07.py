@@ -7,7 +7,7 @@ guess; read that entry before changing any number here).
   leadloop   guitar / synth / orchestral / melodies / keys
   bassloop   bass lines, subs
   fxloop     FX, sparse (1-2 hits per 8 bars)
-  lane 5     chordloop | percloop | vocalloop, a third each (one FX lane only)
+  lane 5     chordloop | percloop | vocalloop | fxloop2, 25% each
 
 Tempo = the drum loop's BPM; everything else is time-stretched to it,
 pitch never moves. Always 8 bars. Half of beats match key LABELS on
@@ -16,7 +16,6 @@ lead/bass/chords (unlabeled still allowed), half ignore key.
 from __future__ import annotations
 
 import json
-import math
 import os
 import random
 import re
@@ -34,8 +33,7 @@ NBARS = 8
 RISER_ODDS = 0.08                 # owner: risers "less than 10% of the time"
 SAME_KEY_ODDS = 0.5
 LANE5 = {"chordloop": "chords", "percloop": "perc",
-         "vocalloop": "vocals"}
-OLD_LANE5 = {"fxloop2": "fx"}   # beats already made keep their second FX lane
+         "vocalloop": "vocals", "fxloop2": "fx"}
 LABELS = {"kick": "drum loop", "leadloop": "lead", "bassloop": "bass",
           "fxloop": "fx", "chordloop": "chords", "percloop": "percussion",
           "vocalloop": "vocals", "fxloop2": "fx 2"}
@@ -153,7 +151,7 @@ def scan_all():
 
 def lane_category(lane):
     return {"kick": "drums", "leadloop": "lead", "bassloop": "bass",
-            "fxloop": "fx"}.get(lane) or {**LANE5, **OLD_LANE5}[lane]
+            "fxloop": "fx"}.get(lane) or LANE5[lane]
 
 
 def candidates(lane):
@@ -166,28 +164,10 @@ def source_bpm(secs, named_bpm, near_bpm):
     """A loop's tempo: the BPM in its name, else the whole-bar count whose
     implied tempo sits closest to `near_bpm` (measured from length)."""
     if named_bpm:
-        # fold to half/double time when that is the nearer fit, so a 70 BPM
-        # loop in a 140 beat plays as-is instead of being stretched 2x
-        return float(min((named_bpm / 2.0, float(named_bpm), named_bpm * 2.0),
-                         key=lambda b: abs(math.log(near_bpm / b))))
+        return float(named_bpm)
     bars = min((0.25, 0.5, 1, 2, 4, 8, 16),
                key=lambda b: abs(b * 240.0 / secs - near_bpm))
     return bars * 240.0 / secs
-
-
-NEAR = 0.20                      # swap list: stretch of at most +-20%
-
-
-def near_tempo(entries, lane, bpm, current=None):
-    """Swap-list entries that need little stretch to sit at `bpm`. FX lanes
-    are not stretched, so they pass untouched. If fewer than 8 qualify, the
-    8 closest are kept so the list is never empty."""
-    if lane_category(lane) == "fx":
-        return entries
-    def off(e):
-        return abs(bpm / source_bpm(e.get("secs") or 1, e.get("bpm"), bpm) - 1)
-    ok = [e for e in entries if off(e) <= NEAR or e["path"] == current]
-    return ok if len(ok) >= 8 else sorted(entries, key=off)[:8]
 
 
 def _load(path):

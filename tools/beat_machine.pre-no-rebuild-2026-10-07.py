@@ -3456,7 +3456,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"],
                tsig=tuple(preset.get("tsig", (4, 4))), chords=midi_chords)
     write_stems(folder / f"{no} {' x '.join(names)} {title} Stems",
-                parts["stems"], sources=sources, loops=loops_only)
+                parts["stems"], sources=sources)
 
     # the pattern sheet (owner request 2026-07-22): a readable picture of
     # every lane against the backbeat, so a beat he doesn't like can be
@@ -4407,8 +4407,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
     write_stems(folder / f"{no} {stem_of} Stems", parts["stems"],
-                sources={**chord_sources, **kit_paths, **rec["stamp_paths"]},
-                loops=bool(rec.get("loops_only")))
+                sources={**chord_sources, **kit_paths, **rec["stamp_paths"]})
 
     if rec.get("loops_only"):
         rec = dict(rec, loop_state=state, bpm=state["bpm"])
@@ -5449,15 +5448,11 @@ def _lane_candidates(no, lane, shots=None, root=None):
             raise ValueError(f"Beat {no} has no '{lane}'.")
         current = rec["kit_paths"].get(lane)
         typed = loop_lanes.lane_category(lane) in ("lead", "chords")
-        # owner 2026-10-07: swapped loops that need a big time-stretch
-        # smear, so the list only offers tempos near the beat's own
-        pool = loop_lanes.near_tempo(loop_lanes.candidates(lane), lane,
-                                     rec["loop_state"]["bpm"], current)
         return sound_words.tag(
             [{"path": e["path"], "name": e["name"], "pack": e["folder"],
               "current": e["path"] == current, "bpm": e.get("bpm"),
               "type": _loop_type(e) if typed else None}
-             for e in pool], by="type")
+             for e in loop_lanes.candidates(lane)], by="type")
     if _family_members(lane, rec["preset"].get("lanes", {})):
         if lane == CHORD_BASS_FAM:
             return sound_words.tag(_bass_files(rec))
@@ -7008,8 +7003,9 @@ __BREAKS__
    if (v) bits.push('<b>' + v + ' ' + (v === 1 ? 'volume' : 'volumes') + ' changed</b>');
    if (r) bits.push('<b>' + r + ' ' + (r === 1 ? 'stem' : 'stems') + ' removed</b>');
    foot.querySelector('.staged').innerHTML = bits.length
-     ? bits.join(' + ') + ' — Add chunk saves them all into the beat\'s Chunks folder'
+     ? bits.join(' + ') + ' — rebuild makes one new beat with every change in it'
      : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
+   foot.querySelector('.rebuild').disabled = !(n + v + r);
    foot.querySelector('.chunk').disabled = !(n + v + r);
    foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
    refreshMix(el, no);      // every volume/remove change lands here first
@@ -7362,6 +7358,7 @@ __BREAKS__
      '<button class="chunk fxon" title="Save a copy of this beat with ' +
        'its style\'s effects (dust, vinyl, saturation) baked in, stems ' +
        'too. The clean one stays.">Effects on</button>' +
+     '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
    if (specs.some(x => x.loop)) foot.querySelector('.rollall').style.display = 'none';
@@ -7403,6 +7400,7 @@ __BREAKS__
      });
      paintFoot(el, no);
    };
+   foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
    foot.querySelector('.fxon').onclick = () => rebuild(el, no, foot, true);
    foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
    rack.dataset.loaded = '1';
@@ -7435,7 +7433,7 @@ __BREAKS__
    const gone = Object.keys(drops[no] || {});
    if (!fx && !Object.keys(picks).length && !Object.keys(vols).length
        && !gone.length) return;
-   const btn = foot.querySelector('.fxon'),
+   const btn = foot.querySelector(fx ? '.fxon' : '.rebuild'),
          msg = foot.querySelector('.rackmsg');
    btn.disabled = true; msg.textContent = '';
    const was = btn.textContent;

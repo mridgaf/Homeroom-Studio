@@ -19,6 +19,15 @@ entries.
 ---
 
 ## Log
+### 2026-10-07 Loops page: swap smear fixed, Rebuild button gone, one FX lane, "drum loop" stem
+- Context: owner: swapping the drum or bass loop on the Loops page played back smeared; Effects page "didn't show drums"; Rebuild redundant with Add chunk; two FX lanes in some beats.
+- Measured: NOT clipping, NOT the replayed volume lock, preview render clean (peak ~0.45). Cause = big time-stretch: at 107 BPM only 9% of drum / 18% of bass loops were within +-10% of tempo, 33-47% beyond +-25%, up to 2x.
+- Done: `loop_lanes.source_bpm` folds named tempos to half/double time when nearer; new `near_tempo` limits the swap list to <=20% stretch (min 8 entries; FX lanes exempt); swap list wired in `beat_machine._lane_candidates`. Rebuild button removed (backend + Effects on kept). `fxloop2` no longer picked for NEW beats (old beats keep it). Loops beats' drum stem is written as "drum loop - name" (was "kick drum", which got the kick's 3-setting preset); `_stem_wav` also finds "drum loop".
+- Owner heard it: "The smear is gone. Keep." Effects-page drums: could not reproduce a missing stem (it was listed as "kick drum"); renamed instead. ASSUMING that was his complaint.
+- Targeted tests: 263 passed after (beat_machine, loops, sound_engine files). Full suite not run. Backups: tools/*.pre-*-2026-10-07.py.
+- Status: confirmed (smear); open (Effects drums)
+- Outcome: -
+
 ### 2026-10-07 Panel Map Batch A: 14 devices labeled and hover-checked (fronts + backs)
 - Context: owner asked to continue Reason 12 labeling until the map is complete. Batch A = CF-101, COMP-01, D-11, DDL-1, ECF-42, PEQ-2, PH-90, RV-7, UN-16, MClass Compressor/Equalizer/Maximizer/Stereo Imager, RV7000 (94 installed total).
 - Done (device_refs/_panel_map/): JSON + labeled pictures for all 14; every position hovered in Reason 12 in the throwaway "untitled" song and recorded in `checked_2026_10_07`; name_check PASS on all 14; PANEL-MAP.md has a Devices row and front/back tables per device. New tools: build_device.py, hover_batch.py, record_checks.py, panel_map_md.py, gen_*_specs.py (+ tools/specs/).

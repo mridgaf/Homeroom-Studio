@@ -136,7 +136,7 @@ LANE_LABELS = {"kick": "kick drum", "sub": "sub", "bass": "808",
                "kicklayer": "kick layer", "kickpunch": "kick snap"}
 # what the stems of beats made before 2026-09-23 are named, so they are
 # still found (_stem_wav)
-OLD_LANE_LABELS = {"sub": "bass drum", "bass": "bass drum", "kick": "drum loop"}
+OLD_LANE_LABELS = {"sub": "bass drum", "bass": "bass drum"}
 
 
 def lane_label(lane):
@@ -145,7 +145,7 @@ def lane_label(lane):
     return LANE_LABELS.get(lane, lane)
 
 
-def write_stems(folder, stems, sources=None, loops=False):
+def write_stems(folder, stems, sources=None):
     """One 24-bit stereo wav per lane. When `sources` maps lane -> the
     sample file it was built from, the stem carries the REAL sample name
     ("kick drum - Cymatics Kong Kick 9.wav") — owner 2026-07-18: show
@@ -168,8 +168,6 @@ def write_stems(folder, stems, sources=None, loops=False):
             empty.append(lane_label(lane))
             continue
         name = lane_label(lane)
-        if loops and lane == "kick":
-            name = "drum loop"      # a loops beat's kick lane is a whole drum loop
         src = (sources or {}).get(lane)
         if src:
             real = re.sub(r'[\\/:*?"<>|]', "_", Path(src).stem).strip()

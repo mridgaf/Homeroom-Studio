@@ -16,7 +16,6 @@ lead/bass/chords (unlabeled still allowed), half ignore key.
 from __future__ import annotations
 
 import json
-import math
 import os
 import random
 import re
@@ -166,28 +165,10 @@ def source_bpm(secs, named_bpm, near_bpm):
     """A loop's tempo: the BPM in its name, else the whole-bar count whose
     implied tempo sits closest to `near_bpm` (measured from length)."""
     if named_bpm:
-        # fold to half/double time when that is the nearer fit, so a 70 BPM
-        # loop in a 140 beat plays as-is instead of being stretched 2x
-        return float(min((named_bpm / 2.0, float(named_bpm), named_bpm * 2.0),
-                         key=lambda b: abs(math.log(near_bpm / b))))
+        return float(named_bpm)
     bars = min((0.25, 0.5, 1, 2, 4, 8, 16),
                key=lambda b: abs(b * 240.0 / secs - near_bpm))
     return bars * 240.0 / secs
-
-
-NEAR = 0.20                      # swap list: stretch of at most +-20%
-
-
-def near_tempo(entries, lane, bpm, current=None):
-    """Swap-list entries that need little stretch to sit at `bpm`. FX lanes
-    are not stretched, so they pass untouched. If fewer than 8 qualify, the
-    8 closest are kept so the list is never empty."""
-    if lane_category(lane) == "fx":
-        return entries
-    def off(e):
-        return abs(bpm / source_bpm(e.get("secs") or 1, e.get("bpm"), bpm) - 1)
-    ok = [e for e in entries if off(e) <= NEAR or e["path"] == current]
-    return ok if len(ok) >= 8 else sorted(entries, key=off)[:8]
 
 
 def _load(path):
