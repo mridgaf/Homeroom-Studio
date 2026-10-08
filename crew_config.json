@@ -1434,7 +1434,7 @@
     ],
     [
      "nostalgic_borrowed_minor",
-     2
+     1.0
     ],
     [
      "soul_turnaround",
@@ -1446,7 +1446,7 @@
     ],
     [
      "mixo_soul_climb",
-     1.0
+     2.0
     ],
     [
      "neo_soul_descent",
@@ -1891,7 +1891,7 @@
    ]
   },
   "library": {
-   "p": 0.4,
+   "p": 0.5,
    "tags": [
     [
      "rnb",
