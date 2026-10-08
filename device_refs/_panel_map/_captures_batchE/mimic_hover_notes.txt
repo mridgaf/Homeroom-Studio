@@ -1,0 +1,33 @@
+B|tape|(no tooltip)
+B|gate|SeqGateInput
+B|cv|SeqNoteInput
+B|pbK|PitchBend CV Amount: 100.0 %
+B|pbJ|PitchBend CV Input
+B|mwK|ModWheel CV Amount: 100.0 %
+B|mwJ|ModWheel CV Input
+B|cv1|CV Input 1
+B|cv2|CV Input 2
+B|cv3|CV Input 3
+B|cv4|CV Input 4
+B|s1L|Slot1 Left
+B|s1R|Slot1 Right
+B|s2L|Slot2 Left
+B|s2R|Slot2 Right
+B|s3L|Slot3 Left
+B|s3R|Slot3 Right
+B|s4L|Slot4 Left
+B|s4R|Slot4 Right
+B|s5L|Slot5 Left
+B|s5R|Slot5 Right
+B|s6L|Slot6 Left
+B|s6R|Slot6 Right
+B|s7L|Slot7 Left
+B|s7R|Slot7 Right
+B|s8L|Slot8 Left
+B|s8R|Slot8 Right
+B|fx1L|Send1 Left
+B|fx1R|Send1 Right
+B|fx2L|Send2 Left
+B|fx2R|Send2 Right
+B|mL|Left Output
+B|mR|Right Output

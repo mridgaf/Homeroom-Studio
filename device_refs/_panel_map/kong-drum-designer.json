@@ -1,0 +1,5077 @@
+{
+ "device": "Kong Drum Designer",
+ "remote_scope": "Propellerheads / Kong Drum Designer",
+ "code_prefix": "KONG",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "done 2026-10-08 (Claude, hover-checked in Reason 12): main panel, enlarged right column, Drum and FX section (Drum 1 / Bass Drum state) and back panel. The 16 drum modules differ; only Drum 1 pictured. LCD knobs (offsets, sends, pan, tone, level) gave no tooltip; names from the Remote list. Rows K301-K345 are aliases of the one LCD knob for Drum 2-16.",
+ "controls": [
+  {
+   "code": "KONG-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.037,
+    0.034
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.173,
+    0.063
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Patch Name'; display gave no tooltip; name NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B02",
+   "side": "front",
+   "panel_label": "(up arrow)",
+   "what": "Load previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.308,
+    0.049
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B03",
+   "side": "front",
+   "panel_label": "(down arrow)",
+   "what": "Load next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.308,
+    0.077
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B04",
+   "side": "front",
+   "panel_label": "(folder)",
+   "what": "Open patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.331,
+    0.063
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B05",
+   "side": "front",
+   "panel_label": "(disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.355,
+    0.063
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D02",
+   "side": "front",
+   "panel_label": "NOTE ON light",
+   "what": "Note-on indicator light",
+   "reason_name": "Note On Indicator",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.071,
+    0.118
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Note On Indicator'; light gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D05",
+   "side": "front",
+   "panel_label": "KONG KIT tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.046,
+    0.234
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; convention from earlier devices",
+   "checked_2026_10_07": "tooltip \"Kong Kit\" (patch name; 'Device Name' item not provable here)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-S01",
+   "side": "front",
+   "panel_label": "PITCH BEND wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": "Pitch Bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.069,
+    0.265
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item 'Pitch Bend'",
+   "checked_2026_10_07": "tooltip \"Pitch Bend: 0\" (hover the lower part of the wheel; centre showed nothing)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-S02",
+   "side": "front",
+   "panel_label": "MOD WHEEL",
+   "what": "Modulation wheel",
+   "reason_name": "Mod Wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.102,
+    0.265
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item 'Mod Wheel'",
+   "checked_2026_10_07": "tooltip \"Mod Wheel: 0\" (hover the lower part of the wheel)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B06",
+   "side": "front",
+   "panel_label": "PAD 13",
+   "what": "Pad 13 (hit it with the mouse to play drum 13)",
+   "reason_name": "Pad 13 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.44,
+    0.148
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 13 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B07",
+   "side": "front",
+   "panel_label": "PAD 14",
+   "what": "Pad 14 (hit it with the mouse to play drum 14)",
+   "reason_name": "Pad 14 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.148
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 14 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B08",
+   "side": "front",
+   "panel_label": "PAD 15",
+   "what": "Pad 15 (hit it with the mouse to play drum 15)",
+   "reason_name": "Pad 15 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.639,
+    0.148
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 15 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B09",
+   "side": "front",
+   "panel_label": "PAD 16",
+   "what": "Pad 16 (hit it with the mouse to play drum 16)",
+   "reason_name": "Pad 16 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.739,
+    0.148
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 16 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B10",
+   "side": "front",
+   "panel_label": "PAD 9",
+   "what": "Pad 9 (hit it with the mouse to play drum 9)",
+   "reason_name": "Pad 9 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.44,
+    0.365
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 9 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B11",
+   "side": "front",
+   "panel_label": "PAD 10",
+   "what": "Pad 10 (hit it with the mouse to play drum 10)",
+   "reason_name": "Pad 10 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.365
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 10 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B12",
+   "side": "front",
+   "panel_label": "PAD 11",
+   "what": "Pad 11 (hit it with the mouse to play drum 11)",
+   "reason_name": "Pad 11 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.639,
+    0.365
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 11 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B13",
+   "side": "front",
+   "panel_label": "PAD 12",
+   "what": "Pad 12 (hit it with the mouse to play drum 12)",
+   "reason_name": "Pad 12 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.739,
+    0.365
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 12 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B18",
+   "side": "front",
+   "panel_label": "PAD 5",
+   "what": "Pad 5 (hit it with the mouse to play drum 5)",
+   "reason_name": "Pad 5 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.44,
+    0.582
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 5 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B19",
+   "side": "front",
+   "panel_label": "PAD 6",
+   "what": "Pad 6 (hit it with the mouse to play drum 6)",
+   "reason_name": "Pad 6 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.582
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 6 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B20",
+   "side": "front",
+   "panel_label": "PAD 7",
+   "what": "Pad 7 (hit it with the mouse to play drum 7)",
+   "reason_name": "Pad 7 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.639,
+    0.582
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 7 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B21",
+   "side": "front",
+   "panel_label": "PAD 8",
+   "what": "Pad 8 (hit it with the mouse to play drum 8)",
+   "reason_name": "Pad 8 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.739,
+    0.582
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 8 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B22",
+   "side": "front",
+   "panel_label": "PAD 1",
+   "what": "Pad 1 (hit it with the mouse to play drum 1)",
+   "reason_name": "Pad 1 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.44,
+    0.799
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 1 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B23",
+   "side": "front",
+   "panel_label": "PAD 2",
+   "what": "Pad 2 (hit it with the mouse to play drum 2)",
+   "reason_name": "Pad 2 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.799
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 2 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B24",
+   "side": "front",
+   "panel_label": "PAD 3",
+   "what": "Pad 3 (hit it with the mouse to play drum 3)",
+   "reason_name": "Pad 3 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.639,
+    0.799
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 3 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B25",
+   "side": "front",
+   "panel_label": "PAD 4",
+   "what": "Pad 4 (hit it with the mouse to play drum 4)",
+   "reason_name": "Pad 4 Hit Indication",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.739,
+    0.799
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Pad 4 Hit Indication' (hit light); pad gave no tooltip; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K01",
+   "side": "front",
+   "panel_label": "MASTER LEVEL",
+   "what": "Master level",
+   "reason_name": "Master Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.864,
+    0.135
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item 'Master Level'; no knob slot in our remotemap",
+   "checked_2026_10_07": "tooltip \"Master Level: 100\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D03",
+   "side": "front",
+   "panel_label": "Meter L",
+   "what": "Output level lights, left",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.923,
+    0.126
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Master Level Output Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D04",
+   "side": "front",
+   "panel_label": "Meter R",
+   "what": "Output level lights, right",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.938,
+    0.126
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Master Level Output Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B14",
+   "side": "front",
+   "panel_label": "(drum patch arrows)",
+   "what": "Previous / next drum patch (up arrow = previous, down arrow = next)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.081,
+    0.482
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select Previous Drum Patch\" on the upper half; tooltip \"Select Next Drum Patch\" on the lower half",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B15",
+   "side": "front",
+   "panel_label": "(drum folder)",
+   "what": "Open drum patch browser",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.105,
+    0.482
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse Drum Patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B16",
+   "side": "front",
+   "panel_label": "(drum disk)",
+   "what": "Save drum patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.128,
+    0.482
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save Drum Patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B17",
+   "side": "front",
+   "panel_label": "(drum sample button)",
+   "what": "Create a sample player by sampling",
+   "reason_name": "Quick Sample",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.152,
+    0.482
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Quick Sample'; match to this button is by meaning, NOT proven",
+   "checked_2026_10_07": "tooltip \"Create Sample Player by Sampling\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D06",
+   "side": "front",
+   "panel_label": "Drum name display",
+   "what": "Name of the selected drum's patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.175,
+    0.563
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D07",
+   "side": "front",
+   "panel_label": "DRUM number",
+   "what": "Selected drum number",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.303,
+    0.593
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-D08",
+   "side": "front",
+   "panel_label": "(sample loading bar)",
+   "what": "Sample loading progress bar",
+   "reason_name": "Sample Loading Progress",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.335,
+    0.563
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote item 'Sample Loading Progress'; probably this bar; NOT proven",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K02",
+   "side": "front",
+   "panel_label": "OFFSET PITCH",
+   "what": "Pitch offset of the selected drum",
+   "reason_name": "Drum 1 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). Name from Remote list + label; NOT proven by tooltip",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away); again 2-3 s, still none",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K05",
+   "side": "front",
+   "panel_label": "OFFSET DECAY",
+   "what": "Decay offset of the selected drum",
+   "reason_name": "Drum 1 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). name from Remote list + printed label; NOT proven by tooltip",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K03",
+   "side": "front",
+   "panel_label": "SEND BUS FX",
+   "what": "Send to Bus FX of the selected drum",
+   "reason_name": "Drum 1 Bus FX Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.148,
+    0.665
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). name from Remote list + printed label; NOT proven by tooltip. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K06",
+   "side": "front",
+   "panel_label": "SEND AUX 1",
+   "what": "Send to Aux 1 of the selected drum",
+   "reason_name": "Drum 1 Aux 1 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.148,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). name from Remote list + printed label; NOT proven by tooltip. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K07",
+   "side": "front",
+   "panel_label": "SEND AUX 2",
+   "what": "Send to Aux 2 of the selected drum",
+   "reason_name": "Drum 1 Aux 2 Send",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.189,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). name from Remote list + printed label; NOT proven by tooltip. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K04",
+   "side": "front",
+   "panel_label": "PAN",
+   "what": "Pan of the selected drum",
+   "reason_name": "Drum 1 Pan",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.24,
+    0.665
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). name from Remote list + printed label; NOT proven by tooltip. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K08",
+   "side": "front",
+   "panel_label": "TONE",
+   "what": "Tone of the selected drum",
+   "reason_name": "Drum 1 Tone",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.24,
+    0.76
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). name from Remote list + printed label; NOT proven by tooltip. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K09",
+   "side": "front",
+   "panel_label": "LEVEL",
+   "what": "Level of the selected drum",
+   "reason_name": "Drum 1 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item exists for Drum 1-16; this one physical knob/button acts on the SELECTED drum (Drum 1 when checked). Name from Remote list + label; NOT proven by tooltip",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away); again 3 s, still none",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B26",
+   "side": "front",
+   "panel_label": "Q PITCH/DECAY",
+   "what": "Quick Edit mode: Drum Pitch/Decay Offset",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.108,
+    0.864
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Drum Pitch/Decay Offset\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B27",
+   "side": "front",
+   "panel_label": "Q SENDS",
+   "what": "Quick Edit mode: Drum Sends",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.201,
+    0.864
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Drum Sends\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B28",
+   "side": "front",
+   "panel_label": "Q PAN/LEVEL",
+   "what": "Quick Edit mode: Drum Pan/Level",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.253,
+    0.864
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Drum Pan/Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B29",
+   "side": "front",
+   "panel_label": "Q TONE/LEVEL",
+   "what": "Quick Edit mode: Drum Tone/Level",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.341,
+    0.864
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Drum Tone/Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B30",
+   "side": "front",
+   "panel_label": "SHOW DRUM AND FX",
+   "what": "Open / close the Drum and FX section",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.084,
+    0.926
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Show Drum And FX\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-D01",
+   "side": "back",
+   "panel_label": "KONG KIT tape (back)",
+   "what": "Patch name tape (back)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.028,
+    0.163
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J11",
+   "side": "back",
+   "panel_label": "Sequencer Control Gate In",
+   "what": "Gate input from a sequencer",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.124,
+    0.186
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sequencer Control Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J12",
+   "side": "back",
+   "panel_label": "Sequencer Control CV In",
+   "what": "CV (note) input from a sequencer",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.177,
+    0.186
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sequencer Control CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K01",
+   "side": "back",
+   "panel_label": "Master Volume trim",
+   "what": "Amount for Master Volume CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.108,
+    0.292
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Master Volume In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J29",
+   "side": "back",
+   "panel_label": "Master Volume In",
+   "what": "CV input: master volume",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.142,
+    0.292
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master Volume In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K02",
+   "side": "back",
+   "panel_label": "Pitch Wheel trim",
+   "what": "Amount for Pitch Wheel CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.108,
+    0.33
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Pitch Wheel In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J30",
+   "side": "back",
+   "panel_label": "Pitch Wheel In",
+   "what": "CV input: pitch wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.142,
+    0.33
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch Wheel In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K03",
+   "side": "back",
+   "panel_label": "Mod Wheel trim",
+   "what": "Amount for Mod Wheel CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.108,
+    0.37
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Mod Wheel In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J39",
+   "side": "back",
+   "panel_label": "Mod Wheel In",
+   "what": "CV input: mod wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.142,
+    0.37
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J44",
+   "side": "back",
+   "panel_label": "Aux Send 1 Left",
+   "what": "Aux send 1 output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.082,
+    0.462
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Send 1 Audio Out Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J45",
+   "side": "back",
+   "panel_label": "Aux Send 1 Right",
+   "what": "Aux send 1 output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.121,
+    0.462
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Send 1 Audio Out Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J46",
+   "side": "back",
+   "panel_label": "Aux Send 2 Left",
+   "what": "Aux send 2 output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.18,
+    0.462
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Send 2 Audio Out Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J47",
+   "side": "back",
+   "panel_label": "Aux Send 2 Right",
+   "what": "Aux send 2 output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.219,
+    0.462
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Send 2 Audio Out Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-B01",
+   "side": "back",
+   "panel_label": "(Show Drum and FX)",
+   "what": "Open / close the Drum and FX section",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.102,
+    0.54
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Show Drum And FX\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J01",
+   "side": "back",
+   "panel_label": "Pad 13 Gate In",
+   "what": "Gate input: pad 13",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.103
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 13 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J05",
+   "side": "back",
+   "panel_label": "Pad 13 Gate Out",
+   "what": "Gate output: pad 13",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.134
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 13 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J02",
+   "side": "back",
+   "panel_label": "Pad 14 Gate In",
+   "what": "Gate input: pad 14",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.103
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 14 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J06",
+   "side": "back",
+   "panel_label": "Pad 14 Gate Out",
+   "what": "Gate output: pad 14",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.134
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 14 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J03",
+   "side": "back",
+   "panel_label": "Pad 15 Gate In",
+   "what": "Gate input: pad 15",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.103
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 15 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J07",
+   "side": "back",
+   "panel_label": "Pad 15 Gate Out",
+   "what": "Gate output: pad 15",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.134
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 15 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J04",
+   "side": "back",
+   "panel_label": "Pad 16 Gate In",
+   "what": "Gate input: pad 16",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.103
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 16 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J08",
+   "side": "back",
+   "panel_label": "Pad 16 Gate Out",
+   "what": "Gate output: pad 16",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.134
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 16 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J13",
+   "side": "back",
+   "panel_label": "Pad 9 Gate In",
+   "what": "Gate input: pad 9",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.226
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 9 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J21",
+   "side": "back",
+   "panel_label": "Pad 9 Gate Out",
+   "what": "Gate output: pad 9",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 9 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J14",
+   "side": "back",
+   "panel_label": "Pad 10 Gate In",
+   "what": "Gate input: pad 10",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.226
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 10 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J22",
+   "side": "back",
+   "panel_label": "Pad 10 Gate Out",
+   "what": "Gate output: pad 10",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 10 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J15",
+   "side": "back",
+   "panel_label": "Pad 11 Gate In",
+   "what": "Gate input: pad 11",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.226
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 11 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J23",
+   "side": "back",
+   "panel_label": "Pad 11 Gate Out",
+   "what": "Gate output: pad 11",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 11 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J16",
+   "side": "back",
+   "panel_label": "Pad 12 Gate In",
+   "what": "Gate input: pad 12",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.226
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 12 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J24",
+   "side": "back",
+   "panel_label": "Pad 12 Gate Out",
+   "what": "Gate output: pad 12",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.256
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 12 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J31",
+   "side": "back",
+   "panel_label": "Pad 5 Gate In",
+   "what": "Gate input: pad 5",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.348
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 5 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J40",
+   "side": "back",
+   "panel_label": "Pad 5 Gate Out",
+   "what": "Gate output: pad 5",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.379
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 5 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J32",
+   "side": "back",
+   "panel_label": "Pad 6 Gate In",
+   "what": "Gate input: pad 6",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.348
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 6 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J41",
+   "side": "back",
+   "panel_label": "Pad 6 Gate Out",
+   "what": "Gate output: pad 6",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.379
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 6 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J33",
+   "side": "back",
+   "panel_label": "Pad 7 Gate In",
+   "what": "Gate input: pad 7",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.348
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 7 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J42",
+   "side": "back",
+   "panel_label": "Pad 7 Gate Out",
+   "what": "Gate output: pad 7",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.379
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 7 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J34",
+   "side": "back",
+   "panel_label": "Pad 8 Gate In",
+   "what": "Gate input: pad 8",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.348
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 8 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J43",
+   "side": "back",
+   "panel_label": "Pad 8 Gate Out",
+   "what": "Gate output: pad 8",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.379
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 8 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J48",
+   "side": "back",
+   "panel_label": "Pad 1 Gate In",
+   "what": "Gate input: pad 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.47
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J54",
+   "side": "back",
+   "panel_label": "Pad 1 Gate Out",
+   "what": "Gate output: pad 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.332,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J49",
+   "side": "back",
+   "panel_label": "Pad 2 Gate In",
+   "what": "Gate input: pad 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.47
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 2 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J55",
+   "side": "back",
+   "panel_label": "Pad 2 Gate Out",
+   "what": "Gate output: pad 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.435,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 2 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J50",
+   "side": "back",
+   "panel_label": "Pad 3 Gate In",
+   "what": "Gate input: pad 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.47
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 3 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J56",
+   "side": "back",
+   "panel_label": "Pad 3 Gate Out",
+   "what": "Gate output: pad 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.541,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 3 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J51",
+   "side": "back",
+   "panel_label": "Pad 4 Gate In",
+   "what": "Gate input: pad 4",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.47
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 4 Gate In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J57",
+   "side": "back",
+   "panel_label": "Pad 4 Gate Out",
+   "what": "Gate output: pad 4",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.646,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 4 Gate Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J09",
+   "side": "back",
+   "panel_label": "Audio Out 3",
+   "what": "Separate audio output for drum 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.877,
+    0.142
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 3\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J10",
+   "side": "back",
+   "panel_label": "Audio Out 4",
+   "what": "Separate audio output for drum 4",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.918,
+    0.142
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 4\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J17",
+   "side": "back",
+   "panel_label": "Audio Out 5",
+   "what": "Separate audio output for drum 5",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.778,
+    0.207
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 5\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J18",
+   "side": "back",
+   "panel_label": "Audio Out 6",
+   "what": "Separate audio output for drum 6",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.818,
+    0.207
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 6\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J19",
+   "side": "back",
+   "panel_label": "Audio Out 7",
+   "what": "Separate audio output for drum 7",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.877,
+    0.207
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 7\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J20",
+   "side": "back",
+   "panel_label": "Audio Out 8",
+   "what": "Separate audio output for drum 8",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.918,
+    0.207
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 8\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J25",
+   "side": "back",
+   "panel_label": "Audio Out 9",
+   "what": "Separate audio output for drum 9",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.778,
+    0.271
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 9\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J26",
+   "side": "back",
+   "panel_label": "Audio Out 10",
+   "what": "Separate audio output for drum 10",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.818,
+    0.271
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 10\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J27",
+   "side": "back",
+   "panel_label": "Audio Out 11",
+   "what": "Separate audio output for drum 11",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.877,
+    0.271
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 11\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J28",
+   "side": "back",
+   "panel_label": "Audio Out 12",
+   "what": "Separate audio output for drum 12",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.918,
+    0.271
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 12\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J35",
+   "side": "back",
+   "panel_label": "Audio Out 13",
+   "what": "Separate audio output for drum 13",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.778,
+    0.335
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 13\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J36",
+   "side": "back",
+   "panel_label": "Audio Out 14",
+   "what": "Separate audio output for drum 14",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.818,
+    0.335
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 14\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J37",
+   "side": "back",
+   "panel_label": "Audio Out 15",
+   "what": "Separate audio output for drum 15",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.877,
+    0.335
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 15\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J38",
+   "side": "back",
+   "panel_label": "Audio Out 16",
+   "what": "Separate audio output for drum 16",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.918,
+    0.335
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out 16\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J52",
+   "side": "back",
+   "panel_label": "Main Audio Out L",
+   "what": "Main audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.825,
+    0.442
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Main Audio Out Left\" (jack was empty)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J53",
+   "side": "back",
+   "panel_label": "Main Audio Out R",
+   "what": "Main audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.866,
+    0.442
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Main Audio Out Right\" (jack was empty)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J58",
+   "side": "back",
+   "panel_label": "Bus FX Audio In L",
+   "what": "Audio input into Bus FX, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.074,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Bus FX Audio Input Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J59",
+   "side": "back",
+   "panel_label": "Bus FX Audio In R",
+   "what": "Audio input into Bus FX, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.116,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Bus FX Audio Input Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K04",
+   "side": "back",
+   "panel_label": "Bus FX Parameter 1 trim",
+   "what": "Amount for Bus FX parameter 1 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.209,
+    0.792
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Bus FX Parameter 1 In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J60",
+   "side": "back",
+   "panel_label": "Bus FX Parameter 1 In",
+   "what": "CV input: Bus FX parameter 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.24,
+    0.794
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Bus FX Parameter 1 In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K07",
+   "side": "back",
+   "panel_label": "Bus FX Parameter 2 trim",
+   "what": "Amount for Bus FX parameter 2 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.209,
+    0.859
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Bus FX Paramater 2 In: 127\" (Reason's own spelling 'Paramater')",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J66",
+   "side": "back",
+   "panel_label": "Bus FX Parameter 2 In",
+   "what": "CV input: Bus FX parameter 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.24,
+    0.86
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Bus FX Paramater 2 In\" (Reason's own spelling 'Paramater')",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K05",
+   "side": "back",
+   "panel_label": "Bus FX to Master FX Level",
+   "what": "Level from Bus FX to Master FX (back copy)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.321,
+    0.797
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (the front knob of the same name did show a tooltip)",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J61",
+   "side": "back",
+   "panel_label": "Breakout Output L",
+   "what": "Breakout output to an external effect, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.429,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"To External FX Output Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J62",
+   "side": "back",
+   "panel_label": "Breakout Output R",
+   "what": "Breakout output to an external effect, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.471,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"To External FX Output Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J63",
+   "side": "back",
+   "panel_label": "Breakout Input L",
+   "what": "Breakout input from an external effect, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.577,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"From External FX Input Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J64",
+   "side": "back",
+   "panel_label": "Breakout Input R",
+   "what": "Breakout input from an external effect, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.617,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"From External FX Input Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K06",
+   "side": "back",
+   "panel_label": "Master FX Parameter 1 trim",
+   "what": "Amount for Master FX parameter 1 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.731,
+    0.792
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Master FX Parameter 1 In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J65",
+   "side": "back",
+   "panel_label": "Master FX Parameter 1 In",
+   "what": "CV input: Master FX parameter 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.762,
+    0.794
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master FX Parameter 1 In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-K08",
+   "side": "back",
+   "panel_label": "Master FX Parameter 2 trim",
+   "what": "Amount for Master FX parameter 2 CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.731,
+    0.859
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "trim next to CV jack; no Remote item",
+   "checked_2026_10_07": "tooltip \"Master FX Parameter 2 In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-B-J67",
+   "side": "back",
+   "panel_label": "Master FX Parameter 2 In",
+   "what": "CV input: Master FX parameter 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.762,
+    0.86
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master FX Parameter 2 In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-B101",
+   "side": "front",
+   "panel_label": "DM ON",
+   "what": "Drum module on/off",
+   "reason_name": "Drum 1 DM On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.067,
+    0.553
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum.",
+   "checked_2026_10_07": "tooltip \"Drum 1 DM On\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B102",
+   "side": "front",
+   "panel_label": "DM menu arrow",
+   "what": "Drum module menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.092,
+    0.553
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K101",
+   "side": "front",
+   "panel_label": "DM PITCH",
+   "what": "Drum module pitch",
+   "reason_name": "Drum 1 DM Pitch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.099,
+    0.601
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 DM Pitch: 0\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K102",
+   "side": "front",
+   "panel_label": "DM TUNE 1",
+   "what": "Bass drum tune 1 (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.166,
+    0.601
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Tune 1: 107\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K103",
+   "side": "front",
+   "panel_label": "DM TUNE 2",
+   "what": "Bass drum tune 2 (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.23,
+    0.601
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Tune 2: 60\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K104",
+   "side": "front",
+   "panel_label": "DM BEND AMOUNT",
+   "what": "Bass drum bend amount (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.295,
+    0.601
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Bend Amount: 57\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K105",
+   "side": "front",
+   "panel_label": "DM DAMP",
+   "what": "Bass drum damp (this module's variable knob)",
+   "reason_name": "Drum 1 DM Variable",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.36,
+    0.601
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 DM Variable: 82\" (printed label DAMP)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K106",
+   "side": "front",
+   "panel_label": "DM DECAY",
+   "what": "Drum module decay",
+   "reason_name": "Drum 1 DM Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.425,
+    0.601
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 DM Decay: 28\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K109",
+   "side": "front",
+   "panel_label": "DM DENSITY",
+   "what": "Beater density (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.1,
+    0.701
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Beater Density: 102\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K110",
+   "side": "front",
+   "panel_label": "DM SHELL LEVEL",
+   "what": "Shell level (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.425,
+    0.701
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Shell Level: 33\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K113",
+   "side": "front",
+   "panel_label": "DM TONE",
+   "what": "Beater tone (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.099,
+    0.787
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Beater Tone: 75\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K118",
+   "side": "front",
+   "panel_label": "DM BEATER LEVEL",
+   "what": "Beater level (module-only knob)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.099,
+    0.871
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. No Remote item.",
+   "checked_2026_10_07": "tooltip \"Beater Level: 64\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K119",
+   "side": "front",
+   "panel_label": "DM LEVEL",
+   "what": "Drum module level (dark knob)",
+   "reason_name": "Drum 1 DM Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.425,
+    0.871
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 DM Level: 100\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B103",
+   "side": "front",
+   "panel_label": "FX1 ON",
+   "what": "FX 1 on/off",
+   "reason_name": "Drum 1 FX1 On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.485,
+    0.553
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 On\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B105",
+   "side": "front",
+   "panel_label": "FX1 menu arrow",
+   "what": "FX 1 menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.51,
+    0.553
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B104",
+   "side": "front",
+   "panel_label": "FX1 HIT I",
+   "what": "FX 1 enable for hit type 1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.496,
+    0.58
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 Enable Hit 1\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B112",
+   "side": "front",
+   "panel_label": "FX1 HIT II",
+   "what": "FX 1 enable for hit type 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.496,
+    0.602
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 Enable Hit 2\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B113",
+   "side": "front",
+   "panel_label": "FX1 HIT III",
+   "what": "FX 1 enable for hit type 3",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.496,
+    0.623
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 Enable Hit 3\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B114",
+   "side": "front",
+   "panel_label": "FX1 HIT IV",
+   "what": "FX 1 enable for hit type 4",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.496,
+    0.643
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 Enable Hit 4\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D101",
+   "side": "front",
+   "panel_label": "FX1 waveform icon",
+   "what": "Shows the FX 1 tone waveform",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.558,
+    0.577
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K107",
+   "side": "front",
+   "panel_label": "FX1 PITCH",
+   "what": "FX 1 tone: pitch (first FX knob)",
+   "reason_name": "Drum 1 FX1 P1",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.537,
+    0.619
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Drum module of the SELECTED drum (Drum 1 = PM Bass Drum when checked). The module and FX shown change with the drum. Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 P1: 6\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K111",
+   "side": "front",
+   "panel_label": "FX1 ATTACK",
+   "what": "FX 1 tone: attack",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.503,
+    0.738
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Attack: 20\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K112",
+   "side": "front",
+   "panel_label": "FX1 DECAY",
+   "what": "FX 1 tone: decay (second FX knob)",
+   "reason_name": "Drum 1 FX1 P2",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.555,
+    0.738
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX1 P2: 59\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K116",
+   "side": "front",
+   "panel_label": "FX1 BEND DEC",
+   "what": "FX 1 tone: bend decay",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.503,
+    0.806
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Bend Decay: 25\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K117",
+   "side": "front",
+   "panel_label": "FX1 BEND",
+   "what": "FX 1 tone: bend",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.555,
+    0.806
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Bend: 0\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K120",
+   "side": "front",
+   "panel_label": "FX1 SHAPE",
+   "what": "FX 1 tone: shape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.503,
+    0.873
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Shape: 67\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K121",
+   "side": "front",
+   "panel_label": "FX1 LEVEL",
+   "what": "FX 1 tone: level",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.555,
+    0.873
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Level: 72\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B106",
+   "side": "front",
+   "panel_label": "FX2 ON",
+   "what": "FX 2 on/off",
+   "reason_name": "Drum 1 FX2 On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.601,
+    0.553
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Drum 1 FX2 On\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B107",
+   "side": "front",
+   "panel_label": "FX2 menu arrow",
+   "what": "FX 2 menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.625,
+    0.553
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D104",
+   "side": "front",
+   "panel_label": "FX2 blank plate",
+   "what": "FX 2 slot (empty: 'Blank Plate')",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.644,
+    0.719
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (slot empty)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B108",
+   "side": "front",
+   "panel_label": "BUS FX ON",
+   "what": "Bus FX on/off",
+   "reason_name": "Bus FX On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.74,
+    0.553
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Bus FX On\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B109",
+   "side": "front",
+   "panel_label": "BUS FX menu arrow",
+   "what": "Bus FX menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.765,
+    0.553
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D102",
+   "side": "front",
+   "panel_label": "BUS FX lights",
+   "what": "Bus FX indicator lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.808,
+    0.552
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D105",
+   "side": "front",
+   "panel_label": "BUS FX blank plate",
+   "what": "Bus FX slot (empty: 'Blank Plate')",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.785,
+    0.719
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (slot empty)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B110",
+   "side": "front",
+   "panel_label": "MASTER FX ON",
+   "what": "Master FX on/off",
+   "reason_name": "Master FX On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.856,
+    0.553
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Master FX On\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B111",
+   "side": "front",
+   "panel_label": "MASTER FX menu arrow",
+   "what": "Master FX menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.88,
+    0.553
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D103",
+   "side": "front",
+   "panel_label": "MASTER FX lights",
+   "what": "Master FX indicator lights",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.925,
+    0.552
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K108",
+   "side": "front",
+   "panel_label": "COMP AMOUNT",
+   "what": "Master compressor: amount",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.899,
+    0.647
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Amount: 29\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K114",
+   "side": "front",
+   "panel_label": "COMP ATTACK",
+   "what": "Master compressor: attack (first Master FX parameter)",
+   "reason_name": "Master FX P1",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.874,
+    0.761
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Master FX P1: 67\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K115",
+   "side": "front",
+   "panel_label": "COMP RELEASE",
+   "what": "Master compressor: release (second Master FX parameter)",
+   "reason_name": "Master FX P2",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.926,
+    0.761
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Master FX P2: 67\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K122",
+   "side": "front",
+   "panel_label": "COMP MAKE UP GAIN",
+   "what": "Master compressor: make-up gain",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.899,
+    0.863
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "No Remote item.",
+   "checked_2026_10_07": "tooltip \"Make Up Gain: 25\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D106",
+   "side": "front",
+   "panel_label": "COMP icon",
+   "what": "Compressor corner icon",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.942,
+    0.913
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "low",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K124",
+   "side": "front",
+   "panel_label": "BUS FX TO MASTER FX",
+   "what": "Level from Bus FX to Master FX",
+   "reason_name": "Level Bus FX to Master FX",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.811,
+    0.952
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote item exists in Reason but is beyond the 48 knob slots of our remotemap (not mapped)",
+   "checked_2026_10_07": "tooltip \"Level from Bus FX to Master FX: 100\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K123",
+   "side": "front",
+   "panel_label": "PITCH BEND RANGE",
+   "what": "Pitch bend range of the selected drum",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.238,
+    0.952
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip name; not a Remote item",
+   "checked_2026_10_07": "tooltip \"Drum 1 Pitch Bend Range: 6\"",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D107",
+   "side": "front",
+   "panel_label": "DRUM OUTPUT menu",
+   "what": "Which output the selected drum plays to (shows 'Master FX')",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.593,
+    0.952
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B201",
+   "side": "front",
+   "panel_label": "PAD MUTE",
+   "what": "Mute the selected pad",
+   "reason_name": "Pad 1 Mute",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.208,
+    0.114
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote has Pad 1-16 Mute; one button acts on the selected pad",
+   "checked_2026_10_07": "tooltip \"Pad 1 Mute\" (selected pad was 1)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B202",
+   "side": "front",
+   "panel_label": "PAD CLR",
+   "what": "Clear all mutes and solos",
+   "reason_name": "Set all Mutes and Solos to Off",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.425,
+    0.114
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Set all Mutes and Solos to Off\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B203",
+   "side": "front",
+   "panel_label": "PAD SOLO",
+   "what": "Solo the selected pad",
+   "reason_name": "Pad 1 Solo",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.114
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "Remote has Pad 1-16 Solo; one button acts on the selected pad",
+   "checked_2026_10_07": "tooltip \"Pad 1 Solo\" (selected pad was 1)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B204",
+   "side": "front",
+   "panel_label": "PAD SETTINGS Q",
+   "what": "Quick Edit mode: Pad Mute/Solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.875,
+    0.114
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Pad Mute/Solo\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B205",
+   "side": "front",
+   "panel_label": "GROUP A",
+   "what": "Pad group A (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.246
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group A\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B206",
+   "side": "front",
+   "panel_label": "GROUP B",
+   "what": "Pad group B (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.246
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group B\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B207",
+   "side": "front",
+   "panel_label": "GROUP C",
+   "what": "Pad group C (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.246
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group C\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B208",
+   "side": "front",
+   "panel_label": "GROUP D",
+   "what": "Pad group D (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.304
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group D\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B209",
+   "side": "front",
+   "panel_label": "GROUP E",
+   "what": "Pad group E (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.304
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group E\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B210",
+   "side": "front",
+   "panel_label": "GROUP F",
+   "what": "Pad group F (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.304
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group F\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B211",
+   "side": "front",
+   "panel_label": "GROUP G",
+   "what": "Pad group G (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.36
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group G\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B212",
+   "side": "front",
+   "panel_label": "GROUP H",
+   "what": "Pad group H (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.36
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group H\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B213",
+   "side": "front",
+   "panel_label": "GROUP I",
+   "what": "Pad group I (selected pad joins it)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.36
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Group I\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D201",
+   "side": "front",
+   "panel_label": "GROUP MUTE light",
+   "what": "Pad group mode light: MUTE",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.708,
+    0.246
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D202",
+   "side": "front",
+   "panel_label": "GROUP LINK light",
+   "what": "Pad group mode light: LINK",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.708,
+    0.302
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D203",
+   "side": "front",
+   "panel_label": "GROUP ALT light",
+   "what": "Pad group mode light: ALT",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.708,
+    0.36
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B214",
+   "side": "front",
+   "panel_label": "PAD GROUP Q",
+   "what": "Quick Edit mode: Pad Group",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.875,
+    0.36
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Pad Group\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B215",
+   "side": "front",
+   "panel_label": "ASSIGN 13",
+   "what": "Drum assignment: give the selected pad drum 13",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.279,
+    0.5
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B216",
+   "side": "front",
+   "panel_label": "ASSIGN 14",
+   "what": "Drum assignment: give the selected pad drum 14",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.5
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B217",
+   "side": "front",
+   "panel_label": "ASSIGN 15",
+   "what": "Drum assignment: give the selected pad drum 15",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.5
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B218",
+   "side": "front",
+   "panel_label": "ASSIGN 16",
+   "what": "Drum assignment: give the selected pad drum 16",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.5
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B219",
+   "side": "front",
+   "panel_label": "ASSIGN 9",
+   "what": "Drum assignment: give the selected pad drum 9",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.279,
+    0.558
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B220",
+   "side": "front",
+   "panel_label": "ASSIGN 10",
+   "what": "Drum assignment: give the selected pad drum 10",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.558
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B221",
+   "side": "front",
+   "panel_label": "ASSIGN 11",
+   "what": "Drum assignment: give the selected pad drum 11",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.558
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B222",
+   "side": "front",
+   "panel_label": "ASSIGN 12",
+   "what": "Drum assignment: give the selected pad drum 12",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.558
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B223",
+   "side": "front",
+   "panel_label": "ASSIGN 5",
+   "what": "Drum assignment: give the selected pad drum 5",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.279,
+    0.614
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B224",
+   "side": "front",
+   "panel_label": "ASSIGN 6",
+   "what": "Drum assignment: give the selected pad drum 6",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.614
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B225",
+   "side": "front",
+   "panel_label": "ASSIGN 7",
+   "what": "Drum assignment: give the selected pad drum 7",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.614
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B226",
+   "side": "front",
+   "panel_label": "ASSIGN 8",
+   "what": "Drum assignment: give the selected pad drum 8",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.614
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B227",
+   "side": "front",
+   "panel_label": "ASSIGN 1",
+   "what": "Drum assignment: give the selected pad drum 1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.279,
+    0.672
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B228",
+   "side": "front",
+   "panel_label": "ASSIGN 2",
+   "what": "Drum assignment: give the selected pad drum 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.672
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B229",
+   "side": "front",
+   "panel_label": "ASSIGN 3",
+   "what": "Drum assignment: give the selected pad drum 3",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.525,
+    0.672
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B230",
+   "side": "front",
+   "panel_label": "ASSIGN 4",
+   "what": "Drum assignment: give the selected pad drum 4",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.646,
+    0.672
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Drum Assignment\" (all 16 buttons show this same text)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B231",
+   "side": "front",
+   "panel_label": "DRUM ASSIGNMENT Q",
+   "what": "Quick Edit mode: Pad Hit/Drum Assignment",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.875,
+    0.672
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Pad Drum Assignment\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B232",
+   "side": "front",
+   "panel_label": "HIT TYPE I",
+   "what": "Hit type 1 of the selected pad",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.167,
+    0.798
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Hit Type\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B233",
+   "side": "front",
+   "panel_label": "HIT TYPE II",
+   "what": "Hit type 2 of the selected pad",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.167,
+    0.846
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Hit Type\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B234",
+   "side": "front",
+   "panel_label": "HIT TYPE III",
+   "what": "Hit type 3 of the selected pad",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.167,
+    0.898
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Hit Type\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B235",
+   "side": "front",
+   "panel_label": "HIT TYPE IV",
+   "what": "Hit type 4 of the selected pad",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.167,
+    0.948
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pad 1 Hit Type\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-D204",
+   "side": "front",
+   "panel_label": "HIT TYPE display",
+   "what": "Hit type name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.508,
+    0.826
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display)",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-B236",
+   "side": "front",
+   "panel_label": "HIT TYPE Q",
+   "what": "Quick Edit mode: Pad Hit Assignment",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.875,
+    0.948
+   ],
+   "how": "click only",
+   "checked_2026_10_08": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Quick Edit Mode: Pad Hit Assignment\"",
+   "view": "Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)"
+  },
+  {
+   "code": "KONG-F-K301",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 2)",
+   "what": "Level of drum 2: same physical knob as KONG-F-K09, aimed at drum 2 when that drum is selected",
+   "reason_name": "Drum 2 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 2 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K302",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 2)",
+   "what": "Pitch offset of drum 2: same physical knob as KONG-F-K02, aimed at drum 2 when that drum is selected",
+   "reason_name": "Drum 2 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 2 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K303",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 2)",
+   "what": "Decay offset of drum 2: same physical knob as KONG-F-K05, aimed at drum 2 when that drum is selected",
+   "reason_name": "Drum 2 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 2 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K304",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 3)",
+   "what": "Level of drum 3: same physical knob as KONG-F-K09, aimed at drum 3 when that drum is selected",
+   "reason_name": "Drum 3 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 3 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K305",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 3)",
+   "what": "Pitch offset of drum 3: same physical knob as KONG-F-K02, aimed at drum 3 when that drum is selected",
+   "reason_name": "Drum 3 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 3 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K306",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 3)",
+   "what": "Decay offset of drum 3: same physical knob as KONG-F-K05, aimed at drum 3 when that drum is selected",
+   "reason_name": "Drum 3 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 3 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K307",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 4)",
+   "what": "Level of drum 4: same physical knob as KONG-F-K09, aimed at drum 4 when that drum is selected",
+   "reason_name": "Drum 4 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 4 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K308",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 4)",
+   "what": "Pitch offset of drum 4: same physical knob as KONG-F-K02, aimed at drum 4 when that drum is selected",
+   "reason_name": "Drum 4 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 4 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K309",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 4)",
+   "what": "Decay offset of drum 4: same physical knob as KONG-F-K05, aimed at drum 4 when that drum is selected",
+   "reason_name": "Drum 4 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 4 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K310",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 5)",
+   "what": "Level of drum 5: same physical knob as KONG-F-K09, aimed at drum 5 when that drum is selected",
+   "reason_name": "Drum 5 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 5 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K311",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 5)",
+   "what": "Pitch offset of drum 5: same physical knob as KONG-F-K02, aimed at drum 5 when that drum is selected",
+   "reason_name": "Drum 5 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 5 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K312",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 5)",
+   "what": "Decay offset of drum 5: same physical knob as KONG-F-K05, aimed at drum 5 when that drum is selected",
+   "reason_name": "Drum 5 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 5 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K313",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 6)",
+   "what": "Level of drum 6: same physical knob as KONG-F-K09, aimed at drum 6 when that drum is selected",
+   "reason_name": "Drum 6 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 6 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K314",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 6)",
+   "what": "Pitch offset of drum 6: same physical knob as KONG-F-K02, aimed at drum 6 when that drum is selected",
+   "reason_name": "Drum 6 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 6 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K315",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 6)",
+   "what": "Decay offset of drum 6: same physical knob as KONG-F-K05, aimed at drum 6 when that drum is selected",
+   "reason_name": "Drum 6 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 6 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K316",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 7)",
+   "what": "Level of drum 7: same physical knob as KONG-F-K09, aimed at drum 7 when that drum is selected",
+   "reason_name": "Drum 7 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 7 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K317",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 7)",
+   "what": "Pitch offset of drum 7: same physical knob as KONG-F-K02, aimed at drum 7 when that drum is selected",
+   "reason_name": "Drum 7 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 7 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K318",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 7)",
+   "what": "Decay offset of drum 7: same physical knob as KONG-F-K05, aimed at drum 7 when that drum is selected",
+   "reason_name": "Drum 7 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 7 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K319",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 8)",
+   "what": "Level of drum 8: same physical knob as KONG-F-K09, aimed at drum 8 when that drum is selected",
+   "reason_name": "Drum 8 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 8 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K320",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 8)",
+   "what": "Pitch offset of drum 8: same physical knob as KONG-F-K02, aimed at drum 8 when that drum is selected",
+   "reason_name": "Drum 8 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 8 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K321",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 8)",
+   "what": "Decay offset of drum 8: same physical knob as KONG-F-K05, aimed at drum 8 when that drum is selected",
+   "reason_name": "Drum 8 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 8 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K322",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 9)",
+   "what": "Level of drum 9: same physical knob as KONG-F-K09, aimed at drum 9 when that drum is selected",
+   "reason_name": "Drum 9 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 9 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K323",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 9)",
+   "what": "Pitch offset of drum 9: same physical knob as KONG-F-K02, aimed at drum 9 when that drum is selected",
+   "reason_name": "Drum 9 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 9 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K324",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 9)",
+   "what": "Decay offset of drum 9: same physical knob as KONG-F-K05, aimed at drum 9 when that drum is selected",
+   "reason_name": "Drum 9 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 9 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K325",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 10)",
+   "what": "Level of drum 10: same physical knob as KONG-F-K09, aimed at drum 10 when that drum is selected",
+   "reason_name": "Drum 10 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 10 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K326",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 10)",
+   "what": "Pitch offset of drum 10: same physical knob as KONG-F-K02, aimed at drum 10 when that drum is selected",
+   "reason_name": "Drum 10 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 10 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K327",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 10)",
+   "what": "Decay offset of drum 10: same physical knob as KONG-F-K05, aimed at drum 10 when that drum is selected",
+   "reason_name": "Drum 10 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 10 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K328",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 11)",
+   "what": "Level of drum 11: same physical knob as KONG-F-K09, aimed at drum 11 when that drum is selected",
+   "reason_name": "Drum 11 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 11 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K329",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 11)",
+   "what": "Pitch offset of drum 11: same physical knob as KONG-F-K02, aimed at drum 11 when that drum is selected",
+   "reason_name": "Drum 11 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 11 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K330",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 11)",
+   "what": "Decay offset of drum 11: same physical knob as KONG-F-K05, aimed at drum 11 when that drum is selected",
+   "reason_name": "Drum 11 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 11 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K331",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 12)",
+   "what": "Level of drum 12: same physical knob as KONG-F-K09, aimed at drum 12 when that drum is selected",
+   "reason_name": "Drum 12 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 34,
+   "cc": 63,
+   "feedback_cc": 111,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 12 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K332",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 12)",
+   "what": "Pitch offset of drum 12: same physical knob as KONG-F-K02, aimed at drum 12 when that drum is selected",
+   "reason_name": "Drum 12 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 35,
+   "cc": 64,
+   "feedback_cc": 112,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 12 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K333",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 12)",
+   "what": "Decay offset of drum 12: same physical knob as KONG-F-K05, aimed at drum 12 when that drum is selected",
+   "reason_name": "Drum 12 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 36,
+   "cc": 65,
+   "feedback_cc": 113,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 12 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K334",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 13)",
+   "what": "Level of drum 13: same physical knob as KONG-F-K09, aimed at drum 13 when that drum is selected",
+   "reason_name": "Drum 13 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 37,
+   "cc": 66,
+   "feedback_cc": 114,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 13 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K335",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 13)",
+   "what": "Pitch offset of drum 13: same physical knob as KONG-F-K02, aimed at drum 13 when that drum is selected",
+   "reason_name": "Drum 13 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 38,
+   "cc": 67,
+   "feedback_cc": 115,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 13 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K336",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 13)",
+   "what": "Decay offset of drum 13: same physical knob as KONG-F-K05, aimed at drum 13 when that drum is selected",
+   "reason_name": "Drum 13 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 39,
+   "cc": 68,
+   "feedback_cc": 116,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 13 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K337",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 14)",
+   "what": "Level of drum 14: same physical knob as KONG-F-K09, aimed at drum 14 when that drum is selected",
+   "reason_name": "Drum 14 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 40,
+   "cc": 69,
+   "feedback_cc": 117,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 14 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K338",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 14)",
+   "what": "Pitch offset of drum 14: same physical knob as KONG-F-K02, aimed at drum 14 when that drum is selected",
+   "reason_name": "Drum 14 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 41,
+   "cc": 70,
+   "feedback_cc": 118,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 14 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K339",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 14)",
+   "what": "Decay offset of drum 14: same physical knob as KONG-F-K05, aimed at drum 14 when that drum is selected",
+   "reason_name": "Drum 14 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 42,
+   "cc": 71,
+   "feedback_cc": 119,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 14 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K340",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 15)",
+   "what": "Level of drum 15: same physical knob as KONG-F-K09, aimed at drum 15 when that drum is selected",
+   "reason_name": "Drum 15 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 43,
+   "cc": 72,
+   "feedback_cc": 120,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 15 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K341",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 15)",
+   "what": "Pitch offset of drum 15: same physical knob as KONG-F-K02, aimed at drum 15 when that drum is selected",
+   "reason_name": "Drum 15 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 44,
+   "cc": 73,
+   "feedback_cc": 121,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 15 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K342",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 15)",
+   "what": "Decay offset of drum 15: same physical knob as KONG-F-K05, aimed at drum 15 when that drum is selected",
+   "reason_name": "Drum 15 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 45,
+   "cc": 74,
+   "feedback_cc": 122,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 15 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K343",
+   "side": "front",
+   "panel_label": "LEVEL (as Drum 16)",
+   "what": "Level of drum 16: same physical knob as KONG-F-K09, aimed at drum 16 when that drum is selected",
+   "reason_name": "Drum 16 Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 46,
+   "cc": 75,
+   "feedback_cc": 123,
+   "pos": [
+    0.302,
+    0.724
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K09 (drum 16 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K344",
+   "side": "front",
+   "panel_label": "OFFSET PITCH (as Drum 16)",
+   "what": "Pitch offset of drum 16: same physical knob as KONG-F-K02, aimed at drum 16 when that drum is selected",
+   "reason_name": "Drum 16 Pitch Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 47,
+   "cc": 76,
+   "feedback_cc": 124,
+   "pos": [
+    0.096,
+    0.665
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K02 (drum 16 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  },
+  {
+   "code": "KONG-F-K345",
+   "side": "front",
+   "panel_label": "OFFSET DECAY (as Drum 16)",
+   "what": "Decay offset of drum 16: same physical knob as KONG-F-K05, aimed at drum 16 when that drum is selected",
+   "reason_name": "Drum 16 Decay Offset",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 48,
+   "cc": 77,
+   "feedback_cc": 125,
+   "pos": [
+    0.096,
+    0.76
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_07": "not separately hovered: same knob as KONG-F-K05 (drum 16 must be selected first). Name+slot from the remotemap and Remote list",
+   "confidence": "medium",
+   "confidence_reason": "alias of the one LCD knob; no own box in the picture",
+   "view": "main panel"
+  }
+ ]
+}

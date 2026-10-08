@@ -1,0 +1,199 @@
+B|DM ON|Drum 1 DM On
+B|DM drop|(no tooltip)
+B|DM Pitch|Drum 1 DM Pitch: 0
+B|DM Tune1|Tune 1: 107
+B|DM Tune2|Tune 2: 60
+B|DM BendAmt|Bend Amount: 57
+B|DM Damp|Drum 1 DM Variable: 82
+B|DM Decay|Drum 1 DM Decay: 28
+B|DM Density|Beater Density: 102
+B|DM Shell|Shell Level: 33
+B|DM Tone|Beater Tone: 75
+B|DM BeaterLevel|Beater Level: 64
+B|DM Level|Drum 1 DM Level: 100
+B|FX1 ON|Drum 1 FX1 On
+B|FX1 drop|(no tooltip)
+B|FX1 I|Drum 1 FX1 Enable Hit 1
+B|FX1 II|Drum 1 FX1 Enable Hit 2
+B|FX1 III|Drum 1 FX1 Enable Hit 3
+B|FX1 IV|Drum 1 FX1 Enable Hit 4
+B|FX1 Pitch|Drum 1 FX1 P1: 6
+B|FX1 Attack|Attack: 20
+B|FX1 Decay|Drum 1 FX1 P2: 59
+B|FX1 BendDec|Bend Decay: 25
+B|FX1 Bend|Bend: 0
+B|FX1 Shape|Shape: 67
+B|FX1 Level|Level: 72
+B|FX1 sine|(no tooltip)
+B|FX2 ON|Drum 1 FX2 On
+B|FX2 drop|(no tooltip)
+B|FX2 plate|(no tooltip)
+B|BUS ON|Bus FX On
+B|BUS drop|(no tooltip)
+B|BUS lights|(no tooltip)
+B|BUS plate|(no tooltip)
+B|MFX ON|Master FX On
+B|MFX drop|(no tooltip)
+B|MFX lights|(no tooltip)
+B|MFX Amount|Amount: 29
+B|MFX Attack|Master FX P1: 67
+B|MFX Release|Master FX P2: 67
+B|MFX Makeup|Make Up Gain: 25
+B|MFX icon|(no tooltip)
+B|BUS2MFX|Level from Bus FX to Master FX: 100
+B|PBRange|Drum 1 Pitch Bend Range: 6
+B|DrumOut|(no tooltip)
+A|fold|(no tooltip)
+A|patchdisp|(no tooltip)
+A|up|Select previous patch
+A|down|Select next patch
+A|folder|Browse patch
+A|disk|Save patch
+A|noteon|(no tooltip)
+A|tape|Kong Kit
+A|pitchbend|(no tooltip, first try)
+A|modwheel|(no tooltip, first try)
+A|master|Master Level: 100
+A|meter|Master Level Output Left
+A|pitchbend2|Pitch Bend: 0 (hover lower on the wheel; first try at centre showed nothing)
+A|modwheel2|Mod Wheel: 0
+A|meterR|Master Level Output Right
+A|pad13|(no tooltip)
+A|pad1|(no tooltip)
+A|pad7|(no tooltip)
+A|MUTE|Pad 1 Mute
+A|CLR|Set all Mutes and Solos to Off
+A|SOLO|Pad 1 Solo
+A|PSQ|Quick Edit Mode: Pad Mute/Solo
+A|pad14|(no tooltip)
+A|pad15|(no tooltip)
+A|pad16|(no tooltip)
+A|pad9|(no tooltip)
+A|pad10|(no tooltip)
+A|pad11|(no tooltip)
+A|pad12|(no tooltip)
+A|pad5|(no tooltip)
+A|pad6|(no tooltip)
+A|pad8|(no tooltip)
+A|pad2|(no tooltip)
+A|pad3|(no tooltip)
+A|pad4|(no tooltip)
+A|gA|Pad 1 Group A
+A|gB|Pad 1 Group B
+A|gC|Pad 1 Group C
+A|gD|Pad 1 Group D
+A|gE|Pad 1 Group E
+A|gF|Pad 1 Group F
+A|gG|Pad 1 Group G
+A|gH|Pad 1 Group H
+A|gI|Pad 1 Group I
+A|gMuteLight|(no tooltip)
+A|gLinkLight|(no tooltip)
+A|gAltLight|(no tooltip)
+A|gQ|Quick Edit Mode: Pad Group
+A|da13|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da14|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da15|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da16|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da9|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da10|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da11|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da12|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da5|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da6|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da7|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da8|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da1|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da2|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da3|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|da4|Pad 1 Drum Assignment (all 16 buttons show the same tooltip)
+A|hitI|Pad 1 Hit Type
+A|hitII|Pad 1 Hit Type
+A|hitIII|Pad 1 Hit Type
+A|hitIV|Pad 1 Hit Type
+A|hitdisp|(no tooltip)
+A|hitQ|Quick Edit Mode: Pad Hit Assignment
+A|DAQ|Quick Edit Mode: Pad Drum Assignment
+A|sdUpDown|Select Previous Drum Patch (upper half of the stepper; lower half not hovered)
+A|sdFolder|Browse Drum Patch
+A|sdDisk|Save Drum Patch
+A|sdWave|Create Sample Player by Sampling
+A|sdName|(no tooltip)
+A|drumnum|(no tooltip)
+A|drumInd|(no tooltip)
+A|sdDown|Select Next Drum Patch
+A|offPitch|(no tooltip; hovered 1.3 s, again 2-3 s, still none)
+A|offDecay|(no tooltip; hovered 1.3 s)
+A|sendBus|(no tooltip; hovered 1.3 s)
+A|sendAux1|(no tooltip; hovered 1.3 s)
+A|sendAux2|(no tooltip; hovered 1.3 s)
+A|pan|(no tooltip; hovered 1.3 s)
+A|tone|(no tooltip; hovered 1.3 s)
+A|level|(no tooltip; hovered 1.3 s, again 3 s, still none)
+A|q1|Quick Edit Mode: Drum Pitch/Decay Offset
+A|q2|Quick Edit Mode: Drum Sends
+A|q3|Quick Edit Mode: Drum Pan/Level
+A|q4|Quick Edit Mode: Drum Tone/Level
+A|showDrum|Show Drum And FX
+K|tape|(no tooltip)
+K|seqGate|Sequencer Control Gate In
+K|seqCV|Sequencer Control CV In
+K|modVolK|Master Volume In: 127
+K|modVolJ|Master Volume In
+K|modPitK|Pitch Wheel In: 127
+K|modPitJ|Pitch Wheel In
+K|modModK|Mod Wheel In: 127
+K|modModJ|Mod Wheel In
+K|aux1L|Send 1 Audio Out Left
+K|aux1R|Send 1 Audio Out Right
+K|aux2L|Send 2 Audio Out Left
+K|aux2R|Send 2 Audio Out Right
+K|showDrum|Show Drum And FX
+K|g13in|Pad 13 Gate In
+K|g13out|Pad 13 Gate Out
+K|g14in|Pad 14 Gate In
+K|g14out|Pad 14 Gate Out
+K|g15in|Pad 15 Gate In
+K|g15out|Pad 15 Gate Out
+K|g16in|Pad 16 Gate In
+K|g16out|Pad 16 Gate Out
+K|g9in|Pad 9 Gate In
+K|g9out|Pad 9 Gate Out
+K|g10in|Pad 10 Gate In
+K|g10out|Pad 10 Gate Out
+K|g11in|Pad 11 Gate In
+K|g11out|Pad 11 Gate Out
+K|g12in|Pad 12 Gate In
+K|g12out|Pad 12 Gate Out
+K|g5in|Pad 5 Gate In
+K|g5out|Pad 5 Gate Out
+K|g6in|Pad 6 Gate In
+K|g6out|Pad 6 Gate Out
+K|g7in|Pad 7 Gate In
+K|g7out|Pad 7 Gate Out
+K|g8in|Pad 8 Gate In
+K|g8out|Pad 8 Gate Out
+K|g1in|Pad 1 Gate In
+K|g1out|Pad 1 Gate Out
+K|g2in|Pad 2 Gate In
+K|g2out|Pad 2 Gate Out
+K|g3in|Pad 3 Gate In
+K|g3out|Pad 3 Gate Out
+K|g4in|Pad 4 Gate In
+K|g4out|Pad 4 Gate Out
+K|ao3|Audio Out 3
+K|ao4|Audio Out 4
+K|ao5|Audio Out 5
+K|ao6|Audio Out 6
+K|ao7|Audio Out 7
+K|ao8|Audio Out 8
+K|ao9|Audio Out 9
+K|ao10|Audio Out 10
+K|ao11|Audio Out 11
+K|ao12|Audio Out 12
+K|ao13|Audio Out 13
+K|ao14|Audio Out 14
+K|ao15|Audio Out 15
+K|ao16|Audio Out 16
+K|mainL|Main Audio Out Left
+K|mainR|Main Audio Out Right

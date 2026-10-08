@@ -1,0 +1,33 @@
+fold|(no tooltip)
+range|(no tooltip)
+rangearrows|(no tooltip)
+patchdisp|(no tooltip)
+patcharrows|Select previous patch (upper half)
+patchfolder|Browse patch
+patchdisk|Save patch
+tape|(no tooltip)
+wheelP|(no tooltip)
+wheelM|(no tooltip)
+poly|(no tooltip)
+polyarrows|(no tooltip)
+relpoly|(no tooltip)
+relarrows|(no tooltip)
+kmLegato|(no tooltip)
+kmRetrig|(no tooltip)
+kmPoly|(no tooltip)
+kmMODE|Key Mode
+portaK|Portamento: 40
+portaSw|Portamento Mode: 0
+showprog|(no tooltip)
+trigMIDI|Note Trigger MIDI
+trigSTEP|Note Trigger Step Seq
+noteon|(no tooltip)
+rot1|(no tooltip)
+rot1label|(no tooltip)
+rot2|(no tooltip)
+rot2label|(no tooltip)
+btn1|Button 1
+btn1disp|(no tooltip)
+btn1arrows|(no tooltip)
+btn1label|(no tooltip)
+btn2|Button 2

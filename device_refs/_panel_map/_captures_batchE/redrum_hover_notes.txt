@@ -1,0 +1,312 @@
+RB|c1L|Ch 1 Left
+RB|c1R|Ch 1 Right
+RB|c2L|Ch 2 Left
+RB|c2R|Ch 2 Right
+RB|c3L|Ch 3 Left
+RB|c3R|Ch 3 Right
+RB|c4L|Ch 4 Left
+RB|c4R|Ch 4 Right
+RB|c5L|Ch 5 Left
+RB|c5R|Ch 5 Right
+RB|c6L|Ch 6 Left
+RB|c6R|Ch 6 Right
+RB|c7L|Ch 7 Left
+RB|c7R|Ch 7 Right
+RB|c8L|Ch 8 Left
+RB|c8R|Ch 8 Right
+RB|c9L|Ch 9 Left
+RB|c9R|Ch 9 Right
+RB|c10L|Ch 10 Left
+RB|c10R|Ch 10 Right
+RB|c1GO|Gate Out 1
+RB|c1GI|Gate In 1
+RB|c2GO|Gate Out 2
+RB|c2GI|Gate In 2
+RB|c3GO|Gate Out 3
+RB|c3GI|Gate In 3
+RB|c4GO|Gate Out 4
+RB|c4GI|Gate In 4
+RB|c5GO|Gate Out 5
+RB|c5GI|Gate In 5
+RB|c6GO|Gate Out 6
+RB|c6GI|Gate In 6
+RB|c7GO|Gate Out 7
+RB|c7GI|Gate In 7
+RB|c8GO|Gate Out 8
+RB|c8GI|Gate In 8
+RB|c9GO|Gate Out 9
+RB|c9GI|Gate In 9
+RB|c10GO|Gate Out 10
+RB|c10GI|Gate In 10
+RB|c1CV|Pitch 1 CV
+RB|c1TR|Pitch 1 CV: 127
+RB|c2CV|Pitch 2 CV
+RB|c2TR|Pitch 2 CV: 127
+RB|c3CV|Pitch 3 CV
+RB|c3TR|Pitch 3 CV: 127
+RB|c4CV|Pitch 4 CV
+RB|c4TR|Pitch 4 CV: 127
+RB|c5CV|Pitch 5 CV
+RB|c5TR|Pitch 5 CV: 127
+RB|c6CV|Pitch 6 CV
+RB|c6TR|Pitch 6 CV: 127
+RB|c7CV|Pitch 7 CV
+RB|c7TR|Pitch 7 CV: 127
+RB|c8CV|Pitch 8 CV
+RB|c8TR|Pitch 8 CV: 127
+RB|c9CV|Pitch 9 CV
+RB|c9TR|Pitch 9 CV: 127
+RB|c10CV|Pitch 10 CV
+RB|c10TR|Pitch 10 CV: 127
+RB|send1|Send 1
+RB|send2|Send 2
+RB|stL|Left
+RB|stR|Right
+RB|mem|(no tooltip)
+RF|c1_M|Drum 1 Mute
+RF|c1_S|Drum 1 Solo
+RF|c1_PLAY|Trigger Drum 1
+RF|c1_NAME|Bd6_Rare.aif (sample file name)
+RF|c1_STEP|Select previous sample (upper half)
+RF|c1_FOLDER|Browse sample
+RF|c1_WAVE|Start sampling
+RF|c1_S1|Drum 1 Send 1 Amount: 0
+RF|c1_S2|Drum 1 Send 2 Amount: 0
+RF|c1_LEDtop|(no tooltip)
+RF|c1_PAN|Drum 1 Pan: 0
+RF|c1_LEVEL|Drum 1 Level: 96
+RF|c1_VEL_LEVEL|Drum 1 Vel to Level: 0
+RF|c1_LENGTH|Drum 1 Length: 92
+RF|c1_SWITCH|Drum 1 Decay/Gate Mode: 0
+RF|c1_PITCH|Drum 1 Pitch: 0
+RF|c1_LEDpitch|(no tooltip)
+RF|c1_TONE|Drum 1 Tone: -46
+RF|c1_VEL_TONE|Drum 1 Vel to Tone: 0
+RF|c1_SELECT|(no tooltip; tried twice)
+RF|c2_M|Drum 2 Mute
+RF|c2_S|Drum 2 Solo
+RF|c2_PLAY|Trigger Drum 2
+RF|c2_NAME|Bd7_Rare.aif (sample file name)
+RF|c2_STEP|Select previous sample (upper half)
+RF|c2_FOLDER|Browse sample
+RF|c2_WAVE|Start sampling
+RF|c2_S1|Drum 2 Send 1 Amount: 0
+RF|c2_S2|Drum 2 Send 2 Amount: 0
+RF|c2_LEDtop|(no tooltip)
+RF|c2_PAN|Drum 2 Pan: 0
+RF|c2_LEVEL|Drum 2 Level: 100
+RF|c2_VEL_LEVEL|Drum 2 Vel to Level: 2
+RF|c2_LENGTH|Drum 2 Length: 127
+RF|c2_SWITCH|Drum 2 Decay/Gate Mode: 0
+RF|c2_PITCH|Drum 2 Pitch: -4
+RF|c2_LEDpitch|(no tooltip)
+RF|c2_TONE|Drum 2 Tone: 0
+RF|c2_VEL_TONE|Drum 2 Vel to Tone: 0
+RF|c2_SELECT|(no tooltip)
+RF|c3_M|Drum 3 Mute
+RF|c3_S|Drum 3 Solo
+RF|c3_PLAY|Trigger Drum 3
+RF|c3_NAME|Clp1_Rare.aif (sample file name)
+RF|c3_STEP|Select previous sample (upper half)
+RF|c3_FOLDER|Browse sample
+RF|c3_WAVE|Start sampling
+RF|c3_S1|Drum 3 Send 1 Amount: 0
+RF|c3_S2|Drum 3 Send 2 Amount: 0
+RF|c3_LEDtop|(no tooltip)
+RF|c3_PAN|Drum 3 Pan: 0
+RF|c3_LEVEL|Drum 3 Level: 100
+RF|c3_VEL_LEVEL|Drum 3 Vel to Level: 40
+RF|c3_LENGTH|Drum 3 Length: 127
+RF|c3_SWITCH|Drum 3 Decay/Gate Mode: 0
+RF|c3_PITCH|Drum 3 Pitch: -16
+RF|c3_LEDpitch|(no tooltip)
+RF|c3_START|Drum 3 Sample Start: 0
+RF|c3_VEL_START|Drum 3 Vel to Sample Start: 0
+RF|c3_SELECT|(no tooltip)
+RF|c4_M|Drum 4 Mute
+RF|c4_S|Drum 4 Solo
+RF|c4_PLAY|Trigger Drum 4
+RF|c4_NAME|Sd6_Rare.aif (sample file name)
+RF|c4_STEP|Select previous sample (upper half)
+RF|c4_FOLDER|Browse sample
+RF|c4_WAVE|Start sampling
+RF|c4_S1|Drum 4 Send 1 Amount: 0
+RF|c4_S2|Drum 4 Send 2 Amount: 0
+RF|c4_LEDtop|(no tooltip)
+RF|c4_PAN|Drum 4 Pan: 0
+RF|c4_LEVEL|Drum 4 Level: 100
+RF|c4_VEL_LEVEL|Drum 4 Vel to Level: 40
+RF|c4_LENGTH|Drum 4 Length: 127
+RF|c4_SWITCH|Drum 4 Decay/Gate Mode: 0
+RF|c4_PITCH|Drum 4 Pitch: 0
+RF|c4_LEDpitch|(no tooltip)
+RF|c4_START|Drum 4 Sample Start: 0
+RF|c4_VEL_START|Drum 4 Vel to Sample Start: 0
+RF|c4_SELECT|(no tooltip)
+RF|c5_M|Drum 5 Mute
+RF|c5_S|Drum 5 Solo
+RF|c5_PLAY|Trigger Drum 5
+RF|c5_NAME|Bd8_Rare.aif (sample file name)
+RF|c5_STEP|Select previous sample (upper half)
+RF|c5_FOLDER|Browse sample
+RF|c5_WAVE|Start sampling
+RF|c5_S1|Drum 5 Send 1 Amount: 0
+RF|c5_S2|Drum 5 Send 2 Amount: 0
+RF|c5_PAN|Drum 5 Pan: 0
+RF|c5_LEVEL|Drum 5 Level: 86
+RF|c5_VEL_LEVEL|Drum 5 Vel to Level: 0
+RF|c5_LENGTH|Drum 5 Length: 127
+RF|c5_SWITCH|Drum 5 Decay/Gate Mode: 0
+RF|c5_PITCH|Drum 5 Pitch: 0
+RF|c5_LEDtop|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c5_SELECT|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c5_LEDpitch|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c5_START|Drum 5 Sample Start: 12
+RF|c5_VEL_START|Drum 5 Vel to Sample Start: 0
+RF|c6_M|Drum 6 Mute
+RF|c6_S|Drum 6 Solo
+RF|c6_PLAY|Trigger Drum 6
+RF|c6_NAME|Bells_JC.aif (sample file name)
+RF|c6_STEP|Select previous sample (upper half)
+RF|c6_FOLDER|Browse sample
+RF|c6_WAVE|Start sampling
+RF|c6_S1|Drum 6 Send 1 Amount: 0
+RF|c6_S2|Drum 6 Send 2 Amount: 0
+RF|c6_PAN|Drum 6 Pan: 0
+RF|c6_LEVEL|Drum 6 Level: 94
+RF|c6_VEL_LEVEL|Drum 6 Vel to Level: 40
+RF|c6_LENGTH|Drum 6 Length: 127
+RF|c6_SWITCH|Drum 6 Decay/Gate Mode: 0
+RF|c6_PITCH|Drum 6 Pitch: 0
+RF|c6_LEDtop|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c6_SELECT|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c6_BEND|Drum 6 Pitch Bend Amount: 0
+RF|c6_RATE|Drum 6 Pitch Bend Rate: 64
+RF|c6_VEL_B|Drum 6 Vel to Pitch Bend: 0
+RF|c7_M|Drum 7 Mute
+RF|c7_S|Drum 7 Solo
+RF|c7_PLAY|Trigger Drum 7
+RF|c7_NAME|Sd8_Rare.aif (sample file name)
+RF|c7_STEP|Select previous sample (upper half)
+RF|c7_FOLDER|Browse sample
+RF|c7_WAVE|Start sampling
+RF|c7_S1|Drum 7 Send 1 Amount: 0
+RF|c7_S2|Drum 7 Send 2 Amount: 0
+RF|c7_PAN|Drum 7 Pan: 0
+RF|c7_LEVEL|Drum 7 Level: 100
+RF|c7_VEL_LEVEL|Drum 7 Vel to Level: 40
+RF|c7_LENGTH|Drum 7 Length: 127
+RF|c7_SWITCH|Drum 7 Decay/Gate Mode: 0
+RF|c7_PITCH|Drum 7 Pitch: 0
+RF|c7_LEDtop|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c7_SELECT|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c7_BEND|Drum 7 Pitch Bend Amount: 0
+RF|c7_RATE|Drum 7 Pitch Bend Rate: 64
+RF|c7_VEL_B|Drum 7 Vel to Pitch Bend: 0
+RF|c8_M|Drum 8 Mute
+RF|c8_S|Drum 8 Solo
+RF|c8_PLAY|Trigger Drum 8
+RF|c8_NAME|Hh4_Rare.aif (sample file name)
+RF|c8_STEP|Select previous sample (upper half)
+RF|c8_FOLDER|Browse sample
+RF|c8_WAVE|Start sampling
+RF|c8_S1|Drum 8 Send 1 Amount: 0
+RF|c8_S2|Drum 8 Send 2 Amount: 0
+RF|c8_PAN|Drum 8 Pan: 0
+RF|c8_LEVEL|Drum 8 Level: 72
+RF|c8_VEL_LEVEL|Drum 8 Vel to Level: 40
+RF|c8_LENGTH|Drum 8 Length: 117
+RF|c8_SWITCH|Drum 8 Decay/Gate Mode: 0
+RF|c8_PITCH|Drum 8 Pitch: 16
+RF|c8_LEDtop|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c8_SELECT|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c8_LEDpitch|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c8_START|Drum 8 Sample Start: 0
+RF|c8_VEL_START|Drum 8 Vel to Sample Start: 0
+RF|c9_M|Drum 9 Mute
+RF|c9_S|Drum 9 Solo
+RF|c9_PLAY|Trigger Drum 9
+RF|c9_NAME|Hh5_Rare.aif (sample file name)
+RF|c9_STEP|Select previous sample (upper half)
+RF|c9_FOLDER|Browse sample
+RF|c9_WAVE|Start sampling
+RF|c9_S1|Drum 9 Send 1 Amount: 0
+RF|c9_S2|Drum 9 Send 2 Amount: 0
+RF|c9_PAN|Drum 9 Pan: 0
+RF|c9_LEVEL|Drum 9 Level: 66
+RF|c9_VEL_LEVEL|Drum 9 Vel to Level: 40
+RF|c9_LENGTH|Drum 9 Length: 72
+RF|c9_SWITCH|Drum 9 Decay/Gate Mode: 0
+RF|c9_PITCH|Drum 9 Pitch: 14
+RF|c9_LEDtop|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c9_SELECT|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c9_LEDpitch|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c9_START|Drum 9 Sample Start: 0
+RF|c9_VEL_START|Drum 9 Vel to Sample Start: 0
+RF|c10_M|Drum 10 Mute
+RF|c10_S|Drum 10 Solo
+RF|c10_PLAY|Trigger Drum 10
+RF|c10_NAME|Rd2_Rare.aif (sample file name)
+RF|c10_STEP|Select previous sample (upper half)
+RF|c10_FOLDER|Browse sample
+RF|c10_WAVE|Start sampling
+RF|c10_S1|Drum 10 Send 1 Amount: 0
+RF|c10_S2|Drum 10 Send 2 Amount: 0
+RF|c10_PAN|Drum 10 Pan: 0
+RF|c10_LEVEL|Drum 10 Level: 72
+RF|c10_VEL_LEVEL|Drum 10 Vel to Level: 40
+RF|c10_LENGTH|Drum 10 Length: 127
+RF|c10_SWITCH|Drum 10 Decay/Gate Mode: 0
+RF|c10_PITCH|Drum 10 Pitch: 12
+RF|c10_LEDtop|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c10_SELECT|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c10_LEDpitch|(not hovered: no tooltip seen on this widget in channels 1-4)
+RF|c10_TONE|Drum 10 Tone: 0
+RF|c10_VEL_TONE|Drum 10 Vel to Tone: 0
+RB2|MASTER|Master Level: 104
+RB2|PATCHDISP|(no tooltip)
+RB2|PATCHSTEP|Select previous patch (upper half)
+RB2|PATCHFOLDER|Browse patch
+RB2|PATCHDISK|Save patch
+RB2|HQ|High Quality Interpolation
+RB2|EXCL89|Channel 8 and 9 Exclusive
+RB2|ENABLE|Enable Pattern Section Playback
+RB2|MUTELIGHT|(no tooltip)
+RB2|PATTERN|Pattern Enable
+RB2|PAT1|Pattern Select
+RB2|PAT2|Pattern Select
+RB2|PAT3|Pattern Select
+RB2|PAT4|Pattern Select
+RB2|PAT5|Pattern Select
+RB2|PAT6|Pattern Select
+RB2|PAT7|Pattern Select
+RB2|PAT8|Pattern Select
+RB2|BANKA|Bank Select
+RB2|BANKB|Bank Select
+RB2|BANKC|Bank Select
+RB2|BANKD|Bank Select
+RB2|RUN|Play
+RB2|STEPSDISP|Pattern Length: 16
+RB2|STEPSARROW|(no tooltip)
+RB2|RESOLUTION|Resolution: 1/16
+RB2|SHUFFLE|Pattern Shuffle
+RB2|EDITSTEPS|Edit Steps Select
+RB2|DYNAMIC|Edit Accent
+RB2|FLAMKNOB|Flam Amount: 64
+RB2|FLAMBTN|Edit Flam
+RB2|STEPBTN1|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN2|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN3|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN4|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN5|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN6|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN7|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN8|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN9|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN10|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN11|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN12|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN13|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN14|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN15|(no tooltip; hovered 1.2 s)
+RB2|STEPBTN16|(no tooltip; hovered 1.2 s)

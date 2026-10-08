@@ -71,6 +71,10 @@ Reference for Claude and Hermes. John doesn't need to read this. Plan: PLAN.md. 
 | Alligator Filter Gate | ALGT | alligator_front_labeled.png | alligator_back_labeled.png | alligator.json | done 2026-10-07 (Claude, hover-checked in Reason 12): all front and back positions. Controls past slot 48 (band Phaser/Delay amounts, Dry Pan, Delay and Phaser sections) have Remote names but no slot in our remotemap. Gate Open lights (flat items), meter lights, pattern/LFO arrows give no usable tooltip. Audio jack names unread (cabled). |
 | Softube Amp (ReasonAmp) | RAMP | reasonamp_front_labeled.png | reasonamp_back_labeled.png | reasonamp.json | done 2026-10-07 (Claude, hover-checked in Reason 12; rack name 'Softube Amp', Remote name ReasonAmp): all front and back positions. Amp/Cab model lights all show one tooltip each. Lamp, logos, level lights, fuses, ground screw give no tooltip. Audio jack names unread (cabled). |
 | Softube Bass Amp (ReasonBassAmp) | RBAS | reasonbassamp_front_labeled.png | reasonbassamp_back_labeled.png | reasonbassamp.json | done 2026-10-07 (Claude, hover-checked in Reason 12; rack name 'Softube Bass Amp', Remote name ReasonBassAmp): all front and back positions. Amp/Cab model lights each show one tooltip. Both patch arrows read 'Select previous patch' in this pass (not told apart). Level lights, fuses, vent, labels give no tooltip. Audio jack names unread (cabled). |
+| Kong Drum Designer | KONG | kong-drum-designer_front_labeled.png | kong-drum-designer_back_labeled.png | kong-drum-designer.json | done 2026-10-08 (Claude, hover-checked in Reason 12): main panel, enlarged right column, Drum and FX section (Drum 1 / Bass Drum state) and back panel. The 16 drum modules differ; only Drum 1 pictured. LCD knobs (offsets, sends, pan, tone, level) gave no tooltip; names from the Remote list. Rows K301-K345 are aliases of the one LCD knob for Drum 2-16. |
+| Redrum Drum Computer | REDR | redrum-drum-computer_front_labeled.png | redrum-drum-computer_back_labeled.png | redrum-drum-computer.json | done 2026-10-08 (Claude, hover-checked in Reason 12): front (10 channels + pattern section) and back. Channels 1-4 fully hovered; channels 5-10 hovered except the two small lights and SELECT (no tooltip seen on channels 1-4). Step buttons, SELECT, lights, patch/sample displays gave no tooltip: names from the Remote list. |
+| Dr. Octo Rex Loop Player | DREX | dr-rex-loop-player_front_labeled.png | dr-rex-loop-player_back_labeled.png | dr-rex-loop-player.json | done 2026-10-08 (Claude, hover-checked in Reason 12): front with Programmer open, and back. Loop buttons, loop-name displays, lamps, RUN, filter-mode lights, LFO wave/dest lights gave no tooltip: names from the Remote list. Remote slot 10 'Selected Loop in Editor' has no proven control (stand-in row, low confidence). Lower half of loop-file arrows and Trigger-Next BAR/BEAT/1/16 buttons not separately proven. |
+| Mimic Creative Sampler | MIMC | mimic_front_labeled.png | mimic_back_labeled.png | mimic.json | done 2026-10-08 (Claude, hover-checked in Reason 12): front (Slot 1 selected) and back. Menus, modes, slot tabs, envelope D/S sliders, wheels, markers gave no tooltip: names from the Remote list. Remote has Slot 1-8 versions of every control; one physical control serves all; rows K301-K335 are aliases for slots 2-8. Slot 43 'Algorithm' placed on the stretch menu (low confidence). Some knobs (Start/Pitch/Pan mod amounts, Filter Kbd/Vel, Send 2, wheels) have tooltip names but no Remote item. |
 
 ## Scream 4 — front
 | Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
@@ -2783,6 +2787,945 @@ Notes: hover shows "Diffusion Spread/Amount" but the Remote names are "Diffuse S
 | RBAS-B-D04 | Fuse 2 | Fuse cap (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
 | RBAS-B-D06 | Vent grille | Decoration (vent) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
 | RBAS-B-D08 | Warning label | Sticker (decoration) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Kong Drum Designer — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| KONG-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D01 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display) |
+| KONG-F-B02 | (up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| KONG-F-B03 | (down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| KONG-F-B04 | (folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| KONG-F-B05 | (disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| KONG-F-D02 | NOTE ON light | Note-on indicator light | Note On Indicator | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D05 | KONG KIT tape | Patch name tape | Device Name | — | display/Remote item, not mapped | tooltip "Kong Kit" (patch name; 'Device Name' item not provable here) |
+| KONG-F-S01 | PITCH BEND wheel | Pitch bend wheel | Pitch Bend | — | display/Remote item, not mapped | tooltip "Pitch Bend: 0" (hover the lower part of the wheel; centre showed nothing) |
+| KONG-F-S02 | MOD WHEEL | Modulation wheel | Mod Wheel | — | display/Remote item, not mapped | tooltip "Mod Wheel: 0" (hover the lower part of the wheel) |
+| KONG-F-B06 | PAD 13 | Pad 13 (hit it with the mouse to play drum 13) | Pad 13 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B07 | PAD 14 | Pad 14 (hit it with the mouse to play drum 14) | Pad 14 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B08 | PAD 15 | Pad 15 (hit it with the mouse to play drum 15) | Pad 15 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B09 | PAD 16 | Pad 16 (hit it with the mouse to play drum 16) | Pad 16 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B10 | PAD 9 | Pad 9 (hit it with the mouse to play drum 9) | Pad 9 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B11 | PAD 10 | Pad 10 (hit it with the mouse to play drum 10) | Pad 10 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B12 | PAD 11 | Pad 11 (hit it with the mouse to play drum 11) | Pad 11 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B13 | PAD 12 | Pad 12 (hit it with the mouse to play drum 12) | Pad 12 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B18 | PAD 5 | Pad 5 (hit it with the mouse to play drum 5) | Pad 5 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B19 | PAD 6 | Pad 6 (hit it with the mouse to play drum 6) | Pad 6 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B20 | PAD 7 | Pad 7 (hit it with the mouse to play drum 7) | Pad 7 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B21 | PAD 8 | Pad 8 (hit it with the mouse to play drum 8) | Pad 8 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B22 | PAD 1 | Pad 1 (hit it with the mouse to play drum 1) | Pad 1 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B23 | PAD 2 | Pad 2 (hit it with the mouse to play drum 2) | Pad 2 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B24 | PAD 3 | Pad 3 (hit it with the mouse to play drum 3) | Pad 3 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B25 | PAD 4 | Pad 4 (hit it with the mouse to play drum 4) | Pad 4 Hit Indication | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K01 | MASTER LEVEL | Master level | Master Level | — | display/Remote item, not mapped | tooltip "Master Level: 100" |
+| KONG-F-D03 | Meter L | Output level lights, left | — | — | click only | tooltip "Master Level Output Left" |
+| KONG-F-D04 | Meter R | Output level lights, right | — | — | click only | tooltip "Master Level Output Right" |
+| KONG-F-B14 | (drum patch arrows) | Previous / next drum patch (up arrow = previous, down arrow = next) | — | — | click only | tooltip "Select Previous Drum Patch" on the upper half; tooltip "Select Next Drum Patch" on the lower half |
+| KONG-F-B15 | (drum folder) | Open drum patch browser | — | — | click only | tooltip "Browse Drum Patch" |
+| KONG-F-B16 | (drum disk) | Save drum patch | — | — | click only | tooltip "Save Drum Patch" |
+| KONG-F-B17 | (drum sample button) | Create a sample player by sampling | Quick Sample | — | display/Remote item, not mapped | tooltip "Create Sample Player by Sampling" |
+| KONG-F-D06 | Drum name display | Name of the selected drum's patch | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display) |
+| KONG-F-D07 | DRUM number | Selected drum number | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display) |
+| KONG-F-D08 | (sample loading bar) | Sample loading progress bar | Sample Loading Progress | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K02 | OFFSET PITCH | Pitch offset of the selected drum | Drum 1 Pitch Offset | 2 / CC 31 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); again 2-3 s, still none |
+| KONG-F-K05 | OFFSET DECAY | Decay offset of the selected drum | Drum 1 Decay Offset | 3 / CC 32 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K03 | SEND BUS FX | Send to Bus FX of the selected drum | Drum 1 Bus FX Send | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K06 | SEND AUX 1 | Send to Aux 1 of the selected drum | Drum 1 Aux 1 Send | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K07 | SEND AUX 2 | Send to Aux 2 of the selected drum | Drum 1 Aux 2 Send | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K04 | PAN | Pan of the selected drum | Drum 1 Pan | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K08 | TONE | Tone of the selected drum | Drum 1 Tone | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K09 | LEVEL | Level of the selected drum | Drum 1 Level | 1 / CC 30 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); again 3 s, still none |
+| KONG-F-B26 | Q PITCH/DECAY | Quick Edit mode: Drum Pitch/Decay Offset | — | — | click only | tooltip "Quick Edit Mode: Drum Pitch/Decay Offset" |
+| KONG-F-B27 | Q SENDS | Quick Edit mode: Drum Sends | — | — | click only | tooltip "Quick Edit Mode: Drum Sends" |
+| KONG-F-B28 | Q PAN/LEVEL | Quick Edit mode: Drum Pan/Level | — | — | click only | tooltip "Quick Edit Mode: Drum Pan/Level" |
+| KONG-F-B29 | Q TONE/LEVEL | Quick Edit mode: Drum Tone/Level | — | — | click only | tooltip "Quick Edit Mode: Drum Tone/Level" |
+| KONG-F-B30 | SHOW DRUM AND FX | Open / close the Drum and FX section | — | — | click only | tooltip "Show Drum And FX" |
+| KONG-F-B101 | DM ON | Drum module on/off | Drum 1 DM On | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 DM On" |
+| KONG-F-B102 | DM menu arrow | Drum module menu | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K101 | DM PITCH | Drum module pitch | Drum 1 DM Pitch | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 DM Pitch: 0" |
+| KONG-F-K102 | DM TUNE 1 | Bass drum tune 1 (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Tune 1: 107" |
+| KONG-F-K103 | DM TUNE 2 | Bass drum tune 2 (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Tune 2: 60" |
+| KONG-F-K104 | DM BEND AMOUNT | Bass drum bend amount (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Bend Amount: 57" |
+| KONG-F-K105 | DM DAMP | Bass drum damp (this module's variable knob) | Drum 1 DM Variable | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 DM Variable: 82" (printed label DAMP) |
+| KONG-F-K106 | DM DECAY | Drum module decay | Drum 1 DM Decay | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 DM Decay: 28" |
+| KONG-F-K109 | DM DENSITY | Beater density (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Beater Density: 102" |
+| KONG-F-K110 | DM SHELL LEVEL | Shell level (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Shell Level: 33" |
+| KONG-F-K113 | DM TONE | Beater tone (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Beater Tone: 75" |
+| KONG-F-K118 | DM BEATER LEVEL | Beater level (module-only knob) | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Beater Level: 64" |
+| KONG-F-K119 | DM LEVEL | Drum module level (dark knob) | Drum 1 DM Level | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 DM Level: 100" |
+| KONG-F-B103 | FX1 ON | FX 1 on/off | Drum 1 FX1 On | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 On" |
+| KONG-F-B105 | FX1 menu arrow | FX 1 menu | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B104 | FX1 HIT I | FX 1 enable for hit type 1 | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 Enable Hit 1" |
+| KONG-F-B112 | FX1 HIT II | FX 1 enable for hit type 2 | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 Enable Hit 2" |
+| KONG-F-B113 | FX1 HIT III | FX 1 enable for hit type 3 | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 Enable Hit 3" |
+| KONG-F-B114 | FX1 HIT IV | FX 1 enable for hit type 4 | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 Enable Hit 4" |
+| KONG-F-D101 | FX1 waveform icon | Shows the FX 1 tone waveform | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K107 | FX1 PITCH | FX 1 tone: pitch (first FX knob) | Drum 1 FX1 P1 | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 P1: 6" |
+| KONG-F-K111 | FX1 ATTACK | FX 1 tone: attack | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Attack: 20" |
+| KONG-F-K112 | FX1 DECAY | FX 1 tone: decay (second FX knob) | Drum 1 FX1 P2 | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX1 P2: 59" |
+| KONG-F-K116 | FX1 BEND DEC | FX 1 tone: bend decay | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Bend Decay: 25" |
+| KONG-F-K117 | FX1 BEND | FX 1 tone: bend | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Bend: 0" |
+| KONG-F-K120 | FX1 SHAPE | FX 1 tone: shape | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Shape: 67" |
+| KONG-F-K121 | FX1 LEVEL | FX 1 tone: level | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Level: 72" |
+| KONG-F-B106 | FX2 ON | FX 2 on/off | Drum 1 FX2 On | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 FX2 On" |
+| KONG-F-B107 | FX2 menu arrow | FX 2 menu | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D104 | FX2 blank plate | FX 2 slot (empty: 'Blank Plate') | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (slot empty) |
+| KONG-F-B108 | BUS FX ON | Bus FX on/off | Bus FX On | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Bus FX On" |
+| KONG-F-B109 | BUS FX menu arrow | Bus FX menu | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D102 | BUS FX lights | Bus FX indicator lights | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D105 | BUS FX blank plate | Bus FX slot (empty: 'Blank Plate') | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (slot empty) |
+| KONG-F-B110 | MASTER FX ON | Master FX on/off | Master FX On | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Master FX On" |
+| KONG-F-B111 | MASTER FX menu arrow | Master FX menu | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D103 | MASTER FX lights | Master FX indicator lights | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K108 | COMP AMOUNT | Master compressor: amount | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Amount: 29" |
+| KONG-F-K114 | COMP ATTACK | Master compressor: attack (first Master FX parameter) | Master FX P1 | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Master FX P1: 67" |
+| KONG-F-K115 | COMP RELEASE | Master compressor: release (second Master FX parameter) | Master FX P2 | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Master FX P2: 67" |
+| KONG-F-K122 | COMP MAKE UP GAIN | Master compressor: make-up gain | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Make Up Gain: 25" |
+| KONG-F-D106 | COMP icon | Compressor corner icon | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-K124 | BUS FX TO MASTER FX | Level from Bus FX to Master FX | Level Bus FX to Master FX | — | display/Remote item, not mapped | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Level from Bus FX to Master FX: 100" |
+| KONG-F-K123 | PITCH BEND RANGE | Pitch bend range of the selected drum | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] tooltip "Drum 1 Pitch Bend Range: 6" |
+| KONG-F-D107 | DRUM OUTPUT menu | Which output the selected drum plays to (shows 'Master FX') | — | — | click only | [Drum and FX section open, Drum 1 selected (picture kong-drum-designer-dmfx-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B201 | PAD MUTE | Mute the selected pad | Pad 1 Mute | — | display/Remote item, not mapped | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Mute" (selected pad was 1) |
+| KONG-F-B202 | PAD CLR | Clear all mutes and solos | Set all Mutes and Solos to Off | — | display/Remote item, not mapped | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Set all Mutes and Solos to Off" |
+| KONG-F-B203 | PAD SOLO | Solo the selected pad | Pad 1 Solo | — | display/Remote item, not mapped | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Solo" (selected pad was 1) |
+| KONG-F-B204 | PAD SETTINGS Q | Quick Edit mode: Pad Mute/Solo | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Quick Edit Mode: Pad Mute/Solo" |
+| KONG-F-B205 | GROUP A | Pad group A (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group A" |
+| KONG-F-B206 | GROUP B | Pad group B (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group B" |
+| KONG-F-B207 | GROUP C | Pad group C (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group C" |
+| KONG-F-B208 | GROUP D | Pad group D (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group D" |
+| KONG-F-B209 | GROUP E | Pad group E (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group E" |
+| KONG-F-B210 | GROUP F | Pad group F (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group F" |
+| KONG-F-B211 | GROUP G | Pad group G (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group G" |
+| KONG-F-B212 | GROUP H | Pad group H (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group H" |
+| KONG-F-B213 | GROUP I | Pad group I (selected pad joins it) | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Group I" |
+| KONG-F-D201 | GROUP MUTE light | Pad group mode light: MUTE | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D202 | GROUP LINK light | Pad group mode light: LINK | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-D203 | GROUP ALT light | Pad group mode light: ALT | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-F-B214 | PAD GROUP Q | Quick Edit mode: Pad Group | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Quick Edit Mode: Pad Group" |
+| KONG-F-B215 | ASSIGN 13 | Drum assignment: give the selected pad drum 13 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B216 | ASSIGN 14 | Drum assignment: give the selected pad drum 14 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B217 | ASSIGN 15 | Drum assignment: give the selected pad drum 15 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B218 | ASSIGN 16 | Drum assignment: give the selected pad drum 16 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B219 | ASSIGN 9 | Drum assignment: give the selected pad drum 9 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B220 | ASSIGN 10 | Drum assignment: give the selected pad drum 10 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B221 | ASSIGN 11 | Drum assignment: give the selected pad drum 11 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B222 | ASSIGN 12 | Drum assignment: give the selected pad drum 12 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B223 | ASSIGN 5 | Drum assignment: give the selected pad drum 5 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B224 | ASSIGN 6 | Drum assignment: give the selected pad drum 6 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B225 | ASSIGN 7 | Drum assignment: give the selected pad drum 7 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B226 | ASSIGN 8 | Drum assignment: give the selected pad drum 8 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B227 | ASSIGN 1 | Drum assignment: give the selected pad drum 1 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B228 | ASSIGN 2 | Drum assignment: give the selected pad drum 2 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B229 | ASSIGN 3 | Drum assignment: give the selected pad drum 3 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B230 | ASSIGN 4 | Drum assignment: give the selected pad drum 4 | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Drum Assignment" (all 16 buttons show this same text) |
+| KONG-F-B231 | DRUM ASSIGNMENT Q | Quick Edit mode: Pad Hit/Drum Assignment | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Quick Edit Mode: Pad Drum Assignment" |
+| KONG-F-B232 | HIT TYPE I | Hit type 1 of the selected pad | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Hit Type" |
+| KONG-F-B233 | HIT TYPE II | Hit type 2 of the selected pad | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Hit Type" |
+| KONG-F-B234 | HIT TYPE III | Hit type 3 of the selected pad | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Hit Type" |
+| KONG-F-B235 | HIT TYPE IV | Hit type 4 of the selected pad | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Pad 1 Hit Type" |
+| KONG-F-D204 | HIT TYPE display | Hit type name display | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display) |
+| KONG-F-B236 | HIT TYPE Q | Quick Edit mode: Pad Hit Assignment | — | — | click only | [Right-hand column enlarged: Pad Settings, Pad Group, Drum Assignment, Hit Type (picture kong-drum-designer-padside-view_front_labeled.png)] tooltip "Quick Edit Mode: Pad Hit Assignment" |
+| KONG-F-K301 | LEVEL (as Drum 2) | Level of drum 2: same physical knob as KONG-F-K09, aimed at drum 2 when that drum is selected | Drum 2 Level | 4 / CC 33 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 2 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K302 | OFFSET PITCH (as Drum 2) | Pitch offset of drum 2: same physical knob as KONG-F-K02, aimed at drum 2 when that drum is selected | Drum 2 Pitch Offset | 5 / CC 34 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 2 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K303 | OFFSET DECAY (as Drum 2) | Decay offset of drum 2: same physical knob as KONG-F-K05, aimed at drum 2 when that drum is selected | Drum 2 Decay Offset | 6 / CC 35 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 2 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K304 | LEVEL (as Drum 3) | Level of drum 3: same physical knob as KONG-F-K09, aimed at drum 3 when that drum is selected | Drum 3 Level | 7 / CC 36 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 3 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K305 | OFFSET PITCH (as Drum 3) | Pitch offset of drum 3: same physical knob as KONG-F-K02, aimed at drum 3 when that drum is selected | Drum 3 Pitch Offset | 8 / CC 37 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 3 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K306 | OFFSET DECAY (as Drum 3) | Decay offset of drum 3: same physical knob as KONG-F-K05, aimed at drum 3 when that drum is selected | Drum 3 Decay Offset | 9 / CC 38 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 3 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K307 | LEVEL (as Drum 4) | Level of drum 4: same physical knob as KONG-F-K09, aimed at drum 4 when that drum is selected | Drum 4 Level | 10 / CC 39 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 4 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K308 | OFFSET PITCH (as Drum 4) | Pitch offset of drum 4: same physical knob as KONG-F-K02, aimed at drum 4 when that drum is selected | Drum 4 Pitch Offset | 11 / CC 40 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 4 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K309 | OFFSET DECAY (as Drum 4) | Decay offset of drum 4: same physical knob as KONG-F-K05, aimed at drum 4 when that drum is selected | Drum 4 Decay Offset | 12 / CC 41 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 4 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K310 | LEVEL (as Drum 5) | Level of drum 5: same physical knob as KONG-F-K09, aimed at drum 5 when that drum is selected | Drum 5 Level | 13 / CC 42 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 5 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K311 | OFFSET PITCH (as Drum 5) | Pitch offset of drum 5: same physical knob as KONG-F-K02, aimed at drum 5 when that drum is selected | Drum 5 Pitch Offset | 14 / CC 43 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 5 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K312 | OFFSET DECAY (as Drum 5) | Decay offset of drum 5: same physical knob as KONG-F-K05, aimed at drum 5 when that drum is selected | Drum 5 Decay Offset | 15 / CC 44 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 5 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K313 | LEVEL (as Drum 6) | Level of drum 6: same physical knob as KONG-F-K09, aimed at drum 6 when that drum is selected | Drum 6 Level | 16 / CC 45 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 6 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K314 | OFFSET PITCH (as Drum 6) | Pitch offset of drum 6: same physical knob as KONG-F-K02, aimed at drum 6 when that drum is selected | Drum 6 Pitch Offset | 17 / CC 46 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 6 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K315 | OFFSET DECAY (as Drum 6) | Decay offset of drum 6: same physical knob as KONG-F-K05, aimed at drum 6 when that drum is selected | Drum 6 Decay Offset | 18 / CC 47 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 6 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K316 | LEVEL (as Drum 7) | Level of drum 7: same physical knob as KONG-F-K09, aimed at drum 7 when that drum is selected | Drum 7 Level | 19 / CC 48 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 7 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K317 | OFFSET PITCH (as Drum 7) | Pitch offset of drum 7: same physical knob as KONG-F-K02, aimed at drum 7 when that drum is selected | Drum 7 Pitch Offset | 20 / CC 49 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 7 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K318 | OFFSET DECAY (as Drum 7) | Decay offset of drum 7: same physical knob as KONG-F-K05, aimed at drum 7 when that drum is selected | Drum 7 Decay Offset | 21 / CC 50 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 7 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K319 | LEVEL (as Drum 8) | Level of drum 8: same physical knob as KONG-F-K09, aimed at drum 8 when that drum is selected | Drum 8 Level | 22 / CC 51 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 8 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K320 | OFFSET PITCH (as Drum 8) | Pitch offset of drum 8: same physical knob as KONG-F-K02, aimed at drum 8 when that drum is selected | Drum 8 Pitch Offset | 23 / CC 52 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 8 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K321 | OFFSET DECAY (as Drum 8) | Decay offset of drum 8: same physical knob as KONG-F-K05, aimed at drum 8 when that drum is selected | Drum 8 Decay Offset | 24 / CC 53 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 8 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K322 | LEVEL (as Drum 9) | Level of drum 9: same physical knob as KONG-F-K09, aimed at drum 9 when that drum is selected | Drum 9 Level | 25 / CC 54 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 9 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K323 | OFFSET PITCH (as Drum 9) | Pitch offset of drum 9: same physical knob as KONG-F-K02, aimed at drum 9 when that drum is selected | Drum 9 Pitch Offset | 26 / CC 55 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 9 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K324 | OFFSET DECAY (as Drum 9) | Decay offset of drum 9: same physical knob as KONG-F-K05, aimed at drum 9 when that drum is selected | Drum 9 Decay Offset | 27 / CC 56 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 9 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K325 | LEVEL (as Drum 10) | Level of drum 10: same physical knob as KONG-F-K09, aimed at drum 10 when that drum is selected | Drum 10 Level | 28 / CC 57 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 10 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K326 | OFFSET PITCH (as Drum 10) | Pitch offset of drum 10: same physical knob as KONG-F-K02, aimed at drum 10 when that drum is selected | Drum 10 Pitch Offset | 29 / CC 58 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 10 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K327 | OFFSET DECAY (as Drum 10) | Decay offset of drum 10: same physical knob as KONG-F-K05, aimed at drum 10 when that drum is selected | Drum 10 Decay Offset | 30 / CC 59 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 10 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K328 | LEVEL (as Drum 11) | Level of drum 11: same physical knob as KONG-F-K09, aimed at drum 11 when that drum is selected | Drum 11 Level | 31 / CC 60 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 11 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K329 | OFFSET PITCH (as Drum 11) | Pitch offset of drum 11: same physical knob as KONG-F-K02, aimed at drum 11 when that drum is selected | Drum 11 Pitch Offset | 32 / CC 61 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 11 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K330 | OFFSET DECAY (as Drum 11) | Decay offset of drum 11: same physical knob as KONG-F-K05, aimed at drum 11 when that drum is selected | Drum 11 Decay Offset | 33 / CC 62 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 11 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K331 | LEVEL (as Drum 12) | Level of drum 12: same physical knob as KONG-F-K09, aimed at drum 12 when that drum is selected | Drum 12 Level | 34 / CC 63 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 12 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K332 | OFFSET PITCH (as Drum 12) | Pitch offset of drum 12: same physical knob as KONG-F-K02, aimed at drum 12 when that drum is selected | Drum 12 Pitch Offset | 35 / CC 64 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 12 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K333 | OFFSET DECAY (as Drum 12) | Decay offset of drum 12: same physical knob as KONG-F-K05, aimed at drum 12 when that drum is selected | Drum 12 Decay Offset | 36 / CC 65 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 12 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K334 | LEVEL (as Drum 13) | Level of drum 13: same physical knob as KONG-F-K09, aimed at drum 13 when that drum is selected | Drum 13 Level | 37 / CC 66 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 13 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K335 | OFFSET PITCH (as Drum 13) | Pitch offset of drum 13: same physical knob as KONG-F-K02, aimed at drum 13 when that drum is selected | Drum 13 Pitch Offset | 38 / CC 67 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 13 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K336 | OFFSET DECAY (as Drum 13) | Decay offset of drum 13: same physical knob as KONG-F-K05, aimed at drum 13 when that drum is selected | Drum 13 Decay Offset | 39 / CC 68 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 13 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K337 | LEVEL (as Drum 14) | Level of drum 14: same physical knob as KONG-F-K09, aimed at drum 14 when that drum is selected | Drum 14 Level | 40 / CC 69 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 14 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K338 | OFFSET PITCH (as Drum 14) | Pitch offset of drum 14: same physical knob as KONG-F-K02, aimed at drum 14 when that drum is selected | Drum 14 Pitch Offset | 41 / CC 70 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 14 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K339 | OFFSET DECAY (as Drum 14) | Decay offset of drum 14: same physical knob as KONG-F-K05, aimed at drum 14 when that drum is selected | Drum 14 Decay Offset | 42 / CC 71 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 14 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K340 | LEVEL (as Drum 15) | Level of drum 15: same physical knob as KONG-F-K09, aimed at drum 15 when that drum is selected | Drum 15 Level | 43 / CC 72 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 15 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K341 | OFFSET PITCH (as Drum 15) | Pitch offset of drum 15: same physical knob as KONG-F-K02, aimed at drum 15 when that drum is selected | Drum 15 Pitch Offset | 44 / CC 73 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 15 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K342 | OFFSET DECAY (as Drum 15) | Decay offset of drum 15: same physical knob as KONG-F-K05, aimed at drum 15 when that drum is selected | Drum 15 Decay Offset | 45 / CC 74 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 15 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K343 | LEVEL (as Drum 16) | Level of drum 16: same physical knob as KONG-F-K09, aimed at drum 16 when that drum is selected | Drum 16 Level | 46 / CC 75 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K09 (drum 16 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K344 | OFFSET PITCH (as Drum 16) | Pitch offset of drum 16: same physical knob as KONG-F-K02, aimed at drum 16 when that drum is selected | Drum 16 Pitch Offset | 47 / CC 76 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K02 (drum 16 must be selected first). Name+slot from the remotemap and Remote list |
+| KONG-F-K345 | OFFSET DECAY (as Drum 16) | Decay offset of drum 16: same physical knob as KONG-F-K05, aimed at drum 16 when that drum is selected | Drum 16 Decay Offset | 48 / CC 77 | voice/MIDI or click | not separately hovered: same knob as KONG-F-K05 (drum 16 must be selected first). Name+slot from the remotemap and Remote list |
+
+## Kong Drum Designer — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| KONG-B-D01 | KONG KIT tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| KONG-B-J11 | Sequencer Control Gate In | Gate input from a sequencer | — | — | cable: right-click jack > device > jack name | tooltip "Sequencer Control Gate In" |
+| KONG-B-J12 | Sequencer Control CV In | CV (note) input from a sequencer | — | — | cable: right-click jack > device > jack name | tooltip "Sequencer Control CV In" |
+| KONG-B-K01 | Master Volume trim | Amount for Master Volume CV | — | — | click/drag only (no Remote item) | tooltip "Master Volume In: 127" |
+| KONG-B-J29 | Master Volume In | CV input: master volume | — | — | cable: right-click jack > device > jack name | tooltip "Master Volume In" |
+| KONG-B-K02 | Pitch Wheel trim | Amount for Pitch Wheel CV | — | — | click/drag only (no Remote item) | tooltip "Pitch Wheel In: 127" |
+| KONG-B-J30 | Pitch Wheel In | CV input: pitch wheel | — | — | cable: right-click jack > device > jack name | tooltip "Pitch Wheel In" |
+| KONG-B-K03 | Mod Wheel trim | Amount for Mod Wheel CV | — | — | click/drag only (no Remote item) | tooltip "Mod Wheel In: 127" |
+| KONG-B-J39 | Mod Wheel In | CV input: mod wheel | — | — | cable: right-click jack > device > jack name | tooltip "Mod Wheel In" |
+| KONG-B-J44 | Aux Send 1 Left | Aux send 1 output, left | — | — | cable: right-click jack > device > jack name | tooltip "Send 1 Audio Out Left" |
+| KONG-B-J45 | Aux Send 1 Right | Aux send 1 output, right | — | — | cable: right-click jack > device > jack name | tooltip "Send 1 Audio Out Right" |
+| KONG-B-J46 | Aux Send 2 Left | Aux send 2 output, left | — | — | cable: right-click jack > device > jack name | tooltip "Send 2 Audio Out Left" |
+| KONG-B-J47 | Aux Send 2 Right | Aux send 2 output, right | — | — | cable: right-click jack > device > jack name | tooltip "Send 2 Audio Out Right" |
+| KONG-B-B01 | (Show Drum and FX) | Open / close the Drum and FX section | — | — | click/drag only (no Remote item) | tooltip "Show Drum And FX" |
+| KONG-B-J01 | Pad 13 Gate In | Gate input: pad 13 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 13 Gate In" |
+| KONG-B-J05 | Pad 13 Gate Out | Gate output: pad 13 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 13 Gate Out" |
+| KONG-B-J02 | Pad 14 Gate In | Gate input: pad 14 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 14 Gate In" |
+| KONG-B-J06 | Pad 14 Gate Out | Gate output: pad 14 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 14 Gate Out" |
+| KONG-B-J03 | Pad 15 Gate In | Gate input: pad 15 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 15 Gate In" |
+| KONG-B-J07 | Pad 15 Gate Out | Gate output: pad 15 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 15 Gate Out" |
+| KONG-B-J04 | Pad 16 Gate In | Gate input: pad 16 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 16 Gate In" |
+| KONG-B-J08 | Pad 16 Gate Out | Gate output: pad 16 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 16 Gate Out" |
+| KONG-B-J13 | Pad 9 Gate In | Gate input: pad 9 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 9 Gate In" |
+| KONG-B-J21 | Pad 9 Gate Out | Gate output: pad 9 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 9 Gate Out" |
+| KONG-B-J14 | Pad 10 Gate In | Gate input: pad 10 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 10 Gate In" |
+| KONG-B-J22 | Pad 10 Gate Out | Gate output: pad 10 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 10 Gate Out" |
+| KONG-B-J15 | Pad 11 Gate In | Gate input: pad 11 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 11 Gate In" |
+| KONG-B-J23 | Pad 11 Gate Out | Gate output: pad 11 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 11 Gate Out" |
+| KONG-B-J16 | Pad 12 Gate In | Gate input: pad 12 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 12 Gate In" |
+| KONG-B-J24 | Pad 12 Gate Out | Gate output: pad 12 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 12 Gate Out" |
+| KONG-B-J31 | Pad 5 Gate In | Gate input: pad 5 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 5 Gate In" |
+| KONG-B-J40 | Pad 5 Gate Out | Gate output: pad 5 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 5 Gate Out" |
+| KONG-B-J32 | Pad 6 Gate In | Gate input: pad 6 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 6 Gate In" |
+| KONG-B-J41 | Pad 6 Gate Out | Gate output: pad 6 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 6 Gate Out" |
+| KONG-B-J33 | Pad 7 Gate In | Gate input: pad 7 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 7 Gate In" |
+| KONG-B-J42 | Pad 7 Gate Out | Gate output: pad 7 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 7 Gate Out" |
+| KONG-B-J34 | Pad 8 Gate In | Gate input: pad 8 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 8 Gate In" |
+| KONG-B-J43 | Pad 8 Gate Out | Gate output: pad 8 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 8 Gate Out" |
+| KONG-B-J48 | Pad 1 Gate In | Gate input: pad 1 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 1 Gate In" |
+| KONG-B-J54 | Pad 1 Gate Out | Gate output: pad 1 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 1 Gate Out" |
+| KONG-B-J49 | Pad 2 Gate In | Gate input: pad 2 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 2 Gate In" |
+| KONG-B-J55 | Pad 2 Gate Out | Gate output: pad 2 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 2 Gate Out" |
+| KONG-B-J50 | Pad 3 Gate In | Gate input: pad 3 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 3 Gate In" |
+| KONG-B-J56 | Pad 3 Gate Out | Gate output: pad 3 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 3 Gate Out" |
+| KONG-B-J51 | Pad 4 Gate In | Gate input: pad 4 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 4 Gate In" |
+| KONG-B-J57 | Pad 4 Gate Out | Gate output: pad 4 | — | — | cable: right-click jack > device > jack name | tooltip "Pad 4 Gate Out" |
+| KONG-B-J09 | Audio Out 3 | Separate audio output for drum 3 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 3" |
+| KONG-B-J10 | Audio Out 4 | Separate audio output for drum 4 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 4" |
+| KONG-B-J17 | Audio Out 5 | Separate audio output for drum 5 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 5" |
+| KONG-B-J18 | Audio Out 6 | Separate audio output for drum 6 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 6" |
+| KONG-B-J19 | Audio Out 7 | Separate audio output for drum 7 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 7" |
+| KONG-B-J20 | Audio Out 8 | Separate audio output for drum 8 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 8" |
+| KONG-B-J25 | Audio Out 9 | Separate audio output for drum 9 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 9" |
+| KONG-B-J26 | Audio Out 10 | Separate audio output for drum 10 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 10" |
+| KONG-B-J27 | Audio Out 11 | Separate audio output for drum 11 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 11" |
+| KONG-B-J28 | Audio Out 12 | Separate audio output for drum 12 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 12" |
+| KONG-B-J35 | Audio Out 13 | Separate audio output for drum 13 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 13" |
+| KONG-B-J36 | Audio Out 14 | Separate audio output for drum 14 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 14" |
+| KONG-B-J37 | Audio Out 15 | Separate audio output for drum 15 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 15" |
+| KONG-B-J38 | Audio Out 16 | Separate audio output for drum 16 | — | — | cable: right-click jack > device > jack name | tooltip "Audio Out 16" |
+| KONG-B-J52 | Main Audio Out L | Main audio output, left | — | — | cable: right-click jack > device > jack name | tooltip "Main Audio Out Left" (jack was empty) |
+| KONG-B-J53 | Main Audio Out R | Main audio output, right | — | — | cable: right-click jack > device > jack name | tooltip "Main Audio Out Right" (jack was empty) |
+| KONG-B-J58 | Bus FX Audio In L | Audio input into Bus FX, left | — | — | cable: right-click jack > device > jack name | tooltip "Bus FX Audio Input Left" |
+| KONG-B-J59 | Bus FX Audio In R | Audio input into Bus FX, right | — | — | cable: right-click jack > device > jack name | tooltip "Bus FX Audio Input Right" |
+| KONG-B-K04 | Bus FX Parameter 1 trim | Amount for Bus FX parameter 1 CV | — | — | click/drag only (no Remote item) | tooltip "Bus FX Parameter 1 In: 127" |
+| KONG-B-J60 | Bus FX Parameter 1 In | CV input: Bus FX parameter 1 | — | — | cable: right-click jack > device > jack name | tooltip "Bus FX Parameter 1 In" |
+| KONG-B-K07 | Bus FX Parameter 2 trim | Amount for Bus FX parameter 2 CV | — | — | click/drag only (no Remote item) | tooltip "Bus FX Paramater 2 In: 127" (Reason's own spelling 'Paramater') |
+| KONG-B-J66 | Bus FX Parameter 2 In | CV input: Bus FX parameter 2 | — | — | cable: right-click jack > device > jack name | tooltip "Bus FX Paramater 2 In" (Reason's own spelling 'Paramater') |
+| KONG-B-K05 | Bus FX to Master FX Level | Level from Bus FX to Master FX (back copy) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (the front knob of the same name did show a tooltip) |
+| KONG-B-J61 | Breakout Output L | Breakout output to an external effect, left | — | — | cable: right-click jack > device > jack name | tooltip "To External FX Output Left" |
+| KONG-B-J62 | Breakout Output R | Breakout output to an external effect, right | — | — | cable: right-click jack > device > jack name | tooltip "To External FX Output Right" |
+| KONG-B-J63 | Breakout Input L | Breakout input from an external effect, left | — | — | cable: right-click jack > device > jack name | tooltip "From External FX Input Left" |
+| KONG-B-J64 | Breakout Input R | Breakout input from an external effect, right | — | — | cable: right-click jack > device > jack name | tooltip "From External FX Input Right" |
+| KONG-B-K06 | Master FX Parameter 1 trim | Amount for Master FX parameter 1 CV | — | — | click/drag only (no Remote item) | tooltip "Master FX Parameter 1 In: 127" |
+| KONG-B-J65 | Master FX Parameter 1 In | CV input: Master FX parameter 1 | — | — | cable: right-click jack > device > jack name | tooltip "Master FX Parameter 1 In" |
+| KONG-B-K08 | Master FX Parameter 2 trim | Amount for Master FX parameter 2 CV | — | — | click/drag only (no Remote item) | tooltip "Master FX Parameter 2 In: 127" |
+| KONG-B-J67 | Master FX Parameter 2 In | CV input: Master FX parameter 2 | — | — | cable: right-click jack > device > jack name | tooltip "Master FX Parameter 2 In" |
+
+## Redrum Drum Computer — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| REDR-F-B01 | CH1 MUTE | Mute drum 1 | Drum 1 Mute | — | display/Remote item, not mapped | tooltip "Drum 1 Mute" |
+| REDR-F-B02 | CH1 SOLO | Solo drum 1 | Drum 1 Solo | — | display/Remote item, not mapped | tooltip "Drum 1 Solo" |
+| REDR-F-B03 | CH1 PLAY | Play (trigger) drum 1 | Channel 1 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 1" |
+| REDR-F-D01 | CH1 sample name | Sample loaded on drum 1 | Channel 1 Sample | — | display/Remote item, not mapped | tooltip "Bd6_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B31 | CH1 sample arrows | Previous / next sample on drum 1 | — | — | click only | tooltip "Select previous sample" (upper half); tooltip "Select next sample" (lower half, checked on drum 1) |
+| REDR-F-B41 | CH1 BROWSE | Browse samples for drum 1 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B42 | CH1 SAMPLE (wave button) | Start sampling into drum 1 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K02 | CH1 S1 | Send 1 amount, drum 1 | Drum 1 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 1 Send 1 Amount: 0" |
+| REDR-F-K03 | CH1 S2 | Send 2 amount, drum 1 | Drum 1 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 1 Send 2 Amount: 0" |
+| REDR-F-D11 | CH1 light (top) | Light between S1 and S2, drum 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K22 | CH1 PAN | Pan, drum 1 | Drum 1 Pan | 4 / CC 33 | voice/MIDI or click | tooltip "Drum 1 Pan: 0" |
+| REDR-F-K32 | CH1 LEVEL | Level, drum 1 | Drum 1 Level | 1 / CC 30 | voice/MIDI or click | tooltip "Drum 1 Level: 96" |
+| REDR-F-K33 | CH1 VEL (level) | How much velocity changes level, drum 1 | Drum 1 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 1 Vel to Level: 0" |
+| REDR-F-K52 | CH1 LENGTH | Length, drum 1 | Drum 1 Length | 3 / CC 32 | voice/MIDI or click | tooltip "Drum 1 Length: 92" |
+| REDR-F-B61 | CH1 DECAY/GATE | Decay or gate mode switch, drum 1 | Drum 1 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 1 Decay/Gate Mode: 0" |
+| REDR-F-K62 | CH1 PITCH | Pitch, drum 1 | Drum 1 Pitch | 2 / CC 31 | voice/MIDI or click | tooltip "Drum 1 Pitch: 0" |
+| REDR-F-D21 | CH1 light (pitch) | Light above the pitch knob, drum 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K74 | CH1 TONE | Tone, drum 1 | Drum 1 Tone | — | display/Remote item, not mapped | tooltip "Drum 1 Tone: -46" |
+| REDR-F-K75 | CH1 VEL (tone) | How much velocity changes tone, drum 1 | Drum 1 Vel to Tone | — | display/Remote item, not mapped | tooltip "Drum 1 Vel to Tone: 0" |
+| REDR-F-B71 | CH1 SELECT | Select drum 1 (edit its steps) | Select Drum 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B04 | CH2 MUTE | Mute drum 2 | Drum 2 Mute | — | display/Remote item, not mapped | tooltip "Drum 2 Mute" |
+| REDR-F-B05 | CH2 SOLO | Solo drum 2 | Drum 2 Solo | — | display/Remote item, not mapped | tooltip "Drum 2 Solo" |
+| REDR-F-B06 | CH2 PLAY | Play (trigger) drum 2 | Channel 2 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 2" |
+| REDR-F-D02 | CH2 sample name | Sample loaded on drum 2 | Channel 2 Sample | — | display/Remote item, not mapped | tooltip "Bd7_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B32 | CH2 sample arrows | Previous / next sample on drum 2 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B43 | CH2 BROWSE | Browse samples for drum 2 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B44 | CH2 SAMPLE (wave button) | Start sampling into drum 2 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K04 | CH2 S1 | Send 1 amount, drum 2 | Drum 2 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 2 Send 1 Amount: 0" |
+| REDR-F-K05 | CH2 S2 | Send 2 amount, drum 2 | Drum 2 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 2 Send 2 Amount: 0" |
+| REDR-F-D12 | CH2 light (top) | Light between S1 and S2, drum 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K23 | CH2 PAN | Pan, drum 2 | Drum 2 Pan | 8 / CC 37 | voice/MIDI or click | tooltip "Drum 2 Pan: 0" |
+| REDR-F-K34 | CH2 LEVEL | Level, drum 2 | Drum 2 Level | 5 / CC 34 | voice/MIDI or click | tooltip "Drum 2 Level: 100" |
+| REDR-F-K35 | CH2 VEL (level) | How much velocity changes level, drum 2 | Drum 2 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 2 Vel to Level: 2" |
+| REDR-F-K53 | CH2 LENGTH | Length, drum 2 | Drum 2 Length | 7 / CC 36 | voice/MIDI or click | tooltip "Drum 2 Length: 127" |
+| REDR-F-B62 | CH2 DECAY/GATE | Decay or gate mode switch, drum 2 | Drum 2 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 2 Decay/Gate Mode: 0" |
+| REDR-F-K63 | CH2 PITCH | Pitch, drum 2 | Drum 2 Pitch | 6 / CC 35 | voice/MIDI or click | tooltip "Drum 2 Pitch: -4" |
+| REDR-F-D22 | CH2 light (pitch) | Light above the pitch knob, drum 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K76 | CH2 TONE | Tone, drum 2 | Drum 2 Tone | — | display/Remote item, not mapped | tooltip "Drum 2 Tone: 0" |
+| REDR-F-K77 | CH2 VEL (tone) | How much velocity changes tone, drum 2 | Drum 2 Vel to Tone | — | display/Remote item, not mapped | tooltip "Drum 2 Vel to Tone: 0" |
+| REDR-F-B72 | CH2 SELECT | Select drum 2 (edit its steps) | Select Drum 2 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B07 | CH3 MUTE | Mute drum 3 | Drum 3 Mute | — | display/Remote item, not mapped | tooltip "Drum 3 Mute" |
+| REDR-F-B08 | CH3 SOLO | Solo drum 3 | Drum 3 Solo | — | display/Remote item, not mapped | tooltip "Drum 3 Solo" |
+| REDR-F-B09 | CH3 PLAY | Play (trigger) drum 3 | Channel 3 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 3" |
+| REDR-F-D03 | CH3 sample name | Sample loaded on drum 3 | Channel 3 Sample | — | display/Remote item, not mapped | tooltip "Clp1_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B33 | CH3 sample arrows | Previous / next sample on drum 3 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B45 | CH3 BROWSE | Browse samples for drum 3 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B46 | CH3 SAMPLE (wave button) | Start sampling into drum 3 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K06 | CH3 S1 | Send 1 amount, drum 3 | Drum 3 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 3 Send 1 Amount: 0" |
+| REDR-F-K07 | CH3 S2 | Send 2 amount, drum 3 | Drum 3 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 3 Send 2 Amount: 0" |
+| REDR-F-D13 | CH3 light (top) | Light between S1 and S2, drum 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K24 | CH3 PAN | Pan, drum 3 | Drum 3 Pan | 12 / CC 41 | voice/MIDI or click | tooltip "Drum 3 Pan: 0" |
+| REDR-F-K36 | CH3 LEVEL | Level, drum 3 | Drum 3 Level | 9 / CC 38 | voice/MIDI or click | tooltip "Drum 3 Level: 100" |
+| REDR-F-K37 | CH3 VEL (level) | How much velocity changes level, drum 3 | Drum 3 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 3 Vel to Level: 40" |
+| REDR-F-K54 | CH3 LENGTH | Length, drum 3 | Drum 3 Length | 11 / CC 40 | voice/MIDI or click | tooltip "Drum 3 Length: 127" |
+| REDR-F-B63 | CH3 DECAY/GATE | Decay or gate mode switch, drum 3 | Drum 3 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 3 Decay/Gate Mode: 0" |
+| REDR-F-K64 | CH3 PITCH | Pitch, drum 3 | Drum 3 Pitch | 10 / CC 39 | voice/MIDI or click | tooltip "Drum 3 Pitch: -16" |
+| REDR-F-D23 | CH3 light (pitch) | Light above the pitch knob, drum 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K78 | CH3 START | Sample start, drum 3 | Drum 3 Sample Start | — | display/Remote item, not mapped | tooltip "Drum 3 Sample Start: 0" |
+| REDR-F-K79 | CH3 VEL (start) | How much velocity changes sample start, drum 3 | Drum 3 Vel to Sample Start | — | display/Remote item, not mapped | tooltip "Drum 3 Vel to Sample Start: 0" |
+| REDR-F-B73 | CH3 SELECT | Select drum 3 (edit its steps) | Select Drum 3 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B10 | CH4 MUTE | Mute drum 4 | Drum 4 Mute | — | display/Remote item, not mapped | tooltip "Drum 4 Mute" |
+| REDR-F-B11 | CH4 SOLO | Solo drum 4 | Drum 4 Solo | — | display/Remote item, not mapped | tooltip "Drum 4 Solo" |
+| REDR-F-B12 | CH4 PLAY | Play (trigger) drum 4 | Channel 4 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 4" |
+| REDR-F-D04 | CH4 sample name | Sample loaded on drum 4 | Channel 4 Sample | — | display/Remote item, not mapped | tooltip "Sd6_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B34 | CH4 sample arrows | Previous / next sample on drum 4 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B47 | CH4 BROWSE | Browse samples for drum 4 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B48 | CH4 SAMPLE (wave button) | Start sampling into drum 4 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K08 | CH4 S1 | Send 1 amount, drum 4 | Drum 4 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 4 Send 1 Amount: 0" |
+| REDR-F-K09 | CH4 S2 | Send 2 amount, drum 4 | Drum 4 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 4 Send 2 Amount: 0" |
+| REDR-F-D14 | CH4 light (top) | Light between S1 and S2, drum 4 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K25 | CH4 PAN | Pan, drum 4 | Drum 4 Pan | 16 / CC 45 | voice/MIDI or click | tooltip "Drum 4 Pan: 0" |
+| REDR-F-K38 | CH4 LEVEL | Level, drum 4 | Drum 4 Level | 13 / CC 42 | voice/MIDI or click | tooltip "Drum 4 Level: 100" |
+| REDR-F-K39 | CH4 VEL (level) | How much velocity changes level, drum 4 | Drum 4 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 4 Vel to Level: 40" |
+| REDR-F-K55 | CH4 LENGTH | Length, drum 4 | Drum 4 Length | 15 / CC 44 | voice/MIDI or click | tooltip "Drum 4 Length: 127" |
+| REDR-F-B64 | CH4 DECAY/GATE | Decay or gate mode switch, drum 4 | Drum 4 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 4 Decay/Gate Mode: 0" |
+| REDR-F-K65 | CH4 PITCH | Pitch, drum 4 | Drum 4 Pitch | 14 / CC 43 | voice/MIDI or click | tooltip "Drum 4 Pitch: 0" |
+| REDR-F-D24 | CH4 light (pitch) | Light above the pitch knob, drum 4 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-K80 | CH4 START | Sample start, drum 4 | Drum 4 Sample Start | — | display/Remote item, not mapped | tooltip "Drum 4 Sample Start: 0" |
+| REDR-F-K81 | CH4 VEL (start) | How much velocity changes sample start, drum 4 | Drum 4 Vel to Sample Start | — | display/Remote item, not mapped | tooltip "Drum 4 Vel to Sample Start: 0" |
+| REDR-F-B74 | CH4 SELECT | Select drum 4 (edit its steps) | Select Drum 4 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B13 | CH5 MUTE | Mute drum 5 | Drum 5 Mute | — | display/Remote item, not mapped | tooltip "Drum 5 Mute" |
+| REDR-F-B14 | CH5 SOLO | Solo drum 5 | Drum 5 Solo | — | display/Remote item, not mapped | tooltip "Drum 5 Solo" |
+| REDR-F-B15 | CH5 PLAY | Play (trigger) drum 5 | Channel 5 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 5" |
+| REDR-F-D05 | CH5 sample name | Sample loaded on drum 5 | Channel 5 Sample | — | display/Remote item, not mapped | tooltip "Bd8_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B35 | CH5 sample arrows | Previous / next sample on drum 5 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B49 | CH5 BROWSE | Browse samples for drum 5 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B50 | CH5 SAMPLE (wave button) | Start sampling into drum 5 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K10 | CH5 S1 | Send 1 amount, drum 5 | Drum 5 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 5 Send 1 Amount: 0" |
+| REDR-F-K11 | CH5 S2 | Send 2 amount, drum 5 | Drum 5 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 5 Send 2 Amount: 0" |
+| REDR-F-D15 | CH5 light (top) | Light between S1 and S2, drum 5 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K26 | CH5 PAN | Pan, drum 5 | Drum 5 Pan | 20 / CC 49 | voice/MIDI or click | tooltip "Drum 5 Pan: 0" |
+| REDR-F-K40 | CH5 LEVEL | Level, drum 5 | Drum 5 Level | 17 / CC 46 | voice/MIDI or click | tooltip "Drum 5 Level: 86" |
+| REDR-F-K41 | CH5 VEL (level) | How much velocity changes level, drum 5 | Drum 5 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 5 Vel to Level: 0" |
+| REDR-F-K56 | CH5 LENGTH | Length, drum 5 | Drum 5 Length | 19 / CC 48 | voice/MIDI or click | tooltip "Drum 5 Length: 127" |
+| REDR-F-B65 | CH5 DECAY/GATE | Decay or gate mode switch, drum 5 | Drum 5 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 5 Decay/Gate Mode: 0" |
+| REDR-F-K66 | CH5 PITCH | Pitch, drum 5 | Drum 5 Pitch | 18 / CC 47 | voice/MIDI or click | tooltip "Drum 5 Pitch: 0" |
+| REDR-F-D25 | CH5 light (pitch) | Light above the pitch knob, drum 5 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K82 | CH5 START | Sample start, drum 5 | Drum 5 Sample Start | — | display/Remote item, not mapped | tooltip "Drum 5 Sample Start: 12" |
+| REDR-F-K83 | CH5 VEL (start) | How much velocity changes sample start, drum 5 | Drum 5 Vel to Sample Start | — | display/Remote item, not mapped | tooltip "Drum 5 Vel to Sample Start: 0" |
+| REDR-F-B75 | CH5 SELECT | Select drum 5 (edit its steps) | Select Drum 5 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B16 | CH6 MUTE | Mute drum 6 | Drum 6 Mute | — | display/Remote item, not mapped | tooltip "Drum 6 Mute" |
+| REDR-F-B17 | CH6 SOLO | Solo drum 6 | Drum 6 Solo | — | display/Remote item, not mapped | tooltip "Drum 6 Solo" |
+| REDR-F-B18 | CH6 PLAY | Play (trigger) drum 6 | Channel 6 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 6" |
+| REDR-F-D06 | CH6 sample name | Sample loaded on drum 6 | Channel 6 Sample | — | display/Remote item, not mapped | tooltip "Bells_JC.aif" (the file name of the loaded sample) |
+| REDR-F-B36 | CH6 sample arrows | Previous / next sample on drum 6 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B51 | CH6 BROWSE | Browse samples for drum 6 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B52 | CH6 SAMPLE (wave button) | Start sampling into drum 6 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K12 | CH6 S1 | Send 1 amount, drum 6 | Drum 6 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 6 Send 1 Amount: 0" |
+| REDR-F-K13 | CH6 S2 | Send 2 amount, drum 6 | Drum 6 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 6 Send 2 Amount: 0" |
+| REDR-F-D16 | CH6 light (top) | Light between S1 and S2, drum 6 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K27 | CH6 PAN | Pan, drum 6 | Drum 6 Pan | 24 / CC 53 | voice/MIDI or click | tooltip "Drum 6 Pan: 0" |
+| REDR-F-K42 | CH6 LEVEL | Level, drum 6 | Drum 6 Level | 21 / CC 50 | voice/MIDI or click | tooltip "Drum 6 Level: 94" |
+| REDR-F-K43 | CH6 VEL (level) | How much velocity changes level, drum 6 | Drum 6 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 6 Vel to Level: 40" |
+| REDR-F-K57 | CH6 LENGTH | Length, drum 6 | Drum 6 Length | 23 / CC 52 | voice/MIDI or click | tooltip "Drum 6 Length: 127" |
+| REDR-F-B66 | CH6 DECAY/GATE | Decay or gate mode switch, drum 6 | Drum 6 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 6 Decay/Gate Mode: 0" |
+| REDR-F-K67 | CH6 PITCH | Pitch, drum 6 | Drum 6 Pitch | 22 / CC 51 | voice/MIDI or click | tooltip "Drum 6 Pitch: 0" |
+| REDR-F-K68 | CH6 BEND | Pitch bend amount, drum 6 | Drum 6 Pitch Bend Amount | — | display/Remote item, not mapped | tooltip "Drum 6 Pitch Bend Amount: 0" |
+| REDR-F-K84 | CH6 RATE | Pitch bend rate, drum 6 | Drum 6 Pitch Bend Rate | — | display/Remote item, not mapped | tooltip "Drum 6 Pitch Bend Rate: 64" |
+| REDR-F-K85 | CH6 VEL (bend) | How much velocity changes pitch bend, drum 6 | Drum 6 Vel to Pitch Bend | — | display/Remote item, not mapped | tooltip "Drum 6 Vel to Pitch Bend: 0" |
+| REDR-F-B76 | CH6 SELECT | Select drum 6 (edit its steps) | Select Drum 6 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B19 | CH7 MUTE | Mute drum 7 | Drum 7 Mute | — | display/Remote item, not mapped | tooltip "Drum 7 Mute" |
+| REDR-F-B20 | CH7 SOLO | Solo drum 7 | Drum 7 Solo | — | display/Remote item, not mapped | tooltip "Drum 7 Solo" |
+| REDR-F-B21 | CH7 PLAY | Play (trigger) drum 7 | Channel 7 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 7" |
+| REDR-F-D07 | CH7 sample name | Sample loaded on drum 7 | Channel 7 Sample | — | display/Remote item, not mapped | tooltip "Sd8_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B37 | CH7 sample arrows | Previous / next sample on drum 7 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B53 | CH7 BROWSE | Browse samples for drum 7 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B54 | CH7 SAMPLE (wave button) | Start sampling into drum 7 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K14 | CH7 S1 | Send 1 amount, drum 7 | Drum 7 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 7 Send 1 Amount: 0" |
+| REDR-F-K15 | CH7 S2 | Send 2 amount, drum 7 | Drum 7 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 7 Send 2 Amount: 0" |
+| REDR-F-D17 | CH7 light (top) | Light between S1 and S2, drum 7 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K28 | CH7 PAN | Pan, drum 7 | Drum 7 Pan | 28 / CC 57 | voice/MIDI or click | tooltip "Drum 7 Pan: 0" |
+| REDR-F-K44 | CH7 LEVEL | Level, drum 7 | Drum 7 Level | 25 / CC 54 | voice/MIDI or click | tooltip "Drum 7 Level: 100" |
+| REDR-F-K45 | CH7 VEL (level) | How much velocity changes level, drum 7 | Drum 7 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 7 Vel to Level: 40" |
+| REDR-F-K58 | CH7 LENGTH | Length, drum 7 | Drum 7 Length | 27 / CC 56 | voice/MIDI or click | tooltip "Drum 7 Length: 127" |
+| REDR-F-B67 | CH7 DECAY/GATE | Decay or gate mode switch, drum 7 | Drum 7 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 7 Decay/Gate Mode: 0" |
+| REDR-F-K69 | CH7 PITCH | Pitch, drum 7 | Drum 7 Pitch | 26 / CC 55 | voice/MIDI or click | tooltip "Drum 7 Pitch: 0" |
+| REDR-F-K70 | CH7 BEND | Pitch bend amount, drum 7 | Drum 7 Pitch Bend Amount | — | display/Remote item, not mapped | tooltip "Drum 7 Pitch Bend Amount: 0" |
+| REDR-F-K86 | CH7 RATE | Pitch bend rate, drum 7 | Drum 7 Pitch Bend Rate | — | display/Remote item, not mapped | tooltip "Drum 7 Pitch Bend Rate: 64" |
+| REDR-F-K87 | CH7 VEL (bend) | How much velocity changes pitch bend, drum 7 | Drum 7 Vel to Pitch Bend | — | display/Remote item, not mapped | tooltip "Drum 7 Vel to Pitch Bend: 0" |
+| REDR-F-B77 | CH7 SELECT | Select drum 7 (edit its steps) | Select Drum 7 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B22 | CH8 MUTE | Mute drum 8 | Drum 8 Mute | — | display/Remote item, not mapped | tooltip "Drum 8 Mute" |
+| REDR-F-B23 | CH8 SOLO | Solo drum 8 | Drum 8 Solo | — | display/Remote item, not mapped | tooltip "Drum 8 Solo" |
+| REDR-F-B24 | CH8 PLAY | Play (trigger) drum 8 | Channel 8 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 8" |
+| REDR-F-D08 | CH8 sample name | Sample loaded on drum 8 | Channel 8 Sample | — | display/Remote item, not mapped | tooltip "Hh4_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B38 | CH8 sample arrows | Previous / next sample on drum 8 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B55 | CH8 BROWSE | Browse samples for drum 8 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B56 | CH8 SAMPLE (wave button) | Start sampling into drum 8 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K16 | CH8 S1 | Send 1 amount, drum 8 | Drum 8 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 8 Send 1 Amount: 0" |
+| REDR-F-K17 | CH8 S2 | Send 2 amount, drum 8 | Drum 8 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 8 Send 2 Amount: 0" |
+| REDR-F-D18 | CH8 light (top) | Light between S1 and S2, drum 8 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K29 | CH8 PAN | Pan, drum 8 | Drum 8 Pan | 32 / CC 61 | voice/MIDI or click | tooltip "Drum 8 Pan: 0" |
+| REDR-F-K46 | CH8 LEVEL | Level, drum 8 | Drum 8 Level | 29 / CC 58 | voice/MIDI or click | tooltip "Drum 8 Level: 72" |
+| REDR-F-K47 | CH8 VEL (level) | How much velocity changes level, drum 8 | Drum 8 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 8 Vel to Level: 40" |
+| REDR-F-K59 | CH8 LENGTH | Length, drum 8 | Drum 8 Length | 31 / CC 60 | voice/MIDI or click | tooltip "Drum 8 Length: 117" |
+| REDR-F-B68 | CH8 DECAY/GATE | Decay or gate mode switch, drum 8 | Drum 8 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 8 Decay/Gate Mode: 0" |
+| REDR-F-K71 | CH8 PITCH | Pitch, drum 8 | Drum 8 Pitch | 30 / CC 59 | voice/MIDI or click | tooltip "Drum 8 Pitch: 16" |
+| REDR-F-D26 | CH8 light (pitch) | Light above the pitch knob, drum 8 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K88 | CH8 START | Sample start, drum 8 | Drum 8 Sample Start | — | display/Remote item, not mapped | tooltip "Drum 8 Sample Start: 0" |
+| REDR-F-K89 | CH8 VEL (start) | How much velocity changes sample start, drum 8 | Drum 8 Vel to Sample Start | — | display/Remote item, not mapped | tooltip "Drum 8 Vel to Sample Start: 0" |
+| REDR-F-B78 | CH8 SELECT | Select drum 8 (edit its steps) | Select Drum 8 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B25 | CH9 MUTE | Mute drum 9 | Drum 9 Mute | — | display/Remote item, not mapped | tooltip "Drum 9 Mute" |
+| REDR-F-B26 | CH9 SOLO | Solo drum 9 | Drum 9 Solo | — | display/Remote item, not mapped | tooltip "Drum 9 Solo" |
+| REDR-F-B27 | CH9 PLAY | Play (trigger) drum 9 | Channel 9 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 9" |
+| REDR-F-D09 | CH9 sample name | Sample loaded on drum 9 | Channel 9 Sample | — | display/Remote item, not mapped | tooltip "Hh5_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B39 | CH9 sample arrows | Previous / next sample on drum 9 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B57 | CH9 BROWSE | Browse samples for drum 9 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B58 | CH9 SAMPLE (wave button) | Start sampling into drum 9 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K18 | CH9 S1 | Send 1 amount, drum 9 | Drum 9 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 9 Send 1 Amount: 0" |
+| REDR-F-K19 | CH9 S2 | Send 2 amount, drum 9 | Drum 9 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 9 Send 2 Amount: 0" |
+| REDR-F-D19 | CH9 light (top) | Light between S1 and S2, drum 9 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K30 | CH9 PAN | Pan, drum 9 | Drum 9 Pan | 36 / CC 65 | voice/MIDI or click | tooltip "Drum 9 Pan: 0" |
+| REDR-F-K48 | CH9 LEVEL | Level, drum 9 | Drum 9 Level | 33 / CC 62 | voice/MIDI or click | tooltip "Drum 9 Level: 66" |
+| REDR-F-K49 | CH9 VEL (level) | How much velocity changes level, drum 9 | Drum 9 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 9 Vel to Level: 40" |
+| REDR-F-K60 | CH9 LENGTH | Length, drum 9 | Drum 9 Length | 35 / CC 64 | voice/MIDI or click | tooltip "Drum 9 Length: 72" |
+| REDR-F-B69 | CH9 DECAY/GATE | Decay or gate mode switch, drum 9 | Drum 9 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 9 Decay/Gate Mode: 0" |
+| REDR-F-K72 | CH9 PITCH | Pitch, drum 9 | Drum 9 Pitch | 34 / CC 63 | voice/MIDI or click | tooltip "Drum 9 Pitch: 14" |
+| REDR-F-D27 | CH9 light (pitch) | Light above the pitch knob, drum 9 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K90 | CH9 START | Sample start, drum 9 | Drum 9 Sample Start | — | display/Remote item, not mapped | tooltip "Drum 9 Sample Start: 0" |
+| REDR-F-K91 | CH9 VEL (start) | How much velocity changes sample start, drum 9 | Drum 9 Vel to Sample Start | — | display/Remote item, not mapped | tooltip "Drum 9 Vel to Sample Start: 0" |
+| REDR-F-B79 | CH9 SELECT | Select drum 9 (edit its steps) | Select Drum 9 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B28 | CH10 MUTE | Mute drum 10 | Drum 10 Mute | — | display/Remote item, not mapped | tooltip "Drum 10 Mute" |
+| REDR-F-B29 | CH10 SOLO | Solo drum 10 | Drum 10 Solo | — | display/Remote item, not mapped | tooltip "Drum 10 Solo" |
+| REDR-F-B30 | CH10 PLAY | Play (trigger) drum 10 | Channel 10 Play | — | display/Remote item, not mapped | tooltip "Trigger Drum 10" |
+| REDR-F-D10 | CH10 sample name | Sample loaded on drum 10 | Channel 10 Sample | — | display/Remote item, not mapped | tooltip "Rd2_Rare.aif" (the file name of the loaded sample) |
+| REDR-F-B40 | CH10 sample arrows | Previous / next sample on drum 10 | — | — | click only | tooltip "Select previous sample" (upper half; lower half checked on drum 1 only) |
+| REDR-F-B59 | CH10 BROWSE | Browse samples for drum 10 | — | — | click only | tooltip "Browse sample" |
+| REDR-F-B60 | CH10 SAMPLE (wave button) | Start sampling into drum 10 | — | — | click only | tooltip "Start sampling" |
+| REDR-F-K20 | CH10 S1 | Send 1 amount, drum 10 | Drum 10 Send 1 Amount | — | display/Remote item, not mapped | tooltip "Drum 10 Send 1 Amount: 0" |
+| REDR-F-K21 | CH10 S2 | Send 2 amount, drum 10 | Drum 10 Send 2 Amount | — | display/Remote item, not mapped | tooltip "Drum 10 Send 2 Amount: 0" |
+| REDR-F-D20 | CH10 light (top) | Light between S1 and S2, drum 10 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K31 | CH10 PAN | Pan, drum 10 | Drum 10 Pan | 40 / CC 69 | voice/MIDI or click | tooltip "Drum 10 Pan: 0" |
+| REDR-F-K50 | CH10 LEVEL | Level, drum 10 | Drum 10 Level | 37 / CC 66 | voice/MIDI or click | tooltip "Drum 10 Level: 72" |
+| REDR-F-K51 | CH10 VEL (level) | How much velocity changes level, drum 10 | Drum 10 Vel to Level | — | display/Remote item, not mapped | tooltip "Drum 10 Vel to Level: 40" |
+| REDR-F-K61 | CH10 LENGTH | Length, drum 10 | Drum 10 Length | 39 / CC 68 | voice/MIDI or click | tooltip "Drum 10 Length: 127" |
+| REDR-F-B70 | CH10 DECAY/GATE | Decay or gate mode switch, drum 10 | Drum 10 Decay/Gate Mode | — | display/Remote item, not mapped | tooltip "Drum 10 Decay/Gate Mode: 0" |
+| REDR-F-K73 | CH10 PITCH | Pitch, drum 10 | Drum 10 Pitch | 38 / CC 67 | voice/MIDI or click | tooltip "Drum 10 Pitch: 12" |
+| REDR-F-D28 | CH10 light (pitch) | Light above the pitch knob, drum 10 | — | — | click only | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K92 | CH10 TONE | Tone, drum 10 | Drum 10 Tone | — | display/Remote item, not mapped | tooltip "Drum 10 Tone: 0" |
+| REDR-F-K93 | CH10 VEL (tone) | How much velocity changes tone, drum 10 | Drum 10 Vel to Tone | — | display/Remote item, not mapped | tooltip "Drum 10 Vel to Tone: 0" |
+| REDR-F-B80 | CH10 SELECT | Select drum 10 (edit its steps) | Select Drum 10 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-K01 | MASTER LEVEL | Master level | Master Level | 48 / CC 77 | voice/MIDI or click | tooltip "Master Level: 104" |
+| REDR-F-D29 | (patch display) | Patch name display | Patch Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (display) |
+| REDR-F-B88 | (patch arrows) | Previous / next patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" (upper half); tooltip "Select next patch" (lower half) |
+| REDR-F-B89 | (patch folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| REDR-F-B90 | (patch disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| REDR-F-B100 | HIGH QUALITY INTERPOLATION | High quality interpolation on/off | High Quality Interpolation | — | display/Remote item, not mapped | tooltip "High Quality Interpolation" |
+| REDR-F-B123 | CHANNEL 8-9 EXCLUSIVE | Drums 8 and 9 cut each other off (open / closed hat) | Channel 8 and 9 Exclusive | — | display/Remote item, not mapped | tooltip "Channel 8 and 9 Exclusive" |
+| REDR-F-B81 | ENABLE PATTERN SECTION | Pattern section on/off | Enable Pattern Section Playback | — | display/Remote item, not mapped | tooltip "Enable Pattern Section Playback" |
+| REDR-F-D31 | MUTE light | Mute light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B82 | PATTERN | Pattern on/off | Pattern Enable | 47 / CC 76 | voice/MIDI or click | tooltip "Pattern Enable" |
+| REDR-F-B91 | PATTERN 1 | Pattern 1 button | Pattern 1 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B92 | PATTERN 2 | Pattern 2 button | Pattern 2 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B93 | PATTERN 3 | Pattern 3 button | Pattern 3 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B94 | PATTERN 4 | Pattern 4 button | Pattern 4 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B96 | PATTERN 5 | Pattern 5 button | Pattern 5 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B97 | PATTERN 6 | Pattern 6 button | Pattern 6 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B98 | PATTERN 7 | Pattern 7 button | Pattern 7 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B99 | PATTERN 8 | Pattern 8 button | Pattern 8 | — | display/Remote item, not mapped | tooltip "Pattern Select" |
+| REDR-F-B95 | PATTERN SELECT (1-8 as one control) | Pick pattern 1-8 within the bank | Pattern Select in Bank | 41 / CC 70 | voice/MIDI or click | tooltip "Pattern Select" (same text on all 8 buttons) |
+| REDR-F-B102 | BANK A | Bank A button | Bank A | — | display/Remote item, not mapped | tooltip "Bank Select" (same text on all 4) |
+| REDR-F-B103 | BANK B | Bank B button | Bank B | — | display/Remote item, not mapped | tooltip "Bank Select" (same text on all 4) |
+| REDR-F-B105 | BANK C | Bank C button | Bank C | — | display/Remote item, not mapped | tooltip "Bank Select" (same text on all 4) |
+| REDR-F-B106 | BANK D | Bank D button | Bank D | — | display/Remote item, not mapped | tooltip "Bank Select" (same text on all 4) |
+| REDR-F-B104 | BANK SELECT (A-D as one control) | Pick bank A-D | Bank Select | 42 / CC 71 | voice/MIDI or click | tooltip "Bank Select" (same text on all 4 buttons) |
+| REDR-F-B101 | RUN | Run / stop the pattern | Run | 43 / CC 72 | voice/MIDI or click | tooltip "Play" (tooltip says Play; button is labelled RUN) |
+| REDR-F-D30 | STEPS display | Pattern length (steps) display | — | — | click only | tooltip "Pattern Length: 16" |
+| REDR-F-B83 | STEPS arrows | Pattern length up / down | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (upper half hovered; lower half also none) |
+| REDR-F-K94 | RESOLUTION | Pattern resolution | Resolution | 46 / CC 75 | voice/MIDI or click | tooltip "Resolution: 1/16" |
+| REDR-F-B84 | SHUFFLE | Pattern shuffle on/off | Shuffle | 44 / CC 73 | voice/MIDI or click | tooltip "Pattern Shuffle" |
+| REDR-F-B85 | EDIT STEPS switch | Which 16 steps you edit (1-16 / 17-32 / 33-48 / 49-64) | Edit Steps | — | display/Remote item, not mapped | tooltip "Edit Steps Select" |
+| REDR-F-B86 | DYNAMIC switch | Accent level to enter (hard / medium / soft) | Edit Accent | — | display/Remote item, not mapped | tooltip "Edit Accent" |
+| REDR-F-K95 | FLAM knob | Flam amount | Flam Amount | 45 / CC 74 | voice/MIDI or click | tooltip "Flam Amount: 64" |
+| REDR-F-B87 | FLAM button | Flam entry mode | — | — | click only | tooltip "Edit Flam" |
+| REDR-F-B107 | STEP 1 | Step 1 button (toggles the step for the selected drum) | Selected Drum Toggle Step 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D32 | STEP 1 light | Step 1 light | Selected Drum Step 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B108 | STEP 2 | Step 2 button (toggles the step for the selected drum) | Selected Drum Toggle Step 2 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D33 | STEP 2 light | Step 2 light | Selected Drum Step 2 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B109 | STEP 3 | Step 3 button (toggles the step for the selected drum) | Selected Drum Toggle Step 3 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D34 | STEP 3 light | Step 3 light | Selected Drum Step 3 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B110 | STEP 4 | Step 4 button (toggles the step for the selected drum) | Selected Drum Toggle Step 4 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D35 | STEP 4 light | Step 4 light | Selected Drum Step 4 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B111 | STEP 5 | Step 5 button (toggles the step for the selected drum) | Selected Drum Toggle Step 5 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D36 | STEP 5 light | Step 5 light | Selected Drum Step 5 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B112 | STEP 6 | Step 6 button (toggles the step for the selected drum) | Selected Drum Toggle Step 6 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D37 | STEP 6 light | Step 6 light | Selected Drum Step 6 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B113 | STEP 7 | Step 7 button (toggles the step for the selected drum) | Selected Drum Toggle Step 7 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D38 | STEP 7 light | Step 7 light | Selected Drum Step 7 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B114 | STEP 8 | Step 8 button (toggles the step for the selected drum) | Selected Drum Toggle Step 8 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D39 | STEP 8 light | Step 8 light | Selected Drum Step 8 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B115 | STEP 9 | Step 9 button (toggles the step for the selected drum) | Selected Drum Toggle Step 9 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D40 | STEP 9 light | Step 9 light | Selected Drum Step 9 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-B116 | STEP 10 | Step 10 button (toggles the step for the selected drum) | Selected Drum Toggle Step 10 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D41 | STEP 10 light | Step 10 light | Selected Drum Step 10 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B117 | STEP 11 | Step 11 button (toggles the step for the selected drum) | Selected Drum Toggle Step 11 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D42 | STEP 11 light | Step 11 light | Selected Drum Step 11 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B118 | STEP 12 | Step 12 button (toggles the step for the selected drum) | Selected Drum Toggle Step 12 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D43 | STEP 12 light | Step 12 light | Selected Drum Step 12 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B119 | STEP 13 | Step 13 button (toggles the step for the selected drum) | Selected Drum Toggle Step 13 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D44 | STEP 13 light | Step 13 light | Selected Drum Step 13 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B120 | STEP 14 | Step 14 button (toggles the step for the selected drum) | Selected Drum Toggle Step 14 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D45 | STEP 14 light | Step 14 light | Selected Drum Step 14 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B121 | STEP 15 | Step 15 button (toggles the step for the selected drum) | Selected Drum Toggle Step 15 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D46 | STEP 15 light | Step 15 light | Selected Drum Step 15 | — | display/Remote item, not mapped | not hovered on this channel (no tooltip seen on this widget in channels 1-4) |
+| REDR-F-B122 | STEP 16 | Step 16 button (toggles the step for the selected drum) | Selected Drum Toggle Step 16 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| REDR-F-D47 | STEP 16 light | Step 16 light | Selected Drum Step 16 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Redrum Drum Computer — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| REDR-B-J01 | Ch 1 Left | Audio output, channel 1 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 1 Left" |
+| REDR-B-J11 | Ch 1 Right | Audio output, channel 1 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 1 Right" |
+| REDR-B-J25 | Gate Out 1 | Gate output, channel 1 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 1" |
+| REDR-B-J35 | Gate In 1 | Gate input, channel 1 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 1" |
+| REDR-B-J45 | Pitch 1 CV In | Pitch CV input, channel 1 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 1 CV" |
+| REDR-B-K01 | Pitch 1 CV trim | Amount for pitch CV, channel 1 | — | — | click/drag only (no Remote item) | tooltip "Pitch 1 CV: 127" |
+| REDR-B-J02 | Ch 2 Left | Audio output, channel 2 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 2 Left" |
+| REDR-B-J12 | Ch 2 Right | Audio output, channel 2 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 2 Right" |
+| REDR-B-J26 | Gate Out 2 | Gate output, channel 2 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 2" |
+| REDR-B-J36 | Gate In 2 | Gate input, channel 2 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 2" |
+| REDR-B-J46 | Pitch 2 CV In | Pitch CV input, channel 2 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 2 CV" |
+| REDR-B-K02 | Pitch 2 CV trim | Amount for pitch CV, channel 2 | — | — | click/drag only (no Remote item) | tooltip "Pitch 2 CV: 127" |
+| REDR-B-J03 | Ch 3 Left | Audio output, channel 3 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 3 Left" |
+| REDR-B-J13 | Ch 3 Right | Audio output, channel 3 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 3 Right" |
+| REDR-B-J27 | Gate Out 3 | Gate output, channel 3 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 3" |
+| REDR-B-J37 | Gate In 3 | Gate input, channel 3 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 3" |
+| REDR-B-J47 | Pitch 3 CV In | Pitch CV input, channel 3 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 3 CV" |
+| REDR-B-K03 | Pitch 3 CV trim | Amount for pitch CV, channel 3 | — | — | click/drag only (no Remote item) | tooltip "Pitch 3 CV: 127" |
+| REDR-B-J04 | Ch 4 Left | Audio output, channel 4 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 4 Left" |
+| REDR-B-J14 | Ch 4 Right | Audio output, channel 4 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 4 Right" |
+| REDR-B-J28 | Gate Out 4 | Gate output, channel 4 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 4" |
+| REDR-B-J38 | Gate In 4 | Gate input, channel 4 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 4" |
+| REDR-B-J48 | Pitch 4 CV In | Pitch CV input, channel 4 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 4 CV" |
+| REDR-B-K04 | Pitch 4 CV trim | Amount for pitch CV, channel 4 | — | — | click/drag only (no Remote item) | tooltip "Pitch 4 CV: 127" |
+| REDR-B-J05 | Ch 5 Left | Audio output, channel 5 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 5 Left" |
+| REDR-B-J15 | Ch 5 Right | Audio output, channel 5 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 5 Right" |
+| REDR-B-J29 | Gate Out 5 | Gate output, channel 5 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 5" |
+| REDR-B-J39 | Gate In 5 | Gate input, channel 5 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 5" |
+| REDR-B-J49 | Pitch 5 CV In | Pitch CV input, channel 5 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 5 CV" |
+| REDR-B-K05 | Pitch 5 CV trim | Amount for pitch CV, channel 5 | — | — | click/drag only (no Remote item) | tooltip "Pitch 5 CV: 127" |
+| REDR-B-J06 | Ch 6 Left | Audio output, channel 6 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 6 Left" |
+| REDR-B-J16 | Ch 6 Right | Audio output, channel 6 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 6 Right" |
+| REDR-B-J30 | Gate Out 6 | Gate output, channel 6 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 6" |
+| REDR-B-J40 | Gate In 6 | Gate input, channel 6 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 6" |
+| REDR-B-J50 | Pitch 6 CV In | Pitch CV input, channel 6 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 6 CV" |
+| REDR-B-K06 | Pitch 6 CV trim | Amount for pitch CV, channel 6 | — | — | click/drag only (no Remote item) | tooltip "Pitch 6 CV: 127" |
+| REDR-B-J07 | Ch 7 Left | Audio output, channel 7 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 7 Left" |
+| REDR-B-J17 | Ch 7 Right | Audio output, channel 7 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 7 Right" |
+| REDR-B-J31 | Gate Out 7 | Gate output, channel 7 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 7" |
+| REDR-B-J41 | Gate In 7 | Gate input, channel 7 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 7" |
+| REDR-B-J51 | Pitch 7 CV In | Pitch CV input, channel 7 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 7 CV" |
+| REDR-B-K07 | Pitch 7 CV trim | Amount for pitch CV, channel 7 | — | — | click/drag only (no Remote item) | tooltip "Pitch 7 CV: 127" |
+| REDR-B-J08 | Ch 8 Left | Audio output, channel 8 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 8 Left" |
+| REDR-B-J18 | Ch 8 Right | Audio output, channel 8 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 8 Right" |
+| REDR-B-J32 | Gate Out 8 | Gate output, channel 8 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 8" |
+| REDR-B-J42 | Gate In 8 | Gate input, channel 8 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 8" |
+| REDR-B-J52 | Pitch 8 CV In | Pitch CV input, channel 8 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 8 CV" |
+| REDR-B-K08 | Pitch 8 CV trim | Amount for pitch CV, channel 8 | — | — | click/drag only (no Remote item) | tooltip "Pitch 8 CV: 127" |
+| REDR-B-J09 | Ch 9 Left | Audio output, channel 9 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 9 Left" |
+| REDR-B-J19 | Ch 9 Right | Audio output, channel 9 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 9 Right" |
+| REDR-B-J33 | Gate Out 9 | Gate output, channel 9 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 9" |
+| REDR-B-J43 | Gate In 9 | Gate input, channel 9 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 9" |
+| REDR-B-J53 | Pitch 9 CV In | Pitch CV input, channel 9 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 9 CV" |
+| REDR-B-K09 | Pitch 9 CV trim | Amount for pitch CV, channel 9 | — | — | click/drag only (no Remote item) | tooltip "Pitch 9 CV: 127" |
+| REDR-B-J10 | Ch 10 Left | Audio output, channel 10 left (or mono) | — | — | cable: right-click jack > device > jack name | tooltip "Ch 10 Left" |
+| REDR-B-J20 | Ch 10 Right | Audio output, channel 10 right | — | — | cable: right-click jack > device > jack name | tooltip "Ch 10 Right" |
+| REDR-B-J34 | Gate Out 10 | Gate output, channel 10 | — | — | cable: right-click jack > device > jack name | tooltip "Gate Out 10" |
+| REDR-B-J44 | Gate In 10 | Gate input, channel 10 | — | — | cable: right-click jack > device > jack name | tooltip "Gate In 10" |
+| REDR-B-J54 | Pitch 10 CV In | Pitch CV input, channel 10 | — | — | cable: right-click jack > device > jack name | tooltip "Pitch 10 CV" |
+| REDR-B-K10 | Pitch 10 CV trim | Amount for pitch CV, channel 10 | — | — | click/drag only (no Remote item) | tooltip "Pitch 10 CV: 127" |
+| REDR-B-J21 | Send Out 1 | Send output 1 | — | — | cable: right-click jack > device > jack name | tooltip "Send 1" |
+| REDR-B-J22 | Send Out 2 | Send output 2 | — | — | cable: right-click jack > device > jack name | tooltip "Send 2" |
+| REDR-B-J23 | Stereo Out Left | Stereo output, left | — | — | cable: right-click jack > device > jack name | tooltip "Left" |
+| REDR-B-J24 | Stereo Out Right | Stereo output, right | — | — | cable: right-click jack > device > jack name | tooltip "Right" |
+| REDR-B-D01 | Sample Memory display | Sample memory display | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Dr. Octo Rex Loop Player — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| DREX-F-B01 | (triangle top) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-S01 | PITCH BEND wheel | Pitch bend wheel | Pitch Bend | — | display/Remote item, not mapped | tooltip "Pitch Bend: 0" |
+| DREX-F-S02 | MOD WHEEL | Modulation wheel | Mod Wheel | — | display/Remote item, not mapped | tooltip "Mod Wheel: 0" |
+| DREX-F-D01 | ACOUSTIC DR tape | Patch name tape | Device Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D02 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B02 | (patch up arrow) | Load previous patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" |
+| DREX-F-B06 | (patch down arrow) | Load next patch | Select Next Patch | — | display/Remote item, not mapped | tooltip "Select next patch" |
+| DREX-F-B03 | (patch folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| DREX-F-B04 | (patch disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| DREX-F-K01 | NOTES TO SLOT knob | Notes to slot (MIDI notes pick the loop slot) | Notes to Slot | 11 / CC 40 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (the lights beside the loop buttons show 'Notes to Slot') |
+| DREX-F-B07 | LOOP BUTTON 1 | Play loop slot 1 | Select Loop 1 | 1 / CC 30 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D04 | LOOP 1 light | Notes-to-slot light, slot 1 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 1)" |
+| DREX-F-D05 | LOOP 1 name | Loop file name, slot 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B08 | LOOP BUTTON 2 | Play loop slot 2 | Select Loop 2 | 2 / CC 31 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D06 | LOOP 2 light | Notes-to-slot light, slot 2 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 2)" |
+| DREX-F-D07 | LOOP 2 name | Loop file name, slot 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B09 | LOOP BUTTON 3 | Play loop slot 3 | Select Loop 3 | 3 / CC 32 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D08 | LOOP 3 light | Notes-to-slot light, slot 3 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 3)" |
+| DREX-F-D09 | LOOP 3 name | Loop file name, slot 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B10 | LOOP BUTTON 4 | Play loop slot 4 | Select Loop 4 | 4 / CC 33 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D10 | LOOP 4 light | Notes-to-slot light, slot 4 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 4)" |
+| DREX-F-D11 | LOOP 4 name | Loop file name, slot 4 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B12 | LOOP BUTTON 5 | Play loop slot 5 | Select Loop 5 | 5 / CC 34 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D12 | LOOP 5 light | Notes-to-slot light, slot 5 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 5)" |
+| DREX-F-D17 | LOOP 5 name | Loop file name, slot 5 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B13 | LOOP BUTTON 6 | Play loop slot 6 | Select Loop 6 | 6 / CC 35 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D13 | LOOP 6 light | Notes-to-slot light, slot 6 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 6)" |
+| DREX-F-D18 | LOOP 6 name | Loop file name, slot 6 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B14 | LOOP BUTTON 7 | Play loop slot 7 | Select Loop 7 | 7 / CC 36 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D14 | LOOP 7 light | Notes-to-slot light, slot 7 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 7)" |
+| DREX-F-D19 | LOOP 7 name | Loop file name, slot 7 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B15 | LOOP BUTTON 8 | Play loop slot 8 | Select Loop 8 | 8 / CC 37 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D15 | LOOP 8 light | Notes-to-slot light, slot 8 | — | — | click only | tooltip "Notes to Slot (shown on the light left of loop button 8)" |
+| DREX-F-D20 | LOOP 8 name | Loop file name, slot 8 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B17 | TRIG NEXT LOOP: BAR | Switch loops at the next bar | Trigger Next Setting | 12 / CC 41 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote 'Trigger Next Setting' covers BAR / BEAT / 1/16 |
+| DREX-F-B18 | TRIG NEXT LOOP: BEAT | Switch loops at the next beat | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B19 | TRIG NEXT LOOP: 1/16 | Switch loops at the next 1/16 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B05 | ENABLE LOOP PLAYBACK | Loop playback on/off | Enable Loop Playback | 14 / CC 43 | voice/MIDI or click | tooltip "Enable Loop Playback" |
+| DREX-F-D03 | MUTE light | Mute light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B11 | RUN | Run / stop loop playback | Run | 13 / CC 42 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Run' matched by label, NOT proven |
+| DREX-F-D16 | GLOBAL TRANSPOSE display | Global transpose (semitones) | Transpose | 16 / CC 45 | voice/MIDI or click | tooltip "Transpose: 0" (seen when hovering the arrows) |
+| DREX-F-B16 | (global transpose arrows) | Global transpose up / down | — | — | click only | tooltip "Transpose: 0" seen on the display's lower edge; arrows themselves unproven |
+| DREX-F-K02 | VOLUME | Master volume | Master Level | — | display/Remote item, not mapped | tooltip "Master Level: 100" |
+| DREX-F-B20 | (triangle programmer) | Fold/unfold Programmer | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B21 | FOLLOW LOOP PLAYBACK | Programmer follows the playing loop | Follow Loop Playback | 15 / CC 44 | voice/MIDI or click | tooltip "Follow Loop Playback" |
+| DREX-F-B22 | SELECT SLICE BY MIDI | Pick slice by MIDI note | — | — | click only | tooltip "Select Slice by MIDI" |
+| DREX-F-B24 | (loop arrows) | Previous / next loop file | — | — | click only | tooltip "Select previous loop" (upper half; lower half not hovered) |
+| DREX-F-B25 | (loop folder) | Browse loops | — | — | click only | tooltip "Browse loop" |
+| DREX-F-B26 | SELECT SLOT 1 | Select loop slot 1 in the Programmer | Selected Loop Slot | 9 / CC 38 | voice/MIDI or click | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B29 | SELECT SLOT 2 | Select loop slot 2 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B31 | SELECT SLOT 3 | Select loop slot 3 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B33 | SELECT SLOT 4 | Select loop slot 4 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B27 | SELECT SLOT 5 | Select loop slot 5 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B30 | SELECT SLOT 6 | Select loop slot 6 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B32 | SELECT SLOT 7 | Select loop slot 7 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B34 | SELECT SLOT 8 | Select loop slot 8 in the Programmer | Selected Loop Slot | — | display/Remote item, not mapped | tooltip "Selected Loop Slot (same text on all 8)" |
+| DREX-F-B28 | SELECT SLOT (editor, slot 10) | Remote item 'Selected Loop in Editor': probably the same 8 slot buttons or the loop-file arrows; NOT proven which | Selected Loop in Editor | 10 / CC 39 | voice/MIDI or click | not separately hovered: tooltip on these buttons reads 'Selected Loop Slot'; which control 'Selected Loop in Editor' drives was not proven |
+| DREX-F-B35 | COPY LOOP TO TRACK | Copy the loop to a sequencer track | — | — | click only | tooltip "Copy Loop to Track" |
+| DREX-F-K03 | LOOP TRANSPOSE | Transpose of the selected loop | Loop Transpose | 17 / CC 46 | voice/MIDI or click | tooltip "Loop 1 Transpose: 0" |
+| DREX-F-K04 | LOOP LEVEL | Level of the selected loop | Loop Level | 26 / CC 55 | voice/MIDI or click | tooltip "Loop 1 Level: 100" |
+| DREX-F-D23 | File name display | Loop file name | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D26 | Loop info display | Tempo and length of the loop | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D27 | Keyboard strip | Shows which MIDI keys play which slice | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D29 | Waveform display | Loop waveform with slices | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-K16 | SLICE SLICE knob | Slice slice (edits the selected slice) | — | — | click only | tooltip "Select Slice" |
+| DREX-F-K17 | SLICE PITCH knob | Slice pitch (edits the selected slice) | — | — | click only | tooltip "Set Slice Pitch" |
+| DREX-F-K18 | SLICE PAN knob | Slice pan (edits the selected slice) | — | — | click only | tooltip "Set Slice Pan" |
+| DREX-F-K19 | SLICE LEVEL knob | Slice level (edits the selected slice) | — | — | click only | tooltip "Set Slice Level" |
+| DREX-F-K20 | SLICE DECAY knob | Slice decay (edits the selected slice) | — | — | click only | tooltip "Set Slice Decay" |
+| DREX-F-K21 | SLICE REV knob | Slice rev (edits the selected slice) | — | — | click only | tooltip "Set Slice Reverse" |
+| DREX-F-K22 | SLICE F.FREQ knob | Slice f.freq (edits the selected slice) | — | — | click only | tooltip "Set Slice Filter Frequency" |
+| DREX-F-K23 | SLICE ALT knob | Slice alt (edits the selected slice) | — | — | click only | tooltip "Set Slice Alternate Group" |
+| DREX-F-K24 | SLICE OUTPUT knob | Slice output (edits the selected slice) | — | — | click only | tooltip "Set Slice Output" |
+| DREX-F-K05 | OSC PITCH: ENV.A | Osc pitch envelope amount | Osc Env Amount | 20 / CC 49 | voice/MIDI or click | tooltip "Osc Env Amount: 0" |
+| DREX-F-K06 | OSC PITCH: OCT | Osc octave | Osc Octave | 18 / CC 47 | voice/MIDI or click | tooltip "Osc Octave: 4" |
+| DREX-F-K07 | OSC PITCH: FINE | Osc fine tune | Osc Fine Tune | 19 / CC 48 | voice/MIDI or click | tooltip "Osc Fine Tune: 0" |
+| DREX-F-K08 | MOD.WHEEL: F.FREQ | Mod wheel to filter frequency | Filter Freq Mod Wheel Amount | — | display/Remote item, not mapped | tooltip "Filter Freq Mod Wheel Amount: 32" |
+| DREX-F-K09 | MOD.WHEEL: F.RES | Mod wheel to filter resonance | Filter Res Mod Wheel Amount | — | display/Remote item, not mapped | tooltip "Filter Res Mod Wheel Amount: 0" |
+| DREX-F-K10 | MOD.WHEEL: F.DECAY | Mod wheel to filter decay | Filter Decay Mod Wheel Amount | — | display/Remote item, not mapped | tooltip "Filter Decay Mod Wheel Amount: 0" |
+| DREX-F-K11 | VELOCITY: F.ENV | Velocity to filter envelope amount | Filter Env Vel Amount | 36 / CC 65 | voice/MIDI or click | tooltip "Filter Env Vel Amount: 0" |
+| DREX-F-K12 | VELOCITY: F.DECAY | Velocity to filter decay | Filter Decay Vel Amount | — | display/Remote item, not mapped | tooltip "Filter Decay Vel Amount: 0" |
+| DREX-F-K13 | VELOCITY: AMP | Velocity to amp level | Amp Vel Amount | 25 / CC 54 | voice/MIDI or click | tooltip "Amp Vel Amount: 0" |
+| DREX-F-B38 | SLICE EDIT MODE | Slice edit mode button | — | — | click only | tooltip "Slice Edit Mode" |
+| DREX-F-D33 | PITCH BEND RANGE | Pitch bend range | Pitch Bend Range | — | display/Remote item, not mapped | tooltip "Pitch Bend Range: 7" |
+| DREX-F-D34 | POLYPHONY | Number of voices | Polyphony | — | display/Remote item, not mapped | tooltip "Polyphony: 6" |
+| DREX-F-B23 | FILTER ON | Filter on/off | Filter On/Off | 27 / CC 56 | voice/MIDI or click | tooltip "Filter On/Off" |
+| DREX-F-D21 | FILTER MODE light Notch | Filter mode light: Notch | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D22 | FILTER MODE light HP 12 | Filter mode light: HP 12 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D24 | FILTER MODE light BP 12 | Filter mode light: BP 12 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D25 | FILTER MODE light LP 12 | Filter mode light: LP 12 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D28 | FILTER MODE light LP 24 | Filter mode light: LP 24 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B36 | FILTER MODE button | Step through filter modes | Filter Mode | 30 / CC 59 | voice/MIDI or click | tooltip "Filter Mode" |
+| DREX-F-S03 | FILTER FREQ slider | Filter frequency | Filter Freq | 28 / CC 57 | voice/MIDI or click | tooltip "Filter Freq: 127" |
+| DREX-F-S06 | FILTER RES slider | Filter resonance | Filter Res | 29 / CC 58 | voice/MIDI or click | tooltip "Filter Res: 0" |
+| DREX-F-S07 | FILTER ENV AMOUNT slider | Filter envelope amount | Filter Env Amount | 31 / CC 60 | voice/MIDI or click | tooltip "Filter Env Amount: 0" |
+| DREX-F-S08 | FILTER ENV A slider | Filter envelope attack | Filter Env Attack | 32 / CC 61 | voice/MIDI or click | tooltip "Filter Env Attack: 0" |
+| DREX-F-S04 | FILTER ENV D slider | Filter envelope decay | Filter Env Decay | 33 / CC 62 | voice/MIDI or click | tooltip "Filter Env Decay: 64" |
+| DREX-F-S09 | FILTER ENV S slider | Filter envelope sustain | Filter Env Sustain | 34 / CC 63 | voice/MIDI or click | tooltip "Filter Env Sustain: 0" |
+| DREX-F-S05 | FILTER ENV R slider | Filter envelope release | Filter Env Release | 35 / CC 64 | voice/MIDI or click | tooltip "Filter Env Release: 64" |
+| DREX-F-B37 | LFO SYNC | LFO tempo sync | LFO Sync Enable | 41 / CC 70 | voice/MIDI or click | tooltip "LFO Sync Enable" |
+| DREX-F-D30 | LFO wave light 1 | LFO waveform light 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D31 | LFO wave light 2 | LFO waveform light 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D32 | LFO wave light 3 | LFO waveform light 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D35 | LFO wave light 4 | LFO waveform light 4 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D36 | LFO wave light 5 | LFO waveform light 5 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D39 | LFO wave light 6 | LFO waveform light 6 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B39 | LFO WAVEF. button | Step through LFO waveforms | LFO1 Wave | 39 / CC 68 | voice/MIDI or click | tooltip "LFO1 Wave" |
+| DREX-F-K14 | LFO RATE | LFO rate | LFO1 Rate | 37 / CC 66 | voice/MIDI or click | tooltip "LFO1 Rate: 64" |
+| DREX-F-K15 | LFO AMOUNT | LFO amount | LFO1 Amount | 38 / CC 67 | voice/MIDI or click | tooltip "LFO1 Amount: 0" |
+| DREX-F-D37 | LFO DEST light OSC | LFO destination light: OSC | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D38 | LFO DEST light FILTER | LFO destination light: FILTER | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-D40 | LFO DEST light PAN | LFO destination light: PAN | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| DREX-F-B40 | LFO DEST. button | Step through LFO destinations | LFO1 Dest | 40 / CC 69 | voice/MIDI or click | tooltip "LFO1 Dest" |
+| DREX-F-S11 | AMP ENV A slider | Amp envelope attack | Amp Env Attack | 21 / CC 50 | voice/MIDI or click | tooltip "Amp Env Attack: 0" |
+| DREX-F-S10 | AMP ENV D slider | Amp envelope decay | Amp Env Decay | 22 / CC 51 | voice/MIDI or click | tooltip "Amp Env Decay: 127" |
+| DREX-F-S12 | AMP ENV S slider | Amp envelope sustain | Amp Env Sustain | 23 / CC 52 | voice/MIDI or click | tooltip "Amp Env Sustain: 127" |
+| DREX-F-S13 | AMP ENV R slider | Amp envelope release | Amp Env Release | 24 / CC 53 | voice/MIDI or click | tooltip "Amp Env Release: 10" |
+
+## Dr. Octo Rex Loop Player — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| DREX-B-K01 | Amp Level (master volume) CV trim | Amount for Amp Level (master volume) CV | — | — | click/drag only (no Remote item) | tooltip "Amp Level Modulation Input: 127" |
+| DREX-B-J01 | Amp Level (master volume) CV In | CV input: Amp Level (master volume) | — | — | cable: right-click jack > device > jack name | tooltip "Amp Level Modulation Input" |
+| DREX-B-K03 | Mod Wheel CV trim | Amount for Mod Wheel CV | — | — | click/drag only (no Remote item) | tooltip "Mod Wheel Modulation Input: 127" |
+| DREX-B-J13 | Mod Wheel CV In | CV input: Mod Wheel | — | — | cable: right-click jack > device > jack name | tooltip "Mod Wheel Modulation Input" |
+| DREX-B-K05 | Pitch Wheel CV trim | Amount for Pitch Wheel CV | — | — | click/drag only (no Remote item) | tooltip "Pitch Wheel Modulation Input: 127" |
+| DREX-B-J19 | Pitch Wheel CV In | CV input: Pitch Wheel | — | — | cable: right-click jack > device > jack name | tooltip "Pitch Wheel Modulation Input" |
+| DREX-B-K02 | Filter cutoff CV trim | Amount for Filter cutoff CV | — | — | click/drag only (no Remote item) | tooltip "Filter1 Cutoff Modulation Input: 127" |
+| DREX-B-J02 | Filter cutoff CV In | CV input: Filter cutoff | — | — | cable: right-click jack > device > jack name | tooltip "Filter1 Cutoff Modulation Input" |
+| DREX-B-K04 | Filter resonance CV trim | Amount for Filter resonance CV | — | — | click/drag only (no Remote item) | tooltip "Filter1 Resonance Modulation Input: 127" |
+| DREX-B-J14 | Filter resonance CV In | CV input: Filter resonance | — | — | cable: right-click jack > device > jack name | tooltip "Filter1 Resonance Modulation Input" |
+| DREX-B-K06 | Osc pitch CV trim | Amount for Osc pitch CV | — | — | click/drag only (no Remote item) | tooltip "OSC Pitch Modulation Input: 127" |
+| DREX-B-J20 | Osc pitch CV In | CV input: Osc pitch | — | — | cable: right-click jack > device > jack name | tooltip "OSC Pitch Modulation Input" |
+| DREX-B-J03 | Filter Env Mod Out | CV output: filter envelope (voice 1) | — | — | cable: right-click jack > device > jack name | tooltip "Filter Env Modulation Output (Mono)" |
+| DREX-B-J11 | LFO Mod Out | CV output: LFO | — | — | cable: right-click jack > device > jack name | tooltip "LFO Modulation Output" |
+| DREX-B-J21 | Slice Gate Out | Gate output: slices | — | — | cable: right-click jack > device > jack name | tooltip "Slice Gate Output" |
+| DREX-B-J04 | Amp Env Gate In | Gate input: amp envelope | — | — | cable: right-click jack > device > jack name | tooltip "Amp Env Gate Input" |
+| DREX-B-J12 | Filter Env Gate In | Gate input: filter envelope | — | — | cable: right-click jack > device > jack name | tooltip "Filter Env Gate Input" |
+| DREX-B-J05 | Slice Out 1 | Separate audio output for slice 1 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 1" |
+| DREX-B-J06 | Slice Out 2 | Separate audio output for slice 2 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 2" |
+| DREX-B-J07 | Slice Out 3 | Separate audio output for slice 3 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 3" |
+| DREX-B-J08 | Slice Out 4 | Separate audio output for slice 4 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 4" |
+| DREX-B-J15 | Slice Out 5 | Separate audio output for slice 5 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 5" |
+| DREX-B-J16 | Slice Out 6 | Separate audio output for slice 6 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 6" |
+| DREX-B-J17 | Slice Out 7 | Separate audio output for slice 7 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 7" |
+| DREX-B-J18 | Slice Out 8 | Separate audio output for slice 8 | — | — | cable: right-click jack > device > jack name | tooltip "Slice Output 8" |
+| DREX-B-J09 | Main Out L | Main output, left | — | — | cable: right-click jack > device > jack name | tooltip "Left" |
+| DREX-B-J10 | Main Out R | Main output, right | — | — | cable: right-click jack > device > jack name | tooltip "Right" |
+| DREX-B-B01 | HIGH QUALITY INTERPOLATION | High quality interpolation on/off | — | — | click/drag only (no Remote item) | tooltip "High Quality Interpolation" |
+| DREX-B-B02 | LOW BANDWIDTH | Low bandwidth on/off | — | — | click/drag only (no Remote item) | tooltip "Low Bandwidth On/Off" |
+| DREX-B-D01 | ACOUSTIC DR tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+
+## Mimic Creative Sampler — front
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MIMC-F-B01 | (triangle) | Fold/unfold device | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D01 | (red light) | Note-on light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D02 | Patch display | Patch name display | Patch Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B02 | (patch arrows) | Previous / next patch | Select Previous Patch | — | display/Remote item, not mapped | tooltip "Select previous patch" (upper half; lower half = Select Next Patch, not hovered) |
+| MIMC-F-B03 | (patch folder) | Open patch browser | — | — | click only | tooltip "Browse patch" |
+| MIMC-F-B04 | (patch disk) | Save patch | — | — | click only | tooltip "Save patch" |
+| MIMC-F-D03 | BASIC VIBE tape | Patch name tape | Device Name | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K01 | MASTER VOLUME | Master volume | Master Volume | 41 / CC 70 | voice/MIDI or click | tooltip "Master Volume: 0.0 dB" |
+| MIMC-F-B05 | MODE: Pitch | Play mode: Pitch | Play Mode | 42 / CC 71 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B06 | MODE: Slice | Play mode: Slice | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B07 | MODE: Multi Slot | Play mode: Multi Slot | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B08 | MODE: Multi Pitch | Play mode: Multi Pitch | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B09 | SLOT 1 tab | Select sample slot 1 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B10 | SLOT 2 tab | Select sample slot 2 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B11 | SLOT 3 tab | Select sample slot 3 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B12 | SLOT 4 tab | Select sample slot 4 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B13 | SLOT 5 tab | Select sample slot 5 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B14 | SLOT 6 tab | Select sample slot 6 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B15 | SLOT 7 tab | Select sample slot 7 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B16 | SLOT 8 tab | Select sample slot 8 | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D06 | Overview waveform | Whole-sample overview with start/end markers | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D07 | ANALYZED | Analysed pitch of the sample | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B17 | SET | Set root note from analysis | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D04 | ROOT note | Root note | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D05 | TUNE display | Root fine tune | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D08 | Main waveform | Waveform: sets start, end, loop and slices | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B18 | START marker | Sample start marker | Start Pos 1 | 4 / CC 33 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B19 | END marker | Sample end marker | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B20 | (sample arrows) | Previous / next sample | — | — | click only | tooltip "Select previous sample" (upper half; lower half not hovered) |
+| MIMC-F-B21 | (sample folder) | Browse samples | — | — | click only | tooltip "Browse sample" |
+| MIMC-F-B22 | (sample button) | Start sampling | — | — | click only | tooltip "Start sampling" |
+| MIMC-F-D09 | Sample name display | Name of the loaded sample | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B23 | CLR | Delete the sample from the slot | — | — | click only | tooltip "Delete Sample" |
+| MIMC-F-B24 | LOOP | Loop on/off | Loop On 1 | — | display/Remote item, not mapped | tooltip "Loop On 1" |
+| MIMC-F-K02 | LOOP LENGTH | Loop length | Loop Length 1 | — | display/Remote item, not mapped | tooltip "Loop Length 1: 50.0 %" |
+| MIMC-F-D10 | Keyboard | Keyboard: shows root note and range | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B26 | GLOBAL POSITION | Global start position | Global Pos 1 | — | display/Remote item, not mapped | tooltip "Global Pos 1" |
+| MIMC-F-B28 | SNAP TO SLICES | Snap start to slices | Snap Slices 1 | — | display/Remote item, not mapped | tooltip "Snap Slices 1" |
+| MIMC-F-B25 | REVERSE | Reverse the sample | Reverse 1 | — | display/Remote item, not mapped | tooltip "Reverse 1" |
+| MIMC-F-K03 | START MOD amount | Start position: mod amount | — | — | click only | tooltip "Start ModAmt 1: 0.0 %" |
+| MIMC-F-D11 | START MOD source | Start position: mod source menu | Start Mod 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K04 | SPEED | Stretch speed | Stretch Speed 1 | — | display/Remote item, not mapped | tooltip "Stretch Speed 1: 100.0 %" |
+| MIMC-F-K05 | SPEED MOD amount | Speed: mod amount | Speed ModAmt 1 | — | display/Remote item, not mapped | tooltip "Speed ModAmt 1: 0.0 %" |
+| MIMC-F-D12 | SPEED MOD source | Speed: mod source menu | Speed Mod 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D13 | STRETCH mode menu | Stretch algorithm menu (Tape / ...) | Algorithm | 43 / CC 72 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K06 | LOOP X-FADE | Loop crossfade | Loop Xfade 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) (knob; label LOOP X-FADE shows 50%) |
+| MIMC-F-B27 | SLICES RESET | Reset slices | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B29 | PLAY THRU | Play-through for slices | Play Thru 1 | — | display/Remote item, not mapped | tooltip "Play Thru 1" |
+| MIMC-F-K07 | SLICES SENSITIVITY | Slice detection sensitivity | Slice Sens 1 | — | display/Remote item, not mapped | tooltip "Slice Sens 1: 100.0 %" |
+| MIMC-F-K08 | PORTA knob | Portamento rate | Portamento Rate 1 | — | display/Remote item, not mapped | tooltip "Portamento Rate 1: 25.0 %" |
+| MIMC-F-B31 | PORTA switch (OFF/ON/AUTO) | Portamento mode | Portamento Mode 1 | — | display/Remote item, not mapped | tooltip "Portamento Mode 1: Off" |
+| MIMC-F-B30 | POLY | Key mode: poly | Key Mode 1 | — | display/Remote item, not mapped | tooltip "Key Mode 1" |
+| MIMC-F-B32 | MONO RETRIG | Key mode: mono retrig | — | — | click only | tooltip "Key Mode 1" |
+| MIMC-F-B34 | MONO LEGATO | Key mode: mono legato | — | — | click only | tooltip "Key Mode 1" |
+| MIMC-F-B33 | PITCH KBD | Pitch follows keyboard | Pitch Kbd 1 | — | display/Remote item, not mapped | tooltip "Pitch Kbd 1" |
+| MIMC-F-K09 | PITCH SEMI | Pitch in semitones | Pitch Semi 1 | 2 / CC 31 | voice/MIDI or click | tooltip "Pitch Semi 1: 0" |
+| MIMC-F-D16 | Semi display | Semitone readout | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K13 | PITCH TUNE | Fine tune | Tune 1 | — | display/Remote item, not mapped | tooltip "Tune 1: 0.0" |
+| MIMC-F-K14 | PITCH LFO | Pitch LFO amount | — | — | click only | tooltip "Pitch LFOAmt 1: 0.0 %" |
+| MIMC-F-K15 | PITCH MOD amount | Pitch mod amount | — | — | click only | tooltip "Pitch ModAmt 1: 0.0 %" |
+| MIMC-F-D17 | PITCH MOD source | Pitch: mod source menu | Pitch Mod 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K20 | PITCH RANGE | Pitch bend range | Pitchbend Range 1 | — | display/Remote item, not mapped | tooltip "Pitchbend Range 1: 2" |
+| MIMC-F-K21 | LFO SCALE | Mod wheel to LFO amount | — | — | click only | tooltip "MW LFO 1: 0.0 %" |
+| MIMC-F-S09 | PITCH wheel | Pitch bend wheel | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Pitch Bend' matched by label, NOT proven |
+| MIMC-F-S10 | MOD wheel | Mod wheel | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); Remote item 'Mod Wheel' matched by label, NOT proven |
+| MIMC-F-D14 | FILTER type menu | Filter type menu | Filter Type 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D15 | (filter light) | Filter indicator light | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K12 | FILTER FREQ | Filter frequency | Filter Freq 1 | 3 / CC 32 | voice/MIDI or click | tooltip "Filter Freq 1: 769.4 Hz" |
+| MIMC-F-K10 | FILTER RESO | Filter resonance | Filter Reso 1 | — | display/Remote item, not mapped | tooltip "Filter Reso 1: 50.0 %" |
+| MIMC-F-K11 | FILTER DRIVE | Filter drive | Filter Drive 1 | — | display/Remote item, not mapped | tooltip "Filter Drive 1: 10.0 %" |
+| MIMC-F-K16 | FILTER KBD | Filter key tracking | — | — | click only | tooltip "Filter Kbd 1: 50.0 %" |
+| MIMC-F-K17 | FILTER VEL | Filter velocity | — | — | click only | tooltip "Filter Vel 1: 0.0 %" |
+| MIMC-F-K18 | FILTER ENV | Filter envelope amount | Filter Env 1 | — | display/Remote item, not mapped | tooltip "Filter Env 1: 0.0 %" |
+| MIMC-F-K19 | FILTER MOD amount | Filter mod amount | Filter ModAmt 1 | — | display/Remote item, not mapped | tooltip "Filter ModAmt 1: 0.0 %" |
+| MIMC-F-D18 | FILTER MOD source | Filter: mod source menu | Filter Mod 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-S05 | FILTER ENV A | Filter envelope attack | Filter Attack 1 | — | display/Remote item, not mapped | tooltip "Filter Attack 1: 0.0 ms" |
+| MIMC-F-S03 | FILTER ENV D | Filter envelope decay | Filter Decay 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); retried 2 s, still none |
+| MIMC-F-S01 | FILTER ENV S | Filter envelope sustain | Filter Sustain 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); retried 2 s, still none |
+| MIMC-F-S06 | FILTER ENV R | Filter envelope release | Filter Release 1 | — | display/Remote item, not mapped | tooltip "Filter Release 1: 35 ms" |
+| MIMC-F-S07 | AMP ENV A | Amp envelope attack | Amp Attack 1 | — | display/Remote item, not mapped | tooltip "Amp Attack 1: 0.0 ms" |
+| MIMC-F-S04 | AMP ENV D | Amp envelope decay | Amp Decay 1 | 5 / CC 34 | voice/MIDI or click | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); retried 2 s, still none |
+| MIMC-F-S02 | AMP ENV S | Amp envelope sustain | Amp Sustain 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away); retried 2 s, still none |
+| MIMC-F-S08 | AMP ENV R | Amp envelope release | Amp Release 1 | — | display/Remote item, not mapped | tooltip "Amp Release 1: 189 ms" |
+| MIMC-F-D21 | LFO WAVE display | LFO waveform | LFO Wave 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B35 | LFO WAVE arrows | Previous / next LFO wave | — | — | click only | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-B36 | KEY SYNC | LFO key sync | LFO Key Sync 1 | — | display/Remote item, not mapped | tooltip "LFO Key Sync 1" |
+| MIMC-F-B37 | BEAT SYNC | LFO beat sync | LFO Beat Sync 1 | — | display/Remote item, not mapped | tooltip "LFO Beat Sync 1" |
+| MIMC-F-K24 | LFO RATE | LFO rate | LFO Rate 1 | — | display/Remote item, not mapped | tooltip "LFO Rate 1: 1.58 Hz" |
+| MIMC-F-K28 | LFO DELAY | LFO delay | LFO Delay 1 | — | display/Remote item, not mapped | tooltip "LFO Delay 1: 0.000 s" |
+| MIMC-F-K25 | AMP VEL | Amp velocity amount | Amp Velocity 1 | — | display/Remote item, not mapped | tooltip "Amp Velocity 1: 0.0 %" |
+| MIMC-F-K26 | AMP GAIN | Amp gain | Amp Gain 1 | 1 / CC 30 | voice/MIDI or click | tooltip "Amp Gain 1: 0.0 dB" |
+| MIMC-F-K27 | AMP MOD amount | Amp mod amount | Amp ModAmt 1 | — | display/Remote item, not mapped | tooltip "Amp ModAmt 1: 0.0 %" |
+| MIMC-F-D22 | AMP MOD source | Amp: mod source menu | Amp Mod 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-K29 | PAN | Pan | Pan 1 | — | display/Remote item, not mapped | tooltip "Pan 1: 0.0" |
+| MIMC-F-K30 | PAN MOD amount | Pan mod amount | — | — | click only | tooltip "Pan ModAmt 1: 0.0 %" |
+| MIMC-F-D24 | PAN MOD source | Pan: mod source menu | Pan Mod 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D19 | COMP light | Compressor indicator | Squeeze 1 | — | display/Remote item, not mapped | tooltip "Squeeze 1: 0.0 %" (shown on the Comp section's light) |
+| MIMC-F-K31 | SQUEEZE | Compressor squeeze | Squeeze 1 | — | display/Remote item, not mapped | tooltip "Squeeze 1: 0.0 %" |
+| MIMC-F-D23 | EFFECT type menu | Effect type menu (Noise ...) | Effect Type 1 | — | display/Remote item, not mapped | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-F-D20 | EFFECT dots | Effect display | — | — | click only | tooltip "Effect Type 1: Noise" |
+| MIMC-F-K32 | EFFECT MOD | Effect modulation | Effect Mod 1 | — | display/Remote item, not mapped | tooltip "Effect Mod 1: 50.0 %" |
+| MIMC-F-K33 | EFFECT MIX | Effect mix | Effect Mix 1 | — | display/Remote item, not mapped | tooltip "Effect Mix 1: 0.0 %" |
+| MIMC-F-K22 | LO CUT | Low cut | Lo Cut 1 | — | display/Remote item, not mapped | tooltip "Lo Cut 1: 20.0 Hz" |
+| MIMC-F-K23 | HI CUT | High cut | Hi Cut 1 | — | display/Remote item, not mapped | tooltip "Hi Cut 1: 20.00 kHz" |
+| MIMC-F-K34 | SEND 1 | Send 1 level | Send1 1 | — | display/Remote item, not mapped | tooltip "Send1 1: -∞ dB" |
+| MIMC-F-K35 | SEND 2 | Send 2 level | — | — | click only | tooltip "Send2 1: -∞ dB" |
+| MIMC-F-K301 | AMP GAIN (as Slot 2) | Amp Gain of slot 2: same physical control as MIMC-F-K26, aimed at slot 2 when that slot is selected | Amp Gain 2 | 6 / CC 35 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 2 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K302 | PITCH SEMI (as Slot 2) | Pitch Semi of slot 2: same physical control as MIMC-F-K09, aimed at slot 2 when that slot is selected | Pitch Semi 2 | 7 / CC 36 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 2 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K303 | FILTER FREQ (as Slot 2) | Filter Freq of slot 2: same physical control as MIMC-F-K12, aimed at slot 2 when that slot is selected | Filter Freq 2 | 8 / CC 37 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 2 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K304 | START marker (as Slot 2) | Start Pos of slot 2: same physical control as MIMC-F-B18, aimed at slot 2 when that slot is selected | Start Pos 2 | 9 / CC 38 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 2 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K305 | AMP ENV D (as Slot 2) | Amp Decay of slot 2: same physical control as MIMC-F-S04, aimed at slot 2 when that slot is selected | Amp Decay 2 | 10 / CC 39 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 2 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K306 | AMP GAIN (as Slot 3) | Amp Gain of slot 3: same physical control as MIMC-F-K26, aimed at slot 3 when that slot is selected | Amp Gain 3 | 11 / CC 40 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 3 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K307 | PITCH SEMI (as Slot 3) | Pitch Semi of slot 3: same physical control as MIMC-F-K09, aimed at slot 3 when that slot is selected | Pitch Semi 3 | 12 / CC 41 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 3 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K308 | FILTER FREQ (as Slot 3) | Filter Freq of slot 3: same physical control as MIMC-F-K12, aimed at slot 3 when that slot is selected | Filter Freq 3 | 13 / CC 42 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 3 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K309 | START marker (as Slot 3) | Start Pos of slot 3: same physical control as MIMC-F-B18, aimed at slot 3 when that slot is selected | Start Pos 3 | 14 / CC 43 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 3 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K310 | AMP ENV D (as Slot 3) | Amp Decay of slot 3: same physical control as MIMC-F-S04, aimed at slot 3 when that slot is selected | Amp Decay 3 | 15 / CC 44 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 3 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K311 | AMP GAIN (as Slot 4) | Amp Gain of slot 4: same physical control as MIMC-F-K26, aimed at slot 4 when that slot is selected | Amp Gain 4 | 16 / CC 45 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 4 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K312 | PITCH SEMI (as Slot 4) | Pitch Semi of slot 4: same physical control as MIMC-F-K09, aimed at slot 4 when that slot is selected | Pitch Semi 4 | 17 / CC 46 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 4 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K313 | FILTER FREQ (as Slot 4) | Filter Freq of slot 4: same physical control as MIMC-F-K12, aimed at slot 4 when that slot is selected | Filter Freq 4 | 18 / CC 47 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 4 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K314 | START marker (as Slot 4) | Start Pos of slot 4: same physical control as MIMC-F-B18, aimed at slot 4 when that slot is selected | Start Pos 4 | 19 / CC 48 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 4 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K315 | AMP ENV D (as Slot 4) | Amp Decay of slot 4: same physical control as MIMC-F-S04, aimed at slot 4 when that slot is selected | Amp Decay 4 | 20 / CC 49 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 4 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K316 | AMP GAIN (as Slot 5) | Amp Gain of slot 5: same physical control as MIMC-F-K26, aimed at slot 5 when that slot is selected | Amp Gain 5 | 21 / CC 50 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 5 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K317 | PITCH SEMI (as Slot 5) | Pitch Semi of slot 5: same physical control as MIMC-F-K09, aimed at slot 5 when that slot is selected | Pitch Semi 5 | 22 / CC 51 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 5 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K318 | FILTER FREQ (as Slot 5) | Filter Freq of slot 5: same physical control as MIMC-F-K12, aimed at slot 5 when that slot is selected | Filter Freq 5 | 23 / CC 52 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 5 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K319 | START marker (as Slot 5) | Start Pos of slot 5: same physical control as MIMC-F-B18, aimed at slot 5 when that slot is selected | Start Pos 5 | 24 / CC 53 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 5 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K320 | AMP ENV D (as Slot 5) | Amp Decay of slot 5: same physical control as MIMC-F-S04, aimed at slot 5 when that slot is selected | Amp Decay 5 | 25 / CC 54 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 5 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K321 | AMP GAIN (as Slot 6) | Amp Gain of slot 6: same physical control as MIMC-F-K26, aimed at slot 6 when that slot is selected | Amp Gain 6 | 26 / CC 55 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 6 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K322 | PITCH SEMI (as Slot 6) | Pitch Semi of slot 6: same physical control as MIMC-F-K09, aimed at slot 6 when that slot is selected | Pitch Semi 6 | 27 / CC 56 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 6 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K323 | FILTER FREQ (as Slot 6) | Filter Freq of slot 6: same physical control as MIMC-F-K12, aimed at slot 6 when that slot is selected | Filter Freq 6 | 28 / CC 57 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 6 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K324 | START marker (as Slot 6) | Start Pos of slot 6: same physical control as MIMC-F-B18, aimed at slot 6 when that slot is selected | Start Pos 6 | 29 / CC 58 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 6 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K325 | AMP ENV D (as Slot 6) | Amp Decay of slot 6: same physical control as MIMC-F-S04, aimed at slot 6 when that slot is selected | Amp Decay 6 | 30 / CC 59 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 6 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K326 | AMP GAIN (as Slot 7) | Amp Gain of slot 7: same physical control as MIMC-F-K26, aimed at slot 7 when that slot is selected | Amp Gain 7 | 31 / CC 60 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 7 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K327 | PITCH SEMI (as Slot 7) | Pitch Semi of slot 7: same physical control as MIMC-F-K09, aimed at slot 7 when that slot is selected | Pitch Semi 7 | 32 / CC 61 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 7 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K328 | FILTER FREQ (as Slot 7) | Filter Freq of slot 7: same physical control as MIMC-F-K12, aimed at slot 7 when that slot is selected | Filter Freq 7 | 33 / CC 62 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 7 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K329 | START marker (as Slot 7) | Start Pos of slot 7: same physical control as MIMC-F-B18, aimed at slot 7 when that slot is selected | Start Pos 7 | 34 / CC 63 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 7 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K330 | AMP ENV D (as Slot 7) | Amp Decay of slot 7: same physical control as MIMC-F-S04, aimed at slot 7 when that slot is selected | Amp Decay 7 | 35 / CC 64 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 7 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K331 | AMP GAIN (as Slot 8) | Amp Gain of slot 8: same physical control as MIMC-F-K26, aimed at slot 8 when that slot is selected | Amp Gain 8 | 36 / CC 65 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K26 (slot 8 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K332 | PITCH SEMI (as Slot 8) | Pitch Semi of slot 8: same physical control as MIMC-F-K09, aimed at slot 8 when that slot is selected | Pitch Semi 8 | 37 / CC 66 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K09 (slot 8 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K333 | FILTER FREQ (as Slot 8) | Filter Freq of slot 8: same physical control as MIMC-F-K12, aimed at slot 8 when that slot is selected | Filter Freq 8 | 38 / CC 67 | voice/MIDI or click | not separately hovered: same control as MIMC-F-K12 (slot 8 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K334 | START marker (as Slot 8) | Start Pos of slot 8: same physical control as MIMC-F-B18, aimed at slot 8 when that slot is selected | Start Pos 8 | 39 / CC 68 | voice/MIDI or click | not separately hovered: same control as MIMC-F-B18 (slot 8 must be selected first). Name+slot from the remotemap and Remote list |
+| MIMC-F-K335 | AMP ENV D (as Slot 8) | Amp Decay of slot 8: same physical control as MIMC-F-S04, aimed at slot 8 when that slot is selected | Amp Decay 8 | 40 / CC 69 | voice/MIDI or click | not separately hovered: same control as MIMC-F-S04 (slot 8 must be selected first). Name+slot from the remotemap and Remote list |
+
+## Mimic Creative Sampler — back
+| Code | On panel | What it does | Reason name | Knob slot / CC | How | Checked |
+|---|---|---|---|---|---|---|
+| MIMC-B-D01 | BASIC VIBE tape (back) | Patch name tape (back) | — | — | click/drag only (no Remote item) | no tooltip in Reason (hovered 1.3 s, approached from 5 px away) |
+| MIMC-B-J01 | Seq Gate In | Gate input from a sequencer | — | — | cable: right-click jack > device > jack name | tooltip "SeqGateInput" |
+| MIMC-B-J05 | Seq Note CV In | Note CV input from a sequencer | — | — | cable: right-click jack > device > jack name | tooltip "SeqNoteInput" |
+| MIMC-B-K01 | Pitch Bend CV trim | Amount for pitch bend CV | — | — | click/drag only (no Remote item) | tooltip "PitchBend CV Amount: 100.0 %" |
+| MIMC-B-J02 | Pitch Bend CV In | CV input: pitch bend | — | — | cable: right-click jack > device > jack name | tooltip "PitchBend CV Input" |
+| MIMC-B-K02 | Mod Wheel CV trim | Amount for mod wheel CV | — | — | click/drag only (no Remote item) | tooltip "ModWheel CV Amount: 100.0 %" |
+| MIMC-B-J06 | Mod Wheel CV In | CV input: mod wheel | — | — | cable: right-click jack > device > jack name | tooltip "ModWheel CV Input" |
+| MIMC-B-J03 | CV In 1 | CV input 1 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 1" |
+| MIMC-B-J07 | CV In 2 | CV input 2 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 2" |
+| MIMC-B-J04 | CV In 3 | CV input 3 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 3" |
+| MIMC-B-J08 | CV In 4 | CV input 4 (assignable as a modulation source) | — | — | cable: right-click jack > device > jack name | tooltip "CV Input 4" |
+| MIMC-B-J09 | Slot 1 Out L | Audio output slot 1, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot1 Left" |
+| MIMC-B-J10 | Slot 1 Out R | Audio output slot 1, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot1 Right" |
+| MIMC-B-J11 | Slot 2 Out L | Audio output slot 2, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot2 Left" |
+| MIMC-B-J12 | Slot 2 Out R | Audio output slot 2, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot2 Right" |
+| MIMC-B-J13 | Slot 3 Out L | Audio output slot 3, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot3 Left" |
+| MIMC-B-J14 | Slot 3 Out R | Audio output slot 3, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot3 Right" |
+| MIMC-B-J15 | Slot 4 Out L | Audio output slot 4, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot4 Left" |
+| MIMC-B-J16 | Slot 4 Out R | Audio output slot 4, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot4 Right" |
+| MIMC-B-J17 | Slot 5 Out L | Audio output slot 5, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot5 Left" |
+| MIMC-B-J18 | Slot 5 Out R | Audio output slot 5, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot5 Right" |
+| MIMC-B-J19 | Slot 6 Out L | Audio output slot 6, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot6 Left" |
+| MIMC-B-J20 | Slot 6 Out R | Audio output slot 6, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot6 Right" |
+| MIMC-B-J21 | Slot 7 Out L | Audio output slot 7, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot7 Left" |
+| MIMC-B-J22 | Slot 7 Out R | Audio output slot 7, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot7 Right" |
+| MIMC-B-J23 | Slot 8 Out L | Audio output slot 8, left | — | — | cable: right-click jack > device > jack name | tooltip "Slot8 Left" |
+| MIMC-B-J24 | Slot 8 Out R | Audio output slot 8, right | — | — | cable: right-click jack > device > jack name | tooltip "Slot8 Right" |
+| MIMC-B-J25 | FX Send 1 L | FX send 1 output, left | — | — | cable: right-click jack > device > jack name | tooltip "Send1 Left" |
+| MIMC-B-J26 | FX Send 1 R | FX send 1 output, right | — | — | cable: right-click jack > device > jack name | tooltip "Send1 Right" |
+| MIMC-B-J27 | FX Send 2 L | FX send 2 output, left | — | — | cable: right-click jack > device > jack name | tooltip "Send2 Left" |
+| MIMC-B-J28 | FX Send 2 R | FX send 2 output, right | — | — | cable: right-click jack > device > jack name | tooltip "Send2 Right" |
+| MIMC-B-J29 | Master Out L | Master audio output, left | — | — | cable: right-click jack > device > jack name | tooltip "Left Output" |
+| MIMC-B-J30 | Master Out R | Master audio output, right | — | — | cable: right-click jack > device > jack name | tooltip "Right Output" |
 
 ## Where each fact came from
 - Pictures: screenshots of John's Reason 12.7, in a blank test song made from his template.

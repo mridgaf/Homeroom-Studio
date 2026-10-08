@@ -1,0 +1,106 @@
+F|fold|(no tooltip)
+F|light|(no tooltip)
+F|patchdisp|(no tooltip)
+F|patchstep|Select previous patch (upper half)
+F|patchfolder|Browse patch
+F|patchdisk|Save patch
+F|tape|(no tooltip)
+F|MASTER|Master Volume: 0.0 dB
+F|modePitch|(no tooltip)
+F|modeSlice|(no tooltip)
+F|modeMulti|(no tooltip)
+F|modeMultiPitch|(no tooltip)
+F|slot1|(no tooltip)
+F|slot2|(no tooltip)
+F|slot3|(no tooltip)
+F|slot4|(no tooltip)
+F|slot5|(no tooltip)
+F|slot6|(no tooltip)
+F|slot7|(no tooltip)
+F|slot8|(no tooltip)
+F|overview|(no tooltip)
+F|analyzed|(no tooltip)
+F|SET|(no tooltip)
+F|rootnote|(no tooltip)
+F|tune|(no tooltip)
+F|waveform|(no tooltip)
+F|startmark|(no tooltip)
+F|endmark|(no tooltip)
+F|loadstep|Select previous sample (upper half)
+F|folder|Browse sample
+F|sample|Start sampling
+F|filename|(no tooltip)
+F|CLR|Delete Sample
+F|LOOP|Loop On 1
+F|LENGTH|Loop Length 1: 50.0 %
+F|keyboard|(no tooltip)
+F|globalpos|Global Pos 1
+F|snap|Snap Slices 1
+F|reverse|Reverse 1
+F|startmod|Start ModAmt 1: 0.0 %
+F|startdest|(no tooltip)
+F|speed|Stretch Speed 1: 100.0 %
+F|speedmod|Speed ModAmt 1: 0.0 %
+F|speeddest|(no tooltip)
+F|stretchmenu|(no tooltip)
+F|loopxfade|(no tooltip)
+F|slicesreset|(no tooltip)
+F|playthru|Play Thru 1
+F|sens|Slice Sens 1: 100.0 %
+F|porta|Portamento Rate 1: 25.0 %
+F|portaswitch|Portamento Mode 1: Off
+F|poly|Key Mode 1
+F|monoretrig|Key Mode 1
+F|monolegato|Key Mode 1
+F|kbd|Pitch Kbd 1
+F|semi|Pitch Semi 1: 0
+F|semidisp|(no tooltip)
+F|tuneK|Tune 1: 0.0
+F|lfoK|Pitch LFOAmt 1: 0.0 %
+F|pmodK|Pitch ModAmt 1: 0.0 %
+F|pdest|(no tooltip)
+F|pbrange|Pitchbend Range 1: 2
+F|lfoscale|MW LFO 1: 0.0 %
+F|wheelP|(no tooltip)
+F|wheelM|(no tooltip)
+F|ftype|(no tooltip)
+F|fled|(no tooltip)
+F|freq|Filter Freq 1: 769.4 Hz
+F|reso|Filter Reso 1: 50.0 %
+F|drive|Filter Drive 1: 10.0 %
+F|fkbd|Filter Kbd 1: 50.0 %
+F|fvel|Filter Vel 1: 0.0 %
+F|fenv|Filter Env 1: 0.0 %
+F|fmod|Filter ModAmt 1: 0.0 %
+F|fdest|(no tooltip, first try)
+F|fenvA|Filter Attack 1: 0.0 ms
+F|fenvD|(no tooltip, first try)
+F|fenvS|(no tooltip, first try)
+F|fenvR|Filter Release 1: 35 ms
+F|aenvA|Amp Attack 1: 0.0 ms
+F|aenvD|(no tooltip, first try)
+F|aenvS|(no tooltip, first try)
+F|aenvR|Amp Release 1: 189 ms
+F|lfowave|(no tooltip, first try)
+F|lfowavearrow|(no tooltip, first try)
+F|keysync|LFO Key Sync 1
+F|beatsync|LFO Beat Sync 1
+F|lforate|LFO Rate 1: 1.58 Hz
+F|lfodelay|LFO Delay 1: 0.000 s
+F|avel|Amp Velocity 1: 0.0 %
+F|again|Amp Gain 1: 0.0 dB
+F|amod|Amp ModAmt 1: 0.0 %
+F|adest|(no tooltip, first try)
+F|pan|Pan 1: 0.0
+F|panmod|Pan ModAmt 1: 0.0 %
+F|pandest|(no tooltip, first try)
+F|comp|Squeeze 1: 0.0 %
+F|squeeze|Squeeze 1: 0.0 %
+F|effectmenu|(no tooltip, first try)
+F|effectmod|Effect Mod 1: 50.0 %
+F|mix|Effect Mix 1: 0.0 %
+F|effectdots|Effect Type 1: Noise
+F|locut|Lo Cut 1: 20.0 Hz
+F|hicut|Hi Cut 1: 20.00 kHz
+F|send1|Send1 1: -∞ dB
+F|send2|Send2 1: -∞ dB

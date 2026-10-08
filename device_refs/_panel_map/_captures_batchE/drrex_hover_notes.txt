@@ -1,0 +1,147 @@
+fold1|(no tooltip)
+wheelP|Pitch Bend: 0
+wheelM|Mod Wheel: 0
+tape|(no tooltip)
+patchdisp|(no tooltip)
+patchup|Select previous patch
+patchdown|Select next patch
+patchfolder|Browse patch
+patchdisk|Save patch
+notes2slot|(no tooltip)
+loopbtn1|(no tooltip)
+looplight1|Notes to Slot (shown on the light left of loop button 1)
+loopname1|(no tooltip)
+loopbtn2|(no tooltip)
+looplight2|Notes to Slot (shown on the light left of loop button 2)
+loopname2|(no tooltip)
+loopbtn3|(no tooltip)
+looplight3|Notes to Slot (shown on the light left of loop button 3)
+loopname3|(no tooltip)
+loopbtn4|(no tooltip)
+looplight4|Notes to Slot (shown on the light left of loop button 4)
+loopname4|(no tooltip)
+loopbtn5|(no tooltip)
+looplight5|Notes to Slot (shown on the light left of loop button 5)
+loopname5|(no tooltip)
+loopbtn6|(no tooltip)
+looplight6|Notes to Slot (shown on the light left of loop button 6)
+loopname6|(no tooltip)
+loopbtn7|(no tooltip)
+looplight7|Notes to Slot (shown on the light left of loop button 7)
+loopname7|(no tooltip)
+loopbtn8|(no tooltip)
+looplight8|Notes to Slot (shown on the light left of loop button 8)
+loopname8|(no tooltip)
+trigBAR|(no tooltip)
+trigBEAT|(no tooltip)
+trig16|(no tooltip)
+enable|Enable Loop Playback
+mutelight|(no tooltip)
+RUN|(no tooltip)
+gtrans|Transpose: 0
+gtransarrow|(no tooltip)
+VOLUME|Master Level: 100
+fold2|(no tooltip)
+follow|Follow Loop Playback
+slicemidi|Select Slice by MIDI
+selarrows|Select previous loop (upper half)
+selfolder|Browse loop
+selbtn1|Selected Loop Slot (same text on all 8)
+selbtn2|Selected Loop Slot (same text on all 8)
+selbtn3|Selected Loop Slot (same text on all 8)
+selbtn4|Selected Loop Slot (same text on all 8)
+selbtn5|Selected Loop Slot (same text on all 8)
+selbtn6|Selected Loop Slot (same text on all 8)
+selbtn7|Selected Loop Slot (same text on all 8)
+selbtn8|Selected Loop Slot (same text on all 8)
+copyloop|Copy Loop to Track
+looptrans|Loop 1 Transpose: 0
+looplevel|Loop 1 Level: 100
+dispfile|(no tooltip)
+dispinfo|(no tooltip)
+keyboard|(no tooltip)
+wave|(no tooltip)
+numrow|(no tooltip)
+k_SLICE|Select Slice
+k_PITCH|Set Slice Pitch
+k_PAN|Set Slice Pan
+k_LEVEL|Set Slice Level
+k_DECAY|Set Slice Decay
+k_REV|Set Slice Reverse
+k_FFREQ|Set Slice Filter Frequency
+k_ALT|Set Slice Alternate Group
+k_OUTPUT|Set Slice Output
+oscENVA|Osc Env Amount: 0
+oscOCT|Osc Octave: 4
+oscFINE|Osc Fine Tune: 0
+mwFFREQ|Filter Freq Mod Wheel Amount: 32
+mwFRES|Filter Res Mod Wheel Amount: 0
+mwFDECAY|Filter Decay Mod Wheel Amount: 0
+velFENV|Filter Env Vel Amount: 0
+velFDECAY|Filter Decay Vel Amount: 0
+velAMP|Amp Vel Amount: 0
+sliceedit|Slice Edit Mode
+pbrange|Pitch Bend Range: 7
+poly|Polyphony: 6
+filtON|Filter On/Off
+fm_NOTCH|(no tooltip)
+fm_HP12|(no tooltip)
+fm_BP12|(no tooltip)
+fm_LP12|(no tooltip)
+fm_LP24|(no tooltip)
+filtMODE|Filter Mode
+filtFREQ|Filter Freq: 127
+filtRES|Filter Res: 0
+fenvAMT|Filter Env Amount: 0
+fenvA|Filter Env Attack: 0
+fenvD|Filter Env Decay: 64
+fenvS|Filter Env Sustain: 0
+fenvR|Filter Env Release: 64
+lfoSYNC|LFO Sync Enable
+wavelight1|(no tooltip)
+wavelight2|(no tooltip)
+wavelight3|(no tooltip)
+wavelight4|(no tooltip)
+wavelight5|(no tooltip)
+wavelight6|(no tooltip)
+WAVEF|LFO1 Wave
+lfoRATE|LFO1 Rate: 64
+lfoAMT|LFO1 Amount: 0
+destOSC|(no tooltip)
+destFILTER|(no tooltip)
+destPAN|(no tooltip)
+DEST|LFO1 Dest
+aenvA|Amp Env Attack: 0
+aenvD|Amp Env Decay: 127
+aenvS|Amp Env Sustain: 127
+aenvR|Amp Env Release: 10
+B|mvK|Amp Level Modulation Input: 127
+B|mvJ|Amp Level Modulation Input
+B|mwK|Mod Wheel Modulation Input: 127
+B|mwJ|Mod Wheel Modulation Input
+B|pwK|Pitch Wheel Modulation Input: 127
+B|pwJ|Pitch Wheel Modulation Input
+B|fcK|Filter1 Cutoff Modulation Input: 127
+B|fcJ|Filter1 Cutoff Modulation Input
+B|frK|Filter1 Resonance Modulation Input: 127
+B|frJ|Filter1 Resonance Modulation Input
+B|opK|OSC Pitch Modulation Input: 127
+B|opJ|OSC Pitch Modulation Input
+B|modV1|Filter Env Modulation Output (Mono)
+B|modLFO|LFO Modulation Output
+B|gateOut|Slice Gate Output
+B|gateAmp|Amp Env Gate Input
+B|gateFilt|Filter Env Gate Input
+B|mainL|Left
+B|mainR|Right
+B|hq|High Quality Interpolation
+B|lowbw|Low Bandwidth On/Off
+B|tape|(no tooltip)
+B|slice1|Slice Output 1
+B|slice2|Slice Output 2
+B|slice3|Slice Output 3
+B|slice4|Slice Output 4
+B|slice5|Slice Output 5
+B|slice6|Slice Output 6
+B|slice7|Slice Output 7
+B|slice8|Slice Output 8
