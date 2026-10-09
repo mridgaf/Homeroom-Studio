@@ -8540,3 +8540,10 @@ just not loaded by default.
 - Result: `radical-piano.json` 71 rows (62 front, 9 back). `name_check` PASS (0 errors, 3 warnings) — checked on a scratch copy with device name "radicalpiano" (the remotemap scope is `se.propellerheads.radicalpiano`); the real json keeps "Radical Piano". Tools: `tools/gen_radicalpiano.py`, `_captures_batchE/radicalpiano_*`.
 - Not done: 24 mic LEDs hovered once per group (rest by pattern); X/S velocity buttons and sustain meter have no tooltip; signal-flow buttons on the back are decoration, not mapped.
 - Status: open (partial). Outcome: —
+
+### 2026-10-08 Hermes Scream 4 knob test (judge.py) + typed runner
+- Context: test whether Hermes picks the right knob/value itself. Owner will speak in exact percentages, not "a lot"; Panel Map is meant to give Hermes knob locations.
+- Result: pasted-chat run 6/9 (fails: C6 "a lot" only +13, C8 cable and C9 flux capacitor moved a knob instead of refusing). Typed run (`run_typed.py`, `hermes -p homeroom-studio -t terminal,file -z`, fresh session with rules prepended) 5/9: C3 printed not ran, C4 said no "High Cut" (it is knob_7 Cut Hi), C5 percent math wrong (sent 102 from 100), C7 moved knob_1/2 not knob_14. C8/C9 refused correctly in the typed run. Run-to-run noisy.
+- Reasoning: failures are name-matching and percent math, not knob finding; Panel Map should help. Plain `hermes -z` only prints commands; needs `-t terminal,file`.
+- Verify by: rerun `run_typed.py` with percentage wording once Panel Map covers Scream 4; then the vocal run.
+- Status: open. Outcome: —
