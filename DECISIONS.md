@@ -8562,3 +8562,9 @@ just not loaded by default.
 - Result: cases.json 6/9 moves-or-refusals (C2, C5, C6 fail; C9 right refusal, wrong first word). cases_map.json knob moves 18/25 (fails M05, M11, M13, M14, M19); refusals 10/10 moved nothing, 5/10 started with the exact word. Log: `run_round3.log`.
 - Fail types: Hermes still prints the command instead of running it (C2, C5, M05, M14, M19); bare "lo"/"mid" are ambiguous and it doesn't retry (M11, M13); C6 refused wrongly; refusal wording drifts. No fake passes now (M22/M23 both started at 13).
 - Status: open. Outcome: not better than round 2 (8/9, 18/25).
+
+### 2026-10-08 Hermes: first message only opens a session
+- Context: owner's note. Round 3 had 5 "printed the command, never ran it" fails (C2, C5, M05, M14, M19).
+- Result: `run_warm.py` (warm-up message, then `--continue` with the case) on those 5: M05, M14, M19, C2 PASS; C5 stops after `read` (and used "master_level" as the name). Log `run_warm.log`. Scream 4 restored.
+- Next: use the warm-up in run_typed.py (or replace it); recheck full sets; C5 relative-move group.
+- Status: open (4/5 fixed on one run, not repeated).

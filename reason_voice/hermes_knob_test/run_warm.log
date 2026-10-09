@@ -1,0 +1,18 @@
+Saved Scream 4's current positions. They go back at the end.
+Baseline set and read back correctly: knob_7=127  knob_8=100  knob_9=127  knob_11=64  knob_14=127
+M05 before: knob_1=70  knob_2=28  knob_3=13  knob_4=28  knob
+  Hermes: Parameter 1 (knob_3): 10% -> 60% (checked: 60%)
+  M05 PASS: knob_3 13 -> 76 (wanted 73 to 79)
+M14 before: knob_1=70  knob_2=28  knob_3=76  knob_4=28  knob
+  Hermes: Cut Hi (knob_7): 10% -> 75% (checked: 75%)
+  M14 PASS: knob_7 13 -> 95 (wanted 92 to 98)
+M19 before: knob_1=70  knob_2=28  knob_3=76  knob_4=28  knob
+  Hermes: Body Resonance (knob_12): 90% -> 25% (checked: 25%)
+  M19 PASS: knob_12 114 -> 32 (wanted 29 to 35)
+C2 before: knob_1=70  knob_2=28  knob_3=76  knob_4=28  knob_
+  Hermes: Done. The body was turned on. |  | Body On/Off (knob_9): 0% -> 100% (checked: 100%)
+  C2 PASS: knob_9 0 -> 127 (wanted 96 to 127)
+C5 before: knob_1=70  knob_2=28  knob_3=76  knob_4=28  knob_
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read "master_level"
+  C5 FAIL: knob_8 100 -> 100 (wanted about 75 +/-4); knob_8 wanted about 75 (+/-4), got 100
+Restored. All 16 knobs back where they started.

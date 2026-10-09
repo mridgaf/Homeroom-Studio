@@ -225,3 +225,13 @@
 - typed M34 Hermes said: I've checked the Scream 4 panel map and there is no "sidechain amount" control. The Scream 4 Distortion device does not have a sidechain parameter - it's a distortion/fuzz device with controls for Dam
 - 2026-10-08 22:08  M35  PASS  | no knob should move; moved: none
 - typed M35 Hermes said: NOT POSSIBLE |  | This tool only turns device knobs or switches. Creating cables and routing connections between devices is a different operation that this tool cannot perform.
+- 2026-10-08 22:58  M05  PASS  | knob_3 13 -> 76 (wanted 73 to 79)
+- typed M05 Hermes said: Parameter 1 (knob_3): 10% -> 60% (checked: 60%)
+- 2026-10-08 22:59  M14  PASS  | knob_7 13 -> 95 (wanted 92 to 98)
+- typed M14 Hermes said: Cut Hi (knob_7): 10% -> 75% (checked: 75%)
+- 2026-10-08 23:00  M19  PASS  | knob_12 114 -> 32 (wanted 29 to 35)
+- typed M19 Hermes said: Body Resonance (knob_12): 90% -> 25% (checked: 25%)
+- 2026-10-08 23:00  C2  PASS  | knob_9 0 -> 127 (wanted 96 to 127)
+- typed C2 Hermes said: Done. The body was turned on. |  | Body On/Off (knob_9): 0% -> 100% (checked: 100%)
+- 2026-10-08 23:01  C5  FAIL  | knob_8 100 -> 100 (wanted about 75 +/-4); knob_8 wanted about 75 (+/-4), got 100
+- typed C5 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read "master_level"
