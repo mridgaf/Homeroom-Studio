@@ -20,35 +20,40 @@
   "prompt": "Set the damage control to 40 percent.",
   "knob": "knob_1",
   "min": 48,
-  "max": 54
+  "max": 54,
+  "start": 114
  },
  {
   "id": "M04",
   "prompt": "Set the p1 to 25 percent.",
   "knob": "knob_3",
   "min": 29,
-  "max": 35
+  "max": 35,
+  "start": 114
  },
  {
   "id": "M05",
   "prompt": "Set the parameter 1 to 60 percent.",
   "knob": "knob_3",
   "min": 73,
-  "max": 79
+  "max": 79,
+  "start": 13
  },
  {
   "id": "M06",
   "prompt": "Set the p2 to 90 percent.",
   "knob": "knob_4",
   "min": 111,
-  "max": 117
+  "max": 117,
+  "start": 13
  },
  {
   "id": "M07",
   "prompt": "Set the parameter 2 to 10 percent.",
   "knob": "knob_4",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M08",
@@ -68,45 +73,51 @@
  },
  {
   "id": "M10",
-  "prompt": "Set the lo to 10 percent.",
+  "prompt": "Set the cut lo to 10 percent.",
   "knob": "knob_5",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M11",
-  "prompt": "Set the cut lo to 75 percent.",
+  "prompt": "Set the lo to 75 percent.",
   "knob": "knob_5",
   "min": 92,
-  "max": 98
+  "max": 98,
+  "start": 13
  },
  {
   "id": "M12",
   "prompt": "Set the cut mid to 10 percent.",
   "knob": "knob_6",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M13",
   "prompt": "Set the mid to 40 percent.",
   "knob": "knob_6",
   "min": 48,
-  "max": 54
+  "max": 54,
+  "start": 114
  },
  {
   "id": "M14",
-  "prompt": "Set the hi to 75 percent.",
+  "prompt": "Set the cut hi to 75 percent.",
   "knob": "knob_7",
   "min": 92,
-  "max": 98
+  "max": 98,
+  "start": 13
  },
  {
   "id": "M15",
-  "prompt": "Set the cut hi to 10 percent.",
+  "prompt": "Set the hi to 10 percent.",
   "knob": "knob_7",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M16",
@@ -129,56 +140,64 @@
   "prompt": "Set the body resonance to 75 percent.",
   "knob": "knob_12",
   "min": 92,
-  "max": 98
+  "max": 98,
+  "start": 13
  },
  {
   "id": "M19",
   "prompt": "Set the reso to 25 percent.",
   "knob": "knob_12",
   "min": 29,
-  "max": 35
+  "max": 35,
+  "start": 114
  },
  {
   "id": "M20",
   "prompt": "Set the body scale to 10 percent.",
   "knob": "knob_11",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M21",
   "prompt": "Set the scale to 10 percent.",
   "knob": "knob_11",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M22",
-  "prompt": "Set the body auto to 60 percent.",
-  "knob": "knob_13",
-  "min": 73,
-  "max": 79
- },
- {
-  "id": "M23",
   "prompt": "Set the auto to 60 percent.",
   "knob": "knob_13",
   "min": 73,
-  "max": 79
+  "max": 79,
+  "start": 13
+ },
+ {
+  "id": "M23",
+  "prompt": "Set the body auto to 60 percent.",
+  "knob": "knob_13",
+  "min": 73,
+  "max": 79,
+  "start": 13
  },
  {
   "id": "M24",
   "prompt": "Set the master to 10 percent.",
   "knob": "knob_8",
   "min": 10,
-  "max": 16
+  "max": 16,
+  "start": 114
  },
  {
   "id": "M25",
   "prompt": "Set the master level to 25 percent.",
   "knob": "knob_8",
   "min": 29,
-  "max": 35
+  "max": 35,
+  "start": 114
  },
  {
   "id": "M26",

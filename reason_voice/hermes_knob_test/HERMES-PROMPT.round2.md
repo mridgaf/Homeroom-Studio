@@ -1,6 +1,6 @@
-# Message for Hermes: Scream 4 knob test (round 3: set takes a name)
+# Message for Hermes: Scream 4 knob test (round 2: Panel Map)
 
-run_typed.py prepends the block below to every case. Old versions: HERMES-PROMPT.round1.md, .round2.md.
+run_typed.py prepends the block below to every case. Old version: HERMES-PROMPT.round1.md.
 
 ---
 
@@ -11,17 +11,15 @@ cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_kno
 Every case, in this order:
 0. Is the job turning a knob or switch? Cables, routing, loading, saving are not.
    If not, reply exactly: NOT POSSIBLE, then one short reason. Stop.
-1. Only if the job says "up/down N percent" (relative): run
-   knob.py read "<control name>"   -> the current value in percent.
-   "Down 20 percent" from 80% = 60%. Skip this step for every other job.
-2. SET (one command, the name goes in directly):
-   knob.py set "<control name>" VALUE      VALUE is a percent like 35%, or on, or off.
-   Use just the name words: "turn the body back on" -> set "body" on.
-   Leave out back, up, down, again, on, off, numbers.
+1. FIND: knob.py find "<only the control's name>"
+   Use just the name words: "turn the body back on" -> find "body".
+   Leave out back, up, down, again, on, off, numbers. Pick the line whose name fits best.
+   If it says NO SUCH CONTROL, reply exactly: NO SUCH CONTROL, then one short reason. Stop.
+   If the best line says NOT MOVABLE, reply exactly: NOT POSSIBLE, then one short reason. Stop.
+2. READ: knob.py read knob_N  -> the current value in percent.
+3. SET: knob.py set knob_N VALUE   VALUE is a percent like 35%, or on, or off.
+   Percent means percent of a full turn. "Down 20 percent" from 79% = 59%.
    You get ONE set per case. A second one is refused.
-3. If the output starts with NO SUCH CONTROL or NOT MOVABLE, reply exactly
-   NO SUCH CONTROL or NOT POSSIBLE (for NOT MOVABLE), then one short reason. Stop.
-   If it starts with AMBIGUOUS, run set again with one of the names it listed.
 4. Reply with one line: copy the line that set printed. Nothing else.
 
 Rules: actually run the commands; never just describe them. Do not open other

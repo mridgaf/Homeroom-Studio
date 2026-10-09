@@ -1,0 +1,144 @@
+Saved Scream 4's current positions. They go back at the end.
+Baseline set and read back correctly: knob_7=127  knob_8=100  knob_9=127  knob_11=64  knob_14=127
+### SET 1: cases.json
+C1 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Body On/Off (knob_9): 100% -> 0% (checked: 0%)
+  C1 PASS: knob_9 127 -> 0 (wanted 0 to 31)
+C2 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "body" on
+  C2 FAIL: knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+C3 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Master Level (knob_8): 79% -> 50% (checked: 50%)
+  C3 PASS: knob_8 100 -> 64 (wanted 58 to 69)
+C4 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: The knob has been set successfully. The output shows the high cut was changed from 100% to 0% and verified at 0%. |  | **Copy the output:** | ``` | Cut Hi (knob_7): 100% -> 0% (checked: 0%) | ```
+  C4 PASS: knob_7 127 -> 0 (wanted 0 to 3)
+C5 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read master
+  C5 FAIL: knob_8 64 -> 64 (wanted about 39 +/-4); knob_8 wanted about 39 (+/-4), got 64
+C6 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: NOT POSSIBLE |  | This is a physical audio device interaction task. I can only run the knob.py script within this project's Python environment, but I cannot actually interact with the Reason 12 DAW or
+  C6 FAIL: knob_11 64 -> 64 (wanted 110 to 118); knob_11 wanted 110 to 118, got 64
+C7 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Damage On/Off (knob_14): 0% -> 100% (checked: 100%)
+  C7 PASS: knob_14 0 -> 127 (wanted 96 to 127)
+C8 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: NOT POSSIBLE |  | This task is about creating audio cables (routing), not turning knobs or switches. The only tool available is for controlling device parameters.
+  C8 PASS: no knob should move; moved: none
+C9 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: **NOT POSSIBLE** — "flux capacitor" is not a control on Scream 4 (it's a reference to *Back to the Future*, not a real distortion parameter).
+  WORDING FAIL: wanted reply to start with NO SUCH CONTROL
+  C9 PASS: no knob should move; moved: none
+### SET 2: cases_map.json
+M01 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: Damage On/Off (knob_14): 100% -> 0% (checked: 0%)
+  M01 PASS: knob_14 127 -> 0 (wanted 0 to 31)
+M02 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: Damage On/Off (knob_14): 0% -> 100% (checked: 100%)
+  M02 PASS: knob_14 0 -> 127 (wanted 96 to 127)
+M03 before: knob_1=114  knob_2=28  knob_3=52  knob_4=28  kno
+  Hermes: Damage Control (knob_1): 90% -> 40% (checked: 40%)
+  M03 PASS: knob_1 114 -> 51 (wanted 48 to 54)
+M04 before: knob_1=51  knob_2=28  knob_3=114  knob_4=28  kno
+  Hermes: Parameter 1 (knob_3): 90% -> 25% (checked: 25%)
+  M04 PASS: knob_3 114 -> 32 (wanted 29 to 35)
+M05 before: knob_1=51  knob_2=28  knob_3=13  knob_4=28  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "parameter 1" 60%
+  M05 FAIL: knob_3 13 -> 13 (wanted 73 to 79); knob_3 wanted 73 to 79, got 13
+M06 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Parameter 2 (knob_4): 10% -> 90% (checked: 90%)
+  M06 PASS: knob_4 13 -> 114 (wanted 111 to 117)
+M07 before: knob_1=51  knob_2=28  knob_3=13  knob_4=114  kno
+  Hermes: Parameter 2 (knob_4): 90% -> 10% (checked: 10%)
+  M07 PASS: knob_4 114 -> 13 (wanted 10 to 16)
+M08 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Cut On/Off (knob_15): 100% -> 0% (checked: 0%)
+  M08 PASS: knob_15 127 -> 0 (wanted 0 to 31)
+M09 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Cut On/Off (knob_15): 0% -> 100% (checked: 100%)
+  M09 PASS: knob_15 0 -> 127 (wanted 96 to 127)
+M10 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Cut Lo (knob_5): 90% -> 10% (checked: 10%)
+  M10 PASS: knob_5 114 -> 13 (wanted 10 to 16)
+M11 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "lo" 75%
+  M11 FAIL: knob_5 13 -> 13 (wanted 92 to 98); knob_5 wanted 92 to 98, got 13
+M12 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Cut Mid (knob_6): 90% -> 10% (checked: 10%)
+  M12 PASS: knob_6 114 -> 13 (wanted 10 to 16)
+M13 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set mid 40%
+  M13 FAIL: knob_6 114 -> 114 (wanted 48 to 54); knob_6 wanted 48 to 54, got 114
+M14 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "cut hi" 75%
+  M14 FAIL: knob_7 13 -> 13 (wanted 92 to 98); knob_7 wanted 92 to 98, got 13
+M15 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Cut Hi (knob_7): 90% -> 10% (checked: 10%)
+  M15 PASS: knob_7 114 -> 13 (wanted 10 to 16)
+M16 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Body On/Off (knob_9): 100% -> 0% (checked: 0%)
+  M16 PASS: knob_9 127 -> 0 (wanted 0 to 31)
+M17 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Body On/Off (knob_9): 0% -> 100% (checked: 100%)
+  M17 PASS: knob_9 0 -> 127 (wanted 96 to 127)
+M18 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Body Resonance set to 75%.
+  M18 PASS: knob_12 13 -> 95 (wanted 92 to 98)
+M19 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "reso" 25%
+  M19 FAIL: knob_12 114 -> 114 (wanted 29 to 35); knob_12 wanted 29 to 35, got 114
+M20 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Body Scale set to 10%.
+  M20 PASS: knob_11 114 -> 13 (wanted 10 to 16)
+M21 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Done. |  | **Body Scale (knob_11): 90% → 10% (checked: 10%)**
+  M21 PASS: knob_11 114 -> 13 (wanted 10 to 16)
+M22 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Done.
+  M22 PASS: knob_13 13 -> 76 (wanted 73 to 79)
+M23 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: Body Auto (knob_13): 10% -> 60% (checked: 60%)
+  M23 PASS: knob_13 13 -> 76 (wanted 73 to 79)
+M24 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: The command successfully set the master knob to 10%. I need to output just the result line as instructed. |  | Master Level (knob_8): 90% -> 10% (checked: 10%)
+  M24 PASS: knob_8 114 -> 13 (wanted 10 to 16)
+M25 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: The command worked. The output shows the Master Level was changed from 90% to 25% and verified. I should report exactly what the set command printed. |  | **Master Level set to 25%** (was 90%, now ver
+  M25 PASS: knob_8 114 -> 32 (wanted 29 to 35)
+M26 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: NOT MOVABLE — Damage Control CV Input (Amount knob for J01) cannot be automated by the knob tool.
+  WORDING FAIL: wanted reply to start with NOT POSSIBLE
+  M26 PASS: no knob should move; moved: none
+M27 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: The tool reports this control is NOT MOVABLE - the Scream 4 distortion doesn't have a controllable "Parameter 1 CV Input" via this interface. |  | **NOT POSSIBLE** — Scream 4's Parameter 1 CV Input is
+  WORDING FAIL: wanted reply to start with NOT POSSIBLE
+  M27 PASS: no knob should move; moved: none
+M28 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: NOT POSSIBLE |  | The Parameter 2 CV Input is NOT MOVABLE by knob — it's J03's Amount knob which doesn't respond to the hermes_knob_test tool.
+  M28 PASS: no knob should move; moved: none
+M29 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: NOT POSSIBLE — the Body Scale CV Input is not controllable via knob.
+  M29 PASS: no knob should move; moved: none
+M30 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: NO SUCH CONTROL: "flux capacitor" is not a real control in Scream 4
+  M30 PASS: no knob should move; moved: none
+M31 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: The command confirmed the tape hiss control exists but is not movable by the knob tool. |  | NOT POSSIBLE — the tape hiss parameter on Scream 4 is not movable by a knob
+  WORDING FAIL: wanted reply to start with NO SUCH CONTROL
+  M31 PASS: no knob should move; moved: none
+M32 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: NO SUCH CONTROL: Scream 4 Distortion has no chorus — it's a distortion/saturator, not a modulation device
+  M32 PASS: no knob should move; moved: none
+M33 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: The control doesn't exist on Scream 4. Scream 4 doesn't have reverb — it's a distortion/overdrive effect. Reverb would be a separate device in the chain. |  | NOT POSSIBLE — Scream 4 is distortion onl
+  WORDING FAIL: wanted reply to start with NO SUCH CONTROL
+  M33 PASS: no knob should move; moved: none
+M34 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: I've checked the Scream 4 panel map and there is no "sidechain amount" control. The Scream 4 Distortion device does not have a sidechain parameter - it's a distortion/fuzz device with controls for Dam
+  WORDING FAIL: wanted reply to start with NO SUCH CONTROL
+  M34 PASS: no knob should move; moved: none
+M35 before: knob_1=51  knob_2=28  knob_3=13  knob_4=13  knob
+  Hermes: NOT POSSIBLE |  | This tool only turns device knobs or switches. Creating cables and routing connections between devices is a different operation that this tool cannot perform.
+  M35 PASS: no knob should move; moved: none
+### restore
+Restored. All 16 knobs back where they started.

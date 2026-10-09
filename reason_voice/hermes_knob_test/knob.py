@@ -3,7 +3,8 @@
     ./.venv/bin/python reason_voice/hermes_knob_test/knob.py find "high cut"
     ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read knob_7
     ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set knob_7 25%
-    (set also takes: on, off)
+    ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "high cut" 25%
+    (set also takes: on, off. read/set take knob_N or a control name.)
 
 find searches the Panel Map (device_refs/_panel_map/scream-4.json).
 read/set use the value Reason reports back. Percent = percent of a full turn
@@ -35,7 +36,7 @@ def words(text):
     return out
 
 
-def find(query):
+def find_hits(query):
     q = words(query)
     hits = []
     for c in MAP["controls"]:
@@ -43,6 +44,11 @@ def find(query):
         if q and q <= hay:
             hits.append(c)
     hits.sort(key=lambda c: (not c.get("knob_slot"), words(c.get("reason_name") or "") != q))
+    return hits
+
+
+def find(query):
+    hits = find_hits(query)
     if not hits:
         return ["NO SUCH CONTROL: nothing on Scream 4 matches '%s'" % query]
     lines = []
@@ -78,9 +84,30 @@ def parse_value(s):
     return round(float(m.group(1)) * 127 / 100)
 
 
-def check_knob(k):
-    if not (k.startswith("knob_") and k[5:].isdigit() and 1 <= int(k[5:]) <= 16):
-        sys.exit("knob must be knob_1 to knob_16 (use find first)")
+def resolve(arg, value=""):
+    """knob_N or a control name -> knob_N. Refuses instead of guessing."""
+    if re.fullmatch(r"knob_\d+", arg):
+        if not 1 <= int(arg[5:]) <= 16:
+            sys.exit("knob must be knob_1 to knob_16")
+        return arg
+    hits = find_hits(arg)
+    if not hits:
+        sys.exit("NO SUCH CONTROL: nothing on Scream 4 matches '%s'" % arg)
+    best = hits[0]
+    if not best.get("knob_slot"):
+        sys.exit("NOT MOVABLE by knob: %s (%s)" % (best.get("reason_name") or best["panel_label"], best["what"]))
+    movable = [c for c in hits if c.get("knob_slot")]
+    q = words(arg)
+    exact = [c for c in movable if words(c["reason_name"]) == q]
+    switches = [c for c in movable if c["reason_name"].endswith("On/Off")]
+    if value.strip().lower() in ("on", "off") and len(switches) == 1:
+        best = switches[0]  # "body" + on/off can only mean the switch
+    elif len(exact) == 1:
+        best = exact[0]
+    elif len(movable) > 1:
+        sys.exit("AMBIGUOUS '%s', say which: " % arg + "; ".join(
+            "%s (knob_%d)" % (c["reason_name"], c["knob_slot"]) for c in movable))
+    return "knob_%d" % best["knob_slot"]
 
 
 async def read(knob):
@@ -98,7 +125,7 @@ async def set_(knob, raw):
     after = (await judge.read_panel())[knob]
     SET_LOCK.write_text("%s %s" % (knob, raw))
     ok = abs(after - target) <= judge.SLOP
-    print("%s: %s -> %s (checked: %s)%s" % (name_of(knob), pct(before), pct(target), pct(after),
+    print("%s (%s): %s -> %s (checked: %s)%s" % (name_of(knob), knob, pct(before), pct(target), pct(after),
                                             "" if ok else "  DID NOT LAND"))
 
 
@@ -107,9 +134,10 @@ def main():
     if len(a) == 2 and a[0] == "find":
         print("\n".join(find(a[1])))
     elif len(a) == 2 and a[0] == "read":
-        check_knob(a[1]); asyncio.run(read(a[1]))
+        asyncio.run(read(resolve(a[1])))
     elif len(a) == 3 and a[0] == "set":
-        check_knob(a[1]); asyncio.run(set_(a[1], a[2]))
+        parse_value(a[2])  # bad value exits before anything is sent
+        asyncio.run(set_(resolve(a[1], a[2]), a[2]))
     else:
         sys.exit(__doc__)
 

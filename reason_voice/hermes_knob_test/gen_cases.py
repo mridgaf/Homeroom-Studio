@@ -3,6 +3,7 @@
     ./.venv/bin/python reason_voice/hermes_knob_test/gen_cases.py
 Then: CASES_FILE=cases_map.json judge.py start / run_typed.py / judge.py restore
 
+Every knob case has a start state (switches: the opposite; percents: 90%/10%).
 Per movable control: one "set to X%" case using the panel label, one using
 Reason's name. Switches get on/off. Plus not-movable controls (NOT POSSIBLE)
 and made-up names (NO SUCH CONTROL). Same seed = same cases every run.
@@ -41,10 +42,11 @@ def main():
             add(prompt="Turn the %s off." % base, knob=knob, min=0, max=31, start=127)
             add(prompt="Turn the %s on." % base, knob=knob, min=96, max=127, start=0)
             continue
-        for said in {label, name.lower()}:
-            p = rnd.choice([10, 25, 40, 60, 75, 90])
+        for said in sorted({label, name.lower()}):  # sorted: set order changes every run
+            p = rnd.choice([10, 25, 40, 60, 75, 90])  # always steps of 5 (owner)
             add(prompt="Set the %s to %d percent." % (said, p), knob=knob,
-                min=max(0, raw(p) - 3), max=min(127, raw(p) + 3))
+                min=max(0, raw(p) - 3), max=min(127, raw(p) + 3),
+                start=raw(90 if p < 50 else 10))  # far from the target, so the move is real
     for c in MAP["controls"]:
         if c.get("knob_slot") is None and c["side"] == "back" and "CV Input" in (c.get("reason_name") or ""):
             add(prompt="Turn the %s up to 50 percent." % c["reason_name"].lower(),

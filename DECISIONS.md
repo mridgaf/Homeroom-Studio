@@ -8555,3 +8555,10 @@ just not loaded by default.
 - Fail types: (1) stops after find, replies with the command (M02, M05, C2); (2) gives a name to set instead of knob_N (M13 "mid", M20 "body"); (3) wrong knob (M09 "cut on" -> Cut Hi); (4) M21 claimed it can't run knob.py.
 - Next ideas (not built): let set take a name and resolve it itself (removes the find→set handoff where it drops); every map case gets a start state; Damage/Body Type need step tables. Self-study ideas: hermes_knob_test/HERMES-STUDY-IDEAS.md.
 - Status: open. Outcome: —
+
+### 2026-10-08 Hermes round 3: set by name + start states
+- Context: round 2 "next ideas". Owner speaks percents in steps of 5.
+- Done: `knob.py` read/set take a name or knob_N (refuses AMBIGUOUS/NO SUCH CONTROL/NOT MOVABLE; on/off picks the switch). `gen_cases.py`: every knob case has a start (90%/10% or opposite switch), seeded order fixed (`sorted`). Prompt shortened to `set "<name>" VALUE` (old: `HERMES-PROMPT.round2.md`). Mistake: a name-check ran a live set, moved Cut Hi 59->25%; put back.
+- Result: cases.json 6/9 moves-or-refusals (C2, C5, C6 fail; C9 right refusal, wrong first word). cases_map.json knob moves 18/25 (fails M05, M11, M13, M14, M19); refusals 10/10 moved nothing, 5/10 started with the exact word. Log: `run_round3.log`.
+- Fail types: Hermes still prints the command instead of running it (C2, C5, M05, M14, M19); bare "lo"/"mid" are ambiguous and it doesn't retry (M11, M13); C6 refused wrongly; refusal wording drifts. No fake passes now (M22/M23 both started at 13).
+- Status: open. Outcome: not better than round 2 (8/9, 18/25).
