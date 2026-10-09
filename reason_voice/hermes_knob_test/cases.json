@@ -1,11 +1,68 @@
 [
- {"id": "C1", "prompt": "Turn the body off.", "knob": "knob_9", "min": 0, "max": 31},
- {"id": "C2", "prompt": "Turn the body back on.", "knob": "knob_9", "min": 96, "max": 127},
- {"id": "C3", "prompt": "Set the master level to half.", "knob": "knob_8", "min": 56, "max": 72},
- {"id": "C4", "prompt": "Turn the high cut all the way down.", "knob": "knob_7", "min": 0, "max": 8},
- {"id": "C5", "prompt": "Turn the master level down 20 percent.", "rel": {"knob": "knob_8", "delta": -25, "tol": 6}},
- {"id": "C6", "prompt": "Turn the body scale up a lot.", "knob": "knob_11", "min": 90, "max": 127},
- {"id": "C7", "prompt": "Turn the damage on.", "knob": "knob_14", "min": 96, "max": 127},
- {"id": "C8", "prompt": "Make a cable from the body to the output.", "no_change": true, "expect_reply": "NOT POSSIBLE"},
- {"id": "C9", "prompt": "Turn the flux capacitor up.", "no_change": true, "expect_reply": "NO SUCH CONTROL"}
+ {
+  "id": "C1",
+  "prompt": "Turn the body off.",
+  "knob": "knob_9",
+  "min": 0,
+  "max": 31,
+  "start": 127
+ },
+ {
+  "id": "C2",
+  "prompt": "Turn the body back on.",
+  "knob": "knob_9",
+  "min": 96,
+  "max": 127,
+  "start": 0
+ },
+ {
+  "id": "C3",
+  "prompt": "Set the master level to 50 percent.",
+  "knob": "knob_8",
+  "min": 58,
+  "max": 69
+ },
+ {
+  "id": "C4",
+  "prompt": "Set the high cut to 0 percent.",
+  "knob": "knob_7",
+  "min": 0,
+  "max": 3
+ },
+ {
+  "id": "C5",
+  "prompt": "Turn the master level down 20 percent.",
+  "rel": {
+   "knob": "knob_8",
+   "delta": -25,
+   "tol": 4
+  }
+ },
+ {
+  "id": "C6",
+  "prompt": "Set the body scale to 90 percent.",
+  "knob": "knob_11",
+  "min": 110,
+  "max": 118
+ },
+ {
+  "id": "C7",
+  "prompt": "Turn the damage on.",
+  "knob": "knob_14",
+  "min": 96,
+  "max": 127,
+  "start": 0
+ },
+ {
+  "id": "C8",
+  "prompt": "Make a cable from the body to the output.",
+  "no_change": true,
+  "expect_reply": "NOT POSSIBLE"
+ },
+ {
+  "id": "C9",
+  "prompt": "Turn the flux capacitor up.",
+  "no_change": true,
+  "expect_reply": "NO SUCH CONTROL"
+ }
 ]

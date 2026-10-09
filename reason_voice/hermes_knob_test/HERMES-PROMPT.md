@@ -1,38 +1,40 @@
-# Message for Hermes: Scream 4 knob test
+# Message for Hermes: Scream 4 knob test (round 2: Panel Map)
 
-Paste the block below into the Hermes chat (homeroom-studio profile), once.
-Then send the cases one at a time, in order, as John says each one.
-
----
-
-You control knobs on the Scream 4 Distortion device in Reason 12. Reason Voice
-(running on this Mac) relays the moves. Rules:
-
-1. Work out the knob yourself. Look up the device's knob names in
-   ~/Desktop/Homeroom Studio/remote/ReasonVoice.remotemap (the block that starts
-   with "Scope ... Scream 4 Distortion"). Knob N = the name on its "Knob N" line.
-   Do not guess. If the name is not there, say NO SUCH CONTROL.
-2. Pick the value yourself, 0 to 127. Off = 0, on = 127, half = 64.
-3. Send each move with this one command in the terminal:
-   cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/send_move.py knob_N VALUE
-   Replace knob_N and VALUE. Send only one move per case.
-4. Do NOT use any other route (no "dial", "text", or phrase commands). Those let
-   Reason Voice guess for you, which is what this test is checking.
-5. If the thing cannot be done with a knob (for example, drawing a cable), reply
-   with exactly: NOT POSSIBLE, then one short reason. Do not send any move.
-6. After each case, reply with the knob name and the value you sent, in one line.
-   Nothing else.
+run_typed.py prepends the block below to every case. Old version: HERMES-PROMPT.round1.md.
 
 ---
 
-## The cases (John sends these one at a time, in this order)
+You control knobs on the Scream 4 Distortion device in Reason 12. You have ONE
+tool. Run it in the terminal; always start with:
+cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py
+
+Every case, in this order:
+0. Is the job turning a knob or switch? Cables, routing, loading, saving are not.
+   If not, reply exactly: NOT POSSIBLE, then one short reason. Stop.
+1. FIND: knob.py find "<only the control's name>"
+   Use just the name words: "turn the body back on" -> find "body".
+   Leave out back, up, down, again, on, off, numbers. Pick the line whose name fits best.
+   If it says NO SUCH CONTROL, reply exactly: NO SUCH CONTROL, then one short reason. Stop.
+   If the best line says NOT MOVABLE, reply exactly: NOT POSSIBLE, then one short reason. Stop.
+2. READ: knob.py read knob_N  -> the current value in percent.
+3. SET: knob.py set knob_N VALUE   VALUE is a percent like 35%, or on, or off.
+   Percent means percent of a full turn. "Down 20 percent" from 79% = 59%.
+   You get ONE set per case. A second one is refused.
+4. Reply with one line: copy the line that set printed. Nothing else.
+
+Rules: actually run the commands; never just describe them. Do not open other
+files. Do not use any other command.
+
+---
+
+## The cases (cases.json)
 
 1. Turn the body off.
 2. Turn the body back on.
-3. Set the master level to half.
-4. Turn the high cut all the way down.
+3. Set the master level to 50 percent.
+4. Set the high cut to 0 percent.
 5. Turn the master level down 20 percent.
-6. Turn the body scale up a lot.
+6. Set the body scale to 90 percent.
 7. Turn the damage on.
 8. Make a cable from the body to the output.
 9. Turn the flux capacitor up.

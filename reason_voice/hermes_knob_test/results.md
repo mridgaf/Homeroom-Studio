@@ -31,3 +31,103 @@
 - typed C8 Hermes said: Now let me look at the Scream 4 Distortion section specifically (lines 550-568): |  | Looking at the Scream 4 Distortion mapping: | - Map\tKnob 1\tDamage Control | - Map\tKnob 2\tDamage Type | - Map\t
 - 2026-10-08 19:50  C9  PASS  | no knob should move; moved: none
 - typed C9 Hermes said: NOT POSSIBLE — Scream 4 Distortion has no "flux capacitor" control in the remotemap (it has Damage Control, Damage Type, Cut Lo/Mid/Hi, Master Level, Body controls, and Enabled).
+- 2026-10-08 20:54  C1  PASS  | knob_9 127 -> 0 (wanted 0 to 31)
+- typed C1 Hermes said: Body On/Off: 100% -> 0% (checked: 0%)
+- 2026-10-08 20:56  C2  FAIL  | knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+- typed C2 Hermes said: NO SUCH CONTROL: nothing on Scream 4 matches 'body back'
+- 2026-10-08 20:56  C3  PASS  | knob_8 100 -> 64 (wanted 58 to 69)
+- typed C3 Hermes said: Master Level set to 50%.
+- 2026-10-08 20:57  C4  PASS  | knob_7 127 -> 0 (wanted 0 to 3)
+- typed C4 Hermes said: Cut Hi: 100% -> 0% (checked: 0%)
+- 2026-10-08 20:57  C5  PASS  | knob_8 64 -> 38 (wanted about 39 +/-4)
+- typed C5 Hermes said: Done: Master Level set to 30% (was 50%, down 20%).
+- 2026-10-08 20:58  C6  PASS  | knob_11 64 -> 114 (wanted 110 to 118)
+- typed C6 Hermes said: Body Scale: 50% -> 90% (checked: 90%)
+- 2026-10-08 20:59  C7  PASS  | knob_14 127 -> 127 (wanted 96 to 127)
+- typed C7 Hermes said: The damage on/off knob is already at 100%.
+- 2026-10-08 20:59  C8  PASS  | no knob should move; moved: none
+- typed C8 Hermes said: NO SUCH CONTROL: "Make a cable from the body to the output" is not a Scream 4 parameter — cables are routed in Reason, not controlled by knobs
+- 2026-10-08 20:59  C9  PASS  | no knob should move; moved: none
+- typed C9 Hermes said: NO SUCH CONTROL — the Scream 4 Distortion device has no control called "flux capacitor".
+- 2026-10-08 21:00  C2  FAIL  | knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+- typed C2 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py find "body"
+- 2026-10-08 21:01  C7  PASS  | knob_14 0 -> 127 (wanted 96 to 127)
+- typed C7 Hermes said: Damage On/Off: 0% -> 100% (checked: 100%)
+- 2026-10-08 21:01  C8  PASS  | no knob should move; moved: none
+- typed C8 Hermes said: NOT POSSIBLE |  | This is a routing/cabling task, not a knob or switch adjustment. The tool only controls device parameters, not cable connections.
+- 2026-10-08 21:02  M01  PASS  | knob_14 127 -> 0 (wanted 0 to 31)
+- typed M01 Hermes said: Damage On/Off: 100% -> 0% (checked: 0%)
+- 2026-10-08 21:02  M02  FAIL  | knob_14 0 -> 0 (wanted 96 to 127); knob_14 wanted 96 to 127, got 0
+- typed M02 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py find "damage"
+- 2026-10-08 21:03  M03  PASS  | knob_1 70 -> 51 (wanted 48 to 54)
+- typed M03 Hermes said: Done. Damage Control set to 40%.
+- 2026-10-08 21:04  M04  PASS  | knob_3 52 -> 32 (wanted 29 to 35)
+- typed M04 Hermes said: Parameter 1: 41% -> 25% (checked: 25%)
+- 2026-10-08 21:04  M05  FAIL  | knob_3 32 -> 32 (wanted 73 to 79); knob_3 wanted 73 to 79, got 32
+- typed M05 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py find "parameter 1"
+- 2026-10-08 21:05  M06  PASS  | knob_4 28 -> 114 (wanted 111 to 117)
+- typed M06 Hermes said: Parameter 2: 22% -> 90% (checked: 90%)
+- 2026-10-08 21:05  M07  PASS  | knob_4 114 -> 13 (wanted 10 to 16)
+- typed M07 Hermes said: Parameter 2: 90% -> 10% (checked: 10%)
+- 2026-10-08 21:06  M08  PASS  | knob_15 127 -> 0 (wanted 0 to 31)
+- typed M08 Hermes said: Cut On/Off: 100% -> 0% (checked: 0%)
+- 2026-10-08 21:07  M09  FAIL  | knob_15 0 -> 0 (wanted 96 to 127); knob_15 wanted 96 to 127, got 0
+- typed M09 Hermes said: Cut Hi: 100% -> 100% (checked: 100%)
+- 2026-10-08 21:08  M10  PASS  | knob_5 74 -> 13 (wanted 10 to 16)
+- typed M10 Hermes said: Cut Lo: 58% -> 10% (checked: 10%)
+- 2026-10-08 21:09  M11  PASS  | knob_5 13 -> 95 (wanted 92 to 98)
+- typed M11 Hermes said: Cut Lo: 10% -> 75% (checked: 75%)
+- 2026-10-08 21:09  M12  PASS  | knob_6 53 -> 13 (wanted 10 to 16)
+- typed M12 Hermes said: Cut Mid: 42% -> 10% (checked: 10%)
+- 2026-10-08 21:09  M13  FAIL  | knob_6 13 -> 13 (wanted 48 to 54); knob_6 wanted 48 to 54, got 13
+- typed M13 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set mid 40%
+- 2026-10-08 21:10  M14  PASS  | knob_7 127 -> 95 (wanted 92 to 98)
+- typed M14 Hermes said: Cut Hi: 100% -> 75% (checked: 75%)
+- 2026-10-08 21:11  M15  PASS  | knob_7 95 -> 13 (wanted 10 to 16)
+- typed M15 Hermes said: Cut Hi: 75% -> 10% (checked: 10%)
+- 2026-10-08 21:11  M16  PASS  | knob_9 127 -> 0 (wanted 0 to 31)
+- typed M16 Hermes said: Body On/Off: 100% -> 0% (checked: 0%)
+- 2026-10-08 21:12  M17  PASS  | knob_9 0 -> 127 (wanted 96 to 127)
+- typed M17 Hermes said: Body On/Off: 0% -> 100% (checked: 100%)
+- 2026-10-08 21:12  M18  PASS  | knob_12 2 -> 95 (wanted 92 to 98)
+- typed M18 Hermes said: Done. Body Resonance set to 75%.
+- 2026-10-08 21:13  M19  PASS  | knob_12 95 -> 32 (wanted 29 to 35)
+- typed M19 Hermes said: Body Resonance: 75% -> 25% (checked: 25%)
+- 2026-10-08 21:13  M20  FAIL  | knob_11 64 -> 64 (wanted 10 to 16); knob_11 wanted 10 to 16, got 64
+- typed M20 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set body 10%
+- 2026-10-08 21:14  M21  FAIL  | knob_11 64 -> 64 (wanted 10 to 16); knob_11 wanted 10 to 16, got 64
+- typed M21 Hermes said: I cannot run `knob.py` via terminal. The `knob.py` script is designed to be run interactively with user input through the Reason Voice app interface, not as a command-line tool. |  | However, I can sh
+- 2026-10-08 21:14  M22  PASS  | knob_13 0 -> 76 (wanted 73 to 79)
+- typed M22 Hermes said: Body Auto: 0% -> 60% (checked: 60%)
+- 2026-10-08 21:15  M23  PASS  | knob_13 76 -> 76 (wanted 73 to 79)
+- typed M23 Hermes said: copy: "Body Auto: 60% -> 60% (checked: 60%)"
+- 2026-10-08 21:15  M24  PASS  | knob_8 100 -> 13 (wanted 10 to 16)
+- typed M24 Hermes said: Done: Master Level set to 10%.
+- 2026-10-08 21:16  M25  PASS  | knob_8 13 -> 32 (wanted 29 to 35)
+- typed M25 Hermes said: Done.
+- 2026-10-08 21:16  M26  PASS  | no knob should move; moved: none
+- typed M26 Hermes said: NOT POSSIBLE — the Damage Control CV Input knob (SCR4-B-K01) is marked as NOT MOVABLE by the system.
+- M27 WORDING FAIL: wanted NOT POSSIBLE
+- 2026-10-08 21:17  M27  PASS  | no knob should move; moved: none
+- typed M27 Hermes said: The search shows that "Parameter 1 CV Input" (SCR4-B-K02) matches what the user wants. However, it says "NOT MOVABLE by knob" which means it cannot be controlled via the knob tool. This is a CV input 
+- M28 WORDING FAIL: wanted NOT POSSIBLE
+- 2026-10-08 21:17  M28  PASS  | no knob should move; moved: none
+- typed M28 Hermes said: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py
+- M29 WORDING FAIL: wanted NOT POSSIBLE
+- 2026-10-08 21:17  M29  PASS  | no knob should move; moved: none
+- typed M29 Hermes said: The search shows "Body Scale CV Input" is NOT MOVABLE by knob. This is not a knob-controlled parameter. |  | NOT POSSIBLE — the "Body Scale CV Input" is a switch (J04), not a knob-controlled parameter
+- M30 WORDING FAIL: wanted NO SUCH CONTROL
+- 2026-10-08 21:18  M30  PASS  | no knob should move; moved: none
+- typed M30 Hermes said: The user wants to set the "flux capacitor" to 50% on a Scream 4 distortion device. The find command returned that there is no such control on Scream 4. |  | According to the rules, if it says NO SUCH 
+- 2026-10-08 21:18  M31  PASS  | no knob should move; moved: none
+- typed M31 Hermes said: NO SUCH CONTROL — there is no "tape hiss" control on the Scream 4 device in Reason 12. The Tape Hiss parameter exists in the device, but the control name that the knob.py tool recognizes is "tapes" (n
+- M32 WORDING FAIL: wanted NO SUCH CONTROL
+- 2026-10-08 21:19  M32  PASS  | no knob should move; moved: none
+- typed M32 Hermes said: Scream 4 is a distortion/overdrive plugin, not a chorus effect. Chorus depth does not exist on Scream 4. |  | NOT POSSIBLE — Scream 4 is a distortion/overdrive plugin; it doesn't have a chorus effect
+- 2026-10-08 21:19  M33  PASS  | no knob should move; moved: none
+- typed M33 Hermes said: NO SUCH CONTROL — Scream 4 doesn't have a reverb control.
+- M34 WORDING FAIL: wanted NO SUCH CONTROL
+- 2026-10-08 21:19  M34  PASS  | no knob should move; moved: none
+- typed M34 Hermes said: Scream 4 does not have a "sidechain amount" control — it's not a parameter on that device. |  | **NO SUCH CONTROL: Sidechain amount is not a parameter on Scream 4 Distortion.**
+- 2026-10-08 21:20  M35  PASS  | no knob should move; moved: none
+- typed M35 Hermes said: NOT POSSIBLE |  | The job is creating a cable connection, which requires Reason Remote bridge file manipulation. The provided tool is strictly for turning knobs and switches — cables cannot be created

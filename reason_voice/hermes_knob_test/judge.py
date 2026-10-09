@@ -14,6 +14,7 @@ Distortion locked to ReasonVoice in Reason:
 """
 import asyncio
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -25,7 +26,7 @@ HERE = Path(__file__).resolve().parent
 URL = "ws://localhost:8765/ws"
 DEVICE = "Scream 4"
 KNOBS = ["knob_%d" % n for n in range(1, 17)]
-CASES = json.loads((HERE / "cases.json").read_text())
+CASES = json.loads((HERE / os.environ.get("CASES_FILE", "cases.json")).read_text())
 STATE_FILE = HERE / "state.json"
 RESULTS = HERE / "results.md"
 # The starting point the test sets, so every case has a known number to aim from.

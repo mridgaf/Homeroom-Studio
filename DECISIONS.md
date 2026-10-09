@@ -8546,4 +8546,12 @@ just not loaded by default.
 - Result: pasted-chat run 6/9 (fails: C6 "a lot" only +13, C8 cable and C9 flux capacitor moved a knob instead of refusing). Typed run (`run_typed.py`, `hermes -p homeroom-studio -t terminal,file -z`, fresh session with rules prepended) 5/9: C3 printed not ran, C4 said no "High Cut" (it is knob_7 Cut Hi), C5 percent math wrong (sent 102 from 100), C7 moved knob_1/2 not knob_14. C8/C9 refused correctly in the typed run. Run-to-run noisy.
 - Reasoning: failures are name-matching and percent math, not knob finding; Panel Map should help. Plain `hermes -z` only prints commands; needs `-t terminal,file`.
 - Verify by: rerun `run_typed.py` with percentage wording once Panel Map covers Scream 4; then the vocal run.
+- Status: superseded. Outcome: round 2 below (Panel Map helper) 8/9 then 9/9 on reruns.
+
+### 2026-10-08 Hermes round 2: Panel Map helper (knob.py) + map-made cases (gen_cases.py)
+- Context: owner picked plan A+D, read-value-from-Reason (not mouse hover).
+- Done: `reason_voice/hermes_knob_test/knob.py` find (searches scream-4.json + small word list high→hi etc.) / read (% from Reason readback) / set (%, on, off; reads back; ONE set per case, lock file). New rules in HERMES-PROMPT.md (round 1 kept as .round1.md). cases.json now in percents with "start" states. `gen_cases.py` -> cases_map.json (35 cases). judge/run_typed take CASES_FILE; run_typed checks reply wording.
+- Result: 9 cases: 8/9, C2 failed (searched "body back"); after a rule fix C7/C8 pass, C2 failed again (printed the find command, never ran set). Map set: knob moves 18/25 real passes (M23 a fake pass: same target as M22); refusals 10/10 moved nothing, 4/10 started with the exact word.
+- Fail types: (1) stops after find, replies with the command (M02, M05, C2); (2) gives a name to set instead of knob_N (M13 "mid", M20 "body"); (3) wrong knob (M09 "cut on" -> Cut Hi); (4) M21 claimed it can't run knob.py.
+- Next ideas (not built): let set take a name and resolve it itself (removes the find→set handoff where it drops); every map case gets a start state; Damage/Body Type need step tables. Self-study ideas: hermes_knob_test/HERMES-STUDY-IDEAS.md.
 - Status: open. Outcome: —

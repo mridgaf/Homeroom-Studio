@@ -1,0 +1,243 @@
+[
+ {
+  "id": "M01",
+  "prompt": "Turn the damage off.",
+  "knob": "knob_14",
+  "min": 0,
+  "max": 31,
+  "start": 127
+ },
+ {
+  "id": "M02",
+  "prompt": "Turn the damage on.",
+  "knob": "knob_14",
+  "min": 96,
+  "max": 127,
+  "start": 0
+ },
+ {
+  "id": "M03",
+  "prompt": "Set the damage control to 40 percent.",
+  "knob": "knob_1",
+  "min": 48,
+  "max": 54
+ },
+ {
+  "id": "M04",
+  "prompt": "Set the p1 to 25 percent.",
+  "knob": "knob_3",
+  "min": 29,
+  "max": 35
+ },
+ {
+  "id": "M05",
+  "prompt": "Set the parameter 1 to 60 percent.",
+  "knob": "knob_3",
+  "min": 73,
+  "max": 79
+ },
+ {
+  "id": "M06",
+  "prompt": "Set the p2 to 90 percent.",
+  "knob": "knob_4",
+  "min": 111,
+  "max": 117
+ },
+ {
+  "id": "M07",
+  "prompt": "Set the parameter 2 to 10 percent.",
+  "knob": "knob_4",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M08",
+  "prompt": "Turn the cut off.",
+  "knob": "knob_15",
+  "min": 0,
+  "max": 31,
+  "start": 127
+ },
+ {
+  "id": "M09",
+  "prompt": "Turn the cut on.",
+  "knob": "knob_15",
+  "min": 96,
+  "max": 127,
+  "start": 0
+ },
+ {
+  "id": "M10",
+  "prompt": "Set the lo to 10 percent.",
+  "knob": "knob_5",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M11",
+  "prompt": "Set the cut lo to 75 percent.",
+  "knob": "knob_5",
+  "min": 92,
+  "max": 98
+ },
+ {
+  "id": "M12",
+  "prompt": "Set the cut mid to 10 percent.",
+  "knob": "knob_6",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M13",
+  "prompt": "Set the mid to 40 percent.",
+  "knob": "knob_6",
+  "min": 48,
+  "max": 54
+ },
+ {
+  "id": "M14",
+  "prompt": "Set the hi to 75 percent.",
+  "knob": "knob_7",
+  "min": 92,
+  "max": 98
+ },
+ {
+  "id": "M15",
+  "prompt": "Set the cut hi to 10 percent.",
+  "knob": "knob_7",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M16",
+  "prompt": "Turn the body off.",
+  "knob": "knob_9",
+  "min": 0,
+  "max": 31,
+  "start": 127
+ },
+ {
+  "id": "M17",
+  "prompt": "Turn the body on.",
+  "knob": "knob_9",
+  "min": 96,
+  "max": 127,
+  "start": 0
+ },
+ {
+  "id": "M18",
+  "prompt": "Set the body resonance to 75 percent.",
+  "knob": "knob_12",
+  "min": 92,
+  "max": 98
+ },
+ {
+  "id": "M19",
+  "prompt": "Set the reso to 25 percent.",
+  "knob": "knob_12",
+  "min": 29,
+  "max": 35
+ },
+ {
+  "id": "M20",
+  "prompt": "Set the body scale to 10 percent.",
+  "knob": "knob_11",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M21",
+  "prompt": "Set the scale to 10 percent.",
+  "knob": "knob_11",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M22",
+  "prompt": "Set the body auto to 60 percent.",
+  "knob": "knob_13",
+  "min": 73,
+  "max": 79
+ },
+ {
+  "id": "M23",
+  "prompt": "Set the auto to 60 percent.",
+  "knob": "knob_13",
+  "min": 73,
+  "max": 79
+ },
+ {
+  "id": "M24",
+  "prompt": "Set the master to 10 percent.",
+  "knob": "knob_8",
+  "min": 10,
+  "max": 16
+ },
+ {
+  "id": "M25",
+  "prompt": "Set the master level to 25 percent.",
+  "knob": "knob_8",
+  "min": 29,
+  "max": 35
+ },
+ {
+  "id": "M26",
+  "prompt": "Turn the damage control cv input up to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NOT POSSIBLE"
+ },
+ {
+  "id": "M27",
+  "prompt": "Turn the parameter 1 cv input up to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NOT POSSIBLE"
+ },
+ {
+  "id": "M28",
+  "prompt": "Turn the parameter 2 cv input up to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NOT POSSIBLE"
+ },
+ {
+  "id": "M29",
+  "prompt": "Turn the body scale cv input up to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NOT POSSIBLE"
+ },
+ {
+  "id": "M30",
+  "prompt": "Set the flux capacitor to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NO SUCH CONTROL"
+ },
+ {
+  "id": "M31",
+  "prompt": "Set the tape hiss to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NO SUCH CONTROL"
+ },
+ {
+  "id": "M32",
+  "prompt": "Set the chorus depth to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NO SUCH CONTROL"
+ },
+ {
+  "id": "M33",
+  "prompt": "Set the reverb size to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NO SUCH CONTROL"
+ },
+ {
+  "id": "M34",
+  "prompt": "Set the sidechain amount to 50 percent.",
+  "no_change": true,
+  "expect_reply": "NO SUCH CONTROL"
+ },
+ {
+  "id": "M35",
+  "prompt": "Make a cable from the damage control CV input to the auto CV output.",
+  "no_change": true,
+  "expect_reply": "NOT POSSIBLE"
+ }
+]
