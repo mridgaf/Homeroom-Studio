@@ -17,13 +17,6 @@ RULES = HERE.joinpath("HERMES-PROMPT.md").read_text().split("\n---\n")[1].strip(
 CASES = json.loads((HERE / os.environ.get("CASES_FILE", "cases.json")).read_text())
 
 
-def WARM(c):
-    """Round-trip 1 opens the session (rules + 'ready'); round-trip 2 is the real case, in that session."""
-    subprocess.run(["hermes", "-p", "homeroom-studio", "-t", "terminal,file", "-z", RULES + "\n\nReply only: ready"],
-                   capture_output=True, text=True, timeout=600)
-    return ["hermes", "-p", "homeroom-studio", "-t", "terminal,file", "--continue", "-z", "Case: " + c["prompt"]]
-
-
 def judge(*a):
     r = subprocess.run([PY, JUDGE, *a], capture_output=True, text=True)
     return (r.stdout + r.stderr).strip()
@@ -39,11 +32,11 @@ for c in CASES:
         time.sleep(1)
     print(judge("before", c["id"]).splitlines()[0][:60])
     reply = subprocess.run(
-        WARM(c),
+        ["hermes", "-p", "homeroom-studio", "-t", "terminal,file", "-z", RULES + "\n\nCase: " + c["prompt"]],
         capture_output=True, text=True, timeout=600).stdout.strip()
     print("  Hermes:", reply.replace("\n", " | ")[:200])
-    if c.get("expect_reply") and not reply.startswith(c["expect_reply"]):
-        print("  WORDING FAIL: wanted reply to start with", c["expect_reply"])
+    if c.get("expect_reply") and not reply.lstrip("* ").startswith(("NOT POSSIBLE", "NO SUCH CONTROL", "NOT MOVABLE")):  # any plain refusal; exact word is not enforced (owner 2026-10-08)
+        print("  WORDING FAIL: no plain refusal (command printed or no answer)")
         with open(HERE / "results.md", "a") as f:
             f.write("- %s WORDING FAIL: wanted %s\n" % (c["id"], c["expect_reply"]))
     print(" ", judge("after", c["id"]).splitlines()[0])

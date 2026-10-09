@@ -1,0 +1,11 @@
+Hermes's only tool for Scream 4 knobs: find -> read -> set.
+
+    ./.venv/bin/python reason_voice/hermes_knob_test/knob.py find "high cut"
+    ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read knob_7
+    ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set knob_7 25%
+    ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "high cut" 25%
+    (set also takes: on, off. read/set take knob_N or a control name.)
+
+find searches the Panel Map (device_refs/_panel_map/scream-4.json).
+read/set use the value Reason reports back. Percent = percent of a full turn
+(0% = 0, 100% = 127). Only ONE set is allowed per case (run_typed.py clears it).

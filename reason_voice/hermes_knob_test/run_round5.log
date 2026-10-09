@@ -1,0 +1,193 @@
+Saved Scream 4's current positions. They go back at the end.
+Baseline set and read back correctly: knob_7=127  knob_8=100  knob_9=127  knob_11=64  knob_14=127
+### SET 1
+C1 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C1 FAIL: knob_9 127 -> 127 (wanted 0 to 31); knob_9 wanted 0 to 31, got 127
+C2 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C2 FAIL: knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+C3 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C3 FAIL: knob_8 100 -> 100 (wanted 58 to 69); knob_8 wanted 58 to 69, got 100
+C4 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C4 FAIL: knob_7 127 -> 127 (wanted 0 to 3); knob_7 wanted 0 to 3, got 127
+C5 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C5 FAIL: knob_8 100 -> 100 (wanted about 75 +/-4); knob_8 wanted about 75 (+/-4), got 100
+C6 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C6 FAIL: knob_11 64 -> 64 (wanted 110 to 118); knob_11 wanted 110 to 118, got 64
+C7 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  C7 FAIL: knob_14 0 -> 0 (wanted 96 to 127); knob_14 wanted 96 to 127, got 0
+C8 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  C8 PASS: no knob should move; moved: none
+C9 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  knob
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  C9 PASS: no knob should move; moved: none
+### SET 2
+M01 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  session more)
+  Hermes: 
+  M01 FAIL: knob_14 127 -> 127 (wanted 0 to 31); knob_14 wanted 0 to 31, got 127
+M02 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  session more)
+  Hermes: 
+  M02 FAIL: knob_14 0 -> 0 (wanted 96 to 127); knob_14 wanted 96 to 127, got 0
+M03 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  session more)
+  Hermes: 
+  M03 FAIL: knob_1 114 -> 114 (wanted 48 to 54); knob_1 wanted 48 to 54, got 114
+M04 before: knob_1=114  knob_2=28  knob_3=114  knob_4=13  kn
+  session more)
+  Hermes: 
+  M04 FAIL: knob_3 114 -> 114 (wanted 29 to 35); knob_3 wanted 29 to 35, got 114
+M05 before: knob_1=114  knob_2=28  knob_3=13  knob_4=13  kno
+  session more)
+  Hermes: 
+  M05 FAIL: knob_3 13 -> 13 (wanted 73 to 79); knob_3 wanted 73 to 79, got 13
+M06 before: knob_1=114  knob_2=28  knob_3=13  knob_4=13  kno
+  session more)
+  Hermes: 
+  M06 FAIL: knob_4 13 -> 13 (wanted 111 to 117); knob_4 wanted 111 to 117, got 13
+M07 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M07 FAIL: knob_4 114 -> 114 (wanted 10 to 16); knob_4 wanted 10 to 16, got 114
+M08 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M08 FAIL: knob_15 127 -> 127 (wanted 0 to 31); knob_15 wanted 0 to 31, got 127
+M09 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M09 FAIL: knob_15 0 -> 0 (wanted 96 to 127); knob_15 wanted 96 to 127, got 0
+M10 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M10 FAIL: knob_5 114 -> 114 (wanted 10 to 16); knob_5 wanted 10 to 16, got 114
+M11 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M11 FAIL: knob_5 13 -> 13 (wanted 92 to 98); knob_5 wanted 92 to 98, got 13
+M12 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M12 FAIL: knob_6 114 -> 114 (wanted 10 to 16); knob_6 wanted 10 to 16, got 114
+M13 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M13 FAIL: knob_6 114 -> 114 (wanted 48 to 54); knob_6 wanted 48 to 54, got 114
+M14 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M14 FAIL: knob_7 13 -> 13 (wanted 92 to 98); knob_7 wanted 92 to 98, got 13
+M15 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M15 FAIL: knob_7 114 -> 114 (wanted 10 to 16); knob_7 wanted 10 to 16, got 114
+M16 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M16 FAIL: knob_9 127 -> 127 (wanted 0 to 31); knob_9 wanted 0 to 31, got 127
+M17 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M17 FAIL: knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+M18 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M18 FAIL: knob_12 13 -> 13 (wanted 92 to 98); knob_12 wanted 92 to 98, got 13
+M19 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M19 FAIL: knob_12 114 -> 114 (wanted 29 to 35); knob_12 wanted 29 to 35, got 114
+M20 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M20 FAIL: knob_11 114 -> 114 (wanted 10 to 16); knob_11 wanted 10 to 16, got 114
+M21 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M21 FAIL: knob_11 114 -> 114 (wanted 10 to 16); knob_11 wanted 10 to 16, got 114
+M22 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M22 FAIL: knob_13 13 -> 13 (wanted 73 to 79); knob_13 wanted 73 to 79, got 13
+M23 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M23 FAIL: knob_13 13 -> 13 (wanted 73 to 79); knob_13 wanted 73 to 79, got 13
+M24 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M24 FAIL: knob_8 114 -> 114 (wanted 10 to 16); knob_8 wanted 10 to 16, got 114
+M25 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  M25 FAIL: knob_8 114 -> 114 (wanted 29 to 35); knob_8 wanted 29 to 35, got 114
+M26 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M26 PASS: no knob should move; moved: none
+M27 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M27 PASS: no knob should move; moved: none
+M28 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M28 PASS: no knob should move; moved: none
+M29 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M29 PASS: no knob should move; moved: none
+M30 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M30 PASS: no knob should move; moved: none
+M31 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M31 PASS: no knob should move; moved: none
+M32 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M32 FAIL: no knob should move; moved: knob_7; moved knob_7 but nothing should move
+M33 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M33 PASS: no knob should move; moved: none
+M34 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M34 PASS: no knob should move; moved: none
+M35 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kn
+  session more)
+  Hermes: 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M35 PASS: no knob should move; moved: none
+### end

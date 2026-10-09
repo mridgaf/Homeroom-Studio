@@ -1,0 +1,34 @@
+Saved Scream 4's current positions. They go back at the end.
+Baseline set and read back correctly: knob_7=127  knob_8=100  knob_9=127  knob_11=64  knob_14=127
+M11 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "lo" 75%
+  M11 FAIL: knob_5 13 -> 13 (wanted 92 to 98); knob_5 wanted 92 to 98, got 13
+M13 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: .
+  M13 FAIL: knob_6 114 -> 114 (wanted 48 to 54); knob_6 wanted 48 to 54, got 114
+M26 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "damage control cv input" 50%
+  WORDING FAIL: wanted reply to start with NOT POSSIBLE
+  M26 PASS: no knob should move; moved: none
+M27 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: NOT MOVABLE by knob: Parameter 1 CV Input (Amount knob for J02)
+  WORDING FAIL: wanted reply to start with NOT POSSIBLE
+  M27 PASS: no knob should move; moved: none
+M31 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: NO SUCH CONTROL: "tape hiss" is not a valid control on Scream 4 device in Reason 12.
+  M31 PASS: no knob should move; moved: none
+M33 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read "reverb size"
+  WORDING FAIL: wanted reply to start with NO SUCH CONTROL
+  M33 PASS: no knob should move; moved: none
+M34 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: NO SUCH CONTROL: nothing on Scream 4 matches 'sidechain amount' |  | Scream 4 is a distortion/saturator, not a sidechain compressor — it doesn't have a sidechain amount parameter.
+  M34 PASS: no knob should move; moved: none
+C6 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Body Scale (knob_11): 50% -> 90% (checked: 90%)
+  C6 PASS: knob_11 64 -> 114 (wanted 110 to 118)
+C9 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: NOT POSSIBLE — "flux capacitor" is not a valid Scream 4 Distortion control.
+  WORDING FAIL: wanted reply to start with NO SUCH CONTROL
+  C9 PASS: no knob should move; moved: none
+Restored. All 16 knobs back where they started.

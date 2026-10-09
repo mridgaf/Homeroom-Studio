@@ -9,7 +9,7 @@ Distortion locked to ReasonVoice in Reason:
     ./.venv/bin/python reason_voice/hermes_knob_test/judge.py before C1
     (Hermes runs C1 now)
     ./.venv/bin/python reason_voice/hermes_knob_test/judge.py after C1
-    ... same before/after for each case ...
+    ... same before/after for each case ...  (restore is a no-op now: scratch device)
     ./.venv/bin/python reason_voice/hermes_knob_test/judge.py restore
 """
 import asyncio
@@ -165,6 +165,11 @@ async def cmd_status():
 
 
 async def cmd_restore():
+    # Dropped on purpose (owner 2026-10-08): the Scream 4 in the scratch song is a test
+    # device, so its knobs stay wherever the test left them. read_panel() still refuses
+    # to run unless the locked device is Scream 4, so no other device can be changed.
+    print("Restore skipped: scratch Scream 4, changes are expected. Leftover knob values are from the last case.")
+    return
     start = load_state().get("user_start")
     if not start:
         sys.exit("No saved starting positions. Run 'start' first.")

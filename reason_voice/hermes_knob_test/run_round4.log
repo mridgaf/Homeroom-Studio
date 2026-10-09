@@ -1,0 +1,144 @@
+Saved Scream 4's current positions. They go back at the end.
+Baseline set and read back correctly: knob_7=127  knob_8=100  knob_9=127  knob_11=64  knob_14=127
+### SET 1
+C1 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "body" off
+  C1 FAIL: knob_9 127 -> 127 (wanted 0 to 31); knob_9 wanted 0 to 31, got 127
+C2 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: knob.py set "body" on
+  C2 FAIL: knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+C3 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Master Level (knob_8): 79% -> 50% (checked: 50%)
+  C3 PASS: knob_8 100 -> 64 (wanted 58 to 69)
+C4 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Cut Hi (knob_7): 100% -> 0% (checked: 0%)
+  C4 PASS: knob_7 127 -> 0 (wanted 0 to 3)
+C5 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read master |  | I need to see what the current value is before I can calculate "down 20 percent".
+  C5 FAIL: knob_8 64 -> 64 (wanted about 39 +/-4); knob_8 wanted about 39 (+/-4), got 64
+C6 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Body Scale (knob_11): 50% -> 90% (checked: 90%)
+  C6 PASS: knob_11 64 -> 114 (wanted 110 to 118)
+C7 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: Damage On/Off (knob_14): 0% -> 100% (checked: 100%)
+  C7 PASS: knob_14 0 -> 127 (wanted 96 to 127)
+C8 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: NOT POSSIBLE - this is a cabling/routing task, not a knob or switch adjustment.
+  C8 PASS: no knob should move; moved: none
+C9 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob_
+  Hermes: NOT POSSIBLE — "flux capacitor" is not a Scream 4 Distortion device; it's a reference to Back to the Future.
+  C9 PASS: no knob should move; moved: none
+### SET 2
+M01 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: The command successfully turned off the damage control on the Scream 4 Distortion device. The output shows the control went from 100% to 0%. |  |  | Damage On/Off (knob_14): 100% -> 0% (checked: 0%)
+  M01 PASS: knob_14 127 -> 0 (wanted 0 to 31)
+M02 before: knob_1=70  knob_2=28  knob_3=52  knob_4=28  knob
+  Hermes: NOT POSSIBLE - "damage" is not a valid control name. The Scream 4 uses "drive" for distortion amount, not "damage".
+  M02 FAIL: knob_14 0 -> 0 (wanted 96 to 127); knob_14 wanted 96 to 127, got 0
+M03 before: knob_1=114  knob_2=28  knob_3=52  knob_4=28  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "damage control" 40%
+  M03 FAIL: knob_1 114 -> 114 (wanted 48 to 54); knob_1 wanted 48 to 54, got 114
+M04 before: knob_1=114  knob_2=28  knob_3=114  knob_4=28  kn
+  Hermes: Done. One command per case rule enforced. Final reply (copy exactly): |  | Parameter 1 (knob_3): 90% -> 25% (checked: 25%)
+  M04 PASS: knob_3 114 -> 32 (wanted 29 to 35)
+M05 before: knob_1=114  knob_2=28  knob_3=13  knob_4=28  kno
+  Hermes: The command successfully set Parameter 1 to 60%. The output shows it changed from 10% to 60% and verified the value.
+  M05 PASS: knob_3 13 -> 76 (wanted 73 to 79)
+M06 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set p2 90%
+  M06 FAIL: knob_4 13 -> 13 (wanted 111 to 117); knob_4 wanted 111 to 117, got 13
+M07 before: knob_1=114  knob_2=28  knob_3=76  knob_4=114  kn
+  Hermes: Parameter 2 (knob_4): 90% -> 10% (checked: 10%)
+  M07 PASS: knob_4 114 -> 13 (wanted 10 to 16)
+M08 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "cut" off
+  M08 FAIL: knob_15 127 -> 127 (wanted 0 to 31); knob_15 wanted 0 to 31, got 127
+M09 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "cut" on
+  M09 FAIL: knob_15 0 -> 0 (wanted 96 to 127); knob_15 wanted 96 to 127, got 0
+M10 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "cut lo" 10%
+  M10 FAIL: knob_5 114 -> 114 (wanted 10 to 16); knob_5 wanted 10 to 16, got 114
+M11 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Cut Lo (knob_5): 10% -> 75% (checked: 75%)
+  M11 PASS: knob_5 13 -> 95 (wanted 92 to 98)
+M12 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Cut Mid (knob_6): 90% -> 10% (checked: 10%)
+  M12 PASS: knob_6 114 -> 13 (wanted 10 to 16)
+M13 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py read mid
+  M13 FAIL: knob_6 114 -> 114 (wanted 48 to 54); knob_6 wanted 48 to 54, got 114
+M14 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "cut hi" 75%
+  M14 FAIL: knob_7 13 -> 13 (wanted 92 to 98); knob_7 wanted 92 to 98, got 13
+M15 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "hi" 10%
+  M15 FAIL: knob_7 114 -> 114 (wanted 10 to 16); knob_7 wanted 10 to 16, got 114
+M16 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: The command ran successfully and turned the body off. I need to reply with exactly what the tool printed. |  | Body On/Off (knob_9): 100% -> 0% (checked: 0%)
+  M16 PASS: knob_9 127 -> 0 (wanted 0 to 31)
+M17 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: knob.py set "body" on
+  M17 FAIL: knob_9 0 -> 0 (wanted 96 to 127); knob_9 wanted 96 to 127, got 0
+M18 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Body Resonance (knob_12): 10% -> 75% (checked: 75%)
+  M18 PASS: knob_12 13 -> 95 (wanted 92 to 98)
+M19 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: knob.py set "reso" 25%
+  M19 FAIL: knob_12 114 -> 114 (wanted 29 to 35); knob_12 wanted 29 to 35, got 114
+M20 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Done — set Body Scale to 10%.
+  M20 PASS: knob_11 114 -> 13 (wanted 10 to 16)
+M21 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Done. Body Scale moved from 90% to 10%.
+  M21 PASS: knob_11 114 -> 13 (wanted 10 to 16)
+M22 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set auto 60%
+  M22 FAIL: knob_13 13 -> 13 (wanted 73 to 79); knob_13 wanted 73 to 79, got 13
+M23 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "body auto" 60%
+  M23 FAIL: knob_13 13 -> 13 (wanted 73 to 79); knob_13 wanted 73 to 79, got 13
+M24 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Master Level (knob_8): 90% -> 10% (checked: 10%)
+  M24 PASS: knob_8 114 -> 13 (wanted 10 to 16)
+M25 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: Done. Reply only.
+  M25 PASS: knob_8 114 -> 32 (wanted 29 to 35)
+M26 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: The control is not movable by knob. I need to reply with "NOT POSSIBLE" and a short reason. |  | **NOT POSSIBLE** - Damage Control CV Input uses a knob (not a switch), not a CV input control that can 
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M26 PASS: no knob should move; moved: none
+M27 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: The tool says this control is not movable by the knob interface. This makes sense - CV input is a routing/control signal, not a device parameter that can be adjusted via CC messages from the bridge. |
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M27 PASS: no knob should move; moved: none
+M28 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: The parameter 2 cv input is NOT MOVABLE by knob - it uses an Amount knob instead. This is not a direct Scream 4 parameter knob that I can control with the knob.py tool. |  | NOT POSSIBLE - The "2 cv i
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M28 FAIL: no knob should move; moved: knob_7; moved knob_7 but nothing should move
+M29 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: knob.py read "body scale cv input"
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M29 PASS: no knob should move; moved: none
+M30 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "flux capacitor" 50%
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M30 PASS: no knob should move; moved: none
+M31 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: I checked the panel map. There is no "tape hiss" control on Scream 4. The closest match is "EASYFUZZ tape" (line 48-51), but that's a device name display, not a knob. |  | The Scream 4 Distortion devi
+  WORDING FAIL: no plain refusal (command printed or no answer)
+  M31 PASS: no knob should move; moved: none
+M32 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: NOT POSSIBLE — Scream 4 has no chorus (it's a distortion device, not a modulation effect).
+  M32 PASS: no knob should move; moved: none
+M33 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: NO SUCH CONTROL: "reverb size" is not a control on Scream 4 (it's a separate Reverb device, not part of Scream 4 Distortion)
+  M33 PASS: no knob should move; moved: none
+M34 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: NO SUCH CONTROL: "sidechain amount" is not a control on Scream 4
+  M34 PASS: no knob should move; moved: none
+M35 before: knob_1=114  knob_2=28  knob_3=76  knob_4=13  kno
+  Hermes: NOT POSSIBLE |  | Cable routing between devices is not supported by the knob.py tool — that tool only controls device parameters (knobs/switches) via MIDI CC, not MIDI cable connections.
+  M35 PASS: no knob should move; moved: none
+### restore
+Restore skipped: scratch Scream 4, changes are expected. Leftover knob values are from the last case.

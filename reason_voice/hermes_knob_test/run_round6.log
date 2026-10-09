@@ -1,0 +1,40 @@
+Saved Scream 4's current positions. They go back at the end.
+Baseline set and read back correctly: knob_7=127  knob_8=100  knob_9=127  knob_11=64  knob_14=127
+### SET 1
+C1 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_001603_970bee
+  Hermes: Body On/Off (knob_9): 100% -> 0% (checked: 0%)
+  C1 PASS: knob_9 127 -> 0 (wanted 0 to 31)
+C2 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_001732_26c29d
+  Hermes: The command succeeded. The output shows that the Body control (knob_9) was successfully turned on (set from 0% to 100%). This is the Scream 4 Distortion device's bypass/enable control. |  | **BODY ON*
+  C2 PASS: knob_9 0 -> 127 (wanted 96 to 127)
+C3 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_001832_ec1c2e
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "master" 50%
+  C3 FAIL: knob_8 100 -> 100 (wanted 58 to 69); knob_8 wanted 58 to 69, got 100
+C4 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_001853_c2e0b3
+  Hermes: done
+  C4 PASS: knob_7 127 -> 0 (wanted 0 to 3)
+C5 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_001948_5388fb
+  Hermes: Master Level (knob_8): 79% -> 59% (checked: 59%)
+  C5 PASS: knob_8 100 -> 75 (wanted about 75 +/-4)
+C6 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_002025_5ccfa0
+  Hermes: cd "$HOME/Desktop/Homeroom Studio" && ./.venv/bin/python reason_voice/hermes_knob_test/knob.py set "body" 90%
+  C6 FAIL: knob_11 64 -> 64 (wanted 110 to 118); knob_11 wanted 110 to 118, got 64
+C7 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_002051_200cba
+  Hermes: Damage On/Off (knob_14): 0% -> 100% (checked: 100%)
+  C7 PASS: knob_14 0 -> 127 (wanted 96 to 127)
+C8 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_002137_f00a6a
+  Hermes: NOT POSSIBLE |  | Cable routing is outside the scope of the single knob control tool provided.
+  C8 PASS: no knob should move; moved: none
+C9 before: knob_1=114  knob_2=28  knob_3=13  knob_4=114  kno
+  session 20261009_002158_c093f4
+  Hermes: NOT POSSIBLE |  | "flux capacitor" is not a real Scream 4 Distortion control in Reason 12. Scream 4 has controls like Drive, Level, Tone, Body, Resonance, Threshold, etc. Please provide a valid Scream
+  C9 PASS: no knob should move; moved: none
+### SET 2
