@@ -8571,3 +8571,10 @@ just not loaded by default.
 - Follow-up (same day): warm-up run on the other 9 round-3 fails (`run_warm2.log`): fixed C6, M31, M34. Still failing: M11 (printed command, "lo"), M13 (empty reply "."), M26 and M33 (printed command), M27 (copied "NOT MOVABLE" not "NOT POSSIBLE"), C9 (said NOT POSSIBLE, wanted NO SUCH CONTROL). Warm-up total on all 14 old fails: 8 fixed, 6 not.
 - Round 4 (2026-10-08): `run_typed.py` now warm-up + `--continue` (old: `run_typed.nowarm.py`); restore dropped (scratch Scream 4, owner confirmed). Full rerun `run_round4.log`: 27 pass / 23 fail, WORSE than round 3. 17 of the fails are Hermes printing the command again (warm-up did not hold across a full run, though it fixed 8 of 14 in the small run); M28 moved Cut Hi on a refusal case; C1/C5/M02 etc. same print pattern. Cause not found: suspect `--continue` resumes the most recent session, which may not be the warm-up one.
 - Status: open. Next: pin the session by id (`--resume SESSION_ID` via `--pass-session-id`) instead of `--continue`, then rerun.
+
+### 2026-10-10 Stem knobs (live) + FX lane 3.2 dB quieter
+- Context: owner: stem volume arrows don't let him hear the change; FX lane should always be 20% quieter, Loops and Originals pages (both = Create page modes).
+- Done: `beat_machine.py` rack arrows -> knob (+-24 dB, 0.5 dB steps, drag/wheel/arrows, dblclick resets); solo stem now a looped `LoopAudio` with a GainNode, knob moves gain while playing (clip cap 0.94 like server `_solo`). `crew.py` `FX_LANE_TRIM_DB = -3.2` on fx/fxloop/fxloop2/airs, applied before the lane-lock read so true-levels and later edits keep it. He chose -3.2 dB ("sounds 20% quieter") over -2 dB.
+- Checked: new `tests/test_fx_lane_trim.py` + crew/loop tests pass (58); in the browser the knob moved +10 dB on drag, gain node went 1 -> 1.995 at +6 dB while playing. NOT checked: a real beat's stem by ear, nor a rendered FX level (no renders, house rule). New beats only; old beats unchanged.
+- Verify by: next beat he makes, play an FX stem and turn its knob; FX should sit lower.
+- Status: open

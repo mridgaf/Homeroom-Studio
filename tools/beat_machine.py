@@ -5832,12 +5832,16 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  /* volume: 1 dB arrows, not a slider (owner 2026-07-25 — the slider
     jumped and left gaps). The dB readout doubles as the reset button. */
  .lane .vol { display: flex; align-items: center; gap: 2px; flex: none; }
- .lane .vol .step { width: 26px; height: 26px; padding: 0; line-height: 1;
-       font-size: 15px; font-weight: 700; border-radius: 7px;
-       border: 1px solid var(--line2); background: var(--card2);
-       color: var(--text); cursor: pointer; }
- .lane .vol .step:hover { border-color: var(--hi); color: var(--hi); }
- .lane .vol .step:active { transform: translateY(1px); }
+ .lane .vol .knob { width: 38px; height: 38px; flex: none; cursor: ns-resize;
+       touch-action: none; user-select: none; -webkit-user-select: none;
+       border-radius: 50%; }
+ .lane .vol .knob svg { width: 100%; height: 100%; display: block; }
+ .lane .vol .ktrack { fill: none; stroke: var(--line2); stroke-width: 9; stroke-linecap: round; }
+ .lane .vol .klit { fill: none; stroke: var(--hi); stroke-width: 10; stroke-linecap: round; }
+ .lane .vol .kcap { fill: var(--card2); stroke: var(--line2); stroke-width: 3; }
+ .lane .vol .kptr rect { fill: var(--text); }
+ .lane .vol .knob:hover .kcap { stroke: var(--hi); }
+ .lane .vol .knob:focus-visible { outline: 2px solid var(--hi); outline-offset: 1px; }
  .lane .vol .db { font-family: var(--mono); font-size: 12px;
        color: var(--dimmer); width: 40px; text-align: center;
        cursor: pointer; user-select: none; }
@@ -6619,12 +6623,34 @@ __BREAKS__
    }
    _start() {
      const n = actx.createBufferSource();
-     n.buffer = this.buf; n.loop = true; n.connect(actx.destination);
+     n.buffer = this.buf; n.loop = true;
+     // a gain stage so a stem's knob moves the sound while it plays
+     // (owner 2026-10-10); at 0 dB it is a straight wire
+     const g = actx.createGain(); this.gainNode = g;
+     n.connect(g); g.connect(actx.destination); this.setGain(this.db || 0);
      const off = (this._off || 0) % this.buf.duration;
      n.start(0, off); this._t0 = actx.currentTime - off; this.node = n;
    }
    _kill() {
      if (this.node) { try { this.node.stop(); } catch (e) {} this.node.disconnect(); this.node = null; }
+     if (this.gainNode) { this.gainNode.disconnect(); this.gainNode = null; }
+   }
+   // dB -> live gain. Never lets the boost clip: same 0.94 ceiling the
+   // server's _solo applies when it renders a stem at a given dB.
+   setGain(db) {
+     this.db = db;
+     if (!this.gainNode) return;
+     if (this.peak == null && this.buf) {
+       let p = 0;
+       for (let c = 0; c < this.buf.numberOfChannels; c++) {
+         const d = this.buf.getChannelData(c);
+         for (let i = 0; i < d.length; i++) { const a = Math.abs(d[i]); if (a > p) p = a; }
+       }
+       this.peak = p;
+     }
+     let g = Math.pow(10, db / 20);
+     if (this.peak && this.peak * g > 0.94) g = 0.94 / this.peak;
+     this.gainNode.gain.setTargetAtTime(g, actx.currentTime, 0.01);
    }
  }
  LoopAudio.all = [];
@@ -7025,9 +7051,15 @@ __BREAKS__
      '<span class="what"><span class="sample"></span>' +
        '<span class="pack"></span></span>' +
      '<span class="vol">' +
-       '<button class="step dn" title="1 dB quieter">&minus;</button>' +
+       '<span class="knob" role="slider" tabindex="0" aria-label="Stem volume" ' +
+         'aria-valuemin="-24" aria-valuemax="24" aria-valuenow="0" ' +
+         'title="Drag up/down, scroll, or arrow keys. Double-click resets to 0.">' +
+         '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+           '<path class="ktrack"/><path class="klit"/>' +
+           '<circle class="kcap" cx="60" cy="60" r="38"/>' +
+           '<g class="kptr"><rect x="88" y="56.5" width="16" height="7" rx="2"/></g>' +
+         '</svg></span>' +
        '<span class="db" title="Click to reset to 0">0</span>' +
-       '<button class="step up" title="1 dB louder">+</button>' +
      '</span>' +
      '<span class="picks"></span>';
    // the row says what the sound IS — "kick drum", "bass drum", "bass",
@@ -7042,23 +7074,56 @@ __BREAKS__
    // 1 dB a click — the standard fine-adjust on a real desk — and the
    // number always shows where you are.
    const db = row.querySelector('.db');
-   const STEP = 1, LIMIT = 24;
-   let v = 0;
+   // Owner 2026-10-10: a KNOB, heard live. Dragging while a stem plays
+   // moves its Web Audio gain, so the change is audible as you turn.
+   // Same drawing as the Sound Engine's knobs (effects.js), 0.5 dB steps.
+   const STEP = 0.5, LIMIT = 24, SWEEP = 270, START = 135;
+   const knob = row.querySelector('.knob');
+   const kpt = (r, a) => [60 + r * Math.cos(a * Math.PI / 180),
+                          60 + r * Math.sin(a * Math.PI / 180)];
+   const karc = (a0, a1) => {
+     const [x0, y0] = kpt(48, a0), [x1, y1] = kpt(48, a1);
+     return 'M' + x0.toFixed(2) + ' ' + y0.toFixed(2) + 'A48 48 0 ' +
+            (a1 - a0 > 180 ? 1 : 0) + ' 1 ' + x1.toFixed(2) + ' ' + y1.toFixed(2);
+   };
+   knob.querySelector('.ktrack').setAttribute('d', karc(START, START + SWEEP));
+   let v = 0, player = null;
    const showDb = () => {
-     db.textContent = v ? (v > 0 ? '+' : '') + v.toFixed(0) : '0';
+     db.textContent = v ? (v > 0 ? '+' : '') + v.toFixed(1).replace(/\.0$/, '') : '0';
      row.classList.toggle('trimmed', !!v);
+     const end = START + SWEEP * (v + LIMIT) / (2 * LIMIT);
+     const mid = START + SWEEP / 2;           // 12 o'clock = 0 dB
+     knob.querySelector('.klit').setAttribute('d', v ? karc(Math.min(mid, end), Math.max(mid, end)) : '');
+     knob.querySelector('.kptr').setAttribute('transform', 'rotate(' + end + ' 60 60)');
+     knob.setAttribute('aria-valuenow', v);
+     if (player) player.setGain(v);           // heard immediately
      trims[no] = trims[no] || {};
      if (v) trims[no][s.lane] = v; else delete trims[no][s.lane];
      if (!Object.keys(trims[no]).length) delete trims[no];
      paintFoot(row.closest('.track'), no);
    };
-   const nudge = (d) => {
-     v = Math.max(-LIMIT, Math.min(LIMIT, v + d));
+   const setV = (x) => {
+     v = Math.max(-LIMIT, Math.min(LIMIT, Math.round(x / STEP) * STEP));
      showDb();
    };
-   row.querySelector('.step.up').onclick = () => nudge(STEP);
-   row.querySelector('.step.dn').onclick = () => nudge(-STEP);
-   db.onclick = () => { v = 0; showDb(); };
+   knob.addEventListener('pointerdown', (e) => {
+     knob.setPointerCapture(e.pointerId);
+     const y0 = e.clientY, v0 = v;
+     const move = (ev) => setV(v0 + (y0 - ev.clientY) * 0.25);  // 192 px = full sweep
+     const up = () => { knob.removeEventListener('pointermove', move);
+                        knob.removeEventListener('pointerup', up); };
+     knob.addEventListener('pointermove', move);
+     knob.addEventListener('pointerup', up);
+   });
+   knob.addEventListener('wheel', (e) => { e.preventDefault();
+     setV(v - Math.sign(e.deltaY)); }, { passive: false });
+   knob.addEventListener('keydown', (e) => {
+     const d = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 }[e.key];
+     if (d) { e.preventDefault(); setV(v + d * STEP * 2); }
+   });
+   knob.addEventListener('dblclick', () => setV(0));
+   db.onclick = () => setV(0);
+   knob.querySelector('.kptr').setAttribute('transform', 'rotate(' + (START + SWEEP / 2) + ' 60 60)');
 
    const picks = row.querySelector('.picks');
 
@@ -7069,9 +7134,22 @@ __BREAKS__
      b.innerHTML = '&#9654;';
      // the staged dB rides along, so a stem previews at the level the
      // arrows are set to — same as it will sound in the beat
-     b.onclick = () => play('/stem?no=' + no + '&lane=' +
-                            encodeURIComponent(s.lane) +
-                            '&db=' + (v || 0), b);
+     // loaded once at 0 dB and looped; the knob moves its gain live
+     b.onclick = () => {
+       if (player && !player.paused) { player.pause(); b.classList.remove('playing'); return; }
+       audition.pause();
+       if (auditionBtn) auditionBtn.classList.remove('playing');
+       auditionBtn = null;
+       LoopAudio.all.forEach(a => a.pause());
+       document.querySelectorAll('.lane .mini.playing').forEach(x => x.classList.remove('playing'));
+       if (!player) {
+         player = new LoopAudio('/stem?no=' + no + '&lane=' +
+                                encodeURIComponent(s.lane) + '&db=0');
+         player.db = v;
+       }
+       player.play().catch(() => {});
+       b.classList.add('playing');
+     };
      picks.appendChild(b);
    }
    if (s.locked) {

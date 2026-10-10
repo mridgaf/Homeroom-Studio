@@ -84,7 +84,9 @@ PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 # Everything here only ever ATTENUATES, so an identity that deliberately
 # tucks a lane away keeps it tucked away.
 PERC_UNDER_DB = -3.0      # the HAT TIER only: hat, clap, snap (2026-08-31)
-PUNCTUATION_UNDER_DB = -6.0   # crashes, impacts, risers — punctuation
+FX_LANE_TRIM_DB = -3.2        # sound-effects lanes: "20% quieter" (owner 2026-10-10)
+FX_LANES = ("fx", "fxloop", "fxloop2", "airs")
+PUNCTUATION_UNDER_DB = -6.0  # crashes, impacts, risers — punctuation
 MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
 
 # THE BLANKET RULE (owner 2026-08-03, after hearing beat 1763): "anything
@@ -2396,6 +2398,17 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                         if w is not None:
                             wet_side[ln] = w * g
 
+
+    # Owner 2026-10-10: the sound-effects lane sits 20% quieter (3.2 dB) in
+    # every beat, loops and originals alike. A plain lane gain, applied
+    # after the governors and before the lock reads _lane_gains, so true
+    # levels can't bypass it and a later edit re-applies it.
+    _fx_g = 10 ** (FX_LANE_TRIM_DB / 20.0)
+    for ln in FX_LANES:
+        if ln in bufs:
+            bufs[ln] = bufs[ln] * _fx_g
+            if ln in wet_side:
+                wet_side[ln] = wet_side[ln] * _fx_g
 
     # THE LOCK, per sound: a lane the edit didn't touch gets back the
     # level the rules gave it when the beat was made, so changing the kick
