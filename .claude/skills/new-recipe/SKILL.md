@@ -72,6 +72,25 @@ names and positions, so this is a proven route, not an experiment.
   landed (panel map names) before the next step. If a step fights back, stop,
   say which step and what you saw, and fix the recipe or ask. Never report
   "built" for a step you didn't see land.
+- **Build lessons (proven 2026-10-11, Tony Tone drums):**
+  - Reason's menus work with `computer_app_menu` (Create > Effects > ...), but
+    only while Reason is frontmost. Release app locks (`computer_app_release`)
+    before display clicks. The Rack detaches to its own window, which may sit on
+    the second monitor (`computer_switch_display`).
+  - Select a Mix Channel first, then Create: the device lands in that channel's
+    insert chain. Creating another while one is selected chains after it.
+  - Setting a knob: drag fully down (to minimum), then drag UP a measured number
+    of pixels; hover for the tooltip value. Full travel is about 67 px. Measured
+    rates: EQ gain ~0.5 dB/px, Scream 4 values ~1.9/px, EQ frequency is
+    logarithmic (~0.015 of its range per px). Compressor Attack/Release are
+    uneven, so nudge and re-read the tooltip.
+  - Band/section on-off LEDs are separate clicks (MClass EQ bands start off).
+  - Kong: Drum Output selector under "Show drum and fx", then right-click the
+    jack > "Route to New Mix Channel". Double-click a channel name to rename.
+    Select channels (shift-click), Cmd+G makes the Output Bus.
+  - Scream 4 loads with the EasyFuzz patch, not a neutral one: set the type,
+    turn Body off, and set all values explicitly.
+  - Panel Map has no mixer "Drive" control; do not promise one.
 - **MIDI parts** (drums/bass/lead notes): write a .mid file and import it
   (File > Import MIDI File), or place the notes on screen.
 - **Remote bridge** (`reason-remote-bridge`) can also move mapped controls.

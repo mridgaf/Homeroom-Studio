@@ -2184,6 +2184,29 @@ def _roll_key(sig, variant, dirs, open_roll, srng, flow=False):
     return key_root, mode, prog
 
 
+def _limit_loop_pool(pool, sig, key, variant):
+    """signature["loop_pool_only"] (2026-10-11, Tenth Wonder / DJ Hint): this
+    DJ's loop voice may ONLY use loops whose path contains the phrase. The
+    library-wide pool ranks by key then tempo, and files with no tempo token
+    (the Library of Congress excerpts) would never reach the top three
+    (loop_voice picks from pool[:3]). Within the allowed files, exact-key
+    matches go first and each group is shuffled by `variant`, so the same
+    three files do not voice every beat. The result can be EMPTY on purpose:
+    loop_voice then returns None and the caller falls through to an
+    instrument voice, instead of quietly playing a loop from the wrong
+    library. No setting -> the pool comes back untouched."""
+    only = (sig.get("loop_pool_only") or "").lower()
+    if not only or not pool:
+        return pool
+    pool = [e for e in pool if only in e["path"].lower()]
+    rg = random.Random(variant * 977)
+    hit = [e for e in pool if e.get("key") == key.root]
+    rest = [e for e in pool if e.get("key") != key.root]
+    rg.shuffle(hit)
+    rg.shuffle(rest)
+    return hit + rest
+
+
 def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                   allow_basses=None, bass808=None, bass_line=True,
                   bass_pick=None, exact=None):
@@ -2319,6 +2342,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
     if exact and exact.startswith("loop:"):      # his exact loop, alone
         pool = [e for e in pool if e["path"] == exact[5:]] or pool
+    # signature["loop_pool_only"] (2026-10-11): see _limit_loop_pool.
+    if not (exact and exact.startswith("loop:")):
+        pool = _limit_loop_pool(pool, sig, key, variant)
     # same "only scan if it's actually on the table" guard as want_loop
     # above, for the owner's MIDI chord packs (tools/midi_packs.py) —
     # one candidate file per beat, not per chord slot, same reasoning as

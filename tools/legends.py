@@ -884,6 +884,16 @@ LEGEND_TITLES = {
                    "Damn", "Feel"]),
 }
 
+# 2026-10-11 Tenth Wonder / DJ Hint: titles are new; kick banks start as copies of
+# their base presets' banks (No Alias / DJ Premium) -- inherited, not sourced.
+LEGEND_TITLES["Tenth Wonder"] = (
+    ["Chalk", "Sunday", "Porch", "Velvet", "Parlor", "Mason", "Crate", "Cedar"],
+    ["Sermon", "Chop", "Ledger", "Hymnal", "Record", "Gospel", "Reel", "Verse"])
+LEGEND_TITLES["DJ Hint"] = (
+    ["Midnight", "Monday", "Static", "Sandlot", "Blend", "Cue", "Tape", "Dub"],
+    ["Mix", "Drop", "Radio", "Warning", "Takeover", "Rewind", "Session", "Stack"])
+LEGEND_KICK_BANK["Tenth Wonder"] = list(LEGEND_KICK_BANK["No Alias"])
+LEGEND_KICK_BANK["DJ Hint"] = list(LEGEND_KICK_BANK["DJ Premium"])
 KICK_BANK.update(LEGEND_KICK_BANK)
 
 

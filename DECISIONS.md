@@ -8626,3 +8626,26 @@ just not loaded by default.
 ## 2026-10-11 — new-recipe skill: Claude builds recipes in Reason via computer use
 - Owner stated this is proven (Panel Map gives control/jack names). Skill now says to offer the build after every recipe, screenshot-check each step, and only the owner's "it worked" flips a recipe to tested.
 - Status: open (not re-tested this session).
+
+## 2026-10-11 — Tony Tone Dusty Boom-Bap drums built in Reason (test song "untitled 6", unsaved)
+- Built by Claude via computer use: Kong (outputs 3-4/5-6/7-8) -> Kick / Snare / Hats mix channels -> Drums bus. Kick: MClass EQ + Scream 4 Tape. Snare: EQ + MClass Compressor + Scream 4 Tape. Hats: EQ, fader -7.7 dB. Bus: Scream 4 Tape + MClass Compressor + MClass EQ. Values read back from Reason tooltips, mostly within a few percent of the recipe (Damage/P1 exact on kick; snare comp ratio 3.03:1; bus comp ratio landed 3.2:1).
+- Not done / flagged: "channel Drive 12-18%" has no matching control in the Panel Map (skipped); groove step (quantize 75-85%, snare late, shuffle) and optional vinyl dust not done; Kong is on its stock Kong Kit, not vinyl-sourced breaks; bus compressor threshold not set (needs audio to hit 3-5 dB reduction); Scream 4 Tape P1/P2 meanings: panel says P1=Speed, P2=Compression, device_refs/scream-4.md says the reverse (recipe unchanged, needs an ear check); Scream 4 Body turned off; hats EQ/others have approximate values; no audio was heard by Claude.
+- Recipe status stays THEORETICAL until the owner says it worked. Song left open and unsaved.
+- Status: open
+
+### [2026-10-11] Library of Congress excerpts copied into BOTC Sorted Loops (2 new DJs not built yet)
+- Context: owner asked for two original DJs loosely based on DJ Clue and 9th Wonder, built with the new-build method, using the Library of Congress excerpts (not the one-shots).
+- Decision/change: Research done (sources: Wikipedia 9th Wonder / DJ Clue / Desert Storm Records, equipboard, one Reddit thread). Clue's actual beat sound is NOT documented in anything found; 9th Wonder tempo/swing also unsourced. Copied 1,189 of 1,404 excerpts (key score >= 0.5) to BOTC Sorted Loops/Melody/Library of Congress/<Style>/ as "<Key> LOC LOOP <Style> NNNN.wav" with _manifest.csv. Key via reference_track Krumhansl method. No tempo token (not guessed). 215 skipped, listed in SORTING-LOG-2026-10-11-Library-of-Congress.txt. Originals untouched. LoC README updated.
+- Reasoning: names carry the word LOOP because melodic_loops only treats a file as kind=loop (chopped on onsets) when the path has that token; "A-rag-time..." titles would read as key A, so original titles are not kept in names.
+- Verify by: melodic_loops.scan reached all 1,189 as kind=loop role=melody; 24 of 24 sampled files chop. NOT yet verified: that any DJ ever PICKS them. sample_pool() is global, ranked by key then BPM; no-BPM files rank last, so they will rarely win until a per-DJ pool filter exists.
+- Status: open
+- Outcome: DJs not added. Needs owner's answer on engine change (per-DJ loop-pool filter; layer vs chord-source share).
+
+### [2026-10-11] Two new Legends built: Tenth Wonder (9th Wonder-based) and DJ Hint (DJ Clue-based)
+- Context: owner asked for two original DJs, one loosely each, using the new-build method and the Library of Congress excerpts. Answers: Legends roster; one DJ main + one a share; all four LoC styles; engine edit approved; "share of beats" for the second (not a new lane).
+- Decision/change: legends_config.json +2 entries (num 15, 16), built from No Alias and DJ Premium presets. tools/legends.py: titles + kick banks. tools/beat_machine.py: new _limit_loop_pool() called from _build_chords, driven by signature["loop_pool_only"]. tests/test_crew.py roster 14 -> 16 and own_soundbank allow-list +2. tests/test_signature.py +5 tests. Backups: *.pre-hint-tenth-wonder-2026-10-11.* (test backup is .py.bak so pytest skips it). legend_newbuild_status.json: both "built".
+- Reasoning: the loop pool is global and ranked by key then tempo; LoC files have no tempo, so without a per-DJ filter they would almost never be picked (loop_voice takes pool[:3]). The legend-new-build skill says Legends live only in legends_config.json; that is stale: a new name also needs LEGEND_TITLES (KeyError otherwise) and a kick bank (random donor otherwise).
+- Unsourced / mine: both tempos, swing, lanes, grammar (inherited), all kit tags (picked from real folder names, --tags NOT run). Clue's beat sound is undocumented anywhere I found. 9th Wonder tempo/swing too.
+- Verify by: (1) full suite on the Mac venv, run ALONE, before any render (NOT run: this session's shell is Linux). In the Linux shell: 14 related test files, same failures with and without my change (test_crew: low_end_ducks, legend_stamps_are_not_locked; test_pattern_gen: guest_lanes) -- they fail on the OLD code here too, needs the drive. test_freedom / test_audio_quality / test_beat_machine timed out here, not compared. (2) identity_survival: invariants 12/12 for both; kick/hat bars survive under half (normal for unpinned lanes; listen lines describe sounds, not those bars). (3) render an audition and LISTEN.
+- Status: open
+- Outcome: -

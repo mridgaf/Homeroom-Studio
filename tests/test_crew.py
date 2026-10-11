@@ -781,6 +781,7 @@ def test_own_soundbank_is_the_new_build_legends_only():
     assert have == {"Doc Day", "Razor", "Mustang", "Farrow", "Kane East",
                     "J Dillo", "Just Flame", "Swish Beatz", "Timberline",
                     "DJ Light Green", "Hitt Kid", "Well Damn", "DJ Premium",
+                    "Tenth Wonder", "DJ Hint",
                     "Acid Rap Bright",
                     "Acid Rap Detroit", "Baltimore Club", "Chiptune",
                     "Crunk", "Detroit", "Emo Hip Hop", "G-Funk", "Horror Rap", "Houston Screw", "Memphis", "Miami Bass",
@@ -810,7 +811,7 @@ def test_legend_stamps_are_not_locked():
     stamps = crew.lock_stamps(shots)
 
     legends = [n for n, p in CREW.items() if p.get("legend")]
-    assert len(legends) == 14, legends   # Well Damn (FnZ) added 2026-09-26
+    assert len(legends) == 16, legends   # Well Damn (FnZ) 2026-09-26; Tenth Wonder + DJ Hint 2026-10-11
     for n in legends:
         assert stamps[n] == (None, None), f"{n} is still locked"
 

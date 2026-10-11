@@ -93,3 +93,61 @@ def test_signature_tempo_range_clamps_the_lean():
     p["bpm"] = 120
     beat_machine.vary_preset(p, 1, p["num"], tempo_locked=True)
     assert p["bpm"] == 120
+
+
+# ---- 2026-10-11: Tenth Wonder / DJ Hint "loop_pool_only" -------------------
+
+def _lp_pool():
+    return ([{"path": "/x/Library of Congress/Jazz/AMaj LOC LOOP Jazz 0001.wav", "key": "A"}] * 4
+            + [{"path": "/x/Library of Congress/Blues/CMaj LOC LOOP Blues 0002.wav", "key": "C"}] * 3
+            + [{"path": "/x/other/Cm 90 pack loop.wav", "key": "C"}] * 5)
+
+
+class _K:
+    root = "A"
+
+
+def test_loop_pool_only_keeps_only_the_named_library():
+    import beat_machine as bm
+    out = bm._limit_loop_pool(_lp_pool(), {"loop_pool_only": "Library of Congress"}, _K, 3)
+    assert out and all("Library of Congress" in e["path"] for e in out)
+    assert len(out) == 7
+    assert [e["key"] for e in out[:4]] == ["A"] * 4, "exact-key files come first"
+
+
+def test_loop_pool_only_unset_leaves_the_pool_alone():
+    import beat_machine as bm
+    pool = _lp_pool()
+    assert bm._limit_loop_pool(pool, {}, _K, 3) is pool
+    assert bm._limit_loop_pool(pool, {"loop_pool_only": ""}, _K, 3) is pool
+
+
+def test_loop_pool_only_can_be_empty_on_purpose():
+    import beat_machine as bm
+    assert bm._limit_loop_pool(_lp_pool(), {"loop_pool_only": "no such library"}, _K, 3) == []
+
+
+def test_loop_pool_only_order_depends_on_the_variant_not_the_process():
+    import beat_machine as bm
+    sig = {"loop_pool_only": "Library of Congress"}
+    big = [{"path": "/x/Library of Congress/Jazz/f%d.wav" % i, "key": "A"} for i in range(40)]
+    a = [e["path"] for e in bm._limit_loop_pool(big, sig, _K, 1)]
+    b = [e["path"] for e in bm._limit_loop_pool(big, sig, _K, 1)]
+    c = [e["path"] for e in bm._limit_loop_pool(big, sig, _K, 2)]
+    assert a == b, "same variant, same order"
+    assert a[:3] != c[:3], "different variants must not replay the same top three"
+
+
+def test_the_two_library_of_congress_djs_are_set_up():
+    import json
+    d = json.load(open(str(__import__("pathlib").Path(__file__).resolve().parent.parent / "legends_config.json")))
+    share = {}
+    for n in ("Tenth Wonder", "DJ Hint"):
+        sig = d[n]["signature"]
+        assert sig["loop_pool_only"] == "Library of Congress"
+        cs = dict(sig["chord_source"])
+        share[n] = cs["loop"] / sum(cs.values())
+        assert d[n]["own_soundbank"] is True and d[n]["legend"] is True
+        assert "Clue" not in d[n]["listen"] and "9th" not in d[n]["listen"]
+    assert share["Tenth Wonder"] > 0.5, "main sound"
+    assert 0.2 < share["DJ Hint"] < 0.5, "a share of beats"
