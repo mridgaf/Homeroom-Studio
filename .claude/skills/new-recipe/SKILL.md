@@ -1,6 +1,6 @@
 ---
 name: new-recipe
-description: Author a sound recipe for the Reason Voice recipe book — a step-by-step .md file that teaches how to build a specific sound in Reason 12, voice-walkthrough ready. Use whenever the user asks for a recipe ("recipes for JID's albums", "recipe for a Phil Collins snare", "how do I get that Burial sound — add it to the book"), asks to capture a sound/artist/album/genre as something the app can walk him through, or wants a recipe edited/extended. Even a vague "make me something that sounds like X" in a music context should use this.
+description: Research how a song, artist or sound was made, then write a "get close" recipe for it in stock Reason 12, voice-walkthrough ready, rated honestly, and run the build-and-test loop with the owner. Use whenever he asks for a recipe ("recipe for JID's album", "how do I get that Burial sound", "make me something that sounds like X", "find out how they made this"), wants a sound/artist/song/genre captured for the app, wants a recipe edited, extended, or tested.
 ---
 
 # New Recipe
@@ -11,6 +11,80 @@ Write recipe `.md` files for the recipe book at
 these files — format errors break the voice walkthrough, so match the
 anatomy exactly. Read one existing recipe first (e.g.
 `recipes/hiphop/jid-dicaprio2-151-rum.md`) as a live template.
+
+## Goal: get CLOSE and LEARN, not clone
+
+The point of a recipe is the technique it teaches and a sound in the right
+neighborhood. Never promise an exact match. Say what it gets (the feel) and
+what it can't (the missing 20%).
+
+## Workflow — do these in order, no shortcuts
+
+1. **Check what exists first.** Search the book before writing anything:
+   `python3 -c` with `RecipeLibrary('recipes','device_refs').search("<song or artist>")`
+   (see "Running things" below). If a close recipe exists, extend or link to
+   it instead of writing a duplicate. (2026-10-11: eight old recipes nearly
+   duplicated ones already in the book.)
+2. **Research how it was made.** Use TinyFish `search` then `fetch_content`
+   (free, fast), falling back to WebSearch/WebFetch. Look for: producer or
+   engineer interviews, Sound on Sound "Inside Track", gear lists, sample
+   sources, tutorials for the exact track. Cap at about 6 sources. Write down
+   for each claim whether it is **documented** (a named source says it) or
+   **inferred** (you listened/reasoned). Never invent a quote, a setting or a
+   link. Rule from evidence-tiering: documented fact, inference and guess stay
+   labelled apart.
+3. **Break the sound into parts** (3–5): drums, bass, lead/hook, vocal,
+   space/FX. One recipe per part, or one combined recipe if they only make
+   sense together.
+4. **Map each part to stock Reason devices he owns.** Stock first. For every
+   device and parameter you name, verify the spelling before you write it:
+   `python3 tools/reason_vocab.py --device "<Device>"` for exact names, and grep
+   the manual in `~/.reason_voice/reason12_manual/` for what a control does
+   (match punctuation loosely, cite the page). If you cannot verify a name, write
+   "(check this name in Reason)" in the step. Never type a parameter name from
+   memory — a name that is slightly wrong fails silently. Never name a device
+   as stock unless it is in the vocab file or the manual.
+5. **Rate it honestly** with the A–D scale below, with the reason in the
+   opening line. For a song recipe built from research and listening, C is the
+   normal honest answer; A needs a documented session.
+6. **Write the file** to the anatomy below.
+7. **Check it** (parser + recipe tests), log it in `DECISIONS.md`, tell him
+   it appears after a restart of Reason Voice.
+8. **Test loop.** He builds it (or you guide the build), then says what
+   happened: "worked", "too muddy", "can't find the knob". Edit the recipe
+   from that. Flip `status: theoretical` to `tested` ONLY when he says it
+   worked. A failed step gets fixed in the file, not explained away.
+
+## Claude builds it in Reason (owner-confirmed: this works)
+
+Claude can build any recipe in Reason itself, by taking control of the screen
+(computer use): create devices, hover and click controls, set knobs, flip the
+rack around and wire cables. The Panel Map gives the exact control and jack
+names and positions, so this is a proven route, not an experiment.
+
+- **How:** read the `computer-use` skill first, then the `panel-map` skill to
+  find each control/jack (it also checks cables). `reason-mixer-chains`,
+  `reason-drum-bus` and `reason-vocal-chain` give click-by-click routing.
+- **Offer it every time.** After writing a recipe, ask (clickable options):
+  "Want me to build this in Reason now?" If yes, build it step by step in the
+  order of the recipe's Steps.
+- **Check as you go.** Screenshot after each step. Confirm the cable/knob
+  landed (panel map names) before the next step. If a step fights back, stop,
+  say which step and what you saw, and fix the recipe or ask. Never report
+  "built" for a step you didn't see land.
+- **MIDI parts** (drums/bass/lead notes): write a .mid file and import it
+  (File > Import MIDI File), or place the notes on screen.
+- **Remote bridge** (`reason-remote-bridge`) can also move mapped controls.
+- **After the build:** he listens. Only his "it worked" flips `theoretical` to
+  `tested`. Claude building it does NOT count as tested.
+
+## Running things (where the code actually runs)
+
+`device_bash` may run in a Linux VM, not on his Mac, so `./.venv/bin/python`
+may not exist there. If it doesn't: `pip install --break-system-packages
+rapidfuzz pyyaml pytest`, then use `python3`, and run ONLY
+`tests/test_recipes.py` (fast). Never start the full ~17-minute suite or a
+beat render from here. Say in the report which Python ran the check.
 
 ## File anatomy (all parts required)
 
@@ -43,8 +117,9 @@ is one spoken walkthrough step), `Why this works`, `Order of operations`,
   when he says "it worked". Never pre-claim tested.
 - State the rating's reason in the body's opening line ("built by ear from
   the album, not from stems").
-- Never promise automation Reason doesn't have: no API builds chains,
-  routes cables, or sets knobs. The recipe teaches HIM to build it.
+- Reason has no scripting API, but Claude builds chains by driving the screen
+  (see "Claude builds it in Reason"). The recipe still teaches HIM how, so
+  he learns the technique.
 
 ## House rules
 
@@ -74,7 +149,7 @@ from pathlib import Path
 r = parse_recipe(Path('recipes/<book>/<file>.md'))
 print(r.name, '| steps:', len(r.steps), '| accuracy:', r.accuracy)"
 ```
-Steps must be ≥5. Then tell him the recipe appears after a restart of
+Steps must be ≥5 (and ≤9). Also run `python3 -m pytest tests/test_recipes.py -q` (library must still parse). Append a short entry to `DECISIONS.md`. Then tell him the recipe appears after a restart of
 Reason Voice, or say "recipe for <name>" if it's already running (library
 loads at startup — restart needed). Never edit recipes he wrote or that
 are marked `tested` unless he asks.

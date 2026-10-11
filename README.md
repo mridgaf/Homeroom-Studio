@@ -47,6 +47,16 @@ Recipes are markdown files in `recipes/` with YAML frontmatter (name, book, accu
 
 Two honest notes: every seed recipe is tagged **theoretical** — settings are principled but not session-verified; test them and edit the files (that's the design). And the app cannot build the chains for you — Reason has no device-creation API. It's a hands-free reference, plus patch loading and Remote control.
 
+### Recipes for songs (what works, and the gap)
+
+Works today: say "sounds like <artist or song>" or a song name, and the search matches the recipe's `sounds_like` line, tags and name, with typo tolerance. If a recipe exists, you get the card and the walkthrough.
+
+The gap: if you name a song that has NO recipe, the app just finds nothing close. It does not offer to make one. Today the only way is to ask Claude in a session: "make a recipe for <song>". Claude uses the `new-recipe` skill, writes the file into `recipes/<book>/`, and rates it honestly (A documented, B documented technique adapted, C built by ear, D speculative). New recipes are always `theoretical` until you say "it worked".
+
+Not built yet (ideas, not promises): when a song search comes back empty, offer "want me to make one?" and queue the request for the next Claude session.
+
+Recipes from the old Reason 12 claude.ai project were converted into `recipes/hiphop/` on 2026-10-11 (Jay-Z "On to the Next One" x3, A$AP Rocky "Tony Tone", trap drum bus, snare and clap layer, hats with pitch rolls, kick and 808). The untouched originals and notes are in `docs/reason/old-project-recipes/` and `docs/reason/reason12-project-notes.md`. Their gear names and prices from May 2026 are unverified.
+
 ## Templates
 
 Reason can't be scripted to build device chains, so a template is built once by hand: follow a recipe's walkthrough, then save the song (File → Save As…) — or just the chain as a Combinator patch — into the `templates/` folder, named after the recipe. From then on it shows in the Templates list and on the matching recipe's card. "New session from trap 808" (or the button) copies the template into `~/Music/Reason 12/Sessions` with a date stamp and opens the copy, so the original is never overwritten. Combinator templates load straight into the current song instead.

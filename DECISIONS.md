@@ -8607,3 +8607,22 @@ just not loaded by default.
 - Checked: all 445 files re-read: drum note counts and ticks-per-beat equal the source. 216 beats have no drum MIDI at all (loop-only beats, empty .mid), so none were written. NOT checked: opened in Reason.
 - Open: parts excluded as not drums: chord*/bass*/chords/sub and FX-like tracks (woods, clicks, blips, bells, stamp, vox, risers...). Earlier Reason template work is abandoned; unsaved "untitled 4" song and a stray sidebar Favorite named "Fx_Scraper..." are still in Reason.
 - Status: open
+
+### 2026-10-11 Old claude.ai "Reason 12" project recipes brought into Homeroom
+- Context: owner asked if the old Reason 12 claude.ai project was shared with Homeroom; he had just added the Reason 12.7 manual files and feared duplicates/contradictions.
+- Done: project had no uploaded files, only instructions + recipes inside chats. Saved instructions/gear to `docs/reason/reason12-project-notes.md`; originals (6 files) to `docs/reason/old-project-recipes/`; 3 manual files moved from the root into `docs/reason/`. Converted 8 recipes into `recipes/hiphop/` (trap-drum-bus, trap-snare-clap-layer, trap-hats-pitch-rolls, kick-808-relationship, jayz-next-one-drums/-lead-hook/-vocal, asap-tony-tone-drums). Skipped as duplicates of existing: boom-bap bus, 808 kick, sub-808, short sidechain recipe, old anti-recipes (not compared line by line). Added README section "Recipes for songs".
+- Rules applied: old "Tested" = documented flow; Homeroom rule wins (theoretical until he tests). Ratings re-scaled to Homeroom's A-D definitions (old ratings kept in each `source:` line). Old "no analogies" rule NOT adopted (owner chose to leave house rules alone).
+- Verified: 8 files parse (5-9 steps), `tests/test_recipes.py` 21 passed (sandbox Python, not the Mac venv), search finds them, library now 35 recipes. NOT run: full suite, the app itself.
+- Not found: the "Reason 12 Patchbook" and "built-patches" folder from memory notes; not in the project's chats/files.
+- Open: gear names/prices (Algoritm, Pitch Edit, RE prices) unverified, flagged in files; anti-recipes not compared against `recipes/anti/anti-recipes-hiphop.md`; "sounds like Jay-Z" ranks "Feels: Melancholy" first (existing search quirk, not changed).
+- Status: open
+
+### 2026-10-11 new-recipe skill upgraded to research-first
+- Context: owner wants a simple way to research how a song was made and get close in stock Reason, learn technique, then test it.
+- Done: edited `.claude/skills/new-recipe/SKILL.md` (not a new skill): check existing recipes, research with TinyFish (documented vs inferred), verify device/param names via `tools/reason_vocab.py` and the manual, honest A-D rating, test loop, note on what Claude can and cannot build in Reason, note that device_bash may be a Linux VM without the Mac venv.
+- Not verified: the skill has not been used on a real song yet; computer-use building of a rack is untested.
+- Status: open
+
+## 2026-10-11 — new-recipe skill: Claude builds recipes in Reason via computer use
+- Owner stated this is proven (Panel Map gives control/jack names). Skill now says to offer the build after every recipe, screenshot-check each step, and only the owner's "it worked" flips a recipe to tested.
+- Status: open (not re-tested this session).
