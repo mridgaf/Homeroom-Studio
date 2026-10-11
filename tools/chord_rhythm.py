@@ -155,7 +155,7 @@ def library():
     return _LIB
 
 
-def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None):
+def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None, avoid=()):
     """One library entry, weighted by the identity's `pattern_tags` (a tag
     it doesn't name counts 1). A comp figure leans away from entries that
     land on the drums' cells. `near` keeps a second entry's hold close to
@@ -166,6 +166,8 @@ def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None):
         if near is not None and abs(e["hold"] - near["hold"]) > 3:
             continue
         w = max([float(tags.get(t, 1)) for t in e["tags"]] or [1.0])
+        if e["name"] in avoid:                    # used by a recent beat
+            w *= 0.08
         if comp and busy_cells:
             hit = {i for b in e["bars"] for i, ch in enumerate(b) if ch != "-"}
             w = w / (1.0 + len(hit & busy_cells))
@@ -176,23 +178,54 @@ def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None):
     return rng.choices(pool, weights=wts)[0]
 
 
-def _library_bars(spec, rng, nbars, comp, busy):
+def _bend(bar, rng):
+    """One small change to a written bar, so no two beats play a library
+    pattern exactly alike: slide a hit one 16th, drop one, or add one on a
+    free off-beat. Never touches step 0 or makes two hits adjacent."""
+    hits = [i for i, ch in enumerate(bar) if ch != "-"]
+    cells = list(bar)
+    move = rng.choice(("slide", "slide", "drop", "add"))
+    if move == "add" and len(hits) < 6:
+        free = [c for c in range(1, 16)
+                if cells[c] == "-" and all(abs(c - h) >= 2 for h in hits)]
+        if free:
+            cells[rng.choice(free)] = "x"
+    elif move == "drop" and len(hits) > 2:
+        k = rng.choice([h for h in hits if h != 0] or hits[1:])
+        cells[k] = "-"
+    elif move == "slide":
+        movable = [h for h in hits if h != 0]
+        k = rng.choice(movable) if movable else None
+        if k is not None:
+            to = k + rng.choice((-1, 1))
+            others = [h for h in hits if h != k]
+            if 1 <= to <= 15 and all(abs(to - h) >= 2 for h in others):
+                cells[to], cells[k] = cells[k], "-"
+    return "".join(cells)
+
+
+def _library_bars(spec, rng, nbars, comp, busy, avoid=(), trace=None):
     """A slot's bars from the library: two entries mixed in an A-B pattern,
     so no bar-run repeats the same bar. Returns (bars, hold) or None."""
     lib = library()
     if not lib:
         return None
     cells = _busy_cells(busy) if comp else set()
-    a = _pick_pattern(lib, spec, rng, cells, comp)
-    b = (_pick_pattern(lib, spec, rng, cells, comp, near=a)
+    a = _pick_pattern(lib, spec, rng, cells, comp, avoid=avoid)
+    b = (_pick_pattern(lib, spec, rng, cells, comp, near=a, avoid=avoid)
          if rng.random() < 0.7 else a)
+    if trace is not None:
+        trace.extend([a["name"], b["name"]])
     rest_p = spec.get("rest_p", DEFAULT["rest_p"])
+    bend_p = spec.get("bend_p", 0.5)
     bars = []
     for i in range(nbars):
         e = a if (i // len(a["bars"])) % 2 == 0 else b
         if rng.random() < 0.25:                    # now and then, flip
             e = b if e is a else a
         bar = e["bars"][i % len(e["bars"])]
+        if rng.random() < bend_p:
+            bar = _bend(bar, rng)
         if i > 0 and rng.random() < rest_p:        # drop one non-accent hit
             idx = [k for k, ch in enumerate(bar) if ch in "xo."]
             if idx:
@@ -249,7 +282,7 @@ def _busy_cells(busy):
     return cells
 
 
-def gen_figure(spec, rng, nbars, busy=None):
+def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None):
     """Roll one figure for one chord slot.
 
     Returns `(figure, bars, shape)` — `bars` is one written 16-char string
@@ -300,7 +333,8 @@ def gen_figure(spec, rng, nbars, busy=None):
     # stab / comp: the same cell picker, but comp is told to stay out of
     # the drums' way — chords answering the kit rather than doubling it.
     if spec.get("library"):
-        got = _library_bars(spec, rng, nbars, figure == "comp", busy)
+        got = _library_bars(spec, rng, nbars, figure == "comp", busy,
+                           avoid=avoid, trace=trace)
         if got:
             # `shape` is the arp note order for arps; for stab/comp it
             # carries how long each hit rings ("hold:<16ths>").

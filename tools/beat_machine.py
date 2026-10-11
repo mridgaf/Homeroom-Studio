@@ -2522,8 +2522,18 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 return None                  # support/passing roles hold
             rng = random.Random(variant * 733 + 97 + slot)
             nbars = max(int(round(dur / bar_s)), 1)
+            # Skip the library patterns the last 3 beats of this DJ just
+            # played: replay THEIR seeds, so the result depends only on
+            # this beat's number and a rebuild still matches.
+            _recent = []
+            if _grammar.get("library"):
+                for _pv in (variant - 1, variant - 2, variant - 3):
+                    if _pv >= 0:
+                        chord_rhythm.gen_figure(
+                            _grammar, random.Random(_pv * 733 + 97 + slot),
+                            nbars, busy=_busy, trace=_recent)
             figure, bars, shape = chord_rhythm.gen_figure(
-                _grammar, rng, nbars, busy=_busy)
+                _grammar, rng, nbars, busy=_busy, avoid=tuple(_recent))
             a = chord_rhythm.render_figure(
                 bars, dur, preset["bpm"], notes, render_note, render_chord,
                 figure=figure, shape=shape, spec=_grammar,

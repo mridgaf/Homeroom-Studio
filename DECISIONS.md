@@ -8663,3 +8663,12 @@ just not loaded by default.
 - Full suite (run alone, scratch on TBOTC 3 drive): 1361 passed, 3 skipped, 2 failed. First run errored (1045 errors, OSError) while Mac disk showed 4.9 GB free; second run with scratch on the external drive was clean.
 - The 2 failures are not from this change: `test_pattern_gen::test_guest_lanes_appear_from_the_dj_palette` (known since 2026-09-28) and `test_boundary::test_tools_never_import_reason_voice` (tools/panel_sweep.py imports reason_voice). Not investigated.
 - Status: open until he hears the audition.
+
+### 2026-10-11 Chord patterns: variety pass (owner heard smoother chords/layering, kept the changes, asked for less repetition across beats)
+- Context: owner kept the library, wants it to grow and not repeat the same patterns beat after beat. Picked all three fixes.
+- Change: chord_patterns.json 20 -> 63 patterns (backup chord_patterns.pre-more-2026-10-11.json). chord_rhythm.py: `_bend` (one small change per bar, 50% of bars, `bend_p`), `avoid` (patterns the last 3 beats played get 8% weight), `trace`. beat_machine `_fig` replays the previous 3 variants' own seeds to find them, so a rebuild still matches (no history file). Backup tools/chord_rhythm.pre-variety-2026-10-11.py. Old beats unchanged (library only on chord_flow beats).
+- Measured (200 simulated beats, stab figure): pattern reused from the last 3 beats 74 -> 31 (63 patterns) -> 2 (with avoid+bend); distinct 4-bar rhythms 166 -> 189 -> 200.
+- Note: the A/B pairs rendered earlier had IDENTICAL chords/voicing on both sides; only rhythm differed. His "smoother progression" is not from this work. Arp/pad beats sound the same on both sides.
+- Verified: 36 chord tests pass (Linux). beat_machine edit only compiles here; full suite + audition need the Mac.
+- Not done: extra layers/lanes.
+- Status: open

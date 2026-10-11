@@ -1,0 +1,382 @@
+"""The chord PERFORMANCE grammar (owner build 2026-09-05).
+
+Why this exists. The drums have had a real grammar for months — per-lane
+16-cell step weights, hit counts, 14 backbeat modes, 13 timekeeper modes,
+ghost cells, per-lane offset/jitter/swing — while the chords had ONE word,
+`"arp"` or `"sustain"`, rolled once per beat. `arp` was a single fixed
+figure (ascending, one note per eighth, forever, no rests, no seed) and
+`sustain` was a held block. Nine of the twelve legends set no
+`chord_rhythm` at all, so they were dead held pads. The `signature` block
+chooses good NOTES; nothing chose how they were PLAYED. See DECISIONS.md
+2026-09-05.
+
+Where the rhythm has to live, and why it is not in the bar strings. A
+drum lane's bar string is the rhythm: one char per 16th, and the render
+loop triggers a one-shot per char. A chord lane's bar string is NOT —
+`kit[lane]` holds the whole multi-bar slot as a single buffer and the
+lane's lone `X` triggers it once. Putting more X's in a chord bar string
+would retrigger the entire chord blob on top of itself, not play a stab.
+So the figure is rendered INTO the slot buffer, exactly where arp_riff
+always did it.
+
+What IS reused, rather than rebuilt (the drum side already solved these):
+- `pattern_gen._weighted` for every roll,
+- written hit characters + `groove.velocity` for level,
+- `groove.LaneFeel` for offset / jitter / MPC swing,
+- `chord_synth.add_wrapped` / `finish_riff` for loop-safe placement.
+
+OWNER RULE 2026-08-03 carried through: levels come from the WRITTEN
+character (X accent, x normal, o softer re-attack, . ghost) and never
+from a random wobble. `groove.velocity` already enforces that; this module
+must not multiply anything on top of it.
+
+Every DJ since 2026-09-14 (owner: the old arp is "repetitious and
+boring"; he chose these rhythms for everyone, with arps half as often as
+before). A DJ with no `chord_grammar` key gets the house DEFAULT figures,
+its arp share set to half of what its old two-word `chord_rhythm` gave it.
+Genre presets keep the opt-in: absent key -> None -> the old path.
+"""
+from __future__ import annotations
+
+import numpy as np
+
+import chord_synth
+import groove
+from pattern_gen import BEATS, _weighted
+
+FIGURES = ("stab", "arp", "pad", "comp")
+SHAPES = ("up", "down", "updown", "broken", "walk")
+
+# Every key optional; this is what an identity that opts in with `true`
+# rather than a dict gets. Weights lean to stabs because that is the sound
+# the layer was most obviously missing.
+DEFAULT = {
+    "figures": [["stab", 3], ["comp", 2], ["arp", 2], ["pad", 1]],
+    # 16 step weights. Front-loaded on the beats and the "and"s, the same
+    # shape the kick maps use, so a figure lands musically before any
+    # identity bothers to tune it.
+    "w": [10, 1, 3, 2, 7, 1, 4, 2, 8, 1, 3, 2, 6, 1, 4, 3],
+    "hits": [3, 6],          # per bar
+    "shape": [["up", 3], ["updown", 2], ["broken", 2], ["down", 1],
+              ["walk", 1]],
+    "rest_p": 0.18,          # chance a repeat bar drops one of its hits
+    "ghost_p": 0.25,         # chance a non-beat hit is written quiet
+    "seg": 1.6,              # stab length, in 16th steps (>1 = legato)
+    "arp_step": 2,           # 16ths per arp step (2 = eighths, as before)
+    "swells": [1, 2],        # pad re-attacks per beat
+    "feel": [0, 3, 50],      # offset_ms, jitter_ms, swing
+    "pan": 0.0,
+}
+
+
+# Owner 2026-09-14: "1 but 50% less than now" — every DJ on this grammar,
+# arps HALF as often as each one had them.
+ARP_CUT = 0.5
+
+
+def _share(weighted, name):
+    total = sum(w for _, w in weighted)
+    return sum(w for n, w in weighted if n == name) / total if total else 0.0
+
+
+def _with_arp_share(figures, share):
+    """`figures` with the arp weight set so arps are `share` of the rolls.
+    The other figures keep their own weights."""
+    rest = [[f, w] for f, w in figures if f != "arp" and w > 0]
+    if not rest:                         # an all-arp list: borrow the rest
+        rest = [[f, w] for f, w in DEFAULT["figures"] if f != "arp"]
+    if share <= 0:
+        return rest
+    other = sum(w for _, w in rest)
+    return rest + [["arp", round(other * share / (1.0 - share), 3)]]
+
+
+def spec_for(preset, free=False):
+    """The chord grammar this beat plays, or None for the old two-word path.
+
+    `true` means "the house default"; a dict overrides only the keys it
+    names. A DJ with no key gets DEFAULT, with its arp share taken from its
+    own old `signature.chord_rhythm` ("arp" = all, "sustain" = none, a
+    weighted list = its arp share). Either way the arp share is then cut to
+    ARP_CUT of itself. `free` (pattern_gen.free_beat): the house DEFAULT,
+    whatever the DJ's own settings. Genre presets without the key -> None,
+    their opt-in unchanged."""
+    raw = preset.get("chord_grammar")
+    # Genres: opt-in only on beats made before chord flow (2026-09-26,
+    # owner: all 18 genres were stuck on one held pad or one climbing arp).
+    # A new genre beat plays the house figures unless its config says
+    # `"chord_grammar": false`; an old one rebuilds exactly as it was.
+    if not raw and preset.get("genre") and (
+            raw is False or not preset.get("chord_flow")):
+        return None
+    spec = dict(DEFAULT)
+    if isinstance(raw, dict) and not free:
+        spec.update(raw)
+    if free or raw:
+        share = _share(spec["figures"], "arp")
+    else:
+        rhythm = (preset.get("signature") or {}).get("chord_rhythm")
+        share = (_share(rhythm, "arp") if isinstance(rhythm, list)
+                 else float(rhythm == "arp"))
+    spec["figures"] = _with_arp_share(spec["figures"], share * ARP_CUT)
+    # Pattern library (2026-10-11): new beats only, so every older beat
+    # rebuilds exactly as it was made.
+    if preset.get("chord_flow") and preset.get("chord_library", True):
+        spec["library"] = True
+    return spec
+
+
+_LIB = None
+
+
+def library():
+    """The chord pattern library (chord_patterns.json at the project root).
+    Missing or broken file -> [] and the old stab roll runs instead."""
+    global _LIB
+    if _LIB is None:
+        import json
+        import os
+        out = []
+        try:
+            path = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "chord_patterns.json")
+            with open(path, encoding="utf-8") as f:
+                for e in json.load(f).get("patterns", []):
+                    bars = [b for b in e.get("bars", [])
+                            if isinstance(b, str) and len(b) == 16]
+                    if bars and len(bars) == len(e.get("bars", [])):
+                        out.append({"name": e.get("name", "?"),
+                                    "tags": list(e.get("tags", [])),
+                                    "hold": float(e.get("hold", 1.6)),
+                                    "bars": bars})
+        except (OSError, ValueError):
+            out = []
+        _LIB = out
+    return _LIB
+
+
+def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None):
+    """One library entry, weighted by the identity's `pattern_tags` (a tag
+    it doesn't name counts 1). A comp figure leans away from entries that
+    land on the drums' cells. `near` keeps a second entry's hold close to
+    the first so one slot doesn't mix a held chord with a chop."""
+    tags = spec.get("pattern_tags") or {}
+    pool, wts = [], []
+    for e in lib:
+        if near is not None and abs(e["hold"] - near["hold"]) > 3:
+            continue
+        w = max([float(tags.get(t, 1)) for t in e["tags"]] or [1.0])
+        if comp and busy_cells:
+            hit = {i for b in e["bars"] for i, ch in enumerate(b) if ch != "-"}
+            w = w / (1.0 + len(hit & busy_cells))
+        pool.append(e)
+        wts.append(w)
+    if not pool:
+        return near
+    return rng.choices(pool, weights=wts)[0]
+
+
+def _library_bars(spec, rng, nbars, comp, busy):
+    """A slot's bars from the library: two entries mixed in an A-B pattern,
+    so no bar-run repeats the same bar. Returns (bars, hold) or None."""
+    lib = library()
+    if not lib:
+        return None
+    cells = _busy_cells(busy) if comp else set()
+    a = _pick_pattern(lib, spec, rng, cells, comp)
+    b = (_pick_pattern(lib, spec, rng, cells, comp, near=a)
+         if rng.random() < 0.7 else a)
+    rest_p = spec.get("rest_p", DEFAULT["rest_p"])
+    bars = []
+    for i in range(nbars):
+        e = a if (i // len(a["bars"])) % 2 == 0 else b
+        if rng.random() < 0.25:                    # now and then, flip
+            e = b if e is a else a
+        bar = e["bars"][i % len(e["bars"])]
+        if i > 0 and rng.random() < rest_p:        # drop one non-accent hit
+            idx = [k for k, ch in enumerate(bar) if ch in "xo."]
+            if idx:
+                k = rng.choice(idx)
+                bar = bar[:k] + "-" + bar[k + 1:]
+        bars.append(bar)
+    return bars, a["hold"]
+
+
+def _cells(w, lo, hi, rng, avoid=()):
+    """Pick between lo and hi step cells by weight, never two adjacent —
+    the same rejection gen_kick uses, for the same reason: two hits a 16th
+    apart read as a flam, not as two hits."""
+    w = list(w)
+    for c in avoid:
+        w[c] = w[c] * 0.15                # discouraged, not forbidden
+    hits = set()
+    target = rng.randint(lo, hi)
+    for _ in range(60):
+        if len(hits) >= target:
+            break
+        s = rng.choices(range(16), weights=w)[0]
+        if s in hits or (s - 1 in hits) or (s + 1 in hits):
+            continue
+        hits.add(s)
+    return hits
+
+
+def _write(hits, rng, ghost_p):
+    """Hit cells -> a written bar. Beats accent, off-beats normal, and
+    some off-beats drop to a ghost. Characters only — the level itself is
+    groove.velocity's business, not ours."""
+    out = []
+    for i in range(16):
+        if i not in hits:
+            out.append("-")
+        elif i in BEATS:
+            out.append("X")
+        elif rng.random() < ghost_p:
+            out.append(".")
+        else:
+            out.append("x")
+    return "".join(out)
+
+
+def _busy_cells(busy):
+    """Which 16ths the drums already occupy, across all their bars."""
+    cells = set()
+    for bars in (busy or {}).values():
+        for bar in bars:
+            for i, ch in enumerate(bar[:16]):
+                if ch not in "-":
+                    cells.add(i)
+    return cells
+
+
+def gen_figure(spec, rng, nbars, busy=None):
+    """Roll one figure for one chord slot.
+
+    Returns `(figure, bars, shape)` — `bars` is one written 16-char string
+    per bar of the slot, `shape` is the arp note order (None otherwise).
+    Bars are re-rolled per bar so a four-bar slot isn't the same bar four
+    times, which is the fault the drum grammar's per-bar composition fixed
+    and the chord layer never had.
+    """
+    figure = _weighted(rng, spec.get("figures", DEFAULT["figures"]))
+    w = spec.get("w", DEFAULT["w"])
+    lo, hi = spec.get("hits", DEFAULT["hits"])
+    ghost_p = spec.get("ghost_p", DEFAULT["ghost_p"])
+    rest_p = spec.get("rest_p", DEFAULT["rest_p"])
+    nbars = max(int(nbars), 1)
+    shape = None
+
+    if figure == "pad":
+        # The old held block, but breathing: bar 1 lands the chord, and a
+        # rolled number of softer re-attacks land on later beats. This is
+        # the figure the nine no-`chord_rhythm` legends have been stuck on
+        # with the re-attacks missing.
+        slo, shi = spec.get("swells", DEFAULT["swells"])
+        bars = []
+        for b in range(nbars):
+            s = ["-"] * 16
+            if b == 0:
+                s[0] = "X"
+            for c in rng.sample(sorted(BEATS),
+                                min(rng.randint(slo, shi), len(BEATS))):
+                if s[c] == "-":
+                    s[c] = "o"
+            bars.append("".join(s))
+        return figure, bars, shape
+
+    if figure == "arp":
+        shape = _weighted(rng, spec.get("shape", DEFAULT["shape"]))
+        step = max(int(spec.get("arp_step", DEFAULT["arp_step"])), 1)
+        bars = []
+        for _ in range(nbars):
+            s = ["-"] * 16
+            for c in range(0, 16, step):
+                if rng.random() < rest_p:     # a rest, which the old fixed
+                    continue                  # eighth-note arp never had
+                s[c] = "X" if c in BEATS else "x"
+            bars.append("".join(s))
+        return figure, bars, shape
+
+    # stab / comp: the same cell picker, but comp is told to stay out of
+    # the drums' way — chords answering the kit rather than doubling it.
+    if spec.get("library"):
+        got = _library_bars(spec, rng, nbars, figure == "comp", busy)
+        if got:
+            # `shape` is the arp note order for arps; for stab/comp it
+            # carries how long each hit rings ("hold:<16ths>").
+            return figure, got[0], "hold:%g" % got[1]
+    avoid = _busy_cells(busy) if figure == "comp" else ()
+    first = _cells(w, lo, hi, rng, avoid=avoid)
+    bars = []
+    for b in range(nbars):
+        hits = set(first) if b == 0 else {
+            c for c in first if rng.random() >= rest_p}
+        bars.append(_write(hits, rng,
+                           ghost_p * (1.6 if figure == "comp" else 1.0)))
+    return figure, bars, shape
+
+
+def _order(notes, shape):
+    """The note order an arp walks. `up` is the old fixed figure, kept
+    byte-identical (chord notes then the octave), so an identity that
+    rolls `up` sounds like it always did."""
+    up = list(notes) + [notes[0] + 12]
+    if shape == "down":
+        return list(reversed(up))
+    if shape == "updown":
+        return up + list(reversed(up))[1:-1]
+    if shape == "broken" and len(up) > 2:
+        return [up[0], up[2], up[1]] + up[3:]
+    if shape == "walk":
+        return up + [up[-1] + 2]
+    return up
+
+
+def render_figure(bars, dur, bpm, notes, render_note, render_chord,
+                  figure="stab", shape=None, spec=None, seed=0,
+                  sr=chord_synth.SR):
+    """Play a written figure into a `dur`-second, loop-safe chord buffer.
+
+    `render_note(note, seg_dur)` voices one note (arp steps);
+    `render_chord(notes, seg_dur)` voices the whole chord (stab/comp/pad).
+    Either may return None for "his library can't voice this" — that step
+    is left SILENT, never synthesized. That rule is chord_synth's and it
+    does not get relaxed here.
+    """
+    spec = spec or DEFAULT
+    n = max(int(dur * sr), 1)
+    out = np.zeros(n)
+    if not notes or not bars:
+        return out
+    beat_s = 60.0 / bpm
+    bar_s = beat_s * 4
+    off_ms, jit_ms, swing = spec.get("feel", DEFAULT["feel"])
+    feel = groove.LaneFeel(off_ms, jit_ms, swing, seed=seed)
+    seg_dur = beat_s / 4 * float(spec.get("seg", DEFAULT["seg"]))
+    if isinstance(shape, str) and shape.startswith("hold:"):
+        seg_dur = beat_s / 4 * float(shape[5:])
+        shape = None
+    order = _order(notes, shape)
+    k = 0
+    for b, bar in enumerate(bars):
+        for step, ch in enumerate(bar[:16]):
+            if ch == "-":
+                continue
+            lvl = groove.velocity(ch, step, None)
+            if lvl <= 0:
+                continue
+            if figure == "arp":
+                seg = render_note(order[k % len(order)], seg_dur)
+                k += 1
+            elif figure == "pad" and ch == "X":
+                # the head of a pad is still a HELD block: it fills the
+                # slot the way sustain always did, and the re-attacks
+                # below are what's new.
+                seg = render_chord(notes, dur)
+            else:
+                seg = render_chord(notes, seg_dur)
+            if seg is None:
+                continue
+            t = feel.hit_time(b * bar_s, step, bpm)
+            chord_synth.add_wrapped(out, seg * lvl, int(round(t * sr)))
+    return chord_synth.finish_riff(out, sr)

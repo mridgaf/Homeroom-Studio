@@ -286,3 +286,56 @@ def test_library_holds_reach_the_renderer():
     long_ = chord_rhythm.render_figure(["X---------------"], 2.0, 100, [60, 64, 67],
                                        None, chord, shape="hold:8", spec=spec)
     assert np.count_nonzero(long_) > np.count_nonzero(short) * 2
+
+
+# ---- variety pass (2026-10-11): more patterns, bending, recent-beat memory ----
+
+def test_library_has_plenty_of_patterns_and_unique_names():
+    lib = chord_rhythm.library()
+    assert len(lib) >= 60
+    assert len({e["name"] for e in lib}) == len(lib)
+
+
+def test_bent_bars_stay_legal_and_keep_the_downbeat():
+    import random
+    for e in chord_rhythm.library():
+        for bar in e["bars"]:
+            for seed in range(30):
+                out = chord_rhythm._bend(bar, random.Random(seed))
+                hits = [i for i, c in enumerate(out) if c != "-"]
+                assert len(out) == 16 and hits, (e["name"], out)
+                assert all(b - a >= 2 for a, b in zip(hits, hits[1:])), out
+                assert (out[0] != "-") == (bar[0] != "-"), out
+
+
+def test_bending_makes_beats_differ_from_the_plain_library():
+    import random
+    spec = dict(DEFAULT, library=True, figures=[["stab", 1]], bend_p=1.0)
+    plain = dict(spec, bend_p=0.0)
+    diff = sum(chord_rhythm.gen_figure(spec, random.Random(s), 4)[1]
+               != chord_rhythm.gen_figure(plain, random.Random(s), 4)[1]
+               for s in range(40))
+    assert diff > 25
+
+
+def test_recent_patterns_are_skipped():
+    import random
+    spec = dict(DEFAULT, library=True, figures=[["stab", 1]])
+    t = []
+    chord_rhythm.gen_figure(spec, random.Random(5), 4, trace=t)
+    assert len(t) == 2
+    hit = 0
+    for s in range(100, 160):
+        t2 = []
+        chord_rhythm.gen_figure(spec, random.Random(s), 4, avoid=tuple(t),
+                                trace=t2)
+        hit += any(n in t for n in t2)
+    assert hit < 12                       # ~10% weight, not forbidden
+
+
+def test_avoid_is_deterministic_for_a_rebuild():
+    import random
+    spec = dict(DEFAULT, library=True, figures=[["stab", 1]])
+    one = chord_rhythm.gen_figure(spec, random.Random(9), 4, avoid=("tresillo",))
+    two = chord_rhythm.gen_figure(spec, random.Random(9), 4, avoid=("tresillo",))
+    assert one == two

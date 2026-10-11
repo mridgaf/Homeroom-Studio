@@ -1,0 +1,25 @@
+{
+  "_readme": "Chord rhythm library. To add a pattern: copy any entry, change name/tags/bars. Each bar is 16 characters, one per 16th note: X accent, x normal, o soft re-attack, . ghost, - rest. 'hold' = how long each hit rings, in 16ths (1.6 is the old short stab). Keep hits at least 2 steps apart. Entries can have 1-4 bars; the engine mixes two entries across a slot. Used only by beats made after 2026-10-11 (chord_flow beats); older beats rebuild exactly as they were. A DJ can favor tags with 'pattern_tags': {\"bounce\": 3} in its chord_grammar.",
+  "patterns": [
+    {"name": "held and answer", "tags": ["long", "sparse"], "hold": 8, "bars": ["X-------x-------", "X-----------x---"]},
+    {"name": "two chord sigh", "tags": ["long", "sparse"], "hold": 8, "bars": ["X---------------", "--------x-------"]},
+    {"name": "late land", "tags": ["long", "push"], "hold": 7, "bars": ["--x-----X-------", "X-------------x-"]},
+    {"name": "call and response", "tags": ["sparse", "push"], "hold": 6, "bars": ["X-----x---------", "----------x-----"]},
+    {"name": "push in", "tags": ["sparse", "push"], "hold": 6, "bars": ["------x-X-------", "X-----x---------"]},
+    {"name": "slow swell", "tags": ["long", "pad"], "hold": 8, "bars": ["X-------o-------", "X---o-----------"]},
+    {"name": "the ands", "tags": ["offbeat"], "hold": 3, "bars": ["--x---x---x---x-", "--x---x---x-----"]},
+    {"name": "skank", "tags": ["offbeat"], "hold": 3, "bars": ["----x-------x---", "----x-------x-x-"]},
+    {"name": "lazy offbeat", "tags": ["offbeat", "sparse"], "hold": 4, "bars": ["------x-----x---", "--x-----x-------"]},
+    {"name": "charleston", "tags": ["bounce"], "hold": 2.5, "bars": ["X-----x---------", "X-----x---X-----"]},
+    {"name": "tresillo", "tags": ["bounce"], "hold": 2.5, "bars": ["X-----x-----X---", "X-----x---------"]},
+    {"name": "boom bap bounce", "tags": ["bounce", "ghost"], "hold": 2, "bars": ["X--.--x---x-----", "X-----x--.--x---"]},
+    {"name": "dragged", "tags": ["bounce", "push"], "hold": 3, "bars": ["X-----o-x-o-----", "X-----o---x-o---"]},
+    {"name": "tight stabs", "tags": ["stab"], "hold": 1.6, "bars": ["X---x---X---x---", "X---x-----x-x---"]},
+    {"name": "march", "tags": ["stab"], "hold": 1.8, "bars": ["X---X---X---X---", "X---X---X-------"]},
+    {"name": "anticipation", "tags": ["stab", "push"], "hold": 2, "bars": ["X-----x-----x-x-", "X---------x-x---"]},
+    {"name": "busy sync", "tags": ["busy", "bounce"], "hold": 1.6, "bars": ["X--x--x---x--x--", "X-----x--x--x---"]},
+    {"name": "ghost comp", "tags": ["busy", "ghost"], "hold": 1.6, "bars": ["X-.-x-.---x-.---", "X---x-.-x-----.-"]},
+    {"name": "one and three", "tags": ["sparse", "stab"], "hold": 3, "bars": ["X-------X-------", "X-----------x---"]},
+    {"name": "off the four", "tags": ["push", "bounce"], "hold": 2.5, "bars": ["X-----x-------x-", "X---x-----x-----"]}
+  ]
+}
