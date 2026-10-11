@@ -1,0 +1,10 @@
+=== disk ===
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   4.9Gi    71%    459k   52M    1%   /
+/dev/disk3s5     460Gi   426Gi   4.9Gi    99%    2.6M   52M    5%   /System/Volumes/Data
+/dev/disk3s5     460Gi   426Gi   4.9Gi    99%    2.6M   52M    5%   /System/Volumes/Data
+=== tmp dir ===
+/var/folders/b9/c2h90xwj60gbp06lw3wq811w0000gn/T
+=== one test ===
+.                                                                        [100%]
+1 passed in 0.10s

@@ -233,3 +233,56 @@ def test_a_chopped_loop_can_drive_a_figure():
         figure=fig, shape=shape, spec=spec)
     assert np.any(out)
     assert np.max(np.abs(out)) <= chord_rhythm.chord_synth.PEAK_CEILING
+
+
+# ---- pattern library (2026-10-11) ----
+
+def test_library_loads_and_every_pattern_is_legal():
+    lib = chord_rhythm.library()
+    assert len(lib) >= 15
+    for e in lib:
+        assert 1 <= len(e["bars"]) <= 4, e["name"]
+        for bar in e["bars"]:
+            assert len(bar) == 16 and set(bar) <= set("Xxo.-"), e["name"]
+            hits = [i for i, ch in enumerate(bar) if ch != "-"]
+            assert hits, e["name"]
+            assert all(b - a >= 2 for a, b in zip(hits, hits[1:])), e["name"]
+
+
+def test_old_beats_do_not_use_the_library():
+    assert "library" not in spec_for({"chord_grammar": True})
+    assert spec_for({"chord_grammar": True, "chord_flow": 1})["library"]
+
+
+def test_library_slots_vary_and_are_repeatable():
+    import random
+    spec = dict(DEFAULT, library=True, figures=[["stab", 1]])
+    seen = set()
+    for seed in range(40):
+        f, bars, shape = chord_rhythm.gen_figure(spec, random.Random(seed), 4)
+        assert f == "stab" and shape.startswith("hold:") and len(bars) == 4
+        seen.add(tuple(bars))
+        again = chord_rhythm.gen_figure(spec, random.Random(seed), 4)
+        assert again == (f, bars, shape)
+    assert len(seen) > 20
+    assert any(len(set(b)) > 1 for b in seen)       # not one bar x4
+
+
+def test_pattern_tags_steer_the_pick():
+    import random
+    spec = dict(DEFAULT, library=True, figures=[["stab", 1]],
+                pattern_tags={"long": 50})
+    holds = [float(chord_rhythm.gen_figure(spec, random.Random(s), 4)[2][5:])
+             for s in range(60)]
+    assert sum(h >= 6 for h in holds) > 40
+
+
+def test_library_holds_reach_the_renderer():
+    import numpy as np
+    chord = lambda n, d: np.ones(int(d * 44100)) * 0.1
+    spec = dict(DEFAULT)
+    short = chord_rhythm.render_figure(["X---------------"], 2.0, 100, [60, 64, 67],
+                                       None, chord, shape="hold:1.6", spec=spec)
+    long_ = chord_rhythm.render_figure(["X---------------"], 2.0, 100, [60, 64, 67],
+                                       None, chord, shape="hold:8", spec=spec)
+    assert np.count_nonzero(long_) > np.count_nonzero(short) * 2

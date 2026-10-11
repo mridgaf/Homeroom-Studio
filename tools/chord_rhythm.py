@@ -119,7 +119,87 @@ def spec_for(preset, free=False):
         share = (_share(rhythm, "arp") if isinstance(rhythm, list)
                  else float(rhythm == "arp"))
     spec["figures"] = _with_arp_share(spec["figures"], share * ARP_CUT)
+    # Pattern library (2026-10-11): new beats only, so every older beat
+    # rebuilds exactly as it was made.
+    if preset.get("chord_flow") and preset.get("chord_library", True):
+        spec["library"] = True
     return spec
+
+
+_LIB = None
+
+
+def library():
+    """The chord pattern library (chord_patterns.json at the project root).
+    Missing or broken file -> [] and the old stab roll runs instead."""
+    global _LIB
+    if _LIB is None:
+        import json
+        import os
+        out = []
+        try:
+            path = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "chord_patterns.json")
+            with open(path, encoding="utf-8") as f:
+                for e in json.load(f).get("patterns", []):
+                    bars = [b for b in e.get("bars", [])
+                            if isinstance(b, str) and len(b) == 16]
+                    if bars and len(bars) == len(e.get("bars", [])):
+                        out.append({"name": e.get("name", "?"),
+                                    "tags": list(e.get("tags", [])),
+                                    "hold": float(e.get("hold", 1.6)),
+                                    "bars": bars})
+        except (OSError, ValueError):
+            out = []
+        _LIB = out
+    return _LIB
+
+
+def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None):
+    """One library entry, weighted by the identity's `pattern_tags` (a tag
+    it doesn't name counts 1). A comp figure leans away from entries that
+    land on the drums' cells. `near` keeps a second entry's hold close to
+    the first so one slot doesn't mix a held chord with a chop."""
+    tags = spec.get("pattern_tags") or {}
+    pool, wts = [], []
+    for e in lib:
+        if near is not None and abs(e["hold"] - near["hold"]) > 3:
+            continue
+        w = max([float(tags.get(t, 1)) for t in e["tags"]] or [1.0])
+        if comp and busy_cells:
+            hit = {i for b in e["bars"] for i, ch in enumerate(b) if ch != "-"}
+            w = w / (1.0 + len(hit & busy_cells))
+        pool.append(e)
+        wts.append(w)
+    if not pool:
+        return near
+    return rng.choices(pool, weights=wts)[0]
+
+
+def _library_bars(spec, rng, nbars, comp, busy):
+    """A slot's bars from the library: two entries mixed in an A-B pattern,
+    so no bar-run repeats the same bar. Returns (bars, hold) or None."""
+    lib = library()
+    if not lib:
+        return None
+    cells = _busy_cells(busy) if comp else set()
+    a = _pick_pattern(lib, spec, rng, cells, comp)
+    b = (_pick_pattern(lib, spec, rng, cells, comp, near=a)
+         if rng.random() < 0.7 else a)
+    rest_p = spec.get("rest_p", DEFAULT["rest_p"])
+    bars = []
+    for i in range(nbars):
+        e = a if (i // len(a["bars"])) % 2 == 0 else b
+        if rng.random() < 0.25:                    # now and then, flip
+            e = b if e is a else a
+        bar = e["bars"][i % len(e["bars"])]
+        if i > 0 and rng.random() < rest_p:        # drop one non-accent hit
+            idx = [k for k, ch in enumerate(bar) if ch in "xo."]
+            if idx:
+                k = rng.choice(idx)
+                bar = bar[:k] + "-" + bar[k + 1:]
+        bars.append(bar)
+    return bars, a["hold"]
 
 
 def _cells(w, lo, hi, rng, avoid=()):
@@ -219,6 +299,12 @@ def gen_figure(spec, rng, nbars, busy=None):
 
     # stab / comp: the same cell picker, but comp is told to stay out of
     # the drums' way — chords answering the kit rather than doubling it.
+    if spec.get("library"):
+        got = _library_bars(spec, rng, nbars, figure == "comp", busy)
+        if got:
+            # `shape` is the arp note order for arps; for stab/comp it
+            # carries how long each hit rings ("hold:<16ths>").
+            return figure, got[0], "hold:%g" % got[1]
     avoid = _busy_cells(busy) if figure == "comp" else ()
     first = _cells(w, lo, hi, rng, avoid=avoid)
     bars = []
@@ -267,6 +353,9 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
     off_ms, jit_ms, swing = spec.get("feel", DEFAULT["feel"])
     feel = groove.LaneFeel(off_ms, jit_ms, swing, seed=seed)
     seg_dur = beat_s / 4 * float(spec.get("seg", DEFAULT["seg"]))
+    if isinstance(shape, str) and shape.startswith("hold:"):
+        seg_dur = beat_s / 4 * float(shape[5:])
+        shape = None
     order = _order(notes, shape)
     k = 0
     for b, bar in enumerate(bars):

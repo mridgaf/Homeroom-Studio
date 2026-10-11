@@ -8649,3 +8649,17 @@ just not loaded by default.
 - Verify by: (1) full suite on the Mac venv, run ALONE, before any render (NOT run: this session's shell is Linux). In the Linux shell: 14 related test files, same failures with and without my change (test_crew: low_end_ducks, legend_stamps_are_not_locked; test_pattern_gen: guest_lanes) -- they fail on the OLD code here too, needs the drive. test_freedom / test_audio_quality / test_beat_machine timed out here, not compared. (2) identity_survival: invariants 12/12 for both; kick/hat bars survive under half (normal for unpinned lanes; listen lines describe sounds, not those bars). (3) render an audition and LISTEN.
 - Status: open
 - Outcome: -
+
+### 2026-10-11 Chord pattern library (less repetitive, less stabby chords)
+- Context: owner: stab chords repeat the same hits every bar and are too short. Wants one system for DJs and Legends, a library he can keep adding to, and later more layers ("lanes").
+- Decision/change: new `chord_patterns.json` (20 entries, 16-char bars, per-entry `hold` length, tags). `chord_rhythm.py`: stab/comp slots mix two library entries A-B per bar, hold length reaches the renderer through the `shape` slot ("hold:N"). A DJ can favor tags with `pattern_tags`. ON only for `chord_flow` beats (new); older beats rebuild unchanged. Opt-out `chord_library: false` on a preset. Arps and pads untouched. Backup: tools/chord_rhythm.pre-pattern-library-2026-10-11.py.
+- NOT done: extra layers/lanes (next step); per-DJ `pattern_tags` not set (all DJs and Legends share the same library, equal weights).
+- Verified: 31 tests in tests/test_chord_rhythm.py pass (Linux sandbox). Full suite and audition NOT run: Mac venv only.
+- Verify by: double-click `0 RUN ME - Chord Patterns.command` (suite, then 5 old-vs-new beats), then listen.
+- Status: open
+- Outcome: -
+
+### 2026-10-11 Chord pattern library: full suite result
+- Full suite (run alone, scratch on TBOTC 3 drive): 1361 passed, 3 skipped, 2 failed. First run errored (1045 errors, OSError) while Mac disk showed 4.9 GB free; second run with scratch on the external drive was clean.
+- The 2 failures are not from this change: `test_pattern_gen::test_guest_lanes_appear_from_the_dj_palette` (known since 2026-09-28) and `test_boundary::test_tools_never_import_reason_voice` (tools/panel_sweep.py imports reason_voice). Not investigated.
+- Status: open until he hears the audition.

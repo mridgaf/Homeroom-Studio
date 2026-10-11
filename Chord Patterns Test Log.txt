@@ -1,0 +1,89 @@
+=== Step 1 of 2: full test suite (about 17 min) ===
+....................................s.....................s.....s....... [  5%]
+........................................................................ [ 10%]
+..................F..................................................... [ 15%]
+........................................................................ [ 21%]
+........................................................................ [ 26%]
+........................................................................ [ 31%]
+........................................................................ [ 36%]
+........................................................................ [ 42%]
+........................................................................ [ 47%]
+........................................................................ [ 52%]
+........................................................................ [ 57%]
+........................................................................ [ 63%]
+........F............................................................... [ 68%]
+........................................................................ [ 73%]
+........................................................................ [ 79%]
+........................................................................ [ 84%]
+........................................................................ [ 89%]
+........................................................................ [ 94%]
+......................................................................   [100%]
+=================================== FAILURES ===================================
+_____________________ test_tools_never_import_reason_voice _____________________
+
+    def test_tools_never_import_reason_voice():
+        offenders = []
+        for py in sorted(TOOLS.glob("*.py")):
+            for name in _imported_names(py):
+                if name == "reason_voice" or name.startswith("reason_voice."):
+                    offenders.append("{}: {}".format(py.name, name))
+>       assert not offenders, (
+            "tools/ must stay DAW-neutral, but these import Reason Voice:\n  "
+            + "\n  ".join(offenders)
+        )
+E       AssertionError: tools/ must stay DAW-neutral, but these import Reason Voice:
+E           panel_sweep.py: reason_voice.reason_control
+E       assert not ['panel_sweep.py: reason_voice.reason_control']
+
+tests/test_boundary.py:34: AssertionError
+_________________ test_guest_lanes_appear_from_the_dj_palette __________________
+
+    def test_guest_lanes_appear_from_the_dj_palette():
+        pool = {e[2] for e in pattern_gen.DEFAULT_STYLE["Crate Prophet"]
+                ["extras"]["pool"]}
+        seen = set()
+        for v in range(20):
+            p, _ = _composed("Crate Prophet", v)
+            guests = set(p["lanes"]) - set(CREW["Crate Prophet"]["lanes"])
+>           assert guests <= pool
+E           AssertionError: assert {'reversefx'} <= {'congas2', '...fx', 'shaker'}
+E             
+E             Extra items in the left set:
+E             'reversefx'
+
+tests/test_pattern_gen.py:286: AssertionError
+=============================== warnings summary ===============================
+reason_voice/server.py:1328
+  /Users/johnsuhr/Desktop/Homeroom Studio/reason_voice/server.py:1328: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+.venv/lib/python3.9/site-packages/fastapi/applications.py:4579
+.venv/lib/python3.9/site-packages/fastapi/applications.py:4579
+  /Users/johnsuhr/Desktop/Homeroom Studio/.venv/lib/python3.9/site-packages/fastapi/applications.py:4579: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+sound_engine/server.py:49
+  /Users/johnsuhr/Desktop/Homeroom Studio/sound_engine/server.py:49: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_boundary.py::test_tools_never_import_reason_voice - Asserti...
+FAILED tests/test_pattern_gen.py::test_guest_lanes_appear_from_the_dj_palette
+2 failed, 1361 passed, 3 skipped, 4 warnings in 1014.82s (0:16:54)
+TESTS FAILED - no beats rendered. Claude will read this log.
