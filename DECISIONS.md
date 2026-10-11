@@ -8578,3 +8578,32 @@ just not loaded by default.
 - Checked: new `tests/test_fx_lane_trim.py` + crew/loop tests pass (58); in the browser the knob moved +10 dB on drag, gain node went 1 -> 1.995 at +6 dB while playing. NOT checked: a real beat's stem by ear, nor a rendered FX level (no renders, house rule). New beats only; old beats unchanged.
 - Verify by: next beat he makes, play an FX stem and turn its knob; FX should sit lower.
 - Status: open
+
+### 2026-10-11 Reason-ready song for beat 2852 (one-beat test)
+- Context: owner wants beats to open in Reason 12 at the right tempo with MIDI on chosen instruments; proof on ONE beat only (2852 Sahara Pulse), not a batch.
+- Done: WAVs-only copies in `/Volumes/TBOTC 3/Homeroom WAVs/` (Beats 520, Favorites 149, manifest.txt). Reason song saved at `/Volumes/TBOTC 3/Homeroom Reason Songs/2852 Timberline Sahara Pulse/2852 Timberline Sahara Pulse 114bpm.reason`: drums on one Kong (the beat's own 5 one-shots from the recipe), bass on SubTractor "Sub Bass 1", chords on SubTractor "WarmPad". 5 drum MIDI tracks merged into one (script was in session scratch, not saved in repo).
+- Checked: file exists on disk with Kong/Sub Bass 1/WarmPad inside. NOT checked: by ear (nobody listened); bass/chord MIDI is a single fixed note 47, so pitch is not the beat's real harmony.
+- Open: the song's sample links point at `Homeroom Studio/_2852 kit (temp)/` -- do not delete that folder until the Kong pads are relinked to the `Samples` folder beside the song. 12 old scratch tracks in the song are muted, not deleted. Stray duplicate save moved to `_to_delete/stray-reason-save-2026-10-11/`.
+- Verify by: open the .reason in Reason, press play, listen.
+- Status: open
+
+### 2026-10-11 Beat packages (WAV + merged drum MIDI + drum samples)
+- Context: owner wants each chosen beat as one folder: drums = one merged MIDI for a Kong, everything else = original WAV stems, tempo right, no stretch.
+- Done: `reason_package.py <NN>` (in Homeroom Studio) builds `TBOTC 3/Homeroom WAVs/Packages/<NN> <Title> <bpm>bpm/`: merged drum MIDI, `Drum samples/` (from recipe kit_paths), non-drum stem WAVs, README with Kong pad map. Built for 2852 (by hand, no samples folder) and 3374 (by script). 3374's perc was note 77, outside the Kong pads, so it was remapped to pad 4 (note 39).
+- Checked: 3374 files exist, MIDI 130 BPM, 8 stems 7.38 s = 4 bars at 130. NOT checked: opened in Reason; the Kong pads must be loaded by hand (Reason files can't be generated).
+- Open: stray copy `Homeroom Studio/_to_delete/pkg-3374-stray-2026-10-11/` (delete is not allowed from here) and `Homeroom WAVs/_to_delete 2026-10-11/`.
+- Status: open
+
+### 2026-10-11 Reason template + drop helper: slots done, template NOT built
+- Context: owner chose "template song + drop helper" so a beat opens in Reason with one double-click.
+- Done: `reason_package.py <NN>` now also fills fixed slot files `Homeroom Studio/Reason Template/Slots/Pad01-16.wav` and `Stem1-8.wav` (silence where a beat has none) and maps drum MIDI to fixed Kong notes by role (kick 36, snap 37, snare 38, clap 39, perc 40, mathperc 41, hat 42). Currently holds 3374's sounds.
+- NOT done: the Reason template itself. Loading wavs onto Kong pads by drag was unreliable (some drops made stray audio tracks); the Kong's folder icon is the patch browser, not a sample loader. A new Reason song "untitled 4" with an empty-ish Kong (pads 1-3 hold Pad01-03) is open and UNSAVED. Tempo-from-MIDI on a template is untested. The helper (a double-click .command asking for a beat number) is not written. A stray Favorites item (renamed by dictation to "Fx_Scraper...") was created in Reason's browser sidebar by a mis-click.
+- Verify by: owner picks the next step.
+- Status: open
+
+### 2026-10-11 Drum MIDI only (new focus, replaces the template idea)
+- Context: owner dropped the Reason template/sounds idea: "just give me the MIDI of the drums", he picks sounds himself.
+- Done: `reason_drum_midi.py` wrote `TBOTC 3/Homeroom Drum MIDI/{Beats,Favorites}/<same name>.mid` for 445 beats: one drum track, original tempo, notes on Kong pad layout (kick 36, snap 37, snare 38, clap 39, perc 40, shaker 41, hat 42, others 43-51), README with the pad map. Originals untouched.
+- Checked: all 445 files re-read: drum note counts and ticks-per-beat equal the source. 216 beats have no drum MIDI at all (loop-only beats, empty .mid), so none were written. NOT checked: opened in Reason.
+- Open: parts excluded as not drums: chord*/bass*/chords/sub and FX-like tracks (woods, clicks, blips, bells, stamp, vox, risers...). Earlier Reason template work is abandoned; unsaved "untitled 4" song and a stray sidebar Favorite named "Fx_Scraper..." are still in Reason.
+- Status: open
