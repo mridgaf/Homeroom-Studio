@@ -1,5 +1,1 @@
-LATEST - 2026-10-11 (2026-10-11 17:25 UTC)
-Looperman: 45 filed (Melody 35, Chords 1, Drums 4, Vocals 5). Freesound: 35 filed (Melody 25, Chords 5, Drums 2, Vocals 3). Freesound pool ran out at 35 usable loops (target up to 80).
-Folders: BOTC Sorted Loops/Melody, Chords, Drums, Vocals. Full list and credits in SORTING-LOG-daily.txt.
-Skipped: ambient/sfx hits. Flag: 409930 Hauntme Ambient Vocal Loop filed as Vocals (judgement call).
-Nokey: Looperman 219200; Freesound 2246, 30319, 39046, 185524, 210545, 245338, 270313, 522914, 25919.
+2026-10-12 nightly run: Looperman 0 of 45 (all top 300 favs already on drive). Freesound 80 of 80 (Melody 28, Chords 16, Bass 8, Drums 28). Nokey 15. Full list in BOTC Sorted Loops/SORTING-LOG-daily.txt. Drums roles are name-based guesses; please check.
