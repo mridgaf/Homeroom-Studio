@@ -1,0 +1,26 @@
+fold|(no tooltip: check by eye)
+chA|Ch A Select Input: 1
+volA|Volume A: 0.00 dB
+phA|Phase Invert A
+xfade|Crossfader: 0.50
+volB|Volume B: 0.00 dB
+phB|Phase Invert B
+chB|Ch B Select Input: 2
+type|Type: Constant Power
+tape|Morfin XF 1
+BACK:
+i1L|Connected to Old Tape: Main Out Left
+i1R|Connected to Old Tape: Main Out Right
+i2L|Input 2 Left
+i2R|Input 2 Right
+i3L|Input 3 Left
+i3R|Input 3 Right
+i4L|Input 4 Left
+i4R|Input 4 Right
+oL|Connected to Old Tape: Input L
+oR|Connected to Old Tape: Input R
+xtrim|Crossfader CV In: 127
+xjack|Crossfader CV In
+cvA|CV Output A
+cvB|CV Output B
+tape|Morfin XF 1

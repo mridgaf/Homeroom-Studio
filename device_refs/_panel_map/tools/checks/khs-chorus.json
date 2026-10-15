@@ -1,0 +1,35 @@
+{
+"device": "kHs Chorus",
+"front": {
+"(triangle)": "no tooltip (fold arrow); checked by eye",
+"BYPASS / ON / OFF": "tooltip \"Enabled: On\"",
+"DELAY": "tooltip \"Delay: 4.0 ms\"",
+"DEPTH": "tooltip \"Depth: 4.0 ms\"",
+"RATE": "tooltip \"Rate: 0.60 Hz\"",
+"SPREAD": "tooltip \"Spread: 100%\"",
+"TAPS": "tooltip \"Taps: 2\"",
+"MIX": "tooltip \"Mix: 100%\"",
+"CHORUS 1 tape": "no tooltip in Reason (hovered 1.3 s)",
+"kHs logo": "no tooltip in Reason (hovered 1.3 s)"
+},
+"back": {
+"Delay CV In": "tooltip \"Delay CV\"",
+"Delay CV trim": "tooltip \"Delay CV: 127\"",
+"Depth CV In": "tooltip \"Depth CV\"",
+"Depth CV trim": "tooltip \"Depth CV: 127\"",
+"Rate CV In": "tooltip \"Rate CV\"",
+"Rate CV trim": "tooltip \"Rate CV: 127\"",
+"Spread CV In": "tooltip \"Spread CV\"",
+"Spread CV trim": "tooltip \"Spread CV: 127\"",
+"Mix CV In": "tooltip \"Mix CV\"",
+"Mix CV trim": "tooltip \"Mix CV: 127\"",
+"Audio In L": "tooltip \"Connected to 3-Way Split: Main Audio Send L\"",
+"Audio In R": "tooltip \"Connected to 3-Way Split: Main Audio Send R\"",
+"Audio Out L": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"",
+"Audio Out R": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"",
+"(back vent)": "no tooltip in Reason (hovered 1.3 s)",
+"CHORUS 1 tape (back)": "tooltip \"Chorus 1\""
+},
+"views": {},
+"view_titles": {}
+}

@@ -1,0 +1,523 @@
+{
+ "device": "RPSpec Spectrogram",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "RPSP",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (Rob Papen RE, no Remote map); 4 front controls have tooltips; view icons/mode/readouts have none and were not clicked; back jacks cabled (own names not read)",
+ "controls": [
+  {
+   "code": "RPSP-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.046
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D01",
+   "side": "front",
+   "panel_label": "RPSPEC 1 tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.16,
+    0.098
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D02",
+   "side": "front",
+   "panel_label": "Mode display (Left/Right)",
+   "what": "Analysis mode display (Left/Right shown); label under it reads Mode",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.417,
+    0.098
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "clicking not tried (would change the mode)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-K01",
+   "side": "front",
+   "panel_label": "BOOST",
+   "what": "Boost (input gain of the display)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.095
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Boost: 0.0 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-K02",
+   "side": "front",
+   "panel_label": "HOLD",
+   "what": "Hold amount",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.594,
+    0.095
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hold: 0%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-K03",
+   "side": "front",
+   "panel_label": "RELEASE",
+   "what": "Release amount",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.645,
+    0.095
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Release: 0%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-B02",
+   "side": "front",
+   "panel_label": "FREEZE",
+   "what": "Freeze the display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.695,
+    0.095
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Freeze Spectrogram\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D03",
+   "side": "front",
+   "panel_label": "RPSPEC logo",
+   "what": "Logo (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.799,
+    0.098
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D04",
+   "side": "front",
+   "panel_label": "Rob Papen signature",
+   "what": "Signature (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.932,
+    0.098
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-B03",
+   "side": "front",
+   "panel_label": "View icon 1 (wave)",
+   "what": "View selector icon: waveform/spectrum line",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.068,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-B04",
+   "side": "front",
+   "panel_label": "View icon 2 (bars)",
+   "what": "View selector icon: bars",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.102,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-B05",
+   "side": "front",
+   "panel_label": "View icon 3 (steps)",
+   "what": "View selector icon: steps",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.13,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-B06",
+   "side": "front",
+   "panel_label": "View icon 4 (line)",
+   "what": "View selector icon: line",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.158,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D05",
+   "side": "front",
+   "panel_label": "Selected Freq readout",
+   "what": "Selected frequency readout",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.363,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D07",
+   "side": "front",
+   "panel_label": "Max Freq readout",
+   "what": "Highest frequency readout",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.607,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-S01",
+   "side": "front",
+   "panel_label": "Balance slider (-1 .. +1)",
+   "what": "Stereo balance indicator bar (-1 left, +1 right)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.858,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "hovered at centre; no tooltip",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D09",
+   "side": "front",
+   "panel_label": "Spectrum display",
+   "what": "Spectrum screen with dB scale (+20..-60) and frequency scale (20Hz..20kHz)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.476,
+    0.624
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D06",
+   "side": "front",
+   "panel_label": "Frequency scale",
+   "what": "Frequency labels 20Hz..20kHz",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.476,
+    0.227
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-F-D08",
+   "side": "front",
+   "panel_label": "dB scale",
+   "what": "dB labels +20..-60",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.035,
+    0.66
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-J01",
+   "side": "back",
+   "panel_label": "Input Left",
+   "what": "Audio input, left (cabled)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.115,
+    0.829
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio Out Mid\"; jack's own name not read (right-click menu not opened)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-J02",
+   "side": "back",
+   "panel_label": "Input Right",
+   "what": "Audio input, right (cabled)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.165,
+    0.829
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio Out Side\"; jack's own name not read",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-J03",
+   "side": "back",
+   "panel_label": "Output Left",
+   "what": "Audio output, left (cabled)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.753,
+    0.829
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"; jack's own name not read",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-J04",
+   "side": "back",
+   "panel_label": "Output Right",
+   "what": "Audio output, right (cabled)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.802,
+    0.829
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"; jack's own name not read",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-D03",
+   "side": "back",
+   "panel_label": "Power area (drawn)",
+   "what": "Power cable socket (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.91,
+    0.829
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-D01",
+   "side": "back",
+   "panel_label": "RPSPEC 1 tape (back)",
+   "what": "Device name tape on the back",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.027,
+    0.486
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s) (hover missed; position by eye)",
+   "view": "main panel"
+  },
+  {
+   "code": "RPSP-B-D02",
+   "side": "back",
+   "panel_label": "Credits text",
+   "what": "Credits text and warning label (printed, not controls)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.468,
+    0.519
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  }
+ ]
+}

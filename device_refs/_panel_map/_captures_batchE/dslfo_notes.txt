@@ -1,0 +1,55 @@
+fold|(no tooltip: check by eye)
+patchdisp|LFO1 1-4 Sine
+patchprev|Select previous patch
+patchnext|Select next patch
+folder|Browse patch
+disk|Save patch
+tape|LFO1 1-4 Sine
+l1sync|LFO 1 Sync To Tempo
+l1mode|LFO 1 Mode (Phase/Spin)
+l1shape|LFO 1 Waveform: Sine
+l1up|(no tooltip in Reason: hovered 1.3 s)
+l1dn|(no tooltip in Reason: hovered 1.3 s)
+l1freq|LFO 1 Frequency (Synced): 1/4
+l1phase|LFO 1 Phase: 180
+l1off|LFO 1 Offset: 0
+l2sync|(no tooltip in Reason: hovered 1.3 s) (hovered twice at two offsets)
+l2mode|(no tooltip in Reason: hovered 1.3 s) (hovered twice at two offsets)
+l2shape|LFO 2 Waveform: Sine
+l2up|(no tooltip in Reason: hovered 1.3 s)
+l2dn|(no tooltip in Reason: hovered 1.3 s)
+l2freq|LFO 2 Frequency: 1.00 Hz
+l2phase|LFO 2 Phase: 180
+l2off|LFO 2 Offset: 0
+mix|LFOs 1/2 Mix: 50%
+amp|LFOs 1+2 Amp: 100%
+BACK:
+f1t|LFO 1 Frequency: 127
+f1j|LFO 1 Frequency
+p1t|LFO 1 Phase / Spin: 127
+p1j|LFO 1 Phase / Spin
+o1t|LFO 1 Offset: 127
+o1j|LFO 1 Offset
+f2t|LFO 2 Frequency: 127
+f2j|LFO 2 Frequency
+p2t|LFO 2 Phase / Spin: 127
+p2j|LFO 2 Phase / Spin
+o2t|LFO 2 Offset: 127
+o2j|LFO 2 Offset
+mixt|LFOs 1/2 Mix: 127
+mixj|LFOs 1/2 Mix
+ampt|LFOs 1+2 Amp: 127
+ampj|LFOs 1+2 Amp
+c1La|LFO 1 Out Left A
+c1Ra|LFO 1 Out Right A
+c2La|LFO 2 Out Left A
+c2Ra|LFO 2 Out Right A
+cmLa|LFO 1/2 Mix Out Left A
+cmRa|LFO 1/2 Mix Out Right A
+c1Lb|LFO 1 Out Left B
+c1Rb|LFO 1 Out Right B
+c2Lb|LFO 2 Out Left B
+c2Rb|LFO 2 Out Right B
+cmLb|LFO 1/2 Mix Out Left B
+cmRb|LFO 1/2 Mix Out Right B
+tape|LFO1 1-4 Sine

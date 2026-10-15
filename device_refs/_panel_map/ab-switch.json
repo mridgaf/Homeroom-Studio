@@ -1,0 +1,572 @@
+{
+ "device": "A/B Audio & CV Switch",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "ABSW",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (pongasoft RE, no Remote map); back jacks all hovered; front knob/light tooltips partly ambiguous (marked)",
+ "controls": [
+  {
+   "code": "ABSW-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.023,
+    0.163
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D01",
+   "side": "front",
+   "panel_label": "A/B Switch title",
+   "what": "Title text (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.083,
+    0.163
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-K01",
+   "side": "front",
+   "panel_label": "AUDIO SWITCH knob",
+   "what": "Audio switch knob: chooses A or B",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.19,
+    0.49
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip 'Switch Audio A & B' appeared while hovering the knob/A-B area; exact source of the text not isolated",
+   "checked_2026_10_07": "tooltip \"Switch Audio A & B\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D02",
+   "side": "front",
+   "panel_label": "AUDIO A light",
+   "what": "Audio A active light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.251,
+    0.276
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D06",
+   "side": "front",
+   "panel_label": "AUDIO B light",
+   "what": "Audio B active light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.251,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D03",
+   "side": "front",
+   "panel_label": "AUDIO A name field",
+   "what": "Name field for audio A",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.323,
+    0.276
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D07",
+   "side": "front",
+   "panel_label": "AUDIO B name field",
+   "what": "Name field for audio B",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.323,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-B02",
+   "side": "front",
+   "panel_label": "SOFTEN",
+   "what": "Soften (smooths switching)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.401,
+    0.265
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Soften\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D08",
+   "side": "front",
+   "panel_label": "wave icon",
+   "what": "Small waveform icon (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.401,
+    0.704
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D09",
+   "side": "front",
+   "panel_label": "ABSWITCH 1 tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.497,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-K02",
+   "side": "front",
+   "panel_label": "CV SWITCH knob",
+   "what": "CV switch knob: chooses A or B",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.622,
+    0.49
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip 'Switch CV A & B' appeared while hovering the knob/A-B area; exact source not isolated",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D04",
+   "side": "front",
+   "panel_label": "CV A light",
+   "what": "CV A active light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.667,
+    0.276
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D10",
+   "side": "front",
+   "panel_label": "CV B light",
+   "what": "CV B active light",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.667,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D05",
+   "side": "front",
+   "panel_label": "CV A name field",
+   "what": "Name field for CV A",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.756,
+    0.276
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D11",
+   "side": "front",
+   "panel_label": "CV B name field",
+   "what": "Name field for CV B",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.756,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-F-D12",
+   "side": "front",
+   "panel_label": "pongasoft logo/QR",
+   "what": "Logo and small code (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.862,
+    0.724
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J01",
+   "side": "back",
+   "panel_label": "Audio A In L/Mono",
+   "what": "Audio jack: Audio A In L/Mono",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.186,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio [A] Input Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J02",
+   "side": "back",
+   "panel_label": "Audio A In R",
+   "what": "Audio jack: Audio A In R",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.233,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio [A] Input Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J03",
+   "side": "back",
+   "panel_label": "Audio B In L/Mono",
+   "what": "Audio jack: Audio B In L/Mono",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.287,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio [B] Input Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J04",
+   "side": "back",
+   "panel_label": "Audio B In R",
+   "what": "Audio jack: Audio B In R",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.322,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio [B] Input Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J05",
+   "side": "back",
+   "panel_label": "Audio Out L/Mono",
+   "what": "Audio jack: Audio Out L/Mono",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.377,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Switched Audio Output Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J06",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio jack: Audio Out R",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.414,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Switched Audio Output Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J07",
+   "side": "back",
+   "panel_label": "Audio CV Control In",
+   "what": "CV input that switches the audio",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.458,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV In (Audio switch control)\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J08",
+   "side": "back",
+   "panel_label": "CV A In",
+   "what": "CV input A",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.665,
+    0.582
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV [A] Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J09",
+   "side": "back",
+   "panel_label": "CV B In",
+   "what": "CV input B",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.737,
+    0.582
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV [B] Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J10",
+   "side": "back",
+   "panel_label": "CV Out",
+   "what": "Switched CV output",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.808,
+    0.582
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Switched CV Output\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-J11",
+   "side": "back",
+   "panel_label": "CV Control In",
+   "what": "CV input that switches the CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.864,
+    0.5
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV In (CV switch control)\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-D02",
+   "side": "back",
+   "panel_label": "Power area (drawn)",
+   "what": "Power cable area (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.938,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-D01",
+   "side": "back",
+   "panel_label": "ABSWITCH 1 tape (back)",
+   "what": "Device name tape",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.045,
+    0.163
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ABSW-B-B01",
+   "side": "back",
+   "panel_label": "(triangle, back)",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    -0.022,
+    0.204
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  }
+ ]
+}

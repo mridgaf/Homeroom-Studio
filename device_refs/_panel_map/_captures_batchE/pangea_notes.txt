@@ -1,0 +1,65 @@
+fold|(no tooltip: check by eye)
+patchprev|Select previous patch
+patchnext|Select next patch
+folder|Browse patch
+disk|Save patch
+patchdisp|Struck Grand Piano Natural
+tape|Struck Grand Piano Natural
+master|Master Volume: -2.0 dB
+note|(no tooltip in Reason: hovered 1.4 s)
+range|Pitch Bend Range: 2
+pitchwheel|(Pitch Bend): 0.0%
+modwheel|(Mod Wheel): 0%
+sstartmw|Mod Wheel To Sample Start: 75.0 %
+ffreqmw|Mod Wheel To Filter Cutoff: 0.0 %
+levelmw|Mod Wheel To Amp Level: 0.0 %
+instrument|Instrument: Struck Grand Piano
+instsel|(no tooltip in Reason: hovered 1.4 s)
+sstart|Sample Start: 0 ms
+oct|Octave: 0
+semi|Semitune: 0
+fine|Finetune: 0 cents
+fon|Filter On
+fcut|Filter Cutoff: 207.4 Hz
+freso|Filter Reso: 0.0 %
+fenv|Filter Env: 75.0 %
+fA|Filter Attack: 0.0 %
+fD|Filter Decay: 47.1 %
+fS|Filter Sustain: 0.0 %
+fR|Filter Release: 26.4 %
+fvel|Filter Velocity: 0.0 %
+fkbd|Filter Key Follow: 0.0 %
+avel|Amp Velocity: 50 %
+aA|Amp Attack: 0.0 %
+aD|Amp Decay: 66.1 %
+dlon|Delay On
+dltime|Synced Delay Time: 3/16
+dlfb|Delay Feedback: 46.9 %
+dlsync|Delay Sync
+dlpp|Delay Ping Pong
+dldamp|Delay Damp: 0.0 %
+dlamt|Delay Amount: 32.8 %
+rvon|Reverb On
+rvtime|Reverb Time: 58.1
+rvpre|Reverb Pre Delay: 0.00 ms
+rvhi|Reverb High Damp: 32.8 %
+rvlo|Reverb Low Damp: 0.0 %
+rvamt|Reverb Amount: 39.1 %
+aS|Amp Sustain: 100.0 %
+aR|Amp Release: 82.2 %
+ftype|(no tooltip in Reason: hovered 1.8 s, LP menu)
+BACK:
+gate|Gate CV Input
+cv|Note CV Input
+pbtrim|Pitch Bend CV Input: 127
+pbjack|Pitch Bend CV Input
+mwtrim|Mod Wheel CV Input: 127
+mwjack|Mod Wheel CV Input
+cotrim|Filter Cutoff CV Input: 127
+cojack|Filter Cutoff CV Input
+retrim|Filter Resonance CV Input: 127
+rejack|Filter Resonance CV Input
+lvtrim|Amp Level CV Input: 127
+lvjack|Amp Level CV Input
+outL|Connected to Struck Grand Piano Natural: Input L
+outR|Connected to Struck Grand Piano Natural: Input R

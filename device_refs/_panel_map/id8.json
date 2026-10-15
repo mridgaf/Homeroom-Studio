@@ -1,0 +1,477 @@
+{
+ "device": "ID8 Instrument Device",
+ "remote_scope": "Propellerheads / ID8 Instrument Device",
+ "code_prefix": "ID8",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15; every position hovered in Reason (category/parameter displays, sound list, tape, back power switch: no tooltip). Remote items Category Name, Preset, Sound, Sound Name, Select Next/Previous Preset/Sound have no proven panel control",
+ "controls": [
+  {
+   "code": "ID8-F-S01",
+   "side": "front",
+   "panel_label": "PITCH wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": "Pitch Bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.083,
+    0.449
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip 'Pitch Bend'",
+   "checked_2026_10_07": "tooltip \"Pitch Bend: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-S02",
+   "side": "front",
+   "panel_label": "MOD wheel",
+   "what": "Modulation wheel",
+   "reason_name": "Mod Wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.137,
+    0.449
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip 'Mod Wheel'",
+   "checked_2026_10_07": "tooltip \"Mod Wheel: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B01",
+   "side": "front",
+   "panel_label": "(category up arrow)",
+   "what": "Previous category",
+   "reason_name": "Select Previous Category",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.189,
+    0.337
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select Previous Category\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B06",
+   "side": "front",
+   "panel_label": "(category down arrow)",
+   "what": "Next category",
+   "reason_name": "Select Next Category",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.189,
+    0.602
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select Next Category\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-D03",
+   "side": "front",
+   "panel_label": "Category display",
+   "what": "Instrument category name (Piano shown)",
+   "reason_name": "Category",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.31,
+    0.48
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Category'; the arrows at its left step through categories; display itself has no tooltip",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B02",
+   "side": "front",
+   "panel_label": "SOUND LIST Grand",
+   "what": "Sound list row: Grand",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.47,
+    0.224
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B03",
+   "side": "front",
+   "panel_label": "SOUND LIST Upright",
+   "what": "Sound list row: Upright",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.47,
+    0.388
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B07",
+   "side": "front",
+   "panel_label": "SOUND LIST Dance",
+   "what": "Sound list row: Dance",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.47,
+    0.561
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B08",
+   "side": "front",
+   "panel_label": "SOUND LIST Vibes",
+   "what": "Sound list row: Vibes",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.47,
+    0.735
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B04",
+   "side": "front",
+   "panel_label": "SOUND A button",
+   "what": "Sound A button",
+   "reason_name": "Sound A",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.545,
+    0.214
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sound A\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B05",
+   "side": "front",
+   "panel_label": "SOUND B button",
+   "what": "Sound B button",
+   "reason_name": "Sound B",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.545,
+    0.388
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sound B\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B09",
+   "side": "front",
+   "panel_label": "SOUND C button",
+   "what": "Sound C button",
+   "reason_name": "Sound C",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.545,
+    0.561
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sound C\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-B10",
+   "side": "front",
+   "panel_label": "SOUND D button",
+   "what": "Sound D button",
+   "reason_name": "Sound D",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.545,
+    0.735
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sound D\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-K01",
+   "side": "front",
+   "panel_label": "PARAMETER 1",
+   "what": "Parameter 1 knob (what it does depends on the sound)",
+   "reason_name": "Parameter 1",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.614,
+    0.276
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Parameter 1: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-D01",
+   "side": "front",
+   "panel_label": "PARAMETER 1 name",
+   "what": "Name of Parameter 1 (Delay shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.687,
+    0.255
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-K02",
+   "side": "front",
+   "panel_label": "PARAMETER 2",
+   "what": "Parameter 2 knob (what it does depends on the sound)",
+   "reason_name": "Parameter 2",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.614,
+    0.684
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Parameter 2: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-D04",
+   "side": "front",
+   "panel_label": "PARAMETER 2 name",
+   "what": "Name of Parameter 2 (Chorus shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.687,
+    0.684
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-K03",
+   "side": "front",
+   "panel_label": "VOLUME",
+   "what": "Volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.789,
+    0.449
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Volume: 0.0 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-F-D02",
+   "side": "front",
+   "panel_label": "Patch name tape",
+   "what": "Name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.866,
+    0.143
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; no tooltip on ID8",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-B-J01",
+   "side": "back",
+   "panel_label": "Audio Out Left / Mono",
+   "what": "Audio output, left (mono)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.461,
+    0.514
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to ID8 1: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-B-J02",
+   "side": "back",
+   "panel_label": "Audio Out Right",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.515,
+    0.514
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to ID8 1: Input R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-B-B01",
+   "side": "back",
+   "panel_label": "Power switch (drawn)",
+   "what": "Rocker switch drawn on the back panel (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.824,
+    0.314
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "ID8-B-D01",
+   "side": "back",
+   "panel_label": "Name tape (back)",
+   "what": "Name tape on the back panel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.777,
+    0.762
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  }
+ ]
+}

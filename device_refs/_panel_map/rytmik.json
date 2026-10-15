@@ -1,0 +1,2156 @@
+{
+ "device": "Rytmik Drum Machine",
+ "remote_scope": "none (no Remote map or vocab entry found); names from tooltips only",
+ "code_prefix": "RYTM",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (main panel with KICK selected + back); every position hovered in Reason (sample readouts, waveform/filter displays, faders, pads: no tooltip). No Remote map for Rytmik: no slots/CC. Other drums' sample section views not mapped separately",
+ "controls": [
+  {
+   "code": "RYTM-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.026,
+    0.043
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.456,
+    0.043
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Old Tape\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B02",
+   "side": "front",
+   "panel_label": "(patch prev arrow)",
+   "what": "Previous patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.58,
+    0.033
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B03",
+   "side": "front",
+   "panel_label": "(patch next arrow)",
+   "what": "Next patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.58,
+    0.058
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B04",
+   "side": "front",
+   "panel_label": "(patch folder)",
+   "what": "Browse patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.604,
+    0.043
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B05",
+   "side": "front",
+   "panel_label": "(patch disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.628,
+    0.043
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D02",
+   "side": "front",
+   "panel_label": "Patch name tape",
+   "what": "Patch name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.798,
+    0.043
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Old Tape\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D04",
+   "side": "front",
+   "panel_label": "WAVEFORM display",
+   "what": "Waveform of the selected drum's sample",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.341,
+    0.252
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D03",
+   "side": "front",
+   "panel_label": "(start marker)",
+   "what": "Sample start marker (small triangle, top left of waveform)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.04,
+    0.105
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D06",
+   "side": "front",
+   "panel_label": "(end marker)",
+   "what": "Sample end marker (small triangle, right edge of waveform)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.641,
+    0.406
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D05",
+   "side": "front",
+   "panel_label": "FILTER display",
+   "what": "Filter curve of the selected drum",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.798,
+    0.266
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B06",
+   "side": "front",
+   "panel_label": "SAMPLE arrow left",
+   "what": "Previous sample",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.089,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D07",
+   "side": "front",
+   "panel_label": "SAMPLE name",
+   "what": "Sample name of the selected drum",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.185,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B07",
+   "side": "front",
+   "panel_label": "SAMPLE arrow right",
+   "what": "Next sample",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.282,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D08",
+   "side": "front",
+   "panel_label": "PAN value",
+   "what": "Pan of the selected drum (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.4,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D09",
+   "side": "front",
+   "panel_label": "PITCH value",
+   "what": "Pitch of the selected drum (cents) (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.464,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D10",
+   "side": "front",
+   "panel_label": "FADE IN value",
+   "what": "Sample fade in (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.527,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D11",
+   "side": "front",
+   "panel_label": "FADE OUT value",
+   "what": "Sample fade out (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.589,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D12",
+   "side": "front",
+   "panel_label": "DISTORTION value",
+   "what": "Distortion amount (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.725,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D13",
+   "side": "front",
+   "panel_label": "LOW CUT value",
+   "what": "Low cut frequency (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.8,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-D14",
+   "side": "front",
+   "panel_label": "HI CUT value",
+   "what": "Hi cut frequency (value field)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.867,
+    0.466
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K01",
+   "side": "front",
+   "panel_label": "DRUM 1 DELAY",
+   "what": "Drum 1 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.059,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 1 Delay Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K10",
+   "side": "front",
+   "panel_label": "DRUM 1 REVERB",
+   "what": "Drum 1 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.059,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 1 Reverb Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B08",
+   "side": "front",
+   "panel_label": "DRUM 1 MUTE",
+   "what": "Drum 1 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.059,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 1 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B09",
+   "side": "front",
+   "panel_label": "DRUM 1 SOLO",
+   "what": "Drum 1 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.059,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 1 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S01",
+   "side": "front",
+   "panel_label": "DRUM 1 fader",
+   "what": "Drum 1 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.094,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B24",
+   "side": "front",
+   "panel_label": "PAD 1 KICK",
+   "what": "Selects drum 1 (KICK) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.084,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "click verified: KICK -> SNARE -> KICK changed the sample section",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K02",
+   "side": "front",
+   "panel_label": "DRUM 2 DELAY",
+   "what": "Drum 2 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.162,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 2 Delay Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K11",
+   "side": "front",
+   "panel_label": "DRUM 2 REVERB",
+   "what": "Drum 2 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.162,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 2 Reverb Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B10",
+   "side": "front",
+   "panel_label": "DRUM 2 MUTE",
+   "what": "Drum 2 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.162,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 2 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B11",
+   "side": "front",
+   "panel_label": "DRUM 2 SOLO",
+   "what": "Drum 2 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.162,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 2 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S02",
+   "side": "front",
+   "panel_label": "DRUM 2 fader",
+   "what": "Drum 2 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.197,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B25",
+   "side": "front",
+   "panel_label": "PAD 2 SNARE",
+   "what": "Selects drum 2 (SNARE) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.186,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "click verified: KICK -> SNARE -> KICK changed the sample section",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K03",
+   "side": "front",
+   "panel_label": "DRUM 3 DELAY",
+   "what": "Drum 3 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.266,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 3 Delay Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K12",
+   "side": "front",
+   "panel_label": "DRUM 3 REVERB",
+   "what": "Drum 3 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.266,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 3 Reverb Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B12",
+   "side": "front",
+   "panel_label": "DRUM 3 MUTE",
+   "what": "Drum 3 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.266,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 3 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B13",
+   "side": "front",
+   "panel_label": "DRUM 3 SOLO",
+   "what": "Drum 3 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.266,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 3 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S03",
+   "side": "front",
+   "panel_label": "DRUM 3 fader",
+   "what": "Drum 3 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.299,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B26",
+   "side": "front",
+   "panel_label": "PAD 3 HIHAT",
+   "what": "Selects drum 3 (HIHAT) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.289,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "same kind of pad button as pads 1-2 (click verified there)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K04",
+   "side": "front",
+   "panel_label": "DRUM 4 DELAY",
+   "what": "Drum 4 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.368,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 4 Delay Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K13",
+   "side": "front",
+   "panel_label": "DRUM 4 REVERB",
+   "what": "Drum 4 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.368,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 4 Reverb Amount: -∞ dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B14",
+   "side": "front",
+   "panel_label": "DRUM 4 MUTE",
+   "what": "Drum 4 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.368,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 4 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B15",
+   "side": "front",
+   "panel_label": "DRUM 4 SOLO",
+   "what": "Drum 4 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.368,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 4 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S04",
+   "side": "front",
+   "panel_label": "DRUM 4 fader",
+   "what": "Drum 4 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.403,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B27",
+   "side": "front",
+   "panel_label": "PAD 4 CYMBAL",
+   "what": "Selects drum 4 (CYMBAL) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.391,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "same kind of pad button as pads 1-2 (click verified there)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K05",
+   "side": "front",
+   "panel_label": "DRUM 5 DELAY",
+   "what": "Drum 5 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.471,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 5 Delay Amount: -0.2 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K14",
+   "side": "front",
+   "panel_label": "DRUM 5 REVERB",
+   "what": "Drum 5 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.471,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 5 Reverb Amount: -11.6 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B16",
+   "side": "front",
+   "panel_label": "DRUM 5 MUTE",
+   "what": "Drum 5 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.471,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 5 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B17",
+   "side": "front",
+   "panel_label": "DRUM 5 SOLO",
+   "what": "Drum 5 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.471,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 5 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S05",
+   "side": "front",
+   "panel_label": "DRUM 5 fader",
+   "what": "Drum 5 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.506,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B28",
+   "side": "front",
+   "panel_label": "PAD 5 TOM",
+   "what": "Selects drum 5 (TOM) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.494,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "same kind of pad button as pads 1-2 (click verified there)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K06",
+   "side": "front",
+   "panel_label": "DRUM 6 DELAY",
+   "what": "Drum 6 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.573,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 6 Delay Amount: -0.9 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K15",
+   "side": "front",
+   "panel_label": "DRUM 6 REVERB",
+   "what": "Drum 6 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.573,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 6 Reverb Amount: -20.6 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B18",
+   "side": "front",
+   "panel_label": "DRUM 6 MUTE",
+   "what": "Drum 6 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.573,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 6 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B19",
+   "side": "front",
+   "panel_label": "DRUM 6 SOLO",
+   "what": "Drum 6 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.573,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 6 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S06",
+   "side": "front",
+   "panel_label": "DRUM 6 fader",
+   "what": "Drum 6 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.608,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B29",
+   "side": "front",
+   "panel_label": "PAD 6 CLAP",
+   "what": "Selects drum 6 (CLAP) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.596,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "same kind of pad button as pads 1-2 (click verified there)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K07",
+   "side": "front",
+   "panel_label": "DRUM 7 DELAY",
+   "what": "Drum 7 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.676,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 7 Delay Amount: 9.9 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K16",
+   "side": "front",
+   "panel_label": "DRUM 7 REVERB",
+   "what": "Drum 7 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.676,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 7 Reverb Amount: -34.5 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B20",
+   "side": "front",
+   "panel_label": "DRUM 7 MUTE",
+   "what": "Drum 7 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.676,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 7 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B21",
+   "side": "front",
+   "panel_label": "DRUM 7 SOLO",
+   "what": "Drum 7 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.676,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 7 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S07",
+   "side": "front",
+   "panel_label": "DRUM 7 fader",
+   "what": "Drum 7 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.711,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B30",
+   "side": "front",
+   "panel_label": "PAD 7 PERC",
+   "what": "Selects drum 7 (PERC) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.699,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "same kind of pad button as pads 1-2 (click verified there)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K08",
+   "side": "front",
+   "panel_label": "DRUM 8 DELAY",
+   "what": "Drum 8 delay send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.779,
+    0.544
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 8 Delay Amount: 7.1 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K17",
+   "side": "front",
+   "panel_label": "DRUM 8 REVERB",
+   "what": "Drum 8 reverb send",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.779,
+    0.652
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 8 Reverb Amount: -33.0 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B22",
+   "side": "front",
+   "panel_label": "DRUM 8 MUTE",
+   "what": "Drum 8 mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.779,
+    0.763
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 8 Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B23",
+   "side": "front",
+   "panel_label": "DRUM 8 SOLO",
+   "what": "Drum 8 solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.779,
+    0.823
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 8 Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S08",
+   "side": "front",
+   "panel_label": "DRUM 8 fader",
+   "what": "Drum 8 level fader (no tooltip; value not shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.814,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "slider: hover the handle; no tooltip appears",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B31",
+   "side": "front",
+   "panel_label": "PAD 8 PERC",
+   "what": "Selects drum 8 (PERC) for the sample section above",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.8,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "same kind of pad button as pads 1-2 (click verified there)",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K09",
+   "side": "front",
+   "panel_label": "MASTER FX PITCH",
+   "what": "Master pitch (cents)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.88,
+    0.54
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master Pitch: 0 cent\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K18",
+   "side": "front",
+   "panel_label": "MASTER FX REVERB",
+   "what": "Master reverb",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.88,
+    0.647
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master Reverb: 0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-K19",
+   "side": "front",
+   "panel_label": "MASTER FX FILTER",
+   "what": "Master filter",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.88,
+    0.755
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master Filter: 0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-S09",
+   "side": "front",
+   "panel_label": "MASTER FX fader",
+   "what": "Master level fader (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.914,
+    0.608
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-F-B32",
+   "side": "front",
+   "panel_label": "MASTER FX pad",
+   "what": "Master FX strip button",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.904,
+    0.882
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J01",
+   "side": "back",
+   "panel_label": "Gate In 1",
+   "what": "Gate input, drum 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.099,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J02",
+   "side": "back",
+   "panel_label": "Gate In 2",
+   "what": "Gate input, drum 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.132,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 2\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J03",
+   "side": "back",
+   "panel_label": "Gate In 3",
+   "what": "Gate input, drum 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.166,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 3\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J04",
+   "side": "back",
+   "panel_label": "Gate In 4",
+   "what": "Gate input, drum 4",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.199,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 4\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J05",
+   "side": "back",
+   "panel_label": "Gate In 5",
+   "what": "Gate input, drum 5",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.249,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 5\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J06",
+   "side": "back",
+   "panel_label": "Gate In 6",
+   "what": "Gate input, drum 6",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.281,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 6\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J07",
+   "side": "back",
+   "panel_label": "Gate In 7",
+   "what": "Gate input, drum 7",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.314,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 7\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J08",
+   "side": "back",
+   "panel_label": "Gate In 8",
+   "what": "Gate input, drum 8",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.741
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate In 8\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J19",
+   "side": "back",
+   "panel_label": "Gate Out 1",
+   "what": "Gate output, drum 1",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.099,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J20",
+   "side": "back",
+   "panel_label": "Gate Out 2",
+   "what": "Gate output, drum 2",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.132,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 2\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J21",
+   "side": "back",
+   "panel_label": "Gate Out 3",
+   "what": "Gate output, drum 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.166,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 3\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J22",
+   "side": "back",
+   "panel_label": "Gate Out 4",
+   "what": "Gate output, drum 4",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.199,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 4\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J23",
+   "side": "back",
+   "panel_label": "Gate Out 5",
+   "what": "Gate output, drum 5",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.249,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 5\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J24",
+   "side": "back",
+   "panel_label": "Gate Out 6",
+   "what": "Gate output, drum 6",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.281,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 6\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J25",
+   "side": "back",
+   "panel_label": "Gate Out 7",
+   "what": "Gate output, drum 7",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.314,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 7\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J26",
+   "side": "back",
+   "panel_label": "Gate Out 8",
+   "what": "Gate output, drum 8",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.348,
+    0.802
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate Out 8\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J09",
+   "side": "back",
+   "panel_label": "Sep Out 1 Left",
+   "what": "Separate output 1, left (mono): tooltip 'Comp Out Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.473,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Comp Out Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J10",
+   "side": "back",
+   "panel_label": "Sep Out 2 Left",
+   "what": "Separate output 2, left (mono): tooltip 'Drum 1 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.506,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 1 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J11",
+   "side": "back",
+   "panel_label": "Sep Out 3 Left",
+   "what": "Separate output 3, left (mono): tooltip 'Drum 2 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.538,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 2 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J12",
+   "side": "back",
+   "panel_label": "Sep Out 4 Left",
+   "what": "Separate output 4, left (mono): tooltip 'Drum 3 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.571,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 3 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J13",
+   "side": "back",
+   "panel_label": "Sep Out 5 Left",
+   "what": "Separate output 5, left (mono): tooltip 'Drum 4 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.621,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 4 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J14",
+   "side": "back",
+   "panel_label": "Sep Out 6 Left",
+   "what": "Separate output 6, left (mono): tooltip 'Drum 5 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.654,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 5 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J15",
+   "side": "back",
+   "panel_label": "Sep Out 7 Left",
+   "what": "Separate output 7, left (mono): tooltip 'Drum 6 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.687,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 6 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J16",
+   "side": "back",
+   "panel_label": "Sep Out 8 Left",
+   "what": "Separate output 8, left (mono): tooltip 'Drum 7 Left'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.719,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 7 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J27",
+   "side": "back",
+   "panel_label": "Sep Out 1 Right",
+   "what": "Separate output 1, right: tooltip 'Comp Out Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.473,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Comp Out Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J28",
+   "side": "back",
+   "panel_label": "Sep Out 2 Right",
+   "what": "Separate output 2, right: tooltip 'Drum 1 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.506,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 1 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J29",
+   "side": "back",
+   "panel_label": "Sep Out 3 Right",
+   "what": "Separate output 3, right: tooltip 'Drum 2 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.538,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 2 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J30",
+   "side": "back",
+   "panel_label": "Sep Out 4 Right",
+   "what": "Separate output 4, right: tooltip 'Drum 3 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.571,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 3 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J31",
+   "side": "back",
+   "panel_label": "Sep Out 5 Right",
+   "what": "Separate output 5, right: tooltip 'Drum 4 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.621,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 4 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J32",
+   "side": "back",
+   "panel_label": "Sep Out 6 Right",
+   "what": "Separate output 6, right: tooltip 'Drum 5 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.654,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 5 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J33",
+   "side": "back",
+   "panel_label": "Sep Out 7 Right",
+   "what": "Separate output 7, right: tooltip 'Drum 6 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.687,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 6 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J34",
+   "side": "back",
+   "panel_label": "Sep Out 8 Right",
+   "what": "Separate output 8, right: tooltip 'Drum 7 Right'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.719,
+    0.813
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Drum 7 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J17",
+   "side": "back",
+   "panel_label": "Main Out Left",
+   "what": "Main audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.829,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Old Tape: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-J18",
+   "side": "back",
+   "panel_label": "Main Out Right",
+   "what": "Main audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.862,
+    0.745
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Old Tape: Input R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-D01",
+   "side": "back",
+   "panel_label": "Name tape (back)",
+   "what": "Name tape on the back panel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.025,
+    0.448
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Old Tape\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RYTM-B-B01",
+   "side": "back",
+   "panel_label": "(triangle, back)",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    -0.018,
+    0.025
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  }
+ ]
+}

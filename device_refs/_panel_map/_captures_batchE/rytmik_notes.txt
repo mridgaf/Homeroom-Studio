@@ -1,0 +1,111 @@
+fold|(no tooltip: check by eye)
+patchdisp|Old Tape
+patchprev|Select previous patch
+patchnext|Select next patch
+folder|Browse patch
+disk|Save patch
+tape|Old Tape
+wave|(no tooltip in Reason: hovered 1.4 s)
+startmark|(no tooltip in Reason: hovered 1.4 s)
+endmark|(no tooltip in Reason: hovered 1.4 s)
+filterdisp|(no tooltip in Reason: hovered 1.4 s)
+samplearrowL|(no tooltip in Reason: hovered 1.4 s)
+samplename|(no tooltip in Reason: hovered 1.4 s)
+samplearrowR|(no tooltip in Reason: hovered 1.4 s)
+pan|(no tooltip in Reason: hovered 1.4 s)
+pitch|(no tooltip in Reason: hovered 1.4 s)
+fadein|(no tooltip in Reason: hovered 1.4 s)
+fadeout|(no tooltip in Reason: hovered 1.4 s)
+dist|(no tooltip in Reason: hovered 1.4 s)
+lowcut|(no tooltip in Reason: hovered 1.4 s)
+hicut|(no tooltip in Reason: hovered 1.4 s)
+d1delay|Drum 1 Delay Amount: -∞ dB
+d1reverb|Drum 1 Reverb Amount: -∞ dB
+d1m|Drum 1 Mute
+d1s|Drum 1 Solo
+d1fader|(no tooltip in Reason: hovered 1.6 s)
+d1pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d2delay|Drum 2 Delay Amount: -∞ dB
+d2reverb|Drum 2 Reverb Amount: -∞ dB
+d2m|Drum 2 Mute
+d2s|Drum 2 Solo
+d2fader|(no tooltip in Reason: hovered 1.6 s)
+d2pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d3delay|Drum 3 Delay Amount: -∞ dB
+d3reverb|Drum 3 Reverb Amount: -∞ dB
+d3m|Drum 3 Mute
+d3s|Drum 3 Solo
+d3fader|(no tooltip in Reason: hovered 1.6 s)
+d3pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d4delay|Drum 4 Delay Amount: -∞ dB
+d4reverb|Drum 4 Reverb Amount: -∞ dB
+d4m|Drum 4 Mute
+d4s|Drum 4 Solo
+d4fader|(no tooltip in Reason: hovered 1.6 s)
+d4pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d5delay|Drum 5 Delay Amount: -0.2 dB
+d5reverb|Drum 5 Reverb Amount: -11.6 dB
+d5m|Drum 5 Mute
+d5s|Drum 5 Solo
+d5fader|(no tooltip in Reason: hovered 1.6 s)
+d5pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d6delay|Drum 6 Delay Amount: -0.9 dB
+d6reverb|Drum 6 Reverb Amount: -20.6 dB
+d6m|Drum 6 Mute
+d6s|Drum 6 Solo
+d6fader|(no tooltip in Reason: hovered 1.6 s)
+d6pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d7delay|Drum 7 Delay Amount: 9.9 dB
+d7reverb|Drum 7 Reverb Amount: -34.5 dB
+d7m|Drum 7 Mute
+d7s|Drum 7 Solo
+d7fader|(no tooltip in Reason: hovered 1.6 s)
+d7pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+d8delay|Drum 8 Delay Amount: 7.1 dB
+d8reverb|Drum 8 Reverb Amount: -33.0 dB
+d8m|Drum 8 Mute
+d8s|Drum 8 Solo
+d8fader|(no tooltip in Reason: hovered 1.6 s)
+d8pad|(no tooltip in Reason: hovered 1.6 s); clicking it selects that drum for the sample section above (checked KICK->SNARE->KICK)
+mpitch|Master Pitch: 0 cent
+mreverb|Master Reverb: 0 %
+mfilter|Master Filter: 0 %
+mfader|(no tooltip in Reason: hovered 1.6 s)
+mpad|(no tooltip in Reason: hovered 1.6 s)
+BACK:
+gi1|Gate In 1
+gi2|Gate In 2
+gi3|Gate In 3
+gi4|Gate In 4
+gi5|Gate In 5
+gi6|Gate In 6
+gi7|Gate In 7
+gi8|Gate In 8
+go1|Gate Out 1
+go2|Gate Out 2
+go3|Gate Out 3
+go4|Gate Out 4
+go5|Gate Out 5
+go6|Gate Out 6
+go7|Gate Out 7
+go8|Gate Out 8
+sl1|Comp Out Left
+sl2|Drum 1 Left
+sl3|Drum 2 Left
+sl4|Drum 3 Left
+sl5|Drum 4 Left
+sl6|Drum 5 Left
+sl7|Drum 6 Left
+sl8|Drum 7 Left
+sr1|Comp Out Right
+sr2|Drum 1 Right
+sr3|Drum 2 Right
+sr4|Drum 3 Right
+sr5|Drum 4 Right
+sr6|Drum 5 Right
+sr7|Drum 6 Right
+sr8|Drum 7 Right
+mainL|Connected to Old Tape: Input L
+mainR|Connected to Old Tape: Input R
+tape|Old Tape
+fold|(no tooltip: check by eye)

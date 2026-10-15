@@ -1,0 +1,340 @@
+Bass/ Bit-99/120_C_1.aif
+Bass/ Bit-99/120_C_16a.aif
+Bass/ Bit-99/120_C_16b.aif
+Bass/ Bit-99/120_C_19.aif
+Bass/ Bit-99/120_C_58.aif
+Bass/ Bit-99/120_D_66.aif
+Bass/ Mini-Moog/101a100 Eb.aif
+Bass/ Mini-Moog/102a100 Bb.aif
+Bass/ Mini-Moog/103a100 Eb.aif
+Bass/ Mini-Moog/121b110 C.aif
+Bass/ Mini-Moog/122a100 Bb.aif
+Bass/ Mini-Moog/123a100 G#.aif
+Bass/ Mini-Moog/123b100 C.aif
+Bass/ Mini-Moog/138a100 A.aif
+Bass/ Mini-Moog/138b100 Ab.aif
+Bass/ Mini-Moog/143a100 G.aif
+Bass/ Mini-Moog/143b100 G#.aif
+Bass/ Mini-Moog/83a110 D.aif
+Bass/ Mini-Moog/83b110 D.aif
+Bass/ Mini-Moog/83d110 G.aif
+Bass/ Mini-Moog/86a100 F.aif
+Bass/ Mini-Moog/86b100 C.aif
+Bass/ Mini-Moog/86c100 A.aif
+Bass/ Mini-Moog/86d100 F.aif
+Bass/ Mini-Moog/89a100 A.aif
+Bass/ Mini-Moog/89b100 Db.aif
+Bass/ Mini-Moog/89c100 E.aif
+Bass/ Mini-Moog/89d100 A.aif
+Bass/ Mini-Moog/89e100 E.aif
+Bass/ Mini-Moog/90a100 C.aif
+Bass/ Mini-Moog/90b100 E.aif
+Bass/ Mini-Moog/90c100 G.aif
+Bass/ Mini-Moog/90e100 G.aif
+Bass/ Mini-Moog/93a100 G.aif
+Bass/ Mini-Moog/96a100 Ab.aif
+Bass/ Mini-Moog/99a100 G.aif
+Bass/ Mini-Moog/OSC1n2n3_E.aif
+Bass/ MKS-50/107a120 F.aif
+Bass/ MKS-50/109a120 C.aif
+Bass/ MKS-50/109a120 F.aif
+Bass/ MKS-50/109c120 A.aif
+Bass/ MKS-50/112a120 C.aif
+Bass/ MKS-50/112b120 E.aif
+Bass/ MKS-50/112c120 G.aif
+Bass/ MKS-50/112d120 C.aif
+Bass/ MKS-50/loadoffunloop 120 A.aif
+Bass/ MKS-50/machineslooped120 C.aif
+Bass/ Multi-Track/108a120 F.aif
+Bass/ Multi-Track/108b120 C.aif
+Bass/ Multi-Track/108c120 A.aif
+Bass/ Multi-Track/113a120 C.aif
+Bass/ Multi-Track/113b120 E.aif
+Bass/ Multi-Track/113c120 G.aif
+Bass/ Multi-Track/125a100 C.aif
+Bass/ Multi-Track/125b100 E.aif
+Bass/ Multi-Track/125c100 G.aif
+Bass/ Multi-Track/125d100 C.aif
+Bass/ Multi-Track/76a110 Eb.aif
+Bass/ Multi-Track/76b110 Bb.aif
+Bass/ Multi-Track/77a110 G.aif
+Bass/ Multi-Track/77b110 G.aif
+Bass/ Multi-Track/77c110 Bb.aif
+Bass/ Multi-Track/77d110 Bb.aif
+Bass/ Multi-Track/C120 A.aif
+Bass/ Multi-Track/C120_34_1 C.aif
+Bass/ Multi-Track/C120_34_2 A.aif
+Bass/ Multi-Track/C120_34_3 G.aif
+Bass/ Multi-Track/C120_A_34.aif
+Bass/ Multi-Track/C120_C_24.aif
+Bass/ Multi-Track/C120_C_41.aif
+Bass/ Multi-Track/C120_D_41.aif
+Bass/ Multi-Track/C120_E_24.aif
+Bass/ Multi-Track/C120_E_34.aif
+Bass/ Multi-Track/C120_G_24a.aif
+Bass/ Multi-Track/C120_G_24b.aif
+Bass/ Multi-Track/C120_G_34.aif
+Bass/060_YeahYeah_Bass Dm.aif
+Bass/067_RobotSuperfly_Bass Eb.aif
+Bass/070_Crazy_Bass Bm.aif
+Bass/070_Heaven_Bass 2 Ebm.aif
+Bass/070_Heaven_Bass 3 Ebm.aif
+Bass/070_Heaven_Bass Ebm.aif
+Bass/070_Ragamuffin_Bass Cm.aif
+Bass/078_EntireLife_Bass Abm.aif
+Bass/078_OldSound_ Bass 1 Ebm.aif
+Bass/078_OldSound_ Bass 2 Ebm.aif
+Bass/085_CanUFeelMe_Bass Ab.aif
+Bass/085_Change_Bass Eb.aif
+Bass/085_TropicRain_Bass Bbm.aif
+Bass/085_WhichWay_Jazz Bass Am.aif
+Bass/086_Everything_Bass Bbm.aif
+Bass/088_FeelingIt_Bass 2 Fm.aif
+Bass/088_FeelingIt_Synth Bass Fm.aif
+Bass/089_ASong_Bass Abm.aif
+Bass/089_Sdfg_Bass Em.aif
+Bass/090_Bounce_Bass F.aif
+Bass/090_Ridin_Bass E.aif
+Bass/091_Atcq_Bass Fm.aif
+Bass/095_Black Sand_Bass F.aif
+Bass/095_Saturday_Bass Fm.aif
+Bass/095_Saturday_Synth Bass Fm.aif
+Bass/095_Toto_Bass Cm.aif
+Bass/100_Award_Bass Cm.aif
+Bass/100_ThisSong_Bass Dm.aif
+Bass/101_Triplet_ Bass E.aif
+Bass/104_Waiting_Bass Dm.aif
+Bass/105_Aiyf_Bass Cm.aif
+Bass/110_Party_Bass Db.aif
+Bass/110_Party_Synth Bass Bb.aif
+Bass/1148__walkerbelm__shirty_C_nokey.wav
+Bass/117281__Ongitak__b2-dubstep-bass-3_F_140bpm.wav
+Bass/120_Creepin_Bass Cm.aif
+Bass/120_Fantasy_Bass F.aif
+Bass/120_Pump_Bass E.aif
+Bass/120_Subsine.wav
+Bass/125367__Electrobuz__dubstep-wobble-bass-3_D#_140bpm.wav
+Bass/128236__Ongitak__b7-dubstep-loops-3_C_140bpm.wav
+Bass/128254__shitefromaheight__1-bar-dubstep-bass-loop_Dm.wav
+Bass/131a100 Ab.aif
+Bass/131b100 C.aif
+Bass/131d100 Eb.aif
+Bass/132165__Ongitak__b11-dubstep-loops-1_Em_140bpm.wav
+Bass/133a100 Eb.aif
+Bass/133c100 Eb.aif
+Bass/133d100 Ab.aif
+Bass/140Bass_c7b8e6.wav
+Bass/159547__snapper4298__130-bass-loop-c2_D_130bpm.wav
+Bass/159551__snapper4298__wooden-bass_Am_130bpm.wav
+Bass/162257__kasa90__dubstep-wobble_C_140bpm.wav
+Bass/162331__kasa90__dubstep-wobble_Fm_120bpm.wav
+Bass/162910__kasa90__techno-dread_C_nokey.wav
+Bass/16445__kejkz__redub_F_150bpm.wav
+Bass/169880__tichec__bassguitar-loop1-c_C_120bpm.wav
+Bass/171266__frankum__trip-electro-base_C_nokey.wav
+Bass/176354__sakebeats__eminem-like-loop-with-bass_Gm_100bpm.wav
+Bass/179511__Clinthammer__clinthammermusic-gamerstep-bass-triplets_C_nokey_105bpm.wav
+Bass/179562__Clinthammer__clinthammermusic-ts-bass_A#_70bpm.wav
+Bass/1860__le-neko__basskar-1_C_nokey.wav
+Bass/189947__robinhood76__bass-loop-rock-eights-e_E_120bpm.wav
+Bass/192569__rokzroom__deep-bass_D#m.wav
+Bass/206172__billdancourtney__bass-01_C_nokey.wav
+Bass/207801__mikobuntu__funkdub_Am_140bpm.wav
+Bass/208514__frankum__kick-and-bass-techno-1_C_nokey.wav
+Bass/208516__frankum__kick-and-bass-techno-2_C_nokey.wav
+Bass/208519__frankum__bass-loving_C_nokey.wav
+Bass/208520__frankum__electro-pop-01-loop_C.wav
+Bass/233699__gulyas25__acid-jazz-loop-music-bed_Dm_70bpm.wav
+Bass/23566__djduppy__duppyhipfunk05_C_nokey_120bpm.wav
+Bass/238867__bronxio__bass-for-keops-4-bar_C_96bpm.wav
+Bass/239076__bronxio__bass-2-bar_C_110bpm.wav
+Bass/242849__Snapper4298__808_C_nokey_80bpm.wav
+Bass/250575__waveplaysfx__drumbeats-melodic-generic-synth-808-vibe_Am_100bpm.wav
+Bass/261094__orangefreesounds__bass-loop-bpm_A#m_135bpm.wav
+Bass/261218__Stereo-Surgeon__guns-in-the-parking-lot-bass-loop_Cm.wav
+Bass/262515__StereoSurgeon__soul-driver-bass-loop_D#.wav
+Bass/26985__raggaman__siel-bass_Cm_127bpm.wav
+Bass/31674__junggle__bass-loop-13_Dm.wav
+Bass/324609__MuSiCjUnK___Gm_80bpm.wav
+Bass/324943__Teacoma__psytrance-bass-drum-loop_F_130bpm.wav
+Bass/337533__levelclearer__bass222_Dm_130bpm.wav
+Bass/345554__anoesj__woody-industrial-bass-loop_D#_115bpm.wav
+Bass/362755__teacoma__minimal-dance-bass_Em_124bpm.wav
+Bass/37247__Paul.Joyce-Beatloaf__bass-8ths-sample_G_144bpm.wav
+Bass/391019__onderwish__deep-dark-bass-slide_A#.wav
+Bass/40848__Simon_Lacelle__hip-hop-bass-line_Dm.wav
+Bass/441533__elzozo__rocknroll-double-bass-loop_C_nokey.wav
+Bass/45984__torn-rugged-audio-35__space-bass-13_C_nokey_120bpm.wav
+Bass/474827__Matislav__train-locomotive-moog-sub37-loop_C_nokey.wav
+Bass/494701__Snapper4298__bass-guitar-strum-loop_G_145bpm.wav
+Bass/49746__Sub-d__bass-and-drum-loop_Dm_80bpm.wav
+Bass/505423__tyops__happy-and-groovy_C_nokey.wav
+Bass/506__twistedlemon__octguitar.wav
+Bass/518862__stixthule__bass-guitar-66701-105bpm_Em_105bpm.wav
+Bass/536488__jadis0x__piano-bass-melody-loop_Am_130bpm.wav
+Bass/545735__badoink__2-chord-bass-synth_D_120bpm.wav
+Bass/547636__cantonbecker__gnarly-filter-bass-4_Am_63bpm.wav
+Bass/550332__Waxvibe__cyberpunk-bass_F#m_115bpm.wav
+Bass/60181__juskiddink__cello-bass-strut-1_E_69bpm.wav
+Bass/60_Dream_Bass Ab.aif
+Bass/60_Drown_Bass Ebm.aif
+Bass/60_Story_Bass 1 C.aif
+Bass/60_Story_Bass 2 C.aif
+Bass/612062__SYNDRM__kick-bass-bassline-loop-g1-psytrance-vol3-syndrm_G_142bpm.wav
+Bass/621799__tkky__electric-bass-guitar-loop_A#m_75bpm.wav
+Bass/628762__deadrobotmusic__lil-80s-vibe-plucky-bass-g-minor_Cm_114bpm.wav
+Bass/683848__johnnie-holiday__analog-bass-melody_G_126bpm.wav
+Bass/685110__Snapper4298__let-the-bass-kick-loop-808_Dm_115bpm.wav
+Bass/69611__deleted_user_984625__mix0786bpm_Cm_86bpm.wav
+Bass/74 Bpm_Abm_CROWS_Bass.wav
+Bass/74 Bpm_Fm_MANNEQUIN_Bass Line Sub.wav
+Bass/77 Bpm_Cm_UNO_808.wav
+Bass/77 Bpm_Cm_UNO_Filtered 808.wav
+Bass/79 Bpm_Bbm_BAKER_Bass Hi.wav
+Bass/79 Bpm_Bbm_BAKER_Bass Lo.wav
+Bass/79 Bpm_Bbm_BAKER_Bass Stack.wav
+Bass/79 Bpm_Bbm_BAKER_Music Chop_No Bass.wav
+Bass/80_TR15 Sub Bass D.aif
+Bass/82 Bpm_Fm_ROT_Music Chop_No Bass.wav
+Bass/82 Bpm_Fm_ROT_Outtake_Bass Stack_Disco.wav
+Bass/82 Bpm_Fm_ROT_Outtake_Bass_Disco.wav
+Bass/82 Bpm_Fm_ROT_Outtake_Synth Bass_Disco.wav
+Bass/82 Bpm_Fm_ROT_Piano Bass.wav
+Bass/82 Bpm_Fm_ROT_Synth Bass.wav
+Bass/84 Bpm_Cm_DECEPT_Bass Stack.wav
+Bass/84 Bpm_Cm_DECEPT_Bass.wav
+Bass/84 Bpm_Cm_DECEPT_Guitar Bass Dbl.wav
+Bass/85_TR27 BassLine G.aif
+Bass/86 Bpm_Cm_CRAWL_Bass Sample Chop.wav
+Bass/86 Bpm_Cm_CRAWL_Bass Sample.wav
+Bass/86 Bpm_Cm_CRAWL_Music Chop_No Bass.wav
+Bass/87_TR23 BassLine C.aif
+Bass/88_TR01 BassLine Dm.aif
+Bass/88_TR22 Hella BassLine Am.aif
+Bass/89 Bpm_Cm_BLEECH_Bass Line Stack.wav
+Bass/89 Bpm_Cm_BLEECH_Bass.wav
+Bass/89 Bpm_Cm_BLEECH_Bass_Outtake.wav
+Bass/89 Bpm_Cm_BLEECH_Filtered_Bass_Outtake.wav
+Bass/90_TR04 BassLine Dm.aif
+Bass/90_TR05 BassLine Dm.aif
+Bass/90_TR12 BassLine Am.aif
+Bass/90_TR18 BassLine Dm.aif
+Bass/90_TR19 BassLine Dm.aif
+Bass/90_TR24 BassLine G.aif
+Bass/90_TR26 BassLine Dm.aif
+Bass/9201__harri__bassline-oh_Gm.wav
+Bass/92_TR17 Low Sub Bass A.aif
+Bass/93_TR20 BassLine D.aif
+Bass/95 Bpm_Cm_HWIP_1_Synth Bass Dbl Hi.wav
+Bass/95 Bpm_Cm_HWIP_1_Synth Bass Dbl.wav
+Bass/95 Bpm_Cm_HWIP_2_Synth Bass Dbl Hi.wav
+Bass/95 Bpm_Cm_HWIP_2_Synth Bass Dbl.wav
+Bass/95 Bpm_Cm_HWIP_Bass.wav
+Bass/analog-synth-bass-shot-sub-strike_C.wav
+Bass/Bass Machine (124 BPM).wav
+Bass/Bass Saw.wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (1).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (2).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (3).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (4).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (5).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (6).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (7).wav
+Bass/Basstraxx, 140, Ab/Basstraxx, 140, Ab, (8).wav
+Bass/Cymatics Gems Vol 4 - Death Race - 120 BPM C# Min Bass.wav
+Bass/Cymatics Gems Vol 6 - Toronto - 105 BPM A Min Bass.wav
+Bass/Cymatics Gems Vol 9 - Dead Presidents - 94 BPM F# Min Bass.wav
+Bass/Cymatics Gems Vol 9 - Dreamers - 86 BPM E Min Bass.wav
+Bass/Disease, 150, Eb6 (1).wav
+Bass/Disease, 150, Eb6 (2).wav
+Bass/Donk Bass.wav
+Bass/electro-bass-line-buzzy_C_nokey_125bpm.wav
+Bass/Failsafe-Clean, 130 E.wav
+Bass/Failsafe-Dirty, 130 E.wav
+Bass/FL_Bass_Loops_001_C#_140.wav
+Bass/FL_Bass_Loops_002_G#_140.wav
+Bass/FL_Bass_Loops_003_A#_140.wav
+Bass/FL_Bass_Loops_004_G#_140.wav
+Bass/FL_Bass_Loops_005_G#_140.wav
+Bass/FL_BC_175_Bass_Synth_Apex_Gm.wav
+Bass/FL_BC_175_Bass_Synth_Bombard_Dm.wav
+Bass/FL_BC_175_Bass_Synth_Crunch_F#m.wav
+Bass/FL_BC_175_Bass_Synth_Drama_Fm.wav
+Bass/FL_BC_175_Bass_Synth_Drill_Dm.wav
+Bass/FL_DW_150_Bass_Synth_Beats_Em.wav
+Bass/FL_DW_150_Bass_Synth_Deep_Am.wav
+Bass/FL_DW_150_Bass_Synth_Dirty_Dm.wav
+Bass/FL_DW_150_Bass_Synth_Frequency_Am.wav
+Bass/FL_DW_150_Bass_Synth_Gritty_Fm.wav
+Bass/FL_MP_80_Bass_Electric_Emulation_Cm.wav
+Bass/FL_MP_80_Bass_Electric_Organic_F#m.wav
+Bass/FL_MP_80_Bass_Electric_Springy_C#m.wav
+Bass/FL_MP_80_Bass_Synth_Analog_C#m.wav
+Bass/FL_MP_80_Bass_Synth_Bent_D#m.wav
+Bass/FL_MP_80_Bass_Synth_Boom_Dm.wav
+Bass/FL_MP_80_Bass_Synth_Chest_Bm.wav
+Bass/FL_MP_80_Bass_Synth_Deep_D#m.wav
+Bass/FL_MP_80_Bass_Synth_Drop_A#m.wav
+Bass/FL_PL_136_Bass_Synth_Heat_808_Bm.wav
+Bass/FL_PL_150_Bass_Synth_Sense_808_D.wav
+Bass/FL_TT_140_Bass_Synth_Boston_808_Gm.wav
+Bass/FL_TT_140_Bass_Synth_Detroit_808_Fm.wav
+Bass/FL_TT_145_Bass_Synth_Houston_808_F#m.wav
+Bass/FL_TT_145_Bass_Synth_Houston_Reese_F#m.wav
+Bass/FL_TT_153_Bass_Synth_Atlanta_808_C#m.wav
+Bass/FL_TT_153_Bass_Synth_Atlanta_Reese_C#m.wav
+Bass/Glassy Arp 01.wav
+Bass/Glassy Arp 02.wav
+Bass/Glassy Arp 03.wav
+Bass/GrimyGrimEstring_5d95a5.wav
+Bass/GrimyGrimTinWobble2_bee6c2.wav
+Bass/GrimyGrimTinWobble_ed9763.wav
+Bass/Happy hardcore bassline.wav
+Bass/looperman-l-0291301-0394053-m1-symphbass_B_110bpm.wav
+Bass/looperman-l-0920952-0074664-zipbass-mystic-riddim-bass_D_95bpm.wav
+Bass/looperman-l-1049870-0074976-voicy-bass-loop-by-emsound-hip-hop-bass_C_nokey_85bpm.wav
+Bass/looperman-l-1059144-0069536-ebaby8119-trap-bass_A#_140bpm.wav
+Bass/looperman-l-1200302-0072460-djole94hns-smooth-bass-for-beats_E_120bpm.wav
+Bass/looperman-l-1293351-0378332-expressing-anger-trap-bass_C_nokey_155bpm.wav
+Bass/looperman-l-3670291-0371508-west-coast-bass-trap-bass-synth_C_nokey_100bpm.wav
+Bass/looperman-l-3743420-0324657-these-808s_E_160bpm.wav
+Bass/looperman-l-4055111-0283383-eat-bass-part5_G#m_120bpm.wav
+Bass/looperman-l-5299620-0299288-liltecca-lilmosey-type-melody-part-4-trap-bass_Em_126bpm.wav
+Bass/looperman-l-6000702-0411362-brazilian-jazz-loop-jazz-bass-guitar_C_nokey_81bpm.wav
+Bass/looperman-l-7038121-0375020-wake-up-trap-bass_F_160bpm.wav
+Bass/Mangled Sub Bass.wav
+Bass/RamzGT-acidsynbass2_cd25e7.wav
+Bass/Ramzgt-bassclnLow2_1b54ce.wav
+Bass/Ramzgt-bassclnLow_a328fc.wav
+Bass/Ramzgt-basscmb2Grn_f70a4d.wav
+Bass/RamzGT-jp_deep_bass_02_25b33c.wav
+Bass/RamzGT-jp_deep_bass_04_5e4bea.wav
+Bass/RamzGT-jp_deep_bass_07_c11bc3.wav
+Bass/RamzGT-jp_deep_bass_08_69d0ea.wav
+Bass/Ramzgt-kaossBassComp_930ac9.wav
+Bass/RamzGT-micron-basshit_02_6c4d91.wav
+Bass/RamzGT-micron-basshit_04_1a3e5c.wav
+Bass/RamzGT-micron-basshit_05_acb00f.wav
+Bass/RamzGT-moog_bass02_9e382b.wav
+Bass/Ramzgt-nastyBasser_9cd688.wav
+Bass/RamzGT-waldorf_bass_2_11_5ef131.wav
+Bass/RamzGT-waldorf_bass_3_03_51052e.wav
+Bass/RamzGT-waldorf_bass_3_07_b32e91.wav
+Bass/RamzGT-waldorf_bass_3_09_315662.wav
+Bass/RamzGT-waldorf_bass_3_11_374203.wav
+Bass/RamzGT-waldorf_bass_3_12_4931f5.wav
+Bass/Sore Throat Bass.wav
+Bass/Starfish, 154, E (5).wav
+Bass/Starfish, 158, E (2).wav
+Bass/Starfish, 164, E (6).wav
+Bass/Starfish, 165, E (3).wav
+Bass/Starfish, 167, E (4).wav
+Bass/Starfish, 171, E (1).wav
+Bass/Timbre Bass.wav
+Bass/Triplet Music Box 01.wav
+Bass/Triplet Music Box 02.wav
+Bass/Triplet Music Box 03.wav
+Bass/Triplet Music Box 04.wav
+Bass/TubeWhacker Bass.wav
+Bass/UNISON_BASSLOOP_Drafts (172 BPM - Dm).wav
+Bass/UNISON_BASSLOOP_Starship (178 BPM - Cm).wav

@@ -1,0 +1,30 @@
+{
+"device": "RE 181 Mid/Side Audio Converter",
+"front": {
+"(left meter L input)": "no tooltip in Reason (hovered 1.3 s)",
+"(left meter R input)": "no tooltip in Reason (hovered 1.3 s)",
+"(left meter M output)": "no tooltip in Reason (hovered 1.3 s)",
+"(left meter S output)": "no tooltip in Reason (hovered 1.3 s)",
+"(right meter M input)": "no tooltip in Reason (hovered 1.3 s)",
+"(right meter S input)": "no tooltip in Reason (hovered 1.3 s)",
+"(right meter L output)": "no tooltip in Reason (hovered 1.3 s)",
+"(right meter R output)": "no tooltip in Reason (hovered 1.3 s)",
+"LISTEN Mid": "tooltip \"Listen input Mid only\"",
+"LISTEN Side": "tooltip \"Listen input Side only\"",
+"RE 181 MSC 1 tape": "no tooltip in Reason (hovered 1.3 s) (hovered at two spots)",
+"(left unit CHECK lights)": "no tooltip in Reason (hovered 1.3 s)",
+"(right unit CHECK lights)": "no tooltip in Reason (hovered 1.3 s)"
+},
+"back": {
+"Stereo In L": "tooltip \"Audio In Left\"",
+"Stereo In R": "tooltip \"Audio In Right\"",
+"M|S Out Mid": "tooltip \"Audio Out Mid\"",
+"M|S Out Side": "tooltip \"Audio Out Side\"",
+"M|S In Mid": "tooltip \"Audio In Mid\"",
+"M|S In Side": "tooltip \"Audio In Side\"",
+"Stereo Out L": "tooltip \"Connected to AB12AudOut 1: Audio Input Left\"",
+"Stereo Out R": "tooltip \"Connected to AB12AudOut 1: Audio Input Right\""
+},
+"views": {},
+"view_titles": {}
+}

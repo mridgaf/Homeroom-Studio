@@ -1,0 +1,1321 @@
+{
+ "device": "Elements Splitter",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "SPLT",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (AirRaid RE 'Elements Splitter 2', no Remote map); nearly all hovered; a few On/M/S buttons gave no tooltip (marked); a few CV jacks by neighbour pattern (marked)",
+ "controls": [
+  {
+   "code": "SPLT-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.026,
+    0.092
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B02",
+   "side": "front",
+   "panel_label": "BYPASS / ON / OFF",
+   "what": "3-way device switch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.056,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.457,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.2 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B03",
+   "side": "front",
+   "panel_label": "(patch prev arrow)",
+   "what": "Previous patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.128
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B04",
+   "side": "front",
+   "panel_label": "(patch next arrow)",
+   "what": "Next patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.54,
+    0.19
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B05",
+   "side": "front",
+   "panel_label": "(patch folder)",
+   "what": "Browse patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.565,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B06",
+   "side": "front",
+   "panel_label": "(patch disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.154
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-D02",
+   "side": "front",
+   "panel_label": "3-WAY SPLIT tape",
+   "what": "Patch name tape (vertical)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.023,
+    0.472
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"3-Way Split\" (seen on the back tape)",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K01",
+   "side": "front",
+   "panel_label": "LOW M/S",
+   "what": "low band mid/side balance",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.083,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Mid/Side: 100%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K02",
+   "side": "front",
+   "panel_label": "LOW PAN",
+   "what": "low band pan",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.152,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Pan: 0.00\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K03",
+   "side": "front",
+   "panel_label": "LOW VOL",
+   "what": "low band volume",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.221,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Volume: 0.00 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K05",
+   "side": "front",
+   "panel_label": "MID M/S",
+   "what": "mid band mid/side balance",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.427,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Mid/Side: 100%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K06",
+   "side": "front",
+   "panel_label": "MID PAN",
+   "what": "mid band pan",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.496,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Pan: 0.00\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K07",
+   "side": "front",
+   "panel_label": "MID VOL",
+   "what": "mid band volume",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.565,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Volume: 0.00 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K09",
+   "side": "front",
+   "panel_label": "HIGH M/S",
+   "what": "high band mid/side balance",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.773,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Mid/Side: 100%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K10",
+   "side": "front",
+   "panel_label": "HIGH PAN",
+   "what": "high band pan",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.842,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Pan: 0.00\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K11",
+   "side": "front",
+   "panel_label": "HIGH VOL",
+   "what": "high band volume",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.911,
+    0.656
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Volume: 0.00 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B07",
+   "side": "front",
+   "panel_label": "LOW On",
+   "what": "Low band on/off light-button",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.15,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip appeared (hovered at (540,448)); function by label",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.2 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B08",
+   "side": "front",
+   "panel_label": "LOW M",
+   "what": "Low band mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.177,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Band Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B09",
+   "side": "front",
+   "panel_label": "LOW S",
+   "what": "Low band solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.221,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Band Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B11",
+   "side": "front",
+   "panel_label": "MID M",
+   "what": "Mid band mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.491,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip appeared; function by label and by LOW/HIGH",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.2 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B12",
+   "side": "front",
+   "panel_label": "MID S",
+   "what": "Mid band solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.536,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip appeared; function by label and by LOW/HIGH",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.2 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B14",
+   "side": "front",
+   "panel_label": "HIGH On",
+   "what": "High band on/off light-button",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.838,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "no tooltip appeared; function by label",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.2 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B15",
+   "side": "front",
+   "panel_label": "HIGH M",
+   "what": "High band mute",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.865,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Band Mute\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B16",
+   "side": "front",
+   "panel_label": "HIGH S",
+   "what": "High band solo",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.908,
+    0.369
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Band Solo\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B10",
+   "side": "front",
+   "panel_label": "LO/MID 24dB",
+   "what": "Lo/Mid crossover 24 dB slope enable",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.291,
+    0.374
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo X-Over 24 dB Enable\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-D03",
+   "side": "front",
+   "panel_label": "LO/MID freq display",
+   "what": "Lo/Mid crossover frequency display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.325,
+    0.538
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo / Mid Display: 120.0 Hz\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K04",
+   "side": "front",
+   "panel_label": "LO/MID X-OVER",
+   "what": "Lo/Mid crossover frequency",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.325,
+    0.703
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo / Mid Crossover: 17%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-B13",
+   "side": "front",
+   "panel_label": "MID/HI 24dB",
+   "what": "Mid/Hi crossover 24 dB slope enable",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.637,
+    0.374
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi X-Over 24 dB Enable\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-D04",
+   "side": "front",
+   "panel_label": "MID/HI freq display",
+   "what": "Mid/Hi crossover frequency display",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.67,
+    0.538
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid / High Display: 2.00 kHz\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-F-K08",
+   "side": "front",
+   "panel_label": "MID/HI X-OVER",
+   "what": "Mid/Hi crossover frequency",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.67,
+    0.703
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid / Hi Crossover: 70%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K04",
+   "side": "back",
+   "panel_label": "Mid/Hi X-Over CV trim",
+   "what": "Amount for mid/high crossover CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.131,
+    0.518
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mid/Hi Band Crossover CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J12",
+   "side": "back",
+   "panel_label": "Mid/Hi X-Over CV In",
+   "what": "CV input: mid/high crossover",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.164,
+    0.518
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "not hovered separately: same group as a hovered neighbour; tooltip pattern assumed",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K08",
+   "side": "back",
+   "panel_label": "Lo/Mid X-Over CV trim",
+   "what": "Amount for lo/mid crossover CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.131,
+    0.713
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "not hovered separately: same group as a hovered neighbour; tooltip pattern assumed",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J20",
+   "side": "back",
+   "panel_label": "Lo/Mid X-Over CV In",
+   "what": "CV input: lo/mid crossover",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.164,
+    0.713
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo/Mid Band Crossover CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K01",
+   "side": "back",
+   "panel_label": "Lo M/S CV trim",
+   "what": "Amount for lo band M/S CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.266,
+    0.344
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Lo Mid/Side CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J05",
+   "side": "back",
+   "panel_label": "Lo M/S CV In",
+   "what": "CV input: lo band M/S",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.299,
+    0.344
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Mid/Side CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K05",
+   "side": "back",
+   "panel_label": "Lo Pan CV trim",
+   "what": "Amount for lo band Pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.266,
+    0.523
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Lo Pan CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J13",
+   "side": "back",
+   "panel_label": "Lo Pan CV In",
+   "what": "CV input: lo band Pan",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.299,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Pan CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K09",
+   "side": "back",
+   "panel_label": "Lo Vol CV trim",
+   "what": "Amount for lo band Vol CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.266,
+    0.703
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Lo Volume CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J21",
+   "side": "back",
+   "panel_label": "Lo Vol CV In",
+   "what": "CV input: lo band Vol",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.299,
+    0.703
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Volume CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K02",
+   "side": "back",
+   "panel_label": "Mid M/S CV trim",
+   "what": "Amount for mid band M/S CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.402,
+    0.344
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mid Mid/Side CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J06",
+   "side": "back",
+   "panel_label": "Mid M/S CV In",
+   "what": "CV input: mid band M/S",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.434,
+    0.344
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Mid/Side CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K06",
+   "side": "back",
+   "panel_label": "Mid Pan CV trim",
+   "what": "Amount for mid band Pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.402,
+    0.523
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mid Pan CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J14",
+   "side": "back",
+   "panel_label": "Mid Pan CV In",
+   "what": "CV input: mid band Pan",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.434,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Pan CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K10",
+   "side": "back",
+   "panel_label": "Mid Vol CV trim",
+   "what": "Amount for mid band Vol CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.402,
+    0.703
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mid Volume CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J22",
+   "side": "back",
+   "panel_label": "Mid Vol CV In",
+   "what": "CV input: mid band Vol",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.434,
+    0.703
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Volume CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K03",
+   "side": "back",
+   "panel_label": "Hi M/S CV trim",
+   "what": "Amount for hi band M/S CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.536,
+    0.344
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Hi Mid/Side CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J07",
+   "side": "back",
+   "panel_label": "Hi M/S CV In",
+   "what": "CV input: hi band M/S",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.569,
+    0.344
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Mid/Side CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K07",
+   "side": "back",
+   "panel_label": "Hi Pan CV trim",
+   "what": "Amount for hi band Pan CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.536,
+    0.523
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Hi Pan CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J15",
+   "side": "back",
+   "panel_label": "Hi Pan CV In",
+   "what": "CV input: hi band Pan",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.569,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Pan CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-K11",
+   "side": "back",
+   "panel_label": "Hi Vol CV trim",
+   "what": "Amount for hi band Vol CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.536,
+    0.703
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Hi Volume CV input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J23",
+   "side": "back",
+   "panel_label": "Hi Vol CV In",
+   "what": "CV input: hi band Vol",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.569,
+    0.703
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Volume CV input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-B02",
+   "side": "back",
+   "panel_label": "Sends -> X switch",
+   "what": "Routing switch (X->Band / Band->X)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.539,
+    0.154
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Routing (X->Band/Band->X)\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J01",
+   "side": "back",
+   "panel_label": "Hi Send L",
+   "what": "Hi band audio send, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.671,
+    0.149
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Band Audio Send L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J02",
+   "side": "back",
+   "panel_label": "Hi Send R",
+   "what": "Hi band audio send, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.704,
+    0.149
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Band Audio Send R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J03",
+   "side": "back",
+   "panel_label": "Hi Return L",
+   "what": "Hi band audio return, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.149
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Band Audio Return L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J04",
+   "side": "back",
+   "panel_label": "Hi Return R",
+   "what": "Hi band audio return, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.838,
+    0.149
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hi Band Audio Return R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J08",
+   "side": "back",
+   "panel_label": "Mid Send L",
+   "what": "Mid band audio send, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.671,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Band Audio Send L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J09",
+   "side": "back",
+   "panel_label": "Mid Send R",
+   "what": "Mid band audio send, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.704,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Band Audio Send R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J10",
+   "side": "back",
+   "panel_label": "Mid Return L",
+   "what": "Mid band audio return, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Band Audio Return L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J11",
+   "side": "back",
+   "panel_label": "Mid Return R",
+   "what": "Mid band audio return, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.838,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mid Band Audio Return R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J16",
+   "side": "back",
+   "panel_label": "Lo Send L",
+   "what": "Lo band audio send, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.671,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Band Audio Send L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J17",
+   "side": "back",
+   "panel_label": "Lo Send R",
+   "what": "Lo band audio send, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.704,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Band Audio Send R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J18",
+   "side": "back",
+   "panel_label": "Lo Return L",
+   "what": "Lo band audio return, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Band Audio Return L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J19",
+   "side": "back",
+   "panel_label": "Lo Return R",
+   "what": "Lo band audio return, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.838,
+    0.523
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Lo Band Audio Return R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J24",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.671,
+    0.713
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RPSpec 1: audio output main left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J25",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.704,
+    0.713
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RPSpec 1: audio output main right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J26",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.805,
+    0.713
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-J27",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.838,
+    0.713
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-D01",
+   "side": "back",
+   "panel_label": "3-WAY SPLIT tape (back)",
+   "what": "Patch name tape on the back",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.02,
+    0.472
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"3-Way Split\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SPLT-B-B01",
+   "side": "back",
+   "panel_label": "(triangle, back)",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    -0.016,
+    0.087
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.2 s)",
+   "view": "main panel"
+  }
+ ]
+}

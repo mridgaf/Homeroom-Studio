@@ -1,0 +1,32 @@
+{
+"device": "ID8 Instrument Device",
+"front": {
+"PITCH wheel": "tooltip \"Pitch Bend: 0\"",
+"MOD wheel": "tooltip \"Mod Wheel: 0\"",
+"(category up arrow)": "tooltip \"Select Previous Category\"",
+"(category down arrow)": "tooltip \"Select Next Category\"",
+"Category display": "no tooltip in Reason (hovered 1.5 s)",
+"SOUND LIST Grand": "no tooltip in Reason (hovered 1.5 s)",
+"SOUND LIST Upright": "no tooltip in Reason (hovered 1.5 s)",
+"SOUND LIST Dance": "no tooltip in Reason (hovered 1.5 s)",
+"SOUND LIST Vibes": "no tooltip in Reason (hovered 1.5 s)",
+"SOUND A button": "tooltip \"Sound A\"",
+"SOUND B button": "tooltip \"Sound B\"",
+"SOUND C button": "tooltip \"Sound C\"",
+"SOUND D button": "tooltip \"Sound D\"",
+"PARAMETER 1": "tooltip \"Parameter 1: 0\"",
+"PARAMETER 1 name": "no tooltip in Reason (hovered 1.5 s)",
+"PARAMETER 2": "tooltip \"Parameter 2: 0\"",
+"PARAMETER 2 name": "no tooltip in Reason (hovered 1.5 s)",
+"VOLUME": "tooltip \"Volume: 0.0 dB\"",
+"Patch name tape": "no tooltip in Reason (hovered 1.5 s)"
+},
+"back": {
+"Audio Out Left / Mono": "tooltip \"Connected to ID8 1: Input L\"",
+"Audio Out Right": "tooltip \"Connected to ID8 1: Input R\"",
+"Power switch (drawn)": "no tooltip in Reason (hovered 1.5 s)",
+"Name tape (back)": "no tooltip in Reason (hovered 1.5 s)"
+},
+"views": {},
+"view_titles": {}
+}

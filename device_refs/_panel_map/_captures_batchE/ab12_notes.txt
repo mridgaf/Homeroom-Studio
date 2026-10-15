@@ -1,0 +1,84 @@
+fold|(no tooltip: check by eye)
+tape|(no tooltip in Reason: hovered 2 s)
+modesel|Mode Select
+soften|Soften
+ab|(no tooltip in Reason: hovered 2 s)
+abknob|(no tooltip in Reason: hovered 2 s)
+ov1|(no tooltip in Reason: hovered 2 s)
+ov2|(no tooltip in Reason: hovered 2 s)
+knobA1|Volume [A1]: 0.00 dB
+dispA1|(no tooltip in Reason: hovered 2 s)
+btnA1|(no tooltip in Reason: hovered 2 s)
+knobA2|Volume [A2]: 0.00 dB
+dispA2|(no tooltip in Reason: hovered 2 s)
+btnA2|(no tooltip in Reason: hovered 2 s)
+knobA3|Volume [A3]: 0.00 dB
+dispA3|(no tooltip in Reason: hovered 2 s)
+btnA3|(no tooltip in Reason: hovered 2 s)
+knobA4|Volume [A4]: 0.00 dB
+dispA4|(no tooltip in Reason: hovered 2 s)
+btnA4|(no tooltip in Reason: hovered 2 s)
+knobA5|Volume [A5]: 0.00 dB
+dispA5|(no tooltip in Reason: hovered 2 s)
+btnA5|(no tooltip in Reason: hovered 2 s)
+knobA6|Volume [A6]: 0.00 dB
+dispA6|(no tooltip in Reason: hovered 2 s)
+btnA6|(no tooltip in Reason: hovered 2 s)
+knobB1|Volume [B1]: 0.00 dB
+dispB1|(no tooltip in Reason: hovered 2 s)
+btnB1|(no tooltip in Reason: hovered 2 s)
+knobB2|Volume [B2]: 0.00 dB
+dispB2|(no tooltip in Reason: hovered 2 s)
+btnB2|(no tooltip in Reason: hovered 2 s)
+knobB3|Volume [B3]: 0.00 dB
+dispB3|(no tooltip in Reason: hovered 2 s)
+btnB3|(no tooltip in Reason: hovered 2 s)
+knobB4|Volume [B4]: 0.00 dB
+dispB4|(no tooltip in Reason: hovered 2 s)
+btnB4|(no tooltip in Reason: hovered 2 s)
+knobB5|Volume [B5]: 0.00 dB
+dispB5|(no tooltip in Reason: hovered 2 s)
+btnB5|(no tooltip in Reason: hovered 2 s)
+knobB6|Volume [B6]: 0.00 dB
+dispB6|(no tooltip in Reason: hovered 2 s)
+btnB6|(no tooltip in Reason: hovered 2 s)
+BACK:
+LA1|Audio [A1] Output Left
+RA1|Audio [A1] Output Right
+LA2|Audio [A2] Output Left
+RA2|Audio [A2] Output Right
+LA3|Audio [A3] Output Left
+RA3|Audio [A3] Output Right
+LA4|Audio [A4] Output Left
+RA4|Audio [A4] Output Right
+LA5|Audio [A5] Output Left
+RA5|Audio [A5] Output Right
+LA6|Audio [A6] Output Left
+RA6|Audio [A6] Output Right
+LB1|Audio [B1] Output Left
+RB1|Audio [B1] Output Right
+LB2|Audio [B2] Output Left
+RB2|Audio [B2] Output Right
+LB3|Audio [B3] Output Left
+RB3|Audio [B3] Output Right
+LB4|Audio [B4] Output Left
+RB4|Audio [B4] Output Right
+LB5|Audio [B5] Output Left
+RB5|Audio [B5] Output Right
+LB6|Audio [B6] Output Left
+RB6|Audio [B6] Output Right
+giA1|Gate In [A1]
+goA1|Gate Out [A1]
+giB1|Gate In [B1]
+goB1|Gate Out [B1]
+mainL|Audio Input Left
+mainR|Audio Input Right
+cvsingle|CV in Switch State (single)
+kbd|Keyboard (Single)
+vcf|Volume Change Filter
+cvbank|CV in
+bankmap|Bank CV Mapping: Bipolar
+qr|(no tooltip in Reason: hovered 1.2 s)
+power|(no tooltip in Reason: hovered 1.2 s)
+tape|(no tooltip in Reason: hovered 1.2 s)
+fold|(no tooltip: check by eye)

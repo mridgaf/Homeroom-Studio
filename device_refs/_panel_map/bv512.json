@@ -1,0 +1,1393 @@
+{
+ "device": "BV512 Digital Vocoder",
+ "remote_scope": "none in our remotemap; names from remote-vocab.json 'BV512 Digital Vocoder'",
+ "code_prefix": "BV51",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15; every position hovered in Reason (fold arrows, meters, display, small light, back icons: no tooltip). No Scope block in our remotemap, so no knob slots/CC; names from remote-vocab.json. Only 16 of the 32 Remote band levels are on the panel",
+ "controls": [
+  {
+   "code": "BV51-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.02,
+    0.067
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-B02",
+   "side": "front",
+   "panel_label": "BYPASS / ON / OFF switch",
+   "what": "3-way device switch",
+   "reason_name": "Enabled",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.08,
+    0.135
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K01",
+   "side": "front",
+   "panel_label": "BAND COUNT knob (FFT / 32 / 16 / 8 / 4 band)",
+   "what": "Number of vocoder bands",
+   "reason_name": "Band Count",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.298,
+    0.285
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band Count\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K04",
+   "side": "front",
+   "panel_label": "VOCODER / EQUALIZER knob",
+   "what": "Vocoder or equalizer mode",
+   "reason_name": "Vocoder/Equalizer",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.298,
+    0.632
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Vocoder/Equalizer'; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Vocoder/Equalizer\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-D03",
+   "side": "front",
+   "panel_label": "C meter",
+   "what": "Carrier level meter",
+   "reason_name": "Source Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.163,
+    0.518
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "name picked by label (C = carrier); NOT proven. our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-D04",
+   "side": "front",
+   "panel_label": "M meter",
+   "what": "Modulator level meter",
+   "reason_name": "Modulator Peak Meter",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.182,
+    0.518
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "name picked by label (M = modulator); NOT proven. our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-D01",
+   "side": "front",
+   "panel_label": "MODULATION LEVELS display",
+   "what": "Modulation levels display (top half of the screen)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.52,
+    0.233
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S01",
+   "side": "front",
+   "panel_label": "BAND 1 LEVEL slider",
+   "what": "Frequency band level adjust, band 1 (hover the handle)",
+   "reason_name": "Band Level 1",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.414,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 1 Level' (Remote name is 'Band Level 1'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 1 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S02",
+   "side": "front",
+   "panel_label": "BAND 2 LEVEL slider",
+   "what": "Frequency band level adjust, band 2 (hover the handle)",
+   "reason_name": "Band Level 2",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.431,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 2 Level' (Remote name is 'Band Level 2'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 2 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S03",
+   "side": "front",
+   "panel_label": "BAND 3 LEVEL slider",
+   "what": "Frequency band level adjust, band 3 (hover the handle)",
+   "reason_name": "Band Level 3",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.447,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 3 Level' (Remote name is 'Band Level 3'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 3 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S04",
+   "side": "front",
+   "panel_label": "BAND 4 LEVEL slider",
+   "what": "Frequency band level adjust, band 4 (hover the handle)",
+   "reason_name": "Band Level 4",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.464,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 4 Level' (Remote name is 'Band Level 4'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 4 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S05",
+   "side": "front",
+   "panel_label": "BAND 5 LEVEL slider",
+   "what": "Frequency band level adjust, band 5 (hover the handle)",
+   "reason_name": "Band Level 5",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.48,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 5 Level' (Remote name is 'Band Level 5'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 5 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S06",
+   "side": "front",
+   "panel_label": "BAND 6 LEVEL slider",
+   "what": "Frequency band level adjust, band 6 (hover the handle)",
+   "reason_name": "Band Level 6",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.496,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 6 Level' (Remote name is 'Band Level 6'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 6 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S07",
+   "side": "front",
+   "panel_label": "BAND 7 LEVEL slider",
+   "what": "Frequency band level adjust, band 7 (hover the handle)",
+   "reason_name": "Band Level 7",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.512,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 7 Level' (Remote name is 'Band Level 7'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 7 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S08",
+   "side": "front",
+   "panel_label": "BAND 8 LEVEL slider",
+   "what": "Frequency band level adjust, band 8 (hover the handle)",
+   "reason_name": "Band Level 8",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.528,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 8 Level' (Remote name is 'Band Level 8'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 8 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S09",
+   "side": "front",
+   "panel_label": "BAND 9 LEVEL slider",
+   "what": "Frequency band level adjust, band 9 (hover the handle)",
+   "reason_name": "Band Level 9",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.545,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 9 Level' (Remote name is 'Band Level 9'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 9 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S10",
+   "side": "front",
+   "panel_label": "BAND 10 LEVEL slider",
+   "what": "Frequency band level adjust, band 10 (hover the handle)",
+   "reason_name": "Band Level 10",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.561,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 10 Level' (Remote name is 'Band Level 10'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 10 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S11",
+   "side": "front",
+   "panel_label": "BAND 11 LEVEL slider",
+   "what": "Frequency band level adjust, band 11 (hover the handle)",
+   "reason_name": "Band Level 11",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.577,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 11 Level' (Remote name is 'Band Level 11'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 11 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S12",
+   "side": "front",
+   "panel_label": "BAND 12 LEVEL slider",
+   "what": "Frequency band level adjust, band 12 (hover the handle)",
+   "reason_name": "Band Level 12",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.593,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 12 Level' (Remote name is 'Band Level 12'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 12 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S13",
+   "side": "front",
+   "panel_label": "BAND 13 LEVEL slider",
+   "what": "Frequency band level adjust, band 13 (hover the handle)",
+   "reason_name": "Band Level 13",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.609,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 13 Level' (Remote name is 'Band Level 13'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 13 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S14",
+   "side": "front",
+   "panel_label": "BAND 14 LEVEL slider",
+   "what": "Frequency band level adjust, band 14 (hover the handle)",
+   "reason_name": "Band Level 14",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.626,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 14 Level' (Remote name is 'Band Level 14'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 14 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S15",
+   "side": "front",
+   "panel_label": "BAND 15 LEVEL slider",
+   "what": "Frequency band level adjust, band 15 (hover the handle)",
+   "reason_name": "Band Level 15",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.642,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 15 Level' (Remote name is 'Band Level 15'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 15 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-S16",
+   "side": "front",
+   "panel_label": "BAND 16 LEVEL slider",
+   "what": "Frequency band level adjust, band 16 (hover the handle)",
+   "reason_name": "Band Level 16",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.658,
+    0.679
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip is 'Band 16 Level' (Remote name is 'Band Level 16'); slider: hover the handle; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Band 16 Level\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-B03",
+   "side": "front",
+   "panel_label": "HOLD",
+   "what": "Hold button",
+   "reason_name": "Hold",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.736,
+    0.197
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Hold\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K02",
+   "side": "front",
+   "panel_label": "ATTACK",
+   "what": "Attack",
+   "reason_name": "Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.814,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Attack: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K03",
+   "side": "front",
+   "panel_label": "DECAY",
+   "what": "Decay",
+   "reason_name": "Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.877,
+    0.264
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Decay: 30\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-D05",
+   "side": "front",
+   "panel_label": "(light above SHIFT)",
+   "what": "Small red light above SHIFT (purpose not verified)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.737,
+    0.492
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K05",
+   "side": "front",
+   "panel_label": "SHIFT",
+   "what": "Formant shift",
+   "reason_name": "Shift",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.737,
+    0.674
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Shift: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K06",
+   "side": "front",
+   "panel_label": "HF EMPH",
+   "what": "High-frequency emphasis",
+   "reason_name": "HF Emphasis",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.814,
+    0.674
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"HF Emphasis: 64\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-K07",
+   "side": "front",
+   "panel_label": "DRY/WET",
+   "what": "Dry/wet mix",
+   "reason_name": "Dry/Wet",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.877,
+    0.674
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Dry/Wet: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-F-D02",
+   "side": "front",
+   "panel_label": "VOCODER 1 tape",
+   "what": "Device name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.492
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; tooltip shows the rack name; our remotemap has no Scope block for BV512 (no knob slot / CC); name is a Remote item from remote-vocab.json",
+   "checked_2026_10_07": "tooltip \"Vocoder 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J01",
+   "side": "back",
+   "panel_label": "Band 1 CV Out",
+   "what": "CV output: band 1 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.121,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 1 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J02",
+   "side": "back",
+   "panel_label": "Band 2 CV Out",
+   "what": "CV output: band 2 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.145,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 2 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J03",
+   "side": "back",
+   "panel_label": "Band 3 CV Out",
+   "what": "CV output: band 3 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.169,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 3 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J04",
+   "side": "back",
+   "panel_label": "Band 4 CV Out",
+   "what": "CV output: band 4 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.192,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 4 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J05",
+   "side": "back",
+   "panel_label": "Band 5 CV Out",
+   "what": "CV output: band 5 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.216,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 5 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J06",
+   "side": "back",
+   "panel_label": "Band 6 CV Out",
+   "what": "CV output: band 6 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.24,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 6 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J07",
+   "side": "back",
+   "panel_label": "Band 7 CV Out",
+   "what": "CV output: band 7 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.264,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 7 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J08",
+   "side": "back",
+   "panel_label": "Band 8 CV Out",
+   "what": "CV output: band 8 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.287,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 8 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J09",
+   "side": "back",
+   "panel_label": "Band 9 CV Out",
+   "what": "CV output: band 9 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.311,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 9 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J10",
+   "side": "back",
+   "panel_label": "Band 10 CV Out",
+   "what": "CV output: band 10 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.335,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 10 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J11",
+   "side": "back",
+   "panel_label": "Band 11 CV Out",
+   "what": "CV output: band 11 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.358,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 11 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J12",
+   "side": "back",
+   "panel_label": "Band 12 CV Out",
+   "what": "CV output: band 12 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.382,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 12 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J13",
+   "side": "back",
+   "panel_label": "Band 13 CV Out",
+   "what": "CV output: band 13 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.406,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 13 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J14",
+   "side": "back",
+   "panel_label": "Band 14 CV Out",
+   "what": "CV output: band 14 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.429,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 14 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J15",
+   "side": "back",
+   "panel_label": "Band 15 CV Out",
+   "what": "CV output: band 15 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.453,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 15 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J16",
+   "side": "back",
+   "panel_label": "Band 16 CV Out",
+   "what": "CV output: band 16 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.477,
+    0.311
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 16 CV Out\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J21",
+   "side": "back",
+   "panel_label": "Band 1 CV In",
+   "what": "CV input: band 1 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.121,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 1 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J22",
+   "side": "back",
+   "panel_label": "Band 2 CV In",
+   "what": "CV input: band 2 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.145,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 2 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J23",
+   "side": "back",
+   "panel_label": "Band 3 CV In",
+   "what": "CV input: band 3 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.169,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 3 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J24",
+   "side": "back",
+   "panel_label": "Band 4 CV In",
+   "what": "CV input: band 4 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.192,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 4 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J25",
+   "side": "back",
+   "panel_label": "Band 5 CV In",
+   "what": "CV input: band 5 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.216,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 5 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J26",
+   "side": "back",
+   "panel_label": "Band 6 CV In",
+   "what": "CV input: band 6 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.24,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 6 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J27",
+   "side": "back",
+   "panel_label": "Band 7 CV In",
+   "what": "CV input: band 7 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.264,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 7 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J28",
+   "side": "back",
+   "panel_label": "Band 8 CV In",
+   "what": "CV input: band 8 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.287,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 8 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J29",
+   "side": "back",
+   "panel_label": "Band 9 CV In",
+   "what": "CV input: band 9 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.311,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 9 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J30",
+   "side": "back",
+   "panel_label": "Band 10 CV In",
+   "what": "CV input: band 10 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.335,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 10 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J31",
+   "side": "back",
+   "panel_label": "Band 11 CV In",
+   "what": "CV input: band 11 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.358,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 11 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J32",
+   "side": "back",
+   "panel_label": "Band 12 CV In",
+   "what": "CV input: band 12 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.382,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 12 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J33",
+   "side": "back",
+   "panel_label": "Band 13 CV In",
+   "what": "CV input: band 13 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.406,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 13 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J34",
+   "side": "back",
+   "panel_label": "Band 14 CV In",
+   "what": "CV input: band 14 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.429,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 14 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J35",
+   "side": "back",
+   "panel_label": "Band 15 CV In",
+   "what": "CV input: band 15 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.453,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 15 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J36",
+   "side": "back",
+   "panel_label": "Band 16 CV In",
+   "what": "CV input: band 16 level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.477,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Band 16 CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J17",
+   "side": "back",
+   "panel_label": "Shift CV In",
+   "what": "CV input: shift",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.558,
+    0.233
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Shift CV\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-K01",
+   "side": "back",
+   "panel_label": "Shift CV trim",
+   "what": "Amount for shift CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.556,
+    0.513
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Shift CV: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J18",
+   "side": "back",
+   "panel_label": "Carrier In Left",
+   "what": "Carrier audio input, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.612,
+    0.275
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to ID8 1: Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J19",
+   "side": "back",
+   "panel_label": "Carrier In Right",
+   "what": "Carrier audio input, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.667,
+    0.254
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to ID8 1: Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J20",
+   "side": "back",
+   "panel_label": "Hold In",
+   "what": "Hold input",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.755,
+    0.233
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Hold Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J37",
+   "side": "back",
+   "panel_label": "Modulator In",
+   "what": "Modulator audio input",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.755,
+    0.513
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Modulator Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J38",
+   "side": "back",
+   "panel_label": "Audio Out Left",
+   "what": "Audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.614,
+    0.777
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to ID8 1: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-J39",
+   "side": "back",
+   "panel_label": "Audio Out Right",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.667,
+    0.777
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to ID8 1: Input R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-B01",
+   "side": "back",
+   "panel_label": "(triangle, back)",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.028,
+    0.155
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-D03",
+   "side": "back",
+   "panel_label": "VOCODER 1 tape (back)",
+   "what": "Device name tape",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.027,
+    0.492
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Vocoder 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-D01",
+   "side": "back",
+   "panel_label": "(icon, back top)",
+   "what": "Small icon at the top left of the back (purpose not verified)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.061,
+    0.254
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "BV51-B-D02",
+   "side": "back",
+   "panel_label": "(icon, back lower)",
+   "what": "Small icon at the left of the back (purpose not verified)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.061,
+    0.373
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.4 s)",
+   "view": "main panel"
+  }
+ ]
+}

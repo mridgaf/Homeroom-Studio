@@ -1,0 +1,280 @@
+Chords/067_RobotSuperfly_Piano Eb.aif
+Chords/070_Heaven_Elec Piano Ebm.aif
+Chords/075_MoveOn_Elec Piano 2 Bm.aif
+Chords/075_MoveOn_Elec Piano Bm.aif
+Chords/085_Change_EPiano_01 Fm.aif
+Chords/085_Change_EPiano_03 Fm.aif
+Chords/086_Everything_Elec Piano~6.aif
+Chords/086_Everything_Piano Bbm.aif
+Chords/088_FeelingIt_Slow Pad Fm.aif
+Chords/089_Mellow_Elec Piano Fm.aif
+Chords/089_Sdfg_Dark Pad Em.aif
+Chords/090_Ridin_Bottle Pad EMaj.aif
+Chords/091_Atcq_Elec Piano Fm.aif
+Chords/095_Toto_Bubble Pad Cm.aif
+Chords/100_Hype_Pad Fm.aif
+Chords/100_ThisSong_Elec Piano Dm.aif
+Chords/100_TR03 E.Piano Dm.aif
+Chords/105_Aiyf_Elec Piano Bb.aif
+Chords/105_Aiyf_Piano Bb.aif
+Chords/110_Party_Pad Bb.aif
+Chords/120991__Thirsk__horror-strings-2_C_nokey_120bpm.wav
+Chords/120992__thirsk__horror-strings_A#.wav
+Chords/120_Fantasy_Piano DbMaj.aif
+Chords/120_lotus_F#_piano.aif
+Chords/121019__Thirsk__cello-loop-2_D#m_128bpm.wav
+Chords/121040__Thirsk__pizzicati-strings-loop_Am.wav
+Chords/125_fallen_C_piano.aif
+Chords/1275__plagasul__acordeado_C.wav
+Chords/131617__dwsd__ghostchord_Cm_128bpm.wav
+Chords/132909__shitefromaheight__pianostrings-8-bar-1_C_140bpm.wav
+Chords/132910__shitefromaheight__strings-8-bar-1_D_140bpm.wav
+Chords/140_sudated_F_piano.aif
+Chords/140Pad_f0005d.wav
+Chords/151006__khoon__rhythm-1-dist-gated_Bm_95bpm.wav
+Chords/151007__khoon__rhythm-1-dist_Bm_95bpm.wav
+Chords/151009__khoon__rhythm-1-clean_Bm_95bpm.wav
+Chords/159423__arseniiv__strings-loop-am-e_Am.wav
+Chords/185347__benpm__symphony-sounds_G#m.wav
+Chords/209808__deleted_user_2968900__hip-hop-strings_Dm_145bpm.wav
+Chords/220564__BEATMATCH_info__deep-house-chord_Dm_128bpm.wav
+Chords/220579__beatmatch-info__endless-detroit-chord_Dm_126bpm.wav
+Chords/220585__beatmatch-info__funky-house-chord_A#m_127bpm.wav
+Chords/220608__beatmatch-info__techno-chord-sequence_C_nokey_132bpm.wav
+Chords/238672__Bronxio__afro-chords-loop-esg-ufo-2-bar-bpm_G#_100bpm.wav
+Chords/250856__joshuaempyre__epic-orchestra-loop_C_nokey.wav
+Chords/252800__oymaldonado__movie-score-loop-classical-music-part-2_C_nokey.wav
+Chords/257230__javierzumer__charging-loop-3_C.wav
+Chords/25919__suonho__funkysynth-chord-wheel-wha_C_nokey_87bpm.wav
+Chords/262441__xinematix__natural-strings-chord-progression-am_Am_120bpm.wav
+Chords/30188__ERH__cello-1-loop_Cm_120bpm.wav
+Chords/30190__ERH__cello-6-loop_Fm_120bpm.wav
+Chords/30191__erh__cello14-loop_D#_120bpm.wav
+Chords/32158__zin__piano_2_140bpm.wav
+Chords/329855__orangefreesounds__jazz-chords-piano-loop_C_nokey_120bpm.wav
+Chords/339459__levelclearer__nostromo17_A#_65bpm.wav
+Chords/345515__furbyguy__strings-piano_Em_128bpm.wav
+Chords/346771__InspectorJ__calm-synthesizer-a_C_nokey.wav
+Chords/365188__furbyguy__dark-orchestral-piece_C_nokey.wav
+Chords/368707__d_a_g_a_z__bass-pad_D.wav
+Chords/394774__devern__nice-synth-chords-loop_Dm.wav
+Chords/39557__jus__cellos-three-chords_C#m.wav
+Chords/39665__jus__cellos-two-chords_E_88bpm.wav
+Chords/406809__deep-into-perspectives__deepbassloop80bpm_Cm_80bpm.wav
+Chords/415597__twinfang__slow-piano-chords-with-high-notes_B_100bpm.wav
+Chords/41618__jus__cellos-down-down_C#.wav
+Chords/41989__digifishmusic__flamenco-loop-6_G#.wav
+Chords/435449__devern__piano-and-cello-loop_F.wav
+Chords/449769__rutgermuller__detuned_piano_random_5_eery_loop.wav
+Chords/4500__dobroide__mixviolinloop_C_88bpm.wav
+Chords/469283__matt141141__cm7-dm7-loop_F_115bpm.wav
+Chords/48542__Flick3r__rezzo-2_A#_140bpm.wav
+Chords/48546__asdftekno__mypad1_C_70bpm.wav
+Chords/487692__nicknamelarry__2-creepy-chords-detuned.wav
+Chords/491284__xinematix__emotional-piano-001-d_D_90bpm.wav
+Chords/494958__xinematix__emotional-piano-007-a_A_100bpm.wav
+Chords/514446__danlucaz__rock-loop-1_F.wav
+Chords/530293__nnaudio__sad-hip-hop-piano-keys-amin_Am_75bpm.wav
+Chords/540671__nnaudio__dead-roses-pad-csmin_C#m_140bpm.wav
+Chords/540675__nnaudio__vibey-dark-synth-chords-fsmin_F#m_127bpm.wav
+Chords/547963__johnnie_holiday__cinematic-suspence-violoncelo_Bm_100bpm.wav
+Chords/557215__idlechild__orient-chord-stab-e-minor_Em_125bpm.wav
+Chords/557216__idlechild__organ-chord-f-major-or-d-minor_F_125bpm.wav
+Chords/559979__nnaudio__4pf-dark-piano-chords-csm-trnd-setter-pack_C#m_142bpm.wav
+Chords/566346__jackie-makes-noiz__piandolin-chord-progression-detuned-original_100bpm.wav
+Chords/570289__nnaudio__spacey-dark-pad-chords-emin-new-nation_Em_130bpm.wav
+Chords/60_Drown_Pad F Mod.aif
+Chords/60_TR11 Low Piano Chord Dm.aif
+Chords/627624__deadrobotmusic__lofi-rnb-beachy-guitar-chords-f-sharp-major_F_108bpm.wav
+Chords/629159__holizna__spacey-lofi-chord-hits-loop_D#_99bpm.wav
+Chords/629167__holizna__lofi-e-piano-loop_C_nokey_95bpm.wav
+Chords/629171__holizna__lofi-piano-loop-gmaj_G_90bpm.wav
+Chords/629172__holizna__lofi-piano-loop-with-vibes_F_88bpm.wav
+Chords/629173__holizna__lofi-piano-loop-cmaj_C_70bpm.wav
+Chords/629176__holizna__lofi-vinyl-e-piano-loop_C_nokey_95bpm.wav
+Chords/631776__tyops__documentary-music-strings_C_nokey.wav
+Chords/641693__TheFlyFishingFilmmaker__bluesy-violin-repeating-lick_Am.wav
+Chords/662606__jauer13__wavy-spacey-digital-synth-loop-bpm85_G_85bpm.wav
+Chords/68132__raaghav81__acc-gtr-rtm-chrds-cfgam-112bpm_C_112bpm.wav
+Chords/685390__MathewHenry__action-music-loop-1-desert-storm_C_nokey.wav
+Chords/688361__digitalunderglow__melody_98bpm_Gm_warped-piano.wav
+Chords/74 Bpm_Fm_MANNEQUIN_Piano Ostinato.wav
+Chords/77 Bpm_Cm_UNO_Piano Hi.wav
+Chords/77 Bpm_Cm_UNO_Piano Lo.wav
+Chords/77 Bpm_Cm_UNO_Piano.wav
+Chords/77 Bpm_Cm_UNO_Piano_Outtake.wav
+Chords/77 Bpm_Cm_UNO_Rev Piano_Outtake.wav
+Chords/79 Bpm_Bbm_BAKER_Underwater Piano.wav
+Chords/794561__scruzmusic__casio-ethereal-chord-loop_Em_140bpm.wav
+Chords/794562__scruzmusic__darkness-ethereal-chord-loop_Dm_142bpm.wav
+Chords/794563__scruzmusic__sirens-synthy-chord-loop_Cm_140bpm.wav
+Chords/82 Bpm_Fm_ROT_Piano Chords.wav
+Chords/84 Bpm_Cm_DECEPT_AltEndPiano Hi.wav
+Chords/84 Bpm_Cm_DECEPT_AltEndPiano Lo.wav
+Chords/84 Bpm_Cm_DECEPT_AltEndPianos.wav
+Chords/84 Bpm_Cm_DECEPT_Outtake_ 2_Piano.wav
+Chords/84 Bpm_Cm_DECEPT_Piano Hi.wav
+Chords/84 Bpm_Cm_DECEPT_Piano Lo.wav
+Chords/84 Bpm_Cm_DECEPT_Piano Sketch.wav
+Chords/84 Bpm_Cm_DECEPT_Piano_Idea_Outtake.wav
+Chords/84 Bpm_Cm_DECEPT_Pianos.wav
+Chords/85_Change_EPiano_02 Ebm Mod.aif
+Chords/86 Bpm_Cm_CRAWL_Piano.wav
+Chords/89 Bpm_Cm_BLEECH_2_Piano.wav
+Chords/89 Bpm_Cm_BLEECH_Chords Feed_Outtake.wav
+Chords/89 Bpm_Cm_BLEECH_Piano.wav
+Chords/89651__zgump__organ-loop_Bm.wav
+Chords/90_TR05 Chord Hit 1 Dm.aif
+Chords/90_TR05 Chord Hit 2 Dm.aif
+Chords/93_TR20 Piano Dm.aif
+Chords/95 Bpm_Cm_HWIP_Brass Chords.wav
+Chords/95 Bpm_Cm_HWIP_Piano Sketch.wav
+Chords/BIZKEL Piano Loop City Cloud 50bpm.wav
+Chords/BIZKEL Piano Loop Izo 88bpm.wav
+Chords/BIZKEL Piano Loop No Fugazi 72bpm.wav
+Chords/BIZKEL Piano Loop Roast It 91bpm.wav
+Chords/BIZKEL Piano Loop Til Then 99bpm.wav
+Chords/BIZKEL Piano Loop Tuuv 85bpm.wav
+Chords/Cymatics - Eternity E Piano 1 - 80 BPM D Maj.wav
+Chords/Cymatics - Eternity E Piano 2 - 82 BPM B Min.wav
+Chords/Cymatics Gems Vol 2 - Memories - 79 BPM C Maj Piano.wav
+Chords/Cymatics Gems Vol 3 - Homecoming - 140 BPM G Min Keys.wav
+Chords/Cymatics Gems Vol 6 - Confessions - 105 BPM A Min Chords.wav
+Chords/Cymatics Gems Vol 6 - Toronto - 105 BPM A Min Piano.wav
+Chords/Cymatics Gems Vol 7 - Projectile - 142 BPM F# Min Piano.wav
+Chords/Cymatics Gems Vol 9 - Dead Presidents - 94 BPM F# Min Piano.wav
+Chords/Cymatics Gems Vol 9 - Dreamers - 86 BPM E Min Piano.wav
+Chords/FL_BC_175_Synth_Pad_Bent_Dm.wav
+Chords/FL_BC_175_Synth_Pad_Bubbly_Em.wav
+Chords/FL_BC_175_Synth_Pad_Cloud_Gm.wav
+Chords/FL_DW_150_Synth_Pad_Andromeda_Cm.wav
+Chords/FL_DW_150_Synth_Pad_Feedback_Em.wav
+Chords/FL_DW_150_Synth_Pad_Horn_Am.wav
+Chords/FL_PL_136_Keys_Piano_Heat_Electric_Bm.wav
+Chords/FL_PL_136_Synth_Pad_Heat_Analog_Bm.wav
+Chords/FL_PL_150_Keys_Piano_Sense_Digikey_D.wav
+Chords/FL_PL_150_Keys_Piano_Sense_Electric_D.wav
+Chords/GrimyGrimPianoStringz_80cf8b.wav
+Chords/GrimyGrimStringPiano_99e8e2.wav
+Chords/Liquid Pumping Pad.wav
+Chords/Liquid Repeating Chords.wav
+Chords/Liquid Solid Pad.wav
+Chords/Liquid Warm Keys.wav
+Chords/looperman-l-0173301-0152555-horror_Dm_130bpm.wav
+Chords/looperman-l-0540528-0124060-zodiactherapper-horror-vibe-strings_C_145bpm.wav
+Chords/looperman-l-1036081-0390841-dark-x-eerie-piano-loop_Em_90bpm.wav
+Chords/looperman-l-1036081-0409834-eerie-x-horror-piano-texture_Fm_66bpm.wav
+Chords/looperman-l-1051376-0383132-deep-cosmic-pads-cinematic-pad_A#_85bpm.wav
+Chords/looperman-l-1105478-0416265-battle-of-apocalypse-86-bpm-dark-epic-loop_C_nokey_86bpm.wav
+Chords/looperman-l-1131431-0380679-creepy-dreamy-chords_Dm_130bpm.wav
+Chords/looperman-l-1134923-0406595-galaxy-brain-an-atmospheric-pad-with-moving-mods-ambient-pad_F_131bpm.wav
+Chords/looperman-l-1193020-0323219-80s-vhs-horror_Gm_65bpm.wav
+Chords/looperman-l-1297038-0137748-thedrumbank-travis-scott-x-mocha-jones-trap-horror-pad_D_135bpm.wav
+Chords/looperman-l-1470414-0301548-trippy-pad-xo-rnb-pad_Em_125bpm.wav
+Chords/looperman-l-1564425-0217252-dreamy-chillout-strings-chill-out-strings_D_92bpm.wav
+Chords/looperman-l-1564425-0294673-scary-af-violins_C_nokey_95bpm.wav
+Chords/looperman-l-1564425-0335483-suspense-cinema-piano_Cm_70bpm.wav
+Chords/looperman-l-1564425-0385515-tight-organ_F_56bpm.wav
+Chords/looperman-l-1624544-0407402-cloud-city-ethereal-keys-trap-pad_Bm_120bpm.wav
+Chords/looperman-l-1751651-0223572-life-in-the-astral-city-ambient-pad_D_110bpm.wav
+Chords/looperman-l-1901541-0162899-pierre-bourne-lo-fi-type-dope-chill-pad-psychedelic-pad_D#m_154bpm.wav
+Chords/looperman-l-2177725-0205664-psychotic-scary-lo-fi-boombap-trap-horror-piano-loop_C_136bpm.wav
+Chords/looperman-l-2177725-0205665-lost-track-scary-gross-lo-fi-trap-horror-string-loop_C_130bpm.wav
+Chords/looperman-l-2177725-0206914-satanic-strings-evil-lofi-horror-trap-strings_C_160bpm.wav
+Chords/looperman-l-219480-0040236-space-out-string-and-piano-by-cellocubano-rnb-strings_Fm_135bpm.wav
+Chords/looperman-l-2452607-0127861-rxvird-horror-loop_C_140bpm.wav
+Chords/looperman-l-2475129-0314118-hellion-drake-x-6lack-x-rnb-pad-rnb-pad-loop_F#m_131bpm.wav
+Chords/looperman-l-2475129-0314118-hellion-drake-x-6lack-x-rnb-pad-rnb-pad_F#m_131bpm.wav
+Chords/looperman-l-2475129-0402737-hellion-afro-house-x-pop-synth-pad-afrobeat-pad_G#m_125bpm.wav
+Chords/looperman-l-2484145-0367433-spoopy-piano_G#m_134bpm.wav
+Chords/looperman-l-2524602-0425762-21-savage-metro-boomin-gzuz-dark-piano-future-ufo_Bm_152bpm.wav
+Chords/looperman-l-2560975-0395110-experimental-ambient-lucki-too-late-brebeats-ambient-pad_Dm_142bpm.wav
+Chords/looperman-l-2613885-0316663-fever-dream-part-1-drake-type-pad-rnb-pad-loop_Gm_132bpm.wav
+Chords/looperman-l-2613885-0316663-fever-dream-part-1-drake-type-pad-rnb-pad_Gm_132bpm.wav
+Chords/looperman-l-2613885-0320100-gragoyle-insanity-playboi-carti-type-loop_D#m_145bpm.wav
+Chords/looperman-l-2737478-0188839-cosmic-loop-part-3-trap-pad_Bm_140bpm.wav
+Chords/looperman-l-2737478-0188840-cosmic-loop-part-4-trap-pad_Bm_140bpm.wav
+Chords/looperman-l-2737478-0188841-cosmic-loop-part-5-trap-pad_Bm_140bpm.wav
+Chords/looperman-l-2792262-0269314-strung-space-ambient-strings_C_130bpm.wav
+Chords/looperman-l-2795242-0366538-evil-space_C_110bpm.wav
+Chords/looperman-l-2808992-0178598-galaxy-loop-lo-fi-pad_Am_158bpm.wav
+Chords/looperman-l-2889958-0387508-playa-bad-bunny-x-jhayco-type-pad-no-luv-reggaeton-pad_C#m_85bpm.wav
+Chords/looperman-l-2910346-0384424-playboi-carti-x-lucki-x-pierre-bourne-trap-pad_C_nokey_162bpm.wav
+Chords/looperman-l-2921269-0344821-wavy-lofi-keys-1_C#m_60bpm.wav
+Chords/looperman-l-2957126-0182436-sad-dream-space-melody-chill-out-strings_A_145bpm.wav
+Chords/looperman-l-2968451-0185594-jocker-movie-score-inspired-real-strings_F_100bpm.wav
+Chords/looperman-l-2968451-0223094-horror-suspense-real-strings_Am_120bpm.wav
+Chords/looperman-l-2968451-0224765-vintage-horror-real-strings_Em_100bpm.wav
+Chords/looperman-l-3062298-0180314-horror-strings_F#m_100bpm.wav
+Chords/looperman-l-3137563-0398265-home-prod-stellarinio-trap-pad_C#_182bpm.wav
+Chords/looperman-l-3147770-0407224-ethereal-waves-dreamwave-pad-chill-out-pad_B_178bpm.wav
+Chords/looperman-l-3162182-0263332-skinned-part-4-dark-strings-loop-135-fm_F_135bpm.wav
+Chords/looperman-l-3162182-0263414-grey-part-3-dark-strings-loop-140-fm-harm_Fm_140bpm.wav
+Chords/looperman-l-3406761-0386611-melancholic-and-sombre-acoustic-guitar-chords-indie-acoustic-guitar_E_85bpm.wav
+Chords/looperman-l-3585992-0345219-horror-strings-detroit-flint-rio-da-yung-og_Am_194bpm.wav
+Chords/looperman-l-3630001-0286875-chord-yeat-part-1-iohao-beats-distant-hip-hop-synth_D#m_140bpm.wav
+Chords/looperman-l-3798612-0287230-ambient-pad-loop-galaxy-ambient-pad_Gm_127bpm.wav
+Chords/looperman-l-3806004-0358724-yung-lean-ambient-cloud-rap-pad-greentea-ambient-pad_G_130bpm.wav
+Chords/looperman-l-3806004-0402045-playboi-carti-x-ethereal-ambient-pad-stash-trap-pad_A_130bpm.wav
+Chords/looperman-l-3867067-0366581-sense-pozer-type-jersey-club-synth-pad-uk-drill-pad_Gm_150bpm.wav
+Chords/looperman-l-3916646-0388934-trippie-redd-x-yeat-creepy-chords_Fm_140bpm.wav
+Chords/looperman-l-3916916-0381772-trippy-pad-trap-pad_F_150bpm.wav
+Chords/looperman-l-4176291-0297733-damuuuu-ambient-pad_Bm_156bpm.wav
+Chords/looperman-l-4212795-0399921-retro-2000s-russian-chop-boom-bap-pad_C_nokey_90bpm.wav
+Chords/looperman-l-4374127-0397734-night-terror-134-bpm_Cm_134bpm.wav
+Chords/looperman-l-447780-0042980-travel-to-space-string-1-by-hardstylerythm-hardcore-strings_F#m_150bpm.wav
+Chords/looperman-l-447780-0042981-travel-to-space-string-2-by-hardstylerythm-hardcore-strings_F#m_150bpm.wav
+Chords/looperman-l-4541557-0361778-bossa-nova-acoustic-guitar-chords-dmaj-jazz-acoustic-guitar_D_134bpm.wav
+Chords/looperman-l-4615896-0371806-jazz-x-new-jazz-piano_Em_105bpm.wav
+Chords/looperman-l-4674383-0364040-night-jazz-piano_Bm_92bpm.wav
+Chords/looperman-l-4695178-0416050-salem-x-clams-casino-x-crystal-castles-melody-edm-synth_Fm_170bpm.wav
+Chords/looperman-l-4880299-0393661-low-spacey-pad-trap-pad_Em_130bpm.wav
+Chords/looperman-l-4880299-0393789-spacey-detuned-synth-pad-v3-trap-pad_F#m_130bpm.wav
+Chords/looperman-l-4880299-0393796-downsampled-spacey-pad-trap-pad_Dm_144bpm.wav
+Chords/looperman-l-5029791-0397002-spacey-synth-pad-ambient-pad_C_149bpm.wav
+Chords/looperman-l-5030382-0393827-upbeat-e-guitar-chords-rock-alt-rock-indie-rock-electric-guitar_B_160bpm.wav
+Chords/looperman-l-5239946-0362324-yeat-x-kankan-type-loop-get-it-trap-pad_C_130bpm.wav
+Chords/looperman-l-5308394-0385160-chopped-galaxy-pad-hip-hop-pad_G#m_133bpm.wav
+Chords/looperman-l-5565495-0328305-spacey-pad-chord-progression-rap-pad_Am_140bpm.wav
+Chords/looperman-l-5617205-0360909-drake-x-the-weeknd-dark-pad-synth-prod-robo-rnb-synth_Am_130bpm.wav
+Chords/looperman-l-5636859-0310482-dusty-piano-lullaby_Gm_118bpm.wav
+Chords/looperman-l-5830682-0359867-bossy-simple-bossa-nova-chord-progression-jazz-rhodes-piano_Fm_125bpm.wav
+Chords/looperman-l-5830902-0313956-trippy-reverse-keys-hip-hop-pad_Dm_130bpm.wav
+Chords/looperman-l-5928338-0383404-diamond-drake-x-wondagurl-type-loop-ambient-pad_A#_140bpm.wav
+Chords/looperman-l-5928338-0383475-aurora-hans-zimmer-type-ambient-pad-loop-ambient-pad_Am_140bpm.wav
+Chords/looperman-l-6229930-0342714-flippy-dreamy-guitar-strings-trap-strings_A#m_98bpm.wav
+Chords/looperman-l-6289534-0371090-horror-pad-starter-matejcikbeats_D#m_160bpm.wav
+Chords/looperman-l-6314926-0402525-psychedelic-chords-psychedelic-synth_E_85bpm.wav
+Chords/looperman-l-6349255-0407075-space-duel-rnb-pad_C_143bpm.wav
+Chords/looperman-l-6386371-0381998-a-gooey-groove-piano-loop.wav
+Chords/looperman-l-6386371-0381998-a-gooey-groove-piano-loop_Gm_127bpm.wav
+Chords/looperman-l-6413071-0346380-sinister-space-strings-techno-strings_Cm_145bpm.wav
+Chords/looperman-l-6416192-0364843-astral-by-kodinwav-rnb-pad_D#_116bpm.wav
+Chords/looperman-l-6561456-0389312-galaxy-melodic-synthwave-pad-melody-edm-pad_F_140bpm.wav
+Chords/looperman-l-6590395-0375030-one-love_Am_80bpm.wav
+Chords/looperman-l-6891783-0390868-spacey-sounding-chords-trap-synth_Dm_140bpm.wav
+Chords/looperman-l-6891783-0390960-glitchy-spacey-chords-lo-fi-synth_Fm_130bpm.wav
+Chords/looperman-l-6891783-0395280-spacey-pad-trap-pad_Em_145bpm.wav
+Chords/looperman-l-6893836-0382586-breakcore-loop-pad-breakbeat-pad-loop_Fm_175bpm.wav
+Chords/looperman-l-6893836-0382586-breakcore-loop-pad-breakbeat-pad_Fm_175bpm.wav
+Chords/looperman-l-6971720-0384674-ethereal-string-pad-trap-strings_A_146bpm.wav
+Chords/looperman-l-7032827-0383495-melody-oldschool-boom-bap-boom-bap-strings-loop_A_90bpm.wav
+Chords/looperman-l-7032827-0383495-melody-oldschool-boom-bap-boom-bap-strings_A_90bpm.wav
+Chords/looperman-l-7035313-0388915-church-organ-arp-chords_F#m_121bpm.wav
+Chords/looperman-l-7367303-0393319-horror-padz_Em_150bpm.wav
+Chords/looperman-l-7367303-0394726-dreamy-glide-trap-strings_Cm_160bpm.wav
+Chords/looperman-l-7379189-0386850-psychedelic-pad-melody-hip-hop-pad_C_125bpm.wav
+Chords/looperman-l-7379189-0387538-psychedelic-pad-melody-hip-hop-pad_D_148bpm.wav
+Chords/looperman-l-7379189-0388017-psychedelic-pad-melody-hip-hop-pad_G#m_140bpm.wav
+Chords/looperman-l-7424908-0404646-spacey-meow-pad-electronic-pad_G_120bpm.wav
+Chords/looperman-l-7497733-0397216-tinkerbell-drake-chords-rnb-am-rnb-synth_Am_145bpm.wav
+Chords/looperman-l-7587725-0395350-galaxy-pad-trap-pad_C#m_154bpm.wav
+Chords/looperman-l-8024844-0412928-lucki-ambient-cloud-rap-pad-melody-maseli-sample-trap-pad_A_164bpm.wav
+Chords/looperman-l-8462259-0429307-dark-tension-trap-pad-140bpm-fm_Fm_140bpm.wav
+Chords/looperman-l-8462259-0431027-dark-cinematic-strings-88bpm-c-locrian_Cm_88bpm.wav
+Chords/looperman-l-862592-0356888-cosmic-trap-pad_F_130bpm.wav
+Chords/Mumbling Pad.wav
+Chords/Organ Chords.wav
+Chords/Piano.aif
+Chords/RamzGT-padwave_2d8705.wav
+Chords/synth_orch1_ab8f39.wav

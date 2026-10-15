@@ -1,0 +1,1342 @@
+{
+ "device": "Pangea",
+ "remote_scope": "Propellerhead Software / se.propellerheads.Pangea",
+ "code_prefix": "PANG",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15; every position hovered in Reason (fold arrow, NOTE light, instrument dropdown, filter type menu: no tooltip)",
+ "controls": [
+  {
+   "code": "PANG-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.075
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.578,
+    0.089
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item Patch Name, no knob slot",
+   "checked_2026_10_07": "tooltip \"Struck Grand Piano Natural\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B02",
+   "side": "front",
+   "panel_label": "(patch prev arrow)",
+   "what": "Previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.402,
+    0.072
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B03",
+   "side": "front",
+   "panel_label": "(patch next arrow)",
+   "what": "Next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.402,
+    0.116
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B04",
+   "side": "front",
+   "panel_label": "(patch folder)",
+   "what": "Browse patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.427,
+    0.096
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B05",
+   "side": "front",
+   "panel_label": "(patch disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.452,
+    0.096
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-D02",
+   "side": "front",
+   "panel_label": "Patch name tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.766,
+    0.085
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; tooltip shows the patch name; convention from earlier devices",
+   "checked_2026_10_07": "tooltip \"Struck Grand Piano Natural\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K01",
+   "side": "front",
+   "panel_label": "MASTER VOLUME",
+   "what": "Master volume",
+   "reason_name": "Master_Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.928,
+    0.096
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master Volume: -2.0 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-D03",
+   "side": "front",
+   "panel_label": "NOTE light",
+   "what": "Note-on indicator",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.059,
+    0.287
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-D04",
+   "side": "front",
+   "panel_label": "RANGE",
+   "what": "Pitch wheel range spinner",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.08,
+    0.416
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Pitch Bend Range: 2\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S01",
+   "side": "front",
+   "panel_label": "PITCH wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": "Pitch Bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "pos": [
+    0.075,
+    0.72
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip '(Pitch Bend)'",
+   "checked_2026_10_07": "tooltip \"(Pitch Bend): 0.0%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S02",
+   "side": "front",
+   "panel_label": "MOD wheel",
+   "what": "Modulation wheel",
+   "reason_name": "Mod Wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.11,
+    0.72
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip '(Mod Wheel)'",
+   "checked_2026_10_07": "tooltip \"(Mod Wheel): 0%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K02",
+   "side": "front",
+   "panel_label": "S. START (mod wheel)",
+   "what": "Mod wheel amount on sample start",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.159,
+    0.41
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel To Sample Start: 75.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K12",
+   "side": "front",
+   "panel_label": "F. FREQ (mod wheel)",
+   "what": "Mod wheel amount on filter cutoff",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.159,
+    0.601
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel To Filter Cutoff: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K16",
+   "side": "front",
+   "panel_label": "LEVEL (mod wheel)",
+   "what": "Mod wheel amount on amp level",
+   "reason_name": "ModWheel_to_Amp_Level",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.159,
+    0.785
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel To Amp Level: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-D05",
+   "side": "front",
+   "panel_label": "INSTRUMENT picture",
+   "what": "Instrument picture",
+   "reason_name": "Instrument",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.286,
+    0.471
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip 'Instrument: Struck Grand Piano'; the dropdown below it selects the instrument",
+   "checked_2026_10_07": "tooltip \"Instrument: Struck Grand Piano\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B13",
+   "side": "front",
+   "panel_label": "INSTRUMENT selector",
+   "what": "Instrument name dropdown",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.282,
+    0.689
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K17",
+   "side": "front",
+   "panel_label": "S. START",
+   "what": "Sample start",
+   "reason_name": "SampleStart",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 37,
+   "cc": 66,
+   "feedback_cc": 114,
+   "pos": [
+    0.23,
+    0.826
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Sample Start: 0 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K18",
+   "side": "front",
+   "panel_label": "OCT",
+   "what": "Octave",
+   "reason_name": "Octave",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "pos": [
+    0.268,
+    0.826
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Octave: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K19",
+   "side": "front",
+   "panel_label": "SEMI",
+   "what": "Semitune",
+   "reason_name": "Semitune",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 38,
+   "cc": 67,
+   "feedback_cc": 115,
+   "pos": [
+    0.305,
+    0.826
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Semitune: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K20",
+   "side": "front",
+   "panel_label": "FINE",
+   "what": "Finetune",
+   "reason_name": "Finetune",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.344,
+    0.826
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Finetune: 0 cents\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B06",
+   "side": "front",
+   "panel_label": "FILTER ON",
+   "what": "Filter on/off",
+   "reason_name": "Filter_On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.405,
+    0.287
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B07",
+   "side": "front",
+   "panel_label": "FILTER TYPE",
+   "what": "Filter type menu (LP shown)",
+   "reason_name": "Filter_Type",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.496,
+    0.287
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K03",
+   "side": "front",
+   "panel_label": "FILTER CUTOFF",
+   "what": "Filter cutoff",
+   "reason_name": "Filter_Cutoff",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.42,
+    0.416
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Cutoff: 207.4 Hz\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K04",
+   "side": "front",
+   "panel_label": "FILTER RESO",
+   "what": "Filter resonance",
+   "reason_name": "Filter_Reso",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.474,
+    0.416
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Reso: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K05",
+   "side": "front",
+   "panel_label": "FILTER ENV",
+   "what": "Filter envelope amount",
+   "reason_name": "Filter_Env",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.529,
+    0.416
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Env: 75.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S03",
+   "side": "front",
+   "panel_label": "FILTER A fader",
+   "what": "Filter envelope attack",
+   "reason_name": "Filter_Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.406,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Filter Attack: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S04",
+   "side": "front",
+   "panel_label": "FILTER D fader",
+   "what": "Filter envelope decay",
+   "reason_name": "Filter_Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.431,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Filter Decay: 47.1 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S05",
+   "side": "front",
+   "panel_label": "FILTER S fader",
+   "what": "Filter envelope sustain",
+   "reason_name": "Filter_Sustain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.461,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Filter Sustain: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S06",
+   "side": "front",
+   "panel_label": "FILTER R fader",
+   "what": "Filter envelope release",
+   "reason_name": "Filter_Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.489,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Filter Release: 26.4 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K13",
+   "side": "front",
+   "panel_label": "FILTER VEL",
+   "what": "Velocity amount on filter",
+   "reason_name": "Filter_Velocity",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.529,
+    0.628
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Velocity: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K21",
+   "side": "front",
+   "panel_label": "FILTER KBD",
+   "what": "Filter key follow",
+   "reason_name": "Filter_KeyFollow",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.529,
+    0.833
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Key Follow: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K06",
+   "side": "front",
+   "panel_label": "AMP VEL",
+   "what": "Velocity amount on amp",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.608,
+    0.423
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Velocity: 50 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S07",
+   "side": "front",
+   "panel_label": "AMP A fader",
+   "what": "Amp envelope attack",
+   "reason_name": "Amp_Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.594,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Attack: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S08",
+   "side": "front",
+   "panel_label": "AMP D fader",
+   "what": "Amp envelope decay",
+   "reason_name": "Amp_Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.622,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Decay: 66.1 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S09",
+   "side": "front",
+   "panel_label": "AMP S fader",
+   "what": "Amp envelope sustain",
+   "reason_name": "Amp_Sustain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.649,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Sustain: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-S10",
+   "side": "front",
+   "panel_label": "AMP R fader",
+   "what": "Amp envelope release",
+   "reason_name": "Amp_Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.677,
+    0.751
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Release: 82.2 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B08",
+   "side": "front",
+   "panel_label": "DELAY ON",
+   "what": "Delay on/off",
+   "reason_name": "Delay_On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.73,
+    0.294
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K07",
+   "side": "front",
+   "panel_label": "DELAY TIME",
+   "what": "Delay time (shows synced note value when SYNC is on)",
+   "reason_name": "Delay_Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.742,
+    0.423
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "when SYNC is on the tooltip reads 'Synced Delay Time' (Remote item Synced_Delay_Time, slot 39, same knob)",
+   "checked_2026_10_07": "tooltip \"Synced Delay Time: 3/16\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K09",
+   "side": "front",
+   "panel_label": "DELAY FEEDBACK",
+   "what": "Delay feedback",
+   "reason_name": "Delay_Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.797,
+    0.423
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Feedback: 46.9 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B11",
+   "side": "front",
+   "panel_label": "DELAY SYNC",
+   "what": "Delay tempo sync",
+   "reason_name": "Delay_Sync",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.744,
+    0.625
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Sync\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B12",
+   "side": "front",
+   "panel_label": "DELAY PING PONG",
+   "what": "Ping pong",
+   "reason_name": "Delay_PingPong",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.796,
+    0.625
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Ping Pong\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K22",
+   "side": "front",
+   "panel_label": "DELAY DAMP",
+   "what": "Delay damping",
+   "reason_name": "Delay_Damp",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.742,
+    0.836
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Damp: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K23",
+   "side": "front",
+   "panel_label": "DELAY AMOUNT",
+   "what": "Delay amount",
+   "reason_name": "Delay_Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.797,
+    0.836
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Amount: 32.8 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B09",
+   "side": "front",
+   "panel_label": "REVERB ON",
+   "what": "Reverb on/off",
+   "reason_name": "Reverb_On",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 34,
+   "cc": 63,
+   "feedback_cc": 111,
+   "pos": [
+    0.864,
+    0.294
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reverb On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K10",
+   "side": "front",
+   "panel_label": "REVERB TIME",
+   "what": "Reverb time",
+   "reason_name": "Reverb_Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 36,
+   "cc": 65,
+   "feedback_cc": 113,
+   "pos": [
+    0.875,
+    0.423
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reverb Time: 58.1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K11",
+   "side": "front",
+   "panel_label": "REVERB PRE-DELAY",
+   "what": "Reverb pre-delay",
+   "reason_name": "Reverb_PreDelay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 35,
+   "cc": 64,
+   "feedback_cc": 112,
+   "pos": [
+    0.928,
+    0.423
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reverb Pre Delay: 0.00 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K14",
+   "side": "front",
+   "panel_label": "REVERB HI DAMP",
+   "what": "Reverb high damping",
+   "reason_name": "Reverb_HighDamp",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "pos": [
+    0.875,
+    0.628
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reverb High Damp: 32.8 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K15",
+   "side": "front",
+   "panel_label": "REVERB LO DAMP",
+   "what": "Reverb low damping",
+   "reason_name": "Reverb_LowDamp",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "pos": [
+    0.928,
+    0.628
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reverb Low Damp: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K24",
+   "side": "front",
+   "panel_label": "REVERB AMOUNT",
+   "what": "Reverb amount",
+   "reason_name": "Reverb_Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "pos": [
+    0.928,
+    0.836
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reverb Amount: 39.1 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-K08",
+   "side": "front",
+   "panel_label": "(synced) DELAY TIME",
+   "what": "Same knob as DELAY TIME: Remote item for the time when SYNC is on",
+   "reason_name": "Synced_Delay_Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 39,
+   "cc": 68,
+   "feedback_cc": 116,
+   "pos": [
+    0.742,
+    0.43
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "same physical knob as DELAY TIME; its tooltip reads 'Synced Delay Time' when SYNC is on",
+   "checked_2026_10_07": "tooltip \"Synced Delay Time: 3/16\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-F-B10",
+   "side": "front",
+   "panel_label": "(no panel control) Aftertouch",
+   "what": "Remote item 'Aftertouch': no matching control on the Pangea panel",
+   "reason_name": "Aftertouch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.059,
+    0.539
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote vocabulary item; no matching control seen on the panel; row parked beside the wheels; NOT proven",
+   "checked_2026_10_07": "not hovered: Remote item with no matching panel control",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J01",
+   "side": "back",
+   "panel_label": "Seq Gate In",
+   "what": "Gate input (sequencer)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.183,
+    0.541
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J05",
+   "side": "back",
+   "panel_label": "Seq CV In",
+   "what": "CV input (sequencer note)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.183,
+    0.686
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Note CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-K01",
+   "side": "back",
+   "panel_label": "Pitch Bend CV trim",
+   "what": "Amount for pitch bend CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.303,
+    0.541
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Pitch Bend CV Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J02",
+   "side": "back",
+   "panel_label": "Pitch Bend CV In",
+   "what": "CV input: pitch bend",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.331,
+    0.541
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch Bend CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-K02",
+   "side": "back",
+   "panel_label": "Mod Wheel CV trim",
+   "what": "Amount for mod wheel CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.303,
+    0.686
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mod Wheel CV Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J06",
+   "side": "back",
+   "panel_label": "Mod Wheel CV In",
+   "what": "CV input: mod wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.331,
+    0.686
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-K03",
+   "side": "back",
+   "panel_label": "Filter Cutoff CV trim",
+   "what": "Amount for filter cutoff CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.43,
+    0.648
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Filter Cutoff CV Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J07",
+   "side": "back",
+   "panel_label": "Filter Cutoff CV In",
+   "what": "CV input: filter cutoff",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.459,
+    0.648
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Cutoff CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-K04",
+   "side": "back",
+   "panel_label": "Filter Resonance CV trim",
+   "what": "Amount for filter resonance CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.516,
+    0.648
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Filter Resonance CV Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J08",
+   "side": "back",
+   "panel_label": "Filter Resonance CV In",
+   "what": "CV input: filter resonance",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.544,
+    0.648
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Resonance CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-K05",
+   "side": "back",
+   "panel_label": "Amp Level CV trim",
+   "what": "Amount for amp level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.602,
+    0.648
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Amp Level CV Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J09",
+   "side": "back",
+   "panel_label": "Amp Level CV In",
+   "what": "CV input: amp level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.63,
+    0.648
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Level CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J03",
+   "side": "back",
+   "panel_label": "Audio Out L / Mono",
+   "what": "Audio output, left (mono)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.756,
+    0.541
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Struck Grand Piano Natural: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "PANG-B-J04",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.816,
+    0.541
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Struck Grand Piano Natural: Input R\"",
+   "view": "main panel"
+  }
+ ]
+}

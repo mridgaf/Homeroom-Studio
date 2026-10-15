@@ -1,0 +1,35 @@
+{
+"device": "RPSpec Spectrogram",
+"front": {
+"(triangle)": "no tooltip (fold arrow); checked by eye",
+"RPSPEC 1 tape": "no tooltip in Reason (hovered 1.4 s)",
+"Mode display (Left/Right)": "no tooltip in Reason (hovered 1.4 s)",
+"BOOST": "tooltip \"Boost: 0.0 dB\"",
+"HOLD": "tooltip \"Hold: 0%\"",
+"RELEASE": "tooltip \"Release: 0%\"",
+"FREEZE": "tooltip \"Freeze Spectrogram\"",
+"RPSPEC logo": "no tooltip in Reason (hovered 1.4 s)",
+"Rob Papen signature": "no tooltip in Reason (hovered 1.4 s)",
+"View icon 1 (wave)": "no tooltip in Reason (hovered 1.4 s)",
+"View icon 2 (bars)": "no tooltip in Reason (hovered 1.4 s)",
+"View icon 3 (steps)": "no tooltip in Reason (hovered 1.4 s)",
+"View icon 4 (line)": "no tooltip in Reason (hovered 1.4 s)",
+"Selected Freq readout": "no tooltip in Reason (hovered 1.4 s)",
+"Max Freq readout": "no tooltip in Reason (hovered 1.4 s)",
+"Balance slider (-1 .. +1)": "no tooltip in Reason (hovered 1.4 s)",
+"Spectrum display": "no tooltip in Reason (hovered 1.4 s)",
+"Frequency scale": "no tooltip in Reason (hovered 1.4 s)",
+"dB scale": "no tooltip in Reason (hovered 1.4 s)"
+},
+"back": {
+"Input Left": "tooltip \"Connected to RE 181 MSC 1: Audio Out Mid\"; jack's own name not read (right-click menu not opened)",
+"Input Right": "tooltip \"Connected to RE 181 MSC 1: Audio Out Side\"; jack's own name not read",
+"Output Left": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"; jack's own name not read",
+"Output Right": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"; jack's own name not read",
+"Power area (drawn)": "no tooltip in Reason (hovered 1.4 s)",
+"RPSPEC 1 tape (back)": "no tooltip in Reason (hovered 1.4 s) (hover missed; position by eye)",
+"Credits text": "no tooltip in Reason (hovered 1.4 s)"
+},
+"views": {},
+"view_titles": {}
+}

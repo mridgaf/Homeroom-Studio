@@ -1,0 +1,34 @@
+{
+"device": "Morfin XF Crossfader",
+"front": {
+"(triangle)": "no tooltip (fold arrow); checked by eye",
+"SELECT A": "tooltip \"Ch A Select Input: 1\"",
+"VOLUME A": "tooltip \"Volume A: 0.00 dB\"",
+"PHASE INVERT A (\u00d8)": "tooltip \"Phase Invert A\"",
+"CROSSFADER A-B": "tooltip \"Crossfader: 0.50\"",
+"PHASE INVERT B (\u00d8)": "tooltip \"Phase Invert B\"",
+"VOLUME B": "tooltip \"Volume B: 0.00 dB\"",
+"SELECT B": "tooltip \"Ch B Select Input: 2\"",
+"FADE TYPE knob (CP/SQ/GT/AB/DIP/TRNS/SQRT/LIN/ST/MT)": "tooltip \"Type: Constant Power\"",
+"MORFIN XF 1 tape": "tooltip \"Morfin XF 1\""
+},
+"back": {
+"Input 1 Left": "tooltip \"Connected to Old Tape: Main Out Left\"",
+"Input 1 Right": "tooltip \"Connected to Old Tape: Main Out Right\"",
+"Input 2 Left": "tooltip \"Input 2 Left\"",
+"Input 2 Right": "tooltip \"Input 2 Right\"",
+"Input 3 Left": "tooltip \"Input 3 Left\"",
+"Input 3 Right": "tooltip \"Input 3 Right\"",
+"Input 4 Left": "tooltip \"Input 4 Left\"",
+"Input 4 Right": "tooltip \"Input 4 Right\"",
+"Output Left / Mono": "tooltip \"Connected to Old Tape: Input L\"",
+"Output Right": "tooltip \"Connected to Old Tape: Input R\"",
+"Crossfader CV In": "tooltip \"Crossfader CV In\"",
+"Crossfader CV trim": "tooltip \"Crossfader CV In: 127\"",
+"CV Output A": "tooltip \"CV Output A\"",
+"CV Output B": "tooltip \"CV Output B\"",
+"MORFIN XF 1 tape (back)": "tooltip \"Morfin XF 1\""
+},
+"views": {},
+"view_titles": {}
+}

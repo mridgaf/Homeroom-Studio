@@ -1,0 +1,1727 @@
+Drums/060_YeahYeah_Drums.aif
+Drums/067_RobotSuperfly_Drums Eb.aif
+Drums/070_Crazy_Drums A.aif
+Drums/070_Heaven_Drums Eb.aif
+Drums/070_Ragamuffin_Drums.aif
+Drums/078_EntireLife_Drums Ab.aif
+Drums/078_OldSound_ Drums Bb.aif
+Drums/080_sky_D_drums.aif
+Drums/080_sky_D_lofi strings.aif
+Drums/080_sky_D_phased tablas.aif
+Drums/080_sky_D_piano melody.aif
+Drums/080_sky_D_piano rhythm alt.aif
+Drums/080_sky_D_piano rhythm.aif
+Drums/080Drumkit05-001_8070a5.wav
+Drums/080Drumkit05-011_9ec79b.wav
+Drums/080RhythmAce001_9d2542.wav
+Drums/080RhythmAce002_33c066.wav
+Drums/080RhythmAce003_40ca33.wav
+Drums/080RhythmAce005_79dd51.wav
+Drums/082Drumkit06-004_9cd074.wav
+Drums/082Drumkit06-005_0c3400.wav
+Drums/085_CanUFeelMe_Drums Ab.aif
+Drums/085_Change_Drums01.aif
+Drums/085_Change_Drums02.aif
+Drums/085_Change_Drums03.aif
+Drums/085_TropicRain_Drums Bb.aif
+Drums/085Drumkit02-006_c13039.wav
+Drums/085KorgMinipops001_0730b2.wav
+Drums/085KorgMinipops004_0cc344.wav
+Drums/085KorgMinipops006_9fee85.wav
+Drums/085KorgMinipops007_97909a.wav
+Drums/089_ASong_Drums Ab.aif
+Drums/089_ASong_Perc Organ Abm.aif
+Drums/090Drumkit01-002_56ae86.wav
+Drums/090Drumkit01-003_f3f3b1.wav
+Drums/090Drumkit01-004_326520.wav
+Drums/090Drumkit01-006_9eec23.wav
+Drums/090Drumkit01-009_308cde.wav
+Drums/090Drumkit01-011_4091bc.wav
+Drums/090Drumkit01-013_950bbc.wav
+Drums/090MIN A.aif
+Drums/090RhythmAce002_394817.wav
+Drums/090RhythmAce004_8765df.wav
+Drums/090RhythmAce006_ecdca4.wav
+Drums/090RhythmAce007_873420.wav
+Drums/090RhythmAce008_380947.wav
+Drums/090RhythmAce011_c76db0.wav
+Drums/090RhythmAce014_dc33d8.wav
+Drums/090RhythmKingPlusRhythmMaster004_3604a1.wav
+Drums/090RhythmKingPlusRhythmMaster005_01374e.wav
+Drums/095Drumkit03-007_8a57f5.wav
+Drums/095Drumkit03-008_f48067.wav
+Drums/095Drumkit05-006_8e74ec.wav
+Drums/095Drumkit05-007_0aaeca.wav
+Drums/095Drumkit05-008_c5d904.wav
+Drums/095Drumkit05-014_52902d.wav
+Drums/095Drumkit05-015_f34216.wav
+Drums/095Drumkit05-017_d9e80a.wav
+Drums/097Drumkit06-001_c30028.wav
+Drums/097Drumkit06-005_721c5b.wav
+Drums/097Drumkit06-007_8c7fe2.wav
+Drums/097Drumkit06-009_8b7067.wav
+Drums/098sl A.aif
+Drums/100_clonedrum.wav
+Drums/100_Hype_Drums F.aif
+Drums/100_ThisSong_Drums D.aif
+Drums/100_TR03 drums D.aif
+Drums/100_TR09 Just Drums A.aif
+Drums/100drift E.aif
+Drums/100metal E.aif
+Drums/100RhythmAce003_547c57.wav
+Drums/100RhythmAce004_54d2d1.wav
+Drums/100RhythmAce005_37ec6e.wav
+Drums/100RhythmAce007_c62dbb.wav
+Drums/100RhythmKingPlusRhythmMaster004_403f80.wav
+Drums/100RhythmKingPlusRhythmMaster005_8293dd.wav
+Drums/100RhythmKingPlusRhythmMaster006_d7627f.wav
+Drums/100RhythmKingPlusRhythmMaster007_8109e8.wav
+Drums/100RhythmKingPlusRhythmMaster008_470142.wav
+Drums/101_Triplet_ Drums E.aif
+Drums/105_vegas_Gm_drums.aif
+Drums/105Drumkit03-002_45378e.wav
+Drums/105Drumkit03-004_a0c46e.wav
+Drums/105Drumkit03-010_3b8436.wav
+Drums/105Drumkit03-013_b25e0e.wav
+Drums/107846__vincentsermonne__brush-loop_C_nokey.wav
+Drums/110_mathperc.wav
+Drums/110_Party_Drums 2 Ab.aif
+Drums/110_Party_Drums Bb.aif
+Drums/110_Party_Perc.aif
+Drums/110Drumloop01-2012-006_61e499.wav
+Drums/110Drumloop01-2012-018_ac25fb.wav
+Drums/110Drumloop01-2012-021_665482.wav
+Drums/110Drumloop01-2012-024_c902f9.wav
+Drums/110Drumloop01-2012-025_67b776.wav
+Drums/110KorgMinipops001_4e534b.wav
+Drums/110KorgMinipops005_1322fb.wav
+Drums/110KorgMinipops008_1bc100.wav
+Drums/110RhythmAce004_8c9c57.wav
+Drums/110RhythmAce005_4832c7.wav
+Drums/110RhythmAce010_ae0cf6.wav
+Drums/110RhythmAce014_6f47ca.wav
+Drums/110RhythmAce017_0734ac.wav
+Drums/111072__Bruna32U__brushes-loop-by-canis-et-circensis_C_nokey_77bpm.wav
+Drums/111159__Bronxio__drumloop-en-marcha_C_nokey_96bpm.wav
+Drums/112176__ls__cutme-up_C_nokey_74bpm.wav
+Drums/114029__electrobuz__dubstep-loop_Gm_70bpm.wav
+Drums/114030__Electrobuz__glitch-loop-2_C_nokey_140bpm.wav
+Drums/114031__Electrobuz__glitch-loop_C_nokey_120bpm.wav
+Drums/115802__Ongitak__dubstep-loop-1_C_nokey_130bpm.wav
+Drums/115Drumkit02-004_6be94d.wav
+Drums/115Drumkit02-012_5451a8.wav
+Drums/115RhythmAce004_3087c3.wav
+Drums/115RhythmAce006_bf400d.wav
+Drums/115RhythmAce010_e70b59.wav
+Drums/115RhythmAce011_55ab11.wav
+Drums/115RhythmAce014_de4ec8.wav
+Drums/115RhythmKingPlusRhythmMaster002_deb369.wav
+Drums/115RhythmKingPlusRhythmMaster003_2cce6e.wav
+Drums/115RhythmKingPlusRhythmMaster004_b87a8f.wav
+Drums/1173__walkerbelm__woody-drums_C_nokey_113bpm.wav
+Drums/120_Creepin_Drums C.aif
+Drums/120_Fantasy_Drums F.aif
+Drums/120_lotus_F#_filtered drums.aif
+Drums/120_lotus_F#_gated drums.aif
+Drums/120_lotus_F#_reverb drums.aif
+Drums/120_minus_drum loop 1_E.aif
+Drums/120_minus_drum loop 2_E.aif
+Drums/120_Pump_Drums E.aif
+Drums/120Drumkit05-001_43bebb.wav
+Drums/120Drumkit05-008_75fdd7.wav
+Drums/120Drumkit05-010_070ef1.wav
+Drums/120KorgMinipops005_eca538.wav
+Drums/120lof E.aif
+Drums/120RhythmAce005_1acaca.wav
+Drums/120RhythmAce009_294b2f.wav
+Drums/120RhythmAce016_763e6c.wav
+Drums/120RhythmKingPlusRhythmMaster001_f98640.wav
+Drums/120RhythmKingPlusRhythmMaster003_e58ae8.wav
+Drums/120RhythmKingPlusRhythmMaster006_ea5164.wav
+Drums/122701__sorrow-fox__basic-drum-loop_C_nokey_100bpm.wav
+Drums/123137__Sorrow-Fox__real-drum-loop-2_C_nokey_180bpm.wav
+Drums/123889__Sorrow-Fox__brake-real-drum-loop-1_C_nokey_100bpm.wav
+Drums/124542__cubix__minimal-glitchy-loop-nokick_C_nokey_128bpm.wav
+Drums/124577__juskiddink__western-themetune2_C_nokey_70bpm.wav
+Drums/124RhythmKingPlusRhythmMaster008_fa3a7d.wav
+Drums/124RhythmKingPlusRhythmMaster009_eb75c3.wav
+Drums/125364__Electrobuz__dubstep-loop_C_nokey_145bpm.wav
+Drums/125372__electrobuz__dubstep-wobble-bass-bitcrushed_Cm_140bpm.wav
+Drums/125_fallen_C_drums.aif
+Drums/125_spiral_E drums.aif
+Drums/125_swollen_Eb_drums.aif
+Drums/125Drumkit04-005_28fc0c.wav
+Drums/125Drumkit04-008_82624c.wav
+Drums/125Drumkit04-014_1003eb.wav
+Drums/125RhythmAce005_c46b44.wav
+Drums/125RhythmAce011_457c7a.wav
+Drums/125RhythmAce012_0ac9f9.wav
+Drums/128657__gusgus26__glitch-beat_C_nokey.wav
+Drums/128671__Ceox__funky-house-4-background-loop_C_nokey_128bpm.wav
+Drums/128674__Ceox__funky-house-1_C_nokey_128bpm.wav
+Drums/130491__electrobuz__dubstep-loop-150bpm_C_nokey_150bpm.wav
+Drums/130_hard choir_B_drums.aif
+Drums/130_hoof_drums_F#.aif
+Drums/130_slow drip_drums_B.aif
+Drums/130_Sweetfidsnare.wav
+Drums/130Drumkit01-005_89dacb.wav
+Drums/130Drumkit04-008_9e3615.wav
+Drums/130Drumkit04-009_6b1fcb.wav
+Drums/130fee F.aif
+Drums/130ho F.aif
+Drums/130RhythmAce002_96734f.wav
+Drums/130RhythmAce004_109dab.wav
+Drums/130RhythmAce007_ec6197.wav
+Drums/130RhythmAce008_b622e9.wav
+Drums/130RhythmAce010_f107fd.wav
+Drums/130RhythmAce011_c32e10.wav
+Drums/130st D.aif
+Drums/130Tick 2 A.aif
+Drums/130Tick G.aif
+Drums/130tr A.aif
+Drums/130TWoes A.aif
+Drums/131618__DWSD__dw-toploop-1281_C_nokey_128bpm.wav
+Drums/131619__DWSD__dw-shakrloop-1281_C_nokey_128bpm.wav
+Drums/132RhythmKingPlusRhythmMaster001_162312.wav
+Drums/132RhythmKingPlusRhythmMaster003_752d0e.wav
+Drums/132RhythmKingPlusRhythmMaster006_4504b9.wav
+Drums/135RhythmAce002_10796f.wav
+Drums/135RhythmAce015_b73252.wav
+Drums/137224__Electrobuz__dubstep-drumloop-crunch_C_nokey_140bpm.wav
+Drums/138142__NenadSimic__tight-beat_C_nokey_95bpm.wav
+Drums/1382__walkerbelm__track-6-14_C_nokey_115bpm.wav
+Drums/1385__walkerbelm__krullspagg_C_nokey.wav
+Drums/140401drumz_9973fd.wav
+Drums/140_blind_C_drums.aif
+Drums/140_ominous lofi_drums_A.aif
+Drums/140_sprung_drums_A.aif
+Drums/140_sudated_F_drums 6 eight.aif
+Drums/140br E.aif
+Drums/140ClapSnare_a54a1a.wav
+Drums/140Drumkit02-005_1e8295.wav
+Drums/140Drumkit02-009_42e11c.wav
+Drums/140Drumkit02-010_0079a7.wav
+Drums/140Drumkit02-014_f2bfeb.wav
+Drums/140Drumkit02-015_10ac1e.wav
+Drums/140Drumkit03-003_1cae59.wav
+Drums/140Drumkit03-004_674d3b.wav
+Drums/140Drumkit06-004_017c06.wav
+Drums/140Drumkit06-006_91fb0d.wav
+Drums/140Drumkit06-007_a376bf.wav
+Drums/140Drumkit06-008_6eb00b.wav
+Drums/140Drumkit06-011_70e3d8.wav
+Drums/140Drumkit06-013_1f69b5.wav
+Drums/140ElektricboltKickz_f6f4d7.wav
+Drums/140fr E.aif
+Drums/140Hatsnare2_59437c.wav
+Drums/140Hatsnare_12afc4.wav
+Drums/140Juno6beat003_cdfa69.wav
+Drums/140RhythmAce004_784abc.wav
+Drums/140RhythmAce010_7b6fa9.wav
+Drums/140RhythmKingPlusRhythmMaster007_c06e8a.wav
+Drums/140sp F#.aif
+Drums/140ti B.aif
+Drums/141_okihat.wav
+Drums/144480__Strever953__strevers-drums-p104_C_nokey_100bpm.wav
+Drums/145493__Electrobuz__house-loop_C_nokey_128bpm.wav
+Drums/145_pill_D_drum loop.aif
+Drums/145_pill_D_left drums.aif
+Drums/145_pill_D_right drums2.aif
+Drums/145_stagnant_E drum loop.aif
+Drums/149181__digitalvalues__hiphop-beat-001_C_nokey_100bpm.wav
+Drums/150302__NenadSimic__slybeat_C_nokey_108bpm.wav
+Drums/150dir F.aif
+Drums/151176__afleetingspeck__tabla-rhythm-bayan-tala-kherwa_C_nokey_80bpm.wav
+Drums/152355__supermatt1896__cat-rats-drum-loop_C_nokey_75bpm.wav
+Drums/156081__digitalvalues__hip-hop-beat_C_nokey_82bpm.wav
+Drums/156863__Alastair_Pursloe__drum-n-bass-loop-drum-perc_C_nokey_80bpm.wav
+Drums/156867__Alastair_Pursloe__cinematic-drum-loop_C_nokey_120bpm.wav
+Drums/16349__capocasa__i-come-from-asia_C_nokey.wav
+Drums/163749__cheeseymofodude__basic-hip-hop-loop-2_C_nokey.wav
+Drums/16397__kejkz__shakedarperc01_C_nokey_77bpm.wav
+Drums/16446__kejkz__treaspassa_C_nokey_99bpm.wav
+Drums/16452__kejkz__mixdrums_C_nokey.wav
+Drums/165694__kasa90__electronic-percussion_C_nokey_120bpm.wav
+Drums/166029__afleetingspeck__abstract-hip-hop-beat-1-loop-wav_C_nokey_140bpm.wav
+Drums/166195__decentyo__hip-hop-loop-13_C_nokey_90bpm.wav
+Drums/167384__ultradust__nanta-drum-loop-1_C_nokey_112bpm.wav
+Drums/167849__deleteduser2968900__8bit-drum-loop_C_nokey_90bpm.wav
+Drums/168672__nenadsimic__tight-snare-beat-155bpm_Cm_155bpm.wav
+Drums/169870__tichec__drums-closedhat-snareghost-loop1_C_nokey_120bpm.wav
+Drums/169938__OttoRecV8__house-drumloop-1_C_nokey_120bpm.wav
+Drums/170343__OttoRecV8__house-drumloop-3_C_nokey_125bpm.wav
+Drums/170549__OttoRecV8__drumnbass-drumloop-1-bpm_C_nokey_160bpm.wav
+Drums/172567__djgriffin__video-game-6-1_C_nokey.wav
+Drums/172857__yellowtree__acoustic-drum-loop_A#m.wav
+Drums/174867__drielnox__perc-loop-001_C_nokey_126bpm.wav
+Drums/176355__sakebeats__house-loop_C_nokey_128bpm.wav
+Drums/176624__flowerdove2168__ampedtrbalbassbit-2-c-130bpm_C_130bpm.wav
+Drums/176625__flowerdove2168__ampedtribalbassbit-c-130bpm_C_130bpm.wav
+Drums/177422__c0mp0s3r__reggaeton-groove-4-bars_C_nokey_105bpm.wav
+Drums/178176__c0mp0s3r__tabla-loop-shuffle-4-bars_C_nokey_105bpm.wav
+Drums/180053__drandarko__drum-loop_C_nokey.wav
+Drums/180tri F.aif
+Drums/182515__Sound_Designer_105__african-drums-loop_C_nokey_138bpm.wav
+Drums/183441__Alastair_Pursloe__old-school-rave-drum-loop_C_nokey_135bpm.wav
+Drums/185943__OttoRecV8__dubstep-loop-8_C_nokey_160bpm.wav
+Drums/186664__L0RdMastere0__poppyraploop_C_nokey.wav
+Drums/186668__L0RdMastere0__snarepopdrumloop_C_nokey_93bpm.wav
+Drums/188079__BurnerGRap__old-school-drums_C_nokey.wav
+Drums/193690__BurnerGRap__hip-hop-drums-loop-2_C_nokey.wav
+Drums/195180__LoopDilla__hip-hop-drum-loop-19_C_nokey_88bpm.wav
+Drums/1967__Jovica__bpm-attack-loop-1-element-1-mastererd-16-bit_C_nokey_140bpm.wav
+Drums/1968__Jovica__bpm-attack-loop-1-element-2-mastererd-16-bit_C_nokey_140bpm.wav
+Drums/1970__Jovica__attack-loop-1-element-4-mastererd-16-bit_C_nokey_140bpm.wav
+Drums/1971__Jovica__bpm-attack-loop-1-element-5-mastererd-16-bit_C_nokey_140bpm.wav
+Drums/1972__Jovica__bpm-attack-loop-1-element-6-mastererd-16-bit_C_nokey_140bpm.wav
+Drums/1981__rhumphries__rbh-126bpm-tabla-01.wav
+Drums/198495__waveplaysfx__drumloop-dubstep-loop_C_nokey_140bpm.wav
+Drums/20154__patchen__abdrums_C_nokey.wav
+Drums/20157__patchen__bliphop_C_nokey_90bpm.wav
+Drums/20160__patchen__deepdrums_C_nokey_100bpm.wav
+Drums/20180__patchen__jacked-drums_C_nokey_110bpm.wav
+Drums/202537__gowers__amen-break-original-processed_C_nokey_140bpm.wav
+Drums/202839__kasa90__tops-loop_C_nokey_115bpm.wav
+Drums/203522__lennartgreen__drum-1_C_nokey_100bpm.wav
+Drums/203977__Mattc90__matt-s-beatbox-harmonies-loop_C_nokey_100bpm.wav
+Drums/206063__JetSmith88__minimal-loop-01_C_nokey.wav
+Drums/209560__DneproMan__beat-loop-tribal_C_nokey.wav
+Drums/209911__decentyo__hip-hop-loop-17_C_nokey.wav
+Drums/21164__reinsamba__pandeiro-1_C_nokey.wav
+Drums/211869__wikbeats__loop_C_nokey.wav
+Drums/2140__Jovica__bpm-attack-loop-2a-mastered-16-bit_C_nokey_80bpm.wav
+Drums/216143__rsilveira_88__tape_recorder_loop.wav
+Drums/219249__radiopassiveboy__tambourine-loop_C_nokey_110bpm.wav
+Drums/219251__radiopassiveboy__tambourine-loop_C_nokey_100bpm.wav
+Drums/219253__radiopassiveboy__tambourine-loop_C_nokey_130bpm.wav
+Drums/219254__radiopassiveboy__tambourine-loop_C_nokey_125bpm.wav
+Drums/219255__radiopassiveboy__tambourine-loop_C_nokey_120bpm.wav
+Drums/219258__radiopassiveboy__tambourine-loop_C_nokey_70bpm.wav
+Drums/219260__radiopassiveboy__tambourine-loop_C_nokey_150bpm.wav
+Drums/219261__radiopassiveboy__tambourine-loop_C_nokey_95bpm.wav
+Drums/219262__radiopassiveboy__tambourine-loop_C_nokey_75bpm.wav
+Drums/219264__radiopassiveboy__tambourine-loop_C_nokey_85bpm.wav
+Drums/219265__radiopassiveboy__tambourine-loop_C_nokey_90bpm.wav
+Drums/219269__radiopassiveboy__tambourine-loop_C_nokey_80bpm.wav
+Drums/22127__nikolat__oldskoolish_C_nokey_90bpm.wav
+Drums/22129__nikolat__udarach_C_nokey_100bpm.wav
+Drums/2264__Jovica__bpm-attack-loop-3-drums-mixdown-mastered-16-bit_C_nokey_90bpm.wav
+Drums/2273__jovica__attack-loop-3-sine-tom-melody-2-mastered-16-bit_Cm_90bpm.wav
+Drums/23043__kejkz__slip-side_C_nokey.wav
+Drums/232335__Leifgreen__slow-drum-loop_C_nokey_120bpm.wav
+Drums/232336__Leifgreen__slow-drum-loop-transition_C_nokey_120bpm.wav
+Drums/232434__bigjoedrummer__hiphop-drums_C_nokey_92bpm.wav
+Drums/234809__Armjan88__hip-hop-beat-by-arm-saj-1_C_nokey.wav
+Drums/23555__djduppy__duppybigbeat01_C_nokey_150bpm.wav
+Drums/23557__djduppy__duppyd-b02_C_nokey_168bpm.wav
+Drums/23558__djduppy__duppyd-b03-170bpm_B_170bpm.wav
+Drums/23560__djduppy__duppygarage01b_C_nokey_126bpm.wav
+Drums/23562__djduppy__duppyhardcore01_C_nokey_188bpm.wav
+Drums/23565__djduppy__duppyhipfunk04_C_nokey_120bpm.wav
+Drums/23570__djduppy__duppyhouse05-140bpm_Fm_140bpm.wav
+Drums/23571__djduppy__duppyragga01_C_nokey_105bpm.wav
+Drums/235823__kickandclap__dark-hip-hop-trap-drums_C_nokey_102bpm.wav
+Drums/235836__waveplaysfx__drumloop-hat-loop_C_nokey_120bpm.wav
+Drums/238490__waveplaysfx__drumloop-edm-drum-loop-010_G#_120bpm.wav
+Drums/23890__djduppy__duppyreggaetonsoca01_C_nokey_114bpm.wav
+Drums/242591__lezaarth__tabla-loop-4bars_C_nokey_90bpm.wav
+Drums/242969__Bronxio__classic-breakbeats-apache-middle-break-original-2-bar_C_nokey.wav
+Drums/244337__Insidebeat__palo-alto_C_nokey.wav
+Drums/246314__paynesbeats__time-before-loop-hip-hop_C_nokey_100bpm.wav
+Drums/24930__VEXST__basic-break_C_nokey_162bpm.wav
+Drums/24931__VEXST__breakment-1-1_C_nokey_162bpm.wav
+Drums/24933__VEXST__breakment-21_C_nokey_162bpm.wav
+Drums/24935__VEXST__glitch-break_C_nokey_162bpm.wav
+Drums/24936__VEXST__jungle-break_C_nokey_162bpm.wav
+Drums/24937__VEXST__ragga-break_C_nokey_162bpm.wav
+Drums/24938__VEXST__rolling-break_C_nokey_162bpm.wav
+Drums/24939__VEXST__tech-step-break_C_nokey_162bpm.wav
+Drums/24941__VEXST__tiny-kick-break_C_nokey_162bpm.wav
+Drums/249730__PaynesBeats__suspense-hip-hop-loop-paynesbeats_C_nokey_135bpm.wav
+Drums/252213__-andre-onate__random-light-cym-blinks_C_nokey_133bpm.wav
+Drums/252451__Scydan__trap-beat_C_nokey_130bpm.wav
+Drums/252453__Scydan__jazzy-beat_C_nokey_75bpm.wav
+Drums/25484__raggaman__rhodes-loop-02-116_Cm_116bpm.wav
+Drums/25485__Raggaman__fl-gel-bigbeat-01_C_nokey_132bpm.wav
+Drums/255696__TheTunk__drums-and-strings-dramatic-intro_C_nokey_120bpm.wav
+Drums/256257__jmayoff__drum-loop_C_nokey_64bpm.wav
+Drums/256954__jmayoff__drum-loop_C_nokey_74bpm.wav
+Drums/257993__orangefreesounds__disco-funky-beat_C_nokey.wav
+Drums/261322__Stereo Surgeon__insomniac-drum-loop_C_nokey.wav
+Drums/261328__Xinematix__action-percussion-ensemble_C_nokey_120bpm.wav
+Drums/261335__Stereo Surgeon__tight-metallic-drum-loop_C_nokey.wav
+Drums/261422__Xinematix__action-percussion-ensemble-fast-3_C_nokey_170bpm.wav
+Drums/261423__Xinematix__action-percussion-ensemble-fast-2_C_nokey_170bpm.wav
+Drums/261424__Xinematix__action-percussion-ensemble-fast-1_C_nokey_170bpm.wav
+Drums/262128__Stereo Surgeon__trap-moombahton-kick-loop-1_C_nokey.wav
+Drums/262130__Stereo Surgeon__kick-loop-1_C_nokey.wav
+Drums/262350__StereoSurgeon__grinder-drum-loop_C_nokey_65bpm.wav
+Drums/262445__Xinematix__rim-percussion_C_nokey_120bpm.wav
+Drums/262446__Xinematix__action-percussion-variations_C_nokey_120bpm.wav
+Drums/262447__Xinematix__action-percussion-ensemble-fast-4_C_nokey_170bpm.wav
+Drums/263869__Kevcio__amen-break-b_C_nokey_160bpm.wav
+Drums/263870__kevcio__amen-break-c_C_173bpm.wav
+Drums/263871__Kevcio__amen-break-d_C_nokey_200bpm.wav
+Drums/264110__kwahmah_02__house-loop_C_nokey_160bpm.wav
+Drums/264284__mattc90__epic-tribal-drums.wav
+Drums/265055__Stereo Surgeon__kick-loop-2_C_nokey_125bpm.wav
+Drums/265078__orangefreesounds__drum-loop-percussions-bpm_C_nokey_140bpm.wav
+Drums/266081__Stereo Surgeon__snare-clap-loop-1_C_nokey_130bpm.wav
+Drums/268110__nenadsimic__tortoise-vs-hare-160bpm_C_nokey_160bpm.wav
+Drums/270313__dee_vigga__dv-amen-break_C_nokey_175bpm.wav
+Drums/271016__-Andre_Onate__warrior-break-01_C_nokey_133bpm.wav
+Drums/271044__spinozz__dnbbreak170-e_C_nokey_170bpm.wav
+Drums/27359__junggle__djembe_loop_13.wav
+Drums/274223__PearceWilsonKing__war-drum-loop_C_nokey_130bpm.wav
+Drums/30217__irrlicht__loop1_C_nokey_120bpm.wav
+Drums/320686__dpren__atrium-loop_C_nokey.wav
+Drums/320952__Kevcio__amen-break-f-16-bars_C_nokey_180bpm.wav
+Drums/321221__Kevcio__amen-break-g_C_nokey_165bpm.wav
+Drums/322327__RastSound__middle-east-ethnic-tribal-percussion_C_nokey_90bpm.wav
+Drums/32306__-zin-__trance-beat_C_nokey_140bpm.wav
+Drums/323250__scale75__hip-hop-beats-techno_C_nokey.wav
+Drums/323252__scale75__hip-hop-beats-sultan_C_nokey.wav
+Drums/323623__shpira__tech-drums_C_nokey_102bpm.wav
+Drums/324797__jakeletts__trap-beat_C_nokey_120bpm.wav
+Drums/324799__jakeletts__trap-intro-and-main-beat_C_nokey.wav
+Drums/330574__djfroyd__techno-drum-loop_C_nokey_128bpm.wav
+Drums/332064__AlonnaAllen__supersaw-beat-loop_C_nokey_90bpm.wav
+Drums/332643__shadowcast303__electrobassndrumzloop130bpm_C_nokey_130bpm.wav
+Drums/337671__Spol__funky-beat_C_nokey_83bpm.wav
+Drums/34115__kwazi__shaker-woda-conga-bongo-templeblock_C_nokey.wav
+Drums/342465__PearceWilsonKing__tribe-drum-loop_C_nokey_116bpm.wav
+Drums/344777__MuSiCjUnK__drum-n-bass_C_nokey_185bpm.wav
+Drums/3447__patchen__islamle-muslmstreet_C_nokey.wav
+Drums/3449__patchen__trickyhop-abcd.wav
+Drums/34518__hello_flowers__flowers-simplistic-beats-3_C_nokey.wav
+Drums/345566__Paradox39__bpm-drums-7-arm-loop_C_nokey_134bpm.wav
+Drums/3457__patchen__tomas-2_C_nokey_130bpm.wav
+Drums/34617__igramul__space-invaders-drum_C_nokey_130bpm.wav
+Drums/352409__nesmartu__simple-trap-beat-with-deep-bass_C_nokey.wav
+Drums/35465__irrlicht__glitch_C_nokey.wav
+Drums/369480__DeVern__chill-trap-loop_C_nokey_120bpm.wav
+Drums/372069__SwagMasterLord__s-old-school-rap-drum-loop_C_nokey_90bpm.wav
+Drums/372580__Glitchedtones__industrial-drums_C_nokey_120bpm.wav
+Drums/377314__bambumusico__drum-song-mid-to-wav_C_nokey.wav
+Drums/37819__LS__loop_C_nokey_130bpm.wav
+Drums/37893__LS__house-loop_C_nokey_125bpm.wav
+Drums/380076__devern__hip-hop-loop_C_nokey.wav
+Drums/381353__waveplaysfx__drumloop-120-bpm-edm-drum-loop-022.wav
+Drums/382251__AlexProst__energetic-bigbeat-drum-loop_C_nokey_128bpm.wav
+Drums/382276__Plutonium244__trap-drum-loop_C_nokey_90bpm.wav
+Drums/385676__Scydan__trip-acoustic-beat_C_nokey_90bpm.wav
+Drums/397463__blockfighter298__feeling-spacey_C_nokey_130bpm.wav
+Drums/402720__DeVern__dr-dre-style-hip-hop-loop_C_nokey_90bpm.wav
+Drums/404448__furbyguy__fast-paced-metal-loop_Dm_90bpm.wav
+Drums/40770__LS__glitchy_C_nokey_127bpm.wav
+Drums/40849__simon_lacelle__hip-hop-drum-beat.wav
+Drums/40962__M-RED__drop-da-beat_C_nokey_83bpm.wav
+Drums/410511__emceeciscokid__trap-loop-2_C_nokey_133bpm.wav
+Drums/412149__leonseptavaux__amen-break-materjal_C_nokey_85bpm.wav
+Drums/412806__krishmeister__basic-drums_C_nokey_120bpm.wav
+Drums/413240__Krishmeister__basic-drums_C_nokey_130bpm.wav
+Drums/413241__Krishmeister__basic-drums_C_nokey_110bpm.wav
+Drums/41588__Zajo__loop38_C_nokey.wav
+Drums/41589__Zajo__loop39_C_nokey.wav
+Drums/41591__Zajo__loophc_C_nokey.wav
+Drums/41614__NoiseCollector__poppyshaker_C_nokey.wav
+Drums/416307__teacoma__fast-support-hi-hats_C_nokey_126bpm.wav
+Drums/416900__unknown_audio__cassette-tape.aiff
+Drums/42023__LS__loop_C_nokey_120bpm.wav
+Drums/423269__vincent sermonne__punk-rock-groove_C_nokey.wav
+Drums/429539__stevysound__indian-percussion-loop_C_nokey_121bpm.wav
+Drums/431304__Teacoma__lofi-beat-w-bass_C_nokey_78bpm.wav
+Drums/431449__eryps__weird-drum-loop-176bpm.wav
+Drums/434166__supervanz__instant-rave_C_nokey.wav
+Drums/43536__mkoenig__ultra-dnb-loop_C_nokey_160bpm.wav
+Drums/43995__LS__drums-2_C_nokey.wav
+Drums/44552__sjcongo__sjcongolpc_C_nokey_126bpm.wav
+Drums/445606__pax11__e-pop_E_120bpm.wav
+Drums/475246__aUREa__military-snaredrum_C_nokey_115bpm.wav
+Drums/475657__devern__distorted-bass-and-drums-loop_D#_120bpm.wav
+Drums/4853__Zajo__loop03_C_nokey.wav
+Drums/4854__Zajo__loop04_C_nokey_105bpm.wav
+Drums/491277__Xinematix__taiko-drumloop-001_C_nokey_120bpm.wav
+Drums/491278__Xinematix__taiko-drumloop-002-with-ending_C_nokey_120bpm.wav
+Drums/494340__drestortion__warped-beat-thing-2_130-65bpm.wav
+Drums/499400__danlucaz__happy-loop-1_C_nokey_130bpm.wav
+Drums/505__geekhorde__electrodub01_C_nokey.wav
+Drums/506256__M-Wolfe__drum-loop_C_nokey.wav
+Drums/50709__rutgermuller__drumloop-dnb-2_C_nokey.wav
+Drums/50712__RutgerMuller__drums-breakbeat-1_C_nokey.wav
+Drums/50716__RutgerMuller__drums-funk-groove-1_C_nokey.wav
+Drums/50719__RutgerMuller__drums-funk-groove-4-drumroll-ride_C_nokey.wav
+Drums/50720__RutgerMuller__drums-funk-groove-5-messy_C_nokey.wav
+Drums/509467__elaineaeris__happy-trance-tambourine_C_120bpm.wav
+Drums/51257__rutgermuller__drum-n-bass-hi-hat-conga-loop.wav
+Drums/513957__danlucaz__groove-loop-1_C.wav
+Drums/513984__danlucaz__sad-loop-1_G.wav
+Drums/51481__suonho__suonho-rmx-berklee-briantranseau-tough-as-nails-driver_C_nokey.wav
+Drums/517863__danlucaz__80s-loop-7_F.wav
+Drums/522914__makenoisemusic__optigan-drums-mg-reel_C_nokey.wav
+Drums/52892__deleteduser38815__graindrums1_C_nokey.wav
+Drums/539860__YipYep__arcade-trap-loop_C_nokey.wav
+Drums/554778__snapper4298__130bpm-kicks_C_nokey_130bpm.wav
+Drums/569857__danlucaz__happy-loop-3_D_130bpm.wav
+Drums/573973__code_box__tropical-cruise_C_nokey.wav
+Drums/58907__suonho__ijontichy-groover-drum-xp-1-dubreakfiller-rwrk_C_nokey.wav
+Drums/591746__SYNDRM__psy-trance-kick-bass-drum-loop-f-synthesized-with-special-software_C_nokey_148bpm.wav
+Drums/59205__suonho__abstract-electrofunkbreakbeats-rudebwoy_C_nokey_87bpm.wav
+Drums/59210__suonho__abstract-electrofunkbreakbeats-124bpm-herbertwilli_C_nokey_124bpm.wav
+Drums/59215__suonho__abstract-electrofunkbreakbeats-darkangel_C_nokey_134bpm.wav
+Drums/59253__suonho__abstract-electrofunkbreakbeats-rimshortrdub_C_nokey_70bpm.wav
+Drums/59254__suonho__abstract-electrofunkbreakbeats-liquidi_C_nokey_89bpm.wav
+Drums/59310__suonho__abstract-electrofunkbreakbeats-089bpm-dubimal_C_nokey_89bpm.wav
+Drums/59312__suonho__abstract-electrofunkbreakbeats-duburby_C_nokey_89bpm.wav
+Drums/593849__szegvari__japan-dreams-cinematic-music-east-japan-beat-chill-relax_C_nokey.wav
+Drums/60410__sirplus__trippy-bgloop_C_nokey_126bpm.wav
+Drums/60_Dream_Drums.aif
+Drums/60_Drown_Drums.aif
+Drums/60_TR11 Just Drums.aif
+Drums/610823__Paraplex__fresh-drum-loop_C_nokey.wav
+Drums/61704__djgriffin__4xkick_C_nokey_120bpm.wav
+Drums/61705__djgriffin__deep-kick-loop_C_nokey_120bpm.wav
+Drums/621091__YellowTree__s-smooth-funk_C_nokey.wav
+Drums/621177__holizna__bpm-lofi-hiphop-drum-loop_C_nokey_85bpm.wav
+Drums/629132__holizna__boom-bap-hiphop-kick-snare-loop-bpm_C_nokey_95bpm.wav
+Drums/629134__holizna__lofi-drum-loop_C_nokey_76bpm.wav
+Drums/629137__holizna__funky-lofi-drum-loop-bpm_C_nokey_88bpm.wav
+Drums/629138__holizna__dusty-lofi-drum-loop-bpm_C_nokey_95bpm.wav
+Drums/629139__holizna__boombap-drums_C_nokey_90bpm.wav
+Drums/629140__holizna__lofi-drum-loop_C_nokey_70bpm.wav
+Drums/629141__holizna__lofi-kicksnarevinyl-static_C_nokey_95bpm.wav
+Drums/629142__holizna__boom-bap-hiphop-kick-snare-loop-bpm_C_nokey_95bpm.wav
+Drums/629144__holizna__lofi-drum-loop_C_nokey_76bpm.wav
+Drums/629145__holizna__lofi-drum2-loop_C_nokey_76bpm.wav
+Drums/629146__holizna__chill-lofi-vibes-loop_C_nokey_75bpm.wav
+Drums/65768__dahovv__dnb-beat-1_C_nokey_175bpm.wav
+Drums/65769__dahovv__dnb-beat-2-normal_C_nokey.wav
+Drums/65770__dahovv__dnb-beat-2-slow_C_nokey.wav
+Drums/659451__Seth_Makes_Sounds__chill-lofi-beat_C_nokey_70bpm.wav
+Drums/68128__raaghav81__perc-deff-st_C_nokey_74bpm.wav
+Drums/68130__raaghav81__perc-ebongo2_C_nokey_120bpm.wav
+Drums/72894__uzerx__industry-loop_C_nokey_120bpm.wav
+Drums/729613__hardcore-scm__2023-01-03-003-slow-spacey_C_nokey_101bpm.wav
+Drums/75_TR13 Just Drums Ab.aif
+Drums/75_WHAWHA_Drums.aif
+Drums/77 Bpm_UNO_Hat Loop.wav
+Drums/77199__Spol__hip-hop-beat-loop7_C_nokey_90bpm.wav
+Drums/77294__bigjoedrummer__rock-beat-loop-5-hiphop-ride-hangsnare-fill_C_nokey.wav
+Drums/800902__cvltiv8r__chill-sub-minimal-space-beat-with-hat-and-kick-loop_C_nokey_72bpm.wav
+Drums/804480__cvltiv8r__trill-journey-beat-loop_C_nokey_150bpm.wav
+Drums/806889__cvltiv8r__flight-wave-chill-ambient-idm-beat_C_nokey_110bpm.wav
+Drums/807833__1volcano__weird-spacey-techno-kit-drum-loop_C_nokey_120bpm.wav
+Drums/80_TR02 Just Drums D.aif
+Drums/80_TR07 Just Drums A.aif
+Drums/80_TR10 Filtered Drums C.aif
+Drums/80_TR10 Just Drums D.aif
+Drums/80_TR14 Just Drums A.aif
+Drums/80_TR15 Just Drums D.aif
+Drums/80s_Synthpop_Drums1.wav
+Drums/80s_Synthpop_Drums10.wav
+Drums/80s_Synthpop_Drums11.wav
+Drums/80s_Synthpop_Drums12.wav
+Drums/80s_Synthpop_Drums2.wav
+Drums/80s_Synthpop_Drums3.wav
+Drums/80s_Synthpop_Drums4.wav
+Drums/80s_Synthpop_Drums5.wav
+Drums/80s_Synthpop_Drums6.wav
+Drums/80s_Synthpop_Drums7.wav
+Drums/80s_Synthpop_Drums8.wav
+Drums/80s_Synthpop_Drums9.wav
+Drums/82 Bpm_ROT_Clap Loop.wav
+Drums/82022__shangyne__loop_Am_140bpm.wav
+Drums/84 Bpm_DECEPT_Hat Loop.wav
+Drums/84 Bpm_DECEPT_No Backbeat_Drum Loop.wav
+Drums/854596__metris__downtempo-loop_C_nokey_90bpm.wav
+Drums/85_TR27 Just Drums A.aif
+Drums/86 Bpm_CRAWL_Hat.wav
+Drums/86652__sandyrb__native-drum-loop-a-16bars_C_nokey_100bpm.wav
+Drums/86653__sandyrb__native-drum-loop-b-16bars_C_nokey_100bpm.wav
+Drums/86660__sandyrb__conga-loop-8bars-100bpm.wav
+Drums/86661__sandyrb__finger-snaps-loop-8bars_C_nokey_100bpm.wav
+Drums/86_TR25 Just Drums A.aif
+Drums/87_TR23 Just Drums C.aif
+Drums/88_TR01 Just Drums D.aif
+Drums/88_TR22 Just Drums A.aif
+Drums/89 Bpm_BLEECH_E Hat Loop.wav
+Drums/89 Bpm_BLEECH_Hat Loop.wav
+Drums/89 Bpm_BLEECH_Lofi_Perc Loop.wav
+Drums/89 Bpm_BLEECH_Perc Loop.wav
+Drums/90_TR04 Just Drums D.aif
+Drums/90_TR05 Just Drums D.aif
+Drums/90_TR12 Just Drums G.aif
+Drums/90_TR16 Kick.aif
+Drums/90_TR18 Just Drums D.aif
+Drums/90_TR18 Steel Drum & Stic~i.aif
+Drums/90_TR19 Just Drums A.aif
+Drums/90_TR24 Just Drums D.aif
+Drums/90_TR26 Just Drums G.aif
+Drums/92_TR17 Just Drums F#.aif
+Drums/9333__ashassin__rythmo1_C_nokey.wav
+Drums/93638__kasull__african-loop004-bpm130_C_nokey_130bpm.wav
+Drums/93_TR20 Just Drums D.aif
+Drums/95 Bpm_HWIP_Clap Quarters.wav
+Drums/95 Bpm_HWIP_Hat Loop.wav
+Drums/95_TR06 Just Drums D.aif
+Drums/acoustic drum loop/DR1001.AIF
+Drums/acoustic drum loop/DR1002.AIF
+Drums/acoustic drum loop/DR1003.AIF
+Drums/acoustic drum loop/DR1004.AIF
+Drums/acoustic drum loop/DR1005.AIF
+Drums/acoustic drum loop/DR1006.AIF
+Drums/acoustic drum loop/DR1007.AIF
+Drums/acoustic drum loop/DR1008.AIF
+Drums/acoustic drum loop/DR1009.AIF
+Drums/acoustic drum loop/DR1010.AIF
+Drums/acoustic drum loop/DR1011.AIF
+Drums/acoustic drum loop/DR1012.AIF
+Drums/acoustic drum loop/DR1013.AIF
+Drums/acoustic drum loop/DR1014.AIF
+Drums/acoustic drum loop/DR1015.AIF
+Drums/acoustic drum loop/DR1016.AIF
+Drums/acoustic drum loop/DR1017.AIF
+Drums/acoustic drum loop/DR1018.AIF
+Drums/acoustic drum loop/DR1019.AIF
+Drums/acoustic drum loop/DR1020.AIF
+Drums/acoustic drum loop/DR1021.AIF
+Drums/acoustic drum loop/DR1022.AIF
+Drums/acoustic drum loop/DR1023.AIF
+Drums/acoustic drum loop/DR1024.AIF
+Drums/acoustic drum loop/DR1025.AIF
+Drums/acoustic drum loop/DR1026.AIF
+Drums/acoustic drum loop/DR1027.AIF
+Drums/acoustic drum loop/DR1028.AIF
+Drums/acoustic drum loop/DR1029.AIF
+Drums/acoustic drum loop/DR1030.AIF
+Drums/acoustic drum loop/DR1031.AIF
+Drums/acoustic drum loop/DR1032.AIF
+Drums/acoustic drum loop/DR1033.AIF
+Drums/acoustic drum loop/DR1034.AIF
+Drums/acoustic drum loop/DR1035.AIF
+Drums/acoustic drum loop/DR1036.AIF
+Drums/acoustic drum loop/DR1037.AIF
+Drums/acoustic drum loop/DR1038.AIF
+Drums/acoustic drum loop/DR1039.AIF
+Drums/acoustic drum loop/DR1170.AIF
+Drums/acoustic drum loop/DR1171.AIF
+Drums/acoustic drum loop/DR1172.AIF
+Drums/acoustic drum loop/DR1173.AIF
+Drums/acoustic drum loop/DR1174.AIF
+Drums/acoustic drum loop/DR1175.AIF
+Drums/acoustic drum loop/DR1176.AIF
+Drums/acoustic drum loop/DR1177.AIF
+Drums/acoustic drum loop/DR1178.AIF
+Drums/acoustic drum loop/DR1179.AIF
+Drums/acoustic drum loop/DR1180.AIF
+Drums/acoustic drum loop/DR1181.AIF
+Drums/acoustic drum loop/DR1182.AIF
+Drums/acoustic drum loop/DR1184.AIF
+Drums/acoustic drum loop/DR1185.AIF
+Drums/Acoustic Rock 1-110/DR105.AIF
+Drums/Acoustic Rock 1-110/DR1106.AIF
+Drums/Acoustic Rock 1-110/DR1107.AIF
+Drums/Acoustic Rock 1-110/DR1108.AIF
+Drums/Acoustic Rock 1-110/DR1109.AIF
+Drums/Acoustic Rock 1-110/DR1110.AIF
+Drums/Acoustic Rock 1-110/DR1111.AIF
+Drums/Acoustic Rock 1-110/DR1112.AIF
+Drums/Acoustic Rock 2-120/DR1236.AIF
+Drums/Acoustic Rock 2-120/DR1237.AIF
+Drums/Acoustic Rock 2-120/DR1238.AIF
+Drums/Acoustic Rock 2-120/DR1239.AIF
+Drums/Acoustic Rock 2-120/DR1240.AIF
+Drums/Acoustic Rock 2-120/DR1241.AIF
+Drums/Acoustic Rock 2-120/DR1242.AIF
+Drums/Acoustic Rock 2-120/DR1243.AIF
+Drums/Acoustic Rock 2-120/DR1244.AIF
+Drums/Acoustic Rock 2-120/DR1245.AIF
+Drums/Acoustic Rock 2-120/DR1246.AIF
+Drums/Acoustic Rock 2-120/DR1247.AIF
+Drums/Acoustic Rock 2-120/DR1248.AIF
+Drums/Bigroom kick.wav
+Drums/Breaks/BIZKEL Break 100bpm The Oval 1.wav
+Drums/Breaks/BIZKEL Break 100bpm The Oval 2.wav
+Drums/Breaks/BIZKEL Break 101bpm Brujita 1.wav
+Drums/Breaks/BIZKEL Break 101bpm Brujita 2.wav
+Drums/Breaks/BIZKEL Break 101bpm Marmaris.wav
+Drums/Breaks/BIZKEL Break 110bpm Mondaze.wav
+Drums/Breaks/BIZKEL Break 120bpm Dovetail.wav
+Drums/Breaks/BIZKEL Break 122bpm Say Less 1.wav
+Drums/Breaks/BIZKEL Break 122bpm Say Less 2.wav
+Drums/Breaks/BIZKEL Break 122bpm Say Less 3.wav
+Drums/Breaks/BIZKEL Break 67bpm Ankh 1.wav
+Drums/Breaks/BIZKEL Break 67bpm Ankh 2.wav
+Drums/Breaks/BIZKEL Break 67bpm Ankh 3.wav
+Drums/Breaks/BIZKEL Break 67bpm Ankh 4.wav
+Drums/Breaks/BIZKEL Break 67bpm Bembo 1.wav
+Drums/Breaks/BIZKEL Break 67bpm Bembo 2.wav
+Drums/Breaks/BIZKEL Break 67bpm Bembo 3.wav
+Drums/Breaks/BIZKEL Break 69bpm Crash Deposit.wav
+Drums/Breaks/BIZKEL Break 69bpm Glock 1.wav
+Drums/Breaks/BIZKEL Break 69bpm Glock 2.wav
+Drums/Breaks/BIZKEL Break 69bpm Glock 3.wav
+Drums/Breaks/BIZKEL Break 69bpm Glock 4.wav
+Drums/Breaks/BIZKEL Break 69bpm Haze.wav
+Drums/Breaks/BIZKEL Break 70bpm Anzio 1.wav
+Drums/Breaks/BIZKEL Break 70bpm Anzio 2.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 1.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 2.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 3.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 4.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 5.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 6.wav
+Drums/Breaks/BIZKEL Break 70bpm Duffle Bag 7.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 1.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 10.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 11.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 12.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 13.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 14.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 2.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 3.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 4.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 5.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 6.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 7.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 8.wav
+Drums/Breaks/BIZKEL Break 72bpm Eleventh Hour 9.wav
+Drums/Breaks/BIZKEL Break 72bpm Rocher 1.wav
+Drums/Breaks/BIZKEL Break 72bpm Rocher 2.wav
+Drums/Breaks/BIZKEL Break 72bpm Rocher 3.wav
+Drums/Breaks/BIZKEL Break 73bpm Fudge 1.wav
+Drums/Breaks/BIZKEL Break 73bpm Fudge 2.wav
+Drums/Breaks/BIZKEL Break 73bpm Fudge 3.wav
+Drums/Breaks/BIZKEL Break 73bpm Shufra.wav
+Drums/Breaks/BIZKEL Break 74bpm Baxter 1.wav
+Drums/Breaks/BIZKEL Break 74bpm Baxter 2.wav
+Drums/Breaks/BIZKEL Break 75bpm Water Juice 1.wav
+Drums/Breaks/BIZKEL Break 75bpm Water Juice 2.wav
+Drums/Breaks/BIZKEL Break 75bpm Water Juice 3.wav
+Drums/Breaks/BIZKEL Break 76bpm Goodwill.wav
+Drums/Breaks/BIZKEL Break 76bpm Spellbound.wav
+Drums/Breaks/BIZKEL Break 77bpm Killknock.wav
+Drums/Breaks/BIZKEL Break 77bpm Pomeranz.wav
+Drums/Breaks/BIZKEL Break 77bpm Scavenger 1.wav
+Drums/Breaks/BIZKEL Break 77bpm Scavenger 2.wav
+Drums/Breaks/BIZKEL Break 77bpm Scavenger 3.wav
+Drums/Breaks/BIZKEL Break 77bpm Scavenger 4.wav
+Drums/Breaks/BIZKEL Break 77bpm Solar.wav
+Drums/Breaks/BIZKEL Break 79bpm Feast 1.wav
+Drums/Breaks/BIZKEL Break 79bpm Feast 2.wav
+Drums/Breaks/BIZKEL Break 79bpm Monty 1.wav
+Drums/Breaks/BIZKEL Break 79bpm Monty 2.wav
+Drums/Breaks/BIZKEL Break 79bpm Monty 3.wav
+Drums/Breaks/BIZKEL Break 79bpm Monty 4.wav
+Drums/Breaks/BIZKEL Break 80bpm Creamery.wav
+Drums/Breaks/BIZKEL Break 80bpm Hookah Lounge 1.wav
+Drums/Breaks/BIZKEL Break 80bpm Hookah Lounge 2.wav
+Drums/Breaks/BIZKEL Break 80bpm Zabo 1.wav
+Drums/Breaks/BIZKEL Break 80bpm Zabo 2.wav
+Drums/Breaks/BIZKEL Break 80bpm Zabo 3.wav
+Drums/Breaks/BIZKEL Break 80bpm Zabo 4.wav
+Drums/Breaks/BIZKEL Break 81bpm Early Bird 1.wav
+Drums/Breaks/BIZKEL Break 81bpm Early Bird 2.wav
+Drums/Breaks/BIZKEL Break 81bpm Early Bird 3.wav
+Drums/Breaks/BIZKEL Break 81bpm Jackys 1.wav
+Drums/Breaks/BIZKEL Break 81bpm Jackys 2.wav
+Drums/Breaks/BIZKEL Break 81bpm Jackys 3.wav
+Drums/Breaks/BIZKEL Break 81bpm Jackys 5.wav
+Drums/Breaks/BIZKEL Break 81bpm Jackys 6.wav
+Drums/Breaks/BIZKEL Break 81bpm Jackys 7.wav
+Drums/Breaks/BIZKEL Break 81bpm Tahini Factory.wav
+Drums/Breaks/BIZKEL Break 82bpm Anglez.wav
+Drums/Breaks/BIZKEL Break 82bpm Belmondo 1.wav
+Drums/Breaks/BIZKEL Break 82bpm Belmondo 2.wav
+Drums/Breaks/BIZKEL Break 82bpm Belmondo 3.wav
+Drums/Breaks/BIZKEL Break 82bpm Belmondo 4.wav
+Drums/Breaks/BIZKEL Break 82bpm Fontana.wav
+Drums/Breaks/BIZKEL Break 82bpm Nona 1.wav
+Drums/Breaks/BIZKEL Break 82bpm Nona 2.wav
+Drums/Breaks/BIZKEL Break 83bpm Cubeba.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 1.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 2.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 3.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 4.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 5.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 6.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 7.wav
+Drums/Breaks/BIZKEL Break 83bpm Follow Thru 8.wav
+Drums/Breaks/BIZKEL Break 83bpm Hilba 1.wav
+Drums/Breaks/BIZKEL Break 83bpm Hilba 2.wav
+Drums/Breaks/BIZKEL Break 84bpm Dirty Dozen.wav
+Drums/Breaks/BIZKEL Break 84bpm Lucky Seven 1.wav
+Drums/Breaks/BIZKEL Break 84bpm Lucky Seven 2.wav
+Drums/Breaks/BIZKEL Break 84bpm Mason 1.wav
+Drums/Breaks/BIZKEL Break 84bpm Mason 2.wav
+Drums/Breaks/BIZKEL Break 84bpm Mason 3.wav
+Drums/Breaks/BIZKEL Break 84bpm Mason 4.wav
+Drums/Breaks/BIZKEL Break 84bpm Pocket Knife 1.wav
+Drums/Breaks/BIZKEL Break 84bpm Pocket Knife 2.wav
+Drums/Breaks/BIZKEL Break 84bpm Pocket Knife 3.wav
+Drums/Breaks/BIZKEL Break 84bpm Pocket Knife 4.wav
+Drums/Breaks/BIZKEL Break 84bpm Pocket Knife 5.wav
+Drums/Breaks/BIZKEL Break 84bpm Snitches Destiny 1.wav
+Drums/Breaks/BIZKEL Break 84bpm Snitches Destiny 2.wav
+Drums/Breaks/BIZKEL Break 84bpm Snitches Destiny 4.wav
+Drums/Breaks/BIZKEL Break 84bpm Vandarin.wav
+Drums/Breaks/BIZKEL Break 85bpm Desire.wav
+Drums/Breaks/BIZKEL Break 85bpm Family Tree 1.wav
+Drums/Breaks/BIZKEL Break 85bpm Family Tree 2.wav
+Drums/Breaks/BIZKEL Break 85bpm Family Tree 3.wav
+Drums/Breaks/BIZKEL Break 85bpm Family Tree 4.wav
+Drums/Breaks/BIZKEL Break 85bpm Interpol.wav
+Drums/Breaks/BIZKEL Break 85bpm Nomo 1.wav
+Drums/Breaks/BIZKEL Break 85bpm Nomo 2.wav
+Drums/Breaks/BIZKEL Break 85bpm Nomo 3.wav
+Drums/Breaks/BIZKEL Break 86bpm Branz 1.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 1.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 2.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 3.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 4.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 5.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 6.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 7.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 8.wav
+Drums/Breaks/BIZKEL Break 87bpm AA Meeting 9.wav
+Drums/Breaks/BIZKEL Break 87bpm Stavisky 1.wav
+Drums/Breaks/BIZKEL Break 87bpm Stavisky 2.wav
+Drums/Breaks/BIZKEL Break 87bpm Stavisky 3.wav
+Drums/Breaks/BIZKEL Break 87bpm Stavisky 4.wav
+Drums/Breaks/BIZKEL Break 87bpm Stavisky 5.wav
+Drums/Breaks/BIZKEL Break 87bpm Venieros 1.wav
+Drums/Breaks/BIZKEL Break 87bpm Venieros 2.wav
+Drums/Breaks/BIZKEL Break 88bpm Ankara 1.wav
+Drums/Breaks/BIZKEL Break 88bpm Ankara 2.wav
+Drums/Breaks/BIZKEL Break 88bpm Ankara 3.wav
+Drums/Breaks/BIZKEL Break 88bpm Ankara 4.wav
+Drums/Breaks/BIZKEL Break 88bpm Ankara 5.wav
+Drums/Breaks/BIZKEL Break 88bpm Bean Bags 1.wav
+Drums/Breaks/BIZKEL Break 88bpm Bean Bags 2.wav
+Drums/Breaks/BIZKEL Break 88bpm Bean Bags 3.wav
+Drums/Breaks/BIZKEL Break 88bpm Cymbalism.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 1.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 2.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 3.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 4.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 5.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 6.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 7.wav
+Drums/Breaks/BIZKEL Break 89bpm Melting Inferno 8.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 1.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 2.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 3.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 4.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 5.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 6.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 7.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 8.wav
+Drums/Breaks/BIZKEL Break 89bpm Orion 9.wav
+Drums/Breaks/BIZKEL Break 89bpm Taco Truck.wav
+Drums/Breaks/BIZKEL Break 90bpm Moose 1.wav
+Drums/Breaks/BIZKEL Break 90bpm Moose 2.wav
+Drums/Breaks/BIZKEL Break 90bpm Renais 1.wav
+Drums/Breaks/BIZKEL Break 90bpm Renais 2.wav
+Drums/Breaks/BIZKEL Break 90bpm Rent Free.wav
+Drums/Breaks/BIZKEL Break 90bpm Shadi 1.wav
+Drums/Breaks/BIZKEL Break 90bpm Shadi 2.wav
+Drums/Breaks/BIZKEL Break 90bpm Vindaloo.wav
+Drums/Breaks/BIZKEL Break 90bpm Vinny the Chin.wav
+Drums/Breaks/BIZKEL Break 91bpm Iconic.wav
+Drums/Breaks/BIZKEL Break 91bpm Yamyam 1.wav
+Drums/Breaks/BIZKEL Break 91bpm Yamyam 2.wav
+Drums/Breaks/BIZKEL Break 91bpm Zen Master 1.wav
+Drums/Breaks/BIZKEL Break 91bpm Zen Master 2.wav
+Drums/Breaks/BIZKEL Break 91bpm Zen Master 3.wav
+Drums/Breaks/BIZKEL Break 91bpm Zen Master 4.wav
+Drums/Breaks/BIZKEL Break 91bpm Zen Master 5.wav
+Drums/Breaks/BIZKEL Break 92bpm Khyber Pass.wav
+Drums/Breaks/BIZKEL Break 92bpm Midnight 1.wav
+Drums/Breaks/BIZKEL Break 92bpm Midnight 2.wav
+Drums/Breaks/BIZKEL Break 92bpm Nektar.wav
+Drums/Breaks/BIZKEL Break 93bpm Big Linx 1.wav
+Drums/Breaks/BIZKEL Break 93bpm Big Linx 2.wav
+Drums/Breaks/BIZKEL Break 94bpm Purple Suit.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 1.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 2.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 3.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 4.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 5.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 6.wav
+Drums/Breaks/BIZKEL Break 95bpm What Will 7.wav
+Drums/Breaks/BIZKEL Break 96bpm Applez.wav
+Drums/Breaks/BIZKEL Break 97bpm Honey Cake 1.wav
+Drums/Breaks/BIZKEL Break 97bpm Honey Cake 2.wav
+Drums/Breaks/BIZKEL Break 97bpm Honey Cake 3.wav
+Drums/Breaks/BIZKEL Break 97bpm Times Up.wav
+Drums/Breaks/BIZKEL Break 99bpm Change of Heart.wav
+Drums/Bubble Drums Loops 177/alt beat.wav
+Drums/Bubble Drums Loops 177/alt beat2.wav
+Drums/Bubble Drums Loops 177/break1.wav
+Drums/Bubble Drums Loops 177/break2.wav
+Drums/Bubble Drums Loops 177/chorus1.wav
+Drums/Bubble Drums Loops 177/chorus2.wav
+Drums/Bubble Drums Loops 177/end crash1.wav
+Drums/Bubble Drums Loops 177/end crash2.wav
+Drums/Bubble Drums Loops 177/light.wav
+Drums/Bubble Drums Loops 177/light2.wav
+Drums/Bubble Drums Loops 177/verse1.wav
+Drums/Bubble Drums Loops 177/verse2.wav
+Drums/Bubble Percussion Loops 177/full loop.wav
+Drums/Bubble Percussion Loops 177/loop1.wav
+Drums/Bubble Percussion Loops 177/loop2.wav
+Drums/Bubble Percussion Loops 177/loop3.wav
+Drums/Bubble Percussion Loops 177/loop4.wav
+Drums/Bubble Percussion Loops 177/loop5.wav
+Drums/Budda Beats 2nd DRUM Break BPM 94.wav
+Drums/Budda Beats 3rd Drum Breakdown BPM 94.wav
+Drums/Budda Beats Drum Breakdown BPM 94.wav
+Drums/Budda Beats Kik & Hats BPM 94.wav
+Drums/Budda Beats Pocket BPM 94.wav
+Drums/Budda Beats Toms Action BPM 94.wav
+Drums/Cheeki Breeki donk kick.wav
+Drums/chopped-crazy-amen-break-apache-break_115bpm_D_minor.wav
+Drums/Cymatics - All That I Want - 94 BPM A# Min.wav
+Drums/Degraded Perc (124 BPM).wav
+Drums/Drain Flan, 150 (1).wav
+Drums/Drain Flan, 150 (2).wav
+Drums/Drain Flan, 150 (3).wav
+Drums/Drain Flan, 150 (4).wav
+Drums/Drain Hud, 150.wav
+Drums/Drain Tft, 150.wav
+Drums/Drum loop (Carrai Pass).wav
+Drums/FL_BC_175_Drum_Full_Bomb.wav
+Drums/FL_BC_175_Drum_Full_Breaks.wav
+Drums/FL_BC_175_Drum_Full_Drag.wav
+Drums/FL_BC_175_Drum_Full_Filter.wav
+Drums/FL_BC_175_Drum_Full_Garage.wav
+Drums/FL_BC_175_Drum_Full_Intro.wav
+Drums/FL_BC_175_Drum_Full_Jungle.wav
+Drums/FL_DW_150_Drum_Full_Beat.wav
+Drums/FL_DW_150_Drum_Full_Bloom.wav
+Drums/FL_DW_150_Drum_Full_Clock.wav
+Drums/FL_DW_150_Drum_Full_Distro.wav
+Drums/FL_DW_150_Drum_Kick_Beat_Fast.wav
+Drums/FL_DW_150_Drum_Kick_Bloom.wav
+Drums/FL_DW_150_Drum_Kick_Clock_Steps.wav
+Drums/FL_DW_150_Drum_Kick_Distro_Bounce.wav
+Drums/FL_DW_150_Drum_Tops_Beat_Hats_Snare.wav
+Drums/FL_DW_150_Drum_Tops_Bloom_Hats_Snare.wav
+Drums/FL_DW_150_Drum_Tops_Clock_Hats_Snare.wav
+Drums/FL_DW_150_Drum_Tops_Distro_Hats_Snare.wav
+Drums/FL_MP_80_Drum_Full_Annesdale_Hit.wav
+Drums/FL_MP_80_Drum_Full_Balmoral_Tonal.wav
+Drums/FL_MP_80_Drum_Full_Boxtown_Spacey.wav
+Drums/FL_MP_80_Drum_Full_Crosstown_Fast.wav
+Drums/FL_MP_80_Drum_Full_Edge_Pow.wav
+Drums/FL_MP_80_Drum_Full_Evergreen_Linear.wav
+Drums/FL_MP_80_Drum_Full_Harbor_Liquid.wav
+Drums/FL_MP_80_Drum_Full_Idlewild_Swag.wav
+Drums/FL_MP_80_Drum_Full_Joffre_Dry.wav
+Drums/FL_MP_80_Drum_Full_Lenox_Train.wav
+Drums/FL_MP_80_Drum_Full_Linden_Hard.wav
+Drums/FL_MP_80_Drum_Full_Longview_Filter.wav
+Drums/FL_MP_80_Drum_Full_Pinch_Deep.wav
+Drums/FL_MP_80_Drum_Full_Raleigh_Classic.wav
+Drums/FL_MP_80_Drum_Full_River_Thin.wav
+Drums/FL_MP_80_Drum_Full_Smokey_Lift.wav
+Drums/FL_MP_80_Drum_Full_Soulsville_Boomy.wav
+Drums/FL_MP_80_Drum_Full_South_Bounce.wav
+Drums/FL_MP_80_Drum_Full_Westwood_Busy.wav
+Drums/FL_MP_80_Drum_Full_White_Wood.wav
+Drums/FL_MP_80_Drum_Kick_Annesdale_Dirty.wav
+Drums/FL_MP_80_Drum_Kick_Balmoral_Pierce.wav
+Drums/FL_MP_80_Drum_Kick_Boxtown_Claw.wav
+Drums/FL_MP_80_Drum_Kick_Crosstown_Hard.wav
+Drums/FL_MP_80_Drum_Kick_Edge_Steppa.wav
+Drums/FL_MP_80_Drum_Kick_Evergreen_Classic.wav
+Drums/FL_MP_80_Drum_Kick_Harbor_Muffled.wav
+Drums/FL_MP_80_Drum_Kick_Idlewild_Bounce.wav
+Drums/FL_MP_80_Drum_Kick_Joffre_Top.wav
+Drums/FL_MP_80_Drum_Kick_Lenox_Dirty.wav
+Drums/FL_MP_80_Drum_Kick_Linden_Down.wav
+Drums/FL_MP_80_Drum_Kick_Longview_Wall.wav
+Drums/FL_MP_80_Drum_Kick_Pinch_Chest.wav
+Drums/FL_MP_80_Drum_Kick_Raleigh_Ball.wav
+Drums/FL_MP_80_Drum_Kick_River_Shake.wav
+Drums/FL_MP_80_Drum_Kick_Smokey_Impact.wav
+Drums/FL_MP_80_Drum_Kick_Soulsville_Buried.wav
+Drums/FL_MP_80_Drum_Kick_South_Input.wav
+Drums/FL_MP_80_Drum_Kick_Westwood_Gritty.wav
+Drums/FL_MP_80_Drum_Kick_White_Deep.wav
+Drums/FL_MP_80_Drum_Tops_Annesdale_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Balmoral_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Boxtown_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Crosstown_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Edge_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Evergreen_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Harbor_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Idlewild_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Joffre_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Lenox_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Linden_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Longview_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Pinch_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Raleigh_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_River_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Smokey_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Soulsville_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_South_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_Westwood_Hat_Snare.wav
+Drums/FL_MP_80_Drum_Tops_White_Hat_Snare.wav
+Drums/FL_MP_80_Synth_Lead_Cowbell_Breaks_D#m.wav
+Drums/FL_MP_80_Synth_Lead_Cowbell_Crushed_Dm.wav
+Drums/FL_MP_80_Synth_Lead_Cowbell_Delay_D#m.wav
+Drums/FL_MP_80_Synth_Lead_Cowbell_Destroy_C#m.wav
+Drums/FL_MP_80_Synth_Lead_Cowbell_Incipient_C#m.wav
+Drums/FL_MP_80_Synth_Lead_Cowbell_Intro_D#m.wav
+Drums/FL_PL_136_Drum_Full_Heat.wav
+Drums/FL_PL_136_Drum_Hat_Heat.wav
+Drums/FL_PL_136_Drum_Snare_Heat.wav
+Drums/FL_PL_150_Drum_Full_Sense.wav
+Drums/FL_PL_150_Drum_Hat_Sense.wav
+Drums/FL_PL_150_Drum_Kick_Sense.wav
+Drums/FL_PL_150_Drum_Snare_Sense.wav
+Drums/FL_TT_140_Drum_Clap_Detroit_Mangled.wav
+Drums/FL_TT_140_Drum_Full_Boston_Impactful.wav
+Drums/FL_TT_140_Drum_Full_Detroit_Groovy.wav
+Drums/FL_TT_140_Drum_Hat_Boston_Fast_Trappy.wav
+Drums/FL_TT_140_Drum_Hat_Detroit_Fast.wav
+Drums/FL_TT_140_Drum_Kick_Boston_Deep.wav
+Drums/FL_TT_140_Drum_Kick_Detroit_Beat.wav
+Drums/FL_TT_140_Drum_Snare_Boston_Woody.wav
+Drums/FL_TT_140_Drum_Top_Boston_Hats_Fx.wav
+Drums/FL_TT_145_Drum_Full_Houston_Bounce.wav
+Drums/FL_TT_145_Drum_Hat_Houston_Manipulated.wav
+Drums/FL_TT_145_Drum_Kick_Houston_Dirty.wav
+Drums/FL_TT_145_Drum_Snare_Houston_Mangled.wav
+Drums/Floss01b, 130.wav
+Drums/Floss02,  140.wav
+Drums/Floss02x, 140.wav
+Drums/Floss02y, 140.wav
+Drums/Frenchcore kick.wav
+Drums/Full Drum Loops/100 Bpm_Header_Drum Loop.wav
+Drums/Full Drum Loops/105 Bpm_Row_Drum Loop.wav
+Drums/Full Drum Loops/68 Bpm_Slow Knees_Drum Loop.wav
+Drums/Full Drum Loops/74 Bpm_CROWS_Drum Loop.wav
+Drums/Full Drum Loops/74 Bpm_CROWS_Lofi_Drum Loop.wav
+Drums/Full Drum Loops/74 Bpm_MANNEQUIN_Drum Loop.wav
+Drums/Full Drum Loops/74 Bpm_MANNEQUIN_No Cymbals_Drum Loop.wav
+Drums/Full Drum Loops/74 Bpm_Nosy_Drum Loop.wav
+Drums/Full Drum Loops/75 Bpm_Fatoes_Drum Loop.wav
+Drums/Full Drum Loops/76 Bpm_Cloud_Roomy_Drum Loop.wav
+Drums/Full Drum Loops/76 Bpm_Tentacle_Drum Loop.wav
+Drums/Full Drum Loops/77 Bpm_TakeOff_Drum Loop.wav
+Drums/Full Drum Loops/77 Bpm_UNO_Drum Loop.wav
+Drums/Full Drum Loops/77 Bpm_UNO_Drum Loop_No Perc.wav
+Drums/Full Drum Loops/77 Bpm_UNO_Filtered_Drum Loop 1.wav
+Drums/Full Drum Loops/77 Bpm_UNO_Lofi_Backbeat.wav
+Drums/Full Drum Loops/78 Bpm_Bibimbop_Filtered_Drum Loop.wav
+Drums/Full Drum Loops/78 Bpm_Bibimbop_Room_Drum Loop.wav
+Drums/Full Drum Loops/78 Bpm_Prep_Drum Loop.wav
+Drums/Full Drum Loops/79 Bpm_BAKER_Drum Build.wav
+Drums/Full Drum Loops/79 Bpm_BAKER_Drum Loop.wav
+Drums/Full Drum Loops/80 Bpm_Violet_Drum Loop.wav
+Drums/Full Drum Loops/82 Bpm_Get_Drum Loop.wav
+Drums/Full Drum Loops/82 Bpm_ROT_Drum Loop 1.wav
+Drums/Full Drum Loops/82 Bpm_ROT_Drum Loop 2.wav
+Drums/Full Drum Loops/82 Bpm_ROT_Full_Drum Loop.wav
+Drums/Full Drum Loops/84 Bpm_DECEPT_Basic_Drum Loop.wav
+Drums/Full Drum Loops/84 Bpm_DECEPT_Basic_Lofi_Drum Loop.wav
+Drums/Full Drum Loops/84 Bpm_DECEPT_Drum Loop.wav
+Drums/Full Drum Loops/84 Bpm_LofiSpace_Drum Loop.wav
+Drums/Full Drum Loops/85 Bpm_Jass_Drum Loop.wav
+Drums/Full Drum Loops/86 Bpm_CRAWL_Drum Loop 1.wav
+Drums/Full Drum Loops/86 Bpm_CRAWL_Drum Loop 2.wav
+Drums/Full Drum Loops/86 Bpm_Shells_Drum Loop.wav
+Drums/Full Drum Loops/87 Bpm_Grime_Drum Loop.wav
+Drums/Full Drum Loops/87 Bpm_Pump_Drum Loop.wav
+Drums/Full Drum Loops/87 Bpm_Sustard_Drum Loop.wav
+Drums/Full Drum Loops/87 Bpm_Tricker_Drum Loop.wav
+Drums/Full Drum Loops/88 Bpm_Rover_Clean_Drum Loop.wav
+Drums/Full Drum Loops/88 Bpm_Rover_Drum Loop.wav
+Drums/Full Drum Loops/89 Bpm_BLEECH_Classic_Drum Loop.wav
+Drums/Full Drum Loops/89 Bpm_BLEECH_Drum Loop.wav
+Drums/Full Drum Loops/89 Bpm_BLEECH_Minimal_Drum Loop.wav
+Drums/Full Drum Loops/89 Bpm_BLEECH_No Perc_Drum Loop.wav
+Drums/Full Drum Loops/90 Bpm_DeescO_Drum Loop.wav
+Drums/Full Drum Loops/90 Bpm_SlipenSlide_Drum Loop.wav
+Drums/Full Drum Loops/91 Bpm_Stronghold_Drum Loop.wav
+Drums/Full Drum Loops/95 Bpm_HWIP_Drum Loop.wav
+Drums/Full Drum Loops/95 Bpm_HWIP_No Perc_Drum Loop.wav
+Drums/Full Drum Loops/95 Bpm_HWIP_No Perc_Outtake_Drum Loop.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 1 - 100 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 10 - 150 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 11 - 150 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 12 - 155 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 13 - 160 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 14 - 160 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 15 - 160 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 16 - 170 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 17 - 170 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 2 - 103 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 3 - 130 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 4 - 130 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 5 - 140 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 6 - 140 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 7 - 143 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 8 - 150 BPM.wav
+Drums/Full Drum Loops/Cymatics - Cobra Full Drum Loop 9 - 150 BPM.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Bomb.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Breaks.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Drag.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Filter.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Garage.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Intro.wav
+Drums/Full Drum Loops/FL_BC_175_Drum_Full_Jungle.wav
+Drums/Full Drum Loops/Morth Break.wav
+Drums/Full Drum Loops/Morth DL 1 111 Bpm.wav
+Drums/Full Drum Loops/Morth DL 119 Bpm.wav
+Drums/Full Drum Loops/Morth DL 2 144 Bpm.wav
+Drums/Full Drum Loops/Morth DL 3 107 Bpm.wav
+Drums/Full Drum Loops/Morth Memphis Drum Loop 1 170 Bpm (No effects).wav
+Drums/Full Drum Loops/Morth Memphis Drum Loop 1 170 Bpm.wav
+Drums/Full Drum Loops/Morth Memphis Drum Loop 2 151 Bpm (No effects).wav
+Drums/Full Drum Loops/Morth Memphis Drum Loop 2 151 Bpm.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Avant 117.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Bluestripe 141.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Center 125.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Chariot 135.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Delusional 137.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Dusk 86.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Fold 134.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Heliot 120.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Lore 130.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Medic 123.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Mogged 121.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Pace 149.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Prodigy 90.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Pure Pressure 154.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Royal Flush 129.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Sailor 111.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Simple Verb 124.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Sports 134.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Swag 121.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Thorne 120.wav
+Drums/Full Drum Loops/PLAYOFFS® - DL Wake Up 130.wav
+Drums/Gmp, 150 (0).wav
+Drums/Gmp, 150 (1).wav
+Drums/Gmp, 150 (2).wav
+Drums/GrimyGrimClap_2a1917.wav
+Drums/GrimyGrimGotTheClap_0d01ad.wav
+Drums/GrimyGrimKickinIt_e0af5c.wav
+Drums/GrimyGrimSnare_9d5815.wav
+Drums/GrimyGrimSplash_cef4e1.wav
+Drums/hard-drill-drum-bass-line_142bpm_C#_minor.wav
+Drums/Hardstyle kick.wav
+Drums/HEAVY/120BPM/China_120_OHs.aif
+Drums/HEAVY/120BPM/China_120_OHs.wav
+Drums/HEAVY/120BPM/Crashes_120_OHs.aif
+Drums/HEAVY/120BPM/Crashes_120_OHs.wav
+Drums/HEAVY/120BPM/Fill_1_120.aif
+Drums/HEAVY/120BPM/Fill_1_120.wav
+Drums/HEAVY/120BPM/Fill_2_120.aif
+Drums/HEAVY/120BPM/Fill_2_120.wav
+Drums/HEAVY/120BPM/Fill_3_120.aif
+Drums/HEAVY/120BPM/Fill_3_120.wav
+Drums/HEAVY/120BPM/Heavy_120_Full.aif
+Drums/HEAVY/120BPM/Heavy_120_Full.wav
+Drums/HEAVY/120BPM/Heavy_120_Full_Blast.aif
+Drums/HEAVY/120BPM/Heavy_120_Full_Blast.wav
+Drums/HEAVY/120BPM/Heavy_120_Full_China.aif
+Drums/HEAVY/120BPM/Heavy_120_Full_China.wav
+Drums/HEAVY/148BPM/Crashes_OH_148.aif
+Drums/HEAVY/148BPM/Crashes_OH_148.wav
+Drums/HEAVY/148BPM/Fill_1_148.aif
+Drums/HEAVY/148BPM/Fill_1_148.wav
+Drums/HEAVY/148BPM/Fill_2_148.aif
+Drums/HEAVY/148BPM/Fill_2_148.wav
+Drums/HEAVY/148BPM/Fill_3_148.aif
+Drums/HEAVY/148BPM/Fill_3_148.wav
+Drums/HEAVY/148BPM/Fill_4_148.aif
+Drums/HEAVY/148BPM/Fill_4_148.wav
+Drums/HEAVY/148BPM/Fill_5_148.aif
+Drums/HEAVY/148BPM/Fill_5_148.wav
+Drums/HEAVY/148BPM/Fill_6_148.aif
+Drums/HEAVY/148BPM/Fill_6_148.wav
+Drums/HEAVY/148BPM/Full_Beat_148.aif
+Drums/HEAVY/148BPM/Full_Beat_148.wav
+Drums/HEAVY/148BPM/Full_Blast_Beat_148.aif
+Drums/HEAVY/148BPM/Full_Blast_Beat_148.wav
+Drums/HEAVY/148BPM/Full_Hats_Beat_148.aif
+Drums/HEAVY/148BPM/Full_Hats_Beat_148.wav
+Drums/HEAVY/148BPM/KickSnare_Beat_148.aif
+Drums/HEAVY/148BPM/KickSnare_Beat_148.wav
+Drums/HEAVY/148BPM/KickSnareTom_Beat_148.aif
+Drums/HEAVY/148BPM/KickSnareTom_Beat_148.wav
+Drums/HEAVY/166BPM/China_OH_166.aif
+Drums/HEAVY/166BPM/China_OH_166.wav
+Drums/HEAVY/166BPM/Crashes_OH_166.aif
+Drums/HEAVY/166BPM/Crashes_OH_166.wav
+Drums/HEAVY/166BPM/Fill_1_166.aif
+Drums/HEAVY/166BPM/Fill_1_166.wav
+Drums/HEAVY/166BPM/Fill_2_166.aif
+Drums/HEAVY/166BPM/Fill_2_166.wav
+Drums/HEAVY/166BPM/Fill_3_166.aif
+Drums/HEAVY/166BPM/Fill_3_166.wav
+Drums/HEAVY/166BPM/Fill_4_166.aif
+Drums/HEAVY/166BPM/Fill_4_166.wav
+Drums/HEAVY/166BPM/Full_Beat_166.aif
+Drums/HEAVY/166BPM/Full_Beat_166.wav
+Drums/HEAVY/166BPM/Full_Beat_Double_166.aif
+Drums/HEAVY/166BPM/Full_Beat_Double_166.wav
+Drums/HEAVY/166BPM/Full_Blast_Beat_166.aif
+Drums/HEAVY/166BPM/Full_Blast_Beat_166.wav
+Drums/HEAVY/166BPM/Ride_Beat_Punk_166.aif
+Drums/HEAVY/166BPM/Ride_Beat_Punk_166.wav
+Drums/HEAVY/166BPM/Ride_OH_166.aif
+Drums/HEAVY/166BPM/Ride_OH_166.wav
+Drums/Hihat Loops/Cymatics - Cobra Hihat Loop 1 - 110 BPM.wav
+Drums/Hihat Loops/Cymatics - Cobra Hihat Loop 2 - 128 BPM.wav
+Drums/Hihat Loops/Cymatics - Cobra Hihat Loop 3 - 140 BPM.wav
+Drums/Hihat Loops/Cymatics - Cobra Hihat Loop 4 - 150 BPM.wav
+Drums/Hihat Loops/Cymatics - Cobra Hihat Loop 5 - 150 BPM.wav
+Drums/Hihat Loops/Cymatics - Cobra Hihat Loop 6 - 160 BPM.wav
+Drums/Hud, 150.wav
+Drums/INDIE/130BPM/Crash_OH_130.aif
+Drums/INDIE/130BPM/Crash_OH_130.wav
+Drums/INDIE/130BPM/Fill_1_130.aif
+Drums/INDIE/130BPM/Fill_1_130.wav
+Drums/INDIE/130BPM/Fill_2_130.aif
+Drums/INDIE/130BPM/Fill_2_130.wav
+Drums/INDIE/130BPM/Fill_3_130.aif
+Drums/INDIE/130BPM/Fill_3_130.wav
+Drums/INDIE/130BPM/Fill_4_130.aif
+Drums/INDIE/130BPM/Fill_4_130.wav
+Drums/INDIE/130BPM/Full_Crash_130.aif
+Drums/INDIE/130BPM/Full_Crash_130.wav
+Drums/INDIE/130BPM/Full_Ride_130.aif
+Drums/INDIE/130BPM/Full_Ride_130.wav
+Drums/INDIE/130BPM/Hats_Offbeat_Full_130.aif
+Drums/INDIE/130BPM/Hats_Offbeat_Full_130.wav
+Drums/INDIE/134BPM/Fill_1_134.aif
+Drums/INDIE/134BPM/Fill_1_134.wav
+Drums/INDIE/134BPM/Fill_2_134.aif
+Drums/INDIE/134BPM/Fill_2_134.wav
+Drums/INDIE/134BPM/Fill_3_134.aif
+Drums/INDIE/134BPM/Fill_3_134.wav
+Drums/INDIE/134BPM/Fill_4_134.aif
+Drums/INDIE/134BPM/Fill_4_134.wav
+Drums/INDIE/134BPM/Full_Hat_beat_134.aif
+Drums/INDIE/134BPM/Full_Hat_beat_134.wav
+Drums/INDIE/134BPM/KickSnareTamb_134.aif
+Drums/INDIE/134BPM/KickSnareTamb_134.wav
+Drums/INDIE/134BPM/Ride_Double_134.aif
+Drums/INDIE/134BPM/Ride_Double_134.wav
+Drums/INDIE/134BPM/Rods_Full_134.aif
+Drums/INDIE/134BPM/Rods_Full_134.wav
+Drums/INDIE/134BPM/Tambourine_134.aif
+Drums/INDIE/134BPM/Tambourine_134.wav
+Drums/INDIE/162BPM/CrashRide_OHs_162.aif
+Drums/INDIE/162BPM/CrashRide_OHs_162.wav
+Drums/INDIE/162BPM/Fill_1_162.aif
+Drums/INDIE/162BPM/Fill_1_162.wav
+Drums/INDIE/162BPM/Fill_2_162.aif
+Drums/INDIE/162BPM/Fill_2_162.wav
+Drums/INDIE/162BPM/Full_Crash_Beat_162.aif
+Drums/INDIE/162BPM/Full_Crash_Beat_162.wav
+Drums/INDIE/162BPM/Full_Hats_162.aif
+Drums/INDIE/162BPM/Full_Hats_162.wav
+Drums/INDIE/162BPM/Full_Hats_Simple_162.aif
+Drums/INDIE/162BPM/Full_Hats_Simple_162.wav
+Drums/INDIE/162BPM/Full_Hats_Vari_162.aif
+Drums/INDIE/162BPM/Full_Hats_Vari_162.wav
+Drums/INDIE/162BPM/Hats_OHs_162.aif
+Drums/INDIE/162BPM/Hats_OHs_162.wav
+Drums/Kick/kick1.wav
+Drums/Kick/kick10.wav
+Drums/Kick/kick11.wav
+Drums/Kick/kick12.wav
+Drums/Kick/kick13.wav
+Drums/Kick/kick14.wav
+Drums/Kick/kick15.wav
+Drums/Kick/kick16.wav
+Drums/Kick/kick17.wav
+Drums/Kick/kick18.wav
+Drums/Kick/kick19.wav
+Drums/Kick/kick2.wav
+Drums/Kick/kick20.wav
+Drums/Kick/kick21.wav
+Drums/Kick/kick22.wav
+Drums/Kick/kick23.wav
+Drums/Kick/kick24.wav
+Drums/Kick/kick27.wav
+Drums/Kick/kick3.wav
+Drums/Kick/kick30.wav
+Drums/Kick/kick31.wav
+Drums/Kick/kick32.wav
+Drums/Kick/kick33.wav
+Drums/Kick/kick34.wav
+Drums/Kick/kick35.wav
+Drums/Kick/kick36.wav
+Drums/Kick/kick37.wav
+Drums/Kick/kick38.wav
+Drums/Kick/kick39.wav
+Drums/Kick/kick4.wav
+Drums/Kick/kick41.wav
+Drums/Kick/kick42.wav
+Drums/Kick/kick43.wav
+Drums/Kick/kick44.wav
+Drums/Kick/kick45.wav
+Drums/Kick/kick46.wav
+Drums/Kick/kick47.wav
+Drums/Kick/kick48.wav
+Drums/Kick/kick49.wav
+Drums/Kick/kick5.wav
+Drums/Kick/kick50.wav
+Drums/Kick/kick51.wav
+Drums/Kick/kick52.wav
+Drums/Kick/kick54.wav
+Drums/Kick/kick6.wav
+Drums/Kick/kick7.wav
+Drums/Kick/kick8.wav
+Drums/Kick/kick9.wav
+Drums/kick1.wav
+Drums/kick10.wav
+Drums/kick11.wav
+Drums/kick12.wav
+Drums/kick13.wav
+Drums/kick14_F#.wav
+Drums/kick15.wav
+Drums/kick16.wav
+Drums/kick17_B.wav
+Drums/kick18_A#.wav
+Drums/kick19.wav
+Drums/kick2.wav
+Drums/kick20_B.wav
+Drums/kick21_A.wav
+Drums/kick22.wav
+Drums/kick23_A#.wav
+Drums/kick24.wav
+Drums/kick27.wav
+Drums/kick3.wav
+Drums/kick30.wav
+Drums/kick31.wav
+Drums/kick32.wav
+Drums/kick33_G#.wav
+Drums/kick34.wav
+Drums/kick35.wav
+Drums/kick36.wav
+Drums/kick37.wav
+Drums/kick38.wav
+Drums/kick39.wav
+Drums/kick4.wav
+Drums/kick41_E.wav
+Drums/kick42.wav
+Drums/kick43.wav
+Drums/kick44.wav
+Drums/kick45.wav
+Drums/kick46_E.wav
+Drums/kick47.wav
+Drums/kick48.wav
+Drums/kick49_F#.wav
+Drums/kick5.wav
+Drums/kick50_C.wav
+Drums/kick51.wav
+Drums/kick52.wav
+Drums/kick54.wav
+Drums/kick6_E.wav
+Drums/kick7.wav
+Drums/kick8.wav
+Drums/kick9.wav
+Drums/looperman-l-0265850-0017424-colorskillingnumbers-horror_Cm_120bpm.wav
+Drums/looperman-l-0291301-0089124-djreaperspirit-drum-loop_G_100bpm.wav
+Drums/looperman-l-0291301-0265179-twistedloop-its-here-drumloop-02_G_100bpm.wav
+Drums/looperman-l-0687720-0051804-juttumoose-horror-sound-beat_F#m_140bpm.wav
+Drums/looperman-l-0849520-0112468-camtheclear-strange-land-dancehall_F_130bpm.wav
+Drums/looperman-l-1069771-0372154-brazil-funk-drums-funk-drum_C_nokey_140bpm.wav
+Drums/looperman-l-1543117-0131668-tech-n9ne-triplet-snare-roll-trap-drum-loop_F_130bpm.wav
+Drums/looperman-l-1543117-0131668-tech-n9ne-triplet-snare-roll-trap-drum_F.wav
+Drums/looperman-l-1564425-0374632-prestissimo-drumkit-samba.wav
+Drums/looperman-l-1564425-0374632-prestissimo-drumkit-samba_179bpm.wav
+Drums/looperman-l-1929922-0219200-hard-lofi-hip-hop-old-school-drums-beat-bpm-hip-hop-dru_C_nokey_90bpm.wav
+Drums/looperman-l-1929922-0225915-bassy-90s-old-school-boom-bap-drum-beat-hip-hop-drum_C_nokey_90bpm.wav
+Drums/looperman-l-1929922-0236982-old-school-boom-bap-hip-hop-drums-bpm-hip-hop-drum_C_nokey_90bpm.wav
+Drums/looperman-l-2424668-0416692-futile-drumz_Cm_149bpm.wav
+Drums/looperman-l-2432827-0382635-jazz-loop-2_108bpm.wav
+Drums/looperman-l-2475129-0401631-hellion-amapiano-x-afrobeat-drums.wav
+Drums/looperman-l-2475129-0401631-hellion-amapiano-x-afrobeat-drums_100bpm.wav
+Drums/looperman-l-2475129-0402740-hellion-crazy-afro-x-amapiano-drum-loop-afrobeat-drum_C_nokey_116bpm.wav
+Drums/looperman-l-2545602-0414856-128bpm-drums-creepy-section_G_128bpm.wav
+Drums/looperman-l-2648144-0385981-sza-drums-rnb-drum_C_nokey_126bpm.wav
+Drums/looperman-l-2648144-0394014-bryson-tiller-x-partynextdoor-drums-rnb-drum_C_nokey_164bpm.wav
+Drums/looperman-l-2657941-0347670-doom-drum-loop.wav
+Drums/looperman-l-2657941-0347670-doom-drum-loop_140bpm.wav
+Drums/looperman-l-2781485-0175464-creepy-drum-loop_F_130bpm.wav
+Drums/looperman-l-2972529-0330576-joji-type-drums-lo-fi-drum-loop_C_170bpm.wav
+Drums/looperman-l-2972529-0358776-post-punk-soviet-drums-punk-drum_C_170bpm.wav
+Drums/looperman-l-2972529-0359542-crystal-castles-drums-indie-drum_C_nokey_115bpm.wav
+Drums/looperman-l-2972529-0362838-ashtray-slowcore-drums-indie-drum_C_90bpm.wav
+Drums/looperman-l-2972529-0382392-cigarettes-after-sex-drums-indie-drum_G_165bpm.wav
+Drums/looperman-l-3031994-0306880-intense-amen-breakcore-beat-breakbeat-drum-loop_F#m_140bpm.wav
+Drums/looperman-l-3076771-0355480-kanye-west-drums-hip-hop-drum_Cm_120bpm.wav
+Drums/looperman-l-3077161-0244458-scary-drums_F_130bpm.wav
+Drums/looperman-l-3090456-0413862-spooky-gritty-beat-drums-part3_Fm_155bpm.wav
+Drums/looperman-l-3137495-0343755-miniscule-rnb-x-indie-x-bedroom-pop-drums-rnb-drum_C_nokey_95bpm.wav
+Drums/looperman-l-3137495-0343756-miniscule-rnb-x-indie-x-bedroom-pop-drums-v2-rnb-drum-loop_D_95bpm.wav
+Drums/looperman-l-3137495-0343756-miniscule-rnb-x-indie-x-bedroom-pop-drums-v2-rnb-drum_D_95bpm.wav
+Drums/looperman-l-3273428-0362936-kanye-west-drum-break-by-rasmus-oskar-hip-hop-drum_C_78bpm.wav
+Drums/looperman-l-3285817-0222041-dark-trap-drums-lurkin_Cm_120bpm.wav
+Drums/looperman-l-3285817-0254177-agressive-trap-drums-horror_Cm_120bpm.wav
+Drums/looperman-l-3504545-0378984-afro-drums-afrobeat-drum_C_nokey_111bpm.wav
+Drums/looperman-l-3565288-0365627-good-drum-break-kanye-west-type-drum-loop-hip-hop-drum_C_nokey_86bpm.wav
+Drums/looperman-l-3743420-0324657-these-808s.wav
+Drums/looperman-l-3784021-0354704-jerk-snares-n-clap-jerk-drums-house-drum_C_nokey_180bpm.wav
+Drums/looperman-l-3953238-0252683-the-dunwich-horror-deathstep-drum-loop_F#m_140bpm.wav
+Drums/looperman-l-4152401-0357422-jerk-damn-jerk-trap-drum_C_nokey_175bpm.wav
+Drums/looperman-l-4343822-0329939-neo-soul-boombap-drums-soul-drum_C_nokey_86bpm.wav
+Drums/looperman-l-4798327-0328828-the-neptunes-type-drum-loop-rnb-drum_C_nokey_95bpm.wav
+Drums/looperman-l-4856542-0330346-dark-trap-drums_Cm_138bpm.wav
+Drums/looperman-l-4856542-0330347-underway-drums_Cm_130bpm.wav
+Drums/looperman-l-4866234-0281981-bumpin-28madethisone-trap-drum_Cm_95bpm.wav
+Drums/looperman-l-5022869-0286967-playboi-carti-wlr-drum-loop-only-for-vamps.wav
+Drums/looperman-l-5022869-0286967-playboi-carti-wlr-drum-loop-only-for-vamps_160bpm.wav
+Drums/looperman-l-5138107-0328569-bendys_Cm_120bpm.wav
+Drums/looperman-l-5226383-0376513-90s-2000s-drums-rnb-drum_F_130bpm.wav
+Drums/looperman-l-5226383-0386051-1999-darkchild-drums-rnb-drum_Cm_95bpm.wav
+Drums/looperman-l-5325779-0333049-yeat-x-playboi-carti-type-drums-trap-drum-loop_C_151bpm.wav
+Drums/looperman-l-5325779-0333049-yeat-x-playboi-carti-type-drums-trap-drum_C_151bpm.wav
+Drums/looperman-l-5325779-0335476-yeat-type-drums-dulio.wav
+Drums/looperman-l-5325779-0335476-yeat-type-drums-dulio_140bpm.wav
+Drums/looperman-l-5533534-0363979-amen-sibling-jungle-drum-loop_Cm_170bpm.wav
+Drums/looperman-l-5740030-0379602-jazzy-ride-groove-jazz-drum_C_nokey_112bpm.wav
+Drums/looperman-l-5740688-0341394-jersey-club-x-jersey-drill-x-ny-drill-type-drums-trap-drum_C_nokey_140bpm.wav
+Drums/looperman-l-5746062-0319046-amen-to-that-breakcore-loop.wav
+Drums/looperman-l-5746062-0319046-amen-to-that-breakcore-loop_170bpm.wav
+Drums/looperman-l-5996808-0402048-kanye-west-drums-dirty-boom-bap-drum_C_nokey_124bpm.wav
+Drums/looperman-l-6104356-0331804-jersey-club-drums.wav
+Drums/looperman-l-6104356-0331804-jersey-club-drums_150bpm.wav
+Drums/looperman-l-6352594-0403543-brazil-funk-drum-and-808-loop-funk-drum_Dm_130bpm.wav
+Drums/looperman-l-6640649-0406333-prodbyzapz-x-2000s-timbaland-drum-loop-hip-hop-drum_C_nokey_98bpm.wav
+Drums/looperman-l-6647434-0366218-rio-beat-brazil-funk-type-beat-funk-drum_C_nokey_130bpm.wav
+Drums/looperman-l-6656132-0375006-dembow-reggaeton-drum-loop-reggaeton-drum_C_nokey_95bpm.wav
+Drums/looperman-l-6734309-0373797-tame-impala-drums-hip-hop-drum-loop_C_nokey_152bpm.wav
+Drums/looperman-l-6752787-0383788-tiktok-hoodtrap-type-drums-hip-hop-drum-loop_Am_150bpm.wav
+Drums/looperman-l-6752787-0383788-tiktok-hoodtrap-type-drums-hip-hop-drum_Am_150bpm.wav
+Drums/looperman-l-6811696-0361938-gr33n-r00m-ken-carson-type-drum-loop-rap-drum_C_140bpm.wav
+Drums/looperman-l-6811696-0365182-1-am-mus1c-playboi-carti-type-drum-loop-rap-drum_C_130bpm.wav
+Drums/looperman-l-6811696-0393750-1nsan3-ken-carson-type-drum-loop-trap-drum-loop_C_140bpm.wav
+Drums/looperman-l-6811696-0393750-1nsan3-ken-carson-type-drum-loop-trap-drum_C_140bpm.wav
+Drums/looperman-l-6813482-0420415-a-90s-2000s-rnb-type-beat-rnb-drum_C_nokey_120bpm.wav
+Drums/looperman-l-7019183-0363486-brazilian-funk-vem-que-tem-phonk-drum-loop_F_130bpm.wav
+Drums/looperman-l-7019183-0363486-brazilian-funk-vem-que-tem-phonk-drum_F_130bpm.wav
+Drums/Loops - Buildup/Cymatics - Dubstep Buildup Drums 1 - 150 BPM.wav
+Drums/Loops - Buildup/Cymatics - Dubstep Buildup Drums 2 - 150 BPM.wav
+Drums/Loops - Buildup/Cymatics - Master Collection Buildup Drums 5 - 140 BPM.wav
+Drums/Loops - Buildup/Cymatics - Master Collection Buildup Drums 7 - 150 BPM.wav
+Drums/Loops - Buildup/Cymatics - Master Collection Vol 2 Buildup Drum 1 - 145 BPM.wav
+Drums/Loops - Buildup/Cymatics - Master Collection Vol 2 Buildup Drum 6 - 145 BPM.wav
+Drums/Loops - Buildup/Cymatics - Tension Buildup Drums 10 - 150 BPM.wav
+Drums/Loops - Buildup/Cymatics - Titan Buildup Drums 13 - 140 BPM.wav
+Drums/Loops - Buildup/Cymatics - Titan Buildup Drums 24 - 150 BPM.wav
+Drums/Loops - Buildup/Cymatics - Titan Buildup Drums 33 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Detonate Hi-Hat Loop 11 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Detonate Hi-Hat Loop 14 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Detonate Hi-Hat Loop 15 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Detonate Percussion Loop 4 - 140 BPM.wav
+Drums/Loops - Top/Cymatics - Dubstep Hihat Loop 3 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Dubstep Hihat Loop 5 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Organic Percussion Loop 22 - 140 BPM.wav
+Drums/Loops - Top/Cymatics - Organic Percussion Loop 23 - 140 BPM.wav
+Drums/Loops - Top/Cymatics - Organic Percussion Loop 24 - 140 BPM.wav
+Drums/Loops - Top/Cymatics - Organic Percussion Loop 38 - 150 BPM.wav
+Drums/Loops - Top/Cymatics - Raptor Hihat Loop 11 - 150BPM.wav
+Drums/Loops - Top/Cymatics - Raptor Hihat Loop 17 - 150BPM.wav
+Drums/Loops - Top/Cymatics - Raptor Hihat Loop 28 - 150BPM.wav
+Drums/Loops - Top/Cymatics - Raptor Perc Loop 15 - 150BPM.wav
+Drums/Loops - Top/Cymatics - Raptor Perc Loop 9 - 150BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Detonate Hi-Hat Loop 11 - 150 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Detonate Hi-Hat Loop 14 - 150 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Detonate Hi-Hat Loop 15 - 150 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Detonate Percussion Loop 4 - 140 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Dubstep Hihat Loop 3 - 150 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Dubstep Hihat Loop 5 - 150 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Organic Percussion Loop 22 - 140 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Organic Percussion Loop 23 - 140 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Organic Percussion Loop 24 - 140 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Organic Percussion Loop 38 - 150 BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Raptor Hihat Loop 11 - 150BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Raptor Hihat Loop 17 - 150BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Raptor Hihat Loop 28 - 150BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Raptor Perc Loop 15 - 150BPM.wav
+Drums/Loops - Top/Loops - Top/Cymatics - Raptor Perc Loop 9 - 150BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 1 - 100 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 10 - 150 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 11 - 150 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 12 - 160 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 13 - 160 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 14 - 170 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 15 - 170 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 2 - 103 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 3 - 130 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 4 - 130 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 5 - 140 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 6 - 140 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 7 - 143 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 8 - 150 BPM.wav
+Drums/Loops - Top/Top Drum Loops/Cymatics - Cobra Top Loop 9 - 150 BPM.wav
+Drums/MainBeat_f1118d.wav
+Drums/Minkick1_69939b.wav
+Drums/Moo, 140 (1).wav
+Drums/Moo, 140 (2).wav
+Drums/Moo, 140 (3).wav
+Drums/Mor, 140 (1).wav
+Drums/Mor, 140 (2).wav
+Drums/Mor, 140 (3).wav
+Drums/Mor, 140 (4).wav
+Drums/Mor, 140, (5).wav
+Drums/Mor, 140, (6).wav
+Drums/Morey, 140 (1).wav
+Drums/Morey, 140 (2).wav
+Drums/Morey, 140 (3).wav
+Drums/Morey, 140 (4).wav
+Drums/Morey, 140 (5).wav
+Drums/Morey, 140 (6).wav
+Drums/Morey, 140 (7).wav
+Drums/Morey, 140 (8).wav
+Drums/Morey, 140 (9).wav
+Drums/Nu Style Kick.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 1 - 100 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 10 - 140 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 11 - 150 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 12 - 150 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 13 - 160 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 14 - 160 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 15 - 160 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 16 - 160 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 17 - 180 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 2 - 100 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 3 - 110 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 4 - 128 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 5 - 128 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 6 - 128 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 7 - 140 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 8 - 140 BPM.wav
+Drums/Percussion Loops/Cymatics - Cobra Percussion Loop 9 - 140 BPM.wav
+Drums/Ramzgt-ambForKick2_2396e1.wav
+Drums/Ramzgt-beat2_eaa903.wav
+Drums/Ramzgt-deepOceanBeat_891edb.wav
+Drums/Ramzgt-erWobbleKickCompy_fd6748.wav
+Drums/RamzGT-micron-snare_02_b2a4ea.wav
+Drums/RamzGT-micron-snare_04_995aeb.wav
+Drums/RamzGT-minbeattapped_1cf6e9.wav
+Drums/Ramzgt-super_bass_times4Kick_6aaeef.wav
+Drums/ROCK/120BPM/Fill_1_120.aif
+Drums/ROCK/120BPM/Fill_1_120.wav
+Drums/ROCK/120BPM/Fill_2_120.aif
+Drums/ROCK/120BPM/Fill_2_120.wav
+Drums/ROCK/120BPM/Fill_3_120.aif
+Drums/ROCK/120BPM/Fill_3_120.wav
+Drums/ROCK/120BPM/Full_Closed_Hats_120.aif
+Drums/ROCK/120BPM/Full_Closed_Hats_120.wav
+Drums/ROCK/120BPM/Full_Crashes_Heavy_120.aif
+Drums/ROCK/120BPM/Full_Crashes_Heavy_120.wav
+Drums/ROCK/120BPM/Full_Hat_Open_120.aif
+Drums/ROCK/120BPM/Full_Hat_Open_120.wav
+Drums/ROCK/120BPM/Full_Hat_Open_Heavy_120.aif
+Drums/ROCK/120BPM/Full_Hat_Open_Heavy_120.wav
+Drums/ROCK/120BPM/Full_RideBell_Heavy_120.aif
+Drums/ROCK/120BPM/Full_RideBell_Heavy_120.wav
+Drums/ROCK/148BPM/Crashes_OHs_148.aif
+Drums/ROCK/148BPM/Crashes_OHs_148.wav
+Drums/ROCK/148BPM/Crashes_Rides_Beat_148.aif
+Drums/ROCK/148BPM/Crashes_Rides_Beat_148.wav
+Drums/ROCK/148BPM/Straight_Crashes_Beat_148.aif
+Drums/ROCK/148BPM/Straight_Crashes_Beat_148.wav
+Drums/ROCK/148BPM/Straight_Hats_Beat_148.aif
+Drums/ROCK/148BPM/Straight_Hats_Beat_148.wav
+Drums/ROCK/148BPM/Straight_Rides_Beat_148.aif
+Drums/ROCK/148BPM/Straight_Rides_Beat_148.wav
+Drums/ROCK/162BPM/Crashes_OHs_162.aif
+Drums/ROCK/162BPM/Crashes_OHs_162.wav
+Drums/ROCK/162BPM/Fill_1_162.aif
+Drums/ROCK/162BPM/Fill_1_162.wav
+Drums/ROCK/162BPM/Fill_2_162.aif
+Drums/ROCK/162BPM/Fill_2_162.wav
+Drums/ROCK/162BPM/Fill_3_162.aif
+Drums/ROCK/162BPM/Fill_3_162.wav
+Drums/ROCK/162BPM/Fill_4_162.aif
+Drums/ROCK/162BPM/Fill_4_162.wav
+Drums/ROCK/162BPM/Full_Crashes_162.aif
+Drums/ROCK/162BPM/Full_Crashes_162.wav
+Drums/ROCK/162BPM/Full_Hats_162.aif
+Drums/ROCK/162BPM/Full_Hats_162.wav
+Drums/ROCK/162BPM/Full_Rides_162.aif
+Drums/ROCK/162BPM/Full_Rides_162.wav
+Drums/ROCK/3:4_168BPM/Crashes_OHs_168.aif
+Drums/ROCK/3:4_168BPM/Crashes_OHs_168.wav
+Drums/ROCK/3:4_168BPM/Fill_1_168.aif
+Drums/ROCK/3:4_168BPM/Fill_1_168.wav
+Drums/ROCK/3:4_168BPM/Fill_2_168.aif
+Drums/ROCK/3:4_168BPM/Fill_2_168.wav
+Drums/ROCK/3:4_168BPM/Fill_3_168.aif
+Drums/ROCK/3:4_168BPM/Fill_3_168.wav
+Drums/ROCK/3:4_168BPM/Full_Beat_Crash_168.aif
+Drums/ROCK/3:4_168BPM/Full_Beat_Crash_168.wav
+Drums/ROCK/3:4_168BPM/Full_Beat_Hats_168.aif
+Drums/ROCK/3:4_168BPM/Full_Beat_Hats_168.wav
+Drums/ROCK/3:4_168BPM/Full_Beat_Ride_168.aif
+Drums/ROCK/3:4_168BPM/Full_Beat_Ride_168.wav
+Drums/Shake Drum & Perc Loops 120/alt beat.aif
+Drums/Shake Drum & Perc Loops 120/alt beat2.aif
+Drums/Shake Drum & Perc Loops 120/break.aif
+Drums/Shake Drum & Perc Loops 120/break2.aif
+Drums/Shake Drum & Perc Loops 120/bridge.aif
+Drums/Shake Drum & Perc Loops 120/bridge2.aif
+Drums/Shake Drum & Perc Loops 120/choke2.aif
+Drums/Shake Drum & Perc Loops 120/chorus.aif
+Drums/Shake Drum & Perc Loops 120/chorus2.aif
+Drums/Shake Drum & Perc Loops 120/end crash.aif
+Drums/Shake Drum & Perc Loops 120/end crash2.aif
+Drums/Shake Drum & Perc Loops 120/end hat.aif
+Drums/Shake Drum & Perc Loops 120/funk.aif
+Drums/Shake Drum & Perc Loops 120/funk2.aif
+Drums/Shake Drum & Perc Loops 120/verse.aif
+Drums/Shake Drum & Perc Loops 120/verse2.aif
+Drums/Skippin Loops 97 Bpms/alt beat.aif
+Drums/Skippin Loops 97 Bpms/alt beat2.aif
+Drums/Skippin Loops 97 Bpms/break.aif
+Drums/Skippin Loops 97 Bpms/break2.aif
+Drums/Skippin Loops 97 Bpms/bridge.aif
+Drums/Skippin Loops 97 Bpms/bridge2.aif
+Drums/Skippin Loops 97 Bpms/busy.aif
+Drums/Skippin Loops 97 Bpms/busy2.aif
+Drums/Skippin Loops 97 Bpms/chorus.aif
+Drums/Skippin Loops 97 Bpms/chorus2.aif
+Drums/Skippin Loops 97 Bpms/chorus3.aif
+Drums/Skippin Loops 97 Bpms/chorus4.aif
+Drums/Skippin Loops 97 Bpms/chorus5.aif
+Drums/Skippin Loops 97 Bpms/chorus6.aif
+Drums/Skippin Loops 97 Bpms/end crash.aif
+Drums/Skippin Loops 97 Bpms/end crash2.aif
+Drums/Skippin Loops 97 Bpms/intro.aif
+Drums/Skippin Loops 97 Bpms/intro2.aif
+Drums/Skippin Loops 97 Bpms/intro3.aif
+Drums/Skippin Loops 97 Bpms/intro4.aif
+Drums/Skippin Loops 97 Bpms/intro5.aif
+Drums/Skippin Loops 97 Bpms/intro6.aif
+Drums/Skippin Loops 97 Bpms/intro7.aif
+Drums/Skippin Loops 97 Bpms/jazz.aif
+Drums/Skippin Loops 97 Bpms/jazz2.aif
+Drums/Skippin Loops 97 Bpms/verse.aif
+Drums/Skippin Loops 97 Bpms/verse2.aif
+Drums/Skippin Loops 97 Bpms/verse3.aif
+Drums/Skippin Loops 97 Bpms/verse4.aif
+Drums/Skippin Loops 97 Bpms/verse5.aif
+Drums/Skippin Loops 97 Bpms/verse6.aif
+Drums/Smp, 150 (0).wav
+Drums/Smp, 150 (1).wav
+Drums/Smp, 150 (2).wav
+Drums/Smp, 150 (3).wav
+Drums/Spill01, 120.wav
+Drums/SWAMP-95/DR1147.AIF
+Drums/SWAMP-95/DR1148.AIF
+Drums/SWAMP-95/DR1149.AIF
+Drums/SWAMP-95/DR1150.AIF
+Drums/SWAMP-95/DR1151.AIF
+Drums/SWAMP-95/DR1152.AIF
+Drums/SWAMP-95/DR1153.AIF
+Drums/SWAMP-95/DR1154.AIF
+Drums/SWAMP-95/DR1155.AIF
+Drums/SWAMP-95/DR1156.AIF
+Drums/SWAMP-95/DR1157.AIF
+Drums/SWAMP-95/DR1158.AIF
+Drums/SWAMP-95/DR1159.AIF
+Drums/SWAMP-95/DR1160.AIF
+Drums/SWAMP-95/DR1161.AIF
+Drums/SWAMP-95/DR1162.AIF
+Drums/SWAMP-95/DR1163.AIF
+Drums/SWAMP-95/DR1164.AIF
+Drums/SWAMP-95/DR1165.AIF
+Drums/SWAMP-95/DR1166.AIF
+Drums/SWAMP-95/DR1167.AIF
+Drums/SWAMP-95/DR1168.AIF
+Drums/SWAMP-95/DR1169.AIF
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/alt beat.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/alt beat2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/bridge.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/bridge2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/chorus.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/chorus2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/chorus3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/chorus4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/drum end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/end crash.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/end crash2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/fill.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/fill2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/fill3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/fill4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/fill5.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/hat end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/intro.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/intro2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/intro3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/intro4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/verse.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/verse2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/verse3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum & Perc Loo~ib/verse4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/alt beat.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/alt beat2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/bridge.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/bridge2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/chorus.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/chorus2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/chorus3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/chorus4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/drum end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/end crash.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/end crash2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/fill.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/fill2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/fill3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/fill4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/fill5.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/hat end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/intro.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/intro2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/intro3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/intro4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/verse.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/verse2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/verse3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Drum Loops 90/verse4.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/full loop end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/full loop.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/leslie end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/leslie.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop1 end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop1.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop2 end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop2.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop3 end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop3.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop4 end.aif
+Drums/Swing Theory 90 Bpms/Swing Theory Percussion Loop~lb/loop4.aif
+Drums/Tft, 150.wav
+Drums/THE BAND-70/DR1127.AIF
+Drums/THE BAND-70/DR1128.AIF
+Drums/THE BAND-70/DR1129.AIF
+Drums/THE BAND-70/DR1130.AIF
+Drums/THE BAND-70/DR1131.AIF
+Drums/THE BAND-70/DR1132.AIF
+Drums/THE BAND-70/DR1133.AIF
+Drums/THE BAND-70/DR1134.AIF
+Drums/THE BAND-70/DR1135.AIF
+Drums/THE BAND-70/DR1136.AIF
+Drums/THE BAND-70/DR1137.AIF
+Drums/THE BAND-70/DR1138.AIF
+Drums/THE BAND-70/DR1139.AIF
+Drums/THE BAND-70/DR1140.AIF
+Drums/THE BAND-70/DR1141.AIF
+Drums/THE BAND-70/DR1142.AIF
+Drums/THE BAND-70/DR1143.AIF
+Drums/THE BAND-70/DR1144.AIF
+Drums/THE BAND-70/DR1145.AIF
+Drums/THE BAND-70/DR1146.AIF

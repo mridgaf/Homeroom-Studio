@@ -1,0 +1,940 @@
+{
+ "device": "MIDI Out Device",
+ "remote_scope": "none (no Remote map or vocab entry found); names from tooltips only",
+ "code_prefix": "MIDO",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15; every position hovered in Reason (wheel-side lights, arrows, device menu, tape: no tooltip). No Remote map: no slots/CC. Device menu not opened",
+ "controls": [
+  {
+   "code": "MIDO-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.025,
+    0.204
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-S01",
+   "side": "front",
+   "panel_label": "PITCH wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.078,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch Bend: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-S02",
+   "side": "front",
+   "panel_label": "MOD wheel",
+   "what": "Modulation wheel (sent as CC 1)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.135,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CC 1 (Mod Wheel): 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D05",
+   "side": "front",
+   "panel_label": "Name tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.234,
+    0.745
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D01",
+   "side": "front",
+   "panel_label": "NOTE light",
+   "what": "Note-on indicator",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.325,
+    0.224
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D06",
+   "side": "front",
+   "panel_label": "MIDI light",
+   "what": "MIDI-out indicator",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.325,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D02",
+   "side": "front",
+   "panel_label": "PROGRAM field",
+   "what": "Program number field",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.498,
+    0.245
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B02",
+   "side": "front",
+   "panel_label": "PROGRAM arrow up",
+   "what": "Program number up",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.522,
+    0.184
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B03",
+   "side": "front",
+   "panel_label": "PROGRAM arrow down",
+   "what": "Program number down",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.522,
+    0.296
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B04",
+   "side": "front",
+   "panel_label": "PROGRAM ON",
+   "what": "Program change on/off",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.548,
+    0.245
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Program Change On/Off\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D07",
+   "side": "front",
+   "panel_label": "MIDI CHANNEL field",
+   "what": "MIDI channel number",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.498,
+    0.48
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"MIDI Channel: 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B09",
+   "side": "front",
+   "panel_label": "MIDI CHANNEL arrow up",
+   "what": "MIDI channel up",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.522,
+    0.429
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B10",
+   "side": "front",
+   "panel_label": "MIDI CHANNEL arrow down",
+   "what": "MIDI channel down",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.522,
+    0.541
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B08",
+   "side": "front",
+   "panel_label": "MIDI DEVICE selector",
+   "what": "MIDI output device menu (IAC Driver Bus 1 shown)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.438,
+    0.724
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B11",
+   "side": "front",
+   "panel_label": "MIDI DEVICE arrow",
+   "what": "Opens the MIDI output device menu",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.522,
+    0.724
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B05",
+   "side": "front",
+   "panel_label": "CV IN ON",
+   "what": "CV in to MIDI CC out on/off",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.59,
+    0.245
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV In Enable\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B06",
+   "side": "front",
+   "panel_label": "CV PANEL 1-2",
+   "what": "Chooses which pair of CV inputs the panel shows (1-2)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.62,
+    0.214
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Panel Number\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B07",
+   "side": "front",
+   "panel_label": "CV PANEL 3-4",
+   "what": "Chooses which pair of CV inputs the panel shows (3-4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.62,
+    0.388
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Panel Number\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B12",
+   "side": "front",
+   "panel_label": "CV PANEL 5-6",
+   "what": "Chooses which pair of CV inputs the panel shows (5-6)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.62,
+    0.561
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Panel Number\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-B13",
+   "side": "front",
+   "panel_label": "CV PANEL 7-8",
+   "what": "Chooses which pair of CV inputs the panel shows (7-8)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.62,
+    0.724
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Panel Number\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D03",
+   "side": "front",
+   "panel_label": "CV PANEL 1-2 light",
+   "what": "Light for CV panel 1-2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.645,
+    0.214
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D04",
+   "side": "front",
+   "panel_label": "CV PANEL 3-4 light",
+   "what": "Light for CV panel 3-4",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.645,
+    0.388
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D08",
+   "side": "front",
+   "panel_label": "CV PANEL 5-6 light",
+   "what": "Light for CV panel 5-6",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.645,
+    0.561
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D09",
+   "side": "front",
+   "panel_label": "CV PANEL 7-8 light",
+   "what": "Light for CV panel 7-8",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.645,
+    0.724
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-K01",
+   "side": "front",
+   "panel_label": "SCALE CV 1",
+   "what": "CV 1 scale",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.717,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Scale 1: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-K02",
+   "side": "front",
+   "panel_label": "SCALE CV 2",
+   "what": "CV 2 scale",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.717,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Scale 2: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-K03",
+   "side": "front",
+   "panel_label": "OFFSET CV 1",
+   "what": "CV 1 offset (tooltip reads 'CC 0: 0')",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.761,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip shows 'CC 0' not 'Offset'; name by position under OFFSET",
+   "checked_2026_10_07": "tooltip \"CC 0: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-K04",
+   "side": "front",
+   "panel_label": "OFFSET CV 2",
+   "what": "CV 2 offset (tooltip reads 'CC 0: 0')",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.761,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "tooltip shows 'CC 0' not 'Offset'; name by position under OFFSET",
+   "checked_2026_10_07": "tooltip \"CC 0: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D10",
+   "side": "front",
+   "panel_label": "CC 1 assignment",
+   "what": "CC number for CV 1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.825,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CC Assignment: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D11",
+   "side": "front",
+   "panel_label": "CC 2 assignment",
+   "what": "CC number for CV 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.825,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CC Assignment 2: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D12",
+   "side": "front",
+   "panel_label": "CC OUTPUT 1 display",
+   "what": "CC output level display, CV 1",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.418
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-F-D13",
+   "side": "front",
+   "panel_label": "CC OUTPUT 2 display",
+   "what": "CC output level display, CV 2",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.894,
+    0.663
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J01",
+   "side": "back",
+   "panel_label": "Gate CV In",
+   "what": "Gate input (sequencer control); tooltip 'Gate CV In'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.22,
+    0.429
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Gate CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J02",
+   "side": "back",
+   "panel_label": "Pitch CV In",
+   "what": "CV input (sequencer control, pitch); tooltip 'Pitch CV In'",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.22,
+    0.724
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-K01",
+   "side": "back",
+   "panel_label": "Pitch Bend CV trim",
+   "what": "Amount for pitch bend CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.321,
+    0.429
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Pitch Bend CV In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J03",
+   "side": "back",
+   "panel_label": "Pitch Bend CV In",
+   "what": "CV input: pitch bend",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.351,
+    0.429
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch Bend CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-K02",
+   "side": "back",
+   "panel_label": "Mod Wheel CV trim",
+   "what": "Amount for mod wheel CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.321,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mod Wheel CV In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J04",
+   "side": "back",
+   "panel_label": "Mod Wheel CV In",
+   "what": "CV input: mod wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.351,
+    0.724
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J05",
+   "side": "back",
+   "panel_label": "CV 1 In",
+   "what": "CV input 1 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.619,
+    0.429
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J06",
+   "side": "back",
+   "panel_label": "CV 2 In",
+   "what": "CV input 2 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.619,
+    0.724
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 2\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J07",
+   "side": "back",
+   "panel_label": "CV 3 In",
+   "what": "CV input 3 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.695,
+    0.429
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 3\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J08",
+   "side": "back",
+   "panel_label": "CV 4 In",
+   "what": "CV input 4 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.695,
+    0.724
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 4\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J09",
+   "side": "back",
+   "panel_label": "CV 5 In",
+   "what": "CV input 5 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.766,
+    0.429
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 5\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J10",
+   "side": "back",
+   "panel_label": "CV 6 In",
+   "what": "CV input 6 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.766,
+    0.724
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 6\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J11",
+   "side": "back",
+   "panel_label": "CV 7 In",
+   "what": "CV input 7 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.836,
+    0.429
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 7\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-J12",
+   "side": "back",
+   "panel_label": "CV 8 In",
+   "what": "CV input 8 (to MIDI CC out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.836,
+    0.724
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Assignable CC CV In 8\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-D01",
+   "side": "back",
+   "panel_label": "Name tape (back)",
+   "what": "Device name tape on the back",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.071,
+    0.592
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MIDO-B-B01",
+   "side": "back",
+   "panel_label": "(triangle, back)",
+   "what": "Fold/unfold device",
+   "reason_cable_menu_name": null,
+   "pos": [
+    -0.018,
+    0.204
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  }
+ ]
+}

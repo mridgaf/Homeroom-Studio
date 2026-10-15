@@ -1,0 +1,27 @@
+fold|(no tooltip: check by eye)
+title|(no tooltip in Reason: hovered 1.4 s)
+tape|(no tooltip in Reason: hovered 1.4 s)
+audioknob|Switch Audio A & B
+audioA|(no tooltip in Reason: hovered 1.4 s)
+audioB|(no tooltip in Reason: hovered 1.4 s)
+soften|Soften
+wave|(no tooltip in Reason: hovered 1.4 s)
+cvknob|(no tooltip in Reason: hovered 1.4 s)
+cvA|(no tooltip in Reason: hovered 1.4 s)
+cvB|(no tooltip in Reason: hovered 1.4 s)
+cvswitchknob|Switch CV A & B
+BACK:
+aIL|Audio [A] Input Left
+aIR|Audio [A] Input Right
+bIL|Audio [B] Input Left
+bIR|Audio [B] Input Right
+oL|Switched Audio Output Left
+oR|Switched Audio Output Right
+actrl|CV In (Audio switch control)
+cA|CV [A] Input
+cB|CV [B] Input
+cO|Switched CV Output
+cctrl|CV In (CV switch control)
+power|(no tooltip in Reason: hovered 1.4 s)
+tape|(no tooltip in Reason: hovered 1.4 s)
+fold|(no tooltip: check by eye)

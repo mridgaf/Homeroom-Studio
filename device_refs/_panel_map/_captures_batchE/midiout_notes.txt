@@ -1,0 +1,49 @@
+fold|(no tooltip: check by eye)
+pitchwheel|Pitch Bend: 0
+modwheel|CC 1 (Mod Wheel): 0
+tape|(no tooltip in Reason: hovered 1.3 s)
+noteled|(no tooltip in Reason: hovered 1.3 s)
+midiled|(no tooltip in Reason: hovered 1.3 s)
+progfield|(no tooltip in Reason: hovered 1.3 s)
+progup|(no tooltip in Reason: hovered 1.3 s)
+progdn|(no tooltip in Reason: hovered 1.3 s)
+progon|Program Change On/Off
+chfield|MIDI Channel: 1
+chup|(no tooltip in Reason: hovered 1.3 s)
+chdn|(no tooltip in Reason: hovered 1.3 s)
+devsel|(no tooltip in Reason: hovered 1.3 s)
+devarrow|(no tooltip in Reason: hovered 1.3 s)
+cvon|CV In Enable
+grp12|CV Panel Number
+grp34|CV Panel Number
+grp56|CV Panel Number
+grp78|CV Panel Number
+led12|(no tooltip in Reason: hovered 1.3 s)
+led34|(no tooltip in Reason: hovered 1.3 s)
+led56|(no tooltip in Reason: hovered 1.3 s)
+led78|(no tooltip in Reason: hovered 1.3 s)
+scale1|CV Scale 1: 127
+scale2|CV Scale 2: 127
+off1|CC 0: 0
+off2|CC 0: 0
+cc1|CC Assignment: 0
+cc2|CC Assignment 2: 0
+out1|(no tooltip in Reason: hovered 1.3 s)
+out2|(no tooltip in Reason: hovered 1.3 s)
+BACK:
+gate|Gate CV In
+cv|Pitch CV In
+pbtrim|Pitch Bend CV In: 127
+pbjack|Pitch Bend CV In
+mwtrim|Mod Wheel CV In: 127
+mwjack|Mod Wheel CV In
+cv1|Assignable CC CV In 1
+cv2|Assignable CC CV In 2
+cv3|Assignable CC CV In 3
+cv4|Assignable CC CV In 4
+cv5|Assignable CC CV In 5
+cv6|Assignable CC CV In 6
+cv7|Assignable CC CV In 7
+cv8|Assignable CC CV In 8
+tape|(no tooltip in Reason: hovered 1.3 s)
+fold|(no tooltip: check by eye)

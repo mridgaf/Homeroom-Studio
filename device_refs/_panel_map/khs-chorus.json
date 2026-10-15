@@ -1,0 +1,476 @@
+{
+ "device": "kHs Chorus",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "KHSC",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (kiloHearts RE, no Remote map); every position hovered in Reason (tape/logo: no tooltip)",
+ "controls": [
+  {
+   "code": "KHSC-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.204
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-B02",
+   "side": "front",
+   "panel_label": "BYPASS / ON / OFF",
+   "what": "3-way device switch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.06,
+    0.224
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-K01",
+   "side": "front",
+   "panel_label": "DELAY",
+   "what": "Delay time",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.158,
+    0.622
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay: 4.0 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-K02",
+   "side": "front",
+   "panel_label": "DEPTH",
+   "what": "Modulation depth",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.254,
+    0.622
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Depth: 4.0 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-K03",
+   "side": "front",
+   "panel_label": "RATE",
+   "what": "Modulation rate",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.347,
+    0.622
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Rate: 0.60 Hz\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-K04",
+   "side": "front",
+   "panel_label": "SPREAD",
+   "what": "Stereo spread",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.442,
+    0.622
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Spread: 100%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-S01",
+   "side": "front",
+   "panel_label": "TAPS",
+   "what": "Taps switch (3 / 2)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.558,
+    0.622
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Taps: 2\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-K05",
+   "side": "front",
+   "panel_label": "MIX",
+   "what": "Dry/wet mix",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.755,
+    0.622
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mix: 100%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-D01",
+   "side": "front",
+   "panel_label": "CHORUS 1 tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.868,
+    0.449
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-F-D02",
+   "side": "front",
+   "panel_label": "kHs logo",
+   "what": "kiloHearts logo (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.905,
+    0.745
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J01",
+   "side": "back",
+   "panel_label": "Delay CV In",
+   "what": "CV input: delay",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.21,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay CV\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-K01",
+   "side": "back",
+   "panel_label": "Delay CV trim",
+   "what": "Amount for delay CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.209,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Delay CV: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J02",
+   "side": "back",
+   "panel_label": "Depth CV In",
+   "what": "CV input: depth",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.28,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Depth CV\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-K02",
+   "side": "back",
+   "panel_label": "Depth CV trim",
+   "what": "Amount for depth CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.279,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Depth CV: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J03",
+   "side": "back",
+   "panel_label": "Rate CV In",
+   "what": "CV input: rate",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.347,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Rate CV\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-K03",
+   "side": "back",
+   "panel_label": "Rate CV trim",
+   "what": "Amount for rate CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.345,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Rate CV: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J04",
+   "side": "back",
+   "panel_label": "Spread CV In",
+   "what": "CV input: spread",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.416,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Spread CV\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-K04",
+   "side": "back",
+   "panel_label": "Spread CV trim",
+   "what": "Amount for spread CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.414,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Spread CV: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J05",
+   "side": "back",
+   "panel_label": "Mix CV In",
+   "what": "CV input: mix",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.535,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mix CV\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-K05",
+   "side": "back",
+   "panel_label": "Mix CV trim",
+   "what": "Amount for mix CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.534,
+    0.724
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mix CV: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J06",
+   "side": "back",
+   "panel_label": "Audio In L",
+   "what": "Audio input, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.596,
+    0.357
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to 3-Way Split: Main Audio Send L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J08",
+   "side": "back",
+   "panel_label": "Audio In R",
+   "what": "Audio input, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.596,
+    0.663
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to 3-Way Split: Main Audio Send R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J07",
+   "side": "back",
+   "panel_label": "Audio Out L",
+   "what": "Audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.732,
+    0.378
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-J09",
+   "side": "back",
+   "panel_label": "Audio Out R",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.732,
+    0.663
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-D02",
+   "side": "back",
+   "panel_label": "(back vent)",
+   "what": "Ventilation-grille drawing (no control)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.827,
+    0.449
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "KHSC-B-D01",
+   "side": "back",
+   "panel_label": "CHORUS 1 tape (back)",
+   "what": "Device name tape on the back",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.074,
+    0.143
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Chorus 1\"",
+   "view": "main panel"
+  }
+ ]
+}

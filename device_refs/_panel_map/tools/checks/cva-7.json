@@ -1,0 +1,38 @@
+{
+"device": "CVA-7 CV Analyzer",
+"front": {
+"(triangle)": "no tooltip (fold arrow); checked by eye",
+"CVA-7 1 tape": "no tooltip in Reason (hovered 1.3 s)",
+"CV display": "no tooltip in Reason (hovered 1.3 s)",
+"MAX / MIN display": "no tooltip in Reason (hovered 1.3 s)",
+"RAW / % / INT switch": "tooltip \"Numeric Scale: Integer [-127..127]\"",
+"RESET": "tooltip \"Reset Min/Max\"",
+"AUTO knob (OFF..10s)": "tooltip \"Min/Max Auto Reset: Off\"",
+"AS GATE / AS NOTE button": "tooltip \"Keyboard\"",
+"KEYBOARD / piano roll": "no tooltip in Reason (hovered 1.3 s)",
+"GRAPH SCREEN": "no tooltip in Reason (hovered 1.3 s)",
+"LIVE VIEW button": "tooltip \"Live View\"",
+"GRAPH button": "tooltip \"Graph\"",
+"COLOR button": "tooltip \"Color\"",
+"ZOOM": "tooltip \"Zoom: 100\"",
+"SCALE": "tooltip \"Scale: 1.00\""
+},
+"back": {
+"CV In": "tooltip \"CV In\"",
+"CV In trim": "tooltip \"CV In: 127\"",
+"CV Out 1 slider (type)": "not hovered separately: same row as hovered slider 3 (tooltip pattern 'CV Out Type [N]')",
+"CV Out 2 slider (type)": "not hovered separately: same row as hovered slider 3 (tooltip pattern 'CV Out Type [N]')",
+"CV Out 3 slider (type)": "tooltip \"CV Out Type [3]: Passthrough\"",
+"CV Out 4 slider (type)": "not hovered separately: same row as hovered slider 3 (tooltip pattern 'CV Out Type [N]')",
+"CV Out 1 jack": "tooltip \"CV Out [1]\"",
+"CV Out 2 jack": "not hovered separately: same row as hovered jack 1 (tooltip pattern 'CV Out [N]')",
+"CV Out 3 jack": "not hovered separately: same row as hovered jack 1 (tooltip pattern 'CV Out [N]')",
+"CV Out 4 jack": "not hovered separately: same row as hovered jack 1 (tooltip pattern 'CV Out [N]')",
+"Aux Out CV": "tooltip \"CV\"",
+"Aux Out Max": "tooltip \"Max\"",
+"Aux Out Min": "tooltip \"Min\"",
+"CVA-7 1 tape (back)": "no tooltip in Reason (hovered 1.3 s)"
+},
+"views": {},
+"view_titles": {}
+}

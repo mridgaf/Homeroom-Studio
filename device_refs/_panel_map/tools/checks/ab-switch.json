@@ -1,0 +1,39 @@
+{
+"device": "A/B Audio & CV Switch",
+"front": {
+"(triangle)": "no tooltip (fold arrow); checked by eye",
+"A/B Switch title": "no tooltip in Reason (hovered 1.4 s)",
+"AUDIO SWITCH knob": "tooltip \"Switch Audio A & B\"",
+"AUDIO A light": "no tooltip in Reason (hovered 1.4 s)",
+"AUDIO B light": "no tooltip in Reason (hovered 1.4 s)",
+"AUDIO A name field": "no tooltip in Reason (hovered 1.4 s)",
+"AUDIO B name field": "no tooltip in Reason (hovered 1.4 s)",
+"SOFTEN": "tooltip \"Soften\"",
+"wave icon": "no tooltip in Reason (hovered 1.4 s)",
+"ABSWITCH 1 tape": "no tooltip in Reason (hovered 1.4 s)",
+"CV SWITCH knob": "no tooltip in Reason (hovered 1.4 s)",
+"CV A light": "no tooltip in Reason (hovered 1.4 s)",
+"CV B light": "no tooltip in Reason (hovered 1.4 s)",
+"CV A name field": "no tooltip in Reason (hovered 1.4 s)",
+"CV B name field": "no tooltip in Reason (hovered 1.4 s)",
+"pongasoft logo/QR": "no tooltip in Reason (hovered 1.4 s)"
+},
+"back": {
+"Audio A In L/Mono": "tooltip \"Audio [A] Input Left\"",
+"Audio A In R": "tooltip \"Audio [A] Input Right\"",
+"Audio B In L/Mono": "tooltip \"Audio [B] Input Left\"",
+"Audio B In R": "tooltip \"Audio [B] Input Right\"",
+"Audio Out L/Mono": "tooltip \"Switched Audio Output Left\"",
+"Audio Out R": "tooltip \"Switched Audio Output Right\"",
+"Audio CV Control In": "tooltip \"CV In (Audio switch control)\"",
+"CV A In": "tooltip \"CV [A] Input\"",
+"CV B In": "tooltip \"CV [B] Input\"",
+"CV Out": "tooltip \"Switched CV Output\"",
+"CV Control In": "tooltip \"CV In (CV switch control)\"",
+"Power area (drawn)": "no tooltip in Reason (hovered 1.4 s)",
+"ABSWITCH 1 tape (back)": "no tooltip in Reason (hovered 1.4 s)",
+"(triangle, back)": "no tooltip (fold arrow); checked by eye"
+},
+"views": {},
+"view_titles": {}
+}

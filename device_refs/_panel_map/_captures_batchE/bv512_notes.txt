@@ -1,0 +1,76 @@
+fold|(no tooltip: check by eye)
+switch|Enabled: On
+bandcount|Band Count
+vocoeq|Vocoder/Equalizer
+hold|Hold
+attack|Attack: 0
+decay|Decay: 30
+shift|Shift: 0
+hfemph|HF Emphasis: 64
+drywet|Dry/Wet: 127
+led|(no tooltip in Reason: hovered 1.4 s)
+metC|(no tooltip in Reason: hovered 1.4 s)
+metM|(no tooltip in Reason: hovered 1.4 s)
+moddisp|(no tooltip in Reason: hovered 1.4 s)
+tapef|Vocoder 1
+band1|Band 1 Level
+band2|Band 2 Level
+band3|Band 3 Level
+band4|Band 4 Level
+band5|Band 5 Level
+band6|Band 6 Level
+band7|Band 7 Level
+band8|Band 8 Level
+band9|Band 9 Level
+band10|Band 10 Level
+band11|Band 11 Level
+band12|Band 12 Level
+band13|Band 13 Level
+band14|Band 14 Level
+band15|Band 15 Level
+band16|Band 16 Level
+BACK:
+bo1|Band 1 CV Out
+bo2|Band 2 CV Out
+bo3|Band 3 CV Out
+bo4|Band 4 CV Out
+bo5|Band 5 CV Out
+bo6|Band 6 CV Out
+bo7|Band 7 CV Out
+bo8|Band 8 CV Out
+bo9|Band 9 CV Out
+bo10|Band 10 CV Out
+bo11|Band 11 CV Out
+bo12|Band 12 CV Out
+bo13|Band 13 CV Out
+bo14|Band 14 CV Out
+bo15|Band 15 CV Out
+bo16|Band 16 CV Out
+bi1|Band 1 CV In
+bi2|Band 2 CV In
+bi3|Band 3 CV In
+bi4|Band 4 CV In
+bi5|Band 5 CV In
+bi6|Band 6 CV In
+bi7|Band 7 CV In
+bi8|Band 8 CV In
+bi9|Band 9 CV In
+bi10|Band 10 CV In
+bi11|Band 11 CV In
+bi12|Band 12 CV In
+bi13|Band 13 CV In
+bi14|Band 14 CV In
+bi15|Band 15 CV In
+bi16|Band 16 CV In
+shiftjack|Shift CV
+shifttrim|Shift CV: 127
+carL|Connected to ID8 1: Left
+carR|Connected to ID8 1: Right
+hold|Hold Input
+mod|Modulator Input
+outL|Connected to ID8 1: Input L
+outR|Connected to ID8 1: Input R
+fold|(no tooltip: check by eye)
+tape|Vocoder 1
+icon1|(no tooltip in Reason: hovered 1.4 s)
+icon2|(no tooltip in Reason: hovered 1.4 s)

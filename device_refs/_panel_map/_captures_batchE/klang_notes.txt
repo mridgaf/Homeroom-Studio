@@ -1,0 +1,65 @@
+fold|(no tooltip: check by eye)
+patchprev|Select previous patch
+patchnext|Select next patch
+folder|Browse patch
+disk|Save patch
+patchdisp|Circle Bells Natural
+tape|Circle Bells Natural
+master|Master Volume: 0.0 dB
+note|(no tooltip in Reason: hovered 1.4 s)
+range|Pitch Bend Range: 2
+pitchwheel|(Pitch Bend): 0.0%
+modwheel|(Mod Wheel): 0%
+sstartmw|Mod Wheel to Sample Start: 56.3 %
+ffreqmw|Mod Wheel to Filter Cutoff: 0.0 %
+levelmw|Mod Wheel to Amp Level: 0.0 %
+instrument|Instrument: Circle Bells Mallets
+instsel|(no tooltip in Reason: hovered 1.6 s)
+sstart|Sample Start: 0 ms
+oct|Octave: 0
+semi|Semitune: 0
+fine|Finetune: 0 cents
+fon|Filter On
+ftype|(no tooltip in Reason: hovered 1.8 s, LP menu)
+fcut|Filter Cutoff: 232.5 Hz
+freso|Filter Reso: 0.0 %
+fenv|Filter Env: 65.6 %
+fA|Filter Attack: 0.0 %
+fD|Filter Decay: 50.0 %
+fS|Filter Sustain: 0.0 %
+fR|Filter Release: 44.2 %
+fvel|Filter Velocity: 0.0 %
+fkbd|Filter Key Follow: 0.0 %
+avel|Amp Velocity: 53 %
+aA|Amp Attack: 0.4 %
+aD|Amp Decay: 62.8 %
+aS|Amp Sustain: 100.0 %
+aR|Amp Release: 85.3 %
+dlon|Delay On
+dltime|Synced Delay Time: 3/16
+dlfb|Delay Feedback: 51.5 %
+dlsync|Delay Sync
+dlpp|Delay Ping Pong
+dldamp|Delay Damp: 0.0 %
+dlamt|Delay Amount: 41.4 %
+rvon|Reverb On
+rvtime|Reverb Time: 55.0 %
+rvpre|Reverb Pre Delay: 0.00 ms
+rvhi|Reverb High Damp: 26.6 %
+rvlo|Reverb Low Damp: 0.0 %
+rvamt|Reverb Amount: 38.3 %
+BACK:
+gate|Gate CV Input
+cv|Note CV Input
+pbtrim|Pitch Bend CV Input: 127
+pbjack|Pitch Bend CV Input
+mwtrim|Mod Wheel CV Input: 127
+mwjack|Mod Wheel CV Input
+cotrim|Filter Cutoff CV Input: 127
+cojack|Filter Cutoff CV Input
+retrim|Filter Resonance CV Input: 127
+rejack|Filter Resonance CV Input
+lvtrim|Amp Level CV Input: 127
+lvjack|Amp Level CV Input
+outL|Connected to Circle Bells Natural: Input L
+outR|Connected to Circle Bells Natural: Input R

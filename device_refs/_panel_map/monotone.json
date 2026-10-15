@@ -1,0 +1,1398 @@
+{
+ "device": "Monotone",
+ "remote_scope": "Propellerhead Software / se.propellerheads.Monotone",
+ "code_prefix": "MONO",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15; every position hovered in Reason (range spinner, fold arrow, patch display, small light: no tooltip)",
+ "controls": [
+  {
+   "code": "MONO-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.033,
+    0.057
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-D01",
+   "side": "front",
+   "panel_label": "(patch light)",
+   "what": "Small light left of the patch display (purpose not verified)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.376,
+    0.057
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-D02",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.456,
+    0.057
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item Patch Name, no knob slot",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B02",
+   "side": "front",
+   "panel_label": "(patch prev arrow)",
+   "what": "Previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.537,
+    0.036
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B03",
+   "side": "front",
+   "panel_label": "(patch next arrow)",
+   "what": "Next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.537,
+    0.077
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B04",
+   "side": "front",
+   "panel_label": "(patch folder)",
+   "what": "Browse patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.564,
+    0.057
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B05",
+   "side": "front",
+   "panel_label": "(patch disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.587,
+    0.057
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-D03",
+   "side": "front",
+   "panel_label": "Patch name tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.72,
+    0.054
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; tooltip shows the patch name; convention from earlier devices",
+   "checked_2026_10_07": "tooltip \"Bara bra bas\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K01",
+   "side": "front",
+   "panel_label": "MASTER",
+   "what": "Master volume",
+   "reason_name": "Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 39,
+   "cc": 68,
+   "feedback_cc": 116,
+   "pos": [
+    0.924,
+    0.057
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Volume: 1.5 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B06",
+   "side": "front",
+   "panel_label": "PORTAMENTO MODE switch",
+   "what": "Portamento mode (Off / On / Auto)",
+   "reason_name": "Portamento Mode",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 37,
+   "cc": 66,
+   "feedback_cc": 114,
+   "pos": [
+    0.043,
+    0.409
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Portamento Mode: Off\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K02",
+   "side": "front",
+   "panel_label": "PORTAMENTO",
+   "what": "Portamento time",
+   "reason_name": "Portamento",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 36,
+   "cc": 65,
+   "feedback_cc": 113,
+   "pos": [
+    0.103,
+    0.409
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Portamento: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B07",
+   "side": "front",
+   "panel_label": "RETRIG",
+   "what": "Retrigger button",
+   "reason_name": "ReTrig",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 38,
+   "cc": 67,
+   "feedback_cc": 115,
+   "pos": [
+    0.144,
+    0.398
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"ReTrig\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-D04",
+   "side": "front",
+   "panel_label": "RANGE",
+   "what": "Pitch wheel range spinner (semitones)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.065,
+    0.568
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-S05",
+   "side": "front",
+   "panel_label": "PITCH wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": "Pitch Bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 34,
+   "cc": 63,
+   "feedback_cc": 111,
+   "pos": [
+    0.066,
+    0.761
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip '(Pitch Bend)'",
+   "checked_2026_10_07": "tooltip \"(Pitch Bend): 0.0%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K11",
+   "side": "front",
+   "panel_label": "MOD FILT",
+   "what": "How much the mod wheel opens the filter",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.124,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Wheel Filter Amt: 50.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K12",
+   "side": "front",
+   "panel_label": "MOD LFO",
+   "what": "How much the mod wheel adds LFO",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.15,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Wheel LFO Amt: 50.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-S06",
+   "side": "front",
+   "panel_label": "MOD wheel",
+   "what": "Modulation wheel",
+   "reason_name": "Mod Wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 25,
+   "cc": 54,
+   "feedback_cc": 102,
+   "pos": [
+    0.137,
+    0.761
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip '(Mod Wheel)'",
+   "checked_2026_10_07": "tooltip \"(Mod Wheel): 0%\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K06",
+   "side": "front",
+   "panel_label": "OSC 1 WAVE",
+   "what": "Oscillator 1 waveform",
+   "reason_name": "Osc1 Wave",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 30,
+   "cc": 59,
+   "feedback_cc": 107,
+   "pos": [
+    0.21,
+    0.414
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc1 Wave: Ramp\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K13",
+   "side": "front",
+   "panel_label": "OSC 1 OCT",
+   "what": "Oscillator 1 octave",
+   "reason_name": "Osc1 Oct",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 29,
+   "cc": 58,
+   "feedback_cc": 106,
+   "pos": [
+    0.21,
+    0.566
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc1 Oct: -1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K07",
+   "side": "front",
+   "panel_label": "OSC MIX",
+   "what": "Mix between oscillator 1 and 2",
+   "reason_name": "Osc Mix",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 28,
+   "cc": 57,
+   "feedback_cc": 105,
+   "pos": [
+    0.281,
+    0.463
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc Mix: 32.8 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K08",
+   "side": "front",
+   "panel_label": "OSC 2 WAVE",
+   "what": "Oscillator 2 waveform",
+   "reason_name": "Osc2 Wave",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 33,
+   "cc": 62,
+   "feedback_cc": 110,
+   "pos": [
+    0.353,
+    0.414
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc2 Wave: Ramp\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K14",
+   "side": "front",
+   "panel_label": "OSC 2 OCT",
+   "what": "Oscillator 2 octave",
+   "reason_name": "Osc2 Oct",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 31,
+   "cc": 60,
+   "feedback_cc": 108,
+   "pos": [
+    0.352,
+    0.566
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc2 Oct: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K21",
+   "side": "front",
+   "panel_label": "NOISE",
+   "what": "Noise level",
+   "reason_name": "Noise",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 26,
+   "cc": 55,
+   "feedback_cc": 103,
+   "pos": [
+    0.25,
+    0.72
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Noise: 10.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K22",
+   "side": "front",
+   "panel_label": "DETUNE",
+   "what": "Oscillator detune",
+   "reason_name": "Osc Detune",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 27,
+   "cc": 56,
+   "feedback_cc": 104,
+   "pos": [
+    0.313,
+    0.72
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc Detune: 7.8\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K25",
+   "side": "front",
+   "panel_label": "PITCH LFO (LFO under OSC)",
+   "what": "LFO amount on pitch",
+   "reason_name": "Pitch LFO Amt",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 35,
+   "cc": 64,
+   "feedback_cc": 112,
+   "pos": [
+    0.22,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch LFO Amt: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K26",
+   "side": "front",
+   "panel_label": "FM ENV",
+   "what": "Envelope amount on FM",
+   "reason_name": "FM Env Amt",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.281,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"FM Env Amt: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K27",
+   "side": "front",
+   "panel_label": "OSC 2 SEMI",
+   "what": "Oscillator 2 pitch in semitones",
+   "reason_name": "Osc2 Pitch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 32,
+   "cc": 61,
+   "feedback_cc": 109,
+   "pos": [
+    0.343,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Osc2 Pitch: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K09",
+   "side": "front",
+   "panel_label": "FILTER DRIVE",
+   "what": "Filter drive",
+   "reason_name": "Filter Drive",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.427,
+    0.424
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Drive: 50.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K03",
+   "side": "front",
+   "panel_label": "FILTER FREQ",
+   "what": "Filter frequency",
+   "reason_name": "Filter Freq",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.495,
+    0.393
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Freq: 201.2 Hz\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K10",
+   "side": "front",
+   "panel_label": "FILTER RESONANCE",
+   "what": "Filter resonance",
+   "reason_name": "Filter Reso",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 21,
+   "cc": 50,
+   "feedback_cc": 98,
+   "pos": [
+    0.562,
+    0.424
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Reso: 20.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K15",
+   "side": "front",
+   "panel_label": "FILTER ENV",
+   "what": "Filter envelope amount",
+   "reason_name": "Filter Env Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.427,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Env Amount: 65.8 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K16",
+   "side": "front",
+   "panel_label": "FILTER KEY",
+   "what": "Filter keyboard tracking",
+   "reason_name": "Filter Key Amt",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 18,
+   "cc": 47,
+   "feedback_cc": 95,
+   "pos": [
+    0.495,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Key Amt: 20.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K17",
+   "side": "front",
+   "panel_label": "FILTER LFO",
+   "what": "Filter LFO amount",
+   "reason_name": "Filter LFO Amt",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 19,
+   "cc": 48,
+   "feedback_cc": 96,
+   "pos": [
+    0.562,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter LFO Amt: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-S01",
+   "side": "front",
+   "panel_label": "AMP A fader",
+   "what": "Amplifier envelope attack",
+   "reason_name": "Amp Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.63,
+    0.478
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Attack: 1.0 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-S02",
+   "side": "front",
+   "panel_label": "AMP D fader",
+   "what": "Amplifier envelope decay",
+   "reason_name": "Amp Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.665,
+    0.478
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Decay: 515 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-S03",
+   "side": "front",
+   "panel_label": "AMP S fader",
+   "what": "Amplifier envelope sustain",
+   "reason_name": "Amp Sustain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.701,
+    0.478
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Sustain: 29.1 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-S04",
+   "side": "front",
+   "panel_label": "AMP R fader",
+   "what": "Amplifier envelope release",
+   "reason_name": "Amp Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.74,
+    0.478
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Amp Release: 639 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K18",
+   "side": "front",
+   "panel_label": "AMP VEL",
+   "what": "Velocity amount on amplifier",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.788,
+    0.573
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Velocity: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K04",
+   "side": "front",
+   "panel_label": "CHORUS AMOUNT",
+   "what": "Chorus amount",
+   "reason_name": "Chorus Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.852,
+    0.393
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Chorus Amount: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K19",
+   "side": "front",
+   "panel_label": "CHORUS RATE",
+   "what": "Chorus rate",
+   "reason_name": "Chorus Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.852,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Chorus Rate: 40.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K23",
+   "side": "front",
+   "panel_label": "CHORUS SPREAD",
+   "what": "Chorus spread",
+   "reason_name": "Chorus Spread",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.852,
+    0.72
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Chorus Spread: 80.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K05",
+   "side": "front",
+   "panel_label": "DELAY AMOUNT",
+   "what": "Delay amount",
+   "reason_name": "Delay Amount",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.924,
+    0.393
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Amount: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K20",
+   "side": "front",
+   "panel_label": "DELAY TIME",
+   "what": "Delay time",
+   "reason_name": "Delay Time",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.924,
+    0.573
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Time: 3/16\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K24",
+   "side": "front",
+   "panel_label": "DELAY FEEDBACK",
+   "what": "Delay feedback",
+   "reason_name": "Delay Feedback",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.924,
+    0.72
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Feedback: 0.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-B08",
+   "side": "front",
+   "panel_label": "DELAY PING PONG",
+   "what": "Ping pong button",
+   "reason_name": "Delay Pingpong",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.924,
+    0.846
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Delay Pingpong\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K28",
+   "side": "front",
+   "panel_label": "LFO RATE",
+   "what": "LFO rate",
+   "reason_name": "LFO Rate",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 23,
+   "cc": 52,
+   "feedback_cc": 100,
+   "pos": [
+    0.451,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"LFO Rate: 2.37 Hz\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K29",
+   "side": "front",
+   "panel_label": "LFO SHAPE",
+   "what": "LFO waveform",
+   "reason_name": "LFO Wave",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 24,
+   "cc": 53,
+   "feedback_cc": 101,
+   "pos": [
+    0.503,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"LFO Wave: Triangle\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K30",
+   "side": "front",
+   "panel_label": "ENV A",
+   "what": "Filter envelope attack",
+   "reason_name": "Filter Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.585,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Attack: 1.0 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K31",
+   "side": "front",
+   "panel_label": "ENV D",
+   "what": "Filter envelope decay",
+   "reason_name": "Filter Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.63,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Decay: 239 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K32",
+   "side": "front",
+   "panel_label": "ENV S",
+   "what": "Filter envelope sustain",
+   "reason_name": "Filter Sustain",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 22,
+   "cc": 51,
+   "feedback_cc": 99,
+   "pos": [
+    0.673,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Sustain: 35.2 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K33",
+   "side": "front",
+   "panel_label": "ENV R",
+   "what": "Filter envelope release",
+   "reason_name": "Filter Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 20,
+   "cc": 49,
+   "feedback_cc": 97,
+   "pos": [
+    0.716,
+    0.869
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Release: 2.97 s\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-F-K34",
+   "side": "front",
+   "panel_label": "ENV VEL",
+   "what": "Velocity amount on filter envelope",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.762,
+    0.869
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Vel: 50.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J01",
+   "side": "back",
+   "panel_label": "Seq CV In",
+   "what": "CV input (sequencer note)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.263,
+    0.314
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"SeqNoteInput\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J02",
+   "side": "back",
+   "panel_label": "Seq Gate In",
+   "what": "Gate input (sequencer)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.263,
+    0.393
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"SeqGateInput\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K03",
+   "side": "back",
+   "panel_label": "Pitch Bend CV trim",
+   "what": "Amount for pitch bend CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.267,
+    0.476
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"PitchBend CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J07",
+   "side": "back",
+   "panel_label": "Pitch Bend CV In",
+   "what": "CV input: pitch bend",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.3,
+    0.476
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"PitchBend CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K05",
+   "side": "back",
+   "panel_label": "Mod Wheel CV trim",
+   "what": "Amount for mod wheel CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.267,
+    0.558
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"ModWheel CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J09",
+   "side": "back",
+   "panel_label": "Mod Wheel CV In",
+   "what": "CV input: mod wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.3,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"ModWheel CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K01",
+   "side": "back",
+   "panel_label": "Osc Mix CV trim",
+   "what": "Amount for osc mix CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.438,
+    0.314
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"OscMix CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J03",
+   "side": "back",
+   "panel_label": "Osc Mix CV In",
+   "what": "CV input: osc mix",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.471,
+    0.314
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"OscMix CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K02",
+   "side": "back",
+   "panel_label": "FM Env CV trim",
+   "what": "Amount for fm env CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.438,
+    0.398
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"FMEnv CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J04",
+   "side": "back",
+   "panel_label": "FM Env CV In",
+   "what": "CV input: fm env",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.471,
+    0.398
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"FMEnv CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K04",
+   "side": "back",
+   "panel_label": "Noise Level CV trim",
+   "what": "Amount for noise level CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.438,
+    0.479
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Noise CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J08",
+   "side": "back",
+   "panel_label": "Noise Level CV In",
+   "what": "CV input: noise level",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.471,
+    0.479
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Noise CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K06",
+   "side": "back",
+   "panel_label": "Filter Freq CV trim",
+   "what": "Amount for filter freq CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.438,
+    0.558
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Freq CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J10",
+   "side": "back",
+   "panel_label": "Filter Freq CV In",
+   "what": "CV input: filter freq",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.471,
+    0.558
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Freq CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-K07",
+   "side": "back",
+   "panel_label": "Filter Res CV trim",
+   "what": "Amount for filter res CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.438,
+    0.641
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Reso CV Amt: 100.0 %\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J11",
+   "side": "back",
+   "panel_label": "Filter Res CV In",
+   "what": "CV input: filter res",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.471,
+    0.641
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Reso CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J05",
+   "side": "back",
+   "panel_label": "Audio Out Left",
+   "what": "Audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.608,
+    0.314
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Bara bra bas: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MONO-B-J06",
+   "side": "back",
+   "panel_label": "Audio Out Right",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.608,
+    0.398
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Bara bra bas: Input R\"",
+   "view": "main panel"
+  }
+ ]
+}

@@ -1,0 +1,1222 @@
+{
+ "device": "NN-XT Advanced Sampler",
+ "remote_scope": "Propellerheads / NN-XT Advanced Sampler",
+ "code_prefix": "NNXT",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "main panel + back mapped 2026-10-15; every position hovered in Reason; NN-XT Remote Editor (folded sample editor) NOT mapped",
+ "controls": [
+  {
+   "code": "NNXT-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.133
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-S01",
+   "side": "front",
+   "panel_label": "PITCH wheel",
+   "what": "Pitch bend wheel",
+   "reason_name": "Pitch Bend",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 16,
+   "cc": 45,
+   "feedback_cc": 93,
+   "pos": [
+    0.062,
+    0.462
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip 'Pitch Bend'",
+   "checked_2026_10_07": "tooltip \"Pitch Bend: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-S02",
+   "side": "front",
+   "panel_label": "WHEEL (mod wheel)",
+   "what": "Modulation wheel",
+   "reason_name": "Mod Wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 13,
+   "cc": 42,
+   "feedback_cc": 90,
+   "pos": [
+    0.097,
+    0.462
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip 'Mod Wheel'",
+   "checked_2026_10_07": "tooltip \"Mod Wheel: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-S03",
+   "side": "front",
+   "panel_label": "EXTERNAL CONTROL wheel",
+   "what": "External controller wheel",
+   "reason_name": "External Controller",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 4,
+   "cc": 33,
+   "feedback_cc": 81,
+   "pos": [
+    0.13,
+    0.462
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "tooltip 'External Controller'",
+   "checked_2026_10_07": "tooltip \"External Controller: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B05",
+   "side": "front",
+   "panel_label": "SOURCE AFTERTOUCH light",
+   "what": "External control source: aftertouch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.159,
+    0.291
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B06",
+   "side": "front",
+   "panel_label": "SOURCE EXPRESSION light",
+   "what": "External control source: expression",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.159,
+    0.38
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B07",
+   "side": "front",
+   "panel_label": "SOURCE BREATH light",
+   "what": "External control source: breath",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.159,
+    0.468
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B11",
+   "side": "front",
+   "panel_label": "SOURCE button",
+   "what": "Choose the external controller source",
+   "reason_name": "External Controller Source",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 5,
+   "cc": 34,
+   "feedback_cc": 82,
+   "pos": [
+    0.166,
+    0.589
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"External Controller Source\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-D04",
+   "side": "front",
+   "panel_label": "NOTE ON light",
+   "what": "Note-on indicator",
+   "reason_name": "Note On Indicator",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.261,
+    0.728
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item Note On Indicator, no knob slot",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B02",
+   "side": "front",
+   "panel_label": "(patch prev arrow)",
+   "what": "Previous patch",
+   "reason_name": "Select Previous Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.265,
+    0.171
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select previous patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B08",
+   "side": "front",
+   "panel_label": "(patch next arrow)",
+   "what": "Next patch",
+   "reason_name": "Select Next Patch",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.265,
+    0.253
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Select next patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B03",
+   "side": "front",
+   "panel_label": "(patch folder)",
+   "what": "Browse patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.29,
+    0.209
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Browse patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B04",
+   "side": "front",
+   "panel_label": "(patch disk)",
+   "what": "Save patch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.315,
+    0.209
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Save patch\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-D01",
+   "side": "front",
+   "panel_label": "Patch display",
+   "what": "Patch name display",
+   "reason_name": "Patch Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.407,
+    0.209
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item Patch Name, no knob slot",
+   "checked_2026_10_07": "tooltip \"B GrandPiano 1.0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B12",
+   "side": "front",
+   "panel_label": "HIGH QUALITY INTERPOLATION",
+   "what": "High quality interpolation on/off",
+   "reason_name": "High Quality Interpolation",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 9,
+   "cc": 38,
+   "feedback_cc": 86,
+   "pos": [
+    0.377,
+    0.753
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"High Quality Interpolation\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-D02",
+   "side": "front",
+   "panel_label": "Patch name tape",
+   "what": "Patch name tape",
+   "reason_name": "Device Name",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.789,
+    0.127
+   ],
+   "how": "display/Remote item, not mapped",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "confidence_reason": "Remote item 'Device Name'; tooltip shows the patch name; convention from earlier devices",
+   "checked_2026_10_07": "tooltip \"B GrandPiano 1.0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K01",
+   "side": "front",
+   "panel_label": "FILTER FREQ",
+   "what": "Filter frequency",
+   "reason_name": "Filter Freq",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 7,
+   "cc": 36,
+   "feedback_cc": 84,
+   "pos": [
+    0.558,
+    0.418
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Freq: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K02",
+   "side": "front",
+   "panel_label": "FILTER RES",
+   "what": "Filter resonance",
+   "reason_name": "Filter Res",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 8,
+   "cc": 37,
+   "feedback_cc": 85,
+   "pos": [
+    0.607,
+    0.418
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Res: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K03",
+   "side": "front",
+   "panel_label": "AMP ENVELOPE ATTACK",
+   "what": "Amp envelope attack",
+   "reason_name": "Amp Env Attack",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 1,
+   "cc": 30,
+   "feedback_cc": 78,
+   "pos": [
+    0.664,
+    0.418
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Env Attack: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K04",
+   "side": "front",
+   "panel_label": "AMP ENVELOPE DECAY",
+   "what": "Amp envelope decay",
+   "reason_name": "Amp Env Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 2,
+   "cc": 31,
+   "feedback_cc": 79,
+   "pos": [
+    0.712,
+    0.418
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Env Decay: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K05",
+   "side": "front",
+   "panel_label": "AMP ENVELOPE RELEASE",
+   "what": "Amp envelope release",
+   "reason_name": "Amp Env Release",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 3,
+   "cc": 32,
+   "feedback_cc": 80,
+   "pos": [
+    0.761,
+    0.418
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Env Release: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K06",
+   "side": "front",
+   "panel_label": "MOD ENV DECAY",
+   "what": "Mod envelope decay",
+   "reason_name": "Mod Env Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 12,
+   "cc": 41,
+   "feedback_cc": 89,
+   "pos": [
+    0.819,
+    0.418
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Env Decay: 0\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-D03",
+   "side": "front",
+   "panel_label": "IR display",
+   "what": "Small red display above MASTER VOLUME (purpose not verified)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.911,
+    0.247
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-K07",
+   "side": "front",
+   "panel_label": "MASTER VOLUME",
+   "what": "Master volume",
+   "reason_name": "Master Volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 10,
+   "cc": 39,
+   "feedback_cc": 87,
+   "pos": [
+    0.91,
+    0.468
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Master Volume: 100\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B10",
+   "side": "front",
+   "panel_label": "(parked) External controller",
+   "what": "Remote item 'External controller' (lowercase variant of slot 4)",
+   "reason_name": "External controller",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 6,
+   "cc": 35,
+   "feedback_cc": 83,
+   "pos": [
+    0.13,
+    0.709
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote vocabulary lists this name a second time (different capitalisation / item); no separate panel control; row parked beside the matching control; NOT proven",
+   "checked_2026_10_07": "not hovered: duplicate/parked Remote item with no separate panel control",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B15",
+   "side": "front",
+   "panel_label": "(parked) Master volume",
+   "what": "Remote item 'Master volume' (lowercase variant of slot 10)",
+   "reason_name": "Master volume",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 11,
+   "cc": 40,
+   "feedback_cc": 88,
+   "pos": [
+    0.883,
+    0.709
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote vocabulary lists this name a second time (different capitalisation / item); no separate panel control; row parked beside the matching control; NOT proven",
+   "checked_2026_10_07": "not hovered: duplicate/parked Remote item with no separate panel control",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B14",
+   "side": "front",
+   "panel_label": "(parked) Mod env Decay",
+   "what": "Remote item 'Mod env Decay' (variant of slot 12)",
+   "reason_name": "Mod env Decay",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 14,
+   "cc": 43,
+   "feedback_cc": 91,
+   "pos": [
+    0.819,
+    0.709
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote vocabulary lists this name a second time (different capitalisation / item); no separate panel control; row parked beside the matching control; NOT proven",
+   "checked_2026_10_07": "not hovered: duplicate/parked Remote item with no separate panel control",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B09",
+   "side": "front",
+   "panel_label": "(parked) Mod wheel",
+   "what": "Remote item 'Mod wheel' (lowercase variant of slot 13)",
+   "reason_name": "Mod wheel",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 15,
+   "cc": 44,
+   "feedback_cc": 92,
+   "pos": [
+    0.097,
+    0.709
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote vocabulary lists this name a second time (different capitalisation / item); no separate panel control; row parked beside the matching control; NOT proven",
+   "checked_2026_10_07": "not hovered: duplicate/parked Remote item with no separate panel control",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-F-B13",
+   "side": "front",
+   "panel_label": "(no panel control) Sample",
+   "what": "Remote item 'Sample': no matching control on the NN-XT main panel (belongs to the Remote Editor, not mapped)",
+   "reason_name": "Sample",
+   "remote_item": true,
+   "mapped_in_our_remotemap": true,
+   "knob_slot": 17,
+   "cc": 46,
+   "feedback_cc": 94,
+   "pos": [
+    0.469,
+    0.709
+   ],
+   "how": "voice/MIDI or click",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "low",
+   "confidence_reason": "Remote vocabulary lists this name a second time (different capitalisation / item); no separate panel control; row parked beside the matching control; NOT proven",
+   "checked_2026_10_07": "not hovered: duplicate/parked Remote item with no separate panel control",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J03",
+   "side": "back",
+   "panel_label": "Mono Gate In",
+   "what": "Gate input (sequencer control)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.079,
+    0.318
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mono Gate Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J15",
+   "side": "back",
+   "panel_label": "Mono CV In",
+   "what": "CV input (sequencer control)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.079,
+    0.465
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mono CV Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K01",
+   "side": "back",
+   "panel_label": "OSC Pitch mod trim",
+   "what": "Amount for OSC Pitch modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.182,
+    0.172
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"OSC Pitch Modulation Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J01",
+   "side": "back",
+   "panel_label": "OSC Pitch mod In",
+   "what": "Modulation input: OSC Pitch",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.212,
+    0.172
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"OSC Pitch Modulation Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K03",
+   "side": "back",
+   "panel_label": "Filter Cutoff mod trim",
+   "what": "Amount for Filter Cutoff modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.182,
+    0.313
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Filter Cutoff Modulation Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J04",
+   "side": "back",
+   "panel_label": "Filter Cutoff mod In",
+   "what": "Modulation input: Filter Cutoff",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.212,
+    0.313
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Cutoff Modulation Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K05",
+   "side": "back",
+   "panel_label": "Filter Res mod trim",
+   "what": "Amount for Filter Res modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.182,
+    0.449
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Filter Resonance Mod Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J16",
+   "side": "back",
+   "panel_label": "Filter Res mod In",
+   "what": "Modulation input: Filter Res",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.212,
+    0.449
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Filter Resonance Mod Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K06",
+   "side": "back",
+   "panel_label": "LFO 1 Rate mod trim",
+   "what": "Amount for LFO 1 Rate modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.182,
+    0.591
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"LFO 1 Group Rate Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J17",
+   "side": "back",
+   "panel_label": "LFO 1 Rate mod In",
+   "what": "Modulation input: LFO 1 Rate",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.212,
+    0.591
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"LFO 1 Group Rate Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K02",
+   "side": "back",
+   "panel_label": "Master Volume mod trim",
+   "what": "Amount for Master Volume modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.323,
+    0.172
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Volume Modulation Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J02",
+   "side": "back",
+   "panel_label": "Master Volume mod In",
+   "what": "Modulation input: Master Volume",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.352,
+    0.172
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Volume Modulation Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K04",
+   "side": "back",
+   "panel_label": "Pan mod trim",
+   "what": "Amount for Pan modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.323,
+    0.313
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Pan Modulation Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J05",
+   "side": "back",
+   "panel_label": "Pan mod In",
+   "what": "Modulation input: Pan",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.352,
+    0.313
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pan Modulation Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K07",
+   "side": "back",
+   "panel_label": "Mod Wheel mod trim",
+   "what": "Amount for Mod Wheel modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.323,
+    0.449
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Mod Wheel Modulation Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J18",
+   "side": "back",
+   "panel_label": "Mod Wheel mod In",
+   "what": "Modulation input: Mod Wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.352,
+    0.449
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Wheel Modulation Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-K08",
+   "side": "back",
+   "panel_label": "Pitch Wheel mod trim",
+   "what": "Amount for Pitch Wheel modulation",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.323,
+    0.591
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Pitch Wheel Modulation Input: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J19",
+   "side": "back",
+   "panel_label": "Pitch Wheel mod In",
+   "what": "Modulation input: Pitch Wheel",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.352,
+    0.591
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Pitch Wheel Modulation Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J06",
+   "side": "back",
+   "panel_label": "Amp Env Gate In",
+   "what": "Gate input: amp envelope",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.473,
+    0.318
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Amp Env Gate Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J20",
+   "side": "back",
+   "panel_label": "Mod Env Gate In",
+   "what": "Gate input: mod envelope",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.473,
+    0.46
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Mod Env Gate Input\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J07",
+   "side": "back",
+   "panel_label": "Audio Out 1",
+   "what": "Audio output 1 (left)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.585,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to B GrandPiano 1.0: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J08",
+   "side": "back",
+   "panel_label": "Audio Out 2",
+   "what": "Audio output 2 (right)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.619,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to B GrandPiano 1.0: Input R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J09",
+   "side": "back",
+   "panel_label": "Audio Out 3",
+   "what": "Audio output 3",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.658,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 3\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J10",
+   "side": "back",
+   "panel_label": "Audio Out 4",
+   "what": "Audio output 4",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.695,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 4\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J11",
+   "side": "back",
+   "panel_label": "Audio Out 5",
+   "what": "Audio output 5",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.737,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 5\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J12",
+   "side": "back",
+   "panel_label": "Audio Out 6",
+   "what": "Audio output 6",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.771,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 6\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J13",
+   "side": "back",
+   "panel_label": "Audio Out 7",
+   "what": "Audio output 7",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.813,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 7\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J14",
+   "side": "back",
+   "panel_label": "Audio Out 8",
+   "what": "Audio output 8",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.846,
+    0.288
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 8\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J21",
+   "side": "back",
+   "panel_label": "Audio Out 9",
+   "what": "Audio output 9",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.585,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 9\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J22",
+   "side": "back",
+   "panel_label": "Audio Out 10",
+   "what": "Audio output 10",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.619,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 10\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J23",
+   "side": "back",
+   "panel_label": "Audio Out 11",
+   "what": "Audio output 11",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.658,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 11\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J24",
+   "side": "back",
+   "panel_label": "Audio Out 12",
+   "what": "Audio output 12",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.695,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 12\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J25",
+   "side": "back",
+   "panel_label": "Audio Out 13",
+   "what": "Audio output 13",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.737,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 13\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J26",
+   "side": "back",
+   "panel_label": "Audio Out 14",
+   "what": "Audio output 14",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.771,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 14\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J27",
+   "side": "back",
+   "panel_label": "Audio Out 15",
+   "what": "Audio output 15",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.813,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 15\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-J28",
+   "side": "back",
+   "panel_label": "Audio Out 16",
+   "what": "Audio output 16",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.846,
+    0.53
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Output 16\"",
+   "view": "main panel"
+  },
+  {
+   "code": "NNXT-B-B01",
+   "side": "back",
+   "panel_label": "Power switch (drawn)",
+   "what": "Rocker switch drawn on the back panel (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.916,
+    0.197
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.5 s)",
+   "view": "main panel"
+  }
+ ]
+}

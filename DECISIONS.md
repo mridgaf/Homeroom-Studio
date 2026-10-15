@@ -8672,3 +8672,10 @@ just not loaded by default.
 - Verified: 36 chord tests pass (Linux). beat_machine edit only compiles here; full suite + audition need the Mac.
 - Not done: extra layers/lanes.
 - Status: open
+
+### 2026-10-15 Panel Map overnight run (2 a.m. start)
+- Context: owner asked to continue the Panel Map from 2 a.m. until done or usage ran out. Queue was Monotone, Pangea, Klang, NN-XT, ID8, BV512.
+- Decision/change: all six mapped in Reason (test song, nothing saved), each with front+back labeled pictures, `<slug>.json`, name_check PASS, rows in PANEL-MAP.md. Then also Rytmik, MIDI Out Device, and Rack Extensions Elements DS-LFO, Morfin XF, A/B 12 Audio Out Switch (no Remote map for these: names from tooltips only). Live status list: `device_refs/_panel_map/_captures_batchE/RESUME.md`.
+- Not mapped: NN-XT Remote Editor (folded sample editor), Rytmik other-drum views, BV512 has no remotemap Scope so no slots/CC. Third-party RE list and Players still to do (see RESUME.md).
+- Verify by: name_check on each json (Propellerheads-scope devices need the remotemap copy with `se.propellerheads.` stripped; Monotone/Pangea/Klang). Hover text is recorded per row.
+- Status: open

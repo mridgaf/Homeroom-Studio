@@ -1,0 +1,62 @@
+fold|(no tooltip: check by eye)
+pitchwheel|Pitch Bend: 0
+modwheel|Mod Wheel: 0
+xwheel|External Controller: 0
+led_at|(no tooltip in Reason: hovered 1.4 s)
+led_ex|(no tooltip in Reason: hovered 1.4 s)
+led_br|(no tooltip in Reason: hovered 1.4 s)
+source|External Controller Source
+noteon|(no tooltip in Reason: hovered 1.4 s)
+patchprev|Select previous patch
+patchnext|Select next patch
+folder|Browse patch
+disk|Save patch
+patchdisp|B GrandPiano 1.0
+hq|High Quality Interpolation
+tape|B GrandPiano 1.0
+freq|Filter Freq: 0
+res|Filter Res: 0
+attack|Amp Env Attack: 0
+decay|Amp Env Decay: 0
+release|Amp Env Release: 0
+mdecay|Mod Env Decay: 0
+master|Master Volume: 100
+ir|(no tooltip in Reason: hovered 1.6 s)
+BACK:
+gate|Mono Gate Input
+cv|Mono CV Input
+oscp_trim|OSC Pitch Modulation Input: 127
+oscp_jack|OSC Pitch Modulation Input
+fcut_trim|Filter Cutoff Modulation Input: 127
+fcut_jack|Filter Cutoff Modulation Input
+fres_trim|Filter Resonance Mod Input: 127
+fres_jack|Filter Resonance Mod Input
+lfo_trim|LFO 1 Group Rate Input: 127
+lfo_jack|LFO 1 Group Rate Input
+mvol_trim|Volume Modulation Input: 127
+mvol_jack|Volume Modulation Input
+pan_trim|Pan Modulation Input: 127
+pan_jack|Pan Modulation Input
+mw_trim|Mod Wheel Modulation Input: 127
+mw_jack|Mod Wheel Modulation Input
+pw_trim|Pitch Wheel Modulation Input: 127
+pw_jack|Pitch Wheel Modulation Input
+gateAmp|Amp Env Gate Input
+gateMod|Mod Env Gate Input
+out1|Connected to B GrandPiano 1.0: Input L
+out2|Connected to B GrandPiano 1.0: Input R
+out3|Output 3
+out4|Output 4
+out5|Output 5
+out6|Output 6
+out7|Output 7
+out8|Output 8
+out9|Output 9
+out10|Output 10
+out11|Output 11
+out12|Output 12
+out13|Output 13
+out14|Output 14
+out15|Output 15
+out16|Output 16
+power|(no tooltip in Reason: hovered 1.6 s)

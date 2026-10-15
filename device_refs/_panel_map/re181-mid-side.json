@@ -1,0 +1,411 @@
+{
+ "device": "RE 181 Mid/Side Audio Converter",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "RE18",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (Red Rock Sound RE, no Remote map); back jacks all hovered; front: only the two LISTEN buttons have tooltips, rest are meters/lights",
+ "controls": [
+  {
+   "code": "RE18-F-D01",
+   "side": "front",
+   "panel_label": "(left meter L input)",
+   "what": "Input meter L (left unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.069,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D08",
+   "side": "front",
+   "panel_label": "(left meter R input)",
+   "what": "Input meter R (left unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.069,
+    0.643
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D03",
+   "side": "front",
+   "panel_label": "(left meter M output)",
+   "what": "Output meter Mid (left unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.163,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D09",
+   "side": "front",
+   "panel_label": "(left meter S output)",
+   "what": "Output meter Side (left unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.163,
+    0.643
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D04",
+   "side": "front",
+   "panel_label": "(right meter M input)",
+   "what": "Input meter Mid (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.251,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D10",
+   "side": "front",
+   "panel_label": "(right meter S input)",
+   "what": "Input meter Side (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.251,
+    0.643
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D07",
+   "side": "front",
+   "panel_label": "(right meter L output)",
+   "what": "Output meter L (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.856,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D11",
+   "side": "front",
+   "panel_label": "(right meter R output)",
+   "what": "Output meter R (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.856,
+    0.643
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-B01",
+   "side": "front",
+   "panel_label": "LISTEN Mid",
+   "what": "Listen to the Mid input only (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.719,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Listen input Mid only\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-B02",
+   "side": "front",
+   "panel_label": "LISTEN Side",
+   "what": "Listen to the Side input only (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.719,
+    0.643
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Listen input Side only\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D06",
+   "side": "front",
+   "panel_label": "RE 181 MSC 1 tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.469,
+    0.245
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s) (hovered at two spots)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D02",
+   "side": "front",
+   "panel_label": "(left unit CHECK lights)",
+   "what": "CHECK lights (left unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.125,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-F-D05",
+   "side": "front",
+   "panel_label": "(right unit CHECK lights)",
+   "what": "CHECK lights (right unit)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.299,
+    0.306
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J01",
+   "side": "back",
+   "panel_label": "Stereo In L",
+   "what": "Stereo input, left (to Mid/Side out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.092,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio In Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J05",
+   "side": "back",
+   "panel_label": "Stereo In R",
+   "what": "Stereo input, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.092,
+    0.714
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio In Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J02",
+   "side": "back",
+   "panel_label": "M|S Out Mid",
+   "what": "Mid output",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.179,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out Mid\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J06",
+   "side": "back",
+   "panel_label": "M|S Out Side",
+   "what": "Side output",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.179,
+    0.714
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio Out Side\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J03",
+   "side": "back",
+   "panel_label": "M|S In Mid",
+   "what": "Mid input (to Stereo out)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.292,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio In Mid\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J07",
+   "side": "back",
+   "panel_label": "M|S In Side",
+   "what": "Side input",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.292,
+    0.714
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Audio In Side\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J04",
+   "side": "back",
+   "panel_label": "Stereo Out L",
+   "what": "Stereo output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.384,
+    0.388
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to AB12AudOut 1: Audio Input Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "RE18-B-J08",
+   "side": "back",
+   "panel_label": "Stereo Out R",
+   "what": "Stereo output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.384,
+    0.714
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to AB12AudOut 1: Audio Input Right\"",
+   "view": "main panel"
+  }
+ ]
+}

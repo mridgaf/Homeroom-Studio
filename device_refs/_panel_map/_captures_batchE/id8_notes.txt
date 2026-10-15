@@ -1,0 +1,24 @@
+pitch|Pitch Bend: 0
+mod|Mod Wheel: 0
+catprev|Select Previous Category
+catnext|Select Next Category
+catdisp|(no tooltip in Reason: hovered 1.4 s)
+list1|(no tooltip in Reason: hovered 1.4 s)
+list2|(no tooltip in Reason: hovered 1.6 s)
+list3|(no tooltip in Reason: hovered 1.6 s)
+list4|(no tooltip in Reason: hovered 1.6 s)
+snda|Sound A
+sndb|Sound B
+sndc|Sound C
+sndd|Sound D
+p1|Parameter 1: 0
+p1disp|(no tooltip in Reason: hovered 1.4 s)
+p2|Parameter 2: 0
+p2disp|(no tooltip in Reason: hovered 1.4 s)
+vol|Volume: 0.0 dB
+tape|(no tooltip in Reason: hovered 1.4 s)
+BACK:
+outL|Connected to ID8 1: Input L
+outR|Connected to ID8 1: Input R
+power|(no tooltip in Reason: hovered 1.5 s)
+tape|(no tooltip in Reason: hovered 1.5 s)

@@ -1,0 +1,71 @@
+fold|(no tooltip: check by eye)
+led|(no tooltip)
+patchdisp|(no tooltip)
+patchprev|Select previous patch
+patchnext|Select next patch
+folder|Browse patch
+disk|Save patch
+tape|Bara bra bas
+master|Volume: 1.5 dB
+retrig|ReTrig
+portsw|Portamento Mode: Off
+pitchwheel|(Pitch Bend): 0.0%
+filtamt|Wheel Filter Amt: 50.0 %
+lfoamt|Wheel LFO Amt: 50.0 %
+modwheel|(Mod Wheel): 0%
+osc1wave|Osc1 Wave: Ramp
+oscmix|Osc Mix: 32.8 %
+osc2wave|Osc2 Wave: Ramp
+osc1oct|Osc1 Oct: -1
+osc2oct|Osc2 Oct: 0
+noise|Noise: 10.0 %
+detune|Osc Detune: 7.8
+pitchlfo|Pitch LFO Amt: 0.0 %
+fmenv|FM Env Amt: 0.0 %
+osc2semi|Osc2 Pitch: 0
+fdrive|Filter Drive: 50.0 %
+ffreq|Filter Freq: 201.2 Hz
+freso|Filter Reso: 20.0 %
+fenv|Filter Env Amount: 65.8 %
+fkey|Filter Key Amt: 20.0 %
+flfo|Filter LFO Amt: 0.0 %
+aA|Amp Attack: 1.0 ms
+aD|Amp Decay: 515 ms
+aS|Amp Sustain: 29.1 %
+aR|Amp Release: 639 ms
+avel|Amp Velocity: 0.0 %
+chAmt|Chorus Amount: 0.0 %
+chRate|Chorus Rate: 40.0 %
+chSpread|Chorus Spread: 80.0 %
+dlAmt|Delay Amount: 0.0 %
+dlTime|Delay Time: 3/16
+dlFb|Delay Feedback: 0.0 %
+dlPP|Delay Pingpong
+lfoRate|LFO Rate: 2.37 Hz
+lfoWave|LFO Wave: Triangle
+eA|Filter Attack: 1.0 ms
+eD|Filter Decay: 239 ms
+eS|Filter Sustain: 35.2 %
+eR|Filter Release: 2.97 s
+eV|Filter Vel: 50.0 %
+portknob|Portamento: 0.0 %
+range|(no tooltip in Reason: hovered 1.5 s, spinner and both arrows)
+BACK:
+cv|SeqNoteInput
+gate|SeqGateInput
+pbtrim|PitchBend CV Amt: 100.0 %
+pbjack|PitchBend CV Input
+mwtrim|ModWheel CV Amt: 100.0 %
+mwjack|ModWheel CV Input
+mixtrim|OscMix CV Amt: 100.0 %
+mixjack|OscMix CV Input
+fmtrim|FMEnv CV Amt: 100.0 %
+fmjack|FMEnv CV Input
+nztrim|Noise CV Amt: 100.0 %
+nzjack|Noise CV Input
+frtrim|Freq CV Amt: 100.0 %
+frjack|Freq CV Input
+rstrim|Reso CV Amt: 100.0 %
+rsjack|Reso CV Input
+outL|Connected to Bara bra bas: Input L
+outR|Connected to Bara bra bas: Input R

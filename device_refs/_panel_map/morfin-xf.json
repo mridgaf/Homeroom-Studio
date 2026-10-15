@@ -1,0 +1,461 @@
+{
+ "device": "Morfin XF Crossfader",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "MORF",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (Groovy Melon Rack Extension, no Remote map); every position hovered in Reason (fold arrow: no tooltip). Fade-type light ring not mapped separately",
+ "controls": [
+  {
+   "code": "MORF-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.025,
+    0.14
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-K01",
+   "side": "front",
+   "panel_label": "SELECT A",
+   "what": "Channel A input select (pair 1-4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.09,
+    0.51
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Ch A Select Input: 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-K02",
+   "side": "front",
+   "panel_label": "VOLUME A",
+   "what": "Channel A volume",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.173,
+    0.51
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Volume A: 0.00 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-B02",
+   "side": "front",
+   "panel_label": "PHASE INVERT A (Ø)",
+   "what": "Channel A phase invert switch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.225,
+    0.66
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Phase Invert A\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-S01",
+   "side": "front",
+   "panel_label": "CROSSFADER A-B",
+   "what": "Crossfader (hover the handle)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.351,
+    0.47
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "confidence_reason": "slider: hover the handle (it moves with the value)",
+   "checked_2026_10_07": "tooltip \"Crossfader: 0.50\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-B03",
+   "side": "front",
+   "panel_label": "PHASE INVERT B (Ø)",
+   "what": "Channel B phase invert switch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.479,
+    0.66
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Phase Invert B\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-K03",
+   "side": "front",
+   "panel_label": "VOLUME B",
+   "what": "Channel B volume",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.532,
+    0.51
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Volume B: 0.00 dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-K04",
+   "side": "front",
+   "panel_label": "SELECT B",
+   "what": "Channel B input select (pair 1-4)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.614,
+    0.51
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Ch B Select Input: 2\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-K05",
+   "side": "front",
+   "panel_label": "FADE TYPE knob (CP/SQ/GT/AB/DIP/TRNS/SQRT/LIN/ST/MT)",
+   "what": "Crossfade curve type",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.744,
+    0.5
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Type: Constant Power\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-F-D01",
+   "side": "front",
+   "panel_label": "MORFIN XF 1 tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.87,
+    0.76
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Morfin XF 1\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J01",
+   "side": "back",
+   "panel_label": "Input 1 Left",
+   "what": "Audio input 1, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.226,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Old Tape: Main Out Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J08",
+   "side": "back",
+   "panel_label": "Input 1 Right",
+   "what": "Audio input 1, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.226,
+    0.646
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Old Tape: Main Out Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J02",
+   "side": "back",
+   "panel_label": "Input 2 Left",
+   "what": "Audio input 2, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.261,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Input 2 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J09",
+   "side": "back",
+   "panel_label": "Input 2 Right",
+   "what": "Audio input 2, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.261,
+    0.646
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Input 2 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J03",
+   "side": "back",
+   "panel_label": "Input 3 Left",
+   "what": "Audio input 3, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.295,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Input 3 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J10",
+   "side": "back",
+   "panel_label": "Input 3 Right",
+   "what": "Audio input 3, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.295,
+    0.646
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Input 3 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J04",
+   "side": "back",
+   "panel_label": "Input 4 Left",
+   "what": "Audio input 4, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.33,
+    0.333
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Input 4 Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J11",
+   "side": "back",
+   "panel_label": "Input 4 Right",
+   "what": "Audio input 4, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.33,
+    0.646
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Input 4 Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J05",
+   "side": "back",
+   "panel_label": "Output Left / Mono",
+   "what": "Audio output, left (mono)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.483,
+    0.343
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Old Tape: Input L\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J12",
+   "side": "back",
+   "panel_label": "Output Right",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.483,
+    0.646
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Old Tape: Input R\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J06",
+   "side": "back",
+   "panel_label": "Crossfader CV In",
+   "what": "CV input: crossfader",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.635,
+    0.323
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Crossfader CV In\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-K01",
+   "side": "back",
+   "panel_label": "Crossfader CV trim",
+   "what": "Amount for crossfader CV",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.628,
+    0.687
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "tooltip \"Crossfader CV In: 127\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J07",
+   "side": "back",
+   "panel_label": "CV Output A",
+   "what": "CV output A",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.669,
+    0.323
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Output A\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-J13",
+   "side": "back",
+   "panel_label": "CV Output B",
+   "what": "CV output B",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.669,
+    0.687
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"CV Output B\"",
+   "view": "main panel"
+  },
+  {
+   "code": "MORF-B-D01",
+   "side": "back",
+   "panel_label": "MORFIN XF 1 tape (back)",
+   "what": "Device name tape on the back",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.064,
+    0.222
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Morfin XF 1\"",
+   "view": "main panel"
+  }
+ ]
+}

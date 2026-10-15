@@ -1,0 +1,24 @@
+fold|(no tooltip: check by eye)
+tape|(no tooltip in Reason: hovered 1.3 s)
+cvdisp|(no tooltip in Reason: hovered 1.3 s)
+maxmin|(no tooltip in Reason: hovered 1.3 s)
+scale|Numeric Scale: Integer [-127..127]
+reset|Reset Min/Max
+auto|Min/Max Auto Reset: Off
+kbled|Keyboard
+roll|(no tooltip in Reason: hovered 1.3 s)
+graphview|(no tooltip in Reason: hovered 1.3 s)
+live|Live View
+graph|Graph
+color|Color
+zoom|Zoom: 100
+gscale|Scale: 1.00
+BACK:
+cvin|CV In
+trim|CV In: 127
+out1|CV Out [1]
+sl3|CV Out Type [3]: Passthrough
+auxcv|CV
+auxmax|Max
+auxmin|Min
+tape|(no tooltip in Reason: hovered 1.3 s)

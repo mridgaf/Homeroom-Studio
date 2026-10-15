@@ -1,0 +1,29 @@
+{
+"device": "Efektor Silencer Noise Gate",
+"front": {
+"(triangle)": "no tooltip (fold arrow); checked by eye",
+"BYPASS / ON / OFF": "tooltip \"Enabled: On\"",
+"THRESHOLD": "tooltip \"Threshold: -oo dB\"",
+"ATTACK": "tooltip \"Attack: 2 ms\"",
+"DECAY": "tooltip \"Decay: 100 ms\"",
+"DUAL MONO": "tooltip \"Dual Mono On/Off\"",
+"Power button (red)": "tooltip \"On / Bypass\"",
+"SILENCER 1 tape": "no tooltip in Reason (hovered 1.3 s)",
+"EFEKTOR SILENCER logo": "no tooltip in Reason (hovered 1.3 s)",
+"gate light grille": "no tooltip in Reason (hovered 1.3 s)"
+},
+"back": {
+"Input L": "tooltip \"Connected to Chorus 1: Main Out Left\"",
+"Input R": "tooltip \"Connected to Chorus 1: Main Out Right\"",
+"Output L": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"",
+"Output R": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"",
+"(small jacks 1)": "no tooltip in Reason (hovered 1.3 s)",
+"(small jacks 2)": "no tooltip in Reason (hovered 1.3 s)",
+"(small jacks 3)": "no tooltip in Reason (hovered 1.3 s)",
+"(small jacks 4)": "no tooltip in Reason (hovered 1.3 s)",
+"SILENCER 1 tape (back)": "no tooltip in Reason (hovered 1.3 s)",
+"Power area (drawn)": "no tooltip in Reason (hovered 1.3 s)"
+},
+"views": {},
+"view_titles": {}
+}

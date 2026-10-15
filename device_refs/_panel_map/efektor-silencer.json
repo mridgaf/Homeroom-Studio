@@ -1,0 +1,380 @@
+{
+ "device": "Efektor Silencer Noise Gate",
+ "remote_scope": "none (Rack Extension; no Remote map or vocab entry); names from tooltips only",
+ "code_prefix": "SILN",
+ "reason_version": "12.7 (screenshots 2026-10-07)",
+ "pos_note": "pos = [x,y] as fraction of the captured panel picture (0-1), not screen pixels. Measured by eye; check in Reason before trusting.",
+ "status": "mapped 2026-10-15 (Kuassa RE, no Remote map); front all hovered; back audio jacks hovered, 4 small jacks near INPUT/OUTPUT labels had no tooltip and are not identified",
+ "controls": [
+  {
+   "code": "SILN-F-B01",
+   "side": "front",
+   "panel_label": "(triangle)",
+   "what": "Fold/unfold device",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.027,
+    0.204
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip (fold arrow); checked by eye",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-B02",
+   "side": "front",
+   "panel_label": "BYPASS / ON / OFF",
+   "what": "3-way device switch",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.061,
+    0.245
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Enabled: On\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-K01",
+   "side": "front",
+   "panel_label": "THRESHOLD",
+   "what": "Gate threshold",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.14,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Threshold: -oo dB\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-K02",
+   "side": "front",
+   "panel_label": "ATTACK",
+   "what": "Gate attack time",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.226,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Attack: 2 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-K03",
+   "side": "front",
+   "panel_label": "DECAY",
+   "what": "Gate decay time",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.311,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Decay: 100 ms\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-B04",
+   "side": "front",
+   "panel_label": "DUAL MONO",
+   "what": "Dual mono on/off",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.757,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Dual Mono On/Off\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-B03",
+   "side": "front",
+   "panel_label": "Power button (red)",
+   "what": "On / Bypass button (red power symbol)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.926,
+    0.214
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"On / Bypass\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-D02",
+   "side": "front",
+   "panel_label": "SILENCER 1 tape",
+   "what": "Device name tape",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.884,
+    0.704
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-D01",
+   "side": "front",
+   "panel_label": "EFEKTOR SILENCER logo",
+   "what": "Logo (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.453,
+    0.551
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-F-D03",
+   "side": "front",
+   "panel_label": "gate light grille",
+   "what": "Small light grille next to the power button (no tooltip)",
+   "reason_name": null,
+   "remote_item": false,
+   "mapped_in_our_remotemap": false,
+   "knob_slot": null,
+   "cc": null,
+   "feedback_cc": null,
+   "pos": [
+    0.929,
+    0.408
+   ],
+   "how": "click only",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "medium",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J01",
+   "side": "back",
+   "panel_label": "Input L",
+   "what": "Audio input, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.683,
+    0.276
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Chorus 1: Main Out Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J02",
+   "side": "back",
+   "panel_label": "Input R",
+   "what": "Audio input, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.717,
+    0.276
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to Chorus 1: Main Out Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J05",
+   "side": "back",
+   "panel_label": "Output L",
+   "what": "Audio output, left",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.683,
+    0.653
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Left\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J06",
+   "side": "back",
+   "panel_label": "Output R",
+   "what": "Audio output, right",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.717,
+    0.653
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "tooltip \"Connected to RE 181 MSC 1: Audio In Right\"",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J03",
+   "side": "back",
+   "panel_label": "(small jacks 1)",
+   "what": "Small jacks near the INPUT/OUTPUT labels (not identified; no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.762,
+    0.276
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J04",
+   "side": "back",
+   "panel_label": "(small jacks 2)",
+   "what": "Small jacks near the INPUT/OUTPUT labels (not identified; no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.789,
+    0.276
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J07",
+   "side": "back",
+   "panel_label": "(small jacks 3)",
+   "what": "Small jacks near the INPUT/OUTPUT labels (not identified; no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.762,
+    0.663
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-J08",
+   "side": "back",
+   "panel_label": "(small jacks 4)",
+   "what": "Small jacks near the INPUT/OUTPUT labels (not identified; no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.789,
+    0.663
+   ],
+   "how": "cable: right-click jack > device > jack name",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-D01",
+   "side": "back",
+   "panel_label": "SILENCER 1 tape (back)",
+   "what": "Device name tape on the back",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.439,
+    0.214
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  },
+  {
+   "code": "SILN-B-D02",
+   "side": "back",
+   "panel_label": "Power area (drawn)",
+   "what": "Power socket (no tooltip)",
+   "reason_cable_menu_name": null,
+   "pos": [
+    0.922,
+    0.449
+   ],
+   "how": "click/drag only (no Remote item)",
+   "checked_2026_10_15": "PENDING",
+   "confidence": "high",
+   "checked_2026_10_07": "no tooltip in Reason (hovered 1.3 s)",
+   "view": "main panel"
+  }
+ ]
+}
