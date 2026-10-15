@@ -7,7 +7,7 @@ description: Map a Reason 12 device's front and back panels into the Panel Map (
 
 A coded map of every control on every Reason device, front and back, kept in
 `device_refs/_panel_map/`. It's for Claude and Hermes; the owner never has to read it.
-Read `PANEL-MAP.md` (rules + finished devices) and `PLAN.md` (phases) there first.
+Read `chapters/00-INDEX.md` first (rules, device table, links). Then open ONLY the chapter for the device you need (`chapters/<device>.md`). `PLAN.md` has the phases. The old `PANEL-MAP.md` is now a pointer; do not edit it.
 `scream-4.json` + its two pictures are the finished example. Match it.
 
 ## Hard rules
@@ -46,7 +46,7 @@ Number left-to-right, top-to-bottom. Never reuse or renumber a published code. A
    - Back trims: "<input name>: <value>".
    - No tooltip (displays, fold triangle): check by eye, or by a click you undo.
    Record what Reason showed in `checked_<date>` for every row.
-7. **Save + log.** Write `<device>.json`, both labeled pictures, and a section in PANEL-MAP.md. Add one line
+7. **Save + log.** Write `<device>.json`, both labeled pictures, and a chapter file `chapters/<device>.md` (made by `tools/panel_map_md.py`) and one line in `chapters/00-INDEX.md`. Add one line
    to the Devices table. Add a DECISIONS.md entry and update the hermes house project doc.
 
 ## Making a cable

@@ -8679,3 +8679,10 @@ just not loaded by default.
 - Not mapped: NN-XT Remote Editor (folded sample editor), Rytmik other-drum views, BV512 has no remotemap Scope so no slots/CC. Third-party RE list and Players still to do (see RESUME.md).
 - Verify by: name_check on each json (Propellerheads-scope devices need the remotemap copy with `se.propellerheads.` stripped; Monotone/Pangea/Klang). Hover text is recorded per row.
 - Status: open
+
+### 2026-10-15 Panel Map: split into chapters
+- Context: owner asked to break the Panel Map MD into chapters so every section gets read. PANEL-MAP.md was 6,413 lines; memory's "21 of 26" count was stale.
+- Decision/change: `device_refs/_panel_map/chapters/` now holds `00-INDEX.md` plus 72 device chapter files, made by `tools/split_panel_map.py`. Row count checked: 5,865 in, 5,865 out. `tools/panel_map_md.py` now writes new devices to chapter files. PANEL-MAP.md left untouched. SKILL-panel-map.md points at the index.
+- Reasoning: one 6k-line file was skipped in reading. Owner chose Players mapped, Thor Programmer and NN-XT Remote Editor left partial.
+- Verify by: `python3 tools/split_panel_map.py` asserts row match; open `chapters/00-INDEX.md`.
+- Status: open. Still to map: Softube Saturation Knob front, Distort Chain, Mr OverDrive, T2 Phaser, and 5 Players. Needs Reason screen-control approval.
