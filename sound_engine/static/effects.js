@@ -162,7 +162,7 @@ targetEl.addEventListener("change", () => {
 holdBtn.addEventListener("click", () => {
   held = !held;
   holdBtn.setAttribute("aria-pressed", held);
-  holdBtn.textContent = held ? "HELD" : "HOLD";
+  holdBtn.textContent = held ? "🔒 Locked" : "🔒 Lab lock";
   document.getElementById("workspace").classList.toggle("held", held);
   dryWetEl.disabled = held;
   document.getElementById("cleanBtn").disabled = held;

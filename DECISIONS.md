@@ -19,6 +19,15 @@ entries.
 ---
 
 ## Log
+### 2026-10-16 Effects page -> "The Sound of Science" (mockup 14) + two buses ("flasks")
+- Context: owner wanted the Effects page to match the beat page (notebook left, wood-framed board right), science theme, two buses with independent effects that start at zero. Mockups 12, 13a/b/c, 14 in `Front End Mockups/`; owner approved 14 ("Table of Elements", formula scrawl at the pad's foot).
+- Owner picks (clickable): keep per-stem effects AND add buses; same 10 knobs per bus; flask tabs stick out of the notebook; click a stem's element square = its own effects + "Connect to: None / Flask A / Flask B".
+- Done: new `sound_engine/static/index.html` + `science.css` + `science.js` (backups `index.pre-science-2026-10-16.html`, `app.pre-science-2026-10-16.js`). app.js: buses are full stem chains kept in `channels["bus:A"/"bus:B"]` (never in channelOrder), so every knob/slider/sync handler works on them unchanged; `setLaneBus` re-patches a stem's fader into the bus; `setBusLevel`. server.py: `POST /bus/{A|B}/process`, channel `bus` field, `_mix_lanes` used by export AND send-back (stem chain -> level/pan -> bus chain on the SUM -> bus level). Old "Whole beat" knob target still exists only in the Fine tune drawer.
+- Known gaps, by design: Stutter and Convolve are greyed out on a flask (no source to pre-render a stutter from, no per-bus sound upload yet). Send-back stems run each bused stem through its bus ALONE, so a bus compressor/reverb reacts per stem and the stems sum close to, not exactly, mix.wav (ponytail note in `_mix_lanes`).
+- Verified: 2 new tests (bus starts flat; bus level reaches the export; bad ids rejected), sound_engine file 111 passed; live page with beat 2824 (15 stems): routing, tab counts, Flask A reverb 40% live, Stutter greyed on a flask, every sync 200 OK, no console errors. Full suite: 1373 passed, 2 failed (test_boundary tools-import, test_pattern_gen guest lanes — neither file touched here). Not heard by ear. Screenshot of empty page: `Front End Mockups/live-science-2026-10-16.png`.
+- Status: open (owner has not used it)
+- Outcome: -
+
 ### 2026-10-07 Loops page: swap smear fixed, Rebuild button gone, one FX lane, "drum loop" stem
 - Context: owner: swapping the drum or bass loop on the Loops page played back smeared; Effects page "didn't show drums"; Rebuild redundant with Add chunk; two FX lanes in some beats.
 - Measured: NOT clipping, NOT the replayed volume lock, preview render clean (peak ~0.45). Cause = big time-stretch: at 107 BPM only 9% of drum / 18% of bass loops were within +-10% of tempo, 33-47% beyond +-25%, up to 2x.

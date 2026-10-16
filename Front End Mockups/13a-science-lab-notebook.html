@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13a — Sound of Science: Lab Notebook</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="science-base.css">
+<style>
+/* lab notebook = graph paper instead of plain lines */
+.notebook{background:linear-gradient(90deg,transparent 60px,var(--margin) 60px 62px,transparent 62px),
+  repeating-linear-gradient(90deg,transparent 0 21px,#8fa6c838 21px 22px),repeating-linear-gradient(180deg,transparent 0 21px,#8fa6c858 21px 22px),#fbf6dc}
+.stamp{position:absolute;right:28px;top:16px;font:12px var(--mono);border:2px solid #b3261e;color:#b3261e;padding:3px 8px;transform:rotate(4deg);border-radius:4px}
+.top2{display:grid;grid-template-columns:1fr 170px;gap:16px;align-items:start}
+.title{font:400 52px 'Permanent Marker';color:var(--sun);margin:0;line-height:1;transform:rotate(-2deg);filter:url(#chalk-text)}
+.title small{display:block;font:22px var(--hand);color:var(--chalk);transform:rotate(1deg);margin-top:6px}
+.formula{font:24px var(--hand);color:var(--lime);margin:14px 0 0;filter:url(#chalk-text)}
+.scope{margin-top:14px;display:flex;gap:14px;align-items:center;border:3px solid var(--chalk);border-radius:14px;padding:10px 14px;filter:url(#chalk)}
+.play{width:52px;height:52px;border-radius:50%;background:var(--sun);border:0;font-size:22px;cursor:pointer;flex:none}
+.scope .nm{font-size:22px;line-height:1}.scope .nm small{display:block;font:14px var(--mono);color:var(--chalk-dim);margin-top:4px}
+.screen{flex:1;height:64px;border-radius:8px;background:repeating-linear-gradient(90deg,#9be22d22 0 1px,transparent 1px 20px),repeating-linear-gradient(0deg,#9be22d22 0 1px,transparent 1px 16px),#0c1a08}
+.screen path{fill:none;stroke:var(--lime);stroke-width:2.5}
+.hd{font:30px var(--hand);margin:14px 0 6px;display:flex;align-items:baseline;gap:12px;filter:url(#chalk-text)}
+.hd small{font:16px var(--hand);color:var(--chalk-dim)}
+.perf{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.dw{font-size:19px}.dw input{width:100%;accent-color:var(--lime)}.dw .ends{display:flex;justify-content:space-between;font-size:15px;color:var(--chalk-dim)}
+.doodle{position:absolute;stroke:var(--chalk);fill:none;stroke-width:2.5;opacity:.55;filter:url(#chalk)}
+</style></head><body>
+<svg class="defs" aria-hidden="true"><defs>
+<filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/><feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/><feComposite in="rough" in2="grain" operator="in"/></filter>
+<filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/><feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/><feComposite in="rough" in2="grain" operator="in"/></filter>
+</defs></svg>
+<header class="top"><div class="wm">Homeroom Studios</div><div class="motto">Music starts here.</div>
+<nav class="apptabs"><a href="#">Make</a><a href="#">Reason Voice</a><a href="#" class="here">Science</a></nav></header>
+
+<div class="cols">
+<section class="notebook"><div class="rings"></div><span class="stamp">LAB BOOK No. 2824</span>
+ <div class="tabs">
+  <button class="tab on" data-p="stems">Stems<small>racks</small></button>
+  <button class="tab" data-p="A">Beaker A<small id="cA"></small></button>
+  <button class="tab" data-p="B">Beaker B<small id="cB"></small></button>
+ </div>
+ <div class="page on" id="p-stems">
+  <h1 class="nbtitle">Stem racks</h1>
+  <p class="nbsub">Each stem's own effects. Pick one to tune it alone.</p>
+  <div id="stemList"></div>
+  <p class="nbsub" style="margin-top:18px">Pour stems into a beaker on the board, then flip to its tab →</p>
+ </div>
+ <div class="page" id="p-A"></div><div class="page" id="p-B"></div>
+</section>
+
+<section class="board">
+ <svg class="doodle" style="left:14px;top:300px" width="70" height="90" viewBox="0 0 70 90"><path d="M24 6h22M28 6v28L8 80q-2 6 6 6h42q8 0 6-6L42 34V6"/><path d="M16 64h38" stroke-dasharray="4 5"/><circle cx="30" cy="74" r="3"/><circle cx="42" cy="68" r="2"/></svg>
+ <svg class="doodle" style="left:12px;top:480px" width="80" height="80" viewBox="0 0 80 80"><ellipse cx="40" cy="40" rx="36" ry="12"/><ellipse cx="40" cy="40" rx="36" ry="12" transform="rotate(60 40 40)"/><ellipse cx="40" cy="40" rx="36" ry="12" transform="rotate(-60 40 40)"/><circle cx="40" cy="40" r="4" fill="#f2f1ea"/></svg>
+ <div class="top2">
+  <div><h1 class="title">The Sound of Science<small>Experiment: what does this beat become?</small></h1>
+   <p class="formula">Beat = kick + snare + (soul)²</p></div>
+  <img class="logo" src="botc-logo-chalk.png" alt="The Back of the Class" style="width:150px">
+ </div>
+ <div class="scope"><button class="play">▶</button>
+  <div class="nm">2824 Acid Rap Bright<small>84 BPM · looping</small></div>
+  <svg class="screen" viewBox="0 0 400 64" preserveAspectRatio="none"><path d="M0 32 Q10 4 20 32 T40 32 T60 32 Q70 8 80 32 T100 32 Q110 50 120 32 T140 32 Q150 2 160 32 T180 32 T200 32 Q210 12 220 32 T240 32 Q250 58 260 32 T280 32 Q290 6 300 32 T320 32 T340 32 Q350 14 360 32 T380 32 T400 32"/></svg>
+ </div>
+ <div class="hd">Specimens <small>tap A or B to pour a stem into a beaker. Beakers start empty.</small></div>
+ <div class="lanes" id="lanes"></div>
+ <hr class="chalkline">
+ <div class="perf">
+  <button class="cbtn">❄ Freeze</button>
+  <div class="dw">Pure ⇄ Mixed solution <b style="color:var(--sun)">35%</b><input type="range" value="35"><div class="ends"><span>original</span><span>all effects</span></div></div>
+  <button class="cbtn sun">Rinse the beakers</button>
+ </div>
+ <p class="note">MOCKUP 13a — drag knobs, click ON/OFF, tap A/B, flip the notebook tabs.</p>
+ <div class="tray"><i></i><i></i><b></b></div>
+</section>
+</div>
+<script>window.SCI={bus:"Beaker",knob:"dial",busNote:"Every stem poured in here goes through these. All start at 0%, OFF.",cleanWord:"Rinse beaker"}</script>
+<script src="science-base.js"></script>
+</body></html>

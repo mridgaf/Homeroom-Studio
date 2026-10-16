@@ -3,16 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Effects — Homeroom Studios</title>
+<title>The Sound of Science — Homeroom Studios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap">
-<!-- style.css still dresses the fine-tune drawer; effects.css is the
-     chalkboard (owner-approved mockup 11-effects-controller.png, 2026-10-03).
-     Old page: index.pre-effects-2026-10-03.html -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap">
+<!-- Owner-approved mockup 14 (Front End Mockups/14-science-periodic-stems.png,
+     2026-10-16): notebook = Table of Elements (one square per stem) with
+     Flask A / Flask B tabs, board = player, stems, Dry/Wet. style.css still
+     dresses the fine-tune drawer, effects.css the knobs and strip,
+     science.css the new layout. Old page: index.pre-science-2026-10-16.html -->
 <link rel="stylesheet" href="/static/style.css">
 <link rel="stylesheet" href="/static/effects.css">
+<link rel="stylesheet" href="/static/science.css">
 </head>
 <body>
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+  <filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+</defs></svg>
 
 <header class="top">
   <div class="brandword">
@@ -25,15 +44,74 @@
   <nav class="apptabs">
     <a href="http://localhost:8770" title="Make beats">Make</a>
     <a href="http://localhost:8765" title="Recipes, patches, Reason">Reason Voice</a>
-    <span class="here" title="You're here">Effects</span>
+    <span class="here" title="You're here">Science</span>
   </nav>
 </header>
 
-<main class="board">
-  <div class="tray" aria-hidden="true"><i></i><i></i><b></b></div>
-  <div class="boardtop">
-    <img class="boardlogo" src="/brand/logo-white.png" alt="The Back of the Class">
-    <h1 class="rvtitle"><span>Effects Controller</span></h1>
+<div class="cols">
+  <!-- ============================ notebook ============================ -->
+  <section class="notebook" id="notebook">
+    <div class="rings" aria-hidden="true"></div>
+    <div class="tabs" role="tablist" aria-label="Pages">
+      <button class="tab on" data-p="stems" role="tab">Stems<small>table</small></button>
+      <button class="tab" data-p="A" role="tab">Flask A<small id="cA">0 stems</small></button>
+      <button class="tab" data-p="B" role="tab">Flask B<small id="cB">0 stems</small></button>
+    </div>
+
+    <div class="page on" id="p-stems">
+      <div class="formulas"><span>Kd + Sn + Ht → Groove</span><span>Beat = Σ stems × soul²</span><span>λ = 343 ÷ Hz</span></div>
+      <h1 class="nbtitle">Table of Elements</h1>
+      <div id="tableView">
+        <p class="nbsub" id="tableHint">Pick a beat on the board first.</p>
+        <div id="stable" class="stable"></div>
+        <div class="key" id="tableKey" hidden><span><i class="drums"></i>drums</span><span><i class="low"></i>low end</span><span><i class="mel"></i>melodic</span><span><i class="inA"></i>in Flask A</span><span><i class="inB"></i>in Flask B</span></div>
+      </div>
+      <div id="scard" class="scard" hidden>
+        <button class="back" id="backBtn">← back to the table</button>
+        <div class="head">
+          <div class="big" id="bigTile"></div>
+          <div>
+            <div class="conn" id="conn"></div>
+            <p class="nbsub">This stem's own effects. They hit before its flask.</p>
+          </div>
+        </div>
+        <div class="knobslot" id="stemSlot"></div>
+      </div>
+    </div>
+
+    <div class="page" id="p-flask">
+      <h1 class="nbtitle" id="flaskTitle">Flask A</h1>
+      <p class="nbsub" id="flaskWho"></p>
+      <div class="lvl"><label for="flaskLevel">Flask level</label>
+        <input type="range" id="flaskLevel" min="-24" max="6" step="0.5" value="0">
+        <output id="flaskLevelVal">0 dB</output></div>
+      <p class="nbsub">Every stem in this flask goes through these together. A new flask starts with zero effects.</p>
+      <div class="knobslot" id="flaskSlot"></div>
+    </div>
+
+    <div class="scrawls" aria-hidden="true">
+      <span style="left:0;top:4px;font-size:22px;transform:rotate(-3deg)">1, 1, 2, 3, 5, 8, 13, 21, 34, 55…</span>
+      <span style="left:12px;top:44px;font-size:15px;transform:rotate(-2deg);opacity:.8">Fₙ = Fₙ₋₁ + Fₙ₋₂</span>
+      <span style="right:20px;top:10px;font-size:30px;transform:rotate(4deg)">E = mc²</span>
+      <span style="left:0;top:96px;font-size:24px;transform:rotate(1.5deg)">π ≈ 3.14159 26535 89793…</span>
+      <span style="left:18px;top:150px;font-size:24px;transform:rotate(-2deg)">φ = (1 + √5) ÷ 2 ≈ 1.618</span>
+      <span style="left:250px;top:62px;font-size:17px;transform:rotate(-6deg);opacity:.85">t′ = t ÷ √(1 − v²/c²)</span>
+      <span style="left:36px;top:204px;font-size:18px;transform:rotate(2deg);opacity:.8">a² + b² = c² &nbsp;·&nbsp; f = 1 / T &nbsp;·&nbsp; 440 Hz = A</span>
+      <svg style="right:16px;top:70px" width="150" height="150" viewBox="0 0 150 150"><rect x="5" y="5" width="140" height="87"/><line x1="92" y1="5" x2="92" y2="92"/><line x1="92" y1="58" x2="145" y2="58"/><line x1="125" y1="58" x2="125" y2="92"/><path d="M92 92 A87 87 0 0 1 5 5 M92 5 A53 53 0 0 1 145 58 M145 58 A33 33 0 0 1 112 92"/><text x="20" y="115" font-size="15" fill="#1d3a8acc" stroke="none" font-family="Patrick Hand">golden spiral</text></svg>
+    </div>
+  </section>
+
+  <!-- ============================ chalkboard ============================ -->
+  <main class="board">
+    <span class="sideq" aria-hidden="true">E = mc² &nbsp;·&nbsp; c = 343 m/s</span>
+    <div class="sci-top">
+      <div>
+        <h1 class="sci-title">The Sound <span>of</span> Science</h1>
+        <p class="sci-sub">Every stem is an element. Mix your own compound.</p>
+      </div>
+      <div class="bandel"><span class="no">1</span><span class="ms2">Bc</span>
+        <img src="/brand/logo-chalk.png" alt="The Back of the Class"><b>Back of the Class</b></div>
+    </div>
 
     <section id="dropzone" class="dropzone">
       <p>Pick one of your beats, or drop any audio file here.</p>
@@ -54,37 +132,39 @@
       </div>
       <canvas id="wave" aria-label="Waveform. Click to jump."></canvas>
       <div class="playstate"><i id="playDot"></i><span id="playWord">Stopped</span></div>
-      <button id="sendBackBtn" class="btn primary" hidden
-              title="Save this as a new beat in the Beat Machine, effects and stems included, and go there">Send back to Beat Machine</button>
       <span id="playStatus" hidden></span>
     </div>
-  </div>
+    <button id="sendBackBtn" class="cbtn sendback" hidden
+            title="Save this as a new beat in the Beat Machine, effects and stems included, and go there">Send back to Beat Machine</button>
 
     <section id="workspace" class="workspace hidden">
+      <div class="hd">Samples under test <small>tap A or B to put a stem in a flask. Flasks start empty.</small></div>
+      <div class="lanes" id="lanes"></div>
+
+      <!-- the ten knobs; science.js moves this grid into whichever notebook page is open -->
       <div id="knobs" class="knobgrid"></div>
 
       <hr class="chalkline">
       <div class="perfbar">
         <div class="holdbox">
-          <button id="holdBtn" class="holdbtn" aria-pressed="false">HOLD</button>
-          <span>Hold current settings.</span>
+          <button id="holdBtn" class="holdbtn" aria-pressed="false">🔒 Lab lock</button>
         </div>
         <div class="drywet">
-          <div class="dwtop"><span class="dwlabel">Dry / Wet</span><output id="dryWetVal">100%</output></div>
-          <div class="dwrow"><span>Original</span>
+          <div class="dwtop"><span class="dwlabel">Control ⇄ Experiment</span><output id="dryWetVal">100%</output></div>
+          <div class="phscale" aria-hidden="true"></div>
+          <div class="dwrow"><span>dry</span>
             <input type="range" id="dryWet" min="0" max="100" step="1" value="100" aria-label="Dry / Wet">
-            <span>Effects</span></div>
+            <span>all effects</span></div>
         </div>
         <div class="cleanbox">
-          <button id="cleanBtn" class="cleanbtn">RETURN TO CLEAN</button>
-          <span>Restore dry sound · keep beat playing.</span>
+          <button id="cleanBtn" class="cleanbtn" title="Switch off every effect on the page that's open in the notebook">Reset experiment</button>
         </div>
       </div>
 
       <details class="finetune">
-        <summary>Fine tune — stems, every setting, export</summary>
+        <summary>Fine tune — every setting, export</summary>
         <div class="ftrow">
-          <label for="knobTarget">Big knobs change:</label>
+          <label for="knobTarget">Knobs change:</label>
           <select id="knobTarget"><option value="">Whole beat</option></select>
           <label class="loopToggle"><input type="checkbox" id="loopToggle" checked> Loop</label>
           <span id="fileMeta" class="meta"></span>
@@ -338,7 +418,9 @@
         </div>
       </details>
     </section>
-</main>
+    <div class="tray" aria-hidden="true"><i></i><i></i><b></b></div>
+  </main>
+</div>
 
     <div id="beatPickerModal" class="modal hidden">
       <div class="modal-card">
@@ -351,8 +433,8 @@
       </div>
     </div>
 
-
 <script src="/static/app.js"></script>
 <script src="/static/effects.js"></script>
+<script src="/static/science.js"></script>
 </body>
 </html>

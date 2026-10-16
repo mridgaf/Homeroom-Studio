@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13c — Sound of Science: Mad Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="science-base.css">
+<style>
+/* bus tabs drawn as test tubes */
+.tab[data-p=A],.tab[data-p=B]{border-radius:0 34px 34px 0;padding-right:18px;
+  background-image:linear-gradient(90deg,#ffffff55 0 6px,transparent 6px)}
+.tab[data-p=A]::after,.tab[data-p=B]::after{content:"";display:block;height:5px;margin-top:6px;border-radius:3px;background:#14141455}
+.top2{display:grid;grid-template-columns:1fr 210px;gap:10px;align-items:center}
+.title{font:400 54px 'Permanent Marker';color:var(--sun);margin:0;line-height:.95;filter:url(#chalk-text)}
+.title small{display:block;font:22px var(--hand);color:var(--chalk);margin-top:8px}
+.atom{position:relative;width:200px;height:170px}
+.atom svg{position:absolute;inset:0;stroke:var(--lime);fill:none;stroke-width:2.5;filter:url(#chalk)}
+.atom svg .orb{animation:spin 14s linear infinite;transform-origin:100px 85px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.atom img{position:absolute;left:66px;top:50px;width:70px;filter:url(#chalk)}
+.scope{margin-top:10px;display:flex;gap:14px;align-items:center;border:3px solid var(--chalk);border-radius:14px;padding:10px 14px;filter:url(#chalk)}
+.play{width:52px;height:52px;border-radius:50%;background:var(--sun);border:0;font-size:22px;cursor:pointer;flex:none}
+.scope .nm{font-size:22px;line-height:1}.scope .nm small{display:block;font:14px var(--mono);color:var(--chalk-dim);margin-top:4px}
+.bars{flex:1;height:56px;display:flex;align-items:center;gap:2px}.bars i{flex:1;background:var(--chalk);border-radius:2px}
+.hd{font:30px var(--hand);margin:14px 0 6px;display:flex;align-items:baseline;gap:12px;filter:url(#chalk-text)}
+.hd small{font:16px var(--hand);color:var(--chalk-dim)}
+.perf{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+/* dry/wet as a thermometer over a bunsen burner */
+.thermo{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;font-size:19px}
+.flame{font-size:30px;line-height:1}
+.tube{position:relative;height:20px;border:3px solid var(--chalk);border-radius:12px;filter:url(#chalk)}
+.tube i{position:absolute;left:3px;top:3px;bottom:3px;width:35%;border-radius:8px;background:linear-gradient(90deg,#62c8ff,#f6e04b,#ff5a3c)}
+.thermo input{grid-column:2;margin-top:-26px;opacity:0;position:relative;cursor:pointer}
+.ends{grid-column:2;display:flex;justify-content:space-between;font-size:15px;color:var(--chalk-dim)}
+.sticker{position:absolute;left:8px;top:270px;width:118px;text-align:center;background:var(--sun);color:#141414;font:13px var(--mono);padding:6px 10px;border-radius:6px;transform:rotate(-5deg);box-shadow:2px 2px 0 #0007}
+.bubbles{position:absolute;left:30px;top:330px;width:70px;height:230px}
+.bubbles circle{fill:none;stroke:var(--chalk);stroke-width:2;opacity:.5;animation:rise 6s linear infinite}
+@keyframes rise{from{transform:translateY(0);opacity:.6}to{transform:translateY(-200px);opacity:0}}
+.flask{position:absolute;left:18px;top:520px;stroke:var(--chalk);fill:none;stroke-width:2.5;opacity:.6;filter:url(#chalk)}
+</style></head><body>
+<svg class="defs" aria-hidden="true"><defs>
+<filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/><feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/><feComposite in="rough" in2="grain" operator="in"/></filter>
+<filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/><feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/><feComposite in="rough" in2="grain" operator="in"/></filter>
+</defs></svg>
+<header class="top"><div class="wm">Homeroom Studios</div><div class="motto">Music starts here.</div>
+<nav class="apptabs"><a href="#">Make</a><a href="#">Reason Voice</a><a href="#" class="here">Science</a></nav></header>
+
+<div class="cols">
+<section class="notebook"><div class="rings"></div>
+ <div class="tabs">
+  <button class="tab on" data-p="stems">Stems<small>racks</small></button>
+  <button class="tab" data-p="A">Tube A<small id="cA"></small></button>
+  <button class="tab" data-p="B">Tube B<small id="cB"></small></button>
+ </div>
+ <div class="page on" id="p-stems">
+  <h1 class="nbtitle">Stem racks</h1>
+  <p class="nbsub">Each stem's own effects. Pick one to tune it alone.</p>
+  <div id="stemList"></div>
+  <p class="nbsub" style="margin-top:18px">Hypothesis: _______________________</p>
+  <p class="nbsub">Result: ___________________________</p>
+ </div>
+ <div class="page" id="p-A"></div><div class="page" id="p-B"></div>
+</section>
+
+<section class="board">
+ <svg class="bubbles" viewBox="0 0 70 230"><circle cx="20" cy="220" r="6"/><circle cx="45" cy="220" r="4" style="animation-delay:-2s"/><circle cx="32" cy="220" r="8" style="animation-delay:-4s"/></svg>
+ <svg class="flask" width="80" height="100" viewBox="0 0 80 100"><path d="M30 6h20M34 6v30L10 88q-3 8 6 8h48q9 0 6-8L46 36V6"/><path d="M18 70h44"/></svg>
+ <div class="top2">
+  <h1 class="title">The Sound of Science<small>It's alive! ...the beat, that is.</small></h1>
+  <div class="atom"><svg viewBox="0 0 200 170"><g class="orb"><ellipse cx="100" cy="85" rx="95" ry="30"/><ellipse cx="100" cy="85" rx="95" ry="30" transform="rotate(60 100 85)"/><ellipse cx="100" cy="85" rx="95" ry="30" transform="rotate(-60 100 85)"/><circle cx="195" cy="85" r="5" fill="#9be22d"/></g></svg>
+   <img src="botc-logo-chalk.png" alt="The Back of the Class"></div>
+ </div>
+ <div class="scope"><button class="play">▶</button>
+  <div class="nm">2824 Acid Rap Bright<small>84 BPM · looping</small></div>
+  <div class="bars" id="bars"></div>
+ </div>
+ <div class="hd">Test subjects <small>tap A or B to drop a stem in a test tube. Tubes start empty.</small></div>
+ <div class="lanes" id="lanes"></div>
+ <hr class="chalkline">
+ <div class="perf">
+  <button class="cbtn">⏸ Hold it</button>
+  <div class="thermo"><span class="flame">🔥</span><div>Turn up the heat <b style="color:var(--sun)" id="heat">35%</b></div>
+   <span></span><div class="tube"><i id="merc"></i></div>
+   <input type="range" value="35" oninput="merc.style.width=this.value*.97+'%';heat.textContent=this.value+'%'">
+   <div class="ends"><span>original</span><span>all effects</span></div></div>
+  <button class="cbtn sun">Lab reset</button>
+ </div>
+ <span class="sticker">⚠ LAB SAFETY: HEADPHONES ON</span>
+ <p class="note">MOCKUP 13c — drag knobs, click ON/OFF, tap A/B, flip the test-tube tabs, drag the heat.</p>
+ <div class="tray"><i></i><i></i><b></b></div>
+</section>
+</div>
+<script>window.SCI={bus:"Test tube",knob:"dial",busNote:"Every stem dropped in here goes through these. All start at 0%, OFF.",cleanWord:"Wash out tube"};
+document.getElementById("bars").innerHTML=Array.from({length:70},(_,i)=>`<i style="height:${15+Math.abs(Math.sin(i*1.3)*Math.cos(i*.27))*85}%"></i>`).join("")</script>
+<script src="science-base.js"></script>
+</body></html>

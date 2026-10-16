@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13b — Sound of Science: Periodic Table</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="science-base.css">
+<style>
+/* effects as periodic-table tiles: the colour fill rises with the amount */
+.ptable{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.el{position:relative;aspect-ratio:1/1.12;border:2px solid #141414;background:#fffdf2;border-radius:4px;padding:5px 6px;cursor:ns-resize;touch-action:none;overflow:hidden;display:flex;flex-direction:column;user-select:none}
+.el .fill{position:absolute;left:0;right:0;bottom:0;background:#ff9a6266;z-index:0;transition:height .05s}
+.el.busB .fill{background:#62c8ff66}
+.el>*:not(.fill){position:relative;z-index:1}
+.el .no{font:11px var(--mono)}.el .amt{position:absolute;right:6px;top:4px;font:700 11px var(--mono)}
+.el .sym{font:400 34px 'DM Serif Display';line-height:1;margin-top:6px}.el .nm{font:12px var(--type)}.el .tp{font:9.5px var(--type);color:#14141490;line-height:1.1}
+.el .sw{position:absolute;left:5px;bottom:5px;margin:0}
+.el.on{box-shadow:inset 0 0 0 2px var(--lime)}
+.legend{font:12px var(--type);color:#14141490;margin:8px 0 0}
+.top2{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.title{font:400 50px 'Permanent Marker';color:var(--chalk);margin:0;line-height:1;filter:url(#chalk-text)}
+.title span{color:var(--sun)}
+.sub2{font:20px var(--hand);color:var(--chalk-dim);margin:6px 0 0;filter:url(#chalk-text)}
+/* the band as its own element */
+.bandel{width:150px;border:3px solid var(--chalk);border-radius:6px;padding:6px 8px;filter:url(#chalk);text-align:center;position:relative}
+.bandel .no{position:absolute;left:8px;top:4px;font:13px var(--mono)}.bandel .ms2{position:absolute;right:8px;top:4px;font:13px var(--mono);color:var(--sun)}
+.bandel img{width:84px;margin:18px auto 4px;display:block}.bandel b{font:16px var(--hand);display:block}
+.scope{margin-top:14px;display:flex;gap:14px;align-items:center;border:3px solid var(--chalk);border-radius:14px;padding:10px 14px;filter:url(#chalk)}
+.play{width:52px;height:52px;border-radius:50%;background:var(--sun);border:0;font-size:22px;cursor:pointer;flex:none}
+.scope .nm{font-size:22px;line-height:1}.scope .nm small{display:block;font:14px var(--mono);color:var(--chalk-dim);margin-top:4px}
+.bars{flex:1;height:56px;display:flex;align-items:center;gap:2px}
+.bars i{flex:1;background:var(--lime);border-radius:2px}
+.hd{font:30px var(--hand);margin:14px 0 6px;display:flex;align-items:baseline;gap:12px;filter:url(#chalk-text)}
+.hd small{font:16px var(--hand);color:var(--chalk-dim)}
+.perf{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.ph{font-size:19px}.ph .scale{height:12px;border-radius:6px;background:linear-gradient(90deg,#e8443a,#f6a23b,#f6e04b,#9be22d,#36b3d9,#6d4fd6);margin:4px 0;filter:url(#chalk)}
+.ph input{width:100%;margin:-20px 0 0;position:relative;accent-color:#fff;background:none;opacity:.9}
+.ph .ends{display:flex;justify-content:space-between;font-size:15px;color:var(--chalk-dim)}
+.eq{position:absolute;left:18px;font:22px var(--hand);color:var(--chalk);opacity:.55;filter:url(#chalk-text);writing-mode:vertical-rl;transform:rotate(180deg)}
+</style></head><body>
+<svg class="defs" aria-hidden="true"><defs>
+<filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/><feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/><feComposite in="rough" in2="grain" operator="in"/></filter>
+<filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/><feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/><feComposite in="rough" in2="grain" operator="in"/></filter>
+</defs></svg>
+<header class="top"><div class="wm">Homeroom Studios</div><div class="motto">Music starts here.</div>
+<nav class="apptabs"><a href="#">Make</a><a href="#">Reason Voice</a><a href="#" class="here">Science</a></nav></header>
+
+<div class="cols">
+<section class="notebook"><div class="rings"></div>
+ <div class="tabs">
+  <button class="tab on" data-p="stems">Stems<small>racks</small></button>
+  <button class="tab" data-p="A">Flask A<small id="cA"></small></button>
+  <button class="tab" data-p="B">Flask B<small id="cB"></small></button>
+ </div>
+ <div class="page on" id="p-stems">
+  <h1 class="nbtitle">Stem racks</h1>
+  <p class="nbsub">Each stem's own effects. Pick one to tune it alone.</p>
+  <div id="stemList"></div>
+  <p class="nbsub" style="margin-top:18px">Each flask has its own table of effects. Flip a tab →</p>
+ </div>
+ <div class="page" id="p-A"></div><div class="page" id="p-B"></div>
+</section>
+
+<section class="board">
+ <span class="eq" style="top:330px">E = mc² &nbsp;·&nbsp; c = 343 m/s</span>
+ <div class="top2">
+  <div><h1 class="title">The Sound <span>of</span> Science</h1>
+   <p class="sub2">The periodic table of effects. Mix your own compound.</p></div>
+  <div class="bandel"><span class="no">1</span><span class="ms2">Bc</span><img src="botc-logo-chalk.png" alt="The Back of the Class"><b>Back of the Class</b></div>
+ </div>
+ <div class="scope"><button class="play">▶</button>
+  <div class="nm">2824 Acid Rap Bright<small>84 BPM · looping</small></div>
+  <div class="bars" id="bars"></div>
+ </div>
+ <div class="hd">Samples under test <small>tap A or B to put a stem in a flask. Flasks start empty.</small></div>
+ <div class="lanes" id="lanes"></div>
+ <hr class="chalkline">
+ <div class="perf">
+  <button class="cbtn">🔒 Lab lock</button>
+  <div class="ph">Control ⇄ Experiment <b style="color:var(--sun)">35%</b><div class="scale"></div><input type="range" value="35"><div class="ends"><span>dry</span><span>all effects</span></div></div>
+  <button class="cbtn sun">Reset experiment</button>
+ </div>
+ <p class="note">MOCKUP 13b — drag a tile up/down to set it, click ON/OFF, tap A/B, flip the notebook tabs.</p>
+ <div class="tray"><i></i><i></i><b></b></div>
+</section>
+</div>
+<script>window.SCI={bus:"Flask",knob:"element",busNote:"Drag a tile up or down. All start at 0%, OFF.",cleanWord:"Empty flask"};
+document.getElementById("bars").innerHTML=Array.from({length:70},(_,i)=>`<i style="height:${15+Math.abs(Math.sin(i*1.7)*Math.cos(i*.31))*85}%"></i>`).join("")</script>
+<script src="science-base.js"></script>
+</body></html>

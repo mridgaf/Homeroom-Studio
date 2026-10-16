@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup 12 — Effects with Buses</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{--bg:#2b2d31;--paper:#fdf3b8;--rule:#cfe0ee;--ink:#1d3a8a;--board:#16181a;--chalk:#f4f1e8;--lime:#8be04a;--sun:#f6d84a;--wood:#8a4b22;--a:#ff8a5c;--b:#5cc8ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--chalk);font-family:'Patrick Hand',sans-serif;padding:14px 22px 22px}
+header{display:flex;align-items:center;gap:18px;margin-bottom:10px}
+.wm{font:400 34px 'DM Serif Display';color:#fff;border-bottom:4px solid var(--sun);line-height:1}
+.motto{font:12px 'Space Mono';color:#bbb}.nav{margin-left:auto;display:flex;gap:18px;font:13px 'Space Mono'}
+.nav .here{background:#2f5bff;padding:5px 12px;border-radius:7px;color:#fff}
+.stage{display:grid;grid-template-columns:minmax(380px,40%) 1fr;gap:0;position:relative}
+/* notebook */
+.book{position:relative;background:var(--paper);border-radius:6px 0 0 6px;padding:18px 20px 16px 44px;min-height:640px;
+ background-image:repeating-linear-gradient(transparent 0 27px,var(--rule) 27px 28px);box-shadow:0 8px 24px #0008}
+.book:before{content:"";position:absolute;left:30px;top:0;bottom:0;width:2px;background:#e48a8a}
+.rings{position:absolute;left:-8px;top:18px;bottom:18px;width:26px;background:repeating-linear-gradient(#0000 0 22px,#bbb 22px 32px,#0000 32px 44px);border-radius:4px;opacity:.9}
+.tabs{position:absolute;right:-1px;top:70px;transform:translateX(100%);z-index:5;display:flex;flex-direction:column;gap:10px}
+.tab{width:74px;padding:14px 6px;font:20px 'Permanent Marker';text-align:center;border-radius:0 12px 12px 0;cursor:pointer;color:#222;box-shadow:3px 3px 0 #0006;border:0;margin-left:-1px;transition:.15s}
+.tab small{display:block;font:11px 'Space Mono';opacity:.7}
+.tab[data-p=stems]{background:#ffe97a}.tab[data-p=A]{background:var(--a)}.tab[data-p=B]{background:var(--b)}
+.tab.on{width:88px}
+.page{display:none;color:var(--ink)}.page.on{display:block;animation:flip .25s}
+@keyframes flip{from{opacity:0;transform:translateX(-12px)}}
+h2{font:400 26px 'DM Serif Display';margin:0 0 2px;color:var(--ink);text-transform:uppercase;letter-spacing:.5px;border-bottom:4px solid #f6e04a;display:inline-block;line-height:1.1}
+.sub{font-size:15px;margin:6px 0 12px;color:#445}
+.kgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 6px}
+.knob{display:grid;grid-template-columns:78px 1fr;align-items:center;gap:4px;padding:2px 0}
+.knob svg{width:74px;height:74px;cursor:ns-resize;touch-action:none}
+.kn{font:19px 'Patrick Hand';font-weight:700}.kt{font-size:13px;color:#556}
+.sw{margin-top:3px;display:inline-flex;align-items:center;gap:5px;font:700 11px 'Space Mono';cursor:pointer;background:#fff;border:2px solid #667;border-radius:12px;padding:1px 7px;color:#667}
+.knob.on .sw{background:var(--lime);border-color:#4a8a1a;color:#143}
+.dial-bg{fill:none;stroke:#0002;stroke-width:8}.lit{fill:none;stroke:var(--ink);stroke-width:8;stroke-linecap:round}
+.A .lit{stroke:#d9531e}.Bc .lit{stroke:#1479b8}
+.pct{font:700 20px 'Patrick Hand';fill:#223;text-anchor:middle}.ptr{stroke:#223;stroke-width:3;stroke-linecap:round}
+.busbar{display:flex;gap:12px;align-items:center;margin:2px 0 8px;font-size:17px}
+.busbar input{flex:1}.chip{font:700 12px 'Space Mono';padding:2px 8px;border-radius:10px;color:#222}
+.clean{margin-top:10px;font:700 14px 'Space Mono';background:#fff;border:2px solid var(--ink);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+.stemrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-bottom:1px solid #0002;padding:3px 0;font-size:18px}
+.stemrow .sel{background:#fff8;border:2px solid var(--ink);border-radius:8px;padding:0 8px;font:inherit;color:var(--ink);cursor:pointer}
+/* board */
+.board{background:var(--board);border:12px solid var(--wood);border-left:0;border-radius:0 8px 8px 0;padding:18px 24px 18px 108px;box-shadow:0 8px 24px #0008,inset 0 0 40px #000a;position:relative}
+.title{display:inline-block;background:var(--sun);color:#222;font:32px 'Permanent Marker';padding:2px 18px;border-radius:8px;transform:rotate(-1.5deg);margin:0 0 12px}
+.strip{display:flex;gap:12px;align-items:center;border:2px solid #fff6;border-radius:12px;padding:8px 12px}
+.play{width:44px;height:44px;border-radius:50%;background:var(--sun);border:0;font-size:18px;cursor:pointer}
+.nm b{font:700 17px 'Patrick Hand'}.nm div{font:11px 'Space Mono';color:#aaa}
+.wave{flex:1;height:44px;background:repeating-linear-gradient(90deg,var(--lime) 0 2px,#0000 2px 5px);-webkit-mask:linear-gradient(#0000,#000 30%,#000 70%,#0000);opacity:.85}
+.hd{font:400 28px 'Patrick Hand';margin:16px 0 4px;display:flex;align-items:baseline;gap:10px}.hd small{font:12px 'Space Mono';color:#aaa}
+.lanes{border:2px solid #fff4;border-radius:12px;padding:4px 10px}
+.lane{display:grid;grid-template-columns:130px 1fr 70px 44px auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed #fff2;font-size:18px}
+.lane:last-child{border:0}
+.lane input[type=range]{accent-color:var(--lime);width:100%}
+.ms{display:flex;gap:4px}.ms span{font:700 12px 'Space Mono';border:1px solid #fff6;border-radius:5px;padding:1px 6px;cursor:pointer}
+.routes{display:flex;gap:4px}.route{font:700 13px 'Space Mono';padding:3px 9px;border-radius:9px;border:2px solid #fff5;background:none;color:#ccc;cursor:pointer}
+.route.on.A{background:var(--a);color:#222;border-color:var(--a)}.route.on.B{background:var(--b);color:#222;border-color:var(--b)}
+.perf{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:18px;align-items:center;margin-top:14px;border-top:2px solid #fff4;padding-top:12px}
+.hold,.rtc{font:700 14px 'Space Mono';padding:9px;border-radius:8px;cursor:pointer;border:2px solid #fff8;background:none;color:#fff}
+.rtc{background:var(--sun);color:#222;border:0}.dw{font-size:15px}.dw input{width:100%;accent-color:var(--lime)}
+.note{margin-top:8px;font:11px 'Space Mono';color:#9a9}
+</style></head><body>
+<header><div class="wm">Homeroom Studios</div><div class="motto">Music starts here.</div>
+<nav class="nav"><span>Make</span><span>Reason Voice</span><span class="here">Effects</span></nav></header>
+
+<div class="stage">
+ <section class="book"><div class="rings"></div>
+  <div class="tabs">
+   <button class="tab on" data-p="stems">Stems<small>racks</small></button>
+   <button class="tab" data-p="A">Bus A<small id="cA">0 stems</small></button>
+   <button class="tab" data-p="B">Bus B<small id="cB">0 stems</small></button>
+  </div>
+
+  <div class="page on" id="p-stems">
+   <h2>Stem racks</h2>
+   <p class="sub">Pick a stem, tune it on its own. (Same as today's Fine tune drawer.)</p>
+   <div id="stemList"></div>
+   <p class="sub" style="margin-top:14px">Flip a tab on the right edge to work on a bus →</p>
+  </div>
+
+  <div class="page" id="p-A"></div>
+  <div class="page" id="p-B"></div>
+ </section>
+
+ <section class="board">
+  <h1 class="title">Effects Controller</h1>
+  <div class="strip"><button class="play">▶</button>
+   <div class="nm"><b>2824 Acid Rap Bright</b><div>84 BPM · Looping</div></div><div class="wave"></div></div>
+
+  <div class="hd">Your stems <small>tap A or B to send a stem to a bus. Buses start with zero effects.</small></div>
+  <div class="lanes" id="lanes"></div>
+
+  <div class="perf">
+   <button class="hold">HOLD</button>
+   <div class="dw">Dry / Wet <b>35%</b><input type="range" value="35"></div>
+   <button class="rtc">RETURN TO CLEAN</button>
+  </div>
+  <p class="note">MOCKUP — drag knobs up/down, click ON/OFF, click A/B on a stem, flip the tabs.</p>
+ </section>
+</div>
+
+<script>
+const FX=[["EQ","Bass + air lift"],["Compress","Squash + punch"],["Drive","Warmth"],["Width","Wider stereo"],["Chorus","Thicken"],["Phaser","Sweeping whoosh"],["Echo","Repeats in time"],["Stutter","Beat repeat"],["Reverb","Room / space"],["Convolve","Drop a sound in"]];
+const STEMS=["kick drum","snare","hats","percs","bass drum","chords","melody"];
+const route={}; STEMS.forEach(s=>route[s]="");
+const pt=(r,a)=>[60+r*Math.cos(a*Math.PI/180),60+r*Math.sin(a*Math.PI/180)];
+const arc=(a0,a1)=>{const[p,q]=pt(46,a0),[x,y]=pt(46,a1);return`M${p} ${q}A46 46 0 ${a1-a0>180?1:0} 1 ${x} ${y}`};
+function knob(name,tip,cls){
+ const d=document.createElement("div");d.className="knob";let v=0,on=false;
+ d.innerHTML=`<svg viewBox="0 0 120 120"><path class="dial-bg" d="${arc(135,405)}"/><path class="lit ${cls}"/><line class="ptr" x1="60" y1="60" x2="60" y2="22"/><text class="pct" x="60" y="68">0%</text></svg>
+ <div><div class="kn">${name}</div><div class="kt">${tip}</div><span class="sw">OFF</span></div>`;
+ const draw=()=>{const e=135+270*v/100;d.querySelector(".lit").setAttribute("d",v?arc(135,e):"");
+  d.querySelector(".ptr").setAttribute("transform",`rotate(${e-270} 60 60)`);d.querySelector(".pct").textContent=Math.round(v)+"%";
+  d.classList.toggle("on",on);d.querySelector(".sw").textContent=on?"ON":"OFF"};
+ d.querySelector(".sw").onclick=()=>{on=!on;draw()};
+ d.querySelector("svg").onpointerdown=e=>{const y0=e.clientY,v0=v;e.target.setPointerCapture?.(e.pointerId);
+  const mv=m=>{v=Math.max(0,Math.min(100,v0+(y0-m.clientY)/1.5));if(v>0)on=true;draw()};
+  const up=()=>{removeEventListener("pointermove",mv);removeEventListener("pointerup",up)};
+  addEventListener("pointermove",mv);addEventListener("pointerup",up)};
+ draw();return d}
+function busPage(id,cls,color){
+ const el=document.getElementById("p-"+id);
+ el.innerHTML=`<h2>Bus ${id}</h2><span class="chip" style="background:${color};margin-left:8px" id="chip${id}"></span>
+ <p class="sub">Everything sent to Bus ${id} goes through these. All start at 0%, OFF.</p>
+ <div class="busbar">Bus level <input type="range" value="80"></div><div class="kgrid"></div>
+ <button class="clean">RETURN BUS ${id} TO CLEAN</button>`;
+ const g=el.querySelector(".kgrid");FX.forEach(([n,t])=>g.append(knob(n,t,cls)))}
+busPage("A","A","var(--a)");busPage("B","Bc","var(--b)");
+// stems
+const sl=document.getElementById("stemList"),lanes=document.getElementById("lanes");
+STEMS.forEach(s=>{sl.insertAdjacentHTML("beforeend",`<div class="stemrow"><span>${s}</span><select class="sel"><option>EQ 0 · Comp 0 · Rev 0</option></select></div>`)});
+function renderLanes(){lanes.innerHTML="";STEMS.forEach(s=>{
+ const r=route[s],l=document.createElement("div");l.className="lane";
+ l.innerHTML=`<span>${s}</span><input type="range" value="${70+Math.random()*20|0}"><div class="ms"><span>M</span><span>S</span></div><span style="color:#aaa;font:12px 'Space Mono'">pan C</span>
+ <div class="routes"><button class="route A ${r=="A"?"on":""}">A</button><button class="route B ${r=="B"?"on":""}">B</button></div>`;
+ l.querySelectorAll(".route").forEach(b=>b.onclick=()=>{const k=b.textContent;route[s]=route[s]===k?"":k;renderLanes()});
+ lanes.append(l)});
+ for(const k of "AB")document.getElementById("c"+k).textContent=STEMS.filter(s=>route[s]===k).length+" stems";
+ for(const k of "AB")document.getElementById("chip"+k).textContent=STEMS.filter(s=>route[s]===k).join(", ")||"no stems yet"}
+renderLanes();
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+ document.querySelectorAll(".tab,.page").forEach(x=>x.classList.remove("on"));t.classList.add("on");document.getElementById("p-"+t.dataset.p).classList.add("on")});
+</script></body></html>

@@ -1421,3 +1421,50 @@ def test_no_lane_preset_runs_away_in_level(dj, bpm):
         gain_db = 20 * np.log10(max(np.abs(wl).max(), np.abs(wr).max())
                                 / max(np.abs(dl).max(), 1e-12))
         assert gain_db < 6.0, f"{dj}/{lane} gains {gain_db:.1f} dB of peak"
+
+
+# --- buses (owner 2026-10-16, mockup 14 "flasks") -------------------------
+def _export_peak(project_id):
+    r = client.post(f"/api/project/{project_id}/export")
+    assert r.status_code == 200, r.text
+    p = Path(r.json()["path"])
+    with wave.open(str(p), "rb") as w:
+        raw = w.readframes(w.getnframes())
+        width = w.getsampwidth()
+    p.unlink()
+    if width == 3:
+        b = np.frombuffer(raw, dtype=np.uint8).reshape(-1, 3)
+        x = (b[:, 0].astype(np.int32) | (b[:, 1].astype(np.int32) << 8)
+             | (b[:, 2].astype(np.int32) << 16))
+        x = np.where(x >= 1 << 23, x - (1 << 24), x) / float(1 << 23)
+    else:
+        x = np.frombuffer(raw, dtype=f"<i{width}") / float(1 << (8 * width - 1))
+    return float(np.max(np.abs(x)))
+
+
+def test_bus_starts_flat_and_its_level_reaches_the_export():
+    pid = _upload().json()["project_id"]
+    before = _export_peak(pid)
+    # routed to a bus nobody touched = zero effects, same sound
+    assert client.post(f"/api/project/{pid}/channel/upload/process",
+                       json={"bus": "A"}).status_code == 200
+    assert abs(_export_peak(pid) - before) < 1e-3
+    # the bus's own level is applied to what is in it
+    assert client.post(f"/api/project/{pid}/bus/A/process",
+                       json={"gain_db": -12.0}).status_code == 200
+    assert _export_peak(pid) < before * 0.3
+    # Bus B's level does nothing to a stem that is in A
+    client.post(f"/api/project/{pid}/bus/B/process", json={"gain_db": -60.0})
+    assert _export_peak(pid) < before * 0.3 and _export_peak(pid) > before * 0.2
+    # back out of the bus = untouched again
+    client.post(f"/api/project/{pid}/channel/upload/process", json={"bus": ""})
+    assert abs(_export_peak(pid) - before) < 1e-3
+
+
+def test_bus_rejects_bad_ids_and_values():
+    pid = _upload().json()["project_id"]
+    assert client.post(f"/api/project/{pid}/bus/C/process", json={}).status_code == 404
+    assert client.post(f"/api/project/{pid}/channel/upload/process",
+                       json={"bus": "Z"}).status_code == 400
+    assert client.post(f"/api/project/{pid}/bus/A/process",
+                       json={"gain_db": "loud"}).status_code == 400

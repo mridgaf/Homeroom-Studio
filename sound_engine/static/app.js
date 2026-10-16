@@ -16,6 +16,11 @@ let channels = {};       // lane_id -> channel object, see buildChannelGraph()
 let channelOrder = [];   // lane_ids, display order
 let selectedLane = null;
 let isPlaying = false;
+// Two shared effect buses ("flasks", owner 2026-10-16). Each is a full copy
+// of the stem chain kept in channels{} under "bus:A"/"bus:B" — so every
+// slider, knob and sync handler works on a bus exactly as on a stem — but
+// never in channelOrder, which stays the list of real stems.
+const BUS_IDS = ["bus:A", "bus:B"];
 const syncFailedLanes = new Set();  // channels the server rejected — their
                                      // export would not match the preview
 let projectLoadSeq = 0;  // guards against two concurrent openProject() calls
@@ -194,7 +199,17 @@ async function openProject(data) {
     // these units so both sides pick the same cells
     newChannels[ch.lane_id].stemRate = ch.sample_rate;
     newChannels[ch.lane_id].stemLength = ch.length_samples;
+    newChannels[ch.lane_id].bus = "";  // every stem starts outside the buses
     newChannelOrder.push(ch.lane_id);
+  }
+  for (const id of BUS_IDS) {
+    const bus = buildChannelGraph(id, "Flask " + id.slice(4), null, myMasterGain);
+    // a bus has no source: whatever stems are sent here arrive at busIn,
+    // which feeds both the processed path and the Dry/Wet bypass path
+    bus.busIn = audioCtx.createGain();
+    bus.busIn.connect(bus.brDry);
+    bus.busIn.connect(bus.bypassGain);
+    newChannels[id] = bus;
   }
 
   if (myLoad !== projectLoadSeq) {
@@ -223,7 +238,7 @@ async function openProject(data) {
   renderChannelList();
   // each channel keeps its own grid, so its cell length comes from its own
   // state — never from whatever the shared dropdown happens to show
-  for (const laneId of channelOrder) {
+  for (const laneId of [...channelOrder, ...BUS_IDS]) {
     const ch = channels[laneId];
     ch.br.cellS = brCellSeconds(ch.br);
     // the DelayNode was created before this project's tempo was known, so
@@ -692,6 +707,26 @@ function toggleSolo(laneId) {
   syncChannelToServer(laneId);
 }
 
+// send a stem to a bus ("A"/"B") or straight to the mix (""). Re-patches
+// only the stem's fader output, so its own chain, level and pan stay put.
+function setLaneBus(laneId, b) {
+  const ch = channels[laneId];
+  if (!ch || !channelOrder.includes(laneId)) return;
+  const bus = b ? channels["bus:" + b] : null;
+  ch.fader.disconnect();
+  ch.fader.connect(bus ? bus.busIn : masterGain);
+  ch.bus = bus ? b : "";
+  syncChannelToServer(laneId);
+}
+
+function setBusLevel(busId, db) {
+  const bus = channels[busId];
+  if (!bus) return;
+  bus.faderDb = db;
+  bus.fader.gain.setTargetAtTime(10 ** (db / 20), audioCtx.currentTime, RAMP_SECONDS);
+  syncChannelToServer(busId);
+}
+
 function selectChannel(laneId) {
   selectedLane = laneId;
   channelRackTitle.textContent = channels[laneId].label;
@@ -988,6 +1023,12 @@ document.getElementById("brChance").addEventListener("change", brShapeChanged);
 document.getElementById("brMix").addEventListener("input", e => {
   document.getElementById("brMixVal").textContent = e.target.value;
   const ch = currentChannel(); if (!ch || !audioCtx) return;
+  // a bus has no source to pre-render a stutter from, and lowering its
+  // brDry would just mute everything in the bus — Stutter stays off there
+  if (!ch.audioBuffer) {
+    e.target.value = 0; document.getElementById("brMixVal").textContent = "0";
+    return;
+  }
   ch.br.mix = parseFloat(e.target.value) / 100;
   ch.brWet.gain.setTargetAtTime(ch.br.mix, audioCtx.currentTime, RAMP_SECONDS);
   ch.brDry.gain.setTargetAtTime(1 - ch.br.mix, audioCtx.currentTime, RAMP_SECONDS);
@@ -1252,6 +1293,15 @@ function _sendChannelSync(laneId) {
     br_repeats: ch.br.repeats, br_chance: ch.br.chance,
     gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
   };
+  if (laneId.startsWith("bus:")) {
+    fetch(`/api/project/${projectId}/bus/${laneId.slice(4)}/process`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+    }).then(r => { if (!r.ok) syncFailedLanes.add(laneId); else syncFailedLanes.delete(laneId); })
+      .catch(() => syncFailedLanes.add(laneId));
+    return;
+  }
+  params.bus = ch.bus || "";
   // A rejected sync means the server is still holding this channel's
   // PREVIOUS settings — an export would then quietly not match what's
   // playing. Remember it and say so at export time rather than reporting
@@ -1451,7 +1501,7 @@ function play(offset = 0) {
 function applyDryWet() {
   if (!audioCtx) return;
   const t = audioCtx.currentTime;
-  for (const laneId of channelOrder) {
+  for (const laneId of [...channelOrder, ...BUS_IDS]) {
     const ch = channels[laneId];
     ch.wetGain.gain.setTargetAtTime(dryWet, t, RAMP_SECONDS);
     ch.bypassGain.gain.setTargetAtTime(1 - dryWet, t, RAMP_SECONDS);
@@ -1519,7 +1569,7 @@ exportBtn.addEventListener("click", async () => {
   exportBtn.disabled = true;
   exportStatus.textContent = "Rendering final mix…";
   try {
-    for (const laneId of channelOrder) syncChannelToServer(laneId, true);
+    for (const laneId of [...channelOrder, ...BUS_IDS]) syncChannelToServer(laneId, true);
     await new Promise(r => setTimeout(r, 150));  // let the syncs land server-side
     const res = await fetch(`/api/project/${projectId}/export?dry_wet=${dryWet}`, { method: "POST" });
     const data = await res.json();
@@ -1557,7 +1607,7 @@ sendBackBtn.addEventListener("click", async () => {
   const was = sendBackBtn.textContent;
   sendBackBtn.textContent = "Saving as a new beat…";
   try {
-    for (const laneId of channelOrder) syncChannelToServer(laneId, true);
+    for (const laneId of [...channelOrder, ...BUS_IDS]) syncChannelToServer(laneId, true);
     await new Promise(r => setTimeout(r, 150));  // same wait as Export
     const res = await fetch(`/api/project/${projectId}/send-back?dry_wet=${dryWet}` +
                             `&back=${encodeURIComponent(backTo)}`, { method: "POST" });

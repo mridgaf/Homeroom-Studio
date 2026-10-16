@@ -455,12 +455,107 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
     # field partway through the old field-by-field mutation order left
     # earlier fields (e.g. gain_db) silently written even on a 400 (found
     # in review).
+    bus = params.get("bus", channel.get("bus", ""))
+    if bus not in BUS_IDS and bus != "":
+        return JSONResponse({"error": "bus must be A, B or empty"}, status_code=400)
     channel["gain_db"] = gain_db
     channel["pan"] = pan
     channel["muted"] = muted
     channel["solo"] = solo
+    channel["bus"] = bus
     channel["wet"] = (L, R)
     return JSONResponse({"ok": True})
+
+
+# --- buses (owner 2026-10-16, mockup 14 "flasks") --------------------------
+# Two shared effect chains. A stem sent to a bus is heard as: its own chain,
+# its own level/pan, THEN the bus chain on the sum of everything in that bus,
+# then the bus level. Same chain function as a stem, so the same knobs mean
+# the same thing. Every bus starts with zero effects (empty params = flat).
+BUS_IDS = ("A", "B")
+# Stutter needs a pre-rendered copy of the source and Convolve an uploaded
+# sound per channel; neither exists for a bus yet, so a bus never runs them
+# (the page greys those two knobs out on a bus to match).
+_BUS_OFF = {"br_mix": 0.0, "conv_mix": 0.0}
+
+
+def _buses(project):
+    return project.setdefault(
+        "buses", {b: {"params": {}, "gain_db": 0.0} for b in BUS_IDS})
+
+
+@app.post("/api/project/{project_id}/bus/{bus_id}/process")
+async def bus_process(project_id: str, bus_id: str, params: dict):
+    project = PROJECTS.get(project_id)
+    if project is None or bus_id not in BUS_IDS:
+        return JSONResponse({"error": "unknown project_id or bus"}, status_code=404)
+    PROJECTS[project_id] = PROJECTS.pop(project_id)  # touch — see _get_channel
+    sr = next(iter(project["channels"].values()))["sr"]
+    try:
+        gain_db = _finite_float(params.get("gain_db", 0.0))
+        clean = {**params, **_BUS_OFF}
+        # a dry run on a few samples rejects bad numbers before they are kept
+        _apply_channel_chain(np.zeros(64), np.zeros(64), sr, clean)
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "invalid parameter values"}, status_code=400)
+    _buses(project)[bus_id] = {"params": clean, "gain_db": gain_db}
+    return JSONResponse({"ok": True})
+
+
+def _mix_lanes(project, w):
+    """Every audible lane as heard, plus the full mix, buses included.
+
+    Returns (per_lane {lane_id: (L, R)}, mixL, mixR, sr), or None when
+    every channel is muted. The mix runs each bus chain ONCE on the sum of
+    its lanes — that is what plays live. ponytail: the per-lane files
+    (send-back stems) run each bused lane through its bus chain ALONE, so a
+    bus compressor or reverb reacts to that one stem; the stems then sum
+    close to, not exactly, mix.wav. Write one file per bus if exact sums
+    ever matter more than per-instrument stems."""
+    channels = project["channels"]
+    any_solo = any(c["solo"] for c in channels.values())
+    audible = {k: c for k, c in channels.items()
+               if (c["solo"] if any_solo else not c["muted"])}
+    if not audible:
+        return None
+    sr = next(iter(channels.values()))["sr"]
+    n = max(max(len(c["wet"][0]), len(c["dry"][0])) for c in audible.values())
+    w = min(max(float(w), 0.0), 1.0)
+    buses = _buses(project)
+
+    def through_bus(b, L, R):
+        bus = buses[b]
+        pL, pR = _apply_channel_chain(L.copy(), R.copy(), sr, bus["params"])
+        g = 10 ** (bus["gain_db"] / 20.0)
+        # the page's Dry/Wet crossfades the bus chain the same way it does
+        # a stem's, so 0 % is the untouched sum
+        return (pL * w + L * (1.0 - w)) * g, (pR * w + R * (1.0 - w)) * g
+
+    lanes, sums = {}, {b: (np.zeros(n), np.zeros(n)) for b in BUS_IDS}
+    mixL, mixR = np.zeros(n), np.zeros(n)
+    for lane_id, c in audible.items():
+        g = 10 ** (c["gain_db"] / 20.0)
+        panL, panR = _pan_gains(c["pan"])
+        sL, sR = np.zeros(n), np.zeros(n)
+        for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
+            if k:
+                sL[:len(L)] += L * g * panL * k
+                sR[:len(R)] += R * g * panR * k
+        b = c.get("bus", "")
+        if b in BUS_IDS:
+            sums[b][0][:] += sL
+            sums[b][1][:] += sR
+            sL, sR = through_bus(b, sL, sR)
+        else:
+            mixL += sL
+            mixR += sR
+        lanes[lane_id] = (sL, sR)
+    for b in BUS_IDS:
+        if any(c.get("bus") == b for c in audible.values()):
+            bL, bR = through_bus(b, *sums[b])
+            mixL += bL
+            mixR += bR
+    return lanes, mixL, mixR, sr
 
 
 @app.post("/api/project/{project_id}/channel/{lane_id}/ir")
@@ -546,27 +641,13 @@ async def project_export(project_id: str, dry_wet: float = 1.0):
     if project is None:
         return JSONResponse({"error": "unknown project_id"}, status_code=404)
     PROJECTS[project_id] = PROJECTS.pop(project_id)  # touch — see _get_channel
-    channels = project["channels"]
-    any_solo = any(c["solo"] for c in channels.values())
-    audible = [c for c in channels.values()
-               if (c["solo"] if any_solo else not c["muted"])]
-    if not audible:
-        return JSONResponse({"error": "nothing to export — every channel is muted"},
-                             status_code=400)
-    sr = next(iter(channels.values()))["sr"]
-    n = max(max(len(c["wet"][0]), len(c["dry"][0])) for c in audible)
-    mixL = np.zeros(n)
-    mixR = np.zeros(n)
     # the Effects page's Dry/Wet slider: 1 = effects only (the old export),
     # 0 = the untouched stems. Same crossfade the browser plays.
-    w = min(max(float(dry_wet), 0.0), 1.0)
-    for c in audible:
-        g = 10 ** (c["gain_db"] / 20.0)
-        panL, panR = _pan_gains(c["pan"])
-        for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
-            if k:
-                mixL[:len(L)] += L * g * panL * k
-                mixR[:len(R)] += R * g * panR * k
+    mixed = _mix_lanes(project, dry_wet)
+    if mixed is None:
+        return JSONResponse({"error": "nothing to export — every channel is muted"},
+                             status_code=400)
+    _, mixL, mixR, sr = mixed
     ae = dsp.audio_engine
     mixL, mixR = ae.brickwall_limit(mixL, mixR, ceiling_db=-0.3, sr=sr)
     stem = re.sub(r'[\\/:*?"<>|]', "_", project["name"]).strip() or "mix"
@@ -596,30 +677,15 @@ async def project_send_back(project_id: str, dry_wet: float = 1.0, back: str = "
     if not m:
         return JSONResponse({"error": "only a beat from your library can go back"},
                             status_code=400)
-    channels = project["channels"]
-    any_solo = any(c["solo"] for c in channels.values())
-    audible = {k: c for k, c in channels.items()
-               if (c["solo"] if any_solo else not c["muted"])}
-    if not audible:
+    mixed = _mix_lanes(project, dry_wet)
+    if mixed is None:
         return JSONResponse({"error": "every channel is muted"}, status_code=400)
-    sr = next(iter(channels.values()))["sr"]
-    n = max(max(len(c["wet"][0]), len(c["dry"][0])) for c in audible.values())
-    w = min(max(float(dry_wet), 0.0), 1.0)
+    lanes, mixL, mixR, sr = mixed
     stem = re.sub(r'[\\/:*?"<>|]', "_", project["name"]).strip() or "mix"
     out = EXPORT_DIR / f"{stem} send-back {datetime.now():%Y-%m-%d %H%M%S}"
     out.mkdir(parents=True, exist_ok=False)
-    mixL, mixR = np.zeros(n), np.zeros(n)
-    for lane_id, c in audible.items():
-        g = 10 ** (c["gain_db"] / 20.0)
-        panL, panR = _pan_gains(c["pan"])
-        sL, sR = np.zeros(n), np.zeros(n)
-        for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
-            if k:
-                sL[:len(L)] += L * g * panL * k
-                sR[:len(R)] += R * g * panR * k
+    for lane_id, (sL, sR) in lanes.items():
         write_wav24(out / f"{lane_id}.wav", sL, sR)
-        mixL += sL
-        mixR += sR
     mixL, mixR = dsp.audio_engine.brickwall_limit(mixL, mixR, ceiling_db=-0.3, sr=sr)
     write_wav24(out / "mix.wav", mixL, mixR)
 

@@ -1,0 +1,91 @@
+/* Shared look for the "Sound of Science" mockups 13a/b/c.
+   Copied from the live beat generator (tools/beat_machine.py, homeroom layer):
+   same palette, typewriter notebook, Patrick Hand chalk, chalk filter, wood frame. */
+:root{
+  --page:#2c2e32; --ink:#141414; --paper-y:#f8edb2; --rule:#8fa6c870; --margin:#d9776f;
+  --chalk:#f2f1ea; --chalk-dim:#f2f1eaa6; --lime:#9be22d; --sun:#f6e04b; --wood:#7b3f1d;
+  --a:#ff9a62; --b:#62c8ff;
+  --type:"Special Elite","American Typewriter","Courier New",monospace;
+  --hand:"Patrick Hand","Chalkboard SE","Comic Sans MS",cursive;
+  --mono:"Space Mono",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:#fff;padding:0 22px 40px;font-family:var(--hand)}
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+.chalky{filter:url(#chalk)} .chalktext{filter:url(#chalk-text)}
+
+header.top{display:flex;align-items:center;gap:18px;padding:18px 8px 14px}
+.wm{font:400 34px 'DM Serif Display';color:#fff;line-height:1;border-bottom:4px solid var(--sun)}
+.motto{font:12px var(--mono);color:#bbb}
+.apptabs{margin-left:auto;display:flex;gap:18px;align-items:center}
+.apptabs a{font:26px var(--hand);color:var(--lime);text-decoration:none;padding:4px 10px;filter:url(#chalk)}
+.apptabs a.here{border:3px solid var(--lime);border-radius:12px;padding:3px 20px}
+
+/* balanced: notebook and board nearly the same width */
+.cols{display:grid;grid-template-columns:minmax(380px,1fr) minmax(0,1.1fr);gap:4px;align-items:stretch;max-width:1500px;margin:0 auto}
+
+/* notebook */
+.notebook{position:relative;padding:20px 30px 26px 76px;border-radius:6px 4px 4px 6px;color:var(--ink);font-family:var(--type);
+  background:linear-gradient(90deg,transparent 60px,var(--margin) 60px 62px,transparent 62px),
+    repeating-linear-gradient(180deg,transparent 0 27px,var(--rule) 27px 28px),var(--paper-y);
+  box-shadow:0 10px 30px #0006,inset 0 0 0 1px #0000000f;min-height:720px}
+.rings{position:absolute;left:-16px;top:12px;bottom:12px;width:48px;pointer-events:none;
+  background:radial-gradient(circle at 36px 50%,#2c2e32 0 5px,transparent 5.6px) 0 0/48px 34px repeat-y,
+  linear-gradient(180deg,transparent 12px,#9a9a9a 12px,#e8e8e8 15px,#8a8a8a 18px,transparent 19px) 0 0/40px 34px repeat-y}
+.nbtitle{font:400 clamp(30px,3vw,44px) var(--type);color:#111;margin:0 0 4px;-webkit-text-stroke:1.1px #111;text-shadow:1px 1px 0 #00000038;line-height:1.1}
+.nbsub{font-size:13px;color:#141414b0;margin:0 0 12px}
+.page{display:none}.page.on{display:block;animation:flip .28s ease-out}
+@keyframes flip{from{opacity:0;transform:perspective(900px) rotateY(-8deg);transform-origin:left}}
+
+/* bus tabs stick out of the notebook's right edge */
+.tabs{position:absolute;right:0;top:120px;transform:translateX(100%);z-index:5;display:flex;flex-direction:column;gap:8px}
+.tab{border:0;cursor:pointer;color:#141414;font:18px var(--type);padding:12px 8px 12px 10px;width:110px;text-align:left;white-space:nowrap;
+  border-radius:0 10px 10px 0;box-shadow:3px 3px 0 #0005;transition:width .15s}
+.tab small{display:block;font:11px var(--mono);opacity:.75;margin-top:2px}
+.tab.on{width:122px}
+.tab[data-p=stems]{background:#fff6c8}.tab[data-p=A]{background:var(--a)}.tab[data-p=B]{background:var(--b)}
+
+.lvl{display:flex;gap:12px;align-items:center;font-size:15px;margin:4px 0 10px}
+.lvl input{flex:1;accent-color:#141414}
+.paperbtn{font:15px var(--type);background:#fffdf2;border:1.5px solid #141414;border-radius:7px;padding:7px 14px;cursor:pointer;color:#141414}
+.stemrow{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;align-items:center;height:28px;font-size:16px}
+.stemrow select{font:13px var(--type);background:#fffdf2d9;border:1.5px solid #8b8573;border-radius:6px;padding:2px 6px}
+
+/* chalkboard: full wood frame on all four sides + chalk tray */
+.board{position:relative;min-width:0;color:var(--chalk);padding:20px 26px 44px 140px;
+  background:radial-gradient(120% 80% at 30% 15%,#ffffff0b,transparent 60%),radial-gradient(60% 50% at 80% 95%,#ffffff07,transparent 70%),#141414;
+  border:18px solid var(--wood);border-image:linear-gradient(135deg,#8d4c26,#5e2e12 35%,#93522a 65%,#5a2c11) 1;
+  box-shadow:0 10px 30px #0008,inset 0 0 50px #000c}
+.tray{position:absolute;left:-18px;right:-18px;bottom:-18px;height:20px;background:linear-gradient(#6a3416,#3e1d09)}
+.tray i,.tray b{position:absolute;bottom:13px;border-radius:3px}
+.tray i{width:58px;height:9px;background:linear-gradient(#fff,#cfcfcf);left:150px}.tray i+i{left:226px;width:44px}
+.tray b{width:120px;height:16px;right:30%;background:linear-gradient(#3a3a3a 0 55%,#b98b54 55%)}
+.chalkline{border:0;height:3px;background:var(--chalk);opacity:.85;margin:14px 0;filter:url(#chalk)}
+.cbtn{font:22px var(--hand);color:var(--chalk);background:none;border:3px solid var(--chalk);border-radius:12px;padding:6px 16px;cursor:pointer;filter:url(#chalk)}
+.cbtn.sun{background:var(--sun);color:#141414;border-color:var(--sun)}
+.logo{display:block;filter:url(#chalk)}
+
+/* stems on the board */
+.lanes{border:3px solid var(--chalk-dim);border-radius:14px;padding:4px 12px;filter:url(#chalk)}
+.lane{display:grid;grid-template-columns:110px 1fr 52px 42px auto;gap:10px;align-items:center;padding:5px 0;border-bottom:2px dashed #ffffff22;font-size:19px}
+.lane:last-child{border:0}
+.lane input{accent-color:var(--lime);width:100%}
+.ms{display:flex;gap:4px}.ms span,.pan{font:12px var(--mono);border:2px solid var(--chalk-dim);border-radius:6px;padding:0 5px}
+.pan{border:0;color:var(--chalk-dim)}
+.routes{display:flex;gap:5px}
+.route{font:18px var(--hand);width:34px;height:30px;border-radius:9px;border:2.5px solid var(--chalk-dim);background:none;color:var(--chalk);cursor:pointer}
+.route.on.A{background:var(--a);border-color:var(--a);color:#141414}.route.on.B{background:var(--b);border-color:var(--b);color:#141414}
+
+/* knobs (dial style, ink on paper) */
+.kgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 10px}
+.knob{display:grid;grid-template-columns:70px 1fr;gap:6px;align-items:center}
+.knob svg{width:66px;height:66px;cursor:ns-resize;touch-action:none}
+.kn{font:17px var(--type)}.kt{font-size:11.5px;color:#141414a0}
+.sw{display:inline-block;margin-top:3px;font:700 10.5px var(--mono);border:1.5px solid #141414;border-radius:10px;padding:0 7px;background:#fff;cursor:pointer}
+.knob.on .sw{background:var(--lime)}
+.dbg{fill:none;stroke:#14141422;stroke-width:9}.lit{fill:none;stroke:#141414;stroke-width:9;stroke-linecap:round}
+.busA .lit{stroke:#d9531e}.busB .lit{stroke:#1479b8}
+.pct{font:15px var(--type);fill:#141414;text-anchor:middle}.ptr{stroke:#141414;stroke-width:3;stroke-linecap:round}
+
+.note{font:11px var(--mono);color:#ffffff70;margin-top:10px}
+[hidden]{display:none!important}

@@ -27,6 +27,15 @@
         "cd \"/Users/johnsuhr/Desktop/Homeroom Studio\" && REASON_VOICE_NO_BROWSER=1 exec ./.venv/bin/python -m sound_engine.server"
       ],
       "port": 8767
+    },
+    {
+      "name": "mockups",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd \"/Users/johnsuhr/Desktop/Homeroom Studio/Front End Mockups\" && exec python3 -m http.server 8799 --bind 127.0.0.1"
+      ],
+      "port": 8799
     }
   ]
 }
