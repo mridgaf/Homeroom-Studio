@@ -174,7 +174,8 @@ async def project_from_beat(body: dict):
     if not channels:
         return JSONResponse({"error": "no readable stems in that beat"}, status_code=400)
     PROJECTS[project_id] = {"name": beat["display_name"], "channels": channels,
-                              "src_paths": [], "bpm": beat["bpm"]}
+                              "src_paths": [], "bpm": beat["bpm"],
+                              "beat_id": beat_id}
     _evict_old_projects()
     return JSONResponse(_project_response(project_id, PROJECTS[project_id]))
 
@@ -573,6 +574,70 @@ async def project_export(project_id: str, dry_wet: float = 1.0):
     out = EXPORT_DIR / f"{stem} (engine) {stamp}.wav"
     dsp.save_wav(out, mixL, mixR, sr)
     return JSONResponse({"path": str(out)})
+
+
+@app.post("/api/project/{project_id}/send-back")
+async def project_send_back(project_id: str, dry_wet: float = 1.0, back: str = ""):
+    """Owner 2026-10-15: the effected beat goes back to the Beat Machine as
+    a NEW numbered beat with effected stems, so chunks can be cut from it.
+    Writes each lane as heard (wet/dry, level, pan) plus the mix into one
+    folder under the exports, then asks the Beat Machine at `back` to file
+    it. Only a localhost Beat Machine is ever called."""
+    import json
+    import urllib.request
+    from make_drum_loops import write_wav24
+    if not re.fullmatch(r"http://(localhost|127\.0\.0\.1):\d{2,5}", back or ""):
+        return JSONResponse({"error": "open this beat from the Beat Machine first"},
+                            status_code=400)
+    project = PROJECTS.get(project_id)
+    if project is None:
+        return JSONResponse({"error": "unknown project_id"}, status_code=404)
+    m = re.search(r"/(\d+) [^/]*$", project.get("beat_id") or "")
+    if not m:
+        return JSONResponse({"error": "only a beat from your library can go back"},
+                            status_code=400)
+    channels = project["channels"]
+    any_solo = any(c["solo"] for c in channels.values())
+    audible = {k: c for k, c in channels.items()
+               if (c["solo"] if any_solo else not c["muted"])}
+    if not audible:
+        return JSONResponse({"error": "every channel is muted"}, status_code=400)
+    sr = next(iter(channels.values()))["sr"]
+    n = max(max(len(c["wet"][0]), len(c["dry"][0])) for c in audible.values())
+    w = min(max(float(dry_wet), 0.0), 1.0)
+    stem = re.sub(r'[\\/:*?"<>|]', "_", project["name"]).strip() or "mix"
+    out = EXPORT_DIR / f"{stem} send-back {datetime.now():%Y-%m-%d %H%M%S}"
+    out.mkdir(parents=True, exist_ok=False)
+    mixL, mixR = np.zeros(n), np.zeros(n)
+    for lane_id, c in audible.items():
+        g = 10 ** (c["gain_db"] / 20.0)
+        panL, panR = _pan_gains(c["pan"])
+        sL, sR = np.zeros(n), np.zeros(n)
+        for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
+            if k:
+                sL[:len(L)] += L * g * panL * k
+                sR[:len(R)] += R * g * panR * k
+        write_wav24(out / f"{lane_id}.wav", sL, sR)
+        mixL += sL
+        mixR += sR
+    mixL, mixR = dsp.audio_engine.brickwall_limit(mixL, mixR, ceiling_db=-0.3, sr=sr)
+    write_wav24(out / "mix.wav", mixL, mixR)
+
+    def call():
+        req = urllib.request.Request(
+            back + "/engine-import", method="POST",
+            data=json.dumps({"parent": int(m.group(1)), "folder": str(out)}).encode(),
+            headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=120) as r:
+            return json.loads(r.read() or b"{}")
+    try:
+        res = await asyncio.to_thread(call)
+    except Exception as e:
+        return JSONResponse({"error": f"the Beat Machine didn't answer: {e}"},
+                            status_code=502)
+    if not res.get("ok"):
+        return JSONResponse({"error": res.get("error", "not filed")}, status_code=400)
+    return JSONResponse({"ok": True, "no": res["no"], "back": back})
 
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

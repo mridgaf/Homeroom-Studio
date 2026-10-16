@@ -1543,3 +1543,30 @@ exportBtn.addEventListener("click", async () => {
   const beatId = new URLSearchParams(location.search).get("beat");
   if (beatId) loadBeat(beatId);
 })();
+
+// --- send back (owner 2026-10-15) -------------------------------------
+// Only offered when the Beat Machine opened this page (it passes &back=
+// its own address). One click: file the effected beat as a new numbered
+// beat there, then go to it.
+const sendBackBtn = document.getElementById("sendBackBtn");
+const backTo = new URLSearchParams(location.search).get("back");
+if (backTo && new URLSearchParams(location.search).get("beat")) sendBackBtn.hidden = false;
+sendBackBtn.addEventListener("click", async () => {
+  if (!projectId || sendBackBtn.disabled) return;
+  sendBackBtn.disabled = true;
+  const was = sendBackBtn.textContent;
+  sendBackBtn.textContent = "Saving as a new beat…";
+  try {
+    for (const laneId of channelOrder) syncChannelToServer(laneId, true);
+    await new Promise(r => setTimeout(r, 150));  // same wait as Export
+    const res = await fetch(`/api/project/${projectId}/send-back?dry_wet=${dryWet}` +
+                            `&back=${encodeURIComponent(backTo)}`, { method: "POST" });
+    const data = await res.json();
+    if (!data.ok) { alert("Send back failed: " + (data.error || res.status)); return; }
+    location.href = data.back + "/?beat=" + data.no;
+  } catch (e) {
+    alert("Send back failed: " + e);
+  } finally {
+    sendBackBtn.disabled = false; sendBackBtn.textContent = was;
+  }
+});

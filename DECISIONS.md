@@ -8686,3 +8686,10 @@ just not loaded by default.
 - Reasoning: one 6k-line file was skipped in reading. Owner chose Players mapped, Thor Programmer and NN-XT Remote Editor left partial.
 - Verify by: `python3 tools/split_panel_map.py` asserts row match; open `chapters/00-INDEX.md`.
 - Status: open. Still to map: Softube Saturation Knob front, Distort Chain, Mr OverDrive, T2 Phaser, and 5 Players. Needs Reason screen-control approval.
+
+### 2026-10-15 Beat Machine: Rebuild back, pan knobs, live Play, Effects round trip
+- Context: owner wanted Rebuild back (removed 2026-10-07), pan + volume per lane heard on Play, and Rebuild -> Effects page -> back -> chunks with the effects.
+- Decision/change: Rebuild button restored. Pan knob per lane (L100..R100, absolute, starts at lane's own pan, double-click centers; overrides hat |pan|<=0.2 by his hand). Knob settings kept per beat in browser storage. Play with only knob/removal changes plays all stems live (Web Audio gain + relative pan) — owner chose "close is fine": no master chain/ducking until Rebuild/chunk. Rebuild opens the new beat on the Effects page (auto-starts Sound Engine if port 8767 free, never a 2nd copy). Effects page "Send back to Beat Machine" (player bar) files a NEW numbered beat with effected stems (recipe flag `engine_fx`). On such beats chunks/preview/rebuild = mix of its stems (volume, pan, remove); sound swaps refused (owner's choice).
+- Also: `_sound_engine_id` now allows the Variations subfolder (rebuilt beats could not open in Effects before).
+- Verify by: tests/test_lane_pan.py, tests/test_engine_send_back.py (fake library). Page checked in browser; Send back and Rebuild NOT clicked for real (no renders). Full suite not run.
+- Status: open — owner to try it.

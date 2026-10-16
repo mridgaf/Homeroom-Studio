@@ -4098,7 +4098,7 @@ def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
                 f"chords on {nice.lower()}"
                 + (", " + _trim_words(trims) if trims else ""))
     if not lanes:                     # volumes only — same drums, new mix
-        return "New Mix", _trim_words(trims)
+        return "New Mix", _trim_words(trims) if trims else "mix"
     if len(lanes) == 1:
         return f"New {lanes[0].capitalize()}", lanes[0]
     if len(lanes) == 2:
@@ -4109,7 +4109,7 @@ def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
               trims=None, drops=None, render_only=False, fx=False,
-              _learn=False):
+              _learn=False, pans=None):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -4156,6 +4156,9 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     stops), saved into its recipe so it only ever happens once."""
     number = int(number)
     rec = load_recipe(root, number)
+    if rec.get("engine_fx"):     # effects from the Effects page live in its stems
+        return _engine_swap(number, rec, picks, trims, pans, drops,
+                            render_only, fx, Path(root))
     lock = rec.get("lock")
     if (lock is None or "lane_gains" not in lock) and not _learn:
         status(f"First edit of beat {number} — learning its volume…")
@@ -4223,9 +4226,11 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
              if not (v and v == rec["kit_paths"].get(ln))}
     preset = normalize_preset(rec["preset"])
     trims = _clean_trims(trims, preset, number)
+    pans = _clean_pans(pans, preset, number)
     for lane in drops:                        # a drop wins over the rest
         picks.pop(lane, None)
         trims.pop(lane, None)
+        pans.pop(lane, None)
     if set(rec["kit_spec"]) <= set(drops):
         raise ValueError("That would remove every drum — keep at least "
                          "one.")
@@ -4238,8 +4243,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             raise ValueError("This beat's style has no effects to turn on.")
         preset["allow_dirt"] = True    # crew.render_crew_beat's own switch
         preset["fx_stems"] = True      # ...and onto every stem, not just the mix
-    if (not picks and not trims and not drops and not chord_voice
-            and not bass_pick and not fx and not _learn):
+    if (not picks and not trims and not pans and not drops
+            and not chord_voice and not bass_pick and not fx and not _learn):
         raise ValueError("Nothing to change — pick a different sound, "
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
@@ -4261,6 +4266,11 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     for lane, db in trims.items():
         pan, gain, feel, bars = preset["lanes"][lane]
         preset["lanes"][lane] = (pan, gain * 10 ** (db / 20.0), feel, bars)
+    # pan knobs (owner 2026-10-15): an absolute position, -1 left .. +1
+    # right, replacing the lane's own pan. His hand overrides the hat rule.
+    for lane, pos in pans.items():
+        _, gain, feel, bars = preset["lanes"][lane]
+        preset["lanes"][lane] = (pos, gain, feel, bars)
     names = rec["names"]
     if rec.get("loops_only"):
         # five-lane loops beat (owner 2026-09-16): swap = a different loop
@@ -4474,7 +4484,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                      **{ln: v for ln, v in (bass_rebuilt.get(k) or {}).items()
                         if _CHORD_LANE.match(ln)}}
         rec2["harmony"] = _h
-    if trims or drops or fx:     # the new gains/lanes/effects ARE this beat
+    if trims or pans or drops or fx:     # new gains/pans/lanes/effects ARE this beat
         rec2["preset"] = preset
     # a swap inherits its parent's recipe, so an OLD parent written before
     # 2026-07-25 would carry `built` forward into the new file
@@ -4497,14 +4507,146 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                     f"  {ln} now: {Path(kit_paths[ln]).name}\n")
         if trims:
             f.write(f"  volumes: {_trim_words(trims)}\n")
+        if pans:
+            f.write(f"  pans: {_pan_words(pans)}\n")
         f.write(f"  LUFS {lufs:.1f}\n")
     bits = [f"{ln} → {Path(kit_paths[ln]).name}" for ln in lanes]
     if trims:
         bits.append(_trim_words(trims))
+    if pans:
+        bits.append(_pan_words(pans))
     report = (f"{fname}\n-> {rec['folder']} folder | same beat as "
               f"{number} | {' | '.join(bits)} | LUFS {lufs:.1f}")
     return path, report
 
+
+
+# ------------------------------------------- effected beats (owner 2026-10-15)
+# A beat sent back from the Effects page has its effects baked into its
+# stems, which its recipe can't reproduce. So it is never re-rendered: a
+# chunk, preview or rebuild of it is a mix of those stems with the rack's
+# volume, pan and removals. Sound swaps are off on it (owner's choice).
+
+def _engine_mix(number, rec, trims, pans, drops, root):
+    """(L, R, stems, trims, pans, drops) — the effected stems mixed as the
+    rack is set. `stems` maps stem filename -> (L, R) after the moves."""
+    import math
+    preset = rec["preset"]
+    lanes = preset.get("lanes", {})
+    trims = _clean_trims(trims, preset, number)
+    pans = _clean_pans(pans, preset, number)
+    gone = set()
+    for d in drops or []:
+        d = str(d).strip().lower()
+        gone |= set(_family_members(d, lanes) or [d])
+    folder = _stems_dir(number, root)
+    if not folder:
+        raise ValueError(f"Beat {number} has no Stems folder to mix.")
+    lane_of = {}
+    for ln in set(lanes) | set(rec.get("kit_spec", {})) | set(rec.get("stamp_paths", {})):
+        f = _stem_wav(number, ln, root, folder=folder)
+        if f:
+            lane_of[f] = ln
+    stems = {}
+    for f in sorted(folder.glob("*.wav")):
+        ln = lane_of.get(f)
+        if ln in gone:
+            continue
+        L, R = read_wav24(f)
+        g = 10 ** (trims.get(ln, 0.0) / 20.0)
+        gl = gr = g
+        if ln in pans:
+            # ponytail: relative balance on an already-panned stereo stem
+            d = max(-1.0, min(1.0, pans[ln] - float(lanes[ln][0])))
+            th = (d + 1) * math.pi / 4
+            gl, gr = g * math.cos(th) * math.sqrt(2), g * math.sin(th) * math.sqrt(2)
+        stems[f.name] = (L * gl, R * gr)
+    if not stems:
+        raise ValueError("That would remove every stem — keep at least one.")
+    n = max(len(L) for L, _ in stems.values())
+    L, R = np.zeros(n), np.zeros(n)
+    for sL, sR in stems.values():
+        L[:len(sL)] += sL
+        R[:len(sR)] += sR
+    peak = float(max(np.abs(L).max(), np.abs(R).max()))
+    if peak > 0.966:             # -0.3 dB: turn the whole mix down, never clip
+        L, R = L * (0.966 / peak), R * (0.966 / peak)
+    return L, R, stems, trims, pans, gone
+
+
+def _engine_swap(number, rec, picks, trims, pans, drops, render_only, fx, root):
+    if any(v for v in (picks or {}).values()):
+        raise ValueError("Sound swaps are off on an effected beat — its "
+                         "effects are baked into its stems.")
+    if fx:
+        raise ValueError("This beat already has its effects on.")
+    L, R, stems, trims, pans, gone = _engine_mix(number, rec, trims, pans,
+                                                 drops, root)
+    if render_only:
+        return L, R
+    if not (trims or pans or gone):
+        raise ValueError("Nothing to change — move a volume or pan, or "
+                         "remove a stem first.")
+    what, _ = _change_words([], trims, sorted(gone))
+    preset = copy.deepcopy(rec["preset"])
+    for ln in gone:
+        preset["lanes"].pop(ln, None)
+    for ln, pos in pans.items():   # the knob starts where it was left
+        t = list(preset["lanes"][ln]); t[0] = pos; preset["lanes"][ln] = t
+    rec = dict(rec, preset=preset,
+               kit_spec={k: v for k, v in rec["kit_spec"].items()
+                         if k not in gone})
+    return _file_engine_beat(number, stems, (L, R), what, root, rec=rec)
+
+
+def _file_engine_beat(parent, stems, mix, what, root, rec=None):
+    """File effected stems + mix as the next numbered beat, next to its
+    parent like any rebuild. Returns (path, report)."""
+    root = Path(root)
+    rec = rec or load_recipe(root, parent)
+    no = next_number(root)
+    folder, anc = _family_dir_for(parent, root)
+    folder.mkdir(parents=True, exist_ok=True)
+    if beat_location(anc, root) == "dj":
+        for p in beat_items(anc, root):
+            dst = folder / p.name
+            if p.parent.resolve() != folder.resolve() and not dst.exists():
+                shutil.move(str(p), str(dst))
+    bpm = rec["preset"].get("bpm") or rec.get("bpm")
+    stem_of = f"{' x '.join(rec['names'])} {rec['title']} {what}"
+    fname = f"{no} {stem_of} Drums {bpm}bpm.wav"
+    path = folder / fname
+    if path.exists():                             # never overwrite
+        raise RuntimeError(f"{fname} already exists — not overwriting.")
+    write_wav24(path, *mix)
+    sdir = folder / f"{no} {stem_of} Stems"
+    sdir.mkdir()
+    for name, (sL, sR) in stems.items():
+        write_wav24(sdir / name, sL, sR)
+    mid = beat_wav(parent, root)
+    if mid is not None and mid.with_suffix(".mid").exists():   # same notes
+        shutil.copy2(str(mid.with_suffix(".mid")), str(path.with_suffix(".mid")))
+    save_recipe(root, no, dict(rec, file=fname, parent=int(parent),
+                               date=str(date.today()), engine_fx=True))
+    append_last_batch(no, root)
+    with open(root / "README.txt", "a") as f:
+        f.write(f"\nBEAT MACHINE — {date.today()}\n{fname}  ->  "
+                f"{rec['folder']}/  (+ Stems)\n  effected copy of beat "
+                f"{parent} ({what})\n")
+    return path, f"{fname}\n-> effected copy of {parent}"
+
+
+def import_engine_send(parent, folder, root=ROOT):
+    """The Effects page's Send back: a folder it wrote under its exports
+    (one wav per lane + mix.wav) becomes a new numbered beat."""
+    exports = Path("~/Desktop/Homeroom Sound Engine Exports").expanduser().resolve()
+    folder = Path(folder).resolve()
+    if exports not in folder.parents or not (folder / "mix.wav").exists():
+        raise ValueError("That isn't an Effects page send-back folder.")
+    stems = {f.name: read_wav24(f) for f in sorted(folder.glob("*.wav"))
+             if f.name != "mix.wav"}
+    return _file_engine_beat(int(parent), stems, read_wav24(folder / "mix.wav"),
+                             "FX", Path(root))
 
 
 def _clean_picks(no, picks, shots):
@@ -4534,7 +4676,7 @@ def chunk_dir(no, root=None):
 
 
 def save_chunk(number, picks=None, root=ROOT, shots=None,
-               status=lambda msg: None, trims=None, drops=None):
+               status=lambda msg: None, trims=None, drops=None, pans=None):
     """Section 4 of the v-next plan — songify. Renders the beat as the
     stem rack is currently set and files it as one more chunk in the
     beat's own Chunks folder, INSTEAD of printing a new numbered beat.
@@ -4556,7 +4698,7 @@ def save_chunk(number, picks=None, root=ROOT, shots=None,
     if not full.exists():
         shutil.copy2(str(beat_wav(number, root)), str(full))
     L, R = swap_many(number, picks or {}, root=Path(root), shots=shots,
-                     status=status, trims=trims, drops=drops,
+                     status=status, trims=trims, drops=drops, pans=pans,
                      render_only=True)
     # a slider left at 0 is not a change, so it doesn't get named
     named = {ln: db for ln, db in (trims or {}).items() if db}
@@ -4614,6 +4756,32 @@ def _beat_theory(no, root):
             "why": prog.get("why")}
 
 
+def ensure_sound_engine(wait=15.0):
+    """Start the Sound Engine (port 8767) if nothing is listening there,
+    so Rebuild can hand the new beat straight to the Effects page (owner
+    2026-10-15). Never a second copy: they share a scratch folder."""
+    import socket
+    import time
+
+    def up():
+        with socket.socket() as sk:
+            sk.settimeout(0.3)
+            return sk.connect_ex(("127.0.0.1", 8767)) == 0
+    if up():
+        return True
+    here = Path(__file__).resolve().parents[1]
+    subprocess.Popen([sys.executable, "-m", "sound_engine.server"], cwd=str(here),
+                     env=dict(os.environ, SOUND_ENGINE_NO_BROWSER="1"),
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                     start_new_session=True)
+    end = time.time() + wait
+    while time.time() < end:
+        if up():
+            return True
+        time.sleep(0.3)
+    return False
+
+
 def _sound_engine_id(wav, root):
     """How the Sound Engine names this beat, or None if it can't take it.
 
@@ -4626,9 +4794,12 @@ def _sound_engine_id(wav, root):
         rel = wav.parent.relative_to(Path(root))
     except ValueError:
         return None
-    if len(rel.parts) != 1 or " Drums " not in wav.stem:
+    # sound_engine.library.find_beat splits once, so "DJ/Sub/prefix"
+    # still resolves: rebuilt beats sit in a Variations subfolder and must
+    # open too (owner 2026-10-15: Rebuild goes straight to Effects)
+    if not rel.parts or " Drums " not in wav.stem:
         return None
-    return f"{rel.parts[0]}/{wav.stem.split(' Drums ')[0]}"
+    return "/".join(rel.parts) + "/" + wav.stem.split(" Drums ")[0]
 
 
 def _batch_beats(root=None):
@@ -4846,6 +5017,41 @@ def _clean_trims(trims, preset, number):
     return out
 
 
+def _clean_pans(pans, preset, number):
+    """The pan knobs, checked: lane -> -100 (left) .. +100 (right),
+    stored as -1..+1. Absolute, so an untouched knob is simply not sent.
+    Families move together, same as volume."""
+    out = {}
+    for lane, v in (pans or {}).items():
+        lane = str(lane).strip().lower()
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            raise ValueError(f"'{v}' isn't a pan for the {lane}.")
+        if v != v or v in (float("inf"), float("-inf")):
+            raise ValueError(f"'{v}' isn't a pan for the {lane}.")
+        members = _family_members(lane, preset.get("lanes", {}))
+        if not members and lane not in preset.get("lanes", {}):
+            raise ValueError(f"Beat {number} has no '{lane}' to pan.")
+        for ln in (members or [lane]):
+            out[ln] = round(max(-100.0, min(100.0, v)) / 100.0, 2)
+    return out
+
+
+def _pan_words(pans):
+    """'hat L40, snare C' — how a pan reads in the log."""
+    seen = {}
+    for ln, p in pans.items():
+        fam = _chord_family(ln)
+        seen.setdefault("bass" if fam == CHORD_BASS_FAM
+                        else fam if fam else lane_label(ln), (p, ln))
+    def side(p):
+        return "C" if not p else ("L%d" % round(-p * 100) if p < 0
+                                  else "R%d" % round(p * 100))
+    return ", ".join("%s pan %s" % (n, side(p)) for n, (p, ln) in sorted(
+        seen.items(), key=lambda kv: _lane_sort(kv[1][1])))
+
+
 def _trim_words(trims):
     """'kick drum +2 dB, bass -3.5 dB' — how a trim reads in the log.
 
@@ -5011,11 +5217,12 @@ def _beat_stems(no, root=None):
             # "sub" is the case) — only the chord/bass families below are
             # deliberately unlocked for removal
             "locked": locked or not path,
-            "can_swap": bool(path) and not locked,
+            "can_swap": bool(path) and not locked and not rec.get("engine_fx"),
             "why": ("the DJ's producer tag — same in every beat they make"
                     if locked else
                     "synthesised, not a sample" if not path else ""),
             "stem": bool(_stem_wav(no, lane, root, folder=folder)),
+            "pan": _lane_pan(rec, lane),
         })
     for fam in sorted(fams, key=_fam_sort):
         members = fams.get(fam)
@@ -5064,13 +5271,24 @@ def _beat_stems(no, root=None):
             # just lets him overrule it for one beat. Before this the row
             # could only be levelled and removed.
             "can_swap": not (fam == CHORD_BASS_FAM
-                             and (rec.get("harmony") or {}).get("bass808")),
+                             and (rec.get("harmony") or {}).get("bass808"))
+                        and not rec.get("engine_fx"),
             "voices": True,          # the dropdown lists instruments
             "why": why,
             "members": sorted(members, key=_lane_sort),
             "stem": bool(_stem_wav(no, members[0], root, folder=folder)),
+            "pan": _lane_pan(rec, sorted(members, key=_lane_sort)[0]),
         })
     return out
+
+
+def _lane_pan(rec, lane):
+    """Where a lane sits now, -100 (left) .. +100 (right); 0 if unknown."""
+    t = (rec["preset"].get("lanes") or {}).get(lane)
+    try:
+        return int(round(float(t[0]) * 100))
+    except (TypeError, ValueError, IndexError):
+        return 0
 
 
 def _qs_db(raw):
@@ -5221,10 +5439,15 @@ def _preview_render(query, q, shots=None, root=None):
         name, _, val = bit.partition(":")
         if name.strip():
             trims[name.strip().lower()] = _qs_db(val)
+    pans = {}
+    for bit in str(q.get("pans", [""])[0] or "").split(","):
+        name, _, val = bit.partition(":")
+        if name.strip():
+            pans[name.strip().lower()] = val
     gone = [b.strip().lower()
             for b in str(q.get("drop", [""])[0] or "").split(",") if b.strip()]
     L, R = swap_many(no, clean, root=Path(root or ROOT), shots=shots,
-                     trims=trims, drops=gone, render_only=True)
+                     trims=trims, drops=gone, pans=pans, render_only=True)
     data = wav24_bytes(L, R)
     _PREVIEW_CACHE[query] = data
     for old in list(_PREVIEW_CACHE)[:-3]:
@@ -5826,7 +6049,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .rack { display: none; border-top: 1px solid var(--line);
          background: #0000000d; padding: 4px 14px 14px; }
  .rack.open { display: block; }
- .lane { display: grid; grid-template-columns: 74px 1fr auto auto;
+ .lane { display: grid; grid-template-columns: 74px 1fr auto auto auto;
          gap: 12px; align-items: center; padding: 10px 0;
          border-bottom: 1px solid #0000000c; }
  .lane:last-of-type { border-bottom: 0; }
@@ -6624,9 +6847,19 @@ __BREAKS__
      const gen = ++this._gen;
      this._kill(); clearInterval(this._tick); this.paused = true; this.buf = null;
      this.readyState = 0; this._off = 0; this._loading = true;
-     fetch(this.src)
+     const get = u => fetch(u)
        .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
-       .then(b => actx.decodeAudioData(b))
+       .then(b => actx.decodeAudioData(b));
+     const lanes = this.src.startsWith('stems:') ? (stemLanes[this.no] || []) : null;
+     this.layers = null;
+     (lanes ? Promise.all(lanes.map(s => get('/stem?no=' + this.no + '&lane=' +
+                encodeURIComponent(s.lane) + '&db=0')
+                .then(buf => [s.lane, { buf, pan0: s.pan || 0 }])))
+              .then(list => {
+                this.layers = Object.fromEntries(list);
+                return list.reduce((a, [, L]) => !a || L.buf.duration > a.duration ? L.buf : a, null);
+              })
+            : get(this.src))
        .then(buf => {
          if (gen !== this._gen) return;          // a newer load won
          this.buf = buf; this.readyState = 4; this._loading = false;
@@ -6658,16 +6891,61 @@ __BREAKS__
      this.paused = true; this._fire('pause');
    }
    _start() {
+     if (this.layers) return this._startLayers();
      const n = actx.createBufferSource();
      n.buffer = this.buf; n.loop = true;
      // a gain stage so a stem's knob moves the sound while it plays
      // (owner 2026-10-10); at 0 dB it is a straight wire
      const g = actx.createGain(); this.gainNode = g;
-     n.connect(g); g.connect(actx.destination); this.setGain(this.db || 0);
+     const pn = actx.createStereoPanner(); this.panNode = pn;
+     n.connect(g); g.connect(pn); pn.connect(actx.destination);
+     this.setGain(this.db || 0); this.setPan(this.panv || 0);
      const off = (this._off || 0) % this.buf.duration;
      n.start(0, off); this._t0 = actx.currentTime - off; this.node = n;
    }
+   // Stem mode (owner 2026-10-15): every lane plays as its own looping
+   // source with its own gain + pan, so the rack knobs are heard live
+   // while Play runs. Close to the printed beat, not exact: no master
+   // chain or kick ducking. Rebuild / Add chunk print the exact one.
+   // ponytail: relative pan on a stereo stem, not a true re-pan.
+   _startLayers() {
+     const g = actx.createGain(); this.gainNode = g; g.connect(actx.destination);
+     const off = (this._off || 0) % this.buf.duration;
+     const t = actx.currentTime + 0.05;
+     this.nodes = [];
+     for (const [lane, L] of Object.entries(this.layers)) {
+       if (!L.buf) continue;
+       const n = actx.createBufferSource(); n.buffer = L.buf; n.loop = true;
+       L.g = actx.createGain(); L.p = actx.createStereoPanner();
+       n.connect(L.g); L.g.connect(L.p); L.p.connect(g);
+       n.start(t, off % L.buf.duration); this.nodes.push(n);
+     }
+     this._t0 = t - off; this.node = this.nodes[0] || null;
+     this.setLayers();
+   }
+   // push every lane's current knob values into the live nodes
+   setLayers() {
+     if (!this.layers) return;
+     for (const [lane, L] of Object.entries(this.layers)) {
+       if (!L.g) continue;
+       const db = (trims[this.no] || {})[lane] || 0;
+       const off = !!(drops[this.no] || {})[lane];
+       L.g.gain.setTargetAtTime(off ? 0 : Math.pow(10, db / 20), actx.currentTime, 0.01);
+       const want = ((pans[this.no] || {})[lane] ?? L.pan0) / 100;
+       L.p.pan.setTargetAtTime(Math.max(-1, Math.min(1, want - L.pan0 / 100)),
+                               actx.currentTime, 0.01);
+     }
+   }
+   // -100..100 on the solo player (relative to where the stem sits)
+   setPan(p) {
+     this.panv = p;
+     if (this.panNode) this.panNode.pan.setTargetAtTime(
+       Math.max(-1, Math.min(1, p / 100)), actx.currentTime, 0.01);
+   }
    _kill() {
+     if (this.panNode) { this.panNode.disconnect(); this.panNode = null; }
+     (this.nodes || []).forEach(n => { try { n.stop(); } catch (e) {} n.disconnect(); });
+     if (this.nodes) { this.nodes = null; this.node = null; }
      if (this.node) { try { this.node.stop(); } catch (e) {} this.node.disconnect(); this.node = null; }
      if (this.gainNode) { this.gainNode.disconnect(); this.gainNode = null; }
    }
@@ -6710,6 +6988,20 @@ __BREAKS__
  const LOC = { favorites: '&starf; passed', trash: 'in Trash', dj: '' };
  const staged = {};                    // beat no -> { lane: path | null }
  const trims = {};                     // beat no -> { lane: dB }
+ const SOUND_ENGINE = 'http://localhost:8767';
+ // &back= tells the Effects page where its "Send back" goes
+ const engineLink = id => SOUND_ENGINE + '/?beat=' + encodeURIComponent(id) +
+   '&back=' + encodeURIComponent(location.origin);
+ const pans = {};                      // beat no -> { lane: -100..100 }
+ const stemLanes = {};                 // beat no -> rack rows that have a stem
+ // knob settings are kept per beat across visits (owner 2026-10-15)
+ try {
+   const m = JSON.parse(localStorage.getItem('bm-mix') || '{}');
+   Object.assign(trims, m.trims || {}); Object.assign(pans, m.pans || {});
+ } catch (e) {}
+ function saveMix() {
+   try { localStorage.setItem('bm-mix', JSON.stringify({ trims, pans })); } catch (e) {}
+ }
  const drops = {};                     // beat no -> { lane: true }
 
  function setLoc(el, loc) {
@@ -6843,8 +7135,11 @@ __BREAKS__
    // files are not touched. If the Sound Engine isn't running the new tab
    // just fails to connect, which is why the button says to start it.
    const eng = el.querySelector('[data-role=engine]');
-   if (eng) eng.onclick = () => window.open(
-     'http://localhost:8767/?beat=' + encodeURIComponent(b.se_id), '_blank');
+   if (eng) eng.onclick = async () => {
+     const tab = window.open('about:blank', '_blank');   // on the click
+     await fetch('/engine-up', { method: 'POST', body: '{}' });
+     tab.location = engineLink(b.se_id);
+   };
    wireTransport(el);
    return el;
  }
@@ -7020,11 +7315,16 @@ __BREAKS__
  // the preview can never disagree with itself.
  function mixUrl(no) {
    const t = trims[no] || {}, d = drops[no] || {}, p = staged[no] || {};
+   const pa = pans[no] || {}, ak = Object.keys(pa);
    const tk = Object.keys(t), dk = Object.keys(d).filter(k => d[k]);
    const pk = Object.keys(p).filter(k => p[k]);
-   if (!tk.length && !dk.length && !pk.length) return '/audio?no=' + no;
+   if (!tk.length && !dk.length && !pk.length && !ak.length) return '/audio?no=' + no;
+   // only knobs/removals moved and the rack knows the stems: play the
+   // lanes live so every knob turn is heard at once
+   if (!pk.length && (stemLanes[no] || []).length) return 'stems:' + no;
    let u = '/mix?no=' + no
      + '&trims=' + encodeURIComponent(tk.map(k => k + ':' + t[k]).join(','))
+     + '&pans=' + encodeURIComponent(ak.map(k => k + ':' + pa[k]).join(','))
      + '&drop=' + encodeURIComponent(dk.join(','));
    if (pk.length) {
      const picks = {};
@@ -7038,7 +7338,11 @@ __BREAKS__
  // preload="none", and assigning .src alone leaves them sitting there —
  // that is what made the tracks go silent while the stems still played.
  function cue(au, url) {
-   if (au.dataset.src === url && au.readyState) return false;
+   if (au.dataset.src === url && au.readyState) {
+     if (au.setLayers) au.setLayers();         // live knobs: no reload
+     return false;
+   }
+   if (url.startsWith('stems:')) au.no = url.slice(6);
    au.dataset.src = url; au.src = url; au.load();
    return true;
  }
@@ -7051,7 +7355,7 @@ __BREAKS__
    const au = el.au;
    if (!au || au.paused) return;
    const want = mixUrl(no);
-   if (au.dataset.src === want) return;
+   if (au.dataset.src === want) { if (au.setLayers) au.setLayers(); return; }
    const at = au.currentTime;
    cue(au, want);
    au.addEventListener('loadedmetadata', function once() {
@@ -7062,17 +7366,20 @@ __BREAKS__
  }
 
  function paintFoot(el, no) {
-   const n = stagedCount(no), v = trimCount(no), r = dropCount(no);
+   saveMix();
+   const n = stagedCount(no), v = trimCount(no) + Object.keys(pans[no] || {}).length,
+         r = dropCount(no);
    const foot = el.querySelector('.rackfoot');
    if (!foot) return;
    const bits = [];
    if (n) bits.push('<b>' + n + ' ' + (n === 1 ? 'sound' : 'sounds') + ' staged</b>');
-   if (v) bits.push('<b>' + v + ' ' + (v === 1 ? 'volume' : 'volumes') + ' changed</b>');
+   if (v) bits.push('<b>' + v + ' ' + (v === 1 ? 'level' : 'levels') + ' changed</b>');
    if (r) bits.push('<b>' + r + ' ' + (r === 1 ? 'stem' : 'stems') + ' removed</b>');
    foot.querySelector('.staged').innerHTML = bits.length
-     ? bits.join(' + ') + ' — Add chunk saves them all into the beat\'s Chunks folder'
+     ? bits.join(' + ') + ' — Add chunk saves a chunk, Rebuild makes one new beat'
      : 'Pick a different sound, roll the dice, slide a volume, or remove a stem.';
    foot.querySelector('.chunk').disabled = !(n + v + r);
+   foot.querySelector('.rebuild').disabled = !(n + v + r);
    foot.querySelector('.undo').style.display = (n + v + r) ? '' : 'none';
    refreshMix(el, no);      // every volume/remove change lands here first
  }
@@ -7096,6 +7403,17 @@ __BREAKS__
            '<g class="kptr"><rect x="88" y="56.5" width="16" height="7" rx="2"/></g>' +
          '</svg></span>' +
        '<span class="db" title="Click to reset to 0">0</span>' +
+     '</span>' +
+     '<span class="vol pan">' +
+       '<span class="knob" role="slider" tabindex="0" aria-label="Stem pan" ' +
+         'aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0" ' +
+         'title="Pan: drag up/down, scroll, or arrow keys. Double-click centers.">' +
+         '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+           '<path class="ktrack"/><path class="klit"/>' +
+           '<circle class="kcap" cx="60" cy="60" r="38"/>' +
+           '<g class="kptr"><rect x="88" y="56.5" width="16" height="7" rx="2"/></g>' +
+         '</svg></span>' +
+       '<span class="db" title="Click to center">C</span>' +
      '</span>' +
      '<span class="picks"></span>';
    // the row says what the sound IS — "kick drum", "bass drum", "bass",
@@ -7123,7 +7441,7 @@ __BREAKS__
             (a1 - a0 > 180 ? 1 : 0) + ' 1 ' + x1.toFixed(2) + ' ' + y1.toFixed(2);
    };
    knob.querySelector('.ktrack').setAttribute('d', karc(START, START + SWEEP));
-   let v = 0, player = null;
+   let v = (trims[no] || {})[s.lane] || 0, player = null;
    const showDb = () => {
      db.textContent = v ? (v > 0 ? '+' : '') + v.toFixed(1).replace(/\.0$/, '') : '0';
      row.classList.toggle('trimmed', !!v);
@@ -7160,6 +7478,49 @@ __BREAKS__
    knob.addEventListener('dblclick', () => setV(0));
    db.onclick = () => setV(0);
    knob.querySelector('.kptr').setAttribute('transform', 'rotate(' + (START + SWEEP / 2) + ' 60 60)');
+   if (v) showDb();                          // a saved setting from last time
+
+   // Pan knob (owner 2026-10-15): L100..R100, starts where the lane sits
+   // now; double-click or the readout centers it. Only a position that
+   // differs from the beat's own is staged.
+   const pk = row.querySelector('.pan .knob'), pdb = row.querySelector('.pan .db');
+   const pan0 = s.pan || 0;
+   let pv = (pans[no] || {})[s.lane] ?? pan0;
+   pk.querySelector('.ktrack').setAttribute('d', karc(START, START + SWEEP));
+   const showPan = () => {
+     pdb.textContent = !pv ? 'C' : (pv < 0 ? 'L' : 'R') + Math.abs(pv);
+     const end = START + SWEEP * (pv + 100) / 200, mid = START + SWEEP / 2;
+     pk.querySelector('.klit').setAttribute('d', pv ? karc(Math.min(mid, end), Math.max(mid, end)) : '');
+     pk.querySelector('.kptr').setAttribute('transform', 'rotate(' + end + ' 60 60)');
+     pk.setAttribute('aria-valuenow', pv);
+     pans[no] = pans[no] || {};
+     if (pv !== pan0) pans[no][s.lane] = pv; else delete pans[no][s.lane];
+     if (!Object.keys(pans[no]).length) delete pans[no];
+     if (player && player.setPan) player.setPan(pv - pan0);
+     paintFoot(row.closest('.track'), no);
+   };
+   const setP = (x) => { pv = Math.max(-100, Math.min(100, Math.round(x / 5) * 5)); showPan(); };
+   pk.addEventListener('pointerdown', (e) => {
+     pk.setPointerCapture(e.pointerId);
+     const y0 = e.clientY, p0 = pv;
+     const move = (ev) => setP(p0 + (y0 - ev.clientY));   // 200 px = full sweep
+     const up = () => { pk.removeEventListener('pointermove', move);
+                        pk.removeEventListener('pointerup', up); };
+     pk.addEventListener('pointermove', move);
+     pk.addEventListener('pointerup', up);
+   });
+   pk.addEventListener('wheel', (e) => { e.preventDefault();
+     setP(pv - Math.sign(e.deltaY) * 5); }, { passive: false });
+   pk.addEventListener('keydown', (e) => {
+     const d = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 }[e.key];
+     if (d) { e.preventDefault(); setP(pv + d * 5); }
+   });
+   pk.addEventListener('dblclick', () => setP(0));
+   pdb.onclick = () => setP(0);
+   pdb.textContent = !pv ? 'C' : (pv < 0 ? 'L' : 'R') + Math.abs(pv);
+   { const end = START + SWEEP * (pv + 100) / 200, mid = START + SWEEP / 2;
+     pk.querySelector('.klit').setAttribute('d', pv ? karc(Math.min(mid, end), Math.max(mid, end)) : '');
+     pk.querySelector('.kptr').setAttribute('transform', 'rotate(' + end + ' 60 60)'); }
 
    const picks = row.querySelector('.picks');
 
@@ -7181,7 +7542,7 @@ __BREAKS__
        if (!player) {
          player = new LoopAudio('/stem?no=' + no + '&lane=' +
                                 encodeURIComponent(s.lane) + '&db=0');
-         player.db = v;
+         player.db = v; player.panv = pv - pan0;
        }
        player.play().catch(() => {});
        b.classList.add('playing');
@@ -7464,6 +7825,8 @@ __BREAKS__
    if (!d.ok) { rack.innerHTML = '<div class="rackmsg">' + esc(d.error) + '</div>'; return; }
    rack.innerHTML = '';
    const specs = d.stems;
+   stemLanes[no] = specs.filter(s => s.stem)
+     .map(s => ({ lane: s.lane, pan: s.pan || 0 }));
    specs.forEach(s => rack.appendChild(laneRow(no, s)));
    const foot = document.createElement('div');
    foot.className = 'rackfoot';
@@ -7476,6 +7839,7 @@ __BREAKS__
      '<button class="chunk fxon" title="Save a copy of this beat with ' +
        'its style\'s effects (dust, vinyl, saturation) baked in, stems ' +
        'too. The clean one stays.">Effects on</button>' +
+     '<button class="rebuild">Rebuild beat</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
    if (specs.some(x => x.loop)) foot.querySelector('.rollall').style.display = 'none';
@@ -7504,12 +7868,11 @@ __BREAKS__
      if (n) play(mixUrl(no));
    };
    foot.querySelector('.undo').onclick = () => {
-     delete staged[no]; delete trims[no]; delete drops[no];
+     delete staged[no]; delete trims[no]; delete drops[no]; delete pans[no];
      rack.querySelectorAll('.lane').forEach(r => {
        r.querySelectorAll('select').forEach(x => { x.value = ''; });
        if (r.refill) r.refill();
-       const d = r.querySelector('.db');
-       if (d) d.click();                       // arrows: click resets to 0
+       r.querySelectorAll('.db').forEach(d => d.click());  // volume + pan reset
        r.classList.remove('trimmed');
        r.classList.remove('dropped');
        const s = specs.find(x => x.lane === r.dataset.lane);
@@ -7517,6 +7880,7 @@ __BREAKS__
      });
      paintFoot(el, no);
    };
+   foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
    foot.querySelector('.fxon').onclick = () => rebuild(el, no, foot, true);
    foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
    rack.dataset.loaded = '1';
@@ -7535,6 +7899,7 @@ __BREAKS__
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ number: no, picks: staged[no] || {},
                               trims: trims[no] || {},
+                              pans: pans[no] || {},
                               drops: Object.keys(drops[no] || {}) }) });
      const d = await r.json();
      msg.textContent = d.ok
@@ -7548,22 +7913,33 @@ __BREAKS__
    const picks = staged[no] || {}, vols = trims[no] || {};
    const gone = Object.keys(drops[no] || {});
    if (!fx && !Object.keys(picks).length && !Object.keys(vols).length
-       && !gone.length) return;
-   const btn = foot.querySelector('.fxon'),
+       && !Object.keys(pans[no] || {}).length && !gone.length) return;
+   const btn = foot.querySelector(fx ? '.fxon' : '.rebuild'),
          msg = foot.querySelector('.rackmsg');
    btn.disabled = true; msg.textContent = '';
    const was = btn.textContent;
    btn.textContent = 'Rebuilding…';
+   // Rebuild goes straight on to the Effects page (owner 2026-10-15).
+   // The tab opens NOW, on the click, or the browser blocks it as a popup.
+   const tab = fx ? null : window.open('about:blank', '_blank');
    try {
      const r = await fetch('/rebuild', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify({ number: no, picks, trims: vols,
-                              drops: gone, fx: !!fx }) });
+                              pans: pans[no] || {}, drops: gone, fx: !!fx }) });
      const d = await r.json();
      if (d.ok) { delete staged[no]; delete trims[no]; delete drops[no];
+                 delete pans[no]; saveMix();
+                 if (tab && d.se_id) {
+                   await fetch('/engine-up', { method: 'POST', body: '{}' });
+                   tab.location = engineLink(d.se_id);
+                 }
+                 else if (tab) tab.close();
                  btn.textContent = was; await loadBatch(d.no); }
-     else { msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
+     else { if (tab) tab.close();
+            msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
    } catch (e) {
+     if (tab) tab.close();
      msg.textContent = String(e); btn.textContent = was; btn.disabled = false;
    }
  }
@@ -7765,7 +8141,7 @@ __BREAKS__
    } catch (e) { msg.textContent = String(e); }
  };
 
- loadBatch();
+ loadBatch(+new URLSearchParams(location.search).get('beat') || undefined);
 </script></body></html>"""
 
 
@@ -8179,7 +8555,7 @@ def run_web(port=None):
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
                                  "/fixed", "/library", "/ban", "/chunk",
-                                 "/reference"):
+                                 "/reference", "/engine-up", "/engine-import"):
                 self._send(404, "text/plain", b"not found")
                 return
             if self.path == "/reference":
@@ -8246,6 +8622,20 @@ def run_web(port=None):
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return
+            if self.path == "/engine-import":
+                try:
+                    with lock:
+                        path, report = import_engine_send(data.get("parent"),
+                                                          data.get("folder"))
+                        print(" ", report.replace("\n", " "))
+                    self._json({"ok": True,
+                                "no": int(path.name.split(" ", 1)[0])})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
+            if self.path == "/engine-up":
+                self._json({"ok": ensure_sound_engine()})
+                return
             if self.path == "/rebuild":
                 # the stem rack: several drums staged, one new beat out
                 no = data.get("number")
@@ -8259,10 +8649,12 @@ def run_web(port=None):
                                                  shots=_CACHE["shots"],
                                                  trims=data.get("trims"),
                                                  drops=data.get("drops"),
+                                                 pans=data.get("pans"),
                                                  fx=bool(data.get("fx")))
                         print(" ", report.replace("\n", " "))
                     self._json({"ok": True,
-                                "no": int(path.name.split(" ", 1)[0])})
+                                "no": int(path.name.split(" ", 1)[0]),
+                                "se_id": _sound_engine_id(path, ROOT)})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return
@@ -8279,7 +8671,8 @@ def run_web(port=None):
                                              _CACHE["shots"])
                         res = save_chunk(no, picks, shots=_CACHE["shots"],
                                          trims=data.get("trims"),
-                                         drops=data.get("drops"))
+                                         drops=data.get("drops"),
+                                         pans=data.get("pans"))
                         print(f"  chunk {res['count']}: {res['file']}")
                     self._json({"ok": True, **res})
                 except Exception as e:
