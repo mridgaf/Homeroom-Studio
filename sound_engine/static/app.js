@@ -202,6 +202,11 @@ async function openProject(data) {
     newChannels[ch.lane_id].bus = "";  // every stem starts outside the buses
     newChannelOrder.push(ch.lane_id);
   }
+  // a flask's Stutter runs live in stutter-worklet.js; load it once per context
+  if (!audioCtx.stutterReady)
+    audioCtx.stutterReady = audioCtx.audioWorklet.addModule("/static/stutter-worklet.js");
+  await audioCtx.stutterReady;
+  const firstStem = newChannels[newChannelOrder[0]];
   for (const id of BUS_IDS) {
     const bus = buildChannelGraph(id, "Flask " + id.slice(4), null, myMasterGain);
     // a bus has no source: whatever stems are sent here arrive at busIn,
@@ -209,6 +214,12 @@ async function openProject(data) {
     bus.busIn = audioCtx.createGain();
     bus.busIn.connect(bus.brDry);
     bus.busIn.connect(bus.bypassGain);
+    bus.brNode = new AudioWorkletNode(audioCtx, "stutter", { outputChannelCount: [2] });
+    bus.busIn.connect(bus.brNode).connect(bus.brWet);
+    // the server stutters the bus SUM on a grid from sample 0 of the
+    // longest stem, at the stems' rate
+    bus.stemRate = firstStem.stemRate;
+    bus.stemLength = Math.max(...newChannelOrder.map(l => newChannels[l].stemLength));
     newChannels[id] = bus;
   }
 
@@ -1023,16 +1034,11 @@ document.getElementById("brChance").addEventListener("change", brShapeChanged);
 document.getElementById("brMix").addEventListener("input", e => {
   document.getElementById("brMixVal").textContent = e.target.value;
   const ch = currentChannel(); if (!ch || !audioCtx) return;
-  // a bus has no source to pre-render a stutter from, and lowering its
-  // brDry would just mute everything in the bus — Stutter stays off there
-  if (!ch.audioBuffer) {
-    e.target.value = 0; document.getElementById("brMixVal").textContent = "0";
-    return;
-  }
   ch.br.mix = parseFloat(e.target.value) / 100;
   ch.brWet.gain.setTargetAtTime(ch.br.mix, audioCtx.currentTime, RAMP_SECONDS);
   ch.brDry.gain.setTargetAtTime(1 - ch.br.mix, audioCtx.currentTime, RAMP_SECONDS);
-  if (ch.br.mix > 0 && !ch.brSource && isPlaying) rebuildRepeat(ch);
+  if (!ch.audioBuffer) sendBusGrid(ch);  // a flask stutters live, see below
+  else if (ch.br.mix > 0 && !ch.brSource && isPlaying) rebuildRepeat(ch);
   if (ch.br.mix <= 0) rebuildRepeat(ch);  // stops the wet source and frees
                                            // its full-length buffer
   syncChannelToServer(selectedLane);
@@ -1116,6 +1122,22 @@ function trimIRToStem(ctx, irBuffer, stemLength) {
   return out;
 }
 
+// What a flask's Convolve level is measured against: every raw stem summed,
+// the same reference server.py _bus_ir_slot uses.
+function rawStemSum() {
+  const len = Math.max(...channelOrder.map(l => channels[l].audioBuffer.length));
+  const out = audioCtx.createBuffer(2, len, audioCtx.sampleRate);
+  for (const l of channelOrder) {
+    const b = channels[l].audioBuffer;
+    for (let c = 0; c < 2; c++) {
+      const o = out.getChannelData(c);
+      const d = b.getChannelData(Math.min(c, b.numberOfChannels - 1));
+      for (let i = 0; i < d.length; i++) o[i] += d[i];
+    }
+  }
+  return out;
+}
+
 let convLoadSeq = 0;  // last drop wins — two IRs dropped in a row could
                       // otherwise land out of order, leaving the server on
                       // one IR and the live graph on the other
@@ -1162,8 +1184,9 @@ async function loadConvolveFile(file) {
   }
   if (stale()) return;
   const target = channels[laneId];
-  const ir = trimIRToStem(audioCtx, buffer, target.audioBuffer.length);
-  const scale = await peakMatchScale(target.audioBuffer, ir);
+  const ref = target.audioBuffer || rawStemSum();  // a flask has no buffer
+  const ir = trimIRToStem(audioCtx, buffer, ref.length);
+  const scale = await peakMatchScale(ref, ir);
   if (stale()) return;
   target.convNode.buffer = ir;
   // ramp, don't step: swapping an IR mid-playback with the Mix up stepped
@@ -1398,6 +1421,33 @@ function buildRepeatBuffer(ch) {
   return out;
 }
 
+// A flask's Stutter: hand its worklet the grid buildRepeatBuffer would lay
+// out (cell edges in context samples, which cells are picked), so live and
+// export cut the bus sum on the same beats.
+function sendBusGrid(ch) {
+  const cellServer = Math.round(ch.br.cellS * ch.stemRate);
+  if (cellServer < 2) { ch.brNode.port.postMessage({ grid: null }); return; }
+  const ratio = audioCtx.sampleRate / ch.stemRate;
+  const sliceServer = Math.max(1, Math.floor(cellServer / ch.br.repeats));
+  const picked = [];
+  for (let k = 0; k < Math.floor(ch.stemLength / cellServer); k++)
+    picked.push(brCellIsPicked(k, ch.br.chance));
+  ch.brNode.port.postMessage({ grid: {
+    cell: cellServer * ratio, slice: Math.max(1, Math.round(sliceServer * ratio)), picked } });
+}
+
+// where the beat's sample 0 sits on the context clock, for the flasks
+function sendBusPlayhead() {
+  for (const id of BUS_IDS) {
+    const ch = channels[id];
+    if (!ch || !ch.brNode) continue;
+    ch.brNode.port.postMessage({ play: isPlaying && channelOrder.length ? {
+      zero: Math.round(playStartedAt * audioCtx.sampleRate),
+      len: channels[channelOrder[0]].audioBuffer.length,
+      loop: loopToggle.checked } : null });
+  }
+}
+
 let playStartedAt = 0;  // common clock for every source, so a rebuilt
                         // repeat source can rejoin exactly in phase
 
@@ -1430,6 +1480,7 @@ function stopRepeatSource(ch) {
 // stutter can't be a live knob — it has to be rendered — so the new copy is
 // dropped in at the current playhead instead of restarting the beat.
 function rebuildRepeat(ch) {
+  if (!ch.audioBuffer) { sendBusGrid(ch); return; }  // a flask
   if (ch.br.mix <= 0) {
     // nothing is listening to the wet path: drop the source AND the buffer
     // (a full second copy of the stem) instead of leaving a stale one that
@@ -1487,6 +1538,7 @@ function play(offset = 0) {
   applyDryWet();
   recomputeAudibility();
   isPlaying = true;
+  sendBusPlayhead();
   playStatus.textContent = "Playing…";
   // watch the LONGEST stem: hanging this on lane 0 meant a short stem
   // ending flipped isPlaying false while other lanes were still sounding,
@@ -1517,6 +1569,7 @@ loopToggle.addEventListener("change", () => {
     if (ch.sourceNode) ch.sourceNode.loop = loopToggle.checked;
     if (ch.br.mix > 0) rebuildRepeat(ch);
   }
+  sendBusPlayhead();
 });
 
 function stopPlayback() {
@@ -1530,6 +1583,7 @@ function stopPlayback() {
     stopRepeatSource(ch);
   }
   isPlaying = false;
+  sendBusPlayhead();
   playStatus.textContent = "";
 }
 

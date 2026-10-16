@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### 2026-10-16 Flasks: Stutter + Convolve now work on Flask A/B
+- Context: closes the "known gap" in the Sound of Science entry below — both knobs were greyed out on a flask.
+- Decision/change: Stutter on a flask = new `sound_engine/static/stutter-worklet.js` (AudioWorklet) that cuts the bus input live on the same cell grid + picked cells as `_beat_repeat` (app.js `sendBusGrid`/`sendBusPlayhead`; the hash stays in `brCellIsPicked` only). Server cuts the bus SUM. Convolve on a flask = existing `/channel/{lane}/ir` endpoints accept `bus:A`/`bus:B` (`_ir_target`, `_bus_ir_slot`). `_BUS_OFF` removed; science.js greying and app.js brMix guard removed. Backups `*.pre-busfx-2026-10-16.*`.
+- Judgment call: a flask's Convolve level is peak-matched against ALL raw stems summed (both sides), not the bus's live input, which changes with every route/fader move. Joining playback mid-cell (resume from pause) leaves that one cell un-stuttered live.
+- Verified: 4 new tests; one runs the real worklet in node block-by-block and matches `_beat_repeat` to 1e-6 on both channels. sound_engine test file 115 passed. Worklet loaded + stuttered in real Chrome (offline context). NOT heard by ear; not exercised on a real beat. The running Sound Engine (port 8767, started 01:06) still has the OLD server.py until restarted — until then flask Stutter/Convolve play live but are left out of exports.
+- Status: open
+
 ### 2026-10-16 Effects page -> "The Sound of Science" (mockup 14) + two buses ("flasks")
 - Context: owner wanted the Effects page to match the beat page (notebook left, wood-framed board right), science theme, two buses with independent effects that start at zero. Mockups 12, 13a/b/c, 14 in `Front End Mockups/`; owner approved 14 ("Table of Elements", formula scrawl at the pad's foot).
 - Owner picks (clickable): keep per-stem effects AND add buses; same 10 knobs per bus; flask tabs stick out of the notebook; click a stem's element square = its own effects + "Connect to: None / Flask A / Flask B".

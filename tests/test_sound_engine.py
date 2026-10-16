@@ -3,6 +3,7 @@ and fixed by the 2026-08-08 harsh-review pass (session eviction, corrupt
 upload handling, invalid EQ body, export filename collisions), plus the
 multi-channel project model (single-file upload or a beat's stems)."""
 import io
+import math
 import json
 import os
 import sys
@@ -1468,3 +1469,93 @@ def test_bus_rejects_bad_ids_and_values():
                        json={"bus": "Z"}).status_code == 400
     assert client.post(f"/api/project/{pid}/bus/A/process",
                        json={"gain_db": "loud"}).status_code == 400
+
+
+# --- flask Stutter + Convolve (2026-10-16, the gap left by mockup 14) -------
+def _bus_pid():
+    pid = _upload(data=_wav_bytes(1.0)).json()["project_id"]
+    client.post(f"/api/project/{pid}/channel/upload/process", json={"bus": "A"})
+    return pid
+
+
+def _mix(pid):
+    _, L, R, _ = server._mix_lanes(server.PROJECTS[pid], 1.0)
+    return L, R
+
+
+def test_bus_stutter_reaches_the_export_and_cuts_the_bus_sum():
+    pid = _bus_pid()
+    sumL, sumR = _mix(pid)  # flat bus = the sum going into it
+    br = {"br_mix": 1.0, "br_cell_s": 0.1, "br_repeats": 3, "br_chance": 0.5}
+    assert client.post(f"/api/project/{pid}/bus/A/process", json=br).status_code == 200
+    L, R = _mix(pid)
+    wantL, _ = server._beat_repeat(sumL, sumR, 44100, 0.1, 3, 0.5, 1.0)
+    assert not np.allclose(L, sumL)
+    assert np.allclose(L, wantL, atol=1e-4)  # flat EQ is not bit-exact
+
+
+def test_bus_convolve_load_mix_and_clear():
+    pid = _bus_pid()
+    flat = _mix(pid)[0]
+    assert _load_ir(pid, lane="bus%3AA", data=_wav_bytes(0.2)).status_code == 200
+    client.post(f"/api/project/{pid}/bus/A/process", json={"conv_mix": 1.0})
+    wet = _mix(pid)[0]
+    assert not np.allclose(wet, flat)
+    # level rule: 100 % wet peaks where the raw stems summed peaked
+    assert abs(np.abs(wet).max() / np.abs(flat).max() - 1) < 0.35
+    assert client.delete(f"/api/project/{pid}/channel/bus%3AA/ir").status_code == 200
+    assert np.allclose(_mix(pid)[0], flat)
+    assert _load_ir(pid, lane="bus%3AC").status_code == 404
+
+
+def test_bus_ir_does_not_leak_into_the_other_bus_or_the_stem():
+    pid = _bus_pid()
+    _load_ir(pid, lane="bus%3AB", data=_wav_bytes(0.2))
+    flat = _mix(pid)[0]
+    client.post(f"/api/project/{pid}/bus/A/process", json={"conv_mix": 1.0})
+    assert np.allclose(_mix(pid)[0], flat)  # A has no IR: no-op, as on a stem
+    assert server.PROJECTS[pid]["channels"]["upload"]["ir"] is None
+
+
+def test_live_flask_stutter_matches_the_export():
+    """Runs the page's stutter-worklet.js in node, block by block like the
+    browser, against server._beat_repeat on the same signal."""
+    import shutil
+    import subprocess
+    node = shutil.which("node") or str(Path.home() / ".local/bin/node")
+    if not Path(node).exists():
+        pytest.skip("node not installed")
+    sr, cell_s, repeats, chance = 44100, 0.1, 3, 0.5
+    rng = np.random.default_rng(1)
+    L, R = rng.uniform(-1, 1, sr + 777), rng.uniform(-1, 1, sr + 777)
+    cell = int(math.floor(cell_s * sr + 0.5))
+    grid = {"cell": cell, "slice": max(1, cell // repeats),
+            "picked": [server._br_cell_is_picked(k, chance) for k in range(len(L) // cell)]}
+    harness = r"""
+const fs = require('fs'), vm = require('vm');
+const a = JSON.parse(fs.readFileSync(0, 'utf8'));
+let P; const g = { Float32Array, Math, registerProcessor: (n, c) => { P = c; },
+  AudioWorkletProcessor: class { constructor() { this.port = {}; } } };
+vm.createContext(g); vm.runInContext(fs.readFileSync(a.file, 'utf8'), g);
+const p = new P();
+p.port.onmessage({ data: { grid: a.grid } });
+p.port.onmessage({ data: { play: { zero: 5000, len: a.L.length, loop: false } } });
+const out = [[], []];
+for (let s = 0; s < a.L.length; s += 128) {
+  g.currentFrame = 5000 + s;
+  const n = Math.min(128, a.L.length - s);
+  const o = [new Float32Array(n), new Float32Array(n)];
+  p.process([[Float32Array.from(a.L.slice(s, s + n)), Float32Array.from(a.R.slice(s, s + n))]], [o]);
+  out[0].push(...o[0]); out[1].push(...o[1]);
+}
+process.stdout.write(JSON.stringify(out));
+"""
+    worklet = Path(server.__file__).parent / "static" / "stutter-worklet.js"
+    res = subprocess.run([node, "-e", harness], capture_output=True, text=True, check=True,
+                         input=json.dumps({"file": str(worklet), "grid": grid,
+                                           "L": L.tolist(), "R": R.tolist()}))
+    live = np.array(json.loads(res.stdout))
+    wantL, wantR = server._beat_repeat(L, R, sr, cell_s, repeats, chance, 1.0)
+    assert not np.allclose(wantL, L)
+    assert np.allclose(live[0], wantL, atol=1e-6)
+    assert np.allclose(live[1], wantR, atol=1e-6)

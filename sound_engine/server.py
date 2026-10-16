@@ -473,15 +473,43 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
 # then the bus level. Same chain function as a stem, so the same knobs mean
 # the same thing. Every bus starts with zero effects (empty params = flat).
 BUS_IDS = ("A", "B")
-# Stutter needs a pre-rendered copy of the source and Convolve an uploaded
-# sound per channel; neither exists for a bus yet, so a bus never runs them
-# (the page greys those two knobs out on a bus to match).
-_BUS_OFF = {"br_mix": 0.0, "conv_mix": 0.0}
+# Stutter on a bus runs on the bus SUM, cell grid from the beat's first
+# sample — app.js stutters live with an AudioWorklet on that same grid.
 
 
 def _buses(project):
     return project.setdefault(
         "buses", {b: {"params": {}, "gain_db": 0.0} for b in BUS_IDS})
+
+
+def _bus_ir_slot(project, b):
+    """A bus's Convolve sound, shaped like a channel's IR fields so
+    channel_load_ir/clear work on it unchanged. Its "dry" — what the level
+    rule peak-matches against — is the sum of every RAW stem, the same sum
+    app.js measures. ponytail: not the bus's actual input (that moves with
+    every route/fader change); the level is a fixed rule both sides share."""
+    slots = project.setdefault("bus_ir", {})
+    if b not in slots:
+        chans = list(project["channels"].values())
+        n = max(len(c["dry"][0]) for c in chans)
+        L, R = np.zeros(n), np.zeros(n)
+        for c in chans:
+            L[:len(c["dry"][0])] += c["dry"][0]
+            R[:len(c["dry"][1])] += c["dry"][1]
+        slots[b] = {"sr": chans[0]["sr"], "dry": (L, R), "ir": None,
+                    "ir_name": None, "ir_scale": 1.0, "ir_seq": 0}
+    return slots[b]
+
+
+def _ir_target(project_id, lane_id):
+    """A stem, or a bus when lane_id is "bus:A"/"bus:B"."""
+    if lane_id.startswith("bus:"):
+        project = PROJECTS.get(project_id)
+        if project is None or lane_id[4:] not in BUS_IDS:
+            return None, None
+        PROJECTS[project_id] = PROJECTS.pop(project_id)  # touch — see _get_channel
+        return project, _bus_ir_slot(project, lane_id[4:])
+    return _get_channel(project_id, lane_id)
 
 
 @app.post("/api/project/{project_id}/bus/{bus_id}/process")
@@ -493,7 +521,7 @@ async def bus_process(project_id: str, bus_id: str, params: dict):
     sr = next(iter(project["channels"].values()))["sr"]
     try:
         gain_db = _finite_float(params.get("gain_db", 0.0))
-        clean = {**params, **_BUS_OFF}
+        clean = dict(params)
         # a dry run on a few samples rejects bad numbers before they are kept
         _apply_channel_chain(np.zeros(64), np.zeros(64), sr, clean)
     except (TypeError, ValueError):
@@ -524,8 +552,9 @@ def _mix_lanes(project, w):
     buses = _buses(project)
 
     def through_bus(b, L, R):
-        bus = buses[b]
-        pL, pR = _apply_channel_chain(L.copy(), R.copy(), sr, bus["params"])
+        bus, slot = buses[b], _bus_ir_slot(project, b)
+        pL, pR = _apply_channel_chain(L.copy(), R.copy(), sr, bus["params"],
+                                      ir=slot["ir"], conv_scale=slot["ir_scale"])
         g = 10 ** (bus["gain_db"] / 20.0)
         # the page's Dry/Wet crossfades the bus chain the same way it does
         # a stem's, so 0 % is the untouched sum
@@ -563,7 +592,7 @@ async def channel_load_ir(project_id: str, lane_id: str, file: UploadFile = File
     """The sound this channel gets run through. Read once, kept in memory
     as (L, R) at its own rate — the file itself is deleted immediately,
     so a dropped IR never accumulates on disk the way uploads do."""
-    project, channel = _get_channel(project_id, lane_id)
+    project, channel = _ir_target(project_id, lane_id)
     if channel is None:
         return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
     safe_name = Path(file.filename or "ir").name  # can't escape UPLOADS
@@ -607,7 +636,7 @@ async def channel_load_ir(project_id: str, lane_id: str, file: UploadFile = File
 
 @app.delete("/api/project/{project_id}/channel/{lane_id}/ir")
 async def channel_clear_ir(project_id: str, lane_id: str):
-    project, channel = _get_channel(project_id, lane_id)
+    project, channel = _ir_target(project_id, lane_id)
     if channel is None:
         return JSONResponse({"error": "unknown project_id or lane_id"}, status_code=404)
     channel["ir"] = None

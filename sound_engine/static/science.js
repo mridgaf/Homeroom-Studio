@@ -54,13 +54,8 @@ function aimKnobs(target, slot) {
   targetEl.value = target;
   targetEl.dispatchEvent(new Event("change"));   // selectChannel + knobsFromSliders
   document.getElementById(slot).appendChild(knobGrid);
-  const isBus = target.startsWith("bus:");
   notebookEl.classList.toggle("busA", target === "bus:A");
   notebookEl.classList.toggle("busB", target === "bus:B");
-  // a flask has no source to pre-render a stutter from (see app.js brMix)
-  const st = EFFECTS.find(f => f.name === "Stutter");
-  st.el.classList.toggle("noir", isBus);
-  st.el.querySelector(".fxtip").textContent = isBus ? "Stems only" : st.tip;
 }
 
 // --- notebook pages ----------------------------------------------------------
