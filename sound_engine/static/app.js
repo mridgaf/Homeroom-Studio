@@ -259,6 +259,12 @@ async function openProject(data) {
     ch.dlyNode.delayTime.value = ch.dly.timeS;
   }
   applyDjPresets(data);
+  // the server already rendered every stem (DJ presets included) at load;
+  // key null = adopt it, the first real knob move replaces it
+  for (const laneId of channelOrder) fetchRealSound(laneId, null).then(() => {
+    const ch = channels[laneId];
+    if (ch && ch.realBuffer && ch.realKey === null) { ch.realKey = "loaded"; updateRealStatus(); }
+  });
   selectChannel(channelOrder[0]);
   pausedAt = 0;
   if (typeof effectsProjectOpened === "function") effectsProjectOpened(data);
@@ -607,7 +613,14 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
   dlyOut.connect(revWet).connect(convolver).connect(revDamp)
         .connect(revSplitter);
   revMerger.connect(revOut);
-  revOut.connect(wetGain);
+  // Real sound (Tier A, 2026-10-16): the chain above is only a quick
+  // preview. Once the server has rendered a stem's settings, realGain plays
+  // that exact export audio and liveGain mutes the preview — what he hears
+  // when he lets go of a knob is what Export writes.
+  const liveGain = audioCtx.createGain(); liveGain.gain.value = 1;
+  const realGain = audioCtx.createGain(); realGain.gain.value = 0;
+  revOut.connect(liveGain).connect(wetGain);
+  realGain.connect(wetGain);
   wetGain.gain.value = 1; bypassGain.gain.value = 0;
 
   const fader = audioCtx.createGain(); fader.gain.value = 1;
@@ -643,6 +656,7 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
     convDry, convWet, convNode, convScale, convOut, irName: null,
     revDry, revWet, revDamp, revSideWidth, convolver, revOut,
     wetGain, bypassGain, fader, panner,
+    liveGain, realGain, realBuffer: null, realSource: null, realSeq: 0, realKey: null,
     muted: false, solo: false, faderDb: 0, pan: 0, freeze: false,
     lastSatDriveTick: 0, lastSatDriveApplied: null,
     lastRevSizeTick: 0, lastRevSizeApplied: null,
@@ -1194,6 +1208,7 @@ async function loadConvolveFile(file) {
   target.convScale.gain.setTargetAtTime(scale, audioCtx.currentTime, RAMP_SECONDS);
   target.irName = file.name;
   if (selectedLane === laneId) updateConvPanel(target);
+  syncChannelToServer(laneId);  // re-render with the new sound
 }
 
 document.getElementById("convClear").addEventListener("click", async () => {
@@ -1324,6 +1339,12 @@ function _sendChannelSync(laneId) {
       .catch(() => syncFailedLanes.add(laneId));
     return;
   }
+  // the effect settings alone — a fader/pan/mute move doesn't change the
+  // rendered audio, so it must not knock the stem back to the preview
+  const { gain_db, pan, muted, solo, ...fxOnly } = params;
+  const key = JSON.stringify([fxOnly, ch.irName]);  // a new Convolve file re-renders too
+  const fxChanged = key !== ch.realKey;
+  if (fxChanged) goLive(ch);
   params.bus = ch.bus || "";
   // A rejected sync means the server is still holding this channel's
   // PREVIOUS settings — an export would then quietly not match what's
@@ -1336,8 +1357,82 @@ function _sendChannelSync(laneId) {
   fetch(`/api/project/${projectId}/channel/${encodeURIComponent(laneId)}/process`, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
-  }).then(r => { if (!r.ok) syncFailedLanes.add(laneId); else syncFailedLanes.delete(laneId); })
-    .catch(() => syncFailedLanes.add(laneId));
+  }).then(r => {
+    if (!r.ok) { syncFailedLanes.add(laneId); return; }
+    syncFailedLanes.delete(laneId);
+    if (fxChanged) fetchRealSound(laneId, key);
+  }).catch(() => syncFailedLanes.add(laneId));
+}
+
+// --- real sound: play the server's rendered stem --------------------------
+function goLive(ch) {
+  ch.realSeq++;  // any render still on its way is now stale
+  ch.realKey = null;
+  ch.realBuffer = null;
+  const t = audioCtx.currentTime;
+  ch.liveGain.gain.setTargetAtTime(1, t, RAMP_SECONDS);
+  ch.realGain.gain.setTargetAtTime(0, t, RAMP_SECONDS);
+  if (ch.realSource) {
+    const old = ch.realSource;
+    ch.realSource = null;
+    try { old.stop(t + 0.15); } catch (e) {}
+  }
+  updateRealStatus();
+}
+
+function startRealSource(ch, when, offset) {
+  const src = audioCtx.createBufferSource();
+  src.buffer = ch.realBuffer;
+  src.loop = loopToggle.checked;
+  src.connect(ch.realGain);
+  src.start(when, offset);
+  ch.realSource = src;
+}
+
+function stopRealSource(ch) {
+  if (!ch.realSource) return;
+  try { ch.realSource.stop(); } catch (e) {}
+  ch.realSource.disconnect();
+  ch.realSource = null;
+}
+
+async function fetchRealSound(laneId, key) {
+  const ch = channels[laneId];
+  if (!ch || !ch.audioBuffer) return;
+  const mySeq = ++ch.realSeq;
+  const myProject = projectId;
+  updateRealStatus(true);
+  let buf;
+  try {
+    const r = await fetch(`/api/project/${myProject}/channel/${encodeURIComponent(laneId)}/wet?t=${Date.now()}`);
+    if (!r.ok) throw new Error(r.status);
+    buf = await audioCtx.decodeAudioData(await r.arrayBuffer());
+  } catch (e) { updateRealStatus(); return; }  // the preview keeps playing
+  if (ch.realSeq !== mySeq || projectId !== myProject || channels[laneId] !== ch) return;
+  ch.realBuffer = buf;
+  ch.realKey = key;
+  if (isPlaying && ch.sourceNode) {
+    const dur = ch.audioBuffer.duration;
+    const startAt = audioCtx.currentTime + 0.05;
+    const elapsed = startAt - playStartedAt;
+    if (loopToggle.checked || (elapsed >= 0 && elapsed < dur)) {
+      startRealSource(ch, startAt, loopToggle.checked ? ((elapsed % dur) + dur) % dur : elapsed);
+    }
+    ch.liveGain.gain.setTargetAtTime(0, startAt, RAMP_SECONDS);
+    ch.realGain.gain.setTargetAtTime(1, startAt, RAMP_SECONDS);
+  } else {
+    ch.liveGain.gain.value = 0;
+    ch.realGain.gain.value = 1;
+  }
+  updateRealStatus();
+}
+
+// "Real sound" once every stem plays the server's audio, "Preview" while any
+// stem is waiting on a render. Flasks always preview (known gap).
+function updateRealStatus(pending) {
+  if (!isPlaying) return;
+  const waiting = pending || channelOrder.some(l => channels[l].realKey === null);
+  playStatus.textContent = waiting ? "Playing — preview (updating…)" : "Playing — real sound";
 }
 
 function syncChannelToServer(laneId, immediate) {
@@ -1531,6 +1626,7 @@ function play(offset = 0) {
     // building a stuttered copy of every stem on every Play would be wasted
     // work at Mix 0 — the wet source starts the moment the knob leaves zero
     if (ch.br.mix > 0) startRepeatSource(ch, startAt, offset);
+    if (ch.realBuffer) startRealSource(ch, startAt, offset);
   }
   // shifted back by the offset so rebuildRepeat's elapsed-time maths
   // still lands on the playhead after a resume from Pause
@@ -1539,7 +1635,7 @@ function play(offset = 0) {
   recomputeAudibility();
   isPlaying = true;
   sendBusPlayhead();
-  playStatus.textContent = "Playing…";
+  updateRealStatus();
   // watch the LONGEST stem: hanging this on lane 0 meant a short stem
   // ending flipped isPlaying false while other lanes were still sounding,
   // and the next knob move then killed their stutter (found in re-review)
@@ -1567,6 +1663,7 @@ loopToggle.addEventListener("change", () => {
   for (const laneId of channelOrder) {
     const ch = channels[laneId];
     if (ch.sourceNode) ch.sourceNode.loop = loopToggle.checked;
+    if (ch.realSource) ch.realSource.loop = loopToggle.checked;
     if (ch.br.mix > 0) rebuildRepeat(ch);
   }
   sendBusPlayhead();
@@ -1581,6 +1678,7 @@ function stopPlayback() {
       ch.sourceNode = null;
     }
     stopRepeatSource(ch);
+    stopRealSource(ch);
   }
   isPlaying = false;
   sendBusPlayhead();
