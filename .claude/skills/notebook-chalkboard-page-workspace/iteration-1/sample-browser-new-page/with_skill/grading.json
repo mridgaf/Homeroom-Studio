@@ -1,0 +1,34 @@
+{
+ "expectations": [
+  {
+   "text": "Columns are near-equal (fr ratio 0.8-1.25)",
+   "passed": true,
+   "evidence": "['minmax(380px,1fr) minmax(0,1.1fr)', '1fr 1.4fr', '110px 1fr 52px 42px auto']"
+  },
+  {
+   "text": "Chalkboard has wood on all four sides (no border-left:0, has tray)",
+   "passed": true,
+   "evidence": "border-left:0=False"
+  },
+  {
+   "text": "Band logo on the page",
+   "passed": true,
+   "evidence": ""
+  },
+  {
+   "text": "Chalk texture filter used (feTurbulence)",
+   "passed": true,
+   "evidence": ""
+  },
+  {
+   "text": "Full-size PNG picture made",
+   "passed": true,
+   "evidence": ""
+  },
+  {
+   "text": "Open questions written down, not guessed",
+   "passed": true,
+   "evidence": ""
+  }
+ ]
+}

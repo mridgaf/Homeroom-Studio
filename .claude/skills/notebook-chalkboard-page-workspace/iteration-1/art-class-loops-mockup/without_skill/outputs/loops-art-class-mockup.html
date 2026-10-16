@@ -1,0 +1,116 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loops - Art Class mockup</title>
+<style>
+:root{--wall:#3a3d42;--paper:#fbf8ef;--pencil:#2b2b2b;--red:#e5483b;--blue:#2f6fe0;--yellow:#f6c92b;--green:#3fae5a;--purple:#8a4fd1;--orange:#f08a24;--cork:#c8955a;--tape:#f3e6a8cc;
+--hand:"Marker Felt","Chalkboard SE","Patrick Hand","Comic Sans MS",cursive;--type:"American Typewriter","Special Elite","Courier New",monospace}
+*{box-sizing:border-box;margin:0}
+body{background:var(--wall);color:var(--pencil);font:16px/1.4 var(--type);padding:0 22px 50px;min-width:1100px}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 8px 14px}
+header h1{font:700 40px var(--hand);color:#fff;border-bottom:4px solid var(--yellow);padding-bottom:2px;transform:rotate(-1deg)}
+header small{color:#fff9;font-size:13px;margin-left:14px}
+nav{display:flex;gap:18px;align-items:center}
+nav a{font:26px var(--hand);color:#fff;text-decoration:none;padding:4px 18px;border-radius:12px}
+nav a.here{background:var(--red);box-shadow:3px 3px 0 #0006;transform:rotate(-1.5deg)}
+.cols{display:grid;grid-template-columns:minmax(340px,2fr) minmax(0,3fr);gap:6px}
+/* sketchbook (replaces the yellow notebook): white drawing paper, spiral on top-left, pencil type */
+.sketch{position:relative;background:var(--paper);border-radius:6px;padding:24px 26px 30px 70px;box-shadow:0 10px 30px #0007;
+background-image:radial-gradient(#0000000d 1px,transparent 1.4px);background-size:14px 14px}
+.rings{position:absolute;left:-14px;top:14px;bottom:14px;width:46px;
+background:radial-gradient(circle at 34px 50%,#3a3d42 0 5px,transparent 5.6px) 0 0/46px 34px repeat-y,linear-gradient(180deg,transparent 12px,#9a9a9a 12px,#eee 15px,#888 18px,transparent 19px) 0 0/38px 34px repeat-y}
+.sketch h2{font:700 38px var(--hand);color:var(--blue);transform:rotate(-1deg);margin-bottom:2px}
+.sketch h2 span{background:linear-gradient(transparent 60%,var(--yellow) 60%)}
+.sub{font-size:12px;color:#2b2b2b99;margin-bottom:6px}
+.lab{display:block;font:22px var(--hand);margin:14px 0 5px}
+.lab i{font:normal 11.5px var(--type);color:#2b2b2b88;margin-left:6px}
+/* paint-pot picker: each loop kind is a colour swatch */
+.pots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pot{border:2px solid var(--pencil);border-radius:30px 12px 30px 12px;padding:9px 12px;display:flex;gap:10px;align-items:center;background:#fff;cursor:pointer}
+.pot b{width:22px;height:22px;border-radius:50%;flex:none;box-shadow:inset -3px -3px 0 #0003}
+.pot.on{background:#fff6cf;box-shadow:3px 3px 0 var(--pencil)}
+.pot small{display:block;font-size:11px;color:#2b2b2b99}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:3px 10px;border-radius:5px;font-size:14px;background:var(--yellow)}
+.chip.l{background:#f1c75e}.chip.s{background:#fff;outline:1.5px dashed var(--pencil)}
+select,input[type=text]{width:100%;font:16px var(--type);padding:8px 12px;border:1.5px solid #8b8573;border-radius:7px;background:#fffdf2}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{border:2px dashed #6f6a5a;border-radius:10px;padding:14px;text-align:center;font-size:13.5px;background:#fffdf2aa}
+/* bars: 1,2,4,8 as stacked paint strokes */
+.seg{display:flex;gap:6px}.seg span{flex:1;text-align:center;border:2px solid var(--pencil);border-radius:8px;padding:6px 0;font:22px var(--hand);background:#fff}
+.seg .on{background:var(--blue);color:#fff;box-shadow:2px 2px 0 var(--pencil)}
+/* gallery wall (replaces the chalkboard): cork board in a wood frame with pinned art cards */
+.wall{position:relative;border:16px solid #7b3f1d;border-radius:6px;box-shadow:0 10px 30px #0008,inset 0 0 40px #0005;padding:22px 26px 30px;
+background:radial-gradient(#0002 1.2px,transparent 1.6px) 0 0/9px 9px,radial-gradient(#fff1 1px,transparent 1.5px) 4px 4px/11px 11px,var(--cork)}
+.make{display:flex;align-items:center;gap:22px;margin-bottom:18px}
+#go{font:700 34px var(--hand);background:var(--red);color:#fff;border:3px solid var(--pencil);border-radius:14px 30px 14px 30px;padding:12px 28px;box-shadow:5px 5px 0 var(--pencil);transform:rotate(-1.5deg);cursor:pointer}
+.num{background:var(--paper);border:2px solid var(--pencil);border-radius:8px;padding:4px 14px;text-align:center;font:30px var(--hand)}
+.num small{display:block;font:10px var(--type);color:#2b2b2b99}
+.wall h3{font:700 36px var(--hand);color:#fff;text-shadow:2px 2px 0 #0007;margin:6px 0 12px;display:inline-block;background:var(--paper);color:var(--pencil);text-shadow:none;padding:2px 18px;transform:rotate(-1.2deg);box-shadow:3px 3px 0 #0005}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{position:relative;background:var(--paper);padding:14px 14px 12px;box-shadow:3px 5px 12px #0006}
+.card:nth-child(odd){transform:rotate(-1deg)}.card:nth-child(even){transform:rotate(1.1deg)}
+.card::before{content:"";position:absolute;top:-10px;left:50%;width:70px;height:20px;margin-left:-35px;background:var(--tape);transform:rotate(-3deg)}
+.splash{height:64px;border-radius:6px;position:relative;overflow:hidden;display:flex;align-items:center;gap:2px;padding:0 8px}
+.splash i{flex:1;border-radius:2px;background:#fffd}
+.card h4{font:700 24px var(--hand);margin-top:8px;display:flex;justify-content:space-between}
+.card h4 em{font:normal 12px var(--type);padding:2px 8px;border-radius:10px;color:#fff;align-self:center}
+.meta{font-size:12px;color:#2b2b2b99;margin:2px 0 8px}
+.btns{display:flex;gap:7px}
+.btns button{font:18px var(--hand);border:2px solid var(--pencil);border-radius:8px;background:#fff;padding:3px 12px;cursor:pointer}
+.btns .play{background:var(--yellow)}
+.tag{margin-left:auto;font-size:11px;align-self:center;border:1px dashed var(--pencil);border-radius:8px;padding:1px 7px}
+.tray{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.tray div{border:3px dashed #fffb;border-radius:10px;text-align:center;color:#fff;font:24px var(--hand);padding:12px 0;text-shadow:1px 1px 0 #0006}
+</style></head><body>
+<header><div><h1>Homeroom Studios</h1><small>Art room. Loops start here.</small></div>
+<nav><a href="#">Make</a><a class="here" href="#">Loops</a><a href="#">Studio</a></nav></header>
+<div class="cols">
+<section class="sketch"><div class="rings"></div>
+ <h2><span>Loops Sketchbook</span></h2><div class="sub">Pick a DJ, pick your paints, get a loop to drop in Reason. No full beat.</div>
+
+ <span class="lab">What to paint</span>
+ <div class="pots">
+  <div class="pot on"><b style="background:var(--blue)"></b><span>Melodic loop<small>chords, keys, guitars</small></span></div>
+  <div class="pot on"><b style="background:var(--red)"></b><span>Drum loop<small>kit + groove</small></span></div>
+  <div class="pot"><b style="background:var(--green)"></b><span>Bass line<small>boom or line</small></span></div>
+  <div class="pot"><b style="background:var(--orange)"></b><span>Chopped<small>sliced hits</small></span></div>
+ </div>
+
+ <span class="lab">The Crew <i>who holds the brush</i></span>
+ <div class="chips"><span class="chip">Otto Grit</span><span class="chip">Night Metro</span></div>
+ <span class="lab">The Legends</span>
+ <div class="chips"><span class="chip l">Doc Day</span></div>
+ <span class="lab">Styles</span>
+ <div class="chips"><span class="chip s">Trip Hop</span></div>
+
+ <span class="lab">Bars</span>
+ <div class="seg"><span>1</span><span>2</span><span class="on">4</span><span>8</span></div>
+
+ <div class="two">
+  <div><span class="lab">Key</span><select><option>any key</option></select></div>
+  <div><span class="lab">Mode</span><select><option>minor</option></select></div>
+ </div>
+ <span class="lab">Directions</span><input type="text" placeholder="dusty, warm, no hi-hats...">
+ <span class="lab">Reference track</span><div class="drop">Drop a song here. Matches its tempo and key.</div>
+</section>
+
+<section class="wall">
+ <div class="make"><button id="go">Paint my loops</button>
+  <div class="num">95<small>BPM</small></div><div class="num">4<small>how many</small></div></div>
+ <h3>Gallery wall</h3>
+ <div class="gal">
+  <div class="card"><div class="splash" style="background:linear-gradient(135deg,var(--blue),var(--purple))"><i style="height:30%"></i><i style="height:70%"></i><i style="height:45%"></i><i style="height:90%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:35%"></i><i style="height:65%"></i><i style="height:40%"></i><i style="height:75%"></i></div>
+   <h4>Loop 0412 <em style="background:var(--blue)">melodic</em></h4><div class="meta">F dorian &middot; 95 BPM &middot; 4 bars &middot; Otto Grit</div>
+   <div class="btns"><button class="play">Play</button><button>Keep</button><button>Bin</button><span class="tag">picked by taste</span></div></div>
+  <div class="card"><div class="splash" style="background:linear-gradient(135deg,var(--red),var(--orange))"><i style="height:90%"></i><i style="height:20%"></i><i style="height:60%"></i><i style="height:20%"></i><i style="height:95%"></i><i style="height:25%"></i><i style="height:55%"></i><i style="height:30%"></i><i style="height:85%"></i><i style="height:20%"></i></div>
+   <h4>Loop 0413 <em style="background:var(--red)">drums</em></h4><div class="meta">95 BPM &middot; 4 bars &middot; Otto Grit</div>
+   <div class="btns"><button class="play">Play</button><button>Keep</button><button>Bin</button><span class="tag">free pick</span></div></div>
+  <div class="card"><div class="splash" style="background:linear-gradient(135deg,var(--green),#1f8a8a)"><i style="height:50%"></i><i style="height:50%"></i><i style="height:80%"></i><i style="height:40%"></i><i style="height:60%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:35%"></i><i style="height:55%"></i><i style="height:45%"></i></div>
+   <h4>Loop 0414 <em style="background:var(--green)">bass</em></h4><div class="meta">A minor &middot; 92 BPM &middot; 2 bars &middot; Doc Day</div>
+   <div class="btns"><button class="play">Play</button><button>Keep</button><button>Bin</button><span class="tag">picked by taste</span></div></div>
+  <div class="card"><div class="splash" style="background:linear-gradient(135deg,var(--orange),var(--yellow))"><i style="height:35%"></i><i style="height:80%"></i><i style="height:30%"></i><i style="height:95%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:25%"></i><i style="height:85%"></i><i style="height:50%"></i><i style="height:60%"></i></div>
+   <h4>Loop 0415 <em style="background:var(--orange)">chopped</em></h4><div class="meta">D minor &middot; 90 BPM &middot; 4 bars &middot; Trip Hop</div>
+   <div class="btns"><button class="play">Play</button><button>Keep</button><button>Bin</button><span class="tag">free pick</span></div></div>
+ </div>
+ <div class="tray"><div>Favorites</div><div>Reason folder</div><div>Bin</div></div>
+</section>
+</div></body></html>

@@ -1,0 +1,3 @@
+{"skill_name":"notebook-chalkboard-page","evals":[
+{"id":1,"prompt":"Give the Loops part of the beat machine its own theme, like an art class. Same school style as the beat page. Show me a mockup.","expected_output":"One interactive HTML mockup + full-size PNG, notebook left / wood-framed board right, near-equal columns, band logo, art-class wording","files":[]},
+{"id":2,"prompt":"I want a new page for browsing my sample library, notebook on the left and chalkboard on the right like the beat generator. Mock it up first.","expected_output":"HTML mockup + PNG in house style; asks/states what each side holds; nothing built in the real app","files":[]}]}

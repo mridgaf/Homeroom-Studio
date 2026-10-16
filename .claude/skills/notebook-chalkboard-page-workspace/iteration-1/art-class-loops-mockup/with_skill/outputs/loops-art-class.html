@@ -1,0 +1,141 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loops: Art Class</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="house-style.css">
+<style>
+/* art class: sketchbook paper (dotted rule, same margin + rings), paint-colour lanes */
+:root{--c-drum:#ff7a59;--c-lead:#f6e04b;--c-bass:#62c8ff;--c-chords:#c58bff;--c-fx:#9be22d}
+.notebook{min-height:760px}
+.stamp{position:absolute;right:26px;top:16px;font:12px var(--mono);border:2px solid #b3261e;color:#b3261e;padding:3px 8px;transform:rotate(4deg);border-radius:4px}
+.tab[data-p=sketch]{background:#fff6c8}.tab[data-p=palette]{background:#ffb48f}.tab[data-p=gallery]{background:#b9e2ff}
+.sw-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.dab{width:34px;height:34px;border-radius:50% 46% 54% 48%;border:2px solid #141414;box-shadow:2px 2px 0 #0004}
+.field{display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;margin:8px 0;font-size:16px}
+.field input[type=text],.field select{font:15px var(--type);background:#fffdf2;border:1.5px solid #141414;border-radius:6px;padding:5px 8px;width:100%}
+.check{display:flex;gap:8px;align-items:center;font-size:16px;margin:10px 0}
+.check input{accent-color:#141414;width:18px;height:18px}
+.big{font:20px var(--type);background:var(--sun);border:2.5px solid #141414;border-radius:10px;padding:9px 20px;cursor:pointer;color:#141414;box-shadow:3px 3px 0 #141414}
+.ink{line-height:1.6;font:20px 'Permanent Marker';color:#1d3fa8;transform:rotate(-2deg);margin:16px 0 0}
+.ink.s{display:block;font:15px 'Special Elite';color:#1d3fa8;transform:rotate(1deg);margin:4px 0}
+.hist{display:flex;gap:10px;align-items:center;padding:5px 0;font-size:15px;border-bottom:1px dotted #14141440}
+.hist i{width:14px;height:14px;border-radius:50%;display:inline-block;margin-left:2px}
+/* board */
+.title{font:400 52px 'Permanent Marker';color:var(--sun);margin:0;line-height:1;transform:rotate(-2deg);filter:url(#chalk-text)}
+.title small{display:block;font:22px var(--hand);color:var(--chalk);transform:rotate(1deg);margin-top:6px}
+.top2{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.scope{margin-top:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;border:3px solid var(--chalk);border-radius:14px;padding:10px 14px;filter:url(#chalk)}
+.play{width:52px;height:52px;border-radius:50%;background:var(--sun);border:0;font-size:22px;cursor:pointer;flex:none}
+.nm{font-size:22px;line-height:1}.nm small{display:block;font:13px var(--mono);color:var(--chalk-dim);margin-top:4px}
+.hd{font:30px var(--hand);margin:16px 0 6px;filter:url(#chalk-text)}.hd small{font:16px var(--hand);color:var(--chalk-dim);margin-left:8px}
+/* the canvas: 8 bar-columns shared by all lanes */
+.easel{position:relative;border:3px solid var(--chalk-dim);border-radius:14px;padding:10px 12px;filter:url(#chalk)}
+.bars,.lane{display:grid;grid-template-columns:96px 1fr 60px}
+.bars{font:12px var(--mono);color:var(--chalk-dim);padding-bottom:4px}
+.bars div{display:grid;grid-template-columns:repeat(8,1fr);text-align:center}
+.lane{gap:10px;align-items:center;padding:7px 0;border-top:2px dashed #ffffff22}
+.tube{font:20px var(--hand);display:flex;flex-direction:column;line-height:1.05}
+.tube b{font:400 12px var(--mono);color:var(--chalk-dim)}
+.strip{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;height:46px;cursor:pointer;position:relative}
+.strip s{border-radius:7px 9px 6px 10px;background:var(--c);opacity:.9;text-decoration:none}
+.strip s:nth-child(3n){opacity:.65}.strip s:nth-child(5n+1){opacity:.78}
+.lane.mute .strip s{opacity:.15}
+.name{grid-column:2;padding-left:8px;font:15px var(--mono);color:var(--chalk-dim);margin-top:-3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btns{display:flex;flex-direction:column;gap:4px}
+.mini{font:16px var(--hand);border:2px solid var(--chalk-dim);border-radius:8px;background:none;color:var(--chalk);cursor:pointer;padding:0 4px}
+.mini.on{background:var(--c);color:#141414;border-color:var(--c)}
+.head{position:absolute;top:30px;bottom:8px;width:3px;background:var(--lime);box-shadow:0 0 8px var(--lime);left:calc(96px + 22px);pointer-events:none}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.doodle{position:absolute;stroke:var(--chalk);fill:none;stroke-width:2.5;opacity:.55;filter:url(#chalk)}
+@media(max-width:900px){.cols{grid-template-columns:minmax(0,1fr)}.stamp{display:none}.notebook{min-height:0}.board{padding-right:14px}.bars,.lane{grid-template-columns:62px 1fr 48px}.head{display:none}.board{padding-left:26px}.tabs{display:none}.doodle{display:none}.notebook{padding-left:70px}}
+</style></head><body>
+<header class="top"><div class="wm">Homeroom Studios</div><div class="motto">Music starts here.</div>
+<nav class="apptabs"><a href="#">Make</a><a href="#" class="here">Loops</a><a href="#">Reason Voice</a><a href="#">Science</a></nav></header>
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+  <filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+</defs></svg>
+<div class="cols">
+<section class="notebook"><div class="rings"></div><span class="stamp">SKETCHBOOK No. 8</span>
+ <div class="tabs">
+  <button class="tab on" data-p="sketch">Sketch<small>set up</small></button>
+  <button class="tab" data-p="palette">Palette<small>tempo + key</small></button>
+  <button class="tab" data-p="gallery">Gallery<small>past loops</small></button>
+ </div>
+ <div class="page on" id="p-sketch">
+  <h1 class="nbtitle">Today's sketch</h1>
+  <p class="nbsub">Loops only. Five lanes, 8 bars, all painted from your own loops.</p>
+  <div class="sw-row"><span class="dab" style="background:var(--c-drum)"></span><span class="dab" style="background:var(--c-lead)"></span><span class="dab" style="background:var(--c-bass)"></span><span class="dab" style="background:var(--c-chords)"></span><span class="dab" style="background:var(--c-fx)"></span></div>
+  <div class="field"><label>Artist (DJ)</label><select><option>Cutz</option><option>Otto Grit</option><option>Glass Cat</option></select></div>
+  <div class="field"><label>Team up with</label><select><option>nobody</option><option>Boom Bap (style)</option><option>Soul (style)</option></select></div>
+  <div class="field"><label title="Leave blank = the drum loop's own tempo">Speed (BPM)</label><input type="text" placeholder="auto"></div>
+  <div class="field"><label>How many</label><input type="text" value="1"></div>
+  <label class="check"><input type="checkbox" checked> Loops only <span style="font-size:12px;color:#141414a0">(the "Loops only" box)</span></label>
+  <button class="big" id="paint">Paint it!<small style="display:block;font-size:11px">make the beats</small></button>
+  <p class="ink">colour key:</p>
+  <p class="ink s">drum = coral &nbsp;lead = yellow &nbsp;bass = blue</p>
+  <p class="ink s">chords = purple &nbsp;fx = green</p>
+ </div>
+ <div class="page" id="p-palette">
+  <h1 class="nbtitle">Palette</h1>
+  <p class="nbsub">Which loops may mix. Keys ignored = any colours go.</p>
+  <div class="field"><label>Same key</label><select><option>F minor (matched)</option><option>keys ignored</option></select></div>
+  <div class="field"><label>Leans on</label><input type="text" value="dusty, soul, vinyl"></div>
+  <p class="ink s">Lead, bass and chords share one key.<br>Drum loop sets the tempo.</p>
+  <p class="ink">C - Eb - G = warm colours</p>
+ </div>
+ <div class="page" id="p-gallery">
+  <h1 class="nbtitle">Gallery</h1>
+  <p class="nbsub">Earlier loops beats. Click to repaint one.</p>
+  <div class="hist">2830 Dusty Sunday <span>84 BPM</span> <i style="background:var(--c-drum)"></i><i style="background:var(--c-lead)"></i><i style="background:var(--c-bass)"></i></div>
+  <div class="hist">2829 Night Wash <span>92 BPM</span> <i style="background:var(--c-chords)"></i><i style="background:var(--c-fx)"></i></div>
+  <div class="hist">2827 Chalk Dust <span>78 BPM</span> <i style="background:var(--c-bass)"></i><i style="background:var(--c-lead)"></i></div>
+ </div>
+</section>
+
+<section class="board">
+ <svg class="doodle" style="left:16px;top:260px" width="80" height="100" viewBox="0 0 80 100"><path d="M20 94L52 12l10 6L30 98z"/><path d="M52 12l4-8 10 6-4 8"/><path d="M20 94l-6 4 3-9"/></svg>
+ <svg class="doodle" style="left:12px;top:420px" width="90" height="80" viewBox="0 0 90 80"><path d="M44 6C16 6 4 28 8 46s22 28 40 26c12-1 8-12 14-14s22 4 24-14C88 24 70 6 44 6z"/><circle cx="26" cy="30" r="6"/><circle cx="46" cy="22" r="6"/><circle cx="66" cy="32" r="6"/><circle cx="24" cy="52" r="6"/></svg>
+ <svg class="doodle" style="left:20px;top:560px" width="80" height="70" viewBox="0 0 80 70"><path d="M8 62L40 8l32 54z"/><path d="M40 8v54M24 36h32" stroke-dasharray="4 5"/></svg>
+ <div class="top2">
+  <div><h1 class="title">Art Class: Loops<small>Paint a beat from 5 loops.</small></h1></div>
+  <img class="logo" src="logo-chalk.png" alt="The Back of the Class" style="width:150px">
+ </div>
+ <div class="scope"><button class="play" id="play">▶</button>
+  <div class="nm">2831 Cutz Sunday Wash<small>86 BPM · 8 bars · F minor · looping</small></div></div>
+ <div class="hd">The canvas <small>5 lanes. Click a stripe to repaint that lane with a new loop.</small></div>
+ <div class="easel" id="easel">
+  <div class="bars"><span></span><div><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div></div>
+  <div class="head" id="head"></div>
+ </div>
+ <div class="actions"><button class="cbtn sun">Frame it (save)</button><button class="cbtn">Repaint all</button><button class="cbtn">Wipe the board</button></div>
+ <p class="note">Mockup only. Plain meaning: Frame it = save to favorites. Repaint = swap that lane's loop. Wipe = trash.</p>
+</section>
+</div>
+<script>
+const lanes=[["Drum loop","coral","--c-drum","dusty_boombap_86"],["Lead","yellow","--c-lead","rhodes_hook_Fm"],["Bass","blue","--c-bass","sub_walk_Fm"],["Chords","purple","--c-chords","pad_wash_Fm"],["FX","green","--c-fx","vinyl_swell"]];
+const alt=["tape_hiss_two","glass_bell","slow_dub_808","warm_keys_Fm","crate_snare_roll","pluck_arp_Fm"];
+const e=document.getElementById('easel');
+lanes.forEach((l,i)=>{const d=document.createElement('div');d.className='lane';d.style.setProperty('--c',`var(${l[2]})`);
+ d.innerHTML=`<div class="tube">${l[0]}<b>${l[1]}</b></div><div class="strip">${'<s></s>'.repeat(8)}</div><div class="btns"><button class="mini mute">mute</button><button class="mini solo">solo</button></div><div class="name">${l[3]}</div>`;
+ d.querySelector('.strip').onclick=()=>{d.querySelector('.name').textContent=alt[Math.floor(Math.random()*alt.length)]};
+ d.querySelector('.mute').onclick=ev=>{d.classList.toggle('mute');ev.target.classList.toggle('on')};
+ d.querySelector('.solo').onclick=ev=>ev.target.classList.toggle('on');
+ e.appendChild(d)});
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab,.page').forEach(x=>x.classList.remove('on'));t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on')});
+let raf=null,t0=0;const head=document.getElementById('head');
+function tick(ts){const w=e.clientWidth-24-96-60-20;const p=((ts-t0)/8000)%1;head.style.left=(96+22+p*w)+'px';raf=requestAnimationFrame(tick)}
+document.getElementById('play').onclick=function(){if(raf){cancelAnimationFrame(raf);raf=null;this.textContent='▶'}else{t0=performance.now();raf=requestAnimationFrame(tick);this.textContent='❚❚'}};
+head.style.left='118px';
+</script></body></html>

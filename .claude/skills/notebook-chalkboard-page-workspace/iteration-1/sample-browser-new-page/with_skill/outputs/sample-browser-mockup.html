@@ -1,0 +1,78 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sample Browser mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Space+Mono&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="house-style.css">
+<style>
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 12px}
+.chip{font:15px var(--type);border:1.5px solid #141414;border-radius:14px;padding:3px 11px;background:#fffdf2;cursor:pointer}
+.chip.on{background:#141414;color:var(--paper-y)}
+.srch{width:100%;font:18px var(--type);background:#fffdf2d9;border:1.5px solid #141414;border-radius:8px;padding:8px 12px;margin:4px 0 8px}
+.pk{display:flex;justify-content:space-between;font-size:17px;height:28px;align-items:center;cursor:pointer}
+.pk.on{font-weight:700;text-decoration:underline wavy #d9531e}
+.pk small{font:12px var(--mono);color:#141414a0}
+.doodle{font:20px var(--hand);color:#1f4fa8;transform:rotate(-3deg);margin-top:14px;opacity:.85}
+.hint{font-size:12px;color:#141414a0;margin:2px 0 8px}
+.tab[data-p=packs]{background:#fff6c8}.tab[data-p=favs]{background:var(--a)}.tab[data-p=recent]{background:var(--b)}
+.bt{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bt h2{font:400 34px var(--hand);margin:0;color:var(--sun)}
+.srow{display:grid;grid-template-columns:40px minmax(90px,1fr) minmax(90px,1.2fr) auto 26px;gap:10px;align-items:center;padding:6px 8px;border-bottom:2px dashed #ffffff22;font-size:19px;cursor:pointer}
+.srow.sel{background:#ffffff12;border-radius:10px}
+.play{font:16px var(--hand);width:34px;height:30px;border-radius:9px;border:2.5px solid var(--lime);background:none;color:var(--lime);cursor:pointer}
+.wv{display:flex;align-items:center;gap:1.5px;height:26px}.wv i{flex:1;background:var(--chalk-dim);min-width:1px}
+.srow.sel .wv i{background:var(--lime)}
+.meta{font:12px var(--mono);color:var(--chalk-dim);white-space:nowrap}.star{color:var(--sun);font-size:20px}
+.detail{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.big{height:64px;display:flex;align-items:center;gap:2px;flex:1 1 100%;border:3px solid var(--chalk-dim);border-radius:14px;padding:6px 12px;filter:url(#chalk)}
+.big i{flex:1;background:var(--lime);min-width:1px}
+@media(max-width:900px){.cols{grid-template-columns:1fr}.board{padding-left:26px}.tabs{position:static;transform:none;flex-direction:row;margin-top:10px}}
+</style></head><body>
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+  <filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+</defs></svg>
+
+<header class="top"><span class="wm">Home Room Studio</span><span class="motto">your sounds, in one place</span>
+<nav class="apptabs"><a href="#">Beats</a><a href="#">Voice</a><a href="#">Science</a><a href="#" class="here">Samples</a></nav></header>
+<div class="cols">
+<section class="notebook"><div class="rings"></div>
+<div class="tabs"><button class="tab on" data-p="packs">Packs<small>folders</small></button><button class="tab" data-p="favs">Favorites<small>starred</small></button><button class="tab" data-p="recent">Recent<small>played</small></button></div>
+<div class="page on" id="packs">
+<h1 class="nbtitle">Sample Library</h1><p class="nbsub">Find a sound. Click it to hear it.</p>
+<input class="srch" placeholder="Search by name&hellip;" value="dream">
+<div class="hint">Show only:</div>
+<div class="chips"><span class="chip on">all</span><span class="chip">kick</span><span class="chip">snare</span><span class="chip">hat</span><span class="chip">808</span><span class="chip on">chords</span><span class="chip">bass</span><span class="chip">pad</span></div>
+<div class="hint">Packs (tap to pick)</div>
+<div class="pk on"><span>The Back of the Class Sorted</span><small>1,240</small></div>
+<div class="pk"><span>BOTC Sorted MIDI</span><small>298</small></div>
+<div class="pk"><span>Drum One-Shots</span><small>3,905</small></div>
+<div class="pk"><span>Looperman Loops</span><small>612</small></div>
+<div class="doodle">tempo x 2 = double time &nbsp; &#9834; Am &rarr; F &rarr; C</div>
+</div>
+<div class="page" id="favs"><h1 class="nbtitle">Favorites</h1></div><div class="page" id="recent"><h1 class="nbtitle">Recent</h1></div>
+</section>
+<section class="board"><div class="bt"><img class="logo" src="botc-logo-chalk.png" width="86" alt="The Back of the Class"><h2 class="chalktext">Rhodes Loop Am</h2></div>
+<hr class="chalkline">
+<div class="detail"><div class="big" id="big"></div>
+<span class="cbtn sun">&#9654; Play</span><span class="cbtn">&#9734; Favorite</span><span class="cbtn">Show in Finder</span></div>
+<hr class="chalkline">
+<div class="lanes" style="padding:4px 4px"><div class="srow" data-i="0"><button class="play" title="Play preview">&#9654;</button><span class="nm">Dusty Kick 03</span><span class="wv"><i style="height:45%"></i><i style="height:90%"></i><i style="height:84%"></i><i style="height:31%"></i><i style="height:62%"></i><i style="height:92%"></i><i style="height:75%"></i><i style="height:95%"></i><i style="height:89%"></i><i style="height:23%"></i><i style="height:92%"></i><i style="height:16%"></i><i style="height:75%"></i><i style="height:48%"></i><i style="height:85%"></i><i style="height:44%"></i><i style="height:39%"></i><i style="height:75%"></i><i style="height:84%"></i><i style="height:85%"></i><i style="height:75%"></i><i style="height:65%"></i><i style="height:96%"></i><i style="height:34%"></i><i style="height:44%"></i><i style="height:96%"></i><i style="height:34%"></i><i style="height:81%"></i><i style="height:64%"></i><i style="height:16%"></i><i style="height:100%"></i><i style="height:23%"></i><i style="height:35%"></i><i style="height:90%"></i></span><span class="meta">— &middot; 92 bpm</span><span class="star">&#9734;</span></div><div class="srow" data-i="1"><button class="play" title="Play preview">&#9654;</button><span class="nm">Room Snare Fat</span><span class="wv"><i style="height:20%"></i><i style="height:53%"></i><i style="height:18%"></i><i style="height:49%"></i><i style="height:75%"></i><i style="height:91%"></i><i style="height:64%"></i><i style="height:69%"></i><i style="height:65%"></i><i style="height:88%"></i><i style="height:71%"></i><i style="height:32%"></i><i style="height:61%"></i><i style="height:27%"></i><i style="height:19%"></i><i style="height:32%"></i><i style="height:78%"></i><i style="height:42%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:53%"></i><i style="height:68%"></i><i style="height:79%"></i><i style="height:64%"></i><i style="height:88%"></i><i style="height:59%"></i><i style="height:83%"></i><i style="height:89%"></i><i style="height:67%"></i><i style="height:89%"></i><i style="height:44%"></i><i style="height:58%"></i><i style="height:18%"></i></span><span class="meta">— &middot; —</span><span class="star">&#9734;</span></div><div class="srow sel" data-i="2"><button class="play" title="Play preview">&#9654;</button><span class="nm">Rhodes Loop Am</span><span class="wv"><i style="height:50%"></i><i style="height:92%"></i><i style="height:100%"></i><i style="height:35%"></i><i style="height:56%"></i><i style="height:84%"></i><i style="height:88%"></i><i style="height:87%"></i><i style="height:28%"></i><i style="height:98%"></i><i style="height:42%"></i><i style="height:96%"></i><i style="height:88%"></i><i style="height:49%"></i><i style="height:51%"></i><i style="height:30%"></i><i style="height:23%"></i><i style="height:76%"></i><i style="height:96%"></i><i style="height:76%"></i><i style="height:26%"></i><i style="height:59%"></i><i style="height:23%"></i><i style="height:67%"></i><i style="height:34%"></i><i style="height:17%"></i><i style="height:52%"></i><i style="height:69%"></i><i style="height:68%"></i><i style="height:30%"></i><i style="height:20%"></i><i style="height:92%"></i><i style="height:93%"></i><i style="height:20%"></i></span><span class="meta">A min &middot; 88 bpm</span><span class="star">&#9734;</span></div><div class="srow" data-i="3"><button class="play" title="Play preview">&#9654;</button><span class="nm">Vinyl Hat Closed</span><span class="wv"><i style="height:63%"></i><i style="height:90%"></i><i style="height:57%"></i><i style="height:85%"></i><i style="height:50%"></i><i style="height:79%"></i><i style="height:45%"></i><i style="height:19%"></i><i style="height:54%"></i><i style="height:15%"></i><i style="height:24%"></i><i style="height:28%"></i><i style="height:91%"></i><i style="height:83%"></i><i style="height:19%"></i><i style="height:40%"></i><i style="height:67%"></i><i style="height:52%"></i><i style="height:93%"></i><i style="height:48%"></i><i style="height:34%"></i><i style="height:20%"></i><i style="height:58%"></i><i style="height:55%"></i><i style="height:61%"></i><i style="height:32%"></i><i style="height:63%"></i><i style="height:63%"></i><i style="height:73%"></i><i style="height:81%"></i><i style="height:64%"></i><i style="height:97%"></i><i style="height:91%"></i><i style="height:86%"></i></span><span class="meta">— &middot; —</span><span class="star">&#9734;</span></div><div class="srow" data-i="4"><button class="play" title="Play preview">&#9654;</button><span class="nm">Boom 808 F</span><span class="wv"><i style="height:28%"></i><i style="height:94%"></i><i style="height:79%"></i><i style="height:49%"></i><i style="height:70%"></i><i style="height:96%"></i><i style="height:45%"></i><i style="height:53%"></i><i style="height:70%"></i><i style="height:48%"></i><i style="height:81%"></i><i style="height:53%"></i><i style="height:85%"></i><i style="height:58%"></i><i style="height:16%"></i><i style="height:68%"></i><i style="height:89%"></i><i style="height:55%"></i><i style="height:17%"></i><i style="height:63%"></i><i style="height:93%"></i><i style="height:90%"></i><i style="height:95%"></i><i style="height:32%"></i><i style="height:22%"></i><i style="height:96%"></i><i style="height:95%"></i><i style="height:57%"></i><i style="height:74%"></i><i style="height:60%"></i><i style="height:60%"></i><i style="height:92%"></i><i style="height:50%"></i><i style="height:77%"></i></span><span class="meta">F &middot; —</span><span class="star">&#9734;</span></div><div class="srow" data-i="5"><button class="play" title="Play preview">&#9654;</button><span class="nm">Dream Pad Cm</span><span class="wv"><i style="height:17%"></i><i style="height:90%"></i><i style="height:22%"></i><i style="height:17%"></i><i style="height:62%"></i><i style="height:47%"></i><i style="height:95%"></i><i style="height:73%"></i><i style="height:53%"></i><i style="height:90%"></i><i style="height:91%"></i><i style="height:55%"></i><i style="height:37%"></i><i style="height:61%"></i><i style="height:38%"></i><i style="height:55%"></i><i style="height:62%"></i><i style="height:91%"></i><i style="height:48%"></i><i style="height:53%"></i><i style="height:63%"></i><i style="height:28%"></i><i style="height:18%"></i><i style="height:87%"></i><i style="height:31%"></i><i style="height:54%"></i><i style="height:79%"></i><i style="height:43%"></i><i style="height:98%"></i><i style="height:49%"></i><i style="height:45%"></i><i style="height:56%"></i><i style="height:38%"></i><i style="height:70%"></i></span><span class="meta">C min &middot; 90 bpm</span><span class="star">&#9734;</span></div><div class="srow" data-i="6"><button class="play" title="Play preview">&#9654;</button><span class="nm">Crate Bass Line</span><span class="wv"><i style="height:98%"></i><i style="height:27%"></i><i style="height:28%"></i><i style="height:91%"></i><i style="height:56%"></i><i style="height:57%"></i><i style="height:43%"></i><i style="height:71%"></i><i style="height:36%"></i><i style="height:25%"></i><i style="height:58%"></i><i style="height:98%"></i><i style="height:42%"></i><i style="height:87%"></i><i style="height:72%"></i><i style="height:49%"></i><i style="height:43%"></i><i style="height:30%"></i><i style="height:19%"></i><i style="height:82%"></i><i style="height:39%"></i><i style="height:55%"></i><i style="height:88%"></i><i style="height:38%"></i><i style="height:50%"></i><i style="height:58%"></i><i style="height:97%"></i><i style="height:25%"></i><i style="height:94%"></i><i style="height:59%"></i><i style="height:90%"></i><i style="height:31%"></i><i style="height:68%"></i><i style="height:52%"></i></span><span class="meta">D min &middot; 94 bpm</span><span class="star">&#9734;</span></div><div class="srow" data-i="7"><button class="play" title="Play preview">&#9654;</button><span class="nm">Tape Clap 02</span><span class="wv"><i style="height:81%"></i><i style="height:49%"></i><i style="height:74%"></i><i style="height:59%"></i><i style="height:96%"></i><i style="height:68%"></i><i style="height:52%"></i><i style="height:68%"></i><i style="height:87%"></i><i style="height:67%"></i><i style="height:19%"></i><i style="height:67%"></i><i style="height:34%"></i><i style="height:40%"></i><i style="height:15%"></i><i style="height:76%"></i><i style="height:94%"></i><i style="height:80%"></i><i style="height:70%"></i><i style="height:86%"></i><i style="height:43%"></i><i style="height:19%"></i><i style="height:73%"></i><i style="height:99%"></i><i style="height:81%"></i><i style="height:51%"></i><i style="height:84%"></i><i style="height:58%"></i><i style="height:44%"></i><i style="height:23%"></i><i style="height:90%"></i><i style="height:51%"></i><i style="height:30%"></i><i style="height:46%"></i></span><span class="meta">— &middot; —</span><span class="star">&#9734;</span></div></div>
+<div class="note">MOCKUP &mdash; sample names and counts are made up. Nothing here plays or scans the drive.</div>
+<div class="tray"><i></i><i></i><b></b></div></section></div>
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab,.page').forEach(e=>e.classList.remove('on'));t.classList.add('on');document.getElementById(t.dataset.p).classList.add('on')});
+document.querySelectorAll('.srow').forEach(r=>r.onclick=()=>{document.querySelectorAll('.srow').forEach(e=>e.classList.remove('sel'));r.classList.add('sel');document.querySelector('.bt h2').textContent=r.querySelector('.nm').textContent});
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
+document.getElementById('big').innerHTML=Array.from({length:90},()=>'<i style="height:'+(15+Math.random()*85)+'%"></i>').join('');
+</script></body></html>

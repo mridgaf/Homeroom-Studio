@@ -1,0 +1,16 @@
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+  <filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/>
+    <feComposite in="rough" in2="grain" operator="in"/>
+  </filter>
+</defs></svg>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample Browser - Homeroom Studios (mockup)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{--page:#303236;--chalk:#f2f1ea;--dim:#f2f1eaa6;--faint:#f2f1ea40;--lime:#9be22d;--sun:#f6e04b;--wood:#7b3f1d;--band:#e8d810;
+--ink:#141414;--paper:#f8edb2;--rule:#8fa6c870;--margin:#d9776f;--blue:#1d3a8a;
+--hand:"Patrick Hand","Chalkboard SE","Comic Sans MS",sans-serif;--serif:"DM Serif Display",Georgia,serif;
+--mono:"Space Mono",ui-monospace,Menlo,monospace;--type:"Special Elite","American Typewriter","Courier New",monospace}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--page);color:#fff;font-family:var(--hand);padding:0 22px 60px}
+button{font:inherit;cursor:pointer}
+header.top{max-width:1560px;margin:0 auto;display:flex;align-items:center;gap:8px 26px;flex-wrap:wrap;padding:20px 8px 18px}
+.wordmark{font:clamp(30px,3.4vw,46px) var(--serif);margin:0;line-height:1}
+.scrawl{display:block;width:100%;height:10px;margin-top:5px}.scrawl path{fill:none;stroke:var(--band);stroke-width:5;stroke-linecap:round}
+.motto{font:15px var(--mono);margin:0}
+.apptabs{margin-left:auto;display:flex;gap:10px}
+.apptabs a,.apptabs .here{font-size:22px;padding:5px 24px;border-radius:8px;color:#fff;text-decoration:none}
+.apptabs .here{background:#1f55e6}
+.cols{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:minmax(400px,1fr) minmax(0,1.25fr);gap:4px;align-items:stretch}
+
+/* notebook */
+.notebook{position:relative;padding:20px 30px 40px 76px;border-radius:6px 4px 4px 6px;color:var(--ink);font-family:var(--type);min-height:820px;
+background:linear-gradient(90deg,transparent 60px,var(--margin) 60px 62px,transparent 62px),repeating-linear-gradient(180deg,transparent 0 27px,var(--rule) 27px 28px),var(--paper);
+box-shadow:0 10px 30px #0006}
+.rings{position:absolute;left:-16px;top:12px;bottom:12px;width:48px;pointer-events:none;
+background:radial-gradient(circle at 36px 50%,#2c2e32 0 5px,transparent 5.6px) 0 0/48px 34px repeat-y,
+linear-gradient(180deg,transparent 12px,#9a9a9a 12px,#e8e8e8 15px,#8a8a8a 18px,transparent 19px) 0 0/40px 34px repeat-y}
+.nbtitle{font:400 clamp(30px,3vw,44px) var(--type);margin:0 0 2px;-webkit-text-stroke:1px #111}
+.nbsub{font-size:13px;color:#141414b0;margin:4px 0 10px;line-height:28px;margin:0}
+.search{display:block;width:100%;font:16px var(--type);background:#fffdf0;border:2px solid var(--ink);border-radius:4px;padding:6px 10px;margin:8px 0 6px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px;min-height:28px;align-items:center}
+.chip{font:13px var(--type);border:2px solid var(--ink);background:none;border-radius:14px;padding:1px 10px;color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--paper)}
+.tree{list-style:none;margin:0;padding:0}
+.tree li{line-height:28px;height:28px;font-size:15px;display:flex;justify-content:space-between;white-space:nowrap;cursor:pointer;padding-right:4px}
+.tree li small{color:var(--blue);font-size:13px}
+.tree li.grp{font-weight:700;margin-top:0}.tree li.sub{padding-left:22px}
+.tree li.on{background:#f6e04b;box-shadow:0 0 0 2px #f6e04b;border-radius:2px}
+.tree li.on::before{content:"\2192";position:absolute;margin-left:-20px}
+.scrawl-note{position:absolute;left:76px;right:24px;bottom:18px;font:20px var(--hand);color:#1d3a8a99;transform:rotate(-1.2deg)}
+.tabs{position:absolute;right:0;top:120px;transform:translateX(100%);z-index:5;display:flex;flex-direction:column;gap:8px}
+.tab{border:0;color:#141414;font:18px var(--type);padding:12px 8px 12px 10px;width:112px;text-align:left;border-radius:0 10px 10px 0;box-shadow:3px 3px 0 #0005}
+.tab small{display:block;font:11px var(--mono);opacity:.75}
+.tab.on{width:126px}
+.tab:nth-child(1){background:#fff6c8}.tab:nth-child(2){background:#ff9a62}.tab:nth-child(3){background:#62c8ff}
+
+/* board */
+main.board{position:relative;color:var(--chalk);padding:20px 26px 56px 40px;
+background:radial-gradient(120% 80% at 30% 15%,#ffffff0b,transparent 60%),radial-gradient(60% 50% at 80% 95%,#ffffff07,transparent 70%),#141414;
+border:18px solid var(--wood);border-image:linear-gradient(135deg,#8d4c26,#5e2e12 35%,#93522a 65%,#5a2c11) 1;box-shadow:0 10px 30px #0008,inset 0 0 50px #000c;
+margin-left:128px}
+.tray{position:absolute;left:-18px;right:-18px;bottom:-18px;height:20px;background:linear-gradient(#a3622f,#5e2e12);box-shadow:0 5px 9px #0007}
+.tray i,.tray b{position:absolute;bottom:14px;border-radius:3px}
+.tray i{width:58px;height:9px;background:linear-gradient(#fff,#cfcfcf);left:28%}.tray i+i{left:calc(28% + 76px);width:44px}
+.tray b{width:120px;height:16px;right:30%;background:linear-gradient(#3a3a3a 0 55%,#b98b54 55%)}
+.btitle{font:clamp(34px,3.6vw,54px) var(--hand);margin:0;line-height:1.05}
+.btitle span{text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:4px;text-underline-offset:8px}
+.bsub{font-size:20px;color:var(--dim);margin:8px 0 14px}
+.player{border:3px solid var(--chalk);border-radius:14px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center}
+.play{width:62px;height:62px;border-radius:50%;border:3px solid var(--lime);background:none;color:var(--lime);font-size:28px;grid-row:span 2}
+.pname{font-size:26px}.pmeta{font:13px var(--mono);color:var(--dim)}
+.wave{grid-column:1/-1;height:70px;display:flex;align-items:center;gap:2px}
+.wave i{flex:1;background:var(--chalk);opacity:.85;border-radius:2px;min-height:3px}
+.wave i.p{background:var(--lime);opacity:1}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+.cbtn{font:20px var(--hand);color:var(--chalk);background:none;border:2.5px solid var(--chalk);border-radius:10px;padding:3px 16px}
+.cbtn.main{border-color:var(--lime);color:var(--lime)}
+.hd{font-size:28px;margin:16px 0 6px;display:flex;gap:12px;align-items:baseline}.hd small{font-size:16px;color:var(--dim)}
+.list{border:3px solid var(--faint);border-radius:14px;padding:4px 12px}
+.row{display:grid;grid-template-columns:34px 1fr 64px 50px 60px;gap:10px;align-items:center;font-size:19px;padding:5px 0;border-bottom:1.5px dashed var(--faint)}
+.row:last-child{border:0}
+.row.head{font:12px var(--mono);color:var(--dim);text-transform:uppercase}
+.row .pl{width:28px;height:28px;border-radius:50%;border:2px solid var(--chalk);background:none;color:var(--chalk);font-size:11px;padding:0}
+.row .m{font:13px var(--mono);color:var(--dim)}
+.row.sel{background:#f6e04b1c;border-radius:8px;margin:0 -8px;padding:5px 8px}
+.row.sel .pl{background:var(--lime);border-color:var(--lime);color:#141414}
+.star{color:var(--sun);font-size:20px;text-align:right}.star.off{color:var(--faint)}
+@media(max-width:900px){.cols{grid-template-columns:1fr}.tabs{display:none}main.board{margin-left:0}.notebook{padding-left:56px}}
+</style></head><body>
+<header class="top">
+ <div><p class="wordmark">Homeroom Studios</p><svg class="scrawl" viewBox="0 0 340 13" preserveAspectRatio="none"><path d="M3 8.5c46-4.2 92-5.6 138-4.4 41 1 82 3.6 122 1.2 14-.9 27-2.3 40-4.8"/></svg></div>
+ <p class="motto">Music starts here.</p>
+ <nav class="apptabs"><a href="#">Make</a><a href="#">Reason Voice</a><a href="#">Science</a><span class="here">Samples</span></nav>
+</header>
+
+<div class="cols">
+<section class="notebook">
+ <div class="rings"></div>
+ <div class="tabs"><button class="tab on">Folders<small>by pack</small></button><button class="tab">Sounds<small>by type</small></button><button class="tab">Favorites<small>starred</small></button></div>
+ <h1 class="nbtitle">Sample Library</h1>
+ <p class="nbsub">Pick a folder. The board shows what's inside.</p>
+ <input class="search" placeholder="search a name, e.g. kick or dusty" aria-label="Search samples">
+ <div class="chips"><button class="chip on">all</button><button class="chip">drums</button><button class="chip">loops</button><button class="chip">one-shots</button><button class="chip">808s</button></div>
+ <ul class="tree">
+  <li class="grp"><span>Drums</span><small>1,240</small></li>
+  <li class="sub on" style="position:relative"><span>Kicks</span><small>212</small></li>
+  <li class="sub"><span>Snares</span><small>188</small></li>
+  <li class="sub"><span>Hats &amp; cymbals</span><small>305</small></li>
+  <li class="sub"><span>808s &amp; booms</span><small>96</small></li>
+  <li class="sub"><span>Percussion</span><small>439</small></li>
+  <li class="grp"><span>Loops</span><small>3,870</small></li>
+  <li class="sub"><span>Chords</span><small>1,502</small></li>
+  <li class="sub"><span>Melody</span><small>1,011</small></li>
+  <li class="sub"><span>Bass</span><small>240</small></li>
+  <li class="sub"><span>Drum loops</span><small>1,117</small></li>
+  <li class="grp"><span>MIDI packs</span><small>298</small></li>
+  <li class="grp"><span>Vocals &amp; FX</span><small>412</small></li>
+  <li class="grp"><span>My recordings</span><small>37</small></li>
+ </ul>
+ <div class="scrawl-note">numbers here are made up - the real ones come from the sorted folders</div>
+</section>
+
+<main class="board">
+ <h2 class="btitle">Drums &rarr; <span>Kicks</span></h2>
+ <p class="bsub">212 sounds &middot; sorted by name</p>
+ <div class="player">
+  <button class="play" aria-label="Play">&#9654;</button>
+  <div><div class="pname">Dusty Boom Kick 03</div><div class="pmeta">0.42 s &nbsp;|&nbsp; 24-bit &nbsp;|&nbsp; root F &nbsp;|&nbsp; pack: Back Alley Drums</div></div>
+  <div class="pmeta">click a row to hear it &nbsp;&middot;&nbsp; arrow keys move &nbsp;&middot;&nbsp; space plays</div>
+  <div class="wave" id="wave"></div>
+ </div>
+ <div class="actions"><button class="cbtn main">&#9733; Favorite</button><button class="cbtn">Show in Finder</button><button class="cbtn">Use in a beat</button></div>
+ <div class="hd">In this folder <small>showing 8 of 212</small></div>
+ <div class="list">
+  <div class="row head"><span></span><span>name</span><span>length</span><span>root</span><span></span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Back Alley Kick 01</span><span class="m">0.38 s</span><span class="m">E</span><span class="star">&#9733;</span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Back Alley Kick 02</span><span class="m">0.51 s</span><span class="m">F</span><span class="star off">&#9734;</span></div>
+  <div class="row sel"><button class="pl">&#9654;</button><span>Dusty Boom Kick 03</span><span class="m">0.42 s</span><span class="m">F</span><span class="star">&#9733;</span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Dusty Boom Kick 04</span><span class="m">0.47 s</span><span class="m">F#</span><span class="star off">&#9734;</span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Tape Thump Kick</span><span class="m">0.33 s</span><span class="m">D</span><span class="star off">&#9734;</span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Tight Punch Kick</span><span class="m">0.21 s</span><span class="m">-</span><span class="star off">&#9734;</span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Velvet Sub Kick</span><span class="m">0.72 s</span><span class="m">C</span><span class="star">&#9733;</span></div>
+  <div class="row"><button class="pl">&#9654;</button><span>Warehouse Kick 09</span><span class="m">0.40 s</span><span class="m">G</span><span class="star off">&#9734;</span></div>
+ </div>
+ <div class="tray"><i></i><i></i><b></b></div>
+</main>
+</div>
+<script>
+var w=document.getElementById('wave'),h=[.9,.8,.55,.4,.3,.26,.2,.18,.14,.12,.1,.08];
+for(var i=0;i<64;i++){var e=document.createElement('i');var env=Math.exp(-i/9);e.style.height=Math.max(5,(env*0.95+Math.random()*.08)*100)+'%';if(i<22)e.className='p';w.appendChild(e)}
+</script>
+</body></html>
