@@ -246,3 +246,45 @@ def test_loop_lfo_rate_snaps_to_whole_cycles():
     assert ae._loop_lfo_rate(0.8, SR * 2, SR) == 1.0    # 1.6 cycles -> 2
     assert ae._loop_lfo_rate(0.01, SR * 2, SR) == 0.5            # floor: 1 cycle
     assert ae._loop_lfo_rate(4.0, SR * 2, SR) == 4.0             # already whole
+
+
+# --- owned plugins (2026-10-16) --------------------------------------------
+# Skip rather than fail on a machine that doesn't have these VST3s installed
+# (only this owner's Mac does) — same reason the whole file already skips
+# without pedalboard itself.
+_HAS_OBLITERATE = Path(ae.OBLITERATE_PATH).exists()
+_HAS_DS10 = Path(ae.DS10_PATH).exists()
+
+
+@pytest.mark.skipif(not _HAS_OBLITERATE, reason="Obliterate.vst3 not installed")
+def test_crunch_drive_mix_zero_is_a_no_op():
+    tone = _tone(220, amp=0.3)
+    L, R = ae.crunch_drive(tone.copy(), tone.copy(), amount=80.0, mix=0.0)
+    assert np.array_equal(L, tone) and np.array_equal(R, tone)
+
+
+@pytest.mark.skipif(not _HAS_OBLITERATE, reason="Obliterate.vst3 not installed")
+def test_crunch_drive_changes_the_signal_and_stays_finite():
+    tone = _tone(220, amp=0.3)
+    L, R = ae.crunch_drive(tone.copy(), tone.copy(), amount=80.0, mix=100.0)
+    assert np.isfinite(L).all() and np.isfinite(R).all()
+    assert not np.allclose(L, tone, atol=1e-5)
+
+
+@pytest.mark.skipif(not _HAS_DS10, reason="DS-10 Drum Shaper.vst3 not installed")
+def test_drum_punch_mix_zero_is_a_no_op():
+    tone = _tone(100, amp=0.3)
+    L, R = ae.drum_punch(tone.copy(), tone.copy(), amount=80.0, mix=0.0)
+    assert np.array_equal(L, tone) and np.array_equal(R, tone)
+
+
+@pytest.mark.skipif(not _HAS_DS10, reason="DS-10 Drum Shaper.vst3 not installed")
+def test_drum_punch_changes_the_signal_and_stays_finite():
+    # a short transient (click + decay), not a steady tone — this plugin
+    # shapes attack/sustain, which a sine has neither of
+    n = SR // 2
+    envelope = np.exp(-np.arange(n) / (SR * 0.05))
+    click = (np.sin(2 * np.pi * 150 * np.arange(n) / SR) * envelope * 0.6)
+    L, R = ae.drum_punch(click.copy(), click.copy(), amount=90.0, mix=100.0)
+    assert np.isfinite(L).all() and np.isfinite(R).all()
+    assert not np.allclose(L, click, atol=1e-5)

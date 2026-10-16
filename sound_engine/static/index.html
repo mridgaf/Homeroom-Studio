@@ -245,6 +245,37 @@
             </div>
 
             <div class="panel">
+              <h2>Crunch — Drive's second flavor (Obliterate)</h2>
+              <div class="knobs">
+                <div class="knob">
+                  <label for="crunchAmount">Amount <span id="crunchAmountVal">30</span></label>
+                  <input type="range" id="crunchAmount" min="0" max="100" step="1" value="30">
+                </div>
+                <div class="knob">
+                  <label for="crunchMix">Mix <span id="crunchMixVal">0</span>%</label>
+                  <input type="range" id="crunchMix" min="0" max="100" step="1" value="0">
+                  <span class="freq">0 = off. No live preview — plays dry, then updates.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Punch — attack/sustain (DS-10 Drum Shaper)</h2>
+              <div class="knobs">
+                <div class="knob">
+                  <label for="punchAmount">Amount <span id="punchAmountVal">30</span></label>
+                  <input type="range" id="punchAmount" min="-100" max="100" step="1" value="30">
+                  <span class="freq">negative = softer, positive = punchier</span>
+                </div>
+                <div class="knob">
+                  <label for="punchMix">Mix <span id="punchMixVal">0</span>%</label>
+                  <input type="range" id="punchMix" min="0" max="100" step="1" value="0">
+                  <span class="freq">0 = off. No live preview — plays dry, then updates.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
               <h2>Reverb</h2>
               <div class="knobs">
                 <div class="knob">

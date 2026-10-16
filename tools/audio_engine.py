@@ -14,6 +14,8 @@ per-render; existing beats and existing DJ character are untouched.
 """
 from __future__ import annotations
 
+import functools
+
 import numpy as np
 import pedalboard as pb
 
@@ -195,6 +197,76 @@ def saturate(L, R, drive_db=6.0, mix=0.35, sr=None):
     board = pb.Pedalboard([pb.Distortion(drive_db=drive_db)])
     wL, wR = _from_pb(board(_to_pb(L, R), sr or SR))
     return L * (1 - mix) + wL * mix, R * (1 - mix) + wR * mix
+
+
+# --- owned plugins (2026-10-16) --------------------------------------------
+# Two VST3s already installed on this machine for Reason (confirmed present
+# and loadable via pedalboard, white-noise tested) — a second "flavor" for
+# Drive and a new transient-shape knob, without adding any new install.
+# Loading a VST3 is real dylib work, unlike pedalboard's bundled algorithms
+# (eq3/saturate/etc build a fresh Pedalboard object per call because that
+# part is cheap) — cached per-process so a knob dragged on every "input"
+# tick doesn't reload the plugin from disk each time.
+OBLITERATE_PATH = "/Library/Audio/Plug-Ins/VST3/Newfangled Audio/Obliterate.vst3"
+DS10_PATH = "/Library/Audio/Plug-Ins/VST3/DS-10 Drum Shaper.vst3"
+
+
+@functools.lru_cache(maxsize=4)
+def _owned_plugin(path):
+    """Raises FileNotFoundError-flavored pedalboard ImportError on a
+    machine that doesn't have this plugin installed — callers decide
+    whether that should be a 400 to the UI or a hard failure; this
+    function doesn't swallow it, so the real cause stays visible."""
+    return pb.load_plugin(path)
+
+
+def crunch_drive(L, R, amount=30.0, mix=35.0, sr=None):
+    """Drive's second flavor: the owner's own Obliterate (Newfangled
+    Audio) in place of saturate()'s tanh waveshaper — a real multiband
+    distortion plugin instead of one hard clip. amount 0-100 is
+    Obliterate's own 'obliterate' depth knob; mix 0-100 is OUR wet/dry
+    blend (same shape as saturate()'s mix, so Mix=0 is an exact no-op) —
+    Obliterate's own mix is forced to 100 so it never double-blends with
+    this one. sr — see eq3()'s docstring.
+
+    No live Web Audio equivalent: this only runs server-side, so the
+    knob plays dry while dragged and crossfades to this once the
+    real-sound render lands (see app.js's realGain/liveGain, 2026-10-16)."""
+    if mix <= 0.0:
+        return L, R
+    plugin = _owned_plugin(OBLITERATE_PATH)
+    plugin.mix = 100.0
+    plugin.obliterate = float(np.clip(amount, 0.0, 100.0))
+    board = pb.Pedalboard([plugin])
+    wL, wR = _from_pb(board(_to_pb(L, R), sr or SR, reset=True))
+    m = float(np.clip(mix, 0.0, 100.0)) / 100.0
+    return L * (1 - m) + wL * m, R * (1 - m) + wR * m
+
+
+def drum_punch(L, R, amount=30.0, mix=60.0, sr=None):
+    """New 'Punch' knob: attack/sustain transient shaping via the owner's
+    DS-10 Drum Shaper (XLN) — nothing in this module does this today.
+    amount -100..100 drives DS-10's attack AND sustain together, one
+    knob the way every other fine-tune dial in this rack is one knob;
+    kick_tightness/snare_body/bus_presence are left at 0 (neutral) —
+    exposing those as their own knobs is a later step, not a guess made
+    here. mix 0-100 is OUR wet/dry blend, same shape as every other
+    effect in the chain. sr — see eq3()'s docstring.
+
+    No live Web Audio equivalent — see crunch_drive()'s docstring."""
+    if mix <= 0.0:
+        return L, R
+    plugin = _owned_plugin(DS10_PATH)
+    a = float(np.clip(amount, -100.0, 100.0))
+    plugin.attack = a
+    plugin.sustain = a
+    plugin.kick_tightness = 0.0
+    plugin.snare_body = 0.0
+    plugin.bus_presence = 0.0
+    board = pb.Pedalboard([plugin])
+    wL, wR = _from_pb(board(_to_pb(L, R), sr or SR, reset=True))
+    m = float(np.clip(mix, 0.0, 100.0)) / 100.0
+    return L * (1 - m) + wL * m, R * (1 - m) + wR * m
 
 
 def _loop_lfo_rate(rate_hz, n, sr):

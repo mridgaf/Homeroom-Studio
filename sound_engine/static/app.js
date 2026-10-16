@@ -292,6 +292,8 @@ const FX_CONTROLS = {
   comp_attack_ms: ["compAttack", 1], comp_release_ms: ["compRelease", 1],
   comp_makeup_db: ["compMakeup", 1],
   sat_drive_db: ["satDrive", 1], sat_mix: ["satMix", 100],
+  punch_amount: ["punchAmount", 1], punch_mix: ["punchMix", 1],
+  crunch_amount: ["crunchAmount", 1], crunch_mix: ["crunchMix", 1],
   width: ["widthKnob", 1],
   // Reverb was missing here while the sliders, the server chain and
   // syncChannelToServer all knew about it — so a preset's reverb rendered
@@ -643,6 +645,12 @@ function buildChannelGraph(laneId, label, audioBuffer, targetMasterGain) {
     // shared controls, so touching Repeats on one channel silently rewrote
     // its slice length to whatever the last channel's grid had been
     br: { grid: "0.5", ms: 125, cellS: 0.5, repeats: 4, chance: 1, mix: 0 },
+    // Punch/Crunch (owned plugins, 2026-10-16): no AudioParam/AudioNode
+    // backs these — they only run server-side (audio_engine.drum_punch /
+    // crunch_drive) — so their state lives here the same way br/dly's
+    // non-rampable fields do, and _sendChannelSync reads it from here too.
+    punch: { amount: 30, mix: 0 },
+    crunch: { amount: 30, mix: 0 },
     // per channel for the same reason br is: shared controls would let one
     // channel's grid silently rewrite another's time
     dly: { grid: "0.5", ms: 250, timeS: 0.5 * (60 / (projectBpm || 120)),
@@ -789,6 +797,14 @@ function loadRackFromChannel(ch) {
   document.getElementById("satDriveVal").textContent = (ch.lastSatDriveApplied ?? 6).toFixed(1);
   document.getElementById("satMix").value = ch.satWet.gain.value * 100;
   document.getElementById("satMixVal").textContent = Math.round(ch.satWet.gain.value * 100);
+  document.getElementById("crunchAmount").value = ch.crunch.amount;
+  document.getElementById("crunchAmountVal").textContent = Math.round(ch.crunch.amount);
+  document.getElementById("crunchMix").value = ch.crunch.mix;
+  document.getElementById("crunchMixVal").textContent = Math.round(ch.crunch.mix);
+  document.getElementById("punchAmount").value = ch.punch.amount;
+  document.getElementById("punchAmountVal").textContent = Math.round(ch.punch.amount);
+  document.getElementById("punchMix").value = ch.punch.mix;
+  document.getElementById("punchMixVal").textContent = Math.round(ch.punch.mix);
   document.getElementById("revSize").value = ch.lastRevSizeApplied ?? 2.0;
   document.getElementById("revSizeVal").textContent = (ch.lastRevSizeApplied ?? 2.0).toFixed(1);
   document.getElementById("revDamping").value = (ch.revDamp.frequency.value - 200) / 17800;
@@ -832,6 +848,27 @@ function updateConvPanel(ch) {
 }
 
 function currentChannel() { return channels[selectedLane]; }
+
+// Punch/Crunch (2026-10-16): same input-tick live-label pattern as
+// bindRamped, but there's no AudioNode to ramp — the value just sits in
+// the channel's own state object (store/key, e.g. "punch"/"amount") until
+// the next sync picks it up and the real-sound render carries it.
+function bindServerOnly(id, store, key) {
+  const el = document.getElementById(id);
+  const out = document.getElementById(id + "Val");
+  el.addEventListener("input", () => {
+    const raw = parseFloat(el.value);
+    out.textContent = Math.round(raw);
+    const ch = currentChannel();
+    if (!ch) return;
+    ch[store][key] = raw;
+    syncChannelToServer(selectedLane);
+  });
+}
+bindServerOnly("crunchAmount", "crunch", "amount");
+bindServerOnly("crunchMix", "crunch", "mix");
+bindServerOnly("punchAmount", "punch", "amount");
+bindServerOnly("punchMix", "punch", "mix");
 
 function bindRamped(id, getNode, param, transform) {
   const el = document.getElementById(id);
@@ -1313,6 +1350,8 @@ function _sendChannelSync(laneId) {
     comp_attack_ms: ch.compressor.attack.value * 1000, comp_release_ms: ch.compressor.release.value * 1000,
     comp_makeup_db: 20 * Math.log10(ch.makeupGain.gain.value),
     sat_drive_db: ch.lastSatDriveApplied ?? 6, sat_mix: ch.satWet.gain.value,
+    punch_amount: ch.punch.amount, punch_mix: ch.punch.mix,
+    crunch_amount: ch.crunch.amount, crunch_mix: ch.crunch.mix,
     width: ch.sideWidth.gain.value,
     reverb_size_s: ch.lastRevSizeApplied ?? 2.0, reverb_mix: ch.revWet.gain.value,
     reverb_dry: ch.revDry.gain.value,

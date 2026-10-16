@@ -353,6 +353,12 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
     comp_makeup_db = _finite_float(p.get("comp_makeup_db", 0.0))
     sat_drive_db = _finite_float(p.get("sat_drive_db", 6.0))
     sat_mix = _finite_float(p.get("sat_mix", 0.0))
+    # owned plugins (2026-10-16): Punch (DS-10 Drum Shaper) and Crunch
+    # (Obliterate) — see audio_engine.drum_punch/crunch_drive docstrings.
+    punch_amount = _finite_float(p.get("punch_amount", 30.0), lo=-100.0, hi=100.0)
+    punch_mix = _finite_float(p.get("punch_mix", 0.0), lo=0.0, hi=100.0)
+    crunch_amount = _finite_float(p.get("crunch_amount", 30.0), lo=0.0, hi=100.0)
+    crunch_mix = _finite_float(p.get("crunch_mix", 0.0), lo=0.0, hi=100.0)
     width = _finite_float(p.get("width", 1.0))
     reverb_size_s = _finite_float(p.get("reverb_size_s", 2.0))
     reverb_mix = _finite_float(p.get("reverb_mix", 0.0))
@@ -388,12 +394,22 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
     L, R = ae.eq3(L, R, sr=sr, low_db=low_db, low_hz=low_hz,
                    mid_db=mid_db, mid_hz=mid_hz, mid_q=mid_q,
                    high_db=high_db, high_hz=high_hz)
+    # Punch (transient shape) runs before the compressor so the compressor
+    # reacts to the shaped transient, the usual pedal order for this kind
+    # of tool. No live Web Audio equivalent — see drum_punch()'s docstring.
+    if punch_mix > 0.0:
+        L, R = ae.drum_punch(L, R, sr=sr, amount=punch_amount, mix=punch_mix)
     if comp_ratio > 1.0:
         L, R = ae.glue_compressor(L, R, sr=sr, threshold_db=comp_threshold_db,
                                     ratio=comp_ratio, attack_ms=comp_attack_ms,
                                     release_ms=comp_release_ms, makeup_db=comp_makeup_db)
     if sat_mix > 0.0:
         L, R = ae.saturate(L, R, sr=sr, drive_db=sat_drive_db, mix=sat_mix)
+    # Crunch sits next to its cousin Drive/saturate — a second flavor, not
+    # a replacement. No live Web Audio equivalent — see crunch_drive()'s
+    # docstring.
+    if crunch_mix > 0.0:
+        L, R = ae.crunch_drive(L, R, sr=sr, amount=crunch_amount, mix=crunch_mix)
     if width != 1.0:
         L, R = ae.stereo_width(L, R, width=width)
     # modulation sits after the drive/width block and before the time

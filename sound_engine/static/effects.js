@@ -233,7 +233,15 @@ function tick() {
   document.getElementById("playBtn").classList.toggle("playing", playing);
   document.getElementById("playBtn").setAttribute("aria-label", playing ? "Pause" : "Play");
   document.getElementById("playDot").classList.toggle("live", playing);
-  document.getElementById("playWord").textContent = playing ? "Playing" : (pausedAt > 0 ? "Paused" : "Stopped");
+  // Real sound (2026-10-16): while playing, say whether every stem has
+  // caught up to its server-rendered export audio yet — a stem's realKey
+  // is null until fetchRealSound (app.js) lands it. Flasks have no
+  // real-sound path yet (known gap) so they're left out of this check.
+  let word = playing ? "Playing" : (pausedAt > 0 ? "Paused" : "Stopped");
+  if (playing && channelOrder.some(l => channels[l] && channels[l].realKey === null)) {
+    word += " — updating…";
+  }
+  document.getElementById("playWord").textContent = word;
   drawWave();
   requestAnimationFrame(tick);
 }
