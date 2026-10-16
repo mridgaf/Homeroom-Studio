@@ -735,6 +735,8 @@ function toggleMute(laneId) {
 
 function toggleSolo(laneId) {
   channels[laneId].solo = !channels[laneId].solo;
+  // a solo changes which stems every flask hears
+  for (const id of BUS_IDS) { busDirty(id); setTimeout(() => busRender(id), 400); }
   renderChannelList();
   recomputeAudibility();
   syncChannelToServer(laneId);
@@ -746,10 +748,16 @@ function setLaneBus(laneId, b) {
   const ch = channels[laneId];
   if (!ch || !channelOrder.includes(laneId)) return;
   const bus = b ? channels["bus:" + b] : null;
+  if (ch.bus) busDirty("bus:" + ch.bus);
+  if (b) busDirty("bus:" + b);
   ch.fader.disconnect();
   ch.fader.connect(bus ? bus.busIn : masterGain);
+  const was = ch.bus;
   ch.bus = bus ? b : "";
   syncChannelToServer(laneId);
+  // the sync only re-renders the flask the stem now feeds; the one it left
+  // needs its own render once the server knows the stem moved
+  if (was && was !== b) setTimeout(() => busRender("bus:" + was), 400);
 }
 
 function setBusLevel(busId, db) {
@@ -1371,11 +1379,21 @@ function _sendChannelSync(laneId) {
     gain_db: ch.faderDb, pan: ch.pan, muted: ch.muted, solo: ch.solo,
   };
   if (laneId.startsWith("bus:")) {
+    // a flask's real sound (Crunch/Punch have no live version) is re-rendered
+    // when its effects change; level/pan alone are the page's own fader
+    const { gain_db, pan, muted, solo, ...busFx } = params;
+    const busKey = JSON.stringify([busFx, ch.irName]);
+    const busChanged = busKey !== ch.lastFxKey;
+    ch.lastFxKey = busKey;
+    if (busChanged) busDirty(laneId);
     fetch(`/api/project/${projectId}/bus/${laneId.slice(4)}/process`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
-    }).then(r => { if (!r.ok) syncFailedLanes.add(laneId); else syncFailedLanes.delete(laneId); })
-      .catch(() => syncFailedLanes.add(laneId));
+    }).then(r => {
+      if (!r.ok) { syncFailedLanes.add(laneId); return; }
+      syncFailedLanes.delete(laneId);
+      if (busChanged) busRender(laneId);
+    }).catch(() => syncFailedLanes.add(laneId));
     return;
   }
   // the effect settings alone — a fader/pan/mute move doesn't change the
@@ -1385,6 +1403,13 @@ function _sendChannelSync(laneId) {
   const fxChanged = key !== ch.realKey;
   if (fxChanged) goLive(ch);
   params.bus = ch.bus || "";
+  // anything that changes what this stem sends its flask makes the flask's
+  // real sound stale (fx, level, pan, mute, solo)
+  const sendKey = JSON.stringify([params, ch.irName]);
+  const sendChanged = sendKey !== ch.lastSendKey;
+  ch.lastSendKey = sendKey;
+  const myBus = ch.bus ? "bus:" + ch.bus : "";
+  if (sendChanged && myBus) busDirty(myBus);
   // A rejected sync means the server is still holding this channel's
   // PREVIOUS settings — an export would then quietly not match what's
   // playing. Remember it and say so at export time rather than reporting
@@ -1400,7 +1425,25 @@ function _sendChannelSync(laneId) {
     if (!r.ok) { syncFailedLanes.add(laneId); return; }
     syncFailedLanes.delete(laneId);
     if (fxChanged) fetchRealSound(laneId, key);
+    if (sendChanged && myBus) busRender(myBus);
   }).catch(() => syncFailedLanes.add(laneId));
+}
+
+// --- flask real sound ------------------------------------------------------
+// busDirty: back to the live preview at once. busRender: ask the server for
+// the real sound once the settings have landed (debounced, so a drag is one
+// render). A flask with no stems sent to it makes no sound, so nothing to do.
+const _busRenderTimers = {};
+function busDirty(busId) {
+  const bus = channels[busId];
+  if (bus) goLive(bus);
+}
+function busRender(busId) {
+  clearTimeout(_busRenderTimers[busId]);
+  _busRenderTimers[busId] = setTimeout(() => {
+    if (channelOrder.some(l => channels[l].bus === busId.slice(4)))
+      fetchRealSound(busId, "bus");
+  }, 150);
 }
 
 // --- real sound: play the server's rendered stem --------------------------
@@ -1437,29 +1480,35 @@ function stopRealSource(ch) {
 
 async function fetchRealSound(laneId, key) {
   const ch = channels[laneId];
-  if (!ch || !ch.audioBuffer) return;
+  if (!ch) return;
+  const isBus = laneId.startsWith("bus:");
+  if (!isBus && !ch.audioBuffer) return;
   const mySeq = ++ch.realSeq;
   const myProject = projectId;
   updateRealStatus(true);
   let buf;
   try {
-    const r = await fetch(`/api/project/${myProject}/channel/${encodeURIComponent(laneId)}/wet?t=${Date.now()}`);
+    const url = isBus ? `bus/${laneId.slice(4)}/wet`
+                      : `channel/${encodeURIComponent(laneId)}/wet`;
+    const r = await fetch(`/api/project/${myProject}/${url}?t=${Date.now()}`);
     if (!r.ok) throw new Error(r.status);
     buf = await audioCtx.decodeAudioData(await r.arrayBuffer());
   } catch (e) { updateRealStatus(); return; }  // the preview keeps playing
   if (ch.realSeq !== mySeq || projectId !== myProject || channels[laneId] !== ch) return;
   ch.realBuffer = buf;
   ch.realKey = key;
-  if (isPlaying && ch.sourceNode) {
-    const dur = ch.audioBuffer.duration;
+  if (isPlaying && (isBus || ch.sourceNode)) {
+    const dur = (isBus ? buf : ch.audioBuffer).duration;
     const startAt = audioCtx.currentTime + 0.05;
     const elapsed = startAt - playStartedAt;
     if (loopToggle.checked || (elapsed >= 0 && elapsed < dur)) {
       startRealSource(ch, startAt, loopToggle.checked ? ((elapsed % dur) + dur) % dur : elapsed);
     }
-    ch.liveGain.gain.setTargetAtTime(0, startAt, RAMP_SECONDS);
-    ch.realGain.gain.setTargetAtTime(1, startAt, RAMP_SECONDS);
-  } else {
+    if (!isBus || dryWet === 1) {
+      ch.liveGain.gain.setTargetAtTime(0, startAt, RAMP_SECONDS);
+      ch.realGain.gain.setTargetAtTime(1, startAt, RAMP_SECONDS);
+    }
+  } else if (!isBus || dryWet === 1) {
     ch.liveGain.gain.value = 0;
     ch.realGain.gain.value = 1;
   }
@@ -1667,6 +1716,9 @@ function play(offset = 0) {
     if (ch.br.mix > 0) startRepeatSource(ch, startAt, offset);
     if (ch.realBuffer) startRealSource(ch, startAt, offset);
   }
+  for (const id of BUS_IDS) {
+    if (channels[id].realBuffer) startRealSource(channels[id], startAt, offset);
+  }
   // shifted back by the offset so rebuildRepeat's elapsed-time maths
   // still lands on the playhead after a resume from Pause
   playStartedAt = startAt - offset;
@@ -1693,6 +1745,13 @@ function applyDryWet() {
     ch.wetGain.gain.setTargetAtTime(dryWet, t, RAMP_SECONDS);
     ch.bypassGain.gain.setTargetAtTime(1 - dryWet, t, RAMP_SECONDS);
   }
+  // a flask's real sound is the full-wet render, so below 100 % it is the
+  // live preview that crossfades with the dry sum
+  for (const id of BUS_IDS) {
+    const bus = channels[id], real = !!bus.realBuffer && dryWet === 1;
+    bus.liveGain.gain.setTargetAtTime(real ? 0 : 1, t, RAMP_SECONDS);
+    bus.realGain.gain.setTargetAtTime(real ? 1 : 0, t, RAMP_SECONDS);
+  }
 }
 loopToggle.addEventListener("change", () => {
   // an AudioBufferSourceNode reads .loop when it starts, so the already-
@@ -1704,6 +1763,9 @@ loopToggle.addEventListener("change", () => {
     if (ch.sourceNode) ch.sourceNode.loop = loopToggle.checked;
     if (ch.realSource) ch.realSource.loop = loopToggle.checked;
     if (ch.br.mix > 0) rebuildRepeat(ch);
+  }
+  for (const id of BUS_IDS) {
+    if (channels[id].realSource) channels[id].realSource.loop = loopToggle.checked;
   }
   sendBusPlayhead();
 });
@@ -1719,6 +1781,7 @@ function stopPlayback() {
     stopRepeatSource(ch);
     stopRealSource(ch);
   }
+  for (const id of BUS_IDS) if (channels[id]) stopRealSource(channels[id]);
   isPlaying = false;
   sendBusPlayhead();
   playStatus.textContent = "";

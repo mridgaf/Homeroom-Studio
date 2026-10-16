@@ -546,6 +546,18 @@ async def bus_process(project_id: str, bus_id: str, params: dict):
     return JSONResponse({"ok": True})
 
 
+def _lane_signal(c, n, w):
+    """One stem as heard: wet/dry blend, then its level and pan."""
+    g = 10 ** (c["gain_db"] / 20.0)
+    panL, panR = _pan_gains(c["pan"])
+    sL, sR = np.zeros(n), np.zeros(n)
+    for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
+        if k:
+            sL[:len(L)] += L * g * panL * k
+            sR[:len(R)] += R * g * panR * k
+    return sL, sR
+
+
 def _mix_lanes(project, w):
     """Every audible lane as heard, plus the full mix, buses included.
 
@@ -579,13 +591,7 @@ def _mix_lanes(project, w):
     lanes, sums = {}, {b: (np.zeros(n), np.zeros(n)) for b in BUS_IDS}
     mixL, mixR = np.zeros(n), np.zeros(n)
     for lane_id, c in audible.items():
-        g = 10 ** (c["gain_db"] / 20.0)
-        panL, panR = _pan_gains(c["pan"])
-        sL, sR = np.zeros(n), np.zeros(n)
-        for (L, R), k in ((c["wet"], w), (c["dry"], 1.0 - w)):
-            if k:
-                sL[:len(L)] += L * g * panL * k
-                sR[:len(R)] += R * g * panR * k
+        sL, sR = _lane_signal(c, n, w)
         b = c.get("bus", "")
         if b in BUS_IDS:
             sums[b][0][:] += sL
@@ -660,6 +666,36 @@ async def channel_clear_ir(project_id: str, lane_id: str):
     channel["ir_scale"] = 1.0
     channel["ir_seq"] += 1  # cancels any IR load still being read
     return JSONResponse({"ok": True})
+
+
+@app.get("/api/project/{project_id}/bus/{bus_id}/wet")
+async def bus_wet(project_id: str, bus_id: str):
+    """What a flask really sounds like: its stems as heard (level/pan/mute/
+    solo), summed, through the bus chain. Bus level is left to the page's
+    flask fader, like a stem's. Always the full-wet sound; the page only
+    plays this at Dry/Wet 100 %."""
+    project = PROJECTS.get(project_id)
+    if project is None or bus_id not in BUS_IDS:
+        return JSONResponse({"error": "unknown project_id or bus"}, status_code=404)
+    PROJECTS[project_id] = PROJECTS.pop(project_id)
+    channels = project["channels"]
+    any_solo = any(c["solo"] for c in channels.values())
+    ins = [c for c in channels.values() if c.get("bus") == bus_id
+           and (c["solo"] if any_solo else not c["muted"])]
+    sr = next(iter(channels.values()))["sr"]
+    n = max([len(c["wet"][0]) for c in channels.values()])
+    L, R = np.zeros(n), np.zeros(n)
+    for c in ins:
+        sL, sR = _lane_signal(c, n, 1.0)
+        L += sL
+        R += sR
+    bus, slot = _buses(project)[bus_id], _bus_ir_slot(project, bus_id)
+    L, R = _apply_channel_chain(L, R, sr, bus["params"],
+                                ir=slot["ir"], conv_scale=slot["ir_scale"])
+    out = RENDERS / f"{project_id}_bus{bus_id}_wet.wav"
+    dsp.save_wav(out, L, R, sr)
+    return FileResponse(out, media_type="audio/wav",
+                        headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/project/{project_id}/channel/{lane_id}/{variant}")

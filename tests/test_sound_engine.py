@@ -1559,3 +1559,27 @@ process.stdout.write(JSON.stringify(out));
     assert not np.allclose(wantL, L)
     assert np.allclose(live[0], wantL, atol=1e-6)
     assert np.allclose(live[1], wantR, atol=1e-6)
+
+
+# --- flask real sound (2026-10-16): the page plays what the export writes ----
+def test_flask_wet_is_the_bus_chain_on_its_stems_and_matches_the_export():
+    pid = _bus_pid()
+    L0 = _bus_wet(pid)[0]
+    assert np.allclose(L0, _mix(pid)[0], atol=1e-3)  # flat flask = the sum
+    client.post(f"/api/project/{pid}/bus/A/process", json={"sat_mix": 1.0, "sat_drive_db": 12.0})
+    L1 = _bus_wet(pid)[0]
+    assert not np.allclose(L1, L0)
+    assert np.allclose(L1, _mix(pid)[0], atol=1e-3)  # same sound as the export
+    # a muted stem leaves the flask silent; the other flask never had it
+    client.post(f"/api/project/{pid}/channel/upload/process", json={"bus": "A", "muted": True})
+    assert np.abs(_bus_wet(pid)[0]).max() < 1e-6
+    assert client.get(f"/api/project/{pid}/bus/C/wet").status_code == 404
+
+
+def _bus_wet(pid):
+    import io
+    import soundfile as sf
+    r = client.get(f"/api/project/{pid}/bus/A/wet")
+    assert r.status_code == 200
+    data, _ = sf.read(io.BytesIO(r.content))
+    return data[:, 0], data[:, 1]
