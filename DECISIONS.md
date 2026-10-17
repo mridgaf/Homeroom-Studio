@@ -19,6 +19,14 @@ entries.
 ---
 
 ## Log
+### 2026-10-16 Song Sketch: "Sketch" button on every beat card (ported from ChatGPT's Beat Lab Codex)
+- Context: owner showed ChatGPT's rebuild (`~/Desktop/Beat Lab Codex`). Most of it is our own engine copied back; the new idea worth taking was Song Sketch. Owner chose a button on the Beat Machine that swaps the chalkboard into a sketch setup (not a separate page).
+- Decision/change: `tools/song_sketch_dsp.py` (their DSP, unchanged: 3 presets, 6 scenes, echo exit / space bloom / drum breath, transitions on their own stem so stems sum to the mix), `tools/song_sketch.py` (Homeroom side), `tools/sketch_ui/sketch.js` + `.css` (served at /sketch.js, /sketch.css). Server: GET /sketch-info, GET /sketch-file, POST /sketch (takes the same render lock). Button added in `makeTrack`. Output goes to `~/Desktop/Homeroom Auditions/Song Sketches/Beat N <time>/` (rule 0f), never the library. Backup `tools/beat_machine.pre-song-sketch-2026-10-16.py`.
+- Judgment calls: (1) producer tag (`stamp`) left out so it is not repeated every section; (2) stems used at printed level, not the track-gain match, then one peak-safe gain at -1 dB; (3) built straight in the house chalk look without a mockup first (skill says mockup first) - owner has only seen screenshots; (4) did NOT port ChatGPT's mixer/effects/batch code: it is our code copied.
+- Verified: tests/test_song_sketch.py 4 passed (fake stems: stems sum to mix within 1e-4, intro silences drums, bad recipe writes nothing, file serving refuses odd names). Live on a second copy (port 8791): button on all 5 cards, board opens for beat 3551, roles guessed sensibly, Back restores the list, 2x2 at 1512 px, no sideways scroll at 390 px, no console errors.
+- NOT verified: no real beat was rendered (house rule) - "Make the sketch" untested on his real stems; nothing heard by ear. His running Beat Machine needs a restart to show the button.
+- Status: open - owner to click Sketch on a beat and listen.
+
 ### 2026-10-16 Flasks A/B: now play the server's real sound (Crunch/Punch audible on a flask)
 - Context: owner: make sure Flask A/B are connected and working. Gap found: stems got the real-sound crossfade, flasks never did, so Crunch/Punch (no live version) were silent on a flask until export.
 - Decision/change: new `GET /bus/{A|B}/wet` (server.py; `_lane_signal` pulled out of `_mix_lanes` so export and flask share the math). app.js: a flask re-renders ~150 ms after its own effects change OR any stem sent to it changes level/pan/mute/solo/effects/flask; preview plays meanwhile. Real flask sound only at Dry/Wet 100 % (below that, live preview). Backup `app.pre-flaskreal-2026-10-16.js`. Server restarted (old server.py was running).

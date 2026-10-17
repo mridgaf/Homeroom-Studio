@@ -7073,6 +7073,8 @@ __BREAKS__
            '<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></button>' +
          '<button class="eraser" title="Fail \u2014 move to Trash (you can get it back)" aria-label="Fail / Move to Trash" aria-pressed="false" data-dest="trash">' +
            '<svg viewBox="0 0 24 24"><path d="M3.5 15.5l9.500-9.500a2 2 0 0 1 2.800 0l3.200 3.200a2 2 0 0 1 0 2.800L11.500 20H7z"/><path d="M8 11.500l5.5 5.5M11.500 20H21"/></svg></button>' +
+         '<button class="stembtn" data-role="sketch" title="Arrange this beat into a 4-section song">' +
+           '<svg viewBox="0 0 24 24"><path d="M3 7h6v10H3zM9 4h6v13H9zM15 9h6v8h-6z"/></svg>Sketch</button>' +
          '<button class="stembtn" data-role="stems">' +
            '<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>Stems</button>' +
          '<span class="more"><button class="morebtn" title="More" aria-label="More" aria-haspopup="true">&middot;&middot;&middot;</button>' +
@@ -7129,6 +7131,7 @@ __BREAKS__
    // currentTarget, not target: the button holds an icon now, and a click
    // on the icon would otherwise get the "open" class instead of the button
    el.querySelector('[data-role=stems]').onclick = ev => toggleRack(el, b.no, ev.currentTarget);
+   el.querySelector('[data-role=sketch]').onclick = () => window.openSketch && openSketch(b.no);
    // Open this beat in the Sound Engine with the DJ's effects already set
    // (sound_engine/fx_presets.py). It is a separate app on its own port, so
    // this is a plain link out — nothing is printed here and this beat's
@@ -8142,7 +8145,10 @@ __BREAKS__
  };
 
  loadBatch(+new URLSearchParams(location.search).get('beat') || undefined);
-</script></body></html>"""
+</script>
+<link rel="stylesheet" href="/sketch.css">
+<script src="/sketch.js"></script>
+</body></html>"""
 
 
 def _dj_card(n):
@@ -8452,6 +8458,36 @@ def run_web(port=None):
                     # what went wrong instead, and let the page show it.
                     self._send(500, "text/plain",
                                str(e).encode("utf-8") or b"preview failed")
+            elif u.path == "/sketch-info":
+                # Song Sketch: what the sketch board needs for beat `no`
+                no = parse_qs(u.query).get("no", [""])[0]
+                try:
+                    import song_sketch
+                    rows = song_sketch.rows_for(_beat_stems(no))
+                    if not rows:
+                        raise ValueError("This beat has no stem files to "
+                                         "arrange.")
+                    bpm = load_recipe(ROOT, int(no))["preset"].get("bpm")
+                    self._json({"ok": True, "no": int(no), "bpm": bpm,
+                                "stems": rows, **song_sketch.options()})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+            elif u.path == "/sketch-file":
+                q = parse_qs(u.query)
+                import song_sketch
+                p = song_sketch.file_path(q.get("id", [""])[0],
+                                          q.get("name", [""])[0])
+                if not p:
+                    self._send(404, "text/plain", b"not found")
+                elif p.suffix == ".wav":
+                    self._media(p.read_bytes())
+                else:
+                    self._send(200, song_sketch.FILES[p.name], p.read_bytes())
+            elif u.path in ("/sketch.js", "/sketch.css"):
+                f = Path(__file__).parent / "sketch_ui" / u.path[1:]
+                self._send(200, "text/javascript; charset=utf-8"
+                           if f.suffix == ".js" else "text/css; charset=utf-8",
+                           f.read_bytes())
             elif u.path == "/sample":
                 # a raw one-shot, so he can hear a sample before choosing
                 # it. The path is only played if it's in this lane's own
@@ -8555,7 +8591,8 @@ def run_web(port=None):
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
                                  "/fixed", "/library", "/ban", "/chunk",
-                                 "/reference", "/engine-up", "/engine-import"):
+                                 "/reference", "/engine-up", "/engine-import",
+                                 "/sketch"):
                 self._send(404, "text/plain", b"not found")
                 return
             if self.path == "/reference":
@@ -8699,6 +8736,24 @@ def run_web(port=None):
                                if res["banned"] == "name" else "this sound")
                         print(f"  banned {res['name']} ({how})")
                     self._json({"ok": True, **res})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
+            if self.path == "/sketch":
+                # Song Sketch render. Takes the same lock as every other
+                # render, so it never overlaps one (drive-starvation rule).
+                try:
+                    import song_sketch
+                    no = int(data.get("no"))
+                    rows = song_sketch.rows_for(_beat_stems(no))
+                    keep = set(data.get("lanes") or [r["lane"] for r in rows])
+                    rows = [r for r in rows if r["lane"] in keep]
+                    bpm = load_recipe(ROOT, no)["preset"].get("bpm")
+                    with lock:
+                        got = song_sketch.build(
+                            no, bpm, rows, lambda ln: _solo_audio(no, ln),
+                            data.get("recipe") or {})
+                    self._json({"ok": True, **got})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return

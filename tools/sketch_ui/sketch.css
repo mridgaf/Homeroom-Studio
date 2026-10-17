@@ -1,0 +1,55 @@
+/* Song Sketch board - lives on the chalkboard (right side of the Beat Machine).
+   Uses the page's own chalk tokens (--chalk, --sun, --hand) and #chalk filters. */
+[hidden] { display: none !important; }
+.board.sketching .boardtop,
+.board.sketching hr.chalkline,
+.board.sketching #work,
+.board.sketching #tracklist,
+.board.sketching #empty { display: none !important; }
+
+#sketchboard { color: var(--chalk); font-family: var(--hand); min-width: 0; padding-bottom: 10px; }
+#sketchboard .skhead { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+#sketchboard h2 { margin: 0; font: 400 40px var(--hand); color: var(--sun); filter: url(#chalk-text);
+                  line-height: 1.05; flex: 1; min-width: 200px; }
+#sketchboard h2 small { display: block; font-size: 19px; color: var(--chalk-dim); }
+#sketchboard .skbtn { font: 22px var(--hand); color: var(--chalk); background: none; cursor: pointer;
+                      border: 3px solid var(--chalk); border-radius: 12px; padding: 6px 16px; filter: url(#chalk); }
+#sketchboard .skbtn:hover:not(:disabled) { background: #ffffff14; }
+#sketchboard .skbtn:disabled { opacity: .45; cursor: default; }
+#sketchboard .skbtn.sun { background: var(--sun); color: #141414; border-color: var(--sun); }
+#sketchboard .skbtn.on { border-color: var(--lime); color: var(--lime); }
+#sketchboard hr { border: 0; height: 3px; background: var(--chalk); opacity: .85; margin: 12px 0 14px;
+                  border-radius: 2px; filter: url(#chalk); }
+#sketchboard h3 { margin: 16px 0 6px; font: 400 24px var(--hand); color: var(--lime); filter: url(#chalk-text); }
+#sketchboard .sknote { color: var(--chalk-dim); font-size: 17px; margin: 4px 0 0; min-height: 22px; }
+#sketchboard .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+#sketchboard .secs { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+#sketchboard .sec { border: 3px solid var(--chalk-dim); border-radius: 14px; padding: 8px 12px 10px;
+                    filter: url(#chalk); min-width: 0; }
+#sketchboard .sec b { font: 400 22px var(--hand); color: var(--sun); }
+#sketchboard .sec p { margin: 4px 0 8px; color: var(--chalk-dim); font-size: 16px; min-height: 40px; }
+#sketchboard label.lbl { display: block; font-size: 15px; color: var(--chalk-dim); margin-top: 6px; }
+#sketchboard select { width: 100%; background-color: #1d1d1d; color: var(--chalk); font: 18px var(--hand);
+                      border: 2px solid var(--chalk-dim); border-radius: 8px; padding: 3px 6px; }
+#sketchboard .amt { display: flex; align-items: center; gap: 10px; font-size: 18px; }
+#sketchboard input[type=range] { accent-color: var(--lime); }
+
+#sketchboard .lanes { border: 3px solid var(--chalk-dim); border-radius: 14px; padding: 4px 12px; filter: url(#chalk); }
+#sketchboard .ln { display: grid; grid-template-columns: 1fr 130px; gap: 10px; align-items: center;
+                   padding: 5px 0; border-bottom: 2px dashed #ffffff22; font-size: 19px; }
+#sketchboard .ln:last-child { border: 0; }
+#sketchboard .ln span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+#sketchboard .skplay { border: 3px solid var(--chalk); border-radius: 14px; padding: 10px 14px; margin-top: 8px;
+                       filter: url(#chalk); }
+#sketchboard .skbar { display: flex; gap: 6px; margin: 10px 0 4px; }
+#sketchboard .skbar button { flex: 1 1 0; min-width: 0; background: none; color: var(--chalk-dim); cursor: pointer;
+                             border: 2px solid var(--chalk-dim); border-radius: 8px; font: 15px var(--hand);
+                             padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#sketchboard .skbar button.now { border-color: var(--sun); color: var(--sun); }
+#sketchboard .skseek { width: 100%; }
+#sketchboard .skstatus { font-size: 18px; margin-top: 8px; }
+#sketchboard .skstatus.bad { color: #ff8a8a; white-space: pre-wrap; }
+#sketchboard .skwarn { color: var(--sun); font-size: 16px; }
+#sketchboard a { color: var(--lime); }
