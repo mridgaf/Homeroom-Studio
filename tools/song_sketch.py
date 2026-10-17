@@ -78,14 +78,24 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
     write_wav24(folder / "sketch.wav", mix[:, 0], mix[:, 1])
     write_wav24(folder / "original.wav", original[:, 0], original[:, 1])
     files = []
+    source_files = []
+    source_gain = 10 ** (meta["gain_db"] / 20)
+    (folder / "source_stems").mkdir()
     for i, (lane, audio) in enumerate(stems.items(), 1):
         name = label.get(lane, lane)
         safe = re.sub(r"[^\w .()-]", "_", name)[:80].strip() or "stem"
         rel = "stems/%02d %s.wav" % (i, safe)
         write_wav24(folder / rel, audio[:, 0], audio[:, 1])
         files.append({"lane": lane, "file": rel})
+        if lane in channels:
+            source_rel = "source_stems/%02d %s.wav" % (i, safe)
+            dry_l, dry_r = channels[lane]["dry"]
+            write_wav24(folder / source_rel, dry_l * source_gain,
+                        dry_r * source_gain)
+            source_files.append({"lane": lane, "file": source_rel})
     manifest = dict(beat=int(no), created=datetime.now().isoformat(timespec="seconds"),
-                    recipe=clean, stem_files=files, **meta)
+                    recipe=clean, stem_files=files,
+                    source_stem_files=source_files, **meta)
     (folder / "recipe.json").write_text(json.dumps(manifest, indent=1))
     (folder / "READ ME.txt").write_text(
         "HOMEROOM STUDIO / SONG SKETCH - beat %d\n"
@@ -96,6 +106,7 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
         "normalising: they add up to sketch.wav. The echo/reverb return is "
         "its own stem.\n"
         "Pitch and speed are untouched. Mixer effects are not included.\n"
+        "source_stems/ holds the original loops for editable REAPER arrangements.\n"
         "Echo exit: last beat feeds dotted-eighth repeats. Space bloom: last "
         "bar feeds a rising reverb. Drum breath: half a beat of silence.\n"
         % (int(no), clean["bpm"], clean["section_bars"], meta["tail_s"]))
