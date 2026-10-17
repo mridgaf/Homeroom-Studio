@@ -8739,3 +8739,23 @@ just not loaded by default.
 - Reasoning: folder name is authoritative; only moved files whose name names exactly one other category. Two-reading files (ride bell x9, MZ Perc 808 Cowbell, MZ Clap 808, MZ Clap Snap) left in place.
 - Verify by: `_loose_file_sort_manifest_2026-10-17.txt` in Loops and Samples. 176 moves checked present at destination, 0 missing.
 - Status: open. 5 MZ Clap files (Classic, Kenny, Light, Slatt, Southside) share a name with a DIFFERENT file already in Claps, so they stayed in Snares. Not re-scanned with the loop engine (macOS venv only).
+
+### 2026-10-17 Song Sketch: "2:30 song" preset, 11 new effect moves, per-section editing
+- Context: owner wanted the sketch expanded to ~2.5 min with producer-style effect variation (the rack's rarely-used effects plus classic transition moves).
+- Decision/change: `tools/song_sketch_dsp.py`: 1-12 sections (was exactly 4); each section carries a `moves` list (old single `move` still accepted). New moves, all on his own stems: filter rise, filter open, tape stop, crush-then-clean, stutter, pre-drop dip, reverse swell, wide chorus, phaser wash, pump, pan drift. Preset `song_150` = 7 x 8 bars (~150 s at 90 BPM, ~179 s at 75 BPM; 180 s cap kept). `auto_plan(seed)` places moves by rules (max one colour move per section, one carrying move per change, no back-to-back repeats); 12 pre-rolled plans ship in `options()["plans"]`. UI: move checkboxes per section + "Re-roll moves" button. Memory guard raised to 2.5 GB (7.4M frames x ~13 buffers).
+- Reasoning: owner chose auto-place then edit; rack + new moves; 7 x 8 bars. Nothing is synthesized (no-machine-tones rule).
+- Verify by: LISTEN. tests/test_song_sketch.py 21 passed (every move: no click, stems sum to mix, peak under -0.9 dBFS; 150 s length; plan rules). No real beat rendered (house rule); nothing heard. Sketch still ignores the Sound of Science rack settings.
+- Status: open - owner to click Sketch > "2:30 song" on a beat and listen; tune move strengths by ear.
+
+### 2026-10-17 Song Sketch: four more types (Slow burn, Hard hits, Dub wash, Fever dream)
+- Context: owner asked for four more sketch types for diversity. Read "types" as presets (song shapes); ASSUMED, not confirmed.
+- Decision/change: `TEMPLATES` in `tools/song_sketch_dsp.py` now holds 5 auto types, each with its own length, scene order and move pools: 2:30 song (7x8 bars), Slow burn (6x8), Hard hits (8x4), Dub wash (5x8), Fever dream (12x4). Each has 12 re-rolls; `options()["plans"]` is now keyed by type.
+- Verify by: tests/test_song_sketch.py 27 passed (each type valid, stems sum, no repeats). Not heard.
+- Status: open - owner to listen to each type and say which to keep, cut or retune.
+
+### 2026-10-17 Song Sketch: effects now go on individual LANES (spotlight), with a lane x section grid
+- Context: owner: effects hit whole groups at once (pan drift moved the whole song). Wanted lanes handled individually. Chose: grid editing, lane types guessed from names.
+- Decision/change: `tools/song_sketch_dsp.py`: a section may carry `lanes: {lane: [moves]}`; only those lanes are processed (old section-level `moves` recipes still work, role-filtered as before). Each lane gets its own rate/phase/direction (salt = lane number). Lane KINDS (kick/bass/snare/hat/chords/texture, `guess_kind`) and HABITS decide what auto-placement may give a lane (kick+bass never panned/chorused). `auto_lane_plan` = spotlight: ~1/4 of lanes per colour move, 1-2 per carrying move, only lanes audible in that scene, fewest-turns first. `options(stems)` ships 12 per-lane re-rolls per type. UI (`sketch.js`): lane x section grid for the 5 auto types (click a cell to edit; silent cells dim); older presets keep the chip UI. Server: `/sketch-info` passes the stems to `options`.
+- Judgment calls: lane kinds are NOT editable in the UI (fix a bad guess by editing cells); re-roll plans are computed from the roles/kinds at open time. Hand edits are never refused by habits.
+- Verify by: tests/test_song_sketch.py 31 passed (a move on one lane leaves other lanes sample-identical; lanes not in lockstep; habits + audibility + spotlight size over all types x 12 seeds). NOT verified: the grid in a browser with a real beat; nothing heard.
+- Status: open - restart Beat Machine, Sketch a beat, pick a type, listen; judge whether the spotlight feels natural.

@@ -29,13 +29,18 @@ FILES = {"sketch.wav": "audio/wav", "original.wav": "audio/wav",
 _ID = re.compile(r"^Beat \d+ \d{4}-\d{2}-\d{2} \d{2}\.\d{2}\.\d{2}$")
 
 
-def options():
-    """What the page needs to draw its choices."""
+def options(stems=None):
+    """What the page needs to draw its choices. With the beat's stems it also
+    carries 12 per-lane re-rolls for each auto type."""
+    plans = {k: [dsp.auto_lane_plan(n, k, stems) for n in range(12)] if stems
+             else dsp.auto_plans(key=k) for k in dsp.TEMPLATES}
     return {"roles": list(dsp.ROLES),
-            "scenes": {k: {"name": v["name"], "description": v["description"]}
+            "scenes": {k: {"name": v["name"], "description": v["description"],
+                           "levels": v["levels"]}
                        for k, v in dsp.SCENES.items()},
             "moves": dsp.MOVES,
-            "presets": dsp.PRESETS}
+            "presets": dsp.PRESETS,
+            "plans": plans}
 
 
 def rows_for(rows):
@@ -48,7 +53,8 @@ def rows_for(rows):
         if not r.get("stem") or lane.startswith("stamp"):
             continue
         out.append({"lane": lane, "label": r["label"],
-                    "role": dsp.guess_role(f"{lane} {r['label']}")})
+                    "role": dsp.guess_role(f"{lane} {r['label']}"),
+                    "kind": dsp.guess_kind(f"{lane} {r['label']}")})
     return out
 
 
@@ -99,7 +105,7 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
     (folder / "recipe.json").write_text(json.dumps(manifest, indent=1))
     (folder / "READ ME.txt").write_text(
         "HOMEROOM STUDIO / SONG SKETCH - beat %d\n"
-        "%g BPM, 4/4, %d bars per section, 4 sections + %gs tail.\n\n"
+        "%g BPM, 4/4, %d bars per section, %d sections + %gs tail.\n\n"
         "sketch.wav is the arrangement. original.wav is the same beat looped, "
         "at the same level, for A/B.\n"
         "Drop ALL the stems into your DAW at time zero, unity gain, no "
@@ -109,7 +115,11 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
         "source_stems/ holds the original loops for editable REAPER arrangements.\n"
         "Echo exit: last beat feeds dotted-eighth repeats. Space bloom: last "
         "bar feeds a rising reverb. Drum breath: half a beat of silence.\n"
-        % (int(no), clean["bpm"], clean["section_bars"], meta["tail_s"]))
+        "Filter rise/open, tape stop, crush, stutter, pre-drop dip, reverse "
+        "swell, wide chorus, phaser, pump and pan drift are in recipe.json "
+        "section by section. All of them process your own stems only.\n"
+        % (int(no), clean["bpm"], clean["section_bars"], len(clean["sections"]),
+           meta["tail_s"]))
     with zipfile.ZipFile(folder / "stems-and-mix.zip", "w",
                          compression=zipfile.ZIP_STORED) as z:
         for f in sorted(folder.rglob("*")):

@@ -53,3 +53,20 @@
 #sketchboard .skstatus.bad { color: #ff8a8a; white-space: pre-wrap; }
 #sketchboard .skwarn { color: var(--sun); font-size: 16px; }
 #sketchboard a { color: var(--lime); }
+
+/* 2:30 song: effect-move chips under each section */
+#sketchboard .mvs { display: flex; flex-wrap: wrap; gap: 2px 8px; font-size: 12px; }
+#sketchboard .mvs label { white-space: nowrap; cursor: pointer; }
+
+/* lane x section grid */
+#sketchboard .lgridwrap { overflow-x: auto; padding-bottom: 6px; }
+#sketchboard .lgrid { display: grid; gap: 3px; min-width: max-content; font-size: 12px; }
+#sketchboard .lgrid .gh p { margin: 2px 0 0; font-size: 11px; opacity: .75; }
+#sketchboard .lgrid .gl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; align-self: center; }
+#sketchboard .lgrid .gc { position: relative; min-height: 26px; padding: 3px 5px; border: 1px dashed rgba(128,128,128,.55);
+  border-radius: 4px; cursor: pointer; overflow: visible; }
+#sketchboard .lgrid .gc span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sketchboard .lgrid .gc.off { opacity: .35; }
+#sketchboard .gpop { position: absolute; z-index: 20; top: 100%; left: 0; width: 170px; padding: 6px 8px;
+  background: #222; color: #fff; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,.5); }
+#sketchboard .gpop label { display: block; white-space: nowrap; cursor: pointer; }

@@ -38,18 +38,67 @@
       box.querySelector('#skback').onclick = close;
       return;
     }
-    S = { d, no, preset: 'slow_reveal', result: null, which: 'sketch' };
+    S = { d, no, preset: 'slow_reveal', roll: 0, result: null, which: 'sketch' };
     draw();
   };
 
   function close() {
+    closePop();
     if (au) au.pause();
     board.classList.remove('sketching');
     if (box) box.hidden = true;
   }
 
+  // An auto preset (the 2:30 song) shows the rolled plan; the others use their own lists.
+  const planMoves = (P, i) => P.auto ? S.d.plans[S.preset][S.roll][i].moves : [].concat(P.moves[i]);
+
+  const shortName = (d, ms) => ms.length ? ms.map(k => d.moves[k]).join(', ') : '·';
+
+  // Older presets: one set of moves per section, applied to every fitting lane.
+  function chipsHtml(d, P) {
+    return '<div class="secs" id="sksecs">' + P.scenes.map((sc, i) => '<div class="sec"><b>Section ' + (i + 1) + '</b>' +
+      '<p></p><label class="lbl">What plays</label><select class="sc" data-i="' + i + '">' +
+      opt(d.scenes, sc) + '</select>' +
+      '<label class="lbl">Effect moves</label><div class="mvs" data-i="' + i + '">' +
+      Object.keys(d.moves).filter(k => k !== 'none').map(k => '<label><input type="checkbox" value="' + k + '"' +
+        (planMoves(P, i).includes(k) ? ' checked' : '') + '> ' + esc(d.moves[k]) + '</label>').join('') +
+      '</div></div>').join('') + '</div>';
+  }
+
+  // Auto types: lanes down the side, sections across. A cell is one lane's moves in one section.
+  function gridHtml(d, P) {
+    const plan = d.plans[S.preset][S.roll], n = P.scenes.length;
+    return '<div class="lgridwrap"><div class="lgrid" id="sksecs" style="grid-template-columns:150px repeat(' + n + ',minmax(120px,1fr))">' +
+      '<div class="gh"></div>' + P.scenes.map((sc, i) => '<div class="gh"><b>Section ' + (i + 1) + '</b>' +
+        '<select class="sc" data-i="' + i + '">' + opt(d.scenes, sc) + '</select><p></p></div>').join('') +
+      d.stems.map(st => '<div class="gl" title="' + esc(st.label) + '">' + esc(st.label) + '</div>' +
+        P.scenes.map((sc, i) => {
+          const ms = (plan[i].lanes || {})[st.lane] || [];
+          return '<div class="gc" data-l="' + esc(st.lane) + '" data-i="' + i + '" data-m="' + ms.join(',') +
+            '" title="' + esc(shortName(d, ms)) + '"><span>' + esc(shortName(d, ms)) + '</span></div>';
+        }).join('')).join('') +
+      '</div></div><p class="sknote">Click a cell to change that lane’s moves in that section. ' +
+      'Dim cells are silent in that scene. Re-roll puts a fresh spotlight on different lanes.</p>';
+  }
+
+  let pop = null;
+  function openPop(cell) {
+    closePop();
+    const d = S.d, have = cell.dataset.m ? cell.dataset.m.split(',') : [];
+    pop = document.createElement('div'); pop.className = 'gpop';
+    pop.innerHTML = Object.keys(d.moves).filter(k => k !== 'none').map(k =>
+      '<label><input type="checkbox" value="' + k + '"' + (have.includes(k) ? ' checked' : '') + '> ' + esc(d.moves[k]) + '</label>').join('');
+    pop.onchange = () => {
+      const ms = [...pop.querySelectorAll('input:checked')].map(c => c.value);
+      cell.dataset.m = ms.join(','); cell.title = cell.firstChild.textContent = shortName(d, ms);
+    };
+    cell.appendChild(pop);
+  }
+  function closePop() { if (pop) { pop.remove(); pop = null; } }
+
   function draw() {
-    const d = S.d, P = d.presets[S.preset];
+    const d = S.d, P = Object.assign({}, d.presets[S.preset]);
+    if (P.auto) P.scenes = d.plans[S.preset][S.roll].map(s => s.scene);
     box.innerHTML =
       '<div class="skhead"><h2>Song Sketch<small>Beat ' + esc(S.no) + ' · ' +
         esc(d.bpm || '?') + ' BPM · ' + d.stems.length + ' stems</small></h2>' +
@@ -58,12 +107,8 @@
         Object.keys(d.presets).map(k => '<button class="skbtn' + (k === S.preset ? ' on' : '') +
           '" data-p="' + k + '">' + esc(d.presets[k].name) + '</button>').join('') + '</div>' +
       '<p class="sknote" id="skpnote">' + esc(P.note) + '</p>' +
-      '<h3>2. Four sections</h3><div class="secs" id="sksecs">' +
-        [0, 1, 2, 3].map(i => '<div class="sec"><b>Section ' + (i + 1) + '</b>' +
-          '<p></p><label class="lbl">What plays</label><select class="sc" data-i="' + i + '">' +
-          opt(d.scenes, P.scenes[i]) + '</select>' +
-          '<label class="lbl">Then, going out</label><select class="mv" data-i="' + i + '">' +
-          opt(d.moves, P.moves[i]) + '</select></div>').join('') + '</div>' +
+      '<h3>2. ' + P.scenes.length + ' sections' + (P.auto ? ' <button class="skbtn" id="skroll">Re-roll moves</button>' : '') +
+        '</h3>' + (P.auto ? gridHtml(d, P) : chipsHtml(d, P)) +
       '<h3>3. Length and space</h3><div class="row"><div class="amt">Bars per section ' +
         '<select id="skbars" style="width:auto"><option>2</option><option selected>4</option><option>8</option></select></div>' +
         '<div class="amt">Echo / reverb <input type="range" id="skamt" min="0" max="1" step="0.05" value="0.6"></div></div>' +
@@ -79,9 +124,28 @@
     box.querySelectorAll('#skpresets button').forEach(b => b.onclick = () => {
       const keep = { bars: box.querySelector('#skbars').value, amt: box.querySelector('#skamt').value };
       S.preset = b.dataset.p; draw();
-      box.querySelector('#skbars').value = keep.bars; box.querySelector('#skamt').value = keep.amt;
+      box.querySelector('#skbars').value = d.presets[S.preset].bars || keep.bars;
+      box.querySelector('#skamt').value = keep.amt;
     });
-    const note = () => box.querySelectorAll('.sec').forEach((el, i) => {
+    const roll = box.querySelector('#skroll');
+    if (roll) roll.onclick = () => {
+      const keep = { bars: box.querySelector('#skbars').value, amt: box.querySelector('#skamt').value };
+      S.roll = (S.roll + 1) % d.plans[S.preset].length; draw();
+      box.querySelector('#skbars').value = keep.bars; box.querySelector('#skamt').value = keep.amt;
+    };
+    box.querySelectorAll('.gc').forEach(c => c.onclick = e => {
+      if (e.target.closest('.gpop')) return;
+      pop && pop.parentNode === c ? closePop() : openPop(c);
+    });
+    const dim = () => box.querySelectorAll('.gc').forEach(c => {
+      const sc = box.querySelector('.sc[data-i="' + c.dataset.i + '"]').value;
+      const role = [...box.querySelectorAll('.rl')].find(r => r.dataset.l === c.dataset.l);
+      c.classList.toggle('off', !!role && d.scenes[sc].levels[d.roles.indexOf(role.value)] === 0);
+    });
+    box.querySelectorAll('.rl, .sc').forEach(el => el.addEventListener('change', dim));
+    dim();
+    const note = () => box.querySelectorAll('.sec, .gh').forEach((el, i) => {
+      if (!el.querySelector('.sc')) return;
       el.querySelector('p').textContent = d.scenes[el.querySelector('.sc').value].description;
     });
     box.querySelectorAll('.sc').forEach(s => s.onchange = note);
@@ -97,9 +161,16 @@
     const recipe = {
       section_bars: +box.querySelector('#skbars').value,
       amount: +box.querySelector('#skamt').value, roles,
-      sections: [0, 1, 2, 3].map(i => ({
-        scene: box.querySelector('.sc[data-i="' + i + '"]').value,
-        move: box.querySelector('.mv[data-i="' + i + '"]').value })) };
+      sections: [...box.querySelectorAll('.sc')].map((el, i) => {
+        const cells = [...box.querySelectorAll('.gc[data-i="' + i + '"]')];
+        if (cells.length) {                    // grid: per-lane moves
+          const lanes = {};
+          cells.forEach(c => { if (c.dataset.m) lanes[c.dataset.l] = c.dataset.m.split(','); });
+          return { scene: el.value, lanes };
+        }
+        return { scene: el.value,
+          moves: [...box.querySelectorAll('.mvs[data-i="' + i + '"] input:checked')].map(c => c.value) };
+      }) };
     btn.disabled = true; st.className = 'skstatus';
     st.textContent = 'Arranging the stems and printing the transitions…';
     if (au) au.pause();

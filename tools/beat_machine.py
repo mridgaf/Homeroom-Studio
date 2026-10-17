@@ -8469,7 +8469,7 @@ def run_web(port=None):
                                          "arrange.")
                     bpm = load_recipe(ROOT, int(no))["preset"].get("bpm")
                     self._json({"ok": True, "no": int(no), "bpm": bpm,
-                                "stems": rows, **song_sketch.options()})
+                                "stems": rows, **song_sketch.options(rows)})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
             elif u.path == "/sketch-file":
