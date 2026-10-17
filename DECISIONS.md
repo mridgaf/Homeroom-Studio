@@ -8732,3 +8732,10 @@ just not loaded by default.
 - Also: `_sound_engine_id` now allows the Variations subfolder (rebuilt beats could not open in Effects before).
 - Verify by: tests/test_lane_pan.py, tests/test_engine_send_back.py (fake library). Page checked in browser; Send back and Rebuild NOT clicked for real (no renders). Full suite not run.
 - Status: open — owner to try it.
+
+### 2026-10-17 Cleaned up the three sorted sample folders
+- Context: owner moved files around and asked for loose/misplaced ones to be cleaned up in BOTC Sorted Loops, Samples, Instruments.
+- Decision/change: Loops: 87 loose audio files at the top. 2 exact copies (md5) -> `_Holding-2026-10-17 (extra copies - safe to delete)`. 24 brass/horn -> Chords (owner's call), 6 bass -> Bass, 10 guitar -> Guitars, 36 `@hiheazy (Vox)` -> Vocals renamed with `_C_nokey` so the loop engine can see them. Left alone on purpose: FX 1-13 (7 files), `strange_loop.mp3`, `There will be food and drink and ghosts.wav`. Samples: 58 MZ Clap Snares->Claps, 20 rides Crashes->rides, plus claps/toms/cowbells/snaps out of FX and Percussion (owner approved "clear ones"). Instruments: nothing loose, nothing moved.
+- Reasoning: folder name is authoritative; only moved files whose name names exactly one other category. Two-reading files (ride bell x9, MZ Perc 808 Cowbell, MZ Clap 808, MZ Clap Snap) left in place.
+- Verify by: `_loose_file_sort_manifest_2026-10-17.txt` in Loops and Samples. 176 moves checked present at destination, 0 missing.
+- Status: open. 5 MZ Clap files (Classic, Kenny, Light, Slatt, Southside) share a name with a DIFFERENT file already in Claps, so they stayed in Snares. Not re-scanned with the loop engine (macOS venv only).
