@@ -1,0 +1,382 @@
+# Chapter 09: Reason 12 manual digest and studio workflow
+## Part 15 of 25
+
+_Digested Reason 12.7 manual, the manual reference, study guide, demo-song teardowns, and studio notes._
+
+**In this part:**
+- Reason_12.7_Operation_Manual_Reference.md (piece 6 of 10) — Reason 12.7 Operation Manual — Compiled Reference
+
+(Next: Part 16 of 25)
+
+
+=====================================================
+SOURCE FILE: Reason_12.7_Operation_Manual_Reference.md (piece 6 of 10)
+ORIGINAL LOCATION: HS:docs/reason/Reason_12.7_Operation_Manual_Reference.md
+=====================================================
+
+## 29. Dr. Octo Rex Loop Player
+
+
+Dr. Octo Rex plays back and manipulates files created in ReCycle (a separate Reason Studios product for slicing sampled loops into individual beat-samples, allowing tempo changes without pitch shift) or bounced from Single Take audio clips in Reason.
+
+REX2 is the ReCycle file format for Mac/PC generated internally in Reason or by ReCycle 2.0+; unlike the original REX format, REX2 supports stereo files.
+
+Pattern Automation recording is detailed in "Pattern automation recording details".
+
+Playback, stop and Loop Slot selection can be controlled in real time from a MIDI keyboard: keys E0-B0 select Loop Slot 1-8 and start playback; loops play continuously one at a time until you press D#0 to stop, or click Run/Stop. Timing between key press and slot switching is set by the Trig Next Loop function.
+
+The Note To Slot parameter is copied into generated clips as a Performance Controller so Dr. Octo Rex always knows which Note Slot the notes came from, and plays back the correct Loop Slot's slices automatically.
+
+Use the Alter Notes function to scramble loop notes without destroying original loop timing.
+
+A special REX edit lane displays slice notes by slice number instead of pitch.
+
+Per-slice parameters are edited by selecting a slice and using the knobs below the waveform display; for editing one parameter across multiple slices at once, use Slice Edit Mode instead.
+
+Pitch bend range and Mod destination are set on the synth parameter panel.
+
+The Trig Next Loop parameter sets the timing for switching between Loop Slots.
+
+Eight Loop Slot buttons sit in the center of the front panel - one REX loop per slot, loaded from the Loop Editor panel. Selecting a slot only chooses which loop plays via Run/Play; which slot the keyboard/sequencer notes control is set separately via Note To Slot.
+
+The overall pitch-shift-by-envelope amount (positive or negative) is set for all REX files' pitch response to the Filter Envelope.
+
+Filter Frequency is usually also controlled by the Filter Envelope, so changing it directly with the Freq slider may not behave as expected (see "Envelopes - General" in the Subtractor chapter for basic envelope concepts).
+
+The rear panel's left section houses CV/Gate inputs and outputs (see "Routing Audio and CV").
+
+---
+
+<a id="europa-shapeshifting-synthesizer-30"></a>
+## 30. Europa Shapeshifting Synthesizer
+
+
+Loading/saving patches works like any other internal Reason device.
+
+For monophonic playback, use "Retrig" or "Legato" mode rather than setting Voices to 1.
+
+Select polyphonic play mode for up to 16 voices (set via the Voices control at center-right).
+
+Set the Pitch Bend range for the "Pitch" wheel with the up/down buttons or by dragging on the display. The Pitch bend wheel bends note pitches and responds to incoming MIDI pitch bend from a master keyboard; "P.Range" sets the range.
+
+The Mod wheel can control almost any Europa parameter - use it as a Source in any Modulation Source box, or route it via the Modulation Bus section to a chosen destination.
+
+Use "Recording display movements in the sequencer" for tips on automating display movements.
+
+The "Stretch" harmonics algorithm combined with certain oscillator settings can create realistic metallic sounds.
+
+A special mode lets you manually draw waveforms in the Envelope 3/4 windows and crossfade between them with the Shape knob (see "Using the Envelope 3 and Envelope 4 curves as Sound Engine waveforms").
+
+The FM Feedback waveform: a pure sinewave at Shape=0% fed back internally 1:1, filtered before feedback; modulating Shape from an LFO gives a similar result to FM FB Noise without Shape modulation.
+
+User Wave options play back wavetables (grains) of an externally loaded sample (see "The User Wave and Mixer section"); "User Wave Smooth" crossfades within each grain for a smoother character. Shape sets playback position in the sample - modulate it (e.g. from a negative Envelope ramp) for continuous movement through the sample.
+
+An internally fed-back sinewave at 1:1 modulates the waveform, same signal type as FM Feedback.
+
+To make a formant static regardless of played note, modulate the Amount parameter with the "-KEY" (inverted) source at a fairly high value - especially useful with an acoustic instrument sample as User Wave.
+
+A special mode lets you draw your own filter curve in the Envelope 4 window, controlling cutoff/center frequency with Freq and resonance with Reso (see "Using the Envelope 4 curve as a Spectral Filter curve").
+
+The User Wave spectral filter mode uses FFT analysis of the loaded external sample; Freq transposes the formant up/down, Reso changes the filter's position within the sample.
+
+Classic vocoder effect recipe: load a vocal/speech sample as User Wave, set Freq to 50%, Reso to 0%, KBD to 0%, then have an Envelope modulate Reso via the Modulation Bus using a positive ramp (inverted sawtooth) envelope at 100% amount.
+
+The Harmonics section offers extensive modulation of the signal's partials, displayed in the Spectral Filter display for most algorithms.
+
+The Harmonic Lag A-R algorithm is designed for use with the User Wave Spectral Filter algorithm to create vocoder effects - the Spectral Filter must be on for this to work.
+
+With Phase Sync active in the Oscillator, all Unison signals get the same relative start phases each time you play the same note (original signal always at phase 0 degrees).
+
+The User Wave and Mixer section is where you sample or load an external sample for use in the Oscillators and/or Spectral Filter; the Mixer mixes/pans the three Sound Engines before the Filter, Amp and Multi FX sections (see the "Sampling" chapter for sampling procedure and "Editing samples" for sample editing).
+
+If the Filter is deactivated, the signal bypasses it and goes straight to the Amp section.
+
+Use one of the Envelopes as a modulation source to create a Filter envelope (see "The Modulation Bus section").
+
+The LFO section has three general-purpose LFOs assignable to parameters via the Modulation Bus section.
+
+The Effects section has six effect modules, freely reorderable by drag and drop; most effect parameters are also available as Modulation Bus destinations.
+
+The assignable CV inputs/outputs modulate from/to assigned Source and Destination parameters in the Modulation Bus section.
+
+The main audio outputs auto-route to the first available Mix Channel when a new Europa device is created (a new Mix Channel is created automatically if none is available).
+
+---
+
+<a id="grain-sample-manipulator-31"></a>
+## 31. Grain Sample Manipulator
+
+
+Loading and saving patches works like any other internal Reason device.
+
+Select polyphonic play for up to 12 voices, set via the Voices control at top right.
+
+See "Global Position" for how to play through a sample "non-legato" or polyphonically in "sample playback legato" fashion, where new notes continue at the current playback position instead of restarting.
+
+Set the Pitch Bend range for the "Pitch" wheel via up/down buttons or by dragging the display. The wheel bends note pitch and responds to incoming MIDI pitch bend; "Range" sets the amount.
+
+With some playback algorithms (e.g. Spectral Grains), audible pitch depends on formant rather than pitch settings - for pitch bend to have an effect there, add a Pitch Wheel -> Formant routing in the Modulation Bus.
+
+The Mod wheel can control almost any Grain parameter via the Modulation Bus section.
+
+For monophonic playback, use "Retrig"/"Legato" modes rather than setting Voices to 1.
+
+See the "Sampling" chapter for sampling setup and "Editing samples" for sample editing.
+
+Motion modes: Freeze plays the sample at/around the Start marker with no End marker (silent if Tape algorithm is selected). End Freeze plays once from Start to End marker, then loops around the End marker (also silent past End with Tape algorithm). Envelope 1 mode plays back between Start/End according to the Envelope 1 curve, where the curve's minimum Y = Start position and maximum Y = End position - useful for looping the sample in sync with the sequencer using a straight upward ramp with Beat Sync active.
+
+With the Tape playback algorithm, the Speed knob also affects pitch and can go to 0% ("stop") - useful for Tape Stop effects.
+
+Root Key sets the sample's initial pitch; if Snap and Filter are both 0%, Root Key and Formant control pitch (Pitch controls and Pitch wheel then have no effect). Set Formant Kbd to 100% for the formant to track the keyboard musically.
+
+The Long Grains algorithm plays fairly long grains of the original sample, so pitch follows Root Key plus the Pitch controls.
+
+With Envelope 1 as Motion type, Speed and Pitch controls have no effect - the sample always plays at the same pitch regardless of note played.
+
+With Spectral Grains, Pitch controls have no effect unless Snap or Filter is set to 100%.
+
+The Effects section has six freely reorderable effect modules (drag and drop); most parameters are also Modulation Bus destinations.
+
+Dragging to the Waveform Display always assigns the playback Position parameter; to assign Start or End Position instead, select the parameter from the list.
+
+---
+
+<a id="mimic-creative-sampler-32"></a>
+## 32. Mimic Creative Sampler
+
+
+A Mimic patch contains parameter settings for all used Slots - up to eight complete parameter setups. Loading/saving works like any other internal Reason device.
+
+In Slice Mode, select one of the eight Slots, then slice a longer sample manually and/or automatically. Slices trigger chromatically from the keyboard (leftmost slice from note C1) without affecting the sample's original pitch.
+
+Click a Slot button to select it.
+
+"Global Position" lets new notes continue at the current playback position instead of restarting.
+
+Set Pitch Bend range for the wheel via up/down buttons or dragging the display; "Pitch Range" sets the amount. With the Tape Stretch algorithm, pitch bending also affects playback speed.
+
+Load/sample audio for the currently selected Slot; the Waveform display varies by Slot Mode.
+
+Start and End markers cannot be set in reversed order - to play backwards, use the Reverse button instead.
+
+When playing reversed, the looped region originates from the Start Marker and displays in transparent blue.
+
+Sound varies by Stretch type; with Tape Stretch, the Speed knob also affects pitch and can go to 0% (stop) - useful for Tape Stop effects or static playback in other Stretch types.
+
+With Tape stretch, a Loop X-Fade knob controls crossfade amount when Loop is active.
+
+The Melody stretch type works well with Loop since it reduces clicks/pops at the loop point.
+
+Slices are available even outside Slice Mode - useful for snapping the Start position when dragging, modulating, or automating it.
+
+With Tape Stretch, pitch settings also affect playback speed.
+
+LFO Scale lets you gradually introduce LFO modulation amount via the Mod Wheel.
+
+Send knobs tap each Slot's output to the corresponding FX Send Out jacks on the rear panel, routable to external effects and then to a separate mixer/audio channel (Mimic has no FX Return jacks).
+
+To avoid a lot of notes decaying simultaneously, shorten the Amp Envelope Release time and/or deactivate Play Thru in Slice Mode.
+
+---
+
+<a id="thor-polysonic-synthesizer-33"></a>
+## 33. Thor Polysonic Synthesizer
+
+
+This chapter assumes familiarity with common synth terminology - oscillators, waveforms, filters, envelopes. New users may want to read the "Subtractor Synthesizer" chapter first, which introduces these building blocks more simply.
+
+Sections can be connected using the Modulation Bus section, not just the pre-defined routings - the pre-defined routings are just a quick, convenient way to connect the basic synth building blocks.
+
+Oscillator types available: Analog, Wavetable, Phase Modulation, FM Pair, Multi, and Noise (see "The Oscillator section").
+
+A pop-up menu offers the four available Filter types (see "Filter slots").
+
+Thor has three open Filter slots: two in the Voice section (acting per-voice) and one in the Global section (global across all voices, see "Global Filter slot").
+
+There are three Envelope generators in the Voice section - Amp, Filter, and Mod envelopes - each voice gets its own separate envelope. There's also an additional Global Envelope (see "Global Envelope").
+
+---
+
+<a id="subtractor-synthesizer-34"></a>
+## 34. Subtractor Synthesizer
+
+
+A combination of a multimode filter and a second, linkable, lowpass filter allows complex filtering effects (see "The Filter Section").
+
+A unique Subtractor oscillator feature: create an extra waveform within one oscillator, offset its phase, and modulate that phase offset. Subtracting or multiplying a waveform with a phase-offset copy of itself creates complex new waveforms from existing ones.
+
+When phase offset modulation is active, the oscillator creates a second copy of the waveform offset by the Phase knob amount, then subtracts or multiplies the two depending on the selected mode.
+
+A notch (band reject) filter is the opposite of a bandpass filter - it cuts a narrow midrange band while letting frequencies above/below through; alone it doesn't dramatically alter timbre, but combined with a lowpass filter (Filter 2) it can produce soft yet "clear" timbres, especially noticeable at low Resonance settings.
+
+Filter Frequency is usually also controlled by the Filter Envelope, so changing it directly with the Freq slider may not behave as expected.
+
+A combination of Decay and Sustain generates envelopes that rise to maximum then gradually decrease to rest at an in-between level; Sustain is a level, the other envelope parameters are times. Release works like Decay but determines the fall-to-zero time after key release.
+
+LFO 2 is polyphonic - each note gets an independent LFO cycle (unlike LFO 1, which always uses the same cycle for all notes) - useful for subtle cross-modulation "beating" effects and for modulation rates that vary across the keyboard (see Keyboard Tracking).
+
+---
+
+<a id="malstrm-synthesizer-35"></a>
+## 35. Malström Synthesizer
+
+
+See "The Oscillator section" for oscillator details. There's one amplitude envelope per oscillator and a common envelope for both filters (see "The amplitude envelopes" and "The Filter Envelope").
+
+Malström's Graintables aren't all the same length, and the Index slider's 0-127 range does not reflect actual graintable length - regardless of whether a graintable has 3 or 333 grains, the Index slider always spans the whole table.
+
+Pitch-shifting a segment (via re-sampling) changes harmonic content and timbre rather than perceived pitch, since the heard pitch is independent of the graintable's actual pitch - more or less of the segment waveform gets played back.
+
+A looped graintable (Motion knob not fully left) follows one of two motion patterns; Motion knob speed is adjustable but the motion pattern itself is not.
+
+Each oscillator has a standard ADSR envelope and Level control for volume. Unlike many synths, Malström's amplitude envelopes sit before the filter and routing sections in the signal path.
+
+Mod:A can offset osc:A/B pitch, index start position, or harmonic content (playback of the graintable); Mod:B can affect motion speed of osc:A/B.
+
+Five modes are available for shaping the sound, each with its own character.
+
+Mod wheel can control the active graintable's index for osc:A/B (positive = forward, negative = backward) and/or the Shift parameter.
+
+The two main stereo outputs connect to the two filters separately; true stereo output depends on routing and the Spread parameter (see "Routing").
+
+External audio or Malström's own internal signal can be routed directly into the filters and shaper (see "Routing external audio to the filters").
+
+---
+
+<a id="monotone-bass-synthesizer-36"></a>
+## 36. Monotone Bass Synthesizer
+
+
+Loading/saving patches works like any other internal Reason device.
+
+Set Pitch Bend range for the wheel via up/down buttons or by dragging the display; the wheel bends pitch and responds to incoming MIDI pitch bend, with "Range" setting the amount.
+
+For LFO modulation to work, LFO modulation must already be set in the Oscillator and/or Filter sections.
+
+Resonance controls the peak level at the currently set cutoff frequency.
+
+The LFO section has one LFO that can control Oscillator pitch and/or Filter frequency - a classic vibrato/cyclic modulation tool.
+
+The Envelope section is a standard ADSR usable for Oscillator FM and/or Filter Frequency modulation.
+
+Main audio outputs auto-route to the first available Mix Channel when a new Monotone device is created (a new Mix Channel is created automatically if none is available).
+
+---
+
+<a id="id8-instrument-device-37"></a>
+## 37. ID8 Instrument Device
+
+
+The Piano category features a grand piano, an upright piano, a dance-oriented piano sound, and vibes.
+
+See "Velocity mapping" for information about the velocity mapping of some of the sounds.
+
+---
+
+<a id="rytmik-drum-machine-38"></a>
+## 38. Rytmik Drum Machine
+
+
+## Introduction
+The Rytmik Drum Machine is an eight-channel drum sample player designed for seamless integration of Reason Compact projects. It features a Distortion effect and a Low Cut + Hi Cut filter per drum channel, two shared send effects (Reverb and Delay), and a master section with a Master Compressor, Master Pitch, and a Master Filter.
+
+## Panel overview
+1. Patch selector (browse, load, save patches)
+2. Sample playback and editing section (for the currently selected Drum Channel)
+3. Distortion and Low Cut + Hi Cut Filter (for the currently selected Drum Channel)
+4. Drum Channel sections (playback and selection)
+5. Send Effects and Compressor section (global for all eight channels)
+
+## Signal flow
+Eight Sample Playback engines (one per Drum Channel), each with a Sample section (built-in samples, Sample Start/End, Pan, Pitch, Fade In/Out) -> a per-channel Distortion insert -> a per-channel Low Cut/Hi Cut Filter -> per-channel pan/volume -> optional sends to the two global Reverb/Delay effects (level set per channel) -> all eight channels plus sends mixed to stereo through a Master Compressor and Master Filter. Individual Drum Channel signals can instead be routed to separate outputs (post-Filter, bypassing Send Effects and Master FX) for external processing.
+
+## Global controls
+Loading/saving patches works like any other internal Reason device.
+
+## Drum Channel sections
+Click a Drum Channel button to audition its sample and select that channel. Via MIDI/On-screen Piano Keys, samples play back from key C0 to G0.
+M(ute)/S(olo) buttons mute or solo a channel. Volume slider sets channel level (drag or click). Delay and Reverb knobs set send levels to the respective Send Effect.
+
+## Sample Playback section (per selected Drum Channel)
+Select samples via the triangular arrow buttons or the sample-name pop-up (eight sub-groups of sample types). All Rytmik samples are embedded in the device itself, so saving a patch always includes them (unlike other Reason sampler devices).
+Sample Start/End: drag the handles sideways.
+Pan: drag up/down, range 100L to 100R.
+Pitch: drag up/down, range +/-1200 cents.
+Fade In/Fade Out: drag up/down, shown graphically in the sample display.
+
+## Insert Effects section
+Distortion: transistor-type distortion; drag up/down to set input gain, range 0-100% (0 = dry/off); higher values overdrive the pre-amp.
+Low Cut (highpass) / Hi Cut (lowpass) filter: removes rumble (Lo Cut) and/or hiss (Hi Cut). Each ranges 20 Hz to 25 kHz; drag the box or the corresponding side of the filter curve in the display. The two cutoffs can cross, which can drop the sample level to zero at extreme settings.
+
+## The Master FX section
+Delay: Stereo or Ping Pong mode (pop-up); tempo-synced Time divisions of 1/1, 1/2D, 1/1T, 1/2, 1/4D, 1/2T, 1/4, 1/8D, 1/4T, 1/8, 1/16D, 1/8T, 1/16 (hard-wired to sequencer tempo); Feedback sets repeat count, range 0-100% (0 = single repeat).
+Reverb: stereo reverb with six algorithms - Room, Large Room, Culvert, Plate, Gated, Hall. Decay sets effect length (shown graphically). Low Cut/Hi Cut (20 Hz-25 kHz each) shape the reverb tone; crossed values can drop reverb level to zero.
+Compressor: stereo, acts on the total mix of all Drum Channels, always active (set controls for no compression if desired). Threshold -60 dB to 0 dB (0 dB = no compression); lower threshold = more compression. Ratio 1:1 to 20:1 (1.00 = no compression); higher ratio = more even/less dynamic. Attack 0-200 ms (higher = slower response, preserves transients). Release 0-200 ms (short = pumping effect, long = smoother).
+Master Pitch: +/-1200 cents, adjusts all channels equally.
+Master Reverb: +/-100%, bipolar return-level control for the Reverb send (can attenuate or boost, but level never exceeds 0 dB).
+Master Filter: +/-100% combined highpass/lowpass on the total mix; 0% = unfiltered.
+Master Volume: -inf to 6.00 dB, sets total mix output level.
+
+## Connections
+CV connections are NOT stored in Rytmik patches - to save them, place Rytmik in a Combinator and save the Combi patch.
+Drum Gate In responds to Note On/Off plus Velocity from another CV/Gate device; Drum Gate Out sends Note On/Off plus Velocity to control other CV/Gate devices.
+Separate Outputs route individual Drum Channels externally for further processing; channels routed this way are automatically disconnected from Master FX (though they can still reach the Send Effects on the Main Outputs).
+Main Output L & R auto-route to the first available Mix Channel when a new Rytmik device is created (a new one is created automatically if none is available).
+
+---
+
+<a id="radical-piano-39"></a>
+## 39. Radical Piano
+
+
+Loading/saving patches works like any other internal Reason device.
+
+With the Low knob at zero (marked "S"), playing very softly produces no sound at all - useful for holding a chord and playing other keys to trigger the sympathetic resonance effect (see "Resonance").
+
+The Ambience section has four reverb types plus a Level control.
+
+The maximum pitch-shift range for the piano sound is +/-1 octave, assuming no Pitch Bend performance controller is used and Character is set to Natural. The Character setting and any Pitch CV modulation can reduce the effective Pitch Bend range.
+
+A standard switch-type sustain pedal connected to your MIDI master keyboard's Sustain Pedal input controls Sustain On/Off; you can later edit Sustain values in note clips in the sequencer to set continuous values from 0-127 (see "Sustain").
+
+---
+
+<a id="klang-tuned-percussion-40"></a>
+## 40. Klang Tuned Percussion
+
+
+Set Pitch Bend range for the wheel via up/down buttons or by dragging the display; range control sits to the right of the Mod wheel.
+
+If S.Start (Sample Start) in the Instruments section is at 0 ms, it cannot move back further; at 150 ms, it cannot move forward further.
+
+If Cutoff in the Filter section is at 20 Hz, it cannot be lowered further; at 25 kHz, it cannot be raised further.
+
+The standard ADSR envelope controls filter cutoff frequency modulation over time (characteristics detailed under Amp Envelope).
+
+The Delay effect is routed as a send effect, with the Amount knob acting as an effect-return control - so a short note played with Amount at zero can still produce a delay effect if Amount is raised afterward, depending on Feedback.
+
+The Reverb effect works the same way as a send effect with Amount as return control - a short note at Amount zero can still produce reverb if Amount is raised afterward, depending on the Time setting.
+
+---
+
+<a id="pangea-world-instruments-41"></a>
+## 41. Pangea World Instruments
+
+
+Set Pitch Bend range for the wheel via up/down buttons or by dragging the display; range control sits to the right of the Mod wheel. The wheel bends note pitch and responds to incoming MIDI pitch bend.
+
+If S.Start (Sample Start) in the Instruments section is at 0 ms, it cannot move back further; at 150 ms, it cannot move forward further.
+
+If Cutoff in the Filter section is at 20 Hz, it cannot be lowered further; at 25 kHz, it cannot be raised further.
+
+The standard ADSR envelope controls filter cutoff frequency modulation over time (see Amp Envelope for characteristics).
+
+The Delay effect is routed as a send effect, with Amount as an effect-return control - a short note at Amount zero can still trigger delay if Amount is raised afterward, depending on Feedback.
+
+The Reverb effect works the same way - a short note at Amount zero can still trigger reverb if Amount is raised afterward, depending on the Time setting.
+
+---
+
+<a id="humana-vocal-ensemble-42"></a>
+
+=== END OF PART ===

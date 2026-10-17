@@ -1,0 +1,379 @@
+{
+  "projects_scanned": 79,
+  "projects_packed_unreadable": 1001,
+  "rack_extensions": [
+    "airraid: ESplitter",
+    "airraid: EStereoLFO",
+    "groovymelon: MorfinXF",
+    "kilohearts: Chorus",
+    "kuassa: EfektorSilencer",
+    "pongasoft: AB12AudioOutSwitch",
+    "pongasoft: ABSwitch",
+    "pongasoft: CVA7",
+    "roboticbean: Select",
+    "robpapen: RPSpec",
+    "softube: SaturationKnob",
+    "thatmusiccompany: DistortChain",
+    "thatmusiccompany: MrOverDrive",
+    "thatmusiccompany: T2Phaser",
+    "redrocksound: RE181",
+    "propellerheads: Audiomatic",
+    "propellerheads: DrumSeq"
+  ],
+  "devices": [
+    {
+      "name": "MClass High Definition Equalizer",
+      "songs": 75,
+      "share": 0.949,
+      "instances": 134
+    },
+    {
+      "name": "MClass Maximizer",
+      "songs": 75,
+      "share": 0.949,
+      "instances": 143
+    },
+    {
+      "name": "MClass Stereo StereoImager",
+      "songs": 75,
+      "share": 0.949,
+      "instances": 142
+    },
+    {
+      "name": "MClass Stereo Compressor",
+      "songs": 75,
+      "share": 0.949,
+      "instances": 275
+    },
+    {
+      "name": "RV7000 Reverb",
+      "songs": 74,
+      "share": 0.937,
+      "instances": 294
+    },
+    {
+      "name": "DDL Digital Delay Line",
+      "songs": 73,
+      "share": 0.924,
+      "instances": 118
+    },
+    {
+      "name": "The Echo",
+      "songs": 71,
+      "share": 0.899,
+      "instances": 113
+    },
+    {
+      "name": "Kong Drum Studio",
+      "songs": 43,
+      "share": 0.544,
+      "instances": 112
+    },
+    {
+      "name": "Dr.REX Loop Player",
+      "songs": 34,
+      "share": 0.43,
+      "instances": 116
+    },
+    {
+      "name": "X15 Main Mixer Disk Channel",
+      "songs": 25,
+      "share": 0.316,
+      "instances": 68
+    },
+    {
+      "name": "LM6 Line Mixer",
+      "songs": 23,
+      "share": 0.291,
+      "instances": 68
+    },
+    {
+      "name": "Scream 4 Distortion",
+      "songs": 23,
+      "share": 0.291,
+      "instances": 102
+    },
+    {
+      "name": "se.propellerheads.Mimic",
+      "songs": 21,
+      "share": 0.266,
+      "instances": 95
+    },
+    {
+      "name": "se.propellerheads.DrumSeq",
+      "songs": 16,
+      "share": 0.203,
+      "instances": 45
+    },
+    {
+      "name": "Redrum Drum Computer",
+      "songs": 15,
+      "share": 0.19,
+      "instances": 51
+    },
+    {
+      "name": "Mixer 14:2",
+      "songs": 14,
+      "share": 0.177,
+      "instances": 37
+    },
+    {
+      "name": "Pulveriser",
+      "songs": 14,
+      "share": 0.177,
+      "instances": 29
+    },
+    {
+      "name": "se.propellerheads.Europa",
+      "songs": 14,
+      "share": 0.177,
+      "instances": 68
+    },
+    {
+      "name": "Matrix Pattern Sequencer",
+      "songs": 14,
+      "share": 0.177,
+      "instances": 67
+    },
+    {
+      "name": "Init Patch",
+      "songs": 11,
+      "share": 0.139,
+      "instances": 46
+    },
+    {
+      "name": "SubTractor Analog Synth",
+      "songs": 11,
+      "share": 0.139,
+      "instances": 17
+    },
+    {
+      "name": "se.propellerheads.radicalpiano",
+      "songs": 11,
+      "share": 0.139,
+      "instances": 43
+    },
+    {
+      "name": "CRM-3 Synth",
+      "songs": 10,
+      "share": 0.127,
+      "instances": 30
+    },
+    {
+      "name": "se.propellerheads.Quartet",
+      "songs": 10,
+      "share": 0.127,
+      "instances": 16
+    },
+    {
+      "name": "UN-16 Unison",
+      "songs": 10,
+      "share": 0.127,
+      "instances": 28
+    },
+    {
+      "name": "NNXT Digital Sampler",
+      "songs": 9,
+      "share": 0.114,
+      "instances": 33
+    },
+    {
+      "name": "RV-7 Digital Reverb",
+      "songs": 9,
+      "share": 0.114,
+      "instances": 27
+    },
+    {
+      "name": "BV-511 Digital Vocoder",
+      "songs": 9,
+      "share": 0.114,
+      "instances": 27
+    },
+    {
+      "name": "Spider Audio",
+      "songs": 9,
+      "share": 0.114,
+      "instances": 24
+    },
+    {
+      "name": "se.propellerheads.Monotone",
+      "songs": 8,
+      "share": 0.101,
+      "instances": 12
+    },
+    {
+      "name": "se.propellerheads.ScalesAndChords",
+      "songs": 8,
+      "share": 0.101,
+      "instances": 24
+    },
+    {
+      "name": "se.propellerheads.ReasonAmp",
+      "songs": 8,
+      "share": 0.101,
+      "instances": 36
+    },
+    {
+      "name": "se.propellerheads.Pangea",
+      "songs": 6,
+      "share": 0.076,
+      "instances": 14
+    },
+    {
+      "name": "se.propellerheads.Grain",
+      "songs": 6,
+      "share": 0.076,
+      "instances": 22
+    },
+    {
+      "name": "se.propellerheads.Klang",
+      "songs": 5,
+      "share": 0.063,
+      "instances": 10
+    },
+    {
+      "name": "se.propellerheads.Humana",
+      "songs": 5,
+      "share": 0.063,
+      "instances": 7
+    },
+    {
+      "name": "se.propellerheads.DMFC",
+      "songs": 3,
+      "share": 0.038,
+      "instances": 9
+    },
+    {
+      "name": "by Andrew Skelton ",
+      "songs": 3,
+      "share": 0.038,
+      "instances": 3
+    },
+    {
+      "name": "se.propellerheads.Arpeggio",
+      "songs": 3,
+      "share": 0.038,
+      "instances": 3
+    },
+    {
+      "name": "RBI Device",
+      "songs": 3,
+      "share": 0.038,
+      "instances": 4
+    },
+    {
+      "name": "se.propellerheads.Synchronous",
+      "songs": 3,
+      "share": 0.038,
+      "instances": 10
+    },
+    {
+      "name": "D-11 Foldback Distortion",
+      "songs": 3,
+      "share": 0.038,
+      "instances": 6
+    },
+    {
+      "name": "NN19 Digital Sampler",
+      "songs": 2,
+      "share": 0.025,
+      "instances": 7
+    },
+    {
+      "name": "se.propellerheads.externalmidiinstrument",
+      "songs": 2,
+      "share": 0.025,
+      "instances": 2
+    },
+    {
+      "name": "PH-90 Phaser",
+      "songs": 2,
+      "share": 0.025,
+      "instances": 3
+    },
+    {
+      "name": "CF-101 Chorus/Flanger",
+      "songs": 2,
+      "share": 0.025,
+      "instances": 4
+    },
+    {
+      "name": "PEQ2 Two Band Parametric EQ",
+      "songs": 2,
+      "share": 0.025,
+      "instances": 4
+    },
+    {
+      "name": "se.propellerheads.Audiomatic",
+      "songs": 2,
+      "share": 0.025,
+      "instances": 3
+    },
+    {
+      "name": "vst3.5653545950574C737472756D20736573.Strum Session 2",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 5
+    },
+    {
+      "name": "vst.NFYK.Ultra Analog Session 2",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 3
+    },
+    {
+      "name": "com.thatmusiccompany.DistortChain",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 1
+    },
+    {
+      "name": "se.propellerheads.Pulsar",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 1
+    },
+    {
+      "name": "se.propellerheads.BeatMap",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 6
+    },
+    {
+      "name": "se.propellerheads.ReasonBassAmp",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 1
+    },
+    {
+      "name": "vst3.5653546642616C666173742062616C61.FAST Balancer",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 2
+    },
+    {
+      "name": "   Init Patch",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 1
+    },
+    {
+      "name": "COMP-01 Compressor",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 1
+    },
+    {
+      "name": "com.softube.re.SaturationKnob",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 1
+    },
+    {
+      "name": "com.kuassa.EfektorSilencer",
+      "songs": 1,
+      "share": 0.013,
+      "instances": 4
+    }
+  ]
+}

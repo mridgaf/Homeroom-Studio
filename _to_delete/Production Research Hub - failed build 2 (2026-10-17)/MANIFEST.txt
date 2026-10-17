@@ -1,0 +1,320 @@
+source (root:path)	bytes	sha256	chapter	status
+HS:.claude/skills/drum-loops/references/research-producers.md	15544	702ffa5b03604cf61a08b76299396d34b0e372bd4927b9b35d1df822d3fce4e6	01	in chapter
+HS:.claude/skills/drum-loops/references/research-forums.md	11959	9b5e8f78ee4c5f2684dba80ca5c19b695fac75ee3f7b3ce8580a58b72cea9937	01	in chapter
+HS:.claude/skills/drum-loops/references/research-references-education.md	14615	41cd69e3beec075b0ac373dbe771ca35ed5bfb0d734e6d56d396fc3d87213316	01	in chapter
+HS:.claude/skills/drum-loops/references/reference-tracks.md	4038	ee41ec10311f6757e479779cce0803ea20dbcd14c1e7df1343d5deb7719b1d07	01	in chapter
+HS:theory/reference-tracks.md	3104	afc77cc744a54f6110ee89092b26f737a81dd146afeab6ac0d967ac27e3153ef	01	in chapter
+HS:theory/learning-resources.md	2871	621534a6c5ccceee76e0d9789eaaa1a7ab6b7637e577ee17ca9b5fa7f49a5140	01	in chapter
+WT:vox/docs/02_producer.md	18158	87af52a01b0edb0591efd1faa61e86a578514b101911b97540314e3e587bbd05	01	in chapter
+WT:vox/docs/03_engineer.md	16355	2b7b11cbfee8d241b2518b583235bdcb539a0ffb58617db3ab9c758d35461577	01	in chapter
+WT:vox/docs/design_process/round1_producer.md	28236	366546714404602465bd940ab1398ff8e635decdbd56ce5ca69028d19bf5db9e	01	in chapter
+WT:vox/docs/design_process/round1_engineer.md	69953	b3272dd497a71aa1b52b275746fb14e9bbe18419ded166db8b9a3025c45f32c8	01	in chapter
+WT:vox/docs/design_process/round2_adv_producer.md	26607	2be7aeef667e6782bae92c13e6d903e7b130296097d7fd90c19f844501183501	01	in chapter
+WT:vox/docs/design_process/round2_adv_engineer.md	86122	d7f06ef4a6d40552c8c4e761ef37e37ef0b7646b3877640f98fd525a06fae638	01	in chapter
+DL:01-master-prompt.md	5146	dbf1bd7e27cff2337e9c37b1efe6dd150f664f7242cfbf03d1a0f3bfacb4773e	01	in chapter
+HS:.claude/skills/drum-loops/references/research-dsp.md	14602	7d50beaea8d7f0194b63970e2774ce66e7b1d7ca7c9932e1e9a850e503f5856b	02	in chapter
+HS:.claude/skills/drum-loops/references/techniques.md	6990	a550976ecc5191f30d49f6ec26527a96b1b3255624960ff28c305dc1c3c5b74d	02	in chapter
+HS:EFFECTS-UPGRADE-PROPOSAL.md	6326	8448ab554c9f9bf3e8bc3aa5417cbb7f45a913ef11971fa5912e17e9bfad6393	02	in chapter
+HS:LOW-END-LAYOUT-PROPOSAL.md	3194	66844b8b7324105943bd483905d06fc16823c315e97ad9d0dbef6f90d9447b28	02	in chapter
+HS:docs/superpowers/plans/2026-08-08-sound-engine-mixer.md	88705	5a42d6a81a81c04187789c5810539fa7385b08dbcc849130e5d26f1315078a3c	02	in chapter
+HS:docs/superpowers/plans/2026-08-12-sound-engine-convolve-beatrepeat.md	3875	446b91a7b04ef363478c4dbc0b9cd962a71c6d88b27c8d4d1f7c3258a839c5ed	02	in chapter
+HS:docs/superpowers/specs/2026-08-08-sound-engine-mixer-design.md	12817	e22502f7c20e487bf3378663fc1f85429c44b2d16cdedc8bdee9a321539bccf7	02	in chapter
+HS:docs/reason/skill-benchmarks-2026-10-01/skills/reason-drum-bus/SKILL.md	8971	7e888d140a7fa1d7b95d13dc2219d49e88be7e460cd4b22c2cc43985ce073fdb	03	in chapter
+HS:docs/reason/skill-benchmarks-2026-10-01/skills/reason-mixer-chains/SKILL.md	11625	134346470a3ddd1d631c63c4851f415eb709bef65013f06addf870abd8ea7005	03	in chapter
+HS:docs/reason/skill-benchmarks-2026-10-01/skills/reason-vocal-chain/SKILL.md	9698	3340301ebe659024ed53fb6bc9a87cd00d144b0262cce3e7e98d22df6a782833	03	in chapter
+HS:docs/reason/manual-digest/routing-and-main-mixer.md	11755	bb2b583520f02b8408f821ebd35ef62c419ea644f5bf2ec2acca955326fe6aa4	03	in chapter
+HS:docs/reason/manual-digest/delay-compensation.md	4073	1890a9cba4341bf5ae65e255c4e41ade6e646a33ec455f2c3737b5c634143d00	03	in chapter
+HS:docs/reason/manual-digest/recording.md	8274	29fe2b58f0954cf7dccfeaa20f82ce262ad91df372da506844486d351b829093	03	in chapter
+HS:docs/reason/manual-digest/audio-editing.md	8600	ae0fffee7b3ce2ac6909e4afc8bfa899f242ed2be00dce0c57339bd9ac0c9b18	03	in chapter
+DL:reason12-templates-and-techniques/00-index.md	3646	21f6c3f2a3e76bae8c125623dee798a71c1aac16d0eec9ade2e6207cb5558ade	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/combinator-workflow.md	7538	159750f7ea2565f9464b62d595f5445864860d8e5c22f05e201f5ef5c3f49267	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/cv-routing.md	5127	7d5e764c69d08c3a0f7516e08ed76768b51744d37d3285fa86c44b8bc5eb2f53	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/drums.md	5115	585268b48feb0d15268882fff78f0ede72d8a51a1842f32ee832b385a038a192	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/instruments-synths.md	10158	e9455777598d9875e01a8ac459f7c132aa1b9623889b887c4d40b4951ea5e635	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/mixing-mastering-creative.md	4158	7d4ab8fe61b5d6ef73471cbbfd314c0c6f072f7edd436e515159b864b0a3d0ef	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/original-ideas.md	4972	c31fb63c8c31e43279fecaa9d0ef648618db16728960db15245b5eac7fd4b4ef	03	in chapter
+DL:reason12-templates-and-techniques/techniques-by-type/sampling-vocal.md	4458	f988b69fdd4bebea9efd943095dc9a97dd6e0c71fb2f1b5735bd0306105e30f6	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/edm-future-bass.md	3715	85a10e97e13064abcd2ee306fd2403a98c5a1e2964e9c87276ab5387903c3bfa	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/hip-hop-trap.md	5217	5a7deacf19fc349598b7d3fc6be48cf535b4c3ae84661e3671ad7bd2782c7db5	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/lofi-hiphop.md	3969	0432dcfd6a5cd10b14adf861c795c4b0e4c7f7ce4de4db963a86a5c55f2865c6	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/mastering-universal.md	3689	91ac679378904f94b1199713a5ed11ee859c3fbb559f0eb0c7f2d86ba0efa143	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/pop-vocal.md	4795	53d7193adf7489eef58929ee232828565c5e20035ec5ff7acb0c5f598a480198	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/rock.md	4652	6ce95192633ed7df8d5b0db888dc98313249b4c214c492dd3ccebe0f4bf56f38	03	in chapter
+DL:reason12-templates-and-techniques/templates-by-genre/techno-house.md	2712	5957ea8a56bdd85358ab34494d716adba6e427e5914234ec1af2352039caac82	03	in chapter
+DL:reason12-templates-and-techniques/built-patches/README.md	2010	fc921b4063a309be17c3e944c9cfb40d1648a533a141a485fd89d91e87f51952	03	in chapter
+HS:theory/chords.md	2429	e8a69e9a019b2fe08cc73a30a5070ef52b62d0c2a3b97398685fbd11cff22464	04	in chapter
+HS:theory/intervals.md	2187	d6d2338b200efa0c60297da1c5119273c8390fba2802ae94e0a1475438cc40eb	04	in chapter
+HS:theory/modes.md	2453	7aa354fe4006f93a23a3a8e54665cb4928757e1e73f3c8d143a118b1f8cc31d7	04	in chapter
+HS:theory/progressions.md	2333	e9b112de7894af08b5aad9d8a2c4f92d808f0fd012c8fc87a7b154c92baa2f2f	04	in chapter
+HS:theory/song-keys.md	2312	4d48143481dfe4c827b14dbe96b9019bdda174656f8b65281d0eb4d4a70a131e	04	in chapter
+HS:theory/tension-and-release.md	2219	5608e2b9fe47867931cd250388bdb756214d2907027f686855b589ad9d4283e3	04	in chapter
+HS:theory/arrangement.md	3429	5707b5bf0423c8ebd052ecadc1cb617af2b385d9f4be30f9b4ceb3337468303f	04	in chapter
+HS:.claude/skills/drum-loops/references/research-theory.md	13235	7f6097715b7dbddbe8558402e25ab3969cbe8758085be2566a5453d68f238a9e	04	in chapter
+HS:.claude/skills/drum-loops/references/emotion-theory.md	8450	4ee04c1c223abb579d47fd1645194b2003d173ba1dc27aa83bc7ca890db8b32a	04	in chapter
+HS:.claude/skills/drum-loops/references/research-emotion-science.md	17742	4a1d648eb385d240e0292c27c06c02abb61302aa61432c7af403dd112bca427e	04	in chapter
+HS:.claude/skills/drum-loops/references/research-emotion-production.md	17313	0bac136c1e7fb40fc99f01c41a8c28f7435158b2224f843869687eee0fcb107d	04	in chapter
+HS:.claude/skills/drum-loops/references/connections-2026-07.md	10153	2b43911c4d292704a1b7846430211606c2dbab998950685c49ea844dd58c2cf2	04	in chapter
+HS:HARMONY-IDENTITY-PROPOSAL.md	20416	920998bd40d3d9cfe645df873aaa4f150584ae19311e517d9a34c49b9940c197	04	in chapter
+HS:recipes/anti/anti-recipes-hiphop.md	1635	a93b9197bdb506408be499aee26d281fbc96d17e51049366e4f90a54e23cc2e7	05	in chapter
+HS:recipes/anti/anti-recipes-rock.md	1587	8bd84175101e8e20588402919c853d5c7bc5eab9f9d04691fd1089952ce1d7d6	05	in chapter
+HS:recipes/feelings/feels-aggressive.md	5112	43b60a1857721dcc3d2de23709acb2aa7c85992a7092543e766f81aed4ae164e	05	in chapter
+HS:recipes/feelings/feels-dreamy.md	4221	35ced25e8aa531e1fbd9a1062d35a3540d6cca6e0b49bfce50aed0df1c2c2e2b	05	in chapter
+HS:recipes/feelings/feels-eerie.md	5079	d345bbcf043dcfb81f7a88620efea2f1ce333c7f906b20f9f6a28f8bddff58c2	05	in chapter
+HS:recipes/feelings/feels-euphoric.md	4678	e89a9ab9fd0654d0a7d37cd1f705b6ae98ce515bc664cc979ae2d4a387f0c523	05	in chapter
+HS:recipes/feelings/feels-melancholy.md	4689	bb87b9630ed029ce2f70697200979c3fa487a19087d0857d286b69f2be2ae3d8	05	in chapter
+HS:recipes/feelings/feels-menacing-dark.md	4744	9cb34b0769c6fe6a1f92862bd3bf0755683e9df5dda6feafdc0b1dcf5114b4a0	05	in chapter
+HS:recipes/feelings/feels-nostalgic.md	4274	3f721a1e9b6d9cb89167742663430d7376261eac3bd1372eea170af490f3a60e	05	in chapter
+HS:recipes/feelings/feels-tense.md	4509	98ea3cf5efb96305345403fced15db476bd12bb90896f115a31f6170ff503a10	05	in chapter
+HS:recipes/feelings/feels-triumphant.md	4327	1868c4c7e212df171ae85dd7c5252c350fe0a36efc49e07d285bbd0765f60e72	05	in chapter
+HS:recipes/feelings/feels-warm-soulful.md	4517	229587240e197a82dfb67892790c622ad6233c82ade9bfbbeb6818d71f563a7b	05	in chapter
+HS:recipes/hiphop/asap-tony-tone-drums.md	3467	5f696bc5af36965cdc3598554859c8319c0db0041272edcaa8ea4e0afc2dd77c	05	in chapter
+HS:recipes/hiphop/boom-bap-drum-bus.md	2101	93a3eb22edbb94988ad4b4fd66f33d1332a56a53e99bc2eb5821aea5048b6fa6	05	in chapter
+HS:recipes/hiphop/chiptune-8bit-nes-atari.md	6845	141de2f6b96e9c6bbad989f1a07dda58812064450d8f6a8198afe5a558d53d7f	05	in chapter
+HS:recipes/hiphop/doechii-anxiety-loop-build.md	3134	ab4a8ab4e8a1705270bbda2820a471520423e44a09e61047a91c58dfcee4335f	05	in chapter
+HS:recipes/hiphop/doechii-denial-is-a-river.md	3037	b63ff34ef8256ef42c215d55eeea5a88f84563cb94e65f40b920d88873751831	05	in chapter
+HS:recipes/hiphop/hiphop-mix-glue.md	2329	cfebef122c3ce89745b29306bb08f5b41ea7224e8df878ea32e6bd05f028534d	05	in chapter
+HS:recipes/hiphop/jayz-next-one-drums.md	2954	5715d87d663f37805d610ab7320adfbce871159d0c93b04ddb5e3c7b45db1dfb	05	in chapter
+HS:recipes/hiphop/jayz-next-one-lead-hook.md	3298	f210fa07dfbcb6e8860fda82dcaca0bf60d72953da7028bd5e5bb06aa6e704fb	05	in chapter
+HS:recipes/hiphop/jayz-next-one-vocal.md	3499	f27ec50cdb40d159cb3fb9c6fff211c4217b3c866d0f77797496edd32feda1e1	05	in chapter
+HS:recipes/hiphop/jid-dicaprio2-151-rum.md	4019	5b73341b821e5d45ca35d277d115590ee68f6f5ac5b99e5414753f33b8c7950d	05	in chapter
+HS:recipes/hiphop/jid-never-story-music-box.md	4075	e016f7fc669900f5755a0bf68d86ba12f464071348fa8363e485dd6075d27262	05	in chapter
+HS:recipes/hiphop/kick-808-relationship.md	3499	b21ed3e157e694179e42c32aeb3be07d1b32ae500956a5b1b655df6a374e7881	05	in chapter
+HS:recipes/hiphop/lofi-sample-chop.md	2408	715239100594c29afd22e65af15f9c17794398800298e746037bebe5c5d39486	05	in chapter
+HS:recipes/hiphop/trap-808.md	2306	ae3777adb301656ae7ca80d7c9db6e0acc9238be0fc2450b28c5f92898fa6573	05	in chapter
+HS:recipes/hiphop/trap-drum-bus.md	2710	5c3ca5cabecf1059f0281aa1f039b279ad728b7db2dfe6c6d6c01dcb0ea3adc2	05	in chapter
+HS:recipes/hiphop/trap-hats-pitch-rolls.md	2127	f9a973c40e26dbdec42e98e8b27b85bb42cf1163e4985002b266767dcede1113	05	in chapter
+HS:recipes/hiphop/trap-snare-clap-layer.md	2550	3a07b6ad8450e384bd94537e9988242d7f284cd5da1587ac089d7265e18ae77b	05	in chapter
+HS:recipes/hiphop/upfront-rap-vocal.md	2200	f665ee3586bb558d21085bf30344d9356b0b52fbef1b981f8accc3327d006a59	05	in chapter
+HS:recipes/rock/driven-rock-bass.md	2199	b437eed31238e3d736695ea65e79bba98f1f47037f1cda534c21f130341d9bbe	05	in chapter
+HS:recipes/rock/gated-snare-80s.md	1695	6c1e5a5ff26e129d4a55125efcc6f62d322477c76352b766ff77095324896286	05	in chapter
+HS:recipes/rock/gritty-rock-vocal.md	1950	09050341fd2bccf61ad1dbd62b8b29046cb26bbbc5c0e53e25d0266da525fc49	05	in chapter
+HS:recipes/rock/rock-mix-glue.md	2122	07a647eab2ed0773f85a21eebb9e4397709d86a4025d811da58ba52b3a27ffac	05	in chapter
+HS:recipes/rock/shoegaze-guitar-wall.md	2163	790e2d6fe1ea64efc80e69a98b1936f9af2659345b0b42b0f69ae0d7bb0487be	05	in chapter
+DL:06-recipe-tony-tone-drums.md	11003	f2cf7e943aea8ed16f605ddf1134be5eefb8e270019fc31e84a402d8eb327104	05	in chapter
+WT:vox/docs/00_BAR.md	3849	500e8f41ecf7ba47ac4385c6ea91003968d4ba58907f7aa68249883c0c6ad474	06	in chapter
+WT:vox/docs/01_MASTER_SPEC.md	13412	78485d5eb6a0e741a9ea2374bbb3f1b3c0c69b06222c94a38062581caca2af3c	06	in chapter
+WT:vox/docs/05_FINDINGS.md	9855	10320cc4f93a5757a7c33b0682595af1056b2fe50429ce8ddf0ba396828ca5a8	06	in chapter
+WT:vox/docs/06_REAL_STEM_FINDINGS.md	9192	875c99d7ec4656706a169c66985befa7785279e0ce8e4ddb7ee58c4b7f55522e	06	in chapter
+WT:vox/docs/07_REFERENCE_VOCALS.md	9793	45bb60e566ad412adb1f1c7fd227f8cd4fc5bde9bd3e5c50cb11592711bcf346	06	in chapter
+WT:vox/HANDOFF.md	11814	09a1918867156261107eb75ff76f047e9c4a68f57b90943e0bb79b2187cd9992	06	in chapter
+HS:device_refs/alligator.md	5747	873494ea8a40f25d1a176f469db929d41c96ffb282f252961c9d92608d5ac4fe	07	in chapter
+HS:device_refs/audiobox-96.md	1539	00edc339f9d1f1d973d8c8f2d9b3fb484d8e0c9fb4469afdb8221c6acc975f5f	07	in chapter
+HS:device_refs/audiomatic.md	1397	c349f0b31650dbd693e11c92907ac54a9f463f3b7939f3c31b04045be6c8c417	07	in chapter
+HS:device_refs/bv512.md	1887	999f4154f8f5e151569e06f6da0bea21f8ee65a2029f220aba17770fb2146b35	07	in chapter
+HS:device_refs/cf-101.md	1018	423b737d6db92ee303da95f57096cc6cbc0d9a810027377f40981109245db320	07	in chapter
+HS:device_refs/channel-dynamics.md	1889	c9d5f734d1f5af4bde256bc21c81d2e4f8791fc8ea1563ac2f54f679d1cadfc4	07	in chapter
+HS:device_refs/channel-eq.md	1772	fb45099c838f5fc9e71ac840d18dcf4cf8acc215398ed53d4fd4c805c522be40	07	in chapter
+HS:device_refs/combinator.md	3169	7774bbe1a4df7618c845a9b93f95c8565a176400858d5368fe8141b0b23b768e	07	in chapter
+HS:device_refs/comp-01.md	692	8bd502445db1ceadb4ae5a856972c617ef8549c47707b9f7a6c7dd82d88cf8a5	07	in chapter
+HS:device_refs/d-11.md	592	2840165cb0ec82806ba534f606d73b9f13e959ed5928f9651f2e475c87e9d94f	07	in chapter
+HS:device_refs/ddl-1.md	937	2181e552f14d1f72a8d90a098b434581ddbfc138bcb1ceffda172717bcd24d8a	07	in chapter
+HS:device_refs/dr-octo-rex.md	6496	71538a21cb2df2293e45c021314dcddc90a83d472bc6ea0eb4a701e54959b5bf	07	in chapter
+HS:device_refs/ecf-42.md	1481	e2770c8abdb4fca1ce62971816e64f4a842216f7d8db7b7245d0d46e895ad297	07	in chapter
+HS:device_refs/europa.md	3651	29b127540b651a39194893eb11207381c63aeee07059b7df273e1fb969129036	07	in chapter
+HS:device_refs/grain.md	3956	0305c7573a257d51697409adfc1b11a9a95a6b5b35a89b7ca51f9345712cbaf0	07	in chapter
+HS:device_refs/guitar-amps.md	1467	e1984a75a08909759717ac073807ff08f5afbabec3523a7d53c047639df3aff8	07	in chapter
+HS:device_refs/humana.md	1380	de9db28e12939105e7ca44fb54dc9713926c759aeb6e642c9bd72036b85ac4a9	07	in chapter
+HS:device_refs/id8.md	1260	73e8c326f28b989a23d05b442c04228f86b658b95b15e178366f95a702193c38	07	in chapter
+HS:device_refs/klang.md	1587	4656ffbfd810a073fb87e7d3878a65e56d0b59525f7738e1da610a9ce4e23776	07	in chapter
+HS:device_refs/kong.md	2811	ee3ad94084412035b4fda7eb3841764b06a072cffc5c7b288a84b23827abb806	07	in chapter
+HS:device_refs/launchkey-mk3.md	1717	b82c320686afbb464c6f41382440fbd509f5af10a31d724b8b04f43672241726	07	in chapter
+HS:device_refs/malstrom.md	3674	21a3a2bfc98bc12d6bde42d72972f14871994ef517e7f4c551d922fb5927e487	07	in chapter
+HS:device_refs/master-bus-compressor.md	1255	1869538069f2defb583171bd31ebccdbcc4a778af07d994f1fbaf34237c89515	07	in chapter
+HS:device_refs/matrix.md	1341	aaf9fa62d5336e754dee98f3d457b6167c49f84f3a866e05ffeee3a64ef6a2ff	07	in chapter
+HS:device_refs/mclass-compressor.md	1517	96018908a0750c212b13f73aa7050352ae40af0226f4f94df03adcbb7c872096	07	in chapter
+HS:device_refs/mclass-equalizer.md	1660	cac21d6894f8cdaabe40a2f1d50c2e880925023bcc4abd7509b737a1274eef62	07	in chapter
+HS:device_refs/mclass-maximizer.md	1344	7608a6c4fa5200620107e30318d9ecad3db2efcd720b9baebef1d50e0efc70cf	07	in chapter
+HS:device_refs/mclass-stereo-imager.md	1373	e4ead3ed563b8fbde22ae265a4577c1bfe6f0dd321328101a5cfb2068324588b	07	in chapter
+HS:device_refs/mimic.md	3561	d4a214d5f9f1460694064b231c64732d7de8b9b48556582a132e6cbde5804a66	07	in chapter
+HS:device_refs/mixer-14-2.md	1079	5355bca24c8e6f80127f90697005017bc9acf70560b8627521d4743b4af4a467	07	in chapter
+HS:device_refs/monotone.md	1560	ee7821441785aad262f886c533e0da21effc329e002b1e0649910824e4225d33	07	in chapter
+HS:device_refs/neptune.md	2671	aa26aee979291fc3771bc3da5a0533cc3fb7fe57b5669f6eb32583a5edd61217	07	in chapter
+HS:device_refs/nn-19.md	1838	9dc796e24de39d83ba141a0bda0d4774f99bf81da6fa722a6bd6199c21b1b8e9	07	in chapter
+HS:device_refs/nn-xt.md	2980	ae6d3bbf22b0b1c79809b104a4cda6fd8daa31ae563c38afacec85176457a65a	07	in chapter
+HS:device_refs/pangea.md	1363	ddfecdcdef4388f92bb2dd7ac3a5f3a74192dd65bbf6288888492a5e516e78e3	07	in chapter
+HS:device_refs/peq-2.md	778	b02eb78c3184265d140329d7cf27e8f4ee165b23a8b6a162187f3beda51e7a3d	07	in chapter
+HS:device_refs/ph-90.md	886	9075d33f97b8969b6d45c3264b2e6fc03d5b8d82618b2bf03974706651d5b564	07	in chapter
+HS:device_refs/pulsar.md	1935	5f643d43f6190b12e4567f4032c1feda5c41625d760ea945f8e123f82cedf8d4	07	in chapter
+HS:device_refs/pulveriser.md	2653	c38adc512480b30050b70c469e662ad53b3c65063fe31e5fb33d846b2a6ef3c3	07	in chapter
+HS:device_refs/quartet.md	1639	41d67d456e45d95c804cea9583dc05c4ce642a3cca361d5c81d566ae86c2f77a	07	in chapter
+HS:device_refs/radical-piano.md	1895	722f1c3a9869a87bac3420374151de0da27569955f289e1ad65498cfba985935	07	in chapter
+HS:device_refs/redrum.md	2539	39a31ffc395044736e14cd23e4ce6b67d2c2c3000ea4d7211ca7ac56fe789a7c	07	in chapter
+HS:device_refs/rpg-8.md	1601	7a74d9118279dcdf4ed8576631e083f8ceb4ca9c336e6836446db2ac43f879c7	07	in chapter
+HS:device_refs/rv-7.md	1000	7252e32a06408b48035d3458ddf841ef315e752d66286afaa2ec9832786babe9	07	in chapter
+HS:device_refs/rv7000-mkii.md	1686	1d187cad42b86a480ffa1f6dd5356e65d66f53fad439606e86df07544259830c	07	in chapter
+HS:device_refs/rytmik.md	1213	a7207b80f260df24ffeedc688346e165df060a75a7128653dd648f50f330501a	07	in chapter
+HS:device_refs/samson-servo-300.md	1231	af5fe6f9ea35a013973f0e27afc4cbdabb0b20c8dd9837a2b9f5f5018dfa1064	07	in chapter
+HS:device_refs/scream-4.md	2437	18fcf3af011777a7901f452a0410d1c91c767e4e1ce020770bb06052c0c0c3cf	07	in chapter
+HS:device_refs/subtractor.md	1549	38cd5c1a24cab55e1959cdcf759dfc382d0775a36c7603c02aa8a1bcf1699624	07	in chapter
+HS:device_refs/sweeper.md	2141	314db1c9245010106662d21cec9bb84d4ac5fbf07681dbf504980766be480d89	07	in chapter
+HS:device_refs/synchronous.md	2602	1468f6b4b36c0b388cfa5ca861c27e8c2f0f0c7d47740d2050e906f020e3e6c5	07	in chapter
+HS:device_refs/the-echo.md	3049	13cf71050408837b65b63a7a6ae1a8b7588e67d7018f7c9d3554f7eca8d3320f	07	in chapter
+HS:device_refs/thor.md	4684	0bb811bcefb26a704e1bcc46aff156b796e8b17909467cce94eaaf724878fae9	07	in chapter
+HS:device_refs/un-16.md	621	fa3964c6c194a9fa138dd1e34c84f158ab7669bbc83f1d5ca90bee568bbbce62	07	in chapter
+HS:device_refs/yamaha-dtx400k.md	1606	c7cc549da3a13880fe9c73c32028a11d8a78e949694a8fc22aa84af0fc9a96b9	07	in chapter
+HS:device_refs/yamaha-emx66m.md	1663	ce01d4180cb892102184372053490e8d3fb6d7f7fa297a6b09d44dd0f1ac306d	07	in chapter
+HS:device_refs/_panel_map/INVENTORY.md	2661	8a8d2019b1ec7ab0f5ae3c3c23d05c5bed864d96d5c18dfc028a99bdaa56f45d	08	in chapter
+HS:device_refs/_panel_map/PLAN.md	3766	e271c57f37fac39dcde430d6e4889fe983b166c95ce65763906e295ba3790896	08	in chapter
+HS:device_refs/_panel_map/chapters/00-INDEX.md	31777	3a0da61f67ea79367c2ba68c7ceaddb940d923ee2b97038587cf4de6bb1482da	08	in chapter
+HS:device_refs/_panel_map/chapters/a-b-12-audio-out-switch-pongasoft.md	15861	afd1ebe3e7cb2f38360b051d9cc5644360a6dd54ac4db9e0e548c94b701de3ac	08	in chapter
+HS:device_refs/_panel_map/chapters/a-b-audio-cv-switch-pongasoft.md	4324	251132e57e769bed33e73f2371f03b9bda2ed0b038f1c97366e41656fcf0b16b	08	in chapter
+HS:device_refs/_panel_map/chapters/alligator-filter-gate.md	15240	ea9b48d74e2e240dd46e4431b85fedd7947d34c9fea63b61ea8855382dc33c13	08	in chapter
+HS:device_refs/_panel_map/chapters/audio-track.md	2220	0ce8b1bbde64e3f151cef11860d4addb920b14ac3ad29e331d138e83a1594a3f	08	in chapter
+HS:device_refs/_panel_map/chapters/audiomatic-retro-transformer.md	6146	2211926ee0c2859e73f07b2314a8d521a37c29e76e6f3cfae5dda2912b7f22c8	08	in chapter
+HS:device_refs/_panel_map/chapters/bv512-digital-vocoder.md	11388	c27e11f482dd438fdf320c209f4f6fbbbea6480bdca8cf5179d65ac829a0b226	08	in chapter
+HS:device_refs/_panel_map/chapters/cf-101-chorus-flanger.md	2889	49bdb1ab50b9c077c84f7468a74736e457042fbd3312b331c12f9bb5ddb50c51	08	in chapter
+HS:device_refs/_panel_map/chapters/channel-dynamics.md	5152	582e4ba1f64c223e561feb7d8794818ad7fe6252055fc779299a296dd4f2a08a	08	in chapter
+HS:device_refs/_panel_map/chapters/channel-eq.md	6489	d847d4c48bf9d50809fb26d19b4dc0a093bfbf2248a44ab36ccab82af26640c0	08	in chapter
+HS:device_refs/_panel_map/chapters/combinator.md	7570	ad70cf1296b17307f0ffe1e66f5268c198ec92cb748b81983494553394ff66cf	08	in chapter
+HS:device_refs/_panel_map/chapters/comp-01-compressor.md	2181	6cd5befde0061cc161d2db04d37a77e9cce6c56acaf0f3a8a0536d4fccd8f1a0	08	in chapter
+HS:device_refs/_panel_map/chapters/cva-7-cv-analyzer-pongasoft.md	4439	2bf7a6e2ce89765c2fe44227e11b465f54b9c0127d7ad34bd6eabe0e1c421969	08	in chapter
+HS:device_refs/_panel_map/chapters/d-11-foldback-distortion.md	1977	22dc2611071c9dc454d16876e8da150d3493a5b9bf61fdb1dc3bfc94221b2ca6	08	in chapter
+HS:device_refs/_panel_map/chapters/ddl-1-digital-delay-line.md	3627	c9ddcfd293b735a078bcb9b37239a7a5f0adec4a7a0d8e59c60c86e0c7b32265	08	in chapter
+HS:device_refs/_panel_map/chapters/dr-octo-rex-loop-player.md	22847	7d8a29c5e6b4a0a90ccadd1e7f24d236387437c815033d4a7cb3e6c9ca9231eb	08	in chapter
+HS:device_refs/_panel_map/chapters/ecf-42-envelope-controlled-filter.md	3830	81f700295e8d9c4c16299ccf16783260089dae351a6f5bfdaac192ab7f5adf52	08	in chapter
+HS:device_refs/_panel_map/chapters/efektor-silencer-noise-gate-kuassa.md	3199	f706b43ed4f847b94115ad4b071ed4ac050159f646f32909c4e8d55240dc3f0c	08	in chapter
+HS:device_refs/_panel_map/chapters/elements-ds-lfo-airraid.md	7439	cc64036e210e7f97ddf1b30ae68b66d4a831ab32235e061f367244f6ff7d88d1	08	in chapter
+HS:device_refs/_panel_map/chapters/elements-splitter-airraid.md	9916	d646c674ac81d148ec2847bcf3437d08ab9d3e7aeb9ac1fe9569d283761b052d	08	in chapter
+HS:device_refs/_panel_map/chapters/europa-shapeshifting-synthesizer.md	71468	7bd2fe9477120b0ad68955a6e55b38e8c10537cc44d47a23315999cafbad2874	08	in chapter
+HS:device_refs/_panel_map/chapters/grain-sample-manipulator.md	46305	325c6551da6abea604fee9079976745b63ba8aff4aaa1a93bd63f524111f53d4	08	in chapter
+HS:device_refs/_panel_map/chapters/hardware-interface.md	51191	9c4ae9067915cae9491e65b097940393d1755e9b990e390d64e2ef4b72663670	08	in chapter
+HS:device_refs/_panel_map/chapters/humana-vocal-ensemble.md	11423	a586db049b8b1f48adca77fc142fe427d1d02e93475b3f89f41b423301f7fc4c	08	in chapter
+HS:device_refs/_panel_map/chapters/id8-instrument-device.md	3424	da27eff0d9fbab51a91d66c4a1bff153f8dc988f6e0a9c23d4f2f22f3d448e8b	08	in chapter
+HS:device_refs/_panel_map/chapters/khs-chorus-kilohearts.md	3487	7fc7826263b2e7858d3e94834b5a428d4a10434a21af7620f0001282b0ea0225	08	in chapter
+HS:device_refs/_panel_map/chapters/klang-tuned-percussion.md	9307	af94f7f7280756ee0f0c73ef4c3402675d517808b6f5addf5ffb6b4ae85968e5	08	in chapter
+HS:device_refs/_panel_map/chapters/kong-drum-designer.md	57193	b5f045241dd86c18066e755351282c3027dbc28f71e5891b7d0ffd6f5aeb0e70	08	in chapter
+HS:device_refs/_panel_map/chapters/line-mixer-6-2.md	12467	c8da68de54fa039aff65455d516cbf6824126c52431043c5bf27d148da29267b	08	in chapter
+HS:device_refs/_panel_map/chapters/main-mixer.md	24878	b0579aea209b335b6d25ab20e83c3c28db3424647fe4ff6d9502f7d01c4df4ba	08	in chapter
+HS:device_refs/_panel_map/chapters/malstrom-graintable-synthesizer.md	21284	12f9e09b28b732089c43f2efadec30e998788efb8ffb79815e629d647b283e58	08	in chapter
+HS:device_refs/_panel_map/chapters/master-bus-compressor.md	3605	5bb20244c9ce83cb96671f0843a68764b9bf4444a486d68cf0ae3c700edd8fe1	08	in chapter
+HS:device_refs/_panel_map/chapters/master-section.md	8293	629937a4feb3feb4d90b181f9402838727cbc5b1d43db0e4361d531dfd6add91	08	in chapter
+HS:device_refs/_panel_map/chapters/matrix-pattern-sequencer.md	5966	dd8df82eee878b1f9ee40e7925e56d1a26a106136724b9551934f773add1ac6e	08	in chapter
+HS:device_refs/_panel_map/chapters/mclass-compressor.md	3634	90371f33bad62488872e2204f34a81e56e7e58a6f744d5e29af730ad3fd22ede	08	in chapter
+HS:device_refs/_panel_map/chapters/mclass-equalizer.md	4109	1a9db329f4cdf0f995e64203c7594c006266640877370a520832622dfa18d40e	08	in chapter
+HS:device_refs/_panel_map/chapters/mclass-maximizer.md	3354	d1dade02bc0c86d4940d92e0546f779552ae0aaf0f069b86455e5196efb8dec1	08	in chapter
+HS:device_refs/_panel_map/chapters/mclass-stereo-imager.md	3447	30bc4acabe7b85cf2d53825fc63b82008e50a7a30146cd00ae427a46bc6a211c	08	in chapter
+HS:device_refs/_panel_map/chapters/midi-out-device.md	6515	fcdba29ed9da0988c2571ba8708573fee6c63d6fee55d75a821af4b97a852530	08	in chapter
+HS:device_refs/_panel_map/chapters/mimic-creative-sampler.md	31502	077bd52bf66ed070eb0eb166db9e97195da2a5fcf57549ecc589784be2903873	08	in chapter
+HS:device_refs/_panel_map/chapters/mix-channel.md	4918	7d953f1bba49d2957d892e344ed69c72c73873fbea8dd08453ee6a54e20f37bd	08	in chapter
+HS:device_refs/_panel_map/chapters/mixer-14-2.md	52909	09e13d1fae7a2eb97d6b43c363069080dd0baeea1a017a0a400e50efdd3fcd1c	08	in chapter
+HS:device_refs/_panel_map/chapters/monotone-bass-synthesizer.md	9555	7634a5a6fc557cbc8d10f31a9dad7ca80ab800d9e926e31019282c56f8dd5237	08	in chapter
+HS:device_refs/_panel_map/chapters/morfin-xf-crossfader-groovy-melon.md	3643	f85de4b4b7f9a887c25bcbf9520fbd0b846bce39dc55c8a7060e9c42efe243fb	08	in chapter
+HS:device_refs/_panel_map/chapters/neptune-pitch-adjuster.md	11766	af7e99feffb62f89198f365d25adec0638c45c97c3a0647eaad59a602b4c90ba	08	in chapter
+HS:device_refs/_panel_map/chapters/nn-xt-advanced-sampler.md	10219	48c65f59d489e2bfe84d11bcf6d7bdf8c05dbbc0c0757705a986cbceaf363bf7	08	in chapter
+HS:device_refs/_panel_map/chapters/nn19-digital-sampler.md	15980	0698702f9c832066b3e0425a5253fd339b0efea13000f78295d216bf8d4b4609	08	in chapter
+HS:device_refs/_panel_map/chapters/pangea-world-instruments.md	9332	097468f7944cb4330609648b733832f4ada42c9cc4f93fb9d3f8260c53717f0a	08	in chapter
+HS:device_refs/_panel_map/chapters/peq-2-two-band-parametric-eq.md	3061	750eb08d8c2e2b89d7c056619354dd524f3c8bd1b8886c328d03d1cb711a0134	08	in chapter
+HS:device_refs/_panel_map/chapters/ph-90-phaser.md	2770	209b1099dec73384777cef9cf688e82990e038bbe53ebbc1d92ab62611266648	08	in chapter
+HS:device_refs/_panel_map/chapters/pulsar-dual-lfo.md	12340	1cd1a50d877788bf956fba423c4b040ddbcf1aa6134719dbebbffc359c0ad5ce	08	in chapter
+HS:device_refs/_panel_map/chapters/pulveriser.md	9958	776926eaff736c25d05e2fcd90c952f386e661037b111ea3c13ddc0a2230329f	08	in chapter
+HS:device_refs/_panel_map/chapters/quartet-chorus-ensemble.md	9397	519e5e6b9226b920e2e87e00e11521883ba165c45481fc3ecc96f3a78c091e65	08	in chapter
+HS:device_refs/_panel_map/chapters/radical-piano.md	10362	846b896840e905b04fb4eec75d59bbe8812303f524624d3331f3810c1b15df3b	08	in chapter
+HS:device_refs/_panel_map/chapters/re-181-mid-side-audio-converter.md	3204	6de333f9f46805e8484f528ef4c230f6e80c3989ba38ac818bc2282ee339908d	08	in chapter
+HS:device_refs/_panel_map/chapters/redrum-drum-computer.md	49951	01435248215f7f583fe44b7fb65e7ca06a82edb65c5fd2eb12b1f0221de34e3f	08	in chapter
+HS:device_refs/_panel_map/chapters/rpg-8-monophonic-arpeggiator.md	11151	6b281aff057c3860f0e65568917315369fdf3c1795827c222a086c709f9e8d29	08	in chapter
+HS:device_refs/_panel_map/chapters/rpspec-spectrogram-rob-papen.md	4036	381de30788fd057f43ba142017ad4ff065fbe83d6c1047d9d35968e7c52e8c28	08	in chapter
+HS:device_refs/_panel_map/chapters/rv-7-digital-reverb.md	2507	2b3795033109059353931a92c3b02b4daa7a7dff027209857c53592b86222b90	08	in chapter
+HS:device_refs/_panel_map/chapters/rv7000-mk-ii-advanced-reverb.md	8567	2f0e65f4fe544862416e91692ffb94f1f4d4203604e730e4bc910343c1beb0a8	08	in chapter
+HS:device_refs/_panel_map/chapters/rytmik-drum-machine.md	15230	3ff6b13982634f3f32ad85fbf5ac21af8d09d48065f7d188f3b8798c51daea80	08	in chapter
+HS:device_refs/_panel_map/chapters/scream-4.md	5710	405b5aa1a8aa0c7760d38568c7bc97adba7a71a21745361d4650326153a34101	08	in chapter
+HS:device_refs/_panel_map/chapters/select-cv-switch-robotic-bean.md	6896	e940ad03757a3b38971016ae8e8b26c40aac8478f396ebbc06769291c4a52857	08	in chapter
+HS:device_refs/_panel_map/chapters/softube-amp-reasonamp.md	6794	61c4dffaa227c72f494586bd4a2be2c53f2aba2cf5f6510b86c01f419a2f6f6b	08	in chapter
+HS:device_refs/_panel_map/chapters/softube-bass-amp-reasonbassamp.md	6377	7f66299da425c20a42ee28bb61ff064a3faa5ac45da5ec8bff827c52101a6be4	08	in chapter
+HS:device_refs/_panel_map/chapters/spider-audio-merger-splitter.md	6346	90bd5bee96efc112c3f7cb9dd1bd2d04d73e921d9eb4c197a2304b4fd96e9200	08	in chapter
+HS:device_refs/_panel_map/chapters/spider-cv-merger-splitter.md	5011	83252003469dc6204c57c655637d6fafc60307fdd354368f215395c91c1cf694	08	in chapter
+HS:device_refs/_panel_map/chapters/subtractor-analog-synthesizer.md	24189	b28cd6d1f8a6e520574529cdb08108ddcf52897d6e5fb464e5dacfa9b6d0e924	08	in chapter
+HS:device_refs/_panel_map/chapters/sweeper-modulation-effect.md	12451	5a41a0c70b9e7d5e0bed81bda60d2323b955dc8a3d9fbc894ed9ab21be057443	08	in chapter
+HS:device_refs/_panel_map/chapters/synchronous-effect-modulator.md	17254	ea73e1d740f6c9ecf6b9dd6dd872f7a2a3cf407c85ddaca283b36edeac3c9438	08	in chapter
+HS:device_refs/_panel_map/chapters/the-echo.md	6416	9670430d621ed4f4c97c910448308d282a2cfd5f94b39df88e435b6c0d0157a6	08	in chapter
+HS:device_refs/_panel_map/chapters/thor-polysonic-synthesizer.md	55105	f4327844af7f4939400d149c5dd5844fd5c4f04892d6249774fa3662b4d7c9bf	08	in chapter
+HS:device_refs/_panel_map/chapters/un-16-unison.md	2156	c61f2b2989970530dc534c404a52a48df77076f69104d3b6419ad1cda2efad80	08	in chapter
+HS:docs/reason/manual-digest/README.md	4591	85c15610f04438407647ce46e3d3344618925c789d3d7dcb2273ca2a2cdbe936	09	in chapter
+HS:docs/reason/manual-digest/arranging.md	8944	a8f89c7a7f1e75954123cdb40459d3e51ac6695e4ba1a5c0002ef93190543001	09	in chapter
+HS:docs/reason/manual-digest/audio-editing.md	8600	ae0fffee7b3ce2ac6909e4afc8bfa899f242ed2be00dce0c57339bd9ac0c9b18	-	duplicate of HS:docs/reason/manual-digest/audio-editing.md
+HS:docs/reason/manual-digest/blocks.md	3741	6ede2d2a4f0ef73e517b9b2828e7284abdc0d02864ab29f302e80581b2462c49	09	in chapter
+HS:docs/reason/manual-digest/combinator.md	3919	58ddb9f9c3e03bb8a628338a85934a047ec7ded4a31b73922620ff25d5861691	09	in chapter
+HS:docs/reason/manual-digest/delay-compensation.md	4073	1890a9cba4341bf5ae65e255c4e41ade6e646a33ec455f2c3737b5c634143d00	-	duplicate of HS:docs/reason/manual-digest/delay-compensation.md
+HS:docs/reason/manual-digest/drum-devices.md	13155	396714c855df13c82fafe4873ce26ecf8e3eef7004cc2e0100b16d0efbc9613a	09	in chapter
+HS:docs/reason/manual-digest/export-and-performance.md	10374	a908d7fe96130ba50051c0f2bf9110ce859c1e0f0087b6a3acb3d37236f64fc4	09	in chapter
+HS:docs/reason/manual-digest/key-commands.md	57069	d5b71022884b49cd80095e135baccc9ac257d9ff6dea2f00f503ab5be5b532d3	09	in chapter
+HS:docs/reason/manual-digest/note-and-automation-editing.md	6491	2b3cdc29ea24452562d088ca09fc11ea4e49e54881f6575661dc73fb5711b1cc	09	in chapter
+HS:docs/reason/manual-digest/patches-and-browser.md	13962	5440231f3256e8bdbe52e2512a51143a5c076905e0161d5d5d500274936f4269	09	in chapter
+HS:docs/reason/manual-digest/players.md	4782	ef6af1fd62eca88d4dbf17ef1c88fab1a6dd70412f824b4f4da393dc0af97e39	09	in chapter
+HS:docs/reason/manual-digest/rack.md	5176	8ae0cd4d291b97d2f713ebab27ec0e8695b07fb6e705e74632e9498523be6397	09	in chapter
+HS:docs/reason/manual-digest/recording.md	8274	29fe2b58f0954cf7dccfeaa20f82ce262ad91df372da506844486d351b829093	-	duplicate of HS:docs/reason/manual-digest/recording.md
+HS:docs/reason/manual-digest/remote-control.md	5070	6881c81ea1bbd9103a280249f97fff1a91bda878c5aebf49eee4a7e39e430d7f	09	in chapter
+HS:docs/reason/manual-digest/routing-and-main-mixer.md	11755	bb2b583520f02b8408f821ebd35ef62c419ea644f5bf2ec2acca955326fe6aa4	-	duplicate of HS:docs/reason/manual-digest/routing-and-main-mixer.md
+HS:docs/reason/manual-digest/sampling.md	4866	43b3fef88eee59df03564d460e0ac1bc9d40b43545da721f43dba32aa92082c3	09	in chapter
+HS:docs/reason/manual-digest/sequencer-functions.md	9500	022bda5f4b139ccd6eed40644acf93f3a947c0be9c121c5452078af37923a4b0	09	in chapter
+HS:docs/reason/manual-digest/synth-sound-design.md	20179	994ee36da0928662fc16f74e3f1019ff6cacb2fdc06a32566e6662f3e47c8f4d	09	in chapter
+HS:docs/reason/FINDINGS.md	8095	815e70a0b6b3ae02bb6ae96923e41c426a972579da04046a78c4721164aeda46	09	in chapter
+HS:docs/reason/Reason12_HomeroomStudio_Guide.md	7418	eee71f80ab662f35d00918dfc74a68a1a20c1a3ebff1a5a7d695fc54e62ea154	09	in chapter
+HS:docs/reason/Reason_12.7_Operation_Manual_Reference.md	219553	06332c5bd144b52d8f09ccc4f546dfc9000fe5fcc07f1f0b24ca048a9a503e56	09	in chapter
+HS:docs/reason/demo-song-notes-airplane.md	26739	4de7c0c069f6503627cb1f9096ec02d855203672dbfd120256ad544927b60603	09	in chapter
+HS:docs/reason/demo-song-notes-power.md	15960	36bb30a9ebab4fef33c0c200d324e1474027b2d4017e1977bc638d27737f3c45	09	in chapter
+HS:docs/reason/demo-song-notes-quazmo.md	9300	19728a13ab23f908260f5948a79910ceb29d90e22f8a78d61ae3948f836ff454	09	in chapter
+HS:docs/reason/demo-song-notes.md	58232	1a708eb55a15bf918fabdaaf8bc21bb14263319d41cf49d86bc9e70f6c86117d	09	in chapter
+HS:docs/reason/demo-song-phrase-ideas.md	15783	52a68cbc4fa5a1b0f1fda9168fb130e7c6c510d38917eb5b9e7bbe7f45b3ac26	09	in chapter
+HS:docs/reason/demo-song-skill-ideas.md	9584	c91a5a80ac64bd0271f10517dbfb2edba1ecad11c935c9cb3baeb03b20d48920	09	in chapter
+HS:docs/reason/demo-song-template-and-automation-ideas.md	10210	580ba77093e8d0f98faeab34f8ebb54b087c3af3077b920e7f0d9c652b49e0e4	09	in chapter
+HS:docs/reason/demo-song-wiring-airplane.md	9833	8dda8980daf974f83826b999d131a00d4aa749d21625a3198e89c2d4a0e5e48d	09	in chapter
+HS:docs/reason/guide-new-ideas-2026-09-30.md	4251	01012bc520452a09eaf57a5e8ec1ceef10355bbd87fe4d7711bd74ba97470ab7	09	in chapter
+HS:docs/reason/manual-bigger-wins-2026-09-30.md	3990	82e6ee5345f62f6a7a42b664c9ca7ce0c403a5f9e286f6a2d2936224c0ab6863	09	in chapter
+HS:docs/reason/rack-back-reading-howto.md	3001	6920fd9059fcaa3d7f7099949977742b748029e2a9d18089a87bb6c21bb58d3b	09	in chapter
+HS:docs/reason/reason12-project-notes.md	2621	c275741aa0cb0f114734e470b4588a5030aec996bb6de2940aa8f4d001355634	09	in chapter
+HS:docs/reason/skill-edits-draft-2026-09-30.md	4423	a4baee5182dfa6dc399b22e3ca47c7937708538e5198ed9a009d2082888e9b91	09	in chapter
+HS:docs/reason/sweep-types-and-phrases.md	3980	002fdbb3dd7932034054ce4907c53d2074687e1f0b1394780f0982fbd4039057	09	in chapter
+HS:reason-12-study-guide.md	10217	95a412f7550a3462bab8e20928aff64584204c6e94b2c93cbf4ce392cde48c0b	09	in chapter
+HS:.claude/skills/drum-loops/SKILL.md	8187	df5b1d4fb8920dea79ab13cfb9185f2e8c7378c8283c28a8131ee6100b4df334	10	in chapter
+HS:.claude/skills/beat-crew/SKILL.md	27405	587635c0b8373dff670cc404cdb4c191faa0e112b6877fa24ec813ba0b602d9d	10	in chapter
+HS:.claude/skills/new-recipe/SKILL.md	10041	bfde975d766fb3cef2c2ea54cc2eeece0eda8c5458ec50dd100f4d361bef4553	10	in chapter
+HS:.claude/skills/legend-new-build/SKILL.md	10869	00a1948bbf605ba35730621707962002ff95805cd344c7a4efe4778c8b2da5ab	10	in chapter
+HS:.claude/skills/reason-reference/SKILL.md	7510	b8595d70db491887dcc904e00a2f9bc64ca59b3b0a8f9e9487143b10df7d4c99	10	in chapter
+HS:.claude/skills/reason-regroove/SKILL.md	5941	78c9ab6fa6971740f7afcf2084fc7ef0ae33bb540dd9f62fed1fe4e1de451fb8	10	in chapter
+HS:.claude/skills/audio-fix-verify/SKILL.md	7486	4106622ba3b933bc988067d9d6304095f877c173143422698a12aa1d1daac0f4	10	in chapter
+HS:.claude/skills/_removed_2026-09-10/beat-styles/SKILL.md	9700	8262ffb1ecbe36ec8c697ee4294604fdacd82574b985e0646ae1d16ee95e6a24	10	in chapter
+HS:.claude/skills/_removed_2026-09-10/gear-guide/SKILL.md	2988	f2f93b8df5d578b695ac9cb1a7b64003db7710d4b637fada10a6dc71e20b3353	10	in chapter
+WT:.claude/skills/beat-styles/SKILL.md	9700	8262ffb1ecbe36ec8c697ee4294604fdacd82574b985e0646ae1d16ee95e6a24	-	duplicate of HS:.claude/skills/_removed_2026-09-10/beat-styles/SKILL.md
+WT:.claude/skills/gear-guide/SKILL.md	2988	f2f93b8df5d578b695ac9cb1a7b64003db7710d4b637fada10a6dc71e20b3353	-	duplicate of HS:.claude/skills/_removed_2026-09-10/gear-guide/SKILL.md
+HS:sonic/DECISIONS.md	13496	db06da81ba98e9d478d62b3e7eff9efc3dbdc86f7cd14e7ffaad3e41f98ea324	11	in chapter
+HS:sonic/EQUIPMENT.md	7766	cda64dd7a61e92d8dcdec268e198c9d9c0f524d5e383237399a1a1c47764d33d	11	in chapter
+HS:sonic/HANDOFF.md	10308	78c7d37f7b48801c963500e7f701f696c4019aedbebfae47372146ee71c09995	11	in chapter
+HS:sonic/README.md	2945	f89e59680d37101b2053b36821b95db641edbaea33b8f793e4a74ee83feb19ea	11	in chapter
+HS:sonic/START-HERE.md	1925	75bde78fbdc05a9ce80f1db56d3479e2c614cf0b6b13e11d3b60735608d983ac	11	in chapter
+HS:sonic/ai-assistant-research-findings.md	9214	6ad9b71125534162b7fe2570c6c023a0a4c600bc19d3d4f90f08c482ba6c14c7	11	in chapter
+HS:sonic/github-research-prompt.md	4065	0be41973001d705fc481196b7ee25c33f0dc739ae47a8eccdbee4455265c064c	11	in chapter
+HS:sonic/youtube-research-prompt.md	3208	f9bd075da1a3181069bbf1ab483d48974cd378bf1dd7f80efde4cc2e60f9138d	11	in chapter
+DL:HANDOFF_3.md	6934	56b4a4b1030e1dd3cce9b4b9bf14f52b45b09a729efc241424bca9956728b652	11	in chapter
+DL:ai-assistant-research-findings.md	8985	ddd1919c8b037a047703e53b059c659a0803f378f9668728773659ef3a50a05a	11	in chapter
+DL:youtube-research-prompt.md	3082	54c57a2f9ddd98604d1a65bd30b39c6b909f1a337c5b6814b98edcd05dc0c720	11	in chapter
+DL:github-research-prompt.md	3798	1fa1601612630090db9191805647d3b963adcde17965ff3b371bc4c54befbc2f	11	in chapter
+RC:CLAUDE.md	2582	3d951ecda362c6fdcad00489016e60611b860840a54db422a87eac5a7756b3eb	12	in chapter
+RSB:README.md	1161	a6765e9fee9ed747818a4ab4ffae9ea9d705122ce8db92698c25b35643d97f76	12	in chapter
+HS:device_refs/_panel_map/PANEL-MAP.md	962859	ade822d48c643ffa468b902b352bb3eaa472ce232af3d03226c2ebc8f56063ea	-	copied to Originals only (data/PDF/HTML/huge)
+HS:device_refs/_panel_map/PROOF-STATUS.csv	111281	34e4211aaa61e9666b8c6c05800c557ef05bce64f13867e4df267c4335b8c8de	-	copied to Originals only (data/PDF/HTML/huge)
+HS:fx_presets.json	12550	8615847cfb622c30eedb8312be124d17d0b9e1629093bd6544ea788b132e37c9	-	copied to Originals only (data/PDF/HTML/huge)
+HS:docs/reason/Reason_12.7_Operation_Manual_Full_Text.md	2839497	9ea2185f5389d189e6e8822c8afac51736e5908fbe1a74ed109029dd59c49915	-	copied to Originals only (data/PDF/HTML/huge)
+HS:docs/reason/Reason_12.7_Illustrated_Device_Reference.html	126302	39db49735baed8a37de4c28bfbbbfa93ce77343839fca20b91a6252fa2cfd7f2	-	copied to Originals only (data/PDF/HTML/huge)
+HS:sonic/plugin_inventory.json	1106904	2f1d81be87f1ed75e40cb0716dfbc66cc0ff6025f57e42c95fe18f3b2198af07	-	copied to Originals only (data/PDF/HTML/huge)
+RC:devices.json	7464	3bbfecaed8e68ec37b73f09321ed1519470073314a40fb27f0c6d804ac683954	-	copied to Originals only (data/PDF/HTML/huge)
+RC:device_params.json	130940	409ad4a3a4ca03cd3eb84be39a91b0743acc0de3325a24cb3fbcfc98cc64fbc2	-	copied to Originals only (data/PDF/HTML/huge)
+RC:memory.json	1400	04196b498d76b6a0403cf666dd93f22b6cd14113a0450c8a4f9e69f668bf76e1	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/00 - START HERE - Recipe Index.pdf	3014	066d46380e37c201994dad37b89fc6d705d256940e03a1eed641e3047bfbe841	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Anti-Recipes  Hip-Hop.pdf	3358	88a872d8b5a98774613474c4f967a52256644b8c44f1ae5ad7dbecb5e9d85f09	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Anxious Loop-Build.pdf	5063	c6c4206bcc9155b9adf01fbf73885f827793af521ea1236eaa3c6c64e0e4bb6d	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Boom-Bap Drum Bus.pdf	4465	099d03bc46206e9c2ece495ab58f458f4c14991dfbc3f1dbc1292ceea16d8882	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Hip-Hop Mix Glue.pdf	4485	8c57def5efc35c85559bbc69dce87904af6cbda2f5712977cc3418e367a0634b	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Jazzy Chord-Planing Boom-Bap.pdf	5188	804e8bde5d6010de88946b61d32908cdaec7f83f55a62552e00869c4b8063b46	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Lo-Fi Sample Chop.pdf	4697	e7ba46cdf659077daf6eaf9ff89cc6b3fa6e0f1bf578c769498fe9c591c78cb7	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Trap 808.pdf	4576	fb11f494d60f0351beef9d01f8ec7d0014301661bd9485a43de72d936b8d44ff	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Hip Hop - Upfront Rap Vocal.pdf	4524	378f9ea56cea80fcd54c6e13bbcccbe6463ac80c423780967fa293bf80926b56	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Rock - 80s Gated Snare.pdf	3519	41aabc4317dd5310feec59eac932d51ce905d238e0913c3c3757c6375a89da31	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Rock - Anti-Recipes  Rock.pdf	3251	d5a88ac76778f3cfe8b1e89c70882e76e74256abaeb7f49cb15835ff07dd4926	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Rock - Driven Rock Bass.pdf	4461	791fed3a368e16ed04feb99c9b7efb735788c00dfa1329decdd21a9328c42a43	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Rock - Gritty Rock Vocal.pdf	4352	02a289e6621253c467f5052dd45e3c8eabd8bd9226388e7cbe42ab247090d057	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Rock - Rock Mix Glue.pdf	3787	f80248be6e0210ccba4c4813ee57aab532db62fbfe02a0c070f97f6d8dfbdf00	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Recipe Book PDFs/Rock - Shoegaze Guitar Wall.pdf	4423	2da57837ddf79d03086f5acece2790c7990fc1eea5b3397d47015962c528a106	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Claude outputs/reason12-expert-agent.html	25508	6cee716e7c98fcfbc101843b2ddaaebc7d3d2a08a0cdb92651eee48194dbf852	-	copied to Originals only (data/PDF/HTML/huge)
+DL:Claude outputs/Reason_12.7_Illustrated_Device_Reference.html	126302	39db49735baed8a37de4c28bfbbbfa93ce77343839fca20b91a6252fa2cfd7f2	-	copied to Originals only (data/PDF/HTML/huge)
+
+Roots: HS=Homeroom Studio, WT=Homeroom Studio/.claude/worktrees/funny-rubin-d90f6c, RC=reason code, DL=Downloads, RSB=REAPER Song Builder

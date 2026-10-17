@@ -1,0 +1,22 @@
+# Sampling & Vocal — Unique & Surprising Techniques
+
+## Mimic's Fixed Pitch vocal trick [Sourced — full detail also in instruments-synths.md]
+Cross-referenced here because it's fundamentally a sampling/vocal technique even though it lives on a synth-style device: load a full vocal *phrase* into Mimic, set Start position to **Global** so playback position stays continuous across retriggered notes instead of restarting, select **Vocal mode with Fixed Pitch**. The sample is then forced, Auto-Tune-style, to whatever note you play — letting you replay an entire recorded phrase with a new melody, or play the original melody back through an unusual modern-Auto-Tune-style texture. A hands-on reviewer's own discovered use, not something the official tutorial demonstrates. [Source: Sound on Sound, Reason 12 review]
+
+## NN-XT for arbitrary-location chopping, not just multisampling [Sourced]
+Community consensus (Reddit r/reasoners, "What is the best sampler in reason?") specifically calls out NN-XT as useful for **sample chopping at arbitrary locations** — think glitchy vocal fragments in EDM, or grabbing an unconventional slice point rather than a clean transient-aligned chop. This is a different use case from NN-XT's usual job (mapping a clean multisample across the keyboard) and worth remembering when a sample needs deliberately "wrong" slice points for a glitch effect. [Source: Reddit r/reasoners]
+
+## NN-XT split-key patches for CPU savings on stage/live rigs [Sourced — snippet level, source article itself blocked]
+A MacProVideo tutorial (title/description only — full article blocked on two fetch attempts, per the "move on after two tries" approach) covers building custom NN-XT split-key patches specifically to reduce CPU load in a streamlined laptop performance setup — i.e., deliberately limiting which samples/patches are "live" across the keyboard at once rather than loading a full multisample, to keep a live rig lighter. Worth knowing the technique exists even without the full article; the concept (split by key range for real-time layer control, not just up-front CPU savings) recurs elsewhere in this research too — see the Combinator key-zone technique in `combinator-workflow.md`. [Source: MacProVideo, title/description]
+
+## The "Wonderland" hybrid Combinator — a rhythm generator built from a synth + a Rex loop [Sourced — detailed]
+A shared, downloadable Combinator from reason101.net, worth studying as a complete example of a hybrid instrument rather than a single isolated trick:
+- **Structure**: an NN-XT synth layer (in the example, a Wurlitzer piano patch) layered against a Dr.Rex-played rhythm loop, both inside one Combinator, with 4 rotaries and 4 buttons mapped to blend and shape them together as one instrument rather than two separate tracks.
+- **The genuinely clever routing detail**: Scream's Auto CV output is used to convert the Dr.Rex loop's *audio* into a CV signal, which is then routed into Thor's modulation bus to affect the NN-XT synth layer — i.e., **the rhythm loop's own amplitude is driving modulation on the melodic layer**, an envelope-follower-style trick built entirely from a distortion device's side output rather than a dedicated envelope follower.
+- Explicit invitation from the author to treat this as a template: swap the NN-XT patch for any other synth sound, swap the Dr.Rex loop for a different rhythm, and the macro mapping (pitch bend on the synth layer only; mod wheel affecting several parameters at once; a "Crudge" sine-shaper rotary; a Rex-layer-only distortion button; a Rex-layer-only octave-shift button; a "Underwater" chorus button on the synth layer only) still applies as a reusable performance-instrument skeleton. [Source: reason101.net]
+
+## Sources
+- Sound on Sound, "Reason Studios Reason 12" (review — Mimic Fixed Pitch trick) — https://www.soundonsound.com/reviews/reason-studios-reason-12
+- Reddit r/reasoners, "What is the best sampler in reason?" — https://www.reddit.com/r/reasoners/comments/8dm7mc/what_is_the_best_sampler_in_reason/
+- MacProVideo, "Using the NN-XT for Split Key Patches in Reason to Save CPU" — https://macprovideo.com/article/propellerhead-reason/using-the-nnxt-for-split-key-patches-in-reason-to-save-cpu (fetch blocked after two attempts; title/description only)
+- reason101.net, "Wonderland" Combinator / Creative Reason Projects archive — http://www.reason101.net/category/creative-reason-projects/

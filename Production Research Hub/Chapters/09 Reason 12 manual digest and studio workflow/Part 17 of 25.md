@@ -1,0 +1,368 @@
+# Chapter 09: Reason 12 manual digest and studio workflow
+## Part 17 of 25
+
+_Digested Reason 12.7 manual, the manual reference, study guide, demo-song teardowns, and studio notes._
+
+**In this part:**
+- Reason_12.7_Operation_Manual_Reference.md (piece 8 of 10) — Reason 12.7 Operation Manual — Compiled Reference
+
+(Next: Part 18 of 25)
+
+
+=====================================================
+SOURCE FILE: Reason_12.7_Operation_Manual_Reference.md (piece 8 of 10)
+ORIGINAL LOCATION: HS:docs/reason/Reason_12.7_Operation_Manual_Reference.md
+=====================================================
+
+## Global controls
+Mix: blend of dry/processed signal; <100% enables parallel processing.
+
+## Compression controls
+Input Gain: +/-18.00 dB.
+Threshold: -30 dB to 0 dB; lower threshold = more compression.
+Ratio: 2:1, 4:1, or 10:1 - e.g. 2:1 means a signal 2 dB above threshold outputs at 1 dB above.
+Attack: 0.1, 0.3, 1, 3, 10, or 30 ms.
+Release: 0.1, 0.3, 0.6, 1.2 s, or "Auto" (program-adaptive - longer after long peaks, shorter after short peaks).
+Make Up: -5 dB to +15.00 dB, compensates for compression-caused level reduction.
+Compressor Gain Reduction Meter: shows applied reduction in dB.
+
+## External Sidechain
+Connect an external signal to the rear Sidechain Inputs to key the compressor from it instead of the channel signal (e.g., a kick drum pattern triggering rhythmic pumping); a "Connected" LED lights when patched.
+
+## Connections
+Comp Gain Reduction: CV output of the gain reduction amount.
+Sidechain Input Left & Right: external sidechain signal.
+Input Left & Right: audio to process (mono connects only to L).
+Output Left & Right: processed audio outputs.
+
+---
+
+<a id="synchronous-timed-effect-modulator-60"></a>
+## 60. Synchronous Timed Effect Modulator
+
+
+Loading/saving patches works like any other internal Reason device.
+
+To replace an existing modulation curve anywhere in the loop, use the same method as changing a curve's amplitude, but choose any new curve shape freely, regardless of the existing one - this can be repeated at as many points in the loop as desired.
+
+With the Sync button on, Time values step between tempo-relative divisions (1/1, 1/2, 1/4, 1/8, etc.).
+
+With Ping Pong enabled, each delay repeat's stereo position alternates left/right; the Pan knob sets stereo width and the position of the initial repeat - full Left pans the first bounce hard Left then hard Right and so on; full Right reverses the order.
+
+CV signals >0 patched to the Freeze inputs activate Freeze for the corresponding Modulation Curve; dropping to 0 or below deactivates it (see "FRZ (freeze) buttons").
+
+A CV input can modulate the Master Level parameter, attenuable with its own knob.
+
+---
+
+<a id="the-mclass-effects-61"></a>
+## 61. The MClass Effects
+
+
+•
+
+•
+
+•
+
+•
+
+While the specific parameters for the MClass effect devices are described below, some features and procedures are common to all effect devices. Please, refer to “Common effect device features” for information about the Input meter, the Bypass/On/Off switch and Signal Flow Graphs on the effect devices.
+---
+
+<a id="half-rack-effects-62"></a>
+## 62. Half-Rack Effects
+
+
+| Mode
+
+These allow you to control various effect parameters in real-time, from another device in the rack. See “Routing CV and Gate signals” for details about routing CV.
+
+| Graph
+
+•
+
+4.
+
+If you are unfamiliar with basic filter and envelope parameters, please refer to “Envelopes - General” in the Subtractor chapter for a description of these.
+
+•
+
+•
+
+The PH-90 is a four-stage phaser, which means that there are four “notches” in the frequency response curve (this is a little like using four notch filters with different filter frequencies - see “Notch” in the Subtractor chapter for an explanation of notch filters).
+
+•
+
+•
+---
+
+<a id="the-combinator-63"></a>
+## 63. The Combinator
+
+
+Their internal order is not changed. Reason attempts to autoroute the first “input device” and first “output device” to the Combinator Mixer To/From Devices connectors - see “About internal and external audio connections”. Other connections are unchanged.
+
+Please see “Adding devices to a Combi” for details about auto-routing.
+
+The existing connections to the rack will be kept, so there may be external routing connections (see “About External Routing”). If there are, “External Routing” will be shown the Combinator name display (and on the back of the Combinator a LED indicator will be lit).
+
+See “Key Mapping instrument devices” for details.
+
+•
+
+•
+
+•
+
+•
+
+Double click on a control label, remove the current text and press [Enter]. Alternatively, uncheck “Show Label” in the Configuration panel in the Editor, see “Changing the appearance of the controls”).
+
+
+
+1.
+
+You can also control Combi parameters by connecting external CV modulation sources to any of the Source CV inputs on the back of the unfolded Editor panel, see “Wheel CV In and Source CV In”.
+
+•
+
+On the back of the Editor panel are CV Modulation Inputs for connecting external CV signals to modulate any of the parameters that are accessible in the Target section in the Editor, see “Wheel CV In and Source CV In”.
+
+•
+
+The Filter Reso parameter edited to have a reversed Range, as indicated by the light gray Range bar.
+
+This means that you can create multi-function controls that operate simultaneously on several parameters. E.g. if you have two Subtractors and a Malström in a Combi you could create a “master” filter cutoff knob, that controls this parameter for all three devices. See “Controlling multiple Target parameters differently from a single Source control” for an example.
+
+
+
+In this section you will find standard CV Pitch Bend and Mod Wheel modulation inputs, as well as eight modulation inputs which can be assigned as Sources in the Editor. Here you can connect external CV modulation sources for modulating any of the Target parameters in the Editor (see “Using Modulation Routing”).
+---
+
+<a id="pulsar-dual-lfo-64"></a>
+## 64. Pulsar Dual LFO
+
+
+#Rate
+
+This controls the LFO rate. The Rate range in Pulsar is very wide and can reach way up in the audio frequency range. The rate is indicated by the lamp to the left above the Rate knob. The rate can also be synced to the sequencer tempo by clicking the Tempo Sync button below the Rate knob (see “Tempo Sync” below). In sync mode, the Rate knob controls the sync resolution.
+
+The LFO 1 Rate can be modulated and/or synced by LFO 2, see “Rate (LFO 2 to LFO 1 Rate)” and “Sync”. The Rates can also be modulated from the Envelope, see “Envelope”. As a special feature, the Rates can also be controlled from a MIDI keyboard, see “KBD Follow”.
+
+Here you set the output level of the LFO signal. The LFO 1 Level can be modulated by LFO 2, see “Level (LFO 2 to LFO 1 Level)”. The Levels can also be modulated by the Envelope, see “Envelope”.
+
+Note that the total length of the cycle pair is always 2 regular cycles, which means that shuffling will work great also in Tempo Sync mode, see “Tempo Sync”.
+
+#Lag
+
+Click the Tempo Sync button to sync the LFO Rate to the sequencer tempo. This is great for creating animated effects in sync with the song’s tempo. In Tempo Sync mode, the Rate knob controls the sync resolution, see “Rate”.
+
+If Tempo Sync is also active (see “Tempo Sync”) the LFO will continue to sync to the sequencer tempo. However, when you actually press a key or hit the Trig button will affect the LFO cycle start. In some situations this could be perceived as the LFO is losing sync but it’s not; it’s merely the LFO cycle start that is changing.
+
+#Sync
+
+#Trig
+
+#Rate
+
+#CV
+
+#CV
+
+A CV signal with a value > 0 present on this input will gate the Envelope (see “Envelope”). When the CV input signal decreases to zero or below, the gate is opened (deactivated).
+---
+
+<a id="rpg-8-arpeggiator-65"></a>
+## 65. RPG-8 Arpeggiator
+
+
+The various modes govern how the notes are arpeggiated. For example “Up” means from lowest note to highest note, Up+Down from lowest to highest note, then back down to lowest note again. For a description of all the modes see “Mode switch”.
+
+If you play a new chord the arpeggio will continue to play, using the new notes. To stop the arpeggio, deactivate the Hold button or hit Stop on the transport. See “Hold On/Off”.
+
+Straight, triplet and dotted note values are available. The arpeggiator can also be free running, i.e. not synced to tempo - see “Rate”.
+
+If the knob is turned fully clockwise (“Tie”), the gate is always open (the notes will be played legato). If it is turned fully counter-clockwise, the gate is closed (no sound). See “Gate Length”.
+
+With “1 Oct” selected the arpeggiated notes will be those that you press down on the keyboard. If “2 Oct” is selected the range will be expanded so that the arpeggiated notes play over two octaves, and so on - see “Octave range buttons”.
+
+By using the Manual mode and varying the velocity for individual notes the arpeggio will become more animated and rhythmic. See “Velocity”.
+
+You can also render the arpeggio output “to track” for full sequencer edit control of the notes generated by the RPG-8 - see “Rendering arpeggio notes to track”.
+
+See “Pattern editor” for a description.
+
+
+
+Depending on the situation, the above limitations may or may not be of concern. But there is a quick and effective solution to all above mentioned issues; the “Render Arpeggio Notes to Track” function (see “Rendering arpeggio notes to track”).
+
+If you want to use separate simultaneous arpeggios, with each controlling one voice in a device, you have to use the “Arpeggio Notes to Track” function (see “Rendering arpeggio notes to track”) to separate Lanes in the target device track.
+
+There is also a “Velocity CV” input at the back. If this is connected to a controller source (a LFO modulation output for example), the output will be a merge between the Velocity setting and the applied CV modulation by the LFO - see “CV Inputs”.
+
+| Mode
+
+#Rate
+
+| Function
+
+In addition to the above CV inputs, there is a “Start of Arpeggio Trig In” connector. This restarts the arpeggio figure from step 1 when this input receives a gate trigger. See “Triggering arpeggios” for a tip on how this can be used. If something is connected to this input the RPG-8 will not generate arpeggios unless a Gate trigger is received.
+---
+
+<a id="matrix-pattern-sequencer-66"></a>
+## 66. Matrix Pattern Sequencer
+
+
+•
+
+
+
+Gate CV represents a note-on/off value, plus a level value (that could be likened to velocity).
+
+If the Tempo track (see “Recording tempo automation”) is used, Matrix will follow this.
+
+Bipolar curves are essential in some instances. If you want to use the Matrix to CV control the Pan parameter for a mixer channel for example, a unipolar curve would start at zero - which for Pan equals center position. This means that you would only be able to use the curve to pan in one direction from this center position. A bipolar curve however, will have the zero value in the middle, allowing you to draw pan curves in both directions. Bipolar curves can also be used for controlling parameters with positive and negative values.
+
+Tied notes are also essential if you want to create typical TB-303 “Acid”-type lead lines - see “Programming “Acid Style” lead lines”.
+
+In Reason, you can activate or deactivate shuffle individually for each pattern in a pattern device. However, the amount of shuffle is set globally with the Global Shuffle control in the ReGroove Mixer. The ReGroove Mixer is described in “The ReGroove Mixer”.
+
+The Patterns play to the end before changing, so you won’t have worry too much over the “timing” of the pattern changes you input manually. When you are done, the sequencer track will contain pattern change data, and the patterns will automatically switch according to the order set while recording. More on recording pattern changes on “Recording pattern automation”.
+
+2.
+
+This parameter is used for modulating the output level (volume) of the synthesizer. Volume modulation is often referred to as Tremolo. You can use a unipolar curve (see “About Unipolar and Bipolar Curves”) for this example.
+
+8.
+
+If “Tie” (see “Using Tied Notes”) now is activated for a step, the note will be tied to the next and the pitch will continuously “glide” to the pitch of the following step.
+---
+
+<a id="mixer-142-67"></a>
+## 67. Mixer 14:2
+
+
+The four independent AUX Sends control the amount of channel signal that is to be sent to other devices - typically effect processors. The effect output is then normally returned to the Mixer via the AUX Return inputs (see “The Auxiliary Return Section”
+
+) where it is mixed with the dry (non-processed) signal. If you create an effect device when the Mixer is selected, the effect is auto-routed to the first available Send/Return connectors. You can then control the amount of effect that is to be applied to any device connected to a Mixer channel via the corresponding AUX Send knob. The AUX Send outputs are taken post channel fader, but you have the option of selecting Pre-fader mode for AUX Send 4 (by clicking the “P” button next to the send so that it lights up). In that mode, the send level is independent of the channel fader.
+---
+
+<a id="the-line-mixer-62-68"></a>
+## 68. The Line Mixer 6:2
+
+
+## 
+Introduction
+The Line Mixer 6:2 allows you to control the level, stereo placement (Pan) and effect mix (AUX Send) of each connected audio device.
+The Line Mixer is configured with 6 (stereo) input channels, which are combined and routed to the Left and Right Master outputs.
+## 
+Channel parameters
+The channels are identical and contain an Auxiliary Send, Mute and Solo buttons, a Pan control, and a Level control:
+|
+Item
+|
+Description
+Level control
+This controls the output level of each corresponding channel, allowing you to set the desired mix (balance)
+between different devices connected to the Line Mixer.
+Channel label
+Each channel in the mixer that has a device connected to it, displays a read-only label with the name of the
+device.
+Channel meter
+The meter is a graphical representation of the channel output level. If the signal level pushes the meter into the range of the red area, try lowering either the output level of the device connected to the channel, or the Level control itself, to avoid distortion.
+Pan control
+Use this control to set the left/right position of the channel in the stereo field. [Ctrl]-click (Win) or the Pan knob to set Pan to the default “0” (center position).
+Mute (M) and
+Solo (S) Buttons
+Clicking a channel’s Mute button silences the output of that channel. Click the button again to unmute the
+channel.
+Clicking a channel’s Solo button silences all other mixer channels, so that you only hear the soloed channel.
+Several channels can be soloed at the same time. If this is the case, note that soloed channels can’t be muted with the Mute button. To mute one of several channels in solo mode you simply “unsolo” it.
+Auxiliary (AUX) Effect Send
+The AUX Send controls the amount of channel signal that is to be sent to other devices - typically effect
+processors. The effect output is then normally returned to the Mixer via the AUX Return input where it is mixed with the dry (non-processed) signal. If you create an effect device when the Mixer is selected, the effect is auto-routed to the Send/Return connectors. You can then control the amount of effect that is to be applied to any
+device connected to a Line Mixer channel via the AUX Send knob. The Send can be taken pre or post channel level - see
+“Auxiliary (AUX) Send”
+.
+## 
+The Auxiliary Return section
+The AUX Return channels provide inputs for a connected send effect device. The Aux Return channels have a single level control on the front panel.
+## 
+Master level
+The Master L/R fader controls the summed output level of all channels in the Mixer. Use this to change the relative level of all channels, to make fade-outs etc.
+## 
+Connections
+All input and output connectors are as usual located on the back panel of the Line Mixer.
+## 
+Mixer Channel Connections
+Each mixer channel features stereo left/right inputs for connecting audio devices.
+Use the left input when manually connecting a mono signal source.
+In addition, there is a Control Voltage (CV) input, for voltage controlling channel Pan from other devices.
+## 
+Auxiliary (AUX) Send
+The Send connectors are used to connect to the inputs of effect devices.
+To connect the send to a mono-input device, use the Left (Mono) output.
+When a Send is connected to an effects device, the corresponding AUX Send knob determines the level of the signal sent to the effect device for each channel.
+The Send Output can be taken Pre or Post channel level by using the switch to the left of the Send connectors.
+## 
+Auxiliary (AUX) Return
+These are normally connected to the left and right outputs of effect devices.
+## 
+Master Left/Right Outputs
+•
+The Master outputs are auto-routed to the input pair of the first available Mix Channel device in the rack.
+If no Mix Channel device is available, one will be automatically created when you create a Line Mixer device.
+If used in a Combi, the Master Outs are normally connected to the “From Devices” connectors on the Combinator.
+---
+
+<a id="menu-and-dialog-reference-69"></a>
+## 69. Menu and Dialog Reference
+
+
+This menu item opens up the Preferences dialog. See “Preferences – General”, “Preferences – Audio”, “Preferences – MIDI”, “Preferences – Account”, “Preferences – Folders”, “Preferences – Sync” and “Preferences – Advanced” for detailed descriptions about the functions and settings in this dialog.
+
+## New
+
+When you select this, a new song appears. The exact contents of this song is determined by your Preferences settings (see “Default song”).
+
+You can then save your song with a new name. See “Creating a new Song from a template” for more details.
+
+
+
+See “Opening a Reason or Record Song” for more details.
+
+
+
+See “Opening a Reason Demo Song” for more information.
+
+## Save
+
+•
+
+This saves the active song document to disc. A standard Save As dialog appears requesting you to enter a file name and specify a location for the file on disk. The “Save As” command will also automatically optimize the song file size when applicable (see “Save and Optimize”).
+
+
+
+See “Saving and optimizing a Song” for more details.
+
+See “Including Song Information” for information.
+
+See “About Self-Contained Songs” for more information.
+
+See “Importing audio to the sequencer” for more information.
+
+See “Importing Standard MIDI Files” for more information.
+
+See “Exporting Standard MIDI Files” for more information.
+
+See “Exporting Songs or parts of Songs” for more information.
+
+See “Bouncing Mixer Channels” for information on how to bounce mixer channels.
+
+## Undo
+
+See “Undo and Redo” for more detailed information.
+
+
+=== END OF PART ===

@@ -338,3 +338,10 @@ The `session-ledger` skill (`.claude/skills/session-ledger/SKILL.md`) has the
 full read/append workflow and should trigger automatically. `SCRATCH.md`
 (project root) is the disposable live-reasoning trace for a multi-step
 problem in progress.
+
+## Production Research Hub (added 2026-10-17)
+All production, effects, mixing and music-theory research is gathered in
+`~/Desktop/Homeroom Studio/Production Research Hub/`. Start at `00 START HERE.md`.
+12 chapters in `Chapters/` (each part under 450 lines — read every part, not just the first),
+exact copies of the sources in `Originals/`, file list in `MANIFEST.txt`.
+Read the matching chapter before doing research or recipe work on effects, mixing or theory.

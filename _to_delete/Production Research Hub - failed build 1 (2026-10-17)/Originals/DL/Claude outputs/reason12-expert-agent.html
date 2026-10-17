@@ -1,0 +1,498 @@
+<title>Reason 12 Expert Agent</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f1efea;
+    --panel: #fbfaf8;
+    --panel-sunk: #e9e6df;
+    --ink: #191b1f;
+    --muted: #6b6862;
+    --rule: #d6d2c9;
+    --amber: #9c6d16;
+    --amber-soft: #e8d7ae;
+    --teal: #2b636b;
+    --caution: #963d26;
+    --good: #40663f;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #16171a;
+      --panel: #1e2025;
+      --panel-sunk: #121316;
+      --ink: #e9e6e0;
+      --muted: #9a958c;
+      --rule: #33353b;
+      --amber: #d9a63f;
+      --amber-soft: #4a3a17;
+      --teal: #6aacb4;
+      --caution: #d4795e;
+      --good: #85b083;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #16171a;
+    --panel: #1e2025;
+    --panel-sunk: #121316;
+    --ink: #e9e6e0;
+    --muted: #9a958c;
+    --rule: #33353b;
+    --amber: #d9a63f;
+    --amber-soft: #4a3a17;
+    --teal: #6aacb4;
+    --caution: #d4795e;
+    --good: #85b083;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.62;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-inline: 22px;
+    padding-block: 56px 100px;
+  }
+
+  .eyebrow {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(30px, 6vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0 0 16px;
+  }
+
+  .standfirst {
+    font-size: 19px;
+    color: var(--muted);
+    margin: 0 0 10px;
+    text-wrap: pretty;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 23px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.005em;
+    margin: 0 0 6px;
+  }
+
+  section { margin-top: 52px; }
+
+  /* rack-rail section head: hairline with mounting holes at each end */
+  .rail {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .rail::before, .rail::after {
+    content: "";
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    background: var(--rule);
+    flex: none;
+  }
+  .rail .line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  p { margin: 0 0 16px; }
+  a { color: var(--teal); text-underline-offset: 2px; }
+
+  strong { font-weight: 600; }
+
+  .lede {
+    font-size: 18px;
+    border-left: 2px solid var(--amber);
+    padding-left: 18px;
+    margin-bottom: 26px;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+
+  /* layer stack */
+  .layers { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+  .layer {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 18px;
+    align-items: start;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--amber);
+    padding: 16px 20px;
+  }
+  .layer .cost {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--amber);
+    font-weight: 500;
+    padding-top: 2px;
+  }
+  .layer p { margin: 0; font-size: 15.5px; color: var(--muted); }
+  .layer p em { color: var(--ink); font-style: normal; }
+
+  /* verdict table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15.5px;
+  }
+  .tablewrap { overflow-x: auto; margin-bottom: 8px; }
+  th {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0 14px 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  td {
+    padding: 13px 14px 13px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  td:first-child { font-family: var(--display); font-weight: 500; font-size: 15px; white-space: nowrap; }
+  td:last-child { padding-right: 0; color: var(--muted); }
+
+  .chip {
+    font-family: var(--display);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .chip.no { color: var(--caution); border: 1px solid var(--caution); }
+  .chip.yes { color: var(--good); border: 1px solid var(--good); background: transparent; }
+
+  /* scale bars */
+  .bars { margin: 4px 0 6px; }
+  .bar-row { margin-bottom: 16px; }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 14.5px;
+    margin-bottom: 6px;
+  }
+  .bar-label .n {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+  .bar-track { height: 12px; background: var(--panel-sunk); }
+  .bar-fill { height: 100%; background: var(--amber); }
+  .bar-fill.lean { background: var(--teal); }
+  .scale-note { font-size: 13.5px; color: var(--muted); margin: 0; }
+
+  pre {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.68;
+    background: var(--panel-sunk);
+    border: 1px solid var(--rule);
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 0 0 18px;
+  }
+  code { font-family: var(--mono); font-size: 0.88em; }
+  p code, li code, td code { background: var(--panel-sunk); padding: 1px 5px; }
+  .cmt { color: var(--muted); }
+
+  ol.phases { list-style: none; counter-reset: p; padding: 0; margin: 0; }
+  ol.phases > li {
+    counter-increment: p;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 16px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  ol.phases > li::before {
+    content: counter(p, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--amber);
+    padding-top: 3px;
+  }
+  ol.phases p { margin: 0; font-size: 15.5px; color: var(--muted); }
+
+  ul.plain { padding-left: 20px; margin: 0 0 16px; }
+  ul.plain li { margin-bottom: 9px; }
+
+  .callout {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--caution);
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+  .callout h3 { color: var(--caution); }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  footer a { color: var(--teal); }
+  footer ul { padding-left: 18px; margin: 10px 0 0; }
+  footer li { margin-bottom: 5px; }
+
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    .layer { grid-template-columns: 1fr; gap: 6px; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Reason 12 · Architecture recommendation</p>
+  <h1>Reason 12 Expert Agent</h1>
+  <p class="standfirst">One knowledge package, mounted in both Hermes and Claude, built from today's manual extraction.</p>
+
+  <section style="margin-top:40px">
+    <p class="lede">Don't make a model ingest the manual. Build a skill that knows exactly where in the manual to look, and looks in one step. That is what a know-it-all actually is, and it's the only version that can cite a page number.</p>
+
+    <p>The corpus we produced today is <strong>2.8&nbsp;MB — 385,496 words, roughly 510,000 tokens</strong> across 1,466 manual pages. Nothing memorizes that. Sonnet's window is 200k; a local model in Hermes is typically 32k–128k. Even if it fit, paying half a million tokens to answer "what does Kbd&nbsp;Track do on Subtractor's Osc&nbsp;1" is absurd when the answer lives on page 862.</p>
+
+    <p>The good news is the research turned up something that collapses this from two builds into one: <strong>Hermes Agent is compatible with the agentskills.io open standard</strong> — the same <code>SKILL.md</code> format Claude uses. Hermes reads skills from <code>~/.hermes/skills/</code> and can also scan external skill directories. So one folder, symlinked twice, serves both.</p>
+  </section>
+
+  <section>
+    <div class="rail"><h2>The three layers</h2><span class="line"></span></div>
+    <p>Progressive disclosure: the agent pays for what it opens, nothing else.</p>
+
+    <div class="layers">
+      <div class="layer">
+        <span class="cost">~100 tok</span>
+        <p><em>Always loaded.</em> Just the skill's name and description, sitting in the system prompt so the agent knows Reason knowledge exists and when to reach for it.</p>
+      </div>
+      <div class="layer">
+        <span class="cost">~5k tok</span>
+        <p><em>Loaded when triggered.</em> <code>SKILL.md</code> — the router. All 54 devices with one line each on what they're for, the CV and audio routing rules, your house rules, and the map of where every detail lives. Most questions get answered from here without opening another file.</p>
+      </div>
+      <div class="layer">
+        <span class="cost">0 until read</span>
+        <p><em>Opened on demand.</em> One reference file per device and per operations topic, plus a grep script for exact parameter lookup. Sitting on disk costs nothing.</p>
+      </div>
+    </div>
+
+    <div class="bars">
+      <div class="bar-row">
+        <div class="bar-label"><span>Whole manual in context, every question</span><span class="n">510,000 tokens</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Router + the two files a real question needs</span><span class="n">~15,000 tokens</span></div>
+        <div class="bar-track"><div class="bar-fill lean" style="width:2.9%"></div></div>
+      </div>
+      <p class="scale-note">Same scale. That ratio is the entire argument.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="rail"><h2>Why not the other three options</h2><span class="line"></span></div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Approach</th><th>Verdict</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fine-tune a model</td>
+            <td><span class="chip no">No</span></td>
+            <td>Costs real money, can't cite pages, invents plausible-but-wrong parameter values, goes stale on the next Reason update, and you'd redo it for every model you switch to.</td>
+          </tr>
+          <tr>
+            <td>Stuff the whole manual in</td>
+            <td><span class="chip no">No</span></td>
+            <td>510k tokens exceeds every window you'd realistically run, and burns the budget on every question regardless of how narrow it is.</td>
+          </tr>
+          <tr>
+            <td>Vector RAG</td>
+            <td><span class="chip no">Not here</span></td>
+            <td>Needs embedding infrastructure in both places, chunk boundaries slice parameter tables in half, and fuzzy similarity is <em>worse</em> than exact match when the query is a literal control name.</td>
+          </tr>
+          <tr>
+            <td>Agent Skill + grep</td>
+            <td><span class="chip yes">Yes</span></td>
+            <td>Zero infrastructure, exact matching on real parameter names, page-cited answers, and the same folder runs in Hermes and Claude unchanged.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:15px;color:var(--muted)">Vector search earns its keep on messy, unstructured, constantly-growing corpora. This one is fixed, clean, and already has a table of contents — the conditions where retrieval-by-navigation wins.</p>
+  </section>
+
+  <section>
+    <div class="rail"><h2>This isn't just my judgment call</h2><span class="line"></span></div>
+    <p>A May 2026 paper — <em>Is Grep All You Need? How Agent Harnesses Reshape Agentic Search</em> — compared grep against vector retrieval across four agent harnesses including Claude Code. Finding: <strong>grep generally yielded higher accuracy than vector retrieval.</strong> Independent write-ups of similar tests put vector-over-chunks around 60% against roughly 68% for an agent iterating with grep, find and cat.</p>
+
+    <div class="panel" style="border-left:3px solid var(--teal)">
+      <h3>The second finding matters more for you</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">The same paper found scores "depend strongly on which harness and tool-calling style is used, even when the underlying conversation data are the same." Identical skill, identical corpus, different agent — different accuracy. That is a direct prediction about Hermes versus Claude, and it changes the build: <strong>run the evals in both harnesses, not once.</strong> Whatever gap shows up is the real cost of running this locally, measured instead of guessed.</p>
+    </div>
+
+    <p style="font-size:15px;color:var(--muted)">The honest counterweight: LlamaIndex's position is that lexical search is fast and precise but degrades at enterprise scale, where hybrid wins. At 2.8&nbsp;MB across 80-odd files, this corpus is nowhere near that ceiling — it sits squarely in grep's sweet spot. If the library later grows to include every Rack Extension manual and years of your own session notes, revisit it then.</p>
+  </section>
+
+  <section>
+    <div class="rail"><h2>The folder</h2><span class="line"></span></div>
+    <pre>reason12-expert/
+├── SKILL.md                  <span class="cmt"># router + device roster + house rules (&lt;500 lines)</span>
+├── reference/
+│   ├── 00-index.md           <span class="cmt"># the map: topic → file → manual page, + synonym table</span>
+│   ├── devices/              <span class="cmt"># 54 files, one per device — not one per chapter</span>
+│   │   ├── subtractor.md     <span class="cmt">#   ch34, pp. 857–882</span>
+│   │   ├── thor.md           <span class="cmt">#   ch33, pp. 817–856</span>
+│   │   └── …
+│   ├── operations/           <span class="cmt"># sequencer, mixer, routing, sampling, Remote…</span>
+│   └── tables/               <span class="cmt"># key commands, menu reference</span>
+├── data/
+│   ├── devices.json          <span class="cmt"># today's manifest — machine-readable</span>
+│   ├── device-images.json    <span class="cmt"># front/back panel URLs</span>
+│   └── device-params.json    <span class="cmt"># ← from `reason code`: 3,700+ canonical names</span>
+└── scripts/
+    └── lookup.py             <span class="cmt"># grep wrapper → snippet + chapter + page number</span></pre>
+
+    <div class="panel" style="border-left:3px solid var(--teal)">
+      <h3>You already own the missing piece</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">Your <code>reason code</code> project has <code>device_params.json</code> — canonical parameter names for 46 devices, 3,700+ of them, pulled by <code>scan_rack.py</code> straight out of Reason's own Remote map files. That is the <em>authoritative</em> vocabulary: exactly what Reason calls each control, which is exactly what grep needs to match. It's a better index than anything derivable from the manual prose, and it partly closes the vocabulary-mismatch problem below. Copy it in.</p>
+    </div>
+
+    <div class="panel">
+      <h3>One file per device, not per chapter</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">The manual's chapters are a book's structure. Chapter&nbsp;62 alone is nine separate devices (COMP-01 through UN-16) in one file; chapter&nbsp;5 is 178&nbsp;KB, about 45k tokens, too big to open whole. The agent's structure should be one file per thing you'd ask about. Average chapter is ~10k tokens — fine to read entire; the four oversized ones get split by topic.</p>
+    </div>
+
+    <div class="panel">
+      <h3>Every file keeps its page range</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">So answers land as "Filter&nbsp;1 tracks the keyboard at 0–100% via Kbd&nbsp;Track — manual p.&nbsp;869" and you can verify it in ten seconds. Same evidence discipline you use everywhere else.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="rail"><h2>Mounting it in both places</h2><span class="line"></span></div>
+    <p>Canonical folder lives once. Symlink into each host — the same pattern already running between <code>reason code</code> and <code>Homeroom Studio</code>.</p>
+    <pre>~/.reason_voice/reason12_manual/reason12-expert/     <span class="cmt"># source of truth</span>
+
+ln -s …/reason12-expert  ~/.hermes/skills/reason12-expert
+ln -s …/reason12-expert  ~/reason\ code/.claude/skills/reason12-expert</pre>
+    <p>Edit in one place, both agents see it. Hermes will also self-improve the skill during use, which writes back to the same folder — Claude picks that up for free.</p>
+    <p style="font-size:15px;color:var(--muted)">Optional refinement on the Claude side: wrap it in a <code>reason12-expert</code> subagent so deep manual dives happen in an isolated context and don't crowd out whatever you're actually building. Hermes has the equivalent with its isolated subagents.</p>
+  </section>
+
+  <section>
+    <div class="rail"><h2>Build order</h2><span class="line"></span></div>
+    <ol class="phases">
+      <li><p><strong>Write ten eval questions first</strong>, with answers you've confirmed in the manual. Run them against a bare agent and record what it gets wrong. Anthropic's own guidance is explicit about this: evals before documentation, or you end up writing for imagined failures instead of real ones.</p></li>
+      <li><p><strong>Split the corpus</strong> into per-device and per-topic files. Scripted from what's already extracted — the chapter boundaries and page ranges are done.</p></li>
+      <li><p><strong>Write <code>00-index.md</code></strong>: topic → file → page map, plus a synonym table so "pumping" and "ducking" route to sidechain compression and CV.</p></li>
+      <li><p><strong>Write <code>SKILL.md</code></strong>: the 54-device roster, routing rules, your stock-devices-first rule and the no-analogies rule, and the file map. Directive rather than open-ended, so a smaller local model in Hermes can still follow it.</p></li>
+      <li><p><strong>Add <code>lookup.py</code></strong> — deterministic grep returning snippet plus chapter and page. Runs without loading its own source into context.</p></li>
+      <li><p><strong>Re-run the evals in <em>both</em> harnesses</strong> — Claude and Hermes — and compare against the step-1 baseline. Same skill, same corpus, two numbers. The research says they will differ; the gap between them is the measured price of running local.</p></li>
+      <li><p><strong>Mount, then iterate from observed failures</strong> — where it opens the wrong file, what it never opens at all. Log the fixes in DECISIONS.md.</p></li>
+    </ol>
+    <p style="margin-top:20px;font-size:15px;color:var(--muted)">Steps 2–5 are about an hour, because the hard part — a clean, complete, page-accurate extraction — is already sitting in <code>~/.reason_voice/reason12_manual/</code>.</p>
+  </section>
+
+  <section>
+    <div class="rail"><h2>Where this will let you down</h2><span class="line"></span></div>
+    <div class="callout">
+      <h3>Vocabulary mismatch</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">Grep finds "sidechain"; it does not find "pumping." The synonym table in the index covers the common cases, but you'll keep finding gaps for months. Add them as you hit them — that's the self-improving loop earning its keep.</p>
+    </div>
+    <div class="callout">
+      <h3>Small local models use skills worse</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">If Hermes is pointed at a 36B local model, expect it to skip references and read the wrong file more often than Claude does. Writing <code>SKILL.md</code> directively helps. If accuracy matters more than running local, point Hermes at a frontier model for this skill specifically.</p>
+    </div>
+    <div class="callout">
+      <h3>The manual only knows stock Reason 12.7</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">No Rack Extensions, no VST specifics, and parameter drift against whatever 12.x you're running. The agent will be confidently wrong about any RE you own unless the skill says plainly that REs are outside its knowledge.</p>
+    </div>
+    <div class="callout">
+      <h3>It can't see the panels</h3>
+      <p style="margin:0;font-size:15.5px;color:var(--muted)">The front/back images are URLs. A text agent reasons about the panel from the manual's words, not from looking at it. Fine for parameters; weak for "which knob is top-left."</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="rail"><h2>Someone already built one — worth looking at</h2><span class="line"></span></div>
+    <p><code>simontho/reason-remote-gen</code> is a Claude skill that generates Reason Remote Maps and Lua Codecs for hardware controllers. Two reasons it matters here.</p>
+    <p><strong>It validates the structure.</strong> Its layout is the pattern above, arrived at independently: <code>SKILL.md</code> plus a <code>references/</code> tree holding format docs, 33 exported device Remote Info files, and real-world example maps and codecs. Same shape, same reasoning.</p>
+    <p><strong>It also happens to solve your Launchkey problem.</strong> The README's own first example is "generate a remote map for the Novation Launchkey controlling Thor" — which is the pad-and-knob mapping you've been fighting on the 49 MK3. It handles Rack Extensions and VSTs too, via Reason's Remote Info export, which patches the biggest hole in a manual-only skill.</p>
+    <p style="font-size:15px;color:var(--muted)">Caveats, plainly: five stars, five commits, one author, MIT-licensed, tested on Reason 13 rather than 12. Read the <code>SKILL.md</code> before installing anything that writes files into your Reason config — same rule Anthropic gives for third-party skills. Treat it as a template and a useful separate tool, not a dependency.</p>
+  </section>
+
+  <section>
+    <div class="rail"><h2>One architectural call worth making now</h2><span class="line"></span></div>
+    <p><strong>Keep the recipe book as a separate, sibling skill.</strong> The manual is static and verifiable — Reason Studios' word, citable to a page. Your recipes are opinionated, tested by ear, and still evolving. Merging them makes it impossible for the agent — or you, six months from now — to tell which is which. Two skills that reference each other keeps the provenance clean and lets the recipe skill cite the manual skill the way your recipes already cite tested signal flow.</p>
+  </section>
+
+  <footer>
+    <p><strong>Sources</strong></p>
+    <ul>
+      <li><a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a> — Anthropic (500-line ceiling, one-level-deep references, domain-organized reference folders, grep for lookup, evals before docs)</li>
+      <li><a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a> — Anthropic, Oct 2025 (progressive disclosure; open standard as of Dec 2025)</li>
+      <li><a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/skills">Skills System</a> — Hermes Agent docs (<code>~/.hermes/skills/</code>, agentskills.io compatibility, external skill directories)</li>
+      <li><a href="https://agentskills.io/specification">Agent Skills specification</a> — frontmatter fields and limits</li>
+      <li><a href="https://arxiv.org/abs/2605.15184">Is Grep All You Need? How Agent Harnesses Reshape Agentic Search</a> — Sen et al., arXiv:2605.15184, May 2026 (grep vs. vector across four harnesses; harness-dependence of scores)</li>
+      <li><a href="https://www.zansara.dev/posts/2026-03-15-is-grep-really-better-than-a-vector-db/">Is grep really better than a vector DB?</a> and <a href="https://www.llamaindex.ai/blog/is-grep-all-you-need-lexical-vs-semantic-search-for-agents">Is grep all you need? Lexical vs semantic search for agents</a> — LlamaIndex (the scale caveat)</li>
+      <li><a href="https://github.com/simontho/reason-remote-gen">simontho/reason-remote-gen</a> — existing community Claude skill for Reason Remote Maps and Lua Codecs</li>
+      <li><a href="https://www.hermify.io/hermes-agent-memory-and-skills">Hermes Agent memory and skills</a> — <code>MEMORY.md</code> / <code>USER.md</code> are global, not project-scoped, which is why domain knowledge belongs in a skill here rather than a context file</li>
+      <li>Corpus figures measured directly from <code>Reason_12.7_Operation_Manual_Full_Text.md</code>, extracted from your PDF earlier today; parameter-count figure from your own <code>reason code/CLAUDE.md</code>.</li>
+    </ul>
+  </footer>
+
+</div>

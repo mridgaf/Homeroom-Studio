@@ -1,0 +1,42 @@
+[
+  {
+    "query_text": "chest hitting but expensive drums, kick punch without mud",
+    "recipe_path": "Hip-Hop Recipe Book/recipes/09-kick-punch-without-mud.md",
+    "success_score": 0.9,
+    "final_tweaks": null,
+    "tags": [
+      "drums",
+      "kick",
+      "punch",
+      "low-mid",
+      "tested"
+    ],
+    "created_at": "2026-08-02T01:41:43.471747+00:00"
+  },
+  {
+    "query_text": "chest hitting but expensive drums, kick punch without mud",
+    "recipe_path": "Hip-Hop Recipe Book/recipes/09-kick-punch-without-mud.md",
+    "success_score": 0.75,
+    "final_tweaks": "chain landed 5-6 dB quiet: recipe had no makeup gain. Added Output Gain +3-4 dB on MClass Comp and a level-matching step.",
+    "tags": [
+      "drums",
+      "kick",
+      "gain-staging",
+      "correction"
+    ],
+    "created_at": "2026-08-02T01:46:17.308682+00:00"
+  },
+  {
+    "query_text": "chest hitting but expensive drums, kick punch without mud",
+    "recipe_path": "Hip-Hop Recipe Book/recipes/09-kick-punch-without-mud.md",
+    "success_score": 0.95,
+    "final_tweaks": "Built as written on bd_kck_linn1.wav. Output Gain needed raising past the +3-4 dB starting point to level-match; once matched it sounded clearly better than bypassed. No other values changed.",
+    "tags": [
+      "drums",
+      "kick",
+      "tested",
+      "confirmed"
+    ],
+    "created_at": "2026-08-03T04:19:44.822071+00:00"
+  }
+]

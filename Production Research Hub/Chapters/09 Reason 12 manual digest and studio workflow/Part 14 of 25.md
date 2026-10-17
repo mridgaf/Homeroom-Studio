@@ -1,0 +1,398 @@
+# Chapter 09: Reason 12 manual digest and studio workflow
+## Part 14 of 25
+
+_Digested Reason 12.7 manual, the manual reference, study guide, demo-song teardowns, and studio notes._
+
+**In this part:**
+- Reason_12.7_Operation_Manual_Reference.md (piece 5 of 10) — Reason 12.7 Operation Manual — Compiled Reference
+
+(Next: Part 15 of 25)
+
+
+=====================================================
+SOURCE FILE: Reason_12.7_Operation_Manual_Reference.md (piece 5 of 10)
+ORIGINAL LOCATION: HS:docs/reason/Reason_12.7_Operation_Manual_Reference.md
+=====================================================
+
+## 16. Routing Audio and CV
+
+
+Gate outputs/inputs are typically used to trigger events, such as note on/off values, envelopes etc.
+
+See "Manual routing" for a description of routing methods.
+
+This allows you to e.g. change the order of effect devices in a signal chain by Shift-dragging them.
+
+If you are duplicating a complete Device Group (see "Duplicating devices"), this will often include a Mix Channel. In this case, the Mix Channel will also be duplicated, with no need for further auto-routing.
+
+Note that routing cables can be done regardless of the "Reduce Cable Clutter" setting on the Options menu. This means that you can connect cables even though they are hidden (see "Cable appearance").
+
+On the back of each device you will find connectors of two different types: audio and CV (Control Voltage, used for controlling parameters - see "Using CV and Gate"). Audio inputs and outputs are shown as large quarter inch jacks, while CV input and output jacks are smaller. For now, we'll stick to the audio connections.
+
+Conversely, if you would like to apply Gate or CV modulation to more than one voice, you should not use the Sequencer Control inputs, as these only function monophonically.
+
+See the chapter "Matrix Pattern Sequencer" for more tips about using CV.
+
+---
+
+<a id="the-main-mixer-17"></a>
+## 17. The Main Mixer
+
+
+A Mix Channel device acts as a host to a source device (e.g. an instrument device). When you create an instrument, a Mix Channel device is added automatically to the rack and a corresponding Mix Channel strip is added to the Main Mixer. You can also create Mix Channels manually from the Devices tab in the Tool Window or from the Create menu. This is useful if you need to make manual mixer routings - see "Advanced routing tips and tricks" at the end of this chapter.
+
+The Mix Channel device has inputs to which the source (instrument) device is connected. The Mix Channel device and channel strip will automatically be assigned the name of the connected source device, but this can be changed - see "Naming mixer channels".
+
+A Mix Channel device will not automatically have a corresponding track created in the sequencer (but the connected source device will). Mix Channel tracks are created manually and used for automating channel strip parameters - see "Automating mixer parameters".
+
+The Master Section device is always present and is fixed in the rack, just below the Reason Hardware Interface. This is where all your Audio Track and Mix channels are summed and mixed to stereo, and where you set up your Send effects and Master Insert effects. For descriptions of how to set up and use effects, see "Insert FX" and "Send FX".
+
+Each section has a section name header in the channel strip. The sections are as follows (from the top down): Input, Dynamics, EQ, Inserts, FX Sends and Fader. (See "The channel strip" for descriptions of each section.)
+
+The channel will get Edit Focus (see "Channel Header section") and be scrolled into view in the Main Mixer. If you have both the sequencer and Main Mixer in view, or the rack and Main Mixer, clicking a track in the Track List, or on a Mix Channel/Audio Track device in the rack, will flash the corresponding channel strip in the Main Mixer.
+
+Mixer channel strips are automatically created when you create Audio Track and Mix Channel devices. In most situations, a Mix Channel device (with its channel strip) is also automatically created when you create an instrument device (see "Creating devices").
+
+If there are devices connected to the Mix Channel device you delete, and "Auto-group Devices and Tracks" is selected on the Options menu, the alert will ask if you want to delete only the selected device, or all devices in the Device Group (see "About Device Groups" for more information).
+
+This allows you to e.g. change the Fader levels of all selected channels simultaneously (see "Changing Fader section parameters on multiple channels simultaneously"), or move or delete several channels in one go. The last selected channel will be given edit focus which is indicated by a red strip in the channel header (see "Channel Header section").
+
+Resetting channel settings initializes all channel strip parameters to default values and removes any insert effects (see "Insert FX section") from the channel.
+
+See "Using compression sidechaining" for a description of further uses of sidechaining.
+
+The Insert effects can be placed ahead of the Dynamics and EQ sections in the signal path, see "Signal Path section".
+
+See "Insert FX" for descriptions of how to create and work with Insert effects.
+
+Send effects, which are global for all channels in the Main Mixer, are connected to the Master Section rack device. Up to 8 Send effects can be used simultaneously. For a description of how to use Send effects, see "Send FX".
+
+The Remote Base Channel indicator - To the left in the same horizontal strip area a small yellow arrow symbol can be shown. This is the Remote Base Channel indicator, which shows which channel is considered the first or base channel when using Remote Control - see "Setting the Remote Base Channel".
+
+The Master Compressor can be applied pre or post Master Insert section - see "Master Inserts section".
+
+This section controls the master levels of the FX Returns. Send effect devices are connected to the Master Section via the eight FX Send and eight FX Return connectors on the Master Section device. See "Send FX" for a description of Send FX.
+
+The Control Room outputs are located on the back of the Master Section device. To use the Control Room output section, the outputs have to be connected to your monitor system. This can be done by manually patching cables from the "Ctrl Room Out" connectors to a separate output pair on the Reason Hardware Device - see "Manual audio routing".
+
+The total delay of the Main Mixer signal (at the Master Out) is displayed below the display. See the "Delay Compensation" chapter for more information about delay compensation in Reason.
+
+By definition, insert effects are inserted in the signal chain and process the whole channel signal, as opposed to Send effects (see "Send FX") where the effect is shared among all channels and the balance is individually adjustable for each channel. Typical insert effects are dynamics, distortion, chorus etc., plus mastering effects for the Master Section.
+
+An alert appears asking you to confirm the deletion. (See "Deleting devices" for more details).
+
+Send effects are routed in parallel with the signal chain, and the effect balance can be adjusted - as opposed to Insert effects, which are inserted in the signal chain and process the whole channel signal (see "Insert FX"). Typical Send effects include reverbs and delays.
+
+Output Busses allow you to create sub-mixers. Sub-mixers can be very useful for pre-mixing a multi-mic'ed drum kit, or a horn section, for example. You can also use a sub-mixer configuration to route several external input signals (from separate microphones, for example) for recording onto a single audio track (see "Recording a sub-mix onto an audio track"). You can have as many mix busses as you like in a Reason song.
+
+See "Recording audio from Mix Channel outputs" for more details.
+
+Functions for changing the Remote Base Channel may already be mapped to buttons on your control surface - see the "Control Surface Details" pdf document. If not, you can set this up manually in the Additional Remote Overrides dialog on the Options menu - see "Additional Remote Overrides...".
+
+If your control surface doesn't have buttons already assigned for controlling Remote Base Channel selection, you can manually assign controllers for this by using the Remote Override function described in "Remote Override mapping". Alternatively, select a channel strip and select "Set Remote Base Channel" from the Edit menu or context menu.
+
+See "Remote - Playing and Controlling Devices" for more details about remote controlling Reason. See also the "Control Surface Details" pdf document for information about parameter assignments on various common control surfaces.
+
+Use a "Spider Audio Merger & Splitter" device to split the sidechain signal from the Parallel outputs and/or Insert FX "To Device" output into several signals.
+
+See "Output Busses" for information.
+
+Another typical application for compression sidechaining is to use the internal signal of the channel, filter it, and then feed to the compressor via "internal" sidechaining. This type of internal sidechaining can be used for de-essing, for example. No additional patching is required for this; you only have to activate the "Filters to Dynamics Sidechain" button in the Filter or EQ sections. See "About the Filters To Dynamics Sidechain button".
+
+Direct routing of individual channel outputs to individual outputs on the Reason Hardware Interface.
+
+Now, you can begin recording on the Audio Track according to the standard recording procedures described in "General recording procedure". The signal will be processed by the Insert FX of the Mix Channel device before being recorded on the track.
+
+---
+
+<a id="delay-compensation-18"></a>
+## 18. Delay Compensation
+
+
+When on, the delay compensation affects all configurations described in "Delay Compensation rules" below.
+
+In other words, Reason doesn't measure any latency of the effect devices. However, you can manually adjust the delay compensation if needed (if things sound wrong due to plugins reporting wrong latencies etc.). See "Manually adjusting the latency values" for more details.
+
+What Reason then does to compensate for the inherent latencies in effect devices is to automatically add "invisible delays" to the signals of the other mixer channels. The goal for the delay compensation is to have all mixer channel signals arriving at exactly the same time to the Master Section of the main mixer.
+
+---
+
+<a id="song-file-handling-19"></a>
+## 19. Song File Handling
+
+
+See "Using the Browser" in the "Sounds and Patches" chapter.
+
+If the song includes samples or REX files, and these have been moved or renamed since the song was saved, the program will inform you that it cannot find all files. You can then choose to either manually locate the missing files, to have the program search for them or to proceed without the missing sounds. For details, see "Handling Missing Sounds" in the "Sounds and Patches" chapter.
+
+When you open a Reason song made by another user, it may have been created with Rack Extension devices that you don't have. All such missing devices in a song will be replaced by generic "Missing Device" placeholder devices. See "About missing Rack Extensions" for more information.
+
+It's also possible to automatically include all samples used by the Reason devices and make the Song "self-contained". Refer to "About Self-Contained Songs" for details about how to include your own samples in your songs.
+
+The text you add here will be displayed directly after the file name in the song window's title bar.
+
+This allows you to add a picture to the song. The picture will be displayed when the song is opened.
+
+The "Song Self-Contain Settings" dialog appears, listing all samples and REX files used in the song.
+
+If you un-self-contain samples that were modified in the Edit Sample Window and feature Start and End Markers and/or loop crossfades, the Lossy Sample Export dialog appears. The available options are described further down in the "Exporting samples" section in the Sampling chapter. Note that the option you select in the Lossy Sample Export applies to all samples you have deselected in the Song Self-contain Settings dialog!
+
+If you want Songs you have created to appear on the "New from Template" sub-menu, and be available for selection when you use the "New from Template" command (see "Creating a new Song from a template"), you need only move or copy the Song(s) to the Template Songs folder in the Music folder on your hard drive. The easiest way to get to this folder is by selecting File > New from Template > Show Template Folder. This brings up the Template folder in Windows Explorer or Finder on Mac.
+
+This means that standard performance controllers (Pitch Bend, Mod Wheel etc.) are preserved properly and will be included in the note clip, just as when recording in Reason. If there are separate MIDI Controllers in the imported MIDI file, these will be imported to separate Automation Lanes on the Instrument Tracks. There is a chance that some controller data may be imported to alien clips, due to different interpretations of a controller by a device in the rack and the MIDI instrument used to create the MIDI file (see "About alien clips").
+
+---
+
+<a id="importing-and-exporting-audio-20"></a>
+## 20. Importing and Exporting Audio
+
+
+The exported audio file will also contain tempo data as described in "About Tempo data in exported audio files".
+
+See "Bounce Clip(s) to New Sample(s)" in the "Audio Editing in the Sequencer" chapter for more details.
+
+See "Bounce Clip(s) to New Recording(s)" in the "Audio Editing in the Sequencer" chapter for more details.
+
+See "Bounce Clip to REX Loop" in the "Audio Editing in the Sequencer" chapter for more details.
+
+---
+
+<a id="sampling-21"></a>
+## 21. Sampling
+
+
+Here, all samples you use in your song are listed (see "The Song Samples location"). Here is also where you can open samples for editing (see "Editing samples").
+
+Here, all samples that are assigned to devices in the song are listed. All devices that contain assigned samples are listed as "sub-folders". Each device "sub-folder" shows the samples currently assigned to it. See "Assigned Samples" for more details.
+
+If you remove a sound you have sampled from a device, the sound is automatically moved from the Assigned Samples folder to the Unassigned Samples folder. From here you can load the sample into other devices if you like. See "Unassigned Samples" for more details.
+
+All sounds you have sampled yourself, plus any duplicated samples from the Factory Soundbank and/or ReFills, automatically becomes self-contained and are always stored with the song. These samples are listed in the All Self-contained Samples folder. See "About self-contained samples" for more details.
+
+Click the Edit button to open the selected sample for editing in the Edit Sample window (see "The Edit Sample window").
+
+Select this to open the sample for editing in the Edit Sample window. If several samples are selected, this item is grayed out.
+
+Select this to create a duplicate of the selected sample. The duplicated sample is placed in the All Self-contained Samples and Unassigned Samples folders. Several selected samples can be duplicated in one go. See "Duplicating samples".
+
+Select this to export the selected sample to disk. A dialog appears where you can select file format. Note that it is not possible to export samples from the Factory Soundbank or from ReFills. Several selected samples can be exported in one go. See "Exporting samples".
+
+Select this to permanently delete the selected sample(s) from the song. Samples from the Factory Soundbank and from ReFills will not be deleted from their original locations - only from the song document. Any samples you have recorded yourself will be permanently erased unless you have previously exported them to disk.
+
+All sampling parameters and functions are controlled from one single window - the Edit Sample window, used when editing samples in any of the sampling devices.
+
+Whenever you sample in Reason, the resulting audio files are stored in WAV format. The sample rate is determined by the settings on the Audio tab in Preferences. The resolution (bit depth) is fixed at 16 bits.
+
+If you want to sample external audio, e.g. from a mic or an instrument connected to the audio hardware on your computer, make sure you have set up the desired audio input(s) on the Audio tab in Preferences. Available audio inputs are indicated with yellow or green LEDs on the Hardware Interface in the rack.
+
+Click the Crop button to crop the sample so that only the content between the Start (S) and End (E) locators is preserved. The rest of the sample will be permanently deleted.
+
+Click the Normalize button to amplify the entire sample so that the loudest peak touches 0 dB. The entire sample is normalized, regardless of any locator settings.
+
+Click the Reverse button to reverse (play backward) the entire sample, regardless of any locator settings.
+
+The Fade In and Fade Out buttons apply a fade in or fade out of the sample volume.
+
+Click one of the Loop Mode buttons to select loop type: the default (leftmost) setting is "no loop", then "Loop Forward" and "Loop Forward + Backward".
+
+Below the waveform pane is the horizontal Waveform Navigator, operated the same way as the Song Navigator in the sequencer.
+
+Set the desired sample playback region by clicking and dragging on the waveform pane, then click Set Sample Start/End to place the Start/End locators at the beginning and end of the region.
+
+Tick the Crossfade Loop box to introduce a crossfade in the loop, useful to even out clicks in the loop points.
+
+Set the desired loop region by dragging on the waveform pane, then click Set Loop to place the Left/Right Loop locators.
+
+Type in a desired name for your sample - this overwrites the original name in the Song Samples list once you click Save.
+
+Click Save to save your sample; it appears in the Song Samples location in the Browser.
+
+Unassigned samples can be assigned to any sampler device by simply loading them into it.
+
+Self-contained samples can also be loaded into any sampler device from the Browser.
+
+You can "un-self-contain" your own samples - export them to disk as separate files and remove them from the song document - via "Song Self-Contain Settings..." on the File menu.
+
+---
+
+<a id="the-regroove-mixer-22"></a>
+## 22. The ReGroove Mixer
+
+
+Click the button to open Reason's floating Tool Window and show the Groove tab, where you can view and edit additional "Groove Settings" for each channel.
+
+Groove patches can be loaded and stepped between just like device patches in the Reason rack. ReGroove patches have a .grov extension.
+
+If you have a track you want to rush (negative slide value), put an empty bar at the beginning of your sequence and set the Anchor Point to "2" - this ensures notes assigned to Bar 1/Beat 1 play ahead of the beat.
+
+The Groove Settings section of the Tool Window contains four "impact" settings (timing, velocity, note length, randomness); the Groove Amount fader acts like a master fader scaling these four proportionally.
+
+These buttons load/save groove patches (.grov), just like device patches.
+
+The "Get Groove From Clip" button converts the notes in a selected clip into a groove patch, usable immediately in the active ReGroove Mixer channel or saved to disk. Same as selecting a clip and choosing "Get Groove From Clip" from the Edit/context menu.
+
+Useful for comparing with the original, ungrooved beat. For several note lanes on one ReGroove channel, use the channel's "On" button instead.
+
+There are creative ways to apply grooves to music - see "Groovy tips & tricks".
+
+For characteristics of a good groove-making clip, see "Tips for selecting the best Groove-Making Clips".
+
+Once your ReGroove patch is ready, route one or more note lanes to the assigned ReGroove channel and raise the Groove Amount fader on that channel.
+
+Grooves restart whenever a new time signature appears.
+
+---
+
+<a id="remote---playing-and-controlling-devices-23"></a>
+## 23. Remote - Playing and Controlling Devices
+
+
+The External Control Bus inputs (set up on the Preferences Sync page and in the MIDI In device in the hardware interface) let you send MIDI directly to individual devices in the rack - mainly used when controlling Reason from an external sequencer.
+
+You can also do manual Remote Overrides to assign Reason parameters to knobs/sliders/buttons on your control keyboard/surface.
+
+If a MIDI Port of your connected control surface/keyboard is already used by Easy MIDI Inputs, detecting it will override this and remove the MIDI In Port from the Easy MIDI Inputs list.
+
+MIDI inputs not selected on this page or the Sync page are available to other programs.
+
+Locking a control surface to the Main Mixer gives permanent control over levels, pans, and channel strip parameters regardless of what else is selected. You could also have dedicated controls for transport, Undo/Redo, sequencer track MIDI focus selection, etc.
+
+Master Keyboard Input routes control surface(s) to the selected track's device in the rack. You can bypass this by locking a control surface to a specific device, or by using Remote Override mapping for specific parameters (mapped regardless of Master Keyboard Input).
+
+E.g. a Subtractor with Master Keyboard Input gives your control surface control over the most important Subtractor parameters; switching Master Keyboard Input to an NN-XT track switches control to NN-XT parameters, and so on. There are standard mapping variations for most devices - see "About mapping variations".
+
+Without dedicated transport controls, you can map transport controls via Remote Override mapping.
+
+Remote Override mappings are saved with the current song but won't carry over to a new song.
+
+The "Control Surface Details" document has standard mapping info for common control surface models; you can also activate Remote Override Edit mode to see live parameter mappings for your control surface(s).
+
+This isn't a conflict - it's simply a consequence of all control surfaces following Master Keyboard Input by default. Surface Locking or Remote Override give you full control.
+
+Locked devices can also be locked to a specific mapping variation.
+
+Example: lock a control surface to control the Main Mixer so you always have overall level control while tweaking other devices.
+
+Control surfaces/keyboards using Easy MIDI Inputs cannot be locked to devices.
+
+If the selected control surface supports keyboard shortcuts for mapping variations, an "Always use Mapping" pop-up appears.
+
+The device shows a lock symbol in the upper left corner of the panel when locked, visible in Remote Override Edit mode.
+
+A control surface can also be locked to the ReGroove Mixer to control its parameters remotely.
+
+Another way to map parameters: with "Remote Override Edit Mode" off in the Options menu, right-click (PC) or [Ctrl]-click (Mac) the parameter you want to remote control, or right-click the device panel for the same option via context menu.
+
+Similarly, with "Keyboard Control Edit Mode" deselected, right-click (Win) or [Ctrl]-click (Mac) a parameter to assign a keyboard remote command.
+
+---
+
+<a id="synchronization-and-advanced-midi-24"></a>
+## 24. Synchronization and Advanced MIDI
+
+
+Due to latency, Reason needs time to correct its playback speed when it first receives the Start command - this can appear as a small glitch in audio playback when the program starts. If problematic, insert a couple of empty measures at the beginning of the Song.
+
+If your song has tempo automation, see "About Tempo Automation when using Ableton Link" for additional info.
+
+This could be an external hardware sequencer or a sequencer application running on another computer.
+
+See "Recording pattern automation", "Editing pattern automation" and "Drawing pattern automation" for recording and editing pattern changes.
+
+---
+
+<a id="optimizing-performance-25"></a>
+## 25. Optimizing Performance
+
+
+You generally want the lowest possible latency for the best response when recording/playing in real time. However, too low a latency risks playback problems (clicks, pops, dropouts) because smaller buffers put higher average strain on the CPU - the more CPU-intensive your song (more devices/audio tracks), the higher the minimum latency needed.
+
+"Render audio using audio card buffer size setting" should be selected for best plugin performance. When selected, audio batches render internally according to the set Buffer size (e.g. 512 samples = 512-sample internal batches). Raising Buffer size lets Reason process larger batches more efficiently; many plugins (especially DSP-heavy mastering VSTs) run smoother with this enabled.
+
+Deleting unused recordings won't affect processing power but reduces Song file size.
+
+After recording/editing, use "Save and Optimize" on the File menu to remove empty disk areas and shrink the file.
+
+If an instrument track uses lots of devices, bounce it to an Audio Track, then delete the instrument track to reduce processing power (see "Bouncing Mixer Channels").
+
+Polyphonic Devices affecting CPU load: Subtractor, Thor, Malström, NN19, NNXT, Grain, Europa, Dr. Octo Rex and Redrum.
+
+---
+
+<a id="hardware-interface-26"></a>
+## 26. Hardware Interface
+
+
+The Hardware Interface device is where you connect Reason to the "outside world" - MIDI is received here, and audio signals route from physical inputs to physical outputs of your audio hardware. It's always present at the top of the rack and cannot be deleted. This chapter serves as a panel reference; see "Audio Basics" for how to set up your audio hardware.
+
+Yellow LED: available but unused channel (no cable connected to the channel jack on the rear panel).
+
+See "Advanced MIDI Device", "More Audio", and "The Big Meter" for details on those sections, and "Advanced MIDI - The External Control Bus inputs" in the Synchronization and Advanced MIDI chapter.
+
+If the audio level for a selected channel has been too high, the Clip indicators on the Big Meter stay lit until you click Reset or select new audio channels for the Big Meter.
+
+---
+
+<a id="kong-drum-designer-27"></a>
+## 27. Kong Drum Designer
+
+
+The pad section features 16 pads, each assignable to a separate Drum sound. You can assign several pads to one Drum sound, or link pads so one pad triggers several others. The Pad Settings area to the right controls pad assignments and behavior.
+
+The Drum Control Panel at bottom left shows the name and "macro parameter" settings for the selected pad, and lets you load/save Drum Patches and initiate sampling.
+
+Clicking the Programmer button below the Drum Control Panel brings up the Drum and FX Section, where you edit drum sounds and combine them with sound processors and FX.
+
+As with the Combinator, Kong's front panel graphics can be customized with a user-designed skin using the "Combi and Kong Backdrop Templates" zip from the Reason Studios download section (use separate backdrops for folded vs. unfolded states).
+
+REX files are music loops created in ReCycle or by bouncing audio clips in Reason. The NN-Nano Sampler lets you load separate REX slices as individual samples; a loaded REX file automatically opens in a Nurse Rex Loop Player module.
+
+Drum Control Panel parameters are "global" per Drum channel; each drum sound can consist of several sound and FX modules with their own parameters (see "The Drum modules", "The Support Generator modules", "The FX modules"). You don't need to save the Drum patch separately - settings are included when you save a Kong Kit Patch or your song.
+
+Kong has 16 pads and 16 Drum channels. By default pad N maps to Drum channel N; you can reassign pads, e.g. to apply different Hit Types per pad so the same Drum channel responds differently depending on which pad triggered it.
+
+Signal flow: a Drum module's output goes via FX1 and FX2 Slots to Bus FX, Master FX, or a pair of individual outputs on the back panel. An internal Bus FX Send can carry the signal via FX1/FX2 to Bus FX (e.g., a shared reverb send for all Drum channels); an external effect device can also be inserted between Bus FX and Master FX.
+
+Loading/saving Kong Drum patches (.drum) works like any other Reason device patch.
+
+Selectable Drum Module types: NN-Nano Sampler, Nurse Rex Loop Player, Physical Bass Drum, Physical Snare Drum, Physical Tom Tom, Synth Bass Drum, Synth Snare Drum, Synth Tom Tom, Synth Hi-Hat.
+
+Selectable FX1/FX2 Slot module types: Noise generator, Tone generator, Room Reverb, Transient Shaper, Compressor, Filter, Parametric EQ, Ring Modulator, Rattler, Tape Echo, Overdrive/Resonator.
+
+The NN-Nano handles samples/sample sets for each of four Hit Types, each of which can be layered/altered/controlled individually via velocity, and can also load REX slices as individual samples.
+
+The sampling procedure is the same across Kong, NN-19, NN-XT and Redrum - see the "Sampling" chapter.
+
+The Nurse Rex loads standard REX files and plays back loops/slices in several ways depending on Hit Type: Loop Trig triggers one full loop cycle per pad hit (stoppable via a "Stop" mode pad); Chunk Trig splits the loop into equal chunks across as many pads as assigned (also stoppable); Slice Trig lets you check boxes for which slices to alternate between.
+
+Kong's back panel has numerous CV/Gate-related connectors (see "Routing Audio and CV"), two stereo Aux Send Outputs (levels set via the Aux 1/Aux 2 Send knobs on the Drum Control Panel) for external effects, and 14 individual audio output jacks (7 stereo pairs) that are never auto-routed but can be manually assigned per Drum channel via the Drum Output selector.
+
+---
+
+<a id="redrum-drum-computer-28"></a>
+## 28. Redrum Drum Computer
+
+
+The sampling procedure is generic across NN-19, NN-XT, Redrum and Kong - see the "Sampling" chapter.
+
+REX files (music loops from ReCycle or bounced audio clips) can have individual slices loaded as samples in Redrum.
+
+Redrum patterns are not part of the patch. To save a Redrum patch complete with patterns, place the Redrum in a Combinator and save the Combi patch.
+
+If the Tempo track is used, Redrum follows it. Pattern changes automated in the main sequencer can happen at any position (see "Recording pattern automation").
+
+Shuffle amount is set globally via the Global Shuffle control in the ReGroove Mixer.
+
+With the Enable Pattern Section switch off, Redrum functions as a pure "sound module" - its internal pattern sequencer is disengaged, useful when controlling Redrum exclusively from the main sequencer or via MIDI.
+
+Notes played into Redrum as a sound module take the pitch of the corresponding drum sound, with velocity depending on the device's "Dynamic" parameter.
+
+Drum channel Mutes can be recorded live in the main sequencer like any other controller - useful for bringing drum sounds in/out of the mix live.
+
+If using Redrum purely as a sound module (no pattern playback), deactivate "Enable Pattern Section" - otherwise its pattern sequencer starts automatically when the main sequencer runs.
+
+---
+
+<a id="dr-octo-rex-loop-player-29"></a>
+
+=== END OF PART ===
