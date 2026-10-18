@@ -898,7 +898,7 @@
    "progressions": [
     [
      "vamp_static_riff",
-     3
+     2.0
     ],
     [
      "vamp_i_iv7",
@@ -922,7 +922,7 @@
     ],
     [
      "mixo_vamp",
-     1.0
+     2.0
     ]
    ],
    "chord_source": [
@@ -2247,7 +2247,7 @@
      2,
      5
     ],
-    "double_p": 0.15
+    "double_p": 0.07
    },
    "snare": {
     "modes": [
@@ -4339,7 +4339,7 @@
     "modes": [
      [
       "backbeat",
-      0.2
+      0.3
      ],
      [
       "halftime",
@@ -4347,7 +4347,7 @@
      ],
      [
       "displaced",
-      0.4
+      0.3
      ],
      [
       "sparse",
@@ -4946,7 +4946,7 @@
     ],
     "ghosts": [
      0,
-     3
+     4
     ],
     "gcells": [
      3,

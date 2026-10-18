@@ -29,18 +29,25 @@ FILES = {"sketch.wav": "audio/wav", "original.wav": "audio/wav",
 _ID = re.compile(r"^Beat \d+ \d{4}-\d{2}-\d{2} \d{2}\.\d{2}\.\d{2}$")
 
 
-def options(stems=None):
+def options(stems=None, bpm=None):
     """What the page needs to draw its choices. With the beat's stems it also
-    carries 12 per-lane re-rolls for each auto type."""
+    carries 12 per-lane re-rolls for each auto type, and for the 3:00 song a
+    few plans per effect style (sized to this beat's tempo)."""
     plans = {k: [dsp.auto_lane_plan(n, k, stems) for n in range(12)] if stems
-             else dsp.auto_plans(key=k) for k in dsp.TEMPLATES}
+             else dsp.auto_plans(k) for k in dsp.TEMPLATES}
+    n = dsp.sections_for(bpm)
+    styled = dsp.style_lane_plans(n, stems) if stems else dsp.style_plans(n)
+    plans["song_180"] = [p for _, p in styled]
     return {"roles": list(dsp.ROLES),
             "scenes": {k: {"name": v["name"], "description": v["description"],
                            "levels": v["levels"]}
                        for k, v in dsp.SCENES.items()},
             "moves": dsp.MOVES,
             "presets": dsp.PRESETS,
-            "plans": plans}
+            "plans": plans,
+            "styles": {k: {"name": v["name"], "note": v["note"], "odd": v["odd"]}
+                       for k, v in dsp.STYLES.items()},
+            "plan_styles": {"song_180": [k for k, _ in styled]}}
 
 
 def rows_for(rows):

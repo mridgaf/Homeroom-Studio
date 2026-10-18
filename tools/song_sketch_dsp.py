@@ -61,29 +61,20 @@ MOVE_ROLES = {
 # and texture take everything. Hand edits in the grid are never refused.
 KINDS = ("kick", "bass", "snare", "hat", "chords", "texture")
 HABITS = {
-    "kick": ("dip", "stutter", "tape_stop"),
-    "bass": ("lp_open", "sweep_up", "tape_stop", "dip"),
-    "snare": ("echo", "bloom", "stutter", "crush", "dip", "reverse"),
-    "hat": ("drift", "phase", "widen", "stutter", "crush", "echo", "sweep_up"),
+    "kick": ("dip", "stutter", "tape_stop", "breath"),
+    "bass": ("lp_open", "sweep_up", "tape_stop", "dip", "breath"),
+    "snare": ("echo", "bloom", "stutter", "crush", "dip", "reverse", "breath"),
+    "hat": ("drift", "phase", "widen", "stutter", "crush", "echo", "sweep_up", "breath"),
     "chords": tuple(m for m in MOVES if m not in ("none", "breath")),
     "texture": ("drift", "phase", "widen", "lp_open", "bloom", "reverse", "echo",
                 "pump", "crush", "sweep_up"),
 }
 WHOLE_MOVES = ("lp_open", "widen", "phase", "pump", "drift")
 # Each type is a list of rows: scene, moves that colour the whole section (one
-# at most), moves that carry it into the next section. 7 x 8 bars is about
-# 150 s at 90 BPM; the other types differ in length, rhythm of scenes and which
-# moves they lean on.
+# at most), moves that carry it into the next section. The types differ in
+# length, rhythm of scenes and which moves they lean on. The 3:00 song is not
+# here: it is built from STYLES below.
 TEMPLATES = {
-    "song_150": [
-        ("intro", ["lp_open"], ["bloom", "reverse", "echo"]),
-        ("pocket", ["pump", "drift"], ["sweep_up", "stutter", "dip"]),
-        ("full", ["widen", "phase", "pump"], ["echo", "tape_stop", "bloom"]),
-        ("break", ["phase", "drift", "widen"], ["reverse", "sweep_up", "crush"]),
-        ("full", ["pump", "widen", "phase"], ["echo", "stutter", "dip"]),
-        ("pocket", ["drift", "widen"], ["bloom", "tape_stop", "echo"]),
-        ("outro", ["phase", "drift"], []),
-    ],
     "slow_burn": [
         ("intro", ["lp_open"], ["bloom", "reverse"]),
         ("pocket", ["drift", "pump"], ["bloom", "echo"]),
@@ -124,10 +115,9 @@ TEMPLATES = {
         ("outro", ["phase", "drift"], []),
     ],
 }
-TEMPLATE = TEMPLATES["song_150"]
 
 
-def auto_plan(seed, key="song_150"):
+def auto_plan(seed, key):
     """Producer-style placement: at most one colour move per section, one
     carrying move per change, and neither repeats back to back. Same seed,
     same plan."""
@@ -150,8 +140,136 @@ def auto_plan(seed, key="song_150"):
     return plan
 
 
-def auto_plans(count=12, key="song_150"):
+def auto_plans(key, count=12):
     return [auto_plan(s, key) for s in range(count)]
+
+
+# ---- 3:00 song: effect styles (2026-10-17) ---------------------------------
+# Each style is one producer habit from the Production Research Hub (chapters
+# 01, 02, 03, 05), turned into placement rules. Random picks a style and a
+# seed; every cell stays editable. colour = moves that tint a whole section,
+# keyed by scene ("*" = any); hook = moves on the change INTO a hook; other =
+# moves on every other change; combo = chance of a second carrying move;
+# spread = how many fitting lanes get each move (one / few / many).
+STYLES = {
+    "bare_bones": {"name": "Bare bones", "odd": False,
+        "note": "Almost nothing: a filtered intro, the beat drops out before a hook, one echo now and then. Hip-hop mistakes are nearly always too much, not too little.",
+        "intro": ["lp_open"], "colour": {}, "p_colour": 0,
+        "hook": ["breath", "echo"], "p_hook": 0.6, "other": ["echo"], "p_other": 0.15,
+        "combo": 0, "spread": "one"},
+    "throws": {"name": "Echo throws", "odd": False,
+        "note": "The classic delay throw: an echo on the last beat of a phrase, one part at a time. Everything else stays dry.",
+        "intro": [], "colour": {}, "p_colour": 0,
+        "hook": ["echo"], "p_hook": 0.85, "other": ["echo", "bloom"], "p_other": 0.5,
+        "combo": 0, "spread": "one"},
+    "curtain": {"name": "Curtain lift", "odd": False,
+        "note": "The filter opens into each hook and the hook opens up wide, so the chorus feels bigger without getting louder.",
+        "intro": ["lp_open"], "colour": {"full": ["widen"]}, "p_colour": 0.7,
+        "hook": ["sweep_up"], "p_hook": 0.9, "other": ["bloom"], "p_other": 0.3,
+        "combo": 0, "spread": "few"},
+    "hole": {"name": "Hole before the hook", "odd": False,
+        "note": "Cut almost everything for the last beat before a hook. A moment of near-nothing makes the return hit harder than any riser.",
+        "intro": [], "colour": {"full": ["widen"]}, "p_colour": 0.3,
+        "hook": ["dip", "breath"], "p_hook": 1.0, "other": ["breath"], "p_other": 0.2,
+        "combo": 0.5, "spread": "many"},
+    "build_drop": {"name": "Build and drop", "odd": False,
+        "note": "2010s build-ups: a rising filter or reverse swell into every hook, a pumping hook, a phaser on the break.",
+        "intro": ["lp_open"], "colour": {"full": ["pump", "widen"], "break": ["phase"]}, "p_colour": 0.6,
+        "hook": ["sweep_up", "reverse", "dip"], "p_hook": 1.0, "other": ["echo"], "p_other": 0.3,
+        "combo": 0.6, "spread": "few"},
+    "dub": {"name": "Dub throws", "odd": False,
+        "note": "Dub habits: echo and reverb thrown on single parts, phaser and slow panning on the music, the rhythm left alone.",
+        "intro": ["phase"], "colour": {"*": ["phase", "drift"]}, "p_colour": 0.5,
+        "hook": ["echo", "bloom"], "p_hook": 0.8, "other": ["echo", "bloom", "reverse"], "p_other": 0.6,
+        "combo": 0.3, "spread": "few", "outro": ["phase", "drift"]},
+    "tape_dust": {"name": "Tape and dust", "odd": False,
+        "note": "SP-303 / lo-fi habits: a light wobble on one part, a tape stop or crush into a hook. Keep it subtle: if you can point to it, it's too much.",
+        "intro": ["lp_open"], "colour": {"*": ["widen", "drift"]}, "p_colour": 0.35,
+        "hook": ["tape_stop", "crush"], "p_hook": 0.7, "other": ["crush", "breath"], "p_other": 0.3,
+        "combo": 0, "spread": "one"},
+    "gasps": {"name": "Nervous gasps", "odd": False,
+        "note": "The anxiety trick (Doechii): drums vanish for a split second at the end of sections and everything but the loop drops before each hook.",
+        "intro": [], "colour": {}, "p_colour": 0,
+        "hook": ["dip", "breath"], "p_hook": 1.0, "other": ["breath", "stutter"], "p_other": 0.9,
+        "combo": 0.5, "spread": "many"},
+    "stutter": {"name": "Stutter punctuation", "odd": False,
+        "note": "Trap punctuation: a one-beat stutter or tape stop right before the hook, a pumping hook, short drops in the verses.",
+        "intro": [], "colour": {"full": ["pump"]}, "p_colour": 0.7,
+        "hook": ["stutter", "tape_stop"], "p_hook": 0.9, "other": ["stutter", "dip"], "p_other": 0.5,
+        "combo": 0, "spread": "few"},
+    "slow_bloom": {"name": "Slow bloom", "odd": False,
+        "note": "Dreamy: chorus and phaser washes, reverb that blooms at the ends, reverse swells felt more than heard.",
+        "intro": ["lp_open"], "colour": {"*": ["widen", "phase"]}, "p_colour": 0.5,
+        "hook": ["reverse", "bloom"], "p_hook": 0.8, "other": ["bloom", "echo"], "p_other": 0.5,
+        "combo": 0, "spread": "few", "outro": ["phase", "drift"]},
+    "seasick": {"name": "Seasick (odd)", "odd": True,
+        "note": "Unusual on purpose: phaser, chorus and panning on lots of parts at once, crushes in odd spots. A wall that never sits still.",
+        "intro": ["phase"], "colour": {"*": ["phase", "widen", "drift"]}, "p_colour": 0.9,
+        "hook": ["crush", "reverse"], "p_hook": 0.7, "other": ["crush", "tape_stop", "reverse"], "p_other": 0.6,
+        "combo": 0.4, "spread": "many", "outro": ["drift"]},
+    "wrong_turns": {"name": "Wrong turns (odd)", "odd": True,
+        "note": "Unusual on purpose: moves where nobody expects them, like a tape stop into a verse, a crush into the hook, a stutter in the intro.",
+        "intro": ["pump"], "colour": {"*": ["pump", "drift", "phase"]}, "p_colour": 0.5,
+        "hook": ["crush", "tape_stop", "stutter"], "p_hook": 0.8,
+        "other": ["tape_stop", "stutter", "reverse", "crush"], "p_other": 0.8,
+        "combo": 0.5, "spread": "few"},
+}
+SONG_SECONDS = 180      # the 3:00 song aims here; section count follows the tempo
+SONG_BARS = 8
+
+
+def sections_for(bpm):
+    """How many 8-bar sections make about 3:00 at this tempo. Never over the
+    3:20 cap; at most 12 sections, so very fast beats come out shorter."""
+    sec = SONG_BARS * 240 / (bpm or 90)
+    return max(4, min(12, int(200 // sec), round(SONG_SECONDS / sec)))
+
+
+def song_form(n):
+    """Usual hip-hop shape: intro, verse/hook pairs, a break before the last
+    hook, outro."""
+    body = ["pocket" if i % 2 == 0 else "full" for i in range(n - 4)]
+    return ["intro"] + body + ["break", "full", "outro"]
+
+
+def style_plan(seed, style, n):
+    """Section-level moves for one style. Same seed, same plan."""
+    st, rng = STYLES[style], random.Random(f"{style}:{seed}")
+    scenes = song_form(n)
+    prev_c = prev_e = None
+    plan = []
+    for i, sc in enumerate(scenes):
+        moves = []
+        if i == 0:
+            pool, p = st["intro"], 0.8
+        elif sc == "outro":
+            pool, p = st.get("outro", []), 0.6
+        else:
+            pool, p = st["colour"].get(sc, st["colour"].get("*", [])), st["p_colour"]
+        pool = [m for m in pool if m != prev_c]
+        prev_c = rng.choice(pool) if pool and rng.random() < p else None
+        if prev_c:
+            moves.append(prev_c)
+        if i + 1 < n:
+            into_hook = scenes[i + 1] == "full"
+            pool = [m for m in st["hook" if into_hook else "other"] if m != prev_e]
+            if pool and rng.random() < st["p_hook" if into_hook else "p_other"]:
+                prev_e = rng.choice(pool)
+                moves.append(prev_e)
+                rest = [m for m in pool if m != prev_e]
+                if rest and rng.random() < st["combo"]:
+                    moves.append(rng.choice(rest))
+            else:
+                prev_e = None
+        plan.append({"scene": sc, "moves": moves})
+    return plan
+
+
+def style_plans(n, per_style=4):
+    """Every style x a few seeds: what the Random button picks from."""
+    return [(k, style_plan(seed, k, n)) for k in STYLES for seed in range(per_style)]
+
+
 PRESETS = {
     "slow_reveal": {"name": "Slow reveal", "note": "Let the hook introduce itself. Earn the drums.",
                     "scenes": ["intro", "pocket", "break", "full"],
@@ -162,10 +280,10 @@ PRESETS = {
     "smoke_break": {"name": "Smoke break", "note": "A low-key pocket with a little space to disappear into.",
                     "scenes": ["pocket", "break", "pocket", "outro"],
                     "moves": ["echo", "bloom", "breath", "bloom"]},
-    "song_150": {"name": "2:30 song", "bars": 8, "auto": True,
-             "note": "Seven sections, about two and a half minutes. Effects are placed like a producer would; re-roll for a new arrangement, then edit any section.",
-             "scenes": [s["scene"] for s in auto_plan(0, "song_150")],
-             "moves": [s["moves"] for s in auto_plan(0, "song_150")]},
+    "song_180": {"name": "3:00 song", "bars": SONG_BARS, "auto": True, "styles": True,
+             "note": "About three minutes: intro, verses, hooks, a break, outro. Press Random for a ready-made set of effects in a producer's style, then change any cell.",
+             "scenes": song_form(sections_for(90)),
+             "moves": [s["moves"] for s in style_plan(0, "bare_bones", sections_for(90))]},
     "slow_burn": {"name": "Slow burn", "bars": 8, "auto": True,
              "note": "Six long sections that build one step at a time. Lots of space, no sudden hits.",
              "scenes": [s["scene"] for s in auto_plan(0, "slow_burn")],
@@ -216,12 +334,15 @@ def guess_kind(label):
 
 
 def auto_lane_plan(seed, key, stems):
-    """Spotlight placement per LANE. stems = [{lane, role, kind}]. The section
-    pattern is auto_plan's; each move then goes to only the few lanes that are
-    audible in that scene, whose kind allows it, and who have had the fewest
-    turns so far. Same seed, same stems, same plan."""
-    rng = random.Random(seed * 7919 + 1)
-    base = auto_plan(seed, key)
+    """Spotlight placement per LANE for a TEMPLATES type. stems = [{lane, role,
+    kind}]. Same seed, same stems, same plan."""
+    return assign_lanes(auto_plan(seed, key), stems, random.Random(seed * 7919 + 1))
+
+
+def assign_lanes(base, stems, rng, spread="few"):
+    """Give each section move to the lanes that are audible in that scene,
+    whose kind allows it, and who have had the fewest turns so far. spread:
+    one lane, a few (about a quarter for colour moves), or many (half)."""
     used = {s["lane"]: 0 for s in stems}
     n_pick = max(1, math.ceil(len(stems) / 4))
     plan = []
@@ -231,7 +352,12 @@ def auto_lane_plan(seed, key, stems):
         lanes = {}
         for m in sec["moves"]:
             ok = [s for s in live if m in HABITS.get(s["kind"], ())]
-            count = n_pick if m in WHOLE_MOVES else (2 if len(ok) > 1 and rng.random() < 0.4 else 1)
+            if spread == "one":
+                count = 1
+            elif spread == "many":
+                count = max(1, math.ceil(len(ok) / 2))
+            else:
+                count = n_pick if m in WHOLE_MOVES else (2 if len(ok) > 1 and rng.random() < 0.4 else 1)
             ok.sort(key=lambda s: (used[s["lane"]], rng.random()))
             for s in ok[:count]:
                 lanes.setdefault(s["lane"], []).append(m)
@@ -239,6 +365,12 @@ def auto_lane_plan(seed, key, stems):
         union = [m for m in sec["moves"] if any(m in v for v in lanes.values())]
         plan.append({"scene": sec["scene"], "moves": union, "lanes": lanes})
     return plan
+
+
+def style_lane_plans(n, stems, per_style=4):
+    """style_plans, spread across the beat's own lanes."""
+    return [(k, assign_lanes(plan, stems, random.Random(f"{k}:{i}:lanes"), STYLES[k]["spread"]))
+            for i, (k, plan) in enumerate(style_plans(n, per_style))]
 
 
 def _number(value, low, high, label):
@@ -296,8 +428,8 @@ def validate_recipe(body, lane_ids, default_bpm=None):
         raise ValueError("Unknown stem or role")
     roles = {k: roles.get(k, guess_role(k)) for k in lane_ids}
     amount = _number(body.get("amount", 0.6), 0, 1, "Transition amount")
-    if len(clean) * bars * 240 / bpm > 180:
-        raise ValueError("Sketch is too long; use fewer bars or a faster tempo (maximum 3 minutes)")
+    if len(clean) * bars * 240 / bpm > 200:   # the 3:00 song lands within ~20 s of 3:00
+        raise ValueError("Sketch is too long; use fewer bars or a faster tempo (maximum 3:20)")
     return {"version": 1, "bpm": bpm, "section_bars": int(bars),
             "sections": clean, "roles": roles, "amount": amount}
 

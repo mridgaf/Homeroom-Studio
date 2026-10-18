@@ -38,7 +38,7 @@
       box.querySelector('#skback').onclick = close;
       return;
     }
-    S = { d, no, preset: 'slow_reveal', roll: 0, result: null, which: 'sketch' };
+    S = { d, no, preset: 'slow_reveal', roll: 0, style: '', result: null, which: 'sketch' };
     draw();
   };
 
@@ -78,7 +78,25 @@
             '" title="' + esc(shortName(d, ms)) + '"><span>' + esc(shortName(d, ms)) + '</span></div>';
         }).join('')).join('') +
       '</div></div><p class="sknote">Click a cell to change that lane’s moves in that section. ' +
-      'Dim cells are silent in that scene. Re-roll puts a fresh spotlight on different lanes.</p>';
+      'Dim cells are silent in that scene. ' + (P.styles ? 'Random' : 'Re-roll') +
+      ' puts a fresh spotlight on different lanes.</p>';
+  }
+
+  // 3:00 song: Random picks a producer style + placement; the picker narrows it to one style.
+  const styleOf = () => S.d.plan_styles[S.preset][S.roll];
+  function stylesHtml(d) {
+    const st = d.styles[styleOf()];
+    return '<div class="row"><button class="skbtn on" id="skrandom">🎲 Random effects</button>' +
+      '<select id="skstyle" style="width:auto"><option value="">Any style</option>' +
+      Object.keys(d.styles).map(k => '<option value="' + k + '"' + (k === S.style ? ' selected' : '') + '>' +
+        esc(d.styles[k].name) + '</option>').join('') + '</select></div>' +
+      '<p class="sknote"><b>' + esc(st.name) + ':</b> ' + esc(st.note) + '</p>';
+  }
+  function randomPlan() {
+    const all = S.d.plan_styles[S.preset].map((k, i) => [k, i]).filter(([k, i]) => (!S.style || k === S.style));
+    const pick = all.filter(([, i]) => i !== S.roll);
+    const pool = pick.length ? pick : all;
+    S.roll = pool[Math.floor(Math.random() * pool.length)][1];
   }
 
   let pop = null;
@@ -107,8 +125,8 @@
         Object.keys(d.presets).map(k => '<button class="skbtn' + (k === S.preset ? ' on' : '') +
           '" data-p="' + k + '">' + esc(d.presets[k].name) + '</button>').join('') + '</div>' +
       '<p class="sknote" id="skpnote">' + esc(P.note) + '</p>' +
-      '<h3>2. ' + P.scenes.length + ' sections' + (P.auto ? ' <button class="skbtn" id="skroll">Re-roll moves</button>' : '') +
-        '</h3>' + (P.auto ? gridHtml(d, P) : chipsHtml(d, P)) +
+      '<h3>2. ' + P.scenes.length + ' sections' + (P.styles ? '' : P.auto ? ' <button class="skbtn" id="skroll">Re-roll moves</button>' : '') +
+        '</h3>' + (P.styles ? stylesHtml(d) : '') + (P.auto ? gridHtml(d, P) : chipsHtml(d, P)) +
       '<h3>3. Length and space</h3><div class="row"><div class="amt">Bars per section ' +
         '<select id="skbars" style="width:auto"><option>2</option><option selected>4</option><option>8</option></select></div>' +
         '<div class="amt">Echo / reverb <input type="range" id="skamt" min="0" max="1" step="0.05" value="0.6"></div></div>' +
@@ -123,16 +141,21 @@
     box.querySelector('#skback').onclick = close;
     box.querySelectorAll('#skpresets button').forEach(b => b.onclick = () => {
       const keep = { bars: box.querySelector('#skbars').value, amt: box.querySelector('#skamt').value };
-      S.preset = b.dataset.p; draw();
+      S.preset = b.dataset.p; S.roll = 0; draw();
       box.querySelector('#skbars').value = d.presets[S.preset].bars || keep.bars;
       box.querySelector('#skamt').value = keep.amt;
     });
-    const roll = box.querySelector('#skroll');
-    if (roll) roll.onclick = () => {
+    const redraw = change => {               // keep length + space settings across a redraw
       const keep = { bars: box.querySelector('#skbars').value, amt: box.querySelector('#skamt').value };
-      S.roll = (S.roll + 1) % d.plans[S.preset].length; draw();
+      change(); draw();
       box.querySelector('#skbars').value = keep.bars; box.querySelector('#skamt').value = keep.amt;
     };
+    const roll = box.querySelector('#skroll');
+    if (roll) roll.onclick = () => redraw(() => { S.roll = (S.roll + 1) % d.plans[S.preset].length; });
+    const rnd = box.querySelector('#skrandom');
+    if (rnd) rnd.onclick = () => redraw(randomPlan);
+    const sty = box.querySelector('#skstyle');
+    if (sty) sty.onchange = () => redraw(() => { S.style = sty.value; randomPlan(); });
     box.querySelectorAll('.gc').forEach(c => c.onclick = e => {
       if (e.target.closest('.gpop')) return;
       pop && pop.parentNode === c ? closePop() : openPop(c);
