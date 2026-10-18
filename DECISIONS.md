@@ -8766,3 +8766,9 @@ just not loaded by default.
 - Research honesty: read ch 02 in full; ch 01/03/05 were searched for effect-placement lines (throws, drop-outs, risers, tape stop, stutter, anti-recipes), not read cover to cover, to save time per owner.
 - Verify by: tests/test_song_sketch.py 37 passed (length at 40-140 BPM, 3:00 render sums, every style obeys its own rules + lane habits, sparse < busy). Page checked in the browser on beat 3570 (107 BPM -> 10 sections, ~2:59): Random and style picker work, no console errors. NOT rendered, NOT heard.
 - Status: open - owner to Sketch a beat with "3:00 song", press Random, listen; say which styles to keep, cut or tone down.
+
+### 2026-10-17 Chunks now live on the Desktop, one folder per DJ
+- Context: owner wanted all chunks in separate DJ folders that hold only song chunks, on the Desktop for easy access.
+- Decision/change: `tools/beat_machine.py` `CHUNKS_ROOT = ~/Desktop/Homeroom Chunks`; `chunk_dir` = CHUNKS_ROOT / beat_dj(no) / "<beat> Chunks" (was beside the beat's wav on TBOTC 3). DJ comes from the recipe, so Favorites beats file under their own DJ. Moved 37 existing chunk folders off the drive (file counts + bytes checked per folder; list in `Homeroom Chunks/_moved from drive 2026-10-17.txt`). The 4 from trashed beats (Trash/3502, 3503; _To Delete/2250, 2225) moved too, on owner's say-so; 0 chunk folders left on the drive.
+- Side effect: triage (Favorites/Trash moves) no longer carries chunk folders along; they stay put under the DJ. Test: tests/test_engine_send_back.py 3 passed.
+- Status: confirmed (moved folders resolve via chunk_dir; numbering continues).

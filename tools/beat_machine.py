@@ -4665,14 +4665,18 @@ def _clean_picks(no, picks, shots):
     return out
 
 
+CHUNKS_ROOT = Path.home() / "Desktop" / "Homeroom Chunks"
+
+
 def chunk_dir(no, root=None):
-    """Where beat `no` keeps its arrangement chunks. Sits next to the
-    beat's own wav and its Stems folder (owner 2026-09-01), so nothing
-    new appears in the library root and the numbering is untouched."""
+    """Where beat `no` keeps its arrangement chunks: one folder per DJ on
+    the Desktop, just chunks for songs (owner 2026-10-17; was beside the
+    beat's wav on the drive). The DJ comes from the recipe, so a beat in
+    Favorites or Trash still files under its own DJ."""
     w = beat_wav(no, root)
     if w is None:
         raise ValueError(f"No beat {no} to chunk.")
-    return w.parent / f"{w.stem} Chunks"
+    return CHUNKS_ROOT / (beat_dj(no, root) or "Unsorted") / f"{w.stem} Chunks"
 
 
 def save_chunk(number, picks=None, root=ROOT, shots=None,

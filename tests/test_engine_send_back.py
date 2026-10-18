@@ -63,3 +63,10 @@ def test_send_back_then_chunk_mix(tmp_path):
 def test_import_refuses_folders_outside_exports(tmp_path):
     with pytest.raises(ValueError):
         bm.import_engine_send(100, tmp_path, root=tmp_path)
+
+
+def test_chunks_file_under_the_dj_on_the_desktop(tmp_path, monkeypatch):
+    _fake_beat(tmp_path)
+    monkeypatch.setattr(bm, "CHUNKS_ROOT", tmp_path / "Homeroom Chunks")
+    d = bm.chunk_dir(100, tmp_path)
+    assert d == tmp_path / "Homeroom Chunks" / "Test DJ" / "100 Test DJ Song Drums 90bpm Chunks"
