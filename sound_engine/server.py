@@ -29,7 +29,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import dsp, fx_presets, library
+from . import base_layer, dsp, fx_presets, library
 
 import groove  # noqa: E402  (tools/ is on sys.path once dsp is imported)
 
@@ -109,6 +109,7 @@ def _project_response(project_id, project):
         "project_id": project_id,
         "name": project["name"],
         "bpm": project.get("bpm"),
+        "base_on": project.get("base_on", True),
         "channels": [
             {"lane_id": lane_id, "label": ch["label"],
              "sample_rate": ch["sr"],
@@ -160,16 +161,20 @@ async def project_from_beat(body: dict):
         fx = fx_presets.for_lane(beat["dj"], lane_id, beat.get("bpm"),
                                   beat_name=beat.get("display_name"))
         ch = _new_channel(lane_id, L, R, sr, fx=fx)
-        if fx:
-            # print the DJ's settings into `wet` now, so the beat SOUNDS
-            # like itself the moment it loads and an immediate export
-            # matches — without waiting for the browser to sync its knobs
-            # back. Bad numbers in the file must not stop a beat opening,
-            # so a rejected preset just leaves this channel flat.
-            try:
-                ch["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, fx)
-            except (TypeError, ValueError):
-                ch["fx"] = {}
+        # beats made since 2026-10-18 already carry the low-end clean-up
+        ch["pre_clean"] = (beat["stems_dir"] / base_layer.base_clean.MARKER).exists()
+        # print the DJ's settings AND the always-on base layer into `wet`
+        # now (base layer: owner 2026-10-18, every stem, low end included),
+        # so the beat SOUNDS finished the moment it loads and an immediate
+        # export matches. Bad numbers in the file must not stop a beat
+        # opening, so a rejected preset just leaves this channel flat.
+        try:
+            ch["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, fx,
+                                              lane=lane_id,
+                                              pre_clean=ch["pre_clean"])
+            ch["params"] = dict(fx)
+        except (TypeError, ValueError):
+            ch["fx"] = {}
         channels[lane_id] = ch
     if not channels:
         return JSONResponse({"error": "no readable stems in that beat"}, status_code=400)
@@ -195,9 +200,14 @@ async def project_from_upload(file: UploadFile = File(...)):
         src.unlink(missing_ok=True)  # don't leave an orphaned upload behind
         return JSONResponse({"error": f"couldn't read that as audio ({e})"},
                              status_code=400)
+    up = _new_channel(safe_name, L, R, sr)
+    try:
+        up["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, {}, lane="upload")
+    except (TypeError, ValueError):
+        pass
     PROJECTS[project_id] = {
         "name": safe_name,
-        "channels": {"upload": _new_channel(safe_name, L, R, sr)},
+        "channels": {"upload": up},
         "src_paths": [src],
         "bpm": None,  # a dropped-in file has no tempo — Beat Repeat's note
                        # values are hidden for it, milliseconds still work
@@ -337,8 +347,11 @@ def _prepare_ir(irL, irR, ir_sr, channel):
     return np.asarray(irL[:n], dtype=np.float64), np.asarray(irR[:n], dtype=np.float64)
 
 
-def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
+def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0, lane=None,
+                         pre_clean=False):
+    # lane=None -> no base layer (buses, or the Base switch is off)
     ae = dsp.audio_engine
+    role = fx_presets.lane_role(lane) if lane is not None else None
     low_db = _finite_float(p.get("low_db", 0.0))
     low_hz = _finite_float(p.get("low_hz", 120.0))
     mid_db = _finite_float(p.get("mid_db", 0.0))
@@ -388,6 +401,9 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
 
     # first in the chain: this rearranges the source material, everything
     # else shapes what comes out of it (same order as the live graph)
+    if role is not None:
+        L, R = base_layer.clean_input(L, R, sr, role, pre_clean=pre_clean)
+        base_ref = (L, R)
     if br_mix > 0.0 and br_chance > 0.0:
         L, R = _beat_repeat(L, R, sr, br_cell_s, br_repeats, br_chance, br_mix)
 
@@ -425,16 +441,51 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0):
                           depth=phs_depth, mix=phs_mix)
     if conv_mix > 0.0 and ir is not None:
         L, R = _convolve_through(L, R, ir, conv_mix, conv_scale)
+    pre_dly = (L, R)
     if dly_mix > 0.0:
         L, R = ae.loop_delay(L, R, sr=sr, seconds=dly_time_s,
                               feedback=dly_feedback, mix=dly_mix)
+        if role is not None:
+            L, R = base_layer.tail_cut(pre_dly, (L, R), sr, role)
+    pre_rev = (L, R)
     if reverb_mix > 0.0 or reverb_freeze:
         room_size = min(1.0, reverb_size_s / 6.0)
         L, R = ae.loop_algo_reverb(L, R, sr=sr, room_size=room_size,
                                      damping=reverb_damping, wet=reverb_mix,
                                      dry=reverb_dry, width=reverb_width,
                                      freeze=reverb_freeze)
+        if role is not None:
+            L, R = base_layer.tail_cut(pre_rev, (L, R), sr, role, dry_gain=reverb_dry)
+    if role is not None:
+        L, R = base_layer.level_match(base_ref, (L, R))
     return L, R
+
+
+def _base_lane(project, lane_id):
+    """lane id to hand the chain, or None when the Base switch is off."""
+    return lane_id if project.get("base_on", True) else None
+
+
+@app.post("/api/project/{project_id}/base")
+async def base_switch(project_id: str, body: dict):
+    """Base clean-up on/off (owner 2026-10-18: for A/B). Re-prints every
+    stem's `wet` with its last knob settings; the page then re-fetches."""
+    project = PROJECTS.get(project_id)
+    if project is None:
+        return JSONResponse({"error": "unknown project_id"}, status_code=404)
+    on = bool(body.get("on", True))
+    project["base_on"] = on
+    for lane_id, ch in project["channels"].items():
+        L, R = ch["dry"]
+        try:
+            ch["wet"] = _apply_channel_chain(
+                L.copy(), R.copy(), ch["sr"], ch.get("params") or ch.get("fx") or {},
+                ir=ch["ir"], conv_scale=ch["ir_scale"],
+                lane=_base_lane(project, lane_id),
+                pre_clean=ch.get("pre_clean", False))
+        except (TypeError, ValueError):
+            pass
+    return JSONResponse({"ok": True, "base_on": on})
 
 
 def _get_channel(project_id, lane_id):
@@ -464,7 +515,9 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
         L, R = channel["dry"]
         L, R = _apply_channel_chain(L.copy(), R.copy(), channel["sr"], params,
                                      ir=channel["ir"],
-                                     conv_scale=channel["ir_scale"])
+                                     conv_scale=channel["ir_scale"],
+                                     lane=_base_lane(project, lane_id),
+                                     pre_clean=channel.get("pre_clean", False))
     except (TypeError, ValueError):
         return JSONResponse({"error": "invalid parameter values"}, status_code=400)
     # Only commit once every field parsed and the chain ran clean — a bad
@@ -480,6 +533,7 @@ async def channel_process(project_id: str, lane_id: str, params: dict):
     channel["solo"] = solo
     channel["bus"] = bus
     channel["wet"] = (L, R)
+    channel["params"] = dict(params)
     return JSONResponse({"ok": True})
 
 

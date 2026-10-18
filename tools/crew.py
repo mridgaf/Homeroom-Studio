@@ -2426,6 +2426,18 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                 wet_side[ln] = _pre_w[ln] * _g
             _lane_gains[ln] = _g
 
+    # BASS / LOW-END CLEAN-UP, on every beat (owner 2026-10-18: "it should
+    # just be on beats when we create them... automatically"). 30 Hz rumble
+    # cut on every lane but kick/808/sub/bass, 150 Hz low cut on chords --
+    # see tools/base_clean.py. Runs after the level rules and the lock so
+    # those still read the lanes as they were made; both the mix and the
+    # stems are built from these buffers, so they stay identical. The
+    # side-signal centring (below 120 Hz) is done on the mix by
+    # mono_below(L, R, 120) at the end and on each stem in the loop below.
+    from base_clean import lane_lowcut
+    for _ln in list(bufs):
+        bufs[_ln] = lane_lowcut(bufs[_ln], _ln)
+
     # stems: each lane panned to stereo with its space treatment, kick
     # character, and the duck baked in (duck is a plain envelope multiply,
     # so per-lane ducking sums to exactly the mix-bus duck)
@@ -2453,6 +2465,9 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             _d = _lane_sc(lane)
             if _d > 0 and lane != "kick" and duck_ons:
                 sL, sR = duck(sL, sR, duck_ons, depth=_d, loop=True)
+            # bass centred in the stems too (owner 2026-10-18): the mix was
+            # already centred below 120 Hz, the stems were not
+            sL, sR = mono_below(sL, sR, 120)
             stems[lane] = (sL, sR)
 
     # stereo mix, kick kept aside so the duck breathes around it

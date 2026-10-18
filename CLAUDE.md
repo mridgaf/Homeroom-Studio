@@ -146,6 +146,16 @@ crawls to hours. That looks exactly like a hang and isn't one.
   at 10% of beats (5 kept their higher shares). Heard and kept
   2026-09-28 (listening checklist item 10).
 
+## Where work runs (owner, 2026-10-18) -- say this at the START of a task
+- His computer is a Mac (M2 Pro). It is NOT Linux. The Cowork/chat sandbox Claude
+  works in is a separate Linux machine: it cannot run his Mac `.venv`, cannot see
+  `/Volumes/TBOTC 3`, and renders beats and runs the big test suite far too slowly.
+- So: the full test suite (~1331 tests), beat renders, library scans and anything
+  that reads the external drive belong in **Claude Code** on the Mac. Say so up
+  front, in the model / Cowork-or-Code line he asked for. Never start them in the
+  sandbox, and never leave "run it on your Mac" as a surprise at the end.
+- Small edits and quick synthetic checks are fine in Cowork.
+
 ## Working rules for this project
 
 ### 0. Talk to him like a person, not a developer

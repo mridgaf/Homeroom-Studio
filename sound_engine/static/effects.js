@@ -263,3 +263,34 @@ document.addEventListener("keydown", e => {
   e.preventDefault();
   document.getElementById("playBtn").click();
 });
+
+
+// --- Base clean-up switch (owner 2026-10-18) ---------------------------------
+// The server prints the always-on base layer into every stem's real sound.
+// This button turns it off/on for A/B, then re-fetches every stem and flask.
+const baseBtn = document.getElementById("baseBtn");
+const baseState = {};  // projectId -> false when switched off
+function baseShow() {
+  const on = baseState[projectId] !== false;
+  baseBtn.setAttribute("aria-pressed", on);
+  baseBtn.textContent = on ? "🧼 Base clean-up: ON" : "🧼 Base clean-up: OFF";
+}
+baseBtn.addEventListener("click", async () => {
+  if (!projectId) return;
+  const want = baseState[projectId] === false;  // currently off -> turn on
+  baseBtn.disabled = true;
+  try {
+    const r = await fetch(`/api/project/${projectId}/base`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ on: want }),
+    });
+    if (r.ok) {
+      baseState[projectId] = want;
+      for (const l of channelOrder) fetchRealSound(l, channels[l].realKey);
+      for (const b of ["bus:A", "bus:B"]) if (channels[b]) busRender(b);
+    }
+  } catch (e) { /* leave the label as it was */ }
+  baseBtn.disabled = false;
+  baseShow();
+});
+setInterval(baseShow, 500);

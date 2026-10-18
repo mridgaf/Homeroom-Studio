@@ -181,6 +181,10 @@ def test_process_stages_are_skipped_at_transparent_defaults():
     — the compressor/saturation/reverb stages must not silently engage."""
     r = _upload()
     project_id = r.json()["project_id"]
+    # base clean-up (owner 2026-10-18) is always on by default; switch it off
+    # so this test still isolates the knob stages
+    assert client.post(f"/api/project/{project_id}/base",
+                        json={"on": False}).status_code == 200
     r2 = client.post(f"/api/project/{project_id}/channel/upload/process",
                       json={})  # everything at default
     assert r2.status_code == 200
@@ -908,8 +912,11 @@ def test_from_beat_opens_the_rack_on_the_djs_settings(tmp_path, monkeypatch):
     chans = server.PROJECTS[pid]["channels"]
     assert not np.array_equal(chans["kick - k"]["dry"][0],
                               chans["kick - k"]["wet"][0])
-    assert np.array_equal(chans["bass0 - b, D# root"]["dry"][0],
-                          chans["bass0 - b, D# root"]["wet"][0])
+    # the sub gets no DJ effects, but since 2026-10-18 it does get the always-on
+    # base layer (owner overruled the old leave-the-sub-alone mix rule). A
+    # centred 220 Hz tone passes through it unchanged apart from float32 rounding.
+    assert np.allclose(chans["bass0 - b, D# root"]["dry"][0],
+                       chans["bass0 - b, D# root"]["wet"][0], atol=2e-3)
 
 
 def test_a_lane_name_containing_a_sharp_is_url_encoded_by_the_client():
@@ -1583,3 +1590,42 @@ def _bus_wet(pid):
     assert r.status_code == 200
     data, _ = sf.read(io.BytesIO(r.content))
     return data[:, 0], data[:, 1]
+
+
+# --- always-on base layer (owner 2026-10-18) ---------------------------------
+def _stereo_upload(L, R, sr=44100, name="t.wav"):
+    from sound_engine import dsp
+    import io, tempfile, os
+    path = os.path.join(tempfile.mkdtemp(), name)
+    dsp.save_wav(path, np.asarray(L), np.asarray(R), sr)
+    with open(path, "rb") as f:
+        return client.post("/api/project/from-upload", files={"file": (name, f.read(), "audio/wav")})
+
+
+def test_base_layer_cuts_rumble_and_centres_bass_on_load_and_switches_off():
+    sr = 44100
+    t = np.arange(sr * 2) / sr
+    x = 0.2 * np.sin(2 * np.pi * 15 * t) + 0.2 * np.sin(2 * np.pi * 80 * t)
+    pid = _stereo_upload(x, -x).json()["project_id"]          # anti-phase: no mono content
+    ch = server.PROJECTS[pid]["channels"]["upload"]
+    wL, wR = ch["wet"]
+    assert np.abs(wL - wR).max() < 1e-3                       # bass now centred
+    assert not np.allclose(wL, ch["dry"][0], atol=1e-2)       # and it was processed
+    # switch off -> back to the untouched stem
+    assert client.post(f"/api/project/{pid}/base", json={"on": False}).json()["base_on"] is False
+    assert np.abs(ch["wet"][0] - ch["dry"][0]).max() < 1e-3
+    assert client.post(f"/api/project/{pid}/base", json={"on": True}).json()["base_on"] is True
+    assert np.abs(ch["wet"][0] - ch["wet"][1]).max() < 1e-3
+
+
+def test_base_layer_trims_hot_stem_and_level_matches_after_effects():
+    sr = 44100
+    t = np.arange(sr * 2) / sr
+    x = 0.95 * np.sin(2 * np.pi * 1000 * t)
+    pid = _stereo_upload(x, x).json()["project_id"]
+    assert client.post(f"/api/project/{pid}/channel/upload/process",
+                       json={"sat_mix": 0.6, "sat_drive_db": 12.0}).status_code == 200
+    wL = server.PROJECTS[pid]["channels"]["upload"]["wet"][0]
+    # loudness comes back to the (-6 dB trimmed) input, not "louder because drive"
+    ref = 0.5 * np.sqrt(0.5) * 0.95 / 0.95                    # rms of a -6 dBFS peak sine
+    assert abs(20 * np.log10(np.sqrt(np.mean(wL ** 2)) / ref)) < 2.5

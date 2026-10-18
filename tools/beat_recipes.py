@@ -183,6 +183,9 @@ def write_stems(folder, stems, sources=None, loops=False):
     if empty:
         print(f"  note: {len(empty)} lane(s) made no sound, so no stem was "
               f"written for them: {', '.join(empty)}")
+    # tell the Sound Engine these stems already have the bass/low-end
+    # clean-up (tools/base_clean.py), so it doesn't cut them a second time
+    (folder / ".base_clean").write_text("1")
     return folder
 
 

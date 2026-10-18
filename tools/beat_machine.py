@@ -4623,6 +4623,7 @@ def _file_engine_beat(parent, stems, mix, what, root, rec=None):
     sdir.mkdir()
     for name, (sL, sR) in stems.items():
         write_wav24(sdir / name, sL, sR)
+    (sdir / ".base_clean").write_text("1")     # see tools/base_clean.py
     mid = beat_wav(parent, root)
     if mid is not None and mid.with_suffix(".mid").exists():   # same notes
         shutil.copy2(str(mid.with_suffix(".mid")), str(path.with_suffix(".mid")))
