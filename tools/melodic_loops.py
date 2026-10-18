@@ -108,6 +108,35 @@ def key_from_tokens(tokens):
     return found
 
 
+# 2026-10-18: some vendors name the root as a note WITH an octave or a chord
+# number instead of a bare key -- "Disease, 150, Eb6", "Mogue Toeggle, 120,
+# C1", "Manta, Em7". The strict _KEY_TOKEN above (rightly) refuses those, so
+# ~60 bass/synth loops were invisible. This reads them ONLY when the path
+# names exactly ONE root (so "Am5-F7-Am5-Dm9" or "C5 to F5" are left alone)
+# and only after the strict reader found nothing. It is a label the vendor
+# wrote, not a guess from the audio.
+_NOTE_LABEL = re.compile(r"^([A-G])(#|b)?(major|maj|minor|min|m)?(\d{1,2})$", re.I)
+
+
+def label_key_from_tokens(tokens):
+    """(root, mode) from a note/chord label like Eb6, D1, Em7 -- or None.
+    One root only; anything with two different roots is ambiguous."""
+    found = set()
+    for tok in tokens:
+        m = _NOTE_LABEL.match(tok)
+        if not m or tok.isdigit():
+            continue
+        if m.group(1).islower() and not m.group(2) and not m.group(3):
+            continue                       # "a1", "b2": not a note name
+        try:
+            pitch_class(m.group(1).upper() + (m.group(2) or ""))
+        except ValueError:
+            continue
+        found.add((m.group(1).upper() + (m.group(2) or ""),
+                   _mode_from_suffix(m.group(3))))
+    return next(iter(found)) if len(found) == 1 else None
+
+
 def bpm_from_tokens(tokens):
     """A plausible BPM: a bare 2-3 digit token in the normal loop range.
     Range-gated so "808" (a bass name, not a tempo) doesn't get read as
@@ -194,7 +223,7 @@ def scan(roots=None, require_key=True):
             if path.suffix.lower() not in AUDIO_EXTS or not path.is_file():
                 continue
             tokens = _tokens(path, rootp)
-            key = key_from_tokens(tokens)
+            key = key_from_tokens(tokens) or label_key_from_tokens(tokens)
             if key is None:
                 if require_key:
                     continue
@@ -267,11 +296,19 @@ def is_drum_loop(folders, stem):
     """folders: path parts above the file; stem: the file name, no ext."""
     name = _words(stem)
     folder = set().union(*(_words(f) for f in folders)) if folders else set()
-    if folder & ONE_SHOT_FOLDER_WORDS or name & NOT_DRUM_WORDS:
+    # 2026-10-18: "Full" next to a drum word ("Drum_Full_Jungle",
+    # "Full_Beat_Hats") means the whole DRUM loop, not a full mix -- 123
+    # real drum loops were dropped by it. Any other non-drum word still
+    # disqualifies, and MIX / MIXDOWN / ALL still do too.
+    bad = name & NOT_DRUM_WORDS
+    if name & DRUM_LOOP_WORDS:
+        bad = bad - {"FULL"}
+    if folder & ONE_SHOT_FOLDER_WORDS or bad:
         return False
     if name & DRUM_LOOP_WORDS:
         return True
-    return bool(folder & DRUM_LOOP_WORDS) and not (folder & NOT_DRUM_WORDS)
+    # a folder called "Full Drum Loops" is still a drum folder (105 loops)
+    return bool(folder & DRUM_LOOP_WORDS) and not ((folder & NOT_DRUM_WORDS) - {"FULL"})
 
 
 def scan_drums(roots=None):
@@ -298,7 +335,12 @@ def scan_drums(roots=None):
                 continue
             tokens = _tokens(path, rootp)
             words = set().union(*(_words(r) for r in rel))
-            sorted_drums = rootp.name == "BOTC Sorted Loops" and rel[0] == "Drums"
+            # 2026-10-18: a top-level drum/percussion folder ("Drums",
+            # "Percussion - Conga") counts as "he filed it as drums" -- the
+            # 1.5s minimum below still keeps one-shot hits out. 56 conga
+            # loops named DR1279 etc. had no loop word or tempo to qualify.
+            sorted_drums = rootp.name == "BOTC Sorted Loops" and (
+                rel[0] == "Drums" or bool(_words(rel[0]) & DRUM_LOOP_WORDS))
             if not (sorted_drums or words & LOOP_SIGN_WORDS
                     or bpm_from_tokens(tokens)
                     or re.search(r"\d{2,3}bpm", str(rel), re.I)):

@@ -1,0 +1,500 @@
+"""Melodic-LOOP ingestion (punch list step 5, revisited 2026-07-22).
+
+BEAT-GENERATOR-GAP-ANALYSIS.md flagged step 5 as blocked on Essentia
+(key) + madmom (tempo) — both heavy, neither a light install on macOS.
+That's true for UNLABELED loops. It turns out most of the owner's
+melodic library isn't unlabeled: Cymatics one-shots end in "- C.wav",
+Function Loops loops are "..._140_..._Gm.wav", and the Live loop cds
+packs fold bpm+key right into the folder name ("075_MoveOn_Bm/"). The
+vendor already did the detection and put the answer in the file name —
+same reasoning midi_packs.py used to go MIDI-first: read the label
+instead of guessing, zero pitch/tempo-detection risk, no new dependency.
+
+This is the audio-file twin of midi_packs.py: same scan()/cache/in_key()
+shape, but parses key + bpm from path TOKENS (folder names split by the
+one packs actually use) instead of reading note data. Files with no
+parseable key are left out of the index entirely — that IS the one-
+shot/loop-vs-drum filter, no separate exclude-word list needed.
+
+    ./.venv/bin/python tools/melodic_loops.py            # library report
+
+Step 6 (fitting a pick into the beat's key) is `fit_loop` below: pitch-
+corrected by resample, then cropped/tiled to length the same loop-safe
+way every other lane in this project fits a bar (loop-safe-renders:
+crop/tile, no edge fades). No independent tempo-stretch — see its
+docstring for the ceiling.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent))
+
+import numpy as np                                          # noqa: E402
+
+from key_context import KeyContext, mode_family, pitch_class   # noqa: E402
+from sample_library import AUDIO_EXTS, load_loop_roots        # noqa: E402
+
+CACHE = Path(os.path.expanduser("~/.reason_voice/melodic_loop_index.json"))
+
+# folder/file words -> what this loop is FOR. First match wins scanning
+# path parts closest to the file first, same precedence rule midi_packs
+# uses ("Essential Chord MIDI" beats a generic "MIDI").
+ROLE_WORDS = [
+    ("drum", ("DRUM", "PERC", "KICK", "SNARE", "CLAP", "HAT", "COWBELL",
+              "CRASH", "FX", "SFX")),
+    ("vocal", ("VOCAL", "VOX", "ACAPELLA")),
+    ("bass", ("BASS", "808", "SUB")),
+    ("chord", ("CHORD", "HARMON", "PAD", "KEYS", "PIANO")),
+    ("melody", ("MELOD", "LEAD", "ARP", "TOPLINE", "PLUCK", "GUITAR",
+                "SAX", "SYNTH", "INSTR", "MUSIC")),
+]
+
+# a bare key token on its own, e.g. "Gm", "C#", "Bb", "F#m" — the shape
+# Cymatics/Function Loops/Live loop cds all use. The mode suffix has TWO
+# spellings across his packs: bare "m" ("Gm") AND a full word glued on
+# ("DbMaj", "Fmin", "EMajor"). The word form was being MISSED (owner
+# 2026-07-24: "there are a lot of synth aif ... are we using those") —
+# 43 melodic files, incl. the Cymatics Raptor arp/chord loops and the
+# Live loop cds Rhodes/Piano/Pad, carry a <Key>Maj/<Key>Min token and
+# were silently dropped for "no key". Longer alternatives first so
+# "minor" wins over "min" before the $ anchor.
+_KEY_TOKEN = re.compile(r"^([A-G])(#|b)?(major|maj|minor|min|m)?$", re.I)
+_SPLIT = re.compile(r"[\s_\-(),]+")  # 2026-09-15: also split on ()/, so
+# a folder like "Acid Techno (Ab, 131bpm)" yields clean "Ab" and "131" tokens
+# instead of "(Ab," and "131bpm)" -- neither of which matched the key/bpm
+# regexes below, so every un-keyed file under 6 of the 9 genre-pack folders
+# was silently invisible to the loop engine. Owner found this 2026-09-15
+# while separating loops; see DECISIONS.md.
+
+
+def _mode_from_suffix(suffix):
+    """'Maj'/'min'/'m'/None -> the mode label melodic_loops uses. A bare
+    key with NO suffix stays None ('fits either', per in_key's tiering)."""
+    if not suffix:
+        return None
+    s = suffix.lower()
+    return "major" if s in ("maj", "major") else "minor"
+
+
+def _tokens(path, rootp):
+    parts = list(path.relative_to(rootp).parts)
+    parts[-1] = path.stem
+    out = []
+    for part in parts:
+        out.extend(t for t in _SPLIT.split(part) if t)
+    return out
+
+
+def key_from_tokens(tokens):
+    """The LAST token that reads as a key, or None. Rightmost because a
+    trailing qualifier ("Mod", "Loop") sometimes follows the key token,
+    so this scans the whole path but keeps the last true match rather
+    than stopping at the very last token."""
+    found = None
+    for tok in tokens:
+        m = _KEY_TOKEN.match(tok)
+        if not m:
+            continue
+        try:
+            pitch_class(m.group(1) + (m.group(2) or ""))
+        except ValueError:
+            continue
+        found = (m.group(1) + (m.group(2) or ""), _mode_from_suffix(m.group(3)))
+    return found
+
+
+def bpm_from_tokens(tokens):
+    """A plausible BPM: a bare 2-3 digit token in the normal loop range.
+    Range-gated so "808" (a bass name, not a tempo) doesn't get read as
+    one — 808 is outside 50-220, so it's excluded on its own."""
+    for tok in tokens:
+        if tok.isdigit() and len(tok) in (2, 3):
+            n = int(tok)
+        else:
+            # 2026-09-24: also a glued "140bpm" token. Every Looperman and
+            # Freesound loop is named "..._Am_140bpm", and the bare-digit-only
+            # rule read none of those tempos (DECISIONS.md had flagged it).
+            m = re.match(r"^(\d{2,3})bpm$", tok, re.I)
+            if not m:
+                continue
+            n = int(m.group(1))
+        if 50 <= n <= 220:
+            return n
+    return None
+
+
+def _role(tokens):
+    for tok in reversed(tokens):
+        up = tok.upper()
+        for role, words in ROLE_WORDS:
+            if any(w in up for w in words):
+                return role
+    return "melody"
+
+
+# OWNER HARD RULE 2026-08-03: "No matter what the situation, one instrument
+# per stem." A loop of a piano is one instrument. A loop labelled ALL / FULL
+# / MIX is the whole arrangement — drums included — and putting one on a
+# chord lane produces a stem with a full beat inside it. That is exactly what
+# he found on beat 1702, whose chord voice was "105_Aiyf_ALL Bb".
+#
+# Excluding these does NOT cost him the loop voice: these packs ship both
+# versions side by side. "070_Ragamuffin_ALL Cm" is dropped and
+# "070_Ragamuffin_Organ Cm" is kept, which is the one that was wanted.
+#
+# Matched on whole tokens, never on substrings — "ALL" must not swallow
+# "Ballad", and "MIX" must not swallow "Mixolydian".
+FULL_MIX_WORDS = {"ALL", "FULL", "MIX", "MIXDOWN", "MASTER", "BEAT",
+                  "FULLMIX", "FULLTRACK", "TRACK", "SONG", "COMPLETE"}
+
+
+def is_full_mix(tokens):
+    """True when the file name says this is a whole arrangement rather than
+    a single instrument."""
+    for tok in tokens:
+        for word in re.split(r"[^A-Za-z0-9]+", str(tok).upper()):
+            if word in FULL_MIX_WORDS:
+                return True
+    return False
+
+
+def scan(roots=None, require_key=True):
+    """Walk the pack roots -> melodic loops/one-shots whose file name
+    itself names a key. Falls back to the last good scan when the drive
+    is unplugged, same contract as sample_library.scan_packs and
+    midi_packs.scan.
+
+    Default roots come from load_loop_roots() -- ITS OWN config keys
+    (loop_roots/loop_sorted_root), separate from the drum and instrument
+    pools on purpose (owner 2026-09-14, see load_loop_roots docstring).
+    Do not change this back to load_roots().
+
+    require_key (owner 2026-09-20): the LOOP engine needs a name-key to
+    place a loop in-key, so it keeps require_key=True and behaves exactly
+    as before -- including the shared CACHE. The INSTRUMENT engine
+    (instrument_sampler) detects a file's pitch by EAR afterwards, so it
+    calls require_key=False to also bring in keyless files (key=None,
+    which instrument_sampler._pitched then measures). That path NEVER
+    writes the shared CACHE, so it can never leak keyless entries into the
+    loop engine's unplugged-drive fallback -- loops stay a separate mix."""
+    roots = roots if roots is not None else load_loop_roots()
+    found = []
+    seen_any = False
+    for root in roots:
+        rootp = Path(os.path.expanduser(root))
+        if not rootp.exists():
+            continue
+        seen_any = True
+        for path in sorted(rootp.rglob("*")):
+            if path.suffix.lower() not in AUDIO_EXTS or not path.is_file():
+                continue
+            tokens = _tokens(path, rootp)
+            key = key_from_tokens(tokens)
+            if key is None:
+                if require_key:
+                    continue
+                key = (None, None)            # pitch detected by ear later
+            role = _role(tokens)
+            if role in ("drum", "vocal"):
+                continue
+            if is_full_mix(tokens):
+                continue
+            parts_up = " ".join(tokens).upper()
+            kind = "loop" if "LOOP" in parts_up else "oneshot"
+            found.append({
+                "name": path.stem, "path": str(path), "kind": kind,
+                "role": role, "key": key[0], "mode": key[1],
+                "bpm": bpm_from_tokens(tokens),
+            })
+    if not seen_any:                              # drive unplugged
+        try:
+            return json.loads(CACHE.read_text())
+        except (OSError, ValueError):
+            return []
+    if require_key:                               # loop engine owns the cache
+        try:
+            CACHE.parent.mkdir(parents=True, exist_ok=True)
+            CACHE.write_text(json.dumps(found))
+        except OSError:
+            pass
+    return found
+
+
+# Loops-only beats' drum bed (owner 2026-09-16: "drum loops only"). The old
+# source, sample_library's "_loops" bucket, held 15 files and 13 were risers/
+# subs/FX. Real drum loops live in the LOOP roots. A file qualifies only if
+# its NAME says drums, or it sits in a drum-loop folder and its name says
+# nothing else. Any non-drum word in the name disqualifies it, whole-token
+# match, so "Sub Riser" and "lofi strings" (misfiled in Drums/) stay out.
+DRUM_LOOP_WORDS = {"DRUM", "DRUMS", "BREAK", "BREAKS", "BREAKBEAT", "KICK",
+                   "KICKS", "SNARE", "HAT", "HATS", "HIHAT", "PERC",
+                   "PERCUSSION", "TOP", "TOPS", "GROOVE", "SHAKER", "CONGA",
+                   "CONGAS", "BONGO", "BONGOS", "TABLA", "TABLAS", "CLAP",
+                   "RIM", "TOMS", "CYMBAL", "RIDE"}
+NOT_DRUM_WORDS = {"RISER", "RISERS", "UPLIFTER", "FX", "SFX", "SWEEP",
+                  "IMPACT", "REV", "REVERSE", "BLEEP", "SUB", "BASS", "808",
+                  "REESE", "PIANO", "KEYS", "ORGAN", "RHODES", "STRINGS",
+                  "STRING", "SYNTH", "SYNTHS", "PAD", "PADS", "LEAD", "ARP",
+                  "PLUCK", "GUITAR", "GUITARS", "FLUTE", "FLUTES", "SAX",
+                  "BRASS", "HORN", "HORNS", "BELL", "BELLS", "CHORD",
+                  "CHORDS", "MELODY", "MELODIC", "VOCAL", "VOCALS", "VOX",
+                  "CHOIR", "ALL", "FULL", "MIX", "MIXDOWN", "FILL", "FILLS",
+                  "VIOLIN", "CRASH", "CREAK", "INST"}
+DRUM_CACHE = CACHE.with_name("drum_loop_index.json")
+DUR_CACHE = CACHE.with_name("drum_loop_durations.json")
+# loop roots also hold one-shot kits: any folder saying so is out, and
+# anything shorter than one bar at 160 BPM (1.5s) is a hit, not a loop
+ONE_SHOT_FOLDER_WORDS = {"SHOT", "SHOTS", "ONESHOT", "ONESHOTS", "HIT",
+                         "HITS", "SINGLE", "KIT", "KITS", "CHOP", "CHOPS",
+                         "FOLEY", "INSTRUMENTS", "SFXS"}
+# ...and it has to LOOK like a loop: a loop word or a tempo in its path,
+# or he filed it himself under BOTC Sorted Loops/Drums
+LOOP_SIGN_WORDS = {"LOOP", "LOOPS", "BREAK", "BREAKS", "BREAKBEAT",
+                   "GROOVE", "GROOVES", "BPM", "BPMS"}
+MIN_DRUM_LOOP_SECS = 1.5
+
+
+def _words(s):
+    return {w for w in re.split(r"[^A-Za-z]+", s.upper()) if w}
+
+
+def is_drum_loop(folders, stem):
+    """folders: path parts above the file; stem: the file name, no ext."""
+    name = _words(stem)
+    folder = set().union(*(_words(f) for f in folders)) if folders else set()
+    if folder & ONE_SHOT_FOLDER_WORDS or name & NOT_DRUM_WORDS:
+        return False
+    if name & DRUM_LOOP_WORDS:
+        return True
+    return bool(folder & DRUM_LOOP_WORDS) and not (folder & NOT_DRUM_WORDS)
+
+
+def scan_drums(roots=None):
+    """Drum loops only, from the loop roots -> [{name, path, bpm, tokens}]
+    in the shape sample_library.loops_scored() reads. Last good scan when
+    the drive is unplugged, same contract as scan()."""
+    from sample_library import _wav_secs
+    roots = roots if roots is not None else load_loop_roots()
+    found, seen_any = [], False
+    try:
+        durs = json.loads(DUR_CACHE.read_text())
+    except (OSError, ValueError):
+        durs = {}
+    for root in roots:
+        rootp = Path(os.path.expanduser(root))
+        if not rootp.exists():
+            continue
+        seen_any = True
+        for path in sorted(rootp.rglob("*")):
+            if path.suffix.lower() not in AUDIO_EXTS or not path.is_file():
+                continue
+            rel = path.relative_to(rootp).parts
+            if not is_drum_loop(rel[:-1], path.stem):
+                continue
+            tokens = _tokens(path, rootp)
+            words = set().union(*(_words(r) for r in rel))
+            sorted_drums = rootp.name == "BOTC Sorted Loops" and rel[0] == "Drums"
+            if not (sorted_drums or words & LOOP_SIGN_WORDS
+                    or bpm_from_tokens(tokens)
+                    or re.search(r"\d{2,3}bpm", str(rel), re.I)):
+                continue
+            dkey = "%s|%d" % (path, path.stat().st_size)
+            if dkey not in durs:
+                durs[dkey] = _wav_secs(path)
+            if (durs[dkey] or 0) < MIN_DRUM_LOOP_SECS:
+                continue
+            found.append({"name": path.stem, "path": str(path),
+                          "kind": "loop", "bpm": bpm_from_tokens(tokens),
+                          "tokens": sorted({t.lower() for t in tokens})})
+    if not seen_any:
+        try:
+            return json.loads(DRUM_CACHE.read_text())
+        except (OSError, ValueError):
+            return []
+    try:
+        DRUM_CACHE.parent.mkdir(parents=True, exist_ok=True)
+        DRUM_CACHE.write_text(json.dumps(found))
+        DUR_CACHE.write_text(json.dumps(durs))
+    except OSError:
+        pass
+    return found
+
+
+def in_key(index, key, role=None, bpm=None):
+    """Picks worth reaching for in a given key: exact root+mode first,
+    then a root-only match (a one-shot with no mode marker fits either),
+    then same-mode any-root (transposes cleanly via KeyContext.shift_from).
+    Sorted within each tier by closeness to `bpm` when both sides know
+    a tempo; unknown-bpm entries (most one-shots) sort last in their
+    tier, not out of it — they're still usable, just untimed."""
+    want = [e for e in index if e.get("role") == role] if role is not None \
+        else list(index)
+
+    # Match on the mode's FAMILY, not the mode name. His packs label files
+    # "Gm"/"C" and never "G dorian", so comparing a modal key straight
+    # against a sample's label matched NOTHING and this function returned
+    # an empty list — silently starving the loop voice of every modal
+    # identity (DJ Premium is loop-dominant and had been failing over to
+    # synth on every beat). Found 2026-07-24.
+    want_family = mode_family(key.mode)
+
+    def tier(e):
+        fam = None if e["mode"] is None else mode_family(e["mode"])
+        if e["key"] == key.root and (fam is None or fam == want_family):
+            return 0
+        if fam == want_family:
+            return 1
+        return 2
+
+    def dist(e):
+        if bpm is None or e.get("bpm") is None:
+            return float("inf")
+        return abs(e["bpm"] - bpm)
+
+    ranked = sorted((e for e in want if tier(e) < 2), key=lambda e: (tier(e), dist(e)))
+    return ranked
+
+
+def in_key_scored(index, key, role=None, bpm=None):
+    """Loops-page counterpart to in_key() (LOOPS-MODE-GAP-ANALYSIS.md Part 4
+    step 1): same tier/dist logic, but never excludes anything -- every
+    entry gets a fit_score (lower = closer fit) instead of being dropped.
+    in_key() itself is untouched; full-beat generation keeps its hard
+    filter exactly as it is (Part 4a: this is a scoped exception for the
+    Loops page, not a rule change)."""
+    want = [e for e in index if e.get("role") == role] if role is not None \
+        else list(index)
+    want_family = mode_family(key.mode)
+
+    def tier(e):
+        fam = None if e["mode"] is None else mode_family(e["mode"])
+        if e["key"] == key.root and (fam is None or fam == want_family):
+            return 0
+        if fam == want_family:
+            return 1
+        return 2
+
+    def dist(e):
+        if bpm is None or e.get("bpm") is None:
+            return 999.0
+        return min(abs(e["bpm"] - bpm), 999.0)
+
+    scored = []
+    for e in want:
+        entry = dict(e)
+        entry["fit_score"] = tier(e) * 1000.0 + dist(e)
+        scored.append(entry)
+    return sorted(scored, key=lambda e: e["fit_score"])
+
+
+def fit_loop(x, sr, dst_secs, src_key=None, dst_key=None):
+    """Pitch-correct a picked loop into `dst_key`, then crop/tile it to
+    `dst_secs` — the same crop/tile-to-length every lane in this project
+    already uses instead of edge fades (loop-safe-renders).
+
+    ponytail: one resample ratio can't fix pitch AND tempo independently
+    (that needs a phase vocoder). This corrects pitch — the thing
+    "in-key" is actually promising — and lets duration drift by the same
+    ratio, then crops/tiles the result. Good enough for picks chosen
+    close in BPM by `in_key`'s ranking; if drift is ever audible on a
+    real beat, upgrade to librosa/rubberband time-stretch instead of
+    reaching for a bigger ratio here.
+    """
+    x = np.asarray(x, dtype=np.float64)
+    ratio = 1.0
+    if src_key is not None and dst_key is not None:
+        ratio = 2.0 ** (dst_key.shift_from(src_key) / 12.0)
+    if ratio != 1.0 and len(x):
+        n = max(int(round(len(x) / ratio)), 1)
+        idx = np.linspace(0, len(x) - 1, n)
+        x = np.interp(idx, np.arange(len(x)), x)
+    target = max(int(round(dst_secs * sr)), 1)
+    if len(x) == 0:
+        return np.zeros(target)
+    if len(x) >= target:
+        return x[:target].copy()
+    reps = target // len(x) + 1
+    return np.tile(x, reps)[:target]
+
+
+def chop_onsets(x, sr, min_dur=0.15, max_dur=2.0):
+    """Slice a loop into its individual note/chord hits — a fast (10ms)
+    envelope crossing well above its own trailing 200ms average, i.e.
+    "louder than it's been lately" rather than "loud in absolute
+    terms". A global level threshold breaks on a loop that's mostly
+    loud throughout (a held chord, a sustained pad); comparing against
+    a local trailing floor instead catches the attack regardless of
+    how the rest of the file sits. No new dependency — same rectify-
+    and-smooth idea as make_drum_loops.env. Each clip gets a 5ms
+    fade-out so the chop is click-free.
+
+    This is what makes a kind="loop" melodic file usable as a one-shot:
+    fit_loop corrects pitch by resample but can't stretch tempo
+    independently, so tiling a whole rhythmic loop to an arbitrary
+    chord duration risks drifting against the beat grid (see
+    chord_synth.sample_pool) — but a single chopped-out hit carries no
+    tempo of its own, so that ceiling never applies to one.
+    """
+    mono = x.mean(axis=1) if x.ndim == 2 else x
+    n = len(mono)
+    if n == 0:
+        return []
+    fast_win = max(int(0.01 * sr), 1)                   # 10ms attack track
+    slow_win = max(int(0.2 * sr), 1)                     # 200ms trailing floor
+    fast = np.convolve(np.abs(mono), np.ones(fast_win) / fast_win, mode="same")
+    cum = np.concatenate(([0.0], np.cumsum(fast)))
+    idx = np.arange(n)
+    lo = np.maximum(idx - slow_win, 0)
+    floor = (cum[idx] - cum[lo]) / np.maximum(idx - lo, 1)
+    # the relative-floor check alone fires on convolution leakage at a
+    # silence->sound boundary (a few samples of near-zero "rise" before
+    # the real attack); require the level to also clear a noise gate
+    # relative to the file's own loudest point.
+    gate = 0.05 * (fast.max() if n else 0.0)
+    rising = (fast > floor * 1.8) & (fast > gate)
+    onset_frames = np.where(rising & ~np.concatenate(([False], rising[:-1])))[0]
+    min_gap = int(min_dur * sr)
+    onsets = []
+    for f in onset_frames:
+        if not onsets or f - onsets[-1] >= min_gap:
+            onsets.append(int(f))
+    if not onsets:
+        onsets = [0]
+    clips = []
+    for i, start in enumerate(onsets):
+        end = onsets[i + 1] if i + 1 < len(onsets) else n
+        end = min(end, start + int(max_dur * sr))
+        clip = mono[start:end]
+        if len(clip) < min_gap:
+            continue
+        fade = min(int(0.005 * sr), len(clip) // 4)
+        if fade:
+            clip = clip.copy()
+            clip[-fade:] *= np.linspace(1, 0, fade)
+        clips.append(clip)
+    return clips
+
+
+def _report():
+    index = scan()
+    if not index:
+        print("No key-labeled melodic loops found. Is the sample drive "
+              "plugged in?")
+        return
+    print("%d key-labeled melodic files across the pack roots\n" % len(index))
+    roles = {}
+    for e in index:
+        roles[e["role"]] = roles.get(e["role"], 0) + 1
+    for role in sorted(roles, key=lambda r: -roles[r]):
+        print("  %-8s %4d" % (role, roles[role]))
+    timed = sum(1 for e in index if e["bpm"] is not None)
+    print("\n%d/%d carry a bpm tag too" % (timed, len(index)))
+
+
+if __name__ == "__main__":
+    _report()

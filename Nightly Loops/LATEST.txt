@@ -1,1 +1,4 @@
-2026-10-17 BLOCKED at step 2 (open Chrome): Claude in Chrome extension not connected, so no Looperman or Freesound downloads ran. Fix: wake the Mac, open Chrome with the Claude extension signed in, then run again.
+2026-10-18 nightly: sparse BPMs 110-119, 130-139, 150-159, 160-169, 170-179, 100-109; keys B, C#, F#, C#m, D#m, F#m.
+Looperman: 8 filed (Chords 3, Melody 3, Drums 1, Vocals 1), 1 FX skipped. Profile 2 not reached.
+Freesound: 44 filed (profile mridgaf). Profile 2 not reached. CC-BY credits in the log.
+Review: 6 FX files filed in error (Melody/Drums) are listed in the log for deletion.
