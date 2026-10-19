@@ -138,6 +138,8 @@ PEAK_CEILING_DB = {
     # measured a 1.8 dB peak under the reference while snaps sat at 2.0.
     "chord": MELODIC_UNDER_DB,
     "bass": MELODIC_UNDER_DB,
+    # the answer melody (2026-10-19, melody_rhythm) is a melodic part too
+    "melody": MELODIC_UNDER_DB,
     # pattern_gen's crash role renders as lane "cymbals" and the fx lane
     # "airs"; both were falling to the perc floor instead of punctuation.
     "cymbals": PUNCTUATION_UNDER_DB,
@@ -1777,7 +1779,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # "chordloop" lane keeps its own low end.
     if not loop_bufs:
         for lane in bufs:
-            if lane.startswith("chord"):
+            if lane.startswith(("chord", "melody")):
                 bufs[lane] = highpass(bufs[lane], CHORD_LOW_CUT_HZ)
     onsets = {k: [x for x in v if x < end] for k, v in onsets.items()}
     events = {k: [(t, v) for t, v in evs if t * SR < end]

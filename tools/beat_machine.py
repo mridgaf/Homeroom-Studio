@@ -1197,6 +1197,7 @@ def apply_directions(preset, dirs):
             preset["kit"].pop(lane, None)
             msg = ("no %s (as asked)"
                    % ("bass" if fam == CHORD_BASS_FAM else
+                      MELODY_FAM if fam == MELODY_FAM else
                       "chords" if fam else lane_label(lane)))
             if msg not in notes:          # one note per family, not per bar
                 notes.append(msg)
@@ -1554,6 +1555,9 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # (tools/bass_rhythm.py), a rebuild of an older beat keeps its held root.
     import bass_rhythm
     preset.setdefault("bass_flow", bass_rhythm.FLOW_VERSION)
+    # ANSWER MELODY (2026-10-19): same deal (tools/melody_rhythm.py)
+    import melody_rhythm
+    preset.setdefault("melody_flow", melody_rhythm.FLOW_VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2338,7 +2342,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # sounds change").
     _busy = {k: v[3] for k, v in
              (dirs.get("busy_lanes") or preset["lanes"]).items()
-             if not k.startswith(("chord", "bass")) and len(v) > 3}
+             if not k.startswith(("chord", "bass", "melody")) and len(v) > 3}
+    # slot -> the chord figure's written bars, so the answer melody can
+    # lean away from the cells the chords hit (melody_rhythm)
+    _chord_cells = {}
     # only pay for the melodic-loop library scan if a loop voice is on
     # the table (the default, a signature that lists "loop", or the owner
     # asking for it outright from the rack)
@@ -2542,6 +2549,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                             nbars, busy=_busy, trace=_recent)
             figure, bars, shape = chord_rhythm.gen_figure(
                 _grammar, rng, nbars, busy=_busy, avoid=tuple(_recent))
+            _chord_cells[slot] = bars
             a = chord_rhythm.render_figure(
                 bars, dur, preset["bpm"], notes, render_note, render_chord,
                 figure=figure, shape=shape, spec=_grammar,
@@ -3173,6 +3181,81 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                            "notes": list(chord.get("voiced", chord["notes"])),
                            "bass": bass_note,
                            "voice": voice_desc})
+    # ANSWER MELODY (2026-10-19, tools/melody_rhythm.py; owner pick: its
+    # own part, about half of beats). A short tune in the chords' gaps on
+    # ONE of his instruments, not the chords' own family. One loop-length
+    # buffer on lane melody0, triggered once on bar 1. New beats only
+    # (melody_flow stamp); a loop/chip/MIDI-led beat already has its one
+    # melodic part (theory/arrangement.md), so it gets none.
+    import melody_rhythm
+    melody_info = None
+    # rebuilt fresh every time (a rebuild keeps the trimmed level/pan)
+    old_m = preset["lanes"].pop("melody0", None)
+    kit.pop("melody0", None)
+    if (preset.get("melody_flow") and committed and (num, den) == (4, 4)
+            and primary not in ("loop", "chip", "midi")
+            and melody_rhythm.plays(variant)):
+        _mslots = [{"tones": list(c.get("voiced", c["notes"])),
+                    "top": max(c.get("voiced", c["notes"])),
+                    "start_bar": sb, "bars": max(1, int(round(d / bar_s)))}
+                   for _i, c, sb, d in slots]
+        _mcells = {}
+        for _i, _c, sb, _d in slots:
+            for b, bar in enumerate(_chord_cells.get(_i) or ("X",)):
+                _mcells.setdefault(sb + b, set()).update(
+                    k for k, ch in enumerate(bar) if ch != "-")
+        _mhits = melody_rhythm.plan_phrase(
+            _mslots, key.scale(), melody_rhythm.spec_for(preset), variant,
+            nb, _mcells)
+        _by_path = {e["path"]: e for e in inst_idx}
+        _avoid = {(_by_path.get(f) or {}).get("group")
+                  for ln, fs in voice_files.items() if _CHORD_LANE.match(ln)
+                  for f in fs}
+        _ments, _mshift = melody_rhythm.pick_instrument(
+            inst_idx, [n for _b, _s, _c, n in _mhits], _avoid, variant)
+        if _ments and _mhits:
+            _mhits = [(b, st, ch, n + _mshift) for b, st, ch, n in _mhits]
+            _end = int(round(nb * bar_s * instrument_sampler.SR))
+            mused, mcache = [], {}
+            mline, mnotes = melody_rhythm.render_line(
+                _mhits, bar_s, preset["bpm"], _end,
+                lambda n, secs: instrument_sampler.voice_note(
+                    _ments, n, secs, cache=mcache, used=mused),
+                melody_rhythm.feel_for(preset["lanes"], variant * 1301 + 3),
+                seed=variant * 1301 + 5)
+            if mline is not None and np.max(np.abs(mline)) > 0 \
+                    and _one_instrument(mused):
+                # his files vary ~30 dB in level (a wine glass peaked at
+                # -40 dB): seat the tune 2 dB under the chords' loudest
+                # peak, then the lane gain matches the chords'. ponytail:
+                # peak match, not loudness; -2 dB is a guess, tune by ear
+                _cpk = max((float(np.max(np.abs(kit[ln]))) for ln in kit
+                            if _CHORD_LANE.match(ln)), default=0.0)
+                if _cpk > 0:
+                    mline = mline * (MELODY_UNDER_CHORDS * _cpk
+                                     / float(np.max(np.abs(mline))))
+                _mbars = ["-" * 16 for _ in range(nb)]
+                _mbars[0] = "X" + "-" * 15
+                preset["lanes"]["melody0"] = (
+                    old_m[0] if old_m else _chord_pan,
+                    old_m[1] if old_m else _CHORD_GAIN,
+                    (0, 0, 50, variant), _mbars)
+                kit["melody0"] = mline
+                _mname = (_ments[0].get("multi")
+                          or Path(_ments[0]["path"]).stem)
+                sources["melody0"] = "%s, answer melody" % _mname
+                voice_names["melody0"] = "melody (%s)" % _mname
+                voice_files["melody0"] = list(dict.fromkeys(mused))
+                if midi_chords:
+                    midi_chords[0]["melody_line"] = [
+                        (t, min(d, nb * bar_s - t), n,
+                         int(min(127, max(1, round(127 * v)))))
+                        for t, d, n, v in mnotes]
+                melody_info = {"instrument": _mname,
+                               "group": _ments[0]["group"],
+                               "notes": [list(h) for h in _mhits]}
+                vnotes.append("melody: %d notes on %s"
+                              % (len(_mhits), _mname))
     if committed:
         vnotes.append("chords: %s in %s (%s) on %s" % (
             prog_name, key, ", ".join(c["chord"] for c in chords),
@@ -3221,6 +3304,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                                                      else "")
                                       for p in bass_plan]
                                      if bass_plan and bass_beds else None),
+                    # the answer melody (2026-10-19); None = no melody
+                    "melody": melody_info,
                     "bass_file": (str(next(iter(bass_files.values()), None))
                                   if bass_beds and not bass808 and any(
                                       bass_files.values()) else None)}
@@ -4151,6 +4236,8 @@ def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
         said.append("chords")
     if any(_CHORD_BASS_LANE.match(ln) for ln in drops):
         said.append("chord bass")
+    if any(_MELODY_LANE.match(ln) for ln in drops):
+        said.append("melody")
     if drops and not lanes and not trims:      # removal is the headline
         return ("No " + " & ".join(d.title() for d in said),
                 "removed " + " and ".join(said))
@@ -4259,6 +4346,9 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     bass_pick = None
     for fam in [f for f in list(picks) if _family_members(f, all_lanes)]:
         want = picks.pop(fam)
+        if fam == MELODY_FAM:
+            raise ValueError("The melody's instrument can't be swapped yet "
+                             "— turn it down or remove it.")
         if fam == CHORD_BASS_FAM:
             # the bass row lists his real bass FILES (owner 2026-09-26),
             # and the pick is one of them -- never a chord voice
@@ -5013,6 +5103,10 @@ _BASS_GAIN = OWNER_TASTE["chord_bass_gain"]
 _ACCENTS = OWNER_TASTE["chord_accents"]
 _CHORD_LANE = re.compile(r"^chord(\d+)(?:v(\d+))?$")
 _CHORD_BASS_LANE = re.compile(r"^bass(\d+)$")
+# the answer melody's lane (2026-10-19): its own rack row, "melody"
+MELODY_FAM = "melody"
+MELODY_UNDER_CHORDS = 10 ** (-2.0 / 20)   # melody peak vs the chords' peak
+_MELODY_LANE = re.compile(r"^melody(\d+)$")
 
 
 def _chord_voice(lane):
@@ -5030,6 +5124,8 @@ def _chord_family(lane):
         return CHORD_FAM if sv[1] == 0 else "%s%d" % (CHORD_FAM, sv[1] + 1)
     if _CHORD_BASS_LANE.match(lane):
         return CHORD_BASS_FAM
+    if _MELODY_LANE.match(lane):
+        return MELODY_FAM
     return None
 
 
@@ -5037,13 +5133,14 @@ def _family_members(fam, lanes):
     """Every real lane a family row stands for, in bar order."""
     return sorted((ln for ln in lanes if _chord_family(ln) == fam),
                   key=lambda ln: int((_CHORD_LANE.match(ln)
-                                      or _CHORD_BASS_LANE.match(ln)).group(1)))
+                                      or _CHORD_BASS_LANE.match(ln)
+                                      or _MELODY_LANE.match(ln)).group(1)))
 
 
 def _fam_sort(fam):
     """Instrument rows in playing order: the chord instruments (chords,
     chords2, …) and then the bass line."""
-    return (fam == CHORD_BASS_FAM, len(fam), fam)
+    return (fam == CHORD_BASS_FAM, fam == MELODY_FAM, len(fam), fam)
 
 
 def _lane_sort(lane):
@@ -5343,8 +5440,9 @@ def _beat_stems(no, root=None):
             # could only be levelled and removed.
             "can_swap": not (fam == CHORD_BASS_FAM
                              and (rec.get("harmony") or {}).get("bass808"))
+                        and fam != MELODY_FAM
                         and not rec.get("engine_fx"),
-            "voices": True,          # the dropdown lists instruments
+            "voices": fam != MELODY_FAM,          # the dropdown lists instruments
             "why": why,
             "members": sorted(members, key=_lane_sort),
             "stem": bool(_stem_wav(no, members[0], root, folder=folder)),
