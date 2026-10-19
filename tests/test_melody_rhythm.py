@@ -101,13 +101,13 @@ def test_melody_always_above_the_chords_and_lead():
         assert min(n for _, _, _, n in hits) > top, (fam, v)
 
 
-def test_instrument_shift_stays_above_floor_and_under_cap():
+def test_instrument_shift_stays_above_floor():
     idx = [{"group": "bell", "multi": "Glock", "art": "a", "note": n,
             "path": "g%d" % n} for n in range(40, 110, 3)]
     ents, sh = mr.pick_instrument(idx, [70, 72, 74], (), 1, floor=80)
-    assert ents and min(70, 72, 74) + sh > 80 and 74 + sh <= mr.TOP_NOTE
-    ents, _ = mr.pick_instrument(idx, [70, 90], (), 1, floor=75)
-    assert ents is None                  # can't fit above 75 and under cap
+    assert ents and min(70, 72, 74) + sh > 80
+    ents, _ = mr.pick_instrument(idx[:5], [70, 72], (), 1, floor=80)
+    assert ents is None                  # nothing recorded that high
 
 
 def test_never_on_bar_one_downbeat():
@@ -132,7 +132,7 @@ def test_motif_answered_with_same_rhythm():
 def test_melody_grammar_override():
     spec = mr.spec_for({"signature": {"chord_family": "dark",
                                       "melody_grammar": {"notes": [5, 5]}}})
-    assert spec["notes"] == [5, 5] and spec["extra_p"] == 0.0
+    assert spec["notes"] == [5, 5]
 
 
 def test_about_half_of_beats_play():
@@ -222,3 +222,22 @@ def test_midi_gets_a_melody_track_on_channel_3(tmp_path):
     beat_recipes.write_midi(q, {}, 90, chords=[
         {"start_sec": 0.0, "dur_sec": 2.0, "notes": [60, 64, 67]}])
     assert b"melody" not in q.read_bytes()
+
+
+def test_steps_keep_direction_and_leaps_go_up_then_back():
+    same = turn = up_back = leaps = 0
+    for fam, v, hits in _all():
+        by_bar = {}
+        for b, st, ch, n in hits:
+            by_bar.setdefault(b, []).append(n)
+        for ns in by_bar.values():
+            iv = [y - x for x, y in zip(ns, ns[1:])]
+            for a, b in zip(iv, iv[1:]):
+                if abs(a) > mr.STEP_MAX:
+                    leaps += 1
+                    up_back += a > 0 and b < 0
+                elif a and b and abs(b) <= mr.STEP_MAX:
+                    same += (a > 0) == (b > 0)
+                    turn += (a > 0) != (b > 0)
+    assert same > turn                   # inertia
+    assert leaps and up_back / leaps > 0.8

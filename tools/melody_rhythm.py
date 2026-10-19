@@ -38,27 +38,30 @@ import groove
 from pattern_gen import _weighted
 
 FLOW_VERSION = 1
-# highest note the melody may sound (C7): higher than that a lead turns
-# thin/shrill. Standard practice, not from the Hub; tune by ear. G6 (91)
-# was tried first and let only 487 of 900 test phrases fit above the lead.
-TOP_NOTE = 96
 PLAY_P = 0.5             # share of stamped beats that get a melody
 MAX_SHIFT = 12           # semitones a note may be stretched from its file
-STEP_MAX = 4             # semitones: anything wider is a leap
+STEP_MAX = 4             # semitones: up to a 3rd is a step/skip, a 4th+
+                         # is a leap (textbook step/skip/leap definitions)
+# Step inertia: after a step, the next step keeps its direction 43.1% vs
+# turns 18.3% of the time in the Essen corpus (Temperley 2014, Music
+# Perception) -> 0.70 when the next move is a step.
+SAME_DIR_P = 0.70
 MAX_JIT_MS = 4.0
 STRONG = (0, 8)          # steps that must take a chord tone
 
-# Per signature.chord_family: notes per phrase, chance of one extra
-# pickup phrase in the FRONT half of bar 1 or 3, chance the motif carries
-# its one leap. Dark plays sparsest, bright_funk busiest.
+# Per signature.chord_family: notes per phrase. Direction is sourced
+# (more, shorter notes read happier/more energetic, fewer read sadder:
+# Juslin 2000, Gabrielsson & Lindstrom 2001, Hub ch.04 part 3); the
+# exact counts are not -- tune by ear. No pickup phrases: the Hub (ch.04
+# s.11) keeps the other gaps for the player/rapper.
 FAMILY = {
-    "dark": {"notes": [2, 3], "extra_p": 0.0, "leap_p": 0.2},
-    "dreamy": {"notes": [2, 4], "extra_p": 0.15, "leap_p": 0.3},
-    "grit": {"notes": [2, 4], "extra_p": 0.2, "leap_p": 0.25},
-    "soul_jazz": {"notes": [3, 5], "extra_p": 0.25, "leap_p": 0.35},
-    "bright_funk": {"notes": [3, 5], "extra_p": 0.4, "leap_p": 0.3},
+    "dark": {"notes": [2, 3]},
+    "dreamy": {"notes": [2, 4]},
+    "grit": {"notes": [2, 4]},
+    "soul_jazz": {"notes": [3, 5]},
+    "bright_funk": {"notes": [3, 5]},
 }
-DEFAULT = {"notes": [2, 4], "extra_p": 0.15, "leap_p": 0.3}
+DEFAULT = {"notes": [2, 4]}
 
 # which families can carry a tune over chords, best first
 VOICES = ("bell", "piano", "wood", "pluck", "guitar", "synth")
@@ -146,20 +149,25 @@ def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None):
     k = rng.randint(lo, hi)
     # the motif: k steps in the back half, k-1 scale moves, <= 1 leap
     cells = _cells(rng, k, 1, chord_cells.get(1, set()))
-    moves = [rng.choice((-1, -1, 1, 1, -2, 2)) for _ in range(len(cells) - 1)]
+    # scale moves of 1-2 degrees; a step keeps its direction 70% of the
+    # time (inertia, Temperley 2014)
+    moves, d = [], rng.choice((-1, 1))
+    for _ in range(len(cells) - 1):
+        if moves and rng.random() >= SAME_DIR_P:
+            d = -d
+        moves.append(d * rng.choice((1, 1, 2)))
+    # one leap per phrase when there is room for it, UP (large intervals
+    # tend to ascend, Huron 2006) and then a step back down (gap-fill /
+    # post-skip reversal, von Hippel & Huron 2000)
     leap_at = None
-    if len(moves) >= 2 and rng.random() < spec["leap_p"]:
+    if len(moves) >= 2:
         leap_at = rng.randrange(len(moves) - 1)
-        moves[leap_at] = rng.choice((-4, -3, 3, 4))
-        moves[leap_at + 1] = -1 if moves[leap_at] > 0 else 1
+        moves[leap_at] = rng.choice((3, 4))
+        moves[leap_at + 1] = -1
     top = max(s["top"] for s in slots)
     start = top + rng.randint(3, 9)
     # call/response bars: every odd bar's back half (bars 2, 4, ...)
     phrase_bars = list(range(1, nbars, 2))
-    extra = None
-    if nbars >= 4 and rng.random() < spec["extra_p"]:
-        # only when a silent bar is left over (>= 1 in every 4)
-        extra = rng.choice([b for b in range(0, nbars, 2)])
     hits = []
     prev = None
     for n, bar in enumerate(phrase_bars):
@@ -195,19 +203,9 @@ def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None):
                 ch = "o"                  # a quick passing note, softer
             hits.append((bar, st, ch, note))
         prev = note
-    if extra is not None:
-        # a short pickup in the front half of a call bar: 1-2 notes
-        # stepping into the bar's chord, never on bar 1's downbeat
-        s = _slot_at(slots, extra)
-        first = hits[0][3] if hits else start
-        pick = sorted(rng.sample(range(4, 8), rng.randint(1, 2)))
-        side = 1 if rng.random() < 0.5 else -1
-        for j, st in enumerate(pick):
-            nt = _move(scale_ns, first, (len(pick) - j) * side)
-            hits.append((extra, st, "x", nt))
     hits.sort(key=lambda h: (h[0], h[1]))
-    # always ABOVE the chords and the held lead (owner 2026-10-19): whole
-    # octaves only, so every note keeps its name
+    # always ABOVE the chords and the lead: separate by octave first
+    # (2026 producer guidance); whole octaves, so every note keeps its name
     up = 0
     while hits and min(h[3] for h in hits) + up <= top:
         up += 12
@@ -239,13 +237,12 @@ def pick_instrument(index, notes, avoid_groups, variant, floor=None):
     written, then an octave up/down (the whole phrase, never one note).
     Avoids the chord's own families when anything else can play it;
     note-by-note libraries before single files. A shift must keep every
-    note above `floor` (the chords' and lead's top) and <= TOP_NOTE."""
+    note above `floor` (the chords' and lead's top)."""
     rng = random.Random(variant * 1301 + 211)
     groups = [g for g in VOICES if g not in avoid_groups] or list(VOICES)
     for shift in (0, 12, -12, 24, -24):
         ns = [n + shift for n in notes]
-        if ns and (max(ns) > TOP_NOTE
-                   or (floor is not None and min(ns) <= floor)):
+        if ns and floor is not None and min(ns) <= floor:
             continue
         insts = _instruments(index, groups)
         ok = {k: v for k, v in insts.items() if _covers(v, ns)}
