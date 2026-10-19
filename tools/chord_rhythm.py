@@ -73,6 +73,40 @@ DEFAULT = {
 # arps HALF as often as each one had them.
 ARP_CUT = 0.5
 
+# ARP FLOW (owner 2026-10-19, beats stamped `arp_flow`): "this consistent
+# arpeggio thing in almost every beat". Arps capped at 15% of chords for
+# every identity (owner pick; was up to 50%), and an arp no longer walks
+# straight 8ths forever: each bar picks a written rhythm, and every second
+# bar rests in its back half -- the phrase tail the answer melody and the
+# rapper use (Hub ch.04 s.11). Repetition raises liking but wears out
+# unless varied (Margulis 2014, Hub ch.04 part 3). The 3+3+2 cell is the
+# medium-syncopation groove sweet spot (Witek 2014, Hub ch.04 s.8). Cell
+# weights and the 50% keep are NOT sourced -- tune by ear.
+ARP_MAX = 0.15
+ARP_CELLS = (((0, 2, 4, 6, 8, 10, 12, 14), 2),     # straight 8ths
+             ((0, 3, 6, 8, 11, 14), 3),             # 3+3+2, twice
+             ((0, 4, 6, 8, 12), 2),                 # pulse
+             ((0, 6, 8), 1))                        # sparse
+ARP_KEEP_P = 0.5         # a bar keeps the last bar's cell (some repetition)
+ARP_RING = 4             # 16ths: longest an arp note rings into a gap
+
+
+def arp_bars(rng, nbars, rest_p):
+    """Written arp bars for an arp_flow beat (see ARP_CELLS)."""
+    bars, cell = [], None
+    for b in range(nbars):
+        if cell is None or rng.random() >= ARP_KEEP_P:
+            cell = _weighted(rng, [[c, w] for c, w in ARP_CELLS])
+        s = ["-"] * 16
+        for c in cell:
+            if b % 2 == 1 and c >= 8:
+                continue                  # the phrase-tail hole
+            if c and rng.random() < rest_p:
+                continue
+            s[c] = "X" if c in BEATS else "x"
+        bars.append("".join(s))
+    return bars
+
 
 def _share(weighted, name):
     total = sum(w for _, w in weighted)
@@ -118,7 +152,11 @@ def spec_for(preset, free=False):
         rhythm = (preset.get("signature") or {}).get("chord_rhythm")
         share = (_share(rhythm, "arp") if isinstance(rhythm, list)
                  else float(rhythm == "arp"))
-    spec["figures"] = _with_arp_share(spec["figures"], share * ARP_CUT)
+    share *= ARP_CUT
+    if preset.get("arp_flow"):
+        share = min(share, ARP_MAX)
+        spec["arp_flow"] = True
+    spec["figures"] = _with_arp_share(spec["figures"], share)
     # Pattern library (2026-10-11): new beats only, so every older beat
     # rebuilds exactly as it was made.
     if preset.get("chord_flow") and preset.get("chord_library", True):
@@ -325,6 +363,8 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None):
 
     if figure == "arp":
         shape = _weighted(rng, spec.get("shape", DEFAULT["shape"]))
+        if spec.get("arp_flow"):
+            return figure, arp_bars(rng, nbars, rest_p), shape
         step = max(int(spec.get("arp_step", DEFAULT["arp_step"])), 1)
         bars = []
         for _ in range(nbars):
@@ -397,6 +437,16 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
         seg_dur = beat_s / 4 * float(shape[5:])
         shape = None
     order = _order(notes, shape)
+    # arp_flow: a note rings to the next hit (at most ARP_RING 16ths), so
+    # the written rhythm also sets the note lengths
+    hits = [b * 16 + s for b, bar in enumerate(bars)
+            for s, ch in enumerate(bar[:16]) if ch != "-"]
+    ring = {}
+    if figure == "arp" and spec.get("arp_flow") and hits:
+        total = 16 * len(bars)
+        for j, h in enumerate(hits):
+            gap = (hits[(j + 1) % len(hits)] - h) % total or total
+            ring[h] = beat_s / 4 * min(gap, ARP_RING) * 0.9
     k = 0
     for b, bar in enumerate(bars):
         for step, ch in enumerate(bar[:16]):
@@ -406,7 +456,8 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
             if lvl <= 0:
                 continue
             if figure == "arp":
-                seg = render_note(order[k % len(order)], seg_dur)
+                seg = render_note(order[k % len(order)],
+                                  ring.get(b * 16 + step, seg_dur))
                 k += 1
             elif figure == "pad" and ch == "X":
                 # the head of a pad is still a HELD block: it fills the

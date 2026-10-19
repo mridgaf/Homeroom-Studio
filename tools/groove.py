@@ -289,14 +289,13 @@ OWNER_TASTE = {
     # than deleted so the "a real player leans on the downbeat" idea is one
     # edit away if he ever wants it back — but every chord now starts level.
     "chord_accents": (1.0, 1.0, 1.0, 1.0),
-    # --- DORMANT (owner 2026-07-29 hard rule overrides this): exactly one
-    # melodic part now, always — see _build_chords in beat_machine.py,
-    # which hardcodes part_count = 1 and no longer reads these two values.
-    # Left here, unused, rather than deleted, in case the multi-part rule
-    # ever comes back — was: weights for (1, 2, 3) parts (owner 2026-07-25,
-    # "one or two samples at a time, up to three"), and the probability the
-    # rare 3rd "passing" part played when a chord had a spare note for it.
+    # Weights for (1, 2, 3) chord parts (owner 2026-07-25, live again since
+    # 2026-09-20 -- see _build_chords), and the probability the rare 3rd
+    # "passing" part plays a chord that has a spare note for it.
     "melody_part_weights": (0.55, 0.35, 0.10),
+    # Beats stamped `lead_flow` (2026-10-19): a lead on ~25% of beats, not
+    # 45% (owner pick, clickable). Same 2-part : 3-part ratio as above.
+    "lead_part_weights": (0.75, 0.19, 0.06),
     "passing_note_p": 0.5,
     # --- bus glue compression (owner 2026-07-29: "add the glue
     # compression... for better sound quality"). Gentle house starting

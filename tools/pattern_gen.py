@@ -876,6 +876,77 @@ def _answer_bar(pat, rng, amount):
     return "".join(s)
 
 
+# PERCUSSION PATTERNS (owner 2026-10-19: perc "very similar or repetitive";
+# his pick: the research rebuild for perc + guest lanes). Before this a
+# guest picked one of three fixed bars (offbeats was the same "--x-" every
+# time, sparse clicked all four beats on top of the kick and snare) and
+# repeated it. Now, from Hub ch.04 part 4:
+# - s.8: a maximally-even (Euclidean) spread of k hits is a medium-
+#   syncopation figure, the groove sweet spot (Witek 2014); its rotation
+#   is the one that lands least on the kick/snare cells (answer the kit,
+#   don't double it -- the chord comp rule);
+# - s.10: repetition wears out unless varied (Margulis 2014): bar 2 is a
+#   small variation, and bars 5-8 switch figures half the time;
+# - s.11: the end of each 4-bar phrase is for the top line: bar 4 either
+#   leaves its back half empty or answers with 1-2 late hits.
+# Levels only from written characters (owner 2026-08-03): one normal hit
+# leads, the rest are soft "o" or ghost ".". k weights, 30% ghost and the
+# 50/50 splits are NOT sourced -- tune by ear.
+PERC_K = [[3, 2], [5, 3], [6, 2], [7, 1]]
+
+
+def _euclid(k, n=16):
+    """k hits spread as evenly as n steps allow."""
+    return [(i * n) // k for i in range(k)]
+
+
+def _perc_bar(rng, busy):
+    pos = _euclid(_weighted(rng, PERC_K))
+    def clash(r):
+        cells = {(p + r) % 16 for p in pos}
+        return len(cells & busy) + 2 * (0 in cells)
+    best = min(clash(r) for r in range(16))
+    r = rng.choice([r for r in range(16) if clash(r) == best])
+    cells = sorted((p + r) % 16 for p in pos)
+    s = ["-"] * 16
+    for j, c in enumerate(cells):
+        s[c] = "x" if j == 0 else ("." if rng.random() < 0.3 else "o")
+    return "".join(s)
+
+
+def perc_bars(rng, nbars, busy=()):
+    """nbars of a percussion lane (see PERC_K). `busy` = the 16th cells the
+    kick/snare/clap already play."""
+    busy = set(busy)
+    a = _perc_bar(rng, busy)
+    b = _perc_bar(rng, busy) if rng.random() < 0.5 else a
+    out = []
+    for i in range(nbars):
+        bar = b if (nbars >= 8 and i >= nbars // 2) else a
+        if i % 4 == 1:
+            bar = _answer_bar(bar, rng, 0.25)
+        elif i % 4 == 3:
+            s = list(bar[:8]) + ["-"] * 8
+            if rng.random() < 0.5:               # answer, else a hole
+                for c in rng.sample(range(12, 16), rng.randint(1, 2)):
+                    s[c] = "o"
+            bar = "".join(s)
+        out.append(bar)
+    return out
+
+
+def _busy16(lanes):
+    """16th cells the kick/snare/clap lanes hit, from their bar strings."""
+    cells = set()
+    for ln in ("kick", "snare", "clap"):
+        row = lanes.get(ln)
+        bars = row[3] if isinstance(row, tuple) else row
+        for bar in bars or ():
+            if isinstance(bar, str) and len(bar) == 16:
+                cells |= {i for i, ch in enumerate(bar) if ch != "-"}
+    return cells
+
+
 def _fill(pat, rng):
     """Phrase-tail motion for bars 4 and 8."""
     s = list(pat)
@@ -1384,6 +1455,12 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 modes[lane] = mode
                 continue
             bar, mode = gen_timekeeper(spec, rng)
+            if lane in ("perc", "bongo") and len(bar) == 16:
+                # the perc rebuild (PERC_K) -- new beats only, by
+                # construction: a rebuild reads the saved bars
+                lanes[lane] = perc_bars(rng, nbars, _busy16(lanes))
+                modes[lane] = "perc"
+                continue
             if mode == "answer":             # call-and-response bar pairs
                 lanes[lane] = (["-" * len(bar), bar] * nbars)[:nbars]
             else:
@@ -1468,6 +1545,9 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         if punct:
             mode = "punctuation"
             bar = None
+        elif role in ("perc", "rim", "bongo") and len(
+                preset["lanes"]["kick"][3][0]) == 16:
+            mode, bar = "perc", None
         else:
             bar, mode = gen_timekeeper(
                 dict(modes=[["offbeats", 2], ["sparse", 2], ["answer", 1]]),
@@ -1484,6 +1564,8 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
             (0, rng.uniform(1.5, 4.0), gswing,
              rng.randrange(1, 99999)),
             punctuation_bars(nbars, rng) if punct
+            else perc_bars(rng, nbars, _busy16(preset["lanes"]))
+            if mode == "perc"
             else (["-" * len(bar), bar] * nbars)[:nbars] if mode == "answer"
             else _phrase(bar, None, nbars, rng))
         preset["kit"][lname] = (role, None, list(wants),

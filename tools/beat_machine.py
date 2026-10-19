@@ -1558,6 +1558,13 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # ANSWER MELODY (2026-10-19): same deal (tools/melody_rhythm.py)
     import melody_rhythm
     preset.setdefault("melody_flow", melody_rhythm.FLOW_VERSION)
+    # LEAD (2026-10-19): same deal -- fewer leads, and the lead keeps the
+    # 7th (see _build_chords)
+    preset.setdefault("lead_flow", 1)
+    # ARP FLOW (2026-10-19): arps rarer and varied (chord_rhythm.ARP_MAX)
+    preset.setdefault("arp_flow", 1)
+    # PERC FLOW (2026-10-19): percussion capped by loudness (crew.PERC_ROLES)
+    preset.setdefault("perc_flow", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -1947,6 +1954,17 @@ def _split_chord_roles(notes):
     if len(rest) <= 1:
         return support, [n + 12 for n in rest], []
     return support, [n + 12 for n in rest[:-1]], [n + 24 for n in rest[-1:]]
+
+
+def _keep_guide_tones(splits, want):
+    """Guide tones: the 3rd AND the 7th carry a seventh chord, and the 7th
+    must not be dropped (Open Music Theory + Berklee, Hub ch.13 part 2
+    rules 8 + 11). On a plain 7th chord _split_chord_roles gives the 7th to
+    passing, so on every chord passing doesn't play (`want[k]` False), the
+    lead takes it, just above the lead's 3rd. lead_flow beats only."""
+    return [(s, l + [l[0] + (p - l[0]) % 12 for p in pa], [])
+            if len(l) == 1 and pa and not want[k] else (s, l, pa)
+            for k, (s, l, pa) in enumerate(splits)]
 
 
 def _role_sources(primary, order, own, count):
@@ -2796,7 +2814,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         part_count = 1
     else:
         part_count = random.Random(variant * 617 + 5).choices(
-            (1, 2, 3), weights=OWNER_TASTE["melody_part_weights"])[0]
+            (1, 2, 3), weights=OWNER_TASTE[
+                "lead_part_weights" if preset.get("lead_flow")
+                else "melody_part_weights"])[0]
 
     # Melody beats (2026-10-19): the lead keeps the chord rhythm and the
     # melody answers in its gaps, an octave-plus ABOVE it (Hub ch.04 §11 +
@@ -2814,6 +2834,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             # chord flow: each part glides to its nearest octave instead of
             # every part jumping with the root (same split, same notes)
             splits = harmony.lead_parts(splits)
+        # which chords the rare passing part plays (rolled per slot)
+        want = [part_count >= 3 and bool(splits[k][2]) and random.Random(
+                    variant * 991 + 43 + i).random()
+                < OWNER_TASTE["passing_note_p"]
+                for k, (i, _, _, _) in enumerate(slots)]
+        if preset.get("lead_flow"):
+            splits = _keep_guide_tones(splits, want)
         # a bare power chord has no lead note to split off -> single part
         role_ok = all(lead_n for _, lead_n, _ in splits)
 
@@ -2867,11 +2894,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 per_role.append(got)
         if role_ok and part_count >= 3:
             # passing is never fatal and only plays SOME chords (owner:
-            # "the sparsest, easiest to cut") — rolled per slot as before
-            want = [bool(splits[k][2]) and random.Random(
-                        variant * 991 + 43 + i).random()
-                    < OWNER_TASTE["passing_note_p"]
-                    for k, (i, _, _, _) in enumerate(slots)]
+            # "the sparsest, easiest to cut") — rolled per slot above
             if any(want):
                 got = _lock_role(2, lambda k: want[k])
                 if got is not None:

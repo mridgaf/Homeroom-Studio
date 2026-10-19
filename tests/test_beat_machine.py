@@ -1924,6 +1924,20 @@ def test_lead_and_passing_sit_above_support():
     assert min(passing) > max(lead)
 
 
+def test_lead_keeps_the_7th_when_passing_rests():
+    """lead_flow (2026-10-19): the 7th is a guide tone and must not drop
+    (OMT/Berklee). Cm7 split gives the 7th to passing; where passing
+    doesn't play, the lead plays 3rd + 7th, the 7th just above the 3rd.
+    Where passing plays, nothing moves. Triads and 9ths are untouched."""
+    sp7 = beat_machine._split_chord_roles([48, 51, 55, 58])    # Cm7
+    sp9 = beat_machine._split_chord_roles([48, 51, 55, 58, 62])
+    tri = beat_machine._split_chord_roles([48, 51, 55])
+    got = beat_machine._keep_guide_tones([sp7, sp7, sp9, tri],
+                                         [False, True, False, False])
+    assert got[0] == ([48, 55], [63, 70], [])
+    assert got[1] == sp7 and got[2] == sp9 and got[3] == tri
+
+
 def test_split_chord_roles_leaves_lead_empty_on_a_power_chord():
     """A bare root+5th (quality '5') has nothing left to split off — the
     caller reads an empty lead as 'this chord can't be multi-part' and
@@ -1983,6 +1997,10 @@ def test_more_than_one_melodic_part_is_possible_again(
     parts and proves at least one now produces more than one melodic family
     again, while every family is a real chord row (never a combined lane)."""
     root, shots = machine_env
+    # these seeds were found under the 45% roll; new (lead_flow) beats roll
+    # 25% since 2026-10-19 -- pin the old weights, the point is "possible"
+    monkeypatch.setitem(beat_machine.OWNER_TASTE, "lead_part_weights",
+                        beat_machine.OWNER_TASTE["melody_part_weights"])
     seen_multi = False
     for seed, progression in ((0, "epic"), (29, "plugg_dream_9"),
                               (34, "plugg_dream_9")):

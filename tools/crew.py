@@ -218,6 +218,28 @@ LOW_END_UNDER_DB = -0.9
 LOW_END_LOUD_UNDER_DB = -4.0
 LOUD_WINDOW_S = 0.4
 
+# PERCUSSION BY LOUDNESS (owner 2026-10-19: percussion "loud and intrusive";
+# his pick: cap it by how loud it SOUNDS). True levels (2026-09-20) switched
+# off the peak clamp that held perc under the hats, so perc played at its
+# file's own level. And a peak says little anyway: bright clicks sit where
+# the ear is most sensitive (equal-loudness contours, ISO 226), so at the
+# same peak they sound louder than a kick. On beats stamped `perc_flow`,
+# every lane whose sound role is percussion is capped, by A-weighted
+# loudness (IEC 61672, the standard ear-curve weighting), EXTRA_CUT_DB under
+# the loudest hat-tier lane (or the snare/clap when there is no hat).
+PERC_ROLES = ("perc", "rim", "bongo")
+
+
+def a_weighted(x, sr=SR):
+    """`x` filtered by the A-weighting curve (IEC 61672), via FFT."""
+    x = np.asarray(x, dtype=float)
+    f = np.fft.rfftfreq(len(x), 1.0 / sr)
+    f2 = f ** 2
+    ra = (12194.0 ** 2 * f2 ** 2) / (
+        (f2 + 20.6 ** 2) * np.sqrt((f2 + 107.7 ** 2) * (f2 + 737.9 ** 2))
+        * (f2 + 12194.0 ** 2))
+    return np.fft.irfft(np.fft.rfft(x) * ra * 10 ** (2.0 / 20), len(x))
+
 
 def sub_sidechain(preset):
     """How deep the LOW END ducks under the kick.
@@ -2399,6 +2421,36 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                         w = wet_side.get(ln)
                         if w is not None:
                             wet_side[ln] = w * g
+        # PERCUSSION BY LOUDNESS, even at true levels -- see PERC_ROLES.
+        if true_levels and not loop_bufs and p.get("perc_flow"):
+            kspec = p.get("kit") or {}
+
+            def _a_loud(ln):
+                row = p["lanes"].get(ln)
+                pan = row[0] if row else 0.0
+                x = bufs[ln] * max(np.cos((pan + 1) * np.pi / 4),
+                                   np.sin((pan + 1) * np.pi / 4))
+                w = wet_side.get(ln)
+                if w is not None:
+                    n = min(len(x), len(w))
+                    x = x[:n] + w[:n]
+                return _loudest(a_weighted(x))
+
+            percs = [l for l in bufs
+                     if (kspec.get(l) or ("",))[0] in PERC_ROLES]
+            refs = ([l for l in bufs if l.startswith(HAT_TIER)]
+                    or [l for l in bufs
+                        if any(l.startswith(s) for s in SNARE_LIKE)])
+            if percs and refs:
+                pcap = max(_a_loud(l) for l in refs) * 10 ** (
+                    _extra_cut() / 20.0)
+                for ln in percs:
+                    ld = _a_loud(ln)
+                    if ld > pcap > 0:
+                        bufs[ln] = bufs[ln] * (pcap / ld)
+                        w = wet_side.get(ln)
+                        if w is not None:
+                            wet_side[ln] = w * (pcap / ld)
 
 
     # Owner 2026-10-10: the sound-effects lane sits 20% quieter (3.2 dB) in
