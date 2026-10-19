@@ -2798,6 +2798,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         part_count = random.Random(variant * 617 + 5).choices(
             (1, 2, 3), weights=OWNER_TASTE["melody_part_weights"])[0]
 
+    # Melody beats (2026-10-19): the lead keeps the chord rhythm and the
+    # melody answers in its gaps, an octave-plus ABOVE it (Hub ch.04 §11 +
+    # 2026 producer guides: separate by height first, then by time).
+    import melody_rhythm
+    _mel_on = bool(preset.get("melody_flow") and (num, den) == (4, 4)
+                   and primary not in ("loop", "chip", "midi")
+                   and melody_rhythm.plays(variant))
+    _lead_top = {}
     if part_count >= 2:
         role_srcs = _role_sources(primary, order, own, part_count)
         splits = [_split_chord_roles(chord["notes"])
@@ -2878,6 +2886,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 role_beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
                                   for a, nm, fl in layers])
             committed, beds = tuple(role_srcs[:len(per_role)]), role_beds
+            _lead_top = {i: max(splits[k][1])
+                         for k, (i, _, _, _) in enumerate(slots)}
 
     if committed is None:
         for plan in plans:
@@ -3187,16 +3197,14 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # buffer on lane melody0, triggered once on bar 1. New beats only
     # (melody_flow stamp); a loop/chip/MIDI-led beat already has its one
     # melodic part (theory/arrangement.md), so it gets none.
-    import melody_rhythm
     melody_info = None
     # rebuilt fresh every time (a rebuild keeps the trimmed level/pan)
     old_m = preset["lanes"].pop("melody0", None)
     kit.pop("melody0", None)
-    if (preset.get("melody_flow") and committed and (num, den) == (4, 4)
-            and primary not in ("loop", "chip", "midi")
-            and melody_rhythm.plays(variant)):
+    if _mel_on and committed:
         _mslots = [{"tones": list(c.get("voiced", c["notes"])),
-                    "top": max(c.get("voiced", c["notes"])),
+                    "top": max(list(c.get("voiced", c["notes"]))
+                               + [_lead_top.get(_i, 0)]),
                     "start_bar": sb, "bars": max(1, int(round(d / bar_s)))}
                    for _i, c, sb, d in slots]
         _mcells = {}
@@ -3212,7 +3220,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                   for ln, fs in voice_files.items() if _CHORD_LANE.match(ln)
                   for f in fs}
         _ments, _mshift = melody_rhythm.pick_instrument(
-            inst_idx, [n for _b, _s, _c, n in _mhits], _avoid, variant)
+            inst_idx, [n for _b, _s, _c, n in _mhits], _avoid, variant,
+            floor=max(s["top"] for s in _mslots))
         if _ments and _mhits:
             _mhits = [(b, st, ch, n + _mshift) for b, st, ch, n in _mhits]
             _end = int(round(nb * bar_s * instrument_sampler.SR))

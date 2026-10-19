@@ -94,6 +94,22 @@ def test_at_most_one_leap_per_phrase():
             assert leaps <= 1, (fam, v, b, ns)
 
 
+def test_melody_always_above_the_chords_and_lead():
+    sl = _slots()
+    top = max(s["top"] for s in sl)
+    for fam, v, hits in _all():
+        assert min(n for _, _, _, n in hits) > top, (fam, v)
+
+
+def test_instrument_shift_stays_above_floor_and_under_cap():
+    idx = [{"group": "bell", "multi": "Glock", "art": "a", "note": n,
+            "path": "g%d" % n} for n in range(40, 110, 3)]
+    ents, sh = mr.pick_instrument(idx, [70, 72, 74], (), 1, floor=80)
+    assert ents and min(70, 72, 74) + sh > 80 and 74 + sh <= mr.TOP_NOTE
+    ents, _ = mr.pick_instrument(idx, [70, 90], (), 1, floor=75)
+    assert ents is None                  # can't fit above 75 and under cap
+
+
 def test_never_on_bar_one_downbeat():
     for fam, v, hits in _all():
         assert (0, 0) not in {(b, st) for b, st, _, _ in hits}

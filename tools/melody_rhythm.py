@@ -38,6 +38,10 @@ import groove
 from pattern_gen import _weighted
 
 FLOW_VERSION = 1
+# highest note the melody may sound (C7): higher than that a lead turns
+# thin/shrill. Standard practice, not from the Hub; tune by ear. G6 (91)
+# was tried first and let only 487 of 900 test phrases fit above the lead.
+TOP_NOTE = 96
 PLAY_P = 0.5             # share of stamped beats that get a melody
 MAX_SHIFT = 12           # semitones a note may be stretched from its file
 STEP_MAX = 4             # semitones: anything wider is a leap
@@ -202,7 +206,12 @@ def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None):
             nt = _move(scale_ns, first, (len(pick) - j) * side)
             hits.append((extra, st, "x", nt))
     hits.sort(key=lambda h: (h[0], h[1]))
-    return hits
+    # always ABOVE the chords and the held lead (owner 2026-10-19): whole
+    # octaves only, so every note keeps its name
+    up = 0
+    while hits and min(h[3] for h in hits) + up <= top:
+        up += 12
+    return [(b, st, ch, n + up) for b, st, ch, n in hits]
 
 
 def _instruments(index, voices):
@@ -224,16 +233,20 @@ def _covers(entries, notes, max_shift=MAX_SHIFT):
                for n in notes)
 
 
-def pick_instrument(index, notes, avoid_groups, variant):
+def pick_instrument(index, notes, avoid_groups, variant, floor=None):
     """(entries, octave_shift) for ONE instrument that plays every note
     within MAX_SHIFT of a recording, or (None, 0). Tries the phrase as
     written, then an octave up/down (the whole phrase, never one note).
     Avoids the chord's own families when anything else can play it;
-    note-by-note libraries before single files."""
+    note-by-note libraries before single files. A shift must keep every
+    note above `floor` (the chords' and lead's top) and <= TOP_NOTE."""
     rng = random.Random(variant * 1301 + 211)
     groups = [g for g in VOICES if g not in avoid_groups] or list(VOICES)
     for shift in (0, 12, -12, 24, -24):
         ns = [n + shift for n in notes]
+        if ns and (max(ns) > TOP_NOTE
+                   or (floor is not None and min(ns) <= floor)):
+            continue
         insts = _instruments(index, groups)
         ok = {k: v for k, v in insts.items() if _covers(v, ns)}
         if not ok:
