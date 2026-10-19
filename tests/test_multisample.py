@@ -200,3 +200,28 @@ def test_his_own_sounds_play_first_on_about_half_the_beats():
         his += pick["path"].startswith("/his/")
         assert IS.nearest(got, 62, "organ")["multi"] == "Organ"
     assert 70 <= his <= 130, his
+
+
+def test_meta_open_sound_names_and_families():
+    """Meta spells sharps "s" and layers "Vel01".."Vel04" (2026-10-19)."""
+    assert MS.named_note("INSPiano_Vel01_As2_01") == 46
+    assert MS.named_note("INSGuitarNylon_StringA_Vel01Finger_A2_01") == 45
+    assert MS.layer_of("INSPiano_Vel01_A0_01") == 0.0
+    assert MS.layer_of("INSPiano_Vel04_A0_01") == 1.0
+    assert MS.layer_of("INSGuitarNylon_StringA_Vel02Pick_A2_01") == 0.333
+    for folder, group in (("Meta Piano", "piano"),
+                          ("Meta Nylon Guitar", "guitar"),
+                          ("Meta Steel Guitar", "guitar")):
+        assert MS._instrument(("Meta Open Sound", folder, "x.wav"))[1] == group
+
+
+def test_meta_piano_is_the_piano_on_about_half_the_beats():
+    """Owner 2026-10-19: Meta Piano first on ~half the piano beats."""
+    idx = []
+    for inst in ("Meta Open Sound/Meta Piano", "Steinway", "Kawai", "Harpsi"):
+        idx += [_row("/ms/%s/-/%d.wav" % (inst, n), n, "piano", inst, "-")
+                for n in (60, 62)]
+    meta = sum([e for e in MS.one_per_beat(idx, random.Random(s))
+                if e.get("multi")][0]["multi"].endswith("Meta Piano")
+               for s in range(1000))
+    assert 400 <= meta <= 600, meta

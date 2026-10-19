@@ -31,6 +31,11 @@ the library an octave off. So:
     instrument_sampler.detect_pitch, and the folder takes the octave its
     readings agree on. A folder whose readings don't match its names'
     notes at all (Bell Tree: unpitched) is left out rather than guessed.
+Meta Open Sound (CC0, added 2026-10-19): Meta Piano -> piano, Meta Nylon
+and Steel Guitar -> guitar. Its names spell sharps "s" (As2 = A#2) and
+layers "Vel01".."Vel04". Owner: Meta Piano is the piano on ~half of the
+piano beats; guitars keep equal odds.
+
 Measured on 135 files pulled from GitHub, two per instrument: detect_pitch
 and librosa's pyin agree on every offset above.
 
@@ -67,6 +72,7 @@ FAMILIES = {
     "upright piano, knight": "piano",
     "upright piano, yamaha": "piano",
     "upright nr1": "piano",
+    "meta piano": "piano",
     "harpsichord, english": "piano",
     "harpsichord, flemish": "piano",
     "harpsichord, french": "piano",
@@ -105,6 +111,8 @@ FAMILIES = {
     "harp": "guitar",
     "dan tranh": "guitar",
     "strumstick": "guitar",
+    "meta nylon guitar": "guitar",
+    "meta steel guitar": "guitar",
     # brass
     "f horn": "brass",
     "oldtrombone": "brass",
@@ -155,7 +163,8 @@ _PC = {"c": 0, "d": 2, "e": 4, "f": 5, "g": 7, "a": 9, "b": 11}
 # note that way, and it keeps a dynamic like "f2" (forte, take 2) in
 # "KSHarp_A2_f2" from reading as a second note, F2. Measured: the only
 # lower-case matches in either library are cymbals/snares and one file.
-_NOTE_TOK = re.compile(r"([A-G])([#b]?)(-?\d)")
+# "s" = sharp in Meta Open Sound ("As2" = A#2).
+_NOTE_TOK = re.compile(r"([A-G])([#bs]?)(-?\d)")
 _SPLIT = re.compile(r"[\s_]+")
 # loudness-layer tokens, softest first
 _DYN = ["ppp", "pp", "p", "mp", "mf", "f", "ff", "fff"]
@@ -179,7 +188,7 @@ def named_note(stem):
     for tok in _SPLIT.split(stem):
         m = _NOTE_TOK.fullmatch(tok)
         if m:
-            acc = {"#": 1, "b": -1}.get(m.group(2), 0)
+            acc = {"#": 1, "s": 1, "b": -1}.get(m.group(2), 0)
             got.add(_PC[m.group(1).lower()] + acc + 12 * (int(m.group(3)) + 1))
     return got.pop() if len(got) == 1 else None
 
@@ -194,6 +203,10 @@ def layer_of(stem):
             return round(_DYN.index(t) / (len(_DYN) - 1), 3)
         if t in _DYN_WORDS:
             return _DYN_WORDS[t]
+    for t in toks:
+        m = re.fullmatch(r"vel(\d+)(?:finger|pick)?", t)   # Meta: Vel01..Vel04
+        if m:
+            return round(min(max(int(m.group(1)) - 1, 0), 3) / 3.0, 3)
     for t in toks:
         m = re.fullmatch(r"(?:v|vl|dyn)(\d)", t)
         if m:
@@ -371,7 +384,13 @@ def one_per_beat(index, rng):
         mine_first = g in own_groups and rng.random() < 0.5
         es = [e for e in multi if e["group"] == g]
         insts = sorted({e["multi"] for e in es})
-        inst = rng.choice(insts)
+        meta = [i for i in insts if i.lower().endswith("meta piano")]
+        if g == "piano" and meta and len(insts) > 1:
+            # Owner 2026-10-19: Meta Piano on ~half the piano beats.
+            others = [i for i in insts if i not in meta]
+            inst = meta[0] if rng.random() < 0.5 else rng.choice(others)
+        else:
+            inst = rng.choice(insts)
         arts = {}
         for e in es:
             if e["multi"] == inst:
