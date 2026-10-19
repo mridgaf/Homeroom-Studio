@@ -8846,7 +8846,7 @@ just not loaded by default.
 - Change: `key_context.EXT_CHORDS` (15 new types: m11, m6, m7b5, dim7, m(maj7), 6, 6/9, maj7#11, 9, 13, 7sus4, 9sus4, 7b9, add11, m(add9)); kept OUT of CHORDS so name_chord (MIDI pack reading) is unchanged. `harmony.colorize` upgrades chords on the SAME root per the identity's `signature.chord_color` {depth, lean}; called in beat_machine on chord_flow beats only, own seed (variant*733+11). `_candidates` drops the 5th only when a chord doesn't fit otherwise (old voicings unchanged). progressions_config +24 `deep_*` (max 4 chords, the rack-row limit). All 45 identities got `chord_family` (soul_jazz / dark / grit / dreamy / bright_funk), `chord_color`, `pattern_tags` (now read from the signature by chord_rhythm), and their family's new progressions at weight 1.2. MIDI chord packs 10% -> 25% of beats for 42 identities (Tenth Wonder, DJ Hint left alone: their LoC loop must stay the main sound). Backups: *.pre-deep-chords-2026-10-19.*
 - ASSUMING (Claude's call, owner can correct): which family each identity is in; depth/lean numbers.
 - Measured (100 picks per identity): plain triads 67% -> 13% (crew), 60 -> 10 (legends), 70 -> 18 (genres); progressions in use 38 -> 62 (crew).
-- Drums: measured 53-60 distinct kick bars per 60 beats per DJ; snare/hats mostly varied (Sunday Chop snare plain 2&4 on 28/60; Cutz straight 8th hats 21/60). Not changed: sameness likely from the 2026-07-18 rule (half of every batch is a traditional 2&4 beat) -> owner's call.
+- Drums: measured 53-60 distinct kick bars per 60 beats per DJ; snare/hats mostly varied (Sunday Chop snare plain 2&4 on 28/60; Cutz straight 8th hats 21/60). Not changed. CORRECTION (same day): the traditional rule is ALREADY a quarter of a 4+ batch since 2026-07-21 (beat_machine._traditional_flags); I told owner it was half from a stale memory note. Nothing changed.
 - Tests: full suite 1437 pass + the 1 recipe test updated for the colour step (now passes); 2 old unrelated fails (panel_sweep import, guest "reversefx").
 - Status: open - not heard.
 
@@ -8861,3 +8861,10 @@ just not loaded by default.
 
 ## 2026-10-19 Theory loop generator (open)
 `tools/theory_loops.py` builds 8 MIDI loops from Chapter 13 sourced rules and re-reads each file to check them (all 8 pass). Hashes match the tested copy. Not yet listened to. Excluded for lack of a confirmed source: dembow, low-register numbers, swing amount. Files are in `Production Research Hub/Theory loops 2026-10-19/` because access to `~/Desktop/Homeroom Auditions` was denied.
+
+### 2026-10-19 Crew snare menus moved to the 10-pattern board (the 2026-07-22 frame fix had never reached 9 crew DJs)
+- Context: owner asked to loosen the traditional rule to 25%; it already WAS 25% (since 2026-07-21). Measured instead: 7 crew DJs still rolled a bare 2&4 snare on 43-48% of beats because their config snare/clap `modes` were the old 4-mode menu (backbeat 0.35-0.45).
+- Change: crew_config.json only: Otto Grit, Cutz, Crate Prophet, Chrome Dial (clap), Glass Cat, Sunday Chop (clap), Night Metro (clap), Rage Engine, New Math -> `pattern_gen._bb(home)` (all 10 modes, home 24%, home = their old top mode). Legends untouched (likeness rules). Backup crew_config.pre-snare-menu-2026-10-19.json.
+- Measured (100 composes each): plain 2&4 now 25-36% for backbeat-home DJs (was 43-48%), 6% Night Metro/Rage.
+- Tests: test_pattern_gen + test_crew 59 pass (1 old known fail: guest "reversefx"). Not heard.
+- Status: open
