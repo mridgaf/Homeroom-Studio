@@ -1,0 +1,2727 @@
+"""The crew: nine invented DJ personalities as engine presets (Checkpoint 3).
+
+Each personality is an original character built closely on one real
+producer's documented style (July 2026 research, techniques.md). A preset
+carries everything a batch needs to sound like THEM:
+
+- timing/feel numbers per lane (LaneFeel offsets, MPC swing, jitter),
+- a taste in drums (want-tags per lane) rather than fixed samples: the
+  owner's rule (2026-07-14) is that every character EXPERIMENTS — kick,
+  snare, and the rest are re-picked per beat from that character's tags.
+  Only the STAMP is locked in ~/.reason_voice/crew_kits.json: it's their
+  producer tag in drums, the one percussion hit in all their beats,
+- arrangement habits written into the 8-bar A/B form (bars 1-4 = A,
+  bars 5-8 = B with fills/ghosts/drop-outs where that character puts them),
+- mix flavor: SP-1200 dust for the 90s heads only (ASR-10/MPC3000 folks
+  stay clean — research says their grit is arrangement, not crunch),
+  vinyl bed, wow, sidechain depth, master drive.
+
+Owner taste (groove.OWNER_TASTE) is the house default everywhere; where a
+personality's era strongly argues otherwise the prototype renders BOTH
+ways (main = house, "Alt" file = era) so the deviation faces his ears
+before Checkpoint 4 ships the twenty.
+
+Run:  ./.venv/bin/python tools/crew.py          (prototype per personality)
+Out:  ~/Documents/Samples/Claude Drum Beats/Proto N <Name> Drums NNNbpm.wav
+"""
+import bisect
+import json
+import os
+import re
+import sys
+import zlib
+from pathlib import Path
+
+import inspect
+
+import numpy as np
+
+sys.path.append(str(Path(__file__).parent))
+from pattern_gen import (DEFAULT_STYLE, LEGEND_OPEN_P, STYLE_VERSION,
+                         free_beat)
+from make_drum_loops import SR, highpass, master, write_wav24
+from flavor_tags import matches as flavor_matches
+from make_drum_beats import build_shots, duck
+from make_hiphop_tracks import load_audio, norm_rms
+from groove import (LaneFeel, OWNER_TASTE, dist808, gated_reverb,
+                    glue_compress, hp1, kick_layer, kick_sub_reinforce,
+                    loop_convolve, ratchet_times, transient_shape,
+                    make_ir, master_to_lufs, mono_below, mpc_swing_offset,
+                    perc_scale, roughness_am, sat_unity, snare_scale,
+                    sp1200, velocity, vinyl_bed, wow_flutter)
+
+OUT = Path(os.path.expanduser("~/Documents/Samples/Claude Drum Beats"))
+LOCK = Path(os.path.expanduser("~/.reason_voice/crew_kits.json"))
+BARS = 8                         # the old fixed loop; now only a fallback
+
+
+def bars_of(preset):
+    """How many bars THIS beat runs (owner call 2026-07-22: "make the
+    loops half as long" + let the length vary per beat). A preset that
+    doesn't say falls back to the historic 8, so every older recipe and
+    batch file re-renders at exactly the length it was written at."""
+    try:
+        n = int((preset or {}).get("bars") or BARS)
+    except (TypeError, ValueError):
+        return BARS
+    return n if 1 <= n <= 16 else BARS
+SNARE_LIKE = {"snare", "clap"}   # lanes that follow the owner's snare trim
+# bright percussion that reads louder than it meters — owner 2026-07-18:
+# snaps/bells/stamps sat over the kick, so they get their own bus trim
+# (startswith match covers stamp2/stamp3 collab lanes)
+PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
+
+# OWNER MIX HIERARCHY, 2026-08-03. His words: "the snap and claps and bells
+# are always quieter than the snare and the kick drum. The hi hats follow the
+# same rules as the claps." And on where to anchor it: "start with the
+# loudness of the kick and the snare where they're at right now and go from
+# there" — so kick and snare are the reference and are NEVER touched by this.
+#
+# The reference is the QUIETER of the kick and the snare, not the kick alone.
+# Before this the ceilings were kick-relative, which let a clap sit under the
+# kick while still being louder than the snare — his rule says under both.
+#
+# Everything here only ever ATTENUATES, so an identity that deliberately
+# tucks a lane away keeps it tucked away.
+PERC_UNDER_DB = -3.0      # the HAT TIER only: hat, clap, snap (2026-08-31)
+FX_LANE_TRIM_DB = -3.2        # sound-effects lanes: "20% quieter" (owner 2026-10-10)
+FX_LANES = ("fx", "fxloop", "fxloop2", "airs")
+PUNCTUATION_UNDER_DB = -6.0  # crashes, impacts, risers — punctuation
+MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
+
+# THE BLANKET RULE (owner 2026-08-03, after hearing beat 1763): "anything
+# named shaker or impacts or effects or percussion or any other 'drum' sound
+# that is not the kick and the snare should follow the same volume rule as
+# for hi hats. Unless otherwise stated this session."
+#
+# So this is a DEFAULT, not a list. The old version was a list of prefixes
+# and it kept missing lanes — congas, toms, woods, claves, blips, cutfx,
+# foundfx, glitches, mathperc, exotic, gamefx and every guest lane a future
+# pool adds were all uncovered, which is exactly how a shaker came out at
+# -1.6 dB. Now everything falls to PERC_UNDER_DB unless it is named here.
+BACKBONE_LANES = ("kick", "snare")        # the reference — never adjusted
+# The LOW END is exempt, same set the ambience bed already refuses to touch
+# (`dry_lows`). "sub" is the tuned sub and plain "bass" is the sampled 808 —
+# both are the kick's own low end rather than a percussion colour, and
+# capping them 3 dB under the kick would hollow the beat out. Note this is
+# the digit-less "bass": bass0..N are the MELODIC chord bass and do fall
+# under the melodic ceiling below, which is why the check is exact.
+_LOW_END = {"sub", "bass", "sub808", "808"}
+# ...but the bass line (bass0..N, or an 808 playing the chords) is still a
+# BASS (owner 2026-09-23, standard hip-hop practice): kick first, then every
+# bass swells in behind it; one bass note at a time; never over the kick.
+# So it shares the low end's duck, choke and kick ceiling — while the peak,
+# hat and one-low-sound rules keep reading _LOW_END exactly.
+_BASS_LINE = re.compile(r"bass\d+$")
+
+
+def _ducks_deep(lane):
+    """The 808 / sub and the bass line: one deep duck, one choke group."""
+    return lane in _LOW_END or bool(_BASS_LINE.match(lane))
+# Where the chord / instrument lanes are cut (owner 2026-09-23). A 0.7-octave
+# edge around 120 Hz: gone below ~100, untouched above ~150 -- the bass's
+# room, per the usual "cut melodic parts under 100-200 Hz" advice, placed
+# at the low end of that range so a chord voiced down at C3 (131 Hz) only
+# dips ~4 dB instead of vanishing.
+CHORD_LOW_CUT_HZ = 120.0
+PEAK_CEILING_DB = {
+    # louder than the perc floor: nothing. quieter: these two families.
+    "crash": PUNCTUATION_UNDER_DB,
+    "impact": PUNCTUATION_UNDER_DB,
+    "swellfx": PUNCTUATION_UNDER_DB,
+    "riser": PUNCTUATION_UNDER_DB,
+    "siren": PUNCTUATION_UNDER_DB,
+    # Melodic lanes: "the instruments are not louder than the kick drum or
+    # the snap. or the snare" — so they must clear the PERCUSSION tier too,
+    # not just the backbone. The chord governor sets the bus's RMS (15 dB
+    # under the kick), but RMS says nothing about a transient: a piano stab
+    # measured a 1.8 dB peak under the reference while snaps sat at 2.0.
+    "chord": MELODIC_UNDER_DB,
+    "bass": MELODIC_UNDER_DB,
+    # the answer melody (2026-10-19, melody_rhythm) is a melodic part too
+    "melody": MELODIC_UNDER_DB,
+    # pattern_gen's crash role renders as lane "cymbals" and the fx lane
+    # "airs"; both were falling to the perc floor instead of punctuation.
+    "cymbals": PUNCTUATION_UNDER_DB,
+    "airs": PUNCTUATION_UNDER_DB,
+}
+
+# The backbeat COLOUR tier: the lanes his rule names as the thing everything
+# else sits under (owner 2026-08-31, "the hat is the ceiling"). These three
+# keep the old -3 floor; everything outside them takes a further cut.
+HAT_TIER = ("hat", "clap", "snap")
+EXTRA_CUT_DB = -3.0
+
+
+def _extra_cut():
+    """Clamped at the use site, not asserted in a test. "It only ever turns
+    things down" is his rule, so a positive EXTRA_CUT_DB must be structurally
+    unable to raise a ceiling rather than merely unlikely to be typed."""
+    return min(EXTRA_CUT_DB, 0.0)
+
+
+# TRUE-LEVELS EXPERIMENT (owner 2026-09-20): "for this mix I want to start with
+# everything at its true volume and disregard any of those rules for the mix."
+# When on, the three kick-relative level rules are bypassed so every sample
+# sums at its own recorded level: the snare-bus governor, the chord-bus
+# governor, and the peak-ceiling clamp. The sidechain duck, per-DJ lane gains,
+# and the final loudness normalise stay (they are sound design / uniform
+# headroom, not the kick-relative rules).
+# DEFAULT ON since 2026-09-20: owner heard the A/B and true levels ("b True")
+# is the better starting point, so it is now how every beat renders. The env
+# var is kept as an escape hatch — REASON_VOICE_TRUE_LEVELS=0 restores the old
+# kick-relative rules; anything else (unset included) keeps true levels.
+# ponytail: env flag, not a threaded param — one switch. Thread it through
+# render_crew_beat's signature if it becomes a real per-render option.
+TRUE_LEVELS = os.environ.get("REASON_VOICE_TRUE_LEVELS", "1") != "0"
+
+# NO MACHINE-MADE TONES (owner hard rule 2026-09-23: "I don't want any
+# tones created by machine"). Every sound is one of his samples -- his 808s
+# may be re-pitched ("fine, it's my sample"), but nothing is synthesized:
+# no tuned sine sub (beat_machine), no sine layered into the kick (here).
+MACHINE_TONES = False
+
+# The Loops page keeps its OWN switch (owner 2026-09-23): true levels were
+# meant for from-scratch beats only — "I didn't want any of that changed for
+# the loops section". Loop beats keep the kick-relative rules they had before
+# 2026-09-20 (the drum loop's lane is named "kick", so the peak ceilings held
+# the lead/bass/fx loops under it). TRUE_LEVELS never reaches a loops beat;
+# only this does. REASON_VOICE_LOOPS_TRUE_LEVELS=1 turns true levels on for
+# loops too.
+LOOPS_TRUE_LEVELS = os.environ.get("REASON_VOICE_LOOPS_TRUE_LEVELS",
+                                   "0") != "0"
+
+
+# The low end is exempt from the HAT ceiling, but not from everything. Owner
+# 2026-09-01, after the tuned root 808 came back on chords beats and measured
+# 5-10 dB OVER the kick: "kick stays on top". So it is capped level with the
+# reference -- it may match the kick, never beat it -- while still sitting
+# far above the hat, which is the part of the exemption that was the point.
+# 2026-09-07, his ear on the new low end: "a little too much low end,
+# reduce 10%". 10% quieter in level is 20*log10(0.9) = -0.9 dB, and this
+# cap is the one knob that governs BOTH low-end lanes (_LOW_END: the
+# sampled 808 and the tuned sub) against the kick. It only ever cuts --
+# the clamp is `if pk > cap` -- so this cannot make anything louder.
+# Was 0.0 from 2026-09-01 ("kick stays on top": level with the kick,
+# never over it). Now a touch under it.
+LOW_END_UNDER_DB = -0.9
+
+# ...but a PEAK cap cannot hold a bass under the kick (owner 2026-09-24,
+# after the genre auditions: "The bass note or instrument is significantly
+# louder than everything"). The kick is a short hit, a bass note holds, so
+# at the same peak the bass SOUNDS far louder. So the low end is also capped
+# by loudness: its loudest 400 ms (the EBU momentary-loudness window) sits
+# this far under the kick's loudest 400 ms. His number: "go 4 db quieter
+# than the kick". Every from-scratch beat; the Loops page is untouched.
+# ponytail: plain RMS, not K-weighted -- reads sub-heavy 808s a little
+# hot, so it errs quieter. K-weight it if 808s come back too thin.
+LOW_END_LOUD_UNDER_DB = -4.0
+LOUD_WINDOW_S = 0.4
+
+# PERCUSSION BY LOUDNESS (owner 2026-10-19: percussion "loud and intrusive";
+# his pick: cap it by how loud it SOUNDS). True levels (2026-09-20) switched
+# off the peak clamp that held perc under the hats, so perc played at its
+# file's own level. And a peak says little anyway: bright clicks sit where
+# the ear is most sensitive (equal-loudness contours, ISO 226), so at the
+# same peak they sound louder than a kick. On beats stamped `perc_flow`,
+# every lane whose sound role is percussion is capped, by A-weighted
+# loudness (IEC 61672, the standard ear-curve weighting), EXTRA_CUT_DB under
+# the loudest hat-tier lane (or the snare/clap when there is no hat).
+PERC_ROLES = ("perc", "rim", "bongo")
+
+
+def a_weighted(x, sr=SR):
+    """`x` filtered by the A-weighting curve (IEC 61672), via FFT."""
+    x = np.asarray(x, dtype=float)
+    f = np.fft.rfftfreq(len(x), 1.0 / sr)
+    f2 = f ** 2
+    ra = (12194.0 ** 2 * f2 ** 2) / (
+        (f2 + 20.6 ** 2) * np.sqrt((f2 + 107.7 ** 2) * (f2 + 737.9 ** 2))
+        * (f2 + 12194.0 ** 2))
+    return np.fft.irfft(np.fft.rfft(x) * ra * 10 ** (2.0 / 20), len(x))
+
+
+def sub_sidechain(preset):
+    """How deep the LOW END ducks under the kick.
+
+    Its own number since 2026-09-01: the mix-wide `sidechain` is ~2 dB,
+    which is right for hats and chords and inaudible on a sub sharing the
+    kick's octave. Falls back to the mix-wide depth when a preset predates
+    the split, so old saved recipes replay exactly as they were rendered.
+    A beat with the sidechain rolled OFF keeps the sub duck off too --
+    off means off."""
+    if preset.get("sidechain", 0) <= 0:
+        return 0.0
+    return preset.get("sub_sidechain", preset["sidechain"])
+# longest first, so "cowbell" is matched before "bell" would swallow it
+_PEAK_PREFIXES = sorted(PEAK_CEILING_DB, key=len, reverse=True)
+
+# How far over the kick the BACKBEAT may peak (owner 2026-09-02). There was
+# no rule here at all: kick and snare are the reference pair and both return
+# None from peak_ceiling_for, so nothing ever measured the snare's peak
+# against anything. The RMS governor above then made that reachable — a snare
+# with a sharp crack has a low average and a high peak, so lifting it by
+# average sent the peak a long way over the kick (measured on beat 2159:
+# +9.9 dB, from +5.3 before the governor).
+#
+# 2.0 comes from the reference mix the owner asked me to check against: a
+# measured hip-hop/trap master with the kick at -5.1 dBTP and the snare at
+# -3.6, i.e. the backbeat peaking 1.5 dB OVER the kick while the two sit
+# level in loudness. Slightly over is normal and is the sound of a record;
+# ten dB over is not. This is a CEILING, not a target — where the backbeat
+# actually lands is set by backbeat_bus_under_kick_db and the sample's own
+# crest factor.
+BACKBEAT_OVER_KICK_DB = 2.0
+
+
+def peak_ceiling_for(lane):
+    """dB below the kick reference this lane may peak, or None for the
+    backbone itself. Anything not named falls to the perc floor MINUS the
+    extra cut — that is the blanket rule, and the reason it is a default
+    rather than a lookup.
+
+    This is only half the ceiling. The other half is MEASURED at render
+    time: nothing outside HAT_TIER may exceed the beat's actual hat, which
+    a fixed offset under the kick cannot express. See the clamp in
+    `render_crew_beat`."""
+    if lane.startswith(BACKBONE_LANES):
+        return None
+    if lane in _LOW_END:
+        return LOW_END_UNDER_DB
+    if lane.startswith(HAT_TIER):
+        return PERC_UNDER_DB
+    for pre in _PEAK_PREFIXES:
+        if lane.startswith(pre):
+            return PEAK_CEILING_DB[pre] + _extra_cut()
+    return PERC_UNDER_DB + _extra_cut()
+
+# How far the chord-bus governor may turn a lane DOWN (owner 2026-08-03).
+# 0.02 is -34 dB, enough for the loudest sample measured in his library with
+# room to spare, and far enough from zero that a lane can never be silenced
+# by the governor alone. See the note at the clamp itself for why the cut and
+# the boost limits are deliberately not the same number.
+CHORD_CUT_FLOOR = 0.02
+
+R16 = "-" * 16
+
+# --------------------------------------------------------------- the roster
+# kit entry: lane -> (library role, must-word, want-tags, choke seconds)
+# lane entry: lane -> (pan, gain, (offset_ms, jitter_ms, swing, seed), bars)
+# space: (house treatment, [lanes it applies to]); alt: era-argued
+#   deviation rendered as a second "Alt" file, or None when era and house
+#   agree. Room/plate params are (decay_s, tone_hz, wet).
+
+DEFAULT_CREW = {
+    "Otto Grit": dict(
+        num=1, bpm=88, era="90s", built="J Dilla",
+        listen=("the drunk pull: snare rushes early, kick leans back late, "
+                "hats dead straight; half SP-1200 dust; vinyl bed; his stamp "
+                "is a dusty tom on the tail of bars 4 and 8"),
+        kit=dict(
+            kick=("kick", None,["dust", "vinyl", "boom", "dirty"],
+                  (0.55, 0.95)),
+            snare=("snare", None, ["vinyl", "dusty", "lofi"], 1.0),
+            hat=("hat", None, ["closed", "vintage"], 0.5),
+            stamp=("perc", None, ["tom"], 0.9),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (+10, 4, 50, 101), [
+                "X------x--X-----", "X------x--X---x-",
+                "X------x--X-----", "X-----xx--X---x-",
+                "X------x--X---x-", "X---x--x--X-----",
+                "X------x--X---x-", "X-x---xx--X-----"]),
+            snare=(0.0, 0.88, (-18, 4, 50, 102), [
+                "----X-------X---", "----X-------X---",
+                "----X-------X---", "----X-------X--.",
+                "----X--.----X---", "----X-------X--.",
+                "----X--.----X---", "----X-----.-X---"]),
+            hat=(-0.12, 0.36, (0, 2, 50, 103),
+                 ["x-x-x-x-x-x-x-x-"] * 7 + ["x-x-x-x-x-x-----"]),
+            stamp=(-0.35, 0.4, (0, 3, 50, 104),
+                   [R16] * 3 + ["--------------x-"]
+                   + [R16] * 3 + ["--------------x-"]),
+        ),
+        dust=0.5, vinyl=-42, wow=0.0, sidechain=0.15,
+        space=("gated", ["snare"]), alt=("room", (0.45, 3500, 0.32)),
+        drive=1.35, kick_dist=0.0, mix_sat=0.0,
+        # APPROVED BY EAR 2026-09-03 (audition "b Light", ~/Desktop/
+        # Homeroom Kick Sub Layer): a short gated ~40 Hz tone under the
+        # sampled kick. Sourced — Todd Fairall on the Fantastic Vol. 2
+        # sessions. His trait, nobody else's: no other preset has this
+        # field and it is not a house default.
+        sub_layer=dict(freq_hz=40.0, dur_s=0.12, amount=0.35),
+    ),
+
+    "Cutz": dict(
+        num=2, bpm=93, era="90s", built="DJ Premier",
+        listen=("surgical: everything tight at 53% swing (his effective "
+                "51-54 zone), ghost snares, and his stamp — a scratch stab "
+                "fill closing bars 4 and 8"),
+        kit=dict(
+            kick=("kick", None,["punch", "hard", "knock"], (0.55, 0.95)),
+            snare=("snare", None, ["crack", "tight", "hard"], 1.0),
+            hat=("hat", None, ["closed", "tight"], 0.5),
+            stamp=("fx", None, ["scratch"], 0.8),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 1.5, 53, 111), [
+                "X--x------X--X--", "X--x------X--X--",
+                "X--x------X--X--", "X--x------X--X-x",
+                "X--x------X--X--", "X--x----x-X--X--",
+                "X--x------X--X--", "X--x------X-xX-x"]),
+            snare=(0.0, 0.88, (0, 1.5, 53, 112), [
+                "----X-------X---", "----X-------X---",
+                "----X--.----X---", "----X-------X--.",
+                "----X-------X---", "----X--.----X---",
+                "----X-------X---", "----X--.--.-X--."]),
+            hat=(0.14, 0.38, (0, 1.5, 53, 113), ["x-x-x-x-x-x-x-x-"] * 8),
+            stamp=(-0.3, 0.42, (0, 2, 50, 114),
+                   [R16] * 3 + ["------------x-x-"]
+                   + [R16] * 3 + ["----------x-x-x-"]),
+        ),
+        dust=0.5, vinyl=-46, wow=0.0, sidechain=0.15,
+        space=("gated", ["snare"]), alt=("room", (0.4, 3800, 0.25)),
+        drive=1.4, kick_dist=0.0, mix_sat=0.0,
+    ),
+
+    "Crate Prophet": dict(
+        num=3, bpm=92, era="90s", built="Pete Rock / Madlib",
+        listen=("warm and loose: 60% golden-era swing, snare sits LATE "
+                "(era-driven, flagged — house verdict is early, but laid-"
+                "back is this character), loose congas, the heaviest vinyl "
+                "bed plus record wow; stamp is a conga slap on bars 4/8. "
+                "This is also the prototype that SKIPS sidechain (the "
+                "1-in-10 no-duck rule)"),
+        kit=dict(
+            kick=("kick", None,["warm", "deep", "boom"], (0.6, 1.0)),
+            # owner 2026-07-15: his snare was still too loud — the "room"/
+            # "reverb" wants pulled pre-reverbed hits; now dry-ish picks and
+            # the space treatment carries the wetness
+            snare=("snare", None, ["dusty", "vintage", "warm"], 1.0),
+            hat=("hat", None, ["closed"], 0.5),
+            bongo=("bongo", None, ["conga", "bongo"], 0.8),
+            stamp=("bongo", None, ["conga", "slap"], 0.8),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 5, 60, 121), [
+                "X-----x---X--x--", "X-----x---X-----",
+                "X-----x---X--x--", "X-----x---X-x---",
+                "X-----x---X--x--", "X---x-x---X-----",
+                "X-----x---X--x--", "X-----x-x-X-x---"]),
+            snare=(0.0, 0.62, (+8, 5, 60, 122), [   # extra ~3 dB down, owner
+                "----X-------X---", "----X-------X---",
+                "----X-------X---", "----X-------X--.",
+                "----X-------X---", "----X--.----X---",
+                "----X-------X---", "----X-------X-.."]),
+            hat=(-0.15, 0.36, (0, 4, 60, 123),
+                 ["x-xox-x-x-xox-x-"] * 7 + ["x-xox-x-x-xox-xx"]),
+            bongo=(0.32, 0.3, (0, 6, 60, 124), [
+                "--x---x-------x-", "------x---x-----",
+                "--x---x-------x-", "------x---x---x-",
+                "--x---x-------x-", "------x---x-----",
+                "--x---x-------x-", "--x---x---x-x-x-"]),
+            stamp=(-0.3, 0.38, (0, 5, 60, 125),
+                   [R16] * 3 + ["--------------x-"]
+                   + [R16] * 3 + ["--------------x-"]),
+        ),
+        dust=0.5, vinyl=-40, wow=0.3, sidechain=0.0,
+        space=("gated", ["snare"]), alt=("room", (0.6, 3000, 0.35)),
+        drive=1.3, kick_dist=0.0, mix_sat=0.0,
+    ),
+
+    "Chrome Dial": dict(
+        num=4, bpm=100, era="2000s", built="Timbaland",
+        listen=("syncopated bounce with silence as an instrument — bar 6 "
+                "drops to almost nothing and answers bar 5; exotic perc "
+                "off-center; completely CLEAN (his ASR-10 was 16-bit — the "
+                "grit is arrangement, so no crush here by research, not "
+                "taste); stamp is an exotic perc hit late in bars 4/8"),
+        kit=dict(
+            kick=("kick", None,["clean", "punch", "tight"], (0.7, 1.2)),
+            clap=("clap", None, ["clap"], 1.0),
+            perc=("perc", None, ["tabla", "shaker", "conga"], 0.9),
+            snap=("snap", None, ["snap", "finger"], 0.5),
+            stamp=("perc", None, ["block", "tabla", "cowbell"], 0.6),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 1, 50, 131), [
+                "X--X--X---X-----", "X--X--X---------",
+                "X--X--X---X-----", "X--X--X---X--X--",
+                "X--X--X---X-----", "----------X--X--",
+                "X--X--X---X-----", "X--X--X---------"]),
+            clap=(0.0, 0.85, (0, 1, 50, 132),
+                  ["----X-------X---"] * 5 + ["----X-----------"]
+                  + ["----X-------X---"] * 2),
+            perc=(-0.35, 0.32, (0, 2, 50, 133), [
+                "--x---x----x--x-", "--x---x----x----",
+                "--x---x----x--x-", "--x---x--x-x--x-",
+                "--x---x----x--x-", "--------x--x----",
+                "--x---x----x--x-", "--x-x-x----x--x-"]),
+            snap=(0.18, 0.4, (0, 1, 50, 134),
+                  [R16, "--------------X-"] * 4),
+            stamp=(0.28, 0.4, (0, 1, 50, 135),
+                   [R16] * 3 + ["-------------x--"]
+                   + [R16] * 3 + ["-------------x--"]),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.2,
+        space=("gated", ["clap"]), alt=None,
+        drive=1.45, kick_dist=0.0, mix_sat=0.0,
+    ),
+
+    "Glass Cat": dict(
+        num=5, bpm=98, era="2000s", built="The Neptunes / Pharrell",
+        listen=("minimal and dry: NO hats — a snap keeps time; the clap "
+                "lands ~18 ms LATE against the snare (the documented "
+                "Neptunes flam); bar 8 stop-starts. The Alt file is the one "
+                "to compare hard: era says bone dry, house says gated. "
+                "Stamp is a weird click/zap on bars 4/8"),
+        kit=dict(
+            kick=("kick", None,["clean", "tight", "pop"], (0.7, 1.2)),
+            snare=("snare", None, ["clean", "rim", "snap"], 1.0),
+            clap=("clap", None, ["clap"], 1.0),
+            snap=("snap", None, ["snap", "finger"], 0.5),
+            stamp=("fx", None, ["click", "zap", "glitch", "laser"], 0.6),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 1, 50, 141), [
+                "X-------X-X-----", "X-------X-X-----",
+                "X-------X-X-----", "X-------X-X---X-",
+                "X-------X-X-----", "X-------X-X-----",
+                "X-------X-X---X-", "X---X-----------"]),
+            snare=(0.0, 0.85, (0, 1, 50, 142),
+                   ["----X-------X---"] * 7 + ["----X-----------"]),
+            clap=(0.1, 0.5, (+18, 1, 50, 143),
+                  ["----X-------X---"] * 7 + ["----X-----------"]),
+            snap=(0.12, 0.42, (0, 1, 50, 144),
+                  ["x--x--x--x--x--x"] * 7 + ["x--x------------"]),
+            stamp=(-0.3, 0.38, (0, 1, 50, 145),
+                   [R16] * 3 + ["--------------x-"]
+                   + [R16] * 3 + ["--------------x-"]),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.2,
+        space=("gated", ["snare"]), alt=("dry", None),
+        drive=1.4, kick_dist=0.0, mix_sat=0.0,
+    ),
+
+    "Sunday Chop": dict(
+        num=6, bpm=96, era="2000s", built="Kanye West",
+        listen=("gospel bounce at 57% swing, driving pushed kicks, a BIG "
+                "clap with a snare tucked underneath, tambourine offbeats; "
+                "clean (MPC3000 = 16-bit). His stamp is the crash swell "
+                "opening bars 1 and 5"),
+        kit=dict(
+            kick=("kick", None,["punch", "knock", "clean"], (0.7, 1.2)),
+            clap=("clap", None, ["big", "clap"], 1.0),
+            snare=("snare", None, ["snare"], 1.0),
+            hat=("hat", None, ["closed"], 0.5),
+            perc=("perc", None, ["tamb", "shaker"], 1.0),
+            stamp=("crash", None, ["crash"], 2.5),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 2, 57, 151), [
+                "X---x---X---x---", "X---x--xX---x---",
+                "X---x---X---x---", "X---x--xX---x-x-",
+                "X---x---X---x---", "X---x--xX---x---",
+                "X---x---X---x---", "X--xx---X---x-x-"]),
+            clap=(0.0, 0.9, (0, 2, 57, 152), ["----X-------X---"] * 8),
+            snare=(0.0, 0.5, (0, 2, 57, 153), ["----X-------X---"] * 8),
+            hat=(0.1, 0.4, (0, 2, 57, 154),
+                 ["x-x-x-x-x-x-x-x-"] * 7 + ["x-x-x-x-x-x-x-xx"]),
+            perc=(-0.25, 0.3, (0, 3, 57, 155), ["--x---x---x---x-"] * 8),
+            stamp=(0.0, 0.4, (0, 2, 57, 156),
+                   ["X---------------"] + [R16] * 3
+                   + ["X---------------"] + [R16] * 3),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.2,
+        space=("gated", ["clap"]), alt=None,
+        drive=1.4, kick_dist=0.0, mix_sat=0.0,
+    ),
+
+    "Night Metro": dict(
+        num=7, bpm=140, era="2010s", built="Metro Boomin",
+        listen=("dark halftime: sustained distorted 808, clap on 3, hat "
+                "rolls that ramp INTO the snare, and the drama — bar 5 "
+                "drops to the 808 alone. Stamp is a reversed cymbal "
+                "resolving onto the next downbeat (bars 4 and 8)"),
+        kit=dict(
+            kick=("kick", None,["deep", "sub", "long"], (0.9, 2.2)),
+            clap=("clap", None, ["clap", "reverb"], 1.0),
+            hat=("hat", None, ["trap", "closed"], 0.5),
+            stamp=("fx", None, ["reverse", "sweep", "riser"], 1.6),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 0, 50, 161), [
+                "X-----X---X-----", "X-----X---X-----",
+                "X-----X-----X---", "X-----X---X---X-",
+                "X---------------", "X-----X---X-----",
+                "X-----X-----X---", "X-----X---X-X---"]),
+            clap=(0.0, 0.85, (0, 0, 50, 162),
+                  ["--------X-------"] * 4 + [R16]
+                  + ["--------X-------"] * 3),
+            hat=(-0.1, 0.4, (0, 0, 50, 163), [
+                "x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-",
+                "x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-",
+                "x-x-x-x-x-x-x-x-x-x-x-x-xxxxxxxx",
+                "x-x-x-x-xxxxx-x-x-x-x-x-xxxxxxxx",
+                "-" * 32,
+                "x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-",
+                "x-x-x-x-x-x-x-x-xxxxxxxxx-x-x-x-",
+                "x-x-x-x-x-x-x-x-xxxxxxxxxxxxxxxx"]),
+            stamp=(-0.3, 0.45, (0, 0, 50, 164),
+                   [R16] * 3 + ["------------x---"]
+                   + [R16] * 3 + ["------------x---"]),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.35,
+        space=("gated", ["clap"]), alt=None,
+        drive=1.5, kick_dist=5.0, mix_sat=0.0,
+    ),
+
+    "Rage Engine": dict(
+        num=8, bpm=150, era="2010s", built="Lex Luger",
+        listen=("relentless: wall-to-wall 32nd hat rolls, snare+clap "
+                "stacked, distortion on the 808 AND glue saturation on the "
+                "whole mix, zero drop-outs, extra snare fills every 4th "
+                "bar. Stamp is the crash/impact opening bars 1 and 5"),
+        kit=dict(
+            kick=("kick", None,["hard", "punch", "distort"], (0.8, 2.2)),
+            snare=("snare", None, ["trap", "snare"], 1.0),
+            clap=("clap", None, ["clap"], 1.0),
+            hat=("hat", None, ["trap", "closed"], 0.5),
+            stamp=("crash", None, ["crash", "impact"], 2.5),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (0, 0, 50, 171), [
+                "X-----X-----X---", "X-----X-----X--X",
+                "X-----X-----X---", "X--X--X-----X---",
+                "X-----X-----X---", "X-----X-----X--X",
+                "X--X--X-----X---", "X-----X--X--X--X"]),
+            snare=(0.0, 0.82, (0, 0, 50, 172),
+                   ["--------X-------"] * 3 + ["--------X-----xx"]
+                   + ["--------X-------"] * 3 + ["--------X---xx-x"]),
+            clap=(0.1, 0.5, (0, 0, 50, 173), ["--------x-------"] * 8),
+            hat=(0.12, 0.4, (0, 0, 50, 174), [
+                "x-x-x-x-xxxxxxxxx-x-x-x-xxxxxxxx",
+                "x-x-x-x-x-x-x-x-xxxxxxxxxxxxxxxx",
+                "x-x-x-x-xxxxxxxxx-x-x-x-xxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "x-x-x-x-xxxxxxxxx-x-x-x-xxxxxxxx",
+                "x-x-x-x-x-x-x-x-xxxxxxxxxxxxxxxx",
+                "xxxxxxxxxxxxxxxxx-x-x-x-xxxxxxxx",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"]),
+            stamp=(0.0, 0.45, (0, 0, 50, 175),
+                   ["X---------------"] + [R16] * 3
+                   + ["X---------------"] + [R16] * 3),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.35,
+        space=("gated", ["snare"]), alt=None,
+        drive=1.55, kick_dist=6.0, mix_sat=4.0,
+    ),
+
+    # Snap Church retired 2026-07-15 (owner: too close to Night Metro and
+    # Rage Engine). Slot 9 belongs to New Math — the only crew member built
+    # on NO ancestor: Jersey-club kick grammar plus the genuinely-untried
+    # findings from the July 2026 research (quintuplet hat grid, Euclidean
+    # percussion, one lane deliberately swinging against a straight kit).
+    # ------------------------------------------------------------------
+    # New Math, deepened 2026-07-24 at the owner's request ("give it
+    # deeper personality/style of your own design, along with adding that
+    # [video game] sound"). The design brief I set myself, written down so
+    # the character stays coherent if anyone extends it later:
+    #
+    #   ONE IDEA, FOUR DOMAINS: arithmetic you can hear.
+    #
+    # His rhythm was already division — five against four, Euclidean
+    # necklaces (spreading k hits evenly over n steps), clash-as-groove.
+    # Chip sound is division too: a square wave is a counter flipping
+    # between two states, the noise channel is a shift register, the
+    # faked chord is counting fast enough to fool the ear, and the
+    # Atari's sourness is integer division failing to land on a note.
+    # So the chiptune voice is not a costume on this character — it is
+    # the same idea he already was, in a new domain. The three additions:
+    #
+    #   HARMONY   progressions that divide the octave into EQUAL parts
+    #             (minor thirds = 4, major thirds = 3, whole tones = 6)
+    #             instead of resolving. Every other identity on every
+    #             roster uses functional harmony, which has a home to
+    #             return to. These have no home; they just come back
+    #             around. That is the harmonic form of a polyrhythm.
+    #   TUNING    chip_tuning "atari" — chords snap to the TIA's
+    #             integer-divider grid, so they are genuinely out of
+    #             tune. Everyone else calls that broken; he calls it the
+    #             number the division actually gives. This is the
+    #             character trait, and it is the one thing here I would
+    #             expect the owner to either love or veto outright.
+    #   RIPPLE    chip_count 5 — the chord flickers five times a beat, so
+    #             his five-against-four hat idea now also runs in the
+    #             harmony, drifting against the bar and re-aligning.
+    #
+    # Mode is major on purpose: none of these progressions are minor in
+    # any functional sense, and the bright chip square against a hard
+    # club kick is the "front edge" the character is named for.
+    "New Math": dict(
+        num=9, bpm=144, era="now", built="no one — the front edge",
+        listen=("the new one. A club kick pattern that never sits where "
+                "trap taught you to expect it; a hat lane counting FIVE "
+                "against everyone else's four (quintuplet grid); "
+                "percussion running world-rhythm math (E(7,16) and "
+                "E(5,16) necklaces); and one lane swinging 58% while the "
+                "rest of the kit stays dead straight — the clash IS the "
+                "groove. Clean and punchy, mid-forward kick. Stamp is a "
+                "found-sound fx hit on the tail of bars 4/8. Harmony is "
+                "an 8-bit square-wave ripple counting five to the beat, "
+                "on chords that divide the octave into equal steps and "
+                "never resolve — and it is tuned to an Atari's own "
+                "arithmetic, so it lands slightly, deliberately sour"),
+        signature=dict(
+            key=dict(roots=[["C", 3], ["D", 2], ["G", 2], ["A", 2],
+                            ["F", 1]], mode="major"),
+            progressions=[["math_minor_thirds", 3], ["math_major_thirds", 3],
+                          ["math_whole_tone", 2], ["vamp_static_riff", 1]],
+            chord_source=[["synth", 1], ["midi", 1]],
+            chord_rhythm="arp",
+            chip_tuning="atari",
+            chip_count=5,
+            # his harmony IS the chip voice, so it should not need the
+            # notes box to ask for it — see beat_machine's chords_default
+            chords_default=True),
+        kit=dict(
+            kick=("kick", None,["punch", "knock", "club", "tight"],
+                  (0.5, 1.6)),
+            snare=("snare", None, ["crack", "clean", "trap"], 1.0),
+            snap=("snap", None, ["snap", "finger"], 0.5),
+            hat=("hat", None, ["closed", "tight", "crisp"], 0.5),
+            perc=("perc", None, ["glitch", "click", "wood", "block"], 0.8),
+            stamp=("fx", None, ["squeak", "vocal", "yeah", "hey",
+                                "reverse", "glitch"], 1.2),
+        ),
+        lanes=dict(
+            # the Jersey-club five: 1 . . & . 3 . 4 — then it mutates
+            kick=(0.0, 1.0, (0, 1, 50, 191), [
+                "X--X--X-X-X-----", "X--X--X-X-X-----",
+                "X--X--X-X-X---X-", "X--X--X-X-X-X---",
+                "X--X--X-X-X-----", "X--X---X--X-X---",
+                "X--X--X-X-X---X-", "X--X--XX--X-----"]),
+            snare=(0.0, 0.85, (0, 1, 50, 192),
+                   ["----X-------X---"] * 7 + ["----X-----X-X---"]),
+            snap=(0.15, 0.4, (+12, 1, 50, 193), [
+                "-x-x---x-x---x--", "-x-x---x-x------",
+                "-x-x---x-x---x--", "-x-x---x-xx--x--",
+                "-x-x---x-x---x--", "-x-x---x-x------",
+                "-x-x---x-x---x--", "-x-x-x-x-x---x-x"]),
+            # 20-step bars: sixteenth-quintuplets running against the four
+            hat=(-0.16, 0.38, (0, 1, 50, 194), [
+                "x-x-xx-x-xx-x-xx-x-x", "x-x-xx-x-xx-x-xx-x-x",
+                "x-x-xx-x-xx-x-xx-x-x", "x-x-xx-x-xxxx-xx-xxx",
+                "x-x-xx-x-xx-x-xx-x-x", "x-x-xx-x-xx-x-xx-x-x",
+                "x-x-x-x-x-x-x-x-x-x-", "xx-xx-xx-xx-xx-xxxxx"]),
+            # Euclidean necklaces, swung 58% against a straight kit
+            perc=(0.18, 0.3, (0, 2, 58, 195), [
+                "x--x-x-x--x-x-x-", "x---x--x--x--x--",
+                "x--x-x-x--x-x-x-", "x---x--x--x--x--",
+                "x--x-x-x--x-x-x-", "x---x--x--x--x--",
+                "x--x-x-x--x-x-x-", "x--x-x-xx-x-x-x-"]),
+            stamp=(-0.28, 0.4, (0, 1, 50, 196),
+                   [R16] * 3 + ["--------------x-"]
+                   + [R16] * 3 + ["--------------x-"]),
+        ),
+        dust=0.0, vinyl=0, wow=0.0, sidechain=0.3,
+        space=("gated", ["snare"]), alt=None,
+        drive=1.5, kick_dist=3.0, mix_sat=0.0,
+    ),
+
+    # Slot 10, added 2026-08-07. The roster had nothing under 88 BPM and
+    # nothing that plays BEHIND the beat on purpose — every other DJ is
+    # either on the grid or pushing. This one is the opposite end: half
+    # the tempo, every lane late, no hats, and the 2 left empty.
+    "Half Light": dict(
+        num=10, bpm=68, era="now", built="no one — the slow lane",
+        listen=("the slowest thing in the room. Half the roster's tempo, "
+                "and every lane drags BEHIND the click on purpose (kick "
+                "+26 ms, snare +34 ms) — nobody else is late by design. "
+                "No hats at all: a cross-stick rim keeps time in threes "
+                "over a four grid, so it never lines up twice the same "
+                "way. The backbeat mostly refuses to show — the snare "
+                "sits on the 4 alone and leaves the 2 empty. Tape wow is "
+                "the highest on the roster, so the whole thing sags and "
+                "recovers. Gated snare like the house, but his Alt file "
+                "is a HALL — 2.2 seconds, the biggest room any DJ has. "
+                "Stamp is a reversed hit at the END of bars 2 and 6, so "
+                "it sucks INTO bars 3 and 7 — everyone else stamps the "
+                "tail of 4 and 8; he arrives early instead."),
+        kit=dict(
+            kick=("kick", None, ["boom", "sub", "round", "soft", "deep"],
+                  (0.9, 2.8)),
+            snare=("snare", None,
+                   ["soft", "room", "brush", "dark", "rimshot"], 1.6),
+            rim=("rim", None, ["rim", "sidestick", "stick", "click"], 0.6),
+            shaker=("perc", None, ["shaker", "tamb", "brush", "sand"], 0.7),
+            stamp=("fx", None,
+                   ["reverse", "swell", "foley", "texture", "whoosh"], 2.2),
+        ),
+        lanes=dict(
+            kick=(0.0, 1.0, (+26, 5, 50, 201), [
+                "X-------X-------", "X-------X-------",
+                "X-------X-------", "X-------X----x--",
+                "X-------X-------", "X-----------X---",
+                "X-------X-------", "X-------X--x----"]),
+            snare=(0.0, 0.82, (+34, 6, 50, 202), [
+                "------------X---"] * 7 + ["----.-------X---"]),
+            rim=(-0.22, 0.34, (+12, 4, 50, 203), [
+                "x--x--x--x--x--x"] * 5 + ["x--x--x--x------"]
+                + ["x--x--x--x--x--x"] * 2),
+            shaker=(0.24, 0.26, (+18, 6, 50, 204), [
+                "--x---x---x---x-"] * 3 + ["--x---x---x--xx-"]
+                + ["--x---x---x---x-"] * 3 + ["--x---x---xx-xx-"]),
+            # the stamp lands at the END of bars 2 and 6, not 4 and 8
+            stamp=(-0.3, 0.42, (0, 3, 50, 205),
+                   [R16, "--------------x-"] + [R16] * 3
+                   + ["--------------x-"] + [R16] * 2),
+        ),
+        dust=0.0, vinyl=-38, wow=0.6, sidechain=0.22,
+        space=("gated", ["snare"]), alt=("hall", (2.2, 2600, 0.42)),
+        drive=1.15, kick_dist=0.0, mix_sat=0.0,
+    ),
+
+    # Slot 11, added 2026-08-08. Two holes on the roster: nothing above
+    # 150 BPM, and nobody whose TIMEKEEPER is the loud part. Everyone
+    # else keeps time with a quiet hat under a loud backbone; this one
+    # inverts it — a chopped break on the 32nd grid is the whole beat,
+    # and the kick/snare skeleton underneath is halftime, so it reads
+    # about 86 BPM while the break runs at 172. He is also the only one
+    # who is EARLY by design (Half Light is late, Otto splits it).
+    "Fast Water": dict(
+        num=11, bpm=172, era="now", built="no one — the break lane",
+        listen=("the fastest thing in the room and it doesn't sound "
+                "fast. The kick and snare play HALFTIME — two moves a "
+                "bar, so the pulse feels like 86 — while the break lane "
+                "runs 32nds on top at the full 172. That lane is the "
+                "loudest non-backbone lane on the roster (0.52 against "
+                "everyone else's 0.26-0.4): the chop is the beat, not "
+                "the garnish. Snare never sits on the 2 and 4 — it lands "
+                "on the 2 and the '&' of 3, the jungle two-step. Ghost "
+                "snares sit UNDER it at a whisper. Everything is nudged "
+                "EARLY, not late (break -7 ms, ghosts -11 ms) — he pulls "
+                "where Half Light drags. Straight 50% swing everywhere: "
+                "at this tempo swing turns to mud. Gated snare like the "
+                "house, Alt is a short PLATE (0.9 s) — bright and small, "
+                "so the break stays readable. Stamp is a siren/reverse "
+                "hit on the DOWNBEAT of bars 5 and 8 — he announces the "
+                "bar instead of tailing it."),
+        kit=dict(
+            kick=("kick", None, ["punch", "tight", "break", "knock",
+                                 "sub"], (0.25, 0.9)),
+            snare=("snare", None, ["break", "crack", "tight", "room",
+                                   "acoustic"], 0.7),
+            hat=("hat", None, ["ride", "closed", "bright", "open",
+                               "metal"], 0.35),
+            ghost=("snare", None, ["ghost", "soft", "brush", "rim",
+                                   "tight"], 0.3),
+            stamp=("fx", None, ["siren", "reverse", "scratch", "sweep",
+                                "riser"], 1.1),
+        ),
+        lanes=dict(
+            # halftime skeleton: 2-3 moves a bar, never four-on-the-floor
+            kick=(0.0, 1.0, (0, 3, 50, 211), [
+                "X------x---X----", "X------x---X----",
+                "X------x---X----", "X------x---X--x-",
+                "X------x---X----", "X----------X----",
+                "X------x---X----", "X--x---x---X-x--"]),
+            # the jungle two-step: the 2, then the '&' of 3. Never 2 & 4.
+            snare=(0.0, 0.86, (0, 3, 50, 212), [
+                "----X-----X-----"] * 3 + ["----X-----X---x-"]
+                + ["----X-----X-----"] * 3 + ["----X-----X-x-x."]),
+            # the break: 32nds, loud, EARLY, and it thins out in bar 7
+            hat=(0.14, 0.52, (-7, 2, 50, 213), [
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-xxxx-x-x-x-xx-x-xxxxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x-x-xx-x-x-xx-x-x-x-xx-x-x-xxx-x",
+                "x---x---x---x---x---x---x---x---",
+                "x-x-xx-xxx-xx-x-x-x-xx-xxxxxxx-x"]),
+            # whispered ghosts under the two-step, pushed hardest of all
+            ghost=(-0.18, 0.24, (-11, 4, 50, 214), [
+                "--.-x---.-.-x---"] * 3 + ["--.-x---.-.-x-.-"]
+                + ["--.-x---.-.-x---"] * 3 + ["--.-x-.-.-.-x-.-"]),
+            # the stamp lands ON the 1 of bars 5 and 8, not on a tail
+            stamp=(-0.26, 0.44, (0, 2, 50, 215),
+                   [R16] * 4 + ["x---------------"] + [R16] * 2
+                   + ["x---------------"]),
+        ),
+        dust=0.0, vinyl=-40, wow=0.1, sidechain=0.28,
+        space=("gated", ["snare"]), alt=("plate", (0.9, 5200, 0.3)),
+        drive=1.3, kick_dist=0.0, mix_sat=0.0,
+    ),
+}
+
+# ------------------------------------------------------------ config file
+# Owner spec 2026-07-16 (dj-drone-machine-spec.md): the roster lives in an
+# EDITABLE config file, stable between sessions. crew_config.json at the
+# project root is written from DEFAULT_CREW on first run and loaded ever
+# after — tweak a number there and the next beat uses it; delete the file
+# to regenerate the built-ins. A broken edit falls back loudly.
+
+# REASON_VOICE_CONFIG (2026-07-17, autoresearch): point the engine at a
+# CANDIDATE roster file — the experiment loop scores tuned copies without
+# the live config ever moving. Unset = the real crew_config.json.
+CONFIG = Path(os.environ.get("REASON_VOICE_CONFIG")
+              or Path(__file__).resolve().parent.parent
+              / "crew_config.json")
+
+
+def normalize_preset(p):
+    """JSON round-trips tuples into lists; give a preset its shapes back.
+    Shared by the config loader and saved beat recipes (beat_recipes)."""
+    q = dict(p)
+    if "kit" in q:
+        q["kit"] = {ln: (r, m, list(w),
+                         tuple(s) if isinstance(s, list) else s)
+                    for ln, (r, m, w, s) in q["kit"].items()}
+    if "lanes" in q:
+        q["lanes"] = {ln: (pan, gain, tuple(feel), list(bars))
+                      for ln, (pan, gain, feel, bars) in q["lanes"].items()}
+    if q.get("space"):
+        q["space"] = (q["space"][0], list(q["space"][1]))
+    if q.get("alt"):
+        kind, params = q["alt"]
+        q["alt"] = (kind, tuple(params) if params else None)
+    return q
+
+
+# ---------------------------------------------------------- harmony DNA
+# Owner directive 2026-07-24: give the previous DJs harmonic identities
+# too, "where it would fit for their identity/style".
+#
+# Two rules I held myself to, so these are derived and not invented:
+#  1. Every signature comes from that DJ's OWN `listen` text, not from
+#     the real producer they were built on. Otto Grit's is dusty because
+#     his line says SP-1200 dust and vinyl; Chrome Dial's is a drone
+#     because his says "silence as an instrument".
+#  2. Where a crew member shares a producer with a LEGEND, they are
+#     deliberately voiced differently. The legends are strict likenesses
+#     and never evolve; the crew are loose and do. Same source, own
+#     character — otherwise the two rosters collapse into each other.
+#
+# These lean on the sampled instrument groups added 2026-07-23
+# (instrument_sampler.VOICES), which is what makes them separable at all
+# — before that every identity could only ask for loop/synth/strings.
+# Worth noting: the legends research flagged "pluck/bell timbre vs huge
+# negative space" as a distinguishing trait with NO FIELD to express it.
+# There is one now, and Glass Cat is built on exactly that.
+CREW_SIGNATURES = {
+    # dusty soul keys, played late. Dilla-lineage but PIANO-forward where
+    # the J Dillo legend is loop-forward — same warmth, different hands.
+    "Otto Grit": dict(
+        key=dict(roots=[["F", 3], ["C", 2], ["Bb", 2], ["G", 1]],
+                 mode=[["minor", 2], ["major", 2]]),
+        progressions=[["nostalgic_jazz", 3], ["dreamy", 3],
+                      ["vamp_ii_V", 2], ["nostalgic_borrowed_minor", 2]],
+        chord_source=[["piano", 3], ["loop", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 1]]),
+
+    # surgical: one hard stab, no wash. Brass stabs rather than the
+    # legend's loop+synth, because his whole line is "scratch stab".
+    "Cutz": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["G", 2], ["A", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 3], ["vamp_i_iv7", 3],
+                      ["dark_menacing", 2]],
+        chord_source=[["horns", 3], ["loop", 3]],
+        chord_rhythm="arp"),
+
+    # the horn loop IS this character (Pete Rock lineage), and it keeps
+    # him from colliding with Otto Grit, who owns the keys.
+    "Crate Prophet": dict(
+        key=dict(roots=[["F", 3], ["Bb", 2], ["C", 2], ["G", 2]],
+                 mode=[["minor", 2], ["major", 1]]),
+        progressions=[["nostalgic_jazz", 3], ["vamp_ii_V", 2],
+                      ["vamp_i_iv7", 2], ["nostalgic_borrowed_minor", 2]],
+        chord_source=[["horns", 3], ["loop", 3], ["piano", 1]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # "silence as an instrument" -> almost no chord movement at all, and
+    # an exotic wood/flute voice to match "exotic perc off-center".
+    "Chrome Dial": dict(
+        key=dict(roots=[["D", 2], ["A", 2], ["E", 2], ["C", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 4], ["dark_menacing", 3],
+                      ["vamp_i_VI", 1]],
+        chord_source=[["wood", 3], ["synth", 2]],
+        chord_rhythm=[["sustain", 3], ["arp", 2]]),
+
+    # minimal, dry, icy. This is the bell/pluck + negative-space trait
+    # the legend research said had no field. Two-chord vamps only.
+    "Glass Cat": dict(
+        key=dict(roots=[["C", 2], ["G", 2], ["A", 2], ["E", 1]],
+                 mode="minor"),
+        progressions=[["vamp_static_riff", 3], ["vamp_i_v7", 3],
+                      ["vamp_i_iv7", 2]],
+        chord_source=[["bell", 3], ["pluck", 2]],
+        chord_rhythm="arp"),
+
+    # gospel bounce: major-leaning, piano-led, choir behind it.
+    "Sunday Chop": dict(
+        key=dict(roots=[["C", 3], ["F", 2], ["G", 2], ["Bb", 1]],
+                 mode=[["major", 3], ["minor", 1]]),
+        progressions=[["uplifting", 3], ["nostalgic_borrowed_minor", 2],
+                      ["sad_accepting", 2], ["nostalgic_jazz", 1]],
+        chord_source=[["piano", 3], ["choir", 2], ["loop", 1]],
+        chord_rhythm=[["sustain", 3], ["arp", 1]]),
+
+    # dark halftime drama. trap_dark_metro is literally the progression
+    # named for this sound; bells over a pad is the trap-bell cliche and
+    # he is the one character who should own it.
+    "Night Metro": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["F", 2], ["A", 2]],
+                 mode="minor"),
+        progressions=[["trap_dark_metro", 3], ["dark_menacing", 3],
+                      ["vamp_static_riff", 2], ["vamp_i_VI", 1]],
+        chord_source=[["bell", 3], ["pad", 2], ["loop", 1]],
+        chord_rhythm=[["sustain", 2], ["arp", 3]]),
+
+    # relentless and cinematic: the big orchestral stab over a trap wall.
+    "Rage Engine": dict(
+        key=dict(roots=[["C", 2], ["D", 2], ["E", 1], ["A", 2]],
+                 mode="minor"),
+        progressions=[["epic", 3], ["dark_menacing", 3],
+                      ["trap_dark_metro", 2]],
+        # "strings" (plural) = the London Symphonic library via
+        # string_sampler, which names an exact MIDI note per file and so
+        # never pitch-shifts. NOT "string" — that is an instrument_sampler
+        # GROUP name, not a chord_source word, and it silently fell
+        # through to horns until this was caught 2026-07-24.
+        chord_source=[["strings", 3], ["horns", 2]],
+        chord_rhythm=[["sustain", 2], ["arp", 2]]),
+
+    # Half Light: derived from his own `listen` line, per rule 1 above —
+    # slow, late, wet, the 2 left empty. Chords are HELD, never arped:
+    # at 68 BPM an arp would fill the hole the drums are deliberately
+    # leaving. Piano and guitar because they decay on their own; the hall
+    # does the rest.
+    "Half Light": dict(
+        key=dict(roots=[["F", 3], ["A", 2], ["D", 2], ["C", 2], ["B", 1]],
+                 mode=[["minor", 3], ["dorian", 2]]),
+        progressions=[["sad_accepting", 3], ["noir_descend", 3],
+                      ["neo_soul_descent", 2],
+                      ["nostalgic_borrowed_minor", 2],
+                      ["sad_sinking", 2], ["suspended_open", 1],
+                      ["dreamy", 1], ["line_cliche", 1]],
+        chord_source=[["piano", 3], ["guitar", 2], ["organ", 1]],
+        chord_rhythm="sustain",
+        chords_default=True),
+
+    # Fast Water: derived from his own `listen` line. At 172 the harmony
+    # has to be a HELD pad or a two-note stab — anything busy fights the
+    # break for the same 32nd slots. Pads and strings because they don't
+    # transient; minor/dorian because the break lane is already bright.
+    "Fast Water": dict(
+        key=dict(roots=[["A", 3], ["D", 2], ["E", 2], ["C", 2], ["G", 1]],
+                 mode=[["minor", 3], ["dorian", 2]]),
+        progressions=[["suspended_open", 3], ["vamp_i_VI", 3],
+                      ["dark_menacing", 2], ["noir_descend", 2],
+                      ["dorian_i_IV", 2], ["vamp_static_riff", 2],
+                      ["sad_sinking", 1], ["dreamy", 1]],
+        chord_source=[["pad", 3], ["strings", 2], ["bell", 1]],
+        chord_rhythm="sustain",
+        chords_default=True),
+}
+
+for _n, _sig in CREW_SIGNATURES.items():
+    DEFAULT_CREW[_n]["signature"] = _sig
+
+
+def load_crew(path=CONFIG):
+    if not path.exists():
+        doc = {"_readme": [
+            "This file IS the crew: edit a number and the Beat Machine "
+            "uses it on the next render. Delete the file to regenerate "
+            "the built-in roster.",
+            "kit entry: lane -> [library role, must-word, want-tags, "
+            "choke seconds (or [lo, hi] range rolled per beat)]",
+            "lane entry: lane -> [pan, gain, [offset_ms, jitter_ms, "
+            "swing, seed], bars]"]}
+        doc.update(DEFAULT_CREW)
+        path.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
+    try:
+        raw = json.loads(path.read_text())
+        # 2026-07-17 upgrade: pattern grammar, kick flavors, and guest-lane
+        # palettes joined the personality. When the engine's style
+        # defaults advance (STYLE_VERSION bump), those three keys are
+        # re-synced in place — hand edits to everything else survive. Set
+        # "_style_lock": true in the file to keep hand-tuned style keys.
+        changed = False
+        if raw.get("_style_version", 0) < STYLE_VERSION \
+                and not raw.get("_style_lock"):
+            for n, p in raw.items():
+                if not n.startswith("_") and n in DEFAULT_STYLE:
+                    for k in ("grammar", "kick_flavors", "extras",
+                              "library"):
+                        p[k] = DEFAULT_STYLE[n][k]
+            raw["_style_version"] = STYLE_VERSION
+            changed = True
+        for n, p in raw.items():
+            for k in ("grammar", "kick_flavors", "extras", "library"):
+                if not n.startswith("_") and n in DEFAULT_STYLE \
+                        and k not in p:
+                    p[k] = DEFAULT_STYLE[n][k]
+                    changed = True
+        # A crew member's harmony `signature` (New Math got the first one,
+        # 2026-07-24) is added to an existing config if it's missing, but
+        # NEVER overwritten — unlike the style keys above, this is meant to
+        # be hand-tunable and survive. Same add-only contract genres.py
+        # uses for a brand-new style.
+        for n, p in raw.items():
+            if not n.startswith("_") and n in DEFAULT_CREW \
+                    and "signature" in DEFAULT_CREW[n] \
+                    and "signature" not in p:
+                p["signature"] = json.loads(
+                    json.dumps(DEFAULT_CREW[n]["signature"]))
+                changed = True
+        if changed:
+            path.write_text(json.dumps(raw, indent=1, ensure_ascii=False))
+        crew = {n: normalize_preset(p) for n, p in raw.items()
+                if not n.startswith("_")}
+        if crew:
+            return crew
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError) as e:
+        print(f"WARNING: {path.name} is broken ({e}) — using the "
+              "built-in roster. Fix or delete the file to silence this.")
+    return {n: normalize_preset(json.loads(json.dumps(p)))
+            for n, p in DEFAULT_CREW.items()}
+
+
+CREW = load_crew()
+
+# The Legends (owner request 2026-07-18): a SECOND roster of twelve
+# signature-style producers, kept in their own legends_config.json but
+# merged into CREW so every engine function (build_kit, render_crew_beat,
+# compose, collabs) reaches them by name with no special-casing. Their
+# LIKENESS rules key off CREW[name]["legend"] downstream. They still lock
+# stamps and experiment with samples like the nine; only their patterns
+# and feel stay faithful. LEGEND_NAMES lets the UI put them in a separate
+# box and lets evolution skip them (a legend's career is already written).
+# Updated IN PLACE, never rebound (2026-08-04). Other modules do
+# `from crew import LEGEND_NAMES` at import, which binds the OBJECT, not
+# the name — so assigning a fresh set here left every importer holding a
+# stale copy after a reload. It went unnoticed only because both copies
+# load from the same file and so happen to agree. Same trap that dropped
+# the Legends out of CREW; closed the same way, by mutating the one object.
+LEGEND_NAMES = set()
+
+
+def merge_legends(target):
+    """Load the Legends roster and fold it into `target` (the shared CREW
+    dict), returning their names. Kept a function so anything that rebuilds
+    CREW — the module import here, and tests that reset the roster — can
+    restore the Legends the same way instead of dropping them."""
+    try:
+        import legends
+        leg = legends.load_legends(normalize_preset)
+    except Exception as e:                    # never let a legend break the nine
+        print(f"WARNING: Legends roster unavailable ({e}).")
+        return LEGEND_NAMES                   # a failed load changes nothing
+    target.update(leg)
+    LEGEND_NAMES.clear()
+    LEGEND_NAMES.update(leg)
+    return LEGEND_NAMES
+
+
+# The Styles (owner request 2026-07-19): a THIRD roster, keyed to
+# subgenres rather than people — Baltimore club, reggaeton, Memphis,
+# bounce and the rest. Same merge contract as the Legends, so the whole
+# engine reaches them by name; their strictness rules key off
+# CREW[name]["genre"] downstream (canon lanes placed verbatim, pinned
+# swing, no cross-pollination, no evolution, per-style density).
+GENRE_NAMES = set()          # in place, never rebound — see LEGEND_NAMES
+
+
+def merge_genres(target):
+    """Load the Styles roster and fold it into `target` (the shared CREW
+    dict), returning their names. Same shape as merge_legends so anything
+    rebuilding CREW restores all three rosters the same way."""
+    try:
+        import genres
+        gen = genres.load_genres(normalize_preset)
+    except Exception as e:                    # never let a style break the nine
+        print(f"WARNING: Styles roster unavailable ({e}).")
+        return GENRE_NAMES                    # a failed load changes nothing
+    target.update(gen)
+    GENRE_NAMES.clear()
+    GENRE_NAMES.update(gen)
+    return GENRE_NAMES
+
+
+merge_legends(CREW)
+merge_genres(CREW)
+
+
+def is_dj(name):
+    """The 24 DJs (the crew and the Legends) the 70/30 rule covers — owner
+    2026-09-14. Genre presets keep their own rules."""
+    return name in CREW and name not in GENRE_NAMES
+
+
+def reload_rosters(target=CREW, path=None):
+    """Rebuild `target` into the COMPLETE roster — the nine, the Legends,
+    and the Styles — from whatever config files are currently in force.
+
+    Anything that resets CREW should call this rather than reassembling
+    the rosters by hand: test_evolution's sandbox teardown used to
+    re-merge only the Legends, so adding a third roster silently dropped
+    it for every module that ran afterwards (2026-07-19). One call means
+    a fourth roster can never reintroduce that bug.
+
+    `path` is read at call time, not bound at import, so a sandboxed
+    crew.CONFIG (tests) reloads from the sandbox and not the real file."""
+    target.clear()
+    target.update(load_crew(path or CONFIG))
+    merge_legends(target)
+    merge_genres(target)
+    return target
+
+# ------------------------------------------------------------- kit locking
+
+def _load_choked(path, secs):
+    """Load a locked sample, apply the era choke + level, return mono."""
+    x = load_audio(path)
+    if x is None or len(x) / SR < 0.01:
+        return None
+    cap = int(secs * SR)
+    if len(x) > cap:
+        x = x[:cap].copy()
+        fade = min(int(0.03 * SR), len(x))
+        x[-fade:] *= np.linspace(1, 0, fade)[:, None]
+    x = norm_rms(x, -14.0)
+    return x.mean(axis=1) if x.ndim == 2 else x
+
+
+_SORTED_ROOT = None
+
+
+def _sorted_root():
+    """Cached — _pick_path runs per lane per beat and this must not stat
+    the config file every time. Cleared by tests via _SORTED_ROOT."""
+    global _SORTED_ROOT
+    if _SORTED_ROOT is None:
+        from sample_library import sorted_root
+        _SORTED_ROOT = sorted_root()
+    return _SORTED_ROOT
+
+
+def grit_lane(p, lanes):
+    """Which lane `kick_dist` distorts. Owner 2026-09-24: since the 09-23
+    rule an 808 beat plays a short kick PLUS the 808 in its own "bass" lane
+    (a bass LINE is bass0, bass1...), so "808 only" dirt was distorting the
+    short kick and leaving the 808 clean. He chose "The 808, all three":
+    allow_dirt "low" (Crunk, Mustang, Night Metro) grits the 808 lane when
+    the beat has one. No 808 lane, or plain True dirt -> the kick, as before."""
+    if p.get("allow_dirt") == "low" and "bass" in lanes:
+        return "bass"
+    return "kick"
+
+
+def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
+               own_bank=False, flavor_match=False, open_bank=None):
+    """Like make_drum_beats.pick but returns the PATH so it can be locked.
+    Tiers: must-word AND want-tag > must-word > want-tag > anything —
+    the combined tier keeps a must="808" from grabbing an 808 *cowbell*
+    when the wants say deep/sub. `avoid` holds paths already locked by
+    other personalities: signature kits are identities, so no two crew
+    members share a sample (waived only if the pool runs dry).
+
+    own_bank=True exempts ONE preset from the open sound bank below, so
+    its own taste tags gate its picks again. Default False, so every
+    preset that does not ask for it picks exactly as it did before.
+
+    flavor_match=True (2026-09-09) lets a want-tag also match its
+    documented synonyms/spelling variants (flavor_tags.py) instead of
+    only the literal word -- e.g. "tight" now also matches this
+    library's "tite" files. Default False, so every preset that does
+    not ask for it matches exactly as it did before. Opt-in per
+    preset, on purpose: wired for legends built going forward, not
+    retrofitted onto the existing roster (owner, 2026-09-09).
+
+    open_bank (owner 2026-09-14, "all drum kit sounds opening up"): a DJ's
+    beat passes pattern_gen.free_beat(variant) here, so every one of the
+    24 DJs picks by its own taste on 70% of beats and from the whole role
+    pool on the other 30%. None keeps the old switch below for everything
+    that is not a DJ beat (genre presets, the fixed bank, a manual swap)."""
+    if open_bank is None:
+        open_bank = OWNER_TASTE.get("open_soundbank") and not own_bank
+    if open_bank:
+        # owner 2026-07-18: no limits on a DJ's sound bank — the whole
+        # role pool is fair game, taste tags and must-words stop gating
+        #
+        # THE COST, found 2026-09-05: this is the only place the rule is
+        # read, and it wipes the tags BEFORE the tiers are built — so
+        # every researched `wants` list on every preset is dead code and
+        # every pick is uniform-random from the whole role bucket. That
+        # is how a Dre audition got two sidesticks where snares belong,
+        # open hats where tight hats belong, and a talking drum. The rule
+        # STANDS for the roster (it is his, and he was asked); Doc Day is
+        # exempted by name under the 09-05 "no old rules for Dr Dre" call.
+        wants, must = [], None
+    cands = shots.get(role, [])
+    r = np.random.default_rng(seed)
+    order = [cands[int(i)] for i in r.permutation(len(cands))]
+
+    def has_must(e):
+        return must in e["path"].lower()
+
+    def has_want(e):
+        nm = e["name"].lower()
+        if flavor_match:
+            if any(flavor_matches(w, nm, role) for w in wants):
+                return True
+        elif any(w in nm for w in wants):
+            return True
+        # THE SORTED FOLDER (owner 2026-09-06). Under the one root he
+        # sorts himself, a taste word may come from the FOLDER instead of
+        # the filename — "Kicks/Hard" makes every file in it a hard kick
+        # whatever it is called. Everywhere else this is filename-only,
+        # exactly as before, so nothing he has already approved by ear can
+        # move. `must` has always read the whole path (has_must above);
+        # this brings taste into line for his own folders only.
+        root = _sorted_root()
+        if not (root and e["path"].lower().startswith(root)):
+            return False
+        # his folder words go through the same synonym layer when the
+        # preset opted in (2026-09-24): "hard" also reaches Kicks/Hard's
+        # neighbours by meaning, not only by the exact folder name
+        folder = e["path"].lower()[len(root):]
+        if flavor_match:
+            return any(flavor_matches(w, folder, role) for w in wants)
+        return any(w in e["path"].lower() for w in wants)
+
+    tiers = []
+    if must and wants:
+        tiers.append(lambda e: has_must(e) and has_want(e))
+    if must:
+        tiers.append(has_must)
+    if wants:
+        tiers.append(has_want)
+    tiers.append(lambda e: True)
+    for skip_used in (True, False):
+        for match in tiers:
+            for e in order:
+                if match(e) and not (skip_used and e["path"] in avoid):
+                    x = _load_choked(e["path"], secs)
+                    if x is not None:
+                        return e["path"], x
+    return None, np.zeros(int(0.1 * SR))
+
+
+def lock_stamps(shots):
+    """Only the STAMP is locked per personality — it's their producer tag,
+    the one hit that appears in every beat they make. Everything else is
+    re-picked per beat (build_kit): the owner ruled that each character
+    experiments, so nobody rides one kick or snare forever."""
+    locked = json.loads(LOCK.read_text()) if LOCK.exists() else {}
+    stamps, changed = {}, False
+    used = {e.get("stamp") for e in locked.values() if e.get("stamp")}
+    for name, p in CREW.items():
+        # LEGENDS ARE NOT LOCKED (owner, 2026-09-06: "lets stop using the
+        # dj stamps moving forward" -> keep the color, stop welding one
+        # sample onto every beat he ever makes). Their stamp is re-picked
+        # per beat in build_kit like every other lane. Returning (None,
+        # None) is what tells build_kit to pick; it also drops them from
+        # the rewritten lock file, so an old weld cannot survive this.
+        # Scoped to the twelve on purpose — the crew DJs keep their tags.
+        if p.get("legend"):
+            stamps[name] = (None, None)
+            if name in locked:
+                changed = True
+            continue
+        entry = locked.get(name, {})
+        role, must, wants, secs = p["kit"]["stamp"]
+        path = entry.get("stamp")
+        x = _load_choked(path, secs) if path and Path(path).exists() \
+            else None
+        if x is None:
+            seed = p["num"] * 1000 + zlib.crc32(b"stamp") % 997
+            # own_soundbank was honoured in build_kit and NOT here, so a
+            # preset that had earned its own sound bank still had its
+            # STAMP — the one sample that rides every beat it ever makes —
+            # picked at random from the whole role bucket. Found 2026-09-05
+            # on Mustang: his chant lane was repointed at `vox` with tags
+            # hey/ohh/wuh, which the library really has ("Cymatics - Hey
+            # Vox"), and lock_stamps handed him a choir loop anyway.
+            path, x = _pick_path(shots, role, wants, secs, seed,
+                                 must=must, avoid=used,
+                                 own_bank=bool(p.get("own_soundbank")),
+                                 flavor_match=bool(p.get("flavor_match")))
+            changed = True
+        used.add(path)
+        stamps[name] = (path, x)
+    trimmed = {n: {"stamp": s[0]} for n, s in stamps.items() if s[0]}
+    if changed or trimmed != locked:
+        LOCK.parent.mkdir(parents=True, exist_ok=True)
+        LOCK.write_text(json.dumps(trimmed, indent=1))
+    return stamps
+
+
+def _resolve_secs(secs, num, variant):
+    """A (lo, hi) choke range becomes one length per beat — the owner's
+    rule that not every beat gets the long drawn-out 808. Seeded by
+    personality + variant so any beat re-renders identically."""
+    if isinstance(secs, (tuple, list)):
+        lo, hi = secs
+        r = np.random.default_rng(num * 131 + variant * 17 + 7)
+        return float(r.uniform(lo, hi))
+    return secs
+
+
+def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
+    """One beat's kit for a personality: fresh kick/snare/etc picked from
+    the character's taste tags, different per `variant` (seeded, so any
+    beat can be re-rendered identically). Kick sustain is also re-rolled
+    per beat from the character's era range. Share one `avoid` set across
+    a batch so the beats don't converge on the same samples. A locked
+    stamp (`stamp_audio` not None) rides along unchanged; a Legend passes
+    None and his stamp is picked here per beat like every other lane.
+    preset overrides CREW[name] (mutated copies, e.g. New Math's boom-bap
+    mode, change kit tastes too)."""
+    p = preset or CREW[name]
+    avoid = avoid if avoid is not None else set()
+    kit, sources = {"stamp": stamp_audio}, {}
+    for lane, (role, must, wants, secs) in p["kit"].items():
+        if lane == "stamp" and stamp_audio is not None:
+            continue
+        secs = _resolve_secs(secs, p["num"], variant)
+        seed = (p["num"] * 1000 + zlib.crc32(lane.encode()) % 997
+                + variant * 7919)
+        # own_soundbank (2026-09-05, Doc Day only): this preset's taste
+        # tags gate its picks again instead of being wiped by the open
+        # sound bank. Absent -> False -> the other twenty pick unchanged.
+        path, x = _pick_path(shots, role, wants, secs, seed,
+                             must=must, avoid=avoid,
+                             own_bank=bool(p.get("own_soundbank")),
+                             flavor_match=bool(p.get("flavor_match")),
+                             # a legend opens up at LEGEND_OPEN_P, not
+                             # OPEN_P (owner 2026-09-19) -- see free_beat.
+                             # Without this his researched tags were dead
+                             # on 30% of his beats, because open_bank
+                             # wipes them before own_bank is consulted.
+                             open_bank=(free_beat(
+                                 variant,
+                                 LEGEND_OPEN_P if p.get("legend") else None)
+                                 if is_dj(name) else None))
+        if path:
+            avoid.add(path)
+        # sub_layer (2026-09-03): a preset can reinforce its KICK with a
+        # short gated sub tone. Has to happen here, on the raw one-shot,
+        # not later on the assembled beat — see kick_sub_reinforce's
+        # docstring. Off unless the preset carries the field.
+        # ...and OFF FOR EVERYONE since 2026-09-23, owner hard rule: "I
+        # don't want any tones created by machine." The layer is a
+        # synthesized sine, so it is refused here, at the one place it is
+        # applied, instead of trusting three configs to stay clean (the
+        # field stays in them so the old A/B benches still read).
+        if lane == "kick" and p.get("sub_layer") and MACHINE_TONES:
+            x = kick_sub_reinforce(x, **p["sub_layer"])
+        kit[lane] = x
+        sources[lane] = path
+    return kit, sources
+
+def boom_bap_variant(bpm=94):
+    """New Math's boom-bap mode (owner rule 2026-07-15: half his beats
+    incorporate boom bap). The math survives — Jersey kick grammar and the
+    Euclidean perc — but dropped to boom-bap tempo with 58%-swung 16th
+    hats (one quintuplet bar kept as an accent), a dusty snare, short
+    kick, half SP-1200 dust and a vinyl bed. Use on ODD variants so it
+    averages to half over time."""
+    import copy
+    p = copy.deepcopy(CREW["New Math"])
+    p["bpm"] = bpm
+    p["dust"] = 0.5
+    p["vinyl"] = -44
+    p["kit"]["snare"] = ("snare", None, ["dusty", "vinyl", "lofi"], 1.0)
+    p["kit"]["kick"] = ("kick", None, ["boom", "punch", "knock"],
+                        (0.55, 0.9))
+    pan, gain, (o, j, _, seed), _ = p["lanes"]["hat"]
+    p["lanes"]["hat"] = (pan, gain, (o, j, 58, seed), [
+        "x-x-x-x-x-x-x-x-", "x-x-x-x-x-x-x-x-",
+        "x-x-x-x-x-x-x-x-", "x-x-xx-x-xx-x-xx-x-x",   # the five, as accent
+        "x-x-x-x-x-x-x-x-", "x-x-x-x-x-x-x-x-",
+        "x-x-x-x-x-x-x-x-", "x-x-xx-x-xx-x-xx-x-x"])
+    return p
+
+# --------------------------------------------------------------- rendering
+
+def grid_accent(res, s):
+    """Metric accent for non-16 grids (school 2026-07-15: the velocity
+    map only covered 16ths — port the strong/weak alternation to any
+    grid). 32nds: beat-starts full, off-32nds soft. Quintuplets (20):
+    accent 1, medium 3, soft the rest — a hand, not a machine."""
+    if res == 32:
+        if s % 8 == 0:
+            return 1.0
+        return 0.75 if s % 2 else 0.9
+    if res == 20:
+        return {0: 1.0, 2: 0.88}.get(s % 5, 0.75)
+    if res == 12:                # 3/4 or 6/8: strong-weak on the 12-grid
+        if s % 4 == 0:
+            return 1.0
+        return 0.85 if s % 2 == 0 else 0.72
+    if res == 24:                # triplet grid in 4/4 (genre roster
+        if s % 6 == 0:           # 2026-07-19): six per beat, so beats
+            return 1.0           # start every 6 and the triplet 8ths
+        return 0.86 if s % 2 == 0 else 0.7    # sit on the even steps
+    return 1.0
+
+
+# LONG KICK GETS A SNAP AND A DUCK (owner 2026-09-28: "some of the really
+# long bass drums need to have a kick drum and side compression"). When the
+# kick slot's sample still rings past LONG_KICK_SECS, a short kick's SNAP
+# (above 100 Hz only -- his pick, so it reads as one drum, not the two-kick
+# stack he heard 2026-09-20) goes on the front, and the long tail dips
+# 5 dB under it and swells back: 5 dB is his own sub-duck call of
+# 2026-09-01, reused by his pick. The kick lane then plays one hit at a
+# time (render_crew_beat), so an old tail can never ring under the next hit
+# un-ducked -- which makes this per-hit duck the same as a real sidechain.
+LONG_KICK_SECS = 0.5             # the house "short kick" cap (KICK_WITH_BASS_SECS)
+LONG_KICK_FLOOR_DB = -30.0       # "still ringing" = within 30 dB of the peak
+LONG_KICK_DUCK = 1 - 10 ** (-5.0 / 20)   # measures a 5.0 dB dip
+PUNCH_SPLIT_HZ = 100.0
+
+
+def ring_secs(x, floor_db=LONG_KICK_FLOOR_DB):
+    """How long a one-shot actually rings: last sample within floor_db of
+    its peak. File length lies -- silence padding is not a tail."""
+    a = np.abs(x)
+    loud = np.nonzero(a >= a.max() * 10 ** (floor_db / 20))[0]
+    return (loud[-1] + 1) / SR if len(loud) else 0.0
+
+
+def punch_long_kick(kick, punch):
+    """The long kick, ducked 5 dB under a short kick's snap, levelled back
+    to the long kick's own peak so the kick-anchored level rules don't move."""
+    top = hp1(hp1(punch, PUNCH_SPLIT_HZ), PUNCH_SPLIT_HZ)
+    pk = np.abs(kick).max()
+    top = top * pk / (np.abs(top).max() + 1e-9)
+    tail, _ = duck(kick, kick, [0], depth=LONG_KICK_DUCK)
+    n = max(len(tail), len(top))
+    out = np.pad(tail, (0, n - len(tail))) + np.pad(top, (0, n - len(top)))
+    return out * pk / (np.abs(out).max() + 1e-9)
+
+
+def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
+                     eq=None, echo=None, chorus=None, phaser=None,
+                     loop_bufs=None, nbars_override=None, lock=None):
+    """Render one personality's 8-bar A/B beat. kit maps lane -> mono
+    audio. space overrides the house snare treatment ('room'/'dry'/...)
+    for era-deviation Alt renders. preset overrides CREW[name] — that's
+    how batch files apply per-beat evolutions and collab hybrids without
+    mutating the roster. want_parts additionally returns the beat's
+    parts for the Reason 12 handoff (owner spec 2026-07-16): per-lane
+    stereo stems and the note events behind the MIDI file.
+
+    eq and echo are the two Sound Engine effects the owner asked for and
+    approved on the 2026-09-02 audition ("Keep both. Keep the amounts
+    where they are also."). Both are still OFF unless a caller passes a
+    dict — approving the SOUND is not the same as switching it on for
+    every beat, and he said so directly: the echo gets tuned into the
+    individual DJs later, not applied roster-wide. His approved amounts
+    are parked in OWNER_TASTE["mix_eq"] and ["backbeat_echo"] so nobody
+    has to re-derive them; nothing reads them automatically.
+    eq={low_db, low_hz, mid_db, mid_hz, mid_q, high_db, high_hz} ->
+    audio_engine.eq3 on the mix bus; echo={note, feedback, mix} ->
+    audio_engine.loop_delay on the backbeat lanes, note being a fraction
+    of a beat (0.5 = 1/8) as in fx_presets.json.
+
+    chorus and phaser are the same deal one step earlier: built and wired,
+    OFF unless a caller passes a dict, and NOT yet approved by ear — no
+    amounts are parked in OWNER_TASTE for them because he has not heard
+    them yet. chorus={rate_hz, depth, mix, lanes} and
+    phaser={rate_hz, depth, mix, lanes} -> audio_engine.chorus/phaser,
+    lanes being a tuple of lane-name prefixes. Both default to the lanes
+    the effect is actually musical on rather than the whole mix, for the
+    same reason the echo does: modulation across the kick smears it.
+
+    loop_bufs (owner 2026-09-16, "whole beats using only loops"): an
+    optional {lane: (L, R) stereo np.ndarray pair} of pre-built, already
+    length-matched loop audio (see loop_mode.match_lengths + tile_to)
+    that REPLACES the normal 16th-grid one-shot sequencing for those lane
+    names only — the lane plays exactly that loop instead of `kit[lane]`
+    stamped onto a pattern. Its onsets/events lists stay empty, which is
+    deliberate, not an oversight: onset-driven effects downstream (kick
+    sidechain duck, transient shaping, gated reverb) have no discrete
+    hits to key off a continuous loop, so they naturally no-op for that
+    lane rather than needing a separate flag per effect — the reverb-
+    space loop below additionally SKIPS a loop lane outright, since a
+    gated/room/plate tail built from a loop's own buffer would either
+    silently overwrite its width with nothing (gated, empty onsets) or
+    just be redundant (the loop already has real stereo). The stereo
+    pair is split into a mono fold (the dry lane, like every other lane)
+    and a side signal folded straight into wet_side — the SAME mechanism
+    the room/plate reverb branch already uses to carry decorrelated
+    width, just sourced from the loop's own image instead of a
+    convolution tail. This exists because the first proof render came
+    out measurably mono (a pan=0 loop lane with no reverb rolled has no
+    other width source, unlike a normal beat's dozen panned one-shot
+    lanes) — caught by tests/test_audio_quality.py against a real
+    rendered file, not by reading the code. Amplitude-domain processing
+    (kick_dist, mix EQ, glue compression, master) still runs on these
+    lanes exactly as it does for a normal beat — that's the "full mix
+    bus" the owner asked for. Every other lane not named in loop_bufs
+    renders exactly as before. nbars_override lets the caller set the
+    beat's bar count from the picked loops' own lengths instead of
+    bars_of(preset) — a loops-only beat has no pattern to consult for
+    its length.
+
+    kit["kicklayer"] (owner 2026-09-28, "small share, everyone"): a second
+    kick sample stacked under the kick, groove.kick_layer — this one's
+    punch above 100 Hz, that one's low end below, phase-checked. Levelled
+    back to the kick's own peak so the kick-anchored rules don't move.
+    preset["haas_lanes"] widens those lanes (groove.haas, 12 ms, loop-safe
+    wrap) and an "r" in a bar is a ratchet: three quick hits in one step.
+
+    lock (owner 2026-09-27, picked "lock it per beat"): the beat's saved
+    volume setting, {"master_peaks": [p1, p2], "master_gains": [g1, g2],
+    "stem_scale": s}. Given, master()'s peak-normalise, the final loudness
+    step and the stems' shared scale REPLAY it instead of
+    re-measuring the whole mix, so changing one sound leaves every other
+    sound where it was. With want_parts the lock actually used comes back
+    as parts["lock"], which is what the recipe saves."""
+    p = preset or CREW[name]
+    if "kicklayer" in kit and "kick" in kit:
+        _k = kit["kick"]
+        _lay = kick_layer(_k, kit["kicklayer"])
+        kit = dict(kit, kick=_lay * (np.abs(_k).max()
+                                     / (np.abs(_lay).max() + 1e-9)))
+    # a swap to a short kick switches this off on its own: only a kick that
+    # still rings long gets the snap, the duck and the one-hit-at-a-time
+    _long_kick = ("kickpunch" in kit and "kick" in kit and not loop_bufs
+                  and ring_secs(kit["kick"]) > LONG_KICK_SECS)
+    if _long_kick:
+        kit = dict(kit, kick=punch_long_kick(kit["kick"], kit["kickpunch"]))
+    # a loops beat reads its own level switch, never the from-scratch one
+    true_levels = LOOPS_TRUE_LEVELS if loop_bufs else TRUE_LEVELS
+    # PER-DJ EFFECTS. A preset may carry mix_eq/backbeat_echo/chorus/phaser
+    # and get them on every render; an explicit keyword still wins, which
+    # is what the A/B scripts use.
+    #
+    # THE EQ IS THE EXCEPTION AND IS NOW THE HOUSE DEFAULT (owner
+    # 2026-09-03: "I want to use the mix EQ ... on any DJs that don't have
+    # specified EQs", scope confirmed as everything without its own). He
+    # approved these bands by ear on 09-02 and again on 09-03, so the
+    # fallback is his amounts, not silence — every DJ, Legend and genre
+    # that does not name its own `mix_eq` now renders through it. A preset
+    # that DOES name one still wins, which is how Otto Grit's research
+    # (darker, -1.5 dB of air) survives a roster-wide brightening.
+    # The other three stay opt-in per identity; see the `chorus`/`phaser`/
+    # `backbeat_echo` keys in crew_config.json.
+    eq = eq if eq is not None else p.get("mix_eq", OWNER_TASTE["mix_eq"])
+    echo = echo if echo is not None else p.get("backbeat_echo")
+    chorus = chorus if chorus is not None else p.get("chorus")
+    phaser = phaser if phaser is not None else p.get("phaser")
+    bpm = p["bpm"]
+    # v6 (2026-07-18): real time signatures. 3/4 and 6/8 bars both span
+    # three quarter-note beats; 4/4 stays the default four.
+    num, den = p.get("tsig", (4, 4))
+    bar_s = num * (4.0 / den) * 60.0 / bpm
+    nbars = nbars_override or bars_of(p)
+    end = int(round(nbars * bar_s * SR))
+    n = end + int(1.5 * SR)
+    # vel_seed (2026-07-17): without it every beat shared one accent
+    # sequence — same loud/soft ripple over the same skeleton read as
+    # "the same beat". Presets carry it so recipes re-render identically.
+    wob = np.random.default_rng(p["num"] * 7919
+                                + p.get("vel_seed", 0) * 13)
+    bufs, onsets, events = {}, {}, {}
+    loop_side = {}          # real loop stereo width, folded into wet_side below
+    # BREAKDOWN (owner 2026-09-03, "fix it now"). Night Metro's signature
+    # moment — "bar 5 drops to the 808 alone" — was true of his one
+    # prototype and 0 of 12 generated beats, because compose() and
+    # vary_preset() rebuild his lanes from grammar every time. Pinning it
+    # HERE rather than in either of those is deliberate: this loop is the
+    # one place every render path passes through (new beats, rebuilt
+    # recipes, the A/B scripts, collabs) AND the only place the chord
+    # lanes exist alongside the drums — _build_chords adds them after
+    # vary_preset has already run. bar is 1-based, the way he says it.
+    #
+    # OWNER 2026-09-03, after hearing the batch: he approved the drop and
+    # then corrected all three things about HOW it lands -- "I don't want
+    # the drop to always be in the same spot", "make it shorter", and "a
+    # dropout does not have to be in every beat." So the fixed bar-5,
+    # whole-bar, every-beat version he heard is NOT what ships:
+    #   bars  candidate bars, 1-based, the way he says them. ONE is picked
+    #         per beat. Bars past the end of a short loop are dropped,
+    #         which is also the answer to "a 4-bar beat has no bar 5" --
+    #         it falls back to whichever candidates fit.
+    #   len   how much of that bar falls away, as a fraction of the bar.
+    #         0.5 = the front half; the kit walks back in halfway through.
+    #   p     the odds this beat gets a drop at all.
+    # `bar` (singular) still works and still means every beat, whole bar --
+    # that is what keeps the existing behaviour and its test intact.
+    # Deterministic from the beat's own number on its OWN generator, so a
+    # rebuild reproduces the same drop and the velocity stream above is
+    # left undisturbed.
+    _bd = p.get("breakdown") or {}
+    _bd_bar, _bd_len = -1, 1.0
+    _bd_keep = tuple(_bd.get("keep") or ("kick",))
+    if _bd:
+        _cands = [int(x) - 1
+                  for x in (_bd.get("bars") or [_bd.get("bar", 0)])]
+        _cands = [b for b in _cands if 0 <= b < nbars]
+        _brng = np.random.default_rng(p["num"] * 104729
+                                      + p.get("vel_seed", 0) * 31)
+        if _cands and _brng.random() < float(_bd.get("p", 1.0)):
+            _bd_bar = _cands[int(_brng.integers(len(_cands)))]
+            _bd_len = float(_bd.get("len", 1.0))
+
+    _choke_hits = {}          # low-end lane -> [(pos, vel, sound)]
+    for lane, (pan, gain, feel_args, bars) in p["lanes"].items():
+        off, jit, swing, seed = feel_args
+        # hats_dead_straight (J Dillo, 2026-09-06). HIS ABSOLUTE, in his own
+        # words: "hats dead straight". A rule written as an absolute is not a
+        # weight, and this line is the ONLY place a hat can be pushed off the
+        # grid — so this is where it refuses, rather than relying on the
+        # config numbers happening to stay at zero. Single-preset opt-in, same
+        # shape as own_soundbank / snare_locked_24: absent -> nothing happens,
+        # so the other twenty-two identities are untouched.
+        if p.get("hats_dead_straight") and lane.startswith("hat"):
+            off, jit, swing = 0.0, 0.0, 50
+        feel = LaneFeel(off, jit, swing, seed=seed)
+        snarish = any(lane.startswith(s) for s in SNARE_LIKE)
+        percish = any(lane.startswith(s) for s in PERC_LIKE)
+        g = gain * (snare_scale() if snarish
+                    else perc_scale() if percish else 1.0)
+        buf = np.zeros(n)
+        ons, evs = [], []
+        if loop_bufs and lane in loop_bufs:
+            # whole-beat-from-loops (owner 2026-09-16): this lane plays
+            # the picked loop itself, not a one-shot stamped on a grid.
+            # onsets/events stay empty on purpose — see the loop_bufs
+            # docstring above for what that does downstream.
+            #
+            # BUG (caught by test_real_beats_are_not_mono_or_silent on a
+            # real proof render, not by reading the diff): a loop lane
+            # panned dead center with no reverb decorrelation came out
+            # genuinely mono whenever "dry"/"gated" space rolled (gated
+            # reverb's onset-gated tail is also empty here, same reason
+            # duck is). A normal beat never notices because a dozen other
+            # panned/naturally-stereo one-shot lanes carry width anyway;
+            # a 2-lane loop beat has nothing else to. Fix: loop_bufs
+            # carries the loop's OWN real stereo pair, split into a mono
+            # fold (bufs, same as every other lane) and a side signal
+            # (loop_side, folded into wet_side right after it's created
+            # below) exactly the way the room/plate reverb branch already
+            # derives wet_side from a decorrelated IR — same math, source
+            # is the loop's own image instead of a convolution tail.
+            Lsrc, Rsrc = loop_bufs[lane]
+            mono = (Lsrc + Rsrc) / 2
+            side = (Lsrc - Rsrc) / 2
+            buf[:min(n, len(mono))] = mono[:n]
+            side_buf = np.zeros(n)
+            side_buf[:min(n, len(side))] = side[:n]
+            loop_side[lane] = side_buf
+            bufs[lane] = buf
+            onsets[lane] = ons
+            events[lane] = evs
+            continue
+        snd = kit[lane]
+        choke = not loop_bufs and (_ducks_deep(lane)
+                                   or (lane == "kick" and _long_kick))
+        drops_out = _bd_bar >= 0 \
+            and not any(lane.startswith(k) for k in _bd_keep)
+        for b in range(nbars):
+            pat = bars[b % len(bars)]
+            res = len(pat)
+            for s, ch in enumerate(pat):
+                if ch == "-":
+                    continue
+                # a partial drop silences the FRONT of the bar and lets
+                # the kit walk back in; len 1.0 empties the whole bar,
+                # which is the behaviour this replaced
+                if drops_out and b == _bd_bar and s < res * _bd_len:
+                    continue
+                t = b * bar_s + s * bar_s / res
+                if res == 16:
+                    t += mpc_swing_offset(s, bpm, feel.swing)
+                t += feel.offset + feel.rng.normal(0, feel.jitter / 3)
+                v = velocity("x" if ch == "r" else ch,
+                             s if res == 16 else s // 2, wob) * g \
+                    * grid_accent(res, s)
+                hits = (ratchet_times(t, bar_s / res) if ch == "r"
+                        else [(t, 1.0)])
+                for th, hv in hits:
+                    pos = int(max(th, 0.0) * SR)
+                    e = min(n, pos + len(snd))
+                    if 0 <= pos < n and v > 0:
+                        buf[pos:e] += snd[:e - pos] * v * hv
+                        ons.append(pos)
+                        evs.append((pos / SR, v * hv))
+                        if choke:
+                            _choke_hits.setdefault(lane, []).append(
+                                (pos, v * hv, snd))
+        bufs[lane] = buf
+        onsets[lane] = ons
+        events[lane] = evs
+
+    # ONE BASS NOTE AT A TIME (owner 2026-09-23, standard practice: an 808
+    # or a bass is mono -- each new note cuts the last, a sampler's "cut
+    # itself" / choke group). Hits used to stack, so two close 808s summed
+    # their tails into mud. Every low-end lane is ONE group, so an 808
+    # slot's last note is also cut by the next slot's first, and the loop's
+    # last note by its first (the fold below wraps it). From-scratch only.
+    if _choke_hits:
+        # two groups: the low end chokes itself; a long kick chokes only
+        # itself (a bass note must not cut the kick, nor the kick a bass)
+        def _group(ln):
+            return "kick" if ln == "kick" else "low"
+        _gstarts = {}
+        for ln, hs in _choke_hits.items():
+            _gstarts.setdefault(_group(ln), set()).update(h[0] for h in hs)
+        _gstarts = {g: sorted(v) for g, v in _gstarts.items()}
+        _fade = int(0.005 * SR)
+        for lane, hs in _choke_hits.items():
+            _starts = _gstarts[_group(lane)]
+            buf = np.zeros(n)
+            for pos, v, snd in hs:
+                i = bisect.bisect_right(_starts, pos)
+                nxt = _starts[i] if i < len(_starts) else _starts[0] + end
+                e = min(n, pos + len(snd), nxt)
+                seg = snd[:e - pos] * v
+                if e == nxt and len(seg) > _fade:          # cut, not ended
+                    seg = seg.copy()
+                    seg[-_fade:] *= np.linspace(1.0, 0.0, _fade)
+                buf[pos:e] += seg
+            bufs[lane] = buf
+
+    # seamless loop: fold the ring-out past bar 8 back onto the start
+    for lane in bufs:
+        bufs[lane][:n - end] += bufs[lane][end:]
+        bufs[lane] = bufs[lane][:end]
+    # CHORDS OUT OF THE BASS'S ROOM (owner 2026-09-23, standard practice:
+    # every melodic part is cut below the bass so the 808 / bass line owns
+    # the bottom). Runs on the loop-length buffer, and an FFT filter is
+    # circular, so it stays loop-safe. From-scratch only: the Loops page's
+    # "chordloop" lane keeps its own low end.
+    if not loop_bufs:
+        for lane in bufs:
+            if lane.startswith(("chord", "melody")):
+                bufs[lane] = highpass(bufs[lane], CHORD_LOW_CUT_HZ)
+    onsets = {k: [x for x in v if x < end] for k, v in onsets.items()}
+    events = {k: [(t, v) for t, v in evs if t * SR < end]
+              for k, evs in events.items()}
+    # GHOST KICKS DON'T PUMP (owner 2026-09-25: "the ducking happens even
+    # when there is not a kick drum"). A ghost kick (".", -12 dB) ducked the
+    # mix as hard as a full hit, so a bar of only ghosts pumped with no kick
+    # you could hear. Only hits at least half the loudest kick's level duck.
+    _kv = [v for _t, v in events.get("kick", [])]
+    duck_ons = [pos for pos, v in zip(onsets.get("kick", []), _kv)
+                if v >= 0.5 * max(_kv)] if _kv else []
+    # loop_side was built at the same padded length n as bufs (above),
+    # before this fold/trim -- it has to go through the same trim to
+    # end so it matches bufs[lane]'s length wherever it's added into
+    # wet_side further down.
+    loop_side = {k: v[:end] for k, v in loop_side.items()}
+
+    # TRANSIENT SHAPING (owner 2026-09-05, Doc Day's new build). A preset
+    # may sharpen the attack of named lanes: {"gain": 0.8, "lanes":
+    # ["kick", "snare"]}, gain>0 sharper, <0 softer. groove.transient_shape
+    # has existed and been tested since the engine was written and was
+    # wired to nothing; the Dre research names it directly ("the smack on
+    # his drums; it sounds like a transient designer with hard SSL
+    # compression"). Runs on the raw lane buffer, before dirt/space/glue —
+    # where a transient designer actually sits, on the drum channel rather
+    # than the bus. Off unless a preset carries the field.
+    _tr = p.get("transient")
+    if _tr:
+        for lane in _tr.get("lanes", ()):
+            if lane in bufs and onsets.get(lane):
+                bufs[lane] = transient_shape(
+                    bufs[lane], onsets[lane], gain=_tr.get("gain", 0.8),
+                    tau_ms=_tr.get("tau_ms", 3.0),
+                    span_ms=_tr.get("span_ms", 40.0))
+
+    # owner 2026-07-18: clean renders — every dirt stage (808 dist,
+    # roughness, saturation, dust, vinyl, wow) stays off; he adds his own
+    # color in Reason. Presets keep their dirt numbers so flipping
+    # OWNER_TASTE["clean_renders"] back restores each character's grime.
+    # allow_dirt (owner 2026-09-03, asked directly): a preset may opt out
+    # of the clean-render rule and play its own grime numbers. Per DJ,
+    # never roster-wide — the 2026-07-18 rule holds for everyone without
+    # the field. TWO settings, because the research pulls two ways:
+    #   True    everything — dust, vinyl, wow, mix saturation, hot master.
+    #           Otto Grit ("Let Otto hear his dust").
+    #   "low"   the 808/kick distortion ONLY; the mix stays clean.
+    #           Night Metro, whose own research says "distort the 808/kick
+    #           specifically — don't apply that grit to the whole mix".
+    _dirt = p.get("allow_dirt")
+    _house_clean = OWNER_TASTE.get("clean_renders", False)
+    clean = _house_clean and not _dirt              # gates the 808/kick
+    clean_mix = _house_clean and _dirt is not True  # gates everything else
+    _grit = grit_lane(p, bufs)
+    if not clean and p["kick_dist"] > 0 and _grit in bufs:
+        bufs[_grit] = dist808(bufs[_grit], p["kick_dist"])
+    if not clean and p.get("rough_808") and "kick" in bufs:
+        rate, depth = p["rough_808"]
+        bufs["kick"] = roughness_am(bufs["kick"], rate, depth)
+
+    space = space or p["space"][0]
+    # 2026-07-31: make_ir() has ALWAYS returned a stereo pair of decorrelated
+    # IRs (groove.py:303, docstring "Stereo IR") and this block used to do
+    # `irL, _ = make_ir(...)` — throwing the right channel away and printing a
+    # mono reverb. Measured consequence: every rendered beat came out with
+    # side energy 22-31 dB under mid, i.e. effectively mono, and all 247 core
+    # stems checked were bit-identical L/R. The reverb is the one stage in the
+    # chain designed to create width, so restoring its right channel is the
+    # cheapest real fix. Chord lanes are deliberately NOT panned apart: chord0
+    # /1/2 are the progression's chords in SEQUENCE (verified — zero overlap),
+    # so panning them would swing the progression across the image.
+    wet_side = dict(loop_side)   # a loop lane's own stereo image, unconditional
+    treated = set()          # the lanes this block ACTUALLY treated
+    # a treated lane may have been removed outright (stem rack
+    # 2026-07-21) — treat what's actually here. Loop lanes are excluded
+    # on purpose: gated reverb is an onset-triggered hit effect (empty
+    # onsets here would silently overwrite loop_side with zeros — the
+    # bug a real proof render caught), and a continuous loop bed already
+    # carries its own real stereo image, which is more honest than a
+    # synthesized tail computed from it.
+    for lane in [ln for ln in p["space"][1] if ln in bufs and ln not in loop_side]:
+        if space == "gated":
+            # hold scales to tempo — one 8th note (school 2026-07-15;
+            # forums put 80s drama at 300+ ms, which a 90 bpm 8th hits)
+            bufs[lane], wet_side[lane] = gated_reverb(
+                bufs[lane], onsets[lane],
+                wet=OWNER_TASTE["gate_wet"],
+                hold_ms=min(30000.0 / bpm, 350.0),
+                loop=True, stereo=True)
+            treated.add(lane)
+        elif space in ("room", "plate", "hall", "washed"):
+            # v6: every DJ can roll a wet space per beat — use the era
+            # Alt params when the preset carries them, house defaults
+            # otherwise
+            defaults = {"room": (0.45, 3500, 0.32),
+                        "plate": (0.9, 6500, 0.34),
+                        "hall": (1.8, 2800, 0.3),
+                        # "washed" IS plate, deliberately the same numbers
+                        # rather than a new sound: beat_machine.py:977
+                        # already maps the typed word washed -> plate, so a
+                        # bigger bespoke reverb here would make the same word
+                        # mean two different things depending on whether he
+                        # typed it or a genre preset declared it.
+                        "washed": (0.9, 6500, 0.34)}
+            alt = p.get("alt")
+            decay, tone, wet = (alt[1] if alt and alt[0] == space
+                                and alt[1] else defaults[space])
+            irL, irR = make_ir(decay, tone)
+            dry = bufs[lane]
+            wetL = loop_convolve(dry, irL) * wet
+            wetR = loop_convolve(dry, irR) * wet
+            # bufs[] keeps the true MONO FOLD-DOWN, which is what every
+            # downstream reader wants — the snare-vs-kick backstop just
+            # below, _track_gain, _preview_mix, the stem peak-normalise.
+            # Measured, so it's not hand-waved: the per-channel wet level is
+            # UNCHANGED (+0.00 dB — L still gets exactly irL, as before),
+            # while the wet's mono fold-down drops 2.9 dB because two
+            # decorrelated channels partially cancel when summed. That is
+            # physically correct, not a loss. On a whole beat the dry signal
+            # dominates, so the figure those readers actually see moves
+            # 0.18 dB. Nothing downstream needed retuning.
+            bufs[lane] = dry + (wetL + wetR) * 0.5
+            # ...and the decorrelated half rides along as a side signal,
+            # folded in at pan time below. mono_below(120) still collapses
+            # the bass, so this cannot smear the low end.
+            wet_side[lane] = (wetL - wetR) * 0.5
+            treated.add(lane)
+        # "dry" leaves the lane alone, so it does NOT go in `treated`.
+        #
+        # "washed" used to land here too, which was the bug (fixed
+        # 2026-09-02, owner's call). Four genre presets declare
+        # space=("washed", ...) and beat_machine locks a genre to its
+        # declared space, so Houston Screw, Emo Hip Hop, Horror Rap and Plug
+        # had never had ANY space treatment across 24 shipped recipes, while
+        # their own style notes say the opposite ("horrorcore is drowned").
+        # They now take the plate branch above.
+
+    # ---- house ambience bed (owner standing rule, 2026-07-31) ----
+    # "In order to have studio ready quality tracks I want you to be able to
+    #  use reverb and any other effect, as much as needed, for quality and
+    #  style and dj. It can even vary instrument to instrument. This
+    #  overrules any other command where sound is concerned."
+    #
+    # Every DJ's space list turned out to be ONE lane — `["snare"]` or
+    # `["clap"]`. Nothing else in the mix had ever seen a reverb: chords,
+    # melodic parts, bongos, stamps and guest colour all printed bone dry.
+    # That is most of why a finished beat sounded small next to a record,
+    # and it is why beats that rolled space="dry" came out near-mono.
+    #
+    # This runs REGARDLESS of the rolled space, including "dry" — per the
+    # rule above, a quality floor is not a per-beat style choice. The DJ's
+    # signature snare/clap treatment above is untouched, so identity still
+    # comes from that; this is the room those parts sit in.
+    #
+    # Deliberately NOT treated: kick, the sampled 808 ("bass"), the tuned
+    # sub, and any lane the DJ already treated. Low end must stay dry and
+    # centred or the punch goes with it.
+    HARMONIC_RE = re.compile(r"^(chord\d|bass\d)")
+    # WHAT THE BLOCK ABOVE ACTUALLY TREATED, not what the preset asks for.
+    # This used to be `set(p["space"][1])`, which is a different question:
+    # `space` is what THIS render rolled and beat_machine rolls it per beat
+    # (35% of them dry), so on a dry roll the DJ's snare/clap lane was
+    # excluded from the bed as "already treated" while the dry branch had
+    # left it alone — and that lane is the loudest thing in the beat after
+    # the kick. Measured 2026-09-01 across the 48 beats rendered since the
+    # last crew.py change: 9 sat at or under the -22 dB S/M mono line, 8 of
+    # them dry rolls, worst -36.2 dB, with the snare and clap stems
+    # bit-identical L/R. The same hole swallowed the four "washed" genre
+    # presets, whose space string no branch above implemented until
+    # 2026-09-02; they take the plate branch now, but the bed still has to
+    # catch their sibling backbeat lane like everyone else's.
+    already = treated
+    dry_lows = {"kick", "bass", "sub"}
+    # MONO BACKSTOP (owner 2026-08-01: "fix beat 1679"). The bed used to skip
+    # the whole snare bus — "the DJ's call" — unless the beat was drums-only
+    # AND bone dry. Three separate holes came out of that one condition, all
+    # of them the same shape: a lane that NOTHING treated, excluded from the
+    # bed anyway, printing bit-identical L/R.
+    #   * a dry roll (35% of beats) over a preset that declares gated;
+    #   * a "washed" preset, a space string no branch above implemented
+    #     (fixed 2026-09-02 — washed is now plate);
+    #   * the sibling backbeat lane on ANY beat — every DJ's space list names
+    #     exactly one of snare/clap, so the other one was never treated and
+    #     never bedded. Measured on 2105 (Mustang, gated): the snare sat
+    #     3.6 dB under the kick and printed dual-mono.
+    # So the rule is now simply: treated by the DJ's space, or bedded here.
+    #
+    # The chord bed cannot stand in for this. On 2143, a dry Kane East with
+    # three chord lanes, the kick stem measures -17.8 dB RMS, the snare -35.3
+    # and the clap -43.4 — 25-30 dB of air cannot move the image.
+    #
+    # Justified by his standing rule of 2026-07-31: effects in service of
+    # QUALITY overrule a per-beat style choice. The DJ's signature treatment
+    # is untouched wherever it actually ran, and the low end is never
+    # touched either way.
+    for lane in bufs:
+        if lane in already or lane in dry_lows:
+            continue
+        if HARMONIC_RE.match(lane):
+            decay, tone, wet = 1.4, 3200, 0.18   # air around the harmony
+        elif any(lane.startswith(s) for s in SNARE_LIKE):
+            decay, tone, wet = 0.6, 4000, 0.14   # the backbeat's own room
+        else:
+            decay, tone, wet = 0.5, 4200, 0.10   # a touch of room on colour
+        irL, irR = make_ir(decay, tone, seed=4242 + p["num"])
+        dry = bufs[lane]
+        wetL = loop_convolve(dry, irL) * wet
+        wetR = loop_convolve(dry, irR) * wet
+        bufs[lane] = dry + (wetL + wetR) * 0.5
+        side = (wetL - wetR) * 0.5
+        wet_side[lane] = wet_side.get(lane, 0.0) + side
+
+    # ECHO on the backbeat (owner 2026-09-02, "I am going to want the delay
+    # and EQ"). Off unless a caller passes echo=. On the snare/clap lanes,
+    # not the whole mix: a mix-wide delay smears the kick, and the musical
+    # use of delay in this music is a throw on the backbeat. It runs HERE,
+    # before the bus governor below, so the governor measures the bus with
+    # its repeats included and the echo cannot sneak the backbeat past the
+    # kick-anchor rule. loop_delay is circular, so bar 8's tail lands on
+    # bar 1 — the lanes were folded to exactly `end` samples above, which
+    # is what makes that the loop length and not the buffer length.
+    if echo:
+        from audio_engine import loop_delay      # local: keeps pedalboard
+        _e = {"seconds": float(echo.get("note", 0.5)) * 60.0 / bpm,
+              "feedback": float(echo.get("feedback", 0.35)),
+              "mix": float(echo.get("mix", 0.2))}   # off the default path
+        for lane in bufs:
+            if not any(lane.startswith(s) for s in SNARE_LIKE):
+                continue
+            bufs[lane] = loop_delay(bufs[lane], bufs[lane], **_e)[0]
+            if lane in wet_side:      # the room tail repeats with its drum
+                wet_side[lane] = loop_delay(wet_side[lane],
+                                            wet_side[lane], **_e)[0]
+
+    # CHORUS / PHASER, per-DJ colour. Same placement argument as the echo
+    # above — before the bus governor, so whatever they do to a lane's
+    # level is measured rather than smuggled past the ceilings. Both are
+    # loop-safe (audio_engine._loop_modulated) so bar 8 meets bar 1
+    # without a step.
+    #
+    # Lane-scoped by default, not mix-wide: chorus on the chords is the
+    # thickener he'd actually reach for, phaser on the hats is the sweep.
+    # Run on the dry lane only — the ambience tail in wet_side is left
+    # alone, because modulating a room tail separately from the hit that
+    # made it decorrelates the two and the room stops sounding like one
+    # room. The echo does process both, and that is not an inconsistency:
+    # a repeat should carry its room, a sweep should not rewrite it.
+    if chorus or phaser:
+        import audio_engine          # local: keeps pedalboard off the
+                                     # default render path, as eq/echo do
+        for _fx, _cfg, _default_lanes in (
+                (audio_engine.chorus, chorus, ("chord",)),
+                (audio_engine.phaser, phaser, ("hat",))):
+            if not _cfg:
+                continue
+            _lanes = tuple(_cfg.get("lanes") or _default_lanes)
+            # mix defaults to 0.0 in audio_engine (the rack needs an
+            # off position), so a dict without one would be a SILENT
+            # no-op — this project's most expensive recurring bug. Here,
+            # passing the dict at all means "on", so it gets a real
+            # amount. Unheard by the owner: audition before believing it.
+            _kw = {k: _cfg[k] for k in ("rate_hz", "depth")
+                   if k in _cfg}
+            _kw["mix"] = float(_cfg.get("mix", 0.3))
+            for lane in bufs:
+                if lane.startswith(_lanes):
+                    bufs[lane] = _fx(bufs[lane], bufs[lane], **_kw)[0]
+
+    # The low end ducks DEEPER than the rest of the mix (owner 2026-09-01).
+    # Defined out here, not inside the peak-governor block below: that block
+    # only runs on a beat that HAS a kick, and the duck call sites further
+    # down run on every beat.
+    _sub_sc = sub_sidechain(p)
+
+    # HAAS width on the lanes the beat rolled it for. Mid stays the dry
+    # lane; the delayed difference goes to the side, so the mono sum is
+    # untouched. np.roll wraps the delay round the loop seam (loop-safe).
+    for ln in p.get("haas_lanes") or ():
+        if ln in bufs:
+            _hs = 10 ** (-4.0 / 20) * 0.5 * (
+                bufs[ln] - np.roll(bufs[ln], int(0.012 * SR)))
+            wet_side[ln] = wet_side[ln] + _hs if ln in wet_side else _hs
+
+    # every level rule below scales whole lanes; remember each lane as it
+    # was so the beat's lock can replay what they decided (owner
+    # 2026-09-28: Loops beats locked too)
+    _pre, _pre_w = dict(bufs), dict(wet_side)
+
+    def _lane_sc(ln):
+        """The duck depth this lane actually gets."""
+        return _sub_sc if _ducks_deep(ln) else p["sidechain"]
+
+    # BACKBEAT BUS GOVERNOR (owner 2026-09-02). Was a one-way cap: "the
+    # snare bus never out-powers the kick" (owner 2026-07-18), which is
+    # still true below and still the hard rule — but it only ever turned
+    # the backbeat DOWN, so how loud it landed was set by nothing except
+    # which sample happened to get picked. Measured across 64 shipped
+    # beats: a median 3.8 dB under the kick, which is right, and a SPREAD
+    # of 19.5 dB around it (15.7 under to 3.8 over). At the bottom of that
+    # range the beat is a kick with whispers behind it, which is what he
+    # heard as "not enough effects".
+    #
+    # This is the same failure the chord bus had, and the same fix he
+    # approved on 2026-07-31: an open-loop gain cannot hit a target when
+    # the source samples vary that much, so govern the BUS in BOTH
+    # directions. Target OWNER_TASTE["backbeat_bus_under_kick_db"].
+    #
+    # The clamp is asymmetric the opposite way to the chord governor's, and
+    # deliberately: the BOOST is capped at 4.0 (+12 dB) so a hopeless sample
+    # cannot be hauled up with its own noise floor, and the CUT is left
+    # uncapped so the 2026-07-18 hard rule holds by construction — the
+    # target is 3 dB under the kick, which is already past the 1 dB line, so
+    # a bus that lands on target can never out-power the kick and the old
+    # separate backstop has nothing left to do.
+    if "kick" in bufs:
+        kick_rms = np.sqrt((bufs["kick"] ** 2).mean())
+        sn = [ln for ln in bufs
+              if any(ln.startswith(s) for s in SNARE_LIKE)]
+        if not true_levels and kick_rms > 0 and sn:
+            bus = sum(bufs[ln] for ln in sn)
+            bus_rms = np.sqrt((bus ** 2).mean())
+            want = kick_rms * 10 ** (
+                -OWNER_TASTE.get("backbeat_bus_under_kick_db", 3.0) / 20)
+            if bus_rms > 1e-9:
+                adj = min(want / bus_rms, 4.0)
+                for ln in sn:
+                    bufs[ln] = bufs[ln] * adj
+                    # ...and its reverb with it. The chord governor below and
+                    # the peak ceiling below that both do this; this one did
+                    # not, and it was harmless only because the snare bus had
+                    # no wet_side to leave behind — the ambience bed used to
+                    # skip the whole family. Now that it doesn't, a trimmed
+                    # snare would have kept its full-strength tail: measured
+                    # on 2122, a 2.38 dB trim left the reverb 2.38 dB louder
+                    # relative to the drum making it, and the rule's own
+                    # promise ("whatever the reverb energy added up to") was
+                    # being kept on the mono fold only.
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * adj
+
+        # the harmonic bus gets the same governor (2026-07-31). Unlike the
+        # snare's, this one corrects in BOTH directions: a chord bed that
+        # lands too quiet is the more common failure and an open-loop gain
+        # cannot fix it. Measured across 39 shipped beats the loudest chord
+        # part sat a median 15.4 dB under the kick (worst 24.9, best 5.9) —
+        # a 19 dB spread, entirely from how loud the chosen samples happened
+        # to be. Raising OWNER_TASTE["chord_gain"] moved the whole range up
+        # without narrowing it, which just swapped "inaudible" for
+        # "shouting". Targeting the bus is what actually holds it steady.
+        ch = [ln for ln in bufs if re.match(r"^(chord\d|bass\d)", ln)]
+        # BUG FIXED 2026-08-03 (owner: "it's always way too loud"). This
+        # divided the bus's total energy by the COMBINED length of all the
+        # chord lanes instead of by the length of the beat, so it under-read
+        # the bus by 10*log10(number of lanes) and left the chords that much
+        # louder than the target. Chord slots are sequential, so N lanes each
+        # sounding 1/N of the time still sum to a bus that plays the whole
+        # way through — dividing by N*len is measuring the average lane, not
+        # the bus. Measured before the fix on 34 real beats: target -9.0 dB
+        # under the kick, actual -4.6 dB, with a median of 3 chord lanes
+        # (3 lanes = 4.8 dB, which is the whole discrepancy).
+        # The snare governor immediately above always did this correctly —
+        # `bus = sum(...)` then RMS — which is why nobody caught it here.
+        ch_rms = np.sqrt((sum(bufs[ln] for ln in ch) ** 2).mean()) if ch \
+            else 0.0
+        if not true_levels and kick_rms > 0 and ch_rms > 1e-9:
+            want = kick_rms * 10 ** (
+                -OWNER_TASTE.get("chord_bus_under_kick_db", 9.0) / 20)
+            # ASYMMETRIC on purpose (owner 2026-08-03, "it's always way too
+            # loud"). The clamp used to be symmetric at +/-12 dB, and the
+            # stated reason — "a pathological sample can't be hauled up 30 dB
+            # and drag its own noise floor into the mix" — is an argument
+            # about BOOSTING only. Turning a lane DOWN cannot raise anyone's
+            # noise floor, so the floor half of that clamp was protecting
+            # against nothing while doing real harm.
+            #
+            # Measured with a probe in this function: a loud chord sample
+            # needed adj 0.148 (a 16.6 dB cut) and a very loud one 0.074
+            # (22.6 dB) — both were clamped at 0.25 and shipped 4.6 and
+            # 10.6 dB over target. That is the "always too loud", and it gets
+            # worse the further back he asks the chords to sit, because a
+            # bigger target means a bigger cut.
+            #
+            # Boost ceiling unchanged at 4.0 (+12 dB) — that one is real, and
+            # tests/test_audio_quality.py pins that a hopeless sample is NOT
+            # rescued, so nobody quietly loosens it.
+            adj = min(max(want / ch_rms, CHORD_CUT_FLOOR), 4.0)
+            for ln in ch:
+                bufs[ln] = bufs[ln] * adj
+                # the ambience bed above already stashed this lane's stereo
+                # half; it has to move with the lane or the reverb ends up
+                # louder than the sound making it
+                if ln in wet_side:
+                    wet_side[ln] = wet_side[ln] * adj
+
+        # MOVED here 2026-08-03, AFTER the chord governor. It used to run
+        # before it, which was fine while it only touched drums — but the
+        # melodic ceiling added today would have been undone immediately,
+        # since the governor rescales the whole chord bus straight after.
+        # Trimming a transient barely moves RMS, so the governor's bus
+        # level survives this; the reverse order does not work.
+        # PEAK ceiling for the bright transient lanes (owner 2026-08-01,
+        # "clap and crash are being overused"). The bus governors above work
+        # on RMS, which is the right control for a sustained bed but blind to
+        # a single loud transient: measured across 42 rendered beats the clap
+        # PEAKED a median 1.2 dB ABOVE the kick (worst +8.4) and the crash
+        # +3.7 (worst +9.4), while their RMS sat politely underneath. A hit
+        # that spikes over the kick reads as "too much" however quiet its
+        # average is — that is why the clap felt overused even on beats where
+        # it was correctly placed.
+        #
+        # Peak-only, and it only ever turns things DOWN, so a lane that is
+        # already sitting under the kick is untouched and no identity gets
+        # quietly re-balanced. Ceilings are per-family, not one number: a
+        # backbeat is meant to be nearly as strong as the kick, a cymbal
+        # crash is punctuation and belongs below it.
+        # The reference is the QUIETER of kick and snare (owner 2026-08-03:
+        # the small percussion must sit under BOTH). Falls back to the kick
+        # alone on a beat with no snare — several identities have only a
+        # clap, and on those the clap IS the backbeat, so it is measured
+        # against the kick and nothing else.
+        # Everything below is measured AFTER the constant-power pan, because
+        # that is what the listener and the stem file get. Missed on the
+        # first pass and it is worth spelling out: a CENTRED lane gets 0.707
+        # per side, a lane panned hard gets up to 1.0 on its loud side. The
+        # kick is centred and percussion is not, so comparing raw buffers
+        # let a hat capped at -3 dB arrive ~1 dB louder than that against
+        # the kick — which is exactly the residue the owner still heard on
+        # the shaker after the first fix.
+        # ...and after the SIDECHAIN DUCK, which is the last thing between
+        # here and the stem. Only the kick sits outside its own duck, so
+        # every other lane is pulled down wherever a kick lands — and
+        # because it is time-varying, how much a lane loses depends on
+        # whether its loudest hit falls on a kick or between them. Left out
+        # of the first two attempts and it was the whole of the residue:
+        # three lanes on one beat sitting ~1 dB over their cap.
+        # The release MUST be the one the real duck uses. It was hardcoded
+        # 0.11 here while `duck()` runs on its own default of 0.09
+        # (make_drum_beats.py) — a slower release measures a LOWER envelope,
+        # so every ducked lane read quieter here than it arrives in the
+        # stem and was let through above its cap. Measured leak: +0.14 dB at
+        # sidechain 0.2, +0.26 at the house 0.35, +0.65 at 0.7. Same class
+        # as the shaker: measuring at a point that is not where the sound
+        # comes out. Read from the function itself so they cannot drift.
+        _REL = inspect.signature(duck).parameters["rel"].default
+
+        def _mk_duck_env(depth):
+            """The envelope `duck()` will actually apply, at this depth.
+
+            Mirrors duck() exactly, INCLUDING the loop=True wrap — the
+            earlier version stopped at `end`, so a kick in the last ~270 ms
+            read unity at the start here while the real duck carried the dip
+            across the seam. Same class of bug as the hardcoded release."""
+            _L = int(_REL * 3 * SR)
+            g = np.ones(end + _L)
+            _dip = 1 - depth * np.exp(-np.arange(_L) / (_REL * SR))
+            for _pos in duck_ons:
+                if _pos < end:
+                    g[_pos:_pos + _L] = np.minimum(g[_pos:_pos + _L],
+                                                   _dip[:len(g) - _pos])
+            g[:_L] = np.minimum(g[:_L], g[end:])
+            return g[:end]
+
+        # The peak governor needs BOTH envelopes, or it misjudges the sub's
+        # level by the difference between the two depths.
+        _duck_envs = {}
+        if duck_ons:
+            for _d in {p["sidechain"], _sub_sc}:
+                if _d > 0:
+                    _duck_envs[_d] = _mk_duck_env(_d)
+
+        def _panned_eff(ln):
+            row = p["lanes"].get(ln)
+            pan = row[0] if row else 0.0
+            side = max(np.cos((pan + 1) * np.pi / 4),
+                       np.sin((pan + 1) * np.pi / 4))
+            eff = np.abs(bufs[ln]) * side
+            w = wet_side.get(ln)
+            if w is not None:
+                eff = eff + np.abs(w)
+            _env = _duck_envs.get(_lane_sc(ln)) if ln != "kick" else None
+            if _env is not None:
+                eff = eff[:end] * _env[:len(eff)]
+            return eff
+
+        def _panned_pk(ln):
+            return float(_panned_eff(ln).max())
+
+        def _loudest(eff):
+            """Loudest LOUD_WINDOW_S of RMS, wrapped round the loop seam."""
+            n = max(1, min(int(LOUD_WINDOW_S * SR), len(eff)))
+            sq = np.concatenate([eff, eff[:n]]) ** 2
+            c = np.concatenate([[0.0], np.cumsum(sq)])
+            return float(np.sqrt(max((c[n:] - c[:-n]).max(), 0.0) / n))
+
+        kick_pk = _panned_pk("kick")
+        # THE KICK IS THE ANCHOR (owner 2026-09-02, after checking his rules
+        # against how hip-hop is normally mixed). This used to be
+        # `min(kick_pk, snare_pk)` — measure everything against the QUIETER
+        # of the kick and the lane spelled "snare" — and it is the single
+        # line that made a level accident anywhere in the beat able to drag
+        # the whole mix down with it. Every producer reference anchors to
+        # the kick and mixes relative to that; nothing anchors to whichever
+        # of two elements happens to be quietest.
+        #
+        # What it cost, measured inside this function on 2164 before the
+        # ceiling ran: kick -2.1, clap -0.9, snare -20.6. On 7 of the 13
+        # identities that carry both lanes the snare is a THIN LAYER TUCKED
+        # UNDER THE CLAP (Kane East, Sunday Chop, Swish Beatz, Baltimore
+        # Club, Miami Bass, Plug and Crunk all set snare 0.5-0.7 against clap
+        # 0.78-0.92) — so the reference came out as that -20.6 support layer,
+        # and the beat's actual backbeat was cut by 26.6 dB, the hat by 24.1
+        # and the bells by 20.9. A kick with faint tapping behind it.
+        #
+        # His rule that colour sits under the backbeat as well as the kick is
+        # not lost with the `min` — it is now carried by the governor above,
+        # which pins the backbeat bus near the kick instead of letting it
+        # land anywhere. The one case that rule can still miss is a backbeat
+        # so quiet the governor's boost clamp cannot reach it; that is a
+        # broken sample, not a mix balance, and it is logged rather than
+        # papered over.
+        ref_pk = kick_pk
+        # ...and the backbeat gets a peak ceiling, which it never had. Both
+        # backbone lanes return None from peak_ceiling_for, so the snare's
+        # peak was measured against nothing at all. See BACKBEAT_OVER_KICK_DB.
+        # Applied to EVERY lane of the snare/clap family, not just whichever
+        # is loudest here. Capping only the loudest leaked: on 2162 the clap
+        # was the loudest at this point and got pulled to +2, then the loop
+        # below pulled it again to -3 as a clap, which left the untouched
+        # snare underneath as the beat's loudest backbeat lane at +5.4 over
+        # the kick. Per-lane is also simply what the rule says — no part of
+        # the backbeat peaks more than this over the kick — and the clap
+        # still takes its own -3 ceiling in the loop below on top.
+        if kick_pk > 0:
+            b_cap = kick_pk * 10 ** (BACKBEAT_OVER_KICK_DB / 20)
+            for ln in [l for l in bufs
+                       if any(l.startswith(sl) for sl in SNARE_LIKE)]:
+                b_pk = _panned_pk(ln)
+                if b_pk > b_cap:
+                    bufs[ln] = bufs[ln] * (b_cap / b_pk)
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * (b_cap / b_pk)
+        # THE HAT IS THE CEILING — the hat that is actually in this beat,
+        # not the number it is allowed to reach (owner 2026-08-31).
+        #
+        # This is the hard-rule failure the project has hit before: the rule
+        # shipped as a fixed offset under the kick, which only coincides with
+        # "under the hat" when the hat happens to sit exactly at its own cap.
+        # Whenever a hat sits lower — a quiet identity gain, or the duck
+        # pulling it down — everything else was still free to run up to the
+        # fixed number and come out ABOVE it. Measured over 19 beats with a
+        # hat lane, 5 broke his rule: cutfx +2.8 dB over the hat on Acid Rap
+        # Detroit, perc +1.9 on Detroit, an Otto Grit render with toms 11 dB
+        # over. So the ceiling has to be MEASURED.
+        #
+        # Measured as the loudest of whichever of hat/clap/snap this beat
+        # actually has — several identities have no hat at all and a clap
+        # carries the backbeat instead. With none of the three present there
+        # is no hat to be under, and only the kick-relative ceilings apply.
+        #
+        # This rides ON TOP of the kick anchor above, it does not replace it:
+        # a lane must clear BOTH its kick-relative ceiling and the hat.
+        tier_pk = max((_panned_pk(ln) for ln in bufs
+                       if ln.startswith(HAT_TIER)), default=0.0)
+        hat_cap = tier_pk * 10 ** (_extra_cut() / 20.0) if tier_pk > 0 else 0.0
+
+        if not true_levels and ref_pk > 0:
+            for ln in bufs:
+                head = peak_ceiling_for(ln)
+                if head is None:          # kick and snare: the reference
+                    continue
+                # Measure the DRY LANE PLUS ITS REVERB TAIL. The cap used to
+                # read bufs[ln] alone, but wet_side[ln] is folded in later at
+                # pan time, so the file he actually gets was louder than the
+                # number here promised: owner reported the shaker on beat
+                # 1763 as too loud and it measured -1.6 dB against a -3.0 cap.
+                # Elementwise |dry| + |wet| is the worst case the panned stem
+                # can reach, so capping on that is the figure that holds in
+                # the stem rather than only inside this function.
+                pk = _panned_pk(ln)
+                cap = ref_pk * 10 ** (head / 20.0)
+                # The hat tier is exempt from the hat clamp — it IS the hat.
+                # ...and so is the low end, by his own words ("the sub / 808
+                # is left alone"). Its only ceiling is the kick, above.
+                if hat_cap > 0 and not ln.startswith(HAT_TIER) \
+                        and ln not in _LOW_END:
+                    cap = min(cap, hat_cap)
+                if pk > cap > 0:
+                    bufs[ln] = bufs[ln] * (cap / pk)
+                    w = wet_side.get(ln)
+                    if w is not None:
+                        wet_side[ln] = w * (cap / pk)
+        # KICK ON TOP OF THE BASS, even at true levels (owner 2026-09-23:
+        # "kick on top, low end only"). True levels dropped every
+        # kick-relative rule, which let an 808 or bass line peak over the
+        # kick. This puts back only the low end's own ceiling; every other
+        # lane keeps its recorded level. From-scratch only (the Loops page
+        # keeps the rules it had, see LOOPS_TRUE_LEVELS).
+        if true_levels and not loop_bufs and ref_pk > 0:
+            cap = ref_pk * 10 ** (LOW_END_UNDER_DB / 20.0)
+            lows = [l for l in bufs if _ducks_deep(l)]
+            for ln in lows:
+                pk = _panned_pk(ln)
+                if pk > cap:
+                    bufs[ln] = bufs[ln] * (cap / pk)
+                    w = wet_side.get(ln)
+                    if w is not None:
+                        wet_side[ln] = w * (cap / pk)
+            # ...and by LOUDNESS, all low lanes together (the bass line's
+            # voices sound as one bass). See LOW_END_LOUD_UNDER_DB.
+            if lows:
+                kick_ld = _loudest(_panned_eff("kick"))
+                low_ld = _loudest(sum(_panned_eff(l) for l in lows))
+                lcap = kick_ld * 10 ** (LOW_END_LOUD_UNDER_DB / 20.0)
+                if low_ld > lcap > 0:
+                    g = lcap / low_ld
+                    for ln in lows:
+                        bufs[ln] = bufs[ln] * g
+                        w = wet_side.get(ln)
+                        if w is not None:
+                            wet_side[ln] = w * g
+        # PERCUSSION BY LOUDNESS, even at true levels -- see PERC_ROLES.
+        if true_levels and not loop_bufs and p.get("perc_flow"):
+            kspec = p.get("kit") or {}
+
+            def _a_loud(ln):
+                row = p["lanes"].get(ln)
+                pan = row[0] if row else 0.0
+                x = bufs[ln] * max(np.cos((pan + 1) * np.pi / 4),
+                                   np.sin((pan + 1) * np.pi / 4))
+                w = wet_side.get(ln)
+                if w is not None:
+                    n = min(len(x), len(w))
+                    x = x[:n] + w[:n]
+                return _loudest(a_weighted(x))
+
+            percs = [l for l in bufs
+                     if (kspec.get(l) or ("",))[0] in PERC_ROLES]
+            refs = ([l for l in bufs if l.startswith(HAT_TIER)]
+                    or [l for l in bufs
+                        if any(l.startswith(s) for s in SNARE_LIKE)])
+            if percs and refs:
+                pcap = max(_a_loud(l) for l in refs) * 10 ** (
+                    _extra_cut() / 20.0)
+                for ln in percs:
+                    ld = _a_loud(ln)
+                    if ld > pcap > 0:
+                        bufs[ln] = bufs[ln] * (pcap / ld)
+                        w = wet_side.get(ln)
+                        if w is not None:
+                            wet_side[ln] = w * (pcap / ld)
+
+
+    # Owner 2026-10-10: the sound-effects lane sits 20% quieter (3.2 dB) in
+    # every beat, loops and originals alike. A plain lane gain, applied
+    # after the governors and before the lock reads _lane_gains, so true
+    # levels can't bypass it and a later edit re-applies it.
+    _fx_g = 10 ** (FX_LANE_TRIM_DB / 20.0)
+    for ln in FX_LANES:
+        if ln in bufs:
+            bufs[ln] = bufs[ln] * _fx_g
+            if ln in wet_side:
+                wet_side[ln] = wet_side[ln] * _fx_g
+
+    # THE LOCK, per sound: a lane the edit didn't touch gets back the
+    # level the rules gave it when the beat was made, so changing the kick
+    # or hat can't re-level the rest. Lanes the edit changed aren't in the
+    # lock (swap_many leaves them out) and keep what the rules just gave.
+    _lane_gains = {}
+    for ln in bufs:
+        _a = float(np.abs(_pre[ln]).max()) if ln in _pre else 0.0
+        _lane_gains[ln] = (float(np.abs(bufs[ln]).max()) / _a
+                           if _a > 0 else 1.0)
+    for ln, _g in ((lock or {}).get("lane_gains") or {}).items():
+        if ln in bufs and ln in _pre:
+            bufs[ln] = _pre[ln] * _g
+            if ln in _pre_w:
+                wet_side[ln] = _pre_w[ln] * _g
+            _lane_gains[ln] = _g
+
+    # BASS / LOW-END CLEAN-UP, on every beat (owner 2026-10-18: "it should
+    # just be on beats when we create them... automatically"). 30 Hz rumble
+    # cut on every lane but kick/808/sub/bass, 150 Hz low cut on chords --
+    # see tools/base_clean.py. Runs after the level rules and the lock so
+    # those still read the lanes as they were made; both the mix and the
+    # stems are built from these buffers, so they stay identical. The
+    # side-signal centring (below 120 Hz) is done on the mix by
+    # mono_below(L, R, 120) at the end and on each stem in the loop below.
+    from base_clean import lane_lowcut
+    for _ln in list(bufs):
+        bufs[_ln] = lane_lowcut(bufs[_ln], _ln)
+
+    # stems: each lane panned to stereo with its space treatment, kick
+    # character, and the duck baked in (duck is a plain envelope multiply,
+    # so per-lane ducking sums to exactly the mix-bus duck)
+    stems = {}
+    if want_parts:
+        for lane, (pan, *_rest) in p["lanes"].items():
+            gl = np.cos((pan + 1) * np.pi / 4)
+            gr = np.sin((pan + 1) * np.pi / 4)
+            sL, sR = bufs[lane] * gl, bufs[lane] * gr
+            sd = wet_side.get(lane)
+            if sd is not None:
+                sL, sR = sL + sd, sR - sd
+            # Owner call 2026-07-22: "have the kick gate the bass and
+            # other instruments". The tuned root sub used to ride the
+            # un-ducked path WITH the kick; now only the kick itself
+            # stays out of its own duck, so the sub, the harmony bass
+            # and the chord pads all breathe around it.
+            # ...and since 2026-09-01 the low end ducks deeper than the
+            # rest, because the mix-wide depth is inaudible on a sub. This
+            # MUST use the same per-lane depth as the mix bus and the peak
+            # governor: when the stem ducked shallower than the governor
+            # assumed, the sub arrived in the stem up to 1.5 dB OVER the
+            # kick while the governor read it as level. Three paths, one
+            # depth function.
+            _d = _lane_sc(lane)
+            if _d > 0 and lane != "kick" and duck_ons:
+                sL, sR = duck(sL, sR, duck_ons, depth=_d, loop=True)
+            # bass centred in the stems too (owner 2026-10-18): the mix was
+            # already centred below 120 Hz, the stems were not
+            sL, sR = mono_below(sL, sR, 120)
+            stems[lane] = (sL, sR)
+
+    # stereo mix, kick kept aside so the duck breathes around it
+    oL, oR = np.zeros(end), np.zeros(end)
+    # Three buses, not two: the low end takes its own, deeper duck.
+    bL, bR = np.zeros(end), np.zeros(end)
+    kL, kR = np.zeros(end), np.zeros(end)
+    for lane, (pan, *_rest) in p["lanes"].items():
+        gl = np.cos((pan + 1) * np.pi / 4)
+        gr = np.sin((pan + 1) * np.pi / 4)
+        sd = wet_side.get(lane)
+        if lane == "kick":       # only the kick sits outside its own duck
+            kL += bufs[lane] * gl
+            kR += bufs[lane] * gr
+            if sd is not None:
+                kL, kR = kL + sd, kR - sd
+        elif _ducks_deep(lane):
+            bL += bufs[lane] * gl
+            bR += bufs[lane] * gr
+            if sd is not None:
+                bL, bR = bL + sd, bR - sd
+        else:
+            oL += bufs[lane] * gl
+            oR += bufs[lane] * gr
+            if sd is not None:
+                oL, oR = oL + sd, oR - sd
+    if duck_ons:
+        if p["sidechain"] > 0:
+            oL, oR = duck(oL, oR, duck_ons, depth=p["sidechain"],
+                          loop=True)
+        if _sub_sc > 0:
+            bL, bR = duck(bL, bR, duck_ons, depth=_sub_sc, loop=True)
+    L, R = kL + oL + bL, kR + oR + bR
+
+    if not clean_mix and p["vinyl"]:
+        L = L + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1)
+        R = R + vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 2)
+    if not clean_mix and p["wow"] > 0:
+        L = wow_flutter(L, wow_pct=p["wow"], seed=p["num"], loop=True)
+        R = wow_flutter(R, wow_pct=p["wow"], seed=p["num"], loop=True)
+    if not clean_mix and p["mix_sat"] > 0:
+        L, R = sat_unity(L, p["mix_sat"]), sat_unity(R, p["mix_sat"])
+    if not clean_mix and p["dust"] > 0:
+        L, R = sp1200(L, amount=p["dust"]), sp1200(R, amount=p["dust"])
+
+    # bus glue compression (owner 2026-07-29) runs BEFORE master() — glue
+    # the mix's dynamics first, then tone/saturate/limit it. Always on,
+    # clean render or not: this is mix glue, not the SP-1200/wow/vinyl
+    # "dirt" clean_renders turns off.
+    if eq:
+        # MIX EQ (owner 2026-09-02). Tone -> glue -> master, the same order
+        # audio_engine.master_chain uses: shape the balance first, then let
+        # the glue and the limiter react to the mix he'll actually hear.
+        from audio_engine import eq3
+        L, R = eq3(L, R, **eq)
+    # A preset may name its own compression (owner 2026-09-05, Doc Day:
+    # "I usually have the ratio up to about eight or 10 on a lot of
+    # things"). Keys are glue_compress's own — threshold_db, ratio,
+    # env_ms, makeup_db — and anything left out inherits OWNER_TASTE, so
+    # a preset with no `glue` key renders exactly as it did before.
+    L, R = glue_compress(L, R, **p.get("glue", {}))
+    # clean master: drive 0.7 keeps the tanh glue essentially linear —
+    # tone EQ and mono-bass still apply, saturation effectively doesn't
+    _peaks = list((lock or {}).get("master_peaks") or [])
+    L, R = master(L, R, drive=0.7 if clean_mix else p["drive"],
+                  peaks=_peaks)
+    # CENTRE THE BASS LAST (owner 2026-09-02, "take it"). This used to run
+    # BEFORE master_to_lufs, and master_to_lufs soft-clips L and R
+    # separately — running a non-linear stage on two channels that differ
+    # regenerates side energy underneath the crossover, so the low end was
+    # only mono until the very next thing that happened to it. Widening the
+    # mix always leaked a little back; the backbeat governor added enough
+    # level to push it over the project's own limit (Farrow/dry measured
+    # 0.056 against the 0.05 line, and Wonky/room and Acid Rap Detroit/room
+    # were already breaching it before any of this work).
+    #
+    # Measured cost on four real beats, which is why this is free rather
+    # than a trade: low-end side energy 0.006-0.013 -> 0.0000-0.0001, peak
+    # moves at most 0.05 dB, loudness 0.00 dB. `got` is still the honest
+    # figure for the file — the re-measured LUFS after this line matches it
+    # to two decimal places. (On the synthetic test kit the peak moves up to
+    # 0.85 dB, because a pure sine has no crest factor to hide the filter's
+    # ringing. Real drums do.)
+    _gains = list((lock or {}).get("master_gains") or [])
+    L, R, got = master_to_lufs(L, R, gains=_gains)
+    L, R = mono_below(L, R, 120)
+    if not want_parts:
+        return L, R, got
+
+    # finish the stems: the vinyl bed becomes its own stem, wow and dust
+    # (the character-defining colors) print per lane, and one shared gain
+    # sets the loudest stem to -6 dBFS so the balance between stems
+    # survives and the summed set keeps headroom in Reason.
+    # Mix-bus glue (mix_sat, master drive, LUFS) stays off the stems —
+    # they're for editing in Reason 12; the WAV is the glued reference.
+    if not clean_mix and p["vinyl"]:
+        stems["vinyl"] = (
+            vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 1),
+            vinyl_bed(end, level_db=p["vinyl"], seed=p["num"] * 2 + 2))
+    for lane, (sL, sR) in list(stems.items()):
+        if not clean_mix and lane != "vinyl":
+            if p["wow"] > 0:
+                sL = wow_flutter(sL, wow_pct=p["wow"], seed=p["num"],
+                                 loop=True)
+                sR = wow_flutter(sR, wow_pct=p["wow"], seed=p["num"],
+                                 loop=True)
+            if p["dust"] > 0:
+                sL = sp1200(sL, amount=p["dust"])
+                sR = sp1200(sR, amount=p["dust"])
+            # the FX on button (owner 2026-09-24): the stems carry the
+            # mix saturation too, not only the full beat
+            if p.get("fx_stems") and p["mix_sat"] > 0:
+                sL, sR = sat_unity(sL, p["mix_sat"]), sat_unity(sR, p["mix_sat"])
+        stems[lane] = (sL, sR)
+    peak = max(max(np.abs(sL).max(), np.abs(sR).max())
+               for sL, sR in stems.values())
+    scale = (lock or {}).get("stem_scale")
+    if scale is None:
+        # 0.5 = -6 dBFS on the loudest stem; was 0.9, which summed to a
+        # redlining channel the moment the stems landed in Reason
+        scale = 0.5 / peak if peak > 0 else 1.0
+    elif peak * scale > 1.0:
+        # ponytail: a locked scale that would clip a stem (a sound turned
+        # up 6+ dB) falls back to just-under-clipping, which moves every
+        # stem together. Rare; a per-stem headroom rule if he hits it.
+        scale = 1.0 / peak
+    stems = {ln: (sL * scale, sR * scale) for ln, (sL, sR) in stems.items()}
+    return L, R, got, {"events": events, "stems": stems,
+                       "lock": {"lane_gains": _lane_gains,
+                                "master_peaks": _peaks,
+                                "master_gains": _gains,
+                                "stem_scale": float(scale)}}
+
+# ------------------------------------------------------------------- main
+
+README_HEAD = """
+MEET THE CREW — Checkpoint 3 prototypes ({today})
+{rule}
+Nine invented DJ personalities, one 8-bar prototype each (bars 1-4 = A,
+bars 5-8 = B). Your ears are the QA department: for each one, say what's
+right and what's off ("Otto drags too much", "Glass Cat needs weirder
+clicks") — the full batch of twenty only renders after the crew passes.
+Where an era argued with the house sound there's an extra "Alt" file:
+same beat, one treatment changed. Every character EXPERIMENTS with their
+drums — kick/snare/etc are picked fresh per beat from that character's
+taste — but each one's STAMP (their producer-tag hit) is locked
+(crew_kits.json) and appears in everything they make.
+"""
+
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    print("Scanning library for one-shots…")
+    shots = build_shots()
+    stamps = lock_stamps(shots)
+
+    from datetime import date
+    lines = [README_HEAD.format(today=date.today(), rule="=" * 56)]
+    ok = True
+    avoid = {s[0] for s in stamps.values() if s[0]}
+    for name, p in sorted(CREW.items(), key=lambda kv: kv[1]["num"]):
+        kit, sources = build_kit(shots, name, stamps[name][1],
+                                 variant=0, avoid=avoid)
+        if stamps[name][0]:   # a Legend picks his own per beat
+            sources["stamp"] = stamps[name][0]
+        renders = [("", None)]
+        if p["alt"]:
+            renders.append((f" Alt {p['alt'][0]} snare", p["alt"][0]))
+        for suffix, space in renders:
+            L, R, got = render_crew_beat(name, kit, space=space)
+            path = OUT / (f"Proto {p['num']} {name}{suffix} "
+                          f"Drums {p['bpm']}bpm.wav")
+            write_wav24(path, L, R)
+            dur = len(L) / SR
+            want = bars_of(p) * 240.0 / p["bpm"]
+            rms = 20 * np.log10(np.sqrt(0.5 * (L**2 + R**2).mean()) + 1e-12)
+            # LUFS is the loudness truth; plain RMS runs low on spacious
+            # halftime styles (drop-out bars average in), so its floor is soft
+            good = abs(dur - want) < 0.02 and -18 < rms < -9 \
+                and abs(got - OWNER_TASTE["master_lufs"]) < 2.0
+            ok &= good
+            print(f"  {path.name:52s} {dur:6.2f}s  LUFS {got:5.1f}  "
+                  f"RMS {rms:5.1f}  {'ok' if good else 'CHECK'}")
+        lines.append(f"Proto {p['num']} — {name} ({p['bpm']}bpm, "
+                     f"built on {p['built']})")
+        lines.append(f"  Listen for: {p['listen']}")
+        if p["alt"]:
+            lines.append(f"  Alt file: era argues for a {p['alt'][0]} snare "
+                         f"vs the house gated — both rendered, you pick.")
+        for lane, path in sources.items():
+            tag = " [their locked stamp]" if lane == "stamp" else ""
+            lines.append(f"  {lane}: "
+                         f"{Path(path).name if path else '(none)'}{tag}")
+        lines.append("")
+    with open(OUT / "README.txt", "a") as f:
+        f.write("\n".join(lines))
+    print(f"\nPrototypes -> {OUT}\nStamps locked -> {LOCK}")
+    if not ok:
+        print("WARNING: at least one render failed its numeric sanity check.")
+
+
+if __name__ == "__main__":
+    main()

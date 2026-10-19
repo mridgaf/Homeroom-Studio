@@ -229,6 +229,16 @@ LOUD_WINDOW_S = 0.4
 # the loudest hat-tier lane (or the snare/clap when there is no hat).
 PERC_ROLES = ("perc", "rim", "bongo")
 
+# HATS BY LOUDNESS (owner 2026-10-19: "the hi-hats stand out more than I
+# would like"). Same gap as perc had: true levels switched off the -3 dB
+# hat ceiling, the hats got no fixed trim (snare -5, perc -3.5), and the
+# perc cap measures perc AGAINST the hat, so nothing ever checked the hat.
+# On beats stamped `hat_flow`, every hat lane's A-weighted loudness is
+# capped HAT_UNDER_DB under the loudest snare/clap lane. Runs before the
+# perc cap, so perc follows the hat down. -6 is Claude's pick, NOT sourced
+# (the Hub gives no number) -- tune by ear. Only ever turns hats down.
+HAT_UNDER_DB = -6.0
+
 
 def a_weighted(x, sr=SR):
     """`x` filtered by the A-weighting curve (IEC 61672), via FFT."""
@@ -2421,8 +2431,10 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                         w = wet_side.get(ln)
                         if w is not None:
                             wet_side[ln] = w * g
-        # PERCUSSION BY LOUDNESS, even at true levels -- see PERC_ROLES.
-        if true_levels and not loop_bufs and p.get("perc_flow"):
+        # HATS, then PERCUSSION, BY LOUDNESS, even at true levels -- see
+        # HAT_UNDER_DB and PERC_ROLES.
+        if true_levels and not loop_bufs and (p.get("perc_flow")
+                                              or p.get("hat_flow")):
             kspec = p.get("kit") or {}
 
             def _a_loud(ln):
@@ -2436,21 +2448,28 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                     x = x[:n] + w[:n]
                 return _loudest(a_weighted(x))
 
-            percs = [l for l in bufs
-                     if (kspec.get(l) or ("",))[0] in PERC_ROLES]
-            refs = ([l for l in bufs if l.startswith(HAT_TIER)]
-                    or [l for l in bufs
-                        if any(l.startswith(s) for s in SNARE_LIKE)])
-            if percs and refs:
-                pcap = max(_a_loud(l) for l in refs) * 10 ** (
-                    _extra_cut() / 20.0)
-                for ln in percs:
+            def _cap(lanes, ceiling):
+                for ln in lanes:
                     ld = _a_loud(ln)
-                    if ld > pcap > 0:
-                        bufs[ln] = bufs[ln] * (pcap / ld)
+                    if ld > ceiling > 0:
+                        bufs[ln] = bufs[ln] * (ceiling / ld)
                         w = wet_side.get(ln)
                         if w is not None:
-                            wet_side[ln] = w * (pcap / ld)
+                            wet_side[ln] = w * (ceiling / ld)
+
+            snares = [l for l in bufs
+                      if any(l.startswith(s) for s in SNARE_LIKE)]
+            hats = [l for l in bufs if l.startswith("hat")]
+            if p.get("hat_flow") and hats and snares:
+                _cap(hats, max(_a_loud(l) for l in snares)
+                     * 10 ** (min(HAT_UNDER_DB, 0.0) / 20.0))
+            percs = [l for l in bufs if p.get("perc_flow")
+                     and (kspec.get(l) or ("",))[0] in PERC_ROLES]
+            refs = ([l for l in bufs if l.startswith(HAT_TIER)]
+                    or snares)
+            if percs and refs:
+                _cap(percs, max(_a_loud(l) for l in refs)
+                     * 10 ** (_extra_cut() / 20.0))
 
 
     # Owner 2026-10-10: the sound-effects lane sits 20% quieter (3.2 dB) in

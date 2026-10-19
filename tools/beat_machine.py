@@ -1565,6 +1565,11 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     preset.setdefault("arp_flow", 1)
     # PERC FLOW (2026-10-19): percussion capped by loudness (crew.PERC_ROLES)
     preset.setdefault("perc_flow", 1)
+    # COMP FLOW (2026-10-19): stab/comp rhythm across the loop, phrase
+    # shape, comp's own words (chord_rhythm.COMP_CELLS)
+    preset.setdefault("comp_flow", 1)
+    # HAT FLOW (2026-10-19): hats capped by loudness (crew.HAT_UNDER_DB)
+    preset.setdefault("hat_flow", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2507,6 +2512,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             min(start_bar + per_chord, nb)
         slots.append((i, chord, start_bar, (end_bar - start_bar) * bar_s))
 
+    _bar0 = {i: sb for i, _c, sb, _d in slots}   # chord slot -> loop bar
+
     def _render_one(src, chord, dur, used=None, notes=None,
                     rhythm_override=None, pin=None, slot=0):
         """One source, one chord slot -> (audio, voice name). `used` (a
@@ -2564,9 +2571,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     if _pv >= 0:
                         chord_rhythm.gen_figure(
                             _grammar, random.Random(_pv * 733 + 97 + slot),
-                            nbars, busy=_busy, trace=_recent)
+                            nbars, busy=_busy, trace=_recent,
+                            bar0=_bar0.get(slot, 0))
             figure, bars, shape = chord_rhythm.gen_figure(
-                _grammar, rng, nbars, busy=_busy, avoid=tuple(_recent))
+                _grammar, rng, nbars, busy=_busy, avoid=tuple(_recent),
+                bar0=_bar0.get(slot, 0))
             _chord_cells[slot] = bars
             a = chord_rhythm.render_figure(
                 bars, dur, preset["bpm"], notes, render_note, render_chord,
