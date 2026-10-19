@@ -8800,3 +8800,9 @@ just not loaded by default.
 - Verify: tests/test_base_clean.py 7 pass; low_end 7, long_kick_punch 3, loops_only 9, crew 38 (2 fail with or without this change: need sample libraries), sound_engine pass except `soxr` missing in the Linux scratch env. test_audio_quality / test_beat_machine / full ~1331 suite NOT finished here -> belongs in Claude Code on the Mac (not the Cowork sandbox).
 - Heard: owner made a new beat, said it "does sound good"; briefly thought one bass sound was muddier, then withdrew it (his mistake).
 - Status: confirmed by ear. Full suite still to run in Claude Code on the Mac (alone, no renders at the same time).
+
+## 2026-10-18 - Meta Open Sound downloaded (not wired in)
+- Got it: CC0 piano (352), nylon guitar (348), steel guitar (375) WAVs, 1.1k files, ~2.2 GB, all SHA256-checked (0 failures). Location: /Volumes/TBOTC 3/Sample Packs/BOTC Multisampled Instruments/Meta Open Sound/ (READ ME.txt inside).
+- Coverage: piano = every key A0-C8 (no stretching), 4 loudness layers. Guitars = every note on each of 6 strings, 3 layers. Names: INSPiano_VelNN_Note_01.wav; sharps use "s"; guitars add _StringX_. Steel guitar layers are Vel01-03; nylon uses Vel01Finger / Vel02Pick / Vel03Pick.
+- No loops in it (instruments only). Owner chose to add it after checking he did not already have it (confirmed: only VCSL + VSCO 2 CE were there).
+- Wiring NOT started. Next: read tools/instrument_sampler.py, run classifier-reachability-audit, family choice (piano -> Pianos, guitars -> Guitars) still to ask.
