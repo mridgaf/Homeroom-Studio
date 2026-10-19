@@ -1,0 +1,73 @@
+{
+ "names": [
+  "Bang boom Pow",
+  "Johnny Stomp",
+  "Full_Hats_162",
+  "Full_Hats_Simple_162",
+  "Full_Hats_Vari_162",
+  "Hats_OHs_162",
+  "Ride_Double_134",
+  "Tambourine_134",
+  "Full_Crash_130",
+  "Full_Ride_130",
+  "Hats_Offbeat_Full_130",
+  "Full_Closed_Hats_120",
+  "Full_Hat_Open_120",
+  "Full_Hat_Open_Heavy_120",
+  "Full_Beat_Ride_168",
+  "Full_Beat_Hats_168",
+  "Ride_Beat_Punk_166",
+  "Ride_OH_166",
+  "Full_Crash_Beat_162",
+  "Straight_Hats_Beat_148",
+  "Full_Hats_Beat_148",
+  "Full_Hat_beat_134",
+  "Crash_OH_130",
+  "Full_Beat_Crash_168"
+ ],
+ "stems": [],
+ "sounds": [
+  {
+   "name": "Gun Stomp",
+   "path": "/Volumes/TBOTC 3/DAW Projects/Sample Packs - Downloads Backup/reddit drum kits 2023/Kicks/Stomps/Gun Stomp.wav",
+   "fp": "9e32246860a534e9126e98f1f2d568a6fe7ec64f",
+   "when": "2026-09-01"
+  },
+  {
+   "name": "Cymatics - Adrenaline Clap",
+   "path": "/Volumes/TBOTC 3/Sample Packs/2022 sample packs/Cymatics - Trap Starter Pack/Claps/Cymatics - Adrenaline Clap.wav",
+   "fp": "72e5ca9fd49864d638bebdec1a955bf2fdcdfa5f",
+   "when": "2026-09-01"
+  },
+  {
+   "name": "Meta-X, 100, C4",
+   "path": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops/Synths - Loops/Bass Loops/Meta-X, 100, C4.wav",
+   "fp": "0c4b227385e8da5334a4ebca10efeffb16bd072d",
+   "when": "2026-10-04"
+  },
+  {
+   "name": "Efferves, 130, E5 (4)",
+   "path": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops/Synths - Loops/Chord Loops/Efferves, 130, E5 (4).wav",
+   "fp": "50d441e5186afc8705933721e1c73e14a392e444",
+   "when": "2026-10-04"
+  },
+  {
+   "name": "Meta-X, 100, C5",
+   "path": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops/Synths - Loops/Bass Loops/Meta-X, 100, C5.wav",
+   "fp": "8b13305e179b1321b72c645f4fb590789f63266a",
+   "when": "2026-10-04"
+  },
+  {
+   "name": "Meta-X, 100, C3",
+   "path": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops/Synths - Loops/Bass Loops/Meta-X, 100, C3.wav",
+   "fp": "aa93598ddfac866304e2561446ecf1b0beb2fa4d",
+   "when": "2026-10-11"
+  },
+  {
+   "name": "Efferves, 130, F5 (4)",
+   "path": "/Volumes/TBOTC 3/Sample Packs/BOTC Sorted Loops/Synths - Loops/Chord Loops/Efferves, 130, F5 (4).wav",
+   "fp": "5e190faeee453c69ed5dd1f41ed2ea61a11ee107",
+   "when": "2026-10-15"
+  }
+ ]
+}
