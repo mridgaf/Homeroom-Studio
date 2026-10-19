@@ -237,6 +237,10 @@ def spec_for(preset, free=False):
     # rebuilds exactly as it was made.
     if preset.get("chord_flow") and preset.get("chord_library", True):
         spec["library"] = True
+        # 2026-10-19: entries marked "v": 2 only play on beats stamped
+        # chord_lib 2, so a chord_flow beat made earlier rebuilds with the
+        # same 63 patterns it was made with.
+        spec["lib_v"] = int(preset.get("chord_lib", 1))
         # Per-identity rhythm leanings (2026-10-19 deep pass) live in the
         # signature, not chord_grammar: setting chord_grammar would also
         # switch which arp share applies. A grammar's own tags still win.
@@ -268,6 +272,7 @@ def library():
                         out.append({"name": e.get("name", "?"),
                                     "tags": list(e.get("tags", [])),
                                     "hold": float(e.get("hold", 1.6)),
+                                    "v": int(e.get("v", 1)),
                                     "bars": bars})
         except (OSError, ValueError):
             out = []
@@ -329,7 +334,7 @@ def _library_bars(spec, rng, nbars, comp, busy, avoid=(), trace=None,
     """A slot's bars from the library: two entries mixed in an A-B pattern,
     so no bar-run repeats the same bar. Returns (bars, hold) or None.
     comp_flow: bars count from the slot's loop bar `bar0`, with _phrase."""
-    lib = library()
+    lib = [e for e in library() if e.get("v", 1) <= spec.get("lib_v", 1)]
     if not lib:
         return None
     cells = _busy_cells(busy) if comp else set()

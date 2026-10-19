@@ -1,0 +1,1473 @@
+{
+ "_readme": "Bass pattern library (2026-10-19). Each entry is 1-4 bars of 16 steps. 'bars': when a note hits (X accent, x normal, o soft, . ghost/dead note, - rest). 'roles' (same positions): which note plays -- R chord root, 5 fifth above, L fifth below, 8 octave up, 3 third of the chord, 7 seventh of the chord, u next step up the key, d next step down the key, a chromatic approach into the next chord's root (final bar only), n the next chord's root played early (final bar only). The note is always taken from the chord and key, and a role the bass file can't reach plays the root. The bass plays one note at a time; each note runs to the next hit. Used only by beats stamped bass_flow 2 or higher; older beats rebuild exactly as made. To add one: copy any entry and change it.",
+ "patterns": [
+  {
+   "name": "fat dip",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "X-----------x-x-"
+   ],
+   "roles": [
+    "R---------------",
+    "R-----------5-R-"
+   ]
+  },
+  {
+   "name": "muddy roll",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X--x------------",
+    "X---------------"
+   ],
+   "roles": [
+    "R--8------------",
+    "R---------------"
+   ]
+  },
+  {
+   "name": "plump rumble",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "------o---x-----"
+   ],
+   "roles": [
+    "R---------------",
+    "------R---R-----"
+   ]
+  },
+  {
+   "name": "muddy trudge",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "---o----x---o---"
+   ],
+   "roles": [
+    "R---------------",
+    "---R----R---R---"
+   ]
+  },
+  {
+   "name": "steady grind",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "---x----x-------"
+   ],
+   "roles": [
+    "R---------------",
+    "---L----5-------"
+   ]
+  },
+  {
+   "name": "gritty bounce",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "------x---------"
+   ],
+   "roles": [
+    "R---------------",
+    "------R---------"
+   ]
+  },
+  {
+   "name": "rolling walk",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "X---------o-----"
+   ],
+   "roles": [
+    "R---------------",
+    "R---------8-----"
+   ]
+  },
+  {
+   "name": "slow lean",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "--------X-------"
+   ],
+   "roles": [
+    "R---------------",
+    "--------R-------"
+   ]
+  },
+  {
+   "name": "plump hook",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "X---------------"
+   ],
+   "roles": [
+    "R---------------",
+    "R---------------"
+   ]
+  },
+  {
+   "name": "steady slide",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "------x---------"
+   ],
+   "roles": [
+    "R---------------",
+    "------5---------"
+   ]
+  },
+  {
+   "name": "steady hook",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X--x------------",
+    "--------o-----x-"
+   ],
+   "roles": [
+    "R--R------------",
+    "--------R-----R-"
+   ]
+  },
+  {
+   "name": "deep grind",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "------o---------"
+   ],
+   "roles": [
+    "R---------------",
+    "------R---------"
+   ]
+  },
+  {
+   "name": "walking sway",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X---------------",
+    "X--x------------"
+   ],
+   "roles": [
+    "R---------------",
+    "R--8------------"
+   ]
+  },
+  {
+   "name": "slow slide",
+   "tags": [
+    "sparse",
+    "root"
+   ],
+   "bars": [
+    "X-------X-------",
+    "--------o-------"
+   ],
+   "roles": [
+    "R-------L-------",
+    "--------L-------"
+   ]
+  },
+  {
+   "name": "warm pocket",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x--------x---",
+    "------x-----x-x-"
+   ],
+   "roles": [
+    "R--R--------R---",
+    "------R-----R-R-"
+   ]
+  },
+  {
+   "name": "thick hook",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x--x-------x-",
+    "------x---x-x---"
+   ],
+   "roles": [
+    "R--L--8-------R-",
+    "------R---R-R---"
+   ]
+  },
+  {
+   "name": "swampy roll",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x----------x-",
+    "-------x--x---x-"
+   ],
+   "roles": [
+    "R--R----------R-",
+    "-------8--R---R-"
+   ]
+  },
+  {
+   "name": "lazy sway",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x-------x----",
+    "---x--x---x---x-"
+   ],
+   "roles": [
+    "R--8-------R----",
+    "---8--8---L---R-"
+   ]
+  },
+  {
+   "name": "round pocket",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x---x--x-----",
+    "---x---x------x-"
+   ],
+   "roles": [
+    "R--R---R--R-----",
+    "---8---R------R-"
+   ]
+  },
+  {
+   "name": "loose rumble",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x------x-----",
+    "---x---x----x---"
+   ],
+   "roles": [
+    "R--8------L-----",
+    "---8---R----L---"
+   ]
+  },
+  {
+   "name": "warm groove",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X------x--x-----",
+    "---x--x-----x---"
+   ],
+   "roles": [
+    "R------R--L-----",
+    "---R--8-----R---"
+   ]
+  },
+  {
+   "name": "round groove",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X------x----x-x-",
+    "-------x--x-x---"
+   ],
+   "roles": [
+    "R------R----R-R-",
+    "-------R--8-8---"
+   ]
+  },
+  {
+   "name": "swampy lean",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X--x---x--x---x-",
+    "------x---x-x-x-"
+   ],
+   "roles": [
+    "R--R---R--R---L-",
+    "------5---R-L-R-"
+   ]
+  },
+  {
+   "name": "slow roll",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X-----x-----x---",
+    "---x------x-x---"
+   ],
+   "roles": [
+    "R-----R-----R---",
+    "---R------R-L---"
+   ]
+  },
+  {
+   "name": "fat lean",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X-----x-----x---",
+    "------x---x-x-x-"
+   ],
+   "roles": [
+    "R-----R-----8---",
+    "------R---R-8-R-"
+   ]
+  },
+  {
+   "name": "lazy roll",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X-----------x-x-",
+    "---x--x---x---x-"
+   ],
+   "roles": [
+    "R-----------R-R-",
+    "---R--R---5---5-"
+   ]
+  },
+  {
+   "name": "burly grind",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X---------x-x---",
+    "---x---x--x-x---"
+   ],
+   "roles": [
+    "R---------R-8---",
+    "---R---R--8-R---"
+   ]
+  },
+  {
+   "name": "slow pulse",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X------x--x-----",
+    "---x---x---x--x-"
+   ],
+   "roles": [
+    "R------8--R-----",
+    "---5---L---R--R-"
+   ]
+  },
+  {
+   "name": "plump roll",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X------x----x---",
+    "---x---x---x--x-"
+   ],
+   "roles": [
+    "R------L----R---",
+    "---R---R---R--R-"
+   ]
+  },
+  {
+   "name": "bouncing slide",
+   "tags": [
+    "sync",
+    "kick"
+   ],
+   "bars": [
+    "X------x------x-",
+    "---x---x--x-----"
+   ],
+   "roles": [
+    "R------R------5-",
+    "---5---R--R-----"
+   ]
+  },
+  {
+   "name": "rolling stride",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------x-------",
+    "X-----x-x-------"
+   ],
+   "roles": [
+    "R-------5-------",
+    "R-----R-5-------"
+   ]
+  },
+  {
+   "name": "gritty hum",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------x-------",
+    "X-------x-------"
+   ],
+   "roles": [
+    "R-------5-------",
+    "R-------5-------"
+   ]
+  },
+  {
+   "name": "dark pocket",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-----x-X-----x-",
+    "X-------x---x---"
+   ],
+   "roles": [
+    "R-----R-5-----L-",
+    "R-------5---R---"
+   ]
+  },
+  {
+   "name": "lazy hook",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------x---x---",
+    "X-------X-x-x---"
+   ],
+   "roles": [
+    "R-------5---R---",
+    "R-------5-L-R---"
+   ]
+  },
+  {
+   "name": "swampy shuffle",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------X---x---",
+    "X-------X-x-----"
+   ],
+   "roles": [
+    "R-------5---R---",
+    "R-------5-5-----"
+   ]
+  },
+  {
+   "name": "fat rumble",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-----x-X-------",
+    "X-------x-x-----"
+   ],
+   "roles": [
+    "R-----R-5-------",
+    "R-------5-L-----"
+   ]
+  },
+  {
+   "name": "muddy pocket",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------X-x---x-",
+    "X-------x-------"
+   ],
+   "roles": [
+    "R-------5-L---L-",
+    "R-------5-------"
+   ]
+  },
+  {
+   "name": "rolling grind",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------x-x-x---",
+    "X-------x-x---x-"
+   ],
+   "roles": [
+    "R-------5-5-R---",
+    "R-------5-5---5-"
+   ]
+  },
+  {
+   "name": "rolling hook",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-------x---x---",
+    "X-------x---x---"
+   ],
+   "roles": [
+    "R-------5---R---",
+    "R-------5---R---"
+   ]
+  },
+  {
+   "name": "loose trudge",
+   "tags": [
+    "fifth"
+   ],
+   "bars": [
+    "X-----x-x-----x-",
+    "X-------X-------"
+   ],
+   "roles": [
+    "R-----R-5-----5-",
+    "R-------5-------"
+   ]
+  },
+  {
+   "name": "fat stride",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x-x-------x-x-",
+    "X-x-x-x-x-x-x-x-"
+   ],
+   "roles": [
+    "R-8-R-------R-8-",
+    "R-8-R-8-R-8-R-8-"
+   ]
+  },
+  {
+   "name": "muddy groove",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x---x-X---x-x-",
+    "X-x-x-x-x-x-x---"
+   ],
+   "roles": [
+    "R-8---8-R---R-8-",
+    "R-8-R-8-R-8-R---"
+   ]
+  },
+  {
+   "name": "lazy shuffle",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x---x-x-x---x-",
+    "X---x---x-x-x-x-"
+   ],
+   "roles": [
+    "R-8---8-R-8---8-",
+    "R---R---R-8-R-8-"
+   ]
+  },
+  {
+   "name": "heavy groove",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x---x-x-----x-"
+   ],
+   "roles": [
+    "R-8---8-R-----8-"
+   ]
+  },
+  {
+   "name": "muddy rumble",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X---x-x-X---x-x-"
+   ],
+   "roles": [
+    "R---R-8-R---R-8-"
+   ]
+  },
+  {
+   "name": "slow pocket",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x-x---X---x-x-",
+    "X-x-x-x-----x-x-"
+   ],
+   "roles": [
+    "R-8-R---R---R-8-",
+    "R-8-R-8-----R-8-"
+   ]
+  },
+  {
+   "name": "bouncing dip",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x---x---x-x-x-",
+    "X-x-x-x-X---x-x-"
+   ],
+   "roles": [
+    "R-8---8---8-R-8-",
+    "R-8-R-8-R---R-8-"
+   ]
+  },
+  {
+   "name": "burly rumble",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x-x-x-x---x---"
+   ],
+   "roles": [
+    "R-8-R-8-R---R---"
+   ]
+  },
+  {
+   "name": "swampy grind",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x---x-x-x-x-x-",
+    "X---x-x-x-x-x---"
+   ],
+   "roles": [
+    "R-8---8-R-8-R-8-",
+    "R---R-8-R-8-R---"
+   ]
+  },
+  {
+   "name": "round trudge",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X---x-x-x---x-x-"
+   ],
+   "roles": [
+    "R---R-8-R---R-8-"
+   ]
+  },
+  {
+   "name": "warm walk",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x-----X-x-x-x-",
+    "X---x---x---x-x-"
+   ],
+   "roles": [
+    "R-8-----R-8-R-8-",
+    "R---R---R---R-8-"
+   ]
+  },
+  {
+   "name": "gritty groove",
+   "tags": [
+    "octave",
+    "bounce"
+   ],
+   "bars": [
+    "X-x-----x-x-x---"
+   ],
+   "roles": [
+    "R-8-----R-8-R---"
+   ]
+  },
+  {
+   "name": "thick slide",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---X---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---3---u---u---",
+    "R---5---7---a---"
+   ]
+  },
+  {
+   "name": "lazy trudge",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---5---5---u---",
+    "R---3---3---a---"
+   ]
+  },
+  {
+   "name": "heavy dip",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---X-x-x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---3---5-5-u---",
+    "R---3---7---a---"
+   ]
+  },
+  {
+   "name": "gritty knock",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---X-x-x---"
+   ],
+   "roles": [
+    "R---3---7---u---",
+    "R---u---5-5-a---"
+   ]
+  },
+  {
+   "name": "rolling rumble",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x-x-x---",
+    "X---x---X---x---"
+   ],
+   "roles": [
+    "R---u---5-5-u---",
+    "R---3---u---a---"
+   ]
+  },
+  {
+   "name": "loose drop",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---5---5---5---",
+    "R---3---3---a---"
+   ]
+  },
+  {
+   "name": "warm drop",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x-x-x---",
+    "X---x---X---x---"
+   ],
+   "roles": [
+    "R---u---3-3-u---",
+    "R---5---u---a---"
+   ]
+  },
+  {
+   "name": "heavy hum",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---3---5---3---",
+    "R---u---3---a---"
+   ]
+  },
+  {
+   "name": "swampy knock",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x-x-x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---3---5-3-u---",
+    "R---5---7---a---"
+   ]
+  },
+  {
+   "name": "muddy drop",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---5---3---5---",
+    "R---u---3---a---"
+   ]
+  },
+  {
+   "name": "lazy dip",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---X---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---3---3---5---",
+    "R---u---7---a---"
+   ]
+  },
+  {
+   "name": "tight drop",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---X---x---"
+   ],
+   "roles": [
+    "R---5---5---5---",
+    "R---5---5---a---"
+   ]
+  },
+  {
+   "name": "swampy rumble",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x-x-x---",
+    "X---x---X---x---"
+   ],
+   "roles": [
+    "R---5---7-3-u---",
+    "R---u---5---a---"
+   ]
+  },
+  {
+   "name": "deep pulse",
+   "tags": [
+    "walk"
+   ],
+   "bars": [
+    "X---x---x---x---",
+    "X---x---x---x---"
+   ],
+   "roles": [
+    "R---u---u---3---",
+    "R---3---5---a---"
+   ]
+  },
+  {
+   "name": "rolling bounce",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X-------X-------",
+    "------x-------x-"
+   ],
+   "roles": [
+    "R-------R-------",
+    "------R-------n-"
+   ]
+  },
+  {
+   "name": "slow shuffle",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---------x-----",
+    "----x---------x-"
+   ],
+   "roles": [
+    "R---------5-----",
+    "----R---------n-"
+   ]
+  },
+  {
+   "name": "loose thump",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X-------x-------",
+    "--------X-x--x--"
+   ],
+   "roles": [
+    "R-------R-------",
+    "--------R-5--n--"
+   ]
+  },
+  {
+   "name": "tight thump",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---------x-----",
+    "----------x--x--"
+   ],
+   "roles": [
+    "R---------5-----",
+    "----------8--n--"
+   ]
+  },
+  {
+   "name": "bouncing thump",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---------------",
+    "--------x-x---x-"
+   ],
+   "roles": [
+    "R---------------",
+    "--------R-5---n-"
+   ]
+  },
+  {
+   "name": "fat bounce",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---x-----------",
+    "----------x--x--"
+   ],
+   "roles": [
+    "R---R-----------",
+    "----------R--n--"
+   ]
+  },
+  {
+   "name": "dark thump",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X-------X-------",
+    "----x---------x-"
+   ],
+   "roles": [
+    "R-------8-------",
+    "----R---------n-"
+   ]
+  },
+  {
+   "name": "heavy grind",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---------------",
+    "----x-----x----x"
+   ],
+   "roles": [
+    "R---------------",
+    "----R-----R----n"
+   ]
+  },
+  {
+   "name": "plump shuffle",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---------------",
+    "----------x----x"
+   ],
+   "roles": [
+    "R---------------",
+    "----------R----n"
+   ]
+  },
+  {
+   "name": "deep groove",
+   "tags": [
+    "push"
+   ],
+   "bars": [
+    "X---x-----------",
+    "------x-------x-"
+   ],
+   "roles": [
+    "R---R-----------",
+    "------R-------n-"
+   ]
+  },
+  {
+   "name": "walking groove",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X--x-x-x---x----",
+    "--x--------.-.--"
+   ],
+   "roles": [
+    "R--R-R-R---R----",
+    "--8--------R-R--"
+   ]
+  },
+  {
+   "name": "fat hook",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X----------.--.-",
+    "--..--.------x--"
+   ],
+   "roles": [
+    "R----------R--R-",
+    "--RR--R------8--"
+   ]
+  },
+  {
+   "name": "tight sway",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-.----------x--",
+    "--x----x---.-.x-"
+   ],
+   "roles": [
+    "R-R----------R--",
+    "--R----8---R-R8-"
+   ]
+  },
+  {
+   "name": "bouncing pulse",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X--.----------.-",
+    "---x-------x-.--"
+   ],
+   "roles": [
+    "R--R----------R-",
+    "---5-------R-R--"
+   ]
+  },
+  {
+   "name": "thick pulse",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-x--.----------",
+    "--.--x..-----x--"
+   ],
+   "roles": [
+    "R-R--R----------",
+    "--R--8RR-----R--"
+   ]
+  },
+  {
+   "name": "swampy hum",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-x---x---------",
+    "------x----.-x--"
+   ],
+   "roles": [
+    "R-8---8---------",
+    "------R----R-R--"
+   ]
+  },
+  {
+   "name": "muddy slide",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-x-------.x----",
+    "-----x.------x--"
+   ],
+   "roles": [
+    "R-R-------R8----",
+    "-----RR------8--"
+   ]
+  },
+  {
+   "name": "warm slide",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-.x-x--------x-",
+    "---x------.x-.--"
+   ],
+   "roles": [
+    "R-R8-R--------R-",
+    "---R------RR-R--"
+   ]
+  },
+  {
+   "name": "steady groove",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-x--.----.-----",
+    "--x--x-.--x---.-"
+   ],
+   "roles": [
+    "R-8--R----R-----",
+    "--R--8-R--5---R-"
+   ]
+  },
+  {
+   "name": "muddy shuffle",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X-x--------x-.--",
+    "-------.--.---x-"
+   ],
+   "roles": [
+    "R-8--------8-R--",
+    "-------R--R---8-"
+   ]
+  },
+  {
+   "name": "tight stride",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X----------x-x.-",
+    "--.--x-----.-x--"
+   ],
+   "roles": [
+    "R----------8-RR-",
+    "--R--8-----R-8--"
+   ]
+  },
+  {
+   "name": "warm pulse",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X----x-.---.--.-",
+    "--.---x---.--x--"
+   ],
+   "roles": [
+    "R----R-R---R--R-",
+    "--R---8---R--8--"
+   ]
+  },
+  {
+   "name": "tight slide",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X--.-------x----",
+    "--..--.------x.-"
+   ],
+   "roles": [
+    "R--R-------8----",
+    "--RR--R------8R-"
+   ]
+  },
+  {
+   "name": "steady rumble",
+   "tags": [
+    "funk",
+    "ghost"
+   ],
+   "bars": [
+    "X------x---x--.-",
+    "------.---x--.--"
+   ],
+   "roles": [
+    "R------5---R--R-",
+    "------R---8--R--"
+   ]
+  },
+  {
+   "name": "muddy sway",
+   "tags": [
+    "pulse",
+    "ghost"
+   ],
+   "bars": [
+    "X-.-x-.-x-.-x-.-",
+    "X-.-x-.-x-.-x---"
+   ],
+   "roles": [
+    "R-R-R-R-R-R-R-R-",
+    "R-R-R-R-R-R-R---"
+   ]
+  },
+  {
+   "name": "warm shuffle",
+   "tags": [
+    "pulse",
+    "ghost"
+   ],
+   "bars": [
+    "X-.-x-.-x-.-x-.-",
+    "X-.-x-.-x-.-x-.-"
+   ],
+   "roles": [
+    "R-R-R-R-R-R-R-R-",
+    "R-R-R-R-R-R-R-R-"
+   ]
+  },
+  {
+   "name": "round thump",
+   "tags": [
+    "pulse",
+    "ghost"
+   ],
+   "bars": [
+    "X-.-x-.-x-.-x-.-"
+   ],
+   "roles": [
+    "R-R-R-R-R-R-R-R-"
+   ]
+  },
+  {
+   "name": "round hook",
+   "tags": [
+    "pulse",
+    "ghost"
+   ],
+   "bars": [
+    "X---x-.-x-.-x-.-",
+    "X---x-.-x-.-x-.-"
+   ],
+   "roles": [
+    "R---R-R-R-R-R-R-",
+    "R---R-R-R-R-R-R-"
+   ]
+  },
+  {
+   "name": "slow knock",
+   "tags": [
+    "pulse",
+    "ghost"
+   ],
+   "bars": [
+    "X---x-.-x-.-x-.-",
+    "X-.-x---x-.-x-.-"
+   ],
+   "roles": [
+    "R---R-R-R-R-R-R-",
+    "R-R-R---R-R-R-R-"
+   ]
+  },
+  {
+   "name": "plump bounce",
+   "tags": [
+    "pulse",
+    "ghost"
+   ],
+   "bars": [
+    "X---x-.-x-.-x-.-"
+   ],
+   "roles": [
+    "R---R-R-R-R-R-R-"
+   ]
+  },
+  {
+   "name": "deep drop",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "bars": [
+    "X---------x-----",
+    "---x--x---x-----",
+    "------o-X-x-----",
+    "----x---------x-"
+   ],
+   "roles": [
+    "R---------R-----",
+    "---8--5---R-----",
+    "------R-R-8-----",
+    "----8---------n-"
+   ]
+  },
+  {
+   "name": "lazy thump",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "bars": [
+    "X---------x-----",
+    "------x-----x-x-",
+    "--------x-------",
+    "------x---x---x-"
+   ],
+   "roles": [
+    "R---------R-----",
+    "------R-----R-R-",
+    "--------R-------",
+    "------R---R---n-"
+   ]
+  },
+  {
+   "name": "walking slide",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "bars": [
+    "X-------x-------",
+    "---x--x-----x---",
+    "--------x-------",
+    "------x-------x-"
+   ],
+   "roles": [
+    "R-------R-------",
+    "---R--8-----R---",
+    "--------R-------",
+    "------R-------n-"
+   ]
+  },
+  {
+   "name": "gritty dip",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "bars": [
+    "X---------------",
+    "---x--x-------x-",
+    "------x---------",
+    "--------x------x"
+   ],
+   "roles": [
+    "R---------------",
+    "---R--8-------L-",
+    "------8---------",
+    "--------5------n"
+   ]
+  }
+ ]
+}

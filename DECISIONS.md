@@ -8908,3 +8908,17 @@ just not loaded by default.
 - Measured (100 composes each): plain 2&4 now 25-36% for backbeat-home DJs (was 43-48%), 6% Night Metro/Rage.
 - Tests: test_pattern_gen + test_crew 59 pass (1 old known fail: guest "reversefx"). Not heard.
 - Status: open
+
+### 2026-10-19 100 new chord patterns + 100 new answer-melody shapes
+- Context: owner asked for 100 chord, 100 lead and 100 bass patterns. Chords already had a JSON library (chord_patterns.json, 63). Lead = the answer melody (owner picked). Bass is code (bass_rhythm.py, 8 figures), no library; owner asked first which bass SOUNDS are used (answered: only the Bass folder; see message) -- bass build NOT started, BLOCKING on his choice.
+- Change: chord_patterns.json 63 -> 163 (backup chord_patterns.pre-100-more-2026-10-19.json); new entries carry "v": 2 and only play on beats stamped `chord_lib` 2 (beat_machine.add_bass_and_chords), so chord_flow beats made earlier rebuild with the same 63. New melody_patterns.json (100 shapes: cells + scale-step moves); melody_rhythm.FLOW_VERSION 1 -> 2, library used only when melody_flow >= 2 (flow-1 beats unchanged, tested). Backups: tools/chord_rhythm.pre-100-patterns-*.py, melody_rhythm.pre-patterns-*.py, beat_machine.pre-100-patterns-*.py.
+- Tests: new tests/test_pattern_libraries.py (8). test_melody_rhythm + test_chord_rhythm + new = 70 pass. Full ~1331 suite NOT run (belongs in Code on the Mac). 2 fails in test_comp_and_hat/test_perc_and_arp in this Linux sandbox are a missing-module error, not this change.
+- Not heard. Patterns are my own generated rhythms (rules from the existing library), not sourced. Melody pattern pick is uniform (no per-DJ leaning yet).
+- Status: open
+
+### 2026-10-19 100 new bass patterns + other instruments allowed as the bass sound
+- Context: owner: "do the patterns and try the orchestra basses... where are the cellos? Also allow piano, guitar, organ, synth to be used for bass if they have the notes capable." Cellos = London Symphonic Strings Vol I, `LSS Cellos` (MIDI 36-77), orchestral basses `LSS Basses` (28-59); both already indexed by string_sampler (strings_sections), but only ever played chords.
+- Change: `bass_patterns.json` (100 entries: `bars` = when, `roles` = which note: R 5 L 8 3 7 u d, a = chromatic approach, n = next root early). `bass_rhythm`: new figure "pattern" (PATTERN_P 0.5 of slots, family tag leanings), FLOW_VERSION 1 -> 2; flow-1 beats cannot see it (tested). New `tools/bass_voices.py`: per beat ONE bass sound, rolled from the variant: Bass folder 4 / orchestral bass 3 / cello 2 / piano 1 / guitar 1 / organ 1 / synth 1 (my numbers). A kind plays only if every chord root sits within 4 semitones of a real recording after a whole-octave move; else the Bass folder stays. A voice that cannot load is dropped. Stamped `bass_voice_flow` on new beats only; rebuild rolls the same sound. A Bass-folder file picked from the dropdown always wins. beat_machine bass block now uses `_bass_voice`/`_fits`. Backups: bass_rhythm.pre-patterns-*, beat_machine.pre-100-patterns-*.
+- Tests: tests/test_pattern_libraries.py (23, fake audio) + bass/melody/chord suites = 100 pass in the Linux sandbox. NOT run: full ~1331 suite, any real render. NOT heard. NOT checked: whether the real piano/guitar/organ/synth folders hold multi-note libraries low enough (the code decides at run time), or how pizz/arco sound under the kick.
+- Watch: string_sampler.scan() walks the drive each call, so a beat that rolls cello/orchestral bass is slower to build.
+- Status: open - not heard.

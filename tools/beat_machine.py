@@ -1551,10 +1551,15 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # beat made before today gives back exactly the sound it had.
     import harmony
     preset.setdefault("chord_flow", harmony.FLOW_VERSION)
+    # CHORD PATTERNS v2 (2026-10-19): the 100 added rhythms; older beats keep 63
+    preset.setdefault("chord_lib", 2)
     # BASS GROOVE (2026-10-19): same deal -- new beats play a bass figure
     # (tools/bass_rhythm.py), a rebuild of an older beat keeps its held root.
     import bass_rhythm
     preset.setdefault("bass_flow", bass_rhythm.FLOW_VERSION)
+    # ALTERNATE BASS SOUNDS (2026-10-19, tools/bass_voices.py): new beats may
+    # play orchestral bass / cello / piano / guitar / organ / synth as the bass
+    preset.setdefault("bass_voice_flow", 1)
     # ANSWER MELODY (2026-10-19): same deal (tools/melody_rhythm.py)
     import melody_rhythm
     preset.setdefault("melody_flow", melody_rhythm.FLOW_VERSION)
@@ -3062,9 +3067,34 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 if _gap(e) <= instrument_sampler.MAX_SHIFT] or bass_idx
         pick = next((e for e in bass_idx if bass_pick
                      and str(e["path"]) == str(bass_pick)), None)
+        _explicit = pick is not None     # a Bass-folder file he picked
         if pick is None:
             pick = random.Random(variant * 29 + 3).choice(near)
         bass_idx, bass_oct = [pick], 12 * _oct(pick)
+        _fnote = pick.get("pitch", pick["note"])
+        # ALTERNATE BASS SOUNDS (2026-10-19, tools/bass_voices.py): on new
+        # beats the ONE bass sound may be an orchestral bass, cello, piano,
+        # guitar, organ or synth that really has the notes; None keeps the
+        # Bass-folder file picked above. A rebuild rolls the same sound
+        # (seeded from the variant).
+        _alt = None
+        if preset.get("bass_voice_flow") and not _explicit:
+            import bass_voices
+            import string_sampler
+            _alt = bass_voices.choose(
+                variant, roots, preset, strings=string_sampler.scan,
+                instruments=instrument_sampler.scan, cache=bcache)
+            if _alt:
+                bass_oct = _alt["oct"]
+        _fits = (_alt["fits"] if _alt else (
+            lambda n: abs(n - _fnote) <= instrument_sampler.PREFER_MAX_SHIFT))
+
+        def _bass_voice(used):
+            if _alt:
+                return _alt["make_render"](bcache, used, bar_s / num)
+            return lambda n, secs: instrument_sampler.voice_note(
+                bass_idx, n, secs, cache=bcache, used=used,
+                snap_sec=bar_s / num)
         # BASS GROOVE (2026-10-19, tools/bass_rhythm.py): new beats play a
         # real bass figure -- kick-locked, walking, pushed, funk... -- with
         # the kick's swing, instead of one held root per chord. The whole
@@ -3083,15 +3113,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             bass_plan = bass_rhythm.plan_line(
                 _bslots, _kick[3] if _kick else None,
                 bass_rhythm.spec_for(preset), variant,
-                lambda n: abs(n - _fnote) <= instrument_sampler.PREFER_MAX_SHIFT,
-                key.scale())
+                _fits, key.scale())
             _end = int(round(nb * bar_s * instrument_sampler.SR))
             bused = []
             line, bass_notes = bass_rhythm.render_line(
                 bass_plan, _bslots, bar_s, preset["bpm"], _end,
-                lambda n, secs: instrument_sampler.voice_note(
-                    bass_idx, n, secs, cache=bcache, used=bused,
-                    snap_sec=bar_s / num),
+                _bass_voice(bused),
                 bass_rhythm.kick_feel(preset["lanes"], variant * 887 + 7))
             if line is None:
                 bass_plan = None         # keep today's held root
@@ -3108,9 +3135,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     bass_files[i] = bused[0] if bused else None
         for i, chord, start_bar, dur in (() if bass_plan else slots):
             bused = []
-            a = instrument_sampler.voice_note(
-                bass_idx, chord["notes"][0] - 12 + bass_oct, dur,
-                cache=bcache, used=bused, snap_sec=bar_s / num)
+            a = _bass_voice(bused)(chord["notes"][0] - 12 + bass_oct, dur)
             if a is None:
                 bass_beds, bass_files = {}, {}
                 break
@@ -3246,7 +3271,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     k for k, ch in enumerate(bar) if ch != "-")
         _mhits = melody_rhythm.plan_phrase(
             _mslots, key.scale(), melody_rhythm.spec_for(preset), variant,
-            nb, _mcells)
+            nb, _mcells, flow=int(preset.get("melody_flow") or 1))
         _by_path = {e["path"]: e for e in inst_idx}
         _avoid = {(_by_path.get(f) or {}).get("group")
                   for ln, fs in voice_files.items() if _CHORD_LANE.match(ln)

@@ -41,10 +41,24 @@ import chord_synth
 import groove
 from pattern_gen import _weighted
 
-FLOW_VERSION = 1
+FLOW_VERSION = 2          # 2 = the "pattern" figure (bass_patterns.json)
 
 FIGURES = ("hold", "kick", "fifth", "octave", "walk", "push", "funk",
-           "pulse")
+           "pulse", "pattern")
+
+# Share of chord slots that play a library pattern on a flow-2 beat.
+# Claude's starting point (owner 2026-10-19 asked for 100 new bass
+# patterns); tune by ear. A bass_grammar that names "pattern" itself wins.
+PATTERN_P = 0.5
+
+# Which pattern tags each chord family leans toward (a tag not named = 1).
+PATTERN_TAGS = {
+    "soul_jazz": {"walk": 4, "fifth": 2, "push": 2},
+    "dark": {"sparse": 4, "root": 3, "pulse": 1},
+    "grit": {"sync": 4, "kick": 3, "ghost": 2},
+    "dreamy": {"sparse": 3, "push": 3, "long": 2, "fifth": 2},
+    "bright_funk": {"funk": 4, "octave": 3, "ghost": 2, "bounce": 2},
+}
 
 # Figure weights per signature.chord_family (Claude's starting point).
 FAMILY = {
@@ -74,8 +88,94 @@ def spec_for(preset):
         figs = own["figures"]
     else:
         figs = FAMILY.get(sig.get("chord_family"), DEFAULT)
-    return {"figures": [[f, w] for f, w in figs if f in FIGURES and w > 0]
-            or DEFAULT}
+    figs = [[f, w] for f, w in figs if f in FIGURES and w > 0] or DEFAULT
+    flow = int(preset.get("bass_flow") or 1)
+    if flow >= 2 and library() and not any(f == "pattern" for f, _w in figs):
+        total = float(sum(w for _f, w in figs))
+        figs = figs + [["pattern", total * PATTERN_P / (1 - PATTERN_P)]]
+    elif flow < 2:
+        figs = [[f, w] for f, w in figs if f != "pattern"] or DEFAULT
+    return {"figures": figs,
+            "tags": PATTERN_TAGS.get(sig.get("chord_family"), {})}
+
+
+_LIB = None
+
+
+def library():
+    """The bass pattern library (bass_patterns.json at the project root).
+    Each entry: `bars` (when a note hits) and `roles` (which note), 1-4
+    bars of 16 steps. Missing or broken file -> [] and the plain figures
+    play."""
+    global _LIB
+    if _LIB is None:
+        import json
+        import os
+        out = []
+        try:
+            path = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "bass_patterns.json")
+            with open(path, encoding="utf-8") as f:
+                for e in json.load(f).get("patterns", []):
+                    bars, roles = e.get("bars"), e.get("roles")
+                    if (isinstance(bars, list) and isinstance(roles, list)
+                            and 1 <= len(bars) <= 4
+                            and len(bars) == len(roles)
+                            and all(isinstance(b, str) and len(b) == 16
+                                    and set(b) <= set("Xxo.-")
+                                    for b in bars)
+                            and all(isinstance(r, str) and len(r) == 16
+                                    and set(r) <= set(ROLES + "-")
+                                    for r in roles)
+                            and all((b[i] == "-") == (r[i] == "-")
+                                    for b, r in zip(bars, roles)
+                                    for i in range(16))):
+                        out.append({"name": e.get("name", "?"),
+                                    "tags": list(e.get("tags", [])),
+                                    "bars": bars, "roles": roles})
+        except (OSError, ValueError):
+            out = []
+        _LIB = out
+    return _LIB
+
+
+ROLES = "R5L83" + "7udan"
+
+
+def _pick_entry(lib, rng, tag_w):
+    """One library entry, leaning toward the family's tags."""
+    wts = [max([float(tag_w.get(t, 1)) for t in e["tags"]] or [1.0])
+           for e in lib]
+    return rng.choices(lib, weights=wts)[0]
+
+
+def _pattern_hits(entry, s, scale_up, scale_dn, tones, fits):
+    """One slot's hits from a library entry. `a` (approach) and `n` (next
+    root) come back as the letter and are resolved in plan_line, where the
+    next chord is known. A role the file can't reach plays the root."""
+    root, nb = s["root"], s["bars"]
+    octave = _pick(fits, root + 12, root)
+    fifth = _pick(fits, root + 7, root - 5, root)
+    low5 = _pick(fits, root - 5, root + 7, root)
+    third = _pick(fits, *([root + i for i in tones if i in (3, 4)]
+                          + [root + 7, root]))
+    sev = _pick(fits, *([root + i for i in tones if i in (10, 11)]
+                        + [root + 7, root]))
+    up = _pick(fits, root + scale_up, root) if scale_up else fifth
+    dn = _pick(fits, root + scale_dn, root) if scale_dn else low5
+    notes = {"R": root, "5": fifth, "L": low5, "8": octave, "3": third,
+             "7": sev, "u": up, "d": dn, "a": "a", "n": "n"}
+    hits = []
+    for b in range(nb):
+        # the slot's last bar plays the entry's last bar, so a pattern's
+        # turnaround (approach / early next root) lands on the chord change
+        k = (len(entry["bars"]) - 1 if b == nb - 1 and nb > 1
+             else b % len(entry["bars"]))
+        for st, (ch, role) in enumerate(zip(entry["bars"][k],
+                                            entry["roles"][k])):
+            if ch != "-":
+                hits.append((b, st, ch, notes[role]))
+    return hits
 
 
 def _pick(fits, *cands):
@@ -95,7 +195,7 @@ def _kick_bar(kick_bars, bar):
     return NO_KICK
 
 
-def _figure_hits(fig, s, kick_bars, scale, rng, fits):
+def _figure_hits(fig, s, kick_bars, scale, rng, fits, tag_w=None):
     """One slot's hits as [(bar, step, char, note)], bar relative to the
     slot. Step 0 of bar 0 is always the root, struck 'X'."""
     root, nb = s["root"], s["bars"]
@@ -106,6 +206,15 @@ def _figure_hits(fig, s, kick_bars, scale, rng, fits):
         fifth]
     up = sorted((pc - root) % 12 for pc in scale if (pc - root) % 12)
     step_up = _pick(fits, root + up[0], root) if up else fifth
+    if fig == "pattern":
+        lib = library()
+        if lib:
+            down = sorted((pc - root) % 12 for pc in scale if (pc - root) % 12)
+            return _pattern_hits(
+                _pick_entry(lib, rng, tag_w or {}), s,
+                up[0] if up else 0, (down[-1] - 12) if down else 0, ivs,
+                fits)
+        fig = "kick"                      # no library: the kick lock
     hits = []
     for b in range(nb):
         first = "X" if b == 0 else "x"
@@ -186,13 +295,29 @@ def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
         fig = _weighted(rng, spec["figures"])
         plan.append({"figure": fig, "tied": False,
                      "hits": _figure_hits(fig, s, kick_bars, scale, rng,
-                                          fits)})
+                                          fits, spec.get("tags"))})
     n = len(slots)
     for i, (s, p) in enumerate(zip(slots, plan)):
         nxt = slots[(i + 1) % n]["root"]
         last = s["bars"] - 1
         rng = random.Random(variant * 887 + 977 + i)
-        if p["figure"] == "walk":
+        if p["figure"] == "pattern":
+            # resolve the cross-slot roles: `a` slides in from the side
+            # the line is coming from, `n` is the next root played early
+            fixed = []
+            for h in p["hits"]:
+                if h[3] == "n":
+                    h = (h[0], h[1], h[2], nxt)
+                elif h[3] == "a":
+                    prev = max((x for x in fixed if isinstance(x[3], int)),
+                               default=None, key=lambda x: (x[0], x[1]))
+                    below = prev is None or prev[3] < nxt
+                    h = (h[0], h[1], h[2], _pick(
+                        fits, *((nxt - 1, nxt + 1) if below
+                                else (nxt + 1, nxt - 1)), nxt - 1))
+                fixed.append(h)
+            p["hits"] = fixed
+        elif p["figure"] == "walk":
             hits = [h for h in p["hits"] if (h[0], h[1]) != (last, 12)]
             prev = max((h for h in hits if h[0] == last), default=None,
                        key=lambda h: h[1])

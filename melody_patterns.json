@@ -1,0 +1,1735 @@
+{
+ "_readme": "Answer-melody phrase library (2026-10-19). Each entry is one short motif that plays in the back half of bars 2 and 4: 'cells' = the 16th-note steps (8-15) it lands on, 'moves' = how many scale steps each note moves from the one before (one fewer than cells; 0 repeats a note; a 3 or 4 is the one leap and must be followed by -1). The notes themselves still come from the key and the chords, and strong beats still land on chord tones. Used only by beats stamped melody_flow 2 or higher; older beats rebuild exactly as made. To add one: copy any entry and change it.",
+ "patterns": [
+  {
+   "name": "bright chime",
+   "tags": [
+    "fall",
+    "mid",
+    "sparse"
+   ],
+   "cells": [
+    10,
+    14
+   ],
+   "moves": [
+    -2
+   ]
+  },
+  {
+   "name": "lonely question",
+   "tags": [
+    "rise",
+    "mid",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    12
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "sweet glint",
+   "tags": [
+    "rise",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    10
+   ],
+   "moves": [
+    2
+   ]
+  },
+  {
+   "name": "lonely figure",
+   "tags": [
+    "fall",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    10,
+    12
+   ],
+   "moves": [
+    -1
+   ]
+  },
+  {
+   "name": "hushed nod",
+   "tags": [
+    "fall",
+    "spread",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    14
+   ],
+   "moves": [
+    -1
+   ]
+  },
+  {
+   "name": "curious echo",
+   "tags": [
+    "rise",
+    "mid",
+    "sparse"
+   ],
+   "cells": [
+    10,
+    15
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "sly hum",
+   "tags": [
+    "rise",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    11,
+    12
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "far bird",
+   "tags": [
+    "fall",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    11,
+    14
+   ],
+   "moves": [
+    -2
+   ]
+  },
+  {
+   "name": "sweet ripple",
+   "tags": [
+    "fall",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    10
+   ],
+   "moves": [
+    -1
+   ]
+  },
+  {
+   "name": "hushed thread",
+   "tags": [
+    "rise",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    10
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "hushed ripple",
+   "tags": [
+    "rise",
+    "mid",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    13
+   ],
+   "moves": [
+    2
+   ]
+  },
+  {
+   "name": "little nod",
+   "tags": [
+    "rise",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    10,
+    11
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "soft hint",
+   "tags": [
+    "rise",
+    "spread",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    14
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "far thread",
+   "tags": [
+    "fall",
+    "spread",
+    "sparse"
+   ],
+   "cells": [
+    8,
+    14
+   ],
+   "moves": [
+    -2
+   ]
+  },
+  {
+   "name": "crooked call",
+   "tags": [
+    "fall",
+    "mid",
+    "sparse"
+   ],
+   "cells": [
+    10,
+    15
+   ],
+   "moves": [
+    -1
+   ]
+  },
+  {
+   "name": "rising ripple",
+   "tags": [
+    "rise",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    11,
+    14
+   ],
+   "moves": [
+    1
+   ]
+  },
+  {
+   "name": "quick question",
+   "tags": [
+    "fall",
+    "tight",
+    "sparse"
+   ],
+   "cells": [
+    11,
+    12
+   ],
+   "moves": [
+    -1
+   ]
+  },
+  {
+   "name": "blue hint",
+   "tags": [
+    "fall",
+    "mid",
+    "sparse"
+   ],
+   "cells": [
+    9,
+    14
+   ],
+   "moves": [
+    -1
+   ]
+  },
+  {
+   "name": "high call",
+   "tags": [
+    "fall",
+    "mid"
+   ],
+   "cells": [
+    10,
+    13,
+    14
+   ],
+   "moves": [
+    -2,
+    -1
+   ]
+  },
+  {
+   "name": "falling glint",
+   "tags": [
+    "repeat",
+    "mid"
+   ],
+   "cells": [
+    10,
+    11,
+    15
+   ],
+   "moves": [
+    -2,
+    0
+   ]
+  },
+  {
+   "name": "crooked sigh",
+   "tags": [
+    "leap",
+    "mid"
+   ],
+   "cells": [
+    8,
+    10,
+    12
+   ],
+   "moves": [
+    4,
+    -1
+   ]
+  },
+  {
+   "name": "high sigh",
+   "tags": [
+    "rise",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    14
+   ],
+   "moves": [
+    1,
+    2
+   ]
+  },
+  {
+   "name": "quick bird",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    14
+   ],
+   "moves": [
+    4,
+    -1
+   ]
+  },
+  {
+   "name": "far question",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    9,
+    12,
+    15
+   ],
+   "moves": [
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "bright bird",
+   "tags": [
+    "rise",
+    "mid"
+   ],
+   "cells": [
+    8,
+    11,
+    12
+   ],
+   "moves": [
+    1,
+    2
+   ]
+  },
+  {
+   "name": "blue question",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    12,
+    14
+   ],
+   "moves": [
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "wistful nod",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    14
+   ],
+   "moves": [
+    1,
+    0
+   ]
+  },
+  {
+   "name": "far answer",
+   "tags": [
+    "leap",
+    "mid"
+   ],
+   "cells": [
+    8,
+    12,
+    13
+   ],
+   "moves": [
+    4,
+    -1
+   ]
+  },
+  {
+   "name": "sweet question",
+   "tags": [
+    "rise",
+    "tight"
+   ],
+   "cells": [
+    8,
+    9,
+    11
+   ],
+   "moves": [
+    1,
+    1
+   ]
+  },
+  {
+   "name": "pale thread",
+   "tags": [
+    "rise",
+    "mid"
+   ],
+   "cells": [
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    2,
+    2
+   ]
+  },
+  {
+   "name": "sly spark",
+   "tags": [
+    "leap",
+    "mid"
+   ],
+   "cells": [
+    8,
+    10,
+    12
+   ],
+   "moves": [
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "curious tune",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    11,
+    15
+   ],
+   "moves": [
+    1,
+    -1
+   ]
+  },
+  {
+   "name": "small call",
+   "tags": [
+    "fall",
+    "mid"
+   ],
+   "cells": [
+    10,
+    12,
+    15
+   ],
+   "moves": [
+    -1,
+    -1
+   ]
+  },
+  {
+   "name": "blue ripple",
+   "tags": [
+    "arch",
+    "mid"
+   ],
+   "cells": [
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    1,
+    -2
+   ]
+  },
+  {
+   "name": "quick murmur",
+   "tags": [
+    "repeat",
+    "mid"
+   ],
+   "cells": [
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    2,
+    0
+   ]
+  },
+  {
+   "name": "bright glint",
+   "tags": [
+    "valley",
+    "spread"
+   ],
+   "cells": [
+    8,
+    12,
+    15
+   ],
+   "moves": [
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "lonely call",
+   "tags": [
+    "fall",
+    "mid"
+   ],
+   "cells": [
+    8,
+    11,
+    12
+   ],
+   "moves": [
+    -1,
+    -2
+   ]
+  },
+  {
+   "name": "sly nod",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    12,
+    14
+   ],
+   "moves": [
+    2,
+    -1
+   ]
+  },
+  {
+   "name": "sly ripple",
+   "tags": [
+    "fall",
+    "spread"
+   ],
+   "cells": [
+    8,
+    12,
+    15
+   ],
+   "moves": [
+    -2,
+    -1
+   ]
+  },
+  {
+   "name": "falling figure",
+   "tags": [
+    "valley",
+    "tight"
+   ],
+   "cells": [
+    8,
+    10,
+    11
+   ],
+   "moves": [
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "bright spark",
+   "tags": [
+    "repeat",
+    "tight"
+   ],
+   "cells": [
+    11,
+    12,
+    14
+   ],
+   "moves": [
+    -1,
+    0
+   ]
+  },
+  {
+   "name": "lonely sigh",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    11,
+    15
+   ],
+   "moves": [
+    2,
+    -1
+   ]
+  },
+  {
+   "name": "blue murmur",
+   "tags": [
+    "repeat",
+    "mid"
+   ],
+   "cells": [
+    8,
+    10,
+    12
+   ],
+   "moves": [
+    0,
+    1
+   ]
+  },
+  {
+   "name": "tender sigh",
+   "tags": [
+    "valley",
+    "spread"
+   ],
+   "cells": [
+    8,
+    14,
+    15
+   ],
+   "moves": [
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "lonely glint",
+   "tags": [
+    "rise",
+    "spread"
+   ],
+   "cells": [
+    8,
+    11,
+    14
+   ],
+   "moves": [
+    2,
+    1
+   ]
+  },
+  {
+   "name": "far call",
+   "tags": [
+    "arch",
+    "mid"
+   ],
+   "cells": [
+    8,
+    12,
+    13
+   ],
+   "moves": [
+    1,
+    -2
+   ]
+  },
+  {
+   "name": "pale chime",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    15
+   ],
+   "moves": [
+    1,
+    0
+   ]
+  },
+  {
+   "name": "wistful glint",
+   "tags": [
+    "repeat",
+    "mid"
+   ],
+   "cells": [
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    -1,
+    0
+   ]
+  },
+  {
+   "name": "quick nod",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    9,
+    11,
+    14,
+    15
+   ],
+   "moves": [
+    4,
+    -1,
+    2
+   ]
+  },
+  {
+   "name": "high figure",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    14,
+    15
+   ],
+   "moves": [
+    0,
+    -2,
+    -2
+   ]
+  },
+  {
+   "name": "crooked hum",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    9,
+    12,
+    14
+   ],
+   "moves": [
+    2,
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "curious sigh",
+   "tags": [
+    "fall",
+    "spread"
+   ],
+   "cells": [
+    8,
+    9,
+    11,
+    14
+   ],
+   "moves": [
+    -2,
+    -2,
+    -1
+   ]
+  },
+  {
+   "name": "rising thread",
+   "tags": [
+    "arch",
+    "mid"
+   ],
+   "cells": [
+    10,
+    11,
+    13,
+    15
+   ],
+   "moves": [
+    2,
+    -1,
+    -1
+   ]
+  },
+  {
+   "name": "blue figure",
+   "tags": [
+    "repeat",
+    "mid"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    13
+   ],
+   "moves": [
+    -1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "tender chime",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    13,
+    14
+   ],
+   "moves": [
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "curious sketch",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    3,
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "sly glint",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    11,
+    12,
+    14
+   ],
+   "moves": [
+    -1,
+    1,
+    -1
+   ]
+  },
+  {
+   "name": "falling wink",
+   "tags": [
+    "repeat",
+    "mid"
+   ],
+   "cells": [
+    9,
+    11,
+    12,
+    14
+   ],
+   "moves": [
+    1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "crooked wink",
+   "tags": [
+    "valley",
+    "spread"
+   ],
+   "cells": [
+    8,
+    11,
+    12,
+    14
+   ],
+   "moves": [
+    -1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "tender tune",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    15
+   ],
+   "moves": [
+    0,
+    -1,
+    0
+   ]
+  },
+  {
+   "name": "quick sketch",
+   "tags": [
+    "fall",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    14,
+    15
+   ],
+   "moves": [
+    -2,
+    -1,
+    -1
+   ]
+  },
+  {
+   "name": "lonely wink",
+   "tags": [
+    "valley",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    -1,
+    1,
+    2
+   ]
+  },
+  {
+   "name": "blue chime",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    15
+   ],
+   "moves": [
+    3,
+    -1,
+    -1
+   ]
+  },
+  {
+   "name": "playful wink",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    13,
+    14
+   ],
+   "moves": [
+    1,
+    -2,
+    -1
+   ]
+  },
+  {
+   "name": "quick glint",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    14
+   ],
+   "moves": [
+    -1,
+    1,
+    -1
+   ]
+  },
+  {
+   "name": "little answer",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    9,
+    10,
+    12,
+    15
+   ],
+   "moves": [
+    -1,
+    -2,
+    0
+   ]
+  },
+  {
+   "name": "sly echo",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    2,
+    0,
+    -2
+   ]
+  },
+  {
+   "name": "far murmur",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    9,
+    11,
+    14
+   ],
+   "moves": [
+    2,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "falling whistle",
+   "tags": [
+    "leap",
+    "mid"
+   ],
+   "cells": [
+    10,
+    12,
+    13,
+    15
+   ],
+   "moves": [
+    4,
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "playful whistle",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    13,
+    14
+   ],
+   "moves": [
+    2,
+    -2,
+    -1
+   ]
+  },
+  {
+   "name": "pale whistle",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    14,
+    15
+   ],
+   "moves": [
+    1,
+    -2,
+    2
+   ]
+  },
+  {
+   "name": "bright echo",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    14
+   ],
+   "moves": [
+    2,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "small whistle",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    15
+   ],
+   "moves": [
+    2,
+    -1,
+    -2
+   ]
+  },
+  {
+   "name": "tender nod",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    1,
+    -2,
+    1
+   ]
+  },
+  {
+   "name": "sweet murmur",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    11,
+    13,
+    14
+   ],
+   "moves": [
+    -1,
+    0,
+    2
+   ]
+  },
+  {
+   "name": "little sigh",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    4,
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "soft sigh",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14
+   ],
+   "moves": [
+    1,
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "bright ripple",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    13,
+    14
+   ],
+   "moves": [
+    0,
+    1,
+    -1
+   ]
+  },
+  {
+   "name": "playful hint",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    -1,
+    0,
+    -1,
+    2
+   ]
+  },
+  {
+   "name": "pale answer",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    0,
+    1,
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "rising answer",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    2,
+    2,
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "quick tune",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    1,
+    -1,
+    1,
+    2
+   ]
+  },
+  {
+   "name": "lonely thread",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    13,
+    15
+   ],
+   "moves": [
+    1,
+    -2,
+    2,
+    -1
+   ]
+  },
+  {
+   "name": "crooked thread",
+   "tags": [
+    "valley",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    -1,
+    -1,
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "hushed sigh",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    13,
+    15
+   ],
+   "moves": [
+    -1,
+    1,
+    -1,
+    -2
+   ]
+  },
+  {
+   "name": "lonely murmur",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    -1,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "playful spark",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    2,
+    1,
+    -2,
+    -2
+   ]
+  },
+  {
+   "name": "crooked answer",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    1,
+    3,
+    -1,
+    -1
+   ]
+  },
+  {
+   "name": "playful thread",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    2,
+    0,
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "hushed glint",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    -2,
+    0,
+    -2,
+    0
+   ]
+  },
+  {
+   "name": "lonely hint",
+   "tags": [
+    "wave",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    2,
+    -1,
+    -1,
+    1
+   ]
+  },
+  {
+   "name": "crooked murmur",
+   "tags": [
+    "arch",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    1,
+    -1,
+    2,
+    -1
+   ]
+  },
+  {
+   "name": "high whistle",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    -1,
+    0,
+    1,
+    -1
+   ]
+  },
+  {
+   "name": "high ripple",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    1,
+    1,
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "far sketch",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    0,
+    -1,
+    1,
+    0
+   ]
+  },
+  {
+   "name": "sweet echo",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    13,
+    15
+   ],
+   "moves": [
+    -2,
+    2,
+    -2,
+    0
+   ]
+  },
+  {
+   "name": "little wink",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    -1,
+    3,
+    -1,
+    0
+   ]
+  },
+  {
+   "name": "blue whistle",
+   "tags": [
+    "repeat",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    0,
+    -1,
+    -2,
+    2
+   ]
+  },
+  {
+   "name": "soft thread",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    12,
+    14,
+    15
+   ],
+   "moves": [
+    0,
+    -1,
+    3,
+    -1
+   ]
+  },
+  {
+   "name": "curious chime",
+   "tags": [
+    "leap",
+    "spread"
+   ],
+   "cells": [
+    8,
+    10,
+    11,
+    13,
+    15
+   ],
+   "moves": [
+    4,
+    -1,
+    1,
+    -1
+   ]
+  }
+ ]
+}

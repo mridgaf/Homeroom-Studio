@@ -37,7 +37,7 @@ import chord_synth
 import groove
 from pattern_gen import _weighted
 
-FLOW_VERSION = 1
+FLOW_VERSION = 2          # 2 = phrase shapes from melody_patterns.json
 PLAY_P = 0.5             # share of stamped beats that get a melody
 MAX_SHIFT = 12           # semitones a note may be stretched from its file
 STEP_MAX = 4             # semitones: up to a 3rd is a step/skip, a 4th+
@@ -133,7 +133,53 @@ def _cells(rng, k, half, chord_cells):
     return sorted(got)
 
 
-def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None):
+_LIB = None
+
+
+def library():
+    """The melody phrase library (melody_patterns.json at the project
+    root). Each entry: `cells` = steps 8-15 the motif lands on, `moves` =
+    scale steps between notes (one fewer than cells; 0 repeats a note, a
+    3 or 4 is the one leap and must be followed by -1). Missing or broken
+    file -> [] and the old random motif runs."""
+    global _LIB
+    if _LIB is None:
+        import json
+        import os
+        out = []
+        try:
+            path = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "melody_patterns.json")
+            with open(path, encoding="utf-8") as f:
+                for e in json.load(f).get("patterns", []):
+                    c, m = e.get("cells"), e.get("moves")
+                    if (isinstance(c, list) and isinstance(m, list)
+                            and 2 <= len(c) <= 5 and len(m) == len(c) - 1
+                            and all(isinstance(x, int) and 8 <= x <= 15
+                                    for x in c)
+                            and c == sorted(set(c))
+                            and all(isinstance(x, int) and abs(x) <= 4
+                                    for x in m)):
+                        out.append({"name": e.get("name", "?"),
+                                    "tags": list(e.get("tags", [])),
+                                    "cells": c, "moves": m})
+        except (OSError, ValueError):
+            out = []
+        _LIB = out
+    return _LIB
+
+
+def _pick_shape(lib, spec, rng, chord_cells):
+    """One library phrase shape: the note count the identity's family
+    allows, leaning away from the steps the chords already hit."""
+    lo, hi = spec["notes"]
+    pool = [e for e in lib if lo <= len(e["cells"]) <= hi] or lib
+    wts = [1.0 / (1 + len(set(e["cells"]) & chord_cells)) for e in pool]
+    return rng.choices(pool, weights=wts)[0]
+
+
+def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None,
+                flow=1):
     """Pure: the melody as [(bar, step, char, note)], bar absolute.
 
     `slots`: [{"tones", "top", "start_bar", "bars"}] in play order (tones =
@@ -146,13 +192,16 @@ def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None):
     chord_cells = chord_cells or {}
     scale_ns = _scale_notes(scale)
     lo, hi = spec["notes"]
+    shape = (_pick_shape(library(), spec, rng, chord_cells.get(1, set()))
+             if flow >= 2 and library() else None)
     k = rng.randint(lo, hi)
     # the motif: k steps in the back half, k-1 scale moves, <= 1 leap
-    cells = _cells(rng, k, 1, chord_cells.get(1, set()))
+    cells = (list(shape["cells"]) if shape
+             else _cells(rng, k, 1, chord_cells.get(1, set())))
     # scale moves of 1-2 degrees; a step keeps its direction 70% of the
     # time (inertia, Temperley 2014)
     moves, d = [], rng.choice((-1, 1))
-    for _ in range(len(cells) - 1):
+    for _ in range(0 if shape else len(cells) - 1):
         if moves and rng.random() >= SAME_DIR_P:
             d = -d
         moves.append(d * rng.choice((1, 1, 2)))
@@ -160,7 +209,10 @@ def plan_phrase(slots, scale, spec, variant, nbars, chord_cells=None):
     # tend to ascend, Huron 2006) and then a step back down (gap-fill /
     # post-skip reversal, von Hippel & Huron 2000)
     leap_at = None
-    if len(moves) >= 2:
+    if shape:
+        moves = list(shape["moves"])
+        leap_at = next((i for i, m in enumerate(moves) if abs(m) >= 3), None)
+    elif len(moves) >= 2:
         leap_at = rng.randrange(len(moves) - 1)
         moves[leap_at] = rng.choice((3, 4))
         moves[leap_at + 1] = -1
