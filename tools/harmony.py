@@ -23,7 +23,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent))
 
-from key_context import KeyContext                        # noqa: E402
+from key_context import MINORISH, KeyContext             # noqa: E402
 
 CONFIG = Path(__file__).resolve().parent.parent / "progressions_config.json"
 PROGRESSIONS = {k: v for k, v in json.loads(CONFIG.read_text()).items()
@@ -76,7 +76,7 @@ TURNAROUND_P = 0.4         # share of 1-2 chord loops that get a 4th-bar turn
 VOICE_LEAD_P = 0.8         # share of beats voiced smoothly (rest: root-up)
 OPEN_VOICING_P = 0.3       # share of smooth beats spread wider (one note up)
 VOICE_LO, VOICE_HI = 50, 79   # D3..G5, where a comping hand sits
-MINOR_QUALITIES = ("minor", "min7", "min9", "dim")
+MINOR_QUALITIES = MINORISH
 
 # A turnaround is one short chord in the loop's last bar that leans back
 # into bar 1. [semitones from the tonic, quality].
@@ -173,6 +173,16 @@ def _candidates(notes, lo=VOICE_LO, hi=VOICE_HI):
     for n in notes:
         if n % 12 not in pcs:
             pcs.append(n % 12)
+    out = _stacks(pcs, lo, hi)
+    # 5-6 note colours (11ths, 13ths) that don't fit: drop the plain 5th,
+    # the way a keys player does. Only when nothing fit, so every chord
+    # that fitted before 2026-10-19 voices exactly as it did.
+    if not out and len(pcs) > 4 and (pcs[0] + 7) % 12 in pcs[1:]:
+        out = _stacks([p for p in pcs if p != (pcs[0] + 7) % 12], lo, hi)
+    return out
+
+
+def _stacks(pcs, lo, hi):
     out = []
     for r in range(len(pcs)):
         order = pcs[r:] + pcs[:r]
@@ -266,6 +276,65 @@ def lead_parts(splits, lo=40, hi=88):
             floor = max(best) + 1
         out.append(tuple(new))
     return out
+
+
+# ---------------------------------------------------------------------------
+# CHORD COLOUR (owner 2026-10-19: "simplistic chords ... not specified at
+# all towards the DJ's styles"). 101 of the 170 chords in the progression
+# pool were plain triads. colorize() swaps some of them for a richer chord
+# on the SAME root (Fm -> Fm9, Ab -> Abmaj7, C -> C7b9), so the progression
+# and the bass line keep their shape and only the colour deepens. How far
+# and which way is the identity's `chord_color` card:
+#   {"depth": 0..1   share of chords upgraded,
+#    "lean": {quality: weight multiplier}}   e.g. dark DJs lean m7b5/7b9
+# No card -> DEFAULT_COLOR. New (chord_flow) beats only, own seed.
+# ---------------------------------------------------------------------------
+
+DEFAULT_COLOR = {"depth": 0.55, "lean": {}}
+
+# base quality -> [(richer quality, weight)]. "dominant" = a major chord
+# on the 5th of the key (or an existing 7th chord), which wants tension.
+UPGRADES = {
+    "minor":    [("min7", 3), ("min9", 3), ("min11", 2), ("madd9", 2),
+                 ("min6", 1), ("min_maj7", 0.5)],
+    "major":    [("maj7", 3), ("maj9", 2), ("add9", 2), ("maj6", 1),
+                 ("6/9", 1), ("maj7#11", 1), ("add11", 0.5), ("sus2", 1)],
+    "dominant": [("dom9", 3), ("dom13", 2), ("7sus4", 2), ("7b9", 1.5),
+                 ("9sus4", 1)],
+    "dim":      [("m7b5", 3), ("dim7", 2)],
+    "min7":     [("min9", 2), ("min11", 2)],
+    "maj7":     [("maj9", 2), ("maj7#11", 1), ("6/9", 1)],
+    "dom7":     [("dom9", 3), ("dom13", 2), ("7b9", 1.5), ("7sus4", 1)],
+}
+
+
+def colorize(key, chords, card, rng):
+    """Upgrade some of `chords` (compose()'s list) in place to richer
+    qualities on the same root. Returns how many changed."""
+    card = card or DEFAULT_COLOR
+    depth = float(card.get("depth", DEFAULT_COLOR["depth"]))
+    lean = card.get("lean") or {}
+    changed = 0
+    for c in chords:
+        if rng.random() >= depth:
+            continue
+        q = c["quality"]
+        root_pc = c["notes"][0] % 12
+        base = q
+        if q == "major" and (root_pc - key.pc) % 12 == 7:
+            base = "dominant"
+        opts = [(nq, w * float(lean.get(nq, 1))) for nq, w in
+                UPGRADES.get(base, [])]
+        opts = [(nq, w) for nq, w in opts if w > 0]
+        if not opts:
+            continue
+        nq = rng.choices([o for o, _ in opts], [w for _, w in opts])[0]
+        octave = c["notes"][0] // 12 - 1
+        c.update(quality=nq, chord=key.chord_name(root_pc, nq),
+                 roman=key.roman(root_pc, nq),
+                 notes=key.voice(root_pc, nq, octave))
+        changed += 1
+    return changed
 
 
 def _report(root="F", mode="minor", name=None):

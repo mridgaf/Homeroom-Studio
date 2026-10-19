@@ -1550,6 +1550,10 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # beat made before today gives back exactly the sound it had.
     import harmony
     preset.setdefault("chord_flow", harmony.FLOW_VERSION)
+    # BASS GROOVE (2026-10-19): same deal -- new beats play a bass figure
+    # (tools/bass_rhythm.py), a rebuild of an older beat keeps its held root.
+    import bass_rhythm
+    preset.setdefault("bass_flow", bass_rhythm.FLOW_VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2303,6 +2307,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # chord flow: lay the chords over the loop (uneven lengths, repeats,
         # a turnaround) and voice each one close to the chord before it.
         # Own seed, so none of the older rolls above move.
+        # chord colour (2026-10-19): richer chords on the same roots, per
+        # the identity's chord_color card. Own seed -> no other roll moves.
+        harmony.colorize(key, chords, sig.get("chord_color"),
+                         random.Random(variant * 733 + 11))
         _frng = random.Random(variant * 541 + 23)
         chords = harmony.arrange(key, chords, nb, _frng)
         voicing = harmony.voice_lead(chords, _frng)
@@ -2984,6 +2992,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         e for e in instrument_sampler.scan_bass()
         if "808" not in Path(e["path"]).name]
     bass_oct = 0
+    bass_plan, bass_notes = None, None
     if bass_idx:
         roots = [chord["notes"][0] - 12 for _i, chord, _s, _d in slots]
         mid = (min(roots) + max(roots)) / 2.0
@@ -3006,7 +3015,48 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         if pick is None:
             pick = random.Random(variant * 29 + 3).choice(near)
         bass_idx, bass_oct = [pick], 12 * _oct(pick)
-        for i, chord, start_bar, dur in slots:
+        # BASS GROOVE (2026-10-19, tools/bass_rhythm.py): new beats play a
+        # real bass figure -- kick-locked, walking, pushed, funk... -- with
+        # the kick's swing, instead of one held root per chord. The whole
+        # line is ONE loop-length buffer, cut at the slot starts so the
+        # bass{i} lanes stay as they were. Old beats (no stamp) and odd
+        # meters keep the held root below.
+        if preset.get("bass_flow") and (num, den) == (4, 4):
+            import bass_rhythm
+            _fnote = pick.get("pitch", pick["note"])
+            _bslots = [{"root": c["notes"][0] - 12 + bass_oct,
+                        "chord_root": c["notes"][0],
+                        "tones": list(c["notes"]),
+                        "bars": max(1, int(round(d / bar_s))),
+                        "start_bar": sb} for _i, c, sb, d in slots]
+            _kick = preset["lanes"].get("kick")
+            bass_plan = bass_rhythm.plan_line(
+                _bslots, _kick[3] if _kick else None,
+                bass_rhythm.spec_for(preset), variant,
+                lambda n: abs(n - _fnote) <= instrument_sampler.PREFER_MAX_SHIFT,
+                key.scale())
+            _end = int(round(nb * bar_s * instrument_sampler.SR))
+            bused = []
+            line, bass_notes = bass_rhythm.render_line(
+                bass_plan, _bslots, bar_s, preset["bpm"], _end,
+                lambda n, secs: instrument_sampler.voice_note(
+                    bass_idx, n, secs, cache=bcache, used=bused,
+                    snap_sec=bar_s / num),
+                bass_rhythm.kick_feel(preset["lanes"], variant * 887 + 7))
+            if line is None:
+                bass_plan = None         # keep today's held root
+            else:
+                # the render's own trigger sample for each slot; each
+                # piece stops ONE sample short of the next trigger so the
+                # low-end choke sees a note that ended, not one it must
+                # cut -- the line is already one note at a time
+                _pos = [int(sb * bar_s * instrument_sampler.SR)
+                        for _i, _c, sb, _d in slots] + [_end]
+                for k, (i, _c, _sb, _d) in enumerate(slots):
+                    bass_beds[i] = line[_pos[k]:max(_pos[k + 1] - 1,
+                                                    _pos[k] + 1)]
+                    bass_files[i] = bused[0] if bused else None
+        for i, chord, start_bar, dur in (() if bass_plan else slots):
             bused = []
             a = instrument_sampler.voice_note(
                 bass_idx, chord["notes"][0] - 12 + bass_oct, dur,
@@ -3053,9 +3103,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             preset["lanes"][f"bass{i}"] = (
                 0.0, old_b[1] if old_b else 0.6, (0, 0, ksw, ks + 9), b808)
         else:
+            # a grooved line is one performance cut into slots: one gain
+            # for every slot, so a note tied across a chord change doesn't
+            # jump in level -- its accents are written into the figure
             preset["lanes"][f"bass{i}"] = (0.0,
                                            old_b[1] if old_b
-                                           else _BASS_GAIN * accent,
+                                           else _BASS_GAIN * (
+                                               1.0 if bass_plan else accent),
                                            (0, 0, 50, variant + i),
                                            [b for b in bars_list])
         if committed:
@@ -3103,10 +3157,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             # rather than a generated one — the kick and its tuned root
             # still carry the low end.
             preset["lanes"].pop(f"bass{i}", None)
-        midi_chords.append({"start_sec": start_bar * bar_s,
-                            "dur_sec": dur,
-                            "notes": chord.get("voiced", chord["notes"])
-                            + [bass_note]})
+        _mc = {"start_sec": start_bar * bar_s, "dur_sec": dur,
+               "notes": chord.get("voiced", chord["notes"]) + [bass_note]}
+        if bass_plan and bass_beds:
+            # the real line goes to its own MIDI track (write_midi), not a
+            # held root inside the chords
+            _mc["notes"] = list(chord.get("voiced", chord["notes"]))
+            _mc["bass_line"] = [(t, min(d, nb * bar_s - t), n,
+                                 int(min(127, max(1, round(127 * v)))))
+                                for t, d, n, v in bass_notes[slot_no]]
+        midi_chords.append(_mc)
         chord_rows.append({"bar": start_bar + 1,      # 1-based, as counted
                            "roman": chord["roman"],
                            "chord": chord["chord"],
@@ -3155,6 +3215,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     # the ONE file the bass line played (None: an 808 line
                     # or no line), so the rack can mark it and a rebuild
                     # keeps a pick he made
+                    # the bass figure each chord slot played (bass groove,
+                    # 2026-10-19); None on older beats / held-root lines
+                    "bass_figures": ([p["figure"] + ("+tied" if p["tied"]
+                                                     else "")
+                                      for p in bass_plan]
+                                     if bass_plan and bass_beds else None),
                     "bass_file": (str(next(iter(bass_files.values()), None))
                                   if bass_beds and not bass808 and any(
                                       bass_files.values()) else None)}

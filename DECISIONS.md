@@ -19,6 +19,17 @@ entries.
 ---
 
 ## Log
+### 2026-10-19 Bass groove: the bass line plays figures, not one held note per chord
+- Context: HANDOFF-TO-CODE-BASS-GROOVE (4 parts). The sampled bass line (bass0..N) played one held root per chord slot: no rhythm, no kick lock, no swing.
+- Decision/change: new `tools/bass_rhythm.py` (FLOW_VERSION 1). Per chord slot it rolls one figure: hold, kick (on the kick's hits), fifth, octave, walk (chromatic approach into next chord), push (next root an 8th/16th early, tied over), funk (ghost notes), pulse. Weights per `signature.chord_family` (optional `signature.bass_grammar` override) -- Claude's own starting numbers under the 2026-10-19 creative-control grant, NOT sourced; tune by ear. Swung with the kick lane's feel (jitter capped 4 ms). Levels only from written X/x/o/. characters. The whole line is one loop-length buffer cut at slot starts (one sample short, so the low-end choke never fades a tied note), so the bass{i} lanes, rack and rebuild code are unchanged. `add_bass_and_chords` stamps `bass_flow`; `_build_chords` uses it only then and only in 4/4. MIDI: new `bass` track on channel 2 with the real line (beat_recipes.write_midi); chords track drops the held root on those beats. Recipe gets `harmony.bass_figures`. Bench: `tools/make_bass_groove_ab.py`. Tests: `tests/test_bass_rhythm.py` (16).
+- Rule overruled (creative control): "traditional dynamics: the downbeat leans, the repeats ease off" (2026-07-25, `_ACCENTS` per slot gain). On bass_flow beats every bass slot gets the same gain, because a note tied across a chord change would jump in level; the leaning now lives in the figure's written accents. Chords keep `_ACCENTS`. 808 rules untouched.
+- Backups: `tools/beat_machine.pre-bass-groove-2026-10-19.py`, `tools/beat_recipes.pre-bass-groove-2026-10-19.py`.
+- Verified: full suite 1454 passed, 2 failed (both outside this change: panel_sweep.py reason_voice import; pattern_gen guest-lane reversefx). Rebuilds of beats 3576/3577/3578 with old vs new code: identical SHA-256 (same kick -6 dB trim both sides). A/B: 10 pairs in `~/Desktop/Homeroom Auditions/Homeroom BASS GROOVE 2026-10-19/`, every NEW side differs; low end (<150 Hz) NEW minus OLD between +0.0 and -0.7 dB.
+- Not verified (needs his ears): that the held bass was a main cause of "samey"; ghost notes audible (8/60 ms ramps on ~50 ms notes); stretch quality up to 12 semitones on his bass files; family weights.
+- Verify by: owner listens to the A/B and says keep / change per DJ.
+- Status: confirmed
+- Outcome: 2026-10-19 owner heard the 10 A/B pairs and said "keep." Family weights stay as built.
+
 ### 2026-10-19 Song reader: devices and cables read straight from a saved Reason song (no hovering)
 - Context: owner asked what the song file adds to Homeroom after a file-format study (X15_FILE container, SHA-256 stamp, DEVIDESC and CNCT records). Airplane/Power/Qua z mo/Street Phone wiring had been mapped by hovering every jack, each with a "Not read" list.
 - Decision/change: new `reason_voice/song_reader.py` (read-only). Prints devices (id, name, type) and cables (device:jack to device:jack, each cable stored twice so folded). Tested on `teste claude.reason` (13 devices, 28 cables): master sends 1-6 go to Plate, Room, Echo, Delay 3/16, Scream 1, RV7000 1, and the master Combinator chain is M EQ, Stereo Imager, M Comp, Maximizer - same as the hand-read Qua z mo and Airplane notes. Also ran on `swiss 2783 inp.reason` (22 devices, 0.4 s).
@@ -8829,3 +8840,24 @@ just not loaded by default.
 - Measured on drive: Meta Piano 88 notes 21..108, Nylon 44 notes 40..83, Steel 45 notes 40..84, all gaps 1, octaves land at true pitch.
 - Tests: tests/test_multisample.py 11 pass (2 new). Full suite on Mac: 1436 pass, 2 fail (unrelated: panel_sweep.py imports reason_voice; pattern_gen guest "reversefx"). tests/test_sound_engine.pre-base-layer-2026-10-18.py breaks collection -> ran with --ignore.
 - Status: open - not heard. Owner makes a beat in the app to judge.
+
+### 2026-10-19 Deep chord pass: richer chords, 24 new progressions, a style card per identity, MIDI packs 25%
+- Context: owner: "very similar rhythms, simplistic chords and progressions, not specified towards the DJ's styles". Asked for a deeper base, fast.
+- Change: `key_context.EXT_CHORDS` (15 new types: m11, m6, m7b5, dim7, m(maj7), 6, 6/9, maj7#11, 9, 13, 7sus4, 9sus4, 7b9, add11, m(add9)); kept OUT of CHORDS so name_chord (MIDI pack reading) is unchanged. `harmony.colorize` upgrades chords on the SAME root per the identity's `signature.chord_color` {depth, lean}; called in beat_machine on chord_flow beats only, own seed (variant*733+11). `_candidates` drops the 5th only when a chord doesn't fit otherwise (old voicings unchanged). progressions_config +24 `deep_*` (max 4 chords, the rack-row limit). All 45 identities got `chord_family` (soul_jazz / dark / grit / dreamy / bright_funk), `chord_color`, `pattern_tags` (now read from the signature by chord_rhythm), and their family's new progressions at weight 1.2. MIDI chord packs 10% -> 25% of beats for 42 identities (Tenth Wonder, DJ Hint left alone: their LoC loop must stay the main sound). Backups: *.pre-deep-chords-2026-10-19.*
+- ASSUMING (Claude's call, owner can correct): which family each identity is in; depth/lean numbers.
+- Measured (100 picks per identity): plain triads 67% -> 13% (crew), 60 -> 10 (legends), 70 -> 18 (genres); progressions in use 38 -> 62 (crew).
+- Drums: measured 53-60 distinct kick bars per 60 beats per DJ; snare/hats mostly varied (Sunday Chop snare plain 2&4 on 28/60; Cutz straight 8th hats 21/60). Not changed: sameness likely from the 2026-07-18 rule (half of every batch is a traditional 2&4 beat) -> owner's call.
+- Tests: full suite 1437 pass + the 1 recipe test updated for the colour step (now passes); 2 old unrelated fails (panel_sweep import, guest "reversefx").
+- Status: open - not heard.
+
+### 2026-10-19 Production Research Hub chapter 13: free college theory, graded, turned into MIDI rules
+- Context: owner asked for a real theory dive from free college sources (Berklee / UC Berkeley named, but "where you get it is semantics"; goal is good, non-junk theory to drive MIDI patterns with emotional feel). Earlier same day he said beats had "simplistic chords and progressions, similar rhythms" (see Deep chord pass entry).
+- Decision/change: new `Production Research Hub/Chapters/13 College theory for MIDI patterns/` (4 parts, 311 lines) + `Originals/CT/` (20 Open Music Theory chapters, MIT 21M.301 calendar, Berklee Online voice-leading article) + MANIFEST rows + START HERE entry. Source grades: OMT v2 = A (read 20 chapters in full), Berklee Online voice leading = B+, Berklee College hip-hop article = B, Hein "Scales and emotions" = C+ (his own comment: no references). UC Berkeley gave only a catalog (Music 172 Popular Music Theory exists, no free notes); Berklee paid courses/books not reachable; Puget Sound open textbook, Adams flow paper, CUNY hip-hop form thesis found but not read.
+- Checked in the sources: OMT's "3-7 voicing gives only fourths and fifths" is loose (dominant 3-7 is a tritone); OMT says the lydian shuttle is rare and easy to mislabel. Worked MIDI examples (I-V-vi-IV, ii-V-I 3-7, blues 3-7) were verified by script (largest voice move 2 semitones).
+- Not done: not compared against Chapter 04 (older theory research); nothing heard in Reason; dembow snare steps 3,6,11,14 are my reading of OMT's text; the "no notes closer than a third below MIDI 48" rule is my own guess. No code changed.
+- Verify by: owner picks which Part 2/3 tables become code (schema list, voice-leading checker, drum table); then listen.
+- Status: open
+- Outcome:
+
+## 2026-10-19 Theory loop generator (open)
+`tools/theory_loops.py` builds 8 MIDI loops from Chapter 13 sourced rules and re-reads each file to check them (all 8 pass). Hashes match the tested copy. Not yet listened to. Excluded for lack of a confirmed source: dembow, low-register numbers, swing amount. Files are in `Production Research Hub/Theory loops 2026-10-19/` because access to `~/Desktop/Homeroom Auditions` was denied.

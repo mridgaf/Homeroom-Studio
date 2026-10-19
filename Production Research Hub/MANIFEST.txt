@@ -317,4 +317,26 @@ DL:Recipe Book PDFs/Rock - Shoegaze Guitar Wall.pdf	4423	2da57837ddf79d03086f5ac
 DL:Claude outputs/reason12-expert-agent.html	25508	6cee716e7c98fcfbc101843b2ddaaebc7d3d2a08a0cdb92651eee48194dbf852	-	copied to Originals only (data/PDF/HTML/huge)
 DL:Claude outputs/Reason_12.7_Illustrated_Device_Reference.html	126302	39db49735baed8a37de4c28bfbbbfa93ce77343839fca20b91a6252fa2cfd7f2	-	copied to Originals only (data/PDF/HTML/huge)
 
-Roots: HS=Homeroom Studio, WT=Homeroom Studio/.claude/worktrees/funny-rubin-d90f6c, RC=reason code, DL=Downloads, RSB=REAPER Song Builder
+CT:Berklee-Online-voice-leading.md	12592	3a00008c9647d74edc372bd1059e6a4213edd9c491d7cfb4f2f57c63af1a310c	13	source for chapter 13, summarised there
+CT:MIT-21M301-calendar.md	2355	ebc7730e01d879e0a59208675ca3e33ac6cf9204d1153f40c4dc2a4beb3f6375	13	source for chapter 13, summarised there
+CT:OMT/4-chord-schemas.md	12591	74042d02dd767e665e2cba1636fad6b60221dd1a1330cc9eaa30adc3729c7a71	13	source for chapter 13, summarised there
+CT:OMT/blues-based-schemas.md	5793	c675402d02f057576b42e6d6ae6d8a16efad2ad4b1ea944a0a1da87b9a6d83eb	13	source for chapter 13, summarised there
+CT:OMT/blues-harmony.md	10989	68138222e0cf801ac8d4bdd86d634cdf4eac85a08e7a5249dcfff4bdb30544e0	13	source for chapter 13, summarised there
+CT:OMT/chord-scale-theory.md	10434	2a6aef329a5bf45155e010e19c76ba422556dd501e3d73780c9799302bdb62fe	13	source for chapter 13, summarised there
+CT:OMT/classical-schemas.md	4728	d88006048a20326b6bc13ddbf15d6e891668c8538bb93ee7c5f95c3ed9ba3215	13	source for chapter 13, summarised there
+CT:OMT/drumbeats.md	24461	03db3f73f6a9d8fc61cc10e67d54680727d4f2de38a94b4d1c4846d925bdb5a0	13	source for chapter 13, summarised there
+CT:OMT/fragile-absent-and-emergent-tonics.md	9916	6dc702255406ac06f078937c2a70e1756e9c21265e199acf23d159148d67d0b5	13	source for chapter 13, summarised there
+CT:OMT/hypermeter.md	10415	b62fd9d32a0345d3583b209ee5ee9c425fbd7f294127553ee3cd78fe347d16e6	13	source for chapter 13, summarised there
+CT:OMT/ii-v-i.md	10289	6fe929f19b95ed774e3b8958090d3e90c755e8d03823bef940310aed29c8ece6	13	source for chapter 13, summarised there
+CT:OMT/intro-to-diatonic-modes-and-the-chromatic-scale.md	11898	99880d0a41bb7b6112966a54cb2b153da876c755b6071ba214db00150a00cd4f	13	source for chapter 13, summarised there
+CT:OMT/intro-to-pop-schemas.md	5453	04ccd7cd2527e0c08019d8300e8817e616dc5ffdcf98e6ff4deb7d291cb940cd	13	source for chapter 13, summarised there
+CT:OMT/jazz-voicings.md	12676	0e3dae2451cf872881685abe348c5cc8d75793c81b163b665179ad04c06dbeef	13	source for chapter 13, summarised there
+CT:OMT/metrical-dissonance.md	15064	85adc4b560ce5a1c2491b036aad446e7998db10ccfaafb9a5485a14ec4e5f8da	13	saved only; not summarised in chapter 13
+CT:OMT/modal-mixture.md	7007	5bf6d9ea02160d82ee8a505f7c3d2fcd38e2d7e8392aa85947881b074ebf1863	13	source for chapter 13, summarised there
+CT:OMT/modal-schemas.md	20833	0671de9048095628bd32689150fc807f7aeb3b289cc00ca7754e9bf3c19bd1f8	13	source for chapter 13, summarised there
+CT:OMT/pentatonic-harmony.md	12455	047decaddf52cb80ca7c2fe19925c152665643dc90c6959fac3528009b456c2b	13	source for chapter 13, summarised there
+CT:OMT/puff-schemas.md	5566	c8bf21497fbcd61ac083a7316c1c4d5f0a932d26290b5f36fba302e4ee6eab23	13	source for chapter 13, summarised there
+CT:OMT/rhythm-and-meter-in-pop-music.md	7389	f5de76a01f8c707fe9c3abf212347e33c6d6a293fbb1563e5601aba7fd556d51	13	source for chapter 13, summarised there
+CT:OMT/substitutions.md	10207	d6ba59cefd04b6f08fcf3f2cc641fb725475495b1b55cf7f5880915a5e48ac76	13	source for chapter 13, summarised there
+CT:OMT/swing-rhythms.md	7115	4131b196c3573c20e0a742c14106cd6c96acb1d2acdef91aecbcd167c8b8c861	13	source for chapter 13, summarised there
+Roots: HS=Homeroom Studio, WT=Homeroom Studio/.claude/worktrees/funny-rubin-d90f6c, RC=reason code, DL=Downloads, RSB=REAPER Song Builder, CT=College theory pages fetched 2026-10-19 (Originals/CT)

@@ -1080,5 +1080,545 @@
     "major"
    ]
   ]
+ },
+ "deep_minor_ii_v_i": {
+  "label": "Minor ii-V-i, jazz",
+  "roman": "iiø7-V7b9-i9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    2,
+    "m7b5"
+   ],
+   [
+    7,
+    "7b9"
+   ],
+   [
+    0,
+    "min9"
+   ]
+  ]
+ },
+ "deep_soul_drift": {
+  "label": "Soul drift",
+  "roman": "i9-IV9-bVIImaj7-bIIImaj9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min9"
+   ],
+   [
+    5,
+    "dom9"
+   ],
+   [
+    10,
+    "maj7"
+   ],
+   [
+    3,
+    "maj9"
+   ]
+  ]
+ },
+ "deep_dilla_float": {
+  "label": "Floating, unresolved",
+  "roman": "i11-bVImaj7#11-iv9-V7sus4",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min11"
+   ],
+   [
+    8,
+    "maj7#11"
+   ],
+   [
+    5,
+    "min9"
+   ],
+   [
+    7,
+    "7sus4"
+   ]
+  ]
+ },
+ "deep_noir_chromatic": {
+  "label": "Noir, sliding down",
+  "roman": "i9-vii°7-bvii7-viø7",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min9"
+   ],
+   [
+    11,
+    "dim7"
+   ],
+   [
+    10,
+    "min7"
+   ],
+   [
+    9,
+    "m7b5"
+   ]
+  ]
+ },
+ "deep_backdoor": {
+  "label": "Backdoor home",
+  "roman": "i9-bVII9-bVImaj7-V7b9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min9"
+   ],
+   [
+    10,
+    "dom9"
+   ],
+   [
+    8,
+    "maj7"
+   ],
+   [
+    7,
+    "7b9"
+   ]
+  ]
+ },
+ "deep_neo_soul_cycle": {
+  "label": "Neo-soul cycle",
+  "roman": "iv9-bVII13-bIIImaj9-bVImaj7",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    5,
+    "min9"
+   ],
+   [
+    10,
+    "dom13"
+   ],
+   [
+    3,
+    "maj9"
+   ],
+   [
+    8,
+    "maj7"
+   ]
+  ]
+ },
+ "deep_trap_tension": {
+  "label": "Phrygian tension",
+  "roman": "i(add9)-bVImaj7#11-bIImaj7-V7b9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "madd9"
+   ],
+   [
+    8,
+    "maj7#11"
+   ],
+   [
+    1,
+    "maj7"
+   ],
+   [
+    7,
+    "7b9"
+   ]
+  ]
+ },
+ "deep_villain_minor": {
+  "label": "Villain",
+  "roman": "i(maj7)-bVImaj7-iiø7-V7b9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min_maj7"
+   ],
+   [
+    8,
+    "maj7"
+   ],
+   [
+    2,
+    "m7b5"
+   ],
+   [
+    7,
+    "7b9"
+   ]
+  ]
+ },
+ "deep_dark_pedal": {
+  "label": "Dark pedal",
+  "roman": "i11-bIImaj7#11-i9-vii°7",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min11"
+   ],
+   [
+    1,
+    "maj7#11"
+   ],
+   [
+    0,
+    "min9"
+   ],
+   [
+    11,
+    "dim7"
+   ]
+  ]
+ },
+ "deep_tritone_sub": {
+  "label": "Tritone sub",
+  "roman": "iiø7-bII9-i11-bVImaj9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    2,
+    "m7b5"
+   ],
+   [
+    1,
+    "dom9"
+   ],
+   [
+    0,
+    "min11"
+   ],
+   [
+    8,
+    "maj9"
+   ]
+  ]
+ },
+ "deep_gospel_minor": {
+  "label": "Gospel minor",
+  "roman": "i9-IV9-bIIImaj7-V7sus4",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min9"
+   ],
+   [
+    5,
+    "dom9"
+   ],
+   [
+    3,
+    "maj7"
+   ],
+   [
+    7,
+    "7sus4"
+   ]
+  ]
+ },
+ "deep_dorian_vamp": {
+  "label": "Dorian vamp",
+  "roman": "i11-IV13",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "min11"
+   ],
+   [
+    5,
+    "dom13"
+   ]
+  ]
+ },
+ "deep_plug_glow": {
+  "label": "Glow",
+  "roman": "i(add9)-bIII6/9-bVII(add9)-bVImaj7#11",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "madd9"
+   ],
+   [
+    3,
+    "6/9"
+   ],
+   [
+    10,
+    "add9"
+   ],
+   [
+    8,
+    "maj7#11"
+   ]
+  ]
+ },
+ "deep_rage_stomp": {
+  "label": "Stomp, tense",
+  "roman": "i5-bII-i(maj7)-#iv°7",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "5"
+   ],
+   [
+    1,
+    "major"
+   ],
+   [
+    0,
+    "min_maj7"
+   ],
+   [
+    6,
+    "dim7"
+   ]
+  ]
+ },
+ "deep_major_ii_v": {
+  "label": "Major ii-V-I",
+  "roman": "ii9-V13-Imaj9-vi11",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    2,
+    "min9"
+   ],
+   [
+    7,
+    "dom13"
+   ],
+   [
+    0,
+    "maj9"
+   ],
+   [
+    9,
+    "min11"
+   ]
+  ]
+ },
+ "deep_secondary": {
+  "label": "Secondary dominant",
+  "roman": "Imaj7-VI7b9-ii9-V13",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    9,
+    "7b9"
+   ],
+   [
+    2,
+    "min9"
+   ],
+   [
+    7,
+    "dom13"
+   ]
+  ]
+ },
+ "deep_borrowed_iv": {
+  "label": "Major to minor four",
+  "roman": "Imaj9-IVmaj7-iv6-I6/9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "maj9"
+   ],
+   [
+    5,
+    "maj7"
+   ],
+   [
+    5,
+    "min6"
+   ],
+   [
+    0,
+    "6/9"
+   ]
+  ]
+ },
+ "deep_lydian_dream": {
+  "label": "Lydian dream",
+  "roman": "Imaj7#11-II(add9)-vi9-V9sus4",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "maj7#11"
+   ],
+   [
+    2,
+    "add9"
+   ],
+   [
+    9,
+    "min9"
+   ],
+   [
+    7,
+    "9sus4"
+   ]
+  ]
+ },
+ "deep_gospel_walk": {
+  "label": "Gospel walk",
+  "roman": "I6/9-III7b9-vi9-II9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "6/9"
+   ],
+   [
+    4,
+    "7b9"
+   ],
+   [
+    9,
+    "min9"
+   ],
+   [
+    2,
+    "dom9"
+   ]
+  ]
+ },
+ "deep_mixo_funk": {
+  "label": "Mixolydian funk",
+  "roman": "I9-bVII(add9)-IV13-I7sus4",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "dom9"
+   ],
+   [
+    10,
+    "add9"
+   ],
+   [
+    5,
+    "dom13"
+   ],
+   [
+    0,
+    "7sus4"
+   ]
+  ]
+ },
+ "deep_bounce_up": {
+  "label": "Bounce up",
+  "roman": "I6-IV9-V7sus4-vi7",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "maj6"
+   ],
+   [
+    5,
+    "dom9"
+   ],
+   [
+    7,
+    "7sus4"
+   ],
+   [
+    9,
+    "min7"
+   ]
+  ]
+ },
+ "deep_neo_major": {
+  "label": "Chromatic step down",
+  "roman": "IVmaj9-iii7-ii9-bII13",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    5,
+    "maj9"
+   ],
+   [
+    4,
+    "min7"
+   ],
+   [
+    2,
+    "min9"
+   ],
+   [
+    1,
+    "dom13"
+   ]
+  ]
+ },
+ "deep_sunday_turn": {
+  "label": "Sunday turn",
+  "roman": "Imaj9-viiø7-III7b9-vi9",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "maj9"
+   ],
+   [
+    11,
+    "m7b5"
+   ],
+   [
+    4,
+    "7b9"
+   ],
+   [
+    9,
+    "min9"
+   ]
+  ]
+ },
+ "deep_chip_lift": {
+  "label": "Bright lift",
+  "roman": "I(add9)-V(add11)-vi(add9)-IVmaj7",
+  "why": "Deep pass 2026-10-19: richer chords, same roots a producer would use.",
+  "chords": [
+   [
+    0,
+    "add9"
+   ],
+   [
+    7,
+    "add11"
+   ],
+   [
+    9,
+    "madd9"
+   ],
+   [
+    5,
+    "maj7"
+   ]
+  ]
  }
 }

@@ -424,6 +424,34 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -477,7 +505,7 @@
     ],
     [
      "midi",
-     0.833
+     2.5
     ]
    ],
    "chord_rhythm": [
@@ -494,7 +522,29 @@
    "tempo": [
     130,
     160
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "flavor_match": true,
   "allow_dirt": true,
@@ -877,6 +927,34 @@
     [
      "villain_harmonic",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -926,7 +1004,7 @@
     ],
     [
      "midi",
-     0.805
+     2.416
     ]
    ],
    "chord_rhythm": "arp",
@@ -934,7 +1012,29 @@
    "tempo": [
     140,
     160
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "allow_dirt": "low",
   "own_soundbank": true,
@@ -1413,6 +1513,58 @@
     [
      "neo_soul_descent",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -1462,7 +1614,7 @@
     ],
     [
      "midi",
-     1.089
+     3.267
     ]
    ],
    "chord_rhythm": [
@@ -1479,7 +1631,25 @@
    "tempo": [
     83,
     101
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -1843,6 +2013,38 @@
     [
      "lydian_wander",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
     ]
    ],
    "chord_source": [
@@ -1896,7 +2098,7 @@
     ],
     [
      "midi",
-     1.0
+     2.999
     ]
    ],
    "chord_rhythm": "sustain",
@@ -1904,7 +2106,24 @@
    "tempo": [
     60,
     70
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.65,
+    "lean": {
+     "min7": 1.5,
+     "min9": 1.5,
+     "dom9": 1.5,
+     "7sus4": 1.5,
+     "maj7#11": 0.5
+    }
+   },
+   "pattern_tags": {
+    "stab": 2,
+    "offbeat": 1.5,
+    "push": 1.5,
+    "long": 0.7
+   },
+   "chord_family": "grit"
   },
   "flavor_match": true,
   "allow_dirt": true,
@@ -2289,6 +2508,34 @@
     [
      "line_cliche",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2338,7 +2585,7 @@
     ],
     [
      "midi",
-     0.805
+     2.416
     ]
    ],
    "chord_rhythm": [
@@ -2355,7 +2602,29 @@
    "tempo": [
     130,
     150
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "allow_dirt": "low",
   "own_soundbank": true,
@@ -2724,6 +2993,34 @@
     [
      "line_cliche",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2773,7 +3070,7 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": [
@@ -2790,7 +3087,29 @@
    "tempo": [
     92,
     104
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "own_soundbank": true,
   "allow_dirt": true,
@@ -3250,6 +3569,34 @@
     [
      "mixo_soul_climb",
      1.0
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -3303,7 +3650,7 @@
     ],
     [
      "midi",
-     1.244
+     3.732
     ]
    ],
    "chord_rhythm": [
@@ -3320,7 +3667,28 @@
    "tempo": [
     78,
     84
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "own_soundbank": true,
   "_research_note": "NEW-BUILD 2026-09-24, first genre through the pass (owner 2026-09-24: genres get the Legends process, A-Z, one at a time; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-acid-rap-bright-2026-09-24.json.\n\nSOURCES\n- Complex, 'The Oral History of Chance the Rapper's Acid Rap' (Josh Terry): Peter CottonTale - 'an acid jazz-inspired project'; 'the gospel, soul, and hip-hop fusion we were crafting ended up being the sonic foundation'. Stefan Ponce did 'the juke-style drums' on Good Ass Intro, 'I'd do the drums and Peter would play the keys'. Horns tracked live at Soundscape (JP Floyd trombone, Nico Segal trumpet). Nate Fox: 'sampled songs that I liked and chopped them real simply' (Willie Hutch, Betty Wright, Donny Hathaway). 'He wanted guitar and organ.' Engineer Elton Chueng: 'The drums on NaNa were a loop and I really wanted them to smack'; Chain Smoker - 'being honest with the drum sound'.\n- Andscape, 10-year retrospective: Cam O'bi 'brought those drums and that real natural, good-feeling sound'; 'fast-paced juke drums ... blended with thoughtfully laid keys'.\n- Wikipedia, Acid Rap: 'The acid jazz sound'; Chance: 'Peter Cottontale is a really sick jazz pianist.'\n- songbpm.com tempos: Good Ass Intro 80, NaNa 83, Acid Rain 84, Favorite Song 156 (= 78 half-time). Keys: 4 major (NaNa, Favorite Song, Chain Smoker, Acid Rain), 4 minor (Good Ass Intro, Cocoa Butter Kisses, Lost, Smoke Again).\n\nCHANGES\n1. bpm 88 -> 82, signature tempo pocket 78-84. 88 sat above every measured track.\n2. chord_source piano 3 / loop 2 -> piano 3 / loop 2 / HORNS 2 / guitar 1. Horns are the most-quoted instrument on the record and the library holds 16 real brass samples (instrument_sampler scan 2026-09-24); guitar 27 samples. Organ quoted too but the library has ONE organ file, so not added.\n3. hat grammar gains trip_rolls 0.1 - the juke drums (one track, so a small share). The other hat modes scaled down to fit.\n4. Kit tags rewritten to real filenames, then own_soundbank ON (genres are not DJs, so no open-bank share applies: tags always gate). Dead before: kick warm/round/tight = 0 of 488; snare snappy = 0; clap bright = 1; hat tight = 1 (library spells it tite); bongo conga = 0 in the bongo pool. Now: kick soft/live/clean = 16 ('light kick', 'real natural'); snare rimshot/towel/soft/clean = 32 (snappy Cobra rimshot snares + 70s towel-brush snares; NOT 'dry' - sidestick trap); clap tight/light/snap/classic = 9; hat closed/tite = 48; bongo = 16. Kick_flavors' plain branch uses the kick words (it overrides the kit on every composed beat); the 808 branch's wants emptied (Hitt Kid lesson: the 808 pool has no adjectives).\n5. Dirt: the research says clean ('real natural', 'honest drum sound') and so does the listen line ('not one grain of dust'). No allow_dirt.\n\nNOT CHANGED, and why\n- genre_swing 58, space room, sidechain 0.12, drive, glue: no source speaks to them.\n- key/mode: the listen line says major-key and grinning; the record measures half major, half minor. The listen line is the top rule, so the modes stay. FLAGGED.\n- library tags: the pattern library's vocabulary is hip-hop/funk/rock/electronic; no jazz tag exists to point at.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n- The 10% 808 kick branch stays (Pusha Man's trap drums, Ceej). Genres are exempt from the streak-breaker, so 10% really plays 10%.\n\nSYNONYMS (owner 2026-09-24, \"we should at least look for synonyms or similar words\"): flavor_match ON - each taste word also reaches its flavor_tags.py group (e.g. tight<->tite, grit<->dirty/dusty/lofi, hard<->heavy, distort<->clipped), folder words included; a synonym never lands a sidestick/rim/clap in the snare slot.",
@@ -3731,6 +4099,34 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -3784,7 +4180,7 @@
     ],
     [
      "midi",
-     0.967
+     2.9
     ]
    ],
    "chord_rhythm": "sustain",
@@ -3792,7 +4188,29 @@
    "tempo": [
     81,
     96
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "flavor_match": true,
   "allow_dirt": true,
@@ -4218,6 +4636,58 @@
     [
      "suspended_open",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -4267,7 +4737,7 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": [
@@ -4284,7 +4754,25 @@
    "tempo": [
     78,
     90
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -4698,6 +5186,34 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -4751,7 +5267,7 @@
     ],
     [
      "midi",
-     1.128
+     3.384
     ]
    ],
    "chord_rhythm": [
@@ -4764,7 +5280,28 @@
      1
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "flavor_match": true,
   "allow_dirt": true,
@@ -5197,6 +5734,30 @@
     [
      "anthem_sus",
      1.0
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
+    ],
+    [
+     "deep_bounce_up",
+     1.2
+    ],
+    [
+     "deep_chip_lift",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -5250,7 +5811,7 @@
     ],
     [
      "midi",
-     1.128
+     3.383
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5258,7 +5819,24 @@
    "tempo": [
     125,
     130
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.55,
+    "lean": {
+     "dom9": 2,
+     "7sus4": 2,
+     "maj6": 1.5,
+     "add9": 1.5,
+     "m7b5": 0.5
+    }
+   },
+   "pattern_tags": {
+    "bounce": 2,
+    "busy": 1.5,
+    "offbeat": 1.5,
+    "push": 1.2
+   },
+   "chord_family": "bright_funk"
   },
   "kick_min_hits": 5,
   "own_soundbank": true,
@@ -5713,6 +6291,30 @@
     [
      "suspended_open",
      1.0
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
+    ],
+    [
+     "deep_bounce_up",
+     1.2
+    ],
+    [
+     "deep_chip_lift",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -5762,7 +6364,7 @@
     ],
     [
      "midi",
-     0.644
+     1.932
     ]
    ],
    "chord_rhythm": "arp",
@@ -5770,7 +6372,24 @@
    "tempo": [
     122,
     134
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.55,
+    "lean": {
+     "dom9": 2,
+     "7sus4": 2,
+     "maj6": 1.5,
+     "add9": 1.5,
+     "m7b5": 0.5
+    }
+   },
+   "pattern_tags": {
+    "bounce": 2,
+    "busy": 1.5,
+    "offbeat": 1.5,
+    "push": 1.2
+   },
+   "chord_family": "bright_funk"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -6171,6 +6790,30 @@
     [
      "mixo_funk",
      1.0
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
+    ],
+    [
+     "deep_bounce_up",
+     1.2
+    ],
+    [
+     "deep_chip_lift",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -6220,7 +6863,7 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": "arp",
@@ -6228,7 +6871,24 @@
    "tempo": [
     95,
     108
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.55,
+    "lean": {
+     "dom9": 2,
+     "7sus4": 2,
+     "maj6": 1.5,
+     "add9": 1.5,
+     "m7b5": 0.5
+    }
+   },
+   "pattern_tags": {
+    "bounce": 2,
+    "busy": 1.5,
+    "offbeat": 1.5,
+    "push": 1.2
+   },
+   "chord_family": "bright_funk"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -6647,6 +7307,30 @@
     [
      "mixo_soul_climb",
      1.0
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
+    ],
+    [
+     "deep_bounce_up",
+     1.2
+    ],
+    [
+     "deep_chip_lift",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -6700,7 +7384,7 @@
     ],
     [
      "midi",
-     1.089
+     3.267
     ]
    ],
    "chord_rhythm": [
@@ -6717,7 +7401,24 @@
    "tempo": [
     88,
     105
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.55,
+    "lean": {
+     "dom9": 2,
+     "7sus4": 2,
+     "maj6": 1.5,
+     "add9": 1.5,
+     "m7b5": 0.5
+    }
+   },
+   "pattern_tags": {
+    "bounce": 2,
+    "busy": 1.5,
+    "offbeat": 1.5,
+    "push": 1.2
+   },
+   "chord_family": "bright_funk"
   },
   "own_soundbank": true,
   "flavor_match": true,
@@ -7176,6 +7877,34 @@
     [
      "line_cliche",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -7225,7 +7954,7 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": [
@@ -7242,7 +7971,29 @@
    "tempo": [
     88,
     98
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -7653,6 +8404,58 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -7706,7 +8509,7 @@
     ],
     [
      "midi",
-     1.2
+     3.6
     ]
    ],
    "chord_rhythm": [
@@ -7723,7 +8526,25 @@
    "tempo": [
     82,
     98
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "own_soundbank": true,
   "allow_dirt": true,
@@ -8158,6 +8979,34 @@
     [
      "suspended_open",
      1.0
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -8207,7 +9056,7 @@
     ],
     [
      "midi",
-     0.805
+     2.416
     ]
    ],
    "chord_rhythm": [
@@ -8224,7 +9073,28 @@
    "tempo": [
     130,
     150
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -8633,6 +9503,30 @@
     [
      "mixo_vamp",
      1.0
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
+    ],
+    [
+     "deep_bounce_up",
+     1.2
+    ],
+    [
+     "deep_chip_lift",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -8682,7 +9576,7 @@
     ],
     [
      "midi",
-     0.222
+     0.667
     ]
    ],
    "chord_rhythm": "arp",
@@ -8690,7 +9584,24 @@
    "chord_fallback": [
     "bell",
     "pluck"
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.55,
+    "lean": {
+     "dom9": 2,
+     "7sus4": 2,
+     "maj6": 1.5,
+     "add9": 1.5,
+     "m7b5": 0.5
+    }
+   },
+   "pattern_tags": {
+    "bounce": 2,
+    "busy": 1.5,
+    "offbeat": 1.5,
+    "push": 1.2
+   },
+   "chord_family": "bright_funk"
   },
   "own_soundbank": true,
   "_research_note": "NEW-BUILD 2026-09-24, fourth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-chiptune-2026-09-24.json.\n\nSOURCES\n- Wikipedia, Ricoh 2A03: the NES sound hardware has two square/pulse channels, a pseudo-triangle, an LFSR noise generator and a 1-bit DPCM sample channel; 'Super Mario Bros. 3 and Kirby's Adventure use the DPCM channel for simple drum sounds'; the stepped triangle has a 'buzzing' quality.\n- DDRKirby(ISQ), 'NES Chiptunes in Unlock Everything': triangle = bassline, sometimes a downward pitch slide as a drum (Mega Man trademark, 'not used on a majority of the songs'); noise channel = 'kick, closed hi hat, and snare' from noise bursts; pulse channels play lead + staccato harmony or an offset echo. His levels ran 100 / 150 / 180 BPM.\n- MusicRadar, 'Exploring the retro video game-inspired chiptune universe' (Jon Musgrave, 2025): 'quirky arpeggios, an abundance of pulse wave-based lead melodies and generally frantic delivery'; 'arpeggios typically replace chordal components'; 'Classic video game music is usually uptempo'; 8-bit samples are 'more noisy', lower sample rates mean 'less high frequency sparkle', emulate 'inherent distortions and noise'.\n\nCHANGES\n1. Kit tags rewritten to real filenames, own_soundbank ON. The library has almost no true chip drums (one fx file is named '8 Bit'), so the words reach for the nearest thing he owns to noise-burst drums: kick short/digital (his Kicks/Short folder; 'tight' matched 0 kicks plus MZ Kick [Digital]; was punch/tight/electronic = 1 of 488); snare tight/909/707/retro/digital/80s = 7 drum-machine snares (was 'clap', which pulled 61 claps into the snare slot, and electronic = 0); hat closed/tite; perc block/click/noise (noise = the noise channel; blip was 0). kick_flavors' plain branch carries the kick words, the 808 branch's wants emptied.\n2. Extras fx gain '8 bit', 'game', 'zap' next to laser/arcade (MusicRadar: beats plus sound effects).\n\nNOT CHANGED, and why\n- chord_source stays 'synth' (his 55 sampled synth files, arpeggiated - chord_rhythm arp already matches 'arpeggios replace chords'). The engine's 'chip' voice has 0 of his files (instrument_sampler report 2026-09-24), so it would fall back to the synthesized chip voice, which his 2026-09-23 hard rule forbids ('no tones created by machine').\n- Dirt: sources say real 8-bit sound is noisy and rough, but the engine's dirt is vinyl, wow and SP-1200 12-bit - not NES noise - and the listen line says 'thin bright bleeps'. Left clean. FLAGGED for the owner.\n- bpm 126: sources say 'usually uptempo' and give 100-180; no measured NES tempos were reachable (songbpm/tunebat blocked). Left.\n- genre_swing 50, space dry (listen line: no reverb), grammar, key/modes: consistent with the sources.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n\nOWNER ANSWERS 2026-09-24 (asked after the first audition)\n- Chords: 4 of 16 beats fell back to wood/piano/brass when no synth sound covered the progression. He picked 'Borrow bells/plucks only' -> signature.chord_fallback [bell, pluck] (Chiptune only).\n- Dirt: he picked 'Light 12-bit crunch' -> dust 0.25 (half his house SP-1200 blend of 0.5) and allow_dirt True, which also lets its own drive 1.1 play. vinyl/wow/mix_sat/kick_dist stay 0.\n\nSYNONYMS (owner 2026-09-24, \"we should at least look for synonyms or similar words\"): flavor_match ON - each taste word also reaches its flavor_tags.py group (e.g. tight<->tite, grit<->dirty/dusty/lofi, hard<->heavy, distort<->clipped), folder words included; a synonym never lands a sidestick/rim/clap in the snare slot.",

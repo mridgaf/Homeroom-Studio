@@ -936,6 +936,11 @@ def test_recipe_records_key_progression_and_chords(machine_env):
         # Recomputed from the saved variant with the same seed _build_chords
         # uses, so this is still an independent check, not a copy.
         nb = len(rec["preset"]["lanes"]["chord0"][3])
+        # deep chord pass (2026-10-19): colour step, its own seed
+        harmony.colorize(key, expect,
+                         (rec["preset"].get("signature") or {})
+                         .get("chord_color"),
+                         random.Random(rec["variant"] * 733 + 11))
         frng = random.Random(rec["variant"] * 541 + 23)
         expect = harmony.arrange(key, expect, nb, frng)
         harmony.voice_lead(expect, frng)

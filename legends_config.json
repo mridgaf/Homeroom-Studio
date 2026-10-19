@@ -389,6 +389,34 @@
     [
      "soul_turnaround",
      1.0
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -438,14 +466,35 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "tempo": [
     95,
     115
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "own_soundbank": true,
   "_research_note": "NEW-BUILD 2026-09-05, fourth legend through the pass (after Doc Day, Razor, Mustang). Backup: legends_config.pre-farrow-2026-09-05.json.\n\nTHE HEADLINE, and it is not a tuning fault: Farrow was a DUPLICATE of Glass Cat, one of the nine. Same 98 bpm, same five lanes (kick/snare/clap/snap/stamp, no hat), same kit tags word for word (kick clean/tight/pop, snare clean/rim/snap, snap snap/finger, stamp click/zap/glitch/laser), same 18 ms late clap, both built on 'The Neptunes / Pharrell'. Owner 2026-09-05: 'I have a version of him in the 9 I want to keep. I want this build to be a different era than that' — and, one message earlier, 'Nerd'. So Glass Cat keeps the Neptunes minimal era and Farrow becomes N.E.R.D.\n\nThat split is not a preference, it is documented, and in Pharrell's own reasoning. Wikipedia (In Search Of...): the 2001 album was 'largely electronic', drum machines and synths, 'a sound more typical of Pharrell Williams and Chad Hugo's production work as The Neptunes'; on 2002-03-12 they WITHDREW it and reissued the whole record re-recorded with live drums and guitars played by the power-pop band Spymob. Pharrell's stated reason: 'as N.E.R.D. was to be an entirely different venture to his and Hugo's work with the Neptunes, the band's music should also sound different, hence the decision to re-record the album.' Two DJs, two eras, and the artist himself says they are meant to be different records.\n\nSOURCES\n- Wikipedia, In Search Of... (N.E.R.D.): 2001 electronic version vs   2002-03-12 re-recorded 'rock version', live drums + guitars by Spymob,   'raw, live energy'; genres funk rock / rap rock. Pharrell's quoted reason   for re-recording, above.\n- Chad Hugo to MTV News, 2003-12-08 (via Wikipedia, Fly or Die): 'We're the   ones playing the instruments live this time. I just started playing guitar   last year so I'm learning as we go. PHARRELL'S PLAYING DRUMS.' Questlove   and Lenny Kravitz play on 'Maybe'. So by album two the drums are a person,   not a machine.\n- Sound On Sound, 'Recording The Neptunes' (Dan Daley, July 2005), engineer   Andrew Coleman on the N.E.R.D. tracks 'Rock Star' and 'Lap Dance': Pharrell   plays a standard drum kit, Coleman cuts 16 bars into a loop, 'that's where   a lot of the feel of their records comes from — it's not just machines and   loops.' This quote was the whole argument for loosening his timing, and it   is scoped to N.E.R.D., which is exactly this preset now.\n- Uncut on Fly or Die: 'N*E*R*D can replicate machine hypersyncopation at   the drop of a hi-hat' — the syncopation survives the move to a live kit,   so the grammar was left busy rather than simplified.\n- Gearspace, 'THOSE neptunes/pharell drums': 'The Neptunes were never DJ/  cratediggers... nearly all the sounds used on the earlier stuff (that   wasn't live band or live percussion) was presets from popular workstations'   — no crate dust in either era. Supports leaving dust/vinyl/wow at 0.\n\nCHANGES\n1. listen line rewritten to the N.E.R.D. era, and it names Glass Cat so the    next session cannot re-merge them. Owner's call, twice.\n2. CLAP LANE DROPPED (kit, lanes and grammar.clap). Asked in plain language,    answered 'Give it to Glass Cat alone'. The ~18 ms late clap is the    documented NEPTUNES flam and was the single loudest reason these two    sounded alike. tests/test_crew.py:92 asserts that flam on GLASS CAT, not    on Farrow, so nothing breaks.\n3. HAT LANE ADDED (kit + lanes + grammar). A rock kit has a hi-hat; the old    'a snap keeping time instead of hats' is a Neptunes-minimal trait and now    belongs to Glass Cat. Tags closed/tite/ride = 71 of 452 real files. `tite`    is in there because this library spells it that way — `tight` matches 1.\n4. SNAP DEMOTED from timekeeper to colour: gain 0.4 -> 0.3, jitter 1 -> 2 ms,    modes offbeats/sparse/answer/eighths -> sparse 0.5 / answer 0.3 /    offbeats 0.2. Kept rather than deleted because live hand percussion is    documented for this camp.\n5. TIMING LOOSENED: kick and snare jitter 1 -> 3 ms, hat 3 ms. Sourced to    Coleman and to Hugo's 'Pharrell's playing drums'. 3 ms is the same amount    the owner chose for Mustang on 2026-09-05; the AMOUNT is mine, the    direction is sourced. One line to move.\n   NOT DONE: no lane was pushed or dragged (offset stays 0 everywhere). No    source says a N.E.R.D. drummer sits early or late, and inventing a    direction is how Otto Grit and Half Light get their identity — it is not    free decoration.\n6. TASTE TAGS rewritten to words that exist in his filenames, then    own_soundbank ON. Order matters, same as Razor and Mustang. What was    there: kick pop=0 DEAD and tight=1 (the `tite` trap); snare snap=0 DEAD    and rim=23 which is the sidestick trap that cost a whole Dre round trip;    snap finger=8 of which SEVEN are 'finger cym tree' — finger CYMBALS, the    identical trap found on Mustang the same day; stamp click=0 and zap=0    DEAD. Now: kick dry/hard/gate = 33 files, all genuinely dry hard kicks,    no lofi, no `stomp` (a foley pack), no `brazillian funk`; snare    'hard dry'/'med dry'/'dry_snare'/'snr dry' = 14, deliberately the    multi-word forms because plain `dry` on snare also drags in    HWIP_Dry_SideStick, 'sn2 ss dry' (ss = sidestick), 'sn2 rim dry' and —    worst — 'sn4 flam dry', a snare that is ALREADY a flam; snap `snap` = 15    real snaps and zero chimes; stamp laser/drip/glitch = 12; hat = 71.\n7. kick_flavors ALSO dropped its 10% 808 branch. Caught by reading the\n   printed sample list on the first structure render: beat 2 came back\n   with 'PLAYOFFS - 808 Thin.wav' as the kick under a listen line that\n   says 'a real rock kit played by hand'. The TR-808/909 are documented\n   for the 2001 ELECTRONIC In Search Of... (mathewgarland's Neptunes\n   equipment list) — which is the era Glass Cat keeps, and the exact\n   thing the 2002 re-record replaced with a live band. He is now one\n   flavour, no 808.\n   The old kick_flavors also carried the same dead words and OVERRIDES kit['kick'] on    every composed beat (pattern_gen.py:1326), so fixing the kit alone would    have changed nothing. The 808 flavour's wants were emptied — the 808 is a    must-word matched against the PATH, and the pool has no adjectives.\n8. extras rebuilt. The fx 'blips' slot was zap/laser/glitch = 6 live of    three words; now laser/drip/glitch = 12. The perc slot was labelled    'woods' and asked for block/clave/tabla — block=1, clave=0, TABLA=10, so    his 'woods' colour was in practice a tabla pool, and tabla is    Timberline's signature instrument. Now cowbell/tamb/bongo = 68, labelled    'live perc', which is what the sources actually describe. A third slot    added: crash, because a rock kit has crash cymbals.\n9. chord_source bell 3 / pluck 2 / chip 1 -> GUITAR 3 / bell 2 / chip 1.    The single most sourced change available: 'live drums and GUITARS'    (Wikipedia), Chad Hugo learned guitar for this record, Spymob is a guitar    band. Checked before wiring, the tag lesson applied to instruments:    instrument_sampler reports 112 playable guitar samples, and no legend was    using the voice. chip stays, and is now BETTER sourced than it was — the    raygun/8-bit note in his signature block cites 'Lapdance', which is an    N.E.R.D. track.\n\nDELIBERATELY NOT CHANGED\n- allow_dirt STAYS OFF. Asked in plain language — funk rock, Trouser Press   calls the record 'filthy', and one weak source says the re-record used   'heavy distortion' — and he answered 'Stay completely clean'. Note the two   words do not actually fight: 'bone dry' in his line means no reverb, which   is a different knob from distortion, and he was told that before choosing.   dust/vinyl/wow are all 0 already and the sources agree (no crate digging in   either era), so unlike Razor there was no buried grime to switch on.\n- `drive` 1.4 is left where it is and WILL NEVER PLAY while allow_dirt is   off — clean_renders strips the hot master drive. Recorded here rather than   silently zeroed, because a config that lies is exactly what hid Razor's   fault for months. If dirt is ever switched on for him, that 1.4 arrives   with it.\n- No mix_eq of his own, so he gets the house EQ including +2 dB at 8 kHz.   Razor got that air CUT because an SP-1200 at 26.04 kHz physically could not   make it. The opposite is true here: workstation ROM samples and a live kit   through a modern desk have real top end. Leaving the default is the   researched answer, not an oversight.\n- `glue` left at the roster default. Sound On Sound lists Pharrell's   favourite outboard (Tube-Tech CL1, dbx 160, LA-2A, Neve 9098, Summit) but   in the context of a NORMALLED VOCAL CHAIN — 'vocals are always on input   one'. Nothing in any source says what he does to a drum bus. Unsourced, so   untouched. Same discipline as Razor's glue.\n- `sidechain` 0.15 — no source names it either way. Left, and named as   unsourced rather than dressed up.\n- bpm stays 98. 'Lapdance' is around 92, 'She Wants to Move' around 100,   'Rock Star' around 104 — 98 sits in the middle and inside his signature's   own 95-115 range. Changing it would have been taste, not research.\n- kick grammar weights and hit counts untouched. Uncut's 'machine   hypersyncopation' says the syncopation survives the live kit, so there was   nothing to fix.\n\nLEFT INCONSISTENT ON PURPOSE, SAY IT OUT LOUD\n- The rest of the `signature` block (key roots C/G/A, mode minor 3 / lydian 1   / mixolydian 1, the vamp progressions) was written for the classic-minimal   near-atonal era — that block's own note says so. Funk rock leans major and   mixolydian. Only chord_source was moved, because guitar is directly quoted   in a source; re-picking his modes and progressions is the harmony system's   own proposal, not this drum/sound pass, and doing it quietly here is the   blanket-apply the skill forbids. FLAGGED, not fixed.\n- GLASS CAT STILL CARRIES THE SAME DEAD TAGS Farrow had (kick clean/tight/  pop, snare clean/rim/snap, snap snap/finger, stamp click/zap/glitch/laser)   and the open sound bank, so his picks are random from the whole bucket   today. He is one of the NINE and the owner said keep him — the nine are   explicitly out of scope for this pass. Not touched. Written down here so   it is a known state and not a discovery.\n- Farrow's locked stamp was 'Cymatics - LIFE - Rain and Windchimes 4.wav' —   a field recording of rain, riding every beat he has ever made, because the   open sound bank wiped his click/zap/glitch/laser tags. Cleared from   ~/.reason_voice/crew_kits.json so lock_stamps re-picks against the fixed   tags. Third preset in a row where the producer tag was the wrong sound   entirely.\n",
@@ -510,6 +559,58 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -559,7 +660,7 @@
     ],
     [
      "midi",
-     0.483
+     1.448
     ]
    ],
    "articulation": "sustain",
@@ -577,7 +678,25 @@
     90,
     96
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "kit": {
    "kick": [
@@ -1353,6 +1472,34 @@
     [
      "harmonic_minor_i_V",
      1
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -1402,7 +1549,7 @@
     ],
     [
      "midi",
-     1.128
+     3.384
     ]
    ],
    "articulation": "sustain",
@@ -1410,7 +1557,29 @@
     110,
     150
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "allow_dirt": true,
   "own_soundbank": true,
@@ -1524,6 +1693,58 @@
     [
      "mixo_soul_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -1577,14 +1798,32 @@
     ],
     [
      "midi",
-     1.001
+     3.002
     ]
    ],
    "tempo": [
     62,
     88
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "kit": {
    "kick": [
@@ -1954,6 +2193,38 @@
     [
      "suspended_open",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2003,7 +2274,7 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": [
@@ -2020,7 +2291,24 @@
     95,
     105
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.65,
+    "lean": {
+     "min7": 1.5,
+     "min9": 1.5,
+     "dom9": 1.5,
+     "7sus4": 1.5,
+     "maj7#11": 0.5
+    }
+   },
+   "pattern_tags": {
+    "stab": 2,
+    "offbeat": 1.5,
+    "push": 1.5,
+    "long": 0.7
+   },
+   "chord_family": "grit"
   },
   "kit": {
    "kick": [
@@ -2699,6 +2987,34 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2748,14 +3064,36 @@
     ],
     [
      "midi",
-     0.805
+     2.416
     ]
    ],
    "tempo": [
     90,
     105
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "chord_grammar": {
    "_note": "FIRST identity on the chord rhythm grammar (owner build 2026-09-05). Opt-in: every other identity has no chord_grammar key and plays the old arp/sustain. He was picked because his chord_source is horns 3 / synth 2 with no loop, so every one of his beats goes through the grammar, and because his own listen line is 'marching-band anthem stomp ... horn color, zero subtlety' — blaring on-beat horn stabs are the sound the chord layer never had.",
@@ -2887,6 +3225,38 @@
     [
      "backdoor_soul",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2940,7 +3310,7 @@
     ],
     [
      "midi",
-     1.337
+     4.01
     ]
    ],
    "tempo": [
@@ -2948,7 +3318,24 @@
     95
    ],
    "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7.",
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.65,
+    "lean": {
+     "min7": 1.5,
+     "min9": 1.5,
+     "dom9": 1.5,
+     "7sus4": 1.5,
+     "maj7#11": 0.5
+    }
+   },
+   "pattern_tags": {
+    "stab": 2,
+    "offbeat": 1.5,
+    "push": 1.5,
+    "long": 0.7
+   },
+   "chord_family": "grit"
   },
   "kit": {
    "kick": [
@@ -3308,6 +3695,34 @@
     [
      "hijaz_cadence",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -3357,7 +3772,7 @@
     ],
     [
      "midi",
-     1.128
+     3.384
     ]
    ],
    "tempo": [
@@ -3376,7 +3791,29 @@
      "sustain",
      1
     ]
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "kit": {
    "kick": [
@@ -4166,6 +4603,58 @@
     [
      "soul_turnaround",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "_horns_status": "RESTORED 2026-07-23 (was PARKED the same day). History: he auditioned #1046-#1048 on the SYNTHESIZED horn and rejected the tone outright ('I do not like the way that horn sounds at all'), so chord_source was made loop-dominant as an interim -- musically wrong for him, since his whole identity is the brass stack and on loop alone he overlaps Dilla/No Alias/Razor. The park reason is now gone: 'horns' no longer means a synth at all. Per his 2026-07-23 sampling directive ('I want my sounds, not fake ones') brass is SAMPLED from his own chops and multi-sampled across the range (tools/brass_sampler.py), and the synth horn_chord/horn_stab/horn_sustain were deleted. So this is back to the shape his research actually calls for. STILL UNHEARD: he has not auditioned the sampled brass yet -- if it also misses, the fix is the sample POOL (which chops are indexed, MIN_CLARITY) or the arp/sustain split, NOT a return to synthesis, which is now against standing instruction.",
@@ -4220,7 +4709,7 @@
     ],
     [
      "midi",
-     1.128
+     3.384
     ]
    ],
    "chord_rhythm": [
@@ -4237,7 +4726,25 @@
     82,
     110
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "own_soundbank": true,
   "_research_note": "NEW BUILD 2026-09-06, eighth legend through the pass.\nBackup: legends_config.pre-just-flame-2026-09-06.json.\n\nSTEP 1b, CHECKED FIRST: Just Blaze is NOT in the nine. The crew is built\non Dilla, Premier, Pete Rock/Madlib, Timbaland, Pharrell, Kanye, Metro,\nLex Luger, plus three no-ones. No duplicate, no era question to put to\nthe owner. (Farrow/Glass Cat and Kane East/Sunday Chop were both caught\nthis way, so the check runs before the research, not after.)\n\nSOURCES\n- Tape Op #101, Just Blaze interview (his own words). The identity\n  sentence: \"It's not about the tempo, and it's not about the genre;\n  it's about the energy... Listen to a record like 'Higher' by me and\n  Baauer, Jay-Z's 'U Don't Know', Jay-Z's 'Public Service Announcement',\n  or Big Pun's 'Wrong Ones' — what do they all have in common? Energy.\"\n  Also: sped-up soul samples (\"The record sounds good on 45!\"), chopping\n  one record into 20-40 parts, and sidechain used SUBTLY — the \"U Don't\n  Know\" horns keyed off Jay's vocal, \"not for the flash or pumping of\n  it.\"\n- Universal Audio, \"Creating Hip Hop: 10 Questions With Just Blaze\"\n  (Darrin Fox, 2024-04-16). Two load-bearing answers. On the common\n  mistake: \"Over compression... it can also sneak up on you and suck the\n  life, soul, and dynamics right out.\" On the snare: he runs bass, kick\n  and sometimes snare through an SPL Transient Designer — \"it's the\n  perfect tool for crafting snare samples, letting me use the NATURAL\n  REVERB, rather than having to use a reverb plug-in.\"\n\nCHANGES\n1. space \"gated\" -> \"room\". THE ONE HEADLINE, and it is quoted above in\n   his own words: he crafts the snare so he can use its natural reverb\n   INSTEAD of a reverb plug-in. Gated reverb is a plug-in effect and an\n   80s one. \"gated\" was never researched here — it is the inherited\n   roster default that 7 of 12 legends shared, and every legend rebuilt\n   so far has moved off it (Doc Day, Farrow, Kane East and Mustang to\n   dry, Razor to room). Room is the sourced choice, not merely the\n   not-gated one: the source asks for natural room on the snare, which\n   \"dry\" would remove as surely as gated would bury it.\n2. TASTE TAGS rewritten to words that exist in real filenames, THEN\n   own_soundbank on — that order, the same as Razor, Mustang, Farrow and\n   Kane East, because the flag over dead tags is strictly worse than the\n   open bank. What was dead (tools/legend_newbuild.py --tags):\n     snare  big=0, crack=0    -> hard=16 + heavy=3\n     clap   big=0             -> clap=75 (the whole 76-file pool)\n     stamp  swell=0           -> crash=96 of 285\n     kick   punch=1           -> hard=17 + stomp=29 + boom=3\n   `stomp` is the single best find: his listen line says \"pounding\n   driving kicks\" and the library has 29 files with stomp in the name,\n   none of which the old tags could reach.\n   Named, not hidden: \"big\" and \"huge\" match ZERO snares and ZERO claps\n   in this library, so \"a huge snare-clap stack\" cannot be delivered by\n   a taste tag at all. It is delivered by the lane gains (snare 0.85,\n   clap 0.5 stacked on top) which were already there. Do not re-add\n   \"big\" later thinking it was an oversight.\n   Also named: the source asks for natural room on the snare, and the\n   snare pool has room=2 files. Two is too thin to gate on, so the room\n   comes from `space`, above, and NOT from the tags. That is why the\n   snare tags read hard/heavy and not room/live — deliberate, sourced,\n   and the reason is written down here.\n3. kick_flavors: the 808 branch cut 0.3 -> 0.15 and its dead tags\n   (\"deep\" = 0 files) replaced with 808/low. It OVERRIDES kit[\"kick\"] on\n   every composed beat (pattern_gen.py:1326), so fixing the kit alone\n   would have changed nothing — the same trap that bit Kane East. The\n   change is DESCRIPTION-LED, not sourced: his line says \"pounding\n   driving kicks\", a 2001 chopped-soul sound, and a long sliding 808 is\n   Hitt Kid's lane.\n\nTHE 808 BRANCH IS GONE, AND THE REASON IS A MEASUREMENT, NOT A TASTE\nCALL. It was first cut to 0.15, then removed outright when the printed\nsample list kept showing 808s. Measured over 300 composed beats: a\nDECLARED 15% delivered a REAL 38%. The cause is the streak-breaker in\npattern_gen.compose() — after the same flavor runs two beats in a row\nits weight is zeroed, and with only TWO flavors that hands the other one\na probability of 1, whatever its weight says. So the weight was very\nnearly inert and no number would have fixed it; the only real lever was\nkeep the branch or drop it. Dropped, on his own description. He is now\none flavor, like Farrow, Kane East and J Dillo.\nTHIS IS AN ENGINE-WIDE ASYMMETRY, not a fault of his config: it hits\nevery crew DJ and legend with two lopsided flavors (genres are exempt in\nthe code by the 2026-07-19 rule). NOT fixed here — the fix would touch\nthe nine, which this pass is not allowed to do. Written up in\nDECISIONS.md 2026-09-06 instead.\n4. The stamp is now re-picked PER BEAT, not welded. That is the roster-\n   wide 2026-09-06 change (owner: \"lets stop using the dj stamps moving\n   forward\" -> keep the color, stop locking it, twelve legends only),\n   and it lands especially well here: his stamp lane is the crash, his\n   line says \"crash swells\", and he now gets a different crash on every\n   beat instead of one crash forever.\n\nDELIBERATELY NOT CHANGED — each one named, not overlooked\n- sidechain 0.2. The source SPEAKS to this and CONFIRMS the existing\n  number rather than moving it: he uses sidechain in hip-hop, but\n  \"slight\", \"not for the flash or pumping of it\". 0.2 is already the\n  shallow value. Confirmed, not tuned.\n- mix_sat 0.0, kick_dist 0.0, drive 1.5, no `glue` block. Same: the\n  source speaks and confirms. \"Over compression... can suck the life,\n  soul, and dynamics right out\" is an argument for leaving the\n  compression and saturation knobs alone, which is what happened. Note\n  this is the OPPOSITE of Doc Day, whose sources demanded hard SSL\n  compression and who got glue 4.0. Do not blanket-apply his number here.\n- bpm 94 and legend_swing 54. The source says swing matters to him — he\n  imported the actual MPC3000 and SP-1200 sequencer grooves into Logic\n  because \"the differences in swings can be very slight\" — but names no\n  number, and on tempo he says outright that it is \"not about the\n  tempo\". Direction sourced, amount unsourced, so nothing moved.\n- dust 0.25 / vinyl -46. Sped-up soul chops off records argue for keeping\n  a light bed, but no source names an amount. Left.\n- No mix_eq of his own; he renders through the house EQ. Unsourced.\n- NO INVARIANT, and this is a finding rather than a gap: his listen line\n  contains no absolute word — no never, always, dead straight or locked.\n  tools/legend_newbuild.py prints no ABSOLUTES line for him. There is\n  nothing here to build a choke point for, and inventing one would be\n  the blanket-apply of Doc Day's snare lock that the skill forbids.\n\nSTATUS: measured and rendered, NOT heard. auditioned, not confirmed.",
@@ -4577,6 +5084,34 @@
     [
      "harmonic_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -4630,14 +5165,36 @@
     ],
     [
      "midi",
-     1.128
+     3.383
     ]
    ],
    "tempo": [
     80,
     96
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "allow_dirt": true,
   "own_soundbank": true,
@@ -5031,6 +5588,38 @@
     [
      "cinematic_rise",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
     ]
    ],
    "chord_source": [
@@ -5048,7 +5637,7 @@
     ],
     [
      "midi",
-     1
+     3.05
     ],
     [
      "bell",
@@ -5092,7 +5681,24 @@
     85,
     105
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.65,
+    "lean": {
+     "min7": 1.5,
+     "min9": 1.5,
+     "dom9": 1.5,
+     "7sus4": 1.5,
+     "maj7#11": 0.5
+    }
+   },
+   "pattern_tags": {
+    "stab": 2,
+    "offbeat": 1.5,
+    "push": 1.5,
+    "long": 0.7
+   },
+   "chord_family": "grit"
   },
   "own_soundbank": true,
   "_research_note": "NEW-BUILD 2026-09-19, eleventh legend through the pass. Backup: legends_config.pre-hitt-kid-2026-09-19.json.\n\nSTEP 1b CLEAN. Hit-Boy is not one of the nine, so unlike Farrow, Kane East, Timberline and J Dillo there was no duplicate and no era to pick between. (DJ Premium is the fourth duplicate -- Cutz is also built='DJ Premier' -- found on 2026-09-19 and left for its own session.)\n\nTHE ERA QUESTION WAS ASKED AND ANSWERED THE OTHER WAY. His drums read club-trap (2011-18) and his signature/chord block reads King's Disease (2020+), which looks like an inconsistency. Owner 2026-09-19, asked directly: KEEP THE SPLIT. His listen line opens 'the modern hybrid', so the two eras pointing different directions is the identity, not a fault to tidy. The July chord research stands untouched.\n\nSOURCE for this build: Sound On Sound, 'Inside Track: Hit-Boy', Paul Tingen, July 2024 -- a technical interview in his own words.\n\nWHAT THE SOURCE MOVED: nothing in the numbers, and that is the finding. Every processing knob he carries was already what the interview describes, so this build CONFIRMS rather than changes, and says so instead of inventing a change to look busy:\n  - clean stays clean (dust 0, vinyl 0, wow 0, mix_sat 0, kick_dist 0). His mixer David Kim is there to 'make sure that everything is blasting out at the right levels and hitting the way I want it to, WITH THE CLARITY at the same time', and he checks 808s on loud QSCs so they do not 'tear through the speakers'. That is 'clean and huge' exactly. NO allow_dirt -- the opposite call to Razor and J Dillo.\n  - timing stays programmed (jitter 1 ms, swing 50). 'I'm primarily a programmer'; FL Studio since ~2002 and 'it's an extension of me'. Nothing here asks for a human pull, so none was added.\n  - the two kick flavors stay two. The hybrid is real and he says so both ways: 'With 808s, I switch it up ... it's almost not an 808, and more like a Moog sound ... deep and hits like an 808, but it has this top that gives it a different bounce'; and on a stripped-down beat, 'the bass in this track was a one-shot acoustic bass, because it's very deep. THERE'S NO 808.' He genuinely trades, so 45/55 is his, not a roster default.\n\nWHAT ACTUALLY CHANGED -- the tags, which were nearly all dead code, and then own_soundbank on, IN THAT ORDER:\n  kick  punch/hard/knock -> hard/dry   (punch matched 1 of 488, knock 1)\n  snare crack/clean/trap -> hard/trap  (crack matched 0 of 680)\n  hat   trap/closed/tight -> closed/tite (trap 1, tight 1 of 662; this library spells it `tite`, the same trap Mustang hit. Spelled by hand, NOT fixed with flavor_match -- that flag is forward-only and must not go on any of the twelve existing legends.)\n  stamp impact/reverse/riser -> impact/reverse (Kane East's note: a riser is not a producer tag)\n  clap  left alone -- `clap` already matches 276 of 282.\n  snare is hard/trap and NOT hard/dry: Razor's note records that `dry` on a snare hands back sidesticks and rims, and it has been walked into twice since.\n\nTHE 808 BRANCH, and the reason this legend went first after the fix: on 2026-09-19 flavor_role() was fixed so an 808 kick flavor draws from `bass` (430 real 808s) instead of `kick` (2 matching files). His 808 wants were deep/punch, which match 0 and 1 of those 430 -- the bass pool's vocabulary is PACK NAMES (cymatics 45, oracle 34, playoffs 30, spinz 14, xangang 10), not taste words. Left as-is they would have funnelled every 808 beat he makes onto one file the moment own_soundbank went on. EMPTIED, exactly as Mustang's were on 2026-09-05 for the same reason.\n\nNO INVARIANT, said out loud rather than invented. His listen line has no absolute word in it -- 'halftime and backbeat both in the bag' is the opposite of a lock, so there is nothing to choke. Same call as Just Flame. Do not copy Doc Day's snare lock here.\n\nENGINE CHANGE SHIPPED WITH HIM (owner-approved 2026-09-19, all 13 legends, the nine untouched): the kick-flavor streak-breaker in pattern_gen.compose() now exempts legends. It zeroed a flavor's weight after two repeats, which with the TWO flavors every legend carries forced the other to certainty -- Just Flame's declared 15% delivered 38%, DJ Light Green's 80% delivered 60%. Four legends had their 808 branch DELETED to work around it. His own 45/55 was measuring 48/52.",
@@ -5459,6 +6065,34 @@
     [
      "gospel_walkup",
      1.0
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -5512,14 +6146,35 @@
     ],
     [
      "midi",
-     1.128
+     3.384
     ]
    ],
    "tempo": [
     85,
     96
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "flavor_match": true
  },
@@ -5997,6 +6652,34 @@
     [
      "lydian_float",
      1
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -6014,7 +6697,7 @@
     ],
     [
      "midi",
-     1
+     4.334
     ],
     [
      "choir",
@@ -6065,7 +6748,28 @@
      "sustain",
      1
     ]
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "_research_note": "NEW BUILD — NEW LEGEND 2026-09-09, the thirteenth. Owner asked for DJ Green Lantern under a roster name he chose himself: DJ Light Green. Era chosen by him: the 2013+ EDM/trap crossover, not the 2002-06 Invasion mixtape years.\n\nSOURCES\n- Vibe, 2026-02-18 (Jessica Wunsch), asked what his mindset was going into 'Know About Me' (w/ Iggy Azalea + Valentino Khan, Ultra Music): \"I was going for literally some marching band trap music with feel good elements to it along with some trance in the chord sections with some big percussion elements in there to off-set it.\" That one sentence is this whole build: marching-band snare rolls, major/bright trance arps in the chords, and a loud offsetting percussion lane (toms/timbale).\n- Complex, 2014-02-11 (nappy): \"A lot of your production has had twerk and trap inspiration\" - he confirms, and adds house and future funk. Hence library tags trap/electro/house/techno.\n- Complex 2014: Ultra released the record because they had \"more bass-oriented music coming out (Flosstradamus, etc.)\" - the reason the 808 is long and driven here rather than short and dry.\n- Life+Times, 2013-01-11: his Altitude mix is built around RL Grime, UZ, Baauer, Heroes x Villains, Mayhem - the 140 EDM-trap lane. He describes it as \"heavy on the 'turn up' side of things; high energy, you might feel high or elevated\".\n- Life+Times, 2013-01-11, on what carries over from the mixtape years: \"I've always been creative with vocal samples and beats throughout my career and would much rather chop up some existing vocals and make some music around it.\" Hence the stamp is a chopped vocal, not an fx hit.\n\nTHE 50% RULE (owner, 2026-09-09): \"The snare on the 3. Or similar rules that limit variety should only be followed 50% of the time.\" Scoped to THIS LEGEND ONLY - he confirmed that twice in the same session, and Doc Day's snare_locked_24 stays locked. So his snare menu is _bb('halftime', 0.5): halftime (snare on 3) at ~0.50, and the other 0.50 spread evenly across all nine remaining backbeat modes - anything the grammar allows, not a named second option. DO NOT 'fix' this back into a lock; it is the owner's directive, not a missed invariant.\n\nUNSOURCED, left at era convention and flagged: sidechain 0.3 (EDM pump is genre-standard but he never says it) and kick_dist 4.0 (inferred from the 'bass-oriented' line above, NOT from a quote about distortion). Both are the first things to change if the audition is wrong.\n\nTAG AUDIT 2026-09-09 (--tags, TBOTC 3 mounted). First pass was the classic fault: kick 808/sub/boom matched 3 files of 488, snare 'crack' 0 of 676, perc 'timbale' 0 of 640, and the STAMP — the one sample on every single beat — asked fx for vocal/chop/shout and matched 1 of 353. Rewritten against real filenames: kick hard/dry/bass=47, snare hard/dry=39, hat closed/tite=44, perc tom/stomp/cowbell=90. The stamp was moved out of fx into the VOX bucket (vox/chant/hey), which is the same fix Mustang's 'Hey!' chant needed — the library keeps vocal material in vox, not fx. NOTE: the '808' in kick_flavors is a LABEL for the notes-box request, not a bucket; the role stays 'kick', so what makes his kick an 808 here is the 0.6-1.4s sustain range, not a tag.\n\nSTAMP: he does NOT get one. Owner rule 2026-08-01 switched the stamp lane off for everyone (STAMP_LANE=False in beat_machine) — 'The DJs don't have to have a signature sound for every track.' A first render here proved it: the stamp was picked correctly (Cymatics - Diamonds Vox, from the vox bucket) and then _drop_stamp() removed the lane before compose() ever saw it. Re-enabling it for one legend would reverse his own rule roster-wide, so instead his sourced vocal-chopping habit went into extras (vox/chant/hey). He carries a kit stamp entry with no stamp LANE — Razor's exact shape, which is what test_every_personality_has_a_stamp expects; lock_stamps needs the kit entry and returns (None, None) for legends anyway — chopped vocals turn up on some beats, not all, which is what the 2026-08-01 rule actually asked for.\n\nSNARE TAGS, second pass: 'dry' (28 files) was pulling SIDESTICKS into the snare lane — 'HWIP_Dry_SideStick', 'sn4 ss dry' both landed in a render. Replaced with hard/buz/flam/roll = 36 files and not one sidestick among them. That is also the better answer musically: buzz rolls and flams ARE the marching-band snare he named, so the tag fix and the identity pull the same way.",
   "flavor_match": true
@@ -6460,6 +7164,34 @@
     [
      "villain_harmonic",
      1
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -6509,7 +7241,7 @@
     ],
     [
      "midi",
-     1.222
+     3.667
     ]
    ],
    "tempo": [
@@ -6528,7 +7260,28 @@
      "arp",
      1
     ]
-   ]
+   ],
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "flavor_match": true,
   "_research_note": "SEE signature._note — full sourcing kept there to stay next to the harmony it justifies, same as this legend's chord picks. Structural picks (kit/grammar/tempo) sourced inline above.\n\nREAL TAG AUDIT 2026-09-26 (--tags, TBOTC 3 mounted via the device bridge this session -- the borrowed guess above was checked, not left as a guess). First pass (the borrowed Miami-Bass-genre words) was almost entirely dead IN THIS LEGEND'S OWN BUCKETS: kick 808/boom matched 0 of 282 (both ARE real words, but they live in the BASS bucket now -- 808 left the kick tuple 2026-09-07, and 808=111 / boom=111 there); clap 'big' 0 of 53; stamp vocal/zap 0-1 of 167. Rewritten against real filenames: kit.kick hard/dry/bass (18/22/7 of 282); kick_flavors' 808 branch moved off the dead sub/long/deep to 808/boom/deep (111/111/5 of 132 in the BASS bucket, where an '808' kick_flavor actually draws from); the short kick_flavor moved from punch/tight (0/2) to hard/dry; clap dropped to clap alone (52 of 53 -- 'big' added nothing); stamp moved from vocal/zap/laser/scratch to siren/alarm/riser (4/2/4 of 167) -- thinner than the genre's borrowed words but the actually-correct concept for 'air-raid-siren-style', confirmed real rather than assumed. Hat (closed/tight, 30/17 of 337) and perc (cowbell, 21 of 340) were already alive and left as-is."
@@ -6892,6 +7645,58 @@
     [
      "gospel_walkup",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -6953,7 +7758,25 @@
     96
    ],
    "chords_default": true,
-   "loop_pool_only": "Library of Congress"
+   "loop_pool_only": "Library of Congress",
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "flavor_match": true,
   "own_soundbank": true,
@@ -7032,6 +7855,58 @@
     [
      "backdoor_soul",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -7094,7 +7969,25 @@
    ],
    "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7.",
    "chords_default": true,
-   "loop_pool_only": "Library of Congress"
+   "loop_pool_only": "Library of Congress",
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "kit": {
    "kick": [

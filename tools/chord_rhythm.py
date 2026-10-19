@@ -123,6 +123,12 @@ def spec_for(preset, free=False):
     # rebuilds exactly as it was made.
     if preset.get("chord_flow") and preset.get("chord_library", True):
         spec["library"] = True
+        # Per-identity rhythm leanings (2026-10-19 deep pass) live in the
+        # signature, not chord_grammar: setting chord_grammar would also
+        # switch which arp share applies. A grammar's own tags still win.
+        if not spec.get("pattern_tags"):
+            spec["pattern_tags"] = ((preset.get("signature") or {})
+                                    .get("pattern_tags"))
     return spec
 
 

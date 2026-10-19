@@ -11,13 +11,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 
 import harmony                                                       # noqa: E402
-from key_context import CHORDS, KeyContext                           # noqa: E402
+from key_context import ALL_CHORDS, CHORDS, KeyContext                           # noqa: E402
 
 
 def test_every_progression_uses_a_known_chord_quality():
     for name in harmony.names():
         for _offset, quality in harmony.PROGRESSIONS[name]["chords"]:
-            assert quality in CHORDS, "%s uses unknown quality %r" % (name, quality)
+            assert quality in ALL_CHORDS, "%s uses unknown quality %r" % (name, quality)
 
 
 def test_compose_transposes_onto_the_given_key():
@@ -200,3 +200,40 @@ def test_lead_parts_glides_each_part_and_keeps_the_top_part_on_top():
                 if a[k] and b[k]:
                     moved_new += harmony._move(a[k], b[k])
     assert moved_new < moved_old, (moved_new, moved_old)
+
+
+def test_colorize_keeps_roots_and_follows_the_card():
+    """Deep pass 2026-10-19: richer chords on the SAME roots; depth 0 = no
+    change, depth 1 = every triad upgraded; a lean of 0 bans a colour."""
+    key = KeyContext("C", "minor")
+    for name in harmony.names():
+        _n, chords = harmony.compose(key, name)
+        roots = [c["notes"][0] for c in chords]
+        before = [c["quality"] for c in chords]
+        assert harmony.colorize(key, chords, {"depth": 0},
+                                random.Random(1)) == 0
+        assert [c["quality"] for c in chords] == before
+        harmony.colorize(key, chords, {"depth": 1, "lean": {"min11": 0}},
+                         random.Random(2))
+        assert [c["notes"][0] for c in chords] == roots
+        for c, q in zip(chords, before):
+            assert c["quality"] != "min11" or q == "min11"
+            if q in ("major", "minor"):
+                assert c["quality"] != q
+            assert harmony._candidates(c["notes"])
+
+
+def test_every_identity_has_a_colour_card_and_real_progressions():
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    for f in ("crew_config.json", "legends_config.json", "genres_config.json"):
+        for name, v in json.loads((root / f).read_text()).items():
+            if name.startswith("_") or "signature" not in v:
+                continue
+            sig = v["signature"]
+            assert 0 < sig["chord_color"]["depth"] <= 1, name
+            assert sig["pattern_tags"], name
+            for p in sig["progressions"]:
+                p = p[0] if isinstance(p, list) else p
+                assert p in harmony.PROGRESSIONS, (name, p)

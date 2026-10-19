@@ -106,7 +106,27 @@ def write_midi(path, events, bpm, tpq=480, tsig=(4, 4), chords=None):
             last = tick
         data += b"\x00\xff\x2f\x00"
         chunks.append(b"MTrk" + len(data).to_bytes(4, "big") + bytes(data))
-    ntracks = len(lanes) + (1 if chords else 0)
+    # the bass line's real performance (bass groove, 2026-10-19): its own
+    # track on channel 2, only when a chord entry carries one -- older
+    # beats keep their held root inside the chords track
+    bass = [b for c in (chords or []) for b in c.get("bass_line") or ()]
+    if bass:
+        msgs = []
+        for start, dur, note, vel in bass:
+            on = int(round(start / spq * tpq))
+            off = max(on + 1, int(round((start + dur) / spq * tpq)))
+            msgs.append((on, 1, 0x91, note, vel))
+            msgs.append((off, 0, 0x81, note, 64))
+        msgs.sort()
+        nm = b"bass"
+        data = bytearray(b"\x00\xff\x03" + bytes([len(nm)]) + nm)
+        last = 0
+        for tick, _, status, nt, vel in msgs:
+            data += _vlq(max(tick - last, 0)) + bytes([status, nt, vel])
+            last = tick
+        data += b"\x00\xff\x2f\x00"
+        chunks.append(b"MTrk" + len(data).to_bytes(4, "big") + bytes(data))
+    ntracks = len(lanes) + (1 if chords else 0) + (1 if bass else 0)
     head = (b"MThd" + (6).to_bytes(4, "big") + (1).to_bytes(2, "big")
             + (1 + ntracks).to_bytes(2, "big") + tpq.to_bytes(2, "big"))
     Path(path).write_bytes(head + b"".join(chunks))

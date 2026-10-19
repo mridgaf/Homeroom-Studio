@@ -92,6 +92,29 @@ CHORDS = {
     "5":        (0, 7),
 }
 
+# Deeper colours (owner 2026-10-19: "simplistic chords"). Kept OUT of
+# CHORDS on purpose: name_chord() reads his MIDI packs through CHORDS, and
+# a bigger vocabulary there would rename chords in beats already made.
+# These are only ever WRITTEN (voice / chord_name / roman), never read.
+EXT_CHORDS = {
+    "min11":    (0, 3, 7, 10, 14, 17),
+    "min6":     (0, 3, 7, 9),
+    "m7b5":     (0, 3, 6, 10),
+    "dim7":     (0, 3, 6, 9),
+    "min_maj7": (0, 3, 7, 11),
+    "maj6":     (0, 4, 7, 9),
+    "6/9":      (0, 4, 7, 9, 14),
+    "maj7#11":  (0, 4, 7, 11, 18),
+    "dom9":     (0, 4, 7, 10, 14),
+    "dom13":    (0, 4, 10, 14, 21),
+    "7sus4":    (0, 5, 7, 10),
+    "9sus4":    (0, 5, 10, 14),
+    "7b9":      (0, 4, 7, 10, 13),
+    "add11":    (0, 4, 7, 17),
+    "madd9":    (0, 3, 7, 14),
+}
+ALL_CHORDS = {**CHORDS, **EXT_CHORDS}
+
 # how each quality is written after a note name / a roman numeral
 SYMBOL = {"major": "", "minor": "m", "dim": "dim", "aug": "aug",
           "sus2": "sus2", "sus4": "sus4", "maj7": "maj7", "min7": "m7",
@@ -101,7 +124,18 @@ FIGURE = {"major": "", "minor": "", "dim": "°", "aug": "+",
           "sus2": "sus2", "sus4": "sus4", "maj7": "maj7", "min7": "7",
           "dom7": "7", "min9": "9", "maj9": "maj9", "add9": "add9",
           "7#9": "7#9", "5": "5"}
-MINORISH = ("minor", "dim", "min7", "min9")
+SYMBOL.update({"min11": "m11", "min6": "m6", "m7b5": "m7b5", "dim7": "dim7",
+               "min_maj7": "m(maj7)", "maj6": "6", "6/9": "6/9",
+               "maj7#11": "maj7#11", "dom9": "9", "dom13": "13",
+               "7sus4": "7sus4", "9sus4": "9sus4", "7b9": "7b9",
+               "add11": "add11", "madd9": "m(add9)"})
+FIGURE.update({"min11": "11", "min6": "6", "m7b5": "ø7", "dim7": "°7",
+               "min_maj7": "(maj7)", "maj6": "6", "6/9": "6/9",
+               "maj7#11": "maj7#11", "dom9": "9", "dom13": "13",
+               "7sus4": "7sus4", "9sus4": "9sus4", "7b9": "7b9",
+               "add11": "add11", "madd9": "add9"})
+MINORISH = ("minor", "dim", "min7", "min9", "min11", "min6", "m7b5",
+            "dim7", "min_maj7", "madd9")
 
 _ROMAN = ("I", "II", "III", "IV", "V", "VI", "VII")
 
@@ -225,7 +259,7 @@ class KeyContext(object):
         given octave — chords.md's formula turned into keys you could
         play on the Launchkey."""
         base = (octave + 1) * 12 + (root_pc % 12)
-        return [base + step for step in CHORDS[quality]]
+        return [base + step for step in ALL_CHORDS[quality]]
 
     def triad(self, degree):
         """The plain 3-note chord built on a scale degree (1-7) of this

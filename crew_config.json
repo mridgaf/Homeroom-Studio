@@ -434,6 +434,58 @@
     [
      "mixo_soul_climb",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -487,7 +539,7 @@
     ],
     [
      "midi",
-     0.833
+     2.5
     ]
    ],
    "chord_rhythm": [
@@ -500,7 +552,25 @@
      1
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "sub_layer": {
    "freq_hz": 40.0,
@@ -923,6 +993,38 @@
     [
      "mixo_vamp",
      2.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
     ]
    ],
    "chord_source": [
@@ -976,11 +1078,28 @@
     ],
     [
      "midi",
-     1.0
+     3.0
     ]
    ],
    "chord_rhythm": "arp",
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.65,
+    "lean": {
+     "min7": 1.5,
+     "min9": 1.5,
+     "dom9": 1.5,
+     "7sus4": 1.5,
+     "maj7#11": 0.5
+    }
+   },
+   "pattern_tags": {
+    "stab": 2,
+    "offbeat": 1.5,
+    "push": 1.5,
+    "long": 0.7
+   },
+   "chord_family": "grit"
   },
   "backbeat_echo": {
    "note": 0.5,
@@ -1451,6 +1570,58 @@
     [
      "neo_soul_descent",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -1504,7 +1675,7 @@
     ],
     [
      "midi",
-     1.128
+     3.383
     ]
    ],
    "chord_rhythm": [
@@ -1517,7 +1688,25 @@
      1
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "backbeat_echo": {
    "note": 0.5,
@@ -1974,6 +2163,38 @@
     [
      "lydian_float",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2023,7 +2244,7 @@
     ],
     [
      "midi",
-     0.805
+     2.416
     ]
    ],
    "chord_rhythm": [
@@ -2036,7 +2257,24 @@
      2
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.65,
+    "lean": {
+     "min7": 1.5,
+     "min9": 1.5,
+     "dom9": 1.5,
+     "7sus4": 1.5,
+     "maj7#11": 0.5
+    }
+   },
+   "pattern_tags": {
+    "stab": 2,
+    "offbeat": 1.5,
+    "push": 1.5,
+    "long": 0.7
+   },
+   "chord_family": "grit"
   },
   "backbeat_echo": {
    "note": 0.5,
@@ -2469,6 +2707,34 @@
     [
      "lydian_wander",
      1.0
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -2518,11 +2784,32 @@
     ],
     [
      "midi",
-     0.805
+     2.416
     ]
    ],
    "chord_rhythm": "arp",
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "chorus": {
    "rate_hz": 0.8,
@@ -3028,6 +3315,58 @@
     [
      "anthem_sus",
      0.5
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_backdoor",
+     1.2
+    ],
+    [
+     "deep_neo_soul_cycle",
+     1.2
+    ],
+    [
+     "deep_gospel_minor",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_sunday_turn",
+     1.2
     ]
    ],
    "chord_source": [
@@ -3081,7 +3420,7 @@
     ],
     [
      "midi",
-     0.967
+     2.9
     ]
    ],
    "chord_rhythm": [
@@ -3094,7 +3433,25 @@
      1
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.85,
+    "lean": {
+     "min9": 1.5,
+     "min11": 1.5,
+     "maj9": 1.5,
+     "dom13": 1.5,
+     "6/9": 1.5,
+     "min_maj7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "push": 2,
+    "ghost": 2,
+    "bounce": 1.5,
+    "stab": 0.7
+   },
+   "chord_family": "soul_jazz"
   },
   "phaser": {
    "rate_hz": 0.5,
@@ -3507,6 +3864,34 @@
     [
      "anthem_sus",
      1.0
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -3524,7 +3909,7 @@
     ],
     [
      "midi",
-     1.5
+     2.883
     ],
     [
      "choir",
@@ -3573,7 +3958,29 @@
      3
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "chorus": {
    "rate_hz": 0.8,
@@ -4024,6 +4431,34 @@
     [
      "snarl_vamp",
      0.5
+    ],
+    [
+     "deep_minor_ii_v_i",
+     1.2
+    ],
+    [
+     "deep_noir_chromatic",
+     1.2
+    ],
+    [
+     "deep_trap_tension",
+     1.2
+    ],
+    [
+     "deep_villain_minor",
+     1.2
+    ],
+    [
+     "deep_dark_pedal",
+     1.2
+    ],
+    [
+     "deep_tritone_sub",
+     1.2
+    ],
+    [
+     "deep_rage_stomp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -4037,7 +4472,7 @@
     ],
     [
      "midi",
-     2.0
+     2.233
     ],
     [
      "bell",
@@ -4086,7 +4521,29 @@
      2
     ]
    ],
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.5,
+    "lean": {
+     "min_maj7": 3,
+     "m7b5": 2,
+     "7b9": 2.5,
+     "dim7": 2,
+     "madd9": 1.5,
+     "maj9": 0.3,
+     "maj6": 0.2,
+     "6/9": 0.2,
+     "add11": 0.3
+    }
+   },
+   "pattern_tags": {
+    "sparse": 2,
+    "stab": 1.5,
+    "offbeat": 1.5,
+    "long": 1.2,
+    "bounce": 0.7
+   },
+   "chord_family": "dark"
   },
   "_no_twist": "Owner's personal-twist rule (2026-09-03) is vetoed here BY HIS OWN CALL: his research says the mix is glued by saturation, not modulation, and a wall of sound has no gap for a delay. He still gets the house mix EQ. Do not add echo/chorus/phaser without asking him.",
   "allow_dirt": true,
@@ -4616,6 +5073,30 @@
     [
      "suspended_open",
      1.0
+    ],
+    [
+     "deep_mixo_funk",
+     1.2
+    ],
+    [
+     "deep_bounce_up",
+     1.2
+    ],
+    [
+     "deep_chip_lift",
+     1.2
+    ],
+    [
+     "deep_secondary",
+     1.2
+    ],
+    [
+     "deep_gospel_walk",
+     1.2
+    ],
+    [
+     "deep_dorian_vamp",
+     1.2
     ]
    ],
    "chord_source": [
@@ -4671,7 +5152,24 @@
    "chord_rhythm": "arp",
    "chip_tuning": "atari",
    "chip_count": 5,
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.55,
+    "lean": {
+     "dom9": 2,
+     "7sus4": 2,
+     "maj6": 1.5,
+     "add9": 1.5,
+     "m7b5": 0.5
+    }
+   },
+   "pattern_tags": {
+    "bounce": 2,
+    "busy": 1.5,
+    "offbeat": 1.5,
+    "push": 1.2
+   },
+   "chord_family": "bright_funk"
   },
   "phaser": {
    "rate_hz": 0.5,
@@ -5202,6 +5700,34 @@
     [
      "line_cliche",
      1
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -5251,11 +5777,32 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": "sustain",
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "chorus": {
    "rate_hz": 0.8,
@@ -5528,6 +6075,34 @@
     [
      "dreamy",
      1
+    ],
+    [
+     "deep_dilla_float",
+     1.2
+    ],
+    [
+     "deep_plug_glow",
+     1.2
+    ],
+    [
+     "deep_borrowed_iv",
+     1.2
+    ],
+    [
+     "deep_lydian_dream",
+     1.2
+    ],
+    [
+     "deep_neo_major",
+     1.2
+    ],
+    [
+     "deep_soul_drift",
+     1.2
+    ],
+    [
+     "deep_major_ii_v",
+     1.2
     ]
    ],
    "chord_source": [
@@ -5577,11 +6152,32 @@
     ],
     [
      "midi",
-     0.934
+     2.801
     ]
    ],
    "chord_rhythm": "sustain",
-   "chords_default": true
+   "chords_default": true,
+   "chord_color": {
+    "depth": 0.75,
+    "lean": {
+     "maj7#11": 2.5,
+     "add9": 2,
+     "madd9": 2,
+     "sus2": 2,
+     "6/9": 1.5,
+     "9sus4": 2,
+     "7b9": 0.3,
+     "dim7": 0.3
+    }
+   },
+   "pattern_tags": {
+    "long": 2.5,
+    "pad": 2,
+    "sparse": 1.5,
+    "stab": 0.5,
+    "busy": 0.5
+   },
+   "chord_family": "dreamy"
   },
   "grammar": {
    "kick": {

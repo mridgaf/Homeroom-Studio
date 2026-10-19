@@ -150,3 +150,11 @@ The recipe-translation brain and the REAPER song builder, as described in their 
 2 source files, 1 part(s), 60 lines.
 - **Part 1 of 1.md** (60 lines): CLAUDE.md, README.md
 
+### 13 — College theory for MIDI patterns
+Free college theory (Open Music Theory, Berklee, MIT, NYU), graded for trust and turned into rules with MIDI note numbers: chord loops, modes, voice leading, drum grooves, swing, emotion map.
+4 part(s), 311 lines. Read Part 1 first: it grades every source and says what was NOT read.
+- **Part 1 of 4.md** (42 lines): source grades, what was and was not used
+- **Part 2 of 4.md** (113 lines): chord-loop library, modes, borrowed chords, voice-leading rules, worked MIDI examples
+- **Part 3 of 4.md** (79 lines): drum patterns as 16-step grids, tresillo, syncopation, swing, tempo, phrase length
+- **Part 4 of 4.md** (77 lines): emotion map (cited vs shorthand), testable rules, source links
+Source copies: `Originals/CT/`.
