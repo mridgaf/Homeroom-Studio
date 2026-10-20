@@ -947,11 +947,17 @@ def _busy16(lanes):
     return cells
 
 
-def _fill(pat, rng):
-    """Phrase-tail motion for bars 4 and 8."""
+def _fill(pat, rng, big=False):
+    """Phrase-tail motion for bars 4 and 8.
+
+    ``big`` is the arrangement-flow fill into bar 1: it writes at least two
+    hits in the last beat instead of the ordinary one-cell decoration.
+    """
     s = list(pat)
     n = len(s)
-    for c in rng.sample(range(int(n * 0.75), n), max(1, n // 16)):
+    count = max(2, n // 8) if big else max(1, n // 16)
+    tail = list(range(int(n * 0.75), n))
+    for c in rng.sample(tail, min(count, len(tail))):
         if s[c] == "-":
             s[c] = "x"
     return "".join(s)

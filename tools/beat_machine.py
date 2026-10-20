@@ -1575,6 +1575,10 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     preset.setdefault("comp_flow", 1)
     # HAT FLOW (2026-10-19): hats capped by loudness (crew.HAT_UNDER_DB)
     preset.setdefault("hat_flow", 1)
+    # ARRANGEMENT FLOW (2026-10-20): one optional structural move inside
+    # the loop plus an optional fill into bar 1. New beats only.
+    import arrangement
+    preset.setdefault("arrange_flow", arrangement.FLOW_VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -1590,6 +1594,12 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     _add_sample_lanes(preset, kit, sources, shots, variant, dirs, vnotes,
                       key_root=(harmony_info or {}).get("root"), low=low)
     _refuse_second_low(preset, kit, sources, vnotes)
+    if preset.get("arrange_flow") and tuple(preset.get("tsig", (4, 4))) == (4, 4):
+        arrangement_plan = arrangement.plan(variant, bars_of(preset))
+        preset["arrangement"] = arrangement_plan
+        arrangement.apply_patterns(preset, arrangement_plan)
+        if harmony_info is not None:
+            harmony_info["arrangement"] = arrangement_plan
     return midi_chords, harmony_info
 
 

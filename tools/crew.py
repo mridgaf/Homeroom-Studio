@@ -1804,6 +1804,12 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     for lane in bufs:
         bufs[lane][:n - end] += bufs[lane][end:]
         bufs[lane] = bufs[lane][:end]
+    # New-beat arrangement moves are saved as an exact plan in the preset.
+    # Apply after ring-out folding so a tail cannot leak back into a planned
+    # rest at the loop end. Old recipes have no plan and remain untouched.
+    if p.get("arrange_flow") and p.get("arrangement"):
+        import arrangement
+        arrangement.apply_buffers(bufs, p["arrangement"], bar_s, SR)
     # CHORDS OUT OF THE BASS'S ROOM (owner 2026-09-23, standard practice:
     # every melodic part is cut below the bass so the 808 / bass line owns
     # the bottom). Runs on the loop-length buffer, and an FFT filter is
