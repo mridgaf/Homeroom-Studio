@@ -4353,7 +4353,7 @@ def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
               trims=None, drops=None, render_only=False, fx=False,
-              _learn=False, pans=None):
+              _learn=False, pans=None, stage=False):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -4402,7 +4402,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     rec = load_recipe(root, number)
     if rec.get("engine_fx"):     # effects from the Effects page live in its stems
         return _engine_swap(number, rec, picks, trims, pans, drops,
-                            render_only, fx, Path(root))
+                            render_only, fx, Path(root), stage=stage)
     lock = rec.get("lock")
     if (lock is None or "lane_gains" not in lock) and not _learn:
         status(f"First edit of beat {number} — learning its volume…")
@@ -4679,6 +4679,12 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         return parts["lock"]
     if render_only:            # live preview — nothing is printed or filed
         return L, R
+    if stage:                  # the Effects button: no new number
+        def put(sdir):
+            write_stems(sdir, parts["stems"],
+                        sources={**chord_sources, **kit_paths, **rec["stamp_paths"]},
+                        loops=bool(rec.get("loops_only")))
+        return _write_stage(number, root, (L, R), put, preset["bpm"])
 
     no = next_number(root)
     # a swapped song and its variations live together (owner rule
@@ -4821,7 +4827,8 @@ def _engine_mix(number, rec, trims, pans, drops, root):
     return L, R, stems, trims, pans, gone
 
 
-def _engine_swap(number, rec, picks, trims, pans, drops, render_only, fx, root):
+def _engine_swap(number, rec, picks, trims, pans, drops, render_only, fx, root,
+                 stage=False):
     if any(v for v in (picks or {}).values()):
         raise ValueError("Sound swaps are off on an effected beat — its "
                          "effects are baked into its stems.")
@@ -4831,6 +4838,14 @@ def _engine_swap(number, rec, picks, trims, pans, drops, render_only, fx, root):
                                                  drops, root)
     if render_only:
         return L, R
+    if stage:
+        def put(sdir):
+            sdir.mkdir(parents=True)
+            for name, (sL, sR) in stems.items():
+                write_wav24(sdir / name, sL, sR)
+            (sdir / ".base_clean").write_text("1")
+        return _write_stage(number, root, (L, R), put,
+                            rec["preset"].get("bpm") or rec.get("bpm"))
     if not (trims or pans or gone):
         raise ValueError("Nothing to change — move a volume or pan, or "
                          "remove a stem first.")
@@ -4844,6 +4859,65 @@ def _engine_swap(number, rec, picks, trims, pans, drops, render_only, fx, root):
                kit_spec={k: v for k, v in rec["kit_spec"].items()
                          if k not in gone})
     return _file_engine_beat(number, stems, (L, R), what, root, rec=rec)
+
+
+STAGE_DIR = ".effects-stage"
+
+
+def stage_name(number):
+    """The staged copy's name. Never starts with a digit, so next_number and
+    every by-number lookup skip it; the Sound Engine's send-back reads the
+    number back out of it."""
+    return f"Beat {int(number)} (your mix)"
+
+
+def sketch_stage_dir(number, root=None):
+    """Where the Effects page's Sketch button leaves the beat as heard there
+    (effects, levels, mutes), for Song Sketch to arrange. No new number."""
+    root = Path(root or ROOT)
+    w = beat_wav(number, root)
+    if w is None:
+        raise ValueError(f"Beat {number} isn't in the library.")
+    return (root / w.relative_to(root).parts[0] / STAGE_DIR
+            / f"Beat {int(number)} (sketch mix) Stems")
+
+
+def _sketch_folder(no, src):
+    """The stems Song Sketch reads: the beat's own, or (src="effects") the
+    copy the Effects page just left."""
+    if src != "effects":
+        return None
+    f = sketch_stage_dir(no)
+    if not f.is_dir():
+        raise ValueError("Open this beat on the Effects page and press "
+                         "Sketch there first.")
+    return f
+
+
+def _write_stage(number, root, mix, put_stems, bpm):
+    """The rack as it is set (swaps, volumes, pans, removals) for the
+    Effects page, WITHOUT a new number (owner 2026-10-21). Lands in
+    <DJ folder>/.effects-stage/, which the Sound Engine opens as
+    "<dj>/.effects-stage/Beat N (your mix)" and its picker never lists.
+    Replaced on every click: it is a working copy the machine made, not
+    one of his beats. Returns the Sound Engine id."""
+    root = Path(root)
+    w = beat_wav(number, root)
+    if w is None:
+        raise ValueError(f"Beat {number} isn't in the library.")
+    dj = w.relative_to(root).parts[0]
+    stage = root / dj / STAGE_DIR
+    name = stage_name(number)
+    sdir = stage / f"{name} Stems"
+    if sdir.exists():
+        assert sdir.parent.name == STAGE_DIR       # never anything else
+        shutil.rmtree(sdir)
+    for old in stage.glob(f"{name} Drums *.wav"):
+        old.unlink()
+    stage.mkdir(parents=True, exist_ok=True)
+    put_stems(sdir)
+    write_wav24(stage / f"{name} Drums {bpm}bpm.wav", *mix)
+    return f"{dj}/{STAGE_DIR}/{name}"
 
 
 def _file_engine_beat(parent, stems, mix, what, root, rec=None):
@@ -5412,7 +5486,7 @@ def _loop_label(lane):
     return loop_lanes.LABELS.get(lane, lane)
 
 
-def _beat_stems(no, root=None):
+def _beat_stems(no, root=None, folder=None):
     """Every drum in a beat: the real sample behind it, whether it can be
     swapped, and whether there's a solo stem to play. Stamps are the DJ's
     producer tag — shown, but locked (crew rule).
@@ -5439,7 +5513,8 @@ def _beat_stems(no, root=None):
                 if ln not in rec["kit_spec"]]
              + [ln for ln in rec["preset"].get("lanes", {})
                 if ln not in named])
-    folder = _stems_dir(no, root)     # walk the library once, not per lane
+    if folder is None:                # walk the library once, not per lane
+        folder = _stems_dir(no, root)
     # chord/bass lanes are voiced live from his library rather than from a
     # single kit_paths entry, so their real files live here (owner
     # 2026-07-25: the rack said "built from scratch" over audio that was
@@ -7319,7 +7394,7 @@ __BREAKS__
    const t = prettyTitle(b.label);
    const el = document.createElement('div');
    el.className = 'track loc-' + b.loc;
-   el.dataset.no = b.no;
+   el.dataset.no = b.no; el.dataset.seId = b.se_id || '';
    el.au = new LoopAudio('/audio?no=' + b.no);
    el.innerHTML =
      '<div class="thead">' +
@@ -7333,7 +7408,7 @@ __BREAKS__
            '<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></button>' +
          '<button class="eraser" title="Fail \u2014 move to Trash (you can get it back)" aria-label="Fail / Move to Trash" aria-pressed="false" data-dest="trash">' +
            '<svg viewBox="0 0 24 24"><path d="M3.5 15.5l9.500-9.500a2 2 0 0 1 2.800 0l3.200 3.200a2 2 0 0 1 0 2.800L11.500 20H7z"/><path d="M8 11.500l5.5 5.5M11.500 20H21"/></svg></button>' +
-         '<button class="stembtn" data-role="sketch" title="Arrange this beat into a 4-section song">' +
+         '<button class="stembtn" data-role="sketch" title="Make a whole song (2:30 to 4:00) from this beat">' +
            '<svg viewBox="0 0 24 24"><path d="M3 7h6v10H3zM9 4h6v13H9zM15 9h6v8h-6z"/></svg>Sketch</button>' +
          '<button class="stembtn" data-role="stems">' +
            '<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>Stems</button>' +
@@ -7398,11 +7473,7 @@ __BREAKS__
    // files are not touched. If the Sound Engine isn't running the new tab
    // just fails to connect, which is why the button says to start it.
    const eng = el.querySelector('[data-role=engine]');
-   if (eng) eng.onclick = async () => {
-     const tab = window.open('about:blank', '_blank');   // on the click
-     await fetch('/engine-up', { method: 'POST', body: '{}' });
-     tab.location = engineLink(b.se_id);
-   };
+   if (eng) eng.onclick = () => openEffects(b.no, b.se_id);
    wireTransport(el);
    return el;
  }
@@ -8103,6 +8174,9 @@ __BREAKS__
        'its style\'s effects (dust, vinyl, saturation) baked in, stems ' +
        'too. The clean one stays.">Effects on</button>' +
      '<button class="rebuild">Rebuild beat</button>' +
+     '<button class="rebuild toeffects" title="Open this beat on the Effects ' +
+       'page exactly as set here: volumes, pans, removed and swapped sounds. ' +
+       'No new beat number.">Effects &rarr;</button>' +
      '<div class="rackmsg" style="flex-basis:100%"></div>';
    rack.appendChild(foot);
    if (specs.some(x => x.loop)) foot.querySelector('.rollall').style.display = 'none';
@@ -8145,6 +8219,8 @@ __BREAKS__
    };
    foot.querySelector('.rebuild').onclick = () => rebuild(el, no, foot);
    foot.querySelector('.fxon').onclick = () => rebuild(el, no, foot, true);
+   foot.querySelector('.toeffects').onclick = () =>
+     openEffects(no, el.dataset.seId, foot.querySelector('.rackmsg'));
    foot.querySelector('.chunk').onclick = () => addChunk(no, foot);
    rack.dataset.loaded = '1';
    paintFoot(el, no);
@@ -8170,6 +8246,38 @@ __BREAKS__
        : d.error;
    } catch (e) { msg.textContent = String(e); }
    btn.textContent = was; btn.disabled = false;
+ }
+
+ // Effects (owner 2026-10-21): the beat AS THE RACK IS SET goes to the
+ // Effects page -- volumes, pans, removals and sound swaps -- with no new
+ // number. Nothing changed = the beat itself.
+ async function openEffects(no, seId, msg) {
+   const tab = window.open('about:blank', '_blank');     // on the click
+   const picks = staged[no] || {}, vols = trims[no] || {}, pn = pans[no] || {};
+   const gone = Object.keys(drops[no] || {});
+   const changed = Object.keys(picks).length || Object.keys(vols).length ||
+                   Object.keys(pn).length || gone.length;
+   try {
+     let id = seId;
+     if (changed) {
+       if (msg) msg.textContent = 'Getting your mix ready for Effects…';
+       const r = await fetch('/effects-stage', { method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ number: no, picks, trims: vols, pans: pn,
+                                drops: gone }) });
+       const d = await r.json();
+       if (!d.ok) throw new Error(d.error);
+       id = d.se_id;
+     } else {
+       await fetch('/engine-up', { method: 'POST', body: '{}' });
+     }
+     if (!id) throw new Error('This beat can\'t open in Effects.');
+     if (msg) msg.textContent = '';
+     tab.location = engineLink(id);
+   } catch (e) {
+     tab.close();
+     if (msg) msg.textContent = String(e.message || e); else alert(e.message || e);
+   }
  }
 
  async function rebuild(el, no, foot, fx) {
@@ -8405,6 +8513,10 @@ __BREAKS__
  };
 
  loadBatch(+new URLSearchParams(location.search).get('beat') || undefined);
+ // the Effects page's Sketch button lands here with &sketch=effects
+ if (new URLSearchParams(location.search).get('sketch') === 'effects')
+   window.addEventListener('load', () => window.openSketch &&
+     openSketch(+new URLSearchParams(location.search).get('beat'), 'effects'));
 </script>
 <link rel="stylesheet" href="/sketch.css">
 <script src="/sketch.js"></script>
@@ -8721,9 +8833,11 @@ def run_web(port=None):
             elif u.path == "/sketch-info":
                 # Song Sketch: what the sketch board needs for beat `no`
                 no = parse_qs(u.query).get("no", [""])[0]
+                src = parse_qs(u.query).get("src", [""])[0]
                 try:
                     import song_sketch
-                    rows = song_sketch.rows_for(_beat_stems(no))
+                    rows = song_sketch.rows_for(
+                        _beat_stems(no, folder=_sketch_folder(int(no), src)))
                     if not rows:
                         raise ValueError("This beat has no stem files to "
                                          "arrange.")
@@ -8851,7 +8965,7 @@ def run_web(port=None):
         def do_POST(self):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
                                  "/fixed", "/library", "/ban", "/chunk",
-                                 "/reference", "/engine-up", "/engine-import",
+                                 "/reference", "/engine-up", "/engine-import", "/effects-stage",
                                  "/sketch"):
                 self._send(404, "text/plain", b"not found")
                 return
@@ -8930,6 +9044,24 @@ def run_web(port=None):
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})
                 return
+            if self.path == "/effects-stage":
+                # the Effects button: the rack as set, no new number
+                no = data.get("number")
+                try:
+                    with lock:
+                        if "shots" not in _CACHE:
+                            _CACHE["shots"] = build_shots()
+                        picks = _clean_picks(no, data.get("picks"),
+                                             _CACHE["shots"])
+                        se_id = swap_many(no, picks, shots=_CACHE["shots"],
+                                          trims=data.get("trims"),
+                                          drops=data.get("drops"),
+                                          pans=data.get("pans"), stage=True)
+                    self._json({"ok": True, "se_id": se_id,
+                                "engine": ensure_sound_engine()})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
             if self.path == "/engine-up":
                 self._json({"ok": ensure_sound_engine()})
                 return
@@ -9005,13 +9137,15 @@ def run_web(port=None):
                 try:
                     import song_sketch
                     no = int(data.get("no"))
-                    rows = song_sketch.rows_for(_beat_stems(no))
+                    sf = _sketch_folder(no, data.get("src"))
+                    rows = song_sketch.rows_for(_beat_stems(no, folder=sf))
                     keep = set(data.get("lanes") or [r["lane"] for r in rows])
                     rows = [r for r in rows if r["lane"] in keep]
                     bpm = load_recipe(ROOT, no)["preset"].get("bpm")
                     with lock:
                         got = song_sketch.build(
-                            no, bpm, rows, lambda ln: _solo_audio(no, ln),
+                            no, bpm, rows,
+                            lambda ln: _solo_audio(no, ln, folder=sf),
                             data.get("recipe") or {})
                     self._json({"ok": True, **got})
                 except Exception as e:

@@ -70,81 +70,7 @@ HABITS = {
                 "pump", "crush", "sweep_up"),
 }
 WHOLE_MOVES = ("lp_open", "widen", "phase", "pump", "drift")
-# Each type is a list of rows: scene, moves that colour the whole section (one
-# at most), moves that carry it into the next section. The types differ in
-# length, rhythm of scenes and which moves they lean on. The 3:00 song is not
-# here: it is built from STYLES below.
-TEMPLATES = {
-    "slow_burn": [
-        ("intro", ["lp_open"], ["bloom", "reverse"]),
-        ("pocket", ["drift", "pump"], ["bloom", "echo"]),
-        ("pocket", ["widen", "phase"], ["sweep_up", "reverse"]),
-        ("full", ["widen", "pump"], ["echo", "bloom"]),
-        ("full", ["phase", "drift"], ["tape_stop", "bloom"]),
-        ("outro", ["drift", "phase"], []),
-    ],
-    "hard_hits": [
-        ("full", ["pump"], ["stutter", "dip"]),
-        ("drums", ["pump", "phase"], ["sweep_up", "crush"]),
-        ("break", ["drift", "widen"], ["reverse", "dip"]),
-        ("full", ["pump", "widen"], ["stutter", "tape_stop"]),
-        ("pocket", ["pump"], ["crush", "dip"]),
-        ("drums", ["phase", "pump"], ["sweep_up", "stutter"]),
-        ("full", ["pump", "widen"], ["tape_stop", "crush"]),
-        ("outro", ["phase"], []),
-    ],
-    "dub_wash": [
-        ("pocket", ["phase", "drift"], ["echo", "bloom"]),
-        ("drums", ["phase", "widen"], ["echo", "reverse"]),
-        ("break", ["drift", "phase", "widen"], ["bloom", "echo", "reverse"]),
-        ("full", ["phase", "drift"], ["echo", "tape_stop"]),
-        ("outro", ["phase", "drift"], []),
-    ],
-    "fever_dream": [
-        ("intro", ["lp_open"], ["reverse", "crush"]),
-        ("full", ["pump", "widen"], ["stutter", "dip"]),
-        ("break", ["phase", "drift"], ["bloom", "reverse"]),
-        ("drums", ["pump", "phase"], ["sweep_up", "crush"]),
-        ("pocket", ["widen", "drift"], ["tape_stop", "echo"]),
-        ("full", ["phase", "pump"], ["stutter", "tape_stop"]),
-        ("break", ["drift", "widen"], ["reverse", "bloom"]),
-        ("pocket", ["pump", "phase"], ["crush", "sweep_up"]),
-        ("full", ["widen", "drift"], ["dip", "stutter"]),
-        ("drums", ["phase", "pump"], ["echo", "crush"]),
-        ("pocket", ["drift", "widen"], ["bloom", "tape_stop"]),
-        ("outro", ["phase", "drift"], []),
-    ],
-}
-
-
-def auto_plan(seed, key):
-    """Producer-style placement: at most one colour move per section, one
-    carrying move per change, and neither repeats back to back. Same seed,
-    same plan."""
-    rng = random.Random(seed)
-    prev_whole = prev_end = None
-    plan = []
-    for scene, whole, end in TEMPLATES[key]:
-        moves = []
-        pool = [m for m in whole if m != prev_whole]
-        if pool and rng.random() < 0.75:
-            prev_whole = rng.choice(pool)
-            moves.append(prev_whole)
-        else:
-            prev_whole = None
-        pool = [m for m in end if m != prev_end]
-        if pool:
-            prev_end = rng.choice(pool)
-            moves.append(prev_end)
-        plan.append({"scene": scene, "moves": moves})
-    return plan
-
-
-def auto_plans(key, count=12):
-    return [auto_plan(s, key) for s in range(count)]
-
-
-# ---- 3:00 song: effect styles (2026-10-17) ---------------------------------
+# ---- effect styles (2026-10-17; the Random button) ---------------------------------
 # Each style is one producer habit from the Production Research Hub (chapters
 # 01, 02, 03, 05), turned into placement rules. Random picks a style and a
 # seed; every cell stays editable. colour = moves that tint a whole section,
@@ -214,93 +140,217 @@ STYLES = {
         "other": ["tape_stop", "stutter", "reverse", "crush"], "p_other": 0.8,
         "combo": 0.5, "spread": "few"},
 }
-SONG_SECONDS = 180      # the 3:00 song aims here; section count follows the tempo
-SONG_BARS = 8
+# ---- genre buttons (2026-10-21) ---------------------------------------------
+# Same shape as STYLES: which moves colour a section, which carry the change
+# into a hook / any other change. Sources: Production Research Hub ch 02 + 05
+# (boom bap dry room + SP grit, trap kick/808 duck, lo-fi tape + filter, dub
+# delays). Drill and G-funk are thin in the Hub: general knowledge, unsourced.
+GENRES = {
+    "boom_bap": {"name": "Boom bap", "odd": False,
+        "note": "Dry and dusty: a filtered intro, the beat drops out a beat before the hook, an echo on the snare now and then, a little SP grit.",
+        "intro": ["lp_open"], "colour": {"pocket": ["crush"]}, "p_colour": 0.3,
+        "hook": ["breath", "echo"], "p_hook": 0.9, "other": ["echo", "breath"], "p_other": 0.4,
+        "combo": 0.2, "spread": "one"},
+    "trap": {"name": "Trap", "odd": False,
+        "note": "Pumping hooks, stutters and tape stops right before the hook, the 808 dropping out for a beat, reverse swells.",
+        "intro": ["lp_open"], "colour": {"full": ["pump"]}, "p_colour": 0.8,
+        "hook": ["stutter", "dip", "tape_stop", "reverse"], "p_hook": 1.0, "other": ["stutter", "dip"], "p_other": 0.6,
+        "combo": 0.4, "spread": "few"},
+    "lofi": {"name": "Lo-fi", "odd": False,
+        "note": "Like an old tape: filtered and wobbly, crushed a little, reverb blooming at the ends, the odd tape stop.",
+        "intro": ["lp_open"], "colour": {"*": ["widen", "drift", "crush"]}, "p_colour": 0.6,
+        "hook": ["tape_stop", "bloom"], "p_hook": 0.7, "other": ["bloom", "crush"], "p_other": 0.4,
+        "combo": 0, "spread": "few", "outro": ["lp_open", "drift"]},
+    "drill": {"name": "Drill", "odd": False,
+        "note": "Sliding, nervous energy: stutters and quick drop-outs, reverse swells into the hook, drums that switch up a lot. (Not from the research notes.)",
+        "intro": ["sweep_up"], "colour": {"full": ["pump"]}, "p_colour": 0.4,
+        "hook": ["reverse", "dip", "stutter"], "p_hook": 1.0, "other": ["stutter", "breath", "dip"], "p_other": 0.8,
+        "combo": 0.5, "spread": "few"},
+    "gfunk": {"name": "G-funk", "odd": False,
+        "note": "Smooth and wide: phaser and chorus on the music, filters opening into the hook, few hard stops. (Not from the research notes.)",
+        "intro": ["lp_open"], "colour": {"*": ["phase", "widen"]}, "p_colour": 0.7,
+        "hook": ["sweep_up", "echo"], "p_hook": 0.8, "other": ["echo", "bloom"], "p_other": 0.4,
+        "combo": 0, "spread": "few", "outro": ["phase"]},
+    "dub": {"name": "Dub / Reggae", "odd": False,
+        "note": "Echo and reverb thrown on single parts, phaser and slow panning, the rhythm dropping in and out.",
+        "intro": ["phase"], "colour": {"*": ["phase", "drift"]}, "p_colour": 0.6,
+        "hook": ["echo", "bloom", "dip"], "p_hook": 0.9, "other": ["echo", "bloom", "breath"], "p_other": 0.7,
+        "combo": 0.4, "spread": "few", "outro": ["phase", "drift"]},
+}
+
+# ---- six arrangement types (2026-10-21) --------------------------------------
+# Every song is 2:30-4:00 (owner). A type = head + body (repeated until the
+# song is long enough) + tail. Each row: scene, bars (4 or 8), half (an 8-bar
+# loop plays only its "front" or "back" 4 bars; None = straight through),
+# colour moves, carrying moves, drum mode (see DRUM_MODES).
+SONG_MIN, SONG_MAX = 150, 240
+PARTS = {"intro": "Intro", "pocket": "Verse", "full": "Hook", "break": "Break",
+         "drums": "Drum break", "outro": "Outro"}
+DRUM_MODES = {"all": "Every drum", "thin": "One drum part out",
+              "core": "Kick + snare only", "kick": "Kick only", "hats": "No kick"}
+TYPES = {
+    "radio": {"name": "Radio song", "target": 180,
+        "note": "Intro, two verse/hook rounds, a break, the last hook, outro. About 3 minutes.",
+        "head": [("intro", 4, "front", ["lp_open"], ["sweep_up"], "core")],
+        "body": [("pocket", 8, None, [], ["echo"], "thin"),
+                 ("pocket", 8, None, [], ["breath", "dip"], "all"),
+                 ("full", 8, None, ["widen"], ["echo"], "all"),
+                 ("full", 8, "back", ["pump"], ["sweep_up", "dip"], "all")],
+        "tail": [("break", 8, None, ["phase"], ["reverse"], "all"),
+                 ("full", 8, None, ["widen"], ["tape_stop", "echo"], "all"),
+                 ("outro", 4, "front", [], [], "core")]},
+    "verse_heavy": {"name": "Long verses", "target": 210,
+        "note": "Long verses for rapping, short punchy hooks cut from the loop's front and back halves. About 3:30.",
+        "head": [("intro", 8, None, ["lp_open"], ["bloom"], "core")],
+        "body": [("pocket", 8, None, [], ["echo"], "all"),
+                 ("pocket", 8, "front", [], ["breath"], "thin"),
+                 ("pocket", 8, None, [], ["echo"], "thin"),
+                 ("full", 4, "front", ["widen"], ["stutter"], "all"),
+                 ("full", 4, "back", ["pump"], ["dip"], "all")],
+        "tail": [("outro", 8, None, ["drift"], [], "core")]},
+    "slow_build": {"name": "Slow build", "target": 180,
+        "note": "Starts nearly empty and adds a layer at a time: kick only, then kick and snare, then everything. About 3 minutes.",
+        "head": [("break", 8, "front", ["lp_open"], ["bloom"], "all"),
+                 ("pocket", 8, "front", [], ["sweep_up"], "kick"),
+                 ("pocket", 8, None, [], ["reverse"], "core")],
+        "body": [("full", 8, None, ["widen"], ["echo"], "thin"),
+                 ("full", 8, None, ["pump"], ["bloom", "sweep_up"], "all")],
+        "tail": [("break", 8, None, ["phase"], ["reverse"], "hats"),
+                 ("full", 8, None, ["widen"], ["tape_stop"], "all"),
+                 ("outro", 8, None, ["drift"], [], "core")]},
+    "chop_shop": {"name": "Chop shop", "target": 165,
+        "note": "Short 4-bar pieces that flip between the loop's front and back halves, drum spotlights, lots of quick changes. About 2:45.",
+        "head": [("drums", 4, "front", [], ["stutter"], "core")],
+        "body": [("full", 4, "front", [], ["dip"], "all"),
+                 ("pocket", 4, "back", [], ["stutter", "breath"], "thin"),
+                 ("drums", 4, "front", [], ["crush"], "hats"),
+                 ("full", 4, "back", ["pump"], ["tape_stop", "reverse"], "all")],
+        "tail": [("break", 4, "front", ["phase"], ["reverse"], "all"),
+                 ("full", 4, "back", [], ["stutter"], "all"),
+                 ("outro", 4, "front", [], [], "kick")]},
+    "two_drops": {"name": "Break and return", "target": 195,
+        "note": "Two big drops: everything stops, the music hangs, then the beat comes back harder. About 3:15.",
+        "head": [("intro", 8, None, ["lp_open"], ["sweep_up"], "all"),
+                 ("full", 8, None, [], ["echo"], "all")],
+        "body": [("pocket", 8, None, [], ["breath"], "thin"),
+                 ("break", 4, "back", ["phase"], ["reverse", "dip"], "all"),
+                 ("drums", 4, "front", [], ["tape_stop", "sweep_up"], "core"),
+                 ("full", 8, None, ["widen"], ["echo"], "all")],
+        "tail": [("outro", 8, None, ["drift"], [], "core")]},
+    "mixtape": {"name": "Mixtape ride", "target": 150,
+        "note": "The beat just rides, like a DJ playing it: drum parts drop in and out every section so it never sits still. About 2:30.",
+        "head": [("pocket", 8, None, ["lp_open"], ["echo"], "core")],
+        "body": [("full", 8, None, [], ["echo"], "thin"),
+                 ("pocket", 8, "front", [], ["breath"], "hats"),
+                 ("full", 8, None, [], ["dip"], "all"),
+                 ("pocket", 8, "back", [], ["echo"], "thin")],
+        "tail": [("outro", 8, None, [], [], "kick")]},
+}
 
 
-def sections_for(bpm):
-    """How many 8-bar sections make about 3:00 at this tempo. Never over the
-    3:20 cap; at most 12 sections, so very fast beats come out shorter."""
-    sec = SONG_BARS * 240 / (bpm or 90)
-    return max(4, min(12, int(200 // sec), round(SONG_SECONDS / sec)))
+def type_form(key, bpm):
+    """The type's sections for this tempo, always 2:30-4:00 (cap 40 sections).
+    Body rows are added one at a time until the song reaches the type's
+    target; at very slow tempos 8-bar rows are halved until it fits."""
+    t, bar = TYPES[key], 240 / (bpm or 90)
+    rows = lambda body: [list(r) for r in t["head"] + body + t["tail"]]
+    secs = lambda f: sum(r[1] for r in f) * bar
+    body, i = [], 0
+    while (secs(rows(body)) < t["target"] or secs(rows(body)) < SONG_MIN) \
+            and len(rows(body)) < 40:
+        nxt = body + [t["body"][i % len(t["body"])]]
+        if secs(rows(nxt)) > SONG_MAX:
+            break
+        body, i = nxt, i + 1
+    form = rows(body)
+    for r in reversed(form):                 # very slow beats: shorten
+        if secs(form) <= SONG_MAX:
+            break
+        if r[1] == 8:
+            r[1] = 4
+    return [{"scene": sc, "part": PARTS[sc], "bars": b, "half": h,
+             "colour": c, "carry": e, "drums": dm}
+            for sc, b, h, c, e, dm in form]
 
 
-def song_form(n):
-    """Usual hip-hop shape: intro, verse/hook pairs, a break before the last
-    hook, outro."""
-    body = ["pocket" if i % 2 == 0 else "full" for i in range(n - 4)]
-    return ["intro"] + body + ["break", "full", "outro"]
-
-
-def style_plan(seed, style, n):
-    """Section-level moves for one style. Same seed, same plan."""
-    st, rng = STYLES[style], random.Random(f"{style}:{seed}")
-    scenes = song_form(n)
+def _pick_moves(form, rng, st=None):
+    """Moves per section: the type's own pools, or a genre/style's pools
+    laid over the type's scenes. One colour move at most, carrying moves
+    never repeat back to back, the last section carries nothing."""
     prev_c = prev_e = None
-    plan = []
-    for i, sc in enumerate(scenes):
-        moves = []
-        if i == 0:
-            pool, p = st["intro"], 0.8
+    out = []
+    for i, sec in enumerate(form):
+        sc, last = sec["scene"], i + 1 == len(form)
+        if st is None:
+            cpool, cp = sec["colour"], 0.75
+        elif i == 0:
+            cpool, cp = st["intro"], 0.8
         elif sc == "outro":
-            pool, p = st.get("outro", []), 0.6
+            cpool, cp = st.get("outro", []), 0.6
         else:
-            pool, p = st["colour"].get(sc, st["colour"].get("*", [])), st["p_colour"]
-        pool = [m for m in pool if m != prev_c]
-        prev_c = rng.choice(pool) if pool and rng.random() < p else None
-        if prev_c:
-            moves.append(prev_c)
-        if i + 1 < n:
-            into_hook = scenes[i + 1] == "full"
-            pool = [m for m in st["hook" if into_hook else "other"] if m != prev_e]
-            if pool and rng.random() < st["p_hook" if into_hook else "p_other"]:
-                prev_e = rng.choice(pool)
+            cpool, cp = st["colour"].get(sc, st["colour"].get("*", [])), st["p_colour"]
+        cpool = [m for m in cpool if m != prev_c]
+        prev_c = rng.choice(cpool) if cpool and rng.random() < cp else None
+        moves = [prev_c] if prev_c else []
+        if not last:
+            if st is None:
+                epool, ep, combo = sec["carry"], 0.85, 0.2
+            else:
+                hook = form[i + 1]["scene"] == "full"
+                epool = st["hook" if hook else "other"]
+                ep, combo = st["p_hook" if hook else "p_other"], st["combo"]
+            epool = [m for m in epool if m != prev_e]
+            if epool and rng.random() < ep:
+                prev_e = rng.choice(epool)
                 moves.append(prev_e)
-                rest = [m for m in pool if m != prev_e]
-                if rest and rng.random() < st["combo"]:
+                rest = [m for m in epool if m != prev_e]
+                if rest and rng.random() < combo:
                     moves.append(rng.choice(rest))
             else:
                 prev_e = None
-        plan.append({"scene": sc, "moves": moves})
-    return plan
+        out.append(moves)
+    return out
 
 
-def style_plans(n, per_style=4):
-    """Every style x a few seeds: what the Random button picks from."""
-    return [(k, style_plan(seed, k, n)) for k in STYLES for seed in range(per_style)]
+def drum_mutes(form, stems):
+    """Drum variations: which drum lanes sit out each section. Kick and snare
+    lanes are the core; every other drum lane is an extra. "thin" drops one
+    extra, a different one each time, so repeated verses differ."""
+    drums = [s for s in stems if s["role"] == "drums"]
+    kick = [s["lane"] for s in drums if s["kind"] == "kick"]
+    snare = [s["lane"] for s in drums if s["kind"] == "snare"]
+    extra = [s["lane"] for s in drums if s["lane"] not in kick + snare]
+    turn = 0
+    out = []
+    for sec in form:
+        mode = sec["drums"]
+        if mode == "thin" and extra:
+            mute = [extra[turn % len(extra)]]
+            turn += 1
+        elif mode == "core":
+            mute = extra
+        elif mode == "kick" and kick:
+            mute = snare + extra
+        elif mode == "hats" and extra:
+            mute = kick
+        else:
+            mute = []
+        out.append(list(mute))
+    return out
 
 
-PRESETS = {
-    "slow_reveal": {"name": "Slow reveal", "note": "Let the hook introduce itself. Earn the drums.",
-                    "scenes": ["intro", "pocket", "break", "full"],
-                    "moves": ["bloom", "echo", "breath", "echo"]},
-    "hard_entrance": {"name": "Hard entrance", "note": "Start with the band. Strip it back, then hit again.",
-                      "scenes": ["full", "drums", "break", "full"],
-                      "moves": ["echo", "none", "bloom", "echo"]},
-    "smoke_break": {"name": "Smoke break", "note": "A low-key pocket with a little space to disappear into.",
-                    "scenes": ["pocket", "break", "pocket", "outro"],
-                    "moves": ["echo", "bloom", "breath", "bloom"]},
-    "song_180": {"name": "3:00 song", "bars": SONG_BARS, "auto": True, "styles": True,
-             "note": "About three minutes: intro, verses, hooks, a break, outro. Press Random for a ready-made set of effects in a producer's style, then change any cell.",
-             "scenes": song_form(sections_for(90)),
-             "moves": [s["moves"] for s in style_plan(0, "bare_bones", sections_for(90))]},
-    "slow_burn": {"name": "Slow burn", "bars": 8, "auto": True,
-             "note": "Six long sections that build one step at a time. Lots of space, no sudden hits.",
-             "scenes": [s["scene"] for s in auto_plan(0, "slow_burn")],
-             "moves": [s["moves"] for s in auto_plan(0, "slow_burn")]},
-    "hard_hits": {"name": "Hard hits", "bars": 4, "auto": True,
-             "note": "Eight short sections that keep changing. Drum spotlights, stutters, drops and tape stops.",
-             "scenes": [s["scene"] for s in auto_plan(0, "hard_hits")],
-             "moves": [s["moves"] for s in auto_plan(0, "hard_hits")]},
-    "dub_wash": {"name": "Dub wash", "bars": 8, "auto": True,
-             "note": "Five sections drenched in echo, reverb and phaser. The rhythm drops in and out.",
-             "scenes": [s["scene"] for s in auto_plan(0, "dub_wash")],
-             "moves": [s["moves"] for s in auto_plan(0, "dub_wash")]},
-    "fever_dream": {"name": "Fever dream", "bars": 4, "auto": True,
-             "note": "Twelve short sections that never sit still. Reverse swells, crushes and constant changes.",
-             "scenes": [s["scene"] for s in auto_plan(0, "fever_dream")],
-             "moves": [s["moves"] for s in auto_plan(0, "fever_dream")]},
-}
+def type_plan(seed, key, bpm, stems, fx=None):
+    """One full plan: the type's sections, their moves (built in, or from a
+    GENRES / STYLES key), spread over the beat's lanes, plus drum mutes.
+    Same inputs, same plan."""
+    form = type_form(key, bpm)
+    st = GENRES.get(fx) or STYLES.get(fx)
+    rng = random.Random(f"{key}:{fx}:{seed}")
+    base = [dict(s, moves=m, mute=mu) for s, m, mu in
+            zip(form, _pick_moves(form, rng, st), drum_mutes(form, stems))]
+    plan = assign_lanes(base, stems, rng, st["spread"] if st else "few")
+    keep = ("scene", "part", "bars", "half", "drums", "moves", "lanes", "mute")
+    return [{k: s[k] for k in keep} for s in plan]
 
 
 def guess_role(label):
@@ -333,12 +383,6 @@ def guess_kind(label):
     return "chords"
 
 
-def auto_lane_plan(seed, key, stems):
-    """Spotlight placement per LANE for a TEMPLATES type. stems = [{lane, role,
-    kind}]. Same seed, same stems, same plan."""
-    return assign_lanes(auto_plan(seed, key), stems, random.Random(seed * 7919 + 1))
-
-
 def assign_lanes(base, stems, rng, spread="few"):
     """Give each section move to the lanes that are audible in that scene,
     whose kind allows it, and who have had the fewest turns so far. spread:
@@ -348,7 +392,8 @@ def assign_lanes(base, stems, rng, spread="few"):
     plan = []
     for sec in base:
         levels = SCENES[sec["scene"]]["levels"]
-        live = [s for s in stems if levels[ROLES.index(s["role"])] > 0]
+        live = [s for s in stems if levels[ROLES.index(s["role"])] > 0
+                and s["lane"] not in sec.get("mute", ())]
         lanes = {}
         for m in sec["moves"]:
             ok = [s for s in live if m in HABITS.get(s["kind"], ())]
@@ -363,14 +408,8 @@ def assign_lanes(base, stems, rng, spread="few"):
                 lanes.setdefault(s["lane"], []).append(m)
                 used[s["lane"]] += 1
         union = [m for m in sec["moves"] if any(m in v for v in lanes.values())]
-        plan.append({"scene": sec["scene"], "moves": union, "lanes": lanes})
+        plan.append(dict(sec, moves=union, lanes=lanes))
     return plan
-
-
-def style_lane_plans(n, stems, per_style=4):
-    """style_plans, spread across the beat's own lanes."""
-    return [(k, assign_lanes(plan, stems, random.Random(f"{k}:{i}:lanes"), STYLES[k]["spread"]))
-            for i, (k, plan) in enumerate(style_plans(n, per_style))]
 
 
 def _number(value, low, high, label):
@@ -393,12 +432,21 @@ def validate_recipe(body, lane_ids, default_bpm=None):
     if int(bars) != bars:
         raise ValueError("Bars per section must be a whole number")
     sections = body.get("sections")
-    if not isinstance(sections, list) or not 1 <= len(sections) <= 12:
-        raise ValueError("Choose between one and twelve sections")
+    if not isinstance(sections, list) or not 1 <= len(sections) <= 40:
+        raise ValueError("Choose between one and forty sections")
     clean = []
     for s in sections:
         if not isinstance(s, dict) or not isinstance(s.get("scene"), str) or s["scene"] not in SCENES:
             raise ValueError("Unknown section or transition")
+        # 2026-10-21: each section may set its own length, play only the
+        # front or back half of an 8-bar loop, and sit some lanes out
+        sb = _number(s.get("bars", bars), 1, 8, "Bars per section")
+        half = s.get("half")
+        mute = s.get("mute", [])
+        if (int(sb) != sb or half not in (None, "front", "back")
+                or not isinstance(mute, list) or any(m not in lane_ids for m in mute)):
+            raise ValueError("Unknown section length, half or muted stem")
+        shape = {"bars": int(sb), "half": half, "mute": sorted(set(mute))}
         lanes_in = s.get("lanes")
         if lanes_in is not None:             # per-lane moves (the grid)
             if (not isinstance(lanes_in, dict)
@@ -413,7 +461,7 @@ def validate_recipe(body, lane_ids, default_bpm=None):
                     lanes_c[k] = v
             union = [m for m in MOVES if any(m in v for v in lanes_c.values())]
             clean.append({"scene": s["scene"], "moves": union,
-                          "move": union[0] if union else "none", "lanes": lanes_c})
+                          "move": union[0] if union else "none", "lanes": lanes_c, **shape})
             continue
         # "moves" is the list; a lone "move" string still works (old recipes).
         moves = s.get("moves", [s.get("move", "none")])
@@ -422,14 +470,14 @@ def validate_recipe(body, lane_ids, default_bpm=None):
             raise ValueError("Unknown section or transition")
         moves = [m for i, m in enumerate(moves) if m != "none" and m not in moves[:i]]
         clean.append({"scene": s["scene"], "moves": moves,
-                      "move": moves[0] if moves else "none"})
+                      "move": moves[0] if moves else "none", **shape})
     roles = body.get("roles", {})
     if not isinstance(roles, dict) or any(k not in lane_ids or not isinstance(v, str) or v not in ROLES for k, v in roles.items()):
         raise ValueError("Unknown stem or role")
     roles = {k: roles.get(k, guess_role(k)) for k in lane_ids}
     amount = _number(body.get("amount", 0.6), 0, 1, "Transition amount")
-    if len(clean) * bars * 240 / bpm > 200:   # the 3:00 song lands within ~20 s of 3:00
-        raise ValueError("Sketch is too long; use fewer bars or a faster tempo (maximum 3:20)")
+    if sum(c["bars"] for c in clean) * 240 / bpm > SONG_MAX:
+        raise ValueError("Sketch is too long; use fewer bars or a faster tempo (maximum 4:00)")
     return {"version": 1, "bpm": bpm, "section_bars": int(bars),
             "sections": clean, "roles": roles, "amount": amount}
 
@@ -589,14 +637,14 @@ def render(channels, recipe):
     recipe = validate_recipe(recipe, channels, recipe.get("bpm"))
     bpm = recipe["bpm"]
     beat = 60 / bpm
-    section_seconds = recipe["section_bars"] * 4 * beat
     # Round absolute boundaries, not a repeatedly rounded bar: no tempo drift.
     secs = recipe["sections"]
-    bounds = [round(i * section_seconds * sr) for i in range(len(secs) + 1)]
+    at = np.cumsum([0] + [s["bars"] for s in secs])
+    bounds = [round(b * 4 * beat * sr) for b in at]
     tail_seconds = 4.0 if recipe["amount"] and any(
         m in ("echo", "bloom") for s in secs for m in s["moves"]) else 0.0
     n = bounds[-1] + round(tail_seconds * sr)
-    if n * 2 * 4 * (len(channels) + 9) > 2_500_000_000:
+    if n * 2 * 4 * (len(channels) + 9) > 3_200_000_000:   # 4:00 x ~24 stems
         raise ValueError("This sketch is too large; use fewer bars or fewer stems")
     stems = {}
     original = np.zeros((n, 2), dtype=np.float32)
@@ -635,7 +683,16 @@ def render(channels, recipe):
             else:                       # section-level moves: every lane of a fitting role
                 moves = [m for m in section["moves"] if role in MOVE_ROLES.get(m, ROLES)]
             gain = SCENES[section["scene"]]["levels"][ROLES.index(role)]
-            block = repeated[start:end].copy() * gain
+            if lane in section["mute"]:
+                gain = 0.0
+            if section["half"] and source_bars >= 7.97:
+                # front/back 4 of an 8-bar loop, looped from the section start
+                h = len(src) // 2
+                piece = (src[:h] if section["half"] == "front" else src[h:]).copy()
+                _fade_edges(piece, sr)       # the cut point gets the same 5 ms seam
+                block = np.tile(piece, (math.ceil((end - start) / h), 1))[:end - start] * gain
+            else:
+                block = repeated[start:end].copy() * gain
             _fade_edges(block, sr)
             if section["scene"] == "outro":
                 block *= np.linspace(1, 0, len(block), dtype=np.float32)[:, None]
@@ -656,6 +713,8 @@ def render(channels, recipe):
                 if "reverse" in moves and i + 1 < len(secs):
                     w = min(round(2 * beat * sr), bounds[-1] - end)
                     nxt = repeated[end:end + w] * SCENES[secs[i + 1]["scene"]]["levels"][ROLES.index(role)]
+                    if lane in secs[i + 1]["mute"]:
+                        nxt = nxt * 0
                     if w and np.any(nxt) and recipe["amount"]:
                         rev = reverse_swell(nxt, sr, recipe["amount"])
                         s0 = max(0, end - len(rev))

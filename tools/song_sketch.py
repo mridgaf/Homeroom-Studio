@@ -29,25 +29,29 @@ FILES = {"sketch.wav": "audio/wav", "original.wav": "audio/wav",
 _ID = re.compile(r"^Beat \d+ \d{4}-\d{2}-\d{2} \d{2}\.\d{2}\.\d{2}$")
 
 
-def options(stems=None, bpm=None):
-    """What the page needs to draw its choices. With the beat's stems it also
-    carries 12 per-lane re-rolls for each auto type, and for the 3:00 song a
-    few plans per effect style (sized to this beat's tempo)."""
-    plans = {k: [dsp.auto_lane_plan(n, k, stems) for n in range(12)] if stems
-             else dsp.auto_plans(k) for k in dsp.TEMPLATES}
-    n = dsp.sections_for(bpm)
-    styled = dsp.style_lane_plans(n, stems) if stems else dsp.style_plans(n)
-    plans["song_180"] = [p for _, p in styled]
+def options(stems, bpm):
+    """What the page needs to draw its choices, sized to this beat's tempo
+    and lanes. plans["type|fx"] = re-rolls, fx = "built_in", a genre key,
+    or "random" (one plan per effect style, the Random button)."""
+    plans = {}
+    for k in dsp.TYPES:
+        plans[k + "|built_in"] = [dsp.type_plan(n, k, bpm, stems) for n in range(6)]
+        for g in dsp.GENRES:
+            plans[f"{k}|{g}"] = [dsp.type_plan(n, k, bpm, stems, g) for n in range(3)]
+        plans[k + "|random"] = [dsp.type_plan(0, k, bpm, stems, st) for st in dsp.STYLES]
     return {"roles": list(dsp.ROLES),
             "scenes": {k: {"name": v["name"], "description": v["description"],
                            "levels": v["levels"]}
                        for k, v in dsp.SCENES.items()},
             "moves": dsp.MOVES,
-            "presets": dsp.PRESETS,
-            "plans": plans,
-            "styles": {k: {"name": v["name"], "note": v["note"], "odd": v["odd"]}
-                       for k, v in dsp.STYLES.items()},
-            "plan_styles": {"song_180": [k for k, _ in styled]}}
+            "types": {k: {"name": v["name"], "note": v["note"]}
+                      for k, v in dsp.TYPES.items()},
+            "genres": {k: {"name": v["name"], "note": v["note"]}
+                       for k, v in dsp.GENRES.items()},
+            "styles": [{"key": k, "name": v["name"], "note": v["note"]}
+                       for k, v in dsp.STYLES.items()],
+            "drum_modes": dsp.DRUM_MODES,
+            "plans": plans}
 
 
 def rows_for(rows):
@@ -81,8 +85,12 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
     recipe["bpm"] = recipe.get("bpm") or bpm
     recipe["roles"] = {k: v for k, v in (recipe.get("roles") or {}).items()
                        if k in lanes}
-    stems, mix, original, meta = dsp.render(channels, recipe)
     clean = dsp.validate_recipe(recipe, lanes, bpm)
+    song_s = sum(s["bars"] for s in clean["sections"]) * 240 / clean["bpm"]
+    if not dsp.SONG_MIN <= song_s <= dsp.SONG_MAX:     # owner 2026-10-21
+        raise ValueError("A sketch is a whole song: 2:30 to 4:00 (this one "
+                         "is %d:%02d)." % divmod(round(song_s), 60))
+    stems, mix, original, meta = dsp.render(channels, recipe)
     label = {r["lane"]: r["label"] for r in rows}
     root = Path(root or OUT_ROOT)
     token = "Beat %d %s" % (int(no), datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
@@ -112,7 +120,7 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
     (folder / "recipe.json").write_text(json.dumps(manifest, indent=1))
     (folder / "READ ME.txt").write_text(
         "HOMEROOM STUDIO / SONG SKETCH - beat %d\n"
-        "%g BPM, 4/4, %d bars per section, %d sections + %gs tail.\n\n"
+        "%g BPM, 4/4, %d sections (%d bars) + %gs tail.\n\n"
         "sketch.wav is the arrangement. original.wav is the same beat looped, "
         "at the same level, for A/B.\n"
         "Drop ALL the stems into your DAW at time zero, unity gain, no "
@@ -125,8 +133,8 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
         "Filter rise/open, tape stop, crush, stutter, pre-drop dip, reverse "
         "swell, wide chorus, phaser, pump and pan drift are in recipe.json "
         "section by section. All of them process your own stems only.\n"
-        % (int(no), clean["bpm"], clean["section_bars"], len(clean["sections"]),
-           meta["tail_s"]))
+        % (int(no), clean["bpm"], len(clean["sections"]),
+           sum(s["bars"] for s in clean["sections"]), meta["tail_s"]))
     with zipfile.ZipFile(folder / "stems-and-mix.zip", "w",
                          compression=zipfile.ZIP_STORED) as z:
         for f in sorted(folder.rglob("*")):

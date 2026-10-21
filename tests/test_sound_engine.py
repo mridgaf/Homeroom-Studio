@@ -1629,3 +1629,27 @@ def test_base_layer_trims_hot_stem_and_level_matches_after_effects():
     # loudness comes back to the (-6 dB trimmed) input, not "louder because drive"
     ref = 0.5 * np.sqrt(0.5) * 0.95 / 0.95                    # rms of a -6 dBFS peak sine
     assert abs(20 * np.log10(np.sqrt(np.mean(wL ** 2)) / ref)) < 2.5
+
+
+def test_staged_mix_opens_and_sketch_button_writes_the_heard_stems(tmp_path, monkeypatch):
+    """Owner 2026-10-21: the Beat Machine's Effects button opens a working
+    copy "Beat N (your mix)"; this page's Sketch button writes each lane as
+    heard (here: snare muted) where Song Sketch reads it. No new number."""
+    from tools.make_drum_loops import write_wav24
+    stage = tmp_path / "Test DJ" / ".effects-stage"
+    stems = stage / "Beat 7 (your mix) Stems"
+    stems.mkdir(parents=True)
+    sig = np.sin(2 * np.pi * 220 * np.arange(4410) / 44100) * 0.3
+    write_wav24(stage / "Beat 7 (your mix) Drums 90bpm.wav", sig, sig)
+    write_wav24(stems / "kick.wav", sig, sig)
+    write_wav24(stems / "snare.wav", sig, sig)
+    monkeypatch.setattr(server, "BEATS_ROOT", tmp_path)
+    r = client.post("/api/project/from-beat",
+                    json={"beat_id": "Test DJ/.effects-stage/Beat 7 (your mix)"})
+    assert r.status_code == 200
+    pid = r.json()["project_id"]
+    server.PROJECTS[pid]["channels"]["snare"]["muted"] = True
+    r = client.post(f"/api/project/{pid}/to-sketch")
+    assert r.json() == {"ok": True, "no": 7}
+    out = stage / "Beat 7 (sketch mix) Stems"
+    assert sorted(f.name for f in out.glob("*.wav")) == ["kick.wav"]

@@ -70,3 +70,26 @@ def test_chunks_file_under_the_dj_on_the_desktop(tmp_path, monkeypatch):
     monkeypatch.setattr(bm, "CHUNKS_ROOT", tmp_path / "Homeroom Chunks")
     d = bm.chunk_dir(100, tmp_path)
     assert d == tmp_path / "Homeroom Chunks" / "Test DJ" / "100 Test DJ Song Drums 90bpm Chunks"
+
+
+def test_effects_button_stages_the_rack_without_a_new_number(tmp_path):
+    """Owner 2026-10-21: Effects opens the beat AS SET (here: hat removed)
+    with no new number, in a place the Sound Engine can open and its picker
+    never lists."""
+    from sound_engine import library
+    stems = _fake_beat(tmp_path)
+    mix = (np.full(1000, 0.25), np.full(1000, 0.25))
+    path, _ = bm._file_engine_beat(100, stems, mix, "FX", tmp_path)
+    no = int(path.name.split(" ")[0])
+    before = bm.next_number(tmp_path)
+    se_id = bm.swap_many(no, {}, root=tmp_path, drops=["hat"], stage=True)
+    assert se_id == f"Test DJ/{bm.STAGE_DIR}/Beat {no} (your mix)"
+    assert bm.next_number(tmp_path) == before                  # no new number
+    beat = library.find_beat(tmp_path, se_id)
+    assert beat and beat["dj"] == "Test DJ" and beat["stem_count"] == 1
+    assert not any(b["beat_id"] == se_id for b in library.list_beats(tmp_path))
+    # a second click replaces it: hat back in
+    bm.swap_many(no, {}, root=tmp_path, pans={"kick": 0}, stage=True)
+    assert library.find_beat(tmp_path, se_id)["stem_count"] == 2
+    # the Sketch button's folder sits next to it
+    assert bm.sketch_stage_dir(no, tmp_path).parent == tmp_path / "Test DJ" / bm.STAGE_DIR

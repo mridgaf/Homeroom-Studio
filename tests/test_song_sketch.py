@@ -34,11 +34,12 @@ def test_rows_for_drops_tag_and_missing_stems_and_guesses_roles():
 def test_build_stems_sum_to_mix_and_files_exist(tmp_path):
     rows = song_sketch.rows_for(ROWS)
     audio = {"kick": _loop(60), "sub": _loop(45), "chord0": _loop(440)}
-    recipe = {"section_bars": 2, "amount": 0.6,
+    # a whole song (owner 2026-10-21: 2:30-4:00): 10 x 8 bars at 120 = 2:40
+    recipe = {"section_bars": 8, "amount": 0.6,
               "sections": [{"scene": "intro", "move": "bloom"},
                            {"scene": "pocket", "move": "echo"},
-                           {"scene": "break", "move": "breath"},
-                           {"scene": "full", "move": "none"}]}
+                           {"scene": "break", "move": "breath"}]
+                          + [{"scene": "full", "move": "none"}] * 7}
     got = song_sketch.build(7, BPM, rows, audio.get, recipe, root=tmp_path)
     folder = tmp_path / got["id"]
     for name in ("sketch.wav", "original.wav", "stems-and-mix.zip", "recipe.json"):
@@ -52,7 +53,7 @@ def test_build_stems_sum_to_mix_and_files_exist(tmp_path):
     assert json.loads((folder / "recipe.json").read_text())["beat"] == 7
     # the intro scene silences drums and bass: kick stem is empty in section 1
     kick = read_wav24(next((folder / "stems").glob("01 *.wav")))[0]
-    assert np.max(np.abs(kick[: 2 * BAR])) < 1e-6
+    assert np.max(np.abs(kick[: 8 * BAR])) < 1e-6
 
 
 def test_bad_recipe_is_refused(tmp_path):
@@ -96,62 +97,6 @@ def test_every_move_renders_clean_and_stems_sum(move):
     assert np.max(np.abs(np.diff(mix, axis=0))) < 0.5
 
 
-@pytest.mark.parametrize("bpm", [40, 60, 75, 90, 110, 140])
-def test_song_180_is_about_three_minutes_at_any_tempo(bpm):
-    n = dsp.sections_for(bpm)
-    secs = n * 8 * 240 / bpm
-    assert secs <= 200 and (secs >= 160 or n == 12)          # only very fast beats run short
-    form = dsp.song_form(n)
-    assert len(form) == n and form[0] == "intro" and form[-1] == "outro" and form[-2] == "full"
-
-
-def test_song_180_renders_three_minutes_and_sums():
-    plan = dsp.PRESETS["song_180"]
-    assert len(plan["scenes"]) == 8 and plan["bars"] == 8
-    secs = [{"scene": s, "moves": m} for s, m in zip(plan["scenes"], plan["moves"])]
-    stems, mix, _, meta = dsp.render(_channels(90), {"bpm": 90, "section_bars": 8, "amount": 0.6,
-                                                     "sections": secs})
-    assert 165 <= meta["music_duration_s"] <= 195
-    assert np.max(np.abs(sum(stems.values()) - mix)) < 1e-4
-
-
-def test_effect_styles_follow_their_own_rules():
-    stems = _stems4() + [{"lane": f"hat{i}", "role": "drums", "kind": "hat"} for i in range(4)]
-    n = dsp.sections_for(90)
-    plans = dsp.style_lane_plans(n, stems)
-    assert plans == dsp.style_lane_plans(n, stems)                       # same every time
-    assert {k for k, _ in plans} == set(dsp.STYLES)
-    assert len({str(p) for _, p in plans}) > 30                          # really different
-    for k, plan in plans:
-        st = dsp.STYLES[k]
-        allowed = set(st["intro"]) | set(st.get("outro", [])) | set(st["hook"]) | set(st["other"])
-        allowed |= {m for v in st["colour"].values() for m in v}
-        assert dsp.validate_recipe({"bpm": 90, "section_bars": 8, "sections": plan},
-                                   [s["lane"] for s in stems])
-        for sec in plan:
-            levels = dsp.SCENES[sec["scene"]]["levels"]
-            for lane, moves in sec["lanes"].items():
-                st_ = next(s for s in stems if s["lane"] == lane)
-                assert levels[dsp.ROLES.index(st_["role"])] > 0
-                assert all(m in dsp.HABITS[st_["kind"]] and m in allowed for m in moves)
-            if st["spread"] == "one":
-                assert all(sum(m in v for v in sec["lanes"].values()) <= 1 for m in sec["moves"])
-    # sparse styles stay sparse; odd ones are busy
-    busy = lambda k: sum(len(v) for _, p in plans if _ == k for s in p for v in s["lanes"].values())
-    assert busy("bare_bones") < busy("seasick")
-
-
-def test_auto_plans_follow_the_producer_rules():
-    plans = dsp.auto_plans("slow_burn")
-    assert plans == dsp.auto_plans("slow_burn") and len({str(p) for p in plans}) > 6
-    for plan in plans:
-        assert [s["scene"] for s in plan] == [t[0] for t in dsp.TEMPLATES["slow_burn"]]
-        assert all(len(s["moves"]) <= 2 for s in plan)
-        ends = [s["moves"][-1] for s in plan[:-1]]
-        assert all(a != b for a, b in zip(ends, ends[1:]))   # no back-to-back repeat
-        assert plan[-1]["moves"] in ([], ["phase"], ["drift"])
-
-
 def test_old_single_move_recipes_still_validate_and_too_long_is_refused():
     ok = dsp.validate_recipe({"bpm": 120, "section_bars": 2,
                               "sections": [{"scene": "full", "move": "echo"}]}, ["a"])
@@ -159,28 +104,6 @@ def test_old_single_move_recipes_still_validate_and_too_long_is_refused():
     with pytest.raises(ValueError):
         dsp.validate_recipe({"bpm": 60, "section_bars": 8,
                              "sections": [{"scene": "full", "moves": []}] * 8}, ["a"])
-
-
-@pytest.mark.parametrize("key", list(dsp.TEMPLATES))
-def test_every_sketch_type_is_a_valid_distinct_song(key):
-    preset = dsp.PRESETS[key]
-    n = len(preset["scenes"])
-    assert preset["auto"] and 5 <= n <= 12 and n * preset["bars"] * 240 / 90 <= 180
-    for plan in dsp.auto_plans(key):
-        assert plan[-1]["moves"] in ([], ["phase"], ["drift"])
-        ends = [s["moves"][-1] for s in plan[:-1]]
-        assert all(a != b for a, b in zip(ends, ends[1:]))
-    secs = [{"scene": s, "moves": m} for s, m in zip(preset["scenes"], preset["moves"])]
-    stems, mix, _, meta = dsp.render(_channels(120), {"bpm": 120, "section_bars": 1, "amount": 0.6,
-                                                      "sections": secs})
-    assert len(meta["sections"]) == n
-    assert np.max(np.abs(sum(stems.values()) - mix)) < 1e-4
-    assert np.max(np.abs(mix)) < 10 ** (-0.9 / 20)
-
-
-def test_the_five_auto_types_differ():
-    shapes = {(len(p["scenes"]), p["bars"]) for k, p in dsp.PRESETS.items() if p.get("auto")}
-    assert len(shapes) == 5
 
 
 # ---- per-lane moves ---------------------------------------------------------
@@ -212,29 +135,102 @@ def test_two_lanes_with_the_same_move_do_not_move_in_lockstep():
     assert not np.allclose(stems["chord0"], stems["air"] / 0.7 * 1.0, atol=1e-3)
 
 
-def test_lane_habits_and_spotlight_in_auto_plans():
-    stems = _stems4() + [{"lane": f"hat{i}", "role": "drums", "kind": "hat"} for i in range(4)]
-    for key in dsp.TEMPLATES:
-        for seed in range(12):
-            plan = dsp.auto_lane_plan(seed, key, stems)
-            for sec in plan:
-                levels = dsp.SCENES[sec["scene"]]["levels"]
-                for lane, moves in sec["lanes"].items():
-                    st = next(s for s in stems if s["lane"] == lane)
-                    assert levels[dsp.ROLES.index(st["role"])] > 0          # never an inaudible lane
-                    assert all(m in dsp.HABITS[st["kind"]] for m in moves)  # kick/bass never panned etc.
-                assert len(sec["lanes"]) <= 4                                # spotlight, not everyone
-    # not every lane is hit in every section
-    assert any(len(s["lanes"]) < len(stems) for s in dsp.auto_lane_plan(0, "slow_burn", stems))
+# ---- six arrangement types, genres, 4-bar cuts, drum variations (2026-10-21)
+
+def _drum_stems():
+    return [{"lane": k, "role": dsp.guess_role(k), "kind": dsp.guess_kind(k)}
+            for k in ("kick", "snare", "hat", "perc", "shaker", "sub", "chord0", "air")]
 
 
-def test_lane_recipe_is_validated_and_options_carry_lane_plans():
-    with pytest.raises(ValueError):
-        dsp.validate_recipe({"bpm": 120, "section_bars": 2,
-                             "sections": [{"scene": "full", "lanes": {"ghost": ["drift"]}}]}, ["a"])
+def test_there_are_six_types_and_six_genres():
+    assert len(dsp.TYPES) == 6 and len(dsp.GENRES) == 6
+    assert len({str(t["head"] + t["body"] + t["tail"]) for t in dsp.TYPES.values()}) == 6
+
+
+@pytest.mark.parametrize("bpm", [40, 60, 75, 90, 110, 140, 170, 200])
+@pytest.mark.parametrize("key", list(dsp.TYPES))
+def test_every_type_is_a_whole_song_at_any_tempo(key, bpm):
+    form = dsp.type_form(key, bpm)
+    secs = sum(s["bars"] for s in form) * 240 / bpm
+    assert dsp.SONG_MIN <= secs <= dsp.SONG_MAX and len(form) <= 40
+    assert all(s["bars"] in (4, 8) and s["half"] in (None, "front", "back") for s in form)
+
+
+@pytest.mark.parametrize("key", list(dsp.TYPES))
+def test_every_plan_validates_follows_habits_and_skips_muted_lanes(key):
+    stems = _drum_stems()
+    lanes = [s["lane"] for s in stems]
+    for fx in [None, *dsp.GENRES, *dsp.STYLES]:
+        plan = dsp.type_plan(0, key, 90, stems, fx)
+        assert plan == dsp.type_plan(0, key, 90, stems, fx)              # same every time
+        clean = dsp.validate_recipe({"bpm": 90, "sections": plan}, lanes)
+        assert len(clean["sections"]) == len(plan)
+        assert len(plan[-1]["moves"]) <= 1                             # the ending carries nothing on
+        for sec in plan:
+            levels = dsp.SCENES[sec["scene"]]["levels"]
+            for lane, moves in sec["lanes"].items():
+                st = next(s for s in stems if s["lane"] == lane)
+                assert lane not in sec["mute"]                          # a lane sitting out gets no effect
+                assert levels[dsp.ROLES.index(st["role"])] > 0
+                assert all(m in dsp.HABITS[st["kind"]] for m in moves)
+
+
+def test_genres_give_different_effects():
+    stems = _drum_stems()
+    used = {g: {m for seed in range(3) for s in dsp.type_plan(seed, "radio", 90, stems, g)
+                for m in s["moves"]} for g in dsp.GENRES}
+    assert len({frozenset(v) for v in used.values()}) == 6
+    assert "pump" in used["trap"] and "phase" in used["dub"]
+
+
+def test_drum_variations_rotate_and_keep_the_core():
+    stems = _drum_stems()
+    form = [{"drums": d} for d in ("thin", "thin", "thin", "core", "kick", "hats", "all")]
+    mutes = dsp.drum_mutes(form, stems)
+    assert mutes[0] != mutes[1] != mutes[2] and all(len(m) == 1 for m in mutes[:3])
+    assert set(mutes[3]) == {"hat", "perc", "shaker"}                # kick + snare only
+    assert set(mutes[4]) == {"snare", "hat", "perc", "shaker"}       # kick only
+    assert mutes[5] == ["kick"] and mutes[6] == []
+    assert not any(m in ("sub", "chord0", "air") for mu in mutes for m in mu)   # drums only
+
+
+def test_front_and_back_halves_of_an_8_bar_loop():
+    bpm, bar = 120, int(SR * 4 * 60 / 120)
+    x = np.zeros(8 * bar, dtype=np.float32)
+    x[: 4 * bar] = 0.2                       # front half loud, back half quiet
+    x[4 * bar:] = 0.05
+    ch = {"chord0": {"dry": (x, x.copy()), "sr": SR}}
+    base = {"bpm": bpm, "amount": 0, "roles": {"chord0": "music"}}
+    for half, want in (("front", 0.2), ("back", 0.05)):
+        stems, *_ , meta = dsp.render(ch, {**base, "sections": [
+            {"scene": "full", "bars": 4, "half": half}, {"scene": "full", "bars": 4, "half": half}]})
+        g = 10 ** (meta["gain_db"] / 20)
+        mid = stems["chord0"][bar: 7 * bar, 0] / g
+        assert np.allclose(np.median(mid), want, atol=1e-3)
+
+
+def test_a_muted_lane_is_silent_only_in_its_section():
+    ch = _channels(120)
+    stems, mix, _, _ = dsp.render(ch, {"bpm": 120, "amount": 0, "sections": [
+        {"scene": "full", "bars": 2, "mute": ["kick"]}, {"scene": "full", "bars": 2}]})
+    bar = int(SR * 2)
+    assert np.max(np.abs(stems["kick"][: 2 * bar])) < 1e-6
+    assert np.max(np.abs(stems["kick"][2 * bar + 500: 4 * bar - 500])) > 0.05
+    assert np.max(np.abs(sum(stems.values()) - mix)) < 1e-4
+
+
+def test_build_refuses_a_sketch_that_is_not_a_whole_song(tmp_path):
+    rows = song_sketch.rows_for(ROWS)
+    short = {"section_bars": 4, "sections": [{"scene": "full"}] * 4}     # 32 s
+    with pytest.raises(ValueError, match="2:30 to 4:00"):
+        song_sketch.build(7, BPM, rows, lambda ln: _loop(100), short, root=tmp_path)
+    assert not list(tmp_path.iterdir())
+
+
+def test_options_carry_every_type_and_effect_choice():
     opts = song_sketch.options(song_sketch.rows_for(ROWS), 90)
-    assert set(opts["plans"]) == set(dsp.TEMPLATES) | {"song_180"}
-    assert all("lanes" in sec for sec in opts["plans"]["song_180"][0])
-    assert len(opts["plan_styles"]["song_180"]) == len(opts["plans"]["song_180"])
-    assert set(opts["plan_styles"]["song_180"]) == set(opts["styles"])
-    assert opts["scenes"]["full"]["levels"] == dsp.SCENES["full"]["levels"]
+    assert set(opts["types"]) == set(dsp.TYPES) and set(opts["genres"]) == set(dsp.GENRES)
+    for k in dsp.TYPES:
+        for fx in ["built_in", "random", *dsp.GENRES]:
+            assert opts["plans"][f"{k}|{fx}"]
+    assert len(opts["plans"]["radio|random"]) == len(opts["styles"]) == len(dsp.STYLES)

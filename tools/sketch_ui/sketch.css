@@ -70,3 +70,7 @@
 #sketchboard .gpop { position: absolute; z-index: 20; top: 100%; left: 0; width: 170px; padding: 6px 8px;
   background: #222; color: #fff; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,.5); }
 #sketchboard .gpop label { display: block; white-space: nowrap; cursor: pointer; }
+/* 2026-10-21: a lane that sits out a section (drum variation), and the length check */
+#sketchboard .lgrid .gc.muted { text-decoration: line-through; opacity: .55; border-style: dotted; }
+#sketchboard .lgrid .gh select.bars, #sketchboard .lgrid .gh select.half { width: auto; margin-top: 3px; }
+#sketchboard #sklen.bad { color: #e07a5f; }

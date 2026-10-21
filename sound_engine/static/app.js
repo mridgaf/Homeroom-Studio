@@ -1855,6 +1855,27 @@ exportBtn.addEventListener("click", async () => {
 const sendBackBtn = document.getElementById("sendBackBtn");
 const backTo = new URLSearchParams(location.search).get("back");
 if (backTo && new URLSearchParams(location.search).get("beat")) sendBackBtn.hidden = false;
+// Sketch (owner 2026-10-21): the beat as heard here goes to Song Sketch.
+const sketchBtn = document.getElementById("sketchBtn");
+sketchBtn.hidden = sendBackBtn.hidden;
+sketchBtn.addEventListener("click", async () => {
+  if (!projectId || sketchBtn.disabled) return;
+  sketchBtn.disabled = true;
+  const was = sketchBtn.textContent;
+  sketchBtn.textContent = "Getting it ready…";
+  try {
+    for (const laneId of [...channelOrder, ...BUS_IDS]) syncChannelToServer(laneId, true);
+    await new Promise(r => setTimeout(r, 150));  // same wait as Export
+    const res = await fetch(`/api/project/${projectId}/to-sketch?dry_wet=${dryWet}`, { method: "POST" });
+    const data = await res.json();
+    if (!data.ok) { alert("Sketch failed: " + (data.error || res.status)); return; }
+    location.href = backTo + "/?beat=" + data.no + "&sketch=effects";
+  } catch (e) {
+    alert("Sketch failed: " + e);
+  } finally {
+    sketchBtn.disabled = false; sketchBtn.textContent = was;
+  }
+});
 sendBackBtn.addEventListener("click", async () => {
   if (!projectId || sendBackBtn.disabled) return;
   sendBackBtn.disabled = true;

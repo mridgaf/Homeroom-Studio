@@ -17,7 +17,7 @@
     try { LoopAudio.all.forEach(a => a.pause()); } catch (e) {}
   }
 
-  window.openSketch = async function (no) {
+  window.openSketch = async function (no, src) {
     stopOthers();
     if (!box) {
       box = document.createElement('div');
@@ -29,7 +29,8 @@
     box.hidden = false;
     box.innerHTML = '<p class="sknote">chalking up the sketch board…</p>';
     let d;
-    try { d = await (await fetch('/sketch-info?no=' + encodeURIComponent(no))).json(); }
+    try { d = await (await fetch('/sketch-info?no=' + encodeURIComponent(no) +
+      (src ? '&src=' + encodeURIComponent(src) : ''))).json(); }
     catch (e) { d = { ok: false, error: String(e) }; }
     if (!d.ok) {
       box.innerHTML = '<div class="skhead"><h2>Song Sketch</h2>' +
@@ -38,7 +39,8 @@
       box.querySelector('#skback').onclick = close;
       return;
     }
-    S = { d, no, preset: 'slow_reveal', roll: 0, style: '', result: null, which: 'sketch' };
+    S = { d, no, src: src || '', type: Object.keys(d.types)[0], fx: 'built_in', roll: 0, amt: null,
+          result: null, which: 'sketch' };
     draw();
   };
 
@@ -49,54 +51,37 @@
     if (box) box.hidden = true;
   }
 
-  // An auto preset (the 2:30 song) shows the rolled plan; the others use their own lists.
-  const planMoves = (P, i) => P.auto ? S.d.plans[S.preset][S.roll][i].moves : [].concat(P.moves[i]);
-
+  // 2026-10-21: six arrangement types x effects (built in / six genres /
+  // Random = the 12 producer styles). Every plan is a whole song, 2:30-4:00.
+  const plans = () => S.d.plans[S.type + '|' + S.fx];
   const shortName = (d, ms) => ms.length ? ms.map(k => d.moves[k]).join(', ') : '·';
+  const HALF = { '': 'whole loop', front: 'front 4 bars', back: 'back 4 bars' };
 
-  // Older presets: one set of moves per section, applied to every fitting lane.
-  function chipsHtml(d, P) {
-    return '<div class="secs" id="sksecs">' + P.scenes.map((sc, i) => '<div class="sec"><b>Section ' + (i + 1) + '</b>' +
-      '<p></p><label class="lbl">What plays</label><select class="sc" data-i="' + i + '">' +
-      opt(d.scenes, sc) + '</select>' +
-      '<label class="lbl">Effect moves</label><div class="mvs" data-i="' + i + '">' +
-      Object.keys(d.moves).filter(k => k !== 'none').map(k => '<label><input type="checkbox" value="' + k + '"' +
-        (planMoves(P, i).includes(k) ? ' checked' : '') + '> ' + esc(d.moves[k]) + '</label>').join('') +
-      '</div></div>').join('') + '</div>';
-  }
-
-  // Auto types: lanes down the side, sections across. A cell is one lane's moves in one section.
-  function gridHtml(d, P) {
-    const plan = d.plans[S.preset][S.roll], n = P.scenes.length;
+  // Lanes down the side, sections across. A cell is one lane in one section:
+  // its moves, or "sits out" (a drum variation).
+  function gridHtml(d, plan) {
+    const n = plan.length;
     return '<div class="lgridwrap"><div class="lgrid" id="sksecs" style="grid-template-columns:150px repeat(' + n + ',minmax(120px,1fr))">' +
-      '<div class="gh"></div>' + P.scenes.map((sc, i) => '<div class="gh"><b>Section ' + (i + 1) + '</b>' +
-        '<select class="sc" data-i="' + i + '">' + opt(d.scenes, sc) + '</select><p></p></div>').join('') +
+      '<div class="gh"></div>' + plan.map((s, i) => '<div class="gh"><b>' + (i + 1) + '. ' + esc(s.part) + '</b>' +
+        '<select class="sc" data-i="' + i + '">' + opt(d.scenes, s.scene) + '</select>' +
+        '<select class="bars" data-i="' + i + '">' + [4, 8].map(b => '<option' + (b === s.bars ? ' selected' : '') +
+          '>' + b + '</option>').join('') + '</select> bars ' +
+        '<select class="half" data-i="' + i + '">' + opt(HALF, s.half || '') + '</select><p></p></div>').join('') +
       d.stems.map(st => '<div class="gl" title="' + esc(st.label) + '">' + esc(st.label) + '</div>' +
-        P.scenes.map((sc, i) => {
-          const ms = (plan[i].lanes || {})[st.lane] || [];
-          return '<div class="gc" data-l="' + esc(st.lane) + '" data-i="' + i + '" data-m="' + ms.join(',') +
-            '" title="' + esc(shortName(d, ms)) + '"><span>' + esc(shortName(d, ms)) + '</span></div>';
+        plan.map((s, i) => {
+          const ms = (s.lanes || {})[st.lane] || [], out = s.mute.includes(st.lane);
+          return '<div class="gc' + (out ? ' muted' : '') + '" data-l="' + esc(st.lane) + '" data-i="' + i +
+            '" data-m="' + ms.join(',') + '" data-out="' + (out ? 1 : '') + '"><span>' +
+            esc(out ? 'sits out' : shortName(d, ms)) + '</span></div>';
         }).join('')).join('') +
-      '</div></div><p class="sknote">Click a cell to change that lane’s moves in that section. ' +
-      'Dim cells are silent in that scene. ' + (P.styles ? 'Random' : 'Re-roll') +
-      ' puts a fresh spotlight on different lanes.</p>';
+      '</div></div><p class="sknote">Click a cell to change that part’s effects in that section, ' +
+      'or make it sit out (drum variations). “Front/back 4 bars” plays only that half of an 8-bar loop. ' +
+      'Dim cells are silent in that scene.</p>';
   }
 
-  // 3:00 song: Random picks a producer style + placement; the picker narrows it to one style.
-  const styleOf = () => S.d.plan_styles[S.preset][S.roll];
-  function stylesHtml(d) {
-    const st = d.styles[styleOf()];
-    return '<div class="row"><button class="skbtn on" id="skrandom">🎲 Random effects</button>' +
-      '<select id="skstyle" style="width:auto"><option value="">Any style</option>' +
-      Object.keys(d.styles).map(k => '<option value="' + k + '"' + (k === S.style ? ' selected' : '') + '>' +
-        esc(d.styles[k].name) + '</option>').join('') + '</select></div>' +
-      '<p class="sknote"><b>' + esc(st.name) + ':</b> ' + esc(st.note) + '</p>';
-  }
-  function randomPlan() {
-    const all = S.d.plan_styles[S.preset].map((k, i) => [k, i]).filter(([k, i]) => (!S.style || k === S.style));
-    const pick = all.filter(([, i]) => i !== S.roll);
-    const pool = pick.length ? pick : all;
-    S.roll = pool[Math.floor(Math.random() * pool.length)][1];
+  function songLength() {
+    const bars = [...box.querySelectorAll('.bars')].reduce((a, s) => a + +s.value, 0);
+    return bars * 240 / (S.d.bpm || 90);
   }
 
   let pop = null;
@@ -104,58 +89,60 @@
     closePop();
     const d = S.d, have = cell.dataset.m ? cell.dataset.m.split(',') : [];
     pop = document.createElement('div'); pop.className = 'gpop';
-    pop.innerHTML = Object.keys(d.moves).filter(k => k !== 'none').map(k =>
+    pop.innerHTML = '<label><input type="checkbox" class="out"' + (cell.dataset.out ? ' checked' : '') +
+      '> <b>Sits out this section</b></label>' +
+      Object.keys(d.moves).filter(k => k !== 'none').map(k =>
       '<label><input type="checkbox" value="' + k + '"' + (have.includes(k) ? ' checked' : '') + '> ' + esc(d.moves[k]) + '</label>').join('');
     pop.onchange = () => {
-      const ms = [...pop.querySelectorAll('input:checked')].map(c => c.value);
-      cell.dataset.m = ms.join(','); cell.title = cell.firstChild.textContent = shortName(d, ms);
+      const out = pop.querySelector('.out').checked;
+      const ms = [...pop.querySelectorAll('input:not(.out):checked')].map(c => c.value);
+      cell.dataset.m = ms.join(','); cell.dataset.out = out ? 1 : '';
+      cell.classList.toggle('muted', out);
+      cell.firstChild.textContent = out ? 'sits out' : shortName(d, ms);
     };
     cell.appendChild(pop);
   }
   function closePop() { if (pop) { pop.remove(); pop = null; } }
 
+  function fxNote(d) {
+    if (S.fx === 'built_in') return 'The arrangement’s own effects.';
+    if (S.fx === 'random') { const st = d.styles[S.roll]; return '<b>' + esc(st.name) + ':</b> ' + esc(st.note); }
+    return '<b>' + esc(d.genres[S.fx].name) + ':</b> ' + esc(d.genres[S.fx].note);
+  }
+
   function draw() {
-    const d = S.d, P = Object.assign({}, d.presets[S.preset]);
-    if (P.auto) P.scenes = d.plans[S.preset][S.roll].map(s => s.scene);
+    const d = S.d, plan = plans()[S.roll];
+    const fxBtn = (k, name) => '<button class="skbtn' + (k === S.fx ? ' on' : '') + '" data-fx="' + k + '">' + name + '</button>';
     box.innerHTML =
-      '<div class="skhead"><h2>Song Sketch<small>Beat ' + esc(S.no) + ' · ' +
-        esc(d.bpm || '?') + ' BPM · ' + d.stems.length + ' stems</small></h2>' +
+      '<div class="skhead"><h2>Song Sketch<small>Beat ' + esc(S.no) + (S.src ? ' (as set on the Effects page)' : '') +
+        ' · ' + esc(d.bpm || '?') + ' BPM · ' + d.stems.length + ' stems</small></h2>' +
         '<button class="skbtn" id="skback">← Back to beats</button></div><hr>' +
-      '<h3>1. Pick a shape</h3><div class="row" id="skpresets">' +
-        Object.keys(d.presets).map(k => '<button class="skbtn' + (k === S.preset ? ' on' : '') +
-          '" data-p="' + k + '">' + esc(d.presets[k].name) + '</button>').join('') + '</div>' +
-      '<p class="sknote" id="skpnote">' + esc(P.note) + '</p>' +
-      '<h3>2. ' + P.scenes.length + ' sections' + (P.styles ? '' : P.auto ? ' <button class="skbtn" id="skroll">Re-roll moves</button>' : '') +
-        '</h3>' + (P.styles ? stylesHtml(d) : '') + (P.auto ? gridHtml(d, P) : chipsHtml(d, P)) +
-      '<h3>3. Length and space</h3><div class="row"><div class="amt">Bars per section ' +
-        '<select id="skbars" style="width:auto"><option>2</option><option selected>4</option><option>8</option></select></div>' +
-        '<div class="amt">Echo / reverb <input type="range" id="skamt" min="0" max="1" step="0.05" value="0.6"></div></div>' +
+      '<h3>1. Pick an arrangement</h3><div class="row" id="sktypes">' +
+        Object.keys(d.types).map(k => '<button class="skbtn' + (k === S.type ? ' on' : '') +
+          '" data-t="' + k + '">' + esc(d.types[k].name) + '</button>').join('') + '</div>' +
+      '<p class="sknote">' + esc(d.types[S.type].note) + '</p>' +
+      '<h3>2. Effects</h3><div class="row" id="skfx">' + fxBtn('built_in', 'Built in') +
+        Object.keys(d.genres).map(k => fxBtn(k, esc(d.genres[k].name))).join('') +
+        fxBtn('random', '🎲 Random') + ' <button class="skbtn" id="skroll">Re-roll</button></div>' +
+      '<p class="sknote">' + fxNote(d) + '</p>' +
+      '<h3>3. ' + plan.length + ' sections · <span id="sklen"></span></h3>' + gridHtml(d, plan) +
+      '<div class="row"><div class="amt">Echo / reverb <input type="range" id="skamt" min="0" max="1" step="0.05" value="' +
+        (S.amt != null ? S.amt : 0.6) + '"></div></div>' +
       '<h3>4. Who is who</h3><div class="lanes">' +
         d.stems.map(s => '<div class="ln"><span title="' + esc(s.label) + '">' + esc(s.label) +
           '</span><select class="rl" data-l="' + esc(s.lane) + '">' + opt(
             Object.fromEntries(d.roles.map(r => [r, r])), s.role) + '</select></div>').join('') + '</div>' +
-      '<p class="sknote">The DJ’s producer tag is left out so it isn’t repeated every section. ' +
-        'Echo and reverb only catch the music and texture parts.</p>' +
+      '<p class="sknote">The DJ’s producer tag is left out so it isn’t repeated every section.</p>' +
       '<div class="row" style="margin-top:14px"><button class="skbtn sun" id="skgo">Make the sketch</button></div>' +
       '<div class="skstatus" id="skstatus" role="status"></div><div id="skresult"></div>';
+    const redraw = change => { S.amt = +box.querySelector('#skamt').value; change(); draw(); };
     box.querySelector('#skback').onclick = close;
-    box.querySelectorAll('#skpresets button').forEach(b => b.onclick = () => {
-      const keep = { bars: box.querySelector('#skbars').value, amt: box.querySelector('#skamt').value };
-      S.preset = b.dataset.p; S.roll = 0; draw();
-      box.querySelector('#skbars').value = d.presets[S.preset].bars || keep.bars;
-      box.querySelector('#skamt').value = keep.amt;
-    });
-    const redraw = change => {               // keep length + space settings across a redraw
-      const keep = { bars: box.querySelector('#skbars').value, amt: box.querySelector('#skamt').value };
-      change(); draw();
-      box.querySelector('#skbars').value = keep.bars; box.querySelector('#skamt').value = keep.amt;
-    };
-    const roll = box.querySelector('#skroll');
-    if (roll) roll.onclick = () => redraw(() => { S.roll = (S.roll + 1) % d.plans[S.preset].length; });
-    const rnd = box.querySelector('#skrandom');
-    if (rnd) rnd.onclick = () => redraw(randomPlan);
-    const sty = box.querySelector('#skstyle');
-    if (sty) sty.onchange = () => redraw(() => { S.style = sty.value; randomPlan(); });
+    box.querySelectorAll('#sktypes button').forEach(b => b.onclick = () => redraw(() => { S.type = b.dataset.t; S.roll = 0; }));
+    box.querySelectorAll('#skfx button[data-fx]').forEach(b => b.onclick = () => redraw(() => {
+      S.fx = b.dataset.fx;
+      S.roll = S.fx === 'random' ? Math.floor(Math.random() * plans().length) : 0;
+    }));
+    box.querySelector('#skroll').onclick = () => redraw(() => { S.roll = (S.roll + 1) % plans().length; });
     box.querySelectorAll('.gc').forEach(c => c.onclick = e => {
       if (e.target.closest('.gpop')) return;
       pop && pop.parentNode === c ? closePop() : openPop(c);
@@ -165,14 +152,20 @@
       const role = [...box.querySelectorAll('.rl')].find(r => r.dataset.l === c.dataset.l);
       c.classList.toggle('off', !!role && d.scenes[sc].levels[d.roles.indexOf(role.value)] === 0);
     });
-    box.querySelectorAll('.rl, .sc').forEach(el => el.addEventListener('change', dim));
-    dim();
-    const note = () => box.querySelectorAll('.sec, .gh').forEach((el, i) => {
-      if (!el.querySelector('.sc')) return;
-      el.querySelector('p').textContent = d.scenes[el.querySelector('.sc').value].description;
+    const note = () => box.querySelectorAll('.gh').forEach(el => {
+      if (el.querySelector('.sc')) el.querySelector('p').textContent = d.scenes[el.querySelector('.sc').value].description;
     });
-    box.querySelectorAll('.sc').forEach(s => s.onchange = note);
-    note();
+    const len = () => {
+      const s = songLength(), ok = s >= 150 && s <= 240;
+      const el = box.querySelector('#sklen');
+      el.textContent = clock(s) + (ok ? '' : ' (must be 2:30 to 4:00)');
+      el.className = ok ? '' : 'bad';
+      box.querySelector('#skgo').disabled = !ok;
+    };
+    box.querySelectorAll('.rl, .sc').forEach(el => el.addEventListener('change', dim));
+    box.querySelectorAll('.sc').forEach(s => s.addEventListener('change', note));
+    box.querySelectorAll('.bars').forEach(s => s.addEventListener('change', len));
+    dim(); note(); len();
     box.querySelector('#skgo').onclick = go;
     if (S.result) showResult();
   }
@@ -182,24 +175,23 @@
     const roles = {};
     box.querySelectorAll('.rl').forEach(s => roles[s.dataset.l] = s.value);
     const recipe = {
-      section_bars: +box.querySelector('#skbars').value,
       amount: +box.querySelector('#skamt').value, roles,
       sections: [...box.querySelectorAll('.sc')].map((el, i) => {
-        const cells = [...box.querySelectorAll('.gc[data-i="' + i + '"]')];
-        if (cells.length) {                    // grid: per-lane moves
-          const lanes = {};
-          cells.forEach(c => { if (c.dataset.m) lanes[c.dataset.l] = c.dataset.m.split(','); });
-          return { scene: el.value, lanes };
-        }
-        return { scene: el.value,
-          moves: [...box.querySelectorAll('.mvs[data-i="' + i + '"] input:checked')].map(c => c.value) };
+        const lanes = {}, mute = [];
+        box.querySelectorAll('.gc[data-i="' + i + '"]').forEach(c => {
+          if (c.dataset.out) mute.push(c.dataset.l);
+          else if (c.dataset.m) lanes[c.dataset.l] = c.dataset.m.split(',');
+        });
+        const half = box.querySelector('.half[data-i="' + i + '"]').value || null;
+        return { scene: el.value, bars: +box.querySelector('.bars[data-i="' + i + '"]').value,
+                 half, mute, lanes };
       }) };
     btn.disabled = true; st.className = 'skstatus';
     st.textContent = 'Arranging the stems and printing the transitions…';
     if (au) au.pause();
     try {
       const r = await fetch('/sketch', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ no: S.no, lanes: S.d.stems.map(s => s.lane), recipe }) });
+        body: JSON.stringify({ no: S.no, src: S.src, lanes: S.d.stems.map(s => s.lane), recipe }) });
       const d = await r.json();
       if (!d.ok) throw new Error(d.error || 'The sketch failed.');
       S.result = d; S.which = 'sketch'; st.textContent = '';

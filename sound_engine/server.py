@@ -792,6 +792,44 @@ async def project_export(project_id: str, dry_wet: float = 1.0):
     return JSONResponse({"path": str(out)})
 
 
+def _beat_number(project):
+    """The library number of the beat a project came from (a match whose
+    group(1) is it), or None. The Beat Machine's Effects button opens a
+    working copy named "Beat N (your mix)" (owner 2026-10-21)."""
+    bid = project.get("beat_id") or ""
+    return (re.search(r"/Beat (\d+) \(your mix\)$", bid)
+            or re.search(r"/(\d+) [^/]*$", bid))
+
+
+@app.post("/api/project/{project_id}/to-sketch")
+async def project_to_sketch(project_id: str, dry_wet: float = 1.0):
+    """Owner 2026-10-21: Effects -> Sketch. Each lane as heard here (effects,
+    level, pan, mute, buses) goes to <DJ>/.effects-stage/Beat N (sketch mix)
+    Stems, where the Beat Machine's Song Sketch reads it. No new number.
+    The folder is replaced each time (a working copy, not one of his beats)."""
+    import shutil
+    from make_drum_loops import write_wav24
+    project = PROJECTS.get(project_id)
+    if project is None:
+        return JSONResponse({"error": "unknown project_id"}, status_code=404)
+    m = _beat_number(project)
+    if not m:
+        return JSONResponse({"error": "only a beat from your library can be sketched"},
+                            status_code=400)
+    mixed = _mix_lanes(project, dry_wet)
+    if mixed is None:
+        return JSONResponse({"error": "every channel is muted"}, status_code=400)
+    lanes, _, _, sr = mixed
+    stage = BEATS_ROOT / project["beat_id"].split("/", 1)[0] / ".effects-stage"
+    out = stage / f"Beat {int(m.group(1))} (sketch mix) Stems"
+    if out.exists():
+        shutil.rmtree(out)
+    out.mkdir(parents=True)
+    for lane_id, (sL, sR) in lanes.items():
+        write_wav24(out / f"{lane_id}.wav", sL, sR)
+    return JSONResponse({"ok": True, "no": int(m.group(1))})
+
+
 @app.post("/api/project/{project_id}/send-back")
 async def project_send_back(project_id: str, dry_wet: float = 1.0, back: str = ""):
     """Owner 2026-10-15: the effected beat goes back to the Beat Machine as
@@ -808,7 +846,7 @@ async def project_send_back(project_id: str, dry_wet: float = 1.0, back: str = "
     project = PROJECTS.get(project_id)
     if project is None:
         return JSONResponse({"error": "unknown project_id"}, status_code=404)
-    m = re.search(r"/(\d+) [^/]*$", project.get("beat_id") or "")
+    m = _beat_number(project)
     if not m:
         return JSONResponse({"error": "only a beat from your library can go back"},
                             status_code=400)
