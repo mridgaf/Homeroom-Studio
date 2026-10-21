@@ -355,3 +355,12 @@ All production, effects, mixing and music-theory research is gathered in
 12 chapters in `Chapters/` (each part under 450 lines — read every part, not just the first),
 exact copies of the sources in `Originals/`, file list in `MANIFEST.txt`.
 Read the matching chapter before doing research or recipe work on effects, mixing or theory.
+
+## Lessons from the 2026-10-21 disk cleanup session (Part 1 of 1)
+- **Big file moves: tell him up front to drag them in Finder.** Claude's Mac shell runs max ~3 min per command and kills background jobs when the command ends; copying ran ~27 MB/s. Tens of GB through Claude = 15+ approval prompts. Better: he drags, Claude then verifies by comparing file counts + sizes per folder (python os.walk), and he trashes the originals in Finder.
+- **Mount names change.** Connecting `~/Music/Homeroom Studio` renamed the project mount in Claude's shell to `Desktop--Homeroom Studio` (the Music one became `Music--Homeroom Studio`). Check `ls $HOME/mnt` before assuming a path.
+- **Photos libraries live inside `~/Pictures`** (Photos Library.photoslibrary, Photos Library 2.photoslibrary). Quit Photos before they are moved; one is the app's main library.
+- **Where things went (2026-10-21):** `~/Pictures` and `~/Music` were copied to `/Volumes/TBOTC 3/Pictures` and `/Volumes/TBOTC 3/Music` (verified identical, John trashed originals himself). `iCloud Drive (Archive) - 3` (38 GB) was moved to the drive by John; NOT verified by Claude at his request. `TONE3000 NAM Models` in `~/Music` is only a shortcut to REAPER's folder — leave it. `new desktop pickz` on the drive is missing some pictures; John accepted that.
+- **Leftovers on the drive, not needed:** `TBOTC 3/Mac Move` (partial ~550 MB copy) and `TBOTC 3/Mac Pictures` (mostly empty folders).
+- **`~/Music/Claude Hip Hop Tracks`** = 10 July-2026 instrumentals (94-100 bpm, 372 MB) built from real loop-pack stems by `tools/make_hiphop_tracks.py` (retired 2026-07-25). They are NOT inside this project. John says they sound more progressive than current Beat Machine output. Not yet copied to the project/drive "Reference Tracks"; no listening comparison done.
+- **`~/Music/reason_voice`** is the July 3 first version of the voice app: older duplicate, nothing to add. `~/Music/Homeroom Studio/Notes` (5 generic notes) is not in the project; `~/Music/Homeroom` is empty.
