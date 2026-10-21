@@ -136,6 +136,21 @@ def lock_chords(bars, bar0, kick_bars, rng):
     return out, long
 
 
+def bass_from_chords(plan, slots, cells):
+    """The other bass style (band_flow, owner 2026-10-21): the bass plays
+    the CHORDS' own hits on the slot's root, so bass and chords move as one
+    (Reason demo Street Phone: kick, bass and organs on one 3-3-2 cell).
+    `cells` = per slot the chord's written bars (16-char strings) or None;
+    a slot without them keeps its planned figure. Edits `plan` in place."""
+    for s, p, bars in zip(slots, plan, cells):
+        hits = [(b, k, ch if ch in "Xxo." else "x", s["root"])
+                for b, bar in enumerate((bars or ())[:s["bars"]])
+                for k, ch in enumerate(bar[:16]) if ch != "-"]
+        if hits:
+            p.update(figure="chords", tied=False, hits=hits, short={})
+    return plan
+
+
 def invert(notes):
     """The same chord, lowest note moved up an octave (a new voicing,
     same progression)."""

@@ -288,3 +288,37 @@ def test_drum_punch_changes_the_signal_and_stays_finite():
     L, R = ae.drum_punch(click.copy(), click.copy(), amount=90.0, mix=100.0)
     assert np.isfinite(L).all() and np.isfinite(R).all()
     assert not np.allclose(L, click, atol=1e-5)
+
+
+# --- plugin helper process (owner 2026-10-21) ---------------------------------
+# A crash is simulated with os._exit (the helper vanishes mid-call, same as a
+# segfault from our side) so the tests leave no macOS crash report behind.
+
+def test_helper_dying_drops_only_that_effect_and_comes_back():
+    import os
+    tone = _tone(100, amp=0.3)
+    L, R = ae._isolated(os._exit, (3,), "test", tone, tone)
+    assert L is tone and R is tone            # dry sound, our process alive
+    assert ae._HOST.call(abs, (-3,)) == 3     # a fresh helper next call
+
+
+def test_helper_hang_drops_only_that_effect():
+    import time
+    tone = _tone(100, amp=0.3)
+    t0 = time.time()
+    L, R = ae._isolated(time.sleep, (60,), "test", tone, tone, timeout=1.0)
+    assert L is tone and time.time() - t0 < 15
+    assert ae._HOST.call(abs, (-2,)) == 2
+
+
+def test_a_plain_error_in_the_helper_still_raises():
+    with pytest.raises(ValueError):
+        ae._HOST.call(int, ("not a number",))
+
+
+@pytest.mark.skipif(not _HAS_DS10, reason="DS-10 Drum Shaper.vst3 not installed")
+def test_owned_plugins_never_load_in_our_process():
+    click = np.zeros(SR // 2)
+    click[:200] = np.linspace(0.8, 0.0, 200)
+    ae.drum_punch(click.copy(), click.copy(), amount=90.0, mix=100.0)
+    assert ae._owned_plugin.cache_info().currsize == 0

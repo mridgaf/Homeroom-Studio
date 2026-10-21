@@ -297,6 +297,20 @@ OWNER_TASTE = {
     # 45% (owner pick, clickable). Same 2-part : 3-part ratio as above.
     "lead_part_weights": (0.75, 0.19, 0.06),
     "passing_note_p": 0.5,
+    # DOUBLES (owner 2026-10-21, from the Reason demo songs' MIDI: Power
+    # plays one chord on 4 instruments, Quazmo strings + air voice on the
+    # same notes). Share of new beats where the main chord part is ALSO
+    # played, same notes, by a second instrument on its own lane; of
+    # those, the share split hard-ish left/right for width (Piano L /
+    # Piano R). Overrules the 2026-07-25 "never the same thing twice".
+    # Claude's starting numbers -- tune by ear.
+    "double_p": 0.5,
+    "double_pair_p": 0.5,
+    "double_pair_pan": 0.6,
+    # BASS ON THE CHORD RHYTHM (owner 2026-10-21, Street Phone: kick, bass
+    # and organs all on one 3-3-2 cell). Share of new beats whose bass
+    # line plays the chords' own hits; the rest keep the kick-clear lock.
+    "bass_chord_lock_p": 0.5,
     # --- bus glue compression (owner 2026-07-29: "add the glue
     # compression... for better sound quality"). Gentle house starting
     # point, tune like everything else here once he's heard it — see

@@ -2017,6 +2017,80 @@ def test_more_than_one_melodic_part_is_possible_again(
     assert seen_multi, "the restored roll should layer >1 instrument on a seed"
 
 
+
+def test_a_part_can_double_on_a_second_instrument(
+        machine_env, two_real_instruments, monkeypatch):
+    """band_flow (owner 2026-10-21, from the Reason demo songs): the main
+    chord part is also played by a SECOND instrument -- its own lane,
+    same notes, so the slot has one more chord layer than without it."""
+    root, shots = machine_env
+    monkeypatch.setitem(beat_machine.OWNER_TASTE, "double_p", 1.0)
+    monkeypatch.setitem(beat_machine.OWNER_TASTE, "double_pair_p", 0.0)
+    seen = 0
+    for seed in range(6):
+        no, path, report = _two_part_beat(root, shots, monkeypatch,
+                                          seed=seed)
+        rec = beat_recipes.load_recipe(root, no)
+        names = (rec.get("harmony") or {}).get("voice_names") or {}
+        dbl = [ln for ln, nm in names.items() if "(double)" in nm]
+        if not dbl:
+            continue
+        seen += 1
+        assert "double:" in report, report
+        fams = {beat_machine._chord_family(l) for l in names
+                if l.startswith("chord")}
+        assert all(f and f.startswith("chords") for f in fams), fams
+        lanes = rec["preset"]["lanes"]
+        assert all(lanes[l][0] == lanes["chord0"][0] for l in dbl)  # no pair
+    assert seen, "double_p=1 should double at least one beat"
+
+
+def test_a_double_can_be_a_left_right_pair(
+        machine_env, two_real_instruments, monkeypatch):
+    """...and as a L/R pair (Power's Piano L / Piano R) the copied part
+    and its double sit on opposite sides, the same distance out."""
+    root, shots = machine_env
+    monkeypatch.setitem(beat_machine.OWNER_TASTE, "double_p", 1.0)
+    monkeypatch.setitem(beat_machine.OWNER_TASTE, "double_pair_p", 1.0)
+    w = beat_machine.OWNER_TASTE["double_pair_pan"]
+    seen = 0
+    for seed in range(6):
+        no, path, report = _two_part_beat(root, shots, monkeypatch,
+                                          seed=seed)
+        rec = beat_recipes.load_recipe(root, no)
+        lanes = rec["preset"]["lanes"]
+        pans = sorted(round(lanes[l][0], 3) for l in lanes
+                      if l.startswith("chord") and abs(lanes[l][0]) > 0)
+        if not pans:
+            continue
+        seen += 1
+        assert "left/right pair" in report, report
+        assert set(pans) == {-round(w, 3), round(w, 3)}, pans
+    assert seen, "pair_p=1 should pan at least one double"
+
+
+
+def test_bass_can_play_the_chord_rhythm(machine_env, only_his_instruments,
+                                        monkeypatch):
+    """band_flow (owner 2026-10-21): a beat may put its bass line on the
+    chords' own rhythm; the kick-clear lock stays the other style."""
+    root, shots = machine_env
+    monkeypatch.setitem(CREW["Timberline"], "signature", {
+        "key": {"roots": ["C"], "mode": "minor"},
+        "progressions": [["epic", 1]],
+        "chord_source": [["piano", 1]],
+        "chords_default": True})
+    for p, want in ((1.0, True), (0.0, False)):
+        monkeypatch.setitem(beat_machine.OWNER_TASTE, "bass_chord_lock_p", p)
+        seen = False
+        for seed in range(6):
+            random.seed(seed)
+            path, report = beat_machine.generate(["Timberline"], root=root,
+                                                 shots=shots)
+            seen |= "bass: plays the chord rhythm" in report
+        assert seen is want, (p, report)
+
+
 def test_loops_always_play_alone(machine_env, monkeypatch):
     """Owner 2026-07-25, answering directly: 'Loops play alone.' A loop
     is already a finished melody; it must never combine with a second

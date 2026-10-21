@@ -8943,3 +8943,23 @@ just not loaded by default.
 - Research honesty: genre habits for boom bap, trap, lo-fi, dub from Research Hub ch 02/05 (searched, not read cover to cover); drill + G-funk NOT in the Hub, general knowledge, said so in their notes. All type/genre numbers are Claude's; tune by ear.
 - Verify by: tests/test_song_sketch.py 82 passed (rewritten: old type tests removed, new ones for lengths, halves, mutes, genres), test_engine_send_back + test_sound_engine + test_lane_pan = 208 passed together. Browser on a spare copy (port 8799): 6 types, 6 genres, 3:12 song, length guard disables the button at 5:41, Effects -> button present, no console errors. NOT clicked: Effects ->, Sketch ->, Make the sketch (no renders). Full suite not run. Staging of a NORMAL (non-effected) beat is not unit-tested (needs a real render).
 - Status: open - his running Beat Machine (8770) and Sound Engine (8767) still run the old code until restarted; then he tries beat -> Effects -> Sketch and listens.
+
+### 2026-10-21 Read the notes inside six Reason demo songs
+- Context: owner asked to study the demo songs' MIDI for how to make fuller beats.
+- Done: `.rsndemo` bodies are scrambled (plain `.reason` are not), so exported MIDI via Reason File > Export MIDI File (read-only, nothing saved). Files: `/Volumes/TBOTC 3/Demo Song MIDI 2026-10-21/`. Findings: `docs/reason/demo-song-midi-findings.md`. Biggest: demos stack one part on 2-4 instruments (engine splits notes so none are shared), bass locks to kick/stab rhythm, wide voicings past G5, movement from filter/mod automation.
+- Status: open. No engine code changed, nothing rendered.
+- Verify by: `ls "/Volumes/TBOTC 3/Demo Song MIDI 2026-10-21"` shows 6 .mid files.
+
+### 2026-10-21 Doubles + bass on the chord rhythm (band_flow)
+- Context: owner picked 2 ideas from the demo-song MIDI and overruled any old rule in the way ("never the same thing twice" 2026-07-25; kick-clear-only bass 2026-10-20).
+- Done: new-beat stamp `band_flow`. (1) DOUBLE: half of new beats (`double_p` 0.5) add a 2nd instrument playing the SAME notes/hits as the main part (lead on multi-part beats, whole chord otherwise), own lane `chord{i}vN`, name "... (double)"; half of those (`double_pair_p`) pan the part and its double to opposite sides (`double_pair_pan` 0.6). Skipped when he picks an instrument or the lead is a loop/chip/MIDI. (2) BASS: half of new beats (`bass_chord_lock_p` 0.5) play the bass on the chords' own hits (`groove_lock.bass_from_chords`); the rest keep `lock_bass`. Settings in `tools/groove.py` OWNER_TASTE. All numbers are Claude's starting guesses.
+- Status: open. Tests pass; nothing rendered, nothing heard.
+- Verify by: `pytest tests/test_groove_lock.py tests/test_beat_machine.py -k "double or chord_rhythm or bass_from_chords"`; then his ears on a new batch.
+
+### 2026-10-21 DS-10 + Obliterate run in a helper process
+- Context: the 3 real Python crashes (2026-10-16 x2, 2026-10-20) all had DS-10 loaded; owner said yes to isolating the plugins.
+- Done: `tools/audio_engine.py` sends `drum_punch`/`crunch_drive` to ONE spawned helper process (`_PluginHost`, `_isolated`). A crash or a hang (>120 s) kills only the helper: that effect is skipped (dry sound back, one line on stderr) and the next call starts a fresh helper. A plain Python error (plugin missing) still raises. Plugin cache lives in the helper. Tests: `tests/test_audio_engine.py` (helper death, hang, error, plugin never loads in our process), 23/23 pass; effects-page tests 125 pass.
+- Also found: the 16:33 test-run "crash" today was a Dock Force Quit of a paused Python, not a crash.
+- Status: open. Effects page restarted the same day on the new code: a Punch+Crunch request returned 200 in 1.7 s, the server process had 0 plugin files loaded, the helper had DS-10 + Obliterate. Not yet used by him.
+- Verify by: `./.venv/bin/python -m pytest tests/test_audio_engine.py -q`
+

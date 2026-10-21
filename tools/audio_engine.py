@@ -15,6 +15,9 @@ per-render; existing beats and existing DJ character are untouched.
 from __future__ import annotations
 
 import functools
+import multiprocessing as mp
+import sys
+import threading
 
 import numpy as np
 import pedalboard as pb
@@ -220,6 +223,89 @@ def _owned_plugin(path):
     return pb.load_plugin(path)
 
 
+# --- plugin helper process (owner 2026-10-21) -------------------------------
+# The owned VST3s run in ONE separate helper process, never in ours. Crash
+# reports 2026-10-16 (x2) and 2026-10-20 all had DS-10 loaded, and a plugin
+# that segfaults or aborts inside our process takes the whole app (or the
+# whole test run) down with it. Now a crash or hang kills only the helper:
+# that effect is skipped (dry sound returned), and the next call starts a
+# fresh helper. A plain Python error (plugin not installed) still raises
+# here, so the real cause stays visible. The helper keeps _owned_plugin's
+# cache, so a dragged knob doesn't reload the plugin.
+PLUGIN_TIMEOUT_S = 120.0   # ponytail: one guess for load + a long file
+
+
+class PluginCrashed(RuntimeError):
+    """The helper process died or hung; the effect is skipped, not the app."""
+
+
+def _host_main(conn):
+    while True:
+        try:
+            fn, args = conn.recv()
+        except EOFError:
+            return
+        try:
+            out = (True, fn(*args))
+        except Exception as e:                      # sent back, re-raised
+            out = (False, e)
+        try:
+            conn.send(out)
+        except Exception as e:                      # unpicklable answer
+            conn.send((False, RuntimeError(repr(e))))
+
+
+class _PluginHost:
+    # ponytail: one lock, one helper -- plugin calls take turns
+    def __init__(self):
+        self._lock = threading.Lock()
+        self._proc = self._conn = None
+
+    def _stop(self):
+        code = None
+        if self._proc is not None:
+            self._proc.kill()
+            self._proc.join(5)
+            code = self._proc.exitcode
+        self._proc = self._conn = None
+        return code
+
+    def call(self, fn, args, timeout=PLUGIN_TIMEOUT_S):
+        with self._lock:
+            if self._proc is None or not self._proc.is_alive():
+                self._stop()
+                ctx = mp.get_context("spawn")
+                self._conn, child = ctx.Pipe()
+                self._proc = ctx.Process(target=_host_main, args=(child,),
+                                         daemon=True, name="plugin-host")
+                self._proc.start()
+                child.close()
+            try:
+                self._conn.send((fn, args))
+                if not self._conn.poll(timeout):
+                    self._stop()
+                    raise PluginCrashed("no answer after %gs" % timeout)
+                ok, val = self._conn.recv()
+            except (EOFError, OSError):
+                raise PluginCrashed("helper died (exit %s)" % self._stop())
+        if not ok:
+            raise val
+        return val
+
+
+_HOST = _PluginHost()
+
+
+def _isolated(fn, args, what, L, R, timeout=PLUGIN_TIMEOUT_S):
+    """fn(*args) in the helper; a crash or hang drops just this effect."""
+    try:
+        return _HOST.call(fn, args, timeout)
+    except PluginCrashed as e:
+        print("%s skipped: %s; the rest of the sound still played"
+              % (what, e), file=sys.stderr)
+        return L, R
+
+
 def crunch_drive(L, R, amount=30.0, mix=35.0, sr=None):
     """Drive's second flavor: the owner's own Obliterate (Newfangled
     Audio) in place of saturate()'s tanh waveshaper — a real multiband
@@ -231,9 +317,15 @@ def crunch_drive(L, R, amount=30.0, mix=35.0, sr=None):
 
     No live Web Audio equivalent: this only runs server-side, so the
     knob plays dry while dragged and crossfades to this once the
-    real-sound render lands (see app.js's realGain/liveGain, 2026-10-16)."""
+    real-sound render lands (see app.js's realGain/liveGain, 2026-10-16).
+    Runs in the plugin helper process (_isolated)."""
     if mix <= 0.0:
         return L, R
+    return _isolated(_crunch_inproc, (L, R, amount, mix, sr),
+                     "Crunch (Obliterate)", L, R)
+
+
+def _crunch_inproc(L, R, amount, mix, sr):
     plugin = _owned_plugin(OBLITERATE_PATH)
     plugin.mix = 100.0
     plugin.obliterate = float(np.clip(amount, 0.0, 100.0))
@@ -253,9 +345,15 @@ def drum_punch(L, R, amount=30.0, mix=60.0, sr=None):
     here. mix 0-100 is OUR wet/dry blend, same shape as every other
     effect in the chain. sr — see eq3()'s docstring.
 
-    No live Web Audio equivalent — see crunch_drive()'s docstring."""
+    No live Web Audio equivalent — see crunch_drive()'s docstring.
+    Runs in the plugin helper process (_isolated)."""
     if mix <= 0.0:
         return L, R
+    return _isolated(_punch_inproc, (L, R, amount, mix, sr),
+                     "Punch (DS-10)", L, R)
+
+
+def _punch_inproc(L, R, amount, mix, sr):
     plugin = _owned_plugin(DS10_PATH)
     a = float(np.clip(amount, -100.0, 100.0))
     plugin.attack = a

@@ -1583,6 +1583,10 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # how busy each bar's kick is -- simpler on a busy kick, moving or
     # held where the drums leave space, the kick kept clear. New beats only.
     preset.setdefault("groove_flow", 1)
+    # BAND FLOW (2026-10-21, owner from the Reason demo songs): a chord part
+    # doubled on a second instrument (sometimes a L/R pair), and a bass that
+    # can play the chords' own rhythm. New beats only.
+    preset.setdefault("band_flow", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2860,6 +2864,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                    and primary not in ("loop", "chip", "midi")
                    and melody_rhythm.plays(variant))
     _lead_top = {}
+    # which layer a double copies (band_flow): the lead on a multi-part
+    # beat -- it carries the chord rhythm -- else the one whole-chord layer
+    _dbl_v, _dbl_notes = 0, (lambda k: None)
     if part_count >= 2:
         role_srcs = _role_sources(primary, order, own, part_count)
         splits = [_split_chord_roles(chord["notes"])
@@ -2943,6 +2950,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 role_beds.append([(a[:n] * g if g != 1.0 else a[:n], nm, fl)
                                   for a, nm, fl in layers])
             committed, beds = tuple(role_srcs[:len(per_role)]), role_beds
+            _dbl_v, _dbl_notes = 1, (lambda k: splits[k][1])
             _lead_top = {i: max(splits[k][1])
                          for k, (i, _, _, _) in enumerate(slots)}
 
@@ -3012,6 +3020,51 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # the chords are different lengths within one beat as well as between
     # beats. One place, after both plan paths above have settled `beds`, so
     # it covers all four voice sources (strings / instrument / loop / chip).
+    # DOUBLE (band_flow, owner 2026-10-21; Reason demo Power plays one chord
+    # on 4 instruments): a second instrument plays the SAME notes and hits
+    # as the main part, on its own lane (the last layer of every slot).
+    # Same seeds, so the hits land together. Overrules 2026-07-25 "never
+    # the same thing twice". An explicit instrument pick or a loop/chip/MIDI
+    # lead stays single. `_dbl` = (pair?, side) for the pan below.
+    _dbl = None
+    if (beds and committed and preset.get("band_flow") and not voice
+            and not set(committed) & {"loop", "chip", "midi"}):
+        _dr = random.Random(variant * 1523 + 61)
+        if _dr.random() < OWNER_TASTE["double_p"]:
+            _pair = _dr.random() < OWNER_TASTE["double_pair_p"]
+            _side = _dr.choice((-1.0, 1.0))
+            for src in dict.fromkeys(order + extra):
+                if src in committed or src in ("loop", "chip", "midi"):
+                    continue
+                pin, got, every = [], [], []
+                for k, (i, chord, _sb, dur) in enumerate(slots):
+                    used = []
+                    a, nm = _render_one(src, chord, dur, used=used,
+                                        notes=_dbl_notes(k), slot=i, pin=pin)
+                    if a is None or not np.max(np.abs(a)) > 0:
+                        got = None
+                        break
+                    every += used
+                    got.append((a, nm, used))
+                if not got or not _one_instrument(every):
+                    continue
+                # one gain for the whole lane: the double peaks where the
+                # part it copies peaks, then each slot is re-balanced
+                ref = max(float(np.max(np.abs(bed[_dbl_v][0])))
+                          for bed in beds)
+                pk = max(float(np.max(np.abs(a))) for a, _, _ in got)
+                for k, (a, nm, fl) in enumerate(got):
+                    layers = beds[k] + [(a * (ref / pk), "%s (double)" % nm,
+                                         fl)]
+                    g = _balance_layers([x for x, _, _ in layers],
+                                        chord_synth.PEAK_CEILING)
+                    n = min(len(x) for x, _, _ in layers)
+                    beds[k] = [(x[:n] * g, m, f) for x, m, f in layers]
+                _dbl = (_pair, _side)
+                vnotes.append("double: %s also on %s%s" % (
+                    ("lead" if _dbl_v else "chords"), got[0][1],
+                    ", left/right pair" if _pair else ""))
+                break
     if beds:
         _decay_chord_slots(beds, slots, variant)
 
@@ -3134,7 +3187,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 _bslots, _kick[3] if _kick else None,
                 bass_rhythm.spec_for(preset), variant,
                 _fits, key.scale())
-            if preset.get("groove_flow"):
+            _ccells = [_chord_cells.get(_i) for _i, _c, _sb, _d in slots]
+            if (preset.get("band_flow") and any(_ccells)
+                    and random.Random(variant * 1531 + 67).random()
+                    < OWNER_TASTE["bass_chord_lock_p"]):
+                # bass on the chords' rhythm (the kick-clear lock is the
+                # other style, below)
+                import groove_lock
+                groove_lock.bass_from_chords(bass_plan, _bslots, _ccells)
+                vnotes.append("bass: plays the chord rhythm")
+            elif preset.get("groove_flow"):
                 import groove_lock
                 groove_lock.lock_bass(bass_plan, _bslots,
                                       _kick[3] if _kick else None,
@@ -3221,6 +3283,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             for v, (audio, nm, files) in enumerate(beds[slot_no]):
                 lane = f"chord{i}" if v == 0 else f"chord{i}v{v}"
                 old_c = preset["lanes"].get(lane)   # preserve a baked trim
+                _pan = _chord_pan
+                if _dbl and _dbl[0] and v in (_dbl_v, len(beds[slot_no]) - 1):
+                    # L/R pair: the copied part one side, its double the
+                    # other (Power's Piano L / Piano R)
+                    _pan = _dbl[1] * OWNER_TASTE["double_pair_pan"] * (
+                        1.0 if v == len(beds[slot_no]) - 1 else -1.0)
                 # SAME feel seed for every voice of a slot, so two
                 # layers of one chord land together. The lane feel tuple
                 # stays (0, 0, 50): a chord lane's single X triggers the
@@ -3230,7 +3298,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 # written dynamics — is baked INSIDE that buffer by
                 # chord_rhythm for identities that opted in; see its
                 # header for why it can't live out here.
-                preset["lanes"][lane] = (_chord_pan,
+                preset["lanes"][lane] = (_pan,
                                          old_c[1] if old_c
                                          else _CHORD_GAIN * accent,
                                          (0, 0, 50, variant + i),

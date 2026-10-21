@@ -143,3 +143,21 @@ def test_second_bar_plays_the_new_voicing():
                      lambda n, s: None, chord, figure="stab",
                      spec=dict(cr.DEFAULT))
     assert seen == [(57, 60, 64), (57, 60, 64)]       # old beats unchanged
+
+
+def test_bass_from_chords_plays_the_chord_hits_on_the_root():
+    """band_flow (owner 2026-10-21): the other bass style puts the bass on
+    the chords' own hits -- same steps, same accents, the slot's root.
+    A slot with no written chord bars keeps its planned figure."""
+    slots, plan = _plan(3)
+    before = list(plan[2]["hits"])
+    cells = [["X--x--x---X-----", "x-------X-------"],
+             ["X-----.-o-------"], None]
+    gl.bass_from_chords(plan, slots, cells)
+    assert plan[0]["hits"] == [(0, 0, "X", 33), (0, 3, "x", 33),
+                               (0, 6, "x", 33), (0, 10, "X", 33),
+                               (1, 0, "x", 33), (1, 8, "X", 33)]
+    assert plan[1]["hits"] == [(0, 0, "X", 29), (0, 6, ".", 29),
+                               (0, 8, "o", 29)]
+    assert plan[0]["short"] == {} and plan[0]["figure"] == "chords"
+    assert plan[2]["hits"] == before
