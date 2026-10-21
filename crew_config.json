@@ -279,7 +279,7 @@
       0.1
      ]
     ],
-    "open_p": 0.1
+    "open_p": 0.05
    }
   },
   "kick_flavors": [
@@ -2591,7 +2591,7 @@
      2,
      5
     ],
-    "double_p": 0.07
+    "double_p": 0.15
    },
    "snare": {
     "modes": [

@@ -278,7 +278,7 @@ OWNER_TASTE = {
     # cut more than 12 dB meant real beats were landing at -4.6 dB. Both are
     # fixed, so 15 now measures -15.1 dB with a 0.3 dB spread.
     "chord_bus_under_kick_db": 15.0,
-    "chord_bass_gain": 0.55,     # ~5 dB under the kick — felt, not fighting
+    "chord_bass_gain": 0.715,    # 2026-10-20 owner: bass line was inaudible; 0.55 x 1.3 (+30%)
     # A real player leans on the downbeat and eases off the repeats. These
     # scale each chord slot in turn, cycling if the progression is longer,
     # so the harmony breathes instead of landing identically every bar.

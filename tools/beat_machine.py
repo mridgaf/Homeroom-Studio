@@ -3186,7 +3186,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             if b808[start_bar][:1] == "-":
                 b808[start_bar] = "X" + b808[start_bar][1:]
             preset["lanes"][f"bass{i}"] = (
-                0.0, old_b[1] if old_b else 0.6, (0, 0, ksw, ks + 9), b808)
+                0.0, old_b[1] if old_b else 0.78, (0, 0, ksw, ks + 9), b808)  # 2026-10-20 owner: 808 baseline +30% (0.6 x 1.3)
         else:
             # a grooved line is one performance cut into slots: one gain
             # for every slot, so a note tied across a chord change doesn't
