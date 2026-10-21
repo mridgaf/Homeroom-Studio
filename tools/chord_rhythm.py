@@ -42,6 +42,7 @@ import numpy as np
 
 import chord_synth
 import groove
+import groove_lock
 from pattern_gen import BEATS, _weighted
 
 FIGURES = ("stab", "arp", "pad", "comp")
@@ -232,6 +233,8 @@ def spec_for(preset, free=False):
         spec["arp_flow"] = True
     if preset.get("comp_flow"):
         spec["comp_flow"] = True
+    if preset.get("groove_flow"):
+        spec["groove_flow"] = True
     spec["figures"] = _with_arp_share(spec["figures"], share)
     # Pattern library (2026-10-11): new beats only, so every older beat
     # rebuilds exactly as it was made.
@@ -503,7 +506,7 @@ def _order(notes, shape):
 
 def render_figure(bars, dur, bpm, notes, render_note, render_chord,
                   figure="stab", shape=None, spec=None, seed=0,
-                  sr=chord_synth.SR):
+                  sr=chord_synth.SR, long=None):
     """Play a written figure into a `dur`-second, loop-safe chord buffer.
 
     `render_note(note, seg_dur)` voices one note (arp steps);
@@ -511,6 +514,9 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
     Either may return None for "his library can't voice this" — that step
     is left SILENT, never synthesized. That rule is chord_synth's and it
     does not get relaxed here.
+
+    groove_flow: `long` hits ring to the next hit; alternate bars invert
+    the chord when the sampled library can voice the new notes.
     """
     spec = spec or DEFAULT
     n = max(int(dur * sr), 1)
@@ -541,6 +547,12 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
         for j, h in enumerate(hits):
             gap = (hits[(j + 1) % len(hits)] - h) % total or total
             ring[h] = beat_s / 4 * min(gap, cap) * 0.9
+    if long and hits:
+        total = 16 * len(bars)
+        for j, h in enumerate(hits):
+            if h in long:
+                gap = (hits[(j + 1) % len(hits)] - h) % total or total
+                ring[h] = beat_s / 4 * gap * 0.9
     k = 0
     for b, bar in enumerate(bars):
         for step, ch in enumerate(bar[:16]):
@@ -559,7 +571,12 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
                 # below are what's new.
                 seg = render_chord(notes, dur)
             else:
-                seg = render_chord(notes, ring.get(b * 16 + step, seg_dur))
+                held = ring.get(b * 16 + step, seg_dur)
+                seg = None
+                if spec.get("groove_flow") and b % 2 == 1:
+                    seg = render_chord(groove_lock.invert(notes), held)
+                if seg is None:
+                    seg = render_chord(notes, held)
             if seg is None:
                 continue
             t = feel.hit_time(b * bar_s, step, bpm)

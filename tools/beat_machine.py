@@ -1579,6 +1579,10 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # the loop plus an optional fill into bar 1. New beats only.
     import arrangement
     preset.setdefault("arrange_flow", arrangement.FLOW_VERSION)
+    # GROOVE FLOW (2026-10-20, tools/groove_lock.py): bass and chords read
+    # how busy each bar's kick is -- simpler on a busy kick, moving or
+    # held where the drums leave space, the kick kept clear. New beats only.
+    preset.setdefault("groove_flow", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2591,11 +2595,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             figure, bars, shape = chord_rhythm.gen_figure(
                 _grammar, rng, nbars, busy=_busy, avoid=tuple(_recent),
                 bar0=_bar0.get(slot, 0))
+            _long = None
+            if _grammar.get("groove_flow") and figure in ("stab", "comp"):
+                import groove_lock
+                bars, _long = groove_lock.lock_chords(
+                    bars, _bar0.get(slot, 0), _busy.get("kick"),
+                    random.Random(variant * 1013 + 29 + slot))
             _chord_cells[slot] = bars
             a = chord_rhythm.render_figure(
                 bars, dur, preset["bpm"], notes, render_note, render_chord,
                 figure=figure, shape=shape, spec=_grammar,
-                seed=variant * 101 + slot)
+                seed=variant * 101 + slot, long=_long)
             # Silence means his library couldn't voice a single step of
             # the figure. Hand back None so the OLD arp/sustain path gets
             # its own try, rather than failing the whole plan — the
@@ -3124,6 +3134,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 _bslots, _kick[3] if _kick else None,
                 bass_rhythm.spec_for(preset), variant,
                 _fits, key.scale())
+            if preset.get("groove_flow"):
+                import groove_lock
+                groove_lock.lock_bass(bass_plan, _bslots,
+                                      _kick[3] if _kick else None,
+                                      variant, _fits)
             _end = int(round(nb * bar_s * instrument_sampler.SR))
             bused = []
             line, bass_notes = bass_rhythm.render_line(

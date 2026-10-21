@@ -352,18 +352,21 @@ def render_line(plan, slots, bar_s, bpm, loop_n, render_note, feel,
     six = bar_s / 16.0
     evs = []
     for i, (s, p) in enumerate(zip(slots, plan)):
+        short = p.get("short") or {}       # groove_lock: phrase rests
         for b, st, ch, note in p["hits"]:
             t = feel.hit_time((s["start_bar"] + b) * bar_s, st, bpm) % loop_s
-            evs.append((t, i, st, ch, note))
+            evs.append((t, i, st, ch, note, short.get((b, st))))
     if not evs:
         return None, None
     evs.sort(key=lambda e: e[0])
     out = np.zeros(loop_n)
     notes = [[] for _ in slots]
-    for k, (t, i, st, ch, note) in enumerate(evs):
+    for k, (t, i, st, ch, note, cut) in enumerate(evs):
         nt = evs[(k + 1) % len(evs)][0]
         gap = (nt - t) % loop_s or loop_s
         dur = min(gap, GHOST_LEN * six) if ch == "." else gap
+        if cut:
+            dur = min(dur, cut * six)
         dur = max(dur, 0.02)
         lvl = groove.velocity(ch, st, None)
         seg = render_note(note, dur)
