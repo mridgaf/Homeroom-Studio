@@ -8963,3 +8963,8 @@ just not loaded by default.
 - Status: open. Effects page restarted the same day on the new code: a Punch+Crunch request returned 200 in 1.7 s, the server process had 0 plugin files loaded, the helper had DS-10 + Obliterate. Not yet used by him.
 - Verify by: `./.venv/bin/python -m pytest tests/test_audio_engine.py -q`
 
+
+## 2026-10-22 — Hermes Studio Dock icon
+- Built `/Applications/Hermes Studio.app` (Hermes icon). Opens http://127.0.0.1:9119/?profile=homeroom-studio, starting the dashboard first via ~/.hermes/Hermes Dashboard.command if it isn't running. Token auto-injected, so no login.
+- Must live in /Applications: an unsigned app on the Desktop is silently refused by macOS privacy (same as Homeroom Studio.app note).
+- Old Desktop copy moved to `Cleared 2026-07-29/`. Status: confirmed (opened, showed homeroom-studio profile).
