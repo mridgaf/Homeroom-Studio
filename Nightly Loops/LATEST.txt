@@ -1,5 +1,1 @@
-ALERT: none. Looperman supply OK (reached page 6 of 15, plenty left). Second Looperman and Freesound profiles were NOT run (one login each).
-LOOPERMAN: 45 filed (Melody 24, Vocals 9, Chords 7, Drums 3, Bass 2), 0 duplicates. Stopped at the 45 target, no throttle.
-FREESOUND: 78 downloaded, 78 filed (Melody 58, Chords 7, Vocals 5, Drums 1, Bass 1 as wav; 6 aiff). 2 skipped (SFX uploader, '@' name). 0 duplicates.
-CC-BY credits and nokey list are in the daily log.
-Needs you: 48541 freeze-2-noise (noise, misfiled into Melody). Delete it from BOTC Sorted Loops/Melody. Also 48541 MOVED-FROM-LIBRARY copy (if still in Downloads).
+Looperman supply OK, reached page 14 (no alert). Filed 45 Looperman (Melody 22, Chords 10, Bass 3, Drums 3, Vocals 7) and 2 Freesound (Drums, both nokey). Freesound pool for 'loop' looks exhausted; 21 downloads were duplicates (removed). Second Looperman and Freesound profiles were not run (only one logged-in account in this Chrome). Full log: SORTING-LOG-daily.txt.
