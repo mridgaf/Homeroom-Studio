@@ -8968,3 +8968,11 @@ just not loaded by default.
 - Built `/Applications/Hermes Studio.app` (Hermes icon). Opens http://127.0.0.1:9119/?profile=homeroom-studio, starting the dashboard first via ~/.hermes/Hermes Dashboard.command if it isn't running. Token auto-injected, so no login.
 - Must live in /Applications: an unsigned app on the Desktop is silently refused by macOS privacy (same as Homeroom Studio.app note).
 - Old Desktop copy moved to `Cleared 2026-07-29/`. Status: confirmed (opened, showed homeroom-studio profile).
+
+### 2026-10-22 Shared memory for Hermes + Claude (Basic Memory)
+- Context: Hermes and Claude kept separate notes. Owner wanted one store both read and write; Hermes = MAIN agent (~/.hermes/config.yaml), not only the homeroom profile.
+- Decision/change: `uv tool install basic-memory --prerelease=allow` (v0.23.2, own Python 3.12). Notes in `~/basic-memory` (owner's pick), project `main`. Server added to Hermes main config (`mcp_servers.basic-memory`), Claude Desktop config (merged next to `rea`), Claude Code user scope. All use `/Users/johnsuhr/.local/bin/basic-memory mcp`. Rule added to Homeroom Studio CLAUDE.md and ~/.hermes/SOUL.md. 4 seed notes in `~/basic-memory/seed`. Backups: `*.bak.basic-memory-*` next to each file.
+- Verified: Hermes saved test-from-hermes (mcp tool) -> Claude found it; Claude saved test-from-claude -> Hermes found it; both exist as .md in ~/basic-memory/tests.
+- Gotchas: Hermes's small model picks its built-in `memory` tool unless told to use the basic-memory MCP tool by name (SOUL.md rule should help; recheck). Other 3 Hermes profiles NOT wired. Claude Desktop needs a restart.
+- Status: open (Desktop not restarted/tested; Hermes habit unproven)
+- Verify by: next session, does Hermes search shared memory unprompted?

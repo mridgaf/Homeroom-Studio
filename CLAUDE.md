@@ -364,3 +364,6 @@ Read the matching chapter before doing research or recipe work on effects, mixin
 - **Leftovers on the drive, not needed:** `TBOTC 3/Mac Move` (partial ~550 MB copy) and `TBOTC 3/Mac Pictures` (mostly empty folders).
 - **`~/Music/Claude Hip Hop Tracks`** = 10 July-2026 instrumentals (94-100 bpm, 372 MB) built from real loop-pack stems by `tools/make_hiphop_tracks.py` (retired 2026-07-25). They are NOT inside this project. John says they sound more progressive than current Beat Machine output. Copied 2026-10-21 to `/Volumes/TBOTC 3/Reference Tracks` (11 files, sizes verified) — use them as the "this is the sound" target when tuning the beat engine. No listening comparison done yet.
 - **`~/Music/reason_voice`** is the July 3 first version of the voice app: older duplicate, nothing to add. `~/Music/Homeroom Studio/Notes` (5 generic notes) is not in the project; `~/Music/Homeroom` is empty.
+
+## Shared memory (added 2026-10-22)
+Before work, search shared memory (basic-memory MCP). Save lasting decisions there. Hermes reads and writes the same folder (`~/basic-memory`).
