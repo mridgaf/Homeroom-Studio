@@ -239,3 +239,6 @@ up memory/knowledge over time.
 - `llama-server` does not auto-start. It runs only while its Terminal window is open; after a
   reboot or a closed window it must be relaunched with the command above. Turning it into a
   launch-at-login service is unstarted work.
+
+## Update 2026-10-22: model swapped to Heretic
+The server on :8080 now runs `Qwen3.5-9B-heretic-Q4_K_M.gguf` from `/Volumes/TBOTC 3/Hermes Storage/models/` (llama.cpp upgraded 0.4.0 -> 0.7.0). The old `~/models/Qwen3.5-9B-Q4_K_M.gguf` is kept as fallback; the lines above describe the old setup. Launcher: `~/Library/LaunchAgents/com.homeroom.llama-server.plist`. Details: Hermes Agent/03_Setup_Log.md.
