@@ -9,7 +9,7 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | # | Name | Group | Based on | Stage |
 |---|---|---|---|---|
 | 1 | Doc Day | Legend | Dr. Dre | settings done 2026-10-23 (not heard) |
-| 2 | G-Funk | Genre | DJ Quik / Warren G / Above the Law (NOT Doc Day's surgical D | line done, settings in Code handoff |
+| 2 | G-Funk | Genre | DJ Quik / Warren G / Above the Law (NOT Doc Day's surgical D | settings done 2026-10-23 (not heard) |
 | 3 | Otto Grit | Crew | J Dilla | not started |
 | 4 | J Dillo | Legend | J Dilla | not started |
 | 5 | Cutz | Crew | DJ Premier | not started |

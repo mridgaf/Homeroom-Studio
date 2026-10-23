@@ -7230,15 +7230,15 @@
    "chord_source": [
     [
      "synth",
-     0.8
+     3
     ],
     [
      "piano",
-     0.8
+     3
     ],
     [
      "organ",
-     0.8
+     1
     ],
     [
      "loop",
@@ -7246,35 +7246,35 @@
     ],
     [
      "bell",
-     0.8
+     0
     ],
     [
      "choir",
-     0.8
+     0
     ],
     [
      "guitar",
-     0.8
+     1.5
     ],
     [
      "horns",
-     0.8
+     0
     ],
     [
      "pad",
-     0.8
+     0
     ],
     [
      "pluck",
-     0.8
+     0
     ],
     [
      "strings",
-     0.8
+     1
     ],
     [
      "wood",
-     0.8
+     0
     ],
     [
      "midi",
@@ -7306,7 +7306,11 @@
     "offbeat": 1.5,
     "push": 1.2
    },
-   "chord_family": "bright_funk"
+   "chord_family": "bright_funk",
+   "backing_vox": {
+    "p": 0.5,
+    "under_db": -6
+   }
   },
   "own_soundbank": true,
   "flavor_match": true,

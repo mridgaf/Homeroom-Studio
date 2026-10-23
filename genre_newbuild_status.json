@@ -54,10 +54,11 @@
   "notes": "Research build (Wikipedia Emo rap, Hellboy + COWYS pages, 16 songbpm tempos): kit tags fixed + own_soundbank + flavor_match; allow_dirt 'low' + kick_dist 9.0 (808 lane); tempo pocket 130-150 with default 150 per listen line (ASSUMING the owner's Crunk call applies). Auditioned: ~/Desktop/Homeroom Emo Hip Hop NEW BUILD 2026-09-24/. NOT heard."
  },
  "G-Funk": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Suite run 2026-09-24 (1240 pass; the one fail was the own_soundbank allow-list, G-Funk added, green). Next: render with make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-23",
+  "verdict": "dj-rebuild #2 (2026-10-23): new listen line + chord_source = research instruments only (synth 3, piano 3, guitar 1.5, organ 1, strings 1, loop 1; bell/choir/pluck/wood/horns/pad 0). Not heard yet.",
+  "notes": "[2026-09-28 build, heard+kept] Research build (Wikipedia G-funk/Regulate/DJ Quik, 12 tempos median 95): bpm 94->95, pocket 88-105; snare backbeat 0.95/displaced 0.05 (owner 'Mostly, keep a little wander'); own_soundbank + flavor_match; kit tags fixed to real files (kick soft/clean/fat, snare clean/tight/'fat (snare)', hat closed/tite, stamp scratch/vocal - talkbox had 0 files); chords synth 3/piano 2/organ 1/loop 1. Stays clean. NOT YET RENDERED. Suite run 2026-09-24 (1240 pass; the one fail was the own_soundbank allow-list, G-Funk added, green). Next: render with make_legend_newbuild.py --genres --legend \"G-Funk\" --structure --before genres_config.pre-g-funk-2026-09-24.json, read stamp first.",
+  "prior_stage": "confirmed 2026-09-28"
  },
  "Horror Rap": {
   "stage": "confirmed",

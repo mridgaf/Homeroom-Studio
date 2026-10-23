@@ -1190,3 +1190,52 @@ def test_wonky_every_lane_jitters():
     assert lanes
     for name, lane in lanes.items():
         assert lane[2][1] > 0, (name, lane[2])
+
+
+def test_gfunk_chords_are_research_instruments_only():
+    """Owner 2026-10-23: genres honor their research fully. G-Funk's
+    sources name synth, electric piano and funk guitar (plus single-source
+    organ/strings and a small loop share). No source names bell, choir,
+    pluck, wood, horns or pad, so those must carry zero weight."""
+    src = dict(CREW["G-Funk"]["signature"]["chord_source"])
+    for bad in ("bell", "choir", "pluck", "wood", "horns", "pad"):
+        assert src[bad] == 0, bad
+    assert src["synth"] > 0 and src["piano"] > 0
+
+
+def test_gfunk_backing_vox_is_gfunk_only():
+    """Owner 2026-10-23: backing vocals are a G-Funk-only layer. Only G-Funk
+    carries signature.backing_vox; nobody else gets the vocal bed."""
+    have = {n for n, p in CREW.items()
+            if (p.get("signature") or {}).get("backing_vox")}
+    assert have == {"G-Funk"}
+
+
+def test_backing_vox_picks_only_sung_female_choir_loops_in_reach():
+    """The pool is name-filtered (female/choir/ahh/ooh/angelic, no chops,
+    scary, drill...) and every pick is within 5 semitones and 25% tempo."""
+    import backing_vox
+    from key_context import KeyContext
+    idx = [
+        {"name": "angelic-female", "path": "x", "key": "F#", "mode": "minor", "bpm": 96},
+        {"name": "far-away", "path": "x", "key": "C", "mode": "minor", "bpm": 150},
+        {"name": "wrong-key", "path": "x", "key": "F#", "mode": "minor", "bpm": 96},
+    ]
+    got = backing_vox.candidates(idx, KeyContext("F#", "minor"), 95)
+    assert [e["name"] for e in got][0] == "angelic-female"
+    assert "far-away" not in [e["name"] for e in got]
+    assert backing_vox._wanted(["angelic", "female", "vocal"])
+    for bad in ("scary", "chop", "drill", "dubstep", "stab"):
+        assert not backing_vox._wanted(["female", "vocal", bad])
+
+
+def test_backing_vox_render_fits_length_and_is_nonsilent():
+    import backing_vox
+    from key_context import KeyContext
+    sr = 44100
+    t = np.arange(sr * 2) / sr
+    tone = 0.3 * np.sin(2 * np.pi * 220 * t)
+    with mock.patch("chord_synth.load_audio", return_value=tone):
+        out = backing_vox.render({"path": "x", "key": "A", "mode": "minor", "bpm": 90},
+                                 KeyContext("C", "minor"), 95, 4.0, sr)
+    assert out is not None and len(out) == int(round(4.0 * sr)) and np.any(out)
