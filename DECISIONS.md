@@ -9073,3 +9073,57 @@ just not loaded by default.
 - CLAUDE'S PICKS / NOT SOURCED: the 75-25 split is the owner's rule, the exact weights are Claude's arithmetic; tempo/key come from 5 tracks, one BPM source.
 - Checked: test_signature 11 pass, test_crew legend/soundbank subset 6 pass, identity_survival (100 beats): snare backbeat 78, hat eighths 38 (line says closed/tight, not eighths), kick figure 6 (the line names kick TAGS, not a figure), stamp 100. Full suite NOT run (no render asked). Not checked: tags against the drive (--tags).
 - Status: open - not heard. No render.
+
+### [2026-10-23] Acid Rap Detroit (Esham, 1989-94): research done, line written, settings NOT changed
+- Context: dj-rebuild #34, owner away (no questions possible). WebSearch/WebFetch hit a session limit, so all pages were opened in the built-in browser (DuckDuckGo HTML search to find them).
+- Decision/change: 12 publishers / 21 pages (Wikipedia x7, RapReviews, AllMusic x3 incl. bio, Metro Times, Axios, Far Out, Hip Hop Creme, Genius, songbpm all 41 pages, Chordify, Darkside Newz). New listen line + phrase-to-setting map in `genres_config.json` (only `listen` and `_research_note` of this genre changed, JSON-compared; backup genres_config.pre-acid-rap-detroit-rebuild-2026-10-23.json). Handoffs/DJ Rebuild/Acid Rap Detroit/.
+- Reasoning: ASSUMED era = 1989-94; keyboard = synth first, piano second; dropped "snare cracks too loud" (NOT FOUND), "tape hiss and vinyl noise" (vinyl NOT FOUND, tape UNSURE), "dusty" (NOT FOUND). Odds 4.2/2.8/1.4 (guitar/synth/piano, zero for the other 8) are Claude's picks, rule 8, not sourced. BPM median 93.5 of 33 listings (one site), old 98 is inside but 4 high.
+- Verify by: owner picks in the Code handoff, Code pass, identity_survival, then his ear.
+- Status: open. Quality bar: sources yes, 5+ tracks yes (16, all Esham-made so credits thin), practitioners yes (Esham, Mastamind own words). BPM from 2 sources only for Judgement Day (songbpm + Chordify); WhoSampled, SongData, Sputnikmusic blocked. Drum machine/sampler model, swing, reverb, chord loops NOT FOUND.
+
+### [2026-10-23] Baltimore Club (classic Unruly/Club Kingz era): research done, line written, settings NOT changed
+- Context: dj-rebuild #39, owner away (no questions possible). Pages opened with WebFetch and the built-in browser (SongBPM).
+- Decision/change: ~16 sources (Wikipedia x2, RBMA, RA x2, FACT, SPIN x2, Village Voice, Baltimore Sun, No Tags, XLR8R, Sound Atlas, Futureproof, SongBPM). New listen line + phrase-to-setting map in `genres_config.json` (only `listen` and `_research_note` of Baltimore Club changed, JSON-compared). Backup genres_config.pre-baltimore-club-rebuild-2026-10-23.json. Handoff in `Handoffs/DJ Rebuild/Baltimore Club/`.
+- Reasoning: ASSUMED era = classic 1991-2008, not the shake-off era; clap placement carried over unsourced; "never lets up" kept (test depends). Odds loop 3 / horns 2 / synth 2 / piano 1, zero for 8 others, are Claude's picks (rule 8). Found bass mismatch (bright_funk vs 808 sub) and shakers/vox under-backed.
+- Verify by: owner picks in the Code handoff, Code pass, identity_survival, then his ear.
+- Status: open. Quality bar: sources yes (16), 5+ tracks with credits yes, practitioners yes (8). BPM from 2 sources NO for any single track (SongBPM only; range is multi-sourced). Kick grid, swing, hats, key NOT FOUND. Vice article paywalled. No render, no tests, nothing committed.
+
+### [2026-10-23] Acid Rap Bright: settings applied (Code session, same day as the line)
+- Context: dj-rebuild #35, Code pass. Owner picks answered clickable: mix in minor (dorian 1 only), extras p to 0.4, bpm 80 + tempo 76-85, midi lowered to 1.5.
+- Decision/change: genres_config.json "Acid Rap Bright" only (backup genres_config.pre-acid-rap-bright-settings-2026-10-23.json; block diff = bpm, extras.p, key.mode, chord_source, tempo, _research_note; all other genres identical). chord_source piano 3, horns 3, organ 1.5, guitar 1.5, loop 2, synth .5, choir .5, midi 1.5; bell/pad/pluck/strings/wood 0 (entries kept). Piano+organ+horns 17% -> 56% of chord odds. New test `test_acid_rap_bright_chords_are_research_instruments_only`. Relaxed `test_weights_are_positive_numbers` for chord_source only (0 allowed, one positive required): it contradicted owner's zero rule and was already failing for G-Funk.
+- CLAUDE'S PICKS / NOT SOURCED: all odds numbers; dorian 1; extras 0.4; synth and choir are single-source.
+- Checked: test_crew + test_signature + test_signature_words + test_audio_quality: 284 pass; 2 sandbox-only PermissionErrors (~/.reason_voice) pass when unsandboxed. identity_survival: invariants 12/12; kick figure 1/12 and bongo 0/12 survive (line names kick tags, not a figure; bongo not in line). evolution.py reads crew_config.json only. Zero weights are never rolled first but stay in the fallback order (same as G-Funk).
+- Not changed: tools/genres.py defaults still old (bpm 88); only used if genres_config.json is deleted.
+- Status: open - not heard. No render, full suite not run.
+
+### [2026-10-23] Chiptune (NES / Atari 2600): research done, line written, settings NOT changed
+- Context: dj-rebuild #45, owner away (no questions possible). WebSearch/WebFetch plus built-in browser for SongBPM.
+- Decision/change: ~22 pages opened (Wikipedia x7, nesdev x2, Tateishi/Yamashita/Tanaka/Chipzel/Anamanaguchi interviews, DDRKirby, Akesson, Slocum 2600 guide, SongBPM). New listen line + phrase-to-setting map in `genres_config.json` (only `listen` and `_research_note` of Chiptune changed, JSON-compared; backup `genres_config.pre-chiptune-rebuild-2026-10-23.json`). Handoff in `Handoffs/DJ Rebuild/Chiptune/`.
+- Reasoning: ASSUMED NES-first, Atari second; no key claim in the line (major and minor both appear, no ratio). Chip voice stays off: his library has 0 chip files, the engine would fall to synthesized chip_synth, banned by the 09-23 rule. Found mismatches: 9 unnamed chord families hold 61 percent of odds; bass family bright_funk vs plain line; bpm 126 vs median 150; no minor in key mix. Odds (synth 1.33 / pluck 0.67, zero for 9), tempo 128-180, bass weights are Claude's picks (rule 8).
+- Verify by: owner picks in the Code handoff, Code pass, identity_survival, then his ear.
+- Status: open. Quality bar met: ~22 pages, 6 tracks with credits, 7 people. BPM 2 sources for Mario (100), Vampire Killer (128-129), Moon (180); Wily 1 and Metal Man single data origin (SongBPM and GetSongBPM both use Spotify data). Swing, drum grid, key ratio NOT FOUND. Iwata Asks page blocked (cert error). No render, no tests, nothing committed.
+
+
+## 2026-10-23 | Chrome Dial rebuild, line only (dj-rebuild)
+- Decision: Chrome Dial keeps the 1996-2002 Virginia/ASR-10 era; Timberline keeps 2006-08 (its line already said so). ASSUMING, owner away.
+- Done: researched (24 sources, 7 tracks, 5 people), new `listen` + `_research_note` in crew_config.json only (JSON-compared; backup crew_config.pre-chrome-dial-rebuild-2026-10-23.json). Dropped "completely" from "clean" (ASSUMING). Settings NOT changed; the Code handoff holds odds (50-50 crew), bass funk figure, mode, tempo 90 (78-95), extras words, owner picks. Odds numbers are the owner's pick, not sourced.
+- Open: swing, hat lane, drum grids NOT FOUND/conflicting. Evolution can drift chord_source. Not heard, not rendered. Status: open.
+- Files: Handoffs/DJ Rebuild/Chrome Dial/
+
+## 2026-10-23 | Crate Prophet rebuild, line only (dj-rebuild)
+- Decision: kept Pete Rock (the old line leans on him), era 1991-94; Madlib NOT researched. ASSUMING, owner away.
+- Done: 23 sources, 8 tracks (6 with 2 BPM sources: 87-102), 7 people; new `listen` + `_research_note` in crew_config.json only (JSON-compared; backup crew_config.pre-crate-prophet-rebuild-2026-10-23.json). Settings NOT changed; the Code handoff holds odds (horns/piano 50%, midi 2.0), hat eighths 0.55, key mode/roots, signature.tempo 87-102, kick 808 cut. Odds numbers are the owner's pick, not sourced.
+- Open: swing, snare late, congas, wow carried over (NOT FOUND); no producer quote on his swing. Tunebat/GetSongBPM blocked (Cloudflare), only Google snippets read. Not heard, not rendered. Status: open.
+- Files: Handoffs/DJ Rebuild/Crate Prophet/
+
+## 2026-10-23 | Crunk rebuild, line only (dj-rebuild)
+- Decision: era ASSUMED = Lil Jon Atlanta 2002-04 plus the festival end (TDFW 2013, Aoki); Memphis stays the partner genre. Owner away.
+- Done: 21 pages opened, 6 tracks with credits (Get Low 101, Yeah! 105, TDFW 100 each 2+ BPM sources), LROC/Ray Seay/DJ Snake as the people. New `listen` + `_research_note` in genres_config.json only (JSON-compared; backup genres_config.pre-crunk-rebuild-2026-10-23.json). Settings NOT changed; the Code handoff holds odds (synth 4 / horns 2 / strings 2 / piano 1.5 / guitar 1.5, zero choir/organ/pad/wood; Claude's picks), chord_rhythm arp -> stab, and the tempo pick (100-105 records vs 140-160 pocket).
+- Open: swing, drum grid NOT FOUND; only LROC speaks of the sound; 6 pages blocked (Westword, Miami New Times, Spin, Gearspace, Thrasher, BMI). Earlier Crunk audition was heard and confirmed; this is not heard, not rendered. Status: open.
+- Files: Handoffs/DJ Rebuild/Crunk/
+
+## 2026-10-23 | Cutz rebuild, line only (dj-rebuild)
+- Decision: Cutz = Premier 1992-96 (Daily Operation, Hard to Earn, Jeru, Nas, Biggie, KRS-One). DJ Premium keeps 1998-2006. This split was the owner's own pick on 2026-09-30 (in Premium's note), so not a guess. Owner away for the rest.
+- Done: 21 pages opened, 8 tracks with credits, BPM 83-98 (Mass Appeal 96 and N.Y. State of Mind 84 have 2 sources; the rest SongBPM only). New `listen` + `_research_note` in crew_config.json only (JSON-compared; backup crew_config.pre-cutz-rebuild-2026-10-23.json). Settings NOT changed; the Code handoff holds odds (piano/guitar/loop 50%, midi 2.0), snare offset, 808 share, comp rhythm, key roots.
+- Open: swing (51-54 one blog vs "heavily swung"), ghost snares and the bar 4/8 scratch placement NOT FOUND (carried over). Rolling Stone "15 Songs" blocked (paywall). Also update tools/crew.py default line (368-369). Not heard, not rendered. Status: open.
+- Files: Handoffs/DJ Rebuild/Cutz/

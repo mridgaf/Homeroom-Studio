@@ -12,10 +12,10 @@
   "        confirmed means HE HAS HEARD IT AND SAID YES."
  ],
  "Acid Rap Bright": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "stage": "built",
+  "date": "2026-10-23",
+  "verdict": "DJ-rebuild settings applied 2026-10-23, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-23 rebuild: chord_source piano 3/horns 3/organ 1.5/guitar 1.5/loop 2/synth .5/choir .5/midi 1.5, bell/pad/pluck/strings/wood 0; bpm 80, tempo 76-85; dorian 1 added; extras p .4. 2026-09-24 build: Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Acid Rap Detroit": {
   "stage": "confirmed",

@@ -116,9 +116,15 @@ def test_weights_are_positive_numbers(cfg, name, sig):
         for entry in spec:
             if isinstance(entry, list):
                 assert len(entry) == 2, "%s/%s: %s %r" % (cfg, name, field, entry)
-                assert isinstance(entry[1], (int, float)) and entry[1] > 0, (
+                # chord_source may carry explicit 0s (owner 2026-10-23, genre
+                # rule: an instrument no source names keeps its entry at 0)
+                floor = 0 if field == "chord_source" else 1e-9
+                assert isinstance(entry[1], (int, float)) and entry[1] >= floor, (
                     "%s/%s: %s weight for %r must be > 0 (a zero weight is a "
                     "dead option, delete it instead)" % (cfg, name, field, entry[0]))
+        if field == "chord_source":
+            assert any(e[1] > 0 for e in spec if isinstance(e, list)), (
+                "%s/%s: chord_source needs at least one positive weight" % (cfg, name))
 
 
 # ------------------------------------------------- the chord grammar

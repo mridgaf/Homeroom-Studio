@@ -1203,6 +1203,24 @@ def test_gfunk_chords_are_research_instruments_only():
     assert src["synth"] > 0 and src["piano"] > 0
 
 
+def test_acid_rap_bright_chords_are_research_instruments_only():
+    """Owner 2026-10-23: genres honor their research fully. Acid Rap
+    Bright's sources name horns, piano, organ, guitar and soul-sample loops
+    (synth and choir only weakly). No source names bell, pad, pluck,
+    strings or wood, so those carry zero weight. Scoped to this genre."""
+    src = dict(CREW["Acid Rap Bright"]["signature"]["chord_source"])
+    for bad in ("bell", "pad", "pluck", "strings", "wood"):
+        assert src[bad] == 0, bad
+    for good in ("piano", "horns", "organ", "guitar", "loop"):
+        assert src[good] > 0, good
+    zeroed = {"bell", "pad", "pluck", "strings", "wood"}
+    for n, p in CREW.items():
+        if n == "Acid Rap Bright" or not p.get("genre"):
+            continue
+        cs = dict((p.get("signature") or {}).get("chord_source") or [])
+        assert not zeroed <= {k for k, v in cs.items() if v == 0}, n
+
+
 def test_gfunk_backing_vox_is_gfunk_only():
     """Owner 2026-10-23: backing vocals are a G-Funk-only layer. Only G-Funk
     carries signature.backing_vox; nobody else gets the vocal bed."""

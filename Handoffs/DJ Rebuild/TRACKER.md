@@ -12,15 +12,15 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | 2 | G-Funk | Genre | DJ Quik / Warren G / Above the Law (NOT Doc Day's surgical D | settings done 2026-10-23 (not heard) |
 | 3 | Otto Grit | Crew | J Dilla | not started |
 | 4 | J Dillo | Legend | J Dilla | not started |
-| 5 | Cutz | Crew | DJ Premier | not started |
+| 5 | Cutz | Crew | DJ Premier | line done 2026-10-23 (settings not changed, see Code handoff; era 1992-96, DJ Premium keeps 1998-2006) |
 | 6 | DJ Premium | Legend | DJ Premier | not started |
-| 7 | Chrome Dial | Crew | Timbaland | not started |
+| 7 | Chrome Dial | Crew | Timbaland | line done 2026-10-23 (settings not changed, see Code handoff; era 1996-2002 ASSUMED) |
 | 8 | Timberline | Legend | Timbaland | not started |
 | 9 | Glass Cat | Crew | The Neptunes / Pharrell | not started |
 | 10 | Farrow | Legend | Pharrell / N.E.R.D. (the live-band era) | not started |
 | 11 | Sunday Chop | Crew | Kanye West | not started |
 | 12 | Kane East | Legend | Kanye West / Yeezus (the industrial era) | not started |
-| 13 | Crate Prophet | Crew | Pete Rock / Madlib | not started |
+| 13 | Crate Prophet | Crew | Pete Rock / Madlib | line done 2026-10-23 (settings not changed, see Code handoff; Pete Rock 1991-94 ASSUMED, Madlib not researched) |
 | 14 | Night Metro | Crew | Metro Boomin | not started |
 | 15 | Rage Engine | Crew | Lex Luger | not started |
 | 16 | Mustang | Legend | DJ Mustard | not started |
@@ -37,19 +37,19 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | 27 | Half Light | Crew | no one — the slow lane | not started |
 | 28 | Fast Water | Crew | no one — the break lane | not started |
 | 29 | Memphis | Genre | Three 6 Mafia / DJ Paul | not started |
-| 30 | Crunk | Genre | Lil Jon (through the hard, festival end — Turn Down for What | not started |
+| 30 | Crunk | Genre | Lil Jon (through the hard, festival end — Turn Down for What | line done 2026-10-23 (settings not changed, see Code handoff; era 2002-04 + festival end ASSUMED) |
 | 31 | Organized Noize | Genre | Organized Noize / Dungeon Family (Outkast, Goodie Mob) | not started |
 | 32 | Houston Screw | Genre | DJ Screw / chopped and screwed | not started |
 | 33 | Emo Hip Hop | Genre | Lil Peep / XXXTentacion | not started |
-| 34 | Acid Rap Detroit | Genre | Esham — the 1989 Detroit acid rap that fathered horrorcore | not started |
-| 35 | Acid Rap Bright | Genre | the 2013 Acid Rap lineage — bright, jazzy, gospel-leaning | line done 2026-10-23 (settings not changed, see Code handoff) |
+| 34 | Acid Rap Detroit | Genre | Esham — the 1989 Detroit acid rap that fathered horrorcore | settings done 2026-10-23 (not heard; no render; odds are Claude's picks) |
+| 35 | Acid Rap Bright | Genre | the 2013 Acid Rap lineage — bright, jazzy, gospel-leaning | settings done 2026-10-23 (not heard; no render; odds are Claude's picks) |
 | 36 | Horror Rap | Genre | Gravediggaz / Brotha Lynch / the horrorcore lane | not started |
 | 37 | Wonky | Genre | the LA beat scene — Flying Lotus, Hudson Mohawke, Rustie (NO | not started |
 | 38 | Trip Hop | Genre | Massive Attack / Portishead / Tricky | not started |
-| 39 | Baltimore Club | Genre | Baltimore club — Rod Lee, KW Griff, the Bmore 8-count | not started |
+| 39 | Baltimore Club | Genre | Baltimore club — Rod Lee, KW Griff, the Bmore 8-count | settings done 2026-10-23 (not heard; no render; odds are Claude's picks) |
 | 40 | Miami Bass | Genre | Miami bass — 2 Live Crew, Magic Mike, the 808 electro lineag | not started |
 | 41 | New Orleans Bounce | Genre | NO bounce — the Triggerman / Drag Rap lineage | not started |
 | 42 | Reggaeton Alt | Genre | alternative reggaeton — the Tainy / experimental end of the  | not started |
 | 43 | Detroit | Genre | post-Dilla Detroit — Black Milk, Apollo Brown, Danny Brown's | not started |
 | 44 | Plug | Genre | plugg / pluggnb — MexikoDro, Kankan, the soft end of trap | not started |
-| 45 | Chiptune | Genre | NES / Atari 2600 chip music — square leads, noise drums | not started |
+| 45 | Chiptune | Genre | NES / Atari 2600 chip music — square leads, noise drums | line done 2026-10-23 (settings not changed, see Code handoff) |

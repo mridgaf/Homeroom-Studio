@@ -1,4 +1,4 @@
-# Acid Rap Bright: Code handoff (2026-10-23)
+# Acid Rap Bright: Code handoff (2026-10-23) — SETTINGS APPLIED 2026-10-23, see DECISIONS.md (picks: dorian 1, extras .4, bpm 80 + 76-85, midi 1.5)
 
 Do NOT render. Do NOT run the suite unless he asks for a render. One identity only: Acid Rap Bright, in `genres_config.json`. Back up first (`genres_config.pre-acid-rap-bright-settings-<date>.json`). Research: `research transcript.md` in this folder.
 
