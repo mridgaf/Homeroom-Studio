@@ -9028,6 +9028,13 @@ just not loaded by default.
 - Tracker: Handoffs/DJ Rebuild/TRACKER.md (45 rows; order is Claude's suggestion).
 - Status: open (skill unused so far beyond Doc Day, which it was written from)
 
+### 2026-10-23 DJ Hint rebuild: research session stopped, bar not met
+- Context: next Legend alphabetically in TRACKER is DJ Hint (DJ Clue, mixtape era). Skill dj-rebuild Part 2.
+- Found: cloud session can only read web-search summaries (all page fetches blocked by proxy). No BPM, key, drum or chord fact for Clue or Duro; no worker quotes. Confirmed only: echoed-intro/exclusives tape style, multi-producer albums, Desert Storm/Duro facts. Transcript: `Handoffs/DJ Rebuild/DJ Hint/research transcript.md`.
+- NOT done on purpose: no new listen line, no config change (a line on this evidence would be guessing). No render.
+- Status: open (waiting on owner's pick)
+- Outcome: -
+
 ### 2026-10-23 Jazz out for everyone: built (Code pass)
 - Change: `signature.chord_color` = {depth 0, lean {}} on all 45 identities (crew 11, legends 16, genres 18). progressions_config +24 `plain_*` twins of the `deep_*` loops (same roots/order; min9/min11->min7, min6/min_maj7/madd9->minor, maj9/maj7#11->maj7, maj6/6/9/add9/add11->major, dom9/dom13/7b9->dom7, 9sus4->7sus4; triads, 7ths, sus, dim/m7b5/dim7 kept). Every identity repointed deep_*->plain_* at the same weight. `deep_*` stay defined (old beats rebuild). beat_machine `_any`: new free beats skip deep_* loops. tests/test_harmony: depth 0 allowed. Backups: *_config.pre-jazz-out-2026-10-23.json.
 - Measured (100 picks/identity, Fm): plain triads 17% -> 40%; triads+7ths 26% -> 89%; distinct progressions 15.8 -> 15.8 (min 11); deep_* picks 48.7 -> 0.
