@@ -12,6 +12,17 @@ Worked example of every step: Doc Day, 2026-10-23 (DECISIONS.md, `Claude outputs
 ## Why the old skill failed (don't repeat it)
 legend-new-build rebuilt settings to match a description that was itself thin (Doc Day's old line was drums only, with no era, instruments or numbers). It rendered without being asked. It never checked the engine-wide settings that override a DJ: jazz coloring, deep loops, MIDI share, equal chord odds. And the Jul 24 and Oct 19 batch passes produced skimmed research and guessed numbers.
 
+## Where each part can run (learned 2026-10-23, DJ Hint: a whole cloud session was wasted)
+- **Research (Part 2) needs to OPEN web pages.** A cloud session or Cowork sandbox cannot: the network proxy blocks every page (Wikipedia, Revolt, Roland, Tunebat all failed; only search-result summaries come back). That cannot meet the quality bar. **Research runs in Claude Code on his Mac.** Say so in the first line of the reply.
+- **First action of any research session:** try to open ONE real page (e.g. the Wikipedia page of the producer). If it fails, STOP, tell him "this session can't open pages, run it in Code on your Mac", write the handoff, and do not burn searches.
+- Writing the line, blind-spot table, config edits and tracker/DECISIONS updates are fine anywhere. Tests, renders and drive reads are Mac-only (see CLAUDE.md "Where work runs").
+
+## Git hygiene (so branches stop piling up)
+- Evidence 2026-10-23: 9 old branches (Sept 1-26) have NO shared history with main (main restarted as a fresh snapshot 2026-10-12) and only 3 PRs ever existed. Cloud sessions each make their own branch; nobody deletes them, and GitHub never notifies about stale branches.
+- Cloud session: start from the latest `main`, one branch per session (`dj-<name>-<date>`), commit + push only when he says so, open a draft PR, and after it merges tell him the branch can be deleted (offer, don't do it).
+- DECISIONS.md and TRACKER.md are append-hot files: two sessions always conflict at the end of DECISIONS.md. Resolve by keeping BOTH sides, never one.
+- Never merge the old pre-October branches into main: unrelated history, it would drag back old code.
+
 ## Hard rules
 1. **ONE identity per session.** When it's done, stop. The next one gets a fresh session. The owner's worry, confirmed by this log: batching makes the work lazy.
 2. **Research is fresh, for this identity only.** Never copy another identity's transcript, line or numbers. Never count the existing config as research.
@@ -23,7 +34,7 @@ legend-new-build rebuilt settings to match a description that was itself thin (D
 
 ---
 
-# Part 2 of 4: the research session (Cowork is fine)
+# Part 2 of 4: the research session (CODE ON THE MAC ONLY, not Cowork, not a cloud session)
 
 **Step 0. Pick and scope.** Take the next row in TRACKER.md, or the one he names. Read the identity's current `listen`, `built` and `_research_note`.
 - **Producer pairs.** These 5 producers appear twice: Dilla (Otto Grit + J Dillo), Premier (Cutz + DJ Premium), Timbaland (Chrome Dial + Timberline), Pharrell (Glass Cat + Farrow), Kanye (Sunday Chop + Kane East). Each pair MUST keep different eras. Read the partner's line first. If the eras overlap, ask him which era each one keeps. Never pick for him.
