@@ -26,7 +26,7 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | 16 | Mustang | Legend | DJ Mustard | not started |
 | 17 | Swish Beatz | Legend | Swizz Beatz | not started |
 | 18 | Tenth Wonder | Legend | 9th Wonder (soul-chop era) | not started |
-| 19 | DJ Hint | Legend | DJ Clue (the mixtape era) | not started |
+| 19 | DJ Hint | Legend | DJ Clue (the mixtape era) | research PARTIAL 2026-10-23 (redo in Code, see its Code handoff) |
 | 20 | Just Flame | Legend | Just Blaze | not started |
 | 21 | Razor | Legend | RZA | not started |
 | 22 | Hitt Kid | Legend | Hit-Boy | not started |

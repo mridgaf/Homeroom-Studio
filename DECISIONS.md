@@ -9012,3 +9012,10 @@ just not loaded by default.
 - Owner: legend-new-build "was doing a horrible job". Moved to .claude/skills/_removed_2026-10-23/ (not deleted). New `.claude/skills/dj-rebuild/SKILL.md` carries over its useful gotchas plus today's lessons (engine-vocabulary line, misfire words, blind-spot table, no render, producer-pair era split).
 - Tracker: Handoffs/DJ Rebuild/TRACKER.md (45 rows; order is Claude's suggestion).
 - Status: open (skill unused so far beyond Doc Day, which it was written from)
+
+### 2026-10-23 DJ Hint rebuild: research session stopped, bar not met
+- Context: next Legend alphabetically in TRACKER is DJ Hint (DJ Clue, mixtape era). Skill dj-rebuild Part 2.
+- Found: cloud session can only read web-search summaries (all page fetches blocked by proxy). No BPM, key, drum or chord fact for Clue or Duro; no worker quotes. Confirmed only: echoed-intro/exclusives tape style, multi-producer albums, Desert Storm/Duro facts. Transcript: `Handoffs/DJ Rebuild/DJ Hint/research transcript.md`.
+- NOT done on purpose: no new listen line, no config change (a line on this evidence would be guessing). No render.
+- Status: open (waiting on owner's pick)
+- Outcome: -
