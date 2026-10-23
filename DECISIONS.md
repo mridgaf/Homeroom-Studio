@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### [2026-10-23] G-Funk settings applied (dj-rebuild #2, Code side)
+- Context: Code handoff for the new G-Funk line.
+- Decision/change: genres_config.json G-Funk chord_source = research instruments only: synth 3, piano 3, guitar 1.5, organ 1, strings 1, loop 1; bell/choir/pluck/wood/horns/pad 0; midi 3.267 untouched. Backup genres_config.pre-g-funk-settings-2026-10-23.json. New test test_gfunk_chords_are_research_instruments_only. Bass, tempo, swing, snare, kit unchanged.
+- Reasoning: owner rule 2026-10-23: genres honor research fully. Numbers are Claude's picks, not sourced.
+- Verify by: his ear (old-vs-new audition, not rendered). identity_survival: kick 1/12, perc 0/12 keep declared figure (line names deep kick and tamb/shaker); hat 9/12. Not touched here.
+- Status: open
+- Notes: jazz-out already applied (chord_color depth 0.0) but progressions gfunk_dorian_9/dreamy/nostalgic_jazz remain. evolution.py only evolves crew_config.json, so G-Funk chord_source cannot drift. Not buildable: whistle lead, talkbox, female backing vocals (no samples, no synthesized tones). Bass synth stands in if electric bass is scarce (only ~1 guitar-bass sample found). Suite not run (no render).
 ### [2026-10-23] G-Funk rebuilt (dj-rebuild #2): new listen line, settings pending in Code
 - Context: tracker #2. Old line was drums-only plus an unsourced "keeping 16ths"; chord odds all equal despite the genre being keys/synth/bass-led.
 - Decision/change: fresh research (15 sources; Quik, Warren G, Hutch quotes; BPM 92-96 from tunebat/getsongbpm/hooktheory). New listen + phrase-to-setting map written to genres_config.json (only listen and _research_note changed, diff-checked). Dropped "keeping 16ths" (perc 16ths only 35%), "leaning back", "unhurried". Backup genres_config.pre-g-funk-rebuild-2026-10-23.json. Owner pick (clickable): lean chord odds to keys/synth for G-Funk only.
@@ -9004,7 +9011,7 @@ just not loaded by default.
 - Line tweak: "punchy" -> "thumping" kick (test_crew pins kick tags thump/hard; "punch" matched one file, an 808).
 - Pushback given: the deep pass existed because he called the chords "simplistic". Movement kept for that reason.
 - Handoff: Handoffs/Jazz out + Doc Day 2001/ (Part 1 jazz, Part 2 Doc Day). Tests once after both. No render.
-- Status: open (not built)
+- Status: BUILT 2026-10-23 (see the two entries below); not heard.
 
 ### 2026-10-23 dj-rebuild skill replaces legend-new-build; scope = all 45
 - Owner: "I'm going to need this done for all of my DJs. All of them." Clickable: 16 Legends + the crew + 18 genres. This overrules the 2026-09-05 "not the nine" rule. Crew is actually 11 (Half Light, Fast Water and New Math are "no one" originals).
@@ -9012,3 +9019,17 @@ just not loaded by default.
 - Owner: legend-new-build "was doing a horrible job". Moved to .claude/skills/_removed_2026-10-23/ (not deleted). New `.claude/skills/dj-rebuild/SKILL.md` carries over its useful gotchas plus today's lessons (engine-vocabulary line, misfire words, blind-spot table, no render, producer-pair era split).
 - Tracker: Handoffs/DJ Rebuild/TRACKER.md (45 rows; order is Claude's suggestion).
 - Status: open (skill unused so far beyond Doc Day, which it was written from)
+
+### 2026-10-23 Jazz out for everyone: built (Code pass)
+- Change: `signature.chord_color` = {depth 0, lean {}} on all 45 identities (crew 11, legends 16, genres 18). progressions_config +24 `plain_*` twins of the `deep_*` loops (same roots/order; min9/min11->min7, min6/min_maj7/madd9->minor, maj9/maj7#11->maj7, maj6/6/9/add9/add11->major, dom9/dom13/7b9->dom7, 9sus4->7sus4; triads, 7ths, sus, dim/m7b5/dim7 kept). Every identity repointed deep_*->plain_* at the same weight. `deep_*` stay defined (old beats rebuild). beat_machine `_any`: new free beats skip deep_* loops. tests/test_harmony: depth 0 allowed. Backups: *_config.pre-jazz-out-2026-10-23.json.
+- Measured (100 picks/identity, Fm): plain triads 17% -> 40%; triads+7ths 26% -> 89%; distinct progressions 15.8 -> 15.8 (min 11); deep_* picks 48.7 -> 0.
+- Not touched: other loops with extensions (neo_soul_descent, lydian_wander, gfunk_dorian_9, plugg_dream_9, lush_minor_9s, sparkle_add9, hendrix_snarl); chord_family, pattern_tags, MIDI share, bass.
+- Status: open - not heard.
+
+### 2026-10-23 Doc Day 2001 settings: built (Code pass, Part 2)
+- Change (legends_config, Doc Day): bpm 94, tempo [90,95]; mode minor only; progressions vamp_i_v7 / vamp_i_iv7 / vamp_static_riff (3 each); perc lane (tamb/shaker/cowbell) replaced by a clap lane, grammar sparse 1.0; cowbell+shaker extras removed (rim kept); hats eighths 1.0, open_p 0; bass_grammar kick 5 / hold 1; chord_grammar stab 4 / pad 3; chord_rhythm sustain; chord_source piano 1.8, strings 1.2, other 9 families 0.15 each, midi 1.45 (~25% kept). Listen line: dropped the name "Dr. Dre's" (test pins no real producer name in recipes); no setting changed by that. Backup: legends_config.pre-doc-day-settings-2026-10-23.json.
+- CLAUDE'S PICKS (not sourced): every weight above (bass 5/1, stab/pad 4/3, piano/strings/other odds, hats 1.0, clap gain 0.6).
+- Checked: owns NO electric bass (Bass/sub = 808 + synth; one loose "Guitar Bass Dbl"); bass stays the sub, not faked. MIDI chords do NOT follow the vamps (they replay the MIDI file's own progression). legend_swing stays 50. Unchanged on purpose: space, glue, transient, sub_layer, hat/kick tags, snare_locked_24.
+- identity_survival (100 beats): snare backbeat 100, clap sparse 100, hat eighths 54 (rest = groove-library seeds, library.p 0.45). Dead tags crack/clsd/yeah were already there. Not verified: piano stabs + held strings together in one beat (engine picks one chord voice per beat).
+- Tests: 1588 pass, 5 fail. 2 mine, fixed (plain_* `why` named Dilla; listen line named Dre). 3 not mine (guest lane reversefx, panel_sweep import, Night Metro kick variety - kick code, config diff vs 99b48a3 is chord fields only).
+- Status: open - not heard. No render.

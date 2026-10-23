@@ -1190,3 +1190,14 @@ def test_wonky_every_lane_jitters():
     assert lanes
     for name, lane in lanes.items():
         assert lane[2][1] > 0, (name, lane[2])
+
+
+def test_gfunk_chords_are_research_instruments_only():
+    """Owner 2026-10-23: genres honor their research fully. G-Funk's
+    sources name synth, electric piano and funk guitar (plus single-source
+    organ/strings and a small loop share). No source names bell, choir,
+    pluck, wood, horns or pad, so those must carry zero weight."""
+    src = dict(CREW["G-Funk"]["signature"]["chord_source"])
+    for bad in ("bell", "choir", "pluck", "wood", "horns", "pad"):
+        assert src[bad] == 0, bad
+    assert src["synth"] > 0 and src["piano"] > 0

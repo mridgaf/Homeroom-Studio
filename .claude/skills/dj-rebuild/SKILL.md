@@ -96,5 +96,7 @@ legend-new-build rebuilt settings to match a description that was itself thin (D
 7. Test lists to update: the own_soundbank allow-list, and the allow_dirt dict in tests/test_crew.py. Grep tests for the name.
 8. Scope every exception to this one identity, with a test asserting only it carries it. Never blanket-apply one identity's answers.
 9. No render. Report the numbers, then ask (clickable) whether he wants an old-vs-new audition.
-10. Update TRACKER.md (stage: settings done), DECISIONS.md, and `legend_newbuild_status.json` for Legends and genres.
+10. Update TRACKER.md (stage: settings done), DECISIONS.md, and the status file: `legend_newbuild_status.json` for Legends, `genre_newbuild_status.json` for genres (set stage to `built`, keep the old verdict in notes).
+12. Genre chord odds (owner 2026-10-23): a genre's chord_source is 100% research instruments; every instrument no source names gets weight 0 (keep the entry), plus a test asserting the zeros. midi stays as is. Edit the JSON as text inside that one block: `genres_config.json` has its own indent, so a load/dump rewrite makes a huge diff.
+13. Drift: `tools/evolution.py` only reads `crew_config.json`, so genre chord_source cannot drift (Legends are in their own file too; check before claiming). `identity_survival.py` writes `~/.reason_voice/pattern_history.json`; the Claude sandbox blocks that, so run it unsandboxed (analysis only, no render).
 11. **Closed only by his ear.** Measured is not done.
