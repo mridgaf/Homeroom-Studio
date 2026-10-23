@@ -232,7 +232,7 @@ def test_every_identity_has_a_colour_card_and_real_progressions():
             if name.startswith("_") or "signature" not in v:
                 continue
             sig = v["signature"]
-            assert 0 < sig["chord_color"]["depth"] <= 1, name
+            assert 0 <= sig["chord_color"]["depth"] <= 1, name  # 0 = jazz-out 2026-10-23
             assert sig["pattern_tags"], name
             for p in sig["progressions"]:
                 p = p[0] if isinstance(p, list) else p

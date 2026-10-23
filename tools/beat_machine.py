@@ -2216,7 +2216,9 @@ def _roll_key(sig, variant, dirs, open_roll, srng, flow=False):
     def _any(rng):
         if not flow:
             return rng.choice(harmony.names())
-        return _wpick(harmony.pick_weights(harmony.names()), rng)
+        # jazz-out 2026-10-23: new free beats skip the extension-heavy deep_* loops
+        return _wpick(harmony.pick_weights(
+            [n for n in harmony.names() if not n.startswith("deep_")]), rng)
     forced = dirs.get("force_key")
     if forced:
         key_root, mode = forced

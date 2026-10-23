@@ -426,31 +426,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -524,18 +524,8 @@
     160
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -929,31 +919,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -1014,18 +1004,8 @@
     160
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -1515,55 +1495,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -1633,15 +1613,8 @@
     101
    ],
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -2015,35 +1988,35 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ]
    ],
@@ -2108,14 +2081,8 @@
     70
    ],
    "chord_color": {
-    "depth": 0.65,
-    "lean": {
-     "min7": 1.5,
-     "min9": 1.5,
-     "dom9": 1.5,
-     "7sus4": 1.5,
-     "maj7#11": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "stab": 2,
@@ -2510,31 +2477,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -2604,18 +2571,8 @@
     150
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -2995,31 +2952,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -3089,18 +3046,8 @@
     104
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -3571,31 +3518,31 @@
      1.0
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -3669,17 +3616,8 @@
     84
    ],
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -4101,31 +4039,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -4190,18 +4128,8 @@
     96
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -4638,55 +4566,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -4756,15 +4684,8 @@
     90
    ],
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -5188,31 +5109,31 @@
      1.0
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -5282,17 +5203,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -5736,27 +5648,27 @@
      1.0
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ],
     [
-     "deep_bounce_up",
+     "plain_bounce_up",
      1.2
     ],
     [
-     "deep_chip_lift",
+     "plain_chip_lift",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ]
    ],
@@ -5821,14 +5733,8 @@
     130
    ],
    "chord_color": {
-    "depth": 0.55,
-    "lean": {
-     "dom9": 2,
-     "7sus4": 2,
-     "maj6": 1.5,
-     "add9": 1.5,
-     "m7b5": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "bounce": 2,
@@ -6293,27 +6199,27 @@
      1.0
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ],
     [
-     "deep_bounce_up",
+     "plain_bounce_up",
      1.2
     ],
     [
-     "deep_chip_lift",
+     "plain_chip_lift",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ]
    ],
@@ -6374,14 +6280,8 @@
     134
    ],
    "chord_color": {
-    "depth": 0.55,
-    "lean": {
-     "dom9": 2,
-     "7sus4": 2,
-     "maj6": 1.5,
-     "add9": 1.5,
-     "m7b5": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "bounce": 2,
@@ -6792,27 +6692,27 @@
      1.0
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ],
     [
-     "deep_bounce_up",
+     "plain_bounce_up",
      1.2
     ],
     [
-     "deep_chip_lift",
+     "plain_chip_lift",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ]
    ],
@@ -6873,14 +6773,8 @@
     108
    ],
    "chord_color": {
-    "depth": 0.55,
-    "lean": {
-     "dom9": 2,
-     "7sus4": 2,
-     "maj6": 1.5,
-     "add9": 1.5,
-     "m7b5": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "bounce": 2,
@@ -6902,7 +6796,7 @@
   "genre": true,
   "genre_swing": 56,
   "density": "home",
-  "listen": "the bouncier, looser West Coast: a deep round kick leaning back, a crisp snare planted on 2 and 4, tambourine and shaker keeping 16ths, 56% swing rolling it forward. Warm, clean, and unhurried",
+  "listen": "slow, bouncy West Coast funk around 95 BPM: a deep round kick, a crisp snare planted on 2 and 4, closed hats, tambourine and shaker on top, 56% swing. The keys carry it: synth and electric piano chords in a minor or dorian vamp, with a rolling funk bass underneath. Clean and warm",
   "kit": {
    "kick": [
     "kick",
@@ -7309,27 +7203,27 @@
      1.0
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ],
     [
-     "deep_bounce_up",
+     "plain_bounce_up",
      1.2
     ],
     [
-     "deep_chip_lift",
+     "plain_chip_lift",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ]
    ],
@@ -7403,14 +7297,8 @@
     105
    ],
    "chord_color": {
-    "depth": 0.55,
-    "lean": {
-     "dom9": 2,
-     "7sus4": 2,
-     "maj6": 1.5,
-     "add9": 1.5,
-     "m7b5": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "bounce": 2,
@@ -7422,7 +7310,7 @@
   },
   "own_soundbank": true,
   "flavor_match": true,
-  "_research_note": "NEW-BUILD 2026-09-24, eighth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-g-funk-2026-09-24.json. Era: DJ Quik / Warren G / Above the Law, NOT Dr. Dre (he is the Legend Doc Day); none of the nine is G-funk.\n\nSOURCES\n- Wikipedia, G-funk: 'typically set at between 90 and 100 BPM'; 'slow hypnotic grooves, a deep bass, heavy use of the snare drum, background female vocals'; 'a high-pitched portamento saw wave synthesizer lead'; typical instruments include electric piano, talkbox, turntables. Adam Krims: 'live instrumentation, heavy on bass and keyboards, with minimal (sometimes no) sampling'. 'smooth, slow-tempo', 'laid-back'.\n- Wikipedia, Regulate (Warren G, 1994): Akai MPC 60 + Technics 1200s; a four-bar loop of a Michael McDonald keyboard groove; SY77 string keys; a riff 'in the style of a Hammond organ at the end of every fourth bar'.\n- Wikipedia, DJ Quik: Roger Troutman taught him the talkbox, 'a trademark for Quik's sound'.\n- Tempos (tunebat / songbpm / bpmdatabase / sfrbeats): Regulate 95, This D.J. 92, Tonite 105, Jus Lyke Compton 95, Safe + Sound 95, Hand In Hand 95, Pitch In Ona Party 106, You'z A Ganxta 102, Black Superman 88, Murder Rap 98, It Was A Good Day 82, Fantastic Voyage 105. Median 95.\n\nCHANGES\n1. bpm 94 -> 95 (median of 12), tempo pocket 88-105 (the spread without the 82 outlier).\n2. Snare 'planted on 2 and 4': owner answer 'Mostly, keep a little wander' -> backbeat 0.95 / displaced 0.05, sparse removed. A weight, not a lock (no invariant, by his choice).\n3. own_soundbank + flavor_match on. Kit tags fixed to real filenames: kick deep/round/punch (0/0/1 literal) -> soft/clean/fat; NOT 'deep' (its synonym 'low' matches 'Shallow'/'Slow' inside kick names) and NOT 'funk' (all 12 hits are 'Brazillian Funk Kick'). Snare crack/tight/snappy (0/1/0) -> clean/tight/'fat (snare)' (plain 'fat' also hit Fatoes_Sidestick: a LITERAL hit skips the _NOT_A_SNARE guard, which only blocks synonym hits). Hat -> closed/tite. Stamp drops 'talkbox' (0 files anywhere) -> scratch/vocal (turntables are sourced).\n4. Chords: synth 3 / loop 2 -> synth 3, piano 2, organ 1, loop 1 ('heavy on keyboards', electric piano, the Hammond riff; 'minimal sampling' is why loop went down).\n5. Stays clean: research and listen line agree. allow_dirt unset; dust/vinyl untouched.\nUNCHANGED (unsourced or approved mix): swing 56, 808 branch 25%, extras, key, progressions, library tags, every level.\n\nGAPS\n- No talkbox sample in the library and no portamento 'whine' lead (cannot be synthesized: no-machine-tones rule). No female background-vocal samples."
+  "_research_note": "NEW-BUILD 2026-09-24, eighth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-g-funk-2026-09-24.json. Era: DJ Quik / Warren G / Above the Law, NOT Dr. Dre (he is the Legend Doc Day); none of the nine is G-funk.\n\nSOURCES\n- Wikipedia, G-funk: 'typically set at between 90 and 100 BPM'; 'slow hypnotic grooves, a deep bass, heavy use of the snare drum, background female vocals'; 'a high-pitched portamento saw wave synthesizer lead'; typical instruments include electric piano, talkbox, turntables. Adam Krims: 'live instrumentation, heavy on bass and keyboards, with minimal (sometimes no) sampling'. 'smooth, slow-tempo', 'laid-back'.\n- Wikipedia, Regulate (Warren G, 1994): Akai MPC 60 + Technics 1200s; a four-bar loop of a Michael McDonald keyboard groove; SY77 string keys; a riff 'in the style of a Hammond organ at the end of every fourth bar'.\n- Wikipedia, DJ Quik: Roger Troutman taught him the talkbox, 'a trademark for Quik's sound'.\n- Tempos (tunebat / songbpm / bpmdatabase / sfrbeats): Regulate 95, This D.J. 92, Tonite 105, Jus Lyke Compton 95, Safe + Sound 95, Hand In Hand 95, Pitch In Ona Party 106, You'z A Ganxta 102, Black Superman 88, Murder Rap 98, It Was A Good Day 82, Fantastic Voyage 105. Median 95.\n\nCHANGES\n1. bpm 94 -> 95 (median of 12), tempo pocket 88-105 (the spread without the 82 outlier).\n2. Snare 'planted on 2 and 4': owner answer 'Mostly, keep a little wander' -> backbeat 0.95 / displaced 0.05, sparse removed. A weight, not a lock (no invariant, by his choice).\n3. own_soundbank + flavor_match on. Kit tags fixed to real filenames: kick deep/round/punch (0/0/1 literal) -> soft/clean/fat; NOT 'deep' (its synonym 'low' matches 'Shallow'/'Slow' inside kick names) and NOT 'funk' (all 12 hits are 'Brazillian Funk Kick'). Snare crack/tight/snappy (0/1/0) -> clean/tight/'fat (snare)' (plain 'fat' also hit Fatoes_Sidestick: a LITERAL hit skips the _NOT_A_SNARE guard, which only blocks synonym hits). Hat -> closed/tite. Stamp drops 'talkbox' (0 files anywhere) -> scratch/vocal (turntables are sourced).\n4. Chords: synth 3 / loop 2 -> synth 3, piano 2, organ 1, loop 1 ('heavy on keyboards', electric piano, the Hammond riff; 'minimal sampling' is why loop went down).\n5. Stays clean: research and listen line agree. allow_dirt unset; dust/vinyl untouched.\nUNCHANGED (unsourced or approved mix): swing 56, 808 branch 25%, extras, key, progressions, library tags, every level.\n\nGAPS\n- No talkbox sample in the library and no portamento 'whine' lead (cannot be synthesized: no-machine-tones rule). No female background-vocal samples.\n\nREBUILD 2026-10-23 (dj-rebuild, tracker #2). Backup: genres_config.pre-g-funk-rebuild-2026-10-23.json. Only listen and _research_note changed. Full research: Handoffs/DJ Rebuild/G-Funk/research transcript.md (15 sources; Fader/Quik, Billboard/Warren G, Okayplayer/Hutch, Wikipedia, POW, Yams, tunebat, getsongbpm).\nPHRASE -> SETTING MAP\n- \"slow, bouncy\" -> signature.tempo + pattern_tags bounce 2 [carried from old line: bouncier; research: 92-96 core, 90-100 genre]\n- \"around 95 BPM\" -> bpm 95 [CONFIRMED: Regulate 95, G Thang 95-96, Gin and Juice 94-95]\n- \"deep round kick\" -> kick tags soft/clean/fat + kick_flavors round 75% / 808 25% [carried; Quik: funkiest, heaviest drums; no kick pattern NOT FOUND]\n- \"crisp snare planted on 2 and 4\" -> grammar.snare backbeat 0.95 [heavy snare CONFIRMED; the 5% wander is his 2026-09-24 pick]\n- \"closed hats\" -> kit hat closed/tite [rhythm NOT NAMED: only one tutorial says eighths]\n- \"tambourine and shaker on top\" -> kit perc tamb/shaker + extras pool [UNSURE, one tutorial; old \"keeping 16ths\" DROPPED: perc 16ths is only 35%]\n- \"56% swing\" -> genre_swing 56 [his pick; tutorial range 54-58, UNSURE]\n- \"synth and electric piano chords\" -> signature.chord_source synth + piano (piano includes rhodes/wurli/keys) [CONFIRMED: Wikipedia, POW Wurlitzer, Krims]; needs the Code lean (his OK 2026-10-23)\n- \"minor or dorian vamp\" -> signature.mode minor 3 / dorian 1 + progression gfunk_dorian_9 [mostly minor: UNSURE, tunebat guesses]\n- \"rolling funk bass\" -> chord_family bright_funk (funk/octave/ghost/bounce figures) [CONFIRMED: deep, live, rolling bass in 5 sources]\n- \"Clean and warm\" -> kit tags clean/soft/fat + allow_dirt unset [carried]\nDROPPED from old line: \"leaning back\" (no setting), \"rolling it forward\", \"unhurried\" (no setting), \"keeping 16ths\" (35% backed).\nNOT BUILDABLE: whistle portamento lead, talkbox, female backing vocals (no samples; no-machine-tones rule).\nOWNER PICK 2026-10-23: lean G-Funk chord odds toward keys/synth (exception to equal families, G-Funk only). Settings are in the Code handoff, not applied."
  },
  "Reggaeton Alt": {
   "num": 36,
@@ -7879,31 +7767,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -7973,18 +7861,8 @@
     98
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -8406,55 +8284,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -8528,15 +8406,8 @@
     98
    ],
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -8981,31 +8852,31 @@
      1.0
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -9075,17 +8946,8 @@
     150
    ],
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -9505,27 +9367,27 @@
      1.0
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ],
     [
-     "deep_bounce_up",
+     "plain_bounce_up",
      1.2
     ],
     [
-     "deep_chip_lift",
+     "plain_chip_lift",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ]
    ],
@@ -9586,14 +9448,8 @@
     "pluck"
    ],
    "chord_color": {
-    "depth": 0.55,
-    "lean": {
-     "dom9": 2,
-     "7sus4": 2,
-     "maj6": 1.5,
-     "add9": 1.5,
-     "m7b5": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "bounce": 2,

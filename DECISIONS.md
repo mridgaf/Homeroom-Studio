@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### [2026-10-23] G-Funk rebuilt (dj-rebuild #2): new listen line, settings pending in Code
+- Context: tracker #2. Old line was drums-only plus an unsourced "keeping 16ths"; chord odds all equal despite the genre being keys/synth/bass-led.
+- Decision/change: fresh research (15 sources; Quik, Warren G, Hutch quotes; BPM 92-96 from tunebat/getsongbpm/hooktheory). New listen + phrase-to-setting map written to genres_config.json (only listen and _research_note changed, diff-checked). Dropped "keeping 16ths" (perc 16ths only 35%), "leaning back", "unhurried". Backup genres_config.pre-g-funk-rebuild-2026-10-23.json. Owner pick (clickable): lean chord odds to keys/synth for G-Funk only.
+- Reasoning: line must name only what the engine can set; instrument odds were equal so the line could not honestly name keys.
+- Verify by: Code session applies Handoffs/DJ Rebuild/G-Funk/Code handoff.md, runs identity_survival, then his ear.
+- Status: open
+- Not done: settings, tests, any render. Hat/perc rhythm and swing have no producer source (NOT FOUND); chord numbers in the handoff are Claude's picks.
 ### 2026-10-19 Comp/stab rhythm rebuilt (comp_flow) + hats capped by loudness (hat_flow)
 - Context: owner: hats "stand out more than I would like"; stab/chord/comp rhythms "the same old ones"; use the Hub; check every drum part. Owner picks (clickable): do both, hats last.
 - Found (code read): hats were the only drum lane with no level control at true levels (no -3 dB ceiling, no fixed trim, +2 dB 8 kHz house shelf; the perc cap used the hat as its reference so nothing checked the hat). Stab and comp shared ONE 63-pattern library (comp only dodged drum cells, and counting hats made every cell "busy"); bar count restarted per chord; no phrase shape; one fixed hit length. Last touched: hat patterns 07-19, fills 07-17, ghost snares 07-22, crash 08-03, kick 09-06 -- NOT changed this pass.
@@ -8976,3 +8983,32 @@ just not loaded by default.
 - Gotchas: Hermes's small model picks its built-in `memory` tool unless told to use the basic-memory MCP tool by name (SOUL.md rule should help; recheck). Other 3 Hermes profiles NOT wired. Claude Desktop needs a restart.
 - Status: open (Desktop not restarted/tested; Hermes habit unproven)
 - Verify by: next session, does Hermes search shared memory unprompted?
+
+### 2026-10-23 Doc Day listen line replaced with 2001-era description
+- Context: owner said the old one-line description was nearly useless (drums only, no era, no instruments, no numbers). Asked for 2001-era research; chose to REPLACE Doc Day's line, not add a new Legend.
+- Decision/change: `legends_config.json` Doc Day `listen` rewritten from `Claude outputs/Dr Dre 2001 research transcript.md` (11 parts, 30 sources, every fact tagged CONFIRMED/UNSURE). Kept "NEVER leaves 2 and 4" on purpose: test_doc_day_snare_never_leaves_2_and_4 and snare_locked_24 rest on it. Avoided any new "never" (legend_newbuild treats it as an absolute). Old line kept in the `_research_note`. Backup: legends_config.pre-doc-day-2001-2026-10-23.json. Only those 2 fields changed (verified by JSON compare).
+- NOT done: settings still follow the OLD line. Mismatches: mode dorian/mixolydian (research: plain minor, 1-2 chord loops); chord_source 11 sounds at equal odds (research: piano first, strings second); perc tamb/shaker/cowbell (research: not found for this era; sparse claps instead). Swing %, drum grids, sidechain: no source found.
+- Verify by: Code session, legend-new-build pass on Doc Day: tests first, then old-vs-new audition; owner listens.
+- Status: open
+
+### 2026-10-23 Doc Day line rewritten in the engine's own words (follow-up to entry above)
+- Context: owner: look at the Beat Machine's vocabulary and make the line deterministic. Found the first rewrite used words with no setting (MPC3000, SSL, Triton, Sadowsky, mono, 8-bar strings, chorus-only) and words that misfire (booming -> boom/808 group; live -> room group; always/every -> absolutes in legend_newbuild).
+- Change: listen line rewritten so each phrase maps to one setting (map in Doc Day's _research_note). Backup legends_config.pre-doc-day-vocab-2026-10-23.json. Only listen + _research_note changed (JSON compare).
+- Owner pick (clickable): chord odds MIDDLE GROUND -- piano + strings get a bigger share for Doc Day only; other families stay possible. Exception to the 2026-09-25 equal-families rule, scoped to him. Exact weights NOT set (Code pass; any number is Claude's pick, say so).
+- Also corrected: the first handoff told Code to render; the owner's hard rule is never render unless he asks. Handoff rewritten.
+- Status: open
+
+### 2026-10-23 Jazz chords out for everyone (planned) + Doc Day blind-spot check
+- Context: owner asked for blind spots before the Doc Day Code pass. Found: jazz coloring (2026-10-19 deep chord pass, Claude's ASSUMING numbers, never heard) on all 45 identities; 381 deep_* loop placements with extensions built in; Doc Day hats eighths only 0.5 vs line; his MIDI share about 25%; bass may be 808 vs research's live electric bass; swing/drum grids unknowable from the web.
+- Owner picks (clickable): jazz out for EVERYONE, "keep movement" (coloring off; plain twins of the 24 deep_* loops, same roots; old beats rebuild unchanged). MIDI share for Doc Day: no preference (left alone; Code checks whether MIDI chords follow vamps). Reference audio: no preference (skipped; swing stays 50).
+- Line tweak: "punchy" -> "thumping" kick (test_crew pins kick tags thump/hard; "punch" matched one file, an 808).
+- Pushback given: the deep pass existed because he called the chords "simplistic". Movement kept for that reason.
+- Handoff: Handoffs/Jazz out + Doc Day 2001/ (Part 1 jazz, Part 2 Doc Day). Tests once after both. No render.
+- Status: open (not built)
+
+### 2026-10-23 dj-rebuild skill replaces legend-new-build; scope = all 45
+- Owner: "I'm going to need this done for all of my DJs. All of them." Clickable: 16 Legends + the crew + 18 genres. This overrules the 2026-09-05 "not the nine" rule. Crew is actually 11 (Half Light, Fast Water and New Math are "no one" originals).
+- Owner on pace: worried batching makes it lazy. Agreed, with evidence from this log (Jul 24 skimmed first four, Oct 19 roster-wide guessed jazz numbers, Sep 5 duplicates missed). Rule: ONE identity per session, with a research quality bar.
+- Owner: legend-new-build "was doing a horrible job". Moved to .claude/skills/_removed_2026-10-23/ (not deleted). New `.claude/skills/dj-rebuild/SKILL.md` carries over its useful gotchas plus today's lessons (engine-vocabulary line, misfire words, blind-spot table, no render, producer-pair era split).
+- Tracker: Handoffs/DJ Rebuild/TRACKER.md (45 rows; order is Claude's suggestion).
+- Status: open (skill unused so far beyond Doc Day, which it was written from)

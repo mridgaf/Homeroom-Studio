@@ -460,55 +460,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -578,15 +578,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -1053,35 +1046,35 @@
      2.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ]
    ],
@@ -1142,14 +1135,8 @@
    "chord_rhythm": "arp",
    "chords_default": true,
    "chord_color": {
-    "depth": 0.65,
-    "lean": {
-     "min7": 1.5,
-     "min9": 1.5,
-     "dom9": 1.5,
-     "7sus4": 1.5,
-     "maj7#11": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "stab": 2,
@@ -1654,55 +1641,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -1772,15 +1759,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -2271,35 +2251,35 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ]
    ],
@@ -2365,14 +2345,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.65,
-    "lean": {
-     "min7": 1.5,
-     "min9": 1.5,
-     "dom9": 1.5,
-     "7sus4": 1.5,
-     "maj7#11": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "stab": 2,
@@ -2839,31 +2813,31 @@
      1.0
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -2920,17 +2894,8 @@
    "chord_rhythm": "arp",
    "chords_default": true,
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -3471,55 +3436,55 @@
      0.5
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -3589,15 +3554,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -4044,31 +4002,31 @@
      0.05
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -4138,18 +4096,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -4635,31 +4583,31 @@
      0.5
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -4725,18 +4673,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -5301,27 +5239,27 @@
      1.0
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ],
     [
-     "deep_bounce_up",
+     "plain_bounce_up",
      1.2
     ],
     [
-     "deep_chip_lift",
+     "plain_chip_lift",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ]
    ],
@@ -5380,14 +5318,8 @@
    "chip_count": 5,
    "chords_default": true,
    "chord_color": {
-    "depth": 0.55,
-    "lean": {
-     "dom9": 2,
-     "7sus4": 2,
-     "maj6": 1.5,
-     "add9": 1.5,
-     "m7b5": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "bounce": 2,
@@ -5928,31 +5860,31 @@
      1
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -6009,17 +5941,8 @@
    "chord_rhythm": "sustain",
    "chords_default": true,
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -6303,31 +6226,31 @@
      1
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -6384,17 +6307,8 @@
    "chord_rhythm": "sustain",
    "chords_default": true,
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,

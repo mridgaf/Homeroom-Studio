@@ -391,31 +391,31 @@
      1.0
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -475,17 +475,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -502,12 +493,12 @@
  },
  "Doc Day": {
   "num": 11,
-  "bpm": 93,
+  "bpm": 94,
   "era": "legend",
   "built": "Dr. Dre",
   "legend": true,
   "legend_swing": 50,
-  "listen": "surgical West Coast: heavy punchy kick, a crisp hard snare that NEVER leaves 2 and 4, straight-eighth hats, tambourine and cowbell color, sparse disciplined arrangement with an occasional deep sub",
+  "listen": "Dr. Dre's 2001 era (1999-2003), not the G-funk Chronic one: 90-95 BPM, home 94, in a minor key on a one- or two-chord vamp (i to v, iv to i, or one chord held) that repeats all song. Hard, thumping kick with a little deep sub under it; a hard, tight snare that NEVER leaves 2 and 4; closed tight hats in eighths; sparse claps for percussion. The bass follows the kick. Piano usually carries the hook as short staccato stabs (Rhodes counts as piano), with strings held underneath; other sounds can still turn up. Few parts at a time, dry and clean, with hard compression on the drums.",
   "signature": {
    "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dre: dorian, not plain minor — the minor-tonic-to-MAJOR-IV move is the documented dorian tell and 'frequently used in funk'. gfunk_dorian_9 was added for the G-Funk GENRE on 2026-07-24 and proved there (owner: the reweight made it read sunnier); the same lesson applies to Dre, who is where that sound came from. piano added for the live-Rhodes half of his chain.",
    "key": {
@@ -518,177 +509,85 @@
     ],
     "mode": [
      [
-      "dorian",
-      3
-     ],
-     [
-      "mixolydian",
+      "minor",
       1
      ]
     ]
    },
    "progressions": [
     [
-     "gfunk_minor_i_iv_v",
+     "vamp_i_v7",
      3
-    ],
-    [
-     "gfunk_dorian_9",
-     3
-    ],
-    [
-     "dorian_i_IV",
-     2
     ],
     [
      "vamp_i_iv7",
-     2
+     3
     ],
     [
-     "mixo_funk",
-     1.0
-    ],
-    [
-     "mixo_vamp",
-     1.0
-    ],
-    [
-     "neo_soul_descent",
-     1.0
-    ],
-    [
-     "harmonic_climb",
-     1.0
-    ],
-    [
-     "deep_minor_ii_v_i",
-     1.2
-    ],
-    [
-     "deep_soul_drift",
-     1.2
-    ],
-    [
-     "deep_dilla_float",
-     1.2
-    ],
-    [
-     "deep_backdoor",
-     1.2
-    ],
-    [
-     "deep_neo_soul_cycle",
-     1.2
-    ],
-    [
-     "deep_gospel_minor",
-     1.2
-    ],
-    [
-     "deep_dorian_vamp",
-     1.2
-    ],
-    [
-     "deep_major_ii_v",
-     1.2
-    ],
-    [
-     "deep_secondary",
-     1.2
-    ],
-    [
-     "deep_borrowed_iv",
-     1.2
-    ],
-    [
-     "deep_gospel_walk",
-     1.2
-    ],
-    [
-     "deep_neo_major",
-     1.2
-    ],
-    [
-     "deep_sunday_turn",
-     1.2
+     "vamp_static_riff",
+     3
     ]
    ],
    "chord_source": [
     [
      "piano",
-     0.395
-    ],
-    [
-     "synth",
-     0.395
-    ],
-    [
-     "bell",
-     0.395
-    ],
-    [
-     "choir",
-     0.395
-    ],
-    [
-     "guitar",
-     0.395
-    ],
-    [
-     "horns",
-     0.395
-    ],
-    [
-     "organ",
-     0.395
-    ],
-    [
-     "pad",
-     0.395
-    ],
-    [
-     "pluck",
-     0.395
+     1.8
     ],
     [
      "strings",
-     0.395
+     1.2
+    ],
+    [
+     "synth",
+     0.15
+    ],
+    [
+     "bell",
+     0.15
+    ],
+    [
+     "choir",
+     0.15
+    ],
+    [
+     "guitar",
+     0.15
+    ],
+    [
+     "horns",
+     0.15
+    ],
+    [
+     "organ",
+     0.15
+    ],
+    [
+     "pad",
+     0.15
+    ],
+    [
+     "pluck",
+     0.15
     ],
     [
      "wood",
-     0.395
+     0.15
     ],
     [
      "midi",
-     1.448
+     1.45
     ]
    ],
    "articulation": "sustain",
-   "chord_rhythm": [
-    [
-     "arp",
-     1
-    ],
-    [
-     "sustain",
-     1
-    ]
-   ],
+   "chord_rhythm": "sustain",
    "tempo": [
     90,
-    96
+    95
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -696,7 +595,19 @@
     "bounce": 1.5,
     "stab": 0.7
    },
-   "chord_family": "soul_jazz"
+   "chord_family": "soul_jazz",
+   "bass_grammar": {
+    "figures": [
+     [
+      "kick",
+      5
+     ],
+     [
+      "hold",
+      1
+     ]
+    ]
+   }
   },
   "kit": {
    "kick": [
@@ -731,16 +642,6 @@
     ],
     0.5
    ],
-   "perc": [
-    "perc",
-    null,
-    [
-     "tamb",
-     "shaker",
-     "cowbell"
-    ],
-    1.0
-   ],
    "stamp": [
     "fx",
     null,
@@ -750,6 +651,14 @@
      "yeah"
     ],
     0.9
+   ],
+   "clap": [
+    "clap",
+    null,
+    [
+     "clap"
+    ],
+    1.0
    ]
   },
   "lanes": {
@@ -813,26 +722,6 @@
      "x-x-x-x-x-x-x-x-"
     ]
    ],
-   "perc": [
-    0.16,
-    0.3,
-    [
-     0,
-     2,
-     50,
-     1014
-    ],
-    [
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-",
-     "x-x-x-x-x-x-x-x-"
-    ]
-   ],
    "stamp": [
     -0.28,
     0.4,
@@ -851,6 +740,26 @@
      "----------------",
      "----------------",
      "--------------x-"
+    ]
+   ],
+   "clap": [
+    0.0,
+    0.6,
+    [
+     0,
+     1,
+     50,
+     1014
+    ],
+    [
+     "----X-----------",
+     "----X-----------",
+     "----X-----------",
+     "----X-----------",
+     "----X-----------",
+     "----X-----------",
+     "----X-----------",
+     "----X-----------"
     ]
    ]
   },
@@ -914,38 +823,23 @@
     "modes": [
      [
       "eighths",
-      0.5
-     ],
-     [
-      "sixteenths",
-      0.15
-     ],
-     [
-      "offbeats",
-      0.15
-     ],
-     [
-      "sparse",
-      0.2
+      1.0
      ]
     ],
-    "open_p": 0.06
+    "open_p": 0.0
    },
-   "perc": {
+   "clap": {
     "modes": [
      [
-      "offbeats",
-      0.5
-     ],
-     [
       "sparse",
-      0.3
-     ],
-     [
-      "eighths",
-      0.2
+      1.0
      ]
-    ]
+    ],
+    "ghosts": [
+     0,
+     0
+    ],
+    "gcells": []
    }
   },
   "kick_flavors": [
@@ -996,22 +890,6 @@
    "nmax": 1,
    "pool": [
     [
-     "perc",
-     [
-      "cowbell",
-      "block"
-     ],
-     "bells"
-    ],
-    [
-     "perc",
-     [
-      "shaker",
-      "tamb"
-     ],
-     "shaker"
-    ],
-    [
      "rim",
      [
       "rim",
@@ -1039,7 +917,7 @@
   "glue": {
    "ratio": 4.0
   },
-  "_research_note": "AUDIO/MIX PASS 2026-09-05, strictly research-based, new build (old kit/mix numbers were roster defaults, not researched -- discarded, not tweaked). Sources: his own quote in Studio Sound, Sept 2001, 'I like the compressors on the SSL. I usually have the ratio up to about eight or 10 on a lot of things' (Mastering The Mix, Decoding The Mix #4); mono-centric mix philosophy, checks translation on a single Auratone (same source); Focus... (Aftermath in-house producer) on SSL clarity/presence and 'hard-hitting drums' (Solid State Logic interview, 2026); Mike Elizondo brought in specifically for low-end/sub weight (Guitar World, Tape Op). high_db +2 @ 8kHz: 'crisp hard snare' (already in `listen`) -- direction is UP, opposite of Otto Grit's -1.5 (his research calls for dulled top end; Dre's calls for crisp). mid_db -1 @ 800Hz: separation -- sources agree elements are kept out of each other's way, not stacked/muddy. sub_layer 40Hz/0.15s/0.45: 'occasional deep sub' (already in `listen`) + Elizondo's low-end role + 'thick transients you feel in the chest' -- stronger than Otto's 0.35 because sub is a named part of THIS persona's identity, not incidental. allow_dirt left OFF (None) ON PURPOSE, not an oversight: no source anywhere calls for grit, dust, or vinyl noise -- every source says clean, crisp, surgical. This is the opposite direction from most of the roster and is the headline finding of this pass. kick_dist and mix_sat left at 0.0 ON PURPOSE: the SSL 'Asymmetric Drive' Focus describes is subtle preamp-stage harmonic coloring, not audible distortion/grit -- it is not the same thing kick_dist/mix_sat model for a persona like Rage Engine's wall-of-sound, so it was not force-fit onto those knobs. The 8-10:1 SSL compression ratio itself has no equivalent field on this schema (no per-persona compression-ratio knob exists) -- flagged, not guessed at. No personal twist (echo/chorus/phaser): that layer is nine-only per the 2026-09-03 house-EQ-and-twist decision ('the twist covers the nine only (not Legends, not genres)') -- not applicable here, and his own mono-compatibility obsession argues against a stereo-widening effect regardless. STATUS: measured against nothing yet -- NOT rendered, NOT heard. /Volumes/TBOTC 3 is not mounted from this session, so no audition batch could be built this round. Next step is an A/B/C batch (copy the shape of tools/make_otto_ab.py) once the drive is back. || GLUE COMPRESSION ADDED 2026-09-05 (second half of this pass): ratio 4.0, everything else (threshold -18 dB, 25 ms envelope, +2 dB makeup) inherited from OWNER_TASTE. This is the field the first half of the pass flagged as MISSING and refused to guess at -- it exists now: tools/crew.py passes a preset's `glue` block into groove.glue_compress, which already took these kwargs and was being called with none. DELIBERATELY NOT 8-10:1. His quote ('I usually have the ratio up to about eight or 10 on a lot of things', Studio Sound Sept 2001) describes SSL CHANNEL compressors on individual elements; this engine only has a single BUS glue compressor, so 8:1 here is a different effect from the one he described, and copying the number across would be the same force-fit this pass refused for kick_dist/mix_sat. 4.0 is 'harder than the roster's 1.8', which is the part the sources actually support -- read it as a direction, not as 'the Dre number'. Corroborated independently by the Gearspace thread 'Dr dre mixing techniques' (2016-09-03): 'clarity using heavy compression', 'hard SSL compression', 'sounds that only take up a certain part of the frequency spectrum and never fight with each other' -- that last one is the same separation argument behind mid_db -1 @ 800Hz. || mix_eq LEFT ALONE ON PURPOSE, and worth knowing why: measured against groove.OWNER_TASTE['mix_eq'], only the low shelf actually moved (+1.0 @ 100Hz vs the roster's +1.5 @ 120Hz) -- mid and high are byte-identical to the roster default. groove.py's own note says only about a third of a low boost survives peak-normalise -> tanh -> master_to_lufs, so that band delivers roughly 0.2 dB. His mix_eq is very nearly a no-op and the sub layer is what will be heard. Not churned, because churning it would cost a re-render and buy nothing. || space ['gated', ['snare']] LEFT ALONE, FLAGGED NOT RESOLVED: it is a roster default shared by 7 of the 12 legends, never researched, and gated reverb is an 80s sound that sits oddly next to 'crisp hard snare' + 'clean, crisp, surgical'. Searched for a source either way on 2026-09-05 and found NOTHING that ties his snare to reverb or to dryness. Inconclusive, so it stays -- same handling as allow_dirt. Do not 'fix' this without a source. sidechain 0.2 and drive 1.45 are roster defaults too and are untouched for the same reason. || NEW BUILD 2026-09-05, second pass. Owner: 'I don't want any of the old rules to apply... I want this to be a completely new build so I can compare to what I have already versus what new research can create' -- 'for dr dre', i.e. SCOPED TO THIS PERSONA, not the engine. Rule for this pass: research replaces every field research actually speaks to; where the sources are silent the field is NAMED as silent rather than invented, because guessing is the thing he has forbidden outright. || space gated->dry: RESOLVED at last. It was never researched -- a roster default 7 of 12 legends share. The first pass left it because no source says 'dry' either. Under a new-build rule that reasoning inverts: gated reverb is an INHERITED default, and inheriting is what he ruled out. Everything sourced points away from it (clean, crisp, surgical, 'elements kept out of each other's way', 'sparse disciplined arrangement'), and gated reverb is an 80s drum effect no Dre source mentions. Dry is the research-neutral choice; gated was the inherited one. One line to revert. || sub_layer allow_peak_db 3.0 -- THE OLD RULE HE MEANT. crew's level cascade makes the kick the reference every other lane is scaled under (peak_ceiling_for returns None for backbone lanes), so kick_sub_reinforce was forbidden from letting the kick's peak grow. Measured consequence: the sub is INERT on any kick already at its peak, 4 of 6 real kicks, so 'occasional deep sub' and Mike Elizondo's whole documented role were doing nothing. That ceiling is a HOUSE rule, not a researched Dre trait, so it is lifted for him and him alone (default stays 0.0 for all 20 other presets). The cost is real and is not hidden: everything else in his beats sits further under the kick. || transient {gain 0.8, tau 3ms, kick+snare} -- groove.transient_shape has been written and tested since the engine was built and was wired to NOTHING. Same situation the glue knob was in. Sourced directly: Gearspace 'Dr dre mixing techniques' -- 'The smack on his drums; it sounds like a transient designer with hard SSL compression and good EQ'; Focus... (Solid State Logic interview) on 'hard-hitting drums'; his own listen line, 'heavy punchy kick, a crisp hard snare'. Applied to the raw lane before dirt/space/glue, where a transient designer actually sits. || STILL NOT INVENTED, named as silent: drive 1.45, sidechain 0.2. Both are roster defaults and both survive this pass ONLY because no source names either. The Gearspace post argues for clipping/saturation for perceived level, which would push drive UP, while every Aftermath source argues clean/surgical, which pushes it DOWN -- the sources contradict, so the number stays and is flagged rather than picked. Say the word and either becomes a rung in the next batch. KIT SELECTION, 2026-09-05 (second pass, after he heard the first batch): \"It's not so much the kick. It's everything else.\" Root cause was not his numbers at all -- OWNER_TASTE['open_soundbank'] (house rule 2026-07-18) is read in one place, crew._pick_path, and it wipes `wants`/`must` BEFORE the pick tiers are built. Every researched taste tag on every preset in this repo is therefore dead code, and every kit pick is uniform-random from the whole role bucket. His audition got DECEPT_Sidestick and DECEPT_Lofi_Sidestick in the snare and perc lanes, HELLA HH MISC PERC 008 and Hats_OHs_162 (open hats) in the hat lane, and talking drum8 in a Dre beat. He chose the narrow fix: `own_soundbank` true for HIM ALONE -- one more inherited house rule dropped under the same 'no old rules for Dr Dre' call. The open bank still stands for the other twenty presets, by his decision and not by oversight. He also set the tie-breaker for this persona going forward: \"Keep following the description as the top rule\" -- the `listen` line above is the authority, which is why no snap lane was added (it names a crisp hard snare, not snaps) and why cowbell was added to perc (it names cowbell). SNARE LOCKED 2026-09-05: his listen line says the snare NEVER leaves 2 and 4, and he ruled a NEVER outranks the 2026-08-01 rule letting a legend take a groove seed's snare line ('Overrule old decisions when they cause problems'). snare_locked_24 is his alone; the other 11 legends still take the break's snare.",
+  "_research_note": "AUDIO/MIX PASS 2026-09-05, strictly research-based, new build (old kit/mix numbers were roster defaults, not researched -- discarded, not tweaked). Sources: his own quote in Studio Sound, Sept 2001, 'I like the compressors on the SSL. I usually have the ratio up to about eight or 10 on a lot of things' (Mastering The Mix, Decoding The Mix #4); mono-centric mix philosophy, checks translation on a single Auratone (same source); Focus... (Aftermath in-house producer) on SSL clarity/presence and 'hard-hitting drums' (Solid State Logic interview, 2026); Mike Elizondo brought in specifically for low-end/sub weight (Guitar World, Tape Op). high_db +2 @ 8kHz: 'crisp hard snare' (already in `listen`) -- direction is UP, opposite of Otto Grit's -1.5 (his research calls for dulled top end; Dre's calls for crisp). mid_db -1 @ 800Hz: separation -- sources agree elements are kept out of each other's way, not stacked/muddy. sub_layer 40Hz/0.15s/0.45: 'occasional deep sub' (already in `listen`) + Elizondo's low-end role + 'thick transients you feel in the chest' -- stronger than Otto's 0.35 because sub is a named part of THIS persona's identity, not incidental. allow_dirt left OFF (None) ON PURPOSE, not an oversight: no source anywhere calls for grit, dust, or vinyl noise -- every source says clean, crisp, surgical. This is the opposite direction from most of the roster and is the headline finding of this pass. kick_dist and mix_sat left at 0.0 ON PURPOSE: the SSL 'Asymmetric Drive' Focus describes is subtle preamp-stage harmonic coloring, not audible distortion/grit -- it is not the same thing kick_dist/mix_sat model for a persona like Rage Engine's wall-of-sound, so it was not force-fit onto those knobs. The 8-10:1 SSL compression ratio itself has no equivalent field on this schema (no per-persona compression-ratio knob exists) -- flagged, not guessed at. No personal twist (echo/chorus/phaser): that layer is nine-only per the 2026-09-03 house-EQ-and-twist decision ('the twist covers the nine only (not Legends, not genres)') -- not applicable here, and his own mono-compatibility obsession argues against a stereo-widening effect regardless. STATUS: measured against nothing yet -- NOT rendered, NOT heard. /Volumes/TBOTC 3 is not mounted from this session, so no audition batch could be built this round. Next step is an A/B/C batch (copy the shape of tools/make_otto_ab.py) once the drive is back. || GLUE COMPRESSION ADDED 2026-09-05 (second half of this pass): ratio 4.0, everything else (threshold -18 dB, 25 ms envelope, +2 dB makeup) inherited from OWNER_TASTE. This is the field the first half of the pass flagged as MISSING and refused to guess at -- it exists now: tools/crew.py passes a preset's `glue` block into groove.glue_compress, which already took these kwargs and was being called with none. DELIBERATELY NOT 8-10:1. His quote ('I usually have the ratio up to about eight or 10 on a lot of things', Studio Sound Sept 2001) describes SSL CHANNEL compressors on individual elements; this engine only has a single BUS glue compressor, so 8:1 here is a different effect from the one he described, and copying the number across would be the same force-fit this pass refused for kick_dist/mix_sat. 4.0 is 'harder than the roster's 1.8', which is the part the sources actually support -- read it as a direction, not as 'the Dre number'. Corroborated independently by the Gearspace thread 'Dr dre mixing techniques' (2016-09-03): 'clarity using heavy compression', 'hard SSL compression', 'sounds that only take up a certain part of the frequency spectrum and never fight with each other' -- that last one is the same separation argument behind mid_db -1 @ 800Hz. || mix_eq LEFT ALONE ON PURPOSE, and worth knowing why: measured against groove.OWNER_TASTE['mix_eq'], only the low shelf actually moved (+1.0 @ 100Hz vs the roster's +1.5 @ 120Hz) -- mid and high are byte-identical to the roster default. groove.py's own note says only about a third of a low boost survives peak-normalise -> tanh -> master_to_lufs, so that band delivers roughly 0.2 dB. His mix_eq is very nearly a no-op and the sub layer is what will be heard. Not churned, because churning it would cost a re-render and buy nothing. || space ['gated', ['snare']] LEFT ALONE, FLAGGED NOT RESOLVED: it is a roster default shared by 7 of the 12 legends, never researched, and gated reverb is an 80s sound that sits oddly next to 'crisp hard snare' + 'clean, crisp, surgical'. Searched for a source either way on 2026-09-05 and found NOTHING that ties his snare to reverb or to dryness. Inconclusive, so it stays -- same handling as allow_dirt. Do not 'fix' this without a source. sidechain 0.2 and drive 1.45 are roster defaults too and are untouched for the same reason. || NEW BUILD 2026-09-05, second pass. Owner: 'I don't want any of the old rules to apply... I want this to be a completely new build so I can compare to what I have already versus what new research can create' -- 'for dr dre', i.e. SCOPED TO THIS PERSONA, not the engine. Rule for this pass: research replaces every field research actually speaks to; where the sources are silent the field is NAMED as silent rather than invented, because guessing is the thing he has forbidden outright. || space gated->dry: RESOLVED at last. It was never researched -- a roster default 7 of 12 legends share. The first pass left it because no source says 'dry' either. Under a new-build rule that reasoning inverts: gated reverb is an INHERITED default, and inheriting is what he ruled out. Everything sourced points away from it (clean, crisp, surgical, 'elements kept out of each other's way', 'sparse disciplined arrangement'), and gated reverb is an 80s drum effect no Dre source mentions. Dry is the research-neutral choice; gated was the inherited one. One line to revert. || sub_layer allow_peak_db 3.0 -- THE OLD RULE HE MEANT. crew's level cascade makes the kick the reference every other lane is scaled under (peak_ceiling_for returns None for backbone lanes), so kick_sub_reinforce was forbidden from letting the kick's peak grow. Measured consequence: the sub is INERT on any kick already at its peak, 4 of 6 real kicks, so 'occasional deep sub' and Mike Elizondo's whole documented role were doing nothing. That ceiling is a HOUSE rule, not a researched Dre trait, so it is lifted for him and him alone (default stays 0.0 for all 20 other presets). The cost is real and is not hidden: everything else in his beats sits further under the kick. || transient {gain 0.8, tau 3ms, kick+snare} -- groove.transient_shape has been written and tested since the engine was built and was wired to NOTHING. Same situation the glue knob was in. Sourced directly: Gearspace 'Dr dre mixing techniques' -- 'The smack on his drums; it sounds like a transient designer with hard SSL compression and good EQ'; Focus... (Solid State Logic interview) on 'hard-hitting drums'; his own listen line, 'heavy punchy kick, a crisp hard snare'. Applied to the raw lane before dirt/space/glue, where a transient designer actually sits. || STILL NOT INVENTED, named as silent: drive 1.45, sidechain 0.2. Both are roster defaults and both survive this pass ONLY because no source names either. The Gearspace post argues for clipping/saturation for perceived level, which would push drive UP, while every Aftermath source argues clean/surgical, which pushes it DOWN -- the sources contradict, so the number stays and is flagged rather than picked. Say the word and either becomes a rung in the next batch. KIT SELECTION, 2026-09-05 (second pass, after he heard the first batch): \"It's not so much the kick. It's everything else.\" Root cause was not his numbers at all -- OWNER_TASTE['open_soundbank'] (house rule 2026-07-18) is read in one place, crew._pick_path, and it wipes `wants`/`must` BEFORE the pick tiers are built. Every researched taste tag on every preset in this repo is therefore dead code, and every kit pick is uniform-random from the whole role bucket. His audition got DECEPT_Sidestick and DECEPT_Lofi_Sidestick in the snare and perc lanes, HELLA HH MISC PERC 008 and Hats_OHs_162 (open hats) in the hat lane, and talking drum8 in a Dre beat. He chose the narrow fix: `own_soundbank` true for HIM ALONE -- one more inherited house rule dropped under the same 'no old rules for Dr Dre' call. The open bank still stands for the other twenty presets, by his decision and not by oversight. He also set the tie-breaker for this persona going forward: \"Keep following the description as the top rule\" -- the `listen` line above is the authority, which is why no snap lane was added (it names a crisp hard snare, not snaps) and why cowbell was added to perc (it names cowbell). SNARE LOCKED 2026-09-05: his listen line says the snare NEVER leaves 2 and 4, and he ruled a NEVER outranks the 2026-08-01 rule letting a legend take a groove seed's snare line ('Overrule old decisions when they cause problems'). snare_locked_24 is his alone; the other 11 legends still take the break's snare. || DESCRIPTION REPLACED 2026-10-23 (owner): listen line rewritten for the 2001 era (1999-2003) from 'Claude outputs/Dr Dre 2001 research transcript.md'. Kept 'NEVER leaves 2 and 4' on purpose (snare_locked_24 rests on it). Old line: \"surgical West Coast: heavy punchy kick, a crisp hard snare that NEVER leaves 2 and 4, straight-eighth hats, tambourine and cowbell color, sparse disciplined arrangement with an occasional deep sub\". Settings NOT yet aligned to the new line (mode, chord_source, perc) -- that is a legend-new-build pass in Code. || LINE REWRITTEN IN ENGINE VOCABULARY 2026-10-23 (same day, owner asked): every phrase maps to one setting -- minor -> key.mode; i to v / iv to i / one chord -> vamp_i_v7 / vamp_i_iv7 / vamp_static_riff; hard/punch/deep/tight/closed -> kit tags (flavor groups); eighths/sparse -> grammar modes; claps -> a clap lane; bass follows the kick -> bass figure 'kick'; piano + stabs -> chord_source piano + figure stab; strings held -> strings + sustain; dry -> space; hard compression -> glue. Dropped as unenforceable or misfiring: booming (boom=808 group), live (room group), always/every (absolutes), MPC3000/SSL/Sadowsky/Triton (no setting), mono/flat loudness/8-bar strings/chorus-only/six parts (no setting). Hats-in-eighths and deep sub carried from the old line (research silent). Owner pick on chord odds: MIDDLE GROUND -- piano and strings get a bigger share for Doc Day only, other families stay possible (exception to the 2026-09-25 equal-families rule); exact weights not yet set.",
   "transient": {
    "gain": 0.8,
    "tau_ms": 3.0,
@@ -1050,7 +928,19 @@
   },
   "own_soundbank": true,
   "snare_locked_24": true,
-  "flavor_match": true
+  "flavor_match": true,
+  "chord_grammar": {
+   "figures": [
+    [
+     "stab",
+     4
+    ],
+    [
+     "pad",
+     3
+    ]
+   ]
+  }
  },
  "Kane East": {
   "num": 12,
@@ -1474,31 +1364,31 @@
      1
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -1559,18 +1449,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -1695,55 +1575,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -1807,15 +1687,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -2195,35 +2068,35 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ]
    ],
@@ -2293,14 +2166,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.65,
-    "lean": {
-     "min7": 1.5,
-     "min9": 1.5,
-     "dom9": 1.5,
-     "7sus4": 1.5,
-     "maj7#11": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "stab": 2,
@@ -2989,31 +2856,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -3073,18 +2940,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -3227,35 +3084,35 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ]
    ],
@@ -3320,14 +3177,8 @@
    "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7.",
    "chords_default": true,
    "chord_color": {
-    "depth": 0.65,
-    "lean": {
-     "min7": 1.5,
-     "min9": 1.5,
-     "dom9": 1.5,
-     "7sus4": 1.5,
-     "maj7#11": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "stab": 2,
@@ -3697,31 +3548,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -3793,18 +3644,8 @@
     ]
    ],
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -4605,55 +4446,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -4728,15 +4569,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -5086,31 +4920,31 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_trap_tension",
+     "plain_trap_tension",
      1.2
     ],
     [
-     "deep_villain_minor",
+     "plain_villain_minor",
      1.2
     ],
     [
-     "deep_dark_pedal",
+     "plain_dark_pedal",
      1.2
     ],
     [
-     "deep_tritone_sub",
+     "plain_tritone_sub",
      1.2
     ],
     [
-     "deep_rage_stomp",
+     "plain_rage_stomp",
      1.2
     ]
    ],
@@ -5174,18 +5008,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.5,
-    "lean": {
-     "min_maj7": 3,
-     "m7b5": 2,
-     "7b9": 2.5,
-     "dim7": 2,
-     "madd9": 1.5,
-     "maj9": 0.3,
-     "maj6": 0.2,
-     "6/9": 0.2,
-     "add11": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "sparse": 2,
@@ -5590,35 +5414,35 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_noir_chromatic",
+     "plain_noir_chromatic",
      1.2
     ],
     [
-     "deep_mixo_funk",
+     "plain_mixo_funk",
      1.2
     ]
    ],
@@ -5683,14 +5507,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.65,
-    "lean": {
-     "min7": 1.5,
-     "min9": 1.5,
-     "dom9": 1.5,
-     "7sus4": 1.5,
-     "maj7#11": 0.5
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "stab": 2,
@@ -6067,31 +5885,31 @@
      1.0
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -6155,17 +5973,8 @@
    ],
    "chords_default": true,
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -6654,31 +6463,31 @@
      1
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -6750,17 +6559,8 @@
     ]
    ],
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -7166,31 +6966,31 @@
      1
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_plug_glow",
+     "plain_plug_glow",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_lydian_dream",
+     "plain_lydian_dream",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ]
    ],
@@ -7262,17 +7062,8 @@
     ]
    ],
    "chord_color": {
-    "depth": 0.75,
-    "lean": {
-     "maj7#11": 2.5,
-     "add9": 2,
-     "madd9": 2,
-     "sus2": 2,
-     "6/9": 1.5,
-     "9sus4": 2,
-     "7b9": 0.3,
-     "dim7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "long": 2.5,
@@ -7647,55 +7438,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -7760,15 +7551,8 @@
    "chords_default": true,
    "loop_pool_only": "Library of Congress",
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
@@ -7857,55 +7641,55 @@
      1.0
     ],
     [
-     "deep_minor_ii_v_i",
+     "plain_minor_ii_v_i",
      1.2
     ],
     [
-     "deep_soul_drift",
+     "plain_soul_drift",
      1.2
     ],
     [
-     "deep_dilla_float",
+     "plain_dilla_float",
      1.2
     ],
     [
-     "deep_backdoor",
+     "plain_backdoor",
      1.2
     ],
     [
-     "deep_neo_soul_cycle",
+     "plain_neo_soul_cycle",
      1.2
     ],
     [
-     "deep_gospel_minor",
+     "plain_gospel_minor",
      1.2
     ],
     [
-     "deep_dorian_vamp",
+     "plain_dorian_vamp",
      1.2
     ],
     [
-     "deep_major_ii_v",
+     "plain_major_ii_v",
      1.2
     ],
     [
-     "deep_secondary",
+     "plain_secondary",
      1.2
     ],
     [
-     "deep_borrowed_iv",
+     "plain_borrowed_iv",
      1.2
     ],
     [
-     "deep_gospel_walk",
+     "plain_gospel_walk",
      1.2
     ],
     [
-     "deep_neo_major",
+     "plain_neo_major",
      1.2
     ],
     [
-     "deep_sunday_turn",
+     "plain_sunday_turn",
      1.2
     ]
    ],
@@ -7971,15 +7755,8 @@
    "chords_default": true,
    "loop_pool_only": "Library of Congress",
    "chord_color": {
-    "depth": 0.85,
-    "lean": {
-     "min9": 1.5,
-     "min11": 1.5,
-     "maj9": 1.5,
-     "dom13": 1.5,
-     "6/9": 1.5,
-     "min_maj7": 0.3
-    }
+    "depth": 0.0,
+    "lean": {}
    },
    "pattern_tags": {
     "push": 2,
