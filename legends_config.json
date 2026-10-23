@@ -7573,16 +7573,17 @@
   "built": "DJ Clue (the mixtape era)",
   "legend": true,
   "legend_swing": 53,
-  "listen": "a mixtape DJ's beat: a steady New York boom-bap bed with room to be talked over, hard short kick, hard snare and tight closed hats, and the DJ's own scratch or siren landing at the end of the phrase; old jazz and blues records chopped in on some beats, plain instruments on the rest",
+  "listen": "a mixtape DJ's beat on soul and funk records: a steady New York boom-bap bed with room to be talked over, hard short kick, hard snare and tight closed hats, strings and bells and pads on top, and the DJ's own scratch or siren landing at the end of the phrase; old jazz and blues records chopped in on some beats, plain instruments on the rest",
   "signature": {
-   "_note": "NEW BUILD 2026-10-11. LoC is a SHARE: loop weight 3 against 0.45 per instrument and 0.6 midi (about 35% of beats); the other beats use instrument chords. loop_pool_only restricts every loop pick for this DJ to Library of Congress excerpts. Key/mode/progressions inherited from the base preset, unsourced.",
+   "_note": "NEW BUILD 2026-10-11. REDONE 2026-10-23 (owner picks, 75-25 rule, his numbers, not sourced): strings/bell/pad 2.14 each (75%), midi 0.6 kept, loop and the other 8 instruments 0.17 each, so LoC is about 2% of beats; tempo 86-107 and root D added from 5 tracks, one source (research transcript). Before: loop weight 3 against 0.45 per instrument (about 35% of beats). loop_pool_only restricts every loop pick for this DJ to Library of Congress excerpts. Key/mode/progressions inherited from the base preset, unsourced.",
    "key": {
     "roots": [
      "F#",
      "C#",
      "G",
      "G#",
-     "D#"
+     "D#",
+     "D"
     ],
     "mode": [
      [
@@ -7696,51 +7697,51 @@
    "chord_source": [
     [
      "loop",
-     3
+     0.17
     ],
     [
      "piano",
-     0.45
+     0.17
     ],
     [
      "bell",
-     0.45
+     2.14
     ],
     [
      "choir",
-     0.45
+     0.17
     ],
     [
      "guitar",
-     0.45
+     0.17
     ],
     [
      "horns",
-     0.45
+     0.17
     ],
     [
      "organ",
-     0.45
+     0.17
     ],
     [
      "pad",
-     0.45
+     2.14
     ],
     [
      "pluck",
-     0.45
+     0.17
     ],
     [
      "strings",
-     0.45
+     2.14
     ],
     [
      "synth",
-     0.45
+     0.17
     ],
     [
      "wood",
-     0.45
+     0.17
     ],
     [
      "midi",
@@ -7749,7 +7750,7 @@
    ],
    "tempo": [
     86,
-    95
+    107
    ],
    "_mode_fix_2026_07_24": "was 'dorian', which is NOT a mode the engine understands: KeyContext('dorian') matched ZERO in-key melodic loops, so this identity's loop voice silently never fired. Changed to minor; his dorian colour is already carried by vamp_i_iv7.",
    "chords_default": true,
@@ -8064,6 +8065,6 @@
    ]
   },
   "own_soundbank": true,
-  "_research_note": "NEW BUILD 2026-10-11, owner request: an original DJ loosely based on DJ Clue, using the Library of Congress excerpts as a share of beats. Owner chose the \"mixtape-DJ identity\" build because nothing found describes how Clue's beats sound.\nBuilt from the DJ Premium preset (NY boom bap) as the starting point.\n\nSOURCED\n- DJ Clue is a mixtape DJ and radio host who founded Desert Storm Records in 1998 with Ken \"Duro\" Ifill; his albums were produced mostly by Clue and Duro (Wikipedia: DJ Clue, Desert Storm Records). This is the whole sourced basis: the identity is the DJ's role (a bed to be talked over, a DJ drop), not a documented drum sound.\nMINE (nobody sourced these)\n- The scratch/siren stamp as the \"DJ drop\", the idea that the bed leaves room for a voice, and every tag and number: kick hard/short (Kicks/Short 317, Kicks/Hard 12), snare hard (Snares/Hard 8 files + filename matches), hats closed/tight (Hats/Closed 401), stamp scratch/siren (fx scratch 29, siren 8). The --tags check was NOT run (needs the Mac).\n- bpm, swing, lanes, grammar, mix: inherited unchanged from the base preset. Because the base is DJ Premium's, the beat bed is close to that preset; the difference is the stamp, the old-record chords on ~35% of beats and the listen line. If it sounds too much like DJ Premium, that is why, and the fix is more of Clue's sound, which has no source.\nTHE LIBRARY OF CONGRESS SOUND\n- Same copy, key method and loop_pool_only hook as Tenth Wonder (see that note).\nWHAT NOBODY COULD ANSWER\n- What DJ Clue's or Duro's drums, tempos or samples actually sound like.\nNot heard yet. Status: auditioned-pending, not confirmed."
+  "_research_note": "NEW BUILD 2026-10-11, owner request: an original DJ loosely based on DJ Clue, using the Library of Congress excerpts as a share of beats. Owner chose the \"mixtape-DJ identity\" build because nothing found describes how Clue's beats sound.\nBuilt from the DJ Premium preset (NY boom bap) as the starting point.\n\nSOURCED\n- DJ Clue is a mixtape DJ and radio host who founded Desert Storm Records in 1998 with Ken \"Duro\" Ifill; his albums were produced mostly by Clue and Duro (Wikipedia: DJ Clue, Desert Storm Records). This is the whole sourced basis: the identity is the DJ's role (a bed to be talked over, a DJ drop), not a documented drum sound.\nMINE (nobody sourced these)\n- The scratch/siren stamp as the \"DJ drop\", the idea that the bed leaves room for a voice, and every tag and number: kick hard/short (Kicks/Short 317, Kicks/Hard 12), snare hard (Snares/Hard 8 files + filename matches), hats closed/tight (Hats/Closed 401), stamp scratch/siren (fx scratch 29, siren 8). The --tags check was NOT run (needs the Mac).\n- bpm, swing, lanes, grammar, mix: inherited unchanged from the base preset. Because the base is DJ Premium's, the beat bed is close to that preset; the difference is the stamp, the old-record chords on ~35% of beats and the listen line. If it sounds too much like DJ Premium, that is why, and the fix is more of Clue's sound, which has no source.\nTHE LIBRARY OF CONGRESS SOUND\n- Same copy, key method and loop_pool_only hook as Tenth Wonder (see that note).\nWHAT NOBODY COULD ANSWER\n- What DJ Clue's or Duro's drums, tempos or samples actually sound like.\nNot heard yet. Status: auditioned-pending, not confirmed.\n\nRESEARCH REDO 2026-10-23 (Handoffs/DJ Rebuild/DJ Hint/research transcript.md; 14 sources opened; BPM each from ONE source only)\nPHRASE-TO-SETTING MAP (new line)\n- 'on soul and funk records' -> library.tags soul, funk (already set; samples on The Professional are soul/funk/pop/disco) [UNSURE-to-CONFIRMED: Wikipedia]\n- 'steady New York boom-bap bed' -> grammar backbeat 0.9 snare, eighths hats; carried over from old line, unsourced\n- 'room to be talked over' -> sparse hat mode 0.2 + low density; Clue talks over records on tapes [UNSURE: Hip Hop Scriptures]\n- 'hard short kick' -> kit kick tags hard, short; Duro prefers bigger kicks/snares in general [UNSURE: SonicScoop]\n- 'hard snare' -> kit snare tag hard [UNSURE, same]\n- 'tight closed hats' -> kit hat tags closed, tight; carried over, unsourced\n- 'strings and bells and pads' -> chord_source strings, bell, pad; Duro names strings + chimes + pads on his JV-1080/2080 records [UNSURE: Roland, one page]\n- 'scratch or siren at the end of the phrase' -> kit stamp fx scratch/siren, lane stamp; carried over; stands in for Clue's vocal drop, unsourced\n- 'old jazz and blues records chopped in on some beats' -> chord_source loop (Library of Congress) ; carried over; research says samples were soul/funk/pop/disco, so NOT supported\n- 'plain instruments on the rest' -> chord_source instrument families\nSTILL NOT FOUND: swing, drum grid, hats, bass, chord moves, scratching. Old tempo 86-95 vs research 87-107 (one source). Settings changes pending are in the Code handoff; no config setting was changed here."
  }
 }

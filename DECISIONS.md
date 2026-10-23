@@ -9052,3 +9052,24 @@ just not loaded by default.
 ### 2026-10-23 Doc Day: groove-library share 0.45 -> 0.2 (owner pick, clickable "Lower seeds")
 - Why: groove seeds replace the hat pattern, so hats-in-eighths held only 54%. Measured after (100 beats): see Doc Day entry; backup legends_config.pre-doc-day-seeds-2026-10-23.json. Side effect: fewer kicks/snares from library seeds. The 0.2 is Claude's pick.
 - Status: open - not heard.
+
+### [2026-10-23] DJ Hint (DJ Clue, mixtape era): research redone, line written, settings NOT changed
+- Context: cloud session only had search summaries. Redone on the Mac via the dj-rebuild skill, one identity.
+- Decision/change: 14 sources opened (Revolt, Roland/Duro, Complex, SonicScoop, 5 Wikipedia pages, 3 blogs, SongBPM). New listen line + phrase-to-setting map appended to `_research_note`; JSON diff shows only DJ Hint listen and _research_note changed. Backup legends_config.pre-dj-hint-2026-10-23.json. Settings changes (75-25 chord_source odds: strings/bell/pad 2.14 each, others 0.21; tempo, key D) written into the Code handoff only.
+- Reasoning: Legends 75-25 is the owner's rule 8 (his numbers, not sourced). Research names strings/bells/pads only via Duro's own records (one page). Samples on The Professional are soul/funk/pop/disco, not jazz/blues, so the Library of Congress share is unsupported; kept in the line as carried-over pending his pick.
+- Verify by: owner picks in Code handoff, then identity_survival, then his ear.
+- Status: open. Quality bar partly met: sources and people yes; BPM from 2 sources NO (Tunebat Cloudflare-blocked, Musicstax/GetSongBPM 403). Swing, drums, hats, bass, chords NOT FOUND. Strong overlap with DJ Premium noted. No render, no tests run, nothing committed.
+
+### [2026-10-23] Acid Rap Bright (Chance the Rapper, Acid Rap 2013): research done, line written, settings NOT changed
+- Context: dj-rebuild #35, research session run in Claude Code on the Mac, owner away (no questions possible).
+- Decision/change: ~15 sources (Wikipedia x4, Complex oral history + 10-year interview, Andscape, DJBooth, songbpm opened in the browser, songdata/audiokeychain via snippets). New listen line and phrase-to-setting map written to genres_config.json (only `listen` and `_research_note` of Acid Rap Bright changed, JSON-compared). Backup genres_config.pre-acid-rap-bright-rebuild-2026-10-23.json. Setting changes (chord_source piano 3 / horns 3 / organ 1.5 / guitar 1.5 / loop 2 / synth .5 / choir .5, zero for bell, pad, pluck, strings, wood) are in `Handoffs/DJ Rebuild/Acid Rap Bright/Code handoff.md` only.
+- Reasoning: ASSUMED lineage = Acid Rap 2013 (not Surf); dropped "major-key" (UNSURE) and "hand percussion everywhere" (NOT FOUND); odds numbers are Claude's picks.
+- Verify by: owner picks in the handoff, Code pass, identity_survival, then his ear.
+- Status: open. Quality bar: sources yes, 5+ tracks with credits yes, practitioners yes (8). BPM from 2 sources only for NaNa and Favorite Song (and Acid Rain, disagreeing); Pusha Man, Lost, Everybody's Something BPM NOT FOUND. Swing, kick/snare/hat patterns, bass NOT FOUND. No render, no tests, nothing committed.
+
+### [2026-10-23] DJ Hint: settings applied (Code session, same day as the line)
+- Context: owner said do both parts in the Code session. Picks answered clickable: LoC into the 25% group, tempo 86-107, add root D, midi kept.
+- Decision/change: legends_config.json DJ Hint signature only: chord_source strings/bell/pad 2.14, midi 0.6, loop + 8 other instruments 0.17 each (sum 8.55, LoC ~2% of beats); tempo [86,107]; roots + D; _note updated. Backup legends_config.pre-dj-hint-settings-2026-10-23.json. tests/test_signature.py: old 0.2-0.5 LoC-share assertion changed on purpose to 0.005-0.05, new test pins the odds and checks no other Legend shares them. legend_newbuild_status.json notes updated.
+- CLAUDE'S PICKS / NOT SOURCED: the 75-25 split is the owner's rule, the exact weights are Claude's arithmetic; tempo/key come from 5 tracks, one BPM source.
+- Checked: test_signature 11 pass, test_crew legend/soundbank subset 6 pass, identity_survival (100 beats): snare backbeat 78, hat eighths 38 (line says closed/tight, not eighths), kick figure 6 (the line names kick TAGS, not a figure), stamp 100. Full suite NOT run (no render asked). Not checked: tags against the drive (--tags).
+- Status: open - not heard. No render.

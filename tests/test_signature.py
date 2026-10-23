@@ -150,4 +150,22 @@ def test_the_two_library_of_congress_djs_are_set_up():
         assert d[n]["own_soundbank"] is True and d[n]["legend"] is True
         assert "Clue" not in d[n]["listen"] and "9th" not in d[n]["listen"]
     assert share["Tenth Wonder"] > 0.5, "main sound"
-    assert 0.2 < share["DJ Hint"] < 0.5, "a share of beats"
+    # DJ Hint redone 2026-10-23 (owner picks): LoC folded into the 25% group, about 2% of beats
+    assert 0.005 < share["DJ Hint"] < 0.05, "a small share of beats"
+
+
+def test_dj_hint_chord_odds_follow_the_research_and_only_dj_hint_carries_them():
+    # Legends 75-25 (owner's numbers, not sourced): strings/bell/pad carry 75%, midi kept, rest 25%
+    import json
+    d = json.load(open(str(__import__("pathlib").Path(__file__).resolve().parent.parent / "legends_config.json")))
+    cs = dict(d["DJ Hint"]["signature"]["chord_source"])
+    named = cs["strings"] + cs["bell"] + cs["pad"]
+    assert abs(named / sum(cs.values()) - 0.75) < 0.01
+    assert cs["midi"] == 0.6
+    assert all(cs[k] < 0.3 for k in cs if k not in ("strings", "bell", "pad", "midi"))
+    assert d["DJ Hint"]["signature"]["tempo"] == [86, 107]
+    assert "D" in d["DJ Hint"]["signature"]["key"]["roots"]
+    for n, v in d.items():
+        if isinstance(v, dict) and n != "DJ Hint" and "signature" in v:
+            c2 = dict(v["signature"].get("chord_source", []))
+            assert not (c2.get("strings") == cs["strings"] and c2.get("bell") == cs["bell"]), n

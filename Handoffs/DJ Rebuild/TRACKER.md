@@ -26,7 +26,7 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | 16 | Mustang | Legend | DJ Mustard | not started |
 | 17 | Swish Beatz | Legend | Swizz Beatz | not started |
 | 18 | Tenth Wonder | Legend | 9th Wonder (soul-chop era) | not started |
-| 19 | DJ Hint | Legend | DJ Clue (the mixtape era) | research PARTIAL 2026-10-23 (redo in Code, see its Code handoff) |
+| 19 | DJ Hint | Legend | DJ Clue (the mixtape era) | settings done 2026-10-23 (not heard; no render; BPM single-source) |
 | 20 | Just Flame | Legend | Just Blaze | not started |
 | 21 | Razor | Legend | RZA | not started |
 | 22 | Hitt Kid | Legend | Hit-Boy | not started |
@@ -42,7 +42,7 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | 32 | Houston Screw | Genre | DJ Screw / chopped and screwed | not started |
 | 33 | Emo Hip Hop | Genre | Lil Peep / XXXTentacion | not started |
 | 34 | Acid Rap Detroit | Genre | Esham — the 1989 Detroit acid rap that fathered horrorcore | not started |
-| 35 | Acid Rap Bright | Genre | the 2013 Acid Rap lineage — bright, jazzy, gospel-leaning | not started |
+| 35 | Acid Rap Bright | Genre | the 2013 Acid Rap lineage — bright, jazzy, gospel-leaning | line done 2026-10-23 (settings not changed, see Code handoff) |
 | 36 | Horror Rap | Genre | Gravediggaz / Brotha Lynch / the horrorcore lane | not started |
 | 37 | Wonky | Genre | the LA beat scene — Flying Lotus, Hudson Mohawke, Rustie (NO | not started |
 | 38 | Trip Hop | Genre | Massive Attack / Portishead / Tricky | not started |
