@@ -19,6 +19,14 @@ entries.
 ---
 
 ## Log
+### [2026-10-23] Bass multisamples downloaded (Growlybass, Fashionbass)
+- Context: G-Funk rolling funk bass; library has ~1 electric bass sample. Owner chose bass now, no whistle/talkbox.
+- Decision/change: Karoryfer Growlybass (Squier Jazz, CC0, 7 notes E2-C5, biggest gap 9 semitones) and Fashionbass (Jazz-style, CC0, 14 notes A0-A4, biggest gap 6) downloaded to /Volumes/TBOTC 3/Sample Packs/BOTC Multisampled Instruments/. Sizes checked: 0 mismatches. READ ME.txt in each.
+- Reasoning: electric bass is the missing sound; CC0, small. Worst stretch is about half the gap.
+- Verify by: wiring is its own session (instrument_sampler / string_sampler model, classifier-reachability-audit), then his ear.
+- Status: open
+- Not done: wiring the bass libraries into the engine.
+- Backing vocals (owner picked "G-Funk-only layer", same day): new tools/backing_vox.py reads Sorted Loops/Vocals, keeps 13 sung female/choir loops with a key and BPM (names with scary/dark/drill/chop/stab etc. out). beat_machine._build_chords lays one loop-length buffer on lane melody1 (rack row: melody), only when signature.backing_vox exists (G-Funk only: p 0.5, under_db -6). Pitch move <=3 semitones, tempo within 25% (time-stretched). p, -6 dB and the 3-semitone cap are Claude's picks, tune by ear. Checked: 11 of 12 variants got the lane at p=1, peak 0.5 of chords. 3 new tests; test_crew + test_beat_machine 144 passed. NOT heard, NOT rendered, full suite not run.
 ### [2026-10-23] G-Funk settings applied (dj-rebuild #2, Code side)
 - Context: Code handoff for the new G-Funk line.
 - Decision/change: genres_config.json G-Funk chord_source = research instruments only: synth 3, piano 3, guitar 1.5, organ 1, strings 1, loop 1; bell/choir/pluck/wood/horns/pad 0; midi 3.267 untouched. Backup genres_config.pre-g-funk-settings-2026-10-23.json. New test test_gfunk_chords_are_research_instruments_only. Bass, tempo, swing, snare, kit unchanged.
@@ -9033,3 +9041,7 @@ just not loaded by default.
 - identity_survival (100 beats): snare backbeat 100, clap sparse 100, hat eighths 54 (rest = groove-library seeds, library.p 0.45). Dead tags crack/clsd/yeah were already there. Not verified: piano stabs + held strings together in one beat (engine picks one chord voice per beat).
 - Tests: 1588 pass, 5 fail. 2 mine, fixed (plain_* `why` named Dilla; listen line named Dre). 3 not mine (guest lane reversefx, panel_sweep import, Night Metro kick variety - kick code, config diff vs 99b48a3 is chord fields only).
 - Status: open - not heard. No render.
+
+### 2026-10-23 Doc Day: groove-library share 0.45 -> 0.2 (owner pick, clickable "Lower seeds")
+- Why: groove seeds replace the hat pattern, so hats-in-eighths held only 54%. Measured after (100 beats): see Doc Day entry; backup legends_config.pre-doc-day-seeds-2026-10-23.json. Side effect: fewer kicks/snares from library seeds. The 0.2 is Claude's pick.
+- Status: open - not heard.

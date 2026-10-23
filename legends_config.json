@@ -498,7 +498,7 @@
   "built": "Dr. Dre",
   "legend": true,
   "legend_swing": 50,
-  "listen": "Dr. Dre's 2001 era (1999-2003), not the G-funk Chronic one: 90-95 BPM, home 94, in a minor key on a one- or two-chord vamp (i to v, iv to i, or one chord held) that repeats all song. Hard, thumping kick with a little deep sub under it; a hard, tight snare that NEVER leaves 2 and 4; closed tight hats in eighths; sparse claps for percussion. The bass follows the kick. Piano usually carries the hook as short staccato stabs (Rhodes counts as piano), with strings held underneath; other sounds can still turn up. Few parts at a time, dry and clean, with hard compression on the drums.",
+  "listen": "The 2001 era (1999-2003), not the G-funk Chronic one: 90-95 BPM, home 94, in a minor key on a one- or two-chord vamp (i to v, iv to i, or one chord held) that repeats all song. Hard, thumping kick with a little deep sub under it; a hard, tight snare that NEVER leaves 2 and 4; closed tight hats in eighths; sparse claps for percussion. The bass follows the kick. Piano usually carries the hook as short staccato stabs (Rhodes counts as piano), with strings held underneath; other sounds can still turn up. Few parts at a time, dry and clean, with hard compression on the drums.",
   "signature": {
    "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dre: dorian, not plain minor — the minor-tonic-to-MAJOR-IV move is the documented dorian tell and 'frequently used in funk'. gfunk_dorian_9 was added for the G-Funk GENRE on 2026-07-24 and proved there (owner: the reweight made it read sunnier); the same lesson applies to Dre, who is where that sound came from. piano added for the live-Rhodes half of his chain.",
    "key": {
@@ -869,7 +869,7 @@
    ]
   ],
   "library": {
-   "p": 0.45,
+   "p": 0.2,
    "tags": [
     [
      "funk",

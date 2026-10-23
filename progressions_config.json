@@ -1625,7 +1625,7 @@
  "plain_minor_ii_v_i": {
   "label": "Plain: Minor ii-V-i, jazz",
   "roman": "iiø7-V7-i7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_minor_ii_v_i, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     2,
@@ -1644,7 +1644,7 @@
  "plain_soul_drift": {
   "label": "Plain: Soul drift",
   "roman": "i7-IV7-bVIImaj7-bIIImaj7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_soul_drift, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1667,7 +1667,7 @@
  "plain_dilla_float": {
   "label": "Plain: Floating, unresolved",
   "roman": "i7-bVImaj7-iv7-V7sus4",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_dilla_float, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1690,7 +1690,7 @@
  "plain_noir_chromatic": {
   "label": "Plain: Noir, sliding down",
   "roman": "i7-vii°7-bvii7-viø7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_noir_chromatic, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1713,7 +1713,7 @@
  "plain_backdoor": {
   "label": "Plain: Backdoor home",
   "roman": "i7-bVII7-bVImaj7-V7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_backdoor, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1736,7 +1736,7 @@
  "plain_neo_soul_cycle": {
   "label": "Plain: Neo-soul cycle",
   "roman": "iv7-bVII7-bIIImaj7-bVImaj7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_neo_soul_cycle, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     5,
@@ -1759,7 +1759,7 @@
  "plain_trap_tension": {
   "label": "Plain: Phrygian tension",
   "roman": "i-bVImaj7-bIImaj7-V7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_trap_tension, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1782,7 +1782,7 @@
  "plain_villain_minor": {
   "label": "Plain: Villain",
   "roman": "i-bVImaj7-iiø7-V7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_villain_minor, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1805,7 +1805,7 @@
  "plain_dark_pedal": {
   "label": "Plain: Dark pedal",
   "roman": "i7-bIImaj7-i7-vii°7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_dark_pedal, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1828,7 +1828,7 @@
  "plain_tritone_sub": {
   "label": "Plain: Tritone sub",
   "roman": "iiø7-bII7-i7-bVImaj7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_tritone_sub, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     2,
@@ -1851,7 +1851,7 @@
  "plain_gospel_minor": {
   "label": "Plain: Gospel minor",
   "roman": "i7-IV7-bIIImaj7-V7sus4",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_gospel_minor, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1874,7 +1874,7 @@
  "plain_dorian_vamp": {
   "label": "Plain: Dorian vamp",
   "roman": "i7-IV7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_dorian_vamp, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1889,7 +1889,7 @@
  "plain_plug_glow": {
   "label": "Plain: Glow",
   "roman": "i-bIII-bVII-bVImaj7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_plug_glow, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1912,7 +1912,7 @@
  "plain_rage_stomp": {
   "label": "Plain: Stomp, tense",
   "roman": "I5-bII-i-#iv°7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_rage_stomp, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1935,7 +1935,7 @@
  "plain_major_ii_v": {
   "label": "Plain: Major ii-V-I",
   "roman": "ii7-V7-Imaj7-vi7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_major_ii_v, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     2,
@@ -1958,7 +1958,7 @@
  "plain_secondary": {
   "label": "Plain: Secondary dominant",
   "roman": "Imaj7-VI7-ii7-V7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_secondary, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -1981,7 +1981,7 @@
  "plain_borrowed_iv": {
   "label": "Plain: Major to minor four",
   "roman": "Imaj7-IVmaj7-iv-I",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_borrowed_iv, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -2004,7 +2004,7 @@
  "plain_lydian_dream": {
   "label": "Plain: Lydian dream",
   "roman": "Imaj7-II-vi7-V7sus4",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_lydian_dream, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -2027,7 +2027,7 @@
  "plain_gospel_walk": {
   "label": "Plain: Gospel walk",
   "roman": "I-III7-vi7-II7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_gospel_walk, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -2050,7 +2050,7 @@
  "plain_mixo_funk": {
   "label": "Plain: Mixolydian funk",
   "roman": "I7-bVII-IV7-I7sus4",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_mixo_funk, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -2073,7 +2073,7 @@
  "plain_bounce_up": {
   "label": "Plain: Bounce up",
   "roman": "I-IV7-V7sus4-vi7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_bounce_up, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -2096,7 +2096,7 @@
  "plain_neo_major": {
   "label": "Plain: Chromatic step down",
   "roman": "IVmaj7-iii7-ii7-bII7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_neo_major, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     5,
@@ -2119,7 +2119,7 @@
  "plain_sunday_turn": {
   "label": "Plain: Sunday turn",
   "roman": "Imaj7-viiø7-III7-vi7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_sunday_turn, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,
@@ -2142,7 +2142,7 @@
  "plain_chip_lift": {
   "label": "Plain: Bright lift",
   "roman": "I-V-vi-IVmaj7",
-  "why": "Jazz-out 2026-10-23: same roots and order as deep_chip_lift, with the extensions stepped down to plain triads and 7ths.",
+  "why": "Jazz-out 2026-10-23: same roots and order as the deep twin, extensions stepped down to plain triads and 7ths.",
   "chords": [
    [
     0,

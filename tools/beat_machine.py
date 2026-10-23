@@ -3417,6 +3417,40 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                                "notes": [list(h) for h in _mhits]}
                 vnotes.append("melody: %d notes on %s"
                               % (len(_mhits), _mname))
+    # BACKING VOCALS (2026-10-23, tools/backing_vox.py; owner: G-Funk-only
+    # layer from the vocal loops already in the bank). Opt-in through
+    # signature["backing_vox"], so only G-Funk has it. One loop-length
+    # buffer on melody1 (rack row: melody), triggered once on bar 1, seated
+    # under the chords. Rebuilt fresh every time, like melody0.
+    old_v = preset["lanes"].pop("melody1", None)
+    kit.pop("melody1", None)
+    _bv = sig.get("backing_vox")
+    if (_bv and committed and (num, den) == (4, 4)
+            and random.Random(variant * 1747 + 31).random()
+            < float(_bv.get("p", 0))):
+        import backing_vox
+        _ve = backing_vox.pick(backing_vox.scan(), key, preset["bpm"],
+                               variant)
+        _vbuf = (backing_vox.render(_ve, key, preset["bpm"], nb * bar_s,
+                                    chord_synth.SR) if _ve else None)
+        if _vbuf is not None:
+            _cpk = max((float(np.max(np.abs(kit[ln]))) for ln in kit
+                        if _CHORD_LANE.match(ln)), default=0.0)
+            if _cpk > 0:
+                # ponytail: peak match, under_db is a guess, tune by ear
+                _vbuf = _vbuf * (10 ** (float(_bv.get("under_db", -6)) / 20)
+                                 * _cpk / float(np.max(np.abs(_vbuf))))
+                _vbars = ["-" * 16 for _ in range(nb)]
+                _vbars[0] = "X" + "-" * 15
+                preset["lanes"]["melody1"] = (
+                    old_v[0] if old_v else -_chord_pan or 0.0,
+                    old_v[1] if old_v else _CHORD_GAIN,
+                    (0, 0, 50, variant), _vbars)
+                kit["melody1"] = _vbuf
+                sources["melody1"] = "%s, backing vocals" % _ve["name"]
+                voice_names["melody1"] = "backing vocals (%s)" % _ve["name"]
+                voice_files["melody1"] = [_ve["path"]]
+                vnotes.append("backing vocals: %s" % _ve["name"])
     if committed:
         vnotes.append("chords: %s in %s (%s) on %s" % (
             prog_name, key, ", ".join(c["chord"] for c in chords),

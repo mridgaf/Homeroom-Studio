@@ -7306,7 +7306,11 @@
     "offbeat": 1.5,
     "push": 1.2
    },
-   "chord_family": "bright_funk"
+   "chord_family": "bright_funk",
+   "backing_vox": {
+    "p": 0.5,
+    "under_db": -6
+   }
   },
   "own_soundbank": true,
   "flavor_match": true,
