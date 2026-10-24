@@ -32,6 +32,12 @@ legend-new-build rebuilt settings to match a description that was itself thin (D
 6. **Anything he must click goes last** in the reply.
 7. Back up before every edit (`<config>.pre-<slug>-<date>.json`). Log it in DECISIONS.md and update TRACKER.md.
 
+## Two sides: Original and Loops (owner, 2026-10-23)
+Research and the listen line are done ONCE per identity and shared by both sides. Settings are built TWICE, at separate times, in separate sessions, from that same line. Tracker has a column for each.
+- **Original side** = MIDI + sound packs (Part 4 below). When the research names a sound the packs lack (strings, orchestral hits, stabs, pads), fill it with real London Symphonic Strings samples, never a machine tone. Already wired: `tools/string_sampler.py` reads `/Volumes/TBOTC 3/Sample Packs/London Symphonic Strings Volume I`; `London Strings Packets` is a curated copy (Violin, Viola, Cello, Basses x pizz/short/sustain/tremolo) with a manifest CSV. List each such gap in the handoff and say which strings voice fills it.
+- **Loops side** = the "loops only" box on Make (`tools/loop_mode.py`, `apply_dj_finish`). Loop material only. Never reaches into the arrangement code (`tests/test_loop_mode_boundary.py` guards it). Say in the handoff which settings that side can actually set.
+- A handoff names its side on line 1. A session builds ONE side of ONE identity. Never change the other side's column. Closed only by his ear, per side.
+
 ---
 
 # Part 2 of 4: the research session (CODE ON THE MAC ONLY, not Cowork, not a cloud session)

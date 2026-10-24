@@ -19,6 +19,13 @@ entries.
 ---
 
 ## Log
+### [2026-10-23] Rebuilds split into Original side and Loops side
+- Context: owner: research and listen lines apply to both the loops side and the original (MIDI + sound packs) side; the two are built at separate times from the same line. Original side should start using London Symphonic Strings to fill sounds the research names but the packs lack.
+- Decision/change: TRACKER.md now has "Original settings" and "Loops settings" columns (old file kept as TRACKER.pre-two-sides-2026-10-23.md; 6 settings-done rows marked Original done, all Loops not started). dj-rebuild skill got a "Two sides" section. Strings folder `/Volumes/TBOTC 3/Sample Packs/London Strings Packets` checked: 322 wavs = 322 manifest rows (Basses 69, Cello 88, Viola 76, Violin 89). `tools/string_sampler.py` already reads the full LSS Vol I.
+- Reasoning: one research, two builds keeps the line honest and the sides from bleeding into each other.
+- Verify by: next rebuild session names its side on line 1 of its handoff and touches only that column.
+- Status: open
+- Not done: where the loops-side settings live (a `loops` block vs separate file) is undecided; no engine or config changes; nothing rendered or committed.
 ### [2026-10-23] Bass multisamples downloaded (Growlybass, Fashionbass)
 - Context: G-Funk rolling funk bass; library has ~1 electric bass sample. Owner chose bass now, no whistle/talkbox.
 - Decision/change: Karoryfer Growlybass (Squier Jazz, CC0, 7 notes E2-C5, biggest gap 9 semitones) and Fashionbass (Jazz-style, CC0, 14 notes A0-A4, biggest gap 6) downloaded to /Volumes/TBOTC 3/Sample Packs/BOTC Multisampled Instruments/. Sizes checked: 0 mismatches. READ ME.txt in each.
@@ -9127,3 +9134,12 @@ just not loaded by default.
 - Done: 21 pages opened, 8 tracks with credits, BPM 83-98 (Mass Appeal 96 and N.Y. State of Mind 84 have 2 sources; the rest SongBPM only). New `listen` + `_research_note` in crew_config.json only (JSON-compared; backup crew_config.pre-cutz-rebuild-2026-10-23.json). Settings NOT changed; the Code handoff holds odds (piano/guitar/loop 50%, midi 2.0), snare offset, 808 share, comp rhythm, key roots.
 - Open: swing (51-54 one blog vs "heavily swung"), ghost snares and the bar 4/8 scratch placement NOT FOUND (carried over). Rolling Stone "15 Songs" blocked (paywall). Also update tools/crew.py default line (368-369). Not heard, not rendered. Status: open.
 - Files: Handoffs/DJ Rebuild/Cutz/
+
+
+## 2026-10-23 | Horror Rap rebuild, line only (dj-rebuild #36, Code on the Mac)
+- Decision: era ASSUMED = 1991-95 horrorcore in three strands (Geto Boys 1991, Gravediggaz 1994, Brotha Lynch Hung 1995). Esham stays Acid Rap Detroit, Three 6 stays Memphis. Owner not asked.
+- Done: 30 pages / 22 publishers, 17 tracks with credits and BPM (Gravediggaz median 92, Geto 94/85, Lynch 69-85), Prince Paul and Scarface in their own words. New `listen` + `_research_note` in genres_config.json only (JSON-compared; backup genres_config.pre-horror-rap-rebuild-2026-10-23.json). Settings NOT changed; Handoffs/DJ Rebuild/Horror Rap/Code handoff.md holds the odds (piano 3 / guitar 2.5 / loop 2 / synth, organ, choir 1; zero for bell, pad, pluck, strings, wood, horns; Claude's picks) and 7 owner picks.
+- Finding: the old note read Entertainment Weekly's "washed in minor chords" as a reverb. It is about chords. No source for a long dark reverb, bells, tape hiss or a hard snare, so those left the line; their settings are untouched (he heard and kept the genre 2026-09-28).
+- Checked: JSON diff shows only listen and _research_note of Horror Rap changed; tests/test_genres.py + test_signature_words.py 303 pass (unsandboxed; the sandbox blocks ~/.reason_voice). Full suite not run (no render asked).
+- Open: swing, drum grid, reverb, chord loops, drum machine/sampler model NOT FOUND; Lynch's drum/bass sound undescribed anywhere; Tape Op, Tunebat, GetSongBPM, Wu-Tang Corp forum, Medium Micro-Chop blocked. BPMs are Spotify reads (songbpm + tunebat share the origin). Not heard, not rendered. Status: open.
+- Files: Handoffs/DJ Rebuild/Horror Rap/
