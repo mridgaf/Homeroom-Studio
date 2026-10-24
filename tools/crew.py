@@ -1870,6 +1870,15 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     _house_clean = OWNER_TASTE.get("clean_renders", False)
     clean = _house_clean and not _dirt              # gates the 808/kick
     clean_mix = _house_clean and _dirt is not True  # gates everything else
+    _glue = p.get("glue", {})
+    if loop_bufs:
+        # owner 2026-10-24: loop beats are FULLY clean for every identity —
+        # allow_dirt (True or "low") and the "effects on" swap are ignored
+        # here. Mood words move only the mix EQ and the glue (loop_vocab).
+        import loop_vocab
+        clean = clean_mix = True
+        eq, _glue = loop_vocab.finish(loop_vocab.identity_words(name, p),
+                                      eq, _glue)
     _grit = grit_lane(p, bufs)
     if not clean and p["kick_dist"] > 0 and _grit in bufs:
         bufs[_grit] = dist808(bufs[_grit], p["kick_dist"])
@@ -2607,7 +2616,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # things"). Keys are glue_compress's own — threshold_db, ratio,
     # env_ms, makeup_db — and anything left out inherits OWNER_TASTE, so
     # a preset with no `glue` key renders exactly as it did before.
-    L, R = glue_compress(L, R, **p.get("glue", {}))
+    L, R = glue_compress(L, R, **_glue)
     # clean master: drive 0.7 keeps the tanh glue essentially linear —
     # tone EQ and mono-bass still apply, saturation effectively doesn't
     _peaks = list((lock or {}).get("master_peaks") or [])

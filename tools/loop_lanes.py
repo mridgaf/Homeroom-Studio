@@ -246,9 +246,10 @@ def _key_ok(e, anchor):
             == mode_family(anchor[1] or "major"))
 
 
-def pick_state(dj_sig, tags, home_bpm, rng):
+def pick_state(dj_sig, tags, home_bpm, rng, groups=None):
     """Initial fill: {lanes: {lane: path}, bpm, same_key, key, fx_bars}.
-    Random, leaning on DJ taste (loop_mode.pick_loop)."""
+    Random, leaning on DJ taste (loop_mode.pick_loop). `groups`: the
+    identity's loop_vocab word groups, joining the exact tags."""
     pools = scan_all()
     lane5 = rng.choice(sorted(LANE5))
     order = ["kick", "leadloop", "bassloop", lane5, "fxloop"]
@@ -265,7 +266,8 @@ def pick_state(dj_sig, tags, home_bpm, rng):
                                           or not rest)) else rest
         if same_key and cat in KEYED:
             pool = [e for e in pool if _key_ok(e, anchor)]
-        scored = loops_scored({"_loops": pool}, tags=tags, bpm=bpm or home_bpm)
+        scored = loops_scored({"_loops": pool}, tags=tags, bpm=bpm or home_bpm,
+                              groups=groups)
         e, _taste = loop_mode.pick_loop(dj_sig, scored, rng)
         if e is None:
             if lane == "kick":

@@ -467,20 +467,27 @@ def scan_packs(roots=None):
     return shots
 
 
-def loops_scored(shots, tags=None, bpm=None):
+def loops_scored(shots, tags=None, bpm=None, groups=None):
     """Scored, non-excluding lookup over the drum-loop pool
     (scan_packs()['_loops']) for the Loops page -- LOOPS-MODE-GAP-ANALYSIS.md
     Part 4 step 1. "_loops" entries carry no key/mode (unlike
     melodic_loops.py's pool), only tags (`tokens`) and `bpm`, so this scores
     on tag/genre-word overlap and bpm closeness instead of key/mode family.
     Every entry is returned; nothing is excluded -- fit_score is lower for a
-    closer fit."""
+    closer fit.
+
+    groups (owner 2026-10-24, loop_vocab): word groups and lead types the
+    identity wants; each one the loop's title/folders reach also counts."""
     pool = shots.get("_loops", [])
     want_tags = {t.lower() for t in (tags or [])}
+    if groups:
+        from loop_vocab import groups_of
     scored = []
     for e in pool:
         toks = set(e.get("tokens") or [])
         tag_score = -len(want_tags & toks)
+        if groups:
+            tag_score -= len(set(groups) & groups_of(toks))
         if bpm is None or e.get("bpm") is None:
             bpm_score = 999.0
         else:

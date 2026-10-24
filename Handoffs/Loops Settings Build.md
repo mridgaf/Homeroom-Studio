@@ -1,6 +1,6 @@
 # Loops side: settings build (from the 2026-10-24 vocabulary rethink)
 
-**Status:** every ruling below is the owner's, made clickable on 2026-10-24. Nothing is built.
+**Status:** BUILT 2026-10-24 (see DECISIONS.md "Loops side settings: built"). Changes from the build: one strongest mood row instead of add-up; swing = jazz in loop titles only; partynextdoor dropped. Nothing rendered.
 Mirror of the entry "Loops-side vocabulary rethink" in DECISIONS.md. House rules: ask clickable
 questions, no guessing, never render unless he asks, tests before beats.
 

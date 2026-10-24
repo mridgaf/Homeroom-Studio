@@ -19,6 +19,14 @@ entries.
 ---
 
 ## Log
+### [2026-10-24] Loops side settings: built (Code, from Handoffs/Loops Settings Build.md)
+- Context: build the owner's 9 loops rulings from the vocabulary rethink.
+- Decision/change: new loops_config.json (word groups, texture words, lead types, mood-to-finish table, glue words) + tools/loop_vocab.py. Picks: listen line + library tags -> groups/lead types -> sample_library.loops_scored(groups=...) via loop_lanes.pick_state (beat_machine._pick_loop_bed; host + collab guests). Finish: crew.render_crew_beat with loop_bufs forces clean + clean_mix (allow_dirt True/"low", fx_stems ignored) and applies ONE mood row's EQ dB + glue ratio. beat_machine "effects on" refuses loop beats ("Loop beats stay clean"). Backups *.pre-loops-settings-2026-10-24.py. New tests/test_loop_vocab.py (5); the clean test FAILS on the old crew.py (checked).
+- Owner rulings this session (clickable): ONE strongest mood row (most distinct matching words, tie = first in listen line) replaces "add up, capped" -- adding pinned 44 of 45 identities at +3 dB bass / tightest glue; "swing" counts as jazz only in loop titles, never in a listen line; partynextdoor DROPPED, wrld kept.
+- Claude's picks (not sourced, not heard): glue very gentle 1.3 / gentle 1.6 / medium 2.2 / tight 3.0 (house 1.8); an identity's own glue ratio (Doc Day 4.0) wins over mood; lead type words (my counts: synth/arp ~530, keys ~350, guitar ~275, horns ~103, strings ~90 -- close to, not equal to, the handoff's). Finish spread now: hip hop 20, electronic 7, trap 4, others 1-3 each.
+- Verify by: his ear, only when he asks for a loops render. Full suite before that render.
+- Status: open
+- Not done: nothing rendered; full suite not run; per-identity "words" blocks in loops_config.json empty (filled by each Loops-side rebuild); artist words below the top 120 still unlisted.
 ### [2026-10-24] Loops-side vocabulary rethink: owner's rulings (questions only, nothing built)
 - Context: handoff Handoffs/Loops Vocabulary Rethink.md. Read-only findings: loops_scored() matches exact filename words only (no SYNONYM_GROUPS, no listen line); apply_dj_finish has no caller found in tools/ (unconfirmed); lead pool is 3689 of 6957 loops; 2348 of lead have no instrument word in the title.
 - Decision/change: (1) loop picks use listen line + library tags. (2) read file name + every folder up to the pack. (3) extend vocabulary with style/genre/era/mood groups drawn from his real loop titles, he rules each pair; drop pack names, key and BPM tags. (4) split lead into keys, guitar, strings, horns, synth/arp, other; untyped loops = other, steered by folder style words, no audio analysis. (5) mood/texture/era words steer the pick AND the DJ finish; he rules each word pair for the finish. (6) artist words mapped: drake = moody rnb/trap, carti = dark trap, playboi = dark trap, juice = melodic emo trap.

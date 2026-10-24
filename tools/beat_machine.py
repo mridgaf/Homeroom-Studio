@@ -3518,6 +3518,7 @@ def _pick_loop_bed(dj_name, preset, variant, state=None, guests=()):
     `guests` are the genres in a loops collab: their library tags join
     the host's, so the loops lean on both."""
     import loop_lanes
+    import loop_vocab
     if state is None:
         # a collab preset carries no library/signature — fall back to the host's
         tags = [t for t, _w in (preset.get("library")
@@ -3525,10 +3526,16 @@ def _pick_loop_bed(dj_name, preset, variant, state=None, guests=()):
         for g in guests:
             tags += [t for t, _w in (CREW[g].get("library") or {}).get("tags", [])
                      if t not in tags]
+        # owner 2026-10-24: listen line + library tags steer, through the
+        # loops vocabulary (loops_config.json), host and guests alike
+        words = loop_vocab.identity_words(dj_name, preset)
+        for g in guests:
+            words += loop_vocab.identity_words(g)
         state = loop_lanes.pick_state(preset.get("signature")
                                       or CREW[dj_name].get("signature") or {}, tags,
                                       preset.get("bpm") or 90,
-                                      random.Random(f"{dj_name}|loops|{variant}"))
+                                      random.Random(f"{dj_name}|loops|{variant}"),
+                                      groups=loop_vocab.groups_of(words))
     bufs = loop_lanes.render_bufs(state, SR)
     note = "loops only, %d bars at %d BPM (drum loop's tempo), %s: %s" % (
         loop_lanes.NBARS, state["bpm"],
@@ -4586,6 +4593,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         raise ValueError("That would remove every drum — keep at least "
                          "one.")
     if fx:
+        if rec.get("loops_only"):           # owner 2026-10-24
+            raise ValueError("Loop beats stay clean — no effects to turn on.")
         if preset.get("allow_dirt") is True:
             raise ValueError("This beat already has its effects on.")
         if not (any(preset.get(k, 0) > 0
