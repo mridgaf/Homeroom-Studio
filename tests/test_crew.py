@@ -429,13 +429,15 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     Detroit: "dirty drums" (Black Milk, XLR8R), "dusty breaks" (Apollo
     Brown), and its own listen line's "grit left in".
     Emo Hip Hop is "low": its listen line's "clipped distorted 808".
-    Horror Rap: "flustered beats, washed in minor chords" (EW on 6 Feet
-    Deep) and its own listen line's "heavy dusty kick" and "tape hiss".
+    Horror Rap: "dusty drums" (Albumism and Time Is Illmatic on 6 Feet
+    Deep) and its own listen line's "cassette grit".
     Houston Screw: "rap records played underwater on an old cassette deck"
     (NYT on DJ Screw, via Wikipedia).
     Memphis: 'a "distorted", lo-fi soundscape' (Wikipedia, Memphis rap).
     Trip Hop: Portishead's "scratchy, jazz-sample-based aesthetic"
     (Wikipedia) and its own listen line's "thick vinyl bed".
+    Chrome Dial is "low" (kick only, owner pick 2026-10-24, dj-rebuild):
+    one source on overloaded tape; kick_dist 2.0 is Claude's number.
 
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
@@ -450,7 +452,7 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
                      "Crunk": "low", "Detroit": True,
                      "Emo Hip Hop": "low", "Horror Rap": True,
                      "Houston Screw": True, "Memphis": True,
-                     "Trip Hop": True}, heard
+                     "Trip Hop": True, "Chrome Dial": "low"}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -572,7 +574,8 @@ def test_808_only_dirt_lands_on_the_808_not_the_kick():
     src = Path(crew.__file__).read_text()
     assert "bufs[_grit] = dist808(bufs[_grit]" in src
     assert {n for n, q in CREW.items() if q.get("allow_dirt") == "low"} \
-        == {"Crunk", "Mustang", "Night Metro", "Emo Hip Hop"}
+        == {"Crunk", "Mustang", "Night Metro", "Emo Hip Hop",
+            "Chrome Dial"}   # Chrome Dial: owner pick 2026-10-24
 
 
 def test_only_night_metro_ships_with_a_breakdown():
@@ -1218,7 +1221,59 @@ def test_acid_rap_bright_chords_are_research_instruments_only():
         if n == "Acid Rap Bright" or not p.get("genre"):
             continue
         cs = dict((p.get("signature") or {}).get("chord_source") or [])
-        assert not zeroed <= {k for k, v in cs.items() if v == 0}, n
+        assert {k for k, v in cs.items() if v == 0} != zeroed, n
+
+
+def test_horror_rap_chords_are_research_instruments_only():
+    """Owner 2026-10-24 (dj-rebuild #36): Horror Rap's sources name piano
+    and guitar sample loops (synth, organ, choir single-source). No source
+    names bell, pad, pluck, strings, wood or horns: zero weight. Its bell
+    lane, kit bell and bell extras are gone too (owner pick). Scoped: no
+    other genre zeroes exactly this set."""
+    p = CREW["Horror Rap"]
+    src = dict(p["signature"]["chord_source"])
+    zeroed = {"bell", "pad", "pluck", "strings", "wood", "horns"}
+    for bad in zeroed:
+        assert src[bad] == 0, bad
+    for good in ("piano", "guitar", "synth", "organ", "choir"):
+        assert src[good] > 0, good
+    assert "bell" not in p["kit"] and "bell" not in p["lanes"]
+    assert not any(e[2] == "bells" for e in p["extras"]["pool"])
+    assert p["space"][0] == "room"
+    for n, q in CREW.items():
+        if n == "Horror Rap" or not q.get("genre"):
+            continue
+        cs = dict((q.get("signature") or {}).get("chord_source") or [])
+        assert {k for k, v in cs.items() if v == 0} != zeroed, n
+
+
+# Owner 2026-10-23/24 (dj-rebuild Code passes): a genre's sound-pack odds
+# are its research instruments only; unnamed instruments carry weight 0.
+RESEARCH_ONLY = {
+    "Crunk": ({"choir", "organ", "pad", "wood"},
+              ("synth", "horns", "strings", "piano", "guitar")),
+    "Chiptune": ({"bell", "choir", "guitar", "horns", "organ", "pad",
+                  "piano", "strings", "wood"}, ("synth", "pluck")),
+    "Baltimore Club": ({"bell", "choir", "guitar", "organ", "pad", "pluck",
+                        "strings", "wood"}, ("horns", "synth", "piano")),
+    "Acid Rap Detroit": ({"organ", "bell", "choir", "horns", "pad", "pluck",
+                          "strings", "wood"}, ("guitar", "synth", "piano")),
+}
+
+
+@pytest.mark.parametrize("name", sorted(RESEARCH_ONLY))
+def test_rebuilt_genre_chords_are_research_instruments_only(name):
+    zeroed, named = RESEARCH_ONLY[name]
+    src = dict(CREW[name]["signature"]["chord_source"])
+    for bad in zeroed:
+        assert src[bad] == 0, bad
+    for good in named:
+        assert src[good] > 0, good
+    for n, q in CREW.items():
+        if n == name or not q.get("genre"):
+            continue
+        cs = dict((q.get("signature") or {}).get("chord_source") or [])
+        assert {k for k, v in cs.items() if v == 0} != zeroed, n
 
 
 def test_gfunk_backing_vox_is_gfunk_only():

@@ -150,8 +150,9 @@ def test_the_two_library_of_congress_djs_are_set_up():
         assert d[n]["own_soundbank"] is True and d[n]["legend"] is True
         assert "Clue" not in d[n]["listen"] and "9th" not in d[n]["listen"]
     assert share["Tenth Wonder"] > 0.5, "main sound"
-    # DJ Hint redone 2026-10-23 (owner picks): LoC folded into the 25% group, about 2% of beats
-    assert 0.005 < share["DJ Hint"] < 0.05, "a small share of beats"
+    # DJ Hint redone 2026-10-23 (owner picks): LoC folded into the 25% group.
+    # 2026-10-24 Original side (owner): midi 75, loops 10, sound packs 15
+    assert 0.09 < share["DJ Hint"] < 0.11, "the Original side's 10% loop share"
 
 
 def test_dj_hint_chord_odds_follow_the_research_and_only_dj_hint_carries_them():
@@ -159,10 +160,13 @@ def test_dj_hint_chord_odds_follow_the_research_and_only_dj_hint_carries_them():
     import json
     d = json.load(open(str(__import__("pathlib").Path(__file__).resolve().parent.parent / "legends_config.json")))
     cs = dict(d["DJ Hint"]["signature"]["chord_source"])
+    # 2026-10-24: the same instrument ratios now live inside the 15%
+    # sound-pack share (the old 75% counted midi + loop: 82.5% of packs)
     named = cs["strings"] + cs["bell"] + cs["pad"]
-    assert abs(named / sum(cs.values()) - 0.75) < 0.01
-    assert cs["midi"] == 0.6
-    assert all(cs[k] < 0.3 for k in cs if k not in ("strings", "bell", "pad", "midi"))
+    packs = sum(v for k, v in cs.items() if k not in ("midi", "loop"))
+    assert abs(named / packs - 0.825) < 0.01
+    assert cs["midi"] == 75
+    assert all(cs[k] < 0.5 for k in cs if k not in ("strings", "bell", "pad", "midi", "loop"))
     assert d["DJ Hint"]["signature"]["tempo"] == [86, 107]
     assert "D" in d["DJ Hint"]["signature"]["key"]["roots"]
     for n, v in d.items():

@@ -950,57 +950,61 @@
    "chord_source": [
     [
      "synth",
-     0.659
+     5.0
     ],
     [
      "horns",
-     0.659
+     2.5
     ],
     [
      "bell",
-     0.659
+     0.625
     ],
     [
      "choir",
-     0.659
+     0
     ],
     [
      "guitar",
-     0.659
+     1.875
     ],
     [
      "organ",
-     0.659
+     0
     ],
     [
      "pad",
-     0.659
+     0
     ],
     [
      "piano",
-     0.659
+     1.875
     ],
     [
      "pluck",
-     0.659
+     0.625
     ],
     [
      "strings",
-     0.659
+     2.5
     ],
     [
      "wood",
-     0.659
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.416
+     75
     ]
    ],
-   "chord_rhythm": "arp",
+   "chord_rhythm": "sustain",
    "chords_default": true,
    "tempo": [
-    140,
+    100,
     160
    ],
    "chord_color": {
@@ -1015,6 +1019,14 @@
     "bounce": 0.7
    },
    "chord_family": "dark"
+  },
+  "chord_grammar": {
+   "figures": [
+    [
+     "stab",
+     1
+    ]
+   ]
   },
   "allow_dirt": "low",
   "own_soundbank": true,
@@ -2590,7 +2602,7 @@
  },
  "Acid Rap Detroit": {
   "num": 27,
-  "bpm": 98,
+  "bpm": 94,
   "era": "genre",
   "built": "Esham — the 1989 Detroit acid rap that fathered horrorcore",
   "genre": true,
@@ -2620,7 +2632,6 @@
      "lofispace",
      "snare [dirty]",
      "grit",
-     "heavy",
      "707",
      "909",
      "80s",
@@ -2734,8 +2745,8 @@
     ]
    ]
   },
-  "dust": 0.85,
-  "vinyl": -40,
+  "dust": 0.425,
+  "vinyl": 0,
   "wow": 0.15,
   "sidechain": 0.1,
   "space": [
@@ -2891,20 +2902,20 @@
    "key": {
     "roots": [
      [
-      "A",
-      2
+      "F#",
+      3
      ],
      [
-      "C",
-      2
-     ],
-     [
-      "D",
+      "G",
       2
      ],
      [
       "E",
       2
+     ],
+     [
+      "A",
+      1
      ]
     ],
     "mode": [
@@ -2983,51 +2994,55 @@
    "chord_source": [
     [
      "guitar",
-     0.764
+     7.5
     ],
     [
      "synth",
-     0.764
+     5.0
     ],
     [
      "organ",
-     0.764
+     0
     ],
     [
      "bell",
-     0.764
+     0
     ],
     [
      "choir",
-     0.764
+     0
     ],
     [
      "horns",
-     0.764
+     0
     ],
     [
      "pad",
-     0.764
+     0
     ],
     [
      "piano",
-     0.764
+     2.5
     ],
     [
      "pluck",
-     0.764
+     0
     ],
     [
      "strings",
-     0.764
+     0
     ],
     [
      "wood",
-     0.764
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.801
+     75
     ]
    ],
    "chord_rhythm": [
@@ -3042,7 +3057,7 @@
    ],
    "chords_default": true,
    "tempo": [
-    92,
+    86,
     104
    ],
    "chord_color": {
@@ -3553,19 +3568,19 @@
    "chord_source": [
     [
      "piano",
-     3
+     4.5
     ],
     [
      "loop",
-     2
+     10
     ],
     [
      "horns",
-     3
+     4.5
     ],
     [
      "guitar",
-     1.5
+     2.25
     ],
     [
      "bell",
@@ -3573,11 +3588,11 @@
     ],
     [
      "choir",
-     0.5
+     0.75
     ],
     [
      "organ",
-     1.5
+     2.25
     ],
     [
      "pad",
@@ -3593,7 +3608,7 @@
     ],
     [
      "synth",
-     0.5
+     0.75
     ],
     [
      "wood",
@@ -3601,7 +3616,7 @@
     ],
     [
      "midi",
-     1.5
+     75
     ]
    ],
    "chord_rhythm": [
@@ -3677,15 +3692,6 @@
     ],
     0.35
    ],
-   "bell": [
-    "perc",
-    null,
-    [
-     "bell",
-     "chime"
-    ],
-    1.2
-   ],
    "stamp": [
     "fx",
     null,
@@ -3758,26 +3764,6 @@
      "x-x-x-x-x-x-x-x-"
     ]
    ],
-   "bell": [
-    0.28,
-    0.26,
-    [
-     0,
-     3,
-     53,
-     2274
-    ],
-    [
-     "----------------",
-     "----------------",
-     "----------------",
-     "--------------x-",
-     "----------------",
-     "----------------",
-     "----------------",
-     "--------------x-"
-    ]
-   ],
    "stamp": [
     -0.32,
     0.4,
@@ -3804,7 +3790,7 @@
   "wow": 0.12,
   "sidechain": 0.12,
   "space": [
-   "washed",
+   "room",
    [
     "snare"
    ]
@@ -3884,22 +3870,6 @@
      ]
     ],
     "open_p": 0.08
-   },
-   "bell": {
-    "modes": [
-     [
-      "answer",
-      0.5
-     ],
-     [
-      "sparse",
-      0.35
-     ],
-     [
-      "offbeats",
-      0.15
-     ]
-    ]
    }
   },
   "kick_flavors": [
@@ -3959,14 +3929,6 @@
       "riser"
      ],
      "cutfx"
-    ],
-    [
-     "perc",
-     [
-      "bell",
-      "chime"
-     ],
-     "bells"
     ],
     [
      "crash",
@@ -4074,62 +4036,62 @@
    "chord_source": [
     [
      "organ",
-     0.7
+     1.765
     ],
     [
      "strings",
-     0.7
+     0
     ],
     [
      "loop",
-     1
+     10
     ],
     [
      "bell",
-     0.7
+     0
     ],
     [
      "choir",
-     0.7
+     1.765
     ],
     [
      "guitar",
-     0.7
+     4.412
     ],
     [
      "horns",
-     0.7
+     0
     ],
     [
      "pad",
-     0.7
+     0
     ],
     [
      "piano",
-     0.7
+     5.294
     ],
     [
      "pluck",
-     0.7
+     0
     ],
     [
      "synth",
-     0.7
+     1.765
     ],
     [
      "wood",
-     0.7
+     0
     ],
     [
      "midi",
-     2.9
+     75
     ]
    ],
    "chord_rhythm": "sustain",
    "chords_default": true,
    "tempo": [
-    81,
-    96
+    70,
+    102
    ],
    "chord_color": {
     "depth": 0.0,
@@ -5443,7 +5405,7 @@
     ],
     "hits": [
      5,
-     6
+     5
     ],
     "double_p": 0.2
    },
@@ -5578,7 +5540,8 @@
      [
       "shaker"
      ],
-     "shakers"
+     "shakers",
+     3
     ],
     [
      "vox",
@@ -5587,7 +5550,8 @@
       "chant",
       "hey"
      ],
-     "vocal chops"
+     "vocal chops",
+     3
     ]
    ]
   },
@@ -5679,55 +5643,55 @@
    "chord_source": [
     [
      "loop",
-     3
+     10
     ],
     [
      "synth",
-     0.65
+     6.0
     ],
     [
      "horns",
-     0.65
+     6.0
     ],
     [
      "bell",
-     0.65
+     0
     ],
     [
      "choir",
-     0.65
+     0
     ],
     [
      "guitar",
-     0.65
+     0
     ],
     [
      "organ",
-     0.65
+     0
     ],
     [
      "pad",
-     0.65
+     0
     ],
     [
      "piano",
-     0.65
+     3.0
     ],
     [
      "pluck",
-     0.65
+     0
     ],
     [
      "strings",
-     0.65
+     0
     ],
     [
      "wood",
-     0.65
+     0
     ],
     [
      "midi",
-     3.383
+     75
     ]
    ],
    "chord_rhythm": "sustain",
@@ -5746,7 +5710,23 @@
     "offbeat": 1.5,
     "push": 1.2
    },
-   "chord_family": "bright_funk"
+   "chord_family": "bright_funk",
+   "bass_grammar": {
+    "figures": [
+     [
+      "kick",
+      4
+     ],
+     [
+      "hold",
+      2
+     ],
+     [
+      "push",
+      1
+     ]
+    ]
+   }
   },
   "kick_min_hits": 5,
   "own_soundbank": true,
@@ -7234,19 +7214,19 @@
    "chord_source": [
     [
      "synth",
-     3
+     4.737
     ],
     [
      "piano",
-     3
+     4.737
     ],
     [
      "organ",
-     1
+     1.579
     ],
     [
      "loop",
-     1
+     10
     ],
     [
      "bell",
@@ -7258,7 +7238,7 @@
     ],
     [
      "guitar",
-     1.5
+     2.368
     ],
     [
      "horns",
@@ -7274,7 +7254,7 @@
     ],
     [
      "strings",
-     1
+     1.579
     ],
     [
      "wood",
@@ -7282,7 +7262,7 @@
     ],
     [
      "midi",
-     3.267
+     75
     ]
    ],
    "chord_rhythm": [
@@ -8972,7 +8952,7 @@
  },
  "Chiptune": {
   "num": 39,
-  "bpm": 126,
+  "bpm": 150,
   "era": "genre",
   "built": "NES / Atari 2600 chip music — square leads, noise drums",
   "genre": true,
@@ -9328,15 +9308,23 @@
       3
      ],
      [
+      "minor",
+      2
+     ],
+     [
       "lydian",
       1
      ],
      [
       "mixolydian",
-      1
+      0.5
      ]
     ]
    },
+   "tempo": [
+    128,
+    180
+   ],
    "progressions": [
     [
      "uplifting",
@@ -9347,16 +9335,8 @@
      3
     ],
     [
-     "dreamy",
-     2
-    ],
-    [
      "vamp_i_VI",
      2
-    ],
-    [
-     "sad_accepting",
-     1
     ],
     [
      "sparkle_add9",
@@ -9364,10 +9344,6 @@
     ],
     [
      "lydian_lift",
-     1.0
-    ],
-    [
-     "gospel_walkup",
      1.0
     ],
     [
@@ -9385,68 +9361,60 @@
     [
      "plain_chip_lift",
      1.2
-    ],
-    [
-     "plain_secondary",
-     1.2
-    ],
-    [
-     "plain_gospel_walk",
-     1.2
-    ],
-    [
-     "plain_dorian_vamp",
-     1.2
     ]
    ],
    "chord_source": [
     [
      "synth",
-     0.182
+     9.975
     ],
     [
      "bell",
-     0.182
+     0
     ],
     [
      "choir",
-     0.182
+     0
     ],
     [
      "guitar",
-     0.182
+     0
     ],
     [
      "horns",
-     0.182
+     0
     ],
     [
      "organ",
-     0.182
+     0
     ],
     [
      "pad",
-     0.182
+     0
     ],
     [
      "piano",
-     0.182
+     0
     ],
     [
      "pluck",
-     0.182
+     5.025
     ],
     [
      "strings",
-     0.182
+     0
     ],
     [
      "wood",
-     0.182
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     0.667
+     75
     ]
    ],
    "chord_rhythm": "arp",

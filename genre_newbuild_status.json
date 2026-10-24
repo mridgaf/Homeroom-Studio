@@ -15,31 +15,31 @@
   "stage": "built",
   "date": "2026-10-23",
   "verdict": "DJ-rebuild settings applied 2026-10-23, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
-  "notes": "2026-10-23 rebuild: chord_source piano 3/horns 3/organ 1.5/guitar 1.5/loop 2/synth .5/choir .5/midi 1.5, bell/pad/pluck/strings/wood 0; bpm 80, tempo 76-85; dorian 1 added; extras p .4. 2026-09-24 build: Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "notes": "2026-10-24: chord odds moved to midi 75 / loop 10 / packs 15 (same ratios). 2026-10-23 rebuild: chord_source piano 3/horns 3/organ 1.5/guitar 1.5/loop 2/synth .5/choir .5/midi 1.5, bell/pad/pluck/strings/wood 0; bpm 80, tempo 76-85; dorian 1 added; extras p .4. 2026-09-24 build: Research build: bpm 88->82 (pocket 78-84), horns + guitar added to chords, juke hat rolls 10%, kit tags fixed to real filenames + own_soundbank on. Stays clean (research and listen line agree). Full sourcing in its _research_note. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Bright NEW BUILD 2026-09-24/. Both new beats played horns (brass stack), one with piano lead. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Acid Rap Detroit": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build (Esham, Boomin' Words From Hell 1989): bpm 92->98 (pocket 92-104, songbpm median 98 over 12 tracks), allow_dirt True (listen line + every source says lo-fi; dust/vinyl/wow had never played), kit tags fixed to real filenames + own_soundbank on (kick lofi/dirt/grit/oldie; snare drum-machine words, plain 'dirt' dropped after it put a clap in the snare slot). Chords, bass, key, swing unchanged. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Detroit NEW BUILD 2026-09-24/. Air -13.7 dB vs old (dirt). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-24 rebuild: chord_source guitar/synth/piano only; bpm 94, tempo 86-104; roots F#/G/E/A; dust halved, vinyl off; snare tag heavy removed. Original rule: midi 75 / loop 10 / packs 15. Research build (Esham, Boomin' Words From Hell 1989): bpm 92->98 (pocket 92-104, songbpm median 98 over 12 tracks), allow_dirt True (listen line + every source says lo-fi; dust/vinyl/wow had never played), kit tags fixed to real filenames + own_soundbank on (kick lofi/dirt/grit/oldie; snare drum-machine words, plain 'dirt' dropped after it put a clap in the snare slot). Chords, bass, key, swing unchanged. Auditioned 2026-09-24 (--structure): ~/Desktop/Homeroom Acid Rap Detroit NEW BUILD 2026-09-24/. Air -13.7 dB vs old (dirt). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Baltimore Club": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build (RBMA 'Sing Sing: A Loop History', Wikipedia, club guide): 808 kick branch 10%->70% (58% measured over 40 beats), kit tags fixed + own_soundbank, shakers + vocal chops extras, horns in chords, allow_dirt True, tempo pocket 125-130, NEW INVARIANT kick_min_hits 5 ('never lets up') held in compose() and at the end of vary_preset, test_baltimore_kick_never_lets_up. Swing 50->54 (owner answer 'Light swing'). Re-rendered with the audition script's new roll_swing (canon lanes came out of compose() at 50, so the swing was inaudible in the first render). Auditioned 2026-09-24 (--structure --kick 808): ~/Desktop/Homeroom Baltimore Club NEW BUILD 2026-09-24/ (808 beats) + '— Two more' (plain kick, horns). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-24 rebuild: chord_source horns/synth/piano only; kick hits 5 only; bass_grammar kick 4/hold 2/push 1; shakers + vocal chops weight 3 in extras. Original rule: midi 75 / loop 10 / packs 15. Research build (RBMA 'Sing Sing: A Loop History', Wikipedia, club guide): 808 kick branch 10%->70% (58% measured over 40 beats), kit tags fixed + own_soundbank, shakers + vocal chops extras, horns in chords, allow_dirt True, tempo pocket 125-130, NEW INVARIANT kick_min_hits 5 ('never lets up') held in compose() and at the end of vary_preset, test_baltimore_kick_never_lets_up. Swing 50->54 (owner answer 'Light swing'). Re-rendered with the audition script's new roll_swing (canon lanes came out of compose() at 50, so the swing was inaudible in the first render). Auditioned 2026-09-24 (--structure --kick 808): ~/Desktop/Homeroom Baltimore Club NEW BUILD 2026-09-24/ (808 beats) + '— Two more' (plain kick, horns). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Chiptune": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build (Ricoh 2A03 Wikipedia, DDRKirby NES write-up, MusicRadar): kit tags to nearest real files + own_soundbank; fx extras 8 bit/game/zap. Owner answers: chord_fallback [bell, pluck] (4 of 16 beats had fallen back to wood/piano/brass; now 16/16 synth or bell); 'Light 12-bit crunch' -> dust 0.25 + allow_dirt True. Chords stay sampled synth (0 chip samples; chip voice is synthesized). Tempo 126 unmeasured. Auditioned: ~/Desktop/Homeroom Chiptune NEW BUILD 2026-09-24/ (air -1.57 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-24 rebuild: chord_source synth/pluck only; bpm 150, tempo 128-180; minor added; 6 gospel/jazz progressions removed; bass kept funky (owner). Original rule: midi 75 / loop 10 / packs 15. Research build (Ricoh 2A03 Wikipedia, DDRKirby NES write-up, MusicRadar): kit tags to nearest real files + own_soundbank; fx extras 8 bit/game/zap. Owner answers: chord_fallback [bell, pluck] (4 of 16 beats had fallen back to wood/piano/brass; now 16/16 synth or bell); 'Light 12-bit crunch' -> dust 0.25 + allow_dirt True. Chords stay sampled synth (0 chip samples; chip voice is synthesized). Tempo 126 unmeasured. Auditioned: ~/Desktop/Homeroom Chiptune NEW BUILD 2026-09-24/ (air -1.57 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Crunk": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build (Wikipedia Crunk, Recording Arts, Turn Down for What, 12 songbpm Lil Jon tempos): kit tags fixed + own_soundbank; allow_dirt 'low' + kick_dist 9.0 (Mustang's measured level); owner answers: 'The 808, all three' -> crew.grit_lane puts 'low' dirt on the 808 lane (Crunk, Mustang, Night Metro); tempo pocket 140-160 (default 140 per listen line). No vocal chops (listen line keeps the room empty). Auditioned (--structure --kick 808): ~/Desktop/Homeroom Crunk NEW BUILD 2026-09-24/. sub +2.2 dB. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (synth lead; choir/organ/pad/wood 0); chord_rhythm stab; tempo 100-160. Original rule: midi 75 / loop 10 / packs 15. Research build (Wikipedia Crunk, Recording Arts, Turn Down for What, 12 songbpm Lil Jon tempos): kit tags fixed + own_soundbank; allow_dirt 'low' + kick_dist 9.0 (Mustang's measured level); owner answers: 'The 808, all three' -> crew.grit_lane puts 'low' dirt on the 808 lane (Crunk, Mustang, Night Metro); tempo pocket 140-160 (default 140 per listen line). No vocal chops (listen line keeps the room empty). Auditioned (--structure --kick 808): ~/Desktop/Homeroom Crunk NEW BUILD 2026-09-24/. sub +2.2 dB. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Detroit": {
   "stage": "confirmed",
@@ -61,10 +61,10 @@
   "prior_stage": "confirmed 2026-09-28"
  },
  "Horror Rap": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Horrorcore/6 Feet Deep; tempos 91/94/92/95/81, median 92): bpm 90->92, pocket 81-96; roots E/Bb/F# lead; library +soul; allow_dirt True; own_soundbank on; dead tags crack (snare) and scream (stamp) removed. Lanes/snare/families untouched. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Horror Rap\" --structure --before genres_config.pre-horror-rap-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (piano/guitar lead; bell/pad/pluck/strings/wood/horns 0); bell lane, kit bell, bell extras removed; snare space washed->room; tempo 70-102. Original rule: midi 75 / loop 10 / packs 15. Research build (Wikipedia Horrorcore/6 Feet Deep; tempos 91/94/92/95/81, median 92): bpm 90->92, pocket 81-96; roots E/Bb/F# lead; library +soul; allow_dirt True; own_soundbank on; dead tags crack (snare) and scream (stamp) removed. Lanes/snare/families untouched. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Horror Rap\" --structure --before genres_config.pre-horror-rap-2026-09-25.json, read stamp first."
  },
  "Houston Screw": {
   "stage": "confirmed",

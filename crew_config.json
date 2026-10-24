@@ -696,7 +696,7 @@
     0.0,
     0.88,
     [
-     0,
+     4,
      1.5,
      53,
      112
@@ -900,7 +900,7 @@
   },
   "kick_flavors": [
    [
-    0.3,
+    0.1,
     "808",
     [
      "punch",
@@ -912,7 +912,7 @@
     ]
    ],
    [
-    0.7,
+    0.9,
     null,
     [
      "punch",
@@ -986,30 +986,30 @@
    "key": {
     "roots": [
      [
-      "C",
+      "Bb",
+      3
+     ],
+     [
+      "F#",
       2
+     ],
+     [
+      "F",
+      1
      ],
      [
       "D",
-      2
+      1
      ],
      [
-      "G",
-      2
-     ],
-     [
-      "A",
+      "C#",
       1
      ]
     ],
     "mode": [
      [
       "minor",
-      3
-     ],
-     [
-      "mixolydian",
-      1
+      4
      ],
      [
       "dorian",
@@ -1017,6 +1017,10 @@
      ]
     ]
    },
+   "tempo": [
+    83,
+    98
+   ],
    "progressions": [
     [
      "vamp_static_riff",
@@ -1082,58 +1086,58 @@
    "chord_source": [
     [
      "horns",
-     0.5
+     0.938
     ],
     [
      "loop",
-     3.5
+     10
     ],
     [
      "bell",
-     0.5
+     0.938
     ],
     [
      "choir",
-     0.5
+     0.938
     ],
     [
      "guitar",
-     0.5
+     2.5
     ],
     [
      "organ",
-     0.5
+     1.25
     ],
     [
      "pad",
-     0.5
+     0.938
     ],
     [
      "piano",
-     0.5
+     3.75
     ],
     [
      "pluck",
-     0.5
+     0.938
     ],
     [
      "strings",
-     0.5
+     0.938
     ],
     [
      "synth",
-     0.5
+     0.938
     ],
     [
      "wood",
-     0.5
+     0.938
     ],
     [
      "midi",
-     3.0
+     75
     ]
    ],
-   "chord_rhythm": "arp",
+   "chord_rhythm": "sustain",
    "chords_default": true,
    "chord_color": {
     "depth": 0.0,
@@ -1146,6 +1150,18 @@
     "long": 0.7
    },
    "chord_family": "grit"
+  },
+  "chord_grammar": {
+   "figures": [
+    [
+     "comp",
+     3
+    ],
+    [
+     "stab",
+     1
+    ]
+   ]
   },
   "backbeat_echo": {
    "note": 0.5,
@@ -1437,35 +1453,35 @@
     "modes": [
      [
       "eighths",
-      0.38
+      0.8
      ],
      [
       "sixteenths",
-      0.16
+      0.052
      ],
      [
       "sparse",
-      0.16
+      0.052
      ],
      [
       "offbeats",
-      0.1
+      0.032
      ],
      [
       "broken",
-      0.08
+      0.026
      ],
      [
       "answer",
-      0.05
+      0.016
      ],
      [
       "gallop",
-      0.04
+      0.013
      ],
      [
       "rolls32",
-      0.03
+      0.01
      ]
     ],
     "open_p": 0.15
@@ -1480,7 +1496,7 @@
   },
   "kick_flavors": [
    [
-    0.47,
+    0.15,
     "808",
     [
      "warm",
@@ -1492,7 +1508,7 @@
     ]
    ],
    [
-    0.53,
+    0.85,
     null,
     [
      "boom",
@@ -1510,14 +1526,6 @@
    "p": 0.72,
    "nmax": 2,
    "pool": [
-    [
-     "perc",
-     [
-      "conga",
-      "bongo"
-     ],
-     "congas2"
-    ],
     [
      "perc",
      [
@@ -1574,10 +1582,6 @@
    "key": {
     "roots": [
      [
-      "F",
-      3
-     ],
-     [
       "Bb",
       2
      ],
@@ -1586,29 +1590,41 @@
       2
      ],
      [
-      "G",
+      "B",
       2
+     ],
+     [
+      "D",
+      1
+     ],
+     [
+      "E",
+      1
+     ],
+     [
+      "F",
+      1
+     ],
+     [
+      "G",
+      1
      ]
     ],
     "mode": [
      [
       "minor",
-      2
+      3
      ],
      [
       "major",
-      1
-     ],
-     [
-      "lydian",
-      1
-     ],
-     [
-      "mixolydian",
-      1
+      2
      ]
     ]
    },
+   "tempo": [
+    87,
+    102
+   ],
    "progressions": [
     [
      "nostalgic_jazz",
@@ -1698,55 +1714,55 @@
    "chord_source": [
     [
      "horns",
-     0.559
+     3.75
     ],
     [
      "loop",
-     4.0
+     10
     ],
     [
      "piano",
-     0.559
+     3.75
     ],
     [
      "bell",
-     0.559
+     0.833
     ],
     [
      "choir",
-     0.559
+     0.833
     ],
     [
      "guitar",
-     0.559
+     0.833
     ],
     [
      "organ",
-     0.559
+     0.833
     ],
     [
      "pad",
-     0.559
+     0.833
     ],
     [
      "pluck",
-     0.559
+     0.833
     ],
     [
      "strings",
-     0.559
+     0.833
     ],
     [
      "synth",
-     0.559
+     0.833
     ],
     [
      "wood",
-     0.559
+     0.833
     ],
     [
      "midi",
-     3.383
+     75
     ]
    ],
    "chord_rhythm": [
@@ -1791,7 +1807,7 @@
  },
  "Chrome Dial": {
   "num": 4,
-  "bpm": 100,
+  "bpm": 90,
   "era": "2000s",
   "built": "Timbaland",
   "listen": "Virginia 1996-2002 bounce: stuttering, sparse syncopation with silence as an instrument — bar 6 drops to almost nothing and answers bar 5; kick lands in odd spots, claps and snares answer; tabla, shaker and conga off-center as the rhythm; a plucked or flute-like lead over a rubbery bass, in minor or phrygian_dominant; clean (the grit is arrangement, not crush); stamp is an exotic perc hit late in bars 4/8",
@@ -1817,6 +1833,15 @@
      "clap"
     ],
     1.0
+   ],
+   "hat": [
+    "hat",
+    null,
+    [
+     "closed",
+     "tight"
+    ],
+    0.4
    ],
    "perc": [
     "perc",
@@ -1887,6 +1912,26 @@
      "----X-----------",
      "----X-------X---",
      "----X-------X---"
+    ]
+   ],
+   "hat": [
+    0.12,
+    0.26,
+    [
+     0,
+     1,
+     50,
+     136
+    ],
+    [
+     "--x-----x---x---",
+     "--x-----x---x---",
+     "--x-----x---x---",
+     "--x-----x---x---",
+     "--x-----x---x---",
+     "--x-----x---x---",
+     "--x-----x---x---",
+     "--x-----x---x---"
     ]
    ],
    "perc": [
@@ -1962,7 +2007,8 @@
   ],
   "alt": null,
   "drive": 1.45,
-  "kick_dist": 0.0,
+  "kick_dist": 2.0,
+  "allow_dirt": "low",
   "mix_sat": 0.0,
   "grammar": {
    "kick": {
@@ -2047,6 +2093,23 @@
      14,
      15
     ]
+   },
+   "hat": {
+    "modes": [
+     [
+      "sparse",
+      0.5
+     ],
+     [
+      "broken",
+      0.35
+     ],
+     [
+      "offbeats",
+      0.15
+     ]
+    ],
+    "open_p": 0.03
    },
    "snap": {
     "modes": [
@@ -2136,11 +2199,24 @@
     [
      "fx",
      [
-      "zap",
-      "laser",
-      "glitch"
+      "screech",
+      "car"
      ],
-     "blips"
+     "screech"
+    ],
+    [
+     "vox",
+     [
+      "baby"
+     ],
+     "babyvox"
+    ],
+    [
+     "perc",
+     [
+      "animals"
+     ],
+     "animals"
     ],
     [
      "rim",
@@ -2205,7 +2281,15 @@
       2
      ],
      [
-      "C",
+      "G#",
+      2
+     ],
+     [
+      "C#",
+      1
+     ],
+     [
+      "B",
       1
      ]
     ],
@@ -2215,15 +2299,19 @@
       3
      ],
      [
-      "lydian",
+      "phrygian_dominant",
       1
      ],
      [
-      "mixolydian",
+      "phrygian",
       1
      ]
     ]
    },
+   "tempo": [
+    78,
+    95
+   ],
    "progressions": [
     [
      "vamp_static_riff",
@@ -2289,51 +2377,55 @@
    "chord_source": [
     [
      "wood",
-     0.659
+     1.5
     ],
     [
      "synth",
-     0.659
+     1.5
     ],
     [
      "bell",
-     0.659
+     1.25
     ],
     [
      "choir",
-     0.659
+     1.25
     ],
     [
      "guitar",
-     0.659
+     1.5
     ],
     [
      "horns",
-     0.659
+     1.25
     ],
     [
      "organ",
-     0.659
+     1.25
     ],
     [
      "pad",
-     0.659
+     1.25
     ],
     [
      "piano",
-     0.659
+     1.25
     ],
     [
      "pluck",
-     0.659
+     1.5
     ],
     [
      "strings",
-     0.659
+     1.5
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.416
+     75
     ]
    ],
    "chord_rhythm": [
@@ -2357,7 +2449,27 @@
     "push": 1.5,
     "long": 0.7
    },
-   "chord_family": "grit"
+   "chord_family": "grit",
+   "bass_grammar": {
+    "figures": [
+     [
+      "kick",
+      3
+     ],
+     [
+      "push",
+      2
+     ],
+     [
+      "funk",
+      2
+     ],
+     [
+      "hold",
+      1
+     ]
+    ]
+   }
   },
   "backbeat_echo": {
    "note": 0.5,

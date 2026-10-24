@@ -116,6 +116,30 @@ def midi_groups(index, notes, rng):
     primary = rng.choice(cands)
     return (primary,) + tuple(g for g in MIDI_FALLBACK if g != primary)
 
+
+# MIDI VOICE FLOW (owner 2026-10-24): an Original beat's MIDI notes play on
+# the identity's OWN researched instruments, never bell or pluck. `allowed`
+# = [(groups, weight), ...], one row per chord_source word. Returns () when
+# none of them can reach every note -- the caller puts the phrase on the
+# London strings then.
+MIDI_NEVER = ("bell", "pluck")
+
+
+def midi_groups_for(index, notes, rng, allowed):
+    rows = [(tuple(g for g in gs if g not in MIDI_NEVER), w)
+            for gs, w in allowed if w > 0]
+    rows = [(gs, w) for gs, w in rows if gs]
+    fits = [(gs, w) for gs, w in rows if covers(index, notes, gs)]
+    if not fits:
+        return ()
+    r = rng.random() * sum(w for _, w in fits)
+    for gs, w in fits:
+        r -= w
+        if r <= 0:
+            break
+    rest = [g for g2, _ in rows for g in g2 if g not in gs]
+    return tuple(dict.fromkeys(gs + tuple(rest)))
+
 # A signature's `chord_source` word -> the group(s) it may draw from, best
 # first. "synth" stays a valid identity word (9 of the 12 legends are
 # built on it) but now means SAMPLED synth/pluck/pad material out of his

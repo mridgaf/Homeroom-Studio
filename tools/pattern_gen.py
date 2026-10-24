@@ -1542,7 +1542,14 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
     if rng.random() < ex["p"]:
         n_extra = rng.randint(1, ex["nmax"])
     pool = [tuple(e) for e in ex["pool"]]
-    rng.shuffle(pool)
+    if any(len(e) > 3 for e in pool):
+        # optional 4th item = weight (Baltimore Club 2026-10-24): heavier
+        # entries come up first more often. Pools without one shuffle as
+        # they always did, so no other identity's draw changes.
+        pool.sort(key=lambda e: -rng.random() ** (1.0 / (e[3] if len(e) > 3 else 1)))
+        pool = [e[:3] for e in pool]
+    else:
+        rng.shuffle(pool)
     swing = max(ln[2][2] for ln in preset["lanes"].values())
     for role, wants, lname in pool[:n_extra]:
         if lname in preset["lanes"]:

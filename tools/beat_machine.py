@@ -1587,6 +1587,10 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # doubled on a second instrument (sometimes a L/R pair), and a bass that
     # can play the chords' own rhythm. New beats only.
     preset.setdefault("band_flow", 1)
+    # MIDI VOICE FLOW (2026-10-24, owner): MIDI notes play on the identity's
+    # own researched instruments, never bell/pluck, London strings for the
+    # gaps (see _build_chords). New beats only.
+    preset.setdefault("midi_voice_flow", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2421,8 +2425,46 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 m_pool[:chord_synth.MIDI_PICK_TOP])
             midi_prog = chord_synth.midi_progression(m_pick, key)
             midi_pick_name = m_pick["name"]
+    # every non-strings, non-loop voice is now a SAMPLED instrument out of
+    # his own banks (owner 2026-07-23) — "synth" included, so this index is
+    # needed for essentially every signature, not just the horn one.
+    import instrument_sampler
+    import multisample
+    # one note-by-note instrument, articulation and layer per group for
+    # this whole beat (owner 2026-09-24; see multisample.one_per_beat)
+    inst_idx = multisample.one_per_beat(instrument_sampler.scan(),
+                                        random.Random(variant * 983 + 41))
+    # ONE instrument for the whole MIDI phrase (owner 2026-09-19): piano,
+    # organ, guitar, bell or the synth family, chosen once per beat from
+    # whichever can cover the phrase's notes.
+    midi_group_order = None
+    midi_gap = False
+    if midi_prog and inst_idx:
+        _mnotes = sorted({n for _, _, ns in midi_prog for n in ns})
+        _mrng = random.Random(variant * 971 + 13)
+        if preset.get("midi_voice_flow"):
+            # MIDI VOICE FLOW (owner 2026-10-24): the identity's own
+            # researched instruments, never bell or pluck; a free beat
+            # keeps every MIDI voice but those two. Nothing of his that
+            # reaches the notes -> the London strings play them.
+            if free or not pref:
+                _allow = [((g,), 1) for g in instrument_sampler.MIDI_VOICES]
+            else:
+                _allow = [(instrument_sampler.VOICES[s[0]], s[1])
+                          for s in pref if s[0] in instrument_sampler.VOICES
+                          and s[0] != "chip"]
+            midi_group_order = instrument_sampler.midi_groups_for(
+                inst_idx, _mnotes, _mrng, _allow)
+            if not midi_group_order:
+                midi_gap = True
+                midi_group_order = tuple(dict.fromkeys(
+                    g for gs, w in _allow if w > 0 for g in gs
+                    if g not in instrument_sampler.MIDI_NEVER)) or ("synth", "pad")
+        else:
+            midi_group_order = instrument_sampler.midi_groups(
+                inst_idx, _mnotes, _mrng)
     strings_idx = None
-    if voice == "strings" or free or (
+    if voice == "strings" or free or midi_gap or (
             pref and any(s[0] == "strings" for s in pref)):
         import string_sampler
         s_all = string_sampler.scan()
@@ -2444,23 +2486,6 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             allow_basses = not _holds_low_end(preset)
         strings_idx = string_sampler.beat_pool(s_all, s_style, s_mic,
                                                basses=allow_basses)
-    # every non-strings, non-loop voice is now a SAMPLED instrument out of
-    # his own banks (owner 2026-07-23) — "synth" included, so this index is
-    # needed for essentially every signature, not just the horn one.
-    import instrument_sampler
-    import multisample
-    # one note-by-note instrument, articulation and layer per group for
-    # this whole beat (owner 2026-09-24; see multisample.one_per_beat)
-    inst_idx = multisample.one_per_beat(instrument_sampler.scan(),
-                                        random.Random(variant * 983 + 41))
-    # ONE instrument for the whole MIDI phrase (owner 2026-09-19): piano,
-    # organ, guitar, bell or the synth family, chosen once per beat from
-    # whichever can cover the phrase's notes.
-    midi_group_order = None
-    if midi_prog and inst_idx:
-        midi_group_order = instrument_sampler.midi_groups(
-            inst_idx, sorted({n for _, _, ns in midi_prog for n in ns}),
-            random.Random(variant * 971 + 13))
     # A MIDI phrase may instead be voiced on the London strings — exact note,
     # no pitch shift (owner rule) — rather than the sampled instrument family.
     # One choice for the WHOLE phrase (one instrument per lane, same as
@@ -2468,9 +2493,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # and to any identity whose chord_source already asks for strings; never
     # forced on an identity that doesn't. Owner 2026-09-20.
     midi_on_strings = bool(
-        midi_prog and strings_idx and (
+        midi_prog and strings_idx and (midi_gap or ((
             free or (pref and any(s[0] == "strings" for s in pref)))
-        and random.Random(variant * 733 + 51).random() < 0.5)
+            and random.Random(variant * 733 + 51).random() < 0.5)))
     # ---- the owner's own pick, made to actually land (2026-08-04) ----
     # Picking "guitar" on the rack used to change nothing: nearest() shops
     # per NOTE across the whole group, so a 3-note chord pulled its notes

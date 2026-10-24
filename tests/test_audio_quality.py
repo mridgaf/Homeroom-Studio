@@ -678,10 +678,10 @@ def test_no_backbeat_lane_peaks_over_the_kick():
 
 # ------------------------------------------- "washed" (owner 2026-09-02)
 
-@pytest.mark.parametrize("name", ["Houston Screw", "Emo Hip Hop",
-                                  "Horror Rap", "Plug"])
+# Horror Rap left 2026-10-24: owner picked "room" (no source backs washed)
+@pytest.mark.parametrize("name", ["Houston Screw", "Emo Hip Hop", "Plug"])
 def test_a_washed_preset_gets_a_real_wet_space(name):
-    """Four genre presets declare space=("washed", ...) and no reverb branch
+    """Four (now three) genre presets declare space=("washed", ...) and no reverb branch
     implemented that word, so the string fell through to the "dry" path.
     beat_machine LOCKS a genre to its declared space, so these four never had
     any space treatment on any beat — 24 shipped recipes rolled it — while

@@ -272,7 +272,14 @@ def _op_chord_voice(p, name, rng):
     src = sig.get("chord_source")
     if not isinstance(src, list) or len(src) < 2:
         return None
-    ws = _transfer([float(s[1]) for s in src], *rng.sample(range(len(src)), 2),
+    # midi and loop shares are house rules on the Original side (owner
+    # 2026-10-24: midi 75, loop 10), so only the sound packs drift -- and
+    # never onto a sound its research zeroed
+    can = [k for k, s in enumerate(src)
+           if s[0] not in ("midi", "loop") and s[1] > 0]
+    if len(can) < 2:
+        return None
+    ws = _transfer([float(s[1]) for s in src], *rng.sample(can, 2),
                    amount=rng.choice((0.5, 1.0)))
     d = [_delta(p, ["signature", "chord_source", k, 1], w)
          for k, w in enumerate(ws) if w != src[k][1]]

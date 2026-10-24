@@ -29,7 +29,8 @@ def _arp_share(name, flow):
 
 
 def test_arp_flow_caps_every_identity_at_15_percent():
-    assert _arp_share("Cutz", False) > 0.45          # was 50%
+    # Cutz was the example until 2026-10-24 (rebuilt to comp/stab)
+    assert _arp_share("Glass Cat", False) > 0.45     # was 50%
     for name in CREW:
         q = normalize_preset(json.loads(json.dumps(CREW[name])))
         q.update(chord_flow=1, arp_flow=1)
