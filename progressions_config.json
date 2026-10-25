@@ -2161,5 +2161,1109 @@
     "maj7"
    ]
   ]
+ },
+ "soul_Imaj7_iii7_vi7_ii7": {
+  "label": "Slow descent home",
+  "roman": "Imaj7-iii7-vi7-ii7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    4,
+    "min7"
+   ],
+   [
+    9,
+    "min7"
+   ],
+   [
+    2,
+    "min7"
+   ]
+  ]
+ },
+ "soul_ii7_V7_Imaj7_VI7": {
+  "label": "Turn and return",
+  "roman": "ii7-V7-Imaj7-VI7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    2,
+    "min7"
+   ],
+   [
+    7,
+    "dom7"
+   ],
+   [
+    0,
+    "maj7"
+   ],
+   [
+    9,
+    "dom7"
+   ]
+  ]
+ },
+ "soul_Imaj7_bIIImaj7_IVmaj7_iv": {
+  "label": "Sunlight to shade",
+  "roman": "Imaj7-bIIImaj7-IVmaj7-iv",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    3,
+    "maj7"
+   ],
+   [
+    5,
+    "maj7"
+   ],
+   [
+    5,
+    "minor"
+   ]
+  ]
+ },
+ "soul_vi7_ii7_V7_Imaj7": {
+  "label": "Circle home",
+  "roman": "vi7-ii7-V7-Imaj7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    9,
+    "min7"
+   ],
+   [
+    2,
+    "min7"
+   ],
+   [
+    7,
+    "dom7"
+   ],
+   [
+    0,
+    "maj7"
+   ]
+  ]
+ },
+ "soul_i7_bVImaj7_iv7_V7": {
+  "label": "Minor lift and lean",
+  "roman": "i7-bVImaj7-iv7-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "min7"
+   ],
+   [
+    8,
+    "maj7"
+   ],
+   [
+    5,
+    "min7"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "soul_Imaj7_IV": {
+  "label": "Two-chord sway",
+  "roman": "Imaj7-IV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    5,
+    "major"
+   ]
+  ]
+ },
+ "soul_i7_bVII": {
+  "label": "Two-chord minor sway",
+  "roman": "i7-bVII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "min7"
+   ],
+   [
+    10,
+    "major"
+   ]
+  ]
+ },
+ "soul_iii7_vi7_ii7_V7": {
+  "label": "Long way round",
+  "roman": "iii7-vi7-ii7-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    4,
+    "min7"
+   ],
+   [
+    9,
+    "min7"
+   ],
+   [
+    2,
+    "min7"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "soul_Imaj7_sharpIVdim_ii7_V7": {
+  "label": "Passing shadow",
+  "roman": "Imaj7-#ivdim-ii7-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    6,
+    "dim"
+   ],
+   [
+    2,
+    "min7"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "soul_i_bIII_bVII_IV": {
+  "label": "Minor to major lift",
+  "roman": "i-bIII-bVII-IV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    3,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ]
+  ]
+ },
+ "soul_i_iv_bIII_bVI": {
+  "label": "Falling minor four",
+  "roman": "i-iv-bIII-bVI",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    3,
+    "major"
+   ],
+   [
+    8,
+    "major"
+   ]
+  ]
+ },
+ "soul_IV_iii_ii_I": {
+  "label": "Stairs down",
+  "roman": "IVmaj7-iii7-ii7-Imaj7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    5,
+    "maj7"
+   ],
+   [
+    4,
+    "min7"
+   ],
+   [
+    2,
+    "min7"
+   ],
+   [
+    0,
+    "maj7"
+   ]
+  ]
+ },
+ "soul_I_vi_IV_V": {
+  "label": "Fifties turn",
+  "roman": "I-vi-IV-V",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    9,
+    "minor"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    7,
+    "major"
+   ]
+  ]
+ },
+ "soul_vi_IV_I_V": {
+  "label": "Radio four, minor start",
+  "roman": "vi-IV-I-V",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    9,
+    "minor"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    0,
+    "major"
+   ],
+   [
+    7,
+    "major"
+   ]
+  ]
+ },
+ "soul_I_IV_vi_V": {
+  "label": "Open air",
+  "roman": "I-IV-vi-V",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    9,
+    "minor"
+   ],
+   [
+    7,
+    "major"
+   ]
+  ]
+ },
+ "soul_Imaj7_bVIImaj7_IVmaj7": {
+  "label": "Stacked sevenths",
+  "roman": "Imaj7-bVIImaj7-IVmaj7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    10,
+    "maj7"
+   ],
+   [
+    5,
+    "maj7"
+   ]
+  ]
+ },
+ "dark_i_bII_i_bVII": {
+  "label": "Phrygian press",
+  "roman": "i-bII-i-bVII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    1,
+    "major"
+   ],
+   [
+    0,
+    "minor"
+   ],
+   [
+    10,
+    "major"
+   ]
+  ]
+ },
+ "dark_i_bVI_iv_V": {
+  "label": "Dark and resolve",
+  "roman": "i-bVI-iv-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    8,
+    "major"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "dark_i_v_bVI_iv": {
+  "label": "Minor circle",
+  "roman": "i-v-bVI-iv",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    7,
+    "minor"
+   ],
+   [
+    8,
+    "major"
+   ],
+   [
+    5,
+    "minor"
+   ]
+  ]
+ },
+ "dark_i_iv_i_V": {
+  "label": "Plain minor blues",
+  "roman": "i-iv-i-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    0,
+    "minor"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "dark_i_bIII_iv_bII": {
+  "label": "Minor with a sting",
+  "roman": "i-bIII-iv-bII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    3,
+    "major"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    1,
+    "major"
+   ]
+  ]
+ },
+ "dark_i_bVI_bVII_i": {
+  "label": "Minor return",
+  "roman": "i-bVI-bVII-i",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    8,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    0,
+    "minor"
+   ]
+  ]
+ },
+ "dark_i_iidim_i_V": {
+  "label": "Dim step",
+  "roman": "i-iidim-i-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    2,
+    "dim"
+   ],
+   [
+    0,
+    "minor"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "dark_i_bV": {
+  "label": "Two-chord tritone",
+  "roman": "i-bV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    6,
+    "major"
+   ]
+  ]
+ },
+ "dark_i_iv_bVII_bIII": {
+  "label": "Minor rock",
+  "roman": "i-iv-bVII-bIII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    3,
+    "major"
+   ]
+  ]
+ },
+ "dark_i_bVII_iv_i": {
+  "label": "Minor round trip",
+  "roman": "i-bVII-iv-i",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    0,
+    "minor"
+   ]
+  ]
+ },
+ "dark_i_v_iv_bIII": {
+  "label": "Minor staircase",
+  "roman": "i-v-iv-bIII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    7,
+    "minor"
+   ],
+   [
+    5,
+    "minor"
+   ],
+   [
+    3,
+    "major"
+   ]
+  ]
+ },
+ "dark_i_bVI_bII_V": {
+  "label": "Neapolitan swerve",
+  "roman": "i-bVI-bII-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    8,
+    "major"
+   ],
+   [
+    1,
+    "major"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "dark_power_i_bIII_IV_bVII": {
+  "label": "Power chords up",
+  "roman": "i5-bIII5-IV5-bVII5",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "5"
+   ],
+   [
+    3,
+    "5"
+   ],
+   [
+    5,
+    "5"
+   ],
+   [
+    10,
+    "5"
+   ]
+  ]
+ },
+ "dark_power_i_bVII_bVI_bVII": {
+  "label": "Power chords rocking",
+  "roman": "i5-bVII5-bVI5-bVII5",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "5"
+   ],
+   [
+    10,
+    "5"
+   ],
+   [
+    8,
+    "5"
+   ],
+   [
+    10,
+    "5"
+   ]
+  ]
+ },
+ "dark_pedal_i_sus4": {
+  "label": "Pedal and sus",
+  "roman": "i-isus4-i-bVII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    0,
+    "sus4"
+   ],
+   [
+    0,
+    "minor"
+   ],
+   [
+    10,
+    "major"
+   ]
+  ]
+ },
+ "bright_I_II_IV_I": {
+  "label": "Bright climb",
+  "roman": "I-II-IV-I",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    2,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    0,
+    "major"
+   ]
+  ]
+ },
+ "bright_Iadd9_vi7_IVmaj7_Vsus": {
+  "label": "Sunny hang",
+  "roman": "Iadd9-vi7-IVmaj7-Vsus4",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "add9"
+   ],
+   [
+    9,
+    "min7"
+   ],
+   [
+    5,
+    "maj7"
+   ],
+   [
+    7,
+    "sus4"
+   ]
+  ]
+ },
+ "bright_Isus2_IV_vi": {
+  "label": "Open fifth lift",
+  "roman": "Isus2-IV-vi",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "sus2"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    9,
+    "minor"
+   ]
+  ]
+ },
+ "bright_Imaj9_iii7_IVmaj7_Vsus": {
+  "label": "Glassy hang",
+  "roman": "Imaj9-iii7-IVmaj7-Vsus4",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj9"
+   ],
+   [
+    4,
+    "min7"
+   ],
+   [
+    5,
+    "maj7"
+   ],
+   [
+    7,
+    "sus4"
+   ]
+  ]
+ },
+ "bright_IV_V_iii_vi": {
+  "label": "Royal road",
+  "roman": "IV-V-iii-vi",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    5,
+    "major"
+   ],
+   [
+    7,
+    "major"
+   ],
+   [
+    4,
+    "minor"
+   ],
+   [
+    9,
+    "minor"
+   ]
+  ]
+ },
+ "bright_Imaj7_bVImaj7": {
+  "label": "Two-chord drift",
+  "roman": "Imaj7-bVImaj7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    8,
+    "maj7"
+   ]
+  ]
+ },
+ "bright_I_III": {
+  "label": "Chromatic mediant",
+  "roman": "I-III",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    4,
+    "major"
+   ]
+  ]
+ },
+ "bright_Iadd9_bIII_IV": {
+  "label": "Borrowed brightness",
+  "roman": "Iadd9-bIII-IV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "add9"
+   ],
+   [
+    3,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ]
+  ]
+ },
+ "bright_IVmaj7_Imaj7": {
+  "label": "Plagal glow",
+  "roman": "IVmaj7-Imaj7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    5,
+    "maj7"
+   ],
+   [
+    0,
+    "maj7"
+   ]
+  ]
+ },
+ "bright_Imaj7_vi7_ii7_Vsus": {
+  "label": "Hanging turnaround",
+  "roman": "Imaj7-vi7-ii7-Vsus4",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    9,
+    "min7"
+   ],
+   [
+    2,
+    "min7"
+   ],
+   [
+    7,
+    "sus4"
+   ]
+  ]
+ },
+ "bright_Isus4_I_IVadd9_I": {
+  "label": "Resolve and rest",
+  "roman": "Isus4-I-IVadd9-I",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "sus4"
+   ],
+   [
+    0,
+    "major"
+   ],
+   [
+    5,
+    "add9"
+   ],
+   [
+    0,
+    "major"
+   ]
+  ]
+ },
+ "bright_Imaj7_iii_IV_iii": {
+  "label": "Gentle rock",
+  "roman": "Imaj7-iii-IV-iii",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "maj7"
+   ],
+   [
+    4,
+    "minor"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    4,
+    "minor"
+   ]
+  ]
+ },
+ "bright_sus_pulse": {
+  "label": "Sus pulse",
+  "roman": "Isus2-Vsus4-IVsus2-Vsus4",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "sus2"
+   ],
+   [
+    7,
+    "sus4"
+   ],
+   [
+    5,
+    "sus2"
+   ],
+   [
+    7,
+    "sus4"
+   ]
+  ]
+ },
+ "club_i_bIII": {
+  "label": "Club minor two",
+  "roman": "i-bIII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    3,
+    "major"
+   ]
+  ]
+ },
+ "club_i_bIII_i_bVII": {
+  "label": "Club cycle",
+  "roman": "i-bIII-i-bVII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    3,
+    "major"
+   ],
+   [
+    0,
+    "minor"
+   ],
+   [
+    10,
+    "major"
+   ]
+  ]
+ },
+ "club_I_bVII_IV": {
+  "label": "Mixolydian three",
+  "roman": "I-bVII-IV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ]
+  ]
+ },
+ "club_I_bVII_bVI_bVII": {
+  "label": "Major rocker",
+  "roman": "I-bVII-bVI-bVII",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    8,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ]
+  ]
+ },
+ "club_I_bIII_bVII_IV": {
+  "label": "Borrowed four",
+  "roman": "I-bIII-bVII-IV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    3,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ]
+  ]
+ },
+ "club_i7_vamp": {
+  "label": "One-chord vamp",
+  "roman": "i7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "min7"
+   ]
+  ]
+ },
+ "club_i_V": {
+  "label": "Minor to dominant",
+  "roman": "i-V7",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "minor"
+   ],
+   [
+    7,
+    "dom7"
+   ]
+  ]
+ },
+ "club_I_IV_bVII_IV": {
+  "label": "Mixolydian swing",
+  "roman": "I-IV-bVII-IV",
+  "why": "More-families pass 2026-10-24: a common progression written as data, same roots in any key.",
+  "chords": [
+   [
+    0,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ],
+   [
+    10,
+    "major"
+   ],
+   [
+    5,
+    "major"
+   ]
+  ]
  }
 }

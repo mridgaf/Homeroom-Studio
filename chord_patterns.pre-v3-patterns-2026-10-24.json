@@ -1,0 +1,1999 @@
+{
+ "_readme": "Chord rhythm library. To add a pattern: copy any entry, change name/tags/bars. Each bar is 16 characters, one per 16th note: X accent, x normal, o soft re-attack, . ghost, - rest. 'hold' = how long each hit rings, in 16ths (1.6 is the old short stab). Keep hits at least 2 steps apart. Entries can have 1-4 bars; the engine mixes two entries across a slot. Used only by beats made after 2026-10-11 (chord_flow beats); older beats rebuild exactly as they were. A DJ can favor tags with 'pattern_tags': {\"bounce\": 3} in its chord_grammar. Entries with \"v\": 2 (added 2026-10-19) are only used by beats stamped chord_lib 2, so beats made before that rebuild exactly as they were.",
+ "patterns": [
+  {
+   "name": "held and answer",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8,
+   "bars": [
+    "X-------x-------",
+    "X-----------x---"
+   ]
+  },
+  {
+   "name": "two chord sigh",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8,
+   "bars": [
+    "X---------------",
+    "--------x-------"
+   ]
+  },
+  {
+   "name": "late land",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 7,
+   "bars": [
+    "--x-----X-------",
+    "X-------------x-"
+   ]
+  },
+  {
+   "name": "call and response",
+   "tags": [
+    "sparse",
+    "push"
+   ],
+   "hold": 6,
+   "bars": [
+    "X-----x---------",
+    "----------x-----"
+   ]
+  },
+  {
+   "name": "push in",
+   "tags": [
+    "sparse",
+    "push"
+   ],
+   "hold": 6,
+   "bars": [
+    "------x-X-------",
+    "X-----x---------"
+   ]
+  },
+  {
+   "name": "slow swell",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 8,
+   "bars": [
+    "X-------o-------",
+    "X---o-----------"
+   ]
+  },
+  {
+   "name": "the ands",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3,
+   "bars": [
+    "--x---x---x---x-",
+    "--x---x---x-----"
+   ]
+  },
+  {
+   "name": "skank",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3,
+   "bars": [
+    "----x-------x---",
+    "----x-------x-x-"
+   ]
+  },
+  {
+   "name": "lazy offbeat",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "bars": [
+    "------x-----x---",
+    "--x-----x-------"
+   ]
+  },
+  {
+   "name": "charleston",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "X-----x---------",
+    "X-----x---X-----"
+   ]
+  },
+  {
+   "name": "tresillo",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "X-----x-----X---",
+    "X-----x---------"
+   ]
+  },
+  {
+   "name": "boom bap bounce",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2,
+   "bars": [
+    "X--.--x---x-----",
+    "X-----x--.--x---"
+   ]
+  },
+  {
+   "name": "dragged",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "bars": [
+    "X-----o-x-o-----",
+    "X-----o---x-o---"
+   ]
+  },
+  {
+   "name": "tight stabs",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X---x---X---x---",
+    "X---x-----x-x---"
+   ]
+  },
+  {
+   "name": "march",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.8,
+   "bars": [
+    "X---X---X---X---",
+    "X---X---X-------"
+   ]
+  },
+  {
+   "name": "anticipation",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2,
+   "bars": [
+    "X-----x-----x-x-",
+    "X---------x-x---"
+   ]
+  },
+  {
+   "name": "busy sync",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X--x--x---x--x--",
+    "X-----x--x--x---"
+   ]
+  },
+  {
+   "name": "ghost comp",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X-.-x-.---x-.---",
+    "X---x-.-x-----.-"
+   ]
+  },
+  {
+   "name": "one and three",
+   "tags": [
+    "sparse",
+    "stab"
+   ],
+   "hold": 3,
+   "bars": [
+    "X-------X-------",
+    "X-----------x---"
+   ]
+  },
+  {
+   "name": "off the four",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "X-----x-------x-",
+    "X---x-----x-----"
+   ]
+  },
+  {
+   "name": "breath in",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8,
+   "bars": [
+    "X---------------",
+    "----X-----------"
+   ]
+  },
+  {
+   "name": "wide pair",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8,
+   "bars": [
+    "X-----------x---",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "three long",
+   "tags": [
+    "long"
+   ],
+   "hold": 7,
+   "bars": [
+    "X-----x-----x---",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "late sigh",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 7,
+   "bars": [
+    "------x-X-------",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "rolling hold",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 8,
+   "bars": [
+    "X---o---X---o---",
+    "X-------o-------"
+   ]
+  },
+  {
+   "name": "swell and fade",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 8,
+   "bars": [
+    "X-----o---------",
+    "X---o---o-------"
+   ]
+  },
+  {
+   "name": "half bar chord",
+   "tags": [
+    "long"
+   ],
+   "hold": 8,
+   "bars": [
+    "X-------X-------",
+    "X-------------x-"
+   ]
+  },
+  {
+   "name": "tail grab",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "bars": [
+    "X---------------",
+    "----------x-x---"
+   ]
+  },
+  {
+   "name": "two and four",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "bars": [
+    "----x-------x---",
+    "----x-----------"
+   ]
+  },
+  {
+   "name": "sixteenth skip",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3,
+   "bars": [
+    "--x---x-----x---",
+    "----x---x-x-----"
+   ]
+  },
+  {
+   "name": "backbeat chord",
+   "tags": [
+    "offbeat",
+    "stab"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "----X-------X---",
+    "----X-----x-X---"
+   ]
+  },
+  {
+   "name": "the and of three",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "bars": [
+    "--x-----x-x-----",
+    "X-x---x---------"
+   ]
+  },
+  {
+   "name": "reggae lift",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "--x---x---x---x-",
+    "--x---x-----x-x-"
+   ]
+  },
+  {
+   "name": "upstroke",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "--x---x-x-----x-",
+    "--x-----x---x---"
+   ]
+  },
+  {
+   "name": "lazy two",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "bars": [
+    "------x---------",
+    "----x-------x---"
+   ]
+  },
+  {
+   "name": "swung bounce",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2,
+   "bars": [
+    "X--.--x-----x---",
+    "X-----x--.--x---"
+   ]
+  },
+  {
+   "name": "dotted",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "X-----x-----x---",
+    "X--x-----x------"
+   ]
+  },
+  {
+   "name": "hop",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2,
+   "bars": [
+    "X---x-----x-x---",
+    "X-----x---x-----"
+   ]
+  },
+  {
+   "name": "two step",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "X-----x-x-------",
+    "X---x-----x-----"
+   ]
+  },
+  {
+   "name": "skip beat",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "bars": [
+    "X-----x-----x-x-",
+    "X---------x-x---"
+   ]
+  },
+  {
+   "name": "boom chord",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2,
+   "bars": [
+    "X-.---x---.-x---",
+    "X---.-x-----.-x-"
+   ]
+  },
+  {
+   "name": "push pull",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "bars": [
+    "X-x-----X---x---",
+    "X-----x-----x---"
+   ]
+  },
+  {
+   "name": "stutter",
+   "tags": [
+    "stab",
+    "busy"
+   ],
+   "hold": 1.5,
+   "bars": [
+    "X-x-x-----x-----",
+    "X---x-x---x-x---"
+   ]
+  },
+  {
+   "name": "quick pair",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X-x-------X-x---",
+    "X-x-----x-------"
+   ]
+  },
+  {
+   "name": "hard downs",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.8,
+   "bars": [
+    "X-------X-x-----",
+    "X---X-------x---"
+   ]
+  },
+  {
+   "name": "stab and rest",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 1.8,
+   "bars": [
+    "X-------x-------",
+    "X---------x-----"
+   ]
+  },
+  {
+   "name": "triplet feel",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X--x--x---x--x--",
+    "X--x-----x--x---"
+   ]
+  },
+  {
+   "name": "fanfare",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2,
+   "bars": [
+    "X---X---X-x-----",
+    "X---X-x---x-----"
+   ]
+  },
+  {
+   "name": "clipped",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.4,
+   "bars": [
+    "X---x---X---x-x-",
+    "X-x---x---X-----"
+   ]
+  },
+  {
+   "name": "three hit",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 1.8,
+   "bars": [
+    "X-----x-----x---",
+    "X-----------x---"
+   ]
+  },
+  {
+   "name": "busy offbeat",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "x-x---x-x---x-x-",
+    "X---x-x---x-x---"
+   ]
+  },
+  {
+   "name": "ghost ladder",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X-.-.-x-.-x-----",
+    "X---.-x-.---x-.-"
+   ]
+  },
+  {
+   "name": "chatter",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.5,
+   "bars": [
+    "X-x-x-x---x-x---",
+    "X---x-x-x-----x-"
+   ]
+  },
+  {
+   "name": "tight sync",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X--x--x--x--x---",
+    "X--x-----x--x-x-"
+   ]
+  },
+  {
+   "name": "quiet comp",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "bars": [
+    "X-.---.-x---.---",
+    "X---.---x-.---.-"
+   ]
+  },
+  {
+   "name": "answer back",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5,
+   "bars": [
+    "X-----x---------",
+    "------x---x-----"
+   ]
+  },
+  {
+   "name": "drag in",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 3,
+   "bars": [
+    "--x---X-----x---",
+    "X-----x---x-----"
+   ]
+  },
+  {
+   "name": "anticipate four",
+   "tags": [
+    "push"
+   ],
+   "hold": 3,
+   "bars": [
+    "X---------x-x---",
+    "X-----x-----x-x-"
+   ]
+  },
+  {
+   "name": "late hit",
+   "tags": [
+    "push",
+    "long"
+   ],
+   "hold": 5,
+   "bars": [
+    "----------x-X---",
+    "X-----x---------"
+   ]
+  },
+  {
+   "name": "pre-bar",
+   "tags": [
+    "push",
+    "stab"
+   ],
+   "hold": 2,
+   "bars": [
+    "X-----x-----x-x-",
+    "--x-----X-----x-"
+   ]
+  },
+  {
+   "name": "slow roll",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "bars": [
+    "X-----o-----o---",
+    "X---------o-----"
+   ]
+  },
+  {
+   "name": "held then bounce",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "bars": [
+    "X-------x---x---",
+    "X-----x---------"
+   ]
+  },
+  {
+   "name": "mid hold",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "bars": [
+    "--x-----X-------",
+    "----x-----------"
+   ]
+  },
+  {
+   "name": "golden nod",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.5,
+   "v": 2,
+   "bars": [
+    "------x---x-----",
+    "------------X---"
+   ]
+  },
+  {
+   "name": "sideways echo",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.5,
+   "v": 2,
+   "bars": [
+    "X-------x---x---",
+    "--x-----------x-"
+   ]
+  },
+  {
+   "name": "dusty stall",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "X---------------",
+    "--x-------------"
+   ]
+  },
+  {
+   "name": "sunday lilt",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8.0,
+   "v": 2,
+   "bars": [
+    "X-----x-----x---",
+    "----------x---x-"
+   ]
+  },
+  {
+   "name": "golden pulse",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "X-x-------------",
+    "--x-------------"
+   ]
+  },
+  {
+   "name": "smoky drift",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "X-------x-------",
+    "------------X---"
+   ]
+  },
+  {
+   "name": "faded creep",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 2,
+   "bars": [
+    "X-x-------x-----",
+    "------x-------x-"
+   ]
+  },
+  {
+   "name": "faded nod",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.5,
+   "v": 2,
+   "bars": [
+    "X---------------",
+    "----x-----------"
+   ]
+  },
+  {
+   "name": "narrow tilt",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 2,
+   "bars": [
+    "X-x-----------x-",
+    "------x---------"
+   ]
+  },
+  {
+   "name": "copper lilt",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 2,
+   "bars": [
+    "X-x-----------x-",
+    "--------x-------"
+   ]
+  },
+  {
+   "name": "loose stumble",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.5,
+   "v": 2,
+   "bars": [
+    "X-x-x-----------",
+    "X-x-------------"
+   ]
+  },
+  {
+   "name": "neon rush",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "--x-x-----------",
+    "------x---------"
+   ]
+  },
+  {
+   "name": "neon rattle",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "------x-----X---",
+    "--------x---o---"
+   ]
+  },
+  {
+   "name": "wandering float",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.5,
+   "v": 2,
+   "bars": [
+    "X---------x-----",
+    "------------o---"
+   ]
+  },
+  {
+   "name": "sleepy settle",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "X-------o---x---",
+    "----o---------o-"
+   ]
+  },
+  {
+   "name": "borrowed nod",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.5,
+   "v": 2,
+   "bars": [
+    "X-o-------------",
+    "------------X---"
+   ]
+  },
+  {
+   "name": "slow tumble",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "--------o-------",
+    "--------------o-"
+   ]
+  },
+  {
+   "name": "slow swing",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.0,
+   "v": 2,
+   "bars": [
+    "X-o-X-----------",
+    "o---------------"
+   ]
+  },
+  {
+   "name": "neon slide",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "X-------------x-",
+    "--x---------x---"
+   ]
+  },
+  {
+   "name": "hazy creep",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 3.0,
+   "v": 2,
+   "bars": [
+    "X---------------",
+    "--------X-x---x-"
+   ]
+  },
+  {
+   "name": "back porch push",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 4.5,
+   "v": 2,
+   "bars": [
+    "X-----------X---",
+    "--------X-x-----"
+   ]
+  },
+  {
+   "name": "borrowed rush",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5.5,
+   "v": 2,
+   "bars": [
+    "X-x-------x-----",
+    "------------x---"
+   ]
+  },
+  {
+   "name": "stubborn bend",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5.0,
+   "v": 2,
+   "bars": [
+    "X---------x-x---",
+    "X-------------x-"
+   ]
+  },
+  {
+   "name": "borrowed pull",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 3.5,
+   "v": 2,
+   "bars": [
+    "X-x---------x---",
+    "----------x-----"
+   ]
+  },
+  {
+   "name": "back porch rush",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5.5,
+   "v": 2,
+   "bars": [
+    "X-----x-X-x-----",
+    "------------X---"
+   ]
+  },
+  {
+   "name": "loose tumble",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 2,
+   "bars": [
+    "X---------x---x-",
+    "------------X---"
+   ]
+  },
+  {
+   "name": "crooked rattle",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "X-----x---------",
+    "--------------x-"
+   ]
+  },
+  {
+   "name": "rainy turn",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 4.5,
+   "v": 2,
+   "bars": [
+    "X-x-----x---x---",
+    "--x-------------"
+   ]
+  },
+  {
+   "name": "wandering settle",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 3.5,
+   "v": 2,
+   "bars": [
+    "------x---------",
+    "--x---x-----X---"
+   ]
+  },
+  {
+   "name": "rainy wave",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 4.5,
+   "v": 2,
+   "bars": [
+    "X-----x-x-------",
+    "--------x-----x-"
+   ]
+  },
+  {
+   "name": "lazy tap",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.6,
+   "v": 2,
+   "bars": [
+    "X-----x-------x-",
+    "x-x-------------"
+   ]
+  },
+  {
+   "name": "narrow stumble",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 2,
+   "bars": [
+    "X-x-------x-----",
+    "--------------x-"
+   ]
+  },
+  {
+   "name": "rainy rattle",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 2,
+   "bars": [
+    "--x-------x-----",
+    "------x---x---x-"
+   ]
+  },
+  {
+   "name": "faded knock",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.6,
+   "v": 2,
+   "bars": [
+    "X---------x-----",
+    "--------x-----x-"
+   ]
+  },
+  {
+   "name": "smoky breath",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.6,
+   "v": 2,
+   "bars": [
+    "X-----x-------x-",
+    "x---------x-----"
+   ]
+  },
+  {
+   "name": "slow float",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 2,
+   "bars": [
+    "X-----x-x-------",
+    "------x---x-----"
+   ]
+  },
+  {
+   "name": "gentle wave",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.3,
+   "v": 2,
+   "bars": [
+    "---x----x-------",
+    "--x-----x---x-x-"
+   ]
+  },
+  {
+   "name": "wandering lilt",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 2,
+   "bars": [
+    "X-----x---x-----",
+    "--x---x-x-----x-"
+   ]
+  },
+  {
+   "name": "midnight hop",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.4,
+   "v": 2,
+   "bars": [
+    "---x------x-x---",
+    "x-----------x-x-"
+   ]
+  },
+  {
+   "name": "wobbly tilt",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.3,
+   "v": 2,
+   "bars": [
+    "X------x------x-",
+    "-------x----x---"
+   ]
+  },
+  {
+   "name": "slow push",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.4,
+   "v": 2,
+   "bars": [
+    "X--x--x---------",
+    "--x-------x-----"
+   ]
+  },
+  {
+   "name": "loose hover",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 3.0,
+   "v": 2,
+   "bars": [
+    "X-------x-x-----",
+    "---x----x-x-X---"
+   ]
+  },
+  {
+   "name": "sideways glide",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 2,
+   "bars": [
+    "X--x----X-----x-",
+    "x--x---x--------"
+   ]
+  },
+  {
+   "name": "back porch drift",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.8,
+   "v": 2,
+   "bars": [
+    "X------x----x---",
+    "------x-------x-"
+   ]
+  },
+  {
+   "name": "slow lilt",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.2,
+   "v": 2,
+   "bars": [
+    "X-----x---------",
+    "x---------x-----"
+   ]
+  },
+  {
+   "name": "slow rush",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.3,
+   "v": 2,
+   "bars": [
+    "X-----x---------",
+    "X-----x---x-----"
+   ]
+  },
+  {
+   "name": "brass nod",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 2,
+   "bars": [
+    "--x----x----x---",
+    "-------x----x---"
+   ]
+  },
+  {
+   "name": "rusty swing",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.9,
+   "v": 2,
+   "bars": [
+    "X--x--------x---",
+    "X-------x---X---"
+   ]
+  },
+  {
+   "name": "golden step",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.2,
+   "v": 2,
+   "bars": [
+    "--x-----x---x---",
+    "---x--------X-x-"
+   ]
+  },
+  {
+   "name": "dusty lilt",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.9,
+   "v": 2,
+   "bars": [
+    "X-----x---x-X-x-",
+    "------x---------"
+   ]
+  },
+  {
+   "name": "faded stumble",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.8,
+   "v": 2,
+   "bars": [
+    "X-x-----------x-",
+    "x-x---x-x-------"
+   ]
+  },
+  {
+   "name": "golden lilt",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.8,
+   "v": 2,
+   "bars": [
+    "X---------x---x-",
+    "----x-----x-X---"
+   ]
+  },
+  {
+   "name": "crooked pulse",
+   "tags": [
+    "stab"
+   ],
+   "hold": 2.0,
+   "v": 2,
+   "bars": [
+    "X-x-----x-x-----",
+    "--x---x-X---X---"
+   ]
+  },
+  {
+   "name": "sideways skip",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.9,
+   "v": 2,
+   "bars": [
+    "X-----x---x-x---",
+    "------x-------x-"
+   ]
+  },
+  {
+   "name": "wandering rush",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.9,
+   "v": 2,
+   "bars": [
+    "X---X---X-------",
+    "X---X-x---------"
+   ]
+  },
+  {
+   "name": "borrowed dip",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.7,
+   "v": 2,
+   "bars": [
+    "X---x---------x-",
+    "----------x-x---"
+   ]
+  },
+  {
+   "name": "hazy hover",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.4,
+   "v": 2,
+   "bars": [
+    "X-------X-x-----",
+    "x-x---------x-x-"
+   ]
+  },
+  {
+   "name": "stubborn hop",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.7,
+   "v": 2,
+   "bars": [
+    "X-------x---X---",
+    "----x-----x-X-x-"
+   ]
+  },
+  {
+   "name": "low light drift",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.6,
+   "v": 2,
+   "bars": [
+    "X-x---x-----x---",
+    "----x-----x-----"
+   ]
+  },
+  {
+   "name": "rusty rush",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.9,
+   "v": 2,
+   "bars": [
+    "X-x-----------x-",
+    "--------X---x---"
+   ]
+  },
+  {
+   "name": "smoky tilt",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 1.7,
+   "v": 2,
+   "bars": [
+    "X---------x-----",
+    "----x-----x-----"
+   ]
+  },
+  {
+   "name": "low light nod",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 1.8,
+   "v": 2,
+   "bars": [
+    "X-------X-------",
+    "--------x-------"
+   ]
+  },
+  {
+   "name": "wandering rattle",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 2.2,
+   "v": 2,
+   "bars": [
+    "X---------------",
+    "----x-----x-X---"
+   ]
+  },
+  {
+   "name": "hazy hop",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 2.9,
+   "v": 2,
+   "bars": [
+    "X---x-------X---",
+    "----------x-----"
+   ]
+  },
+  {
+   "name": "hazy slide",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "---x------x-x---",
+    "------------X---"
+   ]
+  },
+  {
+   "name": "paper tumble",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 2.5,
+   "v": 2,
+   "bars": [
+    "--x-----------x-",
+    "---x---x--------"
+   ]
+  },
+  {
+   "name": "soft float",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3.5,
+   "v": 2,
+   "bars": [
+    "---x------x-----",
+    "----X-x----x--x-"
+   ]
+  },
+  {
+   "name": "paper tilt",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3.5,
+   "v": 2,
+   "bars": [
+    "------------X-x-",
+    "--x----x--x-----"
+   ]
+  },
+  {
+   "name": "late night push",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3.0,
+   "v": 2,
+   "bars": [
+    "----x--x--------",
+    "--x-----------x-"
+   ]
+  },
+  {
+   "name": "amber pull",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3.0,
+   "v": 2,
+   "bars": [
+    "------x----x----",
+    "--x---------X---"
+   ]
+  },
+  {
+   "name": "faded sway",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 2.5,
+   "v": 2,
+   "bars": [
+    "----x-x---x-----",
+    "----X-----------"
+   ]
+  },
+  {
+   "name": "soft roll",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "------x-------x-",
+    "---x--x----x----"
+   ]
+  },
+  {
+   "name": "loose skip",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "--x-X-------X---",
+    "--x-x-----------"
+   ]
+  },
+  {
+   "name": "midnight sway",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "----x-x---------",
+    "---x------------"
+   ]
+  },
+  {
+   "name": "slow sway",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "----x-----------",
+    "-------x---x----"
+   ]
+  },
+  {
+   "name": "borrowed push",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "-------x--x-x---",
+    "---x---x------x-"
+   ]
+  },
+  {
+   "name": "loose settle",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3.0,
+   "v": 2,
+   "bars": [
+    "--x-------------",
+    "--x-------x---x-"
+   ]
+  },
+  {
+   "name": "gentle pulse",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "--x-------------",
+    "-------x----x---"
+   ]
+  },
+  {
+   "name": "stubborn tap",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 3.5,
+   "v": 2,
+   "bars": [
+    "----------x-----",
+    "------x---------"
+   ]
+  },
+  {
+   "name": "golden swing",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "--x-------------",
+    "------------x-x-"
+   ]
+  },
+  {
+   "name": "velvet turn",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4.0,
+   "v": 2,
+   "bars": [
+    "------x---------",
+    "------------x---"
+   ]
+  },
+  {
+   "name": "corner store rush",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 3.5,
+   "v": 2,
+   "bars": [
+    "--x-------------",
+    "------------X-x-"
+   ]
+  },
+  {
+   "name": "loose bend",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.4,
+   "v": 2,
+   "bars": [
+    "X-------x--x----",
+    "X-----x---x---x-"
+   ]
+  },
+  {
+   "name": "crooked shuffle",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.4,
+   "v": 2,
+   "bars": [
+    "----------x---x-",
+    "----x-x-X-----x-"
+   ]
+  },
+  {
+   "name": "narrow lean",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.5,
+   "v": 2,
+   "bars": [
+    "X-----------x---",
+    "x-x-----x-x-x-x-"
+   ]
+  },
+  {
+   "name": "rusty pulse",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 2,
+   "bars": [
+    "X---------x-----",
+    "x--x--x---x-x---"
+   ]
+  },
+  {
+   "name": "copper swing",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 2,
+   "bars": [
+    "X-x---x---x-----",
+    "--x-x---X---x-x-"
+   ]
+  },
+  {
+   "name": "back porch fold",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 2,
+   "bars": [
+    "X-x-x---x--x--x-",
+    "------------x---"
+   ]
+  },
+  {
+   "name": "amber shuffle",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.5,
+   "v": 2,
+   "bars": [
+    "------x-----x-x-",
+    "----X-x-x---X-x-"
+   ]
+  },
+  {
+   "name": "loose turn",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.8,
+   "v": 2,
+   "bars": [
+    "X-----x-x---x---",
+    "X--x----------x-"
+   ]
+  },
+  {
+   "name": "smoky creep",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "v": 2,
+   "bars": [
+    "X---x-x-X-------",
+    "x--x----------x-"
+   ]
+  },
+  {
+   "name": "amber lilt",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.7,
+   "v": 2,
+   "bars": [
+    "X-----------X-x-",
+    "----X-----x-X---"
+   ]
+  },
+  {
+   "name": "crooked tumble",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.1,
+   "v": 2,
+   "bars": [
+    "X-----.-x-x-x---",
+    "--.-----x-----.-"
+   ]
+  },
+  {
+   "name": "sunday drift",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.1,
+   "v": 2,
+   "bars": [
+    "X--.--.---x-----",
+    "x---x-----------"
+   ]
+  },
+  {
+   "name": "corner store lean",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.3,
+   "v": 2,
+   "bars": [
+    "X---x-.---------",
+    "----x-----x---.-"
+   ]
+  },
+  {
+   "name": "tipsy tilt",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.4,
+   "v": 2,
+   "bars": [
+    "X--.--.---.-----",
+    "x-.-x---x---x---"
+   ]
+  },
+  {
+   "name": "amber swing",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "v": 2,
+   "bars": [
+    "X-.-x-x---------",
+    "----------x-x-.-"
+   ]
+  },
+  {
+   "name": "tipsy rattle",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.5,
+   "v": 2,
+   "bars": [
+    "X-------------x-",
+    "x--.--.-x-x-x-.-"
+   ]
+  },
+  {
+   "name": "crooked skip",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.5,
+   "v": 2,
+   "bars": [
+    "X--x--x-------.-",
+    "--.---x---x-x---"
+   ]
+  },
+  {
+   "name": "corner store tap",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.5,
+   "v": 2,
+   "bars": [
+    "X-.-------.-----",
+    "----x-.-x---x-.-"
+   ]
+  }
+ ]
+}

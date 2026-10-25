@@ -1250,7 +1250,13 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         # form roll (owner call 2026-07-21): half the beats are the loop
         # heard straight through, half the A/B answer form. Only an
         # 8-bar loop is long enough to hold an answer.
-        form = 4 if (nbars < 8 or rng.random() < 0.5) else 8
+        # NO A/B ANSWER FORM (owner 2026-10-24: "remove the rule where the
+        # beat switches from A to B"). Every beat is the loop heard straight
+        # through. The old coin flip is still drawn so the rest of the dice
+        # stream (and every other lane) rolls exactly as before.
+        if nbars >= 8:
+            rng.random()
+        form = 4
         notes.append("%d-bar %s" % (nbars, "loop" if form == 4 else "A/B"))
 
         # groove-library seed (2026-07-17, wired in with the variety

@@ -1552,7 +1552,8 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     import harmony
     preset.setdefault("chord_flow", harmony.FLOW_VERSION)
     # CHORD PATTERNS v2 (2026-10-19): the 100 added rhythms; older beats keep 63
-    preset.setdefault("chord_lib", 2)
+    # v3 (2026-10-24): 150 more; beats stamped 2 keep the 163 they were made with
+    preset.setdefault("chord_lib", 3)
     # BASS GROOVE (2026-10-19): same deal -- new beats play a bass figure
     # (tools/bass_rhythm.py), a rebuild of an older beat keeps its held root.
     import bass_rhythm

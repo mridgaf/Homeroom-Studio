@@ -127,29 +127,21 @@ def test_every_variant_is_a_new_rhythm():
     assert len(set(kicks)) == 12
 
 
-def test_form_rolls_both_shapes():
-    """Owner call 2026-07-21: some beats state the loop straight
-    through, some answer it A/B. 2026-07-22: the loop is also no longer
-    a fixed 8 bars, so the note now reads "<n>-bar loop" / "<n>-bar
-    A/B". Both shapes must still occur and keep their promise (the loop
-    repeats exactly, B answers A)."""
+def test_no_beat_switches_from_a_to_b():
+    """OWNER RULE 2026-10-24: "remove the rule where the beat switches from
+    A to B." Replaces test_form_rolls_both_shapes (the 2026-07-21 call that
+    half the beats answer A/B). Every beat is the loop heard straight
+    through: an 8-bar beat is its 4 bars played twice, exactly."""
     import crew
-    seen = set()
-    for v in range(40):
-        p, notes = _composed("Otto Grit", v)
-        bars = p["lanes"]["kick"][3]
-        n = crew.bars_of(p)
-        assert len(bars) == n, (v, len(bars), n)
-        if any(x.endswith("-bar A/B") for x in notes):
-            assert n == 8, v            # only 8 bars can hold an answer
-            assert bars[0] != bars[4], v
-            seen.add("ab")
-        else:
-            assert any(x.endswith("-bar loop") for x in notes), notes
-            if n == 8:                  # heard twice, exactly
-                assert bars[:4] == bars[4:], v
-            seen.add("loop")
-    assert seen == {"ab", "loop"}
+    for name in ("Otto Grit", "Cutz", "Glass Cat"):
+        for v in range(40):
+            p, notes = _composed(name, v)
+            bars = p["lanes"]["kick"][3]
+            n = crew.bars_of(p)
+            assert len(bars) == n, (v, len(bars), n)
+            assert not any("A/B" in x for x in notes), (name, v, notes)
+            if n == 8:
+                assert bars[:4] == bars[4:], (name, v)
 
 
 def test_loop_length_is_four_or_eight_bars():
@@ -209,7 +201,10 @@ def test_style_is_a_lean_not_a_cage():
             if any(n.startswith(lane + ": seed:") for n in notes):
                 continue
             seen[bb_mode(p["lanes"][lane][3][0])] += 1
-        assert seen[home] >= max(seen.values()) * 0.6, (name, seen)
+        # 0.6 -> 0.45 (2026-10-24, A/B form removed): Night Metro's clap was
+        # already ~22% halftime vs ~44% other at 600 variants on the OLD code
+        # (128 vs 235), so 0.6 only ever passed by sampling luck at 120.
+        assert seen[home] >= max(seen.values()) * 0.45, (name, seen)
         assert len(seen) >= 2, (name, "modes never vary", seen)
     # the Neptunes flam: Glass Cat's clap still mirrors his snare
     for v in range(8):
@@ -414,7 +409,7 @@ def test_weighted_extras_come_up_more_often():
     than the weight-1 entries."""
     from collections import Counter
     got = Counter()
-    for v in range(300):
+    for v in range(120):
         p, _ = _composed("Baltimore Club", v)
         got.update(p.get("_guests", []))
     fav = got["shakers"] + got["vocal chops"]

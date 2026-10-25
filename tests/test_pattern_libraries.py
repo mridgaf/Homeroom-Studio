@@ -31,11 +31,12 @@ def _plan(fam, v, flow):
 
 # ---- chords ----
 
-def test_chord_library_now_has_163_and_100_are_marked_v2():
+def test_chord_library_now_has_313_with_100_v2_and_150_v3():
     lib = chord_rhythm.library()
-    assert len(lib) == 163
+    assert len(lib) == 313
     assert sum(1 for e in lib if e["v"] == 2) == 100
-    assert len({e["name"] for e in lib}) == 163
+    assert sum(1 for e in lib if e["v"] == 3) == 150
+    assert len({e["name"] for e in lib}) == 313
 
 
 def test_new_chord_patterns_are_legal():
@@ -61,6 +62,24 @@ def test_beats_made_before_the_stamp_never_see_the_new_chord_patterns():
             seen.update(tr)
     assert not (seen_old & v2)
     assert seen_new & v2
+
+
+def test_beats_stamped_2_never_see_the_v3_chord_patterns_but_stamp_3_does():
+    two = chord_rhythm.spec_for({"chord_grammar": True, "chord_flow": 1,
+                                 "chord_lib": 2})
+    three = chord_rhythm.spec_for({"chord_grammar": True, "chord_flow": 1,
+                                   "chord_lib": 3})
+    assert two["lib_v"] == 2 and three["lib_v"] == 3
+    v3 = {e["name"] for e in chord_rhythm.library() if e["v"] == 3}
+    seen_two, seen_three = set(), set()
+    for s in range(400):
+        for spec, seen in ((two, seen_two), (three, seen_three)):
+            tr = []
+            chord_rhythm._library_bars(spec, random.Random(s), 2, False,
+                                       None, trace=tr)
+            seen.update(tr)
+    assert not (seen_two & v3)
+    assert seen_three & v3
 
 
 # ---- melody ----

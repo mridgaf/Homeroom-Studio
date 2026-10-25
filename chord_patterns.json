@@ -1994,6 +1994,1930 @@
     "X-.-------.-----",
     "----x-.-x---x-.-"
    ]
+  },
+  {
+   "name": "frayed bump",
+   "tags": [
+    "stab"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X---X--X----x---",
+    "----x---------X-"
+   ]
+  },
+  {
+   "name": "muted jab",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 2.2,
+   "v": 3,
+   "bars": [
+    "X---------------",
+    "X------x--------"
+   ]
+  },
+  {
+   "name": "tiny hop",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X---------x---X-",
+    "x---------X-----"
+   ]
+  },
+  {
+   "name": "misty twist",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.9,
+   "v": 3,
+   "bars": [
+    "X--x--x-----x---",
+    "---x-----x--x---"
+   ]
+  },
+  {
+   "name": "ivory twirl",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 4.0,
+   "v": 3,
+   "bars": [
+    "--X-x-x---x-----",
+    "----x---x---x---"
+   ]
+  },
+  {
+   "name": "mellow sway",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "v": 3,
+   "bars": [
+    "--X-x-----------",
+    "----------X-----"
+   ]
+  },
+  {
+   "name": "clear hop",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X-------x---x-",
+    "X--------------X"
+   ]
+  },
+  {
+   "name": "silky whirl",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X----------X-x",
+    "---x-------x--x-"
+   ]
+  },
+  {
+   "name": "flat pace",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 3.0,
+   "v": 3,
+   "bars": [
+    "X--X-----x--X---",
+    "x---x---X-x-x---"
+   ]
+  },
+  {
+   "name": "tiny fold",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.4,
+   "v": 3,
+   "bars": [
+    "X-----x-x-----.-",
+    "X--o-----X----o-"
+   ]
+  },
+  {
+   "name": "hollow dot",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "-X--------x---x-",
+    "X--x--x---X-----"
+   ]
+  },
+  {
+   "name": "glassy dip",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 3,
+   "bars": [
+    "X-----------X---",
+    "-----------X----"
+   ]
+  },
+  {
+   "name": "woolen glide",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "-X-X----------X-",
+    "---x-x----x-----"
+   ]
+  },
+  {
+   "name": "slate peck",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8,
+   "v": 3,
+   "bars": [
+    "X-------X-------",
+    "------------x---"
+   ]
+  },
+  {
+   "name": "dusk stir",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 8,
+   "v": 3,
+   "bars": [
+    "X-----------o---",
+    "-----------X----"
+   ]
+  },
+  {
+   "name": "lazy cadence",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "v": 3,
+   "bars": [
+    "X-----x---------",
+    "------X----X----"
+   ]
+  },
+  {
+   "name": "wet stir",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "-X------x---x---",
+    "-X----------x---"
+   ]
+  },
+  {
+   "name": "silky peck",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "--X---x---x-----",
+    "--x-------X-----"
+   ]
+  },
+  {
+   "name": "brittle sketch",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--X--x-x---x---",
+    "----x-x-x-x-x-x-"
+   ]
+  },
+  {
+   "name": "dry pat",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.5,
+   "v": 3,
+   "bars": [
+    "X-X-x---.--X--x-",
+    "--X-o-x-o--X----"
+   ]
+  },
+  {
+   "name": "rainy tilt",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.8,
+   "v": 3,
+   "bars": [
+    "X----x-x-x----X-",
+    "--X-x-X-x-----x-"
+   ]
+  },
+  {
+   "name": "flat cadence",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-x-----x------x",
+    "X-X---x---X---x-"
+   ]
+  },
+  {
+   "name": "plush wave",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.8,
+   "v": 3,
+   "bars": [
+    "X-------x-x-x---",
+    "----X---x-x---X-"
+   ]
+  },
+  {
+   "name": "jade dot",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 2.9,
+   "v": 3,
+   "bars": [
+    "X-------x-------",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "soft sail",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X---------x-----",
+    "---x-------X----"
+   ]
+  },
+  {
+   "name": "bright peck",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.9,
+   "v": 3,
+   "bars": [
+    "X--x--X--X------",
+    "---x--x--X--x---"
+   ]
+  },
+  {
+   "name": "soft hang",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X-x-------x--x",
+    "--X-------x-x-X-"
+   ]
+  },
+  {
+   "name": "solid hang",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "v": 3,
+   "bars": [
+    "--X-------------",
+    "--------------x-"
+   ]
+  },
+  {
+   "name": "worn hang",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X---x---x-----",
+    "-X----------x---"
+   ]
+  },
+  {
+   "name": "cobalt pace",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "X-X---x----x----",
+    "---x----X---X--x"
+   ]
+  },
+  {
+   "name": "silky sway",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "X-----x-x-----x-",
+    "X-------X---X-x-"
+   ]
+  },
+  {
+   "name": "young lag",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.1,
+   "v": 3,
+   "bars": [
+    "X-----o-o-.---o-",
+    "-x------o-o-x-X-"
+   ]
+  },
+  {
+   "name": "keen tip",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "X--x--X------x--",
+    "-x-x------X--x--"
+   ]
+  },
+  {
+   "name": "silky dot",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 3,
+   "bars": [
+    "X-----------x---",
+    "X--x------X-----"
+   ]
+  },
+  {
+   "name": "bright fold",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "X-x-x---------x-",
+    "--x-x-X---x-----"
+   ]
+  },
+  {
+   "name": "linen stir",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 3,
+   "bars": [
+    "X-----------X---",
+    "------------x---"
+   ]
+  },
+  {
+   "name": "woolen hang",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 8,
+   "v": 3,
+   "bars": [
+    "X-------o-------",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "ivory skip",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 7,
+   "v": 3,
+   "bars": [
+    "X-----X---------",
+    "------x-------x-"
+   ]
+  },
+  {
+   "name": "tin twist",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "--X-x-x---------",
+    "------x-x---X---"
+   ]
+  },
+  {
+   "name": "linen spin",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "--X-------X---X-",
+    "------X-------X-"
+   ]
+  },
+  {
+   "name": "bare whirl",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-x-x-x-----X-x-",
+    "-X--x---x-x-x-X-"
+   ]
+  },
+  {
+   "name": "worn step",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--x---x--x-x-X-",
+    "X--x--x-.-----x-"
+   ]
+  },
+  {
+   "name": "warm walk",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.7,
+   "v": 3,
+   "bars": [
+    "X-x-x-x-----x-x-",
+    "x-x---x-X------X"
+   ]
+  },
+  {
+   "name": "misty stretch",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--X---x---X--x-",
+    "X--x--X----x---X"
+   ]
+  },
+  {
+   "name": "spare flow",
+   "tags": [
+    "stab"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X-----x-x---x---",
+    "X---x----X------"
+   ]
+  },
+  {
+   "name": "ashen spin",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 2.9,
+   "v": 3,
+   "bars": [
+    "X------------x--",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "cobalt lean",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X----X----------",
+    "---X------x---X-"
+   ]
+  },
+  {
+   "name": "jade groove",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--x-----x--x---",
+    "x-x------x--X---"
+   ]
+  },
+  {
+   "name": "quiet echo",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X-------x---x-",
+    "----x-X-x-------"
+   ]
+  },
+  {
+   "name": "plain loop",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 3.5,
+   "v": 3,
+   "bars": [
+    "--X------------X",
+    "--------------x-"
+   ]
+  },
+  {
+   "name": "soft turn",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X-----X------X",
+    "--X---x---------"
+   ]
+  },
+  {
+   "name": "ashen push",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X---x----X--x-",
+    "--X---x-------x-"
+   ]
+  },
+  {
+   "name": "tidy trail",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X-----X---x-x-x-",
+    "X--x----x-------"
+   ]
+  },
+  {
+   "name": "velvet step",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.4,
+   "v": 3,
+   "bars": [
+    "X--X----.-o---.-",
+    ".-------o-o---.-"
+   ]
+  },
+  {
+   "name": "slim pace",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "X---x--------x--",
+    "x-----x---X-x---"
+   ]
+  },
+  {
+   "name": "jade flick",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X------X------X-",
+    "X--x---------X--"
+   ]
+  },
+  {
+   "name": "satin pivot",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "X---------x-x-x-",
+    "X--x------x---x-"
+   ]
+  },
+  {
+   "name": "oaken lilt",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 3,
+   "bars": [
+    "X---------------",
+    "-X-----X--------"
+   ]
+  },
+  {
+   "name": "lilac walk",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.5,
+   "v": 3,
+   "bars": [
+    "X-----------o---",
+    "X------X--------"
+   ]
+  },
+  {
+   "name": "cobalt whirl",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "v": 3,
+   "bars": [
+    "-X----X---------",
+    "---------x-----x"
+   ]
+  },
+  {
+   "name": "oaken lean",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "-X----x---------",
+    "-X--X-X---------"
+   ]
+  },
+  {
+   "name": "tame ride",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X-x------X------",
+    "--X-----------x-"
+   ]
+  },
+  {
+   "name": "lucky dip",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.5,
+   "v": 3,
+   "bars": [
+    "--X-X-x-x--x--x-",
+    "-x--X--x-X--x---"
+   ]
+  },
+  {
+   "name": "low gap",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "--X-X-X---x---x-",
+    "---.----x-.-.-o-"
+   ]
+  },
+  {
+   "name": "oaken creep",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.8,
+   "v": 3,
+   "bars": [
+    "X--x---x----x-x-",
+    "x-x-x--X----X-x-"
+   ]
+  },
+  {
+   "name": "opal creep",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-x----x------x-",
+    "X-x------x----x-"
+   ]
+  },
+  {
+   "name": "sandy dip",
+   "tags": [
+    "stab"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X---x-x-------x-",
+    "--X-x---X-------"
+   ]
+  },
+  {
+   "name": "brisk hang",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 1.7,
+   "v": 3,
+   "bars": [
+    "X-----x---------",
+    "X------X--------"
+   ]
+  },
+  {
+   "name": "amber trace",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X--x------------",
+    "X--X------x-----"
+   ]
+  },
+  {
+   "name": "glassy creep",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "-X-x--x-----x---",
+    "--X------x--x---"
+   ]
+  },
+  {
+   "name": "hazy weave",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X-x----x----x-",
+    "--x-X-------x-x-"
+   ]
+  },
+  {
+   "name": "sandy nudge",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "v": 3,
+   "bars": [
+    "--X-------------",
+    "--X-----------X-"
+   ]
+  },
+  {
+   "name": "gentle twirl",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X---x--------x",
+    "---x------X-----"
+   ]
+  },
+  {
+   "name": "velvet peck",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X---x-------X-",
+    "-X----X----x---X"
+   ]
+  },
+  {
+   "name": "smoky lap",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.8,
+   "v": 3,
+   "bars": [
+    "X--X--X---x-x---",
+    "x-----X-x-------"
+   ]
+  },
+  {
+   "name": "cobalt ache",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.3,
+   "v": 3,
+   "bars": [
+    "X-----o-X-----X-",
+    ".--x------X---o-"
+   ]
+  },
+  {
+   "name": "pearl knock",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "X--X--X---x-----",
+    "X--x--X---X-----"
+   ]
+  },
+  {
+   "name": "cobalt loop",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 3.0,
+   "v": 3,
+   "bars": [
+    "X-------------X-",
+    "X----------x----"
+   ]
+  },
+  {
+   "name": "worn stir",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "X---------X----x",
+    "X-----x----x----"
+   ]
+  },
+  {
+   "name": "lazy flip",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 3,
+   "bars": [
+    "X------------X--",
+    "x-----------x---"
+   ]
+  },
+  {
+   "name": "golden jab",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.5,
+   "v": 3,
+   "bars": [
+    "X---------------",
+    "X-----X---------"
+   ]
+  },
+  {
+   "name": "solid tip",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "v": 3,
+   "bars": [
+    "X---x-----------",
+    "-----X--------X-"
+   ]
+  },
+  {
+   "name": "steady bloom",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X-------x---x---",
+    "-------X----x---"
+   ]
+  },
+  {
+   "name": "faded tap",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X---------x---x-",
+    "--X-----------x-"
+   ]
+  },
+  {
+   "name": "tidy slip",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.5,
+   "v": 3,
+   "bars": [
+    "X-x-X--X---x--x-",
+    "X-x-x-x-x--X----"
+   ]
+  },
+  {
+   "name": "woolen rock",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--x---X---x---.",
+    "--x---x-x-o-o-X-"
+   ]
+  },
+  {
+   "name": "sepia tap",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.7,
+   "v": 3,
+   "bars": [
+    "-X----x-x-x-X-X-",
+    "-x-x--x-----x-x-"
+   ]
+  },
+  {
+   "name": "rusty flick",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-x----x---x---x",
+    "X-x----x-----X-x"
+   ]
+  },
+  {
+   "name": "glassy glide",
+   "tags": [
+    "stab"
+   ],
+   "hold": 1.8,
+   "v": 3,
+   "bars": [
+    "X-----X---------",
+    "-X-x--x----X----"
+   ]
+  },
+  {
+   "name": "misty lull",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 2.2,
+   "v": 3,
+   "bars": [
+    "X----------x----",
+    "----------x-----"
+   ]
+  },
+  {
+   "name": "keen whirl",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X-----x-------x-",
+    "X-----x---------"
+   ]
+  },
+  {
+   "name": "velvet stomp",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.9,
+   "v": 3,
+   "bars": [
+    "X-----X--x--x---",
+    "X-x------x-X----"
+   ]
+  },
+  {
+   "name": "grainy fade",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X--x------x-x-",
+    "--x-x-----x-----"
+   ]
+  },
+  {
+   "name": "quiet trip",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "v": 3,
+   "bars": [
+    "--X-------------",
+    "----------X---x-"
+   ]
+  },
+  {
+   "name": "night fold",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X---x---x-----",
+    "------x---x---x-"
+   ]
+  },
+  {
+   "name": "narrow flow",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X---x---x-----",
+    "-X----x---x-----"
+   ]
+  },
+  {
+   "name": "lilac push",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 3.0,
+   "v": 3,
+   "bars": [
+    "X--x----X-----x-",
+    "--------x-X----x"
+   ]
+  },
+  {
+   "name": "rainy pulse",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2.4,
+   "v": 3,
+   "bars": [
+    "X--o----X-x---x-",
+    "X-------x-X---o-"
+   ]
+  },
+  {
+   "name": "ivory sway",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "X--X-x-------x--",
+    "---x--x------x-x"
+   ]
+  },
+  {
+   "name": "neon flow",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "--X----x--x-----",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "raw ride",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "X--x-x----X-----",
+    "X-----X-------x-"
+   ]
+  },
+  {
+   "name": "lazy brush",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 8,
+   "v": 3,
+   "bars": [
+    "X-------X-------",
+    "x-----------X---"
+   ]
+  },
+  {
+   "name": "late stir",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.5,
+   "v": 3,
+   "bars": [
+    "--X-----o-------",
+    "o-------X-------"
+   ]
+  },
+  {
+   "name": "spare peck",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "v": 3,
+   "bars": [
+    "X-----x---------",
+    "-----------X---X"
+   ]
+  },
+  {
+   "name": "crisp lag",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X-----x-----X---",
+    "------x-x-------"
+   ]
+  },
+  {
+   "name": "plain bounce",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "--X---x-------x-",
+    "--x----------x--"
+   ]
+  },
+  {
+   "name": "sepia echo",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--x-x-X--X-X---",
+    "x--x--X---X-x-x-"
+   ]
+  },
+  {
+   "name": "slim lag",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X---x--.----X-x-",
+    "--X-.-x---.-.---"
+   ]
+  },
+  {
+   "name": "dusk hover",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.7,
+   "v": 3,
+   "bars": [
+    "X--x---x--x-x--X",
+    "X--x--X-x---x---"
+   ]
+  },
+  {
+   "name": "lazy hang",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "--X---X-x--x---x",
+    "--X-x--x--x---x-"
+   ]
+  },
+  {
+   "name": "tidy stomp",
+   "tags": [
+    "stab"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X-----------X--X",
+    "----x-x-x-x-----"
+   ]
+  },
+  {
+   "name": "wide slide",
+   "tags": [
+    "stab",
+    "sparse"
+   ],
+   "hold": 1.7,
+   "v": 3,
+   "bars": [
+    "--X----X--------",
+    "x-----------X---"
+   ]
+  },
+  {
+   "name": "chalk sway",
+   "tags": [
+    "stab",
+    "push"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X-----X-------x-",
+    "x-------------x-"
+   ]
+  },
+  {
+   "name": "rainy hum",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-x---X--x------",
+    "X-X--------x----"
+   ]
+  },
+  {
+   "name": "ivory jab",
+   "tags": [
+    "offbeat"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "-X----x---X-----",
+    "--x---x--X------"
+   ]
+  },
+  {
+   "name": "cobalt kick",
+   "tags": [
+    "offbeat",
+    "sparse"
+   ],
+   "hold": 4,
+   "v": 3,
+   "bars": [
+    "--X---X---------",
+    "-X--------------"
+   ]
+  },
+  {
+   "name": "tidy drop",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "--X---------X---",
+    "X-x-------------"
+   ]
+  },
+  {
+   "name": "pine sail",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X-X-----x-----",
+    "--X---x---x---x-"
+   ]
+  },
+  {
+   "name": "ivory arc",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.0,
+   "v": 3,
+   "bars": [
+    "X--X--x-----X-x-",
+    "X--x-------x----"
+   ]
+  },
+  {
+   "name": "hushed lean",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2,
+   "v": 3,
+   "bars": [
+    "X--x----X---.---",
+    "---x------X-o--."
+   ]
+  },
+  {
+   "name": "silky breath",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "X---------X--X--",
+    "x--X----------x-"
+   ]
+  },
+  {
+   "name": "smoky lift",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X--x---------x--",
+    "X---------------"
+   ]
+  },
+  {
+   "name": "paper weave",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "X--x-x---X------",
+    "---x------x---x-"
+   ]
+  },
+  {
+   "name": "opal gap",
+   "tags": [
+    "long",
+    "sparse"
+   ],
+   "hold": 6.0,
+   "v": 3,
+   "bars": [
+    "-X--------X-----",
+    "X-------X-------"
+   ]
+  },
+  {
+   "name": "slate clip",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 8,
+   "v": 3,
+   "bars": [
+    "X-----o---------",
+    "X-----X---------"
+   ]
+  },
+  {
+   "name": "tiny skip",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 7,
+   "v": 3,
+   "bars": [
+    "--X---X---------",
+    "-----X----X-----"
+   ]
+  },
+  {
+   "name": "rainy drag",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X----x----------",
+    "X-----x-X-------"
+   ]
+  },
+  {
+   "name": "oaken flow",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "--X------X------",
+    "------X--x-----X"
+   ]
+  },
+  {
+   "name": "hazy knock",
+   "tags": [
+    "busy"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-X--x-x------x-",
+    "X-x-x--X---x--x-"
+   ]
+  },
+  {
+   "name": "pale hang",
+   "tags": [
+    "busy",
+    "ghost"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-x-o------o--o-",
+    ".-x-.-o-o-x-----"
+   ]
+  },
+  {
+   "name": "brisk sag",
+   "tags": [
+    "busy",
+    "bounce"
+   ],
+   "hold": 1.8,
+   "v": 3,
+   "bars": [
+    "X-x--X-----x--x-",
+    "X--x---x--X----x"
+   ]
+  },
+  {
+   "name": "spare jab",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--x----x-----x-",
+    "--x---x-x--x--X-"
+   ]
+  },
+  {
+   "name": "raw arc",
+   "tags": [
+    "long",
+    "pad"
+   ],
+   "hold": 7.5,
+   "v": 3,
+   "bars": [
+    "X---------------",
+    "-X--------------"
+   ]
+  },
+  {
+   "name": "linen bloom",
+   "tags": [
+    "push",
+    "sparse"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X--x------------",
+    "-------x--------"
+   ]
+  },
+  {
+   "name": "warm jolt",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X-------X----X--",
+    "---X-x----------"
+   ]
+  },
+  {
+   "name": "plain nudge",
+   "tags": [
+    "long",
+    "bounce"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X-----x-------X-",
+    "----------X-x---"
+   ]
+  },
+  {
+   "name": "sandy skip",
+   "tags": [
+    "offbeat",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "-X----X--------X",
+    "-x----X-x-------"
+   ]
+  },
+  {
+   "name": "woolen nudge",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 3.0,
+   "v": 3,
+   "bars": [
+    "X-----x---x-X--x",
+    "x------x--x-X-x-"
+   ]
+  },
+  {
+   "name": "cedar sail",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "X-----x---X---x-",
+    "X--X--x-------x-"
+   ]
+  },
+  {
+   "name": "bare creep",
+   "tags": [
+    "busy",
+    "offbeat"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X-X-------X-x--x",
+    "---X--x---x----X"
+   ]
+  },
+  {
+   "name": "frayed clip",
+   "tags": [
+    "long",
+    "push"
+   ],
+   "hold": 6,
+   "v": 3,
+   "bars": [
+    "X---------x-----",
+    "------x---X-----"
+   ]
+  },
+  {
+   "name": "crisp jab",
+   "tags": [
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "--X---x-x---x-X-",
+    "x-----X---x-x-X-"
+   ]
+  },
+  {
+   "name": "bright spin",
+   "tags": [
+    "stab",
+    "bounce"
+   ],
+   "hold": 1.6,
+   "v": 3,
+   "bars": [
+    "X--x-----X------",
+    "x--x--x--x------"
+   ]
+  },
+  {
+   "name": "fern wink",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "X--x--x-------x-",
+    "-------x--X-X-X-"
+   ]
+  },
+  {
+   "name": "night tuck",
+   "tags": [
+    "long",
+    "offbeat"
+   ],
+   "hold": 5,
+   "v": 3,
+   "bars": [
+    "X-x-------------",
+    "--X-----------X-"
+   ]
+  },
+  {
+   "name": "hazy ride",
+   "tags": [
+    "bounce",
+    "ghost"
+   ],
+   "hold": 2,
+   "v": 3,
+   "bars": [
+    "X-----x-x---X-o-",
+    "X--x---o--.--X--"
+   ]
+  },
+  {
+   "name": "gentle tap",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "X--X--X---x-----",
+    "X--X--x---------"
+   ]
+  },
+  {
+   "name": "tame tap",
+   "tags": [
+    "bounce",
+    "push"
+   ],
+   "hold": 3,
+   "v": 3,
+   "bars": [
+    "-X----x------x--",
+    "X-----x-------x-"
+   ]
+  },
+  {
+   "name": "rosy groove",
+   "tags": [
+    "offbeat",
+    "bounce"
+   ],
+   "hold": 2.5,
+   "v": 3,
+   "bars": [
+    "-X--X-x---------",
+    "---x---X---x--x-"
+   ]
+  },
+  {
+   "name": "crisp hang",
+   "tags": [
+    "push",
+    "bounce"
+   ],
+   "hold": 2.7,
+   "v": 3,
+   "bars": [
+    "X--x------x---X-",
+    "x-------x-x-----"
+   ]
   }
  ]
 }
