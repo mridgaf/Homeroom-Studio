@@ -93,3 +93,26 @@ def test_effects_button_stages_the_rack_without_a_new_number(tmp_path):
     assert library.find_beat(tmp_path, se_id)["stem_count"] == 2
     # the Sketch button's folder sits next to it
     assert bm.sketch_stage_dir(no, tmp_path).parent == tmp_path / "Test DJ" / bm.STAGE_DIR
+
+
+def test_reason_folder_holds_loop_and_chunks_with_tempo(tmp_path, monkeypatch):
+    """Owner 2026-10-25: loop + chunks in one Desktop folder, tempo in every
+    file name, originals untouched."""
+    _fake_beat(tmp_path)
+    monkeypatch.setattr(bm, "CHUNKS_ROOT", tmp_path / "Homeroom Chunks")
+    wav = tmp_path / "Test DJ" / "100 Test DJ Song Drums 90bpm.wav"
+    cd = bm.chunk_dir(100, tmp_path)
+    cd.mkdir(parents=True)
+    tone = np.full(500, 0.1)
+    write_wav24(cd / "01 Full.wav", tone, tone)
+    write_wav24(cd / "02 No Hat.wav", tone, tone)
+    out = bm.sync_reason_copy(wav, dj="Test DJ")
+    assert out == bm.REASON_ROOT / "Test DJ" / "100 Test DJ Song 90bpm"
+    names = sorted(p.name for p in out.iterdir())
+    assert names == ["100 Test DJ Song 90bpm - 01 Full.wav",
+                     "100 Test DJ Song 90bpm - 02 No Hat.wav",
+                     "100 Test DJ Song Drums 90bpm.wav"]
+    assert all("90bpm" in n for n in names)
+    assert wav.exists() and (cd / "01 Full.wav").exists()
+    bm.sync_reason_copy(wav, dj="Test DJ")            # idempotent
+    assert len(list(out.iterdir())) == 3

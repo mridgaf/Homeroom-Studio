@@ -3895,6 +3895,7 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # the Reason 12 handoff (spec 2026-07-16): MIDI + stems with every WAV
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"],
                tsig=tuple(preset.get("tsig", (4, 4))), chords=midi_chords)
+    sync_reason_copy(path)
     write_stems(folder / f"{no} {' x '.join(names)} {title} Stems",
                 parts["stems"], sources=sources, loops=loops_only)
 
@@ -4057,6 +4058,7 @@ def generate_fixed(idx, root=ROOT, shots=None, status=lambda msg: None):
         raise RuntimeError(f"{fname} already exists — not overwriting.")
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
+    sync_reason_copy(path)
     write_stems(folder / f"{no} {title} Stems", parts["stems"],
                sources=sources)
     spec_used = {ln: (r, m, w, _resolve_secs(s, preset["num"], idx))
@@ -4202,6 +4204,7 @@ def generate_library(genre_key, name, root=ROOT, shots=None,
         raise RuntimeError(f"{fname} already exists — not overwriting.")
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
+    sync_reason_copy(path)
     write_stems(folder / f"{no} {title} Stems", parts["stems"],
                sources=sources)
     spec_used = {ln: (r, m, w, _resolve_secs(s, preset["num"], variant))
@@ -4869,6 +4872,7 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         raise RuntimeError(f"{fname} already exists — not overwriting.")
     write_wav24(path, L, R)
     write_midi(path.with_suffix(".mid"), parts["events"], preset["bpm"])
+    sync_reason_copy(path)
     write_stems(folder / f"{no} {stem_of} Stems", parts["stems"],
                 sources={**chord_sources, **kit_paths, **rec["stamp_paths"]},
                 loops=bool(rec.get("loops_only")))
@@ -5112,6 +5116,7 @@ def _file_engine_beat(parent, stems, mix, what, root, rec=None):
     mid = beat_wav(parent, root)
     if mid is not None and mid.with_suffix(".mid").exists():   # same notes
         shutil.copy2(str(mid.with_suffix(".mid")), str(path.with_suffix(".mid")))
+    sync_reason_copy(path)
     save_recipe(root, no, dict(rec, file=fname, parent=int(parent),
                                date=str(date.today()), engine_fx=True))
     append_last_batch(no, root)
@@ -5165,6 +5170,33 @@ def chunk_dir(no, root=None):
     return CHUNKS_ROOT / (beat_dj(no, root) or "Unsorted") / f"{w.stem} Chunks"
 
 
+REASON_ROOT = Path.home() / "Desktop" / "Homeroom Loops for Reason"
+
+
+def sync_reason_copy(wav, dj=None, chunks_dir=None):
+    """Copy a loop and its chunks into one easy folder for Reason (owner
+    2026-10-25): REASON_ROOT/<DJ>/<NN Title NNNbpm>/. Copies only, so the
+    drive library and Reason Voice never notice. The tempo is in the folder
+    name, the loop name (already) and every chunk name. Safe to call any
+    number of times; it only adds or refreshes files."""
+    wav = Path(wav)
+    if not wav.exists():
+        raise FileNotFoundError(f"Can't copy to the Reason folder, missing: {wav}")
+    dj = dj or wav.parent.name
+    base = wav.stem.replace(" Drums ", " ", 1)        # "NN Title 134bpm"
+    out = REASON_ROOT / dj / base
+    out.mkdir(parents=True, exist_ok=True)
+    pairs = [(f, out / f.name) for f in (wav, wav.with_suffix(".mid"))
+             if f.exists()]
+    cd = Path(chunks_dir) if chunks_dir else CHUNKS_ROOT / dj / f"{wav.stem} Chunks"
+    if cd.is_dir():
+        pairs += [(c, out / f"{base} - {c.name}") for c in sorted(cd.glob("*.wav"))]
+    for src, dst in pairs:
+        if not dst.exists() or dst.stat().st_size != src.stat().st_size:
+            shutil.copy2(str(src), str(dst))
+    return out
+
+
 def save_chunk(number, picks=None, root=ROOT, shots=None,
                status=lambda msg: None, trims=None, drops=None, pans=None):
     """Section 4 of the v-next plan — songify. Renders the beat as the
@@ -5208,6 +5240,8 @@ def save_chunk(number, picks=None, root=ROOT, shots=None,
         n += 1
         path = folder / f"{n:02d} {what}.wav"
     write_wav24(path, L, R)
+    sync_reason_copy(beat_wav(number, root), dj=beat_dj(number, root),
+                     chunks_dir=folder)
     return {"folder": str(folder), "file": path.name, "count": n,
             "changed": changed}
 

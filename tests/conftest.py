@@ -22,3 +22,12 @@ def governed():
     crew.TRUE_LEVELS = False
     yield
     crew.TRUE_LEVELS = prev
+
+
+@pytest.fixture(autouse=True)
+def _reason_folder_never_touches_the_desktop(tmp_path_factory, monkeypatch):
+    """Every loop write copies into ~/Desktop/Homeroom Loops for Reason;
+    tests must never fill his real folder."""
+    import beat_machine
+    monkeypatch.setattr(beat_machine, "REASON_ROOT",
+                        tmp_path_factory.mktemp("reason_loops"))

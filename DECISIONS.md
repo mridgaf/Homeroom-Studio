@@ -9367,3 +9367,8 @@ just not loaded by default.
 - Not done: bpm/tempo changes from the rebuilds were left (ASSUMING not drums). Anything older than 10-24 (groove lock, band_flow) stays.
 - Verify by: his ear, new beats only. Nothing rendered.
 - Status: open
+
+## 2026-10-25 — "Homeroom Loops for Reason" folder
+- **Decision:** `~/Desktop/Homeroom Loops for Reason/<DJ>/<NN Title NNNbpm>/` holds the loop (+ .mid) and its chunks, tempo in every file name. Copies only; library and Reason Voice untouched. Owner picked sorted-by-DJ.
+- **How:** `sync_reason_copy()` in `tools/beat_machine.py`, called after each loop write and in `save_chunk`. Backfill: `tools/reason_folder_backfill.py` (44 chunked beats copied). `tests/conftest.py` redirects the folder in tests.
+- **Status:** open. New test passes; full suite not run, nothing rendered. Loops with no chunks only appear when a new beat is made.
