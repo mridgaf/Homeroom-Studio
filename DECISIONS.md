@@ -9359,3 +9359,11 @@ just not loaded by default.
 - Context: owner said chords still sat almost as low as the bass. Chords were built with root in octave 3 (C3-B3, MIDI 48-59); bass is one octave under that; MIDI chords had a floor of E3 (52).
 - Change: `beat_machine.py` `CHORD_LIFT_FLOOR = 60`, preset flag `chord_lift` (default 1, new beats only). `_render_one` shifts the sounding notes up whole octaves so the chord's lowest note is >= C4 (shift taken from the whole chord, so lead/support slices keep their places). MIDI chords use the same floor. Bass still reads the unlifted roots, so it does not move. Backup `beat_machine.pre-chord-lift-2026-10-24.py`. Test `test_chord_lift_puts_every_chord_at_c4_or_above`.
 - Status: open. Focused tests pass (63); full suite and renders NOT run. Not heard. Risk: thin instrument groups may lack high notes and fall to another plan.
+
+### [2026-10-25] Drums put back to pre-10-24; chords and A/B removal kept
+- Context: owner: chords changed, drums got worse; keep chords as they are, drums back to before 10-24. Clickable pick: "put the drums back as they were before 10-24, but don't bring back the A and B switch."
+- Change: from each identity's own `*.pre-<name>-2026-10-24.json` backup (else the `pre-original-midi` one), restored ONLY drum-side keys by text edit: Otto Grit extras p; Cutz kick_flavors + snare lane; Crate Prophet kick_flavors, extras, hat modes; Chrome Dial allow_dirt, kick_dist, extras, hat grammar/lane/kit; Glass Cat snap modes; Sunday Chop clap modes; Rage Engine kick kit; Mustang clap+hat; Swish Beatz, Timberline, Memphis, Houston Screw hat modes; Acid Rap Detroit vinyl, dust, snare kit; Horror Rap bell lane/kit/grammar, extras, space (bell is a perc lane, ASSUMING it counts as drums); Baltimore Club extras, kick hits. Untouched: chord_source, progressions, keys, tempo/bpm, bass and chord grammar, listen lines, pattern_gen form 4. Backups: `*_config.pre-drums-revert-2026-10-25.json`.
+- Tests: Chrome Dial "low" lists and Horror Rap bell/space asserts updated; Baltimore weighted-extras test removed (code kept). test_crew + test_pattern_gen 81 pass; wider subset 500 pass. Full suite NOT run.
+- Not done: bpm/tempo changes from the rebuilds were left (ASSUMING not drums). Anything older than 10-24 (groove lock, band_flow) stays.
+- Verify by: his ear, new beats only. Nothing rendered.
+- Status: open

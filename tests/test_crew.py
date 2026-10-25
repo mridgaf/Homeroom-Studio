@@ -436,8 +436,7 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
     Memphis: 'a "distorted", lo-fi soundscape' (Wikipedia, Memphis rap).
     Trip Hop: Portishead's "scratchy, jazz-sample-based aesthetic"
     (Wikipedia) and its own listen line's "thick vinyl bed".
-    Chrome Dial is "low" (kick only, owner pick 2026-10-24, dj-rebuild):
-    one source on overloaded tape; kick_dist 2.0 is Claude's number.
+    (Chrome Dial's "low" was undone 2026-10-25 with the drum revert.)
 
     The house rule itself is untouched, and nobody joins this list
     without either an audition or him saying to switch it on."""
@@ -452,7 +451,7 @@ def test_allow_dirt_is_eight_presets_not_the_roster():
                      "Crunk": "low", "Detroit": True,
                      "Emo Hip Hop": "low", "Horror Rap": True,
                      "Houston Screw": True, "Memphis": True,
-                     "Trip Hop": True, "Chrome Dial": "low"}, heard
+                     "Trip Hop": True}, heard
 
 
 def test_per_dj_effects_come_off_the_preset_but_a_caller_still_wins():
@@ -576,8 +575,7 @@ def test_808_only_dirt_lands_on_the_808_not_the_kick():
     src = Path(crew.__file__).read_text()
     assert "bufs[_grit] = dist808(bufs[_grit]" in src
     assert {n for n, q in CREW.items() if q.get("allow_dirt") == "low"} \
-        == {"Crunk", "Mustang", "Night Metro", "Emo Hip Hop",
-            "Chrome Dial"}   # Chrome Dial: owner pick 2026-10-24
+        == {"Crunk", "Mustang", "Night Metro", "Emo Hip Hop"}
 
 
 def test_only_night_metro_ships_with_a_breakdown():
@@ -1229,8 +1227,8 @@ def test_acid_rap_bright_chords_are_research_instruments_only():
 def test_horror_rap_chords_are_research_instruments_only():
     """Owner 2026-10-24 (dj-rebuild #36): Horror Rap's sources name piano
     and guitar sample loops (synth, organ, choir single-source). No source
-    names bell, pad, pluck, strings, wood or horns: zero weight. Its bell
-    lane, kit bell and bell extras are gone too (owner pick). Scoped: no
+    names bell, pad, pluck, strings, wood or horns: zero weight. (Its drum
+    side -- bell lane, room snare -- was put back 2026-10-25.) Scoped: no
     other genre zeroes exactly this set."""
     p = CREW["Horror Rap"]
     src = dict(p["signature"]["chord_source"])
@@ -1239,9 +1237,6 @@ def test_horror_rap_chords_are_research_instruments_only():
         assert src[bad] == 0, bad
     for good in ("piano", "guitar", "synth", "organ", "choir"):
         assert src[good] > 0, good
-    assert "bell" not in p["kit"] and "bell" not in p["lanes"]
-    assert not any(e[2] == "bells" for e in p["extras"]["pool"])
-    assert p["space"][0] == "room"
     for n, q in CREW.items():
         if n == "Horror Rap" or not q.get("genre"):
             continue

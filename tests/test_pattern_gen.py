@@ -403,17 +403,6 @@ def test_a_legend_opens_up_half_as_often_as_the_nine():
     assert legend < crew
 
 
-def test_weighted_extras_come_up_more_often():
-    """Baltimore Club 2026-10-24: shakers and vocal chops carry weight 3 in
-    its extras pool (4th item), so they show up as guests far more often
-    than the weight-1 entries."""
-    from collections import Counter
-    got = Counter()
-    for v in range(120):
-        p, _ = _composed("Baltimore Club", v)
-        got.update(p.get("_guests", []))
-    fav = got["shakers"] + got["vocal chops"]
-    rest = sum(n for g, n in got.items() if g not in ("shakers", "vocal chops"))
-    assert fav > 1.5 * rest, got
-    for g in got:
-        assert g in {e[2] for e in CREW["Baltimore Club"]["extras"]["pool"]}
+# test_weighted_extras_come_up_more_often removed 2026-10-25: Baltimore Club's
+# weighted pool was part of the drum revert; the 4th-item weight code stays.
+
