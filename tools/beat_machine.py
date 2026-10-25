@@ -1482,6 +1482,7 @@ def _add_root_sub(preset, kit, sources, variant, vnotes,
     return root_note
 
 
+CHORD_LIFT_FLOOR = 60   # C4: chords sit an octave+ above the bass line
 LOW_TOP = 47      # top of MIDI octave 2, the register an 808/bass root sits in
 
 
@@ -1592,6 +1593,10 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # own researched instruments, never bell/pluck, London strings for the
     # gaps (see _build_chords). New beats only.
     preset.setdefault("midi_voice_flow", 1)
+    # CHORD LIFT (2026-10-24, owner: chords sat almost as low as the bass):
+    # every chord is voiced from C4 up (see CHORD_LIFT_FLOOR). The bass
+    # still reads the unlifted roots. New beats only.
+    preset.setdefault("chord_lift", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2427,8 +2432,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             # new beats (midi_voice_flow): the MIDI chords stay above the
             # bass line's register (owner 2026-10-24)
             midi_prog = chord_synth.midi_progression(
-                m_pick, key, floor=(chord_synth.MIDI_CHORD_FLOOR
-                                    if preset.get("midi_voice_flow") else None))
+                m_pick, key, floor=(
+                    CHORD_LIFT_FLOOR if preset.get("chord_lift")
+                    else chord_synth.MIDI_CHORD_FLOOR
+                    if preset.get("midi_voice_flow") else None))
             midi_pick_name = m_pick["name"]
     # every non-strings, non-loop voice is now a SAMPLED instrument out of
     # his own banks (owner 2026-07-23) — "synth" included, so this index is
@@ -2569,6 +2576,18 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
 
     _bar0 = {i: sb for i, _c, sb, _d in slots}   # chord slot -> loop bar
 
+    def _lift(ns, ref):
+        """`ns` up whole octaves until the CHORD `ref`'s lowest note is at
+        C4+ -- the shift comes from the whole chord, so a role's slice
+        keeps its place against the other roles."""
+        ns = list(ns)
+        if preset.get("chord_lift") and ref:
+            up = 0
+            while min(ref) + up < CHORD_LIFT_FLOOR:
+                up += 12
+            ns = [n + up for n in ns]
+        return ns
+
     def _render_one(src, chord, dur, used=None, notes=None,
                     rhythm_override=None, pin=None, slot=0):
         """One source, one chord slot -> (audio, voice name). `used` (a
@@ -2597,6 +2616,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         like several different instruments stacked."""
         notes = notes if notes is not None else chord.get("voiced",
                                                           chord["notes"])
+        notes = _lift(notes, chord["notes"])
         # "midi" swaps in a real chord someone else already wrote in
         # place of harmony.compose()'s notes, cycling through the
         # picked file's own progression by slot — the same way a
@@ -2654,6 +2674,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             if not midi_prog:
                 return None, None
             _, _, notes = midi_prog[slot % len(midi_prog)]
+            notes = _lift(notes, notes)
             if midi_on_strings and strings_idx:
                 # the MIDI phrase's notes, voiced on the London strings via the
                 # exact-note engine (owner 2026-09-20). Mirrors the src=="strings"

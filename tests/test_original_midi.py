@@ -127,3 +127,22 @@ def test_bass_line_is_one_note_at_a_time():
     ev = sorted(notes[0])
     for (t, d, _n, _v), (t2, _d2, _n2, _v2) in zip(ev, ev[1:]):
         assert t + d <= t2 + 1e-9
+
+
+def test_chord_lift_puts_every_chord_at_c4_or_above():
+    import beat_machine
+    import chord_synth
+    import midi_packs
+    from key_context import KeyContext
+    assert beat_machine.CHORD_LIFT_FLOOR == 60
+    pick = {"path": "x.mid", "key": "C", "mode": "minor"}
+    stacks = [(0, r, q, []) for r in range(12) for q in ("minor", "dom9", "maj7")]
+    orig = (midi_packs.read_notes, midi_packs.progression)
+    midi_packs.read_notes = lambda p: []
+    midi_packs.progression = lambda n: stacks
+    try:
+        prog = chord_synth.midi_progression(
+            pick, KeyContext("F#", "minor"), floor=beat_machine.CHORD_LIFT_FLOOR)
+        assert all(min(ns) >= 60 for _, _, ns in prog)
+    finally:
+        midi_packs.read_notes, midi_packs.progression = orig
