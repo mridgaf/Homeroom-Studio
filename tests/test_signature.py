@@ -149,7 +149,9 @@ def test_the_two_library_of_congress_djs_are_set_up():
         share[n] = cs["loop"] / sum(cs.values())
         assert d[n]["own_soundbank"] is True and d[n]["legend"] is True
         assert "Clue" not in d[n]["listen"] and "9th" not in d[n]["listen"]
-    assert share["Tenth Wonder"] > 0.5, "main sound"
+    # 2026-10-24 (owner): originals use MIDI chords + packs mainly, so the LoC
+    # loops are Tenth Wonder's 10% loop share, no longer the main sound
+    assert 0.09 < share["Tenth Wonder"] < 0.11, "the Original side's 10% loop share"
     # DJ Hint redone 2026-10-23 (owner picks): LoC folded into the 25% group.
     # 2026-10-24 Original side (owner): midi 75, loops 10, sound packs 15
     assert 0.09 < share["DJ Hint"] < 0.11, "the Original side's 10% loop share"

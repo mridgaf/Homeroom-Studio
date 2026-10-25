@@ -16,11 +16,11 @@ import instrument_sampler as ins  # noqa: E402
 
 # add a name here when its Original settings are built (TRACKER.md)
 ORIGINAL_BUILT = {
-    "legends_config.json": ["Doc Day", "DJ Hint"],
+    "legends_config.json": ["Doc Day", "DJ Hint", "J Dillo", "DJ Premium", "Timberline", "Farrow", "Kane East", "Mustang", "Swish Beatz", "Tenth Wonder", "Just Flame", "Razor", "Hitt Kid", "No Alias", "DJ Light Green", "Well Damn"],
     "genres_config.json": ["G-Funk", "Acid Rap Bright", "Horror Rap",
                            "Crunk", "Chiptune", "Baltimore Club",
-                           "Acid Rap Detroit"],
-    "crew_config.json": ["Cutz", "Chrome Dial", "Crate Prophet"],
+                           "Acid Rap Detroit", "Memphis", "Houston Screw", "Emo Hip Hop", "Organized Noize", "Trip Hop", "Miami Bass", "New Orleans Bounce", "Reggaeton Alt", "Plug", "Wonky", "Detroit"],
+    "crew_config.json": ["Cutz", "Chrome Dial", "Crate Prophet", "Otto Grit", "Glass Cat", "Sunday Chop", "Night Metro", "Rage Engine"],
 }
 
 
@@ -87,3 +87,43 @@ def test_daily_drift_never_moves_midi_loop_or_a_zeroed_sound():
         cs = dict(q["signature"]["chord_source"])
         assert cs["midi"] == 75 and cs["loop"] == 10 and cs["chip"] == 0
         assert got is not None
+
+
+def test_midi_chords_stay_above_the_bass_register():
+    import chord_synth
+    import midi_packs
+    from key_context import KeyContext
+    pick = {"path": "x.mid", "key": "C", "mode": "minor"}
+    stacks = [(0, r, "minor", []) for r in range(12)]
+    orig = (midi_packs.read_notes, midi_packs.progression)
+    midi_packs.read_notes = lambda p: []
+    midi_packs.progression = lambda n: stacks
+    try:
+        for k in ("C", "F#", "A"):
+            prog = chord_synth.midi_progression(
+                pick, KeyContext(k, "minor"), floor=chord_synth.MIDI_CHORD_FLOOR)
+            assert all(min(ns) >= chord_synth.MIDI_CHORD_FLOOR for _, _, ns in prog)
+            raw = chord_synth.midi_progression(pick, KeyContext(k, "minor"))
+            assert any(min(ns) < chord_synth.MIDI_CHORD_FLOOR for _, _, ns in raw)
+    finally:
+        midi_packs.read_notes, midi_packs.progression = orig
+
+
+def test_floor_only_on_midi_voice_flow_beats():
+    src = (ROOT / "tools" / "beat_machine.py").read_text()
+    assert 'if preset.get("midi_voice_flow") else None' in src
+
+
+def test_bass_line_is_one_note_at_a_time():
+    import numpy as np
+    import bass_rhythm
+    import groove
+    slots = [{"start_bar": 0, "root": 40}]
+    plan = [{"hits": [(0, 0, "x", 40), (0, 6, "x", 43), (0, 10, "x", 45)]}]
+    feel = groove.LaneFeel(0, 0, 50, seed=1)
+    loop_n = 44100 * 2
+    _a, notes = bass_rhythm.render_line(
+        plan, slots, 0.5, 120, loop_n, lambda n, s: np.ones(int(s * 44100)), feel)
+    ev = sorted(notes[0])
+    for (t, d, _n, _v), (t2, _d2, _n2, _v2) in zip(ev, ev[1:]):
+        assert t + d <= t2 + 1e-9

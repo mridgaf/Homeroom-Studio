@@ -19,6 +19,170 @@ entries.
 ---
 
 ## Log
+### [2026-10-24] Hat/snap/clap -3.2 dB, bass +10%, half the loops 4 bars
+- Context: owner: kept the MIDI chord floor; hat/snap lane down 20%, bass lines up 10%, half of loops 4 bars ("things fall apart after 4 bars").
+- Decision/change: `crew.PERC_UNDER_DB` -3.0 -> -6.2 (hat tier = hat, clap, snap, and the blanket rule for other perc; he chose all three at -3.2 dB, the 2026-10-10 "20% quieter" figure). `groove.OWNER_TASTE["chord_bass_gain"]` 0.715 -> 0.7865. `pattern_gen`: bars 50/50 for crew (was 60/40), odd meters (was 65/35) and genres (were always 8). Pinned `bar_lengths` still win (J Dillo). Used rng.choices so the random stream is unchanged.
+- Found: the hat ceiling (-6.2) is now 0.2 dB below the melodic ceiling (-6.0). It is a ceiling only; hats under it are not lowered. test_breakdown threshold 0.3 -> 0.35 (hats quieter, ratio ~0.30).
+- Verify by: his ear on new beats. Applies to new renders; old beats unchanged.
+- Status: open
+### [2026-10-24] Original: MIDI chords kept above the bass register
+- Context: owner: "basslines in the original should only be notes, not full chords"; clarified: he hears the MIDI chord part reaching down low.
+- Decision/change: `chord_synth.midi_progression(floor=)`; on new `midi_voice_flow` beats any MIDI chord whose lowest note is under E3 (52) moves up an octave (`MIDI_CHORD_FLOOR`). Bass lane unchanged: it already plays one note at a time (each note runs to the next hit).
+- Reasoning: chords were voiced from C3 up (lowest note 48-59) while the bass line centres near 41 and can move by octaves, so the two overlapped. E3 is MY pick, unheard.
+- Verify by: his ear on a new Original batch; tests in test_original_midi.py.
+- Status: open
+### [2026-10-24] Genres 2/3 (Wonky, Trip Hop, Miami Bass, New Orleans Bounce, Reggaeton Alt, Detroit, Plug): Original settings built (thin research)
+- Context: dj-rebuild continuation, Original side. These were "not started"; their `listen` lines and everything except chord odds, per the research, are unchanged.
+- Decision/change (genre rule: midi 75 / loop 10 / packs 15, research instruments only, others 0, unique zero sets, RESEARCH_ONLY rows): Wonky synth 8.571, strings 3.214, piano 2.143, pad 1.071. Trip Hop piano 5.357, guitar/horns 3.214, strings 2.143, wood 1.071. Miami Bass synth 15 only. New Orleans Bounce synth 10.5, horns 4.5 (both MY picks: no source names an instrument). Reggaeton Alt synth 9, pad 6. Detroit piano 5.769, synth 4.615, strings 2.308, guitar 1.154, pad 1.154. Plug synth 8, bell 4, pad 3. Transcripts in Handoffs/DJ Rebuild/<Name>.
+- Reasoning: Wikipedia only (Wonky "garish synth tones"; Trip Hop "Rhodes, sax, trumpet, flute, theremin, Mellotron"; Miami bass 808 + electro; Plugg "sparkly melodies, airy"). Detroit and Reggaeton Alt rest on search snippets. Quality bar NOT met on any of the seven: no BPM lists, no collaborator quotes. Wonky pad 1 and Detroit guitar 1/pad 1 were added only so each zero-set stays unique among genres.
+- Found: no tempo/key/pattern changes made; survival of several unchanged lines is low (Reggaeton Alt dembow snare 0/100 home mode, Bounce snare "bounce" 0, perc rows 0 everywhere because perc is always rebuilt). Not touched.
+- Tests: test_original_midi + test_crew (7 new RESEARCH_ONLY rows; fixed Miami Bass tuple) + test_signature_words + test_chord_rhythm 305 passed.
+- Status: open
+### [2026-10-24] Genres 1/3 (Memphis, Organized Noize, Houston Screw, Emo Hip Hop): research, Original settings built
+- Context: dj-rebuild continuation, Original side. These four were "confirmed" by his ear 2026-09-28 ("keep all the changes"); the rebuild keeps those verdicts in the status file.
+- Decision/change (genre rule: midi 75 / loop 10 / packs 15 on research instruments only, every other sound 0, kept as entries; zero sets unique; new RESEARCH_ONLY rows): Memphis synth 8.182, piano 4.091, strings 2.727 (roots add B). Organized Noize guitar 3.75, organ 2.812, piano 2.812, synth 1.875, horns 1.406, choir 1.406, pad 0.938 (zero: bell, pluck, strings, wood). Houston Screw guitar 6, synth 4.5, piano 3, strings 1.5. Emo Hip Hop guitar 6.923, piano 3.462, synth 2.308, pad 2.308 (roots add F#). Transcripts in Handoffs/DJ Rebuild/<Name>.
+- Reasoning: Memphis: minimal synth melodies + piano (DJ Paul) + horror/classical samples (Wikipedia). Organized Noize: live bass/keyboards/guitar/organ (SPAD), organ riffs + piano (ATLiens), baby grand + band (Aquemini), marching band (Rosa Parks). Houston Screw: thin; the style is a DJ technique, ranking mostly mine. Emo: guitar riffs + synths (Wikipedia, Guardian, Revolt). Magnitudes mine.
+- Found: Organized Noize's first zero set matched Acid Rap Bright's, so ATLiens "atmospheric" pad 1 was added to keep it unique. Hat grammar changed for two lines under 50%: Memphis hat triplets 0.4 -> 0.7 (home 34 -> 63), Houston Screw hat sparse 0.4 -> 0.7 (30 -> 58); these two were heard-and-kept, so the OLD weights (triplets 0.4, sparse 0.4, other modes 0.1/0.1/0.1/0.1/0.1...) are the revert if he prefers the old hat. Perc "offbeats" reads 0 everywhere (perc is always rebuilt). Quality bar NOT met for Screw (technique, not instruments).
+- Backups: genres_config.pre-<slug>-2026-10-24.json and genre_newbuild_status.pre-<slug>-2026-10-24.json for each. Status file: all four set to `built`, old verdict kept in the text.
+- Tests: test_original_midi + test_crew (4 new RESEARCH_ONLY rows) + test_signature_words + test_chord_rhythm 298 passed. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Well Damn: research (thin), Original settings built
+- Context: dj-rebuild continuation, Original side.
+- Decision/change: fresh research (Highsnobiety and Complex interviews with FnZ, Wikipedia; transcript in Handoffs/DJ Rebuild/Well Damn; quality bar NOT met: no tempos or keys). chord_source midi 75 / loop 10 / packs synth 12, piano 3, rest 0. Line, bpm 165, tempo, roots unchanged.
+- Reasoning: "steroidal 808s and air siren synths" (Highsnobiety, one article) supports synth; piano is my pick from "Zac plays keys". The "no overthinking" phrase is quoted by Finatik. Note: "Ultimate" (Wikipedia result) is Ronny J, not FnZ.
+- Found: clap 92, hat 68; perc "offbeats" reads 0 for the same perc-rebuild reason noted at Sunday Chop.
+- Backup: legends_config.pre-well-damn-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] DJ Light Green: Original odds only (research silent)
+- Context: dj-rebuild continuation, Original side.
+- Decision/change: chord_source midi 75 / loop 10 / packs 15 in TODAY'S pack ratios (all 11 equal, 1.364 each). Line and every other setting unchanged. Transcript: Handoffs/DJ Rebuild/DJ Light Green (Wikipedia + Green Lantern's own Life+Times interview; quality bar NOT met).
+- Reasoning: no source names any instrument or tempo for the 2013+ trap/EDM era. The line's "marching-band", "trance arps", "cowbell" phrases are neither confirmed nor refuted. Only fact: he chops existing vocals and made trap mixes ("Altitude").
+- Backup: legends_config.pre-dj-light-green-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Verify by: a second research pass if he hears it and it feels off.
+- Status: open
+### [2026-10-24] No Alias: research (thin), line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: research thin (Wikipedia x3, DJBooth; transcript in Handoffs/DJ Rebuild/No Alias; quality bar NOT met: no BPMs, only piano named). chord_source midi 75 / loop 10 / packs piano 15, rest 0. Line gains ", over a twinkling piano loop".
+- Reasoning: only the "Primetime" piano loop is a sourced instrument (one source, UNSURE). Tempo, keys, drums NOT FOUND, unchanged.
+- Found: snare 82, hat 55 (restrained hats holds).
+- Backup: legends_config.pre-no-alias-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Hitt Kid: research, line, Original settings built (thin research)
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research thin (Wikipedia x2, Complex; transcript in Handoffs/DJ Rebuild/Hitt Kid; quality bar NOT met: one track in depth, no tempos from two sources). chord_source midi 75 / loop 10 / packs synth 15, everything else 0. Line gains "with icy synth stabs".
+- Reasoning: only synth stabs are sourced ("Niggas in Paris": icy synth stabs + kick, bleeps). Tempo, keys, drums NOT FOUND; unchanged.
+- Found: hat figure 55, snare/clap 53; rolls and halftime not re-found. Worth a second research pass if he hears it and it feels too narrow.
+- Backup: legends_config.pre-hitt-kid-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Razor: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research (Wikipedia x4, Sweetwater gear article, RZA's own SynthHistory answers, Gearnews, Tunebat; transcript in Handoffs/DJ Rebuild/Razor; collaborator quotes NOT FOUND). chord_source midi 75 / loop 10 / packs piano 11.25, strings 3.75, rest 0. bpm 87 -> 90, tempo [80, 96] -> [87, 96]. Roots add B; major added. Line "sparse dusty arrangement of piano loops".
+- Reasoning: piano CONFIRMED (C.R.E.A.M. riff x2 pages + EW); strings is my pick. RZA gear confirmed by himself: SP-1200 -> ASR-10 -> MPC from 96-97; "Triumph" with MPC + ASR-10.
+- Found: "sparse dusty arrangement": hat sparse reads 20/100; in memory 0.7 -> 38, 0.9 -> 48. Two tries under 50 and the phrase describes the arrangement, not the hat, so weights LEFT. Widest jitter / heaviest vinyl / wow not re-found as numbers.
+- Backup: legends_config.pre-razor-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Just Flame: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research (Tape Op interview with Just Blaze, RouteNote profile, Wikipedia x3, Tunebat; transcript in Handoffs/DJ Rebuild/Just Flame; quality bar NOT met in full). chord_source midi 75 / loop 10 / packs horns 6, strings 3, piano 3, organ 1.5, synth 1.5, rest 0. Roots add B C# D. Line gains "with horns and strings under the chops". bpm 94 / tempo unchanged.
+- Reasoning: only horns (Roc Boys sample) and the synth riser have a source, both thin (UNSURE); strings is my pick; piano/organ from his family background. Ranking mostly mine; said so in the note.
+- Found: hat figure 67 ("busy driving hats" holds), clap 80, snare 80; snare-clap stack and crash swells not re-found.
+- Backup: legends_config.pre-just-flame-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Tenth Wonder: research, line, Original settings built (owner request of 10-11 overruled)
+- Context: dj-rebuild continuation, Original side. Tenth Wonder is an ORIGINAL DJ built 2026-10-11 on owner request with Library of Congress excerpts as the main sound.
+- Decision/change: owner's 2026-10-24 rule (originals = MIDI chords + sound packs mainly; new rules beat old) applied: chord_source midi 75 / loop 10 / packs piano 6, strings 4.5, horns 3, choir 1.5, rest 0. The LoC loops are now the 10% loop share. Line gains "with piano, strings and horns under the chops". Transcript: Handoffs/DJ Rebuild/Tenth Wonder (quality bar NOT met: no BPMs found, no source ranks the instruments).
+- Reasoning: instrument ranking is MINE, mapped from the library's own mix (Blues 354, Jazz 400, Classical 201, Opera 234). Soul sources (Al Green, Curtis Mayfield, Bobby Womack) sourced; FL Studio/MPC 2500 sourced.
+- Found: bpm 90, tempo [85, 96], roots, drums unchanged (NOT FOUND).
+- Backup: legends_config.pre-tenth-wonder-2026-10-24.json. Tests: ORIGINAL_BUILT; touched tests pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Swish Beatz: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research (Wikipedia x2, Complex interview with Swizz, Tunebat; transcript in Handoffs/DJ Rebuild/Swish Beatz; quality bar NOT met in full). chord_source midi 75 / loop 10 / packs horns 8.333, synth 6.667, rest 0. Roots add A# B; major added. Line unchanged (horn colour supported). Grammar: hat sparse 0.3 -> 0.9 ("sparse shouting hats" survival 11 -> 50, tested in memory first).
+- Reasoning: Korg Trinity/Triton keyboards CONFIRMED (Wikipedia); "banks of synthesized horns" is a search snippet only (UNSURE). Magnitudes mine.
+- Found: tempos 91 (RR Anthem, 2 sources) and 101 (Party Up, half of 202). Marching-band/siren/clap-snare stack NOT re-found.
+- Backup: legends_config.pre-swish-beatz-2026-10-24.json. Tests as Mustang. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Mustang: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research (Wikipedia, Image-Line interview, Tunebat; transcript in Handoffs/DJ Rebuild/Mustang; quality bar NOT met in full: no collaborator quotes). chord_source midi 75 / loop 10 / packs synth 12.632, piano 2.368, rest 0. Roots add C# D A#; major added. Line gains "heavy synth hooks". Grammar: clap backbeat 0.35 -> 0.7 (survival 39 -> 70), hat offbeats 0.4 -> 0.9 (home 25 -> 51), tested in memory first.
+- Reasoning: synthesizers CONFIRMED by Wikipedia; piano UNSURE (Image-Line). Magnitudes mine. The hat at 0.9 trades variety for the "minimal offbeat hats" promise.
+- Found: sparse 808 on the and-of-two, layered snaps NOT re-found; kick figure 10, snap figure 0 (declared bars, not named as patterns).
+- Backup: legends_config.pre-mustang-2026-10-24.json. Tests: ORIGINAL_BUILT; test_original_midi/test_crew/test_signature_words/test_chord_rhythm pass. Full suite not run yet this session.
+- Status: open
+### [2026-10-24] Rage Engine: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research (Wikipedia x3, Novation interview with Luger, HexLoops, Tunebat/GetSongBPM; transcript in Handoffs/DJ Rebuild/Rage Engine). Crew rule: chord_source midi 75 / loop 10 / packs 15, researched half on strings 2, horns 2, bell 1.5, synth 1.5, wood 0.5 (scaled to 7.5); other 6 share 7.5 (1.25 each). bpm 150 -> 140, tempo [131, 145] added (Hard in da Paint 143, B.M.F. 139-140, No Hands 131). Roots add D#; major added. Line gains "over bombastic synth brass, strings and tubular bells".
+- Reasoning: orchestral brass/strings/woodwind CONFIRMED (Wikipedia), tubular bells by Luger himself (Novation), spooky synths CONFIRMED. Magnitudes mine.
+- Found: "wall-to-wall 32nd hat rolls" survives 35/100 at rolls32 0.75; in memory 0.9 -> 44, 0.95 -> 47. Two tries, under 50, weights LEFT (engine cap). Collaborator quotes NOT FOUND. Stacked snare+clap, zero drop-outs, extra snare fills not re-found; carried over.
+- Backup: crew_config.pre-rage-engine-2026-10-24.json. Tests: ORIGINAL_BUILT; same four files pass. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Night Metro: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. No producer pair.
+- Decision/change: fresh research (Wikipedia x5, Melodics deep dive, Tunebat; transcript in Handoffs/DJ Rebuild/Night Metro). Crew rule: chord_source midi 75 / loop 10 / packs 15, researched half (7.5) on piano 3, bell 2, strings 1.5, wood 1; other 7 share 7.5 (1.071 each). tempo [127, 150] added, bpm 140 kept. Roots add Eb, E, C#. Line gains "over a cold piano loop with bells and a flute".
+- Reasoning: piano (Jumpman, Bank Account) and flute (Mask Off) CONFIRMED; bell (Bad and Boujee) and strings UNSURE (Melodics only). Magnitudes mine.
+- Found: "hat rolls that ramp into the snare" survives 14-15/100 with hat rolls32 at 0.35; in memory 0.7 -> 30, 0.85 -> 37. Two tries, still under 50, so weights LEFT (engine caps it, not config). Collaborator quotes NOT FOUND (quality bar for "2 people who worked with him" not met). Clap on 3, bar-5 drop not re-found; carried over.
+- Known, not mine: tests/test_variety.py::test_every_dj_composes_apart[Night Metro] fails after identity_survival runs (it reads ~/.reason_voice/pattern_history.json, which survival rewrites); same flip documented earlier today. Not chased.
+- Backup: crew_config.pre-night-metro-2026-10-24.json. Tests: ORIGINAL_BUILT; test_original_midi/test_crew/test_signature_words/test_chord_rhythm pass. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Kane East: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. Era owner-picked 2026-09-05 (Yeezus, the reduced version).
+- Decision/change: fresh research (Wikipedia: Yeezus, Black Skinhead; Tunebat; transcript in Handoffs/DJ Rebuild/Kane East). chord_source midi 75 / loop 10 / packs synth 10, pad 2.5, choir 2.5, rest 0. Line gains "with a distorted synth line and a choir sample". bpm 130, tempo [110, 150], keys, drums unchanged.
+- Reasoning: distorted synthesizers CONFIRMED (Yeezus lead, Black Skinhead); choir from On Sight's choral interpolation; pad from "slowly morphing drones" (Slant via Wikipedia). Magnitudes mine.
+- Found: Black Skinhead 130 (Tunebat, one source), New Slaves 141; On Sight and others NOT FOUND. Survival: clap 48 (line says clap on the grid = offset, 100), kick figure 36; "tribal toms" perc reads 0 for the same perc-rebuild reason as Sunday Chop.
+- Backup: legends_config.pre-kane-east-2026-10-24.json. Tests: ORIGINAL_BUILT; four test files 294 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Sunday Chop: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. Era owner-picked 2026-09-05 (Sunday Chop = chipmunk soul; Kane East = Yeezus).
+- Decision/change: fresh research (Wikipedia x6, Reverb Machine, Tunebat/GetSongBPM; transcript in Handoffs/DJ Rebuild/Sunday Chop). Crew rule: chord_source midi 75 / loop 10 / packs 15, researched half (7.5) on choir 3, strings 2.5, piano 2; other 9 share 7.5 (0.938 each). bpm 96 -> 88, tempo [82, 92] added (Through the Wire 82-84, Jesus Walks 87, My Way Home 87, All Falls Down 91). Roots add Eb, G#; minor 1 -> 2. Line: "(MPC3000 = 16-bit)" -> "(16-bit), sped-up soul chops under gospel choir and strings".
+- Reasoning: gospel choirs and strings CONFIRMED by 3 Wikipedia lines; piano-as-bass from Reverb Machine (UNSURE). No source for the MPC3000 (sources: ASR-10 chop, MPC2000XL drums). Magnitudes mine.
+- Found: 57% swing, pushed kicks, big clap, tambourine offbeats NOT re-found (carried over). Survival "tambourine offbeats" reads 0/100 for ANY identity with a perc lane: pattern_gen always rebuilds the perc lane with perc_bars, so the home-mode tag never matches. Measurement artifact, engine untouched. Clap 51, hat 37 (line says nothing about the hat pattern).
+- Backup: crew_config.pre-sunday-chop-2026-10-24.json. Tests: ORIGINAL_BUILT; four test files 294 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Farrow: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. Era already owner-picked 2026-09-05 ("Nerd", live-band era).
+- Decision/change: fresh research (Wikipedia: In Search Of..., Spymob, Rock Star, Fly or Die, Seeing Sounds; Remix interview; Garland gear post; Tunebat; transcript in Handoffs/DJ Rebuild/Farrow). chord_source midi 75 / loop 10 / packs by rank guitar 8.571, synth 4.286, horns 2.143, rest 0. bpm 98 -> 112, tempo [95, 115] -> [92, 120] (Rock Star 92, She Wants to Move 115, Seeing Sounds 118-120). Roots add E F B C#; major added. Line gains "with synth and a little sax".
+- Reasoning: live guitars on the 2002 Spymob re-record, Hugo/Pharrell learning guitar, "live guitar" on Seeing Sounds: CONFIRMED on 4 pages. Synth CONFIRMED (Triton/01W). Sax UNSURE (electronic-version sax, "Yea You"). Magnitudes mine.
+- Found: survival: hat figure 53/100 ("a hi-hat and ride keeping time" holds), snare 74, snap 0 (not in the line). The ride is not an engine lane word; left.
+- Backup: legends_config.pre-farrow-2026-10-24.json. Tests: ORIGINAL_BUILT; same four files 294 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Glass Cat: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. Era already owner-picked 2026-09-05 (Glass Cat = Neptunes minimal; Farrow = live-band N.E.R.D.).
+- Decision/change: fresh research (Wikipedia x5, Chad Hugo interview, Tunebat; transcript in Handoffs/DJ Rebuild/Glass Cat). Crew rule: chord_source midi 75 / loop 10 / packs 15 with the researched half (7.5) on synth 5.5 + pluck 2, the other 9 sounds share 7.5 (0.833 each). tempo [92, 107] added, bpm 98 kept. Roots add C# and B; major added. Line gains "thin synth keys and a plucked, clavichord-style line". Snap grammar: gallop 0.22 -> 0.6 (line says "a snap keeps time"; survival was 14/100 figure and 23/100 home mode, tested in memory first, now 51 home mode).
+- Reasoning: synths CONFIRMED (Grindin', Drop It, Triton/MicroKorg); pluck = Hugo's clavichord stand-in for guitar (UNSURE, one source). Magnitudes mine.
+- Found: only three Neptunes tracks with BPM this session (92/96/107, aggregator). The line's "clap ~18 ms late, the documented Neptunes flam" was NOT re-found in any source; carried over, ms and "documented" unverified. Survival: snare backbeat home mode 23/100, kick figure 4 (line names neither).
+- Backup: crew_config.pre-glass-cat-2026-10-24.json. Tests: ORIGINAL_BUILT; test_original_midi + test_crew + test_signature_words + test_chord_rhythm 294 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Timberline: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side. Era already owner-picked 2026-09-07 (Timberline = 2006-08; Chrome Dial keeps 1996-2002).
+- Decision/change: fresh research (Wikipedia x6, Sound On Sound Araica, Tunebat; transcript in Handoffs/DJ Rebuild/Timberline). chord_source midi 75 / loop 10 / packs: synth 9.0, pad 2.25, horns 2.25, guitar 1.5, rest 0. bpm 118 -> 116, tempo [[112,124]] -> [[111,121]] (SexyBack 117, My Love 120-121, The Way I Are 115, Give It To Me 111). Roots G# A# A E G D; phrygian added. hat sixteenths 0.55 -> 0.8 (survival was 38/100 for "straight 16th hats", now 53; tested in memory first).
+- CORRECTION found: the 09-07 line said "NOT the ASR-10 one"; Wikipedia says Timbaland played an ASR-10 on SexyBack. Line now says "NOT Chrome Dial's 1996-2002 one" and adds "a guitar riff and low horns under the synths".
+- Reasoning: synths CONFIRMED on 5 tracks; pad from SoS "Coolio"; guitar SexyBack/FutureSex; horns one track (UNSURE). Magnitudes mine.
+- Found: survival kick figure 0/100 and perc 0/100: those are the exact declared bars (the line says "four-on-the-floor-LEANING", a weight, not a bar); not fixed. test_beat_machine still uses Timberline as a "synth-only" fixture in a comment; the 9 Timberline-related tests there pass.
+- Backup: legends_config.pre-timberline-2026-10-24.json. Tests: ORIGINAL_BUILT + test_original_midi/test_crew/test_signature_words/test_chord_rhythm 294 passed; test_beat_machine -k Timberline|synth|bass 9 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] DJ Premium: research, line, Original settings built
+- Context: dj-rebuild continuation, Original side only. Era already owner-picked (2026-09-30: Premium = 1998-2006 horn-stab era).
+- Decision/change: fresh research (Sound On Sound, RBMA lecture, Wikipedia x5, Off Your Radar, Tunebat; transcript in Handoffs/DJ Rebuild/DJ Premium). chord_source midi 75 / loop 10 / packs 15 by rank horns 6.818, piano 5.455, strings 2.727, rest 0. Line gains "with a chopped string sample" (Nas Is Like, Rep Growz Bigga). chord_grammar, tempo [86, 95], swing 53, roots, drums left: research agrees or is silent (swing % NOT FOUND from Premier).
+- Reasoning: stabs/brass CONFIRMED by 4 sources; piano loops by Off Your Radar x2 + Premier himself; strings by Wikipedia + Off Your Radar. Magnitudes mine. Tempos 86-94 agree across Tunebat and the 09-30 SongBPM note on 5 tracks.
+- Found: RouteNote profile (cited 09-30) is a 404 today; WhoSampled bot-blocked. identity_survival: all invariants 100, snare 90, hat 74, kick pattern 5 (line names a kick SOUND, not a pattern).
+- Backup: legends_config.pre-dj-premium-2026-10-24.json. Tests: DJ Premium added to ORIGINAL_BUILT; test_original_midi + test_crew + test_signature_words + test_chord_rhythm 294 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
+### [2026-10-24] Dilla pair (Otto Grit + J Dillo): research, line, Original settings built
+- Context: owner: continue the DJ rebuild to completion, Original side only, MIDI primary, new rules beat old rules. Next rows were #3 Otto Grit and #4 J Dillo.
+- Decision/change: era NOT re-asked: owner already ruled 2026-09-06 (Otto Grit = general dusty Dilla 1992-2003, J Dillo = Donuts). Fresh research (14+ pages, 8 people; transcripts in Handoffs/DJ Rebuild/Otto Grit and J Dillo). Otto Grit: chord_source midi 75 / loop 10 / packs 15 with piano 3.75, guitar 2.25, horns 1.5 as the researched half and the other 8 sharing 7.5; tempo [79, 95] added; roots Bb x3 + F# + Eb; dorian added; line gains "keys, guitar and horn chops"; _research_note added with the phrase map. J Dillo: midi 75 / loop 10 / packs piano 8.182, strings 2.727, guitar 2.045, horns 2.045, rest 0; line gains "chopped piano loops, with strings and guitar and a horn stab".
+- Reasoning: ranking is sourced (Rhodes/piano, samba guitar on Runnin', Mangione horn [UNSURE]; Donuts: 5 piano tracks, strings+guitar on Last Donut, brass on Gobstopper). Magnitudes are mine. Drums, wow, dust, stamp left: research agrees or is silent (swing ms NOT FOUND).
+- Found: Donuts gear is disputed (SP-303 vs computer): MusicTech says "contrasting accounts"; not a setting. identity_survival: every timing phrase 100%; only kick/hat PATTERNS under half (Otto kick 1, hat 24; Dillo kick 2) and neither line names a pattern.
+- Backups: crew_config.pre-otto-grit-2026-10-24.json, legends_config.pre-j-dillo-2026-10-24.json. Tests: both added to ORIGINAL_BUILT; test_original_midi + test_crew + test_chord_rhythm 93 passed. Full suite not run yet this session.
+- Verify by: his ear, only when he asks for a render.
+- Status: open
 ### [2026-10-24] Original side = mostly MIDI; 8 Code passes built (dj-rebuild)
 - Context: owner: "continue with the horror rebuild ... and the ones we have lines for." Mid-session he set the Original side's shape and said new research overrules old research and old rules -- stop asking what the research settles.
 - Decision/change (owner, clickable): Original chord odds = midi 75 / chord loops 10 / sound packs 15 (research ratios inside the 15; crew keep 50-50 INSIDE the packs). Applied to the 4 earlier builds (Doc Day, DJ Hint, G-Funk, Acid Rap Bright) and the 8 new ones. Engine (new beats only, stamp `midi_voice_flow` 1): MIDI notes play on the identity's own chord_source instruments (weight > 0, weighted), never bell or pluck (ASSUMING that rule is MIDI-only, so pluck stays in Chiptune's packs); nothing of his reaches the notes -> London strings. Free beats: every MIDI voice except bell/pluck. evolution.py chord_voice drift skips midi, loop and zero-weight sounds. pattern_gen extras pool takes an optional 4th item = weight (only Baltimore Club uses it; others shuffle exactly as before).

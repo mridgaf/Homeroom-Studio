@@ -42,16 +42,16 @@
   "notes": "2026-10-24 rebuild: chord_source research-only (synth lead; choir/organ/pad/wood 0); chord_rhythm stab; tempo 100-160. Original rule: midi 75 / loop 10 / packs 15. Research build (Wikipedia Crunk, Recording Arts, Turn Down for What, 12 songbpm Lil Jon tempos): kit tags fixed + own_soundbank; allow_dirt 'low' + kick_dist 9.0 (Mustang's measured level); owner answers: 'The 808, all three' -> crew.grit_lane puts 'low' dirt on the 808 lane (Crunk, Mustang, Night Metro); tempo pocket 140-160 (default 140 per listen line). No vocal chops (listen line keeps the room empty). Auditioned (--structure --kick 808): ~/Desktop/Homeroom Crunk NEW BUILD 2026-09-24/. sub +2.2 dB. NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Detroit": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build (XLR8R + RBMA + The Message Black Milk interviews, RapReviews/Albumism on Apollo Brown, 32 songbpm tempos): bpm 93->88 (pocket 82-98), swing 55->52 (owner 'Nearly straight'), allow_dirt True, kit tags fixed + own_soundbank, synth added to chords. Backup is genres_config.pre-detroit-2026-09-24.json - the audition script's backup glob also matches pre-acid-rap-detroit, so pass --before. Auditioned: ~/Desktop/Homeroom Detroit NEW BUILD 2026-09-24/ (air -9.8 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (piano 5, synth 4, strings 2, guitar 1, pad 1; rest 0). Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (XLR8R + RBMA + The Message Black Milk interviews, RapReviews/Albumism on Apollo Brown, 32 songbpm tempos): bpm 93->88 (pocket 82-98), swing 55->52 (owner 'Nearly straight'), allow_dirt True, kit tags fixed + own_soundbank, synth added to chords. Backup is genres_config.pre-detroit-2026-09-24.json - the audition script's backup glob also matches pre-acid-rap-detroit, so pass --before. Auditioned: ~/Desktop/Homeroom Detroit NEW BUILD 2026-09-24/ (air -9.8 dB). NOT heard. Re-rendered 2026-09-24 with flavor_match (synonyms) on."
  },
  "Emo Hip Hop": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner heard the audition: They sound good. Keep.",
-  "notes": "Research build (Wikipedia Emo rap, Hellboy + COWYS pages, 16 songbpm tempos): kit tags fixed + own_soundbank + flavor_match; allow_dirt 'low' + kick_dist 9.0 (808 lane); tempo pocket 130-150 with default 150 per listen line (ASSUMING the owner's Crunk call applies). Auditioned: ~/Desktop/Homeroom Emo Hip Hop NEW BUILD 2026-09-24/. NOT heard."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner heard the audition: They sound good. Keep.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (guitar 6, piano 3, synth 2, pad 2; the rest 0); roots add F#; Original rule midi 75 / loop 10 / packs 15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Emo rap, Hellboy + COWYS pages, 16 songbpm tempos): kit tags fixed + own_soundbank + flavor_match; allow_dirt 'low' + kick_dist 9.0 (808 lane); tempo pocket 130-150 with default 150 per listen line (ASSUMING the owner's Crunk call applies). Auditioned: ~/Desktop/Homeroom Emo Hip Hop NEW BUILD 2026-09-24/. NOT heard."
  },
  "G-Funk": {
   "stage": "built",
@@ -67,57 +67,57 @@
   "notes": "2026-10-24 rebuild: chord_source research-only (piano/guitar lead; bell/pad/pluck/strings/wood/horns 0); bell lane, kit bell, bell extras removed; snare space washed->room; tempo 70-102. Original rule: midi 75 / loop 10 / packs 15. Research build (Wikipedia Horrorcore/6 Feet Deep; tempos 91/94/92/95/81, median 92): bpm 90->92, pocket 81-96; roots E/Bb/F# lead; library +soul; allow_dirt True; own_soundbank on; dead tags crack (snare) and scream (stamp) removed. Lanes/snare/families untouched. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Horror Rap\" --structure --before genres_config.pre-horror-rap-2026-09-25.json, read stamp first."
  },
  "Houston Screw": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Chopped and screwed / DJ Screw: 60-70 bpm, old-cassette sound, scratching): pocket 60-70, allow_dirt True, stamp scratch/vocal/reverse, kick 808/sub/deep/boom, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Houston Screw\" --structure --before genres_config.pre-houston-screw-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (guitar 4, synth 3, piano 2, strings 1 = my pick; the rest 0); Original rule midi 75 / loop 10 / packs 15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Chopped and screwed / DJ Screw: 60-70 bpm, old-cassette sound, scratching): pocket 60-70, allow_dirt True, stamp scratch/vocal/reverse, kick 808/sub/deep/boom, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Houston Screw\" --structure --before genres_config.pre-houston-screw-2026-09-25.json, read stamp first."
  },
  "Memphis": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Memphis rap / Mystic Stylez; 7 tunebat tempos): pocket 130-160, roots A/F# lead, allow_dirt True, snare lofi/dusty/crisp/tight/808, stamp vocal/dark/scratch, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Memphis\" --structure --before genres_config.pre-memphis-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (synth 6, piano 3, strings 2; bell/choir/guitar/horns/organ/pad/pluck/wood 0); roots add B; Original rule midi 75 / loop 10 / packs 15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Memphis rap / Mystic Stylez; 7 tunebat tempos): pocket 130-160, roots A/F# lead, allow_dirt True, snare lofi/dusty/crisp/tight/808, stamp vocal/dark/scratch, library +soul, own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Memphis\" --structure --before genres_config.pre-memphis-2026-09-25.json, read stamp first."
  },
  "Miami Bass": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Miami bass; 7 tempos, median 129): bpm 138->129, pocket 122-134; clap backbeat 0.95 (owner pick); every-gap stays a feel (owner pick); roots C/E/A; dead tags long/crack replaced; stamp +scratch; clean; own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Miami Bass\" --structure --before genres_config.pre-miami-bass-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source synth only (rest 0). Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Miami bass; 7 tempos, median 129): bpm 138->129, pocket 122-134; clap backbeat 0.95 (owner pick); every-gap stays a feel (owner pick); roots C/E/A; dead tags long/crack replaced; stamp +scratch; clean; own_soundbank on. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Miami Bass\" --structure --before genres_config.pre-miami-bass-2026-09-25.json, read stamp first."
  },
  "New Orleans Bounce": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Bounce; Drag Rap 95, Freedia median 103): pocket 95-108; dead tags crack/snappy/shout/whistle replaced (no whistle files exist); clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"New Orleans Bounce\" --structure --before genres_config.pre-new-orleans-bounce-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source synth 7 / horns 3 = my picks (research silent); rest 0. Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Bounce; Drag Rap 95, Freedia median 103): pocket 95-108; dead tags crack/snappy/shout/whistle replaced (no whistle files exist); clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"New Orleans Bounce\" --structure --before genres_config.pre-new-orleans-bounce-2026-09-25.json, read stamp first."
  },
  "Organized Noize": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (6 tempos, median ~89): bpm 95->90, pocket 83-101; dead tags warm/round/horn/guitar replaced; conga moved to perc lane; clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Organized Noize\" --structure --before genres_config.pre-organized-noize-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (guitar 4, organ 3, piano 3, synth 2, horns 1.5, choir 1.5, pad 1; bell/pluck/strings/wood 0); Original rule midi 75 / loop 10 / packs 15. NOT RENDERED. || Earlier notes: Research build (6 tempos, median ~89): bpm 95->90, pocket 83-101; dead tags warm/round/horn/guitar replaced; conga moved to perc lane; clean. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Organized Noize\" --structure --before genres_config.pre-organized-noize-2026-09-25.json, read stamp first."
  },
  "Plug": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Plugg; 130-150): pocket 130-150; new sparse shaker/bongo lane (Zaytoven shaker); never-distorts locked by a test. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Plug\" --structure --before genres_config.pre-plug-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (synth 8, bell 4, pad 3; rest 0). Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Plugg; 130-150): pocket 130-150; new sparse shaker/bongo lane (Zaytoven shaker); never-distorts locked by a test. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Plug\" --structure --before genres_config.pre-plug-2026-09-25.json, read stamp first."
  },
  "Reggaeton Alt": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Dembow; tempos 85-97): bpm 92->94, pocket 88-98; dead round/snappy/timbale/clave replaced (no timbale or clave files). NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Reggaeton Alt\" --structure --before genres_config.pre-reggaeton-alt-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (synth 9, pad 6; rest 0). Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Dembow; tempos 85-97): bpm 92->94, pocket 88-98; dead round/snappy/timbale/clave replaced (no timbale or clave files). NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Reggaeton Alt\" --structure --before genres_config.pre-reggaeton-alt-2026-09-25.json, read stamp first."
  },
  "Trip Hop": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Trip hop; 5 tempos median 80): bpm 88->80, no pocket (never speeds up); allow_dirt True; dead round/tape replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Trip Hop\" --structure --before genres_config.pre-trip-hop-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (piano 5, guitar 3, horns 3, strings 2, wood 1; rest 0). Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Trip hop; 5 tempos median 80): bpm 88->80, no pocket (never speeds up); allow_dirt True; dead round/tape replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Trip Hop\" --structure --before genres_config.pre-trip-hop-2026-09-25.json, read stamp first."
  },
  "Wonky": {
-  "stage": "confirmed",
-  "date": "2026-09-28",
-  "verdict": "owner rendered beats on the app and heard them: keep all the changes.",
-  "notes": "Research build (Wikipedia Wonky; FlyLo 77-79): pocket 78-90; every-lane jitter locked by a test; dead smear/bend replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Wonky\" --structure --before genres_config.pre-wonky-2026-09-25.json, read stamp first."
+  "stage": "built",
+  "date": "2026-10-24",
+  "verdict": "DJ-rebuild Original settings applied 2026-10-24, not heard, no render. Old verdict (2026-09-28): owner rendered beats on the app and heard them: keep all the changes.",
+  "notes": "2026-10-24 rebuild: chord_source research-only (synth 8, strings 3, piano 2, pad 1; rest 0). Original rule 75/10/15. NOT RENDERED. || Earlier notes: Research build (Wikipedia Wonky; FlyLo 77-79): pocket 78-90; every-lane jitter locked by a test; dead smear/bend replaced. NOT RENDERED. Next: make_legend_newbuild.py --genres --legend \"Wonky\" --structure --before genres_config.pre-wonky-2026-09-25.json, read stamp first."
  }
 }

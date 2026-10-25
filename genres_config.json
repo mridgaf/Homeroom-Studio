@@ -240,19 +240,19 @@
     "modes": [
      [
       "triplets",
-      0.4
+      0.7
      ],
      [
       "trip_rolls",
-      0.25
+      0.125
      ],
      [
       "sixteenths",
-      0.2
+      0.1
      ],
      [
       "eighths",
-      0.15
+      0.075
      ]
     ],
     "open_p": 0.05,
@@ -383,6 +383,10 @@
      [
       "G",
       1
+     ],
+     [
+      "B",
+      1
      ]
     ],
     "mode": [
@@ -457,55 +461,55 @@
    "chord_source": [
     [
      "organ",
-     0.5
+     0
     ],
     [
      "loop",
-     2
+     10
     ],
     [
      "bell",
-     0.5
+     0
     ],
     [
      "choir",
-     0.5
+     0
     ],
     [
      "guitar",
-     0.5
+     0
     ],
     [
      "horns",
-     0.5
+     0
     ],
     [
      "pad",
-     0.5
+     0
     ],
     [
      "piano",
-     0.5
+     4.091
     ],
     [
      "pluck",
-     0.5
+     0
     ],
     [
      "strings",
-     0.5
+     2.727
     ],
     [
      "synth",
-     0.5
+     8.182
     ],
     [
      "wood",
-     0.5
+     0
     ],
     [
      "midi",
-     2.5
+     75
     ]
    ],
    "chord_rhythm": [
@@ -539,7 +543,7 @@
   "flavor_match": true,
   "allow_dirt": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, eleventh genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-memphis-2026-09-25.json. Era: Three 6 Mafia / DJ Paul / Juicy J / Tommy Wright III, mid-90s tapes; no crew DJ or Legend is Memphis.\n\nSOURCES\n- Wikipedia, Memphis rap: 'low budget', 'a \"distorted\", lo-fi soundscape that uses the Roland TR-808'; hallmarks 'cowbell, syncopated rhythms, powerful sub-bass, and sharp digital snares'; samples 'from soul and funk to horror film scores'; samples 'raw and pitched with some scratching in the background'; 'bedroom studios were often pushed to the extreme'.\n- Wikipedia, Mystic Stylez: recorded on 16-track reel-to-reel tape; 'dark, menacing beats'; DJ Paul: 'tongue twisting over slow beats'.\n- Tempos (tunebat), full-time count: Talk Yo Ass Off 137, Wet Party 136, Mystic Styles 138, Nine To Yo Dome 140 (A minor), Break Da Law 159 (A minor), F What U Heard 159. Body Parts 92 (F# minor). Median of the full-time set 139 -> bpm 140 kept, pocket 130-160.\n\nCHANGES\n- tempo pocket [130,160]; bpm 140 kept.\n- key roots lead with A, add F# (the sourced keys); minor/harmonic minor kept.\n- allow_dirt True: 'distorted', lo-fi, tape.\n- snare tags lofi/dusty/crisp/tight/808 ('sharp digital snares', TR-808).\n- stamp tags vocal/dark/scratch ('scream' had 0 files; scratching is sourced).\n- library tags add soul.\n- own_soundbank on; flavor_match already on.\n- Half-time snare, triplet hats, cowbell lane, families untouched: they already match the sources; families stay equal per owner 2026-09-25."
+  "_research_note": "NEW-BUILD 2026-09-25, eleventh genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-memphis-2026-09-25.json. Era: Three 6 Mafia / DJ Paul / Juicy J / Tommy Wright III, mid-90s tapes; no crew DJ or Legend is Memphis.\n\nSOURCES\n- Wikipedia, Memphis rap: 'low budget', 'a \"distorted\", lo-fi soundscape that uses the Roland TR-808'; hallmarks 'cowbell, syncopated rhythms, powerful sub-bass, and sharp digital snares'; samples 'from soul and funk to horror film scores'; samples 'raw and pitched with some scratching in the background'; 'bedroom studios were often pushed to the extreme'.\n- Wikipedia, Mystic Stylez: recorded on 16-track reel-to-reel tape; 'dark, menacing beats'; DJ Paul: 'tongue twisting over slow beats'.\n- Tempos (tunebat), full-time count: Talk Yo Ass Off 137, Wet Party 136, Mystic Styles 138, Nine To Yo Dome 140 (A minor), Break Da Law 159 (A minor), F What U Heard 159. Body Parts 92 (F# minor). Median of the full-time set 139 -> bpm 140 kept, pocket 130-160.\n\nCHANGES\n- tempo pocket [130,160]; bpm 140 kept.\n- key roots lead with A, add F# (the sourced keys); minor/harmonic minor kept.\n- allow_dirt True: 'distorted', lo-fi, tape.\n- snare tags lofi/dusty/crisp/tight/808 ('sharp digital snares', TR-808).\n- stamp tags vocal/dark/scratch ('scream' had 0 files; scratching is sourced).\n- library tags add soul.\n- own_soundbank on; flavor_match already on.\n- Half-time snare, triplet hats, cowbell lane, families untouched: they already match the sources; families stay equal per owner 2026-09-25.\n\nREBUILT 2026-10-24 (Original side). Transcript: Handoffs/DJ Rebuild/Memphis/research transcript.md. PHRASE-TO-SETTING MAP: 'dark and minor, lo-fi' + minimal synth melodies = chord_source synth 6 (Wikipedia Memphis rap, CONFIRMED); piano 3 (DJ Paul played piano, Wikipedia x2, CONFIRMED); strings 2 (horror film scores and classical samples, CONFIRMED as sources). Genre rule: midi 75 / loop 10 / packs 15 on research instruments only, every other sound 0. Roots add B (Sippin On Some Syrup B major). bpm 140 / tempo [130, 160] unchanged (136-160 on six tracks). Magnitudes mine."
  },
  "Crunk": {
   "num": 23,
@@ -1562,51 +1566,55 @@
    "chord_source": [
     [
      "strings",
-     0.891
+     0
     ],
     [
      "guitar",
-     0.891
+     3.75
     ],
     [
      "organ",
-     0.891
+     2.812
     ],
     [
      "bell",
-     0.891
+     0
     ],
     [
      "choir",
-     0.891
+     1.406
     ],
     [
      "horns",
-     0.891
+     1.406
     ],
     [
      "pad",
-     0.891
+     0.938
     ],
     [
      "piano",
-     0.891
+     2.812
     ],
     [
      "pluck",
-     0.891
+     0
     ],
     [
      "synth",
-     0.891
+     1.875
     ],
     [
      "wood",
-     0.891
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     3.267
+     75
     ]
    ],
    "chord_rhythm": [
@@ -1638,7 +1646,7 @@
   },
   "flavor_match": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, 14th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-organized-noize-2026-09-25.json.\n\nSOURCES\n- Tempos (tunebat/bpmdatabase): OutKast Player's Ball 93 (C# major), Goodie Mob Cell Therapy 83, Benz or Beamer 90, Black Ice 101, TLC Waterfalls 172/2=86, Southernplayalisticadillacmuzik 172/2=86 (Bb minor). Median 88-90.\n- Wikipedia's Organized Noize page gave no production detail; the live-band character stays as his own listen line describes it.\n\nCHANGES\n- bpm 95->90, pocket [83,101].\n- kick soft/clean/fat/boom ('warm','round' had 0 kick files).\n- conga moved from the bongo lane (0 there) to the perc lane (8 files).\n- stamp vocal/scratch ('horn','guitar' had 0 fx files).\n- Stays clean ('live-room warmth instead of dust'). Snare, swing 56, families untouched."
+  "_research_note": "NEW-BUILD 2026-09-25, 14th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-organized-noize-2026-09-25.json.\n\nSOURCES\n- Tempos (tunebat/bpmdatabase): OutKast Player's Ball 93 (C# major), Goodie Mob Cell Therapy 83, Benz or Beamer 90, Black Ice 101, TLC Waterfalls 172/2=86, Southernplayalisticadillacmuzik 172/2=86 (Bb minor). Median 88-90.\n- Wikipedia's Organized Noize page gave no production detail; the live-band character stays as his own listen line describes it.\n\nCHANGES\n- bpm 95->90, pocket [83,101].\n- kick soft/clean/fat/boom ('warm','round' had 0 kick files).\n- conga moved from the bongo lane (0 there) to the perc lane (8 files).\n- stamp vocal/scratch ('horn','guitar' had 0 fx files).\n- Stays clean ('live-room warmth instead of dust'). Snare, swing 56, families untouched.\n\nREBUILT 2026-10-24 (Original side). Transcript: Handoffs/DJ Rebuild/Organized Noize/research transcript.md. PHRASE-TO-SETTING MAP: 'played like a band, not a machine' = chord_source guitar 4 / organ 3 / piano 3 / synth 2 (keyboards) (Wikipedia: live bass, keyboards, guitar, organ on SPAD; organ riffs and Prince-like piano on ATLiens; baby grand on Aquemini, CONFIRMED); horns 1.5 (Morris Brown marching band on Rosa Parks, UNSURE); choir 1.5 (gospel choir, UNSURE); pad 1 (ATLiens \"sparse, atmospheric production\", UNSURE; also keeps the zero-set unique among genres). Genre rule: midi 75 / loop 10 / packs 15 on research instruments only; bell, pluck, strings, wood = 0. Everything else unchanged (bpm 90, tempo [83, 101], swing 56%). Magnitudes mine."
  },
  "Houston Screw": {
   "num": 25,
@@ -1843,19 +1851,19 @@
     "modes": [
      [
       "sparse",
-      0.4
+      0.7
      ],
      [
       "eighths",
-      0.3
+      0.15
      ],
      [
       "offbeats",
-      0.2
+      0.1
      ],
      [
       "sixteenths",
-      0.1
+      0.05
      ]
     ],
     "open_p": 0.08
@@ -2035,55 +2043,55 @@
    "chord_source": [
     [
      "strings",
-     0.636
+     1.5
     ],
     [
      "loop",
-     2
+     10
     ],
     [
      "bell",
-     0.636
+     0
     ],
     [
      "choir",
-     0.636
+     0
     ],
     [
      "guitar",
-     0.636
+     6.0
     ],
     [
      "horns",
-     0.636
+     0
     ],
     [
      "organ",
-     0.636
+     0
     ],
     [
      "pad",
-     0.636
+     0
     ],
     [
      "piano",
-     0.636
+     3.0
     ],
     [
      "pluck",
-     0.636
+     0
     ],
     [
      "synth",
-     0.636
+     4.5
     ],
     [
      "wood",
-     0.636
+     0
     ],
     [
      "midi",
-     2.999
+     75
     ]
    ],
    "chord_rhythm": "sustain",
@@ -2107,7 +2115,7 @@
   "flavor_match": true,
   "allow_dirt": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, tenth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-houston-screw-2026-09-25.json. Era: DJ Screw / Screwed Up Click tapes 1991-2000; no crew DJ or Legend is DJ Screw.\n\nSOURCES\n- Wikipedia, Chopped and screwed: 'slowing the tempo of a song down to 60 and 70 quarter-note beats per minute and applying techniques such as skipping beats, record scratching, stop-time'; reducing the pitch 'gave a mellow, heavy sound'; Houston's rap style 'has consistently remained slower'.\n- Wikipedia, DJ Screw (quoting the NYT): 'rap records played underwater on an old cassette deck that's running out of batteries and needs its tape heads cleaned'; 'music to lose yourself in'. He scratched his mother's B.B. King and Johnnie Taylor records.\n\nCHANGES\n- bpm 66 kept (inside the sourced 60-70); tempo pocket [60,70].\n- allow_dirt True: the old-cassette sound is the style; existing wow 0.35 / dust 0.3 kept.\n- stamp tags scratch/vocal/reverse (record scratching is sourced; 'tape' had 0 files).\n- kick tags 808/sub/deep/boom ('long' had 0 kick files; boom is safe here, the lane wants an 808).\n- library tags add soul (the records he slowed).\n- own_soundbank on; flavor_match already on.\n- Snare, hats, lanes, keys, chord families untouched: sparse/half-time drums match the sources; families stay equal per owner 2026-09-25."
+  "_research_note": "NEW-BUILD 2026-09-25, tenth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-houston-screw-2026-09-25.json. Era: DJ Screw / Screwed Up Click tapes 1991-2000; no crew DJ or Legend is DJ Screw.\n\nSOURCES\n- Wikipedia, Chopped and screwed: 'slowing the tempo of a song down to 60 and 70 quarter-note beats per minute and applying techniques such as skipping beats, record scratching, stop-time'; reducing the pitch 'gave a mellow, heavy sound'; Houston's rap style 'has consistently remained slower'.\n- Wikipedia, DJ Screw (quoting the NYT): 'rap records played underwater on an old cassette deck that's running out of batteries and needs its tape heads cleaned'; 'music to lose yourself in'. He scratched his mother's B.B. King and Johnnie Taylor records.\n\nCHANGES\n- bpm 66 kept (inside the sourced 60-70); tempo pocket [60,70].\n- allow_dirt True: the old-cassette sound is the style; existing wow 0.35 / dust 0.3 kept.\n- stamp tags scratch/vocal/reverse (record scratching is sourced; 'tape' had 0 files).\n- kick tags 808/sub/deep/boom ('long' had 0 kick files; boom is safe here, the lane wants an 808).\n- library tags add soul (the records he slowed).\n- own_soundbank on; flavor_match already on.\n- Snare, hats, lanes, keys, chord families untouched: sparse/half-time drums match the sources; families stay equal per owner 2026-09-25.\n\nREBUILT 2026-10-24 (Original side). Transcript: Handoffs/DJ Rebuild/Houston Screw/research transcript.md. The style is a technique on existing records, so the instrument ranking is thin: guitar 4 (blues/soul records such as B.B. King, UNSURE), synth 3 (G-funk-style melodies, UNSURE), piano 2 (UNSURE), strings 1 (MY pick: soul orchestration; also makes the zero-set unique among genres). Genre rule: midi 75 / loop 10 / packs 15, every other sound 0. bpm 66 / tempo [60, 70] unchanged (60-70 CONFIRMED by Wikipedia). Magnitudes mine."
  },
  "Emo Hip Hop": {
   "num": 26,
@@ -2446,6 +2454,10 @@
      [
       "A",
       2
+     ],
+     [
+      "F#",
+      1
      ]
     ],
     "mode": [
@@ -2520,51 +2532,55 @@
    "chord_source": [
     [
      "guitar",
-     0.659
+     6.923
     ],
     [
      "piano",
-     0.659
+     3.462
     ],
     [
      "bell",
-     0.659
+     0
     ],
     [
      "choir",
-     0.659
+     0
     ],
     [
      "horns",
-     0.659
+     0
     ],
     [
      "organ",
-     0.659
+     0
     ],
     [
      "pad",
-     0.659
+     2.308
     ],
     [
      "pluck",
-     0.659
+     0
     ],
     [
      "strings",
-     0.659
+     0
     ],
     [
      "synth",
-     0.659
+     2.308
     ],
     [
      "wood",
-     0.659
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.416
+     75
     ]
    ],
    "chord_rhythm": [
@@ -2597,7 +2613,7 @@
   },
   "allow_dirt": "low",
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-24, seventh genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-emo-hip-hop-2026-09-24.json.\n\nSOURCES\n- Wikipedia, Emo rap: 'fuses trap music-style beats with sing-rapping vocals'; 'conscious hip hop with indie rock instrumentals'; 'Sampling often uses 2000s pop punk and emo songs' (Mineral, Underoath, the Postal Service); some use original instrumentation; NYT on Nothing,Nowhere: 'second-wave emo ... with the rattling hip-hop low end'; a DIY ethos.\n- Wikipedia, Hellboy (Lil Peep, 2016): samples Underoath, Owen ('Cobain'), Bright Eyes, an acoustic Tom DeLonge performance, The Story So Far, Modest Mouse, Aphex Twin - guitar-led emo/indie records. Producers Smokeasac, NEDARB, Horse Head.\n- Wikipedia, Come Over When You're Sober Pt. 1: Smokeasac and IIVI produce, co-written with Rob Cavallo and George Astasio (live band writers).\n- songbpm.com (Spotify analysis), Lil Peep + XXXTentacion: Hellboy 136, The Brightside 134, OMFG 146, Cobain 142, Worlds Away 155, Girls 120, Problems 115, Jocelyn Flores 134, Look At Me 139, Hope 146, Fuck Love 126, Changes 65 (=130), Awful Things 170 (=85 half), Star Shopping 93, U Said 82, Benz Truck 92. On this engine's half-time count most sit 126-146.\n\nCHANGES\n1. Tempo pocket 130-150; default bpm 150 stays because the listen line says 'half-time at 150' (same call the owner made for Crunk: keep the described default, let beats reach where the records sit).\n2. Kit tags to real filenames, own_soundbank ON. Dead before: kick distort/deep = 0; snare acoustic = 0 by name. Now: plain kick acoustic/live/room (his 'acoustic kick' folder + roomy kicks: 18); snare drsnare/drbsnare/big/room = 74 real-drum and big/roomy snares ('a big washed-out snare that hits like a live drummer'; the 'acoustic' folder word itself avoided - 5 sidesticks/rims); hat closed/tite ('simple straight hats'). kick_flavors: 808 branch wants emptied (808 pool has no adjectives).\n3. Dirt: allow_dirt 'low' + kick_dist 0.28 -> 9.0 - the listen line's 'clipped distorted 808', at Mustang's measured audible level; since 2026-09-24 'low' dirt lands on the 808 lane, not the kick. The mix stays clean (its dust 0.1 / vinyl -54 unsourced).\n\nNOT CHANGED, and why\n- chord_source guitar 4 / piano 1: guitar-sampled emo records are the whole sound; matches.\n- space 'washed' (listen line: 'everything soaked in reverb'), swing 50, grammar, key/modes: nothing contradicts them.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n\nSYNONYMS (owner 2026-09-24, \"we should at least look for synonyms or similar words\"): flavor_match ON - each taste word also reaches its flavor_tags.py group (e.g. tight<->tite, grit<->dirty/dusty/lofi, hard<->heavy, distort<->clipped), folder words included; a synonym never lands a sidestick/rim/clap in the snare slot.",
+  "_research_note": "NEW-BUILD 2026-09-24, seventh genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-emo-hip-hop-2026-09-24.json.\n\nSOURCES\n- Wikipedia, Emo rap: 'fuses trap music-style beats with sing-rapping vocals'; 'conscious hip hop with indie rock instrumentals'; 'Sampling often uses 2000s pop punk and emo songs' (Mineral, Underoath, the Postal Service); some use original instrumentation; NYT on Nothing,Nowhere: 'second-wave emo ... with the rattling hip-hop low end'; a DIY ethos.\n- Wikipedia, Hellboy (Lil Peep, 2016): samples Underoath, Owen ('Cobain'), Bright Eyes, an acoustic Tom DeLonge performance, The Story So Far, Modest Mouse, Aphex Twin - guitar-led emo/indie records. Producers Smokeasac, NEDARB, Horse Head.\n- Wikipedia, Come Over When You're Sober Pt. 1: Smokeasac and IIVI produce, co-written with Rob Cavallo and George Astasio (live band writers).\n- songbpm.com (Spotify analysis), Lil Peep + XXXTentacion: Hellboy 136, The Brightside 134, OMFG 146, Cobain 142, Worlds Away 155, Girls 120, Problems 115, Jocelyn Flores 134, Look At Me 139, Hope 146, Fuck Love 126, Changes 65 (=130), Awful Things 170 (=85 half), Star Shopping 93, U Said 82, Benz Truck 92. On this engine's half-time count most sit 126-146.\n\nCHANGES\n1. Tempo pocket 130-150; default bpm 150 stays because the listen line says 'half-time at 150' (same call the owner made for Crunk: keep the described default, let beats reach where the records sit).\n2. Kit tags to real filenames, own_soundbank ON. Dead before: kick distort/deep = 0; snare acoustic = 0 by name. Now: plain kick acoustic/live/room (his 'acoustic kick' folder + roomy kicks: 18); snare drsnare/drbsnare/big/room = 74 real-drum and big/roomy snares ('a big washed-out snare that hits like a live drummer'; the 'acoustic' folder word itself avoided - 5 sidesticks/rims); hat closed/tite ('simple straight hats'). kick_flavors: 808 branch wants emptied (808 pool has no adjectives).\n3. Dirt: allow_dirt 'low' + kick_dist 0.28 -> 9.0 - the listen line's 'clipped distorted 808', at Mustang's measured audible level; since 2026-09-24 'low' dirt lands on the 808 lane, not the kick. The mix stays clean (its dust 0.1 / vinyl -54 unsourced).\n\nNOT CHANGED, and why\n- chord_source guitar 4 / piano 1: guitar-sampled emo records are the whole sound; matches.\n- space 'washed' (listen line: 'everything soaked in reverb'), swing 50, grammar, key/modes: nothing contradicts them.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n\nSYNONYMS (owner 2026-09-24, \"we should at least look for synonyms or similar words\"): flavor_match ON - each taste word also reaches its flavor_tags.py group (e.g. tight<->tite, grit<->dirty/dusty/lofi, hard<->heavy, distort<->clipped), folder words included; a synonym never lands a sidestick/rim/clap in the snare slot.\n\nREBUILT 2026-10-24 (Original side). Transcript: Handoffs/DJ Rebuild/Emo Hip Hop/research transcript.md. PHRASE-TO-SETTING MAP: 'enough room in the middle for a guitar' = chord_source guitar 6 (minor-key guitar riffs, Melodigging; distorted guitar riffs, Wikipedia; Guardian, CONFIRMED); piano 3 (UNSURE); synth 2 (warbled/icy synths, Revolt + Guardian, CONFIRMED); pad 2 (UNSURE). Genre rule: midi 75 / loop 10 / packs 15 on research instruments only, every other sound 0. Roots add F# (Lucid Dreams F#m). bpm 150 / tempo [130, 150] unchanged. Magnitudes mine.",
   "flavor_match": true
  },
  "Acid Rap Detroit": {
@@ -4587,51 +4603,55 @@
    "chord_source": [
     [
      "strings",
-     0.764
+     3.214
     ],
     [
      "piano",
-     0.764
+     2.143
     ],
     [
      "synth",
-     0.764
+     8.571
     ],
     [
      "bell",
-     0.764
+     0
     ],
     [
      "choir",
-     0.764
+     0
     ],
     [
      "guitar",
-     0.764
+     0
     ],
     [
      "horns",
-     0.764
+     0
     ],
     [
      "organ",
-     0.764
+     0
     ],
     [
      "pad",
-     0.764
+     1.071
     ],
     [
      "pluck",
-     0.764
+     0
     ],
     [
      "wood",
-     0.764
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.801
+     75
     ]
    ],
    "chord_rhythm": [
@@ -4663,7 +4683,7 @@
   },
   "flavor_match": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, 18th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-wonky-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Wonky: 'off-kilter or \"unstable\" beats', blending 'hip-hop, electro-funk, 8-bit, jazz fusion, glitch, and crunk'; artists Joker, Rustie, Hudson Mohawke, Flying Lotus.\n- Tempos: Flying Lotus Zodiac Shit 79 (Bb minor), Computer Face 154 (=77 half). Thin tempo data; pocket kept close to the old 86.\n\nCHANGES\n- bpm 86 kept, pocket [78,90].\n- 'every lane jittered' is a LOCK: every lane already has 7-9 ms jitter; test_wonky_every_lane_jitters guards it.\n- snare fat/dusty/lofi ('smear' 0); blips glitch/zap/laser and stamp vocal/glitch/reverse ('bend' 0).\n- Swing 62, late snare offset, families untouched. Stays clean (dust 0.25 as before)."
+  "_research_note": "NEW-BUILD 2026-09-25, 18th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-wonky-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Wonky: 'off-kilter or \"unstable\" beats', blending 'hip-hop, electro-funk, 8-bit, jazz fusion, glitch, and crunk'; artists Joker, Rustie, Hudson Mohawke, Flying Lotus.\n- Tempos: Flying Lotus Zodiac Shit 79 (Bb minor), Computer Face 154 (=77 half). Thin tempo data; pocket kept close to the old 86.\n\nCHANGES\n- bpm 86 kept, pocket [78,90].\n- 'every lane jittered' is a LOCK: every lane already has 7-9 ms jitter; test_wonky_every_lane_jitters guards it.\n- snare fat/dusty/lofi ('smear' 0); blips glitch/zap/laser and stamp vocal/glitch/reverse ('bend' 0).\n- Swing 62, late snare offset, families untouched. Stays clean (dust 0.25 as before).\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/Wonky. Genre rule on research instruments only: synth 8, strings 3, piano 2, pad 1 (wobbly synth washes; also keeps the zero-set unique among genres); rest 0. Magnitudes mine. Drums, swing, jitter unchanged."
  },
  "Trip Hop": {
   "num": 31,
@@ -5106,55 +5126,55 @@
    "chord_source": [
     [
      "strings",
-     0.832
+     2.143
     ],
     [
      "organ",
-     0.832
+     0
     ],
     [
      "loop",
-     1
+     10
     ],
     [
      "bell",
-     0.832
+     0
     ],
     [
      "choir",
-     0.832
+     0
     ],
     [
      "guitar",
-     0.832
+     3.214
     ],
     [
      "horns",
-     0.832
+     3.214
     ],
     [
      "pad",
-     0.832
+     0
     ],
     [
      "piano",
-     0.832
+     5.357
     ],
     [
      "pluck",
-     0.832
+     0
     ],
     [
      "synth",
-     0.832
+     0
     ],
     [
      "wood",
-     0.832
+     1.071
     ],
     [
      "midi",
-     3.384
+     75
     ]
    ],
    "chord_rhythm": [
@@ -5184,7 +5204,7 @@
   "flavor_match": true,
   "allow_dirt": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, 17th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-trip-hop-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Trip hop: 'slow tempos and an atmospheric sound'; Bristol's 'laid-back, slow and heavy drum beat (\"down tempo\")'; Portishead's 'scratchy, jazz-sample-based aesthetic'; 'turntable scratching, and breakbeat rhythms'; Rhodes, saxophones, trumpets, strings.\n- Tempos: Massive Attack Teardrop 77 (B minor), Portishead Sour Times 81, Wandering Star 80, Chase the Tear 95, Glory Box 120 (felt at 60). Median 80.\n\nCHANGES\n- bpm 88->80. NO tempo pocket: his line says 'never speeds up', so every beat stays at 80.\n- allow_dirt True: 'scratchy', 'thick vinyl bed' in his own line.\n- kick boom/deep/fat/dusty ('round' 0); stamp vocal/noise/vinyl/scratch ('tape' 0).\n- Half-time snare, sparse hats, families untouched."
+  "_research_note": "NEW-BUILD 2026-09-25, 17th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-trip-hop-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Trip hop: 'slow tempos and an atmospheric sound'; Bristol's 'laid-back, slow and heavy drum beat (\"down tempo\")'; Portishead's 'scratchy, jazz-sample-based aesthetic'; 'turntable scratching, and breakbeat rhythms'; Rhodes, saxophones, trumpets, strings.\n- Tempos: Massive Attack Teardrop 77 (B minor), Portishead Sour Times 81, Wandering Star 80, Chase the Tear 95, Glory Box 120 (felt at 60). Median 80.\n\nCHANGES\n- bpm 88->80. NO tempo pocket: his line says 'never speeds up', so every beat stays at 80.\n- allow_dirt True: 'scratchy', 'thick vinyl bed' in his own line.\n- kick boom/deep/fat/dusty ('round' 0); stamp vocal/noise/vinyl/scratch ('tape' 0).\n- Half-time snare, sparse hats, families untouched.\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/Trip Hop. Genre rule on research instruments only: piano 5 (Rhodes), guitar 3, horns 3, strings 2 (mine), wood 1 (flutes); rest 0. Magnitudes mine."
  },
  "Baltimore Club": {
   "num": 32,
@@ -6210,51 +6230,55 @@
    "chord_source": [
     [
      "synth",
-     0.527
+     15.0
     ],
     [
      "pluck",
-     0.527
+     0
     ],
     [
      "bell",
-     0.527
+     0
     ],
     [
      "choir",
-     0.527
+     0
     ],
     [
      "guitar",
-     0.527
+     0
     ],
     [
      "horns",
-     0.527
+     0
     ],
     [
      "organ",
-     0.527
+     0
     ],
     [
      "pad",
-     0.527
+     0
     ],
     [
      "piano",
-     0.527
+     0
     ],
     [
      "strings",
-     0.527
+     0
     ],
     [
      "wood",
-     0.527
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     1.932
+     75
     ]
    ],
    "chord_rhythm": "arp",
@@ -6277,7 +6301,7 @@
   },
   "flavor_match": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, twelfth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-miami-bass-2026-09-25.json. Era: 2 Live Crew / DJ Laz / Tag Team / 69 Boyz; no crew DJ or Legend is Miami bass.\n\nSOURCES\n- Wikipedia, Miami bass: 'drums from the Roland TR-808, sustained kick drum, heavy bass, raised dance tempos'; Unterberger: a 'stop-start flavor' and 'hissy' cymbals. 2 Live Crew's 'Throw The D' 'gave a permanent blueprint'.\n- Tempos (tunebat/getsongbpm): Mami El Negro 131, Me So Horny 129 (C major / E minor by source), Whoomp! There It Is 129 (E minor), Tootsee Roll 133 (A minor), Hoochie Mama 130, We Want Some 126, Face Down 122. Median 129.\n\nCHANGES\n- bpm 138->129, pocket [122,134]: the old 138 was faster than every sourced record.\n- clap backbeat 0.95 / displaced 0.05 (was 0.35 backbeat): his listen line 'handclaps hard on 2 and 4'; owner picked 'Mostly 2&4, a little wander' 2026-09-25.\n- 'long 808 filling every gap' stays a feel, not a lock (owner 2026-09-25, clickable).\n- roots C/E/A lead; minor and major equal (sourced keys split).\n- kick tags 808/sub/deep/boom ('long' had 0 kick files); snare tight/crisp/808 ('crack' had 0); stamp adds scratch.\n- Stays clean: listen line says 'clean', sources don't call it dirty.\n- own_soundbank on; flavor_match already on. Hats, cowbell, families untouched."
+  "_research_note": "NEW-BUILD 2026-09-25, twelfth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-miami-bass-2026-09-25.json. Era: 2 Live Crew / DJ Laz / Tag Team / 69 Boyz; no crew DJ or Legend is Miami bass.\n\nSOURCES\n- Wikipedia, Miami bass: 'drums from the Roland TR-808, sustained kick drum, heavy bass, raised dance tempos'; Unterberger: a 'stop-start flavor' and 'hissy' cymbals. 2 Live Crew's 'Throw The D' 'gave a permanent blueprint'.\n- Tempos (tunebat/getsongbpm): Mami El Negro 131, Me So Horny 129 (C major / E minor by source), Whoomp! There It Is 129 (E minor), Tootsee Roll 133 (A minor), Hoochie Mama 130, We Want Some 126, Face Down 122. Median 129.\n\nCHANGES\n- bpm 138->129, pocket [122,134]: the old 138 was faster than every sourced record.\n- clap backbeat 0.95 / displaced 0.05 (was 0.35 backbeat): his listen line 'handclaps hard on 2 and 4'; owner picked 'Mostly 2&4, a little wander' 2026-09-25.\n- 'long 808 filling every gap' stays a feel, not a lock (owner 2026-09-25, clickable).\n- roots C/E/A lead; minor and major equal (sourced keys split).\n- kick tags 808/sub/deep/boom ('long' had 0 kick files); snare tight/crisp/808 ('crack' had 0); stamp adds scratch.\n- Stays clean: listen line says 'clean', sources don't call it dirty.\n- own_soundbank on; flavor_match already on. Hats, cowbell, families untouched.\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/Miami Bass. Genre rule: synth 10 only, rest 0 (no other melodic instrument sourced). Magnitudes mine."
  },
  "New Orleans Bounce": {
   "num": 34,
@@ -6703,51 +6727,55 @@
    "chord_source": [
     [
      "pluck",
-     0.764
+     0
     ],
     [
      "bell",
-     0.764
+     0
     ],
     [
      "synth",
-     0.764
+     10.5
     ],
     [
      "choir",
-     0.764
+     0
     ],
     [
      "guitar",
-     0.764
+     0
     ],
     [
      "horns",
-     0.764
+     4.5
     ],
     [
      "organ",
-     0.764
+     0
     ],
     [
      "pad",
-     0.764
+     0
     ],
     [
      "piano",
-     0.764
+     0
     ],
     [
      "strings",
-     0.764
+     0
     ],
     [
      "wood",
-     0.764
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.801
+     75
     ]
    ],
    "chord_rhythm": "arp",
@@ -6770,7 +6798,7 @@
   },
   "flavor_match": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, 13th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-new-orleans-bounce-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Bounce music: call-and-response chants over the 'Triggerman beat' sampled from Showboys 'Drag Rap' and Cameron Paul 'Brown Beats'; its 'opening chromatic tics, the intermittent shouting of the word \"break\", the use of whistling', 'quick beat' from drum machines.\n- Tempos: Drag Rap 95 (tunebat, G major); Big Freedia catalog median 103, most common 105-110 (mixgraph).\n\nCHANGES\n- bpm 100 kept, pocket [95,108].\n- snare tight/crisp ('crack','snappy' had 0 snare files; 'clap' refused: a clap never fills a snare slot).\n- stamp vocal/scratch ('shout','whistle' had 0 files - whistle is sourced but the library has none; flagged, not faked).\n- Stays clean. Bounce snare, 16th tambourine, families untouched."
+  "_research_note": "NEW-BUILD 2026-09-25, 13th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-new-orleans-bounce-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Bounce music: call-and-response chants over the 'Triggerman beat' sampled from Showboys 'Drag Rap' and Cameron Paul 'Brown Beats'; its 'opening chromatic tics, the intermittent shouting of the word \"break\", the use of whistling', 'quick beat' from drum machines.\n- Tempos: Drag Rap 95 (tunebat, G major); Big Freedia catalog median 103, most common 105-110 (mixgraph).\n\nCHANGES\n- bpm 100 kept, pocket [95,108].\n- snare tight/crisp ('crack','snappy' had 0 snare files; 'clap' refused: a clap never fills a snare slot).\n- stamp vocal/scratch ('shout','whistle' had 0 files - whistle is sourced but the library has none; flagged, not faked).\n- Stays clean. Bounce snare, 16th tambourine, families untouched.\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/New Orleans Bounce. Genre rule: synth 7 and horns 3 are MY picks (no source names a melodic instrument); rest 0."
  },
  "G-Funk": {
   "num": 35,
@@ -7786,51 +7814,55 @@
    "chord_source": [
     [
      "pad",
-     0.764
+     6.0
     ],
     [
      "piano",
-     0.764
+     0
     ],
     [
      "guitar",
-     0.764
+     0
     ],
     [
      "bell",
-     0.764
+     0
     ],
     [
      "choir",
-     0.764
+     0
     ],
     [
      "horns",
-     0.764
+     0
     ],
     [
      "organ",
-     0.764
+     0
     ],
     [
      "pluck",
-     0.764
+     0
     ],
     [
      "strings",
-     0.764
+     0
     ],
     [
      "synth",
-     0.764
+     9.0
     ],
     [
      "wood",
-     0.764
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.801
+     75
     ]
    ],
    "chord_rhythm": [
@@ -7863,7 +7895,7 @@
   },
   "flavor_match": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, 16th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-reggaeton-alt-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Dembow: 'boom-ch-boom-chick'; 'a 3+3+2 (tresillo) cross-rhythm'; 'usually employed as a loop'.\n- Tempos: Bad Bunny Safaera 96 (getsongbpm), Rauw Alejandro 94 (musicstax), Bad Bunny x Rauw 'Party' 97, Tainy-style beats 85-90. Median ~94.\n\nCHANGES\n- bpm 92->94, pocket [88,98].\n- kick deep/sub/soft ('round' 0); snare tight/rim/crisp ('snappy' 0).\n- perc shaker/conga/latin ('timbale','clave' have 0 files; conga lives in perc, not bongo).\n- Dembow snare lock, dark minor keys, families untouched. Stays clean."
+  "_research_note": "NEW-BUILD 2026-09-25, 16th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-reggaeton-alt-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Dembow: 'boom-ch-boom-chick'; 'a 3+3+2 (tresillo) cross-rhythm'; 'usually employed as a loop'.\n- Tempos: Bad Bunny Safaera 96 (getsongbpm), Rauw Alejandro 94 (musicstax), Bad Bunny x Rauw 'Party' 97, Tainy-style beats 85-90. Median ~94.\n\nCHANGES\n- bpm 92->94, pocket [88,98].\n- kick deep/sub/soft ('round' 0); snare tight/rim/crisp ('snappy' 0).\n- perc shaker/conga/latin ('timbale','clave' have 0 files; conga lives in perc, not bongo).\n- Dembow snare lock, dark minor keys, families untouched. Stays clean.\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/Reggaeton Alt. Genre rule: synth 9, pad 6 (airy synths, UNSURE snippets); rest 0. Magnitudes mine."
  },
  "Detroit": {
   "num": 37,
@@ -8327,55 +8359,55 @@
    "chord_source": [
     [
      "strings",
-     0.8
+     2.308
     ],
     [
      "horns",
-     0.8
+     0
     ],
     [
      "organ",
-     0.8
+     0
     ],
     [
      "loop",
-     2
+     10
     ],
     [
      "synth",
-     0.8
+     4.615
     ],
     [
      "bell",
-     0.8
+     0
     ],
     [
      "choir",
-     0.8
+     0
     ],
     [
      "guitar",
-     0.8
+     1.154
     ],
     [
      "pad",
-     0.8
+     1.154
     ],
     [
      "piano",
-     0.8
+     5.769
     ],
     [
      "pluck",
-     0.8
+     0
     ],
     [
      "wood",
-     0.8
+     0
     ],
     [
      "midi",
-     3.6
+     75
     ]
    ],
    "chord_rhythm": [
@@ -8407,7 +8439,7 @@
   },
   "own_soundbank": true,
   "allow_dirt": true,
-  "_research_note": "NEW-BUILD 2026-09-24, sixth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-detroit-2026-09-24.json.\n\nSOURCES\n- XLR8R, 'In The Studio: Black Milk' (2009): Popular Demand 'repped the Detroit hip-hop tradition with his dirty drums and soulful samples'; Tronic adds 'techno-inspired synth lines' - 'more synth-bass and just keys all throughout' (Korg R2, MicroKorg), live trumpet, trombone, guitar; 'every track started at home on the MPC, chopping up the vinyl'; 'that real stutter-step rhythm'.\n- Red Bull Music Academy, Black Milk Fireside Chat (2018): MPC2000 XL for Sound Of The City through Album Of The Year, MPC3000 after; Random Axe with Guilty Simpson let him do 'even more dirtier, grimier type beats'; Detroit producers carry techno/Kraftwerk in their rhythm.\n- The Message (2015), Black Milk: 'my heart rather be behind a drum machine'.\n- RapReviews, Apollo Brown & Guilty Simpson 'The Dice Game' (2012): 'grimey raps over dusty breaks'; 'flip soul samples with boom-bap drums'. Albumism (2022): Brown 'the sonic heir to RZA', chopping soul, jazz and classical records, an orchestral string sample on 'Ink Blotches'.\n- songbpm.com tempos, 32 Black Milk + Apollo Brown tracks (double-time reads halved): median ~87, most between 80 and 102.\n\nCHANGES\n1. bpm 93 -> 88, signature tempo pocket 82-98.\n2. Kit tags to real filenames, own_soundbank ON. Dead before: kick boom/dusty = 0 (boom lives in the 808 bucket); snare crack/crunch/dusty = 0 of 680. Now: kick hard/lofi/dirt/grit ('hard dusty kick', 'dirty drums'); snare hard/heavy/lofi_snare/'snare [dirty]'/grit ('crunchy loud snare'; plain lofi and dirt avoided - they pull sidesticks and a clap into the snare slot); hat closed/tite. kick_flavors: 808 branch wants emptied, plain branch = kick words.\n3. Dirt ON (allow_dirt True): 'dirty drums', 'dusty breaks', 'grimier', and the listen line's 'grit left in'. Its own dust 0.45 / vinyl -46 / wow 0.08 / drive 1.5 had never played.\n4. chord_source + synth 1 (Tronic's synth lines and keys). Strings/horns/organ/loop stay (Apollo's strings, Black Milk's live horns, soul loops).\n\nNOT CHANGED, and why\n- genre_swing 55: the listen line says 'swing straightened out' and 'hitting square'; the sources describe a 'stutter-step rhythm' but give no amount. Owner 2026-09-24 picked 'Nearly straight, 52' -> 55 to 52.\n- Organ has one library file; left as it was. Grammar, space gated snare, key/modes: nothing contradicts them.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n\nSYNONYMS (owner 2026-09-24, \"we should at least look for synonyms or similar words\"): flavor_match ON - each taste word also reaches its flavor_tags.py group (e.g. tight<->tite, grit<->dirty/dusty/lofi, hard<->heavy, distort<->clipped), folder words included; a synonym never lands a sidestick/rim/clap in the snare slot.",
+  "_research_note": "NEW-BUILD 2026-09-24, sixth genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-detroit-2026-09-24.json.\n\nSOURCES\n- XLR8R, 'In The Studio: Black Milk' (2009): Popular Demand 'repped the Detroit hip-hop tradition with his dirty drums and soulful samples'; Tronic adds 'techno-inspired synth lines' - 'more synth-bass and just keys all throughout' (Korg R2, MicroKorg), live trumpet, trombone, guitar; 'every track started at home on the MPC, chopping up the vinyl'; 'that real stutter-step rhythm'.\n- Red Bull Music Academy, Black Milk Fireside Chat (2018): MPC2000 XL for Sound Of The City through Album Of The Year, MPC3000 after; Random Axe with Guilty Simpson let him do 'even more dirtier, grimier type beats'; Detroit producers carry techno/Kraftwerk in their rhythm.\n- The Message (2015), Black Milk: 'my heart rather be behind a drum machine'.\n- RapReviews, Apollo Brown & Guilty Simpson 'The Dice Game' (2012): 'grimey raps over dusty breaks'; 'flip soul samples with boom-bap drums'. Albumism (2022): Brown 'the sonic heir to RZA', chopping soul, jazz and classical records, an orchestral string sample on 'Ink Blotches'.\n- songbpm.com tempos, 32 Black Milk + Apollo Brown tracks (double-time reads halved): median ~87, most between 80 and 102.\n\nCHANGES\n1. bpm 93 -> 88, signature tempo pocket 82-98.\n2. Kit tags to real filenames, own_soundbank ON. Dead before: kick boom/dusty = 0 (boom lives in the 808 bucket); snare crack/crunch/dusty = 0 of 680. Now: kick hard/lofi/dirt/grit ('hard dusty kick', 'dirty drums'); snare hard/heavy/lofi_snare/'snare [dirty]'/grit ('crunchy loud snare'; plain lofi and dirt avoided - they pull sidesticks and a clap into the snare slot); hat closed/tite. kick_flavors: 808 branch wants emptied, plain branch = kick words.\n3. Dirt ON (allow_dirt True): 'dirty drums', 'dusty breaks', 'grimier', and the listen line's 'grit left in'. Its own dust 0.45 / vinyl -46 / wow 0.08 / drive 1.5 had never played.\n4. chord_source + synth 1 (Tronic's synth lines and keys). Strings/horns/organ/loop stay (Apollo's strings, Black Milk's live horns, soul loops).\n\nNOT CHANGED, and why\n- genre_swing 55: the listen line says 'swing straightened out' and 'hitting square'; the sources describe a 'stutter-step rhythm' but give no amount. Owner 2026-09-24 picked 'Nearly straight, 52' -> 55 to 52.\n- Organ has one library file; left as it was. Grammar, space gated snare, key/modes: nothing contradicts them.\n- stamp tags: the stamp lane is globally off since 2026-08-01.\n\nSYNONYMS (owner 2026-09-24, \"we should at least look for synonyms or similar words\"): flavor_match ON - each taste word also reaches its flavor_tags.py group (e.g. tight<->tite, grit<->dirty/dusty/lofi, hard<->heavy, distort<->clipped), folder words included; a synonym never lands a sidestick/rim/clap in the snare slot.\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/Detroit. Genre rule: piano 5, synth 4, strings 2 (mine), guitar 1 (Black Milk live band), pad 1 ('experimental textures', Black Milk snippet; keeps zero-set unique); rest 0. Magnitudes mine.",
   "flavor_match": true
  },
  "Plug": {
@@ -8871,51 +8903,55 @@
    "chord_source": [
     [
      "piano",
-     0.659
+     0
     ],
     [
      "bell",
-     0.659
+     4.0
     ],
     [
      "choir",
-     0.659
+     0
     ],
     [
      "guitar",
-     0.659
+     0
     ],
     [
      "horns",
-     0.659
+     0
     ],
     [
      "organ",
-     0.659
+     0
     ],
     [
      "pad",
-     0.659
+     3.0
     ],
     [
      "pluck",
-     0.659
+     0
     ],
     [
      "strings",
-     0.659
+     0
     ],
     [
      "synth",
-     0.659
+     8.0
     ],
     [
      "wood",
-     0.659
+     0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.416
+     75
     ]
    ],
    "chord_rhythm": [
@@ -8948,7 +8984,7 @@
   },
   "flavor_match": true,
   "own_soundbank": true,
-  "_research_note": "NEW-BUILD 2026-09-25, 15th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-plug-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Plugg: 'dreamy, laidback, atmospheric'; 'sparse, disjointed, and relaxed drum programming with few hi-hats'; 'a clap falling on every 2nd and 4th pulse'; claps 'heavily low-pass filtered and muffled'; hats 'only mark every 8th note and otherwise come and go in dense, occasional clumps'; Zaytoven adds 'bongos, shakers (the so-called \"Zaytoven shaker\")'. Lush chords, xylophone, soft synth pads.\n- Tempo: 130-150 (note.com, pluggnb explainer); 120-150 (songen). Terror plugg is the distorted offshoot - not this lane.\n\nCHANGES\n- bpm 140 kept, pocket [130,150].\n- kick 808/soft/sub ('round' had 0 files).\n- NEW perc lane: shaker + bongo, sparse (the Zaytoven shaker), empty seed bars so the grammar composes it.\n- 'soft 808 that never distorts' is a LOCK: kick_dist 0, no allow_dirt; test_plug_808_never_distorts guards it.\n- Clap half-time (= 2 and 4 of the half-time feel), hats, families untouched."
+  "_research_note": "NEW-BUILD 2026-09-25, 15th genre through the pass (A-Z; keep the approved mix, tune the style; dirt follows the research). Backup: genres_config.pre-plug-2026-09-25.json.\n\nSOURCES\n- Wikipedia, Plugg: 'dreamy, laidback, atmospheric'; 'sparse, disjointed, and relaxed drum programming with few hi-hats'; 'a clap falling on every 2nd and 4th pulse'; claps 'heavily low-pass filtered and muffled'; hats 'only mark every 8th note and otherwise come and go in dense, occasional clumps'; Zaytoven adds 'bongos, shakers (the so-called \"Zaytoven shaker\")'. Lush chords, xylophone, soft synth pads.\n- Tempo: 130-150 (note.com, pluggnb explainer); 120-150 (songen). Terror plugg is the distorted offshoot - not this lane.\n\nCHANGES\n- bpm 140 kept, pocket [130,150].\n- kick 808/soft/sub ('round' had 0 files).\n- NEW perc lane: shaker + bongo, sparse (the Zaytoven shaker), empty seed bars so the grammar composes it.\n- 'soft 808 that never distorts' is a LOCK: kick_dist 0, no allow_dirt; test_plug_808_never_distorts guards it.\n- Clap half-time (= 2 and 4 of the half-time feel), hats, families untouched.\n\nREBUILT 2026-10-24 (Original side). Transcript in Handoffs/DJ Rebuild/Plug. Genre rule: synth 8, bell 4, pad 3 (sparkly melodies, airy; Wikipedia Plugg); rest 0. Magnitudes mine."
  },
  "Chiptune": {
   "num": 39,

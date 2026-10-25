@@ -130,7 +130,7 @@ def test_collab_splits_the_jobs_evenly():
     # both stamps ride
     assert "stamp" in p["lanes"] and "stamp2" in p["lanes"]
     # tempo meets in the middle
-    assert p["bpm"] == round((88 + 96) / 2)
+    assert p["bpm"] == round((88 + 88) / 2)  # Sunday Chop 96 -> 88 on 2026-10-24
 
 
 def test_collab_deal_varies_by_variant():

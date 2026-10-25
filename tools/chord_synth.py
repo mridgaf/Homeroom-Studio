@@ -92,7 +92,10 @@ def midi_pool(key):
     return midi_packs.in_key(midi_packs.scan(), key, role="chord")
 
 
-def midi_progression(pick, key):
+MIDI_CHORD_FLOOR = 52     # E3: the bass line owns everything below this
+
+
+def midi_progression(pick, key, floor=None):
     """`pick`'s own chord ROOTS and QUALITIES, transposed into `key` and
     re-voiced compactly (KeyContext.voice — the same voicing
     harmony.compose() uses): [(root_pc, quality, [midi notes]), ...] in
@@ -117,9 +120,13 @@ def midi_progression(pick, key):
     if not prog:
         return None
     shift = key.shift_from(KeyContext(pick["key"], pick["mode"]))
-    return [((root + shift) % 12, quality,
-             key.voice((root + shift) % 12, quality))
-            for _, root, quality, _stack in prog]
+    out = []
+    for _, root, quality, _stack in prog:
+        notes = key.voice((root + shift) % 12, quality)
+        if floor and min(notes) < floor:     # whole chord up an octave
+            notes = [n + 12 for n in notes]
+        out.append(((root + shift) % 12, quality, notes))
+    return out
 
 
 def loop_voice(pool, dur, key, sr=SR, rng=None, used=None):

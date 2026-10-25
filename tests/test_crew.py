@@ -524,7 +524,9 @@ def test_breakdown_empties_the_bar_for_every_lane_but_the_kept_one(governed):
     # from bar 4 into a bar that plays nothing. Measured at ~0.24 — the
     # bar goes quiet, it does not go digitally silent, and that is the
     # sound the research describes.
-    assert bar5_energy(dropped) < bar5_energy(full) * 0.3
+    # 0.35: hats are 3.2 dB quieter since 2026-10-24, so the full bar's
+    # >2 kHz energy shrank and the ratio moved from ~0.24 to ~0.30
+    assert bar5_energy(dropped) < bar5_energy(full) * 0.35
     # and the kick is still playing in that bar
     kick_only = dict(full, lanes={"kick": full["lanes"]["kick"]},
                      kit={"kick": full["kit"]["kick"],
@@ -1258,6 +1260,28 @@ RESEARCH_ONLY = {
                         "strings", "wood"}, ("horns", "synth", "piano")),
     "Acid Rap Detroit": ({"organ", "bell", "choir", "horns", "pad", "pluck",
                           "strings", "wood"}, ("guitar", "synth", "piano")),
+    "Memphis": ({"bell", "choir", "guitar", "horns", "organ", "pad", "pluck", "wood"},
+              ("piano", "strings", "synth")),
+    "Houston Screw": ({"bell", "choir", "horns", "organ", "pad", "pluck", "wood"},
+              ("strings", "guitar", "piano", "synth")),
+    "Emo Hip Hop": ({"bell", "choir", "horns", "organ", "pluck", "strings", "wood"},
+              ("guitar", "piano", "pad", "synth")),
+    "Organized Noize": ({"bell", "pluck", "strings", "wood"},
+              ("guitar", "organ", "choir", "horns", "pad", "piano", "synth")),
+    "Trip Hop": ({"bell", "choir", "organ", "pad", "pluck", "synth"},
+              ("strings", "guitar", "horns", "piano", "wood")),
+    "Miami Bass": ({"bell", "choir", "guitar", "horns", "organ", "pad", "piano", "pluck", "strings", "wood"},
+              ("synth",)),
+    "New Orleans Bounce": ({"bell", "choir", "guitar", "organ", "pad", "piano", "pluck", "strings", "wood"},
+              ("synth", "horns")),
+    "Reggaeton Alt": ({"bell", "choir", "guitar", "horns", "organ", "piano", "pluck", "strings", "wood"},
+              ("pad", "synth")),
+    "Plug": ({"choir", "guitar", "horns", "organ", "piano", "pluck", "strings", "wood"},
+              ("bell", "pad", "synth")),
+    "Wonky": ({"bell", "choir", "guitar", "horns", "organ", "pluck", "wood"},
+              ("strings", "piano", "synth", "pad")),
+    "Detroit": ({"bell", "choir", "horns", "organ", "pluck", "wood"},
+              ("strings", "synth", "guitar", "pad", "piano")),
 }
 
 

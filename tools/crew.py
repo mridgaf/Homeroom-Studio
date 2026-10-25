@@ -83,7 +83,7 @@ PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 #
 # Everything here only ever ATTENUATES, so an identity that deliberately
 # tucks a lane away keeps it tucked away.
-PERC_UNDER_DB = -3.0      # the HAT TIER only: hat, clap, snap (2026-08-31)
+PERC_UNDER_DB = -6.2      # the HAT TIER only: hat, clap, snap (2026-08-31; -3.0 -> -6.2 owner 2026-10-24, "20% quieter" = -3.2 dB)
 FX_LANE_TRIM_DB = -3.2        # sound-effects lanes: "20% quieter" (owner 2026-10-10)
 FX_LANES = ("fx", "fxloop", "fxloop2", "airs")
 PUNCTUATION_UNDER_DB = -6.0  # crashes, impacts, risers — punctuation

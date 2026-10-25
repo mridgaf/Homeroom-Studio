@@ -1112,7 +1112,7 @@ def _compose_odd(preset, style, name, variant, tsig):
     # odd meters take the same variable loop length as everything else
     # (2026-07-22); a 3/4 or 6/8 bar is already shorter, so the tight
     # 2-bar loop is left off this path — it would fly past.
-    nbars = rng.choices((4, 8), weights=(0.65, 0.35))[0]
+    nbars = rng.choices((4, 8), weights=(0.5, 0.5))[0]   # half 4-bar (owner 2026-10-24)
     preset["bars"] = nbars
 
     for lane in list(preset["lanes"]):
@@ -1242,9 +1242,10 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
         ALLOWED_BARS = (4, 8)
         pinned = [n for n in (preset.get("bar_lengths") or ())
                   if n in ALLOWED_BARS]
+        # half of all loops are 4 bars (owner 2026-10-24: "things fall
+        # apart after 4 bars"); genres used to be always 8
         nbars = (rng.choice(pinned) if pinned else
-                 8 if genre else rng.choices(ALLOWED_BARS,
-                                             weights=(0.60, 0.40))[0])
+                 rng.choices(ALLOWED_BARS, weights=(0.5, 0.5))[0])
         preset["bars"] = nbars
         # form roll (owner call 2026-07-21): half the beats are the loop
         # heard straight through, half the A/B answer form. Only an

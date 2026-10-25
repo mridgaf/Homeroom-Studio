@@ -2423,7 +2423,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         if m_pool:
             m_pick = random.Random(variant * 967).choice(
                 m_pool[:chord_synth.MIDI_PICK_TOP])
-            midi_prog = chord_synth.midi_progression(m_pick, key)
+            # new beats (midi_voice_flow): the MIDI chords stay above the
+            # bass line's register (owner 2026-10-24)
+            midi_prog = chord_synth.midi_progression(
+                m_pick, key, floor=(chord_synth.MIDI_CHORD_FLOOR
+                                    if preset.get("midi_voice_flow") else None))
             midi_pick_name = m_pick["name"]
     # every non-strings, non-loop voice is now a SAMPLED instrument out of
     # his own banks (owner 2026-07-23) — "synth" included, so this index is

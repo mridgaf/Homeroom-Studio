@@ -9,7 +9,8 @@
   "bpm": 88,
   "era": "90s",
   "built": "J Dilla",
-  "listen": "the drunk pull: snare rushes early, kick leans back late, hats dead straight; half SP-1200 dust; vinyl bed; his stamp is a dusty tom on the tail of bars 4 and 8",
+  "listen": "the drunk pull: snare rushes early, kick leans back late, hats dead straight; half SP-1200 dust; vinyl bed; keys, guitar and horn chops; his stamp is a dusty tom on the tail of bars 4 and 8",
+  "_research_note": "REBUILT 2026-10-24 (Original side). Era per owner 2026-09-06: the general dusty Dilla 1992-2003 (J Dillo keeps Donuts). Transcript: Handoffs/DJ Rebuild/Otto Grit/research transcript.md. PHRASE-TO-SETTING MAP. 'snare rushes early, kick leans back late, hats dead straight' = lanes offsets (CONFIRMED by Hein, Soundfly, Big Noise, Charnas; the ms values are the engine's, NOT FOUND in sources). 'half SP-1200 dust; vinyl bed' = dust .25 / vinyl -48 (SP-1200 early CONFIRMED by Dilla himself and R.J. Rice; vinyl bed carried over, unsourced). 'keys, guitar and horn chops' = signature.chord_source: midi 75 / loop 10 / packs 15, with piano 3.75, guitar 2.25, horns 1.5 as the researched half (order sourced: Rhodes/piano, samba guitar on Runnin', Mangione horn on Fall in Love [UNSURE]; magnitudes are mine) and the other 8 sounds sharing 7.5. 'dusty tom on bars 4 and 8' = stamp lane, kept as the identity's own signature (NOT FOUND in research). tempo [79, 95] from Runnin' 94, Drop 95, Fall in Love 91-94, She Said 79 (BPMs from Tunebat/SongBPM). Roots Bb x3 (Runnin', Drop, Fall in Love remix are A#m), F#, Eb (Badu Eb dorian); dorian added. Magnitudes mine.",
   "kit": {
    "kick": [
     "kick",
@@ -400,11 +401,19 @@
      ],
      [
       "Bb",
-      1.0
+      3
      ],
      [
       "G",
-      2.0
+      2
+     ],
+     [
+      "F#",
+      1
+     ],
+     [
+      "Eb",
+      1
      ]
     ],
     "mode": [
@@ -423,9 +432,17 @@
      [
       "mixolydian",
       1
+     ],
+     [
+      "dorian",
+      1
      ]
     ]
    },
+   "tempo": [
+    79,
+    95
+   ],
    "progressions": [
     [
      "nostalgic_jazz",
@@ -515,55 +532,55 @@
    "chord_source": [
     [
      "piano",
-     0.5
+     3.75
     ],
     [
      "loop",
-     2
+     10
     ],
     [
      "bell",
-     0.5
+     0.938
     ],
     [
      "choir",
-     0.5
+     0.938
     ],
     [
      "guitar",
-     0.5
+     2.25
     ],
     [
      "horns",
-     0.5
+     1.5
     ],
     [
      "organ",
-     0.5
+     0.938
     ],
     [
      "pad",
-     0.5
+     0.938
     ],
     [
      "pluck",
-     0.5
+     0.938
     ],
     [
      "strings",
-     0.5
+     0.938
     ],
     [
      "synth",
-     0.5
+     0.938
     ],
     [
      "wood",
-     0.5
+     0.938
     ],
     [
      "midi",
-     2.5
+     75
     ]
    ],
    "chord_rhythm": [
@@ -1811,7 +1828,7 @@
   "era": "2000s",
   "built": "Timbaland",
   "listen": "Virginia 1996-2002 bounce: stuttering, sparse syncopation with silence as an instrument — bar 6 drops to almost nothing and answers bar 5; kick lands in odd spots, claps and snares answer; tabla, shaker and conga off-center as the rhythm; a plucked or flute-like lead over a rubbery bass, in minor or phrygian_dominant; clean (the grit is arrangement, not crush); stamp is an exotic perc hit late in bars 4/8",
- "_research_note": "REBUILD 2026-10-23 (dj-rebuild). Research: Handoffs/DJ Rebuild/Chrome Dial/research transcript.md (24 sources, 7 tracks, 5 people who worked with him). Backup: crew_config.pre-chrome-dial-rebuild-2026-10-23.json. Engine settings NOT changed yet: see Code handoff.md.\nERA (ASSUMING, owner away): 1996-2002 Virginia / ASR-10 years (Pony, One in a Million, The Rain, Are You That Somebody, Big Pimpin', Try Again, Get Ur Freak On). Timberline keeps 2006-08.\nPHRASE-TO-SETTING MAP\n- \"stuttering, sparse syncopation\" -> kick grammar w/hits/double_p, sparse lanes (unchanged). [CONFIRMED]\n- \"silence as an instrument, bar 6 drops\" -> kick/clap lane bar 6 near-empty (unchanged). Silence [CONFIRMED]; bar 6 carried over from old line, unsourced.\n- \"kick lands in odd spots\" -> kick grammar. [CONFIRMED]\n- \"claps and snares answer\" -> clap modes. [CONFIRMED]\n- \"tabla, shaker and conga\" -> kit perc tags (unchanged). tabla [CONFIRMED]; conga carried over.\n- \"plucked or flute-like lead\" -> chord_source wood, pluck (+guitar, synth, strings): odds change needed. [CONFIRMED]\n- \"rubbery bass\" -> bass figure funk/push; chord_family grit has no funk: change needed. [CONFIRMED]\n- \"minor or phrygian_dominant\" -> signature.key.mode: change needed. minor [CONFIRMED], phrygian [UNSURE one source]\n- \"clean\" -> dust/vinyl/wow/kick_dist/mix_sat 0 (unchanged). The word 'completely' was dropped so the tool does not read it as a hard rule (ASSUMING). Douglass's overloaded-tape kick [UNSURE] is an owner pick.\n- \"stamp is an exotic perc hit late in bars 4/8\" -> lanes.stamp (unchanged, carried over).",
+  "_research_note": "REBUILD 2026-10-23 (dj-rebuild). Research: Handoffs/DJ Rebuild/Chrome Dial/research transcript.md (24 sources, 7 tracks, 5 people who worked with him). Backup: crew_config.pre-chrome-dial-rebuild-2026-10-23.json. Engine settings NOT changed yet: see Code handoff.md.\nERA (ASSUMING, owner away): 1996-2002 Virginia / ASR-10 years (Pony, One in a Million, The Rain, Are You That Somebody, Big Pimpin', Try Again, Get Ur Freak On). Timberline keeps 2006-08.\nPHRASE-TO-SETTING MAP\n- \"stuttering, sparse syncopation\" -> kick grammar w/hits/double_p, sparse lanes (unchanged). [CONFIRMED]\n- \"silence as an instrument, bar 6 drops\" -> kick/clap lane bar 6 near-empty (unchanged). Silence [CONFIRMED]; bar 6 carried over from old line, unsourced.\n- \"kick lands in odd spots\" -> kick grammar. [CONFIRMED]\n- \"claps and snares answer\" -> clap modes. [CONFIRMED]\n- \"tabla, shaker and conga\" -> kit perc tags (unchanged). tabla [CONFIRMED]; conga carried over.\n- \"plucked or flute-like lead\" -> chord_source wood, pluck (+guitar, synth, strings): odds change needed. [CONFIRMED]\n- \"rubbery bass\" -> bass figure funk/push; chord_family grit has no funk: change needed. [CONFIRMED]\n- \"minor or phrygian_dominant\" -> signature.key.mode: change needed. minor [CONFIRMED], phrygian [UNSURE one source]\n- \"clean\" -> dust/vinyl/wow/kick_dist/mix_sat 0 (unchanged). The word 'completely' was dropped so the tool does not read it as a hard rule (ASSUMING). Douglass's overloaded-tape kick [UNSURE] is an owner pick.\n- \"stamp is an exotic perc hit late in bars 4/8\" -> lanes.stamp (unchanged, carried over).",
   "kit": {
    "kick": [
     "kick",
@@ -2483,7 +2500,8 @@
   "bpm": 98,
   "era": "2000s",
   "built": "The Neptunes / Pharrell",
-  "listen": "minimal and dry: NO hats — a snap keeps time; the clap lands ~18 ms LATE against the snare (the documented Neptunes flam); bar 8 stop-starts. The Alt file is the one to compare hard: era says bone dry, house says gated. Stamp is a weird click/zap on bars 4/8",
+  "listen": "minimal and dry, with thin synth keys and a plucked, clavichord-style line: NO hats — a snap keeps time; the clap lands ~18 ms LATE against the snare (the documented Neptunes flam); bar 8 stop-starts. The Alt file is the one to compare hard: era says bone dry, house says gated. Stamp is a weird click/zap on bars 4/8",
+  "_research_note": "REBUILT 2026-10-24 (Original side). Era per owner 2026-09-05 (Neptunes minimal; Farrow = live-band N.E.R.D.). Transcript: Handoffs/DJ Rebuild/Glass Cat/research transcript.md. PHRASE-TO-SETTING MAP: 'thin synth keys' = chord_source synth 5.5 (minimal synthesizers on Grindin', keyboards on Drop It, Triton/MicroKorg, CONFIRMED); 'a plucked, clavichord-style line' = chord_source pluck 2 (Hugo's clavichord stand-in for guitar, UNSURE one source). midi 75 / loop 10 / packs 15 with the researched half (7.5) on synth+pluck, the other 9 sounds sharing 7.5. Tempo [92, 107] from Drop It 92, Grindin' 96, Hot in Herre 107; bpm 98 unchanged. Roots add C# (Grindin', Drop It) and B; major added. Late-clap ms and 'documented flam' NOT re-found; carried over unchanged. Magnitudes mine.",
   "kit": {
    "kick": [
     "kick",
@@ -2743,35 +2761,35 @@
     "modes": [
      [
       "eighths",
-      0.1
+      0.0513
      ],
      [
       "sixteenths",
-      0.1
+      0.0513
      ],
      [
       "sparse",
-      0.18
+      0.0923
      ],
      [
       "broken",
-      0.1
+      0.0513
      ],
      [
       "offbeats",
-      0.1
+      0.0513
      ],
      [
       "gallop",
-      0.22
+      0.6
      ],
      [
       "answer",
-      0.1
+      0.0513
      ],
      [
       "rolls32",
-      0.1
+      0.0513
      ]
     ]
    }
@@ -2868,7 +2886,7 @@
     "roots": [
      [
       "C",
-      2
+      2.5
      ],
      [
       "G",
@@ -2876,10 +2894,18 @@
      ],
      [
       "A",
-      2
+      1.5
      ],
      [
       "E",
+      1
+     ],
+     [
+      "C#",
+      2
+     ],
+     [
+      "B",
       1
      ]
     ],
@@ -2895,9 +2921,17 @@
      [
       "mixolydian",
       1
+     ],
+     [
+      "major",
+      2
      ]
     ]
    },
+   "tempo": [
+    92,
+    107
+   ],
    "progressions": [
     [
      "vamp_static_riff",
@@ -2959,51 +2993,55 @@
    "chord_source": [
     [
      "bell",
-     0.659
+     0.833
     ],
     [
      "pluck",
-     0.659
+     2
     ],
     [
      "choir",
-     0.659
+     0.833
     ],
     [
      "guitar",
-     0.659
+     0.833
     ],
     [
      "horns",
-     1.159
+     0.833
     ],
     [
      "organ",
-     0.159
+     0.833
     ],
     [
      "pad",
-     0.659
+     0.833
     ],
     [
      "piano",
-     0.659
+     0.833
     ],
     [
      "strings",
-     0.659
+     0.833
     ],
     [
      "synth",
-     0.659
+     5.5
     ],
     [
      "wood",
-     0.659
+     0.833
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.416
+     75
     ]
    ],
    "chord_rhythm": "arp",
@@ -3033,10 +3071,11 @@
  },
  "Sunday Chop": {
   "num": 6,
-  "bpm": 96,
+  "bpm": 88,
   "era": "2000s",
   "built": "Kanye West",
-  "listen": "gospel bounce at 57% swing, driving pushed kicks, a BIG clap with a snare tucked underneath, tambourine offbeats; clean (MPC3000 = 16-bit). His stamp is the crash swell opening bars 1 and 5",
+  "listen": "gospel bounce at 57% swing, driving pushed kicks, a BIG clap with a snare tucked underneath, tambourine offbeats; clean (16-bit), sped-up soul chops under gospel choir and strings. His stamp is the crash swell opening bars 1 and 5",
+  "_research_note": "REBUILT 2026-10-24 (Original side). Era per owner 2026-09-05 (chipmunk soul; Kane East = Yeezus). Transcript: Handoffs/DJ Rebuild/Sunday Chop/research transcript.md. PHRASE-TO-SETTING MAP: 'gospel choir' = chord_source choir 3 (Jesus Walks ARC Choir, children's choir, gospel choirs on College Dropout + Late Registration, CONFIRMED); 'strings' = chord_source strings 2.5 (string accompaniment, orchestral breaks, CONFIRMED); piano 2 (piano as bass, Reverb Machine, UNSURE). Crew 50-50: researched half 7.5 on choir/strings/piano, the other 9 sounds share 7.5. midi 75 / loop 10. bpm 96 -> 88, tempo [82, 92] (Through the Wire 82-84, Jesus Walks 87, My Way Home 87, All Falls Down 91). Roots add Eb (Jesus Walks) and G# (All Falls Down). '(MPC3000 = 16-bit)' dropped: no source found for that machine (sources say ASR-10 chopping, MPC2000XL drums). 57% swing, pushed kicks, big clap, tambourine offbeats NOT re-found; carried over. Magnitudes mine.",
   "kit": {
    "kick": [
     "kick",
@@ -3496,6 +3535,14 @@
      [
       "Bb",
       0.5
+     ],
+     [
+      "Eb",
+      2
+     ],
+     [
+      "G#",
+      2
      ]
     ],
     "mode": [
@@ -3505,7 +3552,7 @@
      ],
      [
       "minor",
-      1
+      2
      ],
      [
       "lydian",
@@ -3517,6 +3564,10 @@
      ]
     ]
    },
+   "tempo": [
+    82,
+    92
+   ],
    "progressions": [
     [
      "uplifting",
@@ -3606,55 +3657,55 @@
    "chord_source": [
     [
      "piano",
-     0.7
+     2
     ],
     [
      "choir",
-     0.7
+     3
     ],
     [
      "loop",
-     1
+     10
     ],
     [
      "bell",
-     0.7
+     0.938
     ],
     [
      "guitar",
-     0.7
+     0.938
     ],
     [
      "horns",
-     0.7
+     0.938
     ],
     [
      "organ",
-     0.7
+     0.938
     ],
     [
      "pad",
-     0.7
+     0.938
     ],
     [
      "pluck",
-     0.7
+     0.938
     ],
     [
      "strings",
-     0.7
+     2.5
     ],
     [
      "synth",
-     0.7
+     0.938
     ],
     [
      "wood",
-     0.7
+     0.938
     ],
     [
      "midi",
-     2.9
+     75
     ]
    ],
    "chord_rhythm": [
@@ -3695,7 +3746,8 @@
   "bpm": 140,
   "era": "2010s",
   "built": "Metro Boomin",
-  "listen": "dark halftime: sustained distorted 808, clap on 3, hat rolls that ramp INTO the snare, and the drama — bar 5 drops to the 808 alone. Stamp is a reversed cymbal resolving onto the next downbeat (bars 4 and 8)",
+  "listen": "dark halftime: sustained distorted 808, clap on 3, hat rolls that ramp INTO the snare, and the drama — bar 5 drops to the 808 alone, over a cold piano loop with bells and a flute. Stamp is a reversed cymbal resolving onto the next downbeat (bars 4 and 8)",
+  "_research_note": "REBUILT 2026-10-24 (Original side). Transcript: Handoffs/DJ Rebuild/Night Metro/research transcript.md. PHRASE-TO-SETTING MAP: 'a cold piano loop' = chord_source piano 3 (Jumpman two-note piano loop, Bank Account piano, CONFIRMED by Melodics; one article); 'bells' = bell 2 (Bad and Boujee bell-like melody, UNSURE; MIDI never plays bell); 'a flute' = wood 1 (Mask Off flute sample, Wikipedia + Melodics, CONFIRMED); strings 1.5 (ghostly strings, UNSURE). Crew 50-50: researched half (7.5) on piano/bell/strings/wood, the other 7 sounds share 7.5. midi 75 / loop 10. tempo [127, 150] (Bad and Boujee 127, Jumpman 142, No Heart 140, Mask Off 150); bpm 140 unchanged. Roots add Eb (Bad and Boujee), E, C#. Clap on 3, hat rolls into snare, bar-5 drop NOT re-found; carried over. Magnitudes mine.",
   "kit": {
    "kick": [
     "kick",
@@ -4070,6 +4122,18 @@
      [
       "A",
       2
+     ],
+     [
+      "Eb",
+      2
+     ],
+     [
+      "E",
+      1
+     ],
+     [
+      "C#",
+      1
      ]
     ],
     "mode": [
@@ -4083,6 +4147,10 @@
      ]
     ]
    },
+   "tempo": [
+    127,
+    150
+   ],
    "progressions": [
     [
      "trap_dark_metro",
@@ -4148,55 +4216,55 @@
    "chord_source": [
     [
      "bell",
-     0.65
-    ],
-    [
-     "pad",
-     0.15
-    ],
-    [
-     "loop",
      2.0
     ],
     [
+     "pad",
+     1.071
+    ],
+    [
+     "loop",
+     10
+    ],
+    [
      "midi",
-     2.883
+     75
     ],
     [
      "choir",
-     0.65
+     1.071
     ],
     [
      "guitar",
-     0.65
+     1.071
     ],
     [
      "horns",
-     0.65
+     1.071
     ],
     [
      "organ",
-     0.65
+     1.071
     ],
     [
      "piano",
-     0.65
+     3.0
     ],
     [
      "pluck",
-     0.65
+     1.071
     ],
     [
      "strings",
-     0.65
+     1.5
     ],
     [
      "synth",
-     0.65
+     1.071
     ],
     [
      "wood",
-     0.65
+     1.0
     ]
    ],
    "chord_rhythm": [
@@ -4248,10 +4316,11 @@
  },
  "Rage Engine": {
   "num": 8,
-  "bpm": 150,
+  "bpm": 140,
   "era": "2010s",
   "built": "Lex Luger",
-  "listen": "relentless: wall-to-wall 32nd hat rolls, snare+clap stacked, distortion on the 808 AND glue saturation on the whole mix, zero drop-outs, extra snare fills every 4th bar. Stamp is the crash/impact opening bars 1 and 5",
+  "listen": "relentless: wall-to-wall 32nd hat rolls, snare+clap stacked, distortion on the 808 AND glue saturation on the whole mix, zero drop-outs, extra snare fills every 4th bar, over bombastic synth brass, strings and tubular bells. Stamp is the crash/impact opening bars 1 and 5",
+  "_research_note": "REBUILT 2026-10-24 (Original side). Transcript: Handoffs/DJ Rebuild/Rage Engine/research transcript.md. PHRASE-TO-SETTING MAP: 'bombastic synth brass, strings' = chord_source horns 2 + strings 2 (Wikipedia: orchestration of synthesized brass, stringed, woodwind, keyboard; Luger assigns orchestral instruments, CONFIRMED); 'tubular bells' = bell 1.5 (Luger himself, Novation, 'a key aspect of his sound'; MIDI never plays bell); synth 1.5 (spooky trap synth, dense synthesizers, CONFIRMED); wood 0.5 (woodwind). Crew 50-50: researched half on those five, the other 6 sounds share 7.5. midi 75 / loop 10. bpm 150 -> 140, tempo [131, 145] (Hard in da Paint 143, B.M.F. 139-140, No Hands 131). Roots add D# (Hard in da Paint) and major (B.M.F. D major). Stacked snare+clap, zero drop-outs, extra fills every 4th bar NOT re-found; carried over. Magnitudes mine.",
   "kit": {
    "kick": [
     "kick",
@@ -4655,6 +4724,10 @@
      [
       "A",
       2
+     ],
+     [
+      "D#",
+      2
      ]
     ],
     "mode": [
@@ -4665,9 +4738,17 @@
      [
       "harmonic_minor",
       2
+     ],
+     [
+      "major",
+      1
      ]
     ]
    },
+   "tempo": [
+    131,
+    145
+   ],
    "progressions": [
     [
      "epic",
@@ -4729,51 +4810,55 @@
    "chord_source": [
     [
      "strings",
-     0.609
+     2.0
     ],
     [
      "horns",
-     0.609
+     2.0
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.233
+     75
     ],
     [
      "bell",
-     0.609
+     1.5
     ],
     [
      "choir",
-     0.609
+     1.25
     ],
     [
      "guitar",
-     0.609
+     1.25
     ],
     [
      "organ",
-     0.609
+     1.25
     ],
     [
      "pad",
-     0.609
+     1.25
     ],
     [
      "piano",
-     0.609
+     1.25
     ],
     [
      "pluck",
-     0.609
+     1.25
     ],
     [
      "synth",
-     0.609
+     1.5
     ],
     [
      "wood",
-     0.609
+     0.5
     ]
    ],
    "chord_rhythm": [
