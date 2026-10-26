@@ -19,6 +19,19 @@ entries.
 ---
 
 ## Log
+### [2026-10-25] Claude's own bank on the Kronos: USER-G
+- Context: owner wants instrument "folders" only Claude uses so factory sounds are never edited. Live edits of factory sounds were unreliable (effect-type changes ignored by the Kronos; IFX1 Send2 edit does work; kit Drive had no measurable effect).
+- Decision/change: USER-G (SysEx bank 0x46, Bank Select LSB 14) is Claude's. `tools/kronos_bank.py init` copied INT-F 095 -> USER-G 000 "Claude Hip Hop Kit" and INT-B 033 -> USER-G 064 "Claude Piano", then Store Bank. Convention: slots 0-63 drums, 64-127 keys. Kronos banks cannot be renamed. Never write outside USER-G.
+- Verify by: names read back OK (USER-G 000/064). Not yet heard.
+- Status: open
+### [2026-10-25] Korg Kronos 61 wired in (tools/kronos.py)
+- Context: owner has a "Chronos workstation 61" = Korg Kronos 61 (USB shows KORG KRONOS; Mac sees MIDI ports KRONOS KEYBOARD/KRONOS SOUND and audio device "KRONOS _ USB _ L&R"). Interface on USB is a Scarlett 2i2, not the AudioBox. He wants to say "creepy piano" / "distorted drums" and have Claude do it.
+- Decision/change: downloaded Korg Operation Guide, MIDI Implementation, Voice Name List into `Production Research Hub/Originals/Kronos/` (license accepted by him, personal use). `tools/kronos_build_catalog.py` -> `tools/kronos_programs.json` (2,176 programs, 17 banks x 128; GM, drum kits, USER-G excluded). `tools/kronos.py`: find by words, play (Bank Select MSB0 + LSB, Program Change), chord, cc, offline `check`. Guide: `Production Research Hub/Kronos Quick Guide.md`.
+- Reasoning: smallest thing that works; reuses mido; sound-by-description is a NAME search, not sound analysis, so "creepy" is a shortlist for his ears.
+- Verify by: `python tools/kronos.py play INT-B 36` then `chord` while the Kronos is on and he listens. Check Global MIDI channel = 1 and Enable Program and Bank Change ticked if it does not switch. Not run live: no sound was sent (late night). Audio-record + pedalboard path not built yet.
+- Status: confirmed (switch + chord)
+- Outcome: 2026-10-25 owner heard INT-B 036 Reverse Piano + C minor chord on 2nd try. MIDI channel 1 and bank change are fine. Record + pedalboard effects path still not built.
+- Update 2026-10-25: Korg's Voice Name List does NOT match this unit (firmware 1.6): INT-B 036 on the unit is '"...lead to Rome" E.P.', not Reverse Piano. Names are now READ from the Kronos by SysEx (`tools/kronos_names.py` -> `tools/kronos_unit_programs.json`, 1,536 real programs: INT-A..F, USER-A..F; USER-G..GG are Init/empty). `kronos.py` catalog uses that file. `tools/kronos_programs.json` (Korg list) is stale, do not use. Kronos answers SysEx reads (mode, current program, names). Writes/edits not tried. Kit key maps from Korg's list are unverified for this unit; GM drum bank (MSB 120) is safe.
 ### [2026-10-24] Hat/snap/clap -3.2 dB, bass +10%, half the loops 4 bars
 - Context: owner: kept the MIDI chord floor; hat/snap lane down 20%, bass lines up 10%, half of loops 4 bars ("things fall apart after 4 bars").
 - Decision/change: `crew.PERC_UNDER_DB` -3.0 -> -6.2 (hat tier = hat, clap, snap, and the blanket rule for other perc; he chose all three at -3.2 dB, the 2026-10-10 "20% quieter" figure). `groove.OWNER_TASTE["chord_bass_gain"]` 0.715 -> 0.7865. `pattern_gen`: bars 50/50 for crew (was 60/40), odd meters (was 65/35) and genres (were always 8). Pinned `bar_lengths` still win (J Dillo). Used rng.choices so the random stream is unchanged.

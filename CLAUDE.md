@@ -181,6 +181,12 @@ it.
   developer procedure.
 - Explain the "why" only when it changes what he decides.
 
+### HARD RULE: Every reply is ONE short paragraph
+
+Owner, 2026-10-25: "Everything one small paragraph that I actually need to know."
+Only what he needs, honest about what was and wasn't heard or verified. Detail goes in
+files (DECISIONS.md, guides), not chat. His one action, if any, is the last line.
+
 ### HARD RULE: Anything he must click goes LAST, at the very bottom
 
 Owner, 2026-10-03: he has ADHD and misses buttons or cards that appear mid-reply.

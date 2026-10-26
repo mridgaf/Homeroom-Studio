@@ -1,0 +1,15362 @@
+[
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 0,
+"text": "KRONOS German Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 1,
+"text": "German Dark Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 2,
+"text": "R.Ferrante German Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 3,
+"text": "German New Age Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 4,
+"text": "L.Mays German Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 5,
+"text": "German Grand + VPM"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 6,
+"text": "KRONOS Japanese Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 7,
+"text": "Japanese Dark Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 8,
+"text": "J.Rudess Japanese Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 9,
+"text": "Japanese Rock Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 10,
+"text": "Japanese Bright Grand"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 11,
+"text": "Japanese Grand + Strings"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 12,
+"text": "F.McComb Mark I EP Kn7"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 13,
+"text": "G.Duke Old&Funky Mk I EP"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 14,
+"text": "Herbie's \"Butterfly\" EP"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 15,
+"text": "G.Duke Mark I Phaser EP"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 16,
+"text": "E.Piano Mark I Chorus"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 17,
+"text": "EP Mark I PreAmp/Wah Kn7"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 18,
+"text": "EP Mark I PreAmp&Cabinet"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 19,
+"text": "Dreamscape E.Piano Kn5&6"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 20,
+"text": "E.Piano Mark I Rotary"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 21,
+"text": "E.Piano Old MarkII Trem."
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 22,
+"text": "EP Mark II  Tee, Phaser"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 23,
+"text": "EP Mark II PreAmp Kn7"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 24,
+"text": "T.Coster MkV RingMod Rbn"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 25,
+"text": "E.Piano Mark V Tremolo"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 26,
+"text": "T.Coster MkV Fusion SW2"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 27,
+"text": "T.Coster MarkV w/Pad Kn7"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 28,
+"text": "J.Lorber MarkV EP w/Pad"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 29,
+"text": "EP Mark V  Dist Cabinet"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 30,
+"text": "E.Piano Dyno Chorus"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 31,
+"text": "E.Piano Dyno Tine Chorus"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 32,
+"text": "T.Coster Dyno EP Tremolo"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 33,
+"text": "McComb Reed EP200/WahKn7"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 34,
+"text": "Reed EP 200 Tremolo SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 35,
+"text": "Reed EP 200A Overdrive"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 36,
+"text": "F.McComb Reed EP 200A"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 37,
+"text": "Reed EP 200A Tremolo SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 38,
+"text": "Reed EP 200A Chorus Kn7"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 39,
+"text": "Tom Coster's Full On"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 40,
+"text": "Felix'sDaKat"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 41,
+"text": "Tom Coster's Rhythm Comp"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 42,
+"text": "Jazzy Ballad"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 43,
+"text": "EX Church"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 44,
+"text": "Memphis Soul"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 45,
+"text": "NIACIN Walk Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 46,
+"text": "Tom Coster's Solo & Comp"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 47,
+"text": "Joey' Jazz"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 48,
+"text": "GP NicePerc"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 49,
+"text": "Mr. Nice :-)"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 50,
+"text": "Cat On aMoJo"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 51,
+"text": "NIACIN Wah (Pitchbend)"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 52,
+"text": "Smoke In Japan"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 53,
+"text": "BA THE Sound"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 54,
+"text": "CX-3 Organ 888 SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 55,
+"text": "MOD-7 E.Piano Pad SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 56,
+"text": "Piano Wire SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 57,
+"text": "Clav 1 STR-1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 58,
+"text": "DigiClavitar"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 59,
+"text": "Harpsichord 1 STR-1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 60,
+"text": "Custom Clav Knob5,6"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 61,
+"text": "VectorianBellscape SW1,2"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 62,
+"text": "Bell Factory VJS/Kn5,6"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 63,
+"text": "The Mist Singing Softly"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 64,
+"text": "Russian Winter SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 65,
+"text": "Elec Didjdoo **JS-Y**"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 66,
+"text": "6 Steel Strings"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 67,
+"text": "Nylon STR-1 Acoustic"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 68,
+"text": "Dist.Feedback Guitar VJS"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 69,
+"text": "Sitar SW1 STR-1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 70,
+"text": "Classik Punch Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 71,
+"text": "Stack Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 72,
+"text": "TB Bang On !"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 73,
+"text": "Acid Square Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 74,
+"text": "Phunky Power Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 75,
+"text": "TB Rez Square"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 76,
+"text": "Legato TB333 Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 77,
+"text": "Darkside X-Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 78,
+"text": "Old Style Syn Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 79,
+"text": "Bass Basserson"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 80,
+"text": "STR-1 A.Bass (JS-Y, VJS)"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 81,
+"text": "Deep Finger Bass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 82,
+"text": "Grand Wirey Pad SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 83,
+"text": "Bright UltraWide Pad"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 84,
+"text": "Sad Saw Slow"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 85,
+"text": "Polysix Strings"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 86,
+"text": "Analog Orchestra  Knob6"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 87,
+"text": "Big Pad"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 88,
+"text": "Molecular Surgery"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 89,
+"text": "Deep Asleep Squares"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 90,
+"text": "FAP7 Cave Choir"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 91,
+"text": "Vintage 80 Warm Saw"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 92,
+"text": "The Last  Olympian"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 93,
+"text": "Power Ana Brass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 94,
+"text": "5th World Stab"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 95,
+"text": "Super Saw Brass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 96,
+"text": "Porta Stab -Y VJS"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 97,
+"text": "Cathedral Fanfare SW1"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 98,
+"text": "Healing Guitar"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 99,
+"text": "Ana Power Brass"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 100,
+"text": "Breathing Ocean Synth"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 101,
+"text": "STR-1 & Poly6 Pad Layer"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 102,
+"text": "Raising Hammer Synth"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 103,
+"text": "String Pad -Y"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 104,
+"text": "Bunkka HPF Stab  JS-Y"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 105,
+"text": "Vintage SciFi Lead"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 106,
+"text": "Keen Lead"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 107,
+"text": "Stradivarious Sync"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 108,
+"text": "Hard Sync Lead"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 109,
+"text": "Simple Saw Lead"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 110,
+"text": "Transformer Lead VJS,Kn6"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 111,
+"text": "Trance Lead"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 112,
+"text": "Synth Lead Memories"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 113,
+"text": "Notch/Bell Pad"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 114,
+"text": "BPF Sweep Pad"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 115,
+"text": "Giant Rotary SW1,2"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 116,
+"text": "WindSong"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 117,
+"text": "All that Glitters....."
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 118,
+"text": "Magical Tremolo VJS"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 119,
+"text": "Bell Transforms Knob 5"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 120,
+"text": "Bounce Shot"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 121,
+"text": "BPM The Air Rider"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 122,
+"text": "TechnoMix Control =C2="
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 123,
+"text": "Auto Picking (xform)"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 124,
+"text": "Night Times"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 125,
+"text": "Happiness"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 126,
+"text": "When a Robot Dreams"
+},
+{
+"bank": "INT-A",
+"lsb": 0,
+"pc": 127,
+"text": "Sea World"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 0,
+"text": "HD-1 Piano-Damper"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 1,
+"text": "Stereo Concert Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 2,
+"text": "Stereo Piano Boesy"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 3,
+"text": "Bright Mono Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 4,
+"text": "3 Way Stereo Grand"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 5,
+"text": "OASYS Mono Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 6,
+"text": "Pure Stereo Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 7,
+"text": "Classic Piano Knob6"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 8,
+"text": "2 Way Stereo Grand SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 9,
+"text": "OASYS Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 10,
+"text": "Sparkling Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 11,
+"text": "Daydream Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 12,
+"text": "Romance Piano Bell Knob5"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 13,
+"text": "Piano & Technology"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 14,
+"text": "Water Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 15,
+"text": "Power Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 16,
+"text": "Smooth Operators"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 17,
+"text": "L.A. E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 18,
+"text": "FM Spark Chorus Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 19,
+"text": "Standard E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 20,
+"text": "FM Chorus Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 21,
+"text": "Tine E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 22,
+"text": "Sparkle E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 23,
+"text": "Wave Sweep E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 24,
+"text": "3 Way E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 25,
+"text": "Dynamic E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 26,
+"text": "TX mezzo EP"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 27,
+"text": "Funky Tine E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 28,
+"text": "FM E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 29,
+"text": "Tingly E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 30,
+"text": "Tiny Tine E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 31,
+"text": "VS Wave Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 32,
+"text": "SynPianoxy"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 33,
+"text": "Dark RnB Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 34,
+"text": "Crystal Vector E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 35,
+"text": "Ballade E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 36,
+"text": "\"...lead to Rome\" E.P."
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 37,
+"text": "Piano Power Pad"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 38,
+"text": "Breathy EP Pad"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 39,
+"text": "Layered E.Piano Pad"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 40,
+"text": "4 Way Switch E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 41,
+"text": "Mild Suitcase E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 42,
+"text": "3-Way Suitcase E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 43,
+"text": "Open E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 44,
+"text": "Real Suit E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 45,
+"text": "Suitcase Bell E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 46,
+"text": "Stage E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 47,
+"text": "Xfade StagePianoATK Kn5"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 48,
+"text": "Vintage E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 49,
+"text": "Hard Stage Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 50,
+"text": "Custom E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 51,
+"text": "Dyno E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 52,
+"text": "Stereo Dyno E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 53,
+"text": "Dyno Suitcase E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 54,
+"text": "Reed E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 55,
+"text": "Wurly E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 56,
+"text": "Woody Wurly E.Piano"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 57,
+"text": "Clav/Mute 1 SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 58,
+"text": "Clav/Mute 2 SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 59,
+"text": "Velo Clav Mutes"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 60,
+"text": "Snappy Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 61,
+"text": "Spike Rez Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 62,
+"text": "Crunch Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 63,
+"text": "Buzzy Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 64,
+"text": "Sticky Finga Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 65,
+"text": "V.Switch WS Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 66,
+"text": "Kompton Clav"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 67,
+"text": "8' Harpsichord + Key Off"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 68,
+"text": "16'+8' Harpsichord +Pluk"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 69,
+"text": "Velo Perc Organ 2 SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 70,
+"text": "Velo Perc Organ 1 SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 71,
+"text": "Distortion Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 72,
+"text": "Soft Perc Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 73,
+"text": "Perc E.Organ SW1,2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 74,
+"text": "Perc Attack Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 75,
+"text": "Perc Jazz Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 76,
+"text": "WS Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 77,
+"text": "M1 E.Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 78,
+"text": "House Organ"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 79,
+"text": "Power Organ SW1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 80,
+"text": "Slow/Fast Organ SW2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 81,
+"text": "Jazzy(Med) Cel.Vib."
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 82,
+"text": "Drawbars soft->full"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 83,
+"text": "Ballade Organ"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 84,
+"text": "Drawbars adds High"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 85,
+"text": "Vox Organ SW2 Tabs"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 86,
+"text": "Church Organ 1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 87,
+"text": "Church Organ 2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 88,
+"text": "Positive Organ 1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 89,
+"text": "Positive Organ 2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 90,
+"text": "Church Organ Pos/Full 1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 91,
+"text": "Church Organ Pos/Full 2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 92,
+"text": "Church Organ Pos/Full 3"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 93,
+"text": "Church Organ Pos/Full 4"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 94,
+"text": "Pipe Organ Mixture"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 95,
+"text": "Pipe Full Organ"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 96,
+"text": "Clear Morning Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 97,
+"text": "Happy Kids Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 98,
+"text": "VS Bells 1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 99,
+"text": "VS Bells 2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 100,
+"text": "VS Bells 3"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 101,
+"text": "Wave Seq Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 102,
+"text": "WS/VS Shifting Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 103,
+"text": "Bright Waveseq Bell VJS"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 104,
+"text": "Itty Bitty Bell EP"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 105,
+"text": "Broken Bell"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 106,
+"text": "Strung Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 107,
+"text": "FM Pluck Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 108,
+"text": "Pure Satin Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 109,
+"text": "Glass Pluck Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 110,
+"text": "Silver Solar Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 111,
+"text": "FM Tubular Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 112,
+"text": "Analog Bell/Harp"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 113,
+"text": "Glass Bell"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 114,
+"text": "Calm Bell Synth"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 115,
+"text": "DigiMetal Bell"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 116,
+"text": "Finger Cymbal Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 117,
+"text": "Little Fuzz Bell"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 118,
+"text": "VS Twinkle Dust Bells"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 119,
+"text": "Orchestral Celesta"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 120,
+"text": "Vibraphone 1"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 121,
+"text": "Vibraphone 2"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 122,
+"text": "Soft Glockenspiel"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 123,
+"text": "Hard Glockenspiel"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 124,
+"text": "Tubular Bells Rack"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 125,
+"text": "Marimba Hard Mallet"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 126,
+"text": "Xylophone Dynamic X-Fade"
+},
+{
+"bank": "INT-B",
+"lsb": 1,
+"pc": 127,
+"text": "Music Box"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 0,
+"text": "The Log Drum"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 1,
+"text": "Balaphone"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 2,
+"text": "Bali Gamelan"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 3,
+"text": "Steel Drums SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 4,
+"text": "The Kalimba"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 5,
+"text": "Island Mallets"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 6,
+"text": "African Kalimba"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 7,
+"text": "Birds in the Kalimba SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 8,
+"text": "Legato Stereo Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 9,
+"text": "Slow StereoStrings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 10,
+"text": "Legato Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 11,
+"text": "Hollywood Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 12,
+"text": "Symphony Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 13,
+"text": "Symphonic Bows"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 14,
+"text": "Stereo Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 15,
+"text": "Stereo Oct Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 16,
+"text": "Stereo Oct Strings SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 17,
+"text": "Arco Stereo Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 18,
+"text": "Arco Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 19,
+"text": "Section Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 20,
+"text": "Platinum Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 21,
+"text": "Big Camera Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 22,
+"text": "Beautiful Camera Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 23,
+"text": "Supreme Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 24,
+"text": "Intimate Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 25,
+"text": "Few Bows Stereo"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 26,
+"text": "Tremolo Strings Kn5"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 27,
+"text": "Pizz Ensemble"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 28,
+"text": "Soft Pizzicato SW1->Solo"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 29,
+"text": "Cello Solo/Pizz SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 30,
+"text": "Solo Viola/Pizz SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 31,
+"text": "Violin Solo/Pizz SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 32,
+"text": "Violin Solo RibbonBend"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 33,
+"text": "String Quartet"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 34,
+"text": "Quartet Strings/Pizz SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 35,
+"text": "Stereo Analog Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 36,
+"text": "Analog Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 37,
+"text": "String Pad 1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 38,
+"text": "String Pad 2"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 39,
+"text": "Vintage Analog Strings"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 40,
+"text": "Classic Choir"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 41,
+"text": "Classical Choir"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 42,
+"text": "Vocal Ah"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 43,
+"text": "Aaah Stereo Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 44,
+"text": "Vintage Tape Choir"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 45,
+"text": "Vocoder"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 46,
+"text": "Soft & Sweet Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 47,
+"text": "Hummmmmm M&F Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 48,
+"text": "Umm Vocals"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 49,
+"text": "Uh-Wooh M&F Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 50,
+"text": "Ooh Voices L&R"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 51,
+"text": "Oooh Stereo Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 52,
+"text": "4 Way Ooh/Aah Mix"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 53,
+"text": "Tchu Voices Ens."
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 54,
+"text": "Scat Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 55,
+"text": "Male Scat Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 56,
+"text": "Female Scat Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 57,
+"text": "Ba-Da Scat Voice"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 58,
+"text": "3 Way Scat Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 59,
+"text": "Alpine Voice Pad"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 60,
+"text": "Air Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 61,
+"text": "Dreaming of Blue"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 62,
+"text": "Dream Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 63,
+"text": "Mountain Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 64,
+"text": "Arctic Voices"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 65,
+"text": "Light Voices L&R"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 66,
+"text": "Thin Stereo Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 67,
+"text": "Big Stereo Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 68,
+"text": "Brass Velocity Fall"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 69,
+"text": "Dyna->Falls Brass SW1"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 70,
+"text": "Stereo Open Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 71,
+"text": "Warm Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 72,
+"text": "Full Brass Section"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 73,
+"text": "Session Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 74,
+"text": "Stereo Orchestral Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 75,
+"text": "Mono Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 76,
+"text": "Wide Stereo Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 77,
+"text": "Stereo Hybrid Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 78,
+"text": "Dark Stereo Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 79,
+"text": "SFZ Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 80,
+"text": "Slow Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 81,
+"text": "Mute Tp/Tb Ensemble"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 82,
+"text": "Cup Mutes Tp/Tb Ensemble"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 83,
+"text": "Trumpets X-Fade"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 84,
+"text": "Trombones 4 Velocity"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 85,
+"text": "Trombones X-Fade"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 86,
+"text": "Trombone Duo mf"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 87,
+"text": "Horns & Brass"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 88,
+"text": "French Horn Ensemble"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 89,
+"text": "French Horn Duo"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 90,
+"text": "Stereo Brass & Tubas"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 91,
+"text": "Brass & Saxophones"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 92,
+"text": "Trumpet Open Tone"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 93,
+"text": "Trumpet Overblown"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 94,
+"text": "Sensitive Trumpet"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 95,
+"text": "Piccolo Trumpet"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 96,
+"text": "Mute Trumpet"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 97,
+"text": "Flugelhorn mf"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 98,
+"text": "Trombone 4 Velocity"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 99,
+"text": "Mute Trombone"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 100,
+"text": "Solo French Horn"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 101,
+"text": "Tuba Dynamic X-Fade"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 102,
+"text": "Vibrato Flute"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 103,
+"text": "Magical Flute"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 104,
+"text": "Flute Dynamic"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 105,
+"text": "Silver Flute"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 106,
+"text": "Piccolo Flute"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 107,
+"text": "Shakuhachi Velo X-Fade"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 108,
+"text": "PanFlute +Overtones"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 109,
+"text": "Tin Whistle"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 110,
+"text": "Nay"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 111,
+"text": "Recorder Knob5 Insts"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 112,
+"text": "Ocarina Classic Tone"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 113,
+"text": "Ocarina Attack Knob5"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 114,
+"text": "Woodwind Section"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 115,
+"text": "Vibrato Saxes JS-Y Growl"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 116,
+"text": "Soprano Sax  JS-Y Growl"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 117,
+"text": "Alto Sax Hard -Y Growl"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 118,
+"text": "Alto Sax Soft -Y Breath"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 119,
+"text": "AltoSax Dyna->Falls"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 120,
+"text": "Tenor Sax Vibrato"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 121,
+"text": "Tenor Sax Hard -Y Growl"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 122,
+"text": "Tenor Sax Soft SW1 Key"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 123,
+"text": "Baritone Sax JS-Y Growl"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 124,
+"text": "Tenor & Alto Saxes Forte"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 125,
+"text": "Doublereed Family"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 126,
+"text": "Clarinet Vibrato"
+},
+{
+"bank": "INT-C",
+"lsb": 2,
+"pc": 127,
+"text": "Clarinet SW1 Breath"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 0,
+"text": "Bass Clarinet SW1 Duo"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 1,
+"text": "Oboe Vib. SW1 Key"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 2,
+"text": "Oboe SW1 Key Noise"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 3,
+"text": "E.Horn Vib. SW1 Key"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 4,
+"text": "English Horn SW1 Key"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 5,
+"text": "Bassoon SW1 Key Noise"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 6,
+"text": "ContraBassoon SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 7,
+"text": "Clarinets"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 8,
+"text": "Bassoon & Bass Clarinet"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 9,
+"text": "Contrabassoon&Oboe"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 10,
+"text": "Bag Pipes & Drone Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 11,
+"text": "Uillean Pipe VeloSwitch"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 12,
+"text": "Accordion 8+8' Cassotto"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 13,
+"text": "Astor's Bandoneon"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 14,
+"text": "Musette"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 15,
+"text": "Musette + 4'"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 16,
+"text": "Musette + Principal"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 17,
+"text": "Harmonica Dyna-Wah"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 18,
+"text": "Harmonica SW1 Distortion"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 19,
+"text": "Nylon Guitar 1 Knob5 Atk"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 20,
+"text": "Nylon Guitar 2 Knob5 Atk"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 21,
+"text": "Dyn NylonGuitar Kn5"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 22,
+"text": "A.Guitar Dynamic Pick"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 23,
+"text": "3-Way SteelString Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 24,
+"text": "Steel Acoustic Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 25,
+"text": "Calm Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 26,
+"text": "Planetary WaveSeq Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 27,
+"text": "12 String Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 28,
+"text": "Metal Resonator Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 29,
+"text": "Fretless Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 30,
+"text": "Elec Guitar + Twin"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 31,
+"text": "Tube Sat SemiDist Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 32,
+"text": "Vintage Tremolo Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 33,
+"text": "Rotary Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 34,
+"text": "Muted Pick Guitar 1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 35,
+"text": "Glassy Strat"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 36,
+"text": "Dirty Guitar + AC30"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 37,
+"text": "New Age Hybrid Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 38,
+"text": "E.Guitar XF->OpenTone"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 39,
+"text": "E.Guitar Dyna Mute"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 40,
+"text": "Piezo+Pickup Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 41,
+"text": "Fly Studio Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 42,
+"text": "E.Guitar Dynamic Pick"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 43,
+"text": "Cool AutoWah Gtr"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 44,
+"text": "Whack-a-Wah SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 45,
+"text": "Muted Pick Guitar 2"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 46,
+"text": "PedalSteel PreBend Gtr"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 47,
+"text": "JazzGuitar & AmpCabinet"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 48,
+"text": "O.DriveGuitar SW1,2"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 49,
+"text": "Screaming Tube Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 50,
+"text": "JS Wah Lead Gtr JS+-Y"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 51,
+"text": "Dist.Guit -Y Mute DT"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 52,
+"text": "Mega Mute Guitar"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 53,
+"text": "Guitar Chords & FX"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 54,
+"text": "Power Guitar FX"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 55,
+"text": "Harp 'Nails'"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 56,
+"text": "Koto SW1 AT-Bend"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 57,
+"text": "Shamisen SW1 Atack"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 58,
+"text": "Sitar & Tambura"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 59,
+"text": "Sitar SW2 AT-Bend"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 60,
+"text": "Santur Dynamic X-Fade"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 61,
+"text": "Oud Dynamic X-Fade"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 62,
+"text": "Dyna Banjo"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 63,
+"text": "Bouzuki Octave Strings"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 64,
+"text": "Mandolin Pick"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 65,
+"text": "Mandolin Trem & Str"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 66,
+"text": "DistortionHead"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 67,
+"text": "Dark Floor Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 68,
+"text": "Mud Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 69,
+"text": "RnB Bass/Lead"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 70,
+"text": "Funkylicious Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 71,
+"text": "Syn Reso Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 72,
+"text": "Arp Syn Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 73,
+"text": "Vector Clicker Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 74,
+"text": "Giorgio Bass Ribbon"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 75,
+"text": "Kriptonik Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 76,
+"text": "Future Klocker Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 77,
+"text": "House Organ BASS"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 78,
+"text": "FM Syn Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 79,
+"text": "Take Me Home Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 80,
+"text": "Phone Home Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 81,
+"text": "Harmonic Bass/Lead"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 82,
+"text": "Hard Sync Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 83,
+"text": "Strong/Baddd Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 84,
+"text": "Ragin' Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 85,
+"text": "VJS Decimation Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 86,
+"text": "Ol' Doc Distratto-Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 87,
+"text": "01 Dubbya Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 88,
+"text": "Filfy Bass!"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 89,
+"text": "JungleHead"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 90,
+"text": "Deep Energy Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 91,
+"text": "Domination Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 92,
+"text": "Trauma Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 93,
+"text": "Raunchy Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 94,
+"text": "Evil Eye Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 95,
+"text": "PowerBar Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 96,
+"text": "Acoustic Bass 1 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 97,
+"text": "Acoustic Bass 2 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 98,
+"text": "Round A'Kustik Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 99,
+"text": "Finger Bass 1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 100,
+"text": "Finger Bass 2"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 101,
+"text": "Finger Bass 3 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 102,
+"text": "Finger Bass 4 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 103,
+"text": "Finger Bass 5 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 104,
+"text": "Finger Bass 6 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 105,
+"text": "Finger Bass 7"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 106,
+"text": "Velocity Bend Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 107,
+"text": "Precision E.Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 108,
+"text": "Stinger Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 109,
+"text": "Picked Bass 1 Preci SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 110,
+"text": "Picked Bass 2 Sting SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 111,
+"text": "Picked Bass 3 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 112,
+"text": "VelSw Stinger Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 113,
+"text": "Picked Bass 4 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 114,
+"text": "Picked Precision Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 115,
+"text": "Pick Switch Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 116,
+"text": "PickMuteBass Sting SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 117,
+"text": "Deeeep Pick Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 118,
+"text": "Fretless SW1 NeckNoise"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 119,
+"text": "Pro Fretless Bass SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 120,
+"text": "HB Fretless Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 121,
+"text": "Thumb Bass 1 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 122,
+"text": "Thumb Bass 2 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 123,
+"text": "Thumb Bass 3 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 124,
+"text": "Thumb Bass 4 SW1"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 125,
+"text": "Thumb Switch Bass"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 126,
+"text": "Slap Bass Sting SW1 Noiz"
+},
+{
+"bank": "INT-D",
+"lsb": 3,
+"pc": 127,
+"text": "VelSw Slap Bass 1"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 0,
+"text": "VelSw Slap Bass 2"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 1,
+"text": "Slap'n'Tickle Split"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 2,
+"text": "Tranquil Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 3,
+"text": "Paddylicious"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 4,
+"text": "Breeze Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 5,
+"text": "Virtual Orchestra"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 6,
+"text": "Pad Hissing Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 7,
+"text": "Soft Talk Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 8,
+"text": "Angel World"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 9,
+"text": "Arithmancy 1"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 10,
+"text": "Whale's World SW1"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 11,
+"text": "Airy Tails"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 12,
+"text": "Givin' Out Vibes"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 13,
+"text": "Dirty Organic Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 14,
+"text": "Reed Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 15,
+"text": "Slow Metal Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 16,
+"text": "Filter Bank"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 17,
+"text": "Synth Brass Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 18,
+"text": "The 5th Vector"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 19,
+"text": "Slow Sine Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 20,
+"text": "Whispering Flutes"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 21,
+"text": "Arithmancy 2"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 22,
+"text": "Lost Puppies"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 23,
+"text": "Deepest Vox Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 24,
+"text": "Ripplator"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 25,
+"text": "Sad Wood Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 26,
+"text": "Debussian Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 27,
+"text": "Pad-O-Rama"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 28,
+"text": "Film Score Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 29,
+"text": "Dream Pad Sweep"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 30,
+"text": "Splash From The Past"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 31,
+"text": "{(Meditate})"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 32,
+"text": "Cross Sweeper"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 33,
+"text": "Freedom Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 34,
+"text": "High Octane HPF Sweep"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 35,
+"text": "Spiky Analog"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 36,
+"text": "FM Fever"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 37,
+"text": "Leader of Trance"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 38,
+"text": "Warm Analog"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 39,
+"text": "Syn Brass The Sailor"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 40,
+"text": "Flute Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 41,
+"text": "Padme & Leadme"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 42,
+"text": "Brite Rezzy Synth SW1"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 43,
+"text": "Pulse Morph Comp"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 44,
+"text": "5th WaveStab SW2"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 45,
+"text": "Metal Syn-Guitar"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 46,
+"text": "Storm Chaser"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 47,
+"text": "Fun Comp Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 48,
+"text": "Synth Mallet"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 49,
+"text": "Syn. Mallet 5ths"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 50,
+"text": "Sine Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 51,
+"text": "Dist Satellite"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 52,
+"text": "Power Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 53,
+"text": "Attacking Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 54,
+"text": "Powerful Euphoria"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 55,
+"text": "Perky Vox Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 56,
+"text": "Pop Synth Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 57,
+"text": "Happy Air Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 58,
+"text": "Fresh Air"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 59,
+"text": "Syn Gothic"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 60,
+"text": "Metal is Everywhere"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 61,
+"text": "Cosmic Furnace"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 62,
+"text": "Rez Bottle Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 63,
+"text": "Soft Rezz Synth"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 64,
+"text": "Are See A Vector!"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 65,
+"text": "WS Classic Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 66,
+"text": "Wikid Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 67,
+"text": "Pulse Morph Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 68,
+"text": "TeknoSink Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 69,
+"text": "Syncified Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 70,
+"text": "Stealth Sync Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 71,
+"text": "Mega Sync Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 72,
+"text": "Fear Not"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 73,
+"text": "Espress Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 74,
+"text": "Singing Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 75,
+"text": "Leading Sines"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 76,
+"text": "Lead Ting"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 77,
+"text": "Pro 5 Synth Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 78,
+"text": "SaxSynth Lead SW1"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 79,
+"text": "Syn Pipes"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 80,
+"text": "Round Poppy Lead"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 81,
+"text": "The Temple SW1"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 82,
+"text": "Smoothie Motion"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 83,
+"text": "Windy Atomosphere"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 84,
+"text": "The Changeling"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 85,
+"text": "Liquid Evolution VJS"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 86,
+"text": "Sea Glass"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 87,
+"text": "Aqua Phonics"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 88,
+"text": "Time Machines"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 89,
+"text": "Evolving"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 90,
+"text": "The Good Fairy's Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 91,
+"text": "Transformation"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 92,
+"text": "Pods In The Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 93,
+"text": "Dreamthreads"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 94,
+"text": "Lost & FallinG"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 95,
+"text": "Whirl Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 96,
+"text": "Feature Shock"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 97,
+"text": "Black Hole"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 98,
+"text": "Random Pitch Split/Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 99,
+"text": "Rumble Breather Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 100,
+"text": "Mirror*rorriM Waves"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 101,
+"text": "Secret Chambers"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 102,
+"text": "Flying Machines"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 103,
+"text": "Eternity"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 104,
+"text": "Dust & Dawn"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 105,
+"text": "Butterflies"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 106,
+"text": "Weightless"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 107,
+"text": "Flutter Pad"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 108,
+"text": "Dream Catcher"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 109,
+"text": "La Mer"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 110,
+"text": "Ski Song"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 111,
+"text": "Wave Song"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 112,
+"text": "Running Out of Time"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 113,
+"text": "Benny's Bounce"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 114,
+"text": "TrashMan Groove"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 115,
+"text": "eXposure"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 116,
+"text": "Hot Bod Boogie"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 117,
+"text": "Wavetrance"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 118,
+"text": "Locomotion"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 119,
+"text": "Wave Girlz"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 120,
+"text": "Passed Out"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 121,
+"text": "Conversations"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 122,
+"text": "Out to Lunch"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 123,
+"text": "Coming Home"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 124,
+"text": "Tour de Fingers"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 125,
+"text": "Mellow Electric"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 126,
+"text": "Dancing Princess"
+},
+{
+"bank": "INT-E",
+"lsb": 4,
+"pc": 127,
+"text": "Low and ** Bass"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 0,
+"text": "Pulsatronik"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 1,
+"text": "Jiffy Popper Lines"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 2,
+"text": "Top of the Popper"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 3,
+"text": "Rhythmscape Wah"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 4,
+"text": "Meet Oscar"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 5,
+"text": "Acting Very Busy"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 6,
+"text": "Neo Pulsation"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 7,
+"text": "Gating Voice Pad"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 8,
+"text": "Flashlight Wave Pad"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 9,
+"text": "War Path Pad"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 10,
+"text": "Galatic Bounty Hunter"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 11,
+"text": "Here it Comes"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 12,
+"text": "TV News"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 13,
+"text": "Symphonic L.F.O"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 14,
+"text": "All Night Long"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 15,
+"text": "Dreaming Sweeper"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 16,
+"text": "Bum-ChuckaSplit SW1"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 17,
+"text": "Random Arp Advancer"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 18,
+"text": "Ready for Liftoff"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 19,
+"text": "VCF Vector mod"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 20,
+"text": "BPM Sweep SW1,2"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 21,
+"text": "BPM Pulse"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 22,
+"text": "Orbit Blip"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 23,
+"text": "BPM Ribbon Trance"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 24,
+"text": "Metallic Water"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 25,
+"text": "Whispering"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 26,
+"text": "Ribbon Gatepad"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 27,
+"text": "Sea Creature"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 28,
+"text": "Pitch Invasion"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 29,
+"text": "Vectrola Foe"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 30,
+"text": "Synth Hit Morpher"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 31,
+"text": "Perfect Storm"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 32,
+"text": "Meditation Tree"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 33,
+"text": "SubSonik War Drums"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 34,
+"text": "Outside Elements"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 35,
+"text": "Granular Laughing"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 36,
+"text": "Les Elementals JS-Y"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 37,
+"text": "Sonic Blast"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 38,
+"text": "Coin Thwack"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 39,
+"text": "Cosmic Waves"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 40,
+"text": "Hemispheres"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 41,
+"text": "Orbiting Probes"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 42,
+"text": "New Voyage"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 43,
+"text": "Sweep-n-Drop"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 44,
+"text": "Space Gliders"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 45,
+"text": "Dying in Space"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 46,
+"text": "Rebel Cannon"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 47,
+"text": "Ask For Directions"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 48,
+"text": "Steam Sweeps"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 49,
+"text": "AlienTalk"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 50,
+"text": "Distant Ice"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 51,
+"text": "The Great Wall"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 52,
+"text": "New North Wind"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 53,
+"text": "Crypt-on"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 54,
+"text": "Clocked Noises"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 55,
+"text": "Cosmic Frisbee"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 56,
+"text": "Compu Beacon"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 57,
+"text": "Close the Blast Doors"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 58,
+"text": "Noize Sweep"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 59,
+"text": "Into The Nebula SW1"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 60,
+"text": "Bounce BPM"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 61,
+"text": "Metal Arp (top 8va)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 62,
+"text": "Lo<->Hi Hit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 63,
+"text": "Multi Orch Hits"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 64,
+"text": "Maj - HipHop Brass Hit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 65,
+"text": "Stereo Power Hit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 66,
+"text": "19 Orch/Band HITS Knob5"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 67,
+"text": "Sky Boy"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 68,
+"text": "R&B Planet"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 69,
+"text": "We All Fall Down"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 70,
+"text": "Band Hits"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 71,
+"text": "Dance & House Hits"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 72,
+"text": "22 Synth Hits Knob5"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 73,
+"text": "Hit The Road!"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 74,
+"text": "Synth Hitter"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 75,
+"text": "Synth Hit Arp (Vel)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 76,
+"text": "Tinkle Hit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 77,
+"text": "Voice SFX"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 78,
+"text": "Studio Standard Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 79,
+"text": "Funk Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 80,
+"text": "Jazz/Brush Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 81,
+"text": "Acoustic Pop Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 82,
+"text": "Wild Rock Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 83,
+"text": "New Processed Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 84,
+"text": "Tricki kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 85,
+"text": "Crazy Triki Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 86,
+"text": "Mashed Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 87,
+"text": "Electro Rock Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 88,
+"text": "Insane FX Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 89,
+"text": "Nu Style Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 90,
+"text": "House Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 91,
+"text": "Sweep the House Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 92,
+"text": "Trance Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 93,
+"text": "Filtered Trance Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 94,
+"text": "Hard House Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 95,
+"text": "Hip Hop Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 96,
+"text": "Velo-Pitch Hip Hop Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 97,
+"text": "Drum'n'Bass Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 98,
+"text": "Gated/Distorted DnB Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 99,
+"text": "Deep AmbiChill Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 100,
+"text": "Psycho/Chill Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 101,
+"text": "Psycho Pitch Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 102,
+"text": "Vinyl Loop Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 103,
+"text": "Rap/Gospel Hits"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 104,
+"text": "DJ Set"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 105,
+"text": "Industry/VocoderSet"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 106,
+"text": "Original Perc. Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 107,
+"text": "Cuban Perc. Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 108,
+"text": "Brazilian Perc. Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 109,
+"text": "Conga Variation Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 110,
+"text": "Misc. Perc. Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 111,
+"text": "Orch./Ethnic Kit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 112,
+"text": "BD/SD/CymKit1 TAKb8"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 113,
+"text": "BD/SD/CymKit2 TAKb8"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 114,
+"text": "China Gong (Tam Tam)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 115,
+"text": "Marktree"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 116,
+"text": "Timpani Splits SW2 Roll1"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 117,
+"text": "New Mega Drum Hit"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 118,
+"text": "Studio StandardKit(Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 119,
+"text": "Funk Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 120,
+"text": "Jazz/Brush Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 121,
+"text": "Acoustic Pop Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 122,
+"text": "Wild Rock Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 123,
+"text": "New Processed Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 124,
+"text": "Original Perc Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 125,
+"text": "Cuban Perc. Kit (Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 126,
+"text": "Brazilian Perc Kit(Mono)"
+},
+{
+"bank": "INT-F",
+"lsb": 5,
+"pc": 127,
+"text": "Orch./Ethnic Kit (Mono)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 0,
+"text": "Jazz Dry/Amb1 Kit SL1,2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 1,
+"text": "Jazz Dry/Amb2 Kit SL1,2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 2,
+"text": "Jazz Dry/Amb3 Kit SL1,2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 3,
+"text": "Jazz Kit Dry Mic"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 4,
+"text": "Jazz Kit Ambience 1 Mic"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 5,
+"text": "Jazz Kit Ambience 2 Mic"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 6,
+"text": "Jazz Kit Ambience 3 Mic"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 7,
+"text": "Jazz Velo Pitch Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 8,
+"text": "Jazz Low Bit Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 9,
+"text": "Rock Dry/Amb1 Kit   SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 10,
+"text": "Rock Dry/Amb2 Kit   SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 11,
+"text": "Rock Dry/Amb3 Kit   SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 12,
+"text": "Rock Dry/Amb1 Kit  SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 13,
+"text": "Rock Dry/Amb2 Kit  SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 14,
+"text": "Rock Dry/Amb3 Kit  SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 15,
+"text": "Rock Kit Dry Mic    SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 16,
+"text": "Rock Kit Ambi1 Mic  SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 17,
+"text": "Rock Kit Ambi2 Mic  SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 18,
+"text": "Rock Kit Ambi3 Mic  SnOn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 19,
+"text": "Rock Kit Dry Mic   SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 20,
+"text": "Rock Kit Ambi1 Mic SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 21,
+"text": "Rock Kit Ambi2 Mic SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 22,
+"text": "Rock Kit Ambi3 Mic SnOff"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 23,
+"text": "Evil Dark Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 24,
+"text": "Bad Pitch Rok Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 25,
+"text": "Human Beat Box Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 26,
+"text": "Urban Hip Hop Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 27,
+"text": "R&B Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 28,
+"text": "NuHop Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 29,
+"text": "Granular Acid Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 30,
+"text": "80008 Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 31,
+"text": "90009 Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 32,
+"text": "Tekno Klub Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 33,
+"text": "Mad Analog Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 34,
+"text": "Acoustik Freak Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 35,
+"text": "Middle East Perc. Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 36,
+"text": "Cajon Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 37,
+"text": "Djembe Kit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 38,
+"text": "Darabukka9\" PercKit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 39,
+"text": "Darabuka10\" PercKit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 40,
+"text": "Darabukka Perc. Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 41,
+"text": "Tar Perc. Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 42,
+"text": "Daf 21\" Perc. Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 43,
+"text": "Daf 16\" Perc. Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 44,
+"text": "Bendir 14\" Perc Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 45,
+"text": "Doyra 15\" Perc. Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 46,
+"text": "Tabil Perc. Kit C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 47,
+"text": "Rek Perc. Kit 1 C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 48,
+"text": "Rek Perc. Kit 2 Eg C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 49,
+"text": "Sagat Perc Kit 1 Eg C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 50,
+"text": "Sagat Perc. Kit 2 C2->"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 51,
+"text": "Timpani Splits SW2 Roll2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 52,
+"text": "Large TamTam SW1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 53,
+"text": "Mini TamTam (Xiaoluo)SW1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 54,
+"text": "Tekno gonna GET IT (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 55,
+"text": "Spirits are Dancing (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 56,
+"text": "Urgent Issues (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 57,
+"text": "Sunny Day Dancing (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 58,
+"text": "Funky Droid Pad (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 59,
+"text": "Worker Bee (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 60,
+"text": "Offbeat Blastin (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 61,
+"text": "Limelight Cafe (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 62,
+"text": "Bass Dancer (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 63,
+"text": "Voodoo Witch Doctor (WS)"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 64,
+"text": "Clav Register AD"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 65,
+"text": "Clav Register AC"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 66,
+"text": "Clav Register BC"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 67,
+"text": "Clav Register BD"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 68,
+"text": "Vintage Clav AD"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 69,
+"text": "Vintage Clav BC"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 70,
+"text": "Vintage Clav BD"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 71,
+"text": "Tape 3 Violins 1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 72,
+"text": "Tape 3 Violins 2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 73,
+"text": "Tape 16 Violins"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 74,
+"text": "Tape Mixed Strings"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 75,
+"text": "Tape Brass"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 76,
+"text": "Tape Strings+Brass"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 77,
+"text": "Tape Flutes"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 78,
+"text": "Tape 8 Voice Choir"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 79,
+"text": "Tape Boys Choir"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 80,
+"text": "Tape Violins 1 & 16 Mix"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 81,
+"text": "Tape 3 Violins 1 & 2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 82,
+"text": "Tape Octave Strings"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 83,
+"text": "Tape Flute & Strings"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 84,
+"text": "Mixed Tape Choirs"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 85,
+"text": "Slow Tape Boys Choir"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 86,
+"text": "Dyn Legato Trumpet Doit"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 87,
+"text": "Fall/Doit Trumpets SW2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 88,
+"text": "Stereo Attack Trumpets"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 89,
+"text": "Growling Trumpet -Y"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 90,
+"text": "St Hm Mute Trumpets"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 91,
+"text": "St CupMute Trumpets"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 92,
+"text": "Velo Vib Flugelhorn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 93,
+"text": "5 Way Trombone"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 94,
+"text": "Velo Vib Trombone"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 95,
+"text": "St Dyna French Horns"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 96,
+"text": "Velo GlisUp French Horn"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 97,
+"text": "Walking Tuba"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 98,
+"text": "St Dyna Brass Ens"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 99,
+"text": "Sforzando Brass"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 100,
+"text": "Velo Doit S.Sax *WS*"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 101,
+"text": "Fall/Doit A.Sax SW2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 102,
+"text": "Fall/Doit T.Sax *JC*"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 103,
+"text": "B.Sax *GM* Growl -Y"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 104,
+"text": "Hard Attack Flute Vib"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 105,
+"text": "Velo Gliss Flute Legato"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 106,
+"text": "Trill Clarinet  SW2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 107,
+"text": "Bass Clarinet Vibrato"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 108,
+"text": "Vib Oboe Key Noise SW1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 109,
+"text": "Vib EnglishHorn   SW1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 110,
+"text": "Vibrato Bassoon"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 111,
+"text": "SFX Catalog 1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 112,
+"text": "SFX Catalog 2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 113,
+"text": "SFX Catalog 3"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 114,
+"text": "SFX Catalog 4"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 115,
+"text": "SFX Catalog 5"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 116,
+"text": "Piano SFX 1"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 117,
+"text": "Piano SFX 2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 118,
+"text": "Piano SFX 3"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 119,
+"text": "Piano SFX 4"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 120,
+"text": "Piano SFX 1 & 2"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 121,
+"text": "Piano SFX 3 & 4"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 122,
+"text": "Piano SFX 3 L/R Mix"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 123,
+"text": "Piano SFX 1-Damper"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 124,
+"text": "Piano SFX 2-Damper"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 125,
+"text": "Piano SFX 1&2-Damper"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 126,
+"text": "Piano SFX 2&3-Damper"
+},
+{
+"bank": "USER-A",
+"lsb": 8,
+"pc": 127,
+"text": "Vocoder (Mic Input 1)"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 0,
+"text": "Dynamic FM Keys"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 1,
+"text": "Grand Electric"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 2,
+"text": "Custom E. Piano Knob5,6"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 3,
+"text": "Pad Tine E. Piano"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 4,
+"text": "Giant FM Keys"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 5,
+"text": "Vintage Dance Piano"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 6,
+"text": "Pulse Clav"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 7,
+"text": "PulseWave Keys"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 8,
+"text": "Contemplative E. Piano"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 9,
+"text": "Custom Harpsichord Kn5,6"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 10,
+"text": "Double Harpsi AL-1 SW1"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 11,
+"text": "String/Brass Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 12,
+"text": "Cinematique Strings"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 13,
+"text": "Lucious Strings"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 14,
+"text": "Dreamweaver Strings"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 15,
+"text": "Big Texture Strings"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 16,
+"text": "Saw Strings"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 17,
+"text": "PWM Village Ghetto Strs."
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 18,
+"text": "Marcato Strings Knob5"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 19,
+"text": "Tremolo Tension Strings"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 20,
+"text": "Vox Oasis"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 21,
+"text": "Cumulus Voxalicus"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 22,
+"text": "Vocalisms SW2 Split"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 23,
+"text": "Zydeco Accordion"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 24,
+"text": "PWM Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 25,
+"text": "Endlessly Rising"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 26,
+"text": "Analogue Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 27,
+"text": "Chocolate Sauce"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 28,
+"text": "Massive Pad JS-Y"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 29,
+"text": "The Sublime Mariner"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 30,
+"text": "Harmonium"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 31,
+"text": "Swirling Notch Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 32,
+"text": "Saw Sweep-n-Drop"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 33,
+"text": "Combination Filters"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 34,
+"text": "Slow-Filter Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 35,
+"text": "ReasSEMbally Knobs5,6,7"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 36,
+"text": "Prismatic 5ths"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 37,
+"text": "Gliding Squares"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 38,
+"text": "The Power & The Glory"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 39,
+"text": "Sweepers Knob"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 40,
+"text": "SynBrass / Pulse SW1"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 41,
+"text": "Fat \"living\" Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 42,
+"text": "Uniformity"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 43,
+"text": "Got Funk?"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 44,
+"text": "Softy Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 45,
+"text": "SynthBrass"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 46,
+"text": "80s Poly Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 47,
+"text": "Saw Drops"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 48,
+"text": "Rez Sweep"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 49,
+"text": "Afterburn"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 50,
+"text": "Stinger Syn Brass"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 51,
+"text": "Funky Comp Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 52,
+"text": "Pure Lead Comp"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 53,
+"text": "Square Rez"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 54,
+"text": "Rezbo"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 55,
+"text": "Power of Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 56,
+"text": "Phone Boy"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 57,
+"text": "Ducky Synthy"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 58,
+"text": "Random Arp Pulser"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 59,
+"text": "Bright Synth Decay"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 60,
+"text": "1999 Power Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 61,
+"text": "Widow Maker"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 62,
+"text": "Glory Keys"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 63,
+"text": "Five-Alive Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 64,
+"text": "Poly Six Thousand"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 65,
+"text": "Power Attacker"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 66,
+"text": "Synthy Plinky"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 67,
+"text": "PWM Stab Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 68,
+"text": "Velocity Filter LPF"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 69,
+"text": "Trancosyzer"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 70,
+"text": "Techno Anthem Pad"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 71,
+"text": "Filter Rez Choir"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 72,
+"text": "Ana Spike Organ"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 73,
+"text": "ResRes One"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 74,
+"text": "Amsterdam Momma"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 75,
+"text": "Bright Saw Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 76,
+"text": "Pure Square Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 77,
+"text": "Ana Brass/Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 78,
+"text": "Lead w/ a Vengence"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 79,
+"text": "Sync Soloist"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 80,
+"text": "Thin AnaLead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 81,
+"text": "Rich Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 82,
+"text": "Mega Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 83,
+"text": "TaBoo Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 84,
+"text": "Huggy Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 85,
+"text": "Sharp Saw Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 86,
+"text": "D-structo SW1,2"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 87,
+"text": "The Fly (Bee on Knob6)"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 88,
+"text": "Sync Commentary"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 89,
+"text": "Detune Hop Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 90,
+"text": "Double Bend Gtr Knob5"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 91,
+"text": "India Raga Flute Split"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 92,
+"text": "Pulsing Screaming Thing"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 93,
+"text": "Dial Up Modem Emergency"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 94,
+"text": "Going Up?"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 95,
+"text": "Twisted Filtration"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 96,
+"text": "Big Bottom Lead SW1,2"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 97,
+"text": "Tearing Sync JS-Y"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 98,
+"text": "ooWEEoo/Vox Ribbon=Glide"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 99,
+"text": "Leading Triangle"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 100,
+"text": "Oxygene Lead 1"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 101,
+"text": "Hookie Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 102,
+"text": "Trance Form Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 103,
+"text": "Touch Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 104,
+"text": "4 Guys Whistling"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 105,
+"text": "Da Funk Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 106,
+"text": "Nasty Sync Lead"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 107,
+"text": "Rez Calming Down"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 108,
+"text": "Clock Dance"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 109,
+"text": "Vector Victor"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 110,
+"text": "Aromatherapy"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 111,
+"text": "Scatter Synth"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 112,
+"text": "Long Period Complexity"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 113,
+"text": "Life on Mars"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 114,
+"text": "Sequence Bounce"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 115,
+"text": "Harmonic DubbleBubble"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 116,
+"text": "Not A Care in the World"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 117,
+"text": "Offbeat Dancerific"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 118,
+"text": "Random Rhythm Guitars"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 119,
+"text": "Homage to Mr. M..."
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 120,
+"text": "A New Reggae"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 121,
+"text": "Echoing Gooberation"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 122,
+"text": "Giant Pad w/Pulse"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 123,
+"text": "The O Dance =C2="
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 124,
+"text": "Perpetual Random Motion"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 125,
+"text": "Will You Dance With Me?"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 126,
+"text": "Watchamacallit"
+},
+{
+"bank": "USER-B",
+"lsb": 9,
+"pc": 127,
+"text": "Rhythm Scanner"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 0,
+"text": "Perc Organ 1 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 1,
+"text": "Wave Organ 1 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 2,
+"text": "Dark & Perc"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 3,
+"text": "Cat On aMoJo"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 4,
+"text": "Full Organ"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 5,
+"text": "EX Otones"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 6,
+"text": "Bright"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 7,
+"text": "CX-3 Trem Organ"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 8,
+"text": "Mega Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 9,
+"text": "Preachin'"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 10,
+"text": "ShoTown"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 11,
+"text": "LS DirtyFunk"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 12,
+"text": "LSGospelFunk"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 13,
+"text": "Quiet Hymn"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 14,
+"text": "TC EX-Glassy"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 15,
+"text": "Wave Organ 2 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 16,
+"text": "Jazzy Organ 1 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 17,
+"text": "Jazzy Organ 2 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 18,
+"text": "Jazzy Organ 3 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 19,
+"text": "Prog Chords 1 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 20,
+"text": "Prog Chords 2 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 21,
+"text": "Rich Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 22,
+"text": "LowerManualOrgan SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 23,
+"text": "M1 Organ SW1,2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 24,
+"text": "Low.Manual/Jazz.Comp 1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 25,
+"text": "Low.Manual/Jazz.Comp 2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 26,
+"text": "Classic Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 27,
+"text": "Gig Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 28,
+"text": "Raging Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 29,
+"text": "Custom Perc Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 30,
+"text": "Perc Organ 2 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 31,
+"text": "Comp"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 32,
+"text": "Bro' J"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 33,
+"text": "Carpet Magic"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 34,
+"text": "Go McJimmy"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 35,
+"text": "I Gota EX!"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 36,
+"text": "Lots O' Drawbars SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 37,
+"text": "Perc Jazz 1 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 38,
+"text": "Perc Jazz 2 SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 39,
+"text": "Soft Jazz Perc 1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 40,
+"text": "Soft Jazz Perc 2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 41,
+"text": "Organ Perc 3rd SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 42,
+"text": "Pipes on Sunday"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 43,
+"text": "Bubble Organ"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 44,
+"text": "Organ.Dance.Now"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 45,
+"text": "Dual Deep Organs SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 46,
+"text": "TranceFormOrgan SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 47,
+"text": "Remix Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 48,
+"text": "EXistential Organ SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 49,
+"text": "Dizziness Sequence"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 50,
+"text": "Wolf Ganged"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 51,
+"text": "The Air Dance"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 52,
+"text": "Aeronautics"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 53,
+"text": "Euro Bureau =C2="
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 54,
+"text": "New Old Beat"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 55,
+"text": "RPeJi"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 56,
+"text": "Don't Lose Count Now..."
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 57,
+"text": "Square Head Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 58,
+"text": "Silver Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 59,
+"text": "Random Decay Arp Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 60,
+"text": "Punctuation Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 61,
+"text": "Klub Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 62,
+"text": "Blatt Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 63,
+"text": "TopEnd Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 64,
+"text": "Pulse Octave Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 65,
+"text": "TeKbAs & Sweeps Split"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 66,
+"text": "TuBaSs + Xtras"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 67,
+"text": "Antic Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 68,
+"text": "Dark Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 69,
+"text": "Knock on da Booty Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 70,
+"text": "Deep Decay Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 71,
+"text": "Falling Jungle Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 72,
+"text": "Deep Kicker Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 73,
+"text": "Mushroom Bassman"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 74,
+"text": "Upbeat Bass Morpher"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 75,
+"text": "DanceBassMenu"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 76,
+"text": "No Frets Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 77,
+"text": "Aggro Bass SW1,2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 78,
+"text": "30303 Toolkit"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 79,
+"text": "Dirty Little Girl"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 80,
+"text": "Two ClassicBasses SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 81,
+"text": "80's Stereo Bass SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 82,
+"text": "FM Sync Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 83,
+"text": "Timpanic Bass"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 84,
+"text": "Velocity Filter Bassss"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 85,
+"text": "TeKnoLife Split"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 86,
+"text": "Mystery Bells"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 87,
+"text": "Celeste AL-1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 88,
+"text": "WindKistBells"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 89,
+"text": "Stop Following Me Bells"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 90,
+"text": "Atmosphere Bells SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 91,
+"text": "WineGlass Bell + Xtras"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 92,
+"text": "BP Noise Sweep"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 93,
+"text": "Nioz Blaster"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 94,
+"text": "Noize Blizzard"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 95,
+"text": "Syn-Orchestra Warming Up"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 96,
+"text": "Windchimes (play gliss)"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 97,
+"text": "Shepard Tone"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 98,
+"text": "Transition Sweep Up"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 99,
+"text": "Beyond the Crypt"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 100,
+"text": "Bright Synth Hits"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 101,
+"text": "Goober Uber Alles 1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 102,
+"text": "Shorty Saw Lead"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 103,
+"text": "Shorty Square Lead"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 104,
+"text": "Agressive Short Synth"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 105,
+"text": "Punch Chords"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 106,
+"text": "Pick Guita-Wah JS-Y"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 107,
+"text": "Goober Uber Alles 2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 108,
+"text": "Popcorn Hit Bright"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 109,
+"text": "We are the KorgBots"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 110,
+"text": "Quick Decay Synth"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 111,
+"text": "Rude Hit"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 112,
+"text": "Chord Control"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 113,
+"text": "OrX HITz"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 114,
+"text": "MajorMinorSwitchHit SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 115,
+"text": "Haus Kick =C2= SW2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 116,
+"text": "Met'l Snare & Toms SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 117,
+"text": "Stereo Fat Claps =C4="
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 118,
+"text": "Aero Claps =C4="
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 119,
+"text": "AL-1 TomTom Variations"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 120,
+"text": "Raving Kik =C2= JS-Y"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 121,
+"text": "Dense Kik w/Zap =C2= SW2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 122,
+"text": "Dark Kik & Zaps =C2= SW2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 123,
+"text": "Plus Sub Kick =C2="
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 124,
+"text": "Why Disco Died..."
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 125,
+"text": "Multi-Hat =F#2= SW1"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 126,
+"text": "Ana HAT + TRI =F#2= SW2"
+},
+{
+"bank": "USER-C",
+"lsb": 10,
+"pc": 127,
+"text": "OasisBasis =C4="
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 0,
+"text": "Steel String"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 1,
+"text": "Acoustic STR-1 Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 2,
+"text": "Steel STR-1 Guitar VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 3,
+"text": "Lo/Hi Velocity Acoustic"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 4,
+"text": "Lovely Acoustic Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 5,
+"text": "Flamenco Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 6,
+"text": "Nylon Dynamic Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 7,
+"text": "Lovers Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 8,
+"text": "Nylon Stalkings"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 9,
+"text": "Low Bridge Blues Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 10,
+"text": "Old Hat Jazz Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 11,
+"text": "Electric Guitar VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 12,
+"text": "Clean E.Guitar VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 13,
+"text": "Spaghetti Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 14,
+"text": "Tremolo/Surf Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 15,
+"text": "Funky E.Guitar VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 16,
+"text": "Chime Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 17,
+"text": "Plectrachime"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 18,
+"text": "Overdriven Guitar VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 19,
+"text": "Buzzy String Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 20,
+"text": "Straits Solo Guitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 21,
+"text": "Distortion Guitar 1 VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 22,
+"text": "Dist. Lead"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 23,
+"text": "Harp in Orchestra Place"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 24,
+"text": "Harp Bisbigliando SW1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 25,
+"text": "Celtic Harp"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 26,
+"text": "Lute Classic Strings"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 27,
+"text": "High Mandolins"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 28,
+"text": "Mandolin Strings"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 29,
+"text": "Bouzouki Strings"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 30,
+"text": "Banjo       (body=SW1/2)"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 31,
+"text": "Hammered Dulcimer"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 32,
+"text": "Sympathetic Sitar"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 33,
+"text": "Ambient Sitar SW1,2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 34,
+"text": "Tamboura/Sitar SW1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 35,
+"text": "Tsugaru Shamisen"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 36,
+"text": "Ethnic Pluck+NonLin Knb6"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 37,
+"text": "Ethnic Koto Strings"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 38,
+"text": "Reversing Clangor"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 39,
+"text": "Solo NoisY A.Bass"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 40,
+"text": "Double-Bass Fingered"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 41,
+"text": "A.Bass Solo"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 42,
+"text": "E.Bass STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 43,
+"text": "Fretless Bass STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 44,
+"text": "Fretless Dark Bass"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 45,
+"text": "Slap Bass 1 STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 46,
+"text": "Slap Bass 2 STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 47,
+"text": "Prime Time Slapper"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 48,
+"text": "Stein Bass STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 49,
+"text": "Medium Finger Bass"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 50,
+"text": "Modified P. Bass"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 51,
+"text": "Thing Bass"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 52,
+"text": "Stanky Hybrid Slap"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 53,
+"text": "Mandoloid Trem Pad JS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 54,
+"text": "Betelgeuse"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 55,
+"text": "Paddy Motions"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 56,
+"text": "Motionspheres"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 57,
+"text": "The Magic Box SW1,2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 58,
+"text": "The First Sunrise"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 59,
+"text": "Synthonimic Stab"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 60,
+"text": "Vocal Wavulation"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 61,
+"text": "Bad Man"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 62,
+"text": "15 Seconds Left"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 63,
+"text": "L.F.O. Planet"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 64,
+"text": "Chomp Comp"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 65,
+"text": "Rhythm Jet Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 66,
+"text": "Dreamy Strumming Gtr Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 67,
+"text": "Rhythm Monkey Grv 1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 68,
+"text": "Rhythm Monkey Grv 2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 69,
+"text": "Pluck Goes Under Cover"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 70,
+"text": "Border Patrol"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 71,
+"text": "Vokal Dancing"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 72,
+"text": "Waterphonics SW1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 73,
+"text": "Bowed Waterphone"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 74,
+"text": "The Final Frontier"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 75,
+"text": "Death Angels"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 76,
+"text": "The Engulfed Cathedral"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 77,
+"text": "Desert Racer"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 78,
+"text": "Carillon"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 79,
+"text": "Spectra Chime SW1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 80,
+"text": "Thinner Chimes"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 81,
+"text": "Xylotopia"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 82,
+"text": "Physical Mallet VJS/JS-Y"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 83,
+"text": "Celeste STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 84,
+"text": "Xylophone STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 85,
+"text": "Cavernous Toy Pluk"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 86,
+"text": "Cel-limba"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 87,
+"text": "Crystal Air Mallet Kn5,6"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 88,
+"text": "Kalimba STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 89,
+"text": "Honey Comb"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 90,
+"text": "Popping Lead"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 91,
+"text": "The Living Calliope"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 92,
+"text": "Solar Split"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 93,
+"text": "Renaissance Fair"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 94,
+"text": "Synth Vibration"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 95,
+"text": "Motion String Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 96,
+"text": "EvilDispersionSyn SW1,2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 97,
+"text": "Dynamik STR Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 98,
+"text": "Ethnik Perk Synth"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 99,
+"text": "Air Anvil"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 100,
+"text": "White Light Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 101,
+"text": "Slow Metal Stryker"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 102,
+"text": "Banshee SW1,2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 103,
+"text": "Icecream Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 104,
+"text": "Healing Waters"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 105,
+"text": "Moooving Vox Pad"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 106,
+"text": "Air Pluck"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 107,
+"text": "The Mist Singing Darkly"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 108,
+"text": "Tuned Steam VJS/SW1,2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 109,
+"text": "Classic STR-1 E.Piano"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 110,
+"text": "Physical E.Piano"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 111,
+"text": "Dirty STR-1 E.Piano"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 112,
+"text": "Vintage STR-1 E.Piano"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 113,
+"text": "Wurlie-Like STR-1 EP"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 114,
+"text": "Magic Tine EP"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 115,
+"text": "Clavinet 2 STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 116,
+"text": "NoisyKeys E.Clav VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 117,
+"text": "Half Mute E.Clav VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 118,
+"text": "Clavichord STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 119,
+"text": "DoubleHarpsichord SW1,2"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 120,
+"text": "Harpsichord 2 STR-1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 121,
+"text": "Round Wound Clav"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 122,
+"text": "Vn/Va Pizzicato SW1"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 123,
+"text": "Veeoleen Split VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 124,
+"text": "Sazzophone Split VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 125,
+"text": "Harzmonika Split VJS"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 126,
+"text": "Timbale (play C4,5,6,7)"
+},
+{
+"bank": "USER-D",
+"lsb": 11,
+"pc": 127,
+"text": "Tabloop (play 3 16ths)"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 0,
+"text": "Doubled Screamer"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 1,
+"text": "Unison Stab Saw"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 2,
+"text": "Filternation -Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 3,
+"text": "UltimateTranceAnthem -Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 4,
+"text": "S&H 5th Comp"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 5,
+"text": "Stab Saw"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 6,
+"text": "4OSC Plain Stab"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 7,
+"text": "Nu Breaks Drive"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 8,
+"text": "Big Sunrise Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 9,
+"text": "Trance Anthem -Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 10,
+"text": "Lonely Song"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 11,
+"text": "VCF Oscillation"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 12,
+"text": "Air Mallet"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 13,
+"text": "Noise Shots"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 14,
+"text": "Velo PS6 Reso SW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 15,
+"text": "Polysynth"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 16,
+"text": "Big Sleep"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 17,
+"text": "Dark Poly Stack"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 18,
+"text": "FAP7 Morph -Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 19,
+"text": "Spacious Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 20,
+"text": "Airy Fairy Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 21,
+"text": "Resonate Pad SW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 22,
+"text": "Silky Hollow Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 23,
+"text": "Ana Strings"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 24,
+"text": "Healing Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 25,
+"text": "DarkPad BPF SW1, JSY"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 26,
+"text": "Influx Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 27,
+"text": "Power of the Ring"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 28,
+"text": "SpacePad SW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 29,
+"text": "Fluffy Pads"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 30,
+"text": "Morph Pad SW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 31,
+"text": "Ancient Memories SW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 32,
+"text": "Vector Resonance"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 33,
+"text": "Bubble Pad SW1,JS-Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 34,
+"text": "Hold 5 Sec Reso Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 35,
+"text": "Winter Vox Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 36,
+"text": "Vaporization Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 37,
+"text": "Mermaids"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 38,
+"text": "Flutter Yoi"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 39,
+"text": "Gated PWM Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 40,
+"text": "Step Envelope"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 41,
+"text": "Phenomenize"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 42,
+"text": "Chillfactor"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 43,
+"text": "Vector Motion"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 44,
+"text": "MS Freewheeling Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 45,
+"text": "Phasey Parallel Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 46,
+"text": "Trill Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 47,
+"text": "Intro Heaven"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 48,
+"text": "Ring Ring T.V."
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 49,
+"text": "The Square Kauri II"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 50,
+"text": "Deep Searchin'"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 51,
+"text": "Modulation Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 52,
+"text": "Spiral Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 53,
+"text": "Stutter Synth"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 54,
+"text": "VCF Circuits"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 55,
+"text": "Phat Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 56,
+"text": "Electro Clash Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 57,
+"text": "Acid Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 58,
+"text": "Steppers Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 59,
+"text": "Mean Bass Grit"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 60,
+"text": "Solid Phase Bass SW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 61,
+"text": "Boost Sonic Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 62,
+"text": "Phunky Power Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 63,
+"text": "Kidz N America"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 64,
+"text": "Punch Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 65,
+"text": "Simple Tri Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 66,
+"text": "Velocity Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 67,
+"text": "Fat Line Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 68,
+"text": "Thick Synth Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 69,
+"text": "Square Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 70,
+"text": "Hoover Uni Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 71,
+"text": "Deep Point Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 72,
+"text": "Ultra Wide Deep Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 73,
+"text": "MS Dirty Bass"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 74,
+"text": "Feedback Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 75,
+"text": "CX3 / MS20 Lead Split"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 76,
+"text": "Peanut Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 77,
+"text": "Instant Viagraphy"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 78,
+"text": "FunKey Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 79,
+"text": "Awaken Sign KN6"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 80,
+"text": "PolysixEX Lead ChordSW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 81,
+"text": "Dilated Pupils Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 82,
+"text": "Unison Tek Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 83,
+"text": "Grit Lead ChordSW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 84,
+"text": "PolysixEX Square Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 85,
+"text": "Simple Square Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 86,
+"text": "Velo Filter Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 87,
+"text": "Sour n' Sweet"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 88,
+"text": "PWM Flange Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 89,
+"text": "Smooth Screaming Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 90,
+"text": "Lounge Lead"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 91,
+"text": "Additive Bell"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 92,
+"text": "Polysix Gamelan"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 93,
+"text": "Analog Bell -Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 94,
+"text": "PS Vibe"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 95,
+"text": "Resonance Bell"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 96,
+"text": "Short Shift Pulse"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 97,
+"text": "Brave a Danger"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 98,
+"text": "Downward Trend"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 99,
+"text": "Trance Arp Bliss"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 100,
+"text": "PWM Nag"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 101,
+"text": "Signs of Sine -Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 102,
+"text": "Euphoricity"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 103,
+"text": "Sus4 Stab Hit ChordSW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 104,
+"text": "Fantasy ChordSW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 105,
+"text": "MorphingMinor7th ChrdSW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 106,
+"text": "Waterphonics"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 107,
+"text": "MS-20EX Sci-Fi"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 108,
+"text": "ElevenThirtyEight ChdSW1"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 109,
+"text": "Inside the Tube"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 110,
+"text": "SulphuricSky SW,JS+Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 111,
+"text": "Glass Arrow Piano"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 112,
+"text": "Classical AnaSynth"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 113,
+"text": "Warm Carpet Synth"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 114,
+"text": "Loss of Control"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 115,
+"text": "Hip Hop Synth"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 116,
+"text": "Delicate Flower Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 117,
+"text": "Analog Plucker"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 118,
+"text": "Oxygene Lead 2"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 119,
+"text": "Fusion Filter Sweep"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 120,
+"text": "Moving Cycles"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 121,
+"text": "STR-AL-1-Mission"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 122,
+"text": "Vintage Str Ensemble"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 123,
+"text": "Romantic Pad"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 124,
+"text": "Epic Mix Filler"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 125,
+"text": "Rich Analog Strings"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 126,
+"text": "Bunkka HPF Sweep JS-Y"
+},
+{
+"bank": "USER-E",
+"lsb": 12,
+"pc": 127,
+"text": "BPM Lost in Dreamland"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 0,
+"text": "Harmonik E.P. Knob5,6"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 1,
+"text": "Funky EP"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 2,
+"text": "Pulse E.Piano"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 3,
+"text": "Tinetable E.Piano SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 4,
+"text": "Dark (G)S-2 E.Piano"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 5,
+"text": "VJS Reed E.Piano"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 6,
+"text": "VJS Clav SW1,Rbn,Knobs"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 7,
+"text": "Contemporary Pianist SW2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 8,
+"text": "Full Organ (Sliders)"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 9,
+"text": "Carillon Variations"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 10,
+"text": "Crystal Bells SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 11,
+"text": "Lotus Garden SW1,2 Knob6"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 12,
+"text": "JS+Y Stardust(move slow)"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 13,
+"text": "Vintage Bell Wind"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 14,
+"text": "Ensem-Bell"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 15,
+"text": "The Magic Chalice"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 16,
+"text": "Rated (P)PG for \"Bell\""
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 17,
+"text": "Stereo Bells"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 18,
+"text": "Brite Sprite Bell"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 19,
+"text": "Trash Can 'Rimba"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 20,
+"text": "Plaintive Choir SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 21,
+"text": "Andes Pipes"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 22,
+"text": "Mystery Alto Flute SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 23,
+"text": "Harmonica AT,SW"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 24,
+"text": "D'Bass SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 25,
+"text": "Rappin' Foreva Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 26,
+"text": "Pfat Boy (all controls!)"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 27,
+"text": "Gonzo Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 28,
+"text": "L8-Lee Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 29,
+"text": "Evil Square Lord"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 30,
+"text": "Knee-Deep Bass knob 5,6"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 31,
+"text": "Nuklear DOG Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 32,
+"text": "Dist Squid Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 33,
+"text": "Pure Power Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 34,
+"text": "Switched On Bass SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 35,
+"text": "Ugly Mud Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 36,
+"text": "Disko Hammer Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 37,
+"text": "Pickman Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 38,
+"text": "Moonlight Parade"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 39,
+"text": "Starlight Parade"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 40,
+"text": "Synced In Motion SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 41,
+"text": "Secret Toy Room"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 42,
+"text": "Multiple Engines SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 43,
+"text": "Tight Squeeze SW1,2 AT"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 44,
+"text": "Split Rhythm Maker SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 45,
+"text": "Fantasy Clubland"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 46,
+"text": "Ethno Aliens SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 47,
+"text": "Busy Body"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 48,
+"text": "Following the Suspect"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 49,
+"text": "Dancing Waveshapes SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 50,
+"text": "Low Flying Objects"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 51,
+"text": "Rain from Heaven"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 52,
+"text": "Jambia CNTRLS, kn5=shakr"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 53,
+"text": "Summer Night by the Orb"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 54,
+"text": "Solar Winds"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 55,
+"text": "Beyond the Clouds (hold)"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 56,
+"text": "Thin Fluid"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 57,
+"text": "Ominous Motion SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 58,
+"text": "New Age Starter Kit"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 59,
+"text": "Dreams of Neptune (hold)"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 60,
+"text": "Morning Indication 10sec"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 61,
+"text": "Wave Rotation SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 62,
+"text": "Granular Motions"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 63,
+"text": "Lost in an Ion Storm"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 64,
+"text": "Candlelight Pad"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 65,
+"text": "Rainy Windows"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 66,
+"text": "Triangle Pop JS, Knob6"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 67,
+"text": "Alchemy Guitars SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 68,
+"text": "MOD-7 Guitar Pad SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 69,
+"text": "Butterfly E.Gtr VJS,Rbn"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 70,
+"text": "Pure Nitro Rock Star"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 71,
+"text": "Haleakala SW1,2 Knob5,6"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 72,
+"text": "Double Plucked"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 73,
+"text": "Sitar & Tambura"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 74,
+"text": "MOD-7 Orchestra SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 75,
+"text": "Trumpetscape   (cntrls!)"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 76,
+"text": "Harmonic Heights"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 77,
+"text": "Powerful Universe"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 78,
+"text": "Wind In The Pad"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 79,
+"text": "Alien Crickets"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 80,
+"text": "Singin Sine Pad KARMA AT"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 81,
+"text": "The Innocence"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 82,
+"text": "Cold Mornings"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 83,
+"text": "Mostly Mellow"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 84,
+"text": "HollowSkape"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 85,
+"text": "Cathedral of the New Age"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 86,
+"text": "Lo/HiFi TensionPad SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 87,
+"text": "Gone Forever"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 88,
+"text": "Angels and Butterflies"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 89,
+"text": "Jericho"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 90,
+"text": "Massive Synthy Brass Kn6"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 91,
+"text": "Pointed Anthem"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 92,
+"text": "The Pluck Rings"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 93,
+"text": "FeedbackNois HP Synth"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 94,
+"text": "Frantic Opera Lead VJS"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 95,
+"text": "Rez Lead & Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 96,
+"text": "Thrasher"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 97,
+"text": "18 OSC Monster Lead"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 98,
+"text": "Vel Expression Lead"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 99,
+"text": "VJS SyncBlaster Lead"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 100,
+"text": "HardSync? Yep."
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 101,
+"text": "Dare 2 B Square"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 102,
+"text": "Funky ReziLead"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 103,
+"text": "Waveburst"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 104,
+"text": "Alien Warning System"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 105,
+"text": "Boiling Oil Pad"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 106,
+"text": "Convergence"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 107,
+"text": "Zombie Choir"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 108,
+"text": "Space Siren  SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 109,
+"text": "Hold ON for Help"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 110,
+"text": "Inside the Gong"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 111,
+"text": "Harmonic Dancer  SW1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 112,
+"text": "Air Mallet/JunkJam SW1,2"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 113,
+"text": "Short Synth Mallet"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 114,
+"text": "PreNuclear Stab Synth"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 115,
+"text": "Short and Snappy"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 116,
+"text": "DONKADrums"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 117,
+"text": "Godzilla Gong SW1,cntrls"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 118,
+"text": "String Bell"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 119,
+"text": "Lamb's Harp"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 120,
+"text": "WoodBox Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 121,
+"text": "TB Phat Hybrid"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 122,
+"text": "Ninja Gaiden Bs NoiseMod"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 123,
+"text": "Switch 1 Ugh Bass"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 124,
+"text": "Jelly Bean"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 125,
+"text": "Velo Grunt JS-Y"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 126,
+"text": "Spank the Plank Sw1"
+},
+{
+"bank": "USER-F",
+"lsb": 13,
+"pc": 127,
+"text": "Power Sync Lead"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 0,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 1,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 2,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 3,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 4,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 5,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 6,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 7,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 8,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 9,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 10,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 11,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 12,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 13,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 14,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 15,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 16,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 17,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 18,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 19,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 20,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 21,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 22,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 23,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 24,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 25,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 26,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 27,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 28,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 29,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 30,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 31,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 32,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 33,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 34,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 35,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 36,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 37,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 38,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 39,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 40,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 41,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 42,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 43,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 44,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 45,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 46,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 47,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 48,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 49,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 50,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 51,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 52,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 53,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 54,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 55,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 56,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 57,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 58,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 59,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 60,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 61,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 62,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 63,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 64,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 65,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 66,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 67,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 68,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 69,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 70,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 71,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 72,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 73,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 74,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 75,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 76,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 77,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 78,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 79,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 80,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 81,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 82,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 83,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 84,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 85,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 86,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 87,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 88,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 89,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 90,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 91,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 92,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 93,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 94,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 95,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 96,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 97,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 98,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 99,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 100,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 101,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 102,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 103,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 104,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 105,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 106,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 107,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 108,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 109,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 110,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 111,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 112,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 113,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 114,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 115,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 116,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 117,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 118,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 119,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 120,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 121,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 122,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 123,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 124,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 125,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 126,
+"text": "Init Program"
+},
+{
+"bank": "USER-G",
+"lsb": 14,
+"pc": 127,
+"text": "Init Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 0,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 1,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 2,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 3,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 4,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 5,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 6,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 7,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 8,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 9,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 10,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 11,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 12,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 13,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 14,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 15,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 16,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 17,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 18,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 19,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 20,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 21,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 22,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 23,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 24,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 25,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 26,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 27,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 28,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 29,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 30,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 31,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 32,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 33,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 34,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 35,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 36,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 37,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 38,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 39,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 40,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 41,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 42,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 43,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 44,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 45,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 46,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 47,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 48,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 49,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 50,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 51,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 52,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 53,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 54,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 55,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 56,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 57,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 58,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 59,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 60,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 61,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 62,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 63,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 64,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 65,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 66,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 67,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 68,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 69,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 70,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 71,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 72,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 73,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 74,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 75,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 76,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 77,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 78,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 79,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 80,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 81,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 82,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 83,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 84,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 85,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 86,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 87,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 88,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 89,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 90,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 91,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 92,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 93,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 94,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 95,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 96,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 97,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 98,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 99,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 100,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 101,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 102,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 103,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 104,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 105,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 106,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 107,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 108,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 109,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 110,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 111,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 112,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 113,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 114,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 115,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 116,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 117,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 118,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 119,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 120,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 121,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 122,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 123,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 124,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 125,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 126,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-AA",
+"lsb": 15,
+"pc": 127,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 0,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 1,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 2,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 3,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 4,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 5,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 6,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 7,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 8,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 9,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 10,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 11,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 12,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 13,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 14,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 15,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 16,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 17,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 18,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 19,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 20,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 21,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 22,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 23,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 24,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 25,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 26,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 27,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 28,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 29,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 30,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 31,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 32,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 33,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 34,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 35,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 36,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 37,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 38,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 39,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 40,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 41,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 42,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 43,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 44,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 45,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 46,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 47,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 48,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 49,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 50,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 51,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 52,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 53,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 54,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 55,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 56,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 57,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 58,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 59,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 60,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 61,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 62,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 63,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 64,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 65,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 66,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 67,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 68,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 69,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 70,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 71,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 72,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 73,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 74,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 75,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 76,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 77,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 78,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 79,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 80,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 81,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 82,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 83,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 84,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 85,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 86,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 87,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 88,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 89,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 90,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 91,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 92,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 93,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 94,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 95,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 96,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 97,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 98,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 99,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 100,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 101,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 102,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 103,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 104,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 105,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 106,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 107,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 108,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 109,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 110,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 111,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 112,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 113,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 114,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 115,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 116,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 117,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 118,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 119,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 120,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 121,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 122,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 123,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 124,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 125,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 126,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-BB",
+"lsb": 16,
+"pc": 127,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 0,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 1,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 2,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 3,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 4,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 5,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 6,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 7,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 8,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 9,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 10,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 11,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 12,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 13,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 14,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 15,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 16,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 17,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 18,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 19,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 20,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 21,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 22,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 23,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 24,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 25,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 26,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 27,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 28,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 29,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 30,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 31,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 32,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 33,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 34,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 35,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 36,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 37,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 38,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 39,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 40,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 41,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 42,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 43,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 44,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 45,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 46,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 47,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 48,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 49,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 50,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 51,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 52,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 53,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 54,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 55,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 56,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 57,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 58,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 59,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 60,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 61,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 62,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 63,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 64,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 65,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 66,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 67,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 68,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 69,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 70,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 71,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 72,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 73,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 74,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 75,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 76,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 77,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 78,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 79,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 80,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 81,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 82,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 83,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 84,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 85,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 86,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 87,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 88,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 89,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 90,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 91,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 92,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 93,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 94,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 95,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 96,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 97,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 98,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 99,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 100,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 101,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 102,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 103,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 104,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 105,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 106,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 107,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 108,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 109,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 110,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 111,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 112,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 113,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 114,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 115,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 116,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 117,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 118,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 119,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 120,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 121,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 122,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 123,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 124,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 125,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 126,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-CC",
+"lsb": 17,
+"pc": 127,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 0,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 1,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 2,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 3,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 4,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 5,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 6,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 7,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 8,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 9,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 10,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 11,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 12,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 13,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 14,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 15,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 16,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 17,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 18,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 19,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 20,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 21,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 22,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 23,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 24,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 25,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 26,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 27,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 28,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 29,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 30,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 31,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 32,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 33,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 34,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 35,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 36,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 37,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 38,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 39,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 40,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 41,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 42,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 43,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 44,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 45,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 46,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 47,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 48,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 49,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 50,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 51,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 52,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 53,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 54,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 55,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 56,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 57,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 58,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 59,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 60,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 61,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 62,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 63,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 64,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 65,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 66,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 67,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 68,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 69,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 70,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 71,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 72,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 73,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 74,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 75,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 76,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 77,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 78,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 79,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 80,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 81,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 82,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 83,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 84,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 85,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 86,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 87,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 88,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 89,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 90,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 91,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 92,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 93,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 94,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 95,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 96,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 97,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 98,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 99,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 100,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 101,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 102,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 103,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 104,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 105,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 106,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 107,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 108,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 109,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 110,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 111,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 112,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 113,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 114,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 115,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 116,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 117,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 118,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 119,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 120,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 121,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 122,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 123,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 124,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 125,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 126,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-DD",
+"lsb": 18,
+"pc": 127,
+"text": "Init EXi Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 0,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 1,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 2,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 3,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 4,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 5,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 6,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 7,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 8,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 9,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 10,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 11,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 12,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 13,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 14,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 15,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 16,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 17,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 18,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 19,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 20,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 21,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 22,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 23,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 24,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 25,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 26,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 27,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 28,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 29,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 30,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 31,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 32,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 33,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 34,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 35,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 36,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 37,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 38,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 39,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 40,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 41,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 42,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 43,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 44,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 45,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 46,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 47,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 48,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 49,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 50,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 51,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 52,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 53,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 54,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 55,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 56,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 57,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 58,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 59,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 60,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 61,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 62,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 63,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 64,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 65,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 66,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 67,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 68,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 69,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 70,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 71,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 72,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 73,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 74,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 75,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 76,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 77,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 78,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 79,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 80,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 81,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 82,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 83,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 84,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 85,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 86,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 87,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 88,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 89,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 90,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 91,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 92,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 93,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 94,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 95,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 96,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 97,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 98,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 99,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 100,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 101,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 102,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 103,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 104,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 105,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 106,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 107,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 108,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 109,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 110,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 111,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 112,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 113,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 114,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 115,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 116,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 117,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 118,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 119,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 120,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 121,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 122,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 123,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 124,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 125,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 126,
+"text": "Init Program"
+},
+{
+"bank": "USER-EE",
+"lsb": 19,
+"pc": 127,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 0,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 1,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 2,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 3,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 4,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 5,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 6,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 7,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 8,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 9,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 10,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 11,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 12,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 13,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 14,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 15,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 16,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 17,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 18,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 19,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 20,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 21,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 22,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 23,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 24,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 25,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 26,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 27,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 28,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 29,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 30,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 31,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 32,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 33,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 34,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 35,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 36,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 37,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 38,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 39,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 40,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 41,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 42,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 43,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 44,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 45,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 46,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 47,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 48,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 49,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 50,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 51,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 52,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 53,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 54,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 55,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 56,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 57,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 58,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 59,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 60,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 61,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 62,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 63,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 64,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 65,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 66,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 67,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 68,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 69,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 70,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 71,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 72,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 73,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 74,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 75,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 76,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 77,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 78,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 79,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 80,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 81,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 82,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 83,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 84,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 85,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 86,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 87,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 88,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 89,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 90,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 91,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 92,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 93,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 94,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 95,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 96,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 97,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 98,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 99,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 100,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 101,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 102,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 103,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 104,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 105,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 106,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 107,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 108,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 109,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 110,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 111,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 112,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 113,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 114,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 115,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 116,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 117,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 118,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 119,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 120,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 121,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 122,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 123,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 124,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 125,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 126,
+"text": "Init Program"
+},
+{
+"bank": "USER-FF",
+"lsb": 20,
+"pc": 127,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 0,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 1,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 2,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 3,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 4,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 5,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 6,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 7,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 8,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 9,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 10,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 11,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 12,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 13,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 14,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 15,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 16,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 17,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 18,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 19,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 20,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 21,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 22,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 23,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 24,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 25,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 26,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 27,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 28,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 29,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 30,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 31,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 32,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 33,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 34,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 35,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 36,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 37,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 38,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 39,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 40,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 41,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 42,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 43,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 44,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 45,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 46,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 47,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 48,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 49,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 50,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 51,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 52,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 53,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 54,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 55,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 56,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 57,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 58,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 59,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 60,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 61,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 62,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 63,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 64,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 65,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 66,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 67,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 68,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 69,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 70,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 71,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 72,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 73,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 74,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 75,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 76,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 77,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 78,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 79,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 80,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 81,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 82,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 83,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 84,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 85,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 86,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 87,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 88,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 89,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 90,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 91,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 92,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 93,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 94,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 95,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 96,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 97,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 98,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 99,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 100,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 101,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 102,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 103,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 104,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 105,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 106,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 107,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 108,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 109,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 110,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 111,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 112,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 113,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 114,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 115,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 116,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 117,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 118,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 119,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 120,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 121,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 122,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 123,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 124,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 125,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 126,
+"text": "Init Program"
+},
+{
+"bank": "USER-GG",
+"lsb": 21,
+"pc": 127,
+"text": "Init Program"
+}
+]
