@@ -6,7 +6,7 @@
     python tools/kronos.py cc cutoff 40           # move a knob-type control (0-127)
     python tools/kronos.py check                  # offline self-check, no Kronos needed
 
-Facts come from Korg's KRONOS MIDI Implementation (2024-08-08) and Voice Name List:
+Facts come from Korg's KRONOS MIDI Implementation (2024-08-08); sound names are read from the unit itself:
 Bank Select MSB 0 + LSB per bank, then Program Change. Assumes the Kronos Global
 MIDI channel is 1 and "Enable Program and Bank Change" is ticked (Global > MIDI);
 both are factory defaults but NOT verified on this unit.
@@ -111,11 +111,6 @@ def chord(name="C", seconds=2.0):
         out.send(mido.Message("note_off", channel=CHANNEL, note=n))
 
 
-# keys of "U-C06 SP Hip Hop Kit" (Voice Name List; C4=60). ASSUMED to be what
-# USER-DD 080 "Nepro SP Hip Hop Kit" plays; heard-check pending.
-SP_KIT = {"kick": 36, "kick2": 38, "snare": 41, "clap": 63, "hat": 29, "open": 30}
-
-
 # General MIDI drum map; GM2 drum bank g(d) = Bank Select MSB 120 / LSB 0, program 16 = Power Kit
 GM_KIT = {"kick": 36, "kick2": 35, "snare": 38, "clap": 39, "hat": 42, "open": 46}
 
@@ -129,10 +124,11 @@ def play_gm_drums(program=16):
         out.send(mido.Message(kind, channel=CHANNEL, **kw))
 
 
-def beat(bpm=90, bars=8, swing=0.12, kit=SP_KIT, lanes=None, lead=0.3):
-    """8-bar boom-bap loop on the SP kit, sent live to the Kronos. Last bar adds a fill."""
+def beat(bpm=90, bars=8, swing=0.12, kit=None, lanes=None, lead=0.3):
+    """8-bar boom-bap loop on a drum kit key map (GM_KIT or HH_KIT), sent live to the Kronos. Last bar adds a fill."""
     import random
     import mido
+    kit = kit or GM_KIT
     out = _port()
     step = 60.0 / bpm / 4  # one 16th
     ev = []  # (16th index, key, velocity)
@@ -204,8 +200,9 @@ def _sysex(data):
     _port().send(mido.Message("sysex", data=[0x42, 0x30, 0x68] + data))
 
 
-def kit_drive(note, drive, zones=3, kit=4):
-    """Kit sample Drive (-99..+99) for a key, all velocity zones. Edit buffer only, not stored."""
+def kit_drive(note, drive, zones=3, kit=136):
+    """Kit sample Drive (-99..+99) for a key, all velocity zones. Edit buffer only, not stored.
+    Default kit 136 = USER-G kit 00 (Claude's copy). Never point this at a factory kit. Drive alone is not audible (it offsets the Program driver)."""
     _sysex([0x71, 0x00, kit >> 7, kit & 0x7F])  # Set Current Object: drum kit
     for z in range(zones):
         _sysex([0x53, z, note, 16] + _val(drive))  # PID 16 = Drive
@@ -214,11 +211,3 @@ def kit_drive(note, drive, zones=3, kit=4):
 def ifx_send(ifx, send, level):
     """Insert-effect send level (0-127) to Master FX 1/2. Edit buffer only, not stored."""
     _sysex([0x43, 7, ifx - 1, 0, 7 + send - 1, 0] + _val(level))  # TYP7 SOC=ifx SUB0 PID7/8 IDX0
-
-
-def dirty_hip_hop(kick_drive=40, snare_reverb_pct=20):
-    play("INT-F", 95)
-    time.sleep(0.6)
-    kit_drive(HH_KIT["kick"], kick_drive)
-    kit_drive(HH_KIT["kick2"], kick_drive, zones=1)
-    ifx_send(1, 2, round(127 * snare_reverb_pct / 100))  # snares sit on Insert FX1; Send2 = Master FX2
