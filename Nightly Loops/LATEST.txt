@@ -1,5 +1,4 @@
-RUN 2026-10-24 (daily loop grab, unattended)
-Looperman: 45 filed (Melody 22, Drums 14, Vocals 7, Chords 2, Bass 0). Hit the 45 cap on page 7. Supply OK (no alert).
-Freesound: 60 filed (Melody 41, Chords 7, Drums 6, Vocals 4, Bass 2). Hit daily cap of 60.
-NOT RUN: second Looperman profile and second Freesound profile (only one login visible in this Chrome).
-Full log: BOTC Sorted Loops/SORTING-LOG-daily.txt (dated section 2026-10-24).
+BLOCKED - LOOPERMAN: Chrome is logged out of looperman.com (Login/Register on every page), so no Looperman loops were grabbed. Fix: log back in to Looperman in Chrome, then the next run resumes.
+FREESOUND 2026-10-27: filed 40 new loops (Melody 22, Drums 11, Bass 7). CC0 16, CC-BY 24 (credits in the sorting log). 6 have no key (C_nokey).
+Where: BOTC Sorted Loops/Melody, Drums, Bass. Full detail: BOTC Sorted Loops/SORTING-LOG-daily.txt (last section).
+Sparse targets this run: BPM 70s, 100s, 110s, 150s, 160s, 170s; keys C#, D#, F#, A# major, B major, A# minor. 56 more Freesound candidates are ready for the next run.
