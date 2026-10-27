@@ -29,3 +29,7 @@ for o in range(2300, 2800):
     if len(set(vals)) > 1 and all(v < 64 for v in vals):
         cands.append((o, vals))
 print("offsets 2300-2800 where these programs differ and all values < 64:", cands[:40])
+
+import os
+sys.stdout.flush()
+os._exit(0)  # MIDI/audio threads otherwise keep the finished script alive

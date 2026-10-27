@@ -52,3 +52,7 @@ for z in range(3):
     send([0x53, z, 24, 9] + kronos._val(lv[z])); time.sleep(0.1)
 time.sleep(0.5)
 print("peak after restore:", hit())
+
+import os
+sys.stdout.flush()
+os._exit(0)  # MIDI/audio threads otherwise keep the finished script alive

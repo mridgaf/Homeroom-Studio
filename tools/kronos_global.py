@@ -33,3 +33,5 @@ if __name__ == "__main__":
     print("Program Change Enable", b(24578, 0), "| Bank Change Enable", b(24578, 1), "| Control Change Enable", b(24578, 4),
           "| SysEx (Exclusive) Enable", b(24578, 5))
     print("Protect: Program", b(24580, 0), "Combi", b(24580, 1), "Song", b(24580, 2), "DrumKit", b(24580, 3), "WaveSeq", b(24580, 4))
+    sys.stdout.flush()
+    os._exit(0)  # MIDI threads otherwise keep the finished script alive

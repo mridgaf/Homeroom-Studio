@@ -19,3 +19,7 @@ show("MS number 136 (TYP9 SOC12 PID2)", [0x43, 9, 12, 0, 2, 0] + kronos._val(136
 show("IFX1 Send2 100 (TYP7 SOC0 PID8)", [0x43, 7, 0, 0, 8, 0] + kronos._val(100))
 show("IFX2 effect type 37 (TYP7 SOC1 PID0)", [0x43, 7, 1, 0, 0, 0] + kronos._val(37))
 show("OSC mode query? Mode Request", [0x12])
+
+import os
+sys.stdout.flush()
+os._exit(0)  # MIDI/audio threads otherwise keep the finished script alive

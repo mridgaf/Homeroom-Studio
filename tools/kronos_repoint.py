@@ -61,3 +61,7 @@ if muted < 0.01:
     print("USER-G 000 saved pointing at kit 136:", read_name(out, inp, 0x46, 0))
 else:
     print("scratch did not follow kit 136: NOT touching USER-G 000")
+
+import os
+sys.stdout.flush()
+os._exit(0)  # MIDI/audio threads otherwise keep the finished script alive
