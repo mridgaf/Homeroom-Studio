@@ -9392,3 +9392,16 @@ just not loaded by default.
 - **Decision:** `~/Desktop/Homeroom Loops for Reason/<DJ>/<NN Title NNNbpm>/` holds the loop (+ .mid) and its chunks, tempo in every file name. Copies only; library and Reason Voice untouched. Owner picked sorted-by-DJ.
 - **How:** `sync_reason_copy()` in `tools/beat_machine.py`, called after each loop write and in `save_chunk`. Backfill: `tools/reason_folder_backfill.py` (44 chunked beats copied). `tests/conftest.py` redirects the folder in tests.
 - **Status:** open. New test passes; full suite not run, nothing rendered. Loops with no chunks only appear when a new beat is made.
+
+### [2026-10-28] Any kick, any 808 kick, any snare — every identity, every beat
+- Context: owner: all DJs and genres may use any kick and snare in the packs; then "this also allows all 808 kick drums". Clickable pick: whole pack, every beat.
+- Change: `crew.build_kit` and `beat_machine.collab_kit` pick kick/snare with no taste words (want-tags dropped, open_bank off so an 808 kick flavor's must="808" still limits it to 808s — any 808). Applies to own_soundbank Legends too. A typed request ("hard kick", "808 kick") sets `preset["_asked_kick_snare"]` and keeps its words. Banned list unchanged. Test `test_every_identity_can_use_any_kick_and_snare`.
+- Verify by: his ear on new beats. Nothing rendered.
+- Status: open
+### [2026-10-28] Drums: whole bank on 50% of beats for everyone (replaces the any-kick/snare entry above)
+- Change: `pattern_gen.SOUND_OPEN_P = 0.50`. `crew.build_kit` and `beat_machine.collab_kit` pass `open_bank=free_beat(variant, SOUND_OPEN_P)` for EVERY drum lane, every DJ/Legend/genre; overrides OPEN_P 30%, LEGEND_OPEN_P 15%, own_soundbank, and the earlier "kick/snare any, every beat" (owner picked "50% like the rest"). Typed requests keep their words. Tests: new half-beats test; test_freedom genre assert flipped (genres were always-open before, now 50%).
+- Not done: chord/melody instruments and loops — waiting on owner whether "all the sounds" includes them. Other free_beat callers (low sound, library seeds, harmony) still 30%.
+- Status: open. Focused tests (test_crew, test_freedom, test_pattern_gen) pass; full suite not run.
+### [2026-10-28] Instruments + loops: any, on 50% of beats, for everyone
+- Owner: "Instruments too". Both `_source_order(... free=...)` call sites in beat_machine now use `free_beat(variant, SOUND_OPEN_P)` with no genre exemption, so every DJ/Legend/genre leads with any instrument group, strings, loop or MIDI on half its beats ("chip" still only for those who ask). Key/harmony/chord-rhythm free rolls left at 30% (not sounds).
+- Status: open. Focused tests pass (135); full suite not run, nothing rendered.

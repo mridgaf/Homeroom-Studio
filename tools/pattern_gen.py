@@ -61,6 +61,11 @@ OPEN_P = 0.30
 # in character becomes free.
 LEGEND_OPEN_P = 0.15
 
+# EVERY DJ, LEGEND AND GENRE picks its drum sounds from the whole bank on
+# half its beats (owner 2026-10-28, overrides OPEN_P/LEGEND_OPEN_P,
+# own_soundbank and the 10-28 any-kick/snare rule for drum picks).
+SOUND_OPEN_P = 0.50
+
 
 def free_beat(variant, open_p=None):
     """True on the OPEN_P share of beats that leave the DJ's character.

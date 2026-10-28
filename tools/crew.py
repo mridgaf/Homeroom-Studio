@@ -37,7 +37,7 @@ import inspect
 import numpy as np
 
 sys.path.append(str(Path(__file__).parent))
-from pattern_gen import (DEFAULT_STYLE, LEGEND_OPEN_P, STYLE_VERSION,
+from pattern_gen import (DEFAULT_STYLE, LEGEND_OPEN_P, SOUND_OPEN_P, STYLE_VERSION,
                          free_beat)
 from make_drum_loops import SR, highpass, master, write_wav24
 from flavor_tags import matches as flavor_matches
@@ -1401,22 +1401,17 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
         secs = _resolve_secs(secs, p["num"], variant)
         seed = (p["num"] * 1000 + zlib.crc32(lane.encode()) % 997
                 + variant * 7919)
-        # own_soundbank (2026-09-05, Doc Day only): this preset's taste
-        # tags gate its picks again instead of being wiped by the open
-        # sound bank. Absent -> False -> the other twenty pick unchanged.
+        # owner 2026-10-28: every DJ, Legend and genre takes its drums
+        # from the whole bank on SOUND_OPEN_P (half) of beats, its own
+        # taste words on the rest -- overrides own_soundbank and the old
+        # 30%/15% split. A typed "hard kick" keeps its words.
+        open_bank = (False if p.get("_asked_kick_snare")
+                     else free_beat(variant, SOUND_OPEN_P))
         path, x = _pick_path(shots, role, wants, secs, seed,
                              must=must, avoid=avoid,
                              own_bank=bool(p.get("own_soundbank")),
                              flavor_match=bool(p.get("flavor_match")),
-                             # a legend opens up at LEGEND_OPEN_P, not
-                             # OPEN_P (owner 2026-09-19) -- see free_beat.
-                             # Without this his researched tags were dead
-                             # on 30% of his beats, because open_bank
-                             # wipes them before own_bank is consulted.
-                             open_bank=(free_beat(
-                                 variant,
-                                 LEGEND_OPEN_P if p.get("legend") else None)
-                                 if is_dj(name) else None))
+                             open_bank=open_bank)
         if path:
             avoid.add(path)
         # sub_layer (2026-09-03): a preset can reinforce its KICK with a

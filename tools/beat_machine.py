@@ -51,7 +51,7 @@ from beat_recipes import (OLD_LANE_LABELS, history_avoid, lane_label,
                           load_recipe, record_history, save_recipe,
                           write_midi, write_stems)
 from pattern_gen import (LIB_DIR, break_list, compose, flavor_role,
-                         free_beat, load_library, _lib_lane)
+                         free_beat, load_library, _lib_lane, SOUND_OPEN_P)
 
 def _resolve_beats_root():
     """Where the beat library ACTUALLY lives (owner note 2026-07-18: he
@@ -946,11 +946,12 @@ def collab_kit(shots, names, preset, stamps, variant, avoid):
         secs = _resolve_secs(secs, CREW[parent]["num"], variant)
         seed = (CREW[host]["num"] * 1000 + variant * 7919
                 + zlib.crc32(lane.encode()) % 997)
-        # 70/30 like a solo beat (owner 2026-09-14): the lane's parent's
-        # taste in character, the whole library on a free beat
+        # The lane's parent's taste in character, the whole library on a
+        # free beat. Half of beats from the whole bank (owner 2026-10-28, as build_kit)
         path, x = _pick_path(shots, role, wants, secs, seed,
                              must=must, avoid=avoid,
-                             open_bank=free_beat(variant))
+                             open_bank=(False if preset.get("_asked_kick_snare")
+                                        else free_beat(variant, SOUND_OPEN_P)))
         if path:
             avoid.add(path)
         kit[lane] = x
@@ -1215,6 +1216,7 @@ def apply_directions(preset, dirs):
             role = flavor_role(must, preset["kit"]["kick"][0])
             preset["kit"]["kick"] = (role, must, list(wants), tuple(secs))
             notes.append(f"kick: {dirs['kick']} (as asked)")
+            preset["_asked_kick_snare"] = True   # keep his words
 
     if dirs["tags"]:
         for lane, (role, must, wants, secs) in list(preset["kit"].items()):
@@ -1222,6 +1224,7 @@ def apply_directions(preset, dirs):
                                      if w not in dirs["tags"]]
             preset["kit"][lane] = (role, must, merged, secs)
         notes.append("prefer " + "/".join(dirs["tags"]) + " (as asked)")
+        preset["_asked_kick_snare"] = True
     return notes
 
 
@@ -2109,8 +2112,10 @@ def _pin_bars_for_loop_voice(preset, variant, dirs):
     if not (dirs.get("chords") or sig.get("chords_default")):
         return False
     pref = sig.get("chord_source")
+    # every DJ/Legend/genre: any instrument or loop on half its beats
+    # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
-                          free=free_beat(variant) and not preset.get("genre"))
+                          free=free_beat(variant, SOUND_OPEN_P))
     if not order or order[0] != "loop":
         return False
     preset["bar_lengths"] = [4]
@@ -2839,8 +2844,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # other instrument group he owns, shuffled per beat. One plan = one
     # sound for the entire beat. Multi-PART beats (below) are tried first
     # and separately — this list is the single-part fallback.
+    # every DJ/Legend/genre: any instrument or loop on half its beats
+    # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
-                          free=free_beat(variant) and not preset.get("genre"))
+                          free=free_beat(variant, SOUND_OPEN_P))
     plan_rng = random.Random(variant * 883 + 7)
     own = [s[0] for s in pref] if pref else []
     plans = [(s,) for s in order]

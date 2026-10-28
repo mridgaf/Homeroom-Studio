@@ -1331,3 +1331,36 @@ def test_backing_vox_render_fits_length_and_is_nonsilent():
         out = backing_vox.render({"path": "x", "key": "A", "mode": "minor", "bpm": 90},
                                  KeyContext("C", "minor"), 95, 4.0, sr)
     assert out is not None and len(out) == int(round(4.0 * sr)) and np.any(out)
+
+
+
+def test_every_identity_opens_its_drums_on_half_its_beats():
+    """Owner 2026-10-28: every DJ, Legend (own_soundbank too) and genre
+    takes its drums from the whole bank on half its beats. Fake pool: one
+    on-taste file never wins on an open beat? No -- check the off-taste
+    files show up on roughly half the beats."""
+    from unittest.mock import patch
+    from pattern_gen import free_beat, SOUND_OPEN_P
+
+    assert SOUND_OPEN_P == 0.5
+    opens = sum(free_beat(v, SOUND_OPEN_P) for v in range(400))
+    assert 160 < opens < 240, opens
+    audio = np.ones(1000)
+    names = [n for n in CREW if CREW[n].get("own_soundbank")][:1] + \
+        [n for n in CREW if not CREW[n].get("legend")][:1] + \
+        list(crew.GENRE_NAMES)[:1]
+    for name in names:
+        role, must, wants, secs = CREW[name]["kit"]["snare"]
+        if not wants:
+            continue
+        pool = {role: [{"path": "/x/%s_1.wav" % wants[0],
+                        "name": "%s_1" % wants[0]}] +
+                [{"path": "/x/zz_%d.wav" % i, "name": "zz_%d" % i}
+                 for i in range(20)]}
+        off = 0
+        with patch("crew._load_choked", return_value=audio):
+            for v in range(100):
+                k = dict(CREW[name]); k["kit"] = {"snare": (role, None, wants, secs)}
+                _, src = crew.build_kit(pool, name, audio, variant=v, preset=k)
+                off += "zz_" in src["snare"]
+        assert 25 < off < 75, (name, off)

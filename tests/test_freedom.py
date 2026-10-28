@@ -96,7 +96,7 @@ def test_build_kit_hands_the_free_roll_to_every_dj_only(monkeypatch):
     seen.clear()
     genre = next(n for n in CREW if n in crew.GENRE_NAMES)
     crew.build_kit({}, genre, None, variant=free[0])
-    assert set(seen) == {None}                 # genre presets unchanged
+    assert set(seen) == {True}                 # genres too (owner 2026-10-28)
 
 
 def test_collab_kits_follow_the_same_roll(monkeypatch):
