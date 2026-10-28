@@ -1,4 +1,3 @@
-BLOCKED - LOOPERMAN: Chrome is logged out of looperman.com (Login/Register on every page), so no Looperman loops were grabbed. Fix: log back in to Looperman in Chrome, then the next run resumes.
-FREESOUND 2026-10-27: filed 40 new loops (Melody 22, Drums 11, Bass 7). CC0 16, CC-BY 24 (credits in the sorting log). 6 have no key (C_nokey).
-Where: BOTC Sorted Loops/Melody, Drums, Bass. Full detail: BOTC Sorted Loops/SORTING-LOG-daily.txt (last section).
-Sparse targets this run: BPM 70s, 100s, 110s, 150s, 160s, 170s; keys C#, D#, F#, A# major, B major, A# minor. 56 more Freesound candidates are ready for the next run.
+BLOCKED - LOOPERMAN: Chrome is logged out of looperman.com (download links missing, 'Login' on every row), so 0 loops grabbed. Fix: log back in to Looperman in Chrome, then the next run resumes.
+BLOCKED - FREESOUND: Chrome is logged out of freesound.org (search API returns 401), so 0 loops grabbed. Fix: log back in to Freesound in Chrome, then the next run resumes.
+Nothing was filed or downloaded on 2026-10-28. Already-have Looperman IDs: 1361. Sparse BPM bands: 170s, 70s, 160s, 80s, 110s, 150s. Sparse keys: Bb, Eb, F#, A#, B, C# (major); A#m, Bm, C#m, Gm, G#m, F#m (minor). Full detail: BOTC Sorted Loops/SORTING-LOG-daily.txt (last section).
