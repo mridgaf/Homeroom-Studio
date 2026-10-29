@@ -8925,6 +8925,13 @@ def run_web(port=None):
             if u.path in ("/", "/index.html"):
                 self._send(200, "text/html; charset=utf-8",
                            _page().encode("utf-8"))
+            elif u.path == "/weights":
+                self._send(200, "text/html; charset=utf-8",
+                           (Path(__file__).parent / "weights_page.html")
+                           .read_bytes())
+            elif u.path == "/weights-data":
+                import weights_editor
+                self._json(weights_editor.collect())
             elif u.path == "/batch":
                 self._json({"beats": _batch_beats()})
             elif u.path == "/folder":
@@ -9171,7 +9178,7 @@ def run_web(port=None):
             if self.path not in ("/make", "/swap", "/triage", "/rebuild",
                                  "/fixed", "/library", "/ban", "/chunk",
                                  "/reference", "/engine-up", "/engine-import", "/effects-stage",
-                                 "/sketch"):
+                                 "/sketch", "/weights-save"):
                 self._send(404, "text/plain", b"not found")
                 return
             if self.path == "/reference":
@@ -9202,6 +9209,16 @@ def run_web(port=None):
                 return
             n = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(n) or b"{}")
+            if self.path == "/weights-save":
+                try:
+                    import weights_editor
+                    with lock:
+                        weights_editor.save(data["label"], data["name"],
+                                            data["path"], data["items"])
+                    self._json({"ok": True})
+                except Exception as e:
+                    self._json({"ok": False, "error": str(e)})
+                return
             if self.path == "/library":
                 # the pattern-library browser: any groove from the four
                 # genre files, or the separate Breaks bucket
